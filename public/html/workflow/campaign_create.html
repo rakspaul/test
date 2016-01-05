@@ -50,23 +50,23 @@
                             <div class="statusLabel" ng-if="Campaign.totalBudget">
                                 <div class="col-md-12">
                                     <!--<span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>-->
-                                    <div class="statusIcon icon-currency"></div>
-                                    <span class="">{{Campaign.totalBudget}}</span>
+                                    <div class="statusIcon icon-usd"></div>
+                                    <span class="">{{locale.NUMBER_FORMATS.CURRENCY_SYM}}{{Campaign.totalBudget}}</span>
                                     <span>(Total Budget)</span>
                                 </div>
                             </div>
                             <div class="statusLabel" ng-if="Campaign.deliveryBudget">
                                 <div class="col-md-12">
                                     <!--<span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>-->
-                                    <div class="statusIcon icon-currency"></div>
-                                    <span class="">{{Campaign.deliveryBudget}}</span>
+                                    <div class="statusIcon icon-usd"></div>
+                                    <span class="">{{locale.NUMBER_FORMATS.CURRENCY_SYM}}{{Campaign.deliveryBudget}}</span>
                                     <span>(Delivery Budget)</span>
                                 </div>
                             </div>
                             <div class="statusLabel" ng-if="PrimaryImpressions>0">
                                 <div class="col-md-12">
                                     <!--<span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>-->
-                                    <div class="statusIcon icon-currency"></div>
+                                    <div class="statusIcon icon-goal"></div>
                                     <span class="">{{PrimaryImpressions}}</span>
                                     <span>(Primary KPI)</span>
                                 </div>
@@ -257,37 +257,43 @@
 										<label class="btn btn-primary first active">
 										  <input type="radio" name="demoType" autocomplete="off" name="campaignType" ng-click="channelSelected($event,'DISPLAY')" value="DISPLAY" required>
 											<div class="hideRadioBtn" style="margin-top: -18px;">
-												<span style="margin: 0;">Display</span>
+												<div class="icon-image"></div>
+												<span>Display</span>
 											</div>
 										</label>
 										<label class="btn btn-primary">
 										  <input type="radio" name="demoType" autocomplete="off" name="campaignType" ng-click="channelSelected($event,'VIDEO')" value="VIDEO" required>
 											<div class="hideRadioBtn" style="margin-top: -18px;">
-												<span style="margin: 0;">Video</span>
+												<div class="icon-video"></div>
+												<span>Video</span>
 											</div>
 										</label>
 										<label class="btn btn-primary">
 										  <input type="radio" name="demoType" autocomplete="off" name="campaignType" ng-click="channelSelected($event,'MOBILE')" value="MOBILE" required>
 											<div class="hideRadioBtn" style="margin-top: -18px;">
-												<span style="margin: 0;">Mobile</span>
+												<div class="icon-mobile"></div>
+												<span>Mobile</span>
 											</div>
 										</label>
 										<label class="btn btn-primary disabled" aria-disabled="true">
 										  <input type="radio" name="demoType" autocomplete="off" value="SOCIAL" disabled>
 											<div class="hideRadioBtn" style="margin-top: -18px;">
-												<span style="margin: 0;">Social</span>
+												<div class="icon-social"></div>
+												<span>Social</span>
 											</div>
 										</label>
 										<label class="btn btn-primary disabled" aria-disabled="true">
 										  <input type="radio" name="demoType" autocomplete="off" value="SEARCH" disabled>
 											<div class="hideRadioBtn" style="margin-top: -18px;">
-												<span style="margin: 0;">Search</span>
+												<div class="icon-search"></div>
+												<span>Search</span>
 											</div>
 										</label>
 										<label class="btn btn-primary last disabled" aria-disabled="true">
 										  <input type="radio" name="demoType" autocomplete="off" value="TV" disabled>
 											<div class="hideRadioBtn" style="margin-top: -18px;">
-												<span style="margin: 0;">TV</span>
+												<div class="icon-tv"></div>
+												<span>TV</span>
 											</div>
 										</label>
 									</div>
@@ -326,7 +332,7 @@
 							<div class="col-md-12 spacingInput"><!-- SPACING --></div>
 	
 							<!--==== Row 5 total Budget====-->
-							<div class="col-md-12 zeroPadding">
+							<div class="col-md-12 zeroPadding" style="display: none;">
 								<label for="nameTitleCampaign" class="col-sm-12 labelQuestTxt">How much do you want to spend?</label>
 								<div ng-if=(mode=='edit') class="form-group col-sm-3 zeroPadding dollar_value" show-errors='{showSuccess: true}'>
 									<label for="inputBudget" class="col-sm-12  greyTxt miniLabels">Total Budget</label>
@@ -340,7 +346,7 @@
 									<label for="inputBudget" class="col-sm-12  greyTxt miniLabels">Total Budget</label>
 									<span class="currency">{{ textConstants.DOLLAR }}</span>
 									<input placeholder="Enter Whole Dollar Amount" type="text" class="form-control col-md-12" ng-model="selectedCampaign.budget"  whole-number-only="whole-number-only" id="inputBudget" name="budget" required ng-change="numbersOnly('budgetAmount')"/>
-									<label ng-if="createCampaignForm.budget.$error.required" class="col-sm-12  greyTxt errorLabel">You must enter whole dollar amounts.</label>
+									<label ng-if="createCampaignForm.budget.$error.required" class="col-sm-12  greyTxt errorLabel">You must enter whole dollar amount.</label>
 								</div>
 							</div>
 							<!--=== Next Step Panel ===-->
@@ -354,7 +360,7 @@
 						<div class="col-md-12 zeroPadding">
 							<label for="nameTitleCampaign" class="col-sm-12 labelQuestTxt" style="margin-bottom: 5px;">Display - Set up how you want to Budget and Measure</label>
 							<div class="col-md-12 zeroPadding marginCal">
-								<div class="calTable form-group" show-errors='{showSuccess: true}'>
+								<div class="calTable" show-errors='{showSuccess: true}'>
 									<h3>Total Budget</h3>
                                     <div class="symbol-input">
                                         <span class="symbol">{{locale.NUMBER_FORMATS.CURRENCY_SYM}}</span>
@@ -364,7 +370,10 @@
 								</div>
 								<div class="calTable">
 									<h3>Margin</h3>
-									<input type="text" ng-model="Campaign.marginPercent" class="form-control col-sm-8" whole-number-only="whole-number-only"/>
+									<div class="symbol-input">
+										<span class="symbol" style="left: initial; right: 50px;">{{textConstants.SYMBOL_PERCENT}}</span>
+										<input type="text" ng-model="Campaign.marginPercent" class="form-control col-sm-8" style="text-align: center; padding-left: 10px;" whole-number-only="whole-number-only"/>
+									</div>
 								</div>
 								<div class="calTable">
 									<h3>Est. Non-Inventory Cost</h3>
@@ -387,10 +396,12 @@
 									   <input type="text" ng-model="Campaign.effectiveCPM" class="form-control col-sm-8" disabled/>
                                     </div>
 								</div>
-								<div class="calTable" style="width: 100%; padding-right: 65px;margin-bottom:20px">
+								<div class="calTable">
 									<!--<input type="checkbox" />-->
 									<!--<span>Calculate Budget for me</span>-->
-                                <a class="btn btn-primary pull-right" role="button" ng-click="ComputeCost()">Compute Cost</a>
+                                <a class="btn btn-default pull-left" role="button" ng-click="ComputeCost()" style="margin-top: 25px;">
+									<div class="glyphicon glyphicon-refresh pull-left" aria-hidden="true"></div> <span style="padding-top: 2px;">Calculate</span>
+								</a>
 								</div>
 							</div>
 						</div>
@@ -430,7 +441,9 @@
 												<span class="icon-arrow-down"></span>
 											</button>
 											<ul class="dropdown-menu" aria-labelledby="selectKPI"  id="selectKPI">
-                                                <li class="kpi.active?available:''" ng-class="{disabled : !kpi.active, available : kpi.active}" ng-repeat="kpi in workflowData.Kpi" ng-click="kpi.active ? selectedKpi($parent.$index,kpi): ''" ><a>{{kpi.name}}</a></li>
+                                                <li class="kpi.active?available:''" ng-class="{disabled : !kpi.active, available : kpi.active}" ng-repeat="kpi in workflowData.Kpi" ng-click="kpi.active ? selectedKpi($parent.$index,kpi): ''" >
+													<a>{{kpi.name}}</a>
+												</li>
 											</ul>
                                             <input type="hidden" name="kpi" ng-init="Campaign.kpiArr[$index]['kpiType']='Select from list';" ng-model="Campaign.kpiArr[$index]['kpiId']" ng-value="{{kpi.id}}" field="kpiId" index="{{$index}}" required hiddenkpi>
 										</div>
@@ -495,7 +508,7 @@
 										</label>
 									</div>
 								</div>
-								<span class="remove-row">
+								<span class="remove-row selectkpiObj">
                                 	<span class="icon-clear" index="{{$index}}" clearkpirow></span>
                                 </span>
 
@@ -611,16 +624,16 @@
                                     <input type="text" class="col-md-12" ng-model="Campaign.costArr[$index]['rateValue']" whole-number-only="whole-number-only" field="rateValue" required index="{{$index}}"/>
                                 </div>
 								
-								<div class="col-md-1 zeroPadding kpiTable" style="width: 86px;">
-
-                                    <input type="number" class="col-md-12" ng-model="Campaign.costArr[$index]['targetPercentage']" whole-number-only="whole-number-only" max="100" required field="targetPercentage" index="{{$index}}" />
+								<div class="col-md-1 zeroPadding kpiTable symbol-input" style="width: 86px;">
+									<span class="symbol" style="left: initial; right: 25px;">{{textConstants.SYMBOL_PERCENT}}</span>
+                                    <input type="number" class="col-md-12" style="text-align: center; padding-left: 10px;" ng-model="Campaign.costArr[$index]['targetPercentage']" whole-number-only="whole-number-only" max="100" required field="targetPercentage" index="{{$index}}" />
 								</div>
 								
 								<div class="col-md-1 zeroPadding kpiTable" style="padding: 0 !important; width: 145px;">
 
                                     <input type="text" class="col-md-12" ng-model="Campaign.costArr[$index]['description']" field="description" index="{{$index}}"/>
 								</div>
-								<span class="remove-row">
+								<span class="remove-row selectcostObj">
                                 	<span class="icon-clear" index="{{$index}}" clearcostrow></span>
 								</span>
 
@@ -653,9 +666,6 @@
                             <span class="btn btn-default">Save & Continue</span>
                         </a>
                     </div>
-						<!--=== Next Step Panel ===-->
-
-					</div>
 					
 					<div class="tab-pane fade" id="contacts">
 						<div class="col-md-12 zeroPadding">

@@ -189,9 +189,12 @@ var angObj = angObj || {};
         $scope.checkedObjectiveList=[];
         $scope.addMoreKpi=function(){
             $scope.Campaign.kpiArr.push({kpiType: '', kpiId:'', isPrimary: false ,vendorId:'',vendorName:'',kpiValue:0, isBillable:true});
+            $(".selectkpiObj").show();
         }
         $scope.addMoreCost=function(){
             $scope.Campaign.costArr.push({costCategoryId: '',costCategoryName:'', type: 'variable', rateTypeId:'',rateTypeName:'',vendorId:'',vendorName:'', rateValue:'', targetPercentage:100, description:''});
+            $(".selectcostObj").show();
+
         }
         $scope.msgtimeoutReset = function(){
             $timeout(function(){
@@ -492,6 +495,7 @@ var angObj = angObj || {};
                 return false;
             }else{
                 return true;
+                alert();
             }
         }
 
