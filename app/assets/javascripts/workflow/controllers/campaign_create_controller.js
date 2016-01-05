@@ -240,7 +240,7 @@ var angObj = angObj || {};
         $scope.selectedObjective=function(objectiveObj){
            // console.log(objectiveObj);
             var index = _.findIndex($scope.checkedObjectiveList, function(item) {
-                return item.id == objectiveObj.id}); //console.log(index);
+                return item.campaignObjectiveTypeId == objectiveObj.campaignObjectiveTypeId}); //console.log(index);
             if(index>=0){
                 $scope.checkedObjectiveList.splice(index,1);
             }

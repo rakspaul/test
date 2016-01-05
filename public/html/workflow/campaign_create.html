@@ -236,9 +236,9 @@
 											</button>
 											<ul class="dropdown-menu " aria-labelledby="campObj"  id="campObj">
 												<li class="headerDDL"><span class="icon-brand"></span><span class="greyTxt" style="padding-left: 7px !important;">BRANDING</span></li>
-													<li ng-repeat="brand in workflowData.branding"><span><input type="checkbox" name="checkbox" value="brand.id" ng-click="selectedObjective(brand)" ng-checked="brand.isChecked">{{brand.subObjective}}</span></li>
+													<li ng-repeat="brand in workflowData.branding"><span><input type="checkbox" name="checkbox" value="brand.campaignObjectiveTypeId" ng-click="selectedObjective(brand)" ng-checked="brand.isChecked">{{brand.subObjective}}</span></li>
 												<li class="headerDDL"><span class="icon-performance"></span><span class="greyTxt" style="padding-left: 7px !important;">PERFORMANCE</span></li>
-													<li ng-repeat="performance in workflowData.performance"><span><input type="checkbox" name="checkbox" value="performance.id" ng-click="selectedObjective(performance)" ng-checked="performance.isChecked">{{performance.subObjective}}</span></li>
+													<li ng-repeat="performance in workflowData.performance"><span><input type="checkbox" name="checkbox" value="performance.campaignObjectiveTypeId" ng-click="selectedObjective(performance)" ng-checked="performance.isChecked">{{performance.subObjective}}</span></li>
 											</ul>
 										</div>
 									</div>
@@ -397,7 +397,7 @@
 						
 						<!--==== Row 2 ====-->
 						<div class="col-md-12 zeroPadding">
-							<label for="nameTitleCampaign" class="col-sm-12 labelQuestTxt" style="margin-bottom: 5px;"><span class="pull-left">Select KPIs </span><span ng-if="!isPrimarySelected" class="pull-left errorLabel show" style="margin-left: 115px;">You must select primary KPI.</span></label>
+							<label for="nameTitleCampaign" class="col-sm-12 labelQuestTxt" style="margin-bottom: 5px;"><span class="pull-left">Select KPIs </span><span ng-if="!isPrimarySelected" class="pull-left errorLabel show" style="margin-left: 115px;">You must select Primary KPI.</span></label>
                             <div class="col-md-12 zeroPadding">
 								<div class="col-md-3 zeroPadding kpiTable">
 									<h3>KPI</h3>
