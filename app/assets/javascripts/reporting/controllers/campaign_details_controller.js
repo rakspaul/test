@@ -572,19 +572,7 @@
                         sortedData = _.sortBy(sortedData, function(obj) { return obj[kpiModel] == 0 });
                         sortedData  = sortedData.slice(0, 3);
 
-
-                        var screenTypeMap = {
-                            'desktop'     : vistoconfig.ICON_DESKTOP ,
-                            'unknown'     : vistoconfig.ICON_HELP    ,
-                            'smartphone'  : vistoconfig.ICON_MOBILE  ,
-                            'mobile'      : vistoconfig.ICON_MOBILE  ,
-                            'tv'          : vistoconfig.ICON_DESKTOP ,
-                            'set-top box' : vistoconfig.ICON_DESKTOP ,
-                            'tablet'      : vistoconfig.ICON_TABLET  ,
-                            'other'       : vistoconfig.ICON_IMAGE   ,
-                            'display'     : vistoconfig.ICON_DESKTOP ,
-                            'DISPLAY'     : vistoconfig.ICON_DESKTOP
-                        }
+                        var screenTypeMap = vistoconfig.screenTypeMap ;
 
                         _.each(sortedData, function(data, idx) {
                             var kpiData = (kpiModel === 'ctr') ? (data[kpiModel] * 100) : data[kpiModel];
@@ -690,19 +678,7 @@
         $scope.getFormatsGraphData  = function(campaign){
             var formats;
             
-            var formatTypeMap = {
-                'desktop'     : vistoconfig.ICON_DESKTOP ,
-                'unknown'     : vistoconfig.ICON_HELP    ,
-                'smartphone'  : vistoconfig.ICON_MOBILE  ,
-                'mobile'      : vistoconfig.ICON_MOBILE  ,
-                'tv'          : vistoconfig.ICON_DESKTOP ,
-                'set-top box' : vistoconfig.ICON_DESKTOP ,
-                'tablet'      : vistoconfig.ICON_TABLET  ,
-                'other'       : vistoconfig.ICON_IMAGE   ,
-                'display'     : vistoconfig.ICON_DESKTOP ,
-                'DISPLAY'     : vistoconfig.ICON_DESKTOP
-            }
-            
+            var formatTypeMap = vistoconfig.formatTypeMap  ;
             
             var params=getCustomQueryParams(constants.QUERY_ID_CAMPAIGN_FORMATS);
             dataService.fetch(urlService.APIVistoCustomQuery(params)).then(function (result) {

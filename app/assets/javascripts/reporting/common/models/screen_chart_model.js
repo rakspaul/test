@@ -15,22 +15,9 @@
             'action rate' : 'action_rate'
         }
 
-        var screenTypeMap = {
-            'desktop'     : vistoconfig.ICON_DESKTOP ,
-            'unknown'     : vistoconfig.ICON_HELP    ,
-            'smartphone'  : vistoconfig.ICON_MOBILE  ,
-            'mobile'      : vistoconfig.ICON_MOBILE  ,
-            'tv'          : vistoconfig.ICON_DESKTOP ,
-            'set-top box' : vistoconfig.ICON_DESKTOP ,
-            'tablet'      : vistoconfig.ICON_TABLET  ,
-            'other'       : vistoconfig.ICON_IMAGE 
-        }
+        var screenTypeMap = vistoconfig.screenTypeMap ;
 
-        var formatTypeMap = {
-            'display' : vistoconfig.ICON_DESKTOP ,
-            'mobile'  : vistoconfig.ICON_MOBILE  ,
-            'tablet'  : vistoconfig.ICON_TABLET
-        }
+        var formatTypeMap = vistoconfig.formatTypeMap  ;
 
         var usrRole  = RoleBasedService.getClientRole() && RoleBasedService.getClientRole().ui_exclusions;
         if(usrRole && usrRole.ui_modules) {
