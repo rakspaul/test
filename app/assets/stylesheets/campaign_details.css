@@ -1220,7 +1220,6 @@ body {
   height: 18px;
   vertical-align: sub;
   display: inline-block;
-  background: url("/assets/images/cdesk/display_icon.png") no-repeat 0px 3px;
 }
 .campaign_details_page .campaigns_details_holder .total_campaign_list_holder .strategy_tactic_holder .tactics_container .each_tactic_container .tactic_accordion_details > div .device-icon.mobile_graph {
   background-image: url("/assets/images/cdesk/mobile_icon.png");
@@ -1239,9 +1238,6 @@ body {
 }
 .campaign_details_page .campaigns_details_holder .total_campaign_list_holder .strategy_tactic_holder .tactics_container .each_tactic_container .tactic_accordion_details > div .device-icon.passback_graph {
   background-image: url("/assets/images/cdesk/passback_icon.png");
-}
-.campaign_details_page .campaigns_details_holder .total_campaign_list_holder .strategy_tactic_holder .tactics_container .each_tactic_container .tactic_accordion_details .tracking {
-  margin-top: 3px ;
 }
 .campaign_details_page .campaigns_details_holder .total_campaign_list_holder .strategy_tactic_holder:first-child {
   margin-top: 0px ;

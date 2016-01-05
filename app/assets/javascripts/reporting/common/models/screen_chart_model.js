@@ -1,6 +1,6 @@
 (function () {
     "use strict";
-    var screenChartData = function (utils, urlService, timePeriodModel, dataService, brandsModel ,dashboardModel ,requestCanceller, constants, loginModel, RoleBasedService,momentService,advertiserModel) {
+    var screenChartData = function (utils, urlService, timePeriodModel, dataService, brandsModel ,dashboardModel ,requestCanceller, constants, loginModel, RoleBasedService,momentService,advertiserModel , vistoconfig ) {
         var screenWidgetData = { selectedMetric : constants.SPEND ,
             metricDropDown : [constants.SPEND, constants.IMPRESSIONS, constants.CTR,constants.VTC, constants.CPA, constants.CPM, constants.CPC, constants.ACTION_RATE],
             selectedFormat : constants.SCREENS,
@@ -15,22 +15,9 @@
             'action rate' : 'action_rate'
         }
 
-        var screenTypeMap = {
-            'desktop' : 'icon-desktop',
-            'unknown' : 'icon-help',
-            'smartphone' : 'icon-mobile',
-            'mobile' : 'icon-mobile',
-            'tv' : 'icon-desktop',
-            'set-top box' : 'icon-desktop',
-            'tablet' : 'icon-tablet',
-            'other' : 'icon-image'
-        }
+        var screenTypeMap = vistoconfig.screenTypeMap ;
 
-        var formatTypeMap = {
-            'display' : 'icon-desktop',
-            'mobile' : 'icon-mobile',
-            'tablet' : 'icon-tablet'
-        }
+        var formatTypeMap = vistoconfig.formatTypeMap  ;
 
         var usrRole  = RoleBasedService.getClientRole() && RoleBasedService.getClientRole().ui_exclusions;
         if(usrRole && usrRole.ui_modules) {
@@ -171,5 +158,5 @@
             return screenWidgetData['selectedFormat'];
         };
     };
-    commonModule.service('screenChartModel', ['utils', 'urlService', 'timePeriodModel', 'dataService', 'brandsModel','dashboardModel' ,'requestCanceller', 'constants' , 'loginModel', 'RoleBasedService','momentService','advertiserModel', screenChartData]);
+    commonModule.service('screenChartModel', ['utils', 'urlService', 'timePeriodModel', 'dataService', 'brandsModel','dashboardModel' ,'requestCanceller', 'constants' , 'loginModel', 'RoleBasedService','momentService','advertiserModel' , 'vistoconfig' , screenChartData ]);
 }());

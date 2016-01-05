@@ -10,7 +10,7 @@
                                                             $location, utils, $timeout, pieChart, solidGaugeChart,
                                                             $filter, constants, editAction, activityList, loginModel,
                                                             loginService, brandsModel, analytics, dataStore, urlService,
-                                                            momentService, RoleBasedService, advertiserModel) {
+                                                            momentService, RoleBasedService, advertiserModel , vistoconfig ) {
         var orderBy = $filter('orderBy');
         var campaign = campaignListService;
         var Campaigns = campaignListModel;
@@ -572,18 +572,8 @@
                         sortedData = _.sortBy(sortedData, function(obj) { return obj[kpiModel] == 0 });
                         sortedData  = sortedData.slice(0, 3);
 
-                        var screenTypeMap = {
-                            'desktop' : 'icon-desktop',
-                            'unknown' : 'icon-help',
-                            'smartphone' : 'icon-mobile',
-                            'mobile' : 'icon-mobile',
-                            'tv' : 'icon-desktop',
-                            'set-top box' : 'icon-desktop',
-                            'tablet' : 'icon-tablet',
-                            'other' : 'icon-image',
-                            'display' : 'icon-desktop',
-                            'DISPLAY' : 'icon-desktop'
-                        }
+
+                        var screenTypeMap = vistoconfig.screenTypeMap ;
 
                         _.each(sortedData, function(data, idx) {
                             var kpiData = (kpiModel === 'ctr') ? (data[kpiModel] * 100) : data[kpiModel];
@@ -689,19 +679,8 @@
         $scope.getFormatsGraphData  = function(campaign){
             var formats;
             
-            var formatTypeMap = {
-                'desktop' : 'icon-desktop',
-                'unknown' : 'icon-help',
-                'smartphone' : 'icon-mobile',
-                'mobile' : 'icon-mobile',
-                'tv' : 'icon-desktop',
-                'set-top box' : 'icon-desktop',
-                'tablet' : 'icon-tablet',
-                'other' : 'icon-image',
-                'display' : 'icon-desktop',
-                'DISPLAY' : 'icon-desktop'
-            }
-            
+            var formatTypeMap = vistoconfig.formatTypeMap ;
+
             var params=getCustomQueryParams(constants.QUERY_ID_CAMPAIGN_FORMATS);
             dataService.fetch(urlService.APIVistoCustomQuery(params)).then(function (result) {
                 $scope.loadingFormatFlag = false;
