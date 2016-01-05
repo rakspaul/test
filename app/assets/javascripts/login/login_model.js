@@ -1,5 +1,5 @@
 (function () {
-    "use strict";
+    'use strict';
     var loginModel = function ($cookieStore, $location, constants, $http) {
         var data = {};
         data.user_id = undefined;
@@ -15,7 +15,6 @@
         };
 
         return {
-
             deleteData: function () {
                 data = {};
                 data.is_workflow_user = false;
@@ -40,7 +39,6 @@
             getClientData: function () {
                 localStorage.getItem('clientData');
             },
-
 
             setUser: function (user) {
                 data = user;
@@ -111,8 +109,6 @@
                 }
             },
 
-
-
             getExpirySecs: function () {
                 if (data.expiry_secs) {
                     return data.expiry_secs;
@@ -138,7 +134,7 @@
                     data.network_tz = $cookieStore.get('cdesk_session').network_tz;
                     return $cookieStore.get('cdesk_session').network_tz
                 }
-                return "America/New_York";
+                return 'America/New_York';
             },
 
             checkCookieExpiry: function () {
