@@ -12,6 +12,7 @@ var angObj = angObj || {};
             costArr: []
 
         };
+        $scope.platFormArr=[];
         $scope.selectedChannel="DISPLAY";
         $scope.Campaign.marginPercent=0;
         $scope.isPrimarySelected=true;
@@ -307,8 +308,8 @@ var angObj = angObj || {};
             Kpi:function(){
                 $scope.workflowData['Kpi']=[{id:1, name: 'Impressions',active:true},{id:1, name: 'Clicks',active:true},{id:2, name: 'Viewable Impressions',active:true},{id:3, name: 'Actions',active:false}];
             },
-            vendor:function(){
-                workflowService.getVendors({cache: false}).then(function (result) {console.log(result);
+            vendor:function(costCategoryId){
+                workflowService.getVendors(costCategoryId,{cache: false}).then(function (result) {console.log(result);
                     if (result.status === "OK" || result.status === "success") {
                         var responseData = result.data.data;
                         $scope.workflowData['vendor']=responseData;
@@ -335,7 +336,8 @@ var angObj = angObj || {};
                 workflowService.getCostCategories({cache: false}).then(function (result) {console.log(result);
                    if (result.status === "OK" || result.status === "success") {
                      var responseData = result.data.data;
-                       $scope.workflowData['costCategory']=responseData;
+                       $scope.workflowData['costCategory']=responseData;console.log("responseData[responseData.length-1].id",responseData[responseData.length-1].id)
+                       createCampaign.vendor(responseData[responseData.length-1].id);
                 }
                 })
                // $scope.workflowData['costCategory']=[{id:0, name: 'Attribution'},{id:1, name: 'Ad Serving'},{id:2, name: 'Research'},{id:3, name: 'Verification'}];
@@ -692,7 +694,7 @@ var angObj = angObj || {};
             });
             createCampaign.Kpi();
             createCampaign.platforms();
-            createCampaign.vendor();
+           // createCampaign.vendor();
             createCampaign.objectives();
             createCampaign.costCategories();
             createCampaign.calculation();
