@@ -49,7 +49,7 @@
                 for(var index in tacticData) {
                     var tactic = tacticData[index];
 
-                    if(tactic.status === undefined || tactic.status.toLowerCase() == "ready"){
+                    if(tactic.status === undefined /*|| tactic.status.toLowerCase() == "ready"*/){
                         status = "Draft";
                     }else{
                         status = tactic.status;
