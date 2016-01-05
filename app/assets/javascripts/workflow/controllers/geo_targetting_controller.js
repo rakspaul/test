@@ -99,7 +99,7 @@ var angObj = angObj || {};
 
             }
             dmasInitialLoad = true;
-            $scope.saveGeography();
+            $scope.saveGeography(1);
         }
 
         $scope.zipEdit = function(flatArr){
@@ -891,7 +891,7 @@ var angObj = angObj || {};
             }
         };
 
-        $scope.saveGeography =  function() {
+        $scope.saveGeography =  function(doNotRedirectFlag) {
             if($scope.zipCodesObj) {
                 $scope.zipCodesObj = [];
             }
@@ -899,7 +899,8 @@ var angObj = angObj || {};
 
             createPreviewData();
             $scope.adData.geoTargetingData = $scope.geoTargetingData.selected;
-            $scope.redirectTargettingMain();
+            if(!doNotRedirectFlag)
+                $scope.redirectTargettingMain();
             //$(".targettingFormWrap").slideUp();
             //$(".targettingSelected").show();
 
