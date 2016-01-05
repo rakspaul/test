@@ -78,7 +78,7 @@
                 var adSupportDisplay = true;
 
                 var videoAds =  function() {
-                    return _.indexOf(adFormats, 'Video') != -1;
+                    return _.indexOf(adFormats, "VIDEO") != -1;
                 }
                 if(adFormats && adFormats.length >0) {
                     if (videoAds() && adFormats.length > 1) {

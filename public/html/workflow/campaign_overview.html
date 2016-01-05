@@ -21,7 +21,8 @@
                             </div>
                         </div>
                         <div ng-if="workflowData.campaignData.status" class="campTitleWrap" >
-                            <span class="statuslabel {{workflowData.campaignData.status|lowercase}}_bulb"></span>
+                            <span class="statuslabel {{workflowData.campaignData.status|lowercase}}_bulb" tooltip-placement="top" tooltip="{{workflowData.campaignData.status.toLowerCase() == 'in_flight'?'In Flight':workflowData.campaignData.status.toLowerCase()  | toCamelCase }}" ></span>
+                            
                             <h1 tooltip-placement="bottom" tooltip="{{workflowData.campaignData.name}}"
                                 class="overview-camp-name" ng-click="editCampaign(workflowData.campaignData)">
                                 {{workflowData.campaignData.name | textEllipsis: 60}}
@@ -873,7 +874,7 @@
 <!--=== compaignAdcreate ends ===-->
 
 <!--=== POP Up Light Box starts ===-->
-<div class="common-popup-container" ng-show="campaignArchive">
+<div class="common-popup-container" ng-if="campaignArchive">
     <div class="popup">
         <div class="popup-header-body">
             <div class="clearfix">
@@ -881,7 +882,7 @@
                 <span class="close unselectable" aria-hidden="true" ng-click="cancelArchiveCampaign()" >x</span>
             </div>
             <div class="popup-content">
-                {{archiveMessage}}
+                {{textConstants.CAMPAIGN_ARCHIVE_MESSAGES}}
             </div>
         </div>
         <div class="clearfix popup-footer" >

@@ -117,6 +117,7 @@
     this.SELECT_DATE_LABEL = 'Select a date';
     this.SCHEDULE_START_DATE_LABEL ='Starts on';
     this.SCHEDULE_END_DATE_LABEL ='Ends on';
+    this.SCHEDULER_UPDATE = 'Do you want to update the Schedule report ?';
     this.REPORT_BUILDER_TIMEFRAME ='Timeframe';
     this.REPORT_CHOOSE_BREAKDOWN = "Choose Breakdown";
     this.REPORT_ADDITIONAL_FILTERS = "Additional Filters";
@@ -508,6 +509,9 @@
     this.WF_MEDIA_COST_LESS_THAN_CAMPAIGN_BUDGET =  "You must enter media cost value less than the budget value specified for the campaign.";
     this.WF_MEDIA_COST_LESS_THAN_MINIMUM_BUDEGT_FOR_AD= "You must enter media cost value less than or equal to the minimum budget value specified for the ad.";
     this.BUDGET_LESS_THAN_AVAILABLE_BUDGET = "You must enter budget less than the available budget";
+
+    this.CHANGE_PLATFORM_MESSAGE = "Your entries for the following settings are not compatible with [Platform Name]: [Settings list]. Would you like to clear these settings and switch platforms? (OK/Cancel).";
+    this.ARCHIVE_MESSAGE = "Do you want to Archive / Delete the Ad?";
 
 
   };

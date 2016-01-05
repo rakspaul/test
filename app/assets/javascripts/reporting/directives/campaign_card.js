@@ -1,6 +1,6 @@
 (function () {
     'use strict';
-    angObj.directive('campaignCard', function (utils,constants,momentService) {
+    angObj.directive('campaignCard', function (utils,constants,momentService, $location) {
         return {
             restrict:'EAC',
 
@@ -14,7 +14,11 @@
             link: function ($scope, element, attrs) {
 
                 $scope.textConstants = constants;
-                
+
+                $scope.redirectTo = function(campaign, filterType) {
+                    $location.url(filterType !== 'archived' ? '/mediaplan/'+campaign.orderId+'/overview' : '/mediaplans/'+campaign.orderId)
+                };
+
                 $scope.getSpendDifference = function(campaign) {
                     if(campaign !== undefined) {
                         var spendDifference = -999; //fix for initial loading

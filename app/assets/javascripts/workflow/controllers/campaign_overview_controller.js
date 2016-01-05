@@ -33,22 +33,19 @@ var angObj = angObj || {};
 
         //Archive save func more
         $scope.archiveCampaign=function(event){
-            console.log("In the archiveCampaign");
             event.preventDefault();
+            var campaignId = $scope.workflowData['campaignData'].id;
             var campaignArchiveErrorHandler=function(){
                 $scope.campaignArchive=false;
                 $rootScope.setErrAlertMessage();
             }
-            workflowService.deleteCampaign($scope.campaignId).then(function (result) {
+            workflowService.deleteCampaign(campaignId).then(function (result) {
                 if (result.status === "OK" || result.status === "success") {
                     $scope.campaignArchive=false;
-                    var url = '/campaigns';
-                        if($scope.editCampaignData.adsCount >0 ) {
-                            localStorage.setItem('topAlertMessage', $scope.editCampaignData.name+" and "+$scope.editCampaignData.adsCount+" has been archived");
-                        } else {
-                            localStorage.setItem('topAlertMessage', $scope.editCampaignData.name+" has been archived");
-                        }
-                        $location.url(url);
+                    var url = '/mediaplans';
+                    var campaignName = $scope.workflowData['campaignData'].name;
+                    localStorage.setItem('topAlertMessage', campaignName+" has been archived");
+                    window.location.href = url;
                 }else{
                     campaignArchiveErrorHandler();
                 }

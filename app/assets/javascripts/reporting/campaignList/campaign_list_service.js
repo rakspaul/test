@@ -4,11 +4,11 @@
     //originally in models/campaign.js
     campaignListModule.factory("campaignListService", ["dataService", "utils", "common", "line", '$q', 'modelTransformer',
         'campaignModel', 'dataStore', 'apiPaths', 'requestCanceller',
-        'constants', 'momentService','domainReports', 'loginModel',
+        'constants', 'vistoconfig' , 'momentService','domainReports', 'loginModel',
         'advertiserModel', 'brandsModel', 'timePeriodModel', 'urlService',
         function (dataService,  utils, common, line, $q, modelTransformer,
                   campaignModel, dataStore, apiPaths, requestCanceller,
-                  constants, momentInNetworkTZ, domainReports, loginModel,
+                  constants, vistoconfig , momentInNetworkTZ, domainReports, loginModel,
                   advertiserModel, brandsModel, timePeriodModel, urlService) {
 
             var listCampaign = "";
@@ -49,28 +49,28 @@
                 for(var index in tacticData) {
                     var tactic = tacticData[index];
 
-                    if(tactic.status === undefined || tactic.status.toLowerCase() == "ready"){
+                    if(tactic.status === undefined /*|| tactic.status.toLowerCase() == "ready"*/){
                         status = "Draft";
                     }else{
                         status = tactic.status;
                     }
                     var media_type = tactic.media_type.toLowerCase();
-                    var media_type_icon ='display_graph';
+                    var media_type_icon ='icon-desktop';
                     if(media_type.length > 0 ){
                         switch(media_type){
-                            case 'display': media_type_icon = "display_graph";
+                            case 'display': media_type_icon = "icon-desktop";
                                 break;
-                            case 'video':   media_type_icon = "video_graph";
+                            case 'video':   media_type_icon = "icon-video";
                                 break;
-                            case 'mobile':   media_type_icon = "mobile_graph";
+                            case 'mobile':   media_type_icon = "icon-mobile";
                                 break;
-                            case 'facebook':   media_type_icon = "social_graph";
+                            case 'facebook':   media_type_icon = "icon-social";
                                 break;
-                            case 'mobilevideo':   media_type_icon = "video_graph";
+                            case 'mobilevideo':   media_type_icon = "icon-video";
                                 break;
                             case 'passback':   media_type_icon = "passback_graph";
                                 break;
-                            default: media_type_icon = "display_graph";
+                            default: media_type_icon = "icon-desktop";
                         }
                     }
                     var tactic_1 = {

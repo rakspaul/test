@@ -53,7 +53,7 @@
                         clientId = $scope.accountsData[0].id;
                     }
                     $scope.getClientData(clientId);
-                    $rootScope.$broadcast(constants.ACCOUNT_CHANGED, clientId);
+                   //$rootScope.$broadcast(constants.ACCOUNT_CHANGED, clientId);
                 }
             });
         }
@@ -99,6 +99,8 @@
                                     $rootScope.clientName = name;
                                     if(moduleObj.redirect) {
                                         $location.url('/mediaplans');
+                                    } else {
+                                        $route.reload();
                                     }
                                 }
                             }
@@ -110,6 +112,7 @@
                 showSelectedClient(event, name);
                 $scope.getClientData(id);
                 $rootScope.clientName = name;
+                console.log("set_account_name");
                 $rootScope.$broadcast(constants.ACCOUNT_CHANGED, id);
             }
 
@@ -125,10 +128,17 @@
 
         $scope.NavigateToTab =  function(url, event, page) {
             $(".header_tab_dropdown").removeClass('active_tab');
+            console.log("page", page);
             if(page === 'reportOverview') {
+                console.log("hello");
                 $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign().id ;
-                url = '/mediaplans/'+ $scope.selectedCampaign ;
-                $("#reports_overview_tab").addClass("active_tab") ;
+                console.log("$scope.selectedCampaign", $scope.selectedCampaign);
+                if($scope.selectedCampaign === -1) {
+                    url = '/mediaplans';
+                } else {
+                    url = '/mediaplans/'+ $scope.selectedCampaign ;
+                    $("#reports_overview_tab").addClass("active_tab") ;
+                }
             }
             if(event) {
                 $(event.currentTarget).parent().addClass('active_tab');

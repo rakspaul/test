@@ -10,7 +10,7 @@
                                                             $location, utils, $timeout, pieChart, solidGaugeChart,
                                                             $filter, constants, editAction, activityList, loginModel,
                                                             loginService, brandsModel, analytics, dataStore, urlService,
-                                                            momentService, RoleBasedService, advertiserModel) {
+                                                            momentService, RoleBasedService, advertiserModel , vistoconfig ) {
         var orderBy = $filter('orderBy');
         var campaign = campaignListService;
         var Campaigns = campaignListModel;
@@ -572,12 +572,8 @@
                         sortedData = _.sortBy(sortedData, function(obj) { return obj[kpiModel] == 0 });
                         sortedData  = sortedData.slice(0, 3);
 
-                        var screenTypeMap = {
-                            'smartphone' : 'mobile_graph',
-                            'tv' : 'display_graph',
-                            'tablet' : 'tablet_graph',
-                            'desktop' : 'display_graph'
-                        }
+
+                        var screenTypeMap = vistoconfig.screenTypeMap ;
 
                         _.each(sortedData, function(data, idx) {
                             var kpiData = (kpiModel === 'ctr') ? (data[kpiModel] * 100) : data[kpiModel];
@@ -619,7 +615,7 @@
                         _.each(sortedData, function(data, idx) {
                             var kpiData = (kpiModel === 'ctr') ? (data[kpiModel] * 100) : data[kpiModel];
                             var screenType = data.dimension.toLowerCase();
-                            $scope.chartDataAdSize.push({'gross_env' : data.gross_rev, className : '', 'icon_url' : '', 'type' : data.dimension, 'value' : kpiData});
+                            $scope.chartDataAdSize.push({'gross_env' : data.gross_rev, className : '', 'icon_url' : '', 'type' : data.dimension.toLowerCase(), 'value' : kpiData});
                         });
 
 
@@ -661,7 +657,10 @@
 
                         _.each(sortedData, function(data, idx) {
                             kpiData = (kpiModel === 'ctr') ? (data[kpiModel] * 100) : data[kpiModel];
-                            $scope.chartDataPlatform.push({'gross_env': data.gross_rev, 'className': '', 'icon_url': data.platform_icon_url, 'type': data.platform_name, 'value': kpiData});
+                            var type = data.platform_name;
+                            var icon_url = data.platform_icon_url == 'Unknown' ? 'platform_logo.png' : type.toLowerCase().replace(/ /g, '_') + '.png';
+                            icon_url = '/assets/images/platform_favicons/' + icon_url;
+                            $scope.chartDataPlatform.push({'gross_env': data.gross_rev, 'className': '', 'icon_url': icon_url, 'type': type, 'value': kpiData});
                         });
                     }
                 }
@@ -679,6 +678,9 @@
 
         $scope.getFormatsGraphData  = function(campaign){
             var formats;
+            
+            var formatTypeMap = vistoconfig.formatTypeMap ;
+
             var params=getCustomQueryParams(constants.QUERY_ID_CAMPAIGN_FORMATS);
             dataService.fetch(urlService.APIVistoCustomQuery(params)).then(function (result) {
                 $scope.loadingFormatFlag = false;
@@ -698,7 +700,7 @@
                         _.each(sortedData, function(data, idx) {
                             var kpiData = (kpiModel === 'ctr') ? (data[kpiModel] * 100) : data[kpiModel];
                             var screenType = data.dimension.toLowerCase();
-                            $scope.chartDataFormat.push({'gross_env' : data.gross_rev, className : data.dimension.toLowerCase() + "_graph", 'icon_url' : '', 'type' : data.dimension, 'value' : kpiData});
+                            $scope.chartDataFormat.push({'gross_env' : data.gross_rev, className : formatTypeMap[screenType], 'icon_url' : '', 'type' : data.dimension.toLowerCase(), 'value' : kpiData});
                         });
                     }
                 }

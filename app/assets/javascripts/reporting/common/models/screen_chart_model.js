@@ -1,6 +1,6 @@
 (function () {
     "use strict";
-    var screenChartData = function (utils, urlService, timePeriodModel, dataService, brandsModel ,dashboardModel ,requestCanceller, constants, loginModel, RoleBasedService,momentService,advertiserModel) {
+    var screenChartData = function (utils, urlService, timePeriodModel, dataService, brandsModel ,dashboardModel ,requestCanceller, constants, loginModel, RoleBasedService,momentService,advertiserModel , vistoconfig ) {
         var screenWidgetData = { selectedMetric : constants.SPEND ,
             metricDropDown : [constants.SPEND, constants.IMPRESSIONS, constants.CTR,constants.VTC, constants.CPA, constants.CPM, constants.CPC, constants.ACTION_RATE],
             selectedFormat : constants.SCREENS,
@@ -15,12 +15,9 @@
             'action rate' : 'action_rate'
         }
 
-        var screenTypeMap = {
-            'smartphone' : 'mobile_graph',
-            'tv' : 'display_graph',
-            'tablet' : 'tablet_graph',
-            'desktop' : 'display_graph'
-        }
+        var screenTypeMap = vistoconfig.screenTypeMap ;
+
+        var formatTypeMap = vistoconfig.formatTypeMap  ;
 
         var usrRole  = RoleBasedService.getClientRole() && RoleBasedService.getClientRole().ui_exclusions;
         if(usrRole && usrRole.ui_modules) {
@@ -82,17 +79,21 @@
             _.each(dataToDisplayOnWidget, function(eachObj) {
                 var cls = '';
                 var type = '';
+                var icon_url;
                 if (selectedFormat.toLowerCase() === 'screens') {
                     cls = screenTypeMap[eachObj.screen_type.toLowerCase()];
                     type = eachObj.screen_type;
                 } else if (selectedFormat.toLowerCase() === 'formats') {
-                    cls = eachObj.ad_format.toLowerCase() + "_graph";
+                    cls = formatTypeMap[eachObj.ad_format.toLowerCase()];
+                   // cls = eachObj.ad_format.toLowerCase() + "_graph" ;
                     type = eachObj.ad_format;
                 } else {
                     type = eachObj.platform_name;
+                    icon_url = eachObj.platform_icon_url == 'Unknown' ? 'platform_logo.png' : type.toLowerCase().replace(/ /g, '_') + '.png';
+                    icon_url = '/assets/images/platform_favicons/' + icon_url;
                 }
                 var value = (((eachObj[calValMetricKey])*100)/total).toFixed(0);
-                screenDataArr.push({"className":cls,"type":type,"value":value});
+                screenDataArr.push({"className":cls,"type":type,"value":value, 'icon_url': icon_url});
             })
             screenBarChartConfig.data = screenDataArr;
             return screenBarChartConfig;
@@ -157,5 +158,5 @@
             return screenWidgetData['selectedFormat'];
         };
     };
-    commonModule.service('screenChartModel', ['utils', 'urlService', 'timePeriodModel', 'dataService', 'brandsModel','dashboardModel' ,'requestCanceller', 'constants' , 'loginModel', 'RoleBasedService','momentService','advertiserModel', screenChartData]);
+    commonModule.service('screenChartModel', ['utils', 'urlService', 'timePeriodModel', 'dataService', 'brandsModel','dashboardModel' ,'requestCanceller', 'constants' , 'loginModel', 'RoleBasedService','momentService','advertiserModel' , 'vistoconfig' , screenChartData ]);
 }());

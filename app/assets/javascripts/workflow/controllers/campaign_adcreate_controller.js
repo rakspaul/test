@@ -91,6 +91,7 @@ var angObj = angObj || {};
         $scope.selectedAudience = [];
         $scope.selectedDayParts = [];
         $scope.adData.setSizes = constants.WF_NOT_SET;
+        $scope.dayPartTotal = 0;
 
         $scope.editCampaign = function (workflowcampaignData) {
             window.location.href = '/mediaplan/' + workflowcampaignData.id + '/edit';

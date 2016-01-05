@@ -1,7 +1,12 @@
 <div class="each_col sec_col" >
-    <span class="icon_text_holder" ng-class="sortClassFunction('platform_type',sortTypebyPerformance,sortReverse)" ng-click="sortTypebyPerformance = 'platform_type'; sortReverse = !sortReverse;removeKpiActive();" >{{textConstants.PLATFORM_NAME}}</span>
+    <span class="icon_text_holder" ng-class="sortClassFunction('platform_name',sortTypebyPerformance,sortReverse)"
+          ng-click="sortTypebyPerformance = 'platform_name'; sortReverse = !sortReverse;removeKpiActive();" >{{textConstants.PLATFORM_NAME}}</span>
     <!--<span class="icon_text_holder" ng-class="{ active:sortTypebyPerformance === 'platform',sort_order_up:sortReverse === false,sort_order_down:sortReverse === true}" data-ng-click="sortColumnFunction('impressions','!sortReverse;removeKpiActive();');" >Platform</span>-->
 </div>
+
+
+
+
 <div class="each_col third_col" >
     <span class="icon_text_holder" ng-class="sortClassFunction('-impressions',sortTypebyPerformance,sortReverseForPerfImps)" ng-click="sortTypebyPerformance = '-impressions'; sortTypebyPerformanceSubSort='impressions'; sortReverse = sortReverseForPerfImps; sortReverseForPerfImps = !sortReverseForPerfImps;removeKpiActive();" ><span class="default-kpi-header-icon" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() === 'delivery'"></span>{{textConstants.IMP_WITH_DOT}}</span>
 

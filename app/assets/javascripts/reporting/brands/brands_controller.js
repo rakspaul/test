@@ -76,6 +76,8 @@
         $scope.highlightSearch = function (text, search) {
             return utils.highlightSearch(text, search);
         };
+
+
         $scope.brandData = brandsModel.getBrand();
         
         $(function () {
@@ -85,19 +87,13 @@
         });
 
         $scope.$on(constants.EVENT_ADVERTISER_CHANGED, function(event, args) {
+            console.log("EVENT_ADVERTISER_CHANGED");
             var advertiser = args.advertiser;
             $scope.advertiser =  advertiser;
             $scope.brandData.selectedBrand = {};
             $scope.brandData.selectedBrand.name= '';
             searchCriteria.clientId = loginModel.getSelectedClient().id;
-           if(args.event_type === 'clicked') {
-               $scope.selectBrand(brandsModel.getBrand().allBrandObject, advertiser, args.event_type);
-            } else {
-               var brand = brandsModel.getSelectedBrand();
-               $scope.selectBrand(brand, advertiser, args.event_type);
-
-           }
-
+            $scope.selectBrand(brandsModel.getBrand().allBrandObject, advertiser, args.event_type);
             searchCriteria.advertiserId = advertiser.id;
             fetchBrands(searchCriteria, search);
         });
