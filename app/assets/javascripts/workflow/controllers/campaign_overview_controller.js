@@ -172,7 +172,7 @@ var angObj = angObj || {};
             },
 
             adsDataMofiderFunc : function(adsData) {
-                //console.log("adsData", adsData);
+                console.log("adsData", adsData);
                 var budgetType, rateType;
                 var labelObj = {
                     'cpm' : 'Imps.',
