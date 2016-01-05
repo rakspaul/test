@@ -357,7 +357,7 @@
 								<div class="calTable form-group" show-errors='{showSuccess: true}'>
 									<h3>Total Budget</h3>
                                     <div class="symbol-input">
-                                        <span class="symbol">$</span>
+                                        <span class="symbol">{{locale.NUMBER_FORMATS.CURRENCY_SYM}}</span>
 									   <input type="text" ng-model="Campaign.totalBudget" name="totalBudget" class="form-control col-sm-8" whole-number-only="whole-number-only" required/>
                                     </div>
                                     <label ng-if="createCampaignForm.totalBudget.$error.required" class="col-sm-12  greyTxt errorLabel" style="margin-left:35px;">You must enter Total Budget.</label>
@@ -369,21 +369,21 @@
 								<div class="calTable">
 									<h3>Est. Non-Inventory Cost</h3>
                                     <div class="symbol-input">
-                                       <span class="symbol">$</span>
+                                       <span class="symbol">{{locale.NUMBER_FORMATS.CURRENCY_SYM}}</span>
 									   <input type="text" ng-model="Campaign.nonInventoryCost" class="form-control col-sm-8" disabled/>
                                     </div>
 								</div>
 								<div class="calTable">
 									<h3>Delivery Budget</h3>
                                     <div class="symbol-input">
-                                       <span class="symbol">$</span>
+                                       <span class="symbol">{{locale.NUMBER_FORMATS.CURRENCY_SYM}}</span>
 									   <input type="text" ng-model="Campaign.deliveryBudget" class="form-control col-sm-8" disabled/>
                                     </div>
 								</div>
 								<div class="calTable">
 									<h3>Effective CPM</h3>
                                     <div class="symbol-input">
-                                       <span class="symbol">$</span>
+                                       <span class="symbol">{{locale.NUMBER_FORMATS.CURRENCY_SYM}}</span>
 									   <input type="text" ng-model="Campaign.effectiveCPM" class="form-control col-sm-8" disabled/>
                                     </div>
 								</div>
@@ -432,7 +432,7 @@
 											<ul class="dropdown-menu" aria-labelledby="selectKPI"  id="selectKPI">
                                                 <li class="kpi.active?available:''" ng-class="{disabled : !kpi.active, available : kpi.active}" ng-repeat="kpi in workflowData.Kpi" ng-click="kpi.active ? selectedKpi($parent.$index,kpi): ''" ><a>{{kpi.name}}</a></li>
 											</ul>
-                                            <input type="hidden" name="kpi" ng-init="Campaign.kpiArr[$index]['kpiType']='Select from list';" ng-model="Campaign.kpiArr[$index]['kpiId']" ng-value="{{kpi.id}}" field="kpiId" index="{{$index}}" hiddenkpi>
+                                            <input type="hidden" name="kpi" ng-init="Campaign.kpiArr[$index]['kpiType']='Select from list';" ng-model="Campaign.kpiArr[$index]['kpiId']" ng-value="{{kpi.id}}" field="kpiId" index="{{$index}}" required hiddenkpi>
 										</div>
 									</div>
 								</div>
@@ -549,7 +549,7 @@
 	                                            <ul class="dropdown-menu" aria-labelledby="selectKPI"  id="selectKPI">
 	                                                <li ng-repeat="cost in workflowData.costCategory" ng-click="selectedCostCategory($parent.$index,cost)" ng-value="cost.id" class="available"><a>{{cost.name}}</a></li>
 	                                            </ul>
-	                                            <input type="hidden" name="costCategory" ng-init="Campaign.costArr[$index]['costCategoryName']='Select from list'" ng-model="Campaign.costArr[$index]['costCategoryId']" ng-value="{{cost.id}}" field="costCategoryId" index="{{$index}}" hiddencost>
+	                                            <input type="hidden" name="costCategory" ng-init="Campaign.costArr[$index]['costCategoryName']='Select from list'" ng-model="Campaign.costArr[$index]['costCategoryId']" ng-value="{{cost.id}}" field="costCategoryId" index="{{$index}}" required hiddencost>
 	                                        </div>
 	                                    </div>
 	                                    <div class="col-md-6 zeroPadding kpiTable" style="width: 150px; max-width: none; margin-left: 10px; padding-right: 0px !important;">
@@ -582,11 +582,13 @@
 											<ul class="dropdown-menu" aria-labelledby="selectKPI"  id="selectKPI">
 												<li class="calculation.active?available:''" ng-class="{disabled : !calculation.active, available : calculation.active}" ng-repeat="calculation in workflowData.calculation" ng-click="calculation.active?selectedCalculation($parent.$index,calculation):''" ng-value="calculation.id" ><a>{{calculation.name}}</a></li>
 											</ul>
-                                            <input type="hidden" name="costcalculation" ng-init="Campaign.costArr[$index]['rateTypeName']='Select'" ng-model="Campaign.costArr[$index]['rateTypeId']" ng-value="{{calculation.id}}" field="rateTypeId" index="{{$index}}" hiddencost>
+                                            <input type="hidden" name="costcalculation" ng-init="Campaign.costArr[$index]['rateTypeName']='Select'" ng-model="Campaign.costArr[$index]['rateTypeId']" ng-value="{{calculation.id}}" field="rateTypeId" index="{{$index}}" required hiddencost>
 										</div>
-									</div>
+                                        <!--<label ng-if="createCampaignForm.costcalculation.$error.required" class="col-sm-12  greyTxt errorLabel">Select Calculation Type</label>-->
+
+                                    </div>
 								</div>
-								
+
 								<div class="col-md-2 zeroPadding kpiTable" style="width: 153px;">
 
 									<div class="col-md-12 zeroPadding dropdown-workflow">
@@ -598,19 +600,20 @@
 												<li class="available" ng-click="selectedVendorRate($parent.$index,vendorItem)" ng-repeat="vendorItem in vendorRateData[$index]"><a>{{vendorItem.name}}</a></li>
 												<!--<li class="available" ng-click="selectedVendorRate($parent.$index,vendorItem)" ng-repeat="vendorItem in vendorRateData[$index]['vendors']"><a>{{vendorItem.name}}</a></li>-->
 											</ul>
-                                            <input type="hidden" name="costvendor" ng-init="Campaign.costArr[$index]['vendorName']='Select from list';" ng-model="Campaign.costArr[$index]['vendorId']" ng-value="{{vendorItem.id}}" field="vendorId" index="{{$index}}" hiddencost>
+                                            <input type="hidden" name="costvendor" ng-init="Campaign.costArr[$index]['vendorName']='Select from list';" ng-model="Campaign.costArr[$index]['vendorId']" ng-value="{{vendorItem.id}}" field="vendorId" index="{{$index}}" required hiddencost>
 										</div>
+                                        <!--<label ng-if="createCampaignForm.costvendor.$error.required" class="col-sm-12  greyTxt errorLabel">Select Vendor</label>-->
 									</div>
 								</div>
 								
 								<div class="col-md-1 zeroPadding kpiTable symbol-input">
-                                    <span class="symbol">$</span>
-                                    <input type="text" class="col-md-12" ng-model="Campaign.costArr[$index]['rateValue']" whole-number-only="whole-number-only" field="rateValue" index="{{$index}}"/>
+                                    <span class="symbol">{{locale.NUMBER_FORMATS.CURRENCY_SYM}}</span>
+                                    <input type="text" class="col-md-12" ng-model="Campaign.costArr[$index]['rateValue']" whole-number-only="whole-number-only" field="rateValue" required index="{{$index}}"/>
                                 </div>
 								
 								<div class="col-md-1 zeroPadding kpiTable" style="width: 86px;">
 
-                                    <input type="number" class="col-md-12" ng-model="Campaign.costArr[$index]['targetPercentage']" whole-number-only="whole-number-only" max="100" field="targetPercentage" index="{{$index}}"/>
+                                    <input type="number" class="col-md-12" ng-model="Campaign.costArr[$index]['targetPercentage']" whole-number-only="whole-number-only" max="100" required field="targetPercentage" index="{{$index}}" />
 								</div>
 								
 								<div class="col-md-1 zeroPadding kpiTable" style="padding: 0 !important; width: 145px;">

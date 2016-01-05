@@ -243,8 +243,9 @@
                 var url= apiPaths.WORKFLOW_APIUrl + '/objectiveTypes';
                 return dataService.fetch(url);
             },
-            getVendors:function(){
-                var url= apiPaths.WORKFLOW_APIUrl + '/vendors';
+            getVendors:function(categoryId){
+                var url= apiPaths.WORKFLOW_APIUrl + '/costCategories/'+categoryId+'/vendors';
+               // var url= apiPaths.WORKFLOW_APIUrl + '/costCategories/1/vendors';
                 return dataService.fetch(url);
             },
             getCostCategories:function(){
