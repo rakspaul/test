@@ -63,7 +63,7 @@
         <label class="btn btn-default budget_cost"><span>Cost</span>
             <input type="radio" name="budgetType" value="Cost"  hidden="hidden" ng-model="adData.budgetType" class="btn_rad budget_type" ng-click="toggleBtn($event);">
         </label>
-         <span style="position:absolute; top:10px; left:185px;">{{adData.budgetType === 'Cost' ? '$' : '#'}}</span>
+         <span style="position:absolute; top:10px; padding-left:17px; float:left;">{{adData.budgetType === 'Cost' ? '$' : '#'}}</span>
         <input style="width:130px; text-indent:8px;" type="text" name="budgetAmount" whole-number-only="whole-number-only" class="form-control" ng-model="adData.budgetAmount" id="budgetAmount" placeholder="Enter Value" ng-keyup = "adBudgetValidator();">
         <label ng-if="budgetErrorObj.mediaCostValidator" class="col-sm-12 control-label  customErrorLabel">{{textConstants.WF_MEDIA_COST_LESS_THAN_CAMPAIGN_BUDGET}}</label>
         <label ng-if="budgetErrorObj.availableRevenueValidator" class="col-sm-12 control-label  customErrorLabel">{{textConstants.WF_MEDIA_COST_LESS_THAN_MINIMUM_BUDEGT_FOR_AD}}</label>
