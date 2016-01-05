@@ -81,7 +81,7 @@
                 var type = '';
                 var icon_url;
                 if (selectedFormat.toLowerCase() === 'screens') {
-                    cls = vistoconfig.screenTypeMap[eachObj.screen_type.toLowerCase()];
+                    cls = screenTypeMap[eachObj.screen_type.toLowerCase()];
                     type = eachObj.screen_type;
                 } else if (selectedFormat.toLowerCase() === 'formats') {
                     cls = formatTypeMap[eachObj.ad_format.toLowerCase()];
