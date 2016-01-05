@@ -237,10 +237,10 @@ var angObj = angObj || {};
                 },
                 {
                     'url' : '/reportBuilder/reportDownload',
-                    'query_id': 21,
-                    'report_type' : 'days_of_week',
+                    'query_id': 19,
+                    'report_type' : 'ad_size',
                     'report_cat' : 'performance',
-                    'label' : 'Performance by Days Of Week',
+                    'label' : 'Performance by Ad Sizes',
                 },
                 {
                     'url' : '/reportBuilder/reportDownload',
@@ -251,10 +251,10 @@ var angObj = angObj || {};
                 },
                 {
                     'url' : '/reportBuilder/reportDownload',
-                    'query_id': 19,
-                    'report_type' : 'ad_size',
+                    'query_id': 21,
+                    'report_type' : 'days_of_week',
                     'report_cat' : 'performance',
-                    'label' : 'Performance by Ad Sizes',
+                    'label' : 'Performance by Days Of Week',
                 }
             ];
         };
