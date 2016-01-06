@@ -18,6 +18,8 @@ var angObj = angObj || {};
         $scope.showCreateAdGrp=false;
         $scope.createGroupMessage=false;
         $scope.createGroupMessage=false;
+        $scope.brand=[];
+        $scope.performance=[];
         localStorage.setItem('campaignData','');
         $scope.moreThenThree = '';
         $scope.editCampaign=function(workflowcampaignData){
@@ -54,6 +56,27 @@ var angObj = angObj || {};
         $scope.cancelArchiveCampaign=function(){
             $scope.campaignArchive=!$scope.campaignArchive;
         }
+        $scope.processObjectiveData=function(objectiveObj){
+            var brandingArr=_.filter(objectiveObj,function(obj){return obj.objective==="Branding"})
+            if(brandingArr.length>0){
+                $scope.brand=brandingArr[0].subObjectives;
+                var tooltip=$scope.brand[0];
+                for(var i=1;i<$scope.brand.length;i++){
+                    tooltip+=","+$scope.brand[i];
+                }
+                $scope.brandTooltip=tooltip;
+            }
+            var performanceArr=_.filter(objectiveObj,function(obj){return obj.objective==="Performance"})
+            if(performanceArr.length>0){
+                $scope.performance=performanceArr[0].subObjectives;
+                var tooltip=$scope.performance[0];
+                for(var i=1;i<$scope.performance.length;i++){
+                    tooltip+=","+$scope.performance[i];
+                }
+                $scope.performanceTooltip=tooltip;
+            }
+
+        }
         
         var campaignOverView = {
 
@@ -70,6 +93,17 @@ var angObj = angObj || {};
                     if (result.status === "OK" || result.status === "success") {
                         var responseData = result.data.data;
                         $scope.workflowData['campaignData'] = responseData;
+                        if(responseData.selectedObjectives && responseData.selectedObjectives.length>0){
+                            $scope.processObjectiveData(responseData.selectedObjectives);
+                        }
+                        if(responseData.primaryKpi){
+                            if(responseData.primaryKpi==="IMPRESSIONS")
+                                $scope.primaryKpiSelected="CPM"
+                            else if(responseData.primaryKpi==="CLICKS")
+                                $scope.primaryKpiSelected="CPC"
+                            else if(responseData.primaryKpi==="ACTIONS")
+                                $scope.primaryKpiSelected="CPA"
+                        }
                         var startDateElem = $('#adGrpStartDateInput');
                         $scope.setStartdateIndependant=utils.convertToEST($scope.workflowData['campaignData'].startTime,"MM/DD/YYYY");//set campaign start date as lower limit startDate
 

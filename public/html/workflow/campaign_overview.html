@@ -95,25 +95,25 @@
                     <div class="pull-left">
                         <div class="greyTxt" >Objectives</div>
                         <div class="clearfix">
-                            <div class="each-objective pull-left">
+                            <div class="each-objective pull-left" ng-if="brand.length>0">
                                 <span class="icon-brand"></span>
-                                <span tooltip-placement="top" tooltip="Branding: Incremental Reach, Favorability, Engagement">Incremental Reach</span>
-                                <span class="count">+2</span>
+                                <span tooltip-placement="top" tooltip="{{brandTooltip}}">{{brand[0]}}</span>
+                                <span class="count">+{{brand.length-1}}</span>
                             </div>
-                            <div class="each-objective pull-left">
+                            <div class="each-objective pull-left" ng-if="performance.length>0">
                                 <span class="icon-performance"></span>
-                                <span tooltip-placement="top" tooltip="Branding: Incremental Reach, Favorability, Engagement">Incremental Reach</span>
-                                <span class="count">+1</span>
+                                <span tooltip-placement="top" tooltip="{{performanceTooltip}}">{{performance[0]}}</span>
+                                <span class="count">+{{performance.length-1}}</span>
                             </div>
                         </div>
                     </div>
                     <div class="pull-left">
                         <span class="greyTxt">KPI</span>
-                        <span>CPC</span>
+                        <span>{{primaryKpiSelected}}</span>
                     </div>
                     <div class="pull-left">
                         <span class="greyTxt">Total Budget</span>
-                        <span>{{(workflowData.campaignData.bookedRevenue || 0) | currency:undefined:0}}</span>
+                        <span>{{(workflowData.campaignData.deliveryBudget || 0) | currency:undefined:0}}</span>
                     </div>
                     <div class="pull-left">
                         <span class="greyTxt">Flight Dates</span>
