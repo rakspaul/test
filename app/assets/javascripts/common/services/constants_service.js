@@ -108,6 +108,7 @@
     this.SCHEDULED_REPORTS = "Scheduled Reports";
     this.SCHEDULE_LABEL = 'Schedule';
     this.GENERATE_LABEL ='Generate'
+     this.RESET_LABEL ='Reset'
     this.SET_SCHEDULE = 'Set Schedule';
     this.NEW_REPORT = "New Report";
     this.SCHEDULE_DELIVER_ON = 'Deliver on';
