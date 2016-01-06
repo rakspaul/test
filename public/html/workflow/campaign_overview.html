@@ -93,14 +93,23 @@
                 </div>
                 <div class="col-md-12 zeroPadding campSettingOverView">
                     <div class="pull-left">
-                        <span class="greyTxt" style="width: 100%;">Goal</span>
-                        <div style="padding: 0; margin-right: 5px;"
-                             class="pull-left icon-{{workflowData.campaignData.goal.toLowerCase() ==='brand' ?
-                              'brand' : 'performance'}}">
+                        <div class="greyTxt" >Objectives</div>
+                        <div class="clearfix">
+                            <div class="each-objective pull-left">
+                                <span class="icon-brand"></span>
+                                <span tooltip-placement="top" tooltip="Branding: Incremental Reach, Favorability, Engagement">Incremental Reach</span>
+                                <span class="count">+2</span>
+                            </div>
+                            <div class="each-objective pull-left">
+                                <span class="icon-performance"></span>
+                                <span tooltip-placement="top" tooltip="Branding: Incremental Reach, Favorability, Engagement">Incremental Reach</span>
+                                <span class="count">+1</span>
+                            </div>
                         </div>
-                        <span style="clear: none;">
-                            {{(workflowData.campaignData.goal.toLowerCase() || 'Performance') | toCamelCase}}
-                        </span>
+                    </div>
+                    <div class="pull-left">
+                        <span class="greyTxt">KPI</span>
+                        <span>CPC</span>
                     </div>
                     <div class="pull-left">
                         <span class="greyTxt">Total Budget</span>
