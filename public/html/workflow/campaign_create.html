@@ -234,7 +234,7 @@
 												<span class="text">Select all that apply</span>
 												<span class="icon-arrow-down"></span>
 											</button>
-											<ul class="dropdown-menu " aria-labelledby="campObj"  id="campObj">
+											<ul class="dropdown-menu multiSelectDDL" aria-labelledby="campObj"  id="campObj">
 												<li class="headerDDL"><span class="icon-brand"></span><span class="greyTxt" style="padding-left: 7px !important;">BRANDING</span></li>
 													<li ng-repeat="brand in workflowData.branding"><span><input type="checkbox" name="checkbox" value="brand.campaignObjectiveTypeId" ng-click="selectedObjective(brand)" ng-checked="brand.isChecked">{{brand.subObjective}}</span></li>
 												<li class="headerDDL"><span class="icon-performance"></span><span class="greyTxt" style="padding-left: 7px !important;">PERFORMANCE</span></li>
