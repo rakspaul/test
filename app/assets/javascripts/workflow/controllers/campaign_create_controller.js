@@ -292,9 +292,16 @@ var angObj = angObj || {};
 //                else
 //                    $scope.performance.push(objectiveObj);
 //            }
-            console.log($scope.checkedObjectiveList);
+            
         }
-
+        $scope.open_multiselect_dropdown = function(event) {
+               var elem = $(event.target);
+               if( elem.closest(".dropdown").find(".dropdown-menu ").is(":visible") == false ) {
+                   elem.closest(".dropdown").find(".dropdown-menu ").show() ;
+               } else {
+                   elem.closest(".dropdown").find(".dropdown-menu ").hide() ;
+               }
+         }
         $scope.processEditCampaignData = function () {
             workflowService.getCampaignData($scope.campaignId).then(function (result) {
                 console.log(result);
