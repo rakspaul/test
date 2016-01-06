@@ -204,22 +204,26 @@ var angObj = angObj || {};
         var extractAdFormats=  function() {
             var strategyObj = strategySelectModel.getStrategyObj();
             var selectedStrategyObj = strategySelectModel.getSelectedStrategy();
-            if(selectedStrategyObj.id === -1) {
-                var adFormatsArr = [];
-                _.each(strategyObj.strategies, function (obj) {
-                    adFormatsArr.push(obj.ad_formats && obj.ad_formats[0])
-                })
-                adFormatsArr = _.compact(_.uniq(adFormatsArr))
-                $scope.adFormats = domainReports.checkForCampaignFormat(adFormatsArr);
+            if(strategyObj.strategies && strategyObj.strategies.length > 0) {
+                if (selectedStrategyObj.id === -1) {
+                    var adFormatsArr = [];
+                    _.each(strategyObj.strategies, function (obj) {
+                        adFormatsArr.push(obj.ad_formats && obj.ad_formats[0])
+                    })
+                    adFormatsArr = _.compact(_.uniq(adFormatsArr))
+                    $scope.adFormats = domainReports.checkForCampaignFormat(adFormatsArr);
 
-            } else {
-                adFormatsArr = _.filter(strategyObj.strategies, function(obj) { return obj.id === Number(selectedStrategyObj.id) });
-                if(adFormatsArr && adFormatsArr.length >0 ) {
-                    $scope.adFormats = domainReports.checkForCampaignFormat(adFormatsArr[0].ad_formats);
+                } else {
+                    adFormatsArr = _.filter(strategyObj.strategies, function (obj) {
+                        return obj.id === Number(selectedStrategyObj.id)
+                    });
+                    if (adFormatsArr && adFormatsArr.length > 0) {
+                        $scope.adFormats = domainReports.checkForCampaignFormat(adFormatsArr[0].ad_formats);
+                    }
                 }
-            }
-            if ($scope.adFormats.length >0  && $scope.adFormats.displayAds && !$scope.adFormats.videoAds) {
-                $scope.videoMode = false;
+                if ($scope.adFormats.length > 0 && $scope.adFormats.displayAds && !$scope.adFormats.videoAds) {
+                    $scope.videoMode = false;
+                }
             }
         }
 
