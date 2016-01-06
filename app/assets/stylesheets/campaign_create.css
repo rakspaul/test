@@ -1005,7 +1005,7 @@
   color: #57606c;
 }
 #campaignCreate .firstWrapper .maxWidthAdj .campAdHeader .campSettingOverView .pull-left {
-  padding: 0 0 0 30px;
+  padding: 0 0 0 25px;
 }
 #campaignCreate .firstWrapper .maxWidthAdj .campAdHeader .campSettingOverView .pull-left .glyphicon {
   float: left;
@@ -1024,6 +1024,16 @@
   width: 100%;
   text-align: center;
   float: left;
+}
+#campaignCreate .firstWrapper .maxWidthAdj .campAdHeader .campSettingOverView .each-objective {
+  padding-left: 15px ;
+}
+#campaignCreate .firstWrapper .maxWidthAdj .campAdHeader .campSettingOverView .each-objective span {
+  clear: none;
+  margin-right: 5px ;
+}
+#campaignCreate .firstWrapper .maxWidthAdj .campAdHeader .campSettingOverView .each-objective .count {
+  color: #0978c9 ;
 }
 #campaignCreate .firstWrapper .maxWidthAdj .campAdHeader .campSettingOverView .pull-left:first-child {
   padding-left: 0;
