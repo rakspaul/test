@@ -120,10 +120,7 @@ var angObj = angObj || {};
                     $scope.videoMode = true;
                     $scope.costBusy = false;
                     $scope.viewabilityBusy = false;
-                    $scope.adFormats = domainReports.checkForCampaignFormat(result.data.data.adFormats);
-                    if ($scope.adFormats.displayAds && !$scope.adFormats.videoAds) {
-                        $scope.videoMode = false;
-                    }
+
                     if ($scope.isCostModelTransparent === false && result.data.data.platform_metrics[tab.toLowerCase()].length === 0) {
                         errorHandlerForPerformanceTab();
                     } else {
@@ -139,7 +136,6 @@ var angObj = angObj || {};
                         } else {
                             $scope['platformData'] = result.data.data;
                         }
-                        $scope.adFormats = domainReports.checkForCampaignFormat(result.data.data.adFormats);
                     }
                 } else {
                     errorHandlerForPerformanceTab(result);
@@ -205,10 +201,37 @@ var angObj = angObj || {};
             $scope.download_report = download_report;
         };
 
+        var extractAdFormats=  function() {
+            var strategyObj = strategySelectModel.getStrategyObj();
+            var selectedStrategyObj = strategySelectModel.getSelectedStrategy();
+            if(strategyObj.strategies && strategyObj.strategies.length > 0) {
+                if (selectedStrategyObj.id === -1) {
+                    var adFormatsArr = [];
+                    _.each(strategyObj.strategies, function (obj) {
+                        adFormatsArr.push(obj.ad_formats && obj.ad_formats[0])
+                    })
+                    adFormatsArr = _.compact(_.uniq(adFormatsArr))
+                    $scope.adFormats = domainReports.checkForCampaignFormat(adFormatsArr);
+
+                } else {
+                    adFormatsArr = _.filter(strategyObj.strategies, function (obj) {
+                        return obj.id === Number(selectedStrategyObj.id)
+                    });
+                    if (adFormatsArr && adFormatsArr.length > 0) {
+                        $scope.adFormats = domainReports.checkForCampaignFormat(adFormatsArr[0].ad_formats);
+                    }
+                }
+                if ($scope.adFormats.length > 0 && $scope.adFormats.displayAds && !$scope.adFormats.videoAds) {
+                    $scope.videoMode = false;
+                }
+            }
+        }
+
         //whenever strategy change either by broadcast or from dropdown
         $scope.$on(constants.EVENT_STRATEGY_CHANGED, function (event, strategy) {
             var selectedStrategyObj = strategySelectModel.getSelectedStrategy();
-            console.log("selectedStrategyObj", selectedStrategyObj);
+            var strategyObj = strategySelectModel.getStrategyObj();
+            extractAdFormats()
             $scope.selectedStrategy.id = selectedStrategyObj.id;
             $scope.selectedStrategy.name = selectedStrategyObj.name;
             $scope.strategyHeading = Number($scope.selectedStrategy.id) === constants.ALL_STRATEGIES_OBJECT.id ? 'Campaign total' : 'Ad Group total';
