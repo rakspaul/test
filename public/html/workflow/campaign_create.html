@@ -229,8 +229,8 @@
 								<div class="form-group col-sm-3" style="padding-left: 0;">
 									<label for="campObj" class="col-sm-12 greyTxt miniLabels">{{textConstants.WF_CAMPAIGN_OBJECTIVES}}</label>
 									<div class="col-md-12 zeroPadding dropdown-workflow">
-										<div class="dropdown">
-											<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+										<div class="dropdown" id="campObjClick">
+											<button class="btn btn-default dropdown-toggle" type="button" aria-haspopup="true" aria-expanded="true" ng-click="open_multiselect_dropdown($event);">
 												<span class="text">Select all that apply</span>
 												<span class="icon-arrow-down"></span>
 											</button>
