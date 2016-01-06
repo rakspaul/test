@@ -125,15 +125,8 @@ var angObj = angObj || {};
             $scope.showDefaultDimension = modifiedDimesionArr.dimensions[0];
             $scope.showDefaultDimension['template_id'] = modifiedDimesionArr.template_id;
 
-            //Edit
-            if($routeParams.reportId) {
-                $scope.updateScheduleReport = true;
-                $scope.buttonLabel = "Update";
-                var url = urlService.scheduledReport($routeParams.reportId);
-                dataStore.deleteFromCache(url);
-                dataService.fetch(url).then(function(response) {
-                    if(response.status == 'success') {
-                        var responseData = response.data.data;
+            $scope.prefillData = function(reportData) {
+                        var responseData = reportData;
                         $scope.reports.name = responseData.name;
                         $scope.scheduleReportActive = responseData.isScheduled;
                         $scope.generateBtnDisabled = false;
@@ -270,8 +263,24 @@ var angObj = angObj || {};
                         }
                         $scope.scheduleResponseData = JSON.parse(JSON.stringify(responseData));;
                         $scope.setMetrixText('Custom');
+                   // }// end of success
+               // })
+            }//end
+
+            //if edit
+            if($routeParams.reportId) {
+                $scope.updateScheduleReport = true;
+                $scope.buttonLabel = "Update";
+                var url = urlService.scheduledReport($routeParams.reportId);
+                dataStore.deleteFromCache(url);
+                dataService.fetch(url).then(function (response) {
+                    if (response.status == 'success') {
+                        $scope.reportData = response.data.data;
+                        $scope.prefillData(response.data.data);
                     }
-                })
+                });
+            } else if(localStorage.getItem('customReport')) {
+                $scope.prefillData(JSON.parse(localStorage.getItem('customReport')));
             }
         });
         $scope.reports.client_id = loginModel.getSelectedClient().id;
@@ -585,7 +594,8 @@ var angObj = angObj || {};
             $scope.requestData.reportDefinition.timeframe = $scope.reports.reportDefinition.timeframe;
             $scope.requestData.reportDefinition.metrics = $scope.reports.reportDefinition.metrics;
             $scope.requestData.schedule = $scope.reports.schedule;
-            $scope.requestData.schedule.occurance = $scope.valueWithDefault($scope.reports.schedule.occurance,$scope.reports.schedule.frequency,'');
+            $scope.requestData.isScheduled = $scope.scheduleReportActive;
+            $scope.requestData.schedule.occurance = $scope.valueWithDefault($scope.reports.schedule.occurance,$scope.reports.schedule.frequency,$scope.requestData.schedule.occurance);
             $scope.requestData.reportDefinition.dimensions.push({"dimension":$scope.reports.reportDefinition.dimensions.primary.dimension,'type':"Primary"});
             if($scope.reports.reportDefinition.dimensions.primary.value) {
                 $scope.requestData.reportDefinition.filters.push({
@@ -625,7 +635,7 @@ var angObj = angObj || {};
         }
         $scope.valueWithDefault = function(o, argArr, defaultVal){
             var d = typeof defaultVal == undefined ? '' : defaultVal;
-            return (typeof o!="undefined" && typeof argArr != undefined) ? (function(a){a.forEach(function(e){e=e.toLowerCase().trim();o=typeof o[e]!="undefined"?o[e]:d;});return o;})(argArr.split(",")) : d;
+            return (typeof o!="undefined" && typeof argArr != "undefined") ? (function(a){a.forEach(function(e){e=e.toLowerCase().trim();o=typeof o[e]!="undefined"?o[e]:d;});return o;})(argArr.split(",")):d;
         }
         $scope.verifyReportInputs = function() {
             var str = $scope.reports.name;
@@ -650,6 +660,10 @@ var angObj = angObj || {};
             }
             if($scope.selectedMetricsList.length <= 0 ) {
                 return setFlashMessage('Atleast one metrics should be selected',1,0);
+            }
+
+            if(($scope.reports.schedule.frequency == "Weekly") && ($scope.reports.schedule.occurance == "")) {
+                return setFlashMessage('Please select occurs on',1,0);
             }
             return true;
         }
@@ -962,6 +976,7 @@ var angObj = angObj || {};
         };
 
         $scope.reset_metric_options = function(event) {
+            localStorage.removeItem('customReport');
             $route.reload();
         };
 
@@ -1445,7 +1460,12 @@ var angObj = angObj || {};
                 var target = $(event.target);
             }
 
+            $scope.intermediateSave = function() {
+                localStorage.setItem('customReport', JSON.stringify($scope.createData()));
+            }
+
             $scope.$on('$locationChangeStart', function( event,next ) {
+                $scope.intermediateSave();
                 if($scope.updateScheduleReport && $scope.stopRedirectingPage && ($scope.reports.name != $scope.scheduleResponseData.name || !angular.equals($scope.reports.schedule,$scope.scheduleResponseData.schedule))){
                     event.preventDefault();
                     $scope.updateSchedule = true;
