@@ -53,6 +53,13 @@ var angObj = angObj || {};
             target.parent().addClass('active');
             if(isSet){
                 $scope.PrimaryImpressions=$scope.Campaign.kpiArr[index].kpiValue;
+                var primaryType=$scope.Campaign.kpiArr[index].kpiType;
+                if(primaryType=="Impressions" || primaryType=="Viewable Impressions"){$scope.primaryType="CPM"}
+                else
+                if(primaryType=="Clicks"){$scope.primaryType="CPC"}
+                else
+                if(primaryType=="Actions"){$scope.primaryType="CPA"}
+                /*set other primary Kpis as false*/
                 for(var i in $scope.Campaign.kpiArr){
                     console.log($scope.Campaign.kpiArr[i].isPrimary);
                     if($scope.Campaign.kpiArr[i].isPrimary){
@@ -207,7 +214,7 @@ var angObj = angObj || {};
         $scope.brand=[];
         $scope.performance=[];
         $scope.addMoreKpi=function(){
-            $scope.Campaign.kpiArr.push({kpiType: 'Select from list', kpiId:1, isPrimary: false ,vendorId:'',vendorName:'',kpiValue:0, isBillable:true});
+            $scope.Campaign.kpiArr.push({kpiType: 'Select from list', kpiId:'', isPrimary: false ,vendorId:'',vendorName:'',kpiValue:0, isBillable:true});
             $(".selectkpiObj").show();
         }
         $scope.addMoreCost=function(){
@@ -385,7 +392,7 @@ var angObj = angObj || {};
                // $scope.workflowData['vendor']=[{id:1, name: 'Adometry'},{id:1, name: 'DFP'},{id:2, name: 'Collective Media'},{id:3, name: 'Double Verify'}];
             },
             platforms:function(){
-                $scope.Campaign.kpiArr.push({kpiType: 'Impressions', kpiId:'', isPrimary: true ,vendorId:'',vendorName:'',kpiValue:0, isBillable:true});
+                $scope.Campaign.kpiArr.push({kpiType: 'Impressions', kpiId:1, isPrimary: true ,vendorId:'',vendorName:'',kpiValue:0, isBillable:true});
                 $scope.Campaign.costArr.push({costCategoryId: '',costCategoryName:'', type: 'variable', rateTypeId:'',vendorId:'',vendorName:'', rateValue:'', targetPercentage:100, description:''});
                 workflowService.getPlatforms({cache: false}).then(function (result) {
                     if (result.status === "OK" || result.status === "success") {
