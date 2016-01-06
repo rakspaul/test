@@ -9,8 +9,6 @@ var angObj = angObj || {};
         var winHeaderHeight = $(window).height() - 50;
         $(".workflowPreloader").css('height', winHeaderHeight + 'px');
 
-
-
         // This sets dynamic width to line to take 100% height
         function colResize() {
             var winHeight = $(window).height() - 110;
@@ -35,7 +33,6 @@ var angObj = angObj || {};
         $(window).resize(function () {
             colResize();
         });
-
 
         // This is for the drop down list. Perhaps adding this to a more general controller
         $(document).on('click', '.dropdown-menu li.available a', function () {
@@ -96,26 +93,21 @@ var angObj = angObj || {};
 
         $scope.editCampaign = function (workflowcampaignData) {
             window.location.href = '/mediaplan/' + workflowcampaignData.id + '/edit';
-
-        }
+        };
 
         $scope.convertEST = function (date, format) {
             return utils.convertToEST(date, format);
-        }
-
-
+        };
 
         //$scope.$on(constants.ACCOUNT_CHANGED, function() {
         //    console.log("account changed");
         //})
 
-
-
         $scope.archiveAd = function (event) {
             var errorAchiveAdHandler = function () {
                 $scope.adArchive = false;
                 $rootScope.setErrAlertMessage();
-            }
+            };
             workflowService.deleteAd($scope.campaignId, $scope.adId).then(function (result) {
                 if (result.status === "OK" || result.status === "success") {
                     $scope.adArchive = false;
@@ -126,15 +118,13 @@ var angObj = angObj || {};
                     errorAchiveAdHandler();
                 }
             }, errorAchiveAdHandler);
-
-
-        }
+        };
 
         $scope.pauseAd = function () {
             var errorAchiveAdHandler = function () {
                 $scope.adArchive = false;
                 $rootScope.setErrAlertMessage($scope.textConstants.WF_AD_PAUSE_FAILURE);
-            }
+            };
             var pauseAdDataObj = {};
             pauseAdDataObj.name = $scope.getAd_result.name;
             pauseAdDataObj.id = $scope.getAd_result.id;
@@ -151,12 +141,13 @@ var angObj = angObj || {};
                 }
             }, errorAchiveAdHandler);
 
-        }
+        };
+
         $scope.resumeAd = function () {
             var errorAchiveAdHandler = function () {
                 $scope.adArchive = false;
                 $rootScope.setErrAlertMessage($scope.textConstants.WF_AD_RESUME_FAILURE);
-            }
+            };
             var resumeAdDataObj = {};
             resumeAdDataObj.name = $scope.getAd_result.name;
             resumeAdDataObj.id = $scope.getAd_result.id;
@@ -172,32 +163,35 @@ var angObj = angObj || {};
                     errorAchiveAdHandler();
                 }
             }, errorAchiveAdHandler);
-        }
+        };
 
         $scope.numbersOnly = function (scopeVar) {
             if (scopeVar === 'budgetAmount')
                 $scope.adData.budgetAmount = $scope.adData.budgetAmount.replace($scope.numberOnlyPattern, '');
             if (scopeVar === 'quantity')
                 $scope.adData.quantity = $scope.adData.quantity.replace($scope.numberOnlyPattern, '');
-        }
+        };
 
         $scope.cancelAdArchive = function () {
             $scope.adArchive = !$scope.adArchive;
-        }
-        $scope.cancelAdPause = function () {
-            if ($scope.disable_pause != 'disabled')
-                $scope.adPause = !$scope.adPause;
+        };
 
-        }
+        $scope.cancelAdPause = function () {
+            if ($scope.disable_pause != 'disabled') {
+                $scope.adPause = !$scope.adPause;
+            }
+        };
+
         $scope.cancelAdResume = function () {
             $scope.resumeMessage = "Resume delivery for flight dates " + utils.convertToEST($scope.getAd_result.startTime, 'DD MMM YYYY') + " to " + utils.convertToEST($scope.getAd_result.endTime, 'DD MMM YYYY') + " ?";
 
             if ($scope.disable_resume != 'disabled')
                 $scope.adResume = !$scope.adResume;
-        }
+        };
+
         $scope.resetPartialSaveAlertMessage = function () {
             $rootScope.setErrAlertMessage("",0);
-        }
+        };
 
         $scope.dropBoxItemSelected = function (item, type, event) {
             if (item.name == 'CPC') {
@@ -214,27 +208,27 @@ var angObj = angObj || {};
                 $scope.adData.budgetType = $scope.adData.budgetTypeLabel;
             }
             $scope.adData[type] = item;
-        }
+        };
 
         $scope.ShowHide = function (obj) {
             $scope.IsVisible = $scope.IsVisible ? false : true;
             $scope.creativeObj = obj;
-        }
+        };
 
         $scope.getAdFormatIconName = function (adFormat) {
-            var adFormatMapper = {'display': 'image', 'video': 'video', 'rich media': 'rich-media', 'social': 'social'}
+            var adFormatMapper = {'display': 'image', 'video': 'video', 'rich media': 'rich-media', 'social': 'social'};
             return adFormatMapper[adFormat.toLowerCase()];
-        }
+        };
 
         $scope.getScreenTypeIconName = function (screenType) {
-            var screenTypeMapper = {'desktop': 'desktop', 'mobile': 'mobile', 'tablet': 'tablet'}
+            var screenTypeMapper = {'desktop': 'desktop', 'mobile': 'mobile', 'tablet': 'tablet'};
             return screenTypeMapper[screenType.toLowerCase()];
-        }
+        };
 
         $scope.getGoalIconName = function (goal) {
-            var goalMapper = {'performance': 'performance', 'brand': 'brand'}
+            var goalMapper = {'performance': 'performance', 'brand': 'brand'};
             return goalMapper[goal.toLowerCase()];
-        }
+        };
 
         $scope.getPlatformIconName = function (platform) {
             var platformMapper = {
@@ -264,9 +258,10 @@ var angObj = angObj || {};
                 'dorado-tracking': 'Visto_fav_icon',
                 'dbm-tracking': 'doubleclick-DFP'
             };
-            if (platform)
+            if (platform) {
                 return platformMapper[platform.toLowerCase()];
-        }
+            }
+        };
 
         $scope.getPlatformDesc = function (platform) {
             var platformMapper = {
@@ -275,9 +270,9 @@ var angObj = angObj || {};
                 'facebook': 'All-in-one customer<br />support application',
                 'dbm': 'All-in-one customer<br />support application',
                 'dfp': 'A revenue management<br />solution for publishers'
-            }
+            };
             return platformMapper[platform.toLowerCase()];
-        }
+        };
 
         var saveDataInLocalStorage = function (data) {
             localStorage.removeItem('campaignData');
@@ -290,19 +285,17 @@ var angObj = angObj || {};
             localStorage.setItem('campaignData', JSON.stringify(campaignData))
         };
 
-
         $scope.switchPlatform = function (event) {
             $scope.resetPartialSaveAlertMessage();
             $scope.$broadcast('switchPlatformFunc');
         };
 
         //edit mode data population
-
         function processEditMode(result, startDateElem) {
             var responseData = result.data.data;
             $scope.workflowData['adsData'] = responseData;
             if (responseData.adPlatformCustomInputs) {
-                localStorage.setItem('adPlatformCustomInputs', JSON.stringify(responseData.adPlatformCustomInputs))
+                localStorage.setItem('adPlatformCustomInputs', JSON.stringify(responseData.adPlatformCustomInputs));
             }
             workflowService.setAdsDetails(angular.copy(responseData));
 
@@ -313,9 +306,9 @@ var angObj = angObj || {};
                 $scope.editedAdSourceId = responseData.sourceId;
             }
 
-            if (responseData.name)
+            if (responseData.name) {
                 $scope.adData.adName = responseData.name;
-
+            }
 
             if (responseData.adFormat) {
                 var format = $filter('toTitleCase')(responseData.adFormat);
@@ -330,7 +323,7 @@ var angObj = angObj || {};
             if (responseData.screens) {
                 for (var i = 0; i < responseData.screens.length; i++) {
                     var index = _.findIndex($scope.workflowData.screenTypes, function (item) {
-                        return item.id == responseData.screens[i].id
+                        return item.id == responseData.screens[i].id;
                     });
 
                     $scope.workflowData.screenTypes[index].active = true;
@@ -361,15 +354,15 @@ var angObj = angObj || {};
                 //dateObj['adStartDate'] = $scope.adData.startTime = utils.convertToEST(responseData.startTime, "MM/DD/YYYY");
                 console.log(momentService.getTimezoneName());
                 dateObj['adStartDate'] = $scope.adData.startTime =
-                    momentService.getTimezoneMoment(responseData.startTime).format(constants.DATE_US_FORMAT);
-                console.log('start time: ', $scope.adData.startTime);
+                    momentService.getTimezoneMoment(responseData.startTime).startOf('day').format(constants.DATE_US_FORMAT);
             }
-
             if (responseData.endTime) {
                 //dateObj['adEndDate'] = $scope.adData.endTime = utils.convertToEST(responseData.endTime, "MM/DD/YYYY");
                 dateObj['adEndDate'] = $scope.adData.endTime =
-                    momentService.getTimezoneMoment(responseData.endTime).format(constants.DATE_US_FORMAT);
-                console.log('end time: ', $scope.adData.endTime);
+                    momentService.getTimezoneMoment(responseData.endTime)
+                        .endOf('day')
+                        .subtract(1, 'days')
+                        .format(constants.DATE_US_FORMAT);
             }
             localStorage.setItem('adsDates', JSON.stringify(dateObj));
             $scope.initiateDatePicker();
@@ -451,8 +444,9 @@ var angObj = angObj || {};
             $scope.$broadcast('updatePlatform', [responseData.platform]);
 
             //creative tags
-            if (responseData.creatives)
+            if (responseData.creatives) {
                 $scope.selectedArr = responseData.creatives;
+            }
 
             $scope.$broadcast('updateCreativeTags');
 
@@ -461,22 +455,21 @@ var angObj = angObj || {};
                 $scope.selectedTargeting['geography'] = true;
                 $timeout(function () {
                     $scope.$broadcast("updateGeoTagName");
-                }, 2000)
+                }, 2000);
             }
+
             //day part edit
             if (responseData.targets && responseData.targets.adDaypartTargets && _.size(responseData.targets.adDaypartTargets) > 0) {
                 $timeout(function () {
                     $scope.$broadcast("UpdateDayPart");
-                }, 2000)
-
+                }, 2000);
             }
 
             //audience targetting load
             if (responseData.targets && responseData.targets.segmentTargets && _.size(responseData.targets.segmentTargets) > 0) {
                 $timeout(function () {
                     $scope.$broadcast("triggerAudienceLoading");
-                }, 2000)
-
+                }, 2000);
             }
         }
 
@@ -491,7 +484,6 @@ var angObj = angObj || {};
                 $scope.disable_resume = '';//enable resume if ad is paused
             }
         }
-
 
         var campaignOverView = {
             getCampaignData: function (campaignId) {
@@ -509,13 +501,13 @@ var angObj = angObj || {};
                                     $scope.getAd_result = result.data.data;
                                     disablePauseEnableResume($scope.getAd_result);
                                     processEditMode(result);
-                                })
+                                });
                             } else {
                                 workflowService.getDetailedAdsInAdGroup($scope.campaignId, $scope.adGroupId, $scope.adId).then(function (result) {
                                     $scope.getAd_result = result.data.data;
                                     disablePauseEnableResume($scope.getAd_result);
                                     processEditMode(result);
-                                })
+                                });
                             }
                         } else {
                             $scope.initiateDatePicker();
@@ -532,7 +524,7 @@ var angObj = angObj || {};
                     id: 2,
                     name: 'Brand',
                     active: false
-                }]
+                }];
                 $scope.adData.goal = 'Performance'; //default value
             },
 
@@ -543,7 +535,6 @@ var angObj = angObj || {};
                         {id: 3, name: 'Viewable Impressions', disabled:true},
                         {id: 4, name: 'Clicks', disabled:false},
                         {id: 5, name: 'Actions', disabled:false}
-
                     ]
                 }, {
                     kpi_category: 'PERFORMANCE',
@@ -561,28 +552,27 @@ var angObj = angObj || {};
                     id: 2,
                     name: 'Video',
                     active: false
-                }, {id: 3, name: 'Rich Media', active: false}, {id: 4, name: 'Social', active: false}]
+                }, {id: 3, name: 'Rich Media', active: false}, {id: 4, name: 'Social', active: false}];
                 $scope.adData.adFormat = 'Display'; //default value
             },
 
             fetchScreenType: function () {
-                if ($scope.mode != 'edit') {
+                if ($scope.mode !== 'edit') {
                     $scope.workflowData['screenTypes'] = [{id: 1, name: 'Desktop', active: true}, {
                         id: 2,
                         name: 'Mobile',
                         active: false
-                    }, {id: 3, name: 'Tablet', active: false}]
-                    $scope.adData.screenTypes = [{id: 1, name: 'Desktop', active: true}] //default value
+                    }, {id: 3, name: 'Tablet', active: false}];
+                    $scope.adData.screenTypes = [{id: 1, name: 'Desktop', active: true}]; //default value
                 }
                 else {
                     $scope.workflowData['screenTypes'] = [{id: 1, name: 'Desktop', active: false}, {
                         id: 2,
                         name: 'Mobile',
                         active: false
-                    }, {id: 3, name: 'Tablet', active: false}]
-                    $scope.adData.screenTypes = [] //default value
+                    }, {id: 3, name: 'Tablet', active: false}];
+                    $scope.adData.screenTypes = []; //default value
                 }
-
             },
 
             fetchUnitTypes: function () {
@@ -590,7 +580,6 @@ var angObj = angObj || {};
                     id: 3,
                     name: 'CPA'
                 }];
-
                 $scope.adData.unitType = $scope.workflowData['unitTypes'][0];
             },
 
@@ -598,8 +587,6 @@ var angObj = angObj || {};
                 if (window.location.href.indexOf("adGroup") > -1) {
                     postDataObj.adGroupId = $scope.adGroupId;
                 }//save adGroup Ad
-
-
                 if ($scope.adId) {
                     postDataObj['adId'] = $scope.adId;
                     postDataObj['updatedAt'] = $scope.updatedAt;
@@ -633,6 +620,7 @@ var angObj = angObj || {};
                     $rootScope.setErrAlertMessage($scope.textConstants.PARTIAL_AD_SAVE_FAILURE);
                 });
             },
+
             /*Function to get creatives for list view*/
             getTaggedCreatives: function (campaignId, adId) {
                 workflowService.getTaggedCreatives(campaignId, adId).then(function (result) {
@@ -648,7 +636,6 @@ var angObj = angObj || {};
                         campaignOverView.errorHandler(result);
                     }
                 }, campaignOverView.errorHandler);
-
             },
 
             errorHandler: function (errData) {
@@ -657,7 +644,7 @@ var angObj = angObj || {};
                 }
                 console.log(errData);
             }
-        }
+        };
 
         $scope.utc = function (date) {
             //return moment(date).utc().valueOf();
@@ -673,7 +660,7 @@ var angObj = angObj || {};
 
         $scope.screenTypeSelection = function (screenTypeObj) {
             var screenTypeFound = _.filter($scope.adData.screenTypes, function (obj) {
-                return obj.name === screenTypeObj.name
+                return obj.name === screenTypeObj.name;
             });
             var idx;
             if (screenTypeFound.length > 0) {
@@ -685,13 +672,13 @@ var angObj = angObj || {};
             } else {
                 $scope.adData.screenTypes.push(screenTypeObj);
             }
-        }
+        };
 
         $scope.adFormatSelection = function (adformatName) {
             var adFormatsData = $scope.workflowData['adFormats'];
             _.each(adFormatsData, function (obj) {
                 obj.name === adformatName ? obj.active = true : obj.active = false;
-            })
+            });
             var vedioKpiObj = {id: 4, name: 'View to Completion'};
             $scope.adData.primaryKpi = '';
             if($scope.adData.adFormat === 'Video') {
@@ -708,17 +695,16 @@ var angObj = angObj || {};
             var goalData = $scope.workflowData['goals'];
             _.each(goalData, function (obj) {
                 obj.name === goal ? obj.active = true : obj.active = false;
-            })
+            });
         };
 
         $scope.toggleBtn = function (event) {
             var target = $(event.target);
-            var parentElem = target.parents('.miniToggle')
+            var parentElem = target.parents('.miniToggle');
             parentElem.find("label").removeClass('active');
             target.parent().addClass('active');
             target.attr("checked", "checked");
         };
-
 
         // Switch BTN Animation
         $('.btn-toggle').click(function () {
@@ -732,7 +718,6 @@ var angObj = angObj || {};
             }
             $(this).find('.btn').toggleClass('btn-default');
         });
-
 
         // Create AD Tab Animation
         $(".masterContainer").on('shown.bs.tab', '.leftNavLink', function (e) {
@@ -815,7 +800,7 @@ var angObj = angObj || {};
                 }
             });
 
-        }
+        };
 
         $scope.CampaignADsave = function (isDownloadTrackerClicked) {//console.log("ejwdewd",$scope.dayPartData);
             var formElem = $("#formAdCreate");
@@ -849,11 +834,15 @@ var angObj = angObj || {};
                 if (formData.goal)
                     postAdDataObj.goal = formData.goal;
 
-                if (formData.startTime)
-                    postAdDataObj.startTime = utils.convertToUTC(formData.startTime, 'ST');
+                if (formData.startTime) {
+                    //postAdDataObj.startTime = utils.convertToUTC(formData.startTime, 'ST');
+                    postAdDataObj.startTime = momentService.getTimezoneMoment(formData.startTime).startOf('day').format();
+                }
 
-                if (formData.endTime)
-                    postAdDataObj.endTime = utils.convertToUTC(formData.endTime, 'ET');
+                if (formData.endTime) {
+                    //postAdDataObj.endTime = utils.convertToUTC(formData.endTime, 'ET');
+                    postAdDataObj.startTime = momentService.getTimezoneMoment(formData.startTime).endOf('day').format();
+                }
 
                 if ((!formData.startTime || !formData.endTime || !postAdDataObj.screens || !formData.adFormat || !formData.goal) && $scope.mode == 'edit' && $scope.isAdsPushed == true) {
                     $rootScope.setErrAlertMessage("Mandatory fields need to be specified for the Ad");
@@ -871,7 +860,7 @@ var angObj = angObj || {};
                     }
 
                     if (formData.budgetType && formData.budgetAmount) {
-                        postAdDataObj.budgetType = formData.budgetType
+                        postAdDataObj.budgetType = formData.budgetType;
                         postAdDataObj.budgetValue = Number(formData.budgetAmount);
                     }
 
@@ -888,21 +877,18 @@ var angObj = angObj || {};
                                 obj['sizeId'] = obj.size.id;
                             });
                         postAdDataObj['creatives'] = _.pluck(creativesData.creatives, 'id');
-
                     }
+
                     if (!$scope.TrackingIntegrationsSelected) {
                         postAdDataObj['targets'] = {};
                         if ($scope.adData.geoTargetingData) {
-                            var postGeoTargetObj = postAdDataObj['targets']['geoTargets'] = {}
-
-
+                            var postGeoTargetObj = postAdDataObj['targets']['geoTargets'] = {};
                             var buildGeoTargetingParams = function (data, type) {
                                 var obj = {};
                                 obj['isIncluded'] = _.uniq(_.pluck(data, type + 'Included'))[0];
                                 obj['geoTargetList'] = _.pluck(data, 'id');
                                 return obj;
-                            }
-
+                            };
                             var geoTargetData = $scope.adData.geoTargetingData;
                             if (geoTargetData.regions.length > 0) {
                                 postGeoTargetObj['REGION'] = buildGeoTargetingParams(geoTargetData.regions, 'regions');
@@ -933,18 +919,16 @@ var angObj = angObj || {};
                                             }
                                         })
                                     }
-                                })
+                                });
                                 postGeoTargetObj['ZIPCODE'] = {
                                     "isIncluded": true,
                                     "geoTargetList": zipPostArr
-
-                                }
+                                };
                             }
                         }
 
                         // audience segment
                         var selectedAudience = audienceService.getSelectedAudience();
-
                         if (selectedAudience) {
                             var segmentObj = postAdDataObj['targets']['segmentTargets'] = {};
                             segmentObj['segmentList'] = [];
@@ -955,14 +939,13 @@ var angObj = angObj || {};
                                 segmentObj['segmentList'][i].isIncluded = selectedAudience[i].isIncluded;
                             }
                             segmentObj.operation = audienceService.getAndOr().toUpperCase();
-
                         }
+
                         //DayPart Segment
                         var dayPart = audienceService.getDayPartdata();
                         if (dayPart) {
                             postAdDataObj['targets']['adDaypartTargets'] = dayPart;
                         }
-
                     }
 
                     if ($scope.adData.inventory && !$scope.TrackingIntegrationsSelected) {
@@ -971,6 +954,7 @@ var angObj = angObj || {};
                         postAdDataObj['domainInherit'] = 'APPEND';
                         postAdDataObj['domainAction'] = $scope.adData.inventory.domainAction;
                     }
+
                     if (!$scope.TrackingIntegrationsSelected) {
                         if (!$.isEmptyObject($scope.postPlatformDataObj)) {
                             postAdDataObj['adPlatformCustomInputs'] = $scope.postPlatformDataObj;
@@ -979,7 +963,7 @@ var angObj = angObj || {};
                     campaignOverView.saveAds(postAdDataObj, isDownloadTrackerClicked)
                 }
             }
-        }
+        };
 
         $scope.saveCustomeFieldForPlatform = function (editModeFlag) {
             var customFieldErrorElem = $(".customFieldErrorMsg");
@@ -1004,27 +988,28 @@ var angObj = angObj || {};
                 $scope.triggerTargetting();
 
             $scope.switchPlatform()
-
         };
+
         $scope.triggerbudgetTab = function(){
             angular.element('.budget-tab-link').trigger('click');
-        }
+        };
 
         $scope.triggerPlatformTab = function(){
             angular.element('.buying-platform-tab-link').trigger('click');
-        }
+        };
 
         $scope.triggerTargetting = function(){
             //$('.targetting-tab-link').trigger('click');
             angular.element('.targetting-tab-link').trigger('click');
-        }
+        };
+
         $scope.triggerInventory = function(){
             angular.element('.inventory-tab-link').trigger('click');
-        }
+        };
+
         $scope.trigerCreativeTag = function(){
             angular.element('.creative-tab-link').trigger('click');
-        }
-
+        };
 
         $scope.isPlatformSelected = false;
 
@@ -1033,7 +1018,7 @@ var angObj = angObj || {};
         };
 
         $scope.showPopup = function () {
-            $scope.creativeListLoading = false
+            $scope.creativeListLoading = false;
             $scope.creativesLibraryData['creativesData'] = [];
             if ($scope.selectedArr.length > 0) {
                 $scope.unchecking = true;
@@ -1045,7 +1030,7 @@ var angObj = angObj || {};
 
         $scope.removeCreativeTags = function (clickedTagData, actionFrom) {
             var selectedCreativeTag = _.filter($scope.selectedArr, function (obj) {
-                return obj.id === clickedTagData.id
+                return obj.id === clickedTagData.id;
             });
             $("#" + clickedTagData.id).removeAttr("checked");
             if (selectedCreativeTag.length > 0 && selectedCreativeTag)
@@ -1058,13 +1043,13 @@ var angObj = angObj || {};
         $scope.getSelectedAudience = function(){
             $scope.selectedAudience = audienceService.getSelectedAudience();
             return ($scope.selectedAudience)?$scope.selectedAudience.length:0;
-        }
+        };
 
         $scope.getSelectedDays = function(){
             $scope.selectedDayParts['selected'] = audienceService.getDayTimeSelectedObj();
             $scope.selectedDayParts['data'] = audienceService.getDaytimeObj();
             return ($scope.selectedDayParts['data'])?$scope.selectedDayParts['data'].length:0;
-        }
+        };
 
         $scope.budgetErrorObj = {};
 
@@ -1121,7 +1106,7 @@ var angObj = angObj || {};
 
                 }
             }
-        }
+        };
 
         $scope.$watch('adData.budgetType', function(newValue, oldValue) {
             if(newValue !== oldValue) {
@@ -1129,8 +1114,7 @@ var angObj = angObj || {};
                 $scope.budgetErrorObj.mediaCostValidator = false;
             }
             $scope.adBudgetValidator();
-        })
-
+        });
     });
 
     angObj.controller('CreativeTagController', function ($scope, $window, $routeParams, constants, workflowService, $timeout, utils, $location) {
@@ -1153,7 +1137,7 @@ var angObj = angObj || {};
             $scope.changeStatus();
             $scope.updateCreativeData($scope.selectedArr);
 
-        })
+        });
 
         $scope.$on('updateCreativeTags', function () {
             if ($scope.mode === 'edit') {
@@ -1165,7 +1149,7 @@ var angObj = angObj || {};
                 $scope.changeStatus();
                 $scope.updateCreativeData($scope.selectedArr);
             }
-        })
+        });
 
         var addFromLibrary = {
             modifyCreativesData: function (respData) {
@@ -1201,17 +1185,11 @@ var angObj = angObj || {};
                                     return item.id == obj.id
                                 });
                                 $scope.creativesLibraryData['creativesData'][idx]['checked'] = true;
-
-
                             })
                         }
-
-
-                    }
-                    else {
+                    } else {
                         addFromLibrary.errorHandler(result);
                         $scope.loadingFlag = false;
-
                     }
                 }, addFromLibrary.errorHandler);
             },
@@ -1226,12 +1204,12 @@ var angObj = angObj || {};
             var advertiserId = $scope.workflowData['campaignData'].advertiserId;
             var searchVal = $scope.adData.creativeSearch;
             var qryStr = '';
-            var formats = 'VIDEO,DISPLAY'
+            var formats = 'VIDEO,DISPLAY';
             if (searchVal.length > 0) {
                 qryStr += '&query=' + searchVal;
             }
             addFromLibrary.getCreativesFromLibrary(campaignId, advertiserId, formats, qryStr);
-        }
+        };
 
         $scope.$on('showCreativeLibrary', function () {
             var campaignId = $scope.workflowData['campaignData'].clientId;
@@ -1239,7 +1217,7 @@ var angObj = angObj || {};
             $scope.showHidePopup = true;
             $scope.creativeListLoading = true;
             addFromLibrary.getCreativesFromLibrary(campaignId, advertiserId, $scope.adData.adFormat.toUpperCase());
-        })
+        });
 
         $scope.saveCreativeTags = function () {
             $scope.showHidePopup = false;
@@ -1280,16 +1258,15 @@ var angObj = angObj || {};
             _.each($scope.selectedArr, function (obj) {
                 obj['checked'] = obj['userSelectedEvent'];
             })
-        }
+        };
 
         $scope.updateCreativeData = function (data) {
             $scope.creativeData['creativeInfo'] = {'creatives': data.slice()};
             $scope.setSizes($scope.creativeData['creativeInfo']);// set sizes on side bar.
         };
 
-
         $scope.setSizes = function (selectedcreatives) {
-            var creativeSizeArrC = []
+            var creativeSizeArrC = [];
             if (typeof selectedcreatives.creatives != 'undefined') {
                 if (selectedcreatives.creatives.length == 1) {
                     $scope.sizeString = selectedcreatives.creatives[0].size.size;
@@ -1337,11 +1314,11 @@ var angObj = angObj || {};
             if (selectedcreatives.creatives.length == 0)
                 $scope.sizeString = constants.WF_NOT_SET;
             $scope.adData.setSizes = $scope.sizeString;
-        }
+        };
 
         $scope.$on('removeCreativeTags', function ($event, arg) {
             //$scope.xyz=$scope.selectedArr;
-            var selectedCreativeTag = arg[0]
+            var selectedCreativeTag = arg[0];
             var actionFrom = arg[1];
             if (selectedCreativeTag.length > 0) {
 
@@ -1361,10 +1338,9 @@ var angObj = angObj || {};
             }
 
             /*Enable save button of popup library if elements exists*/
-        })
+        });
 
         $scope.stateChanged = function ($event, screenTypeObj) {
-
             var checkbox = $event.target;
             screenTypeObj.userSelectedEvent = checkbox.checked; // temporary user old selected status before cancel
             //screenTypeObj['checked'] = checkbox.checked;
@@ -1394,25 +1370,24 @@ var angObj = angObj || {};
 
     angObj.controller('BudgetDeliveryController', function ($scope, $window, $routeParams, constants, workflowService, $timeout, utils, $location, $filter, momentService) {
         $scope.checkForPastDate = function (startDate, endDate) {
-            var endDate;// = moment(endDate).format("MM/DD/YYYY");
-            endDate = momentService.getTimezoneMoment(endDate).format(constants.DATE_US_FORMAT);
-            return momentService.getTimezoneMoment().isAfter(endDate, 'day');
+            //var endDate = moment(endDate).format("MM/DD/YYYY");
+            endDate = momentService.getTimezoneMoment(endDate).endOf('day').format(constants.DATE_US_FORMAT);
+            return momentService.getTimezoneMoment().endOf('day').isAfter(endDate, 'day');
             //return moment().isAfter(endDate, 'day')
         };
 
         $scope.handleEndFlightDate = function (data) {
             var endDateElem = $('#endDateInput');
             var startDateElem = $('#startDateInput');
-
             var startDate = data.startTime;
             var endDate = data.endTime;
             var adsDate = JSON.parse(localStorage.getItem('adsDates'));
             if (!endDate && adsDate) { // if End Date is in Past
-                var changeDate = endDate = adsDate.adEndDate;
-                $scope.adData.endTime = changeDate;
+                endDate = adsDate.adEndDate;
+                $scope.adData.endTime = endDate;
                 //if (moment().isAfter(endDate)) {
-                if (momentService.getTimezoneMoment().isAfter(endDate)) {
-                    startDate = momentService.getTimezoneMoment().format(constants.DATE_US_FORMAT);
+                if (momentService.getTimezoneMoment().endOf('day').isAfter(endDate, 'day')) {
+                    startDate = momentService.getTimezoneMoment().endOf('day').subtract(1, 'days').format(constants.DATE_US_FORMAT);
                     endDateElem.datepicker("setStartDate", startDate);
                     //endDateElem.datepicker("setStartDate", moment().format("MM/DD/YYYY"));
                 }
@@ -1422,29 +1397,29 @@ var angObj = angObj || {};
         $scope.handleStartFlightDate = function (data) {
             var endDateElem = $('#endDateInput');
             var startDateElem = $('#startDateInput');
+            console.log('handleStartFlightDate', data)
 
             var startDate = data.startTime;
             var endDate = data.endTime;
-            console.log('data.start date = ', data.startTime);
-            console.log('data.end date = ', data.endTime);
             var campaignEndTime;// = utils.convertToEST($scope.workflowData['campaignData'].endTime, "MM/DD/YYYY");
             var changeDate;
-            campaignEndTime = momentService.getTimezoneMoment($scope.workflowData['campaignData'].endTime)
+            campaignEndTime = momentService.getTimezoneMoment($scope.workflowData['campaignData'].endTime).endOf('day')
                 .format(constants.DATE_US_FORMAT);
             if ($scope.mode !== 'edit') {
                 endDateElem.attr("disabled", "disabled").css({'background': '#eee'});
                 if (startDate) {
                     endDateElem.removeAttr("disabled").css({'background': 'transparent'});
-                    changeDate;// = moment(startDate).format('MM/DD/YYYY')
-                    changeDate = momentService.getTimezoneMoment(startDate).format(constants.DATE_US_FORMAT);
+                    //changeDate = moment(startDate).format('MM/DD/YYYY')
+                    changeDate = momentService.getTimezoneMoment(startDate)
+                        .endOf('day')
+                        .add(1, 'days')
+                        .format(constants.DATE_US_FORMAT);
                     endDateElem.datepicker("setStartDate", changeDate);
-                    console.log('Start date gets assigned here ===>', startDate)
-                    console.log('Start date gets assigned here, this is the changedate ===>', changeDate)
 
                     if (window.location.href.indexOf("adGroup") > -1) {
                         //endDateElem.datepicker("setEndDate", utils.convertToEST(localStorage.getItem("edTime"), 'MM/DD/YYYY'));
                         endDateElem.datepicker("setEndDate",
-                            momentService.getTimezoneMoment(localStorage.getItem("edTime")).format(constants.DATE_US_FORMAT));
+                            momentService.getTimezoneMoment(localStorage.getItem("edTime")).endOf('day').format(constants.DATE_US_FORMAT));
                     } else {
                         endDateElem.datepicker("setEndDate", campaignEndTime);
                     }
@@ -1459,8 +1434,8 @@ var angObj = angObj || {};
                     $scope.adData.startTime = changeDate;
                     if (momentService.getTimezoneMoment().isAfter(endDate, 'day')) {
                         //endDateElem.datepicker("setStartDate", moment().format("MM/DD/YYYY"));
-                        endDateElem.datepicker("setStartDate",
-                            momentService.getTimezoneMoment().format(constants.DATE_US_FORMAT));
+                        endDateElem.datepicker("setStartDate", momentService.getTimezoneMoment().endOf('day')
+                            .format(constants.DATE_US_FORMAT));
                     }
                 } else {
                     endDateElem.datepicker("setStartDate", changeDate);
@@ -1506,25 +1481,24 @@ var angObj = angObj || {};
             var startDateElem = $('#startDateInput');
             var endDateElem = $('#endDateInput');
             var campaignData = $scope.workflowData['campaignData'];
+            console.log('campaignData ', campaignData)
             var campaignStartTime;// = utils.convertToEST(campaignData.startTime, "MM/DD/YYYY");
             var campaignEndTime;// = utils.convertToEST(campaignData.endTime, "MM/DD/YYYY");
-            campaignStartTime = momentService.getTimezoneMoment(campaignData.startTime)
+            campaignStartTime = momentService.getTimezoneMoment(campaignData.startTime).startOf('day')
                 .format(constants.DATE_US_FORMAT);
-            campaignEndTime = momentService.getTimezoneMoment(campaignData.endTime)
+            campaignEndTime = momentService.getTimezoneMoment(campaignData.endTime).endOf('day')
                 .format(constants.DATE_US_FORMAT);
-            console.log(campaignStartTime, ' Campaign start time');
-            console.log(campaignEndTime, ' Campaign end time');
             if (momentService.getTimezoneMoment().isAfter(campaignStartTime, 'day')) {
                 //campaignStartTime = moment().format('MM/DD/YYYY');
-                campaignStartTime = momentService.getTimezoneMoment().format(constants.DATE_US_FORMAT);
+                campaignStartTime = momentService.getTimezoneMoment().startOf('day').format(constants.DATE_US_FORMAT);
             }
             $scope.mode == 'edit' && endDateElem.removeAttr("disabled").css({'background': 'transparent'});
             if (window.location.href.indexOf("adGroup") > -1) {
                 var adGroupStartDate;// = utils.convertToEST(localStorage.getItem("stTime"), 'MM/DD/YYYY');
                 var adGroupEndDate;// = utils.convertToEST(localStorage.getItem("edTime"), 'MM/DD/YYYY');
-                adGroupStartDate = momentService.getTimezoneMoment(localStorage.getItem("stTime"))
+                adGroupStartDate = momentService.getTimezoneMoment(localStorage.getItem("stTime")).startOf('day')
                     .format(constants.DATE_US_FORMAT);
-                adGroupEndDate = momentService.getTimezoneMoment(localStorage.getItem("edTime"))
+                adGroupEndDate = momentService.getTimezoneMoment(localStorage.getItem("edTime")).endOf('day')
                     .format(constants.DATE_US_FORMAT);
                 startDateElem.datepicker("setStartDate", adGroupStartDate);
                 startDateElem.datepicker("setEndDate", adGroupEndDate);
@@ -1544,12 +1518,9 @@ var angObj = angObj || {};
                 }
             }
         };
-
-
     });
 
     angObj.controller('InventoryFiltersController', function ($scope, $window, $routeParams, constants, workflowService, Upload, $timeout, utils, $location) {
-
         $scope.prarentHandler = function (clientId, clientName, advertiserId, advertiserName) {
             $scope.clientId = clientId;
             $scope.advertiserId = advertiserId;
@@ -1558,8 +1529,8 @@ var angObj = angObj || {};
 
         $scope.showDomainListPopup = false;
 
-
         $scope.inventoryAdsData = {};
+
         $scope.adData.inventoryName = '';
 
         var InventoryFiltersView = {
@@ -1570,15 +1541,15 @@ var angObj = angObj || {};
                         $scope.$broadcast('updateInventory');
                     }
                 });
-            },
-        }
+            }
+        };
 
         $scope.$on('updateInventory', function () {
             var responseData = workflowService.getAdsDetails();
             if (responseData.targets && responseData.targets.domainTargets && responseData.targets.domainTargets.inheritedList.ADVERTISER) {
                 $scope.adData.inventory = $scope.workflowData['inventoryData'][0];
             }
-        })
+        });
 
         $scope.selectFiles = function (files) {
             if (files != null && files.length > 0) {
@@ -1590,7 +1561,7 @@ var angObj = angObj || {};
                     $scope.adData.inventory.domainAction = 'INCLUDE';
                 }
             }
-        }
+        };
 
         $scope.uploadDomain = function () {
             var domainId = $scope.adData.inventory && $scope.adData.inventory.id || null;
@@ -1617,7 +1588,7 @@ var angObj = angObj || {};
                                 if (obj.id === response.data.id) {
                                     inventoryData[idx] = response.data;
                                 }
-                            })
+                            });
                             $scope.workflowData['inventoryData'] = inventoryData;
                             $scope.adData.inventory = response.data;
                             $scope.domainUploadInProgress = false;
@@ -1627,6 +1598,7 @@ var angObj = angObj || {};
                 }
             }
         };
+
         $scope.sort = function () {
             $scope.sortDomain = !$scope.sortDomain;
             if ($(".common-sort-icon").hasClass('ascending')) {
@@ -1637,17 +1609,11 @@ var angObj = angObj || {};
                 $(".common-sort-icon").removeClass('descending');
                 $(".common-sort-icon").addClass('ascending');
             }
-
-
-        }
+        };
 
 
         $scope.closeDomainListPop = function () {
             $scope.showDomainListPopup = false;
         }
-
-
-
     });
-
 })();
