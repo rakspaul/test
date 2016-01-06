@@ -671,6 +671,10 @@ var angObj = angObj || {};
                 if (text.length > 14)
                     $(this).val(text).text(text.substr(0, 20) + '…')
             });
+            // DDL ChkBox Prevent Default
+            $('.dropdown-menu.multiSelectDDL').find('input').click(function (e) {
+                e.stopPropagation();
+            });
             $scope.textConstants = constants;
             $scope.workflowData = {};
             $scope.selectedCampaign = {};

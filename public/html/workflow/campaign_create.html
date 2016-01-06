@@ -234,7 +234,7 @@
 												<span class="text">Select all that apply</span>
 												<span class="icon-arrow-down"></span>
 											</button>
-											<ul class="dropdown-menu " aria-labelledby="campObj"  id="campObj">
+											<ul class="dropdown-menu multiSelectDDL" aria-labelledby="campObj"  id="campObj">
 												<li class="headerDDL"><span class="icon-brand"></span><span class="greyTxt" style="padding-left: 7px !important;">BRANDING</span></li>
 													<li ng-repeat="brand in workflowData.branding"><span><input type="checkbox" name="checkbox" value="brand.campaignObjectiveTypeId" ng-click="selectedObjective(brand)" ng-checked="brand.isChecked">{{brand.subObjective}}</span></li>
 												<li class="headerDDL"><span class="icon-performance"></span><span class="greyTxt" style="padding-left: 7px !important;">PERFORMANCE</span></li>
@@ -356,6 +356,10 @@
 					</div>
 <!--PAGE2-->
 					<div class="tab-pane fade" id="budget">
+                                                <h3 class="col-md-6 adName" tooltip="{{adData.adName}}">
+                                                    {{selectedCampaign.campaignName.length>0 ? (selectedCampaign.campaignName | textEllipsis: 40 ) :textConstants.WF_UNTITLED_MEDIA}}
+                                                </h3>
+                                                
 						<!--==== Row 1 ====-->
 						<div class="col-md-12 zeroPadding">
 							<label for="nameTitleCampaign" class="col-sm-12 labelQuestTxt" style="margin-bottom: 5px;">Display - Set up how you want to Budget and Measure</label>
@@ -668,9 +672,12 @@
                     </div>
 					
 					<div class="tab-pane fade" id="contacts">
-						<div class="col-md-12 zeroPadding">
-							<label for="nameTitleCampaign" class="col-sm-12 labelQuestTxt" style="margin-bottom: 5px;">Contacts - Coming Soon</label>
-						</div>
+                                            <h3 class="col-md-6 adName" tooltip="{{adData.adName}}">
+                                                {{selectedCampaign.campaignName.length>0 ? (selectedCampaign.campaignName | textEllipsis: 40 ) :textConstants.WF_UNTITLED_MEDIA}}
+                                            </h3>
+                                            <div class="col-md-12 zeroPadding">
+                                                    <label for="nameTitleCampaign" class="col-sm-12 labelQuestTxt" style="margin-bottom: 5px;">Contacts - Coming Soon</label>
+                                            </div>
 					</div>
 				</div>
                 </form>
