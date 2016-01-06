@@ -182,8 +182,10 @@
 
                 }
 
-                if(inputList.displayName == 'Min. Bid') {
-                    var maxBidElem = field.parents('.form-group').find('.form-group-section')[1];
+                if(inputList.displayName == 'Min. Bid' || inputList.displayName === 'Min.') {
+                    //console.log("elem", field.parents('.form-group').find('.form-group-section')[0]);
+                    var maxBidElem = field.parent().next();
+                    console.log("maxBidElem", maxBidElem);
                     var maxBidElemValue = $(maxBidElem).find('input').val();
                     if(value > maxBidElemValue) {
                         field.after('<div class="customFieldErrorMsg">Min Bid value should be less than Max Bid value</div>');
@@ -191,8 +193,8 @@
                     return false;
                 }
 
-                if(inputList.displayName == 'Max. Bid') {
-                    var minBidElem = field.parents('.form-group').find('.form-group-section')[0];
+                if(inputList.displayName == 'Max. Bid' || inputList.displayName === 'Max.') {
+                    var minBidElem = field.parent().prev();
                     var minBidElemValue = $(minBidElem).find('input').val();
                     if(minBidElemValue > value) {
                         field.after('<div class="customFieldErrorMsg">Max value should be greater than Max Bid value</div>');
