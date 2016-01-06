@@ -332,23 +332,23 @@
 							<div class="col-md-12 spacingInput"><!-- SPACING --></div>
 	
 							<!--==== Row 5 total Budget====-->
-							<div class="col-md-12 zeroPadding" style="display: none;">
-								<label for="nameTitleCampaign" class="col-sm-12 labelQuestTxt">How much do you want to spend?</label>
-								<div ng-if=(mode=='edit') class="form-group col-sm-3 zeroPadding dollar_value" show-errors='{showSuccess: true}'>
-									<label for="inputBudget" class="col-sm-12  greyTxt miniLabels">Total Budget</label>
-									<span class="currency">{{ textConstants.DOLLAR }}</span>
-									<input placeholder="Enter Whole Dollar Amount" type="number" class="form-control col-md-12" ng-model="editCampaignData.bookedRevenue"  whole-number-only="whole-number-only" id="inputBudget" ng-value="editCampaignData.bookedRevenue" name="budget" required ng-change="numbersOnly('budgetAmount')"/>
-									<!--<input placeholder="Enter Whole Dollar Amount" type="number" class="form-control col-md-12" ng-model="editCampaignData.bookedRevenue"  whole-number-only="whole-number-only" id="inputBudget" ng-value="editCampaignData.bookedRevenue" min="{{editCampaignData.minimumBudget}}" name="budget" required ng-change="numbersOnly('budgetAmount')"/>-->
-									<label ng-if="createCampaignForm.budget.$error.required" class="col-sm-12  greyTxt errorLabel">You must enter whole dollar amount.</label>
-									<!--<label ng-if="createCampaignForm.budget.$error.min" class="col-sm-12  greyTxt errorLabel">Budget must be greater than {{editCampaignData.minimumBudget}}</label>-->
-								</div>
-								<div ng-if=(mode!='edit') class="form-group col-sm-3 zeroPadding dollar_value" show-errors='{showSuccess: true}'>
-									<label for="inputBudget" class="col-sm-12  greyTxt miniLabels">Total Budget</label>
-									<span class="currency">{{ textConstants.DOLLAR }}</span>
-									<input placeholder="Enter Whole Dollar Amount" type="text" class="form-control col-md-12" ng-model="selectedCampaign.budget"  whole-number-only="whole-number-only" id="inputBudget" name="budget" required ng-change="numbersOnly('budgetAmount')"/>
-									<label ng-if="createCampaignForm.budget.$error.required" class="col-sm-12  greyTxt errorLabel">You must enter whole dollar amount.</label>
-								</div>
-							</div>
+							<!--<div class="col-md-12 zeroPadding" style="display: none;">-->
+								<!--<label for="nameTitleCampaign" class="col-sm-12 labelQuestTxt">How much do you want to spend?</label>-->
+								<!--<div ng-if=(mode=='edit') class="form-group col-sm-3 zeroPadding dollar_value" show-errors='{showSuccess: true}'>-->
+									<!--<label for="inputBudget" class="col-sm-12  greyTxt miniLabels">Total Budget</label>-->
+									<!--<span class="currency">{{ textConstants.DOLLAR }}</span>-->
+									<!--<input placeholder="Enter Whole Dollar Amount" type="number" class="form-control col-md-12" ng-model="editCampaignData.bookedRevenue"  whole-number-only="whole-number-only" id="inputBudget" ng-value="editCampaignData.bookedRevenue" name="budget" required ng-change="numbersOnly('budgetAmount')"/>-->
+									<!--&lt;!&ndash;<input placeholder="Enter Whole Dollar Amount" type="number" class="form-control col-md-12" ng-model="editCampaignData.bookedRevenue"  whole-number-only="whole-number-only" id="inputBudget" ng-value="editCampaignData.bookedRevenue" min="{{editCampaignData.minimumBudget}}" name="budget" required ng-change="numbersOnly('budgetAmount')"/>&ndash;&gt;-->
+									<!--<label ng-if="createCampaignForm.budget.$error.required" class="col-sm-12  greyTxt errorLabel">You must enter whole dollar amount.</label>-->
+									<!--&lt;!&ndash;<label ng-if="createCampaignForm.budget.$error.min" class="col-sm-12  greyTxt errorLabel">Budget must be greater than {{editCampaignData.minimumBudget}}</label>&ndash;&gt;-->
+								<!--</div>-->
+								<!--<div ng-if=(mode!='edit') class="form-group col-sm-3 zeroPadding dollar_value" show-errors='{showSuccess: true}'>-->
+									<!--<label for="inputBudget" class="col-sm-12  greyTxt miniLabels">Total Budget</label>-->
+									<!--<span class="currency">{{ textConstants.DOLLAR }}</span>-->
+									<!--<input placeholder="Enter Whole Dollar Amount" type="text" class="form-control col-md-12" ng-model="selectedCampaign.budget"  whole-number-only="whole-number-only" id="inputBudget" name="budget" required ng-change="numbersOnly('budgetAmount')"/>-->
+									<!--<label ng-if="createCampaignForm.budget.$error.required" class="col-sm-12  greyTxt errorLabel">You must enter whole dollar amount.</label>-->
+								<!--</div>-->
+							<!--</div>-->
 							<!--=== Next Step Panel ===-->
 							<a href="#budget" data-toggle="tab" role="tab" class="nextWrapper leftNavLink budget">
 								<span class="btn btn-default">Save & Continue</span>
@@ -364,7 +364,7 @@
 						<div class="col-md-12 zeroPadding">
 							<label for="nameTitleCampaign" class="col-sm-12 labelQuestTxt" style="margin-bottom: 5px;">Display - Set up how you want to Budget and Measure</label>
 							<div class="col-md-12 zeroPadding marginCal">
-								<div class="calTable" show-errors='{showSuccess: true}'>
+								<div class="calTable form-group" show-errors='{showSuccess: true}'>
 									<h3>Total Budget</h3>
                                     <div class="symbol-input">
                                         <span class="symbol">{{locale.NUMBER_FORMATS.CURRENCY_SYM}}</span>
@@ -438,7 +438,6 @@
 							<div class="col-md-12 zeroPadding" ng-repeat="kpiObj in Campaign.kpiArr track by $index">
 
 								<div class="col-md-3 zeroPadding kpiTable">
-
 									<div class="col-md-12 zeroPadding dropdown-workflow">
 										<div class="dropdown">
 											<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ng-bind="Campaign.kpiArr[$index]['kpiType']">
@@ -449,7 +448,8 @@
 													<a>{{kpi.name}}</a>
 												</li>
 											</ul>
-                                            <input type="hidden" name="kpi" ng-init="Campaign.kpiArr[$index]['kpiType']='Select from list';" ng-model="Campaign.kpiArr[$index]['kpiId']" ng-value="{{kpi.id}}" field="kpiId" index="{{$index}}" required hiddenkpi>
+                                            <input type="hidden" name="kpi"  ng-model="Campaign.kpiArr[$index]['kpiId']" ng-value="{{kpi.id}}" field="kpiId" index="{{$index}}" required hiddenkpi>
+                                            <!--<input type="hidden" name="kpi" ng-init="Campaign.kpiArr[$index]['kpiType']='Select from list';" ng-model="Campaign.kpiArr[$index]['kpiId']" ng-value="{{kpi.id}}" field="kpiId" index="{{$index}}" required hiddenkpi>-->
 										</div>
 									</div>
 								</div>
@@ -512,7 +512,8 @@
 										</label>
 									</div>
 								</div>
-								<span class="remove-row selectkpiObj">
+								<!--<span class="remove-row selectkpiObj">-->
+								<span class="remove-row ">
                                 	<span class="icon-clear" index="{{$index}}" clearkpirow></span>
                                 </span>
 
@@ -637,7 +638,8 @@
 
                                     <input type="text" class="col-md-12" ng-model="Campaign.costArr[$index]['description']" field="description" index="{{$index}}"/>
 								</div>
-								<span class="remove-row selectcostObj">
+								<span class="remove-row ">
+								<!--<span class="remove-row selectcostObj">-->
                                 	<span class="icon-clear" index="{{$index}}" clearcostrow></span>
 								</span>
 
