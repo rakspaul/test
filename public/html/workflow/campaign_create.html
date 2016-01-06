@@ -415,7 +415,7 @@
                                     </div>
 								</div>
 								<div class="calTable">
-									<h3>Effective CPM</h3>
+									<h3>Effective {{primaryType ? primaryType:'CPM'}}</h3>
                                     <div class="symbol-input">
                                        <span class="symbol">{{locale.NUMBER_FORMATS.CURRENCY_SYM}}</span>
 									   <input type="text" ng-model="Campaign.effectiveCPM" class="form-control col-sm-8" disabled/>
@@ -456,7 +456,7 @@
                                     <label for="primaryKPI" class="col-sm-12 greyTxt miniLabels">Select a KPI for billing</label>
 								</div>
 							</div>
-							<div class="col-md-12 zeroPadding" ng-repeat="kpiObj in Campaign.kpiArr track by $index">
+							<div class="col-md-12 zeroPadding" ng-repeat="kpiObj in Campaign.kpiArr track by $index" style="margin-bottom:10px;">
 
 								<div class="col-md-3 zeroPadding kpiTable">
 									<div class="col-md-12 zeroPadding dropdown-workflow">
@@ -534,8 +534,8 @@
 									</div>
 								</div>
 								<!--<span class="remove-row selectkpiObj">-->
-								<!--<span class="remove-row" ng-if="$index>0">-->
-                                <span class="remove-row">
+								<span class="remove-row" ng-if="$index>0">
+                                <!--<span class="remove-row">-->
                                 	<span class="icon-clear" index="{{$index}}" clearkpirow></span>
                                 </span>
 
@@ -577,7 +577,7 @@
                             </div>
                         </div>
 
-                            <div class="col-md-12 zeroPadding" ng-repeat="costObj in Campaign.costArr track by $index">
+                            <div class="col-md-12 zeroPadding" ng-repeat="costObj in Campaign.costArr track by $index" style="margin-bottom:10px;">
 								<div class="col-md-6 zeroPadding kpiTable" style="width: 340px;">
 
 									<div class="col-md-12 zeroPadding">
@@ -661,7 +661,7 @@
                                     <input type="text" class="col-md-12" ng-model="Campaign.costArr[$index]['description']" field="description" index="{{$index}}"/>
 								</div>
 								<!--<span class="remove-row ">-->
-								<span class="remove-row">
+								<span class="remove-row" ng-if="$index>0">
                                 	<span class="icon-clear" index="{{$index}}" clearcostrow></span>
 								</span>
 

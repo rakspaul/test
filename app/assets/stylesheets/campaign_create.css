@@ -211,6 +211,9 @@
   left: 40px ;
   margin: 0 5px 0 0;
 }
+#campaignCreate .firstWrapper .masterContainer .marginCal .calTable .symbol-input .symbol ~ input {
+    padding-left : 22px ;
+}
 #campaignCreate .firstWrapper .masterContainer .marginCal .calTable input {
   float: left;
   width: 60%;
@@ -3517,5 +3520,5 @@
   margin: 4px 0 0 5px;
 }
 .remove-row .icon-clear {
-  margin: 10px 0 20px 5px ;
+  margin: 10px 0 10px 5px ;
 }
