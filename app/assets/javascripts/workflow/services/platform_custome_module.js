@@ -160,16 +160,9 @@
             inputListHTML && inputListHTML.on('blur', function(){
                 var field =  $(this);
                 var value = field.val();
-
                 var maxValue = Number(field.attr("max"));
                 var minValue = Number(field.attr("min"));
-                //console.log("value", value);
-                //console.log("field", field);
-                //console.log("maxValue", maxValue);
-                //console.log("minValue", minValue);
-                field.next(".customFieldErrorMsg").remove();
-                //console.log("inputList.displayName", inputList.displayName);
-
+                $(".customFieldErrorMsg").remove();
                 if(value.length === 0){
                     field.after('<div class="customFieldErrorMsg">'+inputList.displayName+' is required</div>');
                     return false;
@@ -182,7 +175,6 @@
                     //console.log("blackPeriodsValue", blackPeriodsValue);
                     if (blackPeriodsValue === 'Days') {
                         maxValue = maxValue / 24;
-                        //console.log("maxValue", maxValue);
                     }
                 } else if(inputList.displayName === 'NA') {
                     blackoutPeriodElem = field.parents('.form-group').find('.form-group-section')[0];
@@ -190,6 +182,25 @@
 
                 }
 
+                if(inputList.displayName == 'Min. Bid' || inputList.displayName === 'Min.') {
+                    //console.log("elem", field.parents('.form-group').find('.form-group-section')[0]);
+                    var maxBidElem = field.parent().next();
+                    console.log("maxBidElem", maxBidElem);
+                    var maxBidElemValue = $(maxBidElem).find('input').val();
+                    if(value > maxBidElemValue) {
+                        field.after('<div class="customFieldErrorMsg">Min Bid value should be less than Max Bid value</div>');
+                    }
+                    return false;
+                }
+
+                if(inputList.displayName == 'Max. Bid' || inputList.displayName === 'Max.') {
+                    var minBidElem = field.parent().prev();
+                    var minBidElemValue = $(minBidElem).find('input').val();
+                    if(minBidElemValue > value) {
+                        field.after('<div class="customFieldErrorMsg">Max value should be greater than Max Bid value</div>');
+                    }
+                    return false;
+                }
 
                 if(inputList.displayName !== 'NA') {
                     if (value < minValue) {
