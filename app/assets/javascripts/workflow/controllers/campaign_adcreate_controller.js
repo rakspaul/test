@@ -2,7 +2,7 @@ var angObj = angObj || {};
 (function () {
     'use strict';
 
-    angObj.controller('CampaignAdsCreateController', function ($scope, $window, $routeParams, $locale, constants, workflowService, $timeout, utils, $location, campaignListService, requestCanceller, $filter, loginModel, $q, dataService, apiPaths, audienceService, RoleBasedService) {
+    angObj.controller('CampaignAdsCreateController', function ($scope, $rootScope, $window, $routeParams, $locale,  constants, workflowService, $timeout, utils, $location, campaignListService, requestCanceller, $filter, loginModel, $q, dataService, apiPaths, audienceService, RoleBasedService) {
         $(".main_navigation").find('.active').removeClass('active').end().find('#campaigns_nav_link').addClass('active');
         $(".bodyWrap").addClass('bodyWrapOverview');
         $("html").css('background', '#fff');
@@ -76,9 +76,6 @@ var angObj = angObj || {};
         $scope.adPause = false;
         $scope.adResume = false;
         $scope.changePlatformPopup = false;
-        $scope.archiveMessage = "Do you want to Archive / Delete the Ad?";
-        $scope.changePlatformMessage = "Your entries for the following settings are not compatible with [Platform Name]: [Settings list]. Would you like to clear these settings and switch platforms? (OK/Cancel).";
-        $scope.partialSaveAlertMessage = {'message': '', 'isErrorMsg': 0};
         $scope.preDeleteArr = [];
         $scope.TrackingIntegrationsSelected = false;
         $scope.preSelectArr = [];
@@ -94,30 +91,30 @@ var angObj = angObj || {};
         $scope.selectedAudience = [];
         $scope.selectedDayParts = [];
         $scope.adData.setSizes = constants.WF_NOT_SET;
+        $scope.dayPartTotal = 0;
 
         $scope.editCampaign = function (workflowcampaignData) {
             window.location.href = '/mediaplan/' + workflowcampaignData.id + '/edit';
 
         }
 
-        $scope.msgtimeoutReset = function () {
-            $timeout(function () {
-                $scope.resetPartialSaveAlertMessage();
-            }, 3000);
-        }
-
         $scope.convertEST = function (date, format) {
             return utils.convertToEST(date, format);
         }
 
+
+
+        //$scope.$on(constants.ACCOUNT_CHANGED, function() {
+        //    console.log("account changed");
+        //})
+
+
+
         $scope.archiveAd = function (event) {
             var errorAchiveAdHandler = function () {
                 $scope.adArchive = false;
-                $scope.partialSaveAlertMessage.message = $scope.textConstants.WF_AD_ARCHIVE_FAILURE;
-                $scope.partialSaveAlertMessage.isErrorMsg = 1;
-                $scope.partialSaveAlertMessage.isMsg = 0;
+                $rootScope.setErrAlertMessage();
             }
-
             workflowService.deleteAd($scope.campaignId, $scope.adId).then(function (result) {
                 if (result.status === "OK" || result.status === "success") {
                     $scope.adArchive = false;
@@ -135,9 +132,7 @@ var angObj = angObj || {};
         $scope.pauseAd = function () {
             var errorAchiveAdHandler = function () {
                 $scope.adArchive = false;
-                $scope.partialSaveAlertMessage.message = $scope.textConstants.WF_AD_PAUSE_FAILURE;
-                $scope.partialSaveAlertMessage.isErrorMsg = 1;
-                $scope.partialSaveAlertMessage.isMsg = 0;
+                $rootScope.setErrAlertMessage($scope.textConstants.WF_AD_PAUSE_FAILURE);
             }
             var pauseAdDataObj = {};
             pauseAdDataObj.name = $scope.getAd_result.name;
@@ -159,9 +154,7 @@ var angObj = angObj || {};
         $scope.resumeAd = function () {
             var errorAchiveAdHandler = function () {
                 $scope.adArchive = false;
-                $scope.partialSaveAlertMessage.message = $scope.textConstants.WF_AD_RESUME_FAILURE;
-                $scope.partialSaveAlertMessage.isErrorMsg = 1;
-                $scope.partialSaveAlertMessage.isMsg = 0;
+                $rootScope.setErrAlertMessage($scope.textConstants.WF_AD_RESUME_FAILURE);
             }
             var resumeAdDataObj = {};
             resumeAdDataObj.name = $scope.getAd_result.name;
@@ -201,15 +194,8 @@ var angObj = angObj || {};
             if ($scope.disable_resume != 'disabled')
                 $scope.adResume = !$scope.adResume;
         }
-        $scope.msgtimeoutReset();
-        $scope.close_msg_box = function (event) {
-            $scope.resetPartialSaveAlertMessage();
-        };
-
         $scope.resetPartialSaveAlertMessage = function () {
-            $scope.partialSaveAlertMessage.message = '';
-            $scope.partialSaveAlertMessage.isErrorMsg = 0;
-            $scope.partialSaveAlertMessage.isMsg = 0;
+              $rootScope.setErrAlertMessage("",0);
         }
 
         $scope.dropBoxItemSelected = function (item, type, event) {
@@ -352,8 +338,15 @@ var angObj = angObj || {};
             }
 
             //budget tab
-            if (responseData.budgetType) {
-                $scope.adData.budgetType = $scope.adData.budgetTypeLabel = $filter('toTitleCase')(responseData.budgetType);
+                if (responseData.budgetType) {
+                // $scope.adData.budgetType = $scope.adData.budgetTypeLabel = $filter('toTitleCase')(responseData.budgetType);
+                
+               if(responseData.budgetType.toLowerCase() === 'cost') {
+                    $scope.adData.budgetType = $filter('toTitleCase')(responseData.budgetType);
+                } else {
+                    $scope.adData.budgetTypeLabel = $filter('toTitleCase')(responseData.budgetType);
+                }
+                
                 if ($scope.adData.budgetType) {
                     var budgetElem = $(".budget_" + $scope.adData.budgetType.toLowerCase());
                 }
@@ -608,16 +601,14 @@ var angObj = angObj || {};
                 var promiseObj = $scope.adId ? workflowService.updateAd(postDataObj) : workflowService.createAd(postDataObj);
                 promiseObj.then(function (result) {
                     var responseData = result.data.data;
-                    if (result.status === "OK" || result.status === "success") {
+                   // console.log("responseData......",responseData);
+                    if(result.status === "OK" || result.status === "success") {
                         $scope.state = responseData.state;
                         $scope.adId = responseData.id;
                         $scope.updatedAt = responseData.updatedAt;
                         if (!isDownloadTrackerClicked) {
-                            $scope.partialSaveAlertMessage.message = $scope.textConstants.PARTIAL_AD_SAVE_SUCCESS;
-                            $scope.partialSaveAlertMessage.isErrorMsg = 0;
-                            $scope.partialSaveAlertMessage.isMsg = 1;
+                            $rootScope.setErrAlertMessage($scope.textConstants.PARTIAL_AD_SAVE_SUCCESS,0);
                             localStorage.setItem('adPlatformCustomInputs', JSON.stringify(responseData.adPlatformCustomInputs))
-                            $scope.msgtimeoutReset();
                             //if ($scope.state && $scope.state.toLowerCase() != 'incomplete') {
                             var url = '/mediaplan/' + result.data.data.campaignId + '/overview';
                             $location.url(url);
@@ -626,17 +617,12 @@ var angObj = angObj || {};
                         }
                     }
                     else {
-                        $scope.partialSaveAlertMessage.message = responseData.message;
-                        $scope.partialSaveAlertMessage.isErrorMsg = 1;
-                        $scope.partialSaveAlertMessage.isMsg = 1;
-                        $scope.msgtimeoutReset();
+                          $rootScope.setErrAlertMessage(responseData.message);
                     }
                 }, function (errorObj) {
                     console.log(errorObj);
-                    $scope.partialSaveAlertMessage.message = $scope.textConstants.PARTIAL_AD_SAVE_FAILURE;
-                    $scope.partialSaveAlertMessage.isErrorMsg = 1;
-                    $scope.partialSaveAlertMessage.isMsg = 1;
-                    $scope.msgtimeoutReset();
+                    $scope.abc =  pe.textConstants.PARTIAL_AD_SAVE_FAILURE;
+                    $rootScope.setErrAlertMessage($scope.textConstants.PARTIAL_AD_SAVE_FAILURE);
                 });
             },
             /*Function to get creatives for list view*/
@@ -827,20 +813,14 @@ var angObj = angObj || {};
             var formData = formElem.serializeArray();
             formData = _.object(_.pluck(formData, 'name'), _.pluck(formData, 'value'));//console.log(formData);
             if ((formData.budgetAmount && $scope.formAdCreate.budgetAmount.$error.mediaCostValidator) ||  ($scope.budgetErrorObj.mediaCostValidator || $scope.budgetErrorObj.availableRevenueValidator)) {
-                $scope.partialSaveAlertMessage.message = "Mandatory fields need to be specified for the Ad";
-                $scope.partialSaveAlertMessage.isErrorMsg = 1;
-                $scope.partialSaveAlertMessage.isMsg = 1;
-                $scope.msgtimeoutReset();
+                  $rootScope.setErrAlertMessage("Mandatory fields need to be specified for the Ad");
                 return false;
             }
 
             var customFieldErrorElem = $(".customFieldErrorMsg");
             if (customFieldErrorElem.length > 0) {
-                $scope.partialSaveAlertMessage.message = "Mandatory fields need to be specified for the Ad";
-                $scope.partialSaveAlertMessage.isErrorMsg = 1;
-                $scope.partialSaveAlertMessage.isMsg = 1;
-                $scope.msgtimeoutReset();
-                //return false;
+                $rootScope.setErrAlertMessage("Mandatory fields need to be specified for the Ad");
+                return false;
             } else {
                 var creativesData = $scope.creativeData['creativeInfo'];
                 var postAdDataObj = {};
@@ -849,7 +829,7 @@ var angObj = angObj || {};
                 //postAdDataObj.state = $scope.workflowData['campaignData'].status;
 
                 if (formData.adFormat)
-                    postAdDataObj.adFormat = formData.adFormat.toUpperCase();
+                    postAdDataObj.adFormat = formData.adFormat.replace(/\s+/g, '').toUpperCase();
 
                 if ($scope.editedAdSourceId)
                     postAdDataObj.sourceId = $scope.editedAdSourceId;
@@ -867,11 +847,7 @@ var angObj = angObj || {};
                     postAdDataObj.endTime = utils.convertToUTC(formData.endTime, 'ET');
 
                 if ((!formData.startTime || !formData.endTime || !postAdDataObj.screens || !formData.adFormat || !formData.goal) && $scope.mode == 'edit' && $scope.isAdsPushed == true) {
-                    $scope.partialSaveAlertMessage.message = "Mandatory fields need to be specified for the Ad";
-                    $scope.partialSaveAlertMessage.isErrorMsg = 1;
-                    $scope.partialSaveAlertMessage.isMsg = 1;
-                    $scope.msgtimeoutReset();
-
+                      $rootScope.setErrAlertMessage("Mandatory fields need to be specified for the Ad");
                 } else {
                     if (formData.unitCost) {
                         postAdDataObj.rateValue = formData.unitCost;
@@ -987,9 +963,10 @@ var angObj = angObj || {};
                         postAdDataObj['domainAction'] = $scope.adData.inventory.domainAction;
                     }
                     if (!$scope.TrackingIntegrationsSelected) {
-                        if (!$.isEmptyObject($scope.postPlatformDataObj)) {
-                            postAdDataObj['adPlatformCustomInputs'] = $scope.postPlatformDataObj;
+                        if ($.isEmptyObject($scope.postPlatformDataObj)) {
+                            $scope.saveCustomeFieldForPlatform();
                         }
+                        postAdDataObj['adPlatformCustomInputs'] = $scope.postPlatformDataObj;
                     }
                     campaignOverView.saveAds(postAdDataObj, isDownloadTrackerClicked)
                 }
@@ -1078,7 +1055,7 @@ var angObj = angObj || {};
         $scope.getSelectedDays = function(){
             $scope.selectedDayParts['selected'] = audienceService.getDayTimeSelectedObj();
             $scope.selectedDayParts['data'] = audienceService.getDaytimeObj();
-            return ($scope.selectedDayParts['data'])?$scope.selectedDayParts['data'].length:0;
+            $scope.dayPartTotal =  ($scope.selectedDayParts['data'])?$scope.selectedDayParts['data'].length:0;
         }
 
         $scope.budgetErrorObj = {};
@@ -1090,15 +1067,15 @@ var angObj = angObj || {};
             $scope.budgetErrorObj.availableMaximumAdRevenueValidator = false;
 
             var campaignData = $scope.workflowData.campaignData;
-            var campaignBuget = campaignData.bookedRevenue || 0;
+            var campaignBuget = Number(campaignData.bookedRevenue || 0);
             var adAvailableRevenue;
             var adsData;
-            var adMaximumRevenue = campaignData.bookedRevenue - campaignData.bookedSpend;
-            var budgetAmount = $scope.adData.budgetAmount;
+            var adMaximumRevenue = Number(campaignData.bookedRevenue - (campaignData.bookedSpend || 0));
+            var budgetAmount = Number($scope.adData.budgetAmount);
 
             if($scope.workflowData.adsData && $scope.mode =='edit') {
                 adsData = $scope.workflowData.adsData;
-                adAvailableRevenue = adsData.availableRevenue;
+                adAvailableRevenue = Number(adsData.availableRevenue);
             }
 
             if(budgetAmount >0) {
@@ -1107,14 +1084,13 @@ var angObj = angObj || {};
                         if (budgetAmount > adAvailableRevenue) {
                             $scope.budgetErrorObj.availableRevenueValidator = true;
                             $scope.budgetErrorObj.mediaCostValidator = false;
-                        } else if (budgetAmount >= campaignBuget) {
-                            $scope.budgetErrorObj.availableRevenueValidator = false;
-                            $scope.budgetErrorObj.mediaCostValidator = true;
                         }
-                    } else { // create ad case
-                        if(budgetAmount >= adMaximumRevenue) { //in case of create ad total budget is greater then adMaximumRevene
-                            $scope.budgetErrorObj.availableMaximumAdRevenueValidator = true;
-                        }
+                    } else if (budgetAmount > campaignBuget) {
+                        $scope.budgetErrorObj.availableRevenueValidator = false;
+                        $scope.budgetErrorObj.mediaCostValidator = true;
+                    } else if(budgetAmount >= adMaximumRevenue) { //in case of create ad total budget is greater then adMaximumRevene
+                        $scope.budgetErrorObj.availableMaximumAdRevenueValidator = true;
+                        $scope.adMaximumRevenue = Math.round(adMaximumRevenue);
                     }
                 } else {
                     var unitType = $scope.adData.unitType;

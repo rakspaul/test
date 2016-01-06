@@ -1,7 +1,7 @@
 var angObj = angObj || {};
 (function () {
     'use strict';
-    angObj.controller('GeoTargettingController', function ($scope, $window, $routeParams, constants, workflowService, $timeout, utils, $location, zipCode,audienceService) {
+    angObj.controller('GeoTargettingController', function ($scope, $rootScope, $window, $routeParams, constants, workflowService, $timeout, utils, $location, zipCode,audienceService) {
         $scope.showTargettingForm = false;
         $scope.geoTargetArr = [{'name' : 'Geography', 'enable' : true}, {'name' : 'Behavior', 'enable' : false}, {'name' : 'Demographics', 'enable' : false}, {'name' : 'Interests', 'enable' : false}, {'name' : 'Technology', 'enable' : false}, {'name' : 'Content', 'enable' : false}, {'name' : 'Other', 'enable' : false}]
         $scope.geoTargetingData = {};
@@ -44,10 +44,11 @@ var angObj = angObj || {};
                     $scope.excludeSelectedItems();
 
                 $scope.adData.geoTargetingData = $scope.geoTargetingData.selected;
-                $scope.listCities();
+
 
 
             }
+            $scope.listCities();
             regionInitialLoad = true;
         }
 
@@ -77,6 +78,7 @@ var angObj = angObj || {};
             $scope.selectedTab = 'regions';
             $scope.showSwitch = true;
             cityInitialLoad = true;
+            $scope.listDmas();
 
 
         }
@@ -89,15 +91,15 @@ var angObj = angObj || {};
                 $scope.dmasIncluded = $scope.storedResponse.targets.geoTargets.DMA.isIncluded;
 
                 _.each(dmasEditable, function (item) {
-                    var index = _.findIndex(flatArr, function(region) {
-                        return item.id ==  region.id});
+                    var index = _.findIndex(flatArr, function(dmas) {
+                        return item.id ==  dmas.id});
                     if(index != -1)
                         $scope.sync(true, flatArr[index], 'dmas')
                 })
 
             }
             dmasInitialLoad = true;
-
+            $scope.saveGeography(1);
         }
 
         $scope.zipEdit = function(flatArr){
@@ -889,7 +891,7 @@ var angObj = angObj || {};
             }
         };
 
-        $scope.saveGeography =  function() {
+        $scope.saveGeography =  function(doNotRedirectFlag) {
             if($scope.zipCodesObj) {
                 $scope.zipCodesObj = [];
             }
@@ -897,7 +899,8 @@ var angObj = angObj || {};
 
             createPreviewData();
             $scope.adData.geoTargetingData = $scope.geoTargetingData.selected;
-            $scope.redirectTargettingMain();
+            if(!doNotRedirectFlag)
+                $scope.redirectTargettingMain();
             //$(".targettingFormWrap").slideUp();
             //$(".targettingSelected").show();
 

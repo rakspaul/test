@@ -674,9 +674,11 @@ body {
         }
         .format_section_graph {
           .each_bar_section_holder {
-            padding-left: 24px ;
             margin-top: 16px;
             height: 17px;
+            [class^="icon-"], [class*=" icon-"] {
+              margin-right: 10px;
+            }
           }
           .each_bar_section_holder:first-child {
             margin-top: 11px;
@@ -909,6 +911,7 @@ body {
     span {
       margin-right:  5px ;
       display: inline-block;
+      text-transform: capitalize;
     }
   }
   .campaigns_details_holder {
@@ -1208,7 +1211,6 @@ body {
                   height: 18px;
                   vertical-align: sub;
                   display: inline-block;
-                  background: url("/assets/images/cdesk/display_icon.png") no-repeat  0px 3px ;
                 }
                 .device-icon.mobile_graph {
                   background-image : url("/assets/images/cdesk/mobile_icon.png") ;

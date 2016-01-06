@@ -1,7 +1,7 @@
 var angObj = angObj || {};
 (function () {
     'use strict';
-    angObj.controller('AccountsController', function ($scope, $window, $routeParams, constants, accountsService, $timeout, utils, $location , $modal ) {
+    angObj.controller('AccountsController', function ($scope,$rootScope, $window, $routeParams, constants, accountsService, $timeout, utils, $location , $modal ) {
         $(".main_navigation").find('.active').removeClass('active').end().find('#creative_nav_link').addClass('active');
         $scope.textConstants = constants;
         $scope.clientsDetails = [];
@@ -16,29 +16,9 @@ var angObj = angObj || {};
         $scope.selectedBrandId = '';
         $scope.dropdownCss = {display:'none','max-height': '100px',overflow: 'scroll',top: '60px',
             left: '0px'};
-        $scope.flashMessage = {'message':'','isErrorMsg':0};
-
-
-        $scope.msgtimeoutReset = function(){
-             $timeout(function(){
-                 $scope.resetFlashMessage() ;
-             }, 3000);
-         };
-
-        $scope.close_msg_box = function(event) {
-             var elem = $(event.target);
-             elem.closest(".top_message_box").hide() ;
-             $scope.resetFlashMessage() ;
-         };
-
-         $scope.resetFlashMessage = function(){
-             $scope.flashMessage.message = '' ;
-             $scope.flashMessage.isErrorMsg = 0 ;
-             $scope.flashMessage.isMsg = 0 ;
-         };
-
-         $scope.msgtimeoutReset() ;
-
+        $scope.resetFlashMessage = function(){
+            $rootScope.setErrAlertMessage('',0);
+        };
         $scope.show_advertisers = function(event,clientId) {
             //$scope.fetchAllAdvertisers(clientId);
             var elem = $(event.target);

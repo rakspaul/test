@@ -1,14 +1,5 @@
-	<div class="top_message_box" ng-class="{'red_msg':flashMessage.isErrorMsg}" ng-show="flashMessage.message">
-		<span class="msg_box">
-			<span class="msg_icon">x</span>
-			<span class="msg_txt" >
-		  {{flashMessage.message}}
-		</span>
-		<span class="close_msg_box_holder">
-		  <span class="close_msg_box" ng-click="close_msg_box($event);">x</span>
-		</span>
-		</span>
-	</div>
+    <popup-msg ng-show="flashMessage" ng-controller="popUpMsgCtr"
+           ng-init="init('flashMessage','reportEditFailed')"></popup-msg>
 	<div class="report_generator_and_response">
 		<div class="report_builder_container">
 			<div class="container">
@@ -265,7 +256,7 @@
 													</div>
 												</div-->
 																							<!-- Engagement Metrics -->
-												<div  class="col-md-3 each_measurable_col">
+<!--												<div  class="col-md-3 each_measurable_col">
 													<div class="custom_report_col_title">
 														<div class="external_chkbox clearfix">
 														  <div class="squaredFour" ng-class="{not_all_selected:engagementMetrics.minOneSelected}">
@@ -280,7 +271,7 @@
 															{{engagement_metric.value}}
 														</div>
 													</div>
-												</div>
+												</div>-->
 
 																							<!-- Video Metrics -->
 												<div  class="col-md-3 each_measurable_col">
@@ -412,11 +403,13 @@
 									<div class="common_dropdown">
 										<div class="dropdown">
 											<span class="dropdown_ul_text" data-toggle="dropdown">
-												<span class="dd_txt" id="date-selected-txt">{{reports.schedule.occurance?reports.schedule.occurance:"Select"}}</span>
+												<span class="dd_txt" id="date-selected-txt">{{reports.schedule.occurance.weekly?reports.schedule.occurance.weekly:"Select"}}</span>
 												<span class="arrow_img"></span>
 											</span>
 											<ul class="dropdown-menu">
-												<li ng-repeat="week in textConstants.WEEKNAME" ng-model="reports.schedule.occurance" ng-click="reports.schedule.occurance = week; select_dropdown_option($event);">{{week}}</li>
+												<li ng-repeat="week in textConstants.WEEKNAME"
+                                                    ng-model="reports.schedule.occurance.weekly"
+                                                    ng-click="reports.schedule.occurance.weekly = week; select_dropdown_option($event);">{{week}}</li>
 											</ul>
 										</div>
 									</div>
@@ -430,11 +423,12 @@
 									<div class="common_dropdown">
 										<div class="dropdown">
 										  <span class="dropdown_ul_text" data-toggle="dropdown">
-											  <span class="dd_txt" id="date-selected-txt">{{reports.schedule.occurance?reports.schedule.occurance:"Select"}}</span>
+											  <span class="dd_txt" id="date-selected-txt">{{reports.schedule.occurance.monthly?reports.schedule.occurance.monthly:"Select"}}</span>
 											  <span class="arrow_img"></span>
 										  </span>
 											<ul class="dropdown-menu">
-												<li ng-repeat="schedule_occur in textConstants.SCHEDULE_REPORT_OCCURS_ON_LIST" ng-model="reports.schedule.occurance" ng-click="select_schedule_occurs_option($event, schedule_occur);">
+												<li
+                                                        ng-repeat="schedule_occur in textConstants.SCHEDULE_REPORT_OCCURS_ON_LIST" ng-model="reports.schedule.occurance.monthly" ng-click="select_schedule_occurs_option($event, schedule_occur);">
 													{{schedule_occur}}
 												</li>
 											</ul>
@@ -524,7 +518,7 @@
 						<div class="each_tab active" ng-click="show_respective_table('delivery')" id="delivery_tab"><span>Delivery</span></div>
 						<!--<div class="each_tab" ng-click="show_respective_table('booked')" id="booked_tab"><span>Booked</span></div>-->
 						<div class="each_tab" ng-click="show_respective_table('cost')" id="cost_tab"><span>Cost</span></div>
-						<div class="each_tab" ng-click="show_respective_table('engagement')" id="engagement_tab"><span>Engagement</span></div>
+						<!--<div class="each_tab" ng-click="show_respective_table('engagement')" id="engagement_tab"><span>Engagement</span></div>-->
 						<div class="each_tab" ng-click="show_respective_table('video')" id="video_tab"><span>Video</span></div>
 						<div class="each_tab" ng-click="show_respective_table('display_quality')" id="display_quality_tab"><span>Quality Display</span></div>
 						<div class="each_tab" ng-click="show_respective_table('video_quality')" id="video_quality_tab"><span>Quality Video</span></div>
@@ -798,11 +792,14 @@
 		<div class="each_col" ng-if="customeReportData.gross_ecpc >=0">{{customeReportData.gross_ecpc | number:2}}</div>
 
 		<!----- Cost report data ------------------------>
-		<div class="each_col_cost" ng-if="customeReportData.inventory_cost >=0">{{customeReportData.inventory_cost |  nrFormat}}</div>
-		<div class="each_col_cost" ng-if="customeReportData.data_cost >=0">{{customeReportData.data_cost |  nrFormat}}</div>
-		<div class="each_col_cost" ng-if="customeReportData.rich_meida_cost >=0">{{customeReportData.rich_meida_cost | nrFormat}}</div>
 		<div class="each_col_cost" ng-if="customeReportData.ad_servicing_cost >=0">{{customeReportData.ad_servicing_cost |  nrFormat}}</div>
 		<div class="each_col_cost" ng-if="customeReportData.ad_vertification_cost >=0">{{customeReportData.ad_vertification_cost |  nrFormat}}</div>
+		<div class="each_col_cost" ng-if="customeReportData.collective_cost >=0">{{customeReportData.collective_cost |  nrFormat}}</div>
+		<div class="each_col_cost" ng-if="customeReportData.creative_cost >=0">{{customeReportData.creative_cost |  nrFormat}}</div>
+		<div class="each_col_cost" ng-if="customeReportData.data_cost >=0">{{customeReportData.data_cost |  nrFormat}}</div>
+		<div class="each_col_cost" ng-if="customeReportData.inventory_cost >=0">{{customeReportData.inventory_cost |  nrFormat}}</div>
+		<div class="each_col_cost" ng-if="customeReportData.metric_provider_cost>=0">{{customeReportData.metric_provider_cost  | nrFormat }}</div>
+		<div class="each_col_cost" ng-if="customeReportData.platform_cost>=0">{{customeReportData.platform_cost  | nrFormat }}</div>
 		<div class="each_col_cost" ng-if="customeReportData.research_cost>=0">{{customeReportData.research_cost  | nrFormat }}</div>
 
 		<!----- booked report data ------------------------
@@ -823,10 +820,10 @@
 
 		<!----- engagement report data ------------------------>
 
-		<div class="each_col" ng-if="customeReportData.inter >=0">{{customeReportData.inter |  nrFormat }}</div>
+		<!--<div class="each_col" ng-if="customeReportData.inter >=0">{{customeReportData.inter |  nrFormat }}</div>
 		<div class="each_col" ng-if="customeReportData.avg_inter_time >=0">{{customeReportData.avg_inter_time |  nrFormat}}</div>
 		<div class="each_col" ng-if="customeReportData.ir_perc >=0">{{customeReportData.ir_perc | number:2}}</div>
-		<div class="each_col" ng-if="customeReportData.avg_view_time >=0">{{customeReportData.avg_view_time |  nrFormat}}</div>
+		<div class="each_col" ng-if="customeReportData.avg_view_time >=0">{{customeReportData.avg_view_time |  nrFormat}}</div>-->
 
 		<!----- video report data ------------------------>
 		<div class="each_col" ng-if="customeReportData.ad_starts >=0">{{customeReportData.ad_starts |  nrFormat}}</div>
@@ -846,9 +843,9 @@
 		<div class="each_col" ng-if="customeReportData.display_measurable_perc >=0">{{customeReportData.display_measurable_perc | number:0}}%</div>
 		<div class="each_col" ng-if="customeReportData.display_viewable_imps >=0">{{customeReportData.display_viewable_imps | nrFormat}}</div>
 		<div class="each_col" ng-if="customeReportData.display_viewable_perc >=0">{{customeReportData.display_viewable_perc | number:0}}%</div>
-		<div class="each_col" ng-if="customeReportData.display_viewable_imps_5s >=0">{{customeReportData.display_viewable_imps_5s |  nrFormat }}%</div>
-		<div class="each_col" ng-if="customeReportData.display_viewable_imps_15s >=0">{{customeReportData.display_viewable_imps_15s |  nrFormat}}%</div>
-		<div class="each_col" ng-if="customeReportData.display_suspicious_imps >=0">{{customeReportData.display_suspicious_imps |  nrFormat}}%</div>
+		<div class="each_col" ng-if="customeReportData.display_viewable_imps_5s >=0">{{customeReportData.display_viewable_imps_5s |  nrFormat }}</div>
+		<div class="each_col" ng-if="customeReportData.display_viewable_imps_15s >=0">{{customeReportData.display_viewable_imps_15s |  nrFormat}}</div>
+		<div class="each_col" ng-if="customeReportData.display_suspicious_imps >=0">{{customeReportData.display_suspicious_imps |  nrFormat}}</div>
 		<div class="each_col" ng-if="customeReportData.display_suspicious_act_perc >=0">{{customeReportData.display_suspicious_act_perc | number:2}}</div>
 
 		<!----- Quality Video report data ------------------------>
@@ -864,3 +861,23 @@
 		<div class="each_col" ng-if="customeReportData.video_suspicious_imps >=0">{{customeReportData.video_suspicious_imps |  nrFormat}}</div>
 		<div class="each_col" ng-if="customeReportData.video_suspicious_act_perc >=0">{{customeReportData.video_suspicious_act_perc | number:2}}</div>
 	</script>
+    <div class="common-popup-container" ng-show="updateSchedule">
+        <div class="popup">
+            <div class="popup-header-body">
+                <div class="clearfix">
+                    <h1 class="pull-left">{{textConstants.SCHEDULER_UPDATE}}</h1>
+                    <span class="close unselectable" aria-hidden="true" ng-click="updateSchedule=false" >x</span>
+                </div>
+                <div class="popup-content">
+                    {{archiveMessage}}
+                </div>
+            </div>
+            <div class="clearfix popup-footer">
+                <div type="button" ng-click="updateReportAndRedirect('Yes')"
+                     class="common_primary_btn pull-right">Yes</div>
+                <button type="button"
+                        ng-click="updateReportAndRedirect('No')"class="secondary_txt pull-right">No</button>
+            </div>
+
+        </div>
+    </div>

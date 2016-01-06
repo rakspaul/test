@@ -70,10 +70,16 @@
       }
       .settingWrap{
         border-left: 1px solid #BFC9D7;
-        padding: 30px 30px 30px 25px;
+        padding: 30px 0px 60px 25px;
         width: 77%;
         float: left;
         min-height: 730px;
+        position: relative;
+        .adName {
+          margin-top: -35px;
+          background: #FFF;
+          padding: 0 0 10px 0;
+        }
       }
       .collapseHeader {
         float: left;
@@ -171,6 +177,89 @@
             top: 42px;
             left: 10px;
         }
+      }
+      .marginCal {
+        float: left;
+        width: 100%;
+        background: #FAFAFA;
+        border: 1px dotted #ddd;
+        border-radius: 5px;
+        margin-top: 20px;
+        .calTable {
+          float: left;
+          width: 17%;
+          h3 {
+            font-size: 12px;
+            width: 100%;
+            text-align: center;
+            margin: 15px 0 10px 0;
+          }
+          .symbol-input {
+            .symbol {
+              left: 40px ;
+              margin: 0 5px 0 0;
+            }
+            .symbol ~ input {
+              padding-left : 22px ;
+            }
+          }
+          input {
+            float: left;
+            width: 60%;
+            margin: 0 20% 15px 20%;
+          }
+          input[type="checkbox"] {
+            float: left;
+            margin: 3px 0 10px 0;
+            width: auto;
+          }
+          span {
+            float: left;
+            margin: 0 0 0 5px;
+          }
+        }
+        .calTable:last-child {
+          width: 15%;
+        }
+      }
+      .kpiTable {
+        padding-right: 10px !important;
+        h3 {
+          font-size: 14px;
+          margin-bottom: 0;
+        }
+      }
+      .selectkpiObj, .selectcostObj {
+        display: none;
+        cursor: pointer;
+      }
+      .addRowMedia {
+        float: left;
+        color: #0978C9;
+        padding: 15px 0;
+        span {
+          font-size: 14px;
+          float: left;
+          color: #0978C9;
+        }
+        [class^="icon-"], [class*=" icon-"] {
+          float: left;
+          margin-right: 5px;
+          font-size: 12px;
+          width: 12px;
+          height: 12px;
+        }
+        span:last-child {
+          margin-top: 1px;
+        }
+      }
+      .col-md-2.kpiTable {
+        width: auto;
+        min-width: 130px;
+        max-width: 130px;
+      }
+      .col-md-12.kpiTable {
+        padding: 0px !important;
       }
       .campAdHeader {
         width: 100%;
@@ -912,8 +1001,9 @@
             clear: left;
             color: #57606c;
           }
+
           .pull-left{
-            padding: 0 0 0 30px;
+            padding: 0 0 0 25px;
             .glyphicon {
               float: left;
               margin-right: 8px;
@@ -931,6 +1021,16 @@
                 text-align: center;
                 float: left;
               }
+            }
+          }
+          .each-objective {
+            padding-left: 15px ;
+            span {
+              clear: none;
+              margin-right: 5px ;
+            }
+            .count {
+              color: #0978c9 ;
             }
           }
           .pull-left:first-child {
@@ -2060,28 +2160,6 @@
       margin: 0 0 10px 0 !important;
       font-family:"Avenir";
     }
-    .nextWrapper {
-      position: absolute;
-      left: -1px;
-      bottom: 0px;
-      background: #fff;
-      border-top: 1px solid #D0D0D0;
-      height: 30px;
-      width: 100%;
-      text-align: center;
-      img {
-        width: 35px;
-        margin-top: -12px;
-        /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#ffffff+37,ffffff+100&amp;1+22,0+100 */
-        background: -moz-linear-gradient(top,  rgba(255,255,255,1) 22%, rgba(255,255,255,0.81) 37%, rgba(255,255,255,0) 100%); /* FF3.6+ */
-        background: -webkit-gradient(linear, left top, left bottom, color-stop(22%,rgba(255,255,255,1)), color-stop(37%,rgba(255,255,255,0.81)), color-stop(100%,rgba(255,255,255,0))); /* Chrome,Safari4+ */
-        background: -webkit-linear-gradient(top,  rgba(255,255,255,1) 22%,rgba(255,255,255,0.81) 37%,rgba(255,255,255,0) 100%); /* Chrome10+,Safari5.1+ */
-        background: -o-linear-gradient(top,  rgba(255,255,255,1) 22%,rgba(255,255,255,0.81) 37%,rgba(255,255,255,0) 100%); /* Opera 11.10+ */
-        background: -ms-linear-gradient(top,  rgba(255,255,255,1) 22%,rgba(255,255,255,0.81) 37%,rgba(255,255,255,0) 100%); /* IE10+ */
-        background: linear-gradient(to bottom,  rgba(255,255,255,1) 22%,rgba(255,255,255,0.81) 37%,rgba(255,255,255,0) 100%); /* W3C */
-        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#00ffffff',GradientType=0 ); /* IE6-9 */
-      }
-    }
     .symbolAbs {
       .col-md-3 {
         position: relative;
@@ -2765,22 +2843,6 @@
                 z-index: 10;
                 top: 42px;
                 right: 10px;
-              }
-              .keywordWrap {
-                float: left;
-                background: #edf2f8;
-                border: 1px solid #bfc9d7;
-                border-radius: 2px;
-                margin: 5px 5px 0 0;
-                font-size: 12px;
-                padding: 5px 10px;
-                .icon-close {
-                  font-size: 9px;
-                  width: 9px;
-                  height: 9px;
-                  float: right;
-                  margin: 4px 0 0 5px;
-                }
               }
             }
             .sliderAmount {
@@ -3492,4 +3554,25 @@
    .radio+.radio, .checkbox+.checkbox {
     margin : 10px 0px 10px 20px ;
    }
+}
+.keywordWrap {
+  float: left;
+  background: #edf2f8;
+  border: 1px solid #bfc9d7;
+  border-radius: 2px;
+  margin: 5px 5px 0 0;
+  font-size: 12px;
+  padding: 5px 10px;
+  .icon-close {
+    font-size: 9px;
+    width: 9px;
+    height: 9px;
+    float: right;
+    margin: 4px 0 0 5px;
+  }
+}
+.remove-row {
+  .icon-clear {
+    margin : 10px 0 10px 5px ;
+  }
 }

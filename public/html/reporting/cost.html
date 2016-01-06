@@ -48,10 +48,10 @@
                             <div class="each_cost_col three_col  icon_text_holder" ng-class="sortClassFunction('inventory_cost',sortType,sortReverse)" ng-click="sortType = 'inventory_cost'; sortReverse = !sortReverse;removeKpiActive();">{{textConstants.INVENTORY}}</div>
                             <div class="each_cost_col four_col  icon_text_holder" ng-class="sortClassFunction('data_cost',sortType,sortReverse)" ng-click="sortType = 'data_cost'; sortReverse = !sortReverse;removeKpiActive();">{{ textConstants.DATA}}</div>
                             <div class="each_cost_col five_col  icon_text_holder" ng-class="sortClassFunction('ad_serving_cost',sortType,sortReverse)" ng-click="sortType = 'ad_serving_cost'; sortReverse = !sortReverse;removeKpiActive();">{{ textConstants.AD_SERVING}}</div>
-                            <div class="each_cost_col six_col  icon_text_holder" ng-class="sortClassFunction('rich_media_cost',sortType,sortReverse)" ng-click="sortType = 'rich_media_cost'; sortReverse = !sortReverse;removeKpiActive();">{{ textConstants.CREATIVE}}</div>
+                            <div class="each_cost_col six_col  icon_text_holder" ng-class="sortClassFunction('creative_cost',sortType,sortReverse)" ng-click="sortType = 'creative_cost'; sortReverse = !sortReverse;removeKpiActive();">{{ textConstants.CREATIVE}}</div>
                             <div class="each_cost_col sev_col  icon_text_holder" ng-class="sortClassFunction('research_cost',sortType,sortReverse)" ng-click="sortType = 'research_cost'; sortReverse = !sortReverse;removeKpiActive();">{{ textConstants.RESEARCH}}</div>
                             <div class="each_cost_col eight_col  icon_text_holder" ng-class="sortClassFunction('ad_verification_cost',sortType,sortReverse)" ng-click="sortType = 'ad_verification_cost'; sortReverse = !sortReverse;removeKpiActive();">{{ textConstants.AD_VERIFICATION}}</div>
-                            <div class="each_cost_col ninth_col  icon_text_holder" ng-class="sortClassFunction('platform_cost',sortType,sortReverse)" ng-click="sortType = 'platform_cost'; sortReverse = !sortReverse;removeKpiActive();">{{ textConstants.COLLECTIVE}}
+                            <div class="each_cost_col ninth_col  icon_text_holder" ng-class="sortClassFunction('collective_cost',sortType,sortReverse)" ng-click="sortType = 'collective_cost'; sortReverse = !sortReverse;removeKpiActive();">{{ textConstants.COLLECTIVE}}
                                 <div class="tooltip_holder">
                                       <span class="tooltip_show_icon"></span>
                                       <div class="common_tooltip">{{textConstants.TRANSPARENT_PLATFORM_FEE_CHARGED}}</div>
@@ -84,10 +84,10 @@
                                         <div class="each_cost_col three_col">{{strategy.inventory_cost |currency:undefined:0 }}</div>
                                         <div class="each_cost_col four_col">{{strategy.data_cost | currency:undefined:0}}</div>
                                         <div class="each_cost_col five_col">{{strategy.ad_serving_cost | currency:undefined:0}}</div>
-                                        <div class="each_cost_col six_col">{{strategy.rich_media_cost | currency:undefined:0}}</div>
+                                        <div class="each_cost_col six_col">{{strategy.creative_cost | currency:undefined:0}}</div>
                                         <div class="each_cost_col sev_col">{{strategy.research_cost | currency:undefined:0}}</div>
                                         <div class="each_cost_col eight_col">{{strategy.ad_verification_cost | currency:undefined:0}}</div>
-                                        <div class="each_cost_col ninth_col">{{strategy.platform_cost | currency:undefined:0}}</div>
+                                        <div class="each_cost_col ninth_col">{{strategy.collective_cost | currency:undefined:0}}</div>
                                         <div class="each_cost_col tenth_col total_cost">{{strategy.total | currency:undefined:0}}</div>
                                     </div>
                                 </div>
@@ -106,10 +106,10 @@
                                                 <div class="each_cost_col three_col">{{tactic.inventory_cost | currency:undefined:0}}</div>
                                                 <div class="each_cost_col four_col">{{tactic.data_cost | currency:undefined:0}}</div>
                                                 <div class="each_cost_col five_col">{{tactic.ad_serving_cost | currency:undefined:0}}</div>
-                                                <div class="each_cost_col six_col">{{tactic.rich_media_cost | currency:undefined:0}}</div>
+                                                <div class="each_cost_col six_col">{{tactic.creative_cost | currency:undefined:0}}</div>
                                                 <div class="each_cost_col sev_col">{{tactic.research_cost | currency:undefined:0}}</div>
                                                 <div class="each_cost_col eight_col">{{tactic.ad_verification_cost | currency:undefined:0}}</div>
-                                                <div class="each_cost_col ninth_col">{{tactic.platform_cost | currency:undefined:0}}</div>
+                                                <div class="each_cost_col ninth_col">{{tactic.collective_cost | currency:undefined:0}}</div>
                                                 <div class="each_cost_col tenth_col total_cost">{{tactic.total | currency:undefined:0}}</div>
                                             </div>
                                         </div>

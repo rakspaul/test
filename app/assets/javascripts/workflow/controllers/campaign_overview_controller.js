@@ -1,7 +1,9 @@
+
 var angObj = angObj || {};
 (function () {
     'use strict';
-    angObj.controller('CampaignOverViewController', function ($scope, $window, $routeParams, constants, workflowService, $timeout,$location, utils) {
+
+    angObj.controller('CampaignOverViewController', function ($scope,$rootScope, $window, $routeParams, constants, workflowService, $timeout,$location, utils) {
         $(".main_navigation").find('.active').removeClass('active').end().find('#campaigns_nav_link').addClass('active');
         $(".bodyWrap").addClass('bodyWrapOverview');
         if( $('.adGroupSelectionWrap').length ) { $("html").css({'background-color':'#eef5fc'}); };
@@ -18,54 +20,32 @@ var angObj = angObj || {};
         $scope.createGroupMessage=false;
         localStorage.setItem('campaignData','');
         $scope.moreThenThree = '';
-
-        $scope.alertMessage  = localStorage.getItem('topAlertMessage');
-
         $scope.editCampaign=function(workflowcampaignData){
             window.location.href = '/mediaplan/'+workflowcampaignData.id+'/edit';
         }
-
-        $scope.msgtimeoutReset = function(){
-            $timeout(function(){
-                $scope.resetAlertMessage() ;
-            }, 3000);
-        }
-
-        $scope.msgtimeoutReset() ;
-
         $scope.convertEST=function(date,format){
             return utils.convertToEST(date,format);
         }
-        $scope.close_msg_box = function(event) {
-            var elem = $(event.target);
-            elem.closest(".top_message_box").hide() ;
-            $scope.resetAlertMessage() ;
-        };
-
         $scope.resetAlertMessage = function(){
            localStorage.removeItem('topAlertMessage');
-           $scope.alertMessage = "" ;
+           $rootScope.setErrAlertMessage("",0);
         }
 
         //Archive save func more
         $scope.archiveCampaign=function(event){
             event.preventDefault();
+            var campaignId = $scope.workflowData['campaignData'].id;
             var campaignArchiveErrorHandler=function(){
                 $scope.campaignArchive=false;
-                $scope.flashMessage.message = $scope.textConstants.WF_CAMPAIGN_ARCHIVE_FAILURE ;
-                $scope.flashMessage.isErrorMsg = 1 ;
-                $scope.flashMessage.isMsg = 0;
+                $rootScope.setErrAlertMessage();
             }
-            workflowService.deleteCampaign($scope.campaignId).then(function (result) {
+            workflowService.deleteCampaign(campaignId).then(function (result) {
                 if (result.status === "OK" || result.status === "success") {
                     $scope.campaignArchive=false;
-                    var url = '/campaigns';
-                        if($scope.editCampaignData.adsCount >0 ) {
-                            localStorage.setItem('topAlertMessage', $scope.editCampaignData.name+" and "+$scope.editCampaignData.adsCount+" has been archived");
-                        } else {
-                            localStorage.setItem('topAlertMessage', $scope.editCampaignData.name+" has been archived");
-                        }
-                        $location.url(url);
+                    var url = '/mediaplans';
+                    var campaignName = $scope.workflowData['campaignData'].name;
+                    localStorage.setItem('topAlertMessage', campaignName+" has been archived");
+                    window.location.href = url;
                 }else{
                     campaignArchiveErrorHandler();
                 }
@@ -116,32 +96,42 @@ var angObj = angObj || {};
             },
 
             adsDataMofiderFunc : function(adsData) {
+                console.log("adsData", adsData);
+                var budgetType, rateType;
+                var labelObj = {
+                    'cpm' : 'Imps.',
+                    'cpc' : 'Clicks',
+                    'cpa' : 'Actions'
+                }
+
+                //calculatedValue =  impression , clicks and actions value
+
                 _.each(adsData, function(data) {
-                  var budgetType = data.budgetType && data.budgetType.toLowerCase();
-                  var rateType = data.rateType && data.rateType.toLowerCase();
-                  if(budgetType === "impressions" || budgetType === "clicks" || budgetType === "actions") {
-                    data['impression_clicks_actions'] = data.budgetValue;
-                    if(rateType === 'cpm') {
-                      data['cost'] = (data.budgetValue/1000)* (data.rateValue);
+
+                    budgetType = data.budgetType && data.budgetType.toLowerCase();
+                    rateType = data.rateType && data.rateType.toLowerCase();
+
+                    data.label = labelObj[rateType];
+
+                    if(budgetType === "cost" && rateType) {
+                        data['cost'] = data.budgetValue;
+                        if(rateType === 'cpm') {
+                          data['calculatedValue'] = (data.budgetValue/data.rateValue)*1000;
+                        }
+
+                        if(rateType === 'cpc' || rateType === 'cpa') {
+                            data['calculatedValue'] = data.budgetValue/data.rateValue;
+                        }
+                    } else {
+                        data['calculatedValue'] = data.budgetValue;
+                        if(rateType === 'cpm') {
+                            data['cost'] = (data.budgetValue/1000)* (data.rateValue);
+                        }
+                        if(rateType === 'cpc' || rateType === 'cpa') {
+                            data['cost'] = data.budgetValue * data.rateValue;
+
+                        }
                     }
-                    if(rateType === 'cpc') {
-                      data['cost'] = data.budgetValue * data.rateValue;
-
-                    }
-                  }
-
-                  if(budgetType === "cost") {
-                    data['cost'] = data.budgetValue;
-                    if(rateType === 'cpm') {
-                      data['impression_clicks_actions'] = (data.budgetValue/data.rateValue)*1000;
-                    }
-
-                    if(rateType === 'cpc') {
-
-                    }
-                  }
-
-
                 });
                 return adsData;
             },
@@ -430,15 +420,14 @@ var angObj = angObj || {};
                     $scope.showIndividualAds = !$scope.showIndividualAds;
                     $scope.independantMessage=!$scope.independantMessage;
                     $scope.independantGroupMessage="Successfully grouped Ads";
-                    localStorage.setItem( 'topAlertMessage', $scope.textConstants.AD_GROUP_CREATED_SUCCESS );
+                    localStorage.setItem( 'topAlertMessage', $scope.textConstants.AD_GROUP_CREATED_SUCCESS);
                     location.reload();
-                    $scope.msgtimeoutReset() ;
-
                 } else {
                      console.log("ERROR! adgroup not created");
                      console.log(result);
                      $scope.independantMessage=!$scope.independantMessage;
                      $scope.independantGroupMessage="unable to  group Ads";
+                     $rootScope.setErrAlertMessage($scope.textConstants.AD_GROUP_CREATED_FAILURE);
                 }
               });
             }
@@ -547,7 +536,6 @@ var angObj = angObj || {};
                         //$scope.getAdgroups($routeParams.campaignId);
                         localStorage.setItem( 'topAlertMessage', $scope.textConstants.AD_GROUP_CREATED_SUCCESS );
                         location.reload();
-                        $scope.msgtimeoutReset() ;
                     } else {
                         $scope.createGroupMessage=!$scope.createGroupMessage;
                         $scope.createAdGroupMessage="Ad Group not Created ";

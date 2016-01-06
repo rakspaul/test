@@ -12,11 +12,6 @@
                     <div id="custom-search-input" class="col-md-9">
                             <input type="text" class="form-control" name="creativeSearch" ng-model="adData.creativeSearch" ng-keyup="creativeSearchFunc()" placeholder="Search Creative By Name and Size..">
 							<span class="icon-search"></span>
-							<!--<span class="input-group-btn">-->
-							<!--	<button class="btn btn-default disabled" ng-disabled="!creativeSearch" ng-click="creativeSearchFunc()" type="button">-->
-							<!--		<span class="glyphicon glyphicon-search" aria-hidden="true"></span>-->
-							<!--	</button>-->
-							<!--</span>-->
                     </div>
                 </div>
 
@@ -39,7 +34,6 @@
                         <span ng-if="!loadingFlag">Data Not Found</span>
                         <div ng-if="loadingFlag" class="loading-icon"></div>
                     </div>
-                    <div ng-show="creativeListLoading" class="common-load-more"></div>
                 </div>
             </div>
             <div class="col-md-5">

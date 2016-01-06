@@ -13,24 +13,6 @@
             <filters-header reports="true"></filters-header>
         </div>
 
-
-
-
-
-
-        <!-- <div class="clearfix inventory_header">
-            <div class="pull-left dropdown dropdown_type1" id="viewability_camp_list_dd">
-                <campaign-drop-down selected-obj=selectedCampaign> </campaign-drop-down>
-            </div>
-
-            <div class="pull-right download_report">
-                <download-report></download-report>
-            </div>
-        </div> -->
-        <!--      <div id="viewability_strategies_dd" ng-show="isStrategyDropDownShow">
-                 <strategy-drop-down selected-obj=selectedStrategy ></strategy-drop-down >
-             </div> -->
-
         <div class="view_mode_switch_container" ng-show="adFormats.videoAds" ng-class="{'video_mode_on':videoMode}">
             <span>{{textConstants.VIEW_MODE}}</span>
             <span class="video_off_icon" ng-class="{'active':!videoMode}"></span>
@@ -40,10 +22,12 @@
 
             <span class="video_on_icon" ng-class="{'active':videoMode}"></span>
         </div>
+
         <div class="common-load-icon_viewability"  ng-show="strategyLoading && selectedCampaign.id != -1"></div>
+
         <div class="viewability_container" ng-hide="strategyLoading && selectedCampaign.id != -1">
             <div class="no_data_found" ng-if="!strategyFound" ng-bind-html="getMessageForDataNotAvailable('viewability')"></div>
-            <div class="viewability_details_outer_container" ng-show="strategyFound || (!adFormats.videoAds && adFormats.displayAds) || !videoMode">
+            <div class="viewability_details_outer_container" ng-show="(!adFormats.videoAds && adFormats.displayAds) || !videoMode">
                 <div class="viewability_header clearfix">
                     <div class="each_col sec_col viewability_delivered_col">
 
@@ -309,10 +293,18 @@
                             </div>
                             <div class="each_col sub_four_cols">
                                 <div class="sub_col">
-                                    <span>{{viewData.view_metrics.video_viewability_metrics.videos_1q_view_perc   > 0 ? ((viewData.view_metrics.video_viewability_metrics.videos_1q_view_perc | number:0)+'%') : '-'}}</span>
-                                    <span>{{viewData.view_metrics.video_viewability_metrics.videos_2q_view_perc   > 0 ? ((viewData.view_metrics.video_viewability_metrics.videos_2q_view_perc | number:0)+'%') : '-'}}</span>
-                                    <span>{{viewData.view_metrics.video_viewability_metrics.videos_3q_view_perc   > 0 ? ((viewData.view_metrics.video_viewability_metrics.videos_3q_view_perc | number:0)+'%') : '-'}}</span>
-                                    <span>{{viewData.view_metrics.video_viewability_metrics.videos_4q_view_perc   > 0 ? ((viewData.view_metrics.video_viewability_metrics.videos_1q_view_perc | number:0)+'%') : '-'}}</span>
+                                    <span>{{viewData.view_metrics.video_viewability_metrics.videos_1q_complete_perc   >
+                                        0 ? ((viewData.view_metrics.video_viewability_metrics.videos_1q_complete_perc |
+                                        number:0)+'%') : '-'}}</span>
+                                    <span>{{viewData.view_metrics.video_viewability_metrics.videos_2q_complete_perc   >
+                                        0 ? ((viewData.view_metrics.video_viewability_metrics.videos_2q_complete_perc |
+                                        number:0)+'%') : '-'}}</span>
+                                    <span>{{viewData.view_metrics.video_viewability_metrics.videos_3q_complete_perc   >
+                                        0 ? ((viewData.view_metrics.video_viewability_metrics.videos_3q_complete_perc |
+                                        number:0)+'%') : '-'}}</span>
+                                    <span>{{viewData.view_metrics.video_viewability_metrics.videos_4q_complete_perc   >
+                                        0 ? ((viewData.view_metrics.video_viewability_metrics.videos_1q_complete_perc |
+                                        number:0)+'%') : '-'}}</span>
                                 </div>
                                 <div class="sub_col next_val">
                                     <!-- <span>{{viewData.view_metrics.video_viewability_metrics.videos_1q_view   > 0 ? (viewData.view_metrics.video_viewability_metrics.videos_1q_view | nrFormat) : '-'}}</span>

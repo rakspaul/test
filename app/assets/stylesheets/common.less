@@ -1,3 +1,7 @@
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+  display: none;
+}
+
 /* font- face declarations */
 @font-face {
     font-family: "Avenir";
@@ -576,14 +580,14 @@
   color: #a2acba ;
 }
 .secondary_txt {
-  color:  #939ead ;
+  color:  #428bca ;
   cursor: pointer;
   margin: 10px 24px 0 0;
   border: 0;
   background-color: transparent;
   padding: 0px ;
   &:hover {
-    color : #939ead ;
+    color : #428bca ;
     text-decoration: none;
   }
 }
@@ -1549,4 +1553,16 @@ multiselect .dropdown-menu > li > a {
 
 .disabled , .disabled a {
   cursor: default;
+}
+.symbol-input {
+  position: relative;
+  .symbol {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    z-index: 1;
+  }
+  .symbol ~ input {
+    padding-left: 20px ;
+  }
 }

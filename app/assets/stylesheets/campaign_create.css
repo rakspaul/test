@@ -74,10 +74,16 @@
 }
 #campaignCreate .firstWrapper .masterContainer .settingWrap {
   border-left: 1px solid #BFC9D7;
-  padding: 30px 30px 30px 25px;
+  padding: 30px 0px 60px 25px;
   width: 77%;
   float: left;
   min-height: 730px;
+  position: relative;
+}
+#campaignCreate .firstWrapper .masterContainer .settingWrap .adName {
+  margin-top: -35px;
+  background: #FFF;
+  padding: 0 0 10px 0;
 }
 #campaignCreate .firstWrapper .masterContainer .collapseHeader {
   float: left;
@@ -182,6 +188,89 @@
 #campaignCreate .firstWrapper .masterContainer .dollar_value .currency {
   top: 42px;
   left: 10px;
+}
+#campaignCreate .firstWrapper .masterContainer .marginCal {
+  float: left;
+  width: 100%;
+  background: #FAFAFA;
+  border: 1px dotted #ddd;
+  border-radius: 5px;
+  margin-top: 20px;
+}
+#campaignCreate .firstWrapper .masterContainer .marginCal .calTable {
+  float: left;
+  width: 17%;
+}
+#campaignCreate .firstWrapper .masterContainer .marginCal .calTable h3 {
+  font-size: 12px;
+  width: 100%;
+  text-align: center;
+  margin: 15px 0 10px 0;
+}
+#campaignCreate .firstWrapper .masterContainer .marginCal .calTable .symbol-input .symbol {
+  left: 40px ;
+  margin: 0 5px 0 0;
+}
+#campaignCreate .firstWrapper .masterContainer .marginCal .calTable .symbol-input .symbol ~ input {
+    padding-left : 22px ;
+}
+#campaignCreate .firstWrapper .masterContainer .marginCal .calTable input {
+  float: left;
+  width: 60%;
+  margin: 0 20% 15px 20%;
+}
+#campaignCreate .firstWrapper .masterContainer .marginCal .calTable input[type="checkbox"] {
+  float: left;
+  margin: 3px 0 10px 0;
+  width: auto;
+}
+#campaignCreate .firstWrapper .masterContainer .marginCal .calTable span {
+  float: left;
+  margin: 0 0 0 5px;
+}
+#campaignCreate .firstWrapper .masterContainer .marginCal .calTable:last-child {
+  width: 15%;
+}
+#campaignCreate .firstWrapper .masterContainer .kpiTable {
+  padding-right: 10px !important;
+}
+#campaignCreate .firstWrapper .masterContainer .kpiTable h3 {
+  font-size: 14px;
+  margin-bottom: 0;
+}
+#campaignCreate .firstWrapper .masterContainer .selectkpiObj,
+#campaignCreate .firstWrapper .masterContainer .selectcostObj {
+  display: none;
+  cursor: pointer;
+}
+#campaignCreate .firstWrapper .masterContainer .addRowMedia {
+  float: left;
+  color: #0978C9;
+  padding: 15px 0;
+}
+#campaignCreate .firstWrapper .masterContainer .addRowMedia span {
+  font-size: 14px;
+  float: left;
+  color: #0978C9;
+}
+#campaignCreate .firstWrapper .masterContainer .addRowMedia [class^="icon-"],
+#campaignCreate .firstWrapper .masterContainer .addRowMedia [class*=" icon-"] {
+  float: left;
+  margin-right: 5px;
+  font-size: 12px;
+  width: 12px;
+  height: 12px;
+}
+#campaignCreate .firstWrapper .masterContainer .addRowMedia span:last-child {
+  margin-top: 1px;
+}
+#campaignCreate .firstWrapper .masterContainer .col-md-2.kpiTable {
+  width: auto;
+  min-width: 130px;
+  max-width: 130px;
+}
+#campaignCreate .firstWrapper .masterContainer .col-md-12.kpiTable {
+  padding: 0px !important;
 }
 #campaignCreate .firstWrapper .masterContainer .campAdHeader {
   width: 100%;
@@ -916,7 +1005,7 @@
   color: #57606c;
 }
 #campaignCreate .firstWrapper .maxWidthAdj .campAdHeader .campSettingOverView .pull-left {
-  padding: 0 0 0 30px;
+  padding: 0 0 0 25px;
 }
 #campaignCreate .firstWrapper .maxWidthAdj .campAdHeader .campSettingOverView .pull-left .glyphicon {
   float: left;
@@ -935,6 +1024,16 @@
   width: 100%;
   text-align: center;
   float: left;
+}
+#campaignCreate .firstWrapper .maxWidthAdj .campAdHeader .campSettingOverView .each-objective {
+  padding-left: 15px ;
+}
+#campaignCreate .firstWrapper .maxWidthAdj .campAdHeader .campSettingOverView .each-objective span {
+  clear: none;
+  margin-right: 5px ;
+}
+#campaignCreate .firstWrapper .maxWidthAdj .campAdHeader .campSettingOverView .each-objective .count {
+  color: #0978c9 ;
 }
 #campaignCreate .firstWrapper .maxWidthAdj .campAdHeader .campSettingOverView .pull-left:first-child {
   padding-left: 0;
@@ -1979,35 +2078,6 @@
   margin: 0 0 10px 0 !important;
   font-family: "Avenir";
 }
-.adCreateMaster .tab-content .tab-pane .nextWrapper {
-  position: absolute;
-  left: -1px;
-  bottom: 0px;
-  background: #fff;
-  border-top: 1px solid #D0D0D0;
-  height: 30px;
-  width: 100%;
-  text-align: center;
-}
-.adCreateMaster .tab-content .tab-pane .nextWrapper img {
-  width: 35px;
-  margin-top: -12px;
-  /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#ffffff+37,ffffff+100&amp;1+22,0+100 */
-  background: -moz-linear-gradient(top, #ffffff 22%, rgba(255, 255, 255, 0.81) 37%, rgba(255, 255, 255, 0) 100%);
-  /* FF3.6+ */
-  background: -webkit-gradient(linear, left top, left bottom, color-stop(22%, #ffffff), color-stop(37%, rgba(255, 255, 255, 0.81)), color-stop(100%, rgba(255, 255, 255, 0)));
-  /* Chrome,Safari4+ */
-  background: -webkit-linear-gradient(top, #ffffff 22%, rgba(255, 255, 255, 0.81) 37%, rgba(255, 255, 255, 0) 100%);
-  /* Chrome10+,Safari5.1+ */
-  background: -o-linear-gradient(top, #ffffff 22%, rgba(255, 255, 255, 0.81) 37%, rgba(255, 255, 255, 0) 100%);
-  /* Opera 11.10+ */
-  background: -ms-linear-gradient(top, #ffffff 22%, rgba(255, 255, 255, 0.81) 37%, rgba(255, 255, 255, 0) 100%);
-  /* IE10+ */
-  background: linear-gradient(to bottom, #ffffff 22%, rgba(255, 255, 255, 0.81) 37%, rgba(255, 255, 255, 0) 100%);
-  /* W3C */
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#00ffffff', GradientType=0);
-  /* IE6-9 */
-}
 .adCreateMaster .tab-content .tab-pane .symbolAbs .col-md-3 {
   position: relative;
 }
@@ -2673,22 +2743,6 @@
   z-index: 10;
   top: 42px;
   right: 10px;
-}
-.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segmentHeader .multiDDL .keywordWrap {
-  float: left;
-  background: #edf2f8;
-  border: 1px solid #bfc9d7;
-  border-radius: 2px;
-  margin: 5px 5px 0 0;
-  font-size: 12px;
-  padding: 5px 10px;
-}
-.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segmentHeader .multiDDL .keywordWrap .icon-close {
-  font-size: 9px;
-  width: 9px;
-  height: 9px;
-  float: right;
-  margin: 4px 0 0 5px;
 }
 .adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segmentHeader .sliderAmount {
   border: 0;
@@ -3458,4 +3512,23 @@
 .accounts-popup.popup-holder .checkbox + .checkbox,
 .users-popup.popup-holder .checkbox + .checkbox {
   margin: 10px 0px 10px 20px ;
+}
+.keywordWrap {
+  float: left;
+  background: #edf2f8;
+  border: 1px solid #bfc9d7;
+  border-radius: 2px;
+  margin: 5px 5px 0 0;
+  font-size: 12px;
+  padding: 5px 10px;
+}
+.keywordWrap .icon-close {
+  font-size: 9px;
+  width: 9px;
+  height: 9px;
+  float: right;
+  margin: 4px 0 0 5px;
+}
+.remove-row .icon-clear {
+  margin: 10px 0 10px 5px ;
 }

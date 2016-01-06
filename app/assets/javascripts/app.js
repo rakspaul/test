@@ -138,9 +138,10 @@ var angObj = '';
                 controller: 'CreateCampaignController',
                 //   css: assets.css_visto_application,
                 resolve: {
-                    "check": function ($location, RoleBasedService, workflowService) {
+                    "check": function ($location, RoleBasedService, workflowService, constants) {
                         var isWorkflowUser =  RoleBasedService.getClientRole() && RoleBasedService.getClientRole().workFlowUser;
                         workflowService.setMode('create');
+                        workflowService.setModuleInfo({'moduleName' : 'WORKFLOW', 'warningMsg' : constants.ACCOUNT_CHANGE_MSG_ON_CREATE_OR_EDIT_CAMPAIGN_PAGE, 'redirect' : false});
                         if (!isWorkflowUser) {
                             $location.path('/');
                         }
@@ -163,8 +164,9 @@ var angObj = '';
                 controller: 'CreateCampaignController',
                 //   css: assets.css_visto_application,
                 resolve:{
-                    "check":function($location, RoleBasedService, workflowService){
+                    "check":function($location, RoleBasedService, workflowService, constants){
                         var isWorkflowUser =  RoleBasedService.getClientRole() && RoleBasedService.getClientRole().workFlowUser;
+                        workflowService.setModuleInfo({'moduleName' : 'WORKFLOW', 'warningMsg' : constants.ACCOUNT_CHANGE_MSG_ON_CREATE_OR_EDIT_CAMPAIGN_PAGE, 'redirect' : true});
                         workflowService.setMode('edit');
                         if(!isWorkflowUser){
                             $location.path('/');
@@ -178,8 +180,9 @@ var angObj = '';
                 controller: 'CampaignOverViewController',
                 //     css: assets.css_visto_application,
                 resolve: {
-                    "check": function ($location, RoleBasedService) {
+                    "check": function ($location, RoleBasedService, workflowService, constants) {
                         var isWorkflowUser =  RoleBasedService.getClientRole() && RoleBasedService.getClientRole().workFlowUser;
+                        workflowService.setModuleInfo({'moduleName' : 'WORKFLOW', 'warningMsg' : constants.ACCOUNT_CHANGE_MSG_ON_CAMPIGN_OVERVIEW_PAGE, 'redirect' : true});
                         if (!isWorkflowUser) {
                             $location.path('/');
                         }
@@ -192,9 +195,10 @@ var angObj = '';
                 controller: 'CampaignAdsCreateController',
                 //  css: assets.css_visto_application,
                 resolve: {
-                    "check": function ($location, RoleBasedService, workflowService) {
+                    "check": function ($location, RoleBasedService, workflowService, constants) {
                         var isWorkflowUser =  RoleBasedService.getClientRole() && RoleBasedService.getClientRole().workFlowUser;
                         workflowService.setMode('create');
+                        workflowService.setModuleInfo({'moduleName' : 'WORKFLOW', 'warningMsg' : constants.ACCOUNT_CHANGE_MSG_ON_CREATE_OR_EDIT_AD_PAGE , 'redirect' : true});
                         if (!isWorkflowUser) {
                             $location.path('/');
                         }
@@ -207,9 +211,10 @@ var angObj = '';
                 controller: 'CampaignAdsCreateController',
                 //  css: assets.css_visto_application,
                 resolve: {
-                    "check": function ($location, RoleBasedService,workflowService) {
+                    "check": function ($location, RoleBasedService,workflowService, constants) {
                         var isWorkflowUser =  RoleBasedService.getClientRole() && RoleBasedService.getClientRole().workFlowUser;
                         workflowService.setMode('create');
+                        workflowService.setModuleInfo({'moduleName' : 'WORKFLOW', 'warningMsg' : constants.ACCOUNT_CHANGE_MSG_ON_CREATE_OR_EDIT_AD_PAGE, 'redirect' : true});
                         if (!isWorkflowUser) {
                             $location.path('/');
                         }
@@ -222,9 +227,10 @@ var angObj = '';
                 controller: 'CampaignAdsCreateController',
                 //  css: assets.css_visto_application,
                 resolve:{
-                    "check":function($location, RoleBasedService, workflowService){
+                    "check":function($location, RoleBasedService, workflowService, constants){
                         var isWorkflowUser =  RoleBasedService.getClientRole() && RoleBasedService.getClientRole().workFlowUser;
                         workflowService.setMode('edit');
+                        workflowService.setModuleInfo({'moduleName' : 'WORKFLOW', 'warningMsg' : constants.ACCOUNT_CHANGE_MSG_ON_CREATE_OR_EDIT_AD_PAGE , 'redirect' : true});
                         if(!isWorkflowUser){
                             $location.path('/');
                         }
@@ -238,9 +244,10 @@ var angObj = '';
                 controller: 'CampaignAdsCreateController',
                 //  css: assets.css_visto_application,
                 resolve:{
-                    "check":function($location, RoleBasedService, workflowService){
+                    "check":function($location, RoleBasedService, workflowService, constants){
                         var isWorkflowUser =  RoleBasedService.getClientRole() && RoleBasedService.getClientRole().workFlowUser;
                         workflowService.setMode('edit');
+                        workflowService.setModuleInfo({'moduleName' : 'WORKFLOW', 'warningMsg' : constants.ACCOUNT_CHANGE_MSG_ON_CREATE_OR_EDIT_AD_PAGE , 'redirect' : true});
                         if(!isWorkflowUser){
                             $location.path('/');
                         }
@@ -328,7 +335,7 @@ var angObj = '';
 
             dataService.updateRequestHeader();
 
-            if((loginModel.getAuthToken()) && (localStorage.getItem('selectedClient') == undefined)) {
+            if((loginModel.getAuthToken()) && (localStorage.getItem('selectedClient') === null || localStorage.getItem('selectedClient') == undefined )) {
                 workflowService.getClients().then(function (result) {
                     if(result && result.data.data.length >0) {
                         loginModel.setSelectedClient({'id': result.data.data[0].children[0].id, 'name': result.data.data[0].children[0].name});
@@ -365,6 +372,7 @@ var angObj = '';
         }
 
         var locationChangeStartFunc = $rootScope.$on('$locationChangeStart', function () {
+            workflowService.clearModuleInfo();
             loginCheckFunc();
         });
 

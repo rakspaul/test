@@ -86,15 +86,16 @@
   }
   
   // Inputs
-  input[type='text'], input[type='number'] {
+  input[type='text'], input[type='number'], .has-success input[type='text'].form-control{
     border: 1px solid #BFC9D7;
     border-radius: 2px !important;
     line-height: normal;
     padding: 10px 12px 7px 12px;
     height: auto;
     box-shadow: none;
+    border-color: #BFC9D7;
   }
-  input[type='text']:focus, input[type='number']:focus {
+  input[type='text']:focus, input[type='number']:focus, .has-success input[type='text'].form-control:focus{
     border: 1px solid #0978c9;
     box-shadow: none;
   }
@@ -415,6 +416,7 @@
           text-indent: 2px;
           width: 150px;
           background: transparent;
+          cursor: pointer;
         }
         #endDateInput, #individualAdsEndDateInput {
           background: rgba(0, 0, 0, 0.07);
@@ -633,6 +635,9 @@
       background-color: #E1EDF9;
       color:#363D49;
     }
+    .btn-primary.first:not(.active) {
+      border-left : 1px solid #BFC9D7;
+    }
     .btn-primary.active {
       background-color: #0978C9;
       border: 1px solid #0978C9 !important;
@@ -822,6 +827,7 @@
           text-decoration: none;
           padding: 4px ;
           border-width: 0;
+          cursor: pointer;
         }
         a:hover {
           background: transparent;
@@ -1196,7 +1202,7 @@
       text-align: center;
       .targetDataSavedTop {
         display: table;
-        margin: 0 auto 10px ;
+        margin: 0 auto 2px ;
       }
       .icon-target, .icon-exclude {
         font-size: 16px;
@@ -1300,6 +1306,34 @@
     border-top-color: rgba(154, 154, 154, 0.38);
     border-width: 8px;
     margin-left: -8px;
+  }
+  
+  //Next Btn Slide
+  .nextWrapper {
+    position: absolute;
+    left: -1px;
+    bottom: 0px;
+    background: #fff;
+    border-top: 1px solid #D0D0D0;
+    height: 30px;
+    width: 100%;
+    cursor: pointer;
+    text-align: center;
+    img {
+      width: 35px;
+      margin-top: -12px;
+      /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#ffffff+37,ffffff+100&amp;1+22,0+100 */
+      background: -moz-linear-gradient(top,  rgba(255,255,255,1) 22%, rgba(255,255,255,0.81) 37%, rgba(255,255,255,0) 100%); /* FF3.6+ */
+      background: -webkit-gradient(linear, left top, left bottom, color-stop(22%,rgba(255,255,255,1)), color-stop(37%,rgba(255,255,255,0.81)), color-stop(100%,rgba(255,255,255,0))); /* Chrome,Safari4+ */
+      background: -webkit-linear-gradient(top,  rgba(255,255,255,1) 22%,rgba(255,255,255,0.81) 37%,rgba(255,255,255,0) 100%); /* Chrome10+,Safari5.1+ */
+      background: -o-linear-gradient(top,  rgba(255,255,255,1) 22%,rgba(255,255,255,0.81) 37%,rgba(255,255,255,0) 100%); /* Opera 11.10+ */
+      background: -ms-linear-gradient(top,  rgba(255,255,255,1) 22%,rgba(255,255,255,0.81) 37%,rgba(255,255,255,0) 100%); /* IE10+ */
+      background: linear-gradient(to bottom,  rgba(255,255,255,1) 22%,rgba(255,255,255,0.81) 37%,rgba(255,255,255,0) 100%); /* W3C */
+      filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#00ffffff',GradientType=0 ); /* IE6-9 */
+    }
+    .btn {
+      margin-top: -24px ;
+    }
   }
   
   /*! jQuery UI - v1.11.4 - 2015-11-05 For Slider
