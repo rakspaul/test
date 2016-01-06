@@ -80,6 +80,11 @@
   min-height: 730px;
   position: relative;
 }
+#campaignCreate .firstWrapper .masterContainer .settingWrap .adName {
+  margin-top: -35px;
+  background: #FFF;
+  padding: 0 0 10px 0;
+}
 #campaignCreate .firstWrapper .masterContainer .collapseHeader {
   float: left;
   width: 100%;
