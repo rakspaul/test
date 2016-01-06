@@ -963,9 +963,10 @@ var angObj = angObj || {};
                         postAdDataObj['domainAction'] = $scope.adData.inventory.domainAction;
                     }
                     if (!$scope.TrackingIntegrationsSelected) {
-                        if (!$.isEmptyObject($scope.postPlatformDataObj)) {
-                            postAdDataObj['adPlatformCustomInputs'] = $scope.postPlatformDataObj;
+                        if ($.isEmptyObject($scope.postPlatformDataObj)) {
+                            $scope.saveCustomeFieldForPlatform();
                         }
+                        postAdDataObj['adPlatformCustomInputs'] = $scope.postPlatformDataObj;
                     }
                     campaignOverView.saveAds(postAdDataObj, isDownloadTrackerClicked)
                 }

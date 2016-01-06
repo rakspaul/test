@@ -340,7 +340,7 @@
                         }
                         $scope.strategyByActionId = strategyByActionId;
                         activityList.data.data = actionItemsArray;
-                        dataService.updateLastViewedAction($routeParams.campaignId);
+                        //dataService.updateLastViewedAction($routeParams.campaignId);
                     } else { //preventing the model from sharing old data when no activity is present for other campaigns
                         activityList.data.data = undefined;
                     }
