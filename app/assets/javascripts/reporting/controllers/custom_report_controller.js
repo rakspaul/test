@@ -595,7 +595,7 @@ var angObj = angObj || {};
             $scope.requestData.reportDefinition.metrics = $scope.reports.reportDefinition.metrics;
             $scope.requestData.schedule = $scope.reports.schedule;
             $scope.requestData.isScheduled = $scope.scheduleReportActive;
-            $scope.requestData.schedule.occurance = $scope.valueWithDefault($scope.reports.schedule.occurance,$scope.reports.schedule.frequency,$scope.requestData.schedule.occurance);
+            $scope.requestData.schedule.occurance = $scope.valueWithDefault($scope.reports.schedule.occurance,$scope.reports.schedule.frequency,'');
             $scope.requestData.reportDefinition.dimensions.push({"dimension":$scope.reports.reportDefinition.dimensions.primary.dimension,'type':"Primary"});
             if($scope.reports.reportDefinition.dimensions.primary.value) {
                 $scope.requestData.reportDefinition.filters.push({
