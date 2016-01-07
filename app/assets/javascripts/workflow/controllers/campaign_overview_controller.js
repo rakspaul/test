@@ -36,7 +36,6 @@ var angObj = angObj || {};
         //show selected targets in ads card
         $scope.displaySelectedTargets = function(adsData){
             var selectedStr = '';
-                console.log('$scope.adsData',adsData);
             if(adsData){
                 if((adsData.targets.geoTargets.REGION && adsData.targets.geoTargets.REGION.geoTargetList.length > 0) ||
                     (adsData.targets.geoTargets.DMA && adsData.targets.geoTargets.DMA.geoTargetList.length > 0) ||
