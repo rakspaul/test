@@ -42,6 +42,7 @@ var angObj = angObj || {};
         $scope.showAddBreakdownButton = true;
         $scope.updateScheduleReport = false;
         $scope.buttonLabel = $scope.textConstants.GENERATE_LABEL;
+        $scope.buttonResetCancel = $scope.textConstants.RESET_LABEL;
         $scope.stopRedirectingPage = true;
         $scope.initializeMetrics = function(dataObj) {
             //delivery metrics
@@ -297,6 +298,7 @@ var angObj = angObj || {};
             if($routeParams.reportId) {
                 $scope.updateScheduleReport = true;
                 $scope.buttonLabel = "Update";
+                $scope.buttonResetCancel = "Cancel";
                 var url = urlService.scheduledReport($routeParams.reportId);
                 dataStore.deleteFromCache(url);
                 dataService.fetch(url).then(function (response) {
@@ -1481,6 +1483,18 @@ var angObj = angObj || {};
                     $scope.scheduleReport();
                 }
             }
+            
+            $scope.resetMetricOptions = function() {
+                var url = '/reports/schedules';
+                if ($scope.buttonResetCancel == "Cancel") {
+                    window.location.href = url;                     
+                } else if ($scope.buttonResetCancel == "Reset") {                   
+                    localStorage.removeItem('customReport');
+                    $route.reload();
+                } else {
+                }
+            }  
+
 
             $scope.addSearch = function(event) {
                 event.stopPropagation();
