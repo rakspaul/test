@@ -174,25 +174,29 @@ var angObj = angObj || {};
             workflowService.getPlatformCustomInputs($scope.adData.platformId).then(function (result) {
                 var adPlatformCustomInputs, platformCustomeJson;
                 if (result.status === "OK" || result.status === "success") {
-                    platformCustomeJson = JSON.parse(result.data.data.customInputJson);
-                    if ($scope.mode === 'edit') {
-                        $scope.showCustomeFieldBox();
-                        var adPlatformCustomInputsLocalStorageValue = localStorage.getItem('adPlatformCustomInputs');
-                        adPlatformCustomInputs = (adPlatformCustomInputsLocalStorageValue && JSON.parse(adPlatformCustomInputsLocalStorageValue)) || platformCustomeJson;
-                        platformCustomeModule.init(platformCustomeJson, platformWrap, adPlatformCustomInputs);
-                    } else {
-                        $scope.showCustomeFieldBox();
+                    if(result.data.data.customInputJson != ""){
+                        platformCustomeJson = JSON.parse(result.data.data.customInputJson);
+                        if ($scope.mode === 'edit') {
+                            $scope.showCustomeFieldBox();
+                            var adPlatformCustomInputsLocalStorageValue = localStorage.getItem('adPlatformCustomInputs');
+                            adPlatformCustomInputs = (adPlatformCustomInputsLocalStorageValue && JSON.parse(adPlatformCustomInputsLocalStorageValue)) || platformCustomeJson;
+                            platformCustomeModule.init(platformCustomeJson, platformWrap, adPlatformCustomInputs);
+                        } else {
+                            $scope.showCustomeFieldBox();
 
-                        //maintain state of building platform strategy when user selects it navigtes to other places
-                        if (oldPlatformName != $scope.adData.platform) {
-                            oldPlatformName = workflowService.getPlatform().displayName;
-                            platformCustomeModule.init(platformCustomeJson, platformWrap);
-                        }
-                        else if (!$scope.postPlatformDataObj) {
-                            platformCustomeModule.init(platformCustomeJson, platformWrap);
-                        }
+                            //maintain state of building platform strategy when user selects it navigtes to other places
+                            if (oldPlatformName != $scope.adData.platform) {
+                                oldPlatformName = workflowService.getPlatform().displayName;
+                                platformCustomeModule.init(platformCustomeJson, platformWrap);
+                            }
+                            else if (!$scope.postPlatformDataObj) {
+                                platformCustomeModule.init(platformCustomeJson, platformWrap);
+                            }
 
+                        }
                     }
+
+
                 }
             });
         }
