@@ -92,6 +92,7 @@ var angObj = angObj || {};
         $scope.selectedDayParts = [];
         $scope.adData.setSizes = constants.WF_NOT_SET;
         $scope.dayPartTotal = 0;
+        $scope.budgetErrorObj = {};
 
         $scope.editCampaign = function (workflowcampaignData) {
             window.location.href = '/mediaplan/' + workflowcampaignData.id + '/edit';
@@ -812,8 +813,8 @@ var angObj = angObj || {};
             var formElem = $("#formAdCreate");
             var formData = formElem.serializeArray();
             formData = _.object(_.pluck(formData, 'name'), _.pluck(formData, 'value'));//console.log(formData);
-            if ((formData.budgetAmount && $scope.formAdCreate.budgetAmount.$error.mediaCostValidator) ||  ($scope.budgetErrorObj.mediaCostValidator || $scope.budgetErrorObj.availableRevenueValidator)) {
-                  $rootScope.setErrAlertMessage("Mandatory fields need to be specified for the Ad");
+            if ((formData.budgetAmount && $scope.formAdCreate.budgetAmount.$error.mediaCostValidator) ||  ($scope.budgetErrorObj.mediaCostValidator || $scope.budgetErrorObj.availableRevenueValidator || $scope.budgetErrorObj.impressionPerUserValidator)) {
+                $rootScope.setErrAlertMessage("Mandatory fields need to be specified for the Ad");
                 return false;
             }
 
@@ -1058,70 +1059,7 @@ var angObj = angObj || {};
             $scope.dayPartTotal =  ($scope.selectedDayParts['data'])?$scope.selectedDayParts['data'].length:0;
         }
 
-        $scope.budgetErrorObj = {};
 
-        $scope.adBudgetValidator = function() {
-            if(!$scope.workflowData.campaignData) return false;
-            $scope.budgetErrorObj.mediaCostValidator = false;
-            $scope.budgetErrorObj.availableRevenueValidator = false;
-            $scope.budgetErrorObj.availableMaximumAdRevenueValidator = false;
-
-            var campaignData = $scope.workflowData.campaignData;
-            var campaignBuget = Number(campaignData.deliveryBudget || 0);
-            var adAvailableRevenue;
-            var adsData;
-            var adMaximumRevenue = Number(campaignData.deliveryBudget - (campaignData.bookedSpend || 0));
-            var budgetAmount = Number($scope.adData.budgetAmount);
-
-            if($scope.workflowData.adsData && $scope.mode =='edit') {
-                adsData = $scope.workflowData.adsData;
-                adAvailableRevenue = Number(adsData.availableRevenue);
-            }
-
-            if(budgetAmount >0) {
-                if ($scope.adData.budgetType.toLowerCase() == 'cost') {
-                    if(adAvailableRevenue) {
-                        if (budgetAmount > adAvailableRevenue) {
-                            $scope.budgetErrorObj.availableRevenueValidator = true;
-                            $scope.budgetErrorObj.mediaCostValidator = false;
-                        }
-                    } else if (budgetAmount > campaignBuget) {
-                        $scope.budgetErrorObj.availableRevenueValidator = false;
-                        $scope.budgetErrorObj.mediaCostValidator = true;
-                    } else if(budgetAmount >= adMaximumRevenue) { //in case of create ad total budget is greater then adMaximumRevene
-                        $scope.budgetErrorObj.availableMaximumAdRevenueValidator = true;
-                        $scope.adMaximumRevenue = Math.round(adMaximumRevenue);
-                    }
-                } else {
-                    var unitType = $scope.adData.unitType;
-                    var unitCost = Number($scope.adData.unitCost);
-                    var totalBudget;
-                    if (unitType.name === 'CPM') {
-                        totalBudget = unitCost * (budgetAmount / 1000);
-                    } else if (unitType.name === 'CPC' || unitType.name === 'CPA') {
-                        totalBudget = unitCost * budgetAmount;
-                    }
-                    if ($scope.mode === 'edit' && totalBudget > adAvailableRevenue) {
-                        $scope.budgetErrorObj.availableRevenueValidator = true;
-                    }
-
-                    if($scope.mode === 'create' && totalBudget >= adMaximumRevenue) { //in case of create ad total budget is greater then adMaximumRevene
-                        $scope.budgetErrorObj.availableMaximumAdRevenueValidator = true;
-                    }
-
-
-
-                }
-            }
-        }
-
-        $scope.$watch('adData.budgetType', function(newValue, oldValue) {
-            if(newValue !== oldValue) {
-                $scope.budgetErrorObj.availableRevenueValidator = false;
-                $scope.budgetErrorObj.mediaCostValidator = false;
-            }
-            $scope.adBudgetValidator();
-        })
 
     });
 
@@ -1385,6 +1323,84 @@ var angObj = angObj || {};
     });
 
     angObj.controller('BudgetDeliveryController', function ($scope, $window, $routeParams, constants, workflowService, $timeout, utils, $location, $filter) {
+
+
+
+        $scope.ImpressionPerUserValidator = function() {
+            $scope.budgetErrorObj.impressionPerUserValidator = false;
+            var impressionPerUser = Number($scope.adData.quantity);
+            if ($scope.adData.budgetType.toLowerCase() == 'impressions' && impressionPerUser >=0) {
+                var totalImpression = Number($scope.adData.budgetAmount);
+                if(impressionPerUser > totalImpression) {
+                    $scope.budgetErrorObj.impressionPerUserValidator = true;
+                }
+            }
+        };
+
+
+        $scope.adBudgetValidator = function() {
+            if(!$scope.workflowData.campaignData) return false;
+            $scope.budgetErrorObj.mediaCostValidator = false;
+            $scope.budgetErrorObj.availableRevenueValidator = false;
+            $scope.budgetErrorObj.availableMaximumAdRevenueValidator = false;
+
+            var campaignData = $scope.workflowData.campaignData;
+            var campaignBuget = Number(campaignData.deliveryBudget || 0);
+            var adAvailableRevenue;
+            var adsData;
+            var adMaximumRevenue = Number(campaignData.deliveryBudget - (campaignData.bookedSpend || 0));
+            var budgetAmount = Number($scope.adData.budgetAmount);
+
+            if($scope.workflowData.adsData && $scope.mode =='edit') {
+                adsData = $scope.workflowData.adsData;
+                adAvailableRevenue = Number(adsData.availableRevenue);
+            }
+            if(budgetAmount >0) {
+                $scope.ImpressionPerUserValidator();
+                if ($scope.adData.budgetType.toLowerCase() == 'cost') {
+
+                    if(adAvailableRevenue) {
+                        if (budgetAmount > adAvailableRevenue) {
+                            $scope.budgetErrorObj.availableRevenueValidator = true;
+                            $scope.budgetErrorObj.mediaCostValidator = false;
+                        }
+                    } else if (budgetAmount > campaignBuget) {
+                        $scope.budgetErrorObj.availableRevenueValidator = false;
+                        $scope.budgetErrorObj.mediaCostValidator = true;
+                    } else if(budgetAmount >= adMaximumRevenue) { //in case of create ad total budget is greater then adMaximumRevene
+                        $scope.budgetErrorObj.availableMaximumAdRevenueValidator = true;
+                        $scope.adMaximumRevenue = Math.round(adMaximumRevenue);
+                    }
+                } else {
+                    var unitType = $scope.adData.unitType;
+                    var unitCost = Number($scope.adData.unitCost);
+                    var totalBudget;
+                    if (unitType.name === 'CPM') {
+                        totalBudget = unitCost * (budgetAmount / 1000);
+                    } else if (unitType.name === 'CPC' || unitType.name === 'CPA') {
+                        totalBudget = unitCost * budgetAmount;
+                    }
+                    if ($scope.mode === 'edit' && totalBudget > adAvailableRevenue) {
+                        $scope.budgetErrorObj.availableRevenueValidator = true;
+                    }
+
+                    if($scope.mode === 'create' && totalBudget >= adMaximumRevenue) { //in case of create ad total budget is greater then adMaximumRevene
+                        $scope.budgetErrorObj.availableMaximumAdRevenueValidator = true;
+                    }
+
+
+
+                }
+            }
+        }
+
+        $scope.$watch('adData.budgetType', function(newValue, oldValue) {
+            if(newValue !== oldValue) {
+                $scope.budgetErrorObj.availableRevenueValidator = false;
+                $scope.budgetErrorObj.mediaCostValidator = false;
+            }
+            $scope.adBudgetValidator();
+        })
 
         $scope.checkForPastDate = function (startDate, endDate) {
             var endDate = moment(endDate).format("MM/DD/YYYY");

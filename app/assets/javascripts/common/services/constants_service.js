@@ -513,8 +513,7 @@
 
     this.CHANGE_PLATFORM_MESSAGE = "Your entries for the following settings are not compatible with [Platform Name]: [Settings list]. Would you like to clear these settings and switch platforms? (OK/Cancel).";
     this.ARCHIVE_MESSAGE = "Do you want to Archive / Delete the Ad?";
-
-
+    this.IMPRESSION_PER_USER_MESSAGE = 'you must enter impression per user less than or equal to total ad impression'
   };
 
   commonModule.service("constants", constants);
