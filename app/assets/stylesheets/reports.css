@@ -2663,48 +2663,84 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
   max-width: 60%;
   line-height: 17px ;
 }
-#reports_platform_cost_block .reports_platform_header .each_cost_col.fifth_col {
+#reports_platform_cost_block .reports_platform_header .each_cost_col {
+  margin: 10px 5px 5px 0px ;
+}
+#reports_platform_cost_block .reports_platform_header .each_cost_col.fifth_col,
+#reports_platform_cost_block .strategy_total_container_header .each_cost_col.fifth_col {
   width: 97px ;
 }
-#reports_platform_cost_block .reports_platform_header .each_cost_col.first_col {
+#reports_platform_cost_block .reports_platform_header .each_cost_col.first_col,
+#reports_platform_cost_block .strategy_total_container_header .each_cost_col.first_col {
   width: 133px ;
 }
-#reports_platform_cost_block .reports_platform_header .each_cost_col.first_col.sort_order_down.active {
+#reports_platform_cost_block .reports_platform_header .each_cost_col.first_col.sort_order_down.active,
+#reports_platform_cost_block .strategy_total_container_header .each_cost_col.first_col.sort_order_down.active {
   background-position: 98px -64px;
   color: #0978c9;
 }
-#reports_platform_cost_block .reports_platform_header .each_cost_col.first_col.sort_order_down:hover {
+#reports_platform_cost_block .reports_platform_header .each_cost_col.first_col.sort_order_down:hover,
+#reports_platform_cost_block .strategy_total_container_header .each_cost_col.first_col.sort_order_down:hover {
   background-position: 98px 1px;
 }
-#reports_platform_cost_block .reports_platform_header .each_cost_col.first_col.sort_order_up.active {
+#reports_platform_cost_block .reports_platform_header .each_cost_col.first_col.sort_order_up.active,
+#reports_platform_cost_block .strategy_total_container_header .each_cost_col.first_col.sort_order_up.active {
   background-position: 98px -64px;
   color: #0978c9;
 }
-#reports_platform_cost_block .reports_platform_header .each_cost_col.first_col.sort_order_up:hover {
+#reports_platform_cost_block .reports_platform_header .each_cost_col.first_col.sort_order_up:hover,
+#reports_platform_cost_block .strategy_total_container_header .each_cost_col.first_col.sort_order_up:hover {
   background-position: 98px 1px;
 }
-#reports_platform_cost_block .reports_platform_header .each_cost_col.sec_col {
+#reports_platform_cost_block .reports_platform_header .each_cost_col.sec_col,
+#reports_platform_cost_block .strategy_total_container_header .each_cost_col.sec_col {
   min-width: 11px;
   width: 69px;
 }
-#reports_platform_cost_block .reports_platform_header .each_cost_col.ninth_col {
+#reports_platform_cost_block .reports_platform_header .each_cost_col.ninth_col,
+#reports_platform_cost_block .strategy_total_container_header .each_cost_col.ninth_col {
   background-position: 108px 1px;
   margin-right: 8px;
   padding-right: 12px;
   white-space: nowrap;
-  width: 119px;
+  width: 120px;
 }
-#reports_platform_cost_block .reports_platform_header .each_cost_col.ninth_col.active {
+#reports_platform_cost_block .reports_platform_header .each_cost_col.ninth_col.active,
+#reports_platform_cost_block .strategy_total_container_header .each_cost_col.ninth_col.active {
   background-position: 108px -63px;
 }
-#reports_platform_cost_block .reports_platform_header .each_cost_col.fifth_col {
+#reports_platform_cost_block .reports_platform_header .each_cost_col.fifth_col,
+#reports_platform_cost_block .strategy_total_container_header .each_cost_col.fifth_col {
   min-width: 11px;
   width: 51px;
 }
-#reports_platform_cost_block .reports_platform_header .each_cost_col {
-  margin: 10px 5px 5px 0px ;
+#reports_platform_cost_block .reports_platform_header .seventh_col,
+#reports_platform_cost_block .strategy_total_container_header .seventh_col {
+  min-width: 72px;
+  width: 72px;
 }
-#reports_platform_cost_block .reports_platform_header .total_cost {
+#reports_platform_cost_block .reports_platform_header .third_col,
+#reports_platform_cost_block .strategy_total_container_header .third_col {
+  width: 108px ;
+}
+#reports_platform_cost_block .reports_platform_header .fourth_col,
+#reports_platform_cost_block .strategy_total_container_header .fourth_col,
+#reports_platform_cost_block .reports_platform_header .fifth_col,
+#reports_platform_cost_block .strategy_total_container_header .fifth_col,
+#reports_platform_cost_block .reports_platform_header .sixth_col,
+#reports_platform_cost_block .strategy_total_container_header .sixth_col,
+#reports_platform_cost_block .reports_platform_header .seventh_col,
+#reports_platform_cost_block .strategy_total_container_header .seventh_col,
+#reports_platform_cost_block .reports_platform_header .eigth_col,
+#reports_platform_cost_block .strategy_total_container_header .eigth_col,
+#reports_platform_cost_block .reports_platform_header .ninth_col,
+#reports_platform_cost_block .strategy_total_container_header .ninth_col,
+#reports_platform_cost_block .reports_platform_header .tenth_col,
+#reports_platform_cost_block .strategy_total_container_header .tenth_col {
+  padding-right: 17px ;
+}
+#reports_platform_cost_block .reports_platform_header .total_cost,
+#reports_platform_cost_block .strategy_total_container_header .total_cost {
   margin-right: 0px ;
   margin-left: 10px ;
 }
@@ -2713,7 +2749,6 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 }
 #reports_platform_cost_block .eigth_col {
   width: 80px ;
-  margin-right: 20px ;
 }
 #reports_platform_cost_block .first_col {
   text-align: left;

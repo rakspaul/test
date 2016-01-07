@@ -2774,7 +2774,14 @@ div.strategy_total_container {
       }
     }
   }
-  .reports_platform_header{
+  .reports_platform_header {
+    .each_cost_col  {
+      margin: 10px 5px 5px 0px ;
+
+    }
+    
+  }
+  .reports_platform_header , .strategy_total_container_header{
     .each_cost_col {
       &.fifth_col{
         width: 97px ;
@@ -2818,7 +2825,7 @@ div.strategy_total_container {
         margin-right: 8px;
         padding-right: 12px;
         white-space: nowrap;
-        width: 119px;
+        width: 120px;
         &.active{
           background-position: 108px -63px;
         }
@@ -2830,26 +2837,29 @@ div.strategy_total_container {
         width: 51px;
 
       }
+      
     }
-
-
-  }
-  .reports_platform_header {
-    .each_cost_col  {
-      margin: 10px 5px 5px 0px ;
-
+    .seventh_col {
+      min-width: 72px;
+      width: 72px;
+    }
+    .third_col {
+      width: 108px ;
+    }
+    .fourth_col , .fifth_col , .sixth_col , .seventh_col , .eigth_col , .ninth_col , .tenth_col {
+        padding-right: 17px ;
     }
     .total_cost {
       margin-right: 0px ;
       margin-left: 10px ;
     }
   }
+
   .dropdown-menu {
     text-align: left;
   }
   .eigth_col {
     width: 80px ;
-    margin-right: 20px ;
   }
 
   .first_col {
@@ -2896,6 +2906,7 @@ div.strategy_total_container {
 
     }
   }
+
 }
 .optimization_header {
   .duration_filters {
