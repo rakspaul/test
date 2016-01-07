@@ -1457,7 +1457,7 @@ var angObj = angObj || {};
             }
 
             $scope.addSearch = function(event) {
-                var target = $(event.target);
+                event.stopPropagation();
             }
 
             $scope.intermediateSave = function() {
