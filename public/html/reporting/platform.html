@@ -234,19 +234,19 @@
     <!--<div class="each_col ad_col">
         <div class="clearfix played_ad">
             <span class="specific_ad_icon"></span>
-            <span class="ad_val">{{vvData.videos_played > 0 ? (vvData.videos_played | nrFormat) : '-'}}</span>
+            <span class="ad_val">{{platform.video_played > 0 ? (platform.video_played | nrFormat) : '-'}}</span>
         </div>
         <div class="clearfix next_val viewed_ad">
             <span class="specific_ad_icon"></span>
-            <span class="ad_val">{{vvData.videos_viewable_imps > 0 ? (vvData.videos_viewable_imps | nrFormat) : '-'}}</span>
+            <span class="ad_val">{{platform.video_viewable_impressions > 0 ? (platform.video_viewable_impressions | nrFormat) : '-'}}</span>
         </div>
     </div>-->
     <div class="each_col sub_four_cols">
         <div class="sub_col">
-            <span>{{vvData.videos_1q_view_perc >0 ? ((vvData.videos_1q_view_perc | number:0)+'%') : '-'}}</span>
-            <span>{{vvData.videos_2q_view_perc >0 ? ((vvData.videos_2q_view_perc | number:0)+'%') : '-'}}</span>
-            <span>{{vvData.videos_3q_view_perc >0 ? ((vvData.videos_3q_view_perc | number:0)+'%') : '-'}}</span>
-            <span>{{vvData.videos_4q_view_perc >0 ? ((vvData.videos_4q_view_perc | number:0)+'%') : '-'}}</span>
+            <span>{{platform.vtc_25 >0 ? ((platform.vtc_25 | number:0)+'%') : '-'}}</span>
+            <span>{{platform.vtc_50 >0 ? ((platform.vtc_50 | number:0)+'%') : '-'}}</span>
+            <span>{{platform.vtc_75 >0 ? ((platform.vtc_75 | number:0)+'%') : '-'}}</span>
+            <span>{{platform.vtc_100 >0 ? ((platform.vtc_100 | number:0)+'%') : '-'}}</span>
         </div>
         <!--<div class="sub_col next_val">
             <span>{{vvData.videos_1q_view >0 ? (vvData.videos_1q_view | nrFormat) : '-'}}</span>
@@ -287,10 +287,10 @@
             </div>
         </div>
 
-        <div class="clearfix pull-left" ng-init= "vvData = platform.video_viewability_metrics" ng-include="'videoViewabilityPartialTpl'" ></div>
+        <div class="clearfix pull-left" ng-include="'videoViewabilityPartialTpl'" ></div>
 
         <div class="each_col suspicious_col">
-            {{platform.video_view_imps_suspicious_prec | number:2}}%
+            {{platform.video_view_imps_suspicious_perc | number:2}}%
         </div>
     </div>
 </script>
@@ -336,11 +336,11 @@
         <div class="each_col forth_col">
             <div class="sub_col">
                 <span> {{platform.other_viewable_impressions | nrFormat}}</span>
-                <span>{{platform.other_viewable_impressions_prec | number:0}}%</span>
+                <span>{{platform.other_viewable_impressions_perc | number:0}}%</span>
             </div>
         </div>
         <div class="each_col suspicious_col">
-            {{platform.other_view_imps_suspicious_prec | number:2}}%
+            {{platform.other_view_imps_suspicious_perc | number:2}}%
         </div>
        <!-- <div class="each_col seventh_col">
             {{platform[selected_filters.kpi_type.toLowerCase()] | appendDollor: selected_filters.kpi_type}}
