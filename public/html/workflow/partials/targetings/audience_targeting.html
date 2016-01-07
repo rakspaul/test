@@ -26,7 +26,7 @@
                 <div class="setOne">
                     <div class="segmentHeader" >
                         <div class="col-md-12 zeroPadding multiDDL">
-							<span class="icon-search"></span>
+							<span class="icon-search" ng-click="selectKeyword(keywordText)"></span>
 							<label class="col-md-12 greyTxt">Keyword</label>
 	                        <input type="text" class="col-md-12 keyword-txt" placeholder="Max 10 keywords. Must be seperated by commas" ng-keyup="showKeywords(keywordText,$event)" ng-model="keywordText"/>
 							<!--<label class="keywordWrap">Republican <span class="icon-close"></span></label>-->
