@@ -517,6 +517,7 @@
     this.TIMEZONE_US = 'America/New_York';
     this.DATE_UK_FORMAT = 'DD/MM/YYYY';
     this.DATE_US_FORMAT = 'MM/DD/YYYY';
+    this.DATE_UTC_FORMAT = 'YYYY-MM-DD HH:mm:ss.SSS';
   };
 
   commonModule.service("constants", constants);
