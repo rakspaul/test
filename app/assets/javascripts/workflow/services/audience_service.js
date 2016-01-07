@@ -35,7 +35,7 @@
                     for (var i = 0; i < keywords.length; i++) {
                         url += keywords[i];
                         if (i + 1 < keywords.length)
-                            url += '|||';
+                            url += '--';
                     }
                 }
                 if (source && source.length > 0) {
