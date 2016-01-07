@@ -2945,7 +2945,7 @@ input[type="submit"] {
   padding: 0 ;
 }
 .nav_filters .each_filter #advertisersDropDownList .brandsList_ul2 {
-  max-height: 300px;
+  max-height: 200px;
   overflow: auto ;
 }
 .nav_filters .each_filter #advertisersDropDownList .brand_search_highlight {
@@ -2975,7 +2975,7 @@ input[type="submit"] {
   padding: 0 ;
 }
 .nav_filters .each_filter #brandsList .brandsList_ul {
-  max-height: 300px;
+  max-height: 200px;
   overflow: auto ;
 }
 .nav_filters .each_filter #brandsList .brand_search_highlight {
@@ -3092,7 +3092,7 @@ input[type="submit"] {
   cursor: default;
 }
 .nav_filters .campaign_name_selected {
-  height: 30px ;
+  height: 20px ;
   min-width: 120px ;
   padding-right: 20px ;
   max-width: 220px ;
