@@ -1067,10 +1067,10 @@ var angObj = angObj || {};
             $scope.budgetErrorObj.availableMaximumAdRevenueValidator = false;
 
             var campaignData = $scope.workflowData.campaignData;
-            var campaignBuget = Number(campaignData.bookedRevenue || 0);
+            var campaignBuget = Number(campaignData.deliveryBudget || 0);
             var adAvailableRevenue;
             var adsData;
-            var adMaximumRevenue = Number(campaignData.bookedRevenue - (campaignData.bookedSpend || 0));
+            var adMaximumRevenue = Number(campaignData.deliveryBudget - (campaignData.bookedSpend || 0));
             var budgetAmount = Number($scope.adData.budgetAmount);
 
             if($scope.workflowData.adsData && $scope.mode =='edit') {
