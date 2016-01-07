@@ -3,8 +3,8 @@
 	<span class="icon-arrow-down"></span>
 	<h5 style="cursor: default;">Audience Segments</h5>
 	
-	<button class="pull-right btn btn-default" ng-click="saveCampaignWithAudience()" ng-disabled="selectedAudience.length == 0">Save Audience</button>
-    <button class="pull-right btn btn-link" ng-click="resetAudienceTargetingVariables();">Cancel</button>
+	<button class="pull-right btn btn-default" type="button" ng-click="saveCampaignWithAudience()" ng-disabled="selectedAudience.length == 0">Save Audience</button>
+    <button class="pull-right btn btn-link" type="button" ng-click="resetAudienceTargetingVariables();">Cancel</button>
 </div>
 
 <div class="col-md-12 zeroPadding tabbable">
@@ -28,13 +28,13 @@
                         <div class="col-md-12 zeroPadding multiDDL">
 							<span class="icon-search"></span>
 							<label class="col-md-12 greyTxt">Keyword</label>
-	                        <input type="text" class="col-md-12 keyword-txt" placeholder="Max 10 keywords. Must be seperated by commas" ng-keyup="showKeywords(keywordText)" ng-model="keywordText"/>
+	                        <input type="text" class="col-md-12 keyword-txt" placeholder="Max 10 keywords. Must be seperated by commas" ng-keyup="showKeywords(keywordText,$event)" ng-model="keywordText"/>
 							<!--<label class="keywordWrap">Republican <span class="icon-close"></span></label>-->
 							<!--<label class="keywordWrap">Outdoors <span class="icon-close"></span></label>-->
 							<!--<label class="keywordWrap">Fitness <span class="icon-close"></span></label>-->
-							<label class="keywordWrap" ng-repeat="key in selectedKeywords">{{key.keyword}} <span class="icon-close" ng-click="removeKeyword(key);"></span></label>
+							<label class="keywordWrap" ng-repeat="key in selectedKeywords">{{key}} <span class="icon-close" ng-click="removeKeyword(key);"></span></label>
 							<ul ng-if="audienceKeywords.length>0" class="dropdown-menu" role="menu" id="keywordsList" ng-style="dropdownCss">
-								<li ng-repeat="keyword in audienceKeywords | filter:keywordText" ng-click="selectKeyword(keyword)">
+								<li ng-repeat="keyword in audienceKeywords | filter:keywordText" ng-click="selectKeyword(keyword.keyword)">
 									<a >
 										<span class="tick"></span>
 										<span class="menuItemText ng-binding" >{{keyword.keyword}}</span>

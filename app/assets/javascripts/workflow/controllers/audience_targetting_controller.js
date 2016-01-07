@@ -164,9 +164,9 @@ var angObj = angObj || {};
 
             }
 
-            $scope.fetchAllKeywords = function(){
+            $scope.fetchAllKeywords = function(key){
                 //api call to fetch keywords
-                audienceService.fetchAudiencekeywords().then(function(result){
+                audienceService.fetchAudiencekeywords(key).then(function(result){
                     if (result.status === "OK" || result.status === "success") {
                         audienceService.setAudienceKeywords(result.data.data);
                         $scope.audienceKeywords = result.data.data;
@@ -197,36 +197,49 @@ var angObj = angObj || {};
                 $scope.setSortOrder();
                 //$scope.fetchAllAudience();
                 $scope.fetchAllSource();
-                $scope.fetchAllKeywords();
+                //$scope.fetchAllKeywords();
                 $scope.fetchAllCategories();
             }
 
             //$scope.initAudienceTargetting();
 
             //keyword user choice
-            $scope.showKeywords = function(keyword){
+            $scope.showKeywords = function(keyword,event){
                 if(keyword.length > 0)
                     $scope.dropdownCss.display = 'block';
                 else
                     $scope.dropdownCss.display = 'none';
 
+                if(event.which == 13){
+                    // fetch audience
+                    $scope.selectKeyword(keyword);
+
+                    return false;
+
+                }
+                //search the audience keyword an show list as and when the user types in
+                //else{
+                //    //fetch keywords
+                //    $scope.fetchAllKeywords(keyword)
+                //}
             }
 
             $scope.selectKeyword = function(keyword){
                 $scope.dropdownCss.display = 'none';
-                $scope.selectedKeywords.push(keyword);
-                var index = _.findIndex($scope.audienceKeywords, function(item) {
-                    return item.id == keyword.id});
-                $scope.audienceKeywords.splice(index,1);
+                var index = _.findIndex($scope.selectedKeywords, function(item) {
+                    return item == keyword});
+                if(index == -1)
+                    $scope.selectedKeywords.push(keyword);
+                $scope.audienceKeywords = [];
                 $('.keyword-txt').val('');
                 $scope.fetchAllAudience();
 
             }
 
             $scope.removeKeyword = function(keyword){
-                $scope.audienceKeywords.push(keyword);
+                //$scope.audienceKeywords.push(keyword);
                 var index = _.findIndex($scope.selectedKeywords, function(item) {
-                    return item.id == keyword.id});
+                    return item == keyword});
                 $scope.selectedKeywords.splice(index,1);
                 $scope.fetchAllAudience();
             }
@@ -258,7 +271,6 @@ var angObj = angObj || {};
             }
 
             $scope.updateSourceText = function(){
-                console.log('selected source',$scope.selectedSource);
                 if($scope.selectedSource.length == 0){
                     $scope.sourceText = 'All';
                 }
@@ -323,7 +335,6 @@ var angObj = angObj || {};
             }
 
             $scope.updateCategoryText = function(){
-                console.log('selected categoru',$scope.selectedCategory.length);
                 if($scope.selectedCategory.length == 0){
                     $scope.categoryText = 'All';
                 }
