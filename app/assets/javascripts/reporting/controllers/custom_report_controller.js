@@ -145,34 +145,60 @@ var angObj = angObj || {};
                             }
                         }
 
-                        angular.forEach(responseData.reportDefinition.filters, function(eachObj) {
-                            var dimensionObj = $scope.customeDimensionData[0].dimensions;
-                            _.each(dimensionObj,function(item) {
-                                var value1 = eachObj.dimension;
-                                var value2 = item.key;
-                                if(value1.trim() === value2.trim()) {
-                                    eachObj['name'] = item.value.trim();
-                                }
-                            });
+                     //returns name of the breakdown/filter key passed
+                    $scope.getFilterBreakdownName = function(key) {
+                        var dimensionObj = $scope.customeDimensionData[0].dimensions;
+                        var name;
+                        _.each(dimensionObj,function(item) {
+                            var value1 = key;
+                            var value2 = item.key;
+                            if(value1.trim() === value2.trim()) {
+                                name = item.value.trim();
+                            }
+                        });
+                        return name;
+                    }
 
+                    $scope.setPrimaryDimension = function(obj) {
+                        $scope.reports.reportDefinition.dimensions.primary.name = $scope.getFilterBreakdownName(obj.dimension);
+                        $scope.reports.reportDefinition.dimensions.primary.dimension = obj.dimension;
+                        if(obj.values) {
+                            $scope.reports.reportDefinition.dimensions.primary.value = obj.values;
+                        }
+                        $scope.showPrimaryTxtBox = true;
+                    }
+
+                    $scope.setSecondaryDimension = function(obj) {
+                        $scope.reports.reportDefinition.dimensions.secondary.name = $scope.getFilterBreakdownName(obj.dimension);
+                        $scope.reports.reportDefinition.dimensions.secondary.dimension = obj.dimension;
+                        if(obj.values) {
+                            $scope.reports.reportDefinition.dimensions.secondary.value = obj.values;
+                        }
+                        $scope.showSecondDimensionBlock = true;
+                        $scope.showSecondaryTxtBox = true;
+                        $scope.showAddBreakdownButton = false;
+                    }
+
+                    //set breakdown filter
+                    angular.forEach(responseData.reportDefinition.dimensions, function(eachObj) {
                             if((eachObj.type == "Primary")) {
-                                $scope.reports.reportDefinition.dimensions.primary.name = eachObj.name;
-                                $scope.reports.reportDefinition.dimensions.primary.dimension = eachObj.dimension;
-                                $scope.reports.reportDefinition.dimensions.primary.value = eachObj.values;
-                                $scope.showPrimaryTxtBox = true;
-                                $scope.select_dimension('Primary',$scope.reports.reportDefinition.dimensions.primary);
+                                $scope.setPrimaryDimension(eachObj);
                             } else if((eachObj.type == "Secondary")) {
-                                $scope.reports.reportDefinition.dimensions.secondary.name = eachObj.name;
-                                $scope.reports.reportDefinition.dimensions.secondary.dimension = eachObj.dimension;
-                                $scope.reports.reportDefinition.dimensions.secondary.value = eachObj.values;
-                                $scope.showSecondDimensionBlock = true;
-                                $scope.showSecondaryTxtBox = true;
-                                $scope.select_dimension('Secondary',eachObj);
-                                $scope.showAddBreakdownButton = false;
+                                $scope.setSecondaryDimension(eachObj);
+                            }
+                        });
+
+                    //set breakdown filter values if exist
+                    angular.forEach(responseData.reportDefinition.filters, function(eachObj) {
+                            eachObj['name'] =  $scope.getFilterBreakdownName(eachObj.dimension);
+                            if((eachObj.type == "Primary")) {
+                                $scope.setPrimaryDimension(eachObj);
+                            } else if((eachObj.type == "Secondary")) {
+                                $scope.setSecondaryDimension(eachObj);
                             } else {
                                 $scope.additionalFilters.push({"key":eachObj.dimension,"name":eachObj.name,"value":eachObj.values,"hide":false});
                             }
-                        });
+                    });
 
 
                         //metrics
@@ -580,7 +606,7 @@ var angObj = angObj || {};
              console.log('query string'+params);*/
         };
 
-        $scope.createData = function() {
+        $scope.createData = function(isIntermediateSave) {
             $scope.requestData =  {};
             $scope.requestData.reportDefinition = {};
             $scope.requestData.schedule = {};
@@ -597,7 +623,7 @@ var angObj = angObj || {};
             $scope.requestData.isScheduled = $scope.scheduleReportActive;
             $scope.requestData.schedule.occurance = $scope.valueWithDefault($scope.reports.schedule.occurance,$scope.reports.schedule.frequency,'');
             $scope.requestData.reportDefinition.dimensions.push({"dimension":$scope.reports.reportDefinition.dimensions.primary.dimension,'type':"Primary"});
-            if($scope.reports.reportDefinition.dimensions.primary.value) {
+           if($scope.reports.reportDefinition.dimensions.primary.value || isIntermediateSave) {
                 $scope.requestData.reportDefinition.filters.push({
                     "dimension": $scope.reports.reportDefinition.dimensions.primary.dimension,
                     "type": "Primary",
@@ -984,7 +1010,7 @@ var angObj = angObj || {};
             $scope.scheduleReportActive = $(that).prop('checked');
             if($scope.scheduleReportActive){
                 $scope.buttonLabel = $scope.textConstants.SCHEDULE_LABEL;
-                if($routeParams.reportId || localStorage.getItem('customReport')) {
+                if($routeParams.reportId) {
                     $scope.buttonLabel = "Update";
                 }
             } else {
@@ -1461,7 +1487,7 @@ var angObj = angObj || {};
             }
 
             $scope.intermediateSave = function() {
-                localStorage.setItem('customReport', JSON.stringify($scope.createData()));
+                localStorage.setItem('customReport', JSON.stringify($scope.createData(true)));
             }
 
             $scope.$on('$locationChangeStart', function( event,next ) {
