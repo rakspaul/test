@@ -964,7 +964,7 @@ var angObj = angObj || {};
                     }
                     if (!$scope.TrackingIntegrationsSelected) {
                         if ($.isEmptyObject($scope.postPlatformDataObj)) {
-                            $scope.saveCustomeFieldForPlatform();
+                            $scope.saveCustomeFieldForPlatform(1);
                         }
                         postAdDataObj['adPlatformCustomInputs'] = $scope.postPlatformDataObj;
                     }
