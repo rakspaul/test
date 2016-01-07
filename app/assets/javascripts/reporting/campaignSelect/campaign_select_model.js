@@ -92,6 +92,10 @@ campaignSelectModule.factory("campaignSelectModel", ['urlService','dataService' 
         return campaign;
     };
 
+    campaign.removeSelectedCampaign = function() {
+        return localStorage.removeItem('selectedCampaign');
+    }
+
     return campaign ;
 
 }]);

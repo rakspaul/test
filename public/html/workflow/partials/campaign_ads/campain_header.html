@@ -9,12 +9,13 @@
             </h4>
         </div>
         <div class="col-md-1" style="padding-left: 40px; border-left: 1px solid #ddd;">
-            <span class="greyTxt" style="padding-bottom: 2px;">Goal</span>
+            <span class="greyTxt" style="padding-bottom: 2px;">Objectives</span>
             <div class="icon-{{workflowData.campaignData.goal.toLowerCase() ==='brand' ? 'brand' : 'performance'}}" style="width: 27px; text-align: center;"></div>
+            <div class="icon-brand"></div>
         </div>
         <div class="col-md-1 borderZero">
-            <span class="greyTxt">Total Budget</span>
-            <span>{{(workflowData.campaignData.bookedRevenue || 0) | currency:undefined:0}}</span>
+            <span class="greyTxt">Delivery Budget</span>
+            <span>{{(workflowData.campaignData.deliveryBudget || 0) | currency:undefined:0}}</span>
         </div>
         <div class="col-md-2 borderZero">
             <span class="greyTxt">Flight Dates</span>
@@ -23,10 +24,10 @@
                 <span ng-if="workflowData.campaignData.numOfDays">({{workflowData.campaignData.numOfDays}} Days)</span>
             </span>
         </div>
-        <div class="col-md-2">
-            <span class="greyTxt">Pricing Model</span>
-            <span style="opacity: .3;">Cost Per Viewable Impression</span>
-        </div>
+        <!--<div class="col-md-2">-->
+            <!--<span class="greyTxt">Pricing Model</span>-->
+            <!--<span style="opacity: .3;">Cost Per Viewable Impression</span>-->
+        <!--</div>-->
         <div class="col-md-2 borderZero">
             <div class="col-md-3 zeroPadding" style="display: none;">
                 <span class="col-md-12 zeroPadding text-center" style="color: #DEDEDE;">Contacts</span>

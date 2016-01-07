@@ -18,6 +18,8 @@ var angObj = angObj || {};
         $scope.showCreateAdGrp=false;
         $scope.createGroupMessage=false;
         $scope.createGroupMessage=false;
+        $scope.brand=[];
+        $scope.performance=[];
         localStorage.setItem('campaignData','');
         $scope.moreThenThree = '';
         $scope.editCampaign=function(workflowcampaignData){
@@ -31,6 +33,46 @@ var angObj = angObj || {};
            $rootScope.setErrAlertMessage("",0);
         }
 
+        //show selected targets in ads card
+        $scope.displaySelectedTargets = function(adsData){
+            var selectedStr = '';
+            if(adsData){
+                if((adsData.targets.geoTargets.REGION && adsData.targets.geoTargets.REGION.geoTargetList.length > 0) ||
+                    (adsData.targets.geoTargets.DMA && adsData.targets.geoTargets.DMA.geoTargetList.length > 0) ||
+                    (adsData.targets.geoTargets.ZIP_CODE && adsData.targets.geoTargets.ZIP_CODE.geoTargetList.length > 0) ||
+                    (adsData.targets.geoTargets.CITY && adsData.targets.geoTargets.CITY.geoTargetList.length > 0))
+                {
+                    selectedStr += 'Geo';
+
+                }
+
+                if((adsData.targets.segmentTargets.segmentList && adsData.targets.segmentTargets.segmentList.length > 0)){
+                    if(selectedStr != ''){
+                        selectedStr += ', Audience';
+                    }
+                    else{
+                        selectedStr += 'Audience';
+
+                    }
+                }
+
+                if(adsData.targets.adDaypartTargets.schedule && adsData.targets.adDaypartTargets.schedule.length > 0){
+                    if(selectedStr != ''){
+                        selectedStr += ', Daypart';
+                    }
+                    else{
+                        selectedStr += 'Daypart';
+
+                    }
+                }
+
+                if(selectedStr == '')
+                    selectedStr = constants.WF_NOT_SET;
+            }
+
+
+            return selectedStr;
+        }
         //Archive save func more
         $scope.archiveCampaign=function(event){
             event.preventDefault();
@@ -54,6 +96,27 @@ var angObj = angObj || {};
         $scope.cancelArchiveCampaign=function(){
             $scope.campaignArchive=!$scope.campaignArchive;
         }
+        $scope.processObjectiveData=function(objectiveObj){
+            var brandingArr=_.filter(objectiveObj,function(obj){return obj.objective==="Branding"})
+            if(brandingArr.length>0){
+                $scope.brand=brandingArr[0].subObjectives;
+                var tooltip="Branding: " + $scope.brand[0];
+                for(var i=1;i<$scope.brand.length;i++){
+                    tooltip+=","+$scope.brand[i];
+                }
+                $scope.brandTooltip=tooltip;
+            }
+            var performanceArr=_.filter(objectiveObj,function(obj){return obj.objective==="Performance"})
+            if(performanceArr.length>0){
+                $scope.performance=performanceArr[0].subObjectives;
+                var tooltip="Performance: " + $scope.performance[0];
+                for(var i=1;i<$scope.performance.length;i++){
+                    tooltip+=","+$scope.performance[i];
+                }
+                $scope.performanceTooltip=tooltip;
+            }
+
+        }
         
         var campaignOverView = {
 
@@ -70,6 +133,19 @@ var angObj = angObj || {};
                     if (result.status === "OK" || result.status === "success") {
                         var responseData = result.data.data;
                         $scope.workflowData['campaignData'] = responseData;
+                        if(responseData.selectedObjectives && responseData.selectedObjectives.length>0){
+                            $scope.processObjectiveData(responseData.selectedObjectives);
+                        }
+                        if(responseData.primaryKpi){
+                            if(responseData.primaryKpi==="IMPRESSIONS")
+                                $scope.primaryKpiSelected="Impressions"
+                            else if(responseData.primaryKpi==="CLICKS")
+                                $scope.primaryKpiSelected="Clicks"
+                            else if(responseData.primaryKpi==="ACTIONS")
+                                $scope.primaryKpiSelected="Actions"
+                            else if(responseData.primaryKpi==="VIEWABLE_IMPRESSIONS")
+                                $scope.primaryKpiSelected="Impressions"
+                        }
                         var startDateElem = $('#adGrpStartDateInput');
                         $scope.setStartdateIndependant=utils.convertToEST($scope.workflowData['campaignData'].startTime,"MM/DD/YYYY");//set campaign start date as lower limit startDate
 

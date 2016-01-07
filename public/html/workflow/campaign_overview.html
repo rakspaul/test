@@ -95,25 +95,25 @@
                     <div class="pull-left">
                         <div class="greyTxt" >Objectives</div>
                         <div class="clearfix">
-                            <div class="each-objective pull-left">
+                            <div class="each-objective pull-left" ng-if="brand.length>0">
                                 <span class="icon-brand"></span>
-                                <span tooltip-placement="top" tooltip="Branding: Incremental Reach, Favorability, Engagement">Incremental Reach</span>
-                                <span class="count">+2</span>
+                                <span tooltip-placement="top" tooltip="{{brandTooltip}}">{{brand[0]}}</span>
+                                <span class="count">+{{brand.length-1}}</span>
                             </div>
-                            <div class="each-objective pull-left">
+                            <div class="each-objective pull-left" ng-if="performance.length>0">
                                 <span class="icon-performance"></span>
-                                <span tooltip-placement="top" tooltip="Branding: Incremental Reach, Favorability, Engagement">Incremental Reach</span>
-                                <span class="count">+1</span>
+                                <span tooltip-placement="top" tooltip="{{performanceTooltip}}">{{performance[0]}}</span>
+                                <span class="count">+{{performance.length-1}}</span>
                             </div>
                         </div>
                     </div>
                     <div class="pull-left">
                         <span class="greyTxt">KPI</span>
-                        <span>CPC</span>
+                        <span>{{primaryKpiSelected}}</span>
                     </div>
                     <div class="pull-left">
-                        <span class="greyTxt">Total Budget</span>
-                        <span>{{(workflowData.campaignData.bookedRevenue || 0) | currency:undefined:0}}</span>
+                        <span class="greyTxt">Delivery Budget</span>
+                        <span>{{(workflowData.campaignData.deliveryBudget || 0) | currency:undefined:0}}</span>
                     </div>
                     <div class="pull-left">
                         <span class="greyTxt">Flight Dates</span>
@@ -128,10 +128,10 @@
                             </span>
                         </span>
                     </div>
-                    <div class="pull-left">
+                    <!--div class="pull-left">
                         <span class="greyTxt">Pricing Model</span>
                         <span class="disabledTxt">Cost Per Viewable Impression</span>
-                    </div>
+                    </div-->
                     <div class="pull-left">
                         <div class="pull-left counterCol">
                             <span class="greyTxt" style="text-align: center;">Ad Groups</span>
@@ -384,12 +384,7 @@
                                         {{ textConstants.TARGETING }}
                                     </span>
                                     <span>
-                                        {{adsData.targets.geoTargets.REGION.geoTargetList.length > 0 ||
-                                        adsData.targets.geoTargets.DMA.geoTargetList.length > 0 ||
-                                        adsData.targets.geoTargets.ZIP_CODE.geoTargetList.length > 0 ||
-                                        adsData.targets.geoTargets.CITY.geoTargetList.length > 0 ?
-                                        'Geo' :
-                                        textConstants.WF_NOT_SET}}
+                                        {{displaySelectedTargets(adsData)}}
                                     </span>
                                 </div>
                             </div>
@@ -900,7 +895,7 @@
                     ng-click="archiveCampaign($event)"
                     class="common_primary_btn pull-right"
                     ng-hide="deleteCampaignFailed">
-                Okay
+                Ok
             </button>
             <button type="button"
                     ng-click="cancelArchiveCampaign()"

@@ -18,7 +18,7 @@
         <span>{{textConstants.VIEWABLE}}</span>
         <div class="sub_col">
             <span class="icon_text_holder" ng-class="sortClassFunction('other_viewable_impressions',sortTypebyViewability,sortReverse)" ng-click="sortTypebyViewability = 'other_viewable_impressions'; sortReverse = !sortReverse;removeKpiActive();" >{{textConstants.IMP_WITH_DOT}}</span>
-            <span class="tooltip_holder icon_text_holder" ng-class="sortClassFunction('other_viewable_impressions_prec',sortTypebyViewability,sortReverse)" ng-click="sortTypebyViewability = 'other_viewable_impressions_prec'; sortReverse = !sortReverse;removeKpiActive();" >%<sup>*</sup><div class="common_tooltip">{{textConstants.BASED_ONLY_ON_VIEWABLE_IMPS}}</div></span></div>
+            <span class="tooltip_holder icon_text_holder" ng-class="sortClassFunction('other_viewable_impressions_perc',sortTypebyViewability,sortReverse)" ng-click="sortTypebyViewability = 'other_viewable_impressions_perc'; sortReverse = !sortReverse;removeKpiActive();" >%<sup>*</sup><div class="common_tooltip">{{textConstants.BASED_ONLY_ON_VIEWABLE_IMPS}}</div></span></div>
     </div>
 
     <!--<div class="each_col ad_col"  ng-show="adFormats.videoAds && videoMode" >
@@ -73,7 +73,7 @@
     </div>-->
 
     <div class="each_col suspicious_col">
-        <span class="tooltip_holder icon_text_holder" ng-class="sortClassFunction('other_view_imps_suspicious_prec',sortTypebyViewability,sortReverse)"  ng-click="sortTypebyViewability = 'other_view_imps_suspicious_prec'; sortReverse = !sortReverse;removeKpiActive();" >{{textConstants.SUSPICIOUS}}<br> {{textConstants.ACTIVITY}} %</span>
+        <span class="tooltip_holder icon_text_holder" ng-class="sortClassFunction('other_view_imps_suspicious_perc',sortTypebyViewability,sortReverse)"  ng-click="sortTypebyViewability = 'other_view_imps_suspicious_perc'; sortReverse = !sortReverse;removeKpiActive();" >{{textConstants.SUSPICIOUS}}<br> {{textConstants.ACTIVITY}} %</span>
     </div>
     <!--<div class="each_col seventh_col"  ng-hide="adFormats.videoAds && videoMode">
         <div class="dropdown kpi-dd-holder "  >
