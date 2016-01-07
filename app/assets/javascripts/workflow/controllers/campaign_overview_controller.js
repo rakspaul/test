@@ -33,6 +33,46 @@ var angObj = angObj || {};
            $rootScope.setErrAlertMessage("",0);
         }
 
+        //show selected targets in ads card
+        $scope.displaySelectedTargets = function(adsData){
+            var selectedStr = '';
+            if(adsData){
+                if((adsData.targets.geoTargets.REGION && adsData.targets.geoTargets.REGION.geoTargetList.length > 0) ||
+                    (adsData.targets.geoTargets.DMA && adsData.targets.geoTargets.DMA.geoTargetList.length > 0) ||
+                    (adsData.targets.geoTargets.ZIP_CODE && adsData.targets.geoTargets.ZIP_CODE.geoTargetList.length > 0) ||
+                    (adsData.targets.geoTargets.CITY && adsData.targets.geoTargets.CITY.geoTargetList.length > 0))
+                {
+                    selectedStr += 'Geo';
+
+                }
+
+                if((adsData.targets.segmentTargets.segmentList && adsData.targets.segmentTargets.segmentList.length > 0)){
+                    if(selectedStr != ''){
+                        selectedStr += ', Audience';
+                    }
+                    else{
+                        selectedStr += 'Audience';
+
+                    }
+                }
+
+                if(adsData.targets.adDaypartTargets.schedule && adsData.targets.adDaypartTargets.schedule.length > 0){
+                    if(selectedStr != ''){
+                        selectedStr += ', Daypart';
+                    }
+                    else{
+                        selectedStr += 'Daypart';
+
+                    }
+                }
+
+                if(selectedStr == '')
+                    selectedStr = constants.WF_NOT_SET;
+            }
+
+
+            return selectedStr;
+        }
         //Archive save func more
         $scope.archiveCampaign=function(event){
             event.preventDefault();
