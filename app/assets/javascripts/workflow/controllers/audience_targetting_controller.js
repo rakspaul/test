@@ -65,7 +65,7 @@ var angObj = angObj || {};
                 }
             }
 
-            $scope.fetchAllAudience = function(loadMoreFlag){console.log('fetch')
+            $scope.fetchAllAudience = function(loadMoreFlag){
                 if(!loadMoreFlag){
                     $scope.pageNumber = 1;
                 }
@@ -213,17 +213,15 @@ var angObj = angObj || {};
                 if(event.which == 13){
                     // fetch audience
                     $scope.selectKeyword(keyword);
-                    //
-                    //event.stopPropagation();
-                    //event.stopImmediatePropagation();
-                    //event.preventDefault();
+
                     return false;
 
                 }
-                else{
-                    //fetch keywords
-                    $scope.fetchAllKeywords(keyword)
-                }
+                //search the audience keyword an show list as and when the user types in
+                //else{
+                //    //fetch keywords
+                //    $scope.fetchAllKeywords(keyword)
+                //}
             }
 
             $scope.selectKeyword = function(keyword){
@@ -273,7 +271,6 @@ var angObj = angObj || {};
             }
 
             $scope.updateSourceText = function(){
-                console.log('selected source',$scope.selectedSource);
                 if($scope.selectedSource.length == 0){
                     $scope.sourceText = 'All';
                 }
@@ -338,7 +335,6 @@ var angObj = angObj || {};
             }
 
             $scope.updateCategoryText = function(){
-                console.log('selected categoru',$scope.selectedCategory.length);
                 if($scope.selectedCategory.length == 0){
                     $scope.categoryText = 'All';
                 }
