@@ -62,10 +62,10 @@
         this.setTimezoneName = function (timezone, clientRoleObj) {
             if (timezone === 'BST' || timezone === 'GB') {
                 // Set to British time for all UK
-                clientRoleObj.timezoneName = 'Europe/London';
+                clientRoleObj.timezoneName = constants.TIMEZONE_UK;
             } else {
                 // For all other timezones, set it to EST
-                clientRoleObj.timezoneName = 'America/New_York';
+                clientRoleObj.timezoneName = constants.TIMEZONE_US;
             }
         };
 
@@ -85,6 +85,34 @@
         // NOTE: The moment object gets serialised when it's stored in LocalStorage.
         this.setTimezoneMoment = function (clientRoleObj) {
             clientRoleObj.timezoneMoment = moment.tz(this.getTimezoneName());
+        };
+
+        // Convert local time (EST, GMT, etc.) to UTC before sending to backend for saving.
+        // Also, startTime is forced to beginning of day & endTime to end of day.
+        this.localTimeToUTC = function (dateTime, type) {
+            var timeSuffix = (type === 'startTime' ? '00:00:00' : '23:59:59'),
+                tz = this.getTimezoneName() === constants.TIMEZONE_UK ? 'GMT' : 'EST',
+                finalDateTime = Date.parse(dateTime + ' ' + timeSuffix + ' ' + tz);
+
+            return moment(finalDateTime).tz('UTC').format(constants.DATE_UTC_FORMAT);
+        };
+
+        // Convert UTC to local time (EST, GMT, etc. when loading data for edit.
+        this.utcToLocalTime = function (dateTime) {
+            var d,
+                parsedDate,
+                tz,
+                format;
+
+            if(!dateTime) {
+                return moment().format(format);
+            } else {
+                d = dateTime.slice(0,10).split('-');
+                parsedDate = Date.parse(d[1] + '/' + d[2] + '/' + d[0] + ' ' + dateTime.slice(11, 19) + ' UTC');
+                tz = this.getTimezoneName() === constants.TIMEZONE_UK ? 'GMT' : 'EST';
+                format = constants.DATE_US_FORMAT;
+                return moment(parsedDate).tz(tz).format(format);
+            }
         };
         // NEW METHODS END HERE -- Lalding (5th Jan 2016)
     }]);
