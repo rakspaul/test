@@ -316,9 +316,12 @@
             };
         }
         function updateActionItems(callbackCDBGraph,loadingFlag,showExternal) {
+            console.log("hello");
             $scope.activityLogFlag = false;
-            var actionUrl = urlService.APIActionData($routeParams.campaignId);
-            dataService.getActionItems(actionUrl).then(function(result) {
+            var params=getCustomQueryParams(constants.QUERY_ID_CAMPAIGN_REPORTS_FOR_OPTIMIZATION_IMPACT);
+            params['make_external'] =false;
+            dataService.fetch(urlService.APIVistoCustomQuery(params)).then(function(result) {
+                console.log("result", result);
                 $scope.activityLogFlag = true;
                 if(result.status === 'success') {
                     var actionItemsArray = [] ,
@@ -337,7 +340,7 @@
                         }
                         $scope.strategyByActionId = strategyByActionId;
                         activityList.data.data = actionItemsArray;
-                        dataService.updateLastViewedAction($routeParams.campaignId);
+                        //dataService.updateLastViewedAction($routeParams.campaignId);
                     } else { //preventing the model from sharing old data when no activity is present for other campaigns
                         activityList.data.data = undefined;
                     }

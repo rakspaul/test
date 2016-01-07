@@ -44,10 +44,10 @@
                          if(inputValue) {
                             $('#campaignDropdown').attr('placeholder', inputValue);
                             $('#campaignDropdown').val('');
-                            if($scope.allCampaign == "true") {
+                            //if($scope.allCampaign == "true") {
                                 $('#campaign_name_selected').val(inputValue);
                                 $scope.selectedObj.name = inputValue;
-                             }
+                             //}
                          }
                     } else {
                         var target = $(event.target);

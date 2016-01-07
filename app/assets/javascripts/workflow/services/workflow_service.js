@@ -238,7 +238,26 @@
             },
             getPlatform: function(){
                 return platform;
+            },
+            getObjectives : function(){
+                var url= apiPaths.WORKFLOW_APIUrl + '/objectiveTypes';
+                return dataService.fetch(url);
+            },
+            getVendors:function(categoryId){
+             //   var url= apiPaths.WORKFLOW_APIUrl + '/costCategories/'+categoryId+'/vendors';
+                var url= apiPaths.WORKFLOW_APIUrl + '/costCategories/5/vendors';// for system of records.
+                return dataService.fetch(url);
+            },
+            getCostCategories:function(){
+                var url= apiPaths.WORKFLOW_APIUrl + '/costCategories';
+                return dataService.fetch(url);
+
+            },
+            getVendorForSelectedCostCategory:function(clientId,categoryId){
+                var url= apiPaths.WORKFLOW_APIUrl + '/clients/'+clientId+'/costCategories/'+categoryId+'/vendors';
+                return dataService.fetch(url);
             }
+
         };
 
     });

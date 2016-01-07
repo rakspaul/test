@@ -12,9 +12,10 @@ var angObj = angObj || {};
             costArr: []
 
         };
+        $scope.platFormArr=[];
         $scope.selectedChannel="DISPLAY";
         $scope.Campaign.marginPercent=0;
-        $scope.isPrimarySelected=false;
+        $scope.isPrimarySelected=true;
         $scope.costRowSum=0;
         $scope.workflowData = {};
         $scope.vendorRateData = [];
@@ -51,6 +52,14 @@ var angObj = angObj || {};
             target.parent().siblings().removeClass('active');
             target.parent().addClass('active');
             if(isSet){
+                $scope.PrimaryImpressions=$scope.Campaign.kpiArr[index].kpiValue;
+                var primaryType=$scope.Campaign.kpiArr[index].kpiType;
+                if(primaryType=="Impressions" || primaryType=="Viewable Impressions"){$scope.primaryType="CPM"}
+                else
+                if(primaryType=="Clicks"){$scope.primaryType="CPC"}
+                else
+                if(primaryType=="Actions"){$scope.primaryType="CPA"}
+                /*set other primary Kpis as false*/
                 for(var i in $scope.Campaign.kpiArr){
                     console.log($scope.Campaign.kpiArr[i].isPrimary);
                     if($scope.Campaign.kpiArr[i].isPrimary){
@@ -72,8 +81,6 @@ var angObj = angObj || {};
             $scope.Campaign.costArr[index]['costCategoryName']=costObj.name;
             //make a call to vendorRate API with the ID
             createCampaign.vendorRate(costObj.id,index);
-           // if(costObj.name=='Impression'||costObj.name=='Viewable Impressions'){
-
         }
         $scope.selectedCalculation=function(index,calObj){
             $scope.Campaign.costArr[index]['rateTypeId']=calObj.id;
@@ -82,16 +89,10 @@ var angObj = angObj || {};
            // console.log($scope.vendorRateData[index]['vendors']);
             if($scope.vendorRateData[index] && ($scope.Campaign.costArr[index]['vendorId'])){
                     console.log("vendorID:",$scope.Campaign.costArr[index]['vendorId']);
-//                for(var i=0;i<$scope.vendorRateData[index]['vendors'].length;i++){
-//                    if($scope.vendorRateData[index][i]['vendors'].id===$scope.Campaign.costArr[index]['vendorId']){
-//                        console.log("selectedVendor",$scope.vendorRateData[index][i]['vendors']);
-//                    }
-//                }
-                    var selectedVendorIndex=_.filter($scope.vendorRateData[index]['vendors'], function(obj) { return obj.id === Number($scope.Campaign.costArr[index]['vendorId'])});
+                    var selectedVendorIndex=_.filter($scope.vendorRateData[index], function(obj) { return obj.id === Number($scope.Campaign.costArr[index]['vendorId'])});
+//                    var selectedVendorIndex=_.filter($scope.vendorRateData[index]['vendors'], function(obj) { return obj.id === Number($scope.Campaign.costArr[index]['vendorId'])});
                     console.log(selectedVendorIndex);
-                    console.log($scope.Campaign.costArr[index]['rateTypeName']);//=$scope.vendorRateData[index]['vendors']
-//                if(calObj.name==="CPM"){
-//                }
+                    console.log($scope.Campaign.costArr[index]['rateTypeName']);
                 if($scope.Campaign.costArr[index]['rateTypeName']==="fixed"){
                     var rateObj=_.filter(selectedVendorIndex[0].rates, function(obj) { return obj.rate_type === "FIXED"});
                     $scope.Campaign.costArr[index]['rateValue']=rateObj[0].rate_val;
@@ -115,7 +116,11 @@ var angObj = angObj || {};
             if(isSet=='fixed'){
                 $scope.Campaign.costArr[index]['rateTypeName']="Select";
                 $scope.Campaign.costArr[index]['rateTypeId']=5;
-            }
+                var selectedVendorIndex=_.filter($scope.vendorRateData[index], function(obj) { return obj.id === Number($scope.Campaign.costArr[index]['vendorId'])});
+//                var selectedVendorIndex=_.filter($scope.vendorRateData[index]['vendors'], function(obj) { return obj.id === Number($scope.Campaign.costArr[index]['vendorId'])});
+                    var rateObj=_.filter(selectedVendorIndex[0].rates, function(obj) { return obj.rate_type === "FIXED"});
+                    $scope.Campaign.costArr[index]['rateValue']=rateObj[0].rate_val;
+                }
             console.log(index);
         }
         $scope.selectedVendorRate=function(index,vendorObj){
@@ -156,21 +161,30 @@ var angObj = angObj || {};
                                 targetValue=_.filter($scope.Campaign.kpiArr, function(obj) { return obj.kpiType === "Actions"});
                                 $scope.calculateRowSum(i,targetValue,'CPA');
                             }
+                            else if($scope.Campaign.costArr[i].rateTypeId==5){
+                                //targetValue=_.filter($scope.Campaign.kpiArr, function(obj) { return obj.kpiType === "Actions"});
+                                $scope.calculateRowSum(i,'','FIXED');
+                            }
                         }
 
                     }
                 //console.log($scope.costRowSum);
                 $scope.Campaign.nonInventoryCost=Math.round($scope.costRowSum * 100) / 100//$scope.costRowSum;
-                $scope.Campaign.deliveryBudget= Math.round(parseFloat($scope.Campaign.totalBudget)*((100-parseFloat($scope.Campaign.marginPercent))/100) - $scope.Campaign.nonInventoryCost)/100;
-                $scope.Campaign.effectiveCPM=Math.round($scope.calculateEffective())/100;
+                $scope.Campaign.deliveryBudget= Math.round(parseFloat($scope.Campaign.totalBudget)*(100-parseFloat($scope.Campaign.marginPercent)) - $scope.Campaign.nonInventoryCost)/100;
+                $scope.Campaign.effectiveCPM=$scope.calculateEffective();
 
             }
         }
         $scope.calculateRowSum=function(index,kpiTargetArr,type){
             if($scope.Campaign.costArr[index].rateValue && $scope.Campaign.costArr[index].targetPercentage){
-                var rowsummation= parseFloat($scope.Campaign.costArr[index].rateValue)*(parseFloat($scope.Campaign.costArr[index].targetPercentage)/100)*parseFloat(kpiTargetArr[0].kpiValue);
+                if(type==="FIXED"){
+                    var rowsummation= parseFloat($scope.Campaign.costArr[index].rateValue)*(parseFloat($scope.Campaign.costArr[index].targetPercentage)/100);
+
+                }else {
+                    var rowsummation = parseFloat($scope.Campaign.costArr[index].rateValue) * (parseFloat($scope.Campaign.costArr[index].targetPercentage) / 100) * parseFloat(kpiTargetArr[0].kpiValue);
+                }
                 if(type==="CPM"){
-                    $scope.Campaign.costArr[index].rowSum=(rowsummation)/1000;
+                $scope.Campaign.costArr[index].rowSum=(rowsummation)/1000;
                 }else{
                     $scope.Campaign.costArr[index].rowSum=rowsummation;
                 }
@@ -181,24 +195,41 @@ var angObj = angObj || {};
         $scope.calculateEffective=function(){
             for(var ind=0;ind<$scope.Campaign.kpiArr.length;ind++){
                 if($scope.Campaign.kpiArr[ind].isPrimary || $scope.Campaign.kpiArr[ind].isPrimary=="true"){
-                    if($scope.Campaign.kpiArr[ind].kpiType=="Impressions" || $scope.Campaign.kpiArr[ind].kpiType=="Viewable Impressions")
-                        return parseFloat($scope.Campaign.deliveryBudget) / parseFloat($scope.Campaign.kpiArr[ind].kpiValue)*1000;
-                    else
-                        return parseFloat($scope.Campaign.deliveryBudget) / parseFloat($scope.Campaign.kpiArr[ind].kpiValue);
+                    if($scope.Campaign.kpiArr[ind].kpiType=="Impressions" || $scope.Campaign.kpiArr[ind].kpiType=="Viewable Impressions"){
+                        if(parseFloat($scope.Campaign.kpiArr[ind].kpiValue)>0)
+                            return parseFloat($scope.Campaign.deliveryBudget) / parseFloat($scope.Campaign.kpiArr[ind].kpiValue) * 1000;
+                        else
+                            return "NA";
+                        }
+                    else{
+                        if(parseFloat($scope.Campaign.kpiArr[ind].kpiValue)>0)
+                            return parseFloat($scope.Campaign.deliveryBudget) / parseFloat($scope.Campaign.kpiArr[ind].kpiValue);
+                        else
+                            return "NA";
+                        }
                 }
             }
         }
         $scope.checkedObjectiveList=[];
+        $scope.brand=[];
+        $scope.performance=[];
         $scope.addMoreKpi=function(){
-            $scope.Campaign.kpiArr.push({kpiType: '', kpiId:'', isPrimary: false ,vendorId:'',vendorName:'',kpiValue:0, isBillable:true});
+            $scope.Campaign.kpiArr.push({kpiType: 'Select from list', kpiId:'', isPrimary: false ,vendorId:'',vendorName:'',kpiValue:0, isBillable:true});
+            $(".selectkpiObj").show();
         }
         $scope.addMoreCost=function(){
             $scope.Campaign.costArr.push({costCategoryId: '',costCategoryName:'', type: 'variable', rateTypeId:'',rateTypeName:'',vendorId:'',vendorName:'', rateValue:'', targetPercentage:100, description:''});
+            $(".selectcostObj").show();
+
         }
         $scope.msgtimeoutReset = function(){
             $timeout(function(){
                 $scope.resetFlashMessage() ;
             }, 3000);
+        }
+        $scope.triggerBudgetClick = function(){
+            console.log("triggerEVENt")
+            angular.element('.budget-page-trigger').trigger('click');
         }
 
         $scope.archiveCampaign=function(event){
@@ -235,20 +266,49 @@ var angObj = angObj || {};
             target.parent().addClass('active');
             $scope.selectedChannel=channel;
         }
-        $scope.selectedObjective=function(objectiveObj){
+        $scope.selectedObjective=function(objectiveObj,type){
            // console.log(objectiveObj);
             var index = _.findIndex($scope.checkedObjectiveList, function(item) {
-                return item.id == objectiveObj.id}); //console.log(index);
-            if(index>=0){
-                $scope.checkedObjectiveList.splice(index,1);
-            }
-            else{
-                objectiveObj.isChecked=true;
-                $scope.checkedObjectiveList.push(objectiveObj);
-            }
-            console.log($scope.checkedObjectiveList);
+                return item.campaignObjectiveTypeId == objectiveObj.campaignObjectiveTypeId}); //console.log(index);
+                if(index>=0){
+                    $scope.checkedObjectiveList.splice(index,1);
+                }else{
+                    objectiveObj.isChecked=true;
+                    $scope.checkedObjectiveList.push(objectiveObj);
+                }
+            var brandInd=_.findIndex($scope.brand, function(item) {
+                return item.campaignObjectiveTypeId == objectiveObj.campaignObjectiveTypeId});
+                if(brandInd>=0){
+                    $scope.brand.splice(index,1);
+                }else{
+                    $scope.brand.push(objectiveObj);
+                }
+            var performanceInd=_.findIndex($scope.performance, function(item) {
+                return item.campaignObjectiveTypeId == objectiveObj.campaignObjectiveTypeId});
+                if(performanceInd>=0){
+                    $scope.performance.splice(index,1);
+                }else{
+                    $scope.performance.push(objectiveObj);
+                }
+//            else{
+//                objectiveObj.isChecked=true;
+//                $scope.checkedObjectiveList.push(objectiveObj);
+//
+//                if(type==='brand')
+//                    $scope.brand.push(objectiveObj);
+//                else
+//                    $scope.performance.push(objectiveObj);
+//            }
+            
         }
-
+        $scope.open_multiselect_dropdown = function(event) {
+               var elem = $(event.target);
+               if( elem.closest(".dropdown").find(".dropdown-menu ").is(":visible") == false ) {
+                   elem.closest(".dropdown").find(".dropdown-menu ").show() ;
+               } else {
+                   elem.closest(".dropdown").find(".dropdown-menu ").hide() ;
+               }
+         }
         $scope.processEditCampaignData = function () {
             workflowService.getCampaignData($scope.campaignId).then(function (result) {
                 console.log(result);
@@ -259,24 +319,36 @@ var angObj = angObj || {};
                     $scope.selectedCampaign.startTime = utils.convertToEST($scope.editCampaignData.startTime,'MM/DD/YYYY');
                     $scope.selectedCampaign.endTime = utils.convertToEST($scope.editCampaignData.endTime,'MM/DD/YYYY');
                     $scope.editCampaignData.brandName = $scope.editCampaignData.brandName || 'Select Brand';
-                    $scope.selectedCampaign.kpiValue= $scope.editCampaignData.kpiValue;
-                    //$scope.selectedCampaign.goal = $scope.editCampaignData.goal;
-//                    if($scope.editCampaignData.kpiType=="DELIVERY"){
-//                        $scope.editCampaignData.kpiType="Delivery";
-//                        $scope.hideKpiValue=true;
-//                    }
+                    /*edit for new media plan*/
+//                    $scope.workflowData['branding']=[{campaignObjectiveTypeId: 1, subObjective: "Awareness", isChecked: true},{campaignObjectiveTypeId: 2, subObjective: "Recall", isChecked: true},{campaignObjectiveTypeId: 3, subObjective: "Purchase Intent", isChecked: true}]
+//                    $scope.selectedChannel="MOBILE"//editCampaignData.campaignType;
+//                    $scope.selectedKeywords=editCampaignData.preferredPlatforms;
+//                    $scope.Campaign.totalBudget=editCampaignData.totalBudget;
+//                    $scope.Campaign.marginPercent=editCampaignData.marginPercent;
+//                    $scope.Campaign.deliveryBudget=editCampaignData.deliveryBudget;
+//                    $scope.Campaign.nonInventoryCost=editCampaignData.nonInventoryCost;
+//                    $scope.Campaign.effectiveCPM=editCampaignData.effectiveCPM;
+
+                    /*old code commented*/
+                    /*$scope.selectedCampaign.kpiValue= $scope.editCampaignData.kpiValue;
+                    $scope.selectedCampaign.goal = $scope.editCampaignData.goal;
+                    if($scope.editCampaignData.kpiType=="DELIVERY"){
+                        $scope.editCampaignData.kpiType="Delivery";
+                        $scope.hideKpiValue=true;
+                    }
+                    createCampaign.fetchGoals();*/
+
                     $scope.initiateDatePicker();
-                    createCampaign.fetchGoals();
                     $scope.mode ==='edit' &&  createCampaign.fetchBrands($scope.selectedCampaign.clientId,$scope.selectedCampaign.advertiserId);
                 }
             });
         }
 
 
-        $scope.getGoalIconName = function (goal) {
-            var goalMapper = {'performance': 'performance', 'brand': 'brand'}
-            return goalMapper[goal.toLowerCase()];
-        }
+//        $scope.getGoalIconName = function (goal) {
+//            var goalMapper = {'performance': 'performance', 'brand': 'brand'}
+//            return goalMapper[goal.toLowerCase()];
+//        }
 
         var createCampaign = {
             clients: function () {
@@ -291,28 +363,36 @@ var angObj = angObj || {};
                 }, createCampaign.errorHandler);
             },
             objectives:function(){
-                //workflowService.getObjectives({cache: false}).then(function (result) {
-                //   if (result.status === "OK" || result.status === "success") {
-                //     var responseData = result.data.data;
-//                var objectives=responseData.campaignObjectiveTypes;
-//                var branding=_.filter(objective.campaignObjectiveTypes,function(obj){return obj.objective==="Branding"});
-//                $scope.workflowData['branding']=branding.subObjectives;
-//                var performance=_.filter(objective.campaignObjectiveTypes,function(obj){return obj.objective==="Performance"})
-//                $scope.workflowData['performance']=performance.subObjectives;
-
-                $scope.workflowData['branding']=[{id:1,name:'Awareness',isChecked:false},{id:2,name:'Recall',isChecked:false},{id:3,name:'Purchase Intent',isChecked:false},{id:4,name:'Incremental Reach',isChecked:false},{id:5,name:'Tune-In',isChecked:false},{id:6,name:'Consideration',isChecked:false},{id:7,name:'Favorability',isChecked:false}]
-                $scope.workflowData['performance']=[{id:8,name:'Clicks',isChecked:false},{id:9,name:'Video Completion',isChecked:false},{id:10,name:'Lead Generation',isChecked:false},{id:11,name:'Conversions',isChecked:false},{id:5,name:'Site Traffic',isChecked:false},{id:12,name:'Audience Verification',isChecked:false},{id:13,name:'Viewability',isChecked:false}]
-                // }
-                //})
+                workflowService.getObjectives({cache: false}).then(function (result) {
+                       if (result.status === "OK" || result.status === "success") {
+                         var responseData = result.data.data;
+                    var branding=_.filter(responseData,function(obj){return obj.objective==="Branding"});
+                    $scope.workflowData['branding']=branding[0].subObjectives;
+                    var performance=_.filter(responseData,function(obj){return obj.objective==="Performance"})
+                    $scope.workflowData['performance']=performance[0].subObjectives;
+                    }
+                })
+                // $scope.workflowData['branding']=[{id:1,name:'Awareness',isChecked:false},{id:2,name:'Recall',isChecked:false},{id:3,name:'Purchase Intent',isChecked:false},{id:4,name:'Incremental Reach',isChecked:false},{id:5,name:'Tune-In',isChecked:false},{id:6,name:'Consideration',isChecked:false},{id:7,name:'Favorability',isChecked:false}]
+                // $scope.workflowData['performance']=[{id:8,name:'Clicks',isChecked:false},{id:9,name:'Video Completion',isChecked:false},{id:10,name:'Lead Generation',isChecked:false},{id:11,name:'Conversions',isChecked:false},{id:5,name:'Site Traffic',isChecked:false},{id:12,name:'Audience Verification',isChecked:false},{id:13,name:'Viewability',isChecked:false}]
             },
             Kpi:function(){
                 $scope.workflowData['Kpi']=[{id:1, name: 'Impressions',active:true},{id:1, name: 'Clicks',active:true},{id:2, name: 'Viewable Impressions',active:true},{id:3, name: 'Actions',active:false}];
             },
-            vendor:function(){
-                $scope.workflowData['vendor']=[{id:1, name: 'Adometry'},{id:1, name: 'DFP'},{id:2, name: 'Collective Media'},{id:3, name: 'Double Verify'}];
+            vendor:function(costCategoryId){
+                workflowService.getVendors(costCategoryId,{cache: false}).then(function (result) {console.log(result);
+                    if (result.status === "OK" || result.status === "success") {
+                        var responseData = result.data.data;
+                        $scope.workflowData['vendor']=responseData;
+
+                        // $scope.workflowData['branding']=[{id:1,name:'Awareness',isChecked:false},{id:2,name:'Recall',isChecked:false},{id:3,name:'Purchase Intent',isChecked:false},{id:4,name:'Incremental Reach',isChecked:false},{id:5,name:'Tune-In',isChecked:false},{id:6,name:'Consideration',isChecked:false},{id:7,name:'Favorability',isChecked:false}]
+                        // $scope.workflowData['performance']=[{id:8,name:'Clicks',isChecked:false},{id:9,name:'Video Completion',isChecked:false},{id:10,name:'Lead Generation',isChecked:false},{id:11,name:'Conversions',isChecked:false},{id:5,name:'Site Traffic',isChecked:false},{id:12,name:'Audience Verification',isChecked:false},{id:13,name:'Viewability',isChecked:false}]
+                    }
+                })
+
+               // $scope.workflowData['vendor']=[{id:1, name: 'Adometry'},{id:1, name: 'DFP'},{id:2, name: 'Collective Media'},{id:3, name: 'Double Verify'}];
             },
             platforms:function(){
-                $scope.Campaign.kpiArr.push({kpiType: '', kpiId:'', isPrimary: false ,vendorId:'',vendorName:'',kpiValue:0, isBillable:true});
+                $scope.Campaign.kpiArr.push({kpiType: 'Impressions', kpiId:1, isPrimary: true ,vendorId:'',vendorName:'',kpiValue:0, isBillable:true});
                 $scope.Campaign.costArr.push({costCategoryId: '',costCategoryName:'', type: 'variable', rateTypeId:'',vendorId:'',vendorName:'', rateValue:'', targetPercentage:100, description:''});
                 workflowService.getPlatforms({cache: false}).then(function (result) {
                     if (result.status === "OK" || result.status === "success") {
@@ -323,76 +403,28 @@ var angObj = angObj || {};
 
             },
             costCategories:function(){
-                //workflowService.getObjectives({cache: false}).then(function (result) {
-                //   if (result.status === "OK" || result.status === "success") {
-                //     var responseData = result.data.data;
-                $scope.workflowData['costCategory']=[{id:0, name: 'Attribution'},{id:1, name: 'Ad Serving'},{id:2, name: 'Research'},{id:3, name: 'Verification'}];
-                // }
-                //})
+                workflowService.getCostCategories({cache: false}).then(function (result) {console.log(result);
+                   if (result.status === "OK" || result.status === "success") {
+                     var responseData = result.data.data;
+                       $scope.workflowData['costCategory']=responseData;console.log("responseData[responseData.length-1].id",responseData[responseData.length-1].id)
+                       createCampaign.vendor(responseData[responseData.length-1].id);
+                }
+                })
+               // $scope.workflowData['costCategory']=[{id:0, name: 'Attribution'},{id:1, name: 'Ad Serving'},{id:2, name: 'Research'},{id:3, name: 'Verification'}];
+
             },
             calculation:function(){
-                $scope.workflowData['calculation']=[{id:1, name: 'CPM',type:'Impressions',active:false},{id:2, name: 'CPC', type:"Clicks", active:false},{id:3, name: 'CPA',type:'Actions',active:false},{id:5, name: 'CPV',type:'Actions',active:false}];
+                $scope.workflowData['calculation']=[{id:1, name: 'CPM',type:'Impressions',active:true},{id:2, name: 'CPC', type:"Clicks", active:false},{id:3, name: 'CPA',type:'Actions',active:false},{id:5, name: 'CPV',type:'Actions',active:false}];
             },
-            vendorRate:function(categoryObj,index){//console.log(index);
-
-                //workflowService.getObjectives({cache: false}).then(function (result) {
-                //   if (result.status === "OK" || result.status === "success") {
-                //     var responseData = result.data.data;
-//                $scope.workflowData['vendorRate']=[{id:1, name: 'Adometry'},{id:1, name: 'DFP'},{id:2, name: 'Collective Media'},{id:3, name: 'Double Verify'}];
-                //$scope.$parent.workflowData['vendorRate'][index]={
-                $scope.vendorRateData[index] = {
-                    "vendors": [
-                        {
-                            "id": 1,
-                            "name": "Vendor1",
-                            "cost_category_id": "1",
-                            "rates": [
-                                {
-                                    "rate_type": "CPC",
-                                    "rate_val": 5
-                                },
-                                {
-                                    "rate_type": "CPM",
-                                    "rate_val": 10
-                                },
-                                {
-                                    "rate_type": "CPA",
-                                    "rate_val": 15
-                                },
-                                {
-                                    "rate_type": "FIXED",
-                                    "rate_val": 100
-                                }
-
-                            ]
-                        },
-                        {
-                            "id": 2,
-                            "name": "Vendor2",
-                            "cost_category_id": "1",
-                            "rates": [
-                                {
-                                    "rate_type": "CPC",
-                                    "rate_val": 6
-                                },
-                                {
-                                    "rate_type": "CPM",
-                                    "rate_val": 11
-                                },
-                                {
-                                    "rate_type": "CPA",
-                                    "rate_val": 16
-                                },
-                                {
-                                    "rate_type": "FIXED",
-                                    "rate_val": 101
-                                }
-                            ]
-                        }
-                    ]
-                };
-                // }
-                //})
+            vendorRate:function(categoryId,index){ //console.log(index);
+                var clientId=JSON.parse(localStorage.selectedClient).id;
+                workflowService.getVendorForSelectedCostCategory(clientId,categoryId,{cache: false}).then(function (result) {
+                   if (result.status === "OK" || result.status === "success") {
+                     var responseData = result.data.data;
+                       console.log(responseData);
+                       $scope.vendorRateData[index]=responseData;
+                }
+                })
             },
             fetchAdvertisers: function (clientId) {
                 workflowService.getAdvertisers(clientId).then(function (result) {
@@ -418,21 +450,21 @@ var angObj = angObj || {};
                 }, createCampaign.errorHandler);
             },
 
-            fetchGoals: function () {
-                var goals = $scope.workflowData['goals'] = [{id: 1, name: 'Performance', 'active': true}, {id: 2,name: 'Brand','active': false}];
-                if ($scope.mode == 'edit') {
-                    _.each(goals, function (goal) {
-                        if (goal.name.toLowerCase() == $scope.editCampaignData.goal.toLowerCase()) {
-                            goal['active'] = true;
-                            $scope.selectedCampaign.goal = goal;
-                        } else {
-                            goal['active'] = false;
-                        }
-                    })
-                } else {
-                    $scope.selectedCampaign.goal =$scope.workflowData['goals'][0];
-                }
-            },
+//            fetchGoals: function () {
+//                var goals = $scope.workflowData['goals'] = [{id: 1, name: 'Performance', 'active': true}, {id: 2,name: 'Brand','active': false}];
+//                if ($scope.mode == 'edit') {
+//                    _.each(goals, function (goal) {
+//                        if (goal.name.toLowerCase() == $scope.editCampaignData.goal.toLowerCase()) {
+//                            goal['active'] = true;
+//                            $scope.selectedCampaign.goal = goal;
+//                        } else {
+//                            goal['active'] = false;
+//                        }
+//                    })
+//                } else {
+//                    $scope.selectedCampaign.goal =$scope.workflowData['goals'][0];
+//                }
+//            },
 
             errorHandler: function (errData) {
                 console.log(errData);
@@ -525,12 +557,12 @@ var angObj = angObj || {};
             }
         };
         $scope.checkIfPrimaryKpiSelected=function(){
-            var kpiObj= _.filter($scope.Campaign.costArr,function(obj){ return obj.isPrimary==true})
+            var kpiObj= _.filter($scope.Campaign.kpiArr,function(obj){ return obj.isPrimary==true ||obj.isPrimary=='true'});
             if(kpiObj.length<=0){
-               console.log("PRIMARY KPI NOT CHOSEN");// write a Label to tell primary KPI not chosen
                 return false;
             }else{
                 return true;
+                alert();
             }
         }
 
@@ -538,8 +570,8 @@ var angObj = angObj || {};
             console.log("campaign create saveCampaign...");
             $scope.$broadcast('show-errors-check-validity');
             console.log($scope.createCampaignForm)
-            $scope.isPrimarySelected=$scope.checkIfPrimaryKpiSelected();
-//            if ($scope.createCampaignForm.$valid && isPrimarySelected) {
+            var isPrimarySelected=$scope.checkIfPrimaryKpiSelected();
+            $scope.isPrimarySelected=isPrimarySelected; console.log("$scope.isPrimarySelected",$scope.isPrimarySelected);
             if ($scope.createCampaignForm.$valid) {
                 var formElem = $("#createCampaignForm");
                 var formData = formElem.serializeArray();
@@ -547,7 +579,7 @@ var angObj = angObj || {};
                 var postDataObj = {};
                 createCampaign.getBrandId(formData.brandId, postDataObj);
                // postDataObj.goal = formData.goal
-                postDataObj.bookedRevenue = Number(formData.budget);
+              //  postDataObj.bookedRevenue = Number(formData.budget);
                 postDataObj.name = formData.campaignName;
                 postDataObj.campaignType=$scope.selectedChannel;
                 postDataObj.totalBudget=$scope.Campaign.totalBudget;
@@ -555,7 +587,7 @@ var angObj = angObj || {};
                 postDataObj.campaignKpis=$scope.Campaign.kpiArr;
                 postDataObj.campaignCosts=$scope.Campaign.costArr;
                 postDataObj.campaignObjectives=$scope.checkedObjectiveList;
-                postDataObj.preferredPlatforms=$scope.selectedKeywords;
+                postDataObj.preferredPlatforms=$scope.platFormArr;
 //                if(formData.kpiType!="None"){
 //                    postDataObj.kpiType = (formData.kpiType).toUpperCase();
 //                    postDataObj.kpiValue = formData.kpiValue;
@@ -657,6 +689,12 @@ var angObj = angObj || {};
                 $scope.dropdownCss.display = 'none';
 
         }
+        $scope.convertPreferredPlatformToArr=function(platformsObj){
+            $scope.platFormArr=[];
+            for(var i=0;i<platformsObj.length;i++){
+                $scope.platFormArr.push(platformsObj[i].id);
+            }
+        }
         $scope.selectKeyword = function(keyword){
             $scope.dropdownCss.display = 'none';
             $scope.selectedKeywords.push(keyword);
@@ -664,6 +702,7 @@ var angObj = angObj || {};
                 return item.id == keyword.id});
             $scope.platformKeywords.splice(index,1);
             $('.keyword-txt').val('');
+            $scope.convertPreferredPlatformToArr($scope.selectedKeywords);
         }
 
         $scope.removeKeyword = function(keyword){
@@ -699,6 +738,10 @@ var angObj = angObj || {};
                 if (text.length > 14)
                     $(this).val(text).text(text.substr(0, 20) + '…')
             });
+            // DDL ChkBox Prevent Default
+            $('.dropdown-menu.multiSelectDDL').find('input').click(function (e) {
+                e.stopPropagation();
+            });
             $scope.textConstants = constants;
             $scope.workflowData = {};
             $scope.selectedCampaign = {};
@@ -726,7 +769,7 @@ var angObj = angObj || {};
             });
             createCampaign.Kpi();
             createCampaign.platforms();
-            createCampaign.vendor();
+           // createCampaign.vendor();
             createCampaign.objectives();
             createCampaign.costCategories();
             createCampaign.calculation();
@@ -734,7 +777,7 @@ var angObj = angObj || {};
                 $scope.processEditCampaignData();
             } else {
                 $scope.initiateDatePicker();
-                createCampaign.fetchGoals();
+              //  createCampaign.fetchGoals();
             }
         })
     });

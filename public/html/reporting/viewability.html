@@ -293,10 +293,18 @@
                             </div>
                             <div class="each_col sub_four_cols">
                                 <div class="sub_col">
-                                    <span>{{viewData.view_metrics.video_viewability_metrics.videos_1q_view_perc   > 0 ? ((viewData.view_metrics.video_viewability_metrics.videos_1q_view_perc | number:0)+'%') : '-'}}</span>
-                                    <span>{{viewData.view_metrics.video_viewability_metrics.videos_2q_view_perc   > 0 ? ((viewData.view_metrics.video_viewability_metrics.videos_2q_view_perc | number:0)+'%') : '-'}}</span>
-                                    <span>{{viewData.view_metrics.video_viewability_metrics.videos_3q_view_perc   > 0 ? ((viewData.view_metrics.video_viewability_metrics.videos_3q_view_perc | number:0)+'%') : '-'}}</span>
-                                    <span>{{viewData.view_metrics.video_viewability_metrics.videos_4q_view_perc   > 0 ? ((viewData.view_metrics.video_viewability_metrics.videos_1q_view_perc | number:0)+'%') : '-'}}</span>
+                                    <span>{{viewData.view_metrics.video_viewability_metrics.videos_1q_complete_perc   >
+                                        0 ? ((viewData.view_metrics.video_viewability_metrics.videos_1q_complete_perc |
+                                        number:0)+'%') : '-'}}</span>
+                                    <span>{{viewData.view_metrics.video_viewability_metrics.videos_2q_complete_perc   >
+                                        0 ? ((viewData.view_metrics.video_viewability_metrics.videos_2q_complete_perc |
+                                        number:0)+'%') : '-'}}</span>
+                                    <span>{{viewData.view_metrics.video_viewability_metrics.videos_3q_complete_perc   >
+                                        0 ? ((viewData.view_metrics.video_viewability_metrics.videos_3q_complete_perc |
+                                        number:0)+'%') : '-'}}</span>
+                                    <span>{{viewData.view_metrics.video_viewability_metrics.videos_4q_complete_perc   >
+                                        0 ? ((viewData.view_metrics.video_viewability_metrics.videos_1q_complete_perc |
+                                        number:0)+'%') : '-'}}</span>
                                 </div>
                                 <div class="sub_col next_val">
                                     <!-- <span>{{viewData.view_metrics.video_viewability_metrics.videos_1q_view   > 0 ? (viewData.view_metrics.video_viewability_metrics.videos_1q_view | nrFormat) : '-'}}</span>

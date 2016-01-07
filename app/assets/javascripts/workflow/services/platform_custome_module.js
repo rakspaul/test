@@ -160,17 +160,55 @@
             inputListHTML && inputListHTML.on('blur', function(){
                 var field =  $(this);
                 var value = field.val();
-                field.next(".customFieldErrorMsg").remove();
-                /*if(parseFloat(value) > options.min ||  parseFloat(value) > options.max ) {
-                 field.after('<div class="customFieldErrorMsg">'+inputList.displayName+' is invalid.</div>');
-                 } else {*/
+                var maxValue = Number(field.attr("max"));
+                var minValue = Number(field.attr("min"));
+                $(".customFieldErrorMsg").remove();
                 if(value.length === 0){
                     field.after('<div class="customFieldErrorMsg">'+inputList.displayName+' is required</div>');
-                } else {
-                    field.next(".customFieldErrorMsg").remove();
-                    return true;
+                    return false;
                 }
-                //}
+
+                var blackoutPeriodElem;
+                if(inputList.displayName == 'Blackout Period' || inputList.displayName == 'Ramp Duration' ) {
+                    blackoutPeriodElem = field.parents('.form-group').find('.form-group-section')[1];
+                    var blackPeriodsValue = $(blackoutPeriodElem).find('select').val();
+                    //console.log("blackPeriodsValue", blackPeriodsValue);
+                    if (blackPeriodsValue === 'Days') {
+                        maxValue = maxValue / 24;
+                    }
+                } else if(inputList.displayName === 'NA') {
+                    blackoutPeriodElem = field.parents('.form-group').find('.form-group-section')[0];
+                    $(blackoutPeriodElem).find("input").trigger('blur');
+
+                }
+
+                if(inputList.displayName == 'Min. Bid' || inputList.displayName === 'Min.') {
+                    //console.log("elem", field.parents('.form-group').find('.form-group-section')[0]);
+                    var maxBidElem = field.parent().next();
+                    console.log("maxBidElem", maxBidElem);
+                    var maxBidElemValue = $(maxBidElem).find('input').val();
+                    if(value > maxBidElemValue) {
+                        field.after('<div class="customFieldErrorMsg">Min Bid value should be less than Max Bid value</div>');
+                    }
+                    return false;
+                }
+
+                if(inputList.displayName == 'Max. Bid' || inputList.displayName === 'Max.') {
+                    var minBidElem = field.parent().prev();
+                    var minBidElemValue = $(minBidElem).find('input').val();
+                    if(minBidElemValue > value) {
+                        field.after('<div class="customFieldErrorMsg">Max value should be greater than Max Bid value</div>');
+                    }
+                    return false;
+                }
+
+                if(inputList.displayName !== 'NA') {
+                    if (value < minValue) {
+                        field.after('<div class="customFieldErrorMsg">' + inputList.displayName + ' must be greater than '+minValue+'</div>');
+                    } else if (value > maxValue) {
+                        field.after('<div class="customFieldErrorMsg">' + inputList.displayName + ' must be less than or equal to '+maxValue+'</div>');
+                    }
+                }
             })
             return inputWrapper;
         };

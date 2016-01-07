@@ -165,10 +165,10 @@
             },
 
             forbidden: function () {
-                //$location.url('/campaigns');
+                $location.url('/mediaplans');
             }
 
-        } //return
+        }; //return
 
     }; //loginModel
     angObj.service('loginModel', ['$cookieStore', '$location', 'constants', '$http', loginModel]);

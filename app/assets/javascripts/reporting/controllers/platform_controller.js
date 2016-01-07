@@ -12,9 +12,9 @@ var angObj = angObj || {};
         $scope.sortType = 'impressions'; // set the default sort type
 
 
-        $scope.sortTypebyPerformance     = '-impressions';
-        $scope.sortTypebyCost            = '-impressions';
-        $scope.sortTypebyViewability     = '-other_view_impressions';
+        $scope.sortTypebyPerformance = '-impressions';
+        $scope.sortTypebyCost = '-impressions';
+        $scope.sortTypebyViewability = '-other_view_impressions';
 //        $scope.sortTypeSubSort           = 'impressions'; // set the default sort type
 
         $scope.sortReverse = false; // set the default sort order
@@ -22,9 +22,9 @@ var angObj = angObj || {};
         $scope.sortReverseForCostImps = true;
         $scope.sortReverseForQualImps = true;
         $scope.sortReverseKpiDropdown = true; // set the default sort order
-        $scope.sortReverseForCostscpm  = true;
-        $scope.sortReverseForCostscpa  = true;
-        $scope.sortReverseForCostscpc  = true;
+        $scope.sortReverseForCostscpm = true;
+        $scope.sortReverseForCostscpa = true;
+        $scope.sortReverseForCostscpc = true;
         $scope.kpiDropdownActive = {};
 
         $scope.isStrategyDropDownShow = true;
@@ -41,7 +41,7 @@ var angObj = angObj || {};
             $scope.sortType = 'impressions';
 //            $scope.sortTypeSubSort = 'impressions';
         }
-        $scope.strategyLoading =  true;
+        $scope.strategyLoading = true;
         $scope.strategyFound = true;
         $scope.videoMode = true;
 
@@ -60,7 +60,7 @@ var angObj = angObj || {};
         //set default api return code 200
         $scope.api_return_code = 200;
 
-        $scope.usrRole  = RoleBasedService.getClientRole() && RoleBasedService.getClientRole().ui_exclusions;
+        $scope.usrRole = RoleBasedService.getClientRole() && RoleBasedService.getClientRole().ui_exclusions;
 
 
         $scope.getMessageForDataNotAvailable = function (dataSetType) {
@@ -84,7 +84,7 @@ var angObj = angObj || {};
         $scope.getPlatformData = function () {
             var param = {
                 campaignId: $scope.selectedCampaign.id,
-                clientId:  loginModel.getSelectedClient().id,
+                clientId: loginModel.getSelectedClient().id,
                 advertiserId: advertiserModel.getSelectedAdvertiser().id,
                 brandId: brandsModel.getSelectedBrand().id,
                 dateFilter: timePeriodModel.timeData.selectedTimePeriod.key
@@ -113,30 +113,29 @@ var angObj = angObj || {};
 
             $scope.api_return_code = 200;
             platformService.getStrategyPlatformData(param).then(function (result) {
-                $scope.strategyLoading =  false;
+                $scope.strategyLoading = false;
                 if (result.status === "OK" || result.status === "success") {
-                 //   $scope.isCostModelTransparent = result.data.data.cost_transparency;
                     $scope.isCostModelTransparent = true;
                     $scope.performanceBusy = false;
                     $scope.videoMode = true;
                     $scope.costBusy = false;
                     $scope.viewabilityBusy = false;
-                    $scope.adFormats = domainReports.checkForCampaignFormat(result.data.data.adFormats);
-                    if($scope.adFormats.displayAds && !$scope.adFormats.videoAds) {
-                        $scope.videoMode = false;
-                    }
+
                     if ($scope.isCostModelTransparent === false && result.data.data.platform_metrics[tab.toLowerCase()].length === 0) {
                         errorHandlerForPerformanceTab();
                     } else {
                         $scope.isCostModelTransparentMsg = result.data.data.message;
                         if (Number($scope.selectedStrategy.id) >= 0) {
                             // strategy selected
-                            $scope['platformData'] = _.filter(result.data.data, function(item) { return item.ad_id == -1; });
-                            $scope['tacticPlatformData'] = _.filter(result.data.data, function(item) { return item.ad_id != -1; });
+                            $scope['platformData'] = _.filter(result.data.data, function (item) {
+                                return item.ad_id == -1;
+                            });
+                            $scope['tacticPlatformData'] = _.filter(result.data.data, function (item) {
+                                return item.ad_id != -1;
+                            });
                         } else {
                             $scope['platformData'] = result.data.data;
                         }
-                        $scope.adFormats = domainReports.checkForCampaignFormat(result.data.data.adFormats);
                     }
                 } else {
                     errorHandlerForPerformanceTab(result);
@@ -163,7 +162,7 @@ var angObj = angObj || {};
             $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign();  //update the selected Campaign
         });
 
-        $scope.$watch('selectedCampaign', function() {
+        $scope.$watch('selectedCampaign', function () {
             $scope.createDownloadReportUrl();
         });
 
@@ -171,24 +170,24 @@ var angObj = angObj || {};
         $scope.createDownloadReportUrl = function () {
             var download_report = [
                 {
-                    'url' : '/reportBuilder/customQueryDownload',
+                    'url': '/reportBuilder/customQueryDownload',
                     'query_id': 24,
-                    'label' : 'Platform by Performance',
-                    'download_config_id' : 1
+                    'label': 'Platform by Performance',
+                    'download_config_id': 1
                 },
                 {
-                    'url' : '/reportBuilder/customQueryDownload',
+                    'url': '/reportBuilder/customQueryDownload',
                     'query_id': 24,
-                    'label' : 'Platform by Cost',
+                    'label': 'Platform by Cost',
                     'className': 'report_cost',
-                    'download_config_id' : 2
+                    'download_config_id': 2
 
                 },
                 {
-                    'url' : '/reportBuilder/customQueryDownload',
+                    'url': '/reportBuilder/customQueryDownload',
                     'query_id': 24,
-                    'label' : 'Platform by Quality',
-                    'download_config_id':3
+                    'label': 'Platform by Quality',
+                    'download_config_id': 3
                 }
             ];
 
@@ -202,10 +201,39 @@ var angObj = angObj || {};
             $scope.download_report = download_report;
         };
 
+        var extractAdFormats=  function() {
+            var strategyObj = strategySelectModel.getStrategyObj();
+            var selectedStrategyObj = strategySelectModel.getSelectedStrategy();
+            if(strategyObj.strategies && strategyObj.strategies.length > 0) {
+                if (selectedStrategyObj.id === -1) {
+                    var adFormatsArr = [];
+                    _.each(strategyObj.strategies, function (obj) {
+                        adFormatsArr.push(obj.ad_formats && obj.ad_formats[0])
+                    })
+                    adFormatsArr = _.compact(_.uniq(adFormatsArr))
+                    $scope.adFormats = domainReports.checkForCampaignFormat(adFormatsArr);
+
+                } else {
+                    adFormatsArr = _.filter(strategyObj.strategies, function (obj) {
+                        return obj.id === Number(selectedStrategyObj.id)
+                    });
+                    if (adFormatsArr && adFormatsArr.length > 0) {
+                        $scope.adFormats = domainReports.checkForCampaignFormat(adFormatsArr[0].ad_formats);
+                    }
+                }
+                if ($scope.adFormats.length > 0 && $scope.adFormats.displayAds && !$scope.adFormats.videoAds) {
+                    $scope.videoMode = false;
+                }
+            }
+        }
+
         //whenever strategy change either by broadcast or from dropdown
         $scope.$on(constants.EVENT_STRATEGY_CHANGED, function (event, strategy) {
-            $scope.selectedStrategy.id = strategySelectModel.getSelectedStrategy().id;
-            $scope.selectedStrategy.name = strategySelectModel.getSelectedStrategy().name;
+            var selectedStrategyObj = strategySelectModel.getSelectedStrategy();
+            var strategyObj = strategySelectModel.getStrategyObj();
+            extractAdFormats()
+            $scope.selectedStrategy.id = selectedStrategyObj.id;
+            $scope.selectedStrategy.name = selectedStrategyObj.name;
             $scope.strategyHeading = Number($scope.selectedStrategy.id) === constants.ALL_STRATEGIES_OBJECT.id ? 'Campaign total' : 'Ad Group total';
             $scope.isStrategyDataEmpty = false;
             $scope.resetVariables();
@@ -245,7 +273,7 @@ var angObj = angObj || {};
         //Initializing the variable.
         $scope.init = function () {
             $scope.strategyFound = false;
-            $scope.strategyLoading =  true;
+            $scope.strategyLoading = true;
             $scope.api_return_code = 200;
             $scope.isStrategyDataEmpty = false;
             $scope.videoMode = false;
@@ -254,7 +282,7 @@ var angObj = angObj || {};
             $scope.selected_filters = {};
 
             var fromLocStore = localStorage.getItem('timeSetLocStore');
-            if(fromLocStore) {
+            if (fromLocStore) {
                 fromLocStore = JSON.parse(localStorage.getItem('timeSetLocStore'));
                 $scope.selected_filters.time_filter = fromLocStore;
             }
@@ -287,38 +315,38 @@ var angObj = angObj || {};
 
                 var tabImps = ['cpc', 'cpa', 'cpm', 'vtc', 'action_rate', 'ctr'];
 
-                if($scope.selected_tab === "viewability") {
-                    if (jQuery.inArray($scope.sortTypebyViewability, tabImps)!='-1') {
+                if ($scope.selected_tab === "viewability") {
+                    if (jQuery.inArray($scope.sortTypebyViewability, tabImps) != '-1') {
                         $scope.sortTypebyViewability = $scope.sortTypebyViewability;
-                        $('.kpi-dd-holder').addClass( "active" );
+                        $('.kpi-dd-holder').addClass("active");
                     }
-                    else{
+                    else {
                         $scope.sortTypebyViewability = $scope.sortTypebyViewability;
                         $scope.removeKpiActive();
                     }
                 }
-                else if($scope.selected_tab === "performance") {
-                    if (jQuery.inArray($scope.sortTypebyPerformance, tabImps)!='-1') {
+                else if ($scope.selected_tab === "performance") {
+                    if (jQuery.inArray($scope.sortTypebyPerformance, tabImps) != '-1') {
                         $scope.sortTypebyPerformance = $scope.sortTypebyPerformance;
-                        $('.kpi-dd-holder').addClass( "active" );
+                        $('.kpi-dd-holder').addClass("active");
                     }
-                    else{
+                    else {
                         $scope.sortTypebyPerformance = $scope.sortTypebyPerformance;
                         $scope.removeKpiActive();
                     }
                 }
-                else if($scope.selected_tab === "cost") {
-                    if (jQuery.inArray($scope.sortTypebyCost, tabImps)!='-1') {
+                else if ($scope.selected_tab === "cost") {
+                    if (jQuery.inArray($scope.sortTypebyCost, tabImps) != '-1') {
                         $scope.sortTypebyCost = $scope.sortTypebyCost;
-                        $('.kpi-dd-holder').addClass( "active" );
+                        $('.kpi-dd-holder').addClass("active");
                     }
-                    else{
+                    else {
                         $scope.sortTypebyCost = $scope.sortTypebyCost;
                         $scope.removeKpiActive();
                     }
                 }
 
-                if($scope.selected_tab === "viewability") {
+                if ($scope.selected_tab === "viewability") {
 
                     $(".view_mode_switch_container").show();
                 }
@@ -331,7 +359,7 @@ var angObj = angObj || {};
             });
         });
 
-        $scope.$on(constants.EVENT_TIMEPERIOD_CHANGED , function(event,strategy){
+        $scope.$on(constants.EVENT_TIMEPERIOD_CHANGED, function (event, strategy) {
             $scope.selected_filters.time_filter = strategy;
             $scope.resetVariables();
             $scope.strategyChangeHandler();
@@ -348,17 +376,17 @@ var angObj = angObj || {};
 
 
         $scope.$on('dropdown-arrow-clicked', function (event, args, sortorder) {
-            if($scope.selected_tab === "viewability") {
+            if ($scope.selected_tab === "viewability") {
                 $scope.sortTypebyViewability = args;
                 $scope.sortReverse = sortorder;
 //                $scope.sortTypeSubSort = args;
             }
-            else if($scope.selected_tab === "performance") {
+            else if ($scope.selected_tab === "performance") {
                 $scope.sortTypebyPerformance = args;
                 $scope.sortReverse = sortorder;
 //                $scope.sortTypeSubSort = args;
             }
-            else if($scope.selected_tab === "cost") {
+            else if ($scope.selected_tab === "cost") {
                 $scope.sortTypebyCost = args;
                 $scope.sortReverse = sortorder;
 //                $scope.sortTypeSubSort = args;
@@ -366,11 +394,10 @@ var angObj = angObj || {};
         });
 
 
-
-        $scope.removeKpiActive = function(){
-            $('.kpi-dd-holder').removeClass( "active" );
-            $('.dropdown_ul_text').removeClass( "active" );
-            $('.drop_list li').removeClass( "active" );
+        $scope.removeKpiActive = function () {
+            $('.kpi-dd-holder').removeClass("active");
+            $('.dropdown_ul_text').removeClass("active");
+            $('.drop_list li').removeClass("active");
             $(".drop_list li").css("color", "#57606d");
             $('.direction_arrows div.kpi_arrow_sort.active').hide();
             $('.direction_arrows div.kpi_arrow_sort').removeClass("active");
@@ -388,14 +415,14 @@ var angObj = angObj || {};
             }
         };
 
-        $scope.platformIconUrl = function(name, iconUrl) {
+        $scope.platformIconUrl = function (name, iconUrl) {
             return '/assets/images/platform_favicons/' + (iconUrl == 'Unknown' ? 'platform_logo.png' : name.toLowerCase().replace(/ /g, '_') + '.png');
         };
 
         // hot fix for the enabling the active link in the reports dropdown
         $(function () {
-            $(".main_navigation").find(".header_tab_dropdown").removeClass("active_tab") ;
-            $(".main_navigation").find(".reports_sub_menu_dd_holder").find("#platform").addClass("active_tab") ;
+            $(".main_navigation").find(".header_tab_dropdown").removeClass("active_tab");
+            $(".main_navigation").find(".reports_sub_menu_dd_holder").find("#platform").addClass("active_tab");
         });
         // end of hot fix for the enabling the active link in the reports dropdown
     });
