@@ -19,9 +19,10 @@ var angObj = angObj || {};
         $scope.costRowSum=0;
         $scope.workflowData = {};
         $scope.vendorRateData = [];
+        $scope.newCostArr=[];
 
         $scope.selectedKpi = function(index,kpi) {
-            $scope.Campaign.kpiArr[index]['kpiId']=kpi.id;
+           // $scope.Campaign.kpiArr[index]['kpiId']=kpi.id;
             $scope.Campaign.kpiArr[index]['kpiType']=kpi.name;
 
                     var impression=_.filter($scope.Campaign.kpiArr, function(obj) { return (obj.kpiType === "Impressions" ||obj.kpiType === "Viewable Impressions")});
@@ -42,6 +43,13 @@ var angObj = angObj || {};
                     }else{
                         $scope.workflowData['calculation'][2].active=false;
                     }
+            if($scope.Campaign.kpiArr[index].isPrimary ||$scope.Campaign.kpiArr[index].isPrimary=="true"){
+                if(kpi.name==="Impressions"||kpi.name==="Viewable Impressions"){$scope.primaryType="CPM"}
+                else
+                if(kpi.name=="Clicks"){$scope.primaryType="CPC"}
+                else
+                if(kpi.name=="Actions"){$scope.primaryType="CPA"}
+            }
         }
         $scope.selectedVendor=function(index,vendor){
             $scope.Campaign.kpiArr[index]['vendorId']=vendor.id;
@@ -52,8 +60,10 @@ var angObj = angObj || {};
             target.parent().siblings().removeClass('active');
             target.parent().addClass('active');
             if(isSet){
+                /*left Nav primary Kpi impression Value*/
                 $scope.PrimaryImpressions=$scope.Campaign.kpiArr[index].kpiValue;
                 var primaryType=$scope.Campaign.kpiArr[index].kpiType;
+                /*Effective CPM/CPC/CPA text value to change*/
                 if(primaryType=="Impressions" || primaryType=="Viewable Impressions"){$scope.primaryType="CPM"}
                 else
                 if(primaryType=="Clicks"){$scope.primaryType="CPC"}
@@ -66,8 +76,16 @@ var angObj = angObj || {};
                         $scope.Campaign.kpiArr[i].isPrimary=false;
                     }
                 }
+            }else{
+                $scope.PrimaryImpressions="undefined";
             }
             $scope.Campaign.kpiArr[index]['isPrimary']=isSet;
+        }
+        $scope.setLeftNavPrimaryKpi=function(index){
+            if($scope.Campaign.kpiArr[index].isPrimary ||$scope.Campaign.kpiArr[index].isPrimary=="true") {
+                /*left Nav primary Kpi impression Value*/
+                $scope.PrimaryImpressions = $scope.Campaign.kpiArr[index].kpiValue;
+            }
         }
         $scope.kpiBilling=function(event,index,isSet){
             var target = $(event.target);
@@ -169,9 +187,12 @@ var angObj = angObj || {};
 
                     }
                 //console.log($scope.costRowSum);
-                $scope.Campaign.nonInventoryCost=Math.round($scope.costRowSum * 100) / 100//$scope.costRowSum;
+                $scope.Campaign.nonInventoryCost=Math.round($scope.costRowSum * 100) / 100;//$scope.costRowSum;
                 $scope.Campaign.deliveryBudget= Math.round(parseFloat($scope.Campaign.totalBudget)*(100-parseFloat($scope.Campaign.marginPercent)) - $scope.Campaign.nonInventoryCost)/100;
                 $scope.Campaign.effectiveCPM=$scope.calculateEffective();
+                if(parseFloat($scope.Campaign.nonInventoryCost)>parseFloat($scope.Campaign.totalBudget)){$scope.inventoryExceeds=true;}
+                if(parseFloat($scope.Campaign.deliveryBudget)<0){$scope.deliveryBudgetNegative=true;}
+                if(parseFloat($scope.Campaign.effectiveCPM)<0){$scope.effectiveNegative=true;}
 
             }
         }
@@ -214,7 +235,7 @@ var angObj = angObj || {};
         $scope.brand=[];
         $scope.performance=[];
         $scope.addMoreKpi=function(){
-            $scope.Campaign.kpiArr.push({kpiType: 'Select from list', kpiId:'', isPrimary: false ,vendorId:'',vendorName:'',kpiValue:0, isBillable:true});
+            $scope.Campaign.kpiArr.push({kpiType: 'Select from list', isPrimary: false ,vendorId:'',vendorName:'',kpiValue:0, isBillable:true});
             $(".selectkpiObj").show();
         }
         $scope.addMoreCost=function(){
@@ -276,20 +297,20 @@ var angObj = angObj || {};
                     objectiveObj.isChecked=true;
                     $scope.checkedObjectiveList.push(objectiveObj);
                 }
-            var brandInd=_.findIndex($scope.brand, function(item) {
-                return item.campaignObjectiveTypeId == objectiveObj.campaignObjectiveTypeId});
-                if(brandInd>=0){
-                    $scope.brand.splice(index,1);
-                }else{
-                    $scope.brand.push(objectiveObj);
-                }
-            var performanceInd=_.findIndex($scope.performance, function(item) {
-                return item.campaignObjectiveTypeId == objectiveObj.campaignObjectiveTypeId});
-                if(performanceInd>=0){
-                    $scope.performance.splice(index,1);
-                }else{
-                    $scope.performance.push(objectiveObj);
-                }
+//            var brandInd=_.findIndex($scope.brand, function(item) {
+//                return item.campaignObjectiveTypeId == objectiveObj.campaignObjectiveTypeId});
+//                if(brandInd>=0){
+//                    $scope.brand.splice(index,1);
+//                }else{
+//                    $scope.brand.push(objectiveObj);
+//                }
+//            var performanceInd=_.findIndex($scope.performance, function(item) {
+//                return item.campaignObjectiveTypeId == objectiveObj.campaignObjectiveTypeId});
+//                if(performanceInd>=0){
+//                    $scope.performance.splice(index,1);
+//                }else{
+//                    $scope.performance.push(objectiveObj);
+//                }
 //            else{
 //                objectiveObj.isChecked=true;
 //                $scope.checkedObjectiveList.push(objectiveObj);
@@ -320,14 +341,23 @@ var angObj = angObj || {};
                     $scope.selectedCampaign.endTime = utils.convertToEST($scope.editCampaignData.endTime,'MM/DD/YYYY');
                     $scope.editCampaignData.brandName = $scope.editCampaignData.brandName || 'Select Brand';
                     /*edit for new media plan*/
-//                    $scope.workflowData['branding']=[{campaignObjectiveTypeId: 1, subObjective: "Awareness", isChecked: true},{campaignObjectiveTypeId: 2, subObjective: "Recall", isChecked: true},{campaignObjectiveTypeId: 3, subObjective: "Purchase Intent", isChecked: true}]
-//                    $scope.selectedChannel="MOBILE"//editCampaignData.campaignType;
-//                    $scope.selectedKeywords=editCampaignData.preferredPlatforms;
-//                    $scope.Campaign.totalBudget=editCampaignData.totalBudget;
-//                    $scope.Campaign.marginPercent=editCampaignData.marginPercent;
-//                    $scope.Campaign.deliveryBudget=editCampaignData.deliveryBudget;
-//                    $scope.Campaign.nonInventoryCost=editCampaignData.nonInventoryCost;
-//                    $scope.Campaign.effectiveCPM=editCampaignData.effectiveCPM;
+                    $scope.Campaign.totalBudget=$scope.editCampaignData.totalBudget;
+                    $scope.Campaign.marginPercent=$scope.editCampaignData.marginPercent;
+                    $scope.Campaign.deliveryBudget=$scope.editCampaignData.deliveryBudget;/*write condition for orange text here also*/
+
+                    $scope.selectedChannel=$scope.editCampaignData.campaignType;
+                 //   $scope.selectedKeywords=$scope.editCampaignData.preferredPlatforms;
+
+//                    if($scope.editCampaignData.selectedObjectives && $scope.editCampaignData.selectedObjectives.length>0){
+//                        $scope.processObjectiveData($scope.editCampaignData.selectedObjectives);
+//                    }
+                //      $scope.workflowData['branding']=[{campaignObjectiveTypeId: 1, subObjective: "Awareness", isChecked: true},{campaignObjectiveTypeId: 2, subObjective: "Recall", isChecked: true},{campaignObjectiveTypeId: 3, subObjective: "Purchase Intent", isChecked: true}]//$scope.editCampaignData.campaignObjectives;console.log($scope.workflowData['branding'])
+
+
+//                    $scope.Campaign.nonInventoryCost=$scope.editCampaignData.nonInventoryCost;
+//                    $scope.Campaign.effectiveCPM=$scope.editCampaignData.effectiveCPM;
+
+
 
                     /*old code commented*/
                     /*$scope.selectedCampaign.kpiValue= $scope.editCampaignData.kpiValue;
@@ -343,7 +373,14 @@ var angObj = angObj || {};
                 }
             });
         }
-
+        $scope.processObjectiveData=function(objectiveObj){
+            var brandingArr=_.filter(objectiveObj,function(obj){return obj.objective==="Branding"})
+            if(brandingArr.length>0)
+                $scope.brand=brandingArr[0].subObjectives;
+            var performanceArr=_.filter(objectiveObj,function(obj){return obj.objective==="Performance"})
+            if(performanceArr.length>0)
+                $scope.performance=performanceArr[0].subObjectives;
+        }
 
 //        $scope.getGoalIconName = function (goal) {
 //            var goalMapper = {'performance': 'performance', 'brand': 'brand'}
@@ -392,7 +429,7 @@ var angObj = angObj || {};
                // $scope.workflowData['vendor']=[{id:1, name: 'Adometry'},{id:1, name: 'DFP'},{id:2, name: 'Collective Media'},{id:3, name: 'Double Verify'}];
             },
             platforms:function(){
-                $scope.Campaign.kpiArr.push({kpiType: 'Impressions', kpiId:1, isPrimary: true ,vendorId:'',vendorName:'',kpiValue:0, isBillable:true});
+                $scope.Campaign.kpiArr.push({kpiType: 'Impressions', isPrimary: true ,vendorId:'',vendorName:'',kpiValue:0, isBillable:true});
                 $scope.Campaign.costArr.push({costCategoryId: '',costCategoryName:'', type: 'variable', rateTypeId:'',vendorId:'',vendorName:'', rateValue:'', targetPercentage:100, description:''});
                 workflowService.getPlatforms({cache: false}).then(function (result) {
                     if (result.status === "OK" || result.status === "success") {
@@ -562,8 +599,16 @@ var angObj = angObj || {};
                 return false;
             }else{
                 return true;
-                alert();
             }
+        }
+        $scope.removeEmptyObjectCostArr=function(){
+
+            for(var i=0;i<$scope.Campaign.costArr.length;i++){
+                if($scope.Campaign.costArr[i].costCategoryId && $scope.Campaign.costArr[i].rateTypeId && $scope.Campaign.costArr[i].rateValue && $scope.Campaign.costArr[i].vendorId){
+                    $scope.newCostArr.push($scope.Campaign.costArr[i]);
+                }
+            }
+            //console.log($scope.newCostArr);
         }
 
         $scope.saveCampaign = function () {
@@ -572,7 +617,8 @@ var angObj = angObj || {};
             console.log($scope.createCampaignForm)
             var isPrimarySelected=$scope.checkIfPrimaryKpiSelected();
             $scope.isPrimarySelected=isPrimarySelected; console.log("$scope.isPrimarySelected",$scope.isPrimarySelected);
-            if ($scope.createCampaignForm.$valid) {
+            $scope.removeEmptyObjectCostArr();
+            if ($scope.createCampaignForm.$valid && isPrimarySelected) {
                 var formElem = $("#createCampaignForm");
                 var formData = formElem.serializeArray();
                 formData = _.object(_.pluck(formData, 'name'), _.pluck(formData, 'value'));
@@ -585,7 +631,7 @@ var angObj = angObj || {};
                 postDataObj.totalBudget=$scope.Campaign.totalBudget;
                 postDataObj.marginPercent=$scope.Campaign.marginPercent;
                 postDataObj.campaignKpis=$scope.Campaign.kpiArr;
-                postDataObj.campaignCosts=$scope.Campaign.costArr;
+                postDataObj.campaignCosts=$scope.newCostArr;//$scope.Campaign.costArr;
                 postDataObj.campaignObjectives=$scope.checkedObjectiveList;
                 postDataObj.preferredPlatforms=$scope.platFormArr;
 //                if(formData.kpiType!="None"){
@@ -702,7 +748,7 @@ var angObj = angObj || {};
                 return item.id == keyword.id});
             $scope.platformKeywords.splice(index,1);
             $('.keyword-txt').val('');
-            $scope.convertPreferredPlatformToArr($scope.selectedKeywords);
+            $scope.convertPreferredPlatformToArr($scope.selectedKeywords); console.log("selectedKeywords",$scope.selectedKeywords);
         }
 
         $scope.removeKeyword = function(keyword){
