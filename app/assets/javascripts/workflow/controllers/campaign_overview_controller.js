@@ -138,13 +138,13 @@ var angObj = angObj || {};
                         }
                         if(responseData.primaryKpi){
                             if(responseData.primaryKpi==="IMPRESSIONS")
-                                $scope.primaryKpiSelected="CPM"
+                                $scope.primaryKpiSelected="Impressions"
                             else if(responseData.primaryKpi==="CLICKS")
-                                $scope.primaryKpiSelected="CPC"
+                                $scope.primaryKpiSelected="Clicks"
                             else if(responseData.primaryKpi==="ACTIONS")
-                                $scope.primaryKpiSelected="CPA"
+                                $scope.primaryKpiSelected="Actions"
                             else if(responseData.primaryKpi==="VIEWABLE_IMPRESSIONS")
-                                $scope.primaryKpiSelected="CPM"
+                                $scope.primaryKpiSelected="Impressions"
                         }
                         var startDateElem = $('#adGrpStartDateInput');
                         $scope.setStartdateIndependant=utils.convertToEST($scope.workflowData['campaignData'].startTime,"MM/DD/YYYY");//set campaign start date as lower limit startDate
