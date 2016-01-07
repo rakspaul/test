@@ -984,7 +984,7 @@ var angObj = angObj || {};
             $scope.scheduleReportActive = $(that).prop('checked');
             if($scope.scheduleReportActive){
                 $scope.buttonLabel = $scope.textConstants.SCHEDULE_LABEL;
-                if($routeParams.reportId) {
+                if($routeParams.reportId || localStorage.getItem('customReport')) {
                     $scope.buttonLabel = "Update";
                 }
             } else {
