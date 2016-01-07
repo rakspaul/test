@@ -316,11 +316,10 @@
             };
         }
         function updateActionItems(callbackCDBGraph,loadingFlag,showExternal) {
-            console.log("hello");
             $scope.activityLogFlag = false;
             var params=getCustomQueryParams(constants.QUERY_ID_CAMPAIGN_REPORTS_FOR_OPTIMIZATION_IMPACT);
             params['make_external'] =false;
-            dataService.fetch(urlService.APIVistoCustomQuery(params)).then(function(result) {
+            dataService.fetch(urlService.APIVistoCustomQuery(params), {cache : false}).then(function(result) {
                 console.log("result", result);
                 $scope.activityLogFlag = true;
                 if(result.status === 'success') {

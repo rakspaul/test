@@ -600,13 +600,9 @@
             var txt = (jQuery("#edit_action_comment").val()).replace(/\n/g, '').replace('\\n', '');
             var hidden_txt = jQuery("#hidden_comments").val().replace(/\n/g, '').replace('\\n', '');
             var hidden_checkbox = jQuery("#hidden_checkbox_status").val().toString();
-            var edit_checkbox =jQuery("#edit_details_squaredFour").prop( "checked").toString();
-            if((hidden_txt == txt) && (hidden_checkbox == edit_checkbox )){
-                jQuery("#action_save_btn").attr('disabled','disabled');
-            }else{
-                jQuery("#action_save_btn").removeAttr('disabled');
-            }
+            jQuery("#action_save_btn").removeAttr('disabled');
         }
+
         var disableSaveButton = function(){
             jQuery("#action_save_btn").attr('disabled','disabled');
         }

@@ -7,7 +7,8 @@
             return url;
         };
         this.APIeditAction = function (actionId) {
-            var url = apiPaths.workflow_apiServicesUrl + '/actions/' + actionId;
+            var clientId =  loginModel.getSelectedClient().id;
+            var url = apiPaths.workflow_apiServicesUrl + '/clients/' + clientId + '/actions/' + actionId;
             return url;
         };
 
