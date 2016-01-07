@@ -144,7 +144,7 @@
             $location.url(url);
         };
         
-        $scope.show_hide_nav_dropdown = function(event,arg) {
+        $scope.show_hide_nav_dropdown = function(event,arg,behaviour) {
           var elem = $(event.target);
           if($("#" + arg + "-menu").is(":visible") == false ) {
             $(".main_nav_dropdown").hide() ;
@@ -152,9 +152,12 @@
             $(".main_navigation_holder").find(".selected").removeClass("selected") ;
             elem.closest("#"+ arg +"_nav_link").addClass("selected") ;
           } else {
-            $(".main_nav_dropdown").fadeOut() ;
-            $(".main_navigation_holder").find(".selected").removeClass("selected") ;
+            if(behaviour == "click") {
+                $(".main_nav_dropdown").fadeOut() ;
+                $(".main_navigation_holder").find(".selected").removeClass("selected") ;
+            }
           }   
+          
         } ;
 
         $scope.hide_navigation_dropdown = function(event) {
