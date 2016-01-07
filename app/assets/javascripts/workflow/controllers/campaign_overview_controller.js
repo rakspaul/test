@@ -22,7 +22,6 @@ var angObj = angObj || {};
         $scope.performance=[];
         localStorage.setItem('campaignData','');
         $scope.moreThenThree = '';
-        $scope.selectedString = ''
         $scope.editCampaign=function(workflowcampaignData){
             window.location.href = '/mediaplan/'+workflowcampaignData.id+'/edit';
         }
