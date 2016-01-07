@@ -103,10 +103,12 @@
             getDayPartdata:function(){
                 return dayPartData;
             },
+            resetDayPartdata:function(){
+                dayPartData = null;
+            },
             setDayPartDispObj: function(daytimeArr,dayTimeSelected){
                 daytimeArrObj = daytimeArr;
                 dayTimeSelectedObj = dayTimeSelected;
-                console.log('day obj',daytimeArrObj,'selected obj',dayTimeSelectedObj)
             },
             getDaytimeObj: function(){
                 return daytimeArrObj;
