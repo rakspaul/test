@@ -113,7 +113,6 @@
                 showSelectedClient(event, name);
                 $scope.getClientData(id);
                 $rootScope.clientName = name;
-                console.log("set_account_name");
                 $rootScope.$broadcast(constants.ACCOUNT_CHANGED, id);
             }
 
@@ -129,11 +128,8 @@
 
         $scope.NavigateToTab =  function(url, event, page) {
             $(".header_tab_dropdown").removeClass('active_tab');
-            console.log("page", page);
             if(page === 'reportOverview') {
-                console.log("hello");
                 $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign().id ;
-                console.log("$scope.selectedCampaign", $scope.selectedCampaign);
                 if($scope.selectedCampaign === -1) {
                     url = '/mediaplans';
                 } else {
