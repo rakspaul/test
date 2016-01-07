@@ -7,6 +7,8 @@ var angObj = angObj || {};
         dayPart: [],
         daytimeArr: []
     };
+
+        audienceService.resetDayPartdata();
     $scope.customFlag = false;
     $scope.timeSelected = 'All days and times';
     $scope.modeSet=workflowService.getMode();
@@ -29,14 +31,10 @@ var angObj = angObj || {};
                 $('.advertiserClass').parent().addClass('active');
                 $('.advertiserClass').attr("checked", "checked");
                 $scope.timezoneFormat=angular.lowercase(fetchedObj.targets.adDaypartTargets.timeZone);
-
             }
 
             if(angular.lowercase(fetchedObj.targets.adDaypartTargets.dayTime) == angular.lowercase("Custom Schedule")){
-
                 var scheduleObj=fetchedObj.targets.adDaypartTargets.schedule;
-               // console.log('custom daypart = ',scheduleObj);
-               // console.log(scheduleObj);
                 $scope.Schedule.daytimeArr.length = 0;
                 $scope.Schedule.dayPart.length=0;
                 _.each(scheduleObj, function(obj) {
@@ -48,9 +46,6 @@ var angObj = angObj || {};
                     }
                 });
                 $scope.Schedule.dayTimeSelected(7);
-                    /*for number of objects in $scope.Schedule.daytimeArr, increment the Schedule.customLength,*/
-                    //$scope.Schedule.customLength = $scope.Schedule.customLength + 1;
-                    //$scope.Schedule.daytimeArr.push({day: 'Sunday', startTime: 'All Day'});
             }else{
                 $scope.dayTimeSelected=fetchedObj.targets.adDaypartTargets.dayTime;//console.log($scope.dayTimeSelected);
                 switch($scope.dayTimeSelected){
@@ -94,7 +89,6 @@ var angObj = angObj || {};
 
     });
         $scope.recreateCustomObj=function(day,dayArr){
-
             switch(day){
                 case "Monday":
                     var obj= $scope.convertToScheduleObj('Monday',dayArr);
@@ -325,57 +319,44 @@ var angObj = angObj || {};
             adDaypartTargets.isIncluded=true;
             adDaypartTargets.timeZone=$scope.timezoneFormat;
             adDaypartTargets.clock=$scope.clock;
-//            if($scope.dayTimeSelected!='Custom schedule') {
-//
-//                audienceService.setDayPartDispObj($scope.Schedule.daytimeArr,$scope.dayTimeSelected);
-//                adDaypartTargets.schedule = {
-////                    "Tuesday": [2, 4, 7],
-////                    "Monday": [1, 2, 3, 4],
-////                    "Friday": [5, 6, 7]
-//                };
-//            }
-//            else{
-                var sunday=_.filter($scope.Schedule.dayPart, function(obj) { return obj.day == "Sunday" });
-                $scope.Sunday=$scope.generateDayArr(sunday);
-                var monday=_.filter($scope.Schedule.dayPart, function(obj) { return obj.day == "Monday" });
-                $scope.Monday=$scope.generateDayArr(monday);
-                var tuesday=_.filter($scope.Schedule.dayPart, function(obj) { return obj.day == "Tuesday" });
-                $scope.Tuesday=$scope.generateDayArr(tuesday);
-                var wednesday=_.filter($scope.Schedule.dayPart, function(obj) { return obj.day == "Wednesday" });
-                $scope.Wednesday=$scope.generateDayArr(wednesday);
-                var Thursday=_.filter($scope.Schedule.dayPart, function(obj) { return obj.day == "Thursday" });
-                $scope.Thursday=$scope.generateDayArr(Thursday);
-                var friday=_.filter($scope.Schedule.dayPart, function(obj) { return obj.day == "Friday" });
-                $scope.Friday=$scope.generateDayArr(friday);
-                var saturday=_.filter($scope.Schedule.dayPart, function(obj) { return obj.day == "Saturday" });
-                $scope.Saturday=$scope.generateDayArr(saturday);
-                /* Add custom day array to dayPart Object*/
-                adDaypartTargets.schedule={
-                    "Sunday":$scope.Sunday,
-                    "Monday":$scope.Monday,
-                    "Tuesday":$scope.Tuesday,
-                    "Wednesday":$scope.Wednesday,
-                    "Thursday":$scope.Thursday,
-                    "Friday":$scope.Friday,
-                    "Saturday":$scope.Saturday
-                };
+            var sunday=_.filter($scope.Schedule.dayPart, function(obj) { return obj.day == "Sunday" });
+            $scope.Sunday=$scope.generateDayArr(sunday);
+            var monday=_.filter($scope.Schedule.dayPart, function(obj) { return obj.day == "Monday" });
+            $scope.Monday=$scope.generateDayArr(monday);
+            var tuesday=_.filter($scope.Schedule.dayPart, function(obj) { return obj.day == "Tuesday" });
+            $scope.Tuesday=$scope.generateDayArr(tuesday);
+            var wednesday=_.filter($scope.Schedule.dayPart, function(obj) { return obj.day == "Wednesday" });
+            $scope.Wednesday=$scope.generateDayArr(wednesday);
+            var Thursday=_.filter($scope.Schedule.dayPart, function(obj) { return obj.day == "Thursday" });
+            $scope.Thursday=$scope.generateDayArr(Thursday);
+            var friday=_.filter($scope.Schedule.dayPart, function(obj) { return obj.day == "Friday" });
+            $scope.Friday=$scope.generateDayArr(friday);
+            var saturday=_.filter($scope.Schedule.dayPart, function(obj) { return obj.day == "Saturday" });
+            $scope.Saturday=$scope.generateDayArr(saturday);
+            /* Add custom day array to dayPart Object*/
+            adDaypartTargets.schedule={
+                "Sunday":$scope.Sunday,
+                "Monday":$scope.Monday,
+                "Tuesday":$scope.Tuesday,
+                "Wednesday":$scope.Wednesday,
+                "Thursday":$scope.Thursday,
+                "Friday":$scope.Friday,
+                "Saturday":$scope.Saturday
+            };
 
-                for(var i = 0; i < $scope.Schedule.dayPart.length; i++){
-                    if($scope.Schedule.dayPart[i].stTime>=0){
-                        $scope.Schedule.dayPart[i].startTime =  $scope.returnTime($scope.Schedule.dayPart[i].stTime);
-                    }
-
-                    if($scope.Schedule.dayPart[i].edTime>=0){
-                        $scope.Schedule.dayPart[i].endTime =  $scope.returnTime($scope.Schedule.dayPart[i].edTime);
-                    }
+            for(var i = 0; i < $scope.Schedule.dayPart.length; i++){
+                if($scope.Schedule.dayPart[i].stTime>=0){
+                    $scope.Schedule.dayPart[i].startTime =  $scope.returnTime($scope.Schedule.dayPart[i].stTime);
                 }
-                audienceService.setDayPartDispObj($scope.Schedule.dayPart,$scope.dayTimeSelected);
 
-            //}
+                if($scope.Schedule.dayPart[i].edTime>=0){
+                    $scope.Schedule.dayPart[i].endTime =  $scope.returnTime($scope.Schedule.dayPart[i].edTime);
+                }
+            }
+            audienceService.setDayPartDispObj($scope.Schedule.dayPart,$scope.dayTimeSelected);
             audienceService.setDayPartData(adDaypartTargets);
             $scope.getSelectedDays();
             $scope.resetDayTargetingVariables();
-
         }
 
         $scope.selectday=function(index,day){
@@ -430,11 +411,7 @@ var angObj = angObj || {};
         }
 
         $scope.Schedule.dayTimeSelected=function(value) {
-           // $(" .dropdown-toggle").parents('.dropdown').removeClass('open');
             $scope.customFlag = false;
-
-            //event.preventDefault();
-            //event.stopImmediatePropagation();
             switch (value) {
                 case 0:
                  //   console.log("BEFORE",$scope.Schedule.dayPart);
