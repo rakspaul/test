@@ -60,7 +60,7 @@ var angObj = angObj || {};
             var brandingArr=_.filter(objectiveObj,function(obj){return obj.objective==="Branding"})
             if(brandingArr.length>0){
                 $scope.brand=brandingArr[0].subObjectives;
-                var tooltip=$scope.brand[0];
+                var tooltip="Branding: " + $scope.brand[0];
                 for(var i=1;i<$scope.brand.length;i++){
                     tooltip+=","+$scope.brand[i];
                 }
@@ -69,7 +69,7 @@ var angObj = angObj || {};
             var performanceArr=_.filter(objectiveObj,function(obj){return obj.objective==="Performance"})
             if(performanceArr.length>0){
                 $scope.performance=performanceArr[0].subObjectives;
-                var tooltip=$scope.performance[0];
+                var tooltip="Performance: " + $scope.performance[0];
                 for(var i=1;i<$scope.performance.length;i++){
                     tooltip+=","+$scope.performance[i];
                 }
@@ -98,11 +98,13 @@ var angObj = angObj || {};
                         }
                         if(responseData.primaryKpi){
                             if(responseData.primaryKpi==="IMPRESSIONS")
-                                $scope.primaryKpiSelected="CPM"
+                                $scope.primaryKpiSelected="Impressions"
                             else if(responseData.primaryKpi==="CLICKS")
-                                $scope.primaryKpiSelected="CPC"
+                                $scope.primaryKpiSelected="Clicks"
                             else if(responseData.primaryKpi==="ACTIONS")
-                                $scope.primaryKpiSelected="CPA"
+                                $scope.primaryKpiSelected="Actions"
+                            else if(responseData.primaryKpi==="VIEWABLE_IMPRESSIONS")
+                                $scope.primaryKpiSelected="Viewable Impressions"
                         }
                         var startDateElem = $('#adGrpStartDateInput');
                         $scope.setStartdateIndependant=utils.convertToEST($scope.workflowData['campaignData'].startTime,"MM/DD/YYYY");//set campaign start date as lower limit startDate
