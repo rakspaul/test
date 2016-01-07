@@ -197,17 +197,17 @@
                     reportTypeDropdownId = $("#reportTypeDropdown"),
                     regionTooltip = $(".regionCityTab").find(".common_tooltip"),
                     quickFilters = $(".sliding_dropdown_container");
-                if($(e).closest(".report_builder_container").length) {
-                    var dropdownMenu = $(".left_border .dropdown .dropdown-menu");
-                    dropdownMenu.css("display", "none");
-                    if ($(e).closest(".dropdown").length && $(e).closest(".left_border").length) {
-                        var attr = $(e).attr('ng-click'),
-                            attr = (typeof attr == "undefined" || attr == null) ? false : attr;
-                        if ((attr && attr.search("addSearch") != -1) || $(e).attr("class") == "arrow_img" || $(e).attr("class") == "dd_txt ng-binding") {
-                            dropdownMenu.css("display", "block");
-                        }
-                    }
-                }
+                // if($(e).closest(".report_builder_container").length) {
+                //     var dropdownMenu = $(".left_border .dropdown .dropdown-menu");
+                //     dropdownMenu.css("display", "none");
+                //     if ($(e).closest(".dropdown").length && $(e).closest(".left_border").length) {
+                //         var attr = $(e).attr('ng-click'),
+                //             attr = (typeof attr == "undefined" || attr == null) ? false : attr;
+                //         if ((attr && attr.search("addSearch") != -1) || $(e).attr("class") == "arrow_img" || $(e).attr("class") == "dd_txt ng-binding") {
+                //             dropdownMenu.css("display", "block");
+                //         }
+                //     }
+                // }
                 if(cdbDropdownId.is(':visible') && event.target.id != "durationMenuText") {
                     cdbDropdownId.closest(".each_filter").removeClass("filter_dropdown_open");
                     cdbDropdownId.hide();
