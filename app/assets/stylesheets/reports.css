@@ -697,6 +697,8 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
 .common_reports_container #strategies_list,
 .breadcrumb_campaign_strategy #strategies_list {
   width: 450px;
+  max-height: 200px;
+  overflow: auto;
 }
 .common_reports_container .performance_selection,
 .breadcrumb_campaign_strategy .performance_selection {
@@ -3659,7 +3661,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 }
 .custom_report_response_page .custom_report_response_table .each_col.more_dimension_arrow {
   display: none;
-  background: url("/assets/images/cdesk/common_side_arrow.png") no-repeat left 1px #fff;
+  background: url("/assets/images/cdesk/common_side_arrow.png") no-repeat left 1px #ffffff;
   height: 11px;
   width: 12px;
   min-width: 12px;
