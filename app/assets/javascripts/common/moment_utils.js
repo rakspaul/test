@@ -104,13 +104,13 @@
                 tz,
                 format;
 
+            format = dtFormat || constants.DATE_US_FORMAT;
             if(!dateTime) {
                 return moment().format(format);
             } else {
                 d = dateTime.slice(0,10).split('-');
                 parsedDate = Date.parse(d[1] + '/' + d[2] + '/' + d[0] + ' ' + dateTime.slice(11, 19) + ' UTC');
                 tz = this.getTimezoneName() === constants.TIMEZONE_UK ? 'GMT' : 'EST';
-                format = dtFormat || constants.DATE_US_FORMAT;
                 return moment(parsedDate).tz(tz).format(format);
             }
         };
