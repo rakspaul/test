@@ -68,7 +68,6 @@
                 <!-- -------END :  Performance Tabs ------------------------ -->
 
                 <!-- -------START :  Screen Block ----------------------------- -->
-
                 <div ng-class="adFormats.videoAds ? 'reports_block quar_data' : 'reports_block' " id="reports_byscreens_block" style="{{defaultDisplayScreen}}">
                     <div class="no_data_found" ng-if="dataNotFoundForScreen" ng-bind-html="getMessageForDataNotAvailable('screens')"></div>
                     <div class="reports_details_outer_container"  ng-if="!dataNotFoundForScreen">
@@ -82,10 +81,10 @@
                                 </div>
                                 <div class="row_list_holder clearfix">
                                     <div class="common-load-icon" ng-show="screenBusy"></div>
-                                    <div class="clearfix each_row_list " ng-repeat="screenData in strategyPerfDataByScreen | orderBy:sortTypeScreens:sortReverse track by $index" ng-include="'screenTpl'"></div>
+                                    <div class="clearfix each_row_list " ng-show="!screenBusy" ng-repeat="screenData in strategyPerfDataByScreen | orderBy:sortTypeScreens:sortReverse track by $index" ng-include="'screenTpl'"></div>
                                 </div>
                             </div>
-                            <div class="all_strategies_holder">
+                            <div class="all_strategies_holder" ng-show="!screenBusy">
                                 <div class="each_strategy_holder clearfix" ng-repeat="tactic in groupThem | orderBy:sortTypeScreens:sortReverse track by $index" ng-if="showPerfMetrix == true" >
                                     <div class="linkage_bar"></div>
                                     <div class="each_strategy clearfix">
@@ -118,10 +117,10 @@
                                 </div>
                                 <div class="row_list_holder clearfix">
                                     <div class="common-load-icon" ng-show="dowBusy"></div>
-                                    <div class="clearfix each_row_list" ng-repeat="daysofweekData in strategyPerfDataByDOW | orderBy:sortTypebydaysofweek:sortReverseDaysTab track by $index" ng-include="'daysofweekTpl'"></div>
+                                    <div class="clearfix each_row_list" ng-show="!dowBusy" ng-repeat="daysofweekData in strategyPerfDataByDOW | orderBy:sortTypebydaysofweek:sortReverseDaysTab track by $index" ng-include="'daysofweekTpl'"></div>
                                 </div>
                             </div>
-                            <div class="all_strategies_holder">
+                            <div class="all_strategies_holder" ng-show="!dowBusy">
                                 <div class="each_strategy_holder clearfix" ng-repeat="tactic in groupThem | orderBy:sortTypebydaysofweek:sortReverseDaysTab track by $index" ng-if="showPerfMetrix == true">
                                     <div class="linkage_bar"></div>
                                     <div class="each_strategy clearfix">
@@ -153,10 +152,10 @@
                                 </div>
                                 <div class="row_list_holder clearfix">
                                     <div class="common-load-icon" ng-show="formatBusy"></div>
-                                    <div class="clearfix each_row_list" ng-repeat="formatData in strategyPerfDataByFormat | orderBy:sortTypebyformats:sortReverseFormatTab track by $index" ng-include="'formatTpl'"></div>
+                                    <div class="clearfix each_row_list" ng-show="!formatBusy" ng-repeat="formatData in strategyPerfDataByFormat | orderBy:sortTypebyformats:sortReverseFormatTab track by $index" ng-include="'formatTpl'"></div>
                                 </div>
                             </div>
-                            <div class="all_strategies_holder">
+                            <div class="all_strategies_holder" ng-show="!formatBusy">
                                 <div class="each_strategy_holder clearfix" ng-repeat="tactic in groupThem | orderBy:sortTypebyformats:sortReverseFormatTab track by $index" ng-if="showPerfMetrix == true">
                                     <div class="linkage_bar"></div>
                                     <div class="each_strategy clearfix">
@@ -191,10 +190,10 @@
                                 </div>
                                 <div class="row_list_holder clearfix">
                                     <div class="common-load-icon" ng-show="creativeBusy"></div>
-                                    <div class="clearfix each_row_list" ng-repeat="creativesData in strategyPerfDataByCreatives | orderBy:sortTypebycreatives:sortReverseCreativesTab track by $index" ng-include="'CreativesTpl'"></div>
+                                    <div class="clearfix each_row_list" ng-show="!creativeBusy" ng-repeat="creativesData in strategyPerfDataByCreatives | orderBy:sortTypebycreatives:sortReverseCreativesTab track by $index" ng-include="'CreativesTpl'"></div>
                                 </div>
                             </div>
-                            <div class="all_strategies_holder">
+                            <div class="all_strategies_holder" ng-show="!creativeBusy">
                                 <div class="each_strategy_holder clearfix" ng-repeat="tactic in groupThem | orderBy:sortTypebycreatives:sortReverseCreativesTab track by $index" ng-if="showPerfMetrix == true">
                                     <div class="linkage_bar"></div>
                                     <div class="each_strategy clearfix">
@@ -231,10 +230,10 @@
                                 </div>
                                 <div class="row_list_holder clearfix">
                                     <div class="common-load-icon" ng-show="adSizesBusy"></div>
-                                    <div class="clearfix each_row_list" ng-repeat="adsizesData in strategyPerfDataByAdsizes | orderBy:sortTypebyadsizes:sortReverseAddSizes track by $index" ng-include="'AdsizesTpl'"></div>
+                                    <div class="clearfix each_row_list" ng-show="!adSizesBusy" ng-repeat="adsizesData in strategyPerfDataByAdsizes | orderBy:sortTypebyadsizes:sortReverseAddSizes track by $index" ng-include="'AdsizesTpl'"></div>
                                 </div>
                             </div>
-                            <div class="all_strategies_holder">
+                            <div class="all_strategies_holder" ng-show="!adSizesBusy">
                                 <div class="each_strategy_holder clearfix" ng-repeat="tactic in groupThem | orderBy:sortTypebyadsizes:sortReverseAddSizes track by $index" ng-if="showPerfMetrix == true">
                                     <div class="linkage_bar"></div>
                                     <div class="each_strategy clearfix">

@@ -159,7 +159,7 @@
             fetch: function (url, cacheObj) {
                 cacheObj = _.extend({cache:true}, cacheObj);
                 loginModel.checkCookieExpiry();
-                if(cacheObj.cache) {
+                /*if(cacheObj.cache) {
                     var cachedResponse = dataStore.getCachedByUrl(url);
                     if (cachedResponse != undefined) {
                         var defer = $q.defer();
@@ -170,7 +170,7 @@
                         defer.resolve();
                         return promise;
                     }
-                }
+                }*/
                 return $http({url: url, method: 'GET'}).then(
                     function (response) {
                         var urlIndex = utils.getParameterByName(url, 'urlIndex');
@@ -252,7 +252,7 @@
 
             fetchCancelable: function (url, canceller, success, failure) {
                 loginModel.checkCookieExpiry();
-                var cachedResponse = dataStore.getCachedByUrl(url);
+                /*var cachedResponse = dataStore.getCachedByUrl(url);
                 if(cachedResponse != undefined) {
                     var defer = $q.defer();
                     var promise = defer.promise.then(function () {
@@ -260,7 +260,7 @@
                     });
                     defer.resolve();
                     return promise;
-                }
+                }*/
                 return $http.get(url, {timeout: canceller.promise}).then(
                     function (response) {
                         var objOnSuccess = {
