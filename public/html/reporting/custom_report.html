@@ -175,7 +175,8 @@
 								<div class="clearfix title_row_separator">
 									<div class="pull-left metrics_edit_container">
 										<a class="blue_txt" href="#" data-toggle="modal" data-target=".metric_popup">
-											<span class="dashed_txt">{{metrics_text}}</span>
+											<span class="dashed_txt" ng-click="refreshMetriPopUp()"
+                                                  ng-bind="metrics_text"></span>
 										</a>
 
 									</div>

@@ -1449,6 +1449,28 @@ var angObj = angObj || {};
                     });
                 }
             }
+            $scope.refreshMetriPopUp = function(){
+                var metricsType = ['deliveryMetrics', 'costMetrics', 'videoMetrics', 'displayQltyMetrics', 'videoQltyMetrics'];
+                _.each(metricsType, function(v){
+                    _.each($scope[v],function(o){
+                        o.selected = false;
+                    });
+                    $scope[v].isAllSelected = false;
+                });
+                _.each($scope.selectedMetricsList,function(selObj) {
+                    _.each(metricsType, function(v){
+                        _.each($scope[v],function(o){
+                            if(selObj.key == o.key){
+                                o.selected = true;
+                            }
+                        });
+                        $scope[v].isAllSelected = true;
+                        _.each($scope[v],function(o){
+                            if(!o.selected) $scope[v].isAllSelected = false;
+                        });
+                    });
+                });
+            }
             $scope.validateScheduleDate = function(){
                 if($scope.buttonLabel == "Update"){
                     var currDate = (function () {
