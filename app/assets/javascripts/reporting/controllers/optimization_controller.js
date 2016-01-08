@@ -1,7 +1,7 @@
 var angObj = angObj || {};
 (function () {
     'use strict';
-    angObj.controller('OptimizationController', function ( $rootScope, $scope, $location, $window, $anchorScroll, campaignSelectModel, kpiSelectModel, strategySelectModel,  dataService, optimizationService, utils,  $http, actionChart, $timeout, domainReports, apiPaths, actionColors, campaignListService,constants, timePeriodModel, loginModel, analytics, momentService, urlService, advertiserModel, brandsModel) {
+    angObj.controller('OptimizationController', function ( $rootScope, $scope, $location, $window, $anchorScroll, campaignSelectModel, kpiSelectModel, strategySelectModel,  dataService, utils,  $http, actionChart, $timeout, domainReports, apiPaths, actionColors, campaignListService,constants, timePeriodModel, loginModel, analytics, momentService, urlService, advertiserModel, brandsModel) {
 
         $scope.textConstants = constants;
 

@@ -1,7 +1,7 @@
 var angObj = angObj || {};
 (function () {
   'use strict';
-  angObj.controller('InventoryController', function ($scope, $http, $window, apiPaths,kpiSelectModel, requestCanceller, campaignSelectModel, strategySelectModel , inventoryService, columnline, utils, dataService, domainReports, constants, timePeriodModel, loginModel,advertiserModel,brandsModel, analytics) {
+  angObj.controller('InventoryController', function ($scope, $http, $window, apiPaths,kpiSelectModel, requestCanceller, campaignSelectModel, strategySelectModel , columnline, utils, dataService, domainReports, constants, timePeriodModel, loginModel,advertiserModel,brandsModel, urlService, analytics) {
 
       $scope.textConstants = constants;
 
@@ -163,7 +163,8 @@ var angObj = angObj || {};
           };
 
           $scope.api_return_code = 200;
-          return inventoryService.getStrategyDomainData(param).then(function (result) {
+          var url = urlService.APIVistoCustomQuery(param);
+          return dataService.fetch(url).then(function (result) {
               $scope.loadingFlag = false;
               $scope.strategyLoading =  false;
 
