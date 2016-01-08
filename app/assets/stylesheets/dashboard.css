@@ -670,6 +670,10 @@
 .dashboard_screens_graph_holder .bar_section_graph_holder_screen .graphValues_title {
   float: left;
   margin: 0 0 0 10px;
+  text-transform: lowercase;
+}
+.dashboard_screens_graph_holder .bar_section_graph_holder_screen .graphValues_title:first-letter {
+  text-transform: uppercase;
 }
 .dashboard_screens_graph_holder .bar_section_graph_holder_screen .graphValues_number {
   float: right;
