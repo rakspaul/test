@@ -51,13 +51,16 @@
         });
 
         var accountChanged = $rootScope.$on(constants.ACCOUNT_CHANGED, function (event,clientId) {
-            console.log("ACCOUNT_CHANGED");
             fetchAdvertisers({key: "", limit: 100, offset: 0, clientId: clientId},{key: "", limit: 100, offset: 0, clientId: clientId});
             var advertiser = advertiserModel.getAllAdvertiser();
             $scope.selectAdvertiser(advertiser);
             advertiserModel.setSelectedAdvertisers(advertiser);
             advertiserModel.callAdvertiserBroadcast(advertiser);
             $rootScope.$broadcast('CAMPAIGN_CHANGE');
+        });
+
+        $scope.$on('$destroy', function() {
+            accountChanged();
         });
 
         $(function () {

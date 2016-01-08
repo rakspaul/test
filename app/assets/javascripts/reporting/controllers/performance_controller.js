@@ -1,7 +1,7 @@
 var angObj = angObj || {};
 (function () {
     'use strict';
-    angObj.controller('PerformanceController', function ($rootScope, $scope, $window, campaignSelectModel, strategySelectModel, kpiSelectModel, performanceService, utils, dataService, domainReports, apiPaths, constants, timePeriodModel,brandsModel, loginModel, analytics,urlService,advertiserModel, $timeout) {
+    angObj.controller('PerformanceController', function ($rootScope, $scope, $window, campaignSelectModel, strategySelectModel, kpiSelectModel, utils, dataService, domainReports, apiPaths, constants, timePeriodModel,brandsModel, loginModel, analytics,urlService,advertiserModel, $timeout) {
 
         $scope.textConstants = constants;
 
@@ -160,7 +160,8 @@ var angObj = angObj || {};
 
             $scope.api_return_code=200;
 
-            return performanceService.getStrategyPerfData(param).then(function (result) {
+            var url = urlService.APIVistoCustomQuery(param);
+            return dataService.fetch(url).then(function (result) {
                 $scope.strategyLoading =  false;
                 if (result.status === "OK" || result.status === "success") {
                     $scope.hidePerformanceReportTab = $scope.checkForSelectedTabData(result.data.data, tab);

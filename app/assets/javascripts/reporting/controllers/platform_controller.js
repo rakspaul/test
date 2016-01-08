@@ -2,10 +2,10 @@ var angObj = angObj || {};
 (function () {
     'use strict';
     angObj.controller('PlatformController', function ($rootScope, $scope, $window, campaignSelectModel,
-                                                      strategySelectModel, kpiSelectModel, platformService,
+                                                      strategySelectModel, kpiSelectModel,
                                                       utils, dataService, apiPaths, constants, domainReports,
                                                       timePeriodModel, RoleBasedService, loginModel, analytics,
-                                                      $timeout, advertiserModel, brandsModel) {
+                                                      $timeout, advertiserModel, brandsModel, urlService) {
 
         $scope.textConstants = constants;
 
@@ -110,7 +110,8 @@ var angObj = angObj || {};
             }
 
             $scope.api_return_code = 200;
-            platformService.getStrategyPlatformData(param).then(function (result) {
+            var url = urlService.APIVistoCustomQuery(param);
+            dataService.fetch(url).then(function (result) {
                 $scope.strategyLoading = false;
                 if (result.status === "OK" || result.status === "success") {
                     $scope.isCostModelTransparent = true;
