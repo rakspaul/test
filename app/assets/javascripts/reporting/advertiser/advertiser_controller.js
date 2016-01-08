@@ -50,12 +50,13 @@
             $scope.selectAdvertiser(advertiser);
         });
 
-        var accountChanged = $rootScope.$on(constants.ACCOUNT_CHANGED, function (event,clientId) {
+        var accountChanged = $rootScope.$on(constants.ACCOUNT_CHANGED, function (event, args) {
+            var clientId = args.clientId;
             fetchAdvertisers({key: "", limit: 100, offset: 0, clientId: clientId},{key: "", limit: 100, offset: 0, clientId: clientId});
             var advertiser = advertiserModel.getAllAdvertiser();
             $scope.selectAdvertiser(advertiser);
             advertiserModel.setSelectedAdvertisers(advertiser);
-            advertiserModel.callAdvertiserBroadcast(advertiser);
+            advertiserModel.callAdvertiserBroadcast(advertiser, args.event_type);
             $rootScope.$broadcast('CAMPAIGN_CHANGE');
         });
 

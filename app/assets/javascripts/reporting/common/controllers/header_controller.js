@@ -112,7 +112,7 @@
                 showSelectedClient(event, name);
                 $scope.getClientData(id);
                 $rootScope.clientName = name;
-                $rootScope.$broadcast(constants.ACCOUNT_CHANGED, id);
+                $rootScope.$broadcast(constants.ACCOUNT_CHANGED, {'client' : id, 'event_type' :'clicked'});
             }
 
 
