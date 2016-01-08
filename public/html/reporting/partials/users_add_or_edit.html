@@ -26,7 +26,7 @@
         </div>
         <div class="form-group col-md-12 zeroPadding" show-errors='{showSuccess: true}'>
             <label >Password:</label>
-            <input name="password" type="password" ng-model="userConsoleFormDetails.password" class="form-control"  required>
+            <input name="password" type="password" ng-model="userConsoleFormDetails.password" class="form-control" ng-disabled="{{isEdit}}" required>
             <label ng-if="userCreateEditForm.password.$error.required" class="col-sm-12  greyTxt errorLabel">You must enter password.</label>
         </div>
         <!--<div class="form-group col-md-12 zeroPadding">-->
@@ -54,11 +54,11 @@
 
         <div class="form-group col-md-12 zeroPadding"><!--add model also-->
             <label >Role:</label>
-            <select id="role" name="role" class="form-control" ng-model="userConsoleFormDetails.role_template_id" ng-change="selectedRole(userConsoleFormDetails.role_template_id)">
-              <option value="Super_Admin">Super Admin</option>
-              <option value="Account_Admin">Account Admin</option>
-              <option value="Advertiser_Admin">Advertiser Admin</option>
-              <option value="Generic_User">Generic User</option>
+            <select id="role" name="role" class="form-control" ng-model="userConsoleFormDetails.roleTemplateId" ng-change="selectedRole(userConsoleFormDetails.roleTemplateId)">
+              <option value="0">Super Admin</option>
+              <option value="1">Account Admin</option>
+              <option value="2">Advertiser Admin</option>
+              <option value="3">Generic User</option>
             </select>
         </div>
 
@@ -132,7 +132,7 @@
             <!--</div>-->
             <div class="col-md-12 zeroPadding add-filters" ng-repeat="(permissionIndex,item) in permissions track by $index"> <!--$index--{{$index}}-->
                 <div class="form-group col-md-3 accounts-multi-dimension" id="id_{{$index}}"><!--id_$index---id_{{$index}}-->
-                    <label >Accounts: -- {{$index}}</label>
+                    <label >Accounts:</label>
                     <div class="zeroPadding dropdown-workflow">
                         <div class="dropdown">
                             <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
@@ -141,11 +141,11 @@
                                 <span class="icon-arrow-down"></span>
                             </button>
                             <ul class="dropdown-menu" aria-labelledby="accountType">
-                                <li ng-repeat="client in userModalData.Clients"><a ng-click="selectedClientHandler(client,permissionIndex)">{{client.name}}</a>
+                                <li ng-repeat="client in userModalData.Clients"><a ng-click="selectedClientHandler(client, permissionIndex)">{{client.name}}</a>
                                     <ul ng-if="client.children.length>0">
-                                        <li ng-repeat="clientChild in client.children"><a ng-click="selectedClientHandler(clientChild,permissionIndex)">{{clientChild.name}} </a>
+                                        <li ng-repeat="clientChild in client.children"><a ng-click="selectedClientHandler(clientChild, permissionIndex, client.id)">{{clientChild.name}} </a>
                                             <ul ng-if="clientChild.children.length>0">
-                                            <li ng-repeat="clientSecondChild in clientChild.children"><a ng-click="selectedClientHandler(clientSecondChild,permissionIndex)">{{clientSecondChild.name}} </a>
+                                            <li ng-repeat="clientSecondChild in clientChild.children"><a ng-click="selectedClientHandler(clientSecondChild, permissionIndex, client.id, clientChild.id)">{{clientSecondChild.name}} </a>
                                             </li>
                                             </ul>
                                         </li>
@@ -203,8 +203,8 @@
                     </div>
                 </div>
                 <div class="form-group col-md-3">
-                    <label >Permission:</label>{{User.data[$index].permission}}
-                    <select name="permission" class="form-control"  ng-init="User.data[$index].permission = 'ADMIN'" ng-model="User.data[$index].permission">
+                    <label >Permission:</label>{{User.data[$index].accessLevel}}
+                    <select name="permission" class="form-control"  ng-init="User.data[$index].accessLevel = 'ADMIN'" ng-model="User.data[$index].permission">
                         <option value="{{perm.value}}" ng-repeat="perm in userModalData.Permission" ng-selected="{{perm.value == 'ADMIN'}}">{{perm.name}}</option>
                         <!--<option value="ADMIN">Admin</option>-->
                         <!--<option value="WRITE">Write</option>-->
