@@ -98,7 +98,7 @@
         };
 
         // Convert UTC to local time (EST, GMT, etc. when loading data for edit.
-        this.utcToLocalTime = function (dateTime) {
+        this.utcToLocalTime = function (dateTime, dtFormat) {
             var d,
                 parsedDate,
                 tz,
@@ -110,7 +110,7 @@
                 d = dateTime.slice(0,10).split('-');
                 parsedDate = Date.parse(d[1] + '/' + d[2] + '/' + d[0] + ' ' + dateTime.slice(11, 19) + ' UTC');
                 tz = this.getTimezoneName() === constants.TIMEZONE_UK ? 'GMT' : 'EST';
-                format = constants.DATE_US_FORMAT;
+                format = dtFormat || constants.DATE_US_FORMAT;
                 return moment(parsedDate).tz(tz).format(format);
             }
         };

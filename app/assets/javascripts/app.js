@@ -182,7 +182,11 @@ var angObj = '';
                 resolve: {
                     "check": function ($location, RoleBasedService, workflowService, constants) {
                         var isWorkflowUser =  RoleBasedService.getClientRole() && RoleBasedService.getClientRole().workFlowUser;
-                        workflowService.setModuleInfo({'moduleName' : 'WORKFLOW', 'warningMsg' : constants.ACCOUNT_CHANGE_MSG_ON_CAMPIGN_OVERVIEW_PAGE, 'redirect' : true});
+                        workflowService.setModuleInfo({
+                            'moduleName' : 'WORKFLOW',
+                            'warningMsg' : constants.ACCOUNT_CHANGE_MSG_ON_CAMPIGN_OVERVIEW_PAGE,
+                            'redirect' : true
+                        });
                         if (!isWorkflowUser) {
                             $location.path('/');
                         }
