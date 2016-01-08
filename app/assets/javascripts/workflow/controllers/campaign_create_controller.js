@@ -188,7 +188,8 @@ var angObj = angObj || {};
                     }
                 //console.log($scope.costRowSum);
                 $scope.Campaign.nonInventoryCost=Math.round($scope.costRowSum * 100) / 100;//$scope.costRowSum;
-                $scope.Campaign.deliveryBudget= Math.round(parseFloat($scope.Campaign.totalBudget)*(100-parseFloat($scope.Campaign.marginPercent)) - $scope.Campaign.nonInventoryCost)/100;
+                var intermediate= (parseFloat($scope.Campaign.totalBudget)*(100-parseFloat($scope.Campaign.marginPercent))/100);
+                $scope.Campaign.deliveryBudget =parseFloat(intermediate)- parseFloat($scope.Campaign.nonInventoryCost);
                 $scope.Campaign.effectiveCPM=$scope.calculateEffective();
                 if(parseFloat($scope.Campaign.nonInventoryCost)>parseFloat($scope.Campaign.totalBudget)){$scope.inventoryExceeds=true;}
                 if(parseFloat($scope.Campaign.deliveryBudget)<0){$scope.deliveryBudgetNegative=true;}

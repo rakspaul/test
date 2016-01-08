@@ -106,9 +106,7 @@ var angObj = angObj || {};
                 if (tab === 'Cost' && result && result.status === 204) {
                     $scope.isCostModelTransparent = true;
                 }
-                $scope.dataNotFoundForPerformance = true;
-                $scope.dataNotFoundForCost = true;
-                $scope.dataNotFoundForViewability = true;
+                $scope['dataNotFoundFor'+tab] = true;
             }
 
             $scope.api_return_code = 200;

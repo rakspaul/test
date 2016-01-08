@@ -41,9 +41,7 @@
         });
 
         $scope.setCampaign = function (selectedCampaign) { // set campaign in campaign controller scope. and fire change in campaign event.
-
             if (selectedCampaign == undefined || selectedCampaign.id == -1) {
-
                 selectedCampaign = {
                     id: -1,
                     name: 'No Campaign Found',
@@ -51,7 +49,7 @@
                     startDate: '-1',
                     endDate: '-1'
                 };
-            } else if (selectedCampaign.id == 0) {
+            } else if ($scope.allCampaign == "true" && selectedCampaign.id == 0) {
                 selectedCampaign = {
                     id: 0,
                     name: 'All Media Plans',
@@ -87,6 +85,7 @@
                 } else {
                     $scope.campaignData.campaigns = $scope.campaignData.campaigns.concat(campObj.campaigns);
                 }
+
                 _.uniq($scope.campaignData.campaigns);
 
                 if (set_campaign) {
