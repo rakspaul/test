@@ -70,10 +70,10 @@
                                 </div>
                                 <div class="row_list_holder">
                                     <div class="common-load-icon" ng-show="performanceBusy"></div>
-                                    <div class="clearfix each_row_list expandRow" ng-repeat="platform in platformData | orderBy:sortTypebyPerformance:sortReverse track by $index" ng-include="'performanceTpl'"></div>
+                                    <div class="clearfix each_row_list expandRow" ng-show="!performanceBusy" ng-repeat="platform in platformData | orderBy:sortTypebyPerformance:sortReverse track by $index" ng-include="'performanceTpl'"></div>
                                 </div>
                             </div>
-                            <div class="all_strategies_holder">
+                            <div class="all_strategies_holder" ng-show="!performanceBusy">
                                 <div class="each_strategy_holder clearfix" ng-repeat="platform in tacticPlatformData | orderBy:sortTypebyPerformance:sortReverse track by $index" ng-if="platform.ad_id">
                                     <div class="linkage_bar"></div>
                                     <div class="each_strategy clearfix">
@@ -109,10 +109,10 @@
                                 </div>
                                 <div class="row_list_holder">
                                     <div class="common-load-icon" ng-show="costBusy"></div>
-                                    <div class="clearfix each_row_list expandRow" ng-repeat="platform in platformData | orderBy:sortTypebyCost:sortReverse track by $index" ng-include="'costTpl'"></div>
+                                    <div class="clearfix each_row_list expandRow" ng-show="!costBusy" ng-repeat="platform in platformData | orderBy:sortTypebyCost:sortReverse track by $index" ng-include="'costTpl'"></div>
                                 </div>
                             </div>
-                            <div class="all_strategies_holder">
+                            <div class="all_strategies_holder" ng-show="!costBusy">
                                 <div class="each_strategy_holder clearfix" ng-repeat="platform in tacticPlatformData | orderBy:sortTypebyCost:sortReverse track by $index" ng-if="platform.ad_id">
                                     <div class="linkage_bar"></div>
                                     <div class="each_strategy clearfix">
@@ -144,12 +144,12 @@
                                 </div>
                                 <div class="row_list_holder">
                                     <div class="common-load-icon" ng-show="viewabilityBusy"></div>
-                                    <div ng-if="!adFormats.videoAds ||  !videoMode" class="clearfix each_row_list expandRow" ng-repeat="platform in platformData | orderBy:sortTypebyViewability:sortReverse  track by $index"  ng-include="'viewabilityTpl'"></div>
-                                    <div ng-if="adFormats.videoAds && videoMode" class="clearfix each_row_list expandRow" ng-repeat="platform in platformData | orderBy:sortTypebyViewability:sortReverse  track by $index"  ng-include="'videoViewabilityTpl'"></div>
+                                    <div ng-show="!viewabilityBusy" ng-if="!adFormats.videoAds ||  !videoMode" class="clearfix each_row_list expandRow" ng-repeat="platform in platformData | orderBy:sortTypebyViewability:sortReverse  track by $index"  ng-include="'viewabilityTpl'"></div>
+                                    <div ng-show="!viewabilityBusy" ng-if="adFormats.videoAds && videoMode" class="clearfix each_row_list expandRow" ng-repeat="platform in platformData | orderBy:sortTypebyViewability:sortReverse  track by $index"  ng-include="'videoViewabilityTpl'"></div>
                                 </div>
 
                             </div>
-                            <div class="all_strategies_holder">
+                            <div class="all_strategies_holder" ng-show="!viewabilityBusy">
                                 <div class="each_strategy_holder clearfix" ng-repeat="platform in tacticPlatformData | orderBy:sortTypebyViewability:sortReverse track by $index" ng-if="platform.ad_id">
                                     <div class="linkage_bar"></div>
                                     <div class="each_strategy clearfix">
