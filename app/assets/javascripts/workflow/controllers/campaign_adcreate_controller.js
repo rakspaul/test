@@ -2,7 +2,7 @@ var angObj = angObj || {};
 (function () {
     'use strict';
 
-    angObj.controller('CampaignAdsCreateController', function ($scope, $rootScope, $window, $routeParams, $locale,  constants, workflowService, $timeout, utils, $location, campaignListService, requestCanceller, $filter, loginModel, $q, dataService, apiPaths, audienceService, RoleBasedService) {
+    angObj.controller('CampaignAdsCreateController', function ($scope, $rootScope, $window, $routeParams, $locale,  constants, workflowService, $timeout, utils, $location, campaignListService, requestCanceller, $filter, loginModel, $q, dataService, apiPaths, audienceService, RoleBasedService, momentService) {
         $(".main_navigation").find('.active').removeClass('active').end().find('#campaigns_nav_link').addClass('active');
         $(".bodyWrap").addClass('bodyWrapOverview');
         $("html").css('background', '#fff');
@@ -358,12 +358,16 @@ var angObj = angObj || {};
             }
             var dateObj = {};
             if (responseData.startTime) {
-                dateObj['adStartDate'] = $scope.adData.startTime = momentService.utcToLocalTime(responseData.startTime, constants.DATE_US_FORMAT);
+                dateObj['adStartDate'] = $scope.adData.startTime = momentService.utcToLocalTime(responseData.startTime);
             }
 
             if (responseData.endTime) {
-                dateObj['adEndDate'] = $scope.adData.endTime = momentService.utcToLocalTime(responseData.endTime, constants.DATE_US_FORMAT);
+                dateObj['adEndDate'] = $scope.adData.endTime = momentService.utcToLocalTime(responseData.endTime);
             }
+            console.log('responseData.startTime = ', responseData.startTime)
+            console.log('responseData.endTime = ', responseData.endTime)
+            console.log('momentService.utcToLocalTime(responseData.startTime) = ', momentService.utcToLocalTime(responseData.startTime))
+            console.log('momentService.utcToLocalTime(responseData.startTime) = ', momentService.utcToLocalTime(responseData.startTime))
             localStorage.setItem('adsDates', JSON.stringify(dateObj));
             $scope.initiateDatePicker();
 
@@ -1322,7 +1326,7 @@ var angObj = angObj || {};
         };
     });
 
-    angObj.controller('BudgetDeliveryController', function ($scope, $window, $routeParams, constants, workflowService, $timeout, utils, $location, $filter) {
+    angObj.controller('BudgetDeliveryController', function ($scope, $window, $routeParams, constants, workflowService, $timeout, utils, $location, $filter, momentService) {
 
 
 
@@ -1430,23 +1434,23 @@ var angObj = angObj || {};
             var startDate = data.startTime;
             var endDate = data.endTime;
 
-            var campaignEndTime = momentService.utcToLocalTime($scope.workflowData['campaignData'].endTime, constants.DATE_US_FORMAT);
+            var campaignEndTime = momentService.utcToLocalTime($scope.workflowData['campaignData'].endTime);
             var changeDate;
             if ($scope.mode !== 'edit') {
                 endDateElem.attr("disabled", "disabled").css({'background': '#eee'});
                 if (startDate) {
                     endDateElem.removeAttr("disabled").css({'background': 'transparent'});
-                    changeDate = moment(startDate).format('MM/DD/YYYY')
+                    changeDate = moment(startDate).format(constants.DATE_US_FORMAT)
                     endDateElem.datepicker("setStartDate", changeDate);
                     if (window.location.href.indexOf("adGroup") > -1) {
-                        endDateElem.datepicker("setEndDate", momentService.utcToLocalTime(localStorage.getItem("edTime"), 'MM/DD/YYYY'));
+                        endDateElem.datepicker("setEndDate", momentService.utcToLocalTime(localStorage.getItem("edTime")));
                     } else {
                         endDateElem.datepicker("setEndDate", campaignEndTime);
                     }
                     endDateElem.datepicker("update", changeDate);
                 }
             } else {
-                changeDate = moment(startDate).format('MM/DD/YYYY');
+                changeDate = moment(startDate).format(constants.DATE_US_FORMAT);
                 var adsDate = JSON.parse(localStorage.getItem('adsDates'));
                 if (!startDate && adsDate) { // if start Date is in Past
                     changeDate = startDate = adsDate.adStartDate;
@@ -1501,15 +1505,15 @@ var angObj = angObj || {};
             var startDateElem = $('#startDateInput');
             var endDateElem = $('#endDateInput');
             var campaignData = $scope.workflowData['campaignData'];
-            var campaignStartTime = momentService.utcToLocalTime(campaignData.startTime, constants.DATE_US_FORMAT);
-            var campaignEndTime = momentService.utcToLocalTime(campaignData.endTime, constants.DATE_US_FORMAT);
+            var campaignStartTime = momentService.utcToLocalTime(campaignData.startTime);
+            var campaignEndTime = momentService.utcToLocalTime(campaignData.endTime);
             if (moment().isAfter(campaignStartTime, 'day')) {
-                campaignStartTime = moment().format('MM/DD/YYYY');
+                campaignStartTime = moment().format(constants.DATE_US_FORMAT);
             }
             $scope.mode == 'edit' && endDateElem.removeAttr("disabled").css({'background': 'transparent'});
             if (window.location.href.indexOf("adGroup") > -1) {
-                var adGroupStartDate = momentService.utcToLocalTime(localStorage.getItem("stTime"), 'MM/DD/YYYY');
-                var adGroupEndDate = momentService.utcToLocalTime(localStorage.getItem("edTime"), 'MM/DD/YYYY');
+                var adGroupStartDate = momentService.utcToLocalTime(localStorage.getItem("stTime"));
+                var adGroupEndDate = momentService.utcToLocalTime(localStorage.getItem("edTime"));
                 startDateElem.datepicker("setStartDate", adGroupStartDate);
                 startDateElem.datepicker("setEndDate", adGroupEndDate);
                 if ($scope.mode == 'edit') {
