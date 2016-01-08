@@ -152,6 +152,7 @@
         $scope.init();
 
         $rootScope.$on('CAMPAIGN_CHANGE', function() {
+            campaignSelectModel.removeSelectedCampaign();
             $scope.fetchCampaigns(true, true);
         })
 

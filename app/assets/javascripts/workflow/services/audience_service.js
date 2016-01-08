@@ -33,9 +33,9 @@
                 if (keywords && keywords.length > 0) {
                     url += '&keywords=';
                     for (var i = 0; i < keywords.length; i++) {
-                        url += keywords[i].id;
+                        url += keywords[i];
                         if (i + 1 < keywords.length)
-                            url += ',';
+                            url += '--';
                     }
                 }
                 if (source && source.length > 0) {
@@ -61,7 +61,7 @@
                 return dataService.fetch(url, {cache: false});
             },
             fetchAudienceSource: function () {
-                var url = apiPaths.WORKFLOW_APIUrl + '/clients?type=DATA_PROVIDER';// ask abhi
+                var url = apiPaths.WORKFLOW_APIUrl + '/costCategories/6/vendors';// ask abhi
                 return dataService.fetch(url, {cache: false});
             },
             fetchAudienceCategories: function () {
@@ -75,8 +75,8 @@
                 return source;
             },
 
-            fetchAudiencekeywords: function () {
-                var url = apiPaths.WORKFLOW_APIUrl + '/segments/keywords';
+            fetchAudiencekeywords: function (key) {
+                var url = apiPaths.WORKFLOW_APIUrl + '/segments/keywords?search='+key;
                 return dataService.fetch(url, {cache: false});
             },
             setAudienceKeywords: function (s) {
@@ -103,10 +103,12 @@
             getDayPartdata:function(){
                 return dayPartData;
             },
+            resetDayPartdata:function(){
+                dayPartData = null;
+            },
             setDayPartDispObj: function(daytimeArr,dayTimeSelected){
                 daytimeArrObj = daytimeArr;
                 dayTimeSelectedObj = dayTimeSelected;
-                console.log('day obj',daytimeArrObj,'selected obj',dayTimeSelectedObj)
             },
             getDaytimeObj: function(){
                 return daytimeArrObj;

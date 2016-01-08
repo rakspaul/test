@@ -108,6 +108,7 @@
     this.SCHEDULED_REPORTS = "Scheduled Reports";
     this.SCHEDULE_LABEL = 'Schedule';
     this.GENERATE_LABEL ='Generate'
+     this.RESET_LABEL ='Reset'
     this.SET_SCHEDULE = 'Set Schedule';
     this.NEW_REPORT = "New Report";
     this.SCHEDULE_DELIVER_ON = 'Deliver on';
@@ -271,7 +272,7 @@
     this.VIDEO_PLAYS = "Video Plays";
     this.VIDEO_VIEWS = "Video Views";
     this.MEASURED_AS_HUNDRED_PERCENT_VIDEO_PLAYED_DIVIDED_BY_AD_START = "Measured as 100% Video played divided by Ad start " ;
-    this.VIDEO_PLAY_COMPLETION_AND_VIDEO_VIEWABILITY_AT_THE_VARIOUS_QUARTILES_OF_THE_AD = "Video Viewability at various quartiles of the Ad" ;
+    this.VIDEO_PLAY_COMPLETION_AND_VIDEO_VIEWABILITY_AT_THE_VARIOUS_QUARTILES_OF_THE_AD = "Video Viewability at various quartiles of the Ad";
     this.INSUFFICIENT_DATA_POINTS_TO_RENDER_GRAPH = "Insufficient data points to render graph";
     this.VIDEO_VIEWABILITY = "Video Viewability" ;
     this.VIEWABLE_IMPS = "Viewable Imps." ;
@@ -520,8 +521,8 @@
     this.DATE_US_FORMAT = 'MM/DD/YYYY';
     this.DATE_UTC_FORMAT = 'YYYY-MM-DD HH:mm:ss.SSS';
     this.DATE_UTC_SHORT_FORMAT = 'YYYY-MM-DD';
+    this.IMPRESSION_PER_USER_MESSAGE = 'you must enter impression per user less than or equal to total ad impression'
   };
 
   commonModule.service("constants", constants);
-
 }());

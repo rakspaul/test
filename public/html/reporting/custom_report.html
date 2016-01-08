@@ -175,7 +175,8 @@
 								<div class="clearfix title_row_separator">
 									<div class="pull-left metrics_edit_container">
 										<a class="blue_txt" href="#" data-toggle="modal" data-target=".metric_popup">
-											<span class="dashed_txt">{{metrics_text}}</span>
+											<span class="dashed_txt" ng-click="refreshMetriPopUp()"
+                                                  ng-bind="metrics_text"></span>
 										</a>
 
 									</div>
@@ -491,9 +492,13 @@
 						<button class="pull-right common_primary_btn report_generate_button {{generateBtnDisabled ? 'disabled' : ''}}"  ng-click="scheduleReportAction();" >
 							{{buttonLabel}}
 						</button>
-						<div class="pull-right secondary_txt" ng-click="reset_metric_options()" >
+						<button class="pull-right secondary_txt"  ng-click="resetMetricOptions();" >
+							{{buttonResetCancel}}
+						</button>	
+						<!-- <div class="pull-right secondary_txt" ng-click="reset_metric_options()" >
 							Reset
-						</div>
+						</div> -->
+						
 					</div>
 				</div>
 			</div>

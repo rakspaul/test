@@ -23,6 +23,39 @@
                                     <!--<span>(Goal)</span>-->
                                 <!--</div>-->
                             <!--</div>-->
+                            <div class="statusLabel each-setting">
+                                <div class="col-md-12">
+                                    <div class="pull-left">
+                                        <span class="statusIcon icon-brand"></span>
+                                    </div>
+                                    <div class="pull-left">
+                                        <div class="clearfix"><span class="icon_txt">Branding</span> <span class="grey_txt">(Objective)</span> </div>
+                                        <div>Purchase Intent</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="statusLabel each-setting">
+                                <div class="col-md-12">
+                                    <div class="pull-left">
+                                        <span class="statusIcon icon-performance"></span>
+                                    </div>
+                                    <div class="pull-left">
+                                        <div class="clearfix"><span class="icon_txt">Performance</span> <span class="grey_txt">(Objective)</span> </div>
+                                        <div>Clicks</div>
+                                        <div>Conversions</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="statusLabel each-setting">
+                                <div class="col-md-12">
+                                    <div class="pull-left">
+                                        <span class="statusIcon icon-image"></span>
+                                    </div>
+                                    <div class="pull-left">
+                                        <div class="clearfix"><span class="icon_txt">Display</span> <span class="grey_txt">(Channel)</span> </div>
+                                    </div>
+                                </div>
+                            </div>
                             <div class="statusLabel" ng-if="selectedCampaign.startTime">
                                 <div class="col-md-12">
                                     <!--<span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>-->
@@ -389,7 +422,7 @@
 									<h3>Total Budget</h3>
                                     <div class="symbol-input">
                                         <span class="symbol">{{locale.NUMBER_FORMATS.CURRENCY_SYM}}</span>
-									   <input type="text" ng-model="Campaign.totalBudget" name="totalBudget" class="form-control col-sm-8" whole-number-only="whole-number-only" required/>
+									   <input type="text"  ng-model="Campaign.totalBudget" name="totalBudget" class="form-control col-sm-8" whole-number-only="whole-number-only" required/>
                                     </div>
                                     <label ng-if="createCampaignForm.totalBudget.$error.required" class="col-sm-12  greyTxt errorLabel" style="margin-left:35px;">You must enter Total Budget.</label>
 								</div>
@@ -404,21 +437,21 @@
 									<h3>Est. Non-Inventory Cost</h3>
                                     <div class="symbol-input">
                                        <span class="symbol">{{locale.NUMBER_FORMATS.CURRENCY_SYM}}</span>
-									   <input type="text" ng-model="Campaign.nonInventoryCost" class="form-control col-sm-8" disabled/>
+									   <input type="text" ng-style="inventoryExceeds ? {'color':'#F9B537'}:''" ng-model="Campaign.nonInventoryCost" class="form-control col-sm-8" disabled/>
                                     </div>
 								</div>
 								<div class="calTable">
 									<h3>Delivery Budget</h3>
                                     <div class="symbol-input">
                                        <span class="symbol">{{locale.NUMBER_FORMATS.CURRENCY_SYM}}</span>
-									   <input type="text" ng-model="Campaign.deliveryBudget" class="form-control col-sm-8" disabled/>
+									   <input type="text" ng-style="deliveryBudgetNegative ? {'color':'#F9B537'}:''" ng-model="Campaign.deliveryBudget" class="form-control col-sm-8" disabled/>
                                     </div>
 								</div>
 								<div class="calTable">
 									<h3>Effective {{primaryType ? primaryType:'CPM'}}</h3>
                                     <div class="symbol-input">
                                        <span class="symbol">{{locale.NUMBER_FORMATS.CURRENCY_SYM}}</span>
-									   <input type="text" ng-model="Campaign.effectiveCPM" class="form-control col-sm-8" disabled/>
+									   <input type="text" ng-style="effectiveNegative ? {'color':'#F9B537'}:''"ng-model="Campaign.effectiveCPM" class="form-control col-sm-8" disabled/>
                                     </div>
 								</div>
 								<div class="calTable">
@@ -469,7 +502,7 @@
 													<a>{{kpi.name}}</a>
 												</li>
 											</ul>
-                                            <input type="hidden" name="kpi"  ng-model="Campaign.kpiArr[$index]['kpiId']" ng-value="{{kpi.id}}" field="kpiId" index="{{$index}}" required hiddenkpi>
+                                            <input type="hidden" name="kpi"  ng-model="Campaign.kpiArr[$index]['kpiType']" ng-value="{{kpi.name}}" field="kpiType" index="{{$index}}" required hiddenkpi>
                                             <!--<input type="hidden" name="kpi" ng-init="Campaign.kpiArr[$index]['kpiType']='Select from list';" ng-model="Campaign.kpiArr[$index]['kpiId']" ng-value="{{kpi.id}}" field="kpiId" index="{{$index}}" required hiddenkpi>-->
 										</div>
 									</div>
@@ -512,7 +545,7 @@
 								<div class="col-md-2 zeroPadding kpiTable symbol-input">
 									
                                     <span class="symbol">#</span>
-									<input type="text" class="col-md-12" ng-model="Campaign.kpiArr[$index]['kpiValue']" field="kpiValue"  whole-number-only="whole-number-only" index="{{$index}}"/>
+									<input type="text" class="col-md-12" ng-model="Campaign.kpiArr[$index]['kpiValue']" ng-keyup="setLeftNavPrimaryKpi($index)" field="kpiValue"  whole-number-only="whole-number-only" index="{{$index}}"/>
 								</div>
 								
 								<div class="col-md-2 zeroPadding kpiTable">
@@ -619,8 +652,8 @@
 												<!--<span class="text">Select</span>-->
 												<span class="icon-arrow-down"></span>
 											</button>
-											<ul class="dropdown-menu" aria-labelledby="selectKPI"  id="selectKPI">
-												<li class="calculation.active?available:''" ng-class="{disabled : !calculation.active, available : calculation.active}" ng-repeat="calculation in workflowData.calculation" ng-click="calculation.active?selectedCalculation($parent.$index,calculation):''" ng-value="calculation.id" ><a>{{calculation.name}}</a></li>
+											<ul class="dropdown-menu" aria-labelledby="selectKPI"  id="selectKPI" style="overflow:visible;">
+												<li class="calculation.active?available:''" ng-class="{disabled : !calculation.active, available : calculation.active}"   tooltip-placement="{{!calculation.active ? 'right':''}}" tooltip="{{!calculation.active ? 'Not Available for KPI selected.':''}}" ng-repeat="calculation in workflowData.calculation" ng-click="calculation.active?selectedCalculation($parent.$index,calculation):''" ng-value="calculation.id" ><a>{{calculation.name}}</a></li>
 											</ul>
                                             <input type="hidden" name="costcalculation" ng-init="Campaign.costArr[$index]['rateTypeName']='Select'" ng-model="Campaign.costArr[$index]['rateTypeId']" ng-value="{{calculation.id}}" field="rateTypeId" index="{{$index}}"  hiddencost>
 										</div>
@@ -725,7 +758,7 @@
                         </div>
                     </div>
                     <div class="clearfix popup-footer" >
-                        <button type="button" ng-click="repushCampaign()" class="common_primary_btn pull-right" >Okay</button>
+                        <button type="button" ng-click="repushCampaign()" class="common_primary_btn pull-right" >OK</button>
                         <button type="button" ng-click="cancelRepushCampaign()"class="secondary_txt pull-right" >Cancel</button>
                     </div>
 
@@ -749,7 +782,7 @@
                         </div>
                     </div>
                     <div class="clearfix popup-footer" >
-                        <button type="button" ng-click="archiveCampaign($event)" class="common_primary_btn pull-right" ng-hide="deleteCampaignFailed">Okay</button>
+                        <button type="button" ng-click="archiveCampaign($event)" class="common_primary_btn pull-right" ng-hide="deleteCampaignFailed">OK</button>
                         <button type="button" ng-click="cancelArchiveCampaign()"class="secondary_txt pull-right" >Cancel</button>
                     </div>
 

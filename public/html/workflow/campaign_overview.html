@@ -112,7 +112,7 @@
                         <span>{{primaryKpiSelected}}</span>
                     </div>
                     <div class="pull-left">
-                        <span class="greyTxt">Total Budget</span>
+                        <span class="greyTxt">Delivery Budget</span>
                         <span>{{(workflowData.campaignData.deliveryBudget || 0) | currency:undefined:0}}</span>
                     </div>
                     <div class="pull-left">
@@ -384,12 +384,7 @@
                                         {{ textConstants.TARGETING }}
                                     </span>
                                     <span>
-                                        {{adsData.targets.geoTargets.REGION.geoTargetList.length > 0 ||
-                                        adsData.targets.geoTargets.DMA.geoTargetList.length > 0 ||
-                                        adsData.targets.geoTargets.ZIP_CODE.geoTargetList.length > 0 ||
-                                        adsData.targets.geoTargets.CITY.geoTargetList.length > 0 ?
-                                        'Geo' :
-                                        textConstants.WF_NOT_SET}}
+                                        {{displaySelectedTargets(adsData)}}
                                     </span>
                                 </div>
                             </div>
@@ -900,7 +895,7 @@
                     ng-click="archiveCampaign($event)"
                     class="common_primary_btn pull-right"
                     ng-hide="deleteCampaignFailed">
-                Okay
+                OK
             </button>
             <button type="button"
                     ng-click="cancelArchiveCampaign()"
