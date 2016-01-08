@@ -41,8 +41,6 @@
         });
 
         $scope.setCampaign = function (selectedCampaign) { // set campaign in campaign controller scope. and fire change in campaign event.
-console.log("selectedCampaign", selectedCampaign);
-            console.log("$scope.allCampaign", $scope.allCampaign);
             if (selectedCampaign == undefined || selectedCampaign.id == -1) {
                 selectedCampaign = {
                     id: -1,
@@ -51,7 +49,7 @@ console.log("selectedCampaign", selectedCampaign);
                     startDate: '-1',
                     endDate: '-1'
                 };
-            } else if ($scope.allCampaign == "true" && selectedCampaign.id == 0) {
+            } else if (($scope.allCampaign == "true" || $scope.allCampaign == true) && selectedCampaign.id == 0) {
                 selectedCampaign = {
                     id: 0,
                     name: 'All Media Plans',
@@ -59,6 +57,10 @@ console.log("selectedCampaign", selectedCampaign);
                     startDate: '-1',
                     endDate: '-1'
                 };
+            }
+
+            if(selectedCampaign.id ===0  && ($scope.allCampaign ===  undefined || $scope.allCampaign ===  "")) {
+                selectedCampaign = campaignSelectModel.getSelectedCampaign();
             }
 
             var selectedBrand = brandsModel.getSelectedBrand();
@@ -75,13 +77,11 @@ console.log("selectedCampaign", selectedCampaign);
                 //TODO : rewrite what to do in search condiiton
 
                 var campObj = campaignSelectModel.getCampaignObj();
-                console.log("campObj", campObj);
                 var campArrObj = campObj.campaigns
 
                 if (search) {
-                    if ($scope.allCampaign == "true") {
+                    if ($scope.allCampaign == "true" || $scope.allCampaign == true) {
                         campArrObj.unshift.apply(campArrObj, $scope.campAll);
-                        console.log("campArrObj", campArrObj);
                         $scope.campaignData.campaigns = campArrObj;
                     } else {
                         $scope.campaignData.campaigns = campObj.campaigns;
@@ -127,7 +127,6 @@ console.log("selectedCampaign", selectedCampaign);
             var pathArray = window.location.pathname.split('/');
             var firstLevelLocation = pathArray[1];
             var secondLevelLocation = pathArray[2];
-
             if (firstLevelLocation === "mediaplans" && secondLevelLocation !== undefined) {
                 var selectedCampaignNew = {
                     id: secondLevelLocation,
@@ -138,7 +137,7 @@ console.log("selectedCampaign", selectedCampaign);
                 };
                 campaignSelectModel.setSelectedCampaign(selectedCampaignNew);
             }
-            if ($scope.allCampaign == "true") {
+            if ($scope.allCampaign == "true" || $scope.allCampaign == true) {
                 $scope.fetchCampaigns(true, true);
             } else if ((campaignSelectModel.getSelectedCampaign().id == -1)) {
                 $scope.fetchCampaigns(true, true);

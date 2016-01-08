@@ -3,7 +3,7 @@
     'use strict';
 
     angObj.controller('CampaignDetailsController', function($rootScope, $scope, $routeParams, kpiSelectModel,
-                                                            $window, domainReports, timePeriodModel, platformService,
+                                                            $window, domainReports, timePeriodModel,
                                                             modelTransformer, campaignCDBData, campaignListService,
                                                             campaignListModel, campaignSelectModel, strategySelectModel,
                                                             actionChart, dataService, apiPaths, actionColors,
