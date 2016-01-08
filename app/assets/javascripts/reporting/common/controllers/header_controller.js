@@ -63,7 +63,6 @@
                 RoleBasedService.setClientRole(response);//set the type of user here in RoleBasedService.js
                 var locale = RoleBasedService.getClientRole().locale || 'en-us';
                 tmhDynamicLocale.set(locale);
-
             });
         }
 
