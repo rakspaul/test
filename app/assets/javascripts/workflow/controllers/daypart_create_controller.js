@@ -236,7 +236,7 @@ var angObj = angObj || {};
             }
             //  console.log(keys1);
             return keys1;
-        }
+        };
 
         // working code
 
@@ -274,20 +274,61 @@ var angObj = angObj || {};
         //    return keys1;
         //}
 
-    $scope.selectedDays = [];
-    $scope.getStartTimes=[{time:0, twelveHrFormat:'12:00AM', twentyfourHrFormat:'00:00'},{time:1, twelveHrFormat:'1:00AM', twentyfourHrFormat:'01:00'},{time:2, twelveHrFormat:'2:00AM', twentyfourHrFormat:'02:00'},{time:3, twelveHrFormat:'3:00AM', twentyfourHrFormat:'03:00'},
-        {time:4, twelveHrFormat:'4:00AM', twentyfourHrFormat:'04:00'},{time:5, twelveHrFormat:'5:00AM', twentyfourHrFormat:'05:00'},{time:6, twelveHrFormat:'6:00AM', twentyfourHrFormat:'06:00'},{time:7, twelveHrFormat:'7:00AM', twentyfourHrFormat:'07:00'},
-        {time:8, twelveHrFormat:'8:00AM', twentyfourHrFormat:'08:00'},{time:9, twelveHrFormat:'9:00AM', twentyfourHrFormat:'09:00'},{time:10, twelveHrFormat:'10:00AM', twentyfourHrFormat:'10:00'},{time:11, twelveHrFormat:'11:00AM', twentyfourHrFormat:'11:00'},
-        {time:12, twelveHrFormat:'12:00PM', twentyfourHrFormat:'12:00'},{time:13, twelveHrFormat:'2:00PM', twentyfourHrFormat:'13:00'},{time:14, twelveHrFormat:'2:00PM', twentyfourHrFormat:'14:00'},{time:15, twelveHrFormat:'3:00PM', twentyfourHrFormat:'15:00'},
-        {time:16, twelveHrFormat:'4:00PM', twentyfourHrFormat:'16:00'},{time:17, twelveHrFormat:'5:00PM', twentyfourHrFormat:'17:00'},{time:18, twelveHrFormat:'6:00PM', twentyfourHrFormat:'18:00'},{time:19, twelveHrFormat:'7:00PM', twentyfourHrFormat:'19:00'},
-        {time:20, twelveHrFormat:'8:00PM', twentyfourHrFormat:'20:00'},{time:21, twelveHrFormat:'9:00PM', twentyfourHrFormat:'21:00'},{time:22, twelveHrFormat:'10:00PM', twentyfourHrFormat:'22:00'},{time:23, twelveHrFormat:'11:00PM', twentyfourHrFormat:'23:00'},{time:24, twelveHrFormat:'All Day', twentyfourHrFormat:'All Day'}]
+        $scope.selectedDays = [];
+        $scope.getStartTimes=[
+            {time:0, twelveHrFormat:'12:00AM', twentyfourHrFormat:'00:00'},
+            {time:1, twelveHrFormat:'1:00AM', twentyfourHrFormat:'01:00'},
+            {time:2, twelveHrFormat:'2:00AM', twentyfourHrFormat:'02:00'},
+            {time:3, twelveHrFormat:'3:00AM', twentyfourHrFormat:'03:00'},
+            {time:4, twelveHrFormat:'4:00AM', twentyfourHrFormat:'04:00'},
+            {time:5, twelveHrFormat:'5:00AM', twentyfourHrFormat:'05:00'},
+            {time:6, twelveHrFormat:'6:00AM', twentyfourHrFormat:'06:00'},
+            {time:7, twelveHrFormat:'7:00AM', twentyfourHrFormat:'07:00'},
+            {time:8, twelveHrFormat:'8:00AM', twentyfourHrFormat:'08:00'},
+            {time:9, twelveHrFormat:'9:00AM', twentyfourHrFormat:'09:00'},
+            {time:10, twelveHrFormat:'10:00AM', twentyfourHrFormat:'10:00'},
+            {time:11, twelveHrFormat:'11:00AM', twentyfourHrFormat:'11:00'},
+            {time:12, twelveHrFormat:'12:00PM', twentyfourHrFormat:'12:00'},
+            {time:13, twelveHrFormat:'2:00PM', twentyfourHrFormat:'13:00'},
+            {time:14, twelveHrFormat:'2:00PM', twentyfourHrFormat:'14:00'},
+            {time:15, twelveHrFormat:'3:00PM', twentyfourHrFormat:'15:00'},
+            {time:16, twelveHrFormat:'4:00PM', twentyfourHrFormat:'16:00'},
+            {time:17, twelveHrFormat:'5:00PM', twentyfourHrFormat:'17:00'},
+            {time:18, twelveHrFormat:'6:00PM', twentyfourHrFormat:'18:00'},
+            {time:19, twelveHrFormat:'7:00PM', twentyfourHrFormat:'19:00'},
+            {time:20, twelveHrFormat:'8:00PM', twentyfourHrFormat:'20:00'},
+            {time:21, twelveHrFormat:'9:00PM', twentyfourHrFormat:'21:00'},
+            {time:22, twelveHrFormat:'10:00PM', twentyfourHrFormat:'22:00'},
+            {time:23, twelveHrFormat:'11:00PM', twentyfourHrFormat:'23:00'},
+            {time:24, twelveHrFormat:'All Day', twentyfourHrFormat:'All Day'}
+        ];
         //console.log("ji")
-        $scope.getEndTimes=[{time:0, twelveHrFormat:'12:00AM', twentyfourHrFormat:'00:00'},{time:1, twelveHrFormat:'1:00AM', twentyfourHrFormat:'01:00'},{time:2, twelveHrFormat:'2:00AM', twentyfourHrFormat:'02:00'},{time:3, twelveHrFormat:'3:00AM', twentyfourHrFormat:'03:00'},
-            {time:4, twelveHrFormat:'4:00AM', twentyfourHrFormat:'04:00'},{time:5, twelveHrFormat:'5:00AM', twentyfourHrFormat:'05:00'},{time:6, twelveHrFormat:'6:00AM', twentyfourHrFormat:'06:00'},{time:7, twelveHrFormat:'7:00AM', twentyfourHrFormat:'07:00'},
-            {time:8, twelveHrFormat:'8:00AM', twentyfourHrFormat:'08:00'},{time:9, twelveHrFormat:'9:00AM', twentyfourHrFormat:'09:00'},{time:10, twelveHrFormat:'10:00AM', twentyfourHrFormat:'10:00'},{time:11, twelveHrFormat:'11:00AM', twentyfourHrFormat:'11:00'},
-            {time:12, twelveHrFormat:'12:00PM', twentyfourHrFormat:'12:00'},{time:13, twelveHrFormat:'2:00PM', twentyfourHrFormat:'13:00'},{time:14, twelveHrFormat:'2:00PM', twentyfourHrFormat:'14:00'},{time:15, twelveHrFormat:'3:00PM', twentyfourHrFormat:'15:00'},
-            {time:16, twelveHrFormat:'4:00PM', twentyfourHrFormat:'16:00'},{time:17, twelveHrFormat:'5:00PM', twentyfourHrFormat:'17:00'},{time:18, twelveHrFormat:'6:00PM', twentyfourHrFormat:'18:00'},{time:19, twelveHrFormat:'7:00PM', twentyfourHrFormat:'19:00'},
-            {time:20, twelveHrFormat:'8:00PM', twentyfourHrFormat:'20:00'},{time:21, twelveHrFormat:'9:00PM', twentyfourHrFormat:'21:00'},{time:22, twelveHrFormat:'10:00PM', twentyfourHrFormat:'22:00'},{time:23, twelveHrFormat:'11:00PM', twentyfourHrFormat:'23:00'}]
+        $scope.getEndTimes=[
+            {time:0, twelveHrFormat:'12:00AM', twentyfourHrFormat:'00:00'},
+            {time:1, twelveHrFormat:'1:00AM', twentyfourHrFormat:'01:00'},
+            {time:2, twelveHrFormat:'2:00AM', twentyfourHrFormat:'02:00'},
+            {time:3, twelveHrFormat:'3:00AM', twentyfourHrFormat:'03:00'},
+            {time:4, twelveHrFormat:'4:00AM', twentyfourHrFormat:'04:00'},
+            {time:5, twelveHrFormat:'5:00AM', twentyfourHrFormat:'05:00'},
+            {time:6, twelveHrFormat:'6:00AM', twentyfourHrFormat:'06:00'},
+            {time:7, twelveHrFormat:'7:00AM', twentyfourHrFormat:'07:00'},
+            {time:8, twelveHrFormat:'8:00AM', twentyfourHrFormat:'08:00'},
+            {time:9, twelveHrFormat:'9:00AM', twentyfourHrFormat:'09:00'},
+            {time:10, twelveHrFormat:'10:00AM', twentyfourHrFormat:'10:00'},
+            {time:11, twelveHrFormat:'11:00AM', twentyfourHrFormat:'11:00'},
+            {time:12, twelveHrFormat:'12:00PM', twentyfourHrFormat:'12:00'},
+            {time:13, twelveHrFormat:'2:00PM', twentyfourHrFormat:'13:00'},
+            {time:14, twelveHrFormat:'2:00PM', twentyfourHrFormat:'14:00'},
+            {time:15, twelveHrFormat:'3:00PM', twentyfourHrFormat:'15:00'},
+            {time:16, twelveHrFormat:'4:00PM', twentyfourHrFormat:'16:00'},
+            {time:17, twelveHrFormat:'5:00PM', twentyfourHrFormat:'17:00'},
+            {time:18, twelveHrFormat:'6:00PM', twentyfourHrFormat:'18:00'},
+            {time:19, twelveHrFormat:'7:00PM', twentyfourHrFormat:'19:00'},
+            {time:20, twelveHrFormat:'8:00PM', twentyfourHrFormat:'20:00'},
+            {time:21, twelveHrFormat:'9:00PM', twentyfourHrFormat:'21:00'},
+            {time:22, twelveHrFormat:'10:00PM', twentyfourHrFormat:'22:00'},
+            {time:23, twelveHrFormat:'11:00PM', twentyfourHrFormat:'23:00'}
+        ];
         //console.log("ji")
         //console.log($scope.getTimes);
         $scope.twelve=true;
@@ -615,7 +656,8 @@ var angObj = angObj || {};
                         {day: 'Friday', stTime: '0', edTime: '1'},
                         {day: 'Friday', stTime: '23', edTime: '0'},
                         {day: 'Saturday', stTime: '0', edTime: '1'},
-                        {day: 'Saturday', stTime: '23', edTime: '0'}];
+                        {day: 'Saturday', stTime: '23', edTime: '0'}
+                    ];
                     $scope.Schedule.customLength=14;
                     break;
 

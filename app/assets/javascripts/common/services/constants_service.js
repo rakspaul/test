@@ -519,6 +519,7 @@
     this.DATE_UK_FORMAT = 'DD/MM/YYYY';
     this.DATE_US_FORMAT = 'MM/DD/YYYY';
     this.DATE_UTC_FORMAT = 'YYYY-MM-DD HH:mm:ss.SSS';
+    this.DATE_UTC_SHORT_FORMAT = 'YYYY-MM-DD';
   };
 
   commonModule.service("constants", constants);

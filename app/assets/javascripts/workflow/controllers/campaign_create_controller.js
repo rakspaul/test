@@ -1,16 +1,23 @@
 var angObj = angObj || {};
 (function () {
     'use strict';
-    angObj.controller('CreateCampaignController', function ($scope,$rootScope, $window, $routeParams, $locale, $timeout, $location, constants, workflowService, utils, loginModel) {
+
+    angObj.controller('CreateCampaignController',
+        function ($scope,$rootScope, $window, $routeParams, $locale, $timeout, $location, constants,
+                  workflowService, utils, loginModel, momentService) {
         $scope.selectedKeywords = [];
         $scope.platformKeywords=[];
-        $scope.dropdownCss = {display:'none','max-height': '100px',overflow: 'scroll',top: '60px',
-            left: '0px'};
+        $scope.dropdownCss = {
+            display:'none',
+            'max-height': '100px',
+            overflow: 'scroll',
+            top: '60px',
+            left: '0px'
+        };
         $scope.keywordText = "";
         $scope.Campaign = {
             kpiArr: [],
             costArr: []
-
         };
         $scope.platFormArr=[];
         $scope.selectedChannel="DISPLAY";
@@ -316,8 +323,8 @@ var angObj = angObj || {};
                     $scope.editCampaignData = result.data.data;
                     $scope.selectedCampaign.clientId = $scope.editCampaignData.clientId;
                     $scope.selectedCampaign.advertiserId = $scope.editCampaignData.advertiserId;
-                    $scope.selectedCampaign.startTime = utils.convertToEST($scope.editCampaignData.startTime,'MM/DD/YYYY');
-                    $scope.selectedCampaign.endTime = utils.convertToEST($scope.editCampaignData.endTime,'MM/DD/YYYY');
+                    $scope.selectedCampaign.startTime = momentService.utcToLocalTime($scope.editCampaignData.startTime);
+                    $scope.selectedCampaign.endTime = momentService.utcToLocalTime($scope.editCampaignData.endTime);
                     $scope.editCampaignData.brandName = $scope.editCampaignData.brandName || 'Select Brand';
                     /*edit for new media plan*/
 //                    $scope.workflowData['branding']=[{campaignObjectiveTypeId: 1, subObjective: "Awareness", isChecked: true},{campaignObjectiveTypeId: 2, subObjective: "Recall", isChecked: true},{campaignObjectiveTypeId: 3, subObjective: "Purchase Intent", isChecked: true}]
@@ -562,16 +569,16 @@ var angObj = angObj || {};
                 return false;
             }else{
                 return true;
-                alert();
             }
         }
 
         $scope.saveCampaign = function () {
             console.log("campaign create saveCampaign...");
             $scope.$broadcast('show-errors-check-validity');
-            console.log($scope.createCampaignForm)
+            console.log($scope.createCampaignForm);
             var isPrimarySelected=$scope.checkIfPrimaryKpiSelected();
-            $scope.isPrimarySelected=isPrimarySelected; console.log("$scope.isPrimarySelected",$scope.isPrimarySelected);
+            $scope.isPrimarySelected=isPrimarySelected;
+            console.log("$scope.isPrimarySelected",$scope.isPrimarySelected);
             if ($scope.createCampaignForm.$valid) {
                 var formElem = $("#createCampaignForm");
                 var formData = formElem.serializeArray();
@@ -595,15 +602,19 @@ var angObj = angObj || {};
 
                 postDataObj.clientId =  loginModel.getSelectedClient().id;
                 if ($scope.mode == 'edit') {
-                    if (moment(formData.startTime).format('YYYY-MM-DD') === utils.convertToEST($scope.editCampaignData.startTime,'YYYY-MM-DD'))
+                    if (moment(formData.startTime).format(constants.DATE_UTC_SHORT_FORMAT) ===
+                        momentService.utcToLocalTime($scope.editCampaignData.startTime, constants.DATE_UTC_SHORT_FORMAT)) {
                         postDataObj.startTime = $scope.editCampaignData.startTime;
-                    else
-                        postDataObj.startTime = utils.convertToUTC(formData.startTime,'ST');//the formtime hardcoded to 23:59:59:999
-                    if (moment(formData.endTime).format('YYYY-MM-DD') === utils.convertToEST($scope.editCampaignData.endTime,'YYYY-MM-DD'))
+                    } else {
+                        postDataObj.startTime = momentService.localTimeToUTC(formData.startTime, 'startTime');
+                        //the formtime hardcoded to 23:59:59:999
+                    }
+                    if (moment(formData.endTime).format(constants.DATE_UTC_SHORT_FORMAT) ===
+                        momentService.utcToLocalTime($scope.editCampaignData.endTime, constants.DATE_UTC_SHORT_FORMAT)) {
                         postDataObj.endTime = $scope.editCampaignData.endTime;
-                    else
-                        postDataObj.endTime = utils.convertToUTC(formData.endTime,'ET');
-
+                    } else {
+                        postDataObj.endTime = momentService.localTimeToUTC(formData.endTime, 'endTime');
+                    }
 
                     postDataObj.advertiserId = $scope.editCampaignData.advertiserId;
                     postDataObj.updatedAt = $scope.editCampaignData.updatedAt;
@@ -611,8 +622,10 @@ var angObj = angObj || {};
                     $scope.repushCampaignEdit = true;
                     $scope.repushData = postDataObj; console.log($scope.repushData);
                 } else {
-                    postDataObj.startTime = utils.convertToUTC(formData.startTime,'ST');//console.log(postDataObj.startTime)
-                    postDataObj.endTime = utils.convertToUTC(formData.endTime,'ET');//console.log(postDataObj.endTime)
+                    postDataObj.startTime = momentService.localTimeToUTC(formData.startTime,'startTime');
+                    //console.log(postDataObj.startTime)
+                    postDataObj.endTime = momentService.localTimeToUTC(formData.endTime, 'endTime');
+                    //console.log(postDataObj.endTime)
                     postDataObj.advertiserId = Number(formData.advertiserId);console.log(postDataObj);
                     workflowService.saveCampaign(postDataObj).then(function (result) {
                         if (result.status === "OK" || result.status === "success") {
@@ -655,46 +668,55 @@ var angObj = angObj || {};
         },
 
         $scope.initiateDatePicker = function () {
+            var startDateElem,
+                endDateElem,
+                today,
+                campaignStartTime,
+                campaignEndTime,
+                currentDateTime;
+
             if ($scope.mode == 'edit') {
-                var startDateElem = $('#startDateInput');
-                var endDateElem = $('#endDateInput');
-                var today = new Date();
-                var campaignStartTime = utils.convertToEST($scope.editCampaignData.startTime,'MM/DD/YYYY');
-                var campaignEndTime = utils.convertToEST($scope.editCampaignData.endTime,'MM/DD/YYYY');
-                var currentDateTime = utils.convertToEST('','MM/DD/YYYY');
+                startDateElem = $('#startDateInput');
+                endDateElem = $('#endDateInput');
+                today = new Date();
+                campaignStartTime = momentService.utcToLocalTime($scope.editCampaignData.startTime);
+                campaignEndTime = momentService.utcToLocalTime($scope.editCampaignData.endTime);
+                currentDateTime = momentService.utcToLocalTime();
                 if(moment(campaignStartTime).isAfter(currentDateTime)) {
-                  startDateElem.datepicker("setStartDate", currentDateTime);
-                  startDateElem.datepicker("update", campaignStartTime);
-                  startDateElem.datepicker("setEndDate", campaignStartTime);
+                    startDateElem.datepicker("setStartDate", currentDateTime);
+                    startDateElem.datepicker("update", campaignStartTime);
+                    startDateElem.datepicker("setEndDate", campaignStartTime);
                 } else {
-                  startDateElem.datepicker("setStartDate", campaignStartTime);
-                  startDateElem.datepicker("update", campaignStartTime);
-                  startDateElem.datepicker("setEndDate", campaignStartTime);
+                    startDateElem.datepicker("setStartDate", campaignStartTime);
+                    startDateElem.datepicker("update", campaignStartTime);
+                    startDateElem.datepicker("setEndDate", campaignStartTime);
                 }
             } else {
-                var startDateElem = $('#startDateInput');
-                var endDateElem = $('#endDateInput');
-                var today=utils.convertToEST('','MM/DD/YYYY');
+                startDateElem = $('#startDateInput');
+                endDateElem = $('#endDateInput');
+                today = momentService.utcToLocalTime();
                 startDateElem.datepicker("setStartDate", today);
                 endDateElem.datepicker("setStartDate", today);
                 startDateElem.datepicker("update", today);
                 $scope.selectedCampaign.startTime = today;
                 $scope.selectedCampaign.endTime = today;
             }
-        }
+        };
+
         $scope.showKeywords = function(keyword){
             if(keyword.length > 0)
                 $scope.dropdownCss.display = 'block';
             else
                 $scope.dropdownCss.display = 'none';
+        };
 
-        }
         $scope.convertPreferredPlatformToArr=function(platformsObj){
             $scope.platFormArr=[];
             for(var i=0;i<platformsObj.length;i++){
                 $scope.platFormArr.push(platformsObj[i].id);
             }
-        }
+        };
+
         $scope.selectKeyword = function(keyword){
             $scope.dropdownCss.display = 'none';
             $scope.selectedKeywords.push(keyword);
@@ -703,15 +725,16 @@ var angObj = angObj || {};
             $scope.platformKeywords.splice(index,1);
             $('.keyword-txt').val('');
             $scope.convertPreferredPlatformToArr($scope.selectedKeywords);
-        }
+        };
 
         $scope.removeKeyword = function(keyword){
             $scope.platformKeywords.push(keyword);
             var index = _.findIndex($scope.selectedKeywords, function(item) {
-                return item.id == keyword.id});
+                return item.id == keyword.id;
+            });
             $scope.selectedKeywords.splice(index,1);
             $('.keyword-txt').val('');
-        }
+        };
 
         $(function () {
             $(".main_navigation").find('.active').removeClass('active').end().find('#campaigns_nav_link').addClass('active');
