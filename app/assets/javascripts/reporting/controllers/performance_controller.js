@@ -154,11 +154,7 @@ var angObj = angObj || {};
 
 
             var errorHandlerForPerformanceTab = function() {
-                $scope.dataNotFoundForScreen = true;
-                $scope.dataNotFoundForFormat = true;
-                $scope.dataNotFoundForDOW = true;
-                $scope.dataNotFoundForCreative = true;
-                $scope.dataNotFoundForAdSizes = true;
+                $scope['dataNotFoundFor'+tab] = true;
                 $scope.showPerfMetrix = false;
             }
 
