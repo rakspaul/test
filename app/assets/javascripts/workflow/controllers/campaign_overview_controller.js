@@ -398,7 +398,7 @@ var angObj = angObj || {};
             $scope.showIndividualAds = !$scope.showIndividualAds;
             $('#createIndependantAdsGrp')[0].reset();
             $scope.$broadcast('show-errors-reset');
-            $('.adGroupSelectionWrap').toggleClass('active');
+            $('.adGroupSelectionWrap, .singleCardWrap').toggleClass('active');
             $scope.createGroupMessage=false;
             $scope.createGroupMessage=false;
         }
@@ -406,7 +406,7 @@ var angObj = angObj || {};
             $scope.showCreateAdGrp = !$scope.showCreateAdGrp;
             $('#createNewAdGrp')[0].reset();
             $scope.$broadcast('show-errors-reset');
-            $('.adGroupSelectionWrap').toggleClass('active');
+            $('.adGroupSelectionWrap, .singleCardWrap').toggleClass('active');
             $scope.createGroupMessage=false;
             $scope.createGroupMessage=false;
         }
