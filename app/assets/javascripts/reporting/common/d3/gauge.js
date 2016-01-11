@@ -172,7 +172,7 @@
             .attr("height", this.myContainer.height);
 
           this.leftArc = createArc(currentGauge.leftArcClickHandler, this.body, self.config.cx, self.config.cy, -this.config.max/2, 0, this.config.greenColor);
-          this.rightArc = createArc(currentGauge.rightArcClickHandler, this.body, self.config.cx, self.config.cy, this.config.max/2, -this.config.max + this.config.min - 5, this.config.faceColor);
+          this.rightArc = createArc(currentGauge.rightArcClickHandler, this.body, self.config.cx, self.config.cy, this.config.max/2, -this.config.max + this.config.min + 5, this.config.faceColor);
         //  this.greyArc = createArc(currentGauge.greyArcClickHandler, this.body, self.config.cx, self.config.cy, -this.config.max/2,  -this.config.max + this.config.min + 5 , this.config.greyColor);
           this.outerArc = createArc(undefined, this.body, self.config.cx, self.config.cy, -this.config.max/2, this.config.max, lightBlue, 1, outerArcFunc);
 
