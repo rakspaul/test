@@ -32,8 +32,8 @@
         }
         $scope.msgtimeoutReset();
         $scope.close_msg_box = function(event) {
-            var elem = $(event.target);
-            elem.closest(".top_message_box").hide() ;
+        //    var elem = $(event.target);
+        //    elem.closest(".top_message_box").hide() ;
             $scope.resetAlertMessage() ;
         };
         $rootScope.setErrAlertMessage = function(errMsg,isErrorMsg,isMsg){
