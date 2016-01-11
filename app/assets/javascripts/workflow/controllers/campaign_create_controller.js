@@ -430,9 +430,9 @@ var angObj = angObj || {};
                     if (parseFloat($scope.Campaign.deliveryBudget) < 0) {
                         $scope.deliveryBudgetNegative = true;
                     }
-                    //$scope.Campaign.nonInventoryCost=$scope.editCampaignData.nonInventoryCost;
-                    //$scope.Campaign.effectiveCPM=$scope.editCampaignData.effectiveCPM;
-                    //if(parseFloat($scope.Campaign.effectiveCPM)<0){$scope.effectiveNegative=true;}
+                    $scope.Campaign.nonInventoryCost=$scope.editCampaignData.nonInventoryCost;
+                    $scope.Campaign.effectiveCPM=$scope.editCampaignData.effectiveCpm;
+                    if(parseFloat($scope.Campaign.effectiveCPM)<0){$scope.effectiveNegative=true;}
 
                     $scope.selectedChannel = $scope.editCampaignData.campaignType;
 
