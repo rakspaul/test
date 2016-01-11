@@ -1,17 +1,17 @@
 <div class="col-md-12 zeroPadding">
-    <h2 class="col-md-12 zeroPadding marginBottom">Add Creative Tag</h2>
-    <a href="javascript:void(0);" class="helpLink">Adding third party Creative Tags</a>
+    <h2 class="col-md-12 zeroPadding marginBottom" data-ng-bind="textConstants.ADDCREATIVETAG"></h2>
+    <a href="javascript:void(0);" class="helpLink" data-ng-bind="textConstants.ADDINGTHIRD"></a>
     <br/>
 
     <div class="spacingInput"></div>
     <div class="clearfix">
-        <button type="button" class="btn btn-default pull-left" ng-disabled="adData.adFormat === undefined" ng-click="showPopup()">Add from Existing</button>
-        <button type="button" class="btn btn-default pull-left" ng-click="showCreateNewWindow()" style="margin-left: 10px;">Create New</button>
+        <button type="button" class="btn btn-default pull-left" ng-disabled="adData.adFormat === undefined" ng-click="showPopup()" data-ng-bind="textConstants.ADDEXISTNG"></button>
+        <button type="button" class="btn btn-default pull-left" ng-click="showCreateNewWindow()" style="margin-left: 10px;" data-ng-bind="textConstants.CREATENEW"></button>
         <div class="pull-left">
             <div>
-                <button type="button" class="btn btn-default" ng-show="TrackingIntegrationsSelected" ng-disabled="!adData.adName || !(creativeData.creativeInfo.creatives.length>0)" ng-click="downloadTrackerUrls()" style="margin-left: 10px;">Download Tracker URLs</button>
+                <button type="button" class="btn btn-default" ng-show="TrackingIntegrationsSelected" ng-disabled="!adData.adName || !(creativeData.creativeInfo.creatives.length>0)" ng-click="downloadTrackerUrls()" style="margin-left: 10px;" data-ng-bind="textConstants.DLTRACKER"></button>
             </div>
-            <span ng-if="downloadingTracker" class="download-report-load-icon" >{{textConstants.DOWNLOADING}} </span>
+            <span ng-if="downloadingTracker" class="download-report-load-icon" data-ng-bind="textConstants.DOWNLOADING"> </span>
         </div>
     </div>
 </div>
@@ -21,10 +21,10 @@
         <table class="table">
             <thead>
                 <tr>
-                    <th class="col-md-2">Size</th>
-                    <th class="col-md-6">Tag Name</th>
-                    <th ng-if="!TrackingIntegrationsSelected" class="col-md-2">Tag Type</th>
-                    <th class="col-md-1">SSL</th>
+                    <th class="col-md-2" data-ng-bind="textConstants.SIZE"></th>
+                    <th class="col-md-6" data-ng-bind="textConstants.TAGNAME"></th>
+                    <th ng-if="!TrackingIntegrationsSelected" class="col-md-2" data-ng-bind="textConstants.TAGTYPE"></th>
+                    <th class="col-md-1" data-ng-bind="textConstants.SSL"></th>
                     <th class="col-md-1"></th>
                 </tr>
             </thead>
@@ -34,12 +34,10 @@
                          <span >{{$index+1}}</span>
                     </td> -->
                     <td class="col-md-2">
-
-                            <span>{{creativeData.size.size}}</span>
-
+                        <span data-ng-bind="creativeData.size.size"></span>
                     </td>
                     <td class="col-md-6">
-                        <a class="col-md-8" href="javascript:void(0);" ng-click="TrackingIntegrationsSelected ? '': ShowHide(creativeData)">{{creativeData.name}}</a>
+                        <a class="col-md-8" href="javascript:void(0);" ng-click="TrackingIntegrationsSelected ? '': ShowHide(creativeData)" data-ng-bind="creativeData.name"></a>
 
                         <!--<div style="width:350px;word-wrap:break-word;height:100px;">-->
                             <!--<div ng-show="IsVisible" class="ng-cloak">-->
@@ -48,7 +46,7 @@
                         <!--</div>-->
                     </td>
                     <td class="col-md-2" ng-if="!TrackingIntegrationsSelected">
-                        <span>{{creativeData.creativeType}}</span>
+                        <span data-ng-bind="creativeData.creativeType"></span>
                     </td>
                     <td class="col-md-1">
                         <span class="common-ok" aria-hidden="true"></span><!-- glyphicon glyphicon-ok-circle -->
@@ -61,7 +59,7 @@
             </tbody>
         </table>
         <div ng-show="!creativeData.creativeInfo.creatives || creativeData.creativeInfo.creatives.length === 0" class="emptyCreativesFlag">
-            <span>You haven't added any Creative Tags for your Ad yet</span>
+            <span data-ng-bind="textConstants.YOUHAVENTADDED"></span>
         </div>
     </div>
 </div>
@@ -69,19 +67,18 @@
 <!--=== Next Step Panel ===-->
 <div class="row">
     <span class="nextWrapper leftNavLink">
-         <button ng-disabled="!adData.adName" ng-click="CampaignADsave(false)" class="btn btn-primary">{{textConstants.WF_AD_SAVE_CLOSE}}</button>
+         <button ng-disabled="!adData.adName" ng-click="CampaignADsave(false)" class="btn btn-primary" data-ng-bind="textConstants.WF_AD_SAVE_CLOSE"></button>
     </span>
 </div>
 
 <div class="popContainerHolder" ng-show="IsVisible">
     <div class="popContainer">
         <div class="clearfix">
-
-            <h1 class="pull-left">{{creativeObj.name}}</h1>
+            <h1 class="pull-left" data-ng-bind="creativeObj.name"></h1>
             <span class="close unselectable" aria-hidden="true" ng-click="ShowHide();">x</span>
         </div>
         <div class="textarea_edit_holder">
-            <textarea  style="width: 100%;" rows="15" name="tag" id="tag" data-ng-model="creativeObj.tag" ng-readonly="true" required>{{creativeObj.tag}}</textarea>
+            <textarea  style="width: 100%;" rows="15" name="tag" id="tag" data-ng-model="creativeObj.tag" ng-readonly="true" data-ng-bind="creativeObj.tag" required></textarea>
         </div>
     </div>
 </div>

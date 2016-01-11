@@ -1,6 +1,6 @@
 <div class="col-md-7 zeroPadding">
-    <h2 class="col-md-12 zeroPadding marginBottom">Set Targeting</h2>
-    <a href="javascript:void(0);" class="helpLink" style="margin-top: 10px; display: inline-block;">Which target audience should I choose for my ad?</a>
+    <h2 class="col-md-12 zeroPadding marginBottom" data-ng-bind="textConstants.SETTARGETING"></h2>
+    <a href="javascript:void(0);" class="helpLink" style="margin-top: 10px; display: inline-block;" data-ng-bind="textConstants.TARGETAUDCHOOSE"></a>
 </div>
 
 <!--=== Targeting Type ===-->
@@ -8,11 +8,9 @@
     <div class="col-md-3 zeroPadding">
         <div class="dropdown ddlSetTarget msgPopupHolder">
             <div class="msgPopup" ng-show="!$parent.isPlatformSelected">
-                <div class="msg">
-                    To enable Targeting for this ad, you must first set a Buying Platform. Select one now?
-                </div>
+                <div class="msg" data-ng-bind="textConstants.ENABLETARGETINGAD"></div>
                 <div class="btn-holder">
-                    <a href="#buying" data-toggle="tab" class="pull-right common_primary_btn leftNavLink">Select Platform</a>
+                    <a href="#buying" data-toggle="tab" class="pull-right common_primary_btn leftNavLink" data-ng-bind="textConstants.SELECTPLATFORM"></a>
                 </div>
             </div>
         </div>
@@ -23,16 +21,16 @@
     <div class="col-md-6 cardSelectHolder" ng-class="{true: 'active'}[selectedTargeting['audience']]">
         <span ng-if="selectedAudience && selectedAudience.length > 0" class="icon-inline-edit" ng-style="(selectedAudience.length >0)?{'display':'block'}:{'display':'none'}"></span>
         <div class="icon-audience"></div>
-        <p>Audience Segments</p>
+        <p data-ng-bind="textConstants.AUDSEGMENTS"></p>
         <div ng-if="!selectedAudience || selectedAudience.length == 0">
-            <span>Reach the right audience by selecting focus segments</span>
-            <p style="margin: 0px;"><span>All Audience (default)</span></p>
+            <span data-ng-bind="textConstants.REACHAUD"></span>
+            <p style="margin: 0px;"><span data-ng-bind="textConstants.ALLAUD"></span></p>
         </div>
         <div class="targetDataSaved" ng-if="selectedAudience && selectedAudience.length > 0">
             <div class="targetDataSavedTop">
                 <div class="icon-target"></div>
-                <span>Selected</span>
-                <div class="badge">{{selectedAudience.length}}</div>
+                <span data-ng-bind="textConstants.SELECTED"></span>
+                <div class="badge" data-ng-bind="selectedAudience.length"></div>
             </div>
             <span class="targetListItem" ng-if="selectedAudience.length >= 1">{{selectedAudience[0].name | limitTo: 30}}{{selectedAudience[0].name.length > 30 ? '...' : ''}}</span>
             <span class="targetListItem" ng-if="selectedAudience.length >= 2">{{selectedAudience[1].name | limitTo: 30}}{{selectedAudience[1].name.length > 30 ? '...' : ''}}</span>
@@ -48,13 +46,13 @@
         <div class="icon-location"></div>
         <p>Geography <span>({{locale.id === 'en-gb' ? 'UK' : 'US'}} Only)</span></p>
         <div ng-if="!geoTargetingData.selected.previewData.include && !geoTargetingData.selected.previewData.exclude ">
-            <span>Target your audience by location</span>
+            <span data-ng-bind="textConstants.TARGETAUDLOC"></span>
             <p style="margin: 0px;"><span>All {{locale.id === 'en-gb' ? 'UK' : 'US'}} (default)</span></p>
         </div>
         <div class="targetDataSaved" ng-if="geoTargetingData.selected.previewData.include || geoTargetingData.selected.previewData.exclude ">
             <div class="targetDataSavedTop">
                 <div class="icon-target"></div>
-                <span>Included</span>
+                <span data-ng-bind="textConstants.INCLUDED"></span>
                 <div class="badge">
                     {{geoTargetingData.selected.previewData.include.regions.length + geoTargetingData.selected.previewData.include.cities.length + geoTargetingData.selected.previewData.include.zipCodes[0].values.length + geoTargetingData.selected.previewData.include.dmas.length}}
                 </div>
@@ -68,7 +66,7 @@
 
             <div class="targetDataSavedTop" style="padding-top: 20px;" ng-if="geoTargetingData.selected.previewData.exclude.cities.length > 0 ||geoTargetingData.selected.previewData.exclude.dmas.length > 0">
                 <div class="icon-exclude"></div>
-                <span>Excluded</span>
+                <span data-ng-bind="textConstants.EXCLUDED"></span>
                 <div class="badge">{{geoTargetingData.selected.previewData.exclude.cities.length + geoTargetingData.selected.previewData.exclude.dmas.length}}</div>
             </div>
             <span class="targetListItem" ng-if="geoTargetingData.selected.previewData.exclude.cities.length > 0 ||geoTargetingData.selected.previewData.exclude.dmas.length > 0">
@@ -83,16 +81,16 @@
     <div class="col-md-6 cardSelectHolder" ng-if="adData.platform !== 'VISTO Bidder - Test'" ng-class="{true: 'active'}[selectedTargeting['daily']]">
         <span ng-if="selectedDayParts['data'].length  > 0" class="icon-inline-edit" ng-style="(selectedDayParts['data'].length >0)?{'display':'block'}:{'display':'none'}"></span>
         <div class="icon-activity"></div>
-        <p>Daypart </p>
+        <p data-ng-bind="textConstants.DAYPART"></p>
         <div ng-if="!selectedDayParts['data'] || selectedDayParts['data'].length  == 0">
-            <span>Select when to show your Ad by restricting day and time</span>
-            <p style="margin: 0px;"><span>All Days & Times (default)</span></p>
+            <span data-ng-bind="textConstants.SELECTADREST"></span>
+            <p style="margin: 0px;"><span data-ng-bind="textConstants.ALLDAYSTIMES"></span></p>
         </div>
         <div class="targetDataSaved" ng-if="selectedDayParts['data'] && selectedDayParts['data'].length  > 0">
             <div class="targetDataSavedTop">
                 <div class="icon-target"></div>
-                <span>Included</span>
-                <div class="badge">{{dayPartTotal}}</div>
+                <span data-ng-bind="textConstants.INCLUDED"></span>
+                <div class="badge" data-ng-bind="dayPartTotal"></div>
             </div>
             <span class="targetListItem" ng-if="selectedDayParts['selected'] != 'Custom schedule'">{{selectedDayParts['selected']}}</span>
             <span class="targetListItem" ng-if="selectedDayParts['data'].length >= 1 && selectedDayParts['selected'] == 'Custom schedule'">{{selectedDayParts['data'][0].day}} {{(selectedDayParts['data'][0].startTime)?selectedDayParts['data'][0].startTime:""}} {{(selectedDayParts['data'][0].endTime)?selectedDayParts['data'][0].endTime:""}}</span>
@@ -120,18 +118,16 @@
 
 <!--=== Next Step Panel ===-->
 <span class="nextWrapper leftNavLink">
-    <a href data-toggle="tab"  class="btn btn-default" ng-click="triggerInventory()">{{textConstants.WF_AD_SAVE_CONTINUE}}</a>
+    <a href data-toggle="tab"  class="btn btn-default" ng-click="triggerInventory()" data-ng-bind="textConstants.WF_AD_SAVE_CONTINUE"></a>
 </span>
 
 <div class="msgPopupHolder" id="confirmBox" ng-show="showConfirmBox">
     <div class="msgPopup">
         <div>
-            <div class="msg pull-left" style="padding-top: 10px;">
-                Are you sure?
-            </div>
+            <div class="msg pull-left" style="padding-top: 10px;" data-ng-bind="textConstants.AREYOUSURE"></div>
             <div class="clearfix btn-holder" style="margin: 0;">
-                <div class="pull-right common_primary_btn" ng-click="removeSelectedList(boxType, boxsubType);">Yes</div>
-                <div class="pull-right secondary_txt"  ng-click="hideConfirmBox()">No</div>
+                <div class="pull-right common_primary_btn" ng-click="removeSelectedList(boxType, boxsubType);" data-ng-bind="textConstants.YES"></div>
+                <div class="pull-right secondary_txt"  ng-click="hideConfirmBox()" data-ng-bind="textConstants.NO"></div>
             </div>
         </div>
     </div>
