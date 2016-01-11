@@ -307,7 +307,7 @@
 											<label class="col-sm-12  greyTxt miniLabels">{{ textConstants.END_DATE }}</label>
 											<input type="text" id="endDateInput" placeholder="MM/DD/YYYY" class="form-control" readonly name="endTime" ng-model="selectedCampaign.endTime"  required/>
 										</div>
-											<label ng-if="createCampaignForm.startTime.$error.required" class="col-sm-12  greyTxt errorLabel">Please select the start Date.</label>
+											<label ng-if="createCampaignForm.startTime.$error.required" class="col-sm-12  greyTxt errorLabel">{{textConstants.STARTDATE_REQUIRED}}.</label>
 										</div>
 									<span class="col-md-12 input-group-addon">
 										<div class="calenderIcon">
@@ -342,8 +342,8 @@
                                         <span class="symbol">{{locale.NUMBER_FORMATS.CURRENCY_SYM}}</span>
                                        <input type="text"  ng-model="Campaign.totalBudget" name="totalBudget" class="form-control col-sm-8" whole-number-only="whole-number-only" required/>
                                     </div>
-                                    <label ng-if="createCampaignForm.totalBudget.$error.required" class="col-sm-12  greyTxt errorLabel" style="margin-left:35px;">You must enter Total Budget.</label>
-                                    <label ng-if="Campaign.totalBudget<=0" class="col-sm-12  greyTxt " style="margin-left:35px; color:#F24444 !important;">You must Total Budget greater than 0.</label>
+                                    <label ng-if="createCampaignForm.totalBudget.$error.required" class="col-sm-12  greyTxt errorLabel" style="margin-left:35px;">{{textConstants.TOTAL_BUDGET_REQUIRED}}</label>
+                                    <label ng-if="Campaign.totalBudget<=0" class="col-sm-12  greyTxt " style="margin-left:35px; color:#F24444 !important;">{{textConstants.TOTAL_BUDGET_GREATER_THAN_ZERO}}</label>
 								</div>
 								<div class="calTable">
 									<h3>Margin</h3>
@@ -385,27 +385,27 @@
 
                         <!--==== Row 2 ====-->
                         <div class="col-md-12 zeroPadding">
-                            <label for="nameTitleCampaign" class="col-sm-12 labelQuestTxt" style="margin-bottom: 5px;"><span class="pull-left">Select KPIs </span><span ng-if="!isPrimarySelected" class="pull-left errorLabel show" style="margin-left: 115px;">You must select Primary KPI.</span></label>
+                            <label for="nameTitleCampaign" class="col-sm-12 labelQuestTxt" style="margin-bottom: 5px;"><span class="pull-left">{{textConstants.SELECT_KPIS}}</span><span ng-if="!isPrimarySelected" class="pull-left errorLabel show" style="margin-left: 115px;">You must select Primary KPI.</span></label>
                             <div class="col-md-12 zeroPadding">
                                 <div class="col-md-3 zeroPadding kpiTable">
                                     <h3>KPI</h3>
-                                    <label for="primaryKPI" class="col-sm-12 greyTxt miniLabels">Select one-you may add</label>
+                                    <label for="primaryKPI" class="col-sm-12 greyTxt miniLabels">{{textConstants.SELECT_ONE_YOU_MAY_ADD}}</label>
                                 </div>
                                 <div class="col-md-2 zeroPadding kpiTable">
                                     <h3>Primary KPI</h3>
-                                    <label for="primaryKPI" class="col-sm-12 greyTxt miniLabels">Only one is primary</label>
+                                    <label for="primaryKPI" class="col-sm-12 greyTxt miniLabels">{{textConstants.ONE_PRIMARY}}</label>
                                 </div>
                                 <div class="col-md-3 zeroPadding kpiTable">
                                     <h3>Vendor</h3>
-                                    <label for="primaryKPI" class="col-sm-12 greyTxt miniLabels">Select One</label>
+                                    <label for="primaryKPI" class="col-sm-12 greyTxt miniLabels">{{textConstants.SELECT_ONE}}</label>
                                 </div>
                                 <div class="col-md-2 zeroPadding kpiTable">
                                     <h3>Target</h3>
-                                    <label for="primaryKPI" class="col-sm-12 greyTxt miniLabels">Enter Value</label>
+                                    <label for="primaryKPI" class="col-sm-12 greyTxt miniLabels">{{textConstants.ENTER_VALUE}}</label>
                                 </div>
                                 <div class="col-md-2 zeroPadding kpiTable">
                                     <h3>Use for Billing</h3>
-                                    <label for="primaryKPI" class="col-sm-12 greyTxt miniLabels">Select a KPI for billing</label>
+                                    <label for="primaryKPI" class="col-sm-12 greyTxt miniLabels">{{textConstants.KPI_BILLING}}</label>
                                 </div>
                             </div>
                             <div class="col-md-12 zeroPadding" ng-repeat="kpiObj in Campaign.kpiArr track by $index" style="margin-bottom:10px;">
@@ -501,32 +501,32 @@
 
                         <!--==== Row 3 ====-->
                         <div class="col-md-12 zeroPadding">
-                            <label for="nameTitleCampaign" class="col-sm-12 labelQuestTxt" style="margin-bottom: 5px;">Would you like to add Costs?</label>
+                            <label for="nameTitleCampaign" class="col-sm-12 labelQuestTxt" style="margin-bottom: 5px;">{{textConstants.ADD_COST}}</label>
                             <div class="col-md-12 zeroPadding" >
                                 <div class="col-md-3 zeroPadding kpiTable" style="width: 340px;">
                                     <h3>Cost Category</h3>
-                                    <label for="primaryKPI" class="col-sm-12 greyTxt miniLabels">Select as many as you require</label>
+                                    <label for="primaryKPI" class="col-sm-12 greyTxt miniLabels">{{textConstants.ADD_COST}}</label>
                                 </div>
                                 <div class="col-md-1 zeroPadding kpiTable" style="width: 98px;">
                                     <h3>Calculation</h3>
-                                    <label for="primaryKPI" class="col-sm-12 greyTxt miniLabels">Select One</label>
+                                    <label for="primaryKPI" class="col-sm-12 greyTxt miniLabels">{{textConstants.SELECT_ONE}}</label>
                                 </div>
                                 <div class="col-md-2 zeroPadding kpiTable" style="width: 153px;">
                                     <h3>Vendor</h3>
-                                    <label for="primaryKPI" class="col-sm-12 greyTxt miniLabels">Select One</label>
+                                    <label for="primaryKPI" class="col-sm-12 greyTxt miniLabels">{{textConstants.SELECT_ONE}}</label>
                                 </div>
                                 <div class="col-md-1 zeroPadding kpiTable">
                                     <h3>Rate</h3>
-                                    <label for="primaryKPI" class="col-sm-12 greyTxt miniLabels">Value</label>
+                                    <label for="primaryKPI" class="col-sm-12 greyTxt miniLabels">{{textConstants.VALUE}}</label>
                                 </div>
                                 <div class="col-md-1 zeroPadding kpiTable" style="width: 86px;">
                                     <h3>% of Target</h3>
-                                    <label for="primaryKPI" class="col-sm-12 greyTxt miniLabels">Enter Value</label>
+                                    <label for="primaryKPI" class="col-sm-12 greyTxt miniLabels">{{textConstants.ENTER_VALUE}}</label>
                                 </div>
 
                                 <div class="col-md-1 zeroPadding kpiTable" style="padding: 0 !important; width: 145px;">
                                     <h3>Description</h3>
-                                    <label for="primaryKPI" class="col-sm-12 greyTxt miniLabels">Value appears in reporting</label>
+                                    <label for="primaryKPI" class="col-sm-12 greyTxt miniLabels">{{textConstants.VALUE_IN_REPORTING}}</label>
                                 </div>
                             </div>
                         </div>

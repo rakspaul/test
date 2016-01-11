@@ -133,6 +133,18 @@
     this.AD_GROUP_CREATED_FAILURE = '<span class="bold-font">Error. </span> Ad Group could not be created';
     this.CREATIVE_SAVE_SUCCESS = '<span class="bold-font">Success. </span> Creative has been successfully created';
     this.WF_DATE_FORMAT='YYYY-MM-DD HH:mm:ss.SSS';
+    this.TOTAL_BUDGET_REQUIRED='You must enter Total Budget.'
+    this.TOTAL_BUDGET_GREATER_THAN_ZERO='You must Total Budget greater than 0.'
+    this.STARTDATE_REQUIRED='Please select the start Date.'
+    this.ADD_COST='Would you like to add Costs?'
+    this.SELECT_MANY='Select as many as you require'
+    this.SELECT_ONE='Select One'
+    this.ENTER_VALUE='Enter Value'
+    this.VALUE_IN_REPORTING='Value appears in reporting'
+    this.ONE_PRIMARY='Only one is primary'
+    this.KPI_BILLING='Select a KPI for billing'
+    this.SELECT_ONE_YOU_MAY_ADD='Select one-you may add'
+    this.SELECT_KPIS='Select KPIs '
 
     this.DEFAULT_LIMIT_COUNT = 100;
     this.DEFAULT_OFFSET_START = 0;
