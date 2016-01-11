@@ -178,8 +178,10 @@
                 <div  id="reports_bycreatives_block" ng-class="adFormats.videoAds ? 'reports_block quar_data' : 'reports_block' "  style="display:none;" >
 
 
-                    <div class="no_data_found" ng-if="dataNotFoundForCreative" ng-bind-html="getMessageForDataNotAvailable('creative')"></div>
-                    <div class="reports_details_outer_container" ng-show="!dataNotFoundForCreative" ng-class="{strategy_video_disabled:adFormats.videoAds == false}" >
+                    <div class="no_data_found" ng-if="dataNotFoundForCreatives"
+                         ng-bind-html="getMessageForDataNotAvailable('creative')"></div>
+                    <div class="reports_details_outer_container" ng-show="!dataNotFoundForCreatives"
+                         ng-class="{strategy_video_disabled:adFormats.videoAds == false}" >
                         <div class="clearfix reports_performance_header" ng-hide="creativeBusy">
                             <creatives-header></creatives-header>
                         </div>
@@ -218,8 +220,9 @@
                 <div  id="reports_byadsizes_block" ng-class="adFormats.videoAds ? 'reports_block quar_data' : 'reports_block' "  style="{{defaultDisplayAdSize}}" >
 
 
-                    <div class="no_data_found" ng-if="dataNotFoundForAdSizes" ng-bind-html="getMessageForDataNotAvailable('adSizes')"></div>
-                    <div class="reports_details_outer_container" ng-show="!dataNotFoundForAdSizes" >
+                    <div class="no_data_found" ng-if="dataNotFoundForAdsizes"
+                         ng-bind-html="getMessageForDataNotAvailable('adSizes')"></div>
+                    <div class="reports_details_outer_container" ng-show="!dataNotFoundForAdsizes" >
                         <div class="clearfix reports_performance_header" ng-hide="adSizesBusy">
                             <adsizes-header></adsizes-header>
                         </div>
