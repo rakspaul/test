@@ -193,9 +193,9 @@
                              ng-include="'/assets/html/workflow/partials/overview_partials/overview_createAdgroups.html'"
                              ng-controller="CreateAdGroupsController">
                         </div>
-                        <div class="col-md-3 adModule adCreateBtn">
+                        <div class="col-md-3 adModule adCreateBtn" ng-click="navigateToAdCreatePage()">
                             <div class="col-md-12">
-                                <a ng-href="#" ng-click="navigateToAdCreatePage()" class="col-md-12 text-center addMaster">
+                                <a ng-href="#" class="col-md-12 text-center addMaster">
                                     <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
                                     <h2>Create Ad</h2>
                                 </a>
@@ -283,9 +283,9 @@
                         </div>
                         <!--END of group individual ads into groups-->
                         <!--=== Create BTN Ad ===-->
-                        <div class="col-md-3 adModule adCreateBtn">
+                        <div class="col-md-3 adModule adCreateBtn" ng-click="navigateToAdCreatePage()">
                             <div class="col-md-12">
-                                <a ng-href="#" ng-click="navigateToAdCreatePage()"
+                                <a ng-href="#"
                                    class="col-md-12 text-center addMaster">
                                     <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
                                     <h2>Create Ad</h2>

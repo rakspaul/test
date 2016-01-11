@@ -348,11 +348,7 @@ var angObj = angObj || {};
                     if (result[0].length > 3) {
                         var creativeSizeLimit = result[0].splice(0,3);
                         var amountLeft = result[0].length;
-                        if (amountLeft >= 2) {
-                            $scope.sizeString = creativeSizeLimit.join(', ').replace(/X/g, 'x') + ' +' + amountLeft + ' sizes';
-                        } else {
-                            $scope.sizeString = creativeSizeLimit.join(', ').replace(/X/g, 'x') + ' +' + amountLeft + ' size';
-                        }
+                        $scope.sizeString = creativeSizeLimit.join(', ').replace(/X/g, 'x') + ' +' + amountLeft;
                     }
                     else {
                         $scope.sizeString = result[0] && result[0].join(', ');

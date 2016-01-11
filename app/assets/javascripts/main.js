@@ -275,7 +275,7 @@
       'common-models-CampaignModel':'reporting/common/models/campaign_model',
       'common-models-DataStoreModel':'reporting/common/models/data_store_model',
       'common-controllers-header_controller':'reporting/common/controllers/header_controller',
-      'common-controllers-ConfirmationModalController':'reporting/common/controllers/confirmation_modal_controller',
+      'common-controllers-ConfirmationModalController':'common/controllers/confirmation_modal_controller',
       'common-directives-CommonDirectives':'common/directives/common_directives',
       'common-utils':'common/utils',
       'common-pop_up_msg':'common/popup_msg',
