@@ -1679,3 +1679,6 @@ input.cmn-toggle-round:checked + label:after {
 .form-horizontal .control-label {
   text-align: left;
 }
+.blueTxt {
+  color: #0978c9  !important ;
+}
