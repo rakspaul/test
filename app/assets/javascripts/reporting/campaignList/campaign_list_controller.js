@@ -59,7 +59,8 @@
         strategySelectModel.setSelectedStrategy(constants.ALL_STRATEGIES_OBJECT);
 
         $rootScope.$broadcast(constants.EVENT_CAMPAIGN_CHANGED);
-        $location.path('/performance');
+        //$location.path('/performance');//reportOverview
+        $location.path('/mediaplans/'+campaign.id);
     };
 
     $scope.loadMoreStrategies = function(campaignId) {
