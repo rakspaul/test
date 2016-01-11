@@ -541,7 +541,7 @@ var angObj = angObj || {};
 
     });
 
-    angObj.controller('GetAdgroupsController', function ($scope, $window, $routeParams, constants, workflowService, $timeout, utils, $location) {
+    angObj.controller('GetAdgroupsController', function ($scope, $window, $routeParams, constants, workflowService, $timeout, utils, $location, momentService) {
         $scope.numOfDays = function (startTime, endTime) {
             var startTime=momentService.utcToLocalTime(startTime);
             var endTime=momentService.utcToLocalTime(endTime);
@@ -584,6 +584,7 @@ var angObj = angObj || {};
             }
         }
 
+        
 
         $scope.createAdGroup = function (createNewAdGrp) {
             $scope.$broadcast('show-errors-check-validity');
