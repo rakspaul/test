@@ -497,6 +497,10 @@ var angObj = angObj || {};
                         var responseData = result.data.data;
                         $scope.workflowData['campaignData'] = responseData;
                         saveDataInLocalStorage(responseData);
+                        if($scope.workflowData['campaignData'].selectedObjectives &&$scope.workflowData['campaignData'].selectedObjectives.length>0){
+                            $scope.brandIcon=_.filter($scope.workflowData['campaignData']. selectedObjectives,function(item){return item.objective==="Branding"});
+                            $scope.performanceIcon=_.filter($scope.workflowData['campaignData']. selectedObjectives,function(item){return item.objective==="Performance"});
+                        }
                         if ($scope.mode === 'edit') {
                             if (!$scope.adGroupId) {
                                 workflowService.getAd({
