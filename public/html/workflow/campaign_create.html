@@ -343,16 +343,17 @@
                                        <input type="text"  ng-model="Campaign.totalBudget" name="totalBudget" class="form-control col-sm-8" whole-number-only="whole-number-only" required/>
                                     </div>
                                     <label ng-if="createCampaignForm.totalBudget.$error.required" class="col-sm-12  greyTxt errorLabel" style="margin-left:35px;">You must enter Total Budget.</label>
-                                </div>
-                                <div class="calTable">
-                                    <h3>Margin</h3>
-                                    <div class="symbol-input">
-                                        <span class="symbol" style="left: initial; right: 50px;">{{textConstants.SYMBOL_PERCENT}}</span>
-                                        <input type="text" ng-model="Campaign.marginPercent" class="form-control col-sm-8" style="text-align: center; padding-left: 10px;" whole-number-only="whole-number-only"/>
-                                    </div>
-                                </div>
-                                <div class="calTable">
-                                    <h3>Est. Non-Inventory Cost</h3>
+                                    <label ng-if="Campaign.totalBudget<=0" class="col-sm-12  greyTxt " style="margin-left:35px; color:#F24444 !important;">You must Total Budget greater than 0.</label>
+								</div>
+								<div class="calTable">
+									<h3>Margin</h3>
+									<div class="symbol-input">
+										<span class="symbol" style="left: initial; right: 50px;">{{textConstants.SYMBOL_PERCENT}}</span>
+										<input type="text" ng-model="Campaign.marginPercent" class="form-control col-sm-8" style="text-align: center; padding-left: 10px;" whole-number-only="whole-number-only"/>
+									</div>
+								</div>
+								<div class="calTable">
+									<h3>Est. Non-Inventory Cost</h3>
                                     <div class="symbol-input">
                                        <span class="symbol">{{locale.NUMBER_FORMATS.CURRENCY_SYM}}</span>
                                        <input type="text" ng-style="inventoryExceeds ? {'color':'#F9B537'}:''" ng-model="Campaign.nonInventoryCost" class="form-control col-sm-8" disabled/>
