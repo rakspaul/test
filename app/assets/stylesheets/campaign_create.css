@@ -652,6 +652,15 @@
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adCreateBtn:hover h2 {
   color: #0978C9;
 }
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .singleCardWrap {
+  float: left;
+  width: 100%;
+  padding-left: .75%;
+  opacity: .15;
+}
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .singleCardWrap.active {
+  opacity: 1.0;
+}
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule {
   padding: 0;
   border: 1px solid #CDD2DA;
@@ -845,7 +854,7 @@
   position: relative;
   width: 100%;
   border: 1px dashed #939EAE;
-  padding: 20px 0 .75% .75%;
+  padding: 20px 0 .75% 0;
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroupSelectionWrap .btnCreateGroup {
   position: absolute;
@@ -879,6 +888,8 @@
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroupSelectionWrap.active .adGroupCreateForm {
   border-width: 0;
+  border-bottom: 1px solid #cdd2da;
+  padding-bottom: 15px;
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adReady .adTitle {
   background: #E4F9E4;

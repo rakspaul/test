@@ -193,12 +193,15 @@
                              ng-include="'/assets/html/workflow/partials/overview_partials/overview_createAdgroups.html'"
                              ng-controller="CreateAdGroupsController">
                         </div>
-                        <div class="col-md-3 adModule adCreateBtn" ng-click="navigateToAdCreatePage()">
-                            <div class="col-md-12">
-                                <a ng-href="#" class="col-md-12 text-center addMaster">
-                                    <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
-                                    <h2>Create Ad</h2>
-                                </a>
+                        
+                        <div class="singleCardWrap active">
+                            <div class="col-md-3 adModule adCreateBtn" ng-click="navigateToAdCreatePage()">
+                                <div class="col-md-12">
+                                    <a ng-href="#" class="col-md-12 text-center addMaster">
+                                        <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
+                                        <h2>Create Ad</h2>
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -215,7 +218,7 @@
                                 <h1 class="col-md-12 zeroPadding">Create Ad Group</h1>
                                 <div class="col-md-6 zeroPadding">
                                     <label for="nameIndividualAdGroup" class="col-sm-12 control-label labelQuestTxt">
-                                        What is your Ad Group name?
+                                        What is the name of your Ad Group?
                                     </label>
                                     <label class="col-sm-12 control-label greyTxt miniLabels">Ad Group Name</label>
                                     <div class="form-group col-sm-9 zeroPadding" show-errors='{showSuccess: true}'>
@@ -236,7 +239,7 @@
                                 </div>
                                 <div class="col-md-4 zeroPadding">
                                     <label for="dateIndividualAdGroup"
-                                           class="col-sm-12 control-label labelQuestTxt">What are the Flight Dates?</label>
+                                           class="col-sm-12 control-label labelQuestTxt">When would you like your Ads to run?</label>
                                     <div class="span4 col-md-12 input-daterange input-group date pull-left"
                                          id="datepickerIndividual">
                                         <div class="col-md-12 dateWrapper zeroPadding">
@@ -282,124 +285,127 @@
                         </form>
                         </div>
                         <!--END of group individual ads into groups-->
-                        <!--=== Create BTN Ad ===-->
-                        <div class="col-md-3 adModule adCreateBtn" ng-click="navigateToAdCreatePage()">
-                            <div class="col-md-12">
-                                <a ng-href="#"
-                                   class="col-md-12 text-center addMaster">
-                                    <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
-                                    <h2>Create Ad</h2>
-                                </a>
+                        
+                        <div class="singleCardWrap active">
+                            <!--=== Create BTN Ad ===-->
+                            <div class="col-md-3 adModule adCreateBtn" ng-click="navigateToAdCreatePage()">
+                                <div class="col-md-12">
+                                    <a ng-href="#"
+                                       class="col-md-12 text-center addMaster">
+                                        <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
+                                        <h2>Create Ad</h2>
+                                    </a>
+                                </div>
                             </div>
-                        </div>
-                        <!--=== End of Create BTN Ad ===-->
-                        <!--=== Single Ad Ready ===-->
-                        <div class="col-md-3 adModule"
-                             ng-repeat="adsData in workflowData.campaignAdsData track by adsData.id"
-                             ng-click="adsData.state=='DEPLOYING' ? '': goEdit(adsData)">
-                            <span class="icon-settings"></span>
-                            <div class="col-md-12 adTitle">
-                                <img ng-src="{{adsData.platform.iconUrl}}"
-                                     height="16" class="adIconWidget"
-                                     ng-show="{{(adsData.platform)}}"
-                                     title="{{adsData.platform.displayName | uppercase}}"/>
-                                <span class="greyTxt adDisplay">{{adsData.platform.displayName}}</span>
-                                <!--<span class="pull-left">ID: {{adsData.id}}</span>-->
-                                <span class="greyTxt adDisplay" ng-show="{{!(adsData.platform)}}">
-                                    Platform Not Set
-                                </span>
-                                <span class="greyTxt adDisplay"
-                                      ng-show="{{!(adsData.sourceId) && !(adsData.isTracking)}}">
-                                    (NOT PUSHED)
-                                </span>
-                            </div>
-                            <div class="col-md-12" style="padding: 0px 20px 20px 20px;">
-                                <div class="cardTopLayer">
-                                    <h4 class="col-md-10 adCamp" style="word-wrap: break-word;" tooltip="{{adsData.name}}">
-                                        {{adsData.name | textEllipsis: 60}}
-                                    </h4>
-                                    <span ng-if="adsData.adFormat"
-                                          class="glyphicon glyphicon-{{getAdFormatIconName(adsData.adFormat)}} pull-right"
-                                          aria-hidden="true">
+                            <!--=== End of Create BTN Ad ===-->
+                            <!--=== Single Ad Ready ===-->
+                            <div class="col-md-3 adModule"
+                                 ng-repeat="adsData in workflowData.campaignAdsData track by adsData.id"
+                                 ng-click="adsData.state=='DEPLOYING' ? '': goEdit(adsData)">
+                                <span class="icon-settings"></span>
+                                <div class="col-md-12 adTitle">
+                                    <img ng-src="{{adsData.platform.iconUrl}}"
+                                         height="16" class="adIconWidget"
+                                         ng-show="{{(adsData.platform)}}"
+                                         title="{{adsData.platform.displayName | uppercase}}"/>
+                                    <span class="greyTxt adDisplay">{{adsData.platform.displayName}}</span>
+                                    <!--<span class="pull-left">ID: {{adsData.id}}</span>-->
+                                    <span class="greyTxt adDisplay" ng-show="{{!(adsData.platform)}}">
+                                        Platform Not Set
                                     </span>
-                                    <span class="pull-left adTxtGray dateAd"
-                                          ng-if="adsData.startTime && adsData.endTime">
-                                        <span class="pull-left">
-                                            {{convertEST(adsData.startTime, 'DD MMM YYYY')}} -
-                                            {{convertEST(adsData.endTime, 'DD MMM YYYY')}}
+                                    <span class="greyTxt adDisplay"
+                                          ng-show="{{!(adsData.sourceId) && !(adsData.isTracking)}}">
+                                        (NOT PUSHED)
+                                    </span>
+                                </div>
+                                <div class="col-md-12" style="padding: 0px 20px 20px 20px;">
+                                    <div class="cardTopLayer">
+                                        <h4 class="col-md-10 adCamp" style="word-wrap: break-word;" tooltip="{{adsData.name}}">
+                                            {{adsData.name | textEllipsis: 60}}
+                                        </h4>
+                                        <span ng-if="adsData.adFormat"
+                                              class="glyphicon glyphicon-{{getAdFormatIconName(adsData.adFormat)}} pull-right"
+                                              aria-hidden="true">
                                         </span>
-                                    </span>
-                                    <span class="pull-left adTxtGray dateAd" ng-show="{{!(adsData.startTime)}}">Flight Date Not Set</span>
-                                </div>
-                                <div class="spacer">
-                                    <div class="col-md-12"></div>
-                                </div>
-                                <div class="cardMidLayer">
-                                    <div class="col-md-4 zeroPadding text-center">
-                                         <span class="col-md-12 text-center adTxtGray zeroPadding">
-                                             {{adsData.label ?
-                                             (adsData.label | toPascalCase) :
-                                             textConstants.WF_IMPS}}
-                                         </span>
-                                         <span class="col-md-12 text-center zeroPadding">
-                                             {{adsData.calculatedValue ?
-                                             (adsData.calculatedValue | nrFormat) :
-                                             textConstants.WF_NOT_SET}}
-                                         </span>
+                                        <span class="pull-left adTxtGray dateAd"
+                                              ng-if="adsData.startTime && adsData.endTime">
+                                            <span class="pull-left">
+                                                {{convertEST(adsData.startTime, 'DD MMM YYYY')}} -
+                                                {{convertEST(adsData.endTime, 'DD MMM YYYY')}}
+                                            </span>
+                                        </span>
+                                        <span class="pull-left adTxtGray dateAd" ng-show="{{!(adsData.startTime)}}">Flight Date Not Set</span>
                                     </div>
-                                    <div class="col-md-4 zeroPadding text-center">
-                                          <span class="col-md-12 text-center adTxtGray zeroPadding">
-                                              {{adsData.rateType ? adsData.rateType : textConstants.CPM}}
-                                          </span>
-                                          <span class="col-md-12 text-center zeroPadding">
-                                              {{adsData.rateValue ?
-                                              (adsData.rateValue | currency:undefined) :
-                                              textConstants.WF_NOT_SET}}
-                                          </span>
-                                     </div>
-                                    <div class="col-md-4 zeroPadding text-center">
-                                         <span class="col-md-12 text-center adTxtGray zeroPadding">
-                                             {{textConstants.BUDGET}}
-                                         </span>
-                                        <span class="col-md-12 text-center zeroPadding">
-                                            {{adsData.cost ?
-                                            (adsData.cost | currency:undefined) :
-                                            textConstants.WF_NOT_SET}}
+                                    <div class="spacer">
+                                        <div class="col-md-12"></div>
+                                    </div>
+                                    <div class="cardMidLayer">
+                                        <div class="col-md-4 zeroPadding text-center">
+                                             <span class="col-md-12 text-center adTxtGray zeroPadding">
+                                                 {{adsData.label ?
+                                                 (adsData.label | toPascalCase) :
+                                                 textConstants.WF_IMPS}}
+                                             </span>
+                                             <span class="col-md-12 text-center zeroPadding">
+                                                 {{adsData.calculatedValue ?
+                                                 (adsData.calculatedValue | nrFormat) :
+                                                 textConstants.WF_NOT_SET}}
+                                             </span>
+                                        </div>
+                                        <div class="col-md-4 zeroPadding text-center">
+                                              <span class="col-md-12 text-center adTxtGray zeroPadding">
+                                                  {{adsData.rateType ? adsData.rateType : textConstants.CPM}}
+                                              </span>
+                                              <span class="col-md-12 text-center zeroPadding">
+                                                  {{adsData.rateValue ?
+                                                  (adsData.rateValue | currency:undefined) :
+                                                  textConstants.WF_NOT_SET}}
+                                              </span>
+                                         </div>
+                                        <div class="col-md-4 zeroPadding text-center">
+                                             <span class="col-md-12 text-center adTxtGray zeroPadding">
+                                                 {{textConstants.BUDGET}}
+                                             </span>
+                                            <span class="col-md-12 text-center zeroPadding">
+                                                {{adsData.cost ?
+                                                (adsData.cost | currency:undefined) :
+                                                textConstants.WF_NOT_SET}}
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="spacer">
+                                        <div class="col-md-12"></div>
+                                    </div>
+                                    <div class="col-md-12 zeroPadding" style="margin-bottom: 10px;">
+                                        <span class="col-md-12 text-left adTxtGray zeroPadding">
+                                            Creative Tags ({{adsData.creatives.length || 0}})
+                                        </span>
+                                        <p style="margin: 0;" title="{{appendSizes(adsData.creatives)}}">
+                                            {{appendSizes(adsData.creatives)}}
+                                        </p>
+                                    </div>
+                                    <div class="col-md-12 zeroPadding">
+                                        <span class="col-md-12 text-left adTxtGray zeroPadding">
+                                            {{ textConstants.TARGETING }}
+                                        </span>
+                                        <span>
+                                            {{displaySelectedTargets(adsData)}}
                                         </span>
                                     </div>
                                 </div>
-                                <div class="spacer">
-                                    <div class="col-md-12"></div>
-                                </div>
-                                <div class="col-md-12 zeroPadding" style="margin-bottom: 10px;">
-                                    <span class="col-md-12 text-left adTxtGray zeroPadding">
-                                        Creative Tags ({{adsData.creatives.length || 0}})
+                                <!--Abi 3 Classes for color label for adStatus span are labelPush labelDraft labelNew-->
+                                <span class="pull-right adStatus {{adsData.state.toLowerCase().replace(' ','')}}">
+                                    {{adsData.state}}
+                                    <span ng-if="adsData.pushStatus=='FAILED'"
+                                          class="pull-right icon-warning"
+                                          aria-hidden="true"
+                                          title="{{adsData.pushFeedback}}">
                                     </span>
-                                    <p style="margin: 0;" title="{{appendSizes(adsData.creatives)}}">
-                                        {{appendSizes(adsData.creatives)}}
-                                    </p>
-                                </div>
-                                <div class="col-md-12 zeroPadding">
-                                    <span class="col-md-12 text-left adTxtGray zeroPadding">
-                                        {{ textConstants.TARGETING }}
-                                    </span>
-                                    <span>
-                                        {{displaySelectedTargets(adsData)}}
-                                    </span>
-                                </div>
-                            </div>
-                            <!--Abi 3 Classes for color label for adStatus span are labelPush labelDraft labelNew-->
-                            <span class="pull-right adStatus {{adsData.state.toLowerCase().replace(' ','')}}">
-                                {{adsData.state}}
-                                <span ng-if="adsData.pushStatus=='FAILED'"
-                                      class="pull-right icon-warning"
-                                      aria-hidden="true"
-                                      title="{{adsData.pushFeedback}}">
+                                    <span class="pull-right icon-tracking" ng-if="adsData.isTracking"></span>
                                 </span>
-				                <span class="pull-right icon-tracking" ng-if="adsData.isTracking"></span>
-                            </span>
+                            </div>
+                            <!--=== End of Single Ad Ready ===-->
                         </div>
-                        <!--=== End of Single Ad Ready ===-->
                     </div>
                     <!--End of independant ads block-->
                 </div>

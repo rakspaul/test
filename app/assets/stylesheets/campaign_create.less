@@ -640,6 +640,15 @@
               color: #0978C9;
             }
           }
+          .singleCardWrap {
+            float: left;
+            width: 100%;
+            padding-left: .75%;
+            opacity: .15;
+          }
+          .singleCardWrap.active {
+            opacity: 1.0;
+          }
           .adModule {
             padding: 0;
             border: 1px solid #CDD2DA;
@@ -839,7 +848,7 @@
             position: relative;
             width: 100%;
             border: 1px dashed #939EAE;
-            padding: 20px 0 .75% .75%;
+            padding: 20px 0 .75% 0;
             .btnCreateGroup {
               position: absolute;
               z-index: 10;
@@ -872,6 +881,8 @@
             }
             .adGroupCreateForm {
               border-width: 0;
+              border-bottom: 1px solid #cdd2da;
+              padding-bottom: 15px;
             }
           }
           .adReady {
