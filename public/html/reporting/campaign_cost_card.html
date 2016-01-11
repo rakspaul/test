@@ -6,9 +6,10 @@
         <div class="clearfix">
 
             <div class="each_cost_details">
-            
+
                 <div class="main_heading">
-                    <a ng-href="/mediaplans/{{campaign.orderId}}"> {{campaign.campaignTitle}}</a>
+                    <a ng-if="!$parent.isWorkFlowUser" ng-href="/mediaplans/{{campaign.orderId}}"> {{campaign.campaignTitle}}</a>
+                    <a ng-if="$parent.isWorkFlowUser" ng-click="redirectTo(campaign, campaigns.dashboard.appliedFilterType)"> {{campaign.campaignTitle}}</a>
                 </div>
                 <div class="heading">
                     <span>
@@ -16,7 +17,7 @@
                     </span>
                     <div ng-init="duration=campaign.durationLeft()"></div>
                     <span class="dates_details">
-                        {{campaign.startDate | date :'d MMM y' }} - {{campaign.endDate | date :'d MMM y' }} 
+                        {{campaign.startDate | date :'d MMM y' }} - {{campaign.endDate | date :'d MMM y' }}
                         <span ng-if="duration == 'Yet to start'">({{textConstants.YET_TO_START}})</span>
                         <span ng-if="duration == 'Ended'">({{textConstants.ENDED}})</span>
                         <span ng-if="duration == 'Started today'" >({{textConstants.STARTED_TODAY}})</span>
@@ -41,7 +42,7 @@
                                     <div class="end_point_line"></div>
                                 </div>
                             </div>
-                
+
                         </div>
                      </div>
                      <div class="metric_graph_details_val">
@@ -51,7 +52,7 @@
                  </div>
             </div>
         </div>
-        
+
     </div>
 </div>
 
