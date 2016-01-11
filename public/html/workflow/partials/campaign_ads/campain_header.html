@@ -1,9 +1,7 @@
 <div class="col-md-12 zeroPadding campSettingOverView">
     <div class="campBodyWrap">
         <div class="col-md-4 zeroPadding campTitleWrap">
-            <span class="statuslabel {{workflowData.campaignData.status|lowercase}}_bulb">
-            </span>
-    
+            <span class="statuslabel {{workflowData.campaignData.status|lowercase}}_bulb"></span>
             <h4 tooltip="{{workflowData.campaignData.name}}">
                 {{workflowData.campaignData.name | textEllipsis: 60}}
             </h4>
@@ -24,10 +22,6 @@
                 <span ng-if="workflowData.campaignData.numOfDays">({{workflowData.campaignData.numOfDays}} Days)</span>
             </span>
         </div>
-        <!--<div class="col-md-2">-->
-            <!--<span class="greyTxt">Pricing Model</span>-->
-            <!--<span style="opacity: .3;">Cost Per Viewable Impression</span>-->
-        <!--</div>-->
         <div class="col-md-2 borderZero">
             <div class="col-md-3 zeroPadding" style="display: none;">
                 <span class="col-md-12 zeroPadding text-center" style="color: #DEDEDE;">Contacts</span>

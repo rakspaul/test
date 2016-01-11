@@ -15,7 +15,7 @@
 		</li>
         <div class="splitterDash"></div>
         <li class="audience-tabs-audience" ng-if="selectedAudience.length > 0"><a data-toggle="tab" href="#buildAud"><span>2</span> Build Audience</a></li>
-		<li class="audience-tabs-audience" ng-if="selectedAudience.length == 0"><a data-toggle="tab" href="javascript:void(0);" class="disabled" ng-click="return false"><span>2</span> Build Audience</a></li>
+		<li class="audience-tabs-audience" ng-if="selectedAudience.length == 0"><a data-toggle="tab" ng-href="#" class="disabled" ng-click="$event.preventDefault();$event.stopPropagation();"><span>2</span> Build Audience</a></li>
 
 	</ul>
 
@@ -29,9 +29,6 @@
 							<span class="icon-search" ng-click="selectKeyword(keywordText)"></span>
 							<label class="col-md-12 greyTxt">Keyword</label>
 	                        <input type="text" class="col-md-12 keyword-txt" placeholder="Max 10 keywords. Must be seperated by commas" ng-keyup="showKeywords(keywordText,$event)" ng-model="keywordText"/>
-							<!--<label class="keywordWrap">Republican <span class="icon-close"></span></label>-->
-							<!--<label class="keywordWrap">Outdoors <span class="icon-close"></span></label>-->
-							<!--<label class="keywordWrap">Fitness <span class="icon-close"></span></label>-->
 							<label class="keywordWrap" ng-repeat="key in selectedKeywords">{{key}} <span class="icon-close" ng-click="removeKeyword(key);"></span></label>
 							<ul ng-if="audienceKeywords.length>0" class="dropdown-menu" role="menu" id="keywordsList" ng-style="dropdownCss">
 								<li ng-repeat="keyword in audienceKeywords | filter:keywordText" ng-click="selectKeyword(keyword.keyword)">
@@ -51,10 +48,6 @@
                                         <span class="text">{{sourceText}}</span>
                                         <span class="icon-arrow-down"></span>
                                     </button>
-                                    <!--<ul class="dropdown-menu" aria-labelledby="sourceSeg">-->
-                                        <!--<li ng-repeat="source in sourceList"><a><input type="checkbox">{{source}}</a></li>-->
-                                        <!--&lt;!&ndash;<li><a>Source 2</a></li>&ndash;&gt;-->
-                                    <!--</ul>-->
                                     <ul class="dropdown-menu dropdown-search" aria-labelledby="sourceSeg" style="width: 230px;">
                                         <li class="searchBar">
                                             <input type="text" class="col-md-12" placeholder="Search" ng-model="sourceSearch"/>
@@ -88,27 +81,6 @@
                                         <span class="text">{{categoryText}}</span>
                                         <span class="icon-arrow-down"></span>
                                     </button>
-
-                                    <!--<ul class="dropdown-menu dropdown-search" aria-labelledby="sourceSeg">-->
-										<!--<li class="searchBar">-->
-											<!--<input type="text" class="col-md-12" placeholder="Search"/>-->
-											<!--<div class="icon-search"></div>-->
-										<!--</li>-->
-                                        <!--<li><a><input type="checkbox"><span class="icon-arrow-down-thick"></span>Category 1 (12)</a></li>-->
-                                        <!--<li>-->
-											<!--<a><input type="checkbox"><span class="icon-arrow-down-thick active"></span>Category 2 (504)</a>-->
-											<!--<ul>-->
-												<!--<li><a><input type="checkbox">Manny (20)</a></li>-->
-												<!--<li><a><input type="checkbox">Abi (484)</a></li>-->
-												<!--<li><a class="emptySeg"><input type="checkbox">Frodo (0)</a></li>-->
-											<!--</ul>-->
-										<!--</li>-->
-                                        <!--<li><a><input type="checkbox"><span class="icon-arrow-down-thick"></span>Category 3 (35)</a></li>-->
-                                        <!--<li><a><input type="checkbox"><span class="icon-arrow-down-thick"></span>Category 4 (54)</a></li>-->
-                                        <!--<li><a><input type="checkbox"><span class="icon-arrow-down-thick"></span>Category 5 (677)</a></li>-->
-                                        <!--<li><a><input type="checkbox"><span class="icon-arrow-down-thick"></span>Category 6 (43)</a></li>-->
-                                        <!--<li><a><input type="checkbox"><span class="icon-arrow-down-thick"></span>Category 7 (88)</a></li>-->
-                                    <!--</ul>-->
 					<ul class="dropdown-menu dropdown-search" aria-labelledby="sourceSeg" style="width: 230px;">
 						<li class="searchBar">
 							<input type="text" class="col-md-12" placeholder="Search" ng-model="categorySearch"/>
@@ -161,12 +133,6 @@
 						<div class="columnFour" style="width: 31.333%">
 							<span>Category</span>
 						</div>
-						<!--<div class="columnFive">
-							<span>Cost</span>
-						</div>
-						<div class="columnSix">
-							<span>Est. Pool Size</span>
-						</div>-->
 					</div>
 
 					<div class="segBodyWrap">
@@ -186,32 +152,10 @@
 								<div class="columnFour" style="width: 31.333%; border-right: 0; ">
 									<span>{{audience.category}}</span>
 								</div>
-								<!--<div class="columnFive">
-									<span>{{audience.cost}}</span>
-								</div>
-								<div class="columnSix">
-									<span>{{audience.poolSize}}</span>
-								</div>-->
 							</div>
 							<div ng-if="audienceList.length == 0" style="color: #ccc;text-align: center;padding-top: 10px;"> No Results Found...</div>
-	
-							<!--<div class="col-md-12 segBodyTable">-->
-								<!--<div class="columnOne">-->
-									<!--<div class="checkbox">-->
-										<!--<input type="checkbox" id="selectAll">-->
-									<!--</div>-->
-								<!--</div>-->
-								<!--<div class="columnTwo" style="width: 47%;">-->
-									<!--<span>Psycographic : Politcal : Registered : Republican</span>-->
-								<!--</div>-->
-								<!--<div class="columnSix" style="width: 47%;">-->
-									<!--<span>1,999,999</span>-->
-								<!--</div>-->
-							<!--</div>-->
 						</div>
 					</div>
-
-					<!--<span class="segTotal">6,666 Results</span>-->
 
                 </div>
 
@@ -227,68 +171,8 @@
                             <span>{{aud.source}} </span><div style="clear:both"></div>
                             <div class="icon-clear" ng-click="selectAudience(aud)"></div>
                         </div>
-						<!--<div class="segWrap">-->
-							<!--<span>Psycographic : Politcal : Registered : Republican</span>-->
-							<!--<img src="/assets/images/workflow/dummyLogos/adobe.png" alt="" width="16px" />-->
-							<!--<span>$9.99</span>-->
-							<!--<div class="icon-clear"></div>-->
-						<!--</div>-->
-
-						<!--<div class="segWrap">-->
-							<!--<span>Psycographic : Politcal : Registered : Republican</span>-->
-							<!--<img src="/assets/images/workflow/dummyLogos/adobe.png" alt="" width="16px" />-->
-							<!--<span>$9.99</span>-->
-							<!--<div class="icon-clear"></div>-->
-						<!--</div>-->
-
-						<!--<div class="segWrap">-->
-							<!--<span>Psycographic : Politcal : Registered : Republican</span>-->
-							<!--<img src="/assets/images/workflow/dummyLogos/adobe.png" alt="" width="16px" />-->
-							<!--<span>$9.99</span>-->
-							<!--<div class="icon-clear"></div>-->
-						<!--</div>-->
-
-						<!--<div class="segWrap">-->
-							<!--<span>Psycographic : Politcal : Registered : Republican</span>-->
-							<!--<img src="/assets/images/workflow/dummyLogos/adobe.png" alt="" width="16px" />-->
-							<!--<span>$9.99</span>-->
-							<!--<div class="icon-clear"></div>-->
-						<!--</div>-->
-
-						<!--<div class="segWrap">-->
-							<!--<span>Psycographic : Politcal : Registered : Republican</span>-->
-							<!--<img src="/assets/images/workflow/dummyLogos/adobe.png" alt="" width="16px" />-->
-							<!--<span>$9.99</span>-->
-							<!--<div class="icon-clear"></div>-->
-						<!--</div>-->
-
-						<!--<div class="segWrap">-->
-							<!--<span>Psycographic : Politcal : Registered : Republican</span>-->
-							<!--<img src="/assets/images/workflow/dummyLogos/adobe.png" alt="" width="16px" />-->
-							<!--<span>$9.99</span>-->
-							<!--<div class="icon-clear"></div>-->
-						<!--</div>-->
-
-						<!--<div class="segWrap">-->
-							<!--<span>Psycographic : Politcal : Registered : Republican</span>-->
-							<!--<img src="/assets/images/workflow/dummyLogos/adobe.png" alt="" width="16px" />-->
-							<!--<span>$9.99</span>-->
-							<!--<div class="icon-clear"></div>-->
-						<!--</div>-->
-
-						<!--<div class="segWrap">-->
-							<!--<span>Psycographic : Politcal : Registered : Republican</span>-->
-							<!--<img src="/assets/images/workflow/dummyLogos/adobe.png" alt="" width="16px" />-->
-							<!--<span>$9.99</span>-->
-							<!--<div class="icon-clear"></div>-->
-						<!--</div>-->
 					</div>
 				</div>
-				
-                <!--<div class="build-audience">-->
-                <!--    <a data-toggle="tab"  class="pull-right btn btn-default" href="#buildAud" ng-click="buildAudience()"> Build Audience</a>-->
-                <!--    <button class="pull-right btn btn-link" ng-click="resetAudienceTargetingVariables();">Cancel</button>-->
-                <!--</div>-->
         </div>
         </div>
 		<!--TAB 1 ENDS HERE-->
@@ -338,13 +222,6 @@
                     <div class="col-md-1 text-center"><a class="icon-clear" ng-click="selectAudience(aud)"></a></div>
                 </div>
             </div>
-
-            <!--Example Four Drag Drop Container-->
-            <!--<div class="segmentHolder">-->
-            <!--    <div class="segmentRow segmentDrop">-->
-            <!--        <span class="col-md-12 text-center">Or</span>-->
-            <!--    </div>-->
-            <!--</div>-->
         </div>
     </div>
 </div>
