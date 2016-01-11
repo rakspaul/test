@@ -984,7 +984,14 @@
 .main_navigation_holder div.reports_header_tabs_holder div.header_tab_dropdown:hover a:hover {
   color: #84BCE4 ;
 }
-.main_navigation_holder div.reports_header_tabs_holder .active_tab a {
+.main_navigation_holder div.reports_header_tabs_holder .active_tab a,
+.main_navigation_holder div.reports_header_tabs_holder .active_tab a:hover {
+  color: #84BCE4 ;
+  text-decoration: none;
+}
+.main_navigation_holder div.reports_header_tabs_holder div.active_tab:hover a,
+.main_navigation_holder div.reports_header_tabs_holder div.active_tab:hover a:hover {
+  color: #84BCE4 ;
   text-decoration: none;
 }
 .main_navigation_holder #reports_nav_link.each_nav_link.active div.header_tab_dropdown.active_tab {
