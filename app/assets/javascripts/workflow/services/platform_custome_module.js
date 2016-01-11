@@ -204,7 +204,7 @@
 
                 if(inputList.displayName !== 'NA') {
                     if (value < minValue) {
-                        field.after('<div class="customFieldErrorMsg">' + inputList.displayName + ' must be greater than '+minValue+'</div>');
+                        field.after('<div class="customFieldErrorMsg">' + inputList.displayName + ' must be greater than or equal to '+minValue+'</div>');
                     } else if (value > maxValue) {
                         field.after('<div class="customFieldErrorMsg">' + inputList.displayName + ' must be less than or equal to '+maxValue+'</div>');
                     }
