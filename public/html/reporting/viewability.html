@@ -229,10 +229,14 @@
                         </div>
 
                         <div class="sub_col">
-                            <span class="icon_text_holder" ng-class="sortClassFunction('view_metrics.video_viewability_metrics.videos_1q_view_perc',sortTypeForVideos,sortReverse)" ng-click="sortTypeForVideos = 'view_metrics.video_viewability_metrics.videos_1q_view_perc'; sortReverse = !sortReverse;removeKpiActive();" >25%</span>
-                            <span class="icon_text_holder" ng-class="sortClassFunction('view_metrics.video_viewability_metrics.videos_2q_view_perc',sortTypeForVideos,sortReverse)" ng-click="sortTypeForVideos = 'view_metrics.video_viewability_metrics.videos_2q_view_perc'; sortReverse = !sortReverse;removeKpiActive();" >50%</span>
-                            <span class="icon_text_holder" ng-class="sortClassFunction('view_metrics.video_viewability_metrics.videos_3q_view_perc',sortTypeForVideos,sortReverse)" ng-click="sortTypeForVideos = 'view_metrics.video_viewability_metrics.videos_3q_view_perc'; sortReverse = !sortReverse;removeKpiActive();">75%</span>
-                            <span class="icon_text_holder" ng-class="sortClassFunction('view_metrics.video_viewability_metrics.videos_4q_view_perc',sortTypeForVideos,sortReverse)" ng-click="sortTypeForVideos = 'view_metrics.video_viewability_metrics.videos_4q_view_perc'; sortReverse = !sortReverse;removeKpiActive();">100%</span>
+                            <span class="icon_text_holder"
+                                  ng-class="sortClassFunction('view_metrics.video_viewability_metrics.videos_1q_complete_perc',sortTypeForVideos,sortReverse)" ng-click="sortTypeForVideos = 'view_metrics.video_viewability_metrics.videos_1q_complete_perc'; sortReverse = !sortReverse;removeKpiActive();" >25%</span>
+                            <span class="icon_text_holder"
+                                  ng-class="sortClassFunction('view_metrics.video_viewability_metrics.videos_2q_complete_perc',sortTypeForVideos,sortReverse)" ng-click="sortTypeForVideos = 'view_metrics.video_viewability_metrics.videos_2q_complete_perc'; sortReverse = !sortReverse;removeKpiActive();" >50%</span>
+                            <span class="icon_text_holder"
+                                  ng-class="sortClassFunction('view_metrics.video_viewability_metrics.videos_3q_complete_perc',sortTypeForVideos,sortReverse)" ng-click="sortTypeForVideos = 'view_metrics.video_viewability_metrics.videos_3q_complete_perc'; sortReverse = !sortReverse;removeKpiActive();">75%</span>
+                            <span class="icon_text_holder"
+                                  ng-class="sortClassFunction('view_metrics.video_viewability_metrics.videos_4q_complete_perc',sortTypeForVideos,sortReverse)" ng-click="sortTypeForVideos = 'view_metrics.video_viewability_metrics.videos_4q_complete_perc'; sortReverse = !sortReverse;removeKpiActive();">100%</span>
                         </div>
                     </div>
 
@@ -358,10 +362,10 @@
                                     </div>
                                     <div class="each_col sub_four_cols">
                                         <div class="sub_col">
-                                            <span>{{tactic.view_metrics.video_viewability_metrics.videos_1q_view_perc   > 0 ? ((tactic.view_metrics.video_viewability_metrics.videos_1q_view_perc | number:0)+'%') : '-'}}</span>
-                                            <span>{{tactic.view_metrics.video_viewability_metrics.videos_2q_view_perc   > 0 ? ((tactic.view_metrics.video_viewability_metrics.videos_2q_view_perc | number:0)+'%') : '-'}}</span>
-                                            <span>{{tactic.view_metrics.video_viewability_metrics.videos_3q_view_perc   > 0 ? ((tactic.view_metrics.video_viewability_metrics.videos_3q_view_perc | number:0)+'%') : '-'}}</span>
-                                            <span>{{tactic.view_metrics.video_viewability_metrics.videos_4q_view_perc   > 0 ? ((tactic.view_metrics.video_viewability_metrics.videos_4q_view_perc | number:0)+'%') : '-'}}</span>
+                                            <span>{{tactic.view_metrics.video_viewability_metrics.videos_1q_complete_perc   > 0 ? ((tactic.view_metrics.video_viewability_metrics.videos_1q_complete_perc | number:0)+'%') : '-'}}</span>
+                                            <span>{{tactic.view_metrics.video_viewability_metrics.videos_2q_complete_perc   > 0 ? ((tactic.view_metrics.video_viewability_metrics.videos_2q_complete_perc | number:0)+'%') : '-'}}</span>
+                                            <span>{{tactic.view_metrics.video_viewability_metrics.videos_3q_complete_perc   > 0 ? ((tactic.view_metrics.video_viewability_metrics.videos_3q_complete_perc | number:0)+'%') : '-'}}</span>
+                                            <span>{{tactic.view_metrics.video_viewability_metrics.videos_4q_complete_perc   > 0 ? ((tactic.view_metrics.video_viewability_metrics.videos_4q_complete_perc | number:0)+'%') : '-'}}</span>
                                         </div>
                                         <div class="sub_col next_val">
                                             <!--<span>{{tsortReverseForVidViewactic.view_metrics.video_viewability_metrics.videos_1q_view   > 0 ? (tactic.view_metrics.video_viewability_metrics.videos_1q_view | nrFormat) : '-'}}</span>
