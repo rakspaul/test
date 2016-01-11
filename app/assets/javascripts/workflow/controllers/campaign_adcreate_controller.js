@@ -1563,7 +1563,7 @@ var angObj = angObj || {};
 
         $scope.$on('updateInventory', function () {
             var responseData = workflowService.getAdsDetails();
-            if (responseData.targets && responseData.targets.domainTargets && responseData.targets.domainTargets.inheritedList.ADVERTISER) {
+            if (responseData && responseData.targets && responseData.targets.domainTargets && responseData.targets.domainTargets.inheritedList.ADVERTISER) {
                 $scope.adData.inventory = $scope.workflowData['inventoryData'][0];
             }
         })
