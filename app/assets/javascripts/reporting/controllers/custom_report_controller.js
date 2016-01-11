@@ -326,10 +326,6 @@ var angObj = angObj || {};
             $scope.showAddBreakdownButton = true;
         }
 
-
-
-
-
         $scope.getMessageForDataNotAvailable = function () {
             return constants.MSG_DATA_NOT_AVAILABLE_FOR_DASHBOARD;
         };
@@ -643,9 +639,11 @@ var angObj = angObj || {};
                 $scope.requestData.reportDefinition.filters.push({"dimension":$scope.reports.reportDefinition.dimensions.secondary.dimension,"type":"Secondary","values":$scope.reports.reportDefinition.dimensions.secondary.value});
             }
             _.each($scope.additionalFilters,function(eachObj) {
-                // $scope.requestData.reportDefinition.dimensions.push({"dimension":eachObj.key,'type':"Additional"});
                 if(eachObj.value) {
                     $scope.requestData.reportDefinition.filters.push({"dimension":eachObj.key,'type':"Additional","values":eachObj.value})
+                } else if(isIntermediateSave) {
+                    //if a filter key is selected then show it with the input box
+                    $scope.requestData.reportDefinition.filters.push({"dimension":eachObj.key,'type':"Additional"})
                 }
 
             })
@@ -1521,7 +1519,6 @@ var angObj = angObj || {};
                 } else {
                 }
             }  
-
 
             $scope.addSearch = function(event) {
                 event.stopPropagation();
