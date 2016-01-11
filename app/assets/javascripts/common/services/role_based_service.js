@@ -2,7 +2,8 @@
  * Created by collective on 27/08/2015.
  */
 (function() {
-    commonModule.factory('RoleBasedService', ['momentService', function (momentService) {
+    commonModule.factory('RoleBasedService', ['momentService', 'constants', '$locale', 'tmhDynamicLocale','$rootScope', function (momentService, constants, $locale, tmhDynamicLocale, $rootScope) {
+
         var getClientRole = function() {
             return JSON.parse(localStorage.getItem('clientRoleObj'));
         };
@@ -48,11 +49,20 @@
             return JSON.parse(localStorage.getItem('userObj'));
         };
 
+        var setCurrency = function(){
+            var locale = getClientRole().locale || 'en-us';
+            tmhDynamicLocale.set(locale);
+            $rootScope.$on("$localeChangeSuccess",function(){
+                constants.currencySymbol = $locale.NUMBER_FORMATS.CURRENCY_SYM;
+            });
+        }
+
         return {
             getClientRole    : getClientRole,
             setClientRole    : setClientRole,
             setUserData      : setUserData,
-            getUserData      : getUserData
+            getUserData      : getUserData,
+            setCurrency      : setCurrency
         };
     }]);
- })();
+})();
