@@ -25,7 +25,7 @@
                     pageNo = pageNum;
                 if (size)
                     pageSize = size;
-                var url = apiPaths.WORKFLOW_APIUrl + '/clients/' + clientId + '/segments/platform/' + workflowService.getPlatform().id + '?pageNo=' + pageNo + '&pageSize=' + pageSize;
+                var url = apiPaths.WORKFLOW_APIUrl + '/clients/' + clientId + '/platform/' + workflowService.getPlatform().id + '/segments?pageNo=' + pageNo + '&pageSize=' + pageSize;
                 if (sortCol && sortCol != '')
                     url += '&sortBy=' + sortCol;
                 if (sortOrder && sortOrder != '')
@@ -76,7 +76,7 @@
             },
 
             fetchAudiencekeywords: function (key) {
-                var url = apiPaths.WORKFLOW_APIUrl + '/segments/keywords?search='+key;
+                var url = apiPaths.WORKFLOW_APIUrl + '/clients/'+loginModel.getSelectedClient().id+'/platform/'+workflowService.getPlatform().id+'/segments/keywords?search='+key;
                 return dataService.fetch(url, {cache: false});
             },
             setAudienceKeywords: function (s) {
