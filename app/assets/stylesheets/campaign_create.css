@@ -212,7 +212,7 @@
   margin: 0 5px 0 0;
 }
 #campaignCreate .firstWrapper .masterContainer .marginCal .calTable .symbol-input .symbol ~ input {
-    padding-left : 22px ;
+  padding-left: 22px ;
 }
 #campaignCreate .firstWrapper .masterContainer .marginCal .calTable input {
   float: left;
@@ -1031,9 +1031,6 @@
 #campaignCreate .firstWrapper .maxWidthAdj .campAdHeader .campSettingOverView .each-objective span {
   clear: none;
   margin-right: 5px ;
-}
-#campaignCreate .firstWrapper .maxWidthAdj .campAdHeader .campSettingOverView .each-objective .count {
-  color: #0978c9 ;
 }
 #campaignCreate .firstWrapper .maxWidthAdj .campAdHeader .campSettingOverView .pull-left:first-child {
   padding-left: 0;
