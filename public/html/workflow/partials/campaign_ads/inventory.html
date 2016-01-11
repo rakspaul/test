@@ -3,22 +3,22 @@
         <!-- Header Starts -->
         <div class="col-md-2 zeroPadding hideRightPanel"></div>
         <div class="col-md-10 containerWrap">
-            <h2 class="col-md-12 zeroPadding marginBottom">Set Inventory Filters</h2>
-            <a href="javascript:void(0);" class="helpLink">How do I manage my Inventory Filters?</a>
+            <h2 class="col-md-12 zeroPadding marginBottom" data-ng-bind="textConstants.SETFILTERS"></h2>
+            <a href="javascript:void(0);" class="helpLink" data-ng-bind="textConstants.HOWMANINVENFILTERS"></a>
             <div class="col-md-12 zeroPadding clearfix nav_filters">
                 <creative-drop-down ng-if="workflowData.campaignData"></creative-drop-down>
             </div>
 
             <div class="form-group col-md-3 zeroPadding" ng-if="workflowData.inventoryData.length >0">
                 <div class="col-md-12 zeroPadding dropdown-workflow" style="margin-bottom: 10px;">
-                    <span class="col-md-12 greyTxt">Select from Existing</span>
+                    <span class="col-md-12 greyTxt" data-ng-bind="textConstants.SELECTEXISTING"></span>
                     <div class="dropdown">
                          <button class="btn btn-default dropdown-toggle" type="button" id="inventory" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                               <span class="text">{{adData.inventory ? adData.inventory.name :  'Select Domain List'}}</span>
                               <span class="icon-arrow-down"></span>
                          </button>
                          <ul class="dropdown-menu" name="inventory" data-toggle="dropdown">
-                              <li ng-repeat="inventory in workflowData.inventoryData track by inventory.id"><a ng-click="dropBoxItemSelected(inventory, 'inventory')">{{inventory.name}}</a></li>
+                              <li ng-repeat="inventory in workflowData.inventoryData track by inventory.id"><a ng-click="dropBoxItemSelected(inventory, 'inventory')" data-ng-bind="inventory.name"></a></li>
                          </ul>
                         <input type="hidden" name="inventory" ng-model="adData.inventory.name" ng-update-hidden/>
                     </div>
@@ -26,10 +26,10 @@
             </div>
 
             <div class="col-md-9 zeroPadding inventory_upload_btn" style="padding-left: 10px !important;">
-                <div class="col-md-12 greyTxt">Only 1 list is supported at this moment.</div>
+                <div class="col-md-12 greyTxt" data-ng-bind="textConstants.ONLYONELIST"></div>
                 <button class="pull-left btn btn-default" ng-disabled="workflowData.inventoryData.length === 0 || adData.inventory ?  false : true" ngf-select="selectFiles($files)"
-                        ngf-accept="'.csv,.txt'" ngf-multiple="false" ngf-allow-dir="false">Upload Domain List</button>
-                <span class="grey_txt" ng-disabled="workflowData.inventoryData.length === 0 || adData.inventory ?  false : true">(.csv, .txt file)</span>
+                        ngf-accept="'.csv,.txt'" ngf-multiple="false" ngf-allow-dir="false" data-ng-bind="textConstants.UPLOADDOMAINLIST"></button>
+                <span class="grey_txt" ng-disabled="workflowData.inventoryData.length === 0 || adData.inventory ?  false : true" data-ng-bind="textConstants.CSVTXTFILE"></span>
             </div>
         </div>
         <!-- Header Ends -->
@@ -38,15 +38,15 @@
         <div class="col-md-10">
             <div class="filterList" ng-if="adData.inventory.domainList.length>0">
                 <div class="filterHead" >
-                    <h1>Domain List</h1>
+                    <h1 data-ng-bind="textConstants.DOMAINLIST"></h1>
                     <span>{{adData.inventory.name}} ({{adData.inventory.domainList.length}})</span>
                     <div class="pull-left sort-icon-holder active list_val_col" ng-click="sort();" style="display:inline-block; margin-top: 20px;">
-                        <span class="pull-left">Domain</span>
+                        <span class="pull-left" data-ng-bind="textConstants.DOMAIN"></span>
                         <span class="pull-left common-sort-icon ascending"></span>
                     </div>
                 </div>
                 <div class="filterBody">
-                    <span ng-repeat="domain in adData.inventory.domainList | orderBy : $index:sortDomain ">{{domain}}</span>
+                    <span ng-repeat="domain in adData.inventory.domainList | orderBy : $index:sortDomain " data-ng-bind="domain"></span>
                 </div>
             </div>
         </div>
@@ -60,50 +60,50 @@
         <div class="inventoryLib">
             <div class="headerLib">
                 <span class="close" aria-hidden="true" ng-click="closeDomainListPop()">x</span>
-                <h1>Upload List</h1>
+                <h1 data-ng-bind="textConstants.UPLOADLIST"></h1>
                 <!--<button type="file" class="btn btn-default">Upload New</button>-->
-                <span>File Name</span>
+                <span data-ng-bind="textConstants.FILENAME"></span>
             </div>
             <div class="popBody">
                 <div class="popList">
-                    <span ng-repeat="file in files">{{file.name}}</span>
+                    <span ng-repeat="file in files" data-ng-bind="file.name"></span>
                 </div>
 
                 <div class="col-md-12 zeroPadding">
                     <div class="col-md-12 zeroPadding">
-                        <label class="col-sm-12 control-label greyTxt miniLabels">List Name</label>
+                        <label class="col-sm-12 control-label greyTxt miniLabels" data-ng-bind="textConstants.LISTNAME"></label>
                         <div class="form-group col-sm-9 zeroPadding" show-errors='{showSuccess: true}'>
                             <input type="text" name="listName" class="form-control" remove-special-character='remove-special-character' ng-model="adData.listName" id="listName" placeholder="Enter List Name" required>
-                            <label class="col-sm-12 control-label errorLabel">Please enter list name.</label>
+                            <label class="col-sm-12 control-label errorLabel" data-ng-bind="textConstants.PLEASEENTERLIST"></label>
                         </div>
                     </div>
 
                     <div class="categoryDDL">
-                        <label class="col-sm-12 control-label greyTxt miniLabels">Category</label>
+                        <label class="col-sm-12 control-label greyTxt miniLabels" data-ng-bind="textConstants.CATEGORY"></label>
                         <div class="form-group col-md-12 zeroPadding">
                             <select class="form-control" id="inventoryCat" disabled>
-                                <option value="">Domain List</option>
+                                <option value="" data-ng-bind="textConstants.DOMAINLIST"></option>
                             </select>
                         </div>
                     </div>
 
                     <div class="radioBtnToggle">
-                        <label class="col-sm-12 control-label greyTxt miniLabels">Type</label>
+                        <label class="col-sm-12 control-label greyTxt miniLabels" data-ng-bind="textConstants.TYPE"></label>
                         <div class="btn-group miniToggle">
-                            <label class="btn btn-default {{adData.inventory.domainAction === 'INCLUDE' ? 'active' : ''}}"><span>Whitelist</span>
+                            <label class="btn btn-default {{adData.inventory.domainAction === 'INCLUDE' ? 'active' : ''}}"><span data-ng-bind="textConstants.WHITELIST"></span>
                                 <input type="radio" name="inventoryType" value="INCLUDE" ng-disabled="workflowData.inventoryData.length >0  ?  true : false"  ng-model="adData.inventory.domainAction" ng-checked="adData.inventory.domainAction === 'INCLUDE' ? true : false" class="btn_rad" hidden="hidden" ng-click="toggleBtn($event);">
                             </label>
-                            <label class="btn btn-default {{adData.inventory.domainAction === 'EXCLUDE' ? 'active' : ''}}"><span>Blacklist</span>
+                            <label class="btn btn-default {{adData.inventory.domainAction === 'EXCLUDE' ? 'active' : ''}}"><span data-ng-bind="textConstants.BLACKLIST"></span>
                                 <input type="radio" name="inventoryType" value="EXCLUDE" ng-disabled="workflowData.inventoryData.length > 0 ?  true : false"  ng-model="adData.inventory.domainAction" ng-checked="adData.inventory.domainAction === 'EXCLUDE' ? true : false" hidden="hidden" class="btn_rad" ng-click="toggleBtn($event);">
                             </label>
                         </div>
-                        <div class="grey_txt note" style="margin-top: 4px;" ng-if="workflowData.inventoryData.length >0">List type cannot be modified. </div>
+                        <div class="grey_txt note" style="margin-top: 4px;" ng-if="workflowData.inventoryData.length >0" data-ng-bind="textConstants.LISTYPEMOD"></div>
                     </div>
                 </div>
             </div>
             <div class="col-md-12 popFooter">
-                <button type="button" class="btn btn-primary pull-right" ng-disabled="!adData.listName.length || (files && files.length === 0)"  ng-click="uploadDomain()">Import</button>
-                <button type="button" class="btn btn-link pull-right" ng-click="closeDomainListPop()">Cancel</button>
+                <button type="button" class="btn btn-primary pull-right" ng-disabled="!adData.listName.length || (files && files.length === 0)"  ng-click="uploadDomain()" data-ng-bind="textConstants.IMPORT"></button>
+                <button type="button" class="btn btn-link pull-right" ng-click="closeDomainListPop()" data-ng-bind="textConstants.CANCEL"></button>
             </div>
         </div>
     </form>
@@ -112,5 +112,5 @@
 
 <!--=== Next Step Panel ===-->
 <span class="nextWrapper leftNavLink creative-tab-link">
-    <a class="btn btn-default" href data-toggle="tab" ng-click="trigerCreativeTag()">{{textConstants.WF_AD_SAVE_CONTINUE}}</a>
+    <a class="btn btn-default" href data-toggle="tab" ng-click="trigerCreativeTag()" data-ng-bind="textConstants.WF_AD_SAVE_CONTINUE"></a>
 </span>

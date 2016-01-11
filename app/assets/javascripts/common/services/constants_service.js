@@ -508,6 +508,7 @@
     this.QUERY_ID_CAMPAIGN_INVENTORY_CATEGORIES=25;
     this.QUERY_ID_CAMPAIGN_QUALITY=12;
     this.QUERY_ID_CAMPAIGN_REPORTS_FOR_OPTIMIZATION_IMPACT = 33
+    
     //Create Media Plan
     this.MP_TITLE = "Media Plan Setup";
     this.MP_BUDGET = "Budget";
@@ -533,7 +534,125 @@
     this.DATE_US_FORMAT = 'MM/DD/YYYY';
     this.DATE_UTC_FORMAT = 'YYYY-MM-DD HH:mm:ss.SSS';
     this.DATE_UTC_SHORT_FORMAT = 'YYYY-MM-DD';
-    this.IMPRESSION_PER_USER_MESSAGE = 'you must enter impression per user less than or equal to total ad impression'
+    this.IMPRESSION_PER_USER_MESSAGE = 'you must enter impression per user less than or equal to total ad impression';
+    
+    //Ad Create: Header
+    this.OBJECTIVES = 'Objectives';
+    this.DELBUDGET = 'Delivery Budget';
+    this.FLIGHTDATES = 'Flight Dates';
+    this.CONTACTS = 'Contacts';
+    this.ADGROUPS = 'Ad Groups';
+    this.ADS = 'Ads';
+    this.CREATIVES = 'Creatives';
+    
+    //Ad Create: Sidebar
+    this.ADSETUP = 'Ad Setup';
+    this.ADTYPESIDE = '1 Ad Type';
+    this.NOTSET = 'Not Set';
+    this.FORMATPAR = '(Format)';
+    this.PRIMARYKPIPAR = '(Primary KPI)';
+    this.SCREENPAR = '(Screen)';
+    this.BUDGETDELIVERYSIDE = '2 Budget & Delivery';
+    this.FLIGHTPAR = '(Flight)';
+    this.UNITCOSTPAR = '(Unit Cost)';
+    this.BUYINGPLATFORMSIDE = '3 Buying Platform';
+    this.PLATFORMPAR = '(Platform)';
+    this.TARGETINGSIDE = '4 Targeting';
+    this.GEOGRAPHY = 'Geography';
+    this.AUDIENCE = 'Audience';
+    this.DAYPART = 'Daypart';
+    this.INVENTORYSIDE = '5 Inventory Filters';
+    this.CREATIVESIDE = '6 Creative';
+    
+    //Ad Create: 1 Ad Type
+    this.SELECTADTYPE = 'Select Ad Type';
+    this.LEARNADTYPES = 'Learn more about Ad Types';
+    this.NAMEOFAD = 'What is the name of your Ad?';
+    
+    //Ad Create: 2 Budget & Delivery
+    this.SETBUDGET = 'Set Budget & Delivery';
+    this.LEARNMOREADSET = 'Learn more about Ad Settings';
+    this.WHENADRUN = 'When would you like your Ad to run?';
+    this.FLIGHTPASSED = 'Campaign flight date has passed';
+    this.SETUPBUDGET = 'How do you want to set up the Budget for your Ad?';
+    this.UNITCOST = 'Unit Cost';
+    this.BUDGETCAL = 'Budget Calculation';
+    this.COST = 'Cost';
+    this.FREQCAP = 'Frequency Cap';
+    this.YES = 'Yes';
+    this.NO = 'No';
+    this.IMPPERUSER = 'Impressions per user';
+    this.DAILY = 'Daily';
+    this.LIFETIME = 'Lifetime';
+    this.HOWADDEL = 'How should your Ad deliver?';
+    this.PACING = 'Pacing';
+    this.PACEEVENLY = 'Pace Evenly';
+    this.SENDFAST = 'Spend as fast as possible';
+    
+    //Ad Create: 3 Buying Platform
+    this.SELECTBUYPLAT = 'Select Buying Platform';
+    this.FULLINT = 'Full Integrations';
+    this.SELECTAPLAT = 'Select a Buying Platform';
+    this.SELECTED = 'Selected';
+    this.MORESELF = 'More Self Service options coming soon';
+    this.CANTFIND = "Can't find what you are looking for?";
+    this.TRACKINT = 'Tracking Integrations';
+    this.MOREPLATAVAIL = 'More Platforms Available';
+    this.CHGPLAT = 'Change Platform?';
+    this.OKAY = 'Okay';
+    
+    //Ad Create: 4 Targeting
+    this.SETTARGETING = 'Set Targeting';
+    this.TARGETAUDCHOOSE = 'Which target audience should I choose for my ad?';
+    this.ENABLETARGETINGAD = 'To enable Targeting for this ad, you must first set a Buying Platform. Select one now?';
+    this.SELECTPLATFORM = 'Select Platform';
+    this.AUDSEGMENTS = 'Audience Segments';
+    this.REACHAUD = 'Reach the right audience by selecting focus segments';
+    this.ALLAUD = 'All Audience (default)';
+    this.SELECTED = 'Selected';
+    this.TARGETAUDLOC = 'Target your audience by location';
+    this.INCLUDED = 'Included';
+    this.EXCLUDED = 'Excluded';
+    this.DAYPART = 'Daypart';
+    this.SELECTADREST = 'Select when to show your Ad by restricting day and time';
+    this.ALLDAYSTIMES = 'All Days & Times (default)';
+    this.AREYOUSURE = 'Are you sure?';
+    this.YES = 'Yes';
+    this.NO = 'No';
+    
+    //Ad Create: 5 Inventory Filters
+    this.SETFILTERS = 'Set Inventory Filters';
+    this.HOWMANINVENFILTERS = 'How do I manage my Inventory Filters?';
+    this.SELECTEXISTING = 'Select from Existing';
+    this.ONLYONELIST = 'Only 1 list is supported at this moment.';
+    this.UPLOADDOMAINLIST = 'Upload Domain List';
+    this.CSVTXTFILE = '(.csv, .txt file)';
+    this.DOMAINLIST = 'Domain List';
+    this.DOMAIN = 'Domain';
+    this.UPLOADLIST = 'Upload List';
+    this.FILENAME = 'File Name';
+    this.LISTNAME = 'List Name';
+    this.PLEASEENTERLIST = 'Please enter list name.';
+    this.CATEGORY = 'Category';
+    this.TYPE = 'Type';
+    this.WHITELIST = 'Whitelist';
+    this.BLACKLIST = 'Blacklist';
+    this.LISTYPEMOD = 'List type cannot be modified. ';
+    this.IMPORT = 'Import';
+    
+    //Ad Create: 6 Creative
+    this.ADDCREATIVETAG = 'Add Creative Tag';
+    this.ADDINGTHIRD = 'Adding third party Creative Tags';
+    this.ADDEXISTNG = 'Add from Existing';
+    this.CREATENEW = 'Create New';
+    this.DLTRACKER = 'Download Tracker URLs';
+    this.SIZE = 'Size';
+    this.TAGNAME = 'Tag Name';
+    this.TAGTYPE = 'Tag Size';
+    this.SSL = 'SSL';
+    this.YOUHAVENTADDED = "You haven't added any Creative Tags for your Ad yet";
+    
+    
   };
 
   commonModule.service("constants", constants);
