@@ -41,7 +41,7 @@
                                 <span class="descrip">{{trackingIntegration.summary}}</span>
                             </div>
                             <div class="col-md-12 select-btn">
-                                <span ng-if="selectedPlatform[trackingIntegration.id]" class="btn btn-default active" ng-click="!trackingIntegration.active ? '' : showTrackingSetupInfoPopUp($event, trackingIntegration);">Selected</span>
+                                <span ng-if="selectedPlatform[trackingIntegration.id]" class="btn btn-default active">Selected</span>
                                 <input ng-if="!selectedPlatform[trackingIntegration.id]" type="button" value="Select" ng-disabled="!trackingIntegration.active" class="btn btn-default" value="{{trackingIntegration.id}}" ng-click="!trackingIntegration.active ? '' : showTrackingSetupInfoPopUp($event, trackingIntegration);">
                             </div>
 
