@@ -218,10 +218,10 @@ var angObj = angObj || {};
 
             }
             //search the audience keyword an show list as and when the user types in
-            //else{
-            //    //fetch keywords
-            //    $scope.fetchAllKeywords(keyword)
-            //}
+            else{
+                //fetch keywords
+                $scope.fetchAllKeywords(keyword)
+            }
         }
 
         $scope.selectKeyword = function(keyword){
