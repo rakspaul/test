@@ -2,7 +2,7 @@
 (function() {
     'use strict';
 
-    angObj.controller('UsersAddOrEdit', function($scope, $modalInstance,accountsService,$timeout,$modal, $location,$rootScope) {
+    angObj.controller('UsersAddOrEdit', function($scope, $modalInstance,accountsService,$timeout,$modal, $location,$rootScope,constants) {
         $scope.permissions = [];
         $scope.isSuperAdmin=true;
         $scope.clientName=[];
@@ -11,7 +11,7 @@
         $scope.User = {
             data: []
         };
-        $scope.userConsoleFormDetails.role_template_id = accountsService.getRoleId('Super_Admin');
+        //$scope.userConsoleFormDetails.role_template_id = accountsService.getRoleId('Super_Admin');
 
         $scope.User.delete_filter = function(event,index) {// the last one getting deleted always
             var elem = $(event.target);
@@ -47,17 +47,39 @@
                    var postDataObj={};
                     postDataObj=$scope.userConsoleFormDetails;
                     postDataObj.permissions=$scope.User.data;
-                    postDataObj.role_template_id = accountsService.getRoleId(postDataObj.role_template_id);
+                    postDataObj.email=postDataObj.email.toLowerCase();
+                    //postDataObj.role_template_id = accountsService.getRoleId(postDataObj.role_template_id);
+
+                    //create user call goes here
+                    // condition 1 - super admin - no need of any permissions
+                    if(constants.super_admin == postDataObj.roleTemplateId ){
+                        $scope.createUser(postDataObj);
+                    }
+                    // condition 2 - not super admin - need  permissions
+                    if(constants.super_admin != postDataObj.role_template_id && postDataObj.permissions.length > 0){
+                        $scope.createUser(postDataObj);
+                    }
+                    else{
+                        $rootScope.setErrAlertMessage(constants.WF_PERMISSION_NEEDED);
+                    }
+
                 }
-            console.log("postDataObj==",JSON.stringify(postDataObj));
-            //create user call goes here
 
-            accountsService.createUser(postDataObj);
 
-            $scope.resetFields();
            // console.log($scope.permissions);
            // console.log($scope.User.data);
         };
+
+        $scope.createUser = function(postDataObj){
+            accountsService.createUser(postDataObj).then(function(res){
+                $rootScope.$broadcast('refreshUserList');
+                $scope.resetFields();
+                $rootScope.setErrAlertMessage(constants.WF_USER_CREATION_SUCCESS,0);
+            },function(err){
+                $rootScope.setErrAlertMessage(constants.WF_USER_CREATION_FAIL);
+            });
+        }
+
         $scope.selectedClientHandler=function(clientObj,index, orgId, resellerId){
 
             var counter=accountsService.getCounter();
