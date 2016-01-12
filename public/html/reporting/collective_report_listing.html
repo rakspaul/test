@@ -17,7 +17,6 @@
     <filters-header reports="false" strategy=false all-campaign=true></filters-header>
 
   	<div>
-        <div ng-class="{'loading-icon':screenBusy}"></div>
         <!--<div class="download-report-load-icon" style="text-align: center;padding-bottom: 20px;" ng-if="reportDownloadBusy">{{textConstants.DOWNLOADING}}........</div>-->
         <div class="custom_report_response_page">
               <div class="clearfix table_header">
@@ -41,7 +40,8 @@
                 <span class="description_row">{{rlist.notes}} </span>
               </div>
               <!--  no data or loading -->
-            <div ng-class="{'no_data':nodata}">{{nodata}}</div>
+              <div ng-class="{'no_data':nodata}">{{nodata}}</div>
+              <div ng-class="{'loading-icon':screenBusy}"></div>
           </div>
       </div>
 
