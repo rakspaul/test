@@ -10,46 +10,55 @@
                                                                                  advertiserModel, brandsModel, constants, $modal,
                                                                                  dataStore, $timeout) {
         $scope.report = report;
-        $scope.ediScreenBusy = false;
+        $scope.editScreenBusy = false;
         $scope.editedObj = angular.copy(report);
 
-       // $scope.selectedName = editedData.;
-        $scope.close=function(){
+        $scope.close = function(){
             $modalInstance.dismiss();
         };
 
         $scope.reportTypes = utils.reportTypeOptions();
 
-        //campaignId = 415486
         $scope.editedData = {
-            reportType:report.reportType,
+            reportType: report.reportType,
             reportName: report.reportName,
-            campaignId:parseInt(report.campaignId),
-            notes:report.notes
-        }
+            campaignId: parseInt(report.campaignId),
+            campaignName: report.campaignName,
+            notes: report.notes
+        };
+
         $scope.updateReport = function() {
-            $scope.ediScreenBusy = true;
+            $scope.editScreenBusy = true;
             dataService.post(urlService.APIEditReport(report.id), $scope.editedData,{'Content-Type': 'application/json'}).then(function(response) {
                 $scope.editedObj.reportType = $scope.editedData.reportType;
                 $scope.editedObj.reportName = $scope.editedData.reportName;
                 $scope.editedObj.campaignId = $scope.editedData.campaignId;
+                $scope.editedObj.campaignName = $scope.editedData.campaignName;
                 $scope.editedObj.notes = $scope.editedData.notes;
                 $scope.reportList[reportIndex] = $scope.editedObj;
-                console.log($scope.reportList);
-                $scope.ediScreenBusy = false;
+                $scope.editScreenBusy = false;
                 $scope.close();
                 $rootScope.setErrAlertMessage(constants.reportEditSuccess,0);
+                var selectedCampagin = JSON.parse(localStorage.getItem('selectedCampaign')),
+                    advertiserId = advertiserModel.getSelectedAdvertiser().id,
+                    brandId = brandsModel.getSelectedBrand().id,
+                    url = urlService.APIReportList(advertiserId, brandId, selectedCampagin ? selectedCampagin.id : -1);
+                if(url) {
+                    dataStore.deleteFromCache(url);
+                }
+                $scope.$parent.sort.descending = true;
+                $scope.$parent.getReports();
             },function(error) {
-                $scope.ediScreenBusy = false;
+                $scope.editScreenBusy = false;
                 $rootScope.setErrAlertMessage(constants.reportEditFailed);
             });
-        }
+        };
 
         $scope.updateReportName = function() {
             if($scope.editedData.reportType != 'Custom') {
                 $scope.editedData.reportName = "";
             }
-        }
+        };
 
         $scope.deleteReportModal = function() {
             var $modalInstance = $modal.open({
@@ -104,17 +113,13 @@
 
           };
 
-        $scope.selectedCampaignObj = campaignSelectModel.getSelectedCampaign();
-
         campaignSelectModel.getCampaigns(brandsModel.getSelectedBrand().id).then(function(response){
             $scope.campaignList = response;
-        })
-
+        });
 
         $scope.setSelectedCampIdAndName = function(campId,campName) {
             $scope.editedData.campaignId = parseInt(campId);
-            $scope.selectedCampaignObj.name = campName;
-
-        }
+            $scope.editedData.campaignName = campName;
+        };
     });
 }());

@@ -45,7 +45,7 @@
             $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign();  //update the selected Campaign
             $scope.nodata = "";
             $scope.reportList = [];
-                $scope.getReports();
+            $scope.getReports();
         });
 
 
@@ -159,11 +159,7 @@
            $scope.sort.column = column;
            $scope.reportList = $filter('orderBy')($scope.reportList, column,$scope.sort.descending);
            $scope.sort.descending = !$scope.sort.descending;
-
        }
 
-       //$scope.sortReport($scope.sort.column);
-
-
     });
-    }());
+}());
