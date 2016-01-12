@@ -232,6 +232,9 @@ var angObj = angObj || {};
                         execute: function () {
                             return function () {
                                 $(".customFieldErrorMsg").remove();
+                                if($("#customPlatformForm") && $("#customPlatformForm").length >0) {
+                                    $("#customPlatformForm")[0].reset();
+                                }
                                 hideCustomPlatfromBox();
                             }
                         }
