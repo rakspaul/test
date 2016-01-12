@@ -146,7 +146,7 @@ var angObj = angObj || {};
                                 $scope.primaryKpiSelected="Impressions"
                         }
                         var startDateElem = $('#adGrpStartDateInput');
-                        $scope.setStartdateIndependant=momentService.utcToLocalTime($scope.workflowData['campaignData'].startTime);//set campaign start date as lower limit startDate
+                        $scope.setStartdateIndependant=momentService.utcToLocalTime($scope.workflowData['campaignData'].startTime);
 
                         var campaignStartTime = momentService.utcToLocalTime($scope.workflowData['campaignData'].startTime);//console.log(campaignStartTime);
                         // var campaignStartTime = moment($scope.workflowData['campaignData'].startTime).format("MM/DD/YYYY");//console.log(campaignStartTime);
@@ -580,7 +580,7 @@ var angObj = angObj || {};
             }
         }
 
-        
+
 
         $scope.createAdGroup = function (createNewAdGrp) {
             $scope.$broadcast('show-errors-check-validity');
