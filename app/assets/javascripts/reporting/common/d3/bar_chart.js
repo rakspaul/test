@@ -27,7 +27,7 @@
                         }
 
                         var widgetElem = elem.find(".barChartWidget");
-                        var containerWidthScreen = elem.parent().width(),
+                        var containerWidthScreen = elem.parent().width() - 25 ,
                             chartScreen,
                             widthScreen = containerWidthScreen - (chartData.widthToSubtract || 28),
                             bar_heightScreen = chartData.barHeight || 4,
@@ -46,7 +46,7 @@
                         chartScreen = d3.select(widgetElem[0])
                             .append('svg')
                             .attr('class', 'barChart')
-                            .attr('width', widthScreen)
+                            .attr('width', widthScreen )
                             .attr('height', 200);
 
                         var gradient = chartScreen.append("svg:defs")
