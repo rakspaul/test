@@ -72,6 +72,9 @@
         };
 
         $scope.fetchCampaigns = function (search, set_campaign) {
+            delete searchCriteria.clientId;
+            delete searchCriteria.advertiserId;
+
             campaignSelectModel.getCampaigns(brandsModel.getSelectedBrand().id, searchCriteria).then(function () {
 
                 //TODO : rewrite what to do in search condiiton
