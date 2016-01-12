@@ -1000,7 +1000,7 @@ var angObj = angObj || {};
                 localStorage.setItem('adPlatformCustomInputs', JSON.stringify($scope.postPlatformDataObj));
 
             //trigger targeting tab link only when intentionally clicked not on edit mode by default
-            if(editModeFlag != undefined)
+            if(!editModeFlag)
                 $scope.triggerTargetting();
 
             $scope.switchPlatform()
