@@ -78,7 +78,7 @@
         <input ng-if="!geoTargetingData.selected.previewData.include && !geoTargetingData.selected.previewData.exclude " type="button" name="platform" value="Create" ng-disabled="!$parent.isPlatformSelected" class="btn btn-default" ng-click="selectGeoTarget()">
     </div>
     <!--Daypart Targeting Card-->
-    <div class="col-md-6 cardSelectHolder" ng-if="adData.platform !== 'VISTO Bidder - Test'" ng-class="{true: 'active'}[selectedTargeting['daily']]">
+    <div class="col-md-6 cardSelectHolder" ng-if="adData.platformName !== 'DORADO'" ng-class="{true: 'active'}[selectedTargeting['daily']]">
         <span ng-if="selectedDayParts['data'].length  > 0" class="icon-inline-edit" ng-style="(selectedDayParts['data'].length >0)?{'display':'block'}:{'display':'none'}"></span>
         <div class="icon-activity"></div>
         <p data-ng-bind="textConstants.DAYPART"></p>
@@ -111,8 +111,7 @@
 <div class="col-md-12 targetingSlide" id="audienceTargeting" ng-include="'/assets/html/workflow/partials/targetings/audience_targeting.html'" ng-controller="AudienceTargettingController"></div>
 
 <div class="col-md-12 targetingSlide" id="geographyTargeting" ng-include="'/assets/html/workflow/partials/targetings/geography_targeting.html'" ></div>
-
-<div class="col-md-12 targetingSlide" ng-if="adData.platform !== 'VISTO Bidder - Test'" id="dayTargeting" ng-include="'/assets/html/workflow/partials/targetings/day_targeting.html'" ng-controller="daypartController"></div>
+<div class="col-md-12 targetingSlide" ng-if="adData.platformName !== 'DORADO'" id="dayTargeting" ng-include="'/assets/html/workflow/partials/targetings/day_targeting.html'" ng-controller="daypartController"></div>
 
 
 
