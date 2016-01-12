@@ -1,6 +1,6 @@
 (function () {
     "use strict";
-    angObj.factory("accountsService", function (apiPaths,dataService) {
+    angObj.factory("accountsService", function (apiPaths,dataService,constants) {
         var advertiser = null;
         var brand = null;
         var client = null;
@@ -8,10 +8,10 @@
         var counter=0;
         var permission = '';
         var role_template_id = {
-            "Super_Admin": 0,
-            "Account_Admin": 1,
-            "Advertiser_Admin": 2,
-            "Generic_User": 4
+            "Super_Admin": constants.super_admin,
+            "Account_Admin": constants.account_admin,
+            "Advertiser_Admin": constants.advertiser_admin,
+            "Generic_User": constants.generic_user
 
             }
 
@@ -104,7 +104,7 @@
             },
             getUsers: function () {
                 var url = apiPaths.WORKFLOW_APIUrl + '/users';
-                return dataService.fetch(url);
+                return dataService.fetch(url,{cache: false});
             },
             getUserClients:function(){
                 var url = apiPaths.WORKFLOW_APIUrl + '/clients';
@@ -135,7 +135,7 @@
                 return index;
             },
             createUser: function(userObj){
-                return dataService.post(apiPaths.WORKFLOW_APIUrl +'/user', userObj,{'Content-Type': 'application/json'})
+                return dataService.post(apiPaths.WORKFLOW_APIUrl +'/users', userObj,{'Content-Type': 'application/json'})
             },
             setPermissions: function(permissionObj){
                 permission = permissionObj;

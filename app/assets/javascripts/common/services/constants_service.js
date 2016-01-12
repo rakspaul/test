@@ -652,13 +652,20 @@
     this.TAGTYPE = 'Tag Size';
     this.SSL = 'SSL';
     this.YOUHAVENTADDED = "You haven't added any Creative Tags for your Ad yet";
-
     this.COPY = "Copy";
     this.DELETE = "Delete";
     this.DOWNLOAD = "Download";
     this.ARCHIEVE = "Archive";
     this.CHOOSE_FILTER = "Choose filter";
     this.SELECT = "Select";
+    // user creation
+    this.super_admin = "1";
+    this.account_admin = "2";
+    this.advertiser_admin = "3";
+    this.generic_user = "4";
+    this.WF_USER_CREATION_SUCCESS="User Created Successfully"
+    this.WF_PERMISSION_NEEDED="Atleast 1 permission needed";
+    this.WF_USER_CREATION_FAIL = "Unable to create a User"
 
   };
 
