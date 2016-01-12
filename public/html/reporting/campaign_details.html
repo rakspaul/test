@@ -88,7 +88,7 @@
                                             {{ textConstants.COST_BREAKDOWN }}
                                         </div>
                                         <div ng-show="loadingCostBreakdownFlag" class="load-more">&nbsp;</div>
-                                        <div  ng-if="costBreakDownPieChartConfig" pie-chart chart-data="{{costBreakDownPieChartConfig}}"></div>
+                                        <div  ng-if="costBreakDownPieChartConfig && details.totalCostBreakdown >0" pie-chart chart-data="{{costBreakDownPieChartConfig}}"></div>
                                         <div  ng-if="((details.totalCostBreakdown == 0 || !(details.totalCostBreakdown)) && loadingCostBreakdownFlag== false )" class="no-data-available" ng-bind-html="getMessageForDataNotAvailable(campaign,'costs')"></div>
                                         <div class="clearfix each_section_graph graph_holding_section" ng-if="(details.totalCostBreakdown > 0 )">
                                             <div class="pull-right section_graph_details"  >
