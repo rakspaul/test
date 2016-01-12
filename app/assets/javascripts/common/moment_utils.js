@@ -7,6 +7,10 @@
             return m.startOf('day');
         };
 
+        this.getCurrentYear = function(){
+            return this.today().year();
+        };
+
         this.newMoment = function(date) {
             if(_.isDate(date)) {
                 return this.newMoment(moment(date).format('YYYY-MM-DD'));

@@ -1,7 +1,7 @@
 var angObj = angObj || {};
 (function () {
     'use strict';
-    angObj.controller('CustomReportController', function ($rootScope, $scope, $route, $window, campaignSelectModel, strategySelectModel, kpiSelectModel, utils, dataService,  apiPaths, requestCanceller, constants, domainReports, timePeriodModel, loginModel, analytics, $timeout,$routeParams,$location,urlService,dataStore) {
+    angObj.controller('CustomReportController', function ($rootScope, $scope, $route, $window, campaignSelectModel, strategySelectModel, kpiSelectModel, utils, dataService,  apiPaths, requestCanceller, constants, domainReports, timePeriodModel, loginModel, analytics, $timeout,$routeParams,$location,urlService,dataStore,momentService) {
         $scope.additionalFilters = [];
         $scope.textConstants = constants;
         $scope.additionalValue = "Contains keywords ...";
@@ -955,20 +955,21 @@ var angObj = angObj || {};
         };
         $scope.select_schedule_option = function(arg) {
             $scope.reports.schedule.frequency = arg;
+            var currentYear = momentService.getCurrentYear().toString();
             if( arg ) {
                 arg = arg.toLowerCase();
                 $(".scheduling-options").hide() ;
                 $(".schedule-" + arg).show() ;
                 if(arg == "once" ) {
                     $('#deliverOn').datepicker('update', $scope.reports.schedule.startDate);
-                    $('#deliverOn').datepicker('setStartDate', $scope.reports.schedule.startDate);
+                    $('#deliverOn').datepicker('setStartDate', currentYear);
                     $(".schedule-date" ).hide() ;
                 } else {
                     $(".schedule-date" ).show() ;
                     $('#startOn').datepicker('update', $scope.reports.schedule.startDate);
-                    $('#startOn').datepicker('setStartDate', $scope.reports.schedule.startDate);
+                    $('#startOn').datepicker('setStartDate', currentYear);
                     $('#endOn').datepicker('update', $scope.reports.schedule.endDate);
-                    $('#endOn').datepicker('setStartDate', $scope.reports.schedule.endDate);
+                    $('#endOn').datepicker('setStartDate', currentYear);
 
                 }
             }
