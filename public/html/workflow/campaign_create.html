@@ -324,7 +324,7 @@
 
 							<!--=== Next Step Panel ===-->
 							<a href="#budget" data-toggle="tab" role="tab" class="nextWrapper leftNavLink budget">
-								<span class="btn btn-default">Save & Continue</span>
+								<span class="btn btn-default" ng-click="highlightLeftNav(1)">Save & Continue</span>
 							</a>
 					</div>
                     <!--PAGE2-->
@@ -605,7 +605,7 @@
 
                             <div class="col-md-1 zeroPadding kpiTable symbol-input">
                                 <span class="symbol">{{locale.NUMBER_FORMATS.CURRENCY_SYM}}</span>
-                                <input type="text" class="col-md-12" ng-model="Campaign.costArr[$index]['rateValue']" whole-number-only="whole-number-only" field="rateValue"  index="{{$index}}"/>
+                                <input type="text" class="col-md-12" ng-model="Campaign.costArr[$index]['rateValue']" fraction-numbers="fraction-numbers" field="rateValue"  index="{{$index}}"/>
                             </div>
 
                             <div class="col-md-1 zeroPadding kpiTable symbol-input" style="width: 86px;">
@@ -649,7 +649,7 @@
                             </div>
                         </div>
                         <a href="#contacts" data-toggle="tab" role="tab" class="nextWrapper leftNavLink contacts">
-                            <span class="btn btn-default">Save & Continue</span>
+                            <span class="btn btn-default" ng-click="highlightLeftNav(2)">Save & Continue</span>
                         </a>
                     </div>
 
