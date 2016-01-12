@@ -114,12 +114,7 @@ var angObj = angObj || {};
                 }
             });
         };
-<<<<<<< HEAD
-=======
 
-
-
->>>>>>> user create changes
 
         //Add or Edit Pop up for Brand
         $scope.AddOrEditBrandModal = function(advObj,mode,client,brand) {

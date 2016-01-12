@@ -15,7 +15,6 @@ var angObj = angObj || {};
                 windowClass: 'edit-dialog',
                 controller: "UsersAddOrEdit" 
             });
-            console.log("mode",mode,"userObj",userObj);
             $scope.isEdit = false;
             if(mode == 'edit'){
                 $scope.isEdit = true;
@@ -46,6 +45,10 @@ var angObj = angObj || {};
             }
         };
         usersList.getUsers();
+        $rootScope.$on('refreshUserList',function(){
+            console.log('user list refresh');
+            usersList.getUsers();
+        })
     });
 
 })();
