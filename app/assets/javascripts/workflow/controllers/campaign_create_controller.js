@@ -879,6 +879,10 @@ var angObj = angObj || {};
             $scope.selectedKeywords.splice(index, 1);
             $('.keyword-txt').val('');
         };
+        $scope.highlightLeftNav=function(pageno){
+            $(".eachStepCompLabel").removeClass('active')
+            $(".eachStepCompLabel")[pageno].classList.add("active");
+        }
 
         $(function () {
             $(".main_navigation").find('.active').removeClass('active').end().find('#campaigns_nav_link').addClass('active');
