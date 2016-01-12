@@ -4,14 +4,14 @@
 
     angObj.controller('UsersAddOrEdit', function($scope, $modalInstance,accountsService,$timeout,$modal, $location,$rootScope,constants) {
         $scope.permissions = [];
-        $scope.isSuperAdmin=true;
+        $scope.isSuperAdmin=false;
         $scope.clientName=[];
         $scope.advertiserName=[];
         $scope.brandName=[];
         $scope.User = {
             data: []
         };
-        //$scope.userConsoleFormDetails.role_template_id = accountsService.getRoleId('Super_Admin');
+        $scope.userConsoleFormDetails.roleTemplateId = constants.account_admin;
 
         $scope.User.delete_filter = function(event,index) {// the last one getting deleted always
             var elem = $(event.target);
