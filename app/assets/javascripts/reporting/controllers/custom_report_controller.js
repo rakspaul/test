@@ -1025,7 +1025,9 @@ var angObj = angObj || {};
                 $(".each-col:not(#schedule-btn)").hide() ;
                 $(".default-schedule-col").find(".dd_txt").text("Select") ;
             }
-            $scope.$apply();
+            if(!$scope.updateScheduleReport && !localStorage.getItem('customReport')) {
+                $scope.$apply();
+            }
         };
 
         $(document).ready( function() {
