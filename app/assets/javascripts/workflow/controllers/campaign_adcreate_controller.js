@@ -332,7 +332,6 @@ var angObj = angObj || {};
                     var index = _.findIndex($scope.workflowData.screenTypes, function (item) {
                         return item.id == responseData.screens[i].id
                     });
-
                     $scope.workflowData.screenTypes[index].active = true;
                     $scope.screenTypeSelection($scope.workflowData.screenTypes[index]);
                 }
@@ -340,12 +339,10 @@ var angObj = angObj || {};
 
             //budget tab
             if (responseData.budgetType) {
-                // $scope.adData.budgetType = $scope.adData.budgetTypeLabel = $filter('toTitleCase')(responseData.budgetType);
-
                 if(responseData.budgetType.toLowerCase() === 'cost') {
                     $scope.adData.budgetType = $filter('toTitleCase')(responseData.budgetType);
                 } else {
-                    $scope.adData.budgetTypeLabel = $filter('toTitleCase')(responseData.budgetType);
+                    $scope.adData.budgetTypeLabel = $scope.adData.budgetType = $filter('toTitleCase')(responseData.budgetType);
                 }
 
                 if ($scope.adData.budgetType) {
@@ -356,6 +353,8 @@ var angObj = angObj || {};
                     budgetElem.addClass('active').find('input').attr("checked", "checked");
                 }
             }
+
+
             var dateObj = {};
             if (responseData.startTime) {
                 dateObj['adStartDate'] = $scope.adData.startTime = momentService.utcToLocalTime(responseData.startTime);
