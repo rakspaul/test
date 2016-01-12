@@ -80,14 +80,15 @@
                 </div>
             </div>
         </div>
-        <div class="clearfix metric_graph_details" id="metricsGphDet_{{campaign.orderId}}" style="display:none">
+        <div class="clearfix metric_graph_details"
+             ng-show="campaigns.cdbDataMap[campaign.orderId].impressions">
             <div class="each_metric_graph_details">
                 <span class="detail_val" ng-bind="campaigns.cdbDataMap[campaign.orderId].impressions |
                     nrFormat"></span>
                 <span ng-bind="textConstants.IMP_WITH_DOT"></span>
             </div>
             <div class="each_metric_graph_details metric_graph_details_ctr">
-                <span class="detail_val" ng-bind="(ampaigns.cdbDataMap[campaign.orderId].ctr |
+                <span class="detail_val" ng-bind="(campaigns.cdbDataMap[campaign.orderId].ctr |
                     number:2)+'%'"></span>
                 <span ng-bind="textConstants.CTR"></span>
             </div>
@@ -114,7 +115,9 @@
             <div class="clearfix details_KPI_row1">
                 <span class="details_KPI_title">{{campaign.kpiType!='null' ? (campaign.kpiType | displayToCamelCase) : 'NA'}}</span>
                 <span class="pull-right details_KPI_row2" ng-if="campaign.kpiValue || campaign.targetKPIImpressions">
-                    <span>{{campaign.kpiType.toLowerCase()=="delivery"?( campaign.targetKPIImpressions | nrFormat ): (campaign.kpiValue | kpiFormatter:campaign.kpiType)}}</span>
+                    <span
+                            ng-show="campaign.kpiType.toLowerCase()=='delivery'?campaign.targetKPIImpressions:campaign.kpiValue">{{campaign.kpiType.toLowerCase()=="delivery"?( campaign.targetKPIImpressions |
+                        nrFormat ): (campaign.kpiValue | kpiFormatter:campaign.kpiType)}}</span>
                     <span class="icon_KPI"></span>
                 </span>
                 <span class="pull-right cumulative_val">

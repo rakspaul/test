@@ -195,9 +195,6 @@
                                         }
                                         campaignListService.getCdbLineChart(campaign, self.timePeriod, function(cdbData) {
                                             if (cdbData) {
-                                                if(document.getElementById("metricsGphDet_"+campaign.orderId)) {
-                                                    document.getElementById("metricsGphDet_" + campaign.orderId).style.display = "block";
-                                                }
                                                 self.cdbDataMap[campaign.orderId] = modelTransformer.transform(cdbData, campaignCDBData);
                                                 self.cdbDataMap[campaign.orderId]['modified_vtc_metrics'] = campaignListService.vtcMetricsJsonModifier(self.cdbDataMap[campaign.orderId].video_metrics);
                                             }
