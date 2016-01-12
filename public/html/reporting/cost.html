@@ -75,7 +75,7 @@
                                     <div class="common-load-icon" ng-show="strategyCostBusy"></div>
                                     <div class="clearfix each_cost_heading" ng-if="!dataNotFound">
                                         <span class="pull-left text_next_margin_per">{{strategyHeading}}</span>
-                                        <span class="margin_percentage" ng-if ="(strategyMarginValue >=0)">{{strategyMarginValue}}{{strategyMarginUnit}}</span>
+                                        <!-- <span class="margin_percentage" ng-if ="(strategyMarginValue >=0)">{{strategyMarginValue}}{{strategyMarginUnit}}</span> -->
                                     </div>
                                
                                     <div class="clearfix cost_col_container cost_cols_holder" ng-repeat="strategy in strategyCostData track by $index" ng-if="!dataNotFound">
