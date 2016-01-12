@@ -1,5 +1,6 @@
 <popup-msg ng-show="flashMessage" ng-controller="popUpMsgCtr"
            ng-init="init('flashMessage','WF_USER_CREATION_FAIL')"></popup-msg>
+<shrujan></shrujan>
 <div class="popup-holder users-popup">
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal"
@@ -57,10 +58,10 @@
         <div class="form-group col-md-12 zeroPadding"><!--add model also-->
             <label >Role:</label>
             <select id="role" name="role" class="form-control" ng-model="userConsoleFormDetails.roleTemplateId" ng-change="selectedRole(userConsoleFormDetails.roleTemplateId)">
-              <!--<option value="0">Super Admin</option>-->
-              <option value="1">Account Admin</option>
-              <option value="2">Advertiser Admin</option>
-              <option value="3">Generic User</option>
+              <!--<option value="1">Super Admin</option>-->
+              <option value="2" selected="selected">Account Admin</option>
+              <!--<option value="3">Advertiser Admin</option>-->
+              <!--<option value="4">Generic User</option>-->
             </select>
         </div>
 

@@ -47,6 +47,13 @@
                    var postDataObj={};
                     postDataObj=$scope.userConsoleFormDetails;
                     postDataObj.permissions=$scope.User.data;
+                    _.each(postDataObj.permissions,function(item){
+                        if(item.advertiserId == "")
+                            item.advertiserId = -1;
+                        if(item.brandId == "")
+                            item.brandId = -1;
+
+                    })
                     postDataObj.email=postDataObj.email.toLowerCase();
                     //postDataObj.role_template_id = accountsService.getRoleId(postDataObj.role_template_id);
 
@@ -215,6 +222,7 @@
             $scope.User = {
                 data: []
             };
+            $scope.isSuperAdmin = false;
             $scope.close();
 
         };
