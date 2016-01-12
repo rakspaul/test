@@ -13,7 +13,7 @@
     $scope.textConstants = constants;
 
     $scope.isWorkFlowUser = RoleBasedService.getClientRole() && RoleBasedService.getClientRole().workFlowUser;
-    
+
     $scope.$on(constants.EVENT_BRAND_CHANGED, function(event) {
       $scope.campaigns.filterByBrand(brandsModel.getSelectedBrand());
         //$scope.campaigns.fetchData();

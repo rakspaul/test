@@ -3,7 +3,7 @@
     <div ng-repeat="tactic in strategy.strategyTactics track by tactic.id" class="clearfix tactics_linkage_lines each_tactic_holder">
         <div class="tactics_linkage_lines_bar"></div>
         <div class="each_tactic_container">
-            
+
             <div class="clearfix each_campaign_list_container">
                 <div class="clearfix">
                     <div class="each_campaign_section">
@@ -44,14 +44,14 @@
                         </div>
                     </div>
                 </div>
-                
-                
+
+
                 <div class="each_campaign_section campaign_list_details">
-                    
-                    
+
+
                     <div class="days_left_holder">
                         <div class="total_days_holder">
-                            
+
                             <div class="clearfix days_end_points">
                                 <span class="start_end">{{tactic.startDate | date :'d MMM y' }}</span>
                                 <span class="finish_end">{{tactic.endDate | date :'d MMM y' }}</span>
@@ -135,8 +135,8 @@
                                 {{textConstants.CUMULATIVE_VALUE}} <span>{{(campaign.kpiType.toLowerCase()=="delivery")?(tactic.totalImpressions| kpiFormatter:campaign.kpiType:1):(tactic.map[campaign.kpiType.toLowerCase()] | kpiFormatter:campaign.kpiType:1)}}</span>
                             </span>
                         </div>
-                       
-                        
+
+
                     </div>
                      <div class="graph_KPI_outer_holder">
                           <span ng-switch="tactic.chart">
