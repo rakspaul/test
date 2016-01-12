@@ -659,10 +659,10 @@
     this.CHOOSE_FILTER = "Choose filter";
     this.SELECT = "Select";
     // user creation
-    this.super_admin = "0";
-    this.account_admin = "1";
-    this.advertiser_admin = "2";
-    this.generic_user = "3";
+    this.super_admin = "1";
+    this.account_admin = "2";
+    this.advertiser_admin = "3";
+    this.generic_user = "4";
     this.WF_USER_CREATION_SUCCESS="User Created Successfully"
     this.WF_PERMISSION_NEEDED="Atleast 1 permission needed";
     this.WF_USER_CREATION_FAIL = "Unable to create a User"
