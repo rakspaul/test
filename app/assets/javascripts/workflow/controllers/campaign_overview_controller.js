@@ -24,8 +24,8 @@ var angObj = angObj || {};
         $scope.editCampaign=function(workflowcampaignData){
             window.location.href = '/mediaplan/'+workflowcampaignData.id+'/edit';
         }
-        $scope.convertEST=function(date,format){
-            return utils.convertToEST(date,format);
+        $scope.convertEST=function(date, format){
+            return momentService.utcToLocalTime(date,format);
         }
         $scope.resetAlertMessage = function(){
             localStorage.removeItem('topAlertMessage');

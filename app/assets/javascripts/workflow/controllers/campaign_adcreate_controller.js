@@ -100,7 +100,7 @@ var angObj = angObj || {};
         }
 
         $scope.convertEST = function (date, format) {
-            return utils.convertToEST(date, format);
+            return momentService.utcToLocalTime(date,format);
         }
 
 
