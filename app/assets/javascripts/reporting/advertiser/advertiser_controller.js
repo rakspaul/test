@@ -46,8 +46,8 @@
             return utils.highlightSearch(text, search);
         };
 
-        var eventBrandChangedFromDashBoard = $rootScope.$on(constants.EVENT_ADVERTISER_CHANGED_FROM_DASHBOARD, function (event, advertiser) {
-            $scope.selectAdvertiser(advertiser);
+        var eventBrandChangedFromDashBoard = $rootScope.$on(constants.EVENT_ADVERTISER_CHANGED_FROM_DASHBOARD, function (event, args) {
+            $scope.selectAdvertiser(args.advertiser, args.event_type);
         });
 
         var accountChanged = $rootScope.$on(constants.ACCOUNT_CHANGED, function (event, args) {
