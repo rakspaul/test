@@ -137,6 +137,7 @@ var angObj = angObj || {};
             var name = platform.displayName ? platform.displayName : platform.name;
             $scope.adData.platform = name;
             $scope.adData.platformId = platform.id;
+            $scope.adData.platformName = platform.name;
             $scope.selectedPlatform[platform.id] = name;
             event && $scope.platformCustomInputs();
         }
@@ -152,6 +153,7 @@ var angObj = angObj || {};
             /*To populate the newly selected Platform in sideBar*/
             $scope.adData.platform = trackingIntegration.displayName;
             $scope.adData.platformId = trackingIntegration.id;
+            $scope.adData.platformName = trackingIntegration.name;
 
 
             /*code to make creatives already set to empty*/
