@@ -80,14 +80,16 @@
                 </div>
             </div>
         </div>
-        <div class="clearfix metric_graph_details">
+        <div class="clearfix metric_graph_details" id="metricsGphDet_{{campaign.orderId}}" style="display:none">
             <div class="each_metric_graph_details">
-                <span class="detail_val">{{campaigns.cdbDataMap[campaign.orderId].impressions | nrFormat}}</span>
-                <span>{{ textConstants.IMP_WITH_DOT }}</span>
+                <span class="detail_val" ng-bind="campaigns.cdbDataMap[campaign.orderId].impressions |
+                    nrFormat"></span>
+                <span ng-bind="textConstants.IMP_WITH_DOT"></span>
             </div>
             <div class="each_metric_graph_details metric_graph_details_ctr">
-                <span class="detail_val">{{campaigns.cdbDataMap[campaign.orderId].ctr | number:2}}%</span>
-                <span>{{ textConstants.CTR }}</span>
+                <span class="detail_val" ng-bind="(ampaigns.cdbDataMap[campaign.orderId].ctr |
+                    number:2)+'%'"></span>
+                <span ng-bind="textConstants.CTR"></span>
             </div>
             <!-- <div class="each_metric_graph_details metric_graph_details_action" ng-if="!campaigns.cdbDataMap[campaign.orderId].adFormats.videoAds || campaigns.cdbDataMap[campaign.orderId].video_metrics.vtc_rate === 0">   -->
             <div class="each_metric_graph_details metric_graph_details_action" ng-if="campaigns.cdbDataMap[campaign.orderId].video_metrics.vtc_rate === 0">

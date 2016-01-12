@@ -502,6 +502,7 @@
                                 };
                             } else {
                                 campaignObject.chart = false;
+                                callback && callback(campaignObject);
                             }
                         }
                     }else{
