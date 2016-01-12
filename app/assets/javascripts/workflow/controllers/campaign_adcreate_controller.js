@@ -1375,7 +1375,7 @@ var angObj = angObj || {};
                     } else if (budgetAmount > campaignBuget) {
                         $scope.budgetErrorObj.availableRevenueValidator = false;
                         $scope.budgetErrorObj.mediaCostValidator = true;
-                    } else if(budgetAmount >= adMaximumRevenue) { //in case of create ad total budget is greater then adMaximumRevene
+                    } else if(budgetAmount > adMaximumRevenue) { //in case of create ad total budget is greater then adMaximumRevene
                         $scope.budgetErrorObj.availableMaximumAdRevenueValidator = true;
                         $scope.adMaximumRevenue = Math.round(adMaximumRevenue);
                     }
@@ -1392,7 +1392,7 @@ var angObj = angObj || {};
                         $scope.budgetErrorObj.availableRevenueValidator = true;
                     }
 
-                    if($scope.mode === 'create' && totalBudget >= adMaximumRevenue) { //in case of create ad total budget is greater then adMaximumRevene
+                    if($scope.mode === 'create' && totalBudget > adMaximumRevenue) { //in case of create ad total budget is greater then adMaximumRevene
                         $scope.budgetErrorObj.availableMaximumAdRevenueValidator = true;
                     }
 
