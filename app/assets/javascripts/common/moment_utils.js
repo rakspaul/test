@@ -7,7 +7,7 @@
             return m.startOf('day');
         };
 
-        this.getCurrentYear = function(){ console.log('am detected');
+        this.getCurrentYear = function(){
             return this.today().year();
         };
 

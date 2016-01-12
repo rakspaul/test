@@ -955,13 +955,11 @@ var angObj = angObj || {};
         };
         $scope.select_schedule_option = function(arg) {
             $scope.reports.schedule.frequency = arg;
-            var currentYear = momentService.getCurrentYear();
-            console.log('currentYear',typeof (currentYear));
+            var currentYear = momentService.getCurrentYear().toString();
             if( arg ) {
                 arg = arg.toLowerCase();
                 $(".scheduling-options").hide() ;
                 $(".schedule-" + arg).show() ;
-                console.log('$scope.reports.schedule.startDate',$scope.reports.schedule.startDate);
                 if(arg == "once" ) {
                     $('#deliverOn').datepicker('update', $scope.reports.schedule.startDate);
                     $('#deliverOn').datepicker('setStartDate', currentYear);
@@ -971,7 +969,7 @@ var angObj = angObj || {};
                     $('#startOn').datepicker('update', $scope.reports.schedule.startDate);
                     $('#startOn').datepicker('setStartDate', currentYear);
                     $('#endOn').datepicker('update', $scope.reports.schedule.endDate);
-                    $('#endOn').datepicker('setStartDate', $scope.reports.schedule.endDate);
+                    $('#endOn').datepicker('setStartDate', currentYear);
 
                 }
             }
