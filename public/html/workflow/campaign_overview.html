@@ -22,7 +22,7 @@
                         </div>
                         <div ng-if="workflowData.campaignData.status" class="campTitleWrap" >
                             <span class="statuslabel {{workflowData.campaignData.status|lowercase}}_bulb" tooltip-placement="top" tooltip="{{workflowData.campaignData.status.toLowerCase() == 'in_flight'?'In Flight':workflowData.campaignData.status.toLowerCase()  | toCamelCase }}" ></span>
-                            
+
                             <h1 tooltip-placement="bottom" tooltip="{{workflowData.campaignData.name}}"
                                 class="overview-camp-name" ng-click="editCampaign(workflowData.campaignData)">
                                 {{workflowData.campaignData.name | textEllipsis: 60}}
@@ -33,6 +33,7 @@
                                 VID {{workflowData.campaignData.id}}  |
                                 Last Saved {{convertEST(workflowData.campaignData.updatedAt,'DD MMM YYYY  HH:mm A')}}
                                 by {{workflowData.campaignData.updatedByUser}}
+                                {{workflowData.campaignData.updatedAt}}
                             </span>
                         </div>
                     </div>
@@ -193,7 +194,7 @@
                              ng-include="'/assets/html/workflow/partials/overview_partials/overview_createAdgroups.html'"
                              ng-controller="CreateAdGroupsController">
                         </div>
-                        
+
                         <div class="singleCardWrap active">
                             <div class="col-md-3 adModule adCreateBtn" ng-click="navigateToAdCreatePage()">
                                 <div class="col-md-12">
@@ -285,7 +286,7 @@
                         </form>
                         </div>
                         <!--END of group individual ads into groups-->
-                        
+
                         <div class="singleCardWrap active">
                             <!--=== Create BTN Ad ===-->
                             <div class="col-md-3 adModule adCreateBtn" ng-click="navigateToAdCreatePage()">
