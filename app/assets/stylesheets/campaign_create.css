@@ -868,8 +868,11 @@
   width: 150px;
   margin-left: -75px;
   cursor: pointer;
-  color: #939ead;
+  color: #57606d;
   line-height: 100%;
+}
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroupSelectionWrap .btnCreateGroup span {
+  color: #57606d;
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroupSelectionWrap .btnCreateGroup:hover {
   border: 1px dashed #0978C9;
