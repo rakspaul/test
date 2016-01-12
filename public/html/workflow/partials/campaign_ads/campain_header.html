@@ -7,16 +7,16 @@
             </h4>
         </div>
         <div class="col-md-1" style="padding-left: 40px; border-left: 1px solid #ddd;">
-            <span class="greyTxt" style="padding-bottom: 2px;">Objectives</span>
+            <span class="greyTxt" style="padding-bottom: 2px;" data-ng-bind="textConstants.OBJECTIVES"></span>
             <div ng-if="brandIcon.length>0" class="icon-brand" style="width: 27px; text-align: center;"></div>
             <div ng-if="performanceIcon.length>0" class="icon-performance"></div>
         </div>
         <div class="col-md-1 borderZero">
-            <span class="greyTxt">Delivery Budget</span>
+            <span class="greyTxt" data-ng-bind="textConstants.DELBUDGET"></span>
             <span>{{(workflowData.campaignData.deliveryBudget || 0) | currency:undefined:0}}</span>
         </div>
         <div class="col-md-2 borderZero">
-            <span class="greyTxt">Flight Dates</span>
+            <span class="greyTxt" data-ng-bind="textConstants.FLIGHTDATES"></span>
             <span ng-if="workflowData.campaignData.startTime">
                 {{convertEST(workflowData.campaignData.startTime, 'DD MMM YYYY')}} - {{convertEST(workflowData.campaignData.endTime, 'DD MMM YYYY')}}
                 <span ng-if="workflowData.campaignData.numOfDays">({{workflowData.campaignData.numOfDays}} Days)</span>
@@ -24,20 +24,20 @@
         </div>
         <div class="col-md-2 borderZero">
             <div class="col-md-3 zeroPadding" style="display: none;">
-                <span class="col-md-12 zeroPadding text-center" style="color: #DEDEDE;">Contacts</span>
+                <span class="col-md-12 zeroPadding text-center" style="color: #DEDEDE;" data-ng-bind="textConstants.CONTACTS"></span>
                 <span class="col-md-12 zeroPadding text-center" style="color: #DEDEDE;">0</span>
             </div>
             <div class="col-md-4 zeroPadding borderZero">
-                <span class="col-md-12 zeroPadding greyTxt" style="text-align: center;">Ad Groups</span>
-                <span class="col-md-12 zeroPadding text-center">{{workflowData.campaignData.adGroupCount}}</span>
+                <span class="col-md-12 zeroPadding greyTxt" style="text-align: center;" data-ng-bind="textConstants.ADGROUPS"></span>
+                <span class="col-md-12 zeroPadding text-center" data-ng-bind="workflowData.campaignData.adGroupCount"></span>
             </div>
             <div class="col-md-4 zeroPadding borderZero">
-                <span class="col-md-12 zeroPadding greyTxt" style="text-align: center;">Ads</span>
-                <span class="col-md-12 zeroPadding text-center">{{workflowData.campaignData.adsCount}}</span>
+                <span class="col-md-12 zeroPadding greyTxt" style="text-align: center;" data-ng-bind="textConstants.ADS"></span>
+                <span class="col-md-12 zeroPadding text-center" data-ng-bind="workflowData.campaignData.adsCount"></span>
             </div>
             <div class="col-md-4 zeroPadding borderZero">
-                <span class="col-md-12 zeroPadding greyTxt" style="text-align: center;">Creatives</span>
-                <span class="col-md-12 zeroPadding text-center">{{workflowData.campaignData.creativeCount}}</span>
+                <span class="col-md-12 zeroPadding greyTxt" style="text-align: center;" data-ng-bind="textConstants.CREATIVES"></span>
+                <span class="col-md-12 zeroPadding text-center" data-ng-bind="workflowData.campaignData.creativeCount"></span>
             </div>
         </div>
     </div>
