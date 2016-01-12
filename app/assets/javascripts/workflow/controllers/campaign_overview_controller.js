@@ -580,7 +580,7 @@ var angObj = angObj || {};
             }
         }
 
-        
+
 
 
         $scope.createAdGroup = function (createNewAdGrp) {
