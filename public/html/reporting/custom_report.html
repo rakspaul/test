@@ -323,7 +323,7 @@
 				<div class="row create_scheduled_report">
 
 					<div class="col-md-12  each_section_custom_report">
-						<div class="create_report_title" ng-bind-html="textConstants.SCHEDULE_LABEL">
+						<div class="create_report_title" >{{textConstants.SCHEDULE_LABEL}}
 						<div class="clearfix scheduled_report_fields">
 							<div class="each-col" id="schedule-btn">
 								<div class="label-txt" ng-bind-html="textConstants.SET_SCHEDULE"/>
@@ -332,7 +332,7 @@
 								</div>
 							</div>
 							<div class="each-col default-schedule-col report-name-col">
-								<div class="label-txt" ng-bind-html="textConstants.REPORT_NAME"/>
+								<div class="label-txt" >{{textConstants.REPORT_NAME}}</div>
 								<div>
 									<input type="text" ng-model="reports.name" maxlength="256">
 								</div>
@@ -408,7 +408,7 @@
 												<span class="arrow_img"></span>
 											</span>
 											<ul class="dropdown-menu">
-												<li ng-repeat="counter in getNumberDate" ng-model="reports.schedule.customOccuranceDate" ng-click="reports.schedule.customOccuranceDate = counter; select_dropdown_option($event);" ng-bind-html="counter"/>
+												<li ng-repeat="counter in getNumberDate" ng-model="reports.schedule.customOccuranceDate" ng-click="reports.schedule.customOccuranceDate = counter; select_dropdown_option($event);">{{counter}}</li>
 											</ul>
 										</div>
 									</div>
