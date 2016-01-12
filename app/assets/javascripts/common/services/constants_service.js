@@ -534,6 +534,7 @@
     this.DATE_US_FORMAT = 'MM/DD/YYYY';
     this.DATE_UTC_FORMAT = 'YYYY-MM-DD HH:mm:ss.SSS';
     this.DATE_UTC_SHORT_FORMAT = 'YYYY-MM-DD';
+
     this.IMPRESSION_PER_USER_MESSAGE = 'you must enter impression per user less than or equal to total ad impression';
     
     //Ad Create: Header
@@ -651,8 +652,14 @@
     this.TAGTYPE = 'Tag Size';
     this.SSL = 'SSL';
     this.YOUHAVENTADDED = "You haven't added any Creative Tags for your Ad yet";
-    
-    
+
+    this.COPY = "Copy";
+    this.DELETE = "Delete";
+    this.DOWNLOAD = "Download";
+    this.ARCHIEVE = "Archive";
+    this.CHOOSE_FILTER = "Choose filter";
+    this.SELECT = "Select";
+
   };
 
   commonModule.service("constants", constants);
