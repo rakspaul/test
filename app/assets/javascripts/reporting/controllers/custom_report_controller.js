@@ -498,7 +498,7 @@ var angObj = angObj || {};
                     str+=':'+$scope.reports.reportDefinition.dimensions[filterDataKey].value;
                 }
                 if(typeof filterText != "undefined" && filterText != null && filterText != "" && str.search(filterText.trim()) == -1){
-                    str+=':'+filterText;
+                    str+=':'+filterText +"&exact_match=true";
                 }
             }
             if($scope.additionalFilters.length > 0) {
