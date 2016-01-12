@@ -763,7 +763,7 @@ angObj.directive('truncateTextWithHover', function (campaignListService) {
   angObj.filter('appendDollor', function (constants, $locale) {
     return function (val, type) {
        constants.currencySymbol = $locale.NUMBER_FORMATS.CURRENCY_SYM;
-        if (val === undefined || val === "" || val === "null") {
+        if (val === undefined || val === "" || val === "null" || val === null) {
             return 'NA';
         }
         else if (type.toLowerCase() === "delivery (impressions)")

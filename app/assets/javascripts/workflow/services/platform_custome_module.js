@@ -159,7 +159,7 @@
             //adding validation for custom field.
             inputListHTML && inputListHTML.on('blur', function(){
                 var field =  $(this);
-                var value = field.val();
+                var value = parseFloat(field.val());
                 var maxValue = Number(field.attr("max"));
                 var minValue = Number(field.attr("min"));
                 $(".customFieldErrorMsg").remove();
@@ -186,18 +186,18 @@
                     //console.log("elem", field.parents('.form-group').find('.form-group-section')[0]);
                     var maxBidElem = field.parent().next();
                     console.log("maxBidElem", maxBidElem);
-                    var maxBidElemValue = $(maxBidElem).find('input').val();
+                    var maxBidElemValue = parseFloat($(maxBidElem).find('input').val());
                     if(value > maxBidElemValue) {
-                        field.after('<div class="customFieldErrorMsg">Min Bid value should be less than Max Bid value</div>');
+                        field.after('<div class="customFieldErrorMsg">Min bid value should be less than Max bid value</div>');
                     }
                     return false;
                 }
 
                 if(inputList.displayName == 'Max. Bid' || inputList.displayName === 'Max.') {
                     var minBidElem = field.parent().prev();
-                    var minBidElemValue = $(minBidElem).find('input').val();
+                    var minBidElemValue = parseFloat($(minBidElem).find('input').val());
                     if(minBidElemValue > value) {
-                        field.after('<div class="customFieldErrorMsg">Max value should be greater than Max Bid value</div>');
+                        field.after('<div class="customFieldErrorMsg">Max bid value should be greater than Min bid value</div>');
                     }
                     return false;
                 }
