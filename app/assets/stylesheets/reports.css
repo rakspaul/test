@@ -688,6 +688,14 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
   max-width: 100%;
   word-wrap: break-word;
 }
+.common_reports_container .dropdown_type2 #strategy_dropdown,
+.breadcrumb_campaign_strategy .dropdown_type2 #strategy_dropdown {
+  max-width: 150px;
+  overflow: hidden;
+  display: inline-block;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
 .common_reports_container .dropdown-menu,
 .breadcrumb_campaign_strategy .dropdown-menu {
   padding: 0px;
@@ -3704,7 +3712,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 }
 .custom_report_response_page .custom_report_response_table .each_col.more_dimension_arrow {
   display: none;
-  background: url("/assets/images/cdesk/common_side_arrow.png") no-repeat left 1px #fff;
+  background: url("/assets/images/cdesk/common_side_arrow.png") no-repeat left 1px #ffffff;
   height: 11px;
   width: 12px;
   min-width: 12px;
