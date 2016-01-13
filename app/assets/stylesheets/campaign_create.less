@@ -566,10 +566,10 @@
                   float: right;
                   padding-left: 10px;
                   margin-bottom: 0;
-                  color: #f47e2a;
+                  color: #2c9aec;
                 }
                 p.active {
-                  color: #2c9aec;
+                  color: #f47e2a;
                 }
               }
               .adGroupTxtSecondary:first-child {
@@ -1439,9 +1439,9 @@
           top: 10px;
           right: 10px;
           color: #0978c9;
-          font-size: 12.5px;
-          width: 12.5px;
-          height: 12.5px;
+          font-size: 16px;
+          width: 16px;
+          height: 16px;
           margin: 0;
           display: none;
         }
@@ -1845,11 +1845,17 @@
       }
       .closePopBtn {
         position: absolute;
-        top: -15px;
-        right: -15px;
+        top: 3px;
+        right: 3px;
         z-index: 10;
         cursor: pointer;
-        color: #fff;
+        font-size: 12px;
+        width: 12px;
+        height: 12px;
+        opacity: .2;
+      }
+      .closePopBtn:hover {
+        opacity: .5;
       }
       .headerLib {
         padding: 30px;
@@ -1875,7 +1881,7 @@
       }
       .popFooter {
         padding: 20px 30px;
-        background: #F5F9FD;
+        background: #E1EDF9;
         border-bottom-left-radius: 5px;
         border-bottom-right-radius: 5px;
       }
@@ -2760,7 +2766,7 @@
       top: 0px;
       display: none;
       position: absolute;
-      z-index: 10;
+      z-index: 100;
       padding: 0px 0px 30px 30px;
       opacity: 0;
       .closeBtnCreative {
