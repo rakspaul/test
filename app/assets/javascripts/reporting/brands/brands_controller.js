@@ -46,6 +46,7 @@
             brandsModel.setSelectedBrand(brand);
             brandsModel.callBrandBroadcast(brand, advertiser, event_type);
             analytics.track(loginModel.getUserRole(), constants.GA_BRAND_SELECTED, brand.name, loginModel.getLoginName());
+            $scope.selectedBrand = null;
         };
 
 
