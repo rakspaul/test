@@ -11,6 +11,18 @@
             return this.today().year();
         };
 
+        //eg: moment('2010-10-20').isBefore('2010-10-21');
+        this.isDateBefore = function(date1,date2) {
+            return moment(date1).isBefore(date2);
+        }
+
+        this.isSameOrAfter = function(date1,date2) {
+            if(moment(date1).isSame(date2)) {
+               return true;
+            }
+           return moment(date1).isAfter(date2);
+        }
+
         this.newMoment = function(date) {
             if(_.isDate(date)) {
                 return this.newMoment(moment(date).format('YYYY-MM-DD'));
