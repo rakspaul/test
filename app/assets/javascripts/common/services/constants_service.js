@@ -658,7 +658,8 @@
     this.ARCHIEVE = "Archive";
     this.CHOOSE_FILTER = "Choose filter";
     this.SELECT = "Select";
-    // user creation
+    
+    //User Creation
     this.super_admin = "1";
     this.account_admin = "2";
     this.advertiser_admin = "3";
