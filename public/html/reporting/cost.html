@@ -65,11 +65,11 @@
                         <!--cost  filter ends-->
 
                         <div class="cost_transparency_container">
-                            <div class="cost_opaque_msg" ng-if="!isCostModelTransparent">
-                                <span class="cost_opaque_txt" ng-bind-html="isCostModelTransparentMsg"></span>
+                            <div class="cost_opaque_msg">
+                                <span class="cost_opaque_txt"></span>
                             </div>
 
-                            <div class="each_cost_row_holder strategy_total_row" ng-if="isCostModelTransparent">
+                            <div class="each_cost_row_holder strategy_total_row">
                                 <div class="each_cost_row">
                                     <div class="no_data_found_cost_strategy" ng-if="dataNotFound" ng-bind-html="getMessageForDataNotAvailable('costs')"></div>
                                     <div class="common-load-icon" ng-show="strategyCostBusy"></div>

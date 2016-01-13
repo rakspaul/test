@@ -713,7 +713,11 @@
                 var rect = rectData.enter();
                 var rectGroup = rect.append("a")
                                         .attr("xlink:href", function(d){
-                                            return '/mediaplans/' + d.id;
+                                            if (d.type == "brand") {
+                                                return "javascript:void(0)";
+                                            } else {
+                                                return '/mediaplans/' + d.id;
+                                            }  
                                         })
                                         .style("text-decoration", "none")
                                         .on("click", function(d){
@@ -837,6 +841,7 @@
                     .attr("y", 0)
                     .attr("dy", ".35em")
                     .attr("font-size", "20px")
+                    .attr("cursor", "default")
                     .attr("font-weight", "900")
                     .attr("fill", "#21252b")
                     .attr("font-family", "Avenir")
