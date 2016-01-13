@@ -837,6 +837,7 @@
                     .attr("y", 0)
                     .attr("dy", ".35em")
                     .attr("font-size", "20px")
+                    .attr("cursor", "default")
                     .attr("font-weight", "900")
                     .attr("fill", "#21252b")
                     .attr("font-family", "Avenir")
