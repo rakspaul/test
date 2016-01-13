@@ -103,7 +103,7 @@ var angObj = angObj || {};
             var tab = $scope.selected_tab.substr(0, 1).toUpperCase() + $scope.selected_tab.substr(1);
 
             var errorHandlerForPerformanceTab = function (result) {
-                if (tab === 'Cost' && result && result.status === 204) {
+                if ((tab === 'Cost' || tab === 'Performance' || tab === 'Viewability') && result && result.status === 204) {
                     $scope.isCostModelTransparent = true;
                 }
                 $scope['dataNotFoundFor'+tab] = true;
