@@ -192,7 +192,6 @@ var angObj = angObj || {};
                             $scope.showPerfMetrix = false;
                             $scope['strategyPerfDataBy'+tab]  = result.data.data;
                         }
-                        $scope.adFormats = domainReports.checkForCampaignFormat(result.data.data[0].adFormats);
                     }
                 } else {
                     errorHandlerForPerformanceTab(result);
@@ -213,9 +212,42 @@ var angObj = angObj || {};
             $scope.createDownloadReportUrl();
         });
 
+        var extractAdFormats=  function() {
+            var strategyObj = strategySelectModel.getStrategyObj();
+            var selectedStrategyObj = strategySelectModel.getSelectedStrategy();
+            if(strategyObj.strategies && strategyObj.strategies.length > 0) {
+                if (selectedStrategyObj.id === -1) {
+                    var adFormatsArr = [];
+                    _.each(strategyObj.strategies, function (obj) {
+                        if(obj.ad_formats && obj.ad_formats.length >0) {
+                            _.each(obj.ad_formats, function (value) {
+                                adFormatsArr.push(value)
+                            });
+                        }
+                    })
+                    adFormatsArr = _.compact(_.uniq(adFormatsArr))
+                    $scope.adFormats = domainReports.checkForCampaignFormat(adFormatsArr);
+
+                } else {
+                    adFormatsArr = _.filter(strategyObj.strategies, function (obj) {
+                        return obj.id === Number(selectedStrategyObj.id)
+                    });
+                    if (adFormatsArr && adFormatsArr.length > 0) {
+                        $scope.adFormats = domainReports.checkForCampaignFormat(adFormatsArr[0].ad_formats);
+                    }
+                }
+                if ($scope.adFormats.length > 0 && $scope.adFormats.displayAds && !$scope.adFormats.videoAds) {
+                    $scope.videoMode = false;
+                }
+            }
+        }
+
         $scope.$on(constants.EVENT_STRATEGY_CHANGED , function(event,strategy){
-            $scope.selectedStrategy.id =  strategySelectModel.getSelectedStrategy().id ;
-            $scope.selectedStrategy.name = strategySelectModel.getSelectedStrategy().name ;
+            var selectedStrategyObj = strategySelectModel.getSelectedStrategy();
+            var strategyObj = strategySelectModel.getStrategyObj();
+            extractAdFormats();
+            $scope.selectedStrategy.id = selectedStrategyObj.id;
+            $scope.selectedStrategy.name = selectedStrategyObj.name;
             $scope.strategyHeading = Number($scope.selectedStrategy.id) >= 0 ? 'Ad-Group total' : 'Media Plan total';
             $scope.isStrategyDataEmpty = false;
             $scope.resetVariables();
