@@ -20,7 +20,8 @@
             $scope.User.data.splice(index,1);
             $scope.clientName.splice(index, 1);
             $scope.userModalData.splice(index,1);
-            $scope.advertiserName.splice(index,1)
+            $scope.advertiserName.splice(index,1);
+            $scope.brandName.splice(index,1)
 
 
         };
@@ -168,10 +169,12 @@
         };
 
         var userModalPopup = {
-            getUserClients:function(){
+            getUserClients:function(editmode,user){
                  accountsService.getClients().then(function(res) {
                      console.log('client res=== ',res);
                      $scope.userModalData['Clients'] = res.data.data;
+                     if(editmode)
+                         setPreselectedPermission(user);
                  });
             },
             getUserBrands:function(clientId,advertiserId,index){
@@ -228,9 +231,61 @@
         };
 
         //set permissions in edit mode
-        $rootScope.$on('setPermissions',function(){
-            console.log("val edit ####== ");
-        });
+        $rootScope.$on('permissionsForUsers',function(e,user){
+            userModalPopup.getUserClients(true,user);
+        })
+
+        function setPreselectedPermission(user){
+            accountsService.getUsersDetails(user[0].id).then(function(res){
+                var data = res.data.data;
+                console.log("permission data",data.permission);
+                for(var i = 0; i < data.permissions.length; i++){
+                    $scope.incrementCounter();
+                    var clientObj = getClientObject(data.permissions[i].clientId,data.permissions[i].orgId,data.permissions[i].resellerId);
+                    $scope.selectedClientHandler(clientObj,i, data.permissions.orgId, data.permissions.resellerId)
+
+                }
+            })
+        }
+
+        //get client object based on id
+        function getClientObject(clientId,orgId,resellerId){
+                console.log('$scope.userModalData[]',$scope.userModalData['Clients'])
+                var orgIndex = _.findIndex($scope.userModalData['Clients'], function(item) {
+                return item.id == orgId});
+
+                //first level client
+                if($scope.userModalData['Clients'][orgIndex].id != clientId){
+                    var resellerIndex = _.findIndex($scope.userModalData['Clients'][orgIndex], function(item) {
+                        return item.id == resellerId});
+
+                    //second level client
+                    if(resellerId != 0 && clientId == -1){ // only reseller and there is no child for reseller
+                        return $scope.userModalData['Clients'][orgIndex][resellerIndex];
+                    }
+                    else if(resellerId == 0 && clientId != -1){ // there is no third level
+                        var clientIndex = _.findIndex($scope.userModalData['Clients'][orgIndex], function(item) {
+                            return item.id == clientId});
+                        return $scope.userModalData['Clients'][orgIndex][clientIndex];
+                    }
+                    else if(resellerId != 0 && clientId != -1){
+                        //third level client
+                        var clientIndex = _.findIndex($scope.userModalData['Clients'][orgIndex][resellerIndex], function(item) {
+                            return item.id == clientId});
+                        return $scope.userModalData['Clients'][orgIndex][resellerIndex][clientIndex];
+                    }
+
+                }
+                else{
+                    return $scope.userModalData['Clients'][orgIndex];
+                }
+        }
+
+        $rootScope.$on('resetUserModal',function(){
+            console.log('refresh user list');
+            $scope.resetFields();
+        })
+
     });
 
 

@@ -106,6 +106,10 @@
                 var url = apiPaths.WORKFLOW_APIUrl + '/users';
                 return dataService.fetch(url,{cache: false});
             },
+            getUsersDetails: function (id) {
+                var url = apiPaths.WORKFLOW_APIUrl + '/users/'+id;
+                return dataService.fetch(url,{cache: false});
+            },
             getUserClients:function(){
                 var url = apiPaths.WORKFLOW_APIUrl + '/clients';
                 return dataService.fetch(url);

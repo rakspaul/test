@@ -1,7 +1,7 @@
 var angObj = angObj || {};
 (function () {
     'use strict';
-    angObj.controller('UsersController', function ($scope, $window, $routeParams, constants, utils,  $modal ,accountsService,$rootScope) {
+    angObj.controller('UsersController', function ($scope, $window, $routeParams, constants, utils,  $modal ,accountsService,$rootScope,$timeout) {
         $scope.textConstants = constants;
         $scope.UsersData={};
         $scope.userConsoleFormDetails={};
@@ -9,6 +9,7 @@ var angObj = angObj || {};
         //Add or Edit Pop up for User
 
         $scope.AddOrEditUserModal = function(mode,userObj) {
+            $rootScope.$broadcast('resetUserModal');
             var $modalInstance = $modal.open({
                 templateUrl: assets.html_users_add_or_edit,
                 scope:$scope,
@@ -27,12 +28,12 @@ var angObj = angObj || {};
                 //$scope.userConsoleFormDetails.firstName = userObj.firstName;
                 $scope.userConsoleFormDetails.password = userObj.password;
                 //set permission set
-                //if(userObj.permissions.length > 0){
-                //$scope.resetFields();
-                //console.log("userObj = ",userObj);
-                    $rootScope.$broadcast('setPermissions');
-                //}
+                $timeout(function () {
+                    $rootScope.$broadcast('permissionsForUsers',[userObj]);
+                }, 2000)
 
+
+                //}
             }
 
         };
