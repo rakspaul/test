@@ -1476,20 +1476,16 @@ var angObj = angObj || {};
             }
             $scope.validateScheduleDate = function(){
                 if($scope.buttonLabel == "Update"){
-                    var currDate = (function () {
-                        var d = new Date(), m = d.getUTCMonth() + 1;
-                        return(Number('' + d.getUTCFullYear() + m + d.getDate()));
-                    }());
+                    var currDate = momentService.todayDate('YYYY-MM-DD');
                     if($scope.reports.schedule.frequency=="Once"){
-                        var deliveryDate = Number($("#deliverOn").val().replace(/-/g, ''));
-                        if (deliveryDate < currDate) {
+                       if(momentService.isDateBefore($("#deliverOn").val(),currDate)) {
                             $rootScope.setErrAlertMessage("Please enter valid date");
                             return false;
                         }
                     }else{
-                        var startDate = Number($("#startOn").val().replace(/-/g, '')),
-                            endDate = Number($("#endOn").val().replace(/-/g, ''));
-                        if(startDate < currDate || endDate < currDate || startDate >= endDate){
+                        var startDate = $("#startOn").val();
+                        var    endDate = $("#endOn").val();
+                        if((momentService.isDateBefore(startDate,currDate))||(momentService.isDateBefore(endDate,currDate)) || (momentService.isSameOrAfter(startDate,endDate))){
                             $rootScope.setErrAlertMessage("Please enter valid date");
                             return false;
                         }
