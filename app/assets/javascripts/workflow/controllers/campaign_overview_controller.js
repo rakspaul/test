@@ -582,7 +582,6 @@ var angObj = angObj || {};
 
 
 
-
         $scope.createAdGroup = function (createNewAdGrp) {
             $scope.$broadcast('show-errors-check-validity');
             if (createNewAdGrp.$valid){
