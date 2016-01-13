@@ -2,7 +2,7 @@ var angObj = angObj || {};
 (function () {
     'use strict';
     angObj.controller('CustomReportUploadController', function ($rootScope, $scope, $route, $window, campaignSelectModel,
-                                                                strategySelectModel, kpiSelectModel, platformService, utils,
+                                                                strategySelectModel, kpiSelectModel, utils,
                                                                 dataService,  apiPaths, requestCanceller, constants, domainReports,
                                                                 timePeriodModel, loginModel, analytics, $timeout, Upload,
                                                                 reportsUploadList, urlService, collectiveReportModel,

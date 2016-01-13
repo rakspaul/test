@@ -21,8 +21,7 @@
                 var campaignName = '';
                 var localStorageCampaignData;
                 $scope.$watch('selectedObj.name', function(v) {
-                     //$(".campaignDropdown").width($(".campaign_name_length").width() + 14 );
-                    if($scope.allCampaign == "true") {
+                    if($scope.allCampaign == "true" || $scope.allCampaign == true) {
                         localStorageCampaignData = JSON.parse(localStorage.getItem('selectedCampaignAll'));
                         if(localStorageCampaignData != undefined) {
                             $scope.selectedObj.name = localStorageCampaignData.name;
@@ -69,7 +68,7 @@
                 };
 
                 $(document).click(function(event) {
-                    if($scope.allCampaign == "true") {
+                    if($scope.allCampaign == "true" || $scope.allCampaign == true) {
                         localStorageCampaignData = JSON.parse(localStorage.getItem('selectedCampaignAll'));
                     } else {
                         localStorageCampaignData = JSON.parse(localStorage.getItem('selectedCampaign'));

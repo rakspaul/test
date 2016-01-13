@@ -569,7 +569,9 @@ angObj.directive('truncateTextWithHover', function (campaignListService) {
     }
   });
   angObj.filter('toCamelCase', function () {
-    return function (input) {
+    return function (str) {
+        return str.toLowerCase().replace( /['"]/g, '' ).replace( /\W+/g, ' ' ).replace( / (.)/g, function($1) { return $1.toUpperCase(); }).replace( / /g, '' );
+
       if (input == undefined) {
         return '';
       }
@@ -588,6 +590,18 @@ angObj.directive('truncateTextWithHover', function (campaignListService) {
       if(input.toLowerCase() == 'delivery'){
         return toTitleCaseFilter(input);
       }
+        if(input.toLowerCase() == 'clicks'){
+            return toTitleCaseFilter(input);
+        }
+        if(input.toLowerCase() == 'viewable impressions'){
+            return "Viewable Impressions";
+        }
+        if(input.toLowerCase() == 'impressions'){
+            return toTitleCaseFilter(input);
+        }
+        if(input.toLowerCase() == 'select from list'){
+            return "Select From list";
+        }
 
       return input.toUpperCase();
 
@@ -749,7 +763,7 @@ angObj.directive('truncateTextWithHover', function (campaignListService) {
   angObj.filter('appendDollor', function (constants, $locale) {
     return function (val, type) {
        constants.currencySymbol = $locale.NUMBER_FORMATS.CURRENCY_SYM;
-        if (val === undefined || val === "" || val === "null") {
+        if (val === undefined || val === "" || val === "null" || val === null) {
             return 'NA';
         }
         else if (type.toLowerCase() === "delivery (impressions)")

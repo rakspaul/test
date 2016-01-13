@@ -688,6 +688,14 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
   max-width: 100%;
   word-wrap: break-word;
 }
+.common_reports_container .dropdown_type2 #strategy_dropdown,
+.breadcrumb_campaign_strategy .dropdown_type2 #strategy_dropdown {
+  max-width: 150px;
+  overflow: hidden;
+  display: inline-block;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
 .common_reports_container .dropdown-menu,
 .breadcrumb_campaign_strategy .dropdown-menu {
   padding: 0px;
@@ -3692,6 +3700,14 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
   left: 0px ;
 }
 .custom_report_response_page .custom_report_response_table .custom_report_scroll.vertical_scroll .first_dimension_row_holder {
+  margin-top: 20px ;
+}
+.custom_report_response_page .custom_report_response_table .custom_report_scroll.hori_scroll .heading_row {
+  position: relative;
+  top: 0px ;
+  left: 0px ;
+}
+.custom_report_response_page .custom_report_response_table .custom_report_scroll.hori_scroll .first_dimension_row_holder {
   margin-top: 20px ;
 }
 .custom_report_response_page .custom_report_response_table .each_col.more_dimension_arrow {

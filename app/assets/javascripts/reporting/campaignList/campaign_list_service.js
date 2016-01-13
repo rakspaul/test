@@ -5,11 +5,11 @@
     campaignListModule.factory("campaignListService", ["dataService", "utils", "common", "line", '$q', 'modelTransformer',
         'campaignModel', 'dataStore', 'apiPaths', 'requestCanceller',
         'constants', 'vistoconfig' , 'momentService','domainReports', 'loginModel',
-        'advertiserModel', 'brandsModel', 'timePeriodModel', 'urlService',
+        'advertiserModel', 'brandsModel', 'timePeriodModel', 'urlService', 'momentService',
         function (dataService,  utils, common, line, $q, modelTransformer,
                   campaignModel, dataStore, apiPaths, requestCanceller,
                   constants, vistoconfig , momentInNetworkTZ, domainReports, loginModel,
-                  advertiserModel, brandsModel, timePeriodModel, urlService) {
+                  advertiserModel, brandsModel, timePeriodModel, urlService, momentService) {
 
             var listCampaign = "";
 
@@ -502,6 +502,7 @@
                                 };
                             } else {
                                 campaignObject.chart = false;
+                                callback && callback(campaignObject);
                             }
                         }
                     }else{
@@ -555,6 +556,10 @@
                             default :
                                 status = undefined;
                         }
+
+                        dataArr[obj].start_date = momentService.utcToLocalTime(dataArr[obj].start_date, 'YYYY-MM-DD');
+                        dataArr[obj].end_date = momentService.utcToLocalTime(dataArr[obj].end_date, 'YYYY-MM-DD');
+
                         var campaign = modelTransformer.transform(dataArr[obj], campaignModel);
                         campaign.periodStartDate = periodStartDate;
                         campaign.periodEndDate = periodEndDate;
@@ -599,7 +604,7 @@
                 },
 
                 requestTacticsList: function(strategy, timePeriod, campaign,callBackFunction) {
-                    //request list 
+                    //request list
                     return getTacticList(strategy, timePeriod, campaign,callBackFunction);
                 },
 

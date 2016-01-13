@@ -9,19 +9,21 @@
             }
         };
     }).controller("popUpMsgCtr",function($scope,$rootScope,$timeout,constants){
-        $scope.msg = null;
-        $scope.init = function(msg,errMsg){
-            $scope.msg = msg;
-            $scope.errMsg = constants[errMsg];
-            $scope[$scope.msg] = {'message': '', 'isErrorMsg': 0};
-            $scope[$scope.msg]['message'] = localStorage.getItem('topAlertMessage');
-            $scope.isErrorMsg = 1;
-            $scope.isMsg = 0;
+        $scope.init = function(msg, errMsg){
+            if(!angular.element('.top_message_box').length) {
+                $rootScope.errMsgKey = msg;
+                $rootScope.errMsg = constants[errMsg];
+                $rootScope[$rootScope.errMsgKey] = {'message': '', 'isErrorMsg': 0};
+                $rootScope[$rootScope.errMsgKey]['message'] = localStorage.getItem('topAlertMessage');
+                $rootScope.isErrorMsg = 1;
+                $rootScope.isMsg = 0;
+            }
         }
-
         $scope.resetAlertMessage = function(){
             localStorage.removeItem('topAlertMessage');
-            $scope[$scope.msg].message = "" ;
+            if($rootScope[$rootScope.errMsgKey] != undefined) {
+                $rootScope[$rootScope.errMsgKey].message = "";
+            }
         }
         $scope.msgtimeoutReset = function(){
             $timeout(function(){
@@ -30,17 +32,17 @@
         }
         $scope.msgtimeoutReset();
         $scope.close_msg_box = function(event) {
-            var elem = $(event.target);
-            elem.closest(".top_message_box").hide() ;
+        //    var elem = $(event.target);
+        //    elem.closest(".top_message_box").hide() ;
             $scope.resetAlertMessage() ;
         };
         $rootScope.setErrAlertMessage = function(errMsg,isErrorMsg,isMsg){
-            $scope.errMsg = (typeof errMsg != "undefined") ? errMsg : $scope.errMsg;
+            $scope.errMsg = (typeof errMsg != "undefined") ? errMsg : $rootScope.errMsg;
             $scope.isErrorMsg = (typeof isErrorMsg != "undefined") ? isErrorMsg : 1;
             $scope.isMsg = (typeof isMsg != "undefined") ? isMsg : 0;
-            $scope[$scope.msg].message = $scope.errMsg;
-            $scope[$scope.msg].isErrorMsg = $scope.isErrorMsg ;
-            $scope[$scope.msg].isMsg = $scope.isMsg;
+            $rootScope[$rootScope.errMsgKey].message = $scope.errMsg;
+            $rootScope[$rootScope.errMsgKey].isErrorMsg = $scope.isErrorMsg ;
+            $rootScope[$rootScope.errMsgKey].isMsg = $scope.isMsg;
             $scope.msgtimeoutReset();
         }
     });

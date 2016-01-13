@@ -271,7 +271,7 @@
           animateRightArc();
         };
         function animateRightArc() {
-          var readingValue = -280 + getReadingValue(name, self.config.max) + 1;
+          var readingValue = -280 + getReadingValue(name, self.config.max);
           self.rightArc.transition()
             .duration(self.config.animeDuration)
             .call(arcTween, self.valueToRadians(readingValue))

@@ -17,7 +17,8 @@ campaignSelectModule.factory("campaignSelectModel", ['urlService','dataService' 
             if (campaign.selectedCampaign !== undefined && (campaign.selectedCampaign.kpi == 'null' || campaign.selectedCampaign.kpi == null || campaign.selectedCampaign.kpi == undefined || campaign.selectedCampaign.kpi == 'NA')) {
                 campaign.selectedCampaign.kpi = 'ctr'; // set default kpi as ctr if it is coming as null or NA from backend.
             }
-            if(allCampaign == "true") {
+
+            if(allCampaign == "true" ||  allCampaign == true) {
                 localStorage.setItem('selectedCampaignAll', JSON.stringify(campaign.selectedCampaign));
             } else {
                 localStorage.setItem('selectedCampaign', JSON.stringify(campaign.selectedCampaign));

@@ -2,11 +2,13 @@
  * Created by collective on 27/08/2015.
  */
 (function() {
-    commonModule.factory("RoleBasedService", [function () {
+    commonModule.factory('RoleBasedService', ['momentService', 'constants', '$locale', 'tmhDynamicLocale','$rootScope', function (momentService, constants, $locale, tmhDynamicLocale, $rootScope) {
+
         var getClientRole = function() {
             return JSON.parse(localStorage.getItem('clientRoleObj'));
         };
-        var setClientRole = function(response) {
+
+        var setClientRole = function (response) {
             var clientRoleObj = {
                 'workFlowUser' : response.data.data.isWorkflowUser,
                 'i18n' : response.data.data.i18n
@@ -18,12 +20,14 @@
                     var modules = uiElements.split(",");
                     _.each(modules, function(module) {
                         obj['show'+module] = false;
-                    })
+                    });
                     obj['ui_modules'] = modules;
                     return obj;
                 }
-
             };
+
+            // Set timezone name based on timezone abbr for the given account
+            momentService.setTimezoneName(response.data.data.timezone, clientRoleObj);
 
             if(response.data.data.i18n) {
                 clientRoleObj['locale'] = response.data.data.i18n.locale;
@@ -37,7 +41,7 @@
         var setUserData = function(response) {
             var userObj = {
                 'authorizationKey' : response.data.data.auth_token
-            }
+            };
             localStorage.setItem('userObj', JSON.stringify(userObj));
         };
 
@@ -45,11 +49,20 @@
             return JSON.parse(localStorage.getItem('userObj'));
         };
 
-        return {
-          getClientRole: getClientRole,
-          setClientRole: setClientRole,
-          setUserData  : setUserData,
-          getUserData  : getUserData
+        var setCurrency = function(){
+            var locale = getClientRole().locale || 'en-us';
+            tmhDynamicLocale.set(locale);
+            $rootScope.$on("$localeChangeSuccess",function(){
+                constants.currencySymbol = $locale.NUMBER_FORMATS.CURRENCY_SYM;
+            });
         }
+
+        return {
+            getClientRole    : getClientRole,
+            setClientRole    : setClientRole,
+            setUserData      : setUserData,
+            getUserData      : getUserData,
+            setCurrency      : setCurrency
+        };
     }]);
- })();
+})();

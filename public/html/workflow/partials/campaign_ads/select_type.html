@@ -1,13 +1,13 @@
 <div class="col-md-12 selectTypeTitle">
     <div class="col-md-12 zeroPadding">
-        <h2 class="col-md-12 zeroPadding marginBottom">Select Ad Type</h2>
-        <a href="javascript:void(0);" class="helpLink">Learn more about Ad Types</a>
+        <h2 class="col-md-12 zeroPadding marginBottom" data-ng-bind="textConstants.SELECTADTYPE"></h2>
+        <a href="javascript:void(0);" class="helpLink" data-ng-bind="textConstants.LEARNADTYPES"></a>
     </div>
 </div>
 
 <!--=== AD Name ===-->
 <div class="col-md-12 zeroPadding adNameBox">
-    <div class="col-md-12 adHeader">What is the name of your Ad?</div>
+    <div class="col-md-12 adHeader" data-ng-bind="textConstants.NAMEOFAD"></div>
     <div class="col-md-12 zeroPadding" style="margin-top: 10px;">
         <input type="text" class="form-control" name="adName" placeholder="Max 250 characters. No symbols or punctuation" remove-special-character='remove-special-character' ng-model="adData.adName" maxlength="250" autofocus/>
     </div>
@@ -15,15 +15,15 @@
 
 <!--=== AD Format ===-->
 <div class="col-md-12 zeroPadding adFormatChkBox">
-    <div class="col-md-12 adHeader">{{ textConstants.WF_HEADER_CREATIVES}}</div>
-    <div class="col-md-12 greyTxt">{{ textConstants.WF_AD_FORMAT }}</div>
+    <div class="col-md-12 adHeader" data-ng-bind="textConstants.WF_HEADER_CREATIVES"></div>
+    <div class="col-md-12 greyTxt" data-ng-bind="textConstants.WF_AD_FORMAT"></div>
     
     <div class="btn-group goalBtnGroup zeroPadding" ng-class="{lastBtnGroup: $last, firstBtnGroup: $first}" ng-repeat="adformat in workflowData.adFormats track by adformat.id">
         <label class="btn btn-primary {{adformat.active ? 'active' : '' }}">
             <input type="radio" name="adFormat" value="{{adformat.name}}" class="btn_rad" ng-model="adData.adFormat"  ng-click="adFormatSelection(adformat.name)" ng-checked="adformat.active">
             <div class="hideRadioBtn">
                 <div class="icon-{{getAdFormatIconName(adformat.name)}}"></div>
-                <span>{{adformat.name}}</span>
+                <span data-ng-bind="adformat.name"></span>
             </div>
         </label>
     </div>
@@ -48,8 +48,8 @@
     <div class="col-md-12"></div>-->
     
     <div class="form-group col-sm-4" style="padding-left: 0;">
-        <div class="col-md-12 adHeader">{{ textConstants.WF_HEADER_AD_OBJECTIVE}}</div>
-        <label for="primaryKPI" class="col-sm-12 greyTxt miniLabels">{{textConstants.WF_PRIMARY_KPI}}</label>
+        <div class="col-md-12 adHeader" data-ng-bind="textConstants.WF_HEADER_AD_OBJECTIVE"></div>
+        <label for="primaryKPI" class="col-sm-12 greyTxt miniLabels" data-ng-bind="textConstants.WF_PRIMARY_KPI"></label>
         <div class="col-md-12 zeroPadding dropdown-workflow">
             <div class="dropdown">
                 <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
@@ -59,8 +59,8 @@
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="primaryKPI"  id="primaryKPI" data-toggle="dropdown">
                     <li class="headerDDL" ng-repeat="kpiObj in workflowData.primaryKpi">
-                        <span class="greyTxt">{{kpiObj.kpi_category}}</span>
-                        <ul><li ng-repeat="kpi in kpiObj.kpi_values" ng-model="adData.primaryKpi" ng-class="{disabled:kpi.disabled}"  ng-click="kpi.disabled ? '': adData.primaryKpi = kpi.name" ><a>{{kpi.name}}</a></li></ul>
+                        <span class="greyTxt" data-ng-bind="kpiObj.kpi_category"></span>
+                        <ul><li ng-repeat="kpi in kpiObj.kpi_values" ng-model="adData.primaryKpi" ng-class="{disabled:kpi.disabled}"  ng-click="kpi.disabled ? '': adData.primaryKpi = kpi.name" ><a data-ng-bind="kpi.name"></a></li></ul>
                     </li>
                 </ul>
             </div>
@@ -70,10 +70,8 @@
 
 <!--=== Screen Type ===-->
 <div class="col-md-12 zeroPadding screenChkSelection" style="margin-bottom:150px">
-    <div class="col-md-12 adHeader">{{ textConstants.WF_HEADER_SCREENS }}
-    </div>
-    <div class="col-md-12 greyTxt">{{ textConstants.WF_SCREEN_TYPE }}
-    </div>
+    <div class="col-md-12 adHeader" data-ng-bind="textConstants.WF_HEADER_SCREENS"></div>
+    <div class="col-md-12 greyTxt" data-ng-bind="textConstants.WF_SCREEN_TYPE"></div>
     <!--Abi can you add the active class to the div element below-->
     <div class="form-group col-md-3 btn_border bigChkBox {{screenType.active ? 'active' : '' }}"
          ng-repeat="screenType in workflowData.screenTypes track by screenType.id">
@@ -82,12 +80,12 @@
             <!--<img ng-src="/assets/images/workflow/{{screenType.name | lowercase}}.svg" alt="" width="25"/>-->
             <div class="icon-{{screenType.name | lowercase}}"></div>
 
-            <div class="btnLabel">{{screenType.name}}</div>
+            <div class="btnLabel" data-ng-bind="screenType.name"></div>
         </label>
     </div>
 </div>
 
 <!--=== Next Step Panel ===-->
 <span class="leftNavLink nextWrapper">
-    <a href data-toggle="tab" role="tab" class="btn btn-default" ng-click="triggerbudgetTab()">{{textConstants.WF_AD_SAVE_CONTINUE}}</a>
+    <a href data-toggle="tab" role="tab" class="btn btn-default" ng-click="triggerbudgetTab()" data-ng-bind="textConstants.WF_AD_SAVE_CONTINUE"></a>
 </span>

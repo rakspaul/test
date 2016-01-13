@@ -173,7 +173,6 @@
                                 requestCanceller.resetCanceller(constants.CAMPAIGN_LIST_CANCELLER);
 
                                 var data = result.data.data;
-
                                 self.nextPage += 1;
                                 self.marketerName = data.marketer_name;
                                 self.totalPages = data.total_pages;

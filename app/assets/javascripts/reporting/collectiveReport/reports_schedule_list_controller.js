@@ -179,13 +179,13 @@
                 windowClass: 'delete-dialog',
                 resolve: {
                     headerMsg: function() {
-                        return "Archieve Schedule Report";
+                        return "Archive Scheduled Report";
                     },
                     mainMsg: function() {
-                        return "Are you sure you want to Archieve Scheduled Report"
+                        return "Are you sure you want to Archive Scheduled Report"
                     },
                     buttonName: function() {
-                        return "Archieve"
+                        return "Archive"
                     },
                     execute: function() {
                         return function() {

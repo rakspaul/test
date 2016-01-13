@@ -87,7 +87,6 @@
         });
 
         $scope.$on(constants.EVENT_ADVERTISER_CHANGED, function(event, args) {
-            console.log("EVENT_ADVERTISER_CHANGED");
             var advertiser = args.advertiser;
             $scope.advertiser =  advertiser;
             $scope.brandData.selectedBrand = {};

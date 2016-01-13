@@ -61,9 +61,7 @@
         $scope.getClientData = function(clientId) {
             workflowService.getClientData(clientId).then(function (response) {
                 RoleBasedService.setClientRole(response);//set the type of user here in RoleBasedService.js
-                var locale = RoleBasedService.getClientRole().locale || 'en-us';
-                tmhDynamicLocale.set(locale);
-
+                RoleBasedService.setCurrency();
             });
         }
 
@@ -113,7 +111,7 @@
                 showSelectedClient(event, name);
                 $scope.getClientData(id);
                 $rootScope.clientName = name;
-                $rootScope.$broadcast(constants.ACCOUNT_CHANGED, id);
+                $rootScope.$broadcast(constants.ACCOUNT_CHANGED, {'client' : id, 'event_type' :'clicked'});
             }
 
 
@@ -153,8 +151,8 @@
             elem.closest("#"+ arg +"_nav_link").addClass("selected") ;
           } else {
             if(behaviour == "click") {
-                $(".main_nav_dropdown").fadeOut() ;
-                $(".main_navigation_holder").find(".selected").removeClass("selected") ;
+               // $(".main_nav_dropdown").fadeOut() ;
+                $(".main_navigation_holder").find(".selected").addClass("selected") ;
             }
           }   
           
@@ -167,7 +165,7 @@
                    $(".main_nav_dropdown").fadeOut() ;
                    $(".main_navigation_holder").find(".selected").removeClass("selected") ; 
                } 
-          }, 1000);
+          }, 1500);
         } ;
 
         $scope.logout = function() {

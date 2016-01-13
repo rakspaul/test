@@ -13,7 +13,7 @@
     $scope.textConstants = constants;
 
     $scope.isWorkFlowUser = RoleBasedService.getClientRole() && RoleBasedService.getClientRole().workFlowUser;
-    
+
     $scope.$on(constants.EVENT_BRAND_CHANGED, function(event) {
       $scope.campaigns.filterByBrand(brandsModel.getSelectedBrand());
         //$scope.campaigns.fetchData();
@@ -59,7 +59,8 @@
         strategySelectModel.setSelectedStrategy(constants.ALL_STRATEGIES_OBJECT);
 
         $rootScope.$broadcast(constants.EVENT_CAMPAIGN_CHANGED);
-        $location.path('/performance');
+        //$location.path('/performance');//reportOverview
+        $location.path('/mediaplans/'+campaign.id);
     };
 
     $scope.loadMoreStrategies = function(campaignId) {

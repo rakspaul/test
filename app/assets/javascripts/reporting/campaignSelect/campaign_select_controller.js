@@ -49,7 +49,7 @@
                     startDate: '-1',
                     endDate: '-1'
                 };
-            } else if ($scope.allCampaign == "true" && selectedCampaign.id == 0) {
+            } else if (($scope.allCampaign == "true" || $scope.allCampaign == true) && selectedCampaign.id == 0) {
                 selectedCampaign = {
                     id: 0,
                     name: 'All Media Plans',
@@ -57,6 +57,10 @@
                     startDate: '-1',
                     endDate: '-1'
                 };
+            }
+
+            if(selectedCampaign.id ===0  && ($scope.allCampaign ===  undefined || $scope.allCampaign ===  "")) {
+                selectedCampaign = campaignSelectModel.getSelectedCampaign();
             }
 
             var selectedBrand = brandsModel.getSelectedBrand();
@@ -76,7 +80,7 @@
                 var campArrObj = campObj.campaigns
 
                 if (search) {
-                    if ($scope.allCampaign == "true") {
+                    if ($scope.allCampaign == "true" || $scope.allCampaign == true) {
                         campArrObj.unshift.apply(campArrObj, $scope.campAll);
                         $scope.campaignData.campaigns = campArrObj;
                     } else {
@@ -123,7 +127,6 @@
             var pathArray = window.location.pathname.split('/');
             var firstLevelLocation = pathArray[1];
             var secondLevelLocation = pathArray[2];
-
             if (firstLevelLocation === "mediaplans" && secondLevelLocation !== undefined) {
                 var selectedCampaignNew = {
                     id: secondLevelLocation,
@@ -134,7 +137,7 @@
                 };
                 campaignSelectModel.setSelectedCampaign(selectedCampaignNew);
             }
-            if ($scope.allCampaign == "true") {
+            if ($scope.allCampaign == "true" || $scope.allCampaign == true) {
                 $scope.fetchCampaigns(true, true);
             } else if ((campaignSelectModel.getSelectedCampaign().id == -1)) {
                 $scope.fetchCampaigns(true, true);

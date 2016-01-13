@@ -22,7 +22,6 @@
         </div> -->
         <div class="days_left_holder">
             <div class="total_days_holder">
-
                 <div class="clearfix days_end_points">
                     <span class="start_end">{{campaign.startDate | date :'d MMM y' }}</span>
                     <span class="finish_end">{{campaign.endDate | date :'d MMM y' }}</span>
@@ -80,14 +79,17 @@
                 </div>
             </div>
         </div>
-        <div class="clearfix metric_graph_details">
+        <div class="clearfix metric_graph_details"
+             ng-show="campaigns.cdbDataMap[campaign.orderId].impressions">
             <div class="each_metric_graph_details">
-                <span class="detail_val">{{campaigns.cdbDataMap[campaign.orderId].impressions | nrFormat}}</span>
-                <span>{{ textConstants.IMP_WITH_DOT }}</span>
+                <span class="detail_val" ng-bind="campaigns.cdbDataMap[campaign.orderId].impressions |
+                    nrFormat"></span>
+                <span ng-bind="textConstants.IMP_WITH_DOT"></span>
             </div>
             <div class="each_metric_graph_details metric_graph_details_ctr">
-                <span class="detail_val">{{campaigns.cdbDataMap[campaign.orderId].ctr | number:2}}%</span>
-                <span>{{ textConstants.CTR }}</span>
+                <span class="detail_val" ng-bind="(campaigns.cdbDataMap[campaign.orderId].ctr |
+                    number:2)+'%'"></span>
+                <span ng-bind="textConstants.CTR"></span>
             </div>
             <!-- <div class="each_metric_graph_details metric_graph_details_action" ng-if="!campaigns.cdbDataMap[campaign.orderId].adFormats.videoAds || campaigns.cdbDataMap[campaign.orderId].video_metrics.vtc_rate === 0">   -->
             <div class="each_metric_graph_details metric_graph_details_action" ng-if="campaigns.cdbDataMap[campaign.orderId].video_metrics.vtc_rate === 0">
@@ -112,7 +114,9 @@
             <div class="clearfix details_KPI_row1">
                 <span class="details_KPI_title">{{campaign.kpiType!='null' ? (campaign.kpiType | displayToCamelCase) : 'NA'}}</span>
                 <span class="pull-right details_KPI_row2" ng-if="campaign.kpiValue || campaign.targetKPIImpressions">
-                    <span>{{campaign.kpiType.toLowerCase()=="delivery"?( campaign.targetKPIImpressions | nrFormat ): (campaign.kpiValue | kpiFormatter:campaign.kpiType)}}</span>
+                    <span
+                            ng-show="campaign.kpiType.toLowerCase()=='delivery'?campaign.targetKPIImpressions:campaign.kpiValue">{{campaign.kpiType.toLowerCase()=="delivery"?( campaign.targetKPIImpressions |
+                        nrFormat ): (campaign.kpiValue | kpiFormatter:campaign.kpiType)}}</span>
                     <span class="icon_KPI"></span>
                 </span>
                 <span class="pull-right cumulative_val">

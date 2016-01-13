@@ -212,7 +212,7 @@
   margin: 0 5px 0 0;
 }
 #campaignCreate .firstWrapper .masterContainer .marginCal .calTable .symbol-input .symbol ~ input {
-    padding-left : 22px ;
+  padding-left: 22px ;
 }
 #campaignCreate .firstWrapper .masterContainer .marginCal .calTable input {
   float: left;
@@ -652,6 +652,15 @@
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adCreateBtn:hover h2 {
   color: #0978C9;
 }
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .singleCardWrap {
+  float: left;
+  width: 100%;
+  padding-left: .75%;
+  opacity: .15;
+}
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .singleCardWrap.active {
+  opacity: 1.0;
+}
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule {
   padding: 0;
   border: 1px solid #CDD2DA;
@@ -845,7 +854,7 @@
   position: relative;
   width: 100%;
   border: 1px dashed #939EAE;
-  padding: 20px 0 .75% .75%;
+  padding: 20px 0 .75% 0;
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroupSelectionWrap .btnCreateGroup {
   position: absolute;
@@ -859,8 +868,11 @@
   width: 150px;
   margin-left: -75px;
   cursor: pointer;
-  color: #939ead;
+  color: #57606d;
   line-height: 100%;
+}
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroupSelectionWrap .btnCreateGroup span {
+  color: #57606d;
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroupSelectionWrap .btnCreateGroup:hover {
   border: 1px dashed #0978C9;
@@ -879,6 +891,8 @@
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroupSelectionWrap.active .adGroupCreateForm {
   border-width: 0;
+  border-bottom: 1px solid #cdd2da;
+  padding-bottom: 15px;
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adReady .adTitle {
   background: #E4F9E4;
@@ -1031,9 +1045,6 @@
 #campaignCreate .firstWrapper .maxWidthAdj .campAdHeader .campSettingOverView .each-objective span {
   clear: none;
   margin-right: 5px ;
-}
-#campaignCreate .firstWrapper .maxWidthAdj .campAdHeader .campSettingOverView .each-objective .count {
-  color: #0978c9 ;
 }
 #campaignCreate .firstWrapper .maxWidthAdj .campAdHeader .campSettingOverView .pull-left:first-child {
   padding-left: 0;
@@ -3110,6 +3121,7 @@
 .adCreateMaster #creative .creativeTableTag .table tbody {
   display: block;
   overflow: auto;
+  max-height: 400px;
 }
 .adCreateMaster #creative .creativeTableTag .table thead,
 .adCreateMaster #creative .creativeTableTag .table tbody tr {

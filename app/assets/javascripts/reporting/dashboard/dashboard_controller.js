@@ -16,15 +16,16 @@
             $rootScope.$broadcast(constants.EVENT_BRAND_CHANGED_FROM_DASHBOARD, obj);
         };
 
-        var selectAdvertiser = function (advertiser) {
-            $rootScope.$broadcast(constants.EVENT_ADVERTISER_CHANGED_FROM_DASHBOARD, advertiser);
+        var selectAdvertiser = function (advertiser, event_type) {
+            var obj = {"advertiser": advertiser, "event_type": event_type}
+            $rootScope.$broadcast(constants.EVENT_ADVERTISER_CHANGED_FROM_DASHBOARD, obj);
         };
 
         $scope.clickOnBrandButton = function (e) {
             analytics.track(loginModel.getUserRole(), 'dashboard_bubble_widget', 'close_campaign_view', loginModel.getLoginName());
             // if brand selected from bubble then on close reset advertiser and brand to all else retain advertiser
             if ($scope.brandSelectedFromBubble) {
-                selectAdvertiser(advertiserModel.getAdvertiser().allAdvertiserObject);
+                selectAdvertiser(advertiserModel.getAdvertiser().allAdvertiserObject, 'clicked');
             } else {
                 selectBrand(brandsModel.getAllBrand(), 'clicked');
             }
@@ -43,7 +44,7 @@
             $scope.brandSelectedFromBubble = true;
             var brand = {id: args.brandId, name: args.className};
             selectAdvertiser({"id": args.advertiserId, "name": args.advertiserName, "referedFrom": 'dashboard'});
-            selectBrand(brand);
+            selectBrand(brand, 'clicked');
         });
 
         //if selected All Brands

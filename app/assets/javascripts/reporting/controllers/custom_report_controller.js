@@ -1,7 +1,7 @@
 var angObj = angObj || {};
 (function () {
     'use strict';
-    angObj.controller('CustomReportController', function ($rootScope, $scope, $route, $window, campaignSelectModel, strategySelectModel, kpiSelectModel, platformService, utils, dataService,  apiPaths, requestCanceller, constants, domainReports, timePeriodModel, loginModel, analytics, $timeout,$routeParams,$location,urlService,dataStore) {
+    angObj.controller('CustomReportController', function ($rootScope, $scope, $route, $window, campaignSelectModel, strategySelectModel, kpiSelectModel, utils, dataService,  apiPaths, requestCanceller, constants, domainReports, timePeriodModel, loginModel, analytics, $timeout,$routeParams,$location,urlService,dataStore,momentService) {
         $scope.additionalFilters = [];
         $scope.textConstants = constants;
         $scope.additionalValue = "Contains keywords ...";
@@ -42,6 +42,7 @@ var angObj = angObj || {};
         $scope.showAddBreakdownButton = true;
         $scope.updateScheduleReport = false;
         $scope.buttonLabel = $scope.textConstants.GENERATE_LABEL;
+        $scope.buttonResetCancel = $scope.textConstants.RESET_LABEL;
         $scope.stopRedirectingPage = true;
         $scope.initializeMetrics = function(dataObj) {
             //delivery metrics
@@ -297,6 +298,7 @@ var angObj = angObj || {};
             if($routeParams.reportId) {
                 $scope.updateScheduleReport = true;
                 $scope.buttonLabel = "Update";
+                $scope.buttonResetCancel = "Cancel";
                 var url = urlService.scheduledReport($routeParams.reportId);
                 dataStore.deleteFromCache(url);
                 dataService.fetch(url).then(function (response) {
@@ -323,10 +325,6 @@ var angObj = angObj || {};
             $scope.reports.reportDefinition.dimensions.secondary ={'name':'','dimension':'','value':''};
             $scope.showAddBreakdownButton = true;
         }
-
-
-
-
 
         $scope.getMessageForDataNotAvailable = function () {
             return constants.MSG_DATA_NOT_AVAILABLE_FOR_DASHBOARD;
@@ -496,7 +494,7 @@ var angObj = angObj || {};
                     str+=':'+$scope.reports.reportDefinition.dimensions[filterDataKey].value;
                 }
                 if(typeof filterText != "undefined" && filterText != null && filterText != "" && str.search(filterText.trim()) == -1){
-                    str+=':'+filterText;
+                    str+=':'+filterText +"&exact_match=true";
                 }
             }
             if($scope.additionalFilters.length > 0) {
@@ -641,9 +639,11 @@ var angObj = angObj || {};
                 $scope.requestData.reportDefinition.filters.push({"dimension":$scope.reports.reportDefinition.dimensions.secondary.dimension,"type":"Secondary","values":$scope.reports.reportDefinition.dimensions.secondary.value});
             }
             _.each($scope.additionalFilters,function(eachObj) {
-                // $scope.requestData.reportDefinition.dimensions.push({"dimension":eachObj.key,'type':"Additional"});
                 if(eachObj.value) {
                     $scope.requestData.reportDefinition.filters.push({"dimension":eachObj.key,'type':"Additional","values":eachObj.value})
+                } else if(isIntermediateSave) {
+                    //if a filter key is selected then show it with the input box
+                    $scope.requestData.reportDefinition.filters.push({"dimension":eachObj.key,'type':"Additional"})
                 }
 
             })
@@ -953,20 +953,21 @@ var angObj = angObj || {};
         };
         $scope.select_schedule_option = function(arg) {
             $scope.reports.schedule.frequency = arg;
+            var currentYear = momentService.getCurrentYear().toString();
             if( arg ) {
                 arg = arg.toLowerCase();
                 $(".scheduling-options").hide() ;
                 $(".schedule-" + arg).show() ;
                 if(arg == "once" ) {
                     $('#deliverOn').datepicker('update', $scope.reports.schedule.startDate);
-                    $('#deliverOn').datepicker('setStartDate', $scope.reports.schedule.startDate);
+                    $('#deliverOn').datepicker('setStartDate', currentYear);
                     $(".schedule-date" ).hide() ;
                 } else {
                     $(".schedule-date" ).show() ;
                     $('#startOn').datepicker('update', $scope.reports.schedule.startDate);
-                    $('#startOn').datepicker('setStartDate', $scope.reports.schedule.startDate);
+                    $('#startOn').datepicker('setStartDate', currentYear);
                     $('#endOn').datepicker('update', $scope.reports.schedule.endDate);
-                    $('#endOn').datepicker('setStartDate', $scope.reports.schedule.endDate);
+                    $('#endOn').datepicker('setStartDate', currentYear);
 
                 }
             }
@@ -1023,7 +1024,9 @@ var angObj = angObj || {};
                 $(".each-col:not(#schedule-btn)").hide() ;
                 $(".default-schedule-col").find(".dd_txt").text("Select") ;
             }
-            $scope.$apply();
+            if(!$scope.updateScheduleReport && !localStorage.getItem('customReport')) {
+                $scope.$apply();
+            }
         };
 
         $(document).ready( function() {
@@ -1085,13 +1088,15 @@ var angObj = angObj || {};
                 var documentScrollLeft = $(this).scrollLeft();
                 if (lastScrollLeft != documentScrollLeft) {
                     lastScrollLeft = documentScrollLeft;
-                    $(".custom_report_scroll").addClass("vertical_scroll");
+                    $(".custom_report_scroll").removeClass("vertical_scroll");
+                    $(".custom_report_scroll").addClass("hori_scroll");
                 }
 
                 var documentScrollTop = $(this).scrollTop();
                 if(lastScrollTop !== documentScrollTop) {
                     lastScrollTop = documentScrollTop;
                     $(".custom_report_scroll").addClass("vertical_scroll");
+                    $(".custom_report_scroll").removeClass("hori_scroll");
                 }
             });
 
@@ -1447,6 +1452,28 @@ var angObj = angObj || {};
                     });
                 }
             }
+            $scope.refreshMetriPopUp = function(){
+                var metricsType = ['deliveryMetrics', 'costMetrics', 'videoMetrics', 'displayQltyMetrics', 'videoQltyMetrics'];
+                _.each(metricsType, function(v){
+                    _.each($scope[v],function(o){
+                        o.selected = false;
+                    });
+                    $scope[v].isAllSelected = false;
+                });
+                _.each($scope.selectedMetricsList,function(selObj) {
+                    _.each(metricsType, function(v){
+                        _.each($scope[v],function(o){
+                            if(selObj.key == o.key){
+                                o.selected = true;
+                            }
+                        });
+                        $scope[v].isAllSelected = true;
+                        _.each($scope[v],function(o){
+                            if(!o.selected) $scope[v].isAllSelected = false;
+                        });
+                    });
+                });
+            }
             $scope.validateScheduleDate = function(){
                 if($scope.buttonLabel == "Update"){
                     var currDate = (function () {
@@ -1481,6 +1508,17 @@ var angObj = angObj || {};
                     $scope.scheduleReport();
                 }
             }
+            
+            $scope.resetMetricOptions = function() {
+                var url = '/reports/schedules';
+                if ($scope.buttonResetCancel == "Cancel") {
+                    window.location.href = url;                     
+                } else if ($scope.buttonResetCancel == "Reset") {                   
+                    localStorage.removeItem('customReport');
+                    $route.reload();
+                } else {
+                }
+            }  
 
             $scope.addSearch = function(event) {
                 event.stopPropagation();

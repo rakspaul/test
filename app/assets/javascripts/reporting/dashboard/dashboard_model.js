@@ -22,10 +22,11 @@ dashboardModule.factory("dashboardModel", ['loginModel', 'advertiserModel', 'bra
             var ready = response.data.data.ready, draft = response.data.data.draft, paused = response.data.data.paused;
             var totalCampaigns = response.data.data.active.total + response.data.data.completed.total + response.data.data.na.total + ready + draft + paused;
             dashboardData.totalCampaigns = totalCampaigns;
+            var mediaPlanText = 'Media Plan' + (dashboardData.totalCampaigns > 1 ? 's' : '');
             if (advertiserId > 0 && brandId == -1) {
-                dashboardData.toolTip = 'Showing data for ' + dashboardData.totalCampaigns + ' Media Plans across ' + brandsModel.totalBrands() + ' brands';
+                dashboardData.toolTip = 'Showing data for ' + dashboardData.totalCampaigns + ' '+mediaPlanText+' across ' + brandsModel.totalBrands() + ' brands';
             } else {
-                dashboardData.toolTip = 'Showing data for ' + dashboardData.totalCampaigns + ' Media Plans';
+                dashboardData.toolTip = 'Showing data for ' + dashboardData.totalCampaigns + ' '+mediaPlanText;
             }
 
         })

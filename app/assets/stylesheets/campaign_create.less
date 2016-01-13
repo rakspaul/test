@@ -640,6 +640,15 @@
               color: #0978C9;
             }
           }
+          .singleCardWrap {
+            float: left;
+            width: 100%;
+            padding-left: .75%;
+            opacity: .15;
+          }
+          .singleCardWrap.active {
+            opacity: 1.0;
+          }
           .adModule {
             padding: 0;
             border: 1px solid #CDD2DA;
@@ -839,7 +848,7 @@
             position: relative;
             width: 100%;
             border: 1px dashed #939EAE;
-            padding: 20px 0 .75% .75%;
+            padding: 20px 0 .75% 0;
             .btnCreateGroup {
               position: absolute;
               z-index: 10;
@@ -852,8 +861,11 @@
               width: 150px;
               margin-left: -75px;
               cursor: pointer;
-              color: #939ead;
+              color: #57606d;
               line-height: 100%;
+              span {
+                color: #57606d;
+              }
             }
             .btnCreateGroup:hover {
               border: 1px dashed #0978C9;
@@ -872,6 +884,8 @@
             }
             .adGroupCreateForm {
               border-width: 0;
+              border-bottom: 1px solid #cdd2da;
+              padding-bottom: 15px;
             }
           }
           .adReady {
@@ -1028,9 +1042,6 @@
             span {
               clear: none;
               margin-right: 5px ;
-            }
-            .count {
-              color: #0978c9 ;
             }
           }
           .pull-left:first-child {
@@ -3192,6 +3203,7 @@
         tbody {
           display:block;
           overflow:auto;
+          max-height: 400px;
         }
         thead, tbody tr {
             display:table;

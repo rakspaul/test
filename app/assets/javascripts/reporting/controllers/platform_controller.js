@@ -2,10 +2,10 @@ var angObj = angObj || {};
 (function () {
     'use strict';
     angObj.controller('PlatformController', function ($rootScope, $scope, $window, campaignSelectModel,
-                                                      strategySelectModel, kpiSelectModel, platformService,
+                                                      strategySelectModel, kpiSelectModel,
                                                       utils, dataService, apiPaths, constants, domainReports,
                                                       timePeriodModel, RoleBasedService, loginModel, analytics,
-                                                      $timeout, advertiserModel, brandsModel) {
+                                                      $timeout, advertiserModel, brandsModel, urlService) {
 
         $scope.textConstants = constants;
 
@@ -110,7 +110,8 @@ var angObj = angObj || {};
             }
 
             $scope.api_return_code = 200;
-            platformService.getStrategyPlatformData(param).then(function (result) {
+            var url = urlService.APIVistoCustomQuery(param);
+            dataService.fetch(url).then(function (result) {
                 $scope.strategyLoading = false;
                 if (result.status === "OK" || result.status === "success") {
                     $scope.isCostModelTransparent = true;
@@ -206,7 +207,11 @@ var angObj = angObj || {};
                 if (selectedStrategyObj.id === -1) {
                     var adFormatsArr = [];
                     _.each(strategyObj.strategies, function (obj) {
-                        adFormatsArr.push(obj.ad_formats && obj.ad_formats[0])
+                        if(obj.ad_formats && obj.ad_formats.length >0) {
+                            _.each(obj.ad_formats, function (value) {
+                                adFormatsArr.push(value)
+                            });
+                        }
                     })
                     adFormatsArr = _.compact(_.uniq(adFormatsArr))
                     $scope.adFormats = domainReports.checkForCampaignFormat(adFormatsArr);
@@ -229,7 +234,7 @@ var angObj = angObj || {};
         $scope.$on(constants.EVENT_STRATEGY_CHANGED, function (event, strategy) {
             var selectedStrategyObj = strategySelectModel.getSelectedStrategy();
             var strategyObj = strategySelectModel.getStrategyObj();
-            extractAdFormats()
+            extractAdFormats();
             $scope.selectedStrategy.id = selectedStrategyObj.id;
             $scope.selectedStrategy.name = selectedStrategyObj.name;
             $scope.strategyHeading = Number($scope.selectedStrategy.id) === constants.ALL_STRATEGIES_OBJECT.id ? 'Campaign total' : 'Ad Group total';

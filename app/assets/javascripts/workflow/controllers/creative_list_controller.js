@@ -51,13 +51,13 @@ var angObj = angObj || {};
         $scope.campaignId = $routeParams.campaignId;
 
         $scope.formatDate = function (date) {
-            return moment(date).format('MMM DD YYYY')
+            return moment(date).format('MMM DD YYYY');
         }
 
         $scope.creativeSearchFunc = function () {
             var searchVal = $scope.creativeSearch;
             var qryStr = '';
-            var formats = 'VIDEO,DISPLAY'
+            var formats = 'VIDEO,DISPLAY';
             if (searchVal.length > 0) {
                 qryStr += '&query=' + searchVal;
             }

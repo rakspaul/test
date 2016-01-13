@@ -34,7 +34,7 @@
                 <div class="data_heading">Media Plan</div>
                 <div class="">
                     <div class="dropdown">
-                        <span data-toggle="dropdown" class="dropdown_txt">{{selectedCampaignObj.name}}</span>
+                        <span data-toggle="dropdown" class="dropdown_txt">{{editedData.campaignName}}</span>
                         <ul class="dropdown-menu">
 
                             <li ng-repeat="cl in campaignList" ng-click="setSelectedCampIdAndName(cl.campaign_id,cl.name);">{{cl.name}}</li>
@@ -55,7 +55,7 @@
         </div><!-- end of modal_body -->
         <div class="clearfix popup-btns-holder">
             <span class="pull-left delete-option" ng-click="deleteReportModal();">Delete</span>
-            <span class="common_primary_btn" ng-class="{'loading-icon':ediScreenBusy}" ng-click="updateReport()">Save</span>
+            <span class="common_primary_btn" ng-class="{'loading-icon':editScreenBusy}" ng-click="updateReport()">Save</span>
             <span class="secondary_txt" data-dismiss="modal" ng-click="close()" >
                 Cancel
             </span>

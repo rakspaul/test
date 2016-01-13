@@ -1,7 +1,7 @@
 var angObj = angObj || {};
 (function () {
     'use strict';
-    angObj.controller('BuyingPlatformController', function ($scope, $window, $routeParams, constants, workflowService, $timeout, utils, $location, $filter, platformCustomeModule, $rootScope) {
+    angObj.controller('BuyingPlatformController', function ($scope, $window, $routeParams, constants, workflowService, $timeout, utils, $location, $modal, $filter, platformCustomeModule, $rootScope) {
         $scope.showtrackingSetupInfoPopUp = false;
 
         $scope.$watch('adData.platformId', function (newValue) {
@@ -137,6 +137,7 @@ var angObj = angObj || {};
             var name = platform.displayName ? platform.displayName : platform.name;
             $scope.adData.platform = name;
             $scope.adData.platformId = platform.id;
+            $scope.adData.platformName = platform.name;
             $scope.selectedPlatform[platform.id] = name;
             event && $scope.platformCustomInputs();
         }
@@ -152,6 +153,7 @@ var angObj = angObj || {};
             /*To populate the newly selected Platform in sideBar*/
             $scope.adData.platform = trackingIntegration.displayName;
             $scope.adData.platformId = trackingIntegration.id;
+            $scope.adData.platformName = trackingIntegration.name;
 
 
             /*code to make creatives already set to empty*/
@@ -201,13 +203,46 @@ var angObj = angObj || {};
             });
         }
 
-        $scope.$on('switchPlatformFunc', function () {
+        var hideCustomPlatfromBox = function() {
             $(".platform-custom").delay(300).animate({left: "100%", marginLeft: "0px"}, function () {
                 $(this).hide();
                 $scope.showPlatformBox = false;
             });
             $(".offeringsWrap").show();
+        }
 
+        $scope.$on('switchPlatformFunc', function () {
+            var customFieldErrorElem = $(".customFieldErrorMsg");
+            if (customFieldErrorElem.length > 0) {
+                var $modalInstance = $modal.open({
+                    templateUrl: assets.html_confirmation_modal,
+                    controller: "ConfirmationModalController",
+                    scope:$scope,
+                    windowClass: 'delete-dialog',
+                    resolve: {
+                        headerMsg: function () {
+                            return "Custom Field";
+                        },
+                        mainMsg: function () {
+                            return "Address the validation errors or clear the values to proceed";
+                        },
+                        buttonName: function() {
+                            return "Reset"
+                        },
+                        execute: function () {
+                            return function () {
+                                $(".customFieldErrorMsg").remove();
+                                if($("#customPlatformForm") && $("#customPlatformForm").length >0) {
+                                    $("#customPlatformForm")[0].reset();
+                                }
+                                hideCustomPlatfromBox();
+                            }
+                        }
+                    }
+                });
+                return false;
+            }
+            hideCustomPlatfromBox();
         })
 
 
