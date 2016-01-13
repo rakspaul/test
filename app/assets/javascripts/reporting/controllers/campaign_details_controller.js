@@ -42,7 +42,7 @@
             actionChart :true
         };
 
-        $scope.isCostModelTransparent = loginModel.getIsAgencyCostModelTransparent();
+     //   $scope.isCostModelTransparent = loginModel.getIsAgencyCostModelTransparent();
 
         $scope.usrRole  = RoleBasedService.getClientRole() && RoleBasedService.getClientRole().ui_exclusions;
         $scope.isLocaleSupportUk = RoleBasedService.getClientRole().i18n && RoleBasedService.getClientRole().i18n.locale === 'en-gb';
@@ -185,9 +185,9 @@
                     }
                 });
 
-                if($scope.isCostModelTransparent) {
-                    $scope.getCostBreakdownData($scope.campaign);
-                }
+//                if($scope.isCostModelTransparent) {
+//                    $scope.getCostBreakdownData($scope.campaign);
+//                }
                 $scope.getPlatformData();
                 $scope.getCostViewabilityData($scope.campaign);
                 $scope.getInventoryGraphData($scope.campaign);
@@ -496,9 +496,9 @@
                         var findOthers = _.findWhere($scope.costBreakdownChartInfo, {name: 'Other'});
                         cBreakdownChartColors.push(findOthers.colorCode);
                         cBreakdownChartData.push(findOthers.value);
-                         if(costData.cost_transparency === false) {
-                             $scope.isCostModelTransparent = false;
-                         }
+//                         if(costData.cost_transparency === false) {
+//                             $scope.isCostModelTransparent = false;
+//                         }
                          //set Up configuration for Cost breakdown chart
                          $scope.costBreakDownPieChartConfig = {data:cBreakdownChartData,width:108,height:108,widgetId:'costBreakdownWidget',colors:cBreakdownChartColors};
 
