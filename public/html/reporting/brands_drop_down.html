@@ -8,7 +8,7 @@
         <span class="sort-image-inactive brands_dd_filter_arrow" id="#brandsDropDownImg"></span>
       </div>
       <div class="brandsList_ul" id="brandsList_ul">
-          <li ng-repeat="brand in brands | filter : brand.name track by brand.id" ng-hide="isExcludedByBrandFilter" ng-class="{'active' : brand.id === brandData.selectedBrand.id}">
+          <li ng-repeat="brand in brands | filter : selectedBrand.name track by brand.id" ng-hide="isExcludedByBrandFilter" ng-class="{'active' : brand.id === brandData.selectedBrand.id}">
           <a data-ng-click="selectBrand(brand, '', 'clicked')">
             <span class="tick"></span>
             <span class="menuItemText" ng-bind-html="highlightSearch(brand.name, selectedBrand.name)">{{brand.name}}</span>
