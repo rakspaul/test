@@ -45,10 +45,10 @@
 
                     <div class="column" ng-if="campaign.hasOwnProperty('status')">{{campaign.status}}</div>
                     <div class="column" ng-if="!campaign.hasOwnProperty('status')"> - </div>
-                    <div class="column" ng-if="campaign.hasOwnProperty('startTime')">{{convertEST(campaign.startTime,'YYYY-MM-DD')}}</div>
+                    <div class="column" ng-if="campaign.hasOwnProperty('startTime')">{{utcToLocalTime(campaign.startTime,'YYYY-MM-DD')}}</div>
                     <!--<div class="column" ng-if="campaign.hasOwnProperty('startTime')">{{ utc(campaign.startTime) | date : 'yyyy-MM-dd'}}</div>-->
                     <div class="column" ng-if="!campaign.hasOwnProperty('startTime')"> - </div>
-                    <div class="column" ng-if="campaign.hasOwnProperty('endTime')">{{convertEST(campaign.endTime,'YYYY-MM-DD')}}</div>
+                    <div class="column" ng-if="campaign.hasOwnProperty('endTime')">{{utcToLocalTime(campaign.endTime,'YYYY-MM-DD')}}</div>
                     <!--<div class="column" ng-if="campaign.hasOwnProperty('endTime')">{{utc(campaign.endTime) | date : 'yyyy-MM-dd'}}</div>-->
                     <div class="column" ng-if="!campaign.hasOwnProperty('endTime')"> - </div>
                     <!--<div class="column icon-settings" tooltip="Edit Campaign" ng-click="editCampaign($event,campaign)"></div>-->
