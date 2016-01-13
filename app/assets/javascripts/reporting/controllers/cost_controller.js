@@ -62,7 +62,7 @@ var angObj = angObj || {};
             $scope.isStrategyDropDownShow = true;
             $scope.strategyMarginValue = -1 ;
             $scope.strategyMarginUnit = constants.SYMBOL_PERCENT;
-            $scope.isCostModelTransparent = true;
+//            $scope.isCostModelTransparent = true;
 
             $scope.selected_filters = {};
             $scope.selected_filters.campaign_default_kpi_type = $scope.selectedCampaign.kpi.toLowerCase() ;
@@ -84,9 +84,9 @@ var angObj = angObj || {};
             $scope.strategyCostBusy = true;
             $scope.tacticCostBusy = false;
             var errorHandler =  function(result) {
-                if(result && result.status == 204) {
-                    $scope.isCostModelTransparent = true;
-                }
+//                if(result && result.status == 204) {
+//                    $scope.isCostModelTransparent = true;
+//                }
                 $scope.dataNotFound = true;
                 $scope.strategyCostBusy = false;
                 $scope.tacticCostBusy = false;
@@ -114,10 +114,10 @@ var angObj = angObj || {};
                         $scope.strategyCostData = result.data.data ;
                         if(typeof $scope.strategyCostData != "undefined" && $scope.strategyCostData != null && $scope.strategyCostData.length >0){
                             $scope.dataNotFound = false;
-                            $scope.isCostModelTransparent = $scope.strategyCostData[0].cost_transparency;
-                            if($scope.isCostModelTransparent ===  false) {
-                                $scope.isCostModelTransparentMsg = $scope.strategyCostData[0].message;
-                            }
+//                            $scope.isCostModelTransparent = $scope.strategyCostData[0].cost_transparency;
+//                            if($scope.isCostModelTransparent ===  false) {
+//                                $scope.isCostModelTransparentMsg = $scope.strategyCostData[0].message;
+//                            }
                             $scope.strategyCostBusy = false;
                             $scope.strategyMarginValue =  $scope.strategyCostData[0].margin ;
                             if ($scope.strategyCostData[0].pricing_method && $scope.strategyCostData[0].pricing_method === constants.PRICING_METHOD_CPM)
