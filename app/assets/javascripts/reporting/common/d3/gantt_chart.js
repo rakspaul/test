@@ -713,7 +713,11 @@
                 var rect = rectData.enter();
                 var rectGroup = rect.append("a")
                                         .attr("xlink:href", function(d){
-                                            return '/mediaplans/' + d.id;
+                                            if (d.type == "brand") {
+                                                return "javascript:void(0)";
+                                            } else {
+                                                return '/mediaplans/' + d.id;
+                                            }  
                                         })
                                         .style("text-decoration", "none")
                                         .on("click", function(d){
