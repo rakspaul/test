@@ -471,19 +471,24 @@
                                             kpiTypeLower = "impressions";
                                         }
 
-                                    lineDate.push({ 'x': i + 1, 'y': utils.roundOff(maxDays[i][kpiTypeLower], 2), 'date': maxDays[i]['date'] });
+                                    lineDate.push({ 'x': i + 1, 'y': utils.roundOff(maxDays[i][kpiTypeLower], 2),
+                                        'date': maxDays[i]['date'] });
                                 }
                                 cdData = _.last(maxDays);
-                                cdData['adFormats'] = domainReports.checkForCampaignFormat(result.data.data.adFormats); //result.data.data.hasVTCMetric;
+                                cdData['adFormats'] = domainReports.checkForCampaignFormat(result.data.data.adFormats);
+                                //result.data.data.hasVTCMetric;
                                 callback && callback(cdData);
-                                campaignObject.chart = new line.highChart(lineDate, parseFloat(campaignObject.kpiValue), campaignObject.kpiType,'campaign');
+                                campaignObject.chart = new line.highChart(lineDate, parseFloat(campaignObject.kpiValue),
+                                    campaignObject.kpiType,'campaign');
                                 //d3 chart data
                                 //REVIEW: TARGET -DELIVERY
                                 if(angular.lowercase(kpiType) === "delivery") {
-                                    //campaignObject.targetKPIImpressions= maxDays[maxDays.length-1]['booked_impressions']/momentInNetworkTZ.dateDiffInDays(campaignObject.startDate, campaignObject.endDate) * (maxDays.length-1);
+                                    //campaignObject.targetKPIImpressions =
+                                    // maxDays[maxDays.length-1]['booked_impressions'] /
+                                    // momentInNetworkTZ.dateDiffInDays(campaignObject.startDate, campaignObject.endDate) *
+                                    // (maxDays.length-1);
                                     campaignObject.targetKPIImpressions= maxDays[maxDays.length-1]['booked_impressions'];
                                 }
-
 
                                 campaignObject.lineChart = {
                                     data: lineDate,
@@ -557,8 +562,10 @@
                                 status = undefined;
                         }
 
-                        dataArr[obj].start_date = momentService.utcToLocalTime(dataArr[obj].start_date, 'YYYY-MM-DD');
-                        dataArr[obj].end_date = momentService.utcToLocalTime(dataArr[obj].end_date, 'YYYY-MM-DD');
+                        dataArr[obj].start_date =
+                            momentService.utcToLocalTime(dataArr[obj].start_date, constants.DATE_UTC_SHORT_FORMAT);
+                        dataArr[obj].end_date =
+                            momentService.utcToLocalTime(dataArr[obj].end_date, constants.DATE_UTC_SHORT_FORMAT);
 
                         var campaign = modelTransformer.transform(dataArr[obj], campaignModel);
                         campaign.periodStartDate = periodStartDate;
