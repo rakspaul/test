@@ -51,6 +51,7 @@ var angObj = angObj || {};
                 $scope.clientsDetails = res.data.data[0].children;
                 //$scope.clientsDetails = res.data.data;
             });
+
         };
         $scope.fetchAllClients();
 
@@ -114,6 +115,7 @@ var angObj = angObj || {};
             });
         };
 
+
         //Add or Edit Pop up for Brand
         $scope.AddOrEditBrandModal = function(advObj,mode,client,brand) {
             $scope.mode = mode;
@@ -148,6 +150,7 @@ var angObj = angObj || {};
             });
         };
 
+
         $scope.resetBrandAdvertiserAfterEdit = function(mode){
             $scope.mode = 'create';
             $scope.client = '';
@@ -167,6 +170,7 @@ var angObj = angObj || {};
             accountsService.setToBeEditedClient(null)
 
         };
+
 
         //Add or Edit Pop up for Account
         $scope.AddOrEditAccountModal = function(mode,clientObj) {
@@ -221,6 +225,7 @@ var angObj = angObj || {};
             $scope.dropdownCss.display = 'block';
             $(".account_name_list").show();
         };
+
     });
 
 })();

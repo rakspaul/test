@@ -2,19 +2,16 @@
 (function() {
     'use strict';
 
-    angObj.controller('UsersAddOrEdit', function($scope, $modalInstance,accountsService,$timeout,$modal, $location,$rootScope) {
+    angObj.controller('UsersAddOrEdit', function($scope, $modalInstance,accountsService,$timeout,$modal, $location,$rootScope,constants) {
         $scope.permissions = [];
-        $scope.isSuperAdmin=true;
+        $scope.isSuperAdmin=false;
         $scope.clientName=[];
         $scope.advertiserName=[];
         $scope.brandName=[];
         $scope.User = {
             data: []
-        }
-
-
-        $scope.userConsoleFormDetails.role_template_id = accountsService.getRoleId('Super_Admin');
-
+        };
+        $scope.userConsoleFormDetails.roleTemplateId = constants.account_admin;
 
         $scope.User.delete_filter = function(event,index) {// the last one getting deleted always
             var elem = $(event.target);
@@ -31,7 +28,7 @@
             $modalInstance.dismiss();
         };
         $scope.selectedRole=function(roleType){
-            if(roleType=="Super_Admin"){
+            if(roleType=="0"){
                 $scope.isSuperAdmin=true;
                 $scope.permissions = [];
             }
@@ -50,21 +47,69 @@
                    var postDataObj={};
                     postDataObj=$scope.userConsoleFormDetails;
                     postDataObj.permissions=$scope.User.data;
-                    postDataObj.role_template_id = accountsService.getRoleId(postDataObj.role_template_id);
-                }
-            console.log("postDataObj==",JSON.stringify(postDataObj));
-            //create user call goes here
+                    _.each(postDataObj.permissions,function(item){
+                        if(item.advertiserId == "")
+                            item.advertiserId = -1;
+                        if(item.brandId == "")
+                            item.brandId = -1;
 
-            $scope.resetFields();
+                    })
+                    postDataObj.email=postDataObj.email.toLowerCase();
+                    //postDataObj.role_template_id = accountsService.getRoleId(postDataObj.role_template_id);
+
+                    //create user call goes here
+                    // condition 1 - super admin - no need of any permissions
+                    if(constants.super_admin == postDataObj.roleTemplateId ){
+                        $scope.createUser(postDataObj);
+                    }
+                    // condition 2 - not super admin - need  permissions
+                    if(constants.super_admin != postDataObj.role_template_id && postDataObj.permissions.length > 0){
+                        $scope.createUser(postDataObj);
+                    }
+                    else{
+                        $rootScope.setErrAlertMessage(constants.WF_PERMISSION_NEEDED);
+                    }
+
+                }
+
+
            // console.log($scope.permissions);
            // console.log($scope.User.data);
-        },
-        $scope.selectedClientHandler=function(clientObj,index){
+        };
 
+        $scope.createUser = function(postDataObj){
+            accountsService.createUser(postDataObj).then(function(res){
+                $rootScope.$broadcast('refreshUserList');
+                $scope.resetFields();
+                $rootScope.setErrAlertMessage(constants.WF_USER_CREATION_SUCCESS,0);
+            },function(err){
+                $rootScope.setErrAlertMessage(constants.WF_USER_CREATION_FAIL);
+            });
+        }
+
+        $scope.selectedClientHandler=function(clientObj,index, orgId, resellerId){
 
             var counter=accountsService.getCounter();
             $scope.selectedClient={};
-            $scope.User.data[index].clientId = clientObj.id;
+            if(clientObj.clientType === "ORGANIZATION") {
+                $scope.User.data[index].orgId = clientObj.id;
+                $scope.User.data[index].resellerId = -1;
+                $scope.User.data[index].clientId = -1;
+            } else if(clientObj.clientType === "RESELLER") {
+                $scope.User.data[index].resellerId = clientObj.id;
+                $scope.User.data[index].orgId = orgId;
+                $scope.User.data[index].clientId = -1;
+            } else {
+
+                $scope.User.data[index].orgId = orgId;
+                if(resellerId) {
+                    $scope.User.data[index].resellerId = resellerId;
+                } else {
+                    $scope.User.data[index].resellerId = 0;
+                }
+                $scope.User.data[index].clientId = clientObj.id;
+            }
+
             $scope.clientName[index] = clientObj.name;
 
             //initialize advertiser,brand
@@ -76,16 +121,16 @@
 
             //hard reset advertiser and brand and permission before populating
             $scope.advertiserName[index] = "Select Advertiser";
-            $scope.User.data[index].advertiserId = '';
+            $scope.User.data[index].advertiserId = '-1';
             $scope.userModalData[index].Advertisers = [];
             $scope.brandName[index] = "Select Brand";
-            $scope.User.data[index].brandId = "";
+            $scope.User.data[index].brandId = '-1';
             $scope.userModalData[index].Brands = [];
 
             //populate advertiser based on selected client
             userModalPopup.getUserAdvertiser(clientObj.id,index);
 //            $scope.selectedClient['counter']=$scope.allPermissions[index].name;
-        }
+        };
 
         $scope.selectAdvertiser=function(advertiserObj,index){
             $scope.advertiserName[index] = advertiserObj.name;
@@ -104,7 +149,7 @@
             // load brands based on advertiser and client
             userModalPopup.getUserBrands($scope.User.data[index].clientId,advertiserObj.id,index)
 
-        }
+        };
 
         $scope.selectBrand=function(brandObj,index){
             $scope.brandName[index] = brandObj.name;
@@ -115,12 +160,12 @@
                 //$scope.userModalData[index] = [];
                 $scope.userModalData[index]['Permissions'] = [];
             }
-        }
+        };
 
         $scope.incrementCounter=function(index){
             accountsService.setCounter();
             $scope.permissions.push({});
-        }
+        };
 
         var userModalPopup = {
             getUserClients:function(){
@@ -148,14 +193,15 @@
                         $scope.userModalData[index]['Advertisers'] = res.data.data;
                         //$scope.userModalData['Advertisers'][0] = {id:0,name:"All Advertisers"}
                     }
-                })
+                });
                 //$scope.userModalData['Advertisers']=[{id:0,name:"All Advertisers"},{id:32,name:"Advertiser1"},{id:33,name:"Advertiser2"},{id:34,name:"Advertiser3"}]
             },
             getUserPermission:function(){
                 $scope.userModalData['Permission']=[{value:"ADMIN",name:"Admin"},{value:"WRITE",name:"Write"},{value:"READ",name:"Read"}]
             }
 
-        }
+        };
+
         userModalPopup.getUserClients();
         //userModalPopup.getUserAdvertiser();
         //userModalPopup.getUserBrands();
@@ -175,15 +221,18 @@
             $scope.brandName=[];
             $scope.User = {
                 data: []
-            }
+            };
+            $scope.isSuperAdmin = false;
             $scope.close();
 
-        }
+        };
 
         //set permissions in edit mode
         $rootScope.$on('setPermissions',function(){
             console.log("val edit ####== ");
-        })
+        });
     });
+
+
 
 }());

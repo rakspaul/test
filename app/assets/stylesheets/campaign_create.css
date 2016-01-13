@@ -692,7 +692,7 @@
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule .adTitle .adIconWidget {
   float: left;
-  padding-right: 10px;
+  padding-right: 6px;
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule .adTitle .adDisplay {
   margin-right: 6px;
@@ -868,8 +868,11 @@
   width: 150px;
   margin-left: -75px;
   cursor: pointer;
-  color: #939ead;
+  color: #57606d;
   line-height: 100%;
+}
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroupSelectionWrap .btnCreateGroup span {
+  color: #57606d;
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroupSelectionWrap .btnCreateGroup:hover {
   border: 1px dashed #0978C9;
@@ -3118,6 +3121,7 @@
 .adCreateMaster #creative .creativeTableTag .table tbody {
   display: block;
   overflow: auto;
+  max-height: 400px;
 }
 .adCreateMaster #creative .creativeTableTag .table thead,
 .adCreateMaster #creative .creativeTableTag .table tbody tr {
