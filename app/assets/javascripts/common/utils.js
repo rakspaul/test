@@ -908,9 +908,9 @@ angObj.directive('truncateTextWithHover', function (campaignListService) {
     };
   });
 
-  angObj.filter("reportDateFilter", function ($filter,momentService) {
+  angObj.filter("reportDateFilter", function ($filter, momentService) {
     return function (value, key) {
-      return momentService.reportDateFormat(value);
+        return momentService.reportDateFormat(value);
     };
   });
 
