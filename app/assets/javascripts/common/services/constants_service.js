@@ -642,14 +642,14 @@
     this.IMPORT = 'Import';
     
     //Ad Create: 6 Creative
-    this.ADDCREATIVETAG = 'Add Creative Tag';
+    this.ADDCREATIVETAG = 'Add Creative';
     this.ADDINGTHIRD = 'Adding third party Creative Tags';
     this.ADDEXISTNG = 'Add from Existing';
     this.CREATENEW = 'Create New';
     this.DLTRACKER = 'Download Tracker URLs';
     this.SIZE = 'Size';
-    this.TAGNAME = 'Tag Name';
-    this.TAGTYPE = 'Tag Size';
+    this.TAGNAME = 'Creative Name';
+    this.TAGTYPE = 'Type';
     this.SSL = 'SSL';
     this.YOUHAVENTADDED = "You haven't added any Creative Tags for your Ad yet";
     this.COPY = "Copy";

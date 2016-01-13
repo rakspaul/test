@@ -124,10 +124,10 @@
 								<input type="checkbox" ng-click="selectAllAudience()" ng-checked="selectAllChecked">
 							</div>
 						</div>
-						<div class="columnTwo" style="width: 31.333%">
+						<div class="columnTwo" style="width: 41.333%">
 							<span>Segment Name</span>
 						</div>
-						<div class="columnThree" style="width: 31.333%">
+						<div class="columnThree" style="width: 21.333%">
 							<span>Source</span>
 						</div>
 						<div class="columnFour" style="width: 31.333%">
@@ -143,10 +143,10 @@
 										<input type="checkbox" ng-click="selectAudience(audience)" ng-checked="audience.isChecked">
 									</div>
 								</div>
-								<div class="columnTwo" style="width: 31.333%">
+								<div class="columnTwo" style="width: 41.333%">
 									<span>{{audience.name}}</span>
 								</div>
-								<div class="columnThree" style="width: 31.333%">
+								<div class="columnThree" style="width: 21.333%">
 									<span>{{audience.source}}</span>
 								</div>
 								<div class="columnFour" style="width: 31.333%; border-right: 0; ">
@@ -219,7 +219,7 @@
 							<span tooltip="{{aud.name}}{{aud.source}}{{aud.category}}" class="audienceTip">{{aud.name}}</span>
 						</div>
                     </div>
-                    <div class="col-md-1 text-center"><a class="icon-clear" ng-click="selectAudience(aud)"></a></div>
+                    <div class="col-md-1 text-center"><a class="icon-close" ng-click="selectAudience(aud)"></a></div>
                 </div>
             </div>
         </div>

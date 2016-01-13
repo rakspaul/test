@@ -1221,16 +1221,24 @@
       color: #363d49;
       min-height: initial;
     }
-    .icon-inline-edit {
+    .icon-inline-edit, .icon-trash {
       position: absolute;
       z-index: 10;
       top: 10px;
       right: 10px;
       color: #363d49;
-      font-size: 12.5px;
-      width: 12.5px;
-      height: 12.5px;
+      font-size: 16px;
+      width: 16px;
+      height: 16px;
       display: none;
+    }
+    .icon-inline-edit:hover, .icon-trash:hover {
+      color: #0978c9;
+      cursor: pointer;
+    }
+    .icon-trash {
+      right: 40px;
+      z-index: 90;
     }
     .targetDataSaved {
       float: left;
@@ -1297,9 +1305,12 @@
       display: initial;
       color: #363d49;
     }
+    .icon-trash:hover {
+      color: #0978c9;
+    }
   }
   .cardSelectHolder.active:hover {
-    .icon-inline-edit {
+    .icon-inline-edit, {
       display: initial;
       color: #0978c9;
     }

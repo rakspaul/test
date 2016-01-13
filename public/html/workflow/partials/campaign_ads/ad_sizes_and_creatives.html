@@ -34,7 +34,7 @@
                          <span >{{$index+1}}</span>
                     </td> -->
                     <td class="col-md-2">
-                        <span data-ng-bind="creativeData.size.size"></span>
+                        <span data-ng-bind="creativeData.size.size | lowercase"></span>
                     </td>
                     <td class="col-md-6">
                         <a class="col-md-8" href="javascript:void(0);" ng-click="TrackingIntegrationsSelected ? '': ShowHide(creativeData)" data-ng-bind="creativeData.name"></a>
@@ -74,8 +74,8 @@
 <div class="popContainerHolder" ng-show="IsVisible">
     <div class="popContainer">
         <div class="clearfix">
-            <h1 class="pull-left" data-ng-bind="creativeObj.name"></h1>
-            <span class="close unselectable" aria-hidden="true" ng-click="ShowHide();">x</span>
+            <h4 class="pull-left" data-ng-bind="creativeObj.name"></h4>
+            <span class="icon-close close unselectable" aria-hidden="true" ng-click="ShowHide();"></span>
         </div>
         <div class="textarea_edit_holder">
             <textarea  style="width: 100%;" rows="15" name="tag" id="tag" data-ng-model="creativeObj.tag" ng-readonly="true" data-ng-bind="creativeObj.tag" required></textarea>
