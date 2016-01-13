@@ -18,7 +18,7 @@
         <div class="col-md-2 borderZero">
             <span class="greyTxt" data-ng-bind="textConstants.FLIGHTDATES"></span>
             <span ng-if="workflowData.campaignData.startTime">
-                {{convertEST(workflowData.campaignData.startTime, 'DD MMM YYYY')}} - {{convertEST(workflowData.campaignData.endTime, 'DD MMM YYYY')}}
+                {{utcToLocalTime(workflowData.campaignData.startTime, 'DD MMM YYYY')}} - {{utcToLocalTime(workflowData.campaignData.endTime, 'DD MMM YYYY')}}
                 <span ng-if="workflowData.campaignData.numOfDays">({{workflowData.campaignData.numOfDays}} Days)</span>
             </span>
         </div>
