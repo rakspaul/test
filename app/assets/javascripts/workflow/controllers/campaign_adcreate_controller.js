@@ -686,7 +686,7 @@ var angObj = angObj || {};
             }
         }
 
-        $scope.adFormatSelection = function (adformatName) {
+        $scope.adFormatSelection = function (adformatName , event) {
             var adFormatsData = $scope.workflowData['adFormats'];
             _.each(adFormatsData, function (obj) {
                 obj.name === adformatName ? obj.active = true : obj.active = false;
@@ -701,6 +701,12 @@ var angObj = angObj || {};
                     $scope.workflowData['primaryKpi'][1]['kpi_values'] = $scope.workflowData['primaryKpi'][1]['kpi_values'].slice(0, index);
                 }
             }
+
+            var offset = $(event.target).offset();
+            var left = offset.left;
+            var top = offset.top;
+            var relativeX =     left - $(event.target).closest(".goalBtnWithPopup").offset().left - 110   ;
+            $(".goalBtnWithPopup .popUpCue").css({left: relativeX});
         };
 
         $scope.goalSelection = function (goal) {

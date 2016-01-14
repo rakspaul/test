@@ -143,11 +143,11 @@
         float: left;
       }
     }
-    .btn-default:hover {
+    .btn-default:not(.label-btn):hover {
       background-color: #E1EDF9 !important;
       border: 1px solid #BFC9D7 !important;
     }
-    .btn-default:active {
+    .btn-default:not(.label-btn):active {
       background-color: #DCEDF1 !important;
       border: 1px solid #BFC9D7 !important;
       box-shadow: none;
@@ -560,9 +560,11 @@
   .btn-primary:active, .btn-primary.active {background: #004D86;}
   /////
   .btn-default {color: #57606d; font-size: 14px; border: 1px solid #dde6eb;}
-  .btn-default:hover {background: #e1edf9;}
-  .btn-default:active, .btn-default.active {background: #E1EDF9;}
-  
+  .btn-default:not(.label-btn):hover {background: #e1edf9;}
+  .btn-default:not(.label-btn):active, .btn-default:not(.label-btn).active {background: #E1EDF9;}
+  .label-btn {
+    cursor: default;
+  }
   // Small Toggle BTN
   .radioBtnToggle {
     .miniToggle {
