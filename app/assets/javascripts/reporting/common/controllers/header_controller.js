@@ -151,8 +151,8 @@
             elem.closest("#"+ arg +"_nav_link").addClass("selected") ;
           } else {
             if(behaviour == "click") {
-                $(".main_nav_dropdown").fadeOut() ;
-                $(".main_navigation_holder").find(".selected").removeClass("selected") ;
+            //  $(".main_nav_dropdown").fadeOut() ;
+                $(".main_navigation_holder").find(".selected").addClass("selected") ;
             }
           }   
           
@@ -165,7 +165,7 @@
                    $(".main_nav_dropdown").fadeOut() ;
                    $(".main_navigation_holder").find(".selected").removeClass("selected") ; 
                } 
-          }, 1000);
+          }, 1500);
         } ;
 
         $scope.logout = function() {
