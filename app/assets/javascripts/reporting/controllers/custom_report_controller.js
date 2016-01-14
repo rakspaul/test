@@ -1182,7 +1182,8 @@ var angObj = angObj || {};
             var yesterday = moment().subtract(1, 'days').format(constants.DATE_UTC_SHORT_FORMAT);
             $('#startDateInput').datepicker('update', yesterday);
             $('#endDateInput').datepicker('update', yesterday);
-
+            $('#startDateInput').datepicker('setEndDate', new Date);
+            $('#endDateInput').datepicker('setEndDate', new Date);
 
             var lastScrollLeft = 0;
             var lastScrollTop = 0;
