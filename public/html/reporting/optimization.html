@@ -59,7 +59,7 @@
 
                          <span ng-switch="chartForStrategy">
                                 <span ng-switch-when="true" class="load-more">&nbsp;</span>
-                                <span ng-switch-when="false" class="no-chart" ng-bind-html="getMessageForDataNotAvailable('activities')"></span>
+                                <span ng-switch-when="false" class="no-chart" ng-bind-html="getMessageForDataNotAvailable(selectedCampaign)"></span>
                                 <span ng-switch-default>
                                     <div ng-if="chartForStrategy" class="highcharts" id="details_chart">
                                         <div class="line_tooltip"></div>
@@ -91,7 +91,7 @@
 
                 <div class="common-load-icon_viewability" id="strategy_activityLoader" ng-show="tacticLoading && selectedCampaign.id == -1"></div>
                 <div class="each_reports_row each_reports_row_heading" style="text-align: center" ng-if="tacticNotFound && selectedCampaign.id == -1"  >
-                    <span class="no-data-common" ng-bind-html="getMessageForDataNotAvailable('activities')"></span>
+                    <span class="no-data-common" ng-bind-html="getMessageForDataNotAvailable(selectedCampaign)"></span>
                 </div>
 
                 <div class="each_reports_row each_reports_row_heading optimization_heading" ng-if="!tacticNotFound && !tacticLoading &&  selectedCampaign.id == -1">

@@ -26,7 +26,7 @@
         <div class="common-load-icon_viewability"  ng-show="strategyLoading && selectedCampaign.id != -1"></div>
 
         <div class="viewability_container" ng-hide="strategyLoading && selectedCampaign.id != -1">
-            <div class="no_data_found" ng-if="!strategyFound" ng-bind-html="getMessageForDataNotAvailable('viewability')"></div>
+            <div class="no_data_found" ng-if="!strategyFound" ng-bind-html="getMessageForDataNotAvailable(selectedCampaign)"></div>
             <div class="viewability_details_outer_container" ng-show="(!adFormats.videoAds && adFormats.displayAds) || !videoMode">
                 <div class="viewability_header clearfix">
                     <div class="each_col sec_col viewability_delivered_col">
@@ -78,7 +78,7 @@
                     </div>-->
                 </div>
                 <div >
-                    <div class="no_data_found" ng-if="(dataNotFound  && !strategyBusy)"  ng-bind-html="getMessageForDataNotAvailable('viewability')"></div>
+                    <div class="no_data_found" ng-if="(dataNotFound  && !strategyBusy)"  ng-bind-html="getMessageForDataNotAvailable(selectedCampaign)"></div>
                     <div class="strategy_total_container " >
                         <div class="common-load-icon_viewability" id="strategy_activityLoader" ng-show="strategyBusy"></div>
 
@@ -257,7 +257,7 @@
                     </div>
                 </div>
                 <div class="viewability_table_body">
-                    <div class="no_data_found" ng-if="(dataNotFound  && !strategyBusy  )"  ng-bind-html="getMessageForDataNotAvailable('viewability')">
+                    <div class="no_data_found" ng-if="(dataNotFound  && !strategyBusy  )"  ng-bind-html="getMessageForDataNotAvailable(selectedCampaign)">
                     </div>
                     <div class="strategy_total_container " >
                         <div class="common-load-icon_viewability" id="strategy_activityLoader" ng-show="strategyBusy"></div>

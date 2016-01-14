@@ -63,11 +63,13 @@ var angObj = angObj || {};
         $scope.usrRole = RoleBasedService.getClientRole() && RoleBasedService.getClientRole().ui_exclusions;
 
 
-        $scope.getMessageForDataNotAvailable = function (dataSetType) {
-            if ($scope.api_return_code == 404 || $scope.api_return_code >= 500) {
+        $scope.getMessageForDataNotAvailable = function (campaign, dataSetType) {
+            campaign = campaign || $scope.campaign;
+            if (!campaign || campaign.id == -1) {
+                return constants.MSG_DATA_NOT_AVAILABLE;
+            } else if ($scope.api_return_code == 404 || $scope.api_return_code >= 500) {
                 return constants.MSG_UNKNOWN_ERROR_OCCURED;
-            }
-            if (campaignSelectModel.durationLeft() == 'Yet to start')
+            } else if (campaignSelectModel.durationLeft() == 'Yet to start')
                 return constants.MSG_CAMPAIGN_YET_TO_START;
             else if (campaignSelectModel.daysSinceEnded() > 1000)
                 return constants.MSG_CAMPAIGN_VERY_OLD;
