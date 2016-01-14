@@ -771,7 +771,7 @@
 
         $scope.getMessageForDataNotAvailable = function (campaign,dataSetType) {
             campaign = campaign || $scope.campaign;
-            if (!campaign) {
+            if (!campaign || campaign.id == -1) {
                 return constants.MSG_DATA_NOT_AVAILABLE;
             } else if (campaign.durationLeft() == 'Yet to start') {
                 return constants.MSG_CAMPAIGN_YET_TO_START;

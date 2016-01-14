@@ -43,13 +43,13 @@
                     <div class="pull-left inventory_chart">
                           <span >
                                 <span ng-if="(loadingFlag == true)" class="no-chart load-more">&nbsp;</span>
-                                <span ng-if="(loadingFlag == false && !inventoryChart)" class="no-chart" ng-bind-html="getMessageForDataNotAvailable('inventory')"></span>
+                                <span ng-if="(loadingFlag == false && !inventoryChart)" class="no-chart" ng-bind-html="getMessageForDataNotAvailable(selectedCampaign)"></span>
                                 <span >
                                     <div class="highcharts" ng-if="inventoryChart">
                                         <highchart config="inventoryChart" chartTitle=""></highchart>
                                     </div>
                                     <div class="highcharts" ng-if="(loadingFlag == false && !inventoryChart) ">
-                                        <span class="no-chart" ng-bind-html="getMessageForDataNotAvailable('inventory')"><!-- (PARTIAL CHART)--></span>
+                                        <span class="no-chart" ng-bind-html="getMessageForDataNotAvailable(selectedCampaign)"><!-- (PARTIAL CHART)--></span>
                                     </div>
                                 </span>
                             </span>
@@ -74,7 +74,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="inventory_strategy_chart no_data_found" ng-if="!strategyFound  && !strategyBusy "  ng-bind-html="getMessageForDataNotAvailable('inventory')">
+                <div class="inventory_strategy_chart no_data_found" ng-if="!strategyFound  && !strategyBusy "  ng-bind-html="getMessageForDataNotAvailable(selectedCampaign)">
                 </div>
             </div>
             <div ng-if="strategyFound" class="each_chart_accordion_holder"
@@ -96,7 +96,7 @@
                                         <highchart config="tactic.chart" chartTitle=""></highchart>
                                     </div>
                                     <div class="highcharts" ng-if="!tactic.chart">
-                                        <span class="no-chart"  ng-bind-html="getMessageForDataNotAvailable('inventory')"><!-- (PARTIAL CHART)--></span>
+                                        <span class="no-chart"  ng-bind-html="getMessageForDataNotAvailable(selectedCampaign)"><!-- (PARTIAL CHART)--></span>
                                     </div>
                                 </span>
                             </span>

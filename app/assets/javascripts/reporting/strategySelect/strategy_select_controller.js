@@ -59,7 +59,7 @@
                 $scope.$parent.strategyLoading = true;
                 $scope.strategyData.strategies = {};
                 $scope.strategyData.selectedStrategy.id = -1 ;
-                $scope.strategyData.selectedStrategy.name = 'Loading...' ;
+                $scope.strategyData.selectedStrategy.name = constants.NO_ADGROUPS_FOUND ;
 
             }
         };
