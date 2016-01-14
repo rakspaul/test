@@ -29,6 +29,7 @@
     this.PAUSED_CONDITION = 'paused';
     this.ENDING_SOON_CONDITION = 'endingSoon';
     this.ARCHIVED_CONDITION = 'archived';
+    this.REPORTS_OVERVIEW = 'Reports Overview';
 
     this.ONTRACK = 'ontrack';
     this.UNDERPERFORMING = 'underperforming';
@@ -525,6 +526,8 @@
     this.WF_MEDIA_COST_LESS_THAN_CAMPAIGN_BUDGET =  "You must enter media cost value less than the budget value specified for the media plan.";
     this.WF_MEDIA_COST_LESS_THAN_MINIMUM_BUDEGT_FOR_AD= "You must enter media cost value less than or equal to the minimum budget value specified for the ad.";
     this.BUDGET_LESS_THAN_AVAILABLE_BUDGET = "You must enter budget less than the available budget";
+    this.MIN_BID_SHOULD_LESS_THAN_MAX_BID = "Min bid value should be less than Max bid value";
+    this.MAX_BID_SHOULD_GREATER_THAN_MIN_BID = "Max bid value should be greater than Min bid value";
 
     this.CHANGE_PLATFORM_MESSAGE = "Your entries for the following settings are not compatible with [Platform Name]: [Settings list]. Would you like to clear these settings and switch platforms? (OK/Cancel).";
     this.ARCHIVE_MESSAGE = "Do you want to Archive / Delete the Ad?";
@@ -667,7 +670,7 @@
     this.generic_user = "4";
     this.WF_USER_CREATION_SUCCESS="User Created Successfully"
     this.WF_PERMISSION_NEEDED="Atleast 1 permission needed";
-    this.WF_USER_CREATION_FAIL = "Unable to create a User"
+    this.WF_USER_CREATION_FAIL = "Unable to create a User";
 
   };
 
