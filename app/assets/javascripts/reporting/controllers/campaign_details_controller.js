@@ -185,9 +185,7 @@
                     }
                 });
 
-//                if($scope.isCostModelTransparent) {
-//                    $scope.getCostBreakdownData($scope.campaign);
-//                }
+                $scope.getCostBreakdownData($scope.campaign);
                 $scope.getPlatformData();
                 $scope.getCostViewabilityData($scope.campaign);
                 $scope.getInventoryGraphData($scope.campaign);

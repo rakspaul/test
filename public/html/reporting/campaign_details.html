@@ -2,18 +2,8 @@
     <div id="campaignDetail" class="dashboard_outer_container campaign_details_page "> <!-- container -->
         <div class="clearfix campaign_details_header">
             <div class="pull-left campaign_name">
-                Reports Overview
-                <!--<truncate-text-with-hover txt="{{campaign.campaignTitle}}" txtlength="120"></truncate-text-with-hover>-->
-                <!--<div class="sub_title"> -->
-                <!--{{campaign.brandName}}-->
-                <!--</div>-->
+                {{textConstants.REPORTS_OVERVIEW}}
             </div>
-
-            <!--<a  id="details_view_report" ng-click="setGraphData(campaign,'view_report')">
-              <div class="pull-right view_report">
-                  {{textConstants.VIEW_REPORT}}
-              </div>
-            </a>-->
         </div>
         <div class="clearfix">
             <filters-header reports="true" strategies="false"></filters-header>
@@ -45,15 +35,6 @@
 
                             <div ng-show="action.selectedMetricError" id="error_metric" class="error_message">{{ textConstants.SELECT_ITEM_IN_LIST }}</div>
                         </div>
-                        <!--<div class="pull-right external_chkbox">-->
-                            <!--<div class="external_chkbox clearfix">-->
-                                <!--<div class="squaredFour">-->
-                                    <!--<input type="checkbox" ng-model="action.external" class="squaredFourChkbox" id="details_squaredFour"  />-->
-                                    <!--<label for="details_squaredFour"></label>-->
-                                <!--</div>-->
-                                <!--<span class="squaredFourTxt">{{ textConstants.EXTERNAL }}</span>-->
-                            <!--</div>-->
-                        <!--</div>-->
                     </div>
                     <div class="clearfix submit_activity_holder">
                         <div class="pull-left comment_area">
@@ -76,7 +57,6 @@
 
         <!-- graph holder-->
         <div class="clearfix campaign_details_graphs_holder">
-
             <div class="clearfix">
                 <div class="col-md-12">
                     <div class="carousel slide" id="myCarousel">
@@ -143,7 +123,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="item active">
+                            <div class="item">
                                 <div class="col-xs-3 formats_widget">
                                     <div ng-click="setGraphData(campaign,'formats')" tooltip-placement="top" tooltip="Click for detailed reports" class="each_section_graph_holder bar_section_graph_holder bar_section_graph_holder_screen">
                                         <div class="graph_heading">
@@ -185,14 +165,9 @@
                                             </div>
                                             <div class="top_layer_graph"></div>
                                         </div>
-                                        <!--<div class="graph_summary"  ng-if="(details.getCostViewability)">
-                                            Imps. <span class="graph_val">{{details.getCostViewability.total  | formatCostData: '' : 0}}&lt;!&ndash; </span><span> &ndash;&gt; ({{details.getCostViewability.pct_total  | formatCostData: '' : 0}}%)</span>
-                                        </div>-->
                                     </div>
                                 </div>
                             </div>
-
-                            <!-- Video viewability widget commented for now -->
                             <!--
                             <div class="item" ng-show="adFormats.videoAds">
                                 <div class="col-xs-3">
@@ -251,15 +226,6 @@
                                     {{ textConstants.IMPACTS }}: <truncate-text-with-hover txt="{{showList.metricImpacted}}" txtlength="30"></truncate-text-with-hover>
                                   </span>
                                 </div>
-                                <!--<div class="pull-right external_chkbox">-->
-                                    <!--<div class="external_chkbox clearfix">-->
-                                        <!--<div class="squaredFour">-->
-                                            <!--<input type="checkbox" ng-model="showList.makeExternal" class="squaredFourChkbox" id="edit_details_squaredFour"  onclick="updateSaveBtnStatus()" />-->
-                                            <!--<label for="edit_details_squaredFour"></label>-->
-                                        <!--</div>-->
-                                        <!--<span class="squaredFourTxt">{{ textConstants.EXTERNAL }}</span>-->
-                                    <!--</div>-->
-                                <!--</div>-->
                             </div>
                             <div class="clearfix submit_activity_holder">
                                 <div class="pull-left comment_area">
@@ -304,10 +270,6 @@
                             <span class="legend"></span>
                             <span class="legend_text">{{ textConstants.EXTERNAL }}</span>
                         </div>
-                        <!--<div class="clearfix graph_legends internal_legend">
-                          <span class="legend"></span>
-                          <span class="legend_text">{{ textConstants.INTERNAL }}</span>
-                        </div>-->
                     </div>
                 </div>
                 <div class="pull-right activity_log_list_container">
@@ -315,19 +277,6 @@
                         <div class="pull-left">
                             {{ textConstants.ACTIVITY_LOG }}
                         </div>
-                        <!--<div class="pull-right activity_external_dd">-->
-                            <!--<div class="dropdown" ng-init="actionsFilter = {make_external: false}" id="details_activity_external_dd">-->
-                                        <!--<span class="dropdown_ul_text" data-toggle="dropdown">-->
-                                            <!--<span class="dd_txt">{{ textConstants.EXTERNAL }}</span>-->
-                                            <!--<span class="arrow_img"></span>-->
-                                        <!--</span>-->
-                                <!--<ul class="dropdown_ul dropdown-menu" >-->
-                                    <!--<li ng-click="actionsFilter = watchActionFilter(null, false)" >{{ textConstants.ALL }}</li>-->
-                                    <!--<li ng-click="actionsFilter = watchActionFilter({make_external: true}, true)">{{ textConstants.EXTERNAL }}</li>-->
-                                <!--</ul>-->
-                            <!--</div>-->
-
-                        <!--</div>-->
                     </div>
                     <div id="action-container" class="activity_log_list">
                         <div class="gradient_div"></div>
@@ -364,38 +313,6 @@
                                 </div>
                             </div>
                         </div>
-
-
-                        <!--<div ng-if="!is_network_user &&  activityLogFlag == true" ng-click="setOptimizationData(campaign,action,strategyByActionId);setReportMenu()"  class="clearfix each_activity_log "  ng-if="actionItems"  data-container=".each_activity_log" id="actionItem_{{action.ad_id}}{{action.id}}" ng-repeat="action in actionItems.data  | orderBy:'created_at':true | filter:actionsFilter  track by $index" style="cursor:pointer">-->
-
-                            <!--<div class="activity_tooltip {{$index == 0 ? 'activity_tooltip_bottom':''}} " >{{ textConstants.CLICK_FOR_DETAILED_REPORTS }}</div>-->
-                            <!--<div class="pull-left activity_points">-->
-                                <!--<div class="{{action.make_external == true ? 'activity_point_ext':'activity_point_int'}}">-->
-                                      <!--<span>-->
-                                      <!--</span>-->
-                                <!--</div>-->
-                            <!--</div>-->
-                            <!--<div class="pull-left activity_main_details">-->
-                                <!--<div class="activity_main">-->
-                                    <!--{{action.created_by_name}}-->
-                                <!--</div>-->
-                                <!--<div class="activity_date">-->
-                                    <!--{{action.created_at | formatActionDate }}-->
-                                <!--</div>-->
-                            <!--</div>-->
-                            <!--<div class="pull-left activity_other_details">-->
-                                <!--<div class="clearfix other_details_txt">-->
-                                      <!--<span class="impacts_name_txt">-->
-                                          <!--{{ textConstants.IMPACTS }} {{action.metric_impacted}}-->
-                                      <!--</span>-->
-                                      <!--<span class="optimization_txt">-->
-            <!--{{action.action_type_name}}: {{action.action_sub_type}}-->
-                                      <!--</span>-->
-                                <!--</div>-->
-                                <!--<div class="more_details" ng-bind-html="action.comment|removeSpecialCharacter|morelines|newlines">-->
-                                <!--</div>-->
-                            <!--</div>-->
-                        <!--</div>-->
                         <div ng-if="(activityLogFlag == false)" class="load-more" style="">&nbsp;</div>
                         <div class="no_activity_class" ng-if="((!actionItems.data) || ((actionItems.data | filter: actionsFilter ).length==0)) && activityLogFlag == true" ng-bind-html="getMessageForDataNotAvailable(campaign,'activities')">
                         </div>
