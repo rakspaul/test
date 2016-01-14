@@ -47,11 +47,13 @@
                 formData = _.object(_.pluck(formData, 'name'), _.pluck(formData, 'value'));
             console.log(formData)
                 if($scope.editmode)
-                    formData.password = '123';
+                    formData.password = '123456';
 
                 if(formData.userLogin && formData.firstName && formData.lastName && formData.password){
                    var postDataObj={};
                     postDataObj=$scope.userConsoleFormDetails;
+                    if($scope.editmode)
+                        postDataObj.password = '123456';
                     console.log('postDataObj = ',postDataObj);
                     postDataObj.permissions=$scope.User.data;
                     _.each(postDataObj.permissions,function(item){
@@ -67,11 +69,18 @@
                     //create user call goes here
                     // condition 1 - super admin - no need of any permissions
                     if(constants.super_admin == postDataObj.roleTemplateId ){
-                        $scope.createUser(postDataObj);
+                        if($scope.editmode)
+                            $scope.updateUser(postDataObj);
+                        else
+                            $scope.createUser(postDataObj);
                     }
                     // condition 2 - not super admin - need  permissions
-                    if(constants.super_admin != postDataObj.roleTemplateId && postDataObj.permissions.length > 0){
-                        $scope.createUser(postDataObj);
+
+                    if(constants.super_admin != postDataObj.role_template_id && postDataObj.permissions.length > 0){
+                        if($scope.editmode)
+                            $scope.updateUser(postDataObj);
+                        else
+                            $scope.createUser(postDataObj);
                     }
                     else{
                         $rootScope.setErrAlertMessage(constants.WF_PERMISSION_NEEDED);
@@ -83,6 +92,15 @@
            // console.log($scope.permissions);
            // console.log($scope.User.data);
         };
+        $scope.updateUser = function(postDataObj){
+            accountsService.updateUser(postDataObj).then(function(res){
+                $rootScope.$broadcast('refreshUserList');
+                $scope.resetFields();
+                $rootScope.setErrAlertMessage(constants.WF_USER_CREATION_SUCCESS,0);
+            },function(err){
+                $rootScope.setErrAlertMessage(constants.WF_USER_CREATION_FAIL);
+            });
+        }
 
         $scope.createUser = function(postDataObj){
             accountsService.createUser(postDataObj).then(function(res){

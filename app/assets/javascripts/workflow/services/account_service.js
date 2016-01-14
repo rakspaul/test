@@ -141,6 +141,9 @@
             createUser: function(userObj){
                 return dataService.post(apiPaths.WORKFLOW_APIUrl +'/users', userObj,{'Content-Type': 'application/json'})
             },
+            updateUser : function(data) {
+                return dataService.put(apiPaths.WORKFLOW_APIUrl +'/users', data, {'Content-Type': 'application/json'})
+            },
             setPermissions: function(permissionObj){
                 permission = permissionObj;
             }
