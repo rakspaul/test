@@ -12,6 +12,7 @@
             data: []
         };
         $scope.editmode = false;
+        var editedUserDetails = {};
         $scope.userConsoleFormDetails.roleTemplateId = constants.account_admin;
 
         $scope.User.delete_filter = function(event,index) {// the last one getting deleted always
@@ -45,7 +46,6 @@
                 var formElem = $("#userCreateEditForm");
                 var formData = formElem.serializeArray();
                 formData = _.object(_.pluck(formData, 'name'), _.pluck(formData, 'value'));
-            console.log(formData)
                 if($scope.editmode)
                     formData.password = '123456';
 
@@ -93,7 +93,7 @@
            // console.log($scope.User.data);
         };
         $scope.updateUser = function(postDataObj){
-            accountsService.updateUser(postDataObj).then(function(res){
+            accountsService.updateUser(postDataObj,editedUserDetails).then(function(res){
                 $rootScope.$broadcast('refreshUserList');
                 $scope.resetFields();
                 $rootScope.setErrAlertMessage(constants.WF_USER_CREATION_SUCCESS,0);
@@ -280,6 +280,7 @@
                 data: []
             };
             $scope.isSuperAdmin = false;
+            editedUserDetails = {};
             $scope.close();
 
         };
@@ -293,7 +294,7 @@
         function setPreselectedPermission(user){
             accountsService.getUsersDetails(user[0].id).then(function(res){
                 var data = res.data.data;
-
+                editedUserDetails = data;
                 for(var i = 0; i < data.permissions.length; i++){
                     $scope.incrementCounter();
                     var clientObj = getClientObject(data.permissions[i].clientId,data.permissions[i].orgId,data.permissions[i].resellerId);
