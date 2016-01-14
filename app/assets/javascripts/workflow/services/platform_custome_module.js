@@ -1,8 +1,9 @@
 (function () {
     "use strict";
-    angObj.factory("platformCustomeModule", function ($timeout) {
+    angObj.factory("platformCustomeModule", function ($timeout, constants) {
 
         var _self = this;
+        var textConstants = constants;
         //private method
         var platformHeader = function(pJson, elem) {
             var platformHTML = '<div class="col-md-12 platformHeading zeroPadding">';
@@ -159,15 +160,16 @@
             //adding validation for custom field.
             inputListHTML && inputListHTML.on('blur', function(){
                 var field =  $(this);
-                var value = parseFloat(field.val());
+                var value =  field.val() ? parseFloat(field.val())  : '';
                 var maxValue = Number(field.attr("max"));
                 var minValue = Number(field.attr("min"));
-                $(".customFieldErrorMsg").remove();
+                var fieldValid = true;
+                field.parent().find(".customFieldErrorMsg").remove();
+
                 if(value.length === 0){
                     field.after('<div class="customFieldErrorMsg">'+inputList.displayName+' is required</div>');
                     return false;
                 }
-
                 var blackoutPeriodElem;
                 if(inputList.displayName == 'Blackout Period' || inputList.displayName == 'Ramp Duration' ) {
                     blackoutPeriodElem = field.parents('.form-group').find('.form-group-section')[1];
@@ -182,33 +184,51 @@
 
                 }
 
-                if(inputList.displayName == 'Min. Bid' || inputList.displayName === 'Min.') {
-                    //console.log("elem", field.parents('.form-group').find('.form-group-section')[0]);
-                    var maxBidElem = field.parent().next();
-                    console.log("maxBidElem", maxBidElem);
-                    var maxBidElemValue = parseFloat($(maxBidElem).find('input').val());
-                    if(value > maxBidElemValue) {
-                        field.after('<div class="customFieldErrorMsg">Min bid value should be less than Max bid value</div>');
-                    }
-                    return false;
-                }
+                var minMaxFlag= true;
+                var maxBidElem = field.parent().next();
+                var maxBidValue = $(maxBidElem).find('input').val();
+                maxBidValue = maxBidValue ? parseFloat(maxBidValue) : '';
 
-                if(inputList.displayName == 'Max. Bid' || inputList.displayName === 'Max.') {
-                    var minBidElem = field.parent().prev();
-                    var minBidElemValue = parseFloat($(minBidElem).find('input').val());
-                    if(minBidElemValue > value) {
-                        field.after('<div class="customFieldErrorMsg">Max bid value should be greater than Min bid value</div>');
-                    }
-                    return false;
-                }
+                var minBidElem = field.parent().prev();
+                var minBidValue = $(minBidElem).find('input').val();
+                minBidValue = minBidValue ? parseFloat(minBidValue) : '';
 
                 if(inputList.displayName !== 'NA') {
                     if (value < minValue) {
                         field.after('<div class="customFieldErrorMsg">' + inputList.displayName + ' must be greater than or equal to '+minValue+'</div>');
+                        minMaxFlag = false;
+                        return false;
                     } else if (value > maxValue) {
                         field.after('<div class="customFieldErrorMsg">' + inputList.displayName + ' must be less than or equal to '+maxValue+'</div>');
+                        minMaxFlag = false;
+                        return false;
                     }
                 }
+
+                if(inputList.displayName == 'Min. Bid' || inputList.displayName === 'Min.') {
+                    if(value > maxBidValue) {
+                        field.after('<div class="customFieldErrorMsg">'+textConstants.MIN_BID_SHOULD_LESS_THAN_MAX_BID+'</div>');
+                        return false;
+                    } else {
+                        if(minMaxFlag) {
+                            maxBidElem.find(".customFieldErrorMsg").remove();
+                        }
+                    }
+                }
+
+                if(inputList.displayName == 'Max. Bid' || inputList.displayName === 'Max.') {
+                    if(minBidValue > value) {
+                        field.after('<div class="customFieldErrorMsg">'+textConstants.MAX_BID_SHOULD_GREATER_THAN_MIN_BID+'</div>');
+                        return false;
+                    } else {
+                        if(minMaxFlag) {
+                            minBidElem.find(".customFieldErrorMsg").remove();
+                        }
+                    }
+                }
+
+
+
             })
             return inputWrapper;
         };
