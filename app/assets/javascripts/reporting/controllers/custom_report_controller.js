@@ -792,7 +792,7 @@ var angObj = angObj || {};
                 return setFlashMessage('Atleast one metrics should be selected', 1, 0);
             }
 
-            if (($scope.reports.schedule.frequency == "Weekly") && ($scope.reports.schedule.occurance == "")) {
+            if ((($scope.reports.schedule.frequency == "Weekly")||($scope.reports.schedule.frequency == "Monthly")) && ($scope.reports.schedule.occurance == "" || $scope.reports.schedule.occurance == undefined)) {
                 return setFlashMessage('Please select occurs on', 1, 0);
             }
             return true;
@@ -1063,16 +1063,15 @@ var angObj = angObj || {};
                 $(".scheduling-options").hide();
                 $(".schedule-" + arg).show();
                 if (arg == "once") {
-                    $('#deliverOn').datepicker('update', $scope.reports.schedule.startDate);
+                    $('#deliverOn').datepicker('update', momentService.todayDate('YYYY-MM-DD'));
                     $('#deliverOn').datepicker('setStartDate', currentYear);
                     $(".schedule-date").hide();
                 } else {
                     $(".schedule-date").show();
-                    $('#startOn').datepicker('update', $scope.reports.schedule.startDate);
+                    $('#startOn').datepicker('update', momentService.todayDate('YYYY-MM-DD'));
                     $('#startOn').datepicker('setStartDate', currentYear);
-                    $('#endOn').datepicker('update', $scope.reports.schedule.endDate);
+                    $('#endOn').datepicker('update', momentService.todayDate('YYYY-MM-DD'));
                     $('#endOn').datepicker('setStartDate', currentYear);
-
                 }
             }
             $scope.showCustomDate($scope.valueWithDefault($scope.reports.schedule.occurance, $scope.reports.schedule.frequency, ''));
@@ -1643,6 +1642,12 @@ var angObj = angObj || {};
                     $route.reload();
                 } else {}
             }
+
+            $rootScope.$on(constants.ACCOUNT_CHANGED, function (event, args) {
+                $scope.buttonResetCancel = "Reset";
+                $scope.resetMetricOptions();
+            });
+
 
             $scope.addSearch = function(event) {
                 event.stopPropagation();
