@@ -3550,3 +3550,9 @@
 .remove-row .icon-clear {
   margin: 10px 0 10px 5px ;
 }
+.goalBtnWithPopup {
+  position: relative;
+}
+.goalBtnWithPopup .popUpCue {
+  top: -82px;
+}

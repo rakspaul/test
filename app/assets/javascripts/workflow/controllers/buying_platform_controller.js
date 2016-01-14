@@ -264,12 +264,11 @@ var angObj = angObj || {};
         $scope.showTrackingSetupInfoPopUp = function(event, trackingIntegration) {
             $scope.trackingIntegration = trackingIntegration;
             var offset = $(event.target).offset();
-            console.log("offset", offset);
             var left = offset.left;
             var top = offset.top;
 
             var relativeX =  $(event.target).closest(".offeringWrap").offset().left  -  $(event.target).closest(".carousel-inner").offset().left + 50  ;
-            $(".popUpCue").css({top: 125 , left: relativeX});
+            $(".buyingPlatformHolder .popUpCue").css({top: 125 , left: relativeX});
 
             $scope.showtrackingSetupInfoPopUp = true;
         }

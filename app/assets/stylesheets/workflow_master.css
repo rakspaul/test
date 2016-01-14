@@ -174,11 +174,11 @@ select {
 .dropdown-workflow .btn-default .text {
   float: left;
 }
-.dropdown-workflow .btn-default:hover {
+.dropdown-workflow .btn-default:not(.label-btn):hover {
   background-color: #E1EDF9 !important;
   border: 1px solid #BFC9D7 !important;
 }
-.dropdown-workflow .btn-default:active {
+.dropdown-workflow .btn-default:not(.label-btn):active {
   background-color: #DCEDF1 !important;
   border: 1px solid #BFC9D7 !important;
   box-shadow: none;
@@ -606,12 +606,15 @@ select {
   font-size: 14px;
   border: 1px solid #dde6eb;
 }
-.btn-default:hover {
+.btn-default:not(.label-btn):hover {
   background: #e1edf9;
 }
-.btn-default:active,
-.btn-default.active {
+.btn-default:not(.label-btn):active,
+.btn-default:not(.label-btn).active {
   background: #E1EDF9;
+}
+.label-btn {
+  cursor: default;
 }
 .radioBtnToggle .miniToggle label {
   position: relative;
