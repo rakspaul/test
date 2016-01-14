@@ -17,12 +17,14 @@ var angObj = angObj || {};
       $scope.api_return_code = 200;
       $scope.inventoryChart = true;
 
-      $scope.getMessageForDataNotAvailable = function (dataSetType) {
+      $scope.getMessageForDataNotAvailable = function (campaign, dataSetType) {
+          campaign = campaign || $scope.campaign;
 
-          if ($scope.api_return_code == 404 || $scope.api_return_code >=500) {
+          if (!campaign || campaign.id == -1) {
+              return constants.MSG_DATA_NOT_AVAILABLE;
+          } else if ($scope.api_return_code == 404 || $scope.api_return_code >=500) {
               return constants.MSG_UNKNOWN_ERROR_OCCURED;
-          }
-          if ( campaignSelectModel.durationLeft() == 'Yet to start')
+          } else if ( campaignSelectModel.durationLeft() == 'Yet to start')
               return constants.MSG_CAMPAIGN_YET_TO_START;
           else if (campaignSelectModel.daysSinceEnded() > 1000)
               return constants.MSG_CAMPAIGN_VERY_OLD;
@@ -33,7 +35,6 @@ var angObj = angObj || {};
           else
               return constants.MSG_DATA_NOT_AVAILABLE;
       };
-    //  $scope.selected_filters = domainReports.getDurationKpi();
 
       $scope.filters = domainReports.getReportsTabs();
 
