@@ -1123,6 +1123,7 @@ var angObj = angObj || {};
             },
 
             getCreativesFromLibrary: function (clientID, adID, format, query) {
+                var format= format.replace(/\s/g, '');// remove spaces.
                 workflowService.getCreatives(clientID, adID, format, query, {cache: false}, $scope.TrackingIntegrationsSelected).then(function (result) {
                     $scope.creativesLibraryData['creativesData'] = [];
                     if (result.status === "OK" || result.status === "success" && result.data.data.length > 0) {

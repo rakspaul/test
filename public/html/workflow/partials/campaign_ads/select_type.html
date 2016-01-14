@@ -19,8 +19,7 @@
     <div class="col-md-12 greyTxt" data-ng-bind="textConstants.WF_AD_FORMAT"></div>
     
     <div class="btn-group goalBtnGroup zeroPadding" ng-class="{lastBtnGroup: $last, firstBtnGroup: $first}" ng-repeat="adformat in workflowData.adFormats track by adformat.id">
-        <label class="btn btn-primary {{adformat.active ? 'active' : '' }}">
-            <input type="radio" name="adFormat" value="{{adformat.name}}" class="btn_rad" ng-model="adData.adFormat"  ng-click="adFormatSelection(adformat.name)" ng-checked="adformat.active">
+        <label class="btn btn-primary {{adformat.active ? 'active' : '' }} {{(adformat.name=='Video'|| adformat.name=='Social') ? 'disabled' : '' }}" aria-disabled="{{(adformat.name=='Video'|| adformat.name=='Social') ? true : false }}">            <input type="radio" name="adFormat" value="{{adformat.name}}" class="btn_rad" ng-model="adData.adFormat"  ng-click="adFormatSelection(adformat.name)" ng-checked="adformat.active">
             <div class="hideRadioBtn">
                 <div class="icon-{{getAdFormatIconName(adformat.name)}}"></div>
                 <span data-ng-bind="adformat.name"></span>
