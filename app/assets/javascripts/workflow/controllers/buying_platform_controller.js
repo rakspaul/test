@@ -142,6 +142,8 @@ console.log('selectPlatform');
 
         $scope.selectTrackingIntegrations = function (trackingIntegration) {
             $scope.showtrackingSetupInfoPopUp = false;
+            $scope.postPlatformDataObj = [];
+            $scope.platformCustomInputs();
             trackingIntegration =  $scope.trackingIntegration || trackingIntegration;
             if ($scope.mode != 'edit') {
                 $scope.$parent.TrackingIntegrationsSelected = true;
@@ -275,7 +277,36 @@ console.log('selectPlatform');
             $scope.showtrackingSetupInfoPopUp = false;
         }
 
+        $scope.$parent.switchPlatform = function (event) {
+            $scope.resetPartialSaveAlertMessage();
+            $scope.$broadcast('switchPlatformFunc');
+        };
 
+        $scope.$parent.saveCustomeFieldForPlatform = function (editModeFlag) {
+            var customFieldErrorElem = $(".customFieldErrorMsg");
+            var customPlatformFormData = $("#customPlatformForm").serializeArray();
+            $scope.postPlatformDataObj = [];
+            if (customFieldErrorElem.length === 0 && customPlatformFormData.length > 1) {
+                _.each(customPlatformFormData, function (data) {
+                    var d = data.name.split("$$");
+                    $scope.postPlatformDataObj.push({'platformCustomInputId': Number(d[1]), 'value': data.value});
+                })
+            } else {
+                if ($scope.workflowData['adsData'] && $scope.workflowData['adsData'].adPlatformCustomInputs && $scope.workflowData['adsData'].adPlatformCustomInputs.length > 0) {
+                    $scope.postPlatformDataObj = $scope.workflowData['adsData'].adPlatformCustomInputs;
+                }
+            }
+
+            if ($scope.mode == 'edit')
+                localStorage.setItem('adPlatformCustomInputs', JSON.stringify($scope.postPlatformDataObj));
+
+            //trigger targeting tab link only when intentionally clicked not on edit mode by default
+            if(!editModeFlag)
+                $scope.triggerTargetting();
+
+            $scope.switchPlatform()
+
+        };
     });
 
 })();
