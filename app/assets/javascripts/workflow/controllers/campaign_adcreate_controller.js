@@ -702,11 +702,13 @@ var angObj = angObj || {};
                 }
             }
 
-            var offset = $(event.target).offset();
-            var left = offset.left;
-            var top = offset.top;
-            var relativeX =     left - $(event.target).closest(".goalBtnWithPopup").offset().left - 110   ;
-            $(".goalBtnWithPopup .popUpCue").css({left: relativeX});
+            if(event) {
+                var offset = $(event.target).offset();
+                var left = offset.left;
+                var top = offset.top;
+                var relativeX = left - $(event.target).closest(".goalBtnWithPopup").offset().left - 110;
+                $(".goalBtnWithPopup .popUpCue").css({left: relativeX});
+            }
         };
 
         $scope.goalSelection = function (goal) {
