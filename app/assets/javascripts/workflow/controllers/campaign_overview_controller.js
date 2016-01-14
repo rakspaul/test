@@ -330,7 +330,6 @@ var angObj = angObj || {};
 
 
         $scope.appendSizes = function (creative) {
-            //console.log(creative);
             var creativeSizeArr = []
             if (typeof creative != 'undefined' && creative.length>0) {
                 if (creative.length == 1) {
@@ -346,9 +345,11 @@ var angObj = angObj || {};
                     var result = noRepeat(arr);
 
                     if (result[0].length > 3) {
+
                         var creativeSizeLimit = result[0].splice(0,3);
                         var amountLeft = result[0].length;
-                        $scope.sizeString = creativeSizeLimit.join(', ').replace(/X/g, 'x') + ' +' + amountLeft;
+                        $scope.sizeString = creativeSizeLimit.join(', ').replace(/X/g, 'x') ;
+
                     }
                     else {
                         $scope.sizeString = result[0] && result[0].join(', ');
