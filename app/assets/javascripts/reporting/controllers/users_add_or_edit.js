@@ -11,6 +11,7 @@
         $scope.User = {
             data: []
         };
+        $scope.editmode = false;
         $scope.userConsoleFormDetails.roleTemplateId = constants.account_admin;
 
         $scope.User.delete_filter = function(event,index) {// the last one getting deleted always
@@ -44,9 +45,14 @@
                 var formElem = $("#userCreateEditForm");
                 var formData = formElem.serializeArray();
                 formData = _.object(_.pluck(formData, 'name'), _.pluck(formData, 'value'));
+            console.log(formData)
+                if($scope.editmode)
+                    formData.password = '123';
+
                 if(formData.userLogin && formData.firstName && formData.lastName && formData.password){
                    var postDataObj={};
                     postDataObj=$scope.userConsoleFormDetails;
+                    console.log('postDataObj = ',postDataObj);
                     postDataObj.permissions=$scope.User.data;
                     _.each(postDataObj.permissions,function(item){
                         if(item.advertiserId == "")
@@ -88,9 +94,13 @@
             });
         }
 
-        $scope.selectedClientHandler=function(clientObj,index, orgId, resellerId){
-
+        $scope.selectedClientHandler=function(clientObj,index, orgId, resellerId,editData){
             var counter=accountsService.getCounter();
+            if(!$scope.User.data[index]){
+                $scope.User.data[index] = {};
+                $scope.User.data[index].accessLevel = "ADMIN";
+            }
+
             $scope.selectedClient={};
             if(clientObj.clientType === "ORGANIZATION") {
                 $scope.User.data[index].orgId = clientObj.id;
@@ -101,7 +111,6 @@
                 $scope.User.data[index].orgId = orgId;
                 $scope.User.data[index].clientId = -1;
             } else {
-
                 $scope.User.data[index].orgId = orgId;
                 if(resellerId) {
                     $scope.User.data[index].resellerId = resellerId;
@@ -115,7 +124,6 @@
 
             //initialize advertiser,brand
             if(!$scope.userModalData[index]){
-
                 $scope.userModalData[index] = [];
                 $scope.userModalData[index]['Advertisers'] = [];
             }
@@ -129,11 +137,15 @@
             $scope.userModalData[index].Brands = [];
 
             //populate advertiser based on selected client
-            userModalPopup.getUserAdvertiser(clientObj.id,index);
+            if(editData)
+                userModalPopup.getUserAdvertiser(clientObj,index,true,editData);
+            else
+                userModalPopup.getUserAdvertiser(clientObj,index);
+
 //            $scope.selectedClient['counter']=$scope.allPermissions[index].name;
         };
 
-        $scope.selectAdvertiser=function(advertiserObj,index){
+        $scope.selectAdvertiser=function(advertiserObj,index,editmode,editData){
             $scope.advertiserName[index] = advertiserObj.name;
             $scope.User.data[index].advertiserId = advertiserObj.id;
             //initialize brand
@@ -147,8 +159,16 @@
             $scope.User.data[index].brandId = "";
             $scope.userModalData[index].Brands = [];
 
+            //if in any case the client id is undefined set it from edit data
+            if(!$scope.User.data[index].clientId)
+                $scope.User.data[index].clientId = editData.clientId;
+
             // load brands based on advertiser and client
-            userModalPopup.getUserBrands($scope.User.data[index].clientId,advertiserObj.id,index)
+            if(editmode)
+                userModalPopup.getUserBrands($scope.User.data[index].clientId,advertiserObj.id,index,editmode,editData);
+            else
+                userModalPopup.getUserBrands($scope.User.data[index].clientId,advertiserObj.id,index);
+
 
         };
 
@@ -171,29 +191,45 @@
         var userModalPopup = {
             getUserClients:function(editmode,user){
                  accountsService.getClients().then(function(res) {
-                     console.log('client res=== ',res);
                      $scope.userModalData['Clients'] = res.data.data;
                      if(editmode)
                          setPreselectedPermission(user);
                  });
             },
-            getUserBrands:function(clientId,advertiserId,index){
+            getUserBrands:function(clientId,advertiserId,index,editmode,editData){
                 accountsService.getAdvertisersBrand(clientId,advertiserId).then(function(res){
-                    console.log('brand res=== ',res.data.data);
                     if(res.data.data)
                         $scope.userModalData[index]['Brands'] = res.data.data;
+
+                    if(editmode){
+                        var brandIndex = _.findIndex($scope.userModalData[index]['Brands'], function(item) {
+                            return item.id == editData.brandId});
+
+                        if(brandIndex != -1){
+                            $scope.selectBrand($scope.userModalData[index]['Brands'][brandIndex],index,editmode,editData);
+                        }
+                    }
 
                 });
 
                 //$scope.userModalData['Brands']=[{id:0,name:"All Brands"},{id:22,name:"brand1"},{id:23,name:"brand2"},{id:24,name:"brand3"}]
 
             },
-            getUserAdvertiser:function(clientId,index){
-                accountsService.getClientsAdvertisers(clientId).then(function(res){
-                    console.log('adv res=== ',res.data.data);
+            getUserAdvertiser:function(clientObj,index,editmode,editData){
+                accountsService.getClientsAdvertisers(clientObj.id).then(function(res){
                     var counter = accountsService.getCounter();
                     if(res.data.data){
                         $scope.userModalData[index]['Advertisers'] = res.data.data;
+
+                        if(editmode){
+                            var advertiserIndex = _.findIndex($scope.userModalData[index]['Advertisers'], function(item) {
+                                return item.id == editData.advertiserId});
+
+                            if(advertiserIndex != -1){
+                                $scope.selectAdvertiser($scope.userModalData[index]['Advertisers'][advertiserIndex],index,editmode,editData);
+                            }
+
+                        }
                         //$scope.userModalData['Advertisers'][0] = {id:0,name:"All Advertisers"}
                     }
                 });
@@ -233,16 +269,20 @@
         //set permissions in edit mode
         $rootScope.$on('permissionsForUsers',function(e,user){
             userModalPopup.getUserClients(true,user);
+            $scope.editmode = true;
         })
 
         function setPreselectedPermission(user){
             accountsService.getUsersDetails(user[0].id).then(function(res){
                 var data = res.data.data;
-                console.log("permission data",data.permission);
+
                 for(var i = 0; i < data.permissions.length; i++){
                     $scope.incrementCounter();
                     var clientObj = getClientObject(data.permissions[i].clientId,data.permissions[i].orgId,data.permissions[i].resellerId);
-                    $scope.selectedClientHandler(clientObj,i, data.permissions.orgId, data.permissions.resellerId)
+                    console.log(" data.permissions[i].orgId", data.permissions[i].orgId," data.permissions[i].resellerId", data.permissions[i]);
+                    $scope.selectedClientHandler(clientObj,i,  data.permissions[i].orgId,data.permissions[i].resellerId,data.permissions[i]);
+
+
 
                 }
             })
@@ -256,23 +296,24 @@
 
                 //first level client
                 if($scope.userModalData['Clients'][orgIndex].id != clientId){
-                    var resellerIndex = _.findIndex($scope.userModalData['Clients'][orgIndex], function(item) {
+                    var children = $scope.userModalData['Clients'][orgIndex]['children'];
+                    var resellerIndex = _.findIndex(children, function(item) {
                         return item.id == resellerId});
 
                     //second level client
                     if(resellerId != 0 && clientId == -1){ // only reseller and there is no child for reseller
-                        return $scope.userModalData['Clients'][orgIndex][resellerIndex];
+                        return children[resellerIndex];
                     }
                     else if(resellerId == 0 && clientId != -1){ // there is no third level
-                        var clientIndex = _.findIndex($scope.userModalData['Clients'][orgIndex], function(item) {
+                        var clientIndex = _.findIndex(children, function(item) {
                             return item.id == clientId});
-                        return $scope.userModalData['Clients'][orgIndex][clientIndex];
+                        return children[clientIndex];
                     }
                     else if(resellerId != 0 && clientId != -1){
                         //third level client
-                        var clientIndex = _.findIndex($scope.userModalData['Clients'][orgIndex][resellerIndex], function(item) {
+                        var clientIndex = _.findIndex(children[resellerIndex], function(item) {
                             return item.id == clientId});
-                        return $scope.userModalData['Clients'][orgIndex][resellerIndex][clientIndex];
+                        return children[resellerIndex][clientIndex];
                     }
 
                 }
@@ -282,7 +323,6 @@
         }
 
         $rootScope.$on('resetUserModal',function(){
-            console.log('refresh user list');
             $scope.resetFields();
         })
 
