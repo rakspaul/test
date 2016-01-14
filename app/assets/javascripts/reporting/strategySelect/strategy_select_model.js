@@ -2,7 +2,7 @@ strategySelectModule.factory("strategySelectModel", ['urlService','dataService' 
     var strategyObj = {};
     strategyObj.strategies = {};
     //strategyObj.selectedStrategy = (localStorage.getItem('selectedStrategy') == undefined) ? { id: -1,name : 'Loading...'} : (JSON.parse( localStorage.getItem('selectedStrategy') )) ;
-    strategyObj.selectedStrategy = { id: -1, name : 'Loading...'};
+    strategyObj.selectedStrategy = angular.copy(constants.ALL_STRATEGIES_OBJECT);
     return {
         getStrategies: function (campaignId) {
             var url = urlService.APIStrategiesForCampaign(campaignId);
@@ -42,10 +42,9 @@ strategySelectModule.factory("strategySelectModel", ['urlService','dataService' 
         getStrategyObj: function() {
             return strategyObj;
         },
-        reset : function(){
-            strategyObj.strategies = {};
-            strategyObj.selectedStrategy.id = -1;
-            strategyObj.selectedStrategy.name = 'Loading...' ;
+        reset: function(){
+            strategyObj.strategies = angular.copy(constants.ALL_STRATEGIES_OBJECT);
+            strategyObj.selectedStrategy = angular.copy(constants.ALL_STRATEGIES_OBJECT);
         }
 
 

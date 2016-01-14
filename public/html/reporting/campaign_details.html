@@ -17,7 +17,7 @@
                     </div>
                     <span id="activityMessage" ng-style="action.disableTagButton">{{textConstants.ACTIVITY_CREATED_SUCCESSFULLY_VIEW_ACTIVITY_LOG}}</span>
                     <div class="clearfix filter_holder">
-                        <div class="filter_dropdown">
+                        <div class="filter_dropdown" ng-click="actionTypeDropdownClicked()">
                             <multiselect class="input-xlarge" multiple="false"  class="myerror" multipleoption="false" acceptmultiple="0" defaultoption='- Action Type -'  ng-model="action.selectedType" options="type.name for type in action.types | orderBy:'name'" change="selected()" id="action_type_filter_dd" datashow="1" ng-click="resetValidation();" ng-change="getActionType()" ></multiselect>
                             <div  ng-show="action.selectedTypeError" id="error_activity" class="error_message">{{ textConstants.SELECT_ITEM_IN_LIST }}</div>
                             <div ng-show="enableSubTypePopup" id="error_subtype"  class="error_message">{{ textConstants.SELECT_ITEM_IN_LIST }}</div>
@@ -26,7 +26,7 @@
                             <multiselect class="input-xlarge"  multiple="true"  multipleoption="true" acceptmultiple="1"  displaySelectAllOPtion="true" defaultoption='- Action Sub Type -' ng-model="action.selectedSubType" options="subType.name for subType in action.selectedType.subTypes | orderBy:'name'" change="selected()" id="action_sub_type_dd" datashow="2" ng-click="resetValidation();getSubType();showDropdownList()" maxcharacter="20"></multiselect>
                             <div ng-show="action.selectedSubTypeError" id="error_subtype"  class="error_message">{{ textConstants.SELECT_ITEM_IN_LIST }}</div>
                         </div>
-                        <div class="filter_dropdown select_all_filter_dropdown">
+                        <div class="filter_dropdown select_all_filter_dropdown" ng-click="adDropdownClicked()">
                             <multiselect class="input-xlarge" multiple="true"  multipleoption="true" acceptmultiple="1"  defaultoption='- Ad -'  ng-model="tactics.selected" options="tactic.name for tactic in tactics.all | orderBy:'name'" change="selected()" id="action_tactic_dd" datashow="3" ng-click="resetValidation();getTactic()" maxcharacter="20"></multiselect>
                             <div ng-show="action.selectedTacticError" id="error_tactic" class="error_message">{{ textConstants.SELECT_ITEM_IN_LIST }}</div>
                         </div>

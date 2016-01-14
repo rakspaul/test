@@ -1,38 +1,66 @@
 (function () {
     'use strict';
-    angObj.controller('ActionsController', function ($scope,$rootScope, $filter, dataService, $routeParams, modelTransformer, ActionType, ActionSubType, Tactic, constants, $timeout) {
-        dataService.getActions().then(function (response) {
-            if(response.status === 'success') {
-                var action = { types : [], external : false, name : ''},
-                    result = response.data.data,
-                    resultLen = result.length;
-                for (var i = 0; i < resultLen; i++) {
-                    action.types[i] = modelTransformer.transform(result[i], ActionType);
-                    var subTypeListLen = result[i].subTypeList.length;
-                    for (var j = 0; j < subTypeListLen; j++) {
-                        action.types[i].subTypes[j] = modelTransformer.transform(result[i].subTypeList[j], ActionSubType)
+    angObj.controller('ActionsController', function ($scope,$rootScope, $filter, dataService, $routeParams,
+                                                     modelTransformer, ActionType, ActionSubType, Tactic,
+                                                     constants, $timeout) {
+
+        var loadActionTypes = true,
+            loadAdsMeta = true;
+        $scope.action = { types : [], external : false, name : '' };
+        $scope.tactics = {};
+
+        $scope.actionTypeDropdownClicked = function() {
+            fetchActionTypes();
+        };
+
+        $scope.adDropdownClicked = function() {
+            fetchAdsMeta();
+        };
+
+        function fetchActionTypes() {
+            if (!loadActionTypes) {
+                return;
+            }
+            loadActionTypes = false;
+            dataService.getActions().then(function (response) {
+                if(response.status === 'success') {
+                    var action = { types : [], external : false, name : ''},
+                        result = response.data.data,
+                        resultLen = result.length;
+                    for (var i = 0; i < resultLen; i++) {
+                        action.types[i] = modelTransformer.transform(result[i], ActionType);
+                        var subTypeListLen = result[i].subTypeList.length;
+                        for (var j = 0; j < subTypeListLen; j++) {
+                            action.types[i].subTypes[j] = modelTransformer.transform(result[i].subTypeList[j], ActionSubType)
+                        }
+                    }
+                    $scope.action = action;
+                    $scope.setAction = function () {
+                        $scope.action.selectedSubType = $scope.action.selectedType.subTypes[0];
                     }
                 }
-                $scope.action = action;
-                $scope.setAction = function () {
-                    $scope.action.selectedSubType = $scope.action.selectedType.subTypes[0];
-                }
-            }
-        });
+            });
+        };
 
-        dataService.getTactics($routeParams.campaignId).then(function (response) {
-            if(response.status === 'success') {
-                var tactics = [],
-                    result = response.data.data,
-                    resultLen = result.length;
-                for (var i = 0; i < resultLen; i++) {
-                    var tactic = modelTransformer.transform(result[i], Tactic);
-                    tactics.push(tactic);
-                }
-                $scope.tactics = {};
-                $scope.tactics.all = tactics;
+
+        function fetchAdsMeta() {
+            if (!loadAdsMeta) {
+                return;
             }
-        });
+            loadAdsMeta = false;
+            dataService.getTactics($routeParams.campaignId).then(function (response) {
+                if (response.status === 'success') {
+                    var tactics = [],
+                        result = response.data.data,
+                        resultLen = result.length;
+                    for (var i = 0; i < resultLen; i++) {
+                        var tactic = modelTransformer.transform(result[i], Tactic);
+                        tactics.push(tactic);
+                    }
+                    $scope.tactics.all = tactics;
+                }
+            });
+        }
 
         var metrics = {all : ['CPA', 'CPC', 'CPM', 'CTR', 'VTC', 'Action Rate', 'Delivery (Impressions)']};
         $scope.metrics = metrics;
