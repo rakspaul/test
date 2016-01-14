@@ -29,6 +29,7 @@
     this.PAUSED_CONDITION = 'paused';
     this.ENDING_SOON_CONDITION = 'endingSoon';
     this.ARCHIVED_CONDITION = 'archived';
+    this.REPORTS_OVERVIEW = 'Reports Overview';
 
     this.ONTRACK = 'ontrack';
     this.UNDERPERFORMING = 'underperforming';
