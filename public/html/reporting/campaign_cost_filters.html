@@ -2,18 +2,18 @@
 <!--<div class="clearfix filter_header_block cost_col_container campaign_cost_header_holder"  style="display:none" id="cost_filter_header">-->
     <div class="each_cost_col first_col active">{{textConstants.IMP_WITH_DOT}}</div>
     <div class="each_cost_col second_col">
-        <div class="dropdown" id="campaign_cost_metrics_dd">
+        <div class="dropdown dropdown-workflow" id="campaign_cost_metrics_dd">
             <span class="dropdown_ul_text" data-toggle="dropdown">
                 <span class="ng-binding unselectable" ng-bind="campaigns.selectedCostType|uppercase">{{textConstants.CPA}}</span>
                 <span class="arrrow_img"></span>
             </span>
 
               <ul class="dropdown_ul dropdown-menu">
-                  <li data-ng-click="campaigns.filterCostType('cpa')">{{textConstants.CPA}}</li>
-                  <li data-ng-click="campaigns.filterCostType('cpc')">{{textConstants.CPC}}</li>
-                  <li data-ng-click="campaigns.filterCostType('cpm')">{{textConstants.CPM}}</li>
-                  <li data-ng-click="campaigns.filterCostType('ctr')">{{textConstants.CTR}}</li>
-                  <li data-ng-click="campaigns.filterCostType('vtc')">{{textConstants.VTC}}</li>
+                  <li class="available"><a data-ng-click="campaigns.filterCostType('cpa')">{{textConstants.CPA}}</a></li>
+                  <li class="available"><a data-ng-click="campaigns.filterCostType('cpc')">{{textConstants.CPC}}</a></li>
+                  <li class="available"><a data-ng-click="campaigns.filterCostType('cpm')">{{textConstants.CPM}}</a></li>
+                  <li class="available"><a data-ng-click="campaigns.filterCostType('ctr')">{{textConstants.CTR}}</a></li>
+                  <li class="available"><a data-ng-click="campaigns.filterCostType('vtc')">{{textConstants.VTC}}</a></li>
               </ul>
         </div>
 

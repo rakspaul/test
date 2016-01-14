@@ -84,6 +84,7 @@
   margin-top: -35px;
   background: #FFF;
   padding: 0 0 10px 0;
+  height: 30px;
 }
 #campaignCreate .firstWrapper .masterContainer .collapseHeader {
   float: left;
@@ -836,7 +837,7 @@
   width: 100%;
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule:hover {
-  background-color: #D7E9F7;
+  background-color: rgba(225, 237, 249, 0.4);
   border: 1px solid #0978C9;
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule:hover .icon-settings {
@@ -1425,6 +1426,7 @@
 }
 #campaignCreate .campaignAdCreate .adMainWrapper .platformHolder:hover {
   border: 1px solid #0978c9;
+  background-color: rgba(225, 237, 249, 0.4);
 }
 #campaignCreate .campaignAdCreate .adMainWrapper .platformHolder:hover .icon-inline-edit {
   display: inline-block;

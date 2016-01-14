@@ -2287,8 +2287,8 @@ button, i, input[type="submit"] {
 
 }
 #performance_block {
-  height: 500px;
-  overflow: auto;
+  //height: 500px;
+  //overflow: auto;
 }
 /*  end of cost breakdown */
 
@@ -2440,6 +2440,10 @@ button, i, input[type="submit"] {
           font-size: 11px;
           margin-top: 4px;
         }
+        .icon-arrow-down-thick {
+          color: #fff;
+          margin-top: 2px;
+        }
       }
       li {
         list-style: none;
@@ -2579,12 +2583,31 @@ button, i, input[type="submit"] {
       }
       .each_nav_link {
         margin: 0 20px  ;
+        position: relative;
         > a {
           text-decoration: none;
           color: #84bce4 ;
         }
         a:hover  {
           color: #fff ;
+        }
+      }
+      .arrowSelect {
+        display: none;
+      }
+      .each_nav_link.active {
+        .arrowSelect {
+          content: "";
+          position: absolute;
+          display: block;
+          bottom: -15px;
+          left: 35%;
+          height: 0;
+          width: 0;
+          border: solid 6px #fff;
+          border-left: solid 8px transparent;
+          border-top: 0;
+          border-right: solid 8px transparent;
         }
       }
       #reports_nav_link {
