@@ -86,7 +86,7 @@ var angObj = angObj || {};
         $scope.selectPlatform = function (event, platform) {
             storedResponse = workflowService.getAdsDetails();
             var settings = "";
-
+console.log('selectPlatform');
             if ($scope.mode === 'edit') {
                 if (storedResponse.targets.geoTargets)
                     settings = "Geography";
@@ -122,8 +122,6 @@ var angObj = angObj || {};
             else {
                 $scope.setPlatform(event, platform);
             }
-
-
         }
 
         $scope.setPlatform = function (event, platform) {

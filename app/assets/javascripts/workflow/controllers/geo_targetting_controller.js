@@ -197,7 +197,7 @@ var angObj = angObj || {};
                 opacity: '1.0'
             }, 'slow');
         };
-        
+
         // Day Targeting Trigger
         $scope.selectDayTarget = function () {
             $scope.setTargeting('Daypart');
@@ -236,7 +236,9 @@ var angObj = angObj || {};
             $scope.resetGeoTargetingVariables();
             $scope.showRegionsTab = true;
             $scope.showCitiesTab = true;
-            if ($scope.isPlatformId === 1) {
+
+            if (($scope.isPlatformId === 1) || ($scope.adData.platformId === 25)) {
+                // Hide Cities Tab for Visto Bidder (platform Id 25)
                 $scope.showCitiesTab = false;
             }
         });
@@ -439,7 +441,7 @@ var angObj = angObj || {};
                 $(this).hide();
             });
         };
-        
+
         // Closes Daypart Targeting View
         $scope.resetDayTargetingVariables = function () {
             var dayParting = audienceService.getDaytimeObj();
@@ -455,7 +457,7 @@ var angObj = angObj || {};
                 $(this).hide();
             });
         };
-        
+
         // Daypart Save Trigger
         $scope.saveCampaignWithDay = function () {
             console.log('Daypart Save Not Set');

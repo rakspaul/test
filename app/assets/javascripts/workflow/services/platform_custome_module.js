@@ -14,29 +14,50 @@
             elem.append(platformHTML);
         };
 
-        var selectPlatform = function(selectedValue, inputList, platformCustomInputChildrenGroupList, dependentItems) {
-            if(dependentItems == 'selectBoxchkDependentItems') {
-                _self.elem.find("div[relationwith=selectBoxchkDependentItems]").length >0 && _self.elem.find("div[relationWith=selectBoxchkDependentItems]").remove();
-                _self.elem.find("div[relationwith=chkDependentItems]").length >0 && _self.elem.find("div[relationWith=chkDependentItems]").remove();
+        var selectPlatform = function (selectedValue, inputList, platformCustomInputChildrenGroupList, dependentItems) {
+            var activationOrderList,
+                selectedOrderList,
+                platformCustomInputGroupId,
+                item;
+
+                if (dependentItems === 'selectBoxchkDependentItems') {
+                _self
+                    .elem
+                    .find("div[relationwith=selectBoxchkDependentItems]")
+                    .length > 0 && _self.elem.find("div[relationWith=selectBoxchkDependentItems]").remove();
+                _self
+                    .elem
+                    .find("div[relationwith=chkDependentItems]")
+                    .length > 0 && _self.elem.find("div[relationWith=chkDependentItems]")
+                    .remove();
             }
 
-            if(dependentItems == 'chkDependentItems') {
-                _self.elem.find("div[relationwith=chkDependentItems]").length >0 && _self.elem.find("div[relationWith=chkDependentItems]").remove();
+            if (dependentItems === 'chkDependentItems') {
+                _self
+                    .elem
+                    .find("div[relationwith=chkDependentItems]")
+                    .length > 0 && _self.elem.find("div[relationWith=chkDependentItems]")
+                    .remove();
             }
 
 
-            var activationOrderList = _self.platformCustomInputActivationOrderList;
-            var selectedOrderList = _.filter(activationOrderList, function(obj) { return obj.value === $.trim(selectedValue) && obj.platformCustomInputId === inputList.id });
-            if(selectedOrderList.length >0) {
-                var platformCustomInputGroupId = selectedOrderList[0].platformCustomInputGroupId;
-                var Item = _.filter(platformCustomInputChildrenGroupList, function(obj) { return obj.id === platformCustomInputGroupId});
-                if(Item.length >0) {
-                    Item =  Item[0];
-                    Item['relationWith'] = dependentItems;
+            activationOrderList = _self.platformCustomInputActivationOrderList;
+            selectedOrderList = _.filter(activationOrderList, function(obj) {
+                return obj.value === $.trim(selectedValue) && obj.platformCustomInputId === inputList.id;
+            });
+
+            if (selectedOrderList.length > 0) {
+                platformCustomInputGroupId = selectedOrderList[0].platformCustomInputGroupId;
+                item = _.filter(platformCustomInputChildrenGroupList, function (obj) {
+                    return obj.id === platformCustomInputGroupId;
+                });
+                if (item.length > 0) {
+                    item =  item[0];
+                    item.relationWith = dependentItems;
                 }
-                createPlatformCustomInputList(Item , _self.elem);
+                createPlatformCustomInputList(item, _self.elem);
             }
-        }
+        };
 
         var adsEditDefaultValueMapper = function(adPlatformCustomInputs, inputList) {
             console.log(adPlatformCustomInputs);
