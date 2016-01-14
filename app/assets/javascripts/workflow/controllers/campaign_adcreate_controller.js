@@ -321,6 +321,7 @@ var angObj = angObj || {};
                 var format = $filter('toTitleCase')(responseData.adFormat);
                 $scope.adFormatSelection(format);
                 $scope.adData.adFormat = format;
+
             }
 
             if (responseData.goal) {
@@ -685,11 +686,18 @@ var angObj = angObj || {};
                 $scope.adData.screenTypes.push(screenTypeObj);
             }
         }
+        $scope.changeAdFormatContinue=function(){
+            $scope.changeAdFormat=false;
+            /*code to make creatives already set to empty*/
+            $scope.adData.setSizes = constants.WF_NOT_SET;
+            $scope.creativeData['creativeInfo'] = "undefined";
+            $scope.selectedArr.length = 0;
 
-        $scope.adFormatSelection = function (adformatName , event) {
+            /*adFormatSelection code*/
+            $scope.$broadcast('adFormatChanged', $scope.adformatName);
             var adFormatsData = $scope.workflowData['adFormats'];
             _.each(adFormatsData, function (obj) {
-                obj.name === adformatName ? obj.active = true : obj.active = false;
+                obj.name === $scope.adformatName ? obj.active = true : obj.active = false;
             })
             var vedioKpiObj = {id: 4, name: 'View to Completion'};
             $scope.adData.primaryKpi = '';
@@ -702,13 +710,19 @@ var angObj = angObj || {};
                 }
             }
 
-            if(event) {
-                var offset = $(event.target).offset();
-                var left = offset.left;
-                var top = offset.top;
-                var relativeX = left - $(event.target).closest(".goalBtnWithPopup").offset().left - 110;
-                $(".goalBtnWithPopup .popUpCue").css({left: relativeX});
-            }
+        }
+        $scope.changeAdFormatCancel=function(){
+            $scope.changeAdFormat=false;
+        }
+
+        $scope.adFormatSelection = function (adformatName , event) {
+            $scope.changeAdFormat=true;
+            $scope.adformatName=adformatName;
+            var offset = $(event.target).offset();
+            var left = offset.left;
+            var top = offset.top;
+            var relativeX =     left - $(event.target).closest(".goalBtnWithPopup").offset().left - 110   ;
+            $(".goalBtnWithPopup .popUpCue").css({left: relativeX});
         };
 
         $scope.goalSelection = function (goal) {

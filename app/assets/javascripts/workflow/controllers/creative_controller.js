@@ -7,6 +7,8 @@ var angObj = angObj || {};
             $scope.isAddCreativePopup = true;
             $(".main_navigation").find('.active').removeClass('active').end().find('#creative_nav_link').addClass('active');
         }
+
+
         $scope.textConstants = constants;
         $scope.workflowData = {};
         $scope.adData = {}
@@ -18,6 +20,16 @@ var angObj = angObj || {};
         $scope.IncorrectTag = false;
         $scope.disableCancelSave = false;
         $scope.campaignId = $routeParams.campaignId;
+        /*AD Format Type*/
+        $scope.formatLabel="Display"
+        if($scope.campaignId){
+            $scope.adPage=true;
+        }else{
+            $scope.adPage=false;
+        }
+        $scope.$on('adFormatChanged', function (event, adType) {
+            $scope.formatLabel=adType;
+        })
         $scope.creativePopularSizes = [{id:16, size:'300x250'}, {id:7,size:'160x600'}, {id:34,size:'728x90'}, {id:18,size:'300x600'}, {id:20,size:'320x50' }];
         $scope.resetAlertMessage = function(){
             $rootScope.setErrAlertMessage('',0);
@@ -77,7 +89,11 @@ var angObj = angObj || {};
                             postCrDataObj.name = formData.name;
                             postCrDataObj.tag = "%%TRACKER%%";
                             postCrDataObj.sizeId = formData.creativeSize;
-                            postCrDataObj.creativeFormat = formData.creativeFormat && formData.creativeFormat.replace(/\s+/g, '').toUpperCase();
+                            if($scope.campaignId){
+                                postCrDataObj.creativeFormat=$scope.formatLabel.replace(/\s+/g, '').toUpperCase();
+                            }else{
+                                postCrDataObj.creativeFormat = formData.creativeFormat && formData.creativeFormat.replace(/\s+/g, '').toUpperCase();
+                            }
                             postCrDataObj.creativeType = "JS";
                             postCrDataObj.sslEnable = "true";
                             postCrDataObj.isTracking = "true";
@@ -127,7 +143,11 @@ var angObj = angObj || {};
             postCrDataObj.name = formData.name;
             postCrDataObj.tag = formData.tag;
             postCrDataObj.sizeId = formData.creativeSize;
-            postCrDataObj.creativeFormat = formData.creativeFormat && formData.creativeFormat.replace(/\s+/g, '').toUpperCase();
+            if($scope.campaignId){
+                postCrDataObj.creativeFormat=$scope.formatLabel.replace(/\s+/g, '').toUpperCase();
+            }else{
+                postCrDataObj.creativeFormat = formData.creativeFormat && formData.creativeFormat.replace(/\s+/g, '').toUpperCase();
+            }
             postCrDataObj.creativeType = formData.creativeType;
             postCrDataObj.sslEnable = "true";
             console.log(postCrDataObj);

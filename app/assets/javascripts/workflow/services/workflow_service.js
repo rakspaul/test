@@ -6,6 +6,7 @@
         var newCreative;
         var platform;
         var vistoModule;
+        var adFormatSelected;
 
         return {
             fetchCampaigns : function() {
@@ -256,6 +257,12 @@
             getVendorForSelectedCostCategory:function(clientId,categoryId){
                 var url= apiPaths.WORKFLOW_APIUrl + '/clients/'+clientId+'/costCategories/'+categoryId+'/vendors';
                 return dataService.fetch(url);
+            },
+            setAdFormat:function(f){
+                adFormatSelected=f;
+            },
+            getAdFormat:function(){
+                return adFormatSelected;
             }
 
         };
