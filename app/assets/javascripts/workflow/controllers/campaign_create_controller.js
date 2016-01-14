@@ -24,6 +24,7 @@ var angObj = angObj || {};
         $scope.newCostArr = [];
         $scope.brand = [];
         $scope.performance = [];
+        $scope.objectiveSet="Select all that apply";
 
         $scope.selectedKpi = function (index, kpi) {
             // $scope.Campaign.kpiArr[index]['kpiId']=kpi.id;
@@ -398,8 +399,7 @@ var angObj = angObj || {};
                     $scope.performance.push(objectiveObj.subObjective);
                 }
             }
-
-
+            $scope.ObjectiveSetLabel();
         };
 
         $scope.open_multiselect_dropdown = function (event) {
@@ -477,6 +477,18 @@ var angObj = angObj || {};
             })
             if (performanceArr.length > 0)
                 $scope.performance = performanceArr[0].subObjectives;
+
+            $scope.ObjectiveSetLabel();
+        }
+        $scope.ObjectiveSetLabel=function(){
+            if($scope.brand.length>0 && $scope.performance.length>0){
+                $scope.objectiveSet="Branding & Performance"
+            }else if($scope.brand.length>0){
+                $scope.objectiveSet="Branding"
+            }else if($scope.performance.length>0){
+                $scope.objectiveSet="Performance"
+            }
+
         }
         $scope.setObjectiveCheckedData = function () {
             if ($scope.editCampaignData.campaignObjectives && $scope.editCampaignData.campaignObjectives.length > 0) {
