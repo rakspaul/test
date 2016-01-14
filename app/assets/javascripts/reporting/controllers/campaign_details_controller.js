@@ -154,8 +154,8 @@
         });
 
         //API call for campaign details
-      var clientId = loginModel.getSelectedClient().id;
-      var url = apiPaths.apiSerivicesUrl_NEW + "/clients/" + clientId + "/campaigns/" + $routeParams.campaignId;
+        var clientId = loginModel.getSelectedClient().id,
+            url = apiPaths.apiSerivicesUrl_NEW + "/clients/" + clientId + "/campaigns/" + $routeParams.campaignId;
         dataService.getSingleCampaign(url).then(function(result) {
             if (result.status == "success" && !angular.isString(result.data)) {
                 var dataArr = [result.data.data];
@@ -187,9 +187,6 @@
 
                 $scope.getCostBreakdownData($scope.campaign);
                 $scope.getPlatformData();
-                $scope.getCostViewabilityData($scope.campaign);
-                $scope.getInventoryGraphData($scope.campaign);
-                $scope.getFormatsGraphData($scope.campaign);
                 $scope.getAdSizeGraphData($scope.campaign);
                 $scope.getScreenGraphData($scope.campaign);
             } else {
@@ -1042,11 +1039,19 @@
             /*if(RoleBasedService.getUserRole().locale === 'en-gb') {
                 $('.carousel a.right').hide();
             }*/
-            var ItemsShown = 4;
-            var nextIndex;
-            var prevIndex;
+            var ItemsShown = 4,
+                nextIndex,
+                prevIndex,
+                loadLastThreeWidgets = true;
             $('.carousel a.right').click(function(){
-                if($('.carousel .item').length === 8) {
+              if (loadLastThreeWidgets) {
+                loadLastThreeWidgets = false;
+                $scope.getFormatsGraphData($scope.campaign);
+                $scope.getInventoryGraphData($scope.campaign);
+                $scope.getCostViewabilityData($scope.campaign);
+              }
+
+              if($('.carousel .item').length === 8) {
                     nextIndex = ItemsShown;
                 } else {
                     nextIndex = $('.carousel .item').length  - ItemsShown;
