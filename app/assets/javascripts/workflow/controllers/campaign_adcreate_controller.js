@@ -270,7 +270,7 @@ var angObj = angObj || {};
 
         $scope.getPlatformDesc = function (platform) {
             var platformMapper = {
-                'collective bidder': 'The programmactic solution for all screens and formats.',
+                'collective bidder': 'The programmactic solution for all screens and format.',
                 'appnexus': 'The programmactic solution for all screens and formats',
                 'facebook': 'All-in-one customer<br />support application',
                 'dbm': 'All-in-one customer<br />support application',

@@ -1,5 +1,6 @@
 (function () {
     'use strict';
+
     var loginModel = function ($cookieStore, $location, constants, $http) {
         var data = {};
         data.user_id = undefined;
@@ -171,6 +172,6 @@
         }; //return
 
     }; //loginModel
-    angObj.service('loginModel', ['$cookieStore', '$location', 'constants', '$http', loginModel]);
 
+    angObj.service('loginModel', ['$cookieStore', '$location', 'constants', '$http', loginModel]);
 }());
