@@ -7,7 +7,7 @@
 <div class="buyingPlatformHolder">
     <div class="col-md-12" style="padding: 0 30px;">
         <div class="col-md-6 platformHolder" ng-repeat="platform in workflowData.platforms" ng-click="!platform.active ? '' : selectPlatform($event, platform)">
-            <span ng-if="selectedPlatform[platform.id]" class="icon-inline-edit"></span>
+            <!--<span ng-if="selectedPlatform[platform.id]" class="icon-inline-edit"></span>-->
             <img ng-src="{{platform.iconUrl}}"/>
             <p data-ng-bind="platform.displayName"></p>
             <span ng-bind-html="platform.summary"></span>

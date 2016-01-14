@@ -266,6 +266,11 @@
                   }
 
               });
+              
+              $(window).load(function(){
+                $(".main_navigation_holder .main_nav_dropdown .accountsList .dropdown-menu").css('max-height', $(window).height() / 4 * 3 - 130 + 'px');
+              });
+              
 
         })
 

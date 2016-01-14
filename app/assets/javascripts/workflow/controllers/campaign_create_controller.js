@@ -15,7 +15,7 @@ var angObj = angObj || {};
 
         };
         $scope.platFormArr = [];
-        $scope.selectedChannel = "DISPLAY";
+        $scope.selectedChannel = "Display";
         $scope.Campaign.marginPercent = 0;
         $scope.isPrimarySelected = true;
         $scope.costRowSum = 0;
