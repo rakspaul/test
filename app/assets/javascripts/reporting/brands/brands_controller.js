@@ -3,41 +3,30 @@
     brandsModule.controller('BrandsController', function ($scope, brandsModel, brandsService, utils, $rootScope, constants, loginModel, analytics,advertiserModel) {
 
         var search = false;
-        var searchCriteria = utils.typeaheadParams;
+        var searchCriteria = utils.typeaheadParams,
+            loadBrands = true;
+
         $scope.textConstants = constants;
         $scope.advertiser =  advertiserModel.getSelectedAdvertiser();
 
-        function resetSearch() {
-            searchCriteria.limit = constants.DEFAULT_LIMIT_COUNT;
-            searchCriteria.offset = constants.DEFAULT_OFFSET_START;
+        function fetchBrands(searchCriteria, search) {
+          if (loginModel.getUserId() == undefined) {
+              return;
+          }
+          if(loadBrands) {
+              searchCriteria.clientId = loginModel.getSelectedClient().id;
+              searchCriteria.advertiserId = advertiserModel.getAdvertiser().selectedAdvertiser.id;
+              search = false;
+              loadBrands = false;
+              brandsModel.getBrands(function(brandsData) {
+                  $scope.brands = brandsData;
+              }, searchCriteria, search);
+          }
         }
 
-        function fetchBrands(search) {
-            brandsModel.getBrands(function (brandsData) {
-                $scope.brands = brandsData;
-            }, searchCriteria, search);
-        }
-
-        function init() {
-            if (loginModel.getUserId() != undefined) {
-                searchCriteria.clientId = loginModel.getSelectedClient().id;
-                searchCriteria.advertiserId = advertiserModel.getAdvertiser().selectedAdvertiser.id;
-                search = false;
-                fetchBrands(search);
-            }
-        }
-         if((advertiserModel.getAdvertiser().selectedAdvertiser) && (advertiserModel.getAdvertiser().selectedAdvertiser.id) ) {
-             init();
+         if((advertiserModel.getAdvertiser().selectedAdvertiser) && (advertiserModel.getAdvertiser().selectedAdvertiser.id)) {
              $scope.brandData = brandsModel.getBrand();
          }
-
-        $scope.loadMoreBrands = function () {
-            searchCriteria.offset += searchCriteria.limit;
-            searchCriteria.key = $("#brandsDropdown").val();
-            search = false;
-            fetchBrands(search);
-        };
-
 
         $scope.selectBrand = function (brand, advertiser, event_type) {
             $("#brand_name_selected").text(brand.name);
@@ -51,6 +40,7 @@
 
 
         $scope.brandsDropdownClicked = function () {
+            fetchBrands(searchCriteria, search);
             $("#brandsList").toggle();
             $("#cdbMenu").closest(".each_filter").removeClass("filter_dropdown_open");
             $("#brandsList").closest(".each_filter").toggleClass("filter_dropdown_open");
@@ -60,18 +50,6 @@
 
         $scope.disableShowAll = function () {
             $scope.brandData.showAll = false;
-        };
-
-        $scope.searchBrands = function () {
-            var searchText = $("#brandsDropdown").val();
-            if (searchCriteria.key === searchText)
-                return;
-            searchCriteria.key = searchText;
-            $scope.exhausted = false;
-            //Note: In case of search, we have to reset limit and offset values
-            resetSearch();
-            search = true;
-            fetchBrands(search);
         };
 
         $scope.highlightSearch = function (text, search) {
@@ -88,14 +66,12 @@
         });
 
         $scope.$on(constants.EVENT_ADVERTISER_CHANGED, function(event, args) {
+            loadBrands = true;
             var advertiser = args.advertiser;
             $scope.advertiser =  advertiser;
             $scope.brandData.selectedBrand = {};
-            $scope.brandData.selectedBrand.name= '';
-            searchCriteria.clientId = loginModel.getSelectedClient().id;
+            $scope.brandData.selectedBrand.name = '';
             $scope.selectBrand(brandsModel.getBrand().allBrandObject, advertiser, args.event_type);
-            searchCriteria.advertiserId = advertiser.id;
-            fetchBrands(searchCriteria, search);
         });
 
         var eventBrandChangedFromDashBoard = $rootScope.$on(constants.EVENT_BRAND_CHANGED_FROM_DASHBOARD, function (event, args) {
