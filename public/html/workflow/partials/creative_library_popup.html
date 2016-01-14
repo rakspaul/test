@@ -1,7 +1,7 @@
 <div class="popCreativeLib" ng-show="showHidePopup">
     <div class="creativeLib">
         <div class="headerLib">
-            <span class="glyphicon glyphicon-remove closePopBtn" aria-hidden="true" ng-click="closePop()"></span>
+            <span class="icon-close closePopBtn" aria-hidden="true" ng-click="closePop()"></span>
             <h1>Add from Existing</h1>
             <a href="">Adding a Creative to your Ad</a>
         </div>
@@ -16,7 +16,7 @@
                 </div>
 
                 <div class="tableWrapper">
-                    <span class="greyTxt">RECENTLY CREATED/USED</span>
+                    <span class="greyTxt" style="display: inline-block; padding-bottom: 15px !important;">RECENTLY CREATED / USED</span>
                     <div class="table" id="selCheck">
                         <div ng-repeat="data in creativesLibraryData.creativesData | orderBy: 'name'">
                             <div class="clearfix row-gap" >
@@ -24,7 +24,7 @@
                                     <input class="checkboxcls" type="checkbox" id="{{data.id}}" value="{{data.id}}_{{data.size.size}}_{{data.name}}"  name="{{data.name}}"  ng-checked="data.checked  ? true : false" ng-click="stateChanged($event, data);"/>
                                 </span>
                                 <span class="col-md-3">
-                                    {{data.size.size}}
+                                    {{data.size.size | lowercase}}
                                 </span>
                                 <span class="col-md-8">{{data.name}}</span>
                             </div>
@@ -48,7 +48,7 @@
                     <tbody>
                     <tr ng-repeat="data in selectedArr" ng-show="!creativeListLoading">
                         <td class="col-md-4">
-                            <span class="col-md-12">{{data.size.size}}</span>
+                            <span class="col-md-12">{{data.size.size | lowercase}}</span>
                         </td>
                         <td class="col-md-8">
                             <span class="col-md-10">{{data.name}}</span>

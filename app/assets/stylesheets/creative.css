@@ -265,11 +265,14 @@
 }
 #inventoryFilters .filterList .filterHead h1 {
   float: left;
-  width: 100%;
   color: #21252b;
   font-size: 18px;
   line-height: 25px;
   margin: 0 0 10px 0;
+}
+#inventoryFilters .filterList .filterHead .icon-trash:hover {
+  color: #0978c9;
+  cursor: pointer;
 }
 #inventoryFilters .filterList .filterHead > span {
   font-size: 14px;
