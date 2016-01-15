@@ -831,6 +831,7 @@ var angObj = angObj || {};
                 $rootScope.setErrAlertMessage("Mandatory fields need to be specified for the Ad");
                 return false;
             } else {
+                $(".workflowPreloader, .workflowPreloader .adSavePre").show();
                 var creativesData = $scope.creativeData['creativeInfo'];
                 var postAdDataObj = {};
                 postAdDataObj.name = formData.adName;
