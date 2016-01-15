@@ -39,7 +39,7 @@
 <span  ng-show="adFormats.videoAds  == false">
 
     <div class="each_col seventh_col">
-        <span class="icon_text_holder" ng-class="sortClassFunction('-cpa',sortTypebyadsizes,sortReverseForCostscpaAdsizes)" ng-click="sortTypebyadsizes = '-cpa'; sortReverseAdSizes = sortReverseForCostscpaAdSizes; sortReverseForCostscpaAdSizes = !sortReverseForCostscpaAdSizes;removeKpiActive();" ><span class="default-kpi-header-icon" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() === 'cpa'"></span>{{textConstants.CPA}}</span>
+        <span class="icon_text_holder" ng-class="sortClassFunction('-cpa',sortTypebyadsizes,sortReverseForCostscpaAdsizes)" ng-click="sortTypebyadsizes = '-cpa'; sortReverseAddSizes = sortReverseForCostscpaAdSizes; sortReverseForCostscpaAdSizes = !sortReverseForCostscpaAdSizes;removeKpiActive();" ><span class="default-kpi-header-icon" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() === 'cpa'"></span>{{textConstants.CPA}}</span>
     </div>
 <div class="each_col sixth_col">
     <span class="icon_text_holder" ng-class="sortClassFunction('-cpc',sortTypebyadsizes,sortReverseForCostscpcAdsizes)" ng-click="sortTypebyadsizes = '-cpc'; sortReverseAddSizes = sortReverseForCostscpcAdsizes; sortReverseForCostscpcAdsizes = !sortReverseForCostscpcAdsizes;removeKpiActive();" ><span class="default-kpi-header-icon" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() === 'cpc'"></span>{{textConstants.CPC}}</span>
