@@ -12,10 +12,11 @@
       </div> -->
       <div class="pull-left each_nav_link" id="campaigns_nav_link">
         <a href="/mediaplans">{{textConstants.MEDIA_PLAN}}</a>
+        <div class="arrowSelect"></div>
       </div>
       <div class="pull-left each_nav_link" id="reports_nav_link" >
         <a href="javascript:void(0);" reporttitle="reportOverview" ng-click="show_hide_nav_dropdown($event,'reports','click');" ng-mouseover="show_hide_nav_dropdown($event,'reports','hover');"  >{{textConstants.REPORTS}}</a><!-- ng-click="NavigateToTab('', null, 'reportOverview')" -->
-        
+        <div class="arrowSelect"></div>
       </div>
     </div>
     <div class="pull-right profile-photo-tab unselectable" id="user_nav_link" ng-click="show_hide_nav_dropdown($event,'user');">
@@ -49,7 +50,7 @@
                   <div class="dropdown" >
                       <span class="clearfix dropdown_ul_text" data-toggle="dropdown">
                           <span class="pull-left dd_txt" >{{defaultAccountsName}}</span>
-                          <span ng-show="multipleClient" class="pull-right glyphicon glyphicon-chevron-down"></span>
+                          <span ng-show="multipleClient" class="pull-right icon-arrow-down-thick"></span>
                       </span>
                       <!-- <div class="accountsList-dropdown-menu"> -->
                         <ul class="dropdown-menu" >

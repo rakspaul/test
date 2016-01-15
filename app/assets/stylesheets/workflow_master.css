@@ -1236,7 +1236,6 @@ input.cmn-toggle-round:checked + label:after {
   cursor: pointer;
 }
 .cardSelectHolder .icon-trash {
-  right: 40px;
   z-index: 90;
 }
 .cardSelectHolder .targetDataSaved {
@@ -1297,6 +1296,7 @@ input.cmn-toggle-round:checked + label:after {
   margin-right: 0;
 }
 .cardSelectHolder:hover {
+  background-color: rgba(225, 237, 249, 0.4);
   border: 1px solid #0978c9;
 }
 .cardSelectHolder.active .icon-inline-edit {

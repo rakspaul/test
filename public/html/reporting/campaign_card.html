@@ -38,7 +38,7 @@
         </div>
         <div class="clearfix campaigns_list_buttons_holder">
             <a id="campaigns_view_report"> <!-- href="/#/performance" -->
-                <div class="campaign_btn reports_btn" ng-click="$parent.viewReports(campaign)">
+                <div class="btn btn-default pull-right" ng-click="$parent.viewReports(campaign)" style="margin-left: 10px;">
                     {{ textConstants.VIEW_REPORT }}
                 </div>
             </a>
@@ -49,7 +49,7 @@
                 </div>
             </a> -->
            <a href="/mediaplan/{{campaign.orderId}}/overview" id="campaigns_activity_btn">
-                <div class="campaign_btn actions_btn" ng-show="$parent.isWorkFlowUser && campaigns.dashboard.appliedFilterType !== 'archived' ">
+                <div class="btn btn-default pull-right" ng-show="$parent.isWorkFlowUser && campaigns.dashboard.appliedFilterType !== 'archived' ">
                     <span>{{ textConstants.MANAGE }}</span>
                 </div>
             </a>
