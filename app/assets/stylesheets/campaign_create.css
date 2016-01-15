@@ -17,6 +17,18 @@
   -webkit-filter: hue-rotate(22deg);
   filter: hue-rotate(22deg);
 }
+.workflowPreloader .adSavePre {
+  position: absolute;
+  z-index: 15;
+  width: 200px;
+  display: block;
+  text-align: center;
+  top: 50%;
+  left: 50%;
+  margin-left: -100px;
+  margin-top: 40px;
+  display: none;
+}
 #campaignCreate {
   float: left;
   width: 100%;
