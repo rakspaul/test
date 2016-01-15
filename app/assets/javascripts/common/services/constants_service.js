@@ -721,6 +721,7 @@
     this.MINBID = 'Min. Bid';
     this.MAXCOST = 'Max Cost';
     this.MEDIAPLANUPD = 'Media Plan Update';
+    this.ARCHIVE = "Archive"
 
 
     
