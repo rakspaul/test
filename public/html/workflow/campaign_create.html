@@ -151,7 +151,7 @@
 									<label ng-if="createCampaignForm.campaignName.$error.required" class="col-sm-12  greyTxt errorLabel">{{textConstants.WF_ENTER_NAME_CAMPAIGN}}</label>
 								</div>
 								<div ng-if=(mode!='edit') class="form-group col-sm-9 zeroPadding" show-errors='{showSuccess: true}'  style="margin-top: 15px;">
-									<input type="text" class="form-control" id="nameTitleCampaign" remove-special-character ='remove-special-character' name="campaignName" ng-model="selectedCampaign.campaignName"  maxlength="250" ng-maxlength="250" autofocus placeholder="Max 256 characters. No symbols or punctuation" required/>
+									<input type="text" class="form-control" id="nameTitleCampaign" remove-special-character ='remove-special-character' name="campaignName" ng-model="selectedCampaign.campaignName"  maxlength="250" ng-maxlength="250" autofocus placeholder="Max 250 characters. No symbols or punctuation" required/>
 									<label ng-if="createCampaignForm.campaignName.$error.required" class="col-sm-12  greyTxt errorLabel">{{textConstants.WF_ENTER_NAME_CAMPAIGN}}</label>
 								</div>
 							</div>
