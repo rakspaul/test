@@ -149,6 +149,7 @@
             $("#" + arg + "-menu").fadeIn();
             $(".main_navigation_holder").find(".selected").removeClass("selected") ;
             elem.closest("#"+ arg +"_nav_link").addClass("selected") ;
+            $('.each_nav_link.active .arrowSelect').hide();
           } else {
             if(behaviour == "click") {
                // $(".main_nav_dropdown").fadeOut() ;
@@ -160,12 +161,14 @@
 
         $scope.hide_navigation_dropdown = function(event) {
            var elem = $(event.target);
+           setTimeout(function(){ $('.each_nav_link.active .arrowSelect').fadeIn(); }, 800);
            setTimeout(function(){
               if(  !( $(".main_navigation_holder").is(":hover") || $("#user-menu").is(":hover") || $("#reports-menu").is(":hover") ) ) { 
                    $(".main_nav_dropdown").fadeOut() ;
-                   $(".main_navigation_holder").find(".selected").removeClass("selected") ; 
-               } 
-          }, 1500);
+                   $(".main_navigation_holder").find(".selected").removeClass("selected") ;
+               }
+            }, 1500);
+           
         } ;
 
         $scope.logout = function() {
