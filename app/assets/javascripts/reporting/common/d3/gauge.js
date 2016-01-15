@@ -285,10 +285,10 @@
                       return (self.pctX -35 );
                   }
 
-                  else if(readings[name].onTrackPct >10){
+                  else if(readings[name].onTrackPct >= 10){
                       return self.pctX -23 ;
                   }
-                  else if(readings[name].onTrackPct <10){
+                  else if(readings[name].onTrackPct <= 10){
                       return self.pctX -17 ;
                   }
               })
