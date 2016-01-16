@@ -58,10 +58,10 @@
     <label class="col-sm-12 control-label greyTxt miniLabels" data-ng-bind="textConstants.BUDGETCAL"></label>
     <div class="btn-group miniToggle">
         <label class="btn btn-default budget_{{adData.budgetTypeLabel | lowercase}} active"><span data-ng-bind="adData.budgetTypeLabel"></span>
-            <input type="radio" name="budgetType" value="{{adData.budgetTypeLabel}}" checked ng-model="adData.budgetType" class="btn_rad budget_type" hidden="hidden" ng-click="toggleBtn($event); ">
+            <input type="radio" name="budgetType" value="{{adData.budgetTypeLabel}}" checked ng-model="adData.budgetType" class="btn_rad budget_type" hidden="hidden" ng-click=" resetBudgetField(); toggleBtn($event); ">
         </label>
         <label class="btn btn-default budget_cost"><span data-ng-bind="textConstants.COST"></span>
-            <input type="radio" name="budgetType" value="Cost"  hidden="hidden" ng-model="adData.budgetType" class="btn_rad budget_type" ng-click="toggleBtn($event);">
+            <input type="radio" name="budgetType" value="Cost"  hidden="hidden" ng-model="adData.budgetType" class="btn_rad budget_type" ng-click="resetBudgetField(); toggleBtn($event);">
         </label>
          <span style="position:relative; top:10px; left:25px; float:left;">{{adData.budgetType === 'Cost' ? locale.NUMBER_FORMATS.CURRENCY_SYM : '#'}}</span>
         <input style="width:130px; text-indent:8px;" type="text" name="budgetAmount" whole-number-only="whole-number-only" class="form-control" ng-model="adData.budgetAmount" id="budgetAmount" placeholder="Enter Value" ng-keyup = "adBudgetValidator();">
