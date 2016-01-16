@@ -672,6 +672,59 @@
     this.WF_PERMISSION_NEEDED="Atleast 1 permission needed";
     this.WF_USER_CREATION_FAIL = "Unable to create a User";
 
+    //Overview Page
+    this.ADVERTISER = 'Advertiser';
+    this.BRAND = 'Brand';
+    this.EDIT = 'Edit';
+    this.OBJC = 'Objectives';
+    this.KPI = 'KPI';
+    this.DELBUDGET = 'Delivery Budget';
+    this.FLIGHTDATES = 'Flight Dates';
+    this.ADGROUPS = 'Ad Groups';
+    this.ADS = 'Ads';
+    this.CREATIVES = 'Creatives';
+    this.SORT = 'Sort';
+    this.LATEST = 'Latest';
+    this.OLDEST = 'Oldest';
+    this.CREATEAD = 'Create Ad';
+    this.CREATEADGRP = 'Create Ad Group';
+    this.NAMEADGROUP = 'What is the name of your Ad Group?';
+    this.ADGROUPNAME = 'Ad Group Name';
+    this.ENTERADGRP = 'Please enter a name for the ad group.';
+    this.LIKEADSRUN = 'When would you like your Ads to run?';
+    this.SELENDDATE = 'Please select the end Date.';
+    this.SAVE = 'Save';
+    this.CREATEAD = 'Create Ad';
+    this.PLATNOTSET = 'Platform Not Set';
+    this.NOTPUSHEDPAR = '(NOT PUSHED)';
+    this.FLTNOTSET = 'Flight Date Not Set';
+    this.AD = 'AD';
+    this.PAUSED = 'Paused';
+    this.CHOOSEONE = 'Choose One';
+    this.BROWSER = 'Browser';
+    this.APPS = 'Apps';
+    this.NEXT = 'Next';
+    this.STEPSETTING = '1. Setting';
+    this.STEPBUYINGPLAT = '2. Buying Platform';
+    this.STEPTARGETTING = '3. Targetting';
+    this.STEPCREATIVES = '4. Creatives';
+    this.CCOLBIDDER = 'C Collective Bidder';
+    this.BIDSTRATEGY = 'Bidding Strategy';
+    this.ADTYPE = 'Ad Type';
+    this.SHOWPRESET = 'Show Preset';
+    this.PE = 'Pe';
+    this.TARGETING = 'Targeting';
+    this.STRATEGY = 'Strategy';
+    this.KEYVALUE = 'Key Value';
+    this.USERPART = 'User Partition';
+    this.BUDGERPART = 'Budger Partition';
+    this.MINBID = 'Min. Bid';
+    this.MAXCOST = 'Max Cost';
+    this.MEDIAPLANUPD = 'Media Plan Update';
+    this.ARCHIVE = "Archive"
+
+
+    
   };
 
   commonModule.service("constants", constants);
