@@ -9,8 +9,6 @@
                 <div class="col-md-12 zeroPadding">
                     <div class="col-md-9 zeroPadding">
                         <div class="accountTitleTag" ng-if="workflowData.campaignData.clientName">
-                            <!--<span class="tagTitle">Account</span>
-                            <span>{{workflowData.campaignData.clientName}}</span>-->
                             <span class="tagTitle" data-ng-bind="textConstants.ADVERTISER"></span>
                             <span data-ng-bind="workflowData.campaignData.advertiserName"></span>
                             <div class="pull-left" style="margin: 0 0 0 50px;" ng-if="workflowData.campaignData.brandName">
@@ -37,23 +35,15 @@
                     </div>
                     <div class="col-md-3 widgetModule">
                         <div class="campWidgets">
-                            <!--<span class="badge">2</span>-->
-                            <!--<img src="/assets/images/workflow/messaging.svg" alt="" width="25"/>-->
                             <span class="icon-message"></span>
                         </div>
                         <div class="campWidgets">
-                            <!--<span class="badge">2</span>-->
-                            <!--<img src="/assets/images/workflow/activity.svg" alt="" width="20"/>-->
                             <span class="icon-activity"></span>
                         </div>
                         <div class="campWidgets">
-                            <!--<span class="badge">2</span>-->
-                            <!--<img src="/assets/images/workflow/attachements.svg" alt="" width="20"/>-->
                             <span class="icon-attach"></span>
                         </div>
                         <div class="campWidgets">
-                            <!--<span class="badge">2</span>-->
-                            <!--<img src="/assets/images/workflow/tasks.svg" alt="" width="19"/>-->
                             <span class="icon-task"></span>
                         </div>
 			            <div class="col-md-12 zeroPadding">
@@ -72,8 +62,6 @@
                                             <a data-ng-bind="textConstants.WF_PAUSE"></a></li>
                                         <li class="disabled" ng-click="cancelAdResume()">
                                             <a data-ng-bind="textConstants.WF_RESUME"></a></li>
-                                        <!--<li class="disabled"><a id="archiveAdbtn" ng-click="cancelAdArchive()">
-                                        {{textConstants.WF_ARCHIVE}}</a></li>-->
                                         <li>
                                             <a class="available" id="archiveAdbtn" data-ng-bind="textConstants.WF_ARCHIVE" ng-click="cancelArchiveCampaign()"></a>
                                         </li>
