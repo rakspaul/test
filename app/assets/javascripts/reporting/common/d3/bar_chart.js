@@ -45,7 +45,7 @@
                         }
                         chartScreen = d3.select(widgetElem[0])
                             .append('svg')
-                            .attr('class', 'barChart')
+                            .attr('class', 'chart')
                             .attr('width', widthScreen )
                             .attr('height', 200);
 
