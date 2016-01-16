@@ -170,6 +170,13 @@ angObj.controller('BudgetDeliveryController', function ($scope, $window, $routeP
         }
     };
 
+    $scope.resetBudgetField = function() {
+        $scope.adData.budgetAmount = '';
+        $scope.budgetErrorObj.mediaCostValidator = '';
+        $scope.budgetErrorObj.availableRevenueValidator = '';
+        $scope.budgetErrorObj.availableMaximumAdRevenueValidator = '';
+    };
+
     $scope.$parent.initiateDatePicker = function () {
         var endDateElem = $('#endDateInput');
         var startDateElem = $('#startDateInput');
