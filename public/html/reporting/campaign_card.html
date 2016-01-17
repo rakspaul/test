@@ -11,46 +11,33 @@
         </div>
     </div>
     <div class="clearfix">
-        <div class="heading">
-            {{campaign.brandName }}
-        </div>
+        <div class="heading" ng-bind="campaign.brandName"></div>
     </div>
     <div class="each_campaign_section campaign_list_details">
-       <!--  <div class="heading_holder">
-
-
-        </div> -->
         <div class="days_left_holder">
             <div class="total_days_holder">
                 <div class="clearfix days_end_points">
-                    <span class="start_end">{{campaign.startDate | date :'d MMM y' }}</span>
-                    <span class="finish_end">{{campaign.endDate | date :'d MMM y' }}</span>
+                    <span class="start_end" ng-bind="campaign.startDate | date :'d MMM y'"></span>
+                    <span class="finish_end" ng-bind="campaign.endDate | date :'d MMM y'"></span>
                 </div>
                 <div ng-init="duration=campaign.durationLeft()"></div>
                 <div class="days_over" ng-style="{'width':campaign.durationCompletion() +'%'};">
-                    <span ng-if="duration == 'Yet to start'"  class="days_over_text start_text">{{ textConstants.YET_TO_START }}</span>
-                    <span ng-if="duration == 'Ended'" class="days_over_text ended_text" >{{ textConstants.ENDED }}</span>
+                    <span ng-if="duration == 'Yet to start'"  class="days_over_text start_text" ng-bind="textConstants.YET_TO_START"></span>
+                    <span ng-if="duration == 'Ended'" class="days_over_text ended_text" ng-bind="textConstants.ENDED"></span>
                     <span ng-if="duration > 0"   class="days_over_text">{{duration}} {{ textConstants.DAYS_LEFT }}</span>
                 </div>
-                <div ng-if="duration == 'Started today'" class="days_not_over_text start_text">{{ textConstants.STARTED_TODAY }}</div>
-                <div ng-if="duration == 'Ending today'" class="days_not_over_text ended_text" >{{ textConstants.ENDING_TODAY }}</div>
+                <div ng-if="duration == 'Started today'" class="days_not_over_text start_text" ng-bind="textConstants.STARTED_TODAY"></div>
+                <div ng-if="duration == 'Ending today'" class="days_not_over_text ended_text" ng-bind="textConstants.ENDING_TODAY"></div>
             </div>
         </div>
         <div class="clearfix campaigns_list_buttons_holder">
             <a id="campaigns_view_report"> <!-- href="/#/performance" -->
-                <div class="btn btn-default pull-right" ng-click="$parent.viewReports(campaign)" style="margin-left: 10px;">
-                    {{ textConstants.VIEW_REPORT }}
+                <div class="btn btn-default pull-right" ng-click="$parent.viewReports(campaign)" style="margin-left: 10px;" ng-bind="textConstants.VIEW_REPORT">
                 </div>
             </a>
-            <!-- <a href="/campaigns/{{campaign.orderId}}" class="action_bubble_holder" id="campaigns_activity_btn">
-                <div class="campaign_btn actions_btn">
-                    <span>{{ textConstants.ACTIVITY }}</span>
-                    <span class="actions_done" ng-if="campaign.actionsCount">{{campaign.actionsCount}}</span>
-                </div>
-            </a> -->
            <a href="/mediaplan/{{campaign.orderId}}/overview" id="campaigns_activity_btn">
                 <div class="btn btn-default pull-right" ng-show="$parent.isWorkFlowUser && campaigns.dashboard.appliedFilterType !== 'archived' ">
-                    <span>{{ textConstants.MANAGE }}</span>
+                    <span ng-bind="textConstants.MANAGE"></span>
                 </div>
             </a>
 
@@ -58,8 +45,8 @@
     </div>
     <div class="each_campaign_section metric_campaign_section">
         <div class="clearfix metric_graph_header">
-            <span class="metric_title">{{ textConstants.SPEND }}</span>
-            <span class="metric_val">{{campaigns.cdbDataMap[campaign.orderId].getGrossRev() |  currency }}</span>
+            <span class="metric_title" ng-bind="textConstants.SPEND"></span>
+            <span class="metric_val" ng-bind="campaigns.cdbDataMap[campaign.orderId].getGrossRev() |  currency "></span>
         </div>
         <div class="metric_graph {{getSpendClass(campaign)}}">
             <div class="full_metric_graph">
@@ -74,7 +61,7 @@
                 <div class="graph_end_point completed_end_point budget_graph_val" ng-hide="( (campaign.expectedMediaCost == campaign.totalMediaCost ) ||  (campaigns.durationLeft(campaign) == 0) ) "><!-- put completed_end_point when at end -->
                     <div class="end_point_val">
                         <div class="end_point_line"></div>
-                        <span>{{ textConstants.BUDGET_WITH_COLON }} {{campaign.totalMediaCost | currency:undefined:2}}</span>
+                        <span ng-bind='textConstants.BUDGET_WITH_COLON + " " + (campaign.totalMediaCost | currency:undefined:2)'></span>
                     </div>
                 </div>
             </div>
@@ -91,19 +78,17 @@
                     number:2)+'%'"></span>
                 <span ng-bind="textConstants.CTR"></span>
             </div>
-            <!-- <div class="each_metric_graph_details metric_graph_details_action" ng-if="!campaigns.cdbDataMap[campaign.orderId].adFormats.videoAds || campaigns.cdbDataMap[campaign.orderId].video_metrics.vtc_rate === 0">   -->
             <div class="each_metric_graph_details metric_graph_details_action" ng-if="campaigns.cdbDataMap[campaign.orderId].video_metrics.vtc_rate === 0">
-                <span class="detail_val">{{campaigns.cdbDataMap[campaign.orderId].action_rate | number:2}}%</span>
-                <span>{{ textConstants.ACTION_RATE_R_CAPS }}</span>
+                <span class="detail_val" ng-bind="(campaigns.cdbDataMap[campaign.orderId].action_rate | number:2)+'%'"></span>
+                <span ng-bind="textConstants.ACTION_RATE_R_CAPS"></span>
             </div>
-<!-- <div class="each_metric_graph_details metric_graph_details_vtc" ng-if="campaigns.cdbDataMap[campaign.orderId].adFormats.videoAds && campaigns.cdbDataMap[campaign.orderId].video_metrics.vtc_rate > 0"> -->
              <div class="each_metric_graph_details metric_graph_details_vtc" ng-if="campaigns.cdbDataMap[campaign.orderId].video_metrics.vtc_rate > 0">
                 <div class="quartile_details_VTC_btn" ng-mouseover="VTCpopup($event,1)" ng-mouseout="VTCpopup($event,0)" >
-                    <span class="detail_val">{{campaigns.cdbDataMap[campaign.orderId].video_metrics.vtc_rate | number :2}}%</span>
-                    <span>{{ textConstants.VTC }}</span>
+                    <span class="detail_val" ng-bind="(campaigns.cdbDataMap[campaign.orderId].video_metrics.vtc_rate | number :2)+'%'"></span>
+                    <span ng-bind="textConstants.VTC"></span>
                 </div>
                 <div class="quartile_details_VTC" >
-                    <div class="quartile_details_title">{{ textConstants.QUARTILE_DETAILS }}</div>
+                    <div class="quartile_details_title" ng-bind="textConstants.QUARTILE_DETAILS"></div>
                     <div class="quartile_details_graph" width='328' height='158' quartiles-graph chart-data="{{campaigns.cdbDataMap[campaign.orderId].modified_vtc_metrics}}"></div>
                 </div>
             </div>

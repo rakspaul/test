@@ -1636,7 +1636,7 @@ var angObj = angObj || {};
             $scope.resetMetricOptions = function() {
                 var url = '/reports/schedules';
                 if ($scope.buttonResetCancel == "Cancel") {
-                    window.location.href = url;
+                    $location.url(url);
                 } else if ($scope.buttonResetCancel == "Reset") {
                     localStorage.removeItem('customReport');
                     $route.reload();

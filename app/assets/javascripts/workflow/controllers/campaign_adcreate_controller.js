@@ -95,7 +95,7 @@ var angObj = angObj || {};
         $scope.budgetErrorObj = {};
 
         $scope.editCampaign = function (workflowcampaignData) {
-            window.location.href = '/mediaplan/' + workflowcampaignData.id + '/edit';
+            $location.url('/mediaplan/' + workflowcampaignData.id + '/edit');
 
         }
 

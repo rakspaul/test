@@ -21,8 +21,6 @@
         $scope.fetching = false;
 
         $scope.$parent.strategyLoading = true;
-        //$scope.$parent.isFetchStrategiesCalled = false;
-
 
         var searchCriteria = utils.typeaheadParams;
 

@@ -8,7 +8,7 @@
                 <input type="checkbox" ng-checked="campaigns.dashboard.filterSelectAll"  id="camp_dash_squaredFour" class="ng-pristine ng-valid squaredFourChkbox"  data-ng-click="campaigns.dashboardSelectedAll()"  ng-true-value="'true'" ng-false-value="'false'" >
                 <label for="camp_dash_squaredFour"></label>
             </div>
-            <span class="squaredFourTxt" >{{textConstants.SELECT_ALL}}</span>
+            <span class="squaredFourTxt" ng-bind="textConstants.SELECT_ALL"></span>
         </div>
     </div>
     <div class="status_bar_widget clearfix">
@@ -17,8 +17,8 @@
             <div class="status_partition_section clearfix">
                  <div class="status_section_each_partition draft_section_bar  " ng-click="campaigns.dashboard.status.draft || campaigns.dashboardFilter('draft','')" ><!--no_partition-->
                     <div class="status_section_bar {{campaigns.dashboard.status.draft}}" title="Draft {{campaigns.dashboard.draft}}" >
-                        <span class="section_bar_title">{{textConstants.DRAFT}}</span>
-                        <span class="section_bar_val">{{campaigns.dashboard.draft}}</span>
+                        <span class="section_bar_title" ng-bind="textConstants.DRAFT "></span>
+                        <span class="section_bar_val" ng-bind="campaigns.dashboard.draft"></span>
                     </div>
                 </div>
             </div>
@@ -28,8 +28,8 @@
             <div class="status_partition_section clearfix">
                <div class="status_section_each_partition ready_section_bar " ng-click="campaigns.dashboard.status.ready || campaigns.dashboardFilter('ready','')"  ><!--full_partition-->
                     <div class="status_section_bar  {{campaigns.dashboard.status.ready}}" title="Ready {{campaigns.dashboard.ready}}">
-                        <span class="section_bar_title">{{textConstants.READY}}</span>
-                        <span class="section_bar_val">{{campaigns.dashboard.ready}}</span>
+                        <span class="section_bar_title" ng-bind="textConstants.READY "></span>
+                        <span class="section_bar_val" ng-bind="campaigns.dashboard.ready"></span>
                     </div>
                 </div>
             </div>
@@ -40,20 +40,20 @@
             <div class="status_partition_section clearfix">
                 <div class="status_section_each_partition active_section_bar" >
                      <div class="status_section_bar {{campaigns.dashboard.status.active.bothItem}}"  ng-click="campaigns.dashboard.status.active.bothItem || campaigns.dashboardFilter('activeAll','')" >
-                        <span class="section_bar_title">{{textConstants.ACTIVE}} </span>
-                        <span class="section_bar_val"> {{campaigns.dashboard.active.total}}</span>
+                        <span class="section_bar_title" ng-bind="textConstants.ACTIVE "></span>
+                        <span class="section_bar_val" ng-bind="campaigns.dashboard.active.total"></span>
                     </div>
                 </div>
                 <div class="status_section_each_partition onTrack_section_bar status_section_{{campaigns.dashboard.status.active.ontrack}}" ng-click="campaigns.dashboard.filterSelectAll || (!campaigns.dashboard.status.active.bothItem && campaigns.dashboard.status.active.ontrack) || campaigns.dashboardFilter('active','ontrack')" >
                     <div class="status_section_bar left_status_section_bar {{campaigns.dashboard.status.active.ontrack}}" title="KPI on Track {{campaigns.dashboard.active.ontrack}}">
-                        <span class="section_bar_title">{{textConstants.KPI_ON_TRACK}} </span>
-                        <span class="section_bar_val">{{campaigns.dashboard.active.ontrack}}</span>
+                        <span class="section_bar_title" ng-bind="textConstants.KPI_ON_TRACK "></span>
+                        <span class="section_bar_val" ng-bind="campaigns.dashboard.active.ontrack"></span>
                     </div>
                 </div>
                  <div class="status_section_each_partition notOnTrack_section_bar status_section_{{campaigns.dashboard.status.active.underperforming }} " ng-click="campaigns.dashboard.filterSelectAll || (!campaigns.dashboard.status.active.bothItem && campaigns.dashboard.status.active.underperforming) || campaigns.dashboardFilter('active','underperforming')" >
                     <div class="status_section_bar {{campaigns.dashboard.status.active.underperforming }}" title="Underperforming {{campaigns.dashboard.active.underperforming}}">
-                        <span class="section_bar_title">{{textConstants.UNDERPERFORMING}}</span>
-                        <span class="section_bar_val">{{campaigns.dashboard.active.underperforming}}</span>
+                        <span class="section_bar_title" ng-bind="textConstants.UNDERPERFORMING "></span>
+                        <span class="section_bar_val" ng-bind="campaigns.dashboard.active.underperforming"></span>
                     </div>
                 </div>
             </div>
@@ -63,8 +63,8 @@
             <div class="status_partition_section clearfix" >
                 <div class="status_section_each_partition achieved_goal_section_bar" ng-click="campaigns.dashboard.status.paused || campaigns.dashboardFilter('paused','')"    >
                     <div class="status_section_bar {{campaigns.dashboard.status.paused }}" title="Paused {{campaigns.dashboard.status.paused}}">
-                        <span class="section_bar_title">{{textConstants.PAUSED}} </span>
-                        <span class="section_bar_val">{{campaigns.dashboard.paused}}</span>
+                        <span class="section_bar_title" ng-bind="textConstants.PAUSED "></span>
+                        <span class="section_bar_val" ng-bind="campaigns.dashboard.paused"></span>
                     </div>
                 </div>
             </div>
@@ -74,8 +74,8 @@
             <div class="status_partition_section clearfix" >
                 <div class="status_section_each_partition unachieved_goal_section_bar"   ng-click="campaigns.dashboard.status.completed || campaigns.dashboardFilter('completed','')" >
                     <div class="status_section_bar {{campaigns.dashboard.status.completed }}" title="Completed {{campaigns.dashboard.completed}}">
-                        <span class="section_bar_title">{{textConstants.COMPLETED}}</span>
-                        <span class="section_bar_val">{{campaigns.dashboard.completed}}</span>
+                        <span class="section_bar_title" ng-bind="textConstants.COMPLETED "></span>
+                        <span class="section_bar_val" ng-bind="campaigns.dashboard.completed"></span>
                     </div>
                 </div>
             </div>

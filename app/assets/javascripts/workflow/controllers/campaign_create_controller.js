@@ -342,7 +342,7 @@ var angObj = angObj || {};
                     } else {
                         localStorage.setItem('topAlertMessage', $scope.editCampaignData.name + " has been archived");
                     }
-                    window.location.href = url;
+                    $location.url(url);
                 } else {
                     campaignArchiveErrorHandler();
                 }
@@ -671,7 +671,6 @@ var angObj = angObj || {};
                     $scope.workflowData['advertisers'] = {};
                     $scope.workflowData['brands'] = {};
                     $scope.selectedCampaign.advertiser = '';
-                    $("#brandDDL").parents('.dropdown').find('button').html("Select Brand<span class='icon-arrow-down'>");
                     $scope.selectedCampaign.clientId = data.id;
                     createCampaign.fetchAdvertisers(data.id);
                     break;
