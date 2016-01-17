@@ -1,6 +1,5 @@
 <!--cost filter -->
-<!--<div class="clearfix filter_header_block cost_col_container campaign_cost_header_holder"  style="display:none" id="cost_filter_header">-->
-    <div class="each_cost_col first_col active">{{textConstants.IMP_WITH_DOT}}</div>
+    <div class="each_cost_col first_col active" ng-bind="textConstants.IMP_WITH_DOT"></div>
     <div class="each_cost_col second_col">
         <div class="dropdown dropdown-workflow" id="campaign_cost_metrics_dd">
             <span class="dropdown_ul_text" data-toggle="dropdown">
@@ -9,28 +8,28 @@
             </span>
 
               <ul class="dropdown_ul dropdown-menu">
-                  <li class="available"><a data-ng-click="campaigns.filterCostType('cpa')">{{textConstants.CPA}}</a></li>
-                  <li class="available"><a data-ng-click="campaigns.filterCostType('cpc')">{{textConstants.CPC}}</a></li>
-                  <li class="available"><a data-ng-click="campaigns.filterCostType('cpm')">{{textConstants.CPM}}</a></li>
-                  <li class="available"><a data-ng-click="campaigns.filterCostType('ctr')">{{textConstants.CTR}}</a></li>
-                  <li class="available"><a data-ng-click="campaigns.filterCostType('vtc')">{{textConstants.VTC}}</a></li>
+                  <li class="available"><a data-ng-click="campaigns.filterCostType('cpa')" ng-bind="textConstants.CPA"></a></li>
+                  <li class="available"><a data-ng-click="campaigns.filterCostType('cpc')" ng-bind="textConstants.CPC"></a></li>
+                  <li class="available"><a data-ng-click="campaigns.filterCostType('cpm')" ng-bind="textConstants.CPM"></a></li>
+                  <li class="available"><a data-ng-click="campaigns.filterCostType('ctr')" ng-bind="textConstants.CTR"></a></li>
+                  <li class="available"><a data-ng-click="campaigns.filterCostType('vtc')" ng-bind="textConstants.VTC"></a></li>
               </ul>
         </div>
 
     </div>
-    <div class="each_cost_col three_col">{{textConstants.INVENTORY}}</div>
-    <div class="each_cost_col four_col">{{textConstants.DATA}}</div>
-    <div class="each_cost_col five_col">{{textConstants.AD_SERVING}}</div>
-    <div class="each_cost_col six_col">{{textConstants.CREATIVE}}</div>
-    <div class="each_cost_col sev_col">{{textConstants.RESEARCH}}</div>
-    <div class="each_cost_col eight_col">{{textConstants.AD_VERIFICATION}}</div>
+    <div class="each_cost_col three_col" ng-bind="textConstants.INVENTORY"></div>
+    <div class="each_cost_col four_col" ng-bind="textConstants.DATA"></div>
+    <div class="each_cost_col five_col" ng-bind="textConstants.AD_SERVING"></div>
+    <div class="each_cost_col six_col" ng-bind="textConstants.CREATIVE"></div>
+    <div class="each_cost_col sev_col" ng-bind="textConstants.RESEARCH"></div>
+    <div class="each_cost_col eight_col" ng-bind="textConstants.AD_VERIFICATION"></div>
     <div class="each_cost_col ninth_col">{{textConstants.COLLECTIVE}}
       <div class="tooltip_holder">
             <span class="tooltip_show_icon"></span>
-            <div class="common_tooltip">{{textConstants.TRANSPARENT_PLATFORM_FEE_CHARGED}}</div>
+            <div class="common_tooltip" ng-bind="textConstants.TRANSPARENT_PLATFORM_FEE_CHARGED"></div>
       </div>
     </div>
-    <div class="each_cost_col tenth_col total_cost unselectable">{{textConstants.TOTAL_SPEND}}</div>
+    <div class="each_cost_col tenth_col total_cost unselectable" ng-bind="textConstants.TOTAL_SPEND"></div>
     <div class="more_options">
         <div class="dropdown">
             <span data-toggle="dropdown">

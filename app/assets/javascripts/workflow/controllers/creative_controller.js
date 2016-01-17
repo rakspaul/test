@@ -184,7 +184,7 @@ var angObj = angObj || {};
             $("#creativeSize").html("Select Size<span class='icon-arrow-down'></span>");
             $scope.$broadcast('show-errors-reset');
             if ($location.path() === "/creative/add") {
-                $window.location.href = "/creative/list";
+                $location.url("/creative/list");
             } else {
                 $(".newCreativeSlide .popCreativeLib").delay(300).animate({
                     left: "100%",
