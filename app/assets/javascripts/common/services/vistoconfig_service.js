@@ -27,6 +27,15 @@
           'display'     : 'icon-desktop' ,
           'DISPLAY'     : 'icon-desktop'
       }
+
+      this.PERFORMANCE_LINK= '/performance';
+      this.PLATFORM_LINK= '/platform';
+      this.COST_LINK = '/cost';
+      this.INVENTORY_LINK = '/inventory';
+      this.QUALITY_LINK = '/quality';
+      this.OPTIMIZATION_LINK = '/optimization';
+      this.MEDIA_PLANS_LINK = '/mediaplans'
+
   };
 
   commonModule.service("vistoconfig", vistoconfig);

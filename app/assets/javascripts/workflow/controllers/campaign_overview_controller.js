@@ -22,7 +22,7 @@ var angObj = angObj || {};
         localStorage.setItem('campaignData','');
         $scope.moreThenThree = '';
         $scope.editCampaign=function(workflowcampaignData){
-            window.location.href = '/mediaplan/'+workflowcampaignData.id+'/edit';
+            $location.url('/mediaplan/'+workflowcampaignData.id+'/edit');
         }
         $scope.utcToLocalTime=function(date, format){
             return momentService.utcToLocalTime(date,format);
@@ -86,7 +86,7 @@ var angObj = angObj || {};
                     var url = '/mediaplans';
                     var campaignName = $scope.workflowData['campaignData'].name;
                     localStorage.setItem('topAlertMessage', campaignName+" has been archived");
-                    window.location.href = url;
+                    $location.url(url);
                 }else{
                     campaignArchiveErrorHandler();
                 }

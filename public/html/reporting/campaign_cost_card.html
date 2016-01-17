@@ -12,13 +12,11 @@
                     <a ng-if="$parent.isWorkFlowUser" ng-click="redirectTo(campaign, campaigns.dashboard.appliedFilterType)"> {{campaign.campaignTitle}}</a>
                 </div>
                 <div class="heading">
-                    <span>
-                        {{campaign.brandName}}
-                    </span>
+                    <span ng-bind="campaign.brandName"></span>
                     <div ng-init="duration=campaign.durationLeft()"></div>
                     <span class="dates_details">
                         {{campaign.startDate | date :'d MMM y' }} - {{campaign.endDate | date :'d MMM y' }}
-                        <span ng-if="duration == 'Yet to start'">({{textConstants.YET_TO_START}})</span>
+                        <span ng-if="duration == 'Yet to start'" ng-bind="">({{textConstants.YET_TO_START}})</span>
                         <span ng-if="duration == 'Ended'">({{textConstants.ENDED}})</span>
                         <span ng-if="duration == 'Started today'" >({{textConstants.STARTED_TODAY}})</span>
                         <span ng-if="duration == 'Ending today'">({{textConstants.ENDING_TODAY}})</span>
@@ -29,8 +27,8 @@
             <div class="cost_metric_graph">
                 <div class="clearfix metric_and_values_graph">
                     <div class="metric_graph_details_val">
-                        <div>{{textConstants.SPEND}}</div>
-                        <div>{{campaigns.cdbDataMap[campaign.orderId].getGrossRev() | currency:undefined:2}}</div>
+                        <div ng-bind="textConstants.SPEND"></div>
+                        <div ng-bind="campaigns.cdbDataMap[campaign.orderId].getGrossRev() | currency:undefined:2"></div>
                     </div>
                     <div class="metric_graph {{getSpendClass(campaign)}}">
                         <div class="full_metric_graph">
@@ -38,7 +36,7 @@
                             </div>
                             <div class="graph_start_point {{(getSpendTickWidth(campaign) <= 0) ? 'start_beginning' : ''}} {{(getSpendTickWidth(campaign) >= 88) ? 'start_end_point' : ''}}" ng-style="{'left':getSpendTickWidth(campaign) +'%'};"><!-- put start_beginning when at start -->
                                 <div class="end_point_val">
-                                    <span>{{campaign.expectedMediaCost |  nrFormatWithCurrency }}</span>
+                                    <span ng-bind="campaign.expectedMediaCost |  nrFormatWithCurrency"></span>
                                     <div class="end_point_line"></div>
                                 </div>
                             </div>
@@ -46,8 +44,8 @@
                         </div>
                      </div>
                      <div class="metric_graph_details_val">
-                        <div>{{textConstants.BUDGET}}</div>
-                        <div>{{campaign.totalMediaCost | currency:undefined:2}}</div>
+                        <div ng-bind="textConstants.BUDGET"></div>
+                        <div ng-bind="campaign.totalMediaCost | currency:undefined:2"></div>
                     </div>
                  </div>
             </div>
@@ -60,16 +58,16 @@
     <div ng-show='campaigns.costList[campaign.orderId].costDataLoading' class="load-more">&nbsp;</div>
     <div ng-hide='campaigns.costList[campaign.orderId].costDataLoading' ng-switch on="campaigns.costList[campaign.orderId].cost_transparency">
     <div ng-switch-when=true>
-        <div class="each_cost_col first_col">{{campaigns.costList[campaign.orderId].getImpressions() | nrFormat: '' : 0}}</div>
-        <div class="each_cost_col second_col">{{campaigns.cdbDataMap[campaign.orderId][campaigns.selectedCostType]  | kpiFormatter : campaigns.selectedCostType }}</div>
-        <div class="each_cost_col three_col">{{campaigns.costList[campaign.orderId].getInventoryCost() | currency:undefined:0}}</div>
-        <div class="each_cost_col four_col">{{campaigns.costList[campaign.orderId].getDataCost() | currency:undefined:0}}</div>
-        <div class="each_cost_col five_col">{{campaigns.costList[campaign.orderId].getAdServingCost() | currency:undefined:0}}</div>
-        <div class="each_cost_col six_col">{{campaigns.costList[campaign.orderId].getCreativeCost() | currency:undefined:0}}</div>
-        <div class="each_cost_col sev_col">{{campaigns.costList[campaign.orderId].getResearchCost() | currency:undefined:0}}</div>
-        <div class="each_cost_col eight_col">{{campaigns.costList[campaign.orderId].getAdVerificationCost() | currency:undefined:0}}</div>
-        <div class="each_cost_col ninth_col">{{campaigns.costList[campaign.orderId].getCollectiveCost() | currency:undefined:0}}</div>
-        <div class="each_cost_col tenth_col total_cost">{{campaigns.costList[campaign.orderId].getTotal() | currency:undefined:0}}</div>
+        <div class="each_cost_col first_col" ng-bind="(campaigns.costList[campaign.orderId].getImpressions() | nrFormat : '' : 0)"></div>
+        <div class="each_cost_col second_col" ng-bind="campaigns.cdbDataMap[campaign.orderId][campaigns.selectedCostType]  | kpiFormatter : campaigns.selectedCostType"></div>
+        <div class="each_cost_col three_col" ng-bind="campaigns.costList[campaign.orderId].getInventoryCost() | currency:undefined:0"></div>
+        <div class="each_cost_col four_col" ng-bind="campaigns.costList[campaign.orderId].getDataCost() | currency:undefined:0"></div>
+        <div class="each_cost_col five_col" ng-bind="campaigns.costList[campaign.orderId].getAdServingCost() | currency:undefined:0"></div>
+        <div class="each_cost_col six_col" ng-bind="campaigns.costList[campaign.orderId].getCreativeCost() | currency:undefined:0"></div>
+        <div class="each_cost_col sev_col" ng-bind="campaigns.costList[campaign.orderId].getResearchCost() | currency:undefined:0"></div>
+        <div class="each_cost_col eight_col" ng-bind="campaigns.costList[campaign.orderId].getAdVerificationCost() | currency:undefined:0"></div>
+        <div class="each_cost_col ninth_col" ng-bind="campaigns.costList[campaign.orderId].getCollectiveCost() | currency:undefined:0"></div>
+        <div class="each_cost_col tenth_col total_cost" ng-bind="campaigns.costList[campaign.orderId].getTotal() | currency:undefined:0"></div>
     </div>
     <div ng-switch-when=false>
         <span class="cost_opaque_txt_horizontal">
