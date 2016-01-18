@@ -6,10 +6,11 @@
           'smartphone'  : 'icon-mobile'  ,
           'mobile'      : 'icon-mobile'  ,
           'tv'          : 'icon-desktop' ,
-          'video'       : 'icon-video' ,
+          'video'       : 'icon-video'   ,
           'set-top box' : 'icon-desktop' ,
           'tablet'      : 'icon-tablet'  ,
           'other'       : 'icon-image'   ,
+          'social'      : 'icon-social'  ,
           'display'     : 'icon-desktop' ,
           'DISPLAY'     : 'icon-desktop'
       }
@@ -20,7 +21,8 @@
           'smartphone'  : 'icon-mobile'  ,
           'mobile'      : 'icon-mobile'  ,
           'tv'          : 'icon-desktop' ,
-          'video'       : 'icon-video' ,
+          'video'       : 'icon-video'   ,
+          'social'      : 'icon-social'  ,
           'set-top box' : 'icon-desktop' ,
           'tablet'      : 'icon-tablet'  ,
           'other'       : 'icon-image'   ,
