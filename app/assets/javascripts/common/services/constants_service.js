@@ -724,7 +724,11 @@
     this.MINBID = 'Min. Bid';
     this.MAXCOST = 'Max Cost';
     this.MEDIAPLANUPD = 'Media Plan Update';
-    this.ARCHIVE = "Archive"
+    this.ARCHIVE = "Archive";
+    this.OPTIMIZATION_REPORT = 'Optimization Report';
+    this.BUILD_REPORT = 'Build Report';
+    this.CUSTOM_REPORTS = 'Custom Reports';
+    this.MEDIA_PLAN_REPORTS = 'Media Plan Reports';
 
 
     

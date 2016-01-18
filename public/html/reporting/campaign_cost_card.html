@@ -4,12 +4,10 @@
     </div>
     <div class="each_cost_section other_details">
         <div class="clearfix">
-
             <div class="each_cost_details">
-
                 <div class="main_heading">
                     <a ng-if="!$parent.isWorkFlowUser" ng-href="/mediaplans/{{campaign.orderId}}"> {{campaign.campaignTitle}}</a>
-                    <a ng-if="$parent.isWorkFlowUser" ng-click="redirectTo(campaign, campaigns.dashboard.appliedFilterType)"> {{campaign.campaignTitle}}</a>
+                    <a ng-if="$parent.isWorkFlowUser" ng-click="redirectTo(campaign, campaigns.dashboard.appliedFilterType)" ng-bind="campaign.campaignTitle"></a>
                 </div>
                 <div class="heading">
                     <span ng-bind="campaign.brandName"></span>
@@ -17,9 +15,9 @@
                     <span class="dates_details">
                         {{campaign.startDate | date :'d MMM y' }} - {{campaign.endDate | date :'d MMM y' }}
                         <span ng-if="duration == 'Yet to start'" ng-bind="">({{textConstants.YET_TO_START}})</span>
-                        <span ng-if="duration == 'Ended'">({{textConstants.ENDED}})</span>
-                        <span ng-if="duration == 'Started today'" >({{textConstants.STARTED_TODAY}})</span>
-                        <span ng-if="duration == 'Ending today'">({{textConstants.ENDING_TODAY}})</span>
+                        <span ng-if="duration == 'Ended'" ng-bind="(textConstants.ENDED)"></span>
+                        <span ng-if="duration == 'Started today'" ng-bind="(textConstants.STARTED_TODAY)" ></span>
+                        <span ng-if="duration == 'Ending today'" ng-bind="(textConstants.ENDING_TODAY)"></span>
                         <span ng-if="duration > 0">({{duration}} {{textConstants.DAYS_LEFT}})</span>
                     </span>
                 </div>
