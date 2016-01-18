@@ -385,7 +385,7 @@ var angObj = angObj || {};
 
             $('.cap_no input').attr("checked", "checked");
             $('.spend_evenly input').attr("checked", "checked");
-            if (responseData.frequencyCaps && responseData.frequencyCaps.length > 1) {
+            if (responseData.frequencyCaps && responseData.frequencyCaps.length > 0) {
                 $scope.adData.setCap = true;
                 $('.cap_yes').addClass('active');
                 $('.cap_no').removeClass('active');
@@ -578,7 +578,6 @@ var angObj = angObj || {};
                     postDataObj.adGroupId = $scope.adGroupId;
                 }//save adGroup Ad
 
-
                 if ($scope.adId) {
                     postDataObj['adId'] = $scope.adId;
                     postDataObj['updatedAt'] = $scope.updatedAt;
@@ -588,7 +587,6 @@ var angObj = angObj || {};
                 var promiseObj = $scope.adId ? workflowService.updateAd(postDataObj) : workflowService.createAd(postDataObj);
                 promiseObj.then(function (result) {
                     var responseData = result.data.data;
-                    // console.log("responseData......",responseData);
                     if(result.status === "OK" || result.status === "success") {
                         $scope.state = responseData.state;
                         $scope.adId = responseData.id;
@@ -596,11 +594,9 @@ var angObj = angObj || {};
                         if (!isDownloadTrackerClicked) {
                             $rootScope.setErrAlertMessage($scope.textConstants.PARTIAL_AD_SAVE_SUCCESS,0);
                             localStorage.setItem('adPlatformCustomInputs', JSON.stringify(responseData.adPlatformCustomInputs))
-                            //if ($scope.state && $scope.state.toLowerCase() != 'incomplete') {
                             var url = '/mediaplan/' + result.data.data.campaignId + '/overview';
                             $location.url(url);
                             localStorage.setItem('topAlertMessage', $scope.textConstants.AD_CREATED_SUCCESS);
-                            //}
                         }
                     }
                     else {
@@ -818,7 +814,7 @@ var angObj = angObj || {};
 
         }
 
-        $scope.CampaignADsave = function (isDownloadTrackerClicked) {console.log("ejwdewd");
+        $scope.CampaignADsave = function (isDownloadTrackerClicked) {
             var formElem = $("#formAdCreate");
             var formData = formElem.serializeArray();
             formData = _.object(_.pluck(formData, 'name'), _.pluck(formData, 'value'));//console.log(formData);
