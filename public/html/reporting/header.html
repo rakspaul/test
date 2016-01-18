@@ -1,92 +1,76 @@
 <div class="main_navigation_holder" ng-controller="HeaderController">
-
-  <div class="main_nav clearfix">
-    <div class="pull-left">
-      <a href="/dashboard" class="main_logo" id="logo" style="cursor:pointer;">
-        <img ng-src="/assets/images/visto_logos/Visto_Logo_hi-res.svg" alt="" height="32"/>
-      </a>
-    </div>
-    <div class="pull-left main_navigation clearfix" >
-      <!-- <div class="pull-left each_nav_link" id="dashboard_nav_link" ng-if="!dashboard.isNetworkUser" >
-        <a href="/dashboard">{{textConstants.DASHBOARD}}</a>
-      </div> -->
-      <div class="pull-left each_nav_link" id="campaigns_nav_link">
-        <a href="/mediaplans">{{textConstants.MEDIA_PLAN}}</a>
-        <div class="arrowSelect"></div>
-      </div>
-      <div class="pull-left each_nav_link" id="reports_nav_link" >
-        <a href="javascript:void(0);" reporttitle="reportOverview" ng-click="show_hide_nav_dropdown($event,'reports','click');" ng-mouseover="show_hide_nav_dropdown($event,'reports','hover');"  >{{textConstants.REPORTS}}</a><!-- ng-click="NavigateToTab('', null, 'reportOverview')" -->
-        <div class="arrowSelect"></div>
-      </div>
-    </div>
-    <div class="pull-right profile-photo-tab unselectable" id="user_nav_link" ng-click="show_hide_nav_dropdown($event,'user');">
-      <span class="user-photo"><span class="icon-user"  ></span></span>
-    </div>
-    <div class="pull-right account-name-nav">
-      {{defaultAccountsName}}
-    </div>
-    <div class="pull-right help-link-tab" >
-      <a href="/help"><span class="icon-help"></span></a>
-    </div>
-      
-      
-      
-    
-    
-    <div class="main_nav_dropdown" id="reports-menu" ng-mouseleave="hide_navigation_dropdown($event)" >
-        <div class="nav-menu reports_header_tabs_holder clearfix" >
-              <report-tabs></report-tabs>
+    <div class="main_nav clearfix">
+        <div class="pull-left">
+            <a href="/dashboard" class="main_logo" id="logo" style="cursor:pointer;">
+                <img ng-src="/assets/images/visto_logos/Visto_Logo_hi-res.svg" alt="" height="32"/>
+            </a>
         </div>
-    </div>
-    <div class="main_nav_dropdown" id="user-menu" ng-mouseleave="hide_navigation_dropdown($event)" >
-        <div class="clearfix nav-menu" >
-          <div class="pull-left profile-data" id="profileAccountData">
+        <div class="pull-left main_navigation clearfix">
+            <div class="pull-left each_nav_link" id="campaigns_nav_link">
+                <a href="/mediaplans" ng-bind="textConstants.MEDIA_PLAN"></a>
+
+                <div class="arrowSelect"></div>
+            </div>
+            <div class="pull-left each_nav_link" id="reports_nav_link">
+                <a href="javascript:void(0);" reporttitle="reportOverview"
+                   ng-click="show_hide_nav_dropdown($event,'reports','click');"
+                   ng-mouseover="show_hide_nav_dropdown($event,'reports','hover');" ng-bind="textConstants.REPORTS"></a>
+
+                <div class="arrowSelect"></div>
+            </div>
+        </div>
+        <div class="pull-right profile-photo-tab unselectable" id="user_nav_link"
+             ng-click="show_hide_nav_dropdown($event,'user');">
+            <span class="user-photo"><span class="icon-user"></span></span>
+        </div>
+        <div class="pull-right account-name-nav" ng-bind="defaultAccountsName"></div>
+        <div class="pull-right help-link-tab">
+            <a href="/help"><span class="icon-help"></span></a>
+        </div>
+
+        <div class="main_nav_dropdown" id="reports-menu" ng-mouseleave="hide_navigation_dropdown($event)">
+            <div class="nav-menu reports_header_tabs_holder clearfix">
+                <report-tabs></report-tabs>
+            </div>
+        </div>
+        <div class="main_nav_dropdown" id="user-menu" ng-mouseleave="hide_navigation_dropdown($event)">
+            <div class="clearfix nav-menu">
+                <div class="pull-left profile-data" id="profileAccountData">
               <span class="pull-left user-photo">
                 <span class="icon-user"></span>
               </span>
-              <div class="pull-left user-photo-details">
-                <span class="username">{{user_name}}</span>
-                <div class="accountsList">
-                  <div class="dropdown" >
+
+                    <div class="pull-left user-photo-details">
+                        <span class="username" ng-bind="user_name"></span>
+
+                        <div class="accountsList">
+                            <div class="dropdown">
                       <span class="clearfix dropdown_ul_text" data-toggle="dropdown">
-                          <span class="pull-left dd_txt" >{{defaultAccountsName}}</span>
+                          <span class="pull-left dd_txt" ng-bind="defaultAccountsName"></span>
                           <span ng-show="multipleClient" class="pull-right icon-arrow-down-thick"></span>
                       </span>
-                      <!-- <div class="accountsList-dropdown-menu"> -->
-                        <ul class="dropdown-menu" >
-                          <div class="accountsList-dropdown-li">
-                            <li ng-repeat="eachaccount in accountsData" id="{{eachaccount.id}}" ng-click="set_account_name($event,eachaccount.id,eachaccount.name);" ng-class="{'selected-li':defaultAccountsName == eachaccount.name}"><span>{{eachaccount.name}}</span></li>
-                          </div>
-                        </ul>
-                      <!-- </div> -->
-                  </div>
-                  
-                </div>
-              </div>
-          </div>
+                                <ul class="dropdown-menu">
+                                    <div class="accountsList-dropdown-li">
+                                        <li ng-repeat="eachaccount in accountsData" id="{{eachaccount.id}}"
+                                            ng-click="set_account_name($event,eachaccount.id,eachaccount.name);"
+                                            ng-class="{'selected-li':defaultAccountsName == eachaccount.name}"><span
+                                                ng-bind="eachaccount.name"></span></li>
+                                    </div>
+                                </ul>
+                            </div>
 
-          <!-- <div class="pull-left about_link">
-             <a href="javascript:void(0);" data-toggle="modal" data-target=".myModal">
-               {{textConstants.ABOUT}}
-             </a>
-          </div> -->
-          <div class="pull-right logout-option" >
-            <div ng-click="logout()" class="logout-option-link ">
-              <!-- <div>
-                <span class="glyphicon glyphicon-off"></span>
-              </div> -->
-              <div>
-                <a class="logout_link">
-                  {{textConstants.LOGOUT}}
-                </a>
-              </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="pull-right logout-option">
+                    <div ng-click="logout()" class="logout-option-link ">
+                        <div>
+                            <a class="logout_link" ng-bind="textConstants.LOGOUT"></a>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
         </div>
     </div>
-    
-    
-    
-  </div>
 </div>
 
