@@ -795,6 +795,9 @@ var angObj = angObj || {};
             if ((($scope.reports.schedule.frequency == "Weekly")||($scope.reports.schedule.frequency == "Monthly")) && ($scope.reports.schedule.occurance == "" || $scope.reports.schedule.occurance == undefined)) {
                 return setFlashMessage('Please select occurs on', 1, 0);
             }
+            if(($scope.reports.schedule.frequency == "Monthly") && ($scope.reports.schedule.customOccuranceDate == undefined)) {
+                return setFlashMessage('Please select date', 1, 0);
+            }
             return true;
         }
 
