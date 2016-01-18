@@ -76,37 +76,13 @@
         <label class="col-sm-12 control-label greyTxt miniLabels" data-ng-bind="textConstants.FREQCAP"></label>
         <div class="btn-group miniToggle" ng-init="adData.setCap=false">
             <label class="btn btn-default cap_yes" style="width: auto;"><span data-ng-bind="textConstants.YES"></span>
-                <input type="radio" name="setCap" value ="true"  hidden="hidden" class="btn_rad " ng-click="toggleBtn($event); adData.setCap = true; mode == 'create'  && frequencySelected('Daily')">
+                <input type="radio" name="setCap" value ="true"  hidden="hidden" class="btn_rad " ng-click="toggleBtn($event); adData.setCap = true; frequencySelected('Daily')">
             </label>
             <label class="btn btn-default active cap_no" style="width: auto;"><span data-ng-bind="textConstants.NO"></span>
                 <input type="radio" name="setCap" checked  value ="false"  hidden="hidden" class="btn_rad " ng-click="toggleBtn($event); adData.setCap = false;">
             </label>
         </div>
     </div>
-    <!--<div class="col-md-4 zeroPadding">
-        <label class="col-sm-12 control-label greyTxt miniLabels">Type of Cap</label>
-        <div class="btn-group miniToggle">
-            <label class="btn btn-default active"><span>Impressions</span>
-                <input type="radio" name="setUpCap" group="budgetGroup" value="Yes" hidden="hidden" class="btn_rad">
-            </label>
-
-            <label class="btn btn-default"><span>Cost</span>
-                <input type="radio" name="setUpCap" group="budgetGroup" value="No" hidden="hidden" class="btn_rad">
-            </label>
-        </div>
-    </div>
-    <div class="col-md-2 zeroPadding">
-        <label class="col-sm-12 control-label greyTxt miniLabels">Cap by User</label>
-        <div class="btn-group miniToggle">
-            <label class="btn btn-default active" style="width: auto;"><span>Yes</span>
-                <input type="radio" name="setUpCap" group="budgetGroup" value="Yes" hidden="hidden" class="btn_rad">
-            </label>
-
-            <label class="btn btn-default" style="width: auto;"><span>No</span>
-                <input type="radio" name="setUpCap" group="budgetGroup" value="No" hidden="hidden" class="btn_rad">
-            </label>
-        </div>
-    </div>-->
     <div class="col-md-4 zeroPadding symbolAbs"  ng-show="adData.setCap">
         <label class="col-sm-12 control-label greyTxt miniLabels" data-ng-bind="textConstants.IMPPERUSER"></label>
         <div class="form-group col-md-7 zeroPadding">
@@ -114,13 +90,6 @@
             <input type="text" name="quantity" class="form-control" whole-number-only="whole-number-only" ng-model="adData.quantity" ng-disabled="!adData.setCap" ng-keyup="ImpressionPerUserValidator();">
             <label ng-if="budgetErrorObj.impressionPerUserValidator" class="col-sm-12 control-label customErrorLabel" data-ng-bind="textConstants.IMPRESSION_PER_USER_MESSAGE"></label>
         </div>
-
-         <!--<div class="form-group col-md-5">-->
-            <!--<select name='frequencyType' class="form-control" name='frequencyType' ng-model="capsPeriod" ng-disabled="!adData.setCap">-->
-                <!--<option value="DAILY">Day</option>-->
-                <!--<option value="LIFETIME">Lifetime</option>-->
-            <!--</select>-->
-          <!--</div>-->
 
         <div class="form-group col-md-5" style="margin-left: -5px;">
            <div class="col-md-12 zeroPadding dropdown-workflow">
@@ -137,21 +106,6 @@
                </div>
            </div>
         </div>
-        <!--<div class="form-group col-md-5" style="padding-right: 0;">-->
-        <!--    <div class="col-md-12 zeroPadding dropdown-workflow">-->
-        <!--        <div class="dropdown">-->
-        <!--             <button class="btn btn-default dropdown-toggle" type="button" id="frequencyType" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">-->
-        <!--                  <span class="text">Day</span>-->
-        <!--                  <span class="icon-arrow-down"></span>-->
-        <!--             </button>-->
-        <!--             <ul class="dropdown-menu" aria-labelledby="frequencyType" id="frequencyType" name='frequencyType' ng-disabled="!adData.setCap">-->
-        <!--                  <li><a data-value="DAILY">Day</a></li>-->
-        <!--                  <li><a data-value="LIFETIME">Lifetime</a></li>-->
-        <!--             </ul>-->
-        <!--        </div>-->
-        <!--   </div>    -->
-        <!--</div>-->
-
     </div>
 </div>
 <div class="row zeroPadding unitCostTwo radioBtnToggle">
