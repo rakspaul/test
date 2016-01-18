@@ -27,10 +27,55 @@ var angObj = angObj || {};
         $scope.objectiveSet="Select all that apply";
 
         $scope.selectedKpi = function (index, kpi) {
-            // $scope.Campaign.kpiArr[index]['kpiId']=kpi.id;
             $scope.Campaign.kpiArr[index]['kpiType'] = kpi.name;
+            /*code change the selected Calculation dropdown in case the KPI values are changed to only impressions or only clicks*/
+            if (angular.uppercase(kpi.name) === "IMPRESSIONS" || angular.uppercase(kpi.name) === "VIEWABLE IMPRESSIONS") {
+                var selVendorObj=[];var cpmRate=[];
+                /*check if kpi contains clicks in the kpiArr*/
+                var containsClick= _.filter($scope.Campaign.kpiArr,function(obj){ return angular.uppercase(obj.kpiType)==="CLICKS"})
+                if(containsClick.length<=0){/* if kpiArr has no clicks, remove all CPC from costArr, set it to CPM*/
+                    for(var i in $scope.Campaign.costArr){
+                        if($scope.Campaign.costArr[i].rateTypeName==="CPC"){
+                            $scope.Campaign.costArr[i].rateTypeName="CPM";//change to CPM
+                            $scope.Campaign.costArr[i].rateTypeId=1;//change id to that of CPM
+                            /*change rate value selected from CPC to CPM*/
+                             selVendorObj= _.filter($scope.vendorRateData[i],function(obj){
+                                return obj.id===Number($scope.Campaign.costArr[i].vendorId);
+                            })
+                             cpmRate = _.filter(selVendorObj[0].rates,function(item){return item.rate_type==="CPM"});
 
+                            $scope.Campaign.costArr[i].rateValue=cpmRate[0].rate_val;
+
+                        }
+                    }
+                }
+            }else if(angular.uppercase(kpi.name) === "CLICKS"){
+                var selVendorObj=[];var cpcRate=[];
+                /*check if kpi contains impressions in the kpiArr*/
+                var containsImpression= _.filter($scope.Campaign.kpiArr,function(obj){ return (angular.uppercase(obj.kpiType)==="IMPRESSIONS" || angular.uppercase(obj.kpiType)==="VIEWABLE IMPRESSIONS")})
+                if(containsImpression.length<=0){/* if kpiArr has no impressions, remove all CPM from costArr, set it to CPC*/
+                    for(var i in $scope.Campaign.costArr){
+                        if($scope.Campaign.costArr[i].rateTypeName==="CPM"){
+                            $scope.Campaign.costArr[i].rateTypeName="CPC";//change to CPM
+                            $scope.Campaign.costArr[i].rateTypeId=2;//change id to that of CPM
+
+                            /*change rate value selected from CPM to CPC*/
+                             selVendorObj= _.filter($scope.vendorRateData[i],function(obj){
+                                return obj.id===Number($scope.Campaign.costArr[i].vendorId);
+                            })
+                             cpcRate = _.filter(selVendorObj[0].rates,function(item){return item.rate_type==="CPC"});
+
+                            $scope.Campaign.costArr[i].rateValue=cpcRate[0].rate_val;
+
+                        }
+                    }
+                }
+            }
+
+
+            /*enable disable calculation/cost type in dropdown based on KPI selected*/
             $scope.enableDisableCalculationType();
+
             if ($scope.Campaign.kpiArr[index].isPrimary || $scope.Campaign.kpiArr[index].isPrimary == "true") {
                 if (angular.uppercase(kpi.name) === "IMPRESSIONS" || angular.uppercase(kpi.name) === "VIEWABLE IMPRESSIONS") {
                     $scope.primaryType = "CPM"
