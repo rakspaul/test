@@ -64,6 +64,7 @@
 
                     })
                     postDataObj.email=postDataObj.email.toLowerCase();
+                    console.log("postDataObj == ",postDataObj);
                     //postDataObj.role_template_id = accountsService.getRoleId(postDataObj.role_template_id);
 
                     //create user call goes here
@@ -206,6 +207,10 @@
             $scope.permissions.push({});
         };
 
+        $scope.setPermission = function(index,val){
+            $scope.User.data[index].accessLevel = val;
+        }
+
         var userModalPopup = {
             getUserClients:function(editmode,user){
                  accountsService.getClients().then(function(res) {
@@ -300,7 +305,7 @@
                     var clientObj = getClientObject(data.permissions[i].clientId,data.permissions[i].orgId,data.permissions[i].resellerId);
                     console.log(" data.permissions[i].orgId", data.permissions[i].orgId," data.permissions[i].resellerId", data.permissions[i]);
                     $scope.selectedClientHandler(clientObj,i,  data.permissions[i].orgId,data.permissions[i].resellerId,data.permissions[i]);
-
+                    $scope.User.data[i].accessLevel = data.permissions[i].accessLevel;
 
 
                 }

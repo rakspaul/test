@@ -211,8 +211,9 @@
                 </div>
                 <div class="form-group col-md-3">
                     <label >Permission:</label>
-                    <select name="permission" class="form-control"  ng-init="User.data[$index].accessLevel = 'ADMIN'" ng-model="User.data[$index].accessLevel">
-                        <option value="{{perm.value}}" ng-repeat="perm in userModalData.Permission" ng-selected="{{perm.value == 'ADMIN'}}">{{perm.name}}</option>
+
+                    <select name="accessLevel" class="form-control" >
+                        <option value="{{perm.value}}" ng-repeat="perm in userModalData.Permission" ng-selected="User.data[$index].accessLevel == perm.value?true:false" ng-click="User.data[$index].accessLevel = perm.value">{{perm.name}}</option>
                         <!--<option value="ADMIN">Admin</option>-->
                         <!--<option value="WRITE">Write</option>-->
                         <!--<option value="READ">Read</option>-->
