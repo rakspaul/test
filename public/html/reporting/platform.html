@@ -95,9 +95,6 @@
 
                 <div class="reports_block" id="reports_platform_cost_block" style="display:none;">
                     <div class="no_data_found" ng-if="dataNotFoundForCost" ng-bind-html="getMessageForDataNotAvailable(selectedCampaign)"></div>
-                    <div class="cost_opaque_msg">
-                        <span class="cost_opaque_txt"></span>
-                    </div>
                     <div class="reports_details_outer_container" ng-show="!dataNotFoundForCost">
                         <div class="clearfix reports_platform_header" ng-hide="costBusy">
                             <cost-header></cost-header>
