@@ -314,7 +314,7 @@ var angObj = angObj || {};
 
             if (responseData.adFormat) {
                 var format = $filter('toTitleCase')(responseData.adFormat);
-                $scope.adFormatSelection(format);
+                $scope.adFormatSelection(format,"","editData");
                 $scope.adData.adFormat = format;
 
             }
@@ -689,16 +689,31 @@ var angObj = angObj || {};
             $scope.changeAdFormat=false;
         }
 
-        $scope.adFormatSelection = function (adformatName , event) {
-            $scope.changeAdFormat=true;
-            $scope.adformatName=adformatName;
-            if(event) {
-                var offset = $(event.target).offset();
-                var left = offset.left;
-                var top = offset.top;
-                var relativeX = left - $(event.target).closest(".goalBtnWithPopup").offset().left - 110;
-                $(".goalBtnWithPopup .popUpCue").css({left: relativeX});
+        $scope.adFormatSelection = function (adformatName , event, editdata) {
+            if(editdata!=="editData"){
+                $scope.changeAdFormat=true;
+                $scope.adformatName=adformatName;
+                if(event) {
+                    var offset = $(event.target).offset();
+                    var left = offset.left;
+                    var top = offset.top;
+                    var relativeX = left - $(event.target).closest(".goalBtnWithPopup").offset().left - 110;
+                    $(".goalBtnWithPopup .popUpCue").css({left: relativeX});
+                }
+            }else if(editdata==="editData"){ /*populating first time in editmode*/
+                if(angular.lowercase(adformatName)=="display")
+                    $scope.adformatName="Display"
+                else if(angular.lowercase(adformatName)=="richmedia")
+                    $scope.adformatName="Rich Media"
+
+                $scope.$broadcast('adFormatChanged', $scope.adformatName);
+                var adFormatsData = $scope.workflowData['adFormats'];
+                _.each(adFormatsData, function (obj) {
+                    obj.name === $scope.adformatName ? obj.active = true : obj.active = false;
+                })
             }
+
+
         };
 
         $scope.goalSelection = function (goal) {
