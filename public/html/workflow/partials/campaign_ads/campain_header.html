@@ -1,8 +1,8 @@
 <div class="col-md-12 zeroPadding campSettingOverView">
     <div class="campBodyWrap">
         <div class="col-md-4 zeroPadding campTitleWrap">
-            <span class="statuslabel {{workflowData.campaignData.status|lowercase}}_bulb"></span>
-            <h4 tooltip="{{workflowData.campaignData.name}}">
+            <span class="pull-left statuslabel {{workflowData.campaignData.status|lowercase}}_bulb"></span>
+            <h4 class="pull-left" tooltip="{{workflowData.campaignData.name}}">
                 {{workflowData.campaignData.name | textEllipsis: 60}}
             </h4>
         </div>
@@ -25,11 +25,11 @@
             </div>
         </div>
         <div class="pull-right">
-            <span class="greyTxt" data-ng-bind="textConstants.FLIGHTDATES"></span>
-            <span ng-if="workflowData.campaignData.startTime">
+            <div class="greyTxt" data-ng-bind="textConstants.FLIGHTDATES"></div>
+            <div ng-if="workflowData.campaignData.startTime">
                 {{utcToLocalTime(workflowData.campaignData.startTime, 'DD MMM YYYY')}} - {{utcToLocalTime(workflowData.campaignData.endTime, 'DD MMM YYYY')}}
                 <span ng-if="workflowData.campaignData.numOfDays">({{workflowData.campaignData.numOfDays}} Days)</span>
-            </span>
+            </div>
         </div>
         <div class="pull-right">
             <span class="greyTxt" data-ng-bind="textConstants.DELBUDGET"></span>
