@@ -1602,8 +1602,11 @@ var angObj = angObj || {};
             }
 
             $scope.validateScheduleDate = function(){
+                if($(".report_generate_button").hasClass("disabled") || !$scope.reports.reportDefinition.timeframe.start_date || !$scope.reports.reportDefinition.timeframe.end_date){
+                    return false;
+                }
+                var currDate = momentService.todayDate('YYYY-MM-DD');
                 if($scope.buttonLabel == "Update"){
-                    var currDate = momentService.todayDate('YYYY-MM-DD');
                     if($scope.reports.schedule.frequency=="Once"){
                         if(momentService.isDateBefore($("#deliverOn").val(),currDate)) {
                             $rootScope.setErrAlertMessage("Please enter valid date");
@@ -1622,7 +1625,7 @@ var angObj = angObj || {};
             }
 
             $scope.scheduleReportAction = function() {
-                if (!$scope.validateScheduleDate()) return;
+                if(!$scope.validateScheduleDate()) return;
                 if ($scope.buttonLabel == "Update") {
                     $scope.updateSchdReport();
                 } else if ($scope.buttonLabel == "Generate") {
