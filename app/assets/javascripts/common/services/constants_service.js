@@ -714,7 +714,6 @@
     this.SHOWPRESET = 'Show Preset';
     this.PE = 'Pe';
     this.TARGETING = 'Targeting';
-    this.STRATEGY = 'Strategy';
     this.KEYVALUE = 'Key Value';
     this.USERPART = 'User Partition';
     this.BUDGERPART = 'Budger Partition';
