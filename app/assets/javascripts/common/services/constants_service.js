@@ -135,7 +135,11 @@
     this.CREATIVE_SAVE_SUCCESS = '<span class="bold-font">Success. </span> Creative has been successfully created';
     this.WF_DATE_FORMAT='YYYY-MM-DD HH:mm:ss.SSS';
     this.TOTAL_BUDGET_REQUIRED='You must enter Total Budget.'
+    this.VENDOR_ID_REQUIRED='You must select a vendor.'
     this.TOTAL_BUDGET_GREATER_THAN_ZERO='You must Total Budget greater than 0.'
+    this.NON_INVENTORY_COST_GREATER_THAN_ZERO='Cost exceeds budget.'
+    this.DELIVERY_BUDGET_GREATER_THAN_ZERO='Delivery budget can not be negative.'
+    this.DELIVERY_BUDGET_BOOKEDSPEND='Delivery budget should be greater than or equal to the sum of ad budgets '
     this.STARTDATE_REQUIRED='Please select the start Date.'
     this.ADD_COST='Would you like to add Costs?'
     this.SELECT_MANY='Select as many as you require'
