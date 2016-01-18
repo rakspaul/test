@@ -21,10 +21,10 @@ var angObj = angObj || {};
         $scope.costRowSum = 0;
         $scope.workflowData = {};
         $scope.vendorRateData = [];
-        $scope.newCostArr = [];
         $scope.brand = [];
         $scope.performance = [];
         $scope.objectiveSet="Select all that apply";
+        $scope.deliveryLesserBookedspend = false;
 
         $scope.selectedKpi = function (index, kpi) {
             $scope.Campaign.kpiArr[index]['kpiType'] = kpi.name;
@@ -59,7 +59,7 @@ var angObj = angObj || {};
                             $scope.Campaign.costArr[i].rateTypeName="CPC";//change to CPM
                             $scope.Campaign.costArr[i].rateTypeId=2;//change id to that of CPM
 
-                            /*change rate value selected from CPM to CPC*/
+                            /*change rate value selected from CPM to CPC*/ /*$scope.vendorRateData contains vendors and rates for each row*/
                              selVendorObj= _.filter($scope.vendorRateData[i],function(obj){
                                 return obj.id===Number($scope.Campaign.costArr[i].vendorId);
                             })
@@ -291,12 +291,30 @@ var angObj = angObj || {};
             $scope.Campaign.effectiveCPM = $scope.calculateEffective();
             if (parseFloat($scope.Campaign.nonInventoryCost) > parseFloat($scope.Campaign.totalBudget)) {
                 $scope.inventoryExceeds = true;
+            }else{
+                $scope.inventoryExceeds=false;
             }
             if (parseFloat($scope.Campaign.deliveryBudget) < 0) {
                 $scope.deliveryBudgetNegative = true;
+            }else{
+                $scope.deliveryBudgetNegative = false;
             }
             if (parseFloat($scope.Campaign.effectiveCPM) < 0) {
                 $scope.effectiveNegative = true;
+            }else{
+                $scope.effectiveNegative = false;
+            }
+            if($scope.mode=='edit'){
+                if (parseFloat($scope.Campaign.deliveryBudget) < parseFloat($scope.editCampaignData.bookedSpend)) {
+                        $scope.deliveryLesserBookedspend = true;
+                    }else{
+                        $scope.deliveryLesserBookedspend = false;
+                    }
+            }
+            if($scope.inventoryExceeds ||$scope.deliveryBudgetNegative ||$scope.effectiveNegative || $scope.deliveryLesserBookedspend){
+                $scope.saveDisabled=true;
+            }else{
+                $scope.saveDisabled=false;
             }
 
         }
@@ -777,6 +795,7 @@ var angObj = angObj || {};
             }
         }
         $scope.removeEmptyObjectCostArr = function () {
+            $scope.newCostArr=[];
             for (var i = 0; i < $scope.Campaign.costArr.length; i++) {
                 if ($scope.Campaign.costArr[i].costCategoryId && $scope.Campaign.costArr[i].rateTypeId && $scope.Campaign.costArr[i].rateValue && $scope.Campaign.costArr[i].vendorId) {
                     $scope.newCostArr.push($scope.Campaign.costArr[i]);
@@ -792,7 +811,8 @@ var angObj = angObj || {};
             $scope.isPrimarySelected = isPrimarySelected;
             console.log("$scope.isPrimarySelected", $scope.isPrimarySelected);
             $scope.removeEmptyObjectCostArr();
-            if ($scope.createCampaignForm.$valid && isPrimarySelected) {
+            $scope.ComputeCost();
+            if ($scope.createCampaignForm.$valid && isPrimarySelected && !$scope.saveDisabled) {
                 var formElem = $("#createCampaignForm");
                 var formData = formElem.serializeArray();
                 formData = _.object(_.pluck(formData, 'name'), _.pluck(formData, 'value'));
