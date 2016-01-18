@@ -508,7 +508,7 @@
                     .attr("width", function(d) {
                         if (d.type == "brand"){
                             return 0;
-                        } else if (d.kpiStatus == "ontrack" || d.kpiStatus == "underperforming" || d.kpiStatus == "NA" || d.kpiStatus === undefined) {
+                        } else if (d.kpiStatus == "ontrack" || d.kpiStatus == "underperforming" || d.kpiStatus == "NA" || d.kpiStatus === undefined || d.kpiStatus === "Unknown") {
                             if( isPastView(tdEdges[0], d.startDate, d.endDate) ) {
                                 return 25;
                             } else if( isFutureView(tdEdges[1], d.startDate, d.endDate) ) {
@@ -877,7 +877,7 @@
                     .attr("width", function(d) {
                         if (d.type == "brand")
                             return 0;
-                        else if (d.kpiStatus == "ontrack" || d.kpiStatus == "underperforming" || d.kpiStatus == "NA" || d.kpiStatus === undefined) {
+                        else if (d.kpiStatus == "ontrack" || d.kpiStatus == "underperforming" || d.kpiStatus == "NA" || d.kpiStatus === undefined || d.kpiStatus === "Unknown" ) {
                             return (x(d.endDate) - x(d.startDate));
                         } else {
                             return 0;
@@ -1300,7 +1300,7 @@
                             .delay(0).attr("width", function(d) {
                                 if (d.type == "brand")
                                     return 0;
-                                else if (d.kpiStatus == "ontrack" || d.kpiStatus == "underperforming" || d.kpiStatus == "NA" || d.kpiStatus === undefined) {
+                                else if (d.kpiStatus == "ontrack" || d.kpiStatus == "underperforming" || d.kpiStatus == "NA" || d.kpiStatus === undefined || d.kpiStatus === "Unknown") {
                                   	
                                     //fix for removing the  rectangle that was sticking on the axis even after campaigns were scrolled out of the view
                                     if(x(d.endDate) - x(d.startDate) == 0) {
@@ -1361,9 +1361,10 @@
                                 } 
                             })
                         .attr("width", function(d) {
+                                console.log("d", d);
                             if (d.type == "brand") {
                                 return 0;
-                            } else if (d.kpiStatus == "ontrack" || d.kpiStatus == "underperforming" || d.kpiStatus == "NA" || d.kpiStatus === undefined) {
+                            } else if (d.kpiStatus == "ontrack" || d.kpiStatus == "underperforming" || d.kpiStatus == "NA" || d.kpiStatus === undefined || d.kpiStatus === "Unknown") {
                                 if( isPastView(tdEdges[0], d.startDate, d.endDate) ) {
                                     return 25;
                                 } else if( isFutureView(tdEdges[1], d.startDate, d.endDate) ) {

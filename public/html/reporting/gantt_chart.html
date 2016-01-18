@@ -1,13 +1,8 @@
 <div id="calendar_widget">
     <div class="common_loading_icon" ng-show="calendarBusy"></div>
-
     <div class="div-chart">
-    	<div class="calendar_tooltip" style="display:none" ng-show="!calendarBusy">Active</div>
-
+    	<div class="calendar_tooltip" style="display:none" ng-show="!calendarBusy" ng-bind="textConstants.DASHBOARD_STATUS_ACTIVE"></div>
     </div>
-    <div class="div-header-chart">
-    
-    </div>
-    <div  ng-if="!calendarData&&!calendarBusy||!dataFound" ng-bind-html="getMessageForDataNotAvailable()">
-    </div>
+    <div class="div-header-chart"></div>
+    <div  ng-if="!calendarData&&!calendarBusy||!dataFound" ng-bind-html="getMessageForDataNotAvailable()"></div>
 </div>
