@@ -6,7 +6,7 @@
                 <!-- <span class="arrrow_img"></span> -->
            </span>
         <ul id="strategies_list" class="dropdown_ul dropdown-menu">
-            <li ng-repeat="strategy in strategyData.strategies track by $index" ng-class="{'active' : strategy.name === selectedObj.name}" value="{{strategy.id}}" title="{{strategy.name}}" ng-click="add_active_to_strategy();">{{strategy.name | formatUrl:26}}</li>
+            <li ng-repeat="strategy in strategyData.strategies track by $index" class="{{(strategy.name | formatUrl:26 ) == selectedObj.name?'active':''}}" value="{{strategy.id}}" title="{{strategy.name}}" ng-click="add_active_to_strategy();">{{strategy.name | formatUrl:26}}</li>
         </ul>
     </div>
 </div>
