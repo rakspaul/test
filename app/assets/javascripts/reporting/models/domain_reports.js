@@ -75,7 +75,7 @@
 
             checkForCampaignFormat :  function(adFormats) {
                 var adSupportVideo = false;
-                var adSupportDisplay = true;
+                var adSupportDisplay = false;
 
                 var videoAds =  function() {
                     return _.indexOf(adFormats, "VIDEO") != -1;

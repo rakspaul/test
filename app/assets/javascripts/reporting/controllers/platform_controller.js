@@ -122,7 +122,7 @@ var angObj = angObj || {};
                     $scope.costBusy = false;
                     $scope.viewabilityBusy = false;
 
-                    if (/*$scope.isCostModelTransparent === false && */result.data.data.platform_metrics[tab.toLowerCase()].length === 0) {
+                    if (/*$scope.isCostModelTransparent === false && */result.data.data.length === 0) {
                         errorHandlerForPerformanceTab();
                     } else {
                       //  $scope.isCostModelTransparentMsg = result.data.data.message;
