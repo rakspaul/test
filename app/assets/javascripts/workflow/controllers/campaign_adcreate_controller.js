@@ -52,6 +52,7 @@ var angObj = angObj || {};
 
         $scope.mode = workflowService.getMode();
         //constants.currencySymbol = $locale.NUMBER_FORMATS.CURRENCY_SYM;
+        RoleBasedService.setCurrencySymbol();
         $scope.locale = $locale;
         $scope.textConstants = constants;
         $scope.workflowData = {};
