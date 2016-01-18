@@ -9,7 +9,8 @@
     <div class="scheduled-list-header">
         <div class="clearfix" >
             <h2 class="pull-left" ng-bind-html="textConstants.SCHEDULED_REPORTS"/>
-            <a class="btn btn-default pull-right" href="/customreport" ng-bind-html="textConstants.NEW_REPORT"/>
+            <a class="btn btn-default pull-right" ng-click="reset_custom_report()" href="/customreport"
+               ng-bind-html="textConstants.NEW_REPORT"/>
         </div>
     </div>
     <div class="scheduled-list-nav clearfix">

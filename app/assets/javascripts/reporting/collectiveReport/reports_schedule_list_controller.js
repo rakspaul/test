@@ -34,6 +34,10 @@
             collectiveReportModel.getScheduleReportList(scheduleReportListSucc, scheduleReportListError);
         };
 
+        $scope.reset_custom_report = function(event) {
+            localStorage.removeItem('customReport');
+        };
+
         $scope.getScheduledReports();
 
 
