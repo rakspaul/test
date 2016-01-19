@@ -290,14 +290,14 @@
                                 <div class="col-md-12 adTitle">
                                     <img ng-src="{{adsData.platform.iconUrl}}"
                                          height="16" class="adIconWidget"
-                                         ng-show="{{(adsData.platform)}}"
+                                         ng-show="(adsData.platform)"
                                          title="{{adsData.platform.displayName | uppercase}}"/>
                                     <span class="greyTxt adDisplay" data-ng-bind="adsData.platform.displayName"></span>
                                     <!--<span class="pull-left">ID: {{adsData.id}}</span>-->
-                                    <span class="greyTxt adDisplay" ng-show="{{!(adsData.platform)}}" data-ng-bind="textConstants.PLATNOTSET">
+                                    <span class="greyTxt adDisplay" ng-show="!(adsData.platform)" data-ng-bind="textConstants.PLATNOTSET">
                                     </span>
                                     <span class="greyTxt adDisplay"
-                                          ng-show="{{!(adsData.sourceId) && !(adsData.isTracking)}}" data-ng-bind="textConstants.NOTPUSHEDPAR">
+                                          ng-show="!(adsData.sourceId) && !(adsData.isTracking)" data-ng-bind="textConstants.NOTPUSHEDPAR">
                                     </span>
                                 </div>
                                 <div class="col-md-12" style="padding: 0px 20px 20px 20px;">
@@ -361,7 +361,7 @@
                                         <span class="col-md-12 text-left adTxtGray zeroPadding">
                                             Creative ({{adsData.creatives.length || 0}})
                                         </span>
-                                        <p style="margin: 0;" title="{{appendSizes(adsData.creatives)}}" data-ng-bind="appendSizes(adsData.creatives)">
+                                        <p style="margin: 0;" ng-bind-html="appendSizes(adsData.creatives)">
                                         </p>
                                     </div>
                                     <div class="col-md-12 zeroPadding">

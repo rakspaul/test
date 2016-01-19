@@ -337,11 +337,12 @@ var angObj = angObj || {};
                     var arr = creativeSizeArr;
                     var result = noRepeat(arr);
 
+                    console.log("result[0]", result[0]);
                     if (result[0].length > 3) {
-
                         var creativeSizeLimit = result[0].splice(0,3);
+                        var remainingCreativeSize = result[0].join(", ");
                         var amountLeft = result[0].length;
-                        $scope.sizeString = creativeSizeLimit.join(', ').replace(/X/g, 'x') ;
+                        $scope.sizeString = creativeSizeLimit.join(', ').replace(/X/g, 'x')  + ' <span class="blueTxt" title="'+remainingCreativeSize+'" >+' + amountLeft + '</span>';
 
                     }
                     else {
