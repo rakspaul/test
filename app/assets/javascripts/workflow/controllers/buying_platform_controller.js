@@ -142,7 +142,7 @@ console.log('selectPlatform');
 
         $scope.selectTrackingIntegrations = function (trackingIntegration) {
             $scope.showtrackingSetupInfoPopUp = false;
-            $scope.postPlatformDataObj = [];
+            $scope.$parent.postPlatformDataObj = [];
             $scope.platformCustomInputs();
             trackingIntegration =  $scope.trackingIntegration || trackingIntegration;
             if ($scope.mode != 'edit') {
@@ -191,7 +191,7 @@ console.log('selectPlatform');
                                 oldPlatformName = workflowService.getPlatform().displayName;
                                 platformCustomeModule.init(platformCustomeJson, platformWrap);
                             }
-                            else if (!$scope.postPlatformDataObj) {
+                            else if (!$scope.$parent.postPlatformDataObj) {
                                 platformCustomeModule.init(platformCustomeJson, platformWrap);
                             }
 
@@ -285,20 +285,20 @@ console.log('selectPlatform');
         $scope.$parent.saveCustomeFieldForPlatform = function (editModeFlag) {
             var customFieldErrorElem = $(".customFieldErrorMsg");
             var customPlatformFormData = $("#customPlatformForm").serializeArray();
-            $scope.postPlatformDataObj = [];
+            $scope.$parent.postPlatformDataObj = [];
             if (customFieldErrorElem.length === 0 && customPlatformFormData.length > 1) {
                 _.each(customPlatformFormData, function (data) {
                     var d = data.name.split("$$");
-                    $scope.postPlatformDataObj.push({'platformCustomInputId': Number(d[1]), 'value': data.value});
+                    $scope.$parent.postPlatformDataObj.push({'platformCustomInputId': Number(d[1]), 'value': data.value});
                 })
             } else {
                 if ($scope.workflowData['adsData'] && $scope.workflowData['adsData'].adPlatformCustomInputs && $scope.workflowData['adsData'].adPlatformCustomInputs.length > 0) {
-                    $scope.postPlatformDataObj = $scope.workflowData['adsData'].adPlatformCustomInputs;
+                    $scope.$parent.postPlatformDataObj = $scope.workflowData['adsData'].adPlatformCustomInputs;
                 }
             }
 
             if ($scope.mode == 'edit')
-                localStorage.setItem('adPlatformCustomInputs', JSON.stringify($scope.postPlatformDataObj));
+                localStorage.setItem('adPlatformCustomInputs', JSON.stringify($scope.$parent.postPlatformDataObj));
 
             //trigger targeting tab link only when intentionally clicked not on edit mode by default
             if(!editModeFlag)
