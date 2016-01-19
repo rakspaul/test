@@ -12,6 +12,7 @@
             data: []
         };
         $scope.editmode = false;
+        var defaultAccess = 'ADMIN';
         var editedUserDetails = {};
         $scope.userConsoleFormDetails.roleTemplateId = constants.account_admin;
 
@@ -54,13 +55,15 @@
                     postDataObj=$scope.userConsoleFormDetails;
                     if($scope.editmode)
                         postDataObj.password = '123456';
-                    console.log('postDataObj = ',postDataObj);
+
                     postDataObj.permissions=$scope.User.data;
                     _.each(postDataObj.permissions,function(item){
                         if(item.advertiserId == "")
                             item.advertiserId = -1;
                         if(item.brandId == "")
                             item.brandId = -1;
+                        if(!item.clientId)
+                            item.clientId = -1;
 
                     })
                     postDataObj.email=postDataObj.email.toLowerCase();
@@ -95,9 +98,14 @@
         };
         $scope.updateUser = function(postDataObj){
             accountsService.updateUser(postDataObj,editedUserDetails).then(function(res){
-                $rootScope.$broadcast('refreshUserList');
-                $scope.resetFields();
-                $rootScope.setErrAlertMessage(constants.WF_USER_CREATION_SUCCESS,0);
+                if (res.status === "OK" || res.status === "success") {
+                    $rootScope.$broadcast('refreshUserList');
+                    $scope.resetFields();
+                    $rootScope.setErrAlertMessage(constants.WF_USER_CREATION_SUCCESS, 0);
+                }
+                else{
+                    $rootScope.setErrAlertMessage(constants.WF_USER_CREATION_FAIL);
+                }
             },function(err){
                 $rootScope.setErrAlertMessage(constants.WF_USER_CREATION_FAIL);
             });
@@ -105,9 +113,14 @@
 
         $scope.createUser = function(postDataObj){
             accountsService.createUser(postDataObj).then(function(res){
-                $rootScope.$broadcast('refreshUserList');
-                $scope.resetFields();
-                $rootScope.setErrAlertMessage(constants.WF_USER_CREATION_SUCCESS,0);
+                if (res.status === "OK" || res.status === "success") {
+                    $rootScope.$broadcast('refreshUserList');
+                    $scope.resetFields();
+                    $rootScope.setErrAlertMessage(constants.WF_USER_CREATION_SUCCESS, 0);
+                }
+                else{
+                    $rootScope.setErrAlertMessage(constants.WF_USER_CREATION_FAIL);
+                }
             },function(err){
                 $rootScope.setErrAlertMessage(constants.WF_USER_CREATION_FAIL);
             });
@@ -204,12 +217,19 @@
 
         $scope.incrementCounter=function(index){
             accountsService.setCounter();
+            if(!$scope.User.data[accountsService.getCounter()-1])
+                $scope.User.data[accountsService.getCounter()-1] = {};
+
+            $scope.User.data[accountsService.getCounter()-1]["accessLevel"] = defaultAccess;
             $scope.permissions.push({});
+            //console.log("$scope.User.data=",$scope.User.data);
         };
 
-        $scope.setPermission = function(index,val){
+        $scope.setPermissionAccess = function(index,val){
             $scope.User.data[index].accessLevel = val;
+            console.log("$scope.User.data[index] == ",$scope.User.data[index]);
         }
+
 
         var userModalPopup = {
             getUserClients:function(editmode,user){
@@ -263,8 +283,8 @@
             }
 
         };
-
-        userModalPopup.getUserClients();
+        if(!$scope.editmode)
+            userModalPopup.getUserClients();
         //userModalPopup.getUserAdvertiser();
         //userModalPopup.getUserBrands();
         userModalPopup.getUserPermission();
@@ -294,6 +314,7 @@
         $rootScope.$on('permissionsForUsers',function(e,user){
             userModalPopup.getUserClients(true,user);
             $scope.editmode = true;
+            $scope.userConsoleFormDetails.password = "123456";
         })
 
         function setPreselectedPermission(user){
@@ -303,7 +324,7 @@
                 for(var i = 0; i < data.permissions.length; i++){
                     $scope.incrementCounter();
                     var clientObj = getClientObject(data.permissions[i].clientId,data.permissions[i].orgId,data.permissions[i].resellerId);
-                    console.log(" data.permissions[i].orgId", data.permissions[i].orgId," data.permissions[i].resellerId", data.permissions[i]);
+                    //console.log(" data.permissions[i].orgId", data.permissions[i].orgId," data.permissions[i].resellerId", data.permissions[i]);
                     $scope.selectedClientHandler(clientObj,i,  data.permissions[i].orgId,data.permissions[i].resellerId,data.permissions[i]);
                     $scope.User.data[i].accessLevel = data.permissions[i].accessLevel;
 

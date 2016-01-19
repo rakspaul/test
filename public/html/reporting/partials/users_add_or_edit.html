@@ -13,7 +13,7 @@
         <form id="userCreateEditForm" name="userCreateEditForm">
         <div class="form-group col-md-12 zeroPadding" show-errors='{showSuccess: true}'>
             <label >User Login:</label>
-            <input name="userLogin" type="email" class="form-control" ng-model="userConsoleFormDetails.email" required>
+            <input name="userLogin" type="email" class="form-control" ng-model="userConsoleFormDetails.email" required >
             <label ng-if="userCreateEditForm.userLogin.$error.required" class="col-sm-12  greyTxt errorLabel">You must enter user login.</label>
             <label ng-if="userCreateEditForm.userLogin.$error.email" class="col-sm-12  greyTxt errorLabel">Invalid email address.</label>
         </div>
@@ -211,9 +211,8 @@
                 </div>
                 <div class="form-group col-md-3">
                     <label >Permission:</label>
-
-                    <select name="accessLevel" class="form-control" >
-                        <option value="{{perm.value}}" ng-repeat="perm in userModalData.Permission" ng-selected="User.data[$index].accessLevel == perm.value?true:false" ng-click="User.data[$index].accessLevel = perm.value">{{perm.name}}</option>
+                    <select name="accessLevel" class="form-control" ng-change="setPermissionAccess(permissionIndex,User.data[permissionIndex].accessLevel)" ng-model="User.data[permissionIndex].accessLevel">
+                        <option value="{{perm.value}}" ng-repeat="perm in userModalData.Permission" ng-selected="User.data[permissionIndex].accessLevel == perm.value?true:false" >{{perm.value}} permissionIndex == {{User.data[permissionIndex].accessLevel}}</option>
                         <!--<option value="ADMIN">Admin</option>-->
                         <!--<option value="WRITE">Write</option>-->
                         <!--<option value="READ">Read</option>-->
