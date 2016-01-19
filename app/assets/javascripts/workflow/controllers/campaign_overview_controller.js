@@ -149,14 +149,12 @@ var angObj = angObj || {};
                         var startDateElem = $('#adGrpStartDateInput');
                         $scope.setStartdateIndependant=momentService.utcToLocalTime($scope.workflowData['campaignData'].startTime);
 
-                        var campaignStartTime = momentService.utcToLocalTime($scope.workflowData['campaignData'].startTime);//console.log(campaignStartTime);
-                        // var campaignStartTime = moment($scope.workflowData['campaignData'].startTime).format("MM/DD/YYYY");//console.log(campaignStartTime);
+                        var campaignStartTime = momentService.utcToLocalTime($scope.workflowData['campaignData'].startTime);
                         if(moment().isAfter(campaignStartTime, 'day')) {
                             campaignStartTime = moment().format(constants.DATE_US_FORMAT);
                         }
-                        var campaignEndTime = momentService.utcToLocalTime($scope.workflowData['campaignData'].endTime);//console.log(campaignEndTime);
-                        //var campaignEndTime = moment($scope.workflowData['campaignData'].endTime).format("MM/DD/YYYY");//console.log(campaignEndTime);
-                        startDateElem.datepicker("setStartDate", campaignStartTime);//console.log(campaignStartTime);
+                        var campaignEndTime = momentService.utcToLocalTime($scope.workflowData['campaignData'].endTime);
+                        startDateElem.datepicker("setStartDate", campaignStartTime);
                         startDateElem.datepicker("setEndDate", campaignEndTime);
                         $scope.startTimeFormated = campaignStartTime;
                         $scope.campaignEndTime = campaignEndTime;
@@ -241,10 +239,7 @@ var angObj = angObj || {};
                                 campaignOverView.getAdsForCampaign($routeParams.campaignId);
                             }, 10000);
                         }
-
-                        //console.log(responseData)
-                    }
-                    else {
+                    } else {
                         campaignOverView.errorHandler(result);
                     }
                 }, campaignOverView.errorHandler);
@@ -255,8 +250,7 @@ var angObj = angObj || {};
                     if (result.status === "OK" || result.status === "success") {
                         var responseData = result.data.data;
                         $scope.workflowData['campaignGetAdGroupsData'] = responseData;
-                    }
-                    else {
+                    } else {
                         campaignOverView.errorHandler(result);
                     }
                 }, campaignOverView.errorHandler);
@@ -264,7 +258,6 @@ var angObj = angObj || {};
             },
 
             getAdsInAdGroup: function (campaignId, adGroupId, index) {
-                //console.log(index);
                 workflowService.getAdsInAdGroup(campaignId, adGroupId).then(function (result) {
                     if (result.status === "OK" || result.status === "success") {
                         var responseData = result.data.data;
@@ -299,7 +292,6 @@ var angObj = angObj || {};
             },
 
             errorHandler: function (errData) {
-                console.log(errData);
                 if(errData.data.status === 404) {
                     $location.url('/mediaplans');
                 }
@@ -416,7 +408,7 @@ var angObj = angObj || {};
             $scope.createGroupMessage = false;
         };
 
-        $scope.extractor = function (IndividualAdsData) { //console.log($scope.setStartdateIndependant);
+        $scope.extractor = function (IndividualAdsData) {
             $scope.independantAdData=IndividualAdsData;
             //find lowest startDate
             var startDatelow=new Array;
@@ -431,13 +423,12 @@ var angObj = angObj || {};
             });
 
             if(ascending.length>0){
-                $scope.lowestStartTime = momentService.utcToLocalTime(ascending[0].startTime);//console.log(moment(ascending[0].startTime).format('YYYY-MM-DD HH:mm:ss.SSS'));
-                //console.log(moment($scope.lowestStartTime).format('YYYY-MM-DD HH:mm:ss.SSS'));//$scope.lowestStartTime = moment(ascending[0].startTime).format("MM/DD/YYYY");
+                $scope.lowestStartTime = momentService.utcToLocalTime(ascending[0].startTime);
                 var startDateElem = $('#individualAdsStartDateInput');
                 startDateElem.datepicker("setStartDate",$scope.setStartdateIndependant);
                 startDateElem.datepicker("setEndDate", $scope.lowestStartTime);
             }else{
-                var startDateElem = $('#individualAdsStartDateInput');// console.log($scope.setStartdateIndependant);
+                var startDateElem = $('#individualAdsStartDateInput');
                 startDateElem.datepicker("setStartDate",$scope.setStartdateIndependant);
                 startDateElem.datepicker("setEndDate", $scope.setStartdateIndependant);
             }
@@ -454,8 +445,7 @@ var angObj = angObj || {};
                 return o.endTime;
             });descending.reverse();
             if(descending.length>0){
-                $scope.highestEndTime = momentService.utcToLocalTime(descending[0].endTime);//console.log(moment(descending[0].endTime).format('YYYY-MM-DD HH:mm:ss.SSS'));
-                //console.log(moment($scope.highestEndTime).format('YYYY-MM-DD HH:mm:ss.SSS'));//$scope.highestEndTime = moment(descending[0].endTime).format("MM/DD/YYYY");
+                $scope.highestEndTime = momentService.utcToLocalTime(descending[0].endTime);
                 var endDateElem = $('#individualAdsEndDateInput');
                 endDateElem.datepicker("setStartDate", $scope.highestEndTime);
                 endDateElem.datepicker("setEndDate",$scope.campaignEndTime);
@@ -476,8 +466,8 @@ var angObj = angObj || {};
                 formData = _.object(_.pluck(formData, 'name'), _.pluck(formData, 'value'));
                 var postCreateAdObj = {};
                 postCreateAdObj.name = formData.adIGroupName;
-                postCreateAdObj.startTime = momentService.localTimeToUTC(formData.lowestStartTime,'startTime');//console.log(postCreateAdObj.startTime);
-                postCreateAdObj.endTime = momentService.localTimeToUTC(formData.highestEndTime,'endTime');//console.log(postCreateAdObj.endTime);
+                postCreateAdObj.startTime = momentService.localTimeToUTC(formData.lowestStartTime,'startTime');
+                postCreateAdObj.endTime = momentService.localTimeToUTC(formData.highestEndTime,'endTime');
                 postCreateAdObj.createdAt = "";
                 postCreateAdObj.updatedAt = "";
                 postCreateAdObj.id="-9999";
@@ -486,11 +476,10 @@ var angObj = angObj || {};
                 for(var i in $scope.independantAdData) {
                     dataArray.push($scope.independantAdData[i].id);
                 }
-                //console.log(dataArray);
+
                 postCreateAdObj.adIds = dataArray;
                 workflowService.createAdGroups($routeParams.campaignId,postCreateAdObj).then(function (result) {
                     if (result.status === "OK" || result.status === "success") {
-                        console.log("ad group created");
                         $('#createIndependantAdsGrp')[0].reset();
                         $scope.$broadcast('show-errors-reset');
                         $scope.showIndividualAds = !$scope.showIndividualAds;
@@ -499,8 +488,6 @@ var angObj = angObj || {};
                         localStorage.setItem( 'topAlertMessage', $scope.textConstants.AD_GROUP_CREATED_SUCCESS);
                         location.reload();
                     } else {
-                        console.log("ERROR! adgroup not created");
-                        console.log(result);
                         $scope.independantMessage=!$scope.independantMessage;
                         $scope.independantGroupMessage="unable to  group Ads";
                         $rootScope.setErrAlertMessage($scope.textConstants.AD_GROUP_CREATED_FAILURE);
