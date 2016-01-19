@@ -35,7 +35,6 @@ angObj.controller('CreateAdGroupsController', function ($scope, $window, $routeP
 
             workflowService.createAdGroups($routeParams.campaignId, postCreateAdObj).then(function (result) {
                 if (result.status === "OK" || result.status === "success") {
-                    console.log("ad group created");
                     $('#createNewAdGrp')[0].reset();
 
                     $scope.$parent.showCreateAdGrp = !$scope.$parent.showCreateAdGrp;
@@ -48,8 +47,6 @@ angObj.controller('CreateAdGroupsController', function ($scope, $window, $routeP
                 } else {
                     $scope.createGroupMessage=!$scope.createGroupMessage;
                     $scope.createAdGroupMessage="Ad Group not Created ";
-                    console.log("ERROR! adgroup not created");
-                    console.log(result);
                 }
             });
         }
