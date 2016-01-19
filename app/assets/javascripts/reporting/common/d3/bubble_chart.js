@@ -1,14 +1,14 @@
 (function() {
     "use strict";
-    commonModule.service("bubbleChart", function($rootScope,constants, brandsModel, loginModel, analytics, $locale) {
+    commonModule.service("bubbleChart", function($rootScope,constants, brandsModel, loginModel, analytics, $locale, RoleBasedService) {
 
         var brands_svg = {},
             campaigns_svg = {} ,
             chartData = {},
             node = {} , blueGradient = {}, orangeGradient = {}, greenGradient = {} ,  greyGradient = {};
 
-        constants.currencySymbol = $locale.NUMBER_FORMATS.CURRENCY_SYM;
-
+        //constants.currencySymbol = $locale.NUMBER_FORMATS.CURRENCY_SYM;
+        RoleBasedService.setCurrencySymbol();
         var tooltipBackGroundColor = "#FEFFFE";
 
         var colors = {

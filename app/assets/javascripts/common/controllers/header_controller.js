@@ -61,7 +61,7 @@
         $scope.getClientData = function(clientId) {
             workflowService.getClientData(clientId).then(function (response) {
                 RoleBasedService.setClientRole(response);//set the type of user here in RoleBasedService.js
-                RoleBasedService.setCurrency();
+                RoleBasedService.setCurrencySymbol();
             });
         }
 
@@ -94,6 +94,7 @@
                             accountChangeAction: function () {
                                 return function () {
                                     loginModel.setSelectedClient({'id': id, 'name': name});
+                                    $scope.getClientData(id);
                                     showSelectedClient(event, name);
                                     $rootScope.clientName = name;
                                     if(moduleObj.redirect) {

@@ -4,6 +4,7 @@
   campaignListModule.controller('CampaignListController', function($scope,  $rootScope, kpiSelectModel ,  campaignListModel, campaignSelectModel, strategySelectModel, utils, $location, _, constants, brandsModel, loginModel, analytics, gaugeModel, RoleBasedService) {
     //Hot fix to show the campaign tab selected
     $(".main_navigation").find('.active').removeClass('active').end().find('#campaigns_nav_link').addClass('active');
+    $(".main_navigation_holder").find('.active_tab').removeClass('active_tab') ;
     $scope.campaigns = new campaignListModel();
 
     $scope.sortReverse = false;

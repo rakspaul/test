@@ -339,8 +339,8 @@
                                 <div class="calTable form-group" show-errors='{showSuccess: true}'>
                                     <h3>Total Budget</h3>
                                     <div class="symbol-input">
-                                        <span class="symbol">{{locale.NUMBER_FORMATS.CURRENCY_SYM}}</span>
-                                       <input type="text"  ng-model="Campaign.totalBudget" name="totalBudget" class="form-control col-sm-8" whole-number-only="whole-number-only" required/>
+                                       <span class="symbol">{{locale.NUMBER_FORMATS.CURRENCY_SYM}}</span>
+                                       <input type="text"  ng-model="Campaign.totalBudget" name="totalBudget" class="form-control col-sm-8" ng-keyup="ComputeCost()" whole-number-only="whole-number-only" required/>
                                     </div>
                                     <label ng-if="createCampaignForm.totalBudget.$error.required" class="col-sm-12  greyTxt errorLabel" style="margin-left:35px;">{{textConstants.TOTAL_BUDGET_REQUIRED}}</label>
                                     <label ng-if="Campaign.totalBudget<=0" class="col-sm-12  greyTxt " style="margin-left:35px; color:#F24444 !important;">{{textConstants.TOTAL_BUDGET_GREATER_THAN_ZERO}}</label>
@@ -349,15 +349,16 @@
 									<h3>Margin</h3>
 									<div class="symbol-input">
 										<span class="symbol" style="left: initial; right: 50px;">{{textConstants.SYMBOL_PERCENT}}</span>
-										<input type="text" ng-model="Campaign.marginPercent" class="form-control col-sm-8" style="text-align: center; padding-left: 10px;" whole-number-only="whole-number-only"/>
+										<input type="text" ng-model="Campaign.marginPercent" class="form-control col-sm-8" ng-keyup="ComputeCost()" style="text-align: center; padding-left: 10px;" whole-number-only="whole-number-only"/>
 									</div>
-								</div>
+                                </div>
 								<div class="calTable">
 									<h3>Est. Non-Inventory Cost</h3>
                                     <div class="symbol-input">
                                        <span class="symbol">{{locale.NUMBER_FORMATS.CURRENCY_SYM}}</span>
                                        <input type="text" ng-style="inventoryExceeds ? {'color':'#F9B537'}:''" ng-model="Campaign.nonInventoryCost" class="form-control col-sm-8" disabled/>
                                     </div>
+                                    <label ng-if="Campaign.nonInventoryCost>Campaign.totalBudget" class="col-sm-12  greyTxt " style="margin-left:35px; color:#F24444 !important;">{{textConstants.NON_INVENTORY_COST_GREATER_THAN_ZERO}}</label>
                                 </div>
                                 <div class="calTable">
                                     <h3>Delivery Budget</h3>
@@ -365,6 +366,8 @@
                                        <span class="symbol">{{locale.NUMBER_FORMATS.CURRENCY_SYM}}</span>
                                        <input type="text" ng-style="deliveryBudgetNegative ? {'color':'#F9B537'}:''" ng-model="Campaign.deliveryBudget" class="form-control col-sm-8" disabled/>
                                     </div>
+                                    <label ng-if="deliveryLesserBookedspend" class="col-sm-12  greyTxt " style="margin-left:35px; color:#F24444 !important;">{{textConstants.DELIVERY_BUDGET_BOOKEDSPEND}}({{editCampaignData.bookedSpend}})</label>
+                                    <label ng-if="Campaign.deliveryBudget<0" class="col-sm-12  greyTxt " style="margin-left:35px; color:#F24444 !important;">{{textConstants.DELIVERY_BUDGET_GREATER_THAN_ZERO}}</label>
                                 </div>
                                 <div class="calTable">
                                     <h3>Effective {{primaryType ? primaryType:'CPM'}}</h3>
@@ -457,8 +460,8 @@
                                             <ul class="dropdown-menu" aria-labelledby="selectKPI"  id="selectKPI">
                                                 <li ng-repeat="vendor in workflowData.vendor" ng-click="selectedVendor($parent.$index,vendor)" class="available"><a>{{vendor.name}}</a></li>
                                             </ul>
-                                            <input ng-if="mode!=='edit'" type="hidden" name="vendor" ng-init="Campaign.kpiArr[$index]['vendorName']='Select from list';" ng-model="Campaign.kpiArr[$index]['vendorId']" ng-value="{{vendor.id}}" field="vendorId" index="{{$index}}" hiddenkpi>
-                                            <input ng-if="mode==='edit'"type="hidden" name="vendor" ng-model="Campaign.kpiArr[$index]['vendorId']" ng-value="{{vendor.id}}" field="vendorId" index="{{$index}}" hiddenkpi>
+                                            <input ng-if="mode!=='edit'" type="hidden" name="vendor" ng-init="Campaign.kpiArr[$index]['vendorName']='Select from list';"  ng-model="Campaign.kpiArr[$index]['vendorId']" ng-value="{{vendor.id}}" field="vendorId" index="{{$index}}" hiddenkpi>
+                                            <input ng-if="mode==='edit'"type="hidden" name="vendor" ng-model="Campaign.kpiArr[$index]['vendorId']"  ng-value="{{vendor.id}}" field="vendorId" index="{{$index}}" hiddenkpi>
                                         </div>
                                     </div>
                                 </div>
@@ -466,7 +469,7 @@
                                 <div class="col-md-2 zeroPadding kpiTable symbol-input">
 
                                     <span class="symbol">#</span>
-                                    <input type="text" class="col-md-12" ng-model="Campaign.kpiArr[$index]['kpiValue']" ng-keyup="setLeftNavPrimaryKpi($index)" field="kpiValue"  whole-number-only="whole-number-only" index="{{$index}}"/>
+                                    <input type="text" class="col-md-12" ng-model="Campaign.kpiArr[$index]['kpiValue']" ng-keyup="setLeftNavPrimaryKpi($index); ComputeCost()" field="kpiValue"  whole-number-only="whole-number-only" index="{{$index}}"/>
                                 </div>
 
                                 <div class="col-md-2 zeroPadding kpiTable">
@@ -605,12 +608,12 @@
 
                             <div class="col-md-1 zeroPadding kpiTable symbol-input">
                                 <span class="symbol">{{locale.NUMBER_FORMATS.CURRENCY_SYM}}</span>
-                                <input type="text" class="col-md-12" ng-model="Campaign.costArr[$index]['rateValue']" fraction-numbers="fraction-numbers" field="rateValue"  index="{{$index}}"/>
+                                <input type="text" class="col-md-12" ng-model="Campaign.costArr[$index]['rateValue']" fraction-numbers="fraction-numbers" ng-keyup="ComputeCost()" field="rateValue"  index="{{$index}}"/>
                             </div>
 
                             <div class="col-md-1 zeroPadding kpiTable symbol-input" style="width: 86px;">
                                 <span class="symbol" style="left: initial; right: 25px;">{{textConstants.SYMBOL_PERCENT}}</span>
-                                <input type="number" class="col-md-12" style="text-align: center; padding-left: 10px;" ng-model="Campaign.costArr[$index]['targetPercentage']" whole-number-only="whole-number-only" max="100"  field="targetPercentage" index="{{$index}}" />
+                                <input type="number" class="col-md-12" style="text-align: center; padding-left: 10px;" ng-model="Campaign.costArr[$index]['targetPercentage']" ng-keyup="ComputeCost()" whole-number-only="whole-number-only" max="100"  field="targetPercentage" index="{{$index}}" />
                             </div>
 
                             <div class="col-md-1 zeroPadding kpiTable" style="padding: 0 !important; width: 145px;">

@@ -3,6 +3,7 @@ var angObj = angObj || {};
     'use strict';
 
     angObj.controller('CampaignAdsCreateController', function ($scope, $rootScope, $window, $routeParams, $locale,  constants, workflowService, $timeout, utils, $location, campaignListService, requestCanceller, $filter, loginModel, $q, dataService, apiPaths, audienceService, RoleBasedService, momentService) {
+        $(".main_navigation_holder").find('.active_tab').removeClass('active_tab') ;
         $(".main_navigation").find('.active').removeClass('active').end().find('#campaigns_nav_link').addClass('active');
         $(".bodyWrap").addClass('bodyWrapOverview');
         $("html").css('background', '#fff');
@@ -51,6 +52,7 @@ var angObj = angObj || {};
 
         $scope.mode = workflowService.getMode();
         //constants.currencySymbol = $locale.NUMBER_FORMATS.CURRENCY_SYM;
+        RoleBasedService.setCurrencySymbol();
         $scope.locale = $locale;
         $scope.textConstants = constants;
         $scope.workflowData = {};
@@ -313,7 +315,7 @@ var angObj = angObj || {};
 
             if (responseData.adFormat) {
                 var format = $filter('toTitleCase')(responseData.adFormat);
-                $scope.adFormatSelection(format);
+                $scope.adFormatSelection(format,"","editData");
                 $scope.adData.adFormat = format;
 
             }
@@ -384,7 +386,7 @@ var angObj = angObj || {};
 
             $('.cap_no input').attr("checked", "checked");
             $('.spend_evenly input').attr("checked", "checked");
-            if (responseData.frequencyCaps && responseData.frequencyCaps.length > 1) {
+            if (responseData.frequencyCaps && responseData.frequencyCaps.length > 0) {
                 $scope.adData.setCap = true;
                 $('.cap_yes').addClass('active');
                 $('.cap_no').removeClass('active');
@@ -577,7 +579,6 @@ var angObj = angObj || {};
                     postDataObj.adGroupId = $scope.adGroupId;
                 }//save adGroup Ad
 
-
                 if ($scope.adId) {
                     postDataObj['adId'] = $scope.adId;
                     postDataObj['updatedAt'] = $scope.updatedAt;
@@ -587,7 +588,6 @@ var angObj = angObj || {};
                 var promiseObj = $scope.adId ? workflowService.updateAd(postDataObj) : workflowService.createAd(postDataObj);
                 promiseObj.then(function (result) {
                     var responseData = result.data.data;
-                    // console.log("responseData......",responseData);
                     if(result.status === "OK" || result.status === "success") {
                         $scope.state = responseData.state;
                         $scope.adId = responseData.id;
@@ -595,11 +595,9 @@ var angObj = angObj || {};
                         if (!isDownloadTrackerClicked) {
                             $rootScope.setErrAlertMessage($scope.textConstants.PARTIAL_AD_SAVE_SUCCESS,0);
                             localStorage.setItem('adPlatformCustomInputs', JSON.stringify(responseData.adPlatformCustomInputs))
-                            //if ($scope.state && $scope.state.toLowerCase() != 'incomplete') {
                             var url = '/mediaplan/' + result.data.data.campaignId + '/overview';
                             $location.url(url);
                             localStorage.setItem('topAlertMessage', $scope.textConstants.AD_CREATED_SUCCESS);
-                            //}
                         }
                     }
                     else {
@@ -692,16 +690,31 @@ var angObj = angObj || {};
             $scope.changeAdFormat=false;
         }
 
-        $scope.adFormatSelection = function (adformatName , event) {
-            $scope.changeAdFormat=true;
-            $scope.adformatName=adformatName;
-            if(event) {
-                var offset = $(event.target).offset();
-                var left = offset.left;
-                var top = offset.top;
-                var relativeX = left - $(event.target).closest(".goalBtnWithPopup").offset().left - 110;
-                $(".goalBtnWithPopup .popUpCue").css({left: relativeX});
+        $scope.adFormatSelection = function (adformatName , event, editdata) {
+            if(editdata!=="editData"){
+                $scope.changeAdFormat=true;
+                $scope.adformatName=adformatName;
+                if(event) {
+                    var offset = $(event.target).offset();
+                    var left = offset.left;
+                    var top = offset.top;
+                    var relativeX = left - $(event.target).closest(".goalBtnWithPopup").offset().left - 110;
+                    $(".goalBtnWithPopup .popUpCue").css({left: relativeX});
+                }
+            }else if(editdata==="editData"){ /*populating first time in editmode*/
+                if(angular.lowercase(adformatName)=="display")
+                    $scope.adformatName="Display"
+                else if(angular.lowercase(adformatName)=="richmedia")
+                    $scope.adformatName="Rich Media"
+
+                $scope.$broadcast('adFormatChanged', $scope.adformatName);
+                var adFormatsData = $scope.workflowData['adFormats'];
+                _.each(adFormatsData, function (obj) {
+                    obj.name === $scope.adformatName ? obj.active = true : obj.active = false;
+                })
             }
+
+
         };
 
         $scope.goalSelection = function (goal) {
@@ -817,7 +830,7 @@ var angObj = angObj || {};
 
         }
 
-        $scope.CampaignADsave = function (isDownloadTrackerClicked) {console.log("ejwdewd");
+        $scope.CampaignADsave = function (isDownloadTrackerClicked) {
             var formElem = $("#formAdCreate");
             var formData = formElem.serializeArray();
             formData = _.object(_.pluck(formData, 'name'), _.pluck(formData, 'value'));//console.log(formData);

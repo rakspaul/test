@@ -1,22 +1,8 @@
 <div class="campaign-list-container">
     <div class="total_reports_page  ">
-
-
         <div class="common_reports_container optimization_header">
-            <!-- <div class="clearfix inventory_header">
-
-                <div class="pull-left dropdown dropdown_type1" id="optimization_camp_list_dd">
-                    <campaign-drop-down selected-obj=selectedCampaign> </campaign-drop-down>
-                </div>
-
-                <div class="pull-right download_report">
-                    <download-report></download-report>
-                </div>
-            </div> -->
             <div class="clearfix page_top_header">
-                <div class="pull-left page_name">
-                    Optimization Report
-                </div>
+                <div class="pull-left page_name" ng-bind="textConstants.OPTIMIZATION_REPORT"></div>
                 <div class="pull-right download_report">
                     <download-report></download-report>
                 </div>
@@ -25,24 +11,15 @@
             <div class="clearfix">
                 <filters-header reports="true"></filters-header>
             </div>
-
-            <!--campaign dropdown-->
             <div class="clearfix optimization_see_dates">
-
-                <!--strategy dropdown-->
-                <!-- <div class="pull-left" id="optimization_strategies_dd" ng-show="isStrategyDropDownShow">
-                    <strategy-drop-down selected-obj=selectedStrategy ></strategy-drop-down >
-                </div> -->
-                <!--strategy dropdown-->
                 <div class="pull-right">
-
                     <div class="see_dates_holder clearfix">
                         <div class="external_chkbox clearfix">
                             <div class="squaredFour" id="see_dates_chkbox" >
-                              <input id="optimization_squaredFour" type="checkbox" class="squaredFourChkbox" ng-checked="{{seeDate.value}}" >
+                              <input id="optimization_squaredFour" type="checkbox" class="squaredFourChkbox" ng-checked="seeDate.value" >
                               <label for="optimization_squaredFour"></label>
                             </div>       
-                            <span class="squaredFourTxt">{{textConstants.SEE_DATES}}</span>
+                            <span class="squaredFourTxt" ng-bind="textConstants.SEE_DATES"></span>
                         </div>
                     </div>
                 </div>
@@ -50,13 +27,9 @@
         </div>
         <div class="load-more"  ng-show="strategyLoading"></div>
         <div class="optimization_container" ng-hide="strategyLoading">
-
             <div class="reports_graph_top_section" id="graph">
                 <div class="rep_graph_heading">
-
-                    <!-- gaurav -->
                     <div class="col-md-12">
-
                          <span ng-switch="chartForStrategy">
                                 <span ng-switch-when="true" class="load-more">&nbsp;</span>
                                 <span ng-switch-when="false" class="no-chart" ng-bind-html="getMessageForDataNotAvailable(selectedCampaign)"></span>
@@ -64,42 +37,25 @@
                                     <div ng-if="chartForStrategy" class="highcharts" id="details_chart">
                                         <div class="line_tooltip"></div>
                                         <div class="campaign_details_graph performance" width='990' height='250' campaign-chart chart-data="{{lineChart}}" chart-location="action_optimization"></div>
-
-                                        <!-- <highchart id="highcharts" config="chartForStrategy" chartTitle=""></highchart> -->
                                     </div>
                                 </span>
                             </span>
                     </div>
-                    <!-- gaurav -->
                 </div>
-                <div class="rep_graph_holder">
-                </div>
-                <div class="clearfix common_graph_legend" ng-show="is_network_user">
-                    <div class="clearfix graph_legends">
-                     <span class="legend"></span>
-                     <span class="legend_text">{{textConstants.EXTERNAL}}</span>
-                   </div>
-                   <div class="clearfix graph_legends internal_legend">
-                     <span class="legend"></span>
-                     <span class="legend_text">{{textConstants.INTERNAL}}</span>
-                   </div>
-                   
-                 </div>
+                <div class="rep_graph_holder"></div>
             </div>
             <!--tacticNotFound :  {{tacticNotFound | json}}-->
             <div class="details_with_heading_total {{seeDate.className}}">
-
                 <div class="common-load-icon_viewability" id="strategy_activityLoader" ng-show="tacticLoading && selectedCampaign.id == -1"></div>
                 <div class="each_reports_row each_reports_row_heading" style="text-align: center" ng-if="tacticNotFound && selectedCampaign.id == -1"  >
                     <span class="no-data-common" ng-bind-html="getMessageForDataNotAvailable(selectedCampaign)"></span>
                 </div>
 
                 <div class="each_reports_row each_reports_row_heading optimization_heading" ng-if="!tacticNotFound && !tacticLoading &&  selectedCampaign.id == -1">
-
                     <div class="each_rep_col_holder clearfix">
                         <div class="clearfix after_before_title">
-                            <div>{{textConstants.BEFORE}}</div>
-                            <div>{{textConstants.AFTER}}</div>
+                            <div ng-bind="textConstants.BEFORE"></div>
+                            <div ng-bind="textConstants.AFTER"></div>
                         </div>
                         <div class="each_rep_col first_col" title="Optimization Type" >{{textConstants.OPTIMIZATION_TYPE}}</div>
                         <div class="each_rep_col sec_col" title="Date Optimized" >{{textConstants.DATE_OPTIMIZED}}</div>

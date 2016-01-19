@@ -1,5 +1,4 @@
 <a class="dropdown-toggle active" ng-click="timePeriodClicked()" id="cdbMenu">
-  <!--data-toggle="dropdown"-->
   <span id="durationMenuText" ng-bind="timeData.displayTimePeriod" class="header_filter_arrow_dropdown"></span>
   <span class="sort-image-inactive"></span>
 </a>
@@ -7,8 +6,7 @@
   <li ng-repeat="timeObj in timeData.timePeriodList track by $index" class={{timeObj.className}}>
     <a data-ng-click="filterByTimePeriod(timeObj)">
       <span class="tick"></span>
-      <span class="menuItemText" id="{{timeObj.key}}">{{timeObj.display}}</span>
+      <span class="menuItemText" id="{{timeObj.key}}" ng-bind="timeObj.display"></span>
     </a>
   </li>
- <!-- <div class="time_dropdown_disabled"></div>-->
 </ul>

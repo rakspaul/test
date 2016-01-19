@@ -219,7 +219,7 @@ var angObj = angObj || {};
             var strategyObj = strategySelectModel.getStrategyObj();
             var selectedStrategyObj = strategySelectModel.getSelectedStrategy();
             if(strategyObj.strategies && strategyObj.strategies.length > 0) {
-                if (selectedStrategyObj.id === -1) {
+                if (Number(selectedStrategyObj.id) === -1) {
                     var adFormatsArr = [];
                     _.each(strategyObj.strategies, function (obj) {
                         if(obj.ad_formats && obj.ad_formats.length >0) {
