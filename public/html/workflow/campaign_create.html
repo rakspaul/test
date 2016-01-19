@@ -364,7 +364,7 @@
                                     <h3>Delivery Budget</h3>
                                     <div class="symbol-input">
                                        <span class="symbol">{{locale.NUMBER_FORMATS.CURRENCY_SYM}}</span>
-                                       <input type="text" ng-style="deliveryBudgetNegative ? {'color':'#F9B537'}:''" ng-model="Campaign.deliveryBudget| nrFormat" class="form-control col-sm-8" disabled/>
+                                       <input type="text" ng-style="deliveryBudgetNegative ? {'color':'#F9B537'}:''" ng-model="Campaign.deliveryBudget" class="form-control col-sm-8" disabled/>
                                     </div>
                                     <label ng-if="deliveryLesserBookedspend" class="col-sm-12  greyTxt " style="margin-left:35px; color:#F24444 !important;">{{textConstants.DELIVERY_BUDGET_BOOKEDSPEND}}({{editCampaignData.bookedSpend}})</label>
                                     <label ng-if="Campaign.deliveryBudget<0" class="col-sm-12  greyTxt " style="margin-left:35px; color:#F24444 !important;">{{textConstants.DELIVERY_BUDGET_GREATER_THAN_ZERO}}</label>
@@ -373,7 +373,7 @@
                                     <h3>Effective {{primaryType ? primaryType:'CPM'}}</h3>
                                     <div class="symbol-input">
                                        <span class="symbol">{{locale.NUMBER_FORMATS.CURRENCY_SYM}}</span>
-                                       <input type="text" ng-style="effectiveNegative ? {'color':'#F9B537'}:''"ng-model="Campaign.effectiveCPM | nrFormat" class="form-control col-sm-8" disabled/>
+                                       <input type="text" ng-style="effectiveNegative ? {'color':'#F9B537'}:''" ng-model="Campaign.effectiveCPM" class="form-control col-sm-8" disabled/>
                                     </div>
                                 </div>
                                 <div class="calTable">
