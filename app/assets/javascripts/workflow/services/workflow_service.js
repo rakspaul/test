@@ -1,6 +1,8 @@
 (function () {
-    "use strict";
-    angObj.factory("workflowService", function ($http,$location, api, apiPaths, dataService, loginModel, $cookieStore,requestCanceller,constants,$rootScope) {
+    'use strict';
+
+    angObj.factory('workflowService', function ($http, $location, api, apiPaths, dataService, loginModel, $cookieStore,
+        requestCanceller, constants, $rootScope) {
         var mode,
             adDetails,
             newCreative,
@@ -10,7 +12,7 @@
         return {
             fetchCampaigns: function() {
                 var clientId =  loginModel.getSelectedClient().id,
-                    url = apiPaths.WORKFLOW_APIUrl + '/clients/' + clientId +'/campaigns';
+                    url = apiPaths.WORKFLOW_APIUrl + '/clients/' + clientId + '/campaigns';
 
                 return dataService.fetch(url);
             },
