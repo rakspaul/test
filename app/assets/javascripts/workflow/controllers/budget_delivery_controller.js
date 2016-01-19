@@ -143,13 +143,17 @@ angObj.controller('BudgetDeliveryController', function ($scope, $window, $routeP
     $scope.setDateInEditMode = function (campaignStartTime, campaignEndTime) {
         var endDateElem = $('#endDateInput');
         var startDateElem = $('#startDateInput');
-
         var adsDate = JSON.parse(localStorage.getItem('adsDates'));
         var startDate, endDate;
+
+console.log('campaignStartTime = ', campaignStartTime, 'campaignEndTime = ', campaignEndTime)
+console.log('adsDate = ', adsDate)
+
         if (adsDate) {
             startDate = adsDate.adStartDate;
             endDate = adsDate.adEndDate;
         }
+console.log('startDate = ', startDate, 'endDate = ', endDate)
         if (campaignStartTime > startDate) {// ads start Date in Past
             startDateElem.datepicker("setStartDate", campaignStartTime);
         }
@@ -160,11 +164,13 @@ angObj.controller('BudgetDeliveryController', function ($scope, $window, $routeP
             startDateElem.datepicker("setEndDate", campaignEndTime);
         }
         if (moment(endDate).isAfter(campaignEndTime, 'day')) {// ads start Date in Past
+console.log('TRue')
             endDateElem.datepicker("setEndDate", endDate);
             endDateElem.datepicker("setStartDate", endDate);
             endDateElem.datepicker("update", endDate);
         } else {
-            endDateElem.datepicker("setStartDate", endDate);
+console.log('FALse')
+            endDateElem.datepicker("setStartDate", startDate);
             endDateElem.datepicker("setEndDate", campaignEndTime);
             endDateElem.datepicker("update", endDate);
         }
@@ -193,10 +199,12 @@ angObj.controller('BudgetDeliveryController', function ($scope, $window, $routeP
         if (window.location.href.indexOf("adGroup") > -1) {
             var adGroupStartDate = momentService.utcToLocalTime(localStorage.getItem("stTime"));
             var adGroupEndDate = momentService.utcToLocalTime(localStorage.getItem("edTime"));
+console.log('adGroupStartDate = ', adGroupStartDate, 'adGroupEndDate = ', adGroupEndDate)
             startDateElem.datepicker("setStartDate", adGroupStartDate);
             startDateElem.datepicker("setEndDate", adGroupEndDate);
             if ($scope.mode == 'edit') {
                 $scope.setDateInEditMode(adGroupStartDate, adGroupEndDate);
+console.log('EDIT MODE IN ADGROUP')
             } else {
                 startDateElem.datepicker("update", adGroupStartDate);
             }
