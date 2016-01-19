@@ -27,6 +27,7 @@
                         }
 
                         var widgetElem = elem.find(".barChartWidget");
+                        widgetElem.empty();
                         var containerWidthScreen = elem.parent().width() - 25 ,
                             chartScreen,
                             widthScreen = containerWidthScreen - (chartData.widthToSubtract || 28),
