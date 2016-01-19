@@ -1361,7 +1361,6 @@
                                 } 
                             })
                         .attr("width", function(d) {
-                                console.log("d", d);
                             if (d.type == "brand") {
                                 return 0;
                             } else if (d.kpiStatus == "ontrack" || d.kpiStatus == "underperforming" || d.kpiStatus == "NA" || d.kpiStatus === undefined || d.kpiStatus === "Unknown") {
