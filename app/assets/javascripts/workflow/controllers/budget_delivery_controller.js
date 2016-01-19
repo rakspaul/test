@@ -143,9 +143,9 @@ angObj.controller('BudgetDeliveryController', function ($scope, $window, $routeP
     $scope.setDateInEditMode = function (campaignStartTime, campaignEndTime) {
         var endDateElem = $('#endDateInput');
         var startDateElem = $('#startDateInput');
-
         var adsDate = JSON.parse(localStorage.getItem('adsDates'));
         var startDate, endDate;
+
         if (adsDate) {
             startDate = adsDate.adStartDate;
             endDate = adsDate.adEndDate;
@@ -164,7 +164,7 @@ angObj.controller('BudgetDeliveryController', function ($scope, $window, $routeP
             endDateElem.datepicker("setStartDate", endDate);
             endDateElem.datepicker("update", endDate);
         } else {
-            endDateElem.datepicker("setStartDate", endDate);
+            endDateElem.datepicker("setStartDate", startDate);
             endDateElem.datepicker("setEndDate", campaignEndTime);
             endDateElem.datepicker("update", endDate);
         }
@@ -186,6 +186,7 @@ angObj.controller('BudgetDeliveryController', function ($scope, $window, $routeP
         var campaignData = $scope.workflowData['campaignData'];
         var campaignStartTime = momentService.utcToLocalTime(campaignData.startTime);
         var campaignEndTime = momentService.utcToLocalTime(campaignData.endTime);
+
         if (moment().isAfter(campaignStartTime, 'day')) {
             campaignStartTime = moment().format(constants.DATE_US_FORMAT);
         }
@@ -193,6 +194,7 @@ angObj.controller('BudgetDeliveryController', function ($scope, $window, $routeP
         if (window.location.href.indexOf("adGroup") > -1) {
             var adGroupStartDate = momentService.utcToLocalTime(localStorage.getItem("stTime"));
             var adGroupEndDate = momentService.utcToLocalTime(localStorage.getItem("edTime"));
+
             startDateElem.datepicker("setStartDate", adGroupStartDate);
             startDateElem.datepicker("setEndDate", adGroupEndDate);
             if ($scope.mode == 'edit') {

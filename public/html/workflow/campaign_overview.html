@@ -107,8 +107,8 @@
                         <span ng-if="workflowData.campaignData.startTime">
                             <span class="icon-calendar" style="margin: 1px 6px 0 0;"></span>
                             <span style="float: left; clear: none;">
-                                {{utcToLocalTime(workflowData.campaignData.startTime,'ddd DD MMM  YYYY')}} -
-                                {{utcToLocalTime(workflowData.campaignData.endTime,'ddd DD MMM YYYY')}}
+                                {{utcToLocalTime(workflowData.campaignData.startTime, 'ddd DD MMM  YYYY')}} -
+                                {{utcToLocalTime(workflowData.campaignData.endTime, 'ddd DD MMM YYYY')}}
                             </span>
                             <span style="clear: none; margin-left: 8px;" ng-if="workflowData.campaignData.numOfDays">
                                 ({{workflowData.campaignData.numOfDays}} Days)

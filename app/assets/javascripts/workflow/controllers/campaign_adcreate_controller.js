@@ -105,14 +105,6 @@ var angObj = angObj || {};
             return momentService.utcToLocalTime(date,format);
         }
 
-
-
-        //$scope.$on(constants.ACCOUNT_CHANGED, function() {
-        //    console.log("account changed");
-        //})
-
-
-
         $scope.archiveAd = function (event) {
             var errorAchiveAdHandler = function () {
                 $scope.adArchive = false;
@@ -360,10 +352,6 @@ var angObj = angObj || {};
             if (responseData.endTime) {
                 dateObj['adEndDate'] = $scope.adData.endTime = momentService.utcToLocalTime(responseData.endTime);
             }
-            console.log('responseData.startTime = ', responseData.startTime)
-            console.log('responseData.endTime = ', responseData.endTime)
-            console.log('momentService.utcToLocalTime(responseData.startTime) = ', momentService.utcToLocalTime(responseData.startTime))
-            console.log('momentService.utcToLocalTime(responseData.startTime) = ', momentService.utcToLocalTime(responseData.startTime))
             localStorage.setItem('adsDates', JSON.stringify(dateObj));
             $scope.initiateDatePicker();
 
@@ -604,7 +592,6 @@ var angObj = angObj || {};
                         $rootScope.setErrAlertMessage(responseData.message);
                     }
                 }, function (errorObj) {
-                    console.log(errorObj);
                     $scope.abc =  pe.textConstants.PARTIAL_AD_SAVE_FAILURE;
                     $rootScope.setErrAlertMessage($scope.textConstants.PARTIAL_AD_SAVE_FAILURE);
                 });
@@ -833,7 +820,7 @@ var angObj = angObj || {};
         $scope.CampaignADsave = function (isDownloadTrackerClicked) {
             var formElem = $("#formAdCreate");
             var formData = formElem.serializeArray();
-            formData = _.object(_.pluck(formData, 'name'), _.pluck(formData, 'value'));//console.log(formData);
+            formData = _.object(_.pluck(formData, 'name'), _.pluck(formData, 'value'));
             if ((formData.budgetAmount && $scope.formAdCreate.budgetAmount.$error.mediaCostValidator) ||  ($scope.budgetErrorObj.mediaCostValidator || $scope.budgetErrorObj.availableRevenueValidator || $scope.budgetErrorObj.impressionPerUserValidator)) {
                 $rootScope.setErrAlertMessage("Mandatory fields need to be specified for the Ad");
                 return false;
