@@ -50,11 +50,11 @@
         };
 
         var setCurrencySymbol = function(){
-            var locale = getClientRole().locale || 'en-us';
-            tmhDynamicLocale.set(locale);
-           // $rootScope.$on("$localeChangeSuccess",function(){
+            if(getClientRole()) {
+                var locale = getClientRole().locale || 'en-us';
+                tmhDynamicLocale.set(locale);
                 constants.currencySymbol = $locale.NUMBER_FORMATS.CURRENCY_SYM;
-           // });
+            }
         }
 
         return {

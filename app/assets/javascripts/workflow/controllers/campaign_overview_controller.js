@@ -543,6 +543,7 @@ console.log('stTime = ', stTime, 'edTime = ', edTime);
             $(this).find('.btn').toggleClass('btn-default');
 
         });
+<<<<<<< HEAD
 
     });
 
@@ -626,5 +627,7 @@ console.log('handleFlightDate in campaign_overview_controller.js (CreateAdGroups
                 });
             }
         };
+=======
+>>>>>>> Dashboard : Blank Budget widget and tool tip appears on first time login
     });
 })();
