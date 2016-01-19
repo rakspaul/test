@@ -28,7 +28,7 @@
             $modalInstance.dismiss();
         };
         $scope.selectedRole=function(roleType){
-            if(roleType=="0"){
+            if(roleType=="1"){
                 $scope.isSuperAdmin=true;
                 $scope.permissions = [];
             }
@@ -63,7 +63,7 @@
                         $scope.createUser(postDataObj);
                     }
                     // condition 2 - not super admin - need  permissions
-                    if(constants.super_admin != postDataObj.role_template_id && postDataObj.permissions.length > 0){
+                    if(constants.super_admin != postDataObj.roleTemplateId && postDataObj.permissions.length > 0){
                         $scope.createUser(postDataObj);
                     }
                     else{

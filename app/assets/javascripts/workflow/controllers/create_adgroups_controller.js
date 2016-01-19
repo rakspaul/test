@@ -1,5 +1,5 @@
-angObj.controller('CreateAdGroupsController', function ($scope, $window, $routeParams, constants, workflowService, $timeout, 
-    utils, $location, momentService) {
+angObj.controller('CreateAdGroupsController', function ($scope, $window, $routeParams, constants, workflowService, $timeout,
+                                                        utils, $location, momentService) {
     $scope.handleFlightDate = function (data) {
         var startTime = data,
             endDateElem = $('#adGrpEndDateInput'),

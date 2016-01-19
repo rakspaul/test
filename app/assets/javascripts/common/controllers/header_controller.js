@@ -1,5 +1,5 @@
 (function () {
-  'use strict';
+    'use strict';
     commonModule.controller('HeaderController', function ($scope, $rootScope, $http, loginModel, $timeout, $route, $modal, $cookieStore, $location , constants, domainReports , campaignSelectModel, RoleBasedService, workflowService,advertiserModel, tmhDynamicLocale ) {
 
         $scope.user_name = loginModel.getUserName();
@@ -53,7 +53,7 @@
                         clientId = $scope.accountsData[0].id;
                     }
                     $scope.getClientData(clientId);
-                   //$rootScope.$broadcast(constants.ACCOUNT_CHANGED, clientId);
+                    //$rootScope.$broadcast(constants.ACCOUNT_CHANGED, clientId);
                 }
             });
         }
@@ -142,34 +142,34 @@
 
             $location.url(url);
         };
-        
+
         $scope.show_hide_nav_dropdown = function(event,arg,behaviour) {
-          var elem = $(event.target);
-          if($("#" + arg + "-menu").is(":visible") == false ) {
-            $(".main_nav_dropdown").hide() ;
-            $("#" + arg + "-menu").fadeIn();
-            $(".main_navigation_holder").find(".selected").removeClass("selected") ;
-            elem.closest("#"+ arg +"_nav_link").addClass("selected") ;
-            $('.each_nav_link.active .arrowSelect').hide();
-          } else {
-            if(behaviour == "click") {
-            //  $(".main_nav_dropdown").fadeOut() ;
-                $(".main_navigation_holder").find(".selected").addClass("selected") ;
+            var elem = $(event.target);
+            if($("#" + arg + "-menu").is(":visible") == false ) {
+                $(".main_nav_dropdown").hide() ;
+                $("#" + arg + "-menu").fadeIn();
+                $(".main_navigation_holder").find(".selected").removeClass("selected") ;
+                elem.closest("#"+ arg +"_nav_link").addClass("selected") ;
+                $('.each_nav_link.active .arrowSelect').hide();
+            } else {
+                if(behaviour == "click") {
+                    //  $(".main_nav_dropdown").fadeOut() ;
+                    $(".main_navigation_holder").find(".selected").addClass("selected") ;
+                }
             }
-          }   
-          
+
         } ;
 
         $scope.hide_navigation_dropdown = function(event) {
-           var elem = $(event.target);
-           setTimeout(function(){ $('.each_nav_link.active .arrowSelect').fadeIn(); }, 800);
-           setTimeout(function(){
-              if(  !( $(".main_navigation_holder").is(":hover") || $("#user-menu").is(":hover") || $("#reports-menu").is(":hover") ) ) { 
-                   $(".main_nav_dropdown").fadeOut() ;
-                   $(".main_navigation_holder").find(".selected").removeClass("selected") ;
-               }
+            var elem = $(event.target);
+            setTimeout(function(){ $('.each_nav_link.active .arrowSelect').fadeIn(); }, 800);
+            setTimeout(function(){
+                if(  !( $(".main_navigation_holder").is(":hover") || $("#user-menu").is(":hover") || $("#reports-menu").is(":hover") ) ) {
+                    $(".main_nav_dropdown").fadeOut() ;
+                    $(".main_navigation_holder").find(".selected").removeClass("selected") ;
+                }
             }, 1500);
-           
+
         } ;
 
         $scope.logout = function() {
@@ -236,35 +236,35 @@
                 if(quickFilters.is(':visible') && quickFilterId != "sliding_dropdown_container" && event.target.id != "sliding_dropdown_btn" ) {
                     $('.sliding_dropdown_container').toggle('slide', { direction: "left" }, 500);
                 }
-                  
-              }
 
-              $( document ).click(function(event) {
-                  closeMenuPopUs(event);
-              });
+            }
 
-              $(document).on('click', ".dropdown_ul_text ", function (event) {
-                  var campaignDropdownId = $("#campaignDropdown");
-                  var campaignsListId = $("#campaigns_list");
-                  closeMenuPopUs(event);
-                  if(event.target.id == 'performance_download_btn') {
-                      if(campaignDropdownId.is(':visible')) {
-                          campaignsListId.hide();
-                      }
-                  }
+            $( document ).click(function(event) {
+                closeMenuPopUs(event);
+            });
 
-                  if(event.target.id == 'strategy_dropdown') {
-                      if(campaignDropdownId.is(':visible')) {
-                          campaignsListId.hide();
-                      }
-                  }
+            $(document).on('click', ".dropdown_ul_text ", function (event) {
+                var campaignDropdownId = $("#campaignDropdown");
+                var campaignsListId = $("#campaigns_list");
+                closeMenuPopUs(event);
+                if(event.target.id == 'performance_download_btn') {
+                    if(campaignDropdownId.is(':visible')) {
+                        campaignsListId.hide();
+                    }
+                }
 
-              });
-              
-              $(window).load(function(){
+                if(event.target.id == 'strategy_dropdown') {
+                    if(campaignDropdownId.is(':visible')) {
+                        campaignsListId.hide();
+                    }
+                }
+
+            });
+
+            $(window).load(function(){
                 $(".main_navigation_holder .main_nav_dropdown .accountsList .dropdown-menu").css('max-height', $(window).height() / 4 * 3 - 130 + 'px');
-              });
-              
+            });
+
 
         })
 

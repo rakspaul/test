@@ -46,17 +46,17 @@
                         <div class="campWidgets">
                             <span class="icon-task"></span>
                         </div>
-			            <div class="col-md-12 zeroPadding">
-			                <div class="zeroPadding dropdown-workflow pull-right" style="margin-left: 10px;">
-				                <div class="dropdown">
-				                    <button class="btn btn-default dropdown-toggle"
+                        <div class="col-md-12 zeroPadding">
+                            <div class="zeroPadding dropdown-workflow pull-right" style="margin-left: 10px;">
+                                <div class="dropdown">
+                                    <button class="btn btn-default dropdown-toggle"
                                             type="button"
                                             data-toggle="dropdown"
                                             aria-haspopup="true"
                                             aria-expanded="true">
-					                    <span class="icon-more-options"></span>
-				                    </button>
-				                    <ul class="dropdown-menu" id="moreOptions" style="right: 0; left: initial;">
+                                        <span class="icon-more-options"></span>
+                                    </button>
+                                    <ul class="dropdown-menu" id="moreOptions" style="right: 0; left: initial;">
                                         <li><a ng-click="editCampaign(workflowData.campaignData)" data-ng-bind="textConstants.EDIT"></a></li>
                                         <li class="disabled" ng-click="cancelAdPause()">
                                             <a data-ng-bind="textConstants.WF_PAUSE"></a></li>
@@ -65,17 +65,17 @@
                                         <li>
                                             <a class="available" id="archiveAdbtn" data-ng-bind="textConstants.WF_ARCHIVE" ng-click="cancelArchiveCampaign()"></a>
                                         </li>
-                                     </ul>
-				                </div>
-			                </div>
-			                <div class="pull-right">
-				                <button type="button"
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="pull-right">
+                                <button type="button"
                                         class="btn btn-primary pull-right"
                                         id="pushCampaignBtn"
                                         ng-disabled="disablePushBtn" data-ng-bind="textConstants.WF_PUSH_CAMPAIGN">
                                 </button>
-			                </div>
-			            </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="col-md-12 zeroPadding campSettingOverView">
@@ -201,49 +201,49 @@
                         </div>
                         <!--Start of group individual ads into groups-->
                         <div class="col-md-12 adGroupCreate" ng-show="showIndividualAds">
-                        <form id="createIndependantAdsGrp" name="createIndependantAdsGrp"  novalidate>
-                            <div class="adGroupCreateForm">
-                                <h1 class="col-md-12 zeroPadding" data-ng-bind="textConstants.CREATEADGRP"></h1>
-                                <div class="col-md-6 zeroPadding">
-                                    <label for="nameIndividualAdGroup" class="col-sm-12 control-label labelQuestTxt" data-ng-bind="textConstants.NAMEADGROUP"></label>
-                                    <label class="col-sm-12 control-label greyTxt miniLabels" data-ng-bind="textConstants.ADGROUPNAME"></label>
-                                    <div class="form-group col-sm-9 zeroPadding" show-errors='{showSuccess: true}'>
-                                        <input type="text"
-                                               class="form-control"
-                                               id="nameIndividualAdGroup"
-                                               remove-special-character='remove-special-character'
-                                               name="adIGroupName"
-                                               ng-model="adIGroupName"
-                                               maxlength="250"
-                                               placeholder="Enter Ad Group Name in this field up to 250 Characters"
-                                               required/>
-                                        <label ng-if="createIndependantAdsGrp.adIGroupName.$error.required"
-                                               class="col-sm-12 control-label greyTxt errorLabel" data-ng-bind="textConstants.ENTERADGRP"></label>
-                                    </div>
-                                </div>
-                                <div class="col-md-4 zeroPadding">
-                                    <label for="dateIndividualAdGroup"
-                                           class="col-sm-12 control-label labelQuestTxt" data-ng-bind="textConstants.LIKEADSRUN"></label>
-                                    <div class="span4 col-md-12 input-daterange input-group date pull-left"
-                                         id="datepickerIndividual">
-                                        <div class="col-md-12 dateWrapper zeroPadding">
-                                            <div class="dateContainer">
-                                                <label class="col-sm-12 control-label greyTxt miniLabels" data-ng-bind="textConstants.START_DATE">
-                                                </label>
-                                                <input type="text"
-                                                       id="individualAdsStartDateInput"
-                                                       placeholder="MM/DD/YYYY"
-                                                       class="form-control"
-                                                       readonly name="lowestStartTime"
-                                                       required/>
-                                            </div>
-                                            <div class="dateContainer form-group" style="padding-left: 10px;" show-errors='{showSuccess: true}'>
-                                                <label class="col-sm-12 control-label greyTxt miniLabels" data-ng-bind="textConstants.END_DATE"></label>
-                                                <input type="text" id="individualAdsEndDateInput" placeholder="MM/DD/YYYY" class="form-control" readonly  name="highestEndTime" ng-model="highestEndTime"  required/>
-                                                <label ng-if="createIndependantAdsGrp.highestEndTime.$error.required"  class="col-sm-12 control-label greyTxt errorLabel" data-ng-bind="textConstants.SELENDDATE"></label>
-                                            </div>
-
+                            <form id="createIndependantAdsGrp" name="createIndependantAdsGrp"  novalidate>
+                                <div class="adGroupCreateForm">
+                                    <h1 class="col-md-12 zeroPadding" data-ng-bind="textConstants.CREATEADGRP"></h1>
+                                    <div class="col-md-6 zeroPadding">
+                                        <label for="nameIndividualAdGroup" class="col-sm-12 control-label labelQuestTxt" data-ng-bind="textConstants.NAMEADGROUP"></label>
+                                        <label class="col-sm-12 control-label greyTxt miniLabels" data-ng-bind="textConstants.ADGROUPNAME"></label>
+                                        <div class="form-group col-sm-9 zeroPadding" show-errors='{showSuccess: true}'>
+                                            <input type="text"
+                                                   class="form-control"
+                                                   id="nameIndividualAdGroup"
+                                                   remove-special-character='remove-special-character'
+                                                   name="adIGroupName"
+                                                   ng-model="adIGroupName"
+                                                   maxlength="250"
+                                                   placeholder="Enter Ad Group Name in this field up to 250 Characters"
+                                                   required/>
+                                            <label ng-if="createIndependantAdsGrp.adIGroupName.$error.required"
+                                                   class="col-sm-12 control-label greyTxt errorLabel" data-ng-bind="textConstants.ENTERADGRP"></label>
                                         </div>
+                                    </div>
+                                    <div class="col-md-4 zeroPadding">
+                                        <label for="dateIndividualAdGroup"
+                                               class="col-sm-12 control-label labelQuestTxt" data-ng-bind="textConstants.LIKEADSRUN"></label>
+                                        <div class="span4 col-md-12 input-daterange input-group date pull-left"
+                                             id="datepickerIndividual">
+                                            <div class="col-md-12 dateWrapper zeroPadding">
+                                                <div class="dateContainer">
+                                                    <label class="col-sm-12 control-label greyTxt miniLabels" data-ng-bind="textConstants.START_DATE">
+                                                    </label>
+                                                    <input type="text"
+                                                           id="individualAdsStartDateInput"
+                                                           placeholder="MM/DD/YYYY"
+                                                           class="form-control"
+                                                           readonly name="lowestStartTime"
+                                                           required/>
+                                                </div>
+                                                <div class="dateContainer form-group" style="padding-left: 10px;" show-errors='{showSuccess: true}'>
+                                                    <label class="col-sm-12 control-label greyTxt miniLabels" data-ng-bind="textConstants.END_DATE"></label>
+                                                    <input type="text" id="individualAdsEndDateInput" placeholder="MM/DD/YYYY" class="form-control" readonly  name="highestEndTime" ng-model="highestEndTime"  required/>
+                                                    <label ng-if="createIndependantAdsGrp.highestEndTime.$error.required"  class="col-sm-12 control-label greyTxt errorLabel" data-ng-bind="textConstants.SELENDDATE"></label>
+                                                </div>
+
+                                            </div>
                                         <span class="col-md-12 input-group-addon">
                                             <div class="calenderIcon">
                                                 <span class="icon-calendar"></span>
@@ -252,25 +252,25 @@
                                                 <span class="icon-calendar"></span>
                                             </div>
                                         </span>
+                                        </div>
                                     </div>
+                                    <div class="col-md-2 zeroPadding" style="margin-top: 75px;">
+                                        <button type="submit"
+                                                class="btn btn-primary pull-right"
+                                                id="groupIndividual"
+                                                ng-disabled="createIndependantAdsGrp.$invalid"
+                                                ng-click="createIndependantAdsGroup()" data-ng-bind="textConstants.SAVE">
+                                        </button>
+                                        <span class="pull-right secondary_txt" ng-click="groupIndividualAds()" data-ng-bind="textConstants.CANCEL"></span>
+                                    </div>
+                                    <div id="independantMessage" data-ng-bind="independantGroupMessage"></div>
                                 </div>
-                                <div class="col-md-2 zeroPadding" style="margin-top: 75px;">
-                                    <button type="submit"
-                                            class="btn btn-primary pull-right"
-                                            id="groupIndividual"
-                                            ng-disabled="createIndependantAdsGrp.$invalid"
-                                            ng-click="createIndependantAdsGroup()" data-ng-bind="textConstants.SAVE">
-                                    </button>
-                                    <span class="pull-right secondary_txt" ng-click="groupIndividualAds()" data-ng-bind="textConstants.CANCEL"></span>
-                                </div>
-                                <div id="independantMessage" data-ng-bind="independantGroupMessage"></div>
-                            </div>
-                        </form>
+                            </form>
                         </div>
                         <!--END of group individual ads into groups-->
 
                         <div class="singleCardWrap active">
-                             <div class="overlay"></div>
+                            <div class="overlay"></div>
                             <!--=== Create BTN Ad ===-->
                             <div class="col-md-3 adModule adCreateBtn" ng-click="navigateToAdCreatePage()">
                                 <div class="col-md-12">
@@ -343,7 +343,7 @@
                                                   (adsData.rateValue | currency:undefined) :
                                                   textConstants.WF_NOT_SET}}
                                               </span>
-                                         </div>
+                                        </div>
                                         <div class="col-md-4 zeroPadding text-center">
                                              <span class="col-md-12 text-center adTxtGray zeroPadding" data-ng-bind="textConstants.BUDGET">
                                              </span>
