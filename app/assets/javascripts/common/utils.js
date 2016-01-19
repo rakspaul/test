@@ -834,13 +834,6 @@ angObj.directive('truncateTextWithHover', function (campaignListService) {
   angObj.filter("nrFormat", function () {
     return function (value, key) {
       
-      if(value == undefined || _.isNaN(value)) {
-        return ;
-      }
-      if(value == "NA") {
-        return "NA" ;
-      }
-
       var y = Math.abs(value);
       if(y <= 0) {
         return y;
