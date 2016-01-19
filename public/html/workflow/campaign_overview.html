@@ -372,11 +372,9 @@
                                     </div>
                                 </div>
                                 <!--Abi 3 Classes for color label for adStatus span are labelPush labelDraft labelNew-->
-                                <span class="pull-right adStatus {{adsData.state.toLowerCase().replace(' ','')}}" data-ng-bind="adsData.state">
-                                    <span ng-if="adsData.pushStatus=='FAILED'"
-                                          class="pull-right icon-warning"
-                                          aria-hidden="true"
-                                          title="{{adsData.pushFeedback}}">
+                                <span class="pull-right adStatus {{adsData.state.toLowerCase().replace(' ','')}}">
+                                    <span data-ng-bind="adsData.state"></span>
+                                    <span ng-if="adsData.pushStatus=='FAILED'" class="pull-right icon-warning" aria-hidden="true" title="{{adsData.pushFeedback ? adsData.pushFeedback : ''}}">
                                     </span>
                                     <span class="pull-right icon-tracking" ng-if="adsData.isTracking"></span>
                                 </span>
