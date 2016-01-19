@@ -156,6 +156,8 @@
       'controllers-campaign_create_controller':{deps: ['controllers-campaign_details_controller']},
       'controllers-help_controller':{deps: ['controllers-campaign_details_controller']},
       'controllers-campaign_overview_controller': {deps: ['controllers-campaign_create_controller']},
+      'controllers-create_adgroups_controller': {deps: ['controllers-campaign_overview_controller']},
+      'controllers-get_adgroups_controller': {deps: ['controllers-campaign_overview_controller']},
       'controllers-campaign_adcreate_controller': {deps: ['controllers-campaign_overview_controller']},
       'controllers-geo_targetting_controller': {deps: ['controllers-campaign_adcreate_controller']},
       'controllers-audience_targetting_controller': {deps: ['controllers-campaign_adcreate_controller']},
@@ -370,6 +372,9 @@
       'controllers-help_controller':'reporting/controllers/help_controller',
       'controllers-campaign_create_controller':'workflow/controllers/campaign_create_controller',
       'controllers-campaign_overview_controller':'workflow/controllers/campaign_overview_controller',
+      'controllers-create_adgroups_controller':'workflow/controllers/create_adgroups_controller',
+      'controllers-get_adgroups_controller':'workflow/controllers/get_adgroups_controller',
+
       'controllers-campaign_adcreate_controller':'workflow/controllers/campaign_adcreate_controller',
       'controllers-buying_platform_controller':'workflow/controllers/buying_platform_controller',
       'controllers-budget_delivery_controller':'workflow/controllers/budget_delivery_controller',
@@ -574,16 +579,20 @@
 
            'controllers-campaign_details_controller',
            'controllers-help_controller',
+
            'controllers-campaign_create_controller',
            'controllers-campaign_overview_controller',
+           'controllers-create_adgroups_controller',
+           'controllers-get_adgroups_controller',
+
            'controllers-campaign_adcreate_controller',
            'controllers-buying_platform_controller',
-            'controllers-budget_delivery_controller',
-            'controllers-creative_tag_controller',
-            'controllers-inventory_filters_controller',
+           'controllers-budget_delivery_controller',
+           'controllers-creative_tag_controller',
+           'controllers-inventory_filters_controller',
            'controllers-geo_targetting_controller',
-          'controllers-audience_targetting_controller',
-          'controllers-daypart_create_controller',
+           'controllers-audience_targetting_controller',
+           'controllers-daypart_create_controller',
 
 
            'controllers-creative_controller',
