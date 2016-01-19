@@ -1,28 +1,12 @@
 <div class="col-md-12 zeroPadding campSettingOverView">
     <div class="campBodyWrap">
         <div class="col-md-4 zeroPadding campTitleWrap">
-            <span class="statuslabel {{workflowData.campaignData.status|lowercase}}_bulb"></span>
-            <h4 tooltip="{{workflowData.campaignData.name}}">
+            <span class="pull-left statuslabel {{workflowData.campaignData.status|lowercase}}_bulb"></span>
+            <h4 class="pull-left" tooltip="{{workflowData.campaignData.name}}">
                 {{workflowData.campaignData.name | textEllipsis: 60}}
             </h4>
         </div>
-        <div class="col-md-1" style="padding-left: 40px; border-left: 1px solid #ddd;">
-            <span class="greyTxt" style="padding-bottom: 2px;" data-ng-bind="textConstants.OBJECTIVES"></span>
-            <div ng-if="brandIcon.length>0" class="icon-brand" style="width: 27px; text-align: center;"></div>
-            <div ng-if="performanceIcon.length>0" class="icon-performance"></div>
-        </div>
-        <div class="col-md-1 borderZero">
-            <span class="greyTxt" data-ng-bind="textConstants.DELBUDGET"></span>
-            <span>{{(workflowData.campaignData.deliveryBudget || 0) | currency:undefined:0}}</span>
-        </div>
-        <div class="col-md-2 borderZero">
-            <span class="greyTxt" data-ng-bind="textConstants.FLIGHTDATES"></span>
-            <span ng-if="workflowData.campaignData.startTime">
-                {{convertEST(workflowData.campaignData.startTime, 'DD MMM YYYY')}} - {{convertEST(workflowData.campaignData.endTime, 'DD MMM YYYY')}}
-                <span ng-if="workflowData.campaignData.numOfDays">({{workflowData.campaignData.numOfDays}} Days)</span>
-            </span>
-        </div>
-        <div class="col-md-2 borderZero">
+        <div class="col-md-2 pull-right zeroPadding">
             <div class="col-md-3 zeroPadding" style="display: none;">
                 <span class="col-md-12 zeroPadding text-center" style="color: #DEDEDE;" data-ng-bind="textConstants.CONTACTS"></span>
                 <span class="col-md-12 zeroPadding text-center" style="color: #DEDEDE;">0</span>
@@ -39,6 +23,22 @@
                 <span class="col-md-12 zeroPadding greyTxt" style="text-align: center;" data-ng-bind="textConstants.CREATIVES"></span>
                 <span class="col-md-12 zeroPadding text-center" data-ng-bind="workflowData.campaignData.creativeCount"></span>
             </div>
+        </div>
+        <div class="pull-right">
+            <div class="greyTxt" data-ng-bind="textConstants.FLIGHTDATES"></div>
+            <div ng-if="workflowData.campaignData.startTime">
+                {{utcToLocalTime(workflowData.campaignData.startTime, 'DD MMM YYYY')}} - {{utcToLocalTime(workflowData.campaignData.endTime, 'DD MMM YYYY')}}
+                <span ng-if="workflowData.campaignData.numOfDays">({{workflowData.campaignData.numOfDays}} Days)</span>
+            </div>
+        </div>
+        <div class="pull-right">
+            <span class="greyTxt" data-ng-bind="textConstants.DELBUDGET"></span>
+            <span>{{(workflowData.campaignData.deliveryBudget || 0) | currency:undefined:0}}</span>
+        </div>
+        <div class="pull-right" style="">
+            <span class="greyTxt" style="padding-bottom: 2px;" data-ng-bind="textConstants.OBJECTIVES"></span>
+            <div ng-if="brandIcon.length>0" class="icon-brand" style="width: 27px;"></div>
+            <div ng-if="performanceIcon.length>0" class="icon-performance"></div>
         </div>
     </div>
 </div>

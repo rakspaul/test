@@ -63,11 +63,13 @@ var angObj = angObj || {};
         $scope.usrRole = RoleBasedService.getClientRole() && RoleBasedService.getClientRole().ui_exclusions;
 
 
-        $scope.getMessageForDataNotAvailable = function (dataSetType) {
-            if ($scope.api_return_code == 404 || $scope.api_return_code >= 500) {
+        $scope.getMessageForDataNotAvailable = function (campaign, dataSetType) {
+            campaign = campaign || $scope.campaign;
+            if (!campaign || campaign.id == -1) {
+                return constants.MSG_DATA_NOT_AVAILABLE;
+            } else if ($scope.api_return_code == 404 || $scope.api_return_code >= 500) {
                 return constants.MSG_UNKNOWN_ERROR_OCCURED;
-            }
-            if (campaignSelectModel.durationLeft() == 'Yet to start')
+            } else if (campaignSelectModel.durationLeft() == 'Yet to start')
                 return constants.MSG_CAMPAIGN_YET_TO_START;
             else if (campaignSelectModel.daysSinceEnded() > 1000)
                 return constants.MSG_CAMPAIGN_VERY_OLD;
@@ -103,9 +105,9 @@ var angObj = angObj || {};
             var tab = $scope.selected_tab.substr(0, 1).toUpperCase() + $scope.selected_tab.substr(1);
 
             var errorHandlerForPerformanceTab = function (result) {
-                if (tab === 'Cost' && result && result.status === 204) {
-                    $scope.isCostModelTransparent = true;
-                }
+//                if ((tab === 'Cost') && result && result.status === 204) {
+//                    $scope.isCostModelTransparent = true;
+//                }
                 $scope['dataNotFoundFor'+tab] = true;
             }
 
@@ -114,16 +116,16 @@ var angObj = angObj || {};
             dataService.fetch(url).then(function (result) {
                 $scope.strategyLoading = false;
                 if (result.status === "OK" || result.status === "success") {
-                    $scope.isCostModelTransparent = true;
+             //       $scope.isCostModelTransparent = true;
                     $scope.performanceBusy = false;
                     $scope.videoMode = true;
                     $scope.costBusy = false;
                     $scope.viewabilityBusy = false;
 
-                    if ($scope.isCostModelTransparent === false && result.data.data.platform_metrics[tab.toLowerCase()].length === 0) {
+                    if (/*$scope.isCostModelTransparent === false && */result.data.data.length === 0) {
                         errorHandlerForPerformanceTab();
                     } else {
-                        $scope.isCostModelTransparentMsg = result.data.data.message;
+                      //  $scope.isCostModelTransparentMsg = result.data.data.message;
                         if (Number($scope.selectedStrategy.id) >= 0) {
                             // strategy selected
                             $scope['platformData'] = _.filter(result.data.data, function (item) {

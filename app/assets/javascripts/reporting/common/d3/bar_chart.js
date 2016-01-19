@@ -27,6 +27,7 @@
                         }
 
                         var widgetElem = elem.find(".barChartWidget");
+                        widgetElem.empty();
                         var containerWidthScreen = elem.parent().width() - 25 ,
                             chartScreen,
                             widthScreen = containerWidthScreen - (chartData.widthToSubtract || 28),
@@ -45,7 +46,7 @@
                         }
                         chartScreen = d3.select(widgetElem[0])
                             .append('svg')
-                            .attr('class', 'barChart')
+                            .attr('class', 'chart')
                             .attr('width', widthScreen )
                             .attr('height', 200);
 

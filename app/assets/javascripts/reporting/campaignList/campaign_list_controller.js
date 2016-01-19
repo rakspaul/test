@@ -4,6 +4,7 @@
   campaignListModule.controller('CampaignListController', function($scope,  $rootScope, kpiSelectModel ,  campaignListModel, campaignSelectModel, strategySelectModel, utils, $location, _, constants, brandsModel, loginModel, analytics, gaugeModel, RoleBasedService) {
     //Hot fix to show the campaign tab selected
     $(".main_navigation").find('.active').removeClass('active').end().find('#campaigns_nav_link').addClass('active');
+    $(".main_navigation_holder").find('.active_tab').removeClass('active_tab') ;
     $scope.campaigns = new campaignListModel();
 
     $scope.sortReverse = false;
@@ -19,6 +20,8 @@
         //$scope.campaigns.fetchData();
     });
 
+    $("html").css('background', '#fff');
+    
     var selectedBrand = brandsModel.getSelectedBrand();
     $scope.isAgencyCostModelTransparent = loginModel.getIsAgencyCostModelTransparent();
 
@@ -104,7 +107,7 @@
       return utils.highlightSearch(text, search);
     };
      $(function() {
-        $( "#cost_block,#performance_block" ).scroll(function(){
+        $( "#cost_block" ).scroll(function(){
              var window_scrollTop = $(window).scrollTop();
 /*             var scroll_to_element= $(".squaredFour").offset().top -15;
              if(scroll_to_element < window_scrollTop){

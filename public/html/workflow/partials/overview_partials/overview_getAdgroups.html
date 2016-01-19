@@ -9,16 +9,16 @@
             <span class="pull-left adGroupTxt">
                 <span class="icon-calendar"></span>
                 <span class="pull-left">
-                    {{convertEST(adGroupsData.adGroup.startTime, 'ddd DD MMM YYYY')}} - {{convertEST(adGroupsData.adGroup.endTime,'ddd DD MMM YYYY')}} ({{numOfDays(adGroupsData.adGroup.startTime,adGroupsData.adGroup.endTime)}}days)
+                    {{utcToLocalTime(adGroupsData.adGroup.startTime, 'ddd DD MMM YYYY')}} - {{utcToLocalTime(adGroupsData.adGroup.endTime,'ddd DD MMM YYYY')}} ({{numOfDays(adGroupsData.adGroup.startTime,adGroupsData.adGroup.endTime)}} Days)
                 </span>
             </span>
         </div>
 
         <div class="col-md-6 zeroPadding pull-right">
-            <span class="adGroupTxtSecondary">Ready <p class="active">{{(adGroupsData.READY || 0)}}</p></span>
-            <span class="adGroupTxtSecondary">Scheduled <p>{{(adGroupsData.SCHEDULED || 0)}}</p></span>
-            <span class="adGroupTxtSecondary">In Flight <p>{{(adGroupsData.IN_FLIGHT ||0)}}</p></span>
-            <span class="adGroupTxtSecondary">Total Ads <p>{{adGroupsData.noOfAds}}</p></span>
+            <span class="adGroupTxtSecondary">Ready <p class="{{ !adGroupsData.READY ? 'active' : '' }}">{{(adGroupsData.READY || 0)}}</p></span>
+            <span class="adGroupTxtSecondary">Scheduled <p class="{{ !adGroupsData.SCHEDULED ? 'active' : '' }}">{{(adGroupsData.SCHEDULED || 0)}}</p></span>
+            <span class="adGroupTxtSecondary">In Flight <p class="{{ !adGroupsData.IN_FLIGHT ? 'active' : '' }}">{{(adGroupsData.IN_FLIGHT || 0)}}</p></span>
+            <span class="adGroupTxtSecondary">Total Ads <p class="{{ !adGroupsData.noOfAds ? 'active' : '' }}">{{adGroupsData.noOfAds || 0}}</p></span>
         </div>
     </div>
 
@@ -35,17 +35,13 @@
             </div>
         </div>
         <!--=== Single Ad Ready ===-->
-        <!--<div class="col-md-3 adModule" ng-repeat="adsData in workflowData.getADsForGroupData track by adsData.id ">-->
         <div class="col-md-3 adModule" ng-repeat="adsData in workflowData.getADsForGroupData[$index+1] track by adsData.id" ng-click="adsData.state=='DEPLOYING' ? '': goEdit(adsData)">
-        <!--<div class="col-md-3 adModule" ng-repeat="adsData in workflowData.getADsForGroupData[$index+1] track by adsData.id" ng-click='goEdit(adsData)'>-->
-        <span class="icon-settings"></span>
-        <!--<div ng-repeat="index in adsData">-->
             <div class="col-md-12 adTitle">
-                <img ng-src="{{adsData.platform.iconUrl}}" height="16" class="adIconWidget" ng-show="{{(adsData.platform)}}" title="{{adsData.platform.displayName | uppercase}}"/>
+                <img ng-src="{{adsData.platform.iconUrl}}" height="16" class="adIconWidget" ng-show="adsData.platform" title="{{adsData.platform.displayName | uppercase}}"/>
                 <span class="greyTxt adDisplay">{{adsData.platform.displayName}}</span>
                 <!--<span class="pull-left">ID: {{adsData.id}}</span>-->
-                <span class="greyTxt adDisplay" ng-show="{{!(adsData.platform)}}">Platform Not Set</span>
-                <span class="greyTxt adDisplay" ng-show="{{!(adsData.sourceId)}}">(NOT PUSHED)</span>
+                <span class="greyTxt adDisplay" ng-show="!(adsData.platform)">Platform Not Set</span>
+                <span class="greyTxt adDisplay" ng-show="!(adsData.sourceId)">(NOT PUSHED)</span>
             </div>
             <div class="col-md-12" style="padding: 0px 20px 20px 20px;">
                 <div class="col-md-12 zeroPadding cardTopLayer">
@@ -53,8 +49,8 @@
                         <div style="word-wrap: break-word;" tooltip="{{adsData.name}}">{{adsData.name | textEllipsis: 60}}</div>
                     </h4>
                     <span ng-if="adsData.adFormat" class="glyphicon glyphicon-{{getAdFormatIconName(adsData.adFormat)}} pull-right" aria-hidden="true"></span>
-                    <span class="pull-left adTxtGray dateAd" ng-if="adsData.startTime && adsData.endTime">{{convertEST(adsData.startTime, 'DD MMM YYYY')}} - {{convertEST(adsData.endTime,'DD MMM YYYY')}}</span>
-                    <span class="pull-left adTxtGray dateAd" ng-show="{{!(adsData.startTime)}}">Flight Date Not Set</span>
+                    <span class="pull-left adTxtGray dateAd" ng-if="adsData.startTime && adsData.endTime">{{utcToLocalTime(adsData.startTime, 'DD MMM YYYY')}} - {{utcToLocalTime(adsData.endTime,'DD MMM YYYY')}}</span>
+                    <span class="pull-left adTxtGray dateAd" ng-show="!(adsData.startTime)">Flight Date Not Set</span>
                 </div>
 
                 <div class="spacer">
@@ -63,7 +59,7 @@
                 <div class="col-md-12 zeroPadding cardMidLayer">
                     <div class="col-md-4 zeroPadding text-center">
                         <span class="col-md-12 text-center adTxtGray zeroPadding">{{adsData.budgetType ? (adsData.budgetType | toPascalCase) : textConstants.WF_IMPS}}</span>
-                        <span class="col-md-12 text-center zeroPadding">{{adsData.impression_clicks_actions ? (adsData.impression_clicks_actions | nrFormat) : textConstants.WF_NOT_SET}}</span>
+                        <span class="col-md-12 text-center zeroPadding">{{adsData.calculatedValue ? (adsData.calculatedValue | nrFormat) : textConstants.WF_NOT_SET}}</span>
                     </div>
                      <div class="col-md-4 zeroPadding text-center">
                         <span class="col-md-12 text-center adTxtGray zeroPadding">{{adsData.rateType ? adsData.rateType : textConstants.CPM}}</span>
@@ -79,22 +75,21 @@
                     <div class="col-md-12"></div>
                 </div>
                 <div class="col-md-12 zeroPadding" style="margin-bottom: 10px;">
-                    <span class="col-md-12 text-left adTxtGray zeroPadding">Creative Tags ({{adsData.creatives.length || 0}})</span>
-                    <p style="margin: 0; text-transform: lowercase;">{{appendSizes(adsData.creatives)}}</p>
+                    <span class="col-md-12 text-left adTxtGray zeroPadding">Creative ({{adsData.creatives.length || 0}})</span>
+                    <p style="margin: 0; text-transform: lowercase;" >
+                        <span ng-bind-html="appendSizes(adsData.creatives)" ></span>
+                    </p>
                 </div>
                 <div class="col-md-12 zeroPadding">
                     <span class="col-md-12 text-left adTxtGray zeroPadding">{{ textConstants.TARGETING }}</span>
-
-                    <span>{{adsData.targets.geoTargets.REGION.geoTargetList.length > 0 || adsData.targets.geoTargets.DMA.geoTargetList.length > 0|| adsData.targets.geoTargets.CITY.geoTargetList.length > 0 ? 'Geo': textConstants.WF_NOT_SET}}</span>
+                    <span data-ng-bind="displaySelectedTargets(adsData)"></span>
                 </div>
             </div>
-            <!--Abi 3 Classes for color label for adStatus span are labelPush labelDraft labelNew-->
             <span class="pull-right adStatus {{adsData.state.toLowerCase().replace(' ','')}}">
                 {{adsData.state}}
             <span ng-if="adsData.pushStatus=='FAILED'" class="pull-right icon-warning" aria-hidden="true" title="{{adsData.pushFeedback}}"></span>
             <span class="pull-right icon-tracking" ng-if="adsData.isTracking"></span>
             </span>
-        <!--</div>-->
         </div>
     </div>
 </div>

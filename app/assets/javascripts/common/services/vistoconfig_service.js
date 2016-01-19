@@ -6,10 +6,11 @@
           'smartphone'  : 'icon-mobile'  ,
           'mobile'      : 'icon-mobile'  ,
           'tv'          : 'icon-desktop' ,
-          'video'       : 'icon-video' ,
+          'video'       : 'icon-video'   ,
           'set-top box' : 'icon-desktop' ,
           'tablet'      : 'icon-tablet'  ,
           'other'       : 'icon-image'   ,
+          'social'      : 'icon-social'  ,
           'display'     : 'icon-desktop' ,
           'DISPLAY'     : 'icon-desktop'
       }
@@ -20,13 +21,23 @@
           'smartphone'  : 'icon-mobile'  ,
           'mobile'      : 'icon-mobile'  ,
           'tv'          : 'icon-desktop' ,
-          'video'       : 'icon-video' ,
+          'video'       : 'icon-video'   ,
+          'social'      : 'icon-social'  ,
           'set-top box' : 'icon-desktop' ,
           'tablet'      : 'icon-tablet'  ,
           'other'       : 'icon-image'   ,
           'display'     : 'icon-desktop' ,
           'DISPLAY'     : 'icon-desktop'
       }
+
+      this.PERFORMANCE_LINK= '/performance';
+      this.PLATFORM_LINK= '/platform';
+      this.COST_LINK = '/cost';
+      this.INVENTORY_LINK = '/inventory';
+      this.QUALITY_LINK = '/quality';
+      this.OPTIMIZATION_LINK = '/optimization';
+      this.MEDIA_PLANS_LINK = '/mediaplans'
+
   };
 
   commonModule.service("vistoconfig", vistoconfig);

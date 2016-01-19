@@ -33,7 +33,7 @@
 
             <div class="common-load-icon_viewability"  ng-show="strategyLoading && selectedCampaign.id != -1"></div>
             <div class="cost_container" ng-hide="strategyLoading && selectedCampaign.id != -1">
-                <div class="no_data_found" ng-if="!strategyFound" ng-bind-html="getMessageForDataNotAvailable('costs')"></div>
+                <div class="no_data_found" ng-if="!strategyFound" ng-bind-html="getMessageForDataNotAvailable(selectedCampaign)"></div>
                 <div class="reports_main_page_holder" ng-show="strategyFound">
                     <div class="reports_cost_header_holder">
                         <!--cost filter -->
@@ -65,17 +65,13 @@
                         <!--cost  filter ends-->
 
                         <div class="cost_transparency_container">
-                            <div class="cost_opaque_msg" ng-if="!isCostModelTransparent">
-                                <span class="cost_opaque_txt" ng-bind-html="isCostModelTransparentMsg"></span>
-                            </div>
-
-                            <div class="each_cost_row_holder strategy_total_row" ng-if="isCostModelTransparent">
+                            <div class="each_cost_row_holder strategy_total_row">
                                 <div class="each_cost_row">
-                                    <div class="no_data_found_cost_strategy" ng-if="dataNotFound" ng-bind-html="getMessageForDataNotAvailable('costs')"></div>
+                                    <div class="no_data_found_cost_strategy" ng-if="dataNotFound" ng-bind-html="getMessageForDataNotAvailable(selectedCampaign)"></div>
                                     <div class="common-load-icon" ng-show="strategyCostBusy"></div>
                                     <div class="clearfix each_cost_heading" ng-if="!dataNotFound">
                                         <span class="pull-left text_next_margin_per">{{strategyHeading}}</span>
-                                        <span class="margin_percentage" ng-if ="(strategyMarginValue >=0)">{{strategyMarginValue}}{{strategyMarginUnit}}</span>
+                                        <!-- <span class="margin_percentage" ng-if ="(strategyMarginValue >=0)">{{strategyMarginValue}}{{strategyMarginUnit}}</span> -->
                                     </div>
                                
                                     <div class="clearfix cost_col_container cost_cols_holder" ng-repeat="strategy in strategyCostData track by $index" ng-if="!dataNotFound">

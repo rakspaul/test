@@ -1,5 +1,5 @@
 (function () {
-  'use strict';
+    'use strict';
     commonModule.controller('HeaderController', function ($scope, $rootScope, $http, loginModel, $timeout, $route, $modal, $cookieStore, $location , constants, domainReports , campaignSelectModel, RoleBasedService, workflowService,advertiserModel, tmhDynamicLocale ) {
 
         $scope.user_name = loginModel.getUserName();
@@ -53,7 +53,7 @@
                         clientId = $scope.accountsData[0].id;
                     }
                     $scope.getClientData(clientId);
-                   //$rootScope.$broadcast(constants.ACCOUNT_CHANGED, clientId);
+                    //$rootScope.$broadcast(constants.ACCOUNT_CHANGED, clientId);
                 }
             });
         }
@@ -61,7 +61,7 @@
         $scope.getClientData = function(clientId) {
             workflowService.getClientData(clientId).then(function (response) {
                 RoleBasedService.setClientRole(response);//set the type of user here in RoleBasedService.js
-                RoleBasedService.setCurrency();
+                RoleBasedService.setCurrencySymbol();
             });
         }
 
@@ -94,6 +94,7 @@
                             accountChangeAction: function () {
                                 return function () {
                                     loginModel.setSelectedClient({'id': id, 'name': name});
+                                    $scope.getClientData(id);
                                     showSelectedClient(event, name);
                                     $rootScope.clientName = name;
                                     if(moduleObj.redirect) {
@@ -141,31 +142,34 @@
 
             $location.url(url);
         };
-        
+
         $scope.show_hide_nav_dropdown = function(event,arg,behaviour) {
-          var elem = $(event.target);
-          if($("#" + arg + "-menu").is(":visible") == false ) {
-            $(".main_nav_dropdown").hide() ;
-            $("#" + arg + "-menu").fadeIn();
-            $(".main_navigation_holder").find(".selected").removeClass("selected") ;
-            elem.closest("#"+ arg +"_nav_link").addClass("selected") ;
-          } else {
-            if(behaviour == "click") {
-               // $(".main_nav_dropdown").fadeOut() ;
-                $(".main_navigation_holder").find(".selected").addClass("selected") ;
+            var elem = $(event.target);
+            if($("#" + arg + "-menu").is(":visible") == false ) {
+                $(".main_nav_dropdown").hide() ;
+                $("#" + arg + "-menu").fadeIn();
+                $(".main_navigation_holder").find(".selected").removeClass("selected") ;
+                elem.closest("#"+ arg +"_nav_link").addClass("selected") ;
+                $('.each_nav_link.active .arrowSelect').hide();
+            } else {
+                if(behaviour == "click") {
+                    //  $(".main_nav_dropdown").fadeOut() ;
+                    $(".main_navigation_holder").find(".selected").addClass("selected") ;
+                }
             }
-          }   
-          
+
         } ;
 
         $scope.hide_navigation_dropdown = function(event) {
-           var elem = $(event.target);
-           setTimeout(function(){
-              if(  !( $(".main_navigation_holder").is(":hover") || $("#user-menu").is(":hover") || $("#reports-menu").is(":hover") ) ) { 
-                   $(".main_nav_dropdown").fadeOut() ;
-                   $(".main_navigation_holder").find(".selected").removeClass("selected") ; 
-               } 
-          }, 1500);
+            var elem = $(event.target);
+            setTimeout(function(){ $('.each_nav_link.active .arrowSelect').fadeIn(); }, 800);
+            setTimeout(function(){
+                if(  !( $(".main_navigation_holder").is(":hover") || $("#user-menu").is(":hover") || $("#reports-menu").is(":hover") ) ) {
+                    $(".main_nav_dropdown").fadeOut() ;
+                    $(".main_navigation_holder").find(".selected").removeClass("selected") ;
+                }
+            }, 1500);
+
         } ;
 
         $scope.logout = function() {
@@ -195,17 +199,7 @@
                     reportTypeDropdownId = $("#reportTypeDropdown"),
                     regionTooltip = $(".regionCityTab").find(".common_tooltip"),
                     quickFilters = $(".sliding_dropdown_container");
-                // if($(e).closest(".report_builder_container").length) {
-                //     var dropdownMenu = $(".left_border .dropdown .dropdown-menu");
-                //     dropdownMenu.css("display", "none");
-                //     if ($(e).closest(".dropdown").length && $(e).closest(".left_border").length) {
-                //         var attr = $(e).attr('ng-click'),
-                //             attr = (typeof attr == "undefined" || attr == null) ? false : attr;
-                //         if ((attr && attr.search("addSearch") != -1) || $(e).attr("class") == "arrow_img" || $(e).attr("class") == "dd_txt ng-binding") {
-                //             dropdownMenu.css("display", "block");
-                //         }
-                //     }
-                // }
+
                 if(cdbDropdownId.is(':visible') && event.target.id != "durationMenuText") {
                     cdbDropdownId.closest(".each_filter").removeClass("filter_dropdown_open");
                     cdbDropdownId.hide();
@@ -242,30 +236,35 @@
                 if(quickFilters.is(':visible') && quickFilterId != "sliding_dropdown_container" && event.target.id != "sliding_dropdown_btn" ) {
                     $('.sliding_dropdown_container').toggle('slide', { direction: "left" }, 500);
                 }
-                  
-              }
 
-              $( document ).click(function(event) {
-                  closeMenuPopUs(event);
-              });
+            }
 
-              $(document).on('click', ".dropdown_ul_text ", function (event) {
-                  var campaignDropdownId = $("#campaignDropdown");
-                  var campaignsListId = $("#campaigns_list");
-                  closeMenuPopUs(event);
-                  if(event.target.id == 'performance_download_btn') {
-                      if(campaignDropdownId.is(':visible')) {
-                          campaignsListId.hide();
-                      }
-                  }
+            $( document ).click(function(event) {
+                closeMenuPopUs(event);
+            });
 
-                  if(event.target.id == 'strategy_dropdown') {
-                      if(campaignDropdownId.is(':visible')) {
-                          campaignsListId.hide();
-                      }
-                  }
+            $(document).on('click', ".dropdown_ul_text ", function (event) {
+                var campaignDropdownId = $("#campaignDropdown");
+                var campaignsListId = $("#campaigns_list");
+                closeMenuPopUs(event);
+                if(event.target.id == 'performance_download_btn') {
+                    if(campaignDropdownId.is(':visible')) {
+                        campaignsListId.hide();
+                    }
+                }
 
-              });
+                if(event.target.id == 'strategy_dropdown') {
+                    if(campaignDropdownId.is(':visible')) {
+                        campaignsListId.hide();
+                    }
+                }
+
+            });
+
+            $(window).load(function(){
+                $(".main_navigation_holder .main_nav_dropdown .accountsList .dropdown-menu").css('max-height', $(window).height() / 4 * 3 - 130 + 'px');
+            });
+
 
         })
 

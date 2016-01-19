@@ -42,7 +42,7 @@
             actionChart :true
         };
 
-        $scope.isCostModelTransparent = loginModel.getIsAgencyCostModelTransparent();
+     //   $scope.isCostModelTransparent = loginModel.getIsAgencyCostModelTransparent();
 
         $scope.usrRole  = RoleBasedService.getClientRole() && RoleBasedService.getClientRole().ui_exclusions;
         $scope.isLocaleSupportUk = RoleBasedService.getClientRole().i18n && RoleBasedService.getClientRole().i18n.locale === 'en-gb';
@@ -154,8 +154,8 @@
         });
 
         //API call for campaign details
-      var clientId = loginModel.getSelectedClient().id;
-      var url = apiPaths.apiSerivicesUrl_NEW + "/clients/" + clientId + "/campaigns/" + $routeParams.campaignId;
+        var clientId = loginModel.getSelectedClient().id,
+            url = apiPaths.apiSerivicesUrl_NEW + "/clients/" + clientId + "/campaigns/" + $routeParams.campaignId;
         dataService.getSingleCampaign(url).then(function(result) {
             if (result.status == "success" && !angular.isString(result.data)) {
                 var dataArr = [result.data.data];
@@ -185,13 +185,8 @@
                     }
                 });
 
-                if($scope.isCostModelTransparent) {
-                    $scope.getCostBreakdownData($scope.campaign);
-                }
+                $scope.getCostBreakdownData($scope.campaign);
                 $scope.getPlatformData();
-                $scope.getCostViewabilityData($scope.campaign);
-                $scope.getInventoryGraphData($scope.campaign);
-                $scope.getFormatsGraphData($scope.campaign);
                 $scope.getAdSizeGraphData($scope.campaign);
                 $scope.getScreenGraphData($scope.campaign);
             } else {
@@ -496,9 +491,9 @@
                         var findOthers = _.findWhere($scope.costBreakdownChartInfo, {name: 'Other'});
                         cBreakdownChartColors.push(findOthers.colorCode);
                         cBreakdownChartData.push(findOthers.value);
-                         if(costData.cost_transparency === false) {
-                             $scope.isCostModelTransparent = false;
-                         }
+//                         if(costData.cost_transparency === false) {
+//                             $scope.isCostModelTransparent = false;
+//                         }
                          //set Up configuration for Cost breakdown chart
                          $scope.costBreakDownPieChartConfig = {data:cBreakdownChartData,width:108,height:108,widgetId:'costBreakdownWidget',colors:cBreakdownChartColors};
 
@@ -766,12 +761,12 @@
             // Campaign and strategy both are reset then fire EVENT_CAMPAIGN_STRATEGY_CHANGED event so that we just fetch strategy list and retain selected strategy.
             localStorage.setItem('isNavigationFromCampaigns', true);
             analytics.track(loginModel.getUserRole(), constants.GA_CAMPAIGN_DETAILS, 'view_report_for_strategy', loginModel.getLoginName());
-            utils.goToLocation('/performance');
+            utils.goToLocation(vistoconfig.PERFORMANCE_LINK);
         };
 
         $scope.getMessageForDataNotAvailable = function (campaign,dataSetType) {
             campaign = campaign || $scope.campaign;
-            if (!campaign) {
+            if (!campaign || campaign.id == -1) {
                 return constants.MSG_DATA_NOT_AVAILABLE;
             } else if (campaign.durationLeft() == 'Yet to start') {
                 return constants.MSG_CAMPAIGN_YET_TO_START;
@@ -804,7 +799,7 @@
             localStorage.setItem('isNavigationFromCampaigns', true);
             localStorage.setItem('selectedAction',JSON.stringify(action) );
             analytics.track(loginModel.getUserRole(), constants.GA_CAMPAIGN_DETAILS, 'activity_log_detailed_report', loginModel.getLoginName(), action.id);
-            utils.goToLocation('/optimization');
+            utils.goToLocation(vistoconfig.OPTIMIZATION_LINK);
         };
         $scope.setReportMenu = function(){
             $rootScope.$broadcast("callSetDefaultReport","Optimization Impact");
@@ -822,7 +817,7 @@
             // Campaign and strategy both are reset then fire EVENT_CAMPAIGN_STRATEGY_CHANGED event so that we just fetch strategy list and retain selected strategy.
             localStorage.setItem('isNavigationFromCampaigns', true);
             analytics.track(loginModel.getUserRole(), constants.GA_CAMPAIGN_DETAILS, 'view_activity_for_strategy', loginModel.getLoginName());
-            utils.goToLocation('/optimization');
+            utils.goToLocation(vistoconfig.OPTIMIZATION_LINK);
         };
 
         $scope.setGraphData = function(campaign, type){
@@ -835,17 +830,17 @@
             $rootScope.$broadcast(constants.EVENT_CAMPAIGN_CHANGED);
             analytics.track(loginModel.getUserRole(), constants.GA_CAMPAIGN_DETAILS, (type === 'view_report' ? type : type + '_widget'), loginModel.getLoginName());
             if (type === 'cost') {
-                utils.goToLocation('/cost');
+                utils.goToLocation(vistoconfig.COST_LINK);
             } else if (type === 'quality' || type === 'videoViewability') {
-                utils.goToLocation('/quality');
+                utils.goToLocation(vistoconfig.QUALITY_LINK);
             } else if (type === 'inventory') {
-                utils.goToLocation('/inventory');
+                utils.goToLocation(vistoconfig.INVENTORY_LINK);
             } else if (type === 'platform') {
-                utils.goToLocation('/platform');
+                utils.goToLocation(vistoconfig.PLATFORM_LINK);
             } else if (type === 'view_report' || type === 'formats' || type == 'screens' || type == 'adsizes') {
-                utils.goToLocation('/performance');
+                utils.goToLocation(vistoconfig.PERFORMANCE_LINK);
             } else {
-                utils.goToLocation('/optimization');
+                utils.goToLocation(vistoconfig.OPTIMIZATION_LINK);
             }
         };
 
@@ -1044,11 +1039,19 @@
             /*if(RoleBasedService.getUserRole().locale === 'en-gb') {
                 $('.carousel a.right').hide();
             }*/
-            var ItemsShown = 4;
-            var nextIndex;
-            var prevIndex;
+            var ItemsShown = 4,
+                nextIndex,
+                prevIndex,
+                loadLastThreeWidgets = true;
             $('.carousel a.right').click(function(){
-                if($('.carousel .item').length === 8) {
+              if (loadLastThreeWidgets) {
+                loadLastThreeWidgets = false;
+                $scope.getFormatsGraphData($scope.campaign);
+                $scope.getInventoryGraphData($scope.campaign);
+                $scope.getCostViewabilityData($scope.campaign);
+              }
+
+              if($('.carousel .item').length === 8) {
                     nextIndex = ItemsShown;
                 } else {
                     nextIndex = $('.carousel .item').length  - ItemsShown;
@@ -1077,16 +1080,145 @@
             }, 200);
             // end of hot fix for the enabling the active link in the reports dropdown
 
-        });
+            window.scrollTo(0, 0);
+            $("#error_more_comment,#error_edit_action_more_comment").hide();
+            $( ".dropdown_ul_text" ).click(function() {
+                $( ".dropdown_ul" ).toggle();
+            });
+            $(".dropdown_ul li").click( function() {
+                $(this).closest(".dropdown").find(".dd_txt").text($(this).text()) ;
+            }) ;
+            $( document ).click(function() {
+                if($(".dropdown_ul").is(':visible')) {
+                    $(".dropdown_ul").hide();
+                }
+            });
+            setTimeout(function() {
+                $('[data-toggle="tooltip"]').tooltip();
+            },5000);
+            $('#action_submit_btn,#action_comment').bind("click focus", function() {
+                var txt = $.trim(jQuery("#action_comment").val());
+                jQuery("#action_comment").val(txt);
 
-    }).run(function($rootScope,$route){
+            });
+            $('#action_comment,#action_submit_btn').bind("change keyup keydown click", function() {
+                CommentValidation('action_comment','error_more_comment');
+
+            });
+            $('#action_comment').bind("blur", function() {
+                $("#error_more_comment").hide();
+            });
+
+            //Edit actions
+
+            $('#action_save_btn,#edit_action_comment').bind("click focus", function() {
+                var txt = $.trim(jQuery("#edit_action_comment").val());
+                jQuery("#edit_action_comment").val(txt);
+
+            });
+            $('#edit_action_comment').bind("change keyup keydown click", function() {
+                CommentValidation('edit_action_comment','error_edit_action_more_comment');
+                //enable save Button
+                updateSaveBtnStatus();
+
+            });
+            $('#edit_action_comment').bind("blur", function() {
+                $("#error_edit_action_more_comment").hide();
+            });
+            //Anywhere click close the error message tooltip while create activity
+            $('body').click(function(evt){
+                if(evt.target.id == "crActivityForm")
+                    return;
+                if($(evt.target).closest('#crActivityForm').length)
+                    return;
+                $("#error_activity,#error_subtype,#error_tactic,#error_metric,#error_comment,#edit_error_comment").hide();
+            });
+            $("#action_submit_btn").click(function(){
+                $("#error_activity,#error_subtype,#error_tactic,#error_metric,#error_comment").show();
+            });
+            $("#action_save_btn").click(function(){
+                $("#edit_error_comment").show();
+            });
+
+            $('.activity_log_list').bind('scroll', function(e) {
+                var elem = $(e.currentTarget);
+                if (elem[0].scrollHeight - elem.scrollTop() + 1 == elem.outerHeight())
+                {
+                    $(".gradient_div").hide() ;
+                } else {
+                    $(".gradient_div").show() ;
+                }
+            });
+
+
+
+            var updateSaveBtnStatus = function(){
+                var txt = (jQuery("#edit_action_comment").val()).replace(/\n/g, '').replace('\\n', '');
+                var hidden_txt = jQuery("#hidden_comments").val().replace(/\n/g, '').replace('\\n', '');
+                var hidden_checkbox = jQuery("#hidden_checkbox_status").val().toString();
+                jQuery("#action_save_btn").removeAttr('disabled');
+            }
+
+            var disableSaveButton = function(){
+                jQuery("#action_save_btn").attr('disabled','disabled');
+            }
+            var CommentValidation = function(boxId,errMsgId){
+                var txtBoxId ="#"+boxId;
+                var errorMsgId="#"+errMsgId;
+                var txt = (jQuery(txtBoxId).val());
+                var max_length = $(txtBoxId).attr("maxChar");
+                var max_line = $(txtBoxId).attr("maxLine");
+                var txt_data = '';
+                var txtlength = txt.length;
+                var line = txt;
+                var split = line.split("\n");
+                var splitlength = split.length;
+                if(splitlength > max_line){
+                    for(i=0; i< max_line;i++){
+                        if(i == (parseInt(max_line)) - 1) {
+                            txt_data += split[i];
+
+                        }
+                        else{
+                            txt_data += split[i] + '\n';
+                        }
+
+                    }
+                    $(errorMsgId).show();
+                    $(errorMsgId).html('You cannot enter more than '+max_line + ' lines ');
+                    $(txtBoxId).val(txt_data);
+                    //check Limited characters
+                    if(txt.length > max_length ){
+                        $(errorMsgId).show();
+                        $(errorMsgId).html('You cannot enter more than '+max_length + ' characters ');
+                        var limited_txt = txt_data.substring(0, max_length );
+                        $(txtBoxId).val(limited_txt);
+                    }
+                    else{
+                        //$(errorMsgId).hide();
+                    }
+                }else {
+                    if(txt.length > max_length ){
+                        $(errorMsgId).show();
+                        $(errorMsgId).html('You cannot enter more than '+max_length + ' characters ');
+                        var limited_txt = txt.substring(0, max_length );
+                        $(txtBoxId).val(limited_txt);
+                    }
+                    else{
+                        $(errorMsgId).hide();
+                    }
+                }
+            }
+        });
+    }).run(function($rootScope,$route, vistoconfig){
         $rootScope.$on('$locationChangeSuccess',function(evt, absNewUrl, absOldUrl) {
-        var prevUrl = absOldUrl.substring(absOldUrl.lastIndexOf('/'));
-        var paramsObj = $route.current.params;
-        if((prevUrl =='/campaigns') && (absNewUrl != '/campaigns')) {
-            $rootScope.isFromCampaignList = true;
-        } else {
-            $rootScope.isFromCampaignList = false;
-        }
-    });});
+            var prevUrl = absOldUrl.substring(absOldUrl.lastIndexOf('/'));
+            var paramsObj = $route.current.params;
+            if((prevUrl === vistoconfig.MEDIA_PLANS_LINK) && (absNewUrl !== vistoconfig.MEDIA_PLANS_LINK)) {
+                $rootScope.isFromCampaignList = true;
+            } else {
+                $rootScope.isFromCampaignList = false;
+            }
+        });
+    });
 }());

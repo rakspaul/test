@@ -1,6 +1,4 @@
-<popup-msg ng-show="alertMessage"
-           ng-controller="popUpMsgCtr"
-           ng-init="init('alertMessage', 'WF_CAMPAIGN_ARCHIVE_FAILURE')">
+<popup-msg ng-show="alertMessage" ng-controller="popUpMsgCtr" ng-init="init('alertMessage', 'WF_CAMPAIGN_ARCHIVE_FAILURE')">
 </popup-msg>
 
 <div id="campaignCreate">
@@ -11,27 +9,25 @@
                 <div class="col-md-12 zeroPadding">
                     <div class="col-md-9 zeroPadding">
                         <div class="accountTitleTag" ng-if="workflowData.campaignData.clientName">
-                            <!--<span class="tagTitle">Account</span>
-                            <span>{{workflowData.campaignData.clientName}}</span>-->
-                            <span class="tagTitle">Advertiser</span>
-                            <span>{{workflowData.campaignData.advertiserName}}</span>
+                            <span class="tagTitle" data-ng-bind="textConstants.ADVERTISER"></span>
+                            <span data-ng-bind="workflowData.campaignData.advertiserName"></span>
                             <div class="pull-left" style="margin: 0 0 0 50px;" ng-if="workflowData.campaignData.brandName">
-                                <span class="tagTitle">Brand</span>
-                                <span class="pull-left">{{workflowData.campaignData.brandName}}</span>
+                                <span class="tagTitle" data-ng-bind="textConstants.BRAND"></span>
+                                <span class="pull-left" data-ng-bind="workflowData.campaignData.brandName"></span>
                             </div>
                         </div>
                         <div ng-if="workflowData.campaignData.status" class="campTitleWrap" >
                             <span class="statuslabel {{workflowData.campaignData.status|lowercase}}_bulb" tooltip-placement="top" tooltip="{{workflowData.campaignData.status.toLowerCase() == 'in_flight'?'In Flight':workflowData.campaignData.status.toLowerCase()  | toCamelCase }}" ></span>
 
-                            <h1 tooltip-placement="bottom" tooltip="{{workflowData.campaignData.name}}"
-                                class="overview-camp-name" ng-click="editCampaign(workflowData.campaignData)">
+                            <h1 tooltip-placement="bottom" tooltip="{{workflowData.campaignData.name}}" class="overview-camp-name"
+                                ng-click="editCampaign(workflowData.campaignData)">
                                 {{workflowData.campaignData.name | textEllipsis: 60}}
                             </h1>
                         </div>
                         <div class="col-md-12 zeroPadding">
                             <span class="campIdTime" ng-if="workflowData.campaignData.id">
                                 VID {{workflowData.campaignData.id}}  |
-                                Last Saved {{convertEST(workflowData.campaignData.updatedAt,'DD MMM YYYY  HH:mm A')}}
+                                Last Saved {{utcToLocalTime(workflowData.campaignData.updatedAt,'DD MMM YYYY  HH:mm A')}}
                                 by {{workflowData.campaignData.updatedByUser}}
                                 {{workflowData.campaignData.updatedAt}}
                             </span>
@@ -39,23 +35,15 @@
                     </div>
                     <div class="col-md-3 widgetModule">
                         <div class="campWidgets">
-                            <!--<span class="badge">2</span>-->
-                            <!--<img src="/assets/images/workflow/messaging.svg" alt="" width="25"/>-->
                             <span class="icon-message"></span>
                         </div>
                         <div class="campWidgets">
-                            <!--<span class="badge">2</span>-->
-                            <!--<img src="/assets/images/workflow/activity.svg" alt="" width="20"/>-->
                             <span class="icon-activity"></span>
                         </div>
                         <div class="campWidgets">
-                            <!--<span class="badge">2</span>-->
-                            <!--<img src="/assets/images/workflow/attachements.svg" alt="" width="20"/>-->
                             <span class="icon-attach"></span>
                         </div>
                         <div class="campWidgets">
-                            <!--<span class="badge">2</span>-->
-                            <!--<img src="/assets/images/workflow/tasks.svg" alt="" width="19"/>-->
                             <span class="icon-task"></span>
                         </div>
                         <div class="col-md-12 zeroPadding">
@@ -69,15 +57,14 @@
                                         <span class="icon-more-options"></span>
                                     </button>
                                     <ul class="dropdown-menu" id="moreOptions" style="right: 0; left: initial;">
-                                        <li><a ng-click="editCampaign(workflowData.campaignData)">Edit</a></li>
+                                        <li><a ng-click="editCampaign(workflowData.campaignData)" data-ng-bind="textConstants.EDIT"></a></li>
                                         <li class="disabled" ng-click="cancelAdPause()">
-                                            <a>{{textConstants.WF_PAUSE}}</a></li>
+                                            <a data-ng-bind="textConstants.WF_PAUSE"></a></li>
                                         <li class="disabled" ng-click="cancelAdResume()">
-                                            <a>{{textConstants.WF_RESUME}}</a></li>
-                                        <!--<li class="disabled"><a id="archiveAdbtn" ng-click="cancelAdArchive()">
-                                        {{textConstants.WF_ARCHIVE}}</a></li>-->
-                                        <li><a class="available" id="archiveAdbtn" ng-click="cancelArchiveCampaign()">
-                                            {{textConstants.WF_ARCHIVE}}</a></li>
+                                            <a data-ng-bind="textConstants.WF_RESUME"></a></li>
+                                        <li>
+                                            <a class="available" id="archiveAdbtn" data-ng-bind="textConstants.WF_ARCHIVE" ng-click="cancelArchiveCampaign()"></a>
+                                        </li>
                                     </ul>
                                 </div>
                             </div>
@@ -85,8 +72,7 @@
                                 <button type="button"
                                         class="btn btn-primary pull-right"
                                         id="pushCampaignBtn"
-                                        ng-disabled="disablePushBtn">
-                                    {{textConstants.WF_PUSH_CAMPAIGN}}
+                                        ng-disabled="disablePushBtn" data-ng-bind="textConstants.WF_PUSH_CAMPAIGN">
                                 </button>
                             </div>
                         </div>
@@ -94,35 +80,35 @@
                 </div>
                 <div class="col-md-12 zeroPadding campSettingOverView">
                     <div class="pull-left">
-                        <div class="greyTxt" >Objectives</div>
+                        <div class="greyTxt" data-ng-bind="textConstants.OBJC"></div>
                         <div class="clearfix">
                             <div class="each-objective pull-left" ng-if="brand.length>0">
                                 <span class="icon-brand"></span>
-                                <span tooltip-placement="top" tooltip="{{brandTooltip}}">{{brand[0]}}</span>
+                                <span tooltip-placement="top" tooltip="{{brandTooltip}}" data-ng-bind="brand[0]"></span>
                                 <span class="blueTxt"ng-if="(brand.length-1)>0">+{{brand.length-1}}</span>
                             </div>
                             <div class="each-objective pull-left" ng-if="performance.length>0">
                                 <span class="icon-performance"></span>
-                                <span tooltip-placement="top" tooltip="{{performanceTooltip}}">{{performance[0]}}</span>
+                                <span tooltip-placement="top" tooltip="{{performanceTooltip}}" data-ng-bind="performance[0]"></span>
                                 <span class="blueTxt" ng-if="(performance.length-1)>0">+{{performance.length-1}}</span>
                             </div>
                         </div>
                     </div>
                     <div class="pull-left">
-                        <span class="greyTxt">KPI</span>
-                        <span>{{primaryKpiSelected}}</span>
+                        <span class="greyTxt" data-ng-bind="textConstants.KPI"></span>
+                        <span data-ng-bind="primaryKpiSelected"></span>
                     </div>
                     <div class="pull-left">
-                        <span class="greyTxt">Delivery Budget</span>
+                        <span class="greyTxt" data-ng-bind="textConstants.DELBUDGET"></span>
                         <span>{{(workflowData.campaignData.deliveryBudget || 0) | currency:undefined:0}}</span>
                     </div>
                     <div class="pull-left">
-                        <span class="greyTxt">Flight Dates</span>
+                        <span class="greyTxt" data-ng-bind="textConstants.FLIGHTDATES"></span>
                         <span ng-if="workflowData.campaignData.startTime">
                             <span class="icon-calendar" style="margin: 1px 6px 0 0;"></span>
                             <span style="float: left; clear: none;">
-                                {{convertEST(workflowData.campaignData.startTime,'ddd DD MMM  YYYY')}} -
-                                {{convertEST(workflowData.campaignData.endTime,'ddd DD MMM YYYY')}}
+                                {{utcToLocalTime(workflowData.campaignData.startTime, 'ddd DD MMM  YYYY')}} -
+                                {{utcToLocalTime(workflowData.campaignData.endTime, 'ddd DD MMM YYYY')}}
                             </span>
                             <span style="clear: none; margin-left: 8px;" ng-if="workflowData.campaignData.numOfDays">
                                 ({{workflowData.campaignData.numOfDays}} Days)
@@ -135,18 +121,18 @@
                     </div-->
                     <div class="pull-left">
                         <div class="pull-left counterCol">
-                            <span class="greyTxt" style="text-align: center;">Ad Groups</span>
+                            <span class="greyTxt" style="text-align: center;" data-ng-bind="textConstants.ADGROUPS"></span>
                             <!--Abi if value is zero add this class to the span below emptyValueTxt-->
                             <span class="col-md-12 zeroPadding emptyValueTxt">
                                 {{workflowData.campaignData.adGroupCount || 0}}
                             </span>
                         </div>
                         <div class="pull-left counterCol">
-                            <span class="greyTxt" style="text-align: center;">Ads</span>
+                            <span class="greyTxt" style="text-align: center;" data-ng-bind="textConstants.ADS"></span>
                             <span class="col-md-12 zeroPadding">{{workflowData.campaignData.adsCount || 0}}</span>
                         </div>
                         <div class="pull-left counterCol">
-                            <span class="greyTxt" style="text-align: center;">Creatives</span>
+                            <span class="greyTxt" style="text-align: center;" data-ng-bind="textConstants.CREATIVES"></span>
                             <span class="col-md-12 zeroPadding emptyValueTxt">
                                 {{workflowData.campaignData.creativeCount || 0}}
                             </span>
@@ -169,10 +155,10 @@
                     </div>
                     <div class="form-group col-md-2 zeroPadding">
                         <div class="col-md-12">
-                            <span>Sort</span>
+                            <span data-ng-bind="textConstants.SORT"></span>
                             <select name='sortAds' class="form-control">
-                                <option value="latest">Latest</option>
-                                <option value="oldest">Oldest</option>
+                                <option value="latest" data-ng-bind="textConstants.LATEST"></option>
+                                <option value="oldest" data-ng-bind="textConstants.OLDEST"></option>
                             </select>
                         </div>
                     </div>
@@ -200,10 +186,11 @@
                                 <div class="col-md-12">
                                     <a ng-href="#" class="col-md-12 text-center addMaster">
                                         <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
-                                        <h2>Create Ad</h2>
+                                        <h2 data-ng-bind="textConstants.CREATEAD"></h2>
                                     </a>
                                 </div>
                             </div>
+                            <div class="overlay"></div>
                         </div>
                     </div>
                     <!--End of create groups / create independant ad box-->
@@ -216,12 +203,10 @@
                         <div class="col-md-12 adGroupCreate" ng-show="showIndividualAds">
                             <form id="createIndependantAdsGrp" name="createIndependantAdsGrp"  novalidate>
                                 <div class="adGroupCreateForm">
-                                    <h1 class="col-md-12 zeroPadding">Create Ad Group</h1>
+                                    <h1 class="col-md-12 zeroPadding" data-ng-bind="textConstants.CREATEADGRP"></h1>
                                     <div class="col-md-6 zeroPadding">
-                                        <label for="nameIndividualAdGroup" class="col-sm-12 control-label labelQuestTxt">
-                                            What is the name of your Ad Group?
-                                        </label>
-                                        <label class="col-sm-12 control-label greyTxt miniLabels">Ad Group Name</label>
+                                        <label for="nameIndividualAdGroup" class="col-sm-12 control-label labelQuestTxt" data-ng-bind="textConstants.NAMEADGROUP"></label>
+                                        <label class="col-sm-12 control-label greyTxt miniLabels" data-ng-bind="textConstants.ADGROUPNAME"></label>
                                         <div class="form-group col-sm-9 zeroPadding" show-errors='{showSuccess: true}'>
                                             <input type="text"
                                                    class="form-control"
@@ -233,20 +218,17 @@
                                                    placeholder="Enter Ad Group Name in this field up to 250 Characters"
                                                    required/>
                                             <label ng-if="createIndependantAdsGrp.adIGroupName.$error.required"
-                                                   class="col-sm-12 control-label greyTxt errorLabel">
-                                                Please enter a name for the ad group.
-                                            </label>
+                                                   class="col-sm-12 control-label greyTxt errorLabel" data-ng-bind="textConstants.ENTERADGRP"></label>
                                         </div>
                                     </div>
                                     <div class="col-md-4 zeroPadding">
                                         <label for="dateIndividualAdGroup"
-                                               class="col-sm-12 control-label labelQuestTxt">When would you like your Ads to run?</label>
+                                               class="col-sm-12 control-label labelQuestTxt" data-ng-bind="textConstants.LIKEADSRUN"></label>
                                         <div class="span4 col-md-12 input-daterange input-group date pull-left"
                                              id="datepickerIndividual">
                                             <div class="col-md-12 dateWrapper zeroPadding">
                                                 <div class="dateContainer">
-                                                    <label class="col-sm-12 control-label greyTxt miniLabels">
-                                                        {{ textConstants.START_DATE }}
+                                                    <label class="col-sm-12 control-label greyTxt miniLabels" data-ng-bind="textConstants.START_DATE">
                                                     </label>
                                                     <input type="text"
                                                            id="individualAdsStartDateInput"
@@ -256,9 +238,9 @@
                                                            required/>
                                                 </div>
                                                 <div class="dateContainer form-group" style="padding-left: 10px;" show-errors='{showSuccess: true}'>
-                                                    <label class="col-sm-12 control-label greyTxt miniLabels">{{ textConstants.END_DATE }}</label>
+                                                    <label class="col-sm-12 control-label greyTxt miniLabels" data-ng-bind="textConstants.END_DATE"></label>
                                                     <input type="text" id="individualAdsEndDateInput" placeholder="MM/DD/YYYY" class="form-control" readonly  name="highestEndTime" ng-model="highestEndTime"  required/>
-                                                    <label ng-if="createIndependantAdsGrp.highestEndTime.$error.required"  class="col-sm-12 control-label greyTxt errorLabel">Please select the end Date.</label>
+                                                    <label ng-if="createIndependantAdsGrp.highestEndTime.$error.required"  class="col-sm-12 control-label greyTxt errorLabel" data-ng-bind="textConstants.SELENDDATE"></label>
                                                 </div>
 
                                             </div>
@@ -277,24 +259,25 @@
                                                 class="btn btn-primary pull-right"
                                                 id="groupIndividual"
                                                 ng-disabled="createIndependantAdsGrp.$invalid"
-                                                ng-click="createIndependantAdsGroup()">Save
+                                                ng-click="createIndependantAdsGroup()" data-ng-bind="textConstants.SAVE">
                                         </button>
-                                        <span class="pull-right secondary_txt" ng-click="groupIndividualAds()">Cancel</span>
+                                        <span class="pull-right secondary_txt" ng-click="groupIndividualAds()" data-ng-bind="textConstants.CANCEL"></span>
                                     </div>
-                                    <div id="independantMessage">{{independantGroupMessage}}</div>
+                                    <div id="independantMessage" data-ng-bind="independantGroupMessage"></div>
                                 </div>
                             </form>
                         </div>
                         <!--END of group individual ads into groups-->
 
                         <div class="singleCardWrap active">
+                            <div class="overlay"></div>
                             <!--=== Create BTN Ad ===-->
                             <div class="col-md-3 adModule adCreateBtn" ng-click="navigateToAdCreatePage()">
                                 <div class="col-md-12">
                                     <a ng-href="#"
                                        class="col-md-12 text-center addMaster">
                                         <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
-                                        <h2>Create Ad</h2>
+                                        <h2 data-ng-bind="textConstants.CREATEAD"></h2>
                                     </a>
                                 </div>
                             </div>
@@ -303,20 +286,18 @@
                             <div class="col-md-3 adModule"
                                  ng-repeat="adsData in workflowData.campaignAdsData track by adsData.id"
                                  ng-click="adsData.state=='DEPLOYING' ? '': goEdit(adsData)">
-                                <span class="icon-settings"></span>
+                                <!--<span class="icon-settings"></span>-->
                                 <div class="col-md-12 adTitle">
                                     <img ng-src="{{adsData.platform.iconUrl}}"
                                          height="16" class="adIconWidget"
-                                         ng-show="{{(adsData.platform)}}"
+                                         ng-show="(adsData.platform)"
                                          title="{{adsData.platform.displayName | uppercase}}"/>
-                                    <span class="greyTxt adDisplay">{{adsData.platform.displayName}}</span>
+                                    <span class="greyTxt adDisplay" data-ng-bind="adsData.platform.displayName"></span>
                                     <!--<span class="pull-left">ID: {{adsData.id}}</span>-->
-                                    <span class="greyTxt adDisplay" ng-show="{{!(adsData.platform)}}">
-                                        Platform Not Set
+                                    <span class="greyTxt adDisplay" ng-show="!(adsData.platform)" data-ng-bind="textConstants.PLATNOTSET">
                                     </span>
                                     <span class="greyTxt adDisplay"
-                                          ng-show="{{!(adsData.sourceId) && !(adsData.isTracking)}}">
-                                        (NOT PUSHED)
+                                          ng-show="!(adsData.sourceId) && !(adsData.isTracking)" data-ng-bind="textConstants.NOTPUSHEDPAR">
                                     </span>
                                 </div>
                                 <div class="col-md-12" style="padding: 0px 20px 20px 20px;">
@@ -331,11 +312,11 @@
                                         <span class="pull-left adTxtGray dateAd"
                                               ng-if="adsData.startTime && adsData.endTime">
                                             <span class="pull-left">
-                                                {{convertEST(adsData.startTime, 'DD MMM YYYY')}} -
-                                                {{convertEST(adsData.endTime, 'DD MMM YYYY')}}
+                                                {{utcToLocalTime(adsData.startTime, 'DD MMM YYYY')}} -
+                                                {{utcToLocalTime(adsData.endTime, 'DD MMM YYYY')}}
                                             </span>
                                         </span>
-                                        <span class="pull-left adTxtGray dateAd" ng-show="{{!(adsData.startTime)}}">Flight Date Not Set</span>
+                                        <span class="pull-left adTxtGray dateAd" ng-show="{{!(adsData.startTime)}}" data-ng-bind="textConstants.FLTNOTSET"></span>
                                     </div>
                                     <div class="spacer">
                                         <div class="col-md-12"></div>
@@ -364,8 +345,7 @@
                                               </span>
                                         </div>
                                         <div class="col-md-4 zeroPadding text-center">
-                                             <span class="col-md-12 text-center adTxtGray zeroPadding">
-                                                 {{textConstants.BUDGET}}
+                                             <span class="col-md-12 text-center adTxtGray zeroPadding" data-ng-bind="textConstants.BUDGET">
                                              </span>
                                             <span class="col-md-12 text-center zeroPadding">
                                                 {{adsData.cost ?
@@ -379,28 +359,22 @@
                                     </div>
                                     <div class="col-md-12 zeroPadding" style="margin-bottom: 10px;">
                                         <span class="col-md-12 text-left adTxtGray zeroPadding">
-                                            Creative Tags ({{adsData.creatives.length || 0}})
+                                            Creative ({{adsData.creatives.length || 0}})
                                         </span>
-                                        <p style="margin: 0; text-transform:lowercase;" title="{{appendSizes(adsData.creatives)}}">
-                                            {{appendSizes(adsData.creatives)}}
+                                        <p style="margin: 0;" ng-bind-html="appendSizes(adsData.creatives)">
                                         </p>
                                     </div>
                                     <div class="col-md-12 zeroPadding">
-                                        <span class="col-md-12 text-left adTxtGray zeroPadding">
-                                            {{ textConstants.TARGETING }}
+                                        <span class="col-md-12 text-left adTxtGray zeroPadding" data-ng-bind="textConstants.TARGETING">
                                         </span>
-                                        <span>
-                                            {{displaySelectedTargets(adsData)}}
+                                        <span data-ng-bind="displaySelectedTargets(adsData)">
                                         </span>
                                     </div>
                                 </div>
                                 <!--Abi 3 Classes for color label for adStatus span are labelPush labelDraft labelNew-->
                                 <span class="pull-right adStatus {{adsData.state.toLowerCase().replace(' ','')}}">
-                                    {{adsData.state}}
-                                    <span ng-if="adsData.pushStatus=='FAILED'"
-                                          class="pull-right icon-warning"
-                                          aria-hidden="true"
-                                          title="{{adsData.pushFeedback}}">
+                                    <span data-ng-bind="adsData.state"></span>
+                                    <span ng-if="adsData.pushStatus=='FAILED'" class="pull-right icon-warning" aria-hidden="true" title="{{adsData.pushFeedback ? adsData.pushFeedback : ''}}">
                                     </span>
                                     <span class="pull-right icon-tracking" ng-if="adsData.isTracking"></span>
                                 </span>
@@ -427,9 +401,9 @@
             <div class="adCreateConsole">
                 <!--###=== Ad Create Header Starts ===###-->
                 <div class="col-md-12 headerSteps">
-                    <div class="col-md-1 hdr_ad">AD</div>
+                    <div class="col-md-1 hdr_ad" data-ng-bind="textConstants.AD"></div>
                     <div class="col-md-10 zeroPadding"><input type="text" size="75" class="form-control"></div>
-                    <div class="col-md-1 hdr_paused">Paused</div>
+                    <div class="col-md-1 hdr_paused" data-ng-bind="textConstants.PAUSED"></div>
                     <div class="col-md-12 zeroPadding subHeaderSteps">
                         <div class="col-md-1"></div>
                         <div class="col-md-3 headerFormatSelect">
@@ -457,11 +431,11 @@
 
                 <!--###=== STEP 1 Starts ===###-->
                 <div class="col-md-12 zeroPadding adStepOne">
-                    <a href="" class="col-md-12 zeroPadding">{{ textConstants.WF_GUIDED_COPY }}</a>
+                    <a href="" class="col-md-12 zeroPadding" data-ng-bind="textConstants.WF_GUIDED_COPY"></a>
                     <!--=== AD Format ===-->
                     <div class="col-md-12 zeroPadding adFormatChkBox">
-                        <div class="col-md-12 adHeader">{{ textConstants.WF_HEADER_CREATIVES }}</div>
-                        <div class="col-md-12 adSubHeader">{{ textConstants.WF_AD_FORMAT }}</div>
+                        <div class="col-md-12 adHeader" data-ng-bind="textConstants.WF_HEADER_CREATIVES"></div>
+                        <div class="col-md-12 adSubHeader" data-ng-bind="textConstants.WF_AD_FORMAT"></div>
                         <div class="form-group col-md-3 btn_border">
                             <label>
                                 <input type="radio"
@@ -471,7 +445,7 @@
                                        lass="btn_rad"
                                        ng-model="adData.adFormat">
                                 <span class="glyphicon glyphicon-picture" aria-hidden="true"></span>
-                                <div class="btnLabel">{{ textConstants.WF_DISPLAY }}</div>
+                                <div class="btnLabel" data-ng-bind="textConstants.WF_DISPLAY"></div>
                             </label>
                         </div>
                         <div class="form-group col-md-3 btn_border adDisableRadio">
@@ -484,7 +458,7 @@
                                        class="btn_rad"
                                        ng-model="adData.adFormat">
                                 <span class="glyphicon glyphicon-film" aria-hidden="true"></span>
-                                <div class="btnLabel">{{ textConstants.WF_VIDEO }}</div>
+                                <div class="btnLabel" data-ng-bind="textConstants.WF_VIDEO"></div>
                             </label>
                         </div>
                         <div class="form-group col-md-3 btn_border adDisableRadio">
@@ -497,7 +471,7 @@
                                        class="btn_rad"
                                        ng-model="adData.adFormat">
                                 <span class="glyphicon glyphicon-paperclip" aria-hidden="true"></span>
-                                <div class="btnLabel">{{ textConstants.WF_RICH_MEDIA }}</div>
+                                <div class="btnLabel" data-ng-bind="textConstants.WF_RICH_MEDIA"></div>
                             </label>
                         </div>
                         <div class="form-group col-md-3 btn_border adDisableRadio">
@@ -510,15 +484,15 @@
                                        class="btn_rad"
                                        ng-model="adData.adFormat">
                                 <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
-                                <div class="btnLabel">{{ textConstants.WF_SOCIAL }}</div>
+                                <div class="btnLabel" data-ng-bind="textConstants.WF_SOCIAL"></div>
                             </label>
                         </div>
                     </div>
                     <!--=== End of AD Format ===-->
                     <!--=== AD Goal ===-->
                     <div class="col-md-12 zeroPadding adGoalChkBox">
-                        <div class="col-md-12 adHeader">{{ textConstants.WF_HEADER_PRIMARY_GOAL }}</div>
-                        <div class="col-md-12 adSubHeader">{{ textConstants.WF_AD_GOAL }}</div>
+                        <div class="col-md-12 adHeader" data-ng-bind="textConstants.WF_HEADER_PRIMARY_GOAL"></div>
+                        <div class="col-md-12 adSubHeader" data-ng-bind="textConstants.WF_AD_GOAL"></div>
                         <div class="form-group col-md-3 btn_border">
                             <label>
                                 <input type="radio"
@@ -528,7 +502,7 @@
                                        class="btn_rad"
                                        ng-model="adData.adGoal">
                                 <span class="glyphicon glyphicon-signal" aria-hidden="true"></span>
-                                <div class="btnLabel">{{ textConstants.WF_PERFORMANCE }}</div>
+                                <div class="btnLabel" data-ng-bind="textConstants.WF_PERFORMANCE"></div>
                             </label>
                         </div>
                         <div class="form-group col-md-3 btn_border">
@@ -540,15 +514,15 @@
                                        class="btn_rad"
                                        ng-model="adData.adGoal">
                                 <span class="glyphicon glyphicon-record" aria-hidden="true"></span>
-                                <div class="btnLabel">{{ textConstants.WF_BRAND }}</div>
+                                <div class="btnLabel" data-ng-bind="textConstants.WF_BRAND"></div>
                             </label>
                         </div>
                     </div>
                     <!--=== End of AD Goal ===-->
                     <!--=== Screen Type ===-->
                     <div class="col-md-12 zeroPadding screenChkSelection">
-                        <div class="col-md-12 adHeader">{{ textConstants.WF_HEADER_SCREENS }}</div>
-                        <div class="col-md-12 adSubHeader">{{ textConstants.WF_SCREEN_TYPE }}</div>
+                        <div class="col-md-12 adHeader" data-ng-bind="textConstants.WF_HEADER_SCREENS"></div>
+                        <div class="col-md-12 adSubHeader" data-ng-bind="textConstants.WF_SCREEN_TYPE"></div>
                         <div class="form-group col-md-3 btn_border">
                             <label>
                                 <input type="checkbox"
@@ -558,7 +532,7 @@
                                        class="btn_rad chkScreenFocus"
                                        ng-model="adData.adScreen.Desktop">
                                 <span class="glyphicon glyphicon-phone" aria-hidden="true"></span>
-                                <div class="btnLabel">{{ textConstants.WF_DESKTOP }}</div>
+                                <div class="btnLabel" data-ng-bind="textConstants.WF_DESKTOP"></div>
                             </label>
                         </div>
                         <div class="form-group col-md-3 btn_border">
@@ -570,7 +544,7 @@
                                        class="btn_rad chkScreenFocus"
                                        ng-model="adData.adScreen.Mobile">
                                 <span class="glyphicon glyphicon-phone" aria-hidden="true"></span>
-                                <div class="btnLabel">{{ textConstants.WF_MOBILE }}</div>
+                                <div class="btnLabel" data-ng-bind="textConstants.WF_MOBILE"></div>
                             </label>
                         </div>
                         <div class="form-group col-md-3 btn_border">
@@ -582,15 +556,15 @@
                                        class="btn_rad chkScreenFocus"
                                        ng-model="adData.adScreen.Tablet">
                                 <span class="glyphicon glyphicon-phone" aria-hidden="true"></span>
-                                <div class="btnLabel">{{ textConstants.WF_TABLET }}</div>
+                                <div class="btnLabel" data-ng-bind="textConstants.WF_TABLET"></div>
                             </label>
                         </div>
                         <div class="col-md-12 placementRadio" style="display: none;">
-                            <label>Choose One</label>
+                            <label data-ng-bind="textConstants.CHOOSEONE"></label>
                             <input type="radio" name="group4" value="browser" class="btn_rad">
-                            <span>Browser</span>
+                            <span data-ng-bind="textConstants.BROWSER"></span>
                             <input type="radio" name="group4" value="apps" class="btn_rad">
-                            <span>Apps</span>
+                            <span data-ng-bind="textConstants.APPS"></span>
                         </div>
                     </div>
                     <!--=== End of Screen Type ===-->
@@ -598,8 +572,8 @@
                     <div class="col-md-12 zeroPadding">
                         <div class="pull-left nextPanel">
                             <!-- Standard button -->
-                            <button type="button" class="btn btn-primary createAdNext">Next</button>
-                            <button type="button" class="btn btn-link addClose">Cancel</button>
+                            <button type="button" class="btn btn-primary createAdNext" data-ng-bind="textConstants.NEXT"></button>
+                            <button type="button" class="btn btn-link addClose" data-ng-bind="textConstants.CANCEL"></button>
                         </div>
                     </div>
                     <!--=== End of Next Step Panel ===-->
@@ -612,10 +586,10 @@
                     <div class="col-md-2 zeroPadding"> <!-- required for floating -->
                         <!-- Nav tabs -->
                         <ul class="nav nav-tabs tabs-left" id="myTabs">
-                            <li class="active"><a href="#setting" data-toggle="tab">1. Setting</a></li>
-                            <li><a class="buying" href="#buying" data-toggle="tab">2. Buying Platform</a></li>
-                            <li><a href="#targetting" data-toggle="tab">3. Targetting</a></li>
-                            <li><a href="#creative" data-toggle="tab">4. Creatives</a></li>
+                            <li class="active"><a href="#setting" data-toggle="tab" data-ng-bind="textConstants.STEPSETTING"></a></li>
+                            <li><a class="buying" href="#buying" data-toggle="tab" data-ng-bind="textConstants.STEPBUYINGPLAT"></a></li>
+                            <li><a href="#targetting" data-toggle="tab" data-ng-bind="textConstants.STEPTARGETTING"></a></li>
+                            <li><a href="#creative" data-toggle="tab" data-ng-bind="textConstants.STEPCREATIVES"></a></li>
                         </ul>
                     </div>
                     <div class="col-md-10 zeroPadding tabContent">
@@ -624,10 +598,10 @@
                             <!-- Tab1 Setting start-->
                             <div class="tab-pane active" id="setting">
                                 <div class="col-md-12 spacingInput"><!-- SPACING --></div>
-                                <a href="" class="col-md-12 zeroPadding">{{ textConstants.WF_HEADER_SETTINGS}}</a>
+                                <a href="" class="col-md-12 zeroPadding" data-ng-bind="textConstants.WF_HEADER_SETTINGS"></a>
                                 <div class="col-md-12 spacingInput"><!-- SPACING --></div>
                                 <div class="col-md-12">
-                                    <div class="col-md-2 zeroPadding bText">{{ textConstants.WF_AD_SIZE }}</div>
+                                    <div class="col-md-2 zeroPadding bText" data-ng-bind="textConstants.WF_AD_SIZE"></div>
                                     <div class="form-group col-md-10">
                                         <input type="text"
                                                class="form-control"
@@ -636,7 +610,7 @@
                                 </div>
                                 <div class="col-md-12 spacingInput"><!-- SPACING --></div>
                                 <div class="col-md-12">
-                                    <div class="col-md-2 zeroPadding">{{ textConstants.WF_FLIGHT_DATE }}</div>
+                                    <div class="col-md-2 zeroPadding" data-ng-bind="textConstants.WF_FLIGHT_DATE"></div>
                                     <div id="sandbox-container" class="span5 col-md-5">
                                         <div class="input-daterange input-group datetwo" id="datepicker">
                                             <input type="text"
@@ -663,12 +637,12 @@
                                 </div>
                                 <div class="col-md-12 spacingInput"><!-- SPACING --></div>
                                 <div class="col-md-12">
-                                    <div class="col-md-2 zeroPadding">{{ textConstants.WF_BUDGET }}</div>
+                                    <div class="col-md-2 zeroPadding" data-ng-bind="textConstants.WF_BUDGET"></div>
                                     <div class="col-md-8 zeroPadding">
                                         <div class="col-sm-1">
                                             <input type="radio" name="group4" value="browser" class="btn_rad">
                                         </div>
-                                        <div class="col-sm-3">{{ textConstants.WF_IMPRESSIONS }}</div>
+                                        <div class="col-sm-3" data-ng-bind="textConstants.WF_IMPRESSIONS"></div>
                                         <div class="form-group col-sm-5">
                                             <input type="text" class="form-control" placeholder="0">
                                         </div>
@@ -677,7 +651,7 @@
                                         <div class="col-sm-1">
                                             <input type="radio" name="group4" value="browser" class="btn_rad">
                                         </div>
-                                        <div class="col-sm-3">{{ textConstants.WF_MEDIA_COST }}</div>
+                                        <div class="col-sm-3" data-ng-bind="textConstants.WF_MEDIA_COST"></div>
                                         <div class="form-group col-sm-5">
                                             <input type="text" class="form-control" placeholder="0">
                                         </div>
@@ -687,11 +661,11 @@
                                 </div>
                                 <div class="col-md-12 spacingInput"><!-- SPACING --></div>
                                 <div class="col-md-12">
-                                    <div class="col-md-2 zeroPadding">{{ textConstants.WF_UNIT_COST }}</div>
+                                    <div class="col-md-2 zeroPadding" data-ng-bind="textConstants.WF_UNIT_COST"></div>
                                     <div class="form-group col-md-4"><input type="text" class="form-control"></div>
                                     <div class="form-group col-md-3">
                                         <select class="form-control" id="unitcost">
-                                            <option ng-repeat="unitcost in unitcosts">{{unitcost}}</option>
+                                            <option ng-repeat="unitcost in unitcosts" data-ng-bind="unitcost"></option>
                                         </select>
                                     </div>
                                 </div>
@@ -699,7 +673,7 @@
                                 <div class="col-md-12">
                                     <div class="pull-left">
                                         <!-- Standard button -->
-                                        <button type="button" class="btn btn-primary createBuyingNext">Next</button>
+                                        <button type="button" class="btn btn-primary createBuyingNext" data-ng-bind="textConstants.NEXT"></button>
                                     </div>
                                 </div>
                             </div>
@@ -710,8 +684,7 @@
                                 <div class="buyingPlatformHolder">
                                     {{ textConstants.WF_HEADER_BUYING_PLATFORM }}
                                     <div class="col-md-12 spacingInput"><!-- SPACING --></div>
-                                    <a href="" class="col-md-12 zeroPadding">
-                                        {{ textConstants.WF_HEADER_BUYING_PLATFORM_SUB }}
+                                    <a href="" class="col-md-12 zeroPadding" data-ng-bind="textConstants.WF_HEADER_BUYING_PLATFORM_SUB">
                                     </a>
                                     <div class="col-md-12 spacingInput"><!-- SPACING --></div>
                                     <div class="col-md-12">
@@ -751,61 +724,58 @@
                                             C {{ textConstants.WF_COLLECTIVE_MEDIA }}
                                         </div>
                                         <div class="col-md-3 zeroPadding">
-                                            <a href="" class="editPlatform"> {{ textConstants.WF_CHANGE_PLATFORM }}</a>
+                                            <a href="" class="editPlatform" data-ng-bind="textConstants.WF_CHANGE_PLATFORM"></a>
                                         </div>
                                     </div>
                                     <div class="col-md-12">
-                                        <span class="">{{ textConstants.WF_DELIVERY_PACING }}</span>
-                                        <a class="col-md-12 zeroPadding" href="">
-                                            {{ textConstants.WF_HEADER_DELIVERY_FREQUENCY }}
+                                        <span class="" data-ng-bind="textConstants.WF_DELIVERY_PACING"></span>
+                                        <a class="col-md-12 zeroPadding" href="" data-ng-bind="textConstants.WF_HEADER_DELIVERY_FREQUENCY">
                                         </a>
                                     </div>
                                     <div class="col-md-12">
-                                        <div class="col-md-2 zeroPadding">{{ textConstants.WF_PRIORITY}}</div>
+                                        <div class="col-md-2 zeroPadding" data-ng-bind="textConstants.WF_PRIORITY"></div>
                                         <div class="form-group col-md-4">
                                             <select id="unitcost" class="form-control">
-                                                <option ng-repeat="unitcost in unitcosts">{{unitcost}}</option>
+                                                <option ng-repeat="unitcost in unitcosts" data-ng-bind="unitcost"></option>
                                             </select>
                                         </div>
                                         <div class="form-group col-md-3">
                                             <select id="unitcost" class="form-control">
-                                                <option ng-repeat="unitcost in unitcosts">{{unitcost}}</option>
+                                                <option ng-repeat="unitcost in unitcosts" data-ng-bind="unitcost"></option>
                                             </select>
                                         </div>
                                     </div>
                                     <div class="col-md-12">
-                                        <div class="col-md-2 zeroPadding">{{ textConstants.WF_DELIVER_IMPRESSIONS }}
+                                        <div class="col-md-2 zeroPadding" data-ng-bind="textConstants.WF_DELIVER_IMPRESSIONS">
                                         </div>
                                         <div class="form-group col-md-4">
                                             <select id="unitcost" class="form-control">
-                                                <option ng-repeat="unitcost in unitcosts">{{unitcost}}</option>
+                                                <option ng-repeat="unitcost in unitcosts" data-ng-bind="unitcost"></option>
                                             </select>
                                         </div>
                                     </div>
                                     <div class="col-md-12">
-                                        <div class="col-md-2 zeroPadding">{{ textConstants.WF_DELIVER_FREQUENCY }}</div>
+                                        <div class="col-md-2 zeroPadding" data-ng-bind="textConstants.WF_DELIVER_FREQUENCY"></div>
                                         <div class="form-group col-md-1">
                                             <input type="checkbox" value="set">
                                         </div>
-                                        <div class="form-group col-md-5 zeroPadding">
-                                            {{ textConstants.WF_SET_FREQUENCY_CAP }}
+                                        <div class="form-group col-md-5 zeroPadding" data-ng-bind="textConstants.WF_SET_FREQUENCY_CAP">
                                         </div>
                                     </div>
                                     <div class="col-md-12 showImpressionCap">
                                         <div class="col-md-4 zeroPadding"><input type="text"></div>
-                                        <div class="form-group col-md-3 zeroPadding">
-                                            {{ textConstants.WF_IMPRESSION_PER }}
+                                        <div class="form-group col-md-3 zeroPadding" data-ng-bind="textConstants.WF_IMPRESSION_PER">
                                         </div>
                                         <div class="form-group1 col-md-4">
                                             <select id="unitcost" class="form-control">
-                                                <option ng-repeat="unitcost in unitcosts">{{unitcost}}</option>
+                                                <option ng-repeat="unitcost in unitcosts" data-ng-bind="unitcost"></option>
                                             </select>
                                         </div>
                                     </div>
                                     <div class="col-md-12">
                                         <div class="pull-left">
                                             <!-- Standard button -->
-                                            <button type="button" class="btn btn-primary">Next</button>
+                                            <button type="button" class="btn btn-primary" data-ng-bind="textConstants.NEXT"></button>
                                         </div>
                                     </div>
                                 </div>
@@ -813,57 +783,54 @@
                                 <!-- Collective Bidder Holder -->
                                 <div class="collectBidderScreenHolder">
                                     <div class="col-md-12 platformHeading">
-                                        <div class="col-md-9 zeroPadding">
-                                            C Collective Bidder
+                                        <div class="col-md-9 zeroPadding" data-ng-bind="textConstants.CCOLBIDDER">
                                         </div>
                                         <div class="col-md-3 zeroPadding">
-                                            <a href="" class="editPlatform"> {{ textConstants.WF_CHANGE_PLATFORM }}</a>
+                                            <a href="" class="editPlatform" data-ng-bind="textConstants.WF_CHANGE_PLATFORM"></a>
                                         </div>
                                     </div>
                                     <div class="col-md-12">
-                                        <span class="">Bidding Strategy</span>
-                                        <a class="col-md-12 zeroPadding" href="">
-                                            {{ textConstants.WF_HEADER_DELIVERY_FREQUENCY }}
+                                        <span class="" data-ng-bind="textConstants.BIDSTRATEGY"></span>
+                                        <a class="col-md-12 zeroPadding" href="" data-ng-bind="textConstants.WF_HEADER_DELIVERY_FREQUENCY">
                                         </a>
                                     </div>
                                     <div class="col-md-12">
-                                        <div class="col-md-2 zeroPadding">Ad Type</div>
+                                        <div class="col-md-2 zeroPadding" data-ng-bind="textConstants.ADTYPE"></div>
                                         <div class="form-group col-md-4">
                                             <input type="dropdown" value="set">
                                         </div>
-                                        <div class="form-group col-md-6 zeroPadding">
-                                            Show Preset
+                                        <div class="form-group col-md-6 zeroPadding" data-ng-bind="textConstants.SHOWPRESET">
                                         </div>
                                     </div>
                                     <div class="col-md-12">
-                                        <div class="col-md-2 zeroPadding">Pe</div>
+                                        <div class="col-md-2 zeroPadding" data-ng-bind="textConstants.PE"></div>
                                         <div class="form-group col-md-4"><input type="dropdown" value="set"></div>
-                                        <div class="form-group col-md-6 zeroPadding">Show Preset</div>
+                                        <div class="form-group col-md-6 zeroPadding" data-ng-bind="textConstants.SHOWPRESET"></div>
                                     </div>
                                     <div class="col-md-12">
                                         <div class="col-md-2 zeroPading">
-                                            <span class="">Strategy</span>
+                                            <span class="" data-ng-bind="textConstants.STRATEGY"></span>
                                             <input type="text"
                                                    size="12"
                                                    name="strageu"
                                                    value="strategy"
                                                    placeholder="standard"/>
                                         </div>
-                                        <div class="col-md-2">Key Value</div>
-                                        <div class="col-md-2">User Partition</div>
-                                        <div class="col-md-2">Budger Partition</div>
-                                        <div class="col-md-2">Min. Bid</div>
-                                        <div class="col-md-2">Max Cost</div>
+                                        <div class="col-md-2" data-ng-bind="textConstants.KEYVALUE"></div>
+                                        <div class="col-md-2" data-ng-bind="textConstants.USERPART"></div>
+                                        <div class="col-md-2" data-ng-bind="textConstants.BUDGERPART"></div>
+                                        <div class="col-md-2" data-ng-bind="textConstants.MINBID"></div>
+                                        <div class="col-md-2" data-ng-bind="textConstants.MAXCOST"></div>
                                     </div>
                                 </div>
                                 <!-- Collective Bidder Holder Ends -->
                             </div>
                             <!-- Tabs Buying Platform Ends -->
                             <!-- Tabs Targeting starts -->
-                            <div class="tab-pane" id="targetting">Targeting</div>
+                            <div class="tab-pane" id="targetting" data-ng-bind="textConstants.TARGETING"></div>
                             <!-- Tabs Targeting ends -->
                             <!-- Tabs Creative starts -->
-                            <div class="tab-pane" id="creative">Creatives</div>
+                            <div class="tab-pane" id="creative" data-ng-bind="textConstants.CREATIVES"></div>
                             <!-- Tabs Creative ends -->
                         </div>
                         <!-- Tab Panes Ends -->
@@ -872,8 +839,8 @@
                     <div class="zeroPadding">
                         <div class="adSave">
                             <!-- Standard button -->
-                            <button type="button" class="btn">Save</button>
-                            <button type="button" class="btn btn-link addClose">Cancel</button>
+                            <button type="button" class="btn" data-ng-bind="textConstants.SAVE"></button>
+                            <button type="button" class="btn btn-link addClose" data-ng-bind="textConstants.CANCEL"></button>
                         </div>
                     </div>
                 </div>
@@ -890,24 +857,21 @@
     <div class="popup">
         <div class="popup-header-body">
             <div class="clearfix">
-                <h1 class="pull-left">Media Plan Update</h1>
+                <h1 class="pull-left" data-ng-bind="textConstants.MEDIAPLANUPD"></h1>
                 <span class="close unselectable" aria-hidden="true" ng-click="cancelArchiveCampaign()" >x</span>
             </div>
-            <div class="popup-content">
-                {{textConstants.CAMPAIGN_ARCHIVE_MESSAGES}}
+            <div class="popup-content" data-ng-bind="textConstants.CAMPAIGN_ARCHIVE_MESSAGES">
             </div>
         </div>
         <div class="clearfix popup-footer" >
             <button type="button"
                     ng-click="archiveCampaign($event)"
                     class="common_primary_btn pull-right"
-                    ng-hide="deleteCampaignFailed">
-                OK
+                    ng-hide="deleteCampaignFailed" data-ng-bind="textConstants.ARCHIVE">
             </button>
             <button type="button"
                     ng-click="cancelArchiveCampaign()"
-                    class="secondary_txt pull-right">
-                Cancel
+                    class="secondary_txt pull-right" data-ng-bind="textConstants.CANCEL">
             </button>
         </div>
     </div>
@@ -924,3 +888,4 @@
         });
     })
 </script>
+      

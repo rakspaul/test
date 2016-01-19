@@ -1,12 +1,11 @@
 <div class="clearfix">
-    <div  class="report_heading_dropdown_txt nav_filters_heading">{{textConstants.STRATEGY}}</div>
+    <div  class="report_heading_dropdown_txt nav_filters_heading" ng-bind="textConstants.STRATEGY"></div>
     <div class="dropdown dropdown_type2">
            <span  class="dropdown_ul_text " data-toggle="dropdown">
-                <span id="strategy_dropdown" class="dd_txt" title="{{selectedObj.name}}">{{selectedObj.name | formatUrl:26}}</span>
-                <!-- <span class="arrrow_img"></span> -->
+                <span id="strategy_dropdown" class="dd_txt" title="{{selectedObj.name}}" ng-bind="(selectedObj.name | formatUrl:26)"></span>
            </span>
-           <ul id="strategies_list" class="dropdown_ul dropdown-menu">
-                <li ng-repeat="strategy in strategyData.strategies track by $index" ng-class="{'active' : strategy.name === selectedObj.name}" value="{{strategy.id}}" title="{{strategy.name}}" ng-click="add_active_to_strategy();">{{strategy.name | formatUrl:26}}</li>
-           </ul>
-     </div>
+        <ul id="strategies_list" class="dropdown_ul dropdown-menu">
+            <li ng-repeat="strategy in strategyData.strategies track by $index" class="{{(strategy.name | formatUrl:26 ) == selectedObj.name?'active':''}}" value="{{strategy.id}}" title="{{strategy.name}}" ng-click="add_active_to_strategy();" ng-bind="(strategy.name | formatUrl:26)"></li>
+        </ul>
+    </div>
 </div>

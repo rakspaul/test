@@ -15,12 +15,11 @@
 	    <div class="col-md-12 zeroPadding">
 		<!--<span class="breadcrumbFlow">Creative Tag Library</span>-->
 		<!--<img src="/assets/images/workflow/arrowBreadcrumbs.png" class="pull-left" alt="" width="10" style="margin: 5px 18px;"/>-->
-		<span style="font-family: 'Avenir-bold';">Add Creative Tag</span>
+		<h2>Add Creative > New Creative</h2>
 	    </div>
         </div>
     </div>
     <!-- Header Ends -->
-
     <!--=== List Starts ===-->
     <div class="creativeList">
         <div class="col-md-2 zeroPadding hideRightPanel"></div>
@@ -33,26 +32,38 @@
 	    </div>
 
             <form role="form" name="formCreativeCreate" id="formCreativeCreate" novalidate>
-
-                <div class="form-group col-md-3" show-errors='{showSuccess: true}'>
+				<div class="col-md-6 zeroPadding pull-right" style="margin-top: -221px;">
+                    <div ng-show="addedSuccessfully" ng-model="addedSuccessfully">{{Message}}</div>
+					<button type="submit" class="btn btn-primary pull-right" ng-disabled="disableCancelSave" id="saveCreative" > Save Creative</button>
+                    <a class="btn btn-link pull-right" role="button" ng-disabled="disableCancelSave" ng-click="cancelBtn()"> Cancel</a>
+                </div>
+                <!--Format Label for ad create page instead of dropdown-->
+                <div ng-if="adPage" class="form-group col-md-3">
                     <label for="sel1" class="greyTxt">Format</label>
                     <div class="col-md-12 zeroPadding dropdown-workflow">
-			<div class="dropdown">
-			    <button class="btn btn-default dropdown-toggle" type="button" id="formatType" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-				     <span class="text">{{adData.creativeFormat ? adData.creativeFormat.name :  'Select Format'}}</span>
-				     <span class="icon-arrow-down"></span>
-			    </button>
-			    <ul class="dropdown-menu" aria-labelledby="formatType">
-				   <li ng-class="{disabled : !adformat.active, available : adformat.active}" ng-repeat="adformat in creativeSizeData.adFormats track by adformat.id"><a ng-click="adformat.active ? dropBoxItemSelected(adformat, 'creativeFormat') : '' ">{{adformat.name}}</a></li>
-			    </ul>
-			</div>
-                        <input type="hidden" name="creativeFormat" ng-model="adData.creativeFormat.name"  ng-update-hidden  required/>
-		    </div>
+                        <div ng-if="adPage" class="btn btn-default label-btn" ng-bind-html="formatLabel"></div>
+                    </div>
+                </div>
+                <!--Dropdown selection for creative create-->
+                <div ng-if="!adPage" class="form-group col-md-3" show-errors='{showSuccess: true}'>
+                    <label for="sel1" class="greyTxt">Format</label>
+                    <div class="col-md-12 zeroPadding dropdown-workflow">
+                        <div class="dropdown">
+                            <button class="btn btn-default dropdown-toggle" type="button" id="formatType" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                 <span class="text">{{adData.creativeFormat ? adData.creativeFormat.name :  'Select Format'}}</span>
+                                 <span class="icon-arrow-down"></span>
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="formatType">
+                               <li ng-class="{disabled : !adformat.active, available : adformat.active}" ng-repeat="adformat in creativeSizeData.adFormats track by adformat.id"><a ng-click="adformat.active ? dropBoxItemSelected(adformat, 'creativeFormat') : '' ">{{adformat.name}}</a></li>
+                            </ul>
+                        </div>
+                        <input  type="hidden" name="creativeFormat" ng-model="adData.creativeFormat.name"  ng-update-hidden  required/>
+		            </div>
                     <label ng-if="formCreativeCreate.creativeFormat.$error.required" class="col-sm-12 control-label greyTxt errorLabel">{{textConstants.WF_MANDATORY_CREATIVE_FORMAT}}</label>
                 </div>
 
                 <div class="form-group col-md-8" show-errors='{showSuccess: true}'>
-                    <label for="name" class="greyTxt">Tag Name</label>
+                    <label for="name" class="greyTxt">Name</label>
                     <input type="text" class="form-control ng-pristine ng-valid" remove-special-character ='remove-special-character' id="name" name="name" ng-model="name" placeholder="Max 250 characters. No symbols or punctuation" required>
                     <label ng-if="formCreativeCreate.name.$error.required"  class="col-sm-12 control-label greyTxt errorLabel">{{textConstants.WF_MANDATORY_CREATIVE_NAME}}</label>
                 </div>
@@ -68,7 +79,7 @@
 
                 <div ng-hide="$parent.TrackingIntegrationsSelected" class="form-group col-md-12 zeroPadding radioBtnToggle">
 					<div class="col-md-4 zeroPadding">
-					    <label for="sel1" class="greyTxt">Tag Type</label><br/>
+					    <label for="sel1" class="greyTxt">Type</label><br/>
 						<div class="btn-group miniToggle">
 							<label class="btn btn-default" style="width: auto; margin-top: 0;"><span>Javascript</span>
 								<input type="radio" name="creativeType" value ="JS"  hidden="hidden" class="btn_rad" ng-click="toggleBtn($event);">
@@ -160,12 +171,6 @@
 
             <label ng-if="formCreativeCreate.creativeSize.$error.required" class="col-sm-12 control-label greyTxt errorLabel" style="margin: 0;">Please select the creative size.</label>
             </div>
-
-                <div class="col-md-12 zeroPadding">
-                    <div ng-show="addedSuccessfully" ng-model="addedSuccessfully">{{Message}}</div>
-		    <button type="submit" class="btn btn-primary pull-right" ng-disabled="disableCancelSave" id="saveCreative" > Save Creative</button>
-                    <a class="btn btn-link pull-right" role="button" ng-disabled="disableCancelSave" ng-click="cancelBtn()"> Cancel</a>
-                </div>
 
             </form>
         </div>

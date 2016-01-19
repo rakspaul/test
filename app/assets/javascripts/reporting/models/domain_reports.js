@@ -75,7 +75,7 @@
 
             checkForCampaignFormat :  function(adFormats) {
                 var adSupportVideo = false;
-                var adSupportDisplay = true;
+                var adSupportDisplay = false;
 
                 var videoAds =  function() {
                     return _.indexOf(adFormats, "VIDEO") != -1;
@@ -183,14 +183,14 @@
                 element.bind('click', function() {
                     var locationPath = $location.path();
                     if(loginModel.getIsAgencyCostModelTransparent()) {
-                        if(!$scope.isCostModelTransparent) {
-                            element.find("li.report_cost").addClass("download_anchor_li_disabled");
-                        }
+//                        if(!$scope.isCostModelTransparent) {
+//                            element.find("li.report_cost").addClass("download_anchor_li_disabled");
+//                        }
                     }
                 });
                 $scope.downloadPerformanceReport = function(report) {
                     if(loginModel.getIsAgencyCostModelTransparent()) {
-                        if (!$scope.isCostModelTransparent && report.report_cat === 'cost') {
+                        if (/*!$scope.isCostModelTransparent && */report.report_cat === 'cost') {
                             return false;
                         }
                     }

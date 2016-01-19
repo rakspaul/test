@@ -174,11 +174,11 @@ select {
 .dropdown-workflow .btn-default .text {
   float: left;
 }
-.dropdown-workflow .btn-default:hover {
+.dropdown-workflow .btn-default:not(.label-btn):hover {
   background-color: #E1EDF9 !important;
   border: 1px solid #BFC9D7 !important;
 }
-.dropdown-workflow .btn-default:active {
+.dropdown-workflow .btn-default:not(.label-btn):active {
   background-color: #DCEDF1 !important;
   border: 1px solid #BFC9D7 !important;
   box-shadow: none;
@@ -578,7 +578,7 @@ select {
   font-family: "Avenir";
   line-height: 100%;
   padding: 10px 15px;
-  box-shadow: none;
+  box-shadow: none !important;
   /*commented manny's changes here as it was reflecting all other places*/
   /*padding: 10px 15px 10px 15px;
     text-align: center;
@@ -606,12 +606,15 @@ select {
   font-size: 14px;
   border: 1px solid #dde6eb;
 }
-.btn-default:hover {
+.btn-default:not(.label-btn):hover {
   background: #e1edf9;
 }
-.btn-default:active,
-.btn-default.active {
+.btn-default:not(.label-btn):active,
+.btn-default:not(.label-btn).active {
   background: #E1EDF9;
+}
+.label-btn {
+  cursor: default;
 }
 .radioBtnToggle .miniToggle label {
   position: relative;
@@ -1215,16 +1218,25 @@ input.cmn-toggle-round:checked + label:after {
   color: #363d49;
   min-height: initial;
 }
-.cardSelectHolder .icon-inline-edit {
+.cardSelectHolder .icon-inline-edit,
+.cardSelectHolder .icon-trash {
   position: absolute;
   z-index: 10;
   top: 10px;
   right: 10px;
   color: #363d49;
-  font-size: 12.5px;
-  width: 12.5px;
-  height: 12.5px;
+  font-size: 16px;
+  width: 16px;
+  height: 16px;
   display: none;
+}
+.cardSelectHolder .icon-inline-edit:hover,
+.cardSelectHolder .icon-trash:hover {
+  color: #0978c9;
+  cursor: pointer;
+}
+.cardSelectHolder .icon-trash {
+  z-index: 90;
 }
 .cardSelectHolder .targetDataSaved {
   float: left;
@@ -1284,11 +1296,15 @@ input.cmn-toggle-round:checked + label:after {
   margin-right: 0;
 }
 .cardSelectHolder:hover {
+  background-color: rgba(225, 237, 249, 0.4);
   border: 1px solid #0978c9;
 }
 .cardSelectHolder.active .icon-inline-edit {
   display: initial;
   color: #363d49;
+}
+.cardSelectHolder.active .icon-trash:hover {
+  color: #0978c9;
 }
 .cardSelectHolder.active:hover .icon-inline-edit {
   display: initial;

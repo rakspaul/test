@@ -16,8 +16,8 @@
 
         // On this event, only fetch list of strategyies and retain selectedStrategy (done from outside).
         var eventCampaignStrategyChangedFunc =  $rootScope.$on(constants.EVENT_CAMPAIGN_STRATEGY_CHANGED, function() {
-           strategySelectModel.getStrategyObj().strategies = {} ;// reset strategy list
-           $scope.fetchStrategies();// fetch strategies
+            strategySelectModel.getStrategyObj().strategies = {} ;// reset strategy list
+            $scope.fetchStrategies();// fetch strategies
         });
 
         $scope.reset= function(){
@@ -59,13 +59,13 @@
                 $scope.$parent.strategyLoading = true;
                 $scope.strategyData.strategies = {};
                 $scope.strategyData.selectedStrategy.id = -1 ;
-                $scope.strategyData.selectedStrategy.name = 'Loading...' ;
+                $scope.strategyData.selectedStrategy.name = constants.NO_ADGROUPS_FOUND ;
 
             }
         };
 
         //if(!$scope.$parent.isFetchStrategiesCalled) {
-            $scope.fetchStrategies();
+        $scope.fetchStrategies();
         //}
 
         //Function called when the user clicks on the strategy dropdown
@@ -85,3 +85,4 @@
 
     });
 }());
+

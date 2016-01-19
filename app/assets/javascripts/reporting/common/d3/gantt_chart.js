@@ -508,7 +508,7 @@
                     .attr("width", function(d) {
                         if (d.type == "brand"){
                             return 0;
-                        } else if (d.kpiStatus == "ontrack" || d.kpiStatus == "underperforming" || d.kpiStatus == "NA" || d.kpiStatus === undefined) {
+                        } else if (d.kpiStatus == "ontrack" || d.kpiStatus == "underperforming" || d.kpiStatus == "NA" || d.kpiStatus === undefined || d.kpiStatus === "Unknown") {
                             if( isPastView(tdEdges[0], d.startDate, d.endDate) ) {
                                 return 25;
                             } else if( isFutureView(tdEdges[1], d.startDate, d.endDate) ) {
@@ -713,7 +713,11 @@
                 var rect = rectData.enter();
                 var rectGroup = rect.append("a")
                                         .attr("xlink:href", function(d){
-                                            return '/mediaplans/' + d.id;
+                                            if (d.type == "brand") {
+                                                return "javascript:void(0)";
+                                            } else {
+                                                return '/mediaplans/' + d.id;
+                                            }  
                                         })
                                         .style("text-decoration", "none")
                                         .on("click", function(d){
@@ -837,6 +841,7 @@
                     .attr("y", 0)
                     .attr("dy", ".35em")
                     .attr("font-size", "20px")
+                    .attr("cursor", "default")
                     .attr("font-weight", "900")
                     .attr("fill", "#21252b")
                     .attr("font-family", "Avenir")
@@ -872,7 +877,7 @@
                     .attr("width", function(d) {
                         if (d.type == "brand")
                             return 0;
-                        else if (d.kpiStatus == "ontrack" || d.kpiStatus == "underperforming" || d.kpiStatus == "NA" || d.kpiStatus === undefined) {
+                        else if (d.kpiStatus == "ontrack" || d.kpiStatus == "underperforming" || d.kpiStatus == "NA" || d.kpiStatus === undefined || d.kpiStatus === "Unknown" ) {
                             return (x(d.endDate) - x(d.startDate));
                         } else {
                             return 0;
@@ -1295,7 +1300,7 @@
                             .delay(0).attr("width", function(d) {
                                 if (d.type == "brand")
                                     return 0;
-                                else if (d.kpiStatus == "ontrack" || d.kpiStatus == "underperforming" || d.kpiStatus == "NA" || d.kpiStatus === undefined) {
+                                else if (d.kpiStatus == "ontrack" || d.kpiStatus == "underperforming" || d.kpiStatus == "NA" || d.kpiStatus === undefined || d.kpiStatus === "Unknown") {
                                   	
                                     //fix for removing the  rectangle that was sticking on the axis even after campaigns were scrolled out of the view
                                     if(x(d.endDate) - x(d.startDate) == 0) {
@@ -1358,7 +1363,7 @@
                         .attr("width", function(d) {
                             if (d.type == "brand") {
                                 return 0;
-                            } else if (d.kpiStatus == "ontrack" || d.kpiStatus == "underperforming" || d.kpiStatus == "NA" || d.kpiStatus === undefined) {
+                            } else if (d.kpiStatus == "ontrack" || d.kpiStatus == "underperforming" || d.kpiStatus == "NA" || d.kpiStatus === undefined || d.kpiStatus === "Unknown") {
                                 if( isPastView(tdEdges[0], d.startDate, d.endDate) ) {
                                     return 25;
                                 } else if( isFutureView(tdEdges[1], d.startDate, d.endDate) ) {

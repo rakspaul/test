@@ -17,6 +17,18 @@
   -webkit-filter: hue-rotate(22deg);
   filter: hue-rotate(22deg);
 }
+.workflowPreloader .adSavePre {
+  position: absolute;
+  z-index: 15;
+  width: 200px;
+  display: block;
+  text-align: center;
+  top: 50%;
+  left: 50%;
+  margin-left: -100px;
+  margin-top: 40px;
+  display: none;
+}
 #campaignCreate {
   float: left;
   width: 100%;
@@ -84,6 +96,7 @@
   margin-top: -35px;
   background: #FFF;
   padding: 0 0 10px 0;
+  height: 30px;
 }
 #campaignCreate .firstWrapper .masterContainer .collapseHeader {
   float: left;
@@ -583,10 +596,10 @@
   float: right;
   padding-left: 10px;
   margin-bottom: 0;
-  color: #f47e2a;
+  color: #2c9aec;
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroup .adTitle .adGroupTxtSecondary p.active {
-  color: #2c9aec;
+  color: #f47e2a;
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroup .adTitle .adGroupTxtSecondary:first-child {
   padding-right: 0;
@@ -656,10 +669,21 @@
   float: left;
   width: 100%;
   padding-left: .75%;
-  opacity: .15;
+  position: relative ;
 }
-#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .singleCardWrap.active {
-  opacity: 1.0;
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .singleCardWrap .overlay {
+  display: block;
+  position: absolute;
+  opacity: .7;
+  z-index: 1 ;
+  top: 0px ;
+  left: 0px ;
+  width: 100% ;
+  height: 100% ;
+  background: #fff ;
+}
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .singleCardWrap.active .overlay {
+  display: none;
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule {
   padding: 0;
@@ -692,7 +716,7 @@
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule .adTitle .adIconWidget {
   float: left;
-  padding-right: 10px;
+  padding-right: 6px;
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule .adTitle .adDisplay {
   margin-right: 6px;
@@ -836,7 +860,7 @@
   width: 100%;
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule:hover {
-  background-color: #D7E9F7;
+  background-color: rgba(225, 237, 249, 0.4);
   border: 1px solid #0978C9;
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule:hover .icon-settings {
@@ -1417,14 +1441,15 @@
   top: 10px;
   right: 10px;
   color: #0978c9;
-  font-size: 12.5px;
-  width: 12.5px;
-  height: 12.5px;
+  font-size: 16px;
+  width: 16px;
+  height: 16px;
   margin: 0;
   display: none;
 }
 #campaignCreate .campaignAdCreate .adMainWrapper .platformHolder:hover {
   border: 1px solid #0978c9;
+  background-color: rgba(225, 237, 249, 0.4);
 }
 #campaignCreate .campaignAdCreate .adMainWrapper .platformHolder:hover .icon-inline-edit {
   display: inline-block;
@@ -1784,11 +1809,17 @@
 }
 #campaignCreate .popCreativeLib .creativeLib .closePopBtn {
   position: absolute;
-  top: -15px;
-  right: -15px;
+  top: 3px;
+  right: 3px;
   z-index: 10;
   cursor: pointer;
-  color: #fff;
+  font-size: 12px;
+  width: 12px;
+  height: 12px;
+  opacity: .2;
+}
+#campaignCreate .popCreativeLib .creativeLib .closePopBtn:hover {
+  opacity: .5;
 }
 #campaignCreate .popCreativeLib .creativeLib .headerLib {
   padding: 30px;
@@ -1814,7 +1845,7 @@
 }
 #campaignCreate .popCreativeLib .creativeLib .popFooter {
   padding: 20px 30px;
-  background: #F5F9FD;
+  background: #E1EDF9;
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
 }
@@ -2661,7 +2692,7 @@
   top: 0px;
   display: none;
   position: absolute;
-  z-index: 10;
+  z-index: 100;
   padding: 0px 0px 30px 30px;
   opacity: 0;
 }
@@ -3543,4 +3574,10 @@
 }
 .remove-row .icon-clear {
   margin: 10px 0 10px 5px ;
+}
+.goalBtnWithPopup {
+  position: relative;
+}
+.goalBtnWithPopup .popUpCue {
+  top: -82px;
 }

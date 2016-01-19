@@ -86,7 +86,7 @@ var angObj = angObj || {};
         $scope.selectPlatform = function (event, platform) {
             storedResponse = workflowService.getAdsDetails();
             var settings = "";
-
+console.log('selectPlatform');
             if ($scope.mode === 'edit') {
                 if (storedResponse.targets.geoTargets)
                     settings = "Geography";
@@ -122,8 +122,6 @@ var angObj = angObj || {};
             else {
                 $scope.setPlatform(event, platform);
             }
-
-
         }
 
         $scope.setPlatform = function (event, platform) {
@@ -144,6 +142,8 @@ var angObj = angObj || {};
 
         $scope.selectTrackingIntegrations = function (trackingIntegration) {
             $scope.showtrackingSetupInfoPopUp = false;
+            $scope.$parent.postPlatformDataObj = [];
+            $scope.platformCustomInputs();
             trackingIntegration =  $scope.trackingIntegration || trackingIntegration;
             if ($scope.mode != 'edit') {
                 $scope.$parent.TrackingIntegrationsSelected = true;
@@ -191,7 +191,7 @@ var angObj = angObj || {};
                                 oldPlatformName = workflowService.getPlatform().displayName;
                                 platformCustomeModule.init(platformCustomeJson, platformWrap);
                             }
-                            else if (!$scope.postPlatformDataObj) {
+                            else if (!$scope.$parent.postPlatformDataObj) {
                                 platformCustomeModule.init(platformCustomeJson, platformWrap);
                             }
 
@@ -264,12 +264,11 @@ var angObj = angObj || {};
         $scope.showTrackingSetupInfoPopUp = function(event, trackingIntegration) {
             $scope.trackingIntegration = trackingIntegration;
             var offset = $(event.target).offset();
-            console.log("offset", offset);
             var left = offset.left;
             var top = offset.top;
 
             var relativeX =  $(event.target).closest(".offeringWrap").offset().left  -  $(event.target).closest(".carousel-inner").offset().left + 50  ;
-            $(".popUpCue").css({top: 125 , left: relativeX});
+            $(".buyingPlatformHolder .popUpCue").css({top: 125 , left: relativeX});
 
             $scope.showtrackingSetupInfoPopUp = true;
         }
@@ -278,7 +277,36 @@ var angObj = angObj || {};
             $scope.showtrackingSetupInfoPopUp = false;
         }
 
+        $scope.$parent.switchPlatform = function (event) {
+            $scope.resetPartialSaveAlertMessage();
+            $scope.$broadcast('switchPlatformFunc');
+        };
 
+        $scope.$parent.saveCustomeFieldForPlatform = function (editModeFlag) {
+            var customFieldErrorElem = $(".customFieldErrorMsg");
+            var customPlatformFormData = $("#customPlatformForm").serializeArray();
+            $scope.$parent.postPlatformDataObj = [];
+            if (customFieldErrorElem.length === 0 && customPlatformFormData.length > 1) {
+                _.each(customPlatformFormData, function (data) {
+                    var d = data.name.split("$$");
+                    $scope.$parent.postPlatformDataObj.push({'platformCustomInputId': Number(d[1]), 'value': data.value});
+                })
+            } else {
+                if ($scope.workflowData['adsData'] && $scope.workflowData['adsData'].adPlatformCustomInputs && $scope.workflowData['adsData'].adPlatformCustomInputs.length > 0) {
+                    $scope.$parent.postPlatformDataObj = $scope.workflowData['adsData'].adPlatformCustomInputs;
+                }
+            }
+
+            if ($scope.mode == 'edit')
+                localStorage.setItem('adPlatformCustomInputs', JSON.stringify($scope.$parent.postPlatformDataObj));
+
+            //trigger targeting tab link only when intentionally clicked not on edit mode by default
+            if(!editModeFlag)
+                $scope.triggerTargetting();
+
+            $scope.switchPlatform()
+
+        };
     });
 
 })();

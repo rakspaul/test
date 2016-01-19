@@ -3,6 +3,7 @@ var angObj = angObj || {};
     'use strict';
 
     angObj.controller('CampaignOverViewController', function ($scope,$rootScope, $window, $routeParams, constants, workflowService, $timeout,$location, utils, momentService) {
+        $(".main_navigation_holder").find('.active_tab').removeClass('active_tab') ;
         $(".main_navigation").find('.active').removeClass('active').end().find('#campaigns_nav_link').addClass('active');
         $(".bodyWrap").addClass('bodyWrapOverview');
         if( $('.adGroupSelectionWrap').length ) { $("html").css({'background-color':'#eef5fc'}); };
@@ -22,9 +23,9 @@ var angObj = angObj || {};
         localStorage.setItem('campaignData','');
         $scope.moreThenThree = '';
         $scope.editCampaign=function(workflowcampaignData){
-            window.location.href = '/mediaplan/'+workflowcampaignData.id+'/edit';
+            $location.url('/mediaplan/'+workflowcampaignData.id+'/edit');
         }
-        $scope.convertEST=function(date, format){
+        $scope.utcToLocalTime=function(date, format){
             return momentService.utcToLocalTime(date,format);
         }
         $scope.resetAlertMessage = function(){
@@ -33,19 +34,19 @@ var angObj = angObj || {};
         }
 
         //show selected targets in ads card
-        $scope.displaySelectedTargets = function(adsData){
+        $scope.displaySelectedTargets = function (adsData) {
             var selectedStr = '';
+
             if(adsData){
                 if((adsData.targets.geoTargets.REGION && adsData.targets.geoTargets.REGION.geoTargetList.length > 0) ||
                     (adsData.targets.geoTargets.DMA && adsData.targets.geoTargets.DMA.geoTargetList.length > 0) ||
                     (adsData.targets.geoTargets.ZIP_CODE && adsData.targets.geoTargets.ZIP_CODE.geoTargetList.length > 0) ||
-                    (adsData.targets.geoTargets.CITY && adsData.targets.geoTargets.CITY.geoTargetList.length > 0))
-                {
+                    (adsData.targets.geoTargets.CITY && adsData.targets.geoTargets.CITY.geoTargetList.length > 0)) {
                     selectedStr += 'Geo';
 
                 }
 
-                if((adsData.targets.segmentTargets.segmentList && adsData.targets.segmentTargets.segmentList.length > 0)){
+                if ((adsData.targets.segmentTargets.segmentList && adsData.targets.segmentTargets.segmentList.length > 0)) {
                     if(selectedStr != ''){
                         selectedStr += ', Audience';
                     }
@@ -55,7 +56,7 @@ var angObj = angObj || {};
                     }
                 }
 
-                if(adsData.targets.adDaypartTargets.schedule && adsData.targets.adDaypartTargets.schedule.length > 0){
+                if (adsData.targets.adDaypartTargets.schedule && adsData.targets.adDaypartTargets.schedule.length > 0) {
                     if(selectedStr != ''){
                         selectedStr += ', Daypart';
                     }
@@ -69,9 +70,9 @@ var angObj = angObj || {};
                     selectedStr = constants.WF_NOT_SET;
             }
 
-
             return selectedStr;
-        }
+        };
+
         //Archive save func more
         $scope.archiveCampaign=function(event){
             event.preventDefault();
@@ -86,7 +87,7 @@ var angObj = angObj || {};
                     var url = '/mediaplans';
                     var campaignName = $scope.workflowData['campaignData'].name;
                     localStorage.setItem('topAlertMessage', campaignName+" has been archived");
-                    window.location.href = url;
+                    $location.url(url);
                 }else{
                     campaignArchiveErrorHandler();
                 }
@@ -148,14 +149,12 @@ var angObj = angObj || {};
                         var startDateElem = $('#adGrpStartDateInput');
                         $scope.setStartdateIndependant=momentService.utcToLocalTime($scope.workflowData['campaignData'].startTime);
 
-                        var campaignStartTime = momentService.utcToLocalTime($scope.workflowData['campaignData'].startTime);//console.log(campaignStartTime);
-                        // var campaignStartTime = moment($scope.workflowData['campaignData'].startTime).format("MM/DD/YYYY");//console.log(campaignStartTime);
+                        var campaignStartTime = momentService.utcToLocalTime($scope.workflowData['campaignData'].startTime);
                         if(moment().isAfter(campaignStartTime, 'day')) {
                             campaignStartTime = moment().format(constants.DATE_US_FORMAT);
                         }
-                        var campaignEndTime = momentService.utcToLocalTime($scope.workflowData['campaignData'].endTime);//console.log(campaignEndTime);
-                        //var campaignEndTime = moment($scope.workflowData['campaignData'].endTime).format("MM/DD/YYYY");//console.log(campaignEndTime);
-                        startDateElem.datepicker("setStartDate", campaignStartTime);//console.log(campaignStartTime);
+                        var campaignEndTime = momentService.utcToLocalTime($scope.workflowData['campaignData'].endTime);
+                        startDateElem.datepicker("setStartDate", campaignStartTime);
                         startDateElem.datepicker("setEndDate", campaignEndTime);
                         $scope.startTimeFormated = campaignStartTime;
                         $scope.campaignEndTime = campaignEndTime;
@@ -171,7 +170,6 @@ var angObj = angObj || {};
             },
 
             adsDataMofiderFunc : function(adsData) {
-                console.log("adsData", adsData);
                 var budgetType, rateType;
                 var labelObj = {
                     'cpm' : 'Imps.',
@@ -240,10 +238,7 @@ var angObj = angObj || {};
                                 campaignOverView.getAdsForCampaign($routeParams.campaignId);
                             }, 10000);
                         }
-
-                        //console.log(responseData)
-                    }
-                    else {
+                    } else {
                         campaignOverView.errorHandler(result);
                     }
                 }, campaignOverView.errorHandler);
@@ -254,15 +249,14 @@ var angObj = angObj || {};
                     if (result.status === "OK" || result.status === "success") {
                         var responseData = result.data.data;
                         $scope.workflowData['campaignGetAdGroupsData'] = responseData;
-                    }
-                    else {
+                    } else {
                         campaignOverView.errorHandler(result);
                     }
                 }, campaignOverView.errorHandler);
                 //$scope.getAdgroups(campaignId);
             },
+
             getAdsInAdGroup: function (campaignId, adGroupId, index) {
-                //console.log(index);
                 workflowService.getAdsInAdGroup(campaignId, adGroupId).then(function (result) {
                     if (result.status === "OK" || result.status === "success") {
                         var responseData = result.data.data;
@@ -297,7 +291,6 @@ var angObj = angObj || {};
             },
 
             errorHandler: function (errData) {
-                console.log(errData);
                 if(errData.data.status === 404) {
                     $location.url('/mediaplans');
                 }
@@ -330,7 +323,6 @@ var angObj = angObj || {};
 
 
         $scope.appendSizes = function (creative) {
-            //console.log(creative);
             var creativeSizeArr = []
             if (typeof creative != 'undefined' && creative.length>0) {
                 if (creative.length == 1) {
@@ -345,10 +337,13 @@ var angObj = angObj || {};
                     var arr = creativeSizeArr;
                     var result = noRepeat(arr);
 
+                    console.log("result[0]", result[0]);
                     if (result[0].length > 3) {
                         var creativeSizeLimit = result[0].splice(0,3);
+                        var remainingCreativeSize = result[0].join(", ");
                         var amountLeft = result[0].length;
-                        $scope.sizeString = creativeSizeLimit.join(', ').replace(/X/g, 'x') + ' +' + amountLeft;
+                        $scope.sizeString = creativeSizeLimit.join(', ').replace(/X/g, 'x')  + ' <span class="blueTxt" title="'+remainingCreativeSize+'" >+' + amountLeft + '</span>';
+
                     }
                     else {
                         $scope.sizeString = result[0] && result[0].join(', ');
@@ -393,7 +388,8 @@ var angObj = angObj || {};
                 context.showHideToggle = !context.showHideToggle
                 campaignOverView.getAdsInAdGroup($routeParams.campaignId, adGrpId, index);
             }
-        }
+        };
+
         $scope.groupIndividualAds = function () {
             $scope.showIndividualAds = !$scope.showIndividualAds;
             $('#createIndependantAdsGrp')[0].reset();
@@ -401,17 +397,18 @@ var angObj = angObj || {};
             $('.adGroupSelectionWrap, .singleCardWrap').toggleClass('active');
             $scope.createGroupMessage=false;
             $scope.createGroupMessage=false;
-        }
+        };
+
         $scope.createAdGrp = function () {
             $scope.showCreateAdGrp = !$scope.showCreateAdGrp;
             $('#createNewAdGrp')[0].reset();
             $scope.$broadcast('show-errors-reset');
             $('.adGroupSelectionWrap, .singleCardWrap').toggleClass('active');
-            $scope.createGroupMessage=false;
-            $scope.createGroupMessage=false;
-        }
+            $scope.createGroupMessage = false;
+            $scope.createGroupMessage = false;
+        };
 
-        $scope.extractor = function (IndividualAdsData) { //console.log($scope.setStartdateIndependant);
+        $scope.extractor = function (IndividualAdsData) {
             $scope.independantAdData=IndividualAdsData;
             //find lowest startDate
             var startDatelow=new Array;
@@ -426,13 +423,12 @@ var angObj = angObj || {};
             });
 
             if(ascending.length>0){
-                $scope.lowestStartTime = momentService.utcToLocalTime(ascending[0].startTime);//console.log(moment(ascending[0].startTime).format('YYYY-MM-DD HH:mm:ss.SSS'));
-                //console.log(moment($scope.lowestStartTime).format('YYYY-MM-DD HH:mm:ss.SSS'));//$scope.lowestStartTime = moment(ascending[0].startTime).format("MM/DD/YYYY");
+                $scope.lowestStartTime = momentService.utcToLocalTime(ascending[0].startTime);
                 var startDateElem = $('#individualAdsStartDateInput');
                 startDateElem.datepicker("setStartDate",$scope.setStartdateIndependant);
                 startDateElem.datepicker("setEndDate", $scope.lowestStartTime);
             }else{
-                var startDateElem = $('#individualAdsStartDateInput');// console.log($scope.setStartdateIndependant);
+                var startDateElem = $('#individualAdsStartDateInput');
                 startDateElem.datepicker("setStartDate",$scope.setStartdateIndependant);
                 startDateElem.datepicker("setEndDate", $scope.setStartdateIndependant);
             }
@@ -449,8 +445,7 @@ var angObj = angObj || {};
                 return o.endTime;
             });descending.reverse();
             if(descending.length>0){
-                $scope.highestEndTime = momentService.utcToLocalTime(descending[0].endTime);//console.log(moment(descending[0].endTime).format('YYYY-MM-DD HH:mm:ss.SSS'));
-                //console.log(moment($scope.highestEndTime).format('YYYY-MM-DD HH:mm:ss.SSS'));//$scope.highestEndTime = moment(descending[0].endTime).format("MM/DD/YYYY");
+                $scope.highestEndTime = momentService.utcToLocalTime(descending[0].endTime);
                 var endDateElem = $('#individualAdsEndDateInput');
                 endDateElem.datepicker("setStartDate", $scope.highestEndTime);
                 endDateElem.datepicker("setEndDate",$scope.campaignEndTime);
@@ -471,8 +466,8 @@ var angObj = angObj || {};
                 formData = _.object(_.pluck(formData, 'name'), _.pluck(formData, 'value'));
                 var postCreateAdObj = {};
                 postCreateAdObj.name = formData.adIGroupName;
-                postCreateAdObj.startTime = momentService.localTimeToUTC(formData.lowestStartTime,'startTime');//console.log(postCreateAdObj.startTime);
-                postCreateAdObj.endTime = momentService.localTimeToUTC(formData.highestEndTime,'endTime');//console.log(postCreateAdObj.endTime);
+                postCreateAdObj.startTime = momentService.localTimeToUTC(formData.lowestStartTime,'startTime');
+                postCreateAdObj.endTime = momentService.localTimeToUTC(formData.highestEndTime,'endTime');
                 postCreateAdObj.createdAt = "";
                 postCreateAdObj.updatedAt = "";
                 postCreateAdObj.id="-9999";
@@ -481,11 +476,10 @@ var angObj = angObj || {};
                 for(var i in $scope.independantAdData) {
                     dataArray.push($scope.independantAdData[i].id);
                 }
-                //console.log(dataArray);
+
                 postCreateAdObj.adIds = dataArray;
                 workflowService.createAdGroups($routeParams.campaignId,postCreateAdObj).then(function (result) {
                     if (result.status === "OK" || result.status === "success") {
-                        console.log("ad group created");
                         $('#createIndependantAdsGrp')[0].reset();
                         $scope.$broadcast('show-errors-reset');
                         $scope.showIndividualAds = !$scope.showIndividualAds;
@@ -494,33 +488,31 @@ var angObj = angObj || {};
                         localStorage.setItem( 'topAlertMessage', $scope.textConstants.AD_GROUP_CREATED_SUCCESS);
                         location.reload();
                     } else {
-                        console.log("ERROR! adgroup not created");
-                        console.log(result);
                         $scope.independantMessage=!$scope.independantMessage;
                         $scope.independantGroupMessage="unable to  group Ads";
                         $rootScope.setErrAlertMessage($scope.textConstants.AD_GROUP_CREATED_FAILURE);
                     }
                 });
             }
-        }
+        };
 
         $scope.goEdit = function ( adsData ) {
             var campaignId = adsData.campaignId;
             var adsId = adsData.id;
             var groupId = adsData.adGroupId;
-            $scope.editAdforAdGroup(campaignId , adsData.startTime, adsData.endTime, adsId, groupId)
+            $scope.editAdforAdGroup(campaignId , adsData.startTime, adsData.endTime, adsId, groupId);
         };
 
-        $scope.editAdforAdGroup=function(campaignId,stTime,edTime, adsId, groupId){
+        $scope.editAdforAdGroup=function(campaignId, stTime, edTime, adsId, groupId) {
+            var path = "/mediaplan/"+campaignId+"/ads/"+adsId+"/edit";
             if(typeof(Storage) !== "undefined") {
-                localStorage.setItem("stTime", stTime);//convert this to EST in ads page
-                localStorage.setItem("edTime", edTime);//convert this to EST in ads create page
+                localStorage.setItem("stTime", stTime); //convert this to EST in ads page
+                localStorage.setItem("edTime", edTime); //convert this to EST in ads create page
             }
-            var path = path = "/mediaplan/"+campaignId+"/ads/"+adsId+"/edit";
             if(groupId && adsId) {
-                var path = "/mediaplan/"+campaignId+"/adGroup/"+groupId+"/ads/"+adsId+"/edit";
+                path = "/mediaplan/"+campaignId+"/adGroup/"+groupId+"/ads/"+adsId+"/edit";
             }
-            $location.path( path );
+            $location.path(path);
         }
 
         // Switch BTN Animation
@@ -534,90 +526,5 @@ var angObj = angObj || {};
             $(this).find('.btn').toggleClass('btn-default');
 
         });
-
-    });
-
-    angObj.controller('GetAdgroupsController', function ($scope, $window, $routeParams, constants, workflowService, $timeout, utils, $location, momentService) {
-        $scope.numOfDays = function (startTime, endTime) {
-            var startTime=momentService.utcToLocalTime(startTime);
-            var endTime=momentService.utcToLocalTime(endTime);
-            $scope.numofdays = moment(endTime).diff(moment(startTime), 'days');
-            return $scope.numofdays;
-        }
-
-        $scope.createAdforAdGroup=function(campid,stTime,edTime){
-            if(typeof(Storage) !== "undefined") {
-                localStorage.setItem("stTime", stTime);//convert this to EST in ads page
-                localStorage.setItem("edTime", edTime);//convert this to EST in ads create page
-            }
-            var navigateUrl = "/mediaplan/"+$routeParams.campaignId+"/adGroup/"+campid+"/ads/create";
-            $location.url(navigateUrl)
-        }
-
-        $scope.convertEST=function(date,format){
-            return momentService.utcToLocalTime(date,format);
-        }
-    });
-    angObj.controller('CreateAdGroupsController', function ($scope, $window, $routeParams, constants, workflowService, $timeout, utils, $location) {
-
-//        $scope.checkForPastDate = function (date) {
-//            return moment().isAfter(date, 'day');
-//        }
-
-        $scope.handleFlightDate = function (data) {
-            var startTime = data;
-            var endDateElem = $('#adGrpEndDateInput');
-            var campaignEndTime = momentService.utcToLocalTime($scope.$parent.workflowData['campaignData'].endTime);
-            //console.log(campaignEndTime);
-            var changeDate;
-            endDateElem.attr("disabled", "disabled").css({'background': '#eee'});
-            if (startTime) {
-                endDateElem.removeAttr("disabled").css({'background': 'transparent'});
-                changeDate = moment(startTime).format(constants.DATE_US_FORMAT)
-                endDateElem.datepicker("setStartDate", changeDate);
-                endDateElem.datepicker("setEndDate", campaignEndTime);
-                endDateElem.datepicker("update", changeDate);
-            }
-        }
-
-
-
-        $scope.createAdGroup = function (createNewAdGrp) {
-            $scope.$broadcast('show-errors-check-validity');
-            if (createNewAdGrp.$valid){
-                var formElem = $("#createNewAdGrp");
-                var formData = formElem.serializeArray();
-                formData = _.object(_.pluck(formData, 'name'), _.pluck(formData, 'value'));
-                var postCreateAdObj = {}; //console.log(formData);
-                postCreateAdObj.name = formData.adGroupName;
-                postCreateAdObj.startTime = momentService.localTimeToUTC(formData.startTime,'startTime');//console.log(postCreateAdObj.startTime);
-                postCreateAdObj.endTime = momentService.localTimeToUTC(formData.endTime,'endTime');//console.log(postCreateAdObj.endTime);
-                postCreateAdObj.createdAt = "";
-                postCreateAdObj.updatedAt = "";
-                console.log(postCreateAdObj);
-
-                workflowService.createAdGroups($routeParams.campaignId, postCreateAdObj).then(function (result) {
-                    if (result.status === "OK" || result.status === "success") {
-                        console.log("ad group created");
-                        $('#createNewAdGrp')[0].reset();
-
-                        $scope.$parent.showCreateAdGrp = !$scope.$parent.showCreateAdGrp;
-                        $scope.createGroupMessage=!$scope.createGroupMessage;
-                        $scope.createAdGroupMessage="Ad Group Created Successfully";
-                        //$scope.workflowData['campaignGetAdGroupsData'] = [];
-                        //$scope.getAdgroups($routeParams.campaignId);
-                        localStorage.setItem( 'topAlertMessage', $scope.textConstants.AD_GROUP_CREATED_SUCCESS );
-                        location.reload();
-                    } else {
-                        $scope.createGroupMessage=!$scope.createGroupMessage;
-                        $scope.createAdGroupMessage="Ad Group not Created ";
-                        console.log("ERROR! adgroup not created");
-                        console.log(result);
-                    }
-                });
-
-
-            }
-        }
     });
 })();

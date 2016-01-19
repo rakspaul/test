@@ -64,7 +64,11 @@
 
             createAdGroups:function(campaignId,data){
                 var clientId =  loginModel.getSelectedClient().id;
-                return dataService.post(apiPaths.WORKFLOW_APIUrl + '/clients/' + clientId + '/campaigns/'+campaignId+'/ad_groups', data, {'Content-Type': 'application/json'})
+                return dataService.post(
+                    apiPaths.WORKFLOW_APIUrl + '/clients/' + clientId + '/campaigns/' + campaignId + '/ad_groups', 
+                    data, 
+                    {'Content-Type': 'application/json'}
+                );
             },
 
             getAdsInAdGroup :function(campaignId,adGroupID){
@@ -257,6 +261,7 @@
                 var url= apiPaths.WORKFLOW_APIUrl + '/clients/'+clientId+'/costCategories/'+categoryId+'/vendors';
                 return dataService.fetch(url);
             }
+
 
         };
 

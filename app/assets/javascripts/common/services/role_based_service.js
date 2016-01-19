@@ -49,12 +49,12 @@
             return JSON.parse(localStorage.getItem('userObj'));
         };
 
-        var setCurrency = function(){
-            var locale = getClientRole().locale || 'en-us';
-            tmhDynamicLocale.set(locale);
-            $rootScope.$on("$localeChangeSuccess",function(){
+        var setCurrencySymbol = function(){
+            if(getClientRole()) {
+                var locale = getClientRole().locale || 'en-us';
+                tmhDynamicLocale.set(locale);
                 constants.currencySymbol = $locale.NUMBER_FORMATS.CURRENCY_SYM;
-            });
+            }
         }
 
         return {
@@ -62,7 +62,7 @@
             setClientRole    : setClientRole,
             setUserData      : setUserData,
             getUserData      : getUserData,
-            setCurrency      : setCurrency
+            setCurrencySymbol      : setCurrencySymbol
         };
     }]);
 })();

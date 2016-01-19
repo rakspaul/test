@@ -29,6 +29,7 @@
         this.PAUSED_CONDITION = 'paused';
         this.ENDING_SOON_CONDITION = 'endingSoon';
         this.ARCHIVED_CONDITION = 'archived';
+        this.REPORTS_OVERVIEW = 'Reports Overview';
 
         this.ONTRACK = 'ontrack';
         this.UNDERPERFORMING = 'underperforming';
@@ -134,7 +135,11 @@
         this.CREATIVE_SAVE_SUCCESS = '<span class="bold-font">Success. </span> Creative has been successfully created';
         this.WF_DATE_FORMAT='YYYY-MM-DD HH:mm:ss.SSS';
         this.TOTAL_BUDGET_REQUIRED='You must enter Total Budget.'
+        this.VENDOR_ID_REQUIRED='You must select a vendor.'
         this.TOTAL_BUDGET_GREATER_THAN_ZERO='You must Total Budget greater than 0.'
+        this.NON_INVENTORY_COST_GREATER_THAN_ZERO='Cost exceeds budget.'
+        this.DELIVERY_BUDGET_GREATER_THAN_ZERO='Delivery budget can not be negative.'
+        this.DELIVERY_BUDGET_BOOKEDSPEND='Delivery budget should be greater than or equal to the sum of ad budgets '
         this.STARTDATE_REQUIRED='Please select the start Date.'
         this.ADD_COST='Would you like to add Costs?'
         this.SELECT_MANY='Select as many as you require'
@@ -172,6 +177,7 @@
         this.MSG_NO_CAMPAIGNS_WITH_SET_KPI = "<span class='data_not_found'>No Media Plan with set KPI value</span>";
         this.DATA_NOT_AVAILABLE_STYLE = "data_not_found";
         this.ALL_STRATEGIES_OBJECT={'name': 'All Ad Groups', id : -1, type : 'all'};
+        this.NO_ADGROUPS_FOUND= 'No Adgroups Found';
 
         this.NO_RELEVANT_CAMPAIGNS = "No Relevant Media Plans";
         this.COST_BREAKDOWN = "Cost Breakdown";
@@ -524,6 +530,8 @@
         this.WF_MEDIA_COST_LESS_THAN_CAMPAIGN_BUDGET =  "You must enter media cost value less than the budget value specified for the media plan.";
         this.WF_MEDIA_COST_LESS_THAN_MINIMUM_BUDEGT_FOR_AD= "You must enter media cost value less than or equal to the minimum budget value specified for the ad.";
         this.BUDGET_LESS_THAN_AVAILABLE_BUDGET = "You must enter budget less than the available budget";
+        this.MIN_BID_SHOULD_LESS_THAN_MAX_BID = "Min bid value should be less than Max bid value";
+        this.MAX_BID_SHOULD_GREATER_THAN_MIN_BID = "Max bid value should be greater than Min bid value";
 
         this.CHANGE_PLATFORM_MESSAGE = "Your entries for the following settings are not compatible with [Platform Name]: [Settings list]. Would you like to clear these settings and switch platforms? (OK/Cancel).";
         this.ARCHIVE_MESSAGE = "Do you want to Archive / Delete the Ad?";
@@ -642,14 +650,14 @@
         this.IMPORT = 'Import';
 
         //Ad Create: 6 Creative
-        this.ADDCREATIVETAG = 'Add Creative Tag';
+        this.ADDCREATIVETAG = 'Add Creative';
         this.ADDINGTHIRD = 'Adding third party Creative Tags';
         this.ADDEXISTNG = 'Add from Existing';
         this.CREATENEW = 'Create New';
         this.DLTRACKER = 'Download Tracker URLs';
         this.SIZE = 'Size';
-        this.TAGNAME = 'Tag Name';
-        this.TAGTYPE = 'Tag Size';
+        this.TAGNAME = 'Creative Name';
+        this.TAGTYPE = 'Type';
         this.SSL = 'SSL';
         this.YOUHAVENTADDED = "You haven't added any Creative Tags for your Ad yet";
         this.COPY = "Copy";
@@ -658,14 +666,71 @@
         this.ARCHIEVE = "Archive";
         this.CHOOSE_FILTER = "Choose filter";
         this.SELECT = "Select";
-        // user creation
+
+        //User Creation
         this.super_admin = "1";
         this.account_admin = "2";
         this.advertiser_admin = "3";
         this.generic_user = "4";
         this.WF_USER_CREATION_SUCCESS="User Created Successfully"
         this.WF_PERMISSION_NEEDED="Atleast 1 permission needed";
-        this.WF_USER_CREATION_FAIL = "Unable to create a User"
+        this.WF_USER_CREATION_FAIL = "Unable to create a User";
+
+        //Overview Page
+        this.ADVERTISER = 'Advertiser';
+        this.BRAND = 'Brand';
+        this.EDIT = 'Edit';
+        this.OBJC = 'Objectives';
+        this.KPI = 'KPI';
+        this.DELBUDGET = 'Delivery Budget';
+        this.FLIGHTDATES = 'Flight Dates';
+        this.ADGROUPS = 'Ad Groups';
+        this.ADS = 'Ads';
+        this.CREATIVES = 'Creatives';
+        this.SORT = 'Sort';
+        this.LATEST = 'Latest';
+        this.OLDEST = 'Oldest';
+        this.CREATEAD = 'Create Ad';
+        this.CREATEADGRP = 'Create Ad Group';
+        this.NAMEADGROUP = 'What is the name of your Ad Group?';
+        this.ADGROUPNAME = 'Ad Group Name';
+        this.ENTERADGRP = 'Please enter a name for the ad group.';
+        this.LIKEADSRUN = 'When would you like your Ads to run?';
+        this.SELENDDATE = 'Please select the end Date.';
+        this.SAVE = 'Save';
+        this.CREATEAD = 'Create Ad';
+        this.PLATNOTSET = 'Platform Not Set';
+        this.NOTPUSHEDPAR = '(NOT PUSHED)';
+        this.FLTNOTSET = 'Flight Date Not Set';
+        this.AD = 'AD';
+        this.PAUSED = 'Paused';
+        this.CHOOSEONE = 'Choose One';
+        this.BROWSER = 'Browser';
+        this.APPS = 'Apps';
+        this.NEXT = 'Next';
+        this.STEPSETTING = '1. Setting';
+        this.STEPBUYINGPLAT = '2. Buying Platform';
+        this.STEPTARGETTING = '3. Targetting';
+        this.STEPCREATIVES = '4. Creatives';
+        this.CCOLBIDDER = 'C Collective Bidder';
+        this.BIDSTRATEGY = 'Bidding Strategy';
+        this.ADTYPE = 'Ad Type';
+        this.SHOWPRESET = 'Show Preset';
+        this.PE = 'Pe';
+        this.TARGETING = 'Targeting';
+        this.KEYVALUE = 'Key Value';
+        this.USERPART = 'User Partition';
+        this.BUDGERPART = 'Budger Partition';
+        this.MINBID = 'Min. Bid';
+        this.MAXCOST = 'Max Cost';
+        this.MEDIAPLANUPD = 'Media Plan Update';
+        this.ARCHIVE = "Archive";
+        this.OPTIMIZATION_REPORT = 'Optimization Report';
+        this.BUILD_REPORT = 'Build Report';
+        this.CUSTOM_REPORTS = 'Custom Reports';
+        this.MEDIA_PLAN_REPORTS = 'Media Plan Reports';
+
+
 
     };
 

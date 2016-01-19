@@ -3,34 +3,39 @@
     advertiserModule.controller('AdvertiserController', function ($scope,$routeParams, advertiserModel, workflowService,  advertiserService, utils, $rootScope, constants, loginModel, analytics) {
 
         var search = false;
-        var searchCriteria = utils.typeaheadParams;
-        $scope.textConstants = constants;
-        function fetchAdvertisers(searchCriteria,search) {
-            advertiserModel.getAdvertisers(function (advertisersData) {
-                $scope.advertisers = advertisersData;
-            }, searchCriteria, search);
-        }
+        var searchCriteria = utils.typeaheadParams,
+            loadAdvertisers = true;
 
-        function init() {
-            if (loginModel.getUserId() != undefined) {
-                searchCriteria.clientId = loginModel.getSelectedClient().id;
-                fetchAdvertisers(searchCriteria, search);
+        $scope.textConstants = constants;
+
+        function fetchAdvertisers(searchCriteria, search) {
+            if (loginModel.getUserId() == undefined) {
+              return;
+            }
+            if(loadAdvertisers) {
+                searchCriteria.clientId = loginModel.getSelectedClient().id
+                search = false;
+                loadAdvertisers = false;
+                advertiserModel.getAdvertisers(function(advertisersData) {
+                    $scope.advertisers = advertisersData;
+                }, searchCriteria, search);
             }
         }
 
-        init();
         $scope.advertiserData = advertiserModel.getAdvertiser();
 
         $scope.selectAdvertiser = function (advertiser, event_type) {
             $("#advertiser_name_selected").text(advertiser.name);
-            $('#advertisersDropdownNew').attr('placeholder', advertiser.name).val('');
+            $('#advertisersDropdown').attr('placeholder', advertiser.name).val('');
             $scope.advertiserData.showAll = true;
             advertiserModel.setSelectedAdvertisers(advertiser);
             if(!advertiser.referedFrom)
                 advertiserModel.callAdvertiserBroadcast(advertiser, event_type);
+            $scope.selectedAdvertiser = null;
         };
 
         $scope.showAdvertisersDropDown = function () {
+            fetchAdvertisers(searchCriteria, search);
             $("#advertisersDropDownList").toggle();
             $("#cdbMenu").closest(".each_filter").removeClass("filter_dropdown_open");
             $("#advertisersDropDownList").closest(".each_filter").toggleClass("filter_dropdown_open");
@@ -51,8 +56,7 @@
         });
 
         var accountChanged = $rootScope.$on(constants.ACCOUNT_CHANGED, function (event, args) {
-            var clientId = args.clientId;
-            fetchAdvertisers({key: "", limit: 100, offset: 0, clientId: clientId},{key: "", limit: 100, offset: 0, clientId: clientId});
+            loadAdvertisers = true;
             var advertiser = advertiserModel.getAllAdvertiser();
             $scope.selectAdvertiser(advertiser);
             advertiserModel.setSelectedAdvertisers(advertiser);

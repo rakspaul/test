@@ -542,9 +542,10 @@ angObj.directive('truncateTextWithHover', function (campaignListService) {
     }
   });
 
-  angObj.filter('kpiFormatter', function ($filter,constants, $locale) {
+    angObj.filter('kpiFormatter', function ($filter,constants, $locale, RoleBasedService) {
     return function (input, kpiType, precision) {
-      constants.currencySymbol = $locale.NUMBER_FORMATS.CURRENCY_SYM;
+      //constants.currencySymbol = $locale.NUMBER_FORMATS.CURRENCY_SYM;
+      RoleBasedService.setCurrencySymbol();
       if (input && kpiType) {
         if (kpiType.toLowerCase() == 'ctr') {
           return $filter('number')(input, 2) + '%';
@@ -760,9 +761,10 @@ angObj.directive('truncateTextWithHover', function (campaignListService) {
       }
     }
   });
-  angObj.filter('appendDollor', function (constants, $locale) {
+  angObj.filter('appendDollor', function (constants, $locale, RoleBasedService) {
     return function (val, type) {
-       constants.currencySymbol = $locale.NUMBER_FORMATS.CURRENCY_SYM;
+       //constants.currencySymbol = $locale.NUMBER_FORMATS.CURRENCY_SYM;
+       RoleBasedService.setCurrencySymbol();
         if (val === undefined || val === "" || val === "null" || val === null) {
             return 'NA';
         }
@@ -774,10 +776,11 @@ angObj.directive('truncateTextWithHover', function (campaignListService) {
     }
   });
     // This is used in tooltip for optimization tab
-    angObj.filter('appendDollarWithoutFormat', function (constants, $locale) {
+    angObj.filter('appendDollarWithoutFormat', function (constants, $locale, RoleBasedService) {
        // console.log("append dollar without format");
         return function (val, type) {
-           constants.currencySymbol = $locale.NUMBER_FORMATS.CURRENCY_SYM;
+           //constants.currencySymbol = $locale.NUMBER_FORMATS.CURRENCY_SYM;
+            RoleBasedService.setCurrencySymbol();
             if (val === undefined || val === "" || val === "null") {
                 return 'NA';
             }
@@ -830,6 +833,7 @@ angObj.directive('truncateTextWithHover', function (campaignListService) {
 
   angObj.filter("nrFormat", function () {
     return function (value, key) {
+      
       var y = Math.abs(value);
       if(y <= 0) {
         return y;
@@ -908,9 +912,9 @@ angObj.directive('truncateTextWithHover', function (campaignListService) {
     };
   });
 
-  angObj.filter("reportDateFilter", function ($filter,momentService) {
+  angObj.filter("reportDateFilter", function ($filter, momentService) {
     return function (value, key) {
-      return momentService.reportDateFormat(value);
+        return momentService.reportDateFormat(value);
     };
   });
 

@@ -133,6 +133,8 @@
             return dataService.fetch(url).then(function(response){
                 if(response.status == "success") {
                     screenWidgetData['responseData'] = response.data.data;
+                } else {
+                    screenWidgetData['responseData'] = "";
                 }
             });
         };

@@ -50,5 +50,4 @@ strategySelectModule.factory("strategySelectModel", ['urlService','dataService' 
 
 
     };
-}])
-;
+}]);
