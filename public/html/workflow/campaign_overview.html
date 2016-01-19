@@ -85,12 +85,12 @@
                             <div class="each-objective pull-left" ng-if="brand.length>0">
                                 <span class="icon-brand"></span>
                                 <span tooltip-placement="top" tooltip="{{brandTooltip}}" data-ng-bind="brand[0]"></span>
-                                <span class="blueTxt"ng-if="(brand.length-1)>0">+{{brand.length-1}}</span>
+                                <span class="blueTxt"ng-if="(brand.length-1)>0" tooltip="{{brandTooltip}}">+{{brand.length-1}}</span>
                             </div>
                             <div class="each-objective pull-left" ng-if="performance.length>0">
                                 <span class="icon-performance"></span>
                                 <span tooltip-placement="top" tooltip="{{performanceTooltip}}" data-ng-bind="performance[0]"></span>
-                                <span class="blueTxt" ng-if="(performance.length-1)>0">+{{performance.length-1}}</span>
+                                <span class="blueTxt" ng-if="(performance.length-1)>0" tooltip="{{performanceTooltip}}">+{{performance.length-1}}</span>
                             </div>
                         </div>
                     </div>
@@ -374,7 +374,7 @@
                                 <!--Abi 3 Classes for color label for adStatus span are labelPush labelDraft labelNew-->
                                 <span class="pull-right adStatus {{adsData.state.toLowerCase().replace(' ','')}}">
                                     <span data-ng-bind="adsData.state"></span>
-                                    <span ng-if="adsData.pushStatus=='FAILED'" class="pull-right icon-warning" aria-hidden="true" title="{{adsData.pushFeedback ? adsData.pushFeedback : ''}}">
+                                    <span ng-if="adsData.pushStatus=='FAILED'" class="pull-right icon-warning" aria-hidden="true" tooltip="{{adsData.pushFeedback ? adsData.pushFeedback : ''}}">
                                     </span>
                                     <span class="pull-right icon-tracking" ng-if="adsData.isTracking"></span>
                                 </span>
