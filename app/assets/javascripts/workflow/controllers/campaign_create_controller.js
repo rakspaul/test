@@ -751,6 +751,7 @@ var angObj = angObj || {};
         }
 
         $scope.handleFlightDate = function (data) {
+console.log('handleFlightDate in campaign_create_controller.js');
             var startTime = data.startTime;
             var endTime = data.endTime;
             var endDateElem = $('#endDateInput')
@@ -771,7 +772,7 @@ var angObj = angObj || {};
             if (moment(startTime).isAfter(endTime, 'day')) {
                 endDateElem.datepicker("update", startTime);
             }
-        }
+        };
 
         $scope.sucessHandler = function (result) {
             var url = '/mediaplan/' + result.data.data.id + '/overview';
