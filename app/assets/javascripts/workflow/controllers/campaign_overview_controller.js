@@ -34,20 +34,19 @@ var angObj = angObj || {};
         }
 
         //show selected targets in ads card
-        $scope.displaySelectedTargets = function(adsData){
-console.log('adsData = ', adsData)
+        $scope.displaySelectedTargets = function (adsData) {
             var selectedStr = '';
+
             if(adsData){
                 if((adsData.targets.geoTargets.REGION && adsData.targets.geoTargets.REGION.geoTargetList.length > 0) ||
                     (adsData.targets.geoTargets.DMA && adsData.targets.geoTargets.DMA.geoTargetList.length > 0) ||
                     (adsData.targets.geoTargets.ZIP_CODE && adsData.targets.geoTargets.ZIP_CODE.geoTargetList.length > 0) ||
-                    (adsData.targets.geoTargets.CITY && adsData.targets.geoTargets.CITY.geoTargetList.length > 0))
-                {
+                    (adsData.targets.geoTargets.CITY && adsData.targets.geoTargets.CITY.geoTargetList.length > 0)) {
                     selectedStr += 'Geo';
 
                 }
 
-                if((adsData.targets.segmentTargets.segmentList && adsData.targets.segmentTargets.segmentList.length > 0)){
+                if ((adsData.targets.segmentTargets.segmentList && adsData.targets.segmentTargets.segmentList.length > 0)) {
                     if(selectedStr != ''){
                         selectedStr += ', Audience';
                     }
@@ -57,7 +56,7 @@ console.log('adsData = ', adsData)
                     }
                 }
 
-                if(adsData.targets.adDaypartTargets.schedule && adsData.targets.adDaypartTargets.schedule.length > 0){
+                if (adsData.targets.adDaypartTargets.schedule && adsData.targets.adDaypartTargets.schedule.length > 0) {
                     if(selectedStr != ''){
                         selectedStr += ', Daypart';
                     }
@@ -71,9 +70,9 @@ console.log('adsData = ', adsData)
                     selectedStr = constants.WF_NOT_SET;
             }
 
-
             return selectedStr;
-        }
+        };
+
         //Archive save func more
         $scope.archiveCampaign=function(event){
             event.preventDefault();
@@ -511,19 +510,23 @@ console.log('adsData = ', adsData)
             var campaignId = adsData.campaignId;
             var adsId = adsData.id;
             var groupId = adsData.adGroupId;
-            $scope.editAdforAdGroup(campaignId , adsData.startTime, adsData.endTime, adsId, groupId)
+            $scope.editAdforAdGroup(campaignId , adsData.startTime, adsData.endTime, adsId, groupId);
+console.log('goEdit')
+console.log('adsData.startTime = ', adsData.startTime, 'adsData.endTime = ', adsData.endTime);
         };
 
-        $scope.editAdforAdGroup=function(campaignId,stTime,edTime, adsId, groupId){
+        $scope.editAdforAdGroup=function(campaignId, stTime, edTime, adsId, groupId) {
+            var path = "/mediaplan/"+campaignId+"/ads/"+adsId+"/edit";
+console.log('editAdforAdGroup')
             if(typeof(Storage) !== "undefined") {
-                localStorage.setItem("stTime", stTime);//convert this to EST in ads page
-                localStorage.setItem("edTime", edTime);//convert this to EST in ads create page
+                localStorage.setItem("stTime", stTime); //convert this to EST in ads page
+                localStorage.setItem("edTime", edTime); //convert this to EST in ads create page
+console.log('stTime = ', stTime, 'edTime = ', edTime);
             }
-            var path = path = "/mediaplan/"+campaignId+"/ads/"+adsId+"/edit";
             if(groupId && adsId) {
-                var path = "/mediaplan/"+campaignId+"/adGroup/"+groupId+"/ads/"+adsId+"/edit";
+                path = "/mediaplan/"+campaignId+"/adGroup/"+groupId+"/ads/"+adsId+"/edit";
             }
-            $location.path( path );
+            $location.path(path);
         }
 
         // Switch BTN Animation
