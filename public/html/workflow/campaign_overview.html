@@ -270,6 +270,7 @@
                         <!--END of group individual ads into groups-->
 
                         <div class="singleCardWrap active">
+                             <div class="overlay"></div>
                             <!--=== Create BTN Ad ===-->
                             <div class="col-md-3 adModule adCreateBtn" ng-click="navigateToAdCreatePage()">
                                 <div class="col-md-12">
@@ -289,14 +290,14 @@
                                 <div class="col-md-12 adTitle">
                                     <img ng-src="{{adsData.platform.iconUrl}}"
                                          height="16" class="adIconWidget"
-                                         ng-show="{{(adsData.platform)}}"
+                                         ng-show="(adsData.platform)"
                                          title="{{adsData.platform.displayName | uppercase}}"/>
                                     <span class="greyTxt adDisplay" data-ng-bind="adsData.platform.displayName"></span>
                                     <!--<span class="pull-left">ID: {{adsData.id}}</span>-->
-                                    <span class="greyTxt adDisplay" ng-show="{{!(adsData.platform)}}" data-ng-bind="textConstants.PLATNOTSET">
+                                    <span class="greyTxt adDisplay" ng-show="!(adsData.platform)" data-ng-bind="textConstants.PLATNOTSET">
                                     </span>
                                     <span class="greyTxt adDisplay"
-                                          ng-show="{{!(adsData.sourceId) && !(adsData.isTracking)}}" data-ng-bind="textConstants.NOTPUSHEDPAR">
+                                          ng-show="!(adsData.sourceId) && !(adsData.isTracking)" data-ng-bind="textConstants.NOTPUSHEDPAR">
                                     </span>
                                 </div>
                                 <div class="col-md-12" style="padding: 0px 20px 20px 20px;">
@@ -360,7 +361,7 @@
                                         <span class="col-md-12 text-left adTxtGray zeroPadding">
                                             Creative ({{adsData.creatives.length || 0}})
                                         </span>
-                                        <p style="margin: 0;" title="{{appendSizes(adsData.creatives)}}" data-ng-bind="appendSizes(adsData.creatives)">
+                                        <p style="margin: 0;" ng-bind-html="appendSizes(adsData.creatives)">
                                         </p>
                                     </div>
                                     <div class="col-md-12 zeroPadding">
@@ -371,11 +372,9 @@
                                     </div>
                                 </div>
                                 <!--Abi 3 Classes for color label for adStatus span are labelPush labelDraft labelNew-->
-                                <span class="pull-right adStatus {{adsData.state.toLowerCase().replace(' ','')}}" data-ng-bind="adsData.state">
-                                    <span ng-if="adsData.pushStatus=='FAILED'"
-                                          class="pull-right icon-warning"
-                                          aria-hidden="true"
-                                          title="{{adsData.pushFeedback}}">
+                                <span class="pull-right adStatus {{adsData.state.toLowerCase().replace(' ','')}}">
+                                    <span data-ng-bind="adsData.state"></span>
+                                    <span ng-if="adsData.pushStatus=='FAILED'" class="pull-right icon-warning" aria-hidden="true" title="{{adsData.pushFeedback ? adsData.pushFeedback : ''}}">
                                     </span>
                                     <span class="pull-right icon-tracking" ng-if="adsData.isTracking"></span>
                                 </span>
@@ -889,21 +888,4 @@
         });
     })
 </script>
-        <!--Will put this in less file-->
-<style>
-    .singleCardWrap {
-        position: relative ;
-    }
-    .singleCardWrap .overlay {
-        display: block;
-        position: absolute;
-        z-index : 1 ;
-        top : 0px ;
-        left : 0px ;
-        width : 100% ;
-        height : 100% ;
-    }
-    .singleCardWrap.active .overlay {
-        display: none;
-    }
-</style>
+      

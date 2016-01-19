@@ -377,6 +377,7 @@ var angObj = angObj || {};
                 result,
                 creativeSizeLimit,
                 amountLeft,
+                remainingCreativeSize,
                 i;
 
             if (typeof creative !== 'undefined' && creative.length > 0) {
@@ -386,7 +387,7 @@ var angObj = angObj || {};
                     $scope.sizeString = '';
                     for (i in creative) {
                         //$scope.sizeString += creative[i].size.size + ', ';
-                        creativeSizeArr.push(creative[i].size.size)
+                        creativeSizeArr.push(creative[i].size.size);
                     }
                     $scope.sizeString = creativeSizeArr;
                     arr = creativeSizeArr;
@@ -394,8 +395,10 @@ var angObj = angObj || {};
 
                     if (result[0].length > 3) {
                         creativeSizeLimit = result[0].splice(0, 3);
+                        remainingCreativeSize = result[0].join(', ');
                         amountLeft = result[0].length;
-                        $scope.sizeString = creativeSizeLimit.join(', ').replace(/X/g, 'x') ;
+                        $scope.sizeString = creativeSizeLimit.join(', ').replace(/X/g, 'x')  + 
+                            ' <span class="blueTxt" title="' + remainingCreativeSize + '">+' + amountLeft + '</span>';
                     } else {
                         $scope.sizeString = result[0] && result[0].join(', ');
                     }
