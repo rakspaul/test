@@ -172,7 +172,6 @@ var angObj = angObj || {};
             },
 
             adsDataMofiderFunc : function(adsData) {
-                console.log("adsData", adsData);
                 var budgetType, rateType;
                 var labelObj = {
                     'cpm' : 'Imps.',
@@ -507,24 +506,20 @@ var angObj = angObj || {};
                     }
                 });
             }
-        }
+        };
 
         $scope.goEdit = function ( adsData ) {
             var campaignId = adsData.campaignId;
             var adsId = adsData.id;
             var groupId = adsData.adGroupId;
             $scope.editAdforAdGroup(campaignId , adsData.startTime, adsData.endTime, adsId, groupId);
-console.log('goEdit')
-console.log('adsData.startTime = ', adsData.startTime, 'adsData.endTime = ', adsData.endTime);
         };
 
         $scope.editAdforAdGroup=function(campaignId, stTime, edTime, adsId, groupId) {
             var path = "/mediaplan/"+campaignId+"/ads/"+adsId+"/edit";
-console.log('editAdforAdGroup')
             if(typeof(Storage) !== "undefined") {
                 localStorage.setItem("stTime", stTime); //convert this to EST in ads page
                 localStorage.setItem("edTime", edTime); //convert this to EST in ads create page
-console.log('stTime = ', stTime, 'edTime = ', edTime);
             }
             if(groupId && adsId) {
                 path = "/mediaplan/"+campaignId+"/adGroup/"+groupId+"/ads/"+adsId+"/edit";
@@ -543,88 +538,5 @@ console.log('stTime = ', stTime, 'edTime = ', edTime);
             $(this).find('.btn').toggleClass('btn-default');
 
         });
-
-    });
-
-    angObj.controller('GetAdgroupsController', function ($scope, $window, $routeParams, constants, workflowService, $timeout, utils, $location, momentService) {
-        $scope.numOfDays = function (startTime, endTime) {
-            var startTime=momentService.utcToLocalTime(startTime);
-            var endTime=momentService.utcToLocalTime(endTime);
-            $scope.numofdays = moment(endTime).diff(moment(startTime), 'days');
-            return $scope.numofdays;
-        }
-
-        $scope.createAdforAdGroup=function(campid,stTime,edTime){
-            if(typeof(Storage) !== "undefined") {
-                localStorage.setItem("stTime", stTime);//convert this to EST in ads page
-                localStorage.setItem("edTime", edTime);//convert this to EST in ads create page
-            }
-            var navigateUrl = "/mediaplan/"+$routeParams.campaignId+"/adGroup/"+campid+"/ads/create";
-            $location.url(navigateUrl)
-        }
-
-        $scope.utcToLocalTime=function(date,format){
-            return momentService.utcToLocalTime(date,format);
-        }
-    });
-
-    angObj.controller('CreateAdGroupsController', function ($scope, $window, $routeParams, constants, workflowService, $timeout, 
-        utils, $location, momentService) {
-console.log('handleFlightDate in campaign_overview_controller.js (CreateAdGroupsController)');
-
-        $scope.handleFlightDate = function (data) {
-            var startTime = data,
-                endDateElem = $('#adGrpEndDateInput'),
-                campaignEndTime = momentService.utcToLocalTime($scope.$parent.workflowData['campaignData'].endTime),
-                changeDate;
-
-            endDateElem.attr("disabled", "disabled").css({'background': '#eee'});
-            if (startTime) {
-                endDateElem.removeAttr("disabled").css({'background': 'transparent'});
-                changeDate = moment(startTime).format(constants.DATE_US_FORMAT)
-                endDateElem.datepicker("setStartDate", changeDate);
-                endDateElem.datepicker("setEndDate", campaignEndTime);
-                endDateElem.datepicker("update", changeDate);
-            }
-        };
-
-        $scope.createAdGroup = function (createNewAdGrp) {
-            var formElem,
-                formData,
-                postCreateAdObj;
-
-            $scope.$broadcast('show-errors-check-validity');
-            if (createNewAdGrp.$valid) {
-                formElem = $("#createNewAdGrp");
-                formData = formElem.serializeArray();
-                formData = _.object(_.pluck(formData, 'name'), _.pluck(formData, 'value'));
-                postCreateAdObj = {};
-                postCreateAdObj.name = formData.adGroupName;
-                postCreateAdObj.startTime = momentService.localTimeToUTC(formData.startTime, 'startTime');
-                postCreateAdObj.endTime = momentService.localTimeToUTC(formData.endTime, 'endTime');
-                postCreateAdObj.createdAt = '';
-                postCreateAdObj.updatedAt = '';
-
-                workflowService.createAdGroups($routeParams.campaignId, postCreateAdObj).then(function (result) {
-                    if (result.status === "OK" || result.status === "success") {
-                        console.log("ad group created");
-                        $('#createNewAdGrp')[0].reset();
-
-                        $scope.$parent.showCreateAdGrp = !$scope.$parent.showCreateAdGrp;
-                        $scope.createGroupMessage=!$scope.createGroupMessage;
-                        $scope.createAdGroupMessage="Ad Group Created Successfully";
-                        //$scope.workflowData['campaignGetAdGroupsData'] = [];
-                        //$scope.getAdgroups($routeParams.campaignId);
-                        localStorage.setItem( 'topAlertMessage', $scope.textConstants.AD_GROUP_CREATED_SUCCESS );
-                        location.reload();
-                    } else {
-                        $scope.createGroupMessage=!$scope.createGroupMessage;
-                        $scope.createAdGroupMessage="Ad Group not Created ";
-                        console.log("ERROR! adgroup not created");
-                        console.log(result);
-                    }
-                });
-            }
-        };
     });
 })();
