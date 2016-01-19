@@ -58,16 +58,15 @@
 
                     postDataObj.permissions=$scope.User.data;
                     _.each(postDataObj.permissions,function(item){
-                        if(item.advertiserId == "")
+                        if(!item.advertiserId || item.advertiserId == "")
                             item.advertiserId = -1;
-                        if(item.brandId == "")
+                        if(!item.brandId || item.brandId == "")
                             item.brandId = -1;
-                        if(!item.clientId)
+                        if(!item.clientId || item.clientId == "")
                             item.clientId = -1;
 
                     })
                     postDataObj.email=postDataObj.email.toLowerCase();
-                    console.log("postDataObj == ",postDataObj);
                     //postDataObj.role_template_id = accountsService.getRoleId(postDataObj.role_template_id);
 
                     //create user call goes here
@@ -290,7 +289,6 @@
         userModalPopup.getUserPermission();
 
         $scope.resetFields = function(){
-            console.log("hellp shrujan === ");
             $scope.userConsoleFormDetails.email = '';
             $scope.userConsoleFormDetails.firstName = '';
             $scope.permissions = [];

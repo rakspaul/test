@@ -1,6 +1,6 @@
 (function () {
     "use strict";
-    angObj.factory("accountsService", function (apiPaths,dataService,constants) {
+    angObj.factory("accountsService", function (apiPaths,dataService,constants,requestCanceller) {
         var advertiser = null;
         var brand = null;
         var client = null;
