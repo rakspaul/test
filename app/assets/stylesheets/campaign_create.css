@@ -669,20 +669,18 @@
   float: left;
   width: 100%;
   padding-left: .75%;
-  opacity: .15;
   position: relative ;
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .singleCardWrap .overlay {
   display: block;
   position: absolute;
+  opacity: .7;
   z-index: 1 ;
   top: 0px ;
   left: 0px ;
   width: 100% ;
   height: 100% ;
-}
-#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .singleCardWrap.active {
-  opacity: 1.0;
+  background: #fff ;
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .singleCardWrap.active .overlay {
   display: none;
