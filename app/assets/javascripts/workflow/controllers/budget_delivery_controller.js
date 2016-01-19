@@ -192,6 +192,9 @@ console.log('FALse')
         var campaignData = $scope.workflowData['campaignData'];
         var campaignStartTime = momentService.utcToLocalTime(campaignData.startTime);
         var campaignEndTime = momentService.utcToLocalTime(campaignData.endTime);
+
+console.dir(campaignData);
+
         if (moment().isAfter(campaignStartTime, 'day')) {
             campaignStartTime = moment().format(constants.DATE_US_FORMAT);
         }
@@ -199,7 +202,11 @@ console.log('FALse')
         if (window.location.href.indexOf("adGroup") > -1) {
             var adGroupStartDate = momentService.utcToLocalTime(localStorage.getItem("stTime"));
             var adGroupEndDate = momentService.utcToLocalTime(localStorage.getItem("edTime"));
+
+console.log('LOCALSTORAGE');
+console.dir(localStorage);
 console.log('adGroupStartDate = ', adGroupStartDate, 'adGroupEndDate = ', adGroupEndDate)
+
             startDateElem.datepicker("setStartDate", adGroupStartDate);
             startDateElem.datepicker("setEndDate", adGroupEndDate);
             if ($scope.mode == 'edit') {
