@@ -189,11 +189,6 @@
                     }
                 });
                 $scope.downloadPerformanceReport = function(report) {
-                    if(loginModel.getIsAgencyCostModelTransparent()) {
-                        if (/*!$scope.isCostModelTransparent && */report.report_cat === 'cost') {
-                            return false;
-                        }
-                    }
                     var queryObj = {
                         'url' : report.url,
                         queryId: report.query_id,
