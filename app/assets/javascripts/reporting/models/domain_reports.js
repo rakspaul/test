@@ -182,11 +182,6 @@
                 $scope.textConstants = constants;
                 element.bind('click', function() {
                     var locationPath = $location.path();
-                    if(loginModel.getIsAgencyCostModelTransparent()) {
-//                        if(!$scope.isCostModelTransparent) {
-//                            element.find("li.report_cost").addClass("download_anchor_li_disabled");
-//                        }
-                    }
                 });
                 $scope.downloadPerformanceReport = function(report) {
                     var queryObj = {
