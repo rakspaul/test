@@ -94,7 +94,6 @@ var angObj = angObj || {};
         $scope.selectedDayParts = [];
         $scope.adData.setSizes = constants.WF_NOT_SET;
         $scope.dayPartTotal = 0;
-        $scope.budgetErrorObj = {};
 
         $scope.editCampaign = function (workflowcampaignData) {
             $location.url('/mediaplan/' + workflowcampaignData.id + '/edit');
