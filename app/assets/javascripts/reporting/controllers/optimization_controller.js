@@ -367,7 +367,7 @@ var angObj = angObj || {};
 
 
         $scope.getCampaignDetails = function (callback) {
-            if ($scope.selectedCampaign) {
+            if ($scope.selectedCampaign && $scope.selectedCampaign.id != 0 && $scope.selectedCampaign.id != -1) {
                 //API call for campaign details
                 var clientId =  loginModel.getSelectedClient().id;
                 var url = apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId + "/campaigns/" + $scope.selectedCampaign.id;

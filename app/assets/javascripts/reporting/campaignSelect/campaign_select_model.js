@@ -21,7 +21,11 @@ campaignSelectModule.factory("campaignSelectModel", ['urlService','dataService' 
             if(allCampaign == "true" ||  allCampaign == true) {
                 localStorage.setItem('selectedCampaignAll', JSON.stringify(campaign.selectedCampaign));
             } else {
-                localStorage.setItem('selectedCampaign', JSON.stringify(campaign.selectedCampaign));
+                if(campaign.selectedCampaign.id != 0) {
+                    localStorage.setItem('selectedCampaign', JSON.stringify(campaign.selectedCampaign));
+                } else {
+                    $rootScope.$broadcast('CAMPAIGN_CHANGE');
+                }
             }
             kpiSelectModel.setSelectedKpi(campaign.selectedCampaign.kpi);
             if (campaign.selectedCampaign.name){
