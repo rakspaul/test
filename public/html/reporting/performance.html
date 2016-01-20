@@ -290,7 +290,7 @@
         {{screenData.ctr | number:2}}%
     </div>
     <div class="each_col fifth_col">
-        {{screenData.action_rate*1 | number:2}}%
+        {{screenData.action_rate | number:2}}%
     </div>
     <span  ng-if="!adFormats.videoAds">
     <div class="each_col sixth_col">
@@ -344,10 +344,10 @@
         </div>
     </div>
     <div class="each_col forth_col">
-        {{daysofweekData.ctr*100 | number:2}}%
+        {{daysofweekData.ctr | number:2}}%
     </div>
     <div class="each_col fifth_col">
-        {{daysofweekData.action_rate*1 | number:2}}%
+        {{daysofweekData.action_rate | number:2}}%
     </div>
     <span  ng-if="!adFormats.videoAds">
     <div class="each_col sixth_col">
@@ -391,10 +391,10 @@
         </div>
     </div>
     <div class="each_col forth_col">
-        {{formatData.ctr*100 | number:2}}%
+        {{formatData.ctr | number:2}}%
     </div>
     <div class="each_col fifth_col">
-        {{formatData.action_rate*100 | number:2}}%
+        {{formatData.action_rate | number:2}}%
     </div>
     <span  ng-if="!adFormats.videoAds">
     <div class="each_col sixth_col">
@@ -421,7 +421,7 @@
     </div>
     <div class="each_col third_col">
         {{creativesData.impressions  | nrFormat}}
-        <!--{{creativesData.ctr*100 | number:2}}%-->
+        <!--{{creativesData.ctr | number:2}}%-->
     </div>
     <span  ng-if="adFormats.videoAds">
     <div class="each_col third_col">
@@ -442,7 +442,7 @@
 
     </span>
     <div class="each_col forth_col">
-        {{creativesData.ctr*100 | number:2}}%
+        {{creativesData.ctr | number:2}}%
     </div>
 
     <div class="each_col fifth_col">
@@ -475,7 +475,7 @@
     </div>
     <div class="each_col third_col">
         {{adsizesData.impressions  | nrFormat}}
-        <!--{{creativesData.ctr*100 | number:2}}%-->
+        <!--{{creativesData.ctr | number:2}}%-->
     </div>
     <span  ng-if="adFormats.videoAds">
     <div class="each_col third_col">
@@ -496,10 +496,10 @@
     </div>
     </span>
     <div class="each_col forth_col">
-        {{adsizesData.ctr*100 | number:2}}%
+        {{adsizesData.ctr | number:2}}%
     </div>
     <div class="each_col forth_col">
-        {{adsizesData.action_rate*100 | number:2}}%
+        {{adsizesData.action_rate | number:2}}%
     </div>
 
     <span  ng-if="!adFormats.videoAds">
