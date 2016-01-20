@@ -1,4 +1,5 @@
 var angObj = angObj || {};
+
 (function () {
     'use strict';
 

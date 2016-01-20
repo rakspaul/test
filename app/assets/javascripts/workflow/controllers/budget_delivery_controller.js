@@ -106,7 +106,7 @@ angObj.controller('BudgetDeliveryController', function ($scope, $window, $routeP
             startDateElem = $('#startDateInput'),
             startDate = data.startTime,
             endDate = data.endTime,
-            campaignEndTime = momentService.utcToLocalTime($scope.workflowData.campaignData..endTime),
+            campaignEndTime = momentService.utcToLocalTime($scope.workflowData.campaignData.endTime),
             changeDate,
             adsDate;
 
