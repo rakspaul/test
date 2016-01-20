@@ -1155,7 +1155,6 @@ var angObj = angObj || {};
 
                 var theDateDifference = daydiff(parseDate(startDateCheckerRange), parseDate(endDateCheckerRange));
                 //alert(theDateDifference);
-
                 if (frequencyDropDown == "Weekly" && theDateDifference < 7) {
                     $scope.notInRange = true;
 
@@ -1603,19 +1602,47 @@ var angObj = angObj || {};
                     return false;
                 }
                 var currDate = momentService.todayDate('YYYY-MM-DD');
-                if($scope.buttonLabel == "Update"){
-                    if($scope.reports.schedule.frequency=="Once"){
-                        if(momentService.isDateBefore($("#deliverOn").val(),currDate)) {
-                            $rootScope.setErrAlertMessage("Please enter valid date");
-                            return false;
-                        }
-                    }else{
-                        var startDate = $("#startOn").val();
-                        var    endDate = $("#endOn").val();
-                        if((momentService.isDateBefore(startDate,currDate))||(momentService.isDateBefore(endDate,currDate)) || (momentService.isSameOrAfter(startDate,endDate))){
-                            $rootScope.setErrAlertMessage("Please enter valid date");
-                            return false;
-                        }
+                if($scope.scheduleReportActive){
+                    var deliverOn = $("#deliverOn").val(),
+                        startDate = $("#startOn").val(),
+                        endDate = $("#endOn").val();
+                    if($scope.reports.schedule.frequency && $scope.reports.schedule.frequency != "Once" && (momentService.dateDiffInDays(currDate,startDate) <= 0|| momentService.dateDiffInDays(currDate,endDate) <= 0)){
+                        $rootScope.setErrAlertMessage("Start date or end date cannot be less than or equal current date");
+                        return false;
+                    }
+                    switch($scope.reports.schedule.frequency){
+                        case "Once":
+                            if(momentService.dateDiffInDays(currDate,deliverOn) <= 0){
+                                $rootScope.setErrAlertMessage("Deliver on date cannot be less than or equal to the current date");
+                                return false;
+                            }
+                        break;
+                        case "Daily":
+                            if(momentService.dateDiffInDays(startDate,endDate) < 1){
+                                $rootScope.setErrAlertMessage("The difference between Start and End Dates should be at least one day");
+                                return false;
+                            }
+                        break;
+                        case "Weekly":
+                            if($scope.valueWithDefault($scope.reports.schedule.occurance, 'weekly' ,'') == ''){
+                                $rootScope.setErrAlertMessage("Please the occurs on");
+                                return false;
+                            }
+                            if(momentService.dateDiffInDays(startDate,endDate) < 7){
+                                $rootScope.setErrAlertMessage("The difference between Start and End Dates should be at least one week");
+                                return false;
+                            }
+                        break;
+                        case "Monthly":
+                            if($scope.valueWithDefault($scope.reports.schedule.occurance, 'monthly', '') == ''){
+                                $rootScope.setErrAlertMessage("Please the occurs on");
+                                return false;
+                            }
+                            if(momentService.dateDiffInDays(startDate,endDate) < 28){
+                                $rootScope.setErrAlertMessage("You have chosen monthly Scheduling, please choose a date range that is at least one month");
+                                return false;
+                            }
+                        break;
                     }
                 }
                 return true;
