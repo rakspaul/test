@@ -56,17 +56,13 @@
         <!--</div>-->
 
         <div class="form-group col-md-12 zeroPadding"><!--add model also-->
-            <label >Role:</label>
-            <select id="role" class="form-control" >
-                <option value="2" ng-click="selectedRole('2')">Account Admin</option>
-                <option value="4" ng-click="selectedRole('4')">Generic User </option>
+            <label >Role:</label>{{isSuperAdmin}}
+            <select id="role" class="form-control" ng-init="userConsoleFormDetails.roleTemplateId = textConstants.super_admin; isSuperAdmin = true" ng-model="userConsoleFormDetails.roleTemplateId" ng-change="selectedRole(userConsoleFormDetails.roleTemplateId)">
+                <option value="{{textConstants.super_admin}}"  ng-selected="userConsoleFormDetails.roleTemplateId == textConstants.super_admin">Super Admin</option>
+                <option value="{{textConstants.account_admin}}" >Account Admin</option>
+                <option value="{{textConstants.generic_user}}" >Generic User </option>
             </select>
-            <!--<select id="role" name="role" class="form-control" ng-model="userConsoleFormDetails.roleTemplateId" ng-change="selectedRole(userConsoleFormDetails.roleTemplateId)">-->
-              <!--&lt;!&ndash;<option value="1">Super Admin</option>&ndash;&gt;-->
-              <!--<option value="2" selected="selected">Account Admin</option>-->
-              <!--&lt;!&ndash;<option value="3">Advertiser Admin</option>&ndash;&gt;-->
-              <!--&lt;!&ndash;<option value="4">Generic User</option>&ndash;&gt;-->
-            <!--</select>-->
+
         </div>
 
 
@@ -210,7 +206,7 @@
                     </div>
                 </div>
                 <div class="form-group col-md-3">
-                    <label >Permission:</label>
+                    <label >Permission:{{userModalData}}</label>
                     <select name="accessLevel" class="form-control" ng-change="setPermissionAccess(permissionIndex,User.data[permissionIndex].accessLevel)" ng-model="User.data[permissionIndex].accessLevel">
                         <option value="{{perm.value}}" ng-repeat="perm in userModalData.Permission" ng-selected="User.data[permissionIndex].accessLevel == perm.value?true:false" >{{perm.name}}</option>
                         <!--<option value="ADMIN">Admin</option>-->

@@ -44,9 +44,14 @@
                 var url = apiPaths.WORKFLOW_APIUrl + '/brands';
                 return dataService.fetch(url, {cache:false});
             },
-            getClients: function (advertiserId) {
+            getClients: function (success, failure,flag) {
                 var url = apiPaths.WORKFLOW_APIUrl + '/clients?access_level=admin';
-                return dataService.fetch(url, {cache:false});
+                if(flag == 'cancellable'){
+                    var canceller = requestCanceller.initCanceller(constants.CAMPAIGN_FILTER_CANCELLER);
+                    return dataService.fetchCancelable(url, canceller, success, failure);
+                }else{
+                    return dataService.fetch(url, {cache:false});
+                }
             },
             getClientsAdvertisers: function(clientId) {
                 var url = apiPaths.WORKFLOW_APIUrl + '/clients/'+clientId+'/advertisers';
@@ -121,6 +126,9 @@
             getUserBrands:function(){
                 var url = apiPaths.WORKFLOW_APIUrl + '/clients';
                 return dataService.fetch(url);
+            },
+            initCounter:function(){
+                counter = 0;
             },
             setCounter:function(){
                  counter++;
