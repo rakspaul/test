@@ -191,7 +191,7 @@
                         <span class="icon-arrow-down"></span>
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="dayTime" id="startTime" data-toggle="dropdown">
-                        <li class="available" ng-click="selectStartTime($parent.$index,time.time)" ng-value="time.time" ng-repeat="time in getStartTimes"><a data-ng-bind="textConstants.">{{twelve ? time.twelveHrFormat: time.twentyfourHrFormat}}</a></li>
+                        <li class="available" ng-click="selectStartTime($parent.$index,time.time)" ng-value="time.time" ng-repeat="time in getStartTimes"><a>{{twelve ? time.twelveHrFormat: time.twentyfourHrFormat}}</a></li>
                     </ul>
                     <input ng-if="dayTimeSelected != 'Custom schedule'" type="hidden" name="stTime" class=""  ng-model="Schedule.dayPart[$index]['stTime']" ng-value="{{time.time}}" field="stTime" index="{{$index}}" ng-Update-Hidden-Days/>
                     <input ng-if="dayTimeSelected === 'Custom schedule' && (modeSet!='edit') && (intermediateChange)" type="hidden" name="stTime" class=""  ng-model="Schedule.dayPart[$index]['stTime']" ng-init="Schedule.dayPart[$index]['stTime']='24'" ng-value="{{time.time}}" field="stTime" index="{{$index}}" ng-Update-Hidden-Days/>
