@@ -752,6 +752,7 @@
         this.OR = 'Or';
         this.IS = 'Is';
         this.ISNOT = 'Is Not';
+        this.SELECTED_SEGMENTS = 'Selected Segments';
 
 
 

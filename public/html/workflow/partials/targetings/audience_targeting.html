@@ -155,15 +155,15 @@
                 </div>
 
 				<div class="setTwo">
-					<span class="pull-left" data-ng-bind="textConstants.">Selected Segments</span>
-					<a class="pull-right" ng-click="clearAllSelectedAudience()" data-ng-bind="textConstants.">Clear All</a>
+					<span class="pull-left" data-ng-bind="textConstants.SELECTED_SEGMENTS">Selected Segments</span>
+					<a class="pull-right" ng-click="clearAllSelectedAudience()" data-ng-bind="textConstants.CLEARALL"></a>
 
 					<div class="selectedItems">
 
                         <div class="segWrap" ng-repeat="aud in selectedAudience">
-                            <span data-ng-bind="textConstants.">{{aud.name}}</span><div style="clear:both"></div>
-                            <span data-ng-bind="textConstants.">{{aud.category}}</span><div style="clear:both"></div>
-                            <span data-ng-bind="textConstants.">{{aud.source}} </span><div style="clear:both"></div>
+                            <span data-ng-bind="textConstants.aud.name"></span><div style="clear:both"></div>
+                            <span data-ng-bind="textConstants.aud.category"></span><div style="clear:both"></div>
+                            <span data-ng-bind="textConstants.aud.source"></span><div style="clear:both"></div>
                             <div class="icon-clear" ng-click="selectAudience(aud)"></div>
                         </div>
 					</div>
