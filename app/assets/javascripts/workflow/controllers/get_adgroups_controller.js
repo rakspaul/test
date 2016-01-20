@@ -1,24 +1,30 @@
-angObj.controller('GetAdgroupsController', function ($scope, $window, $routeParams, constants, workflowService, $timeout, utils, 
-    $location, momentService) {
-    $scope.numOfDays = function (startTime, endTime) {
-        var startTime=momentService.utcToLocalTime(startTime),
-            endTime=momentService.utcToLocalTime(endTime);
+var angObj = angObj || {};
 
-        $scope.numofdays = moment(endTime).diff(moment(startTime), 'days');
-        return $scope.numofdays;
-    };
+(function () {
+    'use strict';
 
-    $scope.createAdforAdGroup = function (campId, stTime, edTime) {
-        var navigateUrl = '/mediaplan/' + $routeParams.campaignId + '/adGroup/' + campId + '/ads/create';
+    angObj.controller('GetAdgroupsController', function ($scope, $window, $routeParams, constants, workflowService, $timeout, utils, 
+        $location, momentService) {
+        $scope.numOfDays = function (startTime, endTime) {
+            var startTime = momentService.utcToLocalTime(startTime),
+                endTime = momentService.utcToLocalTime(endTime);
 
-        if (typeof(Storage) !== 'undefined') {
-            localStorage.setItem('stTime', stTime); // convert this to EST in ads page
-            localStorage.setItem('edTime', edTime); // convert this to EST in ads create page
-        }
-        $location.url(navigateUrl)
-    };
+            $scope.numofdays = moment(endTime).diff(moment(startTime), 'days');
+            return $scope.numofdays;
+        };
 
-    $scope.utcToLocalTime = function (date, format) {
-        return momentService.utcToLocalTime(date, format);
-    };
-});
+        $scope.createAdforAdGroup = function (campId, stTime, edTime) {
+            var navigateUrl = '/mediaplan/' + $routeParams.campaignId + '/adGroup/' + campId + '/ads/create';
+
+            if (typeof(Storage) !== 'undefined') {
+                localStorage.setItem('stTime', stTime); // convert this to EST in ads page
+                localStorage.setItem('edTime', edTime); // convert this to EST in ads create page
+            }
+            $location.url(navigateUrl);
+        };
+
+        $scope.utcToLocalTime = function (date, format) {
+            return momentService.utcToLocalTime(date, format);
+        };
+    });
+})();
