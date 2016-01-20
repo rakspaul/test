@@ -7,7 +7,7 @@ var angObj = angObj || {};
         $timeout,$location, utils, momentService) {
         var campaignOverView = {
             modifyCampaignData: function () {
-                var campaignData = $scope.workflowData['campaignData'],
+                var campaignData = $scope.workflowData.campaignData,
                     end = momentService.utcToLocalTime(campaignData.endTime),
                     start = momentService.utcToLocalTime(campaignData.startTime);
 
@@ -23,7 +23,7 @@ var angObj = angObj || {};
 
                     if (result.status === 'OK' || result.status === 'success') {
                         responseData = result.data.data;
-                        $scope.workflowData['campaignData'] = responseData;
+                        $scope.workflowData.campaignData = responseData;
                         if (responseData.selectedObjectives && responseData.selectedObjectives.length > 0) {
                             $scope.processObjectiveData(responseData.selectedObjectives);
                         }
@@ -39,18 +39,17 @@ var angObj = angObj || {};
                             }
                         }
                         startDateElem = $('#adGrpStartDateInput');
-                        $scope.setStartdateIndependant = momentService.utcToLocalTime($scope.workflowData['campaignData'].startTime);
-
-                        campaignStartTime = momentService.utcToLocalTime($scope.workflowData['campaignData'].startTime);
+                        $scope.setStartdateIndependant = momentService.utcToLocalTime($scope.workflowData.campaignData.startTime);
+                        campaignStartTime = momentService.utcToLocalTime($scope.workflowData.campaignData.startTime);
                         if (moment().isAfter(campaignStartTime, 'day')) {
                             campaignStartTime = moment().format(constants.DATE_US_FORMAT);
                         }
-                        campaignEndTime = momentService.utcToLocalTime($scope.workflowData['campaignData'].endTime);
+                        campaignEndTime = momentService.utcToLocalTime($scope.workflowData.campaignData.endTime);
                         startDateElem.datepicker('setStartDate', campaignStartTime);
                         startDateElem.datepicker('setEndDate', campaignEndTime);
                         $scope.startTimeFormated = campaignStartTime;
                         $scope.campaignEndTime = campaignEndTime;
-                        if ($scope.workflowData['campaignData'].pushable) {
+                        if ($scope.workflowData.campaignData.pushable) {
                             $scope.disablePushBtn = false;
                         }
                         campaignOverView.modifyCampaignData();
@@ -60,7 +59,7 @@ var angObj = angObj || {};
                 }, campaignOverView.errorHandler);
             },
 
-            adsDataMofiderFunc : function (adsData) {
+            adsDataModifierFunc : function (adsData) {
                 var budgetType, rateType,
                     labelObj = {
                         'cpm' : 'Imps.',
@@ -121,7 +120,7 @@ var angObj = angObj || {};
                                 $scope.noIndependantAds=true;
                             }
                             // call extract method if
-                            $scope.workflowData.campaignAdsData = campaignOverView.adsDataMofiderFunc(responseData);
+                            $scope.workflowData.campaignAdsData = campaignOverView.adsDataModifierFunc(responseData);
                             isAdsInProgressState = _.filter(responseData, function(obj) { 
                                 return obj.state === 'DEPLOYING';
                             });
@@ -144,7 +143,7 @@ var angObj = angObj || {};
 
                         if (result.status === 'OK' || result.status === 'success') {
                             responseData = result.data.data;
-                            $scope.workflowData['campaignGetAdGroupsData'] = responseData;
+                            $scope.workflowData.campaignGetAdGroupsData = responseData;
                         } else {
                             campaignOverView.errorHandler(result);
                         }
@@ -169,7 +168,7 @@ var angObj = angObj || {};
                                     responseData[i].state="DEPLOYING";
                                 }
                             }
-                            $scope.workflowData['getADsForGroupData'][index] = campaignOverView.adsDataMofiderFunc(responseData);
+                            $scope.workflowData.getAdsForGroupData[index] = campaignOverView.adsDataModifierFunc(responseData);
                             isAdsInProgressState = _.filter(responseData, function(obj) { 
                                 return obj.state === 'DEPLOYING';
                             });
@@ -204,31 +203,19 @@ var angObj = angObj || {};
         $('.main_navigation_holder')
             .find('.active_tab')
             .removeClass('active_tab');
+
         $('.main_navigation')
             .find('.active')
             .removeClass('active')
             .end()
             .find('#campaigns_nav_link')
             .addClass('active');
+
         $('.bodyWrap').addClass('bodyWrapOverview');
+
         if ($('.adGroupSelectionWrap').length) { 
             $('html').css({'background-color':'#eef5fc'}); 
         };
-        $scope.textConstants = constants;
-        $scope.workflowData = {};
-        $scope.workflowData['getADsForGroupData'] = {};
-        $scope.disablePushBtn = true;
-        $scope.notPushed = false;
-        $scope.sizeString = '';
-        $scope.showHideToggle = false;
-        $scope.showIndividualAds = false;
-        $scope.showCreateAdGrp=false;
-        $scope.createGroupMessage=false;
-        $scope.createGroupMessage=false;
-        $scope.brand=[];
-        $scope.performance=[];
-        localStorage.setItem('campaignData', '');
-        $scope.moreThenThree = '';
 
         $scope.editCampaign = function (workflowcampaignData) {
             $location.url('/mediaplan/' + workflowcampaignData.id + '/edit');
@@ -254,7 +241,6 @@ var angObj = angObj || {};
                     (adsData.targets.geoTargets.CITY && adsData.targets.geoTargets.CITY.geoTargetList.length > 0)) {
                     selectedStr += 'Geo';
                 }
-
                 if ((adsData.targets.segmentTargets.segmentList && adsData.targets.segmentTargets.segmentList.length > 0)) {
                     if (selectedStr !== '') {
                         selectedStr += ', Audience';
@@ -262,7 +248,6 @@ var angObj = angObj || {};
                         selectedStr += 'Audience';
                     }
                 }
-
                 if (adsData.targets.adDaypartTargets.schedule && adsData.targets.adDaypartTargets.schedule.length > 0) {
                     if (selectedStr !== '') {
                         selectedStr += ', Daypart';
@@ -270,7 +255,6 @@ var angObj = angObj || {};
                         selectedStr += 'Daypart';
                     }
                 }
-
                 if (selectedStr == '') {
                     selectedStr = constants.WF_NOT_SET;
                 }
@@ -280,7 +264,7 @@ var angObj = angObj || {};
 
         //Archive save func more
         $scope.archiveCampaign = function (event) {
-            var campaignId = $scope.workflowData['campaignData'].id,
+            var campaignId = $scope.workflowData.campaignData.id,
                 campaignArchiveErrorHandler = function () {
                     $scope.campaignArchive = false;
                     $rootScope.setErrAlertMessage();
@@ -296,7 +280,7 @@ var angObj = angObj || {};
                     if (result.status === 'OK' || result.status === 'success') {
                         $scope.campaignArchive = false;
                         url = '/mediaplans';
-                        campaignName = $scope.workflowData['campaignData'].name;
+                        campaignName = $scope.workflowData.campaignData.name;
                         localStorage.setItem('topAlertMessage', campaignName+' has been archived');
                         $location.url(url);
                     } else {
@@ -353,16 +337,6 @@ var angObj = angObj || {};
             return adFormatMapper[adFormat.toLowerCase()];
         };
 
-        campaignOverView.getCampaignData($routeParams.campaignId);
-        campaignOverView.getAdsForCampaign($routeParams.campaignId);
-        campaignOverView.getAdgroups($routeParams.campaignId);
-
-        $(function () {
-            $('#pushCampaignBtn').on('click', function () {
-                campaignOverView.pushSavedCampaign($routeParams.campaignId);
-            });
-        });
-
         $scope.navigateToAdCreatePage = function () {
             $location.url('/mediaplan/' + $scope.workflowData.campaignData.id + '/ads/create');
         };
@@ -382,7 +356,6 @@ var angObj = angObj || {};
                 } else if (creative.length > 1) {
                     $scope.sizeString = '';
                     for (i in creative) {
-                        //$scope.sizeString += creative[i].size.size + ', ';
                         creativeSizeArr.push(creative[i].size.size);
                     }
                     $scope.sizeString = creativeSizeArr;
@@ -578,6 +551,32 @@ var angObj = angObj || {};
             }
             $location.path(path);
         };
+        
+        $scope.textConstants = constants;
+        $scope.workflowData = {};
+        $scope.workflowData.getAdsForGroupData = {};
+        $scope.disablePushBtn = true;
+        $scope.notPushed = false;
+        $scope.sizeString = '';
+        $scope.showHideToggle = false;
+        $scope.showIndividualAds = false;
+        $scope.showCreateAdGrp=false;
+        $scope.createGroupMessage=false;
+        $scope.createGroupMessage=false;
+        $scope.brand=[];
+        $scope.performance=[];
+        localStorage.setItem('campaignData', '');
+        $scope.moreThenThree = '';
+
+        campaignOverView.getCampaignData($routeParams.campaignId);
+        campaignOverView.getAdsForCampaign($routeParams.campaignId);
+        campaignOverView.getAdgroups($routeParams.campaignId);
+
+        $(function () {
+            $('#pushCampaignBtn').on('click', function () {
+                campaignOverView.pushSavedCampaign($routeParams.campaignId);
+            });
+        });
 
         // Switch BTN Animation
         $('.btn-toggle').click(function () {
