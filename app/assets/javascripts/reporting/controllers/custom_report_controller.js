@@ -170,9 +170,8 @@ var angObj = angObj || {};
                     $('#toggle').bootstrapToggle('on');
                 }
 
-                $scope.select_schedule_option(responseData.schedule.frequency);
+                $scope.select_schedule_option(responseData.schedule.frequency, 1);
                 if (responseData.schedule.occurance) {
-                    $scope.set_schedule_occurs_options(responseData.schedule.occurance);
                     if (responseData.schedule.customOccuranceDate) {
                         $(".schedule-occurs-custom .dd_txt").html(responseData.schedule.customOccuranceDate);
                         $(".schedule-occurs-custom").show();
@@ -700,7 +699,7 @@ var angObj = angObj || {};
             $scope.requestData.reportDefinition.metrics = $scope.reports.reportDefinition.metrics;
             $scope.requestData.schedule = $scope.reports.schedule;
             $scope.requestData.isScheduled = $scope.scheduleReportActive;
-            $scope.requestData.schedule.occurance = $scope.valueWithDefault($scope.reports.schedule.occurance, $scope.reports.schedule.frequency, '');
+            $scope.requestData.schedule.occurance = $scope.reports.schedule.occurance;
             $scope.requestData.reportDefinition.dimensions.push({
                 "dimension": $scope.reports.reportDefinition.dimensions.primary.dimension,
                 'type': "Primary"
@@ -1055,8 +1054,11 @@ var angObj = angObj || {};
                 $('#endDateInput').datepicker('update', endDate);
             }
         };
-        $scope.select_schedule_option = function(arg) {
+        $scope.select_schedule_option = function(arg, isAssigned) {
             $scope.reports.schedule.frequency = arg;
+            if(!isAssigned){
+                $scope.reports.schedule.occurance = "";
+            }
             var currentYear = momentService.getCurrentYear().toString();
             if (arg) {
                 arg = arg.toLowerCase();
@@ -1081,14 +1083,9 @@ var angObj = angObj || {};
             arg = arg.toLowerCase();
             var elem = $(event.target);
             elem.closest(".dropdown").find(".dd_txt").text(elem.text());
-            $scope.set_schedule_occurs_options(arg);
             $scope.showCustomDate(arg);
         };
-        $scope.set_schedule_occurs_options = function(arg) {
-            var frequency = $scope.reports.schedule.frequency.toLowerCase().trim();
-            $scope.reports.schedule.occurance = {};
-            $scope.reports.schedule.occurance[frequency] = arg;
-        }
+
         $scope.showCustomDate = function(arg) {
             if (arg == "custom") {
                 $(".schedule-occurs-custom").show();

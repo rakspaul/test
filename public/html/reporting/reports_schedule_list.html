@@ -35,15 +35,17 @@
             </div>
         </div>
         <div class="table-body">
+
             <div class="row "  ng-repeat="srlist in schdReportList track by $index">
                 <div class="clearfix"
                      ng-class="{downloaded:((srlist.instances.length >0) && (srlist.instances[0].viewedOn.length > 0))}">
+                    instance length- {{srlist.instances.length}}
                     <div class="col-md-4 table-td name-col"
-                         ng-class="{'no-instance':srlist.instances.length <= 1}"
+                         ng-class="{'no-instance':srlist.instances.length <= 0}"
                          title="{{srlist.name}}"
                          ng-click="open_second_dimension($event,$index);">
                         {{srlist.name}}
-                        <span ng-if="srlist.instances.length > 1" ng-bind-html="' ('+srlist.instances.length+')'"></span>
+                        <span ng-if="srlist.instances.length > 0" ng-bind-html="' ('+srlist.instances.length+')'"></span>
                     </div>
                     <div class="col-md-1 table-td frequency-col" ng-bind-html="srlist.frequency"/>
                     <div class="col-md-2 table-td"
@@ -70,7 +72,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="inner-row" ng-if="srlist.instances.length > 1" >
+                <div class="inner-row" ng-if="srlist.instances.length > 0" >
                     <div class="row"
                          ng-repeat="inst in srlist.instances | limitTo: scheduleInstCount[$parent.$index] track by $index"
                          ng-class="{downloaded:inst.viewedOn.length > 0}">
