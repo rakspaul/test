@@ -104,33 +104,30 @@ var angObj = angObj || {};
                         if (result.status === 'OK' || result.status === 'success') {
                             responseData = result.data.data;
                             for (i in responseData) {
-                                if (responseData[i].state === 'IN_FLIGHT') {
-                                    responseData[i].state = 'IN FLIGHT';
+                                if(responseData[i].state === 'IN_FLIGHT') {
+                                    responseData[i].state="IN FLIGHT";
                                 }
                                 if (responseData[i].state === 'IN_PROGRESS') {
-                                    responseData[i].state = 'DEPLOYING';
+                                    responseData[i].state="DEPLOYING";
                                 }
                             }
                             if (responseData.length > 0) {
-                                $scope.noIndependantAds = false;
-                                $scope.$watch('setStartdateIndependant', function () {
+                                $scope.noIndependantAds=false;
+                                $scope.$watch('setStartdateIndependant', function() {
                                     $scope.extractor(responseData);
                                 });
                             } else {
-                                $scope.noIndependantAds = true;
+                                $scope.noIndependantAds=true;
                             }
-
                             // call extract method if
-                            $scope.workflowData['campaignAdsData'] = campaignOverView.adsDataMofiderFunc(responseData);
-
-                            isAdsInProgressState = _.filter(responseData, function (obj) { 
+                            $scope.workflowData.campaignAdsData = campaignOverView.adsDataMofiderFunc(responseData);
+                            isAdsInProgressState = _.filter(responseData, function(obj) { 
                                 return obj.state === 'DEPLOYING';
                             });
-
-                            if (isAdsInProgressState && isAdsInProgressState.length > 0) {
-                                $timeout(function () {
+                            if(isAdsInProgressState && isAdsInProgressState.length > 0) {
+                                $timeout(function() {
                                     campaignOverView.getAdsForCampaign($routeParams.campaignId);
-                                }, 10000);
+                                }, 15000);
                             }
                         } else {
                             campaignOverView.errorHandler(result);
@@ -163,24 +160,22 @@ var angObj = angObj || {};
 
                         if (result.status === 'OK' || result.status === 'success') {
                             responseData = result.data.data;
-                            for (i in responseData) {
+                            for(i in responseData){
                                 if (responseData[i].state === 'IN_FLIGHT') {
-                                    responseData[i].state = 'IN FLIGHT';
+                                    responseData[i].state="IN FLIGHT";
                                 }
                                 if (responseData[i].state === 'IN_PROGRESS') {
-                                    responseData[i].state = 'DEPLOYING';
+                                    responseData[i].state="DEPLOYING";
                                 }
                             }
                             $scope.workflowData['getADsForGroupData'][index] = campaignOverView.adsDataMofiderFunc(responseData);
-
-                            isAdsInProgressState = _.filter(responseData, function (obj) { 
+                            isAdsInProgressState = _.filter(responseData, function(obj) { 
                                 return obj.state === 'DEPLOYING';
                             });
-
-                            if (isAdsInProgressState && isAdsInProgressState.length > 0) {
-                                $timeout(function () {
+                            if(isAdsInProgressState && isAdsInProgressState.length > 0) {
+                                $timeout(function() {
                                     campaignOverView.getAdsForCampaign($routeParams.campaignId);
-                                }, 10000);
+                                }, 15000);
                             }
                         } else {
                             campaignOverView.errorHandler(result);
