@@ -25,35 +25,6 @@ var angObj = angObj || {};
         $scope.performance = [];
         $scope.objectiveSet="Select all that apply";
         $scope.deliveryLesserBookedspend = false;
-        
-        // This sets dynamic width to line to take 100% height
-        function colResize() {
-            var winHeight = $(window).height() - 110;
-            //$(".campaignAdCreateWrap, .campaignAdCreatePage, .left_column_nav").css('min-height', winHeight + 'px');
-            //$(".adStepOne .tab-pane").css('min-height', winHeight - 30 + 'px');
-        }
-        
-        //Preloader Animation
-        var winHeaderHeight = $(window).height() - 50;
-        $(".workflowPreloader").css('height', winHeaderHeight + 'px');
-        
-        if ($(window).height() < 596) {
-            setTimeout(function () {
-                $(".workflowPreloader").fadeOut("slow");
-            }, 1500);
-        } else {
-            var winHeight = $(window).height() - 126;
-            colResize();
-
-            setTimeout(function () {
-                colResize();
-                $(".workflowPreloader").fadeOut("slow");
-            }, 1500);
-        }
-        
-        $(window).resize(function () {
-            colResize();
-        });
 
         $scope.selectedKpi = function (index, kpi) {
             $scope.Campaign.kpiArr[index]['kpiType'] = kpi.name;
