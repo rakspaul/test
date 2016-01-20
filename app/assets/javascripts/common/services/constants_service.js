@@ -754,6 +754,37 @@
         this.ISNOT = 'Is Not';
         this.SELECTED_SEGMENTS = 'Selected Segments';
         this.DONE = 'Done';
+        
+        //Day Targeting
+        this.DAYPART = 'Daypart';
+        this.DAFAULTADNOTE = 'By default, Ads will be delivered all day every day when no specific daypart rules applied.';
+        this.SAVEDAYPART = 'Save Daypart';
+        this.DAYTIME = 'Day & Time';
+        this.ALLDAYTIMES = 'All days and times';
+        this.WEEKDAYMF = 'Weekday (M-F)';
+        this.WEEKENDSS = 'Weekend (S,S)';
+        this.BUSHOURSMF = 'Business hours (M-F, 9:00AM-5:00PM)';
+        this.TVPRIMETIME = 'TV Primetime (8:00PM-11:00PM)';
+        this.EARLYMORNING = 'Early Morning (5:00AM-7:00AM)';
+        this.LATENIGHT = 'Late Night (11:00PM-1:00AM)';
+        this.CUTSCHEDULE = 'Custom schedule';
+        this.TIMEZONE = 'Time Zone';
+        this.ADVERTISER = 'Advertiser';
+        this.ENDUSER = 'End User';
+        this.CLOCK = 'Clock';
+        this.HR12 = '12 hr';
+        this.HR24 = '24 hr';
+        this.DELADTIME = 'Deliver Ads on specific days and times';
+        this.ADDDAYPART = 'Add Daypart';
+        this.CLEARALL = 'Clear All';
+        this.SUNDAY = 'Sunday';
+        this.MONDAY = 'Monday';
+        this.TUESDAY = 'Tuesday';
+        this.WEDNESDAY = 'Wednesday';
+        this.THURSDAY = 'Thursday';
+        this.FRIDAY = 'Friday';
+        this.SATURDAY = 'Saturday';
+        this.TO = 'to';
 
 
 

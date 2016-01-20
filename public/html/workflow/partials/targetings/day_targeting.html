@@ -1,22 +1,22 @@
 <div class="dayTargetTop">
 	<div class="col-md-12 zeroPadding breadcrumbs" style="margin-bottom: 20px;">
 		<div class="pull-left">
-			<h5 ng-click="resetDayTargetingVariables();">Targeting</h5>
+			<h5 ng-click="resetDayTargetingVariables();" data-ng-bind="textConstants.TARGETING"></h5>
 			<span class="icon-arrow-down"></span>
-			<h5 style="cursor: default;">Daypart</h5>
-			<span class="pull-left" style="clear: left; font-size: 12px;">By default, Ads will be delivered all day every day when no specific daypart rules applied.</span>
+			<h5 style="cursor: default;" data-ng-bind="textConstants.DAYPART"></h5>
+			<span class="pull-left" style="clear: left; font-size: 12px;" data-ng-bind="textConstants.DAFAULTADNOTE"></span>
 		</div>
 		
 		<div class="pull-right">
-			<button class="pull-right btn btn-default" ng-click="saveDayPart()">Save Daypart</button> <!--ng-disabled="!adData.adName"-->
-			<button class="pull-right btn btn-link" ng-click="resetDayTargetingVariables();">Cancel</button>
+			<button class="pull-right btn btn-default" ng-click="saveDayPart()" data-ng-bind="textConstants.SAVEDAYPART"></button> <!--ng-disabled="!adData.adName"-->
+			<button class="pull-right btn btn-link" ng-click="resetDayTargetingVariables();" data-ng-bind="textConstants.CANCEL"></button>
 		</div>
 	</div>
 
 
         <div class="col-md-12 zeroPadding">
 		<div class="col-md-4 zeroPadding">
-			<label class="col-sm-12 greyTxt">Day & Time</label>
+			<label class="col-sm-12 greyTxt" data-ng-bind="textConstants.DAYTIME"></label>
 			<div class="col-md-12 zeroPadding dropdown-workflow">
 				<div class="form-group dropdown">
 					<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ng-bind="dayTimeSelected ? dayTimeSelected : timeSelected">
@@ -24,14 +24,14 @@
 						<!--<span class="icon-arrow-down"></span>-->
 					</button>
 					<ul class="dropdown-menu" aria-labelledby="dayTime" id="dayTimeSelection" data-toggle="dropdown">
-						<li class="available" ng-click="Schedule.dayTimeSelected(0)" ng-init="Schedule.dayTimeSelected(0)" ><a value="0" >All days and times</a></li>
-						<li class="available" ng-click="Schedule.dayTimeSelected(1)"><a value="1">Weekday (M-F)</a></li>
-						<li class="available" ng-click="Schedule.dayTimeSelected(2)"><a value="2">Weekend (S,S)</a></li>
-						<li class="available" ng-click="Schedule.dayTimeSelected(3)"><a value="3">Business hours (M-F, 9:00AM-5:00PM)</a></li>
-						<li class="available" ng-click="Schedule.dayTimeSelected(4)"><a value="4">TV Primetime (8:00PM-11:00PM)</a></li>
-						<li class="available" ng-click="Schedule.dayTimeSelected(5)"><a value="5">Early Morning (5:00AM-7:00AM)</a></li>
-						<li class="available" ng-click="Schedule.dayTimeSelected(6)"><a value="6">Late Night (11:00PM-1:00AM)</a></li>
-						<li class="available" ng-click="Schedule.dayTimeSelected(7)"><a value="7">Custom schedule</a></li>
+						<li class="available" ng-click="Schedule.dayTimeSelected(0)" ng-init="Schedule.dayTimeSelected(0)" ><a value="0" data-ng-bind="textConstants.ALLDAYTIMES"></a></li>
+						<li class="available" ng-click="Schedule.dayTimeSelected(1)"><a value="1" data-ng-bind="textConstants.WEEKDAYMF"></a></li>
+						<li class="available" ng-click="Schedule.dayTimeSelected(2)"><a value="2" data-ng-bind="textConstants.WEEKENDSS"></a></li>
+						<li class="available" ng-click="Schedule.dayTimeSelected(3)"><a value="3" data-ng-bind="textConstants.BUSHOURSMF"></a></li>
+						<li class="available" ng-click="Schedule.dayTimeSelected(4)"><a value="4" data-ng-bind="textConstants.TVPRIMETIME"></a></li>
+						<li class="available" ng-click="Schedule.dayTimeSelected(5)"><a value="5" data-ng-bind="textConstants.EARLYMORNING"></a></li>
+						<li class="available" ng-click="Schedule.dayTimeSelected(6)"><a value="6" data-ng-bind="textConstants.LATENIGHT"></a></li>
+						<li class="available" ng-click="Schedule.dayTimeSelected(7)"><a value="7" data-ng-bind="textConstants.CUTSCHEDULE"></a></li>
 					</ul>
 				       <input type="hidden" name="dayTimesel" class="dayTimesel" ng-model="dayTimeSelected" value="dayTimeSelected" ng-Update-Hidden required/>
 				</div>
@@ -41,15 +41,15 @@
             <div class="col-md-12 zeroPadding" style="margin-top: 20px;">
                 <div class="col-md-6 zeroPadding">
                     <div class="col-md-12 zeroPadding radioBtnToggle">
-                        <label class="col-sm-12 greyTxt">Time Zone</label>
+                        <label class="col-sm-12 greyTxt" data-ng-bind="textConstants.TIMEZONE"></label>
                         <div class="form-group btn-group miniToggle">
                             <label class="btn btn-default active timeAdvertiser" style="width: auto;">
-                                <span>Advertiser</span>
+                                <span data-ng-bind="textConstants.ADVERTISER"></span>
                                 <input type="radio" name="timeZone" checked group="timeZone" value="Advertiser" hidden="hidden" class="btn_rad advertiserClass" id="timeAdvertiser"  ng-click="timeZoneType($event,'Advertiser');">
                             </label>
 
                             <label class="btn btn-default timeEndUser" style="width: auto;">
-                                <span>End User</span>
+                                <span data-ng-bind="textConstants.ENDUSER"></span>
                                 <input type="radio" name="timeZone" group="timeZone" value="End User" hidden="hidden" class="btn_rad endUserClass" id="timeEndUser" ng-click="timeZoneType($event,'End User');">
                             </label>
                         </div>
@@ -58,15 +58,15 @@
 
                 <div class="col-md-6 zeroPadding">
                     <div class="col-md-12 zeroPadding radioBtnToggle timeZone">
-                        <label class="col-sm-12 greyTxt" style="text-align: right; padding-right: 107px !important;">Clock</label>
+                        <label class="col-sm-12 greyTxt" style="text-align: right; padding-right: 107px !important;" data-ng-bind="textConstants.CLOCK"></label>
                         <div class="form-group btn-group miniToggle pull-right">
                             <label class="btn btn-default active 12hr" style="width: auto;">
-                                <span>12 hr</span>
+                                <span data-ng-bind="textConstants.HR12"></span>
                                 <input type="radio" name="timeClock" checked group="timeClock" value="12 hr" hidden="hidden" class="btn_rad" id="12hr" ng-click="timeFormat($event,12);">
                             </label>
 
                             <label class="btn btn-default 24hr" style="width: auto;">
-                                <span>24 hr</span>
+                                <span data-ng-bind="textConstants.HR24"></span>
                                 <input type="radio" name="timeClock" group="timeClock" value="24 hr" hidden="hidden" class="btn_rad" id="24hr" ng-click="timeFormat($event,24);">
                             </label>
                         </div>
@@ -78,15 +78,15 @@
 
 <div class="dayTargetLower">
 	<div class="col-md-12 zeroPadding bottomBorder" style="margin: 20px 0;">
-		<span class="greyTxt pull-left">Deliver Ads on specific days and times</span>
+		<span class="greyTxt pull-left" data-ng-bind="textConstants.DELADTIME"></span>
 	</div>
 	
 	<div class="col-md-2 zeroPadding pull-left" ng-if="dayTimeSelected === 'Custom schedule'" ng-init="Schedule.customLength = 0">
-		<a class="pull-left" style="padding: 0; margin-bottom: 15px;" ng-click="addMoreCustom()">Add Daypart</a>
+		<a class="pull-left" style="padding: 0; margin-bottom: 15px;" ng-click="addMoreCustom()" data-ng-bind="textConstants.ADDDAYPART"></a>
 	</div>
 	
 	<div class="col-md-2 zeroPadding pull-right" ng-if="customFlag">
-		<a class="pull-right" style="padding: 0;" clearall>Clear All</a>
+		<a class="pull-right" style="padding: 0;" clearall data-ng-bind="textConstants.CLEARALL"></a>
 	</div>
 	<!--<div class="col-md-2 zeroPadding" ng-if="dayTimeSelected === 'Custom schedule'" ng-init="Schedule.customLength = 0">-->
         <!--<a class="pull-right" style="padding: 0;" ng-click="addMoreCustom()">Add Row</a>-->
@@ -159,13 +159,13 @@
                         <span class="icon-arrow-down"></span>
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="dayTime" id="selectDay" data-toggle="dropdown">
-                        <li class="available"><a ng-click="selectday($index,'Sunday')">Sunday</a></li>
-                        <li class="available"><a ng-click="selectday($index,'Monday')">Monday</a></li>
-                        <li class="available"><a ng-click="selectday($index,'Tuesday')">Tuesday</a></li>
-                        <li class="available"><a ng-click="selectday($index,'Wednesday')">Wednesday</a></li>
-                        <li class="available"><a ng-click="selectday($index,'Thursday')">Thursday</a></li>
-                        <li class="available"><a ng-click="selectday($index,'Friday')">Friday</a></li>
-                        <li class="available"><a ng-click="selectday($index,'Saturday')">Saturday</a></li>
+                        <li class="available"><a ng-click="selectday($index,'Sunday')" data-ng-bind="textConstants.SUNDAY"></a></li>
+                        <li class="available"><a ng-click="selectday($index,'Monday')" data-ng-bind="textConstants.MONDAY"></a></li>
+                        <li class="available"><a ng-click="selectday($index,'Tuesday')" data-ng-bind="textConstants.TUESDAY"></a></li>
+                        <li class="available"><a ng-click="selectday($index,'Wednesday')" data-ng-bind="textConstants.WEDNESDAY"></a></li>
+                        <li class="available"><a ng-click="selectday($index,'Thursday')" data-ng-bind="textConstants.THURSDAY"></a></li>
+                        <li class="available"><a ng-click="selectday($index,'Friday')" data-ng-bind="textConstants.FRIDAY"></a></li>
+                        <li class="available"><a ng-click="selectday($index,'Saturday')" data-ng-bind="textConstants.SATURDAY"></a></li>
                         <!--<li class="available"><a ng-click="Schedule.dayPart[$index]['day'] = 'Sunday'" ng-init="Schedule.dayPart[$index]['day']= selectedDays[$index]">Sunday</a></li>-->
                         <!--<li class="available"><a ng-click="Schedule.dayPart[$index]['day'] = 'Monday'" ng-init="Schedule.dayPart[$index]['day']= selectedDays[$index]">Monday</a></li>-->
                         <!--<li class="available"><a ng-click="Schedule.dayPart[$index]['day'] = 'Tuesday'" ng-init="Schedule.dayPart[$index]['day']= selectedDays[$index]">Tuesday</a></li>-->
@@ -191,7 +191,7 @@
                         <span class="icon-arrow-down"></span>
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="dayTime" id="startTime" data-toggle="dropdown">
-                        <li class="available" ng-click="selectStartTime($parent.$index,time.time)" ng-value="time.time" ng-repeat="time in getStartTimes"><a>{{twelve ? time.twelveHrFormat: time.twentyfourHrFormat}}</a></li>
+                        <li class="available" ng-click="selectStartTime($parent.$index,time.time)" ng-value="time.time" ng-repeat="time in getStartTimes"><a data-ng-bind="textConstants.">{{twelve ? time.twelveHrFormat: time.twentyfourHrFormat}}</a></li>
                     </ul>
                     <input ng-if="dayTimeSelected != 'Custom schedule'" type="hidden" name="stTime" class=""  ng-model="Schedule.dayPart[$index]['stTime']" ng-value="{{time.time}}" field="stTime" index="{{$index}}" ng-Update-Hidden-Days/>
                     <input ng-if="dayTimeSelected === 'Custom schedule' && (modeSet!='edit') && (intermediateChange)" type="hidden" name="stTime" class=""  ng-model="Schedule.dayPart[$index]['stTime']" ng-init="Schedule.dayPart[$index]['stTime']='24'" ng-value="{{time.time}}" field="stTime" index="{{$index}}" ng-Update-Hidden-Days/>
@@ -199,7 +199,7 @@
             </div>
         </div>
 
-        <div class="midTo" ng-if="Schedule.dayPart[$index]['stTime'] < 24">to</div>
+        <div class="midTo" ng-if="Schedule.dayPart[$index]['stTime'] < 24" data-ng-bind="textConstants.TO"></div>
         <!--<div class="midTo" ng-if="dayObj.startAmPm.length>0">to</div>-->
         <div class="col-md-2 zeroPadding hourRow" ng-if="Schedule.dayPart[$index]['stTime'] < 24">
             <div class="col-md-12 zeroPadding dropdown-workflow">
