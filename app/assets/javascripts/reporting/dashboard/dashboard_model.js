@@ -24,7 +24,7 @@ dashboardModule.factory("dashboardModel", ['loginModel', 'advertiserModel', 'bra
             dashboardData.totalCampaigns = totalCampaigns;
             var mediaPlanText = 'Media Plan' + (dashboardData.totalCampaigns > 1 ? 's' : '');
             if (advertiserId > 0 && brandId == -1) {
-                dashboardData.toolTip = 'Showing data for ' + dashboardData.totalCampaigns + ' '+mediaPlanText+' across ' + brandsModel.totalBrands() + ' brands';
+                dashboardData.toolTip = 'Showing data for ' + dashboardData.totalCampaigns + ' '+mediaPlanText+' across ' + brandsModel.totalBrands() + ' brand' + (Number(brandsModel.totalBrands()) > 1 ? 's' : '');
             } else {
                 dashboardData.toolTip = 'Showing data for ' + dashboardData.totalCampaigns + ' '+mediaPlanText;
             }

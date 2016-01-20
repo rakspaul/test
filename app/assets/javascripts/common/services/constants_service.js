@@ -729,6 +729,29 @@
         this.BUILD_REPORT = 'Build Report';
         this.CUSTOM_REPORTS = 'Custom Reports';
         this.MEDIA_PLAN_REPORTS = 'Media Plan Reports';
+        
+        //Overview: Create Ad Groups
+        this.CREATEADGROUP = 'Create Ad Group';
+        this.WHATADGROUPNAME = 'What is your Ad Group name?';
+        this.ADGROUPNAME = 'Ad Group Name';
+        this.PLEASENAMEADGRP = 'Please enter a name for the ad group.';
+        this.WHATFLIGHTDATES = 'What are the Flight Dates?';
+        this.PLEASESELSTARTDATE = 'Please select the start Date.';
+        
+        //Audience Targeting
+        this.SAVEAUD = 'Save Audience';
+        this.SELSEGMENTS = 'Select Segments';
+        this.OPTIONAL = 'Optional';
+        this.KEYWORD = 'Keyword';
+        this.SOURCE = 'Source';
+        this.CLEARALL = 'Clear All';
+        this.CATEGORY = 'Category';
+        this.SEGMENTNAME = 'Segment Name';
+        this.NORESULTSFOUND = ' No Results Found...';
+        this.AND = 'And';
+        this.OR = 'Or';
+        this.IS = 'Is';
+        this.ISNOT = 'Is Not';
 
 
 

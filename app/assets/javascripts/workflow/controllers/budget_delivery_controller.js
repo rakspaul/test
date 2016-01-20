@@ -1,45 +1,41 @@
-angObj.controller('BudgetDeliveryController', function ($scope, $window, $routeParams, constants, workflowService, $timeout, 
-    utils, $location, $filter, momentService) {
-    $scope.ImpressionPerUserValidator = function () {
-        var impressionPerUser,
-            totalImpression;
+angObj.controller('BudgetDeliveryController', function ($scope, $window, $routeParams, constants, workflowService, $timeout, utils, $location, $filter, momentService) {
 
+    $scope.$parent.budgetErrorObj = {};
+
+    $scope.ImpressionPerUserValidator = function() {
         $scope.budgetErrorObj.impressionPerUserValidator = false;
-        impressionPerUser = Number($scope.adData.quantity);
-        if ($scope.adData.budgetType.toLowerCase() === 'impressions' && impressionPerUser >=0) {
-            totalImpression = Number($scope.adData.budgetAmount);
-            if (impressionPerUser > totalImpression) {
+        var impressionPerUser = Number($scope.adData.quantity);
+        if ($scope.adData.budgetType.toLowerCase() == 'impressions' && impressionPerUser >=0) {
+            var totalImpression = Number($scope.adData.budgetAmount);
+            if(impressionPerUser > totalImpression) {
                 $scope.budgetErrorObj.impressionPerUserValidator = true;
             }
         }
     };
 
-    $scope.adBudgetValidator = function () {
-        var campaignData = $scope.workflowData.campaignData,
-            campaignBuget = Number(campaignData.deliveryBudget || 0),
-            adAvailableRevenue,
-            adsData,
-            adMaximumRevenue = Number(campaignData.deliveryBudget - (campaignData.bookedSpend || 0)),
-            budgetAmount = Number($scope.adData.budgetAmount),
-            unitType,
-            unitCost,
-            totalBudget;
 
-        if (!$scope.workflowData.campaignData) {
-            return false;
-        }
+    $scope.adBudgetValidator = function() {
+        if(!$scope.workflowData.campaignData) return false;
         $scope.budgetErrorObj.mediaCostValidator = false;
         $scope.budgetErrorObj.availableRevenueValidator = false;
         $scope.budgetErrorObj.availableMaximumAdRevenueValidator = false;
 
-        if ($scope.workflowData.adsData && $scope.mode =='edit') {
+        var campaignData = $scope.workflowData.campaignData;
+        var campaignBuget = Number(campaignData.deliveryBudget || 0);
+        var adAvailableRevenue;
+        var adsData;
+        var adMaximumRevenue = Number(campaignData.deliveryBudget - (campaignData.bookedSpend || 0));
+        var budgetAmount = Number($scope.adData.budgetAmount);
+
+        if($scope.workflowData.adsData && $scope.mode =='edit') {
             adsData = $scope.workflowData.adsData;
             adAvailableRevenue = Number(adsData.availableRevenue);
         }
-        if (budgetAmount > 0) {
+        if(budgetAmount >0) {
             $scope.ImpressionPerUserValidator();
-            if ($scope.adData.budgetType.toLowerCase() === 'cost') {
-                if (adAvailableRevenue) {
+            if ($scope.adData.budgetType.toLowerCase() == 'cost') {
+
+                if(adAvailableRevenue) {
                     if (budgetAmount > adAvailableRevenue) {
                         $scope.budgetErrorObj.availableRevenueValidator = true;
                         $scope.budgetErrorObj.mediaCostValidator = false;
@@ -47,15 +43,14 @@ angObj.controller('BudgetDeliveryController', function ($scope, $window, $routeP
                 } else if (budgetAmount > campaignBuget) {
                     $scope.budgetErrorObj.availableRevenueValidator = false;
                     $scope.budgetErrorObj.mediaCostValidator = true;
-                } else if (budgetAmount > adMaximumRevenue) { 
-                    //in case of create ad total budget is greater then adMaximumRevene
+                } else if(budgetAmount > adMaximumRevenue) { //in case of create ad total budget is greater then adMaximumRevene
                     $scope.budgetErrorObj.availableMaximumAdRevenueValidator = true;
                     $scope.adMaximumRevenue = Math.round(adMaximumRevenue);
                 }
             } else {
-                unitType = $scope.adData.unitType;
-                unitCost = Number($scope.adData.unitCost);
-                totalBudget;
+                var unitType = $scope.adData.unitType;
+                var unitCost = Number($scope.adData.unitCost);
+                var totalBudget;
                 if (unitType.name === 'CPM') {
                     totalBudget = unitCost * (budgetAmount / 1000);
                 } else if (unitType.name === 'CPC' || unitType.name === 'CPA') {
@@ -65,21 +60,23 @@ angObj.controller('BudgetDeliveryController', function ($scope, $window, $routeP
                     $scope.budgetErrorObj.availableRevenueValidator = true;
                 }
 
-                if ($scope.mode === 'create' && totalBudget > adMaximumRevenue) { 
-                    //in case of create ad total budget is greater then adMaximumRevene
+                if($scope.mode === 'create' && totalBudget > adMaximumRevenue) { //in case of create ad total budget is greater then adMaximumRevene
                     $scope.budgetErrorObj.availableMaximumAdRevenueValidator = true;
                 }
+
+
+
             }
         }
-    };
+    }
 
-    $scope.$watch('adData.budgetType', function (newValue, oldValue) {
-        if (newValue !== oldValue) {
+    $scope.$watch('adData.budgetType', function(newValue, oldValue) {
+        if(newValue !== oldValue) {
             $scope.budgetErrorObj.availableRevenueValidator = false;
             $scope.budgetErrorObj.mediaCostValidator = false;
         }
         $scope.adBudgetValidator();
-    });
+    })
 
     $scope.checkForPastDate = function (startDate, endDate) {
         var endDate = moment(endDate).format(constants.DATE_US_FORMAT);
@@ -87,46 +84,42 @@ angObj.controller('BudgetDeliveryController', function ($scope, $window, $routeP
     };
 
     $scope.handleEndFlightDate = function (data) {
-        var endDateElem = $('#endDateInput'),
-            startDateElem = $('#startDateInput'),
-            startDate = data.startTime,
-            endDate = data.endTime,
-            adsDate = JSON.parse(localStorage.getItem('adsDates'));
+        var endDateElem = $('#endDateInput');
+        var startDateElem = $('#startDateInput');
 
-        // if End Date is in Past
-        if (!endDate && adsDate) { 
+        var startDate = data.startTime;
+        var endDate = data.endTime;
+        var adsDate = JSON.parse(localStorage.getItem('adsDates'));
+        if (!endDate && adsDate) { // if End Date is in Past
             var changeDate = endDate = adsDate.adEndDate;
             $scope.adData.endTime = changeDate;
             if (moment().isAfter(endDate)) {
-                endDateElem.datepicker('setStartDate', moment().format(constants.DATE_US_FORMAT));
+                endDateElem.datepicker("setStartDate", moment().format(constants.DATE_US_FORMAT));
             }
         }
     };
 
     $scope.handleStartFlightDate = function (data) {
-        var endDateElem = $('#endDateInput'),
-            startDateElem = $('#startDateInput'),
-            startDate = data.startTime,
-            endDate = data.endTime,
-            campaignEndTime = momentService.utcToLocalTime($scope.workflowData['campaignData'].endTime),
-            changeDate;
+        var endDateElem = $('#endDateInput');
+        var startDateElem = $('#startDateInput');
 
+        var startDate = data.startTime;
+        var endDate = data.endTime;
+
+        var campaignEndTime = momentService.utcToLocalTime($scope.workflowData['campaignData'].endTime);
+        var changeDate;
         if ($scope.mode !== 'edit') {
-            endDateElem
-                .attr('disabled', 'disabled')
-                .css({'background': '#eee'});
+            endDateElem.attr("disabled", "disabled").css({'background': '#eee'});
             if (startDate) {
-                endDateElem
-                    .removeAttr('disabled')
-                    .css({'background': 'transparent'});
-                changeDate = moment(startDate).format(constants.DATE_US_FORMAT);
-                endDateElem.datepicker('setStartDate', changeDate);
-                if (window.location.href.indexOf('adGroup') > -1) {
-                    endDateElem.datepicker('setEndDate', momentService.utcToLocalTime(localStorage.getItem('edTime')));
+                endDateElem.removeAttr("disabled").css({'background': 'transparent'});
+                changeDate = moment(startDate).format(constants.DATE_US_FORMAT)
+                endDateElem.datepicker("setStartDate", changeDate);
+                if (window.location.href.indexOf("adGroup") > -1) {
+                    endDateElem.datepicker("setEndDate", momentService.utcToLocalTime(localStorage.getItem("edTime")));
                 } else {
-                    endDateElem.datepicker('setEndDate', campaignEndTime);
+                    endDateElem.datepicker("setEndDate", campaignEndTime);
                 }
-                endDateElem.datepicker('update', changeDate);
+                endDateElem.datepicker("update", changeDate);
             }
         } else {
             changeDate = moment(startDate).format(constants.DATE_US_FORMAT);
@@ -135,50 +128,49 @@ angObj.controller('BudgetDeliveryController', function ($scope, $window, $routeP
                 changeDate = startDate = adsDate.adStartDate;
                 $scope.adData.startTime = changeDate;
                 if (moment().isAfter(endDate, 'day')) {
-                    endDateElem.datepicker('setStartDate', moment().format(constants.DATE_US_FORMAT));
+                    endDateElem.datepicker("setStartDate", moment().format(constants.DATE_US_FORMAT));
                 }
             } else {
-                endDateElem.datepicker('setStartDate', changeDate);
+                endDateElem.datepicker("setStartDate", changeDate);
             }
+
             if (moment(startDate).isAfter(endDate, 'day')) {
-                endDateElem.datepicker('update', changeDate);
+                endDateElem.datepicker("update", changeDate);
             }
         }
-    };
+    }
 
     $scope.setDateInEditMode = function (campaignStartTime, campaignEndTime) {
-        var endDateElem = $('#endDateInput'),
-            startDateElem = $('#startDateInput'),
-            adsDate = JSON.parse(localStorage.getItem('adsDates')),
-            startDate, endDate;
+        var endDateElem = $('#endDateInput');
+        var startDateElem = $('#startDateInput');
+        var adsDate = JSON.parse(localStorage.getItem('adsDates'));
+        var startDate, endDate;
 
         if (adsDate) {
             startDate = adsDate.adStartDate;
             endDate = adsDate.adEndDate;
         }
-        if (campaignStartTime > startDate) {
-            // ads start Date in Past
-            startDateElem.datepicker('setStartDate', campaignStartTime);
+        if (campaignStartTime > startDate) {// ads start Date in Past
+            startDateElem.datepicker("setStartDate", campaignStartTime);
         }
         if (startDate > campaignStartTime) {
-            startDateElem.datepicker('update', startDate);
+            startDateElem.datepicker("update", startDate);
         }
         if (campaignEndTime >= endDate) {
-            startDateElem.datepicker('setEndDate', campaignEndTime);
+            startDateElem.datepicker("setEndDate", campaignEndTime);
         }
-        if (moment(endDate).isAfter(campaignEndTime, 'day')) {
-            // ads start Date in Past
-            endDateElem.datepicker('setEndDate', endDate);
-            endDateElem.datepicker('setStartDate', endDate);
-            endDateElem.datepicker('update', endDate);
+        if (moment(endDate).isAfter(campaignEndTime, 'day')) {// ads start Date in Past
+            endDateElem.datepicker("setEndDate", endDate);
+            endDateElem.datepicker("setStartDate", endDate);
+            endDateElem.datepicker("update", endDate);
         } else {
-            endDateElem.datepicker('setStartDate', startDate);
-            endDateElem.datepicker('setEndDate', campaignEndTime);
-            endDateElem.datepicker('update', endDate);
+            endDateElem.datepicker("setStartDate", startDate);
+            endDateElem.datepicker("setEndDate", campaignEndTime);
+            endDateElem.datepicker("update", endDate);
         }
     };
 
-    $scope.resetBudgetField = function () {
+    $scope.resetBudgetField = function() {
         $scope.adData.budgetAmount = '';
         $scope.budgetErrorObj.mediaCostValidator = '';
         $scope.budgetErrorObj.availableRevenueValidator = '';
@@ -186,39 +178,41 @@ angObj.controller('BudgetDeliveryController', function ($scope, $window, $routeP
     };
 
     $scope.$parent.initiateDatePicker = function () {
-        var endDateElem = $('#endDateInput'),
-            startDateElem = $('#startDateInput'),
-            startDateElem = $('#startDateInput'),
-            endDateElem = $('#endDateInput'),
-            campaignData = $scope.workflowData['campaignData'],
-            campaignStartTime = momentService.utcToLocalTime(campaignData.startTime),
-            campaignEndTime = momentService.utcToLocalTime(campaignData.endTime),
-            adGroupStartDate,
-            adGroupEndDate;
+        var endDateElem = $('#endDateInput');
+        var startDateElem = $('#startDateInput');
+
+        var startDateElem = $('#startDateInput');
+        var endDateElem = $('#endDateInput');
+        var campaignData = $scope.workflowData['campaignData'];
+        var campaignStartTime = momentService.utcToLocalTime(campaignData.startTime);
+        var campaignEndTime = momentService.utcToLocalTime(campaignData.endTime);
 
         if (moment().isAfter(campaignStartTime, 'day')) {
             campaignStartTime = moment().format(constants.DATE_US_FORMAT);
         }
-        $scope.mode === 'edit' && endDateElem.removeAttr('disabled').css({'background': 'transparent'});
-        if (window.location.href.indexOf('adGroup') > -1) {
-            adGroupStartDate = momentService.utcToLocalTime(localStorage.getItem('stTime'));
-            adGroupEndDate = momentService.utcToLocalTime(localStorage.getItem('edTime'));
-            startDateElem.datepicker('setStartDate', adGroupStartDate);
-            startDateElem.datepicker('setEndDate', adGroupEndDate);
-            if ($scope.mode === 'edit') {
+        $scope.mode == 'edit' && endDateElem.removeAttr("disabled").css({'background': 'transparent'});
+        if (window.location.href.indexOf("adGroup") > -1) {
+            var adGroupStartDate = momentService.utcToLocalTime(localStorage.getItem("stTime"));
+            var adGroupEndDate = momentService.utcToLocalTime(localStorage.getItem("edTime"));
+
+            startDateElem.datepicker("setStartDate", adGroupStartDate);
+            startDateElem.datepicker("setEndDate", adGroupEndDate);
+            if ($scope.mode == 'edit') {
                 $scope.setDateInEditMode(adGroupStartDate, adGroupEndDate);
             } else {
-                startDateElem.datepicker('update', adGroupStartDate);
+                startDateElem.datepicker("update", adGroupStartDate);
             }
         } else {
-            startDateElem.datepicker('setStartDate', campaignStartTime);
-            endDateElem.datepicker('setEndDate', campaignEndTime);
-            if ($scope.mode === 'edit') {
+            startDateElem.datepicker("setStartDate", campaignStartTime);
+            endDateElem.datepicker("setEndDate", campaignEndTime);
+            if ($scope.mode == 'edit') {
                 $scope.setDateInEditMode(campaignStartTime, campaignEndTime);
             } else {
-                startDateElem.datepicker('setEndDate', campaignEndTime);
-                startDateElem.datepicker('update', campaignStartTime);
+                startDateElem.datepicker("setEndDate", campaignEndTime);
+                startDateElem.datepicker("update", campaignStartTime);
             }
         }
     };
+
+
 });
