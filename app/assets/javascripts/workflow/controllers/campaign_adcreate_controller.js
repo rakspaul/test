@@ -307,6 +307,9 @@ var angObj = angObj || {};
 
             if (responseData.adFormat) {
                 var format = $filter('toTitleCase')(responseData.adFormat);
+                if(format==="Richmedia"){
+                    format="Rich Media";
+                }
                 $scope.adFormatSelection(format,"","editData");
                 $scope.adData.adFormat = format;
 
@@ -654,6 +657,8 @@ var angObj = angObj || {};
             $scope.adData.setSizes = constants.WF_NOT_SET;
             $scope.creativeData['creativeInfo'] = "undefined";
             $scope.selectedArr.length = 0;
+            /*left nav*/
+            $scope.adData.adFormat= $scope.adformatName;
 
             /*adFormatSelection code*/
             $scope.$broadcast('adFormatChanged', $scope.adformatName);
@@ -689,10 +694,12 @@ var angObj = angObj || {};
                     $(".goalBtnWithPopup .popUpCue").css({left: relativeX});
                 }
             }else if(editdata==="editData"){ /*populating first time in editmode*/
-                if(angular.lowercase(adformatName)=="display")
-                    $scope.adformatName="Display"
-                else if(angular.lowercase(adformatName)=="richmedia")
-                    $scope.adformatName="Rich Media"
+                $scope.adformatName=adformatName;
+
+                //if(angular.lowercase(adformatName)=="display")
+                 //   $scope.adformatName="Display"
+               // else if(angular.lowercase(adformatName)=="richmedia")
+                 //   $scope.adformatName="Rich Media"
 
                 $scope.$broadcast('adFormatChanged', $scope.adformatName);
                 var adFormatsData = $scope.workflowData['adFormats'];
