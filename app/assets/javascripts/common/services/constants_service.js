@@ -785,6 +785,22 @@
         this.FRIDAY = 'Friday';
         this.SATURDAY = 'Saturday';
         this.TO = 'to';
+        
+        //Geo Targeting
+        this.GEOGRAPHY = 'Geography';
+        this.INCZIP = 'Including zip / postal codes is going to limit your geographic targeting significantly.';
+        this.CONTINUE = 'Continue';
+        this.REGCITY = 'REGION & CITY';
+        this.METRO = 'METRO';
+        this.ZIPPOSTCODE = 'ZIP / POSTAL CODE';
+        this.INCEXCCITYNOTE = 'Once you include or exclude a city, regions are not available for further inclusion or exclusion.';
+        this.REGION = 'Region';
+        this.CITY = 'City';
+        this.SELECTED = 'Selected';
+        this.REGCITIES = 'Regions & Cities';
+        this.REMOVEALL = 'Remove All';
+        this.METROS = 'Metros';
+        this.DMAS = 'DMAs';
 
 
 
