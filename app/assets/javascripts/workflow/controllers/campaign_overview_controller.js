@@ -236,7 +236,7 @@ var angObj = angObj || {};
                         if(isAdsInProgressState && isAdsInProgressState.length >0) {
                             $timeout(function() {
                                 campaignOverView.getAdsForCampaign($routeParams.campaignId);
-                            }, 10000);
+                            }, 15000);
                         }
                     } else {
                         campaignOverView.errorHandler(result);
@@ -273,7 +273,7 @@ var angObj = angObj || {};
                         if(isAdsInProgressState && isAdsInProgressState.length >0) {
                             $timeout(function() {
                                 campaignOverView.getAdsForCampaign($routeParams.campaignId);
-                            }, 10000);
+                            }, 15000);
                         }
                     }
                     else {
