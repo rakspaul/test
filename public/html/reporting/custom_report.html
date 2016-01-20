@@ -533,16 +533,16 @@
 											<span class="dropdown_ul_text" data-toggle="dropdown">
 												<span class="dd_txt"
                                                       id="date-selected-txt"
-                                                      ng-bind-html="reports.schedule.occurance.weekly ?
-                                                        reports.schedule.occurance.weekly :
+                                                      ng-bind-html="reports.schedule.occurance ?
+                                                        reports.schedule.occurance :
                                                         textConstants.SELECT">
                                                 </span>
 												<span class="arrow_img"></span>
 											</span>
                                             <ul class="dropdown-menu">
                                                 <li ng-repeat="week in textConstants.WEEKNAME"
-                                                    ng-model="reports.schedule.occurance.weekly"
-                                                    ng-click="reports.schedule.occurance.weekly = week;
+                                                    ng-model="reports.schedule.occurance"
+                                                    ng-click="reports.schedule.occurance = week;
                                                         select_dropdown_option($event);" ng-bind-html="week">
                                                 </li>
                                             </ul>
@@ -558,15 +558,15 @@
                                             <span class="dropdown_ul_text" data-toggle="dropdown">
                                                 <span class="dd_txt"
                                                     id="date-selected-txt"
-                                                    ng-bind-html="reports.schedule.occurance.monthly ?
-                                                        reports.schedule.occurance.monthly :
+                                                    ng-bind-html="reports.schedule.occurance ?
+                                                        reports.schedule.occurance :
                                                         textConstants.SELECT">
                                                 </span>
                                                 <span class="arrow_img"></span>
                                             </span>
                                             <ul class="dropdown-menu">
                                                 <li ng-repeat="schedule_occur in textConstants.SCHEDULE_REPORT_OCCURS_ON_LIST"
-                                                    ng-model="reports.schedule.occurance.monthly"
+                                                    ng-model="reports.schedule.occurance"
                                                     ng-click="select_schedule_occurs_option($event, schedule_occur);"
                                                     ng-bind-html="schedule_occur">
                                                 </li>
