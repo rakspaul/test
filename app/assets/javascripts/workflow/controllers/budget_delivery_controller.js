@@ -1,6 +1,6 @@
 angObj.controller('BudgetDeliveryController', function ($scope, $window, $routeParams, constants, workflowService, $timeout, utils, $location, $filter, momentService) {
 
-
+    $scope.$parent.budgetErrorObj = {};
 
     $scope.ImpressionPerUserValidator = function() {
         $scope.budgetErrorObj.impressionPerUserValidator = false;
