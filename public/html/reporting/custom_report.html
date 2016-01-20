@@ -1217,7 +1217,7 @@
              ng-bind="customeReportData.video_measurable_imps | nrFormat">
         </div>
         <div class="each_col" ng-if="customeReportData.video_measurable_perc>=0"
-             ng-bind="customeReportData.video_measurable_perc | number:0">
+             ng-bind="(customeReportData.video_measurable_perc | number:0) +'%'">
         </div>
         <div class="each_col" ng-if="customeReportData.video_viewable_imps>=0"
              ng-bind="customeReportData.video_viewable_imps | nrFormat">
