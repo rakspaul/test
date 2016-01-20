@@ -20,7 +20,7 @@ angObj.controller('BudgetDeliveryController', function ($scope, $window, $routeP
             adsData,
             adMaximumRevenue,
             budgetAmount,
-            unitType
+            unitType,
             unitCost,
             totalBudget;
 

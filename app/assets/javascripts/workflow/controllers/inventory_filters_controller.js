@@ -25,13 +25,15 @@ var angObj = angObj || {};
         };
 
         $scope.selectFiles = function (files) {
-            if (files !== null && files.length > 0) {
-                $scope.showDomainListPopup = true;
-                $scope.adData.listName = $scope.adData.inventory && $scope.adData.inventory.name;
-                $scope.files = files;
-                if (!$scope.adData.inventory) {
-                    $scope.adData.inventory = {};
-                    $scope.adData.inventory.domainAction = 'INCLUDE';
+            if (files) {
+                if (files.length > 0) {
+                    $scope.showDomainListPopup = true;
+                    $scope.adData.listName = $scope.adData.inventory && $scope.adData.inventory.name;
+                    $scope.files = files;
+                    if (!$scope.adData.inventory) {
+                        $scope.adData.inventory = {};
+                        $scope.adData.inventory.domainAction = 'INCLUDE';
+                    }
                 }
             }
         };
