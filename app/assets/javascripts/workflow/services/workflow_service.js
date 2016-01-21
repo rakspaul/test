@@ -86,7 +86,7 @@
                 var clientId =  loginModel.getSelectedClient().id,
                     url = apiPaths.WORKFLOW_APIUrl + '/clients/' + clientId + '/campaigns/' + campaignId + '/ad_groups';
 
-                return dataService.fetch(url, {cache:false});
+                return dataService.fetch(url, {cache: false});
             },
 
             createAdGroups: function (campaignId, data) {

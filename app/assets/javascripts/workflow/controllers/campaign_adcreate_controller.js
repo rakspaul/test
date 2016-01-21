@@ -60,6 +60,29 @@ var angObj = angObj || {};
                                                 disablePauseEnableResume($scope.getAd_result);
                                                 processEditMode(result);
                                             });
+                                        workflowService
+                                            .getAdgroups($scope.campaignId)
+                                            .then(function (result) {
+                                                var responseData,
+                                                    adGroupData = {},
+                                                    n,
+                                                    i;
+
+                                                if (result.status === 'OK' || result.status === 'success') {
+                                                    responseData = result.data.data;
+                                                    $scope.workflowData.campaignGetAdGroupsData = responseData;
+                                                    n = responseData.length;
+                                                    for (i = 0; i < n; i++) {
+                                                        if (responseData[i].adGroup.id == $scope.adGroupId) {
+                                                            adGroupData.startDate = momentService.utcToLocalTime(responseData[i].adGroup.startTime);
+                                                            adGroupData.endDate = momentService.utcToLocalTime(responseData[i].adGroup.endTime);
+                                                        }
+                                                    }
+                                                    $scope.workflowData.adGroupData = adGroupData;
+                                                } else {
+                                                    campaignOverView.errorHandler(result);
+                                                }
+                                            }, campaignOverView.errorHandler);
                                     }
                                 } else {
                                     $scope.initiateDatePicker();
@@ -719,7 +742,7 @@ var angObj = angObj || {};
                     relativeX = left - $(event.target).closest('.goalBtnWithPopup').offset().left - 110;
                     $('.goalBtnWithPopup .popUpCue').css({left: relativeX});
                 }
-            } else if (editdata==='editData') { 
+            } else if (editdata === 'editData') { 
                 // populating first time in editmode
                 $scope.adformatName=adformatName;
                 $scope.$broadcast('adFormatChanged', $scope.adformatName);

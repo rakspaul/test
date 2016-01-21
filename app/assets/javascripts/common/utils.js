@@ -307,691 +307,692 @@
         };
     }]);
 
-    angObj.directive('welcomeUser', function (common) {
-        return {
-            restrict: 'AE',
-            scope: {
-                username: '@username'
-            },
-            template: '<div class="navbar" role="navigation">' +
-                ' <div class="container-fluid">' +
-                ' <div class="navbar-header col-xs-6 col-sm-2 col-md-3">' +
-                ' <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">' +
-                ' <span class="sr-only">Toggle navigation</span>' +
-                ' <span class="icon-bar"></span>' +
-                ' <span class="icon-bar"></span>' +
-                ' <span class="icon-bar"></span>' +
-                ' </button>' +
-                ' <a id="logo" class="navbar-brand" href="#">Collective Media</a>' +
-                ' </div>' +
-                ' <span class="navbar-brand col-xs-4 col-sm-6 col-md-6 applicationName">' + common.title + '</span>' +
-                ' <div class="navbar-collapse collapse" >' +
-                ' <ul class="nav navbar-nav navbar-right">' +
-                ' <li><a class="buttonRegularText" >Welcome, {{username}}</a></li>' +
-                ' </ul>' +
-                ' <!--<loader class="loading-spinner-holder" data-loading >Loading...</loader>-->' +
-                ' </div>' +
-                ' </div>' +
-                '</div>'
-        };
-    });
+    angObj
+        .directive('welcomeUser', function (common) {
+            return {
+                restrict: 'AE',
+                scope: {
+                    username: '@username'
+                },
+                template: '<div class="navbar" role="navigation">' +
+                    ' <div class="container-fluid">' +
+                    ' <div class="navbar-header col-xs-6 col-sm-2 col-md-3">' +
+                    ' <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">' +
+                    ' <span class="sr-only">Toggle navigation</span>' +
+                    ' <span class="icon-bar"></span>' +
+                    ' <span class="icon-bar"></span>' +
+                    ' <span class="icon-bar"></span>' +
+                    ' </button>' +
+                    ' <a id="logo" class="navbar-brand" href="#">Collective Media</a>' +
+                    ' </div>' +
+                    ' <span class="navbar-brand col-xs-4 col-sm-6 col-md-6 applicationName">' + common.title + '</span>' +
+                    ' <div class="navbar-collapse collapse" >' +
+                    ' <ul class="nav navbar-nav navbar-right">' +
+                    ' <li><a class="buttonRegularText" >Welcome, {{username}}</a></li>' +
+                    ' </ul>' +
+                    ' <!--<loader class="loading-spinner-holder" data-loading >Loading...</loader>-->' +
+                    ' </div>' +
+                    ' </div>' +
+                    '</div>'
+            };
+        })
 
-    angObj.directive('loader', function ($http) {
-        angular.element('#ngViewPlaceHolder').hide();
-        return {
-            restrict: 'AEC',
-            link: function (scope, elm, attrs) {
-                scope.isLoading = function () {
-                    return $http.pendingRequests.length > 0;
-                };
-                scope.$watch(scope.isLoading, function (v) {
-                    if (v) {
-                        elm.show();
-                        angular.element('#ngViewPlaceHolder').hide();
-                    } else {
-                        elm.hide();
-                        angular.element('#ngViewPlaceHolder').show();
-                    }
-                });
-            }
-        };
-    });
-
-    angObj.directive('scrollOnClick', function ($routeParams) {
-        return {
-            restrict: 'A',
-            link: function (scope, $elm, attrs) {
-                if ($routeParams.to !== undefined) {
-                    window.setTimeout(function () {
-                        if ($routeParams.to.length) {
-                            jQuery('body').animate({
-                                scrollTop: jQuery('#camp_' + $routeParams.to).offset().top
-                            }, 'slow');
+        .directive('loader', function ($http) {
+            angular.element('#ngViewPlaceHolder').hide();
+            return {
+                restrict: 'AEC',
+                link: function (scope, elm, attrs) {
+                    scope.isLoading = function () {
+                        return $http.pendingRequests.length > 0;
+                    };
+                    scope.$watch(scope.isLoading, function (v) {
+                        if (v) {
+                            elm.show();
+                            angular.element('#ngViewPlaceHolder').hide();
+                        } else {
+                            elm.hide();
+                            angular.element('#ngViewPlaceHolder').show();
                         }
-                    }, 2000);
+                    });
+                }
+            };
+        })
+
+        .directive('scrollOnClick', function ($routeParams) {
+            return {
+                restrict: 'A',
+                link: function (scope, $elm, attrs) {
+                    if ($routeParams.to !== undefined) {
+                        window.setTimeout(function () {
+                            if ($routeParams.to.length) {
+                                jQuery('body').animate({
+                                    scrollTop: jQuery('#camp_' + $routeParams.to).offset().top
+                                }, 'slow');
+                            }
+                        }, 2000);
+                    }
+                }
+            };
+        })
+
+        //Details-Banner-Directive
+        .directive('campaignDetailsBanner', function () {
+            return {
+                restrict: 'AE',
+                scope: {
+                    camapignTitle: '@',
+                    startDate: '@start',
+                    fromSuffix: '@fromsuffix',
+                    endDate: '@end',
+                    toSuffix: '@tosuffix',
+                    back: '=back'
+                },
+                templateUrl: '../views/detailsbanner.html'
+            };
+        })
+
+        .directive('makeTitle', function () {
+            return {
+                restrict: 'AE',
+                scope: {
+                    measures: '=',
+                    dimensions: '=',
+                    updateparent: '&',
+                    measurementList: '=',
+                    dimensionList: '=',
+                    groupList: '=',
+                    updateTo: '='
+                },
+                template: '<ul class="nav navbar-nav">' +
+                    '<li class="dropdown">' +
+                    '<a class="dropdown-toggle" data-toggle="dropdown">' +
+                    '<span id="measuresLabel" >{{measures}}</span>' +
+                    '</a>' +
+                    '<ul class="dropdown-menu" role="menu" aria-labelledby="myTabDrop1" id="measuresOptions">' +
+                    '<li><a href="javascript://" tabindex="-1" role="tab" data-toggle="" rel="IMPRESSIONS"> IMPRESSIONS </a></li>' +
+                    '<li><a href="javascript://" tabindex="-1" role="tab" data-toggle="" rel="CTR"> CTR </a></li>' +
+                    '<li><a href="javascript://" tabindex="-1" role="tab" data-toggle="" rel="CVR"> CVR </a></li>' +
+                    '</ul>' +
+                    '</li>' +
+                    '<li> BY </li>' +
+                    '<li class="dropdown">' +
+                    '<a class="dropdown-toggle" data-toggle="dropdown">' +
+                    '<span id="dimensionLabel">{{dimensions}}</span>' +
+                    '</a>' +
+                    '<ul id="dimensionOptions" aria-labelledby="myTabDrop1" role="menu" class="dropdown-menu">' +
+                    '<li><a data-toggle="" role="tab" tabindex="-1" href="javascript://" rel="AGE"> AGE </a></li>' +
+                    '<li><a style="" data-toggle="" role="tab" tabindex="-1" href="javascript://" rel="GENDER"> GENDER </a></li>' +
+                    '<li><a style="" data-toggle="" role="tab" tabindex="-1" href="javascript://" rel="INMARKET"> INMARKET </a></li>' +
+                    '</ul>' +
+                    '</li>' +
+                    '</ul>' +
+                    '<button type="button" class="close" data-dismiss="widget">' +
+                    '<span aria-hidden="true">&times;</span>' +
+                    '<span class="sr-only">Close</span>' +
+                    '</button>',
+                link: function ($scope, elem, attrs) {
+                    elem.find('#measuresOptions li a').bind('click', function (e) {
+                        var messureText = $(this).attr('rel');
+
+                        elem.find('#measuresLabel').html(messureText);
+                        $scope.$apply($scope.$parent.changeAudienceKPI(messureText.toLowerCase(),
+                            elem.find('#dimensionLabel').text().toLowerCase(), $scope.updateTo));
+                    });
+                    elem.find('#dimensionOptions li a').bind('click', function (e) {
+                        var dimensionText = $(this).attr('rel');
+
+                        elem.find('#dimensionLabel').html(dimensionText);
+                        $scope.$apply($scope.$parent.changeAudienceKPI(elem.find('#measuresLabel').text().toLowerCase(), 
+                            dimensionText.toLowerCase(), $scope.updateTo));
+                    });
+                }
+            };
+        })
+
+        .directive('makeTitleCdb', function () {
+            return {
+                restrict: 'AE',
+                scope: {
+                    measures: '=',
+                    dimensions: '=',
+                    updateparent: '&',
+                    measurementList: '=',
+                    dimensionList: '=',
+                    groupList: '=',
+                    updateTo: '='
+                },
+                template: '<ul class="nav navbar-nav">' +
+                    '<li class="dropdown">' +
+                    '<a class="dropdown-toggle" data-toggle="dropdown">' +
+                    '<span id="measuresLabel" >{{measures}}</span>' +
+                    '</a>' +
+                    '<ul class="dropdown-menu" role="menu" aria-labelledby="myTabDrop1" id="measuresOptions">' +
+                    '<li><a href="javascript://" tabindex="-1" role="tab" data-toggle="" rel="IMPRESSIONS"> IMPRESSIONS </a></li>' +
+                    '<li><a href="javascript://" tabindex="-1" role="tab" data-toggle="" rel="CTR"> CTR </a></li>' +
+                    '<li><a href="javascript://" tabindex="-1" role="tab" data-toggle="" rel="CVR"> CVR </a></li>' +
+                    '<li><a href="javascript://" tabindex="-1" role="tab" data-toggle="" rel="SPEND"> SPEND </a></li>' +
+                    '</ul>' +
+                    '</li>' +
+                    '<li> BY </li>' +
+                    '<li class="dropdown">' +
+                    '<a class="dropdown-toggle" data-toggle="dropdown">' +
+                    '<span id="dimensionLabel">{{dimensions}}</span>' +
+                    '</a>' +
+                    '<ul id="dimensionOptions" aria-labelledby="myTabDrop1" role="menu" class="dropdown-menu">' +
+                    '<li><a data-toggle="" role="tab" tabindex="-1" href="javascript://" rel="REGION"> REGION </a></li>' +
+                    '<li><a style="" data-toggle="" role="tab" tabindex="-1" href="javascript://" rel="SITES"> SITES </a></li>' +
+                    '</ul>' +
+                    '</li>' +
+                    '</ul>' +
+                    '<button type="button" class="close" data-dismiss="widget">' +
+                    '<span aria-hidden="true">&times;</span>' +
+                    '<span class="sr-only">Close</span>' +
+                    '</button>',
+                link: function ($scope, elem, attrs) {
+                    elem.find('#measuresOptions li a').bind('click', function (e) {
+                        var messureText = $(this).attr('rel');
+
+                        elem.find('#measuresLabel').html(messureText);
+                        $scope.$apply($scope.$parent.changeCDBKPI(messureText.toLowerCase(), 
+                            elem.find('#dimensionLabel').text().toLowerCase(), $scope.updateTo));
+                    });
+                    elem.find('#dimensionOptions li a').bind('click', function (e) {
+                        var dimensionText = $(this).attr('rel');
+
+                        elem.find('#dimensionLabel').html(dimensionText);
+                        $scope.$apply($scope.$parent.changeCDBKPI(elem.find('#measuresLabel').text().toLowerCase(), 
+                            dimensionText.toLowerCase(), $scope.updateTo));
+                    });
+                }
+            };
+        })
+
+        .directive('truncateTextWithHover', function (campaignListService) {
+            return {
+                restrict: 'AE',
+                scope: {
+                    txt: '@txt',
+                    txtLength: '@txtlength',
+                    lstCampaign: '='
+                },
+                template: '<span ng-show="(txt.length > txtLength)" tooltip-placement="top" tooltip="{{txt}}">' +
+                    '{{txt|limitTo:txtLength}} ...</span>' +
+                    '<span  class="campaign_name_txt" ng-show="(txt.length <= txtLength)">' +
+                    '{{txt}}</span>',
+                link: function (scope, element, attrs, modelCtrl) {
+                    element.on('click', function (event) {
+                        campaignListService.setListCampaign(scope.lstCampaign);
+                    });
+                }
+            };
+        })
+
+        .directive('targetingIconWithHover', function () {
+            return {
+                restrict: 'AE',
+                scope: {
+                    txt: '@txt',
+                    className: '@className'
+                },
+                template: '<span ng-show="(txt.length > 0 )" tooltip-placement="bottom" tooltip="{{txt}}" class="{{className}}"></span>'
+            };
+        })
+
+        .directive('wholeNumberOnly', function () {
+            return {
+                restrict: 'A',
+                link: function (scope, element, attrs, modelCtrl) {
+                    element.on('keypress keyup blur', function (evt) {
+                        var charCode = (evt.which) ? evt.which : window.event.keyCode
+                        if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+                            return false;
+                        } else if (([8, 13, 27, 37, 38, 39, 40].indexOf(charCode > -1))) {
+                            return true;
+                        }
+                        return true;
+                    });
+                }
+            };
+        })
+
+        .directive('fractionNumbers', function () {
+            return {
+                restrict: 'A',
+                link: function (scope, element, attrs, modelCtrl) {
+                    element.on('keypress keyup blur', function (evt) {
+                        var charCode = (evt.which) ? evt.which : window.event.keyCode;
+                        if (charCode > 31 && (charCode !== 46 || this.value.indexOf('.') !== -1) && (charCode < 48 || charCode > 57)) {
+                            return false;
+                        } else if (([8, 13, 27, 37, 38, 39, 40].indexOf(charCode > -1))) {
+                            return true;
+                        }
+                        return true;
+                    });
+                }
+            };
+        })
+
+        .directive('removeSpecialCharacter', function () {
+            return {
+                require: 'ngModel',
+                link: function (scope, element, attrs, modelCtrl) {
+                    modelCtrl.$parsers.push(function (inputValue) {
+                        if (inputValue == undefined) return ''
+                        var transformedInput = inputValue.replace(/[^a-zA-Z0-9 _-]/gi, '')
+                        if (transformedInput !== inputValue) {
+                            modelCtrl.$setViewValue(transformedInput);
+                            modelCtrl.$render();
+                        }
+
+                        return transformedInput;
+                    });
+                }
+            };
+        })
+
+        .filter('spliter', function () {
+            return function (input, splitIndex) {
+                // do some bounds checking here to ensure it has that index
+                return input.split(' ')[splitIndex];
+            }
+        })
+
+        .filter('dashboardKpiFormatter', function ($filter, constants) {
+            return function (input, kpiType) {
+                if (input && kpiType) {
+                    if (kpiType.toLowerCase() == 'ctr' || kpiType.toLowerCase() === 'action_rate') {
+                        return input + '%';
+                    } else if (kpiType.toLowerCase() == 'vtc') {
+                        return input + '%';
+                    } else if (kpiType.toLowerCase() == 'cpc' || kpiType.toLowerCase() == 'cpa' || kpiType.toLowerCase() == 'cpm') {
+                        return constants.currencySymbol + input;
+                    } else if (kpiType.toLowerCase() === 'gross_rev' || kpiType.toLowerCase() === 'impressions') {
+                        return input + '%';
+                    }
                 }
             }
-        };
-    });
+        })
 
-    //Details-Banner-Directive
-    angObj.directive('campaignDetailsBanner', function () {
-        return {
-            restrict: 'AE',
-            scope: {
-                camapignTitle: '@',
-                startDate: '@start',
-                fromSuffix: '@fromsuffix',
-                endDate: '@end',
-                toSuffix: '@tosuffix',
-                back: '=back'
-            },
-            templateUrl: '../views/detailsbanner.html'
-        };
-    });
-
-    angObj.directive('makeTitle', function () {
-        return {
-            restrict: 'AE',
-            scope: {
-                measures: '=',
-                dimensions: '=',
-                updateparent: '&',
-                measurementList: '=',
-                dimensionList: '=',
-                groupList: '=',
-                updateTo: '='
-            },
-            template: '<ul class="nav navbar-nav">' +
-                '<li class="dropdown">' +
-                '<a class="dropdown-toggle" data-toggle="dropdown">' +
-                '<span id="measuresLabel" >{{measures}}</span>' +
-                '</a>' +
-                '<ul class="dropdown-menu" role="menu" aria-labelledby="myTabDrop1" id="measuresOptions">' +
-                '<li><a href="javascript://" tabindex="-1" role="tab" data-toggle="" rel="IMPRESSIONS"> IMPRESSIONS </a></li>' +
-                '<li><a href="javascript://" tabindex="-1" role="tab" data-toggle="" rel="CTR"> CTR </a></li>' +
-                '<li><a href="javascript://" tabindex="-1" role="tab" data-toggle="" rel="CVR"> CVR </a></li>' +
-                '</ul>' +
-                '</li>' +
-                '<li> BY </li>' +
-                '<li class="dropdown">' +
-                '<a class="dropdown-toggle" data-toggle="dropdown">' +
-                '<span id="dimensionLabel">{{dimensions}}</span>' +
-                '</a>' +
-                '<ul id="dimensionOptions" aria-labelledby="myTabDrop1" role="menu" class="dropdown-menu">' +
-                '<li><a data-toggle="" role="tab" tabindex="-1" href="javascript://" rel="AGE"> AGE </a></li>' +
-                '<li><a style="" data-toggle="" role="tab" tabindex="-1" href="javascript://" rel="GENDER"> GENDER </a></li>' +
-                '<li><a style="" data-toggle="" role="tab" tabindex="-1" href="javascript://" rel="INMARKET"> INMARKET </a></li>' +
-                '</ul>' +
-                '</li>' +
-                '</ul>' +
-                '<button type="button" class="close" data-dismiss="widget">' +
-                '<span aria-hidden="true">&times;</span>' +
-                '<span class="sr-only">Close</span>' +
-                '</button>',
-            link: function ($scope, elem, attrs) {
-                elem.find('#measuresOptions li a').bind('click', function (e) {
-                    var messureText = $(this).attr('rel');
-
-                    elem.find('#measuresLabel').html(messureText);
-                    $scope.$apply($scope.$parent.changeAudienceKPI(messureText.toLowerCase(),
-                        elem.find('#dimensionLabel').text().toLowerCase(), $scope.updateTo));
-                });
-                elem.find('#dimensionOptions li a').bind('click', function (e) {
-                    var dimensionText = $(this).attr('rel');
-
-                    elem.find('#dimensionLabel').html(dimensionText);
-                    $scope.$apply($scope.$parent.changeAudienceKPI(elem.find('#measuresLabel').text().toLowerCase(), 
-                        dimensionText.toLowerCase(), $scope.updateTo));
-                });
-            }
-        };
-    });
-
-    angObj.directive('makeTitleCdb', function () {
-        return {
-            restrict: 'AE',
-            scope: {
-                measures: '=',
-                dimensions: '=',
-                updateparent: '&',
-                measurementList: '=',
-                dimensionList: '=',
-                groupList: '=',
-                updateTo: '='
-            },
-            template: '<ul class="nav navbar-nav">' +
-                '<li class="dropdown">' +
-                '<a class="dropdown-toggle" data-toggle="dropdown">' +
-                '<span id="measuresLabel" >{{measures}}</span>' +
-                '</a>' +
-                '<ul class="dropdown-menu" role="menu" aria-labelledby="myTabDrop1" id="measuresOptions">' +
-                '<li><a href="javascript://" tabindex="-1" role="tab" data-toggle="" rel="IMPRESSIONS"> IMPRESSIONS </a></li>' +
-                '<li><a href="javascript://" tabindex="-1" role="tab" data-toggle="" rel="CTR"> CTR </a></li>' +
-                '<li><a href="javascript://" tabindex="-1" role="tab" data-toggle="" rel="CVR"> CVR </a></li>' +
-                '<li><a href="javascript://" tabindex="-1" role="tab" data-toggle="" rel="SPEND"> SPEND </a></li>' +
-                '</ul>' +
-                '</li>' +
-                '<li> BY </li>' +
-                '<li class="dropdown">' +
-                '<a class="dropdown-toggle" data-toggle="dropdown">' +
-                '<span id="dimensionLabel">{{dimensions}}</span>' +
-                '</a>' +
-                '<ul id="dimensionOptions" aria-labelledby="myTabDrop1" role="menu" class="dropdown-menu">' +
-                '<li><a data-toggle="" role="tab" tabindex="-1" href="javascript://" rel="REGION"> REGION </a></li>' +
-                '<li><a style="" data-toggle="" role="tab" tabindex="-1" href="javascript://" rel="SITES"> SITES </a></li>' +
-                '</ul>' +
-                '</li>' +
-                '</ul>' +
-                '<button type="button" class="close" data-dismiss="widget">' +
-                '<span aria-hidden="true">&times;</span>' +
-                '<span class="sr-only">Close</span>' +
-                '</button>',
-            link: function ($scope, elem, attrs) {
-                elem.find('#measuresOptions li a').bind('click', function (e) {
-                    var messureText = $(this).attr('rel');
-
-                    elem.find('#measuresLabel').html(messureText);
-                    $scope.$apply($scope.$parent.changeCDBKPI(messureText.toLowerCase(), 
-                        elem.find('#dimensionLabel').text().toLowerCase(), $scope.updateTo));
-                });
-                elem.find('#dimensionOptions li a').bind('click', function (e) {
-                    var dimensionText = $(this).attr('rel');
-
-                    elem.find('#dimensionLabel').html(dimensionText);
-                    $scope.$apply($scope.$parent.changeCDBKPI(elem.find('#measuresLabel').text().toLowerCase(), 
-                        dimensionText.toLowerCase(), $scope.updateTo));
-                });
-            }
-        };
-    });
-
-    angObj.directive('truncateTextWithHover', function (campaignListService) {
-        return {
-            restrict: 'AE',
-            scope: {
-                txt: '@txt',
-                txtLength: '@txtlength',
-                lstCampaign: '='
-            },
-            template: '<span ng-show="(txt.length > txtLength)" tooltip-placement="top" tooltip="{{txt}}">' +
-                '{{txt|limitTo:txtLength}} ...</span>' +
-                '<span  class="campaign_name_txt" ng-show="(txt.length <= txtLength)">' +
-                '{{txt}}</span>',
-            link: function (scope, element, attrs, modelCtrl) {
-                element.on('click', function (event) {
-                    campaignListService.setListCampaign(scope.lstCampaign);
-                });
-            }
-        };
-    });
-
-    angObj.directive('targetingIconWithHover', function () {
-        return {
-            restrict: 'AE',
-            scope: {
-                txt: '@txt',
-                className: '@className'
-            },
-            template: '<span ng-show="(txt.length > 0 )" tooltip-placement="bottom" tooltip="{{txt}}" class="{{className}}"></span>'
-        };
-    });
-
-    angObj.directive('wholeNumberOnly', function () {
-        return {
-            restrict: 'A',
-            link: function (scope, element, attrs, modelCtrl) {
-                element.on('keypress keyup blur', function (evt) {
-                    var charCode = (evt.which) ? evt.which : window.event.keyCode
-                    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
-                        return false;
-                    } else if (([8, 13, 27, 37, 38, 39, 40].indexOf(charCode > -1))) {
-                        return true;
+        .filter('kpiFormatter', function ($filter, constants, $locale, RoleBasedService) {
+            return function (input, kpiType, precision) {
+                //constants.currencySymbol = $locale.NUMBER_FORMATS.CURRENCY_SYM;
+                RoleBasedService.setCurrencySymbol();
+                if (input && kpiType) {
+                    if (kpiType.toLowerCase() == 'ctr') {
+                        return $filter('number')(input, 2) + '%';
+                    } else if (kpiType.toLowerCase() == 'cpc' || kpiType.toLowerCase() == 'cpa' || kpiType.toLowerCase() == 'cpm') {
+                        return constants.currencySymbol + $filter('number')(input, 2);
+                    } else if (kpiType.toLowerCase() == 'actions' || kpiType.toLowerCase() == 'clicks' || 
+                        kpiType.toLowerCase() == 'impressions' || kpiType.toLowerCase() == 'delivery') {
+                        return $filter('number')(input, 0);
+                    } else if (kpiType.toLowerCase() == 'vtc' && precision === undefined) {
+                        return $filter('number')(input, 0) + '%';
+                    } else if (kpiType.toLowerCase() == 'vtc' && precision) {
+                        return $filter('number')(input, 2) + '%';
+                    } else {
+                        //unknown kpiType
+                        return $filter('number')(input, 0);
                     }
-                    return true;
-                });
-            }
-        };
-    });
-
-    angObj.directive('fractionNumbers', function () {
-        return {
-            restrict: 'A',
-            link: function (scope, element, attrs, modelCtrl) {
-                element.on('keypress keyup blur', function (evt) {
-                    var charCode = (evt.which) ? evt.which : window.event.keyCode;
-                    if (charCode > 31 && (charCode !== 46 || this.value.indexOf('.') !== -1) && (charCode < 48 || charCode > 57)) {
-                        return false;
-                    } else if (([8, 13, 27, 37, 38, 39, 40].indexOf(charCode > -1))) {
-                        return true;
-                    }
-                    return true;
-                });
-            }
-        };
-    });
-
-    angObj.directive('removeSpecialCharacter', function () {
-        return {
-            require: 'ngModel',
-            link: function (scope, element, attrs, modelCtrl) {
-                modelCtrl.$parsers.push(function (inputValue) {
-                    if (inputValue == undefined) return ''
-                    var transformedInput = inputValue.replace(/[^a-zA-Z0-9 _-]/gi, '')
-                    if (transformedInput !== inputValue) {
-                        modelCtrl.$setViewValue(transformedInput);
-                        modelCtrl.$render();
-                    }
-
-                    return transformedInput;
-                });
-            }
-        };
-    });
-
-    angObj.filter('spliter', function () {
-        return function (input, splitIndex) {
-            // do some bounds checking here to ensure it has that index
-            return input.split(' ')[splitIndex];
-        }
-    });
-
-    angObj.filter('dashboardKpiFormatter', function ($filter, constants) {
-        return function (input, kpiType) {
-            if (input && kpiType) {
-                if (kpiType.toLowerCase() == 'ctr' || kpiType.toLowerCase() === 'action_rate') {
-                    return input + '%';
-                } else if (kpiType.toLowerCase() == 'vtc') {
-                    return input + '%';
-                } else if (kpiType.toLowerCase() == 'cpc' || kpiType.toLowerCase() == 'cpa' || kpiType.toLowerCase() == 'cpm') {
-                    return constants.currencySymbol + input;
-                } else if (kpiType.toLowerCase() === 'gross_rev' || kpiType.toLowerCase() === 'impressions') {
-                    return input + '%';
-                }
-            }
-        }
-    });
-
-    angObj.filter('kpiFormatter', function ($filter, constants, $locale, RoleBasedService) {
-        return function (input, kpiType, precision) {
-            //constants.currencySymbol = $locale.NUMBER_FORMATS.CURRENCY_SYM;
-            RoleBasedService.setCurrencySymbol();
-            if (input && kpiType) {
-                if (kpiType.toLowerCase() == 'ctr') {
-                    return $filter('number')(input, 2) + '%';
-                } else if (kpiType.toLowerCase() == 'cpc' || kpiType.toLowerCase() == 'cpa' || kpiType.toLowerCase() == 'cpm') {
-                    return constants.currencySymbol + $filter('number')(input, 2);
-                } else if (kpiType.toLowerCase() == 'actions' || kpiType.toLowerCase() == 'clicks' || 
-                    kpiType.toLowerCase() == 'impressions' || kpiType.toLowerCase() == 'delivery') {
-                    return $filter('number')(input, 0);
-                } else if (kpiType.toLowerCase() == 'vtc' && precision === undefined) {
-                    return $filter('number')(input, 0) + '%';
-                } else if (kpiType.toLowerCase() == 'vtc' && precision) {
-                    return $filter('number')(input, 2) + '%';
                 } else {
-                    //unknown kpiType
-                    return $filter('number')(input, 0);
+                    if (kpiType.toLowerCase() == 'delivery') {
+                        return 0;
+                    }
+                    return 'NA';
                 }
-            } else {
-                if (kpiType.toLowerCase() == 'delivery') {
+            }
+        })
+
+        .filter('toCamelCase', function () {
+            return function (str) {
+                return str.toLowerCase().replace(/['']/g, '').replace(/\W+/g, ' ').replace(/ (.)/g, function ($1) {
+                    return $1.toUpperCase();
+                }).replace(/ /g, '');
+                if (input == undefined) {
+                    return '';
+                }
+                input = input.charAt(0).toUpperCase() + input.substr(1);
+                return input.replace(/(\-[a-z])/g, function ($1) {
+                    return $1.toUpperCase().replace('-', '');
+                });
+            }
+        })
+
+        .filter('displayToCamelCase', function (toCamelCaseFilter, toTitleCaseFilter) {
+            return function (input) {
+                if (input == undefined) {
+                    return '';
+                }
+                if (input.toLowerCase() == 'delivery') {
+                    return toTitleCaseFilter(input);
+                }
+                if (input.toLowerCase() == 'clicks') {
+                    return toTitleCaseFilter(input);
+                }
+                if (input.toLowerCase() == 'viewable impressions') {
+                    return 'Viewable Impressions';
+                }
+                if (input.toLowerCase() == 'impressions') {
+                    return toTitleCaseFilter(input);
+                }
+                if (input.toLowerCase() == 'select from list') {
+                    return 'Select From list';
+                }
+                return input.toUpperCase();
+            };
+        })
+
+        .filter('toTitleCase', function () {
+            return function (input) {
+                if (input === undefined) {
+                    return '';
+                }
+                input = input.charAt(0).toUpperCase() + input.substr(1).toLowerCase();
+                return input;
+            };
+        })
+
+        .filter('toPascalCase', function (toTitleCaseFilter) {
+            return function (input) {
+                var splitStr = input.split(' '),
+                    finalStr = '',
+                    i;
+
+                if (input === undefined) {
+                    return '';
+                }
+                for (i = 0; i < splitStr.length; i++) {
+                    finalStr += toTitleCaseFilter(splitStr[i]);
+                    if (i + 1 < splitStr.length) {
+                        finalStr += ' ';
+                    }
+                }
+                return finalStr;
+            }
+        })
+
+        .filter('toUpperCase', function () {
+            return function (input) {
+                if (input == undefined) {
+                    return '';
+                }
+                input = input.toUpperCase();
+                return input;
+            };
+        })
+
+        .filter('toLowerCase', function () {
+            return function (input) {
+                if (input == undefined) {
+                    return '';
+                }
+                input = input.toLowerCase();
+                return input;
+            };
+        })
+
+        .filter('formatCostData', function ($filter) {
+            return function (input, symbol, places) {
+                if (input == undefined) {
+                    return 'NA';
+                }
+                if (symbol === undefined) {
+                    symbol = '';
+                }
+                if (places !== undefined) {
+                    return symbol + $filter('number')(input, places);
+                }
+                return symbol + input;
+            };
+        })
+
+        .filter('truncateString', function () {
+            return function (input, stringLength) {
+                if (input === undefined) {
+                    return 'NA';
+                }
+                return input.substring(0, stringLength) + (input.length > stringLength ? ' [...]' : '');
+            }
+        })
+
+        .filter('roundThisOff', function () {
+            return function (input, places) {
+                var factor = Math.pow(10, places);
+
+                return Math.round(input * factor) / factor;
+            };
+        })
+
+        .filter('vtcRoundOff', function () {
+            return function (input, places) {
+                var factor = Math.pow(10, places);
+
+                places = input > 1 ? 0 : places;
+                return Math.round(input * factor) / factor;
+            };
+        })
+
+        .filter('displayActionSubtypes', function () {
+            return function (actionSubTypes) {
+                var length = actionSubTypes.length,
+                    subType = '',
+                    i;
+
+                if (actionSubTypes === undefined) {
+                    return '-';
+                }
+                if (length > 1) {
+                    for (i = 0; i < actionSubTypes.length; i++) {
+                        subType += actionSubTypes[i].name;
+                        if (i !== actionSubTypes.length - 1) {
+                            subType += ', ';
+                        }
+                    }
+                    return subType;
+                } else {
+                    return actionSubTypes[0].name;
+                }
+            };
+        })
+
+        .filter('formatActionDate', function ($filter) {
+            return function (input) {
+                var _date = new Date(input),
+                    formatDate = '';
+                if (moment(_date).diff(moment(), 'days') == 0) {
+                    //today - format 01:29 PM
+                    formatDate = $filter('date')(_date, 'h:mm a');
+                } else {
+                    //in the past - format 05 Oct '14 01:22 PM
+                    formatDate = $filter('date')(_date, 'd MMM yyyy h:mm a');
+                }
+                return formatDate;
+            };
+        })
+
+        .filter('platformIconCss', function () {
+            return function (input, defaultIcon) {
+                var _style = '',
+                    icon = input;
+                if (input === undefined || input == '') {
+                    icon = defaultIcon || assets.platform_icon;
+                    _style = 'background:url("' + icon + '") no-repeat scroll 0 0 rgba(0, 0, 0, 0);' + 'width: 17px;' + 
+                        'height: 17px;' + 'display: inline-block;' + 'background-size:17px;"';
+                    return _style;
+                }
+            };
+        })
+
+        //Used in _inventory.html file
+        .filter('formatUrl', function () {
+            return function (url, l) {
+                if (url === undefined || url == '') {
+                    return url;
+                }
+                if (url === 'No Campaign Found' || url == 'No Ad Group Found') {
+                    return url;
+                }
+                if (l === undefined) {
+                    var l = 20;
+                }
+                if (url.length > parseInt(l * 2 + 3)) {
+                    return url.substring(0, l) + ' ... ' + url.substring(url.length - l);
+                } else {
+                    return url;
+                }
+            };
+        })
+
+        .filter('appendDollor', function (constants, $locale, RoleBasedService) {
+            return function (val, type) {
+                RoleBasedService.setCurrencySymbol();
+                if (!val) {
+                    return 'NA';
+                } else if (type.toLowerCase() === 'delivery (impressions)')
+                    return (val.toFixed(2)).toLocaleString();
+                else {
+                    return (type.toLowerCase() === 'ctr' || type.toLowerCase() === 'action_rate' || 
+                        type.toLowerCase() === 'action rate' || type.toLowerCase() === 'vtc') ? 
+                        val.toFixed(2) + '%' : 
+                        constants.currencySymbol + val.toFixed(2);
+                }
+            };
+        })
+
+        // This is used in tooltip for optimization tab
+        .filter('appendDollarWithoutFormat', function (constants, $locale, RoleBasedService) {
+            return function (val, type) {
+                RoleBasedService.setCurrencySymbol();
+                if (!val) {
+                    return 'NA';
+                } else if (type.toLowerCase() === 'delivery (impressions)') {
+                    return val.toLocaleString();
+                } else {
+                    return (type.toLowerCase() === 'ctr' || type.toLowerCase() === 'action_rate' || 
+                        type.toLowerCase() === 'action rate' || type.toLowerCase() === 'vtc') ? 
+                        parseFloat(val.toFixed(6)) + '%' : 
+                        constants.currencySymbol + parseFloat(val.toFixed(6));
+                }
+            };
+        })
+
+        .filter('calculatePerc', function () {
+            return function (delivered, total) {
+                var width;
+
+                if (delivered === undefined || total === undefined) {
                     return 0;
                 }
-                return 'NA';
-            }
-        }
-    });
-
-    angObj.filter('toCamelCase', function () {
-        return function (str) {
-            return str.toLowerCase().replace(/['']/g, '').replace(/\W+/g, ' ').replace(/ (.)/g, function ($1) {
-                return $1.toUpperCase();
-            }).replace(/ /g, '');
-            if (input == undefined) {
-                return '';
-            }
-            input = input.charAt(0).toUpperCase() + input.substr(1);
-            return input.replace(/(\-[a-z])/g, function ($1) {
-                return $1.toUpperCase().replace('-', '');
-            });
-        }
-    });
-
-    angObj.filter('displayToCamelCase', function (toCamelCaseFilter, toTitleCaseFilter) {
-        return function (input) {
-            if (input == undefined) {
-                return '';
-            }
-            if (input.toLowerCase() == 'delivery') {
-                return toTitleCaseFilter(input);
-            }
-            if (input.toLowerCase() == 'clicks') {
-                return toTitleCaseFilter(input);
-            }
-            if (input.toLowerCase() == 'viewable impressions') {
-                return 'Viewable Impressions';
-            }
-            if (input.toLowerCase() == 'impressions') {
-                return toTitleCaseFilter(input);
-            }
-            if (input.toLowerCase() == 'select from list') {
-                return 'Select From list';
-            }
-            return input.toUpperCase();
-        };
-    });
-
-    angObj.filter('toTitleCase', function () {
-        return function (input) {
-            if (input === undefined) {
-                return '';
-            }
-            input = input.charAt(0).toUpperCase() + input.substr(1).toLowerCase();
-            return input;
-        };
-    });
-
-    angObj.filter('toPascalCase', function (toTitleCaseFilter) {
-        return function (input) {
-            var splitStr = input.split(' '),
-                finalStr = '',
-                i;
-
-            if (input === undefined) {
-                return '';
-            }
-            for (i = 0; i < splitStr.length; i++) {
-                finalStr += toTitleCaseFilter(splitStr[i]);
-                if (i + 1 < splitStr.length) {
-                    finalStr += ' ';
+                width = parseInt((delivered / total) * 124);
+                //@124 is the css width of the progress bar
+                if (width > 124) {
+                    return 124;
                 }
-            }
-            return finalStr;
-        }
-    });
+                return width;
+            };
+        })
 
-    angObj.filter('toUpperCase', function () {
-        return function (input) {
-            if (input == undefined) {
-                return '';
-            }
-            input = input.toUpperCase();
-            return input;
-        };
-    });
+        .filter('newlines', function () {
+            return function (input) {
+                return input.replace(/(?:\r\n|\r|\n)/g, '<br />');
+            };
+        })
 
-    angObj.filter('toLowerCase', function () {
-        return function (input) {
-            if (input == undefined) {
-                return '';
-            }
-            input = input.toLowerCase();
-            return input;
-        };
-    });
+        .filter('removeSpecialCharacter', function () {
+            return function (input) {
+                return input.replace(/(?:<)/g, '&lt;');
+            };
+        })
 
-    angObj.filter('formatCostData', function ($filter) {
-        return function (input, symbol, places) {
-            if (input == undefined) {
-                return 'NA';
-            }
-            if (symbol === undefined) {
-                symbol = '';
-            }
-            if (places !== undefined) {
-                return symbol + $filter('number')(input, places);
-            }
-            return symbol + input;
-        };
-    });
+        .filter('morelines', function () {
+            return function (input) {
+                return input.replace('\\n', '<br />');
+            };
+        })
 
-    angObj.filter('truncateString', function () {
-        return function (input, stringLength) {
-            if (input === undefined) {
-                return 'NA';
-            }
-            return input.substring(0, stringLength) + (input.length > stringLength ? ' [...]' : '');
-        }
-    });
+        .filter('zeroToBeLast', function () {
+            return function (array, key) {
+                var present = array.filter(function (item) {
+                        return item[key];
+                    }),
+                    empty = array.filter(function (item) {
+                        return !item[key]
+                    });
 
-    angObj.filter('roundThisOff', function () {
-        return function (input, places) {
-            var factor = Math.pow(10, places);
+                return present.concat(empty);
+            };
+        })
 
-            return Math.round(input * factor) / factor;
-        };
-    });
+        .filter('nrFormat', function () {
+            return function (value, key) {
+                var y = Math.abs(value);
 
-    angObj.filter('vtcRoundOff', function () {
-        return function (input, places) {
-            var factor = Math.pow(10, places);
-
-            places = input > 1 ? 0 : places;
-            return Math.round(input * factor) / factor;
-        };
-    });
-
-    angObj.filter('displayActionSubtypes', function () {
-        return function (actionSubTypes) {
-            var length = actionSubTypes.length,
-                subType = '',
-                i;
-
-            if (actionSubTypes === undefined) {
-                return '-';
-            }
-            if (length > 1) {
-                for (i = 0; i < actionSubTypes.length; i++) {
-                    subType += actionSubTypes[i].name;
-                    if (i !== actionSubTypes.length - 1) {
-                        subType += ', ';
-                    }
+                if (y <= 0) {
+                    return y;
                 }
-                return subType;
-            } else {
-                return actionSubTypes[0].name;
-            }
-        };
-    });
+                key = key || 0;
+                if (y < 9999) {
+                    return value.toFixed(key);
+                }
+                if (y < 1000000) {
+                    return (value / 1000).toFixed(2) + 'K';
+                }
+                if (y < 10000000) {
+                    return (value / 1000000).toFixed(2) + 'M';
+                }
+                if (y < 1000000000) {
+                    return (value / 1000000).toFixed(2) + 'M';
+                }
+                if (y < 1000000000000) {
+                    return (value / 1000000000).toFixed(2) + 'B';
+                }
+                return '1T+';
+            };
+        })
 
-    angObj.filter('formatActionDate', function ($filter) {
-        return function (input) {
-            var _date = new Date(input),
-                formatDate = '';
-            if (moment(_date).diff(moment(), 'days') == 0) {
-                //today - format 01:29 PM
-                formatDate = $filter('date')(_date, 'h:mm a');
-            } else {
-                //in the past - format 05 Oct '14 01:22 PM
-                formatDate = $filter('date')(_date, 'd MMM yyyy h:mm a');
-            }
-            return formatDate;
-        };
-    });
+        // i18n of currency fails when the currency symbol comes at the end of the value
+        .filter('nrFormatWithCurrency', function ($filter) {
+            return function (value, key) {
+                var y = Math.abs(value);
 
-    angObj.filter('platformIconCss', function () {
-        return function (input, defaultIcon) {
-            var _style = '',
-                icon = input;
-            if (input === undefined || input == '') {
-                icon = defaultIcon || assets.platform_icon;
-                _style = 'background:url("' + icon + '") no-repeat scroll 0 0 rgba(0, 0, 0, 0);' + 'width: 17px;' + 
-                    'height: 17px;' + 'display: inline-block;' + 'background-size:17px;"';
-                return _style;
-            }
-        };
-    });
+                if (y < 9999) {
+                    return $filter('currency')(value.toFixed(2));
+                }
+                if (y < 1000000) {
+                    return $filter('currency')((value / 1000).toFixed(2)) + 'K';
+                }
+                if (y < 10000000) {
+                    return $filter('currency')((value / 1000000).toFixed(2)) + 'M';
+                }
+                if (y < 1000000000) {
+                    return $filter('currency')((value / 1000000).toFixed(2)) + 'M';
+                }
+                if (y < 1000000000000) {
+                    return $filter('currency')((value / 1000000000).toFixed(2)) + 'B';
+                }
+                return '1T+';
+            };
+        })
 
-    //Used in _inventory.html file
-    angObj.filter('formatUrl', function () {
-        return function (url, l) {
-            if (url === undefined || url == '') {
-                return url;
-            }
-            if (url === 'No Campaign Found' || url == 'No Ad Group Found') {
-                return url;
-            }
-            if (l === undefined) {
-                var l = 20;
-            }
-            if (url.length > parseInt(l * 2 + 3)) {
-                return url.substring(0, l) + ' ... ' + url.substring(url.length - l);
-            } else {
-                return url;
-            }
-        };
-    });
+        .filter('reportDateFilter', function ($filter, momentService) {
+            return function (value, key) {
+                return momentService.reportDateFormat(value);
+            };
+        })
 
-    angObj.filter('appendDollor', function (constants, $locale, RoleBasedService) {
-        return function (val, type) {
-            RoleBasedService.setCurrencySymbol();
-            if (!val) {
-                return 'NA';
-            } else if (type.toLowerCase() === 'delivery (impressions)')
-                return (val.toFixed(2)).toLocaleString();
-            else {
-                return (type.toLowerCase() === 'ctr' || type.toLowerCase() === 'action_rate' || 
-                    type.toLowerCase() === 'action rate' || type.toLowerCase() === 'vtc') ? 
-                    val.toFixed(2) + '%' : 
-                    constants.currencySymbol + val.toFixed(2);
-            }
-        };
-    });
+        .filter('textEllipsis', function () {
+            return function (input, len) {
+                var dispname;
 
-    // This is used in tooltip for optimization tab
-    angObj.filter('appendDollarWithoutFormat', function (constants, $locale, RoleBasedService) {
-        return function (val, type) {
-            RoleBasedService.setCurrencySymbol();
-            if (!val) {
-                return 'NA';
-            } else if (type.toLowerCase() === 'delivery (impressions)') {
-                return val.toLocaleString();
-            } else {
-                return (type.toLowerCase() === 'ctr' || type.toLowerCase() === 'action_rate' || 
-                    type.toLowerCase() === 'action rate' || type.toLowerCase() === 'vtc') ? 
-                    parseFloat(val.toFixed(6)) + '%' : 
-                    constants.currencySymbol + parseFloat(val.toFixed(6));
-            }
-        };
-    });
-
-    angObj.filter('calculatePerc', function () {
-        return function (delivered, total) {
-            var width;
-
-            if (delivered === undefined || total === undefined) {
-                return 0;
-            }
-            width = parseInt((delivered / total) * 124);
-            //@124 is the css width of the progress bar
-            if (width > 124) {
-                return 124;
-            }
-            return width;
-        };
-    });
-
-    angObj.filter('newlines', function () {
-        return function (input) {
-            return input.replace(/(?:\r\n|\r|\n)/g, '<br />');
-        };
-    });
-
-    angObj.filter('removeSpecialCharacter', function () {
-        return function (input) {
-            return input.replace(/(?:<)/g, '&lt;');
-        };
-    });
-
-    angObj.filter('morelines', function () {
-        return function (input) {
-            return input.replace('\\n', '<br />');
-        };
-    });
-
-    angObj.filter('zeroToBeLast', function () {
-        return function (array, key) {
-            var present = array.filter(function (item) {
-                    return item[key];
-                }),
-                empty = array.filter(function (item) {
-                    return !item[key]
-                });
-
-            return present.concat(empty);
-        };
-    });
-
-    angObj.filter('nrFormat', function () {
-        return function (value, key) {
-            var y = Math.abs(value);
-
-            if (y <= 0) {
-                return y;
-            }
-            key = key || 0;
-            if (y < 9999) {
-                return value.toFixed(key);
-            }
-            if (y < 1000000) {
-                return (value / 1000).toFixed(2) + 'K';
-            }
-            if (y < 10000000) {
-                return (value / 1000000).toFixed(2) + 'M';
-            }
-            if (y < 1000000000) {
-                return (value / 1000000).toFixed(2) + 'M';
-            }
-            if (y < 1000000000000) {
-                return (value / 1000000000).toFixed(2) + 'B';
-            }
-            return '1T+';
-        };
-    });
-
-    // i18n of currency fails when the currency symbol comes at the end of the value
-    angObj.filter('nrFormatWithCurrency', function ($filter) {
-        return function (value, key) {
-            var y = Math.abs(value);
-
-            if (y < 9999) {
-                return $filter('currency')(value.toFixed(2));
-            }
-            if (y < 1000000) {
-                return $filter('currency')((value / 1000).toFixed(2)) + 'K';
-            }
-            if (y < 10000000) {
-                return $filter('currency')((value / 1000000).toFixed(2)) + 'M';
-            }
-            if (y < 1000000000) {
-                return $filter('currency')((value / 1000000).toFixed(2)) + 'M';
-            }
-            if (y < 1000000000000) {
-                return $filter('currency')((value / 1000000000).toFixed(2)) + 'B';
-            }
-            return '1T+';
-        };
-    });
-
-    angObj.filter('reportDateFilter', function ($filter, momentService) {
-        return function (value, key) {
-            return momentService.reportDateFormat(value);
-        };
-    });
-
-    angObj.filter('textEllipsis', function () {
-        return function (input, len) {
-            var dispname;
-
-            if (input == undefined) {
-                return '';
-            }
-            dispname = input;
-            if (input.length > len) {
-                dispname = input.substring(0, len) + '...';
-            }
-            return dispname;
-        };
-    });
+                if (input == undefined) {
+                    return '';
+                }
+                dispname = input;
+                if (input.length > len) {
+                    dispname = input.substring(0, len) + '...';
+                }
+                return dispname;
+            };
+        });
 
     $.fn.scrollWithInDiv = function () {
         this.bind('mousewheel DOMMouseScroll', function (e) {

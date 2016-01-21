@@ -15,7 +15,6 @@ var angObj = angObj || {};
 
         $scope.createAdforAdGroup = function (campId, stTime, edTime) {
             var navigateUrl = '/mediaplan/' + $routeParams.campaignId + '/adGroup/' + campId + '/ads/create';
-
             if (typeof(Storage) !== 'undefined') {
                 localStorage.setItem('stTime', stTime); // convert this to EST in ads page
                 localStorage.setItem('edTime', edTime); // convert this to EST in ads create page

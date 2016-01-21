@@ -356,7 +356,7 @@ var angObj = angObj || {};
             thursday = _.filter($scope.Schedule.dayPart, function (obj) { 
                 return obj.day === 'Thursday';
             });
-            $scope.Thursday = $scope.generateDayArr(Thursday);
+            $scope.Thursday = $scope.generateDayArr(thursday);
             friday = _.filter($scope.Schedule.dayPart, function (obj) { 
                 return obj.day === 'Friday';
             });

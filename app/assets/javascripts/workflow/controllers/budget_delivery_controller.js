@@ -195,23 +195,42 @@ angObj.controller('BudgetDeliveryController', function ($scope, $window, $routeP
             campaignStartTime = momentService.utcToLocalTime(campaignData.startTime),
             campaignEndTime = momentService.utcToLocalTime(campaignData.endTime),
             adGroupStartDate,
-            adGroupEndDate;
+            adGroupEndDate,
+            currentDate = moment().format(constants.DATE_US_FORMAT);;
 
         if (moment().isAfter(campaignStartTime, 'day')) {
             campaignStartTime = moment().format(constants.DATE_US_FORMAT);
         }
         $scope.mode === 'edit' && endDateElem.removeAttr('disabled').css({'background': 'transparent'});
+        // If we are handling an ad of an Adgroup
         if (location.href.indexOf('adGroup') > -1) {
-            adGroupStartDate = momentService.utcToLocalTime(localStorage.getItem('stTime'));
-            adGroupEndDate = momentService.utcToLocalTime(localStorage.getItem('edTime'));
-            startDateElem.datepicker('setStartDate', adGroupStartDate);
-            startDateElem.datepicker('setEndDate', adGroupEndDate);
             if ($scope.mode === 'edit') {
+                if (momentService.isDateBefore($scope.workflowData.adGroupData.startDate, currentDate)) {
+                    adGroupStartDate = currentDate;
+                } else {
+                    adGroupStartDate = $scope.workflowData.adGroupData.startDate;
+                }
+                adGroupEndDate = $scope.workflowData.adGroupData.endDate;
+                startDateElem.datepicker('setStartDate', adGroupStartDate);
+                startDateElem.datepicker('setEndDate', adGroupEndDate);
                 $scope.setDateInEditMode(adGroupStartDate, adGroupEndDate);
             } else {
-                startDateElem.datepicker('update', adGroupStartDate);
+                // When creating a new Adgroup ad, if Adgroup start date is:
+                // 1) before currrent date (in the past), default start & end dates will be current date
+                // 2) else (in the future)m default current date will be Adgroup start date.
+                adGroupStartDate = momentService.utcToLocalTime(localStorage.getItem('stTime'));
+                adGroupEndDate = momentService.utcToLocalTime(localStorage.getItem('edTime'));
+                if (momentService.isDateBefore(adGroupStartDate, currentDate)) {
+                    startDateElem.datepicker('setStartDate', currentDate);
+                    startDateElem.datepicker('update', currentDate);
+                } else {
+                    startDateElem.datepicker('setStartDate', adGroupStartDate);
+                    startDateElem.datepicker('update', adGroupStartDate);
+                }
+                startDateElem.datepicker('setEndDate', adGroupEndDate);
             }
         } else {
+            // Normal ad (non-Adgroup)
             startDateElem.datepicker('setStartDate', campaignStartTime);
             endDateElem.datepicker('setEndDate', campaignEndTime);
             if ($scope.mode === 'edit') {
