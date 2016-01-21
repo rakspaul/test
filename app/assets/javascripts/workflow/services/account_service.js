@@ -1,6 +1,6 @@
 (function () {
     "use strict";
-    angObj.factory("accountsService", function (apiPaths,dataService,constants) {
+    angObj.factory("accountsService", function (apiPaths,dataService,constants,requestCanceller) {
         var advertiser = null;
         var brand = null;
         var client = null;
@@ -44,9 +44,14 @@
                 var url = apiPaths.WORKFLOW_APIUrl + '/brands';
                 return dataService.fetch(url, {cache:false});
             },
-            getClients: function (advertiserId) {
+            getClients: function (success, failure,flag) {
                 var url = apiPaths.WORKFLOW_APIUrl + '/clients?access_level=admin';
-                return dataService.fetch(url, {cache:false});
+                if(flag == 'cancellable'){
+                    var canceller = requestCanceller.initCanceller(constants.CAMPAIGN_FILTER_CANCELLER);
+                    return dataService.fetchCancelable(url, canceller, success, failure);
+                }else{
+                    return dataService.fetch(url, {cache:false});
+                }
             },
             getClientsAdvertisers: function(clientId) {
                 var url = apiPaths.WORKFLOW_APIUrl + '/clients/'+clientId+'/advertisers';
@@ -106,6 +111,10 @@
                 var url = apiPaths.WORKFLOW_APIUrl + '/users';
                 return dataService.fetch(url,{cache: false});
             },
+            getUsersDetails: function (id) {
+                var url = apiPaths.WORKFLOW_APIUrl + '/users/'+id;
+                return dataService.fetch(url,{cache: false});
+            },
             getUserClients:function(){
                 var url = apiPaths.WORKFLOW_APIUrl + '/clients';
                 return dataService.fetch(url);
@@ -117,6 +126,9 @@
             getUserBrands:function(){
                 var url = apiPaths.WORKFLOW_APIUrl + '/clients';
                 return dataService.fetch(url);
+            },
+            initCounter:function(){
+                counter = 0;
             },
             setCounter:function(){
                  counter++;
@@ -136,6 +148,11 @@
             },
             createUser: function(userObj){
                 return dataService.post(apiPaths.WORKFLOW_APIUrl +'/users', userObj,{'Content-Type': 'application/json'})
+            },
+            updateUser : function(data,fetchedUserDetails) {
+                data.id = fetchedUserDetails.id;
+                data.updatedAt = fetchedUserDetails.updatedAt;
+                return dataService.put(apiPaths.WORKFLOW_APIUrl +'/users/'+data.id, data, {'Content-Type': 'application/json'})
             },
             setPermissions: function(permissionObj){
                 permission = permissionObj;

@@ -47,7 +47,7 @@ var angObj = angObj || {};
 
 
         $scope.fetchAllClients = function(){
-            accountsService.getClients().then(function(res) {
+            accountsService.getClients(null,null,'notCancellable').then(function(res) {
                 $scope.clientsDetails = res.data.data[0].children;
                 //$scope.clientsDetails = res.data.data;
             });
