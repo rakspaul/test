@@ -33,6 +33,7 @@ var angObj = angObj || {};
             $scope.$broadcast('show-errors-check-validity');
             if (createNewAdGrp.$valid) {
                 formElem = $('#createNewAdGrp');
+                formData = formElem.serializeArray();
                 formData = _.object(_.pluck(formData, 'name'), _.pluck(formData, 'value'));
                 postCreateAdObj = {};
                 postCreateAdObj.name = formData.adGroupName;
@@ -40,10 +41,7 @@ var angObj = angObj || {};
                 postCreateAdObj.endTime = momentService.localTimeToUTC(formData.endTime, 'endTime');
                 postCreateAdObj.createdAt = '';
                 postCreateAdObj.updatedAt = '';
-console.log('formElem = ', formElem);
-console.log('formData = ', formData);
-console.log('postCreateAdObj = ', postCreateAdObj);
-console.log('$routeParams.campaignId = ', $routeParams.campaignId);
+
                 workflowService
                     .createAdGroups($routeParams.campaignId, postCreateAdObj)
                     .then(function (result) {
