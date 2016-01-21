@@ -572,7 +572,7 @@ var angObj = angObj || {};
                     str += ':' + $scope.reports.reportDefinition.dimensions[filterDataKey].value;
                 }
                 if (typeof filterText != "undefined" && filterText != null && filterText != "" && str.search(filterText.trim()) == -1) {
-                    str += ':' + filterText + "&exact_match=true";
+                    str += ':' + filterText;
                 }
             }
             if ($scope.additionalFilters.length > 0) {
@@ -591,7 +591,9 @@ var angObj = angObj || {};
                 var pos = str.lastIndexOf('~');
                 str = str.substring(0, pos)
             }
-
+            if(str.search("&filter=") != -1){
+                str += "&exact_match=true";
+            }
             //timeframe
             str += '&start_date=' + $scope.reports.reportDefinition.timeframe.start_date + "&end_date=" + $scope.reports.reportDefinition.timeframe.end_date;
 
