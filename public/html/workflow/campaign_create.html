@@ -351,7 +351,7 @@
 										<label ng-if="Campaign.totalBudget<=0" class="col-sm-12  greyTxt " style="margin-left:35px; color:#F24444 !important;">{{textConstants.TOTAL_BUDGET_GREATER_THAN_ZERO}}</label>
 									</div>
 									<div class="calTable">
-										<h3>Margin</h3>
+										<h3>Margin (Optional)</h3>
 										<div class="symbol-input">
 											<span class="symbol" style="left: initial; right: 50px;">{{textConstants.SYMBOL_PERCENT}}</span>
 											<input type="text" ng-model="Campaign.marginPercent" class="form-control col-sm-8" ng-keyup="ComputeCost()" style="text-align: center; padding-left: 10px;" whole-number-only="whole-number-only"/>
@@ -359,7 +359,7 @@
 									</div>
 									<div class="calTable">
 										<h3>Est. Non-Inventory Cost</h3>
-										<div class="symbol-input">
+										<div class="symbol-input blindInput">
 											<span class="symbol">{{locale.NUMBER_FORMATS.CURRENCY_SYM}}</span>
 											<input type="text" ng-style="inventoryExceeds ? {'color':'#F9B537'}:''" ng-model="Campaign.nonInventoryCost" class="form-control col-sm-8" disabled/>
 										</div>
@@ -367,7 +367,7 @@
 									</div>
 									<div class="calTable">
 										<h3>Delivery Budget</h3>
-										<div class="symbol-input">
+										<div class="symbol-input blindInput">
 											<span class="symbol">{{locale.NUMBER_FORMATS.CURRENCY_SYM}}</span>
 											<input type="text" ng-style="deliveryBudgetNegative ? {'color':'#F9B537'}:''" ng-model="Campaign.deliveryBudget" class="form-control col-sm-8" disabled/>
 										</div>
@@ -376,15 +376,15 @@
 									</div>
 									<div class="calTable">
 										<h3>Effective {{primaryType ? primaryType:'CPM'}}</h3>
-										<div class="symbol-input">
+										<div class="symbol-input blindInput">
 											<span class="symbol">{{locale.NUMBER_FORMATS.CURRENCY_SYM}}</span>
 											<input type="text" ng-style="effectiveNegative ? {'color':'#F9B537'}:''" ng-model="Campaign.effectiveCPM" class="form-control col-sm-8" disabled/>
-										</div>
+                                                                                </div>
 									</div>
 									<div class="calTable">
 										<!--<input type="checkbox" />-->
 										<!--<span>Calculate Budget for me</span>-->
-										<a class="btn btn-default pull-left" role="button" ng-click="ComputeCost()" style="margin-top: 38px;">
+										<a class="btn btn-default pull-left" role="button" ng-click="ComputeCost()" style="margin: 38px 0 0 20px;">
 											<div class="glyphicon glyphicon-refresh pull-left" aria-hidden="true"></div> <span style="padding-top: 2px;">Calculate</span>
 										</a>
 									</div>
