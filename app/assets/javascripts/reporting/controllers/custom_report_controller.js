@@ -572,7 +572,7 @@ var angObj = angObj || {};
                     str += ':' + $scope.reports.reportDefinition.dimensions[filterDataKey].value;
                 }
                 if (typeof filterText != "undefined" && filterText != null && filterText != "" && str.search(filterText.trim()) == -1) {
-                    str += ':' + filterText + "&exact_match=true";
+                    str += ':' + filterText;
                 }
             }
             if ($scope.additionalFilters.length > 0) {
@@ -591,7 +591,9 @@ var angObj = angObj || {};
                 var pos = str.lastIndexOf('~');
                 str = str.substring(0, pos)
             }
-
+//            if(str.search("&filter=") != -1){
+//                str += "&exact_match=true";
+//            }
             //timeframe
             str += '&start_date=' + $scope.reports.reportDefinition.timeframe.start_date + "&end_date=" + $scope.reports.reportDefinition.timeframe.end_date;
 
@@ -1080,6 +1082,7 @@ var angObj = angObj || {};
         };
 
         $scope.select_schedule_occurs_option = function(event, arg) {
+            $scope.reports.schedule.occurance = arg;
             arg = arg.toLowerCase();
             var elem = $(event.target);
             elem.closest(".dropdown").find(".dd_txt").text(elem.text());
@@ -1624,7 +1627,7 @@ var angObj = angObj || {};
                             }
                         break;
                         case "Weekly":
-                            if($scope.valueWithDefault($scope.reports.schedule.occurance, 'weekly' ,'') == ''){
+                            if($scope.valueWithDefault($scope.reports.schedule, 'occurance' ,'') == ''){
                                 $rootScope.setErrAlertMessage("Please the occurs on");
                                 return false;
                             }
@@ -1634,10 +1637,16 @@ var angObj = angObj || {};
                             }
                         break;
                         case "Monthly":
-                            if($scope.valueWithDefault($scope.reports.schedule.occurance, 'monthly', '') == ''){
+                            if($scope.valueWithDefault($scope.reports.schedule, 'occurance' ,'') == ''){
                                 $rootScope.setErrAlertMessage("Please the occurs on");
                                 return false;
+                            }else{
+                                if($scope.reports.schedule.occurance == "Custom" && (typeof $scope.reports.schedule.customOccuranceDate == "undefined" || $scope.reports.schedule.customOccuranceDate == "")){
+                                    $rootScope.setErrAlertMessage("Please the a custom date");
+                                    return false;
+                                }
                             }
+
                             if(momentService.dateDiffInDays(startDate,endDate) < 28){
                                 $rootScope.setErrAlertMessage("You have chosen monthly Scheduling, please choose a date range that is at least one month");
                                 return false;

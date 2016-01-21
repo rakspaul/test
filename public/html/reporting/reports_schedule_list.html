@@ -39,7 +39,6 @@
             <div class="row "  ng-repeat="srlist in schdReportList track by $index">
                 <div class="clearfix"
                      ng-class="{downloaded:((srlist.instances.length >0) && (srlist.instances[0].viewedOn.length > 0))}">
-                    instance length- {{srlist.instances.length}}
                     <div class="col-md-4 table-td name-col"
                          ng-class="{'no-instance':srlist.instances.length <= 0}"
                          title="{{srlist.name}}"

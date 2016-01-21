@@ -42,6 +42,7 @@
                     <label for="sel1" class="greyTxt">Format</label>
                     <div class="col-md-12 zeroPadding dropdown-workflow">
                         <div ng-if="adPage" class="btn btn-default label-btn" ng-bind-html="formatLabel"></div>
+                        <input  type="hidden" name="creativeFormat" ng-model="formatLabel"  ng-update-hidden  />
                     </div>
                 </div>
                 <!--Dropdown selection for creative create-->
