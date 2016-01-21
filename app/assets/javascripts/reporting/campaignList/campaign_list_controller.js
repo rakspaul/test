@@ -107,7 +107,7 @@
       return utils.highlightSearch(text, search);
     };
      $(function() {
-        $( "#cost_block" ).scroll(function(){
+        $( "#cost_block,#performance_block" ).scroll(function(){
              var window_scrollTop = $(window).scrollTop();
 /*             var scroll_to_element= $(".squaredFour").offset().top -15;
              if(scroll_to_element < window_scrollTop){
