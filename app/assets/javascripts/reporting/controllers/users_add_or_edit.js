@@ -11,6 +11,9 @@
         $scope.User = {
             data: []
         };
+        $scope.Usernew = {
+            data: []
+        };
         $scope.userModalData=[];
 
         $scope.editmode = false;
@@ -18,7 +21,7 @@
         var editedUserDetails = {};
         $scope.userConsoleFormDetails.roleTemplateId = constants.account_admin;
 
-        $scope.User.delete_filter = function(event,index) {// the last one getting deleted always
+        $scope.delete_filter = function(event,index) {// the last one getting deleted always
             var elem = $(event.target);
 //            elem.closest(".add-filters").remove();
             $scope.permissions.splice(index,1);
@@ -94,12 +97,8 @@
                             $scope.createUser(postDataObj);
                     }
                     // condition 2 - not super admin - need  permissions
-<<<<<<< HEAD
 
-                    if(constants.super_admin != postDataObj.role_template_id && postDataObj.permissions.length > 0){
-=======
                     if(constants.super_admin != postDataObj.roleTemplateId && postDataObj.permissions.length > 0){
->>>>>>> pre final test
                         if($scope.editmode)
                             $scope.updateUser(postDataObj);
                         else
@@ -148,6 +147,7 @@
         }
 
         $scope.selectedClientHandler=function(clientObj,index, orgId, resellerId,editData){
+
             var counter=accountsService.getCounter();
             if(!$scope.User.data[index]){
                 $scope.User.data[index] = {};
@@ -302,7 +302,6 @@
             },
             getUserPermission:function(){
                 $scope.userModalData['Permission']=[{value:"ADMIN",name:"Admin"},{value:"WRITE",name:"Write"},{value:"READ",name:"Read"}];
-                console.log('permission ==',$scope.userModalData);
             }
 
 
@@ -367,11 +366,10 @@
                     for(var i = 0; i < data.permissions.length; i++){
                         $scope.incrementCounter();
                         var clientObj = getClientObject(data.permissions[i].clientId,data.permissions[i].orgId,data.permissions[i].resellerId);
+                      //  console.log('clientObj id',clientObj.id);
                         //console.log(" data.permissions[i].orgId", data.permissions[i].orgId," data.permissions[i].resellerId", data.permissions[i]);
                         $scope.selectedClientHandler(clientObj,i,  data.permissions[i].orgId,data.permissions[i].resellerId,data.permissions[i]);
                         $scope.User.data[i].accessLevel = data.permissions[i].accessLevel;
-
-
                     }
                 }
                 else{
@@ -386,7 +384,7 @@
                 var finalClientObj;
                 //var flattenedClient = _.flatten($scope.userModalData['Clients'])
                 //console.log("flattentd cleint",flattenedClient);
-                console.log("orgId = ",orgId,"resellerId = ",resellerId,"clientId = ",clientId);
+             //   console.log("orgId = ",orgId,"resellerId = ",resellerId,"clientId = ",clientId);
 
                 var orgIndex = _.findIndex($scope.userModalData['Clients'], function(item) {
                 return item.id == orgId});
@@ -412,7 +410,7 @@
 
                 }
 
-                console.log("finalClientObj =",finalClientObj);
+               // console.log("finalClientObj =",finalClientObj);
             return finalClientObj;
                 //if(orgIndex != -1){
                 //    //first level client

@@ -154,7 +154,8 @@
                                         </li>
                                     </ul>
                                 </li>
-                            </ul><input type="hidden" name="accountType" class="accountType" ng-model="User.data[$index].clientId" ng-init="User.data[$index].clientId=selectedClient.counter.id" value="{{selectedClient.counter.id}}" ng-Update-Hidden required/>
+                            </ul>
+                            <input type="hidden" name="accountType" class="accountType" ng-model="User.data[$index].clientId"  value="{{selectedClient.counter.id}}" ng-Update-Hidden required/>
                             <!--<input type="hidden" name="accountType" ng-model="selectedClient" ng-update-hidden required/>-->
                         </div>
                     </div>
@@ -206,15 +207,15 @@
                     </div>
                 </div>
                 <div class="form-group col-md-3">
-                    <label >Permission:{{userModalData}}</label>
-                    <select name="accessLevel" class="form-control" ng-change="setPermissionAccess(permissionIndex,User.data[permissionIndex].accessLevel)" ng-model="User.data[permissionIndex].accessLevel">
+                    <label >Permission:</label>
+                    <select name="accessLevel" class="form-control" ng-init="User.data[permissionIndex].accessLevel = 'ADMIN'" ng-change="setPermissionAccess(permissionIndex,User.data[permissionIndex].accessLevel)" ng-model="User.data[permissionIndex].accessLevel">
                         <option value="{{perm.value}}" ng-repeat="perm in userModalData.Permission" ng-selected="User.data[permissionIndex].accessLevel == perm.value?true:false" >{{perm.name}}</option>
                         <!--<option value="ADMIN">Admin</option>-->
                         <!--<option value="WRITE">Write</option>-->
                         <!--<option value="READ">Read</option>-->
                     </select>
                 </div>
-                <div class="delete_row" ng-click="User.delete_filter($event, permissionIndex)">
+                <div class="delete_row" ng-click="delete_filter($event, permissionIndex)">
                 </div>
 
             </div>
