@@ -60,20 +60,16 @@
                 </div>
             </div>
             <span class="targetListItem">
-                {{(geoTargetingData.selected.previewData.include.regions.length > 0)?geoTargetingData.selected.previewData.include.regions.length: 0}} Regions,
-                {{(geoTargetingData.selected.previewData.include.cities.length > 0)?geoTargetingData.selected.previewData.include.cities.length: 0}} City,
-                {{(geoTargetingData.selected.previewData.include.zipCodes[0].values.length > 0)?geoTargetingData.selected.previewData.include.zipCodes[0].values.length: 0}} Postal codes
-                {{(geoTargetingData.selected.previewData.include.dmas.length > 0)?geoTargetingData.selected.previewData.include.dmas.length: 0}} DMA
+                {{includeStr}}
             </span>
 
-            <div class="targetDataSavedTop" style="padding-top: 20px;" ng-if="geoTargetingData.selected.previewData.exclude.cities.length > 0 ||geoTargetingData.selected.previewData.exclude.dmas.length > 0">
+            <div class="targetDataSavedTop" style="padding-top: 20px;" ng-if="geoTargetingData.selected.previewData.exclude.regions.length > 0 || geoTargetingData.selected.previewData.exclude.cities.length > 0 ||geoTargetingData.selected.previewData.exclude.dmas.length > 0">
                 <div class="icon-exclude"></div>
                 <span data-ng-bind="textConstants.EXCLUDED"></span>
-                <div class="badge">{{geoTargetingData.selected.previewData.exclude.cities.length + geoTargetingData.selected.previewData.exclude.dmas.length}}</div>
+                <div class="badge">{{geoTargetingData.selected.previewData.exclude.regions.length + geoTargetingData.selected.previewData.exclude.cities.length + geoTargetingData.selected.previewData.exclude.dmas.length}}</div>
             </div>
-            <span class="targetListItem" ng-if="geoTargetingData.selected.previewData.exclude.cities.length > 0 ||geoTargetingData.selected.previewData.exclude.dmas.length > 0">
-                {{geoTargetingData.selected.previewData.exclude.cities.length}} Cities
-                {{geoTargetingData.selected.previewData.exclude.dmas.length}} DMA
+            <span class="targetListItem" ng-if="geoTargetingData.selected.previewData.exclude.regions.length > 0 || geoTargetingData.selected.previewData.exclude.cities.length > 0 ||geoTargetingData.selected.previewData.exclude.dmas.length > 0">
+                {{excludeStr}}
             </span>
         </div>
         <span ng-if="(geoTargetingData.selected.previewData.include.regions.length > 0 || geoTargetingData.selected.previewData.include.cities.length > 0 || geoTargetingData.selected.previewData.include.zipCodes[0].values.length > 0 ||geoTargetingData.selected.previewData.exclude.dmas.length > 0 || geoTargetingData.selected.previewData.include.dmas.length > 0)" class="onSelectBtn btn btn-default active" ng-click="mode == 'edit' ? updateGeoTargets() : selectGeoTarget()"></span>

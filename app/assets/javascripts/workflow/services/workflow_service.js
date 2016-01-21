@@ -252,7 +252,7 @@
 
             getCitiesList: function (platformId, data, success, failure,flag) {
                 var clientId =  loginModel.getSelectedClient().id,
-                    url = apiPaths.WORKFLOW_APIUrl + '/platforms/'+platformId+'/cities'+data
+                    url = apiPaths.WORKFLOW_APIUrl + '/platforms/'+platformId+'/cities'+data,
                     canceller;
 
                 if (flag === 'cancellable') {
