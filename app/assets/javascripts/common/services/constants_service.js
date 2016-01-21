@@ -455,7 +455,7 @@
 
         this.WF_CREATIVE_TAG_ALREADY_EXISTS = "This tag already exists in your Creative Tag Library. Save a Creative anyway?";
         this.WF_DUPLICATE_TAG = 'Duplicate Tag';
-        this.WF_INVALID_CREATIVE_TAG= 'You have entered an invalid Javascript tag.Please review carefully and try again';
+        this.WF_INVALID_CREATIVE_TAG= 'You have entered an invalid tag. Please review this tag carefully and try again';
         this.WF_INVALID_CREATIVE_TAG_TRACKER="Please include the %%TRACKER%% macro to save the tag";
         this.WF_CREATIVE_TAG_UPDATE_ERROR = 'Unable to update creative';
         this.WF_CREATIVE_FORCESAVE = 'Unable to forceSave creative';
@@ -729,6 +729,78 @@
         this.BUILD_REPORT = 'Build Report';
         this.CUSTOM_REPORTS = 'Custom Reports';
         this.MEDIA_PLAN_REPORTS = 'Media Plan Reports';
+        
+        //Overview: Create Ad Groups
+        this.CREATEADGROUP = 'Create Ad Group';
+        this.WHATADGROUPNAME = 'What is your Ad Group name?';
+        this.ADGROUPNAME = 'Ad Group Name';
+        this.PLEASENAMEADGRP = 'Please enter a name for the ad group.';
+        this.WHATFLIGHTDATES = 'What are the Flight Dates?';
+        this.PLEASESELSTARTDATE = 'Please select the start Date.';
+        
+        //Audience Targeting
+        this.SAVEAUD = 'Save Audience';
+        this.SELSEGMENTS = 'Select Segments';
+        this.OPTIONAL = 'Optional';
+        this.KEYWORD = 'Keyword';
+        this.SOURCE = 'Source';
+        this.CLEARALL = 'Clear All';
+        this.CATEGORY = 'Category';
+        this.SEGMENTNAME = 'Segment Name';
+        this.NORESULTSFOUND = ' No Results Found...';
+        this.AND = 'And';
+        this.OR = 'Or';
+        this.IS = 'Is';
+        this.ISNOT = 'Is Not';
+        this.SELECTED_SEGMENTS = 'Selected Segments';
+        this.DONE = 'Done';
+        
+        //Day Targeting
+        this.DAYPART = 'Daypart';
+        this.DAFAULTADNOTE = 'By default, Ads will be delivered all day every day when no specific daypart rules applied.';
+        this.SAVEDAYPART = 'Save Daypart';
+        this.DAYTIME = 'Day & Time';
+        this.ALLDAYTIMES = 'All days and times';
+        this.WEEKDAYMF = 'Weekday (M-F)';
+        this.WEEKENDSS = 'Weekend (S,S)';
+        this.BUSHOURSMF = 'Business hours (M-F, 9:00AM-5:00PM)';
+        this.TVPRIMETIME = 'TV Primetime (8:00PM-11:00PM)';
+        this.EARLYMORNING = 'Early Morning (5:00AM-7:00AM)';
+        this.LATENIGHT = 'Late Night (11:00PM-1:00AM)';
+        this.CUTSCHEDULE = 'Custom schedule';
+        this.TIMEZONE = 'Time Zone';
+        this.ADVERTISER = 'Advertiser';
+        this.ENDUSER = 'End User';
+        this.CLOCK = 'Clock';
+        this.HR12 = '12 hr';
+        this.HR24 = '24 hr';
+        this.DELADTIME = 'Deliver Ads on specific days and times';
+        this.ADDDAYPART = 'Add Daypart';
+        this.CLEARALL = 'Clear All';
+        this.SUNDAY = 'Sunday';
+        this.MONDAY = 'Monday';
+        this.TUESDAY = 'Tuesday';
+        this.WEDNESDAY = 'Wednesday';
+        this.THURSDAY = 'Thursday';
+        this.FRIDAY = 'Friday';
+        this.SATURDAY = 'Saturday';
+        this.TO = 'to';
+        
+        //Geo Targeting
+        this.GEOGRAPHY = 'Geography';
+        this.INCZIP = 'Including zip / postal codes is going to limit your geographic targeting significantly.';
+        this.CONTINUE = 'Continue';
+        this.REGCITY = 'REGION & CITY';
+        this.METRO = 'METRO';
+        this.ZIPPOSTCODE = 'ZIP / POSTAL CODE';
+        this.INCEXCCITYNOTE = 'Once you include or exclude a city, regions are not available for further inclusion or exclusion.';
+        this.REGION = 'Region';
+        this.CITY = 'City';
+        this.SELECTED = 'Selected';
+        this.REGCITIES = 'Regions & Cities';
+        this.REMOVEALL = 'Remove All';
+        this.METROS = 'Metros';
+        this.DMAS = 'DMAs';
 
 
 

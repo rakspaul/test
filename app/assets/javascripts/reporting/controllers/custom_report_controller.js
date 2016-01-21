@@ -170,9 +170,8 @@ var angObj = angObj || {};
                     $('#toggle').bootstrapToggle('on');
                 }
 
-                $scope.select_schedule_option(responseData.schedule.frequency);
+                $scope.select_schedule_option(responseData.schedule.frequency, 1);
                 if (responseData.schedule.occurance) {
-                    $scope.set_schedule_occurs_options(responseData.schedule.occurance);
                     if (responseData.schedule.customOccuranceDate) {
                         $(".schedule-occurs-custom .dd_txt").html(responseData.schedule.customOccuranceDate);
                         $(".schedule-occurs-custom").show();
@@ -573,7 +572,7 @@ var angObj = angObj || {};
                     str += ':' + $scope.reports.reportDefinition.dimensions[filterDataKey].value;
                 }
                 if (typeof filterText != "undefined" && filterText != null && filterText != "" && str.search(filterText.trim()) == -1) {
-                    str += ':' + filterText + "&exact_match=true";
+                    str += ':' + filterText;
                 }
             }
             if ($scope.additionalFilters.length > 0) {
@@ -592,7 +591,9 @@ var angObj = angObj || {};
                 var pos = str.lastIndexOf('~');
                 str = str.substring(0, pos)
             }
-
+//            if(str.search("&filter=") != -1){
+//                str += "&exact_match=true";
+//            }
             //timeframe
             str += '&start_date=' + $scope.reports.reportDefinition.timeframe.start_date + "&end_date=" + $scope.reports.reportDefinition.timeframe.end_date;
 
@@ -700,7 +701,7 @@ var angObj = angObj || {};
             $scope.requestData.reportDefinition.metrics = $scope.reports.reportDefinition.metrics;
             $scope.requestData.schedule = $scope.reports.schedule;
             $scope.requestData.isScheduled = $scope.scheduleReportActive;
-            $scope.requestData.schedule.occurance = $scope.valueWithDefault($scope.reports.schedule.occurance, $scope.reports.schedule.frequency, '');
+            $scope.requestData.schedule.occurance = $scope.reports.schedule.occurance;
             $scope.requestData.reportDefinition.dimensions.push({
                 "dimension": $scope.reports.reportDefinition.dimensions.primary.dimension,
                 'type': "Primary"
@@ -1055,8 +1056,11 @@ var angObj = angObj || {};
                 $('#endDateInput').datepicker('update', endDate);
             }
         };
-        $scope.select_schedule_option = function(arg) {
+        $scope.select_schedule_option = function(arg, isAssigned) {
             $scope.reports.schedule.frequency = arg;
+            if(!isAssigned){
+                $scope.reports.schedule.occurance = "";
+            }
             var currentYear = momentService.getCurrentYear().toString();
             if (arg) {
                 arg = arg.toLowerCase();
@@ -1078,17 +1082,13 @@ var angObj = angObj || {};
         };
 
         $scope.select_schedule_occurs_option = function(event, arg) {
+            $scope.reports.schedule.occurance = arg;
             arg = arg.toLowerCase();
             var elem = $(event.target);
             elem.closest(".dropdown").find(".dd_txt").text(elem.text());
-            $scope.set_schedule_occurs_options(arg);
             $scope.showCustomDate(arg);
         };
-        $scope.set_schedule_occurs_options = function(arg) {
-            var frequency = $scope.reports.schedule.frequency.toLowerCase().trim();
-            $scope.reports.schedule.occurance = {};
-            $scope.reports.schedule.occurance[frequency] = arg;
-        }
+
         $scope.showCustomDate = function(arg) {
             if (arg == "custom") {
                 $(".schedule-occurs-custom").show();
@@ -1158,7 +1158,6 @@ var angObj = angObj || {};
 
                 var theDateDifference = daydiff(parseDate(startDateCheckerRange), parseDate(endDateCheckerRange));
                 //alert(theDateDifference);
-
                 if (frequencyDropDown == "Weekly" && theDateDifference < 7) {
                     $scope.notInRange = true;
 
@@ -1606,19 +1605,53 @@ var angObj = angObj || {};
                     return false;
                 }
                 var currDate = momentService.todayDate('YYYY-MM-DD');
-                if($scope.buttonLabel == "Update"){
-                    if($scope.reports.schedule.frequency=="Once"){
-                        if(momentService.isDateBefore($("#deliverOn").val(),currDate)) {
-                            $rootScope.setErrAlertMessage("Please enter valid date");
-                            return false;
-                        }
-                    }else{
-                        var startDate = $("#startOn").val();
-                        var    endDate = $("#endOn").val();
-                        if((momentService.isDateBefore(startDate,currDate))||(momentService.isDateBefore(endDate,currDate)) || (momentService.isSameOrAfter(startDate,endDate))){
-                            $rootScope.setErrAlertMessage("Please enter valid date");
-                            return false;
-                        }
+                if($scope.scheduleReportActive){
+                    var deliverOn = $("#deliverOn").val(),
+                        startDate = $("#startOn").val(),
+                        endDate = $("#endOn").val();
+                    if($scope.reports.schedule.frequency && $scope.reports.schedule.frequency != "Once" && (momentService.dateDiffInDays(currDate,startDate) <= 0|| momentService.dateDiffInDays(currDate,endDate) <= 0)){
+                        $rootScope.setErrAlertMessage("Start date or end date cannot be less than or equal current date");
+                        return false;
+                    }
+                    switch($scope.reports.schedule.frequency){
+                        case "Once":
+                            if(momentService.dateDiffInDays(currDate,deliverOn) <= 0){
+                                $rootScope.setErrAlertMessage("Deliver on date cannot be less than or equal to the current date");
+                                return false;
+                            }
+                        break;
+                        case "Daily":
+                            if(momentService.dateDiffInDays(startDate,endDate) < 1){
+                                $rootScope.setErrAlertMessage("The difference between Start and End Dates should be at least one day");
+                                return false;
+                            }
+                        break;
+                        case "Weekly":
+                            if($scope.valueWithDefault($scope.reports.schedule, 'occurance' ,'') == ''){
+                                $rootScope.setErrAlertMessage("Please the occurs on");
+                                return false;
+                            }
+                            if(momentService.dateDiffInDays(startDate,endDate) < 7){
+                                $rootScope.setErrAlertMessage("The difference between Start and End Dates should be at least one week");
+                                return false;
+                            }
+                        break;
+                        case "Monthly":
+                            if($scope.valueWithDefault($scope.reports.schedule, 'occurance' ,'') == ''){
+                                $rootScope.setErrAlertMessage("Please the occurs on");
+                                return false;
+                            }else{
+                                if($scope.reports.schedule.occurance == "Custom" && (typeof $scope.reports.schedule.customOccuranceDate == "undefined" || $scope.reports.schedule.customOccuranceDate == "")){
+                                    $rootScope.setErrAlertMessage("Please the a custom date");
+                                    return false;
+                                }
+                            }
+
+                            if(momentService.dateDiffInDays(startDate,endDate) < 28){
+                                $rootScope.setErrAlertMessage("You have chosen monthly Scheduling, please choose a date range that is at least one month");
+                                return false;
+                            }
+                        break;
                     }
                 }
                 return true;

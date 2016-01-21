@@ -94,7 +94,6 @@ var angObj = angObj || {};
         $scope.selectedDayParts = [];
         $scope.adData.setSizes = constants.WF_NOT_SET;
         $scope.dayPartTotal = 0;
-        $scope.budgetErrorObj = {};
 
         $scope.editCampaign = function (workflowcampaignData) {
             $location.url('/mediaplan/' + workflowcampaignData.id + '/edit');
@@ -307,6 +306,9 @@ var angObj = angObj || {};
 
             if (responseData.adFormat) {
                 var format = $filter('toTitleCase')(responseData.adFormat);
+                if(format==="Richmedia"){
+                    format="Rich Media";
+                }
                 $scope.adFormatSelection(format,"","editData");
                 $scope.adData.adFormat = format;
 
@@ -374,7 +376,8 @@ var angObj = angObj || {};
 
             $('.cap_no input').attr("checked", "checked");
             $('.spend_evenly input').attr("checked", "checked");
-            if (responseData.frequencyCaps && responseData.frequencyCaps.length > 0) {
+
+            if (responseData.frequencyCaps && responseData.frequencyCaps.length > 1) {
                 $scope.adData.setCap = true;
                 $('.cap_yes').addClass('active');
                 $('.cap_no').removeClass('active');
@@ -654,6 +657,8 @@ var angObj = angObj || {};
             $scope.adData.setSizes = constants.WF_NOT_SET;
             $scope.creativeData['creativeInfo'] = "undefined";
             $scope.selectedArr.length = 0;
+            /*left nav*/
+            $scope.adData.adFormat= $scope.adformatName;
 
             /*adFormatSelection code*/
             $scope.$broadcast('adFormatChanged', $scope.adformatName);
@@ -689,10 +694,12 @@ var angObj = angObj || {};
                     $(".goalBtnWithPopup .popUpCue").css({left: relativeX});
                 }
             }else if(editdata==="editData"){ /*populating first time in editmode*/
-                if(angular.lowercase(adformatName)=="display")
-                    $scope.adformatName="Display"
-                else if(angular.lowercase(adformatName)=="richmedia")
-                    $scope.adformatName="Rich Media"
+                $scope.adformatName=adformatName;
+
+                //if(angular.lowercase(adformatName)=="display")
+                 //   $scope.adformatName="Display"
+               // else if(angular.lowercase(adformatName)=="richmedia")
+                 //   $scope.adformatName="Rich Media"
 
                 $scope.$broadcast('adFormatChanged', $scope.adformatName);
                 var adFormatsData = $scope.workflowData['adFormats'];
@@ -821,7 +828,7 @@ var angObj = angObj || {};
             var formElem = $("#formAdCreate");
             var formData = formElem.serializeArray();
             formData = _.object(_.pluck(formData, 'name'), _.pluck(formData, 'value'));
-            if ((formData.budgetAmount && $scope.formAdCreate.budgetAmount.$error.mediaCostValidator) ||  ($scope.budgetErrorObj.mediaCostValidator || $scope.budgetErrorObj.availableRevenueValidator || $scope.budgetErrorObj.impressionPerUserValidator)) {
+            if ((formData.budgetAmount && $scope.formAdCreate.budgetAmount.$error.mediaCostValidator) ||  ($scope.budgetErrorObj.mediaCostValidator || $scope.budgetErrorObj.availableRevenueValidator || $scope.budgetErrorObj.impressionPerUserValidator || $scope.budgetErrorObj.availableMaximumAdRevenueValidator)) {
                 $rootScope.setErrAlertMessage("Mandatory fields need to be specified for the Ad");
                 return false;
             }

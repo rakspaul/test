@@ -1,20 +1,20 @@
 <div class="col-md-12 zeroPadding breadcrumbs">
-	<h5 ng-click="resetAudienceTargetingVariables();">Targeting</h5>
+	<h5 ng-click="resetAudienceTargetingVariables();" data-ng-bind="textConstants.TARGETING"></h5>
 	<span class="icon-arrow-down"></span>
-	<h5 style="cursor: default;">Audience Segments</h5>
+	<h5 style="cursor: default;" data-ng-bind="textConstants.AUDSEGMENTS"></h5>
 	
-	<button class="pull-right btn btn-default" type="button" ng-click="saveCampaignWithAudience()" ng-disabled="selectedAudience.length == 0">Save Audience</button>
-    <button class="pull-right btn btn-link" type="button" ng-click="resetAudienceTargetingVariables();">Cancel</button>
+	<button class="pull-right btn btn-default" type="button" ng-click="saveCampaignWithAudience()" ng-disabled="selectedAudience.length == 0" data-ng-bind="textConstants.SAVEAUD"></button>
+    <button class="pull-right btn btn-link" type="button" ng-click="resetAudienceTargetingVariables();" data-ng-bind="textConstants.CANCEL"></button>
 </div>
 
 <div class="col-md-12 zeroPadding tabbable">
     <ul class="nav nav-tabs">
         <li class=" audience-tabs-segment firstTabAud">
 			<a data-toggle="tab" href="#selectAud">
-			<span class="ifNotSelected">1</span><span class="icon-check"></span> <p>Select Segments</p></a>
+			<span class="ifNotSelected">1</span><span class="icon-check"></span> <p data-ng-bind="textConstants.SELSEGMENTS"></p></a>
 		</li>
         <div class="splitterDash"></div>
-        <li class="audience-tabs-audience" ng-if="selectedAudience.length > 0"><a data-toggle="tab" href="#buildAud" style="padding-right: 5px;"><span>2</span> Build Audience</a> <span style="margin-top: 17px;" class="pull-right">Optional</span></li>
+        <li class="audience-tabs-audience" ng-if="selectedAudience.length > 0"><a data-toggle="tab" href="#buildAud" style="padding-right: 5px;"><span>2</span> Build Audience</a> <span style="margin-top: 17px;" class="pull-right" data-ng-bind="textConstants.OPTIONAL"></span></li>
 		<li class="audience-tabs-audience" ng-if="selectedAudience.length == 0"><a data-toggle="tab" ng-href="#" class="disabled" ng-click="$event.preventDefault();$event.stopPropagation();"><span>2</span> Build Audience</a></li>
 
 	</ul>
@@ -27,25 +27,25 @@
                     <div class="segmentHeader" >
                         <div class="col-md-12 zeroPadding multiDDL">
 							<span class="icon-search" ng-click="selectKeyword(keywordText)"></span>
-							<label class="col-md-12 greyTxt">Keyword</label>
+							<label class="col-md-12 greyTxt" data-ng-bind="textConstants.KEYWORD"></label>
 	                        <input type="text" class="col-md-12 keyword-txt" placeholder="Max 10 keywords. Must be separated by commas" ng-keyup="showKeywords(keywordText,$event)" ng-model="keywordText"/>
 							<label class="keywordWrap" ng-repeat="key in selectedKeywords">{{key}} <span class="icon-close" ng-click="removeKeyword(key);"></span></label>
 							<ul ng-if="audienceKeywords.length>0" class="dropdown-menu" role="menu" id="keywordsList" ng-style="dropdownCss">
 								<li ng-repeat="keyword in audienceKeywords | filter:keywordText" ng-click="selectKeyword(keyword.keyword)">
 									<a >
 										<span class="tick"></span>
-										<span class="menuItemText ng-binding" >{{keyword.keyword}}</span>
+										<span class="menuItemText ng-binding" data-ng-bind="keyword.keyword"></span>
 									</a>
 								</li>
 							</ul>
 						</div>
 
                         <div class="col-md-3" style="padding: 0 10px 0 0;">
-                            <label class="col-md-12 greyTxt">Source</label>
+                            <label class="col-md-12 greyTxt" data-ng-bind="textConstants.SOURCE"></label>
                             <div class="col-md-12 zeroPadding dropdown-workflow">
                                 <div class="dropdown">
                                     <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                        <span class="text">{{sourceText}}</span>
+                                        <span class="text" data-ng-bind="sourceText"></span>
                                         <span class="icon-arrow-down"></span>
                                     </button>
                                     <ul class="dropdown-menu dropdown-search" aria-labelledby="sourceSeg" style="width: 230px;">
@@ -61,11 +61,9 @@
 
                                         </li>
                                         <div class="clearfix category_dropdown">
-                                            <div class="pull-left btn btn-link" ng-click="clearAllSelectedSource()">
-                                                Clear All
+                                            <div class="pull-left btn btn-link" ng-click="clearAllSelectedSource()" data-ng-bind="textConstants.CLEARALL">
                                             </div>
-                                            <div class="pull-right btn  btn-default" ng-click="processDone()">
-                                                Done
+                                            <div class="pull-right btn  btn-default" ng-click="processDone()" data-ng-bind="textConstants.DONE">
                                             </div>
                                         </div>
                                     </ul>
@@ -74,11 +72,11 @@
                         </div>
 
                         <div class="col-md-3" style="padding: 0 10px 0 0;">
-                            <label class="col-md-12 greyTxt">Category</label>
+                            <label class="col-md-12 greyTxt" data-ng-bind="textConstants.CATEGORY"></label>
                             <div class="col-md-12 zeroPadding dropdown-workflow">
                                 <div class="dropdown">
                                     <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                        <span class="text">{{categoryText}}</span>
+                                        <span class="text" data-ng-bind="textConstants.categoryText"></span>
                                         <span class="icon-arrow-down"></span>
                                     </button>
 					<ul class="dropdown-menu dropdown-search" aria-labelledby="sourceSeg" style="width: 230px;">
@@ -97,12 +95,9 @@
 						</ul>
 					</li>
 					<div class="clearfix category_dropdown">
-                                            <div class="pull-left btn btn-link" ng-click="clearAllSelectedCategory()">
-                                                Clear All
+                                            <div class="pull-left btn btn-link" ng-click="clearAllSelectedCategory()" data-ng-bind="textConstants.CLEARALL">
                                             </div>
-                                            <div class="pull-right btn  btn-default" ng-click="processDone()">
-                                                Done
-
+                                            <div class="pull-right btn  btn-default" ng-click="processDone()" data-ng-bind="textConstants.DONE">
                                             </div>
                                         </div>
 				</ul>
@@ -125,13 +120,13 @@
 							</div>
 						</div>
 						<div class="columnTwo" style="width: 41.333%">
-							<span>Segment Name</span>
+							<span data-ng-bind="textConstants.SEGMENTNAME"></span>
 						</div>
 						<div class="columnThree" style="width: 21.333%">
-							<span>Source</span>
+							<span data-ng-bind="textConstants.SOURCE"></span>
 						</div>
 						<div class="columnFour" style="width: 31.333%">
-							<span>Category</span>
+							<span data-ng-bind="textConstants.CATEGORY"></span>
 						</div>
 					</div>
 
@@ -144,31 +139,31 @@
 									</div>
 								</div>
 								<div class="columnTwo" style="width: 41.333%">
-									<span>{{audience.name}}</span>
+									<span data-ng-bind="audience.name"></span>
 								</div>
 								<div class="columnThree" style="width: 21.333%">
-									<span>{{audience.source}}</span>
+									<span data-ng-bind="audience.source"></span>
 								</div>
 								<div class="columnFour" style="width: 31.333%; border-right: 0; ">
-									<span>{{audience.category}}</span>
+									<span data-ng-bind="audience.category"></span>
 								</div>
 							</div>
-							<div ng-if="audienceList.length == 0" style="color: #ccc;text-align: center;padding-top: 10px;"> No Results Found...</div>
+							<div ng-if="audienceList.length == 0" style="color: #ccc;text-align: center;padding-top: 10px;" data-ng-bind="textConstants.NORESULTSFOUND"></div>
 						</div>
 					</div>
 
                 </div>
 
 				<div class="setTwo">
-					<span class="pull-left">Selected Segments</span>
-					<a class="pull-right" ng-click="clearAllSelectedAudience()">Clear All</a>
+					<span class="pull-left" data-ng-bind="textConstants.SELECTED_SEGMENTS">Selected Segments</span>
+					<a class="pull-right" ng-click="clearAllSelectedAudience()" data-ng-bind="textConstants.CLEARALL"></a>
 
 					<div class="selectedItems">
 
                         <div class="segWrap" ng-repeat="aud in selectedAudience">
                             <span>{{aud.name}}</span><div style="clear:both"></div>
                             <span>{{aud.category}}</span><div style="clear:both"></div>
-                            <span>{{aud.source}} </span><div style="clear:both"></div>
+                            <span>{{aud.source}}</span><div style="clear:both"></div>
                             <div class="icon-clear" ng-click="selectAudience(aud)"></div>
                         </div>
 					</div>
@@ -179,7 +174,7 @@
 
 		<!--TAB 2-->
         <div id="buildAud" class="col-md-12 zeroPadding tab-pane fade">
-            <a class="pull-right btn" style="padding: 2px" ng-click="clearAllSelectedAudience()">Clear All</a>
+            <a class="pull-right btn" style="padding: 2px" ng-click="clearAllSelectedAudience()" data-ng-bind="textConstants.CLEARALL"></a>
 
             <!--Example One-->
             <div class="segmentHolder">
@@ -189,12 +184,12 @@
                         <div class="col-md-12 zeroPadding dropdown-workflow">
                             <div class="dropdown" ng-show="!$first">
                                 <button class="btn btn-default dropdown-toggle and-or-txt" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                    <span class="text">{{andOr}}</span>
+                                    <span class="text" data-ng-bind="andOr"></span>
                                     <span class="icon-arrow-down"></span>
                                 </button>
                                 <ul class="dropdown-menu and-or-list" aria-labelledby="segConditionOne">
-                                    <li ng-click="changeOrAndStatus('Or')"><a>Or</a></li>
-                                    <li ng-click="changeOrAndStatus('And')"><a>And</a></li>
+                                    <li ng-click="changeOrAndStatus('Or')"><a data-ng-bind="textConstants.OR"></a></li>
+                                    <li ng-click="changeOrAndStatus('And')"><a data-ng-bind="textConstants.AND"></a></li>
                                 </ul>
                             </div>
                        </div>
@@ -207,8 +202,8 @@
                                     <span class="icon-arrow-down"></span>
                                 </button>
                                 <ul class="dropdown-menu is-included-list" aria-labelledby="segConditionOne">
-                                    <li ng-click="changeIncludeStatus(aud,true)"><a>Is</a></li>
-                                    <li ng-click="changeIncludeStatus(aud,false)"><a>Is not</a></li>
+                                    <li ng-click="changeIncludeStatus(aud,true)"><a data-ng-bind="textConstants.IS"></a></li>
+                                    <li ng-click="changeIncludeStatus(aud,false)"><a data-ng-bind="textConstants.ISNOT"></a></li>
                                 </ul>
                             </div>
                        </div>
@@ -216,7 +211,7 @@
                     <div class="col-md-9">
                         <div class="segmentMove">
 							<!--<span class="icon-more-options"></span>-->
-							<span tooltip="{{aud.name}}{{aud.source}}{{aud.category}}" class="audienceTip">{{aud.name}}</span>
+							<span tooltip="{{aud.name}}{{aud.source}}{{aud.category}}" class="audienceTip" data-ng-bind="aud.name"></span>
 						</div>
                     </div>
                     <div class="col-md-1 text-center"><a class="icon-close" ng-click="selectAudience(aud)"></a></div>

@@ -2420,6 +2420,13 @@ input[type="submit"] {
   float: left;
   width: 200px ;
 }
+
+/* Required for mediaplan list page's scroller */
+#performance_block {
+  height: 500px;
+  overflow: auto;
+}
+
 /*  end of cost breakdown */
 .main_navigation_holder {
   height: 50px;

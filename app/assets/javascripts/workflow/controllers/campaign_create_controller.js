@@ -14,6 +14,7 @@ var angObj = angObj || {};
             costArr: []
 
         };
+        $scope.saveCampaignClicked=false;
         $scope.platFormArr = [];
         $scope.selectedChannel = "Display";
         $scope.Campaign.marginPercent = 0;
@@ -787,11 +788,13 @@ var angObj = angObj || {};
 
         $scope.saveCampaign = function () {
             $scope.$broadcast('show-errors-check-validity');
+            $scope.saveCampaignClicked=true;
             var isPrimarySelected = $scope.checkIfPrimaryKpiSelected();
             $scope.isPrimarySelected = isPrimarySelected;
             $scope.removeEmptyObjectCostArr();
             $scope.ComputeCost();
             if ($scope.createCampaignForm.$valid && isPrimarySelected && !$scope.saveDisabled) {
+                $(".workflowPreloader, .workflowPreloader .adSavePre").show();
                 var formElem = $("#createCampaignForm");
                 var formData = formElem.serializeArray();
                 formData = _.object(_.pluck(formData, 'name'), _.pluck(formData, 'value'));
@@ -838,6 +841,7 @@ var angObj = angObj || {};
 
         $scope.repushCampaign = function () {
             $scope.repushCampaignEdit = false;
+            $(".workflowPreloader, .workflowPreloader .adSavePre").show();
             workflowService.updateCampaign($scope.repushData, $routeParams.campaignId).then(function (result) {
                 if (result.status === "OK" || result.status === "success") {
                     $scope.sucessHandler(result);

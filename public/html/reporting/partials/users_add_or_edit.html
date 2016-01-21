@@ -13,7 +13,7 @@
         <form id="userCreateEditForm" name="userCreateEditForm">
         <div class="form-group col-md-12 zeroPadding" show-errors='{showSuccess: true}'>
             <label >User Login:</label>
-            <input name="userLogin" type="email" class="form-control" ng-model="userConsoleFormDetails.email" required>
+            <input name="userLogin" type="email" class="form-control" ng-model="userConsoleFormDetails.email" required >
             <label ng-if="userCreateEditForm.userLogin.$error.required" class="col-sm-12  greyTxt errorLabel">You must enter user login.</label>
             <label ng-if="userCreateEditForm.userLogin.$error.email" class="col-sm-12  greyTxt errorLabel">Invalid email address.</label>
         </div>
@@ -56,17 +56,13 @@
         <!--</div>-->
 
         <div class="form-group col-md-12 zeroPadding"><!--add model also-->
-            <label >Role:</label>
-            <select id="role" class="form-control" >
-                <option value="2" ng-click="selectedRole('2')">Account Admin</option>
-                <option value="4" ng-click="selectedRole('4')">Generic User </option>
+            <label >Role:</label>{{isSuperAdmin}}
+            <select id="role" class="form-control" ng-init="userConsoleFormDetails.roleTemplateId = textConstants.super_admin; isSuperAdmin = true" ng-model="userConsoleFormDetails.roleTemplateId" ng-change="selectedRole(userConsoleFormDetails.roleTemplateId)">
+                <option value="{{textConstants.super_admin}}"  ng-selected="userConsoleFormDetails.roleTemplateId == textConstants.super_admin">Super Admin</option>
+                <option value="{{textConstants.account_admin}}" >Account Admin</option>
+                <option value="{{textConstants.generic_user}}" >Generic User </option>
             </select>
-            <!--<select id="role" name="role" class="form-control" ng-model="userConsoleFormDetails.roleTemplateId" ng-change="selectedRole(userConsoleFormDetails.roleTemplateId)">-->
-              <!--&lt;!&ndash;<option value="1">Super Admin</option>&ndash;&gt;-->
-              <!--<option value="2" selected="selected">Account Admin</option>-->
-              <!--&lt;!&ndash;<option value="3">Advertiser Admin</option>&ndash;&gt;-->
-              <!--&lt;!&ndash;<option value="4">Generic User</option>&ndash;&gt;-->
-            <!--</select>-->
+
         </div>
 
 
@@ -158,7 +154,8 @@
                                         </li>
                                     </ul>
                                 </li>
-                            </ul><input type="hidden" name="accountType" class="accountType" ng-model="User.data[$index].clientId" ng-init="User.data[$index].clientId=selectedClient.counter.id" value="{{selectedClient.counter.id}}" ng-Update-Hidden required/>
+                            </ul>
+                            <input type="hidden" name="accountType" class="accountType" ng-model="User.data[$index].clientId"  value="{{selectedClient.counter.id}}" ng-Update-Hidden required/>
                             <!--<input type="hidden" name="accountType" ng-model="selectedClient" ng-update-hidden required/>-->
                         </div>
                     </div>
@@ -211,14 +208,14 @@
                 </div>
                 <div class="form-group col-md-3">
                     <label >Permission:</label>
-                    <select name="permission" class="form-control"  ng-init="User.data[$index].accessLevel = 'ADMIN'" ng-model="User.data[$index].accessLevel">
-                        <option value="{{perm.value}}" ng-repeat="perm in userModalData.Permission" ng-selected="{{perm.value == 'ADMIN'}}">{{perm.name}}</option>
+                    <select name="accessLevel" class="form-control" ng-init="User.data[permissionIndex].accessLevel = 'ADMIN'" ng-change="setPermissionAccess(permissionIndex,User.data[permissionIndex].accessLevel)" ng-model="User.data[permissionIndex].accessLevel">
+                        <option value="{{perm.value}}" ng-repeat="perm in userModalData.Permission" ng-selected="User.data[permissionIndex].accessLevel == perm.value?true:false" >{{perm.name}}</option>
                         <!--<option value="ADMIN">Admin</option>-->
                         <!--<option value="WRITE">Write</option>-->
                         <!--<option value="READ">Read</option>-->
                     </select>
                 </div>
-                <div class="delete_row" ng-click="User.delete_filter($event, permissionIndex)">
+                <div class="delete_row" ng-click="delete_filter($event, permissionIndex)">
                 </div>
 
             </div>
