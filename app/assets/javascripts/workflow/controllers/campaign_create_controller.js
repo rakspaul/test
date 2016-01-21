@@ -14,6 +14,7 @@ var angObj = angObj || {};
             costArr: []
 
         };
+        $scope.saveCampaignClicked=false;
         $scope.platFormArr = [];
         $scope.selectedChannel = "Display";
         $scope.Campaign.marginPercent = 0;
@@ -787,6 +788,7 @@ var angObj = angObj || {};
 
         $scope.saveCampaign = function () {
             $scope.$broadcast('show-errors-check-validity');
+            $scope.saveCampaignClicked=true;
             var isPrimarySelected = $scope.checkIfPrimaryKpiSelected();
             $scope.isPrimarySelected = isPrimarySelected;
             $scope.removeEmptyObjectCostArr();

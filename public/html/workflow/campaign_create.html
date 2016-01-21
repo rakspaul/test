@@ -454,21 +454,21 @@
 											</label>
 										</div>
 									</div>
-
 									<div class="col-md-3 zeroPadding kpiTable">
 
 										<div class="col-md-12 zeroPadding dropdown-workflow">
-											<div class="dropdown">
-												<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ng-bind="Campaign.kpiArr[$index]['vendorName']">
-													<span class="icon-arrow-down"></span>
-												</button>
-												<ul class="dropdown-menu" aria-labelledby="selectKPI"  id="selectKPI">
-													<li ng-repeat="vendor in workflowData.vendor" ng-click="selectedVendor($parent.$index,vendor)" class="available"><a>{{vendor.name}}</a></li>
-												</ul>
-												<input ng-if="mode!=='edit'" type="hidden" name="vendor" ng-init="Campaign.kpiArr[$index]['vendorName']='Select from list';"  ng-model="Campaign.kpiArr[$index]['vendorId']" ng-value="{{vendor.id}}" field="vendorId" index="{{$index}}" hiddenkpi>
-												<input ng-if="mode==='edit'"type="hidden" name="vendor" ng-model="Campaign.kpiArr[$index]['vendorId']"  ng-value="{{vendor.id}}" field="vendorId" index="{{$index}}" hiddenkpi>
-											</div>
-										</div>
+											    <div class="dropdown">
+                                                    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ng-bind="Campaign.kpiArr[$index]['vendorName']">
+                                                        <span class="icon-arrow-down"></span>
+                                                    </button>
+                                                    <ul class="dropdown-menu" aria-labelledby="selectKPI"  id="selectKPI">
+                                                        <li ng-repeat="vendor in workflowData.vendor" ng-click="selectedVendor($parent.$index,vendor)" class="available"><a>{{vendor.name}}</a></li>
+                                                    </ul>
+                                                    <input ng-if="mode!=='edit'" type="hidden" name="vendor" ng-init="Campaign.kpiArr[$index]['vendorName']='Select from list';"  ng-model="Campaign.kpiArr[$index]['vendorId']" ng-value="{{vendor.id}}" field="vendorId" index="{{$index}}" hiddenkpi required>
+                                                    <input ng-if="mode==='edit'"type="hidden" name="vendor" ng-model="Campaign.kpiArr[$index]['vendorId']"  ng-value="{{vendor.id}}" field="vendorId" index="{{$index}}" hiddenkpi>
+                                                </div>
+                                            <label ng-if="Campaign.kpiArr[$index]['vendorId']==='' && saveCampaignClicked"  class="col-sm-12  greyTxt errorLabel" style="display:block;">Select Vendor</label>
+                                        </div>
 									</div>
 
 									<div class="col-md-2 zeroPadding kpiTable symbol-input">

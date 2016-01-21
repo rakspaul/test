@@ -84,7 +84,8 @@ var angObj = angObj || {};
                         var formElem = $("#formCreativeCreate");
                         var formData = formElem.serializeArray();
                         formData = _.object(_.pluck(formData, 'name'), _.pluck(formData, 'value'));
-                        if(formData.name && formData.creativeFormat && formData.creativeSize){
+//                        if(formData.name && formData.creativeFormat && formData.creativeSize){
+                        if(formData.name && formData.creativeSize){
                             var postCrDataObj = {};
                             postCrDataObj.name = formData.name;
                             postCrDataObj.tag = "%%TRACKER%%";
