@@ -40,7 +40,10 @@ var angObj = angObj || {};
                 postCreateAdObj.endTime = momentService.localTimeToUTC(formData.endTime, 'endTime');
                 postCreateAdObj.createdAt = '';
                 postCreateAdObj.updatedAt = '';
-
+console.log('formElem = ', formElem);
+console.log('formData = ', formData);
+console.log('postCreateAdObj = ', postCreateAdObj);
+console.log('$routeParams.campaignId = ', $routeParams.campaignId);
                 workflowService
                     .createAdGroups($routeParams.campaignId, postCreateAdObj)
                     .then(function (result) {
