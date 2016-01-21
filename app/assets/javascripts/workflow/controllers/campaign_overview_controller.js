@@ -248,12 +248,11 @@ var angObj = angObj || {};
                 workflowService.getAdgroups(campaignId).then(function (result) {
                     if (result.status === "OK" || result.status === "success") {
                         var responseData = result.data.data;
-                        $scope.workflowData['campaignGetAdGroupsData'] = responseData;
+                        $scope.workflowData.campaignGetAdGroupsData = responseData;
                     } else {
                         campaignOverView.errorHandler(result);
                     }
                 }, campaignOverView.errorHandler);
-                //$scope.getAdgroups(campaignId);
             },
 
             getAdsInAdGroup: function (campaignId, adGroupId, index) {
@@ -337,7 +336,6 @@ var angObj = angObj || {};
                     var arr = creativeSizeArr;
                     var result = noRepeat(arr);
 
-                    console.log("result[0]", result[0]);
                     if (result[0].length > 3) {
                         var creativeSizeLimit = result[0].splice(0,3);
                         var remainingCreativeSize = result[0].join(", ");

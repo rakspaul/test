@@ -1,29 +1,29 @@
-(function() {
+(function () {
     'use strict';
 
-    angObj.service('momentService', ['loginModel', 'constants', function(loginModel, constants) {
-        this.today = function() {
+    angObj.service('momentService', ['loginModel', 'constants', function (loginModel, constants) {
+        this.today = function () {
             var m = moment.tz(loginModel.networkTimezone());
             return m.startOf('day');
         };
 
-        this.getCurrentYear = function(){
+        this.getCurrentYear = function () {
             return this.today().year();
         };
 
         //eg: moment('2010-10-20').isBefore('2010-10-21');
-        this.isDateBefore = function(date1,date2) {
+        this.isDateBefore = function (date1, date2) {
             return moment(date1).isBefore(date2);
-        }
+        };
 
-        this.isSameOrAfter = function(date1,date2) {
+        this.isSameOrAfter = function (date1, date2) {
             if(moment(date1).isSame(date2)) {
                return true;
             }
            return moment(date1).isAfter(date2);
-        }
+        };
 
-        this.newMoment = function(date) {
+        this.newMoment = function (date) {
             if(_.isDate(date)) {
                 return this.newMoment(moment(date).format('YYYY-MM-DD'));
             }
@@ -32,10 +32,9 @@
             }
         };
 
-        this.reportDateFormat = function(reportDateTime) {
-            //var reportDateTime = '2015-08-12 01:22:41';
-
+        this.reportDateFormat = function (reportDateTime) {
             var yesterday = moment().subtract(1, 'day');
+
             if(moment(reportDateTime).startOf('day').isSame(moment().startOf('day'))) {
                 return moment(reportDateTime).format('HH:mm A');
             } else if(moment(reportDateTime).isSame(yesterday, 'day')) {
@@ -46,20 +45,20 @@
         };
 
         //function can be called as momentService.todayDate('YYYY-MM-DD')
-        this.todayDate = function(dateFormat) {
+        this.todayDate = function (dateFormat) {
             return moment().format(dateFormat);
         };
 
-        this.dateDiffInDays = function(date1,date2) {
-            var d1 = moment(date1);
-            var d2 = moment(date2);
+        this.dateDiffInDays = function (date1,date2) {
+            var d1 = moment(date1),
+                d2 = moment(date2);
 
             return moment.duration(d2.diff(d1)).asDays();
         };
 
-        this.isGreater = function(date1, date2) {
-            var d1 = moment(date1);
-            var d2 = moment(date2);
+        this.isGreater = function (date1, date2) {
+            var d1 = moment(date1),
+                d2 = moment(date2);
 
             if(d2.diff(d1) < 0) {
                 return true;

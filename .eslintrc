@@ -1,0 +1,17 @@
+{
+  "globals": {
+    // Put things like jQuery, etc
+    "jQuery": true,
+    "$": true
+  },
+
+  "env": {
+    // I write for browser
+    "browser": true
+  },
+  
+  "rules": {
+    // Tons of rules you can use, for example...
+    "quotes": [1, "single"]
+  }
+}
