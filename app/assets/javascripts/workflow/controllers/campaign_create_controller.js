@@ -26,6 +26,9 @@ var angObj = angObj || {};
         $scope.performance = [];
         $scope.objectiveSet="Select all that apply";
         $scope.deliveryLesserBookedspend = false;
+        $scope.Campaign.nonInventoryCost = '00.00';
+        $scope.Campaign.deliveryBudget = '00.00';
+        $scope.Campaign.effectiveCPM = '00.00';
 
         $scope.selectedKpi = function (index, kpi) {
             $scope.Campaign.kpiArr[index]['kpiType'] = kpi.name;

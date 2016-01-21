@@ -210,6 +210,14 @@
   float: left;
   margin: 0 0 0 5px;
 }
+#campaignCreate .firstWrapper .masterContainer .marginCal .calTable .symbol-input.blindInput .symbol {
+  left: 55px;
+}
+#campaignCreate .firstWrapper .masterContainer .marginCal .calTable .symbol-input.blindInput input {
+  border-width: 0;
+  background: none;
+  margin: 1px 0 0 42px;
+}
 #campaignCreate .firstWrapper .masterContainer .marginCal .calTable:last-child {
   width: 15%;
 }
