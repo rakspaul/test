@@ -591,9 +591,9 @@ var angObj = angObj || {};
                 var pos = str.lastIndexOf('~');
                 str = str.substring(0, pos)
             }
-            if(str.search("&filter=") != -1){
-                str += "&exact_match=true";
-            }
+//            if(str.search("&filter=") != -1){
+//                str += "&exact_match=true";
+//            }
             //timeframe
             str += '&start_date=' + $scope.reports.reportDefinition.timeframe.start_date + "&end_date=" + $scope.reports.reportDefinition.timeframe.end_date;
 
