@@ -567,7 +567,7 @@ var angObj = angObj || {};
             if ($scope.reports.reportDefinition.dimensions[filterDataKey].dimension) {
                 $scope.isReportForMultiDimension = true;
                 $scope.reportTitle += ' by ' + $scope.reports.reportDefinition.dimensions[filterDataKey].name;
-                str += "&filter=" + $scope.reports.reportDefinition.dimensions[filterDataKey].dimension
+                str += "&first_dim_filter=" + $scope.reports.reportDefinition.dimensions[filterDataKey].dimension
                 if ($scope.reports.reportDefinition.dimensions[filterDataKey].value) {
                     str += ':' + $scope.reports.reportDefinition.dimensions[filterDataKey].value;
                 }
@@ -576,7 +576,7 @@ var angObj = angObj || {};
                 }
             }
             if ($scope.additionalFilters.length > 0) {
-                if (!$scope.reports.reportDefinition.dimensions[filterDataKey].dimension) {
+                if (/*!$scope.reports.reportDefinition.dimensions[filterDataKey].dimension && */str.search("&filter") == -1) {
                     str += "&filter="
                 } else {
                     str += '~';
@@ -591,9 +591,9 @@ var angObj = angObj || {};
                 var pos = str.lastIndexOf('~');
                 str = str.substring(0, pos)
             }
-//            if(str.search("&filter=") != -1){
-//                str += "&exact_match=true";
-//            }
+            if(!isPrimary){
+                str += "&exact_match=true";
+            }
             //timeframe
             str += '&start_date=' + $scope.reports.reportDefinition.timeframe.start_date + "&end_date=" + $scope.reports.reportDefinition.timeframe.end_date;
 
