@@ -17,7 +17,7 @@
 
 
         $scope.selectedFilter = function () {
-            return ganttChartModel.filter === 'budegt' ? 'Budget' : 'End Dates';
+            return ganttChartModel.filter === 'budget' ? 'Budget' : 'End Dates';
         };
 
         $scope.init = function (update, filter) {
