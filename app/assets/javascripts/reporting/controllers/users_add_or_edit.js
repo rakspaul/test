@@ -360,7 +360,14 @@
                 $scope.userConsoleFormDetails.firstName = data.firstName;
                 $scope.userConsoleFormDetails.lastName = data.lastName;
                 $scope.userConsoleFormDetails.roleTemplateId = data.roleTemplateId;
-                $scope.userConsoleFormDetails.password = "123456";
+
+                $scope.userConsoleFormDetails.isEditPassword = data.isCaasEnabled;
+                if(data.isCaasEnabled) {
+                    $scope.userConsoleFormDetails.password = "123456";
+                } else {
+                    $scope.userConsoleFormDetails.password = "";
+                }
+
                 if(data.roleTemplateId != constants.super_admin){
                     $scope.isSuperAdmin = false;
                     for(var i = 0; i < data.permissions.length; i++){
