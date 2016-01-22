@@ -41,7 +41,9 @@
                 <span class="greyTxt adDisplay" data-ng-bind="adsData.platform.displayName"></span>
                 <!--<span class="pull-left">ID: {{adsData.id}}</span>-->
                 <span class="greyTxt adDisplay" ng-show="!(adsData.platform)" data-ng-bind="textConstants.PLATNOTSET"></span>
-                <span class="greyTxt adDisplay" ng-show="!(adsData.sourceId)" data-ng-bind="textConstants.NOTPUSHEDPAR"></span>
+                <span class="greyTxt adDisplay" 
+                    ng-show="(!adsData.isTracking) && (adsData.state === 'READY' || adsData.state === 'INCOMPLETE')" 
+                    data-ng-bind="textConstants.NOTPUSHEDPAR"></span>
             </div>
             <div class="col-md-12" style="padding: 0px 20px 20px 20px;">
                 <div class="col-md-12 zeroPadding cardTopLayer">
