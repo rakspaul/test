@@ -2420,13 +2420,10 @@ input[type="submit"] {
   float: left;
   width: 200px ;
 }
-
-/* Required for mediaplan list page's scroller */
 #performance_block {
   height: 500px;
   overflow: auto;
 }
-
 /*  end of cost breakdown */
 .main_navigation_holder {
   height: 50px;
@@ -2487,11 +2484,14 @@ input[type="submit"] {
   top: 50px;
   left: 0px;
   width: 100%;
-  min-height: 80px;
-  background-color: #103F7b;
   color: #fff;
   font-size: 14px ;
   z-index: 1004 ;
+}
+.main_navigation_holder .main_nav_dropdown .nav-menu {
+  background-color: #103F7b;
+  width: 100%;
+  float: left;
 }
 .main_navigation_holder .main_nav_dropdown .user-photo-details {
   width: 170px ;
@@ -2610,6 +2610,12 @@ input[type="submit"] {
 }
 .main_navigation_holder .main_nav_dropdown .logout-option .logout-option-link a {
   text-decoration: none;
+}
+.main_navigation_holder #reports-menu {
+  min-height: 133px;
+}
+.main_navigation_holder #user-menu {
+  min-height: 80px;
 }
 .main_navigation_holder .dropdown-menu {
   padding: 10px 0px ;
