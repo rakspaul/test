@@ -360,6 +360,9 @@ var angObj = angObj || {};
             }
             if (name === 'Audience') {
                 $scope.adData.isAudienceSelected = true;
+                if(audienceService.getSelectedAudience()){
+                    $scope.$broadcast('settingSelectedAudience')
+                }
             }
             if (name === 'Daypart') {
                 $scope.adData.isDaypartSelected = true;
@@ -429,9 +432,6 @@ var angObj = angObj || {};
             if (!selectedAudience || selectedAudience.length === 0) {
                 $scope.adData.isAudienceSelected = false;
                 $scope.adData.targetName = null;
-            }
-            else{
-                $scope.selectedAudience = selectedAudience;
             }
             $('#audienceTargeting')
                 .delay(300)
