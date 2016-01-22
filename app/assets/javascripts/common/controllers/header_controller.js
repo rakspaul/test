@@ -155,6 +155,7 @@
                 if(behaviour == "click") {
                     //  $(".main_nav_dropdown").fadeOut() ;
                     $(".main_navigation_holder").find(".selected").addClass("selected") ;
+                    setTimeout(function(){ $('.each_nav_link.active .arrowSelect').fadeIn(); }, 1000);
                 }
             }
 
@@ -162,13 +163,16 @@
 
         $scope.hide_navigation_dropdown = function(event) {
             var elem = $(event.target);
-            setTimeout(function(){ $('.each_nav_link.active .arrowSelect').fadeIn(); }, 800);
+            setTimeout(function(){ $('.each_nav_link.active .arrowSelect').fadeIn(); }, 1000);
             setTimeout(function(){
                 if(  !( $(".main_navigation_holder").is(":hover") || $("#user-menu").is(":hover") || $("#reports-menu").is(":hover") ) ) {
                     $(".main_nav_dropdown").fadeOut() ;
                     $(".main_navigation_holder").find(".selected").removeClass("selected") ;
+                } else
+                {
+                    $('.each_nav_link.active .arrowSelect').hide();
                 }
-            }, 1500);
+            }, 1000);
 
         } ;
 
