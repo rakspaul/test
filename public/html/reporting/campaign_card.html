@@ -102,9 +102,9 @@
                     <span
                             ng-show="campaign.kpiType.toLowerCase()=='delivery'?campaign.targetKPIImpressions:campaign.kpiValue">{{campaign.kpiType.toLowerCase()=="delivery"?( campaign.targetKPIImpressions |
                         nrFormat ): (campaign.kpiValue | kpiFormatter:campaign.kpiType)}}</span>
-                    <span ng-if="(campaigns.cdbDataMap[campaign.orderId][(campaign.kpiType.toLowerCase()=='delivery'?'impressions':campaign.kpiType.toLowerCase())] | kpiFormatter:campaign.kpiType) !== 0" class="icon_KPI"></span>
+                    <span ng-if="campaign.chart !==false" class="icon_KPI"></span>
                 </span>
-                <span class="pull-right cumulative_val" ng-if="(campaigns.cdbDataMap[campaign.orderId][(campaign.kpiType.toLowerCase()=='delivery'?'impressions':campaign.kpiType.toLowerCase())] | kpiFormatter:campaign.kpiType) !== 0">
+                <span class="pull-right cumulative_val" ng-if="campaign.chart !==false">
                     {{ textConstants.CUMULATIVE_VALUE }} <span>{{campaigns.cdbDataMap[campaign.orderId][(campaign.kpiType.toLowerCase()=="delivery"?"impressions":campaign.kpiType.toLowerCase())] | kpiFormatter:campaign.kpiType}}</span>
                 </span>
             </div>
