@@ -430,6 +430,9 @@ var angObj = angObj || {};
                 $scope.adData.isAudienceSelected = false;
                 $scope.adData.targetName = null;
             }
+            else{
+                $scope.selectedAudience = selectedAudience;
+            }
             $('#audienceTargeting')
                 .delay(300)
                 .animate({

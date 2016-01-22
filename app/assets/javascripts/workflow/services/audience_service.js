@@ -4,7 +4,7 @@
         var audience;
         var source;
         var keywords;
-        var selectedAudiences;
+        var selAudiences;
         var andOrStatus;
         var dayPartData;
         var dayTimeSelectedObj;
@@ -86,10 +86,10 @@
                 return keywords;
             },
             setSelectedAudience: function (s) {
-                selectedAudiences = s;
+                selAudiences = s;
             },
             getSelectedAudience: function () {
-                return selectedAudiences;
+                return selAudiences;
             },
             setAndOr: function (status) {
                 andOrStatus = status
