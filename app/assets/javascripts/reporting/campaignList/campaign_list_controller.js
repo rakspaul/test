@@ -5,6 +5,10 @@
     //Hot fix to show the campaign tab selected
     $(".main_navigation").find('.active').removeClass('active').end().find('#campaigns_nav_link').addClass('active');
     $(".main_navigation_holder").find('.active_tab').removeClass('active_tab') ;
+    
+    //Resets Header
+    $(".main_navigation_holder .main_nav .main_navigation .each_nav_link.active .arrowSelect").show();
+        
     $scope.campaigns = new campaignListModel();
 
     $scope.sortReverse = false;
