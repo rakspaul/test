@@ -364,7 +364,7 @@ var angObj = angObj || {};
                     $scope.$broadcast('settingSelectedAudience')
                 }
                 else{
-                    $scope.$broadcast('resetAllAdience')
+                    $scope.$broadcast('resetAllAudience')
                 }
             }
             if (name === 'Daypart') {
