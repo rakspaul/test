@@ -363,6 +363,9 @@ var angObj = angObj || {};
                 if(audienceService.getSelectedAudience()){
                     $scope.$broadcast('settingSelectedAudience')
                 }
+                else{
+                    $scope.$broadcast('resetAllAdience')
+                }
             }
             if (name === 'Daypart') {
                 $scope.adData.isDaypartSelected = true;

@@ -491,5 +491,9 @@ var angObj = angObj || {};
                 $scope.audienceList[index].isIncluded  = true;
             })
         })
+        $scope.$on('resetAllAdience',function(){
+            resetAudience();
+            $scope.selectedAudience = [];
+        })
     });
 })();
