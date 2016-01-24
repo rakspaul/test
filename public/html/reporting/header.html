@@ -7,13 +7,13 @@
         </div>
         <div class="pull-left main_navigation clearfix">
             <div class="pull-left each_nav_link" id="campaigns_nav_link">
-                <a href="/mediaplans" ng-bind="textConstants.MEDIA_PLAN"></a>
+                <a href="/mediaplans" ng-hover="hide_navigation_dropdown($event)" ng-mouseover="hide_navigation_dropdown($event)" ng-bind="textConstants.MEDIA_PLAN"></a>
 
                 <div class="arrowSelect"></div>
             </div>
             <div class="pull-left each_nav_link" id="reports_nav_link">
                 <a href="javascript:void(0);" reporttitle="reportOverview"
-                   ng-click="show_hide_nav_dropdown($event,'reports','click');"
+                   ng-click="NavigateToTab('', $event ,'reportOverview')"
                    ng-mouseover="show_hide_nav_dropdown($event,'reports','hover');" ng-bind="textConstants.REPORTS"></a>
 
                 <div class="arrowSelect" style="bottom: -1px;"></div>

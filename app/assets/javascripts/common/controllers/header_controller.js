@@ -147,34 +147,32 @@
             var elem = $(event.target);
             if($("#" + arg + "-menu").is(":visible") == false ) {
                 $(".main_nav_dropdown").hide() ;
-                $("#" + arg + "-menu").fadeIn();
+                var minHeight = $("#" + arg + "-menu").css('min-height');
+                $("#" + arg + "-menu").css('min-height',0).slideDown('fast', function() {
+                    $(this).css('min-height', minHeight);
+                });
                 $(".main_navigation_holder").find(".selected").removeClass("selected") ;
                 elem.closest("#"+ arg +"_nav_link").addClass("selected") ;
                 $('.each_nav_link.active .arrowSelect').hide();
             } else {
                 if(behaviour == "click") {
-                    //  $(".main_nav_dropdown").fadeOut() ;
                     $(".main_navigation_holder").find(".selected").addClass("selected") ;
-                    setTimeout(function(){ $('.each_nav_link.active .arrowSelect').fadeIn(); }, 1000);
+                    setTimeout(function(){ $('.each_nav_link.active .arrowSelect').fadeIn(); }, 500);
                 }
             }
-
         } ;
 
         $scope.hide_navigation_dropdown = function(event) {
             var elem = $(event.target);
-            setTimeout(function(){ $('.each_nav_link.active .arrowSelect').fadeIn(); }, 1000);
-            setTimeout(function(){
+            setTimeout(function(){ $('.each_nav_link.active .arrowSelect').fadeIn(); }, 500);
                 if(  !( $(".main_navigation_holder").is(":hover") || $("#user-menu").is(":hover") || $("#reports-menu").is(":hover") ) ) {
-                    $(".main_nav_dropdown").fadeOut() ;
+                    $("#reports-menu, #user-menu").css('min-height',0).slideUp('fast');
                     $(".main_navigation_holder").find(".selected").removeClass("selected") ;
                 } else
                 {
                     $('.each_nav_link.active .arrowSelect').hide();
                 }
-            }, 1000);
-
-        } ;
+        };
 
         $scope.logout = function() {
             loginModel.logout();
@@ -190,7 +188,7 @@
         });
         //$rootScope.dashboard = {};
         //$rootScope.dashboard.isNetworkUser = loginModel.getIsNetworkUser();
-
+        
         $(function() {
             var closeMenuPopUs = function(event) {
                 var e = event.target || event.srcElement,
