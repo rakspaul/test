@@ -128,10 +128,10 @@
                         <div class="clearfix details_KPI_row1">
                             <span class="details_KPI_title">{{campaign.kpiType !='null' ?  campaign.kpiType : 'NA' | displayToCamelCase}}</span>
                             <span class="pull-right details_KPI_row2" ng-if="campaign.kpiValue || tactic.targetKPIImpressions">
-                                <span>{{campaign.kpiType.toLowerCase()=="delivery"?( tactic.targetKPIImpressions | nrFormat ): (campaign.kpiValue | kpiFormatter:campaign.kpiType)}}</span>
-                                <span class="icon_KPI" ng-if="(campaign.kpiType.toLowerCase()=='delivery')?(tactic.totalImpressions| kpiFormatter:campaign.kpiType:1):(tactic.map[campaign.kpiType.toLowerCase()] | kpiFormatter:campaign.kpiType:1) !==0"></span>
+                                <span ng-if="tactic.chart !==false">{{campaign.kpiType.toLowerCase()=="delivery"?( tactic.targetKPIImpressions | nrFormat ): (campaign.kpiValue | kpiFormatter:campaign.kpiType)}}</span>
+                                <span class="icon_KPI" ng-if="tactic.chart !==false"></span>
                             </span>
-                            <span class="pull-right cumulative_val" ng-if="(campaign.kpiType.toLowerCase()=='delivery')?(tactic.totalImpressions| kpiFormatter:campaign.kpiType:1):(tactic.map[campaign.kpiType.toLowerCase()] | kpiFormatter:campaign.kpiType:1) !==0">
+                            <span class="pull-right cumulative_val" ng-if="tactic.chart !==false">
                                 {{textConstants.CUMULATIVE_VALUE}} <span>{{(campaign.kpiType.toLowerCase()=="delivery")?(tactic.totalImpressions| kpiFormatter:campaign.kpiType:1):(tactic.map[campaign.kpiType.toLowerCase()] | kpiFormatter:campaign.kpiType:1)}}</span>
                             </span>
                         </div>
