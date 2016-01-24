@@ -1077,8 +1077,10 @@ var angObj = angObj || {};
                     $(".schedule-date").show();
                     $('#startOn').datepicker('update', momentService.todayDate('YYYY-MM-DD'));
                     $('#startOn').datepicker('setStartDate', currentYear);
+                    $('#startOn').datepicker('setRange', '');
                     $('#endOn').datepicker('update', momentService.todayDate('YYYY-MM-DD'));
                     $('#endOn').datepicker('setStartDate', currentYear);
+                    $('#endOn').datepicker('setRange', '');
                 }
             }
             $scope.showCustomDate($scope.valueWithDefault($scope.reports.schedule.occurance, $scope.reports.schedule.frequency, ''));
