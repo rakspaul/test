@@ -333,7 +333,7 @@ var angObj = angObj || {};
             }
             $('.cap_no input').attr('checked', 'checked');
             $('.spend_evenly input').attr('checked', 'checked');
-            if (responseData.frequencyCaps && responseData.frequencyCaps.length > 1) {
+            if (responseData.frequencyCaps && responseData.frequencyCaps.length >= 1) {
                 $scope.adData.setCap = true;
                 $('.cap_yes').addClass('active');
                 $('.cap_no').removeClass('active');
