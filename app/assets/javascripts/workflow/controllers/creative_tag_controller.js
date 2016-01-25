@@ -3,8 +3,7 @@ var angObj = angObj || {};
 (function () {
     'use strict';
 
-    angObj.controller('CreativeTagController', function ($scope, $window, $routeParams, constants, workflowService, $timeout, 
-        utils, $location) {
+    angObj.controller('CreativeTagController', function ($scope, $window, $routeParams, constants, workflowService) {
         var addFromLibrary = {
             modifyCreativesData: function (respData) {
                 var arr;
@@ -115,12 +114,13 @@ var angObj = angObj || {};
         $scope.changeStatus = function () {
             _.each($scope.selectedArr, function (obj) {
                 obj.checked = obj.userSelectedEvent;
-            })
+            });
         };
 
         $scope.updateCreativeData = function (data) {
-            $scope.creativeData['creativeInfo'] = {'creatives': data.slice()};
-            $scope.setSizes($scope.creativeData['creativeInfo']);// set sizes on side bar.
+            $scope.creativeData.creativeInfo = {'creatives': data.slice()};
+            // set sizes on side bar.
+            $scope.setSizes($scope.creativeData.creativeInfo);
         };
 
         $scope.setSizes = function (selectedcreatives) {
@@ -201,7 +201,7 @@ var angObj = angObj || {};
                     return item.id === screenTypeObj.id;
                 });
                 $scope.selectedArr.splice(idx, 1);
-                if (preidx === -1) {
+                if (preIdx === -1) {
                     $scope.preDeleteArr.push(screenTypeObj);
                 }
             } else {
@@ -253,7 +253,7 @@ var angObj = angObj || {};
                 idx = _.findLastIndex($scope.selectedArr, selectedCreativeTag[0]);
                 $scope.selectedArr.splice(idx, 1);
                 if (actionFrom !== 'popup') {
-                    $scope.updateCreativeData($scope.selectedArr)
+                    $scope.updateCreativeData($scope.selectedArr);
                 } else {
                     //insert into predelete array
                     $scope.preDeleteArr.push(selectedCreativeTag[0]);
