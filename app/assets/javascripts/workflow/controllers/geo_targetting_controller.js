@@ -560,6 +560,10 @@ var angObj = angObj || {};
                         }
                     }
                 }
+                //reload city
+                $scope.geoTargetingData.cities = [];
+                citiesListArray = [];
+                $scope.listCities()
             }
             if (type ==='zip') {
                 if ($scope.zipCodesObj)  $scope.zipCodesObj = [];

@@ -4,7 +4,7 @@
         return function(scope, el, attr) {
             $(el).click(function(){
                 scope.Campaign.kpiArr.splice(attr.index, 1);
-                scope.ComputeCost();
+                //scope.ComputeCost();
                 scope.$apply();
             })
 
@@ -15,7 +15,7 @@
             $(el).click(function(){
                 scope.Campaign.costArr.splice(attr.index, 1);
                 scope.vendorRateData.splice(attr.index, 1);
-                scope.ComputeCost();
+            //    scope.ComputeCost();
                 scope.$apply();
             })
 

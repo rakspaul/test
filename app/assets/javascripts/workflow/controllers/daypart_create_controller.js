@@ -440,10 +440,8 @@ var angObj = angObj || {};
 
         $scope.addMoreCustom = function () {
             $scope.Schedule.customLength = $scope.Schedule.customLength + 1;
-            $scope.Schedule.daytimeArr.push({
-                day: 'Sunday', 
-                startTime: 'All Day'
-            });
+            $scope.Schedule.daytimeArr.push({day: 'Sunday', startTime: 'All Day'});
+            $scope.Schedule.dayPart.push({day: 'Sunday', stTime: 24});
         };
 
         $scope.Schedule.dayTimeSelected = function (value) {

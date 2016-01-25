@@ -37,13 +37,24 @@
         <!--=== Single Ad Ready ===-->
         <div class="col-md-3 adModule" ng-repeat="adsData in workflowData.getADsForGroupData[$index+1] track by adsData.id" ng-click="adsData.state=='DEPLOYING' ? '': goEdit(adsData)">
             <div class="col-md-12 adTitle">
-                <img ng-src="{{adsData.platform.iconUrl}}" height="16" class="adIconWidget" ng-show="adsData.platform" title="{{adsData.platform.displayName | uppercase}}"/>
-                <span class="greyTxt adDisplay" data-ng-bind="adsData.platform.displayName"></span>
+                <div class="clearfix">
+                    <img ng-src="{{adsData.platform.iconUrl}}" 
+                        height="16" 
+                        class="adIconWidget" 
+                        ng-show="adsData.platform" 
+                        title="{{adsData.platform.displayName | uppercase}}"/>
+                    <span class="pull-right greyTxt adDisplay" 
+                        ng-show="!(adsData.platform)" 
+                        data-ng-bind="textConstants.PLATNOTSET"></span>
+                    <span class="pull-right greyTxt adDisplay" 
+                        ng-show="(!adsData.isTracking) && (adsData.state === 'READY' || adsData.state === 'INCOMPLETE')" 
+                        data-ng-bind="textConstants.NOTPUSHEDPAR">
+                    </span>
+                </div>
+                <div style="margin-top:3px;">
+                    <span class="greyTxt adDisplay" ng-bind="adsData.platform.displayName | formatUrl:12"></span>
+                </div>
                 <!--<span class="pull-left">ID: {{adsData.id}}</span>-->
-                <span class="greyTxt adDisplay" ng-show="!(adsData.platform)" data-ng-bind="textConstants.PLATNOTSET"></span>
-                <span class="greyTxt adDisplay" 
-                    ng-show="(!adsData.isTracking) && (adsData.state === 'READY' || adsData.state === 'INCOMPLETE')" 
-                    data-ng-bind="textConstants.NOTPUSHEDPAR"></span>
             </div>
             <div class="col-md-12" style="padding: 0px 20px 20px 20px;">
                 <div class="col-md-12 zeroPadding cardTopLayer">
@@ -60,7 +71,7 @@
                 </div>
                 <div class="col-md-12 zeroPadding cardMidLayer">
                     <div class="col-md-4 zeroPadding text-center">
-                        <span class="col-md-12 text-center adTxtGray zeroPadding">{{adsData.budgetType ? (adsData.budgetType | toPascalCase) : textConstants.WF_IMPS}}</span>
+                        <span class="col-md-12 text-center adTxtGray zeroPadding">{{adsData.label ? (adsData.label | toPascalCase) : textConstants.WF_IMPS}}</span>
                         <span class="col-md-12 text-center zeroPadding">{{adsData.calculatedValue ? (adsData.calculatedValue | nrFormat) : textConstants.WF_NOT_SET}}</span>
                     </div>
                      <div class="col-md-4 zeroPadding text-center">
