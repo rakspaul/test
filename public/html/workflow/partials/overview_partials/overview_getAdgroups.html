@@ -38,13 +38,13 @@
         <div class="col-md-3 adModule" ng-repeat="adsData in workflowData.getADsForGroupData[$index+1] track by adsData.id" ng-click="adsData.state=='DEPLOYING' ? '': goEdit(adsData)">
             <div class="col-md-12 adTitle">
                 <div class="clearfix">
-                    <img ng-src="{{adsData.platform.iconUrl}}" height="16" class="adIconWidget" ng-show="adsData.platform" title="{{adsData.platform.displayName | uppercase}}"/>
-                    <span class="pull-right greyTxt adDisplay" ng-show="!(adsData.platform)" data-ng-bind="textConstants.PLATNOTSET"></span>
+                    <img class="pull-left" ng-src="{{adsData.platform.iconUrl}}" height="16" class="adIconWidget" ng-show="adsData.platform" title="{{adsData.platform.displayName | uppercase}}"/>
+                    <span class="pull-left greyTxt adDisplay" ng-show="!(adsData.platform)" data-ng-bind="textConstants.PLATNOTSET"></span>
                     <span class="pull-right greyTxt adDisplay" ng-show="!(adsData.sourceId)" data-ng-bind="textConstants.NOTPUSHEDPAR"></span>
-                    <span class="pull-right greyTxt adDisplay" ng-show="(adsData.sourceId)" data-ng-bind="'ID:'+adsData.sourceId"></span>
+                    <span class="pull-right greyTxt adDisplay" title="ID: {{adsData.sourceId}}" ng-show="(adsData.sourceId)" data-ng-bind="'ID:'+adsData.sourceId | formatUrl:8"></span>
                 </div>
                 <div style="margin-top:3px;">
-                    <span class="greyTxt adDisplay" ng-bind="adsData.platform.displayName | formatUrl:12"></span>
+                    <span class="greyTxt adDisplay" title="{{adsData.platform.displayName}}" ng-bind="adsData.platform.displayName | formatUrl:12"></span>
                 </div>
                 <!--<span class="pull-left">ID: {{adsData.id}}</span>-->
                 
