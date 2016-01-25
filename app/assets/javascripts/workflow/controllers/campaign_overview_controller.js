@@ -182,6 +182,10 @@ var angObj = angObj || {};
                 _.each(adsData, function(data) {
                     budgetType = data.budgetType && data.budgetType.toLowerCase();
                     rateType = data.rateType && data.rateType.toLowerCase();
+                    
+                    if(budgetType === "impressions") {
+                          data.budgetType = "Imps.";
+                       } 
 
                     data.label = labelObj[rateType];
 

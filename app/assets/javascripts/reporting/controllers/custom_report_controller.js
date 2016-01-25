@@ -485,7 +485,7 @@ var angObj = angObj || {};
                         if (!$.isEmptyObject(metrics)) {
                             _.extend(metricObj, metrics);
                         }
-                    }
+                    } 
                     metricObj.idx = index
                 });
                 metricObj.level = typeofDimension;
@@ -1077,8 +1077,10 @@ var angObj = angObj || {};
                     $(".schedule-date").show();
                     $('#startOn').datepicker('update', momentService.todayDate('YYYY-MM-DD'));
                     $('#startOn').datepicker('setStartDate', currentYear);
+                    $('#startOn').datepicker('setRange', '');
                     $('#endOn').datepicker('update', momentService.todayDate('YYYY-MM-DD'));
                     $('#endOn').datepicker('setStartDate', currentYear);
+                    $('#endOn').datepicker('setRange', '');
                 }
             }
             $scope.showCustomDate($scope.valueWithDefault($scope.reports.schedule.occurance, $scope.reports.schedule.frequency, ''));
@@ -1631,7 +1633,7 @@ var angObj = angObj || {};
                         break;
                         case "Weekly":
                             if($scope.valueWithDefault($scope.reports.schedule, 'occurance' ,'') == ''){
-                                $rootScope.setErrAlertMessage("Please the occurs on");
+                                $rootScope.setErrAlertMessage("Please, select valid day/date for Occurs On field");
                                 return false;
                             }
                             if(momentService.dateDiffInDays(startDate,endDate) < 7){
@@ -1641,7 +1643,7 @@ var angObj = angObj || {};
                         break;
                         case "Monthly":
                             if($scope.valueWithDefault($scope.reports.schedule, 'occurance' ,'') == ''){
-                                $rootScope.setErrAlertMessage("Please the occurs on");
+                                $rootScope.setErrAlertMessage("Please, select valid day/date for Occurs On field");
                                 return false;
                             }else{
                                 if($scope.reports.schedule.occurance == "Custom" && (typeof $scope.reports.schedule.customOccuranceDate == "undefined" || $scope.reports.schedule.customOccuranceDate == "")){
