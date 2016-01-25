@@ -98,7 +98,7 @@
                     }
                     // condition 2 - not super admin - need  permissions
 
-                    if(constants.super_admin != postDataObj.roleTemplateId && postDataObj.permissions.length > 0){
+                    if((constants.super_admin != postDataObj.roleTemplateId && postDataObj.permissions.length > 0) || constants.super_admin == postDataObj.roleTemplateId){
                         if($scope.editmode)
                             $scope.updateUser(postDataObj);
                         else
