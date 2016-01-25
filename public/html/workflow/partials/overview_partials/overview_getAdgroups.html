@@ -41,6 +41,7 @@
                     <img ng-src="{{adsData.platform.iconUrl}}" height="16" class="adIconWidget" ng-show="adsData.platform" title="{{adsData.platform.displayName | uppercase}}"/>
                     <span class="pull-right greyTxt adDisplay" ng-show="!(adsData.platform)" data-ng-bind="textConstants.PLATNOTSET"></span>
                     <span class="pull-right greyTxt adDisplay" ng-show="!(adsData.sourceId)" data-ng-bind="textConstants.NOTPUSHEDPAR"></span>
+                    <span class="pull-right greyTxt adDisplay" ng-show="(adsData.sourceId)" data-ng-bind="'ID:'+adsData.sourceId"></span>
                 </div>
                 <div style="margin-top:3px;">
                     <span class="greyTxt adDisplay" ng-bind="adsData.platform.displayName | formatUrl:12"></span>

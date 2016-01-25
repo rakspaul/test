@@ -297,8 +297,11 @@
                                         <!--<span class="pull-left">ID: {{adsData.id}}</span>-->
                                         <span class="pull-right greyTxt adDisplay" ng-show="!(adsData.platform)" data-ng-bind="textConstants.PLATNOTSET">
                                         </span>
-                                        <span class="pull-right greyTxt adDisplay"
+                                        <span ng-if="!(adsData.sourceId) && !(adsData.isTracking)" class="pull-right greyTxt adDisplay"
                                               ng-show="!(adsData.sourceId) && !(adsData.isTracking)" data-ng-bind="textConstants.NOTPUSHEDPAR">
+                                        </span>
+                                        <span ng-if="(adsData.sourceId)" class="pull-right greyTxt adDisplay"
+                                              ng-show="(adsData.sourceId)" data-ng-bind="'ID:'+adsData.sourceId">
                                         </span>
                                     </div>
                                     <div style="margin-top:3px;">
