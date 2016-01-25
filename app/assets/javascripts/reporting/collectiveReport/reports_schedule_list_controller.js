@@ -69,11 +69,10 @@
                     $scope.reportDownloadBusy = false;
                     $scope.schdReportList[parentIndex].instances[instanceIndex].viewedOn = momentService.reportDateFormat();
                 } else {
+                    $scope.reportDownloadBusy = false;
                     $rootScope.setErrAlertMessage("File couldn't be downloaded");
                 }
             })
-
-
         }
 
         //Delete scheduled report Pop up
