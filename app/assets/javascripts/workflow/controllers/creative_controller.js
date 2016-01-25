@@ -39,10 +39,8 @@ var angObj = angObj || {};
             getCreativeSizes: function () {
                 workflowService.getCreativeSizes().then(function (result) {
                     if (result.status === "OK" || result.status === "success") {
-                       // console.log(result.data.data);
                         var responseData = result.data.data;
                         $scope.creativeSizeData['creativeSize'] = responseData;
-                        //console.log("responseData"+creativeSizeData);
                     }
                     else {
                         console.log("failed to get creatives sizes");
@@ -98,8 +96,7 @@ var angObj = angObj || {};
                             postCrDataObj.creativeType = "JS";
                             postCrDataObj.sslEnable = "true";
                             postCrDataObj.isTracking = "true";
-                            $scope.CrDataObj=postCrDataObj
-                            console.log(postCrDataObj);
+                            $scope.CrDataObj=postCrDataObj;
                             $scope.saveDuplicate();
                         }
                  }else{
@@ -138,7 +135,6 @@ var angObj = angObj || {};
             });
         });
         $scope.creativesave = function (formData) {
-            console.log(formData)
             var postCrDataObj = {};
             $scope.IncorrectTag = false;
             postCrDataObj.name = formData.name;
@@ -151,12 +147,9 @@ var angObj = angObj || {};
             }
             postCrDataObj.creativeType = formData.creativeType;
             postCrDataObj.sslEnable = "true";
-            console.log(postCrDataObj);
-            $scope.CrDataObj = postCrDataObj;console.log($scope.CrDataObj);
+            $scope.CrDataObj = postCrDataObj;
             workflowService.saveCreatives($scope.campaignId, $scope.advertiserId, postCrDataObj).then(function (result) {
                 if (result.status === "OK" || result.status === "success") {
-                    console.log(result.data);
-                    console.log("creative added");
                     $scope.addedSuccessfully = true;
                     $scope.Message = "Creative Added Successfully";
                     workflowService.setNewCreative(result.data.data);
@@ -210,7 +203,6 @@ var angObj = angObj || {};
         $scope.saveDuplicate = function () {
             workflowService.forceSaveCreatives($scope.campaignId, $scope.advertiserId, $scope.CrDataObj).then(function (result) {
                 if (result.status === "OK" || result.status === "success") {
-                    console.log("creative Resaved");
                     $(".popup-holder").css("display", "none");
                     $scope.disableCancelSave = false;
                     workflowService.setNewCreative(result.data.data);
