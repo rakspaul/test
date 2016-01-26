@@ -314,6 +314,7 @@
             $scope.userConsoleFormDetails.lastName = '';
             $scope.userConsoleFormDetails.password = '';
             $scope.userConsoleFormDetails.roleTemplateId = '';
+            $scope.userConsoleFormDetails.isEditPassword = false;
             $scope.clientName=[];
             $scope.userModalData = [];
             $scope.advertiserName=[];
