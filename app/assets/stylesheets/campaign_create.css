@@ -181,7 +181,9 @@
 }
 #campaignCreate .firstWrapper .masterContainer .marginCal .calTable {
   float: left;
-  width: 17%;
+  width: 20%;
+  margin: 0;
+  padding: 0;
 }
 #campaignCreate .firstWrapper .masterContainer .marginCal .calTable .onlyShowValue {
   display: block;
@@ -194,7 +196,7 @@
   margin: 15px 0 10px 0;
 }
 #campaignCreate .firstWrapper .masterContainer .marginCal .calTable .symbol-input .symbol {
-  left: 40px ;
+  left: 45px ;
   margin: 0 5px 0 0;
 }
 #campaignCreate .firstWrapper .masterContainer .marginCal .calTable .symbol-input .symbol ~ input {
@@ -230,11 +232,8 @@
   background: none;
   margin: 1px 0 0 42px;
 }
-#campaignCreate .firstWrapper .masterContainer .marginCal .calTable:last-child {
-  width: 15%;
-}
 #campaignCreate .firstWrapper .masterContainer .kpiTable {
-  padding-right: 10px !important;
+  padding-right: 12px !important;
 }
 #campaignCreate .firstWrapper .masterContainer .kpiTable h3 {
   font-size: 14px;
@@ -268,7 +267,7 @@
 }
 #campaignCreate .firstWrapper .masterContainer .col-md-2.kpiTable {
   width: auto;
-  min-width: 130px;
+  min-width: 110px;
   max-width: 130px;
 }
 #campaignCreate .firstWrapper .masterContainer .col-md-12.kpiTable {
@@ -3561,8 +3560,11 @@
   float: right;
   margin: 4px 0 0 5px;
 }
+.remove-row {
+  float: left;
+}
 .remove-row .icon-clear {
-  margin: 10px 0 10px 5px ;
+  margin: 10px 0;
 }
 .goalBtnWithPopup {
   position: relative;

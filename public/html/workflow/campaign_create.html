@@ -381,7 +381,7 @@
  											<input type="text" style="display:none;" ng-model="Campaign.effectiveCPM" class="form-control col-sm-8" />
                                                                                 </div>
 									</div>
-									<div class="calTable">
+									<div class="calTable" style="display: none;">
 										<!--<input type="checkbox" />-->
 										<!--<span>Calculate Budget for me</span>-->
 										<a class="btn btn-default pull-left" role="button" ng-click="ComputeCost()" style="margin: 38px 0 0 20px;">
@@ -407,7 +407,7 @@
 										<h3>Vendor</h3>
 										<label for="primaryKPI" class="col-sm-12 greyTxt miniLabels">{{textConstants.SELECT_ONE}}</label>
 									</div>
-									<div class="col-md-2 zeroPadding kpiTable">
+									<div class="col-md-2 zeroPadding kpiTable" style="width: 130px;">
 										<h3>Target</h3>
 										<label for="primaryKPI" class="col-sm-12 greyTxt miniLabels">{{textConstants.ENTER_VALUE}}</label>
 									</div>
@@ -511,7 +511,7 @@
 							<div class="col-md-12 zeroPadding">
 								<label for="nameTitleCampaign" class="col-sm-12 labelQuestTxt" style="margin-bottom: 5px;">{{textConstants.ADD_COST}}</label>
 								<div class="col-md-12 zeroPadding" >
-									<div class="col-md-3 zeroPadding kpiTable" style="width: 340px;">
+									<div class="col-md-3 zeroPadding kpiTable" style="width: 336px;">
 										<h3>Cost Category</h3>
 										<label for="primaryKPI" class="col-sm-12 greyTxt miniLabels">{{textConstants.ADD_COST}}</label>
 									</div>
@@ -540,7 +540,7 @@
 							</div>
 
 							<div class="col-md-12 zeroPadding" ng-repeat="costObj in Campaign.costArr track by $index" style="margin-bottom:10px;">
-								<div class="col-md-6 zeroPadding kpiTable" style="width: 340px;">
+								<div class="col-md-6 zeroPadding kpiTable" style="width: 336px;">
 
 									<div class="col-md-12 zeroPadding">
 										<div class="col-md-6 zeroPadding dropdown-workflow">
@@ -555,7 +555,7 @@
 												<input ng-if="mode==='edit'" type="hidden" name="costCategory"  ng-model="Campaign.costArr[$index]['costCategoryId']" ng-value="{{cost.id}}" field="costCategoryId" index="{{$index}}"  hiddencost>
 											</div>
 										</div>
-										<div class="col-md-6 zeroPadding kpiTable" style="width: 150px; max-width: none; margin-left: 10px; padding-right: 0px !important;">
+										<div class="col-md-6 zeroPadding kpiTable pull-right" style="width: 150px; max-width: none; padding-right: 0px !important;">
 											<div class="col-md-12 btn-group goalBtnGroup zeroPadding">
 												<label class="btn btn-primary first " ng-class="Campaign.costArr[$index]['type']==='fixed'?'active':''">
 													<input type="radio" name="demoType" autocomplete="off" ng-click="rateTypeSelected($event,$index,'fixed');" ng-model="Campaign.costArr[$index]['type']" ng-value="fixed" field="type" index="{{$index}}" hiddencost>
@@ -626,7 +626,7 @@
 									<input type="text" class="col-md-12" ng-model="Campaign.costArr[$index]['description']" field="description" index="{{$index}}"/>
 								</div>
 								<!--<span class="remove-row ">-->
-                            <span class="remove-row" ng-if="$index>0 || (Campaign.costArr.length>=2)">
+                            <span class="remove-row pull-right" ng-if="$index>0 || (Campaign.costArr.length>=2)">
                                 <span class="icon-clear" index="{{$index}}" clearcostrow></span>
                             </span>
 
