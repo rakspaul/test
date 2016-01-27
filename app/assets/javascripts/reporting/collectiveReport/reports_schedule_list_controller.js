@@ -170,6 +170,7 @@
                             var copySuccess = function(data) {
                                 data.name = 'copy: ' + data.name;
                                 data.client_id = loginModel.getSelectedClient().id;
+                                data.schedule = $scope.pre_formatCopySchData(data.schedule);
                                 collectiveReportModel.createSchdReport(function() {
                                     $scope.refreshReportList();
                                     $rootScope.setErrAlertMessage('Schedule Report Copied Successfully', 0);
@@ -186,7 +187,27 @@
                 }
             });
         }
-
+        $scope.pre_formatCopySchData = function(schData){
+            var o = $.extend({}, schData);
+            o.startDate = momentService.todayDate('YYYY-MM-DD');
+            if($scope.valueWithDefault(schData,"frequency",'') != "Once"){
+                var diffDays = momentService.dateDiffInDays(schData.startDate,schData.endDate);
+                o.endDate = momentService.addDays('YYYY-MM-DD', diffDays);
+            }else{
+                o.endDate = o.startDate;
+            }
+            return o;
+        }
+        $scope.valueWithDefault = function(o, argArr, defaultVal) {
+            var d = typeof defaultVal == undefined ? '' : defaultVal;
+            return (typeof o != "undefined" && typeof argArr != "undefined") ? (function(a) {
+                a.forEach(function(e) {
+                    e = e.toLowerCase().trim();
+                    o = typeof o[e] != "undefined" ? o[e] : d;
+                });
+                return o;
+            })(argArr.split(",")) : d;
+        }
         $scope.archiveSchdRpt = function(reportId, instanceId) {
             var $modalInstance = $modal.open({
                 templateUrl: assets.html_confirmation_modal,
