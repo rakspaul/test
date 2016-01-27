@@ -1717,6 +1717,9 @@ var angObj = angObj || {};
                 }
                 $location.path($scope.nextURL.substring($location.absUrl().length - $location.url().length));
             }
+            $(".custom_report_scroll").scroll(function(){
+                $(".custom_report_response_page .custom_report_response_table .custom_report_scroll.vertical_scroll .heading_row").css({"left": "-" + $(".custom_report_scroll").scrollLeft() + "px"});
+            });
         });
     });
 }());
