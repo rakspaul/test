@@ -9,6 +9,7 @@
         var dayPartData;
         var dayTimeSelectedObj;
         var daytimeArrObj;
+        var dayArr;
 
         return {
             setAudience: function (aud) {
@@ -115,6 +116,12 @@
             },
             getDayTimeSelectedObj: function(){
                 return dayTimeSelectedObj;
+            },
+            setDayTimeArr: function(arr){
+                dayArr = arr;
+            },
+            getDayTimeArr: function(){
+                return dayArr;
             }
 
     }

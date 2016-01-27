@@ -354,6 +354,7 @@ var angObj = angObj || {};
                 marginLeft: '-461px',
                 opacity: '1.0'
             }, 'slow');
+            $scope.$broadcast('setSelectedDayparts');
         };
 
         $scope.setTargeting = function (name) {
@@ -626,6 +627,10 @@ var angObj = angObj || {};
                 $scope.geoTargetingData.selected[subtype]=[];
                 $scope.resetSwitch();
                 $scope.includeorExcludeCityOnly(subtype);
+                //reload city
+                $scope.geoTargetingData.cities = [];
+                citiesListArray = [];
+                $scope.listCities()
             } else {
                 $scope.geoTargetingData.selected[type]=[];
                 $scope.includeorExcludeCityOnly(type);
