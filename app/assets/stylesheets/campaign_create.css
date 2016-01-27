@@ -273,6 +273,17 @@
 #campaignCreate .firstWrapper .masterContainer .col-md-12.kpiTable {
   padding: 0px !important;
 }
+#campaignCreate .firstWrapper .masterContainer .col-md-12.kpiTable .intPlatWrap {
+  max-height: 116px !important;
+  top: -54px !important;
+}
+#campaignCreate .firstWrapper .masterContainer .col-md-12.kpiTable .intPlatWrap li:hover {
+  background-color: #E1EDF9;
+}
+#campaignCreate .firstWrapper .masterContainer .col-md-12.kpiTable .intPlatWrap li:hover a {
+  color: #21252b;
+  text-decoration: none;
+}
 #campaignCreate .firstWrapper .masterContainer .campAdHeader {
   width: 100%;
   margin-top: 10px !important;

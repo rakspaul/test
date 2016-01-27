@@ -644,9 +644,9 @@
 								<div class="col-md-12 zeroPadding kpiTable">
 									<h3>Integrated Platforms</h3>
 									<label for="primaryKPI" class="col-sm-12 greyTxt miniLabels">Select as many as you require</label>
-									<input type="text" class="col-md-12 keyword-txt" ng-keyup="showKeywords(keywordText)" ng-model="keywordText"/>
+									<input type="text" class="col-md-12 keyword-txt intPlatInput" ng-keyup="showKeywords(keywordText)" ng-focus="showKeyFocus(intPlatInput)" ng-model="keywordText"/>
 									<label class="keywordWrap" ng-repeat="key in selectedKeywords">{{key.displayName}} <span class="icon-close" ng-click="removeKeyword(key);"></span></label>
-									<ul ng-if="platformKeywords.length>0" class="dropdown-menu" role="menu" id="keywordsList" ng-style="dropdownCss">
+									<ul ng-if="platformKeywords.length>0" class="dropdown-menu intPlatWrap" role="menu" id="keywordsList" ng-style="dropdownCss">
 										<li ng-repeat="keyword in platformKeywords | filter:keywordText" ng-click="selectKeyword(keyword)">
 											<a>
 												<span class="tick"></span>

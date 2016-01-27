@@ -922,11 +922,10 @@ var angObj = angObj || {};
         };
 
         $scope.showKeywords = function (keyword) {
-            if (keyword.length > 0)
+            if ( keyword.length > 0 ) 
                 $scope.dropdownCss.display = 'block';
-            else
+            else 
                 $scope.dropdownCss.display = 'none';
-
         };
 
         $scope.convertPreferredPlatformToArr = function (platformsObj) {
