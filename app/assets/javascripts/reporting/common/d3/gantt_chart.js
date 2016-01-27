@@ -615,6 +615,7 @@
                     })
                     .on('mouseout', function(d) {
                         var container = d3.select(this.parentNode).select("text.past-marker-text");
+                        var pastMarkerText = "";
                         container.style('display', function(d) {
                                 return "none";
                         });
@@ -647,10 +648,10 @@
                         })
 
                     })
-
+                var pastMarkerTextX = 30;
                 markerGroup.append("text")
                     .attr("class", "past-marker-text")
-                    .attr("x", 30)
+                    .attr("x", pastMarkerTextX)
                     .attr("fill","#939ead")
                     .attr("dy", ".35em")
                     .attr("font-family", "Avenir")
@@ -661,9 +662,11 @@
                     .attr("stroke", "#939ead")
                     .text(function(d) {
                         if( isPastView(tdEdges[0], d.startDate, d.endDate) ) {
-                            return moment(d.startDate).format('DD MMM') + '-' + moment(d.endDate).format('DD MMM') +' ' ;
+                            pastMarkerText = moment(d.startDate).format('DD MMM') + '-' + moment(d.endDate).format('DD MMM') +' ' ;
+                            return pastMarkerText;
                         } else if( isFutureView(tdEdges[1], d.startDate, d.endDate) ) {
-                            return moment(d.startDate).format('DD MMM') + '-' + moment(d.endDate).format('DD MMM') +' ' ;
+                            pastMarkerText = moment(d.startDate).format('DD MMM') + '-' + moment(d.endDate).format('DD MMM') +' ' ;
+                            return pastMarkerText;
                         }
                     })
 
@@ -671,8 +674,8 @@
                     .attr("class", "past-marker-text-details")
                     .attr("x", function(d){
                         var container = d3.select(this.parentNode).select("text.past-marker-text"),
-                            offset = 30,
-                            padding = 5;
+                            offset = 50,
+                            padding = 16;
 
                         //temporarily disable element on DOM to get width
                         container.style('display', function(d) {
@@ -682,13 +685,13 @@
                         //get width of text element using BBox
                         var bbox = container.node().getBBox();
                         //add offset and padding
-                        var textWidth = bbox.width + offset + padding;
-
-                        //hide the tooltip content 
+                      //  var textWidth = bbox.width + offset + padding;
+                        var textWidth = pastMarkerTextX+pastMarkerText.length + offset + padding;
+                        //hide the tooltip content
                         container.style('display', function(d) {
                             return "none";
                         });
-                           
+
                         //return corrected rendering location
                         return textWidth;
                     })
@@ -701,7 +704,7 @@
                     .attr("stroke-width", "0.3")
                     .attr("stroke", "#21252b")
                     .text(function(d) {
-        
+
                         if( isPastView(tdEdges[0], d.startDate, d.endDate) ) {
                             return  d.name;
                         } else if( isFutureView(tdEdges[1], d.startDate, d.endDate) ) {
