@@ -438,9 +438,9 @@ var angObj = angObj || {};
 
         //building audience
         $scope.changeOrAndStatus = function (status) {
+            $scope.andOr = status;
             var str = '<span class="text">' + $scope.andOr + '</span><span class="icon-arrow-down"></span>';
 
-            $scope.andOr = status;
             //remove all elements inside and-or-txt and append the created structure -- needs permanent fix
             $('.and-or-txt').html('');
             $('.and-or-txt').append(str);
