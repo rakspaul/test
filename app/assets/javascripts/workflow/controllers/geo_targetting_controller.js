@@ -303,6 +303,10 @@ var angObj = angObj || {};
                 marginLeft: '-461px',
                 opacity: '1.0'
             }, 'slow');
+            //$scope.resetGeoTargetingVariables()
+            var presavedGeo = angular.copy(workflowService.getSavedGeo());
+            if(presavedGeo)
+                $scope.geoTargetingData.selected = presavedGeo
         };
 
         // geo Targeting Trigger
@@ -315,9 +319,9 @@ var angObj = angObj || {};
                 marginLeft: '-461px',
                 opacity: '1.0'
             }, 'slow');
-            if (!$scope.adData.geoTargetingData) {
+            //if (!$scope.adData.geoTargetingData) {
                 $scope.resetGeoTargetingVariables();
-            }
+            //}
             $scope.setTargeting('Geography');
             if ($scope.selectedTab === 'regions') {
                 $scope.listRegions();
@@ -899,6 +903,7 @@ var angObj = angObj || {};
             if (!doNotRedirectFlag) {
                 $scope.redirectTargettingMain();
             }
+            workflowService.setSavedGeo(angular.copy($scope.geoTargetingData.selected));
             //display targetting string on geotarget card
             $scope.geoTargetSummaryCardStr($scope.geoTargetingData);
         };

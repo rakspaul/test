@@ -7,6 +7,7 @@
             adDetails,
             newCreative,
             platform,
+            savedGeo,
             vistoModule;
 
         return {
@@ -359,6 +360,12 @@
             getVendorForSelectedCostCategory:function(clientId,categoryId){
                 return dataService.fetch(apiPaths.WORKFLOW_APIUrl + '/clients/' + clientId + '/costCategories/' +
                     categoryId + '/vendors');
+            },
+            setSavedGeo: function(geoDetails){
+                savedGeo = geoDetails;
+            },
+            getSavedGeo: function(){
+                return savedGeo;
             }
         };
     });
