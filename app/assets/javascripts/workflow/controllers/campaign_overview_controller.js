@@ -2,7 +2,8 @@ var angObj = angObj || {};
 (function () {
     'use strict';
 
-    angObj.controller('CampaignOverViewController', function ($scope,$rootScope, $window, $routeParams, constants, workflowService, $timeout,$location, utils, momentService) {
+    angObj.controller('CampaignOverViewController', function ($scope,$rootScope, $window, $routeParams, constants, 
+        workflowService, $timeout,$location, utils, momentService) {
         $(".main_navigation_holder").find('.active_tab').removeClass('active_tab') ;
         $(".main_navigation").find('.active').removeClass('active').end().find('#campaigns_nav_link').addClass('active');
         $(".bodyWrap").addClass('bodyWrapOverview');
@@ -36,7 +37,6 @@ var angObj = angObj || {};
         //show selected targets in ads card
         $scope.displaySelectedTargets = function (adsData) {
             var selectedStr = '';
-
             if(adsData){
                 if((adsData.targets.geoTargets.REGION && adsData.targets.geoTargets.REGION.geoTargetList.length > 0) ||
                     (adsData.targets.geoTargets.DMA && adsData.targets.geoTargets.DMA.geoTargetList.length > 0) ||
@@ -119,7 +119,6 @@ var angObj = angObj || {};
         }
 
         var campaignOverView = {
-
             modifyCampaignData: function () {
                 var campaignData = $scope.workflowData['campaignData'];
                 var end=momentService.utcToLocalTime(campaignData.endTime);
@@ -170,17 +169,17 @@ var angObj = angObj || {};
             },
 
             adsDataMofiderFunc : function(adsData) {
-                var budgetType, rateType;
-                var labelObj = {
-                    'cpm' : 'Imps.',
-                    'cpc' : 'Clicks',
-                    'cpa' : 'Actions'
-                }
+                var budgetType, 
+                    rateType,
+                    labelObj = {
+                        'cpm' : 'Imps.',
+                        'cpc' : 'Clicks',
+                        'cpa' : 'Actions'
+                    };
 
                 //calculatedValue =  impression , clicks and actions value
 
                 _.each(adsData, function(data) {
-
                     budgetType = data.budgetType && data.budgetType.toLowerCase();
                     rateType = data.rateType && data.rateType.toLowerCase();
                     
@@ -215,7 +214,6 @@ var angObj = angObj || {};
 
             getAdsForCampaign: function (campaignId) {
                 workflowService.getAdsForCampaign(campaignId).then(function (result) {
-
                     if (result.status === "OK" || result.status === "success") {
                         var responseData = result.data.data;
                         for(var i in responseData){

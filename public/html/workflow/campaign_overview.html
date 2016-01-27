@@ -289,19 +289,24 @@
                                 <!--<span class="icon-settings"></span>-->
                                 <div class="col-md-12 adTitle">
                                     <div class="clearfix">
-                                        <img class="pull-left" ng-src="{{adsData.platform.iconUrl}}"
-                                             height="16" class="adIconWidget"
-                                             ng-show="(adsData.platform)"
-                                             title="{{adsData.platform.displayName | uppercase}}"/>
-                                        
+                                        <img ng-src="{{adsData.platform.iconUrl}}"
+                                            height="16" 
+                                            class="adIconWidget" 
+                                            ng-show="(adsData.platform)" 
+                                            title="{{adsData.platform.displayName | uppercase}}" />
                                         <!--<span class="pull-left">ID: {{adsData.id}}</span>-->
-                                        <span class="pull-left greyTxt adDisplay" ng-show="!(adsData.platform)" data-ng-bind="textConstants.PLATNOTSET">
+                                        <span class="pull-left greyTxt adDisplay"
+                                            ng-show="!(adsData.platform)" 
+                                            data-ng-bind="textConstants.PLATNOTSET">
                                         </span>
-                                        <span ng-if="!(adsData.sourceId) && !(adsData.isTracking)" class="pull-right greyTxt adDisplay"
-                                              ng-show="!(adsData.sourceId) && !(adsData.isTracking)" data-ng-bind="textConstants.NOTPUSHEDPAR">
+                                        <span class="pull-right greyTxt adDisplay" 
+                                            ng-show="(!adsData.isTracking) && (adsData.state === 'READY' || adsData.state === 'INCOMPLETE')" 
+                                            data-ng-bind="textConstants.NOTPUSHEDPAR">
                                         </span>
                                         <span ng-if="(adsData.sourceId)" class="pull-right greyTxt adDisplay"
-                                              ng-show="(adsData.sourceId)" title="ID: {{adsData.sourceId}}" data-ng-bind="'ID:'+adsData.sourceId | formatUrl:8 ">
+                                              ng-show="(adsData.sourceId)"
+                                              title="ID: {{adsData.sourceId}}"
+                                              data-ng-bind="'ID:'+adsData.sourceId | formatUrl:8 ">
                                         </span>
                                     </div>
                                     <div style="margin-top:3px;">

@@ -76,7 +76,6 @@ var angObj = angObj || {};
                     });
 
                     $scope.clientsDetails[clientIndex]['advertisement'][advIndex]['brand'] = res.data.data;
-                    //console.log($scope.clientsDetails)
                 });
             }
         };
