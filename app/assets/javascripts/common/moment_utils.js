@@ -32,6 +32,10 @@
             }
         };
 
+        this.addDays = function(dateFormat, noOfDays){
+            return moment().add('days', noOfDays).format(dateFormat);
+        }
+
         this.reportDateFormat = function (reportDateTime) {
             var yesterday = moment().subtract(1, 'day');
 
