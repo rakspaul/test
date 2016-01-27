@@ -29,7 +29,7 @@
         </div>
         <div class="form-group col-md-12 zeroPadding" show-errors='{showSuccess: true}'>
             <label >Password:</label>
-            <input name="password" type="password" ng-model="userConsoleFormDetails.password" class="form-control" ng-disabled="{{isEdit}}" required>
+	    <input name="password" type="password" ng-model="userConsoleFormDetails.password" class="form-control" ng-disabled="userConsoleFormDetails.isEditPassword" required>
             <label ng-if="userCreateEditForm.password.$error.required" class="col-sm-12  greyTxt errorLabel">You must enter password.</label>
         </div>
         <!--<div class="form-group col-md-12 zeroPadding">-->
@@ -60,6 +60,7 @@
             <select id="role" class="form-control" ng-init="userConsoleFormDetails.roleTemplateId = textConstants.super_admin; isSuperAdmin = true" ng-model="userConsoleFormDetails.roleTemplateId" ng-change="selectedRole(userConsoleFormDetails.roleTemplateId)">
                 <option value="{{textConstants.super_admin}}"  ng-selected="userConsoleFormDetails.roleTemplateId == textConstants.super_admin">Super Admin</option>
                 <option value="{{textConstants.account_admin}}" >Account Admin</option>
+                <option value="{{textConstants.advertiser_admin}}" >Advertiser Admin</option>
                 <option value="{{textConstants.generic_user}}" >Generic User </option>
             </select>
 

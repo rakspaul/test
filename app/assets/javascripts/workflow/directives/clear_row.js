@@ -3,8 +3,10 @@
     angObj.directive('clearkpirow',function() {
         return function(scope, el, attr) {
             $(el).click(function(){
+                var kpi=scope.Campaign.kpiArr[attr.index].kpiType;
                 scope.Campaign.kpiArr.splice(attr.index, 1);
-                //scope.ComputeCost();
+                scope.changeCostArrOnKpiRemoval(kpi);/*if there is no KPItype for the respective costType, change costType(calculation) to another type*/
+                scope.ComputeCost();
                 scope.$apply();
             })
 
@@ -15,7 +17,7 @@
             $(el).click(function(){
                 scope.Campaign.costArr.splice(attr.index, 1);
                 scope.vendorRateData.splice(attr.index, 1);
-            //    scope.ComputeCost();
+                scope.ComputeCost();
                 scope.$apply();
             })
 

@@ -459,6 +459,7 @@
 .main_dashboard #dashboard_allocation_dd {
   color: #555;
   font-size: 14px;
+  margin-top: 2px;
   font-family: "Avenir";
 }
 .main_dashboard #dashboard_allocation_dd .dropdown_ul {
