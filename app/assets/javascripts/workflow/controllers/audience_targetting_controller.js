@@ -98,6 +98,7 @@ var angObj = angObj || {};
             top: '60px',
             left: '0'
         };
+        var editOneTimeFlag = false
 
         $(document).on('click', '.dropdown-menu', function (event) {
             event.stopPropagation();
@@ -164,8 +165,9 @@ var angObj = angObj || {};
                         }
 
                         //edit mode
-                        if ($scope.mode === 'edit') {
+                        if ($scope.mode === 'edit' && editOneTimeFlag == false) {
                             processAudienceEdit();
+                            editOneTimeFlag = true;
                         }
 
                         //check if selected audience exists and length > 0 call select Audience
