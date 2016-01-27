@@ -250,7 +250,7 @@ var angObj = angObj || {};
                 currIndx;
 
             if (selectedCreativeTag.length > 0) {
-                idx = _.findLastIndex($scope.selectedArr, selectedCreativeTag[0]);
+                idx = _.findLastIndex($scope.selectedArr, function(obj){return obj.id==Number(selectedCreativeTag[0].id)});//_.findLastIndex($scope.selectedArr, selectedCreativeTag[0]);
                 $scope.selectedArr.splice(idx, 1);
                 if (actionFrom !== 'popup') {
                     $scope.updateCreativeData($scope.selectedArr)
