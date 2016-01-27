@@ -183,6 +183,10 @@
   float: left;
   width: 17%;
 }
+#campaignCreate .firstWrapper .masterContainer .marginCal .calTable .onlyShowValue {
+  display: block;
+  text-align: center;
+}
 #campaignCreate .firstWrapper .masterContainer .marginCal .calTable h3 {
   font-size: 12px;
   width: 100%;
@@ -210,8 +214,16 @@
   float: left;
   margin: 0 0 0 5px;
 }
+#campaignCreate .firstWrapper .masterContainer .marginCal .calTable .symbol-input.blindInput {
+  text-align: center;
+}
 #campaignCreate .firstWrapper .masterContainer .marginCal .calTable .symbol-input.blindInput .symbol {
   left: 55px;
+}
+#campaignCreate .firstWrapper .masterContainer .marginCal .calTable .symbol-input.blindInput span {
+  float: none;
+  margin: 20px 0 0 0 ;
+  cursor: not-allowed;
 }
 #campaignCreate .firstWrapper .masterContainer .marginCal .calTable .symbol-input.blindInput input {
   border-width: 0;
