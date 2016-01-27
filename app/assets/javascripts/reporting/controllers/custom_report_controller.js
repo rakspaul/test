@@ -1695,7 +1695,10 @@ var angObj = angObj || {};
             }
 
             $scope.intermediateSave = function() {
-                localStorage.setItem('customReport', JSON.stringify($scope.createData(true)));
+                // Will not do this in edit mode, we do not want it remembered in that case
+                if(!$routeParams.reportId){
+                    localStorage.setItem('customReport', JSON.stringify($scope.createData(true)));
+                }
             }
 
             $scope.$on('$locationChangeStart', function(event, next) {

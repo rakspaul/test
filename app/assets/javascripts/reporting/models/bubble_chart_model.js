@@ -28,7 +28,7 @@
                     if (data.length > 0) {
                         bubbleWidgetData['dataNotAvailable'] = false;
                         bubbleWidgetData['brandData'] = data;
-                        bubbleWidgetData['budget_top_title'] = (total_brands > 5) ? "(Top 5 brands)" : "(All Brands)";
+                        bubbleWidgetData['budget_top_title'] = (total_brands >=5) ? "(Top 5 brands)" : "(All Brands)";
                     } else {
                         bubbleWidgetData['dataNotAvailable'] = true;
                     }
@@ -50,12 +50,12 @@
             return dataService.fetchCancelable(url, canceller, function(response) {
 
                 var campaigns = (response.data.data !== undefined) ? response.data.data.campaigns : {} ;
-                var campaignLength = response.data.data.length ;
+                var campaignLength = response.data.data.campaigns.length ;
 
                 if(campaigns != undefined ){
                     bubbleWidgetData['dataNotAvailable'] = false ;
                     bubbleWidgetData['campaignDataForSelectedBrand'] = campaigns ;
-                    bubbleWidgetData['budget_top_title'] = (campaignLength >5) ?  "(Top 5 Media Plans)" :  "(All Media Plans)" ;
+                    bubbleWidgetData['budget_top_title'] = (campaignLength >=5) ?  "(Top 5 Media Plans)" :  "(All Media Plans)" ;
 
                     var allCampaignsHaveZeroBudget = true ;
                     for ( var i in campaigns){
@@ -78,12 +78,12 @@
             return dataService.fetch(url).then(function(response) {
 
                 var campaigns = (response.data.data !== undefined) ? response.data.data.campaigns : {} ;
-                var campaignLength = response.data.data.length ;
+                var campaignLength = response.data.data.campaigns.length ;
 
                 if(campaigns != undefined ){
                     bubbleWidgetData['dataNotAvailable'] = false ;
                     bubbleWidgetData['campaignDataForSelectedBrand'] = campaigns ;
-                    bubbleWidgetData['budget_top_title'] = (campaignLength >5) ?  "(Top 5 Media Plans)" :  "(All Media Plans)" ;
+                    bubbleWidgetData['budget_top_title'] = (campaignLength >=5) ?  "(Top 5 Media Plans)" :  "(All Media Plans)" ;
 
                 } else {
                     bubbleWidgetData['dataNotAvailable'] = true ;

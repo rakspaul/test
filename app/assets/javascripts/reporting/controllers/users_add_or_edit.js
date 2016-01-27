@@ -98,7 +98,7 @@
                     }
                     // condition 2 - not super admin - need  permissions
 
-                    if(constants.super_admin != postDataObj.roleTemplateId && postDataObj.permissions.length > 0){
+                    if((constants.super_admin != postDataObj.roleTemplateId && postDataObj.permissions.length > 0) || constants.super_admin == postDataObj.roleTemplateId){
                         if($scope.editmode)
                             $scope.updateUser(postDataObj);
                         else
@@ -314,6 +314,7 @@
             $scope.userConsoleFormDetails.lastName = '';
             $scope.userConsoleFormDetails.password = '';
             $scope.userConsoleFormDetails.roleTemplateId = '';
+            $scope.userConsoleFormDetails.isEditPassword = false;
             $scope.clientName=[];
             $scope.userModalData = [];
             $scope.advertiserName=[];
@@ -360,7 +361,14 @@
                 $scope.userConsoleFormDetails.firstName = data.firstName;
                 $scope.userConsoleFormDetails.lastName = data.lastName;
                 $scope.userConsoleFormDetails.roleTemplateId = data.roleTemplateId;
-                $scope.userConsoleFormDetails.password = "123456";
+
+                $scope.userConsoleFormDetails.isEditPassword = data.isCaasEnabled;
+                if(data.isCaasEnabled) {
+                    $scope.userConsoleFormDetails.password = "123456";
+                } else {
+                    $scope.userConsoleFormDetails.password = "";
+                }
+
                 if(data.roleTemplateId != constants.super_admin){
                     $scope.isSuperAdmin = false;
                     for(var i = 0; i < data.permissions.length; i++){
