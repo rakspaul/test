@@ -42,7 +42,7 @@
             if (selectedCampaign == undefined || selectedCampaign.id == -1) {
                 selectedCampaign = {
                     id: -1,
-                    name: 'No Campaign Found',
+                    name: constants.NO_MEDIAPLANS_FOUND,
                     kpi: 'ctr',
                     startDate: '-1',
                     endDate: '-1'

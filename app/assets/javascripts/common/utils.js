@@ -823,12 +823,12 @@
         })
 
         //Used in _inventory.html file
-        .filter('formatUrl', function () {
+        .filter('formatUrl', function (constants) {
             return function (url, l) {
                 if (url === undefined || url == '') {
                     return url;
                 }
-                if (url === 'No Campaign Found' || url == 'No Ad Group Found') {
+                if (url === constants.NO_MEDIAPLANS_FOUND || url == constants.NO_ADGROUPS_FOUND) {
                     return url;
                 }
                 if (l === undefined) {
