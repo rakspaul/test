@@ -9,7 +9,7 @@ strategySelectModule.factory("strategySelectModel", ['urlService','dataService' 
             var canceller = requestCanceller.initCanceller(constants.STRATEGY_LIST_CANCELLER);
             var errorHandler =  function() {
                 strategyObj.selectedStrategy.id = -99 ;
-                strategyObj.selectedStrategy.name = "No Ad Group Found" ;
+                strategyObj.selectedStrategy.name = constants.NO_ADGROUPS_FOUND ;
             };
 
             var modifyStrategiesData =  function(resp) {
