@@ -4,11 +4,12 @@
         var audience;
         var source;
         var keywords;
-        var selectedAudiences;
+        var selAudiences;
         var andOrStatus;
         var dayPartData;
         var dayTimeSelectedObj;
         var daytimeArrObj;
+        var dayArr;
 
         return {
             setAudience: function (aud) {
@@ -86,10 +87,10 @@
                 return keywords;
             },
             setSelectedAudience: function (s) {
-                selectedAudiences = s;
+                selAudiences = s;
             },
             getSelectedAudience: function () {
-                return selectedAudiences;
+                return selAudiences;
             },
             setAndOr: function (status) {
                 andOrStatus = status
@@ -115,6 +116,12 @@
             },
             getDayTimeSelectedObj: function(){
                 return dayTimeSelectedObj;
+            },
+            setDayTimeArr: function(arr){
+                dayArr = arr;
+            },
+            getDayTimeArr: function(){
+                return dayArr;
             }
 
     }
