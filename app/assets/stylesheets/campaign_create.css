@@ -288,7 +288,8 @@
 }
 #campaignCreate .firstWrapper .masterContainer .col-md-12.kpiTable .intPlatWrap {
   max-height: 116px !important;
-  top: -54px !important;
+  top: initial !important;
+  bottom: 37px;
 }
 #campaignCreate .firstWrapper .masterContainer .col-md-12.kpiTable .intPlatWrap li:hover {
   background-color: #E1EDF9;
