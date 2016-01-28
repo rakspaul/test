@@ -250,11 +250,9 @@ var angObj = angObj || {};
         function colResize() {
             winHeight = $(window).height() - 110;
             $('.campaignAdCreateWrap, .campaignAdCreatePage, .left_column_nav').css('min-height', winHeight + 'px');
-            if (winHeight + 110 >= 750) {
-                $('.adStepOne .tab-pane').css('min-height', winHeight - 30 + 'px');
-            }
-            
-            $('.dayTargetLower').css('min-height', winHeight - 320 + 'px');
+            $('.adStepOne .tab-pane').css('min-height', winHeight - 30 + 'px');
+            $('.targetingSlide .tab-pane').css('min-height', winHeight - 130 + 'px');
+            $('.dayTargetLower').css('min-height', winHeight - 290 + 'px');
         }
 
         //edit mode data population
