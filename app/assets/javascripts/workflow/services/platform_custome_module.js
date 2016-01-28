@@ -190,6 +190,12 @@
                 var LabelHTML = $('<span />').addClass('pull-left clearLeft').text(inputList.defaultValue);
                 inputWrapper.append(LabelHTML);
             }
+            inputListHTML && inputListHTML.on('keypress keyup', function(evt){
+                var charCode = (evt.which) ? evt.which : window.event.keyCode;
+                if(charCode === 101) {
+                    return false;
+                }
+            });
 
             inputListHTML && inputListHTML.on('blur', function(){
                 var field =  $(this);
