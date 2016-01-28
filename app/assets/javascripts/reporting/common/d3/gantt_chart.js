@@ -686,7 +686,7 @@
                         var bbox = container.node().getBBox();
                         //add offset and padding
                       //  var textWidth = bbox.width + offset + padding;
-                        var textWidth = pastMarkerTextX+pastMarkerText.length + offset + padding;
+                        var textWidth = pastMarkerTextX+(pastMarkerText ? pastMarkerText.length : 0) + offset + padding;
                         //hide the tooltip content
                         container.style('display', function(d) {
                             return "none";
