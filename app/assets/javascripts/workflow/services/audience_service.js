@@ -94,7 +94,7 @@
             },
             resetAudienceData: function () {
                 selAudiences = null;
-                andOrStatus = constants.defaultAndOrStatus;
+                andOrStatus = constants.DEFAULTANDORSTATUS;
             },
             setAndOr: function (status) {
                 andOrStatus = status

@@ -804,7 +804,7 @@
         this.DMAS = 'DMAs';
 
         //audience
-        this.defaultAndOrStatus = 'Or';
+        this.DEFAULTANDORSTATUS = 'Or';
 
 
 
