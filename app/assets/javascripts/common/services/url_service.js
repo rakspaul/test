@@ -149,15 +149,11 @@
         this.APISpendWidgetForCampaigns = function (qryObj) {
             var url = apiPaths.apiSerivicesUrl_NEW + '/clients/'+qryObj.clientId+'/brands/'+qryObj.brandId+'/campaigns/spend/perf?advertiser_id='+qryObj.advertiserId+'&date_filter=life_time&campaign_status='+qryObj.campaignStatus+'&top_count=5';
             return url;
-           // qryObj.queryId = 5;
-             //var params = this.buildParams(qryObj);
-            //var url = apiPaths.apiSerivicesUrl_NEW + '/reportBuilder/customQuery?' + params +"&kpi_period=ALL&top_count=5";
-            //return url;
         };
 
         this.APICalendarWidgetForBrand = function (clientId, advertiserId, brandId, sortColumn, status) {
             var url = apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId + '/brands/campaigns/meta?advertiser_id=' + advertiserId + '&brand_id=' + brandId;
-            url += '&topCount=5&sort_column=' + sortColumn + '&campaignState=' + status;
+            url += '&topCount=200&sort_column=' + sortColumn + '&campaignState=' + status;
             return url;
         };
 
