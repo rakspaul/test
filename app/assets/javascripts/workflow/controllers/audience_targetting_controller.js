@@ -11,7 +11,7 @@ var angObj = angObj || {};
                 index,
                 i;
 
-            // TODO: partially done
+            // TODO: partially done 
             if (previouslySelectedAudience && previouslySelectedAudience.length > 0) {
                 for (i = 0; i < previouslySelectedAudience.length; i++) {
                     //find  array index in audienc list
@@ -99,6 +99,7 @@ var angObj = angObj || {};
             left: '0'
         };
         var editOneTimeFlag = false
+        audienceService.resetAudienceData();
 
         $(document).on('click', '.dropdown-menu', function (event) {
             event.stopPropagation();
@@ -432,7 +433,6 @@ var angObj = angObj || {};
             $scope.selectedAudience = [];
             //this is to save selected audience in service to show in summary
             audienceService.setSelectedAudience(angular.copy($scope.selectedAudience));
-            $scope.getSelectedAudience();
         };
         // end of audience
 
@@ -494,6 +494,7 @@ var angObj = angObj || {};
             })
         })
         $scope.$on('resetAllAudience',function(){
+            //soft reset which does not reset services
             resetAudience();
             $scope.selectedAudience = [];
         })
