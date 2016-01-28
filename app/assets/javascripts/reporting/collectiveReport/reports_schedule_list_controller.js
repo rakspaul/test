@@ -190,6 +190,9 @@
         $scope.pre_formatCopySchData = function(schData){
             var o = $.extend({}, schData);
             o.startDate = momentService.todayDate('YYYY-MM-DD');
+            if(momentService.isSameOrAfter(schData.startDate, o.startDate)){
+                return schData;
+            }
             if($scope.valueWithDefault(schData,"frequency",'') != "Once"){
                 var diffDays = momentService.dateDiffInDays(schData.startDate,schData.endDate);
                 o.endDate = momentService.addDays('YYYY-MM-DD', diffDays);

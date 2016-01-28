@@ -110,20 +110,11 @@
             }
             var brandId = brandsModel.getSelectedBrand().id;
             var advertiserId = advertiserModel.getSelectedAdvertiser().id;
-            var campaignStatus = dashboardModel.getData().selectedStatus;
-
-            if(campaignStatus == 'Active') {
-                campaignStatus = "IN_FLIGHT";
-            } else if(campaignStatus == 'Completed') {
-                campaignStatus = 'ENDED';
-            }else if(campaignStatus == 'All') {
-                campaignStatus = 'ALL';
-            }
 
             var queryObj = {
                'queryId' :  queryId,
                'clientId': loginModel.getSelectedClient().id,
-               'campaignStatus' :  campaignStatus,
+               'campaignStatus' :  dashboardModel.campaignStatusToSend(),
                'advertiserId' : advertiserId,
                'brandId' :  brandId,
                'dateFilter':'life_time'

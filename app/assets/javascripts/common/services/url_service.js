@@ -128,12 +128,10 @@
             return this.APICampaignList(user_id, constants.PERIOD_LIFE_TIME, 1, 'start_date', constants.SORT_DESC, constants.ACTIVE_UNDERPERFORMING);
         };
 
-        this.DASHBOARD_STATUS_MAPPING = {'Active': 'IN_FLIGHT', 'Completed': 'ENDED', 'All': 'ALL'};
-
         this.APICampaignCountsSummary = function (timePeriod, clientId, advertiserId, brandId, status) {
             var url = apiPaths.apiSerivicesUrl_NEW +'/clients/'+clientId+'/campaigns/summary/counts?advertiser_id=' + advertiserId;
             url += (brandId > -1 ? '&brand_id=' + brandId : '') + '&date_filter=' + timePeriod;
-            url += (status ? '&campaignState=' + this.DASHBOARD_STATUS_MAPPING[status] : '');
+            url += (status ? '&campaignState=' + status :'');
             return url;
         };
 
@@ -157,15 +155,15 @@
             //return url;
         };
 
-        this.APICalendarWidgetForBrand = function (timePeriod, clientId, advertiserId, brandId, sortColumn, status) {
+        this.APICalendarWidgetForBrand = function (clientId, advertiserId, brandId, sortColumn, status) {
             var url = apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId + '/brands/campaigns/meta?advertiser_id=' + advertiserId + '&brand_id=' + brandId;
-            url += '&topCount=5&sort_column=' + sortColumn + '&campaignState=' + this.DASHBOARD_STATUS_MAPPING[status];
+            url += '&topCount=5&sort_column=' + sortColumn + '&campaignState=' + status;
             return url;
         };
 
-        this.APICalendarWidgetForAllBrands = function (timePeriod, clientId, advertiserId, sortColumn, status) {
+        this.APICalendarWidgetForAllBrands = function (clientId, advertiserId, sortColumn, status) {
             var url = apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId + '/brands/campaigns/meta?advertiser_id=' + advertiserId;
-            url += '&topCount=5&sort_column=' + sortColumn + '&campaignState=' + this.DASHBOARD_STATUS_MAPPING[status];
+            url += '&topCount=5&sort_column=' + sortColumn + '&campaignState=' + status;
             return url;
         };
 

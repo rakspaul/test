@@ -34,11 +34,10 @@
         };
 
         $scope.statusDropdown = function (status, event_type) {
-            dashboardModel.getData().selectedStatus = constants['DASHBOARD_STATUS_' + status.toUpperCase()];
+            dashboardModel.getData().selectedStatus = status;
             localStorage.setItem('dashboardStatusFilter', JSON.stringify(dashboardModel.getData().selectedStatus));
             var obj = {'status': status, 'event_type': event_type};
             $rootScope.$broadcast(constants.EVENT_STATUS_FILTER_CHANGED, obj);
-
         };
 
         var bubbleBrandClickedFunc = $rootScope.$on(constants.BUBBLE_BRAND_CLICKED, function (event, args) {

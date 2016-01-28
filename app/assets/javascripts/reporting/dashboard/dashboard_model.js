@@ -1,6 +1,15 @@
 dashboardModule.factory("dashboardModel", ['loginModel', 'advertiserModel', 'brandsModel', 'timePeriodModel', 'constants', 'urlService', 'requestCanceller', 'dataService', function (loginModel, advertiserModel, brandsModel, timePeriodModel, constants, urlService, requestCanceller, dataService) {
-    var dashboardData = {selectedStatus: JSON.parse(localStorage.getItem('dashboardStatusFilter')) == null ? constants.DASHBOARD_STATUS_ALL : JSON.parse(localStorage.getItem('dashboardStatusFilter'))};
-    dashboardData.statusDropdownValues = [constants.DASHBOARD_STATUS_ACTIVE, constants.DASHBOARD_STATUS_COMPLETED, constants.DASHBOARD_STATUS_ALL];
+
+    var dashboardData = {selectedStatus: constants.DASHBOARD_STATUS_IN_FLIGHT};//by default it is active.  Now check local storage if we want to change it last saved status.
+    var localStoredCampaignStatus = JSON.parse(localStorage.getItem('dashboardStatusFilter'));
+    if (localStoredCampaignStatus != null && localStoredCampaignStatus !== undefined &&
+        (localStoredCampaignStatus == constants.DASHBOARD_STATUS_ALL ||
+            localStoredCampaignStatus == constants.DASHBOARD_STATUS_IN_FLIGHT ||
+            localStoredCampaignStatus == constants.DASHBOARD_STATUS_ENDED))
+    {
+       dashboardData.selectedStatus= localStoredCampaignStatus;
+    }
+    dashboardData.statusDropdownValues = [constants.DASHBOARD_STATUS_ALL, constants.DASHBOARD_STATUS_IN_FLIGHT, constants.DASHBOARD_STATUS_ENDED];
     dashboardData.selectedBrand = brandsModel.getSelectedBrand().name;
     dashboardData.brandSelected = false;
     dashboardData.totalCampaigns = 0;
@@ -17,7 +26,7 @@ dashboardModule.factory("dashboardModel", ['loginModel', 'advertiserModel', 'bra
         var clientId = loginModel.getSelectedClient().id;
         var advertiserId = advertiserModel.getSelectedAdvertiser().id;
         var brandId = brandsModel.getSelectedBrand().id;
-        var url = urlService.APICampaignCountsSummary(timePeriodModel.timeData.selectedTimePeriod.key, clientId, advertiserId, brandId, dashboardData.selectedStatus);
+        var url = urlService.APICampaignCountsSummary(constants.PERIOD_LIFE_TIME, clientId, advertiserId, brandId, campaignStatusToSend());
         return dataService.fetch(url).then(function (response) {
             var ready = response.data.data.ready, draft = response.data.data.draft, paused = response.data.data.paused;
             var totalCampaigns = response.data.data.active.total + response.data.data.completed.total + response.data.data.na.total + ready + draft + paused;
@@ -57,9 +66,9 @@ dashboardModule.factory("dashboardModel", ['loginModel', 'advertiserModel', 'bra
         var campStatus = getData().selectedStatus;
         if (campStatus == constants.DASHBOARD_STATUS_ALL) {
             return 'ALL';
-        } else if (campStatus == constants.DASHBOARD_STATUS_COMPLETED) {
+        } else if (campStatus == constants.DASHBOARD_STATUS_ENDED) {
             return 'ENDED';
-        } else if (campStatus == constants.DASHBOARD_STATUS_ACTIVE) {
+        } else if (campStatus == constants.DASHBOARD_STATUS_IN_FLIGHT) {
             return 'IN_FLIGHT';
         }
     }

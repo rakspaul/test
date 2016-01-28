@@ -35,8 +35,8 @@
         this.UNDERPERFORMING = 'underperforming';
         this.ENDING_SOON = 'Ending Soon';
         this.ACTIVE = 'active';
-        this.DASHBOARD_STATUS_ACTIVE = "Active";
-        this.DASHBOARD_STATUS_COMPLETED = "Completed";
+        this.DASHBOARD_STATUS_IN_FLIGHT = "In Flight";
+        this.DASHBOARD_STATUS_ENDED = "Ended";
         this.DASHBOARD_STATUS_ALL = "All";
         this.ALL_BRANDS = 'All Brands';
         this.ALL_ADVERTISERS = 'All Advertisers';

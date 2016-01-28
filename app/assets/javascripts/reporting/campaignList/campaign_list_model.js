@@ -553,7 +553,7 @@
                           type = constants.ARCHIVED.toLowerCase();
                           break;
                         default :
-                          this.appliedQuickFilterText = constants.DASHBOARD_STATUS_ACTIVE;
+                          this.appliedQuickFilterText = constants.DASHBOARD_STATUS_IN_FLIGHT;
                           this.dashboard.quickFilterSelectedCount = this.dashboard.active.total;
                           this.dashboard.status.active.bothItem = constants.ACTIVE;
                           type = constants.ACTIVE;
