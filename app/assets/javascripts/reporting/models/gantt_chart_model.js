@@ -14,9 +14,9 @@
             var brandId = brandsModel.getSelectedBrand().id;
 
             if (brandId !== -1) {
-                url = urlService.APICalendarWidgetForBrand(timePeriodModel.timeData.selectedTimePeriod.key, clientId, advertiserId, brandId, this.filter, dashboardModel.getData().selectedStatus);
+                url = urlService.APICalendarWidgetForBrand(clientId, advertiserId, brandId, this.filter, dashboardModel.campaignStatusToSend());
             } else {
-                url = urlService.APICalendarWidgetForAllBrands(timePeriodModel.timeData.selectedTimePeriod.key, clientId, advertiserId, this.filter, dashboardModel.getData().selectedStatus);
+                url = urlService.APICalendarWidgetForAllBrands(clientId, advertiserId, this.filter,dashboardModel.campaignStatusToSend());
             }
             return dataService.fetch(url, {cache: false}).then(function (response) {
                 var data = response.data.data;
