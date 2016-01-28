@@ -1042,7 +1042,7 @@ var angObj = angObj || {};
         };
 
         $scope.showPopup = function () {
-console.log('showPopup: $scope.selectedArr = ', $scope.selectedArr);
+            console.log('campaign_adcreate_controller.js -- showPopup: $scope.selectedArr = ', $scope.selectedArr);
             $scope.creativeListLoading = false;
             $scope.creativesLibraryData.creativesData = [];
             if ($scope.selectedArr.length > 0) {

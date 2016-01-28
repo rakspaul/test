@@ -16,7 +16,7 @@ var angObj = angObj || {};
                             $scope.creativeData.creatives = result.data.data;
                             $scope.creativeData.creatives_count = result.data.data.length;
                         } else {
-                            creativeList.errorHandler()
+                            creativeList.errorHandler();
                         }
                     }, creativeList.errorHandler);
             },
@@ -108,7 +108,7 @@ var angObj = angObj || {};
                         $scope.selectedCreativeData.updatedAt = result.data.data.updatedAt;
                         $scope.creativeData.creatives[$scope.selectedCreativePos] = result.data.data;
                         $scope.showViewTagPopup = false;
-                    } else if (result.data.data.message = 
+                    } else if (result.data.data.message ===
                             'Creative with this tag already exists. If you still want to save, use force save') {
                         $scope.showDuplicateTagPopup = true;
                         $scope.IncorrectTag = false;
@@ -214,7 +214,7 @@ var angObj = angObj || {};
 
         $scope.textConstants = constants;
         $scope.creativeData = {};
-        $scope.adData = {}
+        $scope.adData = {};
         $scope.adData.screenTypes = [];
         $scope.creativeListLoading = true;
         $scope.creativesNotFound = false;

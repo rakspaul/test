@@ -48,6 +48,9 @@ var angObj = angObj || {};
                                     });
                                     $scope.creativesLibraryData.creativesData[idx].checked = true;
                                 });
+                                console.log('creative_tag_controller.js -- workflowService.getCreatives(): EDIT mode!!!');
+                            } else {
+                                console.log('creative_tag_controller.js -- workflowService.getCreatives(): CREATE mode!!!');
                             }
                         } else {
                             addFromLibrary.errorHandler(result);
@@ -87,7 +90,7 @@ var angObj = angObj || {};
             var idx;
             $scope.showHidePopup = false;
             $scope.changeStatus();
-console.log('closePop: $scope.preDeleteArr = ', $scope.preDeleteArr,
+console.log('creative_tag_controller.js -- closePop: $scope.preDeleteArr = ', $scope.preDeleteArr,
     ', $scope.preSelectArr = ', $scope.preSelectArr,
     ', $scope.selectedArr = ', $scope.selectedArr);
             if ($scope.preDeleteArr.length > 0) {
