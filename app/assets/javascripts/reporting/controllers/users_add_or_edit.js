@@ -89,16 +89,7 @@
                     //postDataObj.role_template_id = accountsService.getRoleId(postDataObj.role_template_id);
 
                     //create user call goes here
-                    // condition 1 - super admin - no need of any permissions
-                    if(constants.super_admin == postDataObj.roleTemplateId ){
-                        if($scope.editmode)
-                            $scope.updateUser(postDataObj);
-                        else
-                            $scope.createUser(postDataObj);
-                    }
-                    // condition 2 - not super admin - need  permissions
-
-                    if((constants.super_admin != postDataObj.roleTemplateId && postDataObj.permissions.length > 0) || constants.super_admin == postDataObj.roleTemplateId){
+                    if((constants.super_admin != postDataObj.roleTemplateId && postDataObj.permissions.length > 0) || constants.super_admin == postDataObj.roleTemplateId ){
                         if($scope.editmode)
                             $scope.updateUser(postDataObj);
                         else

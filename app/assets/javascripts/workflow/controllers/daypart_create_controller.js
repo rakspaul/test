@@ -384,8 +384,9 @@ var angObj = angObj || {};
                     $scope.Schedule.dayPart[i].endTime =  $scope.returnTime($scope.Schedule.dayPart[i].edTime);
                 }
             }
-            audienceService.setDayPartDispObj($scope.Schedule.dayPart,$scope.dayTimeSelected);
+            audienceService.setDayPartDispObj(angular.copy($scope.Schedule.dayPart),angular.copy($scope.dayTimeSelected));
             audienceService.setDayPartData(adDaypartTargets);
+            audienceService.setDayTimeArr(angular.copy($scope.Schedule.daytimeArr));
             $scope.getSelectedDays();
             $scope.resetDayTargetingVariables();
         };
@@ -669,5 +670,21 @@ var angObj = angObj || {};
                 }
             }
         };
+        $scope.$on('setSelectedDayparts',function(){
+            var daypartObj = audienceService.getDaytimeObj()
+            if(daypartObj)
+                $scope.Schedule.dayPart = daypartObj;
+            var selectedDayTime = audienceService.getDayTimeSelectedObj()
+            if(selectedDayTime)
+                $scope.dayTimeSelected = selectedDayTime;
+            var dayTimeArr = audienceService.getDayTimeArr();
+            if(dayTimeArr)
+                $scope.Schedule.daytimeArr = dayTimeArr;
+            if(!daypartObj && !selectedDayTime && !dayTimeArr){
+                $scope.timeSelected = 'All days and times';
+                $scope.Schedule.dayTimeSelected(0)
+            }
+
+        })
     });
 })();

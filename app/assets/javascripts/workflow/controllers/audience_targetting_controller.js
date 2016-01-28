@@ -36,7 +36,7 @@ var angObj = angObj || {};
                 // and or details after getting it from api
                 $scope.andOr = fetchedObj.targets.segmentTargets.operation;
                 audienceService.setAndOr($scope.andOr);
-                audienceService.setSelectedAudience($scope.selectedAudience);
+                audienceService.setSelectedAudience(angular.copy($scope.selectedAudience));
                 // reset selected array in service after initial load to avoid populating same data when platform is changed
                 fetchedObj.targets.segmentTargets = [];
                 workflowService.getAdsDetails(fetchedObj);
@@ -98,6 +98,7 @@ var angObj = angObj || {};
             top: '60px',
             left: '0'
         };
+        var editOneTimeFlag = false
 
         $(document).on('click', '.dropdown-menu', function (event) {
             event.stopPropagation();
@@ -164,8 +165,9 @@ var angObj = angObj || {};
                         }
 
                         //edit mode
-                        if ($scope.mode === 'edit') {
+                        if ($scope.mode === 'edit' && editOneTimeFlag == false) {
                             processAudienceEdit();
+                            editOneTimeFlag = true;
                         }
 
                         //check if selected audience exists and length > 0 call select Audience
@@ -429,16 +431,16 @@ var angObj = angObj || {};
             resetAudience();
             $scope.selectedAudience = [];
             //this is to save selected audience in service to show in summary
-            audienceService.setSelectedAudience($scope.selectedAudience);
+            audienceService.setSelectedAudience(angular.copy($scope.selectedAudience));
             $scope.getSelectedAudience();
         };
         // end of audience
 
         //building audience
         $scope.changeOrAndStatus = function (status) {
+            $scope.andOr = status;
             var str = '<span class="text">' + $scope.andOr + '</span><span class="icon-arrow-down"></span>';
 
-            $scope.andOr = status;
             //remove all elements inside and-or-txt and append the created structure -- needs permanent fix
             $('.and-or-txt').html('');
             $('.and-or-txt').append(str);
@@ -452,7 +454,7 @@ var angObj = angObj || {};
 
         // final save from audience segment
         $scope.saveCampaignWithAudience = function () {
-            audienceService.setSelectedAudience($scope.selectedAudience);
+            audienceService.setSelectedAudience(angular.copy($scope.selectedAudience));
             audienceService.setAndOr($scope.andOr);
             $scope.resetAudienceTargetingVariables();
             $scope.getSelectedAudience();
@@ -476,5 +478,24 @@ var angObj = angObj || {};
             $('.dropdown.open').removeClass('open');
             $scope.fetchAllAudience();
         };
+
+        $scope.$on('settingSelectedAudience',function(){
+            resetAudience()
+            $scope.selectedAudience = [];
+            //cannot remove angular.copy because it will automatically update selected audiences in service
+            var audiences = angular.copy(audienceService.getSelectedAudience());
+            _.each(audiences,function(item){
+                $scope.selectAudience(item);
+                var index = _.findIndex($scope.audienceList,function(list){
+                    return item.id == list.id;
+                })
+                $scope.audienceList[index].isChecked = true;
+                $scope.audienceList[index].isIncluded  = true;
+            })
+        })
+        $scope.$on('resetAllAudience',function(){
+            resetAudience();
+            $scope.selectedAudience = [];
+        })
     });
 })();

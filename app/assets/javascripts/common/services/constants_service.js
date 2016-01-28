@@ -177,7 +177,8 @@
         this.MSG_NO_CAMPAIGNS_WITH_SET_KPI = "<span class='data_not_found'>No Media Plan with set KPI value</span>";
         this.DATA_NOT_AVAILABLE_STYLE = "data_not_found";
         this.ALL_STRATEGIES_OBJECT={'name': 'All Ad Groups', id : -1, type : 'all'};
-        this.NO_ADGROUPS_FOUND= 'No Adgroups Found';
+        this.NO_ADGROUPS_FOUND= 'No Ad Groups Found';
+        this.NO_MEDIAPLANS_FOUND= 'No Media Plans Found';
 
         this.NO_RELEVANT_CAMPAIGNS = "No Relevant Media Plans";
         this.COST_BREAKDOWN = "Cost Breakdown";

@@ -303,6 +303,10 @@ var angObj = angObj || {};
                 marginLeft: '-461px',
                 opacity: '1.0'
             }, 'slow');
+            //$scope.resetGeoTargetingVariables()
+            var presavedGeo = angular.copy(workflowService.getSavedGeo());
+            if(presavedGeo)
+                $scope.geoTargetingData.selected = presavedGeo
         };
 
         // geo Targeting Trigger
@@ -315,9 +319,9 @@ var angObj = angObj || {};
                 marginLeft: '-461px',
                 opacity: '1.0'
             }, 'slow');
-            if (!$scope.adData.geoTargetingData) {
+            //if (!$scope.adData.geoTargetingData) {
                 $scope.resetGeoTargetingVariables();
-            }
+            //}
             $scope.setTargeting('Geography');
             if ($scope.selectedTab === 'regions') {
                 $scope.listRegions();
@@ -350,6 +354,7 @@ var angObj = angObj || {};
                 marginLeft: '-461px',
                 opacity: '1.0'
             }, 'slow');
+            $scope.$broadcast('setSelectedDayparts');
         };
 
         $scope.setTargeting = function (name) {
@@ -360,6 +365,12 @@ var angObj = angObj || {};
             }
             if (name === 'Audience') {
                 $scope.adData.isAudienceSelected = true;
+                if(audienceService.getSelectedAudience()){
+                    $scope.$broadcast('settingSelectedAudience')
+                }
+                else{
+                    $scope.$broadcast('resetAllAudience')
+                }
             }
             if (name === 'Daypart') {
                 $scope.adData.isDaypartSelected = true;
@@ -616,6 +627,10 @@ var angObj = angObj || {};
                 $scope.geoTargetingData.selected[subtype]=[];
                 $scope.resetSwitch();
                 $scope.includeorExcludeCityOnly(subtype);
+                //reload city
+                $scope.geoTargetingData.cities = [];
+                citiesListArray = [];
+                $scope.listCities()
             } else {
                 $scope.geoTargetingData.selected[type]=[];
                 $scope.includeorExcludeCityOnly(type);
@@ -893,6 +908,7 @@ var angObj = angObj || {};
             if (!doNotRedirectFlag) {
                 $scope.redirectTargettingMain();
             }
+            workflowService.setSavedGeo(angular.copy($scope.geoTargetingData.selected));
             //display targetting string on geotarget card
             $scope.geoTargetSummaryCardStr($scope.geoTargetingData);
         };

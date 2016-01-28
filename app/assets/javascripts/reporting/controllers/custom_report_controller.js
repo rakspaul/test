@@ -1614,14 +1614,14 @@ var angObj = angObj || {};
                     var deliverOn = $("#deliverOn").val(),
                         startDate = $("#startOn").val(),
                         endDate = $("#endOn").val();
-                    if($scope.reports.schedule.frequency && $scope.reports.schedule.frequency != "Once" && (momentService.dateDiffInDays(currDate,startDate) <= 0|| momentService.dateDiffInDays(currDate,endDate) <= 0)){
-                        $rootScope.setErrAlertMessage("Start date or end date cannot be less than or equal current date");
+                    if($scope.reports.schedule.frequency && $scope.reports.schedule.frequency != "Once" && (momentService.dateDiffInDays(currDate,startDate) < 0|| momentService.dateDiffInDays(currDate,endDate) < 0)){
+                        $rootScope.setErrAlertMessage("Start date or end date cannot be less than the current date");
                         return false;
                     }
                     switch($scope.reports.schedule.frequency){
                         case "Once":
-                            if(momentService.dateDiffInDays(currDate,deliverOn) <= 0){
-                                $rootScope.setErrAlertMessage("Deliver on date cannot be less than or equal to the current date");
+                            if(momentService.dateDiffInDays(currDate,deliverOn) < 0){
+                                $rootScope.setErrAlertMessage("Deliver on date cannot be less than the current date");
                                 return false;
                             }
                         break;
@@ -1717,6 +1717,9 @@ var angObj = angObj || {};
                 }
                 $location.path($scope.nextURL.substring($location.absUrl().length - $location.url().length));
             }
+            $(".custom_report_scroll").scroll(function(){
+                $(".custom_report_response_page .custom_report_response_table .custom_report_scroll.vertical_scroll .heading_row").css({"left": "-" + $(".custom_report_scroll").scrollLeft() + "px"});
+            });
         });
     });
 }());
