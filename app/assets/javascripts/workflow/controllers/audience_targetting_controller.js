@@ -3,7 +3,7 @@ var angObj = angObj || {};
 (function () {
     'use strict';
 
-    angObj.controller('AudienceTargettingController', function ($scope,  audienceService, $rootScope, workflowService) {
+    angObj.controller('AudienceTargettingController', function ($scope,  audienceService, $rootScope, workflowService,constants) {
         function processAudienceEdit() {
             var fetchedObj =  angular.copy(workflowService.getAdsDetails()),
                 previouslySelectedAudience = fetchedObj.targets.segmentTargets.segmentList,
@@ -11,7 +11,7 @@ var angObj = angObj || {};
                 index,
                 i;
 
-            // TODO: partially done 
+            // TODO: partially done
             if (previouslySelectedAudience && previouslySelectedAudience.length > 0) {
                 for (i = 0; i < previouslySelectedAudience.length; i++) {
                     //find  array index in audienc list
@@ -87,7 +87,7 @@ var angObj = angObj || {};
         $scope.selectAllChecked = false;
         $scope.pageNumber = 1;
         $scope.pageSize = 50;
-        $scope.andOr = 'Or';
+        $scope.andOr = constants.DEFAULTANDORSTATUS;
         $scope.audienceFetching = false;
         $scope.categoryText = 'All';
         $scope.sourceText = 'All';

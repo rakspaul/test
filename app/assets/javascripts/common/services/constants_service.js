@@ -803,6 +803,9 @@
         this.METROS = 'Metros';
         this.DMAS = 'DMAs';
 
+        //audience
+        this.DEFAULTANDORSTATUS = 'Or';
+
 
 
     };
