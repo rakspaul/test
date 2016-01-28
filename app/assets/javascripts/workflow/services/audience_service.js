@@ -92,6 +92,10 @@
             getSelectedAudience: function () {
                 return selAudiences;
             },
+            resetAudienceData: function () {
+                selAudiences = null;
+                andOrStatus = 'Or'
+            },
             setAndOr: function (status) {
                 andOrStatus = status
             },
