@@ -85,10 +85,24 @@ var angObj = angObj || {};
         };
 
         $scope.selectPlatform = function (event, platform) {
+    console.log('selectPlatform(): platform = ', platform);
+    console.log('$scope.selectedArr = ', $scope.selectedArr);
             var settings = '';
 
             storedResponse = workflowService.getAdsDetails();
-
+console.log('storedResponse = ', storedResponse);
+console.log('$scope.$parent.TrackingIntegrationsSelected = ', $scope.$parent.TrackingIntegrationsSelected);
+console.log('$scope.adData = ', $scope.adData);
+$scope.adData.setSizes = constants.WF_NOT_SET;
+console.log('$scope.adData = ', $scope.adData);
+//console.log('creativeData.creativeInfo.creatives = ', $scope.creativeData.creativeInfo.creatives);
+//$scope.creativeData.creativeInfo.creatives = [];
+console.log('typeof $scope.creativeData.creativeInfo.creatives = ', typeof $scope.creativeData.creativeInfo);
+if (typeof $scope.creativeData.creativeInfo !== 'undefined') {
+    $scope.creativeData.creativeInfo.creatives = [];
+    $scope.selectedArr = [];
+    $scope.selectedArr.length = 0;
+}
             if ($scope.mode === 'edit') {
                 if (storedResponse.targets.geoTargets) {
                     settings = 'Geography';
@@ -144,6 +158,7 @@ var angObj = angObj || {};
         };
 
         $scope.selectTrackingIntegrations = function (trackingIntegration) {
+    console.log('selectTrackingIntegrations');
             $scope.showtrackingSetupInfoPopUp = false;
             $scope.$parent.postPlatformDataObj = [];
             $scope.platformCustomInputs();
@@ -157,7 +172,9 @@ var angObj = angObj || {};
             $scope.adData.platform = trackingIntegration.displayName;
             $scope.adData.platformId = trackingIntegration.id;
             $scope.adData.platformName = trackingIntegration.name;
-
+    console.log('$scope.selectedPlatform = ', $scope.selectedPlatform);
+    console.log('$scope.adData = ', $scope.adData);
+    console.log('$scope.$parent.TrackingIntegrationsSelected = ', $scope.$parent.TrackingIntegrationsSelected);
 
             // code to make creatives already set to empty
             $scope.adData.setSizes = constants.WF_NOT_SET;

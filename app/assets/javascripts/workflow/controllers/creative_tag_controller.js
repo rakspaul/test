@@ -25,7 +25,7 @@ var angObj = angObj || {};
 
             getCreativesFromLibrary: function (clientID, adID, format, query) {
                 // remove spaces.
-                var format= format.replace(/\s/g, '');
+                format = format.replace(/\s/g, '');
 
                 workflowService
                     .getCreatives(clientID, adID, format, query, {cache: false}, $scope.TrackingIntegrationsSelected)
@@ -85,9 +85,11 @@ var angObj = angObj || {};
 
         $scope.closePop = function () {
             var idx;
-
             $scope.showHidePopup = false;
             $scope.changeStatus();
+console.log('closePop: $scope.preDeleteArr = ', $scope.preDeleteArr,
+    ', $scope.preSelectArr = ', $scope.preSelectArr,
+    ', $scope.selectedArr = ', $scope.selectedArr);
             if ($scope.preDeleteArr.length > 0) {
                 $scope.preDeleteArr = _.uniq($scope.preDeleteArr);
                 _.each($scope.preDeleteArr, function (obj) {
