@@ -296,7 +296,6 @@
 
 
         };
-alert("hello");
         $scope.resetFields = function(isInitialEdit){
             $scope.userConsoleFormDetails.id = undefined;
             $scope.userConsoleFormDetails.email = undefined;
