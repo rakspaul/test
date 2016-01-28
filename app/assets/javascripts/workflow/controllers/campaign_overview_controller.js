@@ -2,7 +2,7 @@ var angObj = angObj || {};
 (function () {
     'use strict';
 
-    angObj.controller('CampaignOverViewController', function ($scope,$rootScope, $window, $routeParams, constants, 
+    angObj.controller('CampaignOverViewController', function ($scope,$rootScope, $window, $routeParams, constants,
         workflowService, $timeout,$location, utils, momentService) {
         $(".main_navigation_holder").find('.active_tab').removeClass('active_tab') ;
         $(".main_navigation").find('.active').removeClass('active').end().find('#campaigns_nav_link').addClass('active');
@@ -286,7 +286,7 @@ var angObj = angObj || {};
             pushSavedCampaign: function (campaignId) {
                 workflowService.pushCampaign(campaignId).then(function (result) {
                     if (result.status === "OK" || result.status === "success") {
-                        location.reload();
+                        $location.reload();
                     }
                 });
             },
