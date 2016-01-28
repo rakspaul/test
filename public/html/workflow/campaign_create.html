@@ -81,7 +81,7 @@
 								<div class="col-md-12">
 									<!--<span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>-->
 									<div class="statusIcon icon-usd"></div>
-									<span class="">{{locale.NUMBER_FORMATS.CURRENCY_SYM}}{{Campaign.totalBudget}}</span>
+									<span class="">{{locale.NUMBER_FORMATS.CURRENCY_SYM}}{{Campaign.totalBudget | setDecimal:2 | number : fractionSize}}</span>
 									<span>(Total Budget)</span>
 								</div>
 							</div>
@@ -89,7 +89,7 @@
 								<div class="col-md-12">
 									<!--<span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>-->
 									<div class="statusIcon icon-usd"></div>
-									<span class="">{{locale.NUMBER_FORMATS.CURRENCY_SYM}}{{Campaign.deliveryBudget}}</span>
+									<span class="">{{locale.NUMBER_FORMATS.CURRENCY_SYM}}{{Campaign.deliveryBudget | setDecimal:2 | number : fractionSize}}</span>
 									<span>(Delivery Budget)</span>
 								</div>
 							</div>
@@ -97,7 +97,7 @@
 								<div class="col-md-12">
 									<!--<span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>-->
 									<div class="statusIcon icon-goal"></div>
-									<span class="">{{PrimaryImpressions}}</span>
+									<span class="">{{PrimaryImpressions | number : fractionSize}}</span>
 									<span>(Primary KPI)</span>
 								</div>
 							</div>
@@ -360,7 +360,7 @@
 									<div class="calTable calTableLarge">
 										<h3>Est. Non-Inventory Cost</h3>
 										<div class="symbol-input blindInput">
-											<span class="onlyShowValue" ><span>{{locale.NUMBER_FORMATS.CURRENCY_SYM}} </span><span ng-style="inventoryExceeds ? {'color':'#F9B537'}:''" ng-bind="Campaign.nonInventoryCost | setDecimal:2"></span></span>
+											<span class="onlyShowValue" ><span>{{locale.NUMBER_FORMATS.CURRENCY_SYM}} </span><span ng-style="inventoryExceeds ? {'color':'#F9B537'}:''" ng-bind="Campaign.nonInventoryCost | setDecimal:2 | number : fractionSize"></span></span>
    										    <input type="text" style="display:none" ng-model="Campaign.nonInventoryCost" class="form-control col-sm-8" />
 										</div>
 										<label ng-if="Campaign.nonInventoryCost>Campaign.totalBudget" class="col-sm-12 txtError budgetError" >{{textConstants.NON_INVENTORY_COST_GREATER_THAN_ZERO}}</label>
@@ -368,7 +368,7 @@
 									<div class="calTable calTableLarge">
 										<h3>Delivery Budget</h3>
 										<div class="symbol-input blindInput">
-											<span class="onlyShowValue"><span>{{locale.NUMBER_FORMATS.CURRENCY_SYM}} </span><span ng-style="deliveryBudgetNegative ? {'color':'#F9B537'}:''" ng-bind="Campaign.deliveryBudget? (Campaign.deliveryBudget | setDecimal:2 ):'' "></span></span>
+											<span class="onlyShowValue"><span>{{locale.NUMBER_FORMATS.CURRENCY_SYM}} </span><span ng-style="deliveryBudgetNegative ? {'color':'#F9B537'}:''" ng-bind="Campaign.deliveryBudget? (Campaign.deliveryBudget | setDecimal:2 | number : fractionSize ):'' "></span></span>
  											<input type="text" style="display:none"  ng-model="Campaign.deliveryBudget" class="form-control col-sm-8" />
 										</div>
 										<label ng-if="deliveryLesserBookedspend" class="col-sm-12 txtError budgetError">{{textConstants.DELIVERY_BUDGET_BOOKEDSPEND}}({{editCampaignData.bookedSpend}})</label>
@@ -377,7 +377,7 @@
 									<div class="calTable calTableLarge">
 										<h3>Effective {{primaryType ? primaryType:'CPM'}}</h3>
 										<div class="symbol-input blindInput">
-											<span class="onlyShowValue"><span>{{locale.NUMBER_FORMATS.CURRENCY_SYM}} </span><span ng-style="effectiveNegative ? {'color':'#F9B537'}:''" ng-bind="Campaign.effectiveCPM | setDecimal:2"></span></span>
+											<span class="onlyShowValue"><span>{{locale.NUMBER_FORMATS.CURRENCY_SYM}} </span><span ng-style="effectiveNegative ? {'color':'#F9B537'}:''" ng-bind="Campaign.effectiveCPM | setDecimal:2 | number : fractionSize"></span></span>
  											<input type="text" style="display:none;" ng-model="Campaign.effectiveCPM" class="form-control col-sm-8" />
                                         </div>
 									</div>
