@@ -11,7 +11,7 @@ var angObj = angObj || {};
                 index,
                 i;
 
-            // TODO: partially done
+            // TODO: partially done 
             if (previouslySelectedAudience && previouslySelectedAudience.length > 0) {
                 for (i = 0; i < previouslySelectedAudience.length; i++) {
                     //find  array index in audienc list
