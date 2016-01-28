@@ -81,7 +81,7 @@
 								<div class="col-md-12">
 									<!--<span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>-->
 									<div class="statusIcon icon-usd"></div>
-									<span class="">{{locale.NUMBER_FORMATS.CURRENCY_SYM}}{{Campaign.totalBudget}}</span>
+									<span class="">{{locale.NUMBER_FORMATS.CURRENCY_SYM}}{{Campaign.totalBudget | setDecimal:2 | number : fractionSize}}</span>
 									<span>(Total Budget)</span>
 								</div>
 							</div>
@@ -89,7 +89,7 @@
 								<div class="col-md-12">
 									<!--<span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>-->
 									<div class="statusIcon icon-usd"></div>
-									<span class="">{{locale.NUMBER_FORMATS.CURRENCY_SYM}}{{Campaign.deliveryBudget}}</span>
+									<span class="">{{locale.NUMBER_FORMATS.CURRENCY_SYM}}{{Campaign.deliveryBudget | setDecimal:2 | number : fractionSize}}</span>
 									<span>(Delivery Budget)</span>
 								</div>
 							</div>
@@ -97,7 +97,7 @@
 								<div class="col-md-12">
 									<!--<span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>-->
 									<div class="statusIcon icon-goal"></div>
-									<span class="">{{PrimaryImpressions}}</span>
+									<span class="">{{PrimaryImpressions | number : fractionSize}}</span>
 									<span>(Primary KPI)</span>
 								</div>
 							</div>
@@ -347,45 +347,44 @@
 											<span class="symbol">{{locale.NUMBER_FORMATS.CURRENCY_SYM}}</span>
 											<input type="text"  ng-model="Campaign.totalBudget" name="totalBudget" class="form-control col-sm-8" ng-keyup="ComputeCost()" whole-number-only="whole-number-only" required/>
 										</div>
-										<label ng-if="createCampaignForm.totalBudget.$error.required" class="col-sm-12  greyTxt errorLabel" style="margin-left:35px;">{{textConstants.TOTAL_BUDGET_REQUIRED}}</label>
-										<label ng-if="Campaign.totalBudget<=0" class="col-sm-12  greyTxt " style="margin-left:35px; color:#F24444 !important;">{{textConstants.TOTAL_BUDGET_GREATER_THAN_ZERO}}</label>
+										<label ng-if="createCampaignForm.totalBudget.$error.required" class="txtError budgetError errorLabel" >{{textConstants.TOTAL_BUDGET_REQUIRED}}</label>
+										<label ng-if="Campaign.totalBudget<=0" class="txtError budgetError">{{textConstants.TOTAL_BUDGET_GREATER_THAN_ZERO}}</label>
 									</div>
 									<div class="calTable">
 										<h3>Margin (Optional)</h3>
 										<div class="symbol-input">
-											<span class="symbol" style="left: initial; right: 50px;">{{textConstants.SYMBOL_PERCENT}}</span>
-											<input type="text" ng-model="Campaign.marginPercent" class="form-control col-sm-8" ng-keyup="ComputeCost()" style="text-align: center; padding-left: 10px;" whole-number-only="whole-number-only"/>
+											<span class="symbol" style="left: initial; right: 15px;">{{textConstants.SYMBOL_PERCENT}}</span>
+											<input type="text" ng-model="Campaign.marginPercent" class="form-control col-sm-8" ng-keyup="ComputeCost()" style="text-align: center; padding-left: 8px;padding-right:21px;" whole-number-only="whole-number-only"/>
 										</div>
 									</div>
-									<div class="calTable">
+									<div class="calTable calTableLarge">
 										<h3>Est. Non-Inventory Cost</h3>
 										<div class="symbol-input blindInput">
-											<span class="onlyShowValue" ><span>{{locale.NUMBER_FORMATS.CURRENCY_SYM}} </span><span ng-style="inventoryExceeds ? {'color':'#F9B537'}:''" ng-bind="Campaign.nonInventoryCost"></span></span>
+											<span class="onlyShowValue" ><span>{{locale.NUMBER_FORMATS.CURRENCY_SYM}} </span><span ng-style="inventoryExceeds ? {'color':'#F9B537'}:''" ng-bind="Campaign.nonInventoryCost | setDecimal:2 | number : fractionSize"></span></span>
    										    <input type="text" style="display:none" ng-model="Campaign.nonInventoryCost" class="form-control col-sm-8" />
 										</div>
-										<label ng-if="Campaign.nonInventoryCost>Campaign.totalBudget" class="col-sm-12  greyTxt " style="margin-left:35px; color:#F24444 !important;">{{textConstants.NON_INVENTORY_COST_GREATER_THAN_ZERO}}</label>
+										<label ng-if="Campaign.nonInventoryCost>Campaign.totalBudget" class="col-sm-12 txtError budgetError" >{{textConstants.NON_INVENTORY_COST_GREATER_THAN_ZERO}}</label>
 									</div>
-									<div class="calTable">
+									<div class="calTable calTableLarge">
 										<h3>Delivery Budget</h3>
 										<div class="symbol-input blindInput">
-											<span class="onlyShowValue"><span>{{locale.NUMBER_FORMATS.CURRENCY_SYM}} </span><span ng-style="deliveryBudgetNegative ? {'color':'#F9B537'}:''" ng-bind="Campaign.deliveryBudget?Campaign.deliveryBudget:''"></span></span>
+											<span class="onlyShowValue"><span>{{locale.NUMBER_FORMATS.CURRENCY_SYM}} </span><span ng-style="deliveryBudgetNegative ? {'color':'#F9B537'}:''" ng-bind="Campaign.deliveryBudget? (Campaign.deliveryBudget | setDecimal:2 | number : fractionSize ):'' "></span></span>
  											<input type="text" style="display:none"  ng-model="Campaign.deliveryBudget" class="form-control col-sm-8" />
 										</div>
-										<label ng-if="deliveryLesserBookedspend" class="col-sm-12  greyTxt " style="margin-left:35px; color:#F24444 !important;">{{textConstants.DELIVERY_BUDGET_BOOKEDSPEND}}({{editCampaignData.bookedSpend}})</label>
-										<label ng-if="Campaign.deliveryBudget<0" class="col-sm-12  greyTxt " style="margin-left:35px; color:#F24444 !important;">{{textConstants.DELIVERY_BUDGET_GREATER_THAN_ZERO}}</label>
+										<label ng-if="deliveryLesserBookedspend" class="col-sm-12 txtError budgetError">{{textConstants.DELIVERY_BUDGET_BOOKEDSPEND}}({{editCampaignData.bookedSpend}})</label>
+										<label ng-if="Campaign.deliveryBudget<0" class="col-sm-12  txtError budgetError">{{textConstants.DELIVERY_BUDGET_GREATER_THAN_ZERO}}</label>
 									</div>
-									<div class="calTable">
+									<div class="calTable calTableLarge">
 										<h3>Effective {{primaryType ? primaryType:'CPM'}}</h3>
 										<div class="symbol-input blindInput">
-											<span class="onlyShowValue"><span>{{locale.NUMBER_FORMATS.CURRENCY_SYM}} </span><span ng-style="effectiveNegative ? {'color':'#F9B537'}:''" ng-bind="Campaign.effectiveCPM"></span></span>
+											<span class="onlyShowValue"><span>{{locale.NUMBER_FORMATS.CURRENCY_SYM}} </span><span ng-style="effectiveNegative ? {'color':'#F9B537'}:''" ng-bind="Campaign.effectiveCPM | setDecimal:2 | number : fractionSize"></span></span>
  											<input type="text" style="display:none;" ng-model="Campaign.effectiveCPM" class="form-control col-sm-8" />
-                                                                                </div>
+                                        </div>
 									</div>
-									<div class="calTable">
-										<!--<input type="checkbox" />-->
-										<!--<span>Calculate Budget for me</span>-->
-										<a class="btn btn-default pull-left" role="button" ng-click="ComputeCost()" style="margin: 38px 0 0 20px;">
-											<div class="glyphicon glyphicon-refresh pull-left" aria-hidden="true"></div> <span style="padding-top: 2px;">Calculate</span>
+									<div class="calTable calculate_btn">
+										<a class="btn btn-default pull-right" role="button" ng-click="ComputeCost()" >
+											<div class="glyphicon glyphicon-refresh pull-left" aria-hidden="true"></div> 
+											<span>Calculate</span>
 										</a>
 									</div>
 								</div>
@@ -407,7 +406,7 @@
 										<h3>Vendor</h3>
 										<label for="primaryKPI" class="col-sm-12 greyTxt miniLabels">{{textConstants.SELECT_ONE}}</label>
 									</div>
-									<div class="col-md-2 zeroPadding kpiTable">
+									<div class="col-md-2 zeroPadding kpiTable" style="width: 130px;">
 										<h3>Target</h3>
 										<label for="primaryKPI" class="col-sm-12 greyTxt miniLabels">{{textConstants.ENTER_VALUE}}</label>
 									</div>
@@ -511,7 +510,7 @@
 							<div class="col-md-12 zeroPadding">
 								<label for="nameTitleCampaign" class="col-sm-12 labelQuestTxt" style="margin-bottom: 5px;">{{textConstants.ADD_COST}}</label>
 								<div class="col-md-12 zeroPadding" >
-									<div class="col-md-3 zeroPadding kpiTable" style="width: 340px;">
+									<div class="col-md-3 zeroPadding kpiTable" style="width: 336px;">
 										<h3>Cost Category</h3>
 										<label for="primaryKPI" class="col-sm-12 greyTxt miniLabels">{{textConstants.ADD_COST}}</label>
 									</div>
@@ -540,7 +539,7 @@
 							</div>
 
 							<div class="col-md-12 zeroPadding" ng-repeat="costObj in Campaign.costArr track by $index" style="margin-bottom:10px;">
-								<div class="col-md-6 zeroPadding kpiTable" style="width: 340px;">
+								<div class="col-md-6 zeroPadding kpiTable" style="width: 336px;">
 
 									<div class="col-md-12 zeroPadding">
 										<div class="col-md-6 zeroPadding dropdown-workflow">
@@ -555,7 +554,7 @@
 												<input ng-if="mode==='edit'" type="hidden" name="costCategory"  ng-model="Campaign.costArr[$index]['costCategoryId']" ng-value="{{cost.id}}" field="costCategoryId" index="{{$index}}"  hiddencost>
 											</div>
 										</div>
-										<div class="col-md-6 zeroPadding kpiTable" style="width: 150px; max-width: none; margin-left: 10px; padding-right: 0px !important;">
+										<div class="col-md-6 zeroPadding kpiTable pull-right" style="width: 150px; max-width: none; padding-right: 0px !important;">
 											<div class="col-md-12 btn-group goalBtnGroup zeroPadding">
 												<label class="btn btn-primary first " ng-class="Campaign.costArr[$index]['type']==='fixed'?'active':''">
 													<input type="radio" name="demoType" autocomplete="off" ng-click="rateTypeSelected($event,$index,'fixed');" ng-model="Campaign.costArr[$index]['type']" ng-value="fixed" field="type" index="{{$index}}" hiddencost>
@@ -626,7 +625,7 @@
 									<input type="text" class="col-md-12" ng-model="Campaign.costArr[$index]['description']" field="description" index="{{$index}}"/>
 								</div>
 								<!--<span class="remove-row ">-->
-                            <span class="remove-row" ng-if="$index>0 || (Campaign.costArr.length>=2)">
+                            <span class="remove-row pull-right" ng-if="$index>0 || (Campaign.costArr.length>=2)">
                                 <span class="icon-clear" index="{{$index}}" clearcostrow></span>
                             </span>
 
@@ -644,9 +643,9 @@
 								<div class="col-md-12 zeroPadding kpiTable">
 									<h3>Integrated Platforms</h3>
 									<label for="primaryKPI" class="col-sm-12 greyTxt miniLabels">Select as many as you require</label>
-									<input type="text" class="col-md-12 keyword-txt" ng-keyup="showKeywords(keywordText)" ng-model="keywordText"/>
+									<input type="text" class="col-md-12 keyword-txt intPlatInput" ng-keyup="showKeywords(keywordText)" ng-focus="showKeyFocus(intPlatInput)" ng-model="keywordText"/>
 									<label class="keywordWrap" ng-repeat="key in selectedKeywords">{{key.displayName}} <span class="icon-close" ng-click="removeKeyword(key);"></span></label>
-									<ul ng-if="platformKeywords.length>0" class="dropdown-menu" role="menu" id="keywordsList" ng-style="dropdownCss">
+									<ul ng-if="platformKeywords.length>0" class="dropdown-menu intPlatWrap" role="menu" id="keywordsList" ng-style="dropdownCss">
 										<li ng-repeat="keyword in platformKeywords | filter:keywordText" ng-click="selectKeyword(keyword)">
 											<a>
 												<span class="tick"></span>

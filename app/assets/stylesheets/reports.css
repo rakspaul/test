@@ -3560,6 +3560,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 }
 .report_generator_and_response div.create_scheduled_report {
   margin-top: 10px ;
+  margin-bottom: 20px ;
 }
 .report_generator_and_response div.create_scheduled_report .scheduled_report_fields {
   margin: 6px 0 15px ;

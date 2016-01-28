@@ -76,13 +76,15 @@
 </div>
 
 <div class="popContainerHolder" ng-show="IsVisible">
-    <div class="popContainer">
-        <div class="clearfix">
-            <h4 class="pull-left" data-ng-bind="creativeObj.name"></h4>
-            <span class="icon-close close unselectable" aria-hidden="true" ng-click="ShowHide();"></span>
+    <div class="popContainer popup-holder">
+        <div class="clearfix modal-header">
+            <h1 class="pull-left modal-title" data-ng-bind="creativeObj.name"></h1>
+            <button class="close unselectable" aria-hidden="true" ng-click="ShowHide();"><span>x</span></button>
         </div>
-        <div class="textarea_edit_holder">
-            <textarea  style="width: 100%;" rows="15" name="tag" id="tag" data-ng-model="creativeObj.tag" ng-readonly="true" data-ng-bind="creativeObj.tag" required></textarea>
+        <div class="modal-body">
+            <div class="textarea_edit_holder">
+                <textarea  style="width: 100%;" rows="15" name="tag" id="tag" data-ng-model="creativeObj.tag" ng-readonly="true" data-ng-bind="creativeObj.tag" required></textarea>
+            </div>
         </div>
     </div>
 </div>

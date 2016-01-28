@@ -2,8 +2,8 @@ var angObj = angObj || {};
 (function () {
     'use strict';
 
-    angObj.controller('CampaignOverViewController', function ($scope,$rootScope, $window, $routeParams, constants, 
-        workflowService, $timeout,$location, utils, momentService) {
+    angObj.controller('CampaignOverViewController', function ($scope,$rootScope, $window, $routeParams, constants,
+        workflowService, $timeout,$location, utils, momentService, $route) {
         $(".main_navigation_holder").find('.active_tab').removeClass('active_tab') ;
         $(".main_navigation").find('.active').removeClass('active').end().find('#campaigns_nav_link').addClass('active');
         $(".bodyWrap").addClass('bodyWrapOverview');
@@ -19,6 +19,7 @@ var angObj = angObj || {};
         $scope.showCreateAdGrp=false;
         $scope.createGroupMessage=false;
         $scope.createGroupMessage=false;
+        $scope.showPushAdsLoader = false;
         $scope.brand=[];
         $scope.performance=[];
         localStorage.setItem('campaignData','');
@@ -169,7 +170,7 @@ var angObj = angObj || {};
             },
 
             adsDataMofiderFunc : function(adsData) {
-                var budgetType, 
+                var budgetType,
                     rateType,
                     labelObj = {
                         'cpm' : 'Imps.',
@@ -182,10 +183,10 @@ var angObj = angObj || {};
                 _.each(adsData, function(data) {
                     budgetType = data.budgetType && data.budgetType.toLowerCase();
                     rateType = data.rateType && data.rateType.toLowerCase();
-                    
+
                     if(budgetType === "impressions") {
                           data.budgetType = "Imps.";
-                       } 
+                       }
 
                     data.label = labelObj[rateType];
 
@@ -284,9 +285,11 @@ var angObj = angObj || {};
             },
 
             pushSavedCampaign: function (campaignId) {
+                $scope.showPushAdsLoader = true;
                 workflowService.pushCampaign(campaignId).then(function (result) {
+                    $scope.showPushAdsLoader = false;
                     if (result.status === "OK" || result.status === "success") {
-                        location.reload();
+                        $route.reload();
                     }
                 });
             },
@@ -314,7 +317,6 @@ var angObj = angObj || {};
             $("#pushCampaignBtn").on('click', function () {
                 campaignOverView.pushSavedCampaign($routeParams.campaignId);
             })
-
         })
 
         $scope.navigateToAdCreatePage = function () {

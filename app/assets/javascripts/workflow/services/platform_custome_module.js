@@ -1,6 +1,6 @@
 (function () {
     "use strict";
-    angObj.factory("platformCustomeModule", function ($timeout, constants) {
+    angObj.factory("platformCustomeModule", function ($timeout, constants, $locale, utils) {
 
         var _self = this;
         var textConstants = constants;
@@ -46,8 +46,9 @@
                 return obj.value === $.trim(selectedValue) && obj.platformCustomInputId === inputList.id;
             });
 
-            if (selectedOrderList.length > 0) {
-                platformCustomInputGroupId = selectedOrderList[0].platformCustomInputGroupId;
+
+            var platformCustomInputGroupFunc = function(orderList) {
+                platformCustomInputGroupId = orderList.platformCustomInputGroupId;
                 item = _.filter(platformCustomInputChildrenGroupList, function (obj) {
                     return obj.id === platformCustomInputGroupId;
                 });
@@ -56,6 +57,15 @@
                     item.relationWith = dependentItems;
                 }
                 createPlatformCustomInputList(item, _self.elem);
+            }
+
+            if (selectedOrderList.length > 0) {
+                _.each(selectedOrderList, function(orderList) {
+                    platformCustomInputGroupFunc(orderList);
+                    //console.log(orderList);
+                });
+
+
             }
         };
 
@@ -133,8 +143,11 @@
                     'max': options.max
                 });
 
-                if(inputList.decorator !== 'NA')
-                    var decoratorHTML = $('<span />').text(inputList.decorator).appendTo(inputWrapper).addClass('decoratorFloat');
+                if(inputList.decorator !== 'NA') {
+
+                    var decoratorText = (inputList.decorator === 'CLIENT_CUR' ? $locale.NUMBER_FORMATS.CURRENCY_SYM : inputList.decorator);
+                    var decoratorHTML = $('<span />').text(decoratorText).appendTo(inputWrapper).addClass('decoratorFloat');
+                }
 
                 if(platformCustomWidgetType === 'CHECKBOX') {
                     inputListHTML.addClass('cmn-toggle cmn-toggle-round').attr({
@@ -177,8 +190,13 @@
                 var LabelHTML = $('<span />').addClass('pull-left clearLeft').text(inputList.defaultValue);
                 inputWrapper.append(LabelHTML);
             }
+            inputListHTML && inputListHTML.on('keypress keyup', function(evt){
+                var charCode = (evt.which) ? evt.which : window.event.keyCode;
+                if(charCode === 101) {
+                    return false;
+                }
+            });
 
-            //adding validation for custom field.
             inputListHTML && inputListHTML.on('blur', function(){
                 var field =  $(this);
                 var value =  field.val() ? parseFloat(field.val())  : '';

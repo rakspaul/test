@@ -68,7 +68,8 @@
                                     </ul>
                                 </div>
                             </div>
-                            <div class="pull-right">
+                            <div ng-show="showPushAdsLoader" class="pull-right common-load-more" ></div>
+                            <div ng-show="!showPushAdsLoader" class="pull-right">
                                 <button type="button"
                                         class="btn btn-primary pull-right"
                                         id="pushCampaignBtn"

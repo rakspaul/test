@@ -1,6 +1,6 @@
 (function () {
     "use strict";
-    angObj.factory("audienceService", function (apiPaths,dataService,workflowService, loginModel) {
+    angObj.factory("audienceService", function (apiPaths,dataService,workflowService, loginModel,constants) {
         var audience;
         var source;
         var keywords;
@@ -91,6 +91,10 @@
             },
             getSelectedAudience: function () {
                 return selAudiences;
+            },
+            resetAudienceData: function () {
+                selAudiences = null;
+                andOrStatus = constants.DEFAULTANDORSTATUS;
             },
             setAndOr: function (status) {
                 andOrStatus = status

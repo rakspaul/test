@@ -181,7 +181,8 @@
 }
 #campaignCreate .firstWrapper .masterContainer .marginCal .calTable {
   float: left;
-  width: 17%;
+  width: 13%;
+  margin: 0 ;
 }
 #campaignCreate .firstWrapper .masterContainer .marginCal .calTable .onlyShowValue {
   display: block;
@@ -194,16 +195,16 @@
   margin: 15px 0 10px 0;
 }
 #campaignCreate .firstWrapper .masterContainer .marginCal .calTable .symbol-input .symbol {
-  left: 40px ;
+  left: 20px ;
   margin: 0 5px 0 0;
 }
 #campaignCreate .firstWrapper .masterContainer .marginCal .calTable .symbol-input .symbol ~ input {
-  padding-left: 22px ;
+  padding-left: 17px ;
 }
 #campaignCreate .firstWrapper .masterContainer .marginCal .calTable input {
   float: left;
-  width: 60%;
-  margin: 0 20% 15px 20%;
+  width: 80%;
+  margin: 0 10% 15px ;
 }
 #campaignCreate .firstWrapper .masterContainer .marginCal .calTable input[type="checkbox"] {
   float: left;
@@ -224,17 +225,28 @@
   float: none;
   margin: 20px 0 0 0 ;
   cursor: not-allowed;
+  white-space: nowrap;
 }
 #campaignCreate .firstWrapper .masterContainer .marginCal .calTable .symbol-input.blindInput input {
   border-width: 0;
   background: none;
   margin: 1px 0 0 42px;
 }
-#campaignCreate .firstWrapper .masterContainer .marginCal .calTable:last-child {
-  width: 15%;
+#campaignCreate .firstWrapper .masterContainer .marginCal .calTableLarge {
+  width: 20% ;
+}
+#campaignCreate .firstWrapper .masterContainer .marginCal .calculate_btn .btn {
+  margin: 38px 0px 30px 0 ;
+}
+#campaignCreate .firstWrapper .masterContainer .marginCal .calculate_btn .btn span {
+  padding-top: 2px;
+}
+#campaignCreate .firstWrapper .masterContainer .marginCal .budgetError {
+  font-size: 11px ;
+  text-align: center;
 }
 #campaignCreate .firstWrapper .masterContainer .kpiTable {
-  padding-right: 10px !important;
+  padding-right: 12px !important;
 }
 #campaignCreate .firstWrapper .masterContainer .kpiTable h3 {
   font-size: 14px;
@@ -268,11 +280,22 @@
 }
 #campaignCreate .firstWrapper .masterContainer .col-md-2.kpiTable {
   width: auto;
-  min-width: 130px;
+  min-width: 110px;
   max-width: 130px;
 }
 #campaignCreate .firstWrapper .masterContainer .col-md-12.kpiTable {
   padding: 0px !important;
+}
+#campaignCreate .firstWrapper .masterContainer .col-md-12.kpiTable .intPlatWrap {
+  max-height: 116px !important;
+  top: -54px !important;
+}
+#campaignCreate .firstWrapper .masterContainer .col-md-12.kpiTable .intPlatWrap li:hover {
+  background-color: #E1EDF9;
+}
+#campaignCreate .firstWrapper .masterContainer .col-md-12.kpiTable .intPlatWrap li:hover a {
+  color: #21252b;
+  text-decoration: none;
 }
 #campaignCreate .firstWrapper .masterContainer .campAdHeader {
   width: 100%;
@@ -391,6 +414,14 @@
 }
 #campaignCreate .firstWrapper .masterContainer .campAdHeader .widgetModule {
   padding: 0;
+}
+#campaignCreate .firstWrapper .masterContainer .campAdHeader .widgetModule .common-load-more {
+  margin: 0;
+  border: solid 1px #0978C9;
+  border-radius: 4px;
+  padding: 17px;
+  background-position: center 10px;
+  width: 130px;
 }
 #campaignCreate .firstWrapper .masterContainer .campAdHeader .widgetModule .campWidgets {
   float: right;
@@ -3561,8 +3592,11 @@
   float: right;
   margin: 4px 0 0 5px;
 }
+.remove-row {
+  float: left;
+}
 .remove-row .icon-clear {
-  margin: 10px 0 10px 5px ;
+  margin: 10px 0;
 }
 .goalBtnWithPopup {
   position: relative;
