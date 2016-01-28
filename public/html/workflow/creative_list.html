@@ -126,24 +126,26 @@
 		<div class="spacingInput"></div>
     <!--Modal View Starts Here-->
     <div class="popContainerHolder" ng-show="showViewTagPopup">
-		<div class="popContainer">
-			<div class="clearfix">
-			    <h1 class="pull-left">{{selectedCreativeData.name}}</h1>
-			    <span class="close unselectable" aria-hidden="true" ng-click="disableEditor()">x</span>
+		<div class="popContainer popup-holder">
+			<div class="clearfix modal-header">
+			    <h1 class="pull-left modal-title">{{selectedCreativeData.name}}</h1>
+			    <button class="close unselectable" aria-hidden="true" ng-click="disableEditor()"><span>x</span></button>
 		    </div>
-			<div class="textarea_editable_holder"  ng-click="enableEditor()">
-				<div ng-hide="editorEnabled">
-					{{creativeTag}}
-					<span class="activity_edit" tooltip-placement="left" tooltip="Edit"  ></span>
-				</div>
+		    <div class="modal-body">
+				<div class="textarea_editable_holder"  ng-click="enableEditor()">
+					<div ng-hide="editorEnabled">
+						{{creativeTag}}
+						<span class="activity_edit" tooltip-placement="left" tooltip="Edit"  ></span>
+					</div>
 
-				<div ng-show="editorEnabled">
-					<textarea rows="15" name="tag" id="tag" ng-model="editableTag" required ng-show="editorEnabled">{{editableTag}}</textarea>
-					<div ng-show="IncorrectTag" class="customErrorLabel">{{incorrectTagMessage}}</div>
+					<div ng-show="editorEnabled">
+						<textarea rows="12" name="tag" id="tag" ng-model="editableTag" required ng-show="editorEnabled">{{editableTag}}</textarea>
+						<div ng-show="IncorrectTag" class="customErrorLabel">{{incorrectTagMessage}}</div>
 
+					</div>
 				</div>
 			</div>
-			<div class="clearfix"  ng-show="editorEnabled">
+			<div class="clearfix popup-btns-holder"  ng-show="editorEnabled">
 				<button type="button" class="common_primary_btn pull-right {{editableTag === creativeTag ? 'disabled' : ''}}" id="updateTag" ng-click="updateTag(this)">Update Tag</button>
 				<button type="button" class="secondary_txt pull-right" id="cancelUpdate" ng-click="disableEditor()" >Cancel</button>
 			</div>
