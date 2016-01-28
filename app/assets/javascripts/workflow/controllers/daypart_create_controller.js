@@ -7,7 +7,7 @@ var angObj = angObj || {};
             dayPart: [],
             daytimeArr: []
         };
-
+        
         audienceService.resetDayPartdata();
         $scope.customFlag = false;
         $scope.timeSelected = 'All days and times';

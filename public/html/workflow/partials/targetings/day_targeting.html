@@ -81,11 +81,11 @@
 		<span class="greyTxt pull-left" data-ng-bind="textConstants.DELADTIME"></span>
 	</div>
 	
-	<div class="col-md-2 zeroPadding pull-left" ng-if="dayTimeSelected === 'Custom schedule'" ng-init="Schedule.customLength = 0">
+	<div class="col-md-2 zeroPadding pull-left" ng-init="Schedule.customLength = 0">
 		<a class="pull-left" style="padding: 0; margin-bottom: 15px;" ng-click="addMoreCustom()" data-ng-bind="textConstants.ADDDAYPART"></a>
 	</div>
 	
-	<div class="col-md-2 zeroPadding pull-right" ng-if="customFlag">
+	<div class="col-md-2 zeroPadding pull-right">
 		<a class="pull-right" style="padding: 0;" clearall data-ng-bind="textConstants.CLEARALL"></a>
 	</div>
 	<!--<div class="col-md-2 zeroPadding" ng-if="dayTimeSelected === 'Custom schedule'" ng-init="Schedule.customLength = 0">-->

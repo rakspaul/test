@@ -347,6 +347,7 @@ select {
 }
 .dropdown-workflow .searchBar {
   position: relative;
+  margin-bottom: 15px;
 }
 .dropdown-workflow .searchBar .icon-search {
   position: absolute;
@@ -364,6 +365,7 @@ select {
   border-top: solid 1px #bfc9d7;
   float: left;
   width: 100%;
+  margin: 15px 0 0 0;
 }
 .dropdown-workflow .category_dropdown .btn {
   width: auto;
@@ -453,7 +455,7 @@ select {
 }
 .workflowPreloader {
   position: absolute;
-  z-index: 999999;
+  z-index: 9999999999;
   top: 50px;
   left: 0;
   width: 100%;
@@ -1390,6 +1392,7 @@ input.cmn-toggle-round:checked + label:after {
   width: 100%;
   cursor: pointer;
   text-align: center;
+  z-index: 999999;
 }
 .nextWrapper img {
   width: 35px;

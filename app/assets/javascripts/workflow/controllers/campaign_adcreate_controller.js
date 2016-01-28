@@ -250,7 +250,11 @@ var angObj = angObj || {};
         function colResize() {
             winHeight = $(window).height() - 110;
             $('.campaignAdCreateWrap, .campaignAdCreatePage, .left_column_nav').css('min-height', winHeight + 'px');
-            $('.adStepOne .tab-pane').css('min-height', winHeight - 30 + 'px');
+            if (winHeight + 110 >= 750) {
+                $('.adStepOne .tab-pane').css('min-height', winHeight - 30 + 'px');
+            }
+            
+            $('.dayTargetLower').css('min-height', winHeight - 320 + 'px');
         }
 
         //edit mode data population
