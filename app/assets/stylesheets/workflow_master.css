@@ -19,7 +19,8 @@
 .bottomBorder {
   border-bottom: 1px solid #bfc9d7;
 }
-.workflow ::-webkit-scrollbar {
+.workflow ::-webkit-scrollbar,
+#user-menu ::-webkit-scrollbar {
   display: none;
 }
 h1 {

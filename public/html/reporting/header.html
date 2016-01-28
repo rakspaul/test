@@ -7,7 +7,7 @@
         </div>
         <div class="pull-left main_navigation clearfix">
             <div class="pull-left each_nav_link" id="campaigns_nav_link">
-                <a href="/mediaplans" ng-hover="hide_navigation_dropdown($event)" ng-mouseover="hide_navigation_dropdown($event)" ng-bind="textConstants.MEDIA_PLAN"></a>
+                <a href="/mediaplans" ng-mouseover="hide_navigation_dropdown($event);" ng-bind="textConstants.MEDIA_PLAN"></a>
 
                 <div class="arrowSelect"></div>
             </div>
@@ -20,10 +20,10 @@
             </div>
         </div>
         <div class="pull-right profile-photo-tab unselectable" id="user_nav_link"
-             ng-click="show_hide_nav_dropdown($event,'user');">
+             ng-mouseover="show_hide_nav_dropdown($event,'user');">
             <span class="user-photo"><span class="icon-user"></span></span>
         </div>
-        <div class="pull-right account-name-nav" ng-bind="defaultAccountsName"></div>
+        <div class="pull-right account-name-nav" ng-mouseover="show_hide_nav_dropdown($event,'user');" ng-bind="defaultAccountsName"></div>
         <div class="pull-right help-link-tab">
             <a href="/help"><span class="icon-help"></span></a>
         </div>
