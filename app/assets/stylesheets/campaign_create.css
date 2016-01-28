@@ -415,6 +415,14 @@
 #campaignCreate .firstWrapper .masterContainer .campAdHeader .widgetModule {
   padding: 0;
 }
+#campaignCreate .firstWrapper .masterContainer .campAdHeader .widgetModule .common-load-more {
+  margin: 0;
+  border: solid 1px #0978C9;
+  border-radius: 4px;
+  padding: 17px;
+  background-position: center 10px;
+  width: 130px;
+}
 #campaignCreate .firstWrapper .masterContainer .campAdHeader .widgetModule .campWidgets {
   float: right;
   position: relative;
