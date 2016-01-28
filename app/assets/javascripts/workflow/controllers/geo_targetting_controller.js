@@ -152,7 +152,23 @@ var angObj = angObj || {};
                 });
                 return addedZipCodes;
             };
+        $scope.$on('deleteGeoTarget',function () {
+            $scope.deleteGeography();
+            workflowService.resetSavedGeo();
+            $scope.adData.geoTargetingData=null;
+            console.log($scope.adData.geoTargetingData)
+            console.log($scope.geoTargetingData.selected);
 
+//            $scope.geoTargetingData.selected.regions.length=0;
+//            $scope.geoTargetingData.selected.cities.length=0;
+//            $scope.geoTargetingData.selected.dmas.length=0;
+//            $scope.geoTargetingData.selected.zip.length=0;
+//            if($scope.geoTargetingData.selected.previewData && $scope.geoTargetingData.selected.previewData.length>0){
+//                $scope.geoTargetingData.selected.previewData.include={};
+//                $scope.geoTargetingData.selected.previewData.exclude={};
+//                $scope.geoTargetingData.selected.previewData={}
+//            }
+        })
         function createPreviewData() {
             var selectedTargtingData = _.extend({},$scope.geoTargetingData.selected),
                 obj = {};

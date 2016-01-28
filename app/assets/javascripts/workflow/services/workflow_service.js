@@ -364,6 +364,9 @@
             setSavedGeo: function(geoDetails){
                 savedGeo = geoDetails;
             },
+            resetSavedGeo: function(){
+                savedGeo = null;
+            },
             getSavedGeo: function(){
                 return savedGeo;
             }
