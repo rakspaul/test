@@ -165,11 +165,11 @@
             var elem = $(event.target);
             setTimeout(function(){ $('.each_nav_link.active .arrowSelect').fadeIn(); }, 800);
             setTimeout(function(){
-                if(  !( $(".main_navigation_holder").is(":hover") || $("#user-menu").is(":hover") || $("#reports-menu").is(":hover") ) ) {
+                if(  !( $(".main_navigation_holder").is(":hover") || $("#user-menu").is(":hover") || $("#reports-menu").is(":hover") ) || $("#campaigns_nav_link").is(":hover") ) {
                     $(".main_nav_dropdown").fadeOut() ;
                     $(".main_navigation_holder").find(".selected").removeClass("selected") ;
                 }
-            }, 1500);
+            }, 800);
         };
 
         $scope.logout = function() {
