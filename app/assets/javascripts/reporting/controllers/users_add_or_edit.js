@@ -265,7 +265,6 @@
                             $scope.selectBrand($scope.userModalData[index]['Brands'][brandIndex],index,editmode,editData);
                         }
                     }
-
                 });
 
                 //$scope.userModalData['Brands']=[{id:0,name:"All Brands"},{id:22,name:"brand1"},{id:23,name:"brand2"},{id:24,name:"brand3"}]
@@ -297,15 +296,17 @@
 
 
         };
-
+alert("hello");
         $scope.resetFields = function(isInitialEdit){
-            $scope.userConsoleFormDetails.email = '';
-            $scope.userConsoleFormDetails.firstName = '';
+            $scope.userConsoleFormDetails.id = undefined;
+            $scope.userConsoleFormDetails.email = undefined;
+            $scope.userConsoleFormDetails.firstName = undefined;
             $scope.permissions = [];
-            $scope.userConsoleFormDetails.lastName = '';
-            $scope.userConsoleFormDetails.password = '';
-            $scope.userConsoleFormDetails.roleTemplateId = '';
-            $scope.userConsoleFormDetails.isEditPassword = false;
+            $scope.userConsoleFormDetails.lastName = undefined;
+            $scope.userConsoleFormDetails.password = undefined;
+            $scope.userConsoleFormDetails.roleTemplateId = undefined;
+            $scope.userConsoleFormDetails.isEditPassword = undefined;
+            $scope.userConsoleFormDetails.updatedAt = undefined;
             $scope.clientName=[];
             $scope.userModalData = [];
             $scope.advertiserName=[];
