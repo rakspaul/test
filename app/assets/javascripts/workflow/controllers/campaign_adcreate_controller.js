@@ -235,6 +235,17 @@ var angObj = angObj || {};
                 }
             };
 
+         $scope.deleteAudienceTargetting=function(){
+             $scope.selectedAudience.length=0;
+         }
+        $scope.deleteDayPartTargetting=function(){
+            $scope.selectedDayParts['data'].length=0;
+            $scope.$broadcast('deleteDayPartTarget');
+
+        }
+        $scope.deleteGeoTargetting=function(){
+            $scope.$broadcast('deleteGeoTarget');
+        }
         // This sets dynamic width to line to take 100% height
         function colResize() {
             winHeight = $(window).height() - 110;

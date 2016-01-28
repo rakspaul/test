@@ -14,6 +14,16 @@ var angObj = angObj || {};
         $scope.modeSet=workflowService.getMode();
         $scope.intermediateChange=false;
 
+        $scope.$on('deleteDayPartTarget',function () {
+            audienceService.resetDayPartdata();
+            audienceService.setDayPartDispObj(null,null);
+            $scope.Schedule.dayPart = [];
+            $scope.Schedule.daytimeArr.length=0;
+            $scope.Schedule.customLength = 0;
+
+            $scope.Schedule.dayTimeSelected(0);
+            audienceService.setDayTimeArr(angular.copy($scope.Schedule.daytimeArr));
+        })
         $scope.$on('UpdateDayPart',function () {
             var fetchedObj =  workflowService.getAdsDetails(),
                 scheduleObj;
@@ -47,7 +57,7 @@ var angObj = angObj || {};
                     $scope.Schedule.dayTimeSelected(7);
                 } else {
                     $scope.dayTimeSelected=fetchedObj.targets.adDaypartTargets.dayTime;
-                    switch($scope.dayTimeSelected) {    
+                    switch($scope.dayTimeSelected) {
                         case 'All days and times':
                             $scope.Schedule.dayTimeSelected(0);
                             break;
