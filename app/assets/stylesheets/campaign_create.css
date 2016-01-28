@@ -378,7 +378,7 @@
 #campaignCreate .firstWrapper .masterContainer .campAdHeader .campIdTime {
   font-size: 12px;
   padding: 3px 0 15px 0;
-  color: #939ead;
+  color: #939eae;
   float: left;
   clear: left;
 }
@@ -749,7 +749,7 @@
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule .adTxtGray {
   font-size: 12px;
-  color: #939ead;
+  color: #939eae;
   padding-left: 10px;
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule .dateAd {
@@ -1052,7 +1052,7 @@
 }
 #campaignCreate .firstWrapper .maxWidthAdj .campAdHeader .campSettingOverView label {
   font-size: 12px;
-  color: #939ead;
+  color: #939eae;
   float: left;
   width: 100%;
   padding: 0 0 5px 0;
@@ -1421,6 +1421,7 @@
   margin: 14px 0 0 0;
   width: 100%;
   text-align: center;
+  min-height: 93px;
 }
 #campaignCreate .campaignAdCreate .adMainWrapper .platformHolder p {
   color: #21252b;
@@ -1431,7 +1432,7 @@
   margin: 0;
 }
 #campaignCreate .campaignAdCreate .adMainWrapper .platformHolder img {
-  margin: 30px auto 10px;
+  margin: 10px auto 10px;
   display: table;
   max-height: 30px;
 }
@@ -1440,7 +1441,7 @@
   position: relative;
   left: 50%;
   margin-left: -32px;
-  margin-top: 20px;
+  margin-top: 0px;
   cursor: pointer;
 }
 #campaignCreate .campaignAdCreate .adMainWrapper .platformHolder .btn.active {
@@ -2309,7 +2310,7 @@
   font-size: 18px;
 }
 .adCreateMaster #targetting .targettingFormWrap h2 span {
-  color: #939ead !important;
+  color: #939eae !important;
   font-size: 14px;
   margin: 0 5px;
 }
@@ -2478,7 +2479,7 @@
 .adCreateMaster #targetting .targettingFormWrap .selectedTables .emptyTableLabel {
   float: left;
   width: 100%;
-  color: #939ead;
+  color: #939eae;
   font-size: 14px;
   padding-left: 15px;
 }
@@ -2564,7 +2565,7 @@
   border-width: 0;
 }
 .adCreateMaster #targetting .targettingFormWrap .selectedTables .col-md-12 .table thead .col-md-8 {
-  color: #939ead;
+  color: #939eae;
 }
 .adCreateMaster #targetting .targettingFormWrap .selectedTables .col-md-12 .table thead .col-md-4 a {
   cursor: pointer;
@@ -2582,14 +2583,14 @@
   margin-left: 20px;
 }
 .adCreateMaster #targetting .targettingFormWrap .selectedTables .col-md-12 .table td a {
-  color: #939ead;
+  color: #939eae;
   cursor: pointer;
 }
 .adCreateMaster #targetting .targettingFormWrap .selectedTables .col-md-12 .table .glyphicon {
   color: #0978c9;
 }
 .adCreateMaster #targetting .targettingFormWrap .selectedTables .col-md-12 .table .glyphicon.child {
-  color: #939ead;
+  color: #939eae;
 }
 .adCreateMaster #targetting .targettingFormWrap .selectedTables .col-md-12 .table tbody td {
   padding: 10px 0;
@@ -2627,7 +2628,7 @@
   font-size: 18px;
 }
 .adCreateMaster #targetting .targettingSelected .tsHeader h2 span {
-  color: #939ead !important;
+  color: #939eae !important;
   font-size: 14px;
   margin: 0 5px;
 }
@@ -2653,7 +2654,7 @@
         }*/
 }
 .adCreateMaster #targetting .targettingSelected .tsBody h5 {
-  color: #939ead ;
+  color: #939eae ;
   font-family: "Avenir";
 }
 .adCreateMaster #targetting .targettingSelected .tsBody .regioncity,
@@ -2673,7 +2674,7 @@
   padding: 5px 0;
 }
 .adCreateMaster #targetting .targettingSelected .tsBody span:first-child {
-  color: #939ead;
+  color: #939eae;
   padding-bottom: 20px;
 }
 .adCreateMaster #targetting .targettingSelected .tsBody .data_list {
@@ -2738,16 +2739,19 @@
 .adCreateMaster #targetting .targetingSlide .nav-tabs li a {
   border-width: 0;
   float: left;
+  background: transparent;
 }
 .adCreateMaster #targetting .targetingSlide .nav-tabs li a span {
-  width: 32px;
-  height: 32px;
-  border-radius: 16px;
-  background: #0978c9;
-  color: #fff;
+  width: 35px;
+  height: 35px;
+  border: 1px solid #BFC9D7;
+  border-radius: 20px;
+  background: #fff;
+  color: #555;
   display: inline-block;
   padding: 7px 12px;
   margin-right: 7px;
+  text-align: center;
 }
 .adCreateMaster #targetting .targetingSlide .nav-tabs li.active.firstTabAud .ifNotSelected {
   float: left;
@@ -2776,6 +2780,33 @@
 .adCreateMaster #targetting .targetingSlide .nav-tabs li.firstTabAud p {
   float: left;
   margin: 7px 0 0 8px;
+}
+.adCreateMaster #targetting .targetingSlide .nav-tabs li.firstTabAud a {
+  border-width: 0;
+  float: left;
+  background: transparent;
+}
+.adCreateMaster #targetting .targetingSlide .nav-tabs li.firstTabAud a span {
+  width: 35px;
+  height: 35px;
+  border-radius: 20px;
+  border: 1px solid #0978c9;
+  background: #0978c9;
+  color: #fff;
+  display: inline-block;
+  padding: 7px 12px;
+  margin-right: 7px;
+}
+.adCreateMaster #targetting .targetingSlide .nav-tabs li.active a span {
+  width: 35px;
+  height: 35px;
+  border: 1px solid #0978c9;
+  border-radius: 20px;
+  background: #0978c9;
+  color: #fff;
+  display: inline-block;
+  padding: 7px 12px;
+  margin-right: 7px;
 }
 .adCreateMaster #targetting .targetingSlide .nav-tabs .splitterDash {
   width: 100px;
@@ -2946,7 +2977,7 @@
   float: left;
   width: 33%;
   background: #edf2f8;
-  padding: 10px;
+  padding: 15px 20px;
   margin-left: 2%;
   min-height: 670px;
 }
@@ -2974,16 +3005,17 @@
   clear: left;
   margin-right: 10px;
 }
-.adCreateMaster #targetting .targetingSlide .segmentStepOne .setTwo .selectedItems .segWrap .icon-clear {
+.adCreateMaster #targetting .targetingSlide .segmentStepOne .setTwo .selectedItems .segWrap .icon-close {
   position: absolute;
   z-index: 10;
   top: 0;
   right: 0;
-  width: 16px;
-  height: 16px;
-  font-size: 16px;
+  width: 9px;
+  height: 9px;
+  font-size: 9px;
   margin-top: 0;
   cursor: pointer;
+  margin-right: 0;
 }
 .adCreateMaster #targetting .targetingSlide .segmentStepOne .setTwo .selectedItems .segWrap span:first-child {
   width: 50%;
@@ -3290,7 +3322,7 @@
 }
 .accounts-page .adding-section,
 .users-creation-page .adding-section {
-  color: #939ead;
+  color: #939eae;
   padding: 5px 10px;
   margin: -5px 0 0 10px;
   background: #F7FAFF;

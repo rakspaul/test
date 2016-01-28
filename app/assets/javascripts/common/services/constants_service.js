@@ -742,7 +742,7 @@
         //Audience Targeting
         this.SAVEAUD = 'Save Audience';
         this.SELSEGMENTS = 'Select Segments';
-        this.OPTIONAL = 'Optional';
+        this.OPTIONALPAR = '(Optional)';
         this.KEYWORD = 'Keyword';
         this.SOURCE = 'Source';
         this.CLEARALL = 'Clear All';
