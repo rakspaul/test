@@ -235,7 +235,10 @@ var angObj = angObj || {};
                     console.log(errData);
                 }
             };
-        $scope.deletetargets=function(type){
+        $scope.deletetargets=function(type, event){
+            var elem = $(event.target);
+            var leftPos = elem.closest(".cardSelectHolder").offset().left - elem.closest(".setTargetOptions").offset().left ;
+            elem.closest(".setTargetOptions").find(".msgPopup").css("left" , leftPos ) ;
             $scope.showDeleteConfirmationPopup=true;
             $scope.deleteType=type;
         }
