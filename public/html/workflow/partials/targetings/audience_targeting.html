@@ -138,7 +138,7 @@
 										<input type="checkbox" ng-click="selectAudience(audience)" ng-checked="audience.isChecked">
 									</div>
 								</div>
-								<div class="columnTwo" style="width: 41.333%">
+								<div class="columnTwo audienceTip" style="width: 41.333%" tooltip="{{audience.name}}{{audience.source}}{{audience.category}}">
 									<span data-ng-bind="audience.name"></span>
 								</div>
 								<div class="columnThree" style="width: 21.333%">
