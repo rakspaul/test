@@ -255,9 +255,11 @@ var angObj = angObj || {};
           ];
       };
 
-      $scope.$on(constants.EVENT_KPI_CHANGED, function(e) {
+      $scope.$on(constants.EVENT_KPI_CHANGED, function(event, params) {
           $scope.selected_filters.kpi_type = kpiSelectModel.getSelectedKpi();
-         $scope.callBackStrategyChange();
+          if(params.event_type === 'clicked') {
+              $scope.callBackStrategyChange();
+          }
       });
 
       //Function called when the user clicks on the category tabs
