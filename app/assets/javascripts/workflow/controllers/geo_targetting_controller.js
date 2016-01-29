@@ -586,6 +586,16 @@ var angObj = angObj || {};
                         }
                     }
                 }
+                if(selectedItem.length > 0) {
+                    var arr = [];
+                    _.each(selectedItem, function(obj) {
+                        _.each(obj.cities, function(cityObj) {
+                            arr.push(cityObj);
+                        })
+                    })
+                    $scope.geoTargetingData.selected['cities'] = arr;
+                }
+
                 //reload city
                 $scope.geoTargetingData.cities = [];
                 citiesListArray = [];
@@ -1056,6 +1066,12 @@ var angObj = angObj || {};
                 var presavedGeo = angular.copy(workflowService.getSavedGeo());
                 if(presavedGeo){
                     $scope.geoTargetingData.selected = presavedGeo;
+                    $scope.showCitiesOnly = true;
+                    _.each($scope.geoTargetingData.selected.regions,function(item){
+                        if(item.cities.length > 0){
+                            $scope.showCitiesOnly = false;
+                        }
+                    })
                     //reload city
                     $scope.geoTargetingData.cities = [];
                     citiesListArray = [];
