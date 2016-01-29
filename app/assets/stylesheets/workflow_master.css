@@ -19,7 +19,8 @@
 .bottomBorder {
   border-bottom: 1px solid #bfc9d7;
 }
-.workflow ::-webkit-scrollbar {
+.workflow ::-webkit-scrollbar,
+#user-menu ::-webkit-scrollbar {
   display: none;
 }
 h1 {
@@ -346,6 +347,7 @@ select {
 }
 .dropdown-workflow .searchBar {
   position: relative;
+  margin-bottom: 15px;
 }
 .dropdown-workflow .searchBar .icon-search {
   position: absolute;
@@ -363,6 +365,7 @@ select {
   border-top: solid 1px #bfc9d7;
   float: left;
   width: 100%;
+  margin: 15px 0 0 0;
 }
 .dropdown-workflow .category_dropdown .btn {
   width: auto;
@@ -452,7 +455,7 @@ select {
 }
 .workflowPreloader {
   position: absolute;
-  z-index: 999999;
+  z-index: 9999999999;
   top: 50px;
   left: 0;
   width: 100%;
@@ -846,7 +849,7 @@ select {
 }
 .left_column_nav .stepCompLabel .titleLabel {
   font-size: 14px;
-  color: #939ead;
+  color: #939eae;
   cursor: default;
 }
 .left_column_nav .stepCompLabel .statusLabel {
@@ -865,7 +868,7 @@ select {
 }
 .left_column_nav .stepCompLabel .statusLabel .col-md-5 {
   font-size: 11px;
-  color: #939ead;
+  color: #939eae;
   padding-right: 5px ;
 }
 .left_column_nav .stepCompLabel .statusLabel .col-md-12 {
@@ -886,7 +889,7 @@ select {
 }
 .left_column_nav .stepCompLabel .statusLabel.ng-scope span:last-child,
 .left_column_nav .stepCompLabel .statusLabel.disabled span {
-  color: #939ead;
+  color: #939eae;
   padding-left: 3px;
 }
 .left_column_nav .stepCompLabel .statusLabel.disabled span.creative_tab_sizes {
@@ -902,7 +905,7 @@ select {
   font-size: 14px;
   width: 100%;
   float: left;
-  color: #939ead;
+  color: #939eae;
   text-decoration: none;
   padding: 4px ;
   border-width: 0;
@@ -1389,6 +1392,7 @@ input.cmn-toggle-round:checked + label:after {
   width: 100%;
   cursor: pointer;
   text-align: center;
+  z-index: 999999;
 }
 .nextWrapper img {
   width: 35px;

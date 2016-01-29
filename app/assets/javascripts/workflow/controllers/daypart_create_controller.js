@@ -7,7 +7,7 @@ var angObj = angObj || {};
             dayPart: [],
             daytimeArr: []
         };
-
+        
         audienceService.resetDayPartdata();
         $scope.customFlag = false;
         $scope.timeSelected = 'All days and times';
@@ -23,6 +23,7 @@ var angObj = angObj || {};
 
             $scope.Schedule.dayTimeSelected(0);
             audienceService.setDayTimeArr(angular.copy($scope.Schedule.daytimeArr));
+            $scope.adData.isDaypartSelected=null;
         })
         $scope.$on('UpdateDayPart',function () {
             var fetchedObj =  workflowService.getAdsDetails(),

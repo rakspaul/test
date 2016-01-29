@@ -485,12 +485,14 @@ var angObj = angObj || {};
             //cannot remove angular.copy because it will automatically update selected audiences in service
             var audiences = angular.copy(audienceService.getSelectedAudience());
             _.each(audiences,function(item){
-                $scope.selectAudience(item);
+                //$scope.selectAudience(item);
+
                 var index = _.findIndex($scope.audienceList,function(list){
                     return item.id == list.id;
                 })
+                $scope.selectedAudience.push($scope.audienceList[index]);
                 $scope.audienceList[index].isChecked = true;
-                $scope.audienceList[index].isIncluded  = true;
+                $scope.audienceList[index].isIncluded  = item.isIncluded;
             })
         })
         $scope.$on('resetAllAudience',function(){

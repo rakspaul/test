@@ -21,7 +21,7 @@
   .bottomBorder {
     border-bottom: 1px solid #bfc9d7;
   }
-  .workflow {
+  .workflow, #user-menu {
     ::-webkit-scrollbar { 
       display: none; 
     }
@@ -299,6 +299,7 @@
     }
     .searchBar {
       position: relative;
+      margin-bottom: 15px;
       .icon-search {
         position: absolute;
         z-index: 10;
@@ -316,6 +317,7 @@
         border-top: solid 1px #bfc9d7;
 		float: left;
 		width: 100%;
+        margin: 15px 0 0 0;
         .btn {
           width: auto;
         }
@@ -409,7 +411,7 @@
   //Preloader
   .workflowPreloader {
     position: absolute;
-    z-index: 999999;
+    z-index: 9999999999;
     top: 50px;
     left: 0;
     width: 100%;
@@ -812,7 +814,7 @@
       }
       .titleLabel {
         font-size: 14px;
-        color: #939ead;
+        color: #939eae;
         cursor: default;
       }
       .statusLabel {
@@ -830,7 +832,7 @@
         }
         .col-md-5 {
           font-size: 11px;
-          color: #939ead;
+          color: #939eae;
           padding-right: 5px ;
         }
         .col-md-12 {
@@ -852,7 +854,7 @@
       }
       .statusLabel.ng-scope span:last-child,
       .statusLabel.disabled span {
-        color: #939ead;
+        color: #939eae;
         padding-left: 3px;
       }
       .statusLabel.disabled span.creative_tab_sizes {
@@ -867,7 +869,7 @@
           font-size: 14px;
           width: 100%;
           float: left;
-          color: #939ead;
+          color: #939eae;
           text-decoration: none;
           padding: 4px ;
           border-width: 0;
@@ -1401,6 +1403,7 @@
     width: 100%;
     cursor: pointer;
     text-align: center;
+    z-index: 999999;
     img {
       width: 35px;
       margin-top: -12px;
