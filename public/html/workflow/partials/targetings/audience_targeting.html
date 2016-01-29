@@ -14,7 +14,7 @@
 			<span class="ifNotSelected">1</span><span class="icon-check"></span> <p data-ng-bind="textConstants.SELSEGMENTS"></p></a>
 		</li>
         <div class="splitterDash"></div>
-        <li class="audience-tabs-audience" ng-if="selectedAudience.length > 0"><a data-toggle="tab" href="#buildAud" style="padding-right: 5px;"><span>2</span> Build Audience</a> <span style="margin-top: 17px;" class="pull-right" data-ng-bind="'('+textConstants.OPTIONAL+')'"></span></li>
+		<li class="audience-tabs-audience" ng-if="selectedAudience.length > 0"><a data-toggle="tab" href="#buildAud" style="padding-right: 5px;"><span>2</span> Build Audience</a> <span style="margin-top: 20px; font-size: 12px; color: #939eae;" class="pull-right" data-ng-bind="textConstants.OPTIONALPAR"></span></li>
 		<li class="audience-tabs-audience" ng-if="selectedAudience.length == 0"><a data-toggle="tab" ng-href="#" class="disabled" ng-click="$event.preventDefault();$event.stopPropagation();"><span>2</span> Build Audience</a></li>
 
 	</ul>
@@ -164,7 +164,7 @@
                             <span>{{aud.name}}</span><div style="clear:both"></div>
                             <span>{{aud.category}}</span><div style="clear:both"></div>
                             <span>{{aud.source}}</span><div style="clear:both"></div>
-                            <div class="icon-clear" ng-click="selectAudience(aud)"></div>
+                            <div class="icon-close" ng-click="selectAudience(aud)"></div>
                         </div>
 					</div>
 				</div>
@@ -214,7 +214,7 @@
 							<span tooltip="{{aud.name}}{{aud.source}}{{aud.category}}" class="audienceTip" data-ng-bind="aud.name"></span>
 						</div>
                     </div>
-                    <div class="col-md-1 text-center"><a class="icon-close" ng-click="selectAudience(aud)"></a></div>
+                    <div class="col-md-1 text-center"><a class="icon-clear" ng-click="selectAudience(aud)"></a></div>
                 </div>
             </div>
         </div>

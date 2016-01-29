@@ -369,7 +369,7 @@
         .campIdTime {
           font-size: 12px;
           padding: 3px 0 15px 0;
-          color: #939ead;
+          color: #939eae;
           float: left;
           clear: left;
         }
@@ -740,7 +740,7 @@
             }
             .adTxtGray {
               font-size: 12px;
-              color: #939ead;
+              color: #939eae;
               padding-left: 10px;
             }
             .dateAd {
@@ -1053,7 +1053,7 @@
           border-width: 0px;
           label {
             font-size: 12px;
-            color: #939ead;
+            color: #939eae;
             float: left;
             width: 100%;
             padding: 0 0 5px 0;
@@ -1446,6 +1446,7 @@
           margin: 14px 0 0 0;
           width: 100%;
           text-align: center;
+          min-height: 93px;
         }
         p {
           color: #21252b;
@@ -1457,7 +1458,7 @@
           
         }
         img {
-          margin: 30px auto 10px;
+          margin: 10px auto 10px;
           display: table;
           max-height: 30px;
         }
@@ -1466,7 +1467,7 @@
           position: relative;
           left: 50%;
           margin-left: -32px;
-          margin-top: 20px;
+          margin-top: 0px;
           cursor: pointer;
         }
         .btn.active {
@@ -1742,7 +1743,7 @@
     top: 50px;
     width: 100%;
     height: 100%;
-    z-index: 10;
+    z-index: 999999;
     background: rgba(0, 0, 0, 0.50);
     #creative {
       width: 100%;
@@ -2219,7 +2220,7 @@
   .tab-content .tab-pane {
     position: relative;
     float: left;
-    min-height: 530px;
+    min-height: 750px;
     width: 100%;
     padding: 50px 10px 0px 30px;
     h2 {
@@ -2402,7 +2403,7 @@
         color: #21252b;
         font-size: 18px;
         span {
-          color: #939ead !important;
+          color: #939eae !important;
           font-size: 14px;
           margin: 0 5px;
         }
@@ -2579,7 +2580,7 @@
         .emptyTableLabel {
           float: left;
           width: 100%;
-          color: #939ead;
+          color: #939eae;
           font-size: 14px;
           padding-left: 15px;
         }
@@ -2661,7 +2662,7 @@
             thead {
               border-width: 0;
               .col-md-8 {
-                color: #939ead;
+                color: #939eae;
               }
               .col-md-4{
                 a {
@@ -2680,14 +2681,14 @@
               margin-left: 20px;
             }
             td a {
-              color: #939ead;
+              color: #939eae;
               cursor: pointer;
             }
             .glyphicon {
               color: #0978c9;
             }
             .glyphicon.child {
-              color: #939ead;
+              color: #939eae;
             }
             tbody {
               td {
@@ -2729,7 +2730,7 @@
           color: #21252b;
           font-size: 18px;
           span {
-            color: #939ead !important;
+            color: #939eae !important;
             font-size: 14px;
             margin: 0 5px;
           }
@@ -2752,7 +2753,7 @@
       .tsBody {
         padding: 20px;
         h5 {
-          color: #939ead ;
+          color: #939eae ;
           font-family: "Avenir" ;
         }
         .regioncity, .zipCode, .dmas {
@@ -2773,7 +2774,7 @@
           padding: 5px 0;
         }
         span:first-child {
-          color: #939ead;
+          color: #939eae;
           padding-bottom: 20px;
         }
         .data_list {
@@ -2816,7 +2817,7 @@
       top: 0px;
       display: none;
       position: absolute;
-      z-index: 100;
+      z-index: 9999999;
       padding: 0px 0px 30px 30px;
       opacity: 0;
       .closeBtnCreative {
@@ -2840,15 +2841,18 @@
           a {
             border-width: 0;
             float: left;
+            background: transparent;
             span {
-              width: 32px;
-              height: 32px;
-              border-radius: 16px;
-              background: #0978c9;
-              color: #fff;
+              width: 35px;
+              height: 35px;
+              border: 1px solid #BFC9D7;
+              border-radius: 20px;
+              background: #fff;
+              color: #555;
               display: inline-block;
               padding: 7px 12px;
               margin-right: 7px;
+              text-align: center;
             }
           }
         }
@@ -2882,6 +2886,37 @@
           p {
             float: left;
             margin: 7px 0 0 8px;
+          }
+          a {
+            border-width: 0;
+            float: left;
+            background: transparent;
+            span {
+              width: 35px;
+              height: 35px;
+              border-radius: 20px;
+              border: 1px solid #0978c9;
+              background: #0978c9;
+              color: #fff;
+              display: inline-block;
+              padding: 7px 12px;
+              margin-right: 7px;
+            }
+          }
+        }
+        li.active {
+          a {
+            span {
+              width: 35px;
+              height: 35px;
+              border: 1px solid #0978c9;
+              border-radius: 20px;
+              background: #0978c9;
+              color: #fff;
+              display: inline-block;
+              padding: 7px 12px;
+              margin-right: 7px;
+            }
           }
         }
         .splitterDash {
@@ -2962,7 +2997,7 @@
           .segBodyWrap {
             float: left;
             width: 100%;
-            height: 424px;
+            height: 477px;
             overflow: hidden;
             .segFixedWrap {
               float:left;
@@ -3025,13 +3060,13 @@
           float: left;
           width: 33%;
           background: #edf2f8;
-          padding: 10px;
+          padding: 15px 20px;
           margin-left: 2%;
-          min-height: 670px;
+          min-height: 640px;
           .selectedItems {
             float: left;
             width: 100%;
-            height: 630px;
+            height: 640px;
             overflow: auto;
             .segWrap {
               float: left;
@@ -3050,16 +3085,17 @@
                 clear: left;
                 margin-right: 10px;
               }
-              .icon-clear {
+              .icon-close {
                 position: absolute;
                 z-index: 10;
                 top: 0;
                 right: 0;
-                width: 16px;
-                height: 16px;
-                font-size: 16px;
+                width: 9px;
+                height: 9px;
+                font-size: 9px;
                 margin-top: 0;
                 cursor: pointer;
+                margin-right: 0;
               }
               span:first-child {
                 width: 50%;
@@ -3378,7 +3414,7 @@
     margin : 30px auto ;
   }
   .adding-section {
-    color: #939ead;
+    color: #939eae;
     padding: 5px 10px;
     margin: -5px 0 0 10px;
     background: #F7FAFF;

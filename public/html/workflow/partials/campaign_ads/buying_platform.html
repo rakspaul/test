@@ -11,7 +11,7 @@
             <img ng-src="{{platform.iconUrl}}"/>
             <p data-ng-bind="platform.displayName"></p>
             <span ng-bind-html="platform.summary"></span>
-            <span ng-if="selectedPlatform[platform.id]" class="btn btn-default active" data-ng-bind="textConstants.SELECTED"></span>
+            <div ng-if="selectedPlatform[platform.id]" class="btn btn-default active" data-ng-bind="textConstants.SELECTED"></div>
             <input ng-if="!selectedPlatform[platform.id]" type="button" name="platform" value="Select" ng-disabled="!platform.active" class="btn btn-default " ng-click="!platform.active ? '' : selectPlatform($event, platform)"> 
             <input type="hidden" name="platformId" value="{{adData.platformId }}">
         </div>
@@ -41,7 +41,7 @@
                                 <span class="descrip" data-ng-bind="trackingIntegration.summary"></span>
                             </div>
                             <div class="col-md-12 select-btn">
-                                <span ng-if="selectedPlatform[trackingIntegration.id]" class="btn btn-default active" data-ng-bind="textConstants.SELECTED"></span>
+                                <div ng-if="selectedPlatform[trackingIntegration.id]" class="btn btn-default active" data-ng-bind="textConstants.SELECTED"></div>
                                 <input ng-if="!selectedPlatform[trackingIntegration.id]" type="button" value="Select" ng-disabled="!trackingIntegration.active" class="btn btn-default" value="{{trackingIntegration.id}}" ng-click="!trackingIntegration.active ? '' : showTrackingSetupInfoPopUp($event, trackingIntegration);">
                             </div>
 

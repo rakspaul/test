@@ -251,6 +251,8 @@ var angObj = angObj || {};
             winHeight = $(window).height() - 110;
             $('.campaignAdCreateWrap, .campaignAdCreatePage, .left_column_nav').css('min-height', winHeight + 'px');
             $('.adStepOne .tab-pane').css('min-height', winHeight - 30 + 'px');
+            $('.targetingSlide .tab-pane').css('min-height', winHeight - 130 + 'px');
+            $('.dayTargetLower').css('min-height', winHeight - 290 + 'px');
         }
 
         //edit mode data population
