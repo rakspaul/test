@@ -319,9 +319,9 @@ var angObj = angObj || {};
                 opacity: '1.0'
             }, 'slow');
             //$scope.resetGeoTargetingVariables()
-            var presavedGeo = angular.copy(workflowService.getSavedGeo());
-            if(presavedGeo)
-                $scope.geoTargetingData.selected = presavedGeo
+            //var presavedGeo = angular.copy(workflowService.getSavedGeo());
+            //if(presavedGeo)
+            //    $scope.geoTargetingData.selected = presavedGeo
         };
 
         // geo Targeting Trigger
@@ -586,6 +586,16 @@ var angObj = angObj || {};
                         }
                     }
                 }
+                if(selectedItem.length > 0) {
+                    var arr = [];
+                    _.each(selectedItem, function(obj) {
+                        _.each(obj.cities, function(cityObj) {
+                            arr.push(cityObj);
+                        })
+                    })
+                    $scope.geoTargetingData.selected['cities'] = arr;
+                }
+
                 //reload city
                 $scope.geoTargetingData.cities = [];
                 citiesListArray = [];
@@ -1044,13 +1054,32 @@ var angObj = angObj || {};
         };
 
         //this is temp redirect to targetting screen
-        $scope.redirectTargettingMain = function () {
+        $scope.redirectTargettingMain = function (cancelClicked) {
             if (!$scope.geoTargetingData.selected.previewData ||
                 (!$scope.geoTargetingData.selected.previewData.include &&
                 !$scope.geoTargetingData.selected.previewData.exclude)) {
                 $scope.adData.isGeographySelected = false;
                 $scope.adData.targetName = null;
             }
+            //else{
+            if(cancelClicked){
+                var presavedGeo = angular.copy(workflowService.getSavedGeo());
+                if(presavedGeo){
+                    $scope.geoTargetingData.selected = presavedGeo;
+                    $scope.showCitiesOnly = true;
+                    _.each($scope.geoTargetingData.selected.regions,function(item){
+                        if(item.cities.length > 0){
+                            $scope.showCitiesOnly = false;
+                        }
+                    })
+                    //reload city
+                    $scope.geoTargetingData.cities = [];
+                    citiesListArray = [];
+                    $scope.listCities()
+                }
+            }
+
+            //}
             $('#geographyTargeting').delay(300).animate({
                 left: '100%',
                 marginLeft: '0',
