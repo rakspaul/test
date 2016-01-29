@@ -44,7 +44,22 @@
     <!--Geo Targeting Card-->
     <div class="col-md-6 cardSelectHolder" ng-class="{true: 'active'}[selectedTargeting['geography']]">
         <!--<span ng-if="adData.geoTargetingData" class="icon-inline-edit" ng-style="(geoTargetingData.selected.previewData.include.regions.length > 0 || geoTargetingData.selected.previewData.include.cities.length > 0 || geoTargetingData.selected.previewData.include.zipCodes[0].values.length > 0)?{'display':'block'}:{'display':'none'}"></span>-->
+
         <span ng-if="adData.geoTargetingData" tooltip="Clear Settings" class="icon-trash" ng-style="(geoTargetingData.selected.previewData.include.regions.length > 0 || geoTargetingData.selected.previewData.include.cities.length > 0 || geoTargetingData.selected.previewData.include.zipCodes[0].values.length > 0)?{'display':'block'}:{'display':'none'}" ng-click="deleteGeoTargetting()"></span>
+
+        <div class="msgPopupHolder" style="display:none;">
+            <div class="msgPopup" style="top: -80px;left: 112px;">
+                <div>
+                    <div class="msg pull-left" style="padding-top: 10px;" data-ng-bind="textConstants.AREYOUSURE"></div>
+                    <div class="clearfix btn-holder" style="margin: 0;">
+                        <div class="pull-right common_primary_btn" data-ng-bind="textConstants.YES"></div>
+                        <div class="pull-right secondary_txt" data-ng-bind="textConstants.NO"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
         <div class="icon-location"></div>
         <p>Geography <span>({{locale.id === 'en-gb' ? 'UK' : 'US'}} Only)</span></p>
         <div ng-if="!geoTargetingData.selected.previewData.include && !geoTargetingData.selected.previewData.exclude ">
@@ -130,3 +145,5 @@
         </div>
     </div>
 </div>
+
+
