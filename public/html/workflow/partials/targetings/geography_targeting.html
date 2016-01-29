@@ -4,7 +4,7 @@
 	<h5 style="cursor: default;" data-ng-bind="textConstants.GEOGRAPHY"></h5>
 	
     <button ng-disabled="!(geoTargetingData.selected.regions.length >0 || geoTargetingData.selected.cities.length>0 || geoTargetingData.selected.dmas.length>0 || geoTargetingData.selected.zip.length>0)" class="pull-right btn btn-default" style="text-transform:none;" ng-click="saveGeography()">Save Geography</button>
-    <a ng-href="#" class="pull-right btn btn-link" ng-click="redirectTargettingMain($event);" data-ng-bind="textConstants.CANCEL"></a>
+    <a ng-href="#" class="pull-right btn btn-link" ng-click="redirectTargettingMain(true);" data-ng-bind="textConstants.CANCEL"></a>
 </div>
 
 <div class="col-md-12 zeroPadding targettingFormWrap">

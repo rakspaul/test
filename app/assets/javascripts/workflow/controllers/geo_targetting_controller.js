@@ -319,9 +319,9 @@ var angObj = angObj || {};
                 opacity: '1.0'
             }, 'slow');
             //$scope.resetGeoTargetingVariables()
-            var presavedGeo = angular.copy(workflowService.getSavedGeo());
-            if(presavedGeo)
-                $scope.geoTargetingData.selected = presavedGeo
+            //var presavedGeo = angular.copy(workflowService.getSavedGeo());
+            //if(presavedGeo)
+            //    $scope.geoTargetingData.selected = presavedGeo
         };
 
         // geo Targeting Trigger
@@ -1044,13 +1044,21 @@ var angObj = angObj || {};
         };
 
         //this is temp redirect to targetting screen
-        $scope.redirectTargettingMain = function () {
+        $scope.redirectTargettingMain = function (cancelClicked) {
             if (!$scope.geoTargetingData.selected.previewData ||
                 (!$scope.geoTargetingData.selected.previewData.include &&
                 !$scope.geoTargetingData.selected.previewData.exclude)) {
                 $scope.adData.isGeographySelected = false;
                 $scope.adData.targetName = null;
             }
+            //else{
+            if(cancelClicked){
+                var presavedGeo = angular.copy(workflowService.getSavedGeo());
+                if(presavedGeo)
+                    $scope.geoTargetingData.selected = presavedGeo
+            }
+
+            //}
             $('#geographyTargeting').delay(300).animate({
                 left: '100%',
                 marginLeft: '0',
