@@ -6,6 +6,7 @@ var angObj = angObj || {};
     angObj.controller('CampaignAdsCreateController', function ($scope, $rootScope, $window, $routeParams, $locale,  constants, 
         workflowService, $timeout, utils, $location, campaignListService, requestCanceller, $filter, loginModel, $q, dataService, 
         apiPaths, audienceService, RoleBasedService, momentService) {
+        $scope.showDeleteConfirmationPopup=false;
         var winHeaderHeight = $(window).height() - 50,
             winHeight,
             saveDataInLocalStorage = function (data) {
@@ -234,6 +235,23 @@ var angObj = angObj || {};
                     console.log(errData);
                 }
             };
+        $scope.deletetargets=function(type){
+            $scope.showDeleteConfirmationPopup=true;
+            $scope.deleteType=type;
+        }
+        $scope.deleteTargetting=function(){
+            $scope.showDeleteConfirmationPopup=!$scope.showDeleteConfirmationPopup;
+            if($scope.deleteType=="AUDIENCE")
+                $scope.deleteAudienceTargetting();
+            else if($scope.deleteType=="GEO")
+                $scope.deleteGeoTargetting();
+            else if($scope.deleteType=="DAYPART")
+            $scope.deleteDayPartTargetting();
+        }
+        $scope.cancelTargettingDelete=function(){
+            $scope.deleteType="";
+            $scope.showDeleteConfirmationPopup=!$scope.showDeleteConfirmationPopup;
+        }
 
          $scope.deleteAudienceTargetting=function(){
              $scope.selectedAudience.length=0;

@@ -20,7 +20,7 @@
     <!--Audience Targeting Card-->
     <div class="col-md-6 cardSelectHolder" ng-class="{true: 'active'}[selectedTargeting['audience']]">
         <!--<span ng-if="selectedAudience && selectedAudience.length > 0" class="icon-inline-edit" ng-style="(selectedAudience.length >0)?{'display':'block'}:{'display':'none'}"></span>-->
-        <span ng-if="selectedAudience && selectedAudience.length > 0" tooltip="Clear Settings" class="icon-trash" ng-style="(selectedAudience.length >0)?{'display':'block'}:{'display':'none'}" ng-click="deleteAudienceTargetting()"></span>
+        <span ng-if="selectedAudience && selectedAudience.length > 0" tooltip="Clear Settings" class="icon-trash" ng-style="(selectedAudience.length >0)?{'display':'block'}:{'display':'none'}" ng-click="deletetargets('AUDIENCE')"></span>
         <div class="icon-audience"></div>
         <p data-ng-bind="textConstants.AUDSEGMENTS"></p>
         <div ng-if="!selectedAudience || selectedAudience.length == 0">
@@ -45,15 +45,15 @@
     <div class="col-md-6 cardSelectHolder" ng-class="{true: 'active'}[selectedTargeting['geography']]">
         <!--<span ng-if="adData.geoTargetingData" class="icon-inline-edit" ng-style="(geoTargetingData.selected.previewData.include.regions.length > 0 || geoTargetingData.selected.previewData.include.cities.length > 0 || geoTargetingData.selected.previewData.include.zipCodes[0].values.length > 0)?{'display':'block'}:{'display':'none'}"></span>-->
 
-        <span ng-if="adData.geoTargetingData" tooltip="Clear Settings" class="icon-trash" ng-style="(geoTargetingData.selected.previewData.include.regions.length > 0 || geoTargetingData.selected.previewData.include.cities.length > 0 || geoTargetingData.selected.previewData.include.zipCodes[0].values.length > 0)?{'display':'block'}:{'display':'none'}" ng-click="deleteGeoTargetting()"></span>
+        <span ng-if="adData.geoTargetingData" tooltip="Clear Settings" class="icon-trash" ng-style="(geoTargetingData.selected.previewData.include.regions.length > 0 || geoTargetingData.selected.previewData.include.cities.length > 0 || geoTargetingData.selected.previewData.include.zipCodes[0].values.length > 0)?{'display':'block'}:{'display':'none'}" ng-click="deletetargets('GEO')"></span>
 
-        <div class="msgPopupHolder" style="display:none;">
+        <div class="msgPopupHolder" ng-show="showDeleteConfirmationPopup">
             <div class="msgPopup" style="top: -80px;left: 112px;">
                 <div>
                     <div class="msg pull-left" style="padding-top: 10px;" data-ng-bind="textConstants.AREYOUSURE"></div>
                     <div class="clearfix btn-holder" style="margin: 0;">
-                        <div class="pull-right common_primary_btn" data-ng-bind="textConstants.YES"></div>
-                        <div class="pull-right secondary_txt" data-ng-bind="textConstants.NO"></div>
+                        <div class="pull-right common_primary_btn" ng-click="deleteTargetting()" data-ng-bind="textConstants.YES"></div>
+                        <div class="pull-right secondary_txt" ng-click="cancelTargettingDelete()" data-ng-bind="textConstants.NO"></div>
                     </div>
                 </div>
             </div>
@@ -93,7 +93,7 @@
     <!--Daypart Targeting Card-->
     <div class="col-md-6 cardSelectHolder" ng-if="adData.platformName !== 'DORADO'" ng-class="{true: 'active'}[selectedTargeting['daily']]">
         <!--<span ng-if="selectedDayParts['data'].length  > 0" class="icon-inline-edit" ng-style="(selectedDayParts['data'].length >0)?{'display':'block'}:{'display':'none'}"></span>-->
-        <span ng-if="selectedDayParts['data'].length  > 0" tooltip="Clear Settings" class="icon-trash" ng-style="(selectedDayParts['data'].length >0)?{'display':'block'}:{'display':'none'}" ng-click="deleteDayPartTargetting()"></span>
+        <span ng-if="selectedDayParts['data'].length  > 0" tooltip="Clear Settings" class="icon-trash" ng-style="(selectedDayParts['data'].length >0)?{'display':'block'}:{'display':'none'}" ng-click="deletetargets('DAYPART')"></span>
         <div class="icon-activity"></div>
         <p data-ng-bind="textConstants.DAYPART"></p>
         <div ng-if="!selectedDayParts['data'] || selectedDayParts['data'].length  == 0">
