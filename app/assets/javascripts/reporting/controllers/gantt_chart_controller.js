@@ -1,6 +1,6 @@
 (function () {
     'use strict';
-    commonModule.controller('GanttChartController', function ($scope, $location, $timeout, ganttChart, ganttChartModel, constants, brandsModel, loginModel, analytics) {
+    commonModule.controller('GanttChartController', function ($scope, $location, $timeout, ganttChart, ganttChartModel, constants, brandsModel, loginModel, analytics,momentService) {
 
         $scope.dataFound = true;
         $scope.style = constants.DATA_NOT_AVAILABLE_STYLE;
@@ -46,18 +46,20 @@
                     var startDate, endDate, loop = 0;
                     _.each(result.brands, function (datum) {
                         _.each(datum.campaigns, function (tasks) {
+                            var campaignEndDate = momentService.utcToLocalTime(tasks.end_date, constants.DATE_UTC_SHORT_FORMAT);
+                            var campaignStartDate = momentService.utcToLocalTime(tasks.start_date, constants.DATE_UTC_SHORT_FORMAT);
                             if (loop == 0) {
-                                startDate = moment(tasks.start_date).startOf('day');
-                                endDate = moment(tasks.end_date).endOf('day');
+                                startDate = moment(campaignEndDate).startOf('day');
+                                endDate = moment(campaignStartDate).endOf('day');
                             }
                             loop++;
 
-                            if (moment(startDate).toDate() > moment(tasks.start_date).toDate()) {
-                                startDate = moment(tasks.start_date).startOf('month');
+                            if (moment(startDate).toDate() > moment(campaignStartDate).toDate()) {
+                                startDate = moment(campaignStartDate).startOf('month');
                             }
 
-                            if (moment(endDate).toDate() < moment(tasks.end_date).toDate()) {
-                                endDate = moment(tasks.end_date).endOf('month');
+                            if (moment(endDate).toDate() < moment(campaignEndDate).toDate()) {
+                                endDate = moment(campaignEndDate).endOf('month');
                             }
 
                         });
@@ -112,8 +114,8 @@
                             var c = {};
                             c.id = tasks.id;
                             c.name = tasks.name;
-                            c.startDate = moment(tasks.start_date).startOf('day');
-                            c.endDate = moment(tasks.end_date).endOf('day');
+                            c.startDate = moment(momentService.utcToLocalTime(tasks.start_date, constants.DATE_UTC_SHORT_FORMAT)).startOf('day');
+                            c.endDate = moment(momentService.utcToLocalTime(tasks.end_date, constants.DATE_UTC_SHORT_FORMAT)).endOf('day');
                             c.state = tasks.state;
                             c.kpiStatus = tasks.kpi_status;
                             c.taskName = count;
