@@ -18,10 +18,11 @@
             //$rootScope.$broadcast(constants.EVENT_KPI_CHANGED, _kpi);
         };
 
-        $scope.setSelectedKpiAlt = function(_kpi){
+        $scope.setSelectedKpiAlt = function(_kpi, event_type){
             kpiSelectModel.setSelectedKpiAlt(_kpi);
             $scope.kpiData.selectedKpi = kpiSelectModel.getSelectedKpiAlt() ;
-            $rootScope.$broadcast(constants.EVENT_KPI_CHANGED, _kpi);
+            var obj = {'event_type' :event_type, 'kpi': _kpi};
+            $rootScope.$broadcast(constants.EVENT_KPI_CHANGED, obj);
         };
 
         $scope.$on(constants.EVENT_CAMPAIGN_CHANGED, function(){
@@ -124,7 +125,7 @@
             var _selectedKpi =  $(e.target).attr("value") ;
             if(_selectedKpi) {
                 $scope.setSelectedKpi(_selectedKpi);
-                $scope.setSelectedKpiAlt(_selectedKpi);
+                $scope.setSelectedKpiAlt(_selectedKpi, 'clicked');
                 analytics.track(loginModel.getUserRole(), constants.GA_COST_METRIC_SELECTED, _selectedKpi, loginModel.getLoginName());
                 $(e.target).closest(".reports_platform_header").find(".kpi-dd-holder").find(".open").removeClass("open") ;
                 $("kpi-drop-down").removeClass('open');
