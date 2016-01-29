@@ -1842,7 +1842,8 @@
   font-size: 12px;
   width: 12px;
   height: 12px;
-  opacity: .2;
+  color: #21252B;
+  opacity: .25;
 }
 #campaignCreate .popCreativeLib .creativeLib .closePopBtn:hover {
   opacity: .5;
@@ -2759,7 +2760,7 @@
   text-align: center;
 }
 .adCreateMaster #targetting .targetingSlide .nav-tabs li a:hover span {
-  background: #0978c9;
+  background: #E1EDF9;
   color: #fff;
 }
 .adCreateMaster #targetting .targetingSlide .nav-tabs li.active.firstTabAud .ifNotSelected {
