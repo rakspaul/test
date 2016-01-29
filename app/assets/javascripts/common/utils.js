@@ -11,6 +11,7 @@
 
                 return suf;
             },
+            
             convertToEST = function (date, format) {
                 var d1,
                     d2,
@@ -23,17 +24,18 @@
                     d2 = d1.split('-');
                     tz = 'UTC';
                     finalDate = d2[1] + '/' + d2[2] + '/' + d2[0] + ' ' + date.slice(11, 19) + ' ' + tz;
-                    parsedDate = Date.parse(final_date);
+                    parsedDate = Date.parse(finalDate);
 
                 }
-                if (date == '') {
+                if (date === '') {
                     return moment().format(format);
-                } else if (format == '') {
-                    return moment(parsed_date).tz('EST').format('MM/DD/YYYY');
+                } else if (format === '') {
+                    return moment(parsedDate).tz('EST').format(constants.DATE_US_FORMAT);
                 } else {
-                    return moment(parsed_date).tz('EST').format(format);
+                    return moment(parsedDate).tz('EST').format(format);
                 }
             },
+
             convertToUTC = function (date, type) {
                 var timeSuffix = (type === 'ST' ? '00:00:00' : '23:59:59'),
                     tz = 'EST',
@@ -42,14 +44,16 @@
 
                 return moment(date).tz('UTC').format('YYYY-MM-DD HH:mm:ss.SSS');
             },
+
             reportTypeOptions = function () {
                 return [
                     {name: 'PCAR'}, 
                     {name: 'MCAR'}, 
                     {name: 'Monthly'}, 
                     {name: 'Custom'}
-                ]
+                ];
             },
+
             makeTitle = function (input) {
                 var title = '<div id="legend">',
                     i;
@@ -60,6 +64,7 @@
                 title += '</div>';
                 return title;
             },
+
             highlightSearch = function (text, search) {
                 if (!search) {
                     return $sce.trustAsHtml(text);
@@ -67,14 +72,17 @@
                 return $sce.trustAsHtml(unescape(text.replace(new RegExp(escape(search), 'gi'), 
                     '<span class="brand_search_highlight">$&</span>')));
             },
+
             roundOff = function (value, places) {
                 var factor = Math.pow(10, places);
 
                 return Math.round(value * factor) / factor;
             },
+
             goToLocation = function (url) {
                 $location.url(url);
             },
+
             allValuesSame = function (arr) {
                 var i;
 
@@ -85,12 +93,13 @@
                 }
                 return true;
             },
+
             //clones any javascript object recursively
             clone = function clone(obj) {
                 var temp,
                     key;
 
-                if (obj === null || typeof(obj) !== 'object') {
+                if (!obj || typeof(obj) !== 'object') {
                     return obj;
                 }
                 temp = obj.constructor();
@@ -101,11 +110,13 @@
                 }
                 return temp;
             },
+
             SEARCH_OBJECT = {
                 key: '',
                 limit: constants.DEFAULT_LIMIT_COUNT,
                 offset: constants.DEFAULT_OFFSET_START
             },
+
             /**
              * Note: You can provide limit, offset and key as arguments for initializing.
              * Please follow the above order for initialization.
@@ -123,10 +134,20 @@
                     leftPosTactic;
 
                 elem.closest('.each_campaign_list_container').find('.quartile_details_VTC').show();
-                if (flag == 1) {
-                    leftPos = elem.closest('.each_campaign_list_container').find('.quartile_details_VTC_btn').offset().left;
-                    vtcContainer = elem.closest('.each_campaign_list_container').find('.quartile_details_VTC').outerWidth() / 2;
-                    vtcBtnContainer = elem.closest('.each_campaign_list_container').find('.quartile_details_VTC_btn').outerWidth() / 2;
+                if (flag === 1) {
+                    leftPos = elem
+                        .closest('.each_campaign_list_container')
+                        .find('.quartile_details_VTC_btn')
+                        .offset()
+                        .left;
+                    vtcContainer = elem
+                        .closest('.each_campaign_list_container')
+                        .find('.quartile_details_VTC')
+                        .outerWidth() / 2;
+                    vtcBtnContainer = elem
+                        .closest('.each_campaign_list_container')
+                        .find('.quartile_details_VTC_btn')
+                        .outerWidth() / 2;
                     leftPosNumber = leftPos - vtcContainer + vtcBtnContainer;
                     elem
                         .closest('.each_campaign_list_container')
@@ -135,12 +156,24 @@
                             'left': leftPosNumber,
                             'display': 'block'
                         });
-                    if (elem.closest('.tactics_container').length == 0) {
-                        topPos = elem.closest('.each_campaign_list_container').find('.quartile_details_VTC_btn').offset().top;
-                        elem.closest('.each_campaign_list_container').find('.quartile_details_VTC').css('top', topPos - 189);
+                    if (elem.closest('.tactics_container').length === 0) {
+                        topPos = elem
+                            .closest('.each_campaign_list_container')
+                            .find('.quartile_details_VTC_btn')
+                            .offset()
+                            .top;
+                        elem
+                            .closest('.each_campaign_list_container')
+                            .find('.quartile_details_VTC')
+                            .css('top', topPos - 189);
                     } else {
-                        childPos = elem.closest('.each_campaign_list_container').find('.quartile_details_VTC_btn').offset();
-                        parentPos = elem.closest('.tactics_linkage_lines').offset();
+                        childPos = elem
+                            .closest('.each_campaign_list_container')
+                            .find('.quartile_details_VTC_btn')
+                            .offset();
+                        parentPos = elem
+                            .closest('.tactics_linkage_lines')
+                            .offset();
                         leftPosTactic = childPos.left - parentPos.left - vtcContainer + vtcBtnContainer;
                         elem
                             .closest('.each_campaign_list_container')
@@ -158,6 +191,7 @@
                         .hide();
                 }
             },
+
             detectBrowserInfo = function () {
                 var nVer = navigator.appVersion,
                     nAgt = navigator.userAgent,
@@ -224,7 +258,7 @@
                     case ((nameOffset = nAgt.lastIndexOf(' ') + 1) < (verOffset = nAgt.lastIndexOf('/'))):
                         browserName = nAgt.substring(nameOffset, verOffset);
                         fullVersion = nAgt.substring(verOffset + 1);
-                        if (browserName.toLowerCase() == browserName.toUpperCase()) {
+                        if (browserName.toLowerCase() === browserName.toUpperCase()) {
                             browserName = navigator.appName;
                         }
                         break;
@@ -241,7 +275,7 @@
                     fullVersion = '' + parseFloat(navigator.appVersion);
                     majorVersion = parseInt(navigator.appVersion, 10);
                 }
-                return browserInfo = {
+                return {
                     'browserName':  browserName,
                     'fullVersion':  fullVersion,
                     'majorVersion': majorVersion
@@ -262,10 +296,14 @@
             for (i = 0; i < size; i++) {
                 switch (i) {
                     case 0:
-                        if (!isNaN(arguments[i])) search.limit = arguments[i];
+                        if (!isNaN(arguments[i])) {
+                            search.limit = arguments[i];
+                        }
                         break;
                     case 1:
-                        if (!isNaN(arguments[i])) search.offset = arguments[i];
+                        if (!isNaN(arguments[i])) {
+                            search.offset = arguments[i];
+                        }
                         break;
                     case 2:
                         search.key = arguments[i];
@@ -277,14 +315,13 @@
 
         function getParameterByName(url, name) {
             var results = '',
-                regex,
-                results;
+                regex;
 
             if (name) {
                 name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
                 regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
                 results = regex.exec(url);
-                results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+                results = !results ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
             }
             return results;
         }
@@ -315,24 +352,24 @@
                     username: '@username'
                 },
                 template: '<div class="navbar" role="navigation">' +
-                    ' <div class="container-fluid">' +
-                    ' <div class="navbar-header col-xs-6 col-sm-2 col-md-3">' +
-                    ' <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">' +
-                    ' <span class="sr-only">Toggle navigation</span>' +
-                    ' <span class="icon-bar"></span>' +
-                    ' <span class="icon-bar"></span>' +
-                    ' <span class="icon-bar"></span>' +
-                    ' </button>' +
-                    ' <a id="logo" class="navbar-brand" href="#">Collective Media</a>' +
-                    ' </div>' +
-                    ' <span class="navbar-brand col-xs-4 col-sm-6 col-md-6 applicationName">' + common.title + '</span>' +
-                    ' <div class="navbar-collapse collapse" >' +
-                    ' <ul class="nav navbar-nav navbar-right">' +
-                    ' <li><a class="buttonRegularText" >Welcome, {{username}}</a></li>' +
-                    ' </ul>' +
-                    ' <!--<loader class="loading-spinner-holder" data-loading >Loading...</loader>-->' +
-                    ' </div>' +
-                    ' </div>' +
+                    '<div class="container-fluid">' +
+                    '<div class="navbar-header col-xs-6 col-sm-2 col-md-3">' +
+                    '<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">' +
+                    '<span class="sr-only">Toggle navigation</span>' +
+                    '<span class="icon-bar"></span>' +
+                    '<span class="icon-bar"></span>' +
+                    '<span class="icon-bar"></span>' +
+                    '</button>' +
+                    '<a id="logo" class="navbar-brand" href="#">Collective Media</a>' +
+                    '</div>' +
+                    '<span class="navbar-brand col-xs-4 col-sm-6 col-md-6 applicationName">' + common.title + '</span>' +
+                    '<div class="navbar-collapse collapse" >' +
+                    '<ul class="nav navbar-nav navbar-right">' +
+                    '<li><a class="buttonRegularText" >Welcome, {{username}}</a></li>' +
+                    '</ul>' +
+                    '<!--<loader class="loading-spinner-holder" data-loading >Loading...</loader>-->' +
+                    '</div>' +
+                    '</div>' +
                     '</div>'
             };
         })
@@ -362,7 +399,7 @@
             return {
                 restrict: 'A',
                 link: function (scope, $elm, attrs) {
-                    if ($routeParams.to !== undefined) {
+                    if ($routeParams.to) {
                         window.setTimeout(function () {
                             if ($routeParams.to.length) {
                                 jQuery('body').animate({
@@ -432,10 +469,10 @@
                     '</button>',
                 link: function ($scope, elem, attrs) {
                     elem.find('#measuresOptions li a').bind('click', function (e) {
-                        var messureText = $(this).attr('rel');
+                        var measureText = $(this).attr('rel');
 
-                        elem.find('#measuresLabel').html(messureText);
-                        $scope.$apply($scope.$parent.changeAudienceKPI(messureText.toLowerCase(),
+                        elem.find('#measuresLabel').html(measureText);
+                        $scope.$apply($scope.$parent.changeAudienceKPI(measureText.toLowerCase(),
                             elem.find('#dimensionLabel').text().toLowerCase(), $scope.updateTo));
                     });
                     elem.find('#dimensionOptions li a').bind('click', function (e) {
@@ -490,10 +527,10 @@
                     '</button>',
                 link: function ($scope, elem, attrs) {
                     elem.find('#measuresOptions li a').bind('click', function (e) {
-                        var messureText = $(this).attr('rel');
+                        var measureText = $(this).attr('rel');
 
-                        elem.find('#measuresLabel').html(messureText);
-                        $scope.$apply($scope.$parent.changeCDBKPI(messureText.toLowerCase(), 
+                        elem.find('#measuresLabel').html(measureText);
+                        $scope.$apply($scope.$parent.changeCDBKPI(measureText.toLowerCase(), 
                             elem.find('#dimensionLabel').text().toLowerCase(), $scope.updateTo));
                     });
                     elem.find('#dimensionOptions li a').bind('click', function (e) {
@@ -577,8 +614,12 @@
                 require: 'ngModel',
                 link: function (scope, element, attrs, modelCtrl) {
                     modelCtrl.$parsers.push(function (inputValue) {
-                        if (inputValue == undefined) return ''
-                        var transformedInput = inputValue.replace(/[^a-zA-Z0-9 _-]/gi, '')
+                        var transformedInput;
+
+                        if (!inputValue) {
+                            return '';
+                        }
+                        transformedInput = inputValue.replace(/[^a-zA-Z0-9 _-]/gi, '');
                         if (transformedInput !== inputValue) {
                             modelCtrl.$setViewValue(transformedInput);
                             modelCtrl.$render();
@@ -594,23 +635,23 @@
             return function (input, splitIndex) {
                 // do some bounds checking here to ensure it has that index
                 return input.split(' ')[splitIndex];
-            }
+            };
         })
 
         .filter('dashboardKpiFormatter', function ($filter, constants) {
             return function (input, kpiType) {
                 if (input && kpiType) {
-                    if (kpiType.toLowerCase() == 'ctr' || kpiType.toLowerCase() === 'action_rate') {
+                    if (kpiType.toLowerCase() === 'ctr' || kpiType.toLowerCase() === 'action_rate') {
                         return input + '%';
-                    } else if (kpiType.toLowerCase() == 'vtc') {
+                    } else if (kpiType.toLowerCase() === 'vtc') {
                         return input + '%';
-                    } else if (kpiType.toLowerCase() == 'cpc' || kpiType.toLowerCase() == 'cpa' || kpiType.toLowerCase() == 'cpm') {
+                    } else if (kpiType.toLowerCase() === 'cpc' || kpiType.toLowerCase() === 'cpa' || kpiType.toLowerCase() === 'cpm') {
                         return constants.currencySymbol + input;
                     } else if (kpiType.toLowerCase() === 'gross_rev' || kpiType.toLowerCase() === 'impressions') {
                         return input + '%';
                     }
                 }
-            }
+            };
         })
 
         .filter('kpiFormatter', function ($filter, constants, $locale, RoleBasedService) {
@@ -618,33 +659,36 @@
                 //constants.currencySymbol = $locale.NUMBER_FORMATS.CURRENCY_SYM;
                 RoleBasedService.setCurrencySymbol();
                 if (input && kpiType) {
-                    if (kpiType.toLowerCase() == 'ctr') {
+                    if (kpiType.toLowerCase() === 'ctr') {
                         return $filter('number')(input, 2) + '%';
-                    } else if (kpiType.toLowerCase() == 'cpc' || kpiType.toLowerCase() == 'cpa' || kpiType.toLowerCase() == 'cpm') {
+                    } else if (kpiType.toLowerCase() === 'cpc' || kpiType.toLowerCase() === 'cpa' || kpiType.toLowerCase() === 'cpm') {
                         return constants.currencySymbol + $filter('number')(input, 2);
-                    } else if (kpiType.toLowerCase() == 'actions' || kpiType.toLowerCase() == 'clicks' || 
-                        kpiType.toLowerCase() == 'impressions' || kpiType.toLowerCase() == 'delivery') {
+                    } else if (kpiType.toLowerCase() === 'actions' || kpiType.toLowerCase() === 'clicks' || 
+                        kpiType.toLowerCase() === 'impressions' || kpiType.toLowerCase() === 'delivery') {
                         return $filter('number')(input, 0);
-                    } else if (kpiType.toLowerCase() == 'vtc' && precision === undefined) {
+                    } else if (kpiType.toLowerCase() === 'vtc' && !precision) {
                         return $filter('number')(input, 0) + '%';
-                    } else if (kpiType.toLowerCase() == 'vtc' && precision) {
+                    } else if (kpiType.toLowerCase() === 'vtc' && precision) {
                         return $filter('number')(input, 2) + '%';
                     } else {
                         //unknown kpiType
                         return $filter('number')(input, 0);
                     }
                 } else {
-                    if (kpiType.toLowerCase() == 'delivery') {
+                    if (kpiType.toLowerCase() === 'delivery') {
                         return 0;
                     }
                     return 'NA';
                 }
-            }
+            };
         })
+
         .filter('setDecimal', function ($filter) {
             return function (input, places) {
-                if (isNaN(input)) return input;
-                var factor = "1" + Array(+(places > 0 && places + 1)).join("0");
+                if (isNaN(input)) {
+                    return input;
+                }
+                var factor = '1' + new Array(+(places > 0 && places + 1)).join('0');
                 return Math.round(input * factor) / factor;
             };
         })
@@ -653,34 +697,34 @@
                 return str.toLowerCase().replace(/['']/g, '').replace(/\W+/g, ' ').replace(/ (.)/g, function ($1) {
                     return $1.toUpperCase();
                 }).replace(/ /g, '');
-                if (input == undefined) {
+                /*if (!input) {
                     return '';
                 }
                 input = input.charAt(0).toUpperCase() + input.substr(1);
                 return input.replace(/(\-[a-z])/g, function ($1) {
                     return $1.toUpperCase().replace('-', '');
-                });
-            }
+                });*/
+            };
         })
 
         .filter('displayToCamelCase', function (toCamelCaseFilter, toTitleCaseFilter) {
             return function (input) {
-                if (input == undefined) {
+                if (!input) {
                     return '';
                 }
-                if (input.toLowerCase() == 'delivery') {
+                if (input.toLowerCase() === 'delivery') {
                     return toTitleCaseFilter(input);
                 }
-                if (input.toLowerCase() == 'clicks') {
+                if (input.toLowerCase() === 'clicks') {
                     return toTitleCaseFilter(input);
                 }
-                if (input.toLowerCase() == 'viewable impressions') {
+                if (input.toLowerCase() === 'viewable impressions') {
                     return 'Viewable Impressions';
                 }
-                if (input.toLowerCase() == 'impressions') {
+                if (input.toLowerCase() === 'impressions') {
                     return toTitleCaseFilter(input);
                 }
-                if (input.toLowerCase() == 'select from list') {
+                if (input.toLowerCase() === 'select from list') {
                     return 'Select From list';
                 }
                 return input.toUpperCase();
@@ -689,7 +733,7 @@
 
         .filter('toTitleCase', function () {
             return function (input) {
-                if (input === undefined) {
+                if (!input) {
                     return '';
                 }
                 input = input.charAt(0).toUpperCase() + input.substr(1).toLowerCase();
@@ -703,7 +747,7 @@
                     finalStr = '',
                     i;
 
-                if (input === undefined) {
+                if (!input) {
                     return '';
                 }
                 for (i = 0; i < splitStr.length; i++) {
@@ -713,38 +757,36 @@
                     }
                 }
                 return finalStr;
-            }
+            };
         })
 
         .filter('toUpperCase', function () {
             return function (input) {
-                if (input == undefined) {
+                if (!input) {
                     return '';
                 }
-                input = input.toUpperCase();
-                return input;
+                return input.toUpperCase();
             };
         })
 
         .filter('toLowerCase', function () {
             return function (input) {
-                if (input == undefined) {
+                if (!input) {
                     return '';
                 }
-                input = input.toLowerCase();
-                return input;
+                return input.toLowerCase();
             };
         })
 
         .filter('formatCostData', function ($filter) {
             return function (input, symbol, places) {
-                if (input == undefined) {
+                if (!input) {
                     return 'NA';
                 }
-                if (symbol === undefined) {
+                if (!symbol) {
                     symbol = '';
                 }
-                if (places !== undefined) {
+                if (places) {
                     return symbol + $filter('number')(input, places);
                 }
                 return symbol + input;
@@ -753,11 +795,11 @@
 
         .filter('truncateString', function () {
             return function (input, stringLength) {
-                if (input === undefined) {
+                if (!input) {
                     return 'NA';
                 }
                 return input.substring(0, stringLength) + (input.length > stringLength ? ' [...]' : '');
-            }
+            };
         })
 
         .filter('roundThisOff', function () {
@@ -783,7 +825,7 @@
                     subType = '',
                     i;
 
-                if (actionSubTypes === undefined) {
+                if (!actionSubTypes) {
                     return '-';
                 }
                 if (length > 1) {
@@ -804,7 +846,8 @@
             return function (input) {
                 var _date = new Date(input),
                     formatDate = '';
-                if (moment(_date).diff(moment(), 'days') == 0) {
+                
+                if (moment(_date).diff(moment(), 'days') === 0) {
                     //today - format 01:29 PM
                     formatDate = $filter('date')(_date, 'h:mm a');
                 } else {
@@ -819,7 +862,8 @@
             return function (input, defaultIcon) {
                 var _style = '',
                     icon = input;
-                if (input === undefined || input == '') {
+                
+                if (!input) {
                     icon = defaultIcon || assets.platform_icon;
                     _style = 'background:url("' + icon + '") no-repeat scroll 0 0 rgba(0, 0, 0, 0);' + 'width: 17px;' + 
                         'height: 17px;' + 'display: inline-block;' + 'background-size:17px;"';
@@ -831,14 +875,14 @@
         //Used in _inventory.html file
         .filter('formatUrl', function (constants) {
             return function (url, l) {
-                if (url === undefined || url == '') {
+                if (!url) {
                     return url;
                 }
-                if (url === constants.NO_MEDIAPLANS_FOUND || url == constants.NO_ADGROUPS_FOUND) {
+                if (url === constants.NO_MEDIAPLANS_FOUND || url === constants.NO_ADGROUPS_FOUND) {
                     return url;
                 }
-                if (l === undefined) {
-                    var l = 20;
+                if (!l) {
+                    l = 20;
                 }
                 if (url.length > parseInt(l * 2 + 3)) {
                     return url.substring(0, l) + ' ... ' + url.substring(url.length - l);
@@ -853,9 +897,9 @@
                 RoleBasedService.setCurrencySymbol();
                 if (!val) {
                     return 'NA';
-                } else if (type.toLowerCase() === 'delivery (impressions)')
+                } else if (type.toLowerCase() === 'delivery (impressions)') {
                     return (val.toFixed(2)).toLocaleString();
-                else {
+                } else {
                     return (type.toLowerCase() === 'ctr' || type.toLowerCase() === 'action_rate' || 
                         type.toLowerCase() === 'action rate' || type.toLowerCase() === 'vtc') ? 
                         val.toFixed(2) + '%' : 
@@ -885,10 +929,10 @@
             return function (delivered, total) {
                 var width;
 
-                if (delivered === undefined || total === undefined) {
+                if (!delivered || !total) {
                     return 0;
                 }
-                width = parseInt((delivered / total) * 124);
+                width = parseInt(delivered / total) * 124;
                 //@124 is the css width of the progress bar
                 if (width > 124) {
                     return 124;
@@ -921,7 +965,7 @@
                         return item[key];
                     }),
                     empty = array.filter(function (item) {
-                        return !item[key]
+                        return !item[key];
                     });
 
                 return present.concat(empty);
@@ -987,25 +1031,25 @@
 
         .filter('textEllipsis', function () {
             return function (input, len) {
-                var dispname;
+                var dispName;
 
-                if (input == undefined) {
+                if (!input) {
                     return '';
                 }
-                dispname = input;
+                dispName = input;
                 if (input.length > len) {
-                    dispname = input.substring(0, len) + '...';
+                    dispName = input.substring(0, len) + '...';
                 }
-                return dispname;
+                return dispName;
             };
         });
 
     $.fn.scrollWithInDiv = function () {
         this.bind('mousewheel DOMMouseScroll', function (e) {
             var scrollTo = null;
-            if (e.type == 'mousewheel') {
+            if (e.type === 'mousewheel') {
                 scrollTo = (e.originalEvent.wheelDelta * -1);
-            } else if (e.type == 'DOMMouseScroll') {
+            } else if (e.type === 'DOMMouseScroll') {
                 scrollTo = 40 * e.originalEvent.detail;
             }
             if (scrollTo) {
