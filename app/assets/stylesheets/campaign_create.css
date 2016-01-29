@@ -2740,6 +2740,7 @@
   border-width: 0;
   float: left;
   background: transparent;
+  cursor: pointer;
 }
 .adCreateMaster #targetting .targetingSlide .nav-tabs li a span {
   width: 35px;
@@ -2752,6 +2753,10 @@
   padding: 7px 12px;
   margin-right: 7px;
   text-align: center;
+}
+.adCreateMaster #targetting .targetingSlide .nav-tabs li a:hover span {
+  background: #0978c9;
+  color: #fff;
 }
 .adCreateMaster #targetting .targetingSlide .nav-tabs li.active.firstTabAud .ifNotSelected {
   float: left;
