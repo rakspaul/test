@@ -7,6 +7,7 @@ var angObj = angObj || {};
         workflowService, $timeout, utils, $location, campaignListService, requestCanceller, $filter, loginModel, $q, dataService, 
         apiPaths, audienceService, RoleBasedService, momentService) {
         $scope.showDeleteConfirmationPopup=false;
+        $scope.adCreateLoader = false;
         var winHeaderHeight = $(window).height() - 50,
             winHeight,
             saveDataInLocalStorage = function (data) {
@@ -186,7 +187,8 @@ var angObj = angObj || {};
                     promiseObj.then(function (result) {
                         var responseData = result.data.data,
                             url;
-
+                        $scope.adCreateLoader = false;
+                        //$('.workflowPreloader, .workflowPreloader .adSavePre').hide();
                         if (result.status === 'OK' || result.status === 'success') {
                             $scope.state = responseData.state;
                             $scope.adId = responseData.id;
@@ -902,7 +904,8 @@ var angObj = angObj || {};
                 $rootScope.setErrAlertMessage('Mandatory fields need to be specified for the Ad');
                 return false;
             } else {
-                $('.workflowPreloader, .workflowPreloader .adSavePre').show();
+                $scope.adCreateLoader = true;
+                //$('.workflowPreloader, .workflowPreloader .adSavePre').show();
                 creativesData = $scope.creativeData['creativeInfo'];
                 postAdDataObj = {};
                 postAdDataObj.name = formData.adName;
