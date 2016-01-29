@@ -106,6 +106,12 @@
     $scope.goToLocation = function(url) {
       utils.goToLocation(url);
     };
+    $scope.redirectToCreate = function(event) {
+      var elem = $(event.target);
+      elem.hide() ;
+      elem.siblings(".common-loading-btn").show() ;
+      $location.path('/mediaplan/create') ;
+    } ;
 
     $scope.highlightSearch = function(text, search) {
       return utils.highlightSearch(text, search);
