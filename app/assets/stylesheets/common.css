@@ -320,6 +320,7 @@
   margin: 0;
   font-size: 26px;
   margin-bottom: 20px;
+  word-wrap: break-word;
 }
 .popContainerHolder .popContainer .popup-body {
   margin: 30px 0 ;
