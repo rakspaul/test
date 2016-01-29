@@ -1712,10 +1712,14 @@ var angObj = angObj || {};
             $scope.updateReportAndRedirect = function(arg) {
                 $scope.stopRedirectingPage = false;
                 $scope.updateSchedule = false;
-                if (arg == 'Yes') {
+                if (arg == 'Yes' && $scope.validateScheduleDate()) {
                     $scope.scheduleReportAction();
                 }
-                $location.path($scope.nextURL.substring($location.absUrl().length - $location.url().length));
+                if(arg == 'No' || $scope.validateScheduleDate()) {
+                    $location.path($scope.nextURL.substring($location.absUrl().length - $location.url().length));
+                }else{
+                    $scope.stopRedirectingPage = true;
+                }
             }
             $(".custom_report_scroll").scroll(function(){
                 $(".custom_report_response_page .custom_report_response_table .custom_report_scroll .heading_row").css({"left": "-" + $(".custom_report_scroll").scrollLeft() + "px"});
