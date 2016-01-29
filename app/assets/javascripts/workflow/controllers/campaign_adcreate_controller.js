@@ -365,25 +365,24 @@ var angObj = angObj || {};
             }
             $('.cap_no input').attr('checked', 'checked');
             $('.spend_evenly input').attr('checked', 'checked');
+
             if (responseData.frequencyCaps && responseData.frequencyCaps.length >= 1) {
-                $scope.adData.setCap = true;
-                $('.cap_yes').addClass('active');
-                $('.cap_no').removeClass('active');
-                $('.cap_yes input').attr('checked', 'checked');
-                angular.forEach(responseData.frequencyCaps, function (frequencyCap) {
+                    angular.forEach(responseData.frequencyCaps, function (frequencyCap) {
                     var pacingType,
                         freqType;
-
                     if (frequencyCap.targetType === 'ALL') {
                         pacingType = frequencyCap.pacingType;
                         if (pacingType !== 'EVENLY') {
                             $('.spend_asap').addClass('active');
                             $('.spend_asap input').attr('checked', 'checked');
                             $('.spend_evenly').removeClass('active');
-
                         }
                     }
                     if (frequencyCap.targetType === 'PER_USER') {
+                        $scope.adData.setCap = true;
+                        $('.cap_yes').addClass('active');
+                        $('.cap_no').removeClass('active');
+                        $('.cap_yes input').attr('checked', 'checked');
                         $scope.adData.quantity = frequencyCap.quantity;
                         $scope.capsPeriod = frequencyCap.frequencyType;
                         freqType = frequencyCap.frequencyType;

@@ -9,8 +9,8 @@
         <div class="pull-left campaign_name_holder">
             <span class="campaign_name" data-ng-bind="textConstants.CAMPAIGNS"></span>
         </div>
-
-         <div class="pull-right common_primary_btn" ng-show="isWorkFlowUser" ng-click="redirectToCreate($event)" data-ng-bind="textConstants.CREATE_CAMPAIGN">
+        <div class="pull-right common_primary_btn" ng-show="isWorkFlowUser">
+            <a href="/mediaplan/create" data-ng-bind="textConstants.CREATE_CAMPAIGN"></a>
         </div>
         <div class="pull-right common-loading-btn" style="display:none;"></div>
      </div>
