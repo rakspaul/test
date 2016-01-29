@@ -213,7 +213,7 @@ var angObj = angObj || {};
                         var kpiValue = $scope.selectedCampaign.kpiValue ;
                         if (!angular.isUndefined(kpiType)) {
                             if (result.data.data.measures_by_days.length > 0) {
-                                if ($scope.selectedCampaign.id == param.orderId && $scope.selectedStrategy.id == strategyId) {
+                                if ($scope.selectedCampaign.id == param.orderId) {
                                     var maxDays = result.data.data.measures_by_days;
                                     for (var i = 0; i < maxDays.length; i++) {
                                         var kpiTypeLower = angular.lowercase(kpiType);
