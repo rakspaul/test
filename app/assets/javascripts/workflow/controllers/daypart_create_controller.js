@@ -23,6 +23,7 @@ var angObj = angObj || {};
 
             $scope.Schedule.dayTimeSelected(0);
             audienceService.setDayTimeArr(angular.copy($scope.Schedule.daytimeArr));
+            $scope.adData.isDaypartSelected=null;
         })
         $scope.$on('UpdateDayPart',function () {
             var fetchedObj =  workflowService.getAdsDetails(),

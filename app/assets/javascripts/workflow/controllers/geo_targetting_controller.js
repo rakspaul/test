@@ -158,6 +158,7 @@ var angObj = angObj || {};
             $scope.adData.geoTargetingData=null;
             console.log($scope.adData.geoTargetingData)
             console.log($scope.geoTargetingData.selected);
+            $scope.adData.isGeographySelected=null;
 
 //            $scope.geoTargetingData.selected.regions.length=0;
 //            $scope.geoTargetingData.selected.cities.length=0;
