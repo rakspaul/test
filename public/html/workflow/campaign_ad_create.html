@@ -47,9 +47,12 @@
                                                     </div>
                                                </div>
 
-                                                <button type="button" ng-disabled="!adData.adName" id="SaveAd"
+                                                <button ng-show ="!adCreateLoader" type="button" ng-disabled="!adData.adName" id="SaveAd"
                                                         ng-click="CampaignADsave(false)" class="btn btn-primary pull-right">{{textConstants.WF_AD_SAVE_CLOSE}}
                                                 </button>
+
+                                                <div ng-show ="adCreateLoader" class="pull-right common-loading-btn" ></div>
+
                                                 <a ng-href="/mediaplan/{{workflowData.campaignData.id}}/overview"
                                                    class="pull-right cancel-btn">Cancel</a>
                                             </div>
