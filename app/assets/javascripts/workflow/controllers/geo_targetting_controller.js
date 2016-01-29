@@ -1054,8 +1054,13 @@ var angObj = angObj || {};
             //else{
             if(cancelClicked){
                 var presavedGeo = angular.copy(workflowService.getSavedGeo());
-                if(presavedGeo)
-                    $scope.geoTargetingData.selected = presavedGeo
+                if(presavedGeo){
+                    $scope.geoTargetingData.selected = presavedGeo;
+                    //reload city
+                    $scope.geoTargetingData.cities = [];
+                    citiesListArray = [];
+                    $scope.listCities()
+                }
             }
 
             //}
