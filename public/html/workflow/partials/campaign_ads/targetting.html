@@ -31,7 +31,7 @@
     <!--Audience Targeting Card-->
     <div class="col-md-6 cardSelectHolder" ng-class="{true: 'active'}[selectedTargeting['audience']]">
         <!--<span ng-if="selectedAudience && selectedAudience.length > 0" class="icon-inline-edit" ng-style="(selectedAudience.length >0)?{'display':'block'}:{'display':'none'}"></span>-->
-        <span ng-if="selectedAudience && selectedAudience.length > 0" tooltip="Clear Settings" class="icon-trash" ng-style="(selectedAudience.length >0)?{'display':'block'}:{'display':'none'}" ng-click="deletetargets('AUDIENCE', $event)"></span>
+        <span ng-if="selectedAudience && selectedAudience.length > 0" class="icon-trash" ng-style="(selectedAudience.length >0)?{'display':'block'}:{'display':'none'}" ng-click="deletetargets('AUDIENCE', $event)"></span>
         <div class="icon-audience"></div>
         <p data-ng-bind="textConstants.AUDSEGMENTS"></p>
         <div ng-if="!selectedAudience || selectedAudience.length == 0">
@@ -56,7 +56,7 @@
     <div class="col-md-6 cardSelectHolder" ng-class="{true: 'active'}[selectedTargeting['geography']]">
         <!--<span ng-if="adData.geoTargetingData" class="icon-inline-edit" ng-style="(geoTargetingData.selected.previewData.include.regions.length > 0 || geoTargetingData.selected.previewData.include.cities.length > 0 || geoTargetingData.selected.previewData.include.zipCodes[0].values.length > 0)?{'display':'block'}:{'display':'none'}"></span>-->
 
-        <span ng-if="adData.geoTargetingData" tooltip="Clear Settings" class="icon-trash" ng-style="(geoTargetingData.selected.previewData.include.regions.length > 0 || geoTargetingData.selected.previewData.include.cities.length > 0 || geoTargetingData.selected.previewData.include.zipCodes[0].values.length > 0)?{'display':'block'}:{'display':'none'}" ng-click="deletetargets('GEO', $event)"></span>
+        <span ng-if="adData.geoTargetingData" class="icon-trash" ng-style="(geoTargetingData.selected.previewData.include.regions.length > 0 || geoTargetingData.selected.previewData.include.cities.length > 0 || geoTargetingData.selected.previewData.include.zipCodes[0].values.length > 0)?{'display':'block'}:{'display':'none'}" ng-click="deletetargets('GEO', $event)"></span>
         <div class="icon-location"></div>
         <p>Geography <span>({{locale.id === 'en-gb' ? 'UK' : 'US'}} Only)</span></p>
         <div ng-if="!geoTargetingData.selected.previewData.include && !geoTargetingData.selected.previewData.exclude ">
@@ -90,7 +90,7 @@
     <!--Daypart Targeting Card-->
     <div class="col-md-6 cardSelectHolder" ng-if="adData.platformName !== 'DORADO'" ng-class="{true: 'active'}[selectedTargeting['daily']]">
         <!--<span ng-if="selectedDayParts['data'].length  > 0" class="icon-inline-edit" ng-style="(selectedDayParts['data'].length >0)?{'display':'block'}:{'display':'none'}"></span>-->
-        <span ng-if="selectedDayParts['data'].length  > 0" tooltip="Clear Settings" class="icon-trash" ng-style="(selectedDayParts['data'].length >0)?{'display':'block'}:{'display':'none'}" ng-click="deletetargets('DAYPART', $event)"></span>
+        <span ng-if="selectedDayParts['data'].length  > 0"  class="icon-trash" ng-style="(selectedDayParts['data'].length >0)?{'display':'block'}:{'display':'none'}" ng-click="deletetargets('DAYPART', $event)"></span>
         <div class="icon-activity"></div>
         <p data-ng-bind="textConstants.DAYPART"></p>
         <div ng-if="!selectedDayParts['data'] || selectedDayParts['data'].length  == 0">
