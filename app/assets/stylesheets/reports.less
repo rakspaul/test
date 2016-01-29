@@ -3850,7 +3850,6 @@ only screen and (min-device-pixel-ratio: 2) {
       }
     }
 }
-
 .custom_report_response_page {
   width: 1040px;
   margin: 0 auto ;
@@ -3876,26 +3875,28 @@ only screen and (min-device-pixel-ratio: 2) {
       max-height: 500px;
       overflow: auto ;
     }
-    .custom_report_scroll.vertical_scroll {
+    .custom_report_scroll {
       .heading_row {
         position: absolute;
         top : 0px ;
         left : 0px ;
+        background-color: #fff;
+        z-index: 4;
       } 
-      .first_dimension_row_holder {
-        margin-top: 20px ;
-      }
+//      .first_dimension_row_holder {
+//        margin-top: 20px ;
+//      }
     }
-    .custom_report_scroll.hori_scroll {
-      .heading_row {
-        position: relative;
-        top : 0px ;
-        left : 0px !important;
-      } 
-      .first_dimension_row_holder {
-        margin-top: 20px ;
-      }
-    }
+//    .custom_report_scroll.hori_scroll {
+//      .heading_row {
+//        position: relative;
+//        top : 0px ;
+//        left : 0px !important;
+//      }
+//      .first_dimension_row_holder {
+//        margin-top: 20px ;
+//      }
+//    }
     
     
     .each_col.more_dimension_arrow {
@@ -3968,7 +3969,7 @@ only screen and (min-device-pixel-ratio: 2) {
       }
     }
     .vertical_scroll {
-      padding-top: 75px;
+//      padding-top: 75px;
       .heading_row {
         position: absolute;
         background-color: #fff;
@@ -3979,6 +3980,7 @@ only screen and (min-device-pixel-ratio: 2) {
 
       }
     }
+
     .horizontal_scroll {
       background: #f5f5f5 ;
       .each_row , .second_dimension_row {
@@ -4050,6 +4052,7 @@ only screen and (min-device-pixel-ratio: 2) {
     }
     .first_dimension_row_holder {
       padding: 20px 30px 0px 30px ;
+      margin-top: 105px;
     }
     .second_dimension_row_holder  {
       margin-left: 5px ;
