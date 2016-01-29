@@ -186,7 +186,7 @@ var angObj = angObj || {};
                     promiseObj.then(function (result) {
                         var responseData = result.data.data,
                             url;
-
+                        $('.workflowPreloader, .workflowPreloader .adSavePre').hide();
                         if (result.status === 'OK' || result.status === 'success') {
                             $scope.state = responseData.state;
                             $scope.adId = responseData.id;
