@@ -237,6 +237,7 @@ var angObj = angObj || {};
 
          $scope.deleteAudienceTargetting=function(){
              $scope.selectedAudience.length=0;
+             $scope.adData.isAudienceSelected=null;
          }
         $scope.deleteDayPartTargetting=function(){
             $scope.selectedDayParts['data'].length=0;
