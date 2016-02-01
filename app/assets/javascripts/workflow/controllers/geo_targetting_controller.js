@@ -659,6 +659,7 @@ var angObj = angObj || {};
                 $scope.geoTargetingData.cities = [];
                 citiesListArray = [];
                 $scope.listCities()
+                $scope.selectedTab = 'regions';
             } else {
                 $scope.geoTargetingData.selected[type]=[];
                 $scope.includeorExcludeCityOnly(type);
@@ -1071,7 +1072,7 @@ var angObj = angObj || {};
                     $scope.geoTargetingData.selected = presavedGeo;
                     $scope.showCitiesOnly = true;
                     _.each($scope.geoTargetingData.selected.regions,function(item){
-                        if(item.cities.length > 0){
+                        if(item.cities && item.cities.length > 0){
                             $scope.showCitiesOnly = false;
                         }
                     })

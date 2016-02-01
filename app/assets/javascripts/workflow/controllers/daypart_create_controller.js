@@ -412,6 +412,12 @@ var angObj = angObj || {};
             audienceService.setDayPartData(c);
             var d= angular.copy($scope.Schedule.daytimeArr);
             audienceService.setDayTimeArr(d);
+
+            localStorage.setItem("dayPart", JSON.stringify(a));
+            localStorage.setItem("dayTimeSelected", JSON.stringify(b));
+            localStorage.setItem("adDaypartTargets", JSON.stringify(c));
+            localStorage.setItem("daytimeArr", JSON.stringify(d));
+
             $scope.getSelectedDays();
             $scope.resetDayTargetingVariables();
         };
@@ -700,9 +706,14 @@ var angObj = angObj || {};
             $scope.dayTimeSelected = [];
             $scope.Schedule.daytimeArr = [];
 
-            var daypartObj = audienceService.getDaytimeObj();
-            var selectedDayTime = audienceService.getDayTimeSelectedObj()
-            var dayTimeArr = audienceService.getDayTimeArr();
+            //var daypartObj = audienceService.getDaytimeObj();
+            //var selectedDayTime = audienceService.getDayTimeSelectedObj()
+            //var dayTimeArr = audienceService.getDayTimeArr();
+
+            var daypartObj = JSON.parse(localStorage.getItem("dayPart"));
+            var selectedDayTime = JSON.parse(localStorage.getItem("dayTimeSelected"));
+            var dayTimeArr = JSON.parse(localStorage.getItem("daytimeArr"));
+
             if(selectedDayTime)
                 $scope.dayTimeSelected = selectedDayTime;
 
