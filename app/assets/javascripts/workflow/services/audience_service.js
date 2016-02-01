@@ -112,6 +112,7 @@
                 dayPartData = null;
             },
             setDayPartDispObj: function(daytimeArr,dayTimeSelected){
+                console.log("setDayPartDispObj", daytimeArr);
                 daytimeArrObj = daytimeArr;
                 dayTimeSelectedObj = dayTimeSelected;
             },
