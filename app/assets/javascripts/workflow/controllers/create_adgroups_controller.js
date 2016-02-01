@@ -25,12 +25,15 @@ var angObj = angObj || {};
             }
         };
 
-        $scope.createAdGroup = function (createNewAdGrp) {
+        $scope.createAdGroup = function (createNewAdGrp, event) {
             var formElem,
                 formData,
                 postCreateAdObj;
 
             $scope.$broadcast('show-errors-check-validity');
+            var elem = $(event.target);
+            elem.hide() ;
+            elem.siblings(".common-loading-btn").show() ;
             if (createNewAdGrp.$valid) {
                 formElem = $('#createNewAdGrp');
                 formData = formElem.serializeArray();
