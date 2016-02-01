@@ -357,7 +357,7 @@ var angObj = angObj || {};
                 marginLeft: '-461px',
                 opacity: '1.0'
             }, 'slow');
-            $scope.$broadcast('setSelectedDayparts');
+
         };
 
         $scope.setTargeting = function (name) {
@@ -462,6 +462,9 @@ var angObj = angObj || {};
             if (!dayParting || dayParting.length === 0) {
                 $scope.adData.isDaypartSelected = false;
                 $scope.adData.targetName = null;
+            }
+            else{
+                $scope.$broadcast('setSelectedDayparts');
             }
             $('#dayTargeting')
                 .delay(300)
@@ -644,6 +647,7 @@ var angObj = angObj || {};
                 $scope.geoTargetingData.cities = [];
                 citiesListArray = [];
                 $scope.listCities()
+                $scope.selectedTab = 'regions';
             } else {
                 $scope.geoTargetingData.selected[type]=[];
                 $scope.includeorExcludeCityOnly(type);
@@ -1056,7 +1060,7 @@ var angObj = angObj || {};
                     $scope.geoTargetingData.selected = presavedGeo;
                     $scope.showCitiesOnly = true;
                     _.each($scope.geoTargetingData.selected.regions,function(item){
-                        if(item.cities.length > 0){
+                        if(item.cities && item.cities.length > 0){
                             $scope.showCitiesOnly = false;
                         }
                     })
