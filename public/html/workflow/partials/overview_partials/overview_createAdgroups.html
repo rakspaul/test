@@ -35,7 +35,8 @@
             </div>
         </div>
         <div class="col-md-6 zeroPadding">
-            <button type="submit" class="btn btn-primary pull-right" id="createAdGroup" ng-disabled="createNewAdGrp.$invalid" ng-click="createAdGroup(createNewAdGrp)" data-ng-bind="textConstants.SAVE"></button>
+            <span class="pull-right common-loading-btn" style="display:none;width: 61px;"></span>
+            <button type="submit" class="btn btn-primary pull-right" id="createAdGroup" ng-disabled="createNewAdGrp.$invalid" ng-click="createAdGroup(createNewAdGrp, $event)" data-ng-bind="textConstants.SAVE"></button>
             <span class="pull-right secondary_txt" ng-click="createAdGrp();" data-ng-bind="textConstants.CANCEL"></span>
         </div>
         <div id="createGroupMessage" data-ng-bind="createAdGroupMessage"></div>
