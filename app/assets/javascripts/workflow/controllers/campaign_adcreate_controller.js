@@ -500,7 +500,7 @@ var angObj = angObj || {};
             var errorAchiveAdHandler = function () {
                 $scope.adArchive = false;
                 $scope.adArchiveLoader = false;
-                $rootScope.setErrAlertMessage();
+                $rootScope.setErrAlertMessage(constants.WF_AD_ARCHIVE_FAILURE);
             };
 
             workflowService.deleteAd($scope.campaignId, $scope.adId).then(function (result) {
