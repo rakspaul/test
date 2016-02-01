@@ -131,253 +131,7 @@ var angObj = angObj || {};
             $scope.metrics_text = text + '(' + $scope.selectedMetricsList.length + ')';
         }
 
-        dataService.getCustomReportMetrics($scope.campaign).then(function(result) {
-            var jsonModifier = function(data) {
-                var arr = [];
-                _.each(data, function(obj) {
-                    var d = obj.split(":");
-                    arr.push({
-                        'key': d[0],
-                        'value': d[1]
-                    });
-                });
 
-                return arr;
-            }
-            _.each(metricKey, function(k) {
-                result.data.data[0][k] = jsonModifier(result.data.data[0][k]);
-            });
-            //initialize metrics - by default all metrics will be selected
-            $scope.initializeMetrics(result.data.data[0]);
-            $scope.allMetrics = true;
-            $scope.OnSelectUnselectAllMetrics();
-            $scope.saveMetrics();
-            $scope.setMetrixText('Default');
-
-            $scope.customeDimensionData = result.data.data;
-            var modifiedDimesionArr = result.data.data[0];
-            $scope.showDefaultDimension = modifiedDimesionArr.dimensions[0];
-            $scope.showDefaultDimension['template_id'] = modifiedDimesionArr.template_id;
-
-            $scope.prefillData = function(reportData) {
-                var responseData = reportData;
-                $scope.reports.name = responseData.name;
-                $scope.scheduleReportActive = responseData.isScheduled;
-                $scope.generateBtnDisabled = false;
-                $scope.reports.schedule = responseData.schedule;
-                $scope.reports.reportDefinition.timeframe = responseData.reportDefinition.timeframe;
-                if (responseData.isScheduled) {
-                    $('#toggle').bootstrapToggle('on');
-                }
-
-                $scope.select_schedule_option(responseData.schedule.frequency, 1);
-                if (responseData.schedule.occurance) {
-                    if (responseData.schedule.customOccuranceDate) {
-                        $(".schedule-occurs-custom .dd_txt").html(responseData.schedule.customOccuranceDate);
-                        $(".schedule-occurs-custom").show();
-                    }
-                }
-
-                //returns name of the breakdown/filter key passed
-                $scope.getFilterBreakdownName = function(key) {
-                    var dimensionObj = $scope.customeDimensionData[0].dimensions;
-                    var name;
-                    _.each(dimensionObj, function(item) {
-                        var value1 = key;
-                        var value2 = item.key;
-                        if (value1.trim() === value2.trim()) {
-                            name = item.value.trim();
-                        }
-                    });
-                    return name;
-                }
-
-                $scope.setPrimaryDimension = function(obj) {
-                    $scope.reports.reportDefinition.dimensions.primary.name = $scope.getFilterBreakdownName(obj.dimension);
-                    $scope.reports.reportDefinition.dimensions.primary.dimension = obj.dimension;
-                    if (obj.values) {
-                        $scope.reports.reportDefinition.dimensions.primary.value = obj.values;
-                    }
-                    $scope.showPrimaryTxtBox = true;
-                }
-
-                $scope.setSecondaryDimension = function(obj) {
-                    $scope.reports.reportDefinition.dimensions.secondary.name = $scope.getFilterBreakdownName(obj.dimension);
-                    $scope.reports.reportDefinition.dimensions.secondary.dimension = obj.dimension;
-                    if (obj.values) {
-                        $scope.reports.reportDefinition.dimensions.secondary.value = obj.values;
-                    }
-                    $scope.showSecondDimensionBlock = true;
-                    $scope.showSecondaryTxtBox = true;
-                    $scope.showAddBreakdownButton = false;
-                }
-
-                //set breakdown filter
-                angular.forEach(responseData.reportDefinition.dimensions, function(eachObj) {
-                    if ((eachObj.type == "Primary")) {
-                        $scope.setPrimaryDimension(eachObj);
-                    } else if ((eachObj.type == "Secondary")) {
-                        $scope.setSecondaryDimension(eachObj);
-                    }
-                });
-
-                //set breakdown filter values if exist
-                angular.forEach(responseData.reportDefinition.filters, function(eachObj) {
-                    eachObj['name'] = $scope.getFilterBreakdownName(eachObj.dimension);
-                    if ((eachObj.type == "Primary")) {
-                        $scope.setPrimaryDimension(eachObj);
-                    } else if ((eachObj.type == "Secondary")) {
-                        $scope.setSecondaryDimension(eachObj);
-                    } else {
-                        $scope.additionalFilters.push({
-                            "key": eachObj.dimension,
-                            "name": eachObj.name,
-                            "value": eachObj.values,
-                            "hide": false
-                        });
-                    }
-                });
-
-
-                //metrics
-                $scope.selectedMetricsList = [];
-                if (responseData.reportDefinition.metrics.Delivery) {
-                    _.each($scope.deliveryMetrics, function(each) {
-                        var deliveryMetricsObj = _.find(responseData.reportDefinition.metrics.Delivery, function(num) {
-                            return num == each.key;
-                        });
-                        if (deliveryMetricsObj == undefined) {
-                            each.selected = false;
-                            $scope.deliveryMetrics.isAllSelected = false;
-                            $scope.allMetrics = false;
-                        } else {
-                            $scope.selectedMetricsList.push({
-                                'key': each.key,
-                                'value': each.value
-                            });
-                            $scope.deliveryMetrics.minOneSelected = true;
-                        }
-                    });
-                }
-                if (responseData.reportDefinition.metrics.Engagement) {
-                    _.each($scope.engagementMetrics, function(each) {
-                        var engMetricsObj = _.find(responseData.reportDefinition.metrics.Engagement, function(num) {
-                            return num == each.key;
-                        });
-                        if (engMetricsObj == undefined) {
-                            each.selected = false;
-                            $scope.engagementMetrics.isAllSelected = false;
-                            $scope.allMetrics = false;
-                        } else {
-                            $scope.selectedMetricsList.push({
-                                'key': each.key,
-                                'value': each.value
-                            });
-                            $scope.engagementMetrics.minOneSelected = true;
-                        }
-                    });
-                }
-                if (responseData.reportDefinition.metrics.Cost) {
-                    _.each($scope.costMetrics, function(each) {
-                        var costMetricsObj = _.find(responseData.reportDefinition.metrics.Cost, function(num) {
-                            return num == each.key;
-                        });
-                        if (costMetricsObj == undefined) {
-                            each.selected = false;
-                            $scope.costMetrics.isAllSelected = false;
-                            $scope.allMetrics = false;
-                        } else {
-                            $scope.selectedMetricsList.push({
-                                'key': each.key,
-                                'value': each.value
-                            });
-                            $scope.costMetrics.minOneSelected = true;
-                        }
-                    });
-                }
-                if (responseData.reportDefinition.metrics.Video) {
-                    _.each($scope.videoMetrics, function(each) {
-                        var videoMetricsObj = _.find(responseData.reportDefinition.metrics.Video, function(num) {
-                            return num == each.key;
-                        });
-                        if (videoMetricsObj == undefined) {
-                            each.selected = false;
-                            $scope.videoMetrics.isAllSelected = false;
-                            $scope.allMetrics = false;
-                        } else {
-                            $scope.selectedMetricsList.push({
-                                'key': each.key,
-                                'value': each.value
-                            });
-                            $scope.videoMetrics.minOneSelected = true;
-                        }
-                    });
-                }
-
-                if (responseData.reportDefinition.metrics['Quality Display']) {
-                    _.each($scope.displayQltyMetrics, function(each) {
-                        var qualityDisplayObj = _.find(responseData.reportDefinition.metrics['Quality Display'], function(num) {
-                            return num == each.key;
-                        });
-                        if (qualityDisplayObj == undefined) {
-                            each.selected = false;
-                            $scope.displayQltyMetrics.isAllSelected = false;
-                            $scope.allMetrics = false;
-                        } else {
-                            $scope.selectedMetricsList.push({
-                                'key': each.key,
-                                'value': each.value
-                            });
-                            $scope.displayQltyMetrics.minOneSelected = true;
-                        }
-                    });
-                }
-
-                if (responseData.reportDefinition.metrics['Quality Video']) {
-                    _.each($scope.videoQltyMetrics, function(each) {
-                        var videoQltyMetricsObj = _.find(responseData.reportDefinition.metrics['Quality Video'], function(num) {
-                            return num == each.key;
-                        });
-                        if (videoQltyMetricsObj == undefined) {
-                            each.selected = false;
-                            $scope.videoQltyMetrics.isAllSelected = false;
-                            $scope.allMetrics = false;
-                        } else {
-                            $scope.selectedMetricsList.push({
-                                'key': each.key,
-                                'value': each.value
-                            });
-                            $scope.videoQltyMetrics.minOneSelected = true;
-                        }
-                    });
-                }
-
-                if ($scope.deliveryMetrics.isAllSelected && $scope.engagementMetrics.isAllSelected && $scope.costMetrics.isAllSelected && $scope.videoMetrics.isAllSelected && $scope.videoQltyMetrics.isAllSelected && $scope.displayQltyMetrics.isAllSelected) {
-                    $scope.allMetrics = true;
-                }
-                $scope.scheduleResponseData = JSON.parse(JSON.stringify(responseData));;
-                $scope.setMetrixText('Custom');
-                // }// end of success
-                // })
-            } //end
-
-            //if edit
-            if ($routeParams.reportId) {
-                $scope.updateScheduleReport = true;
-                $scope.buttonLabel = "Update";
-                $scope.buttonResetCancel = "Cancel";
-                var url = urlService.scheduledReport($routeParams.reportId);
-                dataStore.deleteFromCache(url);
-                dataService.fetch(url).then(function(response) {
-                    if (response.status == 'success') {
-                        $scope.reportData = response.data.data;
-                        $scope.prefillData(response.data.data);
-                    }
-                });
-            } else if (localStorage.getItem('customReport')) {
-                $scope.prefillData(JSON.parse(localStorage.getItem('customReport')));
-            }
-        });
         $scope.reports.client_id = loginModel.getSelectedClient().id;
         $(".main_navigation").find('.active').removeClass('active').end().find('#reports_nav_link').addClass('active');
 
@@ -1722,6 +1476,255 @@ var angObj = angObj || {};
                     $scope.stopRedirectingPage = true;
                 }
             }
+
+            dataService.getCustomReportMetrics($scope.campaign).then(function(result) {
+                var jsonModifier = function(data) {
+                    var arr = [];
+                    _.each(data, function(obj) {
+                        var d = obj.split(":");
+                        arr.push({
+                            'key': d[0],
+                            'value': d[1]
+                        });
+                    });
+
+                    return arr;
+                }
+                _.each(metricKey, function(k) {
+                    result.data.data[0][k] = jsonModifier(result.data.data[0][k]);
+                });
+                //initialize metrics - by default all metrics will be selected
+                $scope.initializeMetrics(result.data.data[0]);
+                $scope.allMetrics = true;
+                $scope.OnSelectUnselectAllMetrics();
+                $scope.saveMetrics();
+                $scope.setMetrixText('Default');
+
+                $scope.customeDimensionData = result.data.data;
+                var modifiedDimesionArr = result.data.data[0];
+                $scope.showDefaultDimension = modifiedDimesionArr.dimensions[0];
+                $scope.showDefaultDimension['template_id'] = modifiedDimesionArr.template_id;
+
+                $scope.prefillData = function(reportData) {
+                    var responseData = reportData;
+                    $scope.reports.name = responseData.name;
+                    $scope.scheduleReportActive = responseData.isScheduled;
+                    $scope.generateBtnDisabled = false;
+                    $scope.reports.schedule = responseData.schedule;
+                    $scope.reports.reportDefinition.timeframe = responseData.reportDefinition.timeframe;
+                    if (responseData.isScheduled) {
+                        $('#toggle').bootstrapToggle('on');
+                    }
+
+                    $scope.select_schedule_option(responseData.schedule.frequency, 1);
+                    if (responseData.schedule.occurance) {
+                        if (responseData.schedule.customOccuranceDate) {
+                            $(".schedule-occurs-custom .dd_txt").html(responseData.schedule.customOccuranceDate);
+                            $(".schedule-occurs-custom").show();
+                        }
+                    }
+
+                    //returns name of the breakdown/filter key passed
+                    $scope.getFilterBreakdownName = function(key) {
+                        var dimensionObj = $scope.customeDimensionData[0].dimensions;
+                        var name;
+                        _.each(dimensionObj, function(item) {
+                            var value1 = key;
+                            var value2 = item.key;
+                            if (value1.trim() === value2.trim()) {
+                                name = item.value.trim();
+                            }
+                        });
+                        return name;
+                    }
+
+                    $scope.setPrimaryDimension = function(obj) {
+                        $scope.reports.reportDefinition.dimensions.primary.name = $scope.getFilterBreakdownName(obj.dimension);
+                        $scope.reports.reportDefinition.dimensions.primary.dimension = obj.dimension;
+                        if (obj.values) {
+                            $scope.reports.reportDefinition.dimensions.primary.value = obj.values;
+                        }
+                        $scope.showPrimaryTxtBox = true;
+                    }
+
+                    $scope.setSecondaryDimension = function(obj) {
+                        $scope.reports.reportDefinition.dimensions.secondary.name = $scope.getFilterBreakdownName(obj.dimension);
+                        $scope.reports.reportDefinition.dimensions.secondary.dimension = obj.dimension;
+                        if (obj.values) {
+                            $scope.reports.reportDefinition.dimensions.secondary.value = obj.values;
+                        }
+                        $scope.showSecondDimensionBlock = true;
+                        $scope.showSecondaryTxtBox = true;
+                        $scope.showAddBreakdownButton = false;
+                    }
+
+                    //set breakdown filter
+                    angular.forEach(responseData.reportDefinition.dimensions, function(eachObj) {
+                        if ((eachObj.type == "Primary")) {
+                            $scope.setPrimaryDimension(eachObj);
+                        } else if ((eachObj.type == "Secondary")) {
+                            $scope.setSecondaryDimension(eachObj);
+                        }
+                    });
+
+                    //set breakdown filter values if exist
+                    angular.forEach(responseData.reportDefinition.filters, function(eachObj) {
+                        eachObj['name'] = $scope.getFilterBreakdownName(eachObj.dimension);
+                        if ((eachObj.type == "Primary")) {
+                            $scope.setPrimaryDimension(eachObj);
+                        } else if ((eachObj.type == "Secondary")) {
+                            $scope.setSecondaryDimension(eachObj);
+                        } else {
+                            $scope.additionalFilters.push({
+                                "key": eachObj.dimension,
+                                "name": eachObj.name,
+                                "value": eachObj.values,
+                                "hide": false
+                            });
+                        }
+                    });
+
+
+                    //metrics
+                    $scope.selectedMetricsList = [];
+                    if (responseData.reportDefinition.metrics.Delivery) {
+                        _.each($scope.deliveryMetrics, function(each) {
+                            var deliveryMetricsObj = _.find(responseData.reportDefinition.metrics.Delivery, function(num) {
+                                return num == each.key;
+                            });
+                            if (deliveryMetricsObj == undefined) {
+                                each.selected = false;
+                                $scope.deliveryMetrics.isAllSelected = false;
+                                $scope.allMetrics = false;
+                            } else {
+                                $scope.selectedMetricsList.push({
+                                    'key': each.key,
+                                    'value': each.value
+                                });
+                                $scope.deliveryMetrics.minOneSelected = true;
+                            }
+                        });
+                    }
+                    if (responseData.reportDefinition.metrics.Engagement) {
+                        _.each($scope.engagementMetrics, function(each) {
+                            var engMetricsObj = _.find(responseData.reportDefinition.metrics.Engagement, function(num) {
+                                return num == each.key;
+                            });
+                            if (engMetricsObj == undefined) {
+                                each.selected = false;
+                                $scope.engagementMetrics.isAllSelected = false;
+                                $scope.allMetrics = false;
+                            } else {
+                                $scope.selectedMetricsList.push({
+                                    'key': each.key,
+                                    'value': each.value
+                                });
+                                $scope.engagementMetrics.minOneSelected = true;
+                            }
+                        });
+                    }
+                    if (responseData.reportDefinition.metrics.Cost) {
+                        _.each($scope.costMetrics, function(each) {
+                            var costMetricsObj = _.find(responseData.reportDefinition.metrics.Cost, function(num) {
+                                return num == each.key;
+                            });
+                            if (costMetricsObj == undefined) {
+                                each.selected = false;
+                                $scope.costMetrics.isAllSelected = false;
+                                $scope.allMetrics = false;
+                            } else {
+                                $scope.selectedMetricsList.push({
+                                    'key': each.key,
+                                    'value': each.value
+                                });
+                                $scope.costMetrics.minOneSelected = true;
+                            }
+                        });
+                    }
+                    if (responseData.reportDefinition.metrics.Video) {
+                        _.each($scope.videoMetrics, function(each) {
+                            var videoMetricsObj = _.find(responseData.reportDefinition.metrics.Video, function(num) {
+                                return num == each.key;
+                            });
+                            if (videoMetricsObj == undefined) {
+                                each.selected = false;
+                                $scope.videoMetrics.isAllSelected = false;
+                                $scope.allMetrics = false;
+                            } else {
+                                $scope.selectedMetricsList.push({
+                                    'key': each.key,
+                                    'value': each.value
+                                });
+                                $scope.videoMetrics.minOneSelected = true;
+                            }
+                        });
+                    }
+
+                    if (responseData.reportDefinition.metrics['Quality Display']) {
+                        _.each($scope.displayQltyMetrics, function(each) {
+                            var qualityDisplayObj = _.find(responseData.reportDefinition.metrics['Quality Display'], function(num) {
+                                return num == each.key;
+                            });
+                            if (qualityDisplayObj == undefined) {
+                                each.selected = false;
+                                $scope.displayQltyMetrics.isAllSelected = false;
+                                $scope.allMetrics = false;
+                            } else {
+                                $scope.selectedMetricsList.push({
+                                    'key': each.key,
+                                    'value': each.value
+                                });
+                                $scope.displayQltyMetrics.minOneSelected = true;
+                            }
+                        });
+                    }
+
+                    if (responseData.reportDefinition.metrics['Quality Video']) {
+                        _.each($scope.videoQltyMetrics, function(each) {
+                            var videoQltyMetricsObj = _.find(responseData.reportDefinition.metrics['Quality Video'], function(num) {
+                                return num == each.key;
+                            });
+                            if (videoQltyMetricsObj == undefined) {
+                                each.selected = false;
+                                $scope.videoQltyMetrics.isAllSelected = false;
+                                $scope.allMetrics = false;
+                            } else {
+                                $scope.selectedMetricsList.push({
+                                    'key': each.key,
+                                    'value': each.value
+                                });
+                                $scope.videoQltyMetrics.minOneSelected = true;
+                            }
+                        });
+                    }
+
+                    if ($scope.deliveryMetrics.isAllSelected && $scope.engagementMetrics.isAllSelected && $scope.costMetrics.isAllSelected && $scope.videoMetrics.isAllSelected && $scope.videoQltyMetrics.isAllSelected && $scope.displayQltyMetrics.isAllSelected) {
+                        $scope.allMetrics = true;
+                    }
+                    $scope.scheduleResponseData = JSON.parse(JSON.stringify(responseData));;
+                    $scope.setMetrixText('Custom');
+                    // }// end of success
+                    // })
+                } //end
+
+                //if edit
+                if ($routeParams.reportId) {
+                    $scope.updateScheduleReport = true;
+                    $scope.buttonLabel = "Update";
+                    $scope.buttonResetCancel = "Cancel";
+                    var url = urlService.scheduledReport($routeParams.reportId);
+                    dataStore.deleteFromCache(url);
+                    dataService.fetch(url).then(function(response) {
+                        if (response.status == 'success') {
+                            $scope.reportData = response.data.data;
+                            $scope.prefillData(response.data.data);
+                        }
+                    });
+                } else if (localStorage.getItem('customReport')) {
+                    $scope.prefillData(JSON.parse(localStorage.getItem('customReport')));
+                }
+            });
+
             $(".custom_report_scroll").scroll(function(){
                 $(".custom_report_response_page .custom_report_response_table .custom_report_scroll .heading_row").css({"left": "-" + $(".custom_report_scroll").scrollLeft() + "px"});
             });
