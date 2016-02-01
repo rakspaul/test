@@ -273,7 +273,7 @@ var angObj = angObj || {};
                 localStorage.setItem('adPlatformCustomInputs', JSON.stringify($scope.$parent.postPlatformDataObj));
             }
             //trigger targeting tab link only when intentionally clicked not on edit mode by default
-            if (!editModeFlag) {
+            if (editModeFlag == "clickedFromCustom") {
                 $scope.triggerTargetting();
             }
             $scope.switchPlatform();
