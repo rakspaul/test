@@ -305,7 +305,7 @@
                                             data-ng-bind="textConstants.NOTPUSHEDPAR">
                                         </span>
                                         <span ng-if="(adsData.sourceId)" class="pull-right greyTxt adDisplay"
-                                              ng-show="(adsData.sourceId)"
+                                              ng-show="(adsData.sourceId && (adsData.pushStatus!='FAILED' && adsData.pushStatus!='IN_PROGRESS' && adsData.pushStatus!='UNPUSHED'))"
                                               title="ID: {{adsData.sourceId}}"
                                               data-ng-bind="'ID:'+adsData.sourceId | formatUrl:8 ">
                                         </span>
