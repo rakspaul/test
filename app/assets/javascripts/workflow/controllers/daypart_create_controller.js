@@ -734,7 +734,6 @@ var angObj = angObj || {};
                 },200)
                 setTimeZone(previouslySavedData.timeZone);
             }
-            console.log("selectedDayTime === ",selectedDayTime,"dayTimeArr ==",dayTimeArr,'getDayPartdata.getDayPartdata = ',audienceService.getDayPartdata())
 
 
         })
