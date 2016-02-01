@@ -691,7 +691,8 @@
 						</div>
 					</div>
 					<div class="clearfix popup-footer" >
-						<button type="button" ng-click="repushCampaign()" class="common_primary_btn pull-right" >Save & Push</button>
+						<button ng-show="!repushCampaignLoader" type="button" ng-click="repushCampaign()" class="common_primary_btn pull-right" >Save & Push</button>
+						<div ng-show ="repushCampaignLoader" class="pull-right common-loading-btn" ></div>
 						<button type="button" ng-click="cancelRepushCampaign()"class="secondary_txt pull-right" >Cancel</button>
 					</div>
 
