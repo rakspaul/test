@@ -34,10 +34,10 @@
                 </a>
             </div>
         </div>
-        <div class="col-md-9" style="margin-top: 150px;" ng-if="!workflowData.getADsForGroupData[$index+1].length>0">
+        <div class="col-md-9" style="margin-top: 150px;" ng-if="!workflowData.getADsForGroupData[$index+1]">
             <div class="common-loading-area"></div>
         </div>
-        <div ng-if="workflowData.getADsForGroupData[$index+1].length>0">
+        <div ng-if="workflowData.getADsForGroupData[$index+1]">
             <!--=== Single Ad Ready ===-->
             <div class="col-md-3 adModule" ng-repeat="adsData in workflowData.getADsForGroupData[$index+1] track by adsData.id" ng-click="adsData.state=='DEPLOYING' ? '': goEdit(adsData)">
                 <div class="col-md-12 adTitle">
