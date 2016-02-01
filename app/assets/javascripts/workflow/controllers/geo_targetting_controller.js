@@ -213,13 +213,7 @@ var angObj = angObj || {};
                 regionsEditable = angular.copy($scope.storedResponse.targets.geoTargets.REGION.geoTargetList);
                 $scope.regionsIncluded = $scope.storedResponse.targets.geoTargets.REGION.isIncluded;
                 _.each(regionsEditable, function (item) {
-                    var index = _.findIndex(flatArr, function (region) {
-                        return item.id ===  region.id;
-                    });
-
-                    if (index  !== -1) {
-                        $scope.sync(true, flatArr[index], 'regions');
-                    }
+                    $scope.sync(true, item, 'regions');
                 });
 
                 // toggle switch based on region settings
@@ -244,13 +238,7 @@ var angObj = angObj || {};
                 citiesEditable = angular.copy($scope.storedResponse.targets.geoTargets.CITY.geoTargetList);
                 $scope.citiesIncluded = $scope.storedResponse.targets.geoTargets.CITY.isIncluded;
                 _.each(citiesEditable, function (item) {
-                    var index = _.findIndex(flatArr, function (region) {
-                        return item.id === region.id;
-                    });
-
-                    if (index  !== -1) {
-                        $scope.sync(true, flatArr[index], 'cities');
-                    }
+                        $scope.sync(true, item, 'cities');
                 });
 
                 // toggle switch based on region settings
