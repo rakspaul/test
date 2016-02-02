@@ -74,7 +74,7 @@
                         return $scope.getClassFromDiff(spendDifference,campaign.end_date);
                     }
                 };
-        
+
                 $scope.getClassFromDiff = function(spendDifference,campaignEndDate) {
                     if (campaignEndDate != undefined) {
                         var dateDiffInDays = momentService.dateDiffInDays(momentService.todayDate('YYYY-MM-DD'), campaignEndDate);
@@ -133,7 +133,7 @@
                 $scope.getMessageForDataNotAvailable = function () {
                     return constants.MSG_DATA_NOT_AVAILABLE_FOR_DASHBOARD;
                 };
-            } 
+            }
         };
     });
 
