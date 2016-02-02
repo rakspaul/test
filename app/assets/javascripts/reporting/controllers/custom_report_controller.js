@@ -1177,6 +1177,7 @@ var angObj = angObj || {};
                 }
 
                 $(this).closest(".customDatesTimeframe").find("#date-selected-txt").text("Custom Dates");
+                $scope.reports.reportDefinition.timeframe.type = "Custom Dates";
             });
             $('#toggle').bootstrapToggle('off');
             $('#toggle').change(function(event) {
@@ -1712,13 +1713,20 @@ var angObj = angObj || {};
             $scope.updateReportAndRedirect = function(arg) {
                 $scope.stopRedirectingPage = false;
                 $scope.updateSchedule = false;
-                if (arg == 'Yes') {
+                if (arg == 'Yes' && $scope.validateScheduleDate()) {
                     $scope.scheduleReportAction();
                 }
-                $location.path($scope.nextURL.substring($location.absUrl().length - $location.url().length));
+                if(arg == 'No' || $scope.validateScheduleDate()) {
+                    $location.path($scope.nextURL.substring($location.absUrl().length - $location.url().length));
+                }else{
+                    $scope.stopRedirectingPage = true;
+                }
             }
             $(".custom_report_scroll").scroll(function(){
-                $(".custom_report_response_page .custom_report_response_table .custom_report_scroll.vertical_scroll .heading_row").css({"left": "-" + $(".custom_report_scroll").scrollLeft() + "px"});
+                $(".custom_report_response_page .custom_report_response_table .custom_report_scroll .heading_row").css({"left": "-" + $(".custom_report_scroll").scrollLeft() + "px"});
+            });
+            $(window).on('beforeunload', function(){    // On refresh of page
+                $scope.intermediateSave();
             });
         });
     });

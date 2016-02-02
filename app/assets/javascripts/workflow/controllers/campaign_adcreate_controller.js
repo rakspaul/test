@@ -3,11 +3,13 @@ var angObj = angObj || {};
 (function () {
     'use strict';
 
-    angObj.controller('CampaignAdsCreateController', function ($scope, $rootScope, $window, $routeParams, $locale,
-                                                               constants, workflowService, $timeout, utils, $location,
-                                                               campaignListService, requestCanceller, $filter,
-                                                               loginModel, $q, dataService, apiPaths, audienceService,
-                                                               RoleBasedService, momentService) {
+        angObj.controller('CampaignAdsCreateController', function ($scope, $rootScope, $window, $routeParams, $locale,
+                                                                   constants, workflowService, $timeout, utils, $location,
+                                                                   campaignListService, requestCanceller, $filter,
+                                                                   loginModel, $q, dataService, apiPaths, audienceService,
+                                                                   RoleBasedService, momentService) {
+        $scope.showDeleteConfirmationPopup=false;
+        $scope.adCreateLoader = false;
         var winHeaderHeight = $(window).height() - 50,
             winHeight,
             saveDataInLocalStorage = function (data) {
@@ -191,7 +193,8 @@ var angObj = angObj || {};
                     promiseObj.then(function (result) {
                         var responseData = result.data.data,
                             url;
-
+                        $scope.adCreateLoader = false;
+                        //$('.workflowPreloader, .workflowPreloader .adSavePre').hide();
                         if (result.status === 'OK' || result.status === 'success') {
                             $scope.state = responseData.state;
                             $scope.adId = responseData.id;
@@ -240,6 +243,26 @@ var angObj = angObj || {};
                     console.log(errData);
                 }
             };
+        $scope.deletetargets=function(type, event){
+            var elem = $(event.target);
+            var leftPos = elem.closest(".cardSelectHolder").offset().left - elem.closest(".setTargetOptions").offset().left ;
+            elem.closest(".setTargetOptions").find(".msgPopup").css("left" , leftPos ) ;
+            $scope.showDeleteConfirmationPopup=true;
+            $scope.deleteType=type;
+        }
+        $scope.deleteTargetting=function(){
+            $scope.showDeleteConfirmationPopup=!$scope.showDeleteConfirmationPopup;
+            if($scope.deleteType=="AUDIENCE")
+                $scope.deleteAudienceTargetting();
+            else if($scope.deleteType=="GEO")
+                $scope.deleteGeoTargetting();
+            else if($scope.deleteType=="DAYPART")
+            $scope.deleteDayPartTargetting();
+        }
+        $scope.cancelTargettingDelete=function(){
+            $scope.deleteType="";
+            $scope.showDeleteConfirmationPopup=!$scope.showDeleteConfirmationPopup;
+        }
 
          $scope.deleteAudienceTargetting=function(){
              $scope.selectedAudience.length=0;
@@ -354,25 +377,24 @@ var angObj = angObj || {};
             }
             $('.cap_no input').attr('checked', 'checked');
             $('.spend_evenly input').attr('checked', 'checked');
+
             if (responseData.frequencyCaps && responseData.frequencyCaps.length >= 1) {
-                $scope.adData.setCap = true;
-                $('.cap_yes').addClass('active');
-                $('.cap_no').removeClass('active');
-                $('.cap_yes input').attr('checked', 'checked');
-                angular.forEach(responseData.frequencyCaps, function (frequencyCap) {
+                    angular.forEach(responseData.frequencyCaps, function (frequencyCap) {
                     var pacingType,
                         freqType;
-
                     if (frequencyCap.targetType === 'ALL') {
                         pacingType = frequencyCap.pacingType;
                         if (pacingType !== 'EVENLY') {
                             $('.spend_asap').addClass('active');
                             $('.spend_asap input').attr('checked', 'checked');
                             $('.spend_evenly').removeClass('active');
-
                         }
                     }
                     if (frequencyCap.targetType === 'PER_USER') {
+                        $scope.adData.setCap = true;
+                        $('.cap_yes').addClass('active');
+                        $('.cap_no').removeClass('active');
+                        $('.cap_yes input').attr('checked', 'checked');
                         $scope.adData.quantity = frequencyCap.quantity;
                         $scope.capsPeriod = frequencyCap.frequencyType;
                         freqType = frequencyCap.frequencyType;
@@ -890,7 +912,8 @@ var angObj = angObj || {};
                 $rootScope.setErrAlertMessage('Mandatory fields need to be specified for the Ad');
                 return false;
             } else {
-                $('.workflowPreloader, .workflowPreloader .adSavePre').show();
+                $scope.adCreateLoader = true;
+                //$('.workflowPreloader, .workflowPreloader .adSavePre').show();
                 creativesData = $scope.creativeData.creativeInfo;
                 postAdDataObj = {};
                 postAdDataObj.name = formData.adName;

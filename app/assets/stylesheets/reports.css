@@ -3696,21 +3696,12 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
   max-height: 500px;
   overflow: auto ;
 }
-.custom_report_response_page .custom_report_response_table .custom_report_scroll.vertical_scroll .heading_row {
+.custom_report_response_page .custom_report_response_table .custom_report_scroll .heading_row {
   position: absolute;
   top: 0px ;
   left: 0px ;
-}
-.custom_report_response_page .custom_report_response_table .custom_report_scroll.vertical_scroll .first_dimension_row_holder {
-  margin-top: 20px ;
-}
-.custom_report_response_page .custom_report_response_table .custom_report_scroll.hori_scroll .heading_row {
-  position: relative;
-  top: 0px ;
-  left: 0px !important;
-}
-.custom_report_response_page .custom_report_response_table .custom_report_scroll.hori_scroll .first_dimension_row_holder {
-  margin-top: 20px ;
+  background-color: #fff;
+  z-index: 4;
 }
 .custom_report_response_page .custom_report_response_table .each_col.more_dimension_arrow {
   display: none;
@@ -3778,9 +3769,6 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
   z-index: 2;
   height: 13px;
   border-left: dashed 1px #95a1a9;
-}
-.custom_report_response_page .custom_report_response_table .vertical_scroll {
-  padding-top: 75px;
 }
 .custom_report_response_page .custom_report_response_table .vertical_scroll .heading_row {
   position: absolute;
@@ -3858,6 +3846,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 }
 .custom_report_response_page .custom_report_response_table .first_dimension_row_holder {
   padding: 20px 30px 0px 30px ;
+  margin-top: 105px;
 }
 .custom_report_response_page .custom_report_response_table .second_dimension_row_holder {
   margin-left: 5px ;
