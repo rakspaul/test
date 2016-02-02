@@ -3,7 +3,7 @@ var angObj = angObj || {};
 (function () {
     'use strict';
 
-    angObj.controller('BuyingPlatformController', function ($scope, $window, $routeParams, constants, workflowService, 
+    angObj.controller('BuyingPlatformController', function ($scope, $window, $routeParams, constants, workflowService,
         $timeout, utils, $location, $modal, $filter, platformCustomeModule, $rootScope) {
         var tempPlatform,
             storedResponse,
@@ -12,7 +12,7 @@ var angObj = angObj || {};
                 $('.platform-custom')
                     .delay(300)
                     .animate({
-                        left: '100%', 
+                        left: '100%',
                         marginLeft: '0px'
                     }, function () {
                         $(this).hide();
@@ -53,7 +53,7 @@ var angObj = angObj || {};
                                     if (adsDetails.platform.id == responseData.fullIntegrationsPlatforms[i].id) {
                                         responseData.fullIntegrationsPlatforms[i].active = true;
                                     } else {
-                                        responseData.fullIntegrationsPlatforms[i].active = 
+                                        responseData.fullIntegrationsPlatforms[i].active =
                                             responseData.fullIntegrationsPlatforms[i].active ? platformStatus : false;
                                     }
                                 }
@@ -104,11 +104,11 @@ var angObj = angObj || {};
                             //display warning popup
                             if ($scope.defaultPlatform.id !== platform.id) {
                                 tempPlatform = platform;
-                                $scope.changePlatformMessage = 
-                                    'Your entries for the following settings are not compatible with ' + 
-                                    $filter('toPascalCase')(platform.name) + 
-                                    ': ' + 
-                                    settings + 
+                                $scope.changePlatformMessage =
+                                    'Your entries for the following settings are not compatible with ' +
+                                    $filter('toPascalCase')(platform.name) +
+                                    ': ' +
+                                    settings +
                                     '. Would you like to clear these settings and switch platforms? (OK/Cancel).';
                                 $scope.changePlatformPopup = true;
                             } else {
@@ -122,6 +122,7 @@ var angObj = angObj || {};
                 console.log('buying_platform_controller.js -- $scope.selectPlatform(): Edit mode...');
             } else {
                 console.log('buying_platform_controller.js -- $scope.selectPlatform(): Create mode...');
+                console.log('$scope.selectedArr = ', $scope.selectedArr);
                 $scope.setPlatform(event, platform);
                 if (typeof $scope.creativeData.creativeInfo !== 'undefined') {
                     // Display text of "Creative" section in left pane set to "Not Set"
@@ -179,7 +180,7 @@ var angObj = angObj || {};
                 .show()
                 .delay(300)
                 .animate({
-                    left: '50%', 
+                    left: '50%',
                     marginLeft: '-323px'
                 }, 'slow');
             $('.offeringsWrap').hide();
@@ -191,7 +192,7 @@ var angObj = angObj || {};
             workflowService
                 .getPlatformCustomInputs($scope.adData.platformId)
                 .then(function (result) {
-                    var adPlatformCustomInputs, 
+                    var adPlatformCustomInputs,
                         platformCustomeJson,
                         adPlatformCustomInputsLocalStorageValue;
 
@@ -201,7 +202,7 @@ var angObj = angObj || {};
                             if ($scope.mode === 'edit') {
                                 $scope.showCustomFieldBox();
                                 adPlatformCustomInputsLocalStorageValue = localStorage.getItem('adPlatformCustomInputs');
-                                adPlatformCustomInputs = 
+                                adPlatformCustomInputs =
                                     (adPlatformCustomInputsLocalStorageValue &&
                                         JSON.parse(adPlatformCustomInputsLocalStorageValue)) ||
                                     platformCustomeJson;
@@ -238,12 +239,12 @@ var angObj = angObj || {};
             var offset = $(event.target).offset(),
                 left = offset.left,
                 top = offset.top,
-                relativeX = $(event.target).closest('.offeringWrap').offset().left  -  
+                relativeX = $(event.target).closest('.offeringWrap').offset().left  -
                     $(event.target).closest('.carousel-inner').offset().left + 50;
 
             $scope.trackingIntegration = trackingIntegration;
             $('.buyingPlatformHolder .popUpCue').css({
-                top: 125 , 
+                top: 125 ,
                 left: relativeX
             });
             $scope.showtrackingSetupInfoPopUp = true;
@@ -268,13 +269,13 @@ var angObj = angObj || {};
                     var d = data.name.split('$$');
 
                     $scope.$parent.postPlatformDataObj.push({
-                        'platformCustomInputId': Number(d[1]), 
+                        'platformCustomInputId': Number(d[1]),
                         'value': data.value
                     });
                 });
             } else {
-                if ($scope.workflowData['adsData'] && 
-                    $scope.workflowData['adsData'].adPlatformCustomInputs && 
+                if ($scope.workflowData['adsData'] &&
+                    $scope.workflowData['adsData'].adPlatformCustomInputs &&
                     $scope.workflowData['adsData'].adPlatformCustomInputs.length > 0) {
                     $scope.$parent.postPlatformDataObj = $scope.workflowData['adsData'].adPlatformCustomInputs;
                 }

@@ -14,10 +14,10 @@ var angObj = angObj || {};
                             return obj.id === data.id;
                         });
                         if (arr.length > 0) {
-                            data['checked'] = arr[0].checked;
+                            data.checked = arr[0].checked;
                         }
                     } else {
-                        data['checked'] = false;
+                        data.checked = false;
                     }
                 });
                 return respData;
@@ -31,7 +31,7 @@ var angObj = angObj || {};
                     .getCreatives(clientID, adID, format, query, {cache: false}, $scope.TrackingIntegrationsSelected)
                     .then(function (result) {
                         var responseData;
-
+console.log('getCreativesFromLibrary: $scope.selectedArr = ', $scope.selectedArr);
                         $scope.creativesLibraryData.creativesData = [];
                         if (result.status === 'OK' || result.status === 'success' && result.data.data.length > 0) {
                             responseData = result.data.data;
@@ -51,6 +51,10 @@ var angObj = angObj || {};
                                 console.log('creative_tag_controller.js -- workflowService.getCreatives(): EDIT mode!!!');
                             } else {
                                 console.log('creative_tag_controller.js -- workflowService.getCreatives(): CREATE mode!!!');
+                                //$scope.selectedArr = [];
+                                $scope.creativesLibraryData.creativesData.map(function (obj) {
+                                    //obj.checked = false;
+                                });
                             }
                         } else {
                             addFromLibrary.errorHandler(result);
@@ -163,8 +167,8 @@ console.log('creative_tag_controller.js -- closePop: $scope.preDeleteArr = ', $s
             }
 
             function noRepeatC(arrC) {
-                var aC = [], 
-                bC = [], 
+                var aC = [],
+                bC = [],
                 prevC,
                 i;
 
@@ -192,9 +196,9 @@ console.log('creative_tag_controller.js -- closePop: $scope.preDeleteArr = ', $s
                 selectedChkBox,
                 idx,
                 preIdx;
-
+console.log('$scope.stateChanged()!!!!');
             // temporary user old selected status before cancel
-            screenTypeObj.userSelectedEvent = checkbox.checked; 
+            screenTypeObj.userSelectedEvent = checkbox.checked;
             selectedChkBox = _.filter($scope.selectedArr, function (obj) {
                 return obj.id === screenTypeObj.id;
             });
@@ -216,7 +220,7 @@ console.log('creative_tag_controller.js -- closePop: $scope.preDeleteArr = ', $s
         };
 
         $scope.emptyCreativesFlag = true;
-        $scope.loadingFlag = true; 
+        $scope.loadingFlag = true;
         $scope.$on('updateNewCreative', function () {
             var creativeTag = workflowService.getNewCreative();
 
@@ -253,9 +257,12 @@ console.log('creative_tag_controller.js -- closePop: $scope.preDeleteArr = ', $s
                 actionFrom = arg[1],
                 idx,
                 currIndx;
-
+console.log('CreativeTagController: removeCreativeTags: $event = ', $event, ', arg = ', arg);
             if (selectedCreativeTag.length > 0) {
-                idx = _.findLastIndex($scope.selectedArr, function(obj){return obj.id==Number(selectedCreativeTag[0].id)});//_.findLastIndex($scope.selectedArr, selectedCreativeTag[0]);
+                idx = _.findLastIndex($scope.selectedArr, function(obj){
+                    return obj.id === Number(selectedCreativeTag[0].id);
+                });
+                //_.findLastIndex($scope.selectedArr, selectedCreativeTag[0]);
                 $scope.selectedArr.splice(idx, 1);
                 if (actionFrom !== 'popup') {
                     $scope.updateCreativeData($scope.selectedArr);

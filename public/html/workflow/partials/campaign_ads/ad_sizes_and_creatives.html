@@ -10,12 +10,24 @@
                 ng-disabled="adData.adFormat === undefined"
                 ng-click="showPopup()"
                 data-ng-bind="textConstants.ADDEXISTNG"></button>
-        <button type="button" class="btn btn-default pull-left" ng-click="showCreateNewWindow()" style="margin-left: 10px;" data-ng-bind="textConstants.CREATENEW"></button>
+        <button type="button"
+                class="btn btn-default pull-left"
+                ng-click="showCreateNewWindow()"
+                style="margin-left: 10px;"
+                data-ng-bind="textConstants.CREATENEW"></button>
         <div class="pull-left">
             <div>
-                <button type="button" class="btn btn-default" ng-show="TrackingIntegrationsSelected" ng-disabled="!adData.adName || !(creativeData.creativeInfo.creatives.length>0)" ng-click="downloadTrackerUrls()" style="margin-left: 10px;" data-ng-bind="textConstants.DLTRACKER"></button>
+                <button type="button"
+                        class="btn btn-default"
+                        ng-show="TrackingIntegrationsSelected"
+                        ng-disabled="!adData.adName || !(creativeData.creativeInfo.creatives.length > 0)"
+                        ng-click="downloadTrackerUrls()"
+                        style="margin-left: 10px;"
+                        data-ng-bind="textConstants.DLTRACKER"></button>
             </div>
-            <span ng-if="downloadingTracker" class="download-report-load-icon" data-ng-bind="textConstants.DOWNLOADING"> </span>
+            <span ng-if="downloadingTracker"
+                  class="download-report-load-icon"
+                  data-ng-bind="textConstants.DOWNLOADING"> </span>
         </div>
     </div>
 </div>
@@ -41,8 +53,10 @@
                         <span data-ng-bind="creativeData.size.size | lowercase"></span>
                     </td>
                     <td class="col-md-6">
-                        <a class="col-md-8" href="javascript:void(0);" ng-click="TrackingIntegrationsSelected ? '': ShowHide(creativeData)" data-ng-bind="creativeData.name"></a>
-
+                        <a class="col-md-8"
+                           href="javascript:void(0);"
+                           ng-click="TrackingIntegrationsSelected ? '': ShowHide(creativeData)"
+                           data-ng-bind="creativeData.name"></a>
                         <!--<div style="width:350px;word-wrap:break-word;height:100px;">-->
                             <!--<div ng-show="IsVisible" class="ng-cloak">-->
                                 <!--{{creativeData.tag}}-->
@@ -53,16 +67,20 @@
                         <span data-ng-bind="creativeData.creativeType"></span>
                     </td>
                     <td class="col-md-1">
-                        <span class="common-ok" aria-hidden="true"></span><!-- glyphicon glyphicon-ok-circle -->
+                        <span class="common-ok" aria-hidden="true"></span>
+                        <!-- glyphicon glyphicon-ok-circle -->
                     </td>
                     <td class="col-md-1">
-                        <span class="pull-right icon-close" aria-hidden="true" ng-click="removeCreativeTags(creativeData)"></span><!-- glyphicon glyphicon-remove  -->
+                        <span class="pull-right icon-close"
+                              aria-hidden="true"
+                              ng-click="removeCreativeTags(creativeData)"></span>
+                        <!-- glyphicon glyphicon-remove  -->
                     </td>
-
                 </tr>
             </tbody>
         </table>
-        <div ng-show="!creativeData.creativeInfo.creatives || creativeData.creativeInfo.creatives.length === 0" class="emptyCreativesFlag">
+        <div ng-show="!creativeData.creativeInfo.creatives || creativeData.creativeInfo.creatives.length === 0"
+             class="emptyCreativesFlag">
             <span data-ng-bind="textConstants.YOUHAVENTADDED"></span>
         </div>
     </div>
@@ -71,7 +89,10 @@
 <!--=== Next Step Panel ===-->
 <div class="row">
     <span class="nextWrapper leftNavLink">
-         <button ng-disabled="!adData.adName" ng-click="CampaignADsave(false)" class="btn btn-primary" data-ng-bind="textConstants.WF_AD_SAVE_CLOSE"></button>
+         <button ng-disabled="!adData.adName"
+                 ng-click="campaignAdSave(false)"
+                 class="btn btn-primary"
+                 data-ng-bind="textConstants.WF_AD_SAVE_CLOSE"></button>
     </span>
 </div>
 
@@ -83,7 +104,14 @@
         </div>
         <div class="modal-body">
             <div class="textarea_edit_holder">
-                <textarea  style="width: 100%;" rows="15" name="tag" id="tag" data-ng-model="creativeObj.tag" ng-readonly="true" data-ng-bind="creativeObj.tag" required></textarea>
+                <textarea  style="width: 100%;"
+                           rows="15"
+                           name="tag"
+                           id="tag"
+                           data-ng-model="creativeObj.tag"
+                           ng-readonly="true"
+                           data-ng-bind="creativeObj.tag"
+                           required></textarea>
             </div>
         </div>
     </div>

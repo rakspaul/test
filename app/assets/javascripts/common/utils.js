@@ -6,12 +6,11 @@
                 var date = new Date(input),
                     dayOfMonth = date.getDate(),
                     suffixes = ['th', 'st', 'nd', 'rd'],
-                    relevantDigits = (dayOfMonth < 30) ? dayOfMonth % 20 : dayOfMonth % 30,
-                    suf = (relevantDigits <= 3) ? suffixes[relevantDigits] : suffixes[0];
+                    relevantDigits = (dayOfMonth < 30) ? dayOfMonth % 20 : dayOfMonth % 30;
 
-                return suf;
+                return relevantDigits <= 3 ? suffixes[relevantDigits] : suffixes[0];
             },
-            
+
             convertToEST = function (date, format) {
                 var d1,
                     d2,
@@ -39,17 +38,16 @@
             convertToUTC = function (date, type) {
                 var timeSuffix = (type === 'ST' ? '00:00:00' : '23:59:59'),
                     tz = 'EST',
-                    finalDate = date + ' ' + timeSuffix + ' ' + ' ' + tz,
-                    date = Date.parse(finalDate);
+                    finalDate = date + ' ' + timeSuffix + ' ' + ' ' + tz;
 
-                return moment(date).tz('UTC').format('YYYY-MM-DD HH:mm:ss.SSS');
+                return moment(Date.parse(finalDate)).tz('UTC').format(constants.DATE_UTC_FORMAT);
             },
 
             reportTypeOptions = function () {
                 return [
-                    {name: 'PCAR'}, 
-                    {name: 'MCAR'}, 
-                    {name: 'Monthly'}, 
+                    {name: 'PCAR'},
+                    {name: 'MCAR'},
+                    {name: 'Monthly'},
                     {name: 'Custom'}
                 ];
             },
@@ -69,7 +67,7 @@
                 if (!search) {
                     return $sce.trustAsHtml(text);
                 }
-                return $sce.trustAsHtml(unescape(text.replace(new RegExp(escape(search), 'gi'), 
+                return $sce.trustAsHtml(unescape(text.replace(new RegExp(escape(search), 'gi'),
                     '<span class="brand_search_highlight">$&</span>')));
             },
 
@@ -193,15 +191,15 @@
             },
 
             detectBrowserInfo = function () {
-                var nVer = navigator.appVersion,
+                var //nVer = navigator.appVersion,
                     nAgt = navigator.userAgent,
                     browserName = navigator.appName,
                     fullVersion = '' + parseFloat(navigator.appVersion),
                     majorVersion = parseInt(navigator.appVersion, 10),
-                    nameOffset, 
-                    verOffset, 
+                    nameOffset,
+                    verOffset,
                     ix,
-                    browserInfo = {},
+                    //browserInfo = {},
                     re;
 
                 switch (true) {
@@ -479,7 +477,7 @@
                         var dimensionText = $(this).attr('rel');
 
                         elem.find('#dimensionLabel').html(dimensionText);
-                        $scope.$apply($scope.$parent.changeAudienceKPI(elem.find('#measuresLabel').text().toLowerCase(), 
+                        $scope.$apply($scope.$parent.changeAudienceKPI(elem.find('#measuresLabel').text().toLowerCase(),
                             dimensionText.toLowerCase(), $scope.updateTo));
                     });
                 }
@@ -530,14 +528,14 @@
                         var measureText = $(this).attr('rel');
 
                         elem.find('#measuresLabel').html(measureText);
-                        $scope.$apply($scope.$parent.changeCDBKPI(measureText.toLowerCase(), 
+                        $scope.$apply($scope.$parent.changeCDBKPI(measureText.toLowerCase(),
                             elem.find('#dimensionLabel').text().toLowerCase(), $scope.updateTo));
                     });
                     elem.find('#dimensionOptions li a').bind('click', function (e) {
                         var dimensionText = $(this).attr('rel');
 
                         elem.find('#dimensionLabel').html(dimensionText);
-                        $scope.$apply($scope.$parent.changeCDBKPI(elem.find('#measuresLabel').text().toLowerCase(), 
+                        $scope.$apply($scope.$parent.changeCDBKPI(elem.find('#measuresLabel').text().toLowerCase(),
                             dimensionText.toLowerCase(), $scope.updateTo));
                     });
                 }
@@ -598,7 +596,8 @@
                 link: function (scope, element, attrs, modelCtrl) {
                     element.on('keypress keyup blur', function (evt) {
                         var charCode = (evt.which) ? evt.which : window.event.keyCode;
-                        if (charCode > 31 && (charCode !== 46 || this.value.indexOf('.') !== -1) && (charCode < 48 || charCode > 57)) {
+                        if (charCode > 31 && (charCode !== 46 || this.value.indexOf('.') !== -1) &&
+                            (charCode < 48 || charCode > 57)) {
                             return false;
                         } else if (([8, 13, 27, 37, 38, 39, 40].indexOf(charCode > -1))) {
                             return true;
@@ -661,9 +660,10 @@
                 if (input && kpiType) {
                     if (kpiType.toLowerCase() === 'ctr') {
                         return $filter('number')(input, 2) + '%';
-                    } else if (kpiType.toLowerCase() === 'cpc' || kpiType.toLowerCase() === 'cpa' || kpiType.toLowerCase() === 'cpm') {
+                    } else if (kpiType.toLowerCase() === 'cpc' || kpiType.toLowerCase() === 'cpa' ||
+                        kpiType.toLowerCase() === 'cpm') {
                         return constants.currencySymbol + $filter('number')(input, 2);
-                    } else if (kpiType.toLowerCase() === 'actions' || kpiType.toLowerCase() === 'clicks' || 
+                    } else if (kpiType.toLowerCase() === 'actions' || kpiType.toLowerCase() === 'clicks' ||
                         kpiType.toLowerCase() === 'impressions' || kpiType.toLowerCase() === 'delivery') {
                         return $filter('number')(input, 0);
                     } else if (kpiType.toLowerCase() === 'vtc' && !precision) {
@@ -846,7 +846,7 @@
             return function (input) {
                 var _date = new Date(input),
                     formatDate = '';
-                
+
                 if (moment(_date).diff(moment(), 'days') === 0) {
                     //today - format 01:29 PM
                     formatDate = $filter('date')(_date, 'h:mm a');
@@ -862,10 +862,10 @@
             return function (input, defaultIcon) {
                 var _style = '',
                     icon = input;
-                
+
                 if (!input) {
                     icon = defaultIcon || assets.platform_icon;
-                    _style = 'background:url("' + icon + '") no-repeat scroll 0 0 rgba(0, 0, 0, 0);' + 'width: 17px;' + 
+                    _style = 'background:url("' + icon + '") no-repeat scroll 0 0 rgba(0, 0, 0, 0);' + 'width: 17px;' +
                         'height: 17px;' + 'display: inline-block;' + 'background-size:17px;"';
                     return _style;
                 }
@@ -900,9 +900,9 @@
                 } else if (type.toLowerCase() === 'delivery (impressions)') {
                     return (val.toFixed(2)).toLocaleString();
                 } else {
-                    return (type.toLowerCase() === 'ctr' || type.toLowerCase() === 'action_rate' || 
-                        type.toLowerCase() === 'action rate' || type.toLowerCase() === 'vtc') ? 
-                        val.toFixed(2) + '%' : 
+                    return (type.toLowerCase() === 'ctr' || type.toLowerCase() === 'action_rate' ||
+                        type.toLowerCase() === 'action rate' || type.toLowerCase() === 'vtc') ?
+                        val.toFixed(2) + '%' :
                         constants.currencySymbol + val.toFixed(2);
                 }
             };
@@ -917,9 +917,9 @@
                 } else if (type.toLowerCase() === 'delivery (impressions)') {
                     return val.toLocaleString();
                 } else {
-                    return (type.toLowerCase() === 'ctr' || type.toLowerCase() === 'action_rate' || 
-                        type.toLowerCase() === 'action rate' || type.toLowerCase() === 'vtc') ? 
-                        parseFloat(val.toFixed(6)) + '%' : 
+                    return (type.toLowerCase() === 'ctr' || type.toLowerCase() === 'action_rate' ||
+                        type.toLowerCase() === 'action rate' || type.toLowerCase() === 'vtc') ?
+                        parseFloat(val.toFixed(6)) + '%' :
                         constants.currencySymbol + parseFloat(val.toFixed(6));
                 }
             };
