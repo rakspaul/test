@@ -144,7 +144,7 @@ var angObj = angObj || {};
             if ($scope.mode != 'edit' || $scope.defaultPlatform.id !== platform.id) {
                 $scope.$parent.TrackingIntegrationsSelected = false;
             }
-            console.log($scope.workflowData.Tracking);
+
             //remove creatives only if tracking integrations is changed to Full integrations
             var wasPrevTrackingInt = _.findIndex($scope.workflowData.platforms, function (item) {
                 return item.id === $scope.adData.platformId;
