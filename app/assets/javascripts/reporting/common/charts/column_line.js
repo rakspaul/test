@@ -42,6 +42,9 @@
                 } else {
                     kpi_value=chartData[i][kpIType]
                 }
+                if (kpi_value == null) {
+                    kpi_value = 0.0;
+                }
                 if(kpIType === 'ctr' || kpIType === 'action_rate' || kpIType === 'action rate'){
                     kpi_value = parseFloat(kpi_value.toFixed(4));
                 }
