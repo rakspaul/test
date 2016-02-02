@@ -4,7 +4,7 @@ var angObj = angObj || {};
     'use strict';
 
     angObj.controller('CreateAdGroupsController', function ($scope, $window, $routeParams, constants, workflowService, $timeout,
-                                                            utils, $location, momentService) {
+                                                            utils, $location, momentService, $route) {
         $scope.loadingBtn = false ;
         $scope.handleFlightDate = function (data) {
             var startTime = data,
@@ -53,7 +53,7 @@ var angObj = angObj || {};
                             $scope.createGroupMessage = !$scope.createGroupMessage;
                             $scope.createAdGroupMessage = 'Ad Group Created Successfully';
                             localStorage.setItem( 'topAlertMessage', $scope.textConstants.AD_GROUP_CREATED_SUCCESS );
-                            location.reload();
+                            $route.reload();
                         } else {
                             $scope.createGroupMessage = !$scope.createGroupMessage;
                             $scope.createAdGroupMessage = 'Ad Group not Created';

@@ -1426,12 +1426,12 @@ var angObj = angObj || {};
                 } else if ($scope.buttonLabel == "Generate") {
                     $scope.generateBtnDisabled = true;
                     $scope.generateReport();
-                    setTimeout(function(){ 
-                        $scope.loadingBtn = false ;
-                    }, 1000);
                 } else {
                     $scope.scheduleReport();
                 }
+                setTimeout(function(){ 
+                    $scope.loadingBtn = false ;
+                }, 1000);
             }
 
             $scope.resetMetricOptions = function() {
