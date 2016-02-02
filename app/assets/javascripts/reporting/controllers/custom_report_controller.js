@@ -863,6 +863,7 @@ var angObj = angObj || {};
             $(".custom_report_response_tabs").find("#" + id + "_tab").addClass("active");
             $scope.activeTab = id + "_metrics";
             _customctrl.getDataBasedOnTabSelected($scope.activeTab);
+            $scope.checkHeaderScroll($scope.activeTab);
         };
 
         $scope.reset_metric_options = function(event) {
@@ -1730,9 +1731,17 @@ var angObj = angObj || {};
                 }
             });
 
-            $(".custom_report_scroll").scroll(function(){
-                $(".custom_report_response_page .custom_report_response_table .custom_report_scroll .heading_row").css({"left": "-" + $(".custom_report_scroll").scrollLeft() + "px"});
+            var metricsTabIdTab = ["delivery_table", "cost_table", "engagement_table", "video_table", "display_quality_table", "video_quality_table"];
+            metricsTabIdTab.forEach(function(id){
+                $("#"+id+" .custom_report_scroll").scroll(function(){
+                    $(".custom_report_response_page .custom_report_response_table .custom_report_scroll .heading_row").css({"left": "-" + $("#"+id+" .custom_report_scroll").scrollLeft() + "px"});
+                });
             });
+            $scope.checkHeaderScroll = function(activeTab){
+                var id = activeTab.split('_')[0]+'_table';
+                $(".custom_report_response_page .custom_report_response_table .custom_report_scroll .heading_row").css({"left": "-" + $("#"+id+" .custom_report_scroll").scrollLeft() + "px"});
+            }
+
             $(window).on('beforeunload', function(){    // On refresh of page
                 $scope.intermediateSave();
             });
