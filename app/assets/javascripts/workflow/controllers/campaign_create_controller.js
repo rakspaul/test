@@ -371,7 +371,7 @@ var angObj = angObj || {};
                 isPrimary: false,
                 vendorId: '',
                 vendorName: '',
-                kpiValue: 0,
+                kpiValue: '',
                 isBillable: true
             });
             $(".selectkpiObj").show();
@@ -646,7 +646,7 @@ var angObj = angObj || {};
                         isPrimary: true,
                         vendorId: '',
                         vendorName: '',
-                        kpiValue: 0,
+                        kpiValue: '',
                         isBillable: true
                     });
                     $scope.Campaign.costArr.push({
