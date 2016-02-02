@@ -913,7 +913,6 @@ var angObj = angObj || {};
                 $rootScope.setErrAlertMessage('Mandatory fields need to be specified for the Ad');
                 return false;
             } else {
-                $scope.adCreateLoader = true;
                 //$('.workflowPreloader, .workflowPreloader .adSavePre').show();
                 creativesData = $scope.creativeData.creativeInfo;
                 postAdDataObj = {};
@@ -946,6 +945,7 @@ var angObj = angObj || {};
                     $scope.isAdsPushed === true) {
                     $rootScope.setErrAlertMessage('Mandatory fields need to be specified for the Ad');
                 } else {
+                    $scope.adCreateLoader = true;
                     if (formData.unitCost) {
                         postAdDataObj.rateValue = formData.unitCost;
                         if (formData.unitCost && formData.unitType === '') {
