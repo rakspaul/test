@@ -1,27 +1,5 @@
 /* font- face declarations */
-@font-face {
-  font-family: "TradeGothicLTStd-BdCn20";
-  src: url("/assets/fonts/TradeGothicLTStd-BdCn20.eot");
-  src: url("/assets/fonts/TradeGothicLTStd-BdCn20.eot?#iefix") format("embedded-opentype"), url("/assets/fonts/TradeGothicLTStd-BdCn20.woff") format("woff"), url("/assets/fonts/TradeGothicLTStd-BdCn20.ttf") format("truetype"), url("/assets/fonts/TradeGothicLTStd-BdCn20.svg#TradeGothicLTStd-BdCn20") format("svg");
-}
 
-@font-face {
-  font-family: "Trade-Gothic-LT-Bold-Condensed-N-2";
-  src: url("/assets/fonts/Trade-Gothic-LT-Bold-Condensed-No--20.eot");
-  src: url("/assets/fonts/Trade-Gothic-LT-Bold-Condensed-No--20.eot?#iefix") format("embedded-opentype"), url("/assets/fonts/Trade-Gothic-LT-Bold-Condensed-No--20.woff") format("woff"), url("/assets/fonts/Trade-Gothic-LT-Bold-Condensed-No--20.ttf") format("truetype"), url("/assets/fonts/Trade-Gothic-LT-Bold-Condensed-No--20.svg#Trade-Gothic-LT-Bold-Condensed-No--20") format("svg");
-}
-
-@font-face {
-  font-family: "trade-gothic-no-2-bold";
-  src: url("/assets/fonts/trade-gothic-no-2-bold.eot");
-  src: url("/assets/fonts/trade-gothic-no-2-bold.eot?#iefix") format("embedded-opentype"), url("/assets/fonts/trade-gothic-no-2-bold.woff") format("woff"), url("/assets/fonts/trade-gothic-no-2-bold.ttf") format("truetype"), url("/assets/fonts/trade-gothic-no-2-bold.svg#trade-gothic-no-2-bold") format("svg");
-}
-
-@font-face {
-  font-family: "TradeGothicLTStd";
-  src: url("/assets/fonts/TradeGothicLTStd.eot");
-  src: url("/assets/fonts/TradeGothicLTStd.eot?#iefix") format("embedded-opentype"), url("/assets/fonts/TradeGothicLTStd.woff") format("woff"), url("/assets/fonts/TradeGothicLTStd.ttf") format("truetype"), url("/assets/fonts/TradeGothicLTStd.svg#TradeGothicLTStd") format("svg");
-}
 @font-face {
     font-family: "Avenir";
     src: url("/assets/fonts/Avenir/Avenir.eot");
@@ -32,10 +10,10 @@
     src: url("/assets/fonts/Avenir/Avenir_bold.woff") format("woff"), url("/assets/fonts/Avenir/Avenir_bold.woff2") format("woff2") ,  url("/assets/fonts/Avenir/Avenir.ttf") format("truetype") ;
 }
 /* base variables */
-@primaryFont: "TradeGothicLTStd-BdCn20";
-@secondaryFont: "Trade-Gothic-LT-Bold-Condensed-N-2";
-@tertiaryFont: "TradeGothicLTStd";
-@quaternaryFont: "trade-gothic-no-2-bold";
+@primaryFont: "Avenir";
+@secondaryFont: "Avenir";
+@tertiaryFont: "Avenir";
+@quaternaryFont: "Avenir";
 
 @textColorWhite: #fff;
 @textGreyColor: #bebebe;
@@ -67,8 +45,8 @@
 }
 .valStyle() {
   font-family: "Avenir-bold" ;
-color:  #57606d;
-font-size: 14px;
+  color:  #57606d;
+  font-size: 14px;
 }
 .darkBoldVal() {
   font-family: "Avenir-bold" ;
@@ -547,207 +525,6 @@ button, i, input[type="submit"] {
           }
         }
       }
-      /*.panel-collapse.collapse.in .panel-body.row-fluid .col-md-12 > {
-        .col-md-4 {
-          #tactics_accordion .tactics {
-            width: 110px;
-            padding: 7px 5px 5px;
-            cursor: pointer;
-            text-align: center;
-            border-radius: 15px;
-            background: #C5C4C0;
-            border-top: 1px solid #cccccc;
-            .panel-title {
-              color: #817C7C;
-              font-size: 10pt;
-            }
-            a:hover {
-              text-decoration: none;
-            }
-            .tactics-text {
-              font-weight: bold;
-              color: #817C7C;
-            }
-          }
-          .inner-accordion-details {
-            margin-bottom: 10px;
-            > div {
-              span {
-                margin-right: 5px;
-                vertical-align: baseline;
-              }
-              .audience-icon {
-                width: 16px;
-                height: 16px;
-                display: inline-block;
-                background: url("/assets/images/cdesk/icn_audience.png") no-repeat scroll -1px 1px rgba(0, 0, 0, 0);
-              }
-              .globe-icon {
-                width: 16px;
-                height: 16px;
-                vertical-align: sub;
-                display: inline-block;
-                background: url("/assets/images/cdesk/icn_globe.png") no-repeat scroll -1px 1px rgba(0, 0, 0, 0);
-              }
-              .location-icon {
-                width: 17px;
-                height: 17px;
-                vertical-align: sub;
-                display: inline-block;
-                background: url("/assets/images/cdesk/icn_location.png") no-repeat scroll -1px 1px rgba(0, 0, 0, 0);
-              }
-              .device-icon {
-                width: 17px;
-                height: 17px;
-                vertical-align: sub;
-                display: inline-block;
-                background: url("/assets/images/cdesk/icn_size.png") no-repeat scroll -1px 1px rgba(0, 0, 0, 0);
-              }
-            }
-          }
-          .inner-accordion-duration {
-            .duration {
-              .date {
-                margin-bottom: 10px;
-                color: @textDarkGreyColor;
-              }
-              .duration-bar {
-                width: 170px;
-                .progress {
-                  height: 5px;
-                  border-radius: 0;
-                  margin-bottom: 7px;
-                  .progress-bar {
-                    .BackgroundLinearGradient(#8dc9eb, #7ac3ed);
-                  }
-                }
-                .days-left {
-                  text-align: right;
-                  .day-count {
-                    font-family: @primaryFont;
-                  }
-                }
-              }
-            }
-          }
-        }
-        .col-md-7 {
-          width: 540px;
-          padding: 15px;
-          height: 185px;
-          margin-top: 3px;
-          overflow: hidden;
-          background: @textColorWhite;
-          border-radius: 5px;
-          margin-right: 18px;
-          float: right;
-          .col-md-6 .row-fluid {
-            margin-bottom: 10px;
-            .col-md-6 {
-              padding: 0;
-              text-align: right;
-              .imps {
-                text-align: right;
-              }
-              .imps-count {
-                text-align: right;
-                .FontColor(@textDarkGreyColor, 12pt, @primaryFont);
-              }
-              .ctr-container {
-                .blue{
-                  height: 20px;
-                  .FontColor(@textHeadingColor, 12pt, @primaryFont);
-                }
-                .blue.margin-twenty {
-                  margin-top: -20px;
-                }
-                .progress {
-                  height: 28px;
-                  margin-bottom: 0;
-                  border-radius: 0;
-                  .progress-bar {
-                    border: 1px solid #5ea9d8;
-                    .BackgroundLinearGradientLeftToRight(#6ebff0 , #1d7fc9);
-                  }
-                }
-              }
-              .ctr-container.red {
-                .blue {
-                  height: 20px;
-                  .FontColor(#E4696C, 12pt, @primaryFont);
-                }
-                .blue.margin-twenty {
-                  margin-top: -20px;
-                }
-                .progress {
-                  height: 28px;
-                  margin-bottom: 0;
-                  border-radius: 0;
-                  .progress-bar {
-                    border: 1px solid #E4696C;
-                    .BackgroundLinearGradientLeftToRight(#FAC7C8, #F75256);
-                  }
-                }
-              }
-              .ctr-container.amber {
-                .blue {
-                  height: 20px;
-                  .FontColor(#FB8917, 12pt, @primaryFont);
-                  .margin-twenty {
-                    margin-top: -20px;
-                  }
-                }
-                .progress {
-                  height: 28px;
-                  margin-bottom: 0;
-                  border-radius: 0;
-                  .progress-bar {
-                    border: 1px solid #FB8917;
-                    .BackgroundLinearGradientLeftToRight(#F7B842, #FC8917);
-                  }
-                }
-              }
-              .ctr-value {
-                .FontColor(@textDarkGreyColor, 12pt, @primaryFont);
-              }
-              .action-data {
-                .FontColor(@textDarkGreyColor, 12pt, @primaryFont);
-              }
-            }
-            .col-md-6.text_left {
-              text-align: left;
-            }
-            .kpi-text-container {
-              text-align: left;
-              .FontColor(@textGreyColor, 11pt, @primaryFont);
-            }
-            .kpi-values {
-              text-align: right;
-              .FontColor(@textDarkGreyColor, 12pt, @primaryFont);
-              .cumulative-text {
-                .FontColor(@textDarkGreyColor, 13px, @tertiaryFont);
-              }
-              div span {
-                text-align: right;
-                .FontColor(@textDarkGreyColor, 12pt, @tertiaryFont);
-              }
-              div > span:last-child {
-                .FontColor(@textDarkGreyColor, 12pt, @primaryFont);
-              }
-              div > span.avg-text {
-                font-size: 10pt;
-              }
-              .kpi-num {
-                font-family: @secondaryFont;
-              }
-            }
-          }
-          .col-md-6 .row-fluid:first-child {
-            text-align: left;
-            margin-bottom: 10px;
-          }
-        }
-      }*/
     }
   }
   .load-more-strategies {
@@ -766,10 +543,6 @@ button, i, input[type="submit"] {
       }
     }
   }
- /* .row-fluid .col-md-6.campaign-count {
-    margin-bottom: 0;
-    .FontColor(#f9b537, 12pt, @secondaryFont);
-  }*/
   .load-more {
     margin: 20px;
     text-align: center;
@@ -787,22 +560,6 @@ button, i, input[type="submit"] {
   font-size: 11pt;
   cursor: pointer;
 }
-/*#brandsDropdown::-webkit-input-placeholder {
-  color: white;
-  opacity: 1 ;
-}
-#brandsDropdown:-moz-placeholder { 
-  color: white;
-  opacity: 1 ;
-}
-#brandsDropdown::-moz-placeholder { 
-  color: white;
-  opacity: 1 ;
-}
-#brandsDropdown:-ms-input-placeholder {
-  color: white;
-  opacity: 1 ;
-}*/
 .highcharts-container .highcharts-tooltip {
   visibility: visible !important;
 }
@@ -1268,7 +1025,6 @@ button, i, input[type="submit"] {
   min-width: 86px;
   min-height : 10px;
   font-size: 14px;
-  font-family: "Trade-Gothic-LT-Bold-Condensed-N-2";
   color: #27292a;
   margin-right: 5px;
   text-align: center;
