@@ -5,6 +5,7 @@ var angObj = angObj || {};
 
     angObj.controller('CreateAdGroupsController', function ($scope, $window, $routeParams, constants, workflowService, $timeout,
                                                             utils, $location, momentService) {
+        $scope.loadingBtn = false ;
         $scope.handleFlightDate = function (data) {
             var startTime = data,
                 endDateElem = $('#adGrpEndDateInput'),
@@ -25,15 +26,13 @@ var angObj = angObj || {};
             }
         };
 
-        $scope.createAdGroup = function (createNewAdGrp, event) {
+        $scope.createAdGroup = function (createNewAdGrp) {
             var formElem,
                 formData,
                 postCreateAdObj;
 
             $scope.$broadcast('show-errors-check-validity');
-            var elem = $(event.target);
-            elem.hide() ;
-            elem.siblings(".common-loading-btn").show() ;
+            $scope.loadingBtn = true ;
             if (createNewAdGrp.$valid) {
                 formElem = $('#createNewAdGrp');
                 formData = formElem.serializeArray();

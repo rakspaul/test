@@ -637,12 +637,12 @@
                 </div>
                 <div class="row">
                     <div class="col-md-12">
-                        <span class="pull-right common-loading-btn" style="display:none;width:150px;"></span>
+                        <span class="pull-right common-loading-btn" style="width:150px;" ng-show="loadingBtn"></span>
                         <button class="pull-right common_primary_btn report_generate_button {{generateBtnDisabled ?
                                     'disabled' :
                                     ''}}"
                                 ng-click="scheduleReportAction();"
-                                ng-bind-html="buttonLabel">
+                                ng-bind-html="buttonLabel" ng-show="!loadingBtn">
                         </button>
                         <button class="pull-right secondary_txt"
                                 ng-click="resetMetricOptions();"
