@@ -15,8 +15,18 @@
 
                 $scope.textConstants = constants;
 
-                $scope.redirectTo = function(campaign, filterType) {
-                    $location.url(filterType !== 'archived' ? '/mediaplan/'+campaign.orderId+'/overview' : '/mediaplans/'+campaign.orderId)
+                // NOTE: The params have been modified. To utilize the new feature,
+                // pass $event as the 3rd actual param when calling this method.
+                $scope.redirectTo = function(campaign, filterType, event) {
+                    var url = filterType !== 'archived' ?
+                        '/mediaplan/'+campaign.orderId+'/overview' :
+                        '/mediaplans/'+campaign.orderId;
+
+                    if (event.ctrlKey || event.metaKey) {
+                        window.open(url, '_blank');
+                    } else {
+                        $location.url(url);
+                    }
                 };
 
                 $scope.getSpendDifference = function(campaign) {

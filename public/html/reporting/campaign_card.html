@@ -5,8 +5,17 @@
         </div>
         <div class="each_campaign_section">
             <div class="main_heading">
-                <a ng-if="!$parent.isWorkFlowUser" ng-href="/mediaplans/{{campaign.orderId}}" id="campaign_heading_anchor">  <truncate-text-with-hover txt="{{campaign.campaignTitle}}" txtlength="75" lst-campaign=campaign></truncate-text-with-hover></a>
-                <a ng-if="$parent.isWorkFlowUser" ng-click="redirectTo(campaign, campaigns.dashboard.appliedFilterType)">  <truncate-text-with-hover txt="{{campaign.campaignTitle}}" txtlength="75" lst-campaign=campaign></truncate-text-with-hover></a>
+                <a ng-if="!$parent.isWorkFlowUser" ng-href="/mediaplans/{{campaign.orderId}}" id="campaign_heading_anchor">
+                    <truncate-text-with-hover txt="{{campaign.campaignTitle}}" txtlength="75" lst-campaign=campaign>
+                    </truncate-text-with-hover>
+                </a>
+                <a ng-if="$parent.isWorkFlowUser"
+                   ng-href="{{filterType !== 'archived' ?
+                    '/mediaplan/'+campaign.orderId+'/overview' :
+                    '/mediaplans/'+campaign.orderId}}">
+                    <truncate-text-with-hover txt="{{campaign.campaignTitle}}" txtlength="75" lst-campaign=campaign>
+                    </truncate-text-with-hover>
+                </a>
             </div>
         </div>
     </div>
