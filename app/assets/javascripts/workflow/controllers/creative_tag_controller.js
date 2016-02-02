@@ -31,7 +31,7 @@ var angObj = angObj || {};
                     .getCreatives(clientID, adID, format, query, {cache: false}, $scope.TrackingIntegrationsSelected)
                     .then(function (result) {
                         var responseData;
-console.log('getCreativesFromLibrary: $scope.selectedArr = ', $scope.selectedArr);
+
                         $scope.creativesLibraryData.creativesData = [];
                         if (result.status === 'OK' || result.status === 'success' && result.data.data.length > 0) {
                             responseData = result.data.data;
@@ -47,13 +47,6 @@ console.log('getCreativesFromLibrary: $scope.selectedArr = ', $scope.selectedArr
                                         return item.id === obj.id;
                                     });
                                     $scope.creativesLibraryData.creativesData[idx].checked = true;
-                                });
-                                console.log('creative_tag_controller.js -- workflowService.getCreatives(): EDIT mode!!!');
-                            } else {
-                                console.log('creative_tag_controller.js -- workflowService.getCreatives(): CREATE mode!!!');
-                                //$scope.selectedArr = [];
-                                $scope.creativesLibraryData.creativesData.map(function (obj) {
-                                    //obj.checked = false;
                                 });
                             }
                         } else {
@@ -92,11 +85,9 @@ console.log('getCreativesFromLibrary: $scope.selectedArr = ', $scope.selectedArr
 
         $scope.closePop = function () {
             var idx;
+
             $scope.showHidePopup = false;
             $scope.changeStatus();
-console.log('creative_tag_controller.js -- closePop: $scope.preDeleteArr = ', $scope.preDeleteArr,
-    ', $scope.preSelectArr = ', $scope.preSelectArr,
-    ', $scope.selectedArr = ', $scope.selectedArr);
             if ($scope.preDeleteArr.length > 0) {
                 $scope.preDeleteArr = _.uniq($scope.preDeleteArr);
                 _.each($scope.preDeleteArr, function (obj) {
@@ -120,83 +111,12 @@ console.log('creative_tag_controller.js -- closePop: $scope.preDeleteArr = ', $s
             $scope.updateCreativeData($scope.selectedArr);
         };
 
-        $scope.changeStatus = function () {
-            _.each($scope.selectedArr, function (obj) {
-                obj.checked = obj.userSelectedEvent;
-            });
-        };
-
-        $scope.updateCreativeData = function (data) {
-            $scope.creativeData.creativeInfo = {'creatives': data.slice()};
-            // set sizes on side bar.
-            $scope.setSizes($scope.creativeData.creativeInfo);
-        };
-
-        $scope.setSizes = function (selectedcreatives) {
-            var creativeSizeArrC = [],
-                arrC,
-                resultC,
-                str,
-                result,
-                i;
-
-            if (typeof selectedcreatives.creatives !== 'undefined') {
-                if (selectedcreatives.creatives.length === 1) {
-                    $scope.sizeString = selectedcreatives.creatives[0].size.size;
-                } else if (selectedcreatives.creatives.length > 1) {
-                    $scope.sizeString = '';
-                    for (i in selectedcreatives.creatives) {
-                        creativeSizeArrC.push(selectedcreatives.creatives[i].size.size);
-                    }
-                    $scope.sizeString = creativeSizeArrC;
-                    arrC = creativeSizeArrC;
-                    resultC = noRepeatC(arrC);
-                    str = '';
-                    result = noRepeatC(arrC);
-                    for (i = 0; i < result[0].length; i++) {
-                        if (result[1][i] > 1) {
-                            str += result[0][i] + '(' + result[1][i] + ')' + ', ';
-                        } else {
-                            str += result[0][i] + ', ';
-                        }
-                    }
-                    $scope.sizeString = str.substr(0, str.length - 2).replace(/X/g, 'x');
-                }
-            } else {
-                $scope.sizeString = constants.WF_NOT_SET;
-            }
-
-            function noRepeatC(arrC) {
-                var aC = [],
-                bC = [],
-                prevC,
-                i;
-
-                arrC.sort();
-                for (i = 0; i < arrC.length; i++) {
-                    if (arrC[i] !== prevC) {
-                        aC.push(arrC[i]);
-                        bC.push(1);
-                    } else {
-                        bC[bC.length - 1]++;
-                    }
-                    prevC = arrC[i];
-                }
-                return [aC, bC];
-            }
-
-            if (selectedcreatives.creatives.length === 0) {
-                $scope.sizeString = constants.WF_NOT_SET;
-            }
-            $scope.adData.setSizes = $scope.sizeString;
-        };
-
         $scope.stateChanged = function ($event, screenTypeObj) {
             var checkbox = $event.target,
                 selectedChkBox,
                 idx,
                 preIdx;
-console.log('$scope.stateChanged()!!!!');
+
             // temporary user old selected status before cancel
             screenTypeObj.userSelectedEvent = checkbox.checked;
             selectedChkBox = _.filter($scope.selectedArr, function (obj) {
@@ -257,7 +177,7 @@ console.log('$scope.stateChanged()!!!!');
                 actionFrom = arg[1],
                 idx,
                 currIndx;
-console.log('CreativeTagController: removeCreativeTags: $event = ', $event, ', arg = ', arg);
+
             if (selectedCreativeTag.length > 0) {
                 idx = _.findLastIndex($scope.selectedArr, function(obj){
                     return obj.id === Number(selectedCreativeTag[0].id);

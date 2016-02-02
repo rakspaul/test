@@ -421,7 +421,6 @@ var angObj = angObj || {};
             // creative tags
             if (responseData.creatives) {
                 $scope.selectedArr = responseData.creatives;
-                console.log('Creative TAGS ARE BEING ASSIGNED HERE!!!');
             }
             $scope.$broadcast('updateCreativeTags');
 
@@ -1080,7 +1079,6 @@ var angObj = angObj || {};
         };
 
         $scope.showPopup = function () {
-            console.log('campaign_adcreate_controller.js -- showPopup: $scope.selectedArr = ', $scope.selectedArr);
             $scope.creativeListLoading = false;
             $scope.creativesLibraryData.creativesData = [];
             if ($scope.selectedArr.length > 0) {
@@ -1260,5 +1258,76 @@ var angObj = angObj || {};
             $scope.$broadcast('closeAddCreativePage');
             $scope.$broadcast('switchPlatformFunc');
         });
+
+        $scope.changeStatus = function () {
+            _.each($scope.selectedArr, function (obj) {
+                obj.checked = obj.userSelectedEvent;
+            });
+        };
+
+        $scope.updateCreativeData = function (data) {
+            $scope.creativeData.creativeInfo = {'creatives': data.slice()};
+            // set sizes on side bar.
+            $scope.setSizes($scope.creativeData.creativeInfo);
+        };
+
+        $scope.setSizes = function (selectedCreatives) {
+            var creativeSizeArrC = [],
+                arrC,
+                resultC,
+                str,
+                result,
+                i;
+
+            if (typeof selectedCreatives.creatives !== 'undefined') {
+                if (selectedCreatives.creatives.length === 1) {
+                    $scope.sizeString = selectedCreatives.creatives[0].size.size;
+                } else if (selectedCreatives.creatives.length > 1) {
+                    $scope.sizeString = '';
+                    for (i in selectedCreatives.creatives) {
+                        creativeSizeArrC.push(selectedCreatives.creatives[i].size.size);
+                    }
+                    $scope.sizeString = creativeSizeArrC;
+                    arrC = creativeSizeArrC;
+                    resultC = noRepeatC(arrC);
+                    str = '';
+                    result = noRepeatC(arrC);
+                    for (i = 0; i < result[0].length; i++) {
+                        if (result[1][i] > 1) {
+                            str += result[0][i] + '(' + result[1][i] + ')' + ', ';
+                        } else {
+                            str += result[0][i] + ', ';
+                        }
+                    }
+                    $scope.sizeString = str.substr(0, str.length - 2).replace(/X/g, 'x');
+                }
+            } else {
+                $scope.sizeString = constants.WF_NOT_SET;
+            }
+
+            function noRepeatC(arrC) {
+                var aC = [],
+                    bC = [],
+                    prevC,
+                    i;
+
+                arrC.sort();
+                for (i = 0; i < arrC.length; i++) {
+                    if (arrC[i] !== prevC) {
+                        aC.push(arrC[i]);
+                        bC.push(1);
+                    } else {
+                        bC[bC.length - 1]++;
+                    }
+                    prevC = arrC[i];
+                }
+                return [aC, bC];
+            }
+
+            if (selectedCreatives.creatives.length === 0) {
+                $scope.sizeString = constants.WF_NOT_SET;
+            }
+            $scope.adData.setSizes = $scope.sizeString;
+        };
     });
 })();
