@@ -3,8 +3,7 @@ var angObj = angObj || {};
 (function () {
     'use strict';
 
-    angObj.controller('CreativeTagController', function ($scope, $window, $routeParams, constants, workflowService, $timeout, 
-        utils, $location) {
+    angObj.controller('CreativeTagController', function ($scope, $window, $routeParams, constants, workflowService) {
         var addFromLibrary = {
             modifyCreativesData: function (respData) {
                 var arr;
@@ -15,10 +14,10 @@ var angObj = angObj || {};
                             return obj.id === data.id;
                         });
                         if (arr.length > 0) {
-                            data['checked'] = arr[0].checked;
+                            data.checked = arr[0].checked;
                         }
                     } else {
-                        data['checked'] = false;
+                        data.checked = false;
                     }
                 });
                 return respData;
@@ -26,7 +25,7 @@ var angObj = angObj || {};
 
             getCreativesFromLibrary: function (clientID, adID, format, query) {
                 // remove spaces.
-                var format= format.replace(/\s/g, '');
+                format = format.replace(/\s/g, '');
 
                 workflowService
                     .getCreatives(clientID, adID, format, query, {cache: false}, $scope.TrackingIntegrationsSelected)
@@ -112,76 +111,6 @@ var angObj = angObj || {};
             $scope.updateCreativeData($scope.selectedArr);
         };
 
-        $scope.changeStatus = function () {
-            _.each($scope.selectedArr, function (obj) {
-                obj.checked = obj.userSelectedEvent;
-            })
-        };
-
-        $scope.updateCreativeData = function (data) {
-            $scope.creativeData['creativeInfo'] = {'creatives': data.slice()};
-            $scope.setSizes($scope.creativeData['creativeInfo']);// set sizes on side bar.
-        };
-
-        $scope.setSizes = function (selectedcreatives) {
-            var creativeSizeArrC = [],
-                arrC,
-                resultC,
-                str,
-                result,
-                i;
-
-            if (typeof selectedcreatives.creatives !== 'undefined') {
-                if (selectedcreatives.creatives.length === 1) {
-                    $scope.sizeString = selectedcreatives.creatives[0].size.size;
-                } else if (selectedcreatives.creatives.length > 1) {
-                    $scope.sizeString = '';
-                    for (i in selectedcreatives.creatives) {
-                        creativeSizeArrC.push(selectedcreatives.creatives[i].size.size);
-                    }
-                    $scope.sizeString = creativeSizeArrC;
-                    arrC = creativeSizeArrC;
-                    resultC = noRepeatC(arrC);
-                    str = '';
-                    result = noRepeatC(arrC);
-                    for (i = 0; i < result[0].length; i++) {
-                        if (result[1][i] > 1) {
-                            str += result[0][i] + '(' + result[1][i] + ')' + ', ';
-                        } else {
-                            str += result[0][i] + ', ';
-                        }
-                    }
-                    $scope.sizeString = str.substr(0, str.length - 2).replace(/X/g, 'x');
-                }
-            } else {
-                $scope.sizeString = constants.WF_NOT_SET;
-            }
-
-            function noRepeatC(arrC) {
-                var aC = [], 
-                bC = [], 
-                prevC,
-                i;
-
-                arrC.sort();
-                for (i = 0; i < arrC.length; i++) {
-                    if (arrC[i] !== prevC) {
-                        aC.push(arrC[i]);
-                        bC.push(1);
-                    } else {
-                        bC[bC.length - 1]++;
-                    }
-                    prevC = arrC[i];
-                }
-                return [aC, bC];
-            }
-
-            if (selectedcreatives.creatives.length === 0) {
-                $scope.sizeString = constants.WF_NOT_SET;
-            }
-            $scope.adData.setSizes = $scope.sizeString;
-        };
-
         $scope.stateChanged = function ($event, screenTypeObj) {
             var checkbox = $event.target,
                 selectedChkBox,
@@ -189,7 +118,7 @@ var angObj = angObj || {};
                 preIdx;
 
             // temporary user old selected status before cancel
-            screenTypeObj.userSelectedEvent = checkbox.checked; 
+            screenTypeObj.userSelectedEvent = checkbox.checked;
             selectedChkBox = _.filter($scope.selectedArr, function (obj) {
                 return obj.id === screenTypeObj.id;
             });
@@ -201,7 +130,7 @@ var angObj = angObj || {};
                     return item.id === screenTypeObj.id;
                 });
                 $scope.selectedArr.splice(idx, 1);
-                if (preidx === -1) {
+                if (preIdx === -1) {
                     $scope.preDeleteArr.push(screenTypeObj);
                 }
             } else {
@@ -211,7 +140,7 @@ var angObj = angObj || {};
         };
 
         $scope.emptyCreativesFlag = true;
-        $scope.loadingFlag = true; 
+        $scope.loadingFlag = true;
         $scope.$on('updateNewCreative', function () {
             var creativeTag = workflowService.getNewCreative();
 
@@ -250,10 +179,13 @@ var angObj = angObj || {};
                 currIndx;
 
             if (selectedCreativeTag.length > 0) {
-                idx = _.findLastIndex($scope.selectedArr, function(obj){return obj.id==Number(selectedCreativeTag[0].id)});//_.findLastIndex($scope.selectedArr, selectedCreativeTag[0]);
+                idx = _.findLastIndex($scope.selectedArr, function(obj){
+                    return obj.id === Number(selectedCreativeTag[0].id);
+                });
+                //_.findLastIndex($scope.selectedArr, selectedCreativeTag[0]);
                 $scope.selectedArr.splice(idx, 1);
                 if (actionFrom !== 'popup') {
-                    $scope.updateCreativeData($scope.selectedArr)
+                    $scope.updateCreativeData($scope.selectedArr);
                 } else {
                     //insert into predelete array
                     $scope.preDeleteArr.push(selectedCreativeTag[0]);

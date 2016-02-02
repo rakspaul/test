@@ -6,14 +6,22 @@
 
 <div class="buyingPlatformHolder">
     <div class="col-md-12" style="padding: 0 30px;">
-        <div class="col-md-6 platformHolder" ng-repeat="platform in workflowData.platforms" ng-click="!platform.active ? '' : selectPlatform($event, platform)">
+        <div class="col-md-6 platformHolder"
+             ng-repeat="platform in workflowData.platforms"
+             ng-click="!platform.active ? '' : selectPlatform($event, platform)">
             <!--<span ng-if="selectedPlatform[platform.id]" class="icon-inline-edit"></span>-->
             <img ng-src="{{platform.iconUrl}}"/>
             <p data-ng-bind="platform.displayName"></p>
             <span ng-bind-html="platform.summary"></span>
             <div ng-if="selectedPlatform[platform.id]" class="btn btn-default active" data-ng-bind="textConstants.SELECTED"></div>
-            <input ng-if="!selectedPlatform[platform.id]" type="button" name="platform" value="Select" ng-disabled="!platform.active" class="btn btn-default " ng-click="!platform.active ? '' : selectPlatform($event, platform)"> 
-            <input type="hidden" name="platformId" value="{{adData.platformId }}">
+            <input ng-if="!selectedPlatform[platform.id]"
+                   type="button"
+                   name="platform"
+                   value="Select"
+                   ng-disabled="!platform.active"
+                   class="btn btn-default "
+                   ng-click="!platform.active ? '' : selectPlatform($event, platform)"> 
+            <input type="hidden" name="platformId" value="{{adData.platformId}}">
         </div>
         <div class="col-md-6 platformHolder">
             <span data-ng-bind="textConstants.MORESELF"></span>

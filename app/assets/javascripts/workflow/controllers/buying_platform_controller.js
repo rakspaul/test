@@ -3,16 +3,16 @@ var angObj = angObj || {};
 (function () {
     'use strict';
 
-    angObj.controller('BuyingPlatformController', function ($scope, $window, $routeParams, constants, workflowService, 
+    angObj.controller('BuyingPlatformController', function ($scope, $window, $routeParams, constants, workflowService,
         $timeout, utils, $location, $modal, $filter, platformCustomeModule, $rootScope) {
         var tempPlatform,
             storedResponse,
             oldPlatformName,
-            hideCustomPlatfromBox = function () {
+            hideCustomPlatformBox = function () {
                 $('.platform-custom')
                     .delay(300)
                     .animate({
-                        left: '100%', 
+                        left: '100%',
                         marginLeft: '0px'
                     }, function () {
                         $(this).hide();
@@ -24,7 +24,7 @@ var angObj = angObj || {};
         $scope.fetchPlatforms =  function (platform) {
             var errorHandler =  function (errData) {
                 console.log(errData);
-            }
+            };
 
             workflowService
                 .getPlatforms({cache: false})
@@ -83,17 +83,21 @@ var angObj = angObj || {};
                 slides = Math.ceil((responseData.trackingPlatforms.length) / 3),
                 i;
 
-            $scope.workflowData['tracking_integrations'] = {};
+            $scope.workflowData.tracking_integrations = {};
             for (i = 0; i < slides; i++) {
-                $scope.workflowData['tracking_integrations'][i] = tempData.splice(0, 3);
+                $scope.workflowData.tracking_integrations[i] = tempData.splice(0, 3);
             }
         };
 
         $scope.selectPlatform = function (event, platform) {
             var settings = '';
 
-            storedResponse = workflowService.getAdsDetails();
+            //remove creatives only if Tracking-only is changed to Full integrations
+            if ($scope.wasFullIntegration() === -1) {
+                $scope.resetCreatives();
+            }
 
+            storedResponse = workflowService.getAdsDetails();
             if ($scope.mode === 'edit') {
                 if (storedResponse.targets.geoTargets) {
                     settings = 'Geography';
@@ -110,11 +114,11 @@ var angObj = angObj || {};
                             //display warning popup
                             if ($scope.defaultPlatform.id !== platform.id) {
                                 tempPlatform = platform;
-                                $scope.changePlatformMessage = 
-                                    'Your entries for the following settings are not compatible with ' + 
-                                    $filter('toPascalCase')(platform.name) + 
-                                    ': ' + 
-                                    settings + 
+                                $scope.changePlatformMessage =
+                                    'Your entries for the following settings are not compatible with ' +
+                                    $filter('toPascalCase')(platform.name) +
+                                    ': ' +
+                                    settings +
                                     '. Would you like to clear these settings and switch platforms? (OK/Cancel).';
                                 $scope.changePlatformPopup = true;
                             } else {
@@ -139,9 +143,8 @@ var angObj = angObj || {};
             $rootScope.$emit('triggerAudienceLoading');
             if ($scope.mode != 'edit' || $scope.defaultPlatform.id !== platform.id) {
                 $scope.$parent.TrackingIntegrationsSelected = false;
-
             }
-            console.log($scope.workflowData.Tracking);
+
             //remove creatives only if tracking integrations is changed to Full integrations
             var wasPrevTrackingInt = _.findIndex($scope.workflowData.platforms, function (item) {
                 return item.id === $scope.adData.platformId;
@@ -168,36 +171,29 @@ var angObj = angObj || {};
             $scope.$parent.postPlatformDataObj = [];
             $scope.platformCustomInputs();
             trackingIntegration =  $scope.trackingIntegration || trackingIntegration;
-           // if ($scope.mode != 'edit') {
+            // if ($scope.mode !== 'edit') {
                 $scope.$parent.TrackingIntegrationsSelected = true;
             //}
             $scope.selectedPlatform = {};
             $scope.selectedPlatform[trackingIntegration.id] = trackingIntegration.displayName;
 
-            //remove creatives only if Full integrations is changed to tracking
-            var wasPrevFullInt = _.findIndex($scope.workflowData.platforms, function (item) {
-                return item.id === $scope.adData.platformId;
-            });
-            // code to make creatives already set to empty
-            if(wasPrevFullInt>=0){
-                $scope.adData.setSizes = constants.WF_NOT_SET;
-                $scope.creativeData.creativeInfo = 'undefined';
-                $scope.selectedArr.length = 0;
+            //remove creatives only if Full integrations is changed to Tracking-only
+            if ($scope.wasFullIntegration() >= 0) {
+                $scope.resetCreatives();
             }
 
             // To populate the newly selected Platform in sideBar
             $scope.adData.platform = trackingIntegration.displayName;
             $scope.adData.platformId = trackingIntegration.id;
             $scope.adData.platformName = trackingIntegration.name;
-
         };
 
-        $scope.showCustomeFieldBox = function () {
+        $scope.showCustomFieldBox = function () {
             $('.platform-custom')
                 .show()
                 .delay(300)
                 .animate({
-                    left: '50%', 
+                    left: '50%',
                     marginLeft: '-323px'
                 }, 'slow');
             $('.offeringsWrap').hide();
@@ -209,7 +205,7 @@ var angObj = angObj || {};
             workflowService
                 .getPlatformCustomInputs($scope.adData.platformId)
                 .then(function (result) {
-                    var adPlatformCustomInputs, 
+                    var adPlatformCustomInputs,
                         platformCustomeJson,
                         adPlatformCustomInputsLocalStorageValue;
 
@@ -217,15 +213,16 @@ var angObj = angObj || {};
                         if (result.data.data.customInputJson != '') {
                             platformCustomeJson = JSON.parse(result.data.data.customInputJson);
                             if ($scope.mode === 'edit') {
-                                $scope.showCustomeFieldBox();
+                                $scope.showCustomFieldBox();
                                 adPlatformCustomInputsLocalStorageValue = localStorage.getItem('adPlatformCustomInputs');
-                                adPlatformCustomInputs = 
-                                    (adPlatformCustomInputsLocalStorageValue && JSON.parse(adPlatformCustomInputsLocalStorageValue)) || 
+                                adPlatformCustomInputs =
+                                    (adPlatformCustomInputsLocalStorageValue &&
+                                        JSON.parse(adPlatformCustomInputsLocalStorageValue)) ||
                                     platformCustomeJson;
                                 platformCustomeModule.init(platformCustomeJson, platformWrap, adPlatformCustomInputs);
                             } else {
-                                $scope.showCustomeFieldBox();
-                                //maintain state of building platform strategy when user selects it navigtes to other places
+                                $scope.showCustomFieldBox();
+                                // maintain state of building platform strategy when user selects it navigates to other places
                                 if (oldPlatformName !== $scope.adData.platform) {
                                     oldPlatformName = workflowService.getPlatform().displayName;
                                     platformCustomeModule.init(platformCustomeJson, platformWrap);
@@ -241,7 +238,7 @@ var angObj = angObj || {};
         $scope.cancelChangePlatform = function () {
             $scope.changePlatformPopup = !$scope.changePlatformPopup;
             tempPlatform = [];
-        }
+        };
 
         $scope.confirmChange = function () {
             $scope.setPlatform(null, tempPlatform);
@@ -255,12 +252,12 @@ var angObj = angObj || {};
             var offset = $(event.target).offset(),
                 left = offset.left,
                 top = offset.top,
-                relativeX = $(event.target).closest('.offeringWrap').offset().left  -  
+                relativeX = $(event.target).closest('.offeringWrap').offset().left  -
                     $(event.target).closest('.carousel-inner').offset().left + 50;
 
             $scope.trackingIntegration = trackingIntegration;
             $('.buyingPlatformHolder .popUpCue').css({
-                top: 125 , 
+                top: 125 ,
                 left: relativeX
             });
             $scope.showtrackingSetupInfoPopUp = true;
@@ -268,7 +265,7 @@ var angObj = angObj || {};
 
         $scope.hideTrackingSetupInfoPopUp = function () {
             $scope.showtrackingSetupInfoPopUp = false;
-        }
+        };
 
         $scope.$parent.switchPlatform = function (event) {
             $scope.resetPartialSaveAlertMessage();
@@ -285,15 +282,15 @@ var angObj = angObj || {};
                     var d = data.name.split('$$');
 
                     $scope.$parent.postPlatformDataObj.push({
-                        'platformCustomInputId': Number(d[1]), 
+                        'platformCustomInputId': Number(d[1]),
                         'value': data.value
                     });
                 });
             } else {
-                if ($scope.workflowData['adsData'] && 
-                    $scope.workflowData['adsData'].adPlatformCustomInputs && 
-                    $scope.workflowData['adsData'].adPlatformCustomInputs.length > 0) {
-                    $scope.$parent.postPlatformDataObj = $scope.workflowData['adsData'].adPlatformCustomInputs;
+                if ($scope.workflowData.adsData &&
+                    $scope.workflowData.adsData.adPlatformCustomInputs &&
+                    $scope.workflowData.adsData.adPlatformCustomInputs.length > 0) {
+                    $scope.$parent.postPlatformDataObj = $scope.workflowData.adsData.adPlatformCustomInputs;
                 }
             }
             if ($scope.mode == 'edit') {
@@ -348,7 +345,7 @@ var angObj = angObj || {};
                             return 'Address the validation errors or clear the values to proceed';
                         },
                         buttonName: function () {
-                            return 'Reset'
+                            return 'Reset';
                         },
                         execute: function () {
                             return function () {
@@ -356,14 +353,29 @@ var angObj = angObj || {};
                                 if ($('#customPlatformForm') && $('#customPlatformForm').length >0) {
                                     $('#customPlatformForm')[0].reset();
                                 }
-                                hideCustomPlatfromBox();
-                            }
+                                hideCustomPlatformBox();
+                            };
                         }
                     }
                 });
                 return false;
             }
-            hideCustomPlatfromBox();
+            hideCustomPlatformBox();
         });
+
+        $scope.resetCreatives = function () {
+            // Reset creatives if any had been selected.
+            if ($scope.adData.setSizes !== constants.WF_NOT_SET) {
+                $scope.selectedArr.length = 0;
+                $scope.changeStatus();
+                $scope.updateCreativeData($scope.selectedArr);
+            }
+        };
+
+        $scope.wasFullIntegration = function () {
+            return _.findIndex($scope.workflowData.platforms, function (item) {
+                return item.id === $scope.adData.platformId;
+            });
+        };
     });
 })();

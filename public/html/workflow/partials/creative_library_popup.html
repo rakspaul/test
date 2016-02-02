@@ -10,18 +10,31 @@
                 <div class="clearfix">
                     <h2 class="col-md-3 zeroPadding">Available</h2>
                     <div id="custom-search-input" class="col-md-9">
-                            <input type="text" class="form-control" name="creativeSearch" ng-model="adData.creativeSearch" ng-keyup="creativeSearchFunc()" placeholder="Search Creative By Name and Size..">
+                            <input type="text"
+                                   class="form-control"
+                                   name="creativeSearch"
+                                   ng-model="adData.creativeSearch"
+                                   ng-keyup="creativeSearchFunc()"
+                                   placeholder="Search Creative By Name and Size..">
 							<span class="icon-search"></span>
                     </div>
                 </div>
-
                 <div class="tableWrapper">
-                    <span class="greyTxt" style="display: inline-block; padding-bottom: 15px !important;">RECENTLY CREATED / USED</span>
+                    <span class="greyTxt"
+                          style="display: inline-block; padding-bottom: 15px !important;">
+                        RECENTLY CREATED / USED
+                    </span>
                     <div class="table" id="selCheck">
                         <div ng-repeat="data in creativesLibraryData.creativesData | orderBy: 'name'">
                             <div class="clearfix row-gap" >
                                 <span class="col-md-1">
-                                    <input class="checkboxcls" type="checkbox" id="{{data.id}}" value="{{data.id}}_{{data.size.size}}_{{data.name}}"  name="{{data.name}}"  ng-checked="data.checked  ? true : false" ng-click="stateChanged($event, data);"/>
+                                    <input class="checkboxcls"
+                                           type="checkbox"
+                                           id="{{data.id}}"
+                                           value="{{data.id}}_{{data.size.size}}_{{data.name}}"
+                                           name="{{data.name}}"
+                                           ng-checked="data.checked ? true : false"
+                                           ng-click="stateChanged($event, data);"/>
                                 </span>
                                 <span class="col-md-3">
                                     {{data.size.size | lowercase}}
@@ -30,7 +43,8 @@
                             </div>
                         </div>
                     </div>
-                    <div ng-show="creativesLibraryData.creativesData && creativesLibraryData.creativesData.length === 0" class="dataFromCreativeLibraryNotFound">
+                    <div ng-show="creativesLibraryData.creativesData && creativesLibraryData.creativesData.length === 0"
+                         class="dataFromCreativeLibraryNotFound">
                         <span ng-if="!loadingFlag">Data Not Found</span>
                         <div ng-if="loadingFlag" class="loading-icon"></div>
                     </div>
@@ -52,7 +66,10 @@
                         </td>
                         <td class="col-md-8">
                             <span class="col-md-10">{{data.name}}</span>
-                            <span class="icon-close col-md-2" ng-click="removeCreativeTags(data, 'popup')" ng-model="_tmp1" aria-hidden="true"></span>
+                            <span class="icon-close col-md-2"
+                                  ng-click="removeCreativeTags(data, 'popup')"
+                                  ng-model="_tmp1"
+                                  aria-hidden="true"></span>
                         </td>
                     </tr>
                     </tbody>
@@ -60,10 +77,12 @@
             </div>
 
             <div class="col-md-12 popFooter">
-                <button type="button" class="btn btn-primary pull-right" ng-disabled="selectedArr && selectedArr.length === 0 && (!unchecking)"   ng-click="saveCreativeTags()">Save</button>
+                <button type="button"
+                        class="btn btn-primary pull-right"
+                        ng-disabled="selectedArr && selectedArr.length === 0 && (!unchecking)"
+                        ng-click="saveCreativeTags()">Save</button>
                 <button type="button" class="btn btn-link pull-right" ng-click="closePop()">Cancel</button>
             </div>
-
         </div>
     </div>
 </div>

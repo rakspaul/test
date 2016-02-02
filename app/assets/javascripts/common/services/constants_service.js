@@ -731,7 +731,7 @@
         this.BUILD_REPORT = 'Build Report';
         this.CUSTOM_REPORTS = 'Custom Reports';
         this.MEDIA_PLAN_REPORTS = 'Media Plan Reports';
-        
+
         //Overview: Create Ad Groups
         this.CREATEADGROUP = 'Create Ad Group';
         this.WHATADGROUPNAME = 'What is your Ad Group name?';
@@ -739,7 +739,7 @@
         this.PLEASENAMEADGRP = 'Please enter a name for the ad group.';
         this.WHATFLIGHTDATES = 'What are the Flight Dates?';
         this.PLEASESELSTARTDATE = 'Please select the start Date.';
-        
+
         //Audience Targeting
         this.SAVEAUD = 'Save Audience';
         this.SELSEGMENTS = 'Select Segments';
@@ -756,7 +756,7 @@
         this.ISNOT = 'Is Not';
         this.SELECTED_SEGMENTS = 'Selected Segments';
         this.DONE = 'Done';
-        
+
         //Day Targeting
         this.DAYPART = 'Daypart';
         this.DAFAULTADNOTE = 'By default, Ads will be delivered all day every day when no specific daypart rules applied.';
@@ -787,7 +787,7 @@
         this.FRIDAY = 'Friday';
         this.SATURDAY = 'Saturday';
         this.TO = 'to';
-        
+
         //Geo Targeting
         this.GEOGRAPHY = 'Geography';
         this.INCZIP = 'Including zip / postal codes is going to limit your geographic targeting significantly.';
