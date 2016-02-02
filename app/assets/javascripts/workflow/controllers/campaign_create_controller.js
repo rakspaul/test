@@ -815,7 +815,6 @@ var angObj = angObj || {};
             $scope.removeEmptyObjectCostArr();
             $scope.ComputeCost();
             if ($scope.createCampaignForm.$valid && isPrimarySelected && !$scope.saveDisabled) {
-                $(".workflowPreloader, .workflowPreloader .adSavePre").show();
                 var formElem = $("#createCampaignForm");
                 var formData = formElem.serializeArray();
                 formData = _.object(_.pluck(formData, 'name'), _.pluck(formData, 'value'));
@@ -852,10 +851,11 @@ var angObj = angObj || {};
                     postDataObj.advertiserId = Number(formData.advertiserId);
                     workflowService.saveCampaign(postDataObj).then(function (result) {
                         if (result.status === "OK" || result.status === "success") {
-                            $scope.saveCampaignClicked=false;
                             $scope.sucessHandler(result);
                             localStorage.setItem('topAlertMessage', $scope.textConstants.CAMPAIGN_CREATED_SUCCESS);
                         }
+                    }, function() {
+                        $scope.saveCampaignClicked=false;
                     });
                 }
             }
@@ -863,7 +863,6 @@ var angObj = angObj || {};
 
         $scope.repushCampaign = function () {
             $scope.repushCampaignLoader = true;
-            $(".workflowPreloader, .workflowPreloader .adSavePre").show();
             workflowService.updateCampaign($scope.repushData, $routeParams.campaignId).then(function (result) {
                 if (result.status === "OK" || result.status === "success") {
                     $scope.sucessHandler(result);
