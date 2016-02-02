@@ -148,8 +148,10 @@
                     {{textConstants.ARCHIVE_MESSAGE}}
                 </div>
             </div>
-            <div class="clearfix popup-footer">
-                <button type="button" ng-click="archiveAd($event)" class="common_primary_btn pull-right">OK</button>
+            <div class="clearfix popup-footer" >
+                <button ng-show="!adArchiveLoader" type="button" ng-click="archiveAd($event)"
+                        class="common_primary_btn pull-right">OK</button>
+                <div ng-show ="adArchiveLoader" class="pull-right common-loading-btn" ></div>
                 <button type="button" ng-click="cancelAdArchive()" class="secondary_txt pull-right">Cancel</button>
             </div>
         </div>

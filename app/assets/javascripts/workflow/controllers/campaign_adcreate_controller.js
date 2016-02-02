@@ -503,16 +503,18 @@ var angObj = angObj || {};
         };
 
         $scope.archiveAd = function (event) {
+            $scope.adArchiveLoader = true;
             var errorAchiveAdHandler = function () {
                 $scope.adArchive = false;
-                $rootScope.setErrAlertMessage();
+                $scope.adArchiveLoader = false;
+                $rootScope.setErrAlertMessage(constants.WF_AD_ARCHIVE_FAILURE);
             };
 
             workflowService.deleteAd($scope.campaignId, $scope.adId).then(function (result) {
                 var url;
-
                 if (result.status === 'OK' || result.status === 'success') {
                     $scope.adArchive = false;
+                    $scope.adArchiveLoader = false;
                     url = '/mediaplan/' + $scope.campaignId + '/overview';
                     $location.url(url);
                     localStorage.setItem('topAlertMessage', $scope.textConstants.WF_AD_ARCHIVE_SUCCESS);

@@ -39,6 +39,7 @@ var angObj = angObj || {};
                         adsDetails = workflowService.getAdsDetails();
                         if ($scope.mode == 'edit' && platform) {
                             platformStatus = !$scope.isAdsPushed;
+                            if($scope.isAdsPushed){
                             if ($scope.TrackingIntegrationsSelected) {
                                 for (i in responseData.fullIntegrationsPlatforms) {
                                     responseData.fullIntegrationsPlatforms[i].active = false;
@@ -61,6 +62,10 @@ var angObj = angObj || {};
                                 for (i in responseData.trackingPlatforms) {
                                     responseData.trackingPlatforms[i].active = false;
                                 }
+                                $scope.trackingPlatformCarouselData(responseData);
+                            }
+                        }else{
+                                $scope.workflowData.platforms = responseData.fullIntegrationsPlatforms;
                                 $scope.trackingPlatformCarouselData(responseData);
                             }
                         } else {
@@ -136,9 +141,23 @@ var angObj = angObj || {};
             workflowService.setPlatform(platform);
             //audience targetting
             $rootScope.$emit('triggerAudienceLoading');
-            if ($scope.mode !== 'edit') {
+            if ($scope.mode != 'edit' || $scope.defaultPlatform.id !== platform.id) {
                 $scope.$parent.TrackingIntegrationsSelected = false;
             }
+            console.log($scope.workflowData.Tracking);
+            //remove creatives only if tracking integrations is changed to Full integrations
+            var wasPrevTrackingInt = _.findIndex($scope.workflowData.platforms, function (item) {
+                return item.id === $scope.adData.platformId;
+            });
+            // code to make creatives already set to empty
+            if(wasPrevTrackingInt<0){
+                $scope.adData.setSizes = constants.WF_NOT_SET;
+                $scope.creativeData.creativeInfo = 'undefined';
+                $scope.selectedArr.length = 0;
+                $scope.$parent.TrackingIntegrationsSelected = false;
+            }
+
+            // To populate the newly selected Platform in sideBar
             name = platform.displayName ? platform.displayName : platform.name;
             $scope.adData.platform = name;
             $scope.adData.platformId = platform.id;
@@ -152,11 +171,12 @@ var angObj = angObj || {};
             $scope.$parent.postPlatformDataObj = [];
             $scope.platformCustomInputs();
             trackingIntegration =  $scope.trackingIntegration || trackingIntegration;
-            if ($scope.mode !== 'edit') {
+            // if ($scope.mode !== 'edit') {
                 $scope.$parent.TrackingIntegrationsSelected = true;
-            }
+            //}
             $scope.selectedPlatform = {};
             $scope.selectedPlatform[trackingIntegration.id] = trackingIntegration.displayName;
+
             //remove creatives only if Full integrations is changed to Tracking-only
             if ($scope.wasFullIntegration() >= 0) {
                 $scope.resetCreatives();
@@ -277,7 +297,7 @@ var angObj = angObj || {};
                 localStorage.setItem('adPlatformCustomInputs', JSON.stringify($scope.$parent.postPlatformDataObj));
             }
             //trigger targeting tab link only when intentionally clicked not on edit mode by default
-            if (!editModeFlag) {
+            if (editModeFlag == "clickedFromCustom") {
                 $scope.triggerTargetting();
             }
             $scope.switchPlatform();
@@ -298,7 +318,11 @@ var angObj = angObj || {};
             $scope.fetchPlatforms(platform[0]);
             if (platform[0]) {
                 $scope.defaultPlatform = platform[0];
+//               if($scope.TrackingIntegrationsSelected){
+//                   $scope.selectTrackingIntegrations(platform[0]);
+//               }else{
                 $scope.selectPlatform((platform[0].switchPlatform ? event : ''), platform[0]);
+//               }
                 $scope.saveCustomeFieldForPlatform(true);
             }
         });

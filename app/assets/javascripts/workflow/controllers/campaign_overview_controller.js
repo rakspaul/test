@@ -3,7 +3,7 @@ var angObj = angObj || {};
     'use strict';
 
     angObj.controller('CampaignOverViewController', function ($scope,$rootScope, $window, $routeParams, constants,
-        workflowService, $timeout,$location, utils, momentService, $route) {
+        workflowService, $timeout,$location, utils, momentService, $route, vistoconfig) {
         $(".main_navigation_holder").find('.active_tab').removeClass('active_tab') ;
         $(".main_navigation").find('.active').removeClass('active').end().find('#campaigns_nav_link').addClass('active');
         $(".bodyWrap").addClass('bodyWrapOverview');
@@ -24,6 +24,7 @@ var angObj = angObj || {};
         $scope.performance=[];
         localStorage.setItem('campaignData','');
         $scope.moreThenThree = '';
+        $scope.campaignArchiveLoader = false;
         $scope.editCampaign=function(workflowcampaignData){
             $location.url('/mediaplan/'+workflowcampaignData.id+'/edit');
         }
@@ -76,24 +77,27 @@ var angObj = angObj || {};
 
         //Archive save func more
         $scope.archiveCampaign=function(event){
+            $scope.campaignArchiveLoader = true;
             event.preventDefault();
             var campaignId = $scope.workflowData['campaignData'].id;
             var campaignArchiveErrorHandler=function(){
                 $scope.campaignArchive=false;
+                $scope.campaignArchiveLoader = false;
                 $rootScope.setErrAlertMessage();
             }
             workflowService.deleteCampaign(campaignId).then(function (result) {
                 if (result.status === "OK" || result.status === "success") {
                     $scope.campaignArchive=false;
-                    var url = '/mediaplans';
+                    $scope.campaignArchiveLoader = false;
                     var campaignName = $scope.workflowData['campaignData'].name;
                     localStorage.setItem('topAlertMessage', campaignName+" has been archived");
-                    $location.url(url);
+                    $location.url(vistoconfig.MEDIA_PLANS_LINK);
                 }else{
                     campaignArchiveErrorHandler();
                 }
             },campaignArchiveErrorHandler);
         }
+
         $scope.cancelArchiveCampaign=function(){
             $scope.campaignArchive=!$scope.campaignArchive;
         }

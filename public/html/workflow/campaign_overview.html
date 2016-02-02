@@ -878,11 +878,14 @@
             </div>
         </div>
         <div class="clearfix popup-footer" >
-            <button type="button"
+            <button ng-show ="!campaignArchiveLoader" type="button"
                     ng-click="archiveCampaign($event)"
                     class="common_primary_btn pull-right"
                     ng-hide="deleteCampaignFailed" data-ng-bind="textConstants.ARCHIVE">
             </button>
+
+            <div ng-show ="campaignArchiveLoader" class="pull-right common-loading-btn" ></div>
+
             <button type="button"
                     ng-click="cancelArchiveCampaign()"
                     class="secondary_txt pull-right" data-ng-bind="textConstants.CANCEL">

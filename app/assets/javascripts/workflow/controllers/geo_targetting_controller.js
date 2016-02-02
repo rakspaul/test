@@ -213,13 +213,7 @@ var angObj = angObj || {};
                 regionsEditable = angular.copy($scope.storedResponse.targets.geoTargets.REGION.geoTargetList);
                 $scope.regionsIncluded = $scope.storedResponse.targets.geoTargets.REGION.isIncluded;
                 _.each(regionsEditable, function (item) {
-                    var index = _.findIndex(flatArr, function (region) {
-                        return item.id ===  region.id;
-                    });
-
-                    if (index  !== -1) {
-                        $scope.sync(true, flatArr[index], 'regions');
-                    }
+                    $scope.sync(true, item, 'regions');
                 });
 
                 // toggle switch based on region settings
@@ -244,13 +238,7 @@ var angObj = angObj || {};
                 citiesEditable = angular.copy($scope.storedResponse.targets.geoTargets.CITY.geoTargetList);
                 $scope.citiesIncluded = $scope.storedResponse.targets.geoTargets.CITY.isIncluded;
                 _.each(citiesEditable, function (item) {
-                    var index = _.findIndex(flatArr, function (region) {
-                        return item.id === region.id;
-                    });
-
-                    if (index  !== -1) {
-                        $scope.sync(true, flatArr[index], 'cities');
-                    }
+                        $scope.sync(true, item, 'cities');
                 });
 
                 // toggle switch based on region settings
@@ -369,7 +357,7 @@ var angObj = angObj || {};
                 marginLeft: '-461px',
                 opacity: '1.0'
             }, 'slow');
-            $scope.$broadcast('setSelectedDayparts');
+
         };
 
         $scope.setTargeting = function (name) {
@@ -474,6 +462,9 @@ var angObj = angObj || {};
             if (!dayParting || dayParting.length === 0) {
                 $scope.adData.isDaypartSelected = false;
                 $scope.adData.targetName = null;
+            }
+            else{
+                $scope.$broadcast('setSelectedDayparts');
             }
             $('#dayTargeting')
                 .delay(300)
@@ -656,6 +647,7 @@ var angObj = angObj || {};
                 $scope.geoTargetingData.cities = [];
                 citiesListArray = [];
                 $scope.listCities()
+                $scope.selectedTab = 'regions';
             } else {
                 $scope.geoTargetingData.selected[type]=[];
                 $scope.includeorExcludeCityOnly(type);
@@ -1068,7 +1060,7 @@ var angObj = angObj || {};
                     $scope.geoTargetingData.selected = presavedGeo;
                     $scope.showCitiesOnly = true;
                     _.each($scope.geoTargetingData.selected.regions,function(item){
-                        if(item.cities.length > 0){
+                        if(item.cities && item.cities.length > 0){
                             $scope.showCitiesOnly = false;
                         }
                     })

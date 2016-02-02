@@ -150,6 +150,7 @@
         this.KPI_BILLING='Select a KPI for billing'
         this.SELECT_ONE_YOU_MAY_ADD='Select one-you may add'
         this.SELECT_KPIS='Select KPIs '
+        this.TARGET_GREATER_THAN_ZERO= 'Target should be greater than 0'
 
         this.DEFAULT_LIMIT_COUNT = 100;
         this.DEFAULT_OFFSET_START = 0;

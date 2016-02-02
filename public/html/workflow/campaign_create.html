@@ -474,7 +474,8 @@
 									<div class="col-md-2 zeroPadding kpiTable symbol-input">
 
 										<span class="symbol">#</span>
-										<input type="text" class="col-md-12" ng-model="Campaign.kpiArr[$index]['kpiValue']" ng-keyup="setLeftNavPrimaryKpi($index); ComputeCost()" field="kpiValue"  whole-number-only="whole-number-only" index="{{$index}}"/>
+										<input type="text" class="col-md-12" ng-model="Campaign.kpiArr[$index]['kpiValue']" ng-keyup="setLeftNavPrimaryKpi($index); ComputeCost()" field="kpiValue"  whole-number-only="whole-number-only" index="{{$index}}" required/>
+										<label ng-if="Campaign.kpiArr[$index]['kpiValue']==='0'"  class="col-sm-12  greyTxt errorLabel" style="display:inline;" ng-bind="textConstants.TARGET_GREATER_THAN_ZERO"></label>
 									</div>
 
 									<div class="col-md-2 zeroPadding kpiTable">
@@ -691,7 +692,8 @@
 						</div>
 					</div>
 					<div class="clearfix popup-footer" >
-						<button type="button" ng-click="repushCampaign()" class="common_primary_btn pull-right" >Save & Push</button>
+						<button ng-show="!repushCampaignLoader" type="button" ng-click="repushCampaign()" class="common_primary_btn pull-right" >Save & Push</button>
+						<div ng-show ="repushCampaignLoader" class="pull-right common-loading-btn" ></div>
 						<button type="button" ng-click="cancelRepushCampaign()"class="secondary_txt pull-right" >Cancel</button>
 					</div>
 

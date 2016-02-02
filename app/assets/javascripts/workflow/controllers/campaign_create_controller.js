@@ -29,6 +29,7 @@ var angObj = angObj || {};
         $scope.Campaign.nonInventoryCost = '00.00';
         $scope.Campaign.deliveryBudget = '00.00';
         $scope.Campaign.effectiveCPM = '00.00';
+        $scope.repushCampaignLoader = false;
 
         $scope.resetCostArrCPC=function(){
             var selVendorObj=[];var cpmRate=[];
@@ -371,7 +372,7 @@ var angObj = angObj || {};
                 isPrimary: false,
                 vendorId: '',
                 vendorName: '',
-                kpiValue: 0,
+                kpiValue: '',
                 isBillable: true
             });
             $(".selectkpiObj").show();
@@ -646,7 +647,7 @@ var angObj = angObj || {};
                         isPrimary: true,
                         vendorId: '',
                         vendorName: '',
-                        kpiValue: 0,
+                        kpiValue: '',
                         isBillable: true
                     });
                     $scope.Campaign.costArr.push({
@@ -808,7 +809,7 @@ var angObj = angObj || {};
 
         $scope.saveCampaign = function () {
             $scope.$broadcast('show-errors-check-validity');
-            $scope.saveCampaignClicked=true;
+
             var isPrimarySelected = $scope.checkIfPrimaryKpiSelected();
             $scope.isPrimarySelected = isPrimarySelected;
             $scope.removeEmptyObjectCostArr();
@@ -839,13 +840,13 @@ var angObj = angObj || {};
                         postDataObj.endTime = $scope.editCampaignData.endTime;
                     else
                         postDataObj.endTime = momentService.localTimeToUTC(formData.endTime, 'endTime');
-
                     postDataObj.advertiserId = $scope.editCampaignData.advertiserId;
                     postDataObj.updatedAt = $scope.editCampaignData.updatedAt;
                     postDataObj.campaignId = $routeParams.campaignId;
                     $scope.repushCampaignEdit = true;
                     $scope.repushData = postDataObj;
                 } else {
+                    $scope.saveCampaignClicked=true;
                     postDataObj.startTime = momentService.localTimeToUTC(formData.startTime, 'startTime');
                     postDataObj.endTime = momentService.localTimeToUTC(formData.endTime, 'endTime');
                     postDataObj.advertiserId = Number(formData.advertiserId);
@@ -861,7 +862,7 @@ var angObj = angObj || {};
         };
 
         $scope.repushCampaign = function () {
-            $scope.repushCampaignEdit = false;
+            $scope.repushCampaignLoader = true;
             $(".workflowPreloader, .workflowPreloader .adSavePre").show();
             workflowService.updateCampaign($scope.repushData, $routeParams.campaignId).then(function (result) {
                 if (result.status === "OK" || result.status === "success") {
@@ -869,8 +870,10 @@ var angObj = angObj || {};
                     localStorage.setItem('topAlertMessage', $scope.textConstants.CAMPAIGN_UPDATED_SUCCESS);
                     localStorage.setItem('campaignData', '');
                     $scope.repushCampaignEdit = false;
+                    $scope.repushCampaignLoader = false;
                 } else {
-                    console.log(result);
+                    $scope.repushCampaignEdit = false;
+                    $scope.repushCampaignLoader = false;
                 }
             });
 
