@@ -880,7 +880,9 @@ var angObj = angObj || {};
             });
         };
 
-        $scope.c = function (isDownloadTrackerClicked) {
+
+
+        $scope.CampaignADsave = function (isDownloadTrackerClicked) {
             var formElem = $('#formAdCreate'),
                 formData = formElem.serializeArray(),
                 customFieldErrorElem,
