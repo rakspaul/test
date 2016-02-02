@@ -1419,6 +1419,9 @@ var angObj = angObj || {};
 
             $scope.scheduleReportAction = function() {
                 if(!$scope.validateScheduleDate()) return;
+                var elem = $(event.target);
+                elem.hide();
+                elem.siblings(".common-loading-btn").show();
                 if ($scope.buttonLabel == "Update") {
                     $scope.updateSchdReport();
                 } else if ($scope.buttonLabel == "Generate") {
