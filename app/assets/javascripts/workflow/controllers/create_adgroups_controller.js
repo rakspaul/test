@@ -4,7 +4,8 @@ var angObj = angObj || {};
     'use strict';
 
     angObj.controller('CreateAdGroupsController', function ($scope, $window, $routeParams, constants, workflowService, $timeout,
-                                                            utils, $location, momentService) {
+                                                            utils, $location, momentService, $route) {
+        $scope.loadingBtn = false ;
         $scope.handleFlightDate = function (data) {
             var startTime = data,
                 endDateElem = $('#adGrpEndDateInput'),
@@ -25,15 +26,13 @@ var angObj = angObj || {};
             }
         };
 
-        $scope.createAdGroup = function (createNewAdGrp, event) {
+        $scope.createAdGroup = function (createNewAdGrp) {
             var formElem,
                 formData,
                 postCreateAdObj;
 
             $scope.$broadcast('show-errors-check-validity');
-            var elem = $(event.target);
-            elem.hide() ;
-            elem.siblings(".common-loading-btn").show() ;
+            $scope.loadingBtn = true ;
             if (createNewAdGrp.$valid) {
                 formElem = $('#createNewAdGrp');
                 formData = formElem.serializeArray();
@@ -54,7 +53,7 @@ var angObj = angObj || {};
                             $scope.createGroupMessage = !$scope.createGroupMessage;
                             $scope.createAdGroupMessage = 'Ad Group Created Successfully';
                             localStorage.setItem( 'topAlertMessage', $scope.textConstants.AD_GROUP_CREATED_SUCCESS );
-                            location.reload();
+                            $route.reload();
                         } else {
                             $scope.createGroupMessage = !$scope.createGroupMessage;
                             $scope.createAdGroupMessage = 'Ad Group not Created';

@@ -34,6 +34,7 @@ var angObj = angObj || {};
         ];
         $scope.dataNotFound = false;
         $scope.reportDataBusy = false;
+        $scope.loadingBtn = false;
         $scope.activeTab = "delivery_metrics";
         $scope.filters = domainReports.getReportsTabs();
         $scope.count = 0;
@@ -1419,14 +1420,18 @@ var angObj = angObj || {};
 
             $scope.scheduleReportAction = function() {
                 if(!$scope.validateScheduleDate()) return;
+                $scope.loadingBtn = true ;
                 if ($scope.buttonLabel == "Update") {
                     $scope.updateSchdReport();
                 } else if ($scope.buttonLabel == "Generate") {
-                    $scope.generateBtnDisabled = true
+                    $scope.generateBtnDisabled = true;
                     $scope.generateReport();
                 } else {
                     $scope.scheduleReport();
                 }
+                setTimeout(function(){ 
+                    $scope.loadingBtn = false ;
+                }, 1000);
             }
 
             $scope.resetMetricOptions = function() {
