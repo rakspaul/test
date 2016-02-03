@@ -674,9 +674,11 @@
         this.account_admin = "2";
         this.advertiser_admin = "3";
         this.generic_user = "4";
-        this.WF_USER_CREATION_SUCCESS="User Created Successfully"
+        this.WF_USER_CREATION_SUCCESS="Created User Successfully";
+        this.WF_USER_EDIT_SUCCESS="Edited User Successfully";
         this.WF_PERMISSION_NEEDED="Atleast 1 permission needed";
-        this.WF_USER_CREATION_FAIL = "Unable to create a User";
+        this.WF_USER_CREATION_FAIL = "Unable to create User";
+        this.WF_USER_EDIT_FAIL = "Unable to edit User";
 
         //Overview Page
         this.ADVERTISER = 'Advertiser';

@@ -111,16 +111,16 @@
                 if (res.status === "OK" || res.status === "success") {
                     $rootScope.$broadcast('refreshUserList');
                     $scope.resetFields();
-                    $rootScope.setErrAlertMessage(constants.WF_USER_CREATION_SUCCESS, 0);
+                    $rootScope.setErrAlertMessage(constants.WF_USER_EDIT_SUCCESS, 0);
                 }
                 else{
-                    $rootScope.setErrAlertMessage(constants.WF_USER_CREATION_FAIL);
+                    $rootScope.setErrAlertMessage(constants.WF_USER_EDIT_FAIL);
                 }
             },function(err){
-                $rootScope.setErrAlertMessage(constants.WF_USER_CREATION_FAIL);
+                $rootScope.setErrAlertMessage(constants.WF_USER_EDIT_FAIL);
             });
 
-        }
+        };
 
         $scope.createUser = function(postDataObj){
             accountsService.createUser(postDataObj).then(function(res){
@@ -135,7 +135,7 @@
             },function(err){
                 $rootScope.setErrAlertMessage(constants.WF_USER_CREATION_FAIL);
             });
-        }
+        };
 
         $scope.selectedClientHandler=function(clientObj,index, orgId, resellerId,editData){
 
