@@ -642,7 +642,7 @@ select {
 .btn-default {
   color: #57606d;
   font-size: 14px;
-  border: 1px solid #BFC9D7;
+  border: 1px solid #dde6eb;
 }
 .btn-default:not(.label-btn):hover {
   background: #e1edf9;
@@ -993,7 +993,8 @@ select {
   float: none;
 }
 .table thead {
-  border-bottom: 2px solid #bfc9d7;
+  border: 1px solid #d2dee7;
+  border-bottom: 2px solid #d2dee7;
 }
 .table thead tr th {
   border-width: 0;
@@ -1189,8 +1190,8 @@ input.cmn-toggle-round:checked + label:after {
 .cardSelectHolder {
   border-radius: 1px;
   border: 1px solid #bfc9d7;
-  padding: 20px;
-  min-height: 265px;
+  padding: 30px 20px;
+  min-height: 280px;
   width: 32%;
   margin-right: 2%;
   margin-top: 2%;
@@ -1209,7 +1210,7 @@ input.cmn-toggle-round:checked + label:after {
   font-size: 14px;
   width: 100%;
   text-align: center;
-  margin: 0;
+  margin: 20px 0;
   float: left;
 }
 .cardSelectHolder p span {
@@ -1228,6 +1229,7 @@ input.cmn-toggle-round:checked + label:after {
   position: relative;
   left: 50%;
   margin-left: -32px;
+  margin-top: 20px;
   cursor: pointer;
 }
 .cardSelectHolder .btn.active {
@@ -1253,14 +1255,6 @@ input.cmn-toggle-round:checked + label:after {
   font-size: 32px;
   color: #363d49;
   min-height: initial;
-  margin: 10px auto 10px;
-}
-.cardSelectHolder .cardTxtWrap {
-  float: left;
-  width: 100%;
-  margin: 14px 0 0 0;
-  text-align: center;
-  min-height: 93px;
 }
 .cardSelectHolder .icon-inline-edit,
 .cardSelectHolder .icon-trash {
@@ -1273,7 +1267,6 @@ input.cmn-toggle-round:checked + label:after {
   width: 16px;
   height: 16px;
   display: none;
-  margin: 0;
 }
 .cardSelectHolder .icon-inline-edit:hover,
 .cardSelectHolder .icon-trash:hover {
@@ -1298,7 +1291,6 @@ input.cmn-toggle-round:checked + label:after {
   width: 16px;
   height: 16px;
   float: left;
-  margin: 1px 0 0 0;
 }
 .cardSelectHolder .targetDataSaved span {
   width: auto;
