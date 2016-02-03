@@ -174,7 +174,7 @@ var angObj = angObj || {};
                     obj = $scope.convertToScheduleObj('Monday', dayArr);
                     for (i in obj) {
                         $scope.Schedule.customLength = $scope.Schedule.customLength + 1;
-                        if (obj[i].edTime === '24') {
+                        if (Number(obj[i].edTime) === 24) {
                             obj[i].stTime = 24;
                             $scope.Schedule.daytimeArr.push(obj[i]);
                             $scope.Schedule.dayPart.push(obj[i]);
@@ -188,7 +188,7 @@ var angObj = angObj || {};
                     obj = $scope.convertToScheduleObj('Tuesday', dayArr);
                     for (i in obj) {
                         $scope.Schedule.customLength = $scope.Schedule.customLength + 1;
-                        if (obj[i].edTime === '24') {
+                        if (Number(obj[i].edTime) === 24) {
                             obj[i].stTime = 24;
                             $scope.Schedule.daytimeArr.push(obj[i]);
                             $scope.Schedule.dayPart.push(obj[i]);
@@ -202,7 +202,7 @@ var angObj = angObj || {};
                     obj = $scope.convertToScheduleObj('Wednesday', dayArr);
                     for (i in obj) {
                         $scope.Schedule.customLength = $scope.Schedule.customLength + 1;
-                        if (obj[i].edTime === '24') {
+                        if (Number(obj[i].edTime) === 24) {
                             obj[i].stTime = 24;
                             $scope.Schedule.daytimeArr.push(obj[i]);
                             $scope.Schedule.dayPart.push(obj[i]);
@@ -216,7 +216,7 @@ var angObj = angObj || {};
                     obj = $scope.convertToScheduleObj('Thursday', dayArr);
                     for (i in obj) {
                         $scope.Schedule.customLength = $scope.Schedule.customLength + 1;
-                        if (obj[i].edTime === '24') {
+                        if (Number(obj[i].edTime) === 24) {
                             obj[i].stTime = 24;
                             $scope.Schedule.daytimeArr.push(obj[i]);
                             $scope.Schedule.dayPart.push(obj[i]);
@@ -230,7 +230,7 @@ var angObj = angObj || {};
                     obj = $scope.convertToScheduleObj('Friday', dayArr);
                     for (i in obj) {
                         $scope.Schedule.customLength = $scope.Schedule.customLength + 1;
-                        if (obj[i].edTime === '24') {
+                        if (Number(obj[i].edTime) === 24) {
                             obj[i].stTime = 24;
                             $scope.Schedule.daytimeArr.push(obj[i]);
                             $scope.Schedule.dayPart.push(obj[i]);
@@ -244,7 +244,7 @@ var angObj = angObj || {};
                     obj = $scope.convertToScheduleObj('Saturday', dayArr);
                     for (i in obj) {
                         $scope.Schedule.customLength = $scope.Schedule.customLength + 1;
-                        if (obj[i].edTime === '24') {
+                        if (Number(obj[i].edTime) === 24) {
                             obj[i].stTime = 24;
                             $scope.Schedule.daytimeArr.push(obj[i]);
                             $scope.Schedule.dayPart.push(obj[i]);
@@ -258,7 +258,7 @@ var angObj = angObj || {};
                     obj = $scope.convertToScheduleObj('Sunday', dayArr);
                     for (i in obj) {
                         $scope.Schedule.customLength = $scope.Schedule.customLength + 1;
-                        if (obj[i].edTime === '24') {
+                        if (Number(obj[i].edTime) === 24) {
                             obj[i].stTime = 24;
                             $scope.Schedule.daytimeArr.push(obj[i]);
                             $scope.Schedule.dayPart.push(obj[i]);
@@ -452,11 +452,11 @@ var angObj = angObj || {};
 
             $scope.arrName = [];
             for (i in day) {
-                if (day[i].stTime === '24') {
+                if (Number(day[i].stTime) === 24) {
                     for (index = 0; index < 24; index++) {
                         $scope.arrName.push(index);
                     }
-                } else if (day[i].stTime === '23') {
+                } else if (Number(day[i].stTime) === 23) {
                     $scope.arrName.push(23);
                 } else if (parseInt(day[i].edTime) > parseInt(day[i].stTime)) {
                     for (diff = parseInt(day[i].stTime); diff<parseInt(day[i].edTime); diff++) {
