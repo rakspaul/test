@@ -1750,3 +1750,8 @@ input.cmn-toggle-round:checked + label:after {
   left: auto ;
   right: 9px ;
 }
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
