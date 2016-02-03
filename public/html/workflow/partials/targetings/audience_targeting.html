@@ -76,7 +76,7 @@
                             <div class="col-md-12 zeroPadding dropdown-workflow">
                                 <div class="dropdown">
                                     <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                        <span class="text" data-ng-bind="textConstants.categoryText"></span>
+                                        <span class="text" data-ng-bind="categoryText"></span>
                                         <span class="icon-arrow-down"></span>
                                     </button>
 					<ul class="dropdown-menu dropdown-search" aria-labelledby="sourceSeg" style="width: 230px;">
@@ -84,22 +84,24 @@
 							<input type="text" class="col-md-12" placeholder="Search" ng-model="categorySearch"/>
 							<div class="icon-search"></div>
 						</li>
-						<li ng-repeat="category in audienceCategories| filter: categorySearch">
-                                            <span>
-                                                <input type="checkbox" name="checkbox" ng-click="selectCategories(category,'category')" ng-checked="category.isChecked">
-                                                <span class="icon-arrow-down-thick" ng-click="showSubCategory($event)"></span>
-                                                {{category.category}} ({{(category.subCategories.length > 0 && category.subCategories[0].subCategory != null)? category.subCategories.length: 0}})
-                                            </span>
-						<ul ng-if="(category.subCategories.length > 0 && category.subCategories[0].subCategory != null)" style="display:none">
-							<li ng-repeat="sub in category.subCategories"><span><input type="checkbox" ng-click="selectCategories(sub,'subcategory',category)" ng-checked="sub.isChecked">{{sub.subCategory}}</span></li>
-						</ul>
-					</li>
+                        <ul style="max-height:100px;overflow-y:auto;list-style: none;">
+                            <li ng-repeat="category in audienceCategories| filter: categorySearch">
+                                                    <span>
+                                                        <input type="checkbox" name="checkbox" ng-click="selectCategories(category,'category')" ng-checked="category.isChecked">
+                                                        <span class="icon-arrow-down-thick" ng-click="showSubCategory($event)"></span>
+                                                        {{category.category}} ({{(category.subCategories.length > 0 && category.subCategories[0].subCategory != null)? category.subCategories.length: 0}})
+                                                    </span>
+                                <ul ng-if="(category.subCategories.length > 0 && category.subCategories[0].subCategory != null)" style="display:none">
+                                    <li ng-repeat="sub in category.subCategories"><span><input type="checkbox" ng-click="selectCategories(sub,'subcategory',category)" ng-checked="sub.isChecked">{{sub.subCategory}}</span></li>
+                                </ul>
+                            </li>
+                        </ul>
 					<div class="clearfix category_dropdown">
                                             <div class="pull-left btn btn-link" ng-click="clearAllSelectedCategory()" data-ng-bind="textConstants.CLEARALL">
                                             </div>
                                             <div class="pull-right btn  btn-default" ng-click="processDone()" data-ng-bind="textConstants.DONE">
                                             </div>
-                                        </div>
+                    </div>
 				</ul>
                                 </div>
                             </div>
