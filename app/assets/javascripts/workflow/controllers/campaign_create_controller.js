@@ -704,7 +704,7 @@ var angObj = angObj || {};
                 })
             },
             fetchAdvertisers: function (clientId) {
-                workflowService.getAdvertisers(clientId).then(function (result) {
+                workflowService.getAdvertisers('write').then(function (result) {
                     if (result.status === "OK" || result.status === "success") {
                         var responseData = result.data.data;
                         $scope.workflowData['advertisers'] = _.sortBy(responseData, 'name');
@@ -716,7 +716,7 @@ var angObj = angObj || {};
             },
 
             fetchBrands: function (clientId, advertiserId) {
-                workflowService.getBrands(clientId, advertiserId).then(function (result) {
+                workflowService.getBrands(advertiserId, 'write').then(function (result) {
                     if (result.status === "OK" || result.status === "success") {
                         var responseData = result.data.data;
                         $scope.workflowData['brands'] = _.sortBy(responseData, 'name');
