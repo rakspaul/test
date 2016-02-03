@@ -228,13 +228,13 @@ var angObj = angObj || {};
         $scope.searchShowInput = function () {
             $(".searchInputBtn").hide();
             $(".searchInputForm").show();
-            $(".searchInputForm").animate({width: '300px'});
+            $(".searchInputForm").animate({width: '300px'}, 'fast');
         };
         
         $scope.searchHideInput = function () {
-            $(".searchInputForm").animate({width: '44px'});
-            setTimeout(function(){ $(".searchInputForm").hide(); }, 600);
-            setTimeout(function(){ $(".searchInputBtn").fadeIn(); }, 600);
+            $(".searchInputForm").animate({width: '44px'}, 'fast');
+            setTimeout(function(){ $(".searchInputForm").hide(); }, 300);
+            setTimeout(function(){ $(".searchInputBtn").fadeIn(); }, 300);
         };
         
         

@@ -27,6 +27,7 @@
   padding: 0;
   width: 44px;
   height: 34px;
+  border-left: 1px solid #BFC9D7;
 }
 .searchInput .input-group .btn [class^="icon-"],
 .searchInput .input-group .btn [class*=" icon-"] {
