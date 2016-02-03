@@ -46,6 +46,14 @@ var angObj = '';
                     bodyclass : 'dashboard_body',
                     resolve: {}
                 })
+                
+                .when('/dashboard_2', {
+                    templateUrl: assets.html_dashboard_2,
+                    controller: 'DashboardController',
+                    title : 'Dashboard 2.0',
+                    bodyclass : 'dashboard_2',
+                    resolve: {}
+                })
 
                 .when('/mediaplans', {
                     templateUrl: assets.html_campaign_list,
