@@ -355,10 +355,14 @@ var angObj = angObj || {};
         };
 
         $scope.updateCategoryText = function () {
+            var limit = 10;
             if ($scope.selectedCategory.length === 0) {
                 $scope.categoryText = 'All';
             } else if ($scope.selectedCategory.length === 1) {
-                $scope.categoryText = $scope.selectedCategory[0].subCategory;
+                if($scope.selectedCategory[0].subCategory.length < limit)
+                    $scope.categoryText = $scope.selectedCategory[0].subCategory;
+                else
+                    $scope.categoryText = $scope.selectedCategory[0].subCategory.slice(0,limit) + '...';
 
             } else {
                 $scope.categoryText = $scope.selectedCategory.length + ' Selected';
