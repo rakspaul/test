@@ -84,15 +84,15 @@
 							<input type="text" class="col-md-12" placeholder="Search" ng-model="categorySearch"/>
 							<div class="icon-search"></div>
 						</li>
-                        <ul style="max-height:100px;overflow-y:auto;list-style: none;">
+                        <ul style="max-height:100px;overflow-y:auto;list-style: none; padding-left: 0; float: left;">
                             <li ng-repeat="category in audienceCategories| filter: categorySearch">
-                                                    <span>
-                                                        <input type="checkbox" name="checkbox" ng-click="selectCategories(category,'category')" ng-checked="category.isChecked">
-                                                        <span class="icon-arrow-down-thick" ng-click="showSubCategory($event)"></span>
-                                                        {{category.category}} ({{(category.subCategories.length > 0 && category.subCategories[0].subCategory != null)? category.subCategories.length: 0}})
+                                                    <span  tooltip-placement="top" title="{{category.category}}">
+                                                        <input type="checkbox" name="checkbox" ng-click="selectCategories(category,'category')" ng-checked="category.isChecked" style="margin-right: 0px;">
+                                                        <span class="icon-arrow-down-thick" ng-click="showSubCategory($event)" style="margin-right: 0;cursor:pointer;"></span>
+                                                        <span style="width: auto;float: none; padding-left: 0;">{{category.category  | limitTo:18}} {{(category.category.length > 18)? '...':'' }} ({{(category.subCategories.length > 0 && category.subCategories[0].subCategory != null)? category.subCategories.length: 0}})</span>
                                                     </span>
                                 <ul ng-if="(category.subCategories.length > 0 && category.subCategories[0].subCategory != null)" style="display:none">
-                                    <li ng-repeat="sub in category.subCategories"><span><input type="checkbox" ng-click="selectCategories(sub,'subcategory',category)" ng-checked="sub.isChecked">{{sub.subCategory}}</span></li>
+                                    <li ng-repeat="sub in category.subCategories"><span tooltip-placement="top" title="{{sub.subCategory}}"><input type="checkbox" ng-click="selectCategories(sub,'subcategory',category)" ng-checked="sub.isChecked" tooltip="asdf">{{sub.subCategory | limitTo:16}} {{(sub.subCategory.length > 16)? '...':'' }} </span></li>
                                 </ul>
                             </li>
                         </ul>
