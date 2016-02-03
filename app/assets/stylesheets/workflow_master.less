@@ -184,10 +184,6 @@ select {
   .dropdown-menu li.disabled>a {
     cursor: not-allowed ;
   }
-  .dropdown-menu.pull-top.pull-left {
-    top: initial !important;
-    bottom: 105%;
-  }
   .dropdown-menu, .dropdown-menu-search {
     box-shadow: 0 1px 7px rgba(0,0,0,.15) !important;
     -webkit-box-shadow: 0 1px 7px rgba(0,0,0,.15) !important;
@@ -288,6 +284,10 @@ select {
         background-color: #E1EDF9;
       }
     }
+  }
+  .dropdown-menu.pull-top.pull-left {
+    top: initial !important;
+    bottom: 105%;
   }
   .dropdown-menu-search {
     overflow: scroll;
@@ -442,30 +442,11 @@ select {
     width: 200px;
     display: block;
     text-align: center;
-<<<<<<< HEAD
-    line-height: 16px;
-    font-size: 14px;
-    width: auto;*/
-  }
-  .btn:hover, .btn:focus, .btn:active {
-    text-decoration: none;
-  }
-  .btn-primary {background: #0978C9;}
-  .btn-primary:hover {background: #0564A9;}
-  .btn-primary:active, .btn-primary.active {background: #004D86;}
-  /////
-  .btn-default {color: #57606d; font-size: 14px; border: 1px solid #BFC9D7;}
-  .btn-default:not(.label-btn):hover {background: #e1edf9;}
-  .btn-default:not(.label-btn):active, .btn-default:not(.label-btn).active {background: #E1EDF9;}
-  .label-btn {
-    cursor: default;
-=======
     top: 50%;
     left: 50%;
     margin-left: -100px;
     margin-top: 40px;
     display: none;
->>>>>>> Visto 2.0
   }
 }
 .date {
@@ -1006,24 +987,11 @@ select {
       }
     }
   }
-<<<<<<< HEAD
-  
-  // Table Design
-  .table {
-    thead {
-      border-bottom: 2px solid #bfc9d7;
-      tr {
-        th {
-          border-width: 0;
-          font-weight: normal;
-        }
-=======
   tbody {
     tr {
       td {
         background: #F5FAFD;
         padding: 20px;
->>>>>>> Visto 2.0
       }
     }
     tr:nth-child(odd) {
@@ -1312,43 +1280,6 @@ input.cmn-toggle-round:checked + label:after {
     color: #0978c9;
     cursor: pointer;
   }
-<<<<<<< HEAD
-  
-  // Default Card Select
-  .cardSelectHolder {
-    border-radius: 1px;
-    border:1px solid #bfc9d7;
-    padding: 20px;
-    min-height: 265px;
-    width: 32%;
-    margin-right: 2%;
-    margin-top: 2%;
-    float: left;
-    position: relative;
-    span {
-      float: left;
-      width: 100%;
-      text-align: center;
-      min-height: 50px;
-    }
-    p {
-      color: #21252b;
-      font-family: "Avenir-bold";
-      font-size: 14px;
-      width: 100%;
-      text-align: center;
-      margin: 0;
-      float: left;
-      span {
-        font-family: "Avenir";
-        color: #939eae;
-        width: auto;
-        float: none;
-      }
-    }
-    img {
-      margin: 30px auto 10px;
-=======
   .icon-trash {
     //right: 40px;
     z-index: 90;
@@ -1358,7 +1289,6 @@ input.cmn-toggle-round:checked + label:after {
     width: 100%;
     text-align: center;
     .targetDataSavedTop {
->>>>>>> Visto 2.0
       display: table;
       margin: 0 auto 2px ;
     }
@@ -1367,13 +1297,6 @@ input.cmn-toggle-round:checked + label:after {
       width: 16px;
       height: 16px;
       float: left;
-<<<<<<< HEAD
-      position: relative;
-      left: 50%;
-      margin-left: -32px;
-      cursor: pointer;
-=======
->>>>>>> Visto 2.0
     }
     span {
       width: auto;
@@ -1389,115 +1312,10 @@ input.cmn-toggle-round:checked + label:after {
     }
     .targetListItem {
       text-align: center;
-<<<<<<< HEAD
-      height: 32px;
-      font-size: 32px;
-      color: #363d49;
-      min-height: initial;
-      margin: 10px auto 10px;
-    }
-    .cardTxtWrap {
-      float: left;
-      width: 100%;
-      margin: 14px 0 0 0;
-      text-align: center;
-      min-height: 93px;
-    }
-    .icon-inline-edit, .icon-trash {
-      position: absolute;
-      z-index: 10;
-      top: 10px;
-      right: 10px;
-      color: #363d49;
-      font-size: 16px;
-      width: 16px;
-      height: 16px;
-      display: none;
-      margin: 0;
-    }
-    .icon-inline-edit:hover, .icon-trash:hover {
-      color: #0978c9;
-      cursor: pointer;
-    }
-    .icon-trash {
-      //right: 40px;
-      z-index: 90;
-    }
-    .targetDataSaved {
-      float: left;
-      width: 100%;
-      text-align: center;
-      .targetDataSavedTop {
-        display: table;
-        margin: 0 auto 2px ;
-      }
-      .icon-target, .icon-exclude {
-        font-size: 16px;
-        width: 16px;
-        height: 16px;
-        float: left;
-        margin: 1px 0 0 0;
-      }
-      span {
-        width: auto;
-        min-height: initial;
-        padding: 0 5px;
-      }
-      .badge {
-        color: #21252b;
-        font-weight: normal;
-        background: #fff;
-        border: 1px solid #bfc9d7;
-        float: left;
-      }
-      .targetListItem {
-        text-align: center;
-        width: 100%;
-        color: #939eae;
-        font-size: 14px;
-        float: left;
-      }
-      .targetListItemMore {
-        text-align: center;
-        width: 100%;
-        color: #0978c9;
-        font-size: 14px;
-        float: left;
-      }
-    }
-    .onSelectBtn {
-      position: absolute;
-      z-index: 10;
-      top: 0;
-      left: 0;
-      width: 100% !important;
-      height: 100%;
-      cursor: pointer;
-      margin: 0 !important;
-      background: transparent !important;
-      border-width: 0;
-    }
-  }
-  .cardSelectHolder:nth-child(3n+3) {
-    margin-right: 0;
-  }
-  .cardSelectHolder:hover {
-    background-color: rgba(225, 237, 249, 0.4);
-    border: 1px solid #0978c9;
-  }
-  .cardSelectHolder.active {
-    .icon-inline-edit {
-      display: initial;
-      color: #363d49;
-    }
-    .icon-trash:hover {
-      color: #0978c9;
-=======
       width: 100%;
       color: #939eae;
       font-size: 14px;
       float: left;
->>>>>>> Visto 2.0
     }
     .targetListItemMore {
       text-align: center;
@@ -1515,216 +1333,9 @@ input.cmn-toggle-round:checked + label:after {
     width: 100% !important;
     height: 100%;
     cursor: pointer;
-<<<<<<< HEAD
-    text-align: center;
-    z-index: 999;
-    img {
-      width: 35px;
-      margin-top: -12px;
-      /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#ffffff+37,ffffff+100&amp;1+22,0+100 */
-      background: -moz-linear-gradient(top,  rgba(255,255,255,1) 22%, rgba(255,255,255,0.81) 37%, rgba(255,255,255,0) 100%); /* FF3.6+ */
-      background: -webkit-gradient(linear, left top, left bottom, color-stop(22%,rgba(255,255,255,1)), color-stop(37%,rgba(255,255,255,0.81)), color-stop(100%,rgba(255,255,255,0))); /* Chrome,Safari4+ */
-      background: -webkit-linear-gradient(top,  rgba(255,255,255,1) 22%,rgba(255,255,255,0.81) 37%,rgba(255,255,255,0) 100%); /* Chrome10+,Safari5.1+ */
-      background: -o-linear-gradient(top,  rgba(255,255,255,1) 22%,rgba(255,255,255,0.81) 37%,rgba(255,255,255,0) 100%); /* Opera 11.10+ */
-      background: -ms-linear-gradient(top,  rgba(255,255,255,1) 22%,rgba(255,255,255,0.81) 37%,rgba(255,255,255,0) 100%); /* IE10+ */
-      background: linear-gradient(to bottom,  rgba(255,255,255,1) 22%,rgba(255,255,255,0.81) 37%,rgba(255,255,255,0) 100%); /* W3C */
-      filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#00ffffff',GradientType=0 ); /* IE6-9 */
-    }
-    .btn {
-      margin-top: -24px ;
-    }
-  }
-  
-  /*! jQuery UI - v1.11.4 - 2015-11-05 For Slider
-  * http://jqueryui.com
-  * Includes: core.css, slider.css, theme.css
-  * To view and modify this theme, visit http://jqueryui.com/themeroller/?ffDefault=Verdana%2CArial%2Csans-serif&fwDefault=normal&fsDefault=1.1em&cornerRadius=4px&bgColorHeader=cccccc&bgTextureHeader=highlight_soft&bgImgOpacityHeader=75&borderColorHeader=aaaaaa&fcHeader=222222&iconColorHeader=222222&bgColorContent=ffffff&bgTextureContent=flat&bgImgOpacityContent=75&borderColorContent=aaaaaa&fcContent=222222&iconColorContent=222222&bgColorDefault=e6e6e6&bgTextureDefault=glass&bgImgOpacityDefault=75&borderColorDefault=d3d3d3&fcDefault=555555&iconColorDefault=888888&bgColorHover=dadada&bgTextureHover=glass&bgImgOpacityHover=75&borderColorHover=999999&fcHover=212121&iconColorHover=454545&bgColorActive=ffffff&bgTextureActive=glass&bgImgOpacityActive=65&borderColorActive=aaaaaa&fcActive=212121&iconColorActive=454545&bgColorHighlight=fbf9ee&bgTextureHighlight=glass&bgImgOpacityHighlight=55&borderColorHighlight=fcefa1&fcHighlight=363636&iconColorHighlight=2e83ff&bgColorError=fef1ec&bgTextureError=glass&bgImgOpacityError=95&borderColorError=cd0a0a&fcError=cd0a0a&iconColorError=cd0a0a&bgColorOverlay=aaaaaa&bgTextureOverlay=flat&bgImgOpacityOverlay=0&opacityOverlay=30&bgColorShadow=aaaaaa&bgTextureShadow=flat&bgImgOpacityShadow=0&opacityShadow=30&thicknessShadow=8px&offsetTopShadow=-8px&offsetLeftShadow=-8px&cornerRadiusShadow=8px
-  * Copyright jQuery Foundation and other contributors; Licensed MIT */
-  
-  /* Layout helpers
-  ----------------------------------*/
-  .ui-helper-hidden {
-      display: none;
-  }
-  .ui-helper-hidden-accessible {
-      border: 0;
-      clip: rect(0 0 0 0);
-      height: 1px;
-      margin: -1px;
-      overflow: hidden;
-      padding: 0;
-      position: absolute;
-      width: 1px;
-  }
-  .ui-helper-reset {
-      margin: 0;
-      padding: 0;
-      border: 0;
-      outline: 0;
-      line-height: 1.3;
-      text-decoration: none;
-      font-size: 100%;
-      list-style: none;
-  }
-  .ui-helper-clearfix:before,
-  .ui-helper-clearfix:after {
-      content: "";
-      display: table;
-      border-collapse: collapse;
-  }
-  .ui-helper-clearfix:after {
-      clear: both;
-  }
-  .ui-helper-clearfix {
-      min-height: 0; /* support: IE7 */
-  }
-  .ui-helper-zfix {
-      width: 100%;
-      height: 100%;
-      top: 0;
-      left: 0;
-      position: absolute;
-      opacity: 0;
-      filter:Alpha(Opacity=0); /* support: IE8 */
-  }
-  
-  .ui-front {
-      z-index: 100;
-  }
-  
-  
-  /* Interaction Cues
-  ----------------------------------*/
-  .ui-state-disabled {
-      cursor: default !important;
-  }
-  
-  
-  /* Icons
-  ----------------------------------*/
-  
-  /* states and images */
-  .ui-icon {
-      display: block;
-      text-indent: -99999px;
-      overflow: hidden;
-      background-repeat: no-repeat;
-  }
-  
-  
-  /* Misc visuals
-  ----------------------------------*/
-  
-  /* Overlays */
-  .ui-widget-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-  }
-  .ui-slider {
-      position: relative;
-      text-align: left;
-  }
-  .ui-slider .ui-slider-handle {
-      position: absolute;
-      z-index: 2;
-      width: 1.2em;
-      height: 1.2em;
-      cursor: default;
-      -ms-touch-action: none;
-      touch-action: none;
-  }
-  .ui-slider .ui-slider-range {
-      position: absolute;
-      z-index: 1;
-      font-size: .7em;
-      display: block;
-      border: 0;
-      background-position: 0 0;
-  }
-  
-  /* support: IE8 - See #6727 */
-  .ui-slider.ui-state-disabled .ui-slider-handle,
-  .ui-slider.ui-state-disabled .ui-slider-range {
-      filter: inherit;
-  }
-  
-  .ui-slider-horizontal {
-      height: .8em;
-  }
-  .ui-slider-horizontal .ui-slider-handle {
-      top: -.3em;
-      margin-left: -.6em;
-  }
-  .ui-slider-horizontal .ui-slider-range {
-      top: 0;
-      height: 100%;
-  }
-  .ui-slider-horizontal .ui-slider-range-min {
-      left: 0;
-  }
-  .ui-slider-horizontal .ui-slider-range-max {
-      right: 0;
-  }
-  
-  .ui-slider-vertical {
-      width: .8em;
-      height: 100px;
-  }
-  .ui-slider-vertical .ui-slider-handle {
-      left: -.3em;
-      margin-left: 0;
-      margin-bottom: -.6em;
-  }
-  .ui-slider-vertical .ui-slider-range {
-      left: 0;
-      width: 100%;
-  }
-  .ui-slider-vertical .ui-slider-range-min {
-      bottom: 0;
-  }
-  .ui-slider-vertical .ui-slider-range-max {
-      top: 0;
-  }
-  
-  /* Component containers
-  ----------------------------------*/
-  .ui-widget {
-      font-family: Verdana,Arial,sans-serif;
-      font-size: 1.1em;
-  }
-  .ui-widget .ui-widget {
-      font-size: 1em;
-  }
-  .ui-widget input,
-  .ui-widget select,
-  .ui-widget textarea,
-  .ui-widget button {
-      font-family: Verdana,Arial,sans-serif;
-      font-size: 1em;
-  }
-  .ui-widget-content {
-      border: 1px solid #aaaaaa;
-      background: #ffffff;
-      color: #222222;
-  }
-  .ui-widget-content a {
-      color: #222222;
-  }
-  .ui-widget-header {
-      border: 1px solid #aaaaaa;
-      color: #222222;
-      font-weight: bold;
-  }
-  .ui-widget-header a {
-      color: #222222;
-=======
     margin: 0 !important;
     background: transparent !important;
     border-width: 0;
->>>>>>> Visto 2.0
   }
 }
 .cardSelectHolder:nth-child(3n+3) {
@@ -2166,13 +1777,5 @@ input.cmn-toggle-round:checked + label:after {
       left : auto ;
       right: 9px ;
     }
-  }
-}
-
-.kpiTable {
-  input[type=number]::-webkit-inner-spin-button, 
-  input[type=number]::-webkit-outer-spin-button { 
-    -webkit-appearance: none; 
-    margin: 0; 
   }
 }
