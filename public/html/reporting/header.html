@@ -6,6 +6,11 @@
             </a>
         </div>
         <div class="pull-left main_navigation clearfix">
+            <div class="pull-left each_nav_link" id="dashboard_nav_link">
+                <a href="/dashboard" ng-bind="textConstants.DASHBOARD"></a>
+
+                <div class="arrowSelect"></div>
+            </div>
             <div class="pull-left each_nav_link" id="campaigns_nav_link">
                 <a href="/mediaplans" ng-mouseover="hide_navigation_dropdown($event);" ng-bind="textConstants.MEDIA_PLAN"></a>
 
