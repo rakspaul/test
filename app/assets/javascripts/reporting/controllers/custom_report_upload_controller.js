@@ -14,6 +14,7 @@ var angObj = angObj || {};
       $scope.errorMsg = false;
       $scope.deleteSuccessMsg = false;
       $scope.deleteErrorMsg = false;
+      $scope.errorMsgCustomRptName = false;
 
       $scope.disabledUpload = false;
 
@@ -22,6 +23,7 @@ var angObj = angObj || {};
         $scope.errorMsg = false;
         $scope.deleteSuccessMsg = false;
         $scope.deleteErrorMsg = false;
+        $scope.errorMsgCustomRptName = false;
       }
 
       $scope.timeoutReset = function(){
@@ -165,7 +167,7 @@ var angObj = angObj || {};
             var campaignSelectedName = $(".campaign_name_selected");
 
             $scope.progress= true;
-            var files = reportsUploadList.list
+            var files = reportsUploadList.list;
             if (files && files.length) {
                 var j = 0;
                 _.each(campaignSelectedName, function(elem, idx) {
@@ -176,9 +178,14 @@ var angObj = angObj || {};
                 $scope.uploadedCount = 0;
                 $scope.errorCount = 0;
                 $scope.total = files.length;
+
                 for (var i = 0; i < files.length; i++) {
                     var file = files[i];
-                    if(file.status === undefined || file.status!= "success") {
+                    var isCustomRptNameEmpty = false;
+                    if((file.reportType == "Custom") && (file.reportName.length == 0)) {
+                        isCustomRptNameEmpty = true;
+                    }
+                    if((file.status === undefined || file.status!= "success") && isCustomRptNameEmpty == false) {
                         (function(file) {
                             Upload.upload({
                                //url: 'https://angular-file-upload-cors-srv.appspot.com/upload',
@@ -233,6 +240,10 @@ var angObj = angObj || {};
 
                     } else {
                       $scope.progress = false;
+                        if(isCustomRptNameEmpty == true) {
+                            $scope.errorMsgCustomRptName = true;
+                            $scope.timeoutReset();
+                        }
                     }//end of status check
 
                 }
