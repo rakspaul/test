@@ -36,10 +36,10 @@ var angObj = angObj || {};
 
         $scope.getAdFormatIconName = function (adFormat) {
             var adFormatMapper = {
-                'display': 'picture', 
-                'video': 'film', 
-                'rich media': 'paperclip', 
-                'social': 'user'
+                'display': 'icon-image', 
+                'video': 'icon-video', 
+                'rich media': 'icon-rich-media', 
+                'social': 'icon-social'
             };
 
             adFormat = adFormat || 'display';
@@ -47,7 +47,7 @@ var angObj = angObj || {};
         };
 
         $scope.formatDate = function (date) {
-            return moment(date).format('MMM DD YYYY');
+            return moment(date).format('DD MMM YYYY');
         };
 
         $scope.creativeSearchFunc = function () {
@@ -210,7 +210,7 @@ var angObj = angObj || {};
             .end()
             .find('#creative_nav_link')
             .addClass('active');
-        $('html').css('background', '#fff');
+        $('html').css('background', '#ececec');
 
         $scope.textConstants = constants;
         $scope.creativeData = {};
@@ -223,5 +223,20 @@ var angObj = angObj || {};
         $scope.IncorrectTag = false;
         $scope.showDuplicateTagPopup = false;
         $scope.campaignId = $routeParams.campaignId;
+        
+        //Search Hide / Show
+        $scope.searchShowInput = function () {
+            $(".searchInputBtn").hide();
+            $(".searchInputForm").show();
+            $(".searchInputForm").animate({width: '300px'});
+        };
+        
+        $scope.searchHideInput = function () {
+            $(".searchInputForm").animate({width: '44px'});
+            setTimeout(function(){ $(".searchInputForm").hide(); }, 600);
+            setTimeout(function(){ $(".searchInputBtn").fadeIn(); }, 600);
+        };
+        
+        
     });
 })();
