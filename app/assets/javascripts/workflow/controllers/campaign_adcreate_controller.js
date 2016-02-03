@@ -778,8 +778,13 @@ var angObj = angObj || {};
                 adFormatsData;
 
             if (editdata !== 'editData') {
-                $scope.changeAdFormat = true;
                 $scope.adformatName = adformatName;
+                if($scope.selectedArr.length>0){
+                    $scope.changeAdFormat = true;
+                }else{
+                    $scope.changeAdFormatContinue();
+                }
+
                 if (event) {
                     offset = $(event.target).offset();
                     left = offset.left;
