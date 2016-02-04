@@ -11,11 +11,16 @@
 
                 <div class="arrowSelect"></div>
             </div>
-            <div class="pull-left each_nav_link" id="reports_nav_link">
+            <div ng-if="isWorkFlowUser" class="pull-left each_nav_link" id="reports_nav_link">
                 <a href="javascript:void(0);" reporttitle="reportOverview"
                    ng-click="NavigateToTab('', $event ,'reportOverview')"
                    ng-mouseover="show_hide_nav_dropdown($event,'reports','hover');" ng-bind="textConstants.REPORTS"></a>
 
+                <div class="arrowSelect" style="bottom: -1px;"></div>
+            </div>
+            <div class="pull-left each_nav_link" id="creative_nav_link">
+                <a href="javascript:void(0);"
+                   ng-click="NavigateToTab('', $event ,'creativelist')" ng-bind="textConstants.CREATIVES"></a>
                 <div class="arrowSelect" style="bottom: -1px;"></div>
             </div>
         </div>
