@@ -208,14 +208,15 @@ var angObj = angObj || {};
             if (!$scope.reportMetaData.hasOwnProperty(typeofDimension)) {
                 $scope.reportMetaData[typeofDimension] = {};
             }
-
             if (typeof currIdx !== 'undefined' && currIdx >= 0) {
                 $scope.reportMetaData[typeofDimension][currIdx] = {};
                 $scope.reportMetaData[typeofDimension][currIdx]['delivery_metrics'] = [];
-
             } else {
-                $scope.reportMetaData[typeofDimension]['delivery_metrics'] = [];
+                if(!$scope.reportMetaData[typeofDimension].hasOwnProperty('delivery_metrics')){
+                    $scope.reportMetaData[typeofDimension]['delivery_metrics'] = [];
+                }
             }
+
             var modifiedMetricsList = selectedMetrics.slice();
             modifiedMetricsList.unshift({
                 key: 'value',
@@ -352,7 +353,7 @@ var angObj = angObj || {};
             //timeframe
             str += '&start_date=' + $scope.reports.reportDefinition.timeframe.start_date + "&end_date=" + $scope.reports.reportDefinition.timeframe.end_date;
 
-            params = reportId + "?dimension=" + str + "&offset=" + offset + "&limit=" + $scope.limit;
+            params = reportId + "?dimension=" + str + "&page_num=" + _customctrl.reportPageNum;
             return params;
         };
 
@@ -367,7 +368,8 @@ var angObj = angObj || {};
             dataService.getCustomReportData($scope.campaign, params).then(function(result) {
                 requestCanceller.resetCanceller(constants.NEW_REPORT_RESULT_CANCELLER);
                 if (result && result.data.data) {
-                    sucessCallbackHandler(result.data.data.report_data, idx)
+                    _customctrl.isReportLastPage = result.data.data.last_page;
+                    sucessCallbackHandler(result.data.data.report_data, idx);
                 } else {
                     errorCallbackHandler(idx);
                 }
@@ -587,10 +589,13 @@ var angObj = angObj || {};
             }
         }
 
-        $scope.loadMoreItems = function() {
+        _customctrl.loadMoreItems = function() {
             $scope.firstDimensionoffset += $scope.limit;
-            $scope.fetching = true;
-            _customctrl.getReportData();
+            if(!_customctrl.isReportLastPage) {
+                $scope.fetching = true;
+                _customctrl.reportPageNum += 1;
+                _customctrl.getReportData();
+            }
         };
 
         _customctrl.hideSecondDimensionData = function(firtDimensionElem, secondDimensionElem) {
@@ -659,6 +664,8 @@ var angObj = angObj || {};
         };
 
         _customctrl.reset = function() {
+            _customctrl.reportPageNum = 1;
+            _customctrl.isReportLastPage = false;
             $scope.limit = 1000;
             $scope.firstDimensionoffset = 0;
             $scope.fetching = false;
@@ -1745,6 +1752,9 @@ var angObj = angObj || {};
             metricsTabIdTab.forEach(function(id){
                 $("#"+id+" .custom_report_scroll").scroll(function(){
                     $(".custom_report_response_page .custom_report_response_table .custom_report_scroll .heading_row").css({"left": "-" + $("#"+id+" .custom_report_scroll").scrollLeft() + "px"});
+                    if($(this).scrollTop() + $(this).innerHeight() >= $(this)[0].scrollHeight) {
+                        _customctrl.loadMoreItems();
+                    }
                 });
             });
             $scope.checkHeaderScroll = function(activeTab){
