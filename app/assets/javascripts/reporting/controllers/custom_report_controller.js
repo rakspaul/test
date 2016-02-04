@@ -353,7 +353,7 @@ var angObj = angObj || {};
             //timeframe
             str += '&start_date=' + $scope.reports.reportDefinition.timeframe.start_date + "&end_date=" + $scope.reports.reportDefinition.timeframe.end_date;
 
-            params = reportId + "?dimension=" + str + "&page_num=" + _customctrl.reportPageNum;
+            params = reportId + "?dimension=" + str + "&page_num=" + (isPrimary ? _customctrl.reportPageNum : -1);
             return params;
         };
 
