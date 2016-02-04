@@ -396,49 +396,54 @@ var angObj = angObj || {};
             });
         }
 
-        $scope.generateReport = function() {
+        var validateGenerateReport = function() {
             if (!_customctrl.enableGenerateButton()) {
                 $scope.generateBtnDisabled = true;
                 $(".custom_report_filter").closest(".breakdown_div").find(".filter_input_txtbox").hide();
                 return false;
             }
-            $scope.generateBtnDisabled = false;
-            $scope.metricValues = [];
-            $scope.reportMetaData = {};
-            $scope.secondDimensionReportDataNotFound[$scope.activeTab] = {};
-            $scope.hideReportsTabs = true;
-            $scope.reportDataNotFound = false;
-            $scope.showhasBreakdown = '';
-            $scope.reportDataLoading = true;
-            $scope.fetching = false;
-            $(".img_table_container").hide();
-            $(".custom_report_response_page").show();
-            $(".hasBreakdown").removeClass("active").removeClass("treeOpen").removeClass("noDataOpen");
-            $("html, body").animate({
-                scrollTop: 0
-            });
+            if(momentService.dateDiffInDays($scope.reports.reportDefinition.timeframe.start_date,$scope.reports.reportDefinition.timeframe.end_date) < 0 ) {
+                $scope.generateBtnDisabled = false;
+                return setFlashMessage(constants.timeFrameStartDateGreater, 1, 0);
+            }
+            return true;
+        }
 
-            if ($scope.totalMetrics == $scope.selectedMetricsList.length) {
-                $scope.hideReportsTabs = false;
-            }
-            _customctrl.reset();
-            _customctrl.getDimensionList($scope.customeDimensionData[0], $scope.selectedMetricsList);
-            _customctrl.getReportData();
-            var str = $scope.reports.reportDefinition.dimensions.primary.dimension + ':' + $scope.reports.reportDefinition.dimensions.primary.value + '&';
-            if ($scope.reports.reportDefinition.dimensions.secondary.value) {
-                str += "&filter=" + $scope.reports.reportDefinition.dimensions.secondary.dimension + ':' + $scope.reports.reportDefinition.dimensions.secondary.value + '&';
-            }
-            if ($scope.additionalFilters.length > 0) {
-                _.each($scope.additionalFilters, function(eachObj) {
-                    str += eachObj.key + ':' + eachObj.value + '&';
+        $scope.generateReport = function() {
+            if (validateGenerateReport()) {
+                $scope.generateBtnDisabled = false;
+                $scope.metricValues = [];
+                $scope.reportMetaData = {};
+                $scope.secondDimensionReportDataNotFound[$scope.activeTab] = {};
+                $scope.hideReportsTabs = true;
+                $scope.reportDataNotFound = false;
+                $scope.showhasBreakdown = '';
+                $scope.reportDataLoading = true;
+                $scope.fetching = false;
+                $(".img_table_container").hide();
+                $(".custom_report_response_page").show();
+                $(".hasBreakdown").removeClass("active").removeClass("treeOpen").removeClass("noDataOpen");
+                $("html, body").animate({
+                    scrollTop: 0
                 });
+
+                if ($scope.totalMetrics == $scope.selectedMetricsList.length) {
+                    $scope.hideReportsTabs = false;
+                }
+                _customctrl.reset();
+                _customctrl.getDimensionList($scope.customeDimensionData[0], $scope.selectedMetricsList);
+                _customctrl.getReportData();
+                var str = $scope.reports.reportDefinition.dimensions.primary.dimension + ':' + $scope.reports.reportDefinition.dimensions.primary.value + '&';
+                if ($scope.reports.reportDefinition.dimensions.secondary.value) {
+                    str += "&filter=" + $scope.reports.reportDefinition.dimensions.secondary.dimension + ':' + $scope.reports.reportDefinition.dimensions.secondary.value + '&';
+                }
+                if ($scope.additionalFilters.length > 0) {
+                    _.each($scope.additionalFilters, function (eachObj) {
+                        str += eachObj.key + ':' + eachObj.value + '&';
+                    });
+                }
             }
 
-            //timeframe
-            /* str+='&start_date='+$scope.reports.reportDefinition.timeframe.start_date +"&end_date="+$scope.reports.reportDefinition.timeframe.end_date;
-
-             var params = 1+"?dimension="+str+"&offset="+123+"&limit="+$scope.limit;
-             console.log('query string'+params);*/
         };
 
         $scope.createData = function(isIntermediateSave) {
@@ -529,30 +534,35 @@ var angObj = angObj || {};
                 return false;
             }
             if (/^[A-Za-z ][A-Za-z0-9 ]*$/.test(str) === false) {
-                return setFlashMessage('Please use only alphanumeric characters for report names. Report name should start with alphabetic character', 1, 0);
+                return setFlashMessage(constants.reportNameErrorMsg, 1, 0);
             }
             if (($scope.reports.reportDefinition.timeframe.start_date == undefined) || ($scope.reports.reportDefinition.timeframe.end_date == undefined)) {
-                return setFlashMessage('Please provide timeframe dates', 1, 0);
+                return setFlashMessage(constants.requiredTimeFrameDates, 1, 0);
             }
+
+            if(momentService.dateDiffInDays($scope.reports.reportDefinition.timeframe.start_date,$scope.reports.reportDefinition.timeframe.end_date) < 0 ) {
+                return setFlashMessage(constants.timeFrameStartDateGreater, 1, 0);
+            }
+
             if (!$scope.reports.name || !$scope.reports.schedule.frequency) {
-                return setFlashMessage('Please provide report name and frequency', 1, 0);
+                return setFlashMessage(constants.requiredRptNameFreq, 1, 0);
             }
 
             if ($scope.notInRange == true) {
-                return setFlashMessage('You have chosen weekly Scheduling, please choose a date range that is at least one week', 1, 0);
+                return setFlashMessage(constants.dateRangeWeek, 1, 0);
             }
             if ($scope.notInRangeMonthly == true) {
-                return setFlashMessage('You have chosen monthly Scheduling, please choose a date range that is at least one month', 1, 0);
+                return setFlashMessage(constants.dateRangeMonthly, 1, 0);
             }
             if ($scope.selectedMetricsList.length <= 0) {
-                return setFlashMessage('Atleast one metrics should be selected', 1, 0);
+                return setFlashMessage(constants.minOneMetric, 1, 0);
             }
 
             if ((($scope.reports.schedule.frequency == "Weekly")||($scope.reports.schedule.frequency == "Monthly")) && ($scope.reports.schedule.occurance == "" || $scope.reports.schedule.occurance == undefined)) {
-                return setFlashMessage('Please select occurs on', 1, 0);
+                return setFlashMessage(constants.selectOccursOn, 1, 0);
             }
             if(($scope.reports.schedule.frequency == "Monthly") && $scope.reports.schedule.occurance == "Custom" && ($scope.reports.schedule.customOccuranceDate == undefined)) {
-                return setFlashMessage('Please select date', 1, 0);
+                return setFlashMessage(constants.selectDate, 1, 0);
             }
             return true;
         }
