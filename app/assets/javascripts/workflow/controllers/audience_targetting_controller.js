@@ -434,9 +434,10 @@ var angObj = angObj || {};
 
         $scope.clearAllSelectedAudience = function () {
             resetAudience();
-            $scope.selectedAudience = [];
             //this is to save selected audience in service to show in summary
             audienceService.setSelectedAudience(angular.copy($scope.selectedAudience));
+            $scope.selectedAudience = [];
+
         };
         // end of audience
 

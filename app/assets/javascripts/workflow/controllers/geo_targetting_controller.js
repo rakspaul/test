@@ -1072,7 +1072,10 @@ var angObj = angObj || {};
                     //reload city
                     $scope.geoTargetingData.cities = [];
                     citiesListArray = [];
-                    $scope.listCities()
+                    var selTab = $scope.selectedTab;
+                    $scope.listCities();
+                    if(selTab == 'regions')
+                        $scope.listRegions()
                 }
             }
 
