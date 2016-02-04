@@ -6,7 +6,7 @@ brandsModule.service("brandsService", function ($rootScope, $http, dataService, 
     service.fetchBrands = function (searchCriteria) {
         var clientId = searchCriteria.clientId;
         var advertiserId = searchCriteria.advertiserId;
-        return workflowService.getBrands(clientId, advertiserId);
+        return workflowService.getBrands(advertiserId,'read');
     };
 
     service.preForBrandBroadcast = function (brand, advertiser, event_type) {

@@ -643,11 +643,16 @@ var angObj = angObj || {};
                 $scope.geoTargetingData.selected[subtype]=[];
                 $scope.resetSwitch();
                 $scope.includeorExcludeCityOnly(subtype);
+                var seltab = $scope.selectedTab;
+
                 //reload city
                 $scope.geoTargetingData.cities = [];
                 citiesListArray = [];
-                $scope.listCities()
-                $scope.selectedTab = 'regions';
+                $scope.listCities();
+                if(seltab == 'cities')
+                    $scope.selectedTab = 'regions'
+                else
+                    $scope.selectedTab = seltab;
             } else {
                 $scope.geoTargetingData.selected[type]=[];
                 $scope.includeorExcludeCityOnly(type);
@@ -1067,7 +1072,10 @@ var angObj = angObj || {};
                     //reload city
                     $scope.geoTargetingData.cities = [];
                     citiesListArray = [];
-                    $scope.listCities()
+                    var selTab = $scope.selectedTab;
+                    $scope.listCities();
+                    if(selTab == 'regions')
+                        $scope.listRegions()
                 }
             }
 

@@ -1438,7 +1438,8 @@
 #campaignCreate .campaignAdCreate .adMainWrapper .platformHolder img {
   margin: 10px auto 10px;
   display: table;
-  max-height: 30px;
+  max-height: 32px;
+  max-width: 210px;
 }
 #campaignCreate .campaignAdCreate .adMainWrapper .platformHolder .btn {
   float: left;
@@ -1569,28 +1570,31 @@
   width: 31.68%;
   background: #fff;
   border: 1px solid #ddd;
-  padding: 30px;
+  padding: 20px;
   float: left;
-  height: 280px;
+  min-height: 265px;
   margin-right: 2.48%;
 }
 #campaignCreate .campaignAdCreate .adMainWrapper .offeringsWrap .container .offeringWrap .select-btn {
   text-align: center;
-  margin-top: 40px;
 }
 #campaignCreate .campaignAdCreate .adMainWrapper .offeringsWrap .container .offeringWrap .title {
   float: left;
   width: 100%;
   font-family: "Avenir-bold";
-  margin: 15px 0 25px 0;
+  margin: 0;
 }
 #campaignCreate .campaignAdCreate .adMainWrapper .offeringsWrap .container .offeringWrap .descrip {
   float: left;
   width: 100%;
+  margin: 14px 0 0 0;
+  text-align: center;
+  min-height: 93px;
 }
 #campaignCreate .campaignAdCreate .adMainWrapper .offeringsWrap .container .offeringWrap img {
-  max-height: 50px;
-  max-width: 196px;
+  max-height: 32px;
+  max-width: 210px;
+  margin: 10px auto 10px;
   display: inline-block;
 }
 #campaignCreate .campaignAdCreate .adMainWrapper .offeringsWrap .container .offeringWrap:nth-child(3n+2) .popUpCue {
@@ -1732,6 +1736,9 @@
   -webkit-box-shadow: 1px 0px 11px 0px rgba(0, 0, 0, 0.75);
   -moz-box-shadow: 1px 0px 11px 0px rgba(0, 0, 0, 0.75);
   box-shadow: 1px 0px 11px 0px rgba(0, 0, 0, 0.75);
+}
+#campaignCreate .popCreativeLib .creativeLib .dataName {
+  word-wrap: break-word;
 }
 #campaignCreate .popCreativeLib .creativeLib .table > thead > tr > th {
   border-width: 0;
@@ -1933,6 +1940,10 @@
 #campaignCreate .platformSlide .platform-custom .breadcrumbs a {
   float: left;
   margin: 9px 30px;
+}
+#campaignCreate .platformSlide .platform-custom .platWrap {
+  max-height: 500px;
+  overflow-y: auto;
 }
 #campaignCreate .platformSlide .platform-custom .platWrap .platformHeading .col-md-8 {
   margin-bottom: 10px;

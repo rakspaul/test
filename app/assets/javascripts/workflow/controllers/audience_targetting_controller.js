@@ -367,10 +367,14 @@ var angObj = angObj || {};
         };
 
         $scope.updateCategoryText = function () {
+            var limit = 10;
             if ($scope.selectedCategory.length === 0) {
                 $scope.categoryText = 'All';
             } else if ($scope.selectedCategory.length === 1) {
-                $scope.categoryText = $scope.selectedCategory[0].subCategory;
+                if($scope.selectedCategory[0].subCategory.length < limit)
+                    $scope.categoryText = $scope.selectedCategory[0].subCategory;
+                else
+                    $scope.categoryText = $scope.selectedCategory[0].subCategory.slice(0,limit) + '...';
 
             } else {
                 $scope.categoryText = $scope.selectedCategory.length + ' Selected';
@@ -442,9 +446,10 @@ var angObj = angObj || {};
 
         $scope.clearAllSelectedAudience = function () {
             resetAudience();
-            $scope.selectedAudience = [];
             //this is to save selected audience in service to show in summary
             audienceService.setSelectedAudience(angular.copy($scope.selectedAudience));
+            $scope.selectedAudience = [];
+
         };
         // end of audience
 

@@ -30,17 +30,22 @@
                 return dataService.fetch(url, {cache: false});
             },
 
-            getAdvertisers: function (clientId) {
-                var clientId =  loginModel.getSelectedClient().id,
-                    url = apiPaths.WORKFLOW_APIUrl + '/clients/' + clientId + '/advertisers';
+            getAdvertisers: function (accessLevel) {
+                var clientId =  loginModel.getSelectedClient().id;
+                var url = apiPaths.WORKFLOW_APIUrl + '/clients/' + clientId + '/advertisers';
+                if(accessLevel) {
+                    url =  url +'?access_level='+accessLevel;
+                }
 
                 return dataService.fetch(url);
             },
 
-            getBrands: function (clientId, advertiserId) {
-                var clientId =  loginModel.getSelectedClient().id,
-                    url = apiPaths.WORKFLOW_APIUrl + '/clients/' + clientId +'/advertisers/' + advertiserId + '/brands';
-
+            getBrands: function (advertiserId, accessLevel) {
+                var clientId =  loginModel.getSelectedClient().id
+                var url = apiPaths.WORKFLOW_APIUrl + '/clients/' + clientId +'/advertisers/' + advertiserId + '/brands';
+                if(accessLevel){
+                    url = url + '?access_level='+accessLevel;
+                }
                 return dataService.fetch(url);
             },
 

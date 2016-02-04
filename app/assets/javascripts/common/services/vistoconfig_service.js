@@ -24,7 +24,7 @@
           'tv'          : 'icon-desktop' ,
           'video'       : 'icon-video'   ,
           'social'      : 'icon-social'  ,
-          'RICHMEDIA'   : 'icon-rich-media' ,
+          'richmedia'   : 'icon-rich-media' ,
           'set-top box' : 'icon-desktop' ,
           'tablet'      : 'icon-tablet'  ,
           'other'       : 'icon-image'   ,

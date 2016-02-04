@@ -4,7 +4,7 @@ advertiserModule.service("advertiserService", function ($rootScope, $http, workf
     var service = {};
     service.fetchAdvertisers = function (searchCriteria) {
         var clientId = searchCriteria.clientId;
-        return workflowService.getAdvertisers(clientId);
+        return workflowService.getAdvertisers('read');
     };
 
     service.preForAdvertiserBroadcast = function (advertiser, event_type) {

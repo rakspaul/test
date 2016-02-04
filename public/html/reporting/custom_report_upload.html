@@ -162,15 +162,16 @@
 </div>
 
 <!-- Message on top , if that is an error message add "red_msg" class to "top_message_box" container -->
-<div class="top_message_box {{(!successMsg && !deleteSuccessMsg)?'red_msg':''}}" ng-show="rejFiles.length || successMsg || errorMsg || deleteSuccessMsg || deleteErrorMsg">
+<div class="top_message_box {{(!successMsg && !deleteSuccessMsg)?'red_msg':''}}" ng-show="rejFiles.length || successMsg || errorMsg || deleteSuccessMsg || deleteErrorMsg || errorMsgCustomRptName">
 	<span class="msg_box">
 		<span class="msg_icon">x</span>
 		<span class="msg_txt">
 				<span ng-show="successMsg"><span class="bold-font">Success. </span> You have sucessfully uploaded {{uploadedCount}} file(s)</span>
 				<span ng-show="errorMsg"><span class="bold-font">Error. </span> Error in uploading {{errorCount}} file(s)</span>
+			    <span ng-show="errorMsgCustomRptName"><span class="bold-font">Error. </span> Custom Report Name is required</span>
 				<span ng-show="deleteSuccessMsg"><span class="bold-font">Success. </span> File successfully deleted</span>
 				<span ng-show="deleteErrorMsg"><span class="bold-font">Error. </span> Error in deleting file</span>
-				<span ng-show="!errorMsg && !successMsg && !deleteSuccessMsg && !deleteErrorMsg"><span class="bold-font">Error. </span> Cannot upload files bigger than 10MB / Unsupported file format</span>
+				<span ng-show="!errorMsg && !successMsg && !deleteSuccessMsg && !deleteErrorMsg && !errorMsgCustomRptName"><span class="bold-font">Error. </span> Cannot upload files bigger than 10MB / Unsupported file format</span>
 
 			<!-- {{(!successMsg)? 'Cannot upload files bigger than 10MB / Unsupported file format' : 'You have sucessfully uploaded '+ uploadedCount +' files '}} -->
 			<div ng-show="!successMsg && !errorMsg && rejFiles.length" ng-repeat="r in rejFiles">

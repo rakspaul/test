@@ -674,9 +674,11 @@
         this.account_admin = "2";
         this.advertiser_admin = "3";
         this.generic_user = "4";
-        this.WF_USER_CREATION_SUCCESS="User Created Successfully"
+        this.WF_USER_CREATION_SUCCESS="Created User Successfully";
+        this.WF_USER_EDIT_SUCCESS="Edited User Successfully";
         this.WF_PERMISSION_NEEDED="Atleast 1 permission needed";
-        this.WF_USER_CREATION_FAIL = "Unable to create a User";
+        this.WF_USER_CREATION_FAIL = "Unable to create User";
+        this.WF_USER_EDIT_FAIL = "Unable to edit User";
 
         //Overview Page
         this.ADVERTISER = 'Advertiser';
@@ -807,6 +809,15 @@
         //audience
         this.DEFAULTANDORSTATUS = 'Or';
 
+        this.timeFrameStartDateGreater = 'Timeframe Start date can not be greater than end date';
+        this.requiredTimeFrameDates = "Please provide timeframe dates";
+        this.requiredRptNameFreq = "Please provide report name and frequency";
+        this.dateRangeWeek = "You have chosen weekly Scheduling, please choose a date range that is at least one week";
+        this.dateRangeMonthly = "You have chosen monthly Scheduling, please choose a date range that is at least one month";
+        this.minOneMetric = "Atleast one metrics should be selected";
+        this.selectOccursOn = "Please select occurs on";
+        this.selectDate = "Please select date";
+        this.reportNameErrorMsg = "Please use only alphanumeric characters for report names. Report name should start with alphabetic character";
 
 
     };

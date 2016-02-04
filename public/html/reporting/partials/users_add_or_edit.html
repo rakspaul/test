@@ -7,7 +7,7 @@
                 ng-click="close()" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
-        <h2 class="modal-title" id="myModalLabel">Add User</h2>
+        <h2 class="modal-title" id="myModalLabel">{{isEdit?'Edit':'Add'}} User</h2>
     </div>
     <div class="clearfix modal-body">
         <form id="userCreateEditForm" name="userCreateEditForm">
