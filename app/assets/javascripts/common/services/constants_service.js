@@ -584,7 +584,7 @@
         this.SETBUDGET = 'Set Budget & Delivery';
         this.LEARNMOREADSET = 'Learn more about Ad Settings';
         this.WHENADRUN = 'When would you like your Ad to run?';
-        this.FLIGHTPASSED = 'Campaign flight date has passed';
+        this.FLIGHTPASSED = 'Media Plan flight date has passed';
         this.SETUPBUDGET = 'How do you want to set up the Budget for your Ad?';
         this.UNITCOST = 'Unit Cost';
         this.BUDGETCAL = 'Budget Calculation';

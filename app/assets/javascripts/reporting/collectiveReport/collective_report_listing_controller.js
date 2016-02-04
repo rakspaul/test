@@ -10,7 +10,7 @@
                                                                                     advertiserModel, brandsModel) {
         $scope.reportToEdit = {};
         $scope.showEditReport = false;
-        $scope.campaign =  "Campaign Name";
+        $scope.campaign =  "Media Plan Name";
         domainReports.highlightHeaderMenu();
         $scope.customFilters = domainReports.getCustomReportsTabs();
         $scope.reportList = [];

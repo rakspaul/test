@@ -115,7 +115,7 @@ var angObj = angObj || {};
                         }
                         if (strategiesList) {
                             $scope.dataNotFound = false;
-                            $scope.strategyHeading = Number($scope.selectedStrategy.id) === constants.ALL_STRATEGIES_OBJECT.id ? 'Campaign total' : 'Ad Group total';
+                            $scope.strategyHeading = Number($scope.selectedStrategy.id) === constants.ALL_STRATEGIES_OBJECT.id ? 'Media Plan total' : 'Ad Group total';
                         } else {
                             errorHandler();
                         }
