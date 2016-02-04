@@ -8,6 +8,9 @@ var angObj = angObj || {};
                                                                    campaignListService, requestCanceller, $filter,
                                                                    loginModel, $q, dataService, apiPaths, audienceService,
                                                                    RoleBasedService, momentService) {
+        // Flag to denote that ad format has changed
+        $scope.adFormatChanged = false;
+
         $scope.showDeleteConfirmationPopup=false;
         $scope.adCreateLoader = false;
         var winHeaderHeight = $(window).height() - 50,
@@ -243,13 +246,15 @@ var angObj = angObj || {};
                     console.log(errData);
                 }
             };
+
         $scope.deletetargets=function(type, event){
             var elem = $(event.target);
             var leftPos = elem.closest(".cardSelectHolder").offset().left - elem.closest(".setTargetOptions").offset().left ;
             elem.closest(".setTargetOptions").find(".msgPopup").css("left" , leftPos ) ;
             $scope.showDeleteConfirmationPopup=true;
             $scope.deleteType=type;
-        }
+        };
+
         $scope.deleteTargetting=function(){
             $scope.showDeleteConfirmationPopup=!$scope.showDeleteConfirmationPopup;
             if($scope.deleteType=="AUDIENCE")
@@ -258,24 +263,28 @@ var angObj = angObj || {};
                 $scope.deleteGeoTargetting();
             else if($scope.deleteType=="DAYPART")
             $scope.deleteDayPartTargetting();
-        }
+        };
+
         $scope.cancelTargettingDelete=function(){
             $scope.deleteType="";
             $scope.showDeleteConfirmationPopup=!$scope.showDeleteConfirmationPopup;
-        }
+        };
 
          $scope.deleteAudienceTargetting=function(){
              $scope.selectedAudience.length=0;
              $scope.adData.isAudienceSelected=null;
-         }
+         };
+
         $scope.deleteDayPartTargetting=function(){
             $scope.selectedDayParts['data'].length=0;
             $scope.$broadcast('deleteDayPartTarget');
 
-        }
+        };
+
         $scope.deleteGeoTargetting=function(){
             $scope.$broadcast('deleteGeoTarget');
-        }
+        };
+
         // This sets dynamic width to line to take 100% height
         function colResize() {
             winHeight = $(window).height() - 110;
@@ -740,7 +749,6 @@ var angObj = angObj || {};
             //$scope.creativeData.creativeInfo = 'undefined';
             //$scope.selectedArr.length = 0;
 
-            console.log('Inside changeAdFormatContinue');
             $scope.resetCreatives();
 
             // Flag to denote that ad format has changed
@@ -895,8 +903,6 @@ var angObj = angObj || {};
                 }
             });
         };
-
-
 
         $scope.CampaignADsave = function (isDownloadTrackerClicked) {
             var formElem = $('#formAdCreate'),
