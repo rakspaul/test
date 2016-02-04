@@ -7,6 +7,7 @@
         $scope.filters = domainReports.getReportsTabs();
         $scope.customFilters = domainReports.getCustomReportsTabs();
         $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign().id;
+        $scope.isWorkFlowUser = RoleBasedService.getClientRole() && RoleBasedService.getClientRole().workFlowUser;
 
         if($cookieStore.get('cdesk_session')) {
             workflowService.getClients().then(function (result) {
@@ -135,6 +136,9 @@
                     url = '/mediaplans/'+ $scope.selectedCampaign ;
                     $("#reports_overview_tab").addClass("active_tab") ;
                 }
+            }else if(page==='creativelist'){
+                url='/creative/list'
+                $("#creative_nav_link").addClass("active_tab") ;
             }
             if(event) {
                 $(event.currentTarget).parent().addClass('active_tab');

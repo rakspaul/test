@@ -19,10 +19,10 @@
 		<div class="col-md-12 zeroPadding btn_list_filters">
 			<div class="btn-group" role="group" aria-label="...">
 				<a href="/creative/add" role="button" class="btn btn-default"><span class="icon-plus"></span><span>Create</span></a>
-				<button type="button" class="btn btn-default"><span class="icon-inline-edit"></span><span>Edit</span></button>
+				<button type="button" class="btn btn-default" style="display: none"><span class="icon-inline-edit"></span><span>Edit</span></button>
 				<button type="button" class="btn btn-default"><span class="icon-archive"></span><span>Archive</span></button>
-				<button type="button" class="btn btn-default"><span class="icon-copy"></span><span>Clone</span></button>
-				<div class="btn btn-default zeroPadding dropdown-workflow pull-left">
+				<button type="button" class="btn btn-default" disabled="true"><span class="icon-copy"></span><span>Clone</span></button>
+				<div class="btn btn-default zeroPadding dropdown-workflow pull-left" style="display: none">
 					<div class="dropdown">
 						<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
 							<span class="icon-more-options"></span>
@@ -45,9 +45,9 @@
 					<a class="btn btn-default searchInputBtn" ng-click="searchShowInput()">
 						<span class="icon-search" aria-hidden="true" style="margin: -1px 0 0 0;"></span>
 					</a>
-					<div class="input-group searchInputForm">
+					<div class="input-group searchInputForm" >
 						<input type="text" class="form-control" name="creativeSearch" ng-model="creativeSearch" ng-keyup="creativeSearchFunc()" placeholder="Search Creative By Name and Size..">
-						<button class="btn btn-default" ng-click="searchHideInput()" type="button">
+						<button class="btn btn-default" disabled="true" ng-click="searchHideInput()" type="button">
 							<span class="icon-clear" aria-hidden="true"></span>
 						</button>
 					</div>
