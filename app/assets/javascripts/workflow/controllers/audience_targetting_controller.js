@@ -19,7 +19,7 @@ var angObj = angObj || {};
                         return item.id === previouslySelectedAudience[i].segment.id;
                     });
 
-                    // can't call $scope.selectAudience($scope.audienceList[index]) because this will 
+                    // can't call $scope.selectAudience($scope.audienceList[index]) because this will
                     // toggle selection when filter is clicked
                     if (index !== -1) {
                         selectedIndex = _.findIndex($scope.selectedAudience, function (item) {
@@ -142,9 +142,9 @@ var angObj = angObj || {};
             //api call to fetch segments
             audienceService
                 .fetchAudience(
-                    $scope.sortColumn, 
-                    $scope.sortOrder, 
-                    $scope.pageNumber, 
+                    $scope.sortColumn,
+                    $scope.sortOrder,
+                    $scope.pageNumber,
                     $scope.pageSize,
                     $scope.selectedKeywords,
                     $scope.selectedSource,
@@ -162,7 +162,7 @@ var angObj = angObj || {};
                             });
                         } else {
                             // first time fetch/filter fetch
-                            $scope.audienceList = result.data.data; 
+                            $scope.audienceList = result.data.data;
                         }
 
                         //edit mode
@@ -201,7 +201,7 @@ var angObj = angObj || {};
                         $scope.audienceKeywords = result.data.data;
                     }
                 }, function (err) {
-                    // TODO: 
+                    // TODO:
                 });
         };
 
@@ -215,7 +215,7 @@ var angObj = angObj || {};
                         $scope.audienceCategories = result.data.data;
                     }
                 }, function (err) {
-                    // TODO: 
+                    // TODO:
                 });
         };
 
@@ -245,6 +245,17 @@ var angObj = angObj || {};
         };
 
         $scope.selectKeyword = function (keyword) {
+            // Getting the actual value of the input textbox to check if user has entered anything.
+            // NOTE: This is required as the 'keyword' param stores the last user input;
+            //       hence, if the user clicks the search button without entering anything,
+            //       it returns the last input. [Fix for CW-2345]
+            var input = $.trim($('#selectAud').find('.keyword-txt').val());
+
+            // If user has not entered anything (blanks are trimmed off), don't do anything.
+            if (!input) {
+                return;
+            }
+
             var index = _.findIndex($scope.selectedKeywords, function (item) {
                 return item === keyword;
             });
@@ -253,6 +264,7 @@ var angObj = angObj || {};
             if (index === -1) {
                 $scope.selectedKeywords.push(keyword);
             }
+
             $scope.audienceKeywords = [];
             $('.keyword-txt').val('');
             $scope.fetchAllAudience();
@@ -330,7 +342,7 @@ var angObj = angObj || {};
                     if (subCategoryIndex === -1) {
                         $scope.selectedCategory.push($scope.audienceCategories[index].subCategories[i]);
                         $scope.audienceCategories[index].subCategories[i].isChecked = true;
-                    } else if ($scope.audienceCategories[index].isChecked !== true) { 
+                    } else if ($scope.audienceCategories[index].isChecked !== true) {
                         // if category checkbox is not checked
                         $scope.selectedCategory.splice(subCategoryIndex,1);
                         $scope.audienceCategories[index].subCategories[i].isChecked = false;
@@ -417,8 +429,8 @@ var angObj = angObj || {};
             var i;
 
             //empty the selected audience array before populating/empting it with all the audience
-            $scope.selectedAudience = [];  
-            if ($scope.selectAllChecked === false) { 
+            $scope.selectedAudience = [];
+            if ($scope.selectAllChecked === false) {
                 // select all
                 $scope.selectAllChecked = true;
                 for (i = 0; i < $scope.audienceList.length; i++) {
@@ -426,7 +438,7 @@ var angObj = angObj || {};
                     $scope.audienceList[i].isChecked = true;
                     $scope.audienceList[i].isIncluded  = true;
                 }
-            } else { 
+            } else {
                 // deselect all
                 resetAudience()
             }

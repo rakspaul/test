@@ -8,6 +8,9 @@ var angObj = angObj || {};
                                                                    campaignListService, requestCanceller, $filter,
                                                                    loginModel, $q, dataService, apiPaths, audienceService,
                                                                    RoleBasedService, momentService) {
+        // Flag to denote that ad format has changed
+        $scope.adFormatChanged = false;
+
         $scope.showDeleteConfirmationPopup=false;
         $scope.adCreateLoader = false;
         var winHeaderHeight = $(window).height() - 50,
@@ -243,13 +246,15 @@ var angObj = angObj || {};
                     console.log(errData);
                 }
             };
+
         $scope.deletetargets=function(type, event){
             var elem = $(event.target);
             var leftPos = elem.closest(".cardSelectHolder").offset().left - elem.closest(".setTargetOptions").offset().left ;
             elem.closest(".setTargetOptions").find(".msgPopup").css("left" , leftPos ) ;
             $scope.showDeleteConfirmationPopup=true;
             $scope.deleteType=type;
-        }
+        };
+
         $scope.deleteTargetting=function(){
             $scope.showDeleteConfirmationPopup=!$scope.showDeleteConfirmationPopup;
             if($scope.deleteType=="AUDIENCE")
@@ -258,24 +263,28 @@ var angObj = angObj || {};
                 $scope.deleteGeoTargetting();
             else if($scope.deleteType=="DAYPART")
             $scope.deleteDayPartTargetting();
-        }
+        };
+
         $scope.cancelTargettingDelete=function(){
             $scope.deleteType="";
             $scope.showDeleteConfirmationPopup=!$scope.showDeleteConfirmationPopup;
-        }
+        };
 
          $scope.deleteAudienceTargetting=function(){
              $scope.selectedAudience.length=0;
              $scope.adData.isAudienceSelected=null;
-         }
+         };
+
         $scope.deleteDayPartTargetting=function(){
             $scope.selectedDayParts['data'].length=0;
             $scope.$broadcast('deleteDayPartTarget');
 
-        }
+        };
+
         $scope.deleteGeoTargetting=function(){
             $scope.$broadcast('deleteGeoTarget');
-        }
+        };
+
         // This sets dynamic width to line to take 100% height
         function colResize() {
             winHeight = $(window).height() - 110;
@@ -728,17 +737,22 @@ var angObj = angObj || {};
             }
         };
 
-        $scope.changeAdFormatContinue=function () {
+        $scope.changeAdFormatContinue = function () {
             var adFormatsData,
                 videoKpiObj,
                 index;
 
-            $scope.changeAdFormat=false;
+            $scope.changeAdFormat = false;
 
             // code to make creatives already set to empty
-            $scope.adData.setSizes = constants.WF_NOT_SET;
-            $scope.creativeData.creativeInfo = 'undefined';
-            $scope.selectedArr.length = 0;
+            //$scope.adData.setSizes = constants.WF_NOT_SET;
+            //$scope.creativeData.creativeInfo = 'undefined';
+            //$scope.selectedArr.length = 0;
+
+            $scope.resetCreatives();
+
+            // Flag to denote that ad format has changed
+            $scope.adFormatChanged = true;
 
             // left nav
             $scope.adData.adFormat= $scope.adformatName;
@@ -777,11 +791,16 @@ var angObj = angObj || {};
                 relativeX,
                 adFormatsData;
 
+            // If clicking on active button, don't do anything.
+            if (event && event.target.attributes.checked) {
+                return;
+            }
+
             if (editdata !== 'editData') {
                 $scope.adformatName = adformatName;
-                if($scope.selectedArr.length>0){
+                if ($scope.selectedArr.length > 0) {
                     $scope.changeAdFormat = true;
-                }else{
+                } else {
                     $scope.changeAdFormatContinue();
                 }
 
@@ -792,9 +811,9 @@ var angObj = angObj || {};
                     relativeX = left - $(event.target).closest('.goalBtnWithPopup').offset().left - 110;
                     $('.goalBtnWithPopup .popUpCue').css({left: relativeX});
                 }
-            } else if (editdata === 'editData') {
+            } else {
                 // populating first time in editmode
-                $scope.adformatName=adformatName;
+                $scope.adformatName = adformatName;
                 $scope.$broadcast('adFormatChanged', $scope.adformatName);
                 adFormatsData = $scope.workflowData.adFormats;
                 _.each(adFormatsData, function (obj) {
@@ -884,8 +903,6 @@ var angObj = angObj || {};
                 }
             });
         };
-
-
 
         $scope.CampaignADsave = function (isDownloadTrackerClicked) {
             var formElem = $('#formAdCreate'),
@@ -1337,6 +1354,15 @@ var angObj = angObj || {};
                 $scope.sizeString = constants.WF_NOT_SET;
             }
             $scope.adData.setSizes = $scope.sizeString;
+        };
+
+        $scope.resetCreatives = function () {
+            // Reset creatives if any had been selected.
+            if ($scope.adData.setSizes !== constants.WF_NOT_SET) {
+                $scope.selectedArr.length = 0;
+                $scope.changeStatus();
+                $scope.updateCreativeData($scope.selectedArr);
+            }
         };
     });
 })();
