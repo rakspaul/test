@@ -1460,6 +1460,55 @@ div.strategy_total_container {
 }
 
 
+/* Margin cost */
+#reports_platform_margin_block{
+  &.reports_video_mode_viewability_container{
+    .viewability_header{
+      .suspicious_col{
+        width: 80px;
+        .tooltip_holder{
+          margin-right: 0;
+          padding-right: 10px;
+          &.sort_order_up{
+            background-image: url("/assets/images/cdesk/sorting_arrows_up.png");
+            background-repeat: no-repeat;
+            &.active{
+              background-image: url("/assets/images/cdesk/sorting_arrows_down.png");
+            }
+          }
+          &.sort_order_down{
+            background-image: url("/assets/images/cdesk/sorting_arrows_down.png");
+            background-repeat: no-repeat;
+            &.active{
+              background-image: url("/assets/images/cdesk/sorting_arrows_up.png");
+            }
+          }
+          &.active{
+            background-position: 68px -64px;
+            &:hover{
+              background-position: 68px -64px;
+            }
+          }
+          &:hover{
+            background-position: 68px 1px;
+          }
+        }
+      }
+    }
+
+    .each_col{
+      &.forth_col {
+        span {
+          text-align: center;
+        }
+      }
+    }
+  }
+}
+
+
+
+
 .viewability_details_video_mode_outer_container {
   .viewability_header {
     .each_col {
@@ -1679,11 +1728,170 @@ div.strategy_total_container {
 }
 
 #reports_platform_viewability_block {
+   .no_data_found {
+     border-top : solid 1px #d2dee7;
+     padding: 120px 0;
+   }
+   .viewability_header {
+     .delivered_col  {
+       margin-top: 15px ;
+       > span {
+         text-transform: none;
+         font-size: 14px ;
+       }
+     }
+     .measurable_col , .forth_col{
+       .icon_text_holder {
+         padding-right: 17px ;
+       }
+     }
+     .suspicious_col {
+       .icon_text_holder:hover {
+         background-position: 110px 1px;
+       }
+     }
+   }
+   .strategy_total_container {
+     border-top  : solid 2px @reportBorder ;
+     .each_strategy_holder:last-child {
+       height : auto ;
+       .each_strategy:before {
+         display : none ;
+       }
+     }
+     div.seventh_col {
+       padding-right: 10px ;
+       width: 105px ;
+       margin-top: 5px;
+       margin-bottom: 10px;
+     }
+     .each_col.first_col {
+       color: #21252b;
+       font-size: 18px;
+       font-family: "Avenir";
+       margin-bottom: 10px ;
+       .active{
+         color: #0978c9;
+       }
+     }
+     .each_strategy_holder {
+       .first_col {
+         color: #21252b;
+         font-size: 14px;
+         font-family: "Avenir-bold";
+         .active{
+           color: #0978c9;
+         }
+       }
+     }
+   }
+
+   .suspicious_col {
+     width: 140px;
+     margin: 0 5px;
+     .icon_text_holder{
+       background-position: 110px -65px;
+       &:hover{
+         background-position: 74px 1px;
+       }
+     }
+
+
+     .icon_text_holder{
+       &.active{
+         &:hover{
+           background-position: 110px -65px;
+         }
+
+       }
+
+     }
+   }
+
+   .each_col {
+     padding-top: 0px ;
+     padding-bottom: 0px ;
+     margin-bottom: 10px;
+   }
+   .platform_name_col {
+     text-align: left;
+     margin-left: 0px ;
+     width: 205px ;
+     margin-right: 0px ;
+     padding-left: 15px ;
+   }
+   .third_col , .forth_col {
+     width: 160px ;
+   }
+   div.each_row_list {
+     div.platform_aggregation_row {
+       background-position: -2px 10px ;
+     }
+   }
+   .reports_platform_header {
+     .platform_name_col {
+       margin-top: 15px ;
+       padding-left: 0px ;
+     }
+   }
+   .reports_platform_header {
+     padding : 0px ;
+   }
+   .icon_text_holder {
+     padding-right: 0px ;
+   }
+   .impressions_subcol {
+     text-align: center;
+     .icon_text_holder {
+       padding-right: 0px ;
+     }
+   }
+   .impressions_col {
+     text-align: right ;
+     padding-right: 45px ;
+   }
+   .ad_col {
+     .common_tooltip {
+       width: 140px;
+       left: -50px;
+     }
+     .common_tooltip:after {
+       left: 52px ;
+     }
+   }
+   .sub_four_cols {
+     .common_tooltip {
+       width: 200px;
+       left: -90px;
+     }
+     .common_tooltip:after {
+       left: 92px ;
+     }
+   }
+   .vtc_col {
+     .common_tooltip {
+       width: 200px;
+       left: -90px;
+     }
+     .common_tooltip:after {
+       left: 93px ;
+     }
+   }
+ }
+
+
+
+/****************** Maring Block  ************/
+
+#reports_platform_margin_block {
   .no_data_found {
     border-top : solid 1px #d2dee7;
     padding: 120px 0;
   }
   .viewability_header {
+      background: #fff;
+      padding: 10px 20px;
+
     .delivered_col  {
       margin-top: 15px ;
       > span {
@@ -1736,7 +1944,6 @@ div.strategy_total_container {
       }
     }
   }
-
   .suspicious_col {
     width: 140px;
     margin: 0 5px;
@@ -1747,7 +1954,6 @@ div.strategy_total_container {
       }
     }
 
-
     .icon_text_holder{
       &.active{
         &:hover{
@@ -1757,28 +1963,85 @@ div.strategy_total_container {
       }
 
     }
-
-
-
-
-
   }
-
   .each_col {
     padding-top: 0px ;
     padding-bottom: 0px ;
     margin-bottom: 10px;
+    > span {
+      text-align: center;
+      display: block;
+      padding-bottom:7px;
+    }
+    .sub_col {
+      span {
+        display: block;
+        float: left;
+        padding-right:5px;
+        color: #939EAF;
+        width:87px;
+        text-align:center;
+        border:1px none #FF6600;
+      }
+      span:last-child {
+        float: right;
+      }
+    }
+
+    .sub_coldata {
+      span {
+        display: block;
+        float: left;
+        padding-right:5px;
+        width:87px;
+        text-align:center;
+        border:1px none #FF6600;
+      }
+      span:last-child {
+        float: right;
+      }
+    }
+
+    .sub_col:before, .sub_col:after {
+      display: table;
+      line-height: 0;
+      content: "";
+    }
+    .sub_col:after {
+      clear: both;
+    }
   }
+
   .platform_name_col {
     text-align: left;
     margin-left: 0px ;
-    width: 205px ;
+    width: 140px ;
     margin-right: 0px ;
     padding-left: 15px ;
+    border:1px none #FF0000;
   }
-  .third_col , .forth_col {
-    width: 160px ;
+
+  .second_col , .third_col {
+    width: 110px ;
+    border:1px none #00FFFF;
+    padding-top: 8px;
   }
+
+  .second_coldata , .third_coldata {
+    width: 110px ;
+    border:1px none #00FFFF;
+  }
+
+  .forth_col, .fifth_col, .six_col {
+    width: 263px ;
+    border:1px none #FF6600;
+  }
+
+  .seventhMargin_col {
+    width: 174px ;
+    border:1px none #000fff;
+  }
+
   div.each_row_list {
     div.platform_aggregation_row {
       background-position: -2px 10px ;
@@ -1791,7 +2054,7 @@ div.strategy_total_container {
     }
   }
   .reports_platform_header {
-    padding : 0px ;
+    padding : 10px 20px ;
   }
   .icon_text_holder {
     padding-right: 0px ;
@@ -1815,25 +2078,11 @@ div.strategy_total_container {
       left: 52px ;
     }
   }
-  .sub_four_cols {
-    .common_tooltip {
-      width: 200px;
-      left: -90px;
-    }
-    .common_tooltip:after {
-      left: 92px ;
-    }
-  }
-  .vtc_col {
-    .common_tooltip {
-      width: 200px;
-      left: -90px;
-    }
-    .common_tooltip:after {
-      left: 93px ;
-    }
-  }
+
+
 }
+/* margin block end */
+
 /**************** reports performance table styling ***********/
 
 .reports_tabs_content_container {
@@ -1867,7 +2116,6 @@ div.strategy_total_container {
       color: #0978c9;
     }
   }
-
 
   .sort_order_down {
     cursor: pointer;
@@ -2154,7 +2402,7 @@ div.strategy_total_container {
   // Below is temporary
   // For the purpose of aligning the tabular data in the new platforms page
   // I think the  markup should be refactored as tabular data
-  #reports_platform_cost_block,#reports_platform_viewability_block,#reports_platform_performance_block{
+  #reports_platform_cost_block,#reports_platform_viewability_block, #reports_platform_margin_block, #reports_platform_performance_block{
     .each_col {
       line-height: 17px ;/*
       margin-top: 10px ;*/
