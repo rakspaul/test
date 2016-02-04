@@ -1,0 +1,28 @@
+.btn-group .btn {
+  height: 36px;
+}
+.btn-group .btn span {
+  float: left;
+  margin: 1px 0 0 0;
+}
+.btn-group .btn [class^="icon-"],
+.btn-group .btn [class*=" icon-"] {
+  float: left;
+  height: 14px;
+  width: 14px;
+  padding: 0;
+  margin: -1px 10px 0 0;
+  color: #363d49;
+}
+.btn-group .btn .dropdown .dropdown-toggle {
+  border-width: 0px !important;
+  height: 34px;
+}
+.btn-group .btn .dropdown .dropdown-toggle [class^="icon-"],
+.btn-group .btn .dropdown .dropdown-toggle [class*=" icon-"] {
+  margin: 0;
+}
+.btn-group .btn .dropdown:hover {
+  box-shadow: none;
+  border-width: 0;
+}

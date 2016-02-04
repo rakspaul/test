@@ -8,38 +8,49 @@
 			<span class="glyphicon glyphicon-ok" aria-hidden="true"></span> New Creative has been created successfully.
 		</div>
 		
-		<div class="col-md-12 zeroPadding">
-			<h1 class="col-md-12 zeroPadding marginBottom">Creative Tag Library ({{creativeData.creatives_count || 0}})</h1>
-			<a href="javascript:void(0);" class="helpLink">Adding a Creative Tag to Your Ad (guided copy)</a>
-		</div>
-		<div class="col-md-12 zeroPadding clearfix nav_filters">
+		<div class="col-md-12 zeroPadding clearfix nav_filters" style="display: none;">
 				<creative-drop-down></creative-drop-down>
 		</div>
 		
+		<div class="col-md-12 zeroPadding">
+			<h1 class="col-md-12 zeroPadding" style="margin-bottom: 50px;">Creative Library ({{creativeData.creatives_count || 0}})</h1>
+		</div>
+		
 		<div class="col-md-12 zeroPadding btn_list_filters">
-			<a href="/creative/add" class="btn btn-default" role="button">Create New</a>
-			<button type="button" class="btn btn-default disabled">Bulk Upload</button>
-			<div class="dropdown" style="display: inline-block;">
-			<button class="btn btn-default dropdown-toggle disabled" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-			  Actions
-			  <span class="caret"></span>
-			</button>
-			<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-			  <li><a href="#">1</a></li>
-			  <li><a href="#">2</a></li>
-			  <li><a href="#">3</a></li>
-			</ul>
+			<div class="btn-group" role="group" aria-label="...">
+				<a href="/creative/add" role="button" class="btn btn-default"><span class="icon-plus"></span><span>Create</span></a>
+				<button type="button" class="btn btn-default"><span class="icon-inline-edit"></span><span>Edit</span></button>
+				<button type="button" class="btn btn-default"><span class="icon-archive"></span><span>Archive</span></button>
+				<button type="button" class="btn btn-default"><span class="icon-copy"></span><span>Clone</span></button>
+				<div class="btn btn-default zeroPadding dropdown-workflow pull-left">
+					<div class="dropdown">
+						<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+							<span class="icon-more-options"></span>
+						</button>
+						<ul class="dropdown-menu" id="moreOptions" style="right: 0; left: initial;">
+							<li><a>1</a></li>
+							<li><a>2</a></li>
+							<li><a>3</a></li>
+						</ul>
+					</div>
+				</div>
+				
 			</div>
+			
 
 			<!--Search Input-->
-			<div class="col-md-3 pull-right zeroPadding searchInput">
-				<div class="input-group">
-					<input type="text" class="form-control" name="creativeSearch" ng-model="creativeSearch" ng-keyup="creativeSearchFunc()" placeholder="Search Creative By Name and Size..">
-					<span>
-						<button class="btn btn-default disabled" ng-disabled="!creativeSearch" ng-click="creativeSearchFunc()" type="button">
-							<span class="icon-search" aria-hidden="true" style="margin: 8px 9px 0 0;"></span>
+			<div class="btn-group pull-right">
+				<button type="button" class="btn btn-default pull-right"><span class="icon-filter" style="margin: -1px 0 0 0;"></span></button>
+				<div class="searchInput pull-right" style="border-right: 0px;">
+					<a class="btn btn-default searchInputBtn" ng-click="searchShowInput()">
+						<span class="icon-search" aria-hidden="true" style="margin: -1px 0 0 0;"></span>
+					</a>
+					<div class="input-group searchInputForm">
+						<input type="text" class="form-control" name="creativeSearch" ng-model="creativeSearch" ng-keyup="creativeSearchFunc()" placeholder="Search Creative By Name and Size..">
+						<button class="btn btn-default" ng-click="searchHideInput()" type="button">
+							<span class="icon-clear" aria-hidden="true"></span>
 						</button>
-					</span>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -49,68 +60,76 @@
 			<table class="table table-striped">
 				<thead>
 				  <tr>
-					<th class="col-md-1" style="text-indent: 37px;">Size<br/><br/></th>
-					<th class="col-md-1">Format<br/><br/></th>
-					<th class="col-md-3" style="padding-left: 20px;">Creative Name<br/><br/></th>
-					<th class="col-md-1">Type</th>
-					<th class="col-md-1" style="padding-left: 17px;">SSL</th>
-					<th class="col-md-1">Status<br/><br/></th>
+					<th class="col-md-3">Creative Name<br/><br/></th>
+					<th class="col-md-1 text-center">Format<br/><br/></th>
+					<th class="col-md-1 text-center">Type</th>
+					<th class="col-md-1 text-center">Size<br/><br/></th>
+					<th class="col-md-1 text-center">SSL</th>
+					<th class="col-md-1 text-center">Status<br/><br/></th>
 					<th class="col-md-1">Associated<br/>Campaigns</th>
 					<th class="col-md-1">Associated<br/>Ads</th>
-					<th class="col-md-2" style="padding-left: 20px;">Created<br/><br/></th>
+					<th class="col-md-2">Created<br/><br/></th>
 				  </tr>
 				</thead>
 				<tbody>
 					<tr ng-if="!creativeListLoading" ng-repeat="creativeData in creativeData.creatives" class="creative-row">
-						
-					<td>
-						<span class="col-md-1">
-							<!-- 
-							PLS DONT REMOVE 
-							CHECKBOX FOR FUTURE IMPLEMENTATION 
-						    -->
-							<!-- <div class="pull-right external_chkbox">
-                                  <div class="external_chkbox clearfix">
-                                    <div class="squaredFour">
-                                      <input type="checkbox" value="{{$index+1}}" class="squaredFourChkbox" id="creative_squaredFour_{{$index+1}}" />
-                                      <label for="creative_squaredFour_{{$index+1}}"></label>
-                                    </div>
-                                  </div>
-                              </div> -->
-							
-						</span>
-						<div class="col-md-11">
-							<p class="col-md-12">{{creativeData.size.size}}</p>
-						</div>
-					</td>
-					<td>
-						<span class="glyphicon glyphicon-{{getAdFormatIconName(creativeData.creativeFormat)}}" aria-hidden="true"></span>
-					</td>
-					<td>
-						<a class="col-md-8" href="javascript:void(0);" ng-click="ShowHideTag(creativeData, $index)">{{creativeData.name}}</a>
-						<div class="script_tag">
-							<div ng-show = "IsVisible" class="ng-cloak">{{creativeData.tag}}</div>
-							<div id="creativetagValue"><pre>{{creativeData.tag}}</pre></div>
-						</div>
-					</td>
-					<td>
-						<span class="col-md-12">{{creativeData.creativeType}}</span>
-					</td>
-					<td>
-						<span class="common-ok" aria-hidden="true"></span>
-					</td>
-					<td>
-						<span> - </span>
-					</td>
-					<td>
-						<span>{{creativeData.noOfCampaigns}}</span>
-					</td>
-					<td>
-						<span>{{creativeData.noOfAds}}</span>
-					</td>
-					<td>
-						<span>{{formatDate(creativeData.createdAt)}}</span>
-					</td>
+						<!--Creative Name-->
+						<td>
+							<a class="col-md-8" href="javascript:void(0);" ng-click="ShowHideTag(creativeData, $index)">{{creativeData.name}}</a>
+							<div class="script_tag">
+								<div ng-show = "IsVisible" class="ng-cloak">{{creativeData.tag}}</div>
+								<div id="creativetagValue"><pre>{{creativeData.tag}}</pre></div>
+							</div>
+						</td>
+						<!--Format-->
+						<td class="text-center">
+							<span class="{{getAdFormatIconName(creativeData.creativeFormat)}}" aria-hidden="true"></span>
+							<span class="col-md-12" style="text-transform: capitalize;">{{creativeData.creativeFormat|lowercase}}</span>
+						</td>
+						<!--Type-->
+						<td class="text-center">
+							<span class="col-md-12">{{creativeData.creativeType}}</span>
+						</td>
+						<!--Sizes-->
+						<td class="text-center">
+							<!--<span class="col-md-1">
+								PLS DONT REMOVE 
+								CHECKBOX FOR FUTURE IMPLEMENTATION 
+								-->
+								<!-- <div class="pull-right external_chkbox">
+									  <div class="external_chkbox clearfix">
+										<div class="squaredFour">
+										  <input type="checkbox" value="{{$index+1}}" class="squaredFourChkbox" id="creative_squaredFour_{{$index+1}}" />
+										  <label for="creative_squaredFour_{{$index+1}}"></label>
+										</div>
+									  </div>
+								  </div>
+								
+							</span>-->
+							<div class="col-md-12">
+								<p class="col-md-12">{{creativeData.size.size}}</p>
+							</div>
+						</td>
+						<!--SSL-->
+						<td class="text-center">
+							<span class="common-ok" aria-hidden="true" style="display: inline-block; text-align: center;"></span>
+						</td>
+						<!--Status-->
+						<td class="text-center">
+							<span> - </span>
+						</td>
+						<!--Associated Campaigns-->
+						<td>
+							<span>{{creativeData.noOfCampaigns}}</span>
+						</td>
+						<!--Associated Ads-->
+						<td>
+							<span>{{creativeData.noOfAds}}</span>
+						</td>
+						<!--Created-->
+						<td>
+							<span>{{formatDate(creativeData.createdAt)}}</span>
+						</td>
 					</tr>
 				</tbody>
 			</table>
@@ -168,6 +187,3 @@
 		</div>
 	</div> <!-- end of popup-holder -->
 </div>
-
-
-

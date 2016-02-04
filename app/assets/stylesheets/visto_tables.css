@@ -1,0 +1,34 @@
+.table-responsive {
+  float: left;
+  width: 100%;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+}
+.table-responsive table {
+  margin: 0;
+  float: left;
+  width: 100%;
+  background-color: white;
+  box-shadow: none;
+}
+.table-responsive table thead {
+  background-color: white;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+}
+.table-responsive table thead tr th {
+  padding: 15px;
+  vertical-align: top;
+}
+.table-responsive table tbody tr td {
+  background: #fff;
+  border-right: rgba(191, 201, 215, 0.5);
+  padding: 15px;
+}
+.table-responsive table tbody tr td:first-child {
+  border-left: 0px;
+}
+.table-responsive table tbody tr td:first-child a {
+  color: #21252b;
+}
+.table-responsive table tbody tr td:last-child {
+  border-right: 0px;
+}
