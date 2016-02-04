@@ -264,7 +264,7 @@ var angObj = angObj || {};
             if (index === -1) {
                 $scope.selectedKeywords.push(keyword);
             }
-            
+
             $scope.audienceKeywords = [];
             $('.keyword-txt').val('');
             $scope.fetchAllAudience();

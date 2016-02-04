@@ -24,13 +24,19 @@ var angObj = angObj || {};
             },
 
             getCreativesFromLibrary: function (clientID, adID, format, query) {
+                // If adFormat has changed (Eg: from Display to RichMedia, etc.),
+                // reset selected creatives array
+                if ($scope.adFormatChanged) {
+                    $scope.selectedArr.length = 0;
+                }
+
                 // remove spaces.
                 format = format.replace(/\s/g, '');
-
                 workflowService
                     .getCreatives(clientID, adID, format, query, {cache: false}, $scope.TrackingIntegrationsSelected)
                     .then(function (result) {
-                        var responseData;
+                        var responseData,
+                            selectedCreative;
 
                         $scope.creativesLibraryData.creativesData = [];
                         if (result.status === 'OK' || result.status === 'success' && result.data.data.length > 0) {
@@ -46,7 +52,10 @@ var angObj = angObj || {};
                                     idx = _.findIndex($scope.creativesLibraryData.creativesData, function (item) {
                                         return item.id === obj.id;
                                     });
-                                    $scope.creativesLibraryData.creativesData[idx].checked = true;
+                                    selectedCreative = $scope.creativesLibraryData.creativesData[idx];
+                                    if (selectedCreative) {
+                                        selectedCreative.checked = true;
+                                    }
                                 });
                             }
                         } else {

@@ -728,17 +728,23 @@ var angObj = angObj || {};
             }
         };
 
-        $scope.changeAdFormatContinue=function () {
+        $scope.changeAdFormatContinue = function () {
             var adFormatsData,
                 videoKpiObj,
                 index;
 
-            $scope.changeAdFormat=false;
+            $scope.changeAdFormat = false;
 
             // code to make creatives already set to empty
-            $scope.adData.setSizes = constants.WF_NOT_SET;
-            $scope.creativeData.creativeInfo = 'undefined';
-            $scope.selectedArr.length = 0;
+            //$scope.adData.setSizes = constants.WF_NOT_SET;
+            //$scope.creativeData.creativeInfo = 'undefined';
+            //$scope.selectedArr.length = 0;
+
+            console.log('Inside changeAdFormatContinue');
+            $scope.resetCreatives();
+
+            // Flag to denote that ad format has changed
+            $scope.adFormatChanged = true;
 
             // left nav
             $scope.adData.adFormat= $scope.adformatName;
@@ -777,11 +783,16 @@ var angObj = angObj || {};
                 relativeX,
                 adFormatsData;
 
+            // If clicking on active button, don't do anything.
+            if (event && event.target.attributes.checked) {
+                return;
+            }
+
             if (editdata !== 'editData') {
                 $scope.adformatName = adformatName;
-                if($scope.selectedArr.length>0){
+                if ($scope.selectedArr.length > 0) {
                     $scope.changeAdFormat = true;
-                }else{
+                } else {
                     $scope.changeAdFormatContinue();
                 }
 
@@ -792,9 +803,9 @@ var angObj = angObj || {};
                     relativeX = left - $(event.target).closest('.goalBtnWithPopup').offset().left - 110;
                     $('.goalBtnWithPopup .popUpCue').css({left: relativeX});
                 }
-            } else if (editdata === 'editData') {
+            } else {
                 // populating first time in editmode
-                $scope.adformatName=adformatName;
+                $scope.adformatName = adformatName;
                 $scope.$broadcast('adFormatChanged', $scope.adformatName);
                 adFormatsData = $scope.workflowData.adFormats;
                 _.each(adFormatsData, function (obj) {
@@ -1337,6 +1348,15 @@ var angObj = angObj || {};
                 $scope.sizeString = constants.WF_NOT_SET;
             }
             $scope.adData.setSizes = $scope.sizeString;
+        };
+
+        $scope.resetCreatives = function () {
+            // Reset creatives if any had been selected.
+            if ($scope.adData.setSizes !== constants.WF_NOT_SET) {
+                $scope.selectedArr.length = 0;
+                $scope.changeStatus();
+                $scope.updateCreativeData($scope.selectedArr);
+            }
         };
     });
 })();
