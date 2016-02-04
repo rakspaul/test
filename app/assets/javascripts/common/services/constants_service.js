@@ -253,7 +253,14 @@
         this.AD_VERIFICATION = "Ad Verification";
         this.COLLECTIVE = "Collective";
         this.TRANSPARENT_PLATFORM_FEE_CHARGED = "Transparent platform fee charged by Collective for technology and services associated with programmatic media activity";
+        this.TOTAL_COST = "Total Cost";
+        this.TOTAL_MARGIN = "Total Margin";
+        this.TOTAL_CLICKS = "Total Clicks";
+        this.TOTAL_VIEW = "Total View";
+        this.TOTAL_EVENTS = "Total Events";
         this.TOTAL_SPEND = "Total Spend";
+        this.CONVERSIONS = "Conversions";
+        this.DELIVERY = "Delivery";
 
         this.CAMPAIGN ="Media Plan";
 
@@ -318,6 +325,10 @@
         this.VIEWABLE = "Viewable";
         this.MEASURABLE = "Measurable";
         this.SUSPICIOUS_ACTIVITY = "Suspicious Activity";
+
+
+
+
 
         this.SSL_ERROR_MESSAGE = "Please enter a SSL compatible tag.";
 

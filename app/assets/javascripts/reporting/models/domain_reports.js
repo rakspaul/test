@@ -298,6 +298,19 @@
             }
         };
     }]);
+
+    angObj.directive('marginHeader', ['$http', '$compile','constants', function ($http, $compile,constants) {
+        return {
+            controller: function($scope, $cookieStore, $location){
+            },
+            restrict:'EAC',
+            templateUrl: assets.html_margin_header,
+            link: function(scope, element, attrs) {
+                scope.textConstants = constants;
+            }
+        };
+    }]);
+
     angObj.directive('filtersHeader', ['$http', '$compile','constants', function ($http, $compile,constants) {
         return {
             controller: function($scope, $cookieStore, $location){
