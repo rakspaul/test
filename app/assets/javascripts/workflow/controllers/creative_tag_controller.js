@@ -74,7 +74,7 @@ var angObj = angObj || {};
             }
         };
 
-        $scope.creativeSearchFunc = function () {console.log("adData.adFormat ==",$scope.adData.adFormat)
+        $scope.creativeSearchFunc = function () {
             var format;
             if($scope.adData.adFormat === constants.WF_RICH_MEDIA){
                 format = constants.WF_RICH_MEDIA_SEARCH;
