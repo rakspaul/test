@@ -358,9 +358,11 @@ var angObj = angObj || {};
         };
 
         _customctrl.errorHandler = function() {
-            $scope.reportDataLoading = false;
-            $scope.reportDataNotFound = true;
-            $scope.generateBtnDisabled = false;
+            if(_customctrl.reportPageNum == 1) {
+                $scope.reportDataLoading = false;
+                $scope.reportDataNotFound = true;
+                $scope.generateBtnDisabled = false;
+            }
         };
 
         _customctrl.fetchReportData = function(selectedMetricsList, params, idx, sucessCallbackHandler, errorCallbackHandler) {
