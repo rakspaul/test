@@ -38,7 +38,7 @@ var angObj = angObj || {};
             var adFormatMapper = {
                 'display': 'icon-image', 
                 'video': 'icon-video', 
-                'rich media': 'icon-rich-media', 
+                'richmedia': 'icon-rich-media', 
                 'social': 'icon-social'
             };
 
@@ -236,6 +236,14 @@ var angObj = angObj || {};
             setTimeout(function(){ $(".searchInputForm").hide(); }, 300);
             setTimeout(function(){ $(".searchInputBtn").fadeIn(); }, 300);
         };
+        
+        //Header Hide Show Details
+        $scope.headerToggle = function () {
+            $(".vistoTable .thead .childRow").toggle();
+            $(".vistoTable .thead .icon-arrow-down-thick").toggleClass('arrowLookDown');
+            
+        }
+        
         
         
     });
