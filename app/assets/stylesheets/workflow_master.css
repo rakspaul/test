@@ -1338,7 +1338,7 @@ input.cmn-toggle-round:checked + label:after {
   background: transparent !important;
   border-width: 0;
 }
-.cardSelectHolder:nth-child(3n+3) {
+.cardSelectHolder:nth-child(4) {
   margin-right: 0;
 }
 .cardSelectHolder:hover {
@@ -1404,7 +1404,7 @@ input.cmn-toggle-round:checked + label:after {
   width: 100%;
   cursor: pointer;
   text-align: center;
-  z-index: 999;
+  z-index: 999999;
 }
 .nextWrapper img {
   width: 35px;
@@ -1761,9 +1761,4 @@ input.cmn-toggle-round:checked + label:after {
 .setTargetOptions .msgPopup:after {
   left: auto ;
   right: 9px ;
-}
-.kpiTable input[type=number]::-webkit-inner-spin-button,
-.kpiTable input[type=number]::-webkit-outer-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
 }
