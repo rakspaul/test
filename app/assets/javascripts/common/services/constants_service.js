@@ -401,6 +401,10 @@
         this.WF_VIDEO = "Video";
         this.WF_RICH_MEDIA = "Rich Media";
         this.WF_SOCIAL = "Social";
+        this.WF_DISPLAY_SEARCH = "DISPLAY";
+        this.WF_VIDEO_SEARCH = "VIDEO";
+        this.WF_RICH_MEDIA_SEARCH = "RICHMEDIA";
+        this.WF_SOCIAL_SEARCH = "SOCIAL";
         this.WF_HEADER_PRIMARY_GOAL = "What is your primary goal?";
         this.WF_AD_GOAL = "Ad Goal";
         this.WF_PERFORMANCE = "Performance";

@@ -227,8 +227,9 @@ var angObj = angObj || {};
         //Search Hide / Show
         $scope.searchShowInput = function () {
             $(".searchInputBtn").hide();
-            $(".searchInputForm").show();
-            $(".searchInputForm").animate({width: '300px'}, 'fast');
+            var searchInputForm = $(".searchInputForm");
+            searchInputForm.show();
+            searchInputForm.animate({width: '300px'}, 'fast');
         };
         
         $scope.searchHideInput = function () {

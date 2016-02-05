@@ -74,12 +74,25 @@ var angObj = angObj || {};
             }
         };
 
-        $scope.creativeSearchFunc = function () {
+        $scope.creativeSearchFunc = function () {console.log("adData.adFormat ==",$scope.adData.adFormat)
+            var format;
+            if($scope.adData.adFormat == constants.WF_RICH_MEDIA){
+                format = constants.WF_RICH_MEDIA_SEARCH;
+            }else if($scope.adData.adFormat == constants.WF_DISPLAY){
+                format = constants.WF_DISPLAY_SEARCH;
+            }
+            else if($scope.adData.adFormat == constants.WF_VIDEO){
+                format = constants.WF_VIDEO_SEARCH;
+            }
+            else if($scope.adData.adFormat == constants.WF_SOCIAL){
+                format = constants.WF_SOCIAL_SEARCH;
+            }
+
             var campaignId = $scope.workflowData.campaignData.clientId,
                 advertiserId = $scope.workflowData.campaignData.advertiserId,
                 searchVal = $scope.adData.creativeSearch,
                 qryStr = '',
-                formats = 'VIDEO,DISPLAY';
+                formats = format;
 
             if (searchVal.length > 0) {
                 qryStr += '&query=' + searchVal;
