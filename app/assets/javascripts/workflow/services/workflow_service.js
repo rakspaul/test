@@ -229,7 +229,8 @@
                 var queryStr = query ? query : '',
                     creativeFormats = formats ? '?creativeFormat=' + formats : '',
                     integration_Tracking = integrationTracking ? '&tracking=true' : '',
-                    url = apiPaths.WORKFLOW_APIUrl + '/clients/' + clientId + '/advertisers/' + advertiserId + '/creatives' +
+                    url = apiPaths.WORKFLOW_APIUrl + '/clients/' + clientId + '/creatives' +
+                    //url = apiPaths.WORKFLOW_APIUrl + '/clients/' + clientId + '/advertisers/' + advertiserId + '/creatives' +
                         creativeFormats + queryStr + integration_Tracking;
 
                 return dataService.fetch(url, cacheObj);
