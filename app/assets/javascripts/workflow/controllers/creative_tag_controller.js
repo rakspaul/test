@@ -76,15 +76,15 @@ var angObj = angObj || {};
 
         $scope.creativeSearchFunc = function () {console.log("adData.adFormat ==",$scope.adData.adFormat)
             var format;
-            if($scope.adData.adFormat == constants.WF_RICH_MEDIA){
+            if($scope.adData.adFormat === constants.WF_RICH_MEDIA){
                 format = constants.WF_RICH_MEDIA_SEARCH;
-            }else if($scope.adData.adFormat == constants.WF_DISPLAY){
+            }else if($scope.adData.adFormat === constants.WF_DISPLAY){
                 format = constants.WF_DISPLAY_SEARCH;
             }
-            else if($scope.adData.adFormat == constants.WF_VIDEO){
+            else if($scope.adData.adFormat === constants.WF_VIDEO){
                 format = constants.WF_VIDEO_SEARCH;
             }
-            else if($scope.adData.adFormat == constants.WF_SOCIAL){
+            else if($scope.adData.adFormat === constants.WF_SOCIAL){
                 format = constants.WF_SOCIAL_SEARCH;
             }
 
