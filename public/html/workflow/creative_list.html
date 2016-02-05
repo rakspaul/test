@@ -8,9 +8,9 @@
 			<span class="glyphicon glyphicon-ok" aria-hidden="true"></span> New Creative has been created successfully.
 		</div>
 		
-		<div class="col-md-12 zeroPadding clearfix nav_filters" style="display: none;">
-				<creative-drop-down></creative-drop-down>
-		</div>
+		<!--<div class="col-md-12 zeroPadding clearfix nav_filters" style="display: none;">-->
+				<!--<creative-drop-down></creative-drop-down>-->
+		<!--</div>-->
 		
 		<div class="col-md-12 zeroPadding">
 			<h1 class="col-md-12 zeroPadding" style="margin-bottom: 50px;">Creative Library ({{creativeData.creatives_count || 0}})</h1>
@@ -40,7 +40,7 @@
 
 			<!--Search Input-->
 			<div class="btn-group pull-right">
-				<button type="button" class="btn btn-default pull-right"><span class="icon-filter" style="margin: -1px 0 0 0;"></span></button>
+				<button type="button" class="btn btn-default pull-right" style="display: none"><span class="icon-filter" style="margin: -1px 0 0 0;"></span></button>
 				<div class="searchInput pull-right" style="border-right: 0px;">
 					<a class="btn btn-default searchInputBtn" ng-click="searchShowInput()">
 						<span class="icon-search" aria-hidden="true" style="margin: -1px 0 0 0;"></span>
@@ -61,8 +61,8 @@
 			    <div class="thead">
 				<div class="tr">
 				    <div class="col-md-3 th">
-					<input type="checkbox"/>
-					<span class="icon-arrow-down-thick" ng-click="headerToggle();"></span>
+					<input type="checkbox" ng-click="selectAllCreative()"/>
+					<!--<span class="icon-arrow-down-thick" ng-click="headerToggle();"></span>-->
 					<span>Creative Name</span>
 				    </div>
 				    <div class="col-md-1 th text-center">Format</div>
@@ -84,7 +84,7 @@
 				<div ng-if="!creativeListLoading" ng-repeat="creativeData in creativeData.creatives" class="tr">
 				    <!--Creative Name-->
 				    <div class="col-md-3 td">
-					<input type="checkbox"/>
+					<input type="checkbox" ng-checked="creativeData.active" ng-click="selectedCreativeCheckbox(creativeData)"/>
 					<span class="icon-arrow-down-thick"></span>
 					<a href="javascript:void(0);" ng-click="ShowHideTag(creativeData, $index)">{{creativeData.name}}</a>
 					<div class="script_tag">
