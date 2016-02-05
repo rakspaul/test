@@ -15,7 +15,6 @@ var angObj = angObj || {};
                             $scope.creativesNotFound = false;
                             $scope.creativeData.creatives = result.data.data;
                             $scope.creativeData.creatives_count = result.data.data.length;
-                            console.log($scope.creativeData.creatives);
                         } else {
                             creativeList.errorHandler();
                         }
@@ -39,7 +38,7 @@ var angObj = angObj || {};
             var adFormatMapper = {
                 'display': 'icon-image', 
                 'video': 'icon-video', 
-                'rich media': 'icon-rich-media', 
+                'richmedia': 'icon-rich-media', 
                 'social': 'icon-social'
             };
 
