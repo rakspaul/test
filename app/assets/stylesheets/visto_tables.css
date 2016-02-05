@@ -108,6 +108,20 @@
 .table-responsive .vistoTable .tbody .tr .td:first-child a {
   color: #21252b;
 }
+.table-responsive .vistoTable .tbody .tr .td:first-child .icon-error {
+  float: left;
+  margin: 1px 10px 0 0;
+  width: 12px;
+  height: 12px;
+  color: #f24444;
+}
+.table-responsive .vistoTable .tbody .tr .td:first-child .icon-warning {
+  float: left;
+  margin: 1px 10px 0 0;
+  width: 12px;
+  height: 12px;
+  color: #f5c023;
+}
 .table-responsive .vistoTable .tbody .tr .td:last-child {
   border-right: 0px;
 }
