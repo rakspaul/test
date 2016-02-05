@@ -820,6 +820,14 @@
         this.selectDate = "Please select date";
         this.reportNameErrorMsg = "Please use only alphanumeric characters for report names. Report name should start with alphabetic character";
 
+        this.START_OR_END_DATE_CAN_NOT_LESS_THAN_CURRENTDATE = 'Start date or end date cannot be less than the current date';
+        this.DELIVER_DATE_CAN_NOT_LESS_THAN_CURRENTDATE =  'Deliver on date cannot be less than the current date';
+        this.DIFFERENCE_BETWEEN_START_END_AT_LEAST_ONE_DAY = 'The difference between Start and End Dates should be at least one day';
+        this.SELECT_VALID_DATE_OR_DAY_OCCURS_ON_FIELD = 'Select valid day/date for Occurs On field';
+        this.DIFFERENCE_BETWEEN_START_END_AT_LEAST_ONE_WEEK = 'The difference between Start and End Dates should be at least one week';
+        this.SELECT_VALID_CUSTOM_DATE = 'Select valid custom date';
+        this.MONTHLY_SCHEDULING_DATE_RANGE__AT_LEAST_ONE_MONTH = 'You have chosen monthly Scheduling, please choose a date range that is at least one month'
+
 
     };
 
