@@ -1,9 +1,10 @@
 .dashboard_2 .row {
-  margin: 30px 0 0 0;
+  margin: 15px 0;
 }
 .dashboard_2 .row [class^="col-md-"],
 .dashboard_2 .row [class*=" col-md-"] {
   padding: 0 15px;
+  margin: 15px 0;
 }
 .dashboard_2 .row [class^="col-md-"] .widgetWrap,
 .dashboard_2 .row [class*=" col-md-"] .widgetWrap {
@@ -81,12 +82,4 @@
 .dashboard_2 .row [class^="col-md-"] .miniChart,
 .dashboard_2 .row [class*=" col-md-"] .miniChart {
   min-height: 80px;
-}
-.dashboard_2 .row [class^="col-md-"]:first-child,
-.dashboard_2 .row [class*=" col-md-"]:first-child {
-  padding-left: 0;
-}
-.dashboard_2 .row [class^="col-md-"]:last-child,
-.dashboard_2 .row [class*=" col-md-"]:last-child {
-  padding-right: 0;
 }
