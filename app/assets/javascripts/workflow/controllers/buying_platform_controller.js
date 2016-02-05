@@ -150,7 +150,7 @@ var angObj = angObj || {};
                 return item.id === $scope.adData.platformId;
             });
             // code to make creatives already set to empty
-            if(wasPrevTrackingInt<0){
+            if(event && wasPrevTrackingInt<0){
                 $scope.adData.setSizes = constants.WF_NOT_SET;
                 $scope.creativeData.creativeInfo = 'undefined';
                 $scope.selectedArr.length = 0;

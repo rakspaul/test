@@ -3,15 +3,15 @@ var angObj = angObj || {};
 (function () {
     'use strict';
 
-        angObj.controller('CampaignAdsCreateController', function ($scope, $rootScope, $window, $routeParams, $locale,
-                                                                   constants, workflowService, $timeout, utils, $location,
-                                                                   campaignListService, requestCanceller, $filter,
-                                                                   loginModel, $q, dataService, apiPaths, audienceService,
-                                                                   RoleBasedService, momentService) {
+    angObj.controller('CampaignAdsCreateController', function ($scope, $rootScope, $window, $routeParams, $locale,
+                                                               constants, workflowService, $timeout, utils, $location,
+                                                               campaignListService, requestCanceller, $filter,
+                                                               loginModel, $q, dataService, apiPaths, audienceService,
+                                                               RoleBasedService, momentService) {
         // Flag to denote that ad format has changed
         $scope.adFormatChanged = false;
 
-        $scope.showDeleteConfirmationPopup=false;
+        $scope.showDeleteConfirmationPopup = false;
         $scope.adCreateLoader = false;
         var winHeaderHeight = $(window).height() - 50,
             winHeight,
@@ -177,6 +177,36 @@ var angObj = angObj || {};
                     $scope.adData.unitType = $scope.workflowData.unitTypes[0];
                 },
 
+                saveTrackerFile : function() {
+                    var clientId, url;
+
+                    if ($scope.adId) {
+                        clientId = loginModel.getSelectedClient().id;
+                        url = apiPaths.WORKFLOW_APIUrl +
+                            '/clients/' +
+                            clientId +
+                            '/campaigns/' +
+                            $scope.campaignId +
+                            '/ads/' +
+                            $scope.adId +
+                            '/creatives?format=csv';
+                        dataService
+                            .downloadFile(url)
+                            .then(function (response) {
+                                console.log("response", response);
+                                if (response.status === 'success') {
+                                    $scope.downloadingTracker = false;
+                                    console.log("saveAds");
+                                    console.log("response.file", response.file);
+                                    console.log("response.fileName", response.fileName);
+                                    saveAs(response.file, response.fileName);
+                                } else {
+                                    $scope.downloadingTracker = false;
+                                }
+                            });
+                    }
+                },
+
                 saveAds: function (postDataObj, isDownloadTrackerClicked) {
                     var promiseObj;
 
@@ -209,11 +239,17 @@ var angObj = angObj || {};
                                 $location.url(url);
                                 localStorage.setItem('topAlertMessage', $scope.textConstants.AD_CREATED_SUCCESS);
                             }
+
+                            if(isDownloadTrackerClicked) {
+                                campaignOverView.saveTrackerFile();
+                            }
                         } else {
+                            $scope.downloadingTracker = false;
                             $rootScope.setErrAlertMessage(responseData.message);
                         }
                     }, function (errorObj) {
-                        $scope.abc =  $scope.textConstants.PARTIAL_AD_SAVE_FAILURE;
+                        $scope.downloadingTracker = false;
+                        $scope.abc = $scope.textConstants.PARTIAL_AD_SAVE_FAILURE;
                         $rootScope.setErrAlertMessage($scope.textConstants.PARTIAL_AD_SAVE_FAILURE);
                     });
                 },
@@ -247,41 +283,41 @@ var angObj = angObj || {};
                 }
             };
 
-        $scope.deletetargets=function(type, event){
+        $scope.deletetargets = function (type, event) {
             var elem = $(event.target);
-            var leftPos = elem.closest(".cardSelectHolder").offset().left - elem.closest(".setTargetOptions").offset().left ;
-            elem.closest(".setTargetOptions").find(".msgPopup").css("left" , leftPos ) ;
-            $scope.showDeleteConfirmationPopup=true;
-            $scope.deleteType=type;
+            var leftPos = elem.closest(".cardSelectHolder").offset().left - elem.closest(".setTargetOptions").offset().left;
+            elem.closest(".setTargetOptions").find(".msgPopup").css("left", leftPos);
+            $scope.showDeleteConfirmationPopup = true;
+            $scope.deleteType = type;
         };
 
-        $scope.deleteTargetting=function(){
-            $scope.showDeleteConfirmationPopup=!$scope.showDeleteConfirmationPopup;
-            if($scope.deleteType=="AUDIENCE")
+        $scope.deleteTargetting = function () {
+            $scope.showDeleteConfirmationPopup = !$scope.showDeleteConfirmationPopup;
+            if ($scope.deleteType == "AUDIENCE")
                 $scope.deleteAudienceTargetting();
-            else if($scope.deleteType=="GEO")
+            else if ($scope.deleteType == "GEO")
                 $scope.deleteGeoTargetting();
-            else if($scope.deleteType=="DAYPART")
-            $scope.deleteDayPartTargetting();
+            else if ($scope.deleteType == "DAYPART")
+                $scope.deleteDayPartTargetting();
         };
 
-        $scope.cancelTargettingDelete=function(){
-            $scope.deleteType="";
-            $scope.showDeleteConfirmationPopup=!$scope.showDeleteConfirmationPopup;
+        $scope.cancelTargettingDelete = function () {
+            $scope.deleteType = "";
+            $scope.showDeleteConfirmationPopup = !$scope.showDeleteConfirmationPopup;
         };
 
-         $scope.deleteAudienceTargetting=function(){
-             $scope.selectedAudience.length=0;
-             $scope.adData.isAudienceSelected=null;
-         };
+        $scope.deleteAudienceTargetting = function () {
+            $scope.selectedAudience.length = 0;
+            $scope.adData.isAudienceSelected = null;
+        };
 
-        $scope.deleteDayPartTargetting=function(){
-            $scope.selectedDayParts['data'].length=0;
+        $scope.deleteDayPartTargetting = function () {
+            $scope.selectedDayParts['data'].length = 0;
             $scope.$broadcast('deleteDayPartTarget');
 
         };
 
-        $scope.deleteGeoTargetting=function(){
+        $scope.deleteGeoTargetting = function () {
             $scope.$broadcast('deleteGeoTarget');
         };
 
@@ -321,9 +357,9 @@ var angObj = angObj || {};
             if (responseData.adFormat) {
                 format = $filter('toTitleCase')(responseData.adFormat);
                 if (format === 'Richmedia') {
-                    format='Rich Media';
+                    format = 'Rich Media';
                 }
-                $scope.adFormatSelection(format,'','editData');
+                $scope.adFormatSelection(format, '', 'editData');
                 $scope.adData.adFormat = format;
             }
             if (responseData.goal) {
@@ -388,7 +424,7 @@ var angObj = angObj || {};
             $('.spend_evenly input').attr('checked', 'checked');
 
             if (responseData.frequencyCaps && responseData.frequencyCaps.length >= 1) {
-                    angular.forEach(responseData.frequencyCaps, function (frequencyCap) {
+                angular.forEach(responseData.frequencyCaps, function (frequencyCap) {
                     var pacingType,
                         freqType;
                     if (frequencyCap.targetType === 'ALL') {
@@ -458,8 +494,7 @@ var angObj = angObj || {};
 
         function disablePauseEnableResume(getAd_resultData) {
             $scope.disable_resume = 'disabled';
-            if ((getAd_resultData.state === 'IN_FLIGHT' || getAd_resultData.state === 'SCHEDULED' ) &&
-                !(getAd_resultData.isTracking)) {
+            if ((getAd_resultData.state === 'IN_FLIGHT' || getAd_resultData.state === 'SCHEDULED' ) && !(getAd_resultData.isTracking)) {
                 // do not let Ad to pause if tracking
                 // enable pause button
                 $scope.disable_pause = '';
@@ -755,7 +790,7 @@ var angObj = angObj || {};
             $scope.adFormatChanged = true;
 
             // left nav
-            $scope.adData.adFormat= $scope.adformatName;
+            $scope.adData.adFormat = $scope.adformatName;
 
             // adFormatSelection code
             $scope.$broadcast('adFormatChanged', $scope.adformatName);
@@ -780,11 +815,11 @@ var angObj = angObj || {};
             }
         };
 
-        $scope.changeAdFormatCancel=function () {
-            $scope.changeAdFormat=false;
+        $scope.changeAdFormatCancel = function () {
+            $scope.changeAdFormat = false;
         };
 
-        $scope.adFormatSelection = function (adformatName , event, editdata) {
+        $scope.adFormatSelection = function (adformatName, event, editdata) {
             var offset,
                 left,
                 top,
@@ -873,38 +908,8 @@ var angObj = angObj || {};
             $scope.selectedFreq = freqSelected;
         };
 
-        $scope.downloadTrackerUrls = function () {
-            $scope.campaignAdSave(true);
-            $scope.$watch('adId', function () {
-                var clientId,
-                    url;
 
-                $scope.downloadingTracker = true;
-                if ($scope.adId) {
-                    clientId =  loginModel.getSelectedClient().id;
-                    url = apiPaths.WORKFLOW_APIUrl +
-                        '/clients/' +
-                        clientId +
-                        '/campaigns/' +
-                        $scope.campaignId +
-                        '/ads/' +
-                        $scope.adId +
-                        '/creatives?format=csv';
-                    dataService
-                        .downloadFile(url)
-                        .then(function (response) {
-                            if (response.status === 'success') {
-                                $scope.downloadingTracker = false;
-                                saveAs(response.file, response.fileName);
-                            } else {
-                                $scope.downloadingTracker = false;
-                            }
-                        });
-                }
-            });
-        };
-
-        $scope.CampaignADsave = function (isDownloadTrackerClicked) {
+        $scope.campaignAdSave = function (isDownloadTrackerClicked) {
             var formElem = $('#formAdCreate'),
                 formData = formElem.serializeArray(),
                 customFieldErrorElem,
@@ -925,9 +930,9 @@ var angObj = angObj || {};
             if ((formData.budgetAmount &&
                 $scope.formAdCreate.budgetAmount.$error.mediaCostValidator) ||
                 ($scope.budgetErrorObj.mediaCostValidator ||
-                    $scope.budgetErrorObj.availableRevenueValidator ||
-                    $scope.budgetErrorObj.impressionPerUserValidator ||
-                    $scope.budgetErrorObj.availableMaximumAdRevenueValidator)) {
+                $scope.budgetErrorObj.availableRevenueValidator ||
+                $scope.budgetErrorObj.impressionPerUserValidator ||
+                $scope.budgetErrorObj.availableMaximumAdRevenueValidator)) {
                 $rootScope.setErrAlertMessage('Mandatory fields need to be specified for the Ad');
                 return false;
             }
@@ -960,16 +965,14 @@ var angObj = angObj || {};
                 if (formData.endTime) {
                     postAdDataObj.endTime = momentService.localTimeToUTC(formData.endTime, 'endTime');
                 }
-                if ((!formData.startTime ||
-                    !formData.endTime ||
-                    !postAdDataObj.screens ||
-                    !formData.adFormat ||
-                    !formData.goal) &&
+                if ((!formData.startTime || !formData.endTime || !postAdDataObj.screens || !formData.adFormat || !formData.goal) &&
                     $scope.mode === 'edit' &&
                     $scope.isAdsPushed === true) {
                     $rootScope.setErrAlertMessage('Mandatory fields need to be specified for the Ad');
                 } else {
-                    $scope.adCreateLoader = true;
+                    if(!isDownloadTrackerClicked) {
+                        $scope.adCreateLoader = true;
+                    }
                     if (formData.unitCost) {
                         postAdDataObj.rateValue = formData.unitCost;
                         if (formData.unitCost && formData.unitType === '') {
@@ -1080,6 +1083,13 @@ var angObj = angObj || {};
             }
         };
 
+        $scope.downloadTrackerUrls = function () {
+            $scope.downloadingTracker = true;
+            $scope.campaignAdSave(true);
+
+        };
+
+
         $scope.triggerbudgetTab = function () {
             angular.element('.budget-tab-link').trigger('click');
         };
@@ -1138,7 +1148,7 @@ var angObj = angObj || {};
         $scope.getSelectedDays = function () {
             $scope.selectedDayParts.selected = audienceService.getDayTimeSelectedObj();
             $scope.selectedDayParts.data = audienceService.getDaytimeObj();
-            $scope.dayPartTotal =  $scope.selectedDayParts.data ? $scope.selectedDayParts.data.length : 0;
+            $scope.dayPartTotal = $scope.selectedDayParts.data ? $scope.selectedDayParts.data.length : 0;
         };
 
         $('.main_navigation_holder')
@@ -1229,7 +1239,7 @@ var angObj = angObj || {};
         $scope.dayPartData = {};
         $scope.adData.budgetTypeLabel = 'Impressions';
         $scope.adData.budgetType = 'Impressions';
-        $scope.downloadingTracker=false;
+        $scope.downloadingTracker = false;
         $scope.selectedAudience = [];
         $scope.selectedDayParts = [];
         $scope.adData.setSizes = constants.WF_NOT_SET;
