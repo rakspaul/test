@@ -15,6 +15,7 @@ var angObj = angObj || {};
                             $scope.creativesNotFound = false;
                             $scope.creativeData.creatives = result.data.data;
                             $scope.creativeData.creatives_count = result.data.data.length;
+                            console.log($scope.creativeData.creatives);
                         } else {
                             creativeList.errorHandler();
                         }
@@ -236,6 +237,14 @@ var angObj = angObj || {};
             setTimeout(function(){ $(".searchInputForm").hide(); }, 300);
             setTimeout(function(){ $(".searchInputBtn").fadeIn(); }, 300);
         };
+        
+        //Header Hide Show Details
+        $scope.headerToggle = function () {
+            $(".vistoTable .thead .childRow").toggle();
+            $(".vistoTable .thead .icon-arrow-down-thick").toggleClass('arrowLookDown');
+            
+        }
+        
         
         
     });
