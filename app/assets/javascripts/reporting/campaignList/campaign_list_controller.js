@@ -118,10 +118,10 @@
               if(scroll_to_element < window_scrollTop){
               window.scrollTo(0,scroll_to_element);
               }*/
-//             if ($(window).scrollTop() >= $(document).height() - $(window).height() - 10) {
-//                 var test_height = parseInt($(this).height())+1;
-//                 $(this).height(test_height);
-//             }
+             if ($(window).scrollTop() >= $(document).height() - $(window).height() - 10) {
+                 var test_height = parseInt($(this).height())+1;
+                 $(this).height(test_height);
+             }
              if($(this).scrollTop() + $(this).innerHeight() >= $(this)[0].scrollHeight) {
                  $scope.campaigns.fetchData();
              }
