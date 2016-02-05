@@ -1389,45 +1389,45 @@ var angObj = angObj || {};
                         startDate = $("#startOn").val(),
                         endDate = $("#endOn").val();
                     if($scope.reports.schedule.frequency && $scope.reports.schedule.frequency != "Once" && (momentService.dateDiffInDays(currDate,startDate) < 0|| momentService.dateDiffInDays(currDate,endDate) < 0)){
-                        $rootScope.setErrAlertMessage("Start date or end date cannot be less than the current date");
+                        $rootScope.setErrAlertMessage(constants.START_OR_END_DATE_CAN_NOT_LESS_THAN_CURRENTDATE);
                         return false;
                     }
                     switch($scope.reports.schedule.frequency){
                         case "Once":
                             if(momentService.dateDiffInDays(currDate,deliverOn) < 0){
-                                $rootScope.setErrAlertMessage("Deliver on date cannot be less than the current date");
+                                $rootScope.setErrAlertMessage(constants.DELIVER_DATE_CAN_NOT_LESS_THAN_CURRENTDATE);
                                 return false;
                             }
                         break;
                         case "Daily":
                             if(momentService.dateDiffInDays(startDate,endDate) < 1){
-                                $rootScope.setErrAlertMessage("The difference between Start and End Dates should be at least one day");
+                                $rootScope.setErrAlertMessage(constants.DIFFERENCE_BETWEEN_START_END_AT_LEAST_ONE_DAY);
                                 return false;
                             }
                         break;
                         case "Weekly":
                             if($scope.valueWithDefault($scope.reports.schedule, 'occurance' ,'') == ''){
-                                $rootScope.setErrAlertMessage("Please, select valid day/date for Occurs On field");
+                                $rootScope.setErrAlertMessage(constants.SELECT_VALID_DATE_OR_DAY_OCCURS_ON_FIELD);
                                 return false;
                             }
                             if(momentService.dateDiffInDays(startDate,endDate) < 7){
-                                $rootScope.setErrAlertMessage("The difference between Start and End Dates should be at least one week");
+                                $rootScope.setErrAlertMessage(constants.DIFFERENCE_BETWEEN_START_END_AT_LEAST_ONE_WEEK);
                                 return false;
                             }
                         break;
                         case "Monthly":
                             if($scope.valueWithDefault($scope.reports.schedule, 'occurance' ,'') == ''){
-                                $rootScope.setErrAlertMessage("Please, select valid day/date for Occurs On field");
+                                $rootScope.setErrAlertMessage(constants.SELECT_VALID_DATE_OR_DAY_OCCURS_ON_FIELD);
                                 return false;
                             }else{
                                 if($scope.reports.schedule.occurance == "Custom" && (typeof $scope.reports.schedule.customOccuranceDate == "undefined" || $scope.reports.schedule.customOccuranceDate == "")){
-                                    $rootScope.setErrAlertMessage("Please the a custom date");
+                                    $rootScope.setErrAlertMessage(constants.SELECT_VALID_CUSTOM_DATE);
                                     return false;
                                 }
                             }
 
                             if(momentService.dateDiffInDays(startDate,endDate) < 28){
-                                $rootScope.setErrAlertMessage("You have chosen monthly Scheduling, please choose a date range that is at least one month");
+                                $rootScope.setErrAlertMessage(constants.MONTHLY_SCHEDULING_DATE_RANGE__AT_LEAST_ONE_MONTH);
                                 return false;
                             }
                         break;

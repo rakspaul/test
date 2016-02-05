@@ -74,7 +74,7 @@
         // Get timezone name stored in localStorage ('clientRoleObj').
         this.getTimezoneName = function () {
             var clientRoleObj =  JSON.parse(localStorage.getItem('clientRoleObj'));
-            if(clientRoleObj.timezoneName)
+            if(clientRoleObj && clientRoleObj.timezoneName)
             return clientRoleObj.timezoneName;
         };
 
