@@ -6,7 +6,9 @@
 
     $scope.filterByTimePeriod = function(timePeriod) {
         timePeriodModel.selectTimePeriod(timePeriod);
-      //$rootScope.$broadcast(constants.EVENT_TIMEPERIOD_CHANGED);
+        if(!timePeriod.key.startsWith("custom")){
+            $rootScope.$broadcast(constants.EVENT_TIMEPERIOD_CHANGED);
+        }
       analytics.track(loginModel.getUserRole(), constants.GA_TIME_PERIOD_SELECTED, timePeriod.display, loginModel.getLoginName());
     };
 
@@ -45,13 +47,17 @@
           $("#newDatePickerBox").hide();
       }
 
-      var deliverOn = $("#deliverOn").val(),
-          startDate = $("#startDateInput").val(),
-          endDate = $("#endDateInput").val();
-      $('#startDateInput').datepicker('update', startDate);
-      $('#startDateInputGlyph').datepicker('update', startDate);
-      $('#endDateInput').datepicker('update', endDate);
-      $('#endDateInputGlyph').datepicker('update', endDate);
+      $('#newDatePickerBox').click(
+          function(e){
+              var deliverOn = $("#deliverOn").val(),
+                  startDate = $("#startDateInput").val(),
+                  endDate = $("#endDateInput").val();
+              $('#startDateInput').datepicker('update', startDate);
+              $('#startDateInputGlyph').datepicker('update', startDate);
+              $('#endDateInput').datepicker('update', endDate);
+              $('#endDateInputGlyph').datepicker('update', endDate);
+          }
+      );
 
     $scope.timePeriodClicked = function() {
         var deliverOn = $("#deliverOn").val(),

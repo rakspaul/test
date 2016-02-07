@@ -354,9 +354,6 @@
       'timePeriod-TimePeriodModel':'reporting/timePeriod/time_period_model',
       'timePeriod-TimePeriodDirective':'reporting/timePeriod/time_period_directive',
       'timePeriod-TimePeriodPickDirective':'reporting/timePeriod/time_period_pick_directive',
-
-
-
       'timePeriod-TimePeriodController':'reporting/timePeriod/time_period_controller',
 
       'login-LoginModule':'login/login_module',
