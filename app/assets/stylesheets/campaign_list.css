@@ -2921,12 +2921,15 @@ input[type="submit"] {
 }
 .breadcrumb_nav_campaign,
 .breadcrumb_nav_strategy {
-  margin-left: 30px ;
+  margin-left: 20px ;
 }
 .breadcrumb_nav_campaign .report_heading_dropdown_txt,
 .breadcrumb_nav_strategy .report_heading_dropdown_txt {
   float: none;
   margin-top: 0px ;
+}
+#campaignDetail .campaign_detail_filter_header {
+  position: relative!important;
 }
 .nav_filters {
   width: 1040px;
@@ -2964,7 +2967,7 @@ input[type="submit"] {
   margin-top: 0px ;
 }
 .nav_filters .each_filter.advertisers_filter {
-  margin-right: 30px;
+  margin-right: 20px;
 }
 .nav_filters .each_filter .header_filter_arrow_dropdown {
   display: inline-block;
@@ -3124,9 +3127,9 @@ input[type="submit"] {
 }
 .nav_filters .campaign_name_selected {
   height: 20px ;
-  min-width: 120px ;
+  /*min-width: 120px ; */
   padding-right: 20px ;
-  max-width: 220px ;
+  max-width: 133px ;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis ;

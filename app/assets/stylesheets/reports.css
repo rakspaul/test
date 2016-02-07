@@ -4243,3 +4243,31 @@ div.reports_tabs_content_container div#reports_bycreatives_block div.reports_det
 body.custom_report_page .bodyWrap {
   width: 100% ;
 }
+#newDatePickerBox {
+  position: absolute;
+  right: 2px;
+}
+#newDatePickerBox button {
+  float: right;
+  left: 2px;
+  position: relative;
+  padding: 10px;
+  margin-top: 8px;
+}
+#newDatePickerBox .startPicker,
+#newDatePickerBox .endPicker {
+  float: left ;
+  border: solid 1px #BFC9D7;
+  margin-top: 8px;
+  margin-right: 12px;
+  border-radius: 2px;
+}
+#newDatePickerBox .startPicker input,
+#newDatePickerBox .endPicker input {
+  width: 103px;
+  border: 0;
+  border-right: solid 1px #bfc9d7;
+}
+#newDatePickerBox #campaignDetail .campaign_detail_filter_header {
+  position: relative;
+}

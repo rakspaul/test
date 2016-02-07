@@ -4,7 +4,7 @@
 </a>
 <ul class="dropdown-menu cdbMenu_options" role="menu" id="cdbDropdown">
   <li ng-repeat="timeObj in timeData.timePeriodList track by $index" class={{timeObj.className}}>
-    <a data-ng-click="filterByTimePeriod(timeObj)">
+      <a data-ng-click="timeObj.display != 'Custom' ? filterByTimePeriod(timeObj) :filterByTimePeriod(timeObj) ">
       <span class="tick"></span>
       <span class="menuItemText" id="{{timeObj.key}}" ng-bind="timeObj.display"></span>
     </a>

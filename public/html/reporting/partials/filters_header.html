@@ -8,7 +8,7 @@
         <brands-drop-down></brands-drop-down>
 
     </div>
-    <div class="pull-left dropdown breadcrumb_nav_campaign"  ng-if=reportFilter >
+    <div class="pull-left dropdown breadcrumb_nav_campaign"  ng-if=reportFilter style="max-width:190px">
 	    <campaign-drop-down selected-obj=selectedCampaign all-campaign="{{allCampaign}}"> </campaign-drop-down>
 	</div>
     <div class="pull-left breadcrumb_nav_strategy" ng-show="{{isStrategyDropDownShow}}" ng-if=reportFilter >
@@ -20,4 +20,12 @@
           <timeperiod-drop-down></timeperiod-drop-down>
         </div>
      </div>
+    <!-- temp just to get layout this will need to be a custom directive -->
+    <div class="pull-left dropdown dropdown-two each_filter lifetime_filter" id="newDatePickerBox" ng-show="{{isStrategyDropDownShow}}"    ng-if="reportFilter == 'true'" ng-controller="TimePeriodController" style="display: none" >
+
+        <timeperiod-drop-down-picker></timeperiod-drop-down-picker>
+
+
+    </div>
+    <!-- end of temp just to get layout -->
 </div>

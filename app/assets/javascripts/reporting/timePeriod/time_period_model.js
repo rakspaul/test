@@ -1,9 +1,11 @@
 //Data Manipulation in model
 timePeriodModule.factory("timePeriodModel", ['constants', function (constants) {
     var buildTimePeriodList = function() {
-        return [createTimePeriodObject('Last 7 days', 'last_7_days'),
+        return [
+            createTimePeriodObject('Last 7 days', 'last_7_days'),
             createTimePeriodObject('Last 30 days', 'last_30_days'),
-            createTimePeriodObject('Lifetime', 'life_time', 'active')
+            createTimePeriodObject('Lifetime', 'life_time', 'active'),
+            createTimePeriodObject('Custom', 'custom')
         ];
 
     };
