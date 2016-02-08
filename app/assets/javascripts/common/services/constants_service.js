@@ -184,6 +184,7 @@
         this.NO_RELEVANT_CAMPAIGNS = "No Relevant Media Plans";
         this.COST_BREAKDOWN = "Cost Breakdown";
         this.PERFORMANCE = "Performance";
+        this.MARGIN = "Margin";
         this.BUDGET = "Budget";
         this.BRAND = "Brand";
         this.CAMPAIGN_ON_TRACK = "Media Plan On Track";
