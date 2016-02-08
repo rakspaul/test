@@ -843,7 +843,7 @@
         this.SELECT_VALID_CUSTOM_DATE = 'Select valid custom date';
         this.MONTHLY_SCHEDULING_DATE_RANGE__AT_LEAST_ONE_MONTH = 'You have chosen monthly Scheduling, please choose a date range that is at least one month';
 
-        this.CUSTOMDATE_ERROR_MESSAGE = "Please select a valid date";
+        this.CUSTOMDATE_ERROR_MESSAGE = "The custom date does not fall within the range of Start and End Dates.";
 
 
     };
