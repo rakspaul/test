@@ -634,18 +634,23 @@ var angObj = angObj || {};
                 }
                 var value = escape($.trim(value)),
                     currentRowIndex = Number(currFirtDimensionElem.attr("data-result-row")),
-                    loadMore = $('div[data-result-row="'+currentRowIndex+'"] .sec_dimension_load_more');
+                    loadMore = $('div[data-result-row="'+currentRowIndex+'"] .sec_dimension_load_more'),
+                    loadMoreIcon = $('div[data-result-row="'+currentRowIndex+'"] .sec_dimesnion_loadingIcon');
                 if(_customctrl.isReportLastPage_2D[currentRowIndex]){
                     return true;
                 }
-                $scope.secondDimensionReportLoading[$scope.activeTab] = {}
-                $scope.secondDimensionReportLoading[$scope.activeTab][currentRowIndex] = true;
-
-
-                $scope.secondDimensionReportDataNotFound[$scope.activeTab] = {};
-                $scope.secondDimensionReportDataNotFound[$scope.activeTab][currentRowIndex] = false;
+                if(_customctrl.reportPageNum_2D[currentRowIndex] == 1) {
+                    $scope.secondDimensionReportLoading[$scope.activeTab] = {}
+                    $scope.secondDimensionReportLoading[$scope.activeTab][currentRowIndex] = true;
+                    $scope.secondDimensionReportDataNotFound[$scope.activeTab] = {};
+                    $scope.secondDimensionReportDataNotFound[$scope.activeTab][currentRowIndex] = false;
+                }else{
+                    loadMoreIcon.show();
+                }
+                loadMore.hide();
                 var paramsObj = _customctrl.createRequestParams(value, $scope.secondDimensionOffset, 0, currentRowIndex);
                 _customctrl.fetchReportData($scope.selectedMetricsList, paramsObj, currentRowIndex, function(respData, currentRowIndex) {
+                    loadMoreIcon.hide();
                     currFirtDimensionElem.addClass('active');
                     _customctrl.isReportLastPage_2D[currentRowIndex] = respData.last_page;
                     if(!respData.last_page){
