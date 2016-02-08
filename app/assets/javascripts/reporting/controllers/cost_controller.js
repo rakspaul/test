@@ -4,7 +4,7 @@ var angObj = angObj || {};
     angObj.controller('CostController', function ($scope, $window, campaignSelectModel, kpiSelectModel,
                                                   strategySelectModel, brandsModel, dataService, utils,
                                                   domainReports, apiPaths,constants, timePeriodModel,
-                                                  loginModel, analytics, urlService) {
+                                                  loginModel, analytics, urlService, advertiserModel) {
 
         $scope.textConstants = constants;
 
@@ -98,6 +98,8 @@ var angObj = angObj || {};
 
             var queryObj = {
                 clientId: loginModel.getSelectedClient().id,
+                advertiserId: advertiserModel.getSelectedAdvertiser().id,
+                brandId: brandsModel.getSelectedBrand().id,
                 dateFilter: timePeriodModel.timeData.selectedTimePeriod.key
             };
             if (_.has(param, 'strategyId') && param.strategyId >= 0) {
