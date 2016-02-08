@@ -5,10 +5,11 @@ var angObj = angObj || {};
 
     angObj.controller('CreativeListController', function ($scope,$rootScope, $window, $routeParams, constants, workflowService, 
         $timeout, utils, $location) {
+        var checkedCreativeArr=[];
         var creativeList = {
-            getCreativesList: function (campaignId, advertiserId, formats, query) {
+            getCreativesList: function (campaignId, formats, query) {
                 workflowService
-                    .getCreatives(campaignId, advertiserId, formats, query)
+                    .getCreatives(campaignId, formats, query)
                     .then(function (result) {
                         if (result.status === 'OK' || result.status === 'success' && result.data.data.length > 0) {
                             $scope.creativeListLoading = false;
@@ -28,6 +29,34 @@ var angObj = angObj || {};
                 $scope.creativeData.creatives_count = 0;
             }
         };
+        $scope.selectAllCreative=function(){
+            if($scope.creativeData.creatives[0].active){
+                for(var i in $scope.creativeData.creatives){
+                    $scope.creativeData.creatives[i].active=false;
+                }
+            }else{
+                for(var i in $scope.creativeData.creatives){
+                    $scope.creativeData.creatives[i].active=true;
+                }
+                $scope.selectedCreativeCheckbox("","allSelected")
+            }
+        }
+        $scope.selectedCreativeCheckbox=function(creative,selectedType){
+            if(selectedType!="allSelected"){
+               var creativeAlreadySelected = checkedCreativeArr.indexOf(creative.id)
+                if(creativeAlreadySelected===-1){
+                    checkedCreativeArr.push(creative.id)
+                }else{
+                    checkedCreativeArr.splice(Number(creativeAlreadySelected),1);
+                }
+            }else{
+                checkedCreativeArr=[];
+                for(var i in $scope.creativeData.creatives){
+                    checkedCreativeArr.push($scope.creativeData.creatives[i].id);
+                }
+            }
+
+        }
 
         $scope.resetAlertMessage = function (){
            localStorage.removeItem('topAlertMessage');
@@ -58,32 +87,36 @@ var angObj = angObj || {};
             if (searchVal.length > 0) {
                 qryStr += '&query=' + searchVal;
             }
-            creativeList.getCreativesList($scope.campaignId, $scope.advertiserId, formats, qryStr);
+            creativeList.getCreativesList($scope.campaignId, formats, qryStr);
         };
 
-        $scope.prarentHandler = function (campaignId, campaignName, advertiserId, advertiserName) {
-            var campaignData;
-
-            $scope.creativeData = {};
-            if (campaignId && advertiserId) {
-                $scope.creativeListLoading = true;
-                $scope.creativesNotFound = false;
-                campaignData = {
-                    'advertiserId': advertiserId,
-                    'advertiserName': advertiserName,
-                    'clientId': campaignId,
-                    'clientName': campaignName
-                };
-                localStorage.setItem('campaignData', JSON.stringify(campaignData));
-                $scope.campaignId = campaignId;
-                $scope.advertiserId = advertiserId;
-                $scope.creativeSearch = '';
-                creativeList.getCreativesList(campaignId, advertiserId);
-            } else {
-                $scope.creativeListLoading = false;
-                $scope.creativesNotFound = true;
+        function init() {
+            var campaignData, clientId, clientName;
+            var selectedClientObj = localStorage.selectedClient && JSON.parse(localStorage.selectedClient);
+            if(selectedClientObj) {
+                clientId = JSON.parse(localStorage.selectedClient).id;
+                clientName = JSON.parse(localStorage.selectedClient).name;
+                $scope.creativeData = {};
+                if (clientId) {
+                    $scope.creativeListLoading = true;
+                    $scope.creativesNotFound = false;
+                    campaignData = {
+                        'clientId': clientId,
+                        'clientName': clientName
+                    };
+                    localStorage.setItem('campaignData', JSON.stringify(campaignData));
+                    $scope.clientId =  clientId
+                    $scope.creativeSearch = '';
+                    creativeList.getCreativesList(clientId);
+                } else {
+                    $scope.creativeListLoading = false;
+                    $scope.creativesNotFound = true;
+                }
             }
+
         };
+
+        init();
 
         $scope.updateCreative = function () {
             var putCrDataObj = {};
@@ -227,8 +260,9 @@ var angObj = angObj || {};
         //Search Hide / Show
         $scope.searchShowInput = function () {
             $(".searchInputBtn").hide();
-            $(".searchInputForm").show();
-            $(".searchInputForm").animate({width: '300px'}, 'fast');
+            var searchInputForm = $(".searchInputForm");
+            searchInputForm.show();
+            searchInputForm.animate({width: '300px'}, 'fast');
         };
         
         $scope.searchHideInput = function () {

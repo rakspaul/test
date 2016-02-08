@@ -253,7 +253,14 @@
         this.AD_VERIFICATION = "Ad Verification";
         this.COLLECTIVE = "Collective";
         this.TRANSPARENT_PLATFORM_FEE_CHARGED = "Transparent platform fee charged by Collective for technology and services associated with programmatic media activity";
+        this.TOTAL_COST = "Total Cost";
+        this.TOTAL_MARGIN = "Total Margin";
+        this.TOTAL_CLICKS = "Total Clicks";
+        this.TOTAL_VIEW = "Total View";
+        this.TOTAL_EVENTS = "Total Events";
         this.TOTAL_SPEND = "Total Spend";
+        this.CONVERSIONS = "Conversions";
+        this.DELIVERY = "Delivery";
 
         this.CAMPAIGN ="Media Plan";
 
@@ -318,6 +325,10 @@
         this.VIEWABLE = "Viewable";
         this.MEASURABLE = "Measurable";
         this.SUSPICIOUS_ACTIVITY = "Suspicious Activity";
+
+
+
+
 
         this.SSL_ERROR_MESSAGE = "Please enter a SSL compatible tag.";
 
@@ -401,6 +412,10 @@
         this.WF_VIDEO = "Video";
         this.WF_RICH_MEDIA = "Rich Media";
         this.WF_SOCIAL = "Social";
+        this.WF_DISPLAY_SEARCH = "DISPLAY";
+        this.WF_VIDEO_SEARCH = "VIDEO";
+        this.WF_RICH_MEDIA_SEARCH = "RICHMEDIA";
+        this.WF_SOCIAL_SEARCH = "SOCIAL";
         this.WF_HEADER_PRIMARY_GOAL = "What is your primary goal?";
         this.WF_AD_GOAL = "Ad Goal";
         this.WF_PERFORMANCE = "Performance";
@@ -819,6 +834,15 @@
         this.selectOccursOn = "Please select occurs on";
         this.selectDate = "Please select date";
         this.reportNameErrorMsg = "Please use only alphanumeric characters for report names. Report name should start with alphabetic character";
+
+        this.START_OR_END_DATE_CAN_NOT_LESS_THAN_CURRENTDATE = 'Start date or end date cannot be less than the current date';
+        this.DELIVER_DATE_CAN_NOT_LESS_THAN_CURRENTDATE =  'Deliver on date cannot be less than the current date';
+        this.DIFFERENCE_BETWEEN_START_END_AT_LEAST_ONE_DAY = 'The difference between Start and End Dates should be at least one day';
+        this.SELECT_VALID_DATE_OR_DAY_OCCURS_ON_FIELD = 'Select valid day/date for Occurs On field';
+        this.DIFFERENCE_BETWEEN_START_END_AT_LEAST_ONE_WEEK = 'The difference between Start and End Dates should be at least one week';
+        this.SELECT_VALID_CUSTOM_DATE = 'Select valid custom date';
+        this.MONTHLY_SCHEDULING_DATE_RANGE__AT_LEAST_ONE_MONTH =
+            'You have chosen monthly Scheduling, please choose a date range that is at least one month';
 
         // New
         this.INVENTORY_REPLACE_CURRENT_LIST = 'Replace Current List';

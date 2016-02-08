@@ -32,7 +32,9 @@
 
     <div class="platform_container" ng-hide="strategyLoading && selectedCampaign.id != -1">
         <div class="no_data_found" ng-if="!strategyFound" ng-bind-html="getMessageForDataNotAvailable(selectedCampaign)"></div>
-        <div class="reports_tabs_content_container" ng-show="strategyFound">
+
+
+        <div class="reports_tabs_content_container"  ng-show="strategyFound">
             <div class="reports_tabs_content_container">
                 <!-- -------START :  Platform Tabs ------------------------ -->
                 <div class="clearfix">
@@ -52,6 +54,12 @@
                                 {{textConstants.QUALITY}}
                             </div>
                         </div>
+                        <div class="each_tab cost_tab " id="platform_margin">
+                            <div class="each_tab_text">
+                                Margin
+                            </div>
+                        </div>
+
                     </div>
                 </div>
                 <!-- -------END :  Platform Tabs ------------------------ -->
@@ -95,7 +103,7 @@
 
                 <div class="reports_block" id="reports_platform_cost_block" style="display:none;">
                     <div class="no_data_found" ng-if="dataNotFoundForCost" ng-bind-html="getMessageForDataNotAvailable(selectedCampaign)"></div>
-                    <div class="reports_details_outer_container" ng-show="!dataNotFoundForCost">
+                    <div class="reports_details_outer_container" ng-show="!dataNotFoundForCost" >
                         <div class="clearfix reports_platform_header" ng-hide="costBusy">
                             <cost-header></cost-header>
                         </div>
@@ -164,6 +172,50 @@
                     </div>
                 </div>
                 <!-- -------END :  Viewablity Block ----------------------------- -->
+
+                <!-- -------START :  Margin Block ----------------------------- -->
+
+                    <div class="reports_block" id="reports_platform_margin_block" style="display:none; position:relative; overflow-x:scroll; border:1px solid #F2F2F2">
+                    <div class="no_data_found" ng-if="dataNotFoundForViewability" ng-bind-html="getMessageForDataNotAvailable(selectedCampaign)"></div>
+
+
+                    <div class="reports_details_outer_container" style="overflow:auto; width:1480px;">
+
+                        <div class="clearfix reports_platform_header">
+                            <margin-header></margin-header>
+                        </div>
+                        <div class="strategy_total_container ">
+                            <div class="strategy_total_container_header clearfix">
+                                <div class="each_col first_col" ng-hide="viewabilityBusy">
+                                    {{strategyHeading}}:
+                                </div>
+                                <div class="row_list_holder">
+                                    <div class="common-load-icon" ng-show="viewabilityBusy"></div>
+                                    <div ng-show="!viewabilityBusy" ng-if="!adFormats.videoAds ||  !videoMode" class="clearfix each_row_list expandRow" ng-repeat="platform in platformData | orderBy:sortTypebyViewability:sortReverse  track by $index"  ng-include="'marginTpl'"></div>
+                                    <div ng-show="!viewabilityBusy" ng-if="adFormats.videoAds && videoMode" class="clearfix each_row_list expandRow" ng-repeat="platform in platformData | orderBy:sortTypebyViewability:sortReverse  track by $index"  ng-include="'marginTpl'"></div>
+                                </div>
+
+                            </div>
+                            <div class="all_strategies_holder" ng-show="!viewabilityBusy">
+                                <div class="each_strategy_holder clearfix" ng-repeat="platform in tacticPlatformData | orderBy:sortTypebyViewability:sortReverse track by $index" ng-if="platform.ad_id">
+                                    <div class="linkage_bar"></div>
+                                    <div class="each_strategy clearfix">
+                                        <div class="each_col first_col">
+                                            {{platform.ad_name}}
+                                        </div>
+                                        <div class="row_list_holder">
+                                            <div ng-if="!adFormats.videoAds || !videoMode" class="clearfix each_row_list expandRow" ng-include="'marginTpl'"></div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+                <!-- -------END :  Margin Block ----------------------------- -->
             </div>
         </div>
     </div>
@@ -322,7 +374,7 @@
         </div>
 
         <div class="each_col third_col impressions_col">
-               {{platform.other_view_impressions | nrFormat}}
+            {{platform.other_view_impressions | nrFormat}}
         </div>
         <div class="each_col third_col measurable_col" >
             <div class="sub_col">
@@ -339,8 +391,80 @@
         <div class="each_col suspicious_col">
             {{platform.other_view_imps_suspicious_perc | number:2}}%
         </div>
-       <!-- <div class="each_col seventh_col">
-            {{platform[selected_filters.kpi_type.toLowerCase()] | appendDollor: selected_filters.kpi_type}}
-        </div>-->
+        <!-- <div class="each_col seventh_col">
+             {{platform[selected_filters.kpi_type.toLowerCase()] | appendDollor: selected_filters.kpi_type}}
+         </div>-->
     </div>
 </script>
+
+
+
+<script type="text/ng-template" id="marginTpl">
+    <div class="clearfix platform_row">
+        <div class="each_col platform_name_col platform_logo" >
+            <span class="platform_logo_img">
+                <img ng-src="{{platformIconUrl(platform.platform_name, platform.platform_icon_url)}}" />
+            </span>
+            <span class="plat_name" title="">{{platform.platform_name}}</span>
+        </div>
+
+        <div class="each_col second_coldata delivered_col">
+            <span class="icon_text_holder">$200.00</span>
+        </div>
+
+        <div class="each_col third_coldata delivered_col">
+            <span class="icon_text_holder" >$999.00</span>
+        </div>
+
+        <div class="each_col forth_col measurable_col" >
+            <div class="sub_coldata">
+                <span class="icon_text_holder">0.20</span>
+                <span class="icon_text_holder">22.5</span>
+                <span class="icon_text_holder">9999</span>
+            </div>
+        </div>
+
+        <div class="each_col forth_col">
+            <div class="sub_coldata">
+                <span class="icon_text_holder">0.20</span>
+                <span class="tooltip_holder icon_text_holder">22.5</span>
+                <span class="tooltip_holder icon_text_holder">10000</span>
+            </div>
+        </div>
+        <div class="each_col forth_col">
+            <div class="sub_coldata">
+                <span class="icon_text_holder">0.25</span>
+                <span class="tooltip_holder icon_text_holder">3.33</span>
+                <span class="tooltip_holder icon_text_holder">900</span>
+            </div>
+        </div>
+        <div class="each_col seventhMargin_col">
+            <div class="sub_coldata">
+                <span class="icon_text_holder">10000</span>
+                <span class="tooltip_holder icon_text_holder">22.5</span>
+            </div>
+        </div>
+    </div>
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -218,6 +218,7 @@
                                 return;
                             }
                             this.busy = true;
+                            $("#load_more").show();
                             var self = this,
                                 url = _campaignServiceUrl.call(this, 'costBreakdown');
                                 //console.log('cost breakdown url: ',url);
@@ -233,6 +234,7 @@
                                 self.periodEndDate = data.period_end_date;
 
                                 self.busy = false;
+                                $("#load_more").hide();
                                 if (data.orders.length > 0) {
                                     var cdbApiKey = timePeriodApiMapping(self.selectedTimePeriod.key);
                                     var campaignData = campaignListService.setActiveInactiveCampaigns(data.orders, timePeriodApiMapping(self.timePeriod), self.periodStartDate, self.periodEndDate)
