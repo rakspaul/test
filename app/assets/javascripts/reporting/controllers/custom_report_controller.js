@@ -32,6 +32,7 @@ var angObj = angObj || {};
             'display_quality_metrics',
             'video_quality_metrics'
         ];
+
         $scope.dataNotFound = false;
         $scope.reportDataBusy = false;
         $scope.loadingBtn = false;
@@ -75,6 +76,34 @@ var angObj = angObj || {};
         $scope.buttonLabel = $scope.textConstants.GENERATE_LABEL;
         $scope.buttonResetCancel = $scope.textConstants.RESET_LABEL;
         $scope.stopRedirectingPage = true;
+
+        /*
+            Sorting of report data
+        */
+        $scope.sortReverse  = false;
+        $scope.clickToSort = function(dm) {
+            _.find($scope.selectedMetricsList, function (d) {
+                if (d['value'] == dm) {
+                    $scope.sortType = d['key'];
+                }
+            });
+            $scope.sortReverse = !$scope.sortReverse;
+        }
+        $scope.addReqClassToSort = function(dm, b, c){
+            var len = $scope.selectedMetricsList.length,
+                a = null;
+            for(var i=0; i<len; i++){
+                if($scope.selectedMetricsList[i]['value'] == dm){
+                    a = $scope.selectedMetricsList[i]['key'];
+                    break;
+                }
+            }
+
+            var isActive = (a === b ) ?  'active' : '';
+            var sortDirection = (c === true ) ?  'sort_order_up' : 'sort_order_down';
+
+            return isActive + " " + sortDirection;
+        }
         $scope.initializeMetrics = function(dataObj) {
             //delivery metrics
             $scope.deliveryMetrics = dataObj.delivery_metrics;
@@ -632,10 +661,13 @@ var angObj = angObj || {};
                 if (!$scope.isReportForMultiDimension) {
                     return false;
                 }
+
                 var value = escape($.trim(value)),
                     currentRowIndex = Number(currFirtDimensionElem.attr("data-result-row")),
-                    loadMore = $('div[data-result-row="'+currentRowIndex+'"] .sec_dimension_load_more'),
-                    loadMoreIcon = $('div[data-result-row="'+currentRowIndex+'"] .sec_dimesnion_loadingIcon');
+                    loadMoreSel = 'div[data-result-row="'+currentRowIndex+'"] .sec_dimension_load_more',
+                    loadMoreIconSel = 'div[data-result-row="'+currentRowIndex+'"] .sec_dimesnion_loadingIcon',
+                    loadMore = $(loadMoreSel),
+                    loadMoreIcon = $(loadMoreIconSel);
                 if(_customctrl.isReportLastPage_2D[currentRowIndex]){
                     return true;
                 }
@@ -650,14 +682,7 @@ var angObj = angObj || {};
                 loadMore.hide();
                 var paramsObj = _customctrl.createRequestParams(value, $scope.secondDimensionOffset, 0, currentRowIndex);
                 _customctrl.fetchReportData($scope.selectedMetricsList, paramsObj, currentRowIndex, function(respData, currentRowIndex) {
-                    loadMoreIcon.hide();
-                    currFirtDimensionElem.addClass('active');
-                    _customctrl.isReportLastPage_2D[currentRowIndex] = respData.last_page;
-                    if(!respData.last_page){
-                        loadMore.show();
-                    }else{
-                        loadMore.hide();
-                    }
+                    var data = respData;
                     respData = respData.report_data;
                     if (respData) {
                         var resultLen = respData.length;
@@ -675,6 +700,18 @@ var angObj = angObj || {};
                             }
                         }
                     }
+                    setTimeout(function(){
+                        loadMore = $(loadMoreSel);
+                        loadMoreIcon = $(loadMoreIconSel);
+                        loadMoreIcon.hide();
+                        currFirtDimensionElem.addClass('active');
+                        _customctrl.isReportLastPage_2D[currentRowIndex] = data.last_page;
+                        if(!data.last_page){
+                            loadMore.show();
+                        }else{
+                            loadMore.hide();
+                        }
+                    },25);
 
                 }, function(currentRowIndex) {
                     $scope.secondDimensionReportLoading[$scope.activeTab][currentRowIndex] = false;
