@@ -1,30 +1,28 @@
-/*.btn-group {
-  .btn {
-    height: 36px;
-    span {
-      float: left;
-      margin: 1px 0 0 0;
-    }
-    [class^="icon-"], [class*=" icon-"] {
-      float: left;
-      height: 14px;
-      width: 14px;
-      padding: 0;
-      margin: -1px 10px 0 0;
-      color: #363d49;
-    }
-    .dropdown {
-      .dropdown-toggle {
-        border-width: 0px !important;
-        height: 34px;
-        [class^="icon-"], [class*=" icon-"] {
-          margin: 0;
-        }
-      }   
-    }
-    .dropdown:hover {
-      box-shadow: none;
-      border-width: 0;
-    }
-  }
-}*/
+#creativeList .btn-group .btn {
+  height: 36px;
+}
+#creativeList .btn-group .btn span {
+  float: left;
+  margin: 1px 0 0 0;
+}
+#creativeList .btn-group .btn [class^="icon-"],
+#creativeList .btn-group .btn [class*=" icon-"] {
+  float: left;
+  height: 14px;
+  width: 14px;
+  padding: 0;
+  margin: -1px 10px 0 0;
+  color: #363d49;
+}
+#creativeList .btn-group .btn .dropdown .dropdown-toggle {
+  border-width: 0px !important;
+  height: 34px;
+}
+#creativeList .btn-group .btn .dropdown .dropdown-toggle [class^="icon-"],
+#creativeList .btn-group .btn .dropdown .dropdown-toggle [class*=" icon-"] {
+  margin: 0;
+}
+#creativeList .btn-group .btn .dropdown:hover {
+  box-shadow: none;
+  border-width: 0;
+}
