@@ -182,7 +182,8 @@
 		<div class="spacingInput"></div>
     <!--Modal View Starts Here-->
     <div class="popContainerHolder" ng-show="showViewTagPopup">
-		<div class="popContainer popup-holder">
+	   <div class="popContainer popup-holder">
+		  <div class="modal-content">
 			<div class="clearfix modal-header">
 			    <h1 class="pull-left modal-title">{{selectedCreativeData.name}}</h1>
 			    <button class="close unselectable" aria-hidden="true" ng-click="disableEditor()"><span>x</span></button>
@@ -205,8 +206,8 @@
 				<button type="button" class="common_primary_btn pull-right {{editableTag === creativeTag ? 'disabled' : ''}}" id="updateTag" ng-click="updateTag(this)">Update Tag</button>
 				<button type="button" class="secondary_txt pull-right" id="cancelUpdate" ng-click="disableEditor()" >Cancel</button>
 			</div>
-
 		</div>
+	  </div>
     </div>
 
 	<div class="about_popup popup-holder" ng-show="showDuplicateTagPopup">
