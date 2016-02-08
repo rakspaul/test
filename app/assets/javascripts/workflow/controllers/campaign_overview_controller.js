@@ -135,6 +135,11 @@ var angObj = angObj || {};
             getCampaignData: function (campaignId) {
                 workflowService.getCampaignData(campaignId).then(function (result) {
                     if (result.status === "OK" || result.status === "success") {
+                        //redirect user to media plan list screen if campaign is tracking campaign
+                        if(result.data.data.isArchived){
+                            var url = '/mediaplans';
+                            $location.url(url);
+                        }
                         var responseData = result.data.data;
                         $scope.workflowData['campaignData'] = responseData;
                         if(responseData.selectedObjectives && responseData.selectedObjectives.length>0){
