@@ -1,5 +1,13 @@
+.dashboard_body {
+  background: #fff ;
+}
+.dashboard_body .bodyWrap {
+  width: auto ;
+}
+.dashboard_body #dashboard_nav_link a {
+  color: #fff;
+}
 .main_dashboard {
-  width: 1052px;
   margin: 10px auto 20px;
   font-family: "Avenir";
   font-size: 12px;
@@ -22,31 +30,24 @@
 .main_dashboard .row {
   margin: 0 ;
 }
-.main_dashboard .col-md-1,
-.main_dashboard .col-md-2,
-.main_dashboard .col-md-3,
-.main_dashboard .col-md-4,
-.main_dashboard .col-md-5,
-.main_dashboard .col-md-6,
-.main_dashboard .col-md-7,
-.main_dashboard .col-md-8,
-.main_dashboard .col-md-9,
-.main_dashboard .col-md-10,
-.main_dashboard .col-md-11,
-.main_dashboard .col-md-12 {
-  padding: 6px ;
-}
 .main_dashboard .dashboard_main_heading_row {
   margin: 22px 6px 13px;
 }
 .main_dashboard .dashboard_main_heading_row .nav_filters {
   width: auto;
-  margin-right: 30px;
 }
 .main_dashboard .dashboard_main_heading_row .nav_filters #brandsList {
   right: -12px;
   left: auto;
   border-top: solid 1px #ccc;
+}
+.main_dashboard .dashboard_main_heading_row .nav_filters .advertisers_filter {
+  margin-right: 0 ;
+  width: 48% ;
+  margin-right: 4%;
+}
+.main_dashboard .dashboard_main_heading_row .nav_filters .brands_filter {
+  width: 48% ;
 }
 .main_dashboard .dropdown {
   cursor: default;
@@ -102,11 +103,16 @@
 .main_dashboard .status_filter {
   line-height: 20px;
   font-size: 14px;
+  padding: 0 ;
 }
 .main_dashboard .status_filter .status_filter_dd {
   margin-top: 1px ;
   position: relative;
   cursor: pointer;
+}
+.main_dashboard .status_filter .status_filter_dd .arrow_img {
+  float: right;
+  margin-top: 5px;
 }
 .main_dashboard .status_filter .status_filter_dd li {
   text-align: left;
@@ -199,30 +205,29 @@
   border-radius: 4px ;
   -moz-border-radius: 4px ;
   -webkit-border-radius: 4px ;
-  margin-left: 55px ;
   -moz-user-select: -moz-none;
   -khtml-user-select: none;
   -webkit-user-select: none;
   user-select: none;
+  padding: 0 ;
+  text-align: center;
 }
 .main_dashboard .cal_nav_btns_holder .cal_nav_btn {
   float: left;
-  padding: 7px 8px;
-  width: 30px ;
-  height: 30px ;
+  padding: 7px 0px;
+  width: 50%;
+  height: 30px;
   cursor: pointer;
   border-left: solid 1px #dee6eb  ;
 }
 .main_dashboard .cal_nav_btns_holder .cal_nav_btn span {
-  height: 100% ;
-  width: 100% ;
-  /*background: url("/assets/images/cdesk/right_arrow.png") no-repeat 0 0 ;*/
-  background: url("/assets/images/cdesk/sprites.png") no-repeat -518px 0;
-  display: block;
+  height: 16px;
+  width: 10px;
+  background: url("/assets/images/cdesk/sprites.png") no-repeat -521px 0;
+  display: inline-block;
 }
 .main_dashboard .cal_nav_btns_holder .cal_nav_btn span.arrow_left {
-  /*background-image : url("/assets/images/cdesk/left_arrow.png") ;*/
-  background: url("/assets/images/cdesk/sprites.png") no-repeat -426px 0;
+  background: url("/assets/images/cdesk/sprites.png") no-repeat -428px 0;
 }
 .main_dashboard .cal_nav_btns_holder .cal_nav_btn:first-child {
   border-right: solid 1px #dee6eb  ;
@@ -239,10 +244,10 @@
   background-color: #fff ;
 }
 .main_dashboard .calendar_holder_period {
-  margin: 0 10px 0 0;
   font-size: 14px;
 }
 .main_dashboard .calendar_holder_period span {
+  width: 24% ;
   padding: 5px 18px;
   display: inline-block;
   text-align: center;
@@ -270,12 +275,10 @@
   position: relative;
 }
 .main_dashboard .dashboard_section .div-header-chart {
-  width: 1007px ;
   background: #fff ;
   height: 45px ;
 }
 .main_dashboard .dashboard_section .div-header-chart .header-chart {
-  width: 988px ;
   overflow: hidden;
 }
 .main_dashboard .dashboard_section .calendar_tooltip {
@@ -443,7 +446,6 @@
   cursor: default;
 }
 .main_dashboard #dashboard_metric_dd {
-  margin-left: 10px;
   font-size: 14px;
   margin-top: 7px;
 }
@@ -476,6 +478,11 @@
   min-height: 175px;
   margin: 20px 5px 0;
   position: relative;
+}
+.main_dashboard .dashboard_perf_graph #dashboardContainer,
+.main_dashboard .dashboard_perf_graph #brands {
+  display: block;
+  text-align: center;
 }
 .main_dashboard .dashboard_perf_graph .data_not_available {
   text-align: center;
@@ -512,7 +519,7 @@
   min-height: 545px;
 }
 .main_dashboard .dashboard_calendar_graph_holder .dashboard_heading {
-  padding: 20px 24px 15px ;
+  padding: 20px 0px 15px ;
 }
 .main_dashboard .dashboard_calendar_graph_holder #calendar_widget {
   /*margin-left: -56px; */
@@ -557,7 +564,7 @@
   padding: 15px 20px 0px;
 }
 .main_dashboard .dashboard_heading .show_link {
-  margin: 7px 0 0 65px;
+  margin: 7px 5px 0 0px;
   font-size: 14px;
   font-family: "Avenir-bold";
 }

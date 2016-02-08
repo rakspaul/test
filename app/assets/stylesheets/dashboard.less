@@ -5,9 +5,18 @@
   font-family: "Avenir" ;
 }
 
-
+.dashboard_body {
+  background: #fff ;
+  .bodyWrap {
+    width: auto ;
+  }
+  #dashboard_nav_link {
+    a {
+      color: #fff; 
+    }
+  }
+}
 .main_dashboard {
-  width: 1052px;
   margin: 10px auto 20px;
   font-family: "Avenir";
   font-size: 12px;
@@ -26,22 +35,25 @@
       -ms-transform: translate(0%, -50%);
       -webkit-transform: translate(0%, -50%);
   }
-
   .row {
     margin: 0 ;
-  }
-  .col-md-1, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-md-10, .col-md-11, .col-md-12 {
-  	padding : 6px ;
   }
   .dashboard_main_heading_row {
     margin: 22px 6px 13px;
     .nav_filters {
       width: auto;
-      margin-right: 30px;
       #brandsList {
         right: -12px;
         left: auto;
         border-top: solid 1px #ccc;
+      }
+      .advertisers_filter {
+        margin-right: 0 ;
+        width: 48% ;
+        margin-right : 4%;
+      }
+      .brands_filter {
+        width: 48% ;
       }
     }
   }
@@ -106,10 +118,15 @@
   .status_filter {
     line-height: 20px;
     font-size: 14px;
+    padding : 0 ;
     .status_filter_dd {
       margin-top: 1px ;
       position: relative;
       cursor: pointer;
+      .arrow_img {
+        float: right;
+        margin-top: 5px;
+      }
       li {
         text-align: left;
         padding: 6px 10px;
@@ -205,28 +222,27 @@
     border-radius : 4px ;
     -moz-border-radius : 4px ;
     -webkit-border-radius : 4px ;
-    margin-left: 55px ;
     -moz-user-select: -moz-none;
     -khtml-user-select: none;
     -webkit-user-select: none;
     user-select: none;
+    padding: 0 ;
+    text-align: center;
     .cal_nav_btn {
       float: left;
-      padding: 7px 8px;
-      width: 30px ;
-      height: 30px ;
+      padding: 7px 0px;
+      width: 50%;
+      height: 30px;
       cursor: pointer;
       border-left : solid 1px #dee6eb  ;
       span {
-        height: 100% ;
-        width: 100% ;
-        /*background: url("/assets/images/cdesk/right_arrow.png") no-repeat 0 0 ;*/
-        background: url("/assets/images/cdesk/sprites.png") no-repeat  -518px 0 ;
-        display: block;
+        height: 16px;
+        width: 10px;
+        background: url("/assets/images/cdesk/sprites.png") no-repeat  -521px 0 ;
+        display: inline-block;
       }
       span.arrow_left {
-        /*background-image : url("/assets/images/cdesk/left_arrow.png") ;*/
-        background : url("/assets/images/cdesk/sprites.png") no-repeat -426px 0 ;
+        background : url("/assets/images/cdesk/sprites.png") no-repeat -428px 0 ;
       }
       &:first-child {
         border-right : solid 1px #dee6eb  ;
@@ -246,9 +262,9 @@
 
   }
   .calendar_holder_period {
-    margin: 0 10px 0 0;
     font-size: 14px;
     span {
+      width: 24% ;
       padding: 5px 18px;
       display: inline-block;
       text-align: center;
@@ -276,11 +292,9 @@
       position: relative;
     }
     .div-header-chart {
-      width:  1007px ;
       background: #fff ;
       height: 45px ;
       .header-chart {
-        width: 988px ;
         overflow: hidden;
       }
     }
@@ -464,6 +478,7 @@
       position: static;
     }
   }
+
   .dashboard_budget_graph_holder {
     #brands {
       .node {
@@ -477,7 +492,6 @@
     }
   }
   #dashboard_metric_dd {
-    margin-left: 10px;
     font-size: 14px;
     margin-top: 7px;
     .dropdown_ul {
@@ -512,6 +526,10 @@
     min-height: 175px;
     margin: 20px 5px 0;
     position: relative;
+    #dashboardContainer , #brands {
+      display: block;
+      text-align: center;
+    }
     .data_not_available {
       text-align: center;
       position: absolute;
@@ -553,7 +571,7 @@
   .dashboard_calendar_graph_holder {
     min-height: 545px;
     .dashboard_heading {
-      padding: 20px 24px 15px ;
+      padding: 20px 0px 15px ;
     }
     #calendar_widget {
       /*margin-left: -56px; */
@@ -599,7 +617,7 @@
       font-size: 16px;
       padding: 15px 20px 0px;
       .show_link {
-        margin: 7px 0 0 65px;
+        margin: 7px 5px 0 0px;
         font-size: 14px;
         .AvenirBold() ;
       }

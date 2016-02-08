@@ -17,12 +17,6 @@ body {
   background-repeat: repeat;
   color: #21252b ;
 }
-.dashboard_body {
-  background: #fff ;
-}
-.dashboard_body #dashboard_nav_link a {
-  color: #fff;
-}
 .btn:focus,
 input:focus,
 textarea:focus,

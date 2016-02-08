@@ -203,11 +203,9 @@
                      //        xlink: "http://www.w3.org/1999/xlink",
                      //    })
                     .attr("class", "header-chart")
-                    .attr("width", width + margin.left + margin.right)
                     .attr("height", 47)
                     .append("g")
                     .attr("class", "gantt-chart-head")
-                    .attr("width", width + margin.left + margin.right)
                     .attr("height", 47)
                     .attr("transform", "translate(0, " + margin.top + ")");
 
@@ -218,11 +216,11 @@
                      //        xlink: "http://www.w3.org/1999/xlink",
                      //    })
                     .attr("class", "chart")
-                    .attr("width", width + margin.left + margin.right)
+                    .attr("width", width )
                     .attr("height", height - margin.top - margin.bottom)
                     .append("g")
                     .attr("class", "gantt-chart")
-                    .attr("width", width + margin.left + margin.right)
+                    .attr("width", width )
                     .attr("height", height + margin.top + margin.bottom)
                     .attr("transform", "translate(0, " + margin.top + ")");
 
@@ -445,7 +443,6 @@
                     .style("stroke", "#fff")
                     .attr("x", 0)
                     .attr("y", -20)
-                    .attr("width", width)
                     .attr("height", 46)
                     .style("fill", "#fff")
                     .style("shape-rendering", "crispEdges");
