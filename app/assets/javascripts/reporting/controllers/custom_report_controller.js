@@ -541,6 +541,20 @@ var angObj = angObj || {};
                 return o;
             })(argArr.split(",")) : d;
         }
+
+        function isValidDate(dateToValidate) {
+            var dateToValidateArr = dateToValidate.split('-');
+            var dateToValidateY = dateToValidateArr[0], dateToValidateM  = dateToValidateArr[1], dateToValidateD = dateToValidateArr[2];
+
+            var daysInMonth = [31,28,31,30,31,30,31,31,30,31,30,31];
+
+            if ( (!(dateToValidateY % 4) && dateToValidateY % 100) || !(dateToValidateY % 400)) {
+                daysInMonth[1] = 29;
+            }
+
+            return dateToValidateD <= daysInMonth[--dateToValidateM];
+        }
+
         $scope.verifyReportInputs = function() {
             var str = $scope.reports.name;
             if ($scope.generateBtnDisabled) {
@@ -577,6 +591,46 @@ var angObj = angObj || {};
             if(($scope.reports.schedule.frequency == "Monthly") && $scope.reports.schedule.occurance == "Custom" && ($scope.reports.schedule.customOccuranceDate == undefined)) {
                 return setFlashMessage(constants.selectDate, 1, 0);
             }
+            if(($scope.reports.schedule.frequency == "Monthly")&& $scope.reports.schedule.occurance == "Custom") {
+
+                var startDate =  $scope.reports.schedule.startDate;
+                var endDate = $scope.reports.schedule.endDate;
+                var occursON = $scope.reports.schedule.customOccuranceDate;
+
+                var startDateArr = startDate.split('-');
+                var endDateArr = endDate.split('-');
+
+                var occursONMonth = startDateArr[1];
+                var endDateMonth = endDateArr[1];
+                var occursONYear = startDateArr[0];
+                var noOfMonths = endDateMonth-occursONMonth;
+
+                var isError = false;
+                var i = 0;
+                do {
+                    if((startDateArr[0] != endDateMonth[0]) && (occursONMonth == 12)){
+                        occursONYear++;
+                    }
+                    if((i  > 0)) {
+                        occursONMonth++;
+                    }
+                    var occursOnDate = occursONYear+'-'+occursONMonth+'-'+occursON;
+
+                    if(isValidDate(occursOnDate)) {
+                        return true;
+                    } else {
+                        isError = true;
+                    }
+                    noOfMonths--;
+                    i++;
+                }while((noOfMonths >= 1));
+
+                if(isError) {
+                    return setFlashMessage(constants.CUSTOMDATE_ERROR_MESSAGE, 1, 0);
+                }
+                return true;
+            }
+
             return true;
         }
 
