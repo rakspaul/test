@@ -4,8 +4,11 @@ var angObj = angObj || {};
     'use strict';
 
     angObj.controller('CreativeListController', function ($scope,$rootScope, $window, $routeParams, constants, workflowService, 
-        $timeout, utils, $location) {
+        $timeout, utils, $location,momentService) {
         var checkedCreativeArr=[];
+        $scope.creativeAds={};
+        $scope.creativeAds['creativeAdData'] = {};
+        $scope.showHideToggle=false;
         var creativeList = {
             getCreativesList: function (campaignId, formats, query) {
                 workflowService
@@ -21,6 +24,20 @@ var angObj = angObj || {};
                         }
                     }, creativeList.errorHandler);
             },
+            getCreativeAds:function(creativeId,index){
+                workflowService
+                    .getCreativeAds(creativeId)
+                    .then(function (result) {
+                        if (result.status === 'OK' || result.status === 'success') {
+                            $scope.creativeAds['creativeAdData'][index]=result.data.data;
+
+                        } else {
+                            creativeList.errorHandler();
+                        }
+                    });
+
+                },
+
 
             errorHandler: function () {
                 $scope.creativesNotFound = true;
@@ -185,6 +202,23 @@ var angObj = angObj || {};
             $scope.editorEnabled = false;
             $scope.creativeTag = obj.tag;
         };
+
+        $scope.toggleCreativeAds=function(context,creativeId,index,event){
+            var elem = $(event.target);
+            if (context.showHideToggle) {
+                elem.removeClass("icon-arrow-down-open") ;
+                context.showHideToggle = !context.showHideToggle
+            } else {
+                elem.addClass("icon-arrow-down-open") ;
+                context.showHideToggle = !context.showHideToggle
+                creativeList.getCreativeAds(creativeId,index);
+            }
+
+        };
+        $scope.utcToLocalTime = function (date, format) {
+            return momentService.utcToLocalTime(date, format);
+        };
+
 
         $scope.enableEditor = function () {
             $scope.editorEnabled = true;

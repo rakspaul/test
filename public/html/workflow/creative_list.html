@@ -63,7 +63,7 @@
 				    <div class="col-md-3 th">
 					<input type="checkbox" ng-click="selectAllCreative()"/>
 					<!--<span class="icon-arrow-down-thick" ng-click="headerToggle();"></span>-->
-					<span>Creative Name</span>
+					<span style="margin-left: 10px;">Creative Name</span>
 				    </div>
 				    <div class="col-md-1 th text-center">Format</div>
 				    <div class="col-md-1 th text-center">Type</div>
@@ -85,7 +85,7 @@
 				    <!--Creative Name-->
 				    <div class="col-md-3 td">
 					<input type="checkbox" ng-checked="creativeData.active" ng-click="selectedCreativeCheckbox(creativeData)"/>
-					<span class="icon-arrow-down-thick"></span>
+					<span class="icon-arrow-down-thick" ng-click="toggleCreativeAds(this,creativeData.id, $index,$event)"></span>
 					<a href="javascript:void(0);" ng-click="ShowHideTag(creativeData, $index)">{{creativeData.name}}</a>
 					<div class="script_tag">
 					    <div ng-show = "IsVisible" class="ng-cloak">{{creativeData.tag}}</div>
@@ -125,48 +125,66 @@
 				    </div>
 				    <!--Advertiser-->
 				    <div class="col-md-2 td">
-					<span> - </span>
+					<span>{{creativeData.advertiser.name}}  </span>
 				    </div>
 				    <!--Platform-->
 				    <div class="col-md-1 td text-center">
-					<span> - </span>
+					<span> {{creativeData.noOfCampaigns}} </span>
 				    </div>
 				    <!--Created-->
 				    <div class="col-md-2 td">
-					<span>{{formatDate(creativeData.createdAt)}}</span>
+					<!--<span>{{formatDate(creativeData.createdAt)}}</span>-->
+					<span>{{utcToLocalTime(creativeData.createdAt,'DD MMM YYYY  HH:mm A')}}</span>
 				    </div>
+                    <div class="tr childRow" style="width: 100%; float: left;" ng-show="showHideToggle">
+                        <div class="col-md-7 td">
+                            <span>Campaign/Ad</span>
+                        </div>
+                        <div class="col-md-2 td">Brand</div>
+                        <div class="col-md-1 td text-center"></div>
+                        <div class="col-md-2 td"></div>
+                    </div>
+                    <div class="tr childRow" style="width: 100%; float: left;" ng-show="showHideToggle" ng-repeat="adData in creativeAds.creativeAdData[$index]">
+                        <div class="col-md-7 td">
+                            <span ng-if="creativeData.message" class="creativeData.message.type==='error'?icon-error :icon-warning"></span>
+                            <span>{{adData.adName}}</span>
+                        </div>
+                        <div class="col-md-2 td">{{adData.advertiserName}}</div>
+                        <div class="col-md-1 td text-center">{{adData.platformName}}</div>
+                        <div class="col-md-2 td">{{utcToLocalTime(adData.updatedAt,'DD MMM YYYY  HH:mm A')}}</div>
+                    </div>
 				</div>
 				
 				<!--Sample Child / A Class "childRow" needs to be added to the data if its a Child-->
-				<div class="tr childRow" style="width: 100%; float: left;">
-				    <div class="col-md-7 td">
-					<input type="checkbox"/>
-					<span class="icon-error"></span>
-					<span>Creative Name</span>
-				    </div>
-				    <div class="col-md-2 td">Advertiser</div>
-				    <div class="col-md-1 td text-center">Platform</div>
-				    <div class="col-md-2 td">Last Sync</div>
-				</div>
-				<div class="tr childRow" style="width: 100%; float: left;">
-				    <div class="col-md-7 td">
-					<input type="checkbox"/>
-					<span class="icon-warning"></span>
-					<span>Creative Name</span>
-				    </div>
-				    <div class="col-md-2 td">Advertiser</div>
-				    <div class="col-md-1 td text-center">Platform</div>
-				    <div class="col-md-2 td">Last Sync</div>
-				</div>
-				<div class="tr childRow" style="width: 100%; float: left;">
-				    <div class="col-md-7 td">
-					<input type="checkbox"/>
-					<span>Creative Name</span>
-				    </div>
-				    <div class="col-md-2 td">Advertiser</div>
-				    <div class="col-md-1 td text-center">Platform</div>
-				    <div class="col-md-2 td">Last Sync</div>
-				</div>
+				<!--<div class="tr childRow" style="width: 100%; float: left;">-->
+				    <!--<div class="col-md-7 td">-->
+					<!--<input type="checkbox"/>-->
+					<!--<span class="icon-error"></span>-->
+					<!--<span>Creative Name</span>-->
+				    <!--</div>-->
+				    <!--<div class="col-md-2 td">Advertiser</div>-->
+				    <!--<div class="col-md-1 td text-center">Platform</div>-->
+				    <!--<div class="col-md-2 td">Last Sync</div>-->
+				<!--</div>-->
+				<!--<div class="tr childRow" style="width: 100%; float: left;">-->
+				    <!--<div class="col-md-7 td">-->
+					<!--<input type="checkbox"/>-->
+					<!--<span class="icon-warning"></span>-->
+					<!--<span>Creative Name</span>-->
+				    <!--</div>-->
+				    <!--<div class="col-md-2 td">Advertiser</div>-->
+				    <!--<div class="col-md-1 td text-center">Platform</div>-->
+				    <!--<div class="col-md-2 td">Last Sync</div>-->
+				<!--</div>-->
+				<!--<div class="tr childRow" style="width: 100%; float: left;">-->
+				    <!--<div class="col-md-7 td">-->
+					<!--<input type="checkbox"/>-->
+					<!--<span>Creative Name</span>-->
+				    <!--</div>-->
+				    <!--<div class="col-md-2 td">Advertiser</div>-->
+				    <!--<div class="col-md-1 td text-center">Platform</div>-->
+				    <!--<div class="col-md-2 td">Last Sync</div>-->
+				<!--</div>-->
 				<!--Sample Ends Here-->
 			    </div>
 			</div>

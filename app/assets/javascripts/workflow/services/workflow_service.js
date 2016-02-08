@@ -235,6 +235,11 @@
 
                 return dataService.fetch(url, cacheObj);
             },
+            getCreativeAds:function(creativeId){
+                var url = apiPaths.WORKFLOW_APIUrl + '/creatives/'+creativeId+'/ads?enabled=true';
+
+                return dataService.fetch(url, {cache: false});
+            },
 
             updateCreative: function (clientId, adId, id, data) {
                 var clientId =  loginModel.getSelectedClient().id;
