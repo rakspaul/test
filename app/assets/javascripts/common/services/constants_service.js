@@ -841,7 +841,9 @@
         this.SELECT_VALID_DATE_OR_DAY_OCCURS_ON_FIELD = 'Select valid day/date for Occurs On field';
         this.DIFFERENCE_BETWEEN_START_END_AT_LEAST_ONE_WEEK = 'The difference between Start and End Dates should be at least one week';
         this.SELECT_VALID_CUSTOM_DATE = 'Select valid custom date';
-        this.MONTHLY_SCHEDULING_DATE_RANGE__AT_LEAST_ONE_MONTH = 'You have chosen monthly Scheduling, please choose a date range that is at least one month'
+        this.MONTHLY_SCHEDULING_DATE_RANGE__AT_LEAST_ONE_MONTH = 'You have chosen monthly Scheduling, please choose a date range that is at least one month';
+
+        this.CUSTOMDATE_ERROR_MESSAGE = "The custom date does not fall within the range of Start and End Dates.";
 
 
     };
