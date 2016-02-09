@@ -370,6 +370,10 @@ select {
 .dropdown-workflow .category_dropdown .btn {
   width: auto;
 }
+.dropdown-menu.pull-top.pull-left {
+  top: initial !important;
+  bottom: 105%;
+}
 .dropdown-menu,
 .dropdown-menu-search {
   /*width: auto;
