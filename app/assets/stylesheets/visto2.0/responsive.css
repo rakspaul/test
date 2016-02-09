@@ -1,23 +1,6 @@
-@media (min-width: 1600px) {
-  .bodyWrap {
-    width: 100%;
-    margin: 0 auto;
-    padding: 0 30px;
-  }
-  .bodyWrap .dashboardTest .row {
-    margin: 15px 0;
-  }
-  .bodyWrap .dashboardTest .row .col-md-4,
-  .bodyWrap .dashboardTest .row .col-md-6 {
-    width: 25%;
-  }
-  .bodyWrap .dashboardTest .row .col-md-8 {
-    width: 50%;
-  }
-}
 @media (max-width: 1260px) {
   .bodyWrap {
-    width: 100%;
+    width: 1200px;
     margin: 0 auto;
     padding: 0 30px;
   }

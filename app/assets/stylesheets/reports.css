@@ -103,7 +103,7 @@ span.cost_opaque .cost_opaque_icon {
 }
 .total_reports_page {
   margin: 0px auto 40px;
-  width: 1040px;
+  width: 100%;
 }
 .total_reports_page .load_more_rows {
   display: none;
@@ -375,7 +375,7 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
 }*/
 .reports_main_page_holder {
   margin: 0px auto 80px;
-  width: 1040px;
+  width: 100%;
 }
 .reports_main_page_holder .load-more {
   margin: 80px auto 0;
@@ -3915,7 +3915,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
   margin: 48px 30px 0 0 ;
 }
 .custom_report_response_page {
-  width: 1040px;
+  width: 100%;
   margin: 0 auto ;
 }
 .custom_report_response_page .back_arrow {
@@ -3950,7 +3950,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 }
 .custom_report_response_page .custom_report_response_table .each_col.more_dimension_arrow {
   display: none;
-  background: url("/assets/images/cdesk/common_side_arrow.png") no-repeat left 1px #fff;
+  background: url("/assets/images/cdesk/common_side_arrow.png") no-repeat left 1px #ffffff;
   height: 11px;
   width: 12px;
   min-width: 12px;

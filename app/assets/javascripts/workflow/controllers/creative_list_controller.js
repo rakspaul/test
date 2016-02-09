@@ -338,7 +338,7 @@ var angObj = angObj || {};
         
         //Flexible tbody
         var winBrowserHeight = $(window).height();
-        $('.vistoTable .tbody').css('minHeight', winBrowserHeight - 341);
+        $('.vistoTable .tbody').css('maxHeight', winBrowserHeight - 341);
         
         //Pagination
         $(function() {

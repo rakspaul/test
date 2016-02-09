@@ -1,5 +1,5 @@
 body {
-  background: #ECECEC;
+  background: #fff;
   color: #21252B;
 }
 .zeroPadding {
@@ -331,6 +331,10 @@ select {
   color: #21252b;
   text-decoration: none;
   background-color: #E1EDF9;
+}
+.dropdown-workflow .dropdown-menu.pull-top.pull-left {
+  top: initial !important;
+  bottom: 105%;
 }
 .dropdown-workflow .dropdown-menu-search {
   overflow: scroll;
