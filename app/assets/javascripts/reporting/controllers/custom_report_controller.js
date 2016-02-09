@@ -645,7 +645,7 @@ var angObj = angObj || {};
 
         $scope.fetchMoreSecondDimensionData = function(ev, value, rowIndex, loadMore) {
             _customctrl.reportPageNum_2D[rowIndex] += 1;
-            $scope.showDataForClikedDimension(event, value, loadMore);
+            $scope.showDataForClikedDimension(ev, value, loadMore);
         };
 
         $scope.showDataForClikedDimension = function(ev, value, loadMore) {
