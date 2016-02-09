@@ -4,7 +4,6 @@
 
         $scope.timeData = timePeriodModel.timeData;
 
-
         $scope.datePickerfilterByTimePeriod = function(key,timePeriod,timePeriods) {
             key.key ="custom&start_date="+timePeriods+"&end_date="+timePeriod;
             timePeriodModel.selectTimePeriod(key);
@@ -48,7 +47,7 @@
                 $('#startDateInput').datepicker('update', startDate);
                 $('#startDateInputGlyph').datepicker('update', startDate);
                 $("#endDateInput, #endDateInputGlyph").datepicker('update', endDate);
-                //$('#endDateInputGlyph').datepicker('update', endDate);
+                $('#endDateInputGlyph').datepicker('update', endDate);
             }
         );
     });
