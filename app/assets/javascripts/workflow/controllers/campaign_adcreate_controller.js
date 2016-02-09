@@ -61,6 +61,11 @@ var angObj = angObj || {};
                                             })
                                             .then(function (result) {
                                                 $scope.getAd_result = result.data.data;
+                                                //redirect user to campaingn overview screen if ad is archived
+                                                if($scope.getAd_result.isArchived){
+                                                    var url = 'mediaplan/'+$scope.campaignId+'/overview';
+                                                    $location.url(url);
+                                                }
                                                 disablePauseEnableResume($scope.getAd_result);
                                                 processEditMode(result);
                                             });
