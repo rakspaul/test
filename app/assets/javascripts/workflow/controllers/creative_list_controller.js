@@ -9,16 +9,44 @@ var angObj = angObj || {};
         $scope.creativeAds={};
         $scope.creativeAds['creativeAdData'] = {};
         $scope.showHideToggle=false;
+        $scope.creativeData={}
+        $scope.creativeData['creatives']=[];
+        $scope.pageSize=20;
+        $scope.pageNo = 1;
+
+        $scope.textConstants = constants;
+        $scope.adData = {};
+        $scope.adData.screenTypes = [];
+        $scope.creativeListLoading = true;
+        $scope.creativesNotFound = false;
+        $scope.showViewTagPopup = false;
+        $scope.edittrue = true;
+        $scope.IncorrectTag = false;
+        $scope.showDuplicateTagPopup = false;
+        $scope.campaignId = $routeParams.campaignId;
+
+
         var creativeList = {
-            getCreativesList: function (campaignId, formats, query) {
+            getCreativesList: function (campaignId, formats, query,pageSize,pageNo) {console.log("initialPg:",pageNo)
+                console.log("later:",pageNo)
                 workflowService
-                    .getCreatives(campaignId, formats, query)
+                    .getCreativesforCreativeList(campaignId, formats, query,pageSize,pageNo)
                     .then(function (result) {
-                        if (result.status === 'OK' || result.status === 'success' && result.data.data.length > 0) {
+                        if (result.status === 'OK' || result.status === 'success') {
+
                             $scope.creativeListLoading = false;
                             $scope.creativesNotFound = false;
-                            $scope.creativeData.creatives = result.data.data;
-                            $scope.creativeData.creatives_count = result.data.data.length;
+                            if($scope.creativeData['creatives'].length === 0) {
+                                $scope.creativeData['creatives'] = result.data.data
+                                $scope.pageNo ++;
+                            } else {
+                                _.each(result.data.data , function (obj) {
+                                    $scope.creativeData['creatives'].push(obj);
+                                });
+                                $scope.pageNo ++;
+                            }
+
+                            $scope.creativeData.creatives_count += result.data.data.length;
                         } else {
                             creativeList.errorHandler();
                         }
@@ -104,7 +132,8 @@ var angObj = angObj || {};
             if (searchVal.length > 0) {
                 qryStr += '&query=' + searchVal;
             }
-            creativeList.getCreativesList($scope.campaignId, formats, qryStr);
+            var selectedClientObj = localStorage.selectedClient && JSON.parse(localStorage.selectedClient);
+            creativeList.getCreativesList(JSON.parse(localStorage.selectedClient).id,formats, qryStr);
         };
 
         function init() {
@@ -113,7 +142,6 @@ var angObj = angObj || {};
             if(selectedClientObj) {
                 clientId = JSON.parse(localStorage.selectedClient).id;
                 clientName = JSON.parse(localStorage.selectedClient).name;
-                $scope.creativeData = {};
                 if (clientId) {
                     $scope.creativeListLoading = true;
                     $scope.creativesNotFound = false;
@@ -124,7 +152,7 @@ var angObj = angObj || {};
                     localStorage.setItem('campaignData', JSON.stringify(campaignData));
                     $scope.clientId =  clientId
                     $scope.creativeSearch = '';
-                    creativeList.getCreativesList(clientId);
+                    creativeList.getCreativesList(clientId,'','',$scope.pageSize,$scope.pageNo);
                 } else {
                     $scope.creativeListLoading = false;
                     $scope.creativesNotFound = true;
@@ -283,18 +311,7 @@ var angObj = angObj || {};
             .addClass('active');
         $('html').css('background', '#ececec');
 
-        $scope.textConstants = constants;
-        $scope.creativeData = {};
-        $scope.adData = {};
-        $scope.adData.screenTypes = [];
-        $scope.creativeListLoading = true;
-        $scope.creativesNotFound = false;
-        $scope.showViewTagPopup = false;
-        $scope.edittrue = true;
-        $scope.IncorrectTag = false;
-        $scope.showDuplicateTagPopup = false;
-        $scope.campaignId = $routeParams.campaignId;
-        
+
         //Search Hide / Show
         $scope.searchShowInput = function () {
             $(".searchInputBtn").hide();
@@ -321,6 +338,23 @@ var angObj = angObj || {};
             } else{
                 $('.vistoTable .thead').removeClass("sticky");
             }
+        });
+        $(function() {
+            $(".tbody").scroll(function(){
+                if ($(window).scrollTop() >= $(document).height() - $(window).height() - 10) {
+                    var test_height = parseInt($(this).height())+1;
+                    $(this).height(test_height);
+                }
+
+                if($(this).scrollTop() + $(this).innerHeight() >= $(this)[0].scrollHeight) {
+                    console.log("$(this).scrollTop():"+$(this).scrollTop()+"$(this).innerHeight():"+$(this).innerHeight()+"$(this)[0].scrollHeight:"+$(this)[0].scrollHeight)
+                    var selectedClientObj = localStorage.selectedClient && JSON.parse(localStorage.selectedClient);
+                    console.log("$scope.pageNo");
+                    if(selectedClientObj) {
+                        creativeList.getCreativesList(JSON.parse(localStorage.selectedClient).id,'','',$scope.pageSize, $scope.pageNo);
+                    }
+                }
+            });
         });
         
     });
