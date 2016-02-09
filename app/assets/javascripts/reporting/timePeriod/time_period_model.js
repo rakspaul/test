@@ -31,6 +31,12 @@ timePeriodModule.factory("timePeriodModel", ['constants', function (constants) {
         this.timeData.selectedTimePeriod = this.timeData.timePeriodList[2];
         var self = this;
 
+        var fromLocStoreTime = localStorage.getItem('timeSetLocStore');
+        if(fromLocStoreTime) {
+            fromLocStoreTime = JSON.parse(localStorage.getItem('timeSetLocStore'));
+            this.timeData.selectedTimePeriod.key = fromLocStoreTime;
+        }
+
         var fromLocStore = JSON.parse(localStorage.getItem('timeSetTextLocStore'));
         if(fromLocStore !== null){
             this.timeData.displayTimePeriod = fromLocStore; //
