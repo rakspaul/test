@@ -229,11 +229,21 @@
                 var queryStr = query ? query : '',
                     creativeFormats = formats ? '?creativeFormat=' + formats : '',
                     integration_Tracking = integrationTracking ? '&tracking=true' : '',
-                    url = apiPaths.WORKFLOW_APIUrl + '/clients/' + clientId + '/creatives' +
-                    //url = apiPaths.WORKFLOW_APIUrl + '/clients/' + clientId + '/advertisers/' + advertiserId + '/creatives' +
+                    url = apiPaths.WORKFLOW_APIUrl + '/clients/' + clientId + '/advertisers/' + advertiserId + '/creatives' +
                         creativeFormats + queryStr + integration_Tracking;
 
                 return dataService.fetch(url, cacheObj);
+            },
+            getCreativesforCreativeList: function (clientId,formats, query, pageSize,pageNo) {
+                var queryStr = query ? query : '',
+                    creativeFormats = formats ? '?creativeFormat=' + formats : '',
+                    pageSize=pageSize?'?pageSize='+pageSize:'',
+                    pageNo=pageNo?'&pageNo='+pageNo:'',
+
+                    url = apiPaths.WORKFLOW_APIUrl + '/clients/' + clientId + '/creatives' +
+                        creativeFormats + queryStr +pageSize+pageNo;
+
+                return dataService.fetch(url);
             },
             getCreativeAds:function(creativeId){
                 var url = apiPaths.WORKFLOW_APIUrl + '/creatives/'+creativeId+'/ads?enabled=true';
