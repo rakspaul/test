@@ -1,4 +1,5 @@
-<div class="startPicker">
+<div class="col-md-12 input-daterange input-group date pull-left">
+    <div class="startPicker">
     <input  type="text"
             id="startDateInput"
             class="  timeframe"
@@ -14,4 +15,5 @@
             required>
     <i  id="endDateInputGlyph" class="icon-calendar glyphicon pull-right" style="float:none!important;margin-right: 4px"></i>
 </div>
-<button  class="btn btn-default" ng-click="datePickerfilterByTimePeriod(timeData.timePeriodList[3],reports.schedule.endDate,reports.schedule.startDate);" >Go</button>
+    <button  class="btn btn-default" ng-click="datePickerfilterByTimePeriod(timeData.timePeriodList[3],reports.schedule.endDate,reports.schedule.startDate);" >Go</button>
+</div>

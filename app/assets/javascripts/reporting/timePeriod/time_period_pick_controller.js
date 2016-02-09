@@ -39,15 +39,26 @@
             $("#newDatePickerBox").hide();
         }
 
+        $(document).ready(function() {
+        $('.input-daterange').datepicker({
+            //format: "dd-mm-yyyy",
+            format: "yyyy-mm-dd",
+            orientation: "top right",
+            autoclose: true,
+            todayHighlight: true,
+            keyboardNavigation: false
+         });
+        });
+
         $('#newDatePickerBox').click(
             function(e){
                 var deliverOn = $("#deliverOn").val(),
                     startDate = $("#startDateInput").val(),
                     endDate = $("#endDateInput").val();
                 $('#startDateInput').datepicker('update', startDate);
-                $('#startDateInputGlyph').datepicker('update', startDate);
+                //$('#startDateInputGlyph').datepicker('update', startDate);
                 $("#endDateInput, #endDateInputGlyph").datepicker('update', endDate);
-                $('#endDateInputGlyph').datepicker('update', endDate);
+                //$('#endDateInputGlyph').datepicker('update', endDate);
             }
         );
     });
