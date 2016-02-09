@@ -137,7 +137,7 @@ var angObj = angObj || {};
                     if (result.status === "OK" || result.status === "success") {
                         //redirect user to media plan list screen if campaign is archived campaign
                         if(result.data.data.isArchived){
-                            var url = '/mediaplans';
+                            var url = vistoconfig.MEDIA_PLANS_LINK;
                             $location.url(url);
                         }
                         var responseData = result.data.data;
