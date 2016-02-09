@@ -11,6 +11,7 @@
     .thead {
       float: left;
       width: 100%;
+      padding: 0 1px;
       .tr {
         float: left;
         width: 100%;
@@ -88,6 +89,9 @@
     .tbody {
       float: left;
       width: 100%;
+      min-height: 500px;
+      overflow: scroll;
+      padding: 0 1px;
       .tr {
         float: left;
         width: 100%;
@@ -128,6 +132,9 @@
           a {
             color: #21252b;
           }
+          a:hover {
+            color: #0978C9;
+          }
           .icon-error {
             float: left;
             margin: 1px 10px 0 0;
@@ -144,19 +151,28 @@
           }
         }
       }
+      .tr:hover {
+        .td {
+          background: #E1EDF9; 
+        }
+      }
       .childRow {
         .td {
-          background-color: #f7f7f7;
+          background-color: #f7f7f7 !important;
           input[type="checkbox"] {
             float: left;
             margin-right: 10px;
+          }
+          img {
+            max-height: 40px;
+            max-width: 70px;
           }
         }
         .td:first-child {
           padding: 0 0 0 10px;
           box-shadow: none;
           border-width: 0;
-          background: transparent;
+          background: transparent !important;
           .inDentWrap {
             float: left;
             width: 100%;

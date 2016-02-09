@@ -68,9 +68,9 @@
 						<div class="col-md-1 th text-center">Format</div>
 						<div class="col-md-1 th text-center">Type</div>
 						<div class="col-md-1 th text-center">Ad Server</div>
-						<div class="col-md-1 th text-center">Size(s)</div>
+						<div class="col-md-1 th text-center">Size</div>
 						<div class="col-md-2 th">Advertiser</div>
-						<div class="col-md-1 th text-center">Platform</div>
+						<div class="col-md-1 th text-center">Platform(s)</div>
 						<div class="col-md-2 th">Last Sync</div>
 					</div>
 					<div class="tr childRow childRowHead">
@@ -82,7 +82,7 @@
 						<div class="col-md-5 td shadowRight">Brand</div>
 					</div>
 			    </div>
-			    <div class="tbody" style="height: 500px;overflow: scroll">
+			    <div class="tbody">
 				<div ng-if="!creativeListLoading" ng-repeat="creativeData in creativeData.creatives" class="tr">
 				    <!--Creative Name-->
 				    <div class="col-md-3 td shadowLeft">
@@ -113,7 +113,7 @@
 				    </div>
 				    <!--Advertiser-->
 				    <div class="col-md-2 td">
-					<span>{{creativeData.advertiser.name}}  </span>
+					<span>{{creativeData.advertiser.name}}</span>
 				    </div>
 				    <!--Platform-->
 				    <div class="col-md-1 td text-center">
@@ -136,11 +136,11 @@
                         <div class="col-md-7 td">
 							<div class="inDentWrap shadowLeft">
 								<span ng-if="creativeData.message" class="creativeData.message.type==='error'?icon-error :icon-warning"></span>
-								<span>{{adData.adName}}</span>
+								<a href="/mediaplan/{{adData.campaignId}}/ads/{{adData.adId}}/edit">{{adData.adName}}</a>
 							</div>
                         </div>
                         <div class="col-md-2 td">{{adData.brandName}}</div>
-                        <div class="col-md-1 td text-center" ><img style="max-height: 35px;max-width: 70px;" ng-src="{{adData.platform.iconUrl}}"/></div>
+                        <div class="col-md-1 td text-center" ><img ng-src="{{adData.platform.iconUrl}}"/></div>
                         <div class="col-md-2 td shadowRight">{{utcToLocalTime(adData.updatedAt,'DD MMM YYYY  HH:mm A')}}</div>
                     </div>
 				</div>
@@ -200,7 +200,7 @@
 				<div class="textarea_editable_holder"  ng-click="enableEditor()">
 					<div ng-hide="editorEnabled">
 						{{creativeTag}}
-						<span class="activity_edit" tooltip-placement="left" tooltip="Edit"  ></span>
+						<span class="icon-inline-edit" tooltip-placement="left" tooltip="Edit"></span>
 					</div>
 
 					<div ng-show="editorEnabled">

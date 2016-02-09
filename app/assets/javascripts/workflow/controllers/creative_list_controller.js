@@ -44,7 +44,6 @@ var angObj = angObj || {};
                                 });
                                 $scope.pageNo ++;
                             }
-
                             $scope.creativeData.creatives_count += result.data.data.length;
                         } else {
                             creativeList.errorHandler();
@@ -233,18 +232,14 @@ var angObj = angObj || {};
         $scope.toggleCreativeAds=function(context,creativeId,index,event){
             var elem = $(event.target);
             if (context.showHideToggle) {
-                elem.removeClass("icon-arrow-down-open") ;
+                elem.removeClass("icon-arrow-down-open");
                 context.showHideToggle = !context.showHideToggle
-                if($('.adsList').is(':hidden')) {
-                    $( ".childRowHead" ).hide();
-                }
             } else {
                 elem.addClass("icon-arrow-down-open") ;
                 context.showHideToggle = !context.showHideToggle
                 creativeList.getCreativeAds(creativeId,index);
                 $( ".childRowHead" ).show();
             }
-
         };
         $scope.utcToLocalTime = function (date, format) {
             return momentService.utcToLocalTime(date, format);
@@ -321,6 +316,8 @@ var angObj = angObj || {};
         
         $scope.searchHideInput = function () {
             $(".searchInputForm").animate({width: '44px'}, 'fast');
+            var inputSearch = $(".searchInputForm input");
+            inputSearch.val('');
             setTimeout(function(){ $(".searchInputForm").hide(); }, 300);
             setTimeout(function(){ $(".searchInputBtn").fadeIn(); }, 300);
         };
@@ -338,9 +335,14 @@ var angObj = angObj || {};
                 $('.vistoTable .thead').removeClass("sticky");
             }
         });
+        
+        //Flexible tbody
+        var winBrowserHeight = $(window).height();
+        $('.vistoTable .tbody').css('minHeight', winBrowserHeight - 341);
+        
+        //Pagination
         $(function() {
             $(".tbody").scroll(function(){
-
                 if($(this).scrollTop() + $(this).innerHeight() >= $(this)[0].scrollHeight) {
                     //console.log("$(this).scrollTop():"+$(this).scrollTop()+"$(this).innerHeight():"+$(this).innerHeight()+"$(this)[0].scrollHeight:"+$(this)[0].scrollHeight)
                     var selectedClientObj = localStorage.selectedClient && JSON.parse(localStorage.selectedClient);

@@ -1,9 +1,7 @@
 (function() {
     'use strict';
-    collectiveReportModule.controller('ReportsScheduleListController', function($rootScope, $scope, $timeout, $filter,
-                                                                                collectiveReportModel, momentService,
-                                                                                $location, $modal, loginModel, constants,
-                                                                                urlService, dataStore, dataService) {
+    collectiveReportModule.controller('ReportsScheduleListController', function($rootScope, $scope, $timeout, $filter, collectiveReportModel, momentService,
+                                                                                $location, $modal, loginModel, constants, urlService, dataStore, dataService) {
         $scope.noOfSchldInstToShow = 3;
         $scope.scheduleInstCount = [];
         $scope.sort = {
@@ -39,9 +37,9 @@
         };
 
         $scope.getScheduledReports();
-
-
-
+        
+        //Dropdown Auto Positioning
+        
         $scope.open_second_dimension = function(event, index) {
             var elem = $(event.target);
             if (!elem.closest(".row").hasClass("open")) {
