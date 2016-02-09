@@ -719,8 +719,7 @@
                                 </span>
                                 <div class="each_row reportData {{showhasBreakdown}}"
                                      data-result-row='{{customeReportData.idx}}'
-                                     ng-repeat="customeReportData in metricValues.first_dimension.delivery_metrics | orderBy:sortType:sortReverse
-                                        track by $index">
+                                     ng-repeat="customeReportData in metricValues.first_dimension.delivery_metrics | orderBy:sortType:sortReverse">
                                     <!-- add active when the next dimension is open -->
                                     <!-- add hasBreakdown when the next dimension is available -->
                                     <div ng-include="'customeReportTpl'" class="heading_first_dimension"></div>
@@ -781,8 +780,7 @@
                                 </span>
                                 <div class="each_row reportData {{showhasBreakdown}}"
                                      data-result-row='{{customeReportData.idx}}'
-                                     ng-repeat="customeReportData in metricValues.first_dimension.cost_metrics | orderBy:sortType:sortReverse
-                                      track by $index">
+                                     ng-repeat="customeReportData in metricValues.first_dimension.cost_metrics | orderBy:sortType:sortReverse">
                                     <div ng-include="'customeReportTpl'" class="heading_first_dimension"></div>
                                     <!-- second dimension div-->
                                     <div ng-show='secondDimensionReportLoading["cost_metrics"][customeReportData.idx]'
@@ -876,8 +874,7 @@
                                 </span>
                                 <div class="each_row reportData {{showhasBreakdown}}"
                                      data-result-row='{{customeReportData.idx}}'
-                                     ng-repeat="customeReportData in metricValues.first_dimension.engagement_metrics | orderBy:sortType:sortReverse
-                                        track by $index">
+                                     ng-repeat="customeReportData in metricValues.first_dimension.engagement_metrics | orderBy:sortType:sortReverse">
                                     <div ng-include="'customeReportTpl'" class="heading_first_dimension"></div>
                                     <!-- second dimension div-->
                                     <div ng-show='secondDimensionReportLoading["engagement_metrics"][customeReportData.idx]'
@@ -934,8 +931,7 @@
                                 </span>
                                 <div class="each_row reportData {{showhasBreakdown}}"
                                      data-result-row='{{customeReportData.idx}}'
-                                     ng-repeat="customeReportData in metricValues.first_dimension.video_metrics | orderBy:sortType:sortReverse
-                                        track by $index">
+                                     ng-repeat="customeReportData in metricValues.first_dimension.video_metrics | orderBy:sortType:sortReverse">
                                     <div ng-include="'customeReportTpl'" class="heading_first_dimension"></div>
                                     <!-- second dimension div-->
                                     <div ng-show='secondDimensionReportLoading["video_metrics"][customeReportData.idx]'
@@ -993,8 +989,7 @@
                                 <div class="each_row reportData {{showhasBreakdown}}"
                                      data-result-row='{{customeReportData.idx}}'
                                      ng-repeat="customeReportData in
-                                        metricValues.first_dimension.display_quality_metrics | orderBy:sortType:sortReverse
-                                        track by $index">
+                                        metricValues.first_dimension.display_quality_metrics | orderBy:sortType:sortReverse">
                                     <div ng-include="'customeReportTpl'" class="heading_first_dimension"></div>
                                     <!-- second dimension div-->
                                     <div ng-show='secondDimensionReportLoading["display_quality_metrics"][customeReportData.idx]'
@@ -1052,8 +1047,7 @@
                                 </span>
                                 <div class="each_row reportData {{showhasBreakdown}}"
                                      data-result-row='{{customeReportData.idx}}'
-                                     ng-repeat="customeReportData in metricValues.first_dimension.video_quality_metrics | orderBy:sortType:sortReverse
-                                        track by $index">
+                                     ng-repeat="customeReportData in metricValues.first_dimension.video_quality_metrics | orderBy:sortType:sortReverse">
                                     <div ng-include="'customeReportTpl'" class="heading_first_dimension"></div>
                                     <!-- second dimension div-->
                                     <div ng-show='secondDimensionReportLoading["video_quality_metrics"]
