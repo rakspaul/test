@@ -27,8 +27,7 @@ var angObj = angObj || {};
 
 
         var creativeList = {
-            getCreativesList: function (campaignId, formats, query,pageSize,pageNo) {console.log("initialPg:",pageNo)
-                console.log("later:",pageNo)
+            getCreativesList: function (campaignId, formats, query,pageSize,pageNo) {
                 workflowService
                     .getCreativesforCreativeList(campaignId, formats, query,pageSize,pageNo)
                     .then(function (result) {
@@ -341,15 +340,10 @@ var angObj = angObj || {};
         });
         $(function() {
             $(".tbody").scroll(function(){
-                if ($(window).scrollTop() >= $(document).height() - $(window).height() - 10) {
-                    var test_height = parseInt($(this).height())+1;
-                    $(this).height(test_height);
-                }
 
                 if($(this).scrollTop() + $(this).innerHeight() >= $(this)[0].scrollHeight) {
-                    console.log("$(this).scrollTop():"+$(this).scrollTop()+"$(this).innerHeight():"+$(this).innerHeight()+"$(this)[0].scrollHeight:"+$(this)[0].scrollHeight)
+                    //console.log("$(this).scrollTop():"+$(this).scrollTop()+"$(this).innerHeight():"+$(this).innerHeight()+"$(this)[0].scrollHeight:"+$(this)[0].scrollHeight)
                     var selectedClientObj = localStorage.selectedClient && JSON.parse(localStorage.selectedClient);
-                    console.log("$scope.pageNo");
                     if(selectedClientObj) {
                         creativeList.getCreativesList(JSON.parse(localStorage.selectedClient).id,'','',$scope.pageSize, $scope.pageNo);
                     }
