@@ -4,7 +4,10 @@
         <div class="col-md-2 zeroPadding hideRightPanel"></div>
         <div class="col-md-10 containerWrap">
             <h2 class="col-md-12 zeroPadding marginBottom" data-ng-bind="textConstants.SETFILTERS"></h2>
-            <a href="javascript:void(0);" class="helpLink col-md-12 zeroPadding" data-ng-bind="textConstants.HOWMANINVENFILTERS"></a>
+            <a href="javascript:void(0);"
+               class="helpLink col-md-12 zeroPadding"
+               data-ng-bind="textConstants.HOWMANINVENFILTERS">
+            </a>
             <div class="col-md-12 zeroPadding clearfix nav_filters" style="display: none;">
                 <creative-drop-down ng-if="workflowData.campaignData"></creative-drop-down>
             </div>
@@ -15,8 +18,8 @@
                     <div class="dropdown">
                          <button class="btn btn-default dropdown-toggle" type="button" id="inventory"
                                  data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                              <span class="text">
-                                  {{adData.inventory ? adData.inventory.name :  'Select Domain List'}}
+                              <span class="text"
+                                    ng-bind="adData.inventory ? adData.inventory.name :  'Select Domain List'">
                               </span>
                               <span class="icon-arrow-down"></span>
                          </button>
@@ -82,8 +85,10 @@
             <div class="filterList" ng-if="adData.inventory.domainList.length>0">
                 <div class="filterHead" >
                     <h1 class="pull-left" data-ng-bind="textConstants.DOMAINLIST"></h1>
-                    <span>{{adData.inventory.name}} ({{adData.inventory.domainList.length}})</span>
-                    <div class="pull-left sort-icon-holder active list_val_col" ng-click="sort();" style="display:inline-block; margin-top: 20px;">
+                    <span ng-bind="adData.inventory.name + ' (' + adData.inventory.domainList.length + ')'"></span>
+                    <div class="pull-left sort-icon-holder active list_val_col"
+                         ng-click="sort();"
+                         style="display:inline-block; margin-top: 20px;">
                         <span class="pull-left" data-ng-bind="textConstants.DOMAIN"></span>
                         <span class="pull-left common-sort-icon ascending"></span>
                     </div>
@@ -127,9 +132,10 @@
                         <div class="form-group col-sm-9 zeroPadding" show-errors='{showSuccess: true}'>
                             <input type="text"
                                    name="listName"
+                                   id="listName"
                                    class="form-control"
                                    remove-special-character="remove-special-character"
-                                   ng-model="adData.listName" id="listName"
+                                   ng-model="adData.listName"
                                    placeholder="Enter List Name"
                                    required>
                             <label class="col-sm-12 control-label errorLabel"

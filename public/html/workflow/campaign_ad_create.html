@@ -15,7 +15,8 @@
 
             <div class="campaignAdCreateWrap">
                 <div class="clearfix left_column_nav"
-                     ng-include="'/assets/html/workflow/partials/campaign_ads/sidebar.html'" ng-init="loadSideBar()">
+                     ng-include="'/assets/html/workflow/partials/campaign_ads/sidebar.html'"
+                     ng-init="loadSideBar()">
                 </div>
                 <!--=== Steps ===-->
                 <div class="campaignAdCreate campaignAdCreatePage">
@@ -28,10 +29,11 @@
                                         <div class="tab-content">
                                             <div class="common-btns">
                                                 <div class="col-md-6 zeroPadding">
-                                                    <h3 class="col-md-12 zeroPadding adName" tooltip="{{adData.adName}}">
-                                                        {{adData.adName.length > 0 ?
+                                                    <h3 class="col-md-12 zeroPadding adName"
+                                                        tooltip="{{adData.adName}}"
+                                                        ng-bind="adData.adName.length > 0 ?
                                                         (adData.adName | textEllipsis: 40 ) :
-                                                        textConstants.WF_UNTITLED_AD}}
+                                                        textConstants.WF_UNTITLED_AD">
                                                     </h3>
                                                 </div>
                                                 <!--<button type="button" ng-hide="(mode!='edit')" id="archiveAdbtn"
@@ -39,28 +41,35 @@
                                                 <!--        class="btn btn-primary pull-right">Archive-->
                                                 <!--</button>-->
 
-                                                <div class="zeroPadding dropdown-workflow pull-right" ng-hide="(mode !== 'edit')">
+                                                <div class="zeroPadding dropdown-workflow pull-right"
+                                                     ng-hide="(mode !== 'edit')">
                                                     <div class="dropdown">
-                                                         <button class="btn btn-default dropdown-toggle" type="button"
-                                                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                                         <button class="btn btn-default dropdown-toggle"
+                                                                 type="button"
+                                                                 data-toggle="dropdown"
+                                                                 aria-haspopup="true"
+                                                                 aria-expanded="true">
                                                             <span class="icon-more-options"></span>
                                                          </button>
                                                          <ul class="dropdown-menu" id="moreOptions" style="right: 0; left: initial;">
                                                             <li class="{{disable_pause}}" ng-click="cancelAdPause()">
-                                                                <a>{{textConstants.WF_PAUSE}}</a>
+                                                                <a ng-bind="textConstants.WF_PAUSE"></a>
                                                             </li>
                                                             <li class="{{disable_resume}}" ng-click="cancelAdResume()">
-                                                                <a>{{textConstants.WF_RESUME}}</a>
+                                                                <a ng-bind="textConstants.WF_RESUME"></a>
                                                             </li>
                                                             <li class="disabled">
-                                                                <a>{{textConstants.WF_MOVE_TO}}</a>
+                                                                <a ng-bind="textConstants.WF_MOVE_TO"></a>
                                                             </li>
                                                             <li class="disabled">
-                                                                <a>{{textConstants.WF_COPY_TO}}</a>
+                                                                <a ng-bind="textConstants.WF_COPY_TO"></a>
                                                             </li>
-                                                            <li><a id="archiveAdbtn" ng-click="cancelAdArchive()">
-                                                                {{textConstants.WF_ARCHIVE}}
-                                                            </a></li>
+                                                            <li>
+                                                                <a id="archiveAdbtn"
+                                                                   ng-click="cancelAdArchive()"
+                                                                   ng-bind="textConstants.WF_ARCHIVE">
+                                                                </a>
+                                                            </li>
                                                          </ul>
                                                     </div>
                                                </div>
@@ -70,8 +79,8 @@
                                                         ng-disabled="!adData.adName"
                                                         id="SaveAd"
                                                         ng-click="campaignAdSave(false)"
+                                                        ng-bind="textConstants.WF_AD_SAVE_CLOSE"
                                                         class="btn btn-primary pull-right">
-                                                    {{textConstants.WF_AD_SAVE_CLOSE}}
                                                 </button>
 
                                                 <div ng-show ="adCreateLoader" class="pull-right common-loading-btn" ></div>
@@ -132,21 +141,26 @@
             </div>
         </div>
     </div>
-    <div ng-include="'/assets/html/workflow/partials/creative_library_popup.html'" ng-controller="CreativeTagController"></div>
-    <div ng-include="'/assets/html/workflow/creative.html'" ng-if="workflowData.campaignData" class="newCreativeSlide"></div>
-    <div ng-include="'/assets/html/workflow/partials/custom_platform.html'" class="platformSlide plat-collective-bidder"></div>
+    <div ng-include="'/assets/html/workflow/partials/creative_library_popup.html'"
+         ng-controller="CreativeTagController">
+    </div>
+    <div ng-include="'/assets/html/workflow/creative.html'"
+         ng-if="workflowData.campaignData"
+         class="newCreativeSlide">
+    </div>
+    <div ng-include="'/assets/html/workflow/partials/custom_platform.html'"
+         class="platformSlide plat-collective-bidder">
+    </div>
 
     <!-- Modal Start -->
     <div class="common-popup-container" ng-show="adArchive">
         <div class="popup">
             <div class="popup-header-body">
                 <div class="clearfix">
-                    <h1 class="pull-left">{{textConstants.WF_AD_UPDATE}}</h1>
+                    <h1 class="pull-left" ng-bind="textConstants.WF_AD_UPDATE"></h1>
                     <span class="icon-close close unselectable" aria-hidden="true" ng-click="cancelAdArchive()"></span>
                 </div>
-                <div class="popup-content">
-                    {{textConstants.ARCHIVE_MESSAGE}}
-                </div>
+                <div class="popup-content" ng-bind="textConstants.ARCHIVE_MESSAGE"></div>
             </div>
             <div class="clearfix popup-footer" >
                 <button ng-show="!adArchiveLoader" type="button" ng-click="archiveAd($event)"
@@ -160,16 +174,14 @@
         <div class="popup">
             <div class="popup-header-body">
                 <div class="clearfix">
-                    <h1 class="pull-left">{{textConstants.WF_PAUSE_AD}}</h1>
+                    <h1 class="pull-left" ng-bind="textConstants.WF_PAUSE_AD"></h1>
                     <span class="icon-close close unselectable" aria-hidden="true" ng-click="cancelAdPause()"></span>
                 </div>
-                <div class="popup-content">
-                    {{textConstants.WF_AD_PAUSE_MESSAGE}}
-                </div>
+                <div class="popup-content" ng-bind="textConstants.WF_AD_PAUSE_MESSAGE"></div>
             </div>
             <div class="clearfix popup-footer">
                 <button type="button" ng-click="pauseAd()" class="common_primary_btn pull-right">OK</button>
-                <button type="button" ng-click="cancelAdPause()"class="secondary_txt pull-right">Cancel</button>
+                <button type="button" ng-click="cancelAdPause()" class="secondary_txt pull-right">Cancel</button>
             </div>
         </div>
     </div>
@@ -177,16 +189,14 @@
         <div class="popup">
             <div class="popup-header-body">
                 <div class="clearfix">
-                    <h1 class="pull-left">{{textConstants.WF_RESUME_AD}}</h1>
+                    <h1 class="pull-left" ng-bind="textConstants.WF_RESUME_AD"></h1>
                     <span class="icon-close close unselectable" aria-hidden="true" ng-click="cancelAdResume()"></span>
                 </div>
-                <div class="popup-content">
-                   {{resumeMessage}}
-                </div>
+                <div class="popup-content" ng-bind="resumeMessage"></div>
             </div>
             <div class="clearfix popup-footer">
                 <button type="button" ng-click="resumeAd()" class="common_primary_btn pull-right">OK</button>
-                <button type="button" ng-click="cancelAdResume()"class="secondary_txt pull-right">Cancel</button>
+                <button type="button" ng-click="cancelAdResume()" class="secondary_txt pull-right">Cancel</button>
             </div>
         </div>
     </div>

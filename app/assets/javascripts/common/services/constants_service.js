@@ -149,24 +149,24 @@
             '<span class="bold-font">Success. </span> Ad Group has been successfully created';
         this.AD_GROUP_CREATED_FAILURE = '<span class="bold-font">Error. </span> Ad Group could not be created';
         this.CREATIVE_SAVE_SUCCESS = '<span class="bold-font">Success. </span> Creative has been successfully created';
-        this.WF_DATE_FORMAT='YYYY-MM-DD HH:mm:ss.SSS';
-        this.TOTAL_BUDGET_REQUIRED='You must enter Total Budget.';
-        this.VENDOR_ID_REQUIRED='You must select a vendor.';
-        this.TOTAL_BUDGET_GREATER_THAN_ZERO='You must Total Budget greater than 0.';
-        this.NON_INVENTORY_COST_GREATER_THAN_ZERO='Cost exceeds budget.';
-        this.DELIVERY_BUDGET_GREATER_THAN_ZERO='Delivery budget can not be negative.';
-        this.DELIVERY_BUDGET_BOOKEDSPEND='Delivery budget should be greater than or equal to the sum of ad budgets ';
-        this.STARTDATE_REQUIRED='Please select the start Date.';
-        this.ADD_COST='Would you like to add Costs?';
-        this.SELECT_MANY='Select as many as you require';
-        this.SELECT_ONE='Select One';
-        this.ENTER_VALUE='Enter Value';
-        this.VALUE_IN_REPORTING='Value appears in reporting';
-        this.ONE_PRIMARY='Only one is primary';
-        this.KPI_BILLING='Select a KPI for billing';
-        this.SELECT_ONE_YOU_MAY_ADD='Select one-you may add';
-        this.SELECT_KPIS='Select KPIs '
-        this.TARGET_GREATER_THAN_ZERO= 'Target should be greater than 0';
+        this.WF_DATE_FORMAT ='YYYY-MM-DD HH:mm:ss.SSS';
+        this.TOTAL_BUDGET_REQUIRED = 'You must enter Total Budget.';
+        this.VENDOR_ID_REQUIRED = 'You must select a vendor.';
+        this.TOTAL_BUDGET_GREATER_THAN_ZERO = 'You must Total Budget greater than 0.';
+        this.NON_INVENTORY_COST_GREATER_THAN_ZERO = 'Cost exceeds budget.';
+        this.DELIVERY_BUDGET_GREATER_THAN_ZERO = 'Delivery budget can not be negative.';
+        this.DELIVERY_BUDGET_BOOKEDSPEND = 'Delivery budget should be greater than or equal to the sum of ad budgets ';
+        this.STARTDATE_REQUIRED = 'Please select the start Date.';
+        this.ADD_COST = 'Would you like to add Costs?';
+        this.SELECT_MANY = 'Select as many as you require';
+        this.SELECT_ONE = 'Select One';
+        this.ENTER_VALUE = 'Enter Value';
+        this.VALUE_IN_REPORTING = 'Value appears in reporting';
+        this.ONE_PRIMARY = 'Only one is primary';
+        this.KPI_BILLING = 'Select a KPI for billing';
+        this.SELECT_ONE_YOU_MAY_ADD = 'Select one-you may add';
+        this.SELECT_KPIS = 'Select KPIs ';
+        this.TARGET_GREATER_THAN_ZERO = 'Target should be greater than 0';
 
         this.DEFAULT_LIMIT_COUNT = 100;
         this.DEFAULT_OFFSET_START = 0;
@@ -268,9 +268,9 @@
         this.TOP = 'Top';
         this.NO_LINKED_STRATEGIES = 'No Linked Ad Groups';
         this.ALL = 'All';
-        this.ONE_S= '1s';
-        this.FIVE_S= '5s';
-        this.FIFTEEN_S= '15s';
+        this.ONE_S = '1s';
+        this.FIVE_S = '5s';
+        this.FIFTEEN_S = '15s';
         this.CAMPAIGN_OVERVIEW = 'Media Plan Overview';
         this.KPI = 'KPI';
         this.DATA = 'Data';
@@ -476,7 +476,7 @@
         this.WF_HEADER_BUYING_PLATFORM_SUB = 'Guided Copy Here - Which platform should i choose?';
         this.WF_COLLECTIVE_MEDIA = 'Collective Media';
         this.WF_COLLECTIVE_BIDDER = 'Collective Bidder';
-        this.WF_APPNEXUS= 'Appnexus';
+        this.WF_APPNEXUS = 'Appnexus';
         this.WF_MORE_PLATFORM = 'More platform coming soon!';
 
         this.WF_CHANGE_PLATFORM = 'Change Platform';
@@ -547,16 +547,16 @@
         this.reportDeleteFailed = 'Deleting Report Failed';
         this.deleteReportHeader = 'Delete Report';
         this.accountChangeHeader = 'Account Change';
+
         this.ACCOUNT_CHANGE_MSG_ON_CREATE_OR_EDIT_AD_PAGE =
             'Switching accounts will discard any unsaved changes. Do you wish to continue?';
         this.ACCOUNT_CHANGE_MSG_ON_CREATE_OR_EDIT_CAMPAIGN_PAGE =
             'Switching accounts will discard any unsaved changes. Do you wish to continue?';
         this.ACCOUNT_CHANGE_MSG_ON_CAMPIGN_OVERVIEW_PAGE =
             'Switching accounts will discard any unsaved changes. Do you wish to continue?';
-
         this.CAMPAIGN_ARCHIVE_MESSAGES = 'Do you want to Archive / Delete the Media Plan?';
-
         this.ACCOUNT_CHANGED = 'accountChanged';
+
         this.QUERY_ID_CAMPAIGN_SCREENS = 7;
         this.QUERY_ID_CAMPAIGN_FORMATS = 8;
         this.QUERY_ID_CAMPAIGN_AD_SIZES = 9;
@@ -715,7 +715,7 @@
         this.TAGNAME = 'Creative Name';
         this.TAGTYPE = 'Type';
         this.SSL = 'SSL';
-        this.YOUHAVENTADDED = 'You haven'\t added any Creative Tags for your Ad yet';
+        this.YOUHAVENTADDED = 'You haven\'t added any Creative Tags for your Ad yet';
         this.COPY = 'Copy';
         this.DELETE = 'Delete';
         this.DOWNLOAD = 'Download';

@@ -3,8 +3,8 @@ var angObj = angObj || {};
 (function () {
     'use strict';
 
-    angObj.controller('InventoryFiltersController', function ($scope, $window, $routeParams, constants, workflowService,
-                                                              Upload, $timeout, utils, $location) {
+    angObj.controller('InventoryFiltersController', function ($scope, $window, $routeParams, constants,
+                                                              workflowService, Upload) {
         var InventoryFiltersView = {
 // TODO: Come back here (8th Feb 2016)
             getAdvertisersDomainList: function (clientId, advertiserId) {
@@ -31,6 +31,7 @@ var angObj = angObj || {};
                     inventoryData[idx] = response.data;
                 }
             });
+
             $scope.workflowData.inventoryData = inventoryData;
             $scope.adData.inventory = response.data;
             $scope.domainUploadInProgress = false;
@@ -40,7 +41,7 @@ var angObj = angObj || {};
         $scope.prarentHandler = function (clientId, clientName, advertiserId, advertiserName) {
             $scope.clientId = clientId;
             $scope.advertiserId = advertiserId;
-            InventoryFiltersView.getAdvertisersDomainList(clientId, advertiserId)
+            InventoryFiltersView.getAdvertisersDomainList(clientId, advertiserId);
         };
 
         $scope.selectFiles = function (files) {
@@ -66,6 +67,7 @@ var angObj = angObj || {};
             if (files && files.length) {
                 for (i = 0; i < files.length; i++) {
                     file = files[i];
+
                     if (!file.$error) {
                         Upload
                             .upload({
@@ -88,14 +90,16 @@ var angObj = angObj || {};
         };
 
         $scope.sort = function () {
+            var commonSortIcon = $('.common-sort-icon');
+
             $scope.sortDomain = !$scope.sortDomain;
-            if ($('.common-sort-icon').hasClass('ascending')) {
-                $('.common-sort-icon')
+            if (commonSortIcon.hasClass('ascending')) {
+                commonSortIcon
                     .removeClass('ascending')
                     .addClass('descending');
             }
             else {
-                $('.common-sort-icon')
+                commonSortIcon
                     .removeClass('descending')
                     .addClass('ascending');
             }
@@ -116,6 +120,7 @@ var angObj = angObj || {};
                 responseData.targets &&
                 responseData.targets.domainTargets &&
                 responseData.targets.domainTargets.inheritedList.ADVERTISER) {
+console.log('$scope.workflowData.inventoryData = ', $scope.workflowData.inventoryData);
                 $scope.adData.inventory = $scope.workflowData.inventoryData[0];
             }
         });

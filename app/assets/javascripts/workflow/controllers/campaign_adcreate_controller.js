@@ -8,13 +8,9 @@ var angObj = angObj || {};
                                                                campaignListService, requestCanceller, $filter,
                                                                loginModel, $q, dataService, apiPaths, audienceService,
                                                                RoleBasedService, momentService) {
-        // Flag to denote that ad format has changed
-        $scope.adFormatChanged = false;
-
-        $scope.showDeleteConfirmationPopup = false;
-        $scope.adCreateLoader = false;
         var winHeaderHeight = $(window).height() - 50,
             winHeight,
+
             saveDataInLocalStorage = function (data) {
                 var campaignData = {
                     'advertiserId': data.advertiserId,
@@ -24,29 +20,34 @@ var angObj = angObj || {};
                 };
 
                 localStorage.removeItem('campaignData');
-                localStorage.setItem('campaignData', JSON.stringify(campaignData));
+                localStorage.setItem('campaignData', window.JSON.stringify(campaignData));
             },
+
             campaignOverView = {
                 getCampaignData: function (campaignId) {
                     workflowService
                         .getCampaignData(campaignId)
                         .then(function (result) {
-                            if (result.status === 'OK' || result.status === 'success') {
-                                var responseData = result.data.data;
+                            var responseData;
 
+                            if (result.status === 'OK' || result.status === 'success') {
+                                responseData = result.data.data;
                                 $scope.workflowData.campaignData = responseData;
                                 saveDataInLocalStorage(responseData);
+
                                 if ($scope.workflowData.campaignData.selectedObjectives &&
                                     $scope.workflowData.campaignData.selectedObjectives.length > 0) {
                                     $scope.brandIcon =
                                         _.filter($scope.workflowData.campaignData.selectedObjectives, function (item) {
                                             return item.objective === 'Branding';
                                         });
+
                                     $scope.performanceIcon =
                                         _.filter($scope.workflowData.campaignData.selectedObjectives, function (item) {
                                             return item.objective === 'Performance';
                                         });
                                 }
+
                                 if ($scope.mode === 'edit') {
                                     if (!$scope.adGroupId) {
                                         workflowService
@@ -55,18 +56,19 @@ var angObj = angObj || {};
                                                 adId: $scope.adId
                                             })
                                             .then(function (result) {
-                                                $scope.getAd_result = result.data.data;
-                                                disablePauseEnableResume($scope.getAd_result);
+                                                $scope.getAdResult = result.data.data;
+                                                disablePauseEnableResume($scope.getAdResult);
                                                 processEditMode(result);
                                             });
                                     } else {
                                         workflowService
                                             .getDetailedAdsInAdGroup($scope.campaignId, $scope.adGroupId, $scope.adId)
                                             .then(function (result) {
-                                                $scope.getAd_result = result.data.data;
-                                                disablePauseEnableResume($scope.getAd_result);
+                                                $scope.getAdResult = result.data.data;
+                                                disablePauseEnableResume($scope.getAdResult);
                                                 processEditMode(result);
                                             });
+
                                         workflowService
                                             .getAdgroups($scope.campaignId)
                                             .then(function (result) {
@@ -82,9 +84,11 @@ var angObj = angObj || {};
                                                     for (i = 0; i < n; i++) {
                                                         if (responseData[i].adGroup.id === $scope.adGroupId) {
                                                             adGroupData.startDate =
-                                                                momentService.utcToLocalTime(responseData[i].adGroup.startTime);
+                                                                momentService
+                                                                    .utcToLocalTime(responseData[i].adGroup.startTime);
                                                             adGroupData.endDate =
-                                                                momentService.utcToLocalTime(responseData[i].adGroup.endTime);
+                                                                momentService
+                                                                    .utcToLocalTime(responseData[i].adGroup.endTime);
                                                         }
                                                     }
                                                     $scope.workflowData.adGroupData = adGroupData;
@@ -114,8 +118,8 @@ var angObj = angObj || {};
                 fetchPrimaryKpis: function () {
                     $scope.workflowData.primaryKpi = [
                         {
-                            kpi_category: 'DELIVERY',
-                            kpi_values: [
+                            kpiCategory: 'DELIVERY',
+                            kpiValues: [
                                 {id: 1, name: 'Impressions', disabled: false},
                                 {id: 2, name: 'Impressions within demographic', disabled: true},
                                 {id: 3, name: 'Viewable Impressions', disabled: true},
@@ -124,8 +128,8 @@ var angObj = angObj || {};
                             ]
                         },
                         {
-                            kpi_category: 'PERFORMANCE',
-                            kpi_values: [
+                            kpiCategory: 'PERFORMANCE',
+                            kpiValues: [
                                 {id: 1, name: 'Clickthrough Rate', disabled: false},
                                 {id: 2, name: 'Cost Per Click', disabled: false},
                                 {id: 3, name: 'Cost Per Action', disabled: true},
@@ -182,23 +186,17 @@ var angObj = angObj || {};
 
                     if ($scope.adId) {
                         clientId = loginModel.getSelectedClient().id;
-                        url = apiPaths.WORKFLOW_APIUrl +
-                            '/clients/' +
-                            clientId +
-                            '/campaigns/' +
-                            $scope.campaignId +
-                            '/ads/' +
-                            $scope.adId +
+                        url = apiPaths.WORKFLOW_API_URL +
+                            '/clients/' + clientId +
+                            '/campaigns/' + $scope.campaignId +
+                            '/ads/' + $scope.adId +
                             '/creatives?format=csv';
+
                         dataService
                             .downloadFile(url)
                             .then(function (response) {
-                                console.log("response", response);
                                 if (response.status === 'success') {
                                     $scope.downloadingTracker = false;
-                                    console.log("saveAds");
-                                    console.log("response.file", response.file);
-                                    console.log("response.fileName", response.fileName);
                                     saveAs(response.file, response.fileName);
                                 } else {
                                     $scope.downloadingTracker = false;
@@ -214,27 +212,32 @@ var angObj = angObj || {};
                     if (window.location.href.indexOf('adGroup') > -1) {
                         postDataObj.adGroupId = $scope.adGroupId;
                     }
+
                     if ($scope.adId) {
                         postDataObj.adId = $scope.adId;
                         postDataObj.updatedAt = $scope.updatedAt;
                         postDataObj.state = $scope.state;
 
                     }
+
                     promiseObj = $scope.adId ?
                         workflowService.updateAd(postDataObj) :
                         workflowService.createAd(postDataObj);
                     promiseObj.then(function (result) {
                         var responseData = result.data.data,
                             url;
+
                         $scope.adCreateLoader = false;
                         //$('.workflowPreloader, .workflowPreloader .adSavePre').hide();
                         if (result.status === 'OK' || result.status === 'success') {
                             $scope.state = responseData.state;
                             $scope.adId = responseData.id;
                             $scope.updatedAt = responseData.updatedAt;
+
                             if (!isDownloadTrackerClicked) {
                                 $rootScope.setErrAlertMessage($scope.textConstants.PARTIAL_AD_SAVE_SUCCESS, 0);
-                                localStorage.setItem('adPlatformCustomInputs', JSON.stringify(responseData.adPlatformCustomInputs));
+                                localStorage.setItem('adPlatformCustomInputs',
+                                    window.JSON.stringify(responseData.adPlatformCustomInputs));
                                 url = '/mediaplan/' + result.data.data.campaignId + '/overview';
                                 $location.url(url);
                                 localStorage.setItem('topAlertMessage', $scope.textConstants.AD_CREATED_SUCCESS);
@@ -283,26 +286,39 @@ var angObj = angObj || {};
                 }
             };
 
-        $scope.deletetargets = function (type, event) {
-            var elem = $(event.target);
-            var leftPos = elem.closest(".cardSelectHolder").offset().left - elem.closest(".setTargetOptions").offset().left;
-            elem.closest(".setTargetOptions").find(".msgPopup").css("left", leftPos);
+        // Flag to denote that ad format has changed
+        $scope.adFormatChanged = false;
+
+        $scope.showDeleteConfirmationPopup = false;
+        $scope.adCreateLoader = false;
+
+        $scope.deleteTargets = function (type, event) {
+            var elem = $(event.target),
+                leftPos = elem.closest('.cardSelectHolder').offset().left -
+                          elem.closest('.setTargetOptions').offset().left;
+
+            elem
+                .closest('.setTargetOptions')
+                .find('.msgPopup')
+                .css('left', leftPos);
+
             $scope.showDeleteConfirmationPopup = true;
             $scope.deleteType = type;
         };
 
         $scope.deleteTargetting = function () {
             $scope.showDeleteConfirmationPopup = !$scope.showDeleteConfirmationPopup;
-            if ($scope.deleteType == "AUDIENCE")
+            if ($scope.deleteType === 'AUDIENCE') {
                 $scope.deleteAudienceTargetting();
-            else if ($scope.deleteType == "GEO")
+            } else if ($scope.deleteType === 'GEO') {
                 $scope.deleteGeoTargetting();
-            else if ($scope.deleteType == "DAYPART")
+            } else if ($scope.deleteType === 'DAYPART') {
                 $scope.deleteDayPartTargetting();
+            }
         };
 
         $scope.cancelTargettingDelete = function () {
-            $scope.deleteType = "";
+            $scope.deleteType = '';
             $scope.showDeleteConfirmationPopup = !$scope.showDeleteConfirmationPopup;
         };
 
@@ -312,9 +328,8 @@ var angObj = angObj || {};
         };
 
         $scope.deleteDayPartTargetting = function () {
-            $scope.selectedDayParts['data'].length = 0;
+            $scope.selectedDayParts.data.length = 0;
             $scope.$broadcast('deleteDayPartTarget');
-
         };
 
         $scope.deleteGeoTargetting = function () {
@@ -341,19 +356,26 @@ var angObj = angObj || {};
                 i;
 
             $scope.workflowData.adsData = responseData;
-            if (responseData.adPlatformCustomInputs) {
-                localStorage.setItem('adPlatformCustomInputs', JSON.stringify(responseData.adPlatformCustomInputs))
-            }
-            workflowService.setAdsDetails(angular.copy(responseData));
 
+            if (responseData.adPlatformCustomInputs) {
+                localStorage.setItem(
+                    'adPlatformCustomInputs',
+                    window.JSON.stringify(responseData.adPlatformCustomInputs)
+                );
+            }
+
+            workflowService.setAdsDetails(angular.copy(responseData));
             $scope.updatedAt = responseData.updatedAt;
             $scope.state = responseData.state;
+
             if (responseData.sourceId) {
                 $scope.editedAdSourceId = responseData.sourceId;
             }
+
             if (responseData.name) {
                 $scope.adData.adName = responseData.name;
             }
+
             if (responseData.adFormat) {
                 format = $filter('toTitleCase')(responseData.adFormat);
                 if (format === 'Richmedia') {
@@ -362,14 +384,17 @@ var angObj = angObj || {};
                 $scope.adFormatSelection(format, '', 'editData');
                 $scope.adData.adFormat = format;
             }
+
             if (responseData.goal) {
                 $scope.adData.primaryKpi = responseData.goal;
             }
+
             if (responseData.screens) {
                 for (i = 0; i < responseData.screens.length; i++) {
                     index = _.findIndex($scope.workflowData.screenTypes, function (item) {
                         return item.id === responseData.screens[i].id;
                     });
+
                     $scope.workflowData.screenTypes[index].active = true;
                     $scope.screenTypeSelection($scope.workflowData.screenTypes[index]);
                 }
@@ -387,32 +412,47 @@ var angObj = angObj || {};
                 if ($scope.adData.budgetType) {
                     budgetElem = $('.budget_' + $scope.adData.budgetType.toLowerCase());
                 }
+
                 if (budgetElem.length > 0) {
-                    budgetElem.closest('div.miniToggle').find('label').removeClass('active');
-                    budgetElem.addClass('active').find('input').attr('checked', 'checked');
+                    budgetElem
+                        .closest('div.miniToggle')
+                        .find('label')
+                        .removeClass('active');
+                    budgetElem
+                        .addClass('active')
+                        .find('input')
+                        .attr('checked', 'checked');
                 }
             }
+
             dateObj = {};
+
             if (responseData.startTime) {
                 $scope.adData.startTime = momentService.utcToLocalTime(responseData.startTime);
                 dateObj.adStartDate = $scope.adData.startTime;
             }
+
             if (responseData.endTime) {
                 $scope.adData.endTime = momentService.utcToLocalTime(responseData.endTime);
                 dateObj.adEndDate = $scope.adData.endTime;
             }
-            localStorage.setItem('adsDates', JSON.stringify(dateObj));
+
+            localStorage.setItem('adsDates', window.JSON.stringify(dateObj));
             $scope.initiateDatePicker();
+
             if (responseData.rateValue !== '') {
                 $scope.adData.unitCost = responseData.rateValue;
             }
+
             if (responseData.budgetValue) {
                 $scope.adData.budgetAmount = responseData.budgetValue;
             }
+
             if (responseData.rateType) {
                 idx = _.findIndex($scope.workflowData.unitTypes, function (item) {
                     return item.name === responseData.rateType;
                 });
+
                 // cpm ..... dropdown
                 $scope.adData.unitType = $scope.workflowData.unitTypes[idx];
                 $('#unitcostType')
@@ -420,6 +460,7 @@ var angObj = angObj || {};
                     .find('.btn')
                     .html($scope.adData.unitType.name + ' <span class="icon-arrow-down"></span>');
             }
+
             $('.cap_no input').attr('checked', 'checked');
             $('.spend_evenly input').attr('checked', 'checked');
 
@@ -427,6 +468,7 @@ var angObj = angObj || {};
                 angular.forEach(responseData.frequencyCaps, function (frequencyCap) {
                     var pacingType,
                         freqType;
+
                     if (frequencyCap.targetType === 'ALL') {
                         pacingType = frequencyCap.pacingType;
                         if (pacingType !== 'EVENLY') {
@@ -435,6 +477,7 @@ var angObj = angObj || {};
                             $('.spend_evenly').removeClass('active');
                         }
                     }
+
                     if (frequencyCap.targetType === 'PER_USER') {
                         $scope.adData.setCap = true;
                         $('.cap_yes').addClass('active');
@@ -443,6 +486,7 @@ var angObj = angObj || {};
                         $scope.adData.quantity = frequencyCap.quantity;
                         $scope.capsPeriod = frequencyCap.frequencyType;
                         freqType = frequencyCap.frequencyType;
+
                         if (freqType === 'LIFETIME') {
                             $scope.selectedFreq = 'Lifetime';
                         } else if (freqType === 'DAILY') {
@@ -457,6 +501,7 @@ var angObj = angObj || {};
                 if (responseData.sourceId) {
                     $scope.isAdsPushed = true;
                 }
+
                 if (responseData.isTracking) {
                     $scope.TrackingIntegrationsSelected = true;
                 }
@@ -467,9 +512,13 @@ var angObj = angObj || {};
             if (responseData.creatives) {
                 $scope.selectedArr = responseData.creatives;
             }
+
             $scope.$broadcast('updateCreativeTags');
 
-            if (responseData.targets && responseData.targets.geoTargets && _.size(responseData.targets.geoTargets) > 0) {
+            if (responseData.targets &&
+                responseData.targets.geoTargets &&
+                _.size(responseData.targets.geoTargets) > 0
+            ) {
                 $scope.selectedTargeting = {};
                 $scope.selectedTargeting.geography = true;
                 $timeout(function () {
@@ -478,34 +527,43 @@ var angObj = angObj || {};
             }
 
             //day part edit
-            if (responseData.targets && responseData.targets.adDaypartTargets && _.size(responseData.targets.adDaypartTargets) > 0) {
+            if (responseData.targets &&
+                responseData.targets.adDaypartTargets &&
+                _.size(responseData.targets.adDaypartTargets) > 0
+            ) {
                 $timeout(function () {
                     $scope.$broadcast('UpdateDayPart');
                 }, 2000);
             }
 
             //audience targeting load
-            if (responseData.targets && responseData.targets.segmentTargets && _.size(responseData.targets.segmentTargets) > 0) {
+            if (responseData.targets && responseData.targets.segmentTargets &&
+                _.size(responseData.targets.segmentTargets) > 0
+            ) {
                 $timeout(function () {
                     $scope.$broadcast('triggerAudienceLoading');
                 }, 2000);
             }
         }
 
-        function disablePauseEnableResume(getAd_resultData) {
-            $scope.disable_resume = 'disabled';
-            if ((getAd_resultData.state === 'IN_FLIGHT' || getAd_resultData.state === 'SCHEDULED' ) && !(getAd_resultData.isTracking)) {
+        function disablePauseEnableResume(getAdResultData) {
+            $scope.disableResume = 'disabled';
+
+            if ((getAdResultData.state === 'IN_FLIGHT' || getAdResultData.state === 'SCHEDULED' ) &&
+                !(getAdResultData.isTracking)
+            ) {
                 // do not let Ad to pause if tracking
                 // enable pause button
-                $scope.disable_pause = '';
+                $scope.disablePause = '';
             } else {
                 //disable pause button
-                $scope.disable_pause = 'disabled';
+                $scope.disablePause = 'disabled';
             }
-            if (getAd_resultData.state === 'PAUSED') {
-                //$scope.disable_pause='disabled';
+
+            if (getAdResultData.state === 'PAUSED') {
+                //$scope.disablePause='disabled';
                 //enable resume if ad is paused
-                $scope.disable_resume = '';
+                $scope.disableResume = '';
             }
         }
 
@@ -525,7 +583,9 @@ var angObj = angObj || {};
                 freqDefaultCapObj.targetType = 'ALL';
                 freqCap.push(freqDefaultCapObj);
             }
+
             isSetCap = formData.setCap ? true : false;
+
             if (isSetCap && formData.quantity) {
                 selectedFreqObj = {};
                 selectedFreqObj.capType = 'IMPRESSIONS';
@@ -535,6 +595,7 @@ var angObj = angObj || {};
                 selectedFreqObj.pacingType = 'EVENLY';
                 freqCap.push(selectedFreqObj);
             }
+
             return freqCap;
         }
 
@@ -547,25 +608,30 @@ var angObj = angObj || {};
         };
 
         $scope.archiveAd = function (event) {
+            var errorAchiveAdHandler;
+
             $scope.adArchiveLoader = true;
-            var errorAchiveAdHandler = function () {
+            errorAchiveAdHandler = function () {
                 $scope.adArchive = false;
                 $scope.adArchiveLoader = false;
                 $rootScope.setErrAlertMessage(constants.WF_AD_ARCHIVE_FAILURE);
             };
 
-            workflowService.deleteAd($scope.campaignId, $scope.adId).then(function (result) {
-                var url;
-                if (result.status === 'OK' || result.status === 'success') {
-                    $scope.adArchive = false;
-                    $scope.adArchiveLoader = false;
-                    url = '/mediaplan/' + $scope.campaignId + '/overview';
-                    $location.url(url);
-                    localStorage.setItem('topAlertMessage', $scope.textConstants.WF_AD_ARCHIVE_SUCCESS);
-                } else {
-                    errorAchiveAdHandler();
-                }
-            }, errorAchiveAdHandler);
+            workflowService
+                .deleteAd($scope.campaignId, $scope.adId)
+                .then(function (result) {
+                    var url;
+
+                    if (result.status === 'OK' || result.status === 'success') {
+                        $scope.adArchive = false;
+                        $scope.adArchiveLoader = false;
+                        url = '/mediaplan/' + $scope.campaignId + '/overview';
+                        $location.url(url);
+                        localStorage.setItem('topAlertMessage', $scope.textConstants.WF_AD_ARCHIVE_SUCCESS);
+                    } else {
+                        errorAchiveAdHandler();
+                    }
+                }, errorAchiveAdHandler);
         };
 
         $scope.pauseAd = function () {
@@ -573,12 +639,14 @@ var angObj = angObj || {};
                     $scope.adArchive = false;
                     $rootScope.setErrAlertMessage($scope.textConstants.WF_AD_PAUSE_FAILURE);
                 },
-                pauseAdDataObj = {};
 
-            pauseAdDataObj.name = $scope.getAd_result.name;
-            pauseAdDataObj.id = $scope.getAd_result.id;
-            pauseAdDataObj.campaignId = $scope.getAd_result.campaignId;
-            pauseAdDataObj.updatedAt = $scope.getAd_result.updatedAt;
+                pauseAdDataObj = {
+                    name: $scope.getAdResult.name,
+                    id: $scope.getAdResult.id,
+                    campaignId: $scope.getAdResult.campaignId,
+                    updatedAt: $scope.getAdResult.updatedAt
+                };
+
             workflowService
                 .pauseAd(pauseAdDataObj)
                 .then(function (result) {
@@ -600,30 +668,35 @@ var angObj = angObj || {};
                     $scope.adArchive = false;
                     $rootScope.setErrAlertMessage($scope.textConstants.WF_AD_RESUME_FAILURE);
                 },
-                resumeAdDataObj = {};
 
-            resumeAdDataObj.name = $scope.getAd_result.name;
-            resumeAdDataObj.id = $scope.getAd_result.id;
-            resumeAdDataObj.campaignId = $scope.getAd_result.campaignId;
-            resumeAdDataObj.updatedAt = $scope.getAd_result.updatedAt;
-            workflowService.resumeAd(resumeAdDataObj).then(function (result) {
-                var url;
+                resumeAdDataObj = {
+                    name: $scope.getAdResult.name,
+                    id: $scope.getAdResult.id,
+                    campaignId: $scope.getAdResult.campaignId,
+                    updatedAt: $scope.getAdResult.updatedAt
+                };
 
-                if (result.status === 'OK' || result.status === 'success') {
-                    $scope.adArchive = false;
-                    url = '/mediaplan/' + $scope.campaignId + '/overview';
-                    $location.url(url);
-                    localStorage.setItem('topAlertMessage', $scope.textConstants.WF_AD_RESUME_SUCCESS);
-                } else {
-                    errorAchiveAdHandler();
-                }
-            }, errorAchiveAdHandler);
+            workflowService
+                .resumeAd(resumeAdDataObj)
+                .then(function (result) {
+                    var url;
+
+                    if (result.status === 'OK' || result.status === 'success') {
+                        $scope.adArchive = false;
+                        url = '/mediaplan/' + $scope.campaignId + '/overview';
+                        $location.url(url);
+                        localStorage.setItem('topAlertMessage', $scope.textConstants.WF_AD_RESUME_SUCCESS);
+                    } else {
+                        errorAchiveAdHandler();
+                    }
+                }, errorAchiveAdHandler);
         };
 
         $scope.numbersOnly = function (scopeVar) {
             if (scopeVar === 'budgetAmount') {
                 $scope.adData.budgetAmount = $scope.adData.budgetAmount.replace($scope.numberOnlyPattern, '');
             }
+
             if (scopeVar === 'quantity') {
                 $scope.adData.quantity = $scope.adData.quantity.replace($scope.numberOnlyPattern, '');
             }
@@ -634,7 +707,7 @@ var angObj = angObj || {};
         };
 
         $scope.cancelAdPause = function () {
-            if ($scope.disable_pause !== 'disabled') {
+            if ($scope.disablePause !== 'disabled') {
                 $scope.adPause = !$scope.adPause;
             }
         };
@@ -642,11 +715,12 @@ var angObj = angObj || {};
         $scope.cancelAdResume = function () {
             $scope.resumeMessage =
                 'Resume delivery for flight dates ' +
-                momentService.utcToLocalTime($scope.getAd_result.startTime, 'DD MMM YYYY') +
+                momentService.utcToLocalTime($scope.getAdResult.startTime, 'DD MMM YYYY') +
                 ' to ' +
-                momentService.utcToLocalTime($scope.getAd_result.endTime, 'DD MMM YYYY') +
+                momentService.utcToLocalTime($scope.getAdResult.endTime, 'DD MMM YYYY') +
                 ' ?';
-            if ($scope.disable_resume !== 'disabled') {
+
+            if ($scope.disableResume !== 'disabled') {
                 $scope.adResume = !$scope.adResume;
             }
         };
@@ -732,6 +806,7 @@ var angObj = angObj || {};
                 'dorado-tracking': 'Visto_fav_icon',
                 'dbm-tracking': 'doubleclick-DFP'
             };
+
             if (platform) {
                 return platformMapper[platform.toLowerCase()];
             }
@@ -741,9 +816,9 @@ var angObj = angObj || {};
             var platformMapper = {
                 'collective bidder': 'The programmactic solution for all screens and format.',
                 'appnexus': 'The programmactic solution for all screens and formats',
-                'facebook': 'All-in-one customer<br />support application',
-                'dbm': 'All-in-one customer<br />support application',
-                'dfp': 'A revenue management<br />solution for publishers'
+                'facebook': 'All-in-one customer<br>support application',
+                'dbm': 'All-in-one customer<br>support application',
+                'dfp': 'A revenue management<br>solution for publishers'
             };
 
             return platformMapper[platform.toLowerCase()];
@@ -783,7 +858,6 @@ var angObj = angObj || {};
             //$scope.adData.setSizes = constants.WF_NOT_SET;
             //$scope.creativeData.creativeInfo = 'undefined';
             //$scope.selectedArr.length = 0;
-
             $scope.resetCreatives();
 
             // Flag to denote that ad format has changed
@@ -798,19 +872,23 @@ var angObj = angObj || {};
             _.each(adFormatsData, function (obj) {
                 obj.name === $scope.adformatName ? obj.active = true : obj.active = false;
             });
+
             videoKpiObj = {
                 id: 4,
                 name: 'View to Completion'
             };
+
             $scope.adData.primaryKpi = '';
+
             if ($scope.adData.adFormat === 'Video') {
-                $scope.workflowData.primaryKpi[1].kpi_values.push(videoKpiObj);
+                $scope.workflowData.primaryKpi[1].kpiValues.push(videoKpiObj);
             } else {
-                index = _.findIndex($scope.workflowData.primaryKpi[1].kpi_values, function (item) {
+                index = _.findIndex($scope.workflowData.primaryKpi[1].kpiValues, function (item) {
                     return item.id === videoKpiObj.id;
                 });
                 if (index > 0) {
-                    $scope.workflowData.primaryKpi[1].kpi_values = $scope.workflowData.primaryKpi[1].kpi_values.slice(0, index);
+                    $scope.workflowData.primaryKpi[1].kpiValues =
+                        $scope.workflowData.primaryKpi[1].kpiValues.slice(0, index);
                 }
             }
         };
@@ -833,6 +911,7 @@ var angObj = angObj || {};
 
             if (editdata !== 'editData') {
                 $scope.adformatName = adformatName;
+
                 if ($scope.selectedArr.length > 0) {
                     $scope.changeAdFormat = true;
                 } else {
@@ -850,6 +929,7 @@ var angObj = angObj || {};
                 // populating first time in editmode
                 $scope.adformatName = adformatName;
                 $scope.$broadcast('adFormatChanged', $scope.adformatName);
+
                 adFormatsData = $scope.workflowData.adFormats;
                 _.each(adFormatsData, function (obj) {
                     obj.name === $scope.adformatName ? obj.active = true : obj.active = false;
@@ -878,8 +958,10 @@ var angObj = angObj || {};
         $scope.showCreateNewWindow = function () {
             $('#formCreativeCreate')[0].reset();
             $scope.isAddCreativePopup = true;
+
             // enable cancel, save button on load
             $scope.disableCancelSave = false;
+
             $('.newCreativeSlide .popCreativeLib')
                 .show()
                 .delay(300)
@@ -887,6 +969,7 @@ var angObj = angObj || {};
                     left: '50%',
                     marginLeft: '-325px'
                 }, 'slow');
+
             $('#creative')
                 .delay(300)
                 .animate({minHeight: '950px'}, 'slow');
@@ -927,6 +1010,7 @@ var angObj = angObj || {};
                 i;
 
             formData = _.object(_.pluck(formData, 'name'), _.pluck(formData, 'value'));
+
             if ((formData.budgetAmount &&
                 $scope.formAdCreate.budgetAmount.$error.mediaCostValidator) ||
                 ($scope.budgetErrorObj.mediaCostValidator ||
@@ -938,6 +1022,7 @@ var angObj = angObj || {};
             }
 
             customFieldErrorElem = $('.customFieldErrorMsg');
+
             if (customFieldErrorElem.length > 0) {
                 $rootScope.setErrAlertMessage('Mandatory fields need to be specified for the Ad');
                 return false;
@@ -947,62 +1032,86 @@ var angObj = angObj || {};
                 postAdDataObj = {};
                 postAdDataObj.name = formData.adName;
                 postAdDataObj.campaignId = Number($scope.campaignId);
+
                 if (formData.adFormat) {
                     postAdDataObj.adFormat = formData.adFormat.replace(/\s+/g, '').toUpperCase();
                 }
+
                 if ($scope.editedAdSourceId) {
                     postAdDataObj.sourceId = $scope.editedAdSourceId;
                 }
+
                 if (formData.screens) {
                     postAdDataObj.screens = _.pluck(JSON.parse(formData.screens), 'id');
                 }
+
                 if (formData.goal) {
                     postAdDataObj.goal = formData.goal;
                 }
+
                 if (formData.startTime) {
                     postAdDataObj.startTime = momentService.localTimeToUTC(formData.startTime, 'startTime');
                 }
+
                 if (formData.endTime) {
                     postAdDataObj.endTime = momentService.localTimeToUTC(formData.endTime, 'endTime');
                 }
-                if ((!formData.startTime || !formData.endTime || !postAdDataObj.screens || !formData.adFormat || !formData.goal) &&
+
+                if ((
+                        !formData.startTime ||
+                        !formData.endTime ||
+                        !postAdDataObj.screens ||
+                        !formData.adFormat ||
+                        !formData.goal
+                    ) &&
                     $scope.mode === 'edit' &&
-                    $scope.isAdsPushed === true) {
+                    $scope.isAdsPushed === true
+                ) {
                     $rootScope.setErrAlertMessage('Mandatory fields need to be specified for the Ad');
                 } else {
                     if(!isDownloadTrackerClicked) {
                         $scope.adCreateLoader = true;
                     }
+
                     if (formData.unitCost) {
                         postAdDataObj.rateValue = formData.unitCost;
+
                         if (formData.unitCost && formData.unitType === '') {
                             postAdDataObj.rateType = 'CPM';
                         } else {
                             postAdDataObj.rateType = formData.unitType;
                         }
                     }
+
                     if (getfreqCapParams(formData).length > 0) {
                         postAdDataObj.frequencyCaps = getfreqCapParams(formData);
                     }
+
                     if (formData.budgetType && formData.budgetAmount) {
                         postAdDataObj.budgetType = formData.budgetType;
                         postAdDataObj.budgetValue = Number(formData.budgetAmount);
                     }
+
                     if (formData.platformId) {
                         postAdDataObj.platformId = Number(formData.platformId);
+
                         if ($scope.TrackingIntegrationsSelected) {
                             postAdDataObj.isTracking = true;
                         }
                     }
+
                     if (creativesData && creativesData.creatives) {
                         _.each(creativesData.creatives,
                             function (obj) {
                                 obj.sizeId = obj.size.id;
                             });
+
                         postAdDataObj.creatives = _.pluck(creativesData.creatives, 'id');
                     }
+
                     if (!$scope.TrackingIntegrationsSelected) {
                         postAdDataObj.targets = {};
+
                         if ($scope.adData.geoTargetingData) {
                             postGeoTargetObj = postAdDataObj.targets.geoTargets = {};
                             buildGeoTargetingParams = function (data, type) {
@@ -1010,21 +1119,28 @@ var angObj = angObj || {};
 
                                 obj.isIncluded = _.uniq(_.pluck(data, type + 'Included'))[0];
                                 obj.geoTargetList = _.pluck(data, 'id');
+
                                 return obj;
                             };
+
                             geoTargetData = $scope.adData.geoTargetingData;
+
                             if (geoTargetData.regions.length > 0) {
                                 postGeoTargetObj.REGION = buildGeoTargetingParams(geoTargetData.regions, 'regions');
                             }
+
                             if (geoTargetData.cities.length > 0) {
                                 postGeoTargetObj.CITY = buildGeoTargetingParams(geoTargetData.cities, 'cities');
                             }
+
                             if (geoTargetData.dmas.length > 0) {
                                 postGeoTargetObj.DMA = buildGeoTargetingParams(geoTargetData.dmas, 'dmas');
                             }
+
                             if ($scope.adData.geoTargetingData.zip.length > 0) {
                                 zipObj = $scope.adData.geoTargetingData.zip;
                                 zipPostArr = [];
+
                                 _.each(zipObj, function (zipArr) {
                                     if (zipArr.added) {
                                         _.each(zipArr.added, function (obj) {
@@ -1040,6 +1156,7 @@ var angObj = angObj || {};
                                         });
                                     }
                                 });
+
                                 postGeoTargetObj.ZIPCODE = {
                                     'isIncluded': true,
                                     'geoTargetList': zipPostArr
@@ -1052,32 +1169,38 @@ var angObj = angObj || {};
                         if (selectedAudience) {
                             segmentObj = postAdDataObj.targets.segmentTargets = {};
                             segmentObj.segmentList = [];
+
                             for (i = 0; i < selectedAudience.length; i++) {
                                 segmentObj.segmentList[i] = {};
                                 segmentObj.segmentList[i].segmentId = selectedAudience[i].id;
                                 segmentObj.segmentList[i].isIncluded = selectedAudience[i].isIncluded;
                             }
+
                             segmentObj.operation = audienceService.getAndOr().toUpperCase();
                         }
 
                         //DayPart Segment
                         dayPart = audienceService.getDayPartdata();
+
                         if (dayPart) {
                             postAdDataObj.targets.adDaypartTargets = dayPart;
                         }
                     }
+
                     if ($scope.adData.inventory && !$scope.TrackingIntegrationsSelected) {
                         domainTargetObj = postAdDataObj.targets.domainTargets = {};
                         domainTargetObj.inheritedList = {'ADVERTISER': $scope.adData.inventory.domainListId};
                         postAdDataObj.domainInherit = 'APPEND';
                         postAdDataObj.domainAction = $scope.adData.inventory.domainAction;
                     }
+
                     if (!$scope.TrackingIntegrationsSelected) {
                         if ($.isEmptyObject($scope.postPlatformDataObj)) {
                             $scope.saveCustomeFieldForPlatform(1);
                         }
                         postAdDataObj.adPlatformCustomInputs = $scope.postPlatformDataObj;
                     }
+
                     campaignOverView.saveAds(postAdDataObj, isDownloadTrackerClicked);
                 }
             }
@@ -1088,7 +1211,6 @@ var angObj = angObj || {};
             $scope.campaignAdSave(true);
 
         };
-
 
         $scope.triggerbudgetTab = function () {
             angular.element('.budget-tab-link').trigger('click');
@@ -1107,7 +1229,9 @@ var angObj = angObj || {};
         };
 
         $scope.trigerCreativeTag = function () {
+            console.log('save and continue')
             angular.element('.creative-tab-link').trigger('click');
+            console.log('save and continue222')
         };
 
         $scope.changePlatform = function (platformId) {
@@ -1117,6 +1241,7 @@ var angObj = angObj || {};
         $scope.showPopup = function () {
             $scope.creativeListLoading = false;
             $scope.creativesLibraryData.creativesData = [];
+
             if ($scope.selectedArr.length > 0) {
                 $scope.unchecking = true;
             } else {
@@ -1131,6 +1256,7 @@ var angObj = angObj || {};
             });
 
             $('#' + clickedTagData.id).removeAttr('checked');
+
             if (selectedCreativeTag.length > 0 && selectedCreativeTag) {
                 $scope.$broadcast('removeCreativeTags', [selectedCreativeTag, actionFrom]);
             } else {
@@ -1188,7 +1314,7 @@ var angObj = angObj || {};
             $(this)
                 .parents('.dropdown')
                 .find('.btn')
-                .html($(this).text() + ' <span class="icon-arrow-down"></span>');
+                .html($(this).text() + '<span class="icon-arrow-down"></span>');
             $(this)
                 .parents('.dropdown')
                 .find('.btn')
@@ -1260,12 +1386,15 @@ var angObj = angObj || {};
         // Switch BTN Animation
         $('.btn-toggle').click(function () {
             $(this).find('.btn').toggleClass('active');
+
             if ($(this).find('.btn-primary').size() > 0) {
                 $(this).find('.btn').toggleClass('btn-primary');
             }
+
             if ($(this).find('.btn-success').size() > 0) {
                 $(this).find('.btn').toggleClass('btn-success');
             }
+
             $(this).find('.btn').toggleClass('btn-default');
         });
 
@@ -1277,20 +1406,25 @@ var angObj = angObj || {};
             $('.leftNavLink')
                 .parents('li')
                 .removeClass('active');
+
             $(this)
                 .parents('li')
                 .addClass('active');
 
             target = $(this).attr('href');
+
             $('#myTabs')
                 .find(target + '-tab')
                 .closest('li')
                 .addClass('active');
+
             $(target).css('bottom', '-' + $(window).width() + 'px');
             bottom = $(target).offset().bottom;
+
             $(target)
                 .css({bottom: bottom})
                 .animate({'bottom': '0px'}, '10');
+
             $scope.$broadcast('closeAddCreativePage');
             $scope.$broadcast('switchPlatformFunc');
         });
@@ -1320,14 +1454,17 @@ var angObj = angObj || {};
                     $scope.sizeString = selectedCreatives.creatives[0].size.size;
                 } else if (selectedCreatives.creatives.length > 1) {
                     $scope.sizeString = '';
+
                     for (i in selectedCreatives.creatives) {
                         creativeSizeArrC.push(selectedCreatives.creatives[i].size.size);
                     }
+
                     $scope.sizeString = creativeSizeArrC;
                     arrC = creativeSizeArrC;
                     resultC = noRepeatC(arrC);
                     str = '';
                     result = noRepeatC(arrC);
+
                     for (i = 0; i < result[0].length; i++) {
                         if (result[1][i] > 1) {
                             str += result[0][i] + '(' + result[1][i] + ')' + ', ';
@@ -1335,6 +1472,7 @@ var angObj = angObj || {};
                             str += result[0][i] + ', ';
                         }
                     }
+
                     $scope.sizeString = str.substr(0, str.length - 2).replace(/X/g, 'x');
                 }
             } else {
@@ -1348,6 +1486,7 @@ var angObj = angObj || {};
                     i;
 
                 arrC.sort();
+
                 for (i = 0; i < arrC.length; i++) {
                     if (arrC[i] !== prevC) {
                         aC.push(arrC[i]);
@@ -1357,6 +1496,7 @@ var angObj = angObj || {};
                     }
                     prevC = arrC[i];
                 }
+
                 return [aC, bC];
             }
 

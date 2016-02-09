@@ -18,7 +18,7 @@ var urlPaths = {
     apiSerivicesUrl: scala_api,
     apiSerivicesUrl_NEW:scala_api_NEW,
     workflow_apiServicesUrl: workflow_api,
-    WORKFLOW_APIUrl : workflowCreate_api
+    WORKFLOW_API_URL : workflowCreate_api
 };
 commonModule.constant('apiPaths', urlPaths);
 
