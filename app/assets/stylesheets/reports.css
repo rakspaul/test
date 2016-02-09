@@ -1930,6 +1930,26 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
   display: block;
   padding-bottom: 7px;
 }
+#reports_platform_margin_block .each_col .tooltip_show_icon {
+  height: 15px;
+  width: 16px;
+  display: block;
+  background: url("/assets/images/cdesk/info_icon.png") no-repeat center left;
+  float: right;
+}
+#reports_platform_margin_block .each_col .margin_hdr {
+  width: 180px;
+  border: 1px none #FF6600;
+  float: left;
+  padding-bottom: 5px;
+}
+#reports_platform_margin_block .each_col .margin_hdr .hdr_space {
+  padding-right: 5px;
+}
+#reports_platform_margin_block .each_col .tooltip_holder {
+  display: inline;
+  float: right;
+}
 #reports_platform_margin_block .each_col .sub_col span {
   display: block;
   float: left;
