@@ -738,12 +738,12 @@
                                                  ng-include="'customeReportTpl'">
                                             </div>
                                             <!-- load more for second dimension -->
-											<span class="sec_dimension_load_more"
-                                                  ng-click="fetchMoreSecondDimensionData($event)"
-                                                  style="display:none;">
+						                </div>
+                                        <span class="sec_dimension_load_more"
+                                              ng-click="fetchMoreSecondDimensionData($event, metricValues.first_dimension.delivery_metrics[customeReportData.idx].value,customeReportData.idx, 1)"
+                                              style="display:none;">
 												<a href="javascript:void(0);">Load more</a>
 											</span>
-                                        </div>
                                         <span ng-if="secondDimensionReportDataNotFound['delivery_metrics'][customeReportData.idx]"
                                               class="no-data-common"
                                               ng-bind-html="getMessageForDataNotAvailable()">
@@ -792,11 +792,12 @@
                                                     track by $index"
                                                  ng-include="'customeReportTpl'">
                                             </div>
-                                            <!-- load more for second dimension -->
-											<span class="sec_dimension_load_more"  style="display:none;">
+                                        </div>
+                                        <span class="sec_dimension_load_more"
+                                              ng-click="fetchMoreSecondDimensionData($event, metricValues.first_dimension.cost_metrics[customeReportData.idx].value,customeReportData.idx, 1)"
+                                              style="display:none;">
 												<a href="javascript:void(0);">Load more</a>
 											</span>
-                                        </div>
                                         <span ng-if="secondDimensionReportDataNotFound['cost_metrics'][customeReportData.idx]"
                                               class="no-data-common"
                                               ng-bind-html="getMessageForDataNotAvailable()">
@@ -881,11 +882,12 @@
                                                     track by $index"
                                                  ng-include="'customeReportTpl'">
                                             </div>
-                                            <!-- load more for second dimension -->
-											<span class="sec_dimension_load_more"  style="display:none;">
-												<a href="javascript:void(0);">Load more</a>
-											</span>
                                         </div>
+                                        <span class="sec_dimension_load_more"
+                                              ng-click="fetchMoreSecondDimensionData($event, metricValues.first_dimension.engagement_metrics[customeReportData.idx].value,customeReportData.idx, 1)"
+                                              style="display:none;">
+												<a href="javascript:void(0);">Load more</a>
+                                        </span>
                                         <span ng-if="secondDimensionReportDataNotFound['engagement_metrics'][customeReportData.idx]"
                                               class="no-data-common"
                                               ng-bind-html="getMessageForDataNotAvailable()">
@@ -934,11 +936,12 @@
                                                     track by $index"
                                                  ng-include="'customeReportTpl'">
                                             </div>
-                                            <!-- load more for second dimension -->
-											<span class="sec_dimension_load_more"  style="display:none;">
-												<a href="javascript:void(0);">Load more</a>
-											</span>
                                         </div>
+                                        <span class="sec_dimension_load_more"
+                                              ng-click="fetchMoreSecondDimensionData($event, metricValues.first_dimension.video_metrics[customeReportData.idx].value,customeReportData.idx, 1)"
+                                              style="display:none;">
+												<a href="javascript:void(0);">Load more</a>
+                                        </span>
                                         <span ng-if="secondDimensionReportDataNotFound['video_metrics'][customeReportData.idx]"
                                               class="no-data-common"
                                               ng-bind-html="getMessageForDataNotAvailable()">
@@ -989,11 +992,12 @@
                                                     track by $index"
                                                  ng-include="'customeReportTpl'">
                                             </div>
-                                            <!-- load more for second dimension -->
-											<span class="sec_dimension_load_more"  style="display:none;">
-												<a href="javascript:void(0);">Load more</a>
-											</span>
                                         </div>
+                                        <span class="sec_dimension_load_more"
+                                              ng-click="fetchMoreSecondDimensionData($event, metricValues.first_dimension.display_quality_metrics[customeReportData.idx].value,customeReportData.idx, 1)"
+                                              style="display:none;">
+												<a href="javascript:void(0);">Load more</a>
+                                        </span>
                                         <span ng-if="secondDimensionReportDataNotFound['display_quality_metrics']
                                                 [customeReportData.idx]"
                                               class="no-data-common"
@@ -1045,11 +1049,12 @@
                                                     metricValues.second_dimension[customeReportData.idx].video_quality_metrics
                                                     track by $index"  ng-include="'customeReportTpl'">
                                             </div>
-                                            <!-- load more for second dimension -->
-											<span class="sec_dimension_load_more"  style="display:none;">
-												<a href="javascript:void(0);">Load more</a>
-											</span>
                                         </div>
+                                        <span class="sec_dimension_load_more"
+                                              ng-click="fetchMoreSecondDimensionData($event, metricValues.first_dimension.video_quality_metrics[customeReportData.idx].value,customeReportData.idx, 1)"
+                                              style="display:none;">
+												<a href="javascript:void(0);">Load more</a>
+                                        </span>
                                         <span ng-if="secondDimensionReportDataNotFound['video_quality_metrics']
                                                 [customeReportData.idx]"
                                               class="no-data-common"

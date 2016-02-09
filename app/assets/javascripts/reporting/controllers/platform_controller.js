@@ -324,6 +324,7 @@ var angObj = angObj || {};
                     if (jQuery.inArray($scope.sortTypebyViewability, tabImps) != '-1') {
                         $scope.sortTypebyViewability = $scope.sortTypebyViewability;
                         $('.kpi-dd-holder').addClass("active");
+
                     }
                     else {
                         $scope.sortTypebyViewability = $scope.sortTypebyViewability;
@@ -350,10 +351,18 @@ var angObj = angObj || {};
                         $scope.removeKpiActive();
                     }
                 }
-
                 if ($scope.selected_tab === "viewability") {
-
                     $(".view_mode_switch_container").show();
+                    $(".lifetime_filter").css("display", "block");
+                }
+                 else if ($scope.selected_tab === "cost") {
+                    $(".lifetime_filter").css("display", "block");
+                }
+                else if ($scope.selected_tab === "performance") {
+                    $(".lifetime_filter").css("display", "block");
+                }
+                else if ($scope.selected_tab === "margin") {
+                    $(".lifetime_filter").css("display", "none");
                 }
                 else {
                     $(".view_mode_switch_container").hide();

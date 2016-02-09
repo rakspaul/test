@@ -41,7 +41,7 @@
 			<!--Search Input-->
 			<div class="btn-group pull-right">
 				<button type="button" class="btn btn-default pull-right" style="display: none"><span class="icon-filter" style="margin: -1px 0 0 0;"></span></button>
-				<div class="searchInput pull-right" style="border-right: 0px;">
+				<div class="searchInput pull-right">
 					<a class="btn btn-default searchInputBtn" ng-click="searchShowInput()">
 						<span class="icon-search" aria-hidden="true" style="margin: -1px 0 0 0;"></span>
 					</a>
@@ -59,33 +59,35 @@
 			<div class="table-responsive">
 			<div class="vistoTable">
 			    <div class="thead">
-				<div class="tr">
-				    <div class="col-md-3 th">
-					<input type="checkbox" ng-click="selectAllCreative()"/>
-					<!--<span class="icon-arrow-down-thick" ng-click="headerToggle();"></span>-->
-					<span>Creative Name</span>
-				    </div>
-				    <div class="col-md-1 th text-center">Format</div>
-				    <div class="col-md-1 th text-center">Type</div>
-				    <div class="col-md-1 th text-center">Ad Server</div>
-				    <div class="col-md-1 th text-center">Size(s)</div>
-				    <div class="col-md-2 th">Advertiser</div>
-				    <div class="col-md-1 th text-center">Platform</div>
-				    <div class="col-md-2 th">Last Sync</div>
-				</div>
-				<div class="tr childRow" style="width: 100%; float: left;">
-				    <div class="col-md-7 td">
-					<span>Creative Name</span>
-				    </div>
-				    <div class="col-md-5 td">Brand</div>
-				</div>
+					<div class="tr">
+						<div class="col-md-3 th">
+						<input type="checkbox" ng-click="selectAllCreative()"/>
+						<!--<span class="icon-arrow-down-thick" ng-click="headerToggle();"></span>-->
+						<span style="margin-left: 25px;">Creative Name</span>
+						</div>
+						<div class="col-md-1 th text-center">Format</div>
+						<div class="col-md-1 th text-center">Type</div>
+						<div class="col-md-1 th text-center">Ad Server</div>
+						<div class="col-md-1 th text-center">Size(s)</div>
+						<div class="col-md-2 th">Advertiser</div>
+						<div class="col-md-1 th text-center">Platform</div>
+						<div class="col-md-2 th">Last Sync</div>
+					</div>
+					<div class="tr childRow childRowHead">
+						<div class="col-md-7 td">
+							<div class="inDentWrap shadowLeft">
+								<span>Campaign / Ad</span>
+							</div>
+						</div>
+						<div class="col-md-5 td shadowRight">Brand</div>
+					</div>
 			    </div>
 			    <div class="tbody">
 				<div ng-if="!creativeListLoading" ng-repeat="creativeData in creativeData.creatives" class="tr">
 				    <!--Creative Name-->
-				    <div class="col-md-3 td">
+				    <div class="col-md-3 td shadowLeft">
 					<input type="checkbox" ng-checked="creativeData.active" ng-click="selectedCreativeCheckbox(creativeData)"/>
-					<span class="icon-arrow-down-thick"></span>
+					<span class="icon-arrow-down-thick" ng-click="toggleCreativeAds(this,creativeData.id, $index,$event)"></span>
 					<a href="javascript:void(0);" ng-click="ShowHideTag(creativeData, $index)">{{creativeData.name}}</a>
 					<div class="script_tag">
 					    <div ng-show = "IsVisible" class="ng-cloak">{{creativeData.tag}}</div>
@@ -125,48 +127,68 @@
 				    </div>
 				    <!--Advertiser-->
 				    <div class="col-md-2 td">
-					<span> - </span>
+					<span>{{creativeData.advertiser.name}}  </span>
 				    </div>
 				    <!--Platform-->
 				    <div class="col-md-1 td text-center">
-					<span> - </span>
+					<span> {{creativeData.noOfCampaigns}} </span>
 				    </div>
 				    <!--Created-->
-				    <div class="col-md-2 td">
-					<span>{{formatDate(creativeData.createdAt)}}</span>
+				    <div class="col-md-2 td shadowRight">
+					<!--<span>{{formatDate(creativeData.createdAt)}}</span>-->
+					<span>{{utcToLocalTime(creativeData.createdAt,'DD MMM YYYY  HH:mm A')}}</span>
 				    </div>
+                    <!--<div class="tr childRow" style="width: 100%; float: left;" ng-show="showHideToggle">
+                        <div class="col-md-7 td">
+                            <span>Campaign/Ad</span>
+                        </div>
+                        <div class="col-md-2 td">Brand</div>
+                        <div class="col-md-1 td text-center"></div>
+                        <div class="col-md-2 td"></div>
+                    </div>-->
+                    <div class="tr childRow adsList" ng-show="showHideToggle" ng-repeat="adData in creativeAds.creativeAdData[$index]">
+                        <div class="col-md-7 td">
+							<div class="inDentWrap shadowLeft">
+								<span ng-if="creativeData.message" class="creativeData.message.type==='error'?icon-error :icon-warning"></span>
+								<span>{{adData.adName}}</span>
+							</div>
+                        </div>
+                        <div class="col-md-2 td">{{adData.advertiserName}}</div>
+                        <div class="col-md-1 td text-center">{{adData.platformName}}</div>
+                        <div class="col-md-2 td shadowRight">{{utcToLocalTime(adData.updatedAt,'DD MMM YYYY  HH:mm A')}}</div>
+                    </div>
 				</div>
 				
 				<!--Sample Child / A Class "childRow" needs to be added to the data if its a Child-->
-				<div class="tr childRow" style="width: 100%; float: left;">
-				    <div class="col-md-7 td">
-					<input type="checkbox"/>
-					<span class="icon-error"></span>
-					<span>Creative Name</span>
-				    </div>
-				    <div class="col-md-2 td">Advertiser</div>
-				    <div class="col-md-1 td text-center">Platform</div>
-				    <div class="col-md-2 td">Last Sync</div>
-				</div>
-				<div class="tr childRow" style="width: 100%; float: left;">
-				    <div class="col-md-7 td">
-					<input type="checkbox"/>
-					<span class="icon-warning"></span>
-					<span>Creative Name</span>
-				    </div>
-				    <div class="col-md-2 td">Advertiser</div>
-				    <div class="col-md-1 td text-center">Platform</div>
-				    <div class="col-md-2 td">Last Sync</div>
-				</div>
-				<div class="tr childRow" style="width: 100%; float: left;">
-				    <div class="col-md-7 td">
-					<input type="checkbox"/>
-					<span>Creative Name</span>
-				    </div>
-				    <div class="col-md-2 td">Advertiser</div>
-				    <div class="col-md-1 td text-center">Platform</div>
-				    <div class="col-md-2 td">Last Sync</div>
-				</div>
+				<!--<div class="tr childRow" style="width: 100%; float: left;">-->
+				    <!--<div class="col-md-7 td">-->
+					<!--<input type="checkbox"/>-->
+					<!--<span class="icon-error"></span>-->
+					<!--<span>Creative Name</span>-->
+				    <!--</div>-->
+				    <!--<div class="col-md-2 td">Advertiser</div>-->
+				    <!--<div class="col-md-1 td text-center">Platform</div>-->
+				    <!--<div class="col-md-2 td">Last Sync</div>-->
+				<!--</div>-->
+				<!--<div class="tr childRow" style="width: 100%; float: left;">-->
+				    <!--<div class="col-md-7 td">-->
+					<!--<input type="checkbox"/>-->
+					<!--<span class="icon-warning"></span>-->
+					<!--<span>Creative Name</span>-->
+				    <!--</div>-->
+				    <!--<div class="col-md-2 td">Advertiser</div>-->
+				    <!--<div class="col-md-1 td text-center">Platform</div>-->
+				    <!--<div class="col-md-2 td">Last Sync</div>-->
+				<!--</div>-->
+				<!--<div class="tr childRow" style="width: 100%; float: left;">-->
+				    <!--<div class="col-md-7 td">-->
+					<!--<input type="checkbox"/>-->
+					<!--<span>Creative Name</span>-->
+				    <!--</div>-->
+				    <!--<div class="col-md-2 td">Advertiser</div>-->
+				    <!--<div class="col-md-1 td text-center">Platform</div>-->
+				    <!--<div class="col-md-2 td">Last Sync</div>-->
+				<!--</div>-->
 				<!--Sample Ends Here-->
 			    </div>
 			</div>
@@ -182,10 +204,11 @@
 		<div class="spacingInput"></div>
     <!--Modal View Starts Here-->
     <div class="popContainerHolder" ng-show="showViewTagPopup">
-		<div class="popContainer popup-holder">
+	   <div class="popContainer popup-holder">
+		  <div class="modal-content">
 			<div class="clearfix modal-header">
 			    <h1 class="pull-left modal-title">{{selectedCreativeData.name}}</h1>
-			    <button class="close unselectable" aria-hidden="true" ng-click="disableEditor()"><span>x</span></button>
+			    <span class="icon-close close unselectable" aria-hidden="true" ng-click="disableEditor()"></span>
 		    </div>
 		    <div class="modal-body">
 				<div class="textarea_editable_holder"  ng-click="enableEditor()">
@@ -205,8 +228,8 @@
 				<button type="button" class="common_primary_btn pull-right {{editableTag === creativeTag ? 'disabled' : ''}}" id="updateTag" ng-click="updateTag(this)">Update Tag</button>
 				<button type="button" class="secondary_txt pull-right" id="cancelUpdate" ng-click="disableEditor()" >Cancel</button>
 			</div>
-
 		</div>
+	  </div>
     </div>
 
 	<div class="about_popup popup-holder" ng-show="showDuplicateTagPopup">

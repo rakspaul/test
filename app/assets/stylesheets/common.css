@@ -228,8 +228,7 @@
   padding: 0 30px 30px ;
 }
 .popup-holder .modal-title {
-  font-size: 26px ;
-  font-family: "Avenir-bold";
+  font-size: 24px ;
 }
 .popup-holder .data_heading {
   font-family: "Avenir-bold";
@@ -313,14 +312,33 @@
   width: 600px;
   min-height: 250px;
   background: white;
-  border-radius: 5px;
+  border-radius: 8px;
+  -moz-border-radius: 8px;
+  -webkit-border-radius: 8px;
 }
 .popContainerHolder .popContainer h1 {
   width: 90%;
-  margin: 0;
-  font-size: 26px;
-  margin-bottom: 20px;
   word-wrap: break-word;
+  color: #21252B;
+  padding-top: 20px;
+  padding-left: 30px;
+  padding-bottom: 15px;
+}
+.popContainerHolder .popContainer .modal-header {
+  padding: 0px ;
+}
+.popContainerHolder .popContainer .close {
+  position: absolute;
+  top: 3px;
+  right: 3px;
+  z-index: 10;
+  cursor: pointer;
+  font-size: 12px;
+  width: 12px;
+  height: 12px;
+  color: #21252B;
+  opacity: .25;
+  margin: 6px;
 }
 .popContainerHolder .popContainer .popup-body {
   margin: 30px 0 ;

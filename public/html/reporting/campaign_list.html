@@ -20,7 +20,7 @@
     <div campaign-list-filter-directive campaigns="campaigns"></div>
 
  <!-- header ends-->
-<div>{{campaigns.appliedQuickFilterText}} Filter applied | Displaying {{campaigns.dashboard.quickFilterSelectedCount}} results</div>
+<div><span ng-bind-html="campaigns.appliedQuickFilterText == 'Ontrack'?'On Track':campaigns.appliedQuickFilterText"></span> Filter applied | Displaying {{campaigns.dashboard.quickFilterSelectedCount}} results</div>
     <div class="fixed_line"></div>
     <div class="fixed_container">
         <!--dashboard (status bar) partial view-->

@@ -343,7 +343,7 @@
   top: -8px;
   left: 26px;
   border-radius: 6px;
-  z-index: 200;
+  z-index: 1001;
   font-size: 12px ;
 }
 .main_dashboard .dashboard_section .dashboard_heading .tooltip_holder .common_tooltip .bubble_graph_legend {

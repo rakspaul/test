@@ -1,23 +1,23 @@
-.searchInput {
+#creativeList .searchInput {
   width: auto;
   border: 1px solid #BFC9D7;
   border-radius: 2px;
 }
-.searchInput a.btn {
+#creativeList .searchInput a.btn {
   cursor: pointer;
   height: 34px;
   padding: 10px 15px;
   border-width: 0;
 }
-.searchInput .input-group {
+#creativeList .searchInput .input-group {
   position: relative;
   display: none;
   width: 34px;
 }
-.searchInput .input-group input {
+#creativeList .searchInput .input-group input {
   border-width: 0;
 }
-.searchInput .input-group .btn {
+#creativeList .searchInput .input-group .btn {
   position: absolute;
   z-index: 10;
   top: 0px;
@@ -29,8 +29,8 @@
   height: 34px;
   border-left: 1px solid #BFC9D7;
 }
-.searchInput .input-group .btn [class^="icon-"],
-.searchInput .input-group .btn [class*=" icon-"] {
+#creativeList .searchInput .input-group .btn [class^="icon-"],
+#creativeList .searchInput .input-group .btn [class*=" icon-"] {
   float: right;
   cursor: pointer;
   margin: 10px 15px;
