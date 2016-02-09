@@ -56,8 +56,8 @@
 		</div>
 
 		<div class="col-md-12 zeroPadding">
-			<div class="table-responsive">
-			<div class="vistoTable">
+			<div class="table-responsive" id="table_responsive">
+			<div class="vistoTable" id="visto_table">
 			    <div class="thead">
 					<div class="tr">
 						<div class="col-md-3 th">
@@ -82,7 +82,7 @@
 						<div class="col-md-5 td shadowRight">Brand</div>
 					</div>
 			    </div>
-			    <div class="tbody">
+			    <div class="tbody" style="height: 500px;overflow: scroll">
 				<div ng-if="!creativeListLoading" ng-repeat="creativeData in creativeData.creatives" class="tr">
 				    <!--Creative Name-->
 				    <div class="col-md-3 td shadowLeft">
@@ -109,20 +109,6 @@
 				    </div>
 				    <!--Sizes-->
 				    <div class="col-md-1 td text-center">
-					<!--<span class="col-md-1">
-						PLS DONT REMOVE 
-						CHECKBOX FOR FUTURE IMPLEMENTATION 
-						-->
-						<!-- <div class="pull-right external_chkbox">
-							  <div class="external_chkbox clearfix">
-								<div class="squaredFour">
-								  <input type="checkbox" value="{{$index+1}}" class="squaredFourChkbox" id="creative_squaredFour_{{$index+1}}" />
-								  <label for="creative_squaredFour_{{$index+1}}"></label>
-								</div>
-							  </div>
-						  </div>
-						
-					</span>-->
 					<span>{{creativeData.size.size}}</span>
 				    </div>
 				    <!--Advertiser-->
@@ -131,7 +117,7 @@
 				    </div>
 				    <!--Platform-->
 				    <div class="col-md-1 td text-center">
-					<span> {{creativeData.noOfCampaigns}} </span>
+					<span>{{creativeData.noOfPlatforms}}</span>
 				    </div>
 				    <!--Created-->
 				    <div class="col-md-2 td shadowRight">
@@ -153,8 +139,8 @@
 								<span>{{adData.adName}}</span>
 							</div>
                         </div>
-                        <div class="col-md-2 td">{{adData.advertiserName}}</div>
-                        <div class="col-md-1 td text-center">{{adData.platformName}}</div>
+                        <div class="col-md-2 td">{{adData.brandName}}</div>
+                        <div class="col-md-1 td text-center" ><img style="max-height: 35px;max-width: 70px;" ng-src="{{adData.platform.iconUrl}}"/></div>
                         <div class="col-md-2 td shadowRight">{{utcToLocalTime(adData.updatedAt,'DD MMM YYYY  HH:mm A')}}</div>
                     </div>
 				</div>

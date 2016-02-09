@@ -10,9 +10,7 @@
                     </truncate-text-with-hover>
                 </a>
                 <a ng-if="$parent.isWorkFlowUser"
-                   ng-href="{{filterType !== 'archived' ?
-                    '/mediaplan/'+campaign.orderId+'/overview' :
-                    '/mediaplans/'+campaign.orderId}}">
+                   ng-click="redirectTo(campaign, campaigns.dashboard.appliedFilterType, $event)">
                     <truncate-text-with-hover txt="{{campaign.campaignTitle}}" txtlength="75" lst-campaign=campaign>
                     </truncate-text-with-hover>
                 </a>

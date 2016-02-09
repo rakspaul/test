@@ -7,7 +7,13 @@ var angObj = angObj || {};
                                                                constants, workflowService, $timeout, utils, $location,
                                                                campaignListService, requestCanceller, $filter,
                                                                loginModel, $q, dataService, apiPaths, audienceService,
-                                                               RoleBasedService, momentService) {
+                                                               RoleBasedService, momentService, vistoconfig) {
+        // Flag to denote that ad format has changed
+        $scope.adFormatChanged = false;
+
+        $scope.showDeleteConfirmationPopup = false;
+        $scope.adCreateLoader = false;
+
         var winHeaderHeight = $(window).height() - 50,
             winHeight,
 
@@ -28,10 +34,16 @@ var angObj = angObj || {};
                     workflowService
                         .getCampaignData(campaignId)
                         .then(function (result) {
-                            var responseData;
+                            var responseData,
+                                url;
 
                             if (result.status === 'OK' || result.status === 'success') {
                                 responseData = result.data.data;
+                                //redirect user to media plan list screen if new or edited ad is from archived campaign
+                                if(responseData.isArchived){
+                                    url = vistoconfig.MEDIA_PLANS_LINK;
+                                    $location.url(url);
+                                }
                                 $scope.workflowData.campaignData = responseData;
                                 saveDataInLocalStorage(responseData);
 
@@ -56,8 +68,15 @@ var angObj = angObj || {};
                                                 adId: $scope.adId
                                             })
                                             .then(function (result) {
-                                                $scope.getAdResult = result.data.data;
-                                                disablePauseEnableResume($scope.getAdResult);
+                                                var url;
+
+                                                $scope.getAd_result = result.data.data;
+                                                //redirect user to campaingn overview screen if ad is archived
+                                                if($scope.getAd_result.isArchived){
+                                                    url = 'mediaplan/'+$scope.campaignId+'/overview';
+                                                    $location.url(url);
+                                                }
+                                                disablePauseEnableResume($scope.getAd_result);
                                                 processEditMode(result);
                                             });
                                     } else {
@@ -506,6 +525,7 @@ var angObj = angObj || {};
                     $scope.TrackingIntegrationsSelected = true;
                 }
             }
+
             $scope.$broadcast('updatePlatform', [responseData.platform]);
 
             // creative tags
@@ -1247,6 +1267,7 @@ var angObj = angObj || {};
             } else {
                 $scope.unchecking = false;
             }
+
             $scope.$broadcast('showCreativeLibrary');
         };
 

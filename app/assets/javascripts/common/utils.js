@@ -780,13 +780,13 @@
 
         .filter('formatCostData', function ($filter) {
             return function (input, symbol, places) {
-                if (!input) {
+                if (input === undefined) {
                     return 'NA';
                 }
                 if (!symbol) {
                     symbol = '';
                 }
-                if (places) {
+                if(places !== undefined) {
                     return symbol + $filter('number')(input, places);
                 }
                 return symbol + input;

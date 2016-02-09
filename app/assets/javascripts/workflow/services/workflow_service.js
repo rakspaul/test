@@ -266,14 +266,25 @@
             getCreatives: function (clientId, advertiserId, formats, query, cacheObj, integrationTracking) {
                 var queryStr = query ? query : '',
                     creativeFormats = formats ? '?creativeFormat=' + formats : '',
-                    url;
-
-                integrationTracking = integrationTracking ? '&tracking=true' : '';
-                url = apiPaths.WORKFLOW_API_URL +
-                    '/clients/' + clientId +
-                    '/creatives' + creativeFormats + queryStr + integrationTracking;
+                    integration_Tracking = integrationTracking ? '&tracking=true' : '',
+                    url = apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/advertisers/' + advertiserId + '/creatives' +
+                        creativeFormats + queryStr + integration_Tracking;
 
                 return dataService.fetch(url, cacheObj);
+            },
+
+            getCreativesforCreativeList: function (clientId,formats, query, pageSize,pageNo) {
+                var queryStr = query ? query : '',
+                    creativeFormats = formats ? '?creativeFormat=' + formats : '',
+                    url;
+
+                pageSize=pageSize?'?pageSize='+pageSize:'';
+                pageNo=pageNo?'&pageNo='+pageNo:'';
+
+                url = apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/creatives' +
+                    creativeFormats + queryStr +pageSize+pageNo;
+
+                return dataService.fetch(url);
             },
 
             getCreativeAds:function(creativeId){
