@@ -3,9 +3,10 @@ var angObj = angObj || {};
 (function () {
     'use strict';
 
-    angObj.controller('InventoryFiltersController', function ($scope, $window, $routeParams, constants, workflowService, Upload, 
-        $timeout, utils, $location) {
+    angObj.controller('InventoryFiltersController', function ($scope, $window, $routeParams, constants, workflowService,
+                                                              Upload, $timeout, utils, $location) {
         var InventoryFiltersView = {
+// TODO: Come back here (8th Feb 2016)
             getAdvertisersDomainList: function (clientId, advertiserId) {
                 workflowService
                     .getAdvertisersDomainList(clientId, advertiserId)
@@ -15,8 +16,26 @@ var angObj = angObj || {};
                             $scope.$broadcast('updateInventory');
                         }
                     });
-            },
+            }
         };
+
+        function uploadProgressCallback (evt) {
+            $scope.domainUploadInProgress = true;
+        }
+
+        function uploadSuccessCallback (response, status, headers, config) {
+            var inventoryData = $scope.workflowData.inventoryData;
+
+            _.each(inventoryData, function (obj, idx) {
+                if (obj.id === response.data.id) {
+                    inventoryData[idx] = response.data;
+                }
+            });
+            $scope.workflowData.inventoryData = inventoryData;
+            $scope.adData.inventory = response.data;
+            $scope.domainUploadInProgress = false;
+            $scope.showDomainListPopup = false;
+        }
 
         $scope.prarentHandler = function (clientId, clientName, advertiserId, advertiserName) {
             $scope.clientId = clientId;
@@ -48,31 +67,21 @@ var angObj = angObj || {};
                 for (i = 0; i < files.length; i++) {
                     file = files[i];
                     if (!file.$error) {
-                        Upload.upload({
-                            url: workflowService.createAdvertiseDomainList($scope.clientId, $scope.advertiserId, domainId),
-                            fields: {
-                                'name': $scope.adData.listName,
-                                'domainAction': $scope.adData.inventory.domainAction,
-                                'updatedAt': $scope.adData.inventory ? $scope.adData.inventory.updatedAt : ''
-                            },
-                            fileFormDataName: 'domainList',
-                            file: file,
-                            method: domainId ? 'PUT' : 'POST'
-                        }).progress(function (evt) {
-                            $scope.domainUploadInProgress = true;
-                        }).success(function (response, status, headers, config) {
-                            var inventoryData = $scope.workflowData.inventoryData;
-
-                            _.each(inventoryData, function (obj, idx) {
-                                if (obj.id === response.data.id) {
-                                    inventoryData[idx] = response.data;
-                                }
-                            });
-                            $scope.workflowData.inventoryData = inventoryData;
-                            $scope.adData.inventory = response.data;
-                            $scope.domainUploadInProgress = false;
-                            $scope.showDomainListPopup = false;
-                        });
+                        Upload
+                            .upload({
+                                url: workflowService
+                                    .createAdvertiseDomainList($scope.clientId, $scope.advertiserId, domainId),
+                                fields: {
+                                    'name': $scope.adData.listName,
+                                    'domainAction': $scope.adData.inventory.domainAction,
+                                    'updatedAt': $scope.adData.inventory ? $scope.adData.inventory.updatedAt : ''
+                                },
+                                fileFormDataName: 'domainList',
+                                file: file,
+                                method: domainId ? 'PUT' : 'POST'
+                            })
+                            .progress(uploadProgressCallback)
+                            .success(uploadSuccessCallback);
                     }
                 }
             }
@@ -103,9 +112,9 @@ var angObj = angObj || {};
         $scope.$on('updateInventory', function () {
             var responseData = workflowService.getAdsDetails();
 
-            if (responseData && 
-                responseData.targets && 
-                responseData.targets.domainTargets && 
+            if (responseData &&
+                responseData.targets &&
+                responseData.targets.domainTargets &&
                 responseData.targets.domainTargets.inheritedList.ADVERTISER) {
                 $scope.adData.inventory = $scope.workflowData.inventoryData[0];
             }

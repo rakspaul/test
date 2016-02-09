@@ -124,7 +124,8 @@
                     <a role="tab" class="leftNavLink inventory-tab-link" data-ng-bind="textConstants.INVENTORYSIDE"></a>
                  </span>
                 <span ng-if="!TrackingIntegrationsSelected">
-                    <a href="#inventoryView" role="tab" class="leftNavLink inventory-tab-link" data-toggle="tab" data-ng-bind="textConstants.INVENTORYSIDE"></a>
+                    <a href="#inventoryView" role="tab" class="leftNavLink inventory-tab-link" data-toggle="tab"
+                       data-ng-bind="textConstants.INVENTORYSIDE"></a>
                 </span>
                 <div>
                     <div class="statusLabel disabled" ng-if="!adData.inventory.domainAction || TrackingIntegrationsSelected">
@@ -134,7 +135,7 @@
                     </div>
                     <div class="statusLabel disabled" ng-if="adData.inventory.domainAction && !TrackingIntegrationsSelected">
                         <div class="col-md-12">
-                            <span>{{adData.inventory.domainAction === 'INCLUDE' ? 'Whitelist' : 'Blacklist'}}</span>
+                            <span ng-bind="adData.inventory.domainAction === 'INCLUDE' ? 'Whitelist' : 'Blacklist'"></span>
                         </div>
                     </div>
                 </div>

@@ -21,11 +21,23 @@
                               <span class="icon-arrow-down"></span>
                          </button>
                          <ul class="dropdown-menu" name="inventory" data-toggle="dropdown">
-                             <li ng-repeat="inventory in workflowData.inventoryData track by inventory.id">
+                             <li ng-repeat="inventory in workflowData.inventoryData">
                                  <a ng-click="dropBoxItemSelected(inventory, 'inventory')"
                                     data-ng-bind="inventory.name">
                                  </a>
                              </li>
+                             <!--li class="clearfix list_row ng-scope" ng-repeat="inventory in workflowData.inventoryData">
+                                 <div class="pull-left list_row_chkbox">
+                                     <input name="regionchkbox"
+                                            ng-model="bool"
+                                            ng-click="dropBoxItemSelected(inventory, 'inventory')"
+                                            ng-checked="isChecked(region.id, 'regions')"
+                                            type="checkbox"
+                                            value=""
+                                            class="ng-valid ng-dirty ng-valid-parse ng-touched">
+                                 </div>
+                                 <p class="pull-left list_val_col ng-binding" data-ng-bind="inventory.name"></p>
+                             </li-->
                              <!--li ng-repeat="inventory in workflowData.inventoryData track by inventory.id">
                                  <input type="checkbox" class="checkboxcls"
                                     onclick="$('.dropdown-menu').css('display', 'block');return false;">
@@ -46,14 +58,15 @@
             <div class="col-md-9 zeroPadding inventory_upload_btn" style="margin: 42px 0 0;">
                 <span class="greyTxt pull-left"
                       style="margin: 0 15px;"
-                      ng-show="workflowData.inventoryData.length === 0 || adData.inventory ?  true : false">
+                      ng-show="(adData.inventory && workflowData.inventoryData.length > 0) ?  true : false">
                     or
                 </span>
                 <button class="pull-left btn btn-default"
                         ng-disabled="workflowData.inventoryData.length === 0 || adData.inventory ?  false : true"
                         ngf-select="selectFiles($files)"
                         ngf-accept="'.csv,.txt'"
-                        ngf-multiple="false" ngf-allow-dir="false"
+                        ngf-multiple="false"
+                        ngf-allow-dir="false"
                         data-ng-bind="textConstants.UPLOADDOMAINLIST">
                 </button>
                 <span class="grey_txt"

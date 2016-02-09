@@ -848,5 +848,5 @@
         this.INVENTORY_REPLACE_CURRENT_LIST = 'Replace Current List';
     };
 
-    commonModule.service("constants", constants);
+    commonModule.service('constants', constants);
 }());

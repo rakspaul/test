@@ -52,8 +52,8 @@
             saveCampaign: function (data) {
                 var clientId =  loginModel.getSelectedClient().id;
 
-                return dataService.post(apiPaths.WORKFLOW_APIUrl + '/clients/' + clientId + '/campaigns', 
-                    data, 
+                return dataService.post(apiPaths.WORKFLOW_APIUrl + '/clients/' + clientId + '/campaigns',
+                    data,
                     {'Content-Type': 'application/json'}
                 );
             },
@@ -61,8 +61,8 @@
             updateCampaign: function (data,id) {
                 var clientId =  loginModel.getSelectedClient().id;
 
-                return dataService.put(apiPaths.WORKFLOW_APIUrl + '/clients/' + clientId + '/campaigns/'+id, 
-                    data, 
+                return dataService.put(apiPaths.WORKFLOW_APIUrl + '/clients/' + clientId + '/campaigns/'+id,
+                    data,
                     {'Content-Type': 'application/json'}
                 );
             },
@@ -99,8 +99,8 @@
                 var clientId =  loginModel.getSelectedClient().id;
 
                 return dataService.post(
-                    apiPaths.WORKFLOW_APIUrl + '/clients/' + clientId + '/campaigns/' + campaignId + '/ad_groups', 
-                    data, 
+                    apiPaths.WORKFLOW_APIUrl + '/clients/' + clientId + '/campaigns/' + campaignId + '/ad_groups',
+                    data,
                     {'Content-Type': 'application/json'}
                 );
             },
@@ -120,8 +120,8 @@
             createAd: function (data) {
                 var clientId =  loginModel.getSelectedClient().id;
 
-                return dataService.post(apiPaths.WORKFLOW_APIUrl + '/clients/' + clientId + '/campaigns/' + data.campaignId + '/ads', 
-                    data, 
+                return dataService.post(apiPaths.WORKFLOW_APIUrl + '/clients/' + clientId + '/campaigns/' + data.campaignId + '/ads',
+                    data,
                     {'Content-Type': 'application/json'}
                 );
             },
@@ -130,8 +130,8 @@
                 var clientId =  loginModel.getSelectedClient().id;
 
                 return dataService.put(apiPaths.WORKFLOW_APIUrl + '/clients/' + clientId + '/campaigns/'+data.campaignId +
-                        '/ads/' + data.adId, 
-                    data, 
+                        '/ads/' + data.adId,
+                    data,
                     {'Content-Type': 'application/json'}
                 );
             },
@@ -140,7 +140,7 @@
                 var clientId =  loginModel.getSelectedClient().id;
 
                 return dataService.delete(apiPaths.WORKFLOW_APIUrl + '/clients/' + clientId + '/campaigns/'+campaignId +
-                        '/ads/' + adId, 
+                        '/ads/' + adId,
                     {'Content-Type': 'application/json'}
                 );
             },
@@ -149,8 +149,8 @@
                 var clientId =  loginModel.getSelectedClient().id;
 
                 return dataService.put(apiPaths.WORKFLOW_APIUrl + '/clients/' + clientId + '/campaigns/'+data.campaignId +
-                        '/ads/'+data.id+'/pause', 
-                    data, 
+                        '/ads/'+data.id+'/pause',
+                    data,
                     {'Content-Type': 'application/json'}
                 );
             },
@@ -159,8 +159,8 @@
                 var clientId =  loginModel.getSelectedClient().id;
 
                 return dataService.put(apiPaths.WORKFLOW_APIUrl + '/clients/' + clientId + '/campaigns/'+data.campaignId +
-                        '/ads/' + data.id + '/resume', 
-                    data, 
+                        '/ads/' + data.id + '/resume',
+                    data,
                     {'Content-Type': 'application/json'}
                 );
             },
@@ -168,7 +168,7 @@
             deleteCampaign: function (campaignId) {
                 var clientId =  loginModel.getSelectedClient().id;
 
-                return dataService.delete(apiPaths.WORKFLOW_APIUrl + '/clients/' + clientId + '/campaigns/' + campaignId, 
+                return dataService.delete(apiPaths.WORKFLOW_APIUrl + '/clients/' + clientId + '/campaigns/' + campaignId,
                     {'Content-Type': 'application/json'}
                 );
             },
@@ -209,8 +209,8 @@
             saveCreatives: function (clientId, adId, data) {
                 var clientId =  loginModel.getSelectedClient().id;
 
-                return dataService.post(apiPaths.WORKFLOW_APIUrl + '/clients/' + clientId + '/advertisers/' + adId + '/creatives', 
-                    data, 
+                return dataService.post(apiPaths.WORKFLOW_APIUrl + '/clients/' + clientId + '/advertisers/' + adId + '/creatives',
+                    data,
                     {'Content-Type': 'application/json'}
                 );
             },
@@ -219,8 +219,8 @@
                 var clientId =  loginModel.getSelectedClient().id;
 
                 return dataService.post(apiPaths.WORKFLOW_APIUrl + '/clients/' + clientId + '/advertisers/' + adId +
-                        '/creatives?forceSave=true', 
-                    data, 
+                        '/creatives?forceSave=true',
+                    data,
                     {'Content-Type': 'application/json'}
                 );
             },
@@ -239,8 +239,8 @@
             updateCreative: function (clientId, adId, id, data) {
                 var clientId =  loginModel.getSelectedClient().id;
 
-                return dataService.put(apiPaths.WORKFLOW_APIUrl + '/clients/' + clientId + '/advertisers/' + adId + '/creatives/' + id, 
-                    data, 
+                return dataService.put(apiPaths.WORKFLOW_APIUrl + '/clients/' + clientId + '/advertisers/' + adId + '/creatives/' + id,
+                    data,
                     {'Content-Type': 'application/json'}
                 );
             },
@@ -284,9 +284,11 @@
             },
 
             getAdvertisersDomainList: function (clientId, advertiserId) {
-                var clientId =  loginModel.getSelectedClient().id,
-                    url = apiPaths.WORKFLOW_APIUrl + '/clients/' + clientId + '/advertisers/' + advertiserId + '/domain_lists';
+                var url;
 
+                clientId =  loginModel.getSelectedClient().id;
+                url = apiPaths.WORKFLOW_APIUrl + '/clients/' + clientId + '/advertisers/' + advertiserId + '/domain_lists';
+console.log('getAdvertisersDomainList(), url = ', url);
                 return dataService.fetch(url);
             },
 
@@ -294,7 +296,7 @@
                 var clientId =  loginModel.getSelectedClient().id,
                     domainIdstr =  domainId ? '/' + domainId : '';
 
-                return apiPaths.WORKFLOW_APIUrl + '/clients/' + clientId + '/advertisers/' + advertiserId + 
+                return apiPaths.WORKFLOW_APIUrl + '/clients/' + clientId + '/advertisers/' + advertiserId +
                     '/domain_lists/upload' + domainIdstr;
             },
 
