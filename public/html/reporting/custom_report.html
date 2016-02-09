@@ -740,10 +740,12 @@
                                             <!-- load more for second dimension -->
                                             <span class="sec_dimension_load_more"
                                                   ng-click="fetchMoreSecondDimensionData($event, metricValues.first_dimension.delivery_metrics[customeReportData.idx].value,customeReportData.idx, 1)"
-                                                  style="display:none" extFile="aaa">
+                                                  ng-show="secDimensionLoadMore['delivery_metrics'][customeReportData.idx]"
+                                                  style="" extFile="aaa">
 												<a href="javascript:void(0);">Load more</a>
 											</span>
-                                            <div class="sec_dimesnion_loadingIcon common-loading-area" style="margin-left:465px;display:none"></div>
+                                            <div class="sec_dimesnion_loadingIcon common-loading-area" style="margin-left:465px;"
+                                                 ng-show="secDimensionLoadIcon['delivery_metrics'][customeReportData.idx]"></div>
 						                </div>
 
                                         <span ng-if="secondDimensionReportDataNotFound['delivery_metrics'][customeReportData.idx]"
@@ -797,10 +799,12 @@
                                             </div>
                                             <span class="sec_dimension_load_more"
                                                   ng-click="fetchMoreSecondDimensionData($event, metricValues.first_dimension.cost_metrics[customeReportData.idx].value,customeReportData.idx, 1)"
+                                                  ng-show="secDimensionLoadMore['cost_metrics'][customeReportData.idx]"
                                                   style="display:none;">
 												<a href="javascript:void(0);">Load more</a>
 											</span>
-                                            <div class="sec_dimesnion_loadingIcon common-loading-area" style="margin-left:465px;display:none"></div>
+                                            <div class="sec_dimesnion_loadingIcon common-loading-area" style="margin-left:465px;"
+                                                 ng-show="secDimensionLoadIcon['cost_metrics'][customeReportData.idx]"></div>
                                         </div>
 
                                         <span ng-if="secondDimensionReportDataNotFound['cost_metrics'][customeReportData.idx]"
@@ -889,10 +893,12 @@
                                             </div>
                                             <span class="sec_dimension_load_more"
                                                   ng-click="fetchMoreSecondDimensionData($event, metricValues.first_dimension.engagement_metrics[customeReportData.idx].value,customeReportData.idx, 1)"
-                                                  style="display:none;">
+                                                  ng-show="secDimensionLoadMore['engagement_metrics'][customeReportData.idx]"
+                                                  style="">
 												<a href="javascript:void(0);">Load more</a>
                                         </span>
-                                            <div class="sec_dimesnion_loadingIcon common-loading-area" style="margin-left:465px;display:none"></div>
+                                            <div class="sec_dimesnion_loadingIcon common-loading-area" style="margin-left:465px;"
+                                                 ng-show="secDimensionLoadIcon['engagement_metrics'][customeReportData.idx]"></div>
                                         </div>
 
                                         <span ng-if="secondDimensionReportDataNotFound['engagement_metrics'][customeReportData.idx]"
@@ -945,10 +951,12 @@
                                             </div>
                                             <span class="sec_dimension_load_more"
                                                   ng-click="fetchMoreSecondDimensionData($event, metricValues.first_dimension.video_metrics[customeReportData.idx].value,customeReportData.idx, 1)"
-                                                  style="display:none;">
+                                                  ng-show="secDimensionLoadMore['video_metrics'][customeReportData.idx]"
+                                                  style="">
 												<a href="javascript:void(0);">Load more</a>
                                         </span>
-                                            <div class="sec_dimesnion_loadingIcon common-loading-area" style="margin-left:465px;display:none"></div>
+                                            <div class="sec_dimesnion_loadingIcon common-loading-area" style="margin-left:465px;"
+                                                 ng-show="secDimensionLoadIcon['video_metrics'][customeReportData.idx]"></div>
                                         </div>
 
                                         <span ng-if="secondDimensionReportDataNotFound['video_metrics'][customeReportData.idx]"
@@ -1003,10 +1011,12 @@
                                             </div>
                                             <span class="sec_dimension_load_more"
                                                   ng-click="fetchMoreSecondDimensionData($event, metricValues.first_dimension.display_quality_metrics[customeReportData.idx].value,customeReportData.idx, 1)"
-                                                  style="display:none;">
+                                                  ng-show="secDimensionLoadMore['display_quality_metrics'][customeReportData.idx]"
+                                                  style="">
 												<a href="javascript:void(0);">Load more</a>
                                         </span>
-                                            <div class="sec_dimesnion_loadingIcon common-loading-area" style="margin-left:465px;display:none"></div>
+                                            <div class="sec_dimesnion_loadingIcon common-loading-area" style="margin-left:465px;"
+                                                 ng-show="secDimensionLoadIcon['display_quality_metrics'][customeReportData.idx]"></div>
                                         </div>
                                         <span ng-if="secondDimensionReportDataNotFound['display_quality_metrics']
                                                 [customeReportData.idx]"
@@ -1061,10 +1071,12 @@
                                             </div>
                                             <span class="sec_dimension_load_more"
                                                   ng-click="fetchMoreSecondDimensionData($event, metricValues.first_dimension.video_quality_metrics[customeReportData.idx].value,customeReportData.idx, 1)"
-                                                  style="display:none;">
+                                                  ng-show="secDimensionLoadMore['video_quality_metrics'][customeReportData.idx]"
+                                                  style="">
 												<a href="javascript:void(0);">Load more</a>
                                         </span>
-                                            <div class="sec_dimesnion_loadingIcon common-loading-area" style="margin-left:465px;display:none"></div>
+                                            <div class="sec_dimesnion_loadingIcon common-loading-area" style="margin-left:465px;"
+                                                 ng-show="secDimensionLoadIcon['display_quality_metrics'][customeReportData.idx]"></div>
                                         </div>
 
                                         <span ng-if="secondDimensionReportDataNotFound['video_quality_metrics']
