@@ -7,7 +7,7 @@ var angObj = angObj || {};
                                                                constants, workflowService, $timeout, utils, $location,
                                                                campaignListService, requestCanceller, $filter,
                                                                loginModel, $q, dataService, apiPaths, audienceService,
-                                                               RoleBasedService, momentService) {
+                                                               RoleBasedService, momentService,vistoconfig) {
         // Flag to denote that ad format has changed
         $scope.adFormatChanged = false;
 
@@ -31,9 +31,14 @@ var angObj = angObj || {};
                     workflowService
                         .getCampaignData(campaignId)
                         .then(function (result) {
+
                             if (result.status === 'OK' || result.status === 'success') {
                                 var responseData = result.data.data;
-
+                                //redirect user to media plan list screen if new or edited ad is from archived campaign
+                                if(responseData.isArchived){
+                                    var url = vistoconfig.MEDIA_PLANS_LINK;
+                                    $location.url(url);
+                                }
                                 $scope.workflowData.campaignData = responseData;
                                 saveDataInLocalStorage(responseData);
                                 if ($scope.workflowData.campaignData.selectedObjectives &&

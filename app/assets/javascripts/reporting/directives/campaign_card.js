@@ -22,7 +22,7 @@
                         '/mediaplan/'+campaign.orderId+'/overview' :
                         '/mediaplans/'+campaign.orderId;
 
-                    if (event.ctrlKey || event.metaKey) {
+                    if (event && (event.ctrlKey || event.metaKey)) {
                         window.open(url, '_blank');
                     } else {
                         $location.url(url);
