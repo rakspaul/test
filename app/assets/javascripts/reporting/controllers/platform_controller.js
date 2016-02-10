@@ -15,6 +15,7 @@ var angObj = angObj || {};
         $scope.sortTypebyPerformance = '-impressions';
         $scope.sortTypebyCost = '-impressions';
         $scope.sortTypebyViewability = '-other_view_impressions';
+        $scope.sortTypebyMargin = '-impressions';
 //        $scope.sortTypeSubSort           = 'impressions'; // set the default sort type
 
         $scope.sortReverse = false; // set the default sort order
@@ -94,13 +95,17 @@ var angObj = angObj || {};
             if (Number($scope.selectedStrategy.id) >= 0) {
                 param.queryId = 24;
                 param.strategyId = Number($scope.selectedStrategy.id);
-            } else {
+            } else if ($scope.selected_tab === "margin") {
+                param.queryId = 40;
+            }
+              else {
                 param.queryId = 23;
             }
 
             $scope.performanceBusy = true;
             $scope.costBusy = true;
             $scope.viewabilityBusy = true;
+            $scope.marginBusy = true;
 
             var tab = $scope.selected_tab.substr(0, 1).toUpperCase() + $scope.selected_tab.substr(1);
 
@@ -121,6 +126,7 @@ var angObj = angObj || {};
                     $scope.videoMode = true;
                     $scope.costBusy = false;
                     $scope.viewabilityBusy = false;
+                    $scope.marginBusy = false;
 
                     if (/*$scope.isCostModelTransparent === false && */result.data.data.length === 0) {
                         errorHandlerForPerformanceTab();
@@ -250,6 +256,7 @@ var angObj = angObj || {};
             $scope.performanceBusy = false;
             $scope.costBusy = false;
             $scope.viewabilityBusy = false;
+            $scope.marginBusy = false;
 
             $scope.platformData = [];
             $scope.tacticPlatformData = [];
@@ -257,6 +264,7 @@ var angObj = angObj || {};
             $scope.dataNotFoundForPerformance = false;
             $scope.dataNotFoundForCost = false;
             $scope.dataNotFoundForViewability = false;
+            $scope.dataNotFoundForMargin = false;
         };
 
         //event handler which toggle platform
@@ -351,6 +359,16 @@ var angObj = angObj || {};
                         $scope.removeKpiActive();
                     }
                 }
+                else if ($scope.selected_tab === "margin") {
+                    if (jQuery.inArray($scope.sortTypebyCost, tabImps) != '-1') {
+                        $scope.sortTypebyMargin = $scope.sortTypebyMargin;
+                        $('.kpi-dd-holder').addClass("active");
+                    }
+                    else {
+                        $scope.sortTypebyMargin = $scope.sortTypebyMargin;
+                        $scope.removeKpiActive();
+                    }
+                }
                 if ($scope.selected_tab === "viewability") {
                     $(".view_mode_switch_container").show();
                     $(".lifetime_filter").css("display", "block");
@@ -402,6 +420,11 @@ var angObj = angObj || {};
             }
             else if ($scope.selected_tab === "cost") {
                 $scope.sortTypebyCost = args;
+                $scope.sortReverse = sortorder;
+//                $scope.sortTypeSubSort = args;
+            }
+            else if ($scope.selected_tab === "margin") {
+                $scope.sortTypebyMargin = args;
                 $scope.sortReverse = sortorder;
 //                $scope.sortTypeSubSort = args;
             }

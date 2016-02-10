@@ -114,7 +114,8 @@
                                 </div>
                                 <div class="row_list_holder">
                                     <div class="common-load-icon" ng-show="costBusy"></div>
-                                    <div class="clearfix each_row_list expandRow" ng-show="!costBusy" ng-repeat="platform in platformData | orderBy:sortTypebyCost:sortReverse track by $index" ng-include="'costTpl'"></div>
+                                    <div class="clearfix each_row_list expandRow" ng-show="!costBusy" ng-repeat="platform in platformData |
+                                    orderBy:sortTypebyCost:sortReverse track by $index" ng-include="'costTpl'"></div>
                                 </div>
                             </div>
                             <div class="all_strategies_holder" ng-show="!costBusy">
@@ -176,7 +177,7 @@
                 <!-- -------START :  Margin Block ----------------------------- -->
 
                     <div class="reports_block" id="reports_platform_margin_block" style="display:none; position:relative; overflow-x:scroll; border:1px solid #F2F2F2">
-                    <div class="no_data_found" ng-if="dataNotFoundForViewability" ng-bind-html="getMessageForDataNotAvailable(selectedCampaign)"></div>
+                    <div class="no_data_found" ng-if="dataNotFoundForMargin" ng-bind-html="getMessageForDataNotAvailable(selectedCampaign)"></div>
 
 
                     <div class="reports_details_outer_container" style="overflow:auto; width:1480px;">
@@ -186,25 +187,24 @@
                         </div>
                         <div class="strategy_total_container ">
                             <div class="strategy_total_container_header clearfix">
-                                <div class="each_col first_col" ng-hide="viewabilityBusy">
+                                <div class="each_col first_col" ng-hide="marginBusy">
                                     {{strategyHeading}}:
                                 </div>
                                 <div class="row_list_holder">
-                                    <div class="common-load-icon" ng-show="viewabilityBusy"></div>
-                                    <div ng-show="!viewabilityBusy" ng-if="!adFormats.videoAds ||  !videoMode" class="clearfix each_row_list expandRow" ng-repeat="platform in platformData | orderBy:sortTypebyViewability:sortReverse  track by $index"  ng-include="'marginTpl'"></div>
-                                    <div ng-show="!viewabilityBusy" ng-if="adFormats.videoAds && videoMode" class="clearfix each_row_list expandRow" ng-repeat="platform in platformData | orderBy:sortTypebyViewability:sortReverse  track by $index"  ng-include="'marginTpl'"></div>
+                                    <div class="common-load-icon" ng-show="marginBusy"></div>
+                                    <div ng-show="!marginBusy"  class="clearfix each_row_list expandRow" ng-repeat="platform in platformData | orderBy:sortTypebyMargin:sortReverse  track by $index"  ng-include="'marginTpl'"></div>
                                 </div>
 
                             </div>
-                            <div class="all_strategies_holder" ng-show="!viewabilityBusy">
-                                <div class="each_strategy_holder clearfix" ng-repeat="platform in tacticPlatformData | orderBy:sortTypebyViewability:sortReverse track by $index" ng-if="platform.ad_id">
+                            <div class="all_strategies_holder" ng-show="!marginBusy">
+                                <div class="each_strategy_holder clearfix" ng-repeat="platform in tacticPlatformData | orderBy:sortTypebyMargin:sortReverse track by $index" ng-if="platform.ad_id">
                                     <div class="linkage_bar"></div>
                                     <div class="each_strategy clearfix">
                                         <div class="each_col first_col">
                                             {{platform.ad_name}}
                                         </div>
                                         <div class="row_list_holder">
-                                            <div ng-if="!adFormats.videoAds || !videoMode" class="clearfix each_row_list expandRow" ng-include="'marginTpl'"></div>
+                                            <div class="clearfix each_row_list expandRow" ng-include="'marginTpl'"></div>
 
                                         </div>
                                     </div>
@@ -407,40 +407,40 @@
             <span class="plat_name" title="">{{platform.platform_name}}</span>
         </div>
 
-        <div class="each_col second_coldata delivered_col">
-            <span class="icon_text_holder">$200.00</span>
+        <div class="each_col second_coldata">
+            <span class="icon_text_holder">{{platform.spend | nrFormat}}</span>
         </div>
 
-        <div class="each_col third_coldata delivered_col">
-            <span class="icon_text_holder" >$999.00</span>
+        <div class="each_col third_coldata">
+            <span class="icon_text_holder">{{platform.margin | nrFormat}}</span>
         </div>
 
-        <div class="each_col forth_col measurable_col" >
+        <div class="each_col forth_col" >
             <div class="sub_coldata">
-                <span class="icon_text_holder">0.20</span>
-                <span class="icon_text_holder">22.5</span>
-                <span class="icon_text_holder">9999</span>
+                <span class="icon_text_holder">{{platform.CTR | number:2}}%</span>
+                <span class="icon_text_holder">{{platform.CPC | currency:undefined:2}}</span>
+                <span class="icon_text_holder">{{platform.clicks | nrFormant}}</span>
             </div>
         </div>
 
         <div class="each_col forth_col">
             <div class="sub_coldata">
-                <span class="icon_text_holder">0.20</span>
-                <span class="tooltip_holder icon_text_holder">22.5</span>
-                <span class="tooltip_holder icon_text_holder">10000</span>
+                <span class="icon_text_holder">{{platform.CTR | number:2}}%<</span>
+                <span class="tooltip_holder icon_text_holder">{{platform.CPMv | currency:undefined:2}}</span>
+                <span class="tooltip_holder icon_text_holder">{{platform.CPM | nrFormat}}</span>
             </div>
         </div>
         <div class="each_col forth_col">
             <div class="sub_coldata">
-                <span class="icon_text_holder">0.25</span>
-                <span class="tooltip_holder icon_text_holder">3.33</span>
-                <span class="tooltip_holder icon_text_holder">900</span>
+                <span class="icon_text_holder">{{platform.CPM | currency:undefined:2}}</span>
+                <span class="tooltip_holder icon_text_holder">{{platform.CPA | currency:undefined:2}}</span>
+                <span class="tooltip_holder icon_text_holder">{{platform.action | nrFormat}}</span>
             </div>
         </div>
         <div class="each_col seventhMargin_col">
             <div class="sub_coldata">
-                <span class="icon_text_holder">10000</span>
-                <span class="tooltip_holder icon_text_holder">22.5</span>
+                <span class="icon_text_holder">{{platform.impressions |  nrFormat}}</span>
+                <span class="tooltip_holder icon_text_holder">{{platform.CPM | currency:undefined:2}}</span>
             </div>
         </div>
     </div>
