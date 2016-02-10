@@ -92,6 +92,7 @@
                                                                         <span class="icon-arrow-down-thick" ng-click="showSubCategory($event)" style="margin-right: 0;cursor:pointer;"></span>
                                                                         <span style="width: auto;float: none; padding-left: 0;">{{category.category  | limitTo:40}} {{(category.category.length > 40)? '...':'' }} ({{(category.subCategories.length > 0 && category.subCategories[0].subCategory != null)? category.subCategories.length: 0}})</span>
                                                                     </span>
+
                                                 <ul ng-if="(category.subCategories.length > 0 && category.subCategories[0].subCategory != null)" style="display:none">
                                                     <li ng-repeat="sub in category.subCategories"><span tooltip-placement="top" title="{{sub.subCategory}}"><input type="checkbox" ng-click="selectCategories(sub,'subcategory',category)" ng-checked="sub.isChecked" tooltip="asdf">{{sub.subCategory | limitTo:35}} {{(sub.subCategory.length > 35)? '...':'' }} </span></li>
                                                 </ul>
@@ -104,6 +105,7 @@
                                         </div>
                                     </div>
                                 </ul>
+
                                 </div>
                             </div>
                         </div>
