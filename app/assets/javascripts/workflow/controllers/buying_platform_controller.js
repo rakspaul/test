@@ -140,7 +140,6 @@ var angObj = angObj || {};
             $scope.selectedPlatform = {};
             workflowService.setPlatform(platform);
             //audience targetting
-            $rootScope.$emit('triggerAudienceLoading');
             if ($scope.mode != 'edit' || ($scope.defaultPlatform && $scope.defaultPlatform.id !== platform.id)) {
                 $scope.$parent.TrackingIntegrationsSelected = false;
             }
