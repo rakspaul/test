@@ -24,7 +24,8 @@ var angObj = angObj || {};
         $scope.IncorrectTag = false;
         $scope.showDuplicateTagPopup = false;
         $scope.campaignId = $routeParams.campaignId;
-        $scope.loadCreativeData=false;;
+        $scope.loadCreativeData=false;
+        $scope.deletePopup=false;
 
 
         var creativeList = {
@@ -37,15 +38,22 @@ var angObj = angObj || {};
                             $scope.creativeListLoading = false;
                             $scope.creativesNotFound = false;
                             if($scope.creativeData['creatives'].length === 0) {
-                                $scope.creativeData['creatives'] = result.data.data
+                                $scope.creativeData['creatives'] = result.data.data;
                                 $scope.pageNo ++;
                             } else {
-                                _.each(result.data.data , function (obj) {
-                                    $scope.creativeData['creatives'].push(obj);
-                                });
-                                $scope.pageNo ++;
-                                $scope.loadCreativeData=false;
+                                if(result.data.data &&result.data.data.length>0){
+                                    var alreadyFound=_.filter($scope.creativeData['creatives'], function (obj) {
+                                        return obj.id === result.data.data[0].id;
+                                    })
+                                    if(alreadyFound<=0){
+                                        _.each(result.data.data , function (obj) {
+                                            $scope.creativeData['creatives'].push(obj);
+                                        });
+                                        $scope.pageNo ++;
+                                    }
+                                    $scope.loadCreativeData=false;
 
+                                }
                             }
 
                             $scope.creativeData.creatives_count += result.data.data.length;
@@ -67,6 +75,22 @@ var angObj = angObj || {};
                     });
 
                 },
+            deleteCreatives:function(clientId, creativeIds){
+                workflowService
+                    .deleteCreatives(clientId,creativeIds)
+                    .then(function(result){
+                        if (result.status === 'OK' || result.status === 'success') {
+                            window.location.reload();
+                            //var selectedClientObj = localStorage.selectedClient && JSON.parse(localStorage.selectedClient);
+                            //if(selectedClientObj){
+                            //    creativeList.getCreativesList(JSON.parse(localStorage.selectedClient).id,"", "",20,1);
+                            //}
+                        }else {
+                            creativeList.errorHandler();
+                        }
+                    })
+
+            },
 
 
             errorHandler: function () {
@@ -77,20 +101,25 @@ var angObj = angObj || {};
             }
         };
         $scope.selectAllCreative=function(){
-            if($scope.creativeData.creatives[0].active){
+            if($('#select_all_checkbox').prop("checked")==false){
                 for(var i in $scope.creativeData.creatives){
+                   if( $scope.creativeData.creatives[i].pushedCount<=0){
                     $scope.creativeData.creatives[i].active=false;
+                   }
                 }
+                checkedCreativeArr=[];
             }else{
                 for(var i in $scope.creativeData.creatives){
-                    $scope.creativeData.creatives[i].active=true;
+                    if($scope.creativeData.creatives[i].pushedCount<=0) {
+                        $scope.creativeData.creatives[i].active = true;
+                    }
                 }
                 $scope.selectedCreativeCheckbox("","allSelected")
             }
         }
         $scope.selectedCreativeCheckbox=function(creative,selectedType){
             if(selectedType!="allSelected"){
-               var creativeAlreadySelected = checkedCreativeArr.indexOf(creative.id)
+               var creativeAlreadySelected = checkedCreativeArr.indexOf(creative.id);
                 if(creativeAlreadySelected===-1){
                     checkedCreativeArr.push(creative.id)
                 }else{
@@ -99,11 +128,26 @@ var angObj = angObj || {};
             }else{
                 checkedCreativeArr=[];
                 for(var i in $scope.creativeData.creatives){
-                    checkedCreativeArr.push($scope.creativeData.creatives[i].id);
+                    if($scope.creativeData.creatives[i].pushedCount<=0) {
+                        checkedCreativeArr.push($scope.creativeData.creatives[i].id);
+                    }
                 }
             }
 
         }
+        $scope.deleteCreatives=function(){
+            $scope.deletePopup=!$scope.deletePopup;
+            var postDataObj = {};
+            postDataObj.idList=checkedCreativeArr;
+            var selectedClientObj = localStorage.selectedClient && JSON.parse(localStorage.selectedClient);
+            if(selectedClientObj){
+                creativeList.deleteCreatives(JSON.parse(localStorage.selectedClient).id,postDataObj);
+            }
+        }
+        $scope.cancelDelete=function(){
+            $scope.deletePopup=!$scope.deletePopup;
+        }
+
 
         $scope.resetAlertMessage = function (){
            localStorage.removeItem('topAlertMessage');

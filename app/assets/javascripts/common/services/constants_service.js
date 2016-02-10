@@ -102,6 +102,7 @@
         this.CREATIVES = "Creatives";
         this.VIDEO_PLAYS = "Video Plays";
         this.AD_SIZES = "Ad Sizes";
+        this.DELETE_CREATIVES="Are you sure you want to delete creatives?"
 
         this.COLLECTIVE_INSIGHTS = "Collective Insights";
         this.UPLOAD_REPORT = "Upload Report";
