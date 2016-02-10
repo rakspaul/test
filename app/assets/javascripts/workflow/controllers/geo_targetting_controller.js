@@ -28,7 +28,6 @@ var angObj = angObj || {};
             {'name': 'Other', 'enable': false}
         ];
 
-
         var citiesListArray = [],
             regionsListArray = [],
             dmasListArray = [],
@@ -198,52 +197,46 @@ var angObj = angObj || {};
                 return addedZipCodes;
             };
 
-        $scope.$on('deleteGeoTarget',function () {
-            $scope.deleteGeography();
-            workflowService.resetSavedGeo();
-            $scope.adData.geoTargetingData=null;
-            $scope.adData.isGeographySelected=null;
-        })
 
-        function geoTargetSummaryCardStr(geoTargetingData){
+        function geoTargetSummaryCardStr(geoTargetingData) {
             var includeStr = '';
             var excludeStr = '';
-            if(geoTargetingData.selected.previewData.include){
-                if(geoTargetingData.selected.previewData.include.regions && geoTargetingData.selected.previewData.include.regions.length > 0){
-                    includeStr += (geoTargetingData.selected.previewData.include.regions.length == 1)? geoTargetingData.selected.previewData.include.regions.length + ' Region ':geoTargetingData.selected.previewData.include.regions.length + ' Regions ';
+            if (geoTargetingData.selected.previewData.include) {
+                if (geoTargetingData.selected.previewData.include.regions && geoTargetingData.selected.previewData.include.regions.length > 0) {
+                    includeStr += (geoTargetingData.selected.previewData.include.regions.length == 1) ? geoTargetingData.selected.previewData.include.regions.length + ' Region ' : geoTargetingData.selected.previewData.include.regions.length + ' Regions ';
                 }
-                if(geoTargetingData.selected.previewData.include.cities && geoTargetingData.selected.previewData.include.cities.length > 0){
-                    includeStr += (geoTargetingData.selected.previewData.include.cities.length == 1)? geoTargetingData.selected.previewData.include.cities.length + ' city ':geoTargetingData.selected.previewData.include.cities.length + ' cities ';
+                if (geoTargetingData.selected.previewData.include.cities && geoTargetingData.selected.previewData.include.cities.length > 0) {
+                    includeStr += (geoTargetingData.selected.previewData.include.cities.length == 1) ? geoTargetingData.selected.previewData.include.cities.length + ' city ' : geoTargetingData.selected.previewData.include.cities.length + ' cities ';
                 }
-                if(geoTargetingData.selected.previewData.include.zipCodes && geoTargetingData.selected.previewData.include.zipCodes.length > 0  && geoTargetingData.selected.previewData.include.zipCodes[0].values.length > 0){
-                    includeStr += (geoTargetingData.selected.previewData.include.zipCodes[0].values.length == 1)? geoTargetingData.selected.previewData.include.zipCodes[0].values.length + ' Postal code ':geoTargetingData.selected.previewData.include.zipCodes[0].values.length + ' Postal codes ';
+                if (geoTargetingData.selected.previewData.include.zipCodes && geoTargetingData.selected.previewData.include.zipCodes.length > 0 && geoTargetingData.selected.previewData.include.zipCodes[0].values.length > 0) {
+                    includeStr += (geoTargetingData.selected.previewData.include.zipCodes[0].values.length == 1) ? geoTargetingData.selected.previewData.include.zipCodes[0].values.length + ' Postal code ' : geoTargetingData.selected.previewData.include.zipCodes[0].values.length + ' Postal codes ';
                 }
-                if(geoTargetingData.selected.previewData.include.dmas && geoTargetingData.selected.previewData.include.dmas.length > 0){
-                    includeStr += (geoTargetingData.selected.previewData.include.dmas.length == 1)? geoTargetingData.selected.previewData.include.dmas.length + ' Metro ':geoTargetingData.selected.previewData.include.dmas.length + ' Metros ';
+                if (geoTargetingData.selected.previewData.include.dmas && geoTargetingData.selected.previewData.include.dmas.length > 0) {
+                    includeStr += (geoTargetingData.selected.previewData.include.dmas.length == 1) ? geoTargetingData.selected.previewData.include.dmas.length + ' Metro ' : geoTargetingData.selected.previewData.include.dmas.length + ' Metros ';
                 }
                 geoTargetingData.selected.previewData.includeStr = includeStr;
             }
 
-            if(geoTargetingData.selected.previewData.exclude){
-                if(geoTargetingData.selected.previewData.exclude.regions && geoTargetingData.selected.previewData.exclude.regions.length > 0){
-                    excludeStr += (geoTargetingData.selected.previewData.exclude.regions.length == 1)? geoTargetingData.selected.previewData.exclude.regions.length + ' Region ':geoTargetingData.selected.previewData.exclude.regions.length + ' Regions ';
+            if (geoTargetingData.selected.previewData.exclude) {
+                if (geoTargetingData.selected.previewData.exclude.regions && geoTargetingData.selected.previewData.exclude.regions.length > 0) {
+                    excludeStr += (geoTargetingData.selected.previewData.exclude.regions.length == 1) ? geoTargetingData.selected.previewData.exclude.regions.length + ' Region ' : geoTargetingData.selected.previewData.exclude.regions.length + ' Regions ';
                 }
-                if(geoTargetingData.selected.previewData.exclude.cities && geoTargetingData.selected.previewData.exclude.cities.length > 0){
-                    excludeStr += (geoTargetingData.selected.previewData.exclude.cities.length == 1)? geoTargetingData.selected.previewData.exclude.cities.length + ' city ':geoTargetingData.selected.previewData.exclude.cities.length + ' cities ';
+                if (geoTargetingData.selected.previewData.exclude.cities && geoTargetingData.selected.previewData.exclude.cities.length > 0) {
+                    excludeStr += (geoTargetingData.selected.previewData.exclude.cities.length == 1) ? geoTargetingData.selected.previewData.exclude.cities.length + ' city ' : geoTargetingData.selected.previewData.exclude.cities.length + ' cities ';
                 }
-                if(geoTargetingData.selected.previewData.exclude.zipCodes && geoTargetingData.selected.previewData.exclude.zipCodes.length > 0 && geoTargetingData.selected.previewData.exclude.zipCodes[0].values.length > 0){
-                    excludeStr += (geoTargetingData.selected.previewData.exclude.zipCodes[0].values.length == 1)? geoTargetingData.selected.previewData.exclude.zipCodes[0].values.length + ' Postal code ':geoTargetingData.selected.previewData.exclude.zipCodes[0].values.length + ' Postal codes ';
+                if (geoTargetingData.selected.previewData.exclude.zipCodes && geoTargetingData.selected.previewData.exclude.zipCodes.length > 0 && geoTargetingData.selected.previewData.exclude.zipCodes[0].values.length > 0) {
+                    excludeStr += (geoTargetingData.selected.previewData.exclude.zipCodes[0].values.length == 1) ? geoTargetingData.selected.previewData.exclude.zipCodes[0].values.length + ' Postal code ' : geoTargetingData.selected.previewData.exclude.zipCodes[0].values.length + ' Postal codes ';
                 }
-                if(geoTargetingData.selected.previewData.exclude.dmas && geoTargetingData.selected.previewData.exclude.dmas.length > 0){
-                    excludeStr += (geoTargetingData.selected.previewData.exclude.dmas.length == 1)? geoTargetingData.selected.previewData.exclude.dmas.length + ' Metro ':geoTargetingData.selected.previewData.exclude.dmas.length + ' Metros ';
+                if (geoTargetingData.selected.previewData.exclude.dmas && geoTargetingData.selected.previewData.exclude.dmas.length > 0) {
+                    excludeStr += (geoTargetingData.selected.previewData.exclude.dmas.length == 1) ? geoTargetingData.selected.previewData.exclude.dmas.length + ' Metro ' : geoTargetingData.selected.previewData.exclude.dmas.length + ' Metros ';
                 }
                 geoTargetingData.selected.previewData.excludeStr = excludeStr;
             }
-
-        }
+        };
 
         $scope.regionEdit = function (flatArr) {
             var regionsEditable;
+            $scope.storedResponse = angular.copy(workflowService.getAdsDetails());
             var geoTargets = $scope.storedResponse.targets.geoTargets;
             if (geoTargets && _.size(geoTargets) > 0 && geoTargets.REGION) {
                 regionsEditable = angular.copy(geoTargets.REGION.geoTargetList);
@@ -274,6 +267,7 @@ var angObj = angObj || {};
                 });
                 $scope.saveGeography(1);
             }
+            $scope.saveGeography(1);
         };
 
         $scope.dmasEdit = function (flatArr) {
@@ -287,6 +281,7 @@ var angObj = angObj || {};
                 });
                 $scope.saveGeography(1);
             }
+            $scope.saveGeography(1);
         };
 
         $scope.zipEdit = function (flatArr) {
@@ -303,21 +298,7 @@ var angObj = angObj || {};
                 $scope.adData.zipCodes = zipEditable.toString();
                 $scope.addZipCode();
             }
-            zipInitialLoad = true;
         };
-
-        $scope.updateGeoTargets = function () {
-          $('#geographyTargeting')
-            .show()
-            .delay(300).animate({
-                left: '50%',
-                marginLeft: '-461px',
-                opacity: '1.0'
-            }, 'slow');
-        };
-
-
-
 
         $scope.isChecked = function (id, type) {
             var match = false,
@@ -336,7 +317,7 @@ var angObj = angObj || {};
                 i;
 
             if (bool) {
-                item[type + 'Included'] = $scope[type +'Included'];
+                item[type + 'Included'] = $scope[type + 'Included'];
                 index = _.findIndex($scope.geoTargetingData.selected[type], function (obj) {
                     return item.id === obj.id;
                 });
@@ -354,6 +335,7 @@ var angObj = angObj || {};
         };
 
         $scope.resetGeoTargetingVariables = function ($event) {
+            console.log("resetGeoTargetingVariables")
             if ($event && $scope.mode === 'edit') {
                 // do nothing just wait and watch
             } else {
@@ -604,7 +586,7 @@ var angObj = angObj || {};
             if (flag !== 'cancellable') {
                 flag = 'normal';
             }
-            if(event) {
+            if (event) {
                 $scope.selectedTab = 'cities';
                 citiesListArray = [];
             }
@@ -863,6 +845,7 @@ var angObj = angObj || {};
             if (selectedTargtingData.zip.length > 0) {
                 selectedTargtingData.zipCodes = [{'values': selectedTargtingData.zip}];
             }
+            //$scope.geoTargetingData.selected['zip'] = selectedTargtingData.zipCodes;
             delete selectedTargtingData.zip;
             obj.include = {};
             obj.exclude = {};
@@ -1034,6 +1017,7 @@ var angObj = angObj || {};
         $scope.$on('deleteGeoTarget', function () {
             $scope.deleteGeography();
             workflowService.resetSavedGeo();
+            $scope.adData.geoTargetingData = null;
             $scope.adData.isGeographySelected = null;
         })
 
