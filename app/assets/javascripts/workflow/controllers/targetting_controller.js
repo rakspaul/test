@@ -237,7 +237,6 @@ var angObj = angObj || {};
             if (($scope.isPlatformId === 1) || ($scope.adData.platformId === 25)) {
                 $scope.showCitiesTab = false;  // Hide Cities Tab for Visto Bidder (platform Id 25)
                 $scope.showSwitchBox = false;
-
             }
         });
     });
