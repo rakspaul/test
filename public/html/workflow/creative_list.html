@@ -13,14 +13,14 @@
 		<!--</div>-->
 		
 		<div class="col-md-12 zeroPadding">
-			<h1 class="col-md-12 zeroPadding" style="margin-bottom: 50px;">Creative Library ({{creativeData.creatives_count || 0}})</h1>
+			<h1 class="col-md-12 zeroPadding" style="margin-bottom: 50px;">Creative Library </h1>
 		</div>
 		
 		<div class="col-md-12 zeroPadding btn_list_filters">
 			<div class="btn-group" role="group" aria-label="...">
 				<a href="/creative/add" role="button" class="btn btn-default"><span class="icon-plus"></span><span>Create</span></a>
 				<button type="button" class="btn btn-default" style="display: none"><span class="icon-inline-edit"></span><span>Edit</span></button>
-				<button type="button" class="btn btn-default"><span class="icon-archive"></span><span>Archive</span></button>
+				<button type="button" class="btn btn-default" ng-click="cancelDelete();"><span class="icon-archive"></span><span>Archive</span></button>
 				<button type="button" class="btn btn-default" disabled="true"><span class="icon-copy"></span><span>Clone</span></button>
 				<div class="btn btn-default zeroPadding dropdown-workflow pull-left" style="display: none">
 					<div class="dropdown">
@@ -61,7 +61,7 @@
 			    <div class="thead">
 					<div class="tr">
 						<div class="col-md-3 th">
-						<input type="checkbox" ng-click="selectAllCreative()"/>
+						<input type="checkbox" id="select_all_checkbox" ng-click="selectAllCreative()"/>
 						<!--<span class="icon-arrow-down-thick" ng-click="headerToggle();"></span>-->
 						<span style="margin-left: 25px;">Creative Name</span>
 						</div>
@@ -86,7 +86,7 @@
 				<div ng-if="!creativeListLoading" ng-repeat="creativeData in creativeData.creatives" class="tr">
 				    <!--Creative Name-->
 				    <div class="col-md-3 td shadowLeft">
-					<input type="checkbox" ng-checked="creativeData.active" ng-click="selectedCreativeCheckbox(creativeData)"/>
+					<input type="checkbox" ng-disabled="creativeData.pushedCount>0" ng-checked="creativeData.active" ng-click="selectedCreativeCheckbox(creativeData)"/>
 					<span class="icon-arrow-down-thick" ng-click="toggleCreativeAds(this,creativeData.id, $index,$event)"></span>
 					<a href="javascript:void(0);" ng-click="ShowHideTag(creativeData, $index)">{{creativeData.name}}</a>
 					<div class="script_tag">
@@ -105,7 +105,8 @@
 				    </div>
 				    <!--Ad Server-->
 				    <div class="col-md-1 td text-center">
-					<span> <img style="max-height: 35px;max-width: 70px;" ng-src="{{creativeData.adServer.iconUrl}}"/> </span>
+					<span ng-if="creativeData.isTracking" >Tracking-Only</span>
+					<span ng-if="!creativeData.isTracking"> <img ng-if="!(creativeData.isTracking)" style="max-height: 35px;max-width: 70px;" ng-src="{{creativeData.adServer.iconUrl}}"/> </span>
 				    </div>
 				    <!--Sizes-->
 				    <div class="col-md-1 td text-center">
@@ -221,18 +222,24 @@
 	  </div>
     </div>
 
-	<div class="about_popup popup-holder" ng-show="showDuplicateTagPopup">
-		<div class="modal-header">
-			<h2 class="modal-title">{{textConstant.WF_DUPLICATE_TAG}}</h2>
-		</div>
-		<div class="modal-body">
-			<div class="data_row">
-				{{textConstants.WF_CREATIVE_TAG_ALREADY_EXISTS}}
+
+</div>
+</div>
+<div class="common-popup-container" ng-show="deletePopup">
+	<div class="popup">
+		<div class="popup-header-body">
+			<div class="clearfix">
+				<h1 class="pull-left">Creatives Delete</h1>
+				<span class="close unselectable" aria-hidden="true" ng-click="cancelDelete()" >x</span>
 			</div>
-		</div><!-- end of modal_body -->
-		<div class="clearfix popup-btns-holder">
-			<span class="common_primary_btn" ng-click="saveDuplicate()">Save</span>
-			<span class="secondary_txt" ng-click="cancelDuplicate()">Cancel</span>
+			<div class="popup-content">
+				{{textConstants.DELETE_CREATIVES}}
+			</div>
 		</div>
-	</div> <!-- end of popup-holder -->
+		<div class="clearfix popup-footer" >
+			<button type="button" ng-click="deleteCreatives($event)" class="common_primary_btn pull-right" >Archive</button>
+			<button type="button" ng-click="cancelDelete()"class="secondary_txt pull-right" >Cancel</button>
+		</div>
+
+	</div>
 </div>
