@@ -197,28 +197,22 @@ var angObj = angObj || {};
                 return addedZipCodes;
             };
 
-        $scope.$on('deleteGeoTarget',function () {
-            $scope.deleteGeography();
-            workflowService.resetSavedGeo();
-            $scope.adData.geoTargetingData=null;
-            $scope.adData.isGeographySelected=null;
-        })
 
-        function geoTargetSummaryCardStr(geoTargetingData){
+        function geoTargetSummaryCardStr(geoTargetingData) {
             var includeStr = '';
             var excludeStr = '';
-            if(geoTargetingData.selected.previewData.include){
-                if(geoTargetingData.selected.previewData.include.regions && geoTargetingData.selected.previewData.include.regions.length > 0){
-                    includeStr += (geoTargetingData.selected.previewData.include.regions.length == 1)? geoTargetingData.selected.previewData.include.regions.length + ' Region ':geoTargetingData.selected.previewData.include.regions.length + ' Regions ';
+            if (geoTargetingData.selected.previewData.include) {
+                if (geoTargetingData.selected.previewData.include.regions && geoTargetingData.selected.previewData.include.regions.length > 0) {
+                    includeStr += (geoTargetingData.selected.previewData.include.regions.length == 1) ? geoTargetingData.selected.previewData.include.regions.length + ' Region ' : geoTargetingData.selected.previewData.include.regions.length + ' Regions ';
                 }
-                if(geoTargetingData.selected.previewData.include.cities && geoTargetingData.selected.previewData.include.cities.length > 0){
-                    includeStr += (geoTargetingData.selected.previewData.include.cities.length == 1)? geoTargetingData.selected.previewData.include.cities.length + ' city ':geoTargetingData.selected.previewData.include.cities.length + ' cities ';
+                if (geoTargetingData.selected.previewData.include.cities && geoTargetingData.selected.previewData.include.cities.length > 0) {
+                    includeStr += (geoTargetingData.selected.previewData.include.cities.length == 1) ? geoTargetingData.selected.previewData.include.cities.length + ' city ' : geoTargetingData.selected.previewData.include.cities.length + ' cities ';
                 }
-                if(geoTargetingData.selected.previewData.include.zipCodes && geoTargetingData.selected.previewData.include.zipCodes.length > 0  && geoTargetingData.selected.previewData.include.zipCodes[0].values.length > 0){
-                    includeStr += (geoTargetingData.selected.previewData.include.zipCodes[0].values.length == 1)? geoTargetingData.selected.previewData.include.zipCodes[0].values.length + ' Postal code ':geoTargetingData.selected.previewData.include.zipCodes[0].values.length + ' Postal codes ';
+                if (geoTargetingData.selected.previewData.include.zipCodes && geoTargetingData.selected.previewData.include.zipCodes.length > 0 && geoTargetingData.selected.previewData.include.zipCodes[0].values.length > 0) {
+                    includeStr += (geoTargetingData.selected.previewData.include.zipCodes[0].values.length == 1) ? geoTargetingData.selected.previewData.include.zipCodes[0].values.length + ' Postal code ' : geoTargetingData.selected.previewData.include.zipCodes[0].values.length + ' Postal codes ';
                 }
-                if(geoTargetingData.selected.previewData.include.dmas && geoTargetingData.selected.previewData.include.dmas.length > 0){
-                    includeStr += (geoTargetingData.selected.previewData.include.dmas.length == 1)? geoTargetingData.selected.previewData.include.dmas.length + ' Metro ':geoTargetingData.selected.previewData.include.dmas.length + ' Metros ';
+                if (geoTargetingData.selected.previewData.include.dmas && geoTargetingData.selected.previewData.include.dmas.length > 0) {
+                    includeStr += (geoTargetingData.selected.previewData.include.dmas.length == 1) ? geoTargetingData.selected.previewData.include.dmas.length + ' Metro ' : geoTargetingData.selected.previewData.include.dmas.length + ' Metros ';
                 }
                 geoTargetingData.selected.previewData.includeStr = includeStr;
             }
@@ -228,14 +222,14 @@ var angObj = angObj || {};
                 if(geoTargetingData.selected.previewData.exclude.regions && geoTargetingData.selected.previewData.exclude.regions.length > 0){
                     excludeStr += (geoTargetingData.selected.previewData.exclude.regions.length == 1)? geoTargetingData.selected.previewData.exclude.regions.length + ' Region ':geoTargetingData.selected.previewData.exclude.regions.length + ' Regions ';
                 }
-                if(geoTargetingData.selected.previewData.exclude.cities && geoTargetingData.selected.previewData.exclude.cities.length > 0){
-                    excludeStr += (geoTargetingData.selected.previewData.exclude.cities.length == 1)? geoTargetingData.selected.previewData.exclude.cities.length + ' city ':geoTargetingData.selected.previewData.exclude.cities.length + ' cities ';
+                if (geoTargetingData.selected.previewData.exclude.cities && geoTargetingData.selected.previewData.exclude.cities.length > 0) {
+                    excludeStr += (geoTargetingData.selected.previewData.exclude.cities.length == 1) ? geoTargetingData.selected.previewData.exclude.cities.length + ' city ' : geoTargetingData.selected.previewData.exclude.cities.length + ' cities ';
                 }
-                if(geoTargetingData.selected.previewData.exclude.zipCodes && geoTargetingData.selected.previewData.exclude.zipCodes.length > 0 && geoTargetingData.selected.previewData.exclude.zipCodes[0].values.length > 0){
-                    excludeStr += (geoTargetingData.selected.previewData.exclude.zipCodes[0].values.length == 1)? geoTargetingData.selected.previewData.exclude.zipCodes[0].values.length + ' Postal code ':geoTargetingData.selected.previewData.exclude.zipCodes[0].values.length + ' Postal codes ';
+                if (geoTargetingData.selected.previewData.exclude.zipCodes && geoTargetingData.selected.previewData.exclude.zipCodes.length > 0 && geoTargetingData.selected.previewData.exclude.zipCodes[0].values.length > 0) {
+                    excludeStr += (geoTargetingData.selected.previewData.exclude.zipCodes[0].values.length == 1) ? geoTargetingData.selected.previewData.exclude.zipCodes[0].values.length + ' Postal code ' : geoTargetingData.selected.previewData.exclude.zipCodes[0].values.length + ' Postal codes ';
                 }
-                if(geoTargetingData.selected.previewData.exclude.dmas && geoTargetingData.selected.previewData.exclude.dmas.length > 0){
-                    excludeStr += (geoTargetingData.selected.previewData.exclude.dmas.length == 1)? geoTargetingData.selected.previewData.exclude.dmas.length + ' Metro ':geoTargetingData.selected.previewData.exclude.dmas.length + ' Metros ';
+                if (geoTargetingData.selected.previewData.exclude.dmas && geoTargetingData.selected.previewData.exclude.dmas.length > 0) {
+                    excludeStr += (geoTargetingData.selected.previewData.exclude.dmas.length == 1) ? geoTargetingData.selected.previewData.exclude.dmas.length + ' Metro ' : geoTargetingData.selected.previewData.exclude.dmas.length + ' Metros ';
                 }
                 geoTargetingData.selected.previewData.excludeStr = excludeStr;
             }
@@ -323,7 +317,7 @@ var angObj = angObj || {};
                 i;
 
             if (bool) {
-                item[type + 'Included'] = $scope[type +'Included'];
+                item[type + 'Included'] = $scope[type + 'Included'];
                 index = _.findIndex($scope.geoTargetingData.selected[type], function (obj) {
                     return item.id === obj.id;
                 });
@@ -658,7 +652,7 @@ var angObj = angObj || {};
             $scope.selectedTab = 'regions';
             $scope.showSwitch = true;
 
-            if (flag  !== 'cancellable') {
+            if (flag !== 'cancellable') {
                 flag = 'normal';
             }
 
@@ -851,6 +845,7 @@ var angObj = angObj || {};
             if (selectedTargtingData.zip.length > 0) {
                 selectedTargtingData.zipCodes = [{'values': selectedTargtingData.zip}];
             }
+            //$scope.geoTargetingData.selected['zip'] = selectedTargtingData.zipCodes;
             delete selectedTargtingData.zip;
             obj.include = {};
             obj.exclude = {};

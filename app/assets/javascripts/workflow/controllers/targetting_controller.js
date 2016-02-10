@@ -27,7 +27,6 @@ var angObj = angObj || {};
         };
 
 
-
         _targeting.setTargetingForPreview = function(targetingName) {
             $scope.selectedTargeting = {};
             $scope.adData.targetName = targetingName;
