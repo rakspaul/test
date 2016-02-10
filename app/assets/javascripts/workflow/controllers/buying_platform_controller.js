@@ -243,7 +243,7 @@ var angObj = angObj || {};
             $scope.setPlatform(null, tempPlatform);
             $scope.changePlatformPopup = false;
             storedResponse.targets.geoTargets = {};
-            $scope.$broadcast('resetGeoTags');
+            $rootScope.$broadcast('resetGeoTargeting');
             $scope.platformCustomInputs();
         };
 
