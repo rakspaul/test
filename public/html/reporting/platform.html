@@ -230,51 +230,50 @@
             <span class="plat_name" title="{{platform.platform_name}}">{{platform.platform_name}}</span>
         </div>
         <div class="each_col third_col">
-            {{platform.impressions |  nrFormat}}
+            {{((platform.impressions >0)|| (platform.impressions == 0))? (platform.impressions | nrFormat) : '-'}}
         </div>
 
         <div class="vid_col" ng-show="adFormats.videoAds == true">
             <div class="each_col third_col">
-                {{platform.video_played > 0 ? (platform.video_played | nrFormat) : '-'}}
+                {{((platform.video_played >0)|| (platform.video_played == 0))? (platform.video_played | nrFormat) : '-'}}
             </div>
 
             <div class="vid_data_hdr">
                 <div>
-                    <div class="vid_quartile_data">{{platform.video_completion_25 >0 ? (platform.video_completion_25 | nrFormat) : '-'}}</div>
-                    <div class="vid_quartile_data">{{platform.video_completion_50 >0 ? (platform.video_completion_50 | nrFormat) : '-'}}</div>
-                    <div class="vid_quartile_data">{{platform.video_completion_75 >0 ? (platform.video_completion_75 | nrFormat) : '-'}}</div>
-                    <div class="vid_quartile_data">{{platform.video_completion_100 >0 ? (platform.video_completion_100 | nrFormat) : '-'}}</div>
+                    <div class="vid_quartile_data">{{((platform.video_completion_25 >0)|| (platform.video_completion_25 == 0))? (platform.video_completion_25 | nrFormat) : '-'}}</div>
+                    <div class="vid_quartile_data">{{((platform.video_completion_50 >0)|| (platform.video_completion_50 == 0))? (platform.video_completion_50 | nrFormat) : '-'}}</div>
+                    <div class="vid_quartile_data">{{((platform.video_completion_75 >0)|| (platform.video_completion_75 == 0))? (platform.video_completion_75 | nrFormat) : '-'}}</div>
+                    <div class="vid_quartile_data">{{((platform.video_completion_100 >0)|| (platform.video_completion_100 == 0))? (platform.video_completion_100 | nrFormat) : '-'}}</div>
                 </div>
             </div>
             <div class="each_col third_col">
-                <span>{{platform.vtc_100 | number:2}}%</span>
+                <span>{{((platform.vtc_100 >0)|| (platform.vtc_100 == 0)) ? ((platform.vtc_100 | number:2)+'%') : '-'}}</span>
             </div>
         </div>
 
         <div class="each_col forth_col">
-            {{platform.ctr | number:2}}%
+            {{((platform.ctr >0)|| (platform.ctr == 0)) ? ((platform.ctr | number:2)+'%') : '-'}}
         </div>
 
         <div class="each_col fifth_col">
-            {{platform.action_rate | number:2}}%
+            {{((platform.action_rate >0)|| (platform.action_rate == 0)) ? ((platform.action_rate | number:2)+'%') : '-'}}
         </div>
 
 
     <span  ng-if="!adFormats.videoAds">
         <div class="each_col sixth_col">
-            {{platform.cpa | currency:undefined:2}}
+            {{((platform.cpa >0)|| (platform.cpa == 0)) ? (platform.cpa | currency:undefined:2) : '-'}}
         </div>
         <div class="each_col seventh_col">
-            {{platform.cpc | currency:undefined:2}}
+            {{((platform.cpc >0)|| (platform.cpc == 0)) ? (platform.cpc | currency:undefined:2) : '-'}}
         </div>
         <div class="each_col eight_col">
-            {{platform.cpm | currency:undefined:2}}
+            {{((platform.cpm >0)|| (platform.cpm == 0)) ? (platform.cpm | currency:undefined:2) : '-'}}
         </div>
     </span>
         <div ng-if="adFormats.videoAds" class="each_col eight_col" ng-class="{vid_none:adFormats.videoAds == false}">
-            <span ng-if="selected_filters.kpi_type=='ctr'||selected_filters.kpi_type=='vtc'||selected_filters.kpi_type=='action_rate'">{{platform.cpm | currency:undefined:2}}</span>
-            <span ng-if="selected_filters.kpi_type=='cpm'||selected_filters.kpi_type=='cpc'||selected_filters.kpi_type=='cpa'">{{platform[selected_filters.kpi_type.toLowerCase()] | appendDollor:
-            selected_filters2.kpi_type}}</span>
+            <span ng-if="selected_filters.kpi_type=='ctr'||selected_filters.kpi_type=='vtc'||selected_filters.kpi_type=='action_rate'">{{((platform.cpm >0)|| (platform.cpm == 0)) ? (platform.cpm | currency:undefined:2) : '-'}}</span>
+            <span ng-if="selected_filters.kpi_type=='cpm'||selected_filters.kpi_type=='cpc'||selected_filters.kpi_type=='cpa'">{{platform[selected_filters.kpi_type.toLowerCase()] | appendDollor:selected_filters2.kpi_type}}</span>
         </div>
     </div>
 </script>
@@ -283,19 +282,19 @@
     <!--<div class="each_col ad_col">
         <div class="clearfix played_ad">
             <span class="specific_ad_icon"></span>
-            <span class="ad_val">{{platform.video_played > 0 ? (platform.video_played | nrFormat) : '-'}}</span>
+            <span class="ad_val">{{((platform.video_played >0)|| (platform.video_played == 0))? (platform.video_played | nrFormat) : '-'}}</span>
         </div>
         <div class="clearfix next_val viewed_ad">
             <span class="specific_ad_icon"></span>
-            <span class="ad_val">{{platform.video_viewable_impressions > 0 ? (platform.video_viewable_impressions | nrFormat) : '-'}}</span>
+            <span class="ad_val">{{((platform.video_viewable_impressions >0)|| (platform.video_viewable_impressions == 0))? (platform.video_viewable_impressions | nrFormat) : '-'}}</span>
         </div>
     </div>-->
     <div class="each_col sub_four_cols">
         <div class="sub_col">
-            <span>{{platform.vtc_25 >0 ? ((platform.vtc_25 | number:0)+'%') : '-'}}</span>
-            <span>{{platform.vtc_50 >0 ? ((platform.vtc_50 | number:0)+'%') : '-'}}</span>
-            <span>{{platform.vtc_75 >0 ? ((platform.vtc_75 | number:0)+'%') : '-'}}</span>
-            <span>{{platform.vtc_100 >0 ? ((platform.vtc_100 | number:0)+'%') : '-'}}</span>
+            <span>{{((platform.vtc_25 >0)|| (platform.vtc_25 == 0)) ? ((platform.vtc_25 | number:0)+'%') : '-'}}</span>
+            <span>{{((platform.vtc_50 >0)|| (platform.vtc_50 == 0)) ? ((platform.vtc_50 | number:0)+'%') : '-'}}</span>
+            <span>{{((platform.vtc_75 >0)|| (platform.vtc_75 == 0)) ? ((platform.vtc_75 | number:0)+'%') : '-'}}</span>
+            <span>{{((platform.vtc_100 >0)|| (platform.vtc_100 == 0)) ? ((platform.vtc_100 | number:0)+'%') : '-'}}</span>
         </div>
         <!--<div class="sub_col next_val">
             <span>{{vvData.videos_1q_view >0 ? (vvData.videos_1q_view | nrFormat) : '-'}}</span>
@@ -320,26 +319,26 @@
         </div>
 
         <div class="each_col third_col impressions_col">
-            <span>{{platform.video_view_impressions > 0 ? (platform.video_view_impressions | nrFormat) : '-'}}</span>
+            <span>{{((platform.video_view_impressions >0)|| (platform.video_view_impressions == 0))? (platform.video_view_impressions | nrFormat) : '-'}}</span>
         </div>
         <div class="each_col third_col measurable_col" >
             <div class="sub_col">
-                <span> {{platform.video_view_measurable > 0 ? (platform.video_view_measurable | nrFormat) : '-'}}</span>
-                <span>{{platform.video_view_measurable_perc | number:0}}%</span>
+                <span>{{((platform.video_view_measurable >0)|| (platform.video_view_measurable == 0))? (platform.video_view_measurable | nrFormat) : '-'}}</span>
+                <span>{{((platform.video_view_measurable_perc >0)|| (platform.video_view_measurable_perc == 0)) ? ((platform.video_view_measurable_perc | number:0)+'%') : '-'}}</span>
             </div>
         </div>
 
         <div class="each_col forth_col">
             <div class="sub_col">
-                <span> {{platform.video_viewable_impressions | nrFormat}}</span>
-                <span> {{platform.video_viewable_impressions_perc | number:0}}%</span>
+                <span> {{((platform.video_viewable_impressions >0)|| (platform.video_viewable_impressions == 0))? (platform.video_viewable_impressions | nrFormat) : '-'}}</span>
+                <span> {{((platform.video_viewable_impressions_perc >0)|| (platform.video_viewable_impressions_perc == 0)) ? ((platform.video_viewable_impressions_perc | number:0)+'%') : '-'}}</span>
             </div>
         </div>
 
         <div class="clearfix pull-left" ng-include="'videoViewabilityPartialTpl'" ></div>
 
         <div class="each_col suspicious_col">
-            {{platform.video_view_imps_suspicious_perc | number:2}}%
+            {{((platform.video_view_imps_suspicious_perc >0)|| (platform.video_view_imps_suspicious_perc == 0)) ? ((platform.video_view_imps_suspicious_perc | number:2)+'%') : '-'}}
         </div>
     </div>
 </script>
@@ -352,15 +351,15 @@
             </span>
             <span class="plat_name" title="{{platform.platform_name}}">{{platform.platform_name}}</span>
         </div>
-        <div class="each_cost_col sec_col">{{platform.impressions | nrFormat}}</div>
+        <div class="each_cost_col sec_col">{{((platform.impressions >0)|| (platform.impressions == 0))? (platform.impressions | nrFormat) : '-'}}</div>
         <div class="each_cost_col third_col">{{platform[selected_filters.kpi_type.toLowerCase()] | appendDollor : selected_filters.kpi_type.toLowerCase() }}</div>
-        <div class="each_cost_col fourth_col">{{platform.inventory_cost | currency:undefined:0}}</div>
-        <div class="each_cost_col fifth_col">{{platform.data_cost | currency:undefined:0}}</div>
-        <div class="each_cost_col sixth_col">{{platform.serving_cost | currency:undefined:0}}</div>
-        <div class="each_cost_col seventh_col">{{platform.creative_cost | currency:undefined:0}}</div>
-        <div class="each_cost_col eigth_col">{{platform.research_cost | currency:undefined:0}}</div>
-        <div class="each_cost_col ninth_col">{{platform.verification_cost | currency:undefined:0}}</div>
-        <div class="each_cost_col tenth_col total_cost">{{platform.spend | currency:undefined:0}}</div>
+        <div class="each_cost_col fourth_col">{{((platform.inventory_cost >0)|| (platform.inventory_cost == 0))? (platform.inventory_cost | currency:undefined:0) : '-'}}</div>
+        <div class="each_cost_col fifth_col">{{((platform.data_cost >0)|| (platform.data_cost == 0))? (platform.data_cost | currency:undefined:0) : '-'}}</div>
+        <div class="each_cost_col sixth_col">{{((platform.serving_cost >0)|| (platform.serving_cost == 0))? (platform.serving_cost | currency:undefined:0) : '-'}}</div>
+        <div class="each_cost_col seventh_col">{{((platform.creative_cost >0)|| (platform.creative_cost == 0))? (platform.creative_cost | currency:undefined:0) : '-'}}</div>
+        <div class="each_cost_col eigth_col">{{((platform.research_cost >0)|| (platform.research_cost == 0))? (platform.research_cost | currency:undefined:0) : '-'}}</div>
+        <div class="each_cost_col ninth_col">{{((platform.verification_cost >0)|| (platform.verification_cost == 0))? (platform.verification_cost | currency:undefined:0) : '-'}}</div>
+        <div class="each_cost_col tenth_col total_cost">{{((platform.spend >0)|| (platform.spend == 0))? (platform.spend | currency:undefined:0) : '-'}}</div>
     </div>
 </script>
 
@@ -374,22 +373,22 @@
         </div>
 
         <div class="each_col third_col impressions_col">
-            {{platform.other_view_impressions | nrFormat}}
+            {{((platform.other_view_impressions >0)|| (platform.other_view_impressions == 0))? (platform.other_view_impressions | nrFormat) : '-'}}
         </div>
         <div class="each_col third_col measurable_col" >
             <div class="sub_col">
-                <span> {{platform.other_view_measurable | nrFormat}}</span>
-                <span>{{platform.other_view_measurable_perc | number:0}}%</span>
+                <span> {{((platform.other_view_measurable >0)|| (platform.other_view_measurable == 0))? (platform.other_view_measurable | nrFormat) : '-'}}</span>
+                <span>{{((platform.other_view_measurable_perc >0)|| (platform.other_view_measurable_perc == 0)) ? ((platform.other_view_measurable_perc | number:0)+'%') : '-'}}</span>
             </div>
         </div>
         <div class="each_col forth_col">
             <div class="sub_col">
-                <span> {{platform.other_viewable_impressions | nrFormat}}</span>
-                <span>{{platform.other_viewable_impressions_perc | number:0}}%</span>
+                <span> {{((platform.other_viewable_impressions >0)|| (platform.other_viewable_impressions == 0))? (platform.other_viewable_impressions | nrFormat) : '-'}}</span>
+                <span>{{((platform.other_viewable_impressions_perc >0)|| (platform.other_viewable_impressions_perc == 0)) ? ((platform.other_viewable_impressions_perc | number:0)+'%') : '-'}}</span>
             </div>
         </div>
         <div class="each_col suspicious_col">
-            {{platform.other_view_imps_suspicious_perc | number:2}}%
+            {{((platform.other_view_imps_suspicious_perc >0)|| (platform.other_view_imps_suspicious_perc == 0)) ? ((platform.other_view_imps_suspicious_perc | number:2)+'%') : '-'}}
         </div>
         <!-- <div class="each_col seventh_col">
              {{platform[selected_filters.kpi_type.toLowerCase()] | appendDollor: selected_filters.kpi_type}}
