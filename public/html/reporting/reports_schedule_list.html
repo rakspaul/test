@@ -55,14 +55,14 @@
                     <div class="col-md-2 table-td" ng-bind-html="srlist.createdBy"></div>
                     <div class="col-md-2 table-td" ng-bind-html="srlist.distributionList"></div>
                     <div class="col-md-1 table-td more-options">
-                        <div class="common_dropdown">
+                        <div class="dropdown-workflow">
                             <div class="dropdown">
                                 <span data-toggle="dropdown">
                                     <div class="option-horizontal">
                                         <span></span><span></span><span></span>
                                     </div>
                                 </span>
-                                <ul class="dropdown-menu">
+                                <ul class="dropdown-menu pull-left pull-top">
                                     <li ng-click="editSchdReport(srlist.reportId)" ng-bind-html="textConstants.EDIT"/>
                                     <li ng-click="copyScheduleRpt(srlist.reportId)" ng-bind-html="textConstants.COPY"/>
                                     <li ng-click="deleteSchdRpt(srlist.reportId)" ng-bind-html="textConstants.DELETE"/>
@@ -81,7 +81,7 @@
                         <div class="col-md-2 table-td" ng-bind-html="srlist.createdBy"/>
                         <div class="col-md-2 table-td" ng-bind-html="srlist.distributionList"/>
                         <div class="col-md-1 table-td more-options">
-                            <div class="common_dropdown">
+                            <div class="common_dropdown" >
                                 <div class="dropdown">
                                     <span data-toggle="dropdown">
                                         <div class="option-horizontal">

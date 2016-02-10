@@ -6,7 +6,7 @@
 }
 .reports_upload_page .container,
 .reports_list_page .container {
-  width: 1040px ;
+  width: 100% ;
 }
 .reports_upload_page .upload_file_holder,
 .reports_list_page .upload_file_holder {
@@ -130,7 +130,7 @@
 .reports_list_page .drop-box {
   background: #f5f9fd;
   border: 2px dashed #DDE6EB;
-  width: 1040px;
+  width: 100%;
   margin: 20px auto 0;
   text-align: center;
   padding: 100px 0px;
@@ -191,7 +191,7 @@
 .reports_upload_page .progress-box,
 .reports_list_page .progress-box {
   background: #f5f9fd;
-  width: 1040px;
+  width: 100%;
   margin: 20px auto 0;
   text-align: center;
   padding: 100px 0;
@@ -450,7 +450,7 @@
   margin-bottom: 0px ;
 }
 .reports_list_page .report_builder_container .container {
-  width: 1040px ;
+  width: 100% ;
 }
 .reports_list_page .upload_page_link {
   float: right;
