@@ -41,7 +41,7 @@
                                         <a href="#region"  id="tab_region"  data-toggle="tab" ng-click="listRegions('', $event);" data-ng-bind="textConstants.REGION"></a>
                                         <span class="common_tooltip" style="display:none;" data-ng-bind="textConstants.INCEXCCITYNOTE"></span>
                                     </li>
-                                    <li id="cityTab" ng-show="showCitiesTab"><a href="#city" ng-click ="listCities();" data-toggle="tab" data-ng-bind="textConstants.CITY"></a></li>
+                                    <li id="cityTab" ng-show="showCitiesTab"><a href="#city" ng-click ="listCities($event);" data-toggle="tab" data-ng-bind="textConstants.CITY"></a></li>
                                 </ul>
                             </div>
                             <div class="col-md-4 zeroPadding switchWrap" ng-show="selectedTab !== 'dmas'">
@@ -49,15 +49,15 @@
                                     <button class="btn btn-xs btn-success active"></button>
                                     <div class="togBtnBg"></div>
                                 </div>
-                                <span ng-show="selectedTab === 'regions'"><img ng-src="/assets/images/workflow/{{regionsIncludeSwitchLabel? 'icon_target' : 'icon_exclude'}}.svg" alt="" height="15"/> {{regionsIncludeSwitchLabel? 'Include' : 'Exclude'}}</span>
-                                <span ng-show="selectedTab === 'cities'"><img ng-src="/assets/images/workflow/{{citiesIncludeSwitchLabel? 'icon_target' : 'icon_exclude'}}.svg" alt="" height="15"/> {{citiesIncludeSwitchLabel? 'Include' : 'Exclude'}}</span>
+                                <span ng-show="selectedTab === 'regions'"><img ng-src="/assets/images/workflow/{{regionsIncluded ? 'icon_target' : 'icon_exclude'}}.svg" alt="" height="15"/> {{regionsIncluded? 'Include' : 'Exclude'}}</span>
+                                <span ng-show="selectedTab === 'cities'"><img ng-src="/assets/images/workflow/{{citiesIncluded ? 'icon_target' : 'icon_exclude'}}.svg" alt="" height="15"/> {{citiesIncluded? 'Include' : 'Exclude'}}</span>
                             </div>
                             <div class="col-md-4 zeroPadding switchWrap " ng-show="selectedTab === 'dmas'">
                                 <div class="btn-group btn-ani-toggle pull-right dmas" ng-click="switchInclude()">
                                     <button class="btn btn-xs btn-success active"></button>
                                     <div class="togBtnBg"></div>
                                 </div>
-                                <span><img ng-src="/assets/images/workflow/{{dmasIncludeSwitchLabel? 'icon_target' : 'icon_exclude'}}.svg" alt="" height="15"/> {{dmasIncludeSwitchLabel? 'Include' : 'Exclude'}}</span>
+                                <span><img ng-src="/assets/images/workflow/{{dmasIncluded ? 'icon_target' : 'icon_exclude'}}.svg" alt="" height="15"/> {{dmasIncluded ? 'Include' : 'Exclude'}}</span>
                             </div>
                         </div>
                     </div>
@@ -301,6 +301,19 @@
                     <div class="data_list" ng-repeat="dma in geoTargetingData.selected.previewData.exclude.dmas" data-ng-bind="dma.name"></div>
                 </div>
                 <div class="show_more_less" ng-if="geoTargetingData.selected.previewData.exclude.dmas.length>2" ng-click="show_more_less_list($event);">+ {{geoTargetingData.selected.previewData.exclude.dmas.length-2}} more</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="msgPopupHolder" id="confirmBox" ng-show="showConfirmBox">
+    <div class="msgPopup">
+        <div>
+            <div class="msg pull-left" style="padding-top: 10px;" data-ng-bind="textConstants.AREYOUSURE"></div>
+            <div class="clearfix btn-holder" style="margin: 0;">
+                <div class="pull-right common_primary_btn" ng-click="removeSelectedList(boxType, boxsubType);" data-ng-bind="textConstants.YES"></div>
+                <div class="pull-right secondary_txt"  ng-click="hideConfirmBox()" data-ng-bind="textConstants.NO"></div>
             </div>
         </div>
     </div>
