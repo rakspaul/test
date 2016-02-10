@@ -431,13 +431,13 @@
                             <div class="each_col col_third">
                                 <div class="col_heading">{{ textConstants.IMP_WITH_DOT }}</div>
                                 <div class="col_val">
-                                    {{campaigns.cdbDataMap[campaign.orderId].impressions | nrFormat}}
+                                    {{((campaigns.cdbDataMap[campaign.orderId].impressions >0)|| (campaigns.cdbDataMap[campaign.orderId].impressions == 0))? (campaigns.cdbDataMap[campaign.orderId].impressions | nrFormat) : '-'}}
                                 </div>
                             </div>
                             <div class="each_col col_forth">
                                 <div class="col_heading">{{ textConstants.CTR }}</div>
                                 <div class="col_val">
-                                    {{campaigns.cdbDataMap[campaign.orderId].ctr | number:2}}%
+                                    {{((campaigns.cdbDataMap[campaign.orderId].ctr >0)|| (campaigns.cdbDataMap[campaign.orderId].ctr == 0)) ? ((campaigns.cdbDataMap[campaign.orderId].ctr | number:2)+'%') : '-'}}
                                 </div>
                             </div>
                             <!-- <div class="each_col col_fifth" ng-if="!campaigns.cdbDataMap[campaign.orderId].adFormats.videoAds || campaigns.cdbDataMap[campaign.orderId].video_metrics.vtc_rate === 0">  -->
@@ -445,7 +445,7 @@
                                  ng-if="campaigns.cdbDataMap[campaign.orderId].video_metrics.vtc_rate === 0">
                                 <div class="col_heading">{{ textConstants.ACTION_RATE }}</div>
                                 <div class="col_val">
-                                    {{campaigns.cdbDataMap[campaign.orderId].action_rate | number:2}}%
+                                    {{((campaigns.cdbDataMap[campaign.orderId].action_rate >0)|| (campaigns.cdbDataMap[campaign.orderId].action_rate == 0)) ? ((campaigns.cdbDataMap[campaign.orderId].action_rate | number:2)+'%') : '-'}}
                                 </div>
                             </div>
 
@@ -454,7 +454,7 @@
                                  ng-if="campaigns.cdbDataMap[campaign.orderId].video_metrics.vtc_rate >0">
                                 <div class="col_heading">{{ textConstants.VTC }}</div>
                                 <div class="col_val">
-                                    {{campaigns.cdbDataMap[campaign.orderId].video_metrics.vtc_rate | number : 2}}%
+                                    {{((campaigns.cdbDataMap[campaign.orderId].video_metrics.vtc_rate >0)|| (campaigns.cdbDataMap[campaign.orderId].video_metrics.vtc_rate == 0)) ? ((campaigns.cdbDataMap[campaign.orderId].video_metrics.vtc_rate | number:2)+'%') : '-'}}
                                 </div>
                             </div>
                         </div>
@@ -490,7 +490,7 @@
 
                         <div class="each_col col_spend">
                             <div class="col_heading clearfix">{{ textConstants.SPEND }}
-                                <span class="metric_val">{{campaigns.cdbDataMap[campaign.orderId].getGrossRev() | currency:undefined:2 }}</span>
+                                <span class="metric_val">{{((campaigns.cdbDataMap[campaign.orderId].getGrossRev() >0)|| (campaigns.cdbDataMap[campaign.orderId].getGrossRev() == 0))? (campaigns.cdbDataMap[campaign.orderId].getGrossRev() | currency:undefined:2) : '-'}}</span>
                             </div>
                             <div class="metric_graph {{getSpendClass(campaign)}}">
                                 <div class="full_metric_graph">
@@ -512,7 +512,7 @@
                                         <!-- put completed_end_point when at end -->
                                         <div class="end_point_val">
                                             <div class="end_point_line"></div>
-                                            <span>{{ textConstants.BUDGET }}: {{campaign.totalMediaCost | currency:undefined:2}}</span>
+                                            <span>{{ textConstants.BUDGET }}: {{((campaign.totalMediaCost >0)|| (campaign.totalMediaCost == 0))? (campaign.totalMediaCost | currency:undefined:2) : '-'}}</span>
                                         </div>
                                     </div>
                                 </div>
