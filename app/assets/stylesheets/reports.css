@@ -1022,11 +1022,6 @@ div.strategy_total_container .all_strategies_holder .each_strategy {
 div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-child .linkage_lines {
   height: 50px;
 }
-.viewability_details_outer_container,
-.viewability_details_video_mode_outer_container,
-.custom_report_response_table {
-  margin-top: 15px;
-}
 .viewability_details_outer_container .viewability_header,
 .viewability_details_video_mode_outer_container .viewability_header,
 .custom_report_response_table .viewability_header {
@@ -1112,6 +1107,10 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 .custom_report_response_table .strategy_total_container div.each_col.seventh_col {
   font-size: 14px ;
   color: #57606d ;
+}
+.viewability_details_outer_container,
+.viewability_details_video_mode_outer_container {
+  margin-top: 15px;
 }
 .viewability_details_outer_container .sort_order_up.active:hover,
 .viewability_details_video_mode_outer_container .sort_order_up.active:hover,
