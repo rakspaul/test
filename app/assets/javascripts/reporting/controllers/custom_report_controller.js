@@ -40,6 +40,8 @@ var angObj = angObj || {};
         $scope.filters = domainReports.getReportsTabs();
         $scope.count = 0;
         $scope.secondDimensionReportLoading = {};
+        $scope.secDimensionLoadMore = {};
+        $scope.secDimensionLoadIcon = {};
         $scope.secondDimensionReportDataNotFound = {};
         $scope.metrics_text = 'Default';
         $scope.generateBtnDisabled = true;
@@ -717,11 +719,8 @@ var angObj = angObj || {};
                 }
 
                 var value = escape($.trim(value)),
-                    currentRowIndex = Number(currFirtDimensionElem.attr("data-result-row")),
-                    loadMoreSel = 'div[data-result-row="'+currentRowIndex+'"] .sec_dimension_load_more',
-                    loadMoreIconSel = 'div[data-result-row="'+currentRowIndex+'"] .sec_dimesnion_loadingIcon',
-                    loadMore = $(loadMoreSel),
-                    loadMoreIcon = $(loadMoreIconSel);
+                    currentRowIndex = Number(currFirtDimensionElem.attr("data-result-row"));
+
                 if(_customctrl.isReportLastPage_2D[currentRowIndex]){
                     return true;
                 }
@@ -730,13 +729,22 @@ var angObj = angObj || {};
                     $scope.secondDimensionReportLoading[$scope.activeTab][currentRowIndex] = true;
                     $scope.secondDimensionReportDataNotFound[$scope.activeTab] = {};
                     $scope.secondDimensionReportDataNotFound[$scope.activeTab][currentRowIndex] = false;
+                    $scope.secDimensionLoadMore[$scope.activeTab] = {}
+                    $scope.secDimensionLoadIcon[$scope.activeTab] = {}
                 }else{
-                    loadMoreIcon.show();
+                    $scope.secDimensionLoadIcon[$scope.activeTab][currentRowIndex] = true;
                 }
-                loadMore.hide();
+                $scope.secDimensionLoadMore[$scope.activeTab][currentRowIndex] = false;
                 var paramsObj = _customctrl.createRequestParams(value, $scope.secondDimensionOffset, 0, currentRowIndex);
                 _customctrl.fetchReportData($scope.selectedMetricsList, paramsObj, currentRowIndex, function(respData, currentRowIndex) {
-                    var data = respData;
+                    $scope.secDimensionLoadIcon[$scope.activeTab][currentRowIndex] = false;
+                    currFirtDimensionElem.addClass('active');
+                    _customctrl.isReportLastPage_2D[currentRowIndex] = respData.last_page;
+                    if(!respData.last_page){
+                        $scope.secDimensionLoadMore[$scope.activeTab][currentRowIndex] = true;
+                    }else{
+                        $scope.secDimensionLoadMore[$scope.activeTab][currentRowIndex] = false;
+                    }
                     respData = respData.report_data;
                     if (respData) {
                         var resultLen = respData.length;
@@ -754,18 +762,6 @@ var angObj = angObj || {};
                             }
                         }
                     }
-                    setTimeout(function(){
-                        loadMore = $(loadMoreSel);
-                        loadMoreIcon = $(loadMoreIconSel);
-                        loadMoreIcon.hide();
-                        currFirtDimensionElem.addClass('active');
-                        _customctrl.isReportLastPage_2D[currentRowIndex] = data.last_page;
-                        if(!data.last_page){
-                            loadMore.show();
-                        }else{
-                            loadMore.hide();
-                        }
-                    },25);
 
                 }, function(currentRowIndex) {
                     $scope.secondDimensionReportLoading[$scope.activeTab][currentRowIndex] = false;
