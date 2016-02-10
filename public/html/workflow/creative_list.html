@@ -105,7 +105,7 @@
 				    </div>
 				    <!--Ad Server-->
 				    <div class="col-md-1 td text-center">
-					<span> - </span>
+					<span> <img style="max-height: 35px;max-width: 70px;" ng-src="{{creativeData.adServer.iconUrl}}"/> </span>
 				    </div>
 				    <!--Sizes-->
 				    <div class="col-md-1 td text-center">
@@ -176,6 +176,9 @@
 				    <!--<div class="col-md-2 td">Last Sync</div>-->
 				<!--</div>-->
 				<!--Sample Ends Here-->
+					<div class="col-md-9" style="margin-top: 10px;width: 500px;" ng-show="loadCreativeData">
+						<div class="common-loading-area"></div>
+					</div>
 			    </div>
 			</div>
 			<div ng-show="creativesNotFound" class="emptyCreativeList">
