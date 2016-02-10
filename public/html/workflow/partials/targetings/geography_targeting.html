@@ -207,7 +207,7 @@
                 </div>
                 <div class="values-table">
                     <div class="clearfix each-row"  ng-repeat="dma in geoTargetingData.selected.dmas">
-                        <div class="pull-left"><img ng-src="/assets/images/workflow/{{dma.dmasIncluded ? 'icon_target' : 'icon_exclude'}}.svg" alt="" height="15"/>{{dma.dmaName}}</div>
+                        <div class="pull-left"><img ng-src="/assets/images/workflow/{{dma.dmasIncluded ? 'icon_target' : 'icon_exclude'}}.svg" alt="" height="15"/>{{dma.name}}</div>
                         <div class="pull-right cancel"><span class="icon-close removeItem" ng-click="removeItem(dma, 'dmas')"></span></div>
                     </div>
                     <div ng-if="geoTargetingData.selected.dmas.length === 0">

@@ -25,6 +25,85 @@ var angObj = angObj || {};
             audienceService.setSelectedAudience(angular.copy($scope.audienceDataForPreview));
         };
 
+
+        _targeting.setTargetingForPreview = function(targetingName) {
+            $scope.selectedTargeting = {};
+            $scope.adData.targetName = targetingName;
+            $scope.selectedTargeting[targetingName.toLowerCase()] = true;
+
+            if (targetingName === 'Geography') {
+                $scope.adData.isGeographySelected = true;
+
+            }
+
+            if (targetingName === 'Audience') {
+                $scope.adData.isAudienceSelected = true;
+                if(audienceService.getSelectedAudience()){
+                    $scope.$broadcast('setSelectedAudience');
+                } else {
+                    if($scope.mode === 'edit') {
+                        _targeting.showAudienceInfo();
+                    }
+                }
+            }
+
+            if (targetingName === 'Daypart') {
+                if(!audienceService.getDayTimeSelectedObj() && $scope.mode === 'edit') {
+                    $timeout(function () {
+                        $scope.$broadcast("updateDayPart");
+                    }, 2000)
+                }
+                $scope.adData.isDaypartSelected = true;
+            }
+        };
+
+        /****************** START : AUDIENCE TARGETING  ***********************/
+
+        $scope.saveAudience = function(selectedAudience) {
+            console.log("selectedAudience", selectedAudience);
+            $scope.audienceDataForPreview = selectedAudience;
+        };
+
+        // Audience Targeting Trigger -- Onclick
+        $scope.selectAudTarget = function () {
+            _targeting.setTargetingForPreview('Audience');
+            $scope.$broadcast('triggerAudience');
+        };
+
+        $scope.deleteAudienceTargetting = function () {
+            var audienceData = $scope.audienceDataForPreview;
+            if(audienceData) audienceData.length = 0;
+            $scope.adData.isAudienceSelected = null;
+        };
+
+
+
+        /****************** START : DAY PARTING TARGETING  ***********************/
+
+        $scope.saveDayPartForPreview = function () {
+            console.log("targeting_controller saveDayPartForPreview");
+            $scope.selectedDayParts.selected = audienceService.getDayTimeSelectedObj();
+            $scope.selectedDayParts.data = audienceService.getDaytimeObj();
+            $scope.dayPartTotal = $scope.selectedDayParts.data ? $scope.selectedDayParts.data.length : 0;
+        };
+
+        // Day Targeting Trigger
+        $scope.selectDayTarget = function () {
+            _targeting.setTargetingForPreview('Daypart');
+            $scope.$broadcast('triggerDayPart');
+
+        };
+
+        $scope.deleteDayPartTargetting = function () {
+            var dayPartData = $scope.selectedDayParts['data'];
+            if(dayPartData) dayPartData.length = 0;
+            $scope.$broadcast('deleteDayPartTarget');
+        };
+
+
+
+        /****************** START : GEO TARGETING  ***********************/
+
         _targeting.showgeoTargetingInfo = function(adData) {
             var data = adData.targets ? adData.targets.geoTargets : adData;
             var previewObj = {}
@@ -87,81 +166,6 @@ var angObj = angObj || {};
 
         };
 
-        _targeting.setTargetingForPreview = function(targetingName) {
-            $scope.selectedTargeting = {};
-            $scope.adData.targetName = targetingName;
-            $scope.selectedTargeting[targetingName.toLowerCase()] = true;
-
-            if (targetingName === 'Geography') {
-                $scope.adData.isGeographySelected = true;
-
-            }
-
-            if (targetingName === 'Audience') {
-                $scope.adData.isAudienceSelected = true;
-                if(audienceService.getSelectedAudience()){
-                    $scope.$broadcast('setSelectedAudience');
-                } else {
-                    if($scope.mode === 'edit') {
-                        _targeting.showAudienceInfo();
-                    }
-                }
-            }
-
-            if (targetingName === 'Daypart') {
-                if(!audienceService.getDayTimeSelectedObj() && $scope.mode === 'edit') {
-                    $timeout(function () {
-                        $scope.$broadcast("updateDayPart");
-                    }, 2000)
-                }
-                $scope.adData.isDaypartSelected = true;
-            }
-        };
-
-        /****************** START : AUDIENCE TARGETING  ***********************/
-
-        $scope.saveAudience = function(selectedAudience) {
-            console.log("selectedAudience", selectedAudience);
-            $scope.audienceDataForPreview = selectedAudience;
-        };
-
-        // Audience Targeting Trigger -- Onclick
-        $scope.selectAudTarget = function () {
-            _targeting.setTargetingForPreview('Audience');
-            $scope.$broadcast('triggerAudience');
-        };
-
-        $scope.deleteAudienceTargetting = function () {
-            $scope.audienceDataForPreview.length = 0;
-            $scope.adData.isAudienceSelected = null;
-        };
-
-
-
-        /****************** START : DAY PARTING TARGETING  ***********************/
-
-        $scope.saveDayPartForPreview = function () {
-            console.log("targeting_controller saveDayPartForPreview");
-            $scope.selectedDayParts.selected = audienceService.getDayTimeSelectedObj();
-            $scope.selectedDayParts.data = audienceService.getDaytimeObj();
-            $scope.dayPartTotal = $scope.selectedDayParts.data ? $scope.selectedDayParts.data.length : 0;
-        };
-
-        // Day Targeting Trigger
-        $scope.selectDayTarget = function () {
-            _targeting.setTargetingForPreview('Daypart');
-            $scope.$broadcast('triggerDayPart');
-
-        };
-
-        $scope.deleteDayPartTargetting = function () {
-            $scope.selectedDayParts['data'].length = 0;
-            $scope.$broadcast('deleteDayPartTarget');
-        };
-
-
-
-        /****************** START : GEO TARGETING  ***********************/
 
         $scope.showGeoTargetingForPreview = function() {
             $scope.geoTargetingPreviewData = workflowService.getSavedGeo();
@@ -177,7 +181,7 @@ var angObj = angObj || {};
 
         $scope.deleteGeoTargetting = function () {
             workflowService.resetSavedGeo();
-            $scope.geoTargetingPreviewData = null;
+            $scope.geoTargetingPreviewObj = null;
             $scope.$broadcast('deleteGeoTarget');
         };
 
@@ -208,6 +212,12 @@ var angObj = angObj || {};
                 _targeting.showgeoTargetingInfo(adData)
             }
         })
+
+        $rootScope.$on('resetGeoTargeting',function () {
+            $scope.deleteGeoTargetting();
+            $scope.deleteDayPartTargetting();
+            $scope.deleteAudienceTargetting();
+        });
 
         $scope.deletetargets = function (type, event) {
             var elem = $(event.target);
