@@ -732,8 +732,7 @@
                                             metricValues.second_dimension[customeReportData.idx].delivery_metrics.length > 0'>
                                             <div class="second_dimension_row"
                                                  ng-repeat="customeReportData in
-                                                    metricValues.second_dimension[customeReportData.idx].delivery_metrics
-                                                    track by $index"
+                                                    metricValues.second_dimension[customeReportData.idx].delivery_metrics | orderBy:sortType:sortReverse"
                                                  ng-include="'customeReportTpl'">
                                             </div>
                                             <!-- load more for second dimension -->
@@ -791,8 +790,7 @@
                                                 metricValues.second_dimension[customeReportData.idx].cost_metrics.length > 0">
                                             <div class="second_dimension_row"
                                                  ng-repeat="customeReportData in
-                                                    metricValues.second_dimension[customeReportData.idx].cost_metrics
-                                                    track by $index"
+                                                    metricValues.second_dimension[customeReportData.idx].cost_metrics | orderBy:sortType:sortReverse"
                                                  ng-include="'customeReportTpl'">
                                             </div>
                                             <span class="sec_dimension_load_more"
@@ -884,8 +882,7 @@
                                                 metricValues.second_dimension[customeReportData.idx].engagement_metrics.length >0">
                                             <div class="second_dimension_row"
                                                  ng-repeat="customeReportData in
-                                                    metricValues.second_dimension[customeReportData.idx].engagement_metrics
-                                                    track by $index"
+                                                    metricValues.second_dimension[customeReportData.idx].engagement_metrics | orderBy:sortType:sortReverse"
                                                  ng-include="'customeReportTpl'">
                                             </div>
                                             <span class="sec_dimension_load_more"
@@ -941,8 +938,7 @@
                                                 metricValues.second_dimension[customeReportData.idx].video_metrics.length > 0">
                                             <div class="second_dimension_row"
                                                  ng-repeat="customeReportData in
-                                                    metricValues.second_dimension[customeReportData.idx].video_metrics
-                                                    track by $index"
+                                                    metricValues.second_dimension[customeReportData.idx].video_metrics | orderBy:sortType:sortReverse"
                                                  ng-include="'customeReportTpl'">
                                             </div>
                                             <span class="sec_dimension_load_more"
@@ -1000,8 +996,7 @@
                                                 .display_quality_metrics.length > 0">
                                             <div class="second_dimension_row"
                                                  ng-repeat="customeReportData in
-                                                    metricValues.second_dimension[customeReportData.idx].display_quality_metrics
-                                                    track by $index"
+                                                    metricValues.second_dimension[customeReportData.idx].display_quality_metrics | orderBy:sortType:sortReverse"
                                                  ng-include="'customeReportTpl'">
                                             </div>
                                             <span class="sec_dimension_load_more"
@@ -1060,8 +1055,7 @@
                                                 .video_quality_metrics.length > 0">
                                             <div class="second_dimension_row"
                                                  ng-repeat="customeReportData in
-                                                    metricValues.second_dimension[customeReportData.idx].video_quality_metrics
-                                                    track by $index"  ng-include="'customeReportTpl'">
+                                                    metricValues.second_dimension[customeReportData.idx].video_quality_metrics | orderBy:sortType:sortReverse"  ng-include="'customeReportTpl'">
                                             </div>
                                             <span class="sec_dimension_load_more"
                                                   ng-click="fetchMoreSecondDimensionData($event, metricValues.first_dimension.video_quality_metrics[customeReportData.idx].value,customeReportData.idx, 1)"
