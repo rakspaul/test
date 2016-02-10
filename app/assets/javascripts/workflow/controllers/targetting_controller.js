@@ -30,6 +30,7 @@ var angObj = angObj || {};
 
         _targeting.setTargetingForPreview = function(targetingName) {
             var fetchedObj = angular.copy(workflowService.getAdsDetails());
+
             $scope.selectedTargeting = {};
             $scope.adData.targetName = targetingName;
             $scope.selectedTargeting[targetingName.toLowerCase()] = true;
@@ -51,8 +52,10 @@ var angObj = angObj || {};
             }
 
             if (targetingName === 'Daypart') {
-                if(fetchedObj.targets.adDaypartTargets && $scope.mode === 'edit') {
-                    $scope.$broadcast("updateDayPart");
+                if(!audienceService.getDayTimeSelectedObj() && $scope.mode === 'edit') {
+                    $timeout(function () {
+                        $scope.$broadcast("updateDayPart");
+                    }, 2000)
                 }
                 $scope.adData.isDaypartSelected = true;
             }
@@ -233,7 +236,6 @@ var angObj = angObj || {};
         $scope.$on('renderTargetingUI', function (event, platformId) {
             $scope.isPlatformId = platformId;
             $scope.isPlatformSelected = platformId ? true : false;
-            //$scope.deleteGeoTargetting();
             $scope.showRegionsTab = true;
             $scope.showCitiesTab = true;
             $scope.showSwitchBox = true;
