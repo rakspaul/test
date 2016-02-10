@@ -3950,7 +3950,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 }
 .custom_report_response_page .custom_report_response_table .each_col.more_dimension_arrow {
   display: none;
-  background: url("/assets/images/cdesk/common_side_arrow.png") no-repeat left 1px #fff;
+  background: url("/assets/images/cdesk/common_side_arrow.png") no-repeat left 1px #ffffff;
   height: 11px;
   width: 12px;
   min-width: 12px;
@@ -4275,4 +4275,40 @@ div.reports_tabs_content_container div#reports_bycreatives_block div.reports_det
 }
 body.custom_report_page .bodyWrap {
   width: 100% ;
+}
+#newDatePickerBox {
+  position: absolute;
+  right: -1px;
+}
+#newDatePickerBox button {
+  float: right;
+  left: 0px;
+  position: relative;
+  padding: 10px;
+  margin-top: 8px;
+}
+#newDatePickerBox .startPicker,
+#newDatePickerBox .endPicker {
+  float: left ;
+  border: solid 1px #BFC9D7;
+  margin-top: 8px;
+  margin-right: 12px;
+  border-radius: 2px;
+}
+#newDatePickerBox .startPicker input,
+#newDatePickerBox .endPicker input {
+  width: 114px;
+  border: 0;
+  border-right: solid 0px #bfc9d7;
+}
+#newDatePickerBox .startPicker #startDateInputGlyph,
+#newDatePickerBox .endPicker #startDateInputGlyph,
+#newDatePickerBox .startPicker #endDateInputGlyph,
+#newDatePickerBox .endPicker #endDateInputGlyph {
+  pointer-events: none;
+  left: -17px;
+  height: 33px;
+  border-left: solid 1px #BFC9D7;
+  padding-left: 8px;
+  padding-top: 8px;
 }

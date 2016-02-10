@@ -144,7 +144,9 @@
       'timePeriod-TimePeriodModule':{deps: ['brands-BrandsModel']},
       'timePeriod-TimePeriodModel':{deps: ['timePeriod-TimePeriodModule']},
       'timePeriod-TimePeriodDirective':{deps: ['timePeriod-TimePeriodModel']},
+      'timePeriod-TimePeriodPickDirective':{deps: ['timePeriod-TimePeriodModel']},
       'timePeriod-TimePeriodController':{deps: ['timePeriod-TimePeriodDirective']},
+        'timePeriod-TimePeriodPickController':{deps: ['timePeriod-TimePeriodDirective']},
 
       'login-LoginModule':{deps: ['timePeriod-TimePeriodController']},
       'login-LoginModel':{deps: ['login-LoginModule']},
@@ -352,7 +354,9 @@
       'timePeriod-TimePeriodModule':'reporting/timePeriod/time_period_module',
       'timePeriod-TimePeriodModel':'reporting/timePeriod/time_period_model',
       'timePeriod-TimePeriodDirective':'reporting/timePeriod/time_period_directive',
+      'timePeriod-TimePeriodPickDirective':'reporting/timePeriod/time_period_pick_directive',
       'timePeriod-TimePeriodController':'reporting/timePeriod/time_period_controller',
+      'timePeriod-TimePeriodPickController':'reporting/timePeriod/time_period_pick_controller',
 
       'login-LoginModule':'login/login_module',
       'login-LoginModel':'login/login_model',
@@ -570,7 +574,9 @@
            'timePeriod-TimePeriodModule',
            'timePeriod-TimePeriodModel',
            'timePeriod-TimePeriodDirective',
+           'timePeriod-TimePeriodPickDirective',
            'timePeriod-TimePeriodController',
+           'timePeriod-TimePeriodPickController',
 
            'login-LoginModule',
            'login-LoginModel',
