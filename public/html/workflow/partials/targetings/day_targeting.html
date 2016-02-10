@@ -9,7 +9,7 @@
 		
 		<div class="pull-right">
 			<button class="pull-right btn btn-default" ng-click="saveDayPart()" data-ng-bind="textConstants.SAVEDAYPART"></button> <!--ng-disabled="!adData.adName"-->
-			<button class="pull-right btn btn-link" ng-click="resetDayTargetingVariables();" data-ng-bind="textConstants.CANCEL"></button>
+			<button class="pull-right btn btn-link" ng-click="resetDayPartTargetingVariables();" data-ng-bind="textConstants.CANCEL"></button>
 		</div>
 	</div>
 
@@ -76,79 +76,19 @@
         </div>
 </div>
 
-<div class="dayTargetLower">
-	<div class="col-md-12 zeroPadding bottomBorder" style="margin: 20px 0;">
-		<span class="greyTxt pull-left" data-ng-bind="textConstants.DELADTIME"></span>
-	</div>
-	
-	<div class="col-md-2 zeroPadding pull-left" ng-init="Schedule.customLength = 0">
-		<a class="pull-left" style="padding: 0; margin-bottom: 15px;" ng-click="addMoreCustom()" data-ng-bind="textConstants.ADDDAYPART"></a>
-	</div>
-	
-	<div class="col-md-2 zeroPadding pull-right">
-		<a class="pull-right" style="padding: 0;" clearall data-ng-bind="textConstants.CLEARALL"></a>
-	</div>
-	<!--<div class="col-md-2 zeroPadding" ng-if="dayTimeSelected === 'Custom schedule'" ng-init="Schedule.customLength = 0">-->
-        <!--<a class="pull-right" style="padding: 0;" ng-click="addMoreCustom()">Add Row</a>-->
-	<!--</div>-->
-	<!--Sample 1-->
+    <div class="dayTargetLower">
+        <div class="col-md-12 zeroPadding bottomBorder" style="margin: 20px 0;">
+            <span class="greyTxt pull-left" data-ng-bind="textConstants.DELADTIME"></span>
+        </div>
 
-	<!--<div class="col-md-12 zeroPadding dayRow" ng-repeat="dayObj in Schedule.daytimeArr track by $index" ng-if="dayTimeSelected !== 'Custom schedule'">-->
-		<!--<div class="col-md-2 zeroPadding dailyRow">-->
-			<!--<div class="col-md-12 zeroPadding dropdown-workflow">-->
-				<!--<div class="dropdown">-->
-					<!--<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">-->
-						<!--<span class="text">{{dayObj.day ? dayObj.day: Sunday}}</span>-->
-						<!--<span class="icon-arrow-down"></span>-->
-					<!--</button>-->
-					<!--<ul class="dropdown-menu" aria-labelledby="dayTime" id="selectDay" data-toggle="dropdown">-->
-						<!--<li class="available"><a>Sunday</a></li>-->
-						<!--<li class="available"><a>Monday</a></li>-->
-						<!--<li class="available"><a>Tuesday</a></li>-->
-						<!--<li class="available"><a>Wednesday</a></li>-->
-						<!--<li class="available"><a>Thursday</a></li>-->
-						<!--<li class="available"><a>Friday</a></li>-->
-						<!--<li class="available"><a>Saturday</a></li>-->
-					<!--</ul>-->
-				<!--</div>-->
-			<!--</div>-->
-		<!--</div>-->
-		<!--<div class="col-md-2 zeroPadding hourRow">-->
-			<!--<div class="col-md-12 zeroPadding dropdown-workflow">-->
-				 <!--<div class="dropdown">-->
-					  <!--<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">-->
-						   <!--<span class="text">{{dayObj.startTime ? dayObj.startTime : 'All Day'}}</span>-->
-						   <!--<span class="icon-arrow-down"></span>-->
-					  <!--</button>-->
-					  <!--<ul class="dropdown-menu" aria-labelledby="dayTime" id="startTime" data-toggle="dropdown">-->
-						   <!--<li class="available" ng-click="selectTime(twelve ? time.twelveHrFormat: time.twentyfourHrFormat)" ng-value="{{time.time}}" ng-repeat="time in getTimes"><a>{{twelve ? time.twelveHrFormat: time.twentyfourHrFormat}}</a></li>-->
-					  <!--</ul>-->
-				 <!--</div>-->
-			<!--</div>-->
-		<!--</div>-->
-		<!---->
-		<!--<div class="midTo" ng-if="dayObj.endTime.length>0">to</div>-->
-		<!--<!--<div class="midTo" ng-if="dayObj.startAmPm.length>0">to</div>-->
+        <div class="col-md-2 zeroPadding pull-left" ng-init="Schedule.customLength = 0">
+            <a class="pull-left" style="padding: 0; margin-bottom: 15px;" ng-click="addMoreCustom()" data-ng-bind="textConstants.ADDDAYPART"></a>
+        </div>
 
-		<!--<div class="col-md-2 zeroPadding hourRow" ng-if="dayObj.endTime.length>0">-->
-			<!--<div class="col-md-12 zeroPadding dropdown-workflow">-->
-				 <!--<div class="dropdown">-->
-					  <!--<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">-->
-						   <!--<span class="text">{{dayObj.endTime ? dayObj.endTime: '9:00PM'}}</span>-->
-						   <!--<span class="icon-arrow-down"></span>-->
-					  <!--</button>-->
-					  <!--<ul class="dropdown-menu" aria-labelledby="dayTime" id="endTime" data-toggle="dropdown">-->
-                          <!--<li class="available" ng-click="selectTime(twelve ? time.twelveHrFormat: time.twentyfourHrFormat)" ng-value="{{time.time}}" ng-repeat="time in getTimes"><a>{{twelve ? time.twelveHrFormat: time.twentyfourHrFormat}}</a></li>-->
-					  <!--</ul>-->
-				 <!--</div>-->
-			<!--</div>-->
-		<!--</div>-->
-		<!---->
-		<!--<span class="icon-clear removeDay" clearrow></span>-->
-	<!--</div>-->
-<!--Custom Day Part-->
+        <div class="col-md-2 zeroPadding pull-right">
+            <a class="pull-right" style="padding: 0;" clearall data-ng-bind="textConstants.CLEARALL"></a>
+        </div>
     <div>
-    <!--<div ng-if="dayTimeSelected == 'Custom schedule' || Schedule.customLength" ng-init="Schedule.dayPart =[]">-->
 
     <div class="col-md-12 zeroPadding dayRow" ng-repeat="dayObj in Schedule.daytimeArr track by $index" >
         <div class="col-md-2 zeroPadding dailyRow">
