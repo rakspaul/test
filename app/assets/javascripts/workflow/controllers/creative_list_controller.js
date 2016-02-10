@@ -24,6 +24,7 @@ var angObj = angObj || {};
         $scope.IncorrectTag = false;
         $scope.showDuplicateTagPopup = false;
         $scope.campaignId = $routeParams.campaignId;
+        $scope.loadCreativeData=false;;
 
 
         var creativeList = {
@@ -43,6 +44,8 @@ var angObj = angObj || {};
                                     $scope.creativeData['creatives'].push(obj);
                                 });
                                 $scope.pageNo ++;
+                                $scope.loadCreativeData=false;
+
                             }
 
                             $scope.creativeData.creatives_count += result.data.data.length;
@@ -346,6 +349,7 @@ var angObj = angObj || {};
                     var selectedClientObj = localStorage.selectedClient && JSON.parse(localStorage.selectedClient);
                     if(selectedClientObj) {
                         creativeList.getCreativesList(JSON.parse(localStorage.selectedClient).id,'','',$scope.pageSize, $scope.pageNo);
+                        $scope.loadCreativeData=true;
                     }
                 }
             });
