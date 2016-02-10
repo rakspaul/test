@@ -527,6 +527,7 @@ var angObj = angObj || {};
 
             $scope.$broadcast('updateCreativeTags');
 
+
             if (responseData.targets && responseData.targets.geoTargets && _.size(responseData.targets.geoTargets) > 0) {
                 $scope.$broadcast('setTargeting', ['Geography']);
             }

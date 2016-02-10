@@ -27,6 +27,7 @@ var angObj = angObj || {};
         };
 
 
+
         _targeting.setTargetingForPreview = function(targetingName) {
             $scope.selectedTargeting = {};
             $scope.adData.targetName = targetingName;
@@ -166,7 +167,6 @@ var angObj = angObj || {};
 
         };
 
-
         $scope.showGeoTargetingForPreview = function() {
             $scope.geoTargetingPreviewData = workflowService.getSavedGeo();
             _targeting.showgeoTargetingInfo($scope.geoTargetingPreviewData.modify)
@@ -238,6 +238,7 @@ var angObj = angObj || {};
             if (($scope.isPlatformId === 1) || ($scope.adData.platformId === 25)) {
                 $scope.showCitiesTab = false;  // Hide Cities Tab for Visto Bidder (platform Id 25)
                 $scope.showSwitchBox = false;
+
             }
         });
     });
