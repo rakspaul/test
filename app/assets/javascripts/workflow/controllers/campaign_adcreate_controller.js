@@ -324,25 +324,6 @@ var angObj = angObj || {};
                 }
             };
 
-        // Flag to denote that ad format has changed
-        $scope.adFormatChanged = false;
-
-        $scope.showDeleteConfirmationPopup = false;
-        $scope.adCreateLoader = false;
-
-        $scope.deleteTargets = function (type, event) {
-            var elem = $(event.target),
-                leftPos = elem.closest('.cardSelectHolder').offset().left -
-                          elem.closest('.setTargetOptions').offset().left;
-
-            elem
-                .closest('.setTargetOptions')
-                .find('.msgPopup')
-                .css('left', leftPos);
-
-            $scope.showDeleteConfirmationPopup = true;
-            $scope.deleteType = type;
-        };
 
         $scope.redirectUser = function(isAdArchived){
             $scope.redirectFlag = false;
@@ -545,8 +526,6 @@ var angObj = angObj || {};
             }
 
             $scope.$broadcast('updateCreativeTags');
-
-
 
             if (responseData.targets && responseData.targets.geoTargets && _.size(responseData.targets.geoTargets) > 0) {
                 $scope.$broadcast('setTargeting', ['Geography']);
