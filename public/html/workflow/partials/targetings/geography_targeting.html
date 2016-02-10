@@ -33,7 +33,6 @@
                             <button class="btn btn-default disabled" type="button" style="padding: 8px 15px 6px;"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
                           </span>
                         </div>
-
                         <div class="col-md-12 zeroPadding">
                             <div class="pull-left zeroPadding regionCityTab" ng-show="selectedTab !== 'dmas'">
                                 <ul class="nav nav-tabs">
@@ -44,7 +43,7 @@
                                     <li id="cityTab" ng-show="showCitiesTab"><a href="#city" ng-click ="listCities($event);" data-toggle="tab" data-ng-bind="textConstants.CITY"></a></li>
                                 </ul>
                             </div>
-                            <div class="col-md-4 zeroPadding switchWrap" ng-show="selectedTab !== 'dmas'">
+                            <div class="col-md-4 zeroPadding switchWrap" ng-show="selectedTab !== 'dmas' && showSwitchBox">
                                 <div class="btn-group btn-ani-toggle pull-right regions" ng-show="showSwitch" ng-click="switchInclude()">
                                     <button class="btn btn-xs btn-success active"></button>
                                     <div class="togBtnBg"></div>
@@ -52,7 +51,7 @@
                                 <span ng-show="selectedTab === 'regions'"><img ng-src="/assets/images/workflow/{{regionsIncluded ? 'icon_target' : 'icon_exclude'}}.svg" alt="" height="15"/> {{regionsIncluded? 'Include' : 'Exclude'}}</span>
                                 <span ng-show="selectedTab === 'cities'"><img ng-src="/assets/images/workflow/{{citiesIncluded ? 'icon_target' : 'icon_exclude'}}.svg" alt="" height="15"/> {{citiesIncluded? 'Include' : 'Exclude'}}</span>
                             </div>
-                            <div class="col-md-4 zeroPadding switchWrap " ng-show="selectedTab === 'dmas'">
+                            <div class="col-md-4 zeroPadding switchWrap " ng-show="selectedTab === 'dmas' && showSwitchBox">
                                 <div class="btn-group btn-ani-toggle pull-right dmas" ng-click="switchInclude()">
                                     <button class="btn btn-xs btn-success active"></button>
                                     <div class="togBtnBg"></div>
