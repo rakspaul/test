@@ -12,6 +12,7 @@ var angObj = angObj || {};
         $scope.adData.isAudienceSelected = false;
         $scope.adData.isDaypartSelected = false;
         $scope.geoTargetingPreviewObj = null;
+        $scope.showSwitchBox = true;
 
         var targeting = {};
 
@@ -60,7 +61,6 @@ var angObj = angObj || {};
         /****************** START : AUDIENCE TARGETING  ***********************/
 
         $scope.saveAudience = function(selectedAudience) {
-            console.log("selectedAudience", selectedAudience);
             $scope.audienceDataForPreview = selectedAudience;
         };
 
@@ -213,7 +213,7 @@ var angObj = angObj || {};
             }
         })
 
-        $rootScope.$on('resetGeoTargeting',function () {
+        $rootScope.$on('resetTargeting',function () {
             $scope.deleteGeoTargetting();
             $scope.deleteDayPartTargetting();
             $scope.deleteAudienceTargetting();
@@ -231,11 +231,13 @@ var angObj = angObj || {};
         $scope.$on('renderTargetingUI', function (event, platformId) {
             $scope.isPlatformId = platformId;
             $scope.isPlatformSelected = platformId ? true : false;
-            //$scope.resetGeoTargetingVariables();
+            //$scope.deleteGeoTargetting();
             $scope.showRegionsTab = true;
             $scope.showCitiesTab = true;
+            $scope.showSwitchBox = true;
             if (($scope.isPlatformId === 1) || ($scope.adData.platformId === 25)) {
                 $scope.showCitiesTab = false;  // Hide Cities Tab for Visto Bidder (platform Id 25)
+                $scope.showSwitchBox = false;
             }
         });
     });
