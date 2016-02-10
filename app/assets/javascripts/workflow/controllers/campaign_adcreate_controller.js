@@ -36,8 +36,11 @@ var angObj = angObj || {};
                                 var responseData = result.data.data;
                                 //redirect user to media plan list screen if new or edited ad is from archived campaign
                                 if(responseData.isArchived){
-                                    var url = vistoconfig.MEDIA_PLANS_LINK;
-                                    $location.url(url);
+                                    $scope.redirectFlag = true;
+                                    $timeout(function(){
+                                        $scope.redirectUser(false)
+                                    },4000);
+
                                 }
                                 $scope.workflowData.campaignData = responseData;
                                 saveDataInLocalStorage(responseData);
@@ -63,8 +66,12 @@ var angObj = angObj || {};
                                                 $scope.getAd_result = result.data.data;
                                                 //redirect user to campaingn overview screen if ad is archived
                                                 if($scope.getAd_result.isArchived){
-                                                    var url = 'mediaplan/'+$scope.campaignId+'/overview';
-                                                    $location.url(url);
+                                                    $scope.redirectFlag = true;
+                                                    $scope.archivedAdFlag = true;
+                                                    $timeout(function(){
+                                                        $scope.redirectUser(true);
+                                                    },4000);
+
                                                 }
                                                 disablePauseEnableResume($scope.getAd_result);
                                                 processEditMode(result);
@@ -300,6 +307,29 @@ var angObj = angObj || {};
             $scope.showDeleteConfirmationPopup = true;
             $scope.deleteType = type;
         };
+
+        $scope.redirectUser = function(isAdArchived){
+            $scope.redirectFlag = false;
+            $scope.archivedAdFlag = false;
+            $scope.archivedCampaignFlag = false;
+            if(isAdArchived){
+                if($scope.workflowData.campaignData.isArchived){
+                    var url = vistoconfig.MEDIA_PLANS_LINK;
+                    $location.url(url);
+                }else{
+                    $scope.redirectFlag = false;
+                    $scope.archivedAdFlag = false;
+                    var url = 'mediaplan/'+$scope.campaignId+'/overview';
+                    $location.url(url);
+                }
+
+            }
+            else{
+                var url = vistoconfig.MEDIA_PLANS_LINK;
+                $location.url(url);
+            }
+
+        }
 
         $scope.deleteTargetting = function () {
             $scope.showDeleteConfirmationPopup = !$scope.showDeleteConfirmationPopup;
@@ -1255,6 +1285,10 @@ var angObj = angObj || {};
         $scope.adData.setSizes = constants.WF_NOT_SET;
         $scope.dayPartTotal = 0;
         $scope.isPlatformSelected = false;
+        $scope.redirectFlag = false;
+        $scope.archivedAdFlag = false;
+        $scope.archivedCampaignFlag = false;
+
 
         RoleBasedService.setCurrencySymbol();
         localStorage.setItem('campaignData', '');

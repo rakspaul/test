@@ -22,6 +22,7 @@ var angObj = angObj || {};
         $scope.showPushAdsLoader = false;
         $scope.brand=[];
         $scope.performance=[];
+        $scope.redirectFlag = false;
         localStorage.setItem('campaignData','');
         $scope.moreThenThree = '';
         $scope.campaignArchiveLoader = false;
@@ -137,8 +138,10 @@ var angObj = angObj || {};
                     if (result.status === "OK" || result.status === "success") {
                         //redirect user to media plan list screen if campaign is archived campaign
                         if(result.data.data.isArchived){
-                            var url = vistoconfig.MEDIA_PLANS_LINK;
-                            $location.url(url);
+                            $scope.redirectFlag = true;
+                            $timeout(function(){
+                                $scope.redirectUserFromArchivedCampaign();
+                            },4000);
                         }
                         var responseData = result.data.data;
                         $scope.workflowData['campaignData'] = responseData;
@@ -308,6 +311,12 @@ var angObj = angObj || {};
                     $location.url('/mediaplans');
                 }
             }
+        }
+
+        $scope.redirectUserFromArchivedCampaign = function(){
+            $scope.redirectFlag = false;
+            var url = vistoconfig.MEDIA_PLANS_LINK;
+            $location.url(url);
         }
 
         $scope.utc = function (date) {

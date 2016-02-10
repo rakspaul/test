@@ -4,6 +4,14 @@
 </div>
 <popup-msg ng-show="partialSaveAlertMessage" ng-controller="popUpMsgCtr"
            ng-init="init('partialSaveAlertMessage','WF_CAMPAIGN_ARCHIVE_FAILURE')"></popup-msg>
+<div id="overlay" style="width: 100%;
+    background-color: black;
+    height: 100%;
+    position: fixed;
+    z-index: 999;
+    opacity: 0.6;
+
+}" ng-show="redirectFlag"></div>
 <div id="campaignCreate" class="adCreateMaster">
     <div class="firstWrapper">
         <div class="masterContainer adMasterContainer">
@@ -187,6 +195,22 @@
             <div class="clearfix popup-footer">
                 <button type="button" ng-click="resumeAd()" class="common_primary_btn pull-right">OK</button>
                 <button type="button" ng-click="cancelAdResume()"class="secondary_txt pull-right">Cancel</button>
+            </div>
+        </div>
+    </div>
+    <div class="common-popup-container" ng-show="redirectFlag">
+        <div class="popup">
+            <div class="popup-header-body">
+                <div class="clearfix">
+                    <h1 class="pull-left">{{(archivedAdFlag && archivedCampaignFlag === false)?textConstants.WF_ARCHIVE_AD:textConstants.WF_ARCHIVE_CAMPAIGN}}</h1>
+                </div>
+                <div class="popup-content">
+                    {{(archivedAdFlag && archivedCampaignFlag === false)?textConstants.WF_REDIRECT_USER_FOR_ARCHIVED_AD:textConstants.WF_REDIRECT_USER_FOR_ARCHIVED_CAMPAIGN}}
+                </div>
+            </div>
+            <div class="clearfix popup-footer">
+                <button type="button" ng-click="redirectUser((archivedAdFlag && archivedCampaignFlag === false)?true:false)" class="common_primary_btn pull-right">OK</button>
+
             </div>
         </div>
     </div>
