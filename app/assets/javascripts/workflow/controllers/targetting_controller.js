@@ -14,7 +14,6 @@ var angObj = angObj || {};
         $scope.geoTargetingPreviewObj = null;
         $scope.showSwitchBox = true;
 
-
         var targeting = {};
 
         _targeting.showAudienceInfo =  function() {
