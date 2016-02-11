@@ -24,28 +24,36 @@ var angObj = angObj || {};
         $scope.IncorrectTag = false;
         $scope.showDuplicateTagPopup = false;
         $scope.campaignId = $routeParams.campaignId;
+        $scope.loadCreativeData=false;
+        $scope.deletePopup=false;
 
 
         var creativeList = {
-            getCreativesList: function (campaignId, formats, query,pageSize,pageNo) {console.log("initialPg:",pageNo)
-                console.log("later:",pageNo)
+            getCreativesList: function (campaignId, formats, query,pageSize,pageNo) {
                 workflowService
                     .getCreativesforCreativeList(campaignId, formats, query,pageSize,pageNo)
                     .then(function (result) {
                         if (result.status === 'OK' || result.status === 'success') {
-
                             $scope.creativeListLoading = false;
                             $scope.creativesNotFound = false;
-                            if($scope.creativeData['creatives'].length === 0) {
-                                $scope.creativeData['creatives'] = result.data.data
-                                $scope.pageNo ++;
+                            if($scope.creativeData['creatives'].length === 0 || query) {
+                                $scope.creativeData['creatives'] = result.data.data;
                             } else {
-                                _.each(result.data.data , function (obj) {
-                                    $scope.creativeData['creatives'].push(obj);
-                                });
-                                $scope.pageNo ++;
+                                if(result.data.data &&result.data.data.length>0){
+                                    var alreadyFound=_.filter($scope.creativeData['creatives'], function (obj) {
+                                        return obj.id === result.data.data[0].id;
+                                    })
+                                    if(alreadyFound<=0){
+                                        _.each(result.data.data , function (obj) {
+                                            $scope.creativeData['creatives'].push(obj);
+                                        });
+                                    }
+                                }
+                                $scope.loadCreativeData=false;
                             }
-
+                            if(pageNo>=1){
+                                $scope.pageNo = Number(pageNo)+1;
+                            }
                             $scope.creativeData.creatives_count += result.data.data.length;
                         } else {
                             creativeList.errorHandler();
@@ -65,6 +73,22 @@ var angObj = angObj || {};
                     });
 
                 },
+            deleteCreatives:function(clientId, creativeIds){
+                workflowService
+                    .deleteCreatives(clientId,creativeIds)
+                    .then(function(result){
+                        if (result.status === 'OK' || result.status === 'success') {
+                            window.location.reload();
+                            //var selectedClientObj = localStorage.selectedClient && JSON.parse(localStorage.selectedClient);
+                            //if(selectedClientObj){
+                            //    creativeList.getCreativesList(JSON.parse(localStorage.selectedClient).id,"", "",20,1);
+                            //}
+                        }else {
+                            creativeList.errorHandler();
+                        }
+                    })
+
+            },
 
 
             errorHandler: function () {
@@ -74,21 +98,33 @@ var angObj = angObj || {};
                 $scope.creativeData.creatives_count = 0;
             }
         };
+        $scope.redirectAdEditPage=function(adData){
+            if(adData.adGroupId){
+                $location.url("/mediaplan/"+adData.campaignId+"/adGroup/"+adData.adGroupId+"/ads/"+adData.adId+"/edit")
+            }else{
+                $location.url("/mediaplan/"+adData.campaignId+"/ads/"+adData.adId+"/edit")
+            }
+        }
         $scope.selectAllCreative=function(){
-            if($scope.creativeData.creatives[0].active){
+            if($('#select_all_checkbox').prop("checked")==false){
                 for(var i in $scope.creativeData.creatives){
+                   if( $scope.creativeData.creatives[i].pushedCount<=0){
                     $scope.creativeData.creatives[i].active=false;
+                   }
                 }
+                checkedCreativeArr=[];
             }else{
                 for(var i in $scope.creativeData.creatives){
-                    $scope.creativeData.creatives[i].active=true;
+                    if($scope.creativeData.creatives[i].pushedCount<=0) {
+                        $scope.creativeData.creatives[i].active = true;
+                    }
                 }
                 $scope.selectedCreativeCheckbox("","allSelected")
             }
         }
         $scope.selectedCreativeCheckbox=function(creative,selectedType){
             if(selectedType!="allSelected"){
-               var creativeAlreadySelected = checkedCreativeArr.indexOf(creative.id)
+               var creativeAlreadySelected = checkedCreativeArr.indexOf(creative.id);
                 if(creativeAlreadySelected===-1){
                     checkedCreativeArr.push(creative.id)
                 }else{
@@ -97,11 +133,26 @@ var angObj = angObj || {};
             }else{
                 checkedCreativeArr=[];
                 for(var i in $scope.creativeData.creatives){
-                    checkedCreativeArr.push($scope.creativeData.creatives[i].id);
+                    if($scope.creativeData.creatives[i].pushedCount<=0) {
+                        checkedCreativeArr.push($scope.creativeData.creatives[i].id);
+                    }
                 }
             }
 
         }
+        $scope.deleteCreatives=function(){
+            $scope.deletePopup=!$scope.deletePopup;
+            var postDataObj = {};
+            postDataObj.idList=checkedCreativeArr;
+            var selectedClientObj = localStorage.selectedClient && JSON.parse(localStorage.selectedClient);
+            if(selectedClientObj){
+                creativeList.deleteCreatives(JSON.parse(localStorage.selectedClient).id,postDataObj);
+            }
+        }
+        $scope.cancelDelete=function(){
+            $scope.deletePopup=!$scope.deletePopup;
+        }
+
 
         $scope.resetAlertMessage = function (){
            localStorage.removeItem('topAlertMessage');
@@ -132,8 +183,13 @@ var angObj = angObj || {};
             if (searchVal.length > 0) {
                 qryStr += '&query=' + searchVal;
             }
-            var selectedClientObj = localStorage.selectedClient && JSON.parse(localStorage.selectedClient);
-            creativeList.getCreativesList(JSON.parse(localStorage.selectedClient).id,formats, qryStr);
+            if(qryStr.length > 2){
+                var selectedClientObj = localStorage.selectedClient && JSON.parse(localStorage.selectedClient);
+                creativeList.getCreativesList(JSON.parse(localStorage.selectedClient).id,formats, qryStr);
+            }else if(qryStr.length==0){
+                var selectedClientObj = localStorage.selectedClient && JSON.parse(localStorage.selectedClient);
+                creativeList.getCreativesList(JSON.parse(localStorage.selectedClient).id,'', '',20, 1);
+            }
         };
 
         function init() {
@@ -234,18 +290,14 @@ var angObj = angObj || {};
         $scope.toggleCreativeAds=function(context,creativeId,index,event){
             var elem = $(event.target);
             if (context.showHideToggle) {
-                elem.removeClass("icon-arrow-down-open") ;
+                elem.removeClass("icon-arrow-down-open");
                 context.showHideToggle = !context.showHideToggle
-                if($('.adsList').is(':hidden')) {
-                    $( ".childRowHead" ).hide();
-                }
             } else {
                 elem.addClass("icon-arrow-down-open") ;
                 context.showHideToggle = !context.showHideToggle
                 creativeList.getCreativeAds(creativeId,index);
                 $( ".childRowHead" ).show();
             }
-
         };
         $scope.utcToLocalTime = function (date, format) {
             return momentService.utcToLocalTime(date, format);
@@ -322,8 +374,13 @@ var angObj = angObj || {};
         
         $scope.searchHideInput = function () {
             $(".searchInputForm").animate({width: '44px'}, 'fast');
+            var inputSearch = $(".searchInputForm input");
+            inputSearch.val('');
             setTimeout(function(){ $(".searchInputForm").hide(); }, 300);
             setTimeout(function(){ $(".searchInputBtn").fadeIn(); }, 300);
+            $scope.creativeData['creatives']=[];
+            var selectedClientObj = localStorage.selectedClient && JSON.parse(localStorage.selectedClient);
+            creativeList.getCreativesList(JSON.parse(localStorage.selectedClient).id,'', '',20, 1);
         };
         
         $scope.headerToggle = function () {
@@ -339,19 +396,20 @@ var angObj = angObj || {};
                 $('.vistoTable .thead').removeClass("sticky");
             }
         });
+        
+        //Flexible tbody
+        var winBrowserHeight = $(window).height();
+        $('.vistoTable .tbody').css('maxHeight', winBrowserHeight - 341);
+        
+        //Pagination
         $(function() {
             $(".tbody").scroll(function(){
-                if ($(window).scrollTop() >= $(document).height() - $(window).height() - 10) {
-                    var test_height = parseInt($(this).height())+1;
-                    $(this).height(test_height);
-                }
-
                 if($(this).scrollTop() + $(this).innerHeight() >= $(this)[0].scrollHeight) {
-                    console.log("$(this).scrollTop():"+$(this).scrollTop()+"$(this).innerHeight():"+$(this).innerHeight()+"$(this)[0].scrollHeight:"+$(this)[0].scrollHeight)
+                    //console.log("$(this).scrollTop():"+$(this).scrollTop()+"$(this).innerHeight():"+$(this).innerHeight()+"$(this)[0].scrollHeight:"+$(this)[0].scrollHeight)
                     var selectedClientObj = localStorage.selectedClient && JSON.parse(localStorage.selectedClient);
-                    console.log("$scope.pageNo");
                     if(selectedClientObj) {
                         creativeList.getCreativesList(JSON.parse(localStorage.selectedClient).id,'','',$scope.pageSize, $scope.pageNo);
+                        $scope.loadCreativeData=true;
                     }
                 }
             });

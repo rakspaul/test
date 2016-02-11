@@ -1,25 +1,5 @@
 /* font- face declarations */
 @font-face {
-  font-family: "TradeGothicLTStd-BdCn20";
-  src: url("/assets/fonts/TradeGothicLTStd-BdCn20.eot");
-  src: url("/assets/fonts/TradeGothicLTStd-BdCn20.eot?#iefix") format("embedded-opentype"), url("/assets/fonts/TradeGothicLTStd-BdCn20.woff") format("woff"), url("/assets/fonts/TradeGothicLTStd-BdCn20.ttf") format("truetype"), url("/assets/fonts/TradeGothicLTStd-BdCn20.svg#TradeGothicLTStd-BdCn20") format("svg");
-}
-@font-face {
-  font-family: "Trade-Gothic-LT-Bold-Condensed-N-2";
-  src: url("/assets/fonts/Trade-Gothic-LT-Bold-Condensed-No--20.eot");
-  src: url("/assets/fonts/Trade-Gothic-LT-Bold-Condensed-No--20.eot?#iefix") format("embedded-opentype"), url("/assets/fonts/Trade-Gothic-LT-Bold-Condensed-No--20.woff") format("woff"), url("/assets/fonts/Trade-Gothic-LT-Bold-Condensed-No--20.ttf") format("truetype"), url("/assets/fonts/Trade-Gothic-LT-Bold-Condensed-No--20.svg#Trade-Gothic-LT-Bold-Condensed-No--20") format("svg");
-}
-@font-face {
-  font-family: "trade-gothic-no-2-bold";
-  src: url("/assets/fonts/trade-gothic-no-2-bold.eot");
-  src: url("/assets/fonts/trade-gothic-no-2-bold.eot?#iefix") format("embedded-opentype"), url("/assets/fonts/trade-gothic-no-2-bold.woff") format("woff"), url("/assets/fonts/trade-gothic-no-2-bold.ttf") format("truetype"), url("/assets/fonts/trade-gothic-no-2-bold.svg#trade-gothic-no-2-bold") format("svg");
-}
-@font-face {
-  font-family: "TradeGothicLTStd";
-  src: url("/assets/fonts/TradeGothicLTStd.eot");
-  src: url("/assets/fonts/TradeGothicLTStd.eot?#iefix") format("embedded-opentype"), url("/assets/fonts/TradeGothicLTStd.woff") format("woff"), url("/assets/fonts/TradeGothicLTStd.ttf") format("truetype"), url("/assets/fonts/TradeGothicLTStd.svg#TradeGothicLTStd") format("svg");
-}
-@font-face {
   font-family: "Avenir";
   src: url("/assets/fonts/Avenir/Avenir.eot");
   src: url("/assets/fonts/Avenir/Avenir.eot?#iefix") format("embedded-opentype"), url("/assets/fonts/Avenir/Avenir.woff") format("woff"), url("/assets/fonts/Avenir/Avenir.ttf") format("truetype");
@@ -75,16 +55,16 @@ input[type="submit"] {
   text-align: left;
   color: #bebebe;
   font-size: 11pt;
-  font-family: "TradeGothicLTStd-BdCn20";
+  font-family: "Avenir";
 }
 .kpi-num {
-  font-family: "Trade-Gothic-LT-Bold-Condensed-N-2";
+  font-family: "Avenir";
 }
 .cpa-color {
   text-transform: uppercase;
   color: #999999;
   font-size: 14px;
-  font-family: "TradeGothicLTStd";
+  font-family: "Avenir";
 }
 .lowerCase {
   text-transform: lowercase;
@@ -157,19 +137,15 @@ input[type="submit"] {
 /* detailed page style */
 #campaignDetail.container,
 #detailedPage.container {
-  width: 1040px;
+  width: 100%;
   margin: 0 auto;
-  /* .row-fluid .col-md-6.campaign-count {
-    margin-bottom: 0;
-    .FontColor(#f9b537, 12pt, @secondaryFont);
-  }*/
 }
 #campaignDetail.container .row-fluid .col-md-12 h1,
 #detailedPage.container .row-fluid .col-md-12 h1 {
   margin-bottom: 15px;
   color: #177ac6;
   font-size: 20pt;
-  font-family: "TradeGothicLTStd-BdCn20";
+  font-family: "Avenir";
 }
 #campaignDetail.container .row-fluid .col-md-12 .campaign,
 #detailedPage.container .row-fluid .col-md-12 .campaign {
@@ -191,7 +167,7 @@ input[type="submit"] {
 #detailedPage.container .row-fluid .col-md-12 .campaign div {
   color: #999999;
   font-size: 10pt;
-  font-family: "TradeGothicLTStd";
+  font-family: "Avenir";
 }
 #campaignDetail.container .row-fluid .col-md-12 .campaign div.edit-stats-icons,
 #detailedPage.container .row-fluid .col-md-12 .campaign div.edit-stats-icons {
@@ -254,14 +230,14 @@ input[type="submit"] {
   margin-bottom: 0;
   color: #f9b537;
   font-size: 16pt;
-  font-family: "TradeGothicLTStd-BdCn20";
+  font-family: "Avenir";
 }
 #campaignDetail.container .row-fluid .col-md-12 .campaign .col-md-5 .brand,
 #detailedPage.container .row-fluid .col-md-12 .campaign .col-md-5 .brand {
   margin-bottom: 20px;
   color: #999999;
   font-size: 10pt;
-  font-family: "TradeGothicLTStd";
+  font-family: "Avenir";
 }
 #campaignDetail.container .row-fluid .col-md-12 .campaign .col-md-5 .brand .brand-type,
 #detailedPage.container .row-fluid .col-md-12 .campaign .col-md-5 .brand .brand-type {
@@ -299,7 +275,7 @@ input[type="submit"] {
 }
 #campaignDetail.container .row-fluid .col-md-12 .campaign .col-md-5 .duration .duration-bar .days-left .day-count,
 #detailedPage.container .row-fluid .col-md-12 .campaign .col-md-5 .duration .duration-bar .days-left .day-count {
-  font-family: "TradeGothicLTStd-BdCn20";
+  font-family: "Avenir";
 }
 #campaignDetail.container .row-fluid .col-md-12 .campaign .col-md-5 #accordion .strategies,
 #detailedPage.container .row-fluid .col-md-12 .campaign .col-md-5 #accordion .strategies {
@@ -340,33 +316,33 @@ input[type="submit"] {
   text-align: left;
   color: #bebebe;
   font-size: 11pt;
-  font-family: "TradeGothicLTStd-BdCn20";
+  font-family: "Avenir";
 }
 #campaignDetail.container .row-fluid .col-md-12 .campaign .col-md-3 .row-fluid .kpi-values,
 #detailedPage.container .row-fluid .col-md-12 .campaign .col-md-3 .row-fluid .kpi-values {
   text-align: right;
   color: #999999;
   font-size: 12pt;
-  font-family: "TradeGothicLTStd-BdCn20";
+  font-family: "Avenir";
 }
 #campaignDetail.container .row-fluid .col-md-12 .campaign .col-md-3 .row-fluid .kpi-values .cumulative-text,
 #detailedPage.container .row-fluid .col-md-12 .campaign .col-md-3 .row-fluid .kpi-values .cumulative-text {
   color: #999999;
   font-size: 13px;
-  font-family: "TradeGothicLTStd";
+  font-family: "Avenir";
 }
 #campaignDetail.container .row-fluid .col-md-12 .campaign .col-md-3 .row-fluid .kpi-values div span,
 #detailedPage.container .row-fluid .col-md-12 .campaign .col-md-3 .row-fluid .kpi-values div span {
   text-align: right;
   color: #999999;
   font-size: 12pt;
-  font-family: "TradeGothicLTStd";
+  font-family: "Avenir";
 }
 #campaignDetail.container .row-fluid .col-md-12 .campaign .col-md-3 .row-fluid .kpi-values div > span:last-child,
 #detailedPage.container .row-fluid .col-md-12 .campaign .col-md-3 .row-fluid .kpi-values div > span:last-child {
   color: #999999;
   font-size: 12pt;
-  font-family: "TradeGothicLTStd-BdCn20";
+  font-family: "Avenir";
 }
 #campaignDetail.container .row-fluid .col-md-12 .campaign .col-md-3 .row-fluid .kpi-values div > span.avg-text,
 #detailedPage.container .row-fluid .col-md-12 .campaign .col-md-3 .row-fluid .kpi-values div > span.avg-text {
@@ -374,7 +350,7 @@ input[type="submit"] {
 }
 #campaignDetail.container .row-fluid .col-md-12 .campaign .col-md-3 .row-fluid .kpi-values .kpi-num,
 #detailedPage.container .row-fluid .col-md-12 .campaign .col-md-3 .row-fluid .kpi-values .kpi-num {
-  font-family: "Trade-Gothic-LT-Bold-Condensed-N-2";
+  font-family: "Avenir";
 }
 #campaignDetail.container .row-fluid .col-md-12 .campaign .col-md-3.marg-10 .row-fluid.marg-10 .col-md-6,
 #detailedPage.container .row-fluid .col-md-12 .campaign .col-md-3.marg-10 .row-fluid.marg-10 .col-md-6 {
@@ -391,7 +367,7 @@ input[type="submit"] {
   text-align: right;
   color: #999999;
   font-size: 12pt;
-  font-family: "TradeGothicLTStd-BdCn20";
+  font-family: "Avenir";
 }
 #campaignDetail.container .row-fluid .col-md-12 .campaign .col-md-3.marg-10 .row-fluid .col-md-12,
 #detailedPage.container .row-fluid .col-md-12 .campaign .col-md-3.marg-10 .row-fluid .col-md-12 {
@@ -408,7 +384,7 @@ input[type="submit"] {
   height: 20px;
   color: #177ac6;
   font-size: 12pt;
-  font-family: "TradeGothicLTStd-BdCn20";
+  font-family: "Avenir";
 }
 #campaignDetail.container .row-fluid .col-md-12 .campaign .col-md-3.marg-10 .row-fluid .col-md-6 .ctr-container .blue.margin-twenty,
 #detailedPage.container .row-fluid .col-md-12 .campaign .col-md-3.marg-10 .row-fluid .col-md-6 .ctr-container .blue.margin-twenty {
@@ -433,7 +409,7 @@ input[type="submit"] {
   height: 20px;
   color: #e4696c;
   font-size: 12pt;
-  font-family: "TradeGothicLTStd-BdCn20";
+  font-family: "Avenir";
 }
 #campaignDetail.container .row-fluid .col-md-12 .campaign .col-md-3.marg-10 .row-fluid .col-md-6 .ctr-container.red .blue.margin-twenty,
 #detailedPage.container .row-fluid .col-md-12 .campaign .col-md-3.marg-10 .row-fluid .col-md-6 .ctr-container.red .blue.margin-twenty {
@@ -458,7 +434,7 @@ input[type="submit"] {
   height: 20px;
   color: #fb8917;
   font-size: 12pt;
-  font-family: "TradeGothicLTStd-BdCn20";
+  font-family: "Avenir";
 }
 #campaignDetail.container .row-fluid .col-md-12 .campaign .col-md-3.marg-10 .row-fluid .col-md-6 .ctr-container.amber .blue .margin-twenty,
 #detailedPage.container .row-fluid .col-md-12 .campaign .col-md-3.marg-10 .row-fluid .col-md-6 .ctr-container.amber .blue .margin-twenty {
@@ -482,13 +458,13 @@ input[type="submit"] {
 #detailedPage.container .row-fluid .col-md-12 .campaign .col-md-3.marg-10 .row-fluid .col-md-6 .ctr-value {
   color: #999999;
   font-size: 12pt;
-  font-family: "TradeGothicLTStd-BdCn20";
+  font-family: "Avenir";
 }
 #campaignDetail.container .row-fluid .col-md-12 .campaign .col-md-3.marg-10 .row-fluid .col-md-6 .action-data,
 #detailedPage.container .row-fluid .col-md-12 .campaign .col-md-3.marg-10 .row-fluid .col-md-6 .action-data {
   color: #999999;
   font-size: 12pt;
-  font-family: "TradeGothicLTStd-BdCn20";
+  font-family: "Avenir";
 }
 #campaignDetail.container .row-fluid .col-md-12 .highcharts span.no-chart,
 #detailedPage.container .row-fluid .col-md-12 .highcharts span.no-chart {
@@ -517,207 +493,6 @@ input[type="submit"] {
 #campaignDetail.container .row-fluid .col-md-12 .inner-accordion,
 #detailedPage.container .row-fluid .col-md-12 .inner-accordion {
   margin-top: -2px;
-  /*.panel-collapse.collapse.in .panel-body.row-fluid .col-md-12 > {
-        .col-md-4 {
-          #tactics_accordion .tactics {
-            width: 110px;
-            padding: 7px 5px 5px;
-            cursor: pointer;
-            text-align: center;
-            border-radius: 15px;
-            background: #C5C4C0;
-            border-top: 1px solid #cccccc;
-            .panel-title {
-              color: #817C7C;
-              font-size: 10pt;
-            }
-            a:hover {
-              text-decoration: none;
-            }
-            .tactics-text {
-              font-weight: bold;
-              color: #817C7C;
-            }
-          }
-          .inner-accordion-details {
-            margin-bottom: 10px;
-            > div {
-              span {
-                margin-right: 5px;
-                vertical-align: baseline;
-              }
-              .audience-icon {
-                width: 16px;
-                height: 16px;
-                display: inline-block;
-                background: url("/assets/images/cdesk/icn_audience.png") no-repeat scroll -1px 1px rgba(0, 0, 0, 0);
-              }
-              .globe-icon {
-                width: 16px;
-                height: 16px;
-                vertical-align: sub;
-                display: inline-block;
-                background: url("/assets/images/cdesk/icn_globe.png") no-repeat scroll -1px 1px rgba(0, 0, 0, 0);
-              }
-              .location-icon {
-                width: 17px;
-                height: 17px;
-                vertical-align: sub;
-                display: inline-block;
-                background: url("/assets/images/cdesk/icn_location.png") no-repeat scroll -1px 1px rgba(0, 0, 0, 0);
-              }
-              .device-icon {
-                width: 17px;
-                height: 17px;
-                vertical-align: sub;
-                display: inline-block;
-                background: url("/assets/images/cdesk/icn_size.png") no-repeat scroll -1px 1px rgba(0, 0, 0, 0);
-              }
-            }
-          }
-          .inner-accordion-duration {
-            .duration {
-              .date {
-                margin-bottom: 10px;
-                color: @textDarkGreyColor;
-              }
-              .duration-bar {
-                width: 170px;
-                .progress {
-                  height: 5px;
-                  border-radius: 0;
-                  margin-bottom: 7px;
-                  .progress-bar {
-                    .BackgroundLinearGradient(#8dc9eb, #7ac3ed);
-                  }
-                }
-                .days-left {
-                  text-align: right;
-                  .day-count {
-                    font-family: @primaryFont;
-                  }
-                }
-              }
-            }
-          }
-        }
-        .col-md-7 {
-          width: 540px;
-          padding: 15px;
-          height: 185px;
-          margin-top: 3px;
-          overflow: hidden;
-          background: @textColorWhite;
-          border-radius: 5px;
-          margin-right: 18px;
-          float: right;
-          .col-md-6 .row-fluid {
-            margin-bottom: 10px;
-            .col-md-6 {
-              padding: 0;
-              text-align: right;
-              .imps {
-                text-align: right;
-              }
-              .imps-count {
-                text-align: right;
-                .FontColor(@textDarkGreyColor, 12pt, @primaryFont);
-              }
-              .ctr-container {
-                .blue{
-                  height: 20px;
-                  .FontColor(@textHeadingColor, 12pt, @primaryFont);
-                }
-                .blue.margin-twenty {
-                  margin-top: -20px;
-                }
-                .progress {
-                  height: 28px;
-                  margin-bottom: 0;
-                  border-radius: 0;
-                  .progress-bar {
-                    border: 1px solid #5ea9d8;
-                    .BackgroundLinearGradientLeftToRight(#6ebff0 , #1d7fc9);
-                  }
-                }
-              }
-              .ctr-container.red {
-                .blue {
-                  height: 20px;
-                  .FontColor(#E4696C, 12pt, @primaryFont);
-                }
-                .blue.margin-twenty {
-                  margin-top: -20px;
-                }
-                .progress {
-                  height: 28px;
-                  margin-bottom: 0;
-                  border-radius: 0;
-                  .progress-bar {
-                    border: 1px solid #E4696C;
-                    .BackgroundLinearGradientLeftToRight(#FAC7C8, #F75256);
-                  }
-                }
-              }
-              .ctr-container.amber {
-                .blue {
-                  height: 20px;
-                  .FontColor(#FB8917, 12pt, @primaryFont);
-                  .margin-twenty {
-                    margin-top: -20px;
-                  }
-                }
-                .progress {
-                  height: 28px;
-                  margin-bottom: 0;
-                  border-radius: 0;
-                  .progress-bar {
-                    border: 1px solid #FB8917;
-                    .BackgroundLinearGradientLeftToRight(#F7B842, #FC8917);
-                  }
-                }
-              }
-              .ctr-value {
-                .FontColor(@textDarkGreyColor, 12pt, @primaryFont);
-              }
-              .action-data {
-                .FontColor(@textDarkGreyColor, 12pt, @primaryFont);
-              }
-            }
-            .col-md-6.text_left {
-              text-align: left;
-            }
-            .kpi-text-container {
-              text-align: left;
-              .FontColor(@textGreyColor, 11pt, @primaryFont);
-            }
-            .kpi-values {
-              text-align: right;
-              .FontColor(@textDarkGreyColor, 12pt, @primaryFont);
-              .cumulative-text {
-                .FontColor(@textDarkGreyColor, 13px, @tertiaryFont);
-              }
-              div span {
-                text-align: right;
-                .FontColor(@textDarkGreyColor, 12pt, @tertiaryFont);
-              }
-              div > span:last-child {
-                .FontColor(@textDarkGreyColor, 12pt, @primaryFont);
-              }
-              div > span.avg-text {
-                font-size: 10pt;
-              }
-              .kpi-num {
-                font-family: @secondaryFont;
-              }
-            }
-          }
-          .col-md-6 .row-fluid:first-child {
-            text-align: left;
-            margin-bottom: 10px;
-          }
-        }
-      }*/
 }
 #campaignDetail.container .row-fluid .col-md-12 .inner-accordion.first,
 #detailedPage.container .row-fluid .col-md-12 .inner-accordion.first {
@@ -732,7 +507,7 @@ input[type="submit"] {
   background: #e9e6e0;
   color: #999999;
   font-size: 10pt;
-  font-family: "TradeGothicLTStd";
+  font-family: "Avenir";
 }
 #campaignDetail.container .row-fluid .col-md-12 .inner-accordion .panel-collapse.collapse.in .panel-body.row-fluid,
 #detailedPage.container .row-fluid .col-md-12 .inner-accordion .panel-collapse.collapse.in .panel-body.row-fluid {
@@ -751,7 +526,7 @@ input[type="submit"] {
 #detailedPage.container .row-fluid .col-md-12 .inner-accordion .panel-collapse.collapse.in .panel-body.row-fluid .col-md-12 .col-md-4 .campaign-name {
   color: #f9b537;
   font-size: 13pt;
-  font-family: "TradeGothicLTStd-BdCn20";
+  font-family: "Avenir";
 }
 #campaignDetail.container .row-fluid .col-md-12 .inner-accordion .tactics_outer_container,
 #detailedPage.container .row-fluid .col-md-12 .inner-accordion .tactics_outer_container {
@@ -798,14 +573,14 @@ input[type="submit"] {
   border: 1px solid #ddd;
   color: #999999;
   font-size: 12pt;
-  font-family: "TradeGothicLTStd-BdCn20";
+  font-family: "Avenir";
 }
 #campaignDetail.container .load-more-strategies a:hover,
 #detailedPage.container .load-more-strategies a:hover {
   text-decoration: none;
   color: #999999;
   font-size: 12pt;
-  font-family: "TradeGothicLTStd-BdCn20";
+  font-family: "Avenir";
 }
 #campaignDetail.container .load-more,
 #detailedPage.container .load-more {
@@ -824,22 +599,6 @@ input[type="submit"] {
   font-size: 11pt;
   cursor: pointer;
 }
-/*#brandsDropdown::-webkit-input-placeholder {
-  color: white;
-  opacity: 1 ;
-}
-#brandsDropdown:-moz-placeholder { 
-  color: white;
-  opacity: 1 ;
-}
-#brandsDropdown::-moz-placeholder { 
-  color: white;
-  opacity: 1 ;
-}
-#brandsDropdown:-ms-input-placeholder {
-  color: white;
-  opacity: 1 ;
-}*/
 .highcharts-container .highcharts-tooltip {
   visibility: visible !important;
 }
@@ -864,7 +623,7 @@ input[type="submit"] {
 #campaignDetail.container .row-fluid .col-md-12 .detailed-campaign-bar.clearfix .col-md-10 h1 {
   color: #f9b537;
   font-size: 20pt;
-  font-family: "TradeGothicLTStd-BdCn20";
+  font-family: "Avenir";
 }
 #campaignDetail.container .row-fluid .col-md-12 .detailed-campaign-bar.clearfix .col-md-1 {
   padding: 0;
@@ -899,7 +658,7 @@ input[type="submit"] {
 #campaignDetail.container .row-fluid .col-md-12 .detailed-campaign-bar.clearfix .col-md-12 .brand {
   color: #999999;
   font-size: 12pt;
-  font-family: "TradeGothicLTStd";
+  font-family: "Avenir";
 }
 #campaignDetail.container .row-fluid .col-md-12 .detailed-campaign-bar.clearfix .col-md-12 .brand .brand-type {
   color: #ccc;
@@ -971,7 +730,7 @@ input[type="submit"] {
   width: 65px ;
   color: #ffffff;
   font-size: 14pt;
-  font-family: "TradeGothicLTStd-BdCn20";
+  font-family: "Avenir";
   background: #f5b236 ;
   border: 0px ;
   outline: 0px ;
@@ -1303,7 +1062,6 @@ input[type="submit"] {
   min-width: 86px;
   min-height: 10px;
   font-size: 14px;
-  font-family: "Trade-Gothic-LT-Bold-Condensed-N-2";
   color: #27292a;
   margin-right: 5px;
   text-align: center;
@@ -1341,13 +1099,11 @@ input[type="submit"] {
 .sortable.descending {
   background: url("/assets/images/cdesk/sprites.png") no-repeat -433px -350px;
 }
-.dashboard_outer_container,
-.bodyWrap {
-  width: 1040px;
+.dashboard_outer_container {
+  width: 100%;
   margin: 0 auto;
 }
-.dashboard_outer_container .no-campaign-available,
-.bodyWrap .no-campaign-available {
+.dashboard_outer_container .no-campaign-available {
   border: solid 1px #d2dee7;
   background: #fff;
   padding: 80px 0;
@@ -1355,35 +1111,30 @@ input[type="submit"] {
   border-top: 0;
   text-align: center;
 }
-.dashboard_outer_container .load-more,
-.bodyWrap .load-more {
+.dashboard_outer_container .load-more {
   margin: 20px;
   text-align: center;
   text-indent: -99999;
   background: url("/assets/images/loading.gif") no-repeat scroll 48% 45% rgba(0, 0, 0, 0);
 }
-.dashboard_outer_container .isFixed,
-.bodyWrap .isFixed {
+.dashboard_outer_container .isFixed {
   position: fixed;
   top: 0px ;
   background: #fff ;
-  width: 1040px ;
+  width: 100% ;
   z-index: 1 ;
 }
-.dashboard_outer_container .page_header_container,
-.bodyWrap .page_header_container {
+.dashboard_outer_container .page_header_container {
   margin: 20px 10px 0px 0px ;
 }
-.dashboard_outer_container .page_header_container .campaign_name_holder .campaign_name,
-.bodyWrap .page_header_container .campaign_name_holder .campaign_name {
+.dashboard_outer_container .page_header_container .campaign_name_holder .campaign_name {
   color: #333 ;
   font-family: "Avenir-bold";
   font-size: 28px ;
   display: inline-block;
   float: left;
 }
-.dashboard_outer_container .page_header_container .campaign_name_holder .campaign_name_details,
-.bodyWrap .page_header_container .campaign_name_holder .campaign_name_details {
+.dashboard_outer_container .page_header_container .campaign_name_holder .campaign_name_details {
   font-size: 26px;
   font-family: "Avenir";
   margin-left: 10px;
@@ -1391,30 +1142,24 @@ input[type="submit"] {
   display: inline-block;
   margin-top: 2px;
 }
-.dashboard_outer_container .page_header_container .campaign_name_holder .create_btn_holder a.btn-primary,
-.bodyWrap .page_header_container .campaign_name_holder .create_btn_holder a.btn-primary {
+.dashboard_outer_container .page_header_container .campaign_name_holder .create_btn_holder a.btn-primary {
   margin: 5px 0 0 30px;
 }
-.dashboard_outer_container .campaign_list_header,
-.bodyWrap .campaign_list_header {
+.dashboard_outer_container .campaign_list_header {
   margin-right: 0px ;
 }
-.dashboard_outer_container .campaign_list_header .nav_filters,
-.bodyWrap .campaign_list_header .nav_filters {
+.dashboard_outer_container .campaign_list_header .nav_filters {
   width: auto ;
 }
-.dashboard_outer_container .campaign_list_header .nav_filters #brandsList,
-.bodyWrap .campaign_list_header .nav_filters #brandsList {
+.dashboard_outer_container .campaign_list_header .nav_filters #brandsList {
   right: -10px;
   left: auto;
 }
-.dashboard_outer_container .campaign_list_header .nav_filters #advertisersDropDownList,
-.bodyWrap .campaign_list_header .nav_filters #advertisersDropDownList {
+.dashboard_outer_container .campaign_list_header .nav_filters #advertisersDropDownList {
   right: -10px;
   left: auto;
 }
-.dashboard_outer_container .campaign_list_header .common_primary_btn,
-.bodyWrap .campaign_list_header .common_primary_btn {
+.dashboard_outer_container .campaign_list_header .common_primary_btn {
   text-transform: none;
   border-radius: 2px;
   height: 36px;
@@ -1422,21 +1167,17 @@ input[type="submit"] {
   font-size: 14px;
   width: auto ;
 }
-.dashboard_outer_container .campaign_list_header .common_primary_btn a,
-.bodyWrap .campaign_list_header .common_primary_btn a {
+.dashboard_outer_container .campaign_list_header .common_primary_btn a {
   display: block;
   color: #fff ;
 }
-.dashboard_outer_container .summary_title,
-.bodyWrap .summary_title {
+.dashboard_outer_container .summary_title {
   color: #333 ;
 }
-.dashboard_outer_container .summary_title .heading,
-.bodyWrap .summary_title .heading {
+.dashboard_outer_container .summary_title .heading {
   color: #666 ;
 }
-.dashboard_outer_container .campaign_list_header_holder,
-.bodyWrap .campaign_list_header_holder {
+.dashboard_outer_container .campaign_list_header_holder {
   background: #fff ;
   border: solid 1px #d2dee7 ;
   color: #333 ;
@@ -1445,8 +1186,7 @@ input[type="submit"] {
   margin: 0px ;
   padding-left: 15px ;
 }
-.dashboard_outer_container .campaign_list_header_holder .each_header_title,
-.bodyWrap .campaign_list_header_holder .each_header_title {
+.dashboard_outer_container .campaign_list_header_holder .each_header_title {
   float: left;
   min-width: 96px;
   text-align: center;
@@ -1455,47 +1195,38 @@ input[type="submit"] {
   cursor: pointer;
   margin: 0 10px;
 }
-.dashboard_outer_container .campaign_list_header_holder .each_header_title a,
-.bodyWrap .campaign_list_header_holder .each_header_title a {
+.dashboard_outer_container .campaign_list_header_holder .each_header_title a {
   color: #313233 ;
   text-decoration: none;
 }
-.dashboard_outer_container .campaign_list_header_holder .active a,
-.bodyWrap .campaign_list_header_holder .active a {
+.dashboard_outer_container .campaign_list_header_holder .active a {
   color: #0978c9 ;
 }
-.dashboard_outer_container .campaign_list_header_holder .active a span span,
-.bodyWrap .campaign_list_header_holder .active a span span {
+.dashboard_outer_container .campaign_list_header_holder .active a span span {
   background: url("/assets/images/cdesk/sprites.png") no-repeat -197px -348px;
   display: inline-block;
   height: 13px;
   width: 10px;
 }
-.dashboard_outer_container .campaign_list_header_holder .active a span span.descending,
-.bodyWrap .campaign_list_header_holder .active a span span.descending {
+.dashboard_outer_container .campaign_list_header_holder .active a span span.descending {
   background: url("/assets/images/cdesk/sprites.png") no-repeat -433px -417px;
 }
-.dashboard_outer_container .campaign_list_header_holder .active a span span.ascending,
-.bodyWrap .campaign_list_header_holder .active a span span.ascending {
+.dashboard_outer_container .campaign_list_header_holder .active a span span.ascending {
   background: url("/assets/images/cdesk/sprites.png") no-repeat -197px -414px;
 }
-.dashboard_outer_container .campaign_list_header_holder .metrics_title,
-.bodyWrap .campaign_list_header_holder .metrics_title {
+.dashboard_outer_container .campaign_list_header_holder .metrics_title {
   width: 296px ;
   cursor: default;
 }
-.dashboard_outer_container .campaign_list_header_holder .kpi_title,
-.bodyWrap .campaign_list_header_holder .kpi_title {
+.dashboard_outer_container .campaign_list_header_holder .kpi_title {
   cursor: default;
   margin-left: 150px;
   width: 80px;
 }
-.dashboard_outer_container .campaign_list_header_holder .kpi_title .tooltip_holder,
-.bodyWrap .campaign_list_header_holder .kpi_title .tooltip_holder {
+.dashboard_outer_container .campaign_list_header_holder .kpi_title .tooltip_holder {
   margin-left: 6px ;
 }
-.dashboard_outer_container .campaign_list_header_holder .kpi_title .tooltip_holder .common_tooltip,
-.bodyWrap .campaign_list_header_holder .kpi_title .tooltip_holder .common_tooltip {
+.dashboard_outer_container .campaign_list_header_holder .kpi_title .tooltip_holder .common_tooltip {
   color: #fff ;
   font-size: 14px ;
   width: 200px;
@@ -1504,100 +1235,83 @@ input[type="submit"] {
   bottom: 28px;
   left: -92px;
 }
-.dashboard_outer_container .campaign_list_header_holder .kpi_title .tooltip_holder .common_tooltip .target_zone,
-.bodyWrap .campaign_list_header_holder .kpi_title .tooltip_holder .common_tooltip .target_zone {
+.dashboard_outer_container .campaign_list_header_holder .kpi_title .tooltip_holder .common_tooltip .target_zone {
   margin-bottom: 18px;
 }
-.dashboard_outer_container .campaign_list_header_holder .kpi_title .tooltip_holder .common_tooltip .target_zone .target_zone_lines,
-.bodyWrap .campaign_list_header_holder .kpi_title .tooltip_holder .common_tooltip .target_zone .target_zone_lines {
+.dashboard_outer_container .campaign_list_header_holder .kpi_title .tooltip_holder .common_tooltip .target_zone .target_zone_lines {
   height: 10px ;
   border-bottom: dashed 1px #DDE6EB ;
   border-top: dashed 1px #DDE6EB ;
   margin-bottom: 5px;
 }
-.dashboard_outer_container .campaign_list_header_holder .kpi_title .tooltip_holder .common_tooltip .legend_line,
-.bodyWrap .campaign_list_header_holder .kpi_title .tooltip_holder .common_tooltip .legend_line {
+.dashboard_outer_container .campaign_list_header_holder .kpi_title .tooltip_holder .common_tooltip .legend_line {
   border-top: solid 2px #0978c9 ;
   padding-top: 3px ;
 }
-.dashboard_outer_container .campaign_list_header_holder .kpi_title .tooltip_holder .common_tooltip .underperformance_line,
-.bodyWrap .campaign_list_header_holder .kpi_title .tooltip_holder .common_tooltip .underperformance_line {
+.dashboard_outer_container .campaign_list_header_holder .kpi_title .tooltip_holder .common_tooltip .underperformance_line {
   border-color: #ef4649 ;
   margin-top: 18px ;
 }
-.dashboard_outer_container .campaign_list_header_holder .kpi_title .tooltip_holder .common_tooltip:after,
-.bodyWrap .campaign_list_header_holder .kpi_title .tooltip_holder .common_tooltip:after {
+.dashboard_outer_container .campaign_list_header_holder .kpi_title .tooltip_holder .common_tooltip:after {
   left: 90px;
 }
-.dashboard_outer_container .total_campaign_list_holder .each_campaign_list_container,
-.bodyWrap .total_campaign_list_holder .each_campaign_list_container {
+.dashboard_outer_container .total_campaign_list_holder .each_campaign_list_container {
   border: solid 1px #d2dee7 ;
   background: #fff ;
   padding: 18px 10px 0px 20px;
   margin: 0px 0 10px ;
 }
-.dashboard_outer_container .total_campaign_list_holder .each_campaign_list_container .each_campaign_section,
-.bodyWrap .total_campaign_list_holder .each_campaign_list_container .each_campaign_section {
+.dashboard_outer_container .total_campaign_list_holder .each_campaign_list_container .each_campaign_section {
   float: left;
 }
-.dashboard_outer_container .total_campaign_list_holder .each_campaign_list_container .main_heading,
-.bodyWrap .total_campaign_list_holder .each_campaign_list_container .main_heading {
+.dashboard_outer_container .total_campaign_list_holder .each_campaign_list_container .main_heading {
   font-size: 18px ;
   color: #21252b ;
   line-height: 24px ;
   font-family: "Avenir-bold";
   word-wrap: break-word;
 }
-.dashboard_outer_container .total_campaign_list_holder .each_campaign_list_container .main_heading a,
-.bodyWrap .total_campaign_list_holder .each_campaign_list_container .main_heading a {
+.dashboard_outer_container .total_campaign_list_holder .each_campaign_list_container .main_heading a {
   color: #000;
   text-decoration: none;
 }
-.dashboard_outer_container .total_campaign_list_holder .each_campaign_list_container .heading,
-.bodyWrap .total_campaign_list_holder .each_campaign_list_container .heading {
+.dashboard_outer_container .total_campaign_list_holder .each_campaign_list_container .heading {
   color: #57606d ;
   font-size: 14px ;
   margin-top: 2px ;
   margin-left: 22px ;
 }
-.dashboard_outer_container .total_campaign_list_holder .each_campaign_list_container .campaign_section_KPI,
-.bodyWrap .total_campaign_list_holder .each_campaign_list_container .campaign_section_KPI {
+.dashboard_outer_container .total_campaign_list_holder .each_campaign_list_container .campaign_section_KPI {
   width: 316px ;
   float: right;
   height: 142px ;
 }
-.dashboard_outer_container .total_campaign_list_holder .each_campaign_list_container .campaign_section_KPI .no-data-common,
-.bodyWrap .total_campaign_list_holder .each_campaign_list_container .campaign_section_KPI .no-data-common {
+.dashboard_outer_container .total_campaign_list_holder .each_campaign_list_container .campaign_section_KPI .no-data-common {
   margin-top: 20px ;
 }
-.dashboard_outer_container .total_campaign_list_holder .each_campaign_list_container .campaign_section_KPI .graph_details_KPI .details_KPI_row1,
-.bodyWrap .total_campaign_list_holder .each_campaign_list_container .campaign_section_KPI .graph_details_KPI .details_KPI_row1 {
+.dashboard_outer_container .total_campaign_list_holder .each_campaign_list_container .campaign_section_KPI .graph_details_KPI .details_KPI_row1 {
   font-size: 16px;
   font-family: "Avenir";
   color: black;
   margin-right: 8px;
 }
-.dashboard_outer_container .total_campaign_list_holder .each_campaign_list_container .campaign_section_KPI .graph_details_KPI .details_KPI_row1 .details_KPI_title,
-.bodyWrap .total_campaign_list_holder .each_campaign_list_container .campaign_section_KPI .graph_details_KPI .details_KPI_row1 .details_KPI_title {
+.dashboard_outer_container .total_campaign_list_holder .each_campaign_list_container .campaign_section_KPI .graph_details_KPI .details_KPI_row1 .details_KPI_title {
   float: left;
   font-family: "Avenir-bold";
   color: #21252b;
   font-size: 14px;
 }
-.dashboard_outer_container .total_campaign_list_holder .each_campaign_list_container .campaign_section_KPI .graph_details_KPI .details_KPI_row1 .cumulative_val,
-.bodyWrap .total_campaign_list_holder .each_campaign_list_container .campaign_section_KPI .graph_details_KPI .details_KPI_row1 .cumulative_val {
+.dashboard_outer_container .total_campaign_list_holder .each_campaign_list_container .campaign_section_KPI .graph_details_KPI .details_KPI_row1 .cumulative_val {
   float: right;
   color: #939eaf;
   font-size: 12px;
 }
-.dashboard_outer_container .total_campaign_list_holder .each_campaign_list_container .campaign_section_KPI .graph_details_KPI .details_KPI_row1 .cumulative_val span,
-.bodyWrap .total_campaign_list_holder .each_campaign_list_container .campaign_section_KPI .graph_details_KPI .details_KPI_row1 .cumulative_val span {
+.dashboard_outer_container .total_campaign_list_holder .each_campaign_list_container .campaign_section_KPI .graph_details_KPI .details_KPI_row1 .cumulative_val span {
   font-family: "Avenir-bold";
   color: #57606d;
   font-size: 14px;
 }
-.dashboard_outer_container .total_campaign_list_holder .each_campaign_list_container .campaign_section_KPI .graph_details_KPI .details_KPI_row2,
-.bodyWrap .total_campaign_list_holder .each_campaign_list_container .campaign_section_KPI .graph_details_KPI .details_KPI_row2 {
+.dashboard_outer_container .total_campaign_list_holder .each_campaign_list_container .campaign_section_KPI .graph_details_KPI .details_KPI_row2 {
   color: #242424 ;
   font-size: 16px ;
   font-family: "Avenir";
@@ -1605,62 +1319,51 @@ input[type="submit"] {
   margin-top: 0px ;
   margin-left: 6px ;
 }
-.dashboard_outer_container .total_campaign_list_holder .each_campaign_list_container .campaign_section_KPI .graph_details_KPI .details_KPI_row2 span,
-.bodyWrap .total_campaign_list_holder .each_campaign_list_container .campaign_section_KPI .graph_details_KPI .details_KPI_row2 span {
+.dashboard_outer_container .total_campaign_list_holder .each_campaign_list_container .campaign_section_KPI .graph_details_KPI .details_KPI_row2 span {
   float: right ;
   font-family: "Avenir-bold";
   color: #57606d;
   font-size: 14px;
 }
-.dashboard_outer_container .total_campaign_list_holder .each_campaign_list_container .campaign_section_KPI .graph_details_KPI .details_KPI_row2 span.icon_KPI,
-.bodyWrap .total_campaign_list_holder .each_campaign_list_container .campaign_section_KPI .graph_details_KPI .details_KPI_row2 span.icon_KPI {
+.dashboard_outer_container .total_campaign_list_holder .each_campaign_list_container .campaign_section_KPI .graph_details_KPI .details_KPI_row2 span.icon_KPI {
   display: inline-block;
   background: url("/assets/images/cdesk/target_indicator_dark.png") no-repeat center 3px;
   height: 20px;
   width: 22px;
   padding-right: 0px ;
 }
-.dashboard_outer_container .total_campaign_list_holder .each_campaign_list_container .campaign_section_KPI .graph_KPI_outer_holder,
-.bodyWrap .total_campaign_list_holder .each_campaign_list_container .campaign_section_KPI .graph_KPI_outer_holder {
+.dashboard_outer_container .total_campaign_list_holder .each_campaign_list_container .campaign_section_KPI .graph_KPI_outer_holder {
   height: 150px ;
   overflow: hidden;
   margin-left: -13px;
 }
-.dashboard_outer_container .total_campaign_list_holder .each_campaign_list_container .campaign_section_KPI .graph_KPI_outer_holder .graph_KPI_holder,
-.bodyWrap .total_campaign_list_holder .each_campaign_list_container .campaign_section_KPI .graph_KPI_outer_holder .graph_KPI_holder {
+.dashboard_outer_container .total_campaign_list_holder .each_campaign_list_container .campaign_section_KPI .graph_KPI_outer_holder .graph_KPI_holder {
   height: 120px ;
 }
-.dashboard_outer_container .total_campaign_list_holder .each_campaign_list_container .campaign_section_KPI .graph_KPI_outer_holder .load-more,
-.bodyWrap .total_campaign_list_holder .each_campaign_list_container .campaign_section_KPI .graph_KPI_outer_holder .load-more {
+.dashboard_outer_container .total_campaign_list_holder .each_campaign_list_container .campaign_section_KPI .graph_KPI_outer_holder .load-more {
   margin-top: 50px ;
 }
-.dashboard_outer_container .total_campaign_list_holder .each_campaign_list_container .metric_campaign_section,
-.bodyWrap .total_campaign_list_holder .each_campaign_list_container .metric_campaign_section {
+.dashboard_outer_container .total_campaign_list_holder .each_campaign_list_container .metric_campaign_section {
   font-family: "Avenir";
   width: 306px;
 }
-.dashboard_outer_container .total_campaign_list_holder .each_campaign_list_container .metric_campaign_section .metric_graph_header,
-.bodyWrap .total_campaign_list_holder .each_campaign_list_container .metric_campaign_section .metric_graph_header {
+.dashboard_outer_container .total_campaign_list_holder .each_campaign_list_container .metric_campaign_section .metric_graph_header {
   font-family: "Avenir-bold";
   color: #21252b;
   font-size: 14px;
 }
-.dashboard_outer_container .total_campaign_list_holder .each_campaign_list_container .metric_campaign_section .metric_graph_header .metric_title,
-.bodyWrap .total_campaign_list_holder .each_campaign_list_container .metric_campaign_section .metric_graph_header .metric_title {
+.dashboard_outer_container .total_campaign_list_holder .each_campaign_list_container .metric_campaign_section .metric_graph_header .metric_title {
   float: left;
 }
-.dashboard_outer_container .total_campaign_list_holder .each_campaign_list_container .metric_campaign_section .metric_graph_header .metric_val,
-.bodyWrap .total_campaign_list_holder .each_campaign_list_container .metric_campaign_section .metric_graph_header .metric_val {
+.dashboard_outer_container .total_campaign_list_holder .each_campaign_list_container .metric_campaign_section .metric_graph_header .metric_val {
   float: right;
 }
-.dashboard_outer_container .total_campaign_list_holder .each_campaign_list_container .metric_campaign_section .metric_graph_details,
-.bodyWrap .total_campaign_list_holder .each_campaign_list_container .metric_campaign_section .metric_graph_details {
+.dashboard_outer_container .total_campaign_list_holder .each_campaign_list_container .metric_campaign_section .metric_graph_details {
   color: #acacac ;
   font-size: 14px ;
   padding-top: 12px;
 }
-.dashboard_outer_container .total_campaign_list_holder .each_campaign_list_container .metric_campaign_section .metric_graph_details .each_metric_graph_details,
-.bodyWrap .total_campaign_list_holder .each_campaign_list_container .metric_campaign_section .metric_graph_details .each_metric_graph_details {
+.dashboard_outer_container .total_campaign_list_holder .each_campaign_list_container .metric_campaign_section .metric_graph_details .each_metric_graph_details {
   float: left;
   min-width: 30% ;
   margin-right: 10px;
@@ -1668,43 +1371,36 @@ input[type="submit"] {
   font-size: 12px ;
   color: #939eaf ;
 }
-.dashboard_outer_container .total_campaign_list_holder .each_campaign_list_container .metric_campaign_section .metric_graph_details .each_metric_graph_details span,
-.bodyWrap .total_campaign_list_holder .each_campaign_list_container .metric_campaign_section .metric_graph_details .each_metric_graph_details span {
+.dashboard_outer_container .total_campaign_list_holder .each_campaign_list_container .metric_campaign_section .metric_graph_details .each_metric_graph_details span {
   display: block;
 }
-.dashboard_outer_container .total_campaign_list_holder .each_campaign_list_container .metric_campaign_section .metric_graph_details .each_metric_graph_details span.detail_val,
-.bodyWrap .total_campaign_list_holder .each_campaign_list_container .metric_campaign_section .metric_graph_details .each_metric_graph_details span.detail_val {
+.dashboard_outer_container .total_campaign_list_holder .each_campaign_list_container .metric_campaign_section .metric_graph_details .each_metric_graph_details span.detail_val {
   font-family: "Avenir-bold";
   color: #57606d;
   font-size: 14px;
   color: #57606d ;
 }
-.dashboard_outer_container .total_campaign_list_holder .each_campaign_list_container .metric_campaign_section .metric_graph_details .metric_graph_details_ctr,
-.bodyWrap .total_campaign_list_holder .each_campaign_list_container .metric_campaign_section .metric_graph_details .metric_graph_details_ctr {
+.dashboard_outer_container .total_campaign_list_holder .each_campaign_list_container .metric_campaign_section .metric_graph_details .metric_graph_details_ctr {
   text-align: center;
   min-width: 33%;
 }
-.dashboard_outer_container .total_campaign_list_holder .each_campaign_list_container .metric_campaign_section .metric_graph_details .metric_graph_details_action,
-.bodyWrap .total_campaign_list_holder .each_campaign_list_container .metric_campaign_section .metric_graph_details .metric_graph_details_action {
+.dashboard_outer_container .total_campaign_list_holder .each_campaign_list_container .metric_campaign_section .metric_graph_details .metric_graph_details_action {
   text-align: right;
   margin-right: 0px ;
   float: right;
 }
-.dashboard_outer_container .total_campaign_list_holder .each_campaign_list_container .metric_campaign_section .metric_graph_details .metric_graph_details_vtc,
-.bodyWrap .total_campaign_list_holder .each_campaign_list_container .metric_campaign_section .metric_graph_details .metric_graph_details_vtc {
+.dashboard_outer_container .total_campaign_list_holder .each_campaign_list_container .metric_campaign_section .metric_graph_details .metric_graph_details_vtc {
   text-align: center;
   float: right;
   margin-right: 0px ;
   min-height: 40px;
 }
-.dashboard_outer_container .total_campaign_list_holder .each_campaign_list_container .metric_campaign_section .metric_graph_details .metric_graph_details_vtc .quartile_details_title,
-.bodyWrap .total_campaign_list_holder .each_campaign_list_container .metric_campaign_section .metric_graph_details .metric_graph_details_vtc .quartile_details_title {
+.dashboard_outer_container .total_campaign_list_holder .each_campaign_list_container .metric_campaign_section .metric_graph_details .metric_graph_details_vtc .quartile_details_title {
   font-size: 14px ;
   font-family: "Avenir-bold";
   color: #21252b ;
 }
-.dashboard_outer_container .total_campaign_list_holder .each_campaign_list_container .metric_campaign_section .metric_graph_details .metric_graph_details_vtc .quartile_details_VTC_btn,
-.bodyWrap .total_campaign_list_holder .each_campaign_list_container .metric_campaign_section .metric_graph_details .metric_graph_details_vtc .quartile_details_VTC_btn {
+.dashboard_outer_container .total_campaign_list_holder .each_campaign_list_container .metric_campaign_section .metric_graph_details .metric_graph_details_vtc .quartile_details_VTC_btn {
   border: solid 1px #dde6eb;
   min-width: 40px;
   background: #fff;
@@ -1713,8 +1409,7 @@ input[type="submit"] {
   position: relative;
   cursor: default;
 }
-.dashboard_outer_container .total_campaign_list_holder .each_campaign_list_container .metric_campaign_section .metric_graph_details .metric_graph_details_vtc .quartile_details_VTC,
-.bodyWrap .total_campaign_list_holder .each_campaign_list_container .metric_campaign_section .metric_graph_details .metric_graph_details_vtc .quartile_details_VTC {
+.dashboard_outer_container .total_campaign_list_holder .each_campaign_list_container .metric_campaign_section .metric_graph_details .metric_graph_details_vtc .quartile_details_VTC {
   display: none;
   position: absolute;
   top: 0px ;
@@ -1730,39 +1425,32 @@ input[type="submit"] {
   padding: 12px 20px 0px 20px ;
   text-align: left;
 }
-.dashboard_outer_container .total_campaign_list_holder .each_campaign_list_container .metric_campaign_section .metric_graph_details .metric_graph_details_vtc .quartile_details_VTC .quartile_details_title,
-.bodyWrap .total_campaign_list_holder .each_campaign_list_container .metric_campaign_section .metric_graph_details .metric_graph_details_vtc .quartile_details_VTC .quartile_details_title {
+.dashboard_outer_container .total_campaign_list_holder .each_campaign_list_container .metric_campaign_section .metric_graph_details .metric_graph_details_vtc .quartile_details_VTC .quartile_details_title {
   margin-bottom: 8px ;
 }
-.dashboard_outer_container .total_campaign_list_holder .each_campaign_list_container .metric_campaign_section .metric_graph_details .metric_graph_details_vtc:hover .quartile_details_VTC,
-.bodyWrap .total_campaign_list_holder .each_campaign_list_container .metric_campaign_section .metric_graph_details .metric_graph_details_vtc:hover .quartile_details_VTC {
+.dashboard_outer_container .total_campaign_list_holder .each_campaign_list_container .metric_campaign_section .metric_graph_details .metric_graph_details_vtc:hover .quartile_details_VTC {
   display: block;
 }
-.dashboard_outer_container .total_campaign_list_holder .each_campaign_list_container .metric_campaign_section .metric_graph_details .metric_graph_details_vtc:hover .quartile_details_VTC_btn,
-.bodyWrap .total_campaign_list_holder .each_campaign_list_container .metric_campaign_section .metric_graph_details .metric_graph_details_vtc:hover .quartile_details_VTC_btn {
+.dashboard_outer_container .total_campaign_list_holder .each_campaign_list_container .metric_campaign_section .metric_graph_details .metric_graph_details_vtc:hover .quartile_details_VTC_btn {
   z-index: 6;
   border-top: solid 1px transparent;
   box-shadow: 0px 6px 8px 0px rgba(0, 0, 0, 0.15);
   -webkit-box-shadow: 0px 6px 8px 0px rgba(0, 0, 0, 0.15);
   -moz-box-shadow: 0px 6px 8px 0px rgba(0, 0, 0, 0.15);
 }
-.dashboard_outer_container .total_campaign_list_holder .each_campaign_list_container .campaign_list_details,
-.bodyWrap .total_campaign_list_holder .each_campaign_list_container .campaign_list_details {
+.dashboard_outer_container .total_campaign_list_holder .each_campaign_list_container .campaign_list_details {
   font-family: "Avenir";
   width: 306px;
   margin: 5px 30px 0 20px;
 }
-.dashboard_outer_container .total_campaign_list_holder .each_campaign_list_container .campaign_list_details .heading_holder,
-.bodyWrap .total_campaign_list_holder .each_campaign_list_container .campaign_list_details .heading_holder {
+.dashboard_outer_container .total_campaign_list_holder .each_campaign_list_container .campaign_list_details .heading_holder {
   min-height: 80px ;
   word-wrap: break-word;
 }
-.dashboard_outer_container .total_campaign_list_holder .each_campaign_list_container .campaign_list_details .campaigns_list_buttons_holder,
-.bodyWrap .total_campaign_list_holder .each_campaign_list_container .campaign_list_details .campaigns_list_buttons_holder {
+.dashboard_outer_container .total_campaign_list_holder .each_campaign_list_container .campaign_list_details .campaigns_list_buttons_holder {
   margin-top: 38px ;
 }
-.dashboard_outer_container .total_campaign_list_holder .each_campaign_list_container .campaign_list_details .campaigns_list_buttons_holder .strategies_btn,
-.bodyWrap .total_campaign_list_holder .each_campaign_list_container .campaign_list_details .campaigns_list_buttons_holder .strategies_btn {
+.dashboard_outer_container .total_campaign_list_holder .each_campaign_list_container .campaign_list_details .campaigns_list_buttons_holder .strategies_btn {
   float: left;
   background: #fff;
   padding: 5px 10px 5px 30px;
@@ -1771,16 +1459,13 @@ input[type="submit"] {
   border-radius: 5px 5px 0 0;
   margin-top: 10px;
 }
-.dashboard_outer_container .total_campaign_list_holder .each_campaign_list_container .campaign_list_details .campaigns_list_buttons_holder .actions_btn,
-.bodyWrap .total_campaign_list_holder .each_campaign_list_container .campaign_list_details .campaigns_list_buttons_holder .actions_btn {
+.dashboard_outer_container .total_campaign_list_holder .each_campaign_list_container .campaign_list_details .campaigns_list_buttons_holder .actions_btn {
   float: right;
 }
-.dashboard_outer_container .total_campaign_list_holder .each_campaign_list_container .campaign_list_details .campaigns_list_buttons_holder .reports_btn,
-.bodyWrap .total_campaign_list_holder .each_campaign_list_container .campaign_list_details .campaigns_list_buttons_holder .reports_btn {
+.dashboard_outer_container .total_campaign_list_holder .each_campaign_list_container .campaign_list_details .campaigns_list_buttons_holder .reports_btn {
   float: right;
 }
-.dashboard_outer_container .total_campaign_list_holder .each_campaign_list_container .campaign_list_details .campaigns_list_buttons_holder .campaign_btn,
-.bodyWrap .total_campaign_list_holder .each_campaign_list_container .campaign_list_details .campaigns_list_buttons_holder .campaign_btn {
+.dashboard_outer_container .total_campaign_list_holder .each_campaign_list_container .campaign_list_details .campaigns_list_buttons_holder .campaign_btn {
   border: solid 2px #dee6eb;
   padding: 5px 10px 0;
   text-align: center;
@@ -1794,16 +1479,13 @@ input[type="submit"] {
   cursor: pointer;
   height: 30px ;
 }
-.dashboard_outer_container .total_campaign_list_holder .each_campaign_list_container .campaign_list_details .campaigns_list_buttons_holder .campaign_btn:hover,
-.bodyWrap .total_campaign_list_holder .each_campaign_list_container .campaign_list_details .campaigns_list_buttons_holder .campaign_btn:hover {
+.dashboard_outer_container .total_campaign_list_holder .each_campaign_list_container .campaign_list_details .campaigns_list_buttons_holder .campaign_btn:hover {
   background: #dee6eb ;
 }
-.dashboard_outer_container .total_campaign_list_holder .each_campaign_list_container .campaign_list_details .campaigns_list_buttons_holder .actions_btn,
-.bodyWrap .total_campaign_list_holder .each_campaign_list_container .campaign_list_details .campaigns_list_buttons_holder .actions_btn {
+.dashboard_outer_container .total_campaign_list_holder .each_campaign_list_container .campaign_list_details .campaigns_list_buttons_holder .actions_btn {
   position: relative;
 }
-.dashboard_outer_container .total_campaign_list_holder .each_campaign_list_container .campaign_list_details .campaigns_list_buttons_holder .actions_btn .actions_done,
-.bodyWrap .total_campaign_list_holder .each_campaign_list_container .campaign_list_details .campaigns_list_buttons_holder .actions_btn .actions_done {
+.dashboard_outer_container .total_campaign_list_holder .each_campaign_list_container .campaign_list_details .campaigns_list_buttons_holder .actions_btn .actions_done {
   height: 15px ;
   width: 15px ;
   background: #fd5a2f ;
@@ -1819,8 +1501,7 @@ input[type="submit"] {
   padding: 3px 1px 0 0 ;
   display: block;
 }
-.dashboard_outer_container .total_campaign_list_holder .each_campaign_list_container .first_section,
-.bodyWrap .total_campaign_list_holder .each_campaign_list_container .first_section {
+.dashboard_outer_container .total_campaign_list_holder .each_campaign_list_container .first_section {
   height: 8px ;
   width: 8px ;
   margin-top: 5px;
@@ -1829,63 +1510,50 @@ input[type="submit"] {
   -webkit-border-radius: 8px ;
   background: #6abc52 ;
 }
-.dashboard_outer_container .total_campaign_list_holder .each_campaign_holder:first-child .each_campaign_list_container,
-.bodyWrap .total_campaign_list_holder .each_campaign_holder:first-child .each_campaign_list_container {
+.dashboard_outer_container .total_campaign_list_holder .each_campaign_holder:first-child .each_campaign_list_container {
   border-top: 0px ;
 }
-.dashboard_outer_container .total_campaign_cost_holder .each_campaign_cost_container,
-.bodyWrap .total_campaign_cost_holder .each_campaign_cost_container {
+.dashboard_outer_container .total_campaign_cost_holder .each_campaign_cost_container {
   padding: 10px;
 }
-.dashboard_outer_container .total_campaign_cost_holder .each_campaign_cost_container .each_cost_section,
-.bodyWrap .total_campaign_cost_holder .each_campaign_cost_container .each_cost_section {
+.dashboard_outer_container .total_campaign_cost_holder .each_campaign_cost_container .each_cost_section {
   float: left;
 }
-.dashboard_outer_container .total_campaign_cost_holder .each_campaign_cost_container .each_cost_section .each_cost_details,
-.bodyWrap .total_campaign_cost_holder .each_campaign_cost_container .each_cost_section .each_cost_details {
+.dashboard_outer_container .total_campaign_cost_holder .each_campaign_cost_container .each_cost_section .each_cost_details {
   font-family: "Avenir";
   font-size: 14px;
 }
-.dashboard_outer_container .total_campaign_cost_holder .each_campaign_cost_container .each_cost_section .each_cost_details .main_heading,
-.bodyWrap .total_campaign_cost_holder .each_campaign_cost_container .each_cost_section .each_cost_details .main_heading {
+.dashboard_outer_container .total_campaign_cost_holder .each_campaign_cost_container .each_cost_section .each_cost_details .main_heading {
   color: #000;
   font-family: "Avenir-bold";
 }
-.dashboard_outer_container .total_campaign_cost_holder .each_campaign_cost_container .each_cost_section .each_cost_details a,
-.bodyWrap .total_campaign_cost_holder .each_campaign_cost_container .each_cost_section .each_cost_details a {
+.dashboard_outer_container .total_campaign_cost_holder .each_campaign_cost_container .each_cost_section .each_cost_details a {
   color: #000;
   text-decoration: none;
 }
-.dashboard_outer_container .total_campaign_cost_holder .each_campaign_cost_container .each_cost_section .each_cost_details .heading,
-.bodyWrap .total_campaign_cost_holder .each_campaign_cost_container .each_cost_section .each_cost_details .heading {
+.dashboard_outer_container .total_campaign_cost_holder .each_campaign_cost_container .each_cost_section .each_cost_details .heading {
   color: #727272 ;
 }
-.dashboard_outer_container .total_campaign_cost_holder .each_campaign_cost_container .each_cost_section .each_cost_details .dates_details,
-.bodyWrap .total_campaign_cost_holder .each_campaign_cost_container .each_cost_section .each_cost_details .dates_details {
+.dashboard_outer_container .total_campaign_cost_holder .each_campaign_cost_container .each_cost_section .each_cost_details .dates_details {
   font-size: 12px ;
   color: #b8c1c8 ;
 }
-.dashboard_outer_container .total_campaign_cost_holder .each_campaign_cost_container .status_section .status_icon,
-.bodyWrap .total_campaign_cost_holder .each_campaign_cost_container .status_section .status_icon {
+.dashboard_outer_container .total_campaign_cost_holder .each_campaign_cost_container .status_section .status_icon {
   width: 16px;
   height: 18px;
   background: url("/assets/images/statusBar/KPI_onTrack.png") no-repeat center center;
 }
-.dashboard_outer_container .total_campaign_cost_holder .each_campaign_cost_container .other_details,
-.bodyWrap .total_campaign_cost_holder .each_campaign_cost_container .other_details {
+.dashboard_outer_container .total_campaign_cost_holder .each_campaign_cost_container .other_details {
   width: 97% ;
 }
-.dashboard_outer_container .total_campaign_cost_holder .each_campaign_cost_container .each_cost_details,
-.bodyWrap .total_campaign_cost_holder .each_campaign_cost_container .each_cost_details {
+.dashboard_outer_container .total_campaign_cost_holder .each_campaign_cost_container .each_cost_details {
   float: left;
 }
-.dashboard_outer_container .total_campaign_cost_holder .each_campaign_cost_container .cost_metric_graph,
-.bodyWrap .total_campaign_cost_holder .each_campaign_cost_container .cost_metric_graph {
+.dashboard_outer_container .total_campaign_cost_holder .each_campaign_cost_container .cost_metric_graph {
   float: right;
   width: 375px ;
 }
-.dashboard_outer_container .days_left_holder .total_days_holder,
-.bodyWrap .days_left_holder .total_days_holder {
+.dashboard_outer_container .days_left_holder .total_days_holder {
   position: relative;
   height: 4px ;
   background: #bdccd4 ;
@@ -1895,25 +1563,21 @@ input[type="submit"] {
   margin: 40px 0 25px ;
   font-family: "Avenir";
 }
-.dashboard_outer_container .days_left_holder .days_end_points,
-.bodyWrap .days_left_holder .days_end_points {
+.dashboard_outer_container .days_left_holder .days_end_points {
   position: absolute;
   top: 6px;
   width: 100%;
   margin-top: 4px ;
 }
-.dashboard_outer_container .days_left_holder .days_end_points span,
-.bodyWrap .days_left_holder .days_end_points span {
+.dashboard_outer_container .days_left_holder .days_end_points span {
   float: right ;
   color: #939eaf;
   font-size: 11px;
 }
-.dashboard_outer_container .days_left_holder .days_end_points span:first-child,
-.bodyWrap .days_left_holder .days_end_points span:first-child {
+.dashboard_outer_container .days_left_holder .days_end_points span:first-child {
   float: left ;
 }
-.dashboard_outer_container .days_left_holder .days_over,
-.bodyWrap .days_left_holder .days_over {
+.dashboard_outer_container .days_left_holder .days_over {
   position: relative;
   height: 100% ;
   max-width: 100% ;
@@ -1922,8 +1586,7 @@ input[type="submit"] {
   -moz-border-radius: 4px ;
   -webkit-border-radius: 4px ;
 }
-.dashboard_outer_container .days_left_holder .days_over .days_over_text,
-.bodyWrap .days_left_holder .days_over .days_over_text {
+.dashboard_outer_container .days_left_holder .days_over .days_over_text {
   position: absolute;
   top: -22px;
   color: #0078cc;
@@ -1931,31 +1594,26 @@ input[type="submit"] {
   right: -35px;
   white-space: nowrap;
 }
-.dashboard_outer_container .days_left_holder .days_over .ended_text,
-.bodyWrap .days_left_holder .days_over .ended_text {
+.dashboard_outer_container .days_left_holder .days_over .ended_text {
   right: 0px ;
 }
-.dashboard_outer_container .days_left_holder .days_over .start_text,
-.bodyWrap .days_left_holder .days_over .start_text {
+.dashboard_outer_container .days_left_holder .days_over .start_text {
   right: auto ;
   left: 0px ;
   width: 95px;
 }
-.dashboard_outer_container .days_left_holder .days_not_over_text,
-.bodyWrap .days_left_holder .days_not_over_text {
+.dashboard_outer_container .days_left_holder .days_not_over_text {
   color: #0078cc;
   font-size: 12px;
   position: absolute;
   top: -26px;
   right: 0px ;
 }
-.dashboard_outer_container .days_left_holder .days_not_over_text.start_text,
-.bodyWrap .days_left_holder .days_not_over_text.start_text {
+.dashboard_outer_container .days_left_holder .days_not_over_text.start_text {
   right: auto ;
   left: 0px ;
 }
-.dashboard_outer_container .days_left_holder .days_over:after,
-.bodyWrap .days_left_holder .days_over:after {
+.dashboard_outer_container .days_left_holder .days_over:after {
   height: 12px;
   width: 12px;
   background: #0078cc;
@@ -1966,8 +1624,7 @@ input[type="submit"] {
   top: -4px;
   right: 0;
 }
-.dashboard_outer_container .metric_graph .full_metric_graph,
-.bodyWrap .metric_graph .full_metric_graph {
+.dashboard_outer_container .metric_graph .full_metric_graph {
   position: relative;
   height: 4px;
   width: 100%;
@@ -1977,40 +1634,34 @@ input[type="submit"] {
   background: #e3ebe1;
   margin: 26px 0 17px;
 }
-.dashboard_outer_container .metric_graph .full_metric_graph .selected_graph,
-.bodyWrap .metric_graph .full_metric_graph .selected_graph {
+.dashboard_outer_container .metric_graph .full_metric_graph .selected_graph {
   width: 0px;
   height: 100% ;
   border-radius: 4px 0 0 4px ;
   -moz-border-radius: 4px 0 0 4px ;
   -webkit-border-radius: 4px 0 0 4px ;
 }
-.dashboard_outer_container .metric_graph .full_metric_graph .completely_filled,
-.bodyWrap .metric_graph .full_metric_graph .completely_filled {
+.dashboard_outer_container .metric_graph .full_metric_graph .completely_filled {
   border-radius: 4px;
   -moz-border-radius: 4px;
   -webkit-border-radius: 4px;
 }
-.dashboard_outer_container .metric_graph .full_metric_graph .graph_start_point,
-.bodyWrap .metric_graph .full_metric_graph .graph_start_point {
+.dashboard_outer_container .metric_graph .full_metric_graph .graph_start_point {
   position: absolute;
   top: -32px;
   left: 80px;
 }
-.dashboard_outer_container .metric_graph .full_metric_graph .graph_start_point .end_point_line,
-.bodyWrap .metric_graph .full_metric_graph .graph_start_point .end_point_line {
+.dashboard_outer_container .metric_graph .full_metric_graph .graph_start_point .end_point_line {
   position: absolute;
   bottom: 0;
 }
-.dashboard_outer_container .metric_graph .full_metric_graph .graph_start_point .end_point_val span,
-.bodyWrap .metric_graph .full_metric_graph .graph_start_point .end_point_val span {
+.dashboard_outer_container .metric_graph .full_metric_graph .graph_start_point .end_point_val span {
   position: absolute;
   top: 10px ;
   left: -3px;
   line-height: 18px ;
 }
-.dashboard_outer_container .metric_graph .full_metric_graph .graph_start_point .end_point_val span.icon_KPI,
-.bodyWrap .metric_graph .full_metric_graph .graph_start_point .end_point_val span.icon_KPI {
+.dashboard_outer_container .metric_graph .full_metric_graph .graph_start_point .end_point_val span.icon_KPI {
   background: url("/assets/images/cdesk/target_indicator_dark.png") no-repeat 0px 3px;
   padding-left: 15px;
   color: #21252b;
@@ -2018,52 +1669,42 @@ input[type="submit"] {
   padding-right: 0px ;
   left: -6px;
 }
-.dashboard_outer_container .metric_graph .full_metric_graph .start_end_point .end_point_line,
-.bodyWrap .metric_graph .full_metric_graph .start_end_point .end_point_line {
+.dashboard_outer_container .metric_graph .full_metric_graph .start_end_point .end_point_line {
   right: 0;
 }
 .dashboard_outer_container .metric_graph .full_metric_graph .start_end_point .end_point_val span,
-.bodyWrap .metric_graph .full_metric_graph .start_end_point .end_point_val span,
-.dashboard_outer_container .metric_graph .full_metric_graph .start_end_point .end_point_val span.icon_KPI,
-.bodyWrap .metric_graph .full_metric_graph .start_end_point .end_point_val span.icon_KPI {
+.dashboard_outer_container .metric_graph .full_metric_graph .start_end_point .end_point_val span.icon_KPI {
   left: auto;
   right: 0px;
 }
-.dashboard_outer_container .metric_graph .full_metric_graph .start_beginning,
-.bodyWrap .metric_graph .full_metric_graph .start_beginning {
+.dashboard_outer_container .metric_graph .full_metric_graph .start_beginning {
   left: 0px;
 }
-.dashboard_outer_container .metric_graph .full_metric_graph .start_beginning .end_point_val span,
-.bodyWrap .metric_graph .full_metric_graph .start_beginning .end_point_val span {
+.dashboard_outer_container .metric_graph .full_metric_graph .start_beginning .end_point_val span {
   left: 0px ;
   border-radius: 4px 4px 4px 0px;
   -moz-border-radius: 4px 4px 4px 0px;
   -webkit-border-radius: 4px 4px 4px 0px;
 }
-.dashboard_outer_container .metric_graph .full_metric_graph .graph_end_point,
-.bodyWrap .metric_graph .full_metric_graph .graph_end_point {
+.dashboard_outer_container .metric_graph .full_metric_graph .graph_end_point {
   position: absolute;
   left: 220px;
   top: 0px;
 }
-.dashboard_outer_container .metric_graph .full_metric_graph .graph_end_point .end_point_val span,
-.bodyWrap .metric_graph .full_metric_graph .graph_end_point .end_point_val span {
+.dashboard_outer_container .metric_graph .full_metric_graph .graph_end_point .end_point_val span {
   margin-top: 8px;
   position: absolute;
   left: -25px;
 }
-.dashboard_outer_container .metric_graph .full_metric_graph .completed_end_point,
-.bodyWrap .metric_graph .full_metric_graph .completed_end_point {
+.dashboard_outer_container .metric_graph .full_metric_graph .completed_end_point {
   left: auto;
   right: 0;
   left: 100%;
 }
-.dashboard_outer_container .metric_graph .full_metric_graph .completed_end_point .end_point_line,
-.bodyWrap .metric_graph .full_metric_graph .completed_end_point .end_point_line {
+.dashboard_outer_container .metric_graph .full_metric_graph .completed_end_point .end_point_line {
   float: right;
 }
-.dashboard_outer_container .metric_graph .full_metric_graph .completed_end_point .end_point_val span,
-.bodyWrap .metric_graph .full_metric_graph .completed_end_point .end_point_val span {
+.dashboard_outer_container .metric_graph .full_metric_graph .completed_end_point .end_point_val span {
   margin-top: 0px;
   top: 10px;
   position: absolute;
@@ -2074,34 +1715,28 @@ input[type="submit"] {
   -webkit-border-radius: 4px 0px 4px 4px;
   padding: 0px ;
 }
-.dashboard_outer_container .metric_graph .full_metric_graph .budget_graph_val,
-.bodyWrap .metric_graph .full_metric_graph .budget_graph_val {
+.dashboard_outer_container .metric_graph .full_metric_graph .budget_graph_val {
   top: -3px;
   width: 100%;
   left: auto ;
 }
-.dashboard_outer_container .metric_graph .full_metric_graph .budget_graph_val .end_point_line,
-.bodyWrap .metric_graph .full_metric_graph .budget_graph_val .end_point_line {
+.dashboard_outer_container .metric_graph .full_metric_graph .budget_graph_val .end_point_line {
   display: none;
 }
-.dashboard_outer_container .metric_graph .full_metric_graph .budget_graph_val .end_point_val span,
-.bodyWrap .metric_graph .full_metric_graph .budget_graph_val .end_point_val span {
+.dashboard_outer_container .metric_graph .full_metric_graph .budget_graph_val .end_point_val span {
   color: #939eaf ;
   font-size: 11px ;
 }
-.dashboard_outer_container .metric_graph .full_metric_graph .end_point_line,
-.bodyWrap .metric_graph .full_metric_graph .end_point_line {
+.dashboard_outer_container .metric_graph .full_metric_graph .end_point_line {
   height: 12px;
   width: 1px;
   background: #2f6c1d;
 }
-.dashboard_outer_container .metric_graph .full_metric_graph .end_point_val,
-.bodyWrap .metric_graph .full_metric_graph .end_point_val {
+.dashboard_outer_container .metric_graph .full_metric_graph .end_point_val {
   position: relative;
   height: 40px;
 }
-.dashboard_outer_container .metric_graph .full_metric_graph .end_point_val span,
-.bodyWrap .metric_graph .full_metric_graph .end_point_val span {
+.dashboard_outer_container .metric_graph .full_metric_graph .end_point_val span {
   display: block;
   height: 21px;
   color: #21252b ;
@@ -2111,16 +1746,13 @@ input[type="submit"] {
   -webkit-border-radius: 4px;
   line-height: 20px ;
 }
-.dashboard_outer_container .metric_graph.blue .selected_graph,
-.bodyWrap .metric_graph.blue .selected_graph {
+.dashboard_outer_container .metric_graph.blue .selected_graph {
   background: #6abc52;
 }
-.dashboard_outer_container .metric_graph.red .selected_graph,
-.bodyWrap .metric_graph.red .selected_graph {
+.dashboard_outer_container .metric_graph.red .selected_graph {
   background: #fd361c;
 }
-.dashboard_outer_container .metric_graph.amber .selected_graph,
-.bodyWrap .metric_graph.amber .selected_graph {
+.dashboard_outer_container .metric_graph.amber .selected_graph {
   background: #fbc216;
 }
 /* cost breakdown */
@@ -2921,15 +2553,18 @@ input[type="submit"] {
 }
 .breadcrumb_nav_campaign,
 .breadcrumb_nav_strategy {
-  margin-left: 30px ;
+  margin-left: 20px ;
 }
 .breadcrumb_nav_campaign .report_heading_dropdown_txt,
 .breadcrumb_nav_strategy .report_heading_dropdown_txt {
   float: none;
   margin-top: 0px ;
 }
+#campaignDetail .campaign_detail_filter_header {
+  position: relative!important;
+}
 .nav_filters {
-  width: 1040px;
+  width: 100%;
   margin: 0 auto;
   font-size: 14px;
   color: #21252B;
@@ -2964,7 +2599,7 @@ input[type="submit"] {
   margin-top: 0px ;
 }
 .nav_filters .each_filter.advertisers_filter {
-  margin-right: 30px;
+  margin-right: 20px;
 }
 .nav_filters .each_filter .header_filter_arrow_dropdown {
   display: inline-block;
@@ -3124,9 +2759,9 @@ input[type="submit"] {
 }
 .nav_filters .campaign_name_selected {
   height: 20px ;
-  min-width: 120px ;
+  /*min-width: 120px ; */
   padding-right: 20px ;
-  max-width: 220px ;
+  max-width: 133px ;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis ;

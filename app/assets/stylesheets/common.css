@@ -349,15 +349,17 @@
   word-wrap: break-word;
 }
 .popContainerHolder .popContainer .textarea_edit_holder .activity_edit,
-.popContainerHolder .popContainer .textarea_editable_holder .activity_edit {
+.popContainerHolder .popContainer .textarea_editable_holder .activity_edit,
+.popContainerHolder .popContainer .textarea_edit_holder .icon-inline-edit,
+.popContainerHolder .popContainer .textarea_editable_holder .icon-inline-edit {
   position: absolute;
   top: 10px ;
   right: 10px ;
   cursor: pointer;
   display: inline-block;
-  height: 20px ;
-  width: 20px ;
-  background: url("/assets/images/cdesk/edit_blue.png") no-repeat right top;
+  height: 16px ;
+  width: 16px ;
+  color: #007ac9;
 }
 .popContainerHolder .popContainer .textarea_edit_holder textarea {
   border: solid 1px #007ac9 ;

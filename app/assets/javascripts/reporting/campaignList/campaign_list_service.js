@@ -585,12 +585,14 @@
                 },
 
                 //should be moved to costservice inside cost module later
-                getCampaignCostData: function(campaignIds, filterStartDate, filterEndDate, success, failure) {
+                getCampaignCostData: function(campaignIds, filterStartDate, filterEndDate, advertiserId, brandId, success, failure) {
                     var queryObj = {
                         queryId: 14, //14 : cost_report_for_one_or_more_campaign_ids
                         clientId: loginModel.getSelectedClient().id,
                         campaignIds: campaignIds,
-                        dateFilter: timePeriodModel.timeData.selectedTimePeriod.key
+                        dateFilter: timePeriodModel.timeData.selectedTimePeriod.key,
+                        advertiserId: advertiserId,
+                        brandId: brandId
                     }
                     var url = urlService.APIVistoCustomQuery(queryObj);
                     var canceller = requestCanceller.initCanceller(constants.COST_CANCELLER);

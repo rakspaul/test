@@ -1,9 +1,11 @@
 //Data Manipulation in model
 timePeriodModule.factory("timePeriodModel", ['constants', function (constants) {
     var buildTimePeriodList = function() {
-        return [createTimePeriodObject('Last 7 days', 'last_7_days'),
+        return [
+            createTimePeriodObject('Last 7 days', 'last_7_days'),
             createTimePeriodObject('Last 30 days', 'last_30_days'),
-            createTimePeriodObject('Lifetime', 'life_time', 'active')
+            createTimePeriodObject('Lifetime', 'life_time', 'active'),
+            createTimePeriodObject('Custom', 'custom')
         ];
 
     };
@@ -28,6 +30,12 @@ timePeriodModule.factory("timePeriodModel", ['constants', function (constants) {
         this.timeData.timePeriodList = buildTimePeriodList();
         this.timeData.selectedTimePeriod = this.timeData.timePeriodList[2];
         var self = this;
+
+        var fromLocStoreTime = localStorage.getItem('timeSetLocStore');
+        if(fromLocStoreTime) {
+            fromLocStoreTime = JSON.parse(localStorage.getItem('timeSetLocStore'));
+            this.timeData.selectedTimePeriod.key = fromLocStoreTime;
+        }
 
         var fromLocStore = JSON.parse(localStorage.getItem('timeSetTextLocStore'));
         if(fromLocStore !== null){

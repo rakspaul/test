@@ -138,7 +138,7 @@ span.cost_opaque {
 }
 .total_reports_page {
   margin: 0px auto 40px;
-  width: 1040px;
+  width: 100%;
   .load_more_rows {
     display: none;
   }
@@ -414,7 +414,7 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
 }*/
 .reports_main_page_holder {
   margin: 0px auto 80px;
-  width: 1040px;
+  width: 100%;
   .load-more {
     margin: 80px auto 0;
     display: block;
@@ -1020,7 +1020,6 @@ div.strategy_total_container {
   }
 }
 .viewability_details_outer_container , .viewability_details_video_mode_outer_container, .custom_report_response_table {
-  margin-top: 15px;
   .viewability_header {
     border: solid 1px @reportBorder ;
     .each_col.suspicious_col{
@@ -1092,6 +1091,7 @@ div.strategy_total_container {
   }
 }
 .viewability_details_outer_container , .viewability_details_video_mode_outer_container{
+  margin-top: 15px;
   .sort_order_up.active, .sort_order_down.active {
     &:hover{
       background-position: 31px -65px;
@@ -1971,6 +1971,26 @@ div.strategy_total_container {
       text-align: center;
       display: block;
       padding-bottom:7px;
+    }
+    .tooltip_show_icon {
+      height: 15px;
+      width: 16px;
+      display: block;
+      background: url("/assets/images/cdesk/info_icon.png") no-repeat center left;
+      float:right;
+    }
+    .margin_hdr {
+      width:180px;
+      border:1px none #FF6600;
+      float:left;
+      padding-bottom:5px;
+      .hdr_space {
+        padding-right:5px;
+      }
+    }
+    .tooltip_holder {
+      display:inline;
+      float:right;
     }
     .sub_col {
       span {
@@ -4098,7 +4118,7 @@ only screen and (min-device-pixel-ratio: 2) {
     }
 }
 .custom_report_response_page {
-  width: 1040px;
+  width: 100%;
   margin: 0 auto ;
   .back_arrow {
     height: 30px ;
@@ -4511,5 +4531,36 @@ body.custom_report_page {
     width: 100% ;
   }
 }
+#newDatePickerBox{
+  position: absolute;
+  right:-1px;
+  button{
+    float: right;
+    left:0px;
+    position: relative;
+    padding:10px;
+    margin-top: 8px;
+  }
+  .startPicker,.endPicker{
+    input{
+      width: 114px;
+      border: 0;
+      border-right:solid 0px #BFC9D7
+    }
+    #startDateInputGlyph,#endDateInputGlyph{
+      pointer-events: none;
+      left: -17px;
+      height: 33px;
+      border-left: solid 1px #BFC9D7;
+      padding-left: 8px;
+      padding-top: 8px;
+    }
+    float: left ;
+    border:solid 1px #BFC9D7;
+    margin-top: 8px;
+    margin-right:12px;
+    border-radius: 2px
 
+  }
+}
 

@@ -36,11 +36,11 @@
     }
 
     this.getAdServingCost = function () {
-      return this.roundOff(this.ad_serving_cost, 2);
+      return this.roundOff(this.serving_cost, 2);
     }
 
     this.getAdVerificationCost = function () {
-      return this.roundOff(this.ad_verification_cost, 2);
+      return this.roundOff(this.verification_cost, 2);
     }
 
     this.getResearchCost = function () {
@@ -58,7 +58,7 @@
     }
 
     this.getTotal = function () {
-      return this.roundOff(this.total, 2);
+      return this.roundOff(this.gross_rev, 2);
     }
   
     this.roundOff = function (value, places) {

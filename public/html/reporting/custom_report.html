@@ -719,8 +719,7 @@
                                 </span>
                                 <div class="each_row reportData {{showhasBreakdown}}"
                                      data-result-row='{{customeReportData.idx}}'
-                                     ng-repeat="customeReportData in metricValues.first_dimension.delivery_metrics | orderBy:sortType:sortReverse
-                                        track by $index">
+                                     ng-repeat="customeReportData in metricValues.first_dimension.delivery_metrics | orderBy:sortType:sortReverse">
                                     <!-- add active when the next dimension is open -->
                                     <!-- add hasBreakdown when the next dimension is available -->
                                     <div ng-include="'customeReportTpl'" class="heading_first_dimension"></div>
@@ -733,17 +732,18 @@
                                             metricValues.second_dimension[customeReportData.idx].delivery_metrics.length > 0'>
                                             <div class="second_dimension_row"
                                                  ng-repeat="customeReportData in
-                                                    metricValues.second_dimension[customeReportData.idx].delivery_metrics
-                                                    track by $index"
+                                                    metricValues.second_dimension[customeReportData.idx].delivery_metrics | orderBy:sortType:sortReverse"
                                                  ng-include="'customeReportTpl'">
                                             </div>
                                             <!-- load more for second dimension -->
                                             <span class="sec_dimension_load_more"
                                                   ng-click="fetchMoreSecondDimensionData($event, metricValues.first_dimension.delivery_metrics[customeReportData.idx].value,customeReportData.idx, 1)"
-                                                  style="display:none" extFile="aaa">
+                                                  ng-show="secDimensionLoadMore['delivery_metrics'][customeReportData.idx]"
+                                                  style="" extFile="aaa">
 												<a href="javascript:void(0);">Load more</a>
 											</span>
-                                            <div class="sec_dimesnion_loadingIcon common-loading-area" style="margin-left:465px;display:none"></div>
+                                            <div class="sec_dimesnion_loadingIcon common-loading-area" style="margin-left:465px;"
+                                                 ng-show="secDimensionLoadIcon['delivery_metrics'][customeReportData.idx]"></div>
 						                </div>
 
                                         <span ng-if="secondDimensionReportDataNotFound['delivery_metrics'][customeReportData.idx]"
@@ -779,8 +779,7 @@
                                 </span>
                                 <div class="each_row reportData {{showhasBreakdown}}"
                                      data-result-row='{{customeReportData.idx}}'
-                                     ng-repeat="customeReportData in metricValues.first_dimension.cost_metrics | orderBy:sortType:sortReverse
-                                      track by $index">
+                                     ng-repeat="customeReportData in metricValues.first_dimension.cost_metrics | orderBy:sortType:sortReverse">
                                     <div ng-include="'customeReportTpl'" class="heading_first_dimension"></div>
                                     <!-- second dimension div-->
                                     <div ng-show='secondDimensionReportLoading["cost_metrics"][customeReportData.idx]'
@@ -791,16 +790,17 @@
                                                 metricValues.second_dimension[customeReportData.idx].cost_metrics.length > 0">
                                             <div class="second_dimension_row"
                                                  ng-repeat="customeReportData in
-                                                    metricValues.second_dimension[customeReportData.idx].cost_metrics
-                                                    track by $index"
+                                                    metricValues.second_dimension[customeReportData.idx].cost_metrics | orderBy:sortType:sortReverse"
                                                  ng-include="'customeReportTpl'">
                                             </div>
                                             <span class="sec_dimension_load_more"
                                                   ng-click="fetchMoreSecondDimensionData($event, metricValues.first_dimension.cost_metrics[customeReportData.idx].value,customeReportData.idx, 1)"
-                                                  style="display:none;">
+                                                  ng-show="secDimensionLoadMore['cost_metrics'][customeReportData.idx]"
+                                                  style="">
 												<a href="javascript:void(0);">Load more</a>
 											</span>
-                                            <div class="sec_dimesnion_loadingIcon common-loading-area" style="margin-left:465px;display:none"></div>
+                                            <div class="sec_dimesnion_loadingIcon common-loading-area" style="margin-left:465px;"
+                                                 ng-show="secDimensionLoadIcon['cost_metrics'][customeReportData.idx]"></div>
                                         </div>
 
                                         <span ng-if="secondDimensionReportDataNotFound['cost_metrics'][customeReportData.idx]"
@@ -872,8 +872,7 @@
                                 </span>
                                 <div class="each_row reportData {{showhasBreakdown}}"
                                      data-result-row='{{customeReportData.idx}}'
-                                     ng-repeat="customeReportData in metricValues.first_dimension.engagement_metrics | orderBy:sortType:sortReverse
-                                        track by $index">
+                                     ng-repeat="customeReportData in metricValues.first_dimension.engagement_metrics | orderBy:sortType:sortReverse">
                                     <div ng-include="'customeReportTpl'" class="heading_first_dimension"></div>
                                     <!-- second dimension div-->
                                     <div ng-show='secondDimensionReportLoading["engagement_metrics"][customeReportData.idx]'
@@ -883,16 +882,17 @@
                                                 metricValues.second_dimension[customeReportData.idx].engagement_metrics.length >0">
                                             <div class="second_dimension_row"
                                                  ng-repeat="customeReportData in
-                                                    metricValues.second_dimension[customeReportData.idx].engagement_metrics
-                                                    track by $index"
+                                                    metricValues.second_dimension[customeReportData.idx].engagement_metrics | orderBy:sortType:sortReverse"
                                                  ng-include="'customeReportTpl'">
                                             </div>
                                             <span class="sec_dimension_load_more"
                                                   ng-click="fetchMoreSecondDimensionData($event, metricValues.first_dimension.engagement_metrics[customeReportData.idx].value,customeReportData.idx, 1)"
-                                                  style="display:none;">
+                                                  ng-show="secDimensionLoadMore['engagement_metrics'][customeReportData.idx]"
+                                                  style="">
 												<a href="javascript:void(0);">Load more</a>
                                         </span>
-                                            <div class="sec_dimesnion_loadingIcon common-loading-area" style="margin-left:465px;display:none"></div>
+                                            <div class="sec_dimesnion_loadingIcon common-loading-area" style="margin-left:465px;"
+                                                 ng-show="secDimensionLoadIcon['engagement_metrics'][customeReportData.idx]"></div>
                                         </div>
 
                                         <span ng-if="secondDimensionReportDataNotFound['engagement_metrics'][customeReportData.idx]"
@@ -928,8 +928,7 @@
                                 </span>
                                 <div class="each_row reportData {{showhasBreakdown}}"
                                      data-result-row='{{customeReportData.idx}}'
-                                     ng-repeat="customeReportData in metricValues.first_dimension.video_metrics | orderBy:sortType:sortReverse
-                                        track by $index">
+                                     ng-repeat="customeReportData in metricValues.first_dimension.video_metrics | orderBy:sortType:sortReverse">
                                     <div ng-include="'customeReportTpl'" class="heading_first_dimension"></div>
                                     <!-- second dimension div-->
                                     <div ng-show='secondDimensionReportLoading["video_metrics"][customeReportData.idx]'
@@ -939,16 +938,17 @@
                                                 metricValues.second_dimension[customeReportData.idx].video_metrics.length > 0">
                                             <div class="second_dimension_row"
                                                  ng-repeat="customeReportData in
-                                                    metricValues.second_dimension[customeReportData.idx].video_metrics
-                                                    track by $index"
+                                                    metricValues.second_dimension[customeReportData.idx].video_metrics | orderBy:sortType:sortReverse"
                                                  ng-include="'customeReportTpl'">
                                             </div>
                                             <span class="sec_dimension_load_more"
                                                   ng-click="fetchMoreSecondDimensionData($event, metricValues.first_dimension.video_metrics[customeReportData.idx].value,customeReportData.idx, 1)"
-                                                  style="display:none;">
+                                                  ng-show="secDimensionLoadMore['video_metrics'][customeReportData.idx]"
+                                                  style="">
 												<a href="javascript:void(0);">Load more</a>
                                         </span>
-                                            <div class="sec_dimesnion_loadingIcon common-loading-area" style="margin-left:465px;display:none"></div>
+                                            <div class="sec_dimesnion_loadingIcon common-loading-area" style="margin-left:465px;"
+                                                 ng-show="secDimensionLoadIcon['video_metrics'][customeReportData.idx]"></div>
                                         </div>
 
                                         <span ng-if="secondDimensionReportDataNotFound['video_metrics'][customeReportData.idx]"
@@ -985,8 +985,7 @@
                                 <div class="each_row reportData {{showhasBreakdown}}"
                                      data-result-row='{{customeReportData.idx}}'
                                      ng-repeat="customeReportData in
-                                        metricValues.first_dimension.display_quality_metrics | orderBy:sortType:sortReverse
-                                        track by $index">
+                                        metricValues.first_dimension.display_quality_metrics | orderBy:sortType:sortReverse">
                                     <div ng-include="'customeReportTpl'" class="heading_first_dimension"></div>
                                     <!-- second dimension div-->
                                     <div ng-show='secondDimensionReportLoading["display_quality_metrics"][customeReportData.idx]'
@@ -997,16 +996,17 @@
                                                 .display_quality_metrics.length > 0">
                                             <div class="second_dimension_row"
                                                  ng-repeat="customeReportData in
-                                                    metricValues.second_dimension[customeReportData.idx].display_quality_metrics
-                                                    track by $index"
+                                                    metricValues.second_dimension[customeReportData.idx].display_quality_metrics | orderBy:sortType:sortReverse"
                                                  ng-include="'customeReportTpl'">
                                             </div>
                                             <span class="sec_dimension_load_more"
                                                   ng-click="fetchMoreSecondDimensionData($event, metricValues.first_dimension.display_quality_metrics[customeReportData.idx].value,customeReportData.idx, 1)"
-                                                  style="display:none;">
+                                                  ng-show="secDimensionLoadMore['display_quality_metrics'][customeReportData.idx]"
+                                                  style="">
 												<a href="javascript:void(0);">Load more</a>
                                         </span>
-                                            <div class="sec_dimesnion_loadingIcon common-loading-area" style="margin-left:465px;display:none"></div>
+                                            <div class="sec_dimesnion_loadingIcon common-loading-area" style="margin-left:465px;"
+                                                 ng-show="secDimensionLoadIcon['display_quality_metrics'][customeReportData.idx]"></div>
                                         </div>
                                         <span ng-if="secondDimensionReportDataNotFound['display_quality_metrics']
                                                 [customeReportData.idx]"
@@ -1042,8 +1042,7 @@
                                 </span>
                                 <div class="each_row reportData {{showhasBreakdown}}"
                                      data-result-row='{{customeReportData.idx}}'
-                                     ng-repeat="customeReportData in metricValues.first_dimension.video_quality_metrics | orderBy:sortType:sortReverse
-                                        track by $index">
+                                     ng-repeat="customeReportData in metricValues.first_dimension.video_quality_metrics | orderBy:sortType:sortReverse">
                                     <div ng-include="'customeReportTpl'" class="heading_first_dimension"></div>
                                     <!-- second dimension div-->
                                     <div ng-show='secondDimensionReportLoading["video_quality_metrics"]
@@ -1056,15 +1055,16 @@
                                                 .video_quality_metrics.length > 0">
                                             <div class="second_dimension_row"
                                                  ng-repeat="customeReportData in
-                                                    metricValues.second_dimension[customeReportData.idx].video_quality_metrics
-                                                    track by $index"  ng-include="'customeReportTpl'">
+                                                    metricValues.second_dimension[customeReportData.idx].video_quality_metrics | orderBy:sortType:sortReverse"  ng-include="'customeReportTpl'">
                                             </div>
                                             <span class="sec_dimension_load_more"
                                                   ng-click="fetchMoreSecondDimensionData($event, metricValues.first_dimension.video_quality_metrics[customeReportData.idx].value,customeReportData.idx, 1)"
-                                                  style="display:none;">
+                                                  ng-show="secDimensionLoadMore['video_quality_metrics'][customeReportData.idx]"
+                                                  style="">
 												<a href="javascript:void(0);">Load more</a>
                                         </span>
-                                            <div class="sec_dimesnion_loadingIcon common-loading-area" style="margin-left:465px;display:none"></div>
+                                            <div class="sec_dimesnion_loadingIcon common-loading-area" style="margin-left:465px;"
+                                                 ng-show="secDimensionLoadIcon['display_quality_metrics'][customeReportData.idx]"></div>
                                         </div>
 
                                         <span ng-if="secondDimensionReportDataNotFound['video_quality_metrics']

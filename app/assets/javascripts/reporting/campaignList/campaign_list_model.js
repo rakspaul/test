@@ -338,7 +338,9 @@
                         });
                     },
                     fetchCostData = function() {
-                        var self = this;
+                        var self = this,
+                            advertiserId = advertiserModel.getSelectedAdvertiser().id,
+                            brandId = brandsModel.getSelectedBrand().id;
                         var hideLoader = function() {
                             _.each(costidsList, function(value) {
                                 self.costList[value].costDataLoading = false
@@ -350,10 +352,10 @@
                                 costDataLoading: true
                             }
                         })
-                        campaignListService.getCampaignCostData(this.costIds, moment(this.costDate.startDate).format("YYYY-MM-DD"), moment(this.costDate.endDate).format("YYYY-MM-DD"), function(result) {
-                            if (result.status == "success" && !angular.isString(result.data) && result.data.data.length >0) {
+                        campaignListService.getCampaignCostData(this.costIds, moment(this.costDate.startDate).format("YYYY-MM-DD"), moment(this.costDate.endDate).format("YYYY-MM-DD"), advertiserId, brandId, function(result) {                            if (result.status == "success" && !angular.isString(result.data) && result.data.data.length >0) {
                                 angular.forEach(result.data.data, function(cost) {
-                                    self.costList[cost.id] = modelTransformer.transform(cost, campaignCost);
+                                    self.costList[cost.campaign_id] = modelTransformer.transform(cost, campaignCost);
+                                    self.costList[cost.campaign_id].cost_transparency = true;
                                     hideLoader();
                                 });
                             } else {

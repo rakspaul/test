@@ -1,7 +1,7 @@
-<div ng-controller="GaugeController">
+<div ng-controller="GaugeController" class="col-md-12 zeroPadding">
     <div class="common_loading_icon" ng-if="perfBusy "></div>
-    <div  class="gaugeContainer">
-      <span id="dashboardContainer" ng-show="dataFound&&!perfBusy"></span>
+    <div class="gaugeContainer col-md-12 zeroPadding">
+      <span id="dashboardContainer" ng-show="dataFound&&!perfBusy" class="col-md-12 zeroPadding"></span>
       <span id="memoryGaugeContainer"></span>
       <span id="cpuGaugeContainer"></span>
       <span id="networkGaugeContainer"></span>

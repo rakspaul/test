@@ -287,6 +287,13 @@
                 return dataService.fetch(url);
             },
 
+            deleteCreatives:function(clientId,data){ console.log(data)
+                return dataService.post(apiPaths.WORKFLOW_APIUrl + '/clients/' + clientId +'/creatives/bulkdelete',
+                    data,
+                    {'Content-Type': 'application/json'}
+                );
+            },
+
             getCreativeAds:function(creativeId){
                 var url = apiPaths.WORKFLOW_API_URL + '/creatives/' + creativeId + '/ads?enabled=true';
 

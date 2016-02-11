@@ -103,7 +103,7 @@ span.cost_opaque .cost_opaque_icon {
 }
 .total_reports_page {
   margin: 0px auto 40px;
-  width: 1040px;
+  width: 100%;
 }
 .total_reports_page .load_more_rows {
   display: none;
@@ -375,7 +375,7 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
 }*/
 .reports_main_page_holder {
   margin: 0px auto 80px;
-  width: 1040px;
+  width: 100%;
 }
 .reports_main_page_holder .load-more {
   margin: 80px auto 0;
@@ -1022,11 +1022,6 @@ div.strategy_total_container .all_strategies_holder .each_strategy {
 div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-child .linkage_lines {
   height: 50px;
 }
-.viewability_details_outer_container,
-.viewability_details_video_mode_outer_container,
-.custom_report_response_table {
-  margin-top: 15px;
-}
 .viewability_details_outer_container .viewability_header,
 .viewability_details_video_mode_outer_container .viewability_header,
 .custom_report_response_table .viewability_header {
@@ -1112,6 +1107,10 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 .custom_report_response_table .strategy_total_container div.each_col.seventh_col {
   font-size: 14px ;
   color: #57606d ;
+}
+.viewability_details_outer_container,
+.viewability_details_video_mode_outer_container {
+  margin-top: 15px;
 }
 .viewability_details_outer_container .sort_order_up.active:hover,
 .viewability_details_video_mode_outer_container .sort_order_up.active:hover,
@@ -1929,6 +1928,26 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
   text-align: center;
   display: block;
   padding-bottom: 7px;
+}
+#reports_platform_margin_block .each_col .tooltip_show_icon {
+  height: 15px;
+  width: 16px;
+  display: block;
+  background: url("/assets/images/cdesk/info_icon.png") no-repeat center left;
+  float: right;
+}
+#reports_platform_margin_block .each_col .margin_hdr {
+  width: 180px;
+  border: 1px none #FF6600;
+  float: left;
+  padding-bottom: 5px;
+}
+#reports_platform_margin_block .each_col .margin_hdr .hdr_space {
+  padding-right: 5px;
+}
+#reports_platform_margin_block .each_col .tooltip_holder {
+  display: inline;
+  float: right;
 }
 #reports_platform_margin_block .each_col .sub_col span {
   display: block;
@@ -3895,7 +3914,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
   margin: 48px 30px 0 0 ;
 }
 .custom_report_response_page {
-  width: 1040px;
+  width: 100%;
   margin: 0 auto ;
 }
 .custom_report_response_page .back_arrow {
@@ -3930,7 +3949,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 }
 .custom_report_response_page .custom_report_response_table .each_col.more_dimension_arrow {
   display: none;
-  background: url("/assets/images/cdesk/common_side_arrow.png") no-repeat left 1px #fff;
+  background: url("/assets/images/cdesk/common_side_arrow.png") no-repeat left 1px #ffffff;
   height: 11px;
   width: 12px;
   min-width: 12px;
@@ -4255,4 +4274,40 @@ div.reports_tabs_content_container div#reports_bycreatives_block div.reports_det
 }
 body.custom_report_page .bodyWrap {
   width: 100% ;
+}
+#newDatePickerBox {
+  position: absolute;
+  right: -1px;
+}
+#newDatePickerBox button {
+  float: right;
+  left: 0px;
+  position: relative;
+  padding: 10px;
+  margin-top: 8px;
+}
+#newDatePickerBox .startPicker,
+#newDatePickerBox .endPicker {
+  float: left ;
+  border: solid 1px #BFC9D7;
+  margin-top: 8px;
+  margin-right: 12px;
+  border-radius: 2px;
+}
+#newDatePickerBox .startPicker input,
+#newDatePickerBox .endPicker input {
+  width: 114px;
+  border: 0;
+  border-right: solid 0px #bfc9d7;
+}
+#newDatePickerBox .startPicker #startDateInputGlyph,
+#newDatePickerBox .endPicker #startDateInputGlyph,
+#newDatePickerBox .startPicker #endDateInputGlyph,
+#newDatePickerBox .endPicker #endDateInputGlyph {
+  pointer-events: none;
+  left: -17px;
+  height: 33px;
+  border-left: solid 1px #BFC9D7;
+  padding-left: 8px;
+  padding-top: 8px;
 }
