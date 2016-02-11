@@ -49,11 +49,11 @@ var angObj = angObj || {};
                                         _.each(result.data.data , function (obj) {
                                             $scope.creativeData['creatives'].push(obj);
                                         });
-                                        $scope.pageNo ++;
                                     }
-                                    $scope.loadCreativeData=false;
+                                    $scope.pageNo ++;
 
                                 }
+                                $scope.loadCreativeData=false;
                             }
                             $scope.creativeData.creatives_count += result.data.data.length;
                         } else {
@@ -99,6 +99,13 @@ var angObj = angObj || {};
                 $scope.creativeData.creatives_count = 0;
             }
         };
+        $scope.redirectAdEditPage=function(adData){
+            if(adData.adGroupId){
+                $location.url("/mediaplan/"+adData.campaignId+"/adGroup/"+adData.adGroupId+"/ads/"+adData.adId+"/edit")
+            }else{
+                $location.url("/mediaplan/"+adData.campaignId+"/ads/"+adData.adId+"/edit")
+            }
+        }
         $scope.selectAllCreative=function(){
             if($('#select_all_checkbox').prop("checked")==false){
                 for(var i in $scope.creativeData.creatives){

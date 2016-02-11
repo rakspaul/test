@@ -136,8 +136,9 @@
                     <div class="tr childRow adsList" ng-show="showHideToggle" ng-repeat="adData in creativeAds.creativeAdData[$index]">
                         <div class="col-md-7 td">
 							<div class="inDentWrap shadowLeft">
-								<span ng-if="creativeData.message" class="creativeData.message.type==='error'?icon-error :icon-warning"></span>
-								<a href="/mediaplan/{{adData.campaignId}}/ads/{{adData.adId}}/edit">{{adData.adName}}</a>
+								<span ng-if="(adData.messageType==='ERROR')" class="icon-error" title="adData.message"></span>
+								<span ng-if="(adData.messageType==='WARNING')" class="icon-warning" title="adData.message"></span>
+								<span ng-click="redirectAdEditPage(adData)">{{adData.campaignName}} / {{adData.adName}}</span>
 							</div>
                         </div>
                         <div class="col-md-2 td">{{adData.brandName}}</div>
