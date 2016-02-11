@@ -340,9 +340,15 @@ var angObj = '';
                     title: 'Creative List',
                     controller: 'CreativeListController',
                     resolve: {
-                        'check': function ($location, RoleBasedService) {
+                        'check': function ($location, RoleBasedService, workflowService, constants) {
                             var isWorkflowUser =
                                 RoleBasedService.getClientRole() && RoleBasedService.getClientRole().workFlowUser;
+
+                            workflowService.setModuleInfo({
+                                'moduleName' : 'WORKFLOW',
+                                'warningMsg' : constants.ACCOUNT_CHANGE_MSG_ON_CREATIVE_LIST_PAGE ,
+                                'redirect' : false
+                            });
 
                             if (!isWorkflowUser) {
                                 $location.path('/');

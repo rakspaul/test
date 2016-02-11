@@ -34,12 +34,10 @@ var angObj = angObj || {};
                     .getCreativesforCreativeList(campaignId, formats, query,pageSize,pageNo)
                     .then(function (result) {
                         if (result.status === 'OK' || result.status === 'success') {
-
                             $scope.creativeListLoading = false;
                             $scope.creativesNotFound = false;
-                            if($scope.creativeData['creatives'].length === 0) {
+                            if($scope.creativeData['creatives'].length === 0 || query) {
                                 $scope.creativeData['creatives'] = result.data.data;
-                                $scope.pageNo ++;
                             } else {
                                 if(result.data.data &&result.data.data.length>0){
                                     var alreadyFound=_.filter($scope.creativeData['creatives'], function (obj) {
@@ -50,10 +48,11 @@ var angObj = angObj || {};
                                             $scope.creativeData['creatives'].push(obj);
                                         });
                                     }
-                                    $scope.pageNo ++;
-
                                 }
                                 $scope.loadCreativeData=false;
+                            }
+                            if(pageNo>=1){
+                                $scope.pageNo = Number(pageNo)+1;
                             }
                             $scope.creativeData.creatives_count += result.data.data.length;
                         } else {
@@ -184,8 +183,10 @@ var angObj = angObj || {};
             if (searchVal.length > 0) {
                 qryStr += '&query=' + searchVal;
             }
-            var selectedClientObj = localStorage.selectedClient && JSON.parse(localStorage.selectedClient);
-            creativeList.getCreativesList(JSON.parse(localStorage.selectedClient).id,formats, qryStr);
+            if(qryStr.length > 2){
+                var selectedClientObj = localStorage.selectedClient && JSON.parse(localStorage.selectedClient);
+                creativeList.getCreativesList(JSON.parse(localStorage.selectedClient).id,formats, qryStr);
+            }
         };
 
         function init() {
