@@ -52,7 +52,10 @@ var angObj = angObj || {};
 
             if (targetingName === 'Daypart') {
                 if(fetchedObj.targets.adDaypartTargets && $scope.mode === 'edit') {
-                    $scope.$broadcast("updateDayPart");
+                    $timeout(function() {
+                        $scope.$broadcast("updateDayPart", true);
+                    }, 2000)
+
                 }
                 $scope.adData.isDaypartSelected = true;
             }
@@ -224,7 +227,6 @@ var angObj = angObj || {};
             previewObj.exclude =  {'count' : excludeCount, 'label' : excludeLabel.join(' ')};
 
             $scope.geoTargetingPreviewObj = previewObj;
-
         };
 
 

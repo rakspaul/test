@@ -314,7 +314,7 @@ var angObj = angObj || {};
         };
 
 
-        $scope.$on('updateDayPart',function () {
+        $scope.$on('updateDayPart',function (isRedirectFlag) {
             var fetchedObj =  workflowService.getAdsDetails(),
                 scheduleObj;
 
@@ -363,7 +363,7 @@ var angObj = angObj || {};
                 _dayPartTargetting.setHoursType(fetchedObj.targets.adDaypartTargets.clock)
             }
 
-            $scope.saveDayPart();
+            $scope.saveDayPart(isRedirectFlag);
         });
 
 
@@ -398,7 +398,7 @@ var angObj = angObj || {};
             _dayPartTargetting.hideDayPartTargetingBox();
         };
 
-        $scope.saveDayPart = function () {
+        $scope.saveDayPart = function (isRedirectFlag) {
             var adDaypartTargets = {},
                 sunday,
                 monday,
@@ -474,7 +474,8 @@ var angObj = angObj || {};
             localStorage.setItem("daytimeArr", JSON.stringify(daytimeArr));
 
             $scope.$parent.saveDayPartForPreview();
-            _dayPartTargetting.hideDayPartTargetingBox();
+            if(!isRedirectFlag)
+                _dayPartTargetting.hideDayPartTargetingBox();
         };
 
         $scope.selectday = function (index,day) {
