@@ -8,21 +8,20 @@
 
 <span  ng-show="adFormats.videoAds  == true">
     <div class="each_col third_col">
-        <span class="icon_text_holder" ng-class="sortClassFunction('video_metrics.ad_starts',sortTypebycreatives,sortReverseCreativesTab)" ng-click="sortTypebycreatives = 'video_metrics.ad_starts'; sortReverseCreativesTab = !sortReverseCreativesTab;removeKpiActive();" ><span class="default-kpi-header-icon" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() === 'video_metrics.ad_starts'"></span>{{textConstants.VIDEO_PLAYS}}</span>
+        <span class="icon_text_holder" ng-class="sortClassFunction('video_played',sortTypebycreatives,sortReverseCreativesTab)" ng-click="sortTypebycreatives = 'video_played'; sortReverseCreativesTab = !sortReverseCreativesTab;removeKpiActive();" ><span class="default-kpi-header-icon" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() === 'video_played'"></span>{{textConstants.VIDEO_PLAYS}}</span>
     </div>
 <div class="vid_data_hdr">
 <span>{{textConstants.QUARTILE_DATA}}</span> <br>
 <div class="vid_sub_col">
-    <div class="vid_sub_col_hdr"><span class="icon_text_holder" ng-class="sortClassFunction('video_metrics.vtc_25',sortTypebycreatives,sortReverseCreativesTab)" ng-click="sortTypebycreatives = 'video_metrics.vtc_25'; sortReverseCreativesTab = !sortReverseCreativesTab;removeKpiActive();" >25%</span></div>
-    <div class="vid_sub_col_hdr"><span class="icon_text_holder" ng-class="sortClassFunction('video_metrics.vtc_50',sortTypebycreatives,sortReverseCreativesTab)" ng-click="sortTypebycreatives = 'video_metrics.vtc_50'; sortReverseCreativesTab = !sortReverseCreativesTab;removeKpiActive();" >50%</span></div>
-    <div class="vid_sub_col_hdr"><span class="icon_text_holder" ng-class="sortClassFunction('video_metrics.vtc_75',sortTypebycreatives,sortReverseCreativesTab)" ng-click="sortTypebycreatives = 'video_metrics.vtc_75'; sortReverseCreativesTab = !sortReverseCreativesTab;removeKpiActive();" >75%</span></div>
-    <div class="vid_sub_col_hdr"><span class="icon_text_holder" ng-class="sortClassFunction('video_metrics.vtc_100',sortTypebycreatives,sortReverseCreativesTab)" ng-click="sortTypebycreatives = 'video_metrics.vtc_100'; sortReverseCreativesTab = !sortReverseCreativesTab;removeKpiActive();" >100%</span></div>
+    <div class="vid_sub_col_hdr"><span class="icon_text_holder" ng-class="sortClassFunction('vtc_25',sortTypebycreatives,sortReverseCreativesTab)" ng-click="sortTypebycreatives = 'vtc_25'; sortReverseCreativesTab = !sortReverseCreativesTab;removeKpiActive();" >25%</span></div>
+    <div class="vid_sub_col_hdr"><span class="icon_text_holder" ng-class="sortClassFunction('vtc_50',sortTypebycreatives,sortReverseCreativesTab)" ng-click="sortTypebycreatives = 'vtc_50'; sortReverseCreativesTab = !sortReverseCreativesTab;removeKpiActive();" >50%</span></div>
+    <div class="vid_sub_col_hdr"><span class="icon_text_holder" ng-class="sortClassFunction('vtc_75',sortTypebycreatives,sortReverseCreativesTab)" ng-click="sortTypebycreatives = 'vtc_75'; sortReverseCreativesTab = !sortReverseCreativesTab;removeKpiActive();" >75%</span></div>
+    <div class="vid_sub_col_hdr"><span class="icon_text_holder" ng-class="sortClassFunction('vtc_100',sortTypebycreatives,sortReverseCreativesTab)" ng-click="sortTypebycreatives = 'vtc_100'; sortReverseCreativesTab = !sortReverseCreativesTab;removeKpiActive();" >100%</span></div>
 </div>
 </div>
 <div class="each_col third_col">
-    <span class="icon_text_holder" ng-class="sortClassFunction('video_metrics.vtc_rate',sortTypebycreatives,sortReverseCreativesTab)" ng-click="sortTypebycreatives = 'video_metrics.vtc_rate'; sortReverseCreativesTab = !sortReverseCreativesTab;removeKpiActive();" ><span class="default-kpi-header-icon" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() === 'video_metrics.ad_starts'"></span>{{textConstants.VTC}}</span>
+    <span class="icon_text_holder" ng-class="sortClassFunction('vtc_100',sortTypebycreatives,sortReverseCreativesTab)" ng-click="sortTypebycreatives = 'vtc_100'; sortReverseCreativesTab = !sortReverseCreativesTab;removeKpiActive();" ><span class="default-kpi-header-icon" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() === 'vtc'"></span>{{textConstants.VTC}}</span>
 </div>
-
 </span>
 <div class="each_col forth_col">
     <span class="icon_text_holder" ng-class="sortClassFunction('ctr',sortTypebycreatives,sortReverseCreativesTab)" ng-click="sortTypebycreatives = 'ctr'; sortReverseCreativesTab = !sortReverseCreativesTab;removeKpiActive();" ><span class="default-kpi-header-icon" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() === 'ctr'"></span>{{textConstants.CTR}}</span>
