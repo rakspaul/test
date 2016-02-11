@@ -212,10 +212,10 @@
                 );
             },
 
-            downloadFile: function (url) { console.log("Download File: ",url);
+            downloadFile: function (url) {
                 $http.defaults.headers.common['Authorization'] = loginModel.getAuthToken();
                 return $http({url: url, method: 'GET', responseType: 'arraybuffer'}).then(
-                    function (response) { console.log("Data service response: ",response);
+                    function (response) {
                         if (response.status === 401) {
                             loginModel.unauthorized();
                             return errorObject;

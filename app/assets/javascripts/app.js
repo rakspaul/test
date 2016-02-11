@@ -376,19 +376,18 @@ var angObj = '';
         .config(function (tmhDynamicLocaleProvider) {
             tmhDynamicLocaleProvider.localeLocationPattern('/assets/javascripts/vendor/i18n/angular-locale_{{locale}}.js');
         })
-        .run(function ($rootScope, $location, $cookies, loginModel, loginService, brandsModel, dataService,
-                         $cookieStore, constants, RoleBasedService, workflowService) {
+        .run(function ($rootScope, $location, $cookies, loginModel, brandsModel, dataService, $cookieStore, workflowService) {
             var handleLoginRedirection = function () {
-                    var cookieRedirect = $cookieStore.get(constants.COOKIE_REDIRECT) || null,
+                    var cookieRedirect = $cookieStore.get('cdesk_redirect') || null,
                         setDefaultPage;
 
-                    if ($cookieStore.get(constants.COOKIE_SESSION)) {
+                    if ($cookieStore.get('cdesk_session')) {
                         if (cookieRedirect) {
                             cookieRedirect = cookieRedirect.replace('/', '');
                         }
                         if (cookieRedirect && cookieRedirect !== 'dashboard') {
                             $location.url(cookieRedirect);
-                            $cookieStore.remove(constants.COOKIE_REDIRECT);
+                            $cookieStore.remove('cdesk_redirect');
                         } else {
                             setDefaultPage = 'dashboard';
                             $location.url(setDefaultPage);
@@ -399,8 +398,8 @@ var angObj = '';
                     var locationPath = $location.path(),
                         authorizationKey;
 
-                    if (RoleBasedService.getUserData()) {
-                        authorizationKey = RoleBasedService.getUserData().authorizationKey;
+                    if (JSON.parse(localStorage.getItem('userObj'))) {
+                        authorizationKey = JSON.parse(localStorage.getItem('userObj')).authorizationKey;
                     }
                     if (locationPath !== '/login') {
                         brandsModel.enable();
@@ -431,22 +430,15 @@ var angObj = '';
                     }
 
                     // if cookie is not set
-                    if (!$cookieStore.get(constants.COOKIE_SESSION)) {
+                    if (!$cookieStore.get('cdesk_session')) {
                         $location.url('/login');
                     }
 
                     // if some one try to change the authorization key or delete the key manually
                     // this is getting after successful login.
-                    if ($cookieStore.get(constants.COOKIE_SESSION) && authorizationKey !== loginModel.getAuthToken()) {
+                    if ($cookieStore.get('cdesk_session') && authorizationKey !== loginModel.getAuthToken()) {
                         loginModel.unauthorized();
                     }
-
-                    /* this function will execute when location path is either login or /,
-                     case- submit login button, cookie expire aur unauthorize */
-
-                    /*if (locationPath === '/login' || locationPath === '/') {
-                        handleLoginRedirection(isNetworkUser, isWorkflowUser);
-                    }*/
                 },
                 locationChangeStartFunc = $rootScope.$on('$locationChangeStart', function () {
                     workflowService.clearModuleInfo();
