@@ -186,6 +186,9 @@ var angObj = angObj || {};
             if(qryStr.length > 2){
                 var selectedClientObj = localStorage.selectedClient && JSON.parse(localStorage.selectedClient);
                 creativeList.getCreativesList(JSON.parse(localStorage.selectedClient).id,formats, qryStr);
+            }else if(qryStr.length==0){
+                var selectedClientObj = localStorage.selectedClient && JSON.parse(localStorage.selectedClient);
+                creativeList.getCreativesList(JSON.parse(localStorage.selectedClient).id,'', '',20, 1);
             }
         };
 
@@ -375,6 +378,9 @@ var angObj = angObj || {};
             inputSearch.val('');
             setTimeout(function(){ $(".searchInputForm").hide(); }, 300);
             setTimeout(function(){ $(".searchInputBtn").fadeIn(); }, 300);
+            $scope.creativeData['creatives']=[];
+            var selectedClientObj = localStorage.selectedClient && JSON.parse(localStorage.selectedClient);
+            creativeList.getCreativesList(JSON.parse(localStorage.selectedClient).id,'', '',20, 1);
         };
         
         $scope.headerToggle = function () {
