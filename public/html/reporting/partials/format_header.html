@@ -6,23 +6,23 @@
 </div>
 <div class="vid_col" ng-show="adFormats.videoAds == true">
 <div class="each_col third_col">
-            <span class="icon_text_holder" ng-class="sortClassFunction('video_metrics.ad_starts',sortTypebyformats,sortReverseFormatTab)"
-                  ng-click="sortTypebyformats = 'video_metrics.ad_starts'; sortReverseFormatTab = !sortReverseFormatTab;removeKpiActive();" >
+            <span class="icon_text_holder" ng-class="sortClassFunction('video_played',sortTypebyformats,sortReverseFormatTab)"
+                  ng-click="sortTypebyformats = 'video_played'; sortReverseFormatTab = !sortReverseFormatTab;removeKpiActive();" >
                 {{textConstants.VIDEO}} <br> {{textConstants.PLAYS}}
             </span>
 </div>
 <div class="vid_data_hdr">
        <span>{{textConstants.QUARTILE_DATA}}</span> <br>
        <div class="vid_sub_col">
-         <div class="vid_sub_col_hdr"><span class="icon_text_holder" ng-class="sortClassFunction('video_metrics.vtc_25',sortTypebyformats,sortReverseFormatTab)" ng-click="sortTypebyformats = 'video_metrics.vtc_25'; sortReverseFormatTab = !sortReverseFormatTab;removeKpiActive();" >25%</span></div>
-         <div class="vid_sub_col_hdr"><span class="icon_text_holder" ng-class="sortClassFunction('video_metrics.vtc_50',sortTypebyformats,sortReverseFormatTab)" ng-click="sortTypebyformats = 'video_metrics.vtc_50'; sortReverseFormatTab = !sortReverseFormatTab;removeKpiActive();" >50%</span></div>
-         <div class="vid_sub_col_hdr"><span class="icon_text_holder" ng-class="sortClassFunction('video_metrics.vtc_75',sortTypebyformats,sortReverseFormatTab)" ng-click="sortTypebyformats = 'video_metrics.vtc_75'; sortReverseFormatTab = !sortReverseFormatTab;removeKpiActive();" >75%</span></div>
-         <div class="vid_sub_col_hdr"><span class="icon_text_holder" ng-class="sortClassFunction('video_metrics.vtc_100',sortTypebyformats,sortReverseFormatTab)" ng-click="sortTypebyformats = 'video_metrics.vtc_100'; sortReverseFormatTab = !sortReverseFormatTab;removeKpiActive();" >100%</span></div>
+         <div class="vid_sub_col_hdr"><span class="icon_text_holder" ng-class="sortClassFunction('vtc_25',sortTypebyformats,sortReverseFormatTab)" ng-click="sortTypebyformats = 'vtc_25'; sortReverseFormatTab = !sortReverseFormatTab;removeKpiActive();" >25%</span></div>
+         <div class="vid_sub_col_hdr"><span class="icon_text_holder" ng-class="sortClassFunction('vtc_50',sortTypebyformats,sortReverseFormatTab)" ng-click="sortTypebyformats = 'vtc_50'; sortReverseFormatTab = !sortReverseFormatTab;removeKpiActive();" >50%</span></div>
+         <div class="vid_sub_col_hdr"><span class="icon_text_holder" ng-class="sortClassFunction('vtc_75',sortTypebyformats,sortReverseFormatTab)" ng-click="sortTypebyformats = 'vtc_75'; sortReverseFormatTab = !sortReverseFormatTab;removeKpiActive();" >75%</span></div>
+         <div class="vid_sub_col_hdr"><span class="icon_text_holder" ng-class="sortClassFunction('vtc_100',sortTypebyformats,sortReverseFormatTab)" ng-click="sortTypebyformats = 'vtc_100'; sortReverseFormatTab = !sortReverseFormatTab;removeKpiActive();" >100%</span></div>
        </div>
 </div>
 <div class="each_col third_col">
-        <span class="icon_text_holder" ng-class="sortClassFunction('video_metrics.vtc_rate',sortTypebyformats,sortReverseFormatTab)" ng-click="sortTypebyformats = 'video_metrics.vtc_rate'; sortReverseFormatTab = !sortReverseFormatTab;removeKpiActive();" ><span class="default-kpi-header-icon" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() === 'vtc'"></span>
-            {{textConstants.VTC}}
+        <span class="icon_text_holder" ng-class="sortClassFunction('vtc_100',sortTypebyformats,sortReverseFormatTab)" ng-click="sortTypebyformats = 'vtc_100'; sortReverseFormatTab = !sortReverseFormatTab;removeKpiActive();" >
+            <span class="default-kpi-header-icon" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() === 'vtc'"></span>{{textConstants.VTC}}
         </span>
 </div>
 </div>

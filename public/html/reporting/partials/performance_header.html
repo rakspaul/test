@@ -15,22 +15,23 @@
 <div class="vid_col" ng-show="adFormats.videoAds == true">
     <div class="each_col third_col">
 
-        <span class="icon_text_holder" ng-class="sortClassFunction('video_metrics.ad_starts',sortTypebyPerformance,sortReverse)" ng-click="sortTypebyPerformance = 'video_metrics.ad_starts';sortTypebyPerformanceSubSort='video_metrics.ad_starts';sortReverse = !sortReverse;removeKpiActive(); ">{{textConstants.VIDEO}} <br> {{textConstants.PLAYS}}</span>
+        <span class="icon_text_holder" ng-class="sortClassFunction('video_played',sortTypebyPerformance,sortReverse)" ng-click="sortTypebyPerformance = 'video_played';sortTypebyPerformanceSubSort='video_played';sortReverse = !sortReverse;removeKpiActive(); ">{{textConstants.VIDEO}} <br> {{textConstants.PLAYS}}</span>
 
     </div>
     <div class="vid_data_hdr">
         <span>{{textConstants.QUARTILE_DATA}}</span> <br>
         <div class="vid_sub_col">
-            <div class="vid_sub_col_hdr" class="icon_text_holder" ng-class="sortClassFunction('video_metrics.vtc_25',sortTypebyPerformance,sortReverse)" ng-click="sortTypebyPerformance = 'video_metrics.vtc_25';sortTypebyPerformanceSubSort='video_metrics.vtc_25'; sortReverse = !sortReverse;removeKpiActive();;">25%</div>
-            <div class="vid_sub_col_hdr" class="icon_text_holder" ng-class="sortClassFunction('video_metrics.vtc_50',sortTypebyPerformance,sortReverse)" ng-click="sortTypebyPerformance = 'video_metrics.vtc_50';sortTypebyPerformanceSubSort='video_metrics.vtc_50'; sortReverse = !sortReverse;removeKpiActive();">50%</div>
-            <div class="vid_sub_col_hdr" class="icon_text_holder" ng-class="sortClassFunction('video_metrics.vtc_75',sortTypebyPerformance,sortReverse)" ng-click="sortTypebyPerformance = 'video_metrics.vtc_75';sortTypebyPerformanceSubSort='video_metrics.vtc_75'; sortReverse = !sortReverse;removeKpiActive();">75%</div>
-            <div class="vid_sub_col_hdr" class="icon_text_holder" ng-class="sortClassFunction('video_metrics.vtc_100',sortTypebyPerformance,sortReverse)" ng-click="sortTypebyPerformance = 'video_metrics.vtc_100';sortTypebyPerformanceSubSort='video_metrics.vtc_100'; sortReverse = !sortReverse;removeKpiActive();">100%</div>
+            <div class="vid_sub_col_hdr" class="icon_text_holder" ng-class="sortClassFunction('vtc_25',sortTypebyPerformance,sortReverse)" ng-click="sortTypebyPerformance = 'vtc_25';sortTypebyPerformanceSubSort='vtc_25'; sortReverse = !sortReverse;removeKpiActive();;">25%</div>
+            <div class="vid_sub_col_hdr" class="icon_text_holder" ng-class="sortClassFunction('vtc_50',sortTypebyPerformance,sortReverse)" ng-click="sortTypebyPerformance = 'vtc_50';sortTypebyPerformanceSubSort='vtc_50'; sortReverse = !sortReverse;removeKpiActive();">50%</div>
+            <div class="vid_sub_col_hdr" class="icon_text_holder" ng-class="sortClassFunction('vtc_75',sortTypebyPerformance,sortReverse)" ng-click="sortTypebyPerformance = 'vtc_75';sortTypebyPerformanceSubSort='vtc_75'; sortReverse = !sortReverse;removeKpiActive();">75%</div>
+            <div class="vid_sub_col_hdr" class="icon_text_holder" ng-class="sortClassFunction('vtc_100',sortTypebyPerformance,sortReverse)" ng-click="sortTypebyPerformance = 'vtc_100';sortTypebyPerformanceSubSort='vtc_100'; sortReverse = !sortReverse;removeKpiActive();">100%</div>
         </div>
     </div>
 
 
     <div class="each_col third_col" ng-class="{vid_none_hdr:adFormats.videoAds == false,vid_show:adFormats.videoAds == true}">
-        <span class="vid_sub_col_hdr" class="icon_text_holder" ng-class="sortClassFunction('video_metrics.vtc_rate',sortTypebyPerformance,sortReverse)" ng-click="sortTypebyPerformance = 'video_metrics.vtc_rate';sortTypebyPerformanceSubSort='video_metrics.vtc_rate'; sortReverse = !sortReverse;removeKpiActive();"><span class="default-kpi-header-icon" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() === 'vtc'"></span>{{textConstants.VTC}}</span>
+        <span class="vid_sub_col_hdr" class="icon_text_holder" ng-class="sortClassFunction('vtc_100',sortTypebyPerformance,sortReverse)" ng-click="sortTypebyPerformance = 'vtc_100';sortTypebyPerformanceSubSort='vtc_100'; sortReverse = !sortReverse;removeKpiActive();">
+            <span class="default-kpi-header-icon" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() === 'vtc'"></span>{{textConstants.VTC}}</span>
 
     </div>
 </div>

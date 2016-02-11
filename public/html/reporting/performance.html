@@ -271,7 +271,7 @@
     </div>
     <div class="vid_col" ng-show="adFormats.videoAds == true">
         <div class="each_col third_col">
-            {{((screenData.ad_starts >0) || (screenData.ad_starts == 0)) ? (screenData.ad_starts | nrFormat) : '-'}}
+            {{((screenData.video_played >0) || (screenData.video_played == 0)) ? (screenData.video_played | nrFormat) : '-'}}
         </div>
 
         <div class="vid_data_hdr">
@@ -328,7 +328,7 @@
     </div>
     <div class="vid_col" ng-show="adFormats.videoAds == true">
         <div class="each_col third_col">
-            {{((daysofweekData.ad_starts >0)|| (daysofweekData.ad_starts == 0)) ? (daysofweekData.ad_starts | nrFormat) : '-'}}
+            {{((daysofweekData.video_played >0)|| (daysofweekData.video_played == 0)) ? (daysofweekData.video_played | nrFormat) : '-'}}
         </div>
 
         <div class="vid_data_hdr">
@@ -375,7 +375,7 @@
     </div>
     <div class="vid_col" ng-show="adFormats.videoAds == true">
         <div class="each_col third_col">
-            {{((formatData.ad_starts >0)|| (formatData.ad_starts == 0)) ? (formatData.ad_starts | nrFormat) : '-'}}
+            {{((formatData.video_played >0)|| (formatData.video_played == 0)) ? (formatData.video_played | nrFormat) : '-'}}
         </div>
 
         <div class="vid_data_hdr">
@@ -426,7 +426,7 @@
     <span  ng-if="adFormats.videoAds">
     <div class="each_col third_col">
         <!--{{creativesData.impressions >0 ? (formatData.impressions | nrFormat) : '-'}}-->
-        {{((creativesData.ad_starts >0)|| (creativesData.ad_starts == 0)) ? (creativesData.ad_starts | nrFormat) : '-'}}
+        {{((creativesData.video_played >0)|| (creativesData.video_played == 0)) ? (creativesData.video_played | nrFormat) : '-'}}
     </div>
     <div class="vid_data_hdr">
         <div>
@@ -480,7 +480,7 @@
     <span  ng-if="adFormats.videoAds">
     <div class="each_col third_col">
         <!--{{creativesData.impressions >0 ? (formatData.impressions | nrFormat) : '-'}}-->
-        {{((adsizesData.ad_starts >0)|| (adsizesData.ad_starts == 0)) ? (adsizesData.ad_starts | nrFormat) : '-'}}
+        {{((adsizesData.video_played >0)|| (adsizesData.video_played == 0)) ? (adsizesData.video_played | nrFormat) : '-'}}
     </div>
     <div class="vid_data_hdr">
         <div>
