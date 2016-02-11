@@ -13,12 +13,12 @@
         };
 
         this.APIloginAction = function () {
-            var url = apiPaths.WORKFLOW_APIUrl + '/login';
+            var url = apiPaths.WORKFLOW_API_URL + '/login';
             return url;
         };
 
         this.APIlogoutAction = function () {
-            var url = apiPaths.WORKFLOW_APIUrl + '/logout';
+            var url = apiPaths.WORKFLOW_API_URL + '/logout';
             return url;
         };
 

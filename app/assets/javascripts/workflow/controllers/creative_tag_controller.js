@@ -26,7 +26,6 @@ var angObj = angObj || {};
             getCreativesFromLibrary: function (clientID, adID, format, query) {
                 // If adFormat has changed (Eg: from Display to RichMedia, etc.),
                 // reset selected creatives array
-
                 if ($scope.$parent.adFormatChanged) {
                     $scope.selectedArr.length = 0;
                     // Reset flag variable as it has served its purpose
