@@ -42,7 +42,7 @@
 
                         <div class="col-md-3" style="padding: 0 10px 0 0;">
                             <label class="col-md-12 greyTxt" data-ng-bind="textConstants.SOURCE"></label>
-                            <div class="col-md-12 zeroPadding dropdown-workflow">
+                            <div class="col-md-12 zeroPadding dropdown-workflow dropdown-search-btn">
                                 <div class="dropdown">
                                     <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                                         <span class="text" data-ng-bind="sourceText"></span>
@@ -53,13 +53,14 @@
                                             <input type="text" class="col-md-12" placeholder="Search" ng-model="sourceSearch"/>
                                             <div class="icon-search"></div>
                                         </li>
-                                        <li ng-repeat="source in sourceList| filter: sourceSearch">
-                                            <span>
-                                                <input type="checkbox" name="checkbox" ng-click="selectSource(source,'category')" ng-checked="source.isChecked">
-                                                {{source.name}}
-                                            </span>
-
-                                        </li>
+                                        <ul class="ddList">
+                                            <li ng-repeat="source in sourceList| filter: sourceSearch">
+                                                <span>
+                                                    <input type="checkbox" name="checkbox" ng-click="selectSource(source,'category')" ng-checked="source.isChecked">
+                                                    {{source.name}}
+                                                </span>
+                                            </li>
+                                        </ul>
                                         <div class="clearfix category_dropdown">
                                             <div class="pull-left btn btn-link" ng-click="clearAllSelectedSource()" data-ng-bind="textConstants.CLEARALL">
                                             </div>
@@ -73,7 +74,7 @@
 
                         <div class="col-md-3" style="padding: 0 10px 0 0;">
                             <label class="col-md-12 greyTxt" data-ng-bind="textConstants.CATEGORY"></label>
-                            <div class="col-md-12 zeroPadding dropdown-workflow">
+                            <div class="col-md-12 zeroPadding dropdown-workflow dropdown-search-btn">
                                 <div class="dropdown">
                                     <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                                         <span class="text" data-ng-bind="categoryText"></span>
@@ -84,7 +85,7 @@
 							<input type="text" class="col-md-12" placeholder="Search" ng-model="categorySearch"/>
 							<div class="icon-search"></div>
 						</li>
-                        <ul style="max-height:100px;overflow-y:auto;list-style: none; padding-left: 0; float: left;">
+                        <ul class="ddList">
                             <li ng-repeat="category in audienceCategories| filter: categorySearch">
                                                     <span  tooltip-placement="top" title="{{category.category}}">
                                                         <input type="checkbox" name="checkbox" ng-click="selectCategories(category,'category')" ng-checked="category.isChecked" style="margin-right: 0px;">
