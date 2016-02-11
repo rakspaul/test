@@ -217,12 +217,8 @@ var angObj = angObj || {};
                         dataService
                             .downloadFile(url)
                             .then(function (response) {
-                                console.log("response", response);
                                 if (response.status === 'success') {
                                     $scope.downloadingTracker = false;
-                                    console.log("saveAds");
-                                    console.log("response.file", response.file);
-                                    console.log("response.fileName", response.fileName);
                                     saveAs(response.file, response.fileName);
                                 } else {
                                     $scope.downloadingTracker = false;
@@ -1005,7 +1001,8 @@ var angObj = angObj || {};
                     }
                     if (!$scope.TrackingIntegrationsSelected) {
                         postAdDataObj.targets = {};
-                        if ($scope.adData.geoTargetingData) {
+                        if (workflowService.getSavedGeo()) {
+                            $scope.adData.geoTargetingData = workflowService.getSavedGeo().original
                             postGeoTargetObj = postAdDataObj.targets.geoTargets = {};
                             buildGeoTargetingParams = function (data, type) {
                                 var obj = {};

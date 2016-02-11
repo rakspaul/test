@@ -150,7 +150,6 @@ var angObj = angObj || {};
             recreateCustomObj : function (day, dayArr) {
                 var obj,
                     i;
-                console.log("before $scope.Schedule.daytimeArr", $scope.Schedule.daytimeArr);
                 switch(day) {
                     case 'Monday':
                         obj = _dayPartTargetting.convertToScheduleObj('Monday', dayArr);
@@ -251,7 +250,6 @@ var angObj = angObj || {};
                         }
                         break;
                 }
-                console.log("after $scope.Schedule.daytimeArr", $scope.Schedule.daytimeArr)
             },
 
             generateDayArr : function (day) {
@@ -300,7 +298,7 @@ var angObj = angObj || {};
         }
 
 
-        $scope.$on('deleteDayPartTarget',function () {
+        $scope.deleteDayPartTarget = function () {
             audienceService.resetDayPartdata();
             audienceService.setDayPartDispObj(null,null);
             $scope.Schedule.dayPart = [];
@@ -310,7 +308,11 @@ var angObj = angObj || {};
             $scope.Schedule.dayTimeSelected(0);
             audienceService.setDayTimeArr(angular.copy($scope.Schedule.daytimeArr));
             $scope.adData.isDaypartSelected=null;
-        })
+            var fetchedObj = workflowService.getAdsDetails();
+            fetchedObj.targets.adDaypartTargets = [];
+            workflowService.setAdsDetails(fetchedObj);
+        };
+
 
         $scope.$on('updateDayPart',function () {
             var fetchedObj =  workflowService.getAdsDetails(),
@@ -362,7 +364,6 @@ var angObj = angObj || {};
             }
 
             $scope.saveDayPart();
-            //$scope.saveDayPartForPreview();
         });
 
 
@@ -765,6 +766,11 @@ var angObj = angObj || {};
         })
 
         $scope.$on('triggerDayPart', function() {
+            var moduleDeleted = workflowService.getDeleteModule();
+            if(_.indexOf(moduleDeleted, 'dayParting') !== -1) {
+                audienceService.resetDayPartdata();
+                $scope.deleteDayPartTarget();
+            }
             _dayPartTargetting.showDayPartTargetBox();
         })
     });
