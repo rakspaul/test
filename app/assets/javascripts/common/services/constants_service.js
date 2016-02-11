@@ -557,7 +557,7 @@
         this.MIN_BID_SHOULD_LESS_THAN_MAX_BID = "Min bid value should be less than Max bid value";
         this.MAX_BID_SHOULD_GREATER_THAN_MIN_BID = "Max bid value should be greater than Min bid value";
 
-        this.CHANGE_PLATFORM_MESSAGE = "Your entries for the following settings are not compatible with [Platform Name]: [Settings list]. Would you like to clear these settings and switch platforms? (OK/Cancel).";
+        this.CHANGE_PLATFORM_MESSAGE = "Your entries for the following settings are not compatible with [Platform Name]: [Settings list]. Would you like to clear these settings and switch platforms?.";
         this.ARCHIVE_MESSAGE = "Do you want to Archive / Delete the Ad?";
 
         this.TIMEZONE_UK = 'Europe/London';
