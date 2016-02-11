@@ -523,6 +523,7 @@
         this.deleteReportHeader = "Delete Report";
         this.accountChangeHeader = "Account Change";
         this.ACCOUNT_CHANGE_MSG_ON_CREATE_OR_EDIT_AD_PAGE = "Switching accounts will discard any unsaved changes. Do you wish to continue?";
+        this.ACCOUNT_CHANGE_MSG_ON_CREATIVE_LIST_PAGE = "Switching accounts will reload the page. Do you wish to continue?";
         this.ACCOUNT_CHANGE_MSG_ON_CREATE_OR_EDIT_CAMPAIGN_PAGE = "Switching accounts will discard any unsaved changes. Do you wish to continue?";
         this.ACCOUNT_CHANGE_MSG_ON_CAMPIGN_OVERVIEW_PAGE = "Switching accounts will discard any unsaved changes. Do you wish to continue?";
 
