@@ -431,6 +431,9 @@ var angObj = angObj || {};
         $scope.clearAllSelectedAudience = function () {
             _audienceTargetting.resetAudience();
             $scope.selectedAudience = [];
+            var fetchedObj = workflowService.getAdsDetails();
+            fetchedObj.targets.segmentTargets.segmentList = [];
+            workflowService.setAdsDetails(fetchedObj);
         };
 
         $scope.selectKeyword = function (keyword) {
@@ -484,6 +487,12 @@ var angObj = angObj || {};
         };
 
         $scope.$on('triggerAudience', function () {
+            var moduleDeleted = workflowService.getDeleteModule();
+            if(_.indexOf(moduleDeleted, 'Audience') !== -1) {
+                audienceService.resetAudienceData();
+                $scope.clearAllSelectedAudience();
+            }
+
             $scope.pageNumber =  1;
             _audienceTargetting.showAudienceTargetingBox();
             _audienceTargetting.initAudienceTargetting();
