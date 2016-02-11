@@ -57,15 +57,13 @@
     <div ng-hide='campaigns.costList[campaign.orderId].costDataLoading' ng-switch on="campaigns.costList[campaign.orderId].cost_transparency">
     <div ng-switch-when=true>
         <div class="each_cost_col first_col" ng-bind="(campaigns.costList[campaign.orderId].getImpressions() | nrFormat : '' : 0)"></div>
-        <div class="each_cost_col second_col" ng-bind="campaigns.cdbDataMap[campaign.orderId][campaigns.selectedCostType]  | kpiFormatter : campaigns.selectedCostType"></div>
+        <div class="each_cost_col second_col" ng-bind="(campaigns.selectedCostType=='vtc' && campaigns.costList[campaign.orderId]['vtc_100'] != null) ?  (campaigns.costList[campaign.orderId]['vtc_100']  | number:2) : (campaigns.costList[campaign.orderId][campaigns.selectedCostType]  | kpiFormatter : campaigns.selectedCostType)"></div>
         <div class="each_cost_col three_col" ng-bind="campaigns.costList[campaign.orderId].getInventoryCost() | currency:undefined:0"></div>
         <div class="each_cost_col four_col" ng-bind="campaigns.costList[campaign.orderId].getDataCost() | currency:undefined:0"></div>
         <div class="each_cost_col five_col" ng-bind="campaigns.costList[campaign.orderId].getAdServingCost() | currency:undefined:0"></div>
-        <div class="each_cost_col six_col" ng-bind="campaigns.costList[campaign.orderId].getCreativeCost() | currency:undefined:0"></div>
-        <div class="each_cost_col sev_col" ng-bind="campaigns.costList[campaign.orderId].getResearchCost() | currency:undefined:0"></div>
-        <div class="each_cost_col eight_col" ng-bind="campaigns.costList[campaign.orderId].getAdVerificationCost() | currency:undefined:0"></div>
-        <div class="each_cost_col ninth_col" ng-bind="campaigns.costList[campaign.orderId].getCollectiveCost() | currency:undefined:0"></div>
-        <div class="each_cost_col tenth_col total_cost" ng-bind="campaigns.costList[campaign.orderId].getTotal() | currency:undefined:0"></div>
+        <div class="each_cost_col six_col" ng-bind="campaigns.costList[campaign.orderId].getAdVerificationCost() | currency:undefined:0"></div>
+        <div class="each_cost_col sev_col" ng-bind="campaigns.costList[campaign.orderId].getCollectiveCost() | currency:undefined:0"></div>
+        <div class="each_cost_col eight_col total_cost" ng-bind="campaigns.costList[campaign.orderId].getTotal() | currency:undefined:0"></div>
     </div>
     <div ng-switch-when=false>
         <span class="cost_opaque_txt_horizontal">
