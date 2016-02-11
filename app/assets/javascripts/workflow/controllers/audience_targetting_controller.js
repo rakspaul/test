@@ -62,10 +62,10 @@ var angObj = angObj || {};
                 if ($scope.selectedCategory.length === 0) {
                     $scope.categoryText = 'All';
                 } else if ($scope.selectedCategory.length === 1) {
-                    if ($scope.selectedCategory[0].subCategory.length < limit)
-                        $scope.categoryText = $scope.selectedCategory[0].subCategory;
+                    if ($scope.selectedCategory[0].category.length < limit)
+                        $scope.categoryText = $scope.selectedCategory[0].category;
                     else
-                        $scope.categoryText = $scope.selectedCategory[0].subCategory.slice(0, limit) + '...';
+                        $scope.categoryText = $scope.selectedCategory[0].category.slice(0, limit) + '...';
 
                 } else {
                     $scope.categoryText = $scope.selectedCategory.length + ' Selected';
@@ -327,28 +327,40 @@ var angObj = angObj || {};
 
             //when category is selected
             if (type === 'category') {
-                index = _.findIndex($scope.audienceCategories, function (item) {
+                //index = _.findIndex($scope.audienceCategories, function (item) {
+                //    return item.category === categoryObj.category;
+                //});
+                //if ($scope.audienceCategories[index].isChecked) {
+                //    $scope.audienceCategories[index].isChecked = false;
+                //} else {
+                //    $scope.audienceCategories[index].isChecked = true;
+                //}
+                //for (i = 0; i < $scope.audienceCategories[index].subCategories.length; i++) {
+                //    subCategoryIndex = _.findIndex($scope.selectedCategory, function (item) {
+                //        return item.id === $scope.audienceCategories[index].subCategories[i].id;
+                //    });
+                //    //if the category is not checked
+                //    if (subCategoryIndex === -1) {
+                //        $scope.selectedCategory.push($scope.audienceCategories[index].subCategories[i]);
+                //        $scope.audienceCategories[index].subCategories[i].isChecked = true;
+                //    } else if ($scope.audienceCategories[index].isChecked !== true) {
+                //        // if category checkbox is not checked
+                //        $scope.selectedCategory.splice(subCategoryIndex,1);
+                //        $scope.audienceCategories[index].subCategories[i].isChecked = false;
+                //    }
+                //}
+                index = _.findIndex($scope.selectedCategory, function (item) {
                     return item.category === categoryObj.category;
                 });
-                if ($scope.audienceCategories[index].isChecked) {
-                    $scope.audienceCategories[index].isChecked = false;
+
+                if (index === -1) {
+                    $scope.selectedCategory.push(categoryObj);
+                    categoryObj.isChecked = true;
                 } else {
-                    $scope.audienceCategories[index].isChecked = true;
+                    $scope.selectedCategory.splice(index, 1);
+                    categoryObj.isChecked = false;
                 }
-                for (i = 0; i < $scope.audienceCategories[index].subCategories.length; i++) {
-                    subCategoryIndex = _.findIndex($scope.selectedCategory, function (item) {
-                        return item.id === $scope.audienceCategories[index].subCategories[i].id;
-                    });
-                    //if the category is not checked
-                    if (subCategoryIndex === -1) {
-                        $scope.selectedCategory.push($scope.audienceCategories[index].subCategories[i]);
-                        $scope.audienceCategories[index].subCategories[i].isChecked = true;
-                    } else if ($scope.audienceCategories[index].isChecked !== true) {
-                        // if category checkbox is not checked
-                        $scope.selectedCategory.splice(subCategoryIndex,1);
-                        $scope.audienceCategories[index].subCategories[i].isChecked = false;
-                    }
-                }
+
             } else {
                 subCategoryIndex = _.findIndex($scope.selectedCategory, function (item) {
                     return item.id === categoryObj.id;
