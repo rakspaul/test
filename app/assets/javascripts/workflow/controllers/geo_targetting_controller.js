@@ -236,7 +236,6 @@ var angObj = angObj || {};
 
         $scope.regionEdit = function (flatArr) {
             var regionsEditable;
-            $scope.storedResponse = angular.copy(workflowService.getAdsDetails());
             var geoTargets = $scope.storedResponse.targets.geoTargets;
             if (geoTargets && _.size(geoTargets) > 0 && geoTargets.REGION) {
                 regionsEditable = angular.copy(geoTargets.REGION.geoTargetList);
@@ -267,7 +266,6 @@ var angObj = angObj || {};
                 });
                 $scope.saveGeography(1);
             }
-            $scope.saveGeography(1);
         };
 
         $scope.dmasEdit = function (flatArr) {
@@ -281,7 +279,6 @@ var angObj = angObj || {};
                 });
                 $scope.saveGeography(1);
             }
-            $scope.saveGeography(1);
         };
 
         $scope.zipEdit = function (flatArr) {
@@ -335,7 +332,6 @@ var angObj = angObj || {};
         };
 
         $scope.resetGeoTargetingVariables = function ($event) {
-            console.log("resetGeoTargetingVariables")
             if ($event && $scope.mode === 'edit') {
                 // do nothing just wait and watch
             } else {
@@ -845,7 +841,6 @@ var angObj = angObj || {};
             if (selectedTargtingData.zip.length > 0) {
                 selectedTargtingData.zipCodes = [{'values': selectedTargtingData.zip}];
             }
-            //$scope.geoTargetingData.selected['zip'] = selectedTargtingData.zipCodes;
             delete selectedTargtingData.zip;
             obj.include = {};
             obj.exclude = {};
@@ -1017,7 +1012,6 @@ var angObj = angObj || {};
         $scope.$on('deleteGeoTarget', function () {
             $scope.deleteGeography();
             workflowService.resetSavedGeo();
-            $scope.adData.geoTargetingData = null;
             $scope.adData.isGeographySelected = null;
         })
 

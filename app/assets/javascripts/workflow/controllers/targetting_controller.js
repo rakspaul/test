@@ -14,6 +14,7 @@ var angObj = angObj || {};
         $scope.geoTargetingPreviewObj = null;
         $scope.showSwitchBox = true;
 
+
         var targeting = {};
 
         _targeting.showAudienceInfo =  function() {
@@ -29,7 +30,6 @@ var angObj = angObj || {};
 
         _targeting.setTargetingForPreview = function(targetingName) {
             var fetchedObj = angular.copy(workflowService.getAdsDetails());
-
             $scope.selectedTargeting = {};
             $scope.adData.targetName = targetingName;
             $scope.selectedTargeting[targetingName.toLowerCase()] = true;
@@ -51,10 +51,8 @@ var angObj = angObj || {};
             }
 
             if (targetingName === 'Daypart') {
-                if(!audienceService.getDayTimeSelectedObj() && $scope.mode === 'edit') {
-                    $timeout(function () {
-                        $scope.$broadcast("updateDayPart");
-                    }, 2000)
+                if(fetchedObj.targets.adDaypartTargets && $scope.mode === 'edit') {
+                    $scope.$broadcast("updateDayPart");
                 }
                 $scope.adData.isDaypartSelected = true;
             }
