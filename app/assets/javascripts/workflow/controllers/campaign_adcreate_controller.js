@@ -71,7 +71,6 @@ var angObj = angObj || {};
                                                     $timeout(function(){
                                                         $scope.redirectUser(true);
                                                     },4000);
-
                                                 }
                                                 disablePauseEnableResume($scope.getAd_result);
                                                 processEditMode(result);
@@ -81,6 +80,14 @@ var angObj = angObj || {};
                                             .getDetailedAdsInAdGroup($scope.campaignId, $scope.adGroupId, $scope.adId)
                                             .then(function (result) {
                                                 $scope.getAd_result = result.data.data;
+                                                //redirect user to campaingn overview screen if ad is archived
+                                                if($scope.getAd_result.isArchived){
+                                                    $scope.redirectFlag = true;
+                                                    $scope.archivedAdFlag = true;
+                                                    $timeout(function(){
+                                                        $scope.redirectUser(true);
+                                                    },4000);
+                                                }
                                                 disablePauseEnableResume($scope.getAd_result);
                                                 processEditMode(result);
                                             });
