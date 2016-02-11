@@ -348,7 +348,9 @@ var angObj = angObj || {};
                 dimensionDataKey = isPrimary ? "primary" : "secondary",
                 filterDataKey = isPrimary ? "secondary" : "primary",
                 str = $scope.reports.reportDefinition.dimensions[dimensionDataKey].dimension;
-            $scope.reportTitle = $scope.reports.reportDefinition.dimensions[dimensionDataKey].name;
+            if(isPrimary){
+                $scope.reportTitle = $scope.reports.reportDefinition.dimensions[dimensionDataKey].name;
+            }
             $scope.isReportForMultiDimension = false;
 
             if ($scope.reports.reportDefinition.dimensions[dimensionDataKey].value) {
@@ -357,7 +359,9 @@ var angObj = angObj || {};
 
             if ($scope.reports.reportDefinition.dimensions[filterDataKey].dimension) {
                 $scope.isReportForMultiDimension = true;
-                $scope.reportTitle += ' by ' + $scope.reports.reportDefinition.dimensions[filterDataKey].name;
+                if(isPrimary){
+                    $scope.reportTitle += ' by ' + $scope.reports.reportDefinition.dimensions[filterDataKey].name;
+                }
                 str += "&first_dim_filter=" + $scope.reports.reportDefinition.dimensions[filterDataKey].dimension
                 if ($scope.reports.reportDefinition.dimensions[filterDataKey].value) {
                     str += ':' + $scope.reports.reportDefinition.dimensions[filterDataKey].value;
