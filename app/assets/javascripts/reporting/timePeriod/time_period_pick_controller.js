@@ -46,7 +46,8 @@
             orientation: "top right",
             autoclose: true,
             todayHighlight: true,
-            keyboardNavigation: false
+            keyboardNavigation: false,
+            endDate: '+0d'
          });
         });
 
