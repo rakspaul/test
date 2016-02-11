@@ -55,7 +55,6 @@
     <!--END : Audience Targeting Card-->
 
     <!--START : Geo Targeting Card-->
-    geoTargetingPreviewObj.include --> {{geoTargetingPreviewObj.include}}
     <div class="col-md-6 cardSelectHolder" ng-class="{true: 'active'}[selectedTargeting['geography']]">
         <span ng-if="geoTargetingPreviewObj" class="icon-trash" ng-style="(geoTargetingPreviewObj.include.count >0 || geoTargetingPreviewObj.exclude.count >0)?{'display':'block'}:{'display':'none'}" ng-click="deletetargets('GEO', $event)"></span>
         <div class="icon-location"></div>

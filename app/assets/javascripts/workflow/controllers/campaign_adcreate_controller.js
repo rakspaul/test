@@ -1044,6 +1044,21 @@ var angObj = angObj || {};
                                     'geoTargetList': zipPostArr
                                 };
                             }
+                        } else {
+                            if($scope.mode === 'edit') {
+                                var adData = angular.copy(workflowService.getAdsDetails());
+                                var postGeoTargetObj = adData.targets.geoTargets;
+                                if(postGeoTargetObj.REGION) {
+                                    postGeoTargetObj.REGION.geoTargetList = _.pluck(geoTargets.regions.geoTargetList, 'id');
+                                }
+                                if(postGeoTargetObj.CITY) {
+                                    postGeoTargetObj.CITY.geoTargetList = _.pluck(geoTargets.city.geoTargetList, 'id');
+                                }
+
+                                if(postGeoTargetObj.DMA) {
+                                    postGeoTargetObj.DMA.geoTargetList = _.pluck(geoTargets.DMA.geoTargetList, 'id');
+                                }
+                            }
                         }
 
                         // audience segment
