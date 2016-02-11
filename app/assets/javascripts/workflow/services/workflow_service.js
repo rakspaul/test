@@ -8,7 +8,9 @@
             newCreative,
             platform,
             savedGeo,
-            vistoModule;
+            vistoModule,
+            deletedModule = [];
+
 
         return {
             fetchCampaigns: function() {
@@ -454,6 +456,15 @@
 
             getSavedGeo: function(){
                 return savedGeo;
+            },
+            setDeleteModule :  function(module) {
+                deletedModule.push(module);
+            },
+            getDeleteModule :  function() {
+                return deletedModule;
+            },
+            resetDeleteModule : function() {
+                deletedModule = [];
             }
         };
     });

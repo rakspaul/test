@@ -1108,8 +1108,8 @@ var angObj = angObj || {};
 
                     if (!$scope.TrackingIntegrationsSelected) {
                         postAdDataObj.targets = {};
-
-                        if ($scope.adData.geoTargetingData) {
+                        if (workflowService.getSavedGeo()) {
+                            $scope.adData.geoTargetingData = workflowService.getSavedGeo().original
                             postGeoTargetObj = postAdDataObj.targets.geoTargets = {};
                             buildGeoTargetingParams = function (data, type) {
                                 var obj = {};

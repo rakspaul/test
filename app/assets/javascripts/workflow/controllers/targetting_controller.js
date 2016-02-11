@@ -14,6 +14,7 @@ var angObj = angObj || {};
         $scope.geoTargetingPreviewObj = null;
         $scope.showSwitchBox = true;
 
+
         var targeting = {};
 
         _targeting.showAudienceInfo =  function() {
@@ -28,6 +29,7 @@ var angObj = angObj || {};
 
 
         _targeting.setTargetingForPreview = function(targetingName) {
+            var fetchedObj = angular.copy(workflowService.getAdsDetails());
             $scope.selectedTargeting = {};
             $scope.adData.targetName = targetingName;
             $scope.selectedTargeting[targetingName.toLowerCase()] = true;
@@ -49,10 +51,8 @@ var angObj = angObj || {};
             }
 
             if (targetingName === 'Daypart') {
-                if(!audienceService.getDayTimeSelectedObj() && $scope.mode === 'edit') {
-                    $timeout(function () {
-                        $scope.$broadcast("updateDayPart");
-                    }, 2000)
+                if(fetchedObj.targets.adDaypartTargets && $scope.mode === 'edit') {
+                    $scope.$broadcast("updateDayPart");
                 }
                 $scope.adData.isDaypartSelected = true;
             }
@@ -71,9 +71,10 @@ var angObj = angObj || {};
         };
 
         $scope.deleteAudienceTargetting = function () {
+            $scope.adData.isAudienceSelected = null;
             var audienceData = $scope.audienceDataForPreview;
             if(audienceData) audienceData.length = 0;
-            $scope.adData.isAudienceSelected = null;
+            workflowService.setDeleteModule('Audience');
         };
 
 
@@ -81,7 +82,6 @@ var angObj = angObj || {};
         /****************** START : DAY PARTING TARGETING  ***********************/
 
         $scope.saveDayPartForPreview = function () {
-            console.log("targeting_controller saveDayPartForPreview");
             $scope.selectedDayParts.selected = audienceService.getDayTimeSelectedObj();
             $scope.selectedDayParts.data = audienceService.getDaytimeObj();
             $scope.dayPartTotal = $scope.selectedDayParts.data ? $scope.selectedDayParts.data.length : 0;
@@ -95,12 +95,12 @@ var angObj = angObj || {};
         };
 
         $scope.deleteDayPartTargetting = function () {
+            $scope.adData.isDaypartSelected = false;
             var dayPartData = $scope.selectedDayParts['data'];
             if(dayPartData) dayPartData.length = 0;
-            $scope.$broadcast('deleteDayPartTarget');
+            workflowService.setDeleteModule('dayParting');
+
         };
-
-
 
         /****************** START : GEO TARGETING  ***********************/
 
@@ -179,9 +179,11 @@ var angObj = angObj || {};
         };
 
         $scope.deleteGeoTargetting = function () {
-            workflowService.resetSavedGeo();
+            $scope.adData.isGeographySelected = false;
             $scope.geoTargetingPreviewObj = null;
-            $scope.$broadcast('deleteGeoTarget');
+            $scope.adData.targetName = null;
+            workflowService.resetDeleteModule();
+            workflowService.setDeleteModule('Geography');
         };
 
         $scope.deleteTargetting = function () {
@@ -216,6 +218,7 @@ var angObj = angObj || {};
             $scope.deleteGeoTargetting();
             $scope.deleteDayPartTargetting();
             $scope.deleteAudienceTargetting();
+
         });
 
         $scope.deletetargets = function (type, event) {
