@@ -51,8 +51,8 @@ var angObj = angObj || {};
         };
 
         $scope.init = function(){
-            $scope.strategyCostData = {};
-            $scope.tacticsCostData = {} ;
+            $scope.strategyCostData = [];
+            $scope.tacticsCostData = [];
             $scope.tacticList = {};
 
             $scope.dataNotFound = false;
@@ -116,31 +116,25 @@ var angObj = angObj || {};
             dataService.fetch(url).then(function(result) {
                     $scope.strategyLoading =  false;
                     if (result.status === "OK" || result.status === "success") {
-                        $scope.strategyCostData = result.data.data ;
-                        if(typeof $scope.strategyCostData != "undefined" && $scope.strategyCostData != null && $scope.strategyCostData.length >0){
+                        var data = result.data.data ;
+                        if(typeof data != "undefined" && data != null && data.length >0){
                             $scope.dataNotFound = false;
 //                            $scope.isCostModelTransparent = $scope.strategyCostData[0].cost_transparency;
 //                            if($scope.isCostModelTransparent ===  false) {
 //                                $scope.isCostModelTransparentMsg = $scope.strategyCostData[0].message;
 //                            }
-                            $scope.strategyCostBusy = false;
-                            $scope.strategyMarginValue =  $scope.strategyCostData[0].margin ;
-                            if ($scope.strategyCostData[0].pricing_method && $scope.strategyCostData[0].pricing_method === constants.PRICING_METHOD_CPM)
-                                $scope.strategyMarginUnit = constants.SYMBOL_DOLLAR;
-                            if(param.strategyId >= 0 ) {
-                                $scope.tacticsCostData = $scope.strategyCostData[0].tactics ;
-
-                                /* COMMENTING THIS OUT AS PER DISCUSSION WITH ANAND XAVIER.  THIS MIGHT COME BACK IN FUTURE.  sriram: July 2nd, 2015 */
-                                /*
-                                if(localStorage.getItem(loginModel.getUserId()+'_cost_sort') === undefined || localStorage.getItem(loginModel.getUserId()+'_cost_sort') === null) {
-                                    $scope.sortFunction($scope.sortByColumn);
-                                } else {
-                                    $scope.sortByColumn = localStorage.getItem(loginModel.getUserId() + '_cost_sort');
-                                    var sortCoulumName = $scope.sortByColumn.replace('-', '');
-                                    $scope.sortFunction(sortCoulumName);
+                            _.each(data,function(item){
+                                if(item.ad_id == undefined || item.ad_id == -1){
+                                    $scope.strategyCostBusy = false;
+                                    $scope.strategyMarginValue =  item.margin;
+                                    if (item.pricing_method && item.pricing_method === constants.PRICING_METHOD_CPM){
+                                        $scope.strategyMarginUnit = constants.SYMBOL_DOLLAR;
+                                    }
+                                    $scope.strategyCostData.push(item);
+                                }else{
+                                    $scope.tacticsCostData.push(item);
                                 }
-                                */
-                            }
+                            });
                         }
                         else{
                             errorHandler(result);
@@ -230,8 +224,8 @@ var angObj = angObj || {};
 
         //Function is called from startegylist directive
         $scope.callBackStrategyChange = function() {
-            $scope.strategyCostData = {};
-            $scope.tacticsCostData = {} ;
+            $scope.strategyCostData = [];
+            $scope.tacticsCostData = [];
             $scope.tacticList = {};
             $scope.dataNotFound = false ;
             $scope.strategyMarginValue = -1 ; // resetting strategy margin before each strategy call

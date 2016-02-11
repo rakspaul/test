@@ -48,19 +48,9 @@
                             <div class="each_cost_col three_col  icon_text_holder" ng-class="sortClassFunction('inventory_cost',sortType,sortReverse)" ng-click="sortType = 'inventory_cost'; sortReverse = !sortReverse;removeKpiActive();">{{textConstants.INVENTORY}}</div>
                             <div class="each_cost_col four_col  icon_text_holder" ng-class="sortClassFunction('data_cost',sortType,sortReverse)" ng-click="sortType = 'data_cost'; sortReverse = !sortReverse;removeKpiActive();">{{ textConstants.DATA}}</div>
                             <div class="each_cost_col five_col  icon_text_holder" ng-class="sortClassFunction('ad_serving_cost',sortType,sortReverse)" ng-click="sortType = 'ad_serving_cost'; sortReverse = !sortReverse;removeKpiActive();">{{ textConstants.AD_SERVING}}</div>
-                            <div class="each_cost_col six_col  icon_text_holder" ng-class="sortClassFunction('creative_cost',sortType,sortReverse)" ng-click="sortType = 'creative_cost'; sortReverse = !sortReverse;removeKpiActive();">{{ textConstants.CREATIVE}}</div>
-                            <div class="each_cost_col sev_col  icon_text_holder" ng-class="sortClassFunction('research_cost',sortType,sortReverse)" ng-click="sortType = 'research_cost'; sortReverse = !sortReverse;removeKpiActive();">{{ textConstants.RESEARCH}}</div>
                             <div class="each_cost_col eight_col  icon_text_holder" ng-class="sortClassFunction('ad_verification_cost',sortType,sortReverse)" ng-click="sortType = 'ad_verification_cost'; sortReverse = !sortReverse;removeKpiActive();">{{ textConstants.AD_VERIFICATION}}</div>
-                            <div class="each_cost_col ninth_col  icon_text_holder" ng-class="sortClassFunction('collective_cost',sortType,sortReverse)" ng-click="sortType = 'collective_cost'; sortReverse = !sortReverse;removeKpiActive();">{{ textConstants.COLLECTIVE}}
-                                <div class="tooltip_holder">
-                                      <span class="tooltip_show_icon"></span>
-                                      <div class="common_tooltip">{{textConstants.TRANSPARENT_PLATFORM_FEE_CHARGED}}</div>
-                                </div>
-                                
-
-                            </div>
-                            <div class="each_cost_col tenth_col total_cost">{{textConstants.TOTAL_SPEND}}
-                            </div>
+                            <div class="each_cost_col ninth_col  icon_text_holder" ng-class="sortClassFunction('collective_cost',sortType,sortReverse)" ng-click="sortType = 'collective_cost'; sortReverse = !sortReverse;removeKpiActive();">{{ textConstants.COLLECTIVE}}</div>
+                            <div class="each_cost_col tenth_col total_cost">{{textConstants.TOTAL_SPEND}}</div>
                         </div>
                         <!--cost  filter ends-->
 
@@ -70,21 +60,18 @@
                                     <div class="no_data_found_cost_strategy" ng-if="dataNotFound" ng-bind-html="getMessageForDataNotAvailable(selectedCampaign)"></div>
                                     <div class="common-load-icon" ng-show="strategyCostBusy"></div>
                                     <div class="clearfix each_cost_heading" ng-if="!dataNotFound">
-                                        <span class="pull-left text_next_margin_per">{{strategyHeading}}</span>
-                                        <!-- <span class="margin_percentage" ng-if ="(strategyMarginValue >=0)">{{strategyMarginValue}}{{strategyMarginUnit}}</span> -->
+                                        <span class="pull-left text_next_margin_per" ng-bind="strategyHeading"></span>                                        <!-- <span class="margin_percentage" ng-if ="(strategyMarginValue >=0)">{{strategyMarginValue}}{{strategyMarginUnit}}</span> -->
                                     </div>
                                
                                     <div class="clearfix cost_col_container cost_cols_holder" ng-repeat="strategy in strategyCostData track by $index" ng-if="!dataNotFound">
-                                        <div class="each_cost_col first_col">{{((strategy.impressions >0)|| (strategy.impressions == 0))? (strategy.impressions | nrFormat) : '-'}}</div>
-                                        <div class="each_cost_col second_clol">{{selected_filters.kpi_type.toLowerCase() == 'vtc' ? (((strategy.video_metrics['vtc_rate'] > 0)||(strategy.video_metrics['vtc_rate'] == 0))?(strategy.video_metrics['vtc_rate'] | number:2):'-'): (strategy.kpi_metrics[selected_filters.kpi_type.toLowerCase()] | appendDollor : selected_filters.kpi_type.toLowerCase() )}}</div>
-                                        <div class="each_cost_col three_col">{{((strategy.inventory_cost >0)|| (strategy.inventory_cost == 0))? (strategy.inventory_cost | currency:undefined:0) : '-'}}</div>
-                                        <div class="each_cost_col four_col">{{((strategy.data_cost >0)|| (strategy.data_cost == 0))? (strategy.data_cost | currency:undefined:0) : '-'}}</div>
-                                        <div class="each_cost_col five_col">{{((strategy.ad_serving_cost >0)|| (strategy.ad_serving_cost == 0))? (strategy.ad_serving_cost | currency:undefined:0) : '-'}}</div>
-                                        <div class="each_cost_col six_col">{{((strategy.creative_cost >0)|| (strategy.creative_cost == 0))? (strategy.creative_cost | currency:undefined:0) : '-'}}</div>
-                                        <div class="each_cost_col sev_col">{{((strategy.research_cost >0)|| (strategy.research_cost == 0))? (strategy.research_cost | currency:undefined:0) : '-'}}</div>
-                                        <div class="each_cost_col eight_col">{{((strategy.ad_verification_cost >0)|| (strategy.ad_verification_cost == 0))? (strategy.ad_verification_cost | currency:undefined:0) : '-'}}</div>
-                                        <div class="each_cost_col ninth_col">{{((strategy.collective_cost >0)|| (strategy.collective_cost == 0))? (strategy.collective_cost | currency:undefined:0) : '-'}}</div>
-                                        <div class="each_cost_col tenth_col total_cost">{{((strategy.total >0)|| (strategy.total == 0))? (strategy.total | currency:undefined:0) : '-'}}</div>
+                                        <div class="each_cost_col first_col" ng-bind="strategy.impressions != null ? (strategy.impressions | nrFormat) : '-'"></div>
+                                        <div class="each_cost_col second_clol" ng-bind="(selected_filters.kpi_type.toLowerCase() == 'vtc' && strategy['vtc_100'] != null) ? (strategy['vtc_100'] | number:2): (strategy[selected_filters.kpi_type.toLowerCase()] != null ? (strategy[selected_filters.kpi_type.toLowerCase()] | appendDollor : selected_filters.kpi_type.toLowerCase()) : '-' )"></div>
+                                        <div class="each_cost_col three_col" ng-bind="strategy.inventory_cost != null ? (strategy.inventory_cost |currency:undefined:0) : '-'"></div>
+                                        <div class="each_cost_col four_col" ng-bind="strategy.data_cost != null ? (strategy.data_cost | currency:undefined:0) : '-'"></div>
+                                        <div class="each_cost_col five_col" ng-bind="strategy.serving_cost != null ? (strategy.serving_cost | currency:undefined:0) : '-'"></div>
+                                        <div class="each_cost_col six_col" ng-bind="strategy.verification_cost != null ? (strategy.verification_cost | currency:undefined:0) : '-'"></div>
+                                        <div class="each_cost_col sev_col" ng-bind="strategy.collective_cost != null ? (strategy.collective_cost | currency:undefined:0) :'-'"></div>
+                                        <div class="each_cost_col eight_col total_cost" ng-bind="strategy.gross_rev != null ? (strategy.gross_rev | currency:undefined:0) : '-'"></div>
                                     </div>
                                 </div>
                                 <div class="all_startegy_cost">
@@ -92,21 +79,17 @@
                                     <!--{{filter.sortByColumn}}-->
                                     <div class="each_cost_row_holder" ng-repeat="tactic in tacticsCostData | orderBy:sortType:sortReverse track by $index">
                                         <div class="each_cost_row">
-                                            <div class="each_cost_heading" >
-                                                {{tactic.name}}
-                                            </div>
+                                            <div class="each_cost_heading" ng-bind="tactic.name"></div>
                                             <div class="clearfix cost_col_container cost_cols_holder">
-                                                <div class="each_cost_col first_col">{{((tactic.impressions >0)|| (tactic.impressions == 0))? (tactic.impressions | nrFormat) : '-'}}</div>
+                                                <div class="each_cost_col first_col" ng-bind="tactic.impressions != null ? (tactic.impressions | nrFormat) : '-'"></div>
                                                 <!--<div class="each_cost_col second_col">{{formattingNumber(selected_filters.kpi_type.toLowerCase(), tactic.kpi_metrics[selected_filters.kpi_type.toLowerCase()])}}</div>-->
-                                                <div class="each_cost_col second_col">{{selected_filters.kpi_type.toLowerCase() == 'vtc' ? (((tactic.video_metrics['vtc_rate'] > 0)||(tactic.video_metrics['vtc_rate'] == 0))?(tactic.video_metrics['vtc_rate'] | number:2):'-') : (tactic.kpi_metrics[selected_filters.kpi_type.toLowerCase()] | appendDollor : selected_filters.kpi_type.toLowerCase() )}}</div>
-                                                <div class="each_cost_col three_col">{{((tactic.inventory_cost >0)|| (tactic.inventory_cost == 0))? (tactic.inventory_cost | currency:undefined:0) : '-'}}</div>
-                                                <div class="each_cost_col four_col">{{((tactic.data_cost >0)|| (tactic.data_cost == 0))? (tactic.data_cost | currency:undefined:0) : '-'}}</div>
-                                                <div class="each_cost_col five_col">{{((tactic.ad_serving_cost >0)|| (tactic.ad_serving_cost == 0))? (tactic.ad_serving_cost | currency:undefined:0) : '-'}}</div>
-                                                <div class="each_cost_col six_col">{{((tactic.creative_cost >0)|| (tactic.creative_cost == 0))? (tactic.creative_cost | currency:undefined:0) : '-'}}</div>
-                                                <div class="each_cost_col sev_col">{{((tactic.research_cost >0)|| (tactic.research_cost == 0))? (tactic.research_cost | currency:undefined:0) : '-'}}</div>
-                                                <div class="each_cost_col eight_col">{{((tactic.ad_verification_cost >0)|| (tactic.ad_verification_cost == 0))? (tactic.ad_verification_cost | currency:undefined:0) : '-'}}</div>
-                                                <div class="each_cost_col ninth_col">{{((tactic.collective_cost >0)|| (tactic.collective_cost == 0))? (tactic.collective_cost | currency:undefined:0) : '-'}}</div>
-                                                <div class="each_cost_col tenth_col total_cost">{{((tactic.total >0)|| (tactic.total == 0))? (tactic.total | currency:undefined:0) : '-'}}</div>
+                                                <div class="each_cost_col second_col" ng-bind="(selected_filters.kpi_type.toLowerCase() == 'vtc' && tactic['vtc_100'] != null ) ? (tactic['vtc_100'] | number:2) : ( tactic[selected_filters.kpi_type.toLowerCase()] != null ? (tactic[selected_filters.kpi_type.toLowerCase()] | appendDollor : selected_filters.kpi_type.toLowerCase()) : '_' )"></div>
+                                                <div class="each_cost_col three_col" ng-bind="tactic.inventory_cost != null ? (tactic.inventory_cost | currency:undefined:0) : '-'"></div>
+                                                <div class="each_cost_col four_col" ng-bind="tactic.data_cost != null ? (tactic.data_cost | currency:undefined:0) : '-'"></div>
+                                                <div class="each_cost_col five_col" ng-bind="tactic.serving_cost != null ? (tactic.serving_cost | currency:undefined:0) : '-'"></div>
+                                                <div class="each_cost_col eight_col" ng-bind="tactic.verification_cost != null ? (tactic.verification_cost | currency:undefined:0) : '-'"></div>
+                                                <div class="each_cost_col sev_col" ng-bind="tactic.collective_cost != null ? (tactic.collective_cost | currency:undefined:0) : '-'"></div>
+                                                <div class="each_cost_col eight_col total_cost" ng-bind="tactic.gross_rev != null ? (tactic.gross_rev | currency:undefined:0) : '-'"></div>
                                             </div>
                                         </div>
                                     </div>
