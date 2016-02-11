@@ -163,17 +163,33 @@
                     </a>
                 </span>
                 <div>
-                    <div class="statusLabel disabled"
+                    <!--div class="statusLabel disabled"
                          ng-if="!adData.inventory.domainAction || TrackingIntegrationsSelected">
                         <div class="col-md-12">
                             <span style="color: #000;" data-ng-bind="textConstants.NOTSET">Not Set</span>
                         </div>
+                    </div-->
+                    <div class="statusLabel disabled"
+                         ng-if="(!workflowData.selectedWhiteLists.length && !workflowData.selectedBlackLists.length) ||
+                                TrackingIntegrationsSelected">
+                         <div class="col-md-12">
+                             <span style="color: #000;" data-ng-bind="textConstants.NOTSET">Not Set</span>
+                         </div>
                     </div>
                     <div class="statusLabel disabled"
-                         ng-if="adData.inventory.domainAction && !TrackingIntegrationsSelected">
+                         ng-if="(workflowData.selectedWhiteLists.length > 0) && !TrackingIntegrationsSelected">
                         <div class="col-md-12">
-                            <!-- TODO: have to insert Blacklist / Whitelist count if more than one -->
-                            <span ng-bind="'10 ' + (adData.inventory.domainAction === 'INCLUDE' ? 'Whitelist' : 'Blacklist')"></span>
+                            <span ng-bind="workflowData.selectedWhiteLists.length > 1 ?
+                                        workflowData.selectedWhiteLists.length + ' WhiteLists' :
+                                        'Whitelist'"></span>
+                        </div>
+                    </div>
+                    <div class="statusLabel disabled"
+                         ng-if="(workflowData.selectedBlackLists.length > 0) && !TrackingIntegrationsSelected">
+                        <div class="col-md-12">
+                            <span ng-bind="workflowData.selectedBlackLists.length > 1 ?
+                                        workflowData.selectedBlackLists.length + ' BlackLists' :
+                                        'Blacklist'"></span>
                         </div>
                     </div>
                 </div>

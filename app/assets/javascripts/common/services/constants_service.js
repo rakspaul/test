@@ -895,6 +895,8 @@
 
         // New
         this.INVENTORY_REPLACE_CURRENT_LIST = 'Replace Current List';
+        this.INVENTORY_UPLOAD_NEW = 'Upload New';
+        this.INVENTORY_SELECTED_DOMAIN_LISTS = 'Selected domain Lists';
     };
 
     commonModule.service('constants', constants);

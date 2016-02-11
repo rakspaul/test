@@ -273,16 +273,16 @@
                 return dataService.fetch(url, cacheObj);
             },
 
-            getCreativesforCreativeList: function (clientId,formats, query, pageSize,pageNo) {
+            getCreativesforCreativeList: function (clientId, formats, query, pageSize, pageNo) {
                 var queryStr = query ? query : '',
                     creativeFormats = formats ? '?creativeFormat=' + formats : '',
                     url;
 
-                pageSize=pageSize?'?pageSize='+pageSize:'';
-                pageNo=pageNo?'&pageNo='+pageNo:'';
+                pageSize = pageSize ? '?pageSize=' + pageSize : '';
+                pageNo = pageNo ? '&pageNo=' + pageNo : '';
 
                 url = apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/creatives' +
-                    creativeFormats + queryStr +pageSize+pageNo;
+                    creativeFormats + queryStr + pageSize + pageNo;
 
                 return dataService.fetch(url);
             },
@@ -328,8 +328,8 @@
             },
 
             getDMAsList: function (platformId, data, success, failure, flag) {
-                var clientId =  loginModel.getSelectedClient().id,
-                    url = apiPaths.WORKFLOW_API_URL + '/platforms/' + platformId + '/dmas'+data,
+                var // clientId =  loginModel.getSelectedClient().id,
+                    url = apiPaths.WORKFLOW_API_URL + '/platforms/' + platformId + '/dmas' + data,
                     canceller;
 
                 if (flag === 'cancellable') {
@@ -348,14 +348,15 @@
                     '/clients/' + clientId +
                     '/advertisers/' + advertiserId +
                     '/domain_lists';
-console.log('getAdvertisersDomainList(), url = ', url);
+
                 return dataService.fetch(url);
             },
 
-            createAdvertiseDomainList: function (clientId, advertiserId, domainId) {
+            createAdvertisersDomainList: function (clientId, advertiserId, domainId) {
                 var domainIdstr =  domainId ? '/' + domainId : '';
 
                 clientId =  loginModel.getSelectedClient().id;
+
                 return apiPaths.WORKFLOW_API_URL +
                     '/clients/' + clientId +
                     '/advertisers/' + advertiserId +
@@ -435,12 +436,15 @@ console.log('getAdvertisersDomainList(), url = ', url);
                         '/vendors'
                 );
             },
+
             setSavedGeo: function(geoDetails){
                 savedGeo = geoDetails;
             },
+
             resetSavedGeo: function(){
                 savedGeo = null;
             },
+
             getSavedGeo: function(){
                 return savedGeo;
             }
