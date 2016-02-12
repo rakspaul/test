@@ -4,7 +4,7 @@ var angObj = angObj || {};
     'use strict';
 
     angObj.controller('CreativeListController', function ($scope,$rootScope, $window, $routeParams, constants, workflowService, 
-        $timeout, utils, $location,momentService) {
+        $timeout, utils, $location,momentService, $route) {
         var checkedCreativeArr=[];
         $scope.creativeAds={};
         $scope.creativeAds['creativeAdData'] = {};
@@ -78,11 +78,7 @@ var angObj = angObj || {};
                     .deleteCreatives(clientId,creativeIds)
                     .then(function(result){
                         if (result.status === 'OK' || result.status === 'success') {
-                            window.location.reload();
-                            //var selectedClientObj = localStorage.selectedClient && JSON.parse(localStorage.selectedClient);
-                            //if(selectedClientObj){
-                            //    creativeList.getCreativesList(JSON.parse(localStorage.selectedClient).id,"", "",20,1);
-                            //}
+                            $route.reload();
                         }else {
                             creativeList.errorHandler();
                         }
