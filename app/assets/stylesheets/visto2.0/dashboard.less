@@ -1,5 +1,6 @@
 // New Dashboard
 .dashboard_2 {
+  background: #ececec;
   .row {
     margin: 15px 0;
     [class^="col-md-"], [class*=" col-md-"] {
@@ -12,10 +13,12 @@
         width: 100%;
         float: left;
         min-height: 352px;
+        overflow: hidden;
         .chartHeader {
           float: left;
           width: 100%;
           padding: 10px;
+          border-bottom: 1px solid #bfc9d7;
           h5 {
             margin-top: 0;
           }
@@ -62,6 +65,59 @@
             color: #4CC94A;
           }
         }
+        .chartLegend {
+          float: left;
+          width: 100%;
+          min-width: 430px;
+          position: relative;
+          .squareStatus {
+            float: left;
+            width: 10px;
+            height: 10px;
+            margin: 10px 5px 0 10px;
+            background: #000;
+          }
+          .labelStatus {
+            float: left;
+            margin: 7px 5px 0 0;
+            font-size: 12px;
+          }
+          .scrollLeftLabel.icon-arrow-down-thick {
+            float: left;
+            position: absolute;
+            z-index: 10;
+            top: 0;
+            left: 60px;
+            font-size: 12px;
+            height: 30px;
+            width: 30px;
+            line-height: 36px;
+            -ms-transform: rotate(90deg); /* IE 9 */
+            -webkit-transform: rotate(90deg); /* Chrome, Safari, Opera */
+            transform: rotate(90deg);
+            background: #fff;
+            cursor: pointer;
+            text-align: center;
+            display: none;
+          }
+          .scrollRightLabel.icon-arrow-down-thick {
+            float: left;
+            position: absolute;
+            z-index: 10;
+            top: 0;
+            left: 340px;
+            font-size: 12px;
+            height: 30px;
+            width: 30px;
+            line-height: 36px;
+            -ms-transform: rotate(-90deg); /* IE 9 */
+            -webkit-transform: rotate(-90deg); /* Chrome, Safari, Opera */
+            transform: rotate(-90deg);
+            background: #fff;
+            cursor: pointer;
+            text-align: center;
+          }
+        }
         .chartBody {
           float: left;
           width: 100%;
@@ -71,6 +127,9 @@
       }
       .miniChart {
         min-height: 80px;
+        .chartHeader {
+          border-width: 0;
+        }
       }
     }
   }

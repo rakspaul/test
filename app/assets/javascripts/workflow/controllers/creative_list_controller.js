@@ -398,12 +398,13 @@ var angObj = angObj || {};
         
         //Flexible tbody
         var winBrowserHeight = $(window).height();
-        $('.vistoTable .tbody').css('maxHeight', winBrowserHeight - 341);
+        //$('.vistoTable .tbody').css('maxHeight', winBrowserHeight - 341);
         
         //Pagination
         $(function() {
-            $(".tbody").scroll(function(){
-                if($(this).scrollTop() + $(this).innerHeight() >= $(this)[0].scrollHeight) {
+            $(window).scroll(function(){
+                //if($(this).scrollTop() + $(this).innerHeight() >= $(this)[0].scrollHeight) {
+                if($(window).scrollTop() + $(window).height() == $(document).height()) {
                     //console.log("$(this).scrollTop():"+$(this).scrollTop()+"$(this).innerHeight():"+$(this).innerHeight()+"$(this)[0].scrollHeight:"+$(this)[0].scrollHeight)
                     var selectedClientObj = localStorage.selectedClient && JSON.parse(localStorage.selectedClient);
                     if(selectedClientObj) {
