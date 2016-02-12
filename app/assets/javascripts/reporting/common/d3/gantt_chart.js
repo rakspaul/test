@@ -203,9 +203,11 @@
                      //        xlink: "http://www.w3.org/1999/xlink",
                      //    })
                     .attr("class", "header-chart")
+                    .attr("width", width + margin.left + margin.right)
                     .attr("height", 47)
                     .append("g")
                     .attr("class", "gantt-chart-head")
+                    .attr("width", width + margin.left + margin.right)
                     .attr("height", 47)
                     .attr("transform", "translate(0, " + margin.top + ")");
 
@@ -216,11 +218,11 @@
                      //        xlink: "http://www.w3.org/1999/xlink",
                      //    })
                     .attr("class", "chart")
-                    .attr("width", width )
+                    .attr("width", width + margin.left + margin.right)
                     .attr("height", height - margin.top - margin.bottom)
                     .append("g")
                     .attr("class", "gantt-chart")
-                    .attr("width", width )
+                    .attr("width", width + margin.left + margin.right)
                     .attr("height", height + margin.top + margin.bottom)
                     .attr("transform", "translate(0, " + margin.top + ")");
 
@@ -371,18 +373,18 @@
                 //------
                 var tdEdges = gantt.timeDomain(); 
                 var isPast = function (timeDomainEdge, date) {
-            		if(moment(timeDomainEdge).toDate() <= moment(date).toDate()){
-            			return true;
-            		} else {
-            			return false;
-            		}
+                    if(moment(timeDomainEdge).toDate() <= moment(date).toDate()){
+                        return true;
+                    } else {
+                        return false;
+                    }
                 };
                 var isFuture = function (timeDomainEdge, date) {
-            		if(moment(timeDomainEdge).toDate() >= moment(date).toDate()){
-            			return true;
-            		} else {
-            			return false;
-            		}
+                    if(moment(timeDomainEdge).toDate() >= moment(date).toDate()){
+                        return true;
+                    } else {
+                        return false;
+                    }
                 };
 
                 /**
@@ -443,6 +445,7 @@
                     .style("stroke", "#fff")
                     .attr("x", 0)
                     .attr("y", -20)
+                    .attr("width", width)
                     .attr("height", 46)
                     .style("fill", "#fff")
                     .style("shape-rendering", "crispEdges");
@@ -861,7 +864,7 @@
 
                 //top bar 
                 rectGroup.append("rect")
-                	.attr("x", 0)
+                    .attr("x", 0)
                     .attr("class", "header")
                     .attr("style", "cursor:pointer")
                     .style("shape-rendering", "crispEdges")
@@ -910,9 +913,9 @@
                         else {
                             var width = (x(d.endDate) - x(d.startDate));// - 4;
                             //check if in past ; cut edge
-                    		// if(!isPast(tdEdges[0], d.startDate)) {
-                    		// 	width = width + 2;
-                    		// }
+                            // if(!isPast(tdEdges[0], d.startDate)) {
+                            //  width = width + 2;
+                            // }
                             if (width >= 0)
                                 return (width);
                             else
@@ -1270,13 +1273,13 @@
                                     return 0;
                                 else {
                                     var width = (x(d.endDate) - x(d.startDate)) - 4;
-	                                    if(!isFuture(tdEdges[1], d.endDate) && isPast(tdEdges[0], d.startDate)) {
-			                    			width = width + 4;
-			                    		} else if(isFuture(tdEdges[1], d.endDate) && !isPast(tdEdges[0], d.startDate)) {
-			                    			width = width + 2;
-			                    		}else if(!isFuture(tdEdges[1], d.endDate) && !isPast(tdEdges[0], d.startDate)) {
-			                    			width = width + 4;
-			                    		}
+                                        if(!isFuture(tdEdges[1], d.endDate) && isPast(tdEdges[0], d.startDate)) {
+                                            width = width + 4;
+                                        } else if(isFuture(tdEdges[1], d.endDate) && !isPast(tdEdges[0], d.startDate)) {
+                                            width = width + 2;
+                                        }else if(!isFuture(tdEdges[1], d.endDate) && !isPast(tdEdges[0], d.startDate)) {
+                                            width = width + 4;
+                                        }
 
                                     if (width >= 0)
                                         return (width);
@@ -1301,7 +1304,7 @@
                                 if (d.type == "brand")
                                     return 0;
                                 else if (d.kpiStatus == "ontrack" || d.kpiStatus == "underperforming" || d.kpiStatus == "NA" || d.kpiStatus === undefined || d.kpiStatus === "Unknown") {
-                                  	
+                                    
                                     //fix for removing the  rectangle that was sticking on the axis even after campaigns were scrolled out of the view
                                     if(x(d.endDate) - x(d.startDate) == 0) {
                                         return 0;
@@ -1309,7 +1312,7 @@
 
                                     if(!isFuture(tdEdges[1], d.endDate) && isPast(tdEdges[0], d.startDate)) {
                                         return (x(d.endDate) - x(d.startDate)) + 2;
-                                  	}
+                                    }
                                     
                                     var width = (x(d.endDate) - x(d.startDate));
                                     
@@ -1325,11 +1328,11 @@
                                 }
                             })
                             .attr("x", function(d){
-                            	if(isPast(tdEdges[0], d.startDate)) {
-		                    			return 0;
-		                    	} else {
-		                    		return 0;
-		                    	}
+                                if(isPast(tdEdges[0], d.startDate)) {
+                                        return 0;
+                                } else {
+                                    return 0;
+                                }
                             })
                             .attr("y", function(d) {
                                 var padding = calculateBrandAdjustment(d, counterObj.top);
@@ -1532,12 +1535,12 @@
                 //   .transition()
                 //   .attr("transform", markerTransform)
                 // .attr("width", function(){
-                //  	var width = (x(moment().endOf('day')) - x(moment().startOf('day')));
-                //  	if(width<=40) {
-                //  		width =2;
-                //  	}
+                //      var width = (x(moment().endOf('day')) - x(moment().startOf('day')));
+                //      if(width<=40) {
+                //          width =2;
+                //      }
 
-                //  	return width;
+                //      return width;
                 //  });
                 //today marker transition
 
@@ -1688,17 +1691,17 @@
 
                 // svg.select(".x").transition().call(xAxis)
                 //     .selectAll(".tick text").attr("style", "font-family:Avenir;font-size:12pt").attr("x", function(d, i) {
-                // 		//formatting for ticks
-                // 		var spacing;
-                //     	if(timeDomainString == "month") {
-                // 		if(i == 0) {return -30; }else {return 5;}
-                //     	} else if(timeDomainString == "today") {
-                // 		if(i == 0) {return 30; }else {return 60;}
-                //     	} else if(timeDomainString == "year") {
-                // 		if(i == 0) {return 16; }else {return 26;}
-                //    		} else {
-                //         	if(i == 0) {return 128; }else {return 145;}
-                //     	} 
+                //      //formatting for ticks
+                //      var spacing;
+                //      if(timeDomainString == "month") {
+                //      if(i == 0) {return -30; }else {return 5;}
+                //      } else if(timeDomainString == "today") {
+                //      if(i == 0) {return 30; }else {return 60;}
+                //      } else if(timeDomainString == "year") {
+                //      if(i == 0) {return 16; }else {return 26;}
+                //          } else {
+                //          if(i == 0) {return 128; }else {return 145;}
+                //      } 
                 //     });
 
 
