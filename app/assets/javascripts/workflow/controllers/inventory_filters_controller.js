@@ -10,10 +10,41 @@ var angObj = angObj || {};
                 workflowService
                     .getAdvertisersDomainList(clientId, advertiserId)
                     .then(function (result) {
+                        var selectedLists;
+
                         $scope.workflowData.inventoryData = result.data.data;
                         if ($scope.mode === 'edit') {
-                            $scope.workflowData.savedDomainListIds = $scope.getAd_result.targets.domainTargets.inheritedList.ADVERTISER;
-                            $scope.workflowData.savedDomainAction = $scope.getAd_result.domainAction;
+                            $scope.savedDomainListIds = $scope.getAd_result.targets.domainTargets.inheritedList.ADVERTISER;
+                            $scope.savedDomainAction = $scope.getAd_result.domainAction;
+                            console.log('$scope.workflowData.inventoryData = ', $scope.workflowData.inventoryData);
+                            console.log('$scope.savedDomainListIds = ', $scope.savedDomainListIds);
+
+                            if ($scope.savedDomainListIds && $scope.savedDomainListIds.length) {
+                                selectedLists = _.map($scope.workflowData.inventoryData, function (value) {
+                                    return _.contains($scope.savedDomainListIds, value.domainListId) ? value : null;
+                                });
+                                selectedLists = _.filter(selectedLists, function (value) {
+                                   return value;
+                                });
+                                $scope.workflowData.selectedLists = selectedLists.sort(function (a, b) {
+                                    return a.domainListId > b.domainListId;
+                                });
+
+                                //$scope.workflowData.selectedLists = $scope.savedDomainListIds;
+                                $scope.adData.inventory = $scope.workflowData.selectedLists[0];
+                                if ($scope.savedDomainAction === 'INCLUDE') {
+                                    $scope.workflowData.whiteListsSelected = true;
+                                    $scope.workflowData.selectedWhiteLists = $scope.workflowData.selectedLists;
+                                } else {
+                                    $scope.workflowData.blackListsSelected = true;
+                                    $scope.workflowData.selectedBlackLists = $scope.workflowData.selectedLists;
+                                }
+                            }
+                            console.log('$scope.workflowData.selectedLists = ', $scope.workflowData.selectedLists);
+                            console.log('$scope.workflowData.selectedWhiteLists = ', $scope.workflowData.selectedWhiteLists);
+                            console.log('$scope.workflowData.selectedBlackLists = ', $scope.workflowData.selectedBlackLists);
+                            console.log('$scope.adData.inventory = ', $scope.adData.inventory);
+
                             $scope.$broadcast('updateInventory');
                         }
                     });
@@ -27,10 +58,7 @@ var angObj = angObj || {};
         function uploadSuccessCallback (response, status, headers, config) {
             var inventoryData = $scope.workflowData.inventoryData,
                 selectedLists = $scope.workflowData.selectedLists;
-// FIXED: Working as expected now.
-console.log('inventoryData = ', inventoryData);
-console.log('response = ', response);
-console.log('response.data', response.data);
+
             _.each(inventoryData, function (obj, idx) {
                 if (obj.id === response.data.id) {
                     inventoryData[idx] = response.data;
@@ -49,12 +77,8 @@ console.log('response.data', response.data);
             } else {
                 $scope.workflowData.selectedBlackLists = $scope.workflowData.selectedLists;
             }
-console.log('$scope.workflowData.inventoryData = ', $scope.workflowData.inventoryData);
-console.log('$scope.workflowData.selectedLists = ', $scope.workflowData.selectedLists);
-console.log('$scope.workflowData.selectedBlackLists = ', $scope.workflowData.selectedBlackLists);
-console.log('$scope.workflowData.selectedWhiteLists = ', $scope.workflowData.selectedWhiteLists);
             $scope.adData.inventory = response.data;
-console.log('$scope.adData.inventory = ', $scope.adData.inventory);
+
             $scope.domainUploadInProgress = false;
             $scope.showDomainListPopup = false;
         }
@@ -159,7 +183,6 @@ console.log('$scope.adData.inventory = ', $scope.adData.inventory);
                 responseData.targets &&
                 responseData.targets.domainTargets &&
                 responseData.targets.domainTargets.inheritedList.ADVERTISER) {
-console.log('$scope.workflowData.inventoryData = ', $scope.workflowData.inventoryData);
                 $scope.adData.inventory = $scope.workflowData.inventoryData[0];
             }
         });
@@ -167,17 +190,19 @@ console.log('$scope.workflowData.inventoryData = ', $scope.workflowData.inventor
         // Inventory Domain Lists feature addition section
         // Story: CW-2518 - Allow multiple Inventory domain lists
         $scope.adData.inventory = {};
-
         $scope.workflowData.selectedWhiteLists = [];
         $scope.workflowData.selectedBlackLists = [];
         $scope.workflowData.selectedLists = [];
         $scope.workflowData.whiteListsSelected = false;
         $scope.workflowData.blackListsSelected = false;
-        $scope.workflowData.savedDomainListIds = [];
+        //$scope.workflowData.savedDomainListIds = [];
             //($scope.mode === 'edit') ? $scope.getAd_result.targets.domainTargets.inheritedList.ADVERTISER : [];
-        $scope.workflowData.savedDomainAction = '';//$scope.mode === 'edit' ? $scope.getAd_result.domainAction : '';
-console.log('$scope.workflowData.savedDomainListIds = ', $scope.workflowData.savedDomainListIds);
-console.log('$scope.workflowData.savedDomainAction = ', $scope.workflowData.savedDomainAction);
+        //$scope.workflowData.savedDomainAction = '';//$scope.mode === 'edit' ? $scope.getAd_result.domainAction : '';
+
+        if ($scope.mode === 'edit') {
+            console.log('INVENTORYFILTER: $scope.workflowData.adsData = ', $scope.workflowData.adsData);
+        }
+
         $scope.showDomainListDropdown = function () {
             $('#domain-list-dropdown').css('display', 'block');
         };
