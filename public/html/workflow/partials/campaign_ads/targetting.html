@@ -17,68 +17,82 @@
     </div>
 </div>
 <div class="col-md-12 zeroPadding setTargetOptions">
-    <!--Audience Targeting Card-->
+    <div class="msgPopupHolder" ng-show="showDeleteConfirmationPopup">
+        <div class="msgPopup" style="top:-60px">
+            <div>
+                <div class="msg pull-left" style="padding-top: 10px;" data-ng-bind="textConstants.AREYOUSURE"></div>
+                <div class="clearfix btn-holder" style="margin: 0;">
+                    <div class="pull-right common_primary_btn" ng-click="deleteTargetting()" data-ng-bind="textConstants.YES"></div>
+                    <div class="pull-right secondary_txt" ng-click="cancelTargettingDelete()" data-ng-bind="textConstants.NO"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--START : Audience Targeting Card-->
     <div class="col-md-6 cardSelectHolder" ng-class="{true: 'active'}[selectedTargeting['audience']]">
-        <!--<span ng-if="selectedAudience && selectedAudience.length > 0" class="icon-inline-edit" ng-style="(selectedAudience.length >0)?{'display':'block'}:{'display':'none'}"></span>-->
-        <span ng-if="selectedAudience && selectedAudience.length > 0" class="icon-trash" ng-style="(selectedAudience.length >0)?{'display':'block'}:{'display':'none'}" ng-click="deletetargets('AUDIENCE', $event)"></span>
+        <span ng-if="audienceDataForPreview && audienceDataForPreview.length > 0" class="icon-trash" ng-style="(audienceDataForPreview.length >0)?{'display':'block'}:{'display':'none'}" ng-click="deletetargets('AUDIENCE', $event)"></span>
         <div class="icon-audience"></div>
         <p data-ng-bind="textConstants.AUDSEGMENTS"></p>
-        <div class="cardTxtWrap" ng-if="!selectedAudience || selectedAudience.length == 0">
+        <div class="cardTxtWrap" ng-if="!audienceDataForPreview || audienceDataForPreview.length == 0">
             <span data-ng-bind="textConstants.REACHAUD"></span>
             <p style="margin: 0px;"><span data-ng-bind="textConstants.ALLAUD"></span></p>
         </div>
-        <div class="cardTxtWrap targetDataSaved" ng-if="selectedAudience && selectedAudience.length > 0">
+        <div class="cardTxtWrap targetDataSaved" ng-if="audienceDataForPreview && audienceDataForPreview.length > 0">
             <div class="targetDataSavedTop">
                 <div class="icon-target"></div>
                 <span data-ng-bind="textConstants.SELECTED"></span>
-                <div class="badge" data-ng-bind="selectedAudience.length"></div>
+                <div class="badge" data-ng-bind="audienceDataForPreview.length"></div>
             </div>
-            <span class="targetListItem" ng-if="selectedAudience.length >= 1">{{selectedAudience[0].name | limitTo: 30}}{{selectedAudience[0].name.length > 30 ? '...' : ''}}</span>
-            <span class="targetListItem" ng-if="selectedAudience.length >= 2">{{selectedAudience[1].name | limitTo: 30}}{{selectedAudience[1].name.length > 30 ? '...' : ''}}</span>
-            <span class="targetListItem" ng-if="selectedAudience.length >= 3">{{selectedAudience[2].name | limitTo: 30}}{{selectedAudience[2].name.length > 30 ? '...' : ''}}</span>
-            <span class="targetListItemMore" ng-if="selectedAudience.length > 3">+{{selectedAudience.length - 3}} more</span>
+            <span class="targetListItem" ng-if="audienceDataForPreview.length >= 1">{{audienceDataForPreview[0].name | limitTo: 30}}{{audienceDataForPreview[0].name.length > 30 ? '...' : ''}}</span>
+            <span class="targetListItem" ng-if="audienceDataForPreview.length >= 2">{{audienceDataForPreview[1].name | limitTo: 30}}{{audienceDataForPreview[1].name.length > 30 ? '...' : ''}}</span>
+            <span class="targetListItem" ng-if="audienceDataForPreview.length >= 3">{{audienceDataForPreview[2].name | limitTo: 30}}{{audienceDataForPreview[2].name.length > 30 ? '...' : ''}}</span>
+            <span class="targetListItemMore" ng-if="audienceDataForPreview.length > 3">+{{audienceDataForPreview.length - 3}} more</span>
         </div>
         <span  ng-if="$parent.isPlatformSelected" class="onSelectBtn btn btn-default active" ng-click="selectAudTarget()"></span>
-        <input ng-if="!selectedAudience || selectedAudience.length ==0" type="button" name="platform" value="Create" ng-disabled="!$parent.isPlatformSelected" class="btn btn-default" ng-click="selectAudTarget()">
+        <input ng-if="!audienceDataForPreview || audienceDataForPreview.length ==0" type="button" name="platform" value="Create" ng-disabled="!$parent.isPlatformSelected" class="btn btn-default" ng-click="selectAudTarget()">
     </div>
-    <!--Geo Targeting Card-->
-    <div class="col-md-6 cardSelectHolder" ng-class="{true: 'active'}[selectedTargeting['geography']]">
-        <!--<span ng-if="adData.geoTargetingData" class="icon-inline-edit" ng-style="(geoTargetingData.selected.previewData.include.regions.length > 0 || geoTargetingData.selected.previewData.include.cities.length > 0 || geoTargetingData.selected.previewData.include.zipCodes[0].values.length > 0)?{'display':'block'}:{'display':'none'}"></span>-->
+    <!--END : Audience Targeting Card-->
 
-        <span ng-if="adData.geoTargetingData" class="icon-trash" ng-style="(geoTargetingData.selected.previewData.include.regions.length > 0 || geoTargetingData.selected.previewData.include.cities.length > 0 || geoTargetingData.selected.previewData.include.zipCodes[0].values.length > 0)?{'display':'block'}:{'display':'none'}" ng-click="deletetargets('GEO', $event)"></span>
+    <!--START : Geo Targeting Card-->
+    <div class="col-md-6 cardSelectHolder" ng-class="{true: 'active'}[selectedTargeting['geography']]">
+        <span ng-if="geoTargetingPreviewObj" class="icon-trash" ng-style="(geoTargetingPreviewObj.include.count >0 || geoTargetingPreviewObj.exclude.count >0)?{'display':'block'}:{'display':'none'}" ng-click="deletetargets('GEO', $event)"></span>
         <div class="icon-location"></div>
         <p>Geography <span>({{locale.id === 'en-gb' ? 'UK' : 'US'}} Only)</span></p>
-        <div class="cardTxtWrap" ng-if="!geoTargetingData.selected.previewData.include && !geoTargetingData.selected.previewData.exclude ">
+        <div class="cardTxtWrap" ng-if="!geoTargetingPreviewObj.include && !geoTargetingPreviewObj.exclude ">
             <span data-ng-bind="textConstants.TARGETAUDLOC"></span>
             <p style="margin: 0px;"><span>All {{locale.id === 'en-gb' ? 'UK' : 'US'}} (default)</span></p>
         </div>
-        <div class="cardTxtWrap targetDataSaved" ng-if="geoTargetingData.selected.previewData.include || geoTargetingData.selected.previewData.exclude ">
+        <div class="cardTxtWrap targetDataSaved" ng-if="geoTargetingPreviewObj.include || geoTargetingPreviewObj.exclude ">
+
             <div class="targetDataSavedTop">
                 <div class="icon-target"></div>
                 <span data-ng-bind="textConstants.INCLUDED"></span>
                 <div class="badge">
-                    {{geoTargetingData.selected.previewData.include.regions.length + geoTargetingData.selected.previewData.include.cities.length + geoTargetingData.selected.previewData.include.zipCodes[0].values.length + geoTargetingData.selected.previewData.include.dmas.length}}
+                    {{geoTargetingPreviewObj.include.count}}
                 </div>
             </div>
             <span class="targetListItem">
-                {{includeStr}}
+                {{geoTargetingPreviewObj.include.label}}
             </span>
 
-            <div class="targetDataSavedTop" style="padding-top: 20px;" ng-if="geoTargetingData.selected.previewData.exclude.regions.length > 0 || geoTargetingData.selected.previewData.exclude.cities.length > 0 ||geoTargetingData.selected.previewData.exclude.dmas.length > 0">
+            <div class="targetDataSavedTop" style="padding-top: 20px;" ng-if="geoTargetingPreviewObj.exclude.count >0">
                 <div class="icon-exclude"></div>
                 <span data-ng-bind="textConstants.EXCLUDED"></span>
-                <div class="badge">{{geoTargetingData.selected.previewData.exclude.regions.length + geoTargetingData.selected.previewData.exclude.cities.length + geoTargetingData.selected.previewData.exclude.dmas.length}}</div>
+                <div class="badge">{{geoTargetingPreviewObj.exclude.count}}</div>
             </div>
-            <span class="targetListItem" ng-if="geoTargetingData.selected.previewData.exclude.regions.length > 0 || geoTargetingData.selected.previewData.exclude.cities.length > 0 ||geoTargetingData.selected.previewData.exclude.dmas.length > 0">
-                {{excludeStr}}
+            <span class="targetListItem" ng-if="geoTargetingPreviewObj.exclude.count">
+                {{geoTargetingPreviewObj.exclude.label}}
             </span>
+
         </div>
-        <span ng-if="(geoTargetingData.selected.previewData.include.regions.length > 0 || geoTargetingData.selected.previewData.include.cities.length > 0 || geoTargetingData.selected.previewData.include.zipCodes[0].values.length > 0 ||geoTargetingData.selected.previewData.exclude.dmas.length > 0 || geoTargetingData.selected.previewData.include.dmas.length > 0)" class="onSelectBtn btn btn-default active" ng-click="mode == 'edit' || adData.geoTargetingData ? updateGeoTargets() : selectGeoTarget()"></span>
-        <input ng-if="!geoTargetingData.selected.previewData.include && !geoTargetingData.selected.previewData.exclude " type="button" name="platform" value="Create" ng-disabled="!$parent.isPlatformSelected" class="btn btn-default" ng-click="selectGeoTarget()">
+        <span ng-if="(geoTargetingPreviewObj.include.count >0 || geoTargetingPreviewObj.exclude.count >0)" class="onSelectBtn btn btn-default active" ng-click="selectGeoTarget()"></span>
+        <input ng-if="!geoTargetingPreviewObj.include && !geoTargetingPreviewObj.exclude " type="button" name="platform" value="Create" ng-disabled="!$parent.isPlatformSelected" class="btn btn-default" ng-click="selectGeoTarget()">
     </div>
-    <!--Daypart Targeting Card-->
+    <!--END : Geo Targeting Card-->
+
+    <!--START : Daypart Targeting Card-->
     <div class="col-md-6 cardSelectHolder" ng-if="adData.platformName !== 'DORADO'" ng-class="{true: 'active'}[selectedTargeting['daily']]">
-        <!--<span ng-if="selectedDayParts['data'].length  > 0" class="icon-inline-edit" ng-style="(selectedDayParts['data'].length >0)?{'display':'block'}:{'display':'none'}"></span>-->
         <span ng-if="selectedDayParts['data'].length  > 0"  class="icon-trash" ng-style="(selectedDayParts['data'].length >0)?{'display':'block'}:{'display':'none'}" ng-click="deletetargets('DAYPART', $event)"></span>
         <div class="icon-activity"></div>
         <p data-ng-bind="textConstants.DAYPART"></p>
@@ -119,28 +133,15 @@
 
 
 <!--=== Audience Targeting ===-->
-<div class="col-md-12 targetingSlide" id="audienceTargeting" ng-include="'/assets/html/workflow/partials/targetings/audience_targeting.html'"></div>
-
-<div class="col-md-12 targetingSlide" id="geographyTargeting" ng-include="'/assets/html/workflow/partials/targetings/geography_targeting.html'" ></div>
+<div class="col-md-12 targetingSlide" id="audienceTargeting" ng-include="'/assets/html/workflow/partials/targetings/audience_targeting.html'" ng-controller="AudienceTargettingController"></div>
+<div class="col-md-12 targetingSlide" id="geographyTargeting" ng-include="'/assets/html/workflow/partials/targetings/geography_targeting.html'" ng-controller="GeoTargettingController"></div>
 <div class="col-md-12 targetingSlide" ng-if="adData.platformName !== 'DORADO'" id="dayTargeting" ng-include="'/assets/html/workflow/partials/targetings/day_targeting.html'" ng-controller="daypartController"></div>
-
-
 
 <!--=== Next Step Panel ===-->
 <span class="nextWrapper leftNavLink">
     <a href data-toggle="tab"  class="btn btn-default" ng-click="triggerInventory()" data-ng-bind="textConstants.WF_AD_SAVE_CONTINUE"></a>
 </span>
 
-<div class="msgPopupHolder" id="confirmBox" ng-show="showConfirmBox">
-    <div class="msgPopup">
-        <div>
-            <div class="msg pull-left" style="padding-top: 10px;" data-ng-bind="textConstants.AREYOUSURE"></div>
-            <div class="clearfix btn-holder" style="margin: 0;">
-                <div class="pull-right common_primary_btn" ng-click="removeSelectedList(boxType, boxsubType);" data-ng-bind="textConstants.YES"></div>
-                <div class="pull-right secondary_txt"  ng-click="hideConfirmBox()" data-ng-bind="textConstants.NO"></div>
-            </div>
-        </div>
-    </div>
-</div>
+
 
 

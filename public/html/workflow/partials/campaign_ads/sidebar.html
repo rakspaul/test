@@ -69,7 +69,6 @@
                             <span data-ng-bind="textConstants.FLIGHTPAR"></span>
                         </div>
                     </div>
-                    <!-- <div class="statusLabel" ng-if="(adData.unitCost !==''  &&  adData.unitType.name)"> -->
                     <div class="statusLabel" ng-if="(adData.unitCost)">
                         <div class="col-md-12">
                             <span style="margin-right: 5px;" data-ng-bind="locale.NUMBER_FORMATS.CURRENCY_SYM"></span>
@@ -128,12 +127,7 @@
                 <div>
                     <div class="statusLabel disabled" ng-if="!adData.targetName || TrackingIntegrationsSelected">
                         <div class="col-md-12">
-                            <span style="color: #000;"
-                                  ng-if="adData.isGeographySelected == false &&
-                                      adData.isAudienceSelected == false &&
-                                      adData.isDaypartSelected == false"
-                                  data-ng-bind="textConstants.WF_NOT_SET">
-                            </span>
+                            <span style="color: #000;" ng-if="!adData.isGeographySelected && !adData.isAudienceSelected && !adData.isDaypartSelected" data-ng-bind="textConstants.WF_NOT_SET"></span>
                         </div>
                     </div>
                     <div class="statusLabel disabled" ng-if="adData.targetName || !TrackingIntegrationsSelected">

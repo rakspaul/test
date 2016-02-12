@@ -3,8 +3,31 @@ var angObj = angObj || {};
 (function () {
     'use strict';
 
-    angObj.controller('GeoTargettingController', function ($scope, $rootScope, $window, $routeParams, constants, workflowService, 
-        $timeout, utils, $location, zipCode,audienceService) {
+    angObj.controller('GeoTargettingController', function ($scope, $rootScope, $window, $routeParams, constants, workflowService,
+                                                           $timeout, utils, $location, zipCode, audienceService) {
+
+        $scope.showTargettingForm = false;
+        $scope.geoTargetingData = {};
+        $scope.storedResponse = {};
+        $scope.isRegionSelected = true;
+        $scope.citiesIncluded = true;
+        $scope.dmasIncluded = true;
+        $scope.zipCodeTabSelected = false;
+        $scope.selectedTab = 'regions';
+        $scope.adData.isGeographySelected = false;
+        $scope.adData.isAudienceSelected = false;
+        $scope.adData.isDaypartSelected = false;
+
+        $scope.geoTargetArr = [
+            {'name': 'Geography', 'enable': true},
+            {'name': 'Behavior', 'enable': false},
+            {'name': 'Demographics', 'enable': false},
+            {'name': 'Interests', 'enable': false},
+            {'name': 'Technology', 'enable': false},
+            {'name': 'Content', 'enable': false},
+            {'name': 'Other', 'enable': false}
+        ];
+
         var citiesListArray = [],
             regionsListArray = [],
             dmasListArray = [],
@@ -14,8 +37,10 @@ var angObj = angObj || {};
             regionInitialLoad = false,
             cityInitialLoad = false,
             dmasInitialLoad = false,
-            zipInitialLoad = false,
-            geoTargetingView = {
+            zipInitialLoad = false;
+
+
+        var geoTargetingView = {
                 buildUrlParams: function (params) {
                     var queryString = '';
 
@@ -50,17 +75,17 @@ var angObj = angObj || {};
                             console.log('error');
                         }, flag);
                     } else {
-                         workflowService
-                             .getRegionsList(parmas.platformId, qryStr, null, null, flag)
-                             .then(function (result) {
-                                 callback && callback(result.data.data);
-                             }, function (error) {
-                                 console.log('error');
-                             });
+                        workflowService
+                            .getRegionsList(parmas.platformId, qryStr, null, null, flag)
+                            .then(function (result) {
+                                callback && callback(result.data.data);
+                            }, function (error) {
+                                console.log('error');
+                            });
                     }
                 },
 
-                getCitiesList : function (parmas, callback, flag) {
+                getCitiesList: function (parmas, callback, flag) {
                     var qryStr = '?sortBy=name' + geoTargetingView.buildUrlParams(parmas);
 
                     if ($scope.locale.id === 'en-gb') {
@@ -83,7 +108,7 @@ var angObj = angObj || {};
                     }
                 },
 
-                getDMAsList : function (parmas, callback,flag) {
+                getDMAsList: function (parmas, callback, flag) {
                     var qryStr = '?sortBy=name' + geoTargetingView.buildUrlParams(parmas);
 
                     if (flag === 'cancellable') {
@@ -113,6 +138,25 @@ var angObj = angObj || {};
                                 console.log('error');
                             });
                     }
+                },
+                hideGeoTargetingBox: function () {
+                    $('#geographyTargeting').delay(300).animate({
+                        left: '100%',
+                        marginLeft: '0',
+                        opacity: '0'
+                    }, function () {
+                        $(this).hide();
+                    });
+                },
+                showGeoTargetingBox: function () {
+                    $('#geographyTargeting')
+                        .show()
+                        .delay(300)
+                        .animate({
+                            left: '50%',
+                            marginLeft: '-461px',
+                            opacity: '1.0'
+                        }, 'slow');
                 }
             },
             getSwitchElem = function (type) {
@@ -121,28 +165,28 @@ var angObj = angObj || {};
                 if ($scope.selectedTab === 'dmas') {
                     el = $('.switchWrap').find('.dmas');
                     if (type === 'on') {
-                        $scope.dmasIncludeSwitchLabel = true;
+                        $scope.dmasIncluded = true;
                     } else {
-                        $scope.dmasIncludeSwitchLabel = false;
+                        $scope.dmasIncluded = false;
                     }
                 } else if ($scope.selectedTab === 'regions') {
                     if (type === 'on') {
-                        $scope.regionsIncludeSwitchLabel = true;
+                        $scope.regionsIncluded = true;
                         $scope.citiesIncludeSwitchLabel = true;
                     } else {
-                        $scope.regionsIncludeSwitchLabel = false;
+                        $scope.regionsIncluded = false;
                         $scope.citiesIncludeSwitchLabel = false;
                     }
                 } else {
                     if (type === 'on') {
                         $scope.citiesIncludeSwitchLabel = true;
                     } else {
-                         $scope.citiesIncludeSwitchLabel = false;
+                        $scope.citiesIncludeSwitchLabel = false;
                     }
                 }
                 return el;
             },
-            getAllAddedZipCode =  function (zipCodeList) {
+            getAllAddedZipCode = function (zipCodeList) {
                 var addedZipCodes = [];
 
                 _.each(zipCodeList, function (zipCodeObj) {
@@ -152,240 +196,118 @@ var angObj = angObj || {};
                 });
                 return addedZipCodes;
             };
-        $scope.$on('deleteGeoTarget',function () {
-            $scope.deleteGeography();
-            workflowService.resetSavedGeo();
-            $scope.adData.geoTargetingData=null;
-            $scope.adData.isGeographySelected=null;
 
-//            $scope.geoTargetingData.selected.regions.length=0;
-//            $scope.geoTargetingData.selected.cities.length=0;
-//            $scope.geoTargetingData.selected.dmas.length=0;
-//            $scope.geoTargetingData.selected.zip.length=0;
-//            if($scope.geoTargetingData.selected.previewData && $scope.geoTargetingData.selected.previewData.length>0){
-//                $scope.geoTargetingData.selected.previewData.include={};
-//                $scope.geoTargetingData.selected.previewData.exclude={};
-//                $scope.geoTargetingData.selected.previewData={}
-//            }
-        })
-        function createPreviewData() {
-            var selectedTargtingData = _.extend({},$scope.geoTargetingData.selected),
-                obj = {};
 
-            selectedTargtingData.zip = getAllAddedZipCode(selectedTargtingData.zip);
-            if (selectedTargtingData.zip.length > 0) {
-                selectedTargtingData.zipCodes = [{'values': selectedTargtingData.zip}];
-            }
-            delete selectedTargtingData.zip;
-            obj.include = {};
-            obj.exclude = {};
-            _.each(selectedTargtingData, function (data, idx) {
-                if (data.length > 0) {
-                    obj.include[idx] =[];
-                    if (idx  !== 'zip') {
-                        obj.exclude[idx] = [];
-                    }
-                    _.each(data, function (d) {
-                        if (d.regionsIncluded || d.citiesIncluded || d.dmasIncluded || d.values) {
-                            obj.include[idx].push(d);
-                        } else {
-                            obj.exclude[idx].push(d);
-                        }
-                    });
+        function geoTargetSummaryCardStr(geoTargetingData) {
+            var includeStr = '';
+            var excludeStr = '';
+            if (geoTargetingData.selected.previewData.include) {
+                if (geoTargetingData.selected.previewData.include.regions && geoTargetingData.selected.previewData.include.regions.length > 0) {
+                    includeStr += (geoTargetingData.selected.previewData.include.regions.length == 1) ? geoTargetingData.selected.previewData.include.regions.length + ' Region ' : geoTargetingData.selected.previewData.include.regions.length + ' Regions ';
                 }
-            });
-            if (angular.equals({}, obj.include)) {
-                obj.include = null;
+                if (geoTargetingData.selected.previewData.include.cities && geoTargetingData.selected.previewData.include.cities.length > 0) {
+                    includeStr += (geoTargetingData.selected.previewData.include.cities.length == 1) ? geoTargetingData.selected.previewData.include.cities.length + ' city ' : geoTargetingData.selected.previewData.include.cities.length + ' cities ';
+                }
+                if (geoTargetingData.selected.previewData.include.zipCodes && geoTargetingData.selected.previewData.include.zipCodes.length > 0 && geoTargetingData.selected.previewData.include.zipCodes[0].values.length > 0) {
+                    includeStr += (geoTargetingData.selected.previewData.include.zipCodes[0].values.length == 1) ? geoTargetingData.selected.previewData.include.zipCodes[0].values.length + ' Postal code ' : geoTargetingData.selected.previewData.include.zipCodes[0].values.length + ' Postal codes ';
+                }
+                if (geoTargetingData.selected.previewData.include.dmas && geoTargetingData.selected.previewData.include.dmas.length > 0) {
+                    includeStr += (geoTargetingData.selected.previewData.include.dmas.length == 1) ? geoTargetingData.selected.previewData.include.dmas.length + ' Metro ' : geoTargetingData.selected.previewData.include.dmas.length + ' Metros ';
+                }
+                geoTargetingData.selected.previewData.includeStr = includeStr;
             }
-            if (angular.equals({}, obj.exclude)) {
-                obj.exclude = null;
+
+            if (geoTargetingData.selected.previewData.exclude) {
+                if (geoTargetingData.selected.previewData.exclude.regions && geoTargetingData.selected.previewData.exclude.regions.length > 0) {
+                    excludeStr += (geoTargetingData.selected.previewData.exclude.regions.length == 1) ? geoTargetingData.selected.previewData.exclude.regions.length + ' Region ' : geoTargetingData.selected.previewData.exclude.regions.length + ' Regions ';
+                }
+                if (geoTargetingData.selected.previewData.exclude.cities && geoTargetingData.selected.previewData.exclude.cities.length > 0) {
+                    excludeStr += (geoTargetingData.selected.previewData.exclude.cities.length == 1) ? geoTargetingData.selected.previewData.exclude.cities.length + ' city ' : geoTargetingData.selected.previewData.exclude.cities.length + ' cities ';
+                }
+                if (geoTargetingData.selected.previewData.exclude.zipCodes && geoTargetingData.selected.previewData.exclude.zipCodes.length > 0 && geoTargetingData.selected.previewData.exclude.zipCodes[0].values.length > 0) {
+                    excludeStr += (geoTargetingData.selected.previewData.exclude.zipCodes[0].values.length == 1) ? geoTargetingData.selected.previewData.exclude.zipCodes[0].values.length + ' Postal code ' : geoTargetingData.selected.previewData.exclude.zipCodes[0].values.length + ' Postal codes ';
+                }
+                if (geoTargetingData.selected.previewData.exclude.dmas && geoTargetingData.selected.previewData.exclude.dmas.length > 0) {
+                    excludeStr += (geoTargetingData.selected.previewData.exclude.dmas.length == 1) ? geoTargetingData.selected.previewData.exclude.dmas.length + ' Metro ' : geoTargetingData.selected.previewData.exclude.dmas.length + ' Metros ';
+                }
+                geoTargetingData.selected.previewData.excludeStr = excludeStr;
             }
-            $scope.geoTargetingData.selected.previewData = obj;
-        }
-        
+        };
+
         $scope.regionEdit = function (flatArr) {
             var regionsEditable;
-
-            $scope.storedResponse = angular.copy(workflowService.getAdsDetails());
-            if ($scope.storedResponse.targets.geoTargets &&
-                _.size($scope.storedResponse.targets.geoTargets) > 0 &&
-                $scope.storedResponse.targets.geoTargets.REGION) {
-                regionsEditable = angular.copy($scope.storedResponse.targets.geoTargets.REGION.geoTargetList);
-                $scope.regionsIncluded = $scope.storedResponse.targets.geoTargets.REGION.isIncluded;
+            var geoTargets = $scope.storedResponse.targets.geoTargets;
+            if (geoTargets && _.size(geoTargets) > 0 && geoTargets.REGION) {
+                regionsEditable = angular.copy(geoTargets.REGION.geoTargetList);
+                $scope.regionsIncluded = geoTargets.REGION.isIncluded;
                 _.each(regionsEditable, function (item) {
                     $scope.sync(true, item, 'regions');
                 });
 
                 // toggle switch based on region settings
-                if ($scope.storedResponse.targets.geoTargets.REGION.isIncluded) {
+                if (geoTargets.REGION.isIncluded) {
                     $scope.includeSelectedItems();
                 } else {
                     $scope.excludeSelectedItems();
                 }
-                $scope.adData.geoTargetingData = $scope.geoTargetingData.selected;
             }
-            $scope.listCities();
+
             regionInitialLoad = true;
+            $scope.listCities();
+
         };
 
         $scope.cityEdit = function (flatArr) {
             var citiesEditable;
-
-            //edit mode
-            if ($scope.storedResponse.targets.geoTargets &&
-                _.size($scope.storedResponse.targets.geoTargets) > 0 &&
-                $scope.storedResponse.targets.geoTargets.CITY) {
-                citiesEditable = angular.copy($scope.storedResponse.targets.geoTargets.CITY.geoTargetList);
-                $scope.citiesIncluded = $scope.storedResponse.targets.geoTargets.CITY.isIncluded;
+            var geoTargets = $scope.storedResponse.targets.geoTargets;
+            if (geoTargets && _.size(geoTargets) > 0 && geoTargets.CITY) {
+                citiesEditable = angular.copy(geoTargets.CITY.geoTargetList);
+                $scope.citiesIncluded = geoTargets.CITY.isIncluded;
                 _.each(citiesEditable, function (item) {
-                        $scope.sync(true, item, 'cities');
+                    $scope.sync(true, item, 'cities');
                 });
-
-                // toggle switch based on region settings
-                if (!$scope.storedResponse.targets.geoTargets.CITY.isIncluded) {
-                    $scope.includeSelectedItems();
-                } else {
-                    $scope.excludeSelectedItems();
-                }
+                cityInitialLoad = true;
+                $scope.saveGeography(1);
             }
-            $scope.selectedTab = 'regions';
-            $scope.showSwitch = true;
-            cityInitialLoad = true;
-            $scope.listDmas();
         };
 
         $scope.dmasEdit = function (flatArr) {
             var dmasEditable;
-
-            //edit mode
-            if ($scope.storedResponse.targets.geoTargets &&
-                _.size($scope.storedResponse.targets.geoTargets) > 0 &&
-                $scope.storedResponse.targets.geoTargets.DMA) {
-                dmasEditable = angular.copy($scope.storedResponse.targets.geoTargets.DMA.geoTargetList);
-                $scope.dmasIncluded = $scope.storedResponse.targets.geoTargets.DMA.isIncluded;
+            var geoTargets = $scope.storedResponse.targets.geoTargets;
+            if (geoTargets && _.size(geoTargets) > 0 && geoTargets.DMA) {
+                dmasEditable = angular.copy(geoTargets.DMA.geoTargetList);
+                $scope.dmasIncluded = geoTargets.DMA.isIncluded;
                 _.each(dmasEditable, function (item) {
-                    var index = _.findIndex(flatArr, function (dmas) {
-                        return item.id ===  dmas.id;
-                    });
-
-                    if (index  !== -1) {
-                        $scope.sync(true, flatArr[index], 'dmas');
-                    }
+                    $scope.sync(true, item, 'dmas');
                 });
+
+                dmasInitialLoad = true;
+                $scope.saveGeography(1);
+
             }
-            dmasInitialLoad = true;
-            $scope.saveGeography(1);
         };
 
         $scope.zipEdit = function (flatArr) {
             var zipEditableObj,
                 zipEditable,
                 i;
-
-            //edit mode
-            if ($scope.storedResponse.targets.geoTargets &&
-                _.size($scope.storedResponse.targets.geoTargets) > 0 &&
-                $scope.storedResponse.targets.geoTargets.ZIP_CODE) {
-                zipEditableObj = angular.copy($scope.storedResponse.targets.geoTargets.ZIP_CODE.geoTargetList);
+            var geoTargets = $scope.storedResponse.targets.geoTargets;
+            if (geoTargets && _.size(geoTargets) > 0 && geoTargets.ZIP_CODE) {
+                zipEditableObj = angular.copy(geoTargets.ZIP_CODE.geoTargetList);
                 zipEditable = [];
-                for (i = 0; i < zipEditableObj.length;i++) {
+                for (i = 0; i < zipEditableObj.length; i++) {
                     zipEditable[i] = zipEditableObj[i].code;
                 }
                 $scope.adData.zipCodes = zipEditable.toString();
                 $scope.addZipCode();
             }
-            zipInitialLoad = true;
-            createPreviewData();
-        };
-
-        $scope.updateGeoTargets = function () {
-          $('#geographyTargeting')
-            .show()
-            .delay(300).animate({
-                left: '50%',
-                marginLeft: '-461px',
-                opacity: '1.0'
-            }, 'slow');
-            //$scope.resetGeoTargetingVariables()
-            //var presavedGeo = angular.copy(workflowService.getSavedGeo());
-            //if(presavedGeo)
-            //    $scope.geoTargetingData.selected = presavedGeo
-        };
-
-        // geo Targeting Trigger
-        $scope.selectGeoTarget = function () {
-            $('#geographyTargeting')
-            .show()
-            .delay(300)
-            .animate({
-                left: '50%',
-                marginLeft: '-461px',
-                opacity: '1.0'
-            }, 'slow');
-            //if (!$scope.adData.geoTargetingData) {
-                $scope.resetGeoTargetingVariables();
-            //}
-            $scope.setTargeting('Geography');
-            if ($scope.selectedTab === 'regions') {
-                $scope.listRegions();
-            }
-            if ($scope.selectedTab === 'cities') {
-                $scope.listCities();
-            }
-            if ($scope.selectedTab === 'dmas') {
-                $scope.listDmas();
-            }
-        };
-
-        // Audience Targeting Trigger
-        $scope.selectAudTarget = function () {
-            $scope.setTargeting('Audience');
-            $('#audienceTargeting').show().delay(300).animate({
-                left: '50%',
-                marginLeft: '-461px',
-                opacity: '1.0'
-            }, 'slow');
-        };
-
-        // Day Targeting Trigger
-        $scope.selectDayTarget = function () {
-            $scope.setTargeting('Daypart');
-            $('#dayTargeting')
-            .show()
-            .delay(300).animate({
-                left: '50%',
-                marginLeft: '-461px',
-                opacity: '1.0'
-            }, 'slow');
-
-        };
-
-        $scope.setTargeting = function (name) {
-            $scope.selectedTargeting = {};
-            $scope.adData.targetName = name;
-            if (name === 'Geography') {
-                $scope.adData.isGeographySelected = true;
-            }
-            if (name === 'Audience') {
-                $scope.adData.isAudienceSelected = true;
-                if(audienceService.getSelectedAudience()){
-                    $scope.$broadcast('settingSelectedAudience')
-                }
-                else{
-                    $scope.$broadcast('resetAllAudience')
-                }
-            }
-            if (name === 'Daypart') {
-                $scope.adData.isDaypartSelected = true;
-            }
-            $scope.selectedTargeting[name.toLowerCase()] = true;
         };
 
         $scope.isChecked = function (id, type) {
             var match = false,
                 i;
 
-            for (i = 0 ; i < $scope.geoTargetingData.selected[type].length; i++) {
+            for (i = 0; i < $scope.geoTargetingData.selected[type].length; i++) {
                 if ($scope.geoTargetingData.selected[type][i].id === id) {
                     match = true;
                 }
@@ -400,15 +322,15 @@ var angObj = angObj || {};
             if (bool) {
                 item[type + 'Included'] = $scope[type + 'Included'];
                 index = _.findIndex($scope.geoTargetingData.selected[type], function (obj) {
-                    return item.id ===  obj.id;
+                    return item.id === obj.id;
                 });
                 if (index === -1) {
                     $scope.geoTargetingData.selected[type].push(item);
                 }
             } else {
-                for (i = 0 ; i < $scope.geoTargetingData.selected[type].length; i++) {
+                for (i = 0; i < $scope.geoTargetingData.selected[type].length; i++) {
                     if ($scope.geoTargetingData.selected[type][i].id === item.id) {
-                        $scope.geoTargetingData.selected[type].splice(i,1);
+                        $scope.geoTargetingData.selected[type].splice(i, 1);
                     }
                 }
             }
@@ -424,72 +346,25 @@ var angObj = angObj || {};
                 $scope.geoTargetingData.selected.cities = [];
                 $scope.geoTargetingData.selected.dmas = [];
                 $scope.geoTargetingData.selected.zip = [];
-                $scope.dmasIncludeSwitchLabel = true;
+                $scope.dmasIncluded = true;
                 $scope.isRegionSelected = true;
                 $scope.citiesIncluded = true;
                 $scope.dmasIncluded = true;
                 $scope.adData.targetName = null;
                 citiesListArray.length = 0;
                 regionsListArray.length = 0;
-                dmasListArray.length =0;
+                dmasListArray.length = 0;
                 getSwitchElem('on');
             }
         };
 
-        // Closes Audience Targeting View
-        $scope.resetAudienceTargetingVariables = function () {
-            var selectedAudience = audienceService.getSelectedAudience();
-
-            if (!selectedAudience || selectedAudience.length === 0) {
-                $scope.adData.isAudienceSelected = false;
-                $scope.adData.targetName = null;
-            }
-            $('#audienceTargeting')
-                .delay(300)
-                .animate({
-                    left: '100%',
-                    marginLeft: '0',
-                    opacity: '0.0'
-                }, function () {
-                    $(this).hide();
-                });
-        };
-
-        // Closes Daypart Targeting View
-        $scope.resetDayTargetingVariables = function () {
-            var dayParting = audienceService.getDaytimeObj();
-
-            if (!dayParting || dayParting.length === 0) {
-                $scope.adData.isDaypartSelected = false;
-                $scope.adData.targetName = null;
-            }
-            else{
-                $scope.$broadcast('setSelectedDayparts');
-            }
-            $('#dayTargeting')
-                .delay(300)
-                .animate({
-                    left: '100%',
-                    marginLeft: '0',
-                    opacity: '0.0'
-                }, function () {
-                    $(this).hide();
-                });
-        };
-
-        // Daypart Save Trigger
-        $scope.saveCampaignWithDay = function () {
-            $scope.resetDayTargetingVariables();
-        };
-
-        //add zip code
-        $scope.addZipCode =  function () {
+        $scope.addZipCode = function () {
             var values = $scope.adData.zipCodes,
                 zipCodeList = $scope.geoTargetingData.selected.zip,
                 addedZipCodes = getAllAddedZipCode(zipCodeList),
                 zipCodesObj = zipCode.checkZipCodes(values, addedZipCodes);
 
-            _.each(zipCodesObj.removed, function (removeval) {
+            _.each(zipCodesObj.duplicate, function (removeval) {
                 _.each(zipCodeList, function (obj, idx) {
                     if (obj) {
                         _.each(obj.added, function (val) {
@@ -505,7 +380,7 @@ var angObj = angObj || {};
             $scope.adData.zipCodes = '';
         };
 
-        $scope.includeorExcludeCityOnly = function (type) {
+        $scope.includeorExcludeCityOnly = function (type, isIncluded) {
             if (type === 'cities') {
                 var selectedRegions = $scope.geoTargetingData.selected.regions,
                     selectedCities = $scope.geoTargetingData.selected.cities,
@@ -513,17 +388,17 @@ var angObj = angObj || {};
 
                 $scope.showCitiesOnly = true;
                 //when only cities are selected
-                if (selectedRegions.length === 0  && selectedCities.length > 0) {
+                if (selectedRegions.length === 0 && selectedCities.length > 0) {
                     $scope.isRegionSelected = false;
-                } else { 
+                } else {
                     //when region is selected first and then we are selecting cities
                     _.each(selectedRegions, function (regionsObj) {
-                        var tmpArr= [];
+                        var tmpArr = [];
                         if (selectedCities.length > 0) {
                             _.each(selectedCities, function (citiesObj, idx) {
                                 if (citiesObj.parent.id === regionsObj.id) {
                                     $scope.showCitiesOnly = false;
-                                    citiesObj.citiesIncluded = $scope.citiesIncludeSwitchLabel;
+                                    citiesObj.citiesIncluded = $scope.citiesIncluded
                                     tmpArr.push(citiesObj);
                                     regionsObj.cities = tmpArr;
                                 }
@@ -545,7 +420,7 @@ var angObj = angObj || {};
             }
         };
 
-        $scope.removeItem =  function (item, type) {
+        $scope.removeItem = function (item, type) {
             var selectedItem = $scope.geoTargetingData.selected[type],
                 i,
                 j,
@@ -561,7 +436,7 @@ var angObj = angObj || {};
                 $scope.includeorExcludeCityOnly(type);
             }
             if (type === 'regions' && $scope.showCitiesTab) {
-                removeFromSelectedCityArr =  function (cityObj) {
+                removeFromSelectedCityArr = function (cityObj) {
                     var selectedCities = $scope.geoTargetingData.selected.cities,
                         pos = _.findIndex(selectedCities, cityObj);
 
@@ -577,10 +452,10 @@ var angObj = angObj || {};
                         }
                     }
                 }
-                if(selectedItem.length > 0) {
+                if (selectedItem.length > 0) {
                     var arr = [];
-                    _.each(selectedItem, function(obj) {
-                        _.each(obj.cities, function(cityObj) {
+                    _.each(selectedItem, function (obj) {
+                        _.each(obj.cities, function (cityObj) {
                             arr.push(cityObj);
                         })
                     })
@@ -592,27 +467,26 @@ var angObj = angObj || {};
                 citiesListArray = [];
                 $scope.listCities()
             }
-            if (type ==='zip') {
+            if (type === 'zip') {
                 if ($scope.zipCodesObj)  $scope.zipCodesObj = [];
             }
-            createPreviewData();
         };
 
         $scope.showRemoveConfirmBox = function (event, type, subtype) {
             var target = $(event.target),
                 position = target.offset(),
-                elem =  $('#confirmBox').find('.msgPopup'),
+                elem = $('#confirmBox').find('.msgPopup'),
                 parentPos = $('.targettingFormWrap').offset(),
-                left_pos =  position.left - parentPos.left - target.width() - 50,
-                top_pos =  position.top - parentPos.top - target.height() + 14;
+                left_pos = position.left - parentPos.left - target.width() - 46,
+                top_pos = position.top - parentPos.top - target.height() + 4;
 
             $scope.boxType = type;
             $scope.boxsubType = subtype;
             $scope.showConfirmBox = true;
             elem.css({
-                position: 'absolute', 
-                top: '17px', 
-                left: '689px', 
+                position: 'absolute',
+                top: top_pos,
+                left: left_pos,
                 width: '242px'
             });
         };
@@ -620,12 +494,12 @@ var angObj = angObj || {};
         $scope.resetSwitch = function () {
             $scope.showSwitch = true;
             $scope.citiesIncludeSwitchLabel = true;
-            $scope.regionsIncludeSwitchLabel = true;
+            $scope.regionsIncluded = true;
         };
 
         $scope.show_more_less_list = function (event) {
             var elem = $(event.target),
-                list_number =  elem.closest('.total_data_holder').find('.data_list').length - 2;
+                list_number = elem.closest('.total_data_holder').find('.data_list').length - 2;
 
             if (elem.closest('.total_data_holder').find('.data_list_holder').hasClass('less_data')) {
                 elem.closest('.total_data_holder').find('.data_list_holder').removeClass('less_data');
@@ -638,9 +512,10 @@ var angObj = angObj || {};
 
         $scope.removeSelectedList = function (type, subtype) {
             $scope.hideConfirmBox();
+
             if (type === 'regions' && subtype === 'cities') {
-                $scope.geoTargetingData.selected[type]=[];
-                $scope.geoTargetingData.selected[subtype]=[];
+                $scope.geoTargetingData.selected[type] = [];
+                $scope.geoTargetingData.selected[subtype] = [];
                 $scope.resetSwitch();
                 $scope.includeorExcludeCityOnly(subtype);
                 var seltab = $scope.selectedTab;
@@ -649,14 +524,13 @@ var angObj = angObj || {};
                 $scope.geoTargetingData.cities = [];
                 citiesListArray = [];
                 $scope.listCities();
-                if(seltab == 'cities')
-                    $scope.selectedTab = 'regions'
-                else
-                    $scope.selectedTab = seltab;
+                $scope.selectedTab = seltab == 'cities' ? 'regions' : seltab;
+
             } else {
-                $scope.geoTargetingData.selected[type]=[];
+                $scope.geoTargetingData.selected[type] = [];
                 $scope.includeorExcludeCityOnly(type);
             }
+
             if ($scope.selectedTab === 'regions') {
                 $scope.listRegions();
             }
@@ -666,33 +540,32 @@ var angObj = angObj || {};
             if ($scope.selectedTab === 'dmas') {
                 $scope.listDmas();
             }
-            createPreviewData();
         };
 
-        $scope.listDmas = function (defaults,flag) {
-            if (flag  !== 'cancellable') {
+        $scope.listDmas = function (defaults, flag) {
+            if (flag !== 'cancellable') {
                 flag = 'normal';
             }
             $scope.dmasListObj = {
-                 platformId : $scope.isPlatformId,
-                 sortOrder : dmaListSortOrder,
-                 pageNo :1,
-                 pageSize : 200
-             };
+                platformId: $scope.isPlatformId,
+                sortOrder: dmaListSortOrder,
+                pageNo: 1,
+                pageSize: 200
+            };
             _.extend($scope.dmasListObj, defaults);
             geoTargetingView.getDMAsList($scope.dmasListObj, function (responseData) {
                 var flatArr;
 
-                 $scope.dmasFetching = false;
-                 dmasListArray.push(responseData);
-                 flatArr = _.flatten(dmasListArray);
-                 $scope.geoTargetingData['dmas'] = _.uniq(flatArr, function (item, key, id) {
-                     return item.id;
-                 });
+                $scope.dmasFetching = false;
+                dmasListArray.push(responseData);
+                flatArr = _.flatten(dmasListArray);
+                $scope.geoTargetingData['dmas'] = _.uniq(flatArr, function (item, key, id) {
+                    return item.id;
+                });
                 if ($scope.mode === 'edit' && !dmasInitialLoad) {
                     $scope.dmasEdit(flatArr);
                 }
-             }, flag);
+            }, flag);
         };
 
         $scope.loadMoreDmas = function () {
@@ -703,38 +576,43 @@ var angObj = angObj || {};
             }
         };
 
-        $scope.selectedCitiesCount =  function () {
+        $scope.selectedCitiesCount = function () {
             return $scope.geoTargetingData.selected.cities.length;
         };
 
         //display the cities
-        $scope.listCities = function (event, defaults,flag) {
+        $scope.listCities = function (event, defaults, flag) {
             var searchVal = $('.searchBox').val(),
                 regions;
 
-            if (flag  !== 'cancellable') {
+            if (flag !== 'cancellable') {
                 flag = 'normal';
             }
-            $scope.selectedTab = 'cities';
+            if (event) {
+                $scope.selectedTab = 'cities';
+                citiesListArray = [];
+            }
+
             if ($scope.citiesIncludeSwitchLabel === true) {
                 $scope.includeSelectedItems();
             } else {
                 $scope.excludeSelectedItems();
             }
-            regionsListArray.length =0;
+            regionsListArray.length = 0;
             regions = $scope.geoTargetingData.selected.regions;
+
             $scope.citiesListObj = {
-                platformId : $scope.isPlatformId,
-                sortOrder :cityListSortOrder,
-                pageSize :200,
-                pageNo : 1
+                platformId: $scope.isPlatformId,
+                sortOrder: cityListSortOrder,
+                pageSize: 200,
+                pageNo: 1
             };
-            if (searchVal  !== undefined && searchVal.length > 0) {
+            if (searchVal !== undefined && searchVal.length > 0) {
                 $scope.citiesListObj = {
-                    platformId : $scope.isPlatformId,
-                    sortOrder :cityListSortOrder,
-                    pageSize :200,
-                    pageNo : 1,
+                    platformId: $scope.isPlatformId,
+                    sortOrder: cityListSortOrder,
+                    pageSize: 200,
+                    pageNo: 1,
                     query: searchVal
                 };
             }
@@ -744,11 +622,10 @@ var angObj = angObj || {};
                 $scope.citiesListObj.regions = regionIds.join(',');
             }
             $scope.logic();
-            geoTargetingView.getCitiesList($scope.citiesListObj, function (responseData) {
-                var flatArr;
 
+            geoTargetingView.getCitiesList($scope.citiesListObj, function (responseData) {
+                var flatArr = [];
                 $scope.cityFetching = false;
-                flatArr = [];
                 citiesListArray.push(responseData);
                 flatArr = _.flatten(citiesListArray);
                 $scope.geoTargetingData.cities = _.uniq(flatArr, function (item, key, id) {
@@ -756,7 +633,6 @@ var angObj = angObj || {};
                 });
                 if ($scope.mode === 'edit' && !cityInitialLoad) {
                     $scope.cityEdit(flatArr);
-                    $scope.listDmas();
                 }
             }, flag);
         };
@@ -769,14 +645,19 @@ var angObj = angObj || {};
             }
         };
 
-        $scope.listRegions = function (defaults, event,flag) {
+        $scope.listRegions = function (defaults, event, flag) {
             var searchVal = $('.searchBox').val(),
                 regionTab = $('#tab_region').parent();
 
-            if (flag  !== 'cancellable') {
+            citiesListArray.length = 0;
+
+            $scope.selectedTab = 'regions';
+            $scope.showSwitch = true;
+
+            if (flag !== 'cancellable') {
                 flag = 'normal';
             }
-            $scope.showSwitch = true;
+
             if (!$scope.isRegionSelected && event) {
                 regionTab.addClass('show_tooltip');
                 regionTab.find('.common_tooltip').show();
@@ -784,26 +665,25 @@ var angObj = angObj || {};
                 event.stopPropagation();
                 return false;
             }
-            $scope.selectedTab = 'regions';
 
-            if ($scope.regionsIncludeSwitchLabel === true) {
+            if ($scope.regionsIncluded === true) {
                 $scope.includeSelectedItems();
             } else {
                 $scope.excludeSelectedItems();
             }
-            citiesListArray.length = 0;
+
             $scope.regionListObj = {
-                platformId : $scope.isPlatformId,
-                sortOrder : regionListSortOrder,
-                pageSize : 200,
-                pageNo : 1
+                platformId: $scope.isPlatformId,
+                sortOrder: regionListSortOrder,
+                pageSize: 200,
+                pageNo: 1
             };
-            if (searchVal  !== undefined && searchVal.length > 0) {
+            if (searchVal !== undefined && searchVal.length > 0) {
                 $scope.regionListObj = {
-                    platformId : $scope.isPlatformId,
-                    sortOrder :regionListSortOrder,
-                    pageSize : 200,
-                    pageNo : 1,
+                    platformId: $scope.isPlatformId,
+                    sortOrder: regionListSortOrder,
+                    pageSize: 200,
+                    pageNo: 1,
                     query: searchVal
                 };
             }
@@ -837,7 +717,7 @@ var angObj = angObj || {};
         };
 
         $scope.search = function (ev) {
-            var target =  $(ev.target),
+            var target = $(ev.target),
                 searchType = target.attr('data-searchfield'),
                 searchVal = target.val();
 
@@ -920,22 +800,100 @@ var angObj = angObj || {};
             }
         };
 
+        function modifyDataForPreview() {
+            var selectedTargtingData = _.extend({}, $scope.geoTargetingData.selected),
+                obj = {};
+
+            selectedTargtingData.zip = getAllAddedZipCode(selectedTargtingData.zip);
+            if (selectedTargtingData.regions && selectedTargtingData.regions.length > 0) {
+                selectedTargtingData['REGION'] = {};
+                selectedTargtingData['REGION']['geoTargetList'] = [];
+                selectedTargtingData['REGION']['geoTargetList'] = selectedTargtingData.regions;
+                selectedTargtingData['REGION']['isIncluded'] = _.uniq(_.pluck(selectedTargtingData.regions, 'regionsIncluded'))[0];
+                delete selectedTargtingData.regions;
+            }
+
+            if (selectedTargtingData.cities && selectedTargtingData.cities.length > 0) {
+                selectedTargtingData['CITY'] = {};
+                selectedTargtingData['CITY']['geoTargetList'] = [];
+                selectedTargtingData['CITY']['geoTargetList'] = selectedTargtingData.cities;
+                selectedTargtingData['CITY']['isIncluded'] = _.uniq(_.pluck(selectedTargtingData.cities, 'citiesIncluded'))[0];
+                delete selectedTargtingData.cities;
+            }
+
+            if (selectedTargtingData.dmas && selectedTargtingData.dmas.length > 0) {
+                selectedTargtingData['DMA'] = {};
+                selectedTargtingData['DMA']['geoTargetList'] = [];
+                selectedTargtingData['DMA']['geoTargetList'] = selectedTargtingData.dmas;
+                selectedTargtingData['DMA']['isIncluded'] = _.uniq(_.pluck(selectedTargtingData.dmas, 'dmasIncluded'))[0];
+                delete selectedTargtingData.dmas;
+            }
+
+            if (selectedTargtingData.zip && selectedTargtingData.zip.length > 0) {
+                selectedTargtingData['ZIP_CODE'] = {};
+                selectedTargtingData['ZIP_CODE']['geoTargetList'] = [];
+                selectedTargtingData['ZIP_CODE']['geoTargetList'] = selectedTargtingData.zip;
+                selectedTargtingData['ZIP_CODE']['isIncluded'] = selectedTargtingData.zip.length > 0 ? true : false;
+                delete selectedTargtingData.zip;
+            }
+            return selectedTargtingData;
+        }
+
+        function geoTargetsDataForListing() {
+            var selectedTargtingData = _.extend({}, $scope.geoTargetingData.selected),
+                obj = {};
+
+            selectedTargtingData.zip = getAllAddedZipCode(selectedTargtingData.zip);
+            if (selectedTargtingData.zip.length > 0) {
+                selectedTargtingData.zipCodes = [{'values': selectedTargtingData.zip}];
+            }
+            delete selectedTargtingData.zip;
+            obj.include = {};
+            obj.exclude = {};
+            _.each(selectedTargtingData, function (data, idx) {
+                if (data.length > 0) {
+                    obj.include[idx] = [];
+                    if (idx !== 'zip') {
+                        obj.exclude[idx] = [];
+                    }
+                    _.each(data, function (d) {
+                        if (d.regionsIncluded || d.citiesIncluded || d.dmasIncluded || d.values) {
+                            obj.include[idx].push(d);
+                        } else {
+                            obj.exclude[idx].push(d);
+                        }
+                    });
+                }
+            });
+            if (angular.equals({}, obj.include)) {
+                obj.include = null;
+            }
+            if (angular.equals({}, obj.exclude)) {
+                obj.exclude = null;
+            }
+            $scope.geoTargetingData.selected.previewData = obj;
+        }
+
         $scope.saveGeography = function (doNotRedirectFlag) {
             if ($scope.zipCodesObj) {
                 $scope.zipCodesObj = [];
             }
             $scope.adData.zipCodes = '';
-            createPreviewData();
-            $scope.adData.geoTargetingData = $scope.geoTargetingData.selected;
+            geoTargetsDataForListing();
+
+            var modifedGeoTargetObj = modifyDataForPreview();
+            workflowService.setSavedGeo(angular.copy({
+                'modify': modifedGeoTargetObj,
+                'original': $scope.geoTargetingData.selected
+            }));
+
             if (!doNotRedirectFlag) {
                 $scope.redirectTargettingMain();
             }
-            workflowService.setSavedGeo(angular.copy($scope.geoTargetingData.selected));
-            //display targetting string on geotarget card
-            $scope.geoTargetSummaryCardStr($scope.geoTargetingData);
+            $scope.$parent.showGeoTargetingForPreview();
         };
 
-        $scope.editGeography =  function () {
+        $scope.editGeography = function () {
             $('.targettingFormWrap').slideDown();
             $('.targettingSelected').hide();
         };
@@ -948,16 +906,16 @@ var angObj = angObj || {};
         };
 
         $scope.includeorExcludeSelectedItems = function () {
-            var type =  $scope.selectedTab,
+            var type = $scope.selectedTab,
                 item = $scope.geoTargetingData.selected[type],
                 len = item.length,
                 i,
                 j;
 
-            for (i=0 ; i < len; i++) {
+            for (i = 0; i < len; i++) {
                 item[i][type + 'Included'] = $scope[type + 'Included'];
                 if (item[i].hasOwnProperty('cities')) {
-                    for (j = 0 ; j < item[i].cities.length ; j++) {
+                    for (j = 0; j < item[i].cities.length; j++) {
                         item[i].cities[j].citiesIncluded = ($scope[type + 'Included']) ? false : true;
                     }
                 }
@@ -968,11 +926,11 @@ var angObj = angObj || {};
             var regions = $scope.geoTargetingData.selected.regions;
 
             if ($scope.selectedTab === 'cities') {
-                $scope.citiesIncludeSwitchLabel = true;
+                $scope.citiesIncluded = true;
                 if (regions.length > 0) {
                     $scope.showSwitch = false;
-                    if ($scope.regionsIncludeSwitchLabel) {
-                        $scope.citiesIncludeSwitchLabel = false;
+                    if ($scope.regionsIncluded) {
+                        $scope.citiesIncluded = false;
                     }
                 }
             }
@@ -980,25 +938,15 @@ var angObj = angObj || {};
 
         $scope.includeSelectedItems = function () {
             var elem = getSwitchElem('on');
-
-            elem
-                .find('.btn')
-                .animate({left: '22px'});
-            elem
-                .find('.togBtnBg')
-                .css({background: '#0978c9'});
+            elem.find('.btn').animate({left: '22px'});
+            elem.find('.togBtnBg').css({background: '#0978c9'});
             $scope[$scope.selectedTab + 'Included'] = true;
         };
 
         $scope.excludeSelectedItems = function () {
             var elem = getSwitchElem('off');
-
-            elem
-                .find('.btn')
-                .animate({left: '-2px'});
-            elem
-                .find('.togBtnBg')
-                .css({background: '#ccd2da'});
+            elem.find('.btn').animate({left: '-2px'});
+            elem.find('.togBtnBg').css({background: '#ccd2da'});
             $scope[$scope.selectedTab + 'Included'] = false;
         };
 
@@ -1058,124 +1006,57 @@ var angObj = angObj || {};
                 $scope.adData.isGeographySelected = false;
                 $scope.adData.targetName = null;
             }
-            //else{
-            if(cancelClicked){
-                var presavedGeo = angular.copy(workflowService.getSavedGeo());
-                if(presavedGeo){
-                    $scope.geoTargetingData.selected = presavedGeo;
-                    $scope.showCitiesOnly = true;
-                    _.each($scope.geoTargetingData.selected.regions,function(item){
-                        if(item.cities && item.cities.length > 0){
-                            $scope.showCitiesOnly = false;
+
+            if (cancelClicked && workflowService.getSavedGeo()) {
+                var presavedGeo = angular.copy(workflowService.getSavedGeo()).original;
+                if (presavedGeo && presavedGeo) {
+                    $timeout(function () {
+                        $scope.geoTargetingData.selected = presavedGeo;
+                        if($scope.selectedTab !== 'dmas' && $scope.selectedTab !== 'zip') {
+                            var regionCityElem = $(".regionCityTab");
+                            regionCityElem.find("li").removeClass("active");
+                            regionCityElem.find(".tab_region_holder").addClass("active")
+                            angular.element('#tab_region').triggerHandler('click');
                         }
-                    })
-                    //reload city
-                    $scope.geoTargetingData.cities = [];
-                    citiesListArray = [];
-                    var selTab = $scope.selectedTab;
-                    $scope.listCities();
-                    if(selTab == 'regions')
-                        $scope.listRegions()
+                    }, 100);
                 }
             }
-
-            //}
-            $('#geographyTargeting').delay(300).animate({
-                left: '100%',
-                marginLeft: '0',
-                opacity: '0'
-            }, function () {
-                $(this).hide();
-            });
+            geoTargetingView.hideGeoTargetingBox();
         };
 
-        $scope.geoTargetSummaryCardStr = function(geoTargetingData){
-            $scope.includeStr = '';
-            $scope.excludeStr = '';
-            if(geoTargetingData.selected.previewData.include){
-                if(geoTargetingData.selected.previewData.include.regions && geoTargetingData.selected.previewData.include.regions.length > 0){
-                    $scope.includeStr += (geoTargetingData.selected.previewData.include.regions.length == 1)? geoTargetingData.selected.previewData.include.regions.length + ' Region ':geoTargetingData.selected.previewData.include.regions.length + ' Regions ';
-                }
-                if(geoTargetingData.selected.previewData.include.cities && geoTargetingData.selected.previewData.include.cities.length > 0){
-                    $scope.includeStr += (geoTargetingData.selected.previewData.include.cities.length == 1)? geoTargetingData.selected.previewData.include.cities.length + ' city ':geoTargetingData.selected.previewData.include.cities.length + ' cities ';
-                }
-                if(geoTargetingData.selected.previewData.include.zipCodes && geoTargetingData.selected.previewData.include.zipCodes.length > 0  && geoTargetingData.selected.previewData.include.zipCodes[0].values.length > 0){
-                    $scope.includeStr += (geoTargetingData.selected.previewData.include.zipCodes[0].values.length == 1)? geoTargetingData.selected.previewData.include.zipCodes[0].values.length + ' Postal code ':geoTargetingData.selected.previewData.include.zipCodes[0].values.length + ' Postal codes ';
-                }
-                if(geoTargetingData.selected.previewData.include.dmas && geoTargetingData.selected.previewData.include.dmas.length > 0){
-                    $scope.includeStr += (geoTargetingData.selected.previewData.include.dmas.length == 1)? geoTargetingData.selected.previewData.include.dmas.length + ' Metro ':geoTargetingData.selected.previewData.include.dmas.length + ' Metros ';
-                }
-            }
+        $scope.$on('deleteGeoTarget', function () {
+            $scope.deleteGeography();
+            workflowService.resetSavedGeo();
+            $scope.adData.isGeographySelected = null;
+        })
 
-            if(geoTargetingData.selected.previewData.exclude){
-                if(geoTargetingData.selected.previewData.exclude.regions && geoTargetingData.selected.previewData.exclude.regions.length > 0){
-                    $scope.excludeStr += (geoTargetingData.selected.previewData.exclude.regions.length == 1)? geoTargetingData.selected.previewData.exclude.regions.length + ' Region ':geoTargetingData.selected.previewData.exclude.regions.length + ' Regions ';
-                }
-                if(geoTargetingData.selected.previewData.exclude.cities && geoTargetingData.selected.previewData.exclude.cities.length > 0){
-                    $scope.excludeStr += (geoTargetingData.selected.previewData.exclude.cities.length == 1)? geoTargetingData.selected.previewData.exclude.cities.length + ' city ':geoTargetingData.selected.previewData.exclude.cities.length + ' cities ';
-                }
-                if(geoTargetingData.selected.previewData.exclude.zipCodes && geoTargetingData.selected.previewData.exclude.zipCodes.length > 0 && geoTargetingData.selected.previewData.exclude.zipCodes[0].values.length > 0){
-                    $scope.excludeStr += (geoTargetingData.selected.previewData.exclude.zipCodes[0].values.length == 1)? geoTargetingData.selected.previewData.exclude.zipCodes[0].values.length + ' Postal code ':geoTargetingData.selected.previewData.exclude.zipCodes[0].values.length + ' Postal codes ';
-                }
-                if(geoTargetingData.selected.previewData.exclude.dmas && geoTargetingData.selected.previewData.exclude.dmas.length > 0){
-                    $scope.excludeStr += (geoTargetingData.selected.previewData.exclude.dmas.length == 1)? geoTargetingData.selected.previewData.exclude.dmas.length + ' Metro ':geoTargetingData.selected.previewData.exclude.dmas.length + ' Metros ';
-                }
-            }
-
-        }
-
-        $scope.showTargettingForm = false;
-        $scope.geoTargetingData = {};
-        $scope.storedResponse = {};
-        $scope.isRegionSelected = true;
-        $scope.citiesIncluded = true;
-        $scope.dmasIncluded = true;
-        $scope.selectedTab = 'regions';
-        $scope.adData.isGeographySelected = false;
-        $scope.adData.isAudienceSelected = false;
-        $scope.adData.isDaypartSelected = false;
-        $scope.includeStr = '';
-        $scope.excludeStr = '';
-
-        $scope.geoTargetArr = [
-            {'name': 'Geography',    'enable': true},
-            {'name': 'Behavior',     'enable': false},
-            {'name': 'Demographics', 'enable': false},
-            {'name': 'Interests',    'enable': false},
-            {'name': 'Technology',   'enable': false},
-            {'name': 'Content',      'enable': false},
-            {'name': 'Other',        'enable': false}
-        ];
-
-        $scope.$on('updateGeoTagName',function () {
-            $scope.setTargeting('Geography');
+        $scope.$on('triggerGeography', function () {
             $scope.storedResponse = angular.copy(workflowService.getAdsDetails());
-            $scope.showRegionsTab = true;
-            $scope.selectedTab = 'regions';
-            $scope.listRegions();
-            $scope.zipEdit();
-        });
-
-        $scope.$on('resetGeoTags',function () {
-            $scope.resetGeoTargetingVariables();
-        });
-
-        $scope.$on('renderTargetingUI', function (event, platformId) {
-            $scope.isPlatformId = platformId;
-            $scope.isPlatformSelected = platformId ? true : false;
-            $scope.resetGeoTargetingVariables();
-            $scope.showRegionsTab = true;
-            $scope.showCitiesTab = true;
-
-            if (($scope.isPlatformId === 1) || ($scope.adData.platformId === 25)) {
-                // Hide Cities Tab for Visto Bidder (platform Id 25)
-                $scope.showCitiesTab = false;
+            var moduleDeleted = workflowService.getDeleteModule();
+            if(_.indexOf(moduleDeleted, 'Geography') !== -1) {
+                $scope.storedResponse.targets.geoTargets = null;
+                workflowService.setSavedGeo(null);
             }
+
+            if ($scope.selectedTab === 'regions') {
+                $scope.listRegions();
+            }
+            if ($scope.selectedTab === 'cities') {
+                $scope.listCities();
+            }
+            if ($scope.selectedTab === 'dmas') {
+                $scope.listDmas();
+            }
+
+            if ($scope.mode === 'edit') {
+                $scope.listDmas();
+                $scope.zipEdit();
+            }
+
+            geoTargetingView.showGeoTargetingBox();
         });
 
         $scope.resetGeoTargetingVariables();
-        $scope.resetAudienceTargetingVariables();
-        $scope.resetDayTargetingVariables();
 
         $(function () {
             $('#slider-range').slider({
@@ -1184,17 +1065,15 @@ var angObj = angObj || {};
                 max: 500,
                 values: [75, 300],
                 slide: function (event, ui) {
-                    $('#amount').val('$' + ui.values[ 0 ] + ' - $' + ui.values[ 1 ]);
+                    $('#amount').val('$' + ui.values[0] + ' - $' + ui.values[1]);
                 }
             });
             $('#amount')
                 .val('$' + $('#slider-range')
-                .slider('values', 0) + ' - $' + $('#slider-range')
-                .slider('values', 1));
+                        .slider('values', 0) + ' - $' + $('#slider-range')
+                        .slider('values', 1));
         });
 
-        $scope.zipCodeTabSelected = false;
-        $scope.dmasIncludeSwitchLabel = true;
 
         if ($('.btn-ani-toggle .active')[0]) {
             $scope.excludeSelectedItems();

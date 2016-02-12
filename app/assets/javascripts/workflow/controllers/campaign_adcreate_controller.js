@@ -11,7 +11,7 @@ var angObj = angObj || {};
         // Flag to denote that ad format has changed
         $scope.adFormatChanged = false;
 
-        $scope.showDeleteConfirmationPopup = false;
+
         $scope.adCreateLoader = false;
 
         var winHeaderHeight = $(window).height() - 50,
@@ -44,9 +44,6 @@ var angObj = angObj || {};
                                     // url = vistoconfig.MEDIA_PLANS_LINK;
                                     // $location.url(url);
                                     $scope.redirectFlag = true;
-                                    $timeout(function(){
-                                        $scope.redirectUser(false)
-                                    },4000);
                                 }
                                 $scope.workflowData.campaignData = responseData;
                                 saveDataInLocalStorage(responseData);
@@ -81,31 +78,11 @@ var angObj = angObj || {};
                                                     // $location.url(url);
                                                     $scope.redirectFlag = true;
                                                     $scope.archivedAdFlag = true;
-                                                    $timeout(function(){
-                                                        $scope.redirectUser(true);
-                                                    },4000);
                                                 }
                                                 disablePauseEnableResume($scope.getAd_result);
                                                 processEditMode(result);
                                             });
                                     } else {
-                                        workflowService
-                                            .getDetailedAdsInAdGroup($scope.campaignId, $scope.adGroupId, $scope.adId)
-                                            .then(function (result) {
-                                                // $scope.getAdResult = result.data.data;
-                                                // disablePauseEnableResume($scope.getAdResult);
-                                                $scope.getAd_result = result.data.data;
-                                                //redirect user to campaingn overview screen if ad is archived
-                                                if($scope.getAd_result.isArchived){
-                                                    $scope.redirectFlag = true;
-                                                    $scope.archivedAdFlag = true;
-                                                    $timeout(function(){
-                                                        $scope.redirectUser(true);
-                                                    },4000);
-                                                }
-                                                disablePauseEnableResume($scope.getAd_result);
-                                                processEditMode(result);
-                                            });
 
                                         workflowService
                                             .getAdgroups($scope.campaignId)
@@ -134,6 +111,22 @@ var angObj = angObj || {};
                                                     campaignOverView.errorHandler(result);
                                                 }
                                             }, campaignOverView.errorHandler);
+
+                                        workflowService
+                                            .getDetailedAdsInAdGroup($scope.campaignId, $scope.adGroupId, $scope.adId)
+                                            .then(function (result) {
+                                                // $scope.getAdResult = result.data.data;
+                                                // disablePauseEnableResume($scope.getAdResult);
+                                                $scope.getAd_result = result.data.data;
+                                                //redirect user to campaingn overview screen if ad is archived
+                                                if($scope.getAd_result.isArchived){
+                                                    $scope.redirectFlag = true;
+                                                    $scope.archivedAdFlag = true;
+                                                }
+                                                disablePauseEnableResume($scope.getAd_result);
+                                                processEditMode(result);
+                                            });
+
                                     }
                                 } else {
                                     $scope.initiateDatePicker();
@@ -324,25 +317,6 @@ var angObj = angObj || {};
                 }
             };
 
-        // Flag to denote that ad format has changed
-        $scope.adFormatChanged = false;
-
-        $scope.showDeleteConfirmationPopup = false;
-        $scope.adCreateLoader = false;
-
-        $scope.deleteTargets = function (type, event) {
-            var elem = $(event.target),
-                leftPos = elem.closest('.cardSelectHolder').offset().left -
-                          elem.closest('.setTargetOptions').offset().left;
-
-            elem
-                .closest('.setTargetOptions')
-                .find('.msgPopup')
-                .css('left', leftPos);
-
-            $scope.showDeleteConfirmationPopup = true;
-            $scope.deleteType = type;
-        };
 
         $scope.redirectUser = function(isAdArchived){
             $scope.redirectFlag = false;
@@ -364,42 +338,11 @@ var angObj = angObj || {};
                 var url = vistoconfig.MEDIA_PLANS_LINK;
                 $location.url(url);
             }
-
         }
-
-        $scope.deleteTargetting = function () {
-            $scope.showDeleteConfirmationPopup = !$scope.showDeleteConfirmationPopup;
-            if ($scope.deleteType === 'AUDIENCE') {
-                $scope.deleteAudienceTargetting();
-            } else if ($scope.deleteType === 'GEO') {
-                $scope.deleteGeoTargetting();
-            } else if ($scope.deleteType === 'DAYPART') {
-                $scope.deleteDayPartTargetting();
-            }
-        };
-
-        $scope.cancelTargettingDelete = function () {
-            $scope.deleteType = '';
-            $scope.showDeleteConfirmationPopup = !$scope.showDeleteConfirmationPopup;
-        };
-
-        $scope.deleteAudienceTargetting = function () {
-            $scope.selectedAudience.length = 0;
-            $scope.adData.isAudienceSelected = null;
-        };
-
-        $scope.deleteDayPartTargetting = function () {
-            $scope.selectedDayParts.data.length = 0;
-            $scope.$broadcast('deleteDayPartTarget');
-        };
-
-        $scope.deleteGeoTargetting = function () {
-            $scope.$broadcast('deleteGeoTarget');
-        };
 
         // This sets dynamic width to line to take 100% height
         function colResize() {
-            winHeight = $(window).height() - 110;
+            var winHeight = $(window).height() - 110;
             $('.campaignAdCreateWrap, .campaignAdCreatePage, .left_column_nav').css('min-height', winHeight + 'px');
             $('.adStepOne .tab-pane').css('min-height', winHeight - 30 + 'px');
             $('.targetingSlide .tab-pane').css('min-height', winHeight - 130 + 'px');
@@ -577,34 +520,19 @@ var angObj = angObj || {};
 
             $scope.$broadcast('updateCreativeTags');
 
-            if (responseData.targets &&
-                responseData.targets.geoTargets &&
-                _.size(responseData.targets.geoTargets) > 0
-            ) {
-                $scope.selectedTargeting = {};
-                $scope.selectedTargeting.geography = true;
-                $timeout(function () {
-                    $scope.$broadcast('updateGeoTagName');
-                }, 2000);
+
+            if (responseData.targets && responseData.targets.geoTargets && _.size(responseData.targets.geoTargets) > 0) {
+                $scope.$broadcast('setTargeting', ['Geography']);
             }
 
             //day part edit
-            if (responseData.targets &&
-                responseData.targets.adDaypartTargets &&
-                _.size(responseData.targets.adDaypartTargets) > 0
-            ) {
-                $timeout(function () {
-                    $scope.$broadcast('UpdateDayPart');
-                }, 2000);
+            if (responseData.targets && responseData.targets.adDaypartTargets && _.size(responseData.targets.adDaypartTargets) > 0) {
+                $scope.$broadcast('setTargeting', ['Daypart']);
             }
 
             //audience targeting load
-            if (responseData.targets && responseData.targets.segmentTargets &&
-                _.size(responseData.targets.segmentTargets) > 0
-            ) {
-                $timeout(function () {
-                    $scope.$broadcast('triggerAudienceLoading');
-                }, 2000);
+            if (responseData.targets && responseData.targets.segmentTargets && _.size(responseData.targets.segmentTargets) > 0 && responseData.targets.segmentTargets.segmentList  && _.size(responseData.targets.segmentTargets.segmentList) > 0 ) {
+                $scope.$broadcast('setTargeting', ['Audience']);
             }
         }
 
@@ -1174,8 +1102,8 @@ var angObj = angObj || {};
 
                     if (!$scope.TrackingIntegrationsSelected) {
                         postAdDataObj.targets = {};
-
-                        if ($scope.adData.geoTargetingData) {
+                        if (workflowService.getSavedGeo()) {
+                            $scope.adData.geoTargetingData = workflowService.getSavedGeo().original
                             postGeoTargetObj = postAdDataObj.targets.geoTargets = {};
                             buildGeoTargetingParams = function (data, type) {
                                 var obj = {};
@@ -1224,6 +1152,21 @@ var angObj = angObj || {};
                                     'isIncluded': true,
                                     'geoTargetList': zipPostArr
                                 };
+                            }
+                        } else {
+                            if($scope.mode === 'edit') {
+                                var adData = angular.copy(workflowService.getAdsDetails());
+                                var postGeoTargetObj = adData.targets.geoTargets;
+                                if(postGeoTargetObj.REGION) {
+                                    postGeoTargetObj.REGION.geoTargetList = _.pluck(geoTargets.regions.geoTargetList, 'id');
+                                }
+                                if(postGeoTargetObj.CITY) {
+                                    postGeoTargetObj.CITY.geoTargetList = _.pluck(geoTargets.city.geoTargetList, 'id');
+                                }
+
+                                if(postGeoTargetObj.DMA) {
+                                    postGeoTargetObj.DMA.geoTargetList = _.pluck(geoTargets.DMA.geoTargetList, 'id');
+                                }
                             }
                         }
 
@@ -1337,17 +1280,9 @@ var angObj = angObj || {};
             }
         };
 
-        //ad targets summary
-        $scope.getSelectedAudience = function () {
-            $scope.selectedAudience = audienceService.getSelectedAudience();
-            return $scope.selectedAudience ? $scope.selectedAudience.length : 0;
-        };
 
-        $scope.getSelectedDays = function () {
-            $scope.selectedDayParts.selected = audienceService.getDayTimeSelectedObj();
-            $scope.selectedDayParts.data = audienceService.getDaytimeObj();
-            $scope.dayPartTotal = $scope.selectedDayParts.data ? $scope.selectedDayParts.data.length : 0;
-        };
+
+
 
         $('.main_navigation_holder')
             .find('.active_tab')

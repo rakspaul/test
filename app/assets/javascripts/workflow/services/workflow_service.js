@@ -8,7 +8,9 @@
             newCreative,
             platform,
             savedGeo,
-            vistoModule;
+            vistoModule,
+            deletedModule = [];
+
 
         return {
             fetchCampaigns: function() {
@@ -266,7 +268,7 @@
             getCreatives: function (clientId, advertiserId, formats, query, cacheObj, integrationTracking) {
                 var queryStr = query ? query : '',
                     creativeFormats = formats ? '?creativeFormat=' + formats : '',
-                    integration_Tracking = integrationTracking ? '&tracking=true' : '',
+                    integration_Tracking = integrationTracking ? '&tracking=true' : '&tracking=false',
                     url = apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/advertisers/' + advertiserId + '/creatives' +
                         creativeFormats + queryStr + integration_Tracking;
 
@@ -288,7 +290,7 @@
             },
 
             deleteCreatives:function(clientId,data){ console.log(data)
-                return dataService.post(apiPaths.WORKFLOW_APIUrl + '/clients/' + clientId +'/creatives/bulkdelete',
+                return dataService.post(apiPaths.WORKFLOW_API_URL + '/clients/' + clientId +'/creatives/bulkdelete',
                     data,
                     {'Content-Type': 'application/json'}
                 );
@@ -454,6 +456,15 @@
 
             getSavedGeo: function(){
                 return savedGeo;
+            },
+            setDeleteModule :  function(module) {
+                deletedModule.push(module);
+            },
+            getDeleteModule :  function() {
+                return deletedModule;
+            },
+            resetDeleteModule : function() {
+                deletedModule = [];
             }
         };
     });

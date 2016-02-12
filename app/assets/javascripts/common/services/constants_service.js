@@ -536,10 +536,10 @@
         this.WF_AD_UPDATE="AD Update"
         this.WF_PAUSE_AD="Pause AD"
         this.WF_RESUME_AD="Resume AD";
-        this.WF_ARCHIVE_AD="Redirecting..."
-        this.WF_ARCHIVE_CAMPAIGN="Redirecting..."
-        this.WF_REDIRECT_USER_FOR_ARCHIVED_AD="Archived Ads cannot be edited.";
-        this.WF_REDIRECT_USER_FOR_ARCHIVED_CAMPAIGN="Archived Media Plans cannot be edited.";
+        this.WF_ARCHIVE_AD="We're sorry."
+        this.WF_ARCHIVE_CAMPAIGN="We're sorry."
+        this.WF_REDIRECT_USER_FOR_ARCHIVED_AD="You are unable to edit this archived Ad. Click 'Continue' to return to Campaign Overview Screen";
+        this.WF_REDIRECT_USER_FOR_ARCHIVED_CAMPAIGN="You are unable to edit this archived Media Plan. Click 'Continue' to return to Media Plan List Screen";
         this.WF_PAUSE="Pause"
         this.WF_RESUME="Resume"
         this.WF_MOVE_TO="Move to"
@@ -601,8 +601,9 @@
 
         this.CHANGE_PLATFORM_MESSAGE =
             'Your entries for the following settings are not compatible with [Platform Name]: [Settings list]. ' +
-            'Would you like to clear these settings and switch platforms? (OK/Cancel).';
+            'Would you like to clear these settings and switch platforms?.';
         this.ARCHIVE_MESSAGE = 'Do you want to Archive / Delete the Ad?';
+
 
         this.TIMEZONE_UK = 'Europe/London';
         this.TIMEZONE_US = 'America/New_York';

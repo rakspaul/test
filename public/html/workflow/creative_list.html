@@ -18,7 +18,7 @@
 		
 		<div class="col-md-12 zeroPadding btn_list_filters">
 			<div class="btn-group" role="group" aria-label="...">
-				<a href="/creative/add" role="button" class="btn btn-default"><span class="icon-plus"></span><span>Create</span></a>
+				<a href="javascript:void(0);" role="button" class="btn btn-default disabled"><span class="icon-plus"></span><span>Create</span></a>
 				<button type="button" class="btn btn-default" style="display: none"><span class="icon-inline-edit"></span><span>Edit</span></button>
 				<button type="button" class="btn btn-default" ng-click="cancelDelete();"><span class="icon-archive"></span><span>Archive</span></button>
 				<button type="button" class="btn btn-default" disabled="true"><span class="icon-copy"></span><span>Clone</span></button>
@@ -83,7 +83,7 @@
 					</div>
 			    </div>
 			    <div class="tbody">
-				<div ng-if="!creativeListLoading" ng-repeat="creativeData in creativeData.creatives" class="tr">
+				<div ng-if="!creativeListLoading" ng-repeat="creativeData in creativeData.creatives" class="tr oneDimensionRow">
 				    <!--Creative Name-->
 				    <div class="col-md-3 td shadowLeft">
 					<input type="checkbox" ng-disabled="creativeData.pushedCount>0" ng-checked="creativeData.active" ng-click="selectedCreativeCheckbox(creativeData)"/>
@@ -134,17 +134,19 @@
                         <div class="col-md-1 td text-center"></div>
                         <div class="col-md-2 td"></div>
                     </div>-->
-                    <div class="tr childRow adsList" ng-show="showHideToggle" ng-repeat="adData in creativeAds.creativeAdData[$index]">
-                        <div class="col-md-7 td">
-							<div class="inDentWrap shadowLeft">
-								<span ng-if="(adData.messageType==='ERROR')" class="icon-error" title="adData.message"></span>
-								<span ng-if="(adData.messageType==='WARNING')" class="icon-warning" title="adData.message"></span>
-								<span ng-click="redirectAdEditPage(adData)">{{adData.campaignName}} / {{adData.adName}}</span>
-							</div>
-                        </div>
-                        <div class="col-md-2 td">{{adData.brandName}}</div>
-                        <div class="col-md-1 td text-center" ><img ng-src="{{adData.platform.iconUrl}}"/></div>
-                        <div class="col-md-2 td shadowRight">{{utcToLocalTime(adData.updatedAt,'DD MMM YYYY  HH:mm A')}}</div>
+                    <div style="display:none;" class="secondDimensionList">
+	                    <div class="tr childRow adsList"  ng-repeat="adData in creativeAds.creativeAdData[$index]">
+	                        <div class="col-md-7 td">
+								<div class="inDentWrap shadowLeft">
+									<span ng-if="(adData.messageType==='ERROR')" class="icon-error" title="{{adData.message}}"></span>
+									<span ng-if="(adData.messageType==='WARNING')" class="icon-warning" title="{{adData.message}}"></span>
+									<span ng-click="redirectAdEditPage(adData)">{{adData.campaignName}} / {{adData.adName}}</span>
+								</div>
+	                        </div>
+	                        <div class="col-md-2 td">{{adData.brandName}}</div>
+	                        <div class="col-md-1 td text-center" ><img ng-src="{{adData.platform.iconUrl}}"/></div>
+	                        <div class="col-md-2 td shadowRight">{{utcToLocalTime(adData.updatedAt,'DD MMM YYYY  HH:mm A')}}</div>
+	                    </div>
                     </div>
 				</div>
 				

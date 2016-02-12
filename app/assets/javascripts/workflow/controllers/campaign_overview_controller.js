@@ -139,9 +139,6 @@ var angObj = angObj || {};
                         //redirect user to media plan list screen if campaign is archived campaign
                         if(result.data.data.isArchived){
                             $scope.redirectFlag = true;
-                            $timeout(function(){
-                                $scope.redirectUserFromArchivedCampaign();
-                            },4000);
                         }
                         var responseData = result.data.data;
                         $scope.workflowData['campaignData'] = responseData;

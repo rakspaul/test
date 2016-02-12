@@ -4,7 +4,7 @@ var angObj = angObj || {};
     'use strict';
 
     angObj.controller('CreativeListController', function ($scope,$rootScope, $window, $routeParams, constants, workflowService, 
-        $timeout, utils, $location,momentService) {
+        $timeout, utils, $location,momentService, $route) {
         var checkedCreativeArr=[];
         $scope.creativeAds={};
         $scope.creativeAds['creativeAdData'] = {};
@@ -78,11 +78,7 @@ var angObj = angObj || {};
                     .deleteCreatives(clientId,creativeIds)
                     .then(function(result){
                         if (result.status === 'OK' || result.status === 'success') {
-                            window.location.reload();
-                            //var selectedClientObj = localStorage.selectedClient && JSON.parse(localStorage.selectedClient);
-                            //if(selectedClientObj){
-                            //    creativeList.getCreativesList(JSON.parse(localStorage.selectedClient).id,"", "",20,1);
-                            //}
+                            $route.reload();
                         }else {
                             creativeList.errorHandler();
                         }
@@ -289,12 +285,15 @@ var angObj = angObj || {};
 
         $scope.toggleCreativeAds=function(context,creativeId,index,event){
             var elem = $(event.target);
-            if (context.showHideToggle) {
+            if (elem.hasClass("icon-arrow-down-open")) {
                 elem.removeClass("icon-arrow-down-open");
-                context.showHideToggle = !context.showHideToggle
+                elem.closest(".oneDimensionRow").find(".secondDimensionList").hide() ;
+                if( $(".secondDimensionList:visible").length == 0 ) {
+                    $( ".childRowHead" ).hide();
+                }
             } else {
                 elem.addClass("icon-arrow-down-open") ;
-                context.showHideToggle = !context.showHideToggle
+                elem.closest(".oneDimensionRow").find(".secondDimensionList").show() ;
                 creativeList.getCreativeAds(creativeId,index);
                 $( ".childRowHead" ).show();
             }
