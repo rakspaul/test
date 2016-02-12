@@ -1353,7 +1353,7 @@
                         //info = ""+formatX+"<br>"+d.kpiType+": <b>"+formatY+"</b><br>",
                         info = ""+d.kpiType+": <b>"+formatY+"</b><br>",
                         getMessage = ' External ',
-                        numberOfActivityHeader = d.make_external == true ? '<b>'+d.activityCount+'</b> '+getMessage+' Activities' : '<b>'+d.activityCount +'</b> Internal Activities';
+                        numberOfActivityHeader = d.make_external == true ? '<b>'+d.activityCount+'</b> '+' Activities' : '<b>'+d.activityCount +'</b> Internal Activities';
 
                     var symbol = kpiPrefix(d.kpiType);
                     var suffix = kpiSuffix(d.kpiType);
