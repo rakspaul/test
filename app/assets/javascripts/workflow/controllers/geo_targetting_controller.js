@@ -250,9 +250,11 @@ var angObj = angObj || {};
                 } else {
                     $scope.excludeSelectedItems();
                 }
-                //$scope.adData.geoTargetingData = $scope.geoTargetingData.selected;
             }
+
+            regionInitialLoad = true;
             $scope.listCities();
+
         };
 
         $scope.cityEdit = function (flatArr) {
@@ -264,6 +266,7 @@ var angObj = angObj || {};
                 _.each(citiesEditable, function (item) {
                     $scope.sync(true, item, 'cities');
                 });
+                cityInitialLoad = true;
                 $scope.saveGeography(1);
             }
         };
@@ -277,7 +280,10 @@ var angObj = angObj || {};
                 _.each(dmasEditable, function (item) {
                     $scope.sync(true, item, 'dmas');
                 });
+
+                dmasInitialLoad = true;
                 $scope.saveGeography(1);
+
             }
         };
 
@@ -999,10 +1005,12 @@ var angObj = angObj || {};
                 if (presavedGeo && presavedGeo) {
                     $timeout(function () {
                         $scope.geoTargetingData.selected = presavedGeo;
-                        var regionCityElem = $(".regionCityTab");
-                        regionCityElem.find("li").removeClass("active");
-                        regionCityElem.find(".tab_region_holder").addClass("active")
-                        angular.element('#tab_region').triggerHandler('click');
+                        if($scope.selectedTab !== 'dmas' && $scope.selectedTab !== 'zip') {
+                            var regionCityElem = $(".regionCityTab");
+                            regionCityElem.find("li").removeClass("active");
+                            regionCityElem.find(".tab_region_holder").addClass("active")
+                            angular.element('#tab_region').triggerHandler('click');
+                        }
                     }, 100);
                 }
             }

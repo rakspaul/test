@@ -89,23 +89,6 @@ var angObj = angObj || {};
                                                 processEditMode(result);
                                             });
                                     } else {
-                                        workflowService
-                                            .getDetailedAdsInAdGroup($scope.campaignId, $scope.adGroupId, $scope.adId)
-                                            .then(function (result) {
-                                                // $scope.getAdResult = result.data.data;
-                                                // disablePauseEnableResume($scope.getAdResult);
-                                                $scope.getAd_result = result.data.data;
-                                                //redirect user to campaingn overview screen if ad is archived
-                                                if($scope.getAd_result.isArchived){
-                                                    $scope.redirectFlag = true;
-                                                    $scope.archivedAdFlag = true;
-                                                    $timeout(function(){
-                                                        $scope.redirectUser(true);
-                                                    },4000);
-                                                }
-                                                disablePauseEnableResume($scope.getAd_result);
-                                                processEditMode(result);
-                                            });
 
                                         workflowService
                                             .getAdgroups($scope.campaignId)
@@ -134,6 +117,25 @@ var angObj = angObj || {};
                                                     campaignOverView.errorHandler(result);
                                                 }
                                             }, campaignOverView.errorHandler);
+
+                                        workflowService
+                                            .getDetailedAdsInAdGroup($scope.campaignId, $scope.adGroupId, $scope.adId)
+                                            .then(function (result) {
+                                                // $scope.getAdResult = result.data.data;
+                                                // disablePauseEnableResume($scope.getAdResult);
+                                                $scope.getAd_result = result.data.data;
+                                                //redirect user to campaingn overview screen if ad is archived
+                                                if($scope.getAd_result.isArchived){
+                                                    $scope.redirectFlag = true;
+                                                    $scope.archivedAdFlag = true;
+                                                    $timeout(function(){
+                                                        $scope.redirectUser(true);
+                                                    },4000);
+                                                }
+                                                disablePauseEnableResume($scope.getAd_result);
+                                                processEditMode(result);
+                                            });
+
                                     }
                                 } else {
                                     $scope.initiateDatePicker();
