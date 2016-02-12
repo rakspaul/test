@@ -6,19 +6,20 @@
 </div>
 <div class="vid_col" ng-show="adFormats.videoAds == true">
     <div class="each_col third_col">
-        <span class="icon_text_holder" ng-class="sortClassFunction('video_metrics.ad_starts',sortTypeScreens,sortReverse)" ng-click="sortTypeScreens = 'video_metrics.ad_starts'; sortReverse = !sortReverse;removeKpiActive();specialSort('video_metrics.ad_starts');" >{{textConstants.VIDEO}} <br> {{textConstants.PLAYS}}</span>
+        <span class="icon_text_holder" ng-class="sortClassFunction('video_played',sortTypeScreens,sortReverse)" ng-click="sortTypeScreens = 'video_played'; sortReverse = !sortReverse;removeKpiActive();specialSort('video_played');" >{{textConstants.VIDEO}} <br> {{textConstants.PLAYS}}</span>
     </div>
     <div class="vid_data_hdr">
         <span>{{textConstants.QUARTILE_DATA}}</span> <br>
         <div class="vid_sub_col">
-            <div class="vid_sub_col_hdr"><span class="icon_text_holder" ng-class="sortClassFunction('video_metrics.vtc_25',sortTypeScreens,sortReverse)" ng-click="sortTypeScreens = 'video_metrics.vtc_25'; sortReverse = !sortReverse;removeKpiActive();specialSort('video_metrics.vtc_25');" >25%</span></div>
-            <div class="vid_sub_col_hdr"><span class="icon_text_holder" ng-class="sortClassFunction('video_metrics.vtc_50',sortTypeScreens,sortReverse)" ng-click="sortTypeScreens = 'video_metrics.vtc_50'; sortReverse = !sortReverse;removeKpiActive();specialSort('video_metrics.vtc_50');" >50%</span></div>
-            <div class="vid_sub_col_hdr"><span class="icon_text_holder" ng-class="sortClassFunction('video_metrics.vtc_75',sortTypeScreens,sortReverse)" ng-click="sortTypeScreens = 'video_metrics.vtc_75'; sortReverse = !sortReverse;removeKpiActive();specialSort('video_metrics.vtc_75');" >75%</span></div>
-            <div class="vid_sub_col_hdr"><span class="icon_text_holder" ng-class="sortClassFunction('video_metrics.vtc_100',sortTypeScreens,sortReverse)" ng-click="sortTypeScreens = 'video_metrics.vtc_100'; sortReverse = !sortReverse;removeKpiActive();specialSort('video_metrics.vtc_100');" >100%</span></div>
+            <div class="vid_sub_col_hdr"><span class="icon_text_holder" ng-class="sortClassFunction('vtc_25',sortTypeScreens,sortReverse)" ng-click="sortTypeScreens = 'vtc_25'; sortReverse = !sortReverse;removeKpiActive();specialSort('vtc_25');" >25%</span></div>
+            <div class="vid_sub_col_hdr"><span class="icon_text_holder" ng-class="sortClassFunction('vtc_50',sortTypeScreens,sortReverse)" ng-click="sortTypeScreens = 'vtc_50'; sortReverse = !sortReverse;removeKpiActive();specialSort('vtc_50');" >50%</span></div>
+            <div class="vid_sub_col_hdr"><span class="icon_text_holder" ng-class="sortClassFunction('vtc_75',sortTypeScreens,sortReverse)" ng-click="sortTypeScreens = 'vtc_75'; sortReverse = !sortReverse;removeKpiActive();specialSort('vtc_75');" >75%</span></div>
+            <div class="vid_sub_col_hdr"><span class="icon_text_holder" ng-class="sortClassFunction('vtc_100',sortTypeScreens,sortReverse)" ng-click="sortTypeScreens = 'vtc_100'; sortReverse = !sortReverse;removeKpiActive();specialSort('vtc_100');" >100%</span></div>
         </div>
     </div>
     <div class="each_col third_col">
-        <span class="icon_text_holder" ng-class="sortClassFunction('video_metrics.vtc_rate',sortTypeScreens,sortReverse)" ng-click="sortTypeScreens = 'video_metrics.vtc_rate'; sortReverse = !sortReverse;removeKpiActive();specialSort('video_metrics.vtc_rate');" ><span class="default-kpi-header-icon" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() === 'vtc'"></span>{{textConstants.VTC}}</span>
+        <span class="icon_text_holder" ng-class="sortClassFunction('vtc_100',sortTypeScreens,sortReverse)" ng-click="sortTypeScreens = 'vtc_100'; sortReverse = !sortReverse;removeKpiActive();specialSort('vtc_100');" >
+            <span class="default-kpi-header-icon" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() === 'vtc'"></span>{{textConstants.VTC}}</span>
     </div>
 </div>
 

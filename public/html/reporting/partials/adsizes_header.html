@@ -8,22 +8,20 @@
 
 <span  ng-show="adFormats.videoAds  == true">
     <div class="each_col third_col">
-        <span class="icon_text_holder" ng-class="sortClassFunction('video_metrics.ad_starts',sortTypebyadsizes,sortReverseAddSizes)" ng-click="sortTypebyadsizes = 'video_metrics.ad_starts'; sortReverseAddSizes = !sortReverseAddSizes;removeKpiActive();" ><span class="default-kpi-header-icon" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() === 'video_metrics.ad_starts'"></span>{{textConstants.VIDEO_PLAYS}}</span>
+        <span class="icon_text_holder" ng-class="sortClassFunction('video_played',sortTypebyadsizes,sortReverseAddSizes)" ng-click="sortTypebyadsizes = 'video_played'; sortReverseAddSizes = !sortReverseAddSizes;removeKpiActive();" ><span class="default-kpi-header-icon" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() === 'video_played'"></span>{{textConstants.VIDEO_PLAYS}}</span>
     </div>
 <div class="vid_data_hdr">
     <span>{{textConstants.QUARTILE_DATA}}</span> <br>
     <div class="vid_sub_col">
-        <div class="vid_sub_col_hdr"><span class="icon_text_holder" ng-class="sortClassFunction('video_metrics.vtc_25',sortTypebyadsizes,sortReverseAddSizes)" ng-click="sortTypebyadsizes = 'video_metrics.vtc_25'; sortReverseAddSizes = !sortReverseAddSizes;removeKpiActive();" >25%</span></div>
-        <div class="vid_sub_col_hdr"><span class="icon_text_holder" ng-class="sortClassFunction('video_metrics.vtc_50',sortTypebyadsizes,sortReverseAddSizes)" ng-click="sortTypebyadsizes = 'video_metrics.vtc_50'; sortReverseAddSizes = !sortReverseAddSizes;removeKpiActive();" >50%</span></div>
-        <div class="vid_sub_col_hdr"><span class="icon_text_holder" ng-class="sortClassFunction('video_metrics.vtc_75',sortTypebyadsizes,sortReverseAddSizes)" ng-click="sortTypebyadsizes = 'video_metrics.vtc_75'; sortReverseAddSizes = !sortReverseAddSizes;removeKpiActive();" >75%</span></div>
-        <div class="vid_sub_col_hdr"><span class="icon_text_holder" ng-class="sortClassFunction('video_metrics.vtc_100',sortTypebyadsizes,sortReverseAddSizes)" ng-click="sortTypebyadsizes = 'video_metrics.vtc_100'; sortReverseAddSizes = !sortReverseAddSizes;removeKpiActive();" >100%</span></div>
+        <div class="vid_sub_col_hdr"><span class="icon_text_holder" ng-class="sortClassFunction('vtc_25',sortTypebyadsizes,sortReverseAddSizes)" ng-click="sortTypebyadsizes = 'vtc_25'; sortReverseAddSizes = !sortReverseAddSizes;removeKpiActive();" >25%</span></div>
+        <div class="vid_sub_col_hdr"><span class="icon_text_holder" ng-class="sortClassFunction('vtc_50',sortTypebyadsizes,sortReverseAddSizes)" ng-click="sortTypebyadsizes = 'vtc_50'; sortReverseAddSizes = !sortReverseAddSizes;removeKpiActive();" >50%</span></div>
+        <div class="vid_sub_col_hdr"><span class="icon_text_holder" ng-class="sortClassFunction('vtc_75',sortTypebyadsizes,sortReverseAddSizes)" ng-click="sortTypebyadsizes = 'vtc_75'; sortReverseAddSizes = !sortReverseAddSizes;removeKpiActive();" >75%</span></div>
+        <div class="vid_sub_col_hdr"><span class="icon_text_holder" ng-class="sortClassFunction('vtc_100',sortTypebyadsizes,sortReverseAddSizes)" ng-click="sortTypebyadsizes = 'vtc_100'; sortReverseAddSizes = !sortReverseAddSizes;removeKpiActive();" >100%</span></div>
     </div>
 </div>
     <div class="each_col third_col">
-        <span class="icon_text_holder" ng-class="sortClassFunction('video_metrics.vtc_rate',sortTypebyadsizes,sortReverseAddSizes)" ng-click="sortTypebyadsizes = 'video_metrics.vtc_rate'; sortReverseAddSizes = !sortReverseAddSizes;removeKpiActive();" ><span class="default-kpi-header-icon" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() === 'video_metrics.ad_starts'"></span>{{textConstants.VTC}}</span>
+        <span class="icon_text_holder" ng-class="sortClassFunction('vtc_100',sortTypebyadsizes,sortReverseAddSizes)" ng-click="sortTypebyadsizes = 'vtc_100'; sortReverseAddSizes = !sortReverseAddSizes;removeKpiActive();" ><span class="default-kpi-header-icon" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() === 'vtc'"></span>{{textConstants.VTC}}</span>
     </div>
-
-
 </span>
 
 <div class="each_col forth_col">
