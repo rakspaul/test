@@ -1254,6 +1254,8 @@ var angObj = angObj || {};
                         domainTargetObj.inheritedList = {'ADVERTISER': $scope.adData.inventory.domainListId};
                         postAdDataObj.domainInherit = 'APPEND';
                         postAdDataObj.domainAction = $scope.adData.inventory.domainAction;
+                        // TODO: Save Inventory Domain Lists
+                        postAdDataObj.selectedList = $scope.workflowData.selectedList;
                     }
 
                     if (!$scope.TrackingIntegrationsSelected) {
@@ -1262,7 +1264,7 @@ var angObj = angObj || {};
                         }
                         postAdDataObj.adPlatformCustomInputs = $scope.postPlatformDataObj;
                     }
-
+console.log('postAdDataObj = ', postAdDataObj);
                     campaignOverView.saveAds(postAdDataObj, isDownloadTrackerClicked);
                 }
             }

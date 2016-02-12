@@ -23,16 +23,36 @@ var angObj = angObj || {};
         }
 
         function uploadSuccessCallback (response, status, headers, config) {
-            var inventoryData = $scope.workflowData.inventoryData;
-
+            var inventoryData = $scope.workflowData.inventoryData,
+                selectedLists = $scope.workflowData.selectedLists;
+// FIXED: Working as expected now.
+console.log('inventoryData = ', inventoryData);
+console.log('response = ', response);
+console.log('response.data', response.data);
             _.each(inventoryData, function (obj, idx) {
                 if (obj.id === response.data.id) {
                     inventoryData[idx] = response.data;
                 }
             });
+            _.each(selectedLists, function (obj, idx) {
+                if (obj.id === response.data.id) {
+                    selectedLists[idx] = response.data;
+                }
+            });
 
             $scope.workflowData.inventoryData = inventoryData;
+            $scope.workflowData.selectedLists = selectedLists;
+            if (response.data.domainAction === 'INCLUDE') {
+                $scope.workflowData.selectedWhiteLists = $scope.workflowData.selectedLists;
+            } else {
+                $scope.workflowData.selectedBlackLists = $scope.workflowData.selectedLists;
+            }
+console.log('$scope.workflowData.inventoryData = ', $scope.workflowData.inventoryData);
+console.log('$scope.workflowData.selectedLists = ', $scope.workflowData.selectedLists);
+console.log('$scope.workflowData.selectedBlackLists = ', $scope.workflowData.selectedBlackLists);
+console.log('$scope.workflowData.selectedWhiteLists = ', $scope.workflowData.selectedWhiteLists);
             $scope.adData.inventory = response.data;
+console.log('$scope.adData.inventory = ', $scope.adData.inventory);
             $scope.domainUploadInProgress = false;
             $scope.showDomainListPopup = false;
         }
@@ -61,8 +81,7 @@ var angObj = angObj || {};
                         $scope.inventoryCreate = false;
                     }
 
-                    if (!$scope.adData.inventory) {
-                        $scope.adData.inventory = {};
+                    if (!$scope.adData.inventory.domainAction) {
                         $scope.adData.inventory.domainAction = 'INCLUDE';
                     }
 
@@ -86,7 +105,7 @@ var angObj = angObj || {};
             if (files && files.length) {
                 for (i = 0; i < files.length; i++) {
                     file = files[i];
-
+console.log('$scope.adData.inventory = ', $scope.adData.inventory);
                     if (!file.$error) {
                         Upload
                             .upload({
@@ -192,6 +211,7 @@ console.log('element.parentsUntil() domain-blacklist-wrapper = ', element.parent
                 $scope.workflowData.selectedBlackLists = [];
                 $scope.unselectAllDomainLists('Blacklist');
                 selectedLists = $scope.workflowData.selectedWhiteLists;
+                $scope.adData.inventory.domainAction = 'INCLUDE';
             } else if (element.parentsUntil().hasClass('domain-blacklist-wrapper')) {
                 // Blacklist selected
                 $scope.workflowData.whiteListsSelected = false;
@@ -199,6 +219,7 @@ console.log('element.parentsUntil() domain-blacklist-wrapper = ', element.parent
                 $scope.workflowData.selectedWhiteLists = [];
                 $scope.unselectAllDomainLists('Whitelist');
                 selectedLists = $scope.workflowData.selectedBlackLists;
+                $scope.adData.inventory.domainAction = 'EXCLUDE';
             }
 
             process(selectedLists);
@@ -214,6 +235,7 @@ console.log('element.parentsUntil() domain-blacklist-wrapper = ', element.parent
                         return domainList.name === event.currentTarget.value;
                     });
                     selectedLists[selectedLists.length] = currentDomainList[0];
+console.log('CURRENTDOMAINLIST = ', currentDomainList[0]);
                     $scope.adData.inventory.domainList = currentDomainList[0].domainList;
                     console.log('selectedLists = ', selectedLists);
                     console.log('$scope.adData.inventory.domainList = ', $scope.adData.inventory.domainList);
@@ -284,17 +306,19 @@ console.log('$scope.adData.inventory.domainList = ', $scope.adData.inventory.dom
             var temp;
 
             $scope.toggleBtn(event);
-            console.log('Inside displaySelectedDomainList(), = event = ', event);//$scope.adData.inventory.domainList);
+            //console.log('Inside displaySelectedDomainList(), event = ', event);
             console.log('event.currentTarget.value = ', event.currentTarget.value);
-            console.log('$scope.adData.inventory.domainList = ', $scope.adData.inventory.domainList);
             console.log('$scope.workflowData.selectedLists = ', $scope.workflowData.selectedLists);
             // TODO: Update value of $scope.adData.inventory.domainList
             temp = _.filter($scope.workflowData.selectedLists, function (domainList) {
                 return domainList.name === event.currentTarget.value;
             });
-            $scope.adData.inventory.domainList = temp[0].domainList;
+            $scope.adData.listName = temp[0].name;
+            $scope.adData.inventory = temp[0];
             console.log('temp = ', temp);
             console.log('temp.domainList = ', temp[0].domainList);
+            console.log('$scope.adData.listName = ', $scope.adData.listName);
+            console.log('$scope.adData.inventory = ', $scope.adData.inventory);
         };
     });
 })();
