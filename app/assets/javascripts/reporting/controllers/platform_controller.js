@@ -97,6 +97,7 @@ var angObj = angObj || {};
                 param.dateFilter = "life_time";
                 if (Number($scope.selectedStrategy.id) >= 0) {
                     param.queryId = 41;
+                    param.strategyId = Number($scope.selectedStrategy.id);
                 } else {
                     param.queryId = 40;
                 }
