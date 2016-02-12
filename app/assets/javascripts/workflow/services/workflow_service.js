@@ -268,7 +268,7 @@
             getCreatives: function (clientId, advertiserId, formats, query, cacheObj, integrationTracking) {
                 var queryStr = query ? query : '',
                     creativeFormats = formats ? '?creativeFormat=' + formats : '',
-                    integration_Tracking = integrationTracking ? '&tracking=true' : '',
+                    integration_Tracking = integrationTracking ? '&tracking=true' : '&tracking=false',
                     url = apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/advertisers/' + advertiserId + '/creatives' +
                         creativeFormats + queryStr + integration_Tracking;
 
