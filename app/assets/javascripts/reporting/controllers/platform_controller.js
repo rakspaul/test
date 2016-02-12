@@ -96,7 +96,7 @@ var angObj = angObj || {};
             if ($scope.selected_tab === "margin") {
                 param.dateFilter = "life_time";
                 if (Number($scope.selectedStrategy.id) >= 0) {
-                    param.queryId = 41;//change this once API is available
+                    param.queryId = 41;
                 } else {
                     param.queryId = 40;
                 }
