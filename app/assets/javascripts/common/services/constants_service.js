@@ -601,8 +601,9 @@
 
         this.CHANGE_PLATFORM_MESSAGE =
             'Your entries for the following settings are not compatible with [Platform Name]: [Settings list]. ' +
-            'Would you like to clear these settings and switch platforms? (OK/Cancel).';
+            'Would you like to clear these settings and switch platforms?.';
         this.ARCHIVE_MESSAGE = 'Do you want to Archive / Delete the Ad?';
+
 
         this.TIMEZONE_UK = 'Europe/London';
         this.TIMEZONE_US = 'America/New_York';

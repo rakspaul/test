@@ -165,68 +165,6 @@ var angObj = angObj || {};
             previewObj.exclude =  {'count' : excludeCount, 'label' : excludeLabel.join(' ')};
 
             $scope.geoTargetingPreviewObj = previewObj;
-
-        };
-
-        _targeting.showgeoTargetingInfo = function(adData) {
-            var data = adData.targets ? adData.targets.geoTargets : adData;
-            var previewObj = {}
-            var includedCount = 0;
-            var excludeCount = 0;
-            var includeLabel = [];
-            var excludeLabel = [];
-            var str='';
-            if(data.REGION && data.REGION.geoTargetList.length >0) {
-                if(data.REGION.isIncluded) {
-                    includedCount = data.REGION.geoTargetList.length;
-                    str =  data.REGION.geoTargetList.length + ' Region' + ((data.REGION.geoTargetList.length > 1) ? 's' : '') ;
-                    includeLabel.push(str);
-                } else {
-                    excludeCount = data.REGION.geoTargetList.length;
-                    str = data.REGION.geoTargetList.length + ' Region' + ((data.REGION.geoTargetList.length > 1) ? 's' : '') ;
-                    excludeLabel.push(str);
-                }
-
-            }
-            if(data.DMA && data.DMA.geoTargetList.length > 0) {
-                if (data.DMA.isIncluded) {
-                    includedCount += data.DMA.geoTargetList.length;
-                    str = data.DMA.geoTargetList.length + ' Metro' + ((data.DMA.geoTargetList.length > 1) ? 's' : '') ;
-                    includeLabel.push(str);
-                } else {
-                    excludeCount += data.DMA.geoTargetList.length;
-                    str = data.DMA.geoTargetList.length + ' Metro' + ((data.DMA.geoTargetList.length > 1) ? 's' : '') ;
-                    excludeLabel.push(str);
-                }
-            }
-            if(data.CITY &&  data.CITY.geoTargetList.length >0) {
-                if(data.CITY.isIncluded) {
-                    includedCount += data.CITY.geoTargetList.length;
-                    str = data.CITY.geoTargetList.length +  ((data.CITY.geoTargetList.length > 1) ? ' Cities' : ' City') ;
-                    includeLabel.push(str);
-                } else {
-                    excludeCount += data.CITY.geoTargetList.length;
-                    str = data.CITY.geoTargetList.length +  ((data.CITY.geoTargetList.length > 1) ? ' Cities' : ' City') ;
-                    excludeLabel.push(str);
-                }
-            }
-
-            if(data.ZIP_CODE && data.ZIP_CODE.geoTargetList.length >0) {
-                if(data.ZIP_CODE.isIncluded) {
-                    includedCount += data.ZIP_CODE.geoTargetList.length;
-                    str = data.ZIP_CODE.geoTargetList.length + ' Postal Code' + ((data.ZIP_CODE.geoTargetList.length > 1) ? 's' : '') ;
-                    includeLabel.push(str);
-                } else {
-                    excludeCount += data.ZIP_CODE.geoTargetList.length;
-                    str = data.ZIP_CODE.geoTargetList.length + ' Postal Code' + ((data.ZIP_CODE.geoTargetList.length > 1) ? 's' : '') ;
-                    excludeLabel.push(str);
-                }
-            }
-
-            previewObj.include =  {'count' : includedCount, 'label' : includeLabel.join(' ')};
-            previewObj.exclude =  {'count' : excludeCount, 'label' : excludeLabel.join(' ')};
-
-            $scope.geoTargetingPreviewObj = previewObj;
         };
 
 
