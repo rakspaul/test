@@ -326,7 +326,7 @@ var angObj = angObj || {};
                 i;
 
             //when category is selected
-            if (type === 'category') {
+            if (type === 'category') { //please dont remove code we need in future
                 //index = _.findIndex($scope.audienceCategories, function (item) {
                 //    return item.category === categoryObj.category;
                 //});

@@ -69,11 +69,10 @@
                             <span data-ng-bind="textConstants.FLIGHTPAR"></span>
                         </div>
                     </div>
-                    <!-- <div class="statusLabel" ng-if="(adData.unitCost !==''  &&  adData.unitType.name)"> -->
                     <div class="statusLabel" ng-if="(adData.unitCost)">
                         <div class="col-md-12">
                             <span style="margin-right: 5px;" data-ng-bind="locale.NUMBER_FORMATS.CURRENCY_SYM"></span>
-                            <span ng-bind="adData.unitCost | number + ' ' + adData.unitType.name ? adData.unitType.name : 'CPM'"></span>
+                            <span ng-bind="(adData.unitCost | number) + ' ' + (adData.unitType.name ? adData.unitType.name : 'CPM')"></span>
                             <span data-ng-bind="textConstants.UNITCOSTPAR"></span>
                         </div>
                     </div>
