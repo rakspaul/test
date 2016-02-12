@@ -12,6 +12,8 @@ var angObj = angObj || {};
                     .then(function (result) {
                         $scope.workflowData.inventoryData = result.data.data;
                         if ($scope.mode === 'edit') {
+                            $scope.workflowData.savedDomainListIds = $scope.getAd_result.targets.domainTargets.inheritedList.ADVERTISER;
+                            $scope.workflowData.savedDomainAction = $scope.getAd_result.domainAction;
                             $scope.$broadcast('updateInventory');
                         }
                     });
@@ -94,14 +96,14 @@ console.log('$scope.adData.inventory = ', $scope.adData.inventory);
                 files = $scope.files,
                 i,
                 file;
-
+console.log('INVENTORYcREATE = ', $scope.inventoryCreate);
             // If called from Inventory Create New button click, pass without domain Id
             if ($scope.inventoryCreate) {
                 domainId = null;
                 // Reset the flag variable
                 $scope.inventoryCreate = false;
             }
-
+console.log('domainId = ', domainId);
             if (files && files.length) {
                 for (i = 0; i < files.length; i++) {
                     file = files[i];
@@ -171,7 +173,11 @@ console.log('$scope.workflowData.inventoryData = ', $scope.workflowData.inventor
         $scope.workflowData.selectedLists = [];
         $scope.workflowData.whiteListsSelected = false;
         $scope.workflowData.blackListsSelected = false;
-
+        $scope.workflowData.savedDomainListIds = [];
+            //($scope.mode === 'edit') ? $scope.getAd_result.targets.domainTargets.inheritedList.ADVERTISER : [];
+        $scope.workflowData.savedDomainAction = '';//$scope.mode === 'edit' ? $scope.getAd_result.domainAction : '';
+console.log('$scope.workflowData.savedDomainListIds = ', $scope.workflowData.savedDomainListIds);
+console.log('$scope.workflowData.savedDomainAction = ', $scope.workflowData.savedDomainAction);
         $scope.showDomainListDropdown = function () {
             $('#domain-list-dropdown').css('display', 'block');
         };
@@ -191,16 +197,15 @@ console.log('$scope.workflowData.inventoryData = ', $scope.workflowData.inventor
                 $scope.workflowData.selectedWhiteLists = [];
                 $scope.workflowData.selectedBlackLists = [];
                 $scope.workflowData.selectedLists = [];
+                $scope.adData.inventory = {};
                 $scope.hideDomainListDropdown();
             }
-
-            $scope.adData.inventory.name = '';
         };
 
         $scope.selectDomainList = function (event) {
             var element = $(event.currentTarget),
                 selectedLists;
-console.log('element.parentsUntil() domain-blacklist-wrapper = ', element.parentsUntil().hasClass('domain-blacklist-wrapper'));
+
             // Force to keep the domain list dropdown open
             $scope.showDomainListDropdown();
 
@@ -211,7 +216,6 @@ console.log('element.parentsUntil() domain-blacklist-wrapper = ', element.parent
                 $scope.workflowData.selectedBlackLists = [];
                 $scope.unselectAllDomainLists('Blacklist');
                 selectedLists = $scope.workflowData.selectedWhiteLists;
-                $scope.adData.inventory.domainAction = 'INCLUDE';
             } else if (element.parentsUntil().hasClass('domain-blacklist-wrapper')) {
                 // Blacklist selected
                 $scope.workflowData.whiteListsSelected = false;
@@ -219,13 +223,13 @@ console.log('element.parentsUntil() domain-blacklist-wrapper = ', element.parent
                 $scope.workflowData.selectedWhiteLists = [];
                 $scope.unselectAllDomainLists('Whitelist');
                 selectedLists = $scope.workflowData.selectedBlackLists;
-                $scope.adData.inventory.domainAction = 'EXCLUDE';
             }
 
             process(selectedLists);
 
             function process(selectedLists) {
-                var currentDomainList;
+                var currentDomainList,
+                    totalSelected;
 
                 // Select / Unselect the current domain list
                 if (element.attr('checked') !== 'checked') {
@@ -235,19 +239,20 @@ console.log('element.parentsUntil() domain-blacklist-wrapper = ', element.parent
                         return domainList.name === event.currentTarget.value;
                     });
                     selectedLists[selectedLists.length] = currentDomainList[0];
-console.log('CURRENTDOMAINLIST = ', currentDomainList[0]);
-                    $scope.adData.inventory.domainList = currentDomainList[0].domainList;
-                    console.log('selectedLists = ', selectedLists);
-                    console.log('$scope.adData.inventory.domainList = ', $scope.adData.inventory.domainList);
-                    console.log('$scope.workflowData.selectedWhiteLists = ', $scope.workflowData.selectedWhiteLists);
-                    console.log('$scope.workflowData.selectedBlackLists = ', $scope.workflowData.selectedBlackLists);
+                    $scope.adData.inventory = currentDomainList[0];
                 } else {
                     element.removeAttr('checked');
-                    // Remove the current domain list
-                    selectedLists = _.filter(selectedLists, function (domainList) {
-                        return domainList.name !== event.currentTarget.value;
-                    });
-                    $scope.adData.inventory.domainList = selectedLists.length ? selectedLists[0].domainList : [];
+                    totalSelected = $('#domain-list-dropdown').find('input[type="checkbox"][checked="checked"]').length;
+                    if (totalSelected) {
+                        // Remove the current domain list
+                        selectedLists = _.filter(selectedLists, function (domainList) {
+                            return domainList.name !== event.currentTarget.value;
+                        });
+                        $scope.adData.inventory = selectedLists.length ? selectedLists[0] : {};
+                    } else {
+                        $scope.adData.inventory = {};
+                        selectedLists = [];
+                    }
                 }
 
                 // Sort selected Domain Lists in alphabetical order
@@ -259,22 +264,11 @@ console.log('CURRENTDOMAINLIST = ', currentDomainList[0]);
                 } else if ($scope.workflowData.blackListsSelected) {
                     $scope.workflowData.selectedBlackLists = selectedLists;
                 }
-
                 $scope.workflowData.selectedLists = selectedLists;
-                console.log('selectedLists = ', selectedLists);
-                console.log('$scope.workflowData.selectedWhiteLists = ', $scope.workflowData.selectedWhiteLists);
-                console.log('$scope.workflowData.selectedBlackLists = ', $scope.workflowData.selectedBlackLists);
-                console.log('$scope.workflowData.selectedLists = ', $scope.workflowData.selectedLists);
 
                 // Update selected Inventory / Domain List name
                 // NOTE: When multiple are selected, the first is the default.
-                $scope.adData.inventory.name = selectedLists.length > 0 ? selectedLists[0].name : '';
-                console.log('$scope.adData.inventory.name = ', $scope.adData.inventory.name);
-
-                console.log('After sorting...');
-                selectedLists = _.each(selectedLists, function (el) {
-                    console.log(el.name);
-                });
+                $scope.adData.inventory = selectedLists.length ? selectedLists[0] : {};
             }
         };
 
@@ -287,16 +281,18 @@ console.log('CURRENTDOMAINLIST = ', currentDomainList[0]);
         };
 
         $scope.doneDomainListsSelection = function () {
-            if ($scope.workflowData.selectedLists.length) {
+            var totalSelected = $('#domain-list-dropdown').find('input[type="checkbox"][checked="checked"]').length;
+
+            if (totalSelected) {
                 // Process selected domain lists
-                $scope.adData.inventory.domainList = $scope.workflowData.selectedLists[0].domainList;
-                console.log($scope.workflowData.selectedLists.length + ' lists selected');
+                $scope.adData.inventory = $scope.workflowData.selectedLists[0];
             } else {
                 // No Domain List selected
                 console.log('No list selected');
-                //$scope.adData.inventory.domainList = [];
+                $scope.adData.inventory = {};
+                $scope.workflowData.selectedLists = [];
             }
-console.log('$scope.adData.inventory.domainList = ', $scope.adData.inventory.domainList);
+
             // TODO: Why is this guy not working???!!!
             // $scope.dropBoxItemSelected($scope.workflowData.selectedLists, 'inventory');
             $scope.hideDomainListDropdown();

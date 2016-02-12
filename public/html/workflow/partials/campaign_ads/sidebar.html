@@ -73,7 +73,7 @@
                     <div class="statusLabel" ng-if="(adData.unitCost)">
                         <div class="col-md-12">
                             <span style="margin-right: 5px;" data-ng-bind="locale.NUMBER_FORMATS.CURRENCY_SYM"></span>
-                            <span ng-bind="adData.unitCost | number + ' ' + adData.unitType.name ? adData.unitType.name : 'CPM'"></span>
+                            <span ng-bind="(adData.unitCost | number) + ' ' + (adData.unitType.name ? adData.unitType.name : 'CPM')"></span>
                             <span data-ng-bind="textConstants.UNITCOSTPAR"></span>
                         </div>
                     </div>
@@ -170,7 +170,9 @@
                         </div>
                     </div-->
                     <div class="statusLabel disabled"
-                         ng-if="(!workflowData.selectedWhiteLists.length && !workflowData.selectedBlackLists.length) ||
+                         ng-if="(!workflowData.selectedWhiteLists.length &&
+                                    !workflowData.selectedBlackLists.length &&
+                                    !workflowData.savedDomainListIds.length) ||
                                 TrackingIntegrationsSelected">
                          <div class="col-md-12">
                              <span style="color: #000;" data-ng-bind="textConstants.NOTSET">Not Set</span>
@@ -190,6 +192,14 @@
                             <span ng-bind="workflowData.selectedBlackLists.length > 1 ?
                                         workflowData.selectedBlackLists.length + ' BlackLists' :
                                         'Blacklist'"></span>
+                        </div>
+                    </div>
+                    <div class="statusLabel disabled"
+                         ng-if="(workflowData.savedDomainListIds.length > 0) && !TrackingIntegrationsSelected">
+                        <div class="col-md-12">
+                            <span ng-bind="workflowData.savedDomainListIds.length > 1 ?
+                                        workflowData.savedDomainListIds.length + ' black or white Lists' :
+                                        'black or white list'"></span>
                         </div>
                     </div>
                 </div>
