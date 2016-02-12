@@ -261,32 +261,29 @@ var angObj = angObj || {};
         $scope.createDownloadReportUrl = function () {
             $scope.download_report = [
                 {
-                    'url' : '/reportBuilder/reportDownload',
+                    'url': '/reportBuilder/customQueryDownload',
                     'query_id': 29,
-                    'report_type' : 'screen_format',
-                    'report_cat' : 'performance',
-                    'label' : 'Performance by Screens & Formats',
+                    'label': 'Performance by Screens & Formats',
+                    'download_config_id': 1
+
                 },
                 {
-                    'url' : '/reportBuilder/reportDownload',
+                    'url': '/reportBuilder/customQueryDownload',
                     'query_id': 19,
-                    'report_type' : 'ad_size',
-                    'report_cat' : 'performance',
-                    'label' : 'Performance by Ad Sizes',
+                    'label': 'Performance by Ad Sizes',
+                    'download_config_id': 1
                 },
                 {
-                    'url' : '/reportBuilder/reportDownload',
+                    'url' : '/reportBuilder/customQueryDownload',
                     'query_id': 20,
-                    'report_type' : 'creatives',
-                    'report_cat' : 'performance',
                     'label' : 'Performance by Creatives',
+                    'download_config_id': 1
                 },
                 {
-                    'url' : '/reportBuilder/reportDownload',
+                    'url' : '/reportBuilder/customQueryDownload',
                     'query_id': 21,
-                    'report_type' : 'days_of_week',
-                    'report_cat' : 'performance',
                     'label' : 'Performance by Days Of Week',
+                    'download_config_id': 1
                 }
             ];
         };

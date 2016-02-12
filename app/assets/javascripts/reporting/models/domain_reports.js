@@ -192,10 +192,15 @@
                         advertiserId : advertiserModel.getSelectedAdvertiser().id,
                         brandId : brandsModel.getSelectedBrand().id,
                         dateFilter: $scope.selected_filters.time_filter,
-                        adGroupId : $scope.selectedStrategy.id,
+
                         download_config_id : report.download_config_id
                     }
-                    console.log("queryObj", queryObj);
+
+                    if(queryObj.queryId !==29) {
+                        queryObj['adGroupId'] = $scope.selectedStrategy.id;
+                    }
+
+
                     var report_url = urlService.APIVistoCustomQuery(queryObj);
                     if(report.report_cat && report.report_type) {
                         report_url += "&report_cat=" + report.report_cat + "&report_type=" + report.report_type;
