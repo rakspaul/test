@@ -997,7 +997,8 @@ var angObj = angObj || {};
                 segmentObj,
                 dayPart,
                 domainTargetObj,
-                i;
+                i,
+                domainListIds = [];
 
             formData = _.object(_.pluck(formData, 'name'), _.pluck(formData, 'value'));
 
@@ -1192,9 +1193,17 @@ var angObj = angObj || {};
                         }
                     }
 
+                    // Inventory filters section
+                    _.each($scope.workflowData.selectedLists, function (value, key) {
+                        console.log('value = ', value, ', key = ', key);
+                        domainListIds[domainListIds.length] = value.domainListId;
+                    });
+
                     if ($scope.adData.inventory && !$scope.TrackingIntegrationsSelected) {
                         domainTargetObj = postAdDataObj.targets.domainTargets = {};
-                        domainTargetObj.inheritedList = {'ADVERTISER': $scope.adData.inventory.domainListId};
+                        domainTargetObj.inheritedList = {
+                            'ADVERTISER': domainListIds
+                        };
                         postAdDataObj.domainInherit = 'APPEND';
                         postAdDataObj.domainAction = $scope.adData.inventory.domainAction;
                     }
