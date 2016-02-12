@@ -122,7 +122,7 @@
                  var test_height = parseInt($(this).height())+1;
                  $(this).height(test_height);
              }
-             if($(this).scrollTop() + $(this).innerHeight() >= $(this)[0].scrollHeight) {
+             if(!$scope.campaigns.busy && ($(this).scrollTop() + $(this).innerHeight() >= $(this)[0].scrollHeight)) {
                  $scope.campaigns.fetchData();
              }
          });

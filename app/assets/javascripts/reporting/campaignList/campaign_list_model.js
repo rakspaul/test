@@ -210,6 +210,15 @@
                             });
                         }
                     },
+                    hasCampaignId = function(campaignData, id){
+                        var retVal = false;
+                        _.each(campaignData,function(item){
+                            if(item.id == id){
+                                retVal = true;
+                            }
+                        });
+                        return retVal;
+                    },
                     fetchCostBreakdown = function() {
                         findScrollerFromContainer.call(this);
                         if ((this.dashboard.filterTotal > 0) && (this.scrollFlag > 0)) {
@@ -239,7 +248,9 @@
                                     var cdbApiKey = timePeriodApiMapping(self.selectedTimePeriod.key);
                                     var campaignData = campaignListService.setActiveInactiveCampaigns(data.orders, timePeriodApiMapping(self.timePeriod), self.periodStartDate, self.periodEndDate)
                                     angular.forEach(campaignData, function(campaign) {
-                                        this.push(campaign);
+                                        if(!hasCampaignId(this, campaign.id)) {
+                                            this.push(campaign);
+                                        }
                                         self.costIds += campaign.orderId + ',';
                                         compareCostDates.call(self, campaign.startDate, campaign.endDate);
                                         if (campaign.kpi_type == 'null') {
