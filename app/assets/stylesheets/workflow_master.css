@@ -178,6 +178,9 @@ select {
 }
 .dropdown-workflow .btn-default .text {
   float: left;
+  width: 90%;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .dropdown-workflow .btn-default:not(.label-btn):hover {
   background-color: #E1EDF9 !important;

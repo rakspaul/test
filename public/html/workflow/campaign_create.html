@@ -421,8 +421,8 @@
 									<div class="col-md-3 zeroPadding kpiTable">
 										<div class="col-md-12 zeroPadding dropdown-workflow">
 											<div class="dropdown">
-												<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ng-bind="Campaign.kpiArr[$index]['kpiType'] | displayToCamelCase">
-													<!--<span class="text">{{Campaign.kpiArr[$index]['kpiType'] | toCamelCase}}</span>-->
+												<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" >
+													<span class="text" ng-bind="Campaign.kpiArr[$index]['kpiType'] | displayToCamelCase"></span>
 													<span class="icon-arrow-down" ></span>
 												</button>
 												<ul class="dropdown-menu" aria-labelledby="selectKPI"  id="selectKPI">
@@ -458,7 +458,8 @@
 
 										<div class="col-md-12 zeroPadding dropdown-workflow">
 											    <div class="dropdown">
-                                                    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ng-bind="Campaign.kpiArr[$index]['vendorName']">
+                                                    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" >
+                                                    	<span class="text" ng-bind="Campaign.kpiArr[$index]['vendorName']"></span>
                                                         <span class="icon-arrow-down"></span>
                                                     </button>
                                                     <ul class="dropdown-menu" aria-labelledby="selectKPI"  id="selectKPI">
@@ -546,7 +547,8 @@
 									<div class="col-md-12 zeroPadding">
 										<div class="col-md-6 zeroPadding dropdown-workflow">
 											<div class="dropdown">
-												<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ng-bind="Campaign.costArr[$index]['costCategoryName']">
+												<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" >
+													<span class="text" ng-bind="Campaign.costArr[$index]['costCategoryName']" ></span>
 													<span class="icon-arrow-down"></span>
 												</button>
 												<ul class="dropdown-menu" aria-labelledby="selectKPI"  id="selectKPI">
@@ -579,8 +581,8 @@
 
 									<div class="col-md-12 zeroPadding dropdown-workflow">
 										<div class="dropdown">
-											<button class="btn btn-default dropdown-toggle" ng-class="Campaign.costArr[$index]['type']!='fixed'?'':'disabled'" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ng-bind="Campaign.costArr[$index]['rateTypeName']">
-												<!--<span class="text">Select</span>-->
+											<button class="btn btn-default dropdown-toggle" ng-class="Campaign.costArr[$index]['type']!='fixed'?'':'disabled'" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" >
+												<span class="text" ng-bind="Campaign.costArr[$index]['rateTypeName']" ></span>
 												<span class="icon-arrow-down"></span>
 											</button>
 											<ul class="dropdown-menu" aria-labelledby="selectKPI"  id="selectKPI" style="overflow:visible;">
@@ -598,7 +600,8 @@
 
 									<div class="col-md-12 zeroPadding dropdown-workflow">
 										<div class="dropdown">
-											<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ng-bind="Campaign.costArr[$index]['vendorName']">
+											<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" >
+												<span class="text" ng-bind="Campaign.costArr[$index]['vendorName']"></span>
 												<span class="icon-arrow-down"></span>
 											</button>
 											<ul class="dropdown-menu" aria-labelledby="selectKPI"  id="selectKPI">
