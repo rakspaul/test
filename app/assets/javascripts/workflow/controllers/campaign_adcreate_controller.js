@@ -1156,7 +1156,7 @@ var angObj = angObj || {};
                         } else {
                             if($scope.mode === 'edit') {
                                 var adData = angular.copy(workflowService.getAdsDetails());
-                                var postGeoTargetObj = adData.targets.geoTargets;
+                                postGeoTargetObj = adData.targets.geoTargets;
                                 if(postGeoTargetObj.REGION) {
                                     postGeoTargetObj.REGION.geoTargetList = _.pluck(geoTargets.regions.geoTargetList, 'id');
                                 }
