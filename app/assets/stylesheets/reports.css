@@ -4278,6 +4278,7 @@ body.custom_report_page .bodyWrap {
 #newDatePickerBox {
   position: absolute;
   right: -1px;
+  border: solid 0px #BFC9D7;
 }
 #newDatePickerBox button {
   float: right;
@@ -4289,25 +4290,25 @@ body.custom_report_page .bodyWrap {
 #newDatePickerBox .startPicker,
 #newDatePickerBox .endPicker {
   float: left ;
-  border: solid 1px #BFC9D7;
+  border: solid 0px #BFC9D7;
   margin-top: 8px;
-  margin-right: 12px;
+  margin-right: -4px;
   border-radius: 2px;
 }
 #newDatePickerBox .startPicker input,
 #newDatePickerBox .endPicker input {
-  width: 114px;
-  border: 0;
-  border-right: solid 0px #bfc9d7;
+  border: solid 1px #BFC9D7;
+  padding-right: -2px;
+  width: 131px;
 }
 #newDatePickerBox .startPicker #startDateInputGlyph,
 #newDatePickerBox .endPicker #startDateInputGlyph,
 #newDatePickerBox .startPicker #endDateInputGlyph,
 #newDatePickerBox .endPicker #endDateInputGlyph {
   pointer-events: none;
-  left: -17px;
   height: 33px;
   border-left: solid 1px #BFC9D7;
   padding-left: 8px;
   padding-top: 8px;
+  left: -33px;
 }
