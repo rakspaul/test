@@ -44,9 +44,9 @@ var angObj = angObj || {};
                                     // url = vistoconfig.MEDIA_PLANS_LINK;
                                     // $location.url(url);
                                     $scope.redirectFlag = true;
-                                    $timeout(function(){
-                                        $scope.redirectUser(false)
-                                    },4000);
+                                    //$timeout(function(){
+                                    //    $scope.redirectUser(false)
+                                    //},4000);
                                 }
                                 $scope.workflowData.campaignData = responseData;
                                 saveDataInLocalStorage(responseData);
@@ -81,9 +81,9 @@ var angObj = angObj || {};
                                                     // $location.url(url);
                                                     $scope.redirectFlag = true;
                                                     $scope.archivedAdFlag = true;
-                                                    $timeout(function(){
-                                                        $scope.redirectUser(true);
-                                                    },4000);
+                                                    //$timeout(function(){
+                                                    //    $scope.redirectUser(true);
+                                                    //},4000);
                                                 }
                                                 disablePauseEnableResume($scope.getAd_result);
                                                 processEditMode(result);
@@ -128,9 +128,9 @@ var angObj = angObj || {};
                                                 if($scope.getAd_result.isArchived){
                                                     $scope.redirectFlag = true;
                                                     $scope.archivedAdFlag = true;
-                                                    $timeout(function(){
-                                                        $scope.redirectUser(true);
-                                                    },4000);
+                                                    //$timeout(function(){
+                                                    //    $scope.redirectUser(true);
+                                                    //},4000);
                                                 }
                                                 disablePauseEnableResume($scope.getAd_result);
                                                 processEditMode(result);
