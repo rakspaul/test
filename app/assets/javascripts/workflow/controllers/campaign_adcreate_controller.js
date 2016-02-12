@@ -1157,16 +1157,18 @@ var angObj = angObj || {};
                                 var adData = angular.copy(workflowService.getAdsDetails());
                                 var postGeoTargetObj = adData.targets.geoTargets;
                                 if(postGeoTargetObj.REGION) {
-                                    postGeoTargetObj.REGION.geoTargetList = _.pluck(geoTargets.regions.geoTargetList, 'id');
+                                    postGeoTargetObj.REGION.geoTargetList = _.pluck(postGeoTargetObj.REGION.geoTargetList, 'id');
                                 }
                                 if(postGeoTargetObj.CITY) {
-                                    postGeoTargetObj.CITY.geoTargetList = _.pluck(geoTargets.city.geoTargetList, 'id');
+                                    postGeoTargetObj.CITY.geoTargetList = _.pluck(postGeoTargetObj.REGION.geoTargetList, 'id');
                                 }
 
                                 if(postGeoTargetObj.DMA) {
-                                    postGeoTargetObj.DMA.geoTargetList = _.pluck(geoTargets.DMA.geoTargetList, 'id');
+                                    postGeoTargetObj.DMA.geoTargetList = _.pluck(postGeoTargetObj.REGION.geoTargetList, 'id');
                                 }
+                                postAdDataObj.targets.geoTargets = postGeoTargetObj;
                             }
+
                         }
 
                         // audience segment
