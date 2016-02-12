@@ -49,7 +49,7 @@ var angObj = '';
                 
                 .when('/dashboard_2', {
                     templateUrl: assets.html_dashboard_2,
-                    controller: 'DashboardController',
+                    controller: 'DashboardController_2',
                     title : 'Dashboard 2.0',
                     bodyclass : 'dashboard_2',
                     resolve: {}
