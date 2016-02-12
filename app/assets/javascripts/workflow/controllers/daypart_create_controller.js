@@ -3,109 +3,23 @@ var angObj = angObj || {};
     'use strict';
     angObj.controller('daypartController', function ($scope, audienceService, workflowService, $rootScope,$window, $routeParams, 
         constants, $timeout, $location,utils) {
+        var _dayPartTargetting = this;
+
         $scope.Schedule = {
             dayPart: [],
             daytimeArr: []
         };
         
-        audienceService.resetDayPartdata();
+
         $scope.customFlag = false;
         $scope.timeSelected = 'All days and times';
         $scope.modeSet=workflowService.getMode();
         $scope.intermediateChange=false;
-
-        $scope.$on('deleteDayPartTarget',function () {
-            audienceService.resetDayPartdata();
-            audienceService.setDayPartDispObj(null,null);
-            $scope.Schedule.dayPart = [];
-            $scope.Schedule.daytimeArr.length=0;
-            $scope.Schedule.customLength = 0;
-
-            $scope.Schedule.dayTimeSelected(0);
-            audienceService.setDayTimeArr(angular.copy($scope.Schedule.daytimeArr));
-            $scope.adData.isDaypartSelected=null;
-        })
-        $scope.$on('UpdateDayPart',function () {
-            var fetchedObj =  workflowService.getAdsDetails(),
-                scheduleObj;
-
-            if (fetchedObj.targets && fetchedObj.targets.adDaypartTargets && _.size(fetchedObj.targets.adDaypartTargets) > 0) {
-                $scope.setTargeting('Daypart');
-                setTimeZone(fetchedObj.targets.adDaypartTargets.timeZone)
-
-                if (angular.lowercase(fetchedObj.targets.adDaypartTargets.dayTime) === angular.lowercase('Custom Schedule')) {
-                    scheduleObj = fetchedObj.targets.adDaypartTargets.schedule;
-                    $scope.Schedule.daytimeArr.length = 0;
-                    $scope.Schedule.dayPart.length=0;
-                    _.each(scheduleObj, function (obj) {
-                        var i;
-
-                        for (i in obj) {
-                            if (obj[i].length > 0) {
-                                $scope.recreateCustomObj(i,obj[i]);
-                            }
-                        }
-                    });
-                    $scope.Schedule.dayTimeSelected(7);
-                } else {
-                    $scope.dayTimeSelected=fetchedObj.targets.adDaypartTargets.dayTime;
-                    switch($scope.dayTimeSelected) {
-                        case 'All days and times':
-                            $scope.Schedule.dayTimeSelected(0);
-                            break;
-                        case 'Weekday (M-F)':
-                            $scope.Schedule.dayTimeSelected(1);
-                            break;
-                        case 'Weekend (S,S)':
-                            $scope.Schedule.dayTimeSelected(2);
-                            break;
-                        case 'Business hours (M-F, 9:00AM-5:00PM)':
-                            $scope.Schedule.dayTimeSelected(3);
-                            break;
-                        case 'TV Primetime (8:00PM-11:00PM)':
-                            $scope.Schedule.dayTimeSelected(4);
-                            break;
-                        case 'Early Morning (5:00AM-7:00AM)':
-                            $scope.Schedule.dayTimeSelected(5);
-                            break;
-                        case 'Late Night (11:00PM-1:00AM)':
-                            $scope.Schedule.dayTimeSelected(6);
-                            break;
-                    }
-                }
-                setHoursType(fetchedObj.targets.adDaypartTargets.clock)
-
-            }
-
-            $scope.saveDayPart();
-            $scope.getSelectedDays();
-        });
-
-        function setHoursType(clock){
-            // trigger 24/12 hrs
-            if (clock === '24 HR') {
-                angular.element('#24hr').trigger('click');
-            }
-            else {
-                angular.element('#12hr').trigger('click');
-            }
-        }
-
-        function setTimeZone(timeZone){
-            if (angular.lowercase(timeZone) === 'end user') {
-                $('.advertiserClass').parent().removeClass('active');
-                $('.endUserClass').parent().addClass('active');
-                $('.endUserClass').attr('checked', 'checked');
-                $scope.timezoneFormat = angular.lowercase(timeZone);
-            } else {
-                $('.endUserClass').parent().removeClass('active');
-                $('.advertiserClass').parent().addClass('active');
-                $('.advertiserClass').attr('checked', 'checked');
-                $scope.timezoneFormat = angular.lowercase(timeZone);
-            }
-        }
-
         $scope.selectedDays = [];
+        $scope.twelve = true;
+        $scope.clock = '12 hr';
+        $scope.timezoneFormat = 'Advertiser';
+
         $scope.getStartTimes = [
             {time: 0,  twelveHrFormat: '12:00AM', twentyfourHrFormat: '00:00'},
             {time: 1,  twelveHrFormat: '1:00AM',  twentyfourHrFormat: '01:00'},
@@ -161,161 +75,297 @@ var angObj = angObj || {};
             {time: 23, twelveHrFormat: '11:00PM', twentyfourHrFormat: '23:00'}
         ];
 
-        $scope.twelve = true;
-        $scope.clock = '12 hr';
-        $scope.timezoneFormat = 'Advertiser';
+        audienceService.resetDayPartdata();
 
-        $scope.recreateCustomObj = function (day, dayArr) {
-            var obj,
-                i;
+        _dayPartTargetting = {
+            setHoursType : function(clock) {
+                if (clock === '24 HR') { // trigger 24/12 hrs
+                    angular.element('#24hr').trigger('click');
+                }
+                else {
+                    angular.element('#12hr').trigger('click');
+                }
+            },
 
-            switch(day) {
-                case 'Monday':
-                    obj = $scope.convertToScheduleObj('Monday', dayArr);
-                    for (i in obj) {
-                        $scope.Schedule.customLength = $scope.Schedule.customLength + 1;
-                        if (Number(obj[i].edTime) === 24) {
-                            obj[i].stTime = 24;
-                            $scope.Schedule.daytimeArr.push(obj[i]);
-                            $scope.Schedule.dayPart.push(obj[i]);
-                        }else {
-                            $scope.Schedule.daytimeArr.push(obj[i]);
-                            $scope.Schedule.dayPart.push(obj[i]);
+            setTimeZone : function(timeZone) {
+                if (angular.lowercase(timeZone) === 'end user') {
+                    $('.advertiserClass').parent().removeClass('active');
+                    $('.endUserClass').parent().addClass('active');
+                    $('.endUserClass').attr('checked', 'checked');
+                    $scope.timezoneFormat = angular.lowercase(timeZone);
+                } else {
+                    $('.endUserClass').parent().removeClass('active');
+                    $('.advertiserClass').parent().addClass('active');
+                    $('.advertiserClass').attr('checked', 'checked');
+                    $scope.timezoneFormat = angular.lowercase(timeZone);
+                }
+            },
+
+            convertToScheduleObj : function (day, dayArr) {
+                var a = dayArr,
+                    b = dayArr,
+                    c = [],
+                    keys1 = {},
+                    lastKey,
+                    i;
+
+                a.map(function (value, key) {
+                    return a[key] - a[key - 1];
+                }).forEach(function (value, key) {
+                    if (value > 1) {
+                        c.push(key - 1);
+                    }
+                })
+                if (c.length === 0) {
+                    keys1[0] = {};
+                    keys1[0].stTime = a[0];
+                    keys1[0].edTime = a[a.length - 1] + 1;
+                    keys1[0].day = day;
+                    if (keys1[0].edTime === 24 && keys1[0].stTime === 23) {
+                        keys1[0].edTime = 0;
+                    }
+                } else {
+                    for (i = 0; i <= c.length; i++) {
+                        keys1[i] = {};
+                        keys1[i].stTime = b[0];
+                        keys1[i].edTime = a[c[i]] + 1;
+                        keys1[i].day = day;
+                        b.splice(0, c[i] + 1);
+                        if (keys1[i].edTime === 24 && keys1[i].stTime === 23) {
+                            keys1[i].edTime = 0;
                         }
                     }
-                    break;
-                case 'Tuesday':
-                    obj = $scope.convertToScheduleObj('Tuesday', dayArr);
-                    for (i in obj) {
-                        $scope.Schedule.customLength = $scope.Schedule.customLength + 1;
-                        if (Number(obj[i].edTime) === 24) {
-                            obj[i].stTime = 24;
-                            $scope.Schedule.daytimeArr.push(obj[i]);
-                            $scope.Schedule.dayPart.push(obj[i]);
-                        }else {
-                            $scope.Schedule.daytimeArr.push(obj[i]);
-                            $scope.Schedule.dayPart.push(obj[i]);
+
+                    lastKey = Object.keys(keys1).slice(Object.keys(keys1).length - 1)[0];
+                    keys1[lastKey].stTime = a[a.length - 1];
+                    keys1[lastKey].edTime = a[a.length - 1] + 1;
+                    keys1[lastKey].day = day;
+                    if (keys1[lastKey].edTime === 24 && keys1[lastKey].stTime === 23) {
+                        keys1[lastKey].edTime = 0;
+                    }
+                }
+                return keys1;
+            },
+
+            recreateCustomObj : function (day, dayArr) {
+                var obj,
+                    i;
+                switch(day) {
+                    case 'Monday':
+                        obj = _dayPartTargetting.convertToScheduleObj('Monday', dayArr);
+                        for (i in obj) {
+                            $scope.Schedule.customLength = $scope.Schedule.customLength + 1;
+                            if (Number(obj[i].edTime) === 24) {
+                                obj[i].stTime = 24;
+                                $scope.Schedule.daytimeArr.push(obj[i]);
+                                $scope.Schedule.dayPart.push(obj[i]);
+                            }else {
+                                $scope.Schedule.daytimeArr.push(obj[i]);
+                                $scope.Schedule.dayPart.push(obj[i]);
+                            }
+                        }
+                        break;
+                    case 'Tuesday':
+                        obj = _dayPartTargetting.convertToScheduleObj('Tuesday', dayArr);
+                        for (i in obj) {
+                            $scope.Schedule.customLength = $scope.Schedule.customLength + 1;
+                            if (Number(obj[i].edTime) === 24) {
+                                obj[i].stTime = 24;
+                                $scope.Schedule.daytimeArr.push(obj[i]);
+                                $scope.Schedule.dayPart.push(obj[i]);
+                            }else {
+                                $scope.Schedule.daytimeArr.push(obj[i]);
+                                $scope.Schedule.dayPart.push(obj[i]);
+                            }
+                        }
+                        break;
+                    case 'Wednesday':
+                        obj = _dayPartTargetting.convertToScheduleObj('Wednesday', dayArr);
+                        for (i in obj) {
+                            $scope.Schedule.customLength = $scope.Schedule.customLength + 1;
+                            if (Number(obj[i].edTime) === 24) {
+                                obj[i].stTime = 24;
+                                $scope.Schedule.daytimeArr.push(obj[i]);
+                                $scope.Schedule.dayPart.push(obj[i]);
+                            }else {
+                                $scope.Schedule.daytimeArr.push(obj[i]);
+                                $scope.Schedule.dayPart.push(obj[i]);
+                            }
+                        }
+                        break;
+                    case 'Thursday':
+                        obj = _dayPartTargetting.convertToScheduleObj('Thursday', dayArr);
+                        for (i in obj) {
+                            $scope.Schedule.customLength = $scope.Schedule.customLength + 1;
+                            if (Number(obj[i].edTime) === 24) {
+                                obj[i].stTime = 24;
+                                $scope.Schedule.daytimeArr.push(obj[i]);
+                                $scope.Schedule.dayPart.push(obj[i]);
+                            }else {
+                                $scope.Schedule.daytimeArr.push(obj[i]);
+                                $scope.Schedule.dayPart.push(obj[i]);
+                            }
+                        }
+                        break;
+                    case 'Friday':
+                        obj = _dayPartTargetting.convertToScheduleObj('Friday', dayArr);
+                        for (i in obj) {
+                            $scope.Schedule.customLength = $scope.Schedule.customLength + 1;
+                            if (Number(obj[i].edTime) === 24) {
+                                obj[i].stTime = 24;
+                                $scope.Schedule.daytimeArr.push(obj[i]);
+                                $scope.Schedule.dayPart.push(obj[i]);
+                            }else {
+                                $scope.Schedule.daytimeArr.push(obj[i]);
+                                $scope.Schedule.dayPart.push(obj[i]);
+                            }
+                        }
+                        break;
+                    case 'Saturday':
+                        obj = _dayPartTargetting.convertToScheduleObj('Saturday', dayArr);
+                        for (i in obj) {
+                            $scope.Schedule.customLength = $scope.Schedule.customLength + 1;
+                            if (Number(obj[i].edTime) === 24) {
+                                obj[i].stTime = 24;
+                                $scope.Schedule.daytimeArr.push(obj[i]);
+                                $scope.Schedule.dayPart.push(obj[i]);
+                            }else {
+                                $scope.Schedule.daytimeArr.push(obj[i]);
+                                $scope.Schedule.dayPart.push(obj[i]);
+                            }
+                        }
+                        break;
+                    case 'Sunday':
+                        obj = _dayPartTargetting.convertToScheduleObj('Sunday', dayArr);
+                        for (i in obj) {
+                            $scope.Schedule.customLength = $scope.Schedule.customLength + 1;
+                            if (Number(obj[i].edTime) === 24) {
+                                obj[i].stTime = 24;
+                                $scope.Schedule.daytimeArr.push(obj[i]);
+                                $scope.Schedule.dayPart.push(obj[i]);
+                            }else {
+                                $scope.Schedule.daytimeArr.push(obj[i]);
+                                $scope.Schedule.dayPart.push(obj[i]);
+                            }
+                        }
+                        break;
+                }
+            },
+
+            generateDayArr : function (day) {
+                var index,
+                    diff,
+                    i;
+
+                $scope.arrName = [];
+                for (i in day) {
+                    if (Number(day[i].stTime) === 24) {
+                        for (index = 0; index < 24; index++) {
+                            $scope.arrName.push(index);
+                        }
+                    } else if (Number(day[i].stTime) === 23) {
+                        $scope.arrName.push(23);
+                    } else if (parseInt(day[i].edTime) > parseInt(day[i].stTime)) {
+                        for (diff = parseInt(day[i].stTime); diff<parseInt(day[i].edTime); diff++) {
+                            $scope.arrName.push(diff);
                         }
                     }
-                    break;
-                case 'Wednesday':
-                    obj = $scope.convertToScheduleObj('Wednesday', dayArr);
-                    for (i in obj) {
-                        $scope.Schedule.customLength = $scope.Schedule.customLength + 1;
-                        if (Number(obj[i].edTime) === 24) {
-                            obj[i].stTime = 24;
-                            $scope.Schedule.daytimeArr.push(obj[i]);
-                            $scope.Schedule.dayPart.push(obj[i]);
-                        }else {
-                            $scope.Schedule.daytimeArr.push(obj[i]);
-                            $scope.Schedule.dayPart.push(obj[i]);
-                       }
-                    }
-                    break;
-                case 'Thursday':
-                    obj = $scope.convertToScheduleObj('Thursday', dayArr);
-                    for (i in obj) {
-                        $scope.Schedule.customLength = $scope.Schedule.customLength + 1;
-                        if (Number(obj[i].edTime) === 24) {
-                            obj[i].stTime = 24;
-                            $scope.Schedule.daytimeArr.push(obj[i]);
-                            $scope.Schedule.dayPart.push(obj[i]);
-                        }else {
-                            $scope.Schedule.daytimeArr.push(obj[i]);
-                            $scope.Schedule.dayPart.push(obj[i]);
-                        }
-                    }
-                    break;
-                case 'Friday':
-                    obj = $scope.convertToScheduleObj('Friday', dayArr);
-                    for (i in obj) {
-                        $scope.Schedule.customLength = $scope.Schedule.customLength + 1;
-                        if (Number(obj[i].edTime) === 24) {
-                            obj[i].stTime = 24;
-                            $scope.Schedule.daytimeArr.push(obj[i]);
-                            $scope.Schedule.dayPart.push(obj[i]);
-                        }else {
-                            $scope.Schedule.daytimeArr.push(obj[i]);
-                            $scope.Schedule.dayPart.push(obj[i]);
-                        }
-                    }
-                    break;
-                case 'Saturday':
-                    obj = $scope.convertToScheduleObj('Saturday', dayArr);
-                    for (i in obj) {
-                        $scope.Schedule.customLength = $scope.Schedule.customLength + 1;
-                        if (Number(obj[i].edTime) === 24) {
-                            obj[i].stTime = 24;
-                            $scope.Schedule.daytimeArr.push(obj[i]);
-                            $scope.Schedule.dayPart.push(obj[i]);
-                        }else {
-                            $scope.Schedule.daytimeArr.push(obj[i]);
-                            $scope.Schedule.dayPart.push(obj[i]);
-                        }
-                    }
-                    break;
-                case 'Sunday':
-                    obj = $scope.convertToScheduleObj('Sunday', dayArr);
-                    for (i in obj) {
-                        $scope.Schedule.customLength = $scope.Schedule.customLength + 1;
-                        if (Number(obj[i].edTime) === 24) {
-                            obj[i].stTime = 24;
-                            $scope.Schedule.daytimeArr.push(obj[i]);
-                            $scope.Schedule.dayPart.push(obj[i]);
-                        }else {
-                            $scope.Schedule.daytimeArr.push(obj[i]);
-                            $scope.Schedule.dayPart.push(obj[i]);
-                        }
-                    }
-                    break;
+                }
+                $scope.arrName = $scope.arrName.filter( function ( item, index, inputArray) {
+                    return inputArray.indexOf(item) === index;
+                });
+                return $scope.arrName;
+            },
+
+            hideDayPartTargetingBox: function () {
+                $('#dayTargeting').delay(300).animate({
+                    left: '100%',
+                    marginLeft: '0px',
+                    opacity: '0.0'
+                }, function () {
+                    $(this).hide();
+                });
+            },
+            showDayPartTargetBox: function () {
+                $('#dayTargeting')
+                    .show()
+                    .delay(300).animate({
+                    left: '50%',
+                    marginLeft: '-461px',
+                    opacity: '1.0'
+                }, 'slow');
             }
+        }
+
+
+        $scope.deleteDayPartTarget = function () {
+            audienceService.resetDayPartdata();
+            audienceService.setDayPartDispObj(null,null);
+            $scope.Schedule.dayPart = [];
+            $scope.Schedule.daytimeArr.length=0;
+            $scope.Schedule.customLength = 0;
+
+            $scope.Schedule.dayTimeSelected(0);
+            audienceService.setDayTimeArr(angular.copy($scope.Schedule.daytimeArr));
+            $scope.adData.isDaypartSelected=null;
+            var fetchedObj = workflowService.getAdsDetails();
+            fetchedObj.targets.adDaypartTargets = [];
+            workflowService.setAdsDetails(fetchedObj);
         };
 
-        $scope.convertToScheduleObj = function (day, dayArr) {
-            var a = dayArr,
-                b = dayArr,
-                c = [],
-                keys1 = {},
-                lastKey,
-                i;
 
-            a.map(function (value, key) {
-                return a[key] - a[key - 1];
-            }).forEach(function (value, key) {
-                if (value > 1) {
-                    c.push(key - 1);
-                }
-            })
-            if (c.length === 0) {
-                keys1[0] = {};
-                keys1[0].stTime = a[0];
-                keys1[0].edTime = a[a.length - 1] + 1;
-                keys1[0].day = day;
-                if (keys1[0].edTime === 24 && keys1[0].stTime === 23) {
-                    keys1[0].edTime = 0;
-                }
-            } else {
-                for (i = 0; i <= c.length; i++) {
-                    keys1[i] = {};
-                    keys1[i].stTime = b[0];
-                    keys1[i].edTime = a[c[i]] + 1;
-                    keys1[i].day = day;
-                    b.splice(0, c[i] + 1);
-                    if (keys1[i].edTime === 24 && keys1[i].stTime === 23) {
-                        keys1[i].edTime = 0;
+        $scope.$on('updateDayPart',function (isRedirectFlag) {
+            var fetchedObj =  workflowService.getAdsDetails(),
+                scheduleObj;
+
+            if (fetchedObj.targets && fetchedObj.targets.adDaypartTargets && _.size(fetchedObj.targets.adDaypartTargets) > 0) {
+                _dayPartTargetting.setTimeZone(fetchedObj.targets.adDaypartTargets.timeZone)
+                if (angular.lowercase(fetchedObj.targets.adDaypartTargets.dayTime) === angular.lowercase('Custom Schedule')) {
+                    scheduleObj = fetchedObj.targets.adDaypartTargets.schedule;
+                    $scope.Schedule.daytimeArr.length = 0;
+                    $scope.Schedule.dayPart.length=0;
+                    _.each(scheduleObj, function (obj) {
+                        var i;
+
+                        for (i in obj) {
+                            if (obj[i].length > 0) {
+                                _dayPartTargetting.recreateCustomObj(i,obj[i]);
+                            }
+                        }
+                    });
+                    $scope.Schedule.dayTimeSelected(7);
+                } else {
+                    $scope.dayTimeSelected = fetchedObj.targets.adDaypartTargets.dayTime;
+                    switch($scope.dayTimeSelected) {
+                        case 'All days and times':
+                            $scope.Schedule.dayTimeSelected(0);
+                            break;
+                        case 'Weekday (M-F)':
+                            $scope.Schedule.dayTimeSelected(1);
+                            break;
+                        case 'Weekend (S,S)':
+                            $scope.Schedule.dayTimeSelected(2);
+                            break;
+                        case 'Business hours (M-F, 9:00AM-5:00PM)':
+                            $scope.Schedule.dayTimeSelected(3);
+                            break;
+                        case 'TV Primetime (8:00PM-11:00PM)':
+                            $scope.Schedule.dayTimeSelected(4);
+                            break;
+                        case 'Early Morning (5:00AM-7:00AM)':
+                            $scope.Schedule.dayTimeSelected(5);
+                            break;
+                        case 'Late Night (11:00PM-1:00AM)':
+                            $scope.Schedule.dayTimeSelected(6);
+                            break;
                     }
                 }
-
-                lastKey = Object.keys(keys1).slice(Object.keys(keys1).length - 1)[0];
-                keys1[lastKey].stTime = a[a.length - 1];
-                keys1[lastKey].edTime = a[a.length - 1] + 1;
-                keys1[lastKey].day = day;
-                if (keys1[lastKey].edTime === 24 && keys1[lastKey].stTime === 23) {
-                    keys1[lastKey].edTime = 0;
-                }
+                _dayPartTargetting.setHoursType(fetchedObj.targets.adDaypartTargets.clock)
             }
-            return keys1;
-        };
+
+            $scope.saveDayPart(isRedirectFlag);
+        });
+
 
         $scope.timeFormat = function (event, time) {
             var target = $(event.target),
@@ -343,7 +393,12 @@ var angObj = angObj || {};
             $scope.timezoneFormat=type;
         };
 
-        $scope.saveDayPart = function () {
+        // Closes Daypart Targeting View
+        $scope.resetDayPartTargetingVariables = function () {
+            _dayPartTargetting.hideDayPartTargetingBox();
+        };
+
+        $scope.saveDayPart = function (isRedirectFlag) {
             var adDaypartTargets = {},
                 sunday,
                 monday,
@@ -361,31 +416,31 @@ var angObj = angObj || {};
             sunday = _.filter($scope.Schedule.dayPart, function (obj) { 
                 return obj.day === 'Sunday';
             });
-            $scope.Sunday = $scope.generateDayArr(sunday);
+            $scope.Sunday = _dayPartTargetting.generateDayArr(sunday);
             monday = _.filter($scope.Schedule.dayPart, function (obj) { 
                 return obj.day === 'Monday';
             });
-            $scope.Monday = $scope.generateDayArr(monday);
+            $scope.Monday = _dayPartTargetting.generateDayArr(monday);
             tuesday = _.filter($scope.Schedule.dayPart, function (obj) { 
                 return obj.day === 'Tuesday';
             });
-            $scope.Tuesday = $scope.generateDayArr(tuesday);
+            $scope.Tuesday = _dayPartTargetting.generateDayArr(tuesday);
             wednesday = _.filter($scope.Schedule.dayPart, function (obj) { 
                 return obj.day === 'Wednesday';
             });
-            $scope.Wednesday = $scope.generateDayArr(wednesday);
+            $scope.Wednesday = _dayPartTargetting.generateDayArr(wednesday);
             thursday = _.filter($scope.Schedule.dayPart, function (obj) { 
                 return obj.day === 'Thursday';
             });
-            $scope.Thursday = $scope.generateDayArr(thursday);
+            $scope.Thursday = _dayPartTargetting.generateDayArr(thursday);
             friday = _.filter($scope.Schedule.dayPart, function (obj) { 
                 return obj.day === 'Friday';
             });
-            $scope.Friday = $scope.generateDayArr(friday);
+            $scope.Friday = _dayPartTargetting.generateDayArr(friday);
             saturday = _.filter($scope.Schedule.dayPart, function (obj) { 
                 return obj.day === 'Saturday';
             });
-            $scope.Saturday = $scope.generateDayArr(saturday);
+            $scope.Saturday = _dayPartTargetting.generateDayArr(saturday);
             // Add custom day array to dayPart Object
             adDaypartTargets.schedule={
                 'Sunday':$scope.Sunday,
@@ -405,21 +460,22 @@ var angObj = angObj || {};
                     $scope.Schedule.dayPart[i].endTime =  $scope.returnTime($scope.Schedule.dayPart[i].edTime);
                 }
             }
-            var a = angular.copy($scope.Schedule.dayPart);
-            var b= angular.copy($scope.dayTimeSelected);
-            audienceService.setDayPartDispObj(a,b);
-            var c= angular.copy(adDaypartTargets);
-            audienceService.setDayPartData(c);
-            var d= angular.copy($scope.Schedule.daytimeArr);
-            audienceService.setDayTimeArr(d);
+            var dayPart = angular.copy($scope.Schedule.dayPart);
+            var dayTimeSelected= angular.copy($scope.dayTimeSelected);
+            audienceService.setDayPartDispObj(dayPart,dayTimeSelected);
+            var adDaypartTargets= angular.copy(adDaypartTargets);
+            audienceService.setDayPartData(adDaypartTargets);
+            var daytimeArr= angular.copy($scope.Schedule.daytimeArr);
+            audienceService.setDayTimeArr(daytimeArr);
 
-            localStorage.setItem("dayPart", JSON.stringify(a));
-            localStorage.setItem("dayTimeSelected", JSON.stringify(b));
-            localStorage.setItem("adDaypartTargets", JSON.stringify(c));
-            localStorage.setItem("daytimeArr", JSON.stringify(d));
+            localStorage.setItem("dayPart", JSON.stringify(dayPart));
+            localStorage.setItem("dayTimeSelected", JSON.stringify(dayTimeSelected));
+            localStorage.setItem("adDaypartTargets", JSON.stringify(adDaypartTargets));
+            localStorage.setItem("daytimeArr", JSON.stringify(daytimeArr));
 
-            $scope.getSelectedDays();
-            $scope.resetDayTargetingVariables();
+            $scope.$parent.saveDayPartForPreview();
+            if(!isRedirectFlag)
+                _dayPartTargetting.hideDayPartTargetingBox();
         };
 
         $scope.selectday = function (index,day) {
@@ -443,31 +499,6 @@ var angObj = angObj || {};
         $scope.changeDayTime = function () {
             $scope.dayTimeSelected = 'Custom schedule';
             $scope.customFlag = true;
-        };
-
-        $scope.generateDayArr = function (day) {
-            var index,
-                diff,
-                i;
-
-            $scope.arrName = [];
-            for (i in day) {
-                if (Number(day[i].stTime) === 24) {
-                    for (index = 0; index < 24; index++) {
-                        $scope.arrName.push(index);
-                    }
-                } else if (Number(day[i].stTime) === 23) {
-                    $scope.arrName.push(23);
-                } else if (parseInt(day[i].edTime) > parseInt(day[i].stTime)) {
-                    for (diff = parseInt(day[i].stTime); diff<parseInt(day[i].edTime); diff++) {
-                        $scope.arrName.push(diff);
-                    }
-                }
-            }
-            $scope.arrName = $scope.arrName.filter( function ( item, index, inputArray) {
-                return inputArray.indexOf(item) === index;
-            });
-            return $scope.arrName;
         };
 
         $scope.addMoreCustom = function () {
@@ -706,10 +737,6 @@ var angObj = angObj || {};
             $scope.dayTimeSelected = [];
             $scope.Schedule.daytimeArr = [];
 
-            //var daypartObj = audienceService.getDaytimeObj();
-            //var selectedDayTime = audienceService.getDayTimeSelectedObj()
-            //var dayTimeArr = audienceService.getDayTimeArr();
-
             var daypartObj = JSON.parse(localStorage.getItem("dayPart"));
             var selectedDayTime = JSON.parse(localStorage.getItem("dayTimeSelected"));
             var dayTimeArr = JSON.parse(localStorage.getItem("daytimeArr"));
@@ -718,11 +745,14 @@ var angObj = angObj || {};
                 $scope.dayTimeSelected = selectedDayTime;
 
             var previouslySavedData = audienceService.getDayPartdata();
-            if(daypartObj)
+            if(daypartObj) {
                 $scope.Schedule.dayPart = daypartObj;
+            }
 
-            if(dayTimeArr)
+            if(dayTimeArr) {
                 $scope.Schedule.daytimeArr = dayTimeArr;
+            }
+
             if(!daypartObj && !selectedDayTime && !dayTimeArr){
                 $scope.timeSelected = 'All days and times';
                 $scope.Schedule.dayTimeSelected(0)
@@ -734,8 +764,15 @@ var angObj = angObj || {};
                 },200)
                 setTimeZone(previouslySavedData.timeZone);
             }
+        })
 
-
+        $scope.$on('triggerDayPart', function() {
+            var moduleDeleted = workflowService.getDeleteModule();
+            if(_.indexOf(moduleDeleted, 'dayParting') !== -1) {
+                audienceService.resetDayPartdata();
+                $scope.deleteDayPartTarget();
+            }
+            _dayPartTargetting.showDayPartTargetBox();
         })
     });
 })();

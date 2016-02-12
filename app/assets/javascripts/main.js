@@ -161,7 +161,8 @@
       'controllers-create_adgroups_controller': {deps: ['controllers-campaign_overview_controller']},
       'controllers-get_adgroups_controller': {deps: ['controllers-campaign_overview_controller']},
       'controllers-campaign_adcreate_controller': {deps: ['controllers-campaign_overview_controller']},
-      'controllers-geo_targetting_controller': {deps: ['controllers-campaign_adcreate_controller']},
+      'controllers-targetting_controller': {deps: ['controllers-campaign_adcreate_controller']},
+      'controllers-geo_targetting_controller': {deps: ['controllers-targetting_controller']},
       'controllers-audience_targetting_controller': {deps: ['controllers-campaign_adcreate_controller']},
       'controllers-daypart_create_controller': {deps: ['controllers-campaign_adcreate_controller']},
       'controllers-creative_controller': {deps: ['controllers-campaign_adcreate_controller']},
@@ -384,6 +385,7 @@
       'controllers-budget_delivery_controller':'workflow/controllers/budget_delivery_controller',
       'controllers-creative_tag_controller':'workflow/controllers/creative_tag_controller',
       'controllers-inventory_filters_controller':'workflow/controllers/inventory_filters_controller',
+      'controllers-targetting_controller' : 'workflow/controllers/targetting_controller',
       'controllers-geo_targetting_controller' : 'workflow/controllers/geo_targetting_controller',
       'controllers-audience_targetting_controller' : 'workflow/controllers/audience_targetting_controller',
       'controllers-daypart_create_controller' : 'workflow/controllers/daypart_create_controller',
@@ -596,10 +598,11 @@
            'controllers-budget_delivery_controller',
            'controllers-creative_tag_controller',
            'controllers-inventory_filters_controller',
+
+           'controllers-targetting_controller',
            'controllers-geo_targetting_controller',
            'controllers-audience_targetting_controller',
            'controllers-daypart_create_controller',
-
 
            'controllers-creative_controller',
            'controllers-creative_list_controller',
@@ -617,7 +620,6 @@
            'controllers-performance_controller',
            'controllers-platform_controller',
            'controllers-custom_report_controller',
-
            'controllers-custom_report_upload_controller',
 
            'directives-strategycard',

@@ -50,10 +50,20 @@
                 if (classification && classification.length > 0)
                 //url += '&classification='+classification;
                     url += '&classifiers=';
+                //this was for old code when user was able to select subcategories
+                //for (var i = 0; i < classification.length; i++) {
+                //    url += classification[i].id;
+                //    if (i + 1 < classification.length)
+                //        url += ',';
+                //}
                 for (var i = 0; i < classification.length; i++) {
-                    url += classification[i].id;
-                    if (i + 1 < classification.length)
-                        url += ',';
+                    for(var j = 0;j < classification[i].subCategories.length;j++){
+                        url += classification[i].subCategories[j].id;
+                        if (i + 1 < classification.length)
+                            url += ',';
+                    }
+
+
                 }
 
 
