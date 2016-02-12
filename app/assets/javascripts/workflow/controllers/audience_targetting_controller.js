@@ -267,6 +267,12 @@ var angObj = angObj || {};
 
         // Closes Audience Targeting View
         $scope.resetAudienceTargetingVariables = function () {
+            var selectedAudience = audienceService.getSelectedAudience();
+            if (!selectedAudience || selectedAudience.length === 0) {
+                $scope.adData.isAudienceSelected = false;
+                $scope.adData.targetName = null
+            }
+
             _audienceTargetting.resetSelectedFields();
             _audienceTargetting.hideAudienceTargetingBox();
         };

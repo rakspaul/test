@@ -395,6 +395,12 @@ var angObj = angObj || {};
 
         // Closes Daypart Targeting View
         $scope.resetDayPartTargetingVariables = function () {
+            var dayParting = audienceService.getDaytimeObj();
+
+            if (!dayParting || dayParting.length === 0) {
+                $scope.adData.isDaypartSelected = false;
+                $scope.adData.targetName = null;
+            }
             _dayPartTargetting.hideDayPartTargetingBox();
         };
 
