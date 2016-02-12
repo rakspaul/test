@@ -19,7 +19,7 @@ var angObj = angObj || {};
                             console.log('$scope.workflowData.inventoryData = ', $scope.workflowData.inventoryData);
                             console.log('$scope.savedDomainListIds = ', $scope.savedDomainListIds);
 
-                            if ($scope.savedDomainListIds.length) {
+                            if ($scope.savedDomainListIds && $scope.savedDomainListIds.length) {
                                 selectedLists = _.map($scope.workflowData.inventoryData, function (value) {
                                     return _.contains($scope.savedDomainListIds, value.domainListId) ? value : null;
                                 });
