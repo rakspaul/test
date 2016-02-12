@@ -17,17 +17,6 @@
     </div>
 </div>
 <div class="col-md-12 zeroPadding setTargetOptions">
-    <div class="msgPopupHolder" ng-show="showDeleteConfirmationPopup">
-        <div class="msgPopup" style="top:-60px">
-            <div>
-                <div class="msg pull-left" style="padding-top: 10px;" data-ng-bind="textConstants.AREYOUSURE"></div>
-                <div class="clearfix btn-holder" style="margin: 0;">
-                    <div class="pull-right common_primary_btn" ng-click="deleteTargetting()" data-ng-bind="textConstants.YES"></div>
-                    <div class="pull-right secondary_txt" ng-click="cancelTargettingDelete()" data-ng-bind="textConstants.NO"></div>
-                </div>
-            </div>
-        </div>
-    </div>
 
     <!--START : Audience Targeting Card-->
     <div class="col-md-6 cardSelectHolder" ng-class="{true: 'active'}[selectedTargeting['audience']]">
