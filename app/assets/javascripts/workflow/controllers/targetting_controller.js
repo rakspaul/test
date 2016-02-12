@@ -51,7 +51,7 @@ var angObj = angObj || {};
             }
 
             if (targetingName === 'Daypart') {
-                if(fetchedObj.targets.adDaypartTargets && $scope.mode === 'edit') {
+                if(fetchedObj && fetchedObj.targets.adDaypartTargets && $scope.mode === 'edit') {
                     $timeout(function() {
                         $scope.$broadcast("updateDayPart", true);
                     }, 2000)

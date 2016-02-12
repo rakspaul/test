@@ -1000,6 +1000,13 @@ var angObj = angObj || {};
 
         //this is temp redirect to targetting screen
         $scope.redirectTargettingMain = function (cancelClicked) {
+            if (!$scope.geoTargetingData.selected.previewData ||
+                (!$scope.geoTargetingData.selected.previewData.include &&
+                !$scope.geoTargetingData.selected.previewData.exclude)) {
+                $scope.adData.isGeographySelected = false;
+                $scope.adData.targetName = null;
+            }
+
             if (cancelClicked && workflowService.getSavedGeo()) {
                 var presavedGeo = angular.copy(workflowService.getSavedGeo()).original;
                 if (presavedGeo && presavedGeo) {
