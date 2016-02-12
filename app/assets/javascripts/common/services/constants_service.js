@@ -536,10 +536,10 @@
         this.WF_AD_UPDATE="AD Update"
         this.WF_PAUSE_AD="Pause AD"
         this.WF_RESUME_AD="Resume AD";
-        this.WF_ARCHIVE_AD="Redirecting..."
-        this.WF_ARCHIVE_CAMPAIGN="Redirecting..."
-        this.WF_REDIRECT_USER_FOR_ARCHIVED_AD="Archived Ads cannot be edited.";
-        this.WF_REDIRECT_USER_FOR_ARCHIVED_CAMPAIGN="Archived Media Plans cannot be edited.";
+        this.WF_ARCHIVE_AD="We're sorry."
+        this.WF_ARCHIVE_CAMPAIGN="We're sorry."
+        this.WF_REDIRECT_USER_FOR_ARCHIVED_AD="You are unable to edit this archived Ad. Click 'Continue' to return to Campaign Overview Screen";
+        this.WF_REDIRECT_USER_FOR_ARCHIVED_CAMPAIGN="You are unable to edit this archived Media Plan. Click 'Continue' to return to Media Plan Overview Screen";
         this.WF_PAUSE="Pause"
         this.WF_RESUME="Resume"
         this.WF_MOVE_TO="Move to"
