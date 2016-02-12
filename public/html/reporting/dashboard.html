@@ -1,8 +1,8 @@
-<div class="container main_dashboard">
+<div class="row main_dashboard">
     <div class="row dashboard_main_heading_row">
         <div class="pull-left col-md-6 clearfix dashboard_main_heading">
-            <div class="dashboard_main_heading_sub" ng-bind="data.title"></div>
-            <div class="more_txt_heading dashboard_main_heading_sub" ng-bind="data.titleSecondPart"></div>
+            <span class="dashboard_main_heading_sub" ng-bind="data.title"></span>
+            <span class="more_txt_heading dashboard_main_heading_sub" ng-bind="data.titleSecondPart"></span>
             <div id="brandButton" ng-if="data.brandSelected" class="bubble_heading dashboard_main_heading_sub">
                 {{data.selectedBrand}} <span class="brand_close_btn" data-ng-click="clickOnBrandButton()">+</span></div>
             <div class="tooltip_holder dashboard_main_heading_sub"><span class="tooltip_show_icon"></span><span
