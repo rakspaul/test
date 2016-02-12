@@ -148,7 +148,7 @@
   -webkit-transform: rotate(45deg);
 }
 .main_dashboard .dashboard_main_heading .dashboard_main_heading_sub {
-  display: block;
+  display: inline-block;
   float: left;
   font-size: 18px;
   font-family: "Avenir-bold";

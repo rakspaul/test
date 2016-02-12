@@ -1,12 +1,18 @@
 <div class="row main_dashboard">
     <div class="row dashboard_main_heading_row">
         <div class="pull-left col-md-6 clearfix dashboard_main_heading">
-            <span class="dashboard_main_heading_sub" ng-bind="data.title"></span>
-            <span class="more_txt_heading dashboard_main_heading_sub" ng-bind="data.titleSecondPart"></span>
-            <div id="brandButton" ng-if="data.brandSelected" class="bubble_heading dashboard_main_heading_sub">
-                {{data.selectedBrand}} <span class="brand_close_btn" data-ng-click="clickOnBrandButton()">+</span></div>
-            <div class="tooltip_holder dashboard_main_heading_sub"><span class="tooltip_show_icon"></span><span
-                    class="common_tooltip" ng-bind="data.toolTip"></span></div>
+            
+            <span class="more_txt_heading dashboard_main_heading_sub" >
+             
+                <!-- <span class="dashboard_main_heading_sub" ng-bind="data.title"></span>&nbsp; -->
+                
+            <span>
+              <span class="pull-left">Showing {{data.titleSecondPart}}</span>
+            <span id="brandButton" ng-if="data.brandSelected" class="bubble_heading dashboard_main_heading_sub">
+                {{data.selectedBrand}} <span class="brand_close_btn" data-ng-click="clickOnBrandButton()">+</span></span>
+            <span class="tooltip_holder dashboard_main_heading_sub"><span class="tooltip_show_icon"></span><span
+                    class="common_tooltip" ng-bind="data.toolTip"></span></span></span>
+                  </span>
         </div>
         <div class="pull-right col-md-6 dashboard-filters">
           <div class="pull-right status_filter">
