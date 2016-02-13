@@ -44,11 +44,6 @@
                                                         textConstants.WF_UNTITLED_AD">
                                                     </h3>
                                                 </div>
-                                                <!--<button type="button" ng-hide="(mode!='edit')" id="archiveAdbtn"
-                                                ng-click="cancelAdArchive()"-->
-                                                <!--        class="btn btn-primary pull-right">Archive-->
-                                                <!--</button>-->
-
                                                 <div class="zeroPadding dropdown-workflow pull-right"
                                                      ng-hide="(mode !== 'edit')">
                                                     <div class="dropdown">
@@ -92,7 +87,6 @@
                                                 </button>
 
                                                 <div ng-show ="adCreateLoader" class="pull-right common-loading-btn" ></div>
-
                                                 <a ng-href="/mediaplan/{{workflowData.campaignData.id}}/overview"
                                                    class="pull-right cancel-btn">Cancel
                                                 </a>
@@ -112,30 +106,37 @@
                                             <!-- Tab1 Setting Ends -->
 
                                             <!-- Tabs Buying Platform -->
-                                            <div class="tab-pane fade" id="buying" style="padding: 50px 0 0 0; min-height: 1032px;"
+                                            <div class="tab-pane fade"
+                                                 id="buying"
+                                                 style="padding: 50px 0 0 0;
+                                                 min-height: 1032px;"
                                                  ng-include="'/assets/html/workflow/partials/campaign_ads/buying_platform.html'"
                                                  ng-controller="BuyingPlatformController">
                                                  </div>
                                             <!-- Tabs Buying Platform Ends -->
 
                                             <!-- Tabs Targeting -->
-                                            <div ng-if="!TrackingIntegrationsSelected" class="tab-pane fade" id="targetting"
+                                            <div ng-if="!TrackingIntegrationsSelected"
+                                                 class="tab-pane fade" id="targetting"
                                                  ng-include="'/assets/html/workflow/partials/campaign_ads/targetting.html'"
                                                  ng-controller="targettingController">
                                             </div>
                                             <!-- Tabs Targetting Platform -->
 
                                             <!-- Tabs Creative -->
-                                            <div class="tab-pane fade" id="creative" style="width:100%;"
+                                            <div class="tab-pane fade"
+                                                 id="creative"
+                                                 style="width:100%;"
                                                  ng-include="'/assets/html/workflow/partials/campaign_ads/ad_sizes_and_creatives.html'">
                                             </div>
                                             <!-- Tabs Creative -->
 
                                             <!-- Tabs Inventory Filters -->
-                                            <div class="tab-pane fade" id="inventoryView"
+                                            <div class="tab-pane fade"
+                                                 id="inventoryView"
                                                  ng-include="'/assets/html/workflow/partials/campaign_ads/inventory.html'"
                                                  ng-controller="InventoryFiltersController">
-                                                 </div>
+                                            </div>
                                             <!-- Tabs Inventory Filters -->
                                         </div>
                                         <!-- Tab Panes Ends -->
@@ -212,15 +213,23 @@
         <div class="popup">
             <div class="popup-header-body">
                 <div class="clearfix">
-                    <h1 class="pull-left">{{(archivedAdFlag && archivedCampaignFlag === false)?textConstants.WF_ARCHIVE_AD:textConstants.WF_ARCHIVE_CAMPAIGN}}</h1>
+                    <h1 class="pull-left">{{(archivedAdFlag && archivedCampaignFlag === false) ?
+                        textConstants.WF_ARCHIVE_AD :
+                        textConstants.WF_ARCHIVE_CAMPAIGN}}
+                    </h1>
                 </div>
                 <div class="popup-content">
-                    {{(archivedAdFlag && archivedCampaignFlag === false)?textConstants.WF_REDIRECT_USER_FOR_ARCHIVED_AD:textConstants.WF_REDIRECT_USER_FOR_ARCHIVED_CAMPAIGN}}
+                    {{(archivedAdFlag && archivedCampaignFlag === false) ?
+                    textConstants.WF_REDIRECT_USER_FOR_ARCHIVED_AD :
+                    textConstants.WF_REDIRECT_USER_FOR_ARCHIVED_CAMPAIGN}}
                 </div>
             </div>
             <div class="clearfix popup-footer">
-                <button type="button" ng-click="redirectUser((archivedAdFlag && archivedCampaignFlag === false)?true:false)" class="common_primary_btn pull-right">Continue</button>
-
+                <button type="button"
+                        ng-click="redirectUser((archivedAdFlag && archivedCampaignFlag === false)?true:false)"
+                        class="common_primary_btn pull-right">
+                    Continue
+                </button>
             </div>
         </div>
     </div>

@@ -59,9 +59,8 @@
                                          <span class="col-md-11"
                                                data-ng-bind="inventory.name"
                                                style="width: auto;"
-                                               name="domain-list-name"
-                                               <!--ng-click="dropBoxItemSelected(inventory, 'inventory')"-->
-                                         ></span>
+                                               name="domain-list-name">
+                                         </span>
                                      </li>
                                  </div>
                                  <!-- Black lists -->
@@ -83,9 +82,8 @@
                                          <span class="col-md-11"
                                                data-ng-bind="inventory.name"
                                                style="width: auto;"
-                                               name="domain-list-name"
-                                         <!--ng-click="dropBoxItemSelected(inventory, 'inventory')"-->
-                                         ></span>
+                                               name="domain-list-name">
+                                         </span>
                                      </li>
                                  </div>
                              </div>
@@ -99,29 +97,6 @@
                                       data-ng-bind="textConstants.DONE">
                                  </div>
                              </div>
-                             <!--li class="clearfix list_row ng-scope" ng-repeat="inventory in workflowData.inventoryData">
-                                 <div class="pull-left list_row_chkbox">
-                                     <input name="regionchkbox"
-                                            ng-model="bool"
-                                            ng-click="dropBoxItemSelected(inventory, 'inventory')"
-                                            ng-checked="isChecked(region.id, 'regions')"
-                                            type="checkbox"
-                                            value=""
-                                            class="ng-valid ng-dirty ng-valid-parse ng-touched">
-                                 </div>
-                                 <p class="pull-left list_val_col ng-binding" data-ng-bind="inventory.name"></p>
-                             </li-->
-                             <!--li ng-repeat="inventory in workflowData.inventoryData track by inventory.id">
-                                 <input type="checkbox" class="checkboxcls"
-                                    onclick="$('.dropdown-menu').css('display', 'block');return false;">
-                                 <span data-ng-bind="inventory.name"></span>
-                             </li>
-                             <li ng-repeat="inventory in workflowData.inventoryData track by inventory.id">
-                                 <input type="checkbox" class="checkboxcls"> <span data-ng-bind="inventory.name"></span>
-                             </li>
-                             <li ng-repeat="inventory in workflowData.inventoryData track by inventory.id">
-                                 <input type="checkbox" class="checkboxcls"> <span data-ng-bind="inventory.name"></span>
-                             </li-->
                         </ul>
                     </div>
                     <input type="hidden" name="inventory" ng-model="adData.inventory.name" ng-update-hidden/>
@@ -153,8 +128,6 @@
             <div class="filterList" ng-if="workflowData.selectedLists.length > 0">
                 <div class="filterHead" >
                     <h1 class="col-md-12 zeroPadding" data-ng-bind="textConstants.INVENTORY_SELECTED_DOMAIN_LISTS"></h1>
-
-                    <!-- TODO: List of selected domain names -->
                     <div class="btn-group miniToggle col-md-12 zeroPadding" style="margin-bottom: 15px;">
                         <label ng-repeat="inventory in workflowData.selectedLists"
                                class="btn btn-default {{inventory === workflowData.selectedLists[0] ? 'active' : ''}}">
@@ -168,34 +141,12 @@
                                    ng-click="displaySelectedDomainList($event)">
                         </label>
                     </div>
-                    <!--div class="btn-group miniToggle">
-                        <label class="btn btn-default {{adData.inventory.domainAction === 'EXCLUDE' ? 'active' : ''}}">
-                            <span data-ng-bind="textConstants.BLACKLIST"></span>
-                            <input type="radio"
-                                   name="inventoryType"
-                                   value="EXCLUDE"
-                                   ng-disabled="workflowData.inventoryData.length > 0 ?  true : false"
-                                   ng-model="adData.inventory.domainAction"
-                                   ng-checked="adData.inventory.domainAction === 'EXCLUDE' ? true : false"
-                                   hidden="hidden"
-                                   class="btn_rad"
-                                   ng-click="toggleBtn($event);">
-                        </label>
-                    </div-->
-                    <!--span ng-bind="adData.inventory.name + ' (' + adData.inventory.domainList.length + ')'"></span-->
-                    <!-- END TODO: List of selected domain names -->
-
                     <div class="pull-left sort-icon-holder active list_val_col"
                          ng-click="sort();"
                          style="display:inline-block; margin-top: 20px;">
                         <span class="pull-left" data-ng-bind="textConstants.DOMAIN"></span>
                         <span class="pull-left common-sort-icon ascending"></span>
                     </div>
-                    <!--button type="button"
-                            class="btn btn-default pull-right"
-                            ng-click="uploadDomain()"
-                            data-ng-bind="textConstants.INVENTORY_REPLACE_CURRENT_LIST">
-                    </button-->
                     <button class="btn btn-default pull-right"
                             ng-disabled="workflowData.inventoryData.length === 0 || adData.inventory ?  false : true"
                             ngf-select="selectFiles($files, 'INVENTORY_UPDATE')"
@@ -223,7 +174,6 @@
             <div class="headerLib">
                 <span class="close" aria-hidden="true" ng-click="closeDomainListPop()">x</span>
                 <h1 data-ng-bind="textConstants.UPLOADLIST"></h1>
-                <!--<button type="file" class="btn btn-default">Upload New</button>-->
                 <span data-ng-bind="textConstants.FILENAME"></span>
             </div>
             <div class="popBody">
@@ -252,7 +202,6 @@
                             </label>
                         </div>
                     </div>
-
                     <div class="categoryDDL">
                         <label class="col-sm-12 control-label greyTxt miniLabels"
                                data-ng-bind="textConstants.CATEGORY">
@@ -263,7 +212,6 @@
                             </select>
                         </div>
                     </div>
-
                     <div class="radioBtnToggle">
                         <label class="col-sm-12 control-label greyTxt miniLabels"
                                data-ng-bind="textConstants.TYPE">

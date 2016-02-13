@@ -14,10 +14,9 @@ var angObj = angObj || {};
 
                         $scope.workflowData.inventoryData = result.data.data;
                         if ($scope.mode === 'edit') {
-                            $scope.savedDomainListIds = $scope.getAd_result.targets.domainTargets.inheritedList.ADVERTISER;
+                            $scope.savedDomainListIds =
+                                $scope.getAd_result.targets.domainTargets.inheritedList.ADVERTISER;
                             $scope.savedDomainAction = $scope.getAd_result.domainAction;
-                            console.log('$scope.workflowData.inventoryData = ', $scope.workflowData.inventoryData);
-                            console.log('$scope.savedDomainListIds = ', $scope.savedDomainListIds);
 
                             if ($scope.savedDomainListIds && $scope.savedDomainListIds.length) {
                                 selectedLists = _.map($scope.workflowData.inventoryData, function (value) {
@@ -30,7 +29,6 @@ var angObj = angObj || {};
                                     return a.domainListId > b.domainListId;
                                 });
 
-                                //$scope.workflowData.selectedLists = $scope.savedDomainListIds;
                                 $scope.adData.inventory = $scope.workflowData.selectedLists[0];
                                 if ($scope.savedDomainAction === 'INCLUDE') {
                                     $scope.workflowData.whiteListsSelected = true;
@@ -40,10 +38,6 @@ var angObj = angObj || {};
                                     $scope.workflowData.selectedBlackLists = $scope.workflowData.selectedLists;
                                 }
                             }
-                            console.log('$scope.workflowData.selectedLists = ', $scope.workflowData.selectedLists);
-                            console.log('$scope.workflowData.selectedWhiteLists = ', $scope.workflowData.selectedWhiteLists);
-                            console.log('$scope.workflowData.selectedBlackLists = ', $scope.workflowData.selectedBlackLists);
-                            console.log('$scope.adData.inventory = ', $scope.adData.inventory);
 
                             $scope.$broadcast('updateInventory');
                         }
@@ -110,7 +104,6 @@ var angObj = angObj || {};
                     if (!$scope.adData.inventory.domainAction) {
                         $scope.adData.inventory.domainAction = 'INCLUDE';
                     }
-
                 }
             }
         };
@@ -120,18 +113,18 @@ var angObj = angObj || {};
                 files = $scope.files,
                 i,
                 file;
-console.log('INVENTORYcREATE = ', $scope.inventoryCreate);
+
             // If called from Inventory Create New button click, pass without domain Id
             if ($scope.inventoryCreate) {
                 domainId = null;
                 // Reset the flag variable
                 $scope.inventoryCreate = false;
             }
-console.log('domainId = ', domainId);
+
             if (files && files.length) {
                 for (i = 0; i < files.length; i++) {
                     file = files[i];
-console.log('$scope.adData.inventory = ', $scope.adData.inventory);
+
                     if (!file.$error) {
                         Upload
                             .upload({
@@ -195,13 +188,6 @@ console.log('$scope.adData.inventory = ', $scope.adData.inventory);
         $scope.workflowData.selectedLists = [];
         $scope.workflowData.whiteListsSelected = false;
         $scope.workflowData.blackListsSelected = false;
-        //$scope.workflowData.savedDomainListIds = [];
-            //($scope.mode === 'edit') ? $scope.getAd_result.targets.domainTargets.inheritedList.ADVERTISER : [];
-        //$scope.workflowData.savedDomainAction = '';//$scope.mode === 'edit' ? $scope.getAd_result.domainAction : '';
-
-        if ($scope.mode === 'edit') {
-            console.log('INVENTORYFILTER: $scope.workflowData.adsData = ', $scope.workflowData.adsData);
-        }
 
         $scope.showDomainListDropdown = function () {
             $('#domain-list-dropdown').css('display', 'block');
@@ -313,13 +299,10 @@ console.log('$scope.adData.inventory = ', $scope.adData.inventory);
                 $scope.adData.inventory = $scope.workflowData.selectedLists[0];
             } else {
                 // No Domain List selected
-                console.log('No list selected');
                 $scope.adData.inventory = {};
                 $scope.workflowData.selectedLists = [];
             }
 
-            // TODO: Why is this guy not working???!!!
-            // $scope.dropBoxItemSelected($scope.workflowData.selectedLists, 'inventory');
             $scope.hideDomainListDropdown();
         };
 
@@ -327,19 +310,13 @@ console.log('$scope.adData.inventory = ', $scope.adData.inventory);
             var temp;
 
             $scope.toggleBtn(event);
-            //console.log('Inside displaySelectedDomainList(), event = ', event);
-            console.log('event.currentTarget.value = ', event.currentTarget.value);
-            console.log('$scope.workflowData.selectedLists = ', $scope.workflowData.selectedLists);
-            // TODO: Update value of $scope.adData.inventory.domainList
+
+            // Update value of $scope.adData.inventory.domainList
             temp = _.filter($scope.workflowData.selectedLists, function (domainList) {
                 return domainList.name === event.currentTarget.value;
             });
             $scope.adData.listName = temp[0].name;
             $scope.adData.inventory = temp[0];
-            console.log('temp = ', temp);
-            console.log('temp.domainList = ', temp[0].domainList);
-            console.log('$scope.adData.listName = ', $scope.adData.listName);
-            console.log('$scope.adData.inventory = ', $scope.adData.inventory);
         };
     });
 })();

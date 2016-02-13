@@ -289,7 +289,7 @@
                 return dataService.fetch(url);
             },
 
-            deleteCreatives:function(clientId,data){ console.log(data)
+            deleteCreatives:function(clientId,data){
                 return dataService.post(apiPaths.WORKFLOW_API_URL + '/clients/' + clientId +'/creatives/bulkdelete',
                     data,
                     {'Content-Type': 'application/json'}
