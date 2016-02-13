@@ -319,26 +319,26 @@ var angObj = angObj || {};
 
 
         $scope.redirectUser = function(isAdArchived){
+            var url;
+
             $scope.redirectFlag = false;
             $scope.archivedAdFlag = false;
             $scope.archivedCampaignFlag = false;
-            if(isAdArchived){
-                if($scope.workflowData.campaignData.isArchived){
-                    var url = vistoconfig.MEDIA_PLANS_LINK;
-                    $location.url(url);
-                }else{
+
+            if (isAdArchived) {
+                if ($scope.workflowData.campaignData.isArchived) {
+                    url = vistoconfig.MEDIA_PLANS_LINK;
+                } else {
                     $scope.redirectFlag = false;
                     $scope.archivedAdFlag = false;
-                    var url = 'mediaplan/'+$scope.campaignId+'/overview';
-                    $location.url(url);
+                    url = 'mediaplan/'+$scope.campaignId+'/overview';
                 }
+            } else {
+                url = vistoconfig.MEDIA_PLANS_LINK;
+            }
 
-            }
-            else{
-                var url = vistoconfig.MEDIA_PLANS_LINK;
-                $location.url(url);
-            }
-        }
+            $location.url(url);
+        };
 
         // This sets dynamic width to line to take 100% height
         function colResize() {
@@ -531,7 +531,11 @@ var angObj = angObj || {};
             }
 
             //audience targeting load
-            if (responseData.targets && responseData.targets.segmentTargets && _.size(responseData.targets.segmentTargets) > 0 && responseData.targets.segmentTargets.segmentList  && _.size(responseData.targets.segmentTargets.segmentList) > 0 ) {
+            if (responseData.targets &&
+                responseData.targets.segmentTargets &&
+                _.size(responseData.targets.segmentTargets) > 0 &&
+                responseData.targets.segmentTargets.segmentList
+                && _.size(responseData.targets.segmentTargets.segmentList) > 0 ) {
                 $scope.$broadcast('setTargeting', ['Audience']);
             }
         }
@@ -845,9 +849,6 @@ var angObj = angObj || {};
             $scope.changeAdFormat = false;
 
             // code to make creatives already set to empty
-            //$scope.adData.setSizes = constants.WF_NOT_SET;
-            //$scope.creativeData.creativeInfo = 'undefined';
-            //$scope.selectedArr.length = 0;
             $scope.resetCreatives();
 
             // Flag to denote that ad format has changed
@@ -1159,14 +1160,17 @@ var angObj = angObj || {};
                                 var adData = angular.copy(workflowService.getAdsDetails());
                                 postGeoTargetObj = adData.targets.geoTargets;
                                 if(postGeoTargetObj.REGION) {
-                                    postGeoTargetObj.REGION.geoTargetList = _.pluck(postGeoTargetObj.REGION.geoTargetList, 'id');
+                                    postGeoTargetObj.REGION.geoTargetList =
+                                        _.pluck(postGeoTargetObj.REGION.geoTargetList, 'id');
                                 }
                                 if(postGeoTargetObj.CITY) {
-                                    postGeoTargetObj.CITY.geoTargetList = _.pluck(postGeoTargetObj.REGION.geoTargetList, 'id');
+                                    postGeoTargetObj.CITY.geoTargetList =
+                                        _.pluck(postGeoTargetObj.REGION.geoTargetList, 'id');
                                 }
 
                                 if(postGeoTargetObj.DMA) {
-                                    postGeoTargetObj.DMA.geoTargetList = _.pluck(postGeoTargetObj.REGION.geoTargetList, 'id');
+                                    postGeoTargetObj.DMA.geoTargetList =
+                                        _.pluck(postGeoTargetObj.REGION.geoTargetList, 'id');
                                 }
                                 postAdDataObj.targets.geoTargets = postGeoTargetObj;
                             }
@@ -1198,7 +1202,6 @@ var angObj = angObj || {};
 
                     // Inventory filters section
                     _.each($scope.workflowData.selectedLists, function (value, key) {
-                        console.log('value = ', value, ', key = ', key);
                         domainListIds[domainListIds.length] = value.domainListId;
                     });
 
@@ -1246,9 +1249,7 @@ var angObj = angObj || {};
         };
 
         $scope.trigerCreativeTag = function () {
-            console.log('save and continue')
             angular.element('.creative-tab-link').trigger('click');
-            console.log('save and continue222')
         };
 
         $scope.changePlatform = function (platformId) {
@@ -1283,20 +1284,16 @@ var angObj = angObj || {};
             }
         };
 
-
-
-
-
         $('.main_navigation_holder')
             .find('.active_tab')
             .removeClass('active_tab');
 
         $('.main_navigation')
             .find('.active')
-            .removeClass('active')
+                .removeClass('active')
             .end()
             .find('#campaigns_nav_link')
-            .addClass('active');
+                .addClass('active');
 
         $('.bodyWrap').addClass('bodyWrapOverview');
         $('html').css('background', '#fff');
@@ -1325,6 +1322,7 @@ var angObj = angObj || {};
                 .parents('.dropdown')
                 .find('.btn')
                 .html($(this).text() + '<span class="icon-arrow-down"></span>');
+
             $(this)
                 .parents('.dropdown')
                 .find('.btn')
@@ -1384,7 +1382,6 @@ var angObj = angObj || {};
         $scope.redirectFlag = false;
         $scope.archivedAdFlag = false;
         $scope.archivedCampaignFlag = false;
-
 
         RoleBasedService.setCurrencySymbol();
         localStorage.setItem('campaignData', '');

@@ -1,219 +1,205 @@
 <!-- Left Menu Column Starts -->
-    <div class="campaign_name_holder">
-        <h1 class="campaign_name" data-ng-bind="textConstants.ADSETUP"></h1>
-        <ul class="nav nav-tabs tabs-left stepCompLabel" id="myTabs">
-            <li id="adType-tab" class="active">
-                <a href="#adType"
+<div class="campaign_name_holder">
+    <h1 class="campaign_name" data-ng-bind="textConstants.ADSETUP"></h1>
+    <ul class="nav nav-tabs tabs-left stepCompLabel" id="myTabs">
+        <li id="adType-tab" class="active">
+            <a href="#adType"
+               role="tab"
+               class="leftNavLink"
+               data-toggle="tab"
+               data-ng-bind="textConstants.ADTYPESIDE">
+            </a>
+            <div class="col-md-12 zeroPadding">
+                <div class="statusLabel disabled"
+                     ng-if="!adData.adFormat && !adData.goal && adData.screenTypes.length ===0">
+                    <div class="col-md-12">
+                        <span style="color: #000;" data-ng-bind="textConstants.NOTSET"></span>
+                    </div>
+                </div>
+                <div class="statusLabel" ng-if="adData.adFormat">
+                    <div class="col-md-12">
+                        <div class="statusIcon icon-{{getAdFormatIconName(adData.adFormat)}}"></div>
+                        <span data-ng-bind="adData.adFormat"></span>
+                        <span data-ng-bind="textConstants.FORMATPAR"></span>
+                    </div>
+                </div>
+                <div class="statusLabel" ng-if="adData.primaryKpi">
+                    <div class="col-md-12">
+                        <span data-ng-bind="adData.primaryKpi"></span>
+                        <span data-ng-bind="textConstants.PRIMARYKPIPAR"></span>
+                    </div>
+                </div>
+                <div class="statusLabel" ng-if="adData.screenTypes.length >0" style="margin: 0;">
+                    <div class="col-md-12">
+                        <div class="txtLabel" ng-repeat="screenType in adData.screenTypes">
+                            <div class="statusIcon icon-{{screenType.name | lowercase}}"></div>
+                            <span data-ng-bind="screenType.name"></span>
+                            <span data-ng-bind="textConstants.SCREENPAR"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </li>
+
+        <li id="setting-tab">
+            <a href="#setting"
+               role="tab"
+               class="leftNavLink budget-tab-link"
+               data-toggle="tab"
+               data-ng-bind="textConstants.BUDGETDELIVERYSIDE">
+            </a>
+            <div>
+                <div class="statusLabel disabled"
+                     ng-if="!adData.startTime && !adData.unitCost && !adData.unitType &&
+                     !adData.budgetMediaCostType && !adData.mediaCostValue && !adData.budgetImpressionType &&
+                     !adData.ImpressionsValue && !adData.budgetAmount">
+                    <div class="col-md-12">
+                        <span style="color: #000;" data-ng-bind="textConstants.NOTSET"></span>
+                    </div>
+                </div>
+                <div class="statusLabel" ng-if="adData.startTime">
+                    <div class="col-md-12">
+                        <div class="statusIcon icon-calendar"></div>
+                        <span ng-bind="adData.startTime + ' - ' + adData.endTime"></span>
+                        <span data-ng-bind="textConstants.FLIGHTPAR"></span>
+                    </div>
+                </div>
+                <div class="statusLabel" ng-if="(adData.unitCost)">
+                    <div class="col-md-12">
+                        <span style="margin-right: 5px;" data-ng-bind="locale.NUMBER_FORMATS.CURRENCY_SYM"></span>
+                        <span ng-bind="(adData.unitCost | number) + ' ' +
+                            (adData.unitType.name ? adData.unitType.name : 'CPM')">
+                        </span>
+                        <span data-ng-bind="textConstants.UNITCOSTPAR"></span>
+                    </div>
+                </div>
+                <div class="statusLabel" ng-if="(adData.budgetType && adData.budgetAmount)">
+                    <div class="col-md-12">
+                        <span style="margin-right: 5px;" ng-bind="adData.budgetType === 'Cost' ? '$' : '#'"></span>
+                        <span ng-bind="adData.budgetAmount | number"></span>
+                        <span ng-bind="(adData.budgetType)"></span>
+                    </div>
+                </div>
+            </div>
+        </li>
+
+        <li id="buying-tab">
+            <a href="#buying"
+               role="tab"
+               class="leftNavLink buying-platform-tab-link"
+               data-toggle="tab"
+               data-ng-bind="textConstants.BUYINGPLATFORMSIDE">
+            </a>
+            <div>
+                <div class="statusLabel disabled" ng-if="!adData.platform">
+                    <div class="col-md-12">
+                        <span style="color: #000;" data-ng-bind="textConstants.NOTSET"></span>
+                    </div>
+                </div>
+                <div class="statusLabel" ng-if="adData.platform">
+                    <div class="col-md-12">
+                        <img ng-src="/assets/images/cdesk/{{getPlatformIconName(adData.platform)}}.png"
+                             width="12"
+                             class="statusIcon"
+                             style="margin-top: 1px;">
+                        <span data-ng-bind="adData.platform"></span>
+                        <span data-ng-bind="textConstants.PLATFORMPAR"></span>
+                    </div>
+                </div>
+            </div>
+        </li>
+
+        <li id="targetting-tab">
+            <span ng-if="TrackingIntegrationsSelected">
+                <a role="tab" class="leftNavLink" data-ng-bind="textConstants.TARGETINGSIDE"></a>
+            </span>
+            <span ng-if="!TrackingIntegrationsSelected">
+                <a href="#targetting"
                    role="tab"
-                   class="leftNavLink"
+                   class="leftNavLink targetting-tab-link"
                    data-toggle="tab"
-                   data-ng-bind="textConstants.ADTYPESIDE">
+                   data-ng-bind="textConstants.TARGETINGSIDE">
                 </a>
-                <div class="col-md-12 zeroPadding">
-                    <div class="statusLabel disabled"
-                         ng-if="!adData.adFormat && !adData.goal && adData.screenTypes.length ===0">
-                        <div class="col-md-12">
-                            <span style="color: #000;" data-ng-bind="textConstants.NOTSET"></span>
-                        </div>
-                    </div>
-                    <div class="statusLabel" ng-if="adData.adFormat">
-                        <div class="col-md-12">
-                            <!--<img ng-src="/assets/images/workflow/{{getAdFormatIconName(adData.adFormat)}}.svg"
-                            alt="" width="12" class="statusIcon"/>-->
-                            <div class="statusIcon icon-{{getAdFormatIconName(adData.adFormat)}}"></div>
-                            <span data-ng-bind="adData.adFormat"></span>
-                            <span data-ng-bind="textConstants.FORMATPAR"></span>
-                        </div>
-                    </div>
-                    <div class="statusLabel" ng-if="adData.primaryKpi">
-                        <div class="col-md-12">
-                            <!--<img ng-src="/assets/images/workflow/{{getGoalIconName(adData.goal)}}.svg"
-                            alt="" width="12" class="statusIcon"/>-->
-                            <!--<div class="statusIcon icon-{{getGoalIconName(adData.goal)}}"></div>-->
-                            <span data-ng-bind="adData.primaryKpi"></span>
-                            <span data-ng-bind="textConstants.PRIMARYKPIPAR"></span>
-                        </div>
-                    </div>
-                    <div class="statusLabel" ng-if="adData.screenTypes.length >0" style="margin: 0;">
-                        <div class="col-md-12">
-                            <div class="txtLabel" ng-repeat="screenType in adData.screenTypes">
-                                <div class="statusIcon icon-{{screenType.name | lowercase}}"></div>
-                                <span data-ng-bind="screenType.name"></span>
-                                <span data-ng-bind="textConstants.SCREENPAR"></span>
-                            </div>
-                        </div>
+            </span>
+            <div>
+                <div class="statusLabel disabled" ng-if="!adData.targetName || TrackingIntegrationsSelected">
+                    <div class="col-md-12">
+                        <span style="color: #000;"
+                              ng-if="!adData.isGeographySelected &&
+                                !adData.isAudienceSelected &&
+                                !adData.isDaypartSelected"
+                              data-ng-bind="textConstants.WF_NOT_SET">
+                        </span>
                     </div>
                 </div>
-            </li>
+                <div class="statusLabel disabled" ng-if="adData.targetName || !TrackingIntegrationsSelected">
+                    <div class="col-md-12" ng-if="adData.isGeographySelected" style="margin-bottom: 5px;">
+                        <div class="icon-location pull-left"></div>
+                        <span data-ng-bind="textConstants.GEOGRAPHY"></span>
+                    </div>
+                    <div class="col-md-12" ng-if="adData.isAudienceSelected" style="margin-bottom: 5px;">
+                        <div class="icon-audience pull-left"></div>
+                        <span data-ng-bind="textConstants.AUDIENCE"></span>
+                    </div>
+                    <div class="col-md-12" ng-if="adData.isDaypartSelected" style="margin-bottom: 5px;">
+                        <div class="icon-activity pull-left"></div>
+                        <span data-ng-bind="textConstants.DAYPART"></span>
+                    </div>
+                </div>
+            </div>
+        </li>
 
-            <li id="setting-tab">
-                <a href="#setting"
-                   role="tab"
-                   class="leftNavLink budget-tab-link"
-                   data-toggle="tab"
-                   data-ng-bind="textConstants.BUDGETDELIVERYSIDE">
+        <li id="inventoryView-tab">
+             <span ng-if="TrackingIntegrationsSelected">
+                <a role="tab" class="leftNavLink inventory-tab-link" data-ng-bind="textConstants.INVENTORYSIDE"></a>
+             </span>
+            <span ng-if="!TrackingIntegrationsSelected">
+                <a href="#inventoryView" role="tab" class="leftNavLink inventory-tab-link" data-toggle="tab"
+                   data-ng-bind="textConstants.INVENTORYSIDE">
                 </a>
-                <div>
-                    <div class="statusLabel disabled"
-                         ng-if="!adData.startTime && !adData.unitCost && !adData.unitType &&
-                         !adData.budgetMediaCostType && !adData.mediaCostValue && !adData.budgetImpressionType &&
-                         !adData.ImpressionsValue && !adData.budgetAmount">
-                        <div class="col-md-12">
-                            <span style="color: #000;" data-ng-bind="textConstants.NOTSET"></span>
-                        </div>
-                    </div>
-                    <div class="statusLabel" ng-if="adData.startTime">
-                        <div class="col-md-12">
-                            <div class="statusIcon icon-calendar"></div>
-                            <span ng-bind="adData.startTime + ' - ' + adData.endTime"></span>
-                            <span data-ng-bind="textConstants.FLIGHTPAR"></span>
-                        </div>
-                    </div>
-                    <div class="statusLabel" ng-if="(adData.unitCost)">
-                        <div class="col-md-12">
-                            <span style="margin-right: 5px;" data-ng-bind="locale.NUMBER_FORMATS.CURRENCY_SYM"></span>
-                            <span ng-bind="(adData.unitCost | number) + ' ' + (adData.unitType.name ? adData.unitType.name : 'CPM')"></span>
-                            <span data-ng-bind="textConstants.UNITCOSTPAR"></span>
-                        </div>
-                    </div>
-                    <div class="statusLabel" ng-if="(adData.budgetType && adData.budgetAmount)">
-                        <div class="col-md-12">
-                            <span style="margin-right: 5px;" ng-bind="adData.budgetType === 'Cost' ? '$' : '#'"></span>
-                            <span ng-bind="adData.budgetAmount | number"></span>
-                            <span ng-bind="(adData.budgetType)"></span>
-                        </div>
+            </span>
+            <div>
+                <div class="statusLabel disabled"
+                     ng-if="(!workflowData.selectedWhiteLists.length &&
+                                !workflowData.selectedBlackLists.length &&
+                                !workflowData.savedDomainListIds.length) ||
+                            TrackingIntegrationsSelected">
+                     <div class="col-md-12">
+                         <span style="color: #000;" data-ng-bind="textConstants.NOTSET">Not Set</span>
+                     </div>
+                </div>
+                <div class="statusLabel disabled"
+                     ng-if="(workflowData.selectedWhiteLists.length > 0) && !TrackingIntegrationsSelected">
+                    <div class="col-md-12">
+                        <span ng-bind="workflowData.selectedWhiteLists.length > 1 ?
+                                    workflowData.selectedWhiteLists.length + ' WhiteLists' : 'Whitelist'">
+                        </span>
                     </div>
                 </div>
-            </li>
-
-            <li id="buying-tab">
-                <a href="#buying"
-                   role="tab"
-                   class="leftNavLink buying-platform-tab-link"
-                   data-toggle="tab"
-                   data-ng-bind="textConstants.BUYINGPLATFORMSIDE">
-                </a>
-                <div>
-                    <div class="statusLabel disabled" ng-if="!adData.platform">
-                        <div class="col-md-12">
-                            <span style="color: #000;" data-ng-bind="textConstants.NOTSET"></span>
-                        </div>
-                    </div>
-                    <div class="statusLabel" ng-if="adData.platform">
-                        <div class="col-md-12">
-                            <img ng-src="/assets/images/cdesk/{{getPlatformIconName(adData.platform)}}.png"
-                                 width="12"
-                                 class="statusIcon"
-                                 style="margin-top: 1px;">
-                            <span data-ng-bind="adData.platform"></span>
-                            <span data-ng-bind="textConstants.PLATFORMPAR"></span>
-                        </div>
+                <div class="statusLabel disabled"
+                     ng-if="(workflowData.selectedBlackLists.length > 0) && !TrackingIntegrationsSelected">
+                    <div class="col-md-12">
+                        <span ng-bind="workflowData.selectedBlackLists.length > 1 ?
+                                    workflowData.selectedBlackLists.length + ' BlackLists' : 'Blacklist'"></span>
                     </div>
                 </div>
-            </li>
-
-            <li id="targetting-tab">
-                <span ng-if="TrackingIntegrationsSelected">
-                    <a role="tab" class="leftNavLink" data-ng-bind="textConstants.TARGETINGSIDE"></a>
-                </span>
-                <span ng-if="!TrackingIntegrationsSelected">
-                    <a href="#targetting"
-                       role="tab"
-                       class="leftNavLink targetting-tab-link"
-                       data-toggle="tab"
-                       data-ng-bind="textConstants.TARGETINGSIDE">
-                    </a>
-                </span>
-                <div>
-                    <div class="statusLabel disabled" ng-if="!adData.targetName || TrackingIntegrationsSelected">
-                        <div class="col-md-12">
-                            <span style="color: #000;" ng-if="!adData.isGeographySelected && !adData.isAudienceSelected && !adData.isDaypartSelected" data-ng-bind="textConstants.WF_NOT_SET"></span>
-                        </div>
-                    </div>
-                    <div class="statusLabel disabled" ng-if="adData.targetName || !TrackingIntegrationsSelected">
-                        <div class="col-md-12" ng-if="adData.isGeographySelected" style="margin-bottom: 5px;">
-                            <div class="icon-location pull-left"></div>
-                            <span data-ng-bind="textConstants.GEOGRAPHY"></span>
-                        </div>
-                        <div class="col-md-12" ng-if="adData.isAudienceSelected" style="margin-bottom: 5px;">
-                            <div class="icon-audience pull-left"></div>
-                            <span data-ng-bind="textConstants.AUDIENCE"></span>
-                        </div>
-                        <div class="col-md-12" ng-if="adData.isDaypartSelected" style="margin-bottom: 5px;">
-                            <div class="icon-activity pull-left"></div>
-                            <span data-ng-bind="textConstants.DAYPART"></span>
-                        </div>
+            </div>
+        </li>
+        <li id="creative-tab">
+            <a href="#creative"
+               role="tab"
+               class="leftNavLink creative-tab-link"
+               data-toggle="tab"
+               data-ng-bind="textConstants.CREATIVESIDE">
+            </a>
+            <div>
+                <div class="statusLabel disabled" ng-if="adData.setSizes">
+                    <div class="col-md-12">
+                        <span class="creative_tab_sizes" style="color: #000;" data-ng-bind="adData.setSizes"></span>
                     </div>
                 </div>
-            </li>
-
-            <li id="inventoryView-tab">
-                 <span ng-if="TrackingIntegrationsSelected">
-                    <a role="tab" class="leftNavLink inventory-tab-link" data-ng-bind="textConstants.INVENTORYSIDE"></a>
-                 </span>
-                <span ng-if="!TrackingIntegrationsSelected">
-                    <a href="#inventoryView" role="tab" class="leftNavLink inventory-tab-link" data-toggle="tab"
-                       data-ng-bind="textConstants.INVENTORYSIDE">
-                    </a>
-                </span>
-                <div>
-                    <!--div class="statusLabel disabled"
-                         ng-if="!adData.inventory.domainAction || TrackingIntegrationsSelected">
-                        <div class="col-md-12">
-                            <span style="color: #000;" data-ng-bind="textConstants.NOTSET">Not Set</span>
-                        </div>
-                    </div-->
-                    <div class="statusLabel disabled"
-                         ng-if="(!workflowData.selectedWhiteLists.length &&
-                                    !workflowData.selectedBlackLists.length &&
-                                    !workflowData.savedDomainListIds.length) ||
-                                TrackingIntegrationsSelected">
-                         <div class="col-md-12">
-                             <span style="color: #000;" data-ng-bind="textConstants.NOTSET">Not Set</span>
-                         </div>
-                    </div>
-                    <div class="statusLabel disabled"
-                         ng-if="(workflowData.selectedWhiteLists.length > 0) && !TrackingIntegrationsSelected">
-                        <div class="col-md-12">
-                            <span ng-bind="workflowData.selectedWhiteLists.length > 1 ?
-                                        workflowData.selectedWhiteLists.length + ' WhiteLists' :
-                                        'Whitelist'"></span>
-                        </div>
-                    </div>
-                    <div class="statusLabel disabled"
-                         ng-if="(workflowData.selectedBlackLists.length > 0) && !TrackingIntegrationsSelected">
-                        <div class="col-md-12">
-                            <span ng-bind="workflowData.selectedBlackLists.length > 1 ?
-                                        workflowData.selectedBlackLists.length + ' BlackLists' :
-                                        'Blacklist'"></span>
-                        </div>
-                    </div>
-                    <!--div class="statusLabel disabled"
-                         ng-if="(workflowData.savedDomainListIds.length > 0) && !TrackingIntegrationsSelected">
-                        <div class="col-md-12">
-                            <span ng-bind="workflowData.savedDomainListIds.length > 1 ?
-                                        workflowData.savedDomainListIds.length + ' black or white Lists' :
-                                        'black or white list'"></span>
-                        </div>
-                    </div-->
-                </div>
-            </li>
-            <li id="creative-tab">
-                <a href="#creative"
-                   role="tab"
-                   class="leftNavLink creative-tab-link"
-                   data-toggle="tab"
-                   data-ng-bind="textConstants.CREATIVESIDE">
-                </a>
-                <div>
-                    <div class="statusLabel disabled" ng-if="adData.setSizes">
-                        <div class="col-md-12">
-                            <span class="creative_tab_sizes" style="color: #000;" data-ng-bind="adData.setSizes"></span>
-                        </div>
-                    </div>
-                </div>
-            </li>
-        </ul>
-    </div>
-
+            </div>
+        </li>
+    </ul>
+</div>
 <!-- Left Menu Column Ends -->
