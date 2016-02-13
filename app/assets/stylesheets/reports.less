@@ -4118,7 +4118,7 @@ only screen and (min-device-pixel-ratio: 2) {
     }
 }
 .custom_report_response_page {
-  width: 100%;
+  width: 1200px;
   margin: 0 auto ;
   .back_arrow {
     height: 30px ;
@@ -4534,6 +4534,7 @@ body.custom_report_page {
 #newDatePickerBox{
   position: absolute;
   right:-1px;
+  border: solid 0px #BFC9D7;
   button{
     float: right;
     left:0px;
@@ -4543,22 +4544,23 @@ body.custom_report_page {
   }
   .startPicker,.endPicker{
     input{
-      width: 114px;
-      border: 0;
-      border-right:solid 0px #BFC9D7
+      border: solid 1px #BFC9D7;
+      padding-right: -2px;
+      width: 131px;
+
     }
     #startDateInputGlyph,#endDateInputGlyph{
       pointer-events: none;
-      left: -17px;
       height: 33px;
       border-left: solid 1px #BFC9D7;
       padding-left: 8px;
       padding-top: 8px;
+      left: -33px;
     }
     float: left ;
-    border:solid 1px #BFC9D7;
+    border:solid 0px #BFC9D7;
     margin-top: 8px;
-    margin-right:12px;
+    margin-right:-4px;
     border-radius: 2px
 
   }

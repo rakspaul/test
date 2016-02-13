@@ -92,9 +92,10 @@
       'dashboard-DashboardModule':{deps: ['reporting-models-GanttChartModel']},
       'dashboard-DashboardModel':{deps: ['dashboard-DashboardModule']},
       'dashboard-DashboardController':{deps: ['dashboard-DashboardModel']},
+      'dashboard-DashboardController_2':{deps: ['dashboard-DashboardController']},
 
 
-      'campaignList-CampaignListModule':{deps: ['dashboard-DashboardController']},
+      'campaignList-CampaignListModule':{deps: ['dashboard-DashboardController_2']},
       'campaignList-CampaignListModel':{deps: ['campaignList-CampaignListModule']},
       'campaignList-CampaignListService':{deps: ['campaignList-CampaignListModel']},
       'campaignList-CampaignListController':{deps: ['campaignList-CampaignListService']},
@@ -224,7 +225,6 @@
       //'collectiveReport-CollectiveReportDirective':{deps: ['collectiveReport-CollectiveReportModule']},
       'collectiveReport-collective_edit_report_controller':{deps: ['collectiveReport-CollectiveReportModule']},
       'collectiveReport-CollectiveDeleteReportController':{deps: ['collectiveReport-CollectiveReportModule']}
-
 
     },
     optimize: 'uglify2',
@@ -442,6 +442,9 @@
       'jsRoutes': '/jsroutes',
       'common-services-RoleBasedService':'common/services/role_based_service',
       'common-AccountChangeController':'common/account_change_controller',
+      
+      //Visto 2.0
+      'dashboard-DashboardController_2':'visto2.0/dashboard_controller'
     }
 
   });
@@ -526,6 +529,7 @@
            'dashboard-DashboardModule',
            'dashboard-DashboardModel',
            'dashboard-DashboardController',
+           'dashboard-DashboardController_2',
 
 
            'campaignList-CampaignListModule',

@@ -1,3 +1,6 @@
+.dashboard_2 {
+  background: #ececec;
+}
 .dashboard_2 .row {
   margin: 15px 0;
 }
@@ -14,12 +17,14 @@
   width: 100%;
   float: left;
   min-height: 352px;
+  overflow: hidden;
 }
 .dashboard_2 .row [class^="col-md-"] .widgetWrap .chartHeader,
 .dashboard_2 .row [class*=" col-md-"] .widgetWrap .chartHeader {
   float: left;
   width: 100%;
   padding: 10px;
+  border-bottom: 1px solid #bfc9d7;
 }
 .dashboard_2 .row [class^="col-md-"] .widgetWrap .chartHeader h5,
 .dashboard_2 .row [class*=" col-md-"] .widgetWrap .chartHeader h5 {
@@ -72,6 +77,68 @@
 .dashboard_2 .row [class*=" col-md-"] .widgetWrap .chartHeader .widgetCountQuote.positive {
   color: #4CC94A;
 }
+.dashboard_2 .row [class^="col-md-"] .widgetWrap .chartLegend,
+.dashboard_2 .row [class*=" col-md-"] .widgetWrap .chartLegend {
+  float: left;
+  width: 100%;
+  min-width: 430px;
+  position: relative;
+}
+.dashboard_2 .row [class^="col-md-"] .widgetWrap .chartLegend .squareStatus,
+.dashboard_2 .row [class*=" col-md-"] .widgetWrap .chartLegend .squareStatus {
+  float: left;
+  width: 10px;
+  height: 10px;
+  margin: 10px 5px 0 10px;
+  background: #000;
+}
+.dashboard_2 .row [class^="col-md-"] .widgetWrap .chartLegend .labelStatus,
+.dashboard_2 .row [class*=" col-md-"] .widgetWrap .chartLegend .labelStatus {
+  float: left;
+  margin: 7px 5px 0 0;
+  font-size: 12px;
+}
+.dashboard_2 .row [class^="col-md-"] .widgetWrap .chartLegend .scrollLeftLabel.icon-arrow-down-thick,
+.dashboard_2 .row [class*=" col-md-"] .widgetWrap .chartLegend .scrollLeftLabel.icon-arrow-down-thick {
+  float: left;
+  position: absolute;
+  z-index: 10;
+  top: 0;
+  left: 60px;
+  font-size: 12px;
+  height: 30px;
+  width: 30px;
+  line-height: 36px;
+  -ms-transform: rotate(90deg);
+  /* IE 9 */
+  -webkit-transform: rotate(90deg);
+  /* Chrome, Safari, Opera */
+  transform: rotate(90deg);
+  background: #fff;
+  cursor: pointer;
+  text-align: center;
+  display: none;
+}
+.dashboard_2 .row [class^="col-md-"] .widgetWrap .chartLegend .scrollRightLabel.icon-arrow-down-thick,
+.dashboard_2 .row [class*=" col-md-"] .widgetWrap .chartLegend .scrollRightLabel.icon-arrow-down-thick {
+  float: left;
+  position: absolute;
+  z-index: 10;
+  top: 0;
+  left: 340px;
+  font-size: 12px;
+  height: 30px;
+  width: 30px;
+  line-height: 36px;
+  -ms-transform: rotate(-90deg);
+  /* IE 9 */
+  -webkit-transform: rotate(-90deg);
+  /* Chrome, Safari, Opera */
+  transform: rotate(-90deg);
+  background: #fff;
+  cursor: pointer;
+  text-align: center;
+}
 .dashboard_2 .row [class^="col-md-"] .widgetWrap .chartBody,
 .dashboard_2 .row [class*=" col-md-"] .widgetWrap .chartBody {
   float: left;
@@ -82,4 +149,8 @@
 .dashboard_2 .row [class^="col-md-"] .miniChart,
 .dashboard_2 .row [class*=" col-md-"] .miniChart {
   min-height: 80px;
+}
+.dashboard_2 .row [class^="col-md-"] .miniChart .chartHeader,
+.dashboard_2 .row [class*=" col-md-"] .miniChart .chartHeader {
+  border-width: 0;
 }

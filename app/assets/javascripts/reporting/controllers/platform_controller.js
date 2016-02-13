@@ -92,15 +92,25 @@ var angObj = angObj || {};
                 brandId: brandsModel.getSelectedBrand().id,
                 dateFilter: timePeriodModel.timeData.selectedTimePeriod.key
             };
-            if (Number($scope.selectedStrategy.id) >= 0) {
-                param.queryId = 24;
-                param.strategyId = Number($scope.selectedStrategy.id);
-            } else if ($scope.selected_tab === "margin") {
-                param.queryId = 40;
+
+            if ($scope.selected_tab === "margin") {
+                param.dateFilter = "life_time";
+                if (Number($scope.selectedStrategy.id) >= 0) {
+                    param.queryId = 41;
+                    param.strategyId = Number($scope.selectedStrategy.id);
+                } else {
+                    param.queryId = 40;
+                }
+            } else {
+                if (Number($scope.selectedStrategy.id) >= 0) {
+                    param.queryId = 24;
+                    param.strategyId = Number($scope.selectedStrategy.id);
+                }
+                else {
+                    param.queryId = 23;
+                }
             }
-              else {
-                param.queryId = 23;
-            }
+
 
             $scope.performanceBusy = true;
             $scope.costBusy = true;
@@ -381,6 +391,7 @@ var angObj = angObj || {};
                 }
                 else if ($scope.selected_tab === "margin") {
                     $(".lifetime_filter").css("display", "none");
+                    $("#newDatePickerBox").css("display", "none");
                 }
                 else {
                     $(".view_mode_switch_container").hide();

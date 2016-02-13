@@ -82,9 +82,10 @@ var angObj = angObj || {};
         /*
             Sorting of report data
         */
+
         $scope.sortReverse  = false;
         $scope.clickToSort = function(dm) {
-            _.find($scope.selectedMetricsList, function (d) {
+            _.find($scope.customeDimensionData[0][$scope.activeTab], function (d) {
                 if (d['value'] == dm) {
                     $scope.sortType = d['key'];
                 }
@@ -733,8 +734,10 @@ var angObj = angObj || {};
                     $scope.secondDimensionReportLoading[$scope.activeTab][currentRowIndex] = true;
                     $scope.secondDimensionReportDataNotFound[$scope.activeTab] = {};
                     $scope.secondDimensionReportDataNotFound[$scope.activeTab][currentRowIndex] = false;
-                    $scope.secDimensionLoadMore[$scope.activeTab] = {}
-                    $scope.secDimensionLoadIcon[$scope.activeTab] = {}
+                    if(!$scope.secDimensionLoadMore.hasOwnProperty($scope.activeTab)){
+                        $scope.secDimensionLoadMore[$scope.activeTab] = {}
+                        $scope.secDimensionLoadIcon[$scope.activeTab] = {}
+                    }
                 }else{
                     $scope.secDimensionLoadIcon[$scope.activeTab][currentRowIndex] = true;
                 }
