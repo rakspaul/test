@@ -45,33 +45,43 @@ var angObj = angObj || {};
             }
         };
 
-        function uploadProgressCallback(evt) {
+        function uploadProgressCallback(/*evt*/) {
             $scope.domainUploadInProgress = true;
         }
 
-        function uploadSuccessCallback (response, status, headers, config) {
+        function uploadSuccessCallback (response/*, status, headers, config*/) {
             var inventoryData = $scope.workflowData.inventoryData,
                 selectedLists = $scope.workflowData.selectedLists;
 
-            _.each(inventoryData, function (obj, idx) {
-                if (obj.id === response.data.id) {
-                    inventoryData[idx] = response.data;
-                }
-            });
-            _.each(selectedLists, function (obj, idx) {
-                if (obj.id === response.data.id) {
-                    selectedLists[idx] = response.data;
-                }
-            });
-
-            $scope.workflowData.inventoryData = inventoryData;
-            $scope.workflowData.selectedLists = selectedLists;
-            if (response.data.domainAction === 'INCLUDE') {
-                $scope.workflowData.selectedWhiteLists = $scope.workflowData.selectedLists;
+            if ($scope.inventoryCreate) {
+                inventoryData.push(response.data);
+                _.each(selectedLists, function (val) {
+                    if ($scope.workflowData.whiteListsSelected) {
+                        val.domainAction = 'INCLUDE';
+                    } else {
+                        val.domainAction = 'EXCLUDE';
+                    }
+                });
+                // Reset the flag variable
+                $scope.inventoryCreate = false;
             } else {
-                $scope.workflowData.selectedBlackLists = $scope.workflowData.selectedLists;
+                _.each(inventoryData, function (obj, idx) {
+                    if (obj.id === response.data.id) {
+                        inventoryData[idx] = response.data;
+                    }
+                });
+                _.each(selectedLists, function (obj, idx) {
+                    if (obj.id === response.data.id) {
+                        selectedLists[idx] = response.data;
+                    }
+                });
+                if (response.data.domainAction === 'INCLUDE') {
+                    $scope.workflowData.selectedWhiteLists = selectedLists;
+                } else {
+                    $scope.workflowData.selectedBlackLists = selectedLists;
+                }
+                $scope.adData.inventory = response.data;
             }
-            $scope.adData.inventory = response.data;
 
             $scope.domainUploadInProgress = false;
             $scope.showDomainListPopup = false;
@@ -117,8 +127,6 @@ var angObj = angObj || {};
             // If called from Inventory Create New button click, pass without domain Id
             if ($scope.inventoryCreate) {
                 domainId = null;
-                // Reset the flag variable
-                $scope.inventoryCreate = false;
             }
 
             if (files && files.length) {
@@ -330,7 +338,6 @@ var angObj = angObj || {};
 
         // Close domain list dropdown on clicking outside it.
         $(window).on('click', function (e) {
-           console.log('window event = ', e.target);
             if (e.target !== $('#domain-list-dropdown')) {
                 $scope.hideDomainListDropdown();
             }
