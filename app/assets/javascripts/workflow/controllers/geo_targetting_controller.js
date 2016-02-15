@@ -524,8 +524,7 @@ var angObj = angObj || {};
                 $scope.geoTargetingData.cities = [];
                 citiesListArray = [];
                 $scope.listCities();
-                $scope.selectedTab = seltab == 'cities' ? 'regions' : seltab;
-
+                //$scope.selectedTab = seltab == 'cities' ? 'regions' : seltab; //commented this line. I dont know the purpose of this line.
             } else {
                 $scope.geoTargetingData.selected[type] = [];
                 $scope.includeorExcludeCityOnly(type);
@@ -651,13 +650,10 @@ var angObj = angObj || {};
 
             citiesListArray.length = 0;
 
-            $scope.selectedTab = 'regions';
-            $scope.showSwitch = true;
 
             if (flag !== 'cancellable') {
                 flag = 'normal';
             }
-
             if (!$scope.isRegionSelected && event) {
                 regionTab.addClass('show_tooltip');
                 regionTab.find('.common_tooltip').show();
@@ -665,6 +661,11 @@ var angObj = angObj || {};
                 event.stopPropagation();
                 return false;
             }
+
+            //this flag should be below to isRegionSelecled condition.
+            $scope.selectedTab = 'regions';
+            $scope.showSwitch = true;
+
 
             if ($scope.regionsIncluded === true) {
                 $scope.includeSelectedItems();
@@ -766,6 +767,14 @@ var angObj = angObj || {};
                 tabElems,
                 tabContentElem;
 
+            target = event ? $(event.target) : $('#zipCodeTab');
+            tabElems = target.parents('.nav-tabs');
+            tabElems.find('li').removeClass('active');
+            target.parent().addClass('active');
+            tabContentElem = tabElems.siblings('.tab-content');
+            tabContentElem.find('.contentBox').hide();
+            tabContentElem.find('#' + tabType).show();
+
             $('.searchBox').val('');
             if (tabType === 'zip') {
                 if (showPopup && !$scope.zipCodeTabSelected) {
@@ -777,27 +786,32 @@ var angObj = angObj || {};
             }
             $scope.enableZipCodePopUp = false;
             $scope.selectedTab = tabType;
-            target = event ? $(event.target) : $('#zipCodeTab');
-            tabElems = target.parents('.nav-tabs');
-            tabElems.find('li').removeClass('active');
-            target.parent().addClass('active');
-            tabContentElem = tabElems.siblings('.tab-content');
-            tabContentElem.find('.contentBox').hide();
-            tabContentElem.find('#' + tabType).show();
+
             if (tabType === 'zip') {
                 $('.searchInput').hide();
             } else {
                 $('.searchInput').show();
             }
+
             if (tabType === 'dmas') {
                 $scope.listDmas();
             }
-            if (tabType === 'regions' && $('.tab_region_holder').hasClass('active')) {
+
+            $timeout(function () {
+                if(tabType !== 'dmas' && tabType !== 'zip') {
+                    var regionCityElem = $(".regionCityTab");
+                    regionCityElem.find("li").removeClass("active");
+                    regionCityElem.find(".tab_region_holder").addClass("active")
+                    angular.element('#tab_region').triggerHandler('click');
+                }
+            }, 100);
+
+            /*if (tabType === 'regions' && $('.tab_region_holder').hasClass('active')) {
                 $scope.listRegions();
             }
             if (tabType === 'regions' && $('#cityTab').hasClass('active')) {
                 $scope.listCities();
-            }
+            }*/
         };
 
         function modifyDataForPreview() {

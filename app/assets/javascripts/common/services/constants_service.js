@@ -533,9 +533,9 @@
         this.WF_AD_RESUME_FAILURE="Ad Resume Failed"
         this.WF_AD_RESUME_SUCCESS="Ad Resumed Successfully"
         this.WF_AD_PAUSE_MESSAGE="Are you sure you want to pause delivery ?"
-        this.WF_AD_UPDATE="AD Update"
-        this.WF_PAUSE_AD="Pause AD"
-        this.WF_RESUME_AD="Resume AD";
+        this.WF_AD_UPDATE="Ad Update"
+        this.WF_PAUSE_AD="Pause Ad"
+        this.WF_RESUME_AD="Resume Ad";
         this.WF_ARCHIVE_AD="We're sorry."
         this.WF_ARCHIVE_CAMPAIGN="We're sorry."
         this.WF_REDIRECT_USER_FOR_ARCHIVED_AD="You are unable to edit this archived Ad. Click 'Continue' to return to Campaign Overview Screen";
