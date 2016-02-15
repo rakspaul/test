@@ -176,7 +176,9 @@ var angObj = angObj || {};
                 responseData.targets &&
                 responseData.targets.domainTargets &&
                 responseData.targets.domainTargets.inheritedList.ADVERTISER) {
-                $scope.adData.inventory = $scope.workflowData.inventoryData[0];
+                // Make the first item of SelectedLists if at least 1 item has been selected,
+                // else the first item of the Advertiser domain list is the default
+                $scope.adData.inventory = $scope.workflowData.selectedLists[0] || $scope.workflowData.inventoryData[0];
             }
         });
 
@@ -188,6 +190,13 @@ var angObj = angObj || {};
         $scope.workflowData.selectedLists = [];
         $scope.workflowData.whiteListsSelected = false;
         $scope.workflowData.blackListsSelected = false;
+
+        // To determine if a domain list contains a given domain list name
+        $scope.workflowData.isListSelected = function (listName, masterList) {
+            return _.find(masterList, function (obj) {
+               return obj.name === listName;
+            });
+        };
 
         $scope.showDomainListDropdown = function () {
             $('#domain-list-dropdown').css('display', 'block');
@@ -318,5 +327,13 @@ var angObj = angObj || {};
             $scope.adData.listName = temp[0].name;
             $scope.adData.inventory = temp[0];
         };
+
+        // Close domain list dropdown on clicking outside it.
+        $(window).on('click', function (e) {
+           console.log('window event = ', e.target);
+            if (e.target !== $('#domain-list-dropdown')) {
+                $scope.hideDomainListDropdown();
+            }
+        });
     });
 })();

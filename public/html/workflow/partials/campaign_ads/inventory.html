@@ -48,13 +48,16 @@
                                             padding: 10px 0 0 10px;">
                                          Whitelists
                                      </h2>
-                                     <li class="" ng-repeat="inventory in workflowData.inventoryData |
+                                     <li class="domain-whitelist-item"
+                                            ng-repeat="inventory in workflowData.inventoryData |
                                             filter: {domainAction: 'INCLUDE'}">
                                          <input type="checkbox"
                                                 class="checkboxcls col-md-1"
                                                 value="{{inventory.name}}"
                                                 style="margin: 8px 0 0 10px;"
                                                 name="domain-list-checkbox"
+                                                ng-checked="workflowData.isListSelected(inventory.name,
+                                                            workflowData.selectedLists)"
                                                 ng-click="selectDomainList($event)">
                                          <span class="col-md-11"
                                                data-ng-bind="inventory.name"
@@ -71,13 +74,16 @@
                                             font-size: 14px; padding: 10px 0 0 10px;">
                                          Blacklists
                                      </h2>
-                                     <li class="" ng-repeat="inventory in workflowData.inventoryData |
+                                     <li class="domain-blacklist-item"
+                                            ng-repeat="inventory in workflowData.inventoryData |
                                             filter: {domainAction: 'EXCLUDE'}">
                                          <input type="checkbox"
                                                 class="checkboxcls col-md-1"
                                                 value="{{inventory.name}}"
                                                 style="margin: 8px 0 0 10px;"
                                                 name="domain-list-checkbox"
+                                                ng-checked="workflowData.isListSelected(inventory.name,
+                                                            workflowData.selectedLists)"
                                                 ng-click="selectDomainList($event)">
                                          <span class="col-md-11"
                                                data-ng-bind="inventory.name"
@@ -130,7 +136,8 @@
                     <h1 class="col-md-12 zeroPadding" data-ng-bind="textConstants.INVENTORY_SELECTED_DOMAIN_LISTS"></h1>
                     <div class="btn-group miniToggle col-md-12 zeroPadding" style="margin-bottom: 15px;">
                         <label ng-repeat="inventory in workflowData.selectedLists"
-                               class="btn btn-default {{inventory === workflowData.selectedLists[0] ? 'active' : ''}}">
+                               class="btn btn-default {{inventory === workflowData.selectedLists[0] ||
+                                    workflowData.selectedLists.length === 1 ? 'active' : ''}}">
                             <span data-ng-bind="inventory.name + ' (' + inventory.domainList.length + ')'"></span>
                             <input type="radio"
                                    name="inventoryType"
