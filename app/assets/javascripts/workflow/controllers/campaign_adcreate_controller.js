@@ -1159,18 +1159,17 @@ var angObj = angObj || {};
                             if($scope.mode === 'edit') {
                                 var adData = angular.copy(workflowService.getAdsDetails());
                                 postGeoTargetObj = adData.targets.geoTargets;
-                                if(postGeoTargetObj.REGION) {
-                                    postGeoTargetObj.REGION.geoTargetList =
-                                        _.pluck(postGeoTargetObj.REGION.geoTargetList, 'id');
-                                }
-                                if(postGeoTargetObj.CITY) {
-                                    postGeoTargetObj.CITY.geoTargetList =
-                                        _.pluck(postGeoTargetObj.REGION.geoTargetList, 'id');
-                                }
+                                if(postGeoTargetObj) {
+                                    if (postGeoTargetObj.REGION) {
+                                        postGeoTargetObj.REGION.geoTargetList = _.pluck(postGeoTargetObj.REGION.geoTargetList, 'id');
+                                    }
+                                    if (postGeoTargetObj.CITY) {
+                                        postGeoTargetObj.CITY.geoTargetList = _.pluck(postGeoTargetObj.REGION.geoTargetList, 'id');
+                                    }
 
-                                if(postGeoTargetObj.DMA) {
-                                    postGeoTargetObj.DMA.geoTargetList =
-                                        _.pluck(postGeoTargetObj.REGION.geoTargetList, 'id');
+                                    if (postGeoTargetObj.DMA) {
+                                        postGeoTargetObj.DMA.geoTargetList = _.pluck(postGeoTargetObj.REGION.geoTargetList, 'id');
+                                    }
                                 }
                                 postAdDataObj.targets.geoTargets = postGeoTargetObj;
                             }
