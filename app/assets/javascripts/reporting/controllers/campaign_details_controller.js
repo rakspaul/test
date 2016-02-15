@@ -442,7 +442,9 @@
                 queryId: 14, //cost_report_for_one_or_more_campaign_ids
                 clientId: loginModel.getSelectedClient().id,
                 campaignIds: campaign.orderId,
-                dateFilter: timePeriodModel.timeData.selectedTimePeriod.key
+                dateFilter: timePeriodModel.timeData.selectedTimePeriod.key,
+                advertiserId: advertiserModel.getSelectedAdvertiser().id,
+                brandId: brandsModel.getSelectedBrand().id
             }
             var url = urlService.APIVistoCustomQuery(params);
             dataService.fetch(url).then(function(result) {
@@ -491,9 +493,6 @@
                         var findOthers = _.findWhere($scope.costBreakdownChartInfo, {name: 'Other'});
                         cBreakdownChartColors.push(findOthers.colorCode);
                         cBreakdownChartData.push(findOthers.value);
-//                         if(costData.cost_transparency === false) {
-//                             $scope.isCostModelTransparent = false;
-//                         }
                          //set Up configuration for Cost breakdown chart
                          $scope.costBreakDownPieChartConfig = {data:cBreakdownChartData,width:108,height:108,widgetId:'costBreakdownWidget',colors:cBreakdownChartColors};
 
