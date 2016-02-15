@@ -76,6 +76,7 @@ var angObj = angObj || {};
         ];
 
         audienceService.resetDayPartdata();
+        audienceService.setDayPartDispObj(null, null);
 
         _dayPartTargetting = {
             setHoursType : function(clock) {
@@ -395,13 +396,48 @@ var angObj = angObj || {};
             $scope.timezoneFormat=type;
         };
 
+        $scope.setSelectedDayparts = function(){
+            $scope.Schedule.dayPart = [];
+            $scope.dayTimeSelected = [];
+            $scope.Schedule.daytimeArr = [];
+
+            var daypartObj = JSON.parse(localStorage.getItem("dayPart"));
+            var selectedDayTime = JSON.parse(localStorage.getItem("dayTimeSelected"));
+            var dayTimeArr = JSON.parse(localStorage.getItem("daytimeArr"));
+
+            if(selectedDayTime)
+                $scope.dayTimeSelected = selectedDayTime;
+
+            var previouslySavedData = audienceService.getDayPartdata();
+            if(daypartObj) {
+                $scope.Schedule.dayPart = daypartObj;
+            }
+
+            if(dayTimeArr) {
+                $scope.Schedule.daytimeArr = dayTimeArr;
+            }
+
+            if(!daypartObj && !selectedDayTime && !dayTimeArr){
+                $scope.timeSelected = 'All days and times';
+                $scope.Schedule.dayTimeSelected(0)
+            }
+
+            if(previouslySavedData){
+                $timeout(function(){
+                    _dayPartTargetting.setHoursType(previouslySavedData.clock.toUpperCase());
+                },200)
+                _dayPartTargetting.setTimeZone(previouslySavedData.timeZone);
+            }
+        }
+
         // Closes Daypart Targeting View
         $scope.resetDayPartTargetingVariables = function () {
             var dayParting = audienceService.getDaytimeObj();
-
             if (!dayParting || dayParting.length === 0) {
                 $scope.adData.isDaypartSelected = false;
                 $scope.adData.targetName = null;
+            } else {
+                $scope.setSelectedDayparts();
             }
             _dayPartTargetting.hideDayPartTargetingBox();
         };
@@ -740,39 +776,7 @@ var angObj = angObj || {};
                 }
             }
         };
-        $scope.$on('setSelectedDayparts',function(){
-            $scope.Schedule.dayPart = [];
-            $scope.dayTimeSelected = [];
-            $scope.Schedule.daytimeArr = [];
 
-            var daypartObj = JSON.parse(localStorage.getItem("dayPart"));
-            var selectedDayTime = JSON.parse(localStorage.getItem("dayTimeSelected"));
-            var dayTimeArr = JSON.parse(localStorage.getItem("daytimeArr"));
-
-            if(selectedDayTime)
-                $scope.dayTimeSelected = selectedDayTime;
-
-            var previouslySavedData = audienceService.getDayPartdata();
-            if(daypartObj) {
-                $scope.Schedule.dayPart = daypartObj;
-            }
-
-            if(dayTimeArr) {
-                $scope.Schedule.daytimeArr = dayTimeArr;
-            }
-
-            if(!daypartObj && !selectedDayTime && !dayTimeArr){
-                $scope.timeSelected = 'All days and times';
-                $scope.Schedule.dayTimeSelected(0)
-            }
-          
-            if(previouslySavedData){
-                $timeout(function(){
-                    setHoursType(previouslySavedData.clock.toUpperCase());
-                },200)
-                setTimeZone(previouslySavedData.timeZone);
-            }
-        })
 
         $scope.$on('triggerDayPart', function() {
             var moduleDeleted = workflowService.getDeleteModule();
@@ -783,5 +787,8 @@ var angObj = angObj || {};
             }
             _dayPartTargetting.showDayPartTargetBox();
         })
+
+        $scope.resetDayPartTargetingVariables();
+
     });
 })();
