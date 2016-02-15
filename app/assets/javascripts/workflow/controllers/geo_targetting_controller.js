@@ -650,7 +650,6 @@ var angObj = angObj || {};
 
             citiesListArray.length = 0;
 
-
             if (flag !== 'cancellable') {
                 flag = 'normal';
             }
@@ -665,7 +664,6 @@ var angObj = angObj || {};
             //this flag should be below to isRegionSelecled condition.
             $scope.selectedTab = 'regions';
             $scope.showSwitch = true;
-
 
             if ($scope.regionsIncluded === true) {
                 $scope.includeSelectedItems();
@@ -1048,7 +1046,11 @@ var angObj = angObj || {};
             $scope.storedResponse = angular.copy(workflowService.getAdsDetails());
             var moduleDeleted = workflowService.getDeleteModule();
             if(_.indexOf(moduleDeleted, 'Geography') !== -1) {
-                $scope.storedResponse.targets.geoTargets = null;
+                if($scope.storedResponse) {
+                    $scope.storedResponse.targets.geoTargets = null;
+                }
+                $scope.resetGeoTargetingVariables();
+                workflowService.resetDeleteModule();
                 workflowService.setSavedGeo(null);
             }
 

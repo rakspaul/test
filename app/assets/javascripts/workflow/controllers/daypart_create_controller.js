@@ -309,7 +309,9 @@ var angObj = angObj || {};
             audienceService.setDayTimeArr(angular.copy($scope.Schedule.daytimeArr));
             $scope.adData.isDaypartSelected=null;
             var fetchedObj = workflowService.getAdsDetails();
-            fetchedObj.targets.adDaypartTargets = [];
+            if(fetchedObj) {
+                fetchedObj.targets.adDaypartTargets = [];
+            }
             workflowService.setAdsDetails(fetchedObj);
         };
 
@@ -775,6 +777,7 @@ var angObj = angObj || {};
         $scope.$on('triggerDayPart', function() {
             var moduleDeleted = workflowService.getDeleteModule();
             if(_.indexOf(moduleDeleted, 'dayParting') !== -1) {
+                workflowService.resetDeleteModule();
                 audienceService.resetDayPartdata();
                 $scope.deleteDayPartTarget();
             }

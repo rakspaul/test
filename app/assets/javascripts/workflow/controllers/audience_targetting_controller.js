@@ -450,7 +450,8 @@ var angObj = angObj || {};
             _audienceTargetting.resetAudience();
             $scope.selectedAudience = [];
             var fetchedObj = workflowService.getAdsDetails();
-            fetchedObj.targets.segmentTargets.segmentList = [];
+            if(fetchedObj)
+                fetchedObj.targets.segmentTargets.segmentList = [];
             workflowService.setAdsDetails(fetchedObj);
         };
 
@@ -507,6 +508,7 @@ var angObj = angObj || {};
         $scope.$on('triggerAudience', function () {
             var moduleDeleted = workflowService.getDeleteModule();
             if(_.indexOf(moduleDeleted, 'Audience') !== -1) {
+                workflowService.resetDeleteModule();
                 audienceService.resetAudienceData();
                 $scope.clearAllSelectedAudience();
             }

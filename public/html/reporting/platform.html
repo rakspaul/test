@@ -44,7 +44,7 @@
                                 {{textConstants.PERFORMANCE}}
                             </div>
                         </div>
-                        <div class="each_tab " id="platform_cost" ng-show="isAgencyCostModelTransparent">
+                        <div class="each_tab " id="platform_cost">
                             <div class="each_tab_text">
                                 {{textConstants.COST}}
                             </div>
@@ -178,11 +178,8 @@
 
                     <div class="reports_block" id="reports_platform_margin_block" style="display:none; position:relative; overflow-x:scroll; border:1px solid #F2F2F2">
                     <div class="no_data_found" ng-if="dataNotFoundForMargin" ng-bind-html="getMessageForDataNotAvailable(selectedCampaign)"></div>
-
-
-                    <div class="reports_details_outer_container" style="overflow:auto; width:1480px;">
-
-                        <div class="clearfix reports_platform_header">
+                    <div class="reports_details_outer_container" style="overflow:auto; width:1480px;" ng-show="!dataNotFoundForMargin">
+                        <div class="clearfix reports_platform_header" ng-hide="marginBusy">
                             <margin-header></margin-header>
                         </div>
                         <div class="strategy_total_container ">

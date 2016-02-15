@@ -198,6 +198,7 @@ var angObj = angObj || {};
             workflowService.resetDeleteModule();
             workflowService.setSavedGeo(null);
             workflowService.setDeleteModule('Geography');
+
             if($scope.mode === 'edit') {
                 var adData = angular.copy(workflowService.getAdsDetails());
                 adData.targets.geoTargets= null;
