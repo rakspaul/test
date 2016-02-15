@@ -727,6 +727,7 @@ var angObj = angObj || {};
                     currentRowIndex = Number(currFirtDimensionElem.attr("data-result-row"));
 
                 if(_customctrl.isReportLastPage_2D[currentRowIndex]){
+                    currFirtDimensionElem.addClass('active');
                     return true;
                 }
                 if(_customctrl.reportPageNum_2D[currentRowIndex] == 1) {

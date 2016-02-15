@@ -196,6 +196,7 @@ var angObj = angObj || {};
             $scope.geoTargetingPreviewObj = null;
             $scope.adData.targetName = null;
             workflowService.resetDeleteModule();
+            workflowService.setSavedGeo(null);
             workflowService.setDeleteModule('Geography');
             if($scope.mode === 'edit') {
                 var adData = angular.copy(workflowService.getAdsDetails());
@@ -220,8 +221,6 @@ var angObj = angObj || {};
         };
 
         /****************** END : GEO TARGETING  ***********************/
-
-
 
             // Targeting Trigger -- Onload.
         $scope.$on('setTargeting' , function($event, args) {
