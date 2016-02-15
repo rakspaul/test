@@ -519,11 +519,10 @@ var angObj = angObj || {};
                 $scope.resetSwitch();
                 $scope.includeorExcludeCityOnly(subtype);
                 var seltab = $scope.selectedTab;
-
                 //reload city
                 $scope.geoTargetingData.cities = [];
                 citiesListArray = [];
-                $scope.listCities();
+                //$scope.listCities();
                 //$scope.selectedTab = seltab == 'cities' ? 'regions' : seltab; //commented this line. I dont know the purpose of this line.
             } else {
                 $scope.geoTargetingData.selected[type] = [];
@@ -1017,6 +1016,7 @@ var angObj = angObj || {};
                 !$scope.geoTargetingData.selected.previewData.exclude)) {
                 $scope.adData.isGeographySelected = false;
                 $scope.adData.targetName = null;
+                $scope.resetGeoTargetingVariables();
             }
 
             if (cancelClicked && workflowService.getSavedGeo()) {
