@@ -625,10 +625,10 @@ var angObj = angObj || {};
                 },
 
                 pauseAdDataObj = {
-                    name: $scope.getAdResult.name,
-                    id: $scope.getAdResult.id,
-                    campaignId: $scope.getAdResult.campaignId,
-                    updatedAt: $scope.getAdResult.updatedAt
+                    name: $scope.getAd_result.name,
+                    id: $scope.getAd_result.id,
+                    campaignId: $scope.getAd_result.campaignId,
+                    updatedAt: $scope.getAd_result.updatedAt
                 };
 
             workflowService
@@ -654,10 +654,10 @@ var angObj = angObj || {};
                 },
 
                 resumeAdDataObj = {
-                    name: $scope.getAdResult.name,
-                    id: $scope.getAdResult.id,
-                    campaignId: $scope.getAdResult.campaignId,
-                    updatedAt: $scope.getAdResult.updatedAt
+                    name: $scope.getAd_result.name,
+                    id: $scope.getAd_result.id,
+                    campaignId: $scope.getAd_result.campaignId,
+                    updatedAt: $scope.getAd_result.updatedAt
                 };
 
             workflowService
@@ -699,9 +699,9 @@ var angObj = angObj || {};
         $scope.cancelAdResume = function () {
             $scope.resumeMessage =
                 'Resume delivery for flight dates ' +
-                momentService.utcToLocalTime($scope.getAdResult.startTime, 'DD MMM YYYY') +
+                momentService.utcToLocalTime($scope.getAd_result.startTime, 'DD MMM YYYY') +
                 ' to ' +
-                momentService.utcToLocalTime($scope.getAdResult.endTime, 'DD MMM YYYY') +
+                momentService.utcToLocalTime($scope.getAd_result.endTime, 'DD MMM YYYY') +
                 ' ?';
 
             if ($scope.disableResume !== 'disabled') {
@@ -1143,6 +1143,7 @@ var angObj = angObj || {};
                                         });
                                     }
                                 });
+
 
                                 postGeoTargetObj.ZIPCODE = {
                                     'isIncluded': true,
