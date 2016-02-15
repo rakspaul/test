@@ -277,13 +277,13 @@
 
             getCreativesforCreativeList: function (clientId, formats, query, pageSize, pageNo) {
                 var queryStr = query ? query : '',
-                    creativeFormats = formats ? '?creativeFormat=' + formats : '',
+                    creativeFormats = formats ? 'creativeFormat=' + formats : '',
                     url;
 
-                pageSize = pageSize ? '?pageSize=' + pageSize : '';
+                pageSize = pageSize ? '&pageSize=' + pageSize : '';
                 pageNo = pageNo ? '&pageNo=' + pageNo : '';
 
-                url = apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/creatives' +
+                url = apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/creatives?' +
                     creativeFormats + queryStr + pageSize + pageNo;
 
                 return dataService.fetch(url);

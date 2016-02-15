@@ -9,7 +9,7 @@ var angObj = angObj || {};
         $scope.creativeAds={};
         $scope.creativeAds['creativeAdData'] = {};
         $scope.showHideToggle=false;
-        $scope.creativeData={}
+        $scope.creativeData={};
         $scope.creativeData['creatives']=[];
         $scope.pageSize=20;
         $scope.pageNo = 1;
@@ -27,6 +27,7 @@ var angObj = angObj || {};
         $scope.loadCreativeData=false;
         $scope.deletePopup=false;
 
+        var isSearch = false;
 
         var creativeList = {
             getCreativesList: function (campaignId, formats, query,pageSize,pageNo) {
@@ -42,7 +43,7 @@ var angObj = angObj || {};
                                 if(result.data.data &&result.data.data.length>0){
                                     var alreadyFound=_.filter($scope.creativeData['creatives'], function (obj) {
                                         return obj.id === result.data.data[0].id;
-                                    })
+                                    });
                                     if(alreadyFound<=0){
                                         _.each(result.data.data , function (obj) {
                                             $scope.creativeData['creatives'].push(obj);
@@ -172,16 +173,17 @@ var angObj = angObj || {};
         };
 
         $scope.creativeSearchFunc = function () {
+            isSearch = true;
             var searchVal = $scope.creativeSearch,
-                qryStr = '',
-                formats = 'VIDEO,DISPLAY';
+                qryStr = '';
+                //formats = 'VIDEO,RICHMEDIA,DISPLAY';
 
             if (searchVal.length > 0) {
-                qryStr += '&query=' + searchVal;
+                qryStr += 'query=' + searchVal;
             }
             if(qryStr.length > 2){
                 var selectedClientObj = localStorage.selectedClient && JSON.parse(localStorage.selectedClient);
-                creativeList.getCreativesList(JSON.parse(localStorage.selectedClient).id,formats, qryStr);
+                creativeList.getCreativesList(JSON.parse(localStorage.selectedClient).id, undefined, qryStr);
             }else if(qryStr.length==0){
                 var selectedClientObj = localStorage.selectedClient && JSON.parse(localStorage.selectedClient);
                 creativeList.getCreativesList(JSON.parse(localStorage.selectedClient).id,'', '',20, 1);
@@ -202,7 +204,7 @@ var angObj = angObj || {};
                         'clientName': clientName
                     };
                     localStorage.setItem('campaignData', JSON.stringify(campaignData));
-                    $scope.clientId =  clientId
+                    $scope.clientId =  clientId;
                     $scope.creativeSearch = '';
                     creativeList.getCreativesList(clientId,'','',$scope.pageSize,$scope.pageNo);
                 } else {
@@ -372,6 +374,7 @@ var angObj = angObj || {};
         };
         
         $scope.searchHideInput = function () {
+            isSearch = false;
             $(".searchInputForm").animate({width: '44px'}, 'fast');
             var inputSearch = $(".searchInputForm input");
             inputSearch.val('');
@@ -404,7 +407,8 @@ var angObj = angObj || {};
         $(function() {
             $(window).scroll(function(){
                 //if($(this).scrollTop() + $(this).innerHeight() >= $(this)[0].scrollHeight) {
-                if($(window).scrollTop() + $(window).height() == $(document).height()) {
+                if($(window).scrollTop() + $(window).height() == $(document).height() && !isSearch) {
+
                     //console.log("$(this).scrollTop():"+$(this).scrollTop()+"$(this).innerHeight():"+$(this).innerHeight()+"$(this)[0].scrollHeight:"+$(this)[0].scrollHeight)
                     var selectedClientObj = localStorage.selectedClient && JSON.parse(localStorage.selectedClient);
                     if(selectedClientObj) {
