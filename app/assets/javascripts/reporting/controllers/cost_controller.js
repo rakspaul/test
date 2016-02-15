@@ -212,12 +212,11 @@ var angObj = angObj || {};
 
             $scope.download_report = [
                 {
-                    'url' : '/reportBuilder/reportDownload',
+                    'url' : '/reportBuilder/customQueryDownload',
                     'query_id': 16,
-                    'report_type' : 'all',
-                    'report_cat' : 'cost',
                     'label' : 'Cost Report',
-                    'className' : 'report_cost'
+                    'className' : 'report_cost',
+                    'download_config_id': 1
                 }
             ];
         };

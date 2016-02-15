@@ -140,18 +140,16 @@ var angObj = angObj || {};
         $scope.createDownloadReportUrl = function () {
             $scope.download_report = [
                 {
-                    'url' : '/reportBuilder/reportDownload',
+                    'url' : '/reportBuilder/customQueryDownload',
                     'query_id': 30,
-                    'report_type' : 'ad',
-                    'report_cat' : 'quality',
-                    'label' : 'Quality by Ad'
+                    'label' : 'Quality by Ad',
+                    'download_config_id': 1
                 },
                 {
-                    'url' : '/reportBuilder/reportDownload',
+                    'url' : '/reportBuilder/customQueryDownload',
                     'query_id': 31,
-                    'report_type' : 'domain',
-                    'report_cat' : 'quality',
-                    'label' : 'Quality by Domain'
+                    'label' : 'Quality by Domain',
+                    'download_config_id': 1
                 }
             ];
         };
