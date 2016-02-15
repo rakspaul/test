@@ -152,13 +152,6 @@ var angObj = angObj || {};
                     'report_type' : 'domain',
                     'report_cat' : 'quality',
                     'label' : 'Quality by Domain'
-                },
-                {
-                    'url' : '/reportBuilder/reportDownload',
-                    'query_id': 31,
-                    'report_type' : 'publisher',
-                    'report_cat' : 'quality',
-                    'label' : 'Quality by Publisher'
                 }
             ];
         };
