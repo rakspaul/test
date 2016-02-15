@@ -75,7 +75,7 @@
             </span>
 
         </div>
-        <span ng-if="(geoTargetingPreviewObj.include.count >0 || geoTargetingPreviewObj.exclude.count >0)" class="onSelectBtn btn btn-default active" ng-click="selectGeoTarget()"></span>
+        <span ng-if="$parent.isPlatformSelected" class="onSelectBtn btn btn-default active" ng-click="selectGeoTarget()"></span>
         <input ng-if="!geoTargetingPreviewObj.include && !geoTargetingPreviewObj.exclude " type="button" name="platform" value="Create" ng-disabled="!$parent.isPlatformSelected" class="btn btn-default" ng-click="selectGeoTarget()">
     </div>
     <!--END : Geo Targeting Card-->

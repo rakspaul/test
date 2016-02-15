@@ -78,6 +78,12 @@ var angObj = angObj || {};
             var audienceData = $scope.audienceDataForPreview;
             if(audienceData) audienceData.length = 0;
             workflowService.setDeleteModule('Audience');
+            if($scope.mode === 'edit') {
+                var adData = angular.copy(workflowService.getAdsDetails());
+                adData.targets.segmentTargets.segmentList = null;
+                workflowService.setAdsDetails(adData);
+                audienceService.resetAudienceData();
+            }
         };
 
 
@@ -102,6 +108,11 @@ var angObj = angObj || {};
             var dayPartData = $scope.selectedDayParts['data'];
             if(dayPartData) dayPartData.length = 0;
             workflowService.setDeleteModule('dayParting');
+            if($scope.mode === 'edit') {
+                var adData = angular.copy(workflowService.getAdsDetails());
+                adData.targets.adDaypartTargets = null;
+                workflowService.setAdsDetails(adData);
+            }
         };
 
         /****************** START : GEO TARGETING  ***********************/
@@ -186,6 +197,11 @@ var angObj = angObj || {};
             $scope.adData.targetName = null;
             workflowService.resetDeleteModule();
             workflowService.setDeleteModule('Geography');
+            if($scope.mode === 'edit') {
+                var adData = angular.copy(workflowService.getAdsDetails());
+                adData.targets.geoTargets= null;
+                workflowService.setAdsDetails(adData);
+            }
         };
 
         $scope.deleteTargetting = function () {
