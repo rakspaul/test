@@ -11,7 +11,6 @@ var angObj = angObj || {};
         // Flag to denote that ad format has changed
         $scope.adFormatChanged = false;
 
-
         $scope.adCreateLoader = false;
 
         var winHeaderHeight = $(window).height() - 50,
@@ -34,15 +33,12 @@ var angObj = angObj || {};
                     workflowService
                         .getCampaignData(campaignId)
                         .then(function (result) {
-                            var responseData,
-                                url;
+                            var responseData;
 
                             if (result.status === 'OK' || result.status === 'success') {
                                 responseData = result.data.data;
                                 //redirect user to media plan list screen if new or edited ad is from archived campaign
                                 if(responseData.isArchived){
-                                    // url = vistoconfig.MEDIA_PLANS_LINK;
-                                    // $location.url(url);
                                     $scope.redirectFlag = true;
                                 }
                                 $scope.workflowData.campaignData = responseData;
@@ -69,13 +65,9 @@ var angObj = angObj || {};
                                                 adId: $scope.adId
                                             })
                                             .then(function (result) {
-                                                var url;
-
                                                 $scope.getAd_result = result.data.data;
                                                 //redirect user to campaingn overview screen if ad is archived
                                                 if($scope.getAd_result.isArchived){
-                                                    // url = 'mediaplan/'+$scope.campaignId+'/overview';
-                                                    // $location.url(url);
                                                     $scope.redirectFlag = true;
                                                     $scope.archivedAdFlag = true;
                                                 }
@@ -83,7 +75,6 @@ var angObj = angObj || {};
                                                 processEditMode(result);
                                             });
                                     } else {
-
                                         workflowService
                                             .getAdgroups($scope.campaignId)
                                             .then(function (result) {
@@ -115,11 +106,9 @@ var angObj = angObj || {};
                                         workflowService
                                             .getDetailedAdsInAdGroup($scope.campaignId, $scope.adGroupId, $scope.adId)
                                             .then(function (result) {
-                                                // $scope.getAdResult = result.data.data;
-                                                // disablePauseEnableResume($scope.getAdResult);
                                                 $scope.getAd_result = result.data.data;
                                                 //redirect user to campaingn overview screen if ad is archived
-                                                if($scope.getAd_result.isArchived){
+                                                if ($scope.getAd_result.isArchived) {
                                                     $scope.redirectFlag = true;
                                                     $scope.archivedAdFlag = true;
                                                 }
@@ -213,7 +202,8 @@ var angObj = angObj || {};
                 },
 
                 saveTrackerFile : function() {
-                    var clientId, url;
+                    var clientId,
+                        url;
 
                     if ($scope.adId) {
                         clientId = loginModel.getSelectedClient().id;
@@ -274,7 +264,7 @@ var angObj = angObj || {};
                                 localStorage.setItem('topAlertMessage', $scope.textConstants.AD_CREATED_SUCCESS);
                             }
 
-                            if(isDownloadTrackerClicked) {
+                            if (isDownloadTrackerClicked) {
                                 campaignOverView.saveTrackerFile();
                             }
                         } else {
@@ -331,7 +321,7 @@ var angObj = angObj || {};
                 } else {
                     $scope.redirectFlag = false;
                     $scope.archivedAdFlag = false;
-                    url = 'mediaplan/'+$scope.campaignId+'/overview';
+                    url = 'mediaplan/' + $scope.campaignId + '/overview';
                 }
             } else {
                 url = vistoconfig.MEDIA_PLANS_LINK;
@@ -343,6 +333,7 @@ var angObj = angObj || {};
         // This sets dynamic width to line to take 100% height
         function colResize() {
             var winHeight = $(window).height() - 110;
+
             $('.campaignAdCreateWrap, .campaignAdCreatePage, .left_column_nav').css('min-height', winHeight + 'px');
             $('.adStepOne .tab-pane').css('min-height', winHeight - 30 + 'px');
             $('.targetingSlide .tab-pane').css('min-height', winHeight - 130 + 'px');
@@ -520,7 +511,6 @@ var angObj = angObj || {};
 
             $scope.$broadcast('updateCreativeTags');
 
-
             if (responseData.targets && responseData.targets.geoTargets && _.size(responseData.targets.geoTargets) > 0) {
                 $scope.$broadcast('setTargeting', ['Geography']);
             }
@@ -534,8 +524,8 @@ var angObj = angObj || {};
             if (responseData.targets &&
                 responseData.targets.segmentTargets &&
                 _.size(responseData.targets.segmentTargets) > 0 &&
-                responseData.targets.segmentTargets.segmentList
-                && _.size(responseData.targets.segmentTargets.segmentList) > 0 ) {
+                responseData.targets.segmentTargets.segmentList &&
+                _.size(responseData.targets.segmentTargets.segmentList) > 0 ) {
                 $scope.$broadcast('setTargeting', ['Audience']);
             }
         }
@@ -982,7 +972,6 @@ var angObj = angObj || {};
             $scope.selectedFreq = freqSelected;
         };
 
-
         $scope.campaignAdSave = function (isDownloadTrackerClicked) {
             var formElem = $('#formAdCreate'),
                 formData = formElem.serializeArray(),
@@ -999,7 +988,8 @@ var angObj = angObj || {};
                 dayPart,
                 domainTargetObj,
                 i,
-                domainListIds = [];
+                domainListIds = [],
+                adData;
 
             formData = _.object(_.pluck(formData, 'name'), _.pluck(formData, 'value'));
 
@@ -1136,10 +1126,15 @@ var angObj = angObj || {};
                                 _.each(zipObj, function (zipArr) {
                                     if (zipArr.added) {
                                         _.each(zipArr.added, function (obj) {
-                                            var arr = obj.split('-');
+                                            var arr = obj.split('-'),
+                                                start,
+                                                end,
+                                                i;
+
                                             if (arr.length > 1) {
-                                                var start = Number(arr[0]), end = Number(arr[1]);
-                                                for (var i = start; i <= end; i++) {
+                                                start = Number(arr[0]);
+                                                end = Number(arr[1]);
+                                                for (i = start; i <= end; i++) {
                                                     zipPostArr.push(String(i));
                                                 }
                                             } else {
@@ -1148,7 +1143,6 @@ var angObj = angObj || {};
                                         });
                                     }
                                 });
-                                
 
                                 postGeoTargetObj.ZIPCODE = {
                                     'isIncluded': true,
@@ -1156,24 +1150,26 @@ var angObj = angObj || {};
                                 };
                             }
                         } else {
-                            if($scope.mode === 'edit') {
-                                var adData = angular.copy(workflowService.getAdsDetails());
+                            if ($scope.mode === 'edit') {
+                                adData = angular.copy(workflowService.getAdsDetails());
                                 postGeoTargetObj = adData.targets.geoTargets;
                                 if(postGeoTargetObj) {
                                     if (postGeoTargetObj.REGION) {
-                                        postGeoTargetObj.REGION.geoTargetList = _.pluck(postGeoTargetObj.REGION.geoTargetList, 'id');
+                                        postGeoTargetObj.REGION.geoTargetList =
+                                            _.pluck(postGeoTargetObj.REGION.geoTargetList, 'id');
                                     }
                                     if (postGeoTargetObj.CITY) {
-                                        postGeoTargetObj.CITY.geoTargetList = _.pluck(postGeoTargetObj.REGION.geoTargetList, 'id');
+                                        postGeoTargetObj.CITY.geoTargetList =
+                                            _.pluck(postGeoTargetObj.REGION.geoTargetList, 'id');
                                     }
 
                                     if (postGeoTargetObj.DMA) {
-                                        postGeoTargetObj.DMA.geoTargetList = _.pluck(postGeoTargetObj.REGION.geoTargetList, 'id');
+                                        postGeoTargetObj.DMA.geoTargetList =
+                                            _.pluck(postGeoTargetObj.REGION.geoTargetList, 'id');
                                     }
                                 }
                                 postAdDataObj.targets.geoTargets = postGeoTargetObj;
                             }
-
                         }
 
                         // audience segment
