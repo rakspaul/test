@@ -436,6 +436,7 @@ var angObj = angObj || {};
                 $scope.includeorExcludeCityOnly(type);
             }
             if (type === 'regions' && $scope.showCitiesTab) {
+                $scope.citiesIncludeSwitchLabel = true;
                 removeFromSelectedCityArr = function (cityObj) {
                     var selectedCities = $scope.geoTargetingData.selected.cities,
                         pos = _.findIndex(selectedCities, cityObj);
@@ -465,8 +466,12 @@ var angObj = angObj || {};
                 //reload city
                 $scope.geoTargetingData.cities = [];
                 citiesListArray = [];
-                $scope.listCities()
+                $scope.listCities();
             }
+            if(type === 'dmas') {
+                $scope.dmasIncluded = true;
+            }
+
             if (type === 'zip') {
                 if ($scope.zipCodesObj)  $scope.zipCodesObj = [];
             }
