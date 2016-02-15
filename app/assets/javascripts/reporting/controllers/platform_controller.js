@@ -120,9 +120,6 @@ var angObj = angObj || {};
             var tab = $scope.selected_tab.substr(0, 1).toUpperCase() + $scope.selected_tab.substr(1);
 
             var errorHandlerForPerformanceTab = function (result) {
-//                if ((tab === 'Cost') && result && result.status === 204) {
-//                    $scope.isCostModelTransparent = true;
-//                }
                 $scope['dataNotFoundFor'+tab] = true;
             }
 
@@ -131,7 +128,6 @@ var angObj = angObj || {};
             dataService.fetch(url).then(function (result) {
                 $scope.strategyLoading = false;
                 if (result.status === "OK" || result.status === "success") {
-             //       $scope.isCostModelTransparent = true;
                     $scope.performanceBusy = false;
                     $scope.videoMode = true;
                     $scope.costBusy = false;

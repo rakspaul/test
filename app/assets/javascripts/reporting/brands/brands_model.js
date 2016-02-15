@@ -22,7 +22,9 @@ brandsModule.factory("brandsModel", ['brandsService', 'constants', function (bra
                     brands = [{id: -1, name: constants.ALL_BRANDS}].concat(resData);//brands.concat(resData);
                     brand.totalBrands = brands.length;
                     success.call(this, brands);
-                })
+                });
+            }else{
+                success.call();
             }
         },
         setSelectedBrand: function (_brand) {

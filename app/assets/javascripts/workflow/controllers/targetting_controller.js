@@ -111,6 +111,7 @@ var angObj = angObj || {};
             if($scope.mode === 'edit') {
                 var adData = angular.copy(workflowService.getAdsDetails());
                 adData.targets.adDaypartTargets = null;
+                audienceService.resetDayPartdata();
                 workflowService.setAdsDetails(adData);
             }
         };
@@ -235,7 +236,6 @@ var angObj = angObj || {};
             $scope.deleteGeoTargetting();
             $scope.deleteDayPartTargetting();
             $scope.deleteAudienceTargetting();
-
         });
 
         $scope.deletetargets = function (type, event) {

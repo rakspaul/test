@@ -1,5 +1,4 @@
-dashboardModule.factory("dashboardModel", ['loginModel', 'advertiserModel', 'brandsModel', 'timePeriodModel', 'constants', 'urlService', 'requestCanceller', 'dataService', function (loginModel, advertiserModel, brandsModel, timePeriodModel, constants, urlService, requestCanceller, dataService) {
-
+dashboardModule.factory("dashboardModel", ['loginModel', 'advertiserModel', 'brandsModel', 'timePeriodModel', 'constants', 'urlService', 'requestCanceller', 'dataService', 'utils', function (loginModel, advertiserModel, brandsModel, timePeriodModel, constants, urlService, requestCanceller, dataService, utils) {
     var dashboardData = {selectedStatus: constants.DASHBOARD_STATUS_IN_FLIGHT};//by default it is active.  Now check local storage if we want to change it last saved status.
     var localStoredCampaignStatus = JSON.parse(localStorage.getItem('dashboardStatusFilter'));
     if (localStoredCampaignStatus != null && localStoredCampaignStatus !== undefined &&
@@ -28,17 +27,21 @@ dashboardModule.factory("dashboardModel", ['loginModel', 'advertiserModel', 'bra
         var brandId = brandsModel.getSelectedBrand().id;
         var url = urlService.APICampaignCountsSummary(constants.PERIOD_LIFE_TIME, clientId, advertiserId, brandId, campaignStatusToSend());
         return dataService.fetch(url).then(function (response) {
-            var ready = response.data.data.ready, draft = response.data.data.draft, paused = response.data.data.paused;
-            var totalCampaigns = response.data.data.active.total + response.data.data.completed.total + response.data.data.na.total + ready + draft + paused;
-            dashboardData.totalCampaigns = totalCampaigns;
-            var mediaPlanText = 'Media Plan' + (dashboardData.totalCampaigns > 1 ? 's' : '');
-            if (advertiserId > 0 && brandId == -1) {
-                dashboardData.toolTip = 'Showing data for ' + dashboardData.totalCampaigns + ' '+mediaPlanText+' across ' + brandsModel.totalBrands() + ' brand' + (Number(brandsModel.totalBrands()) > 1 ? 's' : '');
-            } else {
-                dashboardData.toolTip = 'Showing data for ' + dashboardData.totalCampaigns + ' '+mediaPlanText;
-            }
-
-        })
+            var searchCriteria = utils.typeaheadParams;
+            searchCriteria.clientId = loginModel.getSelectedClient().id;
+            searchCriteria.advertiserId = advertiserModel.getAdvertiser().hasOwnProperty('selectedAdvertiser') ? advertiserModel.getAdvertiser().selectedAdvertiser.id : -1;
+            return brandsModel.getBrands(function() {
+                var ready = response.data.data.ready, draft = response.data.data.draft, paused = response.data.data.paused;
+                var totalCampaigns = response.data.data.active.total + response.data.data.completed.total + response.data.data.na.total + ready + draft + paused;
+                dashboardData.totalCampaigns = totalCampaigns;
+                var mediaPlanText = 'Media Plan' + (dashboardData.totalCampaigns > 1 ? 's' : '');
+                if (advertiserId > 0 && brandId == -1) {
+                    dashboardData.toolTip = 'Showing data for ' + dashboardData.totalCampaigns + ' ' + mediaPlanText + ' across ' + brandsModel.totalBrands() + ' brand' + (Number(brandsModel.totalBrands()) > 1 ? 's' : '');
+                } else {
+                    dashboardData.toolTip = 'Showing data for ' + dashboardData.totalCampaigns + ' ' + mediaPlanText;
+                }
+            },searchCriteria, false);
+        });
     };
 
     function addCampaigns() {

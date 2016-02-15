@@ -519,11 +519,10 @@ var angObj = angObj || {};
                 $scope.resetSwitch();
                 $scope.includeorExcludeCityOnly(subtype);
                 var seltab = $scope.selectedTab;
-
                 //reload city
                 $scope.geoTargetingData.cities = [];
                 citiesListArray = [];
-                $scope.listCities();
+                //$scope.listCities();
                 //$scope.selectedTab = seltab == 'cities' ? 'regions' : seltab; //commented this line. I dont know the purpose of this line.
             } else {
                 $scope.geoTargetingData.selected[type] = [];
@@ -650,7 +649,6 @@ var angObj = angObj || {};
 
             citiesListArray.length = 0;
 
-
             if (flag !== 'cancellable') {
                 flag = 'normal';
             }
@@ -665,7 +663,6 @@ var angObj = angObj || {};
             //this flag should be below to isRegionSelecled condition.
             $scope.selectedTab = 'regions';
             $scope.showSwitch = true;
-
 
             if ($scope.regionsIncluded === true) {
                 $scope.includeSelectedItems();
@@ -1019,6 +1016,7 @@ var angObj = angObj || {};
                 !$scope.geoTargetingData.selected.previewData.exclude)) {
                 $scope.adData.isGeographySelected = false;
                 $scope.adData.targetName = null;
+                $scope.resetGeoTargetingVariables();
             }
 
             if (cancelClicked && workflowService.getSavedGeo()) {
@@ -1048,7 +1046,11 @@ var angObj = angObj || {};
             $scope.storedResponse = angular.copy(workflowService.getAdsDetails());
             var moduleDeleted = workflowService.getDeleteModule();
             if(_.indexOf(moduleDeleted, 'Geography') !== -1) {
-                $scope.storedResponse.targets.geoTargets = null;
+                if($scope.storedResponse) {
+                    $scope.storedResponse.targets.geoTargets = null;
+                }
+                $scope.resetGeoTargetingVariables();
+                workflowService.resetDeleteModule();
                 workflowService.setSavedGeo(null);
             }
 
