@@ -518,22 +518,26 @@ var angObj = angObj || {};
                 $scope.geoTargetingData.selected[subtype] = [];
                 $scope.resetSwitch();
                 $scope.includeorExcludeCityOnly(subtype);
-                var seltab = $scope.selectedTab;
-                //reload city
                 $scope.geoTargetingData.cities = [];
+                $scope.showCitiesOnly = false;
                 citiesListArray = [];
-                //$scope.listCities();
-                //$scope.selectedTab = seltab == 'cities' ? 'regions' : seltab; //commented this line. I dont know the purpose of this line.
+                if($scope.selectedTab !== 'dmas' && $scope.selectedTab !== 'zip') {
+                    var elem = $(".regionCityTab");
+                    elem.find("li").removeClass("active");
+                    var regionCityElem;
+                    if($scope.selectedTab == 'cities') {
+                        regionCityElem = elem.find("#cityTab")
+                    } else {
+                        regionCityElem = elem.find(".tab_region_holder")
+                    }
+                    $timeout(function () {
+                        regionCityElem.addClass("active")
+                        regionCityElem.find("a").triggerHandler('click');
+                    }, 50);
+                }
             } else {
                 $scope.geoTargetingData.selected[type] = [];
                 $scope.includeorExcludeCityOnly(type);
-            }
-
-            if ($scope.selectedTab === 'regions') {
-                $scope.listRegions();
-            }
-            if ($scope.selectedTab === 'cities') {
-                $scope.listCities();
             }
             if ($scope.selectedTab === 'dmas') {
                 $scope.listDmas();
