@@ -93,18 +93,16 @@ var angObj = angObj || {};
             $scope.sortReverse = !$scope.sortReverse;
         }
         $scope.addReqClassToSort = function(dm, b, c){
-            var len = $scope.selectedMetricsList.length,
+            var len = $scope.customeDimensionData[0][$scope.activeTab].length,
                 a = null;
             for(var i=0; i<len; i++){
-                if($scope.selectedMetricsList[i]['value'] == dm){
-                    a = $scope.selectedMetricsList[i]['key'];
+                if($scope.customeDimensionData[0][$scope.activeTab][i]['value'] == dm){
+                    a = $scope.customeDimensionData[0][$scope.activeTab][i]['key'];
                     break;
                 }
             }
-
             var isActive = (a === b ) ?  'active' : '';
             var sortDirection = (c === true ) ?  'sort_order_up' : 'sort_order_down';
-
             return isActive + " " + sortDirection;
         }
         $scope.initializeMetrics = function(dataObj) {
@@ -1007,7 +1005,7 @@ var angObj = angObj || {};
             $(".custom_report_response_tabs").find("#" + id + "_tab").addClass("active");
             $scope.activeTab = id + "_metrics";
             _customctrl.getDataBasedOnTabSelected($scope.activeTab);
-            $scope.checkHeaderScroll($scope.activeTab);
+            $scope.checkHeaderScroll(id);
         };
 
         $scope.reset_metric_options = function(event) {
@@ -1885,7 +1883,7 @@ var angObj = angObj || {};
                 });
             });
             $scope.checkHeaderScroll = function(activeTab){
-                var id = activeTab.split('_')[0]+'_table';
+                var id = activeTab + '_table';
                 $(".custom_report_response_page .custom_report_response_table .custom_report_scroll .heading_row").css({"left": "-" + $("#"+id+" .custom_report_scroll").scrollLeft() + "px"});
             }
 
