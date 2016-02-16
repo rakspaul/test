@@ -32,10 +32,9 @@
                 var clickedDateText = $(e.target).text();
                     if(clickedDateRange.startsWith("custom")){
                     $("#newDatePickerBox").show();
-                }
-                else{
-                    $("#newDatePickerBox").hide();
                     $rootScope.$broadcast(constants.EVENT_TIMEPERIOD_CHANGED, clickedDateRange);
+                } else{
+                    $("#newDatePickerBox").hide();
                 }
                 localStorage.setItem('timeSetLocStore', JSON.stringify(clickedDateRange));
                 localStorage.setItem('timeSetTextLocStore', JSON.stringify(clickedDateText));
