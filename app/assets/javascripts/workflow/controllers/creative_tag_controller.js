@@ -9,8 +9,8 @@ var angObj = angObj || {};
                 var arr;
 
                 _.each(respData, function (data) {
-                    if ($scope.selectedArr.length > 0) {
-                        arr = _.filter($scope.selectedArr, function (obj) {
+                    if ($scope.$parent.selectedArr.length > 0) {
+                        arr = _.filter($scope.$parent.selectedArr, function (obj) {
                             return obj.id === data.id;
                         });
                         if (arr.length > 0) {
@@ -27,7 +27,7 @@ var angObj = angObj || {};
                 // If adFormat has changed (Eg: from Display to RichMedia, etc.),
                 // reset selected creatives array
                 if ($scope.$parent.adFormatChanged) {
-                    $scope.selectedArr.length = 0;
+                    $scope.$parent.selectedArr.length = 0;
                     // Reset flag variable as it has served its purpose
                     $scope.$parent.adFormatChanged = false;
                 }
@@ -46,7 +46,7 @@ var angObj = angObj || {};
                             $scope.creativeListLoading = false;
                             $scope.creativesLibraryData.creativesData = addFromLibrary.modifyCreativesData(responseData);
                             if ($scope.mode === 'edit') {
-                                _.each($scope.selectedArr, function (obj) {
+                                _.each($scope.$parent.selectedArr, function (obj) {
                                     var idx;
 
                                     obj.checked = true;
@@ -104,7 +104,7 @@ var angObj = angObj || {};
             $scope.preDeleteArr = [];
             $scope.preSelectArr = [];
             $scope.changeStatus();
-            $scope.updateCreativeData($scope.selectedArr);
+            $scope.updateCreativeData($scope.$parent.selectedArr);
         };
 
         $scope.closePop = function () {
@@ -116,23 +116,23 @@ var angObj = angObj || {};
                 $scope.preDeleteArr = _.uniq($scope.preDeleteArr);
                 _.each($scope.preDeleteArr, function (obj) {
                     obj.checked = true;
-                    $scope.selectedArr.push(obj);
+                    $scope.$parent.selectedArr.push(obj);
                     $('#' + obj.id).attr('checked', true);
                 });
             }
             if ($scope.preSelectArr.length > 0) {
                 $scope.preSelectArr = _.uniq($scope.preSelectArr);
                 _.each($scope.preSelectArr, function (obj) {
-                    idx = _.findIndex($scope.selectedArr, function (item) {
+                    idx = _.findIndex($scope.$parent.selectedArr, function (item) {
                         return item.id === obj.id;
                     });
-                    $scope.selectedArr.splice(idx, 1);
+                    $scope.$parent.selectedArr.splice(idx, 1);
                     $('#' + obj.id).attr('checked', false);
                 });
             }
             $scope.preSelectArr = [];
-            $scope.selectedArr = _.uniq($scope.selectedArr);
-            $scope.updateCreativeData($scope.selectedArr);
+            $scope.$parent.selectedArr = _.uniq($scope.$parent.selectedArr);
+            $scope.updateCreativeData($scope.$parent.selectedArr);
         };
 
         $scope.stateChanged = function ($event, screenTypeObj) {
@@ -143,22 +143,22 @@ var angObj = angObj || {};
 
             // temporary user old selected status before cancel
             screenTypeObj.userSelectedEvent = checkbox.checked;
-            selectedChkBox = _.filter($scope.selectedArr, function (obj) {
+            selectedChkBox = _.filter($scope.$parent.selectedArr, function (obj) {
                 return obj.id === screenTypeObj.id;
             });
             if (selectedChkBox.length > 0) {
-                idx = _.findIndex($scope.selectedArr, function (item) {
+                idx = _.findIndex($scope.$parent.selectedArr, function (item) {
                     return item.id === screenTypeObj.id;
                 });
                 preIdx = _.findIndex($scope.preDeleteArr, function (item) {
                     return item.id === screenTypeObj.id;
                 });
-                $scope.selectedArr.splice(idx, 1);
+                $scope.$parent.selectedArr.splice(idx, 1);
                 if (preIdx === -1) {
                     $scope.preDeleteArr.push(screenTypeObj);
                 }
             } else {
-                $scope.selectedArr.push(screenTypeObj);
+                $scope.$parent.selectedArr.push(screenTypeObj);
                 $scope.preSelectArr.push(screenTypeObj);
             }
         };
@@ -168,9 +168,9 @@ var angObj = angObj || {};
         $scope.$on('updateNewCreative', function () {
             var creativeTag = workflowService.getNewCreative();
 
-            $scope.selectedArr.push(creativeTag);
+            $scope.$parent.selectedArr.push(creativeTag);
             $scope.changeStatus();
-            $scope.updateCreativeData($scope.selectedArr);
+            $scope.updateCreativeData($scope.$parent.selectedArr);
         });
 
         $scope.$on('updateCreativeTags', function () {
@@ -180,10 +180,10 @@ var angObj = angObj || {};
                 responseData = workflowService.getAdsDetails();
                 //creative tags
                 if (responseData.creatives) {
-                    $scope.selectedArr = responseData.creatives;
+                    $scope.$parent.selectedArr = responseData.creatives;
                 }
                 $scope.changeStatus();
-                $scope.updateCreativeData($scope.selectedArr);
+                $scope.updateCreativeData($scope.$parent.selectedArr);
             }
         });
 
@@ -203,13 +203,13 @@ var angObj = angObj || {};
                 currIndx;
 
             if (selectedCreativeTag.length > 0) {
-                idx = _.findLastIndex($scope.selectedArr, function(obj){
+                idx = _.findLastIndex($scope.$parent.selectedArr, function(obj){
                     return obj.id === Number(selectedCreativeTag[0].id);
                 });
                 //_.findLastIndex($scope.selectedArr, selectedCreativeTag[0]);
-                $scope.selectedArr.splice(idx, 1);
+                $scope.$parent.selectedArr.splice(idx, 1);
                 if (actionFrom !== 'popup') {
-                    $scope.updateCreativeData($scope.selectedArr);
+                    $scope.updateCreativeData($scope.$parent.selectedArr);
                 } else {
                     //insert into predelete array
                     $scope.preDeleteArr.push(selectedCreativeTag[0]);

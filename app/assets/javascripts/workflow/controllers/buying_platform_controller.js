@@ -168,7 +168,7 @@ var angObj = angObj || {};
             if(event && wasPrevTrackingInt<0){
                 $scope.adData.setSizes = constants.WF_NOT_SET;
                 $scope.creativeData.creativeInfo = 'undefined';
-                $scope.selectedArr.length = 0;
+                $scope.$parent.selectedArr.length = 0;
                 $scope.$parent.TrackingIntegrationsSelected = false;
             }
 
@@ -377,9 +377,9 @@ var angObj = angObj || {};
         $scope.resetCreatives = function () {
             // Reset creatives if any had been selected.
             if ($scope.adData.setSizes !== constants.WF_NOT_SET) {
-                $scope.selectedArr.length = 0;
+                $scope.$parent.selectedArr.length = 0;
                 $scope.changeStatus();
-                $scope.updateCreativeData($scope.selectedArr);
+                $scope.updateCreativeData($scope.$parent.selectedArr);
             }
         };
 
