@@ -551,7 +551,7 @@ var angObj = angObj || {};
             $scope.Schedule.dayPart.push({day: 'Sunday', stTime: 24});
         };
 
-        $scope.Schedule.dayTimeSelected = function (value) {
+        $scope.Schedule.dayTimeSelected = function (value, event) {
             var daytimeObj;
 
             $scope.customFlag = false;
@@ -735,12 +735,23 @@ var angObj = angObj || {};
                     break;
                 case 7:
                     $scope.dayTimeSelected = 'Custom schedule';
-                    if ($scope.modeSet!=='edit') {
+                    $scope.storedResponse = angular.copy(workflowService.getAdsDetails());
+                    var dayParts = $scope.storedResponse.targets.adDaypartTargets;
+                    var resetCustomSchedule = function() {
                         $scope.Schedule.dayPart = [];
                         $scope.customFlag = true;
                         $scope.intermediateChange=true;
                         $scope.Schedule.daytimeArr = [];
                     }
+
+                    if ($scope.modeSet!=='edit' && dayParts && dayParts.dayTime !== 'CUSTOM SCHEDULE') { //for Edit since we dont have any response
+                        resetCustomSchedule();
+                    }
+
+                    if(event) { //for create since we dont have any response
+                        resetCustomSchedule();
+                    }
+
                     break;
             }
         };

@@ -1075,7 +1075,7 @@ var angObj = angObj || {};
                 workflowService.setSavedGeo(null);
             }
             var geoTargets = $scope.storedResponse && $scope.storedResponse.targets.geoTargets;
-            if($scope.mode ==='edit' && !geoTargets.REGION && geoTargets.CITY) {
+            if($scope.mode ==='edit' && geoTargets && !geoTargets.REGION && geoTargets.CITY) {
                 var elem = $(".regionCityTab");
                 elem.find("li").removeClass("active");
                 var regionCityElem = elem.find("#cityTab")
