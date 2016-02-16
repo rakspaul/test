@@ -203,7 +203,6 @@
   user-select: none;
   padding: 0 ;
   text-align: center;
-  margin-left: 20px ;
   width: 60px ;
 }
 .main_dashboard .cal_nav_btns_holder .cal_nav_btn {
@@ -274,9 +273,11 @@
 .main_dashboard .dashboard_section .div-header-chart {
   background: #fff ;
   height: 45px ;
+  width: 1007px ;
 }
 .main_dashboard .dashboard_section .div-header-chart .header-chart {
   overflow: hidden;
+  width: 1155px ;
 }
 .main_dashboard .dashboard_section .calendar_tooltip {
   position: absolute;
@@ -332,7 +333,7 @@
 }
 .main_dashboard .dashboard_section .dashboard_heading .tooltip_holder {
   margin-left: 10px ;
-  margin-top: 2px ;
+  margin-top: 1px ;
 }
 .main_dashboard .dashboard_section .dashboard_heading .tooltip_holder .common_tooltip {
   background: #323133;
@@ -396,6 +397,9 @@
   border-right: solid 6px #323133 ;
   left: -12px;
 }
+.main_dashboard .dashboard_calendar_graph_holder {
+  overflow: hidden;
+}
 .main_dashboard .dashboard_calendar_graph_holder .dashboard_heading .tooltip_holder .common_tooltip {
   width: 300px ;
 }
@@ -447,7 +451,8 @@
   margin-top: 7px;
 }
 .main_dashboard #dashboard_metric_dd .dropdown_ul {
-  left: -6px;
+  left: -18px;
+  width: 100px;
 }
 .main_dashboard #dashboard_metric_dd .dropdown_ul li {
   padding: 2px 5px;
@@ -735,6 +740,9 @@
 }
 .dashboard_screens_graph_holder.dashboard_screens_platform .each_bar_section_holder .graphValues_title {
   margin: 7px 0 0 30px;
+}
+.dashboard_screens_graph_holder.dashboard_screens_platform .each_bar_section_holder .graphValues_number {
+  margin-top: 7px ;
 }
 @media (max-width: 1200px) {
   .dashboard_body .bodyWrap {

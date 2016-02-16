@@ -15,7 +15,7 @@
 
             var CALENDAR_HEIGHT = (cal_height === undefined) ? MIN_CALENDAR_HEIGHT : cal_height;
 
-            var CALENDAR_WIDTH = 1082;
+            var CALENDAR_WIDTH = 1300;
 
             var isSingleBrand = false;
 
