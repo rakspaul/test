@@ -90,6 +90,22 @@ var angObj = angObj || {};
         };
 
         $scope.selectPlatform = function (event, platform) {
+            //showing card view when you change the platform.
+
+            $('#geographyTargeting').delay(300).animate({ left: '100%', marginLeft: '0', opacity: '0' }, function () {
+                $(this).hide();
+            });
+
+            $('#dayTargeting').delay(300).animate({ left: '100%', marginLeft: '0px',  opacity: '0.0'}, function () {
+                $(this).hide();
+            });
+
+            $('#audienceTargeting')
+                .delay(300)
+                .animate({ left: '100%', marginLeft: '0', opacity: '0.0'}, function () {
+                    $(this).hide();
+                });
+
             var settings = '';
 
             //remove creatives only if Tracking-only is changed to Full integrations
