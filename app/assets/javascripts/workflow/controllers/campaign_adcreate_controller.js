@@ -1161,12 +1161,12 @@ var angObj = angObj || {};
                                     }
                                     if (postGeoTargetObj.CITY) {
                                         postGeoTargetObj.CITY.geoTargetList =
-                                            _.pluck(postGeoTargetObj.REGION.geoTargetList, 'id');
+                                            _.pluck(postGeoTargetObj.CITY.geoTargetList, 'id');
                                     }
 
                                     if (postGeoTargetObj.DMA) {
                                         postGeoTargetObj.DMA.geoTargetList =
-                                            _.pluck(postGeoTargetObj.REGION.geoTargetList, 'id');
+                                            _.pluck(postGeoTargetObj.DMA.geoTargetList, 'id');
                                     }
                                 }
                                 postAdDataObj.targets.geoTargets = postGeoTargetObj;

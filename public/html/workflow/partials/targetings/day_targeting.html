@@ -24,14 +24,14 @@
 						<!--<span class="icon-arrow-down"></span>-->
 					</button>
 					<ul class="dropdown-menu" aria-labelledby="dayTime" id="dayTimeSelection" data-toggle="dropdown">
-						<li class="available" ng-click="Schedule.dayTimeSelected(0)" ng-init="Schedule.dayTimeSelected(0)" ><a value="0" data-ng-bind="textConstants.ALLDAYTIMES"></a></li>
-						<li class="available" ng-click="Schedule.dayTimeSelected(1)"><a value="1" data-ng-bind="textConstants.WEEKDAYMF"></a></li>
-						<li class="available" ng-click="Schedule.dayTimeSelected(2)"><a value="2" data-ng-bind="textConstants.WEEKENDSS"></a></li>
-						<li class="available" ng-click="Schedule.dayTimeSelected(3)"><a value="3" data-ng-bind="textConstants.BUSHOURSMF"></a></li>
-						<li class="available" ng-click="Schedule.dayTimeSelected(4)"><a value="4" data-ng-bind="textConstants.TVPRIMETIME"></a></li>
-						<li class="available" ng-click="Schedule.dayTimeSelected(5)"><a value="5" data-ng-bind="textConstants.EARLYMORNING"></a></li>
-						<li class="available" ng-click="Schedule.dayTimeSelected(6)"><a value="6" data-ng-bind="textConstants.LATENIGHT"></a></li>
-						<li class="available" ng-click="Schedule.dayTimeSelected(7)"><a value="7" data-ng-bind="textConstants.CUTSCHEDULE"></a></li>
+						<li class="available" ng-click="Schedule.dayTimeSelected(0, $event)" ng-init="Schedule.dayTimeSelected(0)" ><a value="0" data-ng-bind="textConstants.ALLDAYTIMES"></a></li>
+						<li class="available" ng-click="Schedule.dayTimeSelected(1, $event)"><a value="1" data-ng-bind="textConstants.WEEKDAYMF"></a></li>
+						<li class="available" ng-click="Schedule.dayTimeSelected(2, $event)"><a value="2" data-ng-bind="textConstants.WEEKENDSS"></a></li>
+						<li class="available" ng-click="Schedule.dayTimeSelected(3, $event)"><a value="3" data-ng-bind="textConstants.BUSHOURSMF"></a></li>
+						<li class="available" ng-click="Schedule.dayTimeSelected(4, $event)"><a value="4" data-ng-bind="textConstants.TVPRIMETIME"></a></li>
+						<li class="available" ng-click="Schedule.dayTimeSelected(5, $event)"><a value="5" data-ng-bind="textConstants.EARLYMORNING"></a></li>
+						<li class="available" ng-click="Schedule.dayTimeSelected(6, $event)"><a value="6" data-ng-bind="textConstants.LATENIGHT"></a></li>
+						<li class="available" ng-click="Schedule.dayTimeSelected(7, $event)"><a value="7" data-ng-bind="textConstants.CUTSCHEDULE"></a></li>
 					</ul>
 				       <input type="hidden" name="dayTimesel" class="dayTimesel" ng-model="dayTimeSelected" value="dayTimeSelected" ng-Update-Hidden required/>
 				</div>

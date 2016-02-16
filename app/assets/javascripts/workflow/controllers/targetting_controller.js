@@ -13,6 +13,7 @@ var angObj = angObj || {};
         $scope.adData.isDaypartSelected = false;
         $scope.geoTargetingPreviewObj = null;
         $scope.showSwitchBox = true;
+        $scope.isDayPartTriggered = false;
 
 
         var targeting = {};
@@ -51,9 +52,10 @@ var angObj = angObj || {};
             }
 
             if (targetingName === 'Daypart') {
-                if(fetchedObj && fetchedObj.targets.adDaypartTargets && _.size(fetchedObj.targets.adDaypartTargets) > 0 && $scope.mode === 'edit') {
+                if(fetchedObj && fetchedObj.targets.adDaypartTargets && _.size(fetchedObj.targets.adDaypartTargets) > 0 && $scope.mode === 'edit' &&  !$scope.isDayPartTriggered) {
                     $timeout(function() {
                         $scope.$broadcast("updateDayPart", true);
+                        $scope.isDayPartTriggered = true;
                     }, 2000)
 
                 }
