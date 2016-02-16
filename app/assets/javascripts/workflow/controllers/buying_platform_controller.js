@@ -296,9 +296,9 @@ var angObj = angObj || {};
                 localStorage.setItem('adPlatformCustomInputs', JSON.stringify($scope.$parent.postPlatformDataObj));
             }
             //trigger targeting tab link only when intentionally clicked not on edit mode by default
-            if (editModeFlag == "clickedFromCustom") {
+            /*if (editModeFlag == "clickedFromCustom") {
                 $scope.triggerTargetting();
-            }
+            }*/
             $scope.switchPlatform();
         };
 
@@ -317,11 +317,7 @@ var angObj = angObj || {};
             $scope.fetchPlatforms(platform[0]);
             if (platform[0]) {
                 $scope.defaultPlatform = platform[0];
-//               if($scope.TrackingIntegrationsSelected){
-//                   $scope.selectTrackingIntegrations(platform[0]);
-//               }else{
                 $scope.selectPlatform((platform[0].switchPlatform ? event : ''), platform[0]);
-//               }
                 $scope.saveCustomeFieldForPlatform(true);
             }
         });
