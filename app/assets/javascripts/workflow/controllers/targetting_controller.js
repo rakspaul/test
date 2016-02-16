@@ -236,6 +236,33 @@ var angObj = angObj || {};
             $scope.deleteGeoTargetting();
             $scope.deleteDayPartTargetting();
             $scope.deleteAudienceTargetting();
+            $('#geographyTargeting').delay(300).animate({
+                left: '100%',
+                marginLeft: '0',
+                opacity: '0'
+            }, function () {
+                $(this).hide();
+            });
+
+            $('#dayTargeting').delay(300).animate({
+                left: '100%',
+                marginLeft: '0px',
+                opacity: '0.0'
+            }, function () {
+                $(this).hide();
+            });
+
+            $('#audienceTargeting')
+                .delay(300)
+                .animate({
+                    left: '100%',
+                    marginLeft: '0',
+                    opacity: '0.0'
+                }, function () {
+                    $(this).hide();
+                });
+
+
         });
 
         $scope.deletetargets = function (type, event) {
