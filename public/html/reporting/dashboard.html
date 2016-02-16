@@ -65,10 +65,10 @@
             <div class="dashboard_section dashboard_calendar_graph_holder" ng-controller="GanttChartController">
                 <div class="clearfix dashboard_heading">
                     <div class="col-md-4 calendar_heading dashboard_heading_bold">
-                        <span ng-bind="textConstants.CALENDAR"></span>
-                        <span class="top_budget_subtitle" ng-show="brandNotSelected"
+                        <span class="pull-left" ng-bind="textConstants.CALENDAR"></span>
+                        <span class="pull-left top_budget_subtitle" ng-show="brandNotSelected"
                              ng-bind="(textConstants.MOST_RELEVANT_CAMPAIGN)"></span>
-                        <span class="tooltip_holder">
+                        <span class="pull-left tooltip_holder">
                             <span class="tooltip_show_icon"></span>
                             <span class="clearfix common_tooltip">
                               <div class="pull-left">
@@ -109,9 +109,9 @@
                         </span>
                     </div>
                     <div class="col-md-8">
-                       <div class="col-md-3 zeroPadding">
-                          <div class="pull-left show_link" ng-bind="textConstants.SORT_BY +':'"></div>
-                          <div class="pull-left dropdown" id="dashboard_metric_dd">
+                       <div class="pull-right   col-md-3 zeroPadding">
+                          
+                          <div class="pull-right dropdown" id="dashboard_metric_dd">
                             <span class="dropdown_ul_text" data-toggle="dropdown">
                               <span>{{selectedFilter()}}</span>
                               <span class="arrow_img"></span>
@@ -121,23 +121,26 @@
                                 <li ng-click="calendar('budget')" ng-bind="textConstants.BUDGET"></li>
                             </ul>
                           </div>
+                          <div class="pull-right show_link" ng-bind="textConstants.SORT_BY +':'"></div>
                         
                         </div>
-                        <div class="pull-left col-md-1 cal_nav_btns_holder">
-                            <!-- add "disabled" to "cal_nav_btn" whenever you want to disable the buttons -->
-                            <div class="cal_nav_btn" id="cal_prev" ng-click="prev()"><span class="arrow_left"></span>
-                            </div>
-                            <div class="cal_nav_btn" id="cal_next" ng-click="next()"><span class="arrow_right"></span>
-                            </div>
-                        </div>
-                        <div class="pull-left col-md-7 calendar_holder_period">
-                            <span ng-click="today()"
-                                  class="{{(selected=='today')?'active':''}}" ng-bind="textConstants.WEEK"></span>
-                            <span ng-click="month()"
-                                  class="{{(selected=='month')?'active':''}}" ng-bind="textConstants.MONTH"></span>
-                            <span ng-click="quarter()" class="{{(selected=='quarter')?'active':''}}" ng-bind="textConstants.QUARTER"></span>
-                            <span ng-click="year()"
-                                  class="{{(selected=='year')?'active':''}}" ng-bind="textConstants.YEAR"></span>
+                        <div class="pull-left col-md-9">
+                          <div class="pull-right col-md-3 cal_nav_btns_holder">
+                              <!-- add "disabled" to "cal_nav_btn" whenever you want to disable the buttons -->
+                              <div class="cal_nav_btn" id="cal_prev" ng-click="prev()"><span class="arrow_left"></span>
+                              </div>
+                              <div class="cal_nav_btn" id="cal_next" ng-click="next()"><span class="arrow_right"></span>
+                              </div>
+                          </div>
+                          <div class="pull-left col-md-9 calendar_holder_period">
+                              <span ng-click="today()"
+                                    class="{{(selected=='today')?'active':''}}" ng-bind="textConstants.WEEK"></span>
+                              <span ng-click="month()"
+                                    class="{{(selected=='month')?'active':''}}" ng-bind="textConstants.MONTH"></span>
+                              <span ng-click="quarter()" class="{{(selected=='quarter')?'active':''}}" ng-bind="textConstants.QUARTER"></span>
+                              <span ng-click="year()"
+                                    class="{{(selected=='year')?'active':''}}" ng-bind="textConstants.YEAR"></span>
+                          </div>
                         </div>
                     </div>
                 </div>
