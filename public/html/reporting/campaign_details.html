@@ -6,7 +6,7 @@
         <div class="clearfix">
             <filters-header reports="true" strategies="false"></filters-header>
         </div>
-        <div ng-show="isWorkFlowUser">
+        <div ng-show="(isWorkFlowUser && campaign.is_archived == false)">
             <!-- action filter -->
             <form ng-controller="ActionsController" id="crActivityForm">
                 <div class="action_filter_holder">
