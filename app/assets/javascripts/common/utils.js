@@ -895,7 +895,7 @@
         .filter('appendDollor', function (constants, $locale, RoleBasedService) {
             return function (val, type) {
                 RoleBasedService.setCurrencySymbol();
-                if(val === null) {
+                if(!val) {
                     return '-';
                 } else if (type.toLowerCase() === 'delivery (impressions)') {
                     return (val.toFixed(2)).toLocaleString();
@@ -912,7 +912,7 @@
         .filter('appendDollarWithoutFormat', function (constants, $locale, RoleBasedService) {
             return function (val, type) {
                 RoleBasedService.setCurrencySymbol();
-                if(val === null) {
+                if(!val) {
                     return '-';
                 } else if (type.toLowerCase() === 'delivery (impressions)') {
                     return val.toLocaleString();
