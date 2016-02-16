@@ -674,7 +674,7 @@
                     .attr("class", "past-marker-text-details")
                     .attr("x", function(d){
                         var container = d3.select(this.parentNode).select("text.past-marker-text"),
-                            offset = 50,
+                            offset = 54,
                             padding = 16;
 
                         //temporarily disable element on DOM to get width
