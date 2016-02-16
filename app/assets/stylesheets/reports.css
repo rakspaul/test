@@ -103,7 +103,7 @@ span.cost_opaque .cost_opaque_icon {
 }
 .total_reports_page {
   margin: 0px auto 40px;
-  width: 100%;
+  width: 1200px;
 }
 .total_reports_page .load_more_rows {
   display: none;
@@ -231,7 +231,7 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
   border-left: solid 1px #DDEDF8 ;
 }
 .each_rep_col_holder .first_col {
-  width: 155px;
+  width: 175px;
   text-align: left;
 }
 .each_rep_col_holder .ten_col {
@@ -375,17 +375,19 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
 }*/
 .reports_main_page_holder {
   margin: 0px auto 80px;
-  width: 100%;
+  width: 1200px;
+  /*  .each_cost_col {
+    .first_col.icon_text_holder {
+      width: 33px;
+      min-width: 80px;
+    }
+  }*/
 }
 .reports_main_page_holder .load-more {
   margin: 80px auto 0;
   display: block;
   width: 30px;
   background: url("/assets/images/loading.gif") no-repeat scroll 48% 45% rgba(0, 0, 0, 0);
-}
-.reports_main_page_holder .each_cost_col .first_col.icon_text_holder {
-  width: 33px;
-  min-width: 80px;
 }
 .reports_main_page_holder .sort_order_up {
   cursor: pointer;
@@ -1638,6 +1640,13 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 .viewability_details_video_mode_outer_container .viewability_header .suspicious_act_col {
   /* margin-top: 6px;*/
 }
+.viewability_details_video_mode_outer_container .viewability_header .suspicious_act_col {
+  width: 160px ;
+  margin-top: 20px ;
+}
+.viewability_details_video_mode_outer_container .viewability_header .sec_col {
+  margin-top: 20px ;
+}
 .viewability_details_video_mode_outer_container .viewability_header .vtc_col {
   margin-top: 16px ;
 }
@@ -1652,7 +1661,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
   left: 88px;
 }
 .viewability_details_video_mode_outer_container .title_tooltip {
-  margin-left: 120px ;
+  margin-left: 150px ;
 }
 .viewability_details_video_mode_outer_container .title_tooltip .tooltip_holder {
   margin-left: 5px ;
@@ -1682,7 +1691,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
   text-transform: none;
 }
 .viewability_details_video_mode_outer_container .each_col {
-  width: 80px ;
+  width: 150px ;
   margin-right: 0px ;
   text-align: right;
 }
@@ -1693,7 +1702,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
   width: 160px ;
 }
 .viewability_details_video_mode_outer_container div.sec_col {
-  width: 75px ;
+  width: 130px ;
   margin-left: 0px ;
 }
 .viewability_details_video_mode_outer_container .ad_col {
@@ -1714,7 +1723,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
   left: 52px ;
 }
 .viewability_details_video_mode_outer_container .sub_four_cols {
-  width: 335px ;
+  width: 385px ;
 }
 .viewability_details_video_mode_outer_container .sub_four_cols .common_tooltip {
   width: 200px;
@@ -1799,7 +1808,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 #reports_platform_viewability_block .platform_name_col {
   text-align: left;
   margin-left: 0px ;
-  width: 205px ;
+  width: 280px ;
   margin-right: 0px ;
   padding-left: 15px ;
 }
@@ -2189,18 +2198,18 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
   padding-top: 10px;
 }
 .reports_tabs_content_container .reports_block#reports_platform_performance_block.quartile_data_platform .reports_platform_header .each_col.sec_col {
-  width: 156px;
+  width: 300px;
 }
 .reports_tabs_content_container .reports_block#reports_platform_performance_block.quartile_data_platform .each_col {
   width: 125px;
 }
 .reports_tabs_content_container .reports_block.quar_data .each_col {
-  width: 69px;
+  width: 92px;
   border: 1px none #ff6600;
 }
 .reports_tabs_content_container .reports_block .each_col {
   float: left;
-  width: 115px;
+  width: 146px;
   text-align: right;
   margin: 5px 0 10px 15px ;
 }
@@ -2280,7 +2289,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 }
 .reports_tabs_content_container .vid_col {
   float: left ;
-  width: 506px;
+  width: 550px;
   border: 1px none #FF6600;
 }
 .reports_tabs_content_container .vid_none {
@@ -2459,7 +2468,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 }
 .reports_tabs_content_container #reports_bycreatives_block div.reports_details_outer_container div.reports_performance_header div.each_col.sec_col,
 .reports_tabs_content_container #reports_bycreatives_block div.reports_details_outer_container div.strategy_total_container div.each_col.sec_col {
-  width: 100px ;
+  width: 275px ;
   text-transform: capitalize;
 }
 .reports_tabs_content_container #reports_bycreatives_block div.reports_details_outer_container div.reports_performance_header .vid_data_hdr,
@@ -2478,7 +2487,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
   text-align: left;
 }
 .reports_tabs_content_container #reports_byadsizes_block.reports_block.quar_data .each_col {
-  width: 72px;
+  width: 94px;
   text-align: right;
 }
 .reports_tabs_content_container #reports_byadsizes_block.reports_block.quar_data .each_col.first_col {
@@ -2589,7 +2598,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
   text-align: left ;
 }
 .reports_tabs_content_container #reports_platform_performance_block div.reports_details_outer_container div.sec_col.vid_show {
-  width: 130px ;
+  width: 280px ;
 }
 .reports_tabs_content_container #reports_platform_performance_block div.reports_details_outer_container div.sec_col.row_open {
   width: 195px ;
@@ -2636,10 +2645,12 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 }
 .reports_cost_header_holder {
   margin-top: 15px ;
-}
-.reports_cost_header_holder .cost_header_holder .each_cost_col.three_col {
-  min-width: 70px;
-  width: 79px;
+  /*  .cost_header_holder {
+    .each_cost_col.three_col {
+      min-width: 70px;
+      width: 79px;
+    }
+  }*/
 }
 .text_next_margin_per {
   display: inline-block;
@@ -2667,44 +2678,50 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
   margin: 20px auto 0 ;
   display: block;
 }
-.reports_cost_header_holder .four_col.sort_order_up:hover,
-#reports_platform_cost_block .four_col.sort_order_up:hover {
-  background-position: 52px 1px;
+.reports_cost_header_holder .four_col.sort_order_up,
+#reports_platform_cost_block .four_col.sort_order_up {
+  /*    &:hover {
+      background-position: 52px 1px;
+    }*/
 }
 .reports_cost_header_holder .four_col.sort_order_up.active,
 #reports_platform_cost_block .four_col.sort_order_up.active {
-  background-position: 52px -64px;
+  /*background-position: 52px -64px;*/
   color: #0978c9;
 }
-.reports_cost_header_holder .four_col.sort_order_down:hover,
-#reports_platform_cost_block .four_col.sort_order_down:hover {
-  background-position: 52px 1px;
+.reports_cost_header_holder .four_col.sort_order_down,
+#reports_platform_cost_block .four_col.sort_order_down {
+  /*    &:hover {
+      background-position: 52px 1px;
+    }*/
 }
 .reports_cost_header_holder .four_col.sort_order_down.active,
 #reports_platform_cost_block .four_col.sort_order_down.active {
-  background-position: 52px -64px;
+  /*background-position: 52px -64px;*/
   color: #0978c9;
 }
 .reports_cost_header_holder .cost_header_holder .each_cost_col,
 #reports_platform_cost_block .cost_header_holder .each_cost_col {
-  width: 90px;
+  /*width:90px;*/
 }
 .reports_cost_header_holder .cost_header_holder .each_cost_col.first_col,
 #reports_platform_cost_block .cost_header_holder .each_cost_col.first_col {
-  margin-right: 41px;
-  min-width: 53px;
-  width: 70px;
+  /*margin-right: 41px;*/
+  /*min-width: 53px;
+        width: 70px;*/
+  padding-right: 80px;
+  background-position-x: 50px;
 }
 .reports_cost_header_holder .cost_header_holder .each_cost_col.ninth_col,
 #reports_platform_cost_block .cost_header_holder .each_cost_col.ninth_col {
-  width: 110px;
-  min-width: 53px;
-  margin-right: 10px;
+  /*width:110px;
+        min-width:53px;
+        margin-right: 10px;*/
 }
 .reports_cost_header_holder .cost_header_holder .each_cost_col.eight_col,
 #reports_platform_cost_block .cost_header_holder .each_cost_col.eight_col {
-  margin-right: 2px;
-  width: 114px;
+  /*margin-right: 2px;
+        width: 114px;*/
 }
 .reports_cost_header_holder .cost_header_holder .each_cost_col.sev_col,
 #reports_platform_cost_block .cost_header_holder .each_cost_col.sev_col {
@@ -2732,7 +2749,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 }
 .reports_cost_header_holder .cost_header_holder .each_cost_col.tenth_col.total_cost,
 #reports_platform_cost_block .cost_header_holder .each_cost_col.tenth_col.total_cost {
-  width: 100px;
+  /*width:100px;*/
 }
 .reports_cost_header_holder .platform_aggregation_row .each_cost_col,
 #reports_platform_cost_block .platform_aggregation_row .each_cost_col {
@@ -2771,12 +2788,12 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 .reports_cost_header_holder .first_col,
 #reports_platform_cost_block .first_col {
   text-align: left;
-  min-width: 80px;
-  width: 80px;
+  /*min-width: 80px;
+    width: 80px;*/
 }
 .reports_cost_header_holder .total_cost,
 #reports_platform_cost_block .total_cost {
-  width: 110px;
+  width: 170px;
 }
 .reports_cost_header_holder .more_options .dd_txt,
 #reports_platform_cost_block .more_options .dd_txt,
@@ -2919,13 +2936,29 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 #reports_platform_cost_block .reports_platform_header .each_cost_col {
   margin: 10px 5px 5px 0px ;
 }
+#reports_platform_cost_block .reports_platform_header,
+#reports_platform_cost_block .strategy_total_container_header {
+  /*    .seventh_col {
+      min-width: 72px;
+      width: 72px;
+    }*/
+}
+#reports_platform_cost_block .reports_platform_header .each_cost_col,
+#reports_platform_cost_block .strategy_total_container_header .each_cost_col {
+  /*      &.fifth_col{
+        min-width: 11px;
+        width: 51px;
+
+      }*/
+}
 #reports_platform_cost_block .reports_platform_header .each_cost_col.fifth_col,
 #reports_platform_cost_block .strategy_total_container_header .each_cost_col.fifth_col {
-  width: 97px ;
+  /* width: 97px ;*/
 }
 #reports_platform_cost_block .reports_platform_header .each_cost_col.first_col,
 #reports_platform_cost_block .strategy_total_container_header .each_cost_col.first_col {
-  width: 133px ;
+  width: 200px ;
+  padding-left: 0 ;
 }
 #reports_platform_cost_block .reports_platform_header .each_cost_col.first_col.sort_order_down.active,
 #reports_platform_cost_block .strategy_total_container_header .each_cost_col.first_col.sort_order_down.active {
@@ -2961,16 +2994,6 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 #reports_platform_cost_block .reports_platform_header .each_cost_col.ninth_col.active,
 #reports_platform_cost_block .strategy_total_container_header .each_cost_col.ninth_col.active {
   background-position: 108px -63px;
-}
-#reports_platform_cost_block .reports_platform_header .each_cost_col.fifth_col,
-#reports_platform_cost_block .strategy_total_container_header .each_cost_col.fifth_col {
-  min-width: 11px;
-  width: 51px;
-}
-#reports_platform_cost_block .reports_platform_header .seventh_col,
-#reports_platform_cost_block .strategy_total_container_header .seventh_col {
-  min-width: 72px;
-  width: 72px;
 }
 #reports_platform_cost_block .reports_platform_header .third_col,
 #reports_platform_cost_block .strategy_total_container_header .third_col {
@@ -3068,7 +3091,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
   border-left: solid 1px transparent ;
 }
 .details_with_heading_total .each_rep_col_holder .each_rep_col {
-  width: 152px ;
+  width: 182px ;
 }
 .details_with_heading_total .each_rep_col_holder .first_col {
   width: 210px ;
@@ -3492,7 +3515,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
   text-align: center;
 }
 #reports_platform_viewability_block.reports_video_mode_viewability_container .sub_four_cols {
-  width: 250px ;
+  width: 300px ;
 }
 #reports_platform_viewability_block.reports_video_mode_viewability_container .sub_four_cols .sub_col span {
   width: 25% ;
@@ -4134,9 +4157,9 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 }
 .custom_report_response_page .custom_report_response_table .each_col_cost {
   display: table-cell;
-  width: 102px;
-  min-width: 102px;
-  max-width: 102px;
+  width: 160px;
+  min-width: 160px;
+  max-width: 160px;
   word-wrap: break-word;
   padding-right: 20px;
   /*

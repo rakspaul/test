@@ -1052,7 +1052,7 @@ input[type="submit"] {
 /************* NEW DASHBOARD STYLING *******************************************/
 .each_cost_col {
   float: left;
-  width: 95px;
+  width: 138px;
   min-width: 86px;
   min-height: 10px;
   font-size: 14px;
@@ -1060,6 +1060,18 @@ input[type="submit"] {
   margin-right: 5px;
   text-align: center;
   word-wrap: break-word;
+  padding-right: 17px ;
+  text-align: right;
+}
+.each_cost_col .kpi-dd-holder,
+.each_cost_col #kpi_dropdown {
+  padding: 0 ;
+}
+.each_cost_col.first_col {
+  text-align: left;
+}
+.each_cost_col.total_cost {
+  width: 140px;
 }
 .campaign_status_icon {
   margin-top: 5px;
@@ -1094,7 +1106,7 @@ input[type="submit"] {
   background: url("/assets/images/cdesk/sprites.png") no-repeat -433px -350px;
 }
 .dashboard_outer_container {
-  width: 100%;
+  width: 1200px;
   margin: 0 auto;
 }
 .dashboard_outer_container .no-campaign-available {
@@ -1758,7 +1770,7 @@ input[type="submit"] {
   border-bottom-width: 2px ;
   text-transform: uppercase;
   height: 60px;
-  padding: 20px 10px 0;
+  padding: 20px 10px 0 30px;
 }
 .campaign_cost_header_holder div.more_options,
 .cost_header_holder div.more_options {
@@ -1968,6 +1980,9 @@ input[type="submit"] {
   height: 500px ;
   overflow: auto ;
   border-bottom: solid 1px #d2dee7 ;
+}
+.total_campaign_cost_holder .first_col {
+  padding-left: 23px;
 }
 .total_campaign_cost_holder .each_campaign_cost_container {
   border: solid 1px #d2dee7;
@@ -2553,9 +2568,6 @@ input[type="submit"] {
 .breadcrumb_nav_strategy .report_heading_dropdown_txt {
   float: none;
   margin-top: 0px ;
-}
-#campaignDetail .campaign_detail_filter_header {
-  position: relative!important;
 }
 .nav_filters {
   width: 100%;
