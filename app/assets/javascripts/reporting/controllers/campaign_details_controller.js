@@ -437,7 +437,6 @@
         };
 
         $scope.getCostBreakdownData  = function(campaign){ //get cost break down data
-            var costData, other = 0, sum,cBreakdownChart = [];
             var params = {
                 queryId: 14, //cost_report_for_one_or_more_campaign_ids
                 clientId: loginModel.getSelectedClient().id,
@@ -450,34 +449,40 @@
             dataService.fetch(url).then(function(result) {
                 $scope.loadingCostBreakdownFlag = false;
                 if (result.status == "success" && !angular.isString(result.data)) {
-                     if(result.data.data.length>0){
-                        costData = result.data.data[0];
-                         sum = costData.inventory_cost_pct + costData.data_cost_pct + costData.ad_serving_cost_pct;
+                     if(result.data.data.length > 0) {
+                        var costData = result.data.data[0];
+                        var inventoryCostPercent = 0, dataCostPercent = 0, servingCostPercent = 0;
+                        if (costData.gross_rev > 0.0) {
+                          inventoryCostPercent = costData.inventory_cost * 100 / costData.gross_rev;
+                          dataCostPercent = costData.data_cost * 100 / costData.gross_rev;
+                          servingCostPercent = costData.serving_cost * 100 / costData.gross_rev;
+                        }
+                         var sum = inventoryCostPercent + dataCostPercent + servingCostPercent, other = 0;
                          if (sum < 100) {
                              other = 100 - sum;
                          }
                          $scope.getCostBreakdownInfo = [
                              {
                                  name: 'Inventory',
-                                 value: costData.inventory_cost_pct,
+                                 value: inventoryCostPercent,
                                  className: 'color1',
                                  colorCode: '#F8810E'
                              },
                              {
                                  name: 'Data',
-                                 value: costData.data_cost_pct,
+                                 value: dataCostPercent,
                                  className: 'color2',
                                  colorCode: '#0072BC'
                              },
                              {
                                  name: 'Ad Serving',
-                                 value: costData.ad_serving_cost_pct,
+                                 value: servingCostPercent,
                                  className: 'color3',
                                  colorCode: '#45CB41'
                              },
                              {name: 'Other', value: other, className: 'color4', colorCode: '#BFC3D1'}
                          ];
-                         $scope.details.totalCostBreakdown = costData.total;
+                         $scope.details.totalCostBreakdown = costData.gross_rev;
                          $scope.order = function (predicate, reverse) {
                              $scope.costBreakdownChartInfo = orderBy($scope.getCostBreakdownInfo, predicate, reverse);
                          };
