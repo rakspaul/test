@@ -88,7 +88,7 @@ var angObj = angObj || {};
                                                     $scope.workflowData.campaignGetAdGroupsData = responseData;
                                                     n = responseData.length;
                                                     for (i = 0; i < n; i++) {
-                                                        if (responseData[i].adGroup.id === $scope.adGroupId) {
+                                                        if (responseData[i].adGroup.id === parseInt($scope.adGroupId)) {
                                                             adGroupData.startDate =
                                                                 momentService
                                                                     .utcToLocalTime(responseData[i].adGroup.startTime);
