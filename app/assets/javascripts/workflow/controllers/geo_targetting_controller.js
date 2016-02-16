@@ -773,14 +773,6 @@ var angObj = angObj || {};
                 tabElems,
                 tabContentElem;
 
-            target = event ? $(event.target) : $('#zipCodeTab');
-            tabElems = target.parents('.nav-tabs');
-            tabElems.find('li').removeClass('active');
-            target.parent().addClass('active');
-            tabContentElem = tabElems.siblings('.tab-content');
-            tabContentElem.find('.contentBox').hide();
-            tabContentElem.find('#' + tabType).show();
-
             $('.searchBox').val('');
             if (tabType === 'zip') {
                 if (showPopup && !$scope.zipCodeTabSelected) {
@@ -790,6 +782,16 @@ var angObj = angObj || {};
                     $scope.zipCodeTabSelected = false;
                 }
             }
+
+            target = event ? $(event.target) : $('#zipCodeTab');
+            tabElems = target.parents('.nav-tabs');
+            tabElems.find('li').removeClass('active');
+            target.parent().addClass('active');
+            tabContentElem = tabElems.siblings('.tab-content');
+
+            tabContentElem.find('.contentBox').hide();
+            tabContentElem.find('#' + tabType).show();
+
             $scope.enableZipCodePopUp = false;
             $scope.selectedTab = tabType;
 
