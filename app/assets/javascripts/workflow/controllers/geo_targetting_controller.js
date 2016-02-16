@@ -1033,15 +1033,25 @@ var angObj = angObj || {};
             if (cancelClicked && workflowService.getSavedGeo()) {
                 var presavedGeo = angular.copy(workflowService.getSavedGeo()).original;
                 if (presavedGeo && presavedGeo) {
-                    $timeout(function () {
-                        $scope.geoTargetingData.selected = presavedGeo;
-                        if($scope.selectedTab !== 'dmas' && $scope.selectedTab !== 'zip') {
-                            var regionCityElem = $(".regionCityTab");
-                            regionCityElem.find("li").removeClass("active");
-                            regionCityElem.find(".tab_region_holder").addClass("active")
-                            angular.element('#tab_region').triggerHandler('click');
+                    $scope.geoTargetingData.selected = presavedGeo;
+                    $scope.showCitiesOnly = true;
+                    _.each($scope.geoTargetingData.selected.regions,function(item){
+                        if(item.cities && item.cities.length > 0){
+                            $scope.showCitiesOnly = false;
                         }
-                    }, 100);
+                    })
+
+                    if($scope.mode ==='edit' && presavedGeo.regions.length ==0 && presavedGeo.cities.length >0) {
+                    } else {
+                        if ($scope.selectedTab !== 'dmas' && $scope.selectedTab !== 'zip') {
+                            $timeout(function () {
+                                var regionCityElem = $(".regionCityTab");
+                                regionCityElem.find("li").removeClass("active");
+                                regionCityElem.find(".tab_region_holder").addClass("active")
+                                angular.element('#tab_region').triggerHandler('click');
+                            }, 100);
+                        }
+                    }
                 }
             }
             geoTargetingView.hideGeoTargetingBox();
@@ -1064,6 +1074,14 @@ var angObj = angObj || {};
                 workflowService.resetDeleteModule();
                 workflowService.setSavedGeo(null);
             }
+            var geoTargets = $scope.storedResponse && $scope.storedResponse.targets.geoTargets;
+            if($scope.mode ==='edit' && !geoTargets.REGION && geoTargets.CITY) {
+                var elem = $(".regionCityTab");
+                elem.find("li").removeClass("active");
+                var regionCityElem = elem.find("#cityTab")
+                regionCityElem.addClass("active");
+                $scope.selectedTab = 'cities';
+            }
 
             if ($scope.selectedTab === 'regions') {
                 $scope.listRegions();
@@ -1071,6 +1089,7 @@ var angObj = angObj || {};
             if ($scope.selectedTab === 'cities') {
                 $scope.listCities();
             }
+
             if ($scope.selectedTab === 'dmas') {
                 $scope.listDmas();
             }
