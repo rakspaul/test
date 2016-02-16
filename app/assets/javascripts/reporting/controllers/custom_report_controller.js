@@ -1075,6 +1075,8 @@ var angObj = angObj || {};
                 }
 
                 $(this).closest(".customDatesTimeframe").find("#date-selected-txt").text("Custom Dates");
+            });
+            $('.customDatesTimeframe .input-daterange').on('changeDate', function(){
                 $scope.reports.reportDefinition.timeframe.type = "Custom Dates";
             });
             $('#toggle').bootstrapToggle('off');
