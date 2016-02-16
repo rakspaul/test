@@ -1013,7 +1013,7 @@ button, i, input[type="submit"] {
 /************* NEW DASHBOARD STYLING *******************************************/
 .each_cost_col {
   float: left;
-  width: 95px;
+  width: 138px;
   min-width: 86px;
   min-height : 10px;
   font-size: 14px;
@@ -1021,6 +1021,17 @@ button, i, input[type="submit"] {
   margin-right: 5px;
   text-align: center;
   word-wrap: break-word;
+  padding-right: 17px ;
+  text-align: right;
+  .kpi-dd-holder, #kpi_dropdown {
+    padding: 0 ;
+  }
+}
+.each_cost_col.first_col {
+  text-align: left;
+}
+.each_cost_col.total_cost  {
+  width: 140px;
 }
 .campaign_status_icon {  
   margin-top: 5px;
@@ -1058,7 +1069,7 @@ button, i, input[type="submit"] {
   background: url("/assets/images/cdesk/sprites.png") no-repeat -433px -350px ;
 }
 .dashboard_outer_container {
-  width: 100%;
+  width: 1200px;
   margin: 0 auto;
   .no-campaign-available {
     border: solid 1px #d2dee7;
@@ -1751,7 +1762,7 @@ button, i, input[type="submit"] {
   border-bottom-width: 2px ; 
   text-transform: uppercase;
   height: 60px;
-  padding: 20px 10px 0;
+  padding: 20px 10px 0 30px;
   div.more_options {
     position: absolute;
     right: 8px;
@@ -1953,6 +1964,9 @@ button, i, input[type="submit"] {
   height : 500px ;
   overflow: auto ;
   border-bottom: solid 1px #d2dee7 ;
+  .first_col {
+        padding-left: 23px;
+  }
   .each_campaign_cost_container {
     border: solid 1px #d2dee7;
     padding: 20px 10px 10px;
@@ -1967,6 +1981,7 @@ button, i, input[type="submit"] {
       .total_cost {
         font-family: "Avenir-bold" ;
       }
+
     }
     .each_cost_section {
       float: left;
