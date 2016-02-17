@@ -123,16 +123,12 @@
             </span>
             <div>
                 <div class="statusLabel disabled" ng-if="!adData.targetName || TrackingIntegrationsSelected">
-                    <div class="col-md-12">
-                        <span style="color: #000;"
-                              ng-if="!adData.isGeographySelected &&
-                                !adData.isAudienceSelected &&
-                                !adData.isDaypartSelected"
-                              data-ng-bind="textConstants.WF_NOT_SET">
+                    <div class="col-md-12">   
+                        <span style="color: #000;" data-ng-bind="textConstants.WF_NOT_SET">
                         </span>
                     </div>
                 </div>
-                <div class="statusLabel disabled" ng-if="adData.targetName || !TrackingIntegrationsSelected">
+                <div class="statusLabel disabled" ng-if="adData.targetName && !TrackingIntegrationsSelected">
                     <div class="col-md-12" ng-if="adData.isGeographySelected" style="margin-bottom: 5px;">
                         <div class="icon-location pull-left"></div>
                         <span data-ng-bind="textConstants.GEOGRAPHY"></span>
