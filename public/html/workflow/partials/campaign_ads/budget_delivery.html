@@ -10,7 +10,7 @@
         <div class="col-md-12 dateWrapper form-group zeroPadding">
             <div class="dateContainer">
                 <label class="col-sm-12 control-label greyTxt miniLabels" data-ng-bind="textConstants.START_DATE"></label>
-                <input type="text" id="startDateInput"  custom-date-picker="{format: 'mm/dd/yyyy', orientation: 'top auto',  autoclose: true, todayHighlight: true}" placeholder="MM/DD/YYYY" class="form-control"  readonly name="startTime" ng-model="adData.startTime"  ng-disabled="checkForPastDate(workflowData['campaignData'].startTime, workflowData['campaignData'].endTime) || (workflowData.adsData.state=='IN_FLIGHT'?true:false)" ng-change="handleStartFlightDate(adData)"/>
+                <input type="text" id="startDateInput"  custom-date-picker="{format: 'mm/dd/yyyy', orientation: 'top auto',  autoclose: true, todayHighlight: true}" placeholder="MM/DD/YYYY" class="form-control"  readonly name="startTime" ng-model="adData.startTime"  ng-disabled="checkForPastDate(workflowData['campaignData'].startTime, workflowData['campaignData'].endTime) || (workflowData.adsData.state=='IN_FLIGHT' || workflowData.adsData.state === 'ENDED'?true:false)" ng-change="handleStartFlightDate(adData)"/>
                 <input type="hidden" ng-if ="workflowData.adsData.state=='IN_FLIGHT'" name="startTime" value="{{adData.startTime}}" />
 
             </div>
