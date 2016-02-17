@@ -38,9 +38,9 @@
                     }
                 }
                 if (type == 'campaigns') {
-                    urlPath =  apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId + '/campaigns/' + campaignId + '/bydays/perf?'+durationQuery
+                    urlPath =  apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId + '/campaigns/' + campaignId + '/bydays/perf?'+durationQuery;
                 } else if (type == 'strategies') {
-                    urlPath =  apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId + '/campaigns/' + campaignId + (strategyId ? ('/strategies/' + strategyId) : '') + '/bydays/perf?'+durationQuery;
+                    urlPath =  apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId + '/campaigns/' + campaignId + '/strategies/' + strategyId + '/bydays/perf?'+durationQuery;
                 }
                 return this.fetch(urlPath);
             },

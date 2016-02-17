@@ -323,7 +323,15 @@
             }
             return results;
         }
-
+        function hasItem(data, key, val){
+            var retVal = false;
+            _.each(data,function(item){
+                if(item[key] == val){
+                    retVal = true;
+                }
+            });
+            return retVal;
+        }
         return {
             formatDate: formatDate,
             makeTitle: makeTitle,
@@ -338,7 +346,8 @@
             VTCpopupfunc: VTCpopupfunc,
             reportTypeOptions: reportTypeOptions,
             convertToEST: convertToEST,
-            convertToUTC: convertToUTC
+            convertToUTC: convertToUTC,
+            hasItem: hasItem
         };
     }]);
 
