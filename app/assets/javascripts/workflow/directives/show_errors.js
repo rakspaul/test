@@ -2,29 +2,47 @@
     'use strict';
     angObj.directive('showErrors', function ($timeout, showErrorsConfig) {
         var getShowSuccess, linkFn;
+
         getShowSuccess = function (options) {
             var showSuccess;
+
             showSuccess = showErrorsConfig.showSuccess;
             if (options && options.showSuccess != null) {
                 showSuccess = options.showSuccess;
             }
+
             return showSuccess;
         };
+
         linkFn = function (scope, el, attrs, formCtrl) {
-            var blurred, inputEl, inputName, inputNgEl, options, showSuccess, toggleClasses;
+            var blurred,
+                inputEl,
+                inputName,
+                inputNgEl,
+                options,
+                showSuccess,
+                toggleClasses;
+
             blurred = false;
             options = scope.$eval(attrs.showErrors);
             showSuccess = getShowSuccess(options);
             inputEl = el[0].querySelector('[name]');
             inputNgEl = angular.element(inputEl);
             inputName = inputNgEl.attr('name');
+
             if (!inputName) {
                 throw 'show-errors element has no child input elements with a \'name\' attribute';
             }
+
             inputNgEl.bind('blur', function () {
                 blurred = true;
                 return toggleClasses(formCtrl[inputName].$invalid);
             });
+
+            inputNgEl.bind('focus', function () {
+                return toggleClasses(false);
+            });
+
             scope.$watch(function () {
                 return formCtrl[inputName] && formCtrl[inputName].$invalid;
             }, function (invalid) {
@@ -33,16 +51,19 @@
                 }
                 return toggleClasses(invalid);
             });
+
             scope.$on('show-errors-check-validity', function () {
                 return toggleClasses(formCtrl[inputName].$invalid);
             });
+
             scope.$on('show-errors-reset', function () {
                 return $timeout(function () {
                     el.removeClass('has-error');
                     el.removeClass('has-success');
-                    return blurred = false;
+                    return blurred === false;
                 }, 0, false);
             });
+
             return toggleClasses = function (invalid) {
                 el.toggleClass('has-error', invalid);
                 if (showSuccess) {
@@ -50,6 +71,7 @@
                 }
             };
         };
+
         return {
             restrict: 'A',
             require: '^form',
@@ -64,6 +86,7 @@
 
     angObj.provider('showErrorsConfig', function () {
         var _showSuccess;
+
         _showSuccess = false;
         this.showSuccess = function (showSuccess) {
             return _showSuccess = showSuccess;

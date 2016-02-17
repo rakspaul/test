@@ -106,6 +106,11 @@ var angObj = angObj || {};
                         $scope.inventoryCreate = true;
                         // Reset list name to blank
                         $scope.adData.listName = '';
+
+                        setTimeout(function(){
+                            $('#listName').focus();
+                        }, 1);
+
                     } else if (action === 'INVENTORY_UPDATE') {
                         // If called from Inventory Update (Replace) button click, reset flag to false
                         $scope.inventoryCreate = false;
