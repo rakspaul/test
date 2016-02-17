@@ -130,9 +130,13 @@ var angObj = angObj || {};
                                     if (item.pricing_method && item.pricing_method === constants.PRICING_METHOD_CPM){
                                         $scope.strategyMarginUnit = constants.SYMBOL_DOLLAR;
                                     }
-                                    $scope.strategyCostData.push(item);
+                                    if(!utils.hasItem($scope.strategyCostData,"campaign_id", item.campaign_id)) {
+                                        $scope.strategyCostData.push(item);
+                                    }
                                 }else{
-                                    $scope.tacticsCostData.push(item);
+                                    if(!utils.hasItem($scope.tacticsCostData,"ad_id", item.ad_id)) {
+                                        $scope.tacticsCostData.push(item);
+                                    }
                                 }
                             });
                         }
