@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 
-    campaignSelectModule.controller('CampaignSelectController', function ($scope, $rootScope, campaignSelectModel, apiPaths, constants, brandsModel, loginModel, analytics, utils) {
+    campaignSelectModule.controller('CampaignSelectController', function ($scope, $rootScope, campaignSelectModel, constants, brandsModel, loginModel, analytics, utils) {
 
         $scope.campaignData = {
             campaigns: {},

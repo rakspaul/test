@@ -1,5 +1,5 @@
 //Data fetching in service.
-brandsModule.service("brandsService", function ($rootScope, $http, dataService, api, constants, apiPaths, _, workflowService) {
+brandsModule.service("brandsService", function ($rootScope, api, constants, _, workflowService) {
     //default values
     var service = {};
 

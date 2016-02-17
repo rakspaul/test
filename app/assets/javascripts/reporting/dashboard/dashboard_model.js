@@ -1,4 +1,4 @@
-dashboardModule.factory("dashboardModel", ['loginModel', 'advertiserModel', 'brandsModel', 'timePeriodModel', 'constants', 'urlService', 'requestCanceller', 'dataService', 'utils', function (loginModel, advertiserModel, brandsModel, timePeriodModel, constants, urlService, requestCanceller, dataService, utils) {
+dashboardModule.factory("dashboardModel", ['loginModel', 'advertiserModel', 'brandsModel','constants', 'urlService', 'dataService', 'utils', function (loginModel, advertiserModel, brandsModel, constants, urlService, dataService, utils) {
     var dashboardData = {selectedStatus: constants.DASHBOARD_STATUS_IN_FLIGHT};//by default it is active.  Now check local storage if we want to change it last saved status.
     var localStoredCampaignStatus = JSON.parse(localStorage.getItem('dashboardStatusFilter'));
     if (localStoredCampaignStatus != null && localStoredCampaignStatus !== undefined &&

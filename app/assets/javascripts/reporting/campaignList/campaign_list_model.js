@@ -1,12 +1,9 @@
     //originally part of controllers/campaign_controller.js
-    campaignListModule.factory("campaignListModel", ['$rootScope', '$http', '$location', 'dataService', 'campaignListService', 'apiPaths',
-        'modelTransformer', 'campaignCDBData', 'campaignCost',
-        'dataStore', 'requestCanceller', 'constants',
-        'brandsModel', 'loginModel', 'analytics','RoleBasedService','advertiserModel','urlService','dashboardModel',
-        function($rootScope, $http, $location, dataService, campaignListService, apiPaths,
-            modelTransformer, campaignCDBData, campaignCost,
-            dataStore, requestCanceller, constants,
-            brandsModel, loginModel, analytics, RoleBasedService,advertiserModel,urlService,dashboardModel) {
+    campaignListModule.factory("campaignListModel", ['$rootScope', '$location', 'campaignListService', 'apiPaths',
+        'modelTransformer', 'campaignCDBData', 'campaignCost', 'requestCanceller', 'constants',
+        'brandsModel', 'loginModel', 'analytics','advertiserModel','urlService',
+        function($rootScope,  $location, campaignListService, apiPaths, modelTransformer, campaignCDBData, campaignCost, requestCanceller, constants,
+            brandsModel, loginModel, analytics,advertiserModel,urlService) {
             //var scrollFlag = 1;
             var Campaigns = function() {
                 this.timePeriodList = buildTimePeriodList();

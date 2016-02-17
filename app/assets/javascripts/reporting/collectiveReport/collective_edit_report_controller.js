@@ -8,7 +8,7 @@
                                                                                  reportIndex, campaignSelectModel, dataService,
                                                                                  urlService, collectiveReportModel, utils,
                                                                                  advertiserModel, brandsModel, constants, $modal,
-                                                                                 dataStore, $timeout) {
+                                                                                 dataStore) {
         $scope.report = report;
         $scope.editScreenBusy = false;
         $scope.editedObj = angular.copy(report);

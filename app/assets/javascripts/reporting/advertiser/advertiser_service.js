@@ -1,5 +1,5 @@
 //Data fetching in service.
-advertiserModule.service("advertiserService", function ($rootScope, $http, workflowService, dataService, api, constants, apiPaths, _) {
+advertiserModule.service("advertiserService", function ($rootScope, workflowService, api, constants, _) {
     //default values
     var service = {};
     service.fetchAdvertisers = function (searchCriteria) {

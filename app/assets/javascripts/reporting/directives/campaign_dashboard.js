@@ -1,6 +1,6 @@
 (function () {
     'use strict';
-    angObj.directive('campaignDashboard', function (utils,constants) {
+    angObj.directive('campaignDashboard', function (constants) {
         return {
             restrict:'EAC',
 

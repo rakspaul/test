@@ -1,5 +1,5 @@
 //Data Manipulation in model
-kpiSelectModule.factory("kpiSelectModel", ['constants', function (constants) {
+kpiSelectModule.factory("kpiSelectModel", function () {
     var kpiData = {};
     kpiData.selectedKpi =  (localStorage.getItem('selectedKpi') == undefined) ? 'ctr' : localStorage.getItem('selectedKpi') ;  //'ctr' ;
     kpiData.selectedKpiAlt =  (localStorage.getItem('selectedKpiAlt') == undefined) ? 'cpm' : localStorage.getItem('selectedKpiAlt') ;  //'cpm' ;
@@ -32,4 +32,4 @@ kpiSelectModule.factory("kpiSelectModel", ['constants', function (constants) {
 
     return kpiData ;
 
-}]);
+});

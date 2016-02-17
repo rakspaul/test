@@ -1,6 +1,6 @@
 (function () {
     'use strict';
-    advertiserModule.controller('AdvertiserListController', function ($scope, advertiserModel, utils, $rootScope, constants) {
+    advertiserModule.controller('AdvertiserListController', function ($scope, constants) {
 
         $scope.$watch('selectedAdvertiser.name', function (newName, oldName) {
             if (newName === oldName) {

@@ -1,6 +1,6 @@
 (function () {
     'use strict';
-    advertiserModule.controller('AdvertiserController', function ($scope,$routeParams, advertiserModel, workflowService,  advertiserService, utils, $rootScope, constants, loginModel, analytics) {
+    advertiserModule.controller('AdvertiserController', function ($scope, advertiserModel, utils, $rootScope, constants, loginModel) {
 
         var search = false;
         var searchCriteria = utils.typeaheadParams,

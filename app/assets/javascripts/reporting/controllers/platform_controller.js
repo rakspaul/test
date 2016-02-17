@@ -1,11 +1,10 @@
 var angObj = angObj || {};
 (function () {
     'use strict';
-    angObj.controller('PlatformController', function ($rootScope, $scope, $window, campaignSelectModel,
+    angObj.controller('PlatformController', function ($scope, campaignSelectModel,
                                                       strategySelectModel, kpiSelectModel,
-                                                      utils, dataService, apiPaths, constants, domainReports,
-                                                      timePeriodModel, RoleBasedService, loginModel, analytics,
-                                                      $timeout, advertiserModel, brandsModel, urlService) {
+                                                      dataService, constants, domainReports,
+                                                      timePeriodModel, RoleBasedService, loginModel, analytics, advertiserModel, brandsModel, urlService) {
 
         $scope.textConstants = constants;
 
