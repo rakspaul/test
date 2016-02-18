@@ -177,6 +177,10 @@ angObj.controller('BudgetDeliveryController', function ($scope, $window, $routeP
             endDateElem.datepicker('setEndDate', campaignEndTime);
             endDateElem.datepicker('update', endDate);
         }
+
+        // this is to disable the enddate before today
+        var currentDate = moment().format(constants.DATE_US_FORMAT);
+        endDateElem.datepicker('setStartDate', currentDate);
     };
 
     $scope.resetBudgetField = function () {
