@@ -1,56 +1,61 @@
+<div class="each_col platform_name_col">
+    <span class="icon_text_holder" ng-class="sortClassFunction('platform_name',sortTypebyMargin,sortReverse)" ng-click="sortTypebyMargin = 'platform_name'; sortReverse = !sortReverse;removeKpiActive();" >Buying Platform</span>
+</div>
 
-    <div class="each_col platform_name_col icon_text_holder">
-        Buying Platform
-    </div>
-    <div class="each_col second_col">
-            <span class="icon_text_holder">{{textConstants.TOTAL_COST}}</span>
-    </div>
-    <div class="each_col third_col">
-        <span class="icon_text_holder">{{textConstants.TOTAL_MARGIN}}</span>
-    </div>
-    <div class="each_col forth_col" >
+<div class="each_col second_col">
+    <span class="icon_text_holder" ng-class="sortClassFunction('spend',sortTypebyMargin,sortReverse)" ng-click="sortTypebyMargin = 'spend'; sortReverse = !sortReverse;removeKpiActive();" >{{textConstants.TOTAL_COST}}</span>
+</div>
+
+<div class="each_col third_col">
+    <span class="icon_text_holder" ng-class="sortClassFunction('margin',sortTypebyMargin,sortReverse)" ng-click="sortTypebyMargin = 'margin'; sortReverse = !sortReverse;removeKpiActive();" >{{textConstants.TOTAL_MARGIN}}</span>
+</div>
+
+<div class="each_col forth_col" >
         <div class="margin_hdr">
             <span class="hdr_space">{{textConstants.CTR}}</span>
             <span class="tooltip_show_icon" tooltip-placement="right" tooltip="Data by Atlas, IAS"></span>
         </div>
-        <div class="sub_col">
-            <span class="icon_text_holder">% CTR</span>
-            <span class="icon_text_holder">{{textConstants.CPC}}</span>
-            <span class="icon_text_holder">{{textConstants.TOTAL_CLICKS}}</span>
+        <div class="sub_col ctr_col">
+            <span class="icon_text_holder" ng-class="sortClassFunction('CTR',sortTypebyMargin,sortReverse)" ng-click="sortTypebyMargin = 'CTR'; sortReverse = !sortReverse;removeKpiActive();" >{{textConstants.CTR}}</span>
+            <span class="icon_text_holder" ng-class="sortClassFunction('CPC',sortTypebyMargin,sortReverse)" ng-click="sortTypebyMargin = 'CPC'; sortReverse = !sortReverse;removeKpiActive();" >{{textConstants.CPC}}</span>
+            <span class="icon_text_holder" ng-class="sortClassFunction('clicks',sortTypebyMargin,sortReverse)" ng-click="sortTypebyMargin = 'clicks'; sortReverse = !sortReverse;removeKpiActive();" >{{textConstants.TOTAL_CLICKS}}</span>
        </div>
-    </div>
-    <div class="each_col forth_col">
+</div>
+
+<div class="each_col forth_col">
         <div class="margin_hdr">
             <span class="hdr_space">{{textConstants.VIEWABILITY}}</span>
             <span class="tooltip_show_icon" tooltip-placement="right" tooltip="Data by IAS"></span>
         </div>
         <div class="sub_col">
-            <span class="icon_text_holder">% Views</span>
-            <span class="tooltip_holder icon_text_holder">{{textConstants.CPMV}}</span>
-            <span class="tooltip_holder icon_text_holder">{{textConstants.TOTAL_VIEW}}</span>
+            <span class="icon_text_holder" ng-class="sortClassFunction('VIEWABLE_IMPRESSIONS',sortTypebyMargin,sortReverse)" ng-click="sortTypebyMargin = 'VIEWABLE_IMPRESSIONS'; sortReverse = !sortReverse;removeKpiActive();" >% Views</span>
+            <span class="icon_text_holder" ng-class="sortClassFunction('CPMv',sortTypebyMargin,sortReverse)" ng-click="sortTypebyMargin = 'CPMv'; sortReverse = !sortReverse;removeKpiActive();" >{{textConstants.CPMV}}</span>
+            <span class="icon_text_holder" ng-class="sortClassFunction('VIEWABLE_IMPS',sortTypebyMargin,sortReverse)" ng-click="sortTypebyMargin = 'VIEWABLE_IMPS'; sortReverse = !sortReverse;removeKpiActive();" >{{textConstants.TOTAL_VIEW}}</span>
         </div>
-    </div>
-    <div class="each_col forth_col">
+</div>
+
+<div class="each_col forth_col">
         <div class="margin_hdr">
             <span class="hdr_space">{{textConstants.CONVERSIONS}}</span>
             <span class="tooltip_show_icon" tooltip-placement="bottom" tooltip="Data by Ignition One"></span>
         </div>
         <div class="sub_col">
-            <span class="icon_text_holder">% Conv.</span>
-            <span class="tooltip_holder icon_text_holder">{{textConstants.CPA}}</span>
-            <span class="tooltip_holder icon_text_holder">{{textConstants.TOTAL_EVENTS}}</span>
+            <span class="icon_text_holder" ng-class="sortClassFunction('AR',sortTypebyMargin,sortReverse)" ng-click="sortTypebyMargin = 'AR'; sortReverse = !sortReverse;removeKpiActive();" >% Conv.</span>
+            <span class="icon_text_holder" ng-class="sortClassFunction('CPA',sortTypebyMargin,sortReverse)" ng-click="sortTypebyMargin = 'CPA'; sortReverse = !sortReverse;removeKpiActive();" >{{textConstants.CPA}}</span>
+            <span class="icon_text_holder" ng-class="sortClassFunction('actions',sortTypebyMargin,sortReverse)" ng-click="sortTypebyMargin = 'actions'; sortReverse = !sortReverse;removeKpiActive();" >{{textConstants.TOTAL_EVENTS}} </span>
         </div>
-    </div>
-    <div class="each_col seventhMargin_col">
+</div>
+  
+<div class="each_col seventhMargin_col">
         <div class="margin_hdr">
             <span class="hdr_space">{{textConstants.DELIVERY}}</span>
             <span class="tooltip_show_icon" tooltip-placement="bottom" tooltip="Data   by DFP"></span>
         </div>
         <div class="sub_col">
-            <span class="icon_text_holder">{{textConstants.IMP_WITH_DOT}}</span>
-            <span class="tooltip_holder icon_text_holder">{{textConstants.CPM}}</span>
+           <span class="icon_text_holder" ng-class="sortClassFunction('-impressions',sortTypebyMargin,sortReverseForMarginImps)" ng-click="sortTypebyMargin = '-impressions'; sortReverse = sortReverseForMarginImps; sortReverseForMarginImps = !sortReverseForMarginImps; removeKpiActive();" >{{textConstants.IMPRESSIONS}}</span>
+           <span class="icon_text_holder" ng-class="sortClassFunction('CPM',sortTypebyMargin,sortReverse)" ng-click="sortTypebyMargin = 'CPM'; sortReverse = !sortReverse;removeKpiActive();" >{{textConstants.CPM}}</span>
         </div>
-    </div>
+</div>
 
 
 
