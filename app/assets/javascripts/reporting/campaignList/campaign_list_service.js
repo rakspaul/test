@@ -107,8 +107,8 @@
                         case 'last_7_days':
                         case 'last_30_days':
                             //campaign period dates for timefiltering
-                            filterStartDate = campaign.periodStartDate;
-                            filterEndDate = campaign.periodEndDate;
+                            filterStartDate = '';
+                            filterEndDate = '';
                             break;
                         case 'life_time':
                         default:
