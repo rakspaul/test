@@ -2058,7 +2058,7 @@ button, i, input[type="submit"] {
 .main_navigation_holder {
   height: 50px;
   background: #0978c9;
-  padding: 0px 15px 0px 50px;
+  padding: 0px 15px;
   position: relative;
   .profile-photo-tab {
     position: relative;
@@ -2105,9 +2105,11 @@ button, i, input[type="submit"] {
     }
   }
   .account-name-nav {
-    margin: 15px 50px 0 0;
+    margin: 16px 15px 0 0;
     font-size: 14px;
+    width: 180px;
     cursor: pointer;
+    text-align: right;
   }
   .main_nav_dropdown {
     display: none;
@@ -2125,85 +2127,39 @@ button, i, input[type="submit"] {
       float: left;
     }
     .user-photo-details {
-      width: 170px ;
-
-      .username  {
-          white-space: nowrap;
-          width: 100%;
-          overflow: hidden;
-          text-overflow: ellipsis;
-      }
-      .dropdown_ul_text  {
-        .dd_txt {
-          white-space: nowrap;
-          width: 90%;
-          overflow: hidden;
-          text-overflow: ellipsis;
-        }
-      }
-    }
-    .profile-data {
-      position: relative;
-      padding-top: 16px;
-      padding-left: 30px ;
-      background: #134A89;
-      width: 230px  ;
-      box-sizing: initial;
-      -webkit-box-sizing: initial;
-      -moz-box-sizing: initial;
-      margin-right: 30px ;
-      padding-right: 20px ;
-      padding-bottom: 16px ;
-      .user-photo  {
-        display: inline-block;
-        font-size: 28px;
-        margin-right: 12px;
-        cursor: default;
-        float: left;
-        width: 48px;
-        height: 48px;
-        .icon-user {
-          font-size: 30px;
-          line-height: 16px;
-          display: block;
-          padding: 9px 0 0 5px;
-        }
-      }
-      .username {
-        margin-top: 2px;
-        display: inline-block;
-      }
-    }
-
-    
-    .accountsList {
+      width: 100%;
+      float: left;
       .dropdown {
         position: static;
       }
-
       .accountsList-dropdown-li {
-        margin-left: 30px ;
+        width: 100%;
+        padding: 0;
+        float: left;
       }
       .dropdown-menu {
-        max-height: 200px;
+        //max-height: 200px;
         overflow: scroll;
-        top: 80px;
+        top: 0;
         left: 0;
         border: 0;
         max-width: 100%;
         min-width: 100%;
-        background: #134A89 ;
+        background: transparent ;
         padding: 0px ;
-        margin: 0 ;
+        margin: 0;
+        float: left;
+        position: initial;
+        box-shadow: none;
         &:before {
           display : none ;
         }
       }
-     
       .dropdown_ul_text {
         cursor: pointer;
         margin:  0;
         display: block;
+        width: 190px;
         .glyphicon {
           font-size: 11px;
           margin-top: 4px;
@@ -2226,14 +2182,78 @@ button, i, input[type="submit"] {
           }
         }
       }
-    }
-    .selected-li {
-      font-family: "Avenir-bold" ;
-      background: transparent;
-      &:hover {
-        span {
-          border-bottom: solid 1px transparent ;
+      li:last-child {
+        border-width: 0;
+      }
+      .selected-li {
+        font-family: "Avenir-bold" ;
+        background: transparent;
+        &:hover {
+          span {
+            border-bottom: solid 1px transparent ;
+          }
         }
+      }
+      .username  {
+          white-space: nowrap;
+          width: 189px;
+          overflow: hidden;
+          text-overflow: ellipsis;
+      }
+      .dropdown_ul_text  {
+        float: left;
+        width: 100%;
+        cursor: pointer;
+        padding-bottom: 15px;
+        .dd_txt {
+          white-space: nowrap;
+          width: 169px;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+        .icon-arrow-down-thick {
+          color: #fff;
+        }
+      }
+    }
+    .logout-option-link {
+      width: 100%;
+      text-align: center;
+      float: left;
+      background: #0564A9;
+      .logout_link {
+        width: 100%;
+        float: left;
+        text-align: center;
+        padding: 8px 0;
+      }
+    }
+    .profile-data {
+      position: relative;
+      background: #004478;
+      width: 300px;
+      box-sizing: initial;
+      -webkit-box-sizing: initial;
+      -moz-box-sizing: initial;
+      padding: 15px 0 0 0;
+      .user-photo  {
+        display: inline-block;
+        font-size: 28px;
+        margin-right: 12px;
+        cursor: default;
+        float: left;
+        width: 48px;
+        height: 48px;
+        .icon-user {
+          font-size: 30px;
+          line-height: 16px;
+          display: block;
+          padding: 9px 0 0 5px;
+        }
+      }
+      .username {
+        margin-top: 2px;
+        display: inline-block;
       }
     }
     .about_link {
@@ -2259,6 +2279,9 @@ button, i, input[type="submit"] {
   }
   #user-menu {
     min-height: 80px;
+    .nav-menu {
+      background: transparent;
+    }
   }
   .dropdown-menu {
     padding: 10px 0px ;
