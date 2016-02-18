@@ -3,8 +3,7 @@ var angObj = angObj || {};
 (function () {
     'use strict';
 
-    angObj.controller('GetAdgroupsController', function ($scope, $window, $routeParams, constants, workflowService, $timeout, utils, 
-        $location, momentService) {
+    angObj.controller('GetAdgroupsController', function ($scope, $routeParams, $location, momentService) {
         $scope.numOfDays = function (startTime, endTime) {
             var startTime = momentService.utcToLocalTime(startTime),
                 endTime = momentService.utcToLocalTime(endTime);

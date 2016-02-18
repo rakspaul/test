@@ -1,8 +1,7 @@
 (function () {
     'use strict';
 
-    angObj.factory('workflowService', function ($http, $location, api, apiPaths, dataService, loginModel,
-                                                $cookieStore, requestCanceller, constants, $rootScope) {
+    angObj.factory('workflowService', function (api, apiPaths, dataService, loginModel, requestCanceller, constants, $rootScope) {
         var mode,
             adDetails,
             newCreative,

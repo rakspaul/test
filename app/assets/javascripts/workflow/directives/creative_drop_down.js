@@ -2,7 +2,7 @@
     'use strict';
     angObj.directive('creativeDropDown', function (/*$compile*/) {
         return {
-            controller: function($scope, $window, $routeParams, constants, workflowService/*,
+            controller: function($scope, workflowService/*,
                                  $timeout, utils, $location*/) {
                 $scope.creativeFilterData = {};
                 $scope.defaultClient  = {};

@@ -3,7 +3,7 @@ var angObj = angObj || {};
 (function () {
     'use strict';
 
-    angObj.controller('CreativeTagController', function ($scope, $window, $routeParams, constants, workflowService) {
+    angObj.controller('CreativeTagController', function ($scope, constants, workflowService) {
         var addFromLibrary = {
             modifyCreativesData: function (respData) {
                 var arr;

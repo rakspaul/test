@@ -3,8 +3,7 @@ var angObj = angObj || {};
 (function () {
     'use strict';
 
-    angObj.controller('GeoTargettingController', function ($scope, $rootScope, $window, $routeParams, constants, workflowService,
-                                                           $timeout, utils, $location, zipCode, audienceService) {
+    angObj.controller('GeoTargettingController', function ($scope, workflowService, $timeout, zipCode) {
 
         $scope.showTargettingForm = false;
         $scope.geoTargetingData = {};

@@ -3,8 +3,7 @@ var angObj = angObj || {};
 (function () {
     'use strict';
 
-    angObj.controller('CreateAdGroupsController', function ($scope, $window, $routeParams, constants, workflowService, $timeout,
-                                                            utils, $location, momentService, $route) {
+    angObj.controller('CreateAdGroupsController', function ($scope, $routeParams, constants, workflowService, momentService, $route) {
         $scope.loadingBtn = false ;
         $scope.handleFlightDate = function (data) {
             var startTime = data,

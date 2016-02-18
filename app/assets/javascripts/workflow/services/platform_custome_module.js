@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 
-    angObj.factory('platformCustomeModule', function ($timeout, constants, $locale, utils) {
+    angObj.factory('platformCustomeModule', function ($timeout, constants, $locale) {
         var _self = this;
         var textConstants = constants;
 

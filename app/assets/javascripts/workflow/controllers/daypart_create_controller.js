@@ -1,8 +1,7 @@
 var angObj = angObj || {};
 (function () {
     'use strict';
-    angObj.controller('daypartController', function ($scope, audienceService, workflowService, $rootScope,$window, $routeParams, 
-        constants, $timeout, $location,utils) {
+    angObj.controller('daypartController', function ($scope, audienceService, workflowService, $timeout) {
         var _dayPartTargetting = this;
 
         $scope.Schedule = {
