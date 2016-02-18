@@ -735,7 +735,7 @@ var angObj = angObj || {};
                 case 7:
                     $scope.dayTimeSelected = 'Custom schedule';
                     $scope.storedResponse = angular.copy(workflowService.getAdsDetails());
-                    var dayParts = $scope.storedResponse.targets.adDaypartTargets;
+                    var dayParts = $scope.storedResponse && $scope.storedResponse.targets.adDaypartTargets;
                     var resetCustomSchedule = function() {
                         $scope.Schedule.dayPart = [];
                         $scope.customFlag = true;

@@ -42,7 +42,6 @@
         <input ng-if="!audienceDataForPreview || audienceDataForPreview.length ==0" type="button" name="platform" value="Create" ng-disabled="!$parent.isPlatformSelected" class="btn btn-default" ng-click="selectAudTarget()">
     </div>
     <!--END : Audience Targeting Card-->
-
     <!--START : Geo Targeting Card-->
     <div class="col-md-6 cardSelectHolder" ng-class="{true: 'active'}[selectedTargeting['geography']]">
         <span ng-if="geoTargetingPreviewObj" class="icon-trash" ng-style="(geoTargetingPreviewObj.include.count >0 || geoTargetingPreviewObj.exclude.count >0)?{'display':'block'}:{'display':'none'}" ng-click="deletetargets('GEO', $event)"></span>
@@ -54,7 +53,7 @@
         </div>
         <div class="cardTxtWrap targetDataSaved" ng-if="geoTargetingPreviewObj.include || geoTargetingPreviewObj.exclude ">
 
-            <div class="targetDataSavedTop">
+            <div class="targetDataSavedTop" ng-if="geoTargetingPreviewObj.include.count>0">
                 <div class="icon-target"></div>
                 <span data-ng-bind="textConstants.INCLUDED"></span>
                 <div class="badge">

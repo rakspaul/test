@@ -379,7 +379,6 @@
                 scope.Schedule.dayPart=[];
                 scope.Schedule.daytimeArr=[];
                 scope.Schedule.customLength = 0;
-                scope.Schedule.dayTimeSelected = null;
                 scope.$apply();
             })
         }
