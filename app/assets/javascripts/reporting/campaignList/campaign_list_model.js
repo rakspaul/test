@@ -411,6 +411,7 @@
                         }
                     },
                     sortCampaigns = function(fieldName) {
+                        var totalItem = this.dashboard.quickFilterSelectedCount;
                         if (this.sortParam) {
                             if (this.sortParam == fieldName) {
                                 var sortDirection = toggleSortDirection(this.sortDirection);
@@ -426,6 +427,7 @@
                             this.resetFilters();
                         }!this.sortDirection && (this.sortDirection = 'asc');
                         this.sortParam = fieldName;
+                        this.dashboard.quickFilterSelectedCount = totalItem;
                         this.sortFieldList.forEach(function(field) {
                             if (fieldName == field.key) {
                                 field.className = 'active';
@@ -613,10 +615,10 @@
                     buildSortFieldList = function() {
                         return [{
                             display: 'Media Plan',
-                            key: 'order_name'
+                            key: 'campaign_name'
                         }, {
                             display: 'Advertiser',
-                            key: 'advertiser'
+                            key: 'advertiser_name'
                         }, {
                             display: 'Flight Dates',
                             key: 'start_date',
