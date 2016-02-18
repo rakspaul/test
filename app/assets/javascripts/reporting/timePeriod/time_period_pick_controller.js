@@ -40,6 +40,9 @@
         }
 
         $(document).ready(function() {
+            $("#endDateInput,#startDateInput").keydown(function() {
+                return false;
+            });
         $('.input-daterange').datepicker({
             //format: "dd-mm-yyyy",
             format: "yyyy-mm-dd",
