@@ -351,7 +351,7 @@
             <span class="plat_name" title="{{platform.platform_name}}">{{platform.platform_name}}</span>
         </div>
         <div class="each_cost_col sec_col">{{((platform.impressions >0)|| (platform.impressions == 0))? (platform.impressions | nrFormat) : '-'}}</div>
-        <div class="each_cost_col third_col">{{platform[selected_filters.kpi_type.toLowerCase()] | appendDollor : selected_filters.kpi_type.toLowerCase() }}</div>
+        <div class="each_cost_col third_col">{{selected_filters.kpi_type.toLowerCase() === 'vtc'? platform['vtc_100']:platform[selected_filters.kpi_type.toLowerCase()] | appendDollor : selected_filters.kpi_type.toLowerCase() }}</div>
         <div class="each_cost_col fourth_col">{{((platform.inventory_cost >0)|| (platform.inventory_cost == 0))? (platform.inventory_cost | currency:undefined:0) : '-'}}</div>
         <div class="each_cost_col fifth_col">{{((platform.data_cost >0)|| (platform.data_cost == 0))? (platform.data_cost | currency:undefined:0) : '-'}}</div>
         <div class="each_cost_col sixth_col">{{((platform.serving_cost >0)|| (platform.serving_cost == 0))? (platform.serving_cost | currency:undefined:0) : '-'}}</div>
