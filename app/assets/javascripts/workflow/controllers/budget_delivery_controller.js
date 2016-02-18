@@ -1,5 +1,4 @@
-angObj.controller('BudgetDeliveryController', function ($scope, $window, $routeParams, constants, workflowService, $timeout, 
-    utils, $location, $filter, momentService) {
+angObj.controller('BudgetDeliveryController', function ($scope, constants, momentService) {
     $scope.ImpressionPerUserValidator = function () {
         var impressionPerUser = Number($scope.adData.quantity),
             totalImpression;

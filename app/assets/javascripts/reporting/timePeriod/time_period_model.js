@@ -1,5 +1,5 @@
 //Data Manipulation in model
-timePeriodModule.factory("timePeriodModel", ['constants', function (constants) {
+timePeriodModule.factory("timePeriodModel",function () {
     var buildTimePeriodList = function() {
         return [
             createTimePeriodObject('Last 7 days', 'last_7_days'),
@@ -61,5 +61,5 @@ timePeriodModule.factory("timePeriodModel", ['constants', function (constants) {
         };
     };
     return new tpModel();
-}])
+})
 ;

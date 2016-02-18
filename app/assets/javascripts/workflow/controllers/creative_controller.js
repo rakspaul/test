@@ -1,8 +1,7 @@
 var angObj = angObj || {};
 (function () {
     'use strict';
-    angObj.controller('CreativeController', function ($scope,$rootScope, $window, $routeParams, constants,
-                                                      workflowService, $timeout, utils, $location) {
+    angObj.controller('CreativeController', function ($scope,$rootScope, $routeParams, constants, workflowService, $location) {
 
         var creatives = {
             /*Function to get creatives sizes*/

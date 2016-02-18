@@ -3,7 +3,7 @@ var angObj = angObj || {};
 (function () {
     'use strict';
 
-    angObj.controller('AudienceTargettingController', function ($scope,  audienceService, $rootScope, workflowService,constants) {
+    angObj.controller('AudienceTargettingController', function ($scope,  audienceService, workflowService,constants) {
         var _audienceTargetting = this;
         $scope.sortColumn = '';
         $scope.sortOrder = '';

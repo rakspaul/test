@@ -1,6 +1,6 @@
 (function () {
     "use strict";
-    var ganttChart = function (utils, urlService, timePeriodModel, dataService, brandsModel, dashboardModel, requestCanceller, constants, loginModel, advertiserModel) {
+    var ganttChart = function (urlService, dataService, brandsModel, dashboardModel, loginModel, advertiserModel) {
         this.dashboard = {
             tasks: {},
             brands: {},
@@ -24,5 +24,5 @@
             })
         }
     }
-    commonModule.service('ganttChartModel', ['utils', 'urlService', 'timePeriodModel', 'dataService', 'brandsModel', 'dashboardModel', 'requestCanceller', 'constants', 'loginModel', 'advertiserModel', ganttChart]);
+    commonModule.service('ganttChartModel', ['urlService', 'dataService', 'brandsModel', 'dashboardModel', 'loginModel', 'advertiserModel', ganttChart]);
 }());

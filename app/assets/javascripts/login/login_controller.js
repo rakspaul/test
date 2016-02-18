@@ -1,9 +1,7 @@
 (function() {
     'use strict';
 
-    loginModule.controller('LoginController', function($rootScope, $scope, $filter, $timeout, dataService, $routeParams,
-                                                       modelTransformer, loginService, $location, loginModel, utils,
-                                                       constants, $sce, RoleBasedService) {
+    loginModule.controller('LoginController', function($scope, loginService, utils, constants, $sce, RoleBasedService) {
         var browserNameList = '',
             supportedBrowser = [
                 {

@@ -3,8 +3,7 @@ var angObj = angObj || {};
 (function () {
     'use strict';
 
-    angObj.controller('BuyingPlatformController', function ($scope, $window, $routeParams, constants, workflowService,
-        $timeout, utils, $location, $modal, $filter, platformCustomeModule, $rootScope) {
+    angObj.controller('BuyingPlatformController', function ($scope, constants, workflowService, $modal, $filter, platformCustomeModule, $rootScope) {
         var tempPlatform,
             storedResponse,
             oldPlatformName,

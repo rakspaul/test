@@ -1,6 +1,6 @@
 (function () {
   "use strict";
-  var gauge = function (utils, urlService, timePeriodModel, dashboardModel, dataService, loginModel, advertiserModel, brandsModel, requestCanceller, constants) {
+  var gauge = function (urlService, dashboardModel, dataService, loginModel, advertiserModel, brandsModel, requestCanceller, constants) {
     this.dashboard = {selectedFilter: ''};
     this.resetDashboardFilters = function() {
       this.dashboard.selectedFilter = '';
@@ -39,5 +39,5 @@
       })
     }
   }
-  commonModule.service('gaugeModel', ['utils', 'urlService', 'timePeriodModel', 'dashboardModel' , 'dataService', 'loginModel', 'advertiserModel', 'brandsModel', 'requestCanceller', 'constants', gauge]);
+  commonModule.service('gaugeModel', ['urlService', 'dashboardModel' , 'dataService', 'loginModel', 'advertiserModel', 'brandsModel', 'requestCanceller', 'constants', gauge]);
 }());

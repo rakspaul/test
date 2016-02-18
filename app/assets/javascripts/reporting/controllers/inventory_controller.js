@@ -1,7 +1,7 @@
 var angObj = angObj || {};
 (function () {
   'use strict';
-  angObj.controller('InventoryController', function ($scope, $http, $window, apiPaths,kpiSelectModel, requestCanceller, campaignSelectModel, strategySelectModel , columnline, utils, dataService, domainReports, constants, timePeriodModel, loginModel,advertiserModel,brandsModel, urlService, analytics) {
+  angObj.controller('InventoryController', function ($scope,kpiSelectModel, campaignSelectModel, strategySelectModel , columnline, dataService, domainReports, constants, timePeriodModel, loginModel,advertiserModel,brandsModel, urlService, analytics) {
 
       $scope.textConstants = constants;
 

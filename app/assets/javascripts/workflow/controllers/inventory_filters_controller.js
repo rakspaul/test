@@ -3,8 +3,7 @@ var angObj = angObj || {};
 (function () {
     'use strict';
 
-    angObj.controller('InventoryFiltersController', function ($scope, $window, $routeParams, constants,
-                                                              workflowService, Upload) {
+    angObj.controller('InventoryFiltersController', function ($scope,workflowService, Upload) {
         var InventoryFiltersView = {
             getAdvertisersDomainList: function (clientId, advertiserId) {
                 workflowService

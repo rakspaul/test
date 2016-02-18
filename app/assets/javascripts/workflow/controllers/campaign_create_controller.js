@@ -1,7 +1,7 @@
 var angObj = angObj || {};
 (function () {
     'use strict';
-    angObj.controller('CreateCampaignController', function ($scope, $rootScope, $window, $routeParams, $locale, $timeout, $location, constants, workflowService, utils, loginModel, momentService) {
+    angObj.controller('CreateCampaignController', function ($scope, $rootScope, $routeParams, $locale, $timeout, $location, constants, workflowService, loginModel, momentService) {
         $scope.selectedKeywords = [];
         $scope.platformKeywords = [];
         $scope.dropdownCss = {

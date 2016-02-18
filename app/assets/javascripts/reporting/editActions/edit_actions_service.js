@@ -1,6 +1,6 @@
 (function () {
   "use strict";
-  editActionsModule.factory("editActionsService", ["dataService", "utils", "common", "line", '$q', 'modelTransformer', 'campaignModel', 'dataStore', 'apiPaths', 'requestCanceller', 'constants', 'urlService',  function (dataService,  utils, common, line, $q, modelTransformer, campaignModel, dataStore, apiPaths, requestCanceller, constants, urlService) {
+  editActionsModule.factory("editActionsService", ["dataService",'urlService',  function (dataService,urlService) {
 	
     var editAction = function (data) {
       return dataService.put(urlService.APIeditAction(data.ad_id), data).then(function(response) {

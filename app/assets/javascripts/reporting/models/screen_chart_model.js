@@ -1,6 +1,6 @@
 (function () {
     "use strict";
-    var screenChartData = function (utils, urlService, timePeriodModel, dataService, brandsModel ,dashboardModel ,requestCanceller, constants, loginModel, RoleBasedService,momentService,advertiserModel , vistoconfig ) {
+    var screenChartData = function (urlService, dataService, brandsModel ,dashboardModel , constants, loginModel, RoleBasedService,advertiserModel , vistoconfig ) {
         var screenWidgetData = { selectedMetric : constants.SPEND ,
             metricDropDown : [constants.SPEND, constants.IMPRESSIONS, constants.CTR,constants.VTC, constants.CPA, constants.CPM, constants.CPC, constants.ACTION_RATE],
             selectedFormat : constants.SCREENS,
@@ -151,5 +151,5 @@
             return screenWidgetData['selectedFormat'];
         };
     };
-    commonModule.service('screenChartModel', ['utils', 'urlService', 'timePeriodModel', 'dataService', 'brandsModel','dashboardModel' ,'requestCanceller', 'constants' , 'loginModel', 'RoleBasedService','momentService','advertiserModel' , 'vistoconfig' , screenChartData ]);
+    commonModule.service('screenChartModel', ['urlService', 'dataService', 'brandsModel','dashboardModel' , 'constants' , 'loginModel', 'RoleBasedService','advertiserModel' , 'vistoconfig' , screenChartData ]);
 }());

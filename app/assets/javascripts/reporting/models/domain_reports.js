@@ -1,7 +1,7 @@
 /*global angObj, angular*/
 (function () {
     "use strict";
-    angObj.factory("domainReports", ['loginModel', 'RoleBasedService','accountsService', function (loginModel, RoleBasedService,accountsService) {
+    angObj.factory("domainReports", ['loginModel', 'RoleBasedService', function (loginModel, RoleBasedService) {
 
         return {
             getReportsTabs : function() {

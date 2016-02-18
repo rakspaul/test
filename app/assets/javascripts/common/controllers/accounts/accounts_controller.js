@@ -1,7 +1,7 @@
 var angObj = angObj || {};
 (function () {
     'use strict';
-    angObj.controller('AccountsController', function ($scope,$rootScope, $window, $routeParams, constants, accountsService, $timeout, utils, $location , $modal ) {
+    angObj.controller('AccountsController', function ($scope,$rootScope, constants, accountsService, $modal ) {
         $(".main_navigation").find('.active').removeClass('active').end().find('#creative_nav_link').addClass('active');
         $scope.textConstants = constants;
         $scope.clientsDetails = [];

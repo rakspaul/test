@@ -1,6 +1,6 @@
 (function () {
     "use strict";
-    var bubbleChartData = function (utils, urlService, timePeriodModel, dataService, brandsModel ,dashboardModel , requestCanceller, constants, loginModel,advertiserModel) {
+    var bubbleChartData = function (urlService, timePeriodModel, dataService, brandsModel ,dashboardModel , requestCanceller, constants, loginModel,advertiserModel) {
 
         var bubbleWidgetData = {
             brandData : {},
@@ -98,5 +98,5 @@
         };
 
     };
-    commonModule.service('bubbleChartModel', ['utils', 'urlService', 'timePeriodModel', 'dataService', 'brandsModel','dashboardModel','requestCanceller', 'constants' , 'loginModel' ,'advertiserModel' ,bubbleChartData]);
+    commonModule.service('bubbleChartModel', ['urlService', 'timePeriodModel', 'dataService', 'brandsModel','dashboardModel','requestCanceller', 'constants' , 'loginModel' ,'advertiserModel' ,bubbleChartData]);
 }());

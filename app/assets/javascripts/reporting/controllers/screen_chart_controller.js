@@ -2,7 +2,7 @@
  * Created by richa on 11/02/15.
  */(function () {
     'use strict';
-    commonModule.controller('ScreenChartController', function ($scope, loginModel, $cookieStore, $location, loginService, screenChartModel, constants, analytics) {
+    commonModule.controller('ScreenChartController', function ($scope, loginModel, screenChartModel, constants, analytics) {
 
 
         $scope.dataFound = true;

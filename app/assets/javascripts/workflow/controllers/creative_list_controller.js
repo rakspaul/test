@@ -3,8 +3,7 @@ var angObj = angObj || {};
 (function () {
     'use strict';
 
-    angObj.controller('CreativeListController', function ($scope,$rootScope, $window, $routeParams, constants, workflowService, 
-        $timeout, utils, $location,momentService, $route) {
+    angObj.controller('CreativeListController', function ($scope,$rootScope, $routeParams, constants, workflowService, $location,momentService, $route) {
         var checkedCreativeArr=[];
         $scope.creativeAds={};
         $scope.creativeAds['creativeAdData'] = {};

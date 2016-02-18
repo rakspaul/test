@@ -1,6 +1,6 @@
 (function () {
     'use strict';
-    campaignListModule.directive('campaignListFilterDirective', function (utils,constants) {
+    campaignListModule.directive('campaignListFilterDirective', function (constants) {
         return {
             restrict:'EAC',
 

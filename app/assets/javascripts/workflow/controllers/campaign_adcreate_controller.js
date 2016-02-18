@@ -3,10 +3,9 @@ var angObj = angObj || {};
 (function () {
     'use strict';
 
-    angObj.controller('CampaignAdsCreateController', function ($scope, $rootScope, $window, $routeParams, $locale,
-                                                               constants, workflowService, $timeout, utils, $location,
-                                                               campaignListService, requestCanceller, $filter,
-                                                               loginModel, $q, dataService, apiPaths, audienceService,
+    angObj.controller('CampaignAdsCreateController', function ($scope, $rootScope, $routeParams, $locale,
+                                                               constants, workflowService, $location, $filter,
+                                                               loginModel, dataService, apiPaths, audienceService,
                                                                RoleBasedService, momentService, vistoconfig) {
         // Flag to denote that ad format has changed
         $scope.adFormatChanged = false;

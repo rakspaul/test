@@ -1,6 +1,6 @@
 (function() {
   "use strict";
-  var editAction = function(editActionsService) {
+  var editAction = function() {
     this.data = {
       id: 0,
       actionType: '',
@@ -16,7 +16,7 @@
       //WIP
     };
   }
-  angObj.service('editAction', ['editActionsService', editAction]);
+  angObj.service('editAction',  editAction);
 
 
 }());

@@ -3,7 +3,7 @@ var angObj = angObj || {};
 (function () {
     'use strict';
 
-    angObj.controller('targettingController', function ($scope, $rootScope, $window, $routeParams, $timeout, constants, workflowService, audienceService) {
+    angObj.controller('targettingController', function ($scope, $rootScope, $timeout, workflowService, audienceService) {
 
         var _targeting = this;
 

@@ -1,6 +1,6 @@
 //Data Manipulation in model
 //advertiserModule.factory("advertiserModel", ['advertiserService', 'constants', function (advertiserService, constants) {
-brandsModule.factory("advertiserModel", ['advertiserService', 'constants', 'workflowService', function (advertiserService, constants, workflowService) {
+brandsModule.factory("advertiserModel", ['advertiserService', 'constants', function (advertiserService, constants) {
     var advertiser = {};
     advertiser.allAdvertiserObject = {id: -1, name: constants.ALL_ADVERTISERS};
     advertiser.selectedBrand = advertiser.allAdvertiserObject;

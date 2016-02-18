@@ -3,10 +3,10 @@
  */
 (function() {
     'use strict';
-    collectiveReportModule.controller('CollectiveReportListingController', function(loginModel,collectiveReportModel,
+    collectiveReportModule.controller('CollectiveReportListingController', function(collectiveReportModel,
                                                                                     $scope,$rootScope, $modal, domainReports,
                                                                                     dataService, urlService, campaignSelectModel,
-                                                                                    constants, $filter, dataStore, $timeout, utils,
+                                                                                    constants, $filter, dataStore, utils,
                                                                                     advertiserModel, brandsModel) {
         $scope.reportToEdit = {};
         $scope.showEditReport = false;

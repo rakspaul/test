@@ -1,6 +1,6 @@
 (function () {
     'use strict';
-    commonModule.controller('HeaderController', function ($scope, $rootScope, $http, loginModel, $timeout, $route, $modal, $cookieStore, $location , constants, domainReports , campaignSelectModel, RoleBasedService, workflowService,advertiserModel, tmhDynamicLocale ) {
+    commonModule.controller('HeaderController', function ($scope, $rootScope, loginModel, $route, $modal, $cookieStore, $location , constants, domainReports , campaignSelectModel, RoleBasedService, workflowService ) {
 
         $scope.user_name = loginModel.getUserName();
         $scope.version = version;

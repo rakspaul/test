@@ -1,6 +1,6 @@
 (function () {
     "use strict";
-    dashboardModule.controller('DashboardController_2', function ($scope, $rootScope, constants, dashboardModel, advertiserModel, brandsModel, campaignSelectModel, loginModel, analytics) {
+    dashboardModule.controller('DashboardController_2', function ($scope, constants) {
         $(".main_navigation_holder").find('.active_tab').removeClass('active_tab') ;
         $(".main_navigation").find('.active').removeClass('active').end().find('#dashboard_nav_link').addClass('active');
         $scope.textConstants = constants;

@@ -1,6 +1,6 @@
 (function () {
   'use strict';
-  brandsModule.directive('brandsDropDown', ['utils', function (utils) {
+  brandsModule.directive('brandsDropDown', function () {
     return {
       restrict: 'EAC',
       templateUrl: assets.html_brands_drop_down,
@@ -8,6 +8,6 @@
         $('.brandsList_ul').scrollWithInDiv();
       }
     };
-  }]);
+  });
 
 }());
