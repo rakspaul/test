@@ -495,7 +495,7 @@ var angObj = angObj || {};
                     $scope.editCampaignData.brandName = $scope.editCampaignData.brandName || 'Select Brand';
                     /*edit for new media plan*/
                     $scope.Campaign.totalBudget = $scope.editCampaignData.totalBudget;
-                    $scope.Campaign.marginPercent = $scope.editCampaignData.marginPercent;
+                    $scope.Campaign.marginPercent = $scope.editCampaignData.marginPercent ? $scope.editCampaignData.marginPercent :0;
                     $scope.Campaign.deliveryBudget = $scope.editCampaignData.deliveryBudget;
                     /*write condition for orange text here also*/
                     if (parseFloat($scope.Campaign.deliveryBudget) < 0) {
@@ -824,7 +824,7 @@ var angObj = angObj || {};
                 postDataObj.name = formData.campaignName;
                 postDataObj.campaignType = $scope.selectedChannel;
                 postDataObj.totalBudget = $scope.Campaign.totalBudget;
-                postDataObj.marginPercent = $scope.Campaign.marginPercent;
+                postDataObj.marginPercent = $scope.Campaign.marginPercent ? $scope.Campaign.marginPercent :0;
                 postDataObj.campaignKpis = $scope.Campaign.kpiArr;
                 postDataObj.campaignCosts = $scope.newCostArr;//$scope.Campaign.costArr;
                 postDataObj.campaignObjectives = $scope.checkedObjectiveList;
