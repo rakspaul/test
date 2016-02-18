@@ -4,15 +4,25 @@
         <div class="col-md-2 zeroPadding hideRightPanel"></div>
         <div class="col-md-10 containerWrap">
             <h2 class="col-md-12 zeroPadding marginBottom" data-ng-bind="textConstants.SETFILTERS"></h2>
-            <a href="javascript:void(0);"
-               class="helpLink col-md-12 zeroPadding"
-               data-ng-bind="textConstants.HOWMANINVENFILTERS">
-            </a>
+            <a href="javascript:void(0);" class="helpLink col-md-12 zeroPadding" data-ng-bind="textConstants.HOWMANINVENFILTERS"></a>
+            
+            <div class="col-md-12 zeroPadding radioBtnToggle">
+                <div class="btn-group miniToggle">
+                    <label class="btn btn-default active spend_evenly" style="width: auto;"><span>Whitelist</span>
+                        <input type="radio" name="inventoryList" checked group="budgetGroup" value="WHITELIST" hidden="hidden" class="btn_rad" id="whitelist" ng-click="toggleBtn($event);">
+                    </label>
+        
+                    <label class="btn btn-default spend_asap" style="width: auto;"><span>Blacklist</span>
+                        <input type="radio" name="inventoryList" group="budgetGroup" value="BLACKLIST" hidden="hidden" class="btn_rad" id="blacklist" ng-click="toggleBtn($event);">
+                    </label>
+                </div>
+            </div>
+            
             <div class="col-md-12 zeroPadding clearfix nav_filters" style="display: none;">
                 <creative-drop-down ng-if="workflowData.campaignData"></creative-drop-down>
             </div>
 
-            <div class="form-group col-md-3 zeroPadding" ng-if="workflowData.inventoryData.length > 0">
+            <!--<div class="form-group col-md-3 zeroPadding" ng-if="workflowData.inventoryData.length > 0">
                 <div class="col-md-12 zeroPadding dropdown-workflow" style="margin: 10px 0;">
                     <span class="col-md-12 greyTxt" data-ng-bind="textConstants.SELECTEXISTING"></span>
                     <div class="dropdown">
@@ -42,7 +52,6 @@
                              name="inventory" id="domain-list-dropdown"
                              style="overflow: visible; max-height: 305px;">
                              <div class="domain-list-wrapper" style="height: 236px; overflow: scroll;">
-                                 <!-- White lists -->
                                  <div class="clearfix domain-whitelist-wrapper" style="padding-bottom: 10px;">
                                      <h2 style="color: #939eae; font-size: 14px;
                                             padding: 10px 0 0 10px;">
@@ -66,7 +75,6 @@
                                          </span>
                                      </li>
                                  </div>
-                                 <!-- Black lists -->
                                  <div class="clearfix domain-blacklist-wrapper">
                                      <h2 class="" style="color: #939eae;
                                             border-top: 1px solid #939eae;
@@ -107,33 +115,25 @@
                     </div>
                     <input type="hidden" name="inventory" ng-model="adData.inventory.name" ng-update-hidden/>
                 </div>
-            </div>
+            </div>-->
 
-            <div class="col-md-9 zeroPadding inventory_upload_btn" style="margin: 42px 0 0;">
-                <span class="greyTxt pull-left"
-                      style="margin: 0 15px;"
-                      ng-show="workflowData.inventoryData.length > 0 ?  true : false">
-                    or
-                </span>
-                <button class="pull-left btn btn-default"
-                        ngf-select="selectFiles($files, 'INVENTORY_CREATE')"
-                        ngf-accept="'.csv,.txt'"
-                        ngf-multiple="false"
-                        ngf-allow-dir="false"
-                        data-ng-bind="textConstants.INVENTORY_UPLOAD_NEW">
+            <div class="col-md-9 zeroPadding inventory_upload_btn" style="margin: 20px 0 0;">
+                <button class="pull-left btn btn-default" style="margin: 0 0 20px 0;" ng-click="showInventoryModal()" data-ng-bind="textConstants.INVENTORY_SELECT_FROM_EXISTING">
                 </button>
-                <span class="grey_txt"
-                      data-ng-bind="textConstants.CSVTXTFILE">
-                </span>
+                <span class="greyTxt pull-left" style="margin: 0 15px;" ng-show="workflowData.inventoryData.length > 0 ?  true : false">or</span>
+                <button class="pull-left btn btn-default" ngf-select="selectFiles($files, 'INVENTORY_CREATE')"
+                        ngf-accept="'.csv,.txt'" ngf-multiple="false" ngf-allow-dir="false" data-ng-bind="textConstants.INVENTORY_UPLOAD_NEW">
+                </button>
+                <span class="grey_txt" data-ng-bind="textConstants.CSVTXTFILE"></span>
             </div>
         </div>
         <!-- Header Ends -->
         <!-- Body Starts -->
         <div class="col-md-2 zeroPadding hideRightPanel"></div>
-        <div class="col-md-10">
+        <div class="col-md-10" ng-repeat="inventory in workflowData.selectedLists">
             <div class="filterList" ng-if="workflowData.selectedLists.length > 0">
                 <div class="filterHead" >
-                    <h1 class="col-md-12 zeroPadding" data-ng-bind="textConstants.INVENTORY_SELECTED_DOMAIN_LISTS"></h1>
+                    <!--<h1 class="col-md-12 zeroPadding" data-ng-bind="textConstants.INVENTORY_SELECTED_DOMAIN_LISTS"></h1>
                     <div class="btn-group miniToggle col-md-12 zeroPadding" style="margin-bottom: 15px;">
                         <label ng-repeat="inventory in workflowData.selectedLists"
                                class="btn btn-default {{inventory === workflowData.selectedLists[0] ||
@@ -147,13 +147,11 @@
                                    class="btn_rad"
                                    ng-click="displaySelectedDomainList($event)">
                         </label>
-                    </div>
-                    <div class="pull-left sort-icon-holder active list_val_col"
-                         ng-click="sort();"
-                         style="display:inline-block; margin-top: 20px;">
-                        <span class="pull-left" data-ng-bind="textConstants.DOMAIN"></span>
-                        <span class="pull-left common-sort-icon ascending"></span>
-                    </div>
+                    </div>-->
+                    <span class="pull-left" style="width: auto;">{{inventory.name}}</span>
+                    
+                    <a class="icon-trash pull-right" style="margin: 10px 0 0 50px;"></a>
+                    
                     <button class="btn btn-default pull-right"
                             ng-disabled="workflowData.inventoryData.length === 0 || adData.inventory ?  false : true"
                             ngf-select="selectFiles($files, 'INVENTORY_UPDATE')"
@@ -162,6 +160,13 @@
                             ngf-allow-dir="false"
                             data-ng-bind="textConstants.INVENTORY_REPLACE_CURRENT_LIST">
                     </button>
+                    
+                    <div class="pull-left clearLeft sort-icon-holder active list_val_col" ng-click="sort();" style="display:inline-block; margin-top: 5px;">
+                        <span class="pull-left" data-ng-bind="textConstants.DOMAIN"></span>
+                        <span class="pull-left common-sort-icon ascending"></span>
+                    </div>
+                    
+                    
                 </div>
                 <div class="filterBody">
                     <span ng-repeat="domain in adData.inventory.domainList | orderBy : $index:sortDomain "

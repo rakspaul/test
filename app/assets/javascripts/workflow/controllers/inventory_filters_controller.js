@@ -121,6 +121,11 @@ var angObj = angObj || {};
                 }
             }
         };
+        
+        //Show Invenory Modal
+        $scope.showInventoryModal = function () {
+            $scope.showDomainListPopup = true;
+        }
 
         $scope.uploadDomain = function () {
             var domainId = $scope.adData.inventory && $scope.adData.inventory.id || null,

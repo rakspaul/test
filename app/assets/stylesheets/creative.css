@@ -229,6 +229,7 @@
   text-decoration: none;
   float: left;
   clear: left;
+  margin-bottom: 15px;
 }
 #inventoryFilters .containerWrap img {
   margin: 5px;

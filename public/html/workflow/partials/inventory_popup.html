@@ -1,0 +1,88 @@
+<div class="popCreativeLib" ng-show="showHidePopup">
+    <div class="creativeLib">
+        <div class="headerLib">
+            <span class="icon-close closePopBtn" aria-hidden="true" ng-click="closePop()"></span>
+            <h1>Select from Existing</h1>
+            <a href="">Adding a Creative to your Ad</a>
+        </div>
+        <div class="col-md-12 zeroPadding">
+            <div class="col-md-7">
+                <div class="clearfix">
+                    <h2 class="col-md-3 zeroPadding">Available</h2>
+                    <div id="custom-search-input" class="col-md-9">
+                            <input type="text"
+                                   class="form-control"
+                                   name="creativeSearch"
+                                   ng-model="adData.creativeSearch"
+                                   ng-keyup="creativeSearchFunc()"
+                                   placeholder="Search Creative By Name and Size..">
+							<span class="icon-search"></span>
+                    </div>
+                </div>
+                <div class="tableWrapper">
+                    <span class="greyTxt"
+                          style="display: inline-block; padding-bottom: 15px !important;">
+                        RECENTLY CREATED / USED
+                    </span>
+                    <div class="table" id="selCheck">
+                        <div ng-repeat="data in creativesLibraryData.creativesData | orderBy: 'name'">
+                            <div class="clearfix row-gap" >
+                                <span class="col-md-1">
+                                    <input class="checkboxcls"
+                                           type="checkbox"
+                                           id="{{data.id}}"
+                                           value="{{data.id}}_{{data.size.size}}_{{data.name}}"
+                                           name="{{data.name}}"
+                                           ng-checked="data.checked ? true : false"
+                                           ng-click="stateChanged($event, data);"/>
+                                </span>
+                                <span class="col-md-3">
+                                    {{data.size.size | lowercase}}
+                                </span>
+                                <span class="col-md-8">{{data.name}}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div ng-show="creativesLibraryData.creativesData && creativesLibraryData.creativesData.length === 0"
+                         class="dataFromCreativeLibraryNotFound">
+                        <span ng-if="!loadingFlag">Data Not Found</span>
+                        <div ng-if="loadingFlag" class="loading-icon"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-5">
+                <h2>Selected</h2>
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th class="col-md-4"></th>
+                        <th class="col-md-8"></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="data in selectedArr" ng-show="!creativeListLoading">
+                        <td class="col-md-4">
+                            <span class="col-md-12">{{data.size.size | lowercase}}</span>
+                        </td>
+                        <td class="col-md-8">
+                            <span class="col-md-10 dataName">{{data.name}}</span>
+                            <span class="icon-close col-md-2"
+                                  ng-click="removeCreativeTags(data, 'popup')"
+                                  ng-model="_tmp1"
+                                  aria-hidden="true"></span>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="col-md-12 popFooter">
+                <button type="button"
+                        class="btn btn-primary pull-right"
+                        ng-disabled="selectedArr && selectedArr.length === 0 && (!unchecking)"
+                        ng-click="saveCreativeTags()">Save</button>
+                <button type="button" class="btn btn-link pull-right" ng-click="closePop()">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>

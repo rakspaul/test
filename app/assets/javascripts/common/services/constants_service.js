@@ -719,6 +719,10 @@
         this.BLACKLIST = 'Blacklist';
         this.LISTYPEMOD = 'List type cannot be modified. ';
         this.IMPORT = 'Import';
+        this.INVENTORY_REPLACE_CURRENT_LIST = 'Replace Current List';
+        this.INVENTORY_UPLOAD_NEW = 'Upload Domain List';
+        this.INVENTORY_SELECTED_DOMAIN_LISTS = 'Selected domain Lists';
+        this.INVENTORY_SELECT_FROM_EXISTING = 'Select from Existing';
 
         //Ad Create: 6 Creative
         this.ADDCREATIVETAG = 'Add Creative';
@@ -907,11 +911,6 @@
             'You have chosen monthly Scheduling, please choose a date range that is at least one month';
 
         this.CUSTOMDATE_ERROR_MESSAGE = 'The custom date does not fall within the range of Start and End Dates.';
-
-        // New
-        this.INVENTORY_REPLACE_CURRENT_LIST = 'Replace Current List';
-        this.INVENTORY_UPLOAD_NEW = 'Upload New';
-        this.INVENTORY_SELECTED_DOMAIN_LISTS = 'Selected domain Lists';
 
         this.ACTIVITIES = 'Activities';
     };
