@@ -13,11 +13,15 @@
                 this.cdbDataMap = {};
                 this.campaignList = [];
                 this.costBreakdownList = [];
+                this.performanceParams = {
+                    nextPage: 1,
+                    lastPage: false
+                }
                 this.CBdownParams = {
-                    totalPages: 0,
-                    totalCount: 0,
-                    nextPage: 1
+                    nextPage: 1,
+                    lastPage: false
                 };
+                this.pageSize = 5;
                 this.tabActivation = {
                     "costTab": 0,
                     "performanceTab": 0
@@ -34,12 +38,9 @@
                 //this.costMargin;
                 this.busy = false;
                 this.timePeriod = this.selectedTimePeriod.key;
-                this.marketerName;
                 this.nextPage = 1;
                 this.sortParam = 'start_date';
                 this.sortDirection = 'desc';
-                this.totalPages;
-                this.totalCount;
                 this.brandId = brandsModel.getSelectedBrand().id;
                 this.client_id=loginModel.getSelectedClient().id;
                 this.dashboard = {
@@ -92,10 +93,12 @@
                     this.campaignList = [];
                     this.timePeriod = 'life_time';
                     this.busy = false;
-                    this.nextPage = 1;
+                    this.performanceParams = {
+                        nextPage: 1,
+                        lastPage: false
+                    }
                     this.sortParam = 'start_date';
                     this.sortDirection = 'desc';
-                    this.totalPages = undefined;
                     this.dashboard.quickFilterSelectedCount = 0;
                     //this.brandId = brandsModel.getSelectedBrand().id;
                     this.resetCostBreakdown.call(this);
@@ -157,30 +160,23 @@
 
                     fetchCampaigns = function() {
                         findScrollerFromContainer.call(this); // check scoroller only inside container
-                        if ((this.dashboard.filterTotal > 0) && (this.scrollFlag > 0)) {
+                        if (!this.performanceParams.lastPage && (this.dashboard.filterTotal > 0) && (this.scrollFlag > 0)) {
                             this.scrollFlag = 0; //Reseting scrollFlag
-                            if (this.totalPages && (this.totalPages + 1) == this.nextPage) {
-                                return;
-                            }
                             this.busy = true;
                             var self = this,
                                 url = _campaignServiceUrl.call(this);
-                           // console.log('url campaign list model url: ',url);
                             campaignListService.getCampaigns(url, function(result) {
                                 requestCanceller.resetCanceller(constants.CAMPAIGN_LIST_CANCELLER);
-
-                                var data = result.data.data;
-                                self.nextPage += 1;
-                                self.marketerName = data.marketer_name;
-                                self.totalPages = data.total_pages;
-                                self.periodStartDate = data.period_start_date;
-                                self.periodEndDate = data.period_end_date;
-                                self.dashboard.filterTotal = data.total_count;
-                                self.dashboard.quickFilterSelectedCount = data.total_count;
                                 self.busy = false;
-                                if (data.orders.length > 0) {
+                                if(result.status != "success"){
+                                    self.performanceParams.lastPage = true;
+                                    return;
+                                }
+                                var data = result.data.data;
+                                self.performanceParams.nextPage += 1;
+                                if (data.length > 0) {
                                     var cdbApiKey = timePeriodApiMapping(self.selectedTimePeriod.key);
-                                    var campaignData = campaignListService.setActiveInactiveCampaigns(data.orders, timePeriodApiMapping(self.timePeriod), self.periodStartDate, self.periodEndDate)
+                                    var campaignData = campaignListService.setActiveInactiveCampaigns(data, timePeriodApiMapping(self.timePeriod))
                                     angular.forEach(campaignData, function(campaign) {
                                         this.push(campaign);
                                         //self.costIds += campaign.orderId + ',';
@@ -201,6 +197,8 @@
                                         $rootScope.$broadcast('updateCampaignAsBrandChange', self.campaignList[0]);
                                     }
 
+                                }else{
+                                    self.performanceParams.lastPage = true;
                                 }
                             }, function(result) {
                                 self.busy = false;
@@ -218,32 +216,26 @@
                     },
                     fetchCostBreakdown = function() {
                         findScrollerFromContainer.call(this);
-                        if ((this.dashboard.filterTotal > 0) && (this.scrollFlag > 0)) {
+                        if (!this.CBdownParams.lastPage && (this.dashboard.filterTotal > 0) && (this.scrollFlag > 0)) {
                             this.scrollFlag = 0; //Reseting scrollFlag
-                            if (this.CBdownParams.totalPages && (this.CBdownParams.totalPages + 1) == this.CBdownParams.nextPage) {
-                                return;
-                            }
                             this.busy = true;
                             $("#load_more").show();
                             var self = this,
                                 url = _campaignServiceUrl.call(this, 'costBreakdown');
-                                //console.log('cost breakdown url: ',url);
                             campaignListService.getCampaigns(url, function(result) {
                                 requestCanceller.resetCanceller(constants.CAMPAIGN_LIST_CANCELLER);
-
+                                self.busy = false;
+                                $("#load_more").hide();
+                                if(result.status != "success"){
+                                    self.CBdownParams.lastPage = true;
+                                    return;
+                                }
                                 var data = result.data.data;
 
                                 self.CBdownParams.nextPage += 1;
-                                self.marketerName = data.marketer_name;
-                                self.CBdownParams.totalPages = data.total_pages;
-                                self.periodStartDate = data.period_start_date;
-                                self.periodEndDate = data.period_end_date;
-
-                                self.busy = false;
-                                $("#load_more").hide();
-                                if (data.orders.length > 0) {
+                                if (data.length > 0) {
                                     var cdbApiKey = timePeriodApiMapping(self.selectedTimePeriod.key);
-                                    var campaignData = campaignListService.setActiveInactiveCampaigns(data.orders, timePeriodApiMapping(self.timePeriod), self.periodStartDate, self.periodEndDate)
+                                    var campaignData = campaignListService.setActiveInactiveCampaigns(data, timePeriodApiMapping(self.timePeriod))
                                     angular.forEach(campaignData, function(campaign) {
                                         if(!hasCampaignId(this, campaign.id)) {
                                             this.push(campaign);
@@ -265,6 +257,8 @@
                                         fetchCostData.call(self);
                                         self.costIds = '';
                                     }
+                                }else{
+                                    self.CBdownParams.lastPage = true;
                                 }
                             }, function(result) {
                                 self.busy = false;
@@ -414,6 +408,7 @@
                         }
                     },
                     sortCampaigns = function(fieldName) {
+                        var totalItem = this.dashboard.quickFilterSelectedCount;
                         if (this.sortParam) {
                             if (this.sortParam == fieldName) {
                                 var sortDirection = toggleSortDirection(this.sortDirection);
@@ -429,6 +424,7 @@
                             this.resetFilters();
                         }!this.sortDirection && (this.sortDirection = 'asc');
                         this.sortParam = fieldName;
+                        this.dashboard.quickFilterSelectedCount = totalItem;
                         this.sortFieldList.forEach(function(field) {
                             if (fieldName == field.key) {
                                 field.className = 'active';
@@ -582,21 +578,30 @@
 
                     _campaignServiceUrl = function(from) {
                         var clientId = loginModel.getSelectedClient().id;
-                        var nextPageNumber = from == 'costBreakdown' ? this.CBdownParams.nextPage : this.nextPage;
+                        var nextPageNumber = from == 'costBreakdown' ? this.CBdownParams.nextPage : this.performanceParams.nextPage;
                         var params = [
+                            'client_id=' + loginModel.getSelectedClient().id,
+                            'advertiser_id=' + advertiserModel.getSelectedAdvertiser().id,
+                            'brand_id=' + brandsModel.getSelectedBrand().id,
                             'date_filter=' + this.timePeriod,
-                            'page=' + nextPageNumber,
-                            'advertiser_id=' + advertiserModel.getSelectedAdvertiser().id
+                            'page_num=' + nextPageNumber,
+                            'page_size=' + this.pageSize
                         ];
                         this.sortParam && params.push('sort_column=' + this.sortParam);
                         this.sortDirection && params.push('sort_direction=' + this.sortDirection);
-                        this.brandId > 0 && params.push('brand_id=' + brandsModel.getSelectedBrand().id);
                         if(this.appliedQuickFilter == constants.ENDING_SOON_CONDITION) {
-                            params.push('conditions=' + constants.ACTIVE_CONDITION);
+                            params.push('condition=' + constants.ACTIVE_CONDITION);
                         } else {
-                            params.push('conditions=' + this.appliedQuickFilter);
+                            params.push('condition=' + this.appliedQuickFilter);
                         }
-                        return apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId + '/campaigns/bystate?' + params.join('&');
+                        if(this.appliedQuickFilter == constants.ARCHIVED_CONDITION){
+                            params.push('cond_type=' + constants.ARCHIVED_CONDITION);
+                        }else if(this.appliedQuickFilter == constants.ACTIVE_ONTRACK || this.appliedQuickFilter == constants.ACTIVE_UNDERPERFORMING){
+                            params.push('cond_type=kpi_status');
+                        }else {
+                            params.push('cond_type=status');
+                        }
+                        return apiPaths.apiSerivicesUrl_NEW + '/reportBuilder/customQuery?query_id=42&' + params.join('&');
                     },
                     toggleSortDirection = function(dir) {
                         if (dir == 'asc') {
@@ -607,10 +612,10 @@
                     buildSortFieldList = function() {
                         return [{
                             display: 'Media Plan',
-                            key: 'order_name'
+                            key: 'campaign_name'
                         }, {
                             display: 'Advertiser',
-                            key: 'advertiser'
+                            key: 'advertiser_name'
                         }, {
                             display: 'Flight Dates',
                             key: 'start_date',
