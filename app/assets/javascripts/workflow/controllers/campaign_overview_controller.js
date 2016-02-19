@@ -8,7 +8,7 @@ var angObj = angObj || {};
         $(".main_navigation").find('.active').removeClass('active').end().find('#campaigns_nav_link').addClass('active');
         $(".bodyWrap").addClass('bodyWrapOverview');
         if( $('.adGroupSelectionWrap').length ) { $("html").css({'background-color':'#eef5fc'}); }
-        var sizeString = "";
+        $scope.sizeString = "";
         $scope.textConstants = constants;
         $scope.workflowData = {};
         $scope.workflowData.getADsForGroupData = {};
@@ -342,14 +342,14 @@ var angObj = angObj || {};
             var creativeSizeArr = []
             if (typeof creative != 'undefined' && creative.length>0) {
                 if (creative.length == 1) {
-                    sizeString = creative[0].size.size;
+                    $scope.$scope.sizeString = creative[0].size.size;
                 } else if (creative.length > 1) {
-                    sizeString = "";
+                    $scope.sizeString = "";
                     for (var i in creative) {
-                        //sizeString += creative[i].size.size + ", ";
+                        //$scope.sizeString += creative[i].size.size + ", ";
                         creativeSizeArr.push(creative[i].size.size)
                     }
-                    sizeString = creativeSizeArr;
+                    $scope.sizeString = creativeSizeArr;
                     var arr = creativeSizeArr;
                     var result = noRepeat(arr);
 
@@ -357,16 +357,16 @@ var angObj = angObj || {};
                         var creativeSizeLimit = result[0].splice(0,3);
                         var remainingCreativeSize = result[0].join(", ");
                         var amountLeft = result[0].length;
-                        sizeString = creativeSizeLimit.join(', ').replace(/X/g, 'x')  + ' <span class="blueTxt" title="'+remainingCreativeSize+'" >+' + amountLeft + '</span>';
+                        $scope.sizeString = creativeSizeLimit.join(', ').replace(/X/g, 'x')  + ' <span class="blueTxt" title="'+remainingCreativeSize+'" >+' + amountLeft + '</span>';
 
                     }
                     else {
-                        sizeString = result[0] && result[0].join(', ');
+                        $scope.sizeString = result[0] && result[0].join(', ');
                     }
                 }
 
             } else {
-                sizeString = constants.WF_NOT_SET;
+                $scope.sizeString = constants.WF_NOT_SET;
             }
 
 
@@ -388,7 +388,7 @@ var angObj = angObj || {};
                 return [a, b];
             }
 
-            return sizeString;
+            return $scope.sizeString;
         }
 
 
