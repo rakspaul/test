@@ -18,6 +18,7 @@ var angObj = angObj || {};
         $scope.twelve = true;
         $scope.clock = '12 hr';
         $scope.timezoneFormat = 'Advertiser';
+        $scope.saveDayPartFlag = false;
 
         $scope.getStartTimes = [
             {time: 0,  twelveHrFormat: '12:00AM', twentyfourHrFormat: '00:00'},
@@ -552,7 +553,7 @@ var angObj = angObj || {};
 
         $scope.Schedule.dayTimeSelected = function (value, event) {
             var daytimeObj;
-
+            $scope.saveDayPartFlag = false;
             $scope.customFlag = false;
             switch (value) {
                 case 0:
@@ -787,6 +788,13 @@ var angObj = angObj || {};
             }
         };
 
+        $scope.clearDayPart = function() {
+            $scope.Schedule.dayPart=[];
+            $scope.Schedule.daytimeArr=[];
+            $scope.Schedule.customLength = 0;
+            $scope.saveDayPartFlag = true;
+            $scope.changeDayTime();
+        };
 
         $scope.$on('triggerDayPart', function() {
             var moduleDeleted = workflowService.getDeleteModule();
