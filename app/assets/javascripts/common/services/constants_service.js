@@ -360,6 +360,7 @@
         this.STRATEGY = "Ad Group";
 
         this.PLATFORM_NAME = "Platform Name";
+        this.COLLECTIVE_COST = "Collective Fee";
 
         this.SUSPICIOUS = "Suspicious";
         this.TOTAL = "Total";
