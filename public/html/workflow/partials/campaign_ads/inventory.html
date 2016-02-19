@@ -179,16 +179,16 @@
     </div>
 </div>
 
-<!-- Modal Start -->
+<!-- Modal Upload List Start -->
 <div class="popInventoryLib" ng-show="showDomainListPopup">
     <form id="inventoryForm" name="inventoryForm" novalidate>
         <div class="inventoryLib">
             <div class="headerLib">
-                <span class="close" aria-hidden="true" ng-click="closeDomainListPop()">x</span>
+                <span class="icon-close closePopBtn" aria-hidden="true" ng-click="closeDomainListPop()"></span>
                 <h1 data-ng-bind="textConstants.UPLOADLIST"></h1>
                 <span data-ng-bind="textConstants.FILENAME"></span>
             </div>
-            <div class="popBody">
+            <div class="popBody uploadList">
                 <div class="popList">
                     <span ng-repeat="file in files" data-ng-bind="file.name"></span>
                 </div>
@@ -198,7 +198,7 @@
                         <label class="col-sm-12 control-label greyTxt miniLabels"
                                data-ng-bind="textConstants.LISTNAME">
                         </label>
-                        <div class="form-group col-sm-9 zeroPadding" show-errors='{showSuccess: true}'>
+                        <div class="form-group col-sm-12 zeroPadding" show-errors='{showSuccess: true}'>
                             <input type="text"
                                    name="listName"
                                    id="listName"
@@ -274,6 +274,102 @@
                         ng-click="closeDomainListPop()"
                         data-ng-bind="textConstants.CANCEL">
                 </button>
+            </div>
+        </div>
+    </form>
+</div>
+<!-- Modal End -->
+
+<!-- Modal Select Existing List Start -->
+<div class="popInventoryLib" ng-show="showExistingListPopup">
+    <form id="inventoryForm" name="inventoryForm" novalidate>
+        <div class="inventoryLib">
+            <div class="headerLib">
+                <span class="icon-close closePopBtn" aria-hidden="true" ng-click="hideExistingListPopup()"></span>
+                <h1>Select from Existing</h1>
+            </div>
+            <div class="popBody">
+                <div class="col-md-6">
+                    <h4>Available</h4>
+                    <div class="pull-right radioBtnToggle">
+                        <div class="btn-group miniToggle">
+                            <label class="btn btn-default active spend_evenly" style="width: auto;"><span>Whitelist</span>
+                                <input type="radio" name="inventoryList" checked group="budgetGroup" value="WHITELIST" hidden="hidden" class="btn_rad" id="whitelist" ng-click="toggleBtn($event);">
+                            </label>
+                
+                            <label class="btn btn-default spend_asap" style="width: auto;"><span>Blacklist</span>
+                                <input type="radio" name="inventoryList" group="budgetGroup" value="BLACKLIST" hidden="hidden" class="btn_rad" id="blacklist" ng-click="toggleBtn($event);">
+                            </label>
+                        </div>
+                    </div>
+                    <div class="listKeyupInput">
+                        <input type="text" class="form-control" name="creativeSearch" placeholder="Search domain lists">
+                        <span class="icon-search"></span>
+                    </div>
+                    <div class="col-md-12 zeroPadding">
+                        <!--Dummy Data Start-->
+                        <div class="selected">
+                            <input type="checkbox">
+                            <span>Whitelist</span>
+                            <span class="titleList">Acme Global Whitelist</span>
+                        </div>
+                        <div class="selected">
+                            <input type="checkbox">
+                            <span>Whitelist</span>
+                            <span class="titleList">Acme Global Whitelist</span>
+                        </div>
+                        <div class="selected">
+                            <input type="checkbox">
+                            <span>Whitelist</span>
+                            <span class="titleList">Acme Global Whitelist</span>
+                        </div>
+                        <div class="selected">
+                            <input type="checkbox">
+                            <span>Whitelist</span>
+                            <span class="titleList">Acme Global Whitelist</span>
+                        </div>
+                        <div class="selected">
+                            <input type="checkbox">
+                            <span>Whitelist</span>
+                            <span class="titleList">Acme Global Whitelist</span>
+                        </div>
+                        <div class="selected">
+                            <input type="checkbox">
+                            <span>Whitelist</span>
+                            <span class="titleList">Acme Global Whitelist</span>
+                        </div>
+                        <!--Dummy Data End-->
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <h4>Selected</h4>
+                    <!--Dummy Data Start-->
+                    <div class="selected">
+                        <span>Whitelist</span>
+                        <span class="titleList">Acme Global Whitelist</span>
+                        <span class="icon-close" aria-hidden="true"></span>
+                    </div>
+                    <div class="selected">
+                        <span>Whitelist</span>
+                        <span class="titleList">Acme Global Whitelist</span>
+                        <span class="icon-close" aria-hidden="true"></span>
+                    </div>
+                    <div class="selected">
+                        <span>Whitelist</span>
+                        <span class="titleList">Acme Global Whitelist</span>
+                        <span class="icon-close" aria-hidden="true"></span>
+                    </div>
+                    <div class="selected">
+                        <span>Whitelist</span>
+                        <span class="titleList">Acme Global Whitelist</span>
+                        <span class="icon-close" aria-hidden="true"></span>
+                    </div>
+                    <!--Dummy Data End-->
+                </div>
+            </div>
+            <div class="col-md-12 popFooter">
+                <button type="button" class="btn btn-primary pull-right" ng-click="uploadDomain()">Save</button>
+                <button type="button" class="btn btn-link pull-right" ng-click="hideExistingListPopup()" data-ng-bind="textConstants.CANCEL"></button>
             </div>
         </div>
     </form>

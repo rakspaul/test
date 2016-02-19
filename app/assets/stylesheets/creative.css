@@ -321,11 +321,11 @@
 .popInventoryLib {
   position: fixed;
   left: 0;
-  top: 0px;
+  top: 50px;
   width: 100%;
   height: 100%;
-  z-index: 999;
-  background: rgba(0, 0, 0, 0.5);
+  z-index: 9999999;
+  background: rgba(0, 0, 0, 0.8);
 }
 .popInventoryLib .inventoryLib {
   position: relative;
@@ -343,12 +343,15 @@
 }
 .popInventoryLib .inventoryLib .closePopBtn {
   position: absolute;
-  top: -30px;
-  right: -30px;
+  top: 3px;
+  right: 3px;
   z-index: 10;
   cursor: pointer;
-  color: #fff;
-  font-size: 30px;
+  font-size: 12px;
+  width: 12px;
+  height: 12px;
+  color: #21252B;
+  opacity: .25;
 }
 .popInventoryLib .inventoryLib .close {
   position: absolute;
@@ -356,13 +359,12 @@
   right: 12px;
 }
 .popInventoryLib .inventoryLib .headerLib {
-  padding: 30px 30px 17px 30px;
+  padding: 30px 30px 20px 30px;
   float: left;
   width: 100%;
   background: #fff;
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
-  border-bottom: 3px solid #dde6eb;
 }
 .popInventoryLib .inventoryLib .headerLib .btn-default {
   float: right;
@@ -382,7 +384,7 @@
 .popInventoryLib .inventoryLib .popBody {
   float: left;
   width: 100%;
-  padding: 17px 30px 30px 30px;
+  padding: 0px;
 }
 .popInventoryLib .inventoryLib .popBody .popList {
   float: left;
@@ -397,22 +399,106 @@
 .popInventoryLib .inventoryLib .popBody .categoryDDL {
   float: left;
   width: 30%;
-  margin-top: 20px;
 }
 .popInventoryLib .inventoryLib .popBody .radioBtnToggle {
   float: left;
-  width: 40%;
-  margin-left: 20px;
-  margin-top: 20px;
+  width: auto;
+  margin: 0 0 0 20px;
 }
 .popInventoryLib .inventoryLib .popBody .radioBtnToggle .miniToggle {
   margin: 0;
 }
+.popInventoryLib .inventoryLib .popBody .col-md-6 h4 {
+  float: left;
+  margin: 10px 0 0 0;
+  font-family: "Avenir";
+}
+.popInventoryLib .inventoryLib .popBody .col-md-6:first-child {
+  padding: 0 20px 20px 30px;
+}
+.popInventoryLib .inventoryLib .popBody .col-md-6:first-child .listKeyupInput {
+  float: left;
+  width: 100%;
+  border: 1px solid rgba(204, 210, 218, 0.5);
+  position: relative;
+  margin: 15px 0;
+}
+.popInventoryLib .inventoryLib .popBody .col-md-6:first-child .listKeyupInput input {
+  border-width: 0;
+}
+.popInventoryLib .inventoryLib .popBody .col-md-6:first-child .listKeyupInput .icon-search {
+  position: absolute;
+  z-index: 10;
+  right: 11px;
+  top: 11px;
+  font-size: 11px;
+  height: 11px;
+  width: 11px;
+  cursor: pointer;
+}
+.popInventoryLib .inventoryLib .popBody .col-md-6:first-child .selected {
+  float: left;
+  width: 100%;
+  padding: 10px 0 10px 0;
+}
+.popInventoryLib .inventoryLib .popBody .col-md-6:first-child .selected input[type="checkbox"] {
+  float: left;
+  margin: 3px 10px 0 0;
+}
+.popInventoryLib .inventoryLib .popBody .col-md-6:first-child .selected span {
+  float: left;
+  color: #57606c;
+  width: 80px;
+}
+.popInventoryLib .inventoryLib .popBody .col-md-6:first-child .selected .titleList {
+  color: #21212b;
+  width: auto;
+}
+.popInventoryLib .inventoryLib .popBody .col-md-6:last-child {
+  padding: 0 0 20px 0;
+  background: #f7f7f7;
+  border-left: 1px solid #ccd2da;
+}
+.popInventoryLib .inventoryLib .popBody .col-md-6:last-child h4 {
+  margin: 10px 0 20px 20px;
+}
+.popInventoryLib .inventoryLib .popBody .col-md-6:last-child .selected {
+  float: left;
+  width: 100%;
+  border-bottom: 1px solid rgba(204, 210, 218, 0.5);
+  padding: 10px 30px 10px 20px;
+}
+.popInventoryLib .inventoryLib .popBody .col-md-6:last-child .selected span {
+  float: left;
+  color: #57606c;
+}
+.popInventoryLib .inventoryLib .popBody .col-md-6:last-child .selected span:first-child {
+  width: 80px;
+}
+.popInventoryLib .inventoryLib .popBody .col-md-6:last-child .selected .titleList {
+  color: #21212b;
+}
+.popInventoryLib .inventoryLib .popBody .col-md-6:last-child .selected .icon-close {
+  float: right;
+  cursor: pointer;
+  font-size: 11px;
+  height: 11px;
+  width: 11px;
+  color: #21252b;
+  opacity: .25;
+  margin: 5px 0 0 0;
+}
+.popInventoryLib .inventoryLib .uploadList {
+  padding: 0 30px 20px 30px;
+}
 .popInventoryLib .inventoryLib .popFooter {
   padding: 20px 30px;
-  background: #F5F9FD;
+  background: #E1EDF9;
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
+}
+.popInventoryLib .inventoryLib .popFooter .btn-primary {
+  margin-right: 0;
 }
 .creative_filter_dropdowns .dropdown-menu {
   border-top: solid 1px #ccc ;
