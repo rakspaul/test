@@ -281,7 +281,6 @@
         this.CREATIVE = "Creative";
         this.RESEARCH = "Research";
         this.AD_VERIFICATION = "Ad Verification";
-        this.COLLECTIVE = "Collective Fee";
         this.TRANSPARENT_PLATFORM_FEE_CHARGED = "Transparent platform fee charged by Collective for technology and services associated with programmatic media activity";
         this.TOTAL_COST = "Total Cost";
         this.TOTAL_MARGIN = "Total Margin";
@@ -360,7 +359,7 @@
         this.STRATEGY = "Ad Group";
 
         this.PLATFORM_NAME = "Platform Name";
-        this.COLLECTIVE_COST = "Collective Fee";
+        this.COLLECTIVE_FEE = "Collective Fee";
 
         this.SUSPICIOUS = "Suspicious";
         this.TOTAL = "Total";
