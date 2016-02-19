@@ -342,7 +342,7 @@ var angObj = angObj || {};
             var creativeSizeArr = []
             if (typeof creative != 'undefined' && creative.length>0) {
                 if (creative.length == 1) {
-                    $scope.$scope.sizeString = creative[0].size.size;
+                    $scope.sizeString = creative[0].size.size;
                 } else if (creative.length > 1) {
                     $scope.sizeString = "";
                     for (var i in creative) {
