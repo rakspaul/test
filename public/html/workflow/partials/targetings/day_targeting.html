@@ -6,9 +6,8 @@
 			<h5 style="cursor: default;" data-ng-bind="textConstants.DAYPART"></h5>
 			<span class="pull-left" style="clear: left; font-size: 12px;" data-ng-bind="textConstants.DAFAULTADNOTE"></span>
 		</div>
-		
 		<div class="pull-right">
-			<button class="pull-right btn btn-default" ng-click="saveDayPart()" data-ng-bind="textConstants.SAVEDAYPART"></button> <!--ng-disabled="!adData.adName"-->
+			<button class="pull-right btn btn-default" ng-click="saveDayPart()" ng-disabled="saveDayPartFlag" data-ng-bind="textConstants.SAVEDAYPART"></button> <!--ng-disabled="!adData.adName"-->
 			<button class="pull-right btn btn-link" ng-click="resetDayPartTargetingVariables();" data-ng-bind="textConstants.CANCEL"></button>
 		</div>
 	</div>
@@ -86,7 +85,7 @@
         </div>
 
         <div class="col-md-2 zeroPadding pull-right">
-            <a class="pull-right" style="padding: 0;" clearall data-ng-bind="textConstants.CLEARALL"></a>
+            <a class="pull-right" style="padding: 0;"  ng-click="clearDayPart()" data-ng-bind="textConstants.CLEARALL"></a>
         </div>
     <div>
 

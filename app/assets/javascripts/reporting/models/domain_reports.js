@@ -373,19 +373,6 @@
         };
     });
 
-    angObj.directive('clearall',function(){
-        return function(scope,el,attr){
-            $(el).click(function(){
-                scope.Schedule.dayPart=[];
-                scope.Schedule.daytimeArr=[];
-                scope.Schedule.customLength = 0;
-                scope.$apply();
-            })
-        }
-
-    });
-
-
     angObj.directive('ngUpdateHiddenDropdwn',function() {
         return function(scope, el, attr) {
             var model = attr['ngModel'];
@@ -396,9 +383,6 @@
 
         };
     });
-
-
-
 
     angObj.directive('creativesHeader', ['$http', '$compile','constants', function ($http, $compile,constants) {
         return {
