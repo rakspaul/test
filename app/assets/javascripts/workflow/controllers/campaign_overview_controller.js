@@ -7,35 +7,34 @@ var angObj = angObj || {};
         $(".main_navigation_holder").find('.active_tab').removeClass('active_tab') ;
         $(".main_navigation").find('.active').removeClass('active').end().find('#campaigns_nav_link').addClass('active');
         $(".bodyWrap").addClass('bodyWrapOverview');
-        if( $('.adGroupSelectionWrap').length ) { $("html").css({'background-color':'#eef5fc'}); };
+        if( $('.adGroupSelectionWrap').length ) { $("html").css({'background-color':'#eef5fc'}); }
+        $scope.sizeString = "";
         $scope.textConstants = constants;
         $scope.workflowData = {};
-        $scope.workflowData['getADsForGroupData'] = {}
+        $scope.workflowData.getADsForGroupData = {};
         $scope.disablePushBtn = true;
-        $scope.notPushed = false;
-        $scope.sizeString = "";
+        //$scope.notPushed = false; // this is not used anywhere
         $scope.showHideToggle = false;
         $scope.showIndividualAds = false;
         $scope.showCreateAdGrp=false;
-        $scope.createGroupMessage=false;
         $scope.createGroupMessage=false;
         $scope.showPushAdsLoader = false;
         $scope.brand=[];
         $scope.performance=[];
         $scope.redirectFlag = false;
         localStorage.setItem('campaignData','');
-        $scope.moreThenThree = '';
+        //$scope.moreThenThree = '';// not used
         $scope.campaignArchiveLoader = false;
         $scope.editCampaign=function(workflowcampaignData){
             $location.url('/mediaplan/'+workflowcampaignData.id+'/edit');
-        }
+        };
         $scope.utcToLocalTime=function(date, format){
             return momentService.utcToLocalTime(date,format);
-        }
+        };
         $scope.resetAlertMessage = function(){
             localStorage.removeItem('topAlertMessage');
             $rootScope.setErrAlertMessage("",0);
-        }
+        };
 
         //show selected targets in ads card
         $scope.displaySelectedTargets = function (adsData) {
@@ -50,27 +49,26 @@ var angObj = angObj || {};
                 }
 
                 if ((adsData.targets.segmentTargets.segmentList && adsData.targets.segmentTargets.segmentList.length > 0)) {
-                    if(selectedStr != ''){
+                    if(selectedStr !== ''){
                         selectedStr += ', Audience';
                     }
                     else{
                         selectedStr += 'Audience';
-
                     }
                 }
 
                 if (adsData.targets.adDaypartTargets.schedule && adsData.targets.adDaypartTargets.schedule.length > 0) {
-                    if(selectedStr != ''){
+                    if(selectedStr !== ''){
                         selectedStr += ', Daypart';
                     }
                     else{
                         selectedStr += 'Daypart';
-
                     }
                 }
 
-                if(selectedStr == '')
+                if(selectedStr === ''){
                     selectedStr = constants.WF_NOT_SET;
+                }
             }
 
             return selectedStr;
