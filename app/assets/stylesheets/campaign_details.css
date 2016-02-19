@@ -325,7 +325,7 @@ body {
   z-index: 1;
   padding-right: 0px ;
   padding-top: 4px ;
-  background: url("/assets/images/cdesk/common_down_arrow.png") no-repeat 95% 8px #ffffff;
+  background: url("/assets/images/cdesk/common_down_arrow.png") no-repeat 95% 8px #fff;
   border: solid 1px transparent;
   border-bottom: 0;
   padding-bottom: 1px;
@@ -1344,7 +1344,7 @@ body {
   position: relative;
 }
 .campaign_details_page .activity_log_holder .activity_log_list_container .gradient_div {
-  background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(255, 255, 255, 0.2)), to(rgba(255, 255, 255, 0.8)), color-stop(1, #ffffff));
+  background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(255, 255, 255, 0.2)), to(rgba(255, 255, 255, 0.8)), color-stop(1, #fff));
   background-image: -moz-linear-gradient(rgba(255, 255, 255, 0.2) 20%, rgba(255, 255, 255, 0.8) 80%);
   position: absolute;
   bottom: 0;
