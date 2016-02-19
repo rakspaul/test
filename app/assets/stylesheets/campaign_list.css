@@ -2287,6 +2287,9 @@ input[type="submit"] {
 }
 .main_navigation_holder #user-menu {
   min-height: 80px;
+  width: 300px;
+  left: initial;
+  right: 0;
 }
 .main_navigation_holder #user-menu .nav-menu {
   background: transparent;
