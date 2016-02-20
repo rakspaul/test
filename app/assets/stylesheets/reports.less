@@ -3746,8 +3746,9 @@ only screen and (min-device-pixel-ratio: 2) {
         }
       }
     .container {
-      width: 1200px ;
+      max-width: 1200px ;
       padding: 0 ;
+      width: auto ;
     }
     .timeframe_selector {
       padding: 0px ;
@@ -3771,10 +3772,6 @@ only screen and (min-device-pixel-ratio: 2) {
     input:-moz-placeholder { 
       color:  #939ead;
       font-size: 14px;
-    }
-    .left_border {
-      border-left: solid 1px #ccc ;
-      padding : 0 0 25px 80px ;
     }
     .each_section_custom_report {
       margin: 0px 0 30px 0 ;
@@ -4577,6 +4574,12 @@ body.custom_report_page {
 
   }
 }
+@media (min-width: 560px) {
+    .left_border {
+      border-left: solid 1px #ccc ;
+      padding : 0 0 25px 80px ;
+    }
+}
 @media (max-width: 560px) { 
   .page_top_header {
     .page_name {
@@ -4598,6 +4601,9 @@ body.custom_report_page {
     padding-left: 0px ;
   }
   .nav_filters {
+    .campaign_name_selected {
+      min-width: 140px ;
+    }
     div.lifetime_filter {
       padding-left: 0 ;
       .dropdown-menu {
@@ -4632,3 +4638,4 @@ body.custom_report_page {
     }
   }
 }
+
