@@ -103,7 +103,6 @@ span.cost_opaque .cost_opaque_icon {
 }
 .total_reports_page {
   margin: 0px auto 40px;
-  width: 1200px;
 }
 .total_reports_page .load_more_rows {
   display: none;
@@ -375,7 +374,7 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
 }*/
 .reports_main_page_holder {
   margin: 0px auto 80px;
-  width: 1200px;
+  /*width: 1200px;*/
   /*  .each_cost_col {
     .first_col.icon_text_holder {
       width: 33px;
@@ -566,7 +565,6 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
   border-radius: 5px ;
   -moz-border-radius: 5px ;
   -webkit-border-radius: 5px ;
-  margin: 0px 0px 0px 50px;
   background-image: url("/assets/images/cdesk/download_report_icon.png");
   font-family: "Avenir";
   background-repeat: no-repeat;
@@ -576,12 +574,12 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
 .breadcrumb_campaign_strategy .download_report .dropdown {
   width: 100%;
   height: 100%;
-  background: url("/assets/images/cdesk/download_report_arrow.png") no-repeat 155px 12px;
+  background: url("/assets/images/cdesk/download_report_arrow.png") no-repeat 148px 13px;
 }
 .common_reports_container .download_report .dropdown ul.dropdown-menu,
 .breadcrumb_campaign_strategy .download_report .dropdown ul.dropdown-menu {
   width: 193px;
-  left: 0px;
+  left: -16px;
   top: 36px;
 }
 .common_reports_container .download_report .dropdown ul.dropdown-menu li,
@@ -625,7 +623,7 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
 }
 .common_reports_container .download_report:hover .dropdown,
 .breadcrumb_campaign_strategy .download_report:hover .dropdown {
-  background-position: 155px -45px;
+  background-position: 148px -44px;
 }
 .common_reports_container .download_report:hover a,
 .breadcrumb_campaign_strategy .download_report:hover a {
@@ -3973,7 +3971,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 }
 .custom_report_response_page .custom_report_response_table .each_col.more_dimension_arrow {
   display: none;
-  background: url("/assets/images/cdesk/common_side_arrow.png") no-repeat left 1px #fff;
+  background: url("/assets/images/cdesk/common_side_arrow.png") no-repeat left 1px #ffffff;
   height: 11px;
   width: 12px;
   min-width: 12px;
@@ -4290,9 +4288,11 @@ div.reports_tabs_content_container div#reports_bycreatives_block div.reports_det
 }
 .page_top_header {
   margin: 23px 0 20px;
+  padding: 0 ;
 }
 .page_top_header .page_name {
   color: #21252b ;
+  padding: 0 ;
   font-size: 26px ;
   font-family: "Avenir-bold";
 }
@@ -4335,4 +4335,37 @@ body.custom_report_page .bodyWrap {
   padding-left: 8px;
   padding-top: 8px;
   left: -33px;
+}
+@media (max-width: 560px) {
+  .page_top_header .page_name {
+    width: 100% ;
+  }
+  .page_top_header .pull-right {
+    margin-top: 20px ;
+    float: left !important ;
+  }
+}
+@media (max-width: 735px) {
+  .nav_filters > div {
+    width: 100% ;
+    max-width: 100% ;
+    min-width: 100% ;
+    margin: 0 0 20px 0 ;
+    padding-left: 0px ;
+  }
+  .nav_filters div.lifetime_filter {
+    padding-left: 0 ;
+  }
+}
+@media (max-width: 1200px) {
+  .smallSreenScrollContainer {
+    overflow: hidden;
+  }
+  .smallSreenScrollContainer .smallSreenScrollDiv {
+    overflow: auto;
+    width: 100%;
+  }
+  .smallSreenScrollContainer .smallSreenScrollDiv .smallSreenScrollContent {
+    width: 1200px ;
+  }
 }

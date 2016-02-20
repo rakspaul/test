@@ -11,11 +11,11 @@
         <!-- <div id="performance_strategies_dd" ng-show="isStrategyDropDownShow">
             <strategy-drop-down selected-obj=selectedStrategy ></strategy-drop-down >
         </div> -->
-         <div class="clearfix page_top_header">
-            <div class="pull-left page_name">
+         <div class="clearfix page_top_header col-md-12">
+            <div class="pull-left col-md-6 page_name">
                 Performance Report
             </div>
-            <div class="pull-right download_report">
+            <div class="pull-right col-md-6 download_report">
                 <download-report></download-report>
             </div>
         </div>
@@ -25,74 +25,75 @@
         </div>
 
         <div class="common-load-icon_viewability"  ng-show="strategyLoading && selectedCampaign.id != -1"></div>
-
-        <div class="performance_container" ng-hide="strategyLoading && selectedCampaign.id != -1">
-            <div class="no_data_found" ng-if="!strategyFound" ng-bind-html="getMessageForDataNotAvailable(selectedCampaign)"></div>
-            <div class="reports_tabs_content_container" ng-show="strategyFound" >
-                <!-- -------START :  Performance Tabs ------------------------ -->
-                <div class="clearfix">
-                    <div class="clearfix reports_tabs_holder">
-                        <div class="each_tab cost_tab {{activeScreenClass}}" id="byscreens">
-                            <div class="each_tab_text">
-                                {{textConstants.SCREENS}}
+        <div class="smallSreenScrollContainer">
+            <div class="performance_container smallSreenScrollDiv" ng-hide="strategyLoading && selectedCampaign.id != -1">
+                <div class="no_data_found" ng-if="!strategyFound" ng-bind-html="getMessageForDataNotAvailable(selectedCampaign)"></div>
+                <div class="reports_tabs_content_container smallSreenScrollContent" ng-show="strategyFound" >
+                    <!-- -------START :  Performance Tabs ------------------------ -->
+                    <div class="clearfix">
+                        <div class="clearfix reports_tabs_holder">
+                            <div class="each_tab cost_tab {{activeScreenClass}}" id="byscreens">
+                                <div class="each_tab_text">
+                                    {{textConstants.SCREENS}}
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="each_tab cost_tab {{activeFormatClass}}" id="byformats">
-                            <div class="each_tab_text">
-                                {{textConstants.FORMATS}}
+                            <div class="each_tab cost_tab {{activeFormatClass}}" id="byformats">
+                                <div class="each_tab_text">
+                                    {{textConstants.FORMATS}}
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="each_tab cost_tab {{activeAdSizeClass}}" id="byadsizes">
-                            <div class="each_tab_text">
-                                {{textConstants.AD_SIZES}}
+                            <div class="each_tab cost_tab {{activeAdSizeClass}}" id="byadsizes">
+                                <div class="each_tab_text">
+                                    {{textConstants.AD_SIZES}}
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="each_tab cost_tab " id="bycreatives">
-                            <div class="each_tab_text">
-                                {{textConstants.CREATIVES}}
+                            <div class="each_tab cost_tab " id="bycreatives">
+                                <div class="each_tab_text">
+                                    {{textConstants.CREATIVES}}
+                                </div>
                             </div>
-                        </div>
 
 
-                        <div class="each_tab " id="bydaysofweek">
-                            <div class="each_tab_text">
-                                {{textConstants.DAYS_OF_WEEK}}
+                            <div class="each_tab " id="bydaysofweek">
+                                <div class="each_tab_text">
+                                    {{textConstants.DAYS_OF_WEEK}}
+                                </div>
                             </div>
-                        </div>
 
+                        </div>
                     </div>
-                </div>
-                <!-- -------END :  Performance Tabs ------------------------ -->
+                    <!-- -------END :  Performance Tabs ------------------------ -->
 
-                <!-- -------START :  Screen Block ----------------------------- -->
-                <div ng-class="adFormats.videoAds ? 'reports_block quar_data' : 'reports_block' " id="reports_byscreens_block" style="{{defaultDisplayScreen}}">
-                    <div class="no_data_found" ng-if="dataNotFoundForScreen" ng-bind-html="getMessageForDataNotAvailable(selectedCampaign)"></div>
-                    <div class="reports_details_outer_container"  ng-if="!dataNotFoundForScreen">
-                        <div class="clearfix reports_performance_header" ng-hide="screenBusy">
-                            <screen-header></screen-header>
-                        </div>
-                        <div class="strategy_total_container ">
-                            <div class="strategy_total_container_header clearfix">
-                                <div class="each_col first_col" ng-hide="screenBusy">
-                                    {{strategyHeading}}:
-                                </div>
-                                <div class="row_list_holder clearfix">
-                                    <div class="common-load-icon" ng-show="screenBusy"></div>
-                                    <div class="clearfix each_row_list " ng-show="!screenBusy" ng-repeat="screenData in strategyPerfDataByScreen | orderBy:sortTypeScreens:sortReverse track by $index" ng-include="'screenTpl'"></div>
-                                </div>
+                    <!-- -------START :  Screen Block ----------------------------- -->
+                    <div ng-class="adFormats.videoAds ? 'reports_block quar_data' : 'reports_block' " id="reports_byscreens_block" style="{{defaultDisplayScreen}}">
+                        <div class="no_data_found" ng-if="dataNotFoundForScreen" ng-bind-html="getMessageForDataNotAvailable(selectedCampaign)"></div>
+                        <div class="reports_details_outer_container"  ng-if="!dataNotFoundForScreen">
+                            <div class="clearfix reports_performance_header" ng-hide="screenBusy">
+                                <screen-header></screen-header>
                             </div>
-                            <div class="all_strategies_holder" ng-show="!screenBusy">
-                                <div class="each_strategy_holder clearfix" ng-repeat="tactic in groupThem | orderBy:sortTypeScreens:sortReverse track by $index" ng-if="showPerfMetrix == true" >
-                                    <div class="linkage_bar"></div>
-                                    <div class="each_strategy clearfix">
-                                        <div class="each_col first_col">
-                                            {{tactic.name}}
-                                        </div>
-                                        <div class="row_list_holder">
-                                            <div class="clearfix each_row_list" ng-repeat="screenData in tactic.perf_metrics | orderBy:sortTypeScreens:sortReverse track by $index" ng-include="'screenTpl'">
+                            <div class="strategy_total_container ">
+                                <div class="strategy_total_container_header clearfix">
+                                    <div class="each_col first_col" ng-hide="screenBusy">
+                                        {{strategyHeading}}:
+                                    </div>
+                                    <div class="row_list_holder clearfix">
+                                        <div class="common-load-icon" ng-show="screenBusy"></div>
+                                        <div class="clearfix each_row_list " ng-show="!screenBusy" ng-repeat="screenData in strategyPerfDataByScreen | orderBy:sortTypeScreens:sortReverse track by $index" ng-include="'screenTpl'"></div>
+                                    </div>
+                                </div>
+                                <div class="all_strategies_holder" ng-show="!screenBusy">
+                                    <div class="each_strategy_holder clearfix" ng-repeat="tactic in groupThem | orderBy:sortTypeScreens:sortReverse track by $index" ng-if="showPerfMetrix == true" >
+                                        <div class="linkage_bar"></div>
+                                        <div class="each_strategy clearfix">
+                                            <div class="each_col first_col">
+                                                {{tactic.name}}
+                                            </div>
+                                            <div class="row_list_holder">
+                                                <div class="clearfix each_row_list" ng-repeat="screenData in tactic.perf_metrics | orderBy:sortTypeScreens:sortReverse track by $index" ng-include="'screenTpl'">
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -100,161 +101,161 @@
                             </div>
                         </div>
                     </div>
-                </div>
-                <!-- -------END :  Screen Block ----------------------------- -->
+                    <!-- -------END :  Screen Block ----------------------------- -->
 
-                <!-- -------START :  Days of week Block ----------------------------- -->
-                <div ng-class="adFormats.videoAds ? 'reports_block quar_data' : 'reports_block' " id="reports_bydaysofweek_block" style="display:none;" >
-                    <div class="no_data_found" ng-if="dataNotFoundForDOW" ng-bind-html="getMessageForDataNotAvailable(selectedCampaign)"></div>
-                    <div class="reports_details_outer_container" ng-show="!dataNotFoundForDOW" >
-                        <div class="clearfix reports_performance_header" ng-hide="dowBusy">
-                            <daysofweek-header></daysofweek-header>
-                        </div>
-                        <div class="strategy_total_container ">
-                            <div class="strategy_total_container_header clearfix">
-                                <div class="each_col first_col" ng-hide="dowBusy">
-                                    {{strategyHeading}}:
-                                </div>
-                                <div class="row_list_holder clearfix">
-                                    <div class="common-load-icon" ng-show="dowBusy"></div>
-                                    <div class="clearfix each_row_list" ng-show="!dowBusy" ng-repeat="daysofweekData in strategyPerfDataByDOW | orderBy:sortTypebydaysofweek:sortReverseDaysTab track by $index" ng-include="'daysofweekTpl'"></div>
-                                </div>
+                    <!-- -------START :  Days of week Block ----------------------------- -->
+                    <div ng-class="adFormats.videoAds ? 'reports_block quar_data' : 'reports_block' " id="reports_bydaysofweek_block" style="display:none;" >
+                        <div class="no_data_found" ng-if="dataNotFoundForDOW" ng-bind-html="getMessageForDataNotAvailable(selectedCampaign)"></div>
+                        <div class="reports_details_outer_container" ng-show="!dataNotFoundForDOW" >
+                            <div class="clearfix reports_performance_header" ng-hide="dowBusy">
+                                <daysofweek-header></daysofweek-header>
                             </div>
-                            <div class="all_strategies_holder" ng-show="!dowBusy">
-                                <div class="each_strategy_holder clearfix" ng-repeat="tactic in groupThem | orderBy:sortTypebydaysofweek:sortReverseDaysTab track by $index" ng-if="showPerfMetrix == true">
-                                    <div class="linkage_bar"></div>
-                                    <div class="each_strategy clearfix">
-                                        <div class="each_col first_col">
-                                            {{tactic.name}}
-                                        </div>
-                                        <div class="row_list_holder">
-                                            <div class="clearfix each_row_list" ng-repeat="daysofweekData in tactic.perf_metrics | orderBy:sortTypebydaysofweek:sortReverseDaysTab track by $index" ng-include="'daysofweekTpl'"></div>
+                            <div class="strategy_total_container ">
+                                <div class="strategy_total_container_header clearfix">
+                                    <div class="each_col first_col" ng-hide="dowBusy">
+                                        {{strategyHeading}}:
+                                    </div>
+                                    <div class="row_list_holder clearfix">
+                                        <div class="common-load-icon" ng-show="dowBusy"></div>
+                                        <div class="clearfix each_row_list" ng-show="!dowBusy" ng-repeat="daysofweekData in strategyPerfDataByDOW | orderBy:sortTypebydaysofweek:sortReverseDaysTab track by $index" ng-include="'daysofweekTpl'"></div>
+                                    </div>
+                                </div>
+                                <div class="all_strategies_holder" ng-show="!dowBusy">
+                                    <div class="each_strategy_holder clearfix" ng-repeat="tactic in groupThem | orderBy:sortTypebydaysofweek:sortReverseDaysTab track by $index" ng-if="showPerfMetrix == true">
+                                        <div class="linkage_bar"></div>
+                                        <div class="each_strategy clearfix">
+                                            <div class="each_col first_col">
+                                                {{tactic.name}}
+                                            </div>
+                                            <div class="row_list_holder">
+                                                <div class="clearfix each_row_list" ng-repeat="daysofweekData in tactic.perf_metrics | orderBy:sortTypebydaysofweek:sortReverseDaysTab track by $index" ng-include="'daysofweekTpl'"></div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <!-- -------END :  Days of week Block ----------------------------- -->
+                    <!-- -------END :  Days of week Block ----------------------------- -->
 
-                <!-- -------START :  Format Block ----------------------------- -->
-                <div ng-class="adFormats.videoAds ? 'reports_block quar_data' : 'reports_block' " id="reports_byformats_block" style="{{defaultDisplayFormat}}">
-                    <div class="no_data_found" ng-if="dataNotFoundForFormat" ng-bind-html="getMessageForDataNotAvailable(selectedCampaign)"></div>
-                    <div class="reports_details_outer_container"  ng-show="!dataNotFoundForFormat">
-                        <div class="clearfix reports_performance_header" ng-hide="formatBusy">
-                            <format-header></format-header>
-                        </div>
-                        <div class="strategy_total_container ">
-                            <div class="strategy_total_container_header clearfix">
-                                <div class="each_col first_col" ng-hide="formatBusy">
-                                    {{strategyHeading}}:
-                                </div>
-                                <div class="row_list_holder clearfix">
-                                    <div class="common-load-icon" ng-show="formatBusy"></div>
-                                    <div class="clearfix each_row_list" ng-show="!formatBusy" ng-repeat="formatData in strategyPerfDataByFormat | orderBy:sortTypebyformats:sortReverseFormatTab track by $index" ng-include="'formatTpl'"></div>
-                                </div>
+                    <!-- -------START :  Format Block ----------------------------- -->
+                    <div ng-class="adFormats.videoAds ? 'reports_block quar_data' : 'reports_block' " id="reports_byformats_block" style="{{defaultDisplayFormat}}">
+                        <div class="no_data_found" ng-if="dataNotFoundForFormat" ng-bind-html="getMessageForDataNotAvailable(selectedCampaign)"></div>
+                        <div class="reports_details_outer_container"  ng-show="!dataNotFoundForFormat">
+                            <div class="clearfix reports_performance_header" ng-hide="formatBusy">
+                                <format-header></format-header>
                             </div>
-                            <div class="all_strategies_holder" ng-show="!formatBusy">
-                                <div class="each_strategy_holder clearfix" ng-repeat="tactic in groupThem | orderBy:sortTypebyformats:sortReverseFormatTab track by $index" ng-if="showPerfMetrix == true">
-                                    <div class="linkage_bar"></div>
-                                    <div class="each_strategy clearfix">
-                                        <div class="each_col first_col">
-                                            {{tactic.name}}
-                                        </div>
-                                        <div class="row_list_holder">
-                                            <div class="clearfix each_row_list" ng-repeat="formatData in tactic.perf_metrics | orderBy:sortTypebyformats:sortReverseFormatTab track by $index" ng-include="'formatTpl'"></div>
+                            <div class="strategy_total_container ">
+                                <div class="strategy_total_container_header clearfix">
+                                    <div class="each_col first_col" ng-hide="formatBusy">
+                                        {{strategyHeading}}:
+                                    </div>
+                                    <div class="row_list_holder clearfix">
+                                        <div class="common-load-icon" ng-show="formatBusy"></div>
+                                        <div class="clearfix each_row_list" ng-show="!formatBusy" ng-repeat="formatData in strategyPerfDataByFormat | orderBy:sortTypebyformats:sortReverseFormatTab track by $index" ng-include="'formatTpl'"></div>
+                                    </div>
+                                </div>
+                                <div class="all_strategies_holder" ng-show="!formatBusy">
+                                    <div class="each_strategy_holder clearfix" ng-repeat="tactic in groupThem | orderBy:sortTypebyformats:sortReverseFormatTab track by $index" ng-if="showPerfMetrix == true">
+                                        <div class="linkage_bar"></div>
+                                        <div class="each_strategy clearfix">
+                                            <div class="each_col first_col">
+                                                {{tactic.name}}
+                                            </div>
+                                            <div class="row_list_holder">
+                                                <div class="clearfix each_row_list" ng-repeat="formatData in tactic.perf_metrics | orderBy:sortTypebyformats:sortReverseFormatTab track by $index" ng-include="'formatTpl'"></div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
 
+                            </div>
                         </div>
                     </div>
-                </div>
-                <!-- -------END :  Format Block ----------------------------- -->
+                    <!-- -------END :  Format Block ----------------------------- -->
 
-                <!-- -------START :  Creative Block ----------------------------- -->
-                <div  id="reports_bycreatives_block" ng-class="adFormats.videoAds ? 'reports_block quar_data' : 'reports_block' "  style="display:none;" >
+                    <!-- -------START :  Creative Block ----------------------------- -->
+                    <div  id="reports_bycreatives_block" ng-class="adFormats.videoAds ? 'reports_block quar_data' : 'reports_block' "  style="display:none;" >
 
 
-                    <div class="no_data_found" ng-if="dataNotFoundForCreatives"
-                         ng-bind-html="getMessageForDataNotAvailable(selectedCampaign)"></div>
-                    <div class="reports_details_outer_container" ng-show="!dataNotFoundForCreatives"
-                         ng-class="{strategy_video_disabled:adFormats.videoAds == false}" >
-                        <div class="clearfix reports_performance_header" ng-hide="creativeBusy">
-                            <creatives-header></creatives-header>
-                        </div>
-                        <div class="strategy_total_container ">
-                            <div class="strategy_total_container_header clearfix">
-                                <div class="each_col first_col" ng-hide="creativeBusy">
-                                    {{strategyHeading}}:
-                                </div>
-                                <div class="row_list_holder clearfix">
-                                    <div class="common-load-icon" ng-show="creativeBusy"></div>
-                                    <div class="clearfix each_row_list" ng-show="!creativeBusy" ng-repeat="creativesData in strategyPerfDataByCreatives | orderBy:sortTypebycreatives:sortReverseCreativesTab track by $index" ng-include="'CreativesTpl'"></div>
-                                </div>
+                        <div class="no_data_found" ng-if="dataNotFoundForCreatives"
+                             ng-bind-html="getMessageForDataNotAvailable(selectedCampaign)"></div>
+                        <div class="reports_details_outer_container" ng-show="!dataNotFoundForCreatives"
+                             ng-class="{strategy_video_disabled:adFormats.videoAds == false}" >
+                            <div class="clearfix reports_performance_header" ng-hide="creativeBusy">
+                                <creatives-header></creatives-header>
                             </div>
-                            <div class="all_strategies_holder" ng-show="!creativeBusy">
-                                <div class="each_strategy_holder clearfix" ng-repeat="tactic in groupThem | orderBy:sortTypebycreatives:sortReverseCreativesTab track by $index" ng-if="showPerfMetrix == true">
-                                    <div class="linkage_bar"></div>
-                                    <div class="each_strategy clearfix">
-                                        <div class="each_col first_col" style="width:100%">
-                                            {{tactic.name}}
-                                        </div>
-                                        <div class="row_list_holder">
-                                            <div class="clearfix each_row_list" ng-repeat="creativesData in tactic.perf_metrics | orderBy:sortTypebycreatives:sortReverseCreativesTab track by $index" ng-include="'CreativesTpl'"></div>
-                                        </div>
+                            <div class="strategy_total_container ">
+                                <div class="strategy_total_container_header clearfix">
+                                    <div class="each_col first_col" ng-hide="creativeBusy">
+                                        {{strategyHeading}}:
+                                    </div>
+                                    <div class="row_list_holder clearfix">
+                                        <div class="common-load-icon" ng-show="creativeBusy"></div>
+                                        <div class="clearfix each_row_list" ng-show="!creativeBusy" ng-repeat="creativesData in strategyPerfDataByCreatives | orderBy:sortTypebycreatives:sortReverseCreativesTab track by $index" ng-include="'CreativesTpl'"></div>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- -------END :  Days of week Block ----------------------------- -->
-
-
-
-
-                <!-- -------START :  Add sizes Block ----------------------------- -->
-                <div  id="reports_byadsizes_block" ng-class="adFormats.videoAds ? 'reports_block quar_data' : 'reports_block' "  style="{{defaultDisplayAdSize}}" >
-
-
-                    <div class="no_data_found" ng-if="dataNotFoundForAdsizes"
-                         ng-bind-html="getMessageForDataNotAvailable(selectedCampaign)"></div>
-                    <div class="reports_details_outer_container" ng-show="!dataNotFoundForAdsizes" >
-                        <div class="clearfix reports_performance_header" ng-hide="adSizesBusy">
-                            <adsizes-header></adsizes-header>
-                        </div>
-                        <div class="strategy_total_container ">
-                            <div class="strategy_total_container_header clearfix">
-                                <div class="each_col first_col" ng-hide="adSizesBusy">
-                                    {{strategyHeading}}:
-                                </div>
-                                <div class="row_list_holder clearfix">
-                                    <div class="common-load-icon" ng-show="adSizesBusy"></div>
-                                    <div class="clearfix each_row_list" ng-show="!adSizesBusy" ng-repeat="adsizesData in strategyPerfDataByAdsizes | orderBy:sortTypebyadsizes:sortReverseAddSizes track by $index" ng-include="'AdsizesTpl'"></div>
-                                </div>
-                            </div>
-                            <div class="all_strategies_holder" ng-show="!adSizesBusy">
-                                <div class="each_strategy_holder clearfix" ng-repeat="tactic in groupThem | orderBy:sortTypebyadsizes:sortReverseAddSizes track by $index" ng-if="showPerfMetrix == true">
-                                    <div class="linkage_bar"></div>
-                                    <div class="each_strategy clearfix">
-                                        <div class="each_col first_col" style="width:100%">
-                                            {{tactic.name}}
-                                        </div>
-                                        <div class="row_list_holder">
-                                            <div class="clearfix each_row_list" ng-repeat="adsizesData in tactic.perf_metrics | orderBy:sortTypebyadsizes:sortReverseAddSizes track by $index" ng-include="'AdsizesTpl'"></div>
+                                <div class="all_strategies_holder" ng-show="!creativeBusy">
+                                    <div class="each_strategy_holder clearfix" ng-repeat="tactic in groupThem | orderBy:sortTypebycreatives:sortReverseCreativesTab track by $index" ng-if="showPerfMetrix == true">
+                                        <div class="linkage_bar"></div>
+                                        <div class="each_strategy clearfix">
+                                            <div class="each_col first_col" style="width:100%">
+                                                {{tactic.name}}
+                                            </div>
+                                            <div class="row_list_holder">
+                                                <div class="clearfix each_row_list" ng-repeat="creativesData in tactic.perf_metrics | orderBy:sortTypebycreatives:sortReverseCreativesTab track by $index" ng-include="'CreativesTpl'"></div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    <!-- -------END :  Days of week Block ----------------------------- -->
+
+
+
+
+                    <!-- -------START :  Add sizes Block ----------------------------- -->
+                    <div  id="reports_byadsizes_block" ng-class="adFormats.videoAds ? 'reports_block quar_data' : 'reports_block' "  style="{{defaultDisplayAdSize}}" >
+
+
+                        <div class="no_data_found" ng-if="dataNotFoundForAdsizes"
+                             ng-bind-html="getMessageForDataNotAvailable(selectedCampaign)"></div>
+                        <div class="reports_details_outer_container" ng-show="!dataNotFoundForAdsizes" >
+                            <div class="clearfix reports_performance_header" ng-hide="adSizesBusy">
+                                <adsizes-header></adsizes-header>
+                            </div>
+                            <div class="strategy_total_container ">
+                                <div class="strategy_total_container_header clearfix">
+                                    <div class="each_col first_col" ng-hide="adSizesBusy">
+                                        {{strategyHeading}}:
+                                    </div>
+                                    <div class="row_list_holder clearfix">
+                                        <div class="common-load-icon" ng-show="adSizesBusy"></div>
+                                        <div class="clearfix each_row_list" ng-show="!adSizesBusy" ng-repeat="adsizesData in strategyPerfDataByAdsizes | orderBy:sortTypebyadsizes:sortReverseAddSizes track by $index" ng-include="'AdsizesTpl'"></div>
+                                    </div>
+                                </div>
+                                <div class="all_strategies_holder" ng-show="!adSizesBusy">
+                                    <div class="each_strategy_holder clearfix" ng-repeat="tactic in groupThem | orderBy:sortTypebyadsizes:sortReverseAddSizes track by $index" ng-if="showPerfMetrix == true">
+                                        <div class="linkage_bar"></div>
+                                        <div class="each_strategy clearfix">
+                                            <div class="each_col first_col" style="width:100%">
+                                                {{tactic.name}}
+                                            </div>
+                                            <div class="row_list_holder">
+                                                <div class="clearfix each_row_list" ng-repeat="adsizesData in tactic.perf_metrics | orderBy:sortTypebyadsizes:sortReverseAddSizes track by $index" ng-include="'AdsizesTpl'"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- -------END :  Days of week Block ----------------------------- -->
+
+
                 </div>
-                <!-- -------END :  Days of week Block ----------------------------- -->
-
-
             </div>
         </div>
         <kpi-drop-down selected-obj=selected_filters style="visibility: hidden" > </kpi-drop-down>

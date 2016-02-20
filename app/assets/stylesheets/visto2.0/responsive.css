@@ -1,6 +1,7 @@
 @media (max-width: 1260px) {
   .bodyWrap {
-    width: 1200px;
+    width: 100% ;
+    max-width: 1200px ;
     margin: 0 auto;
     padding: 0 30px;
   }
