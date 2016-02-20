@@ -3609,6 +3609,9 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 .report_generator_and_response .report_builder_container .each_section_custom_report {
   margin: 0px 0 30px 0 ;
 }
+.report_generator_and_response .report_builder_container .each_section_custom_report .dateWrapper input {
+  width: 150px ;
+}
 .report_generator_and_response .report_builder_container .each_section_custom_report .measurable_col_holder {
   float: none;
   overflow: auto;
