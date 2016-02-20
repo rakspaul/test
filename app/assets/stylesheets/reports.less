@@ -4600,10 +4600,27 @@ body.custom_report_page {
   .nav_filters {
     div.lifetime_filter {
       padding-left: 0 ;
+      .dropdown-menu {
+        left: 0 ;
+      }
+    }
+    .dropdown_type1 .dropdown-menu {
+      width: 100%;
+      min-width: 300px;
+      left: 16px;
     }
   }
+  .dropdown_type2  {
+    #strategy_dropdown {
+      min-width: 140px ;
+    }
+    #strategies_list {
+      width: 100%;
+    }
+  }
+
 }
-@media (max-width: 1200px) { 
+@media (max-width: 1260px) { 
   .smallSreenScrollContainer {
     overflow: hidden;
     .smallSreenScrollDiv  {
