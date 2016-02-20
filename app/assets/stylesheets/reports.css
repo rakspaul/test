@@ -3579,8 +3579,9 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
   padding: 7px 10px ;
 }
 .report_generator_and_response .report_builder_container .container {
-  width: 1200px ;
+  max-width: 1200px ;
   padding: 0 ;
+  width: auto ;
 }
 .report_generator_and_response .report_builder_container .timeframe_selector {
   padding: 0px ;
@@ -3604,10 +3605,6 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 .report_generator_and_response .report_builder_container input:-moz-placeholder {
   color: #939ead;
   font-size: 14px;
-}
-.report_generator_and_response .report_builder_container .left_border {
-  border-left: solid 1px #ccc ;
-  padding: 0 0 25px 80px ;
 }
 .report_generator_and_response .report_builder_container .each_section_custom_report {
   margin: 0px 0 30px 0 ;
@@ -4336,6 +4333,12 @@ body.custom_report_page .bodyWrap {
   padding-top: 8px;
   left: -33px;
 }
+@media (min-width: 560px) {
+  .left_border {
+    border-left: solid 1px #ccc ;
+    padding: 0 0 25px 80px ;
+  }
+}
 @media (max-width: 560px) {
   .page_top_header .page_name {
     width: 100% ;
@@ -4352,6 +4355,9 @@ body.custom_report_page .bodyWrap {
     min-width: 100% ;
     margin: 0 0 20px 0 ;
     padding-left: 0px ;
+  }
+  .nav_filters .campaign_name_selected {
+    min-width: 140px ;
   }
   .nav_filters div.lifetime_filter {
     padding-left: 0 ;
