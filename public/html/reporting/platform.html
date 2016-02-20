@@ -1,10 +1,10 @@
 <div class="reports_main_page_holder">
     <div class="common_reports_container platform_reports_container" >
         <div class="clearfix page_top_header">
-            <div class="pull-left page_name">
+            <div class="pull-left col-md-6 page_name">
                 Platform Report
             </div>
-            <div class="pull-right download_report">
+            <div class="pull-right col-md-6 download_report">
                 <download-report></download-report>
             </div>
         </div>
@@ -30,12 +30,12 @@
         <div class="common-load-icon_viewability" ng-show="strategyLoading && selectedCampaign.id != -1"></div>
     </div>
 
-    <div class="platform_container" ng-hide="strategyLoading && selectedCampaign.id != -1">
+    <div class="platform_container smallSreenScrollContainer" ng-hide="strategyLoading && selectedCampaign.id != -1">
         <div class="no_data_found" ng-if="!strategyFound" ng-bind-html="getMessageForDataNotAvailable(selectedCampaign)"></div>
 
 
-        <div class="reports_tabs_content_container"  ng-show="strategyFound">
-            <div class="reports_tabs_content_container">
+        <div class="reports_tabs_content_container smallSreenScrollDiv"  ng-show="strategyFound">
+            <div class="reports_tabs_content_container  smallSreenScrollContent">
                 <!-- -------START :  Platform Tabs ------------------------ -->
                 <div class="clearfix">
                     <div class="clearfix reports_tabs_holder">
