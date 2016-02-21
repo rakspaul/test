@@ -1063,8 +1063,10 @@ var angObj = angObj || {};
                 $scope.resetGeoTargetingVariables();
             }
 
-            $scope.zipCodesObj.info = [];
-            $scope.zipCodesObj.error = [];
+            if($scope.zipCodesObj) {
+                $scope.zipCodesObj.info = [];
+                $scope.zipCodesObj.error = [];
+            }
 
             if (cancelClicked && workflowService.getSavedGeo()) {
                 var presavedGeo = angular.copy(workflowService.getSavedGeo()).original;
