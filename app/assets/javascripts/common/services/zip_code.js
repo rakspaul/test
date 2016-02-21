@@ -144,7 +144,7 @@
                     // nothing happened, so just pass back the original set with the dupes
                     duplicate = uniqueDeltas;
                 } else if(combinedValues.length < current.length + uniqueDeltas.length) {
-                    info.push('Adjacent zipcodes are grouped automatically.');
+                    info.push('Adjacent and overlapping zip code ranges have been combined.');
                 }
             }
 
