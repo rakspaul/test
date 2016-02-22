@@ -182,7 +182,7 @@ var angObj = angObj || {};
                             $scope['strategyPerfDataBy'+tab]  = _.filter(result.data.data, function(item) { return item.ad_id == -1; })
                             $scope['strategyPerfDataByTactic'+tab]  =_.filter(result.data.data, function(item) { return item.ad_id != -1; });
                             $scope.groupThem = _.chain($scope['strategyPerfDataByTactic'+tab])
-                                .groupBy('name')
+                                .groupBy('ad_name')
                                 .map(function(value, key) {
                                     return {
                                         name: key,
