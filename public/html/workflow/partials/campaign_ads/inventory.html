@@ -28,107 +28,24 @@
                 <creative-drop-down ng-if="workflowData.campaignData"></creative-drop-down>
             </div>
 
-            <!--<div class="form-group col-md-3 zeroPadding" ng-if="workflowData.inventoryData.length > 0">
-                <div class="col-md-12 zeroPadding dropdown-workflow" style="margin: 10px 0;">
-                    <span class="col-md-12 greyTxt" data-ng-bind="textConstants.SELECTEXISTING"></span>
-                    <div class="dropdown">
-                        <button class="btn btn-default dropdown-toggle"
-                                type="button"
-                                id="inventory"
-                                data-toggle="dropdown"
-                                aria-haspopup="true"
-                                ng-click="toggleDomainListDropdown()"
-                                aria-expanded="true">
-                            <span class="text"
-                                ng-bind="(adData.inventory.name ||
-                                          workflowData.selectedWhiteLists.length ||
-                                          workflowData.selectedBlackLists.length) ?
-                                (
-                                    workflowData.selectedWhiteLists.length > 1 ?
-                                        workflowData.selectedWhiteLists.length + ' WhiteLists selected' :
-                                        workflowData.selectedBlackLists.length > 1 ?
-                                            workflowData.selectedBlackLists.length + ' Blacklists selected' :
-                                        adData.inventory.name
-                                ) :
-                                'Select Domain List'">
-                            </span>
-                          <span class="icon-arrow-down"></span>
-                        </button>
-                        <ul class="dropdown-menu"
-                             name="inventory" id="domain-list-dropdown"
-                             style="overflow: visible; max-height: 305px;">
-                             <div class="domain-list-wrapper" style="height: 236px; overflow: scroll;">
-                                 <div class="clearfix domain-whitelist-wrapper" style="padding-bottom: 10px;">
-                                     <h2 style="color: #939eae; font-size: 14px;
-                                            padding: 10px 0 0 10px;">
-                                         Whitelists
-                                     </h2>
-                                     <li class="domain-whitelist-item"
-                                            ng-repeat="inventory in workflowData.inventoryData |
-                                            filter: {domainAction: 'INCLUDE'}">
-                                         <input type="checkbox"
-                                                class="checkboxcls col-md-1"
-                                                value="{{inventory.name}}"
-                                                style="margin: 8px 0 0 10px;"
-                                                name="domain-list-checkbox"
-                                                ng-checked="workflowData.isListSelected(inventory.name,
-                                                            workflowData.selectedLists)"
-                                                ng-click="selectDomainList($event)">
-                                         <span class="col-md-11"
-                                               data-ng-bind="inventory.name"
-                                               style="width: auto;"
-                                               name="domain-list-name">
-                                         </span>
-                                     </li>
-                                 </div>
-                                 <div class="clearfix domain-blacklist-wrapper">
-                                     <h2 class="" style="color: #939eae;
-                                            border-top: 1px solid #939eae;
-                                            clear: both;
-                                            font-size: 14px; padding: 10px 0 0 10px;">
-                                         Blacklists
-                                     </h2>
-                                     <li class="domain-blacklist-item"
-                                            ng-repeat="inventory in workflowData.inventoryData |
-                                            filter: {domainAction: 'EXCLUDE'}">
-                                         <input type="checkbox"
-                                                class="checkboxcls col-md-1"
-                                                value="{{inventory.name}}"
-                                                style="margin: 8px 0 0 10px;"
-                                                name="domain-list-checkbox"
-                                                ng-checked="workflowData.isListSelected(inventory.name,
-                                                            workflowData.selectedLists)"
-                                                ng-click="selectDomainList($event)">
-                                         <span class="col-md-11"
-                                               data-ng-bind="inventory.name"
-                                               style="width: auto;"
-                                               name="domain-list-name">
-                                         </span>
-                                     </li>
-                                 </div>
-                             </div>
-                             <div class="clearfix category_dropdown">
-                                 <div class="pull-left btn btn-link"
-                                      ng-click="unselectAllDomainLists()"
-                                      data-ng-bind="textConstants.CLEARALL">
-                                 </div>
-                                 <div class="pull-right btn btn-default"
-                                      ng-click="doneDomainListsSelection()"
-                                      data-ng-bind="textConstants.DONE">
-                                 </div>
-                             </div>
-                        </ul>
-                    </div>
-                    <input type="hidden" name="inventory" ng-model="adData.inventory.name" ng-update-hidden/>
-                </div>
-            </div>-->
-
             <div class="col-md-9 zeroPadding inventory_upload_btn" style="margin: 20px 0 0;">
-                <button class="pull-left btn btn-default" style="margin: 0 0 20px 0;"
-                        ng-click="showInventoryModal()" data-ng-bind="textConstants.INVENTORY_SELECT_FROM_EXISTING">
+                <button class="pull-left btn btn-default"
+                        style="margin: 0 0 20px 0;"
+                        ng-click="showInventoryModal()"
+                        ng-show="workflowData.inventoryData.length > 0 ?  true : false"
+                        data-ng-bind="textConstants.INVENTORY_SELECT_FROM_EXISTING">
                 </button>
-                <span class="greyTxt pull-left" style="margin: 0 15px;"
-                      ng-show="workflowData.inventoryData.length > 0 ?  true : false">or</span>
+                <span class="greyTxt pull-left"
+                      style="margin: 0 15px;"
+                      ng-show="workflowData.inventoryData.length > 0 ?  true : false">
+                    or
+                </span>
+                <!-- TODO: Temp, put CSS in stylesheet -->
+                <span class="no-domain-list-found greyTxt"
+                      ng-bind="textConstants.NO_DOMAIN_LIST_FOUND"
+                      style="padding: 0 0 10px !important; display: block;"
+                      ng-show="workflowData.inventoryData.length === 0 ?  true : false">
+                </span>
                 <button class="pull-left btn btn-default" ngf-select="selectFiles($files, 'INVENTORY_CREATE')"
                         ngf-accept="'.csv,.txt'" ngf-multiple="false" ngf-allow-dir="false"
                         data-ng-bind="textConstants.INVENTORY_UPLOAD_NEW">
@@ -142,21 +59,6 @@
         <div class="col-md-10" ng-repeat="inventory in workflowData.selectedLists">
             <div class="filterList" ng-if="workflowData.selectedLists.length > 0">
                 <div class="filterHead" >
-                    <!--<h1 class="col-md-12 zeroPadding" data-ng-bind="textConstants.INVENTORY_SELECTED_DOMAIN_LISTS"></h1>
-                    <div class="btn-group miniToggle col-md-12 zeroPadding" style="margin-bottom: 15px;">
-                        <label ng-repeat="inventory in workflowData.selectedLists"
-                               class="btn btn-default {{inventory === workflowData.selectedLists[0] ||
-                                    workflowData.selectedLists.length === 1 ? 'active' : ''}}">
-                            <span data-ng-bind="inventory.name + ' (' + inventory.domainList.length + ')'"></span>
-                            <input type="radio"
-                                   name="inventoryType"
-                                   value="{{inventory.name}}"
-                                   ng-checked=""
-                                   hidden="hidden"
-                                   class="btn_rad"
-                                   ng-click="displaySelectedDomainList($event)">
-                        </label>
-                    </div>-->
                     <span class="pull-left" style="width: auto;" ng-bind="inventory.name"></span>
                     <a class="icon-trash pull-right" style="margin: 10px 0 0 50px;"></a>
                     <button class="btn btn-default pull-right"
@@ -188,8 +90,7 @@
 
 <!-- Modal Upload List Start -->
 <div class="popInventoryLib" ng-show="showDomainListPopup">
->>>>>>> 63b908966976840285613a221972f40e82bfe59b
-    <form id="inventoryForm" name="inventoryForm" novalidate>
+    <form id="inventoryNewForm" name="inventoryNewForm" novalidate>
         <div class="inventoryLib">
             <div class="headerLib">
                 <span class="icon-close closePopBtn" aria-hidden="true" ng-click="closeDomainListPop()"></span>
@@ -285,69 +186,58 @@
             </div>
         </div>
     </form>
-</div-->
+</div>
 <!-- Modal End -->
 
 <!-- Modal Select Existing List Start -->
 <div class="popInventoryLib" ng-show="showExistingListPopup">
-    <form id="inventoryForm" name="inventoryForm" novalidate>
+    <form id="inventoryExistingForm" name="inventoryExistingForm" novalidate>
         <div class="inventoryLib">
             <div class="headerLib">
                 <span class="icon-close closePopBtn" aria-hidden="true" ng-click="hideExistingListPopup()"></span>
-                <h1>Select from Existing</h1>
+                <h1>Select from Existing {{"Whitelist / Blacklist"}}</h1>
             </div>
             <div class="popBody">
                 <div class="col-md-6">
                     <h4>Available</h4>
-                    <div class="pull-right radioBtnToggle">
-                        <div class="btn-group miniToggle">
-                            <label class="btn btn-default active spend_evenly" style="width: auto;"><span>Whitelist</span>
-                                <input type="radio" name="inventoryList" checked group="budgetGroup" value="WHITELIST" hidden="hidden" class="btn_rad" id="whitelist" ng-click="toggleBtn($event);">
-                            </label>
-
-                            <label class="btn btn-default spend_asap" style="width: auto;"><span>Blacklist</span>
-                                <input type="radio" name="inventoryList" group="budgetGroup" value="BLACKLIST" hidden="hidden" class="btn_rad" id="blacklist" ng-click="toggleBtn($event);">
-                            </label>
-                        </div>
-                    </div>
                     <div class="listKeyupInput">
                         <input type="text" class="form-control" name="creativeSearch" placeholder="Search domain lists">
                         <span class="icon-search"></span>
                     </div>
-                    <div class="col-md-12 zeroPadding">
+                    <ul class="col-md-12 zeroPadding">
                         <!--Dummy Data Start-->
-                        <div class="selected">
+                        <li class="selected">
                             <input type="checkbox">
                             <span>Whitelist</span>
                             <span class="titleList">Acme Global Whitelist</span>
-                        </div>
-                        <div class="selected">
+                        </li>
+                        <li class="selected">
                             <input type="checkbox">
                             <span>Whitelist</span>
                             <span class="titleList">Acme Global Whitelist</span>
-                        </div>
-                        <div class="selected">
+                        </li>
+                        <li class="selected">
                             <input type="checkbox">
                             <span>Whitelist</span>
                             <span class="titleList">Acme Global Whitelist</span>
-                        </div>
-                        <div class="selected">
+                        </li>
+                        <li class="selected">
                             <input type="checkbox">
                             <span>Whitelist</span>
                             <span class="titleList">Acme Global Whitelist</span>
-                        </div>
-                        <div class="selected">
+                        </li>
+                        <li class="selected">
                             <input type="checkbox">
                             <span>Whitelist</span>
                             <span class="titleList">Acme Global Whitelist</span>
-                        </div>
-                        <div class="selected">
+                        </li>
+                        <li class="selected">
                             <input type="checkbox">
                             <span>Whitelist</span>
                             <span class="titleList">Acme Global Whitelist</span>
-                        </div>
+                        </li>
                         <!--Dummy Data End-->
-                    </div>
+                    </ul>
                 </div>
                 <div class="col-md-6">
                     <h4>Selected</h4>
@@ -377,7 +267,8 @@
             </div>
             <div class="col-md-12 popFooter">
                 <button type="button" class="btn btn-primary pull-right" ng-click="uploadDomain()">Save</button>
-                <button type="button" class="btn btn-link pull-right" ng-click="hideExistingListPopup()" data-ng-bind="textConstants.CANCEL"></button>
+                <button type="button" class="btn btn-link pull-right" ng-click="hideExistingListPopup()"
+                        data-ng-bind="textConstants.CANCEL"></button>
             </div>
         </div>
     </form>

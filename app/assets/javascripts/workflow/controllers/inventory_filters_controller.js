@@ -138,6 +138,7 @@ console.log('$scope.showInventoryModal, $scope.showDomainListPopup = ', $scope.s
         //Show Existing Invenory List Modal
         $scope.showInventoryModal = function () {
             $scope.showExistingListPopup = true;
+            //$scope.workflowData.showDomainListPopup = true;
             $(".inventoryLib .popBody .col-md-6:last-child").css('min-height', winSizeHeight - 350);
         }
 

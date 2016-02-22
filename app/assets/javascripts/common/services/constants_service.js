@@ -702,9 +702,9 @@
 
         //Ad Create: 5 Inventory Filters
         this.SETFILTERS = 'Set Inventory Filters';
-        this.HOWMANINVENFILTERS = 'How do I manage my Inventory Filters?';
+        this.HOWMANINVENFILTERS = 'Which Inventory Filters should I use?';
         this.SELECTEXISTING = 'Select from Existing';
-        this.ONLYONELIST = 'Only 1 list is supported at this moment.';
+        this.NO_DOMAIN_LIST_FOUND = 'No domain list found.';
         this.UPLOADDOMAINLIST = 'Upload Domain List';
         this.CSVTXTFILE = '(.csv, .txt file)';
         this.DOMAINLIST = 'Domain List';
