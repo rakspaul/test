@@ -2071,6 +2071,7 @@ input[type="submit"] {
   background: #0978c9;
   padding: 0px 15px;
   position: relative;
+  z-index: 999999999;
 }
 .main_navigation_holder .profile-photo-tab {
   position: relative;
@@ -2286,6 +2287,9 @@ input[type="submit"] {
 }
 .main_navigation_holder #user-menu {
   min-height: 80px;
+  width: 300px;
+  left: initial;
+  right: 0;
 }
 .main_navigation_holder #user-menu .nav-menu {
   background: transparent;

@@ -348,11 +348,11 @@
 .popInventoryLib {
   position: fixed;
   left: 0;
-  top: 0px;
+  top: 50px;
   width: 100%;
   height: 100%;
-  z-index: 999;
-  background: rgba(0, 0, 0, 0.50);
+  z-index: 9999999;
+  background: rgba(0, 0, 0, 0.8);
   .inventoryLib {
     position: relative;
     width: 800px;
@@ -368,12 +368,15 @@
     box-shadow: 1px 0px 11px 0px rgba(0,0,0,0.75);
     .closePopBtn {
       position: absolute;
-      top: -30px;
-      right: -30px;
+      top: 3px;
+      right: 3px;
       z-index: 10;
       cursor: pointer;
-      color: #fff;
-      font-size: 30px;
+      font-size: 12px;
+      width: 12px;
+      height: 12px;
+      color: #21252B;
+      opacity: .25;
     }
     .close {
       position: absolute;
@@ -381,13 +384,12 @@
       right: 12px;
     }
     .headerLib {
-      padding: 30px 30px 17px 30px;
+      padding: 30px 30px 20px 30px;
       float: left;
       width: 100%;
       background: #fff;
       border-top-left-radius: 5px;
       border-top-right-radius: 5px;
-      border-bottom: 3px solid #dde6eb;
       .btn-default {
         float: right;
         margin: 0;
@@ -407,7 +409,7 @@
     .popBody {
       float: left;
       width: 100%;
-      padding: 17px 30px 30px 30px;
+      padding: 0px;
       .popList {
         float: left;
         width: 100%;
@@ -421,23 +423,110 @@
       .categoryDDL {
         float: left;
         width: 30%;
-        margin-top: 20px;
+        //margin-top: 20px;
       }
       .radioBtnToggle {
         float: left;
-        width: 40%;
-        margin-left: 20px;
-        margin-top: 20px;
+        width: auto;
+        margin: 0 0 0 20px;
         .miniToggle {
           margin: 0;
         }
       }
+      .col-md-6 {
+        h4 {
+          float: left;
+          margin: 10px 0 0 0;
+          font-family: "Avenir";
+        }
+      }
+      .col-md-6:first-child {
+        padding: 0 20px 20px 30px;
+        .listKeyupInput {
+          float: left;
+          width: 100%;
+          border: 1px solid rgba(204, 210, 218, 0.5);
+          position: relative;
+          margin: 15px 0;
+          input {
+            border-width: 0;
+          }
+          .icon-search {
+            position: absolute;
+            z-index: 10;
+            right: 11px;
+            top: 11px;
+            font-size: 11px;
+            height: 11px;
+            width: 11px;
+            cursor: pointer;
+          }
+        }
+        .selected {
+          float: left;
+          width: 100%;
+          padding: 10px 0 10px 0;
+          input[type="checkbox"] {
+            float: left;
+            margin: 3px 10px 0 0;
+          }
+          span {
+            float: left;
+            color: #57606c;
+            width: 80px;
+          }
+          .titleList {
+            color: #21212b;
+            width: auto;
+          }
+        }
+      }
+      .col-md-6:last-child {
+        padding: 0 0 20px 0;
+        background: #f7f7f7;
+        border-left: 1px solid #ccd2da;
+        h4 {
+          margin: 10px 0 20px 20px;
+        }
+        .selected {
+          float: left;
+          width: 100%;
+          border-bottom: 1px solid rgba(204, 210, 218, 0.5);
+          padding: 10px 30px 10px 20px;
+          span {
+            float: left;
+            color: #57606c;
+          }
+          span:first-child {
+            width: 80px;
+          }
+          .titleList {
+            color: #21212b;
+          }
+          .icon-close {
+            float: right;
+            cursor: pointer;
+            font-size: 11px;
+            height: 11px;
+            width: 11px;
+            color: #21252b;
+            opacity: .25;
+            margin: 5px 0 0 0;
+          }
+        }
+      }
+    }
+    .uploadList {
+      padding: 0 30px 20px 30px;
     }
     .popFooter {
       padding: 20px 30px;
-      background: #F5F9FD;
+      background: #E1EDF9;
       border-bottom-left-radius: 5px;
       border-bottom-right-radius: 5px;
+      .btn-primary {
+        margin-right: 0;
+      }
     }
   }
 }

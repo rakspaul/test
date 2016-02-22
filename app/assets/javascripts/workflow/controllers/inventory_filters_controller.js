@@ -84,6 +84,7 @@ var angObj = angObj || {};
 
             $scope.domainUploadInProgress = false;
             $scope.showDomainListPopup = false;
+            $scope.showExistingListPopup = false;
         }
 
         $scope.prarentHandler = function (clientId, clientName, advertiserId, advertiserName) {
@@ -98,6 +99,7 @@ var angObj = angObj || {};
                     $scope.showDomainListPopup = true;
                     $scope.files = files;
                     $scope.adData.listName = $scope.adData.inventory && $scope.adData.inventory.name;
+                    $(".inventoryLib .uploadList").css('min-height', winSizeHeight - 350);
 
                     // If called from Inventory Create New button click,
                     if (action === 'INVENTORY_CREATE') {
@@ -123,11 +125,25 @@ var angObj = angObj || {};
         };
 
         //Show Inventory Modal
-        $scope.showInventoryModal = function () {
+/*        $scope.showInventoryModal = function () {
 console.log('$scope.showInventoryModal, $scope.showDomainListPopup = ', $scope.showDomainListPopup);
             $scope.workflowData.showDomainListPopup = true;
 console.log('$scope.showInventoryModal, $scope.showDomainListPopup = ', $scope.showDomainListPopup);
         };
+*/
+
+        //Check windows height
+        var winSizeHeight = $(window).height();
+
+        //Show Existing Invenory List Modal
+        $scope.showInventoryModal = function () {
+            $scope.showExistingListPopup = true;
+            $(".inventoryLib .popBody .col-md-6:last-child").css('min-height', winSizeHeight - 350);
+        }
+
+        $scope.hideExistingListPopup = function () {
+            $scope.showExistingListPopup = false;
+        }
 
         $scope.uploadDomain = function () {
             var domainId = $scope.adData.inventory && $scope.adData.inventory.id || null,
