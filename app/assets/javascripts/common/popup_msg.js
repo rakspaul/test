@@ -21,6 +21,7 @@
             };
         })
         .controller('popUpMsgCtr', function ($scope, $rootScope, $timeout, constants) {
+            $scope.addClass = '';
             $scope.init = function (msg, errMsg) {
                 if(!angular.element('.top_message_box').length) {
                     $rootScope.errMsgKey = msg;
@@ -40,6 +41,7 @@
                 if($rootScope[$rootScope.errMsgKey] !== undefined) {
                     $rootScope[$rootScope.errMsgKey].message = '';
                 }
+                $('.top_message_box').removeClass($scope.addClass);
             };
 
             $scope.msgtimeoutReset = function () {
