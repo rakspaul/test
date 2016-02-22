@@ -476,6 +476,11 @@
   display: none ;
 }
 /*end of for error messages only*/
+/*for info message*/
+.top_message_box.info .msg_box .msg_icon:after {
+  display: none ;
+}
+/* end for info message*/
 /* end of top message/error box */
 /*common tooltip and tooltip message*/
 .tooltip_holder {
