@@ -866,6 +866,7 @@
         this.INCZIP = 'Including zip / postal codes is going to limit your geographic targeting significantly.';
         this.CONTINUE = 'Continue';
         this.REGCITY = 'REGION & CITY';
+        this.REGTABLABEL = 'REGION';
         this.METRO = 'METRO';
         this.ZIPPOSTCODE = 'ZIP / POSTAL CODE';
         this.INCEXCCITYNOTE =
@@ -877,6 +878,9 @@
         this.REMOVEALL = 'Remove All';
         this.METROS = 'Metros';
         this.DMAS = 'DMAs';
+        this.SEARCHFORMETROS  ='Search for metros';
+        this.SEARCHFORREGIONANDCITY = 'Search for regions or cities';
+        this.SEARCHFORREGION = 'Search for regions';
 
         //audience
         this.DEFAULTANDORSTATUS = 'Or';
