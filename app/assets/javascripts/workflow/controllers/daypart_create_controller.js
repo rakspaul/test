@@ -432,6 +432,7 @@ var angObj = angObj || {};
 
         // Closes Daypart Targeting View
         $scope.resetDayPartTargetingVariables = function () {
+            $scope.saveDayPartFlag = false;
             var dayParting = audienceService.getDaytimeObj();
             if (!dayParting || dayParting.length === 0) {
                 $scope.adData.isDaypartSelected = false;
