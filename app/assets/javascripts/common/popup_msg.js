@@ -21,6 +21,7 @@
             };
         })
         .controller('popUpMsgCtr', function ($scope, $rootScope, $timeout, constants) {
+            $scope.addClass = '';
             $scope.init = function (msg, errMsg) {
                 if(!angular.element('.top_message_box').length) {
                     $rootScope.errMsgKey = msg;
@@ -40,6 +41,7 @@
                 if($rootScope[$rootScope.errMsgKey] !== undefined) {
                     $rootScope[$rootScope.errMsgKey].message = '';
                 }
+                $('.top_message_box').removeClass($scope.addClass);
             };
 
             $scope.msgtimeoutReset = function () {
@@ -54,7 +56,7 @@
                 $scope.resetAlertMessage() ;
             };
 
-            $rootScope.setErrAlertMessage = function (errMsg,isErrorMsg,isMsg) {
+            $rootScope.setErrAlertMessage = function (errMsg,isErrorMsg,isMsg, addClass) {
                 $scope.errMsg = (typeof errMsg !== 'undefined') ? errMsg : $rootScope.errMsg;
                 $scope.isErrorMsg = (typeof isErrorMsg !== 'undefined') ? isErrorMsg : 1;
                 $scope.isMsg = (typeof isMsg !== 'undefined') ? isMsg : 0;
@@ -62,6 +64,12 @@
                 $rootScope[$rootScope.errMsgKey].isErrorMsg = $scope.isErrorMsg ;
                 $rootScope[$rootScope.errMsgKey].isMsg = $scope.isMsg;
                 $scope.msgtimeoutReset();
+                if(addClass != undefined){
+                    $scope.addClass = addClass;
+                    $('.top_message_box').addClass(addClass);
+                }else{
+                    $('.top_message_box').removeClass($scope.addClass);
+                }
             };
         });
 }());
