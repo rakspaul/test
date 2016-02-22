@@ -401,20 +401,20 @@ var angObj = angObj || {};
             $scope.dayTimeSelected = [];
             $scope.Schedule.daytimeArr = [];
 
-            var daypartObj = JSON.parse(localStorage.getItem("dayPart"));
-            var selectedDayTime = JSON.parse(localStorage.getItem("dayTimeSelected"));
-            var dayTimeArr = JSON.parse(localStorage.getItem("daytimeArr"));
+            var daypartObj = localStorage.getItem("dayPart");
+            var selectedDayTime = localStorage.getItem("dayTimeSelected");
+            var dayTimeArr = localStorage.getItem("daytimeArr");
 
             if(selectedDayTime)
-                $scope.dayTimeSelected = selectedDayTime;
+                $scope.dayTimeSelected = JSON.parse(selectedDayTime);
 
             var previouslySavedData = audienceService.getDayPartdata();
             if(daypartObj) {
-                $scope.Schedule.dayPart = daypartObj;
+                $scope.Schedule.dayPart = JSON.parse(daypartObj);
             }
 
             if(dayTimeArr) {
-                $scope.Schedule.daytimeArr = dayTimeArr;
+                $scope.Schedule.daytimeArr = JSON.parse(dayTimeArr);
             }
 
             if(!daypartObj && !selectedDayTime && !dayTimeArr){
@@ -436,9 +436,9 @@ var angObj = angObj || {};
             if (!dayParting || dayParting.length === 0) {
                 $scope.adData.isDaypartSelected = false;
                 $scope.adData.targetName = null;
-            } else {
+            } //else {
                 $scope.setSelectedDayparts();
-            }
+            //}
             _dayPartTargetting.hideDayPartTargetingBox();
         };
 
@@ -549,6 +549,7 @@ var angObj = angObj || {};
             $scope.Schedule.customLength = $scope.Schedule.customLength + 1;
             $scope.Schedule.daytimeArr.push({day: 'Sunday', startTime: 'All Day'});
             $scope.Schedule.dayPart.push({day: 'Sunday', stTime: 24});
+            $scope.saveDayPartFlag = false;
         };
 
         $scope.Schedule.dayTimeSelected = function (value, event) {
