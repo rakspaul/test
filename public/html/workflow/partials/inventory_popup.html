@@ -1,7 +1,7 @@
-<div class="popCreativeLib" ng-show="showHidePopup">
-    <div class="creativeLib">
-        <div class="headerLib">
-            <span class="icon-close closePopBtn" aria-hidden="true" ng-click="closePop()"></span>
+<div class="pop-inventory-lib clearfix" ng-show="workflowData.showDomainListPopup">
+    <div class="inventory-lib">
+        <div class="header-lib">
+            <span class="icon-close close-pop-btn" aria-hidden="true" ng-click="closePop()"></span>
             <h1>Select from Existing</h1>
             <a href="">Adding a Creative to your Ad</a>
         </div>
@@ -25,26 +25,26 @@
                         RECENTLY CREATED / USED
                     </span>
                     <div class="table" id="selCheck">
-                        <div ng-repeat="data in creativesLibraryData.creativesData | orderBy: 'name'">
+                        <div ng-repeat="data in workflowData.inventoryData | orderBy: 'name'">
                             <div class="clearfix row-gap" >
                                 <span class="col-md-1">
                                     <input class="checkboxcls"
                                            type="checkbox"
                                            id="{{data.id}}"
-                                           value="{{data.id}}_{{data.size.size}}_{{data.name}}"
+                                           value="{{data.id}}_{{data.name}}"
                                            name="{{data.name}}"
                                            ng-checked="data.checked ? true : false"
                                            ng-click="stateChanged($event, data);"/>
                                 </span>
-                                <span class="col-md-3">
-                                    {{data.size.size | lowercase}}
+                                <span class="col-md-3"
+                                      ng-bind="data.domainAction === 'INCLUDE' ? 'Whitelist' : 'Blacklist'">
                                 </span>
-                                <span class="col-md-8">{{data.name}}</span>
+                                <span class="col-md-8" ng-bind="data.name"></span>
                             </div>
                         </div>
                     </div>
-                    <div ng-show="creativesLibraryData.creativesData && creativesLibraryData.creativesData.length === 0"
-                         class="dataFromCreativeLibraryNotFound">
+                    <div ng-show="workflowData.inventoryData && workflowData.inventoryData.length === 0"
+                         class="custom-search-input">
                         <span ng-if="!loadingFlag">Data Not Found</span>
                         <div ng-if="loadingFlag" class="loading-icon"></div>
                     </div>
@@ -65,7 +65,7 @@
                             <span class="col-md-12">{{data.size.size | lowercase}}</span>
                         </td>
                         <td class="col-md-8">
-                            <span class="col-md-10 dataName">{{data.name}}</span>
+                            <span class="col-md-10 data-name">{{data.name}}</span>
                             <span class="icon-close col-md-2"
                                   ng-click="removeCreativeTags(data, 'popup')"
                                   ng-model="_tmp1"
@@ -76,7 +76,7 @@
                 </table>
             </div>
 
-            <div class="col-md-12 popFooter">
+            <div class="col-md-12 pop-footer">
                 <button type="button"
                         class="btn btn-primary pull-right"
                         ng-disabled="selectedArr && selectedArr.length === 0 && (!unchecking)"

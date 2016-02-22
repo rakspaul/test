@@ -4,20 +4,26 @@
         <div class="col-md-2 zeroPadding hideRightPanel"></div>
         <div class="col-md-10 containerWrap">
             <h2 class="col-md-12 zeroPadding marginBottom" data-ng-bind="textConstants.SETFILTERS"></h2>
-            <a href="javascript:void(0);" class="helpLink col-md-12 zeroPadding" data-ng-bind="textConstants.HOWMANINVENFILTERS"></a>
-            
+            <a href="javascript:void(0);"
+               class="helpLink col-md-12 zeroPadding"
+               data-ng-bind="textConstants.HOWMANINVENFILTERS">
+            </a>
+
             <div class="col-md-12 zeroPadding radioBtnToggle">
                 <div class="btn-group miniToggle">
-                    <label class="btn btn-default active spend_evenly" style="width: auto;"><span>Whitelist</span>
-                        <input type="radio" name="inventoryList" checked group="budgetGroup" value="WHITELIST" hidden="hidden" class="btn_rad" id="whitelist" ng-click="toggleBtn($event);">
+                    <label class="btn btn-default active spend_evenly" style="width: auto;">
+                        <span>Whitelist</span>
+                        <input type="radio" name="inventoryList" checked group="budgetGroup" value="WHITELIST"
+                               hidden="hidden" class="btn_rad" id="whitelist" ng-click="toggleBtn($event);">
                     </label>
-        
-                    <label class="btn btn-default spend_asap" style="width: auto;"><span>Blacklist</span>
-                        <input type="radio" name="inventoryList" group="budgetGroup" value="BLACKLIST" hidden="hidden" class="btn_rad" id="blacklist" ng-click="toggleBtn($event);">
+                    <label class="btn btn-default spend_asap" style="width: auto;">
+                        <span>Blacklist</span>
+                        <input type="radio" name="inventoryList" group="budgetGroup" value="BLACKLIST"
+                               hidden="hidden" class="btn_rad" id="blacklist" ng-click="toggleBtn($event);">
                     </label>
                 </div>
             </div>
-            
+
             <div class="col-md-12 zeroPadding clearfix nav_filters" style="display: none;">
                 <creative-drop-down ng-if="workflowData.campaignData"></creative-drop-down>
             </div>
@@ -118,11 +124,14 @@
             </div>-->
 
             <div class="col-md-9 zeroPadding inventory_upload_btn" style="margin: 20px 0 0;">
-                <button class="pull-left btn btn-default" style="margin: 0 0 20px 0;" ng-click="showInventoryModal()" data-ng-bind="textConstants.INVENTORY_SELECT_FROM_EXISTING">
+                <button class="pull-left btn btn-default" style="margin: 0 0 20px 0;"
+                        ng-click="showInventoryModal()" data-ng-bind="textConstants.INVENTORY_SELECT_FROM_EXISTING">
                 </button>
-                <span class="greyTxt pull-left" style="margin: 0 15px;" ng-show="workflowData.inventoryData.length > 0 ?  true : false">or</span>
+                <span class="greyTxt pull-left" style="margin: 0 15px;"
+                      ng-show="workflowData.inventoryData.length > 0 ?  true : false">or</span>
                 <button class="pull-left btn btn-default" ngf-select="selectFiles($files, 'INVENTORY_CREATE')"
-                        ngf-accept="'.csv,.txt'" ngf-multiple="false" ngf-allow-dir="false" data-ng-bind="textConstants.INVENTORY_UPLOAD_NEW">
+                        ngf-accept="'.csv,.txt'" ngf-multiple="false" ngf-allow-dir="false"
+                        data-ng-bind="textConstants.INVENTORY_UPLOAD_NEW">
                 </button>
                 <span class="grey_txt" data-ng-bind="textConstants.CSVTXTFILE"></span>
             </div>
@@ -148,10 +157,8 @@
                                    ng-click="displaySelectedDomainList($event)">
                         </label>
                     </div>-->
-                    <span class="pull-left" style="width: auto;">{{inventory.name}}</span>
-                    
+                    <span class="pull-left" style="width: auto;" ng-bind="inventory.name"></span>
                     <a class="icon-trash pull-right" style="margin: 10px 0 0 50px;"></a>
-                    
                     <button class="btn btn-default pull-right"
                             ng-disabled="workflowData.inventoryData.length === 0 || adData.inventory ?  false : true"
                             ngf-select="selectFiles($files, 'INVENTORY_UPDATE')"
@@ -160,13 +167,13 @@
                             ngf-allow-dir="false"
                             data-ng-bind="textConstants.INVENTORY_REPLACE_CURRENT_LIST">
                     </button>
-                    
-                    <div class="pull-left clearLeft sort-icon-holder active list_val_col" ng-click="sort();" style="display:inline-block; margin-top: 5px;">
+                    <div class="pull-left clearLeft sort-icon-holder active list_val_col"
+                         ng-click="sort();"
+                         style="display:inline-block;
+                         margin-top: 5px;">
                         <span class="pull-left" data-ng-bind="textConstants.DOMAIN"></span>
                         <span class="pull-left common-sort-icon ascending"></span>
                     </div>
-                    
-                    
                 </div>
                 <div class="filterBody">
                     <span ng-repeat="domain in adData.inventory.domainList | orderBy : $index:sortDomain "
@@ -180,7 +187,95 @@
 </div>
 
 <!-- Modal Start -->
-<div class="popInventoryLib" ng-show="showDomainListPopup">
+<!--div class="pop-inventory-lib" ng-show="showDomainListPopup">
+    <div class="inventory-lib">
+        <div class="header-lib">
+            <span class="icon-close close-pop-btn" aria-hidden="true" ng-click="closePop()"></span>
+            <h1>Select from Existing</h1>
+            <a href="">Adding a Creative to your Ad</a>
+        </div>
+        <div class="col-md-12 zeroPadding">
+            <div class="col-md-7">
+                <div class="clearfix">
+                    <h2 class="col-md-3 zeroPadding">Available</h2>
+                    <div id="custom-search-input" class="col-md-9">
+                        <input type="text"
+                               class="form-control"
+                               name="creativeSearch"
+                               ng-model="adData.creativeSearch"
+                               ng-keyup="creativeSearchFunc()"
+                               placeholder="Search Creative By Name and Size..">
+                        <span class="icon-search"></span>
+                    </div>
+                </div>
+                <div class="table-wrapper">
+                    <span class="greyTxt"
+                          style="display: inline-block; padding-bottom: 15px !important;">
+                        RECENTLY CREATED / USED
+                    </span>
+                    <div class="table" id="selCheck">
+                        <div ng-repeat="data in workflowData.inventoryData | orderBy: 'name' | filter: {domainAction: 'EXCLUDE'}">
+                            <div class="clearfix row-gap" >
+                                <span class="col-md-1">
+                                    <input class="checkboxcls"
+                                           type="checkbox"
+                                           id="{{data.id}}"
+                                           value="{{data.id}}_{{data.name}}"
+                                           name="{{data.name}}"
+                                           ng-checked="data.checked ? true : false"
+                                           ng-click="stateChanged($event, data);"/>
+                                </span>
+                                <span class="col-md-3">
+                                    {{data.domainAction === 'INCLUDE' ? 'Whitelist' : 'Blacklist' | lowercase}}
+                                </span>
+                                <span class="col-md-8">{{data.name}}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div ng-show="workflowData.inventoryData && workflowData.inventoryData.length === 0"
+                         class="data-from-creative-library-not-found">
+                        <span ng-if="!loadingFlag">Data Not Found</span>
+                        <div ng-if="loadingFlag" class="loading-icon"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-5">
+                <h2>Selected</h2>
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th class="col-md-4"></th>
+                        <th class="col-md-8"></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="data in selectedArr" ng-show="!creativeListLoading">
+                        <td class="col-md-4">
+                            <span class="col-md-12">{{data.size.size | lowercase}}</span>
+                        </td>
+                        <td class="col-md-8">
+                            <span class="col-md-10 data-name">{{data.name}}</span>
+                            <span class="icon-close col-md-2"
+                                  ng-click="removeCreativeTags(data, 'popup')"
+                                  ng-model="_tmp1"
+                                  aria-hidden="true"></span>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="col-md-12 popFooter">
+                <button type="button"
+                        class="btn btn-primary pull-right"
+                        ng-disabled="selectedArr && selectedArr.length === 0 && (!unchecking)"
+                        ng-click="saveCreativeTags()">Save</button>
+                <button type="button" class="btn btn-link pull-right" ng-click="closePop()">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div-->
+<!--div-- class="popInventoryLib" ng-show="showDomainListPopup">
     <form id="inventoryForm" name="inventoryForm" novalidate>
         <div class="inventoryLib">
             <div class="headerLib">
@@ -277,7 +372,7 @@
             </div>
         </div>
     </form>
-</div>
+</div-->
 <!-- Modal End -->
 
 <!--=== Next Step Panel ===-->

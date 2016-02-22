@@ -121,11 +121,13 @@ var angObj = angObj || {};
                 }
             }
         };
-        
-        //Show Invenory Modal
+
+        //Show Inventory Modal
         $scope.showInventoryModal = function () {
-            $scope.showDomainListPopup = true;
-        }
+console.log('$scope.showInventoryModal, $scope.showDomainListPopup = ', $scope.showDomainListPopup);
+            $scope.workflowData.showDomainListPopup = true;
+console.log('$scope.showInventoryModal, $scope.showDomainListPopup = ', $scope.showDomainListPopup);
+        };
 
         $scope.uploadDomain = function () {
             var domainId = $scope.adData.inventory && $scope.adData.inventory.id || null,

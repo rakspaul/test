@@ -55,7 +55,7 @@
 }
 #campaignCreate .firstWrapper .masterContainer .settingWrap {
   border-left: 1px solid #BFC9D7;
-  padding: 30px 0px 60px 25px;
+  padding: 30px 0 60px 25px;
   width: 77%;
   float: left;
   min-height: 730px;
@@ -76,7 +76,7 @@
 #campaignCreate .firstWrapper .masterContainer .collapseHeader button {
   margin: 5px 0;
   float: left;
-  padding: 0px 5px;
+  padding: 0 5px;
 }
 #campaignCreate .firstWrapper .masterContainer .collapseHeader span {
   margin: 0 0 8px 0;
@@ -103,7 +103,7 @@
 }
 #campaignCreate .firstWrapper .masterContainer .isCollapsed .paddingRightNone,
 #campaignCreate .firstWrapper .masterContainer .isAdCollapsed .paddingRightNone {
-  padding: 0px !important;
+  padding: 0 !important;
 }
 #campaignCreate .firstWrapper .masterContainer .isCollapsed .currency,
 #campaignCreate .firstWrapper .masterContainer .isAdCollapsed .currency {
@@ -136,7 +136,7 @@
 }
 #campaignCreate .firstWrapper .masterContainer .isCollapsed .unitCost,
 #campaignCreate .firstWrapper .masterContainer .isAdCollapsed .unitCost {
-  margin-top: 20px ;
+  margin-top: 20px;
 }
 #campaignCreate .firstWrapper .masterContainer .isCollapsed .unitCost .unitCostElement .currency,
 #campaignCreate .firstWrapper .masterContainer .isAdCollapsed .unitCost .unitCostElement .currency {
@@ -145,7 +145,7 @@
 }
 #campaignCreate .firstWrapper .masterContainer .isCollapsed .unitCost .unitCostElement .currency ~ input,
 #campaignCreate .firstWrapper .masterContainer .isAdCollapsed .unitCost .unitCostElement .currency ~ input {
-  padding-left: 20px ;
+  padding-left: 20px;
 }
 #campaignCreate .firstWrapper .masterContainer .isCollapsed .unitCost .percentageVal .currency,
 #campaignCreate .firstWrapper .masterContainer .isAdCollapsed .unitCost .percentageVal .currency {
@@ -153,7 +153,7 @@
 }
 #campaignCreate .firstWrapper .masterContainer .isCollapsed .unitCost .percentageVal .currency ~ input,
 #campaignCreate .firstWrapper .masterContainer .isAdCollapsed .unitCost .percentageVal .currency ~ input {
-  padding-left: 10px ;
+  padding-left: 10px;
 }
 #campaignCreate .firstWrapper .masterContainer .isCollapsed .startTime,
 #campaignCreate .firstWrapper .masterContainer .isAdCollapsed .startTime {
@@ -182,7 +182,7 @@
 #campaignCreate .firstWrapper .masterContainer .marginCal .calTable {
   float: left;
   width: 13%;
-  margin: 0 ;
+  margin: 0;
 }
 #campaignCreate .firstWrapper .masterContainer .marginCal .calTable .onlyShowValue {
   display: block;
@@ -195,16 +195,16 @@
   margin: 15px 0 10px 0;
 }
 #campaignCreate .firstWrapper .masterContainer .marginCal .calTable .symbol-input .symbol {
-  left: 20px ;
+  left: 20px;
   margin: 0 5px 0 0;
 }
 #campaignCreate .firstWrapper .masterContainer .marginCal .calTable .symbol-input .symbol ~ input {
-  padding-left: 17px ;
+  padding-left: 17px;
 }
 #campaignCreate .firstWrapper .masterContainer .marginCal .calTable input {
   float: left;
   width: 80%;
-  margin: 0 10% 15px ;
+  margin: 0 10% 15px;
 }
 #campaignCreate .firstWrapper .masterContainer .marginCal .calTable input[type="checkbox"] {
   float: left;
@@ -223,7 +223,7 @@
 }
 #campaignCreate .firstWrapper .masterContainer .marginCal .calTable .symbol-input.blindInput span {
   float: none;
-  margin: 20px 0 0 0 ;
+  margin: 20px 0 0 0;
   cursor: not-allowed;
   white-space: nowrap;
 }
@@ -233,16 +233,16 @@
   margin: 1px 0 0 42px;
 }
 #campaignCreate .firstWrapper .masterContainer .marginCal .calTableLarge {
-  width: 20% ;
+  width: 20%;
 }
 #campaignCreate .firstWrapper .masterContainer .marginCal .calculate_btn .btn {
-  margin: 38px 0px 30px 0 ;
+  margin: 38px 0 30px 0;
 }
 #campaignCreate .firstWrapper .masterContainer .marginCal .calculate_btn .btn span {
   padding-top: 2px;
 }
 #campaignCreate .firstWrapper .masterContainer .marginCal .budgetError {
-  font-size: 11px ;
+  font-size: 11px;
   text-align: center;
 }
 #campaignCreate .firstWrapper .masterContainer .kpiTable {
@@ -284,7 +284,7 @@
   max-width: 130px;
 }
 #campaignCreate .firstWrapper .masterContainer .col-md-12.kpiTable {
-  padding: 0px !important;
+  padding: 0 !important;
 }
 #campaignCreate .firstWrapper .masterContainer .col-md-12.kpiTable .intPlatWrap {
   max-height: 116px !important;
@@ -328,7 +328,7 @@
   word-wrap: break-word;
   float: left;
   font-family: "Avenir";
-  padding-bottom: 5px ;
+  padding-bottom: 5px;
 }
 #campaignCreate .firstWrapper .masterContainer .campAdHeader .campTitleWrap {
   padding: 5px 0 0 10px !important;
@@ -437,7 +437,7 @@
                   font-size: 9px;
                   background: #fff;
                   border: 2px solid #0978c9;
-                  padding: 0px 3px;
+                  padding: 0 3px;
                   font-family: "Arial";
                   font-weight: bold;
                   line-height: 10px;
@@ -450,7 +450,7 @@
               margin-bottom: 20px;
               height: 23px;
               width: 23px;
-            } 
+            }
             a:active, a:focus, a:hover {
               text-decoration: none;
             } */
@@ -481,13 +481,13 @@
   font-size: 17px;
   display: inline-block;
   border-radius: 5px;
-  border-bottom-left-radius: 0px;
-  border-bottom-right-radius: 0px;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .collapseHeader button {
   margin: 5px 0;
   float: left;
-  padding: 0px 5px;
+  padding: 0 5px;
   background: #fff;
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .collapseHeader span {
@@ -512,13 +512,13 @@
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .searchAds .col-md-10 input {
   background-color: transparent;
-  border-width: 0px !important;
+  border-width: 0 !important;
   box-shadow: none;
   margin-top: 2px;
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .searchAds .col-md-10 button {
   background: transparent;
-  border-width: 0px;
+  border-width: 0;
   margin: 0;
   padding: 15px 20px;
 }
@@ -543,7 +543,7 @@
 #campaignCreate .firstWrapper .masterContainer .adWrap .searchAds .col-md-2 .col-md-12 select {
   width: auto;
   padding-right: 20px;
-  border-width: 0px !important;
+  border-width: 0 !important;
   box-shadow: none;
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer {
@@ -690,18 +690,18 @@
   float: left;
   width: 100%;
   padding-left: .75%;
-  position: relative ;
+  position: relative;
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .singleCardWrap .overlay {
   display: block;
   position: absolute;
   opacity: .7;
-  z-index: 1 ;
-  top: 0px ;
-  left: 0px ;
-  width: 100% ;
-  height: 100% ;
-  background: #fff ;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #fff;
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .singleCardWrap.active .overlay {
   display: none;
@@ -715,7 +715,7 @@
   min-height: 371px;
   background: rgba(255, 255, 255, 0.5);
   position: relative;
-  max-width: 1200px ;
+  max-width: 1200px;
   cursor: pointer;
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule .col-md-12 {
@@ -741,7 +741,7 @@
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule .adTitle .adDisplay {
   margin-right: 6px;
-  padding: 0px !important;
+  padding: 0 !important;
   float: left;
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule .adTitle .adDisplay:last-child {
@@ -760,7 +760,7 @@
   width: 100%;
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule .dateAd .icon-impression {
-  margin-right: 8px ;
+  margin-right: 8px;
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule .addMaster {
   text-decoration: none;
@@ -797,7 +797,7 @@
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule .adStatus .icon-warning {
   font-size: 14px;
-  padding-top: 0px;
+  padding-top: 0;
   margin-bottom: 0;
   color: #fff;
 }
@@ -808,34 +808,34 @@
   color: #fff;
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule .adStatus.incomplete {
-  background: #939eae ;
+  background: #939eae;
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule .adStatus.ready {
-  background: #004478 ;
+  background: #004478;
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule .adStatus.scheduled {
-  background: #2c9aec ;
+  background: #2c9aec;
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule .adStatus.inflight {
-  background: #70d43d ;
+  background: #70d43d;
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule .adStatus.deploying {
   background: #6abdfa;
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule .adStatus.in_progress {
-  background: #6abdfa ;
+  background: #6abdfa;
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule .adStatus.failed {
-  background: #FF8000 ;
+  background: #FF8000;
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule .adStatus.ended {
-  background: #707AEB ;
+  background: #707AEB;
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule .adStatus.paused {
-  background: #98B5C8 ;
+  background: #98B5C8;
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule .adStatus.paused {
-  background: #98B5C8 ;
+  background: #98B5C8;
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule .labelPush {
   background: #5cb85c;
@@ -966,9 +966,9 @@
   background: #fff;
   border: 2px solid #000;
   border-radius: 5px;
-  -webkit-box-shadow: 0px 0px 29px -3px rgba(0, 0, 0, 0.38);
-  -moz-box-shadow: 0px 0px 29px -3px rgba(0, 0, 0, 0.38);
-  box-shadow: 0px 0px 29px -3px rgba(0, 0, 0, 0.38);
+  -webkit-box-shadow: 0 0 29px -3px rgba(0, 0, 0, 0.38);
+  -moz-box-shadow: 0 0 29px -3px rgba(0, 0, 0, 0.38);
+  box-shadow: 0 0 29px -3px rgba(0, 0, 0, 0.38);
 }
 #campaignCreate .firstWrapper .masterContainer .popMess span {
   float: left;
@@ -1040,7 +1040,7 @@
 #campaignCreate .firstWrapper .maxWidthAdj {
   width: 100%;
   float: left;
-  padding: 0px;
+  padding: 0;
 }
 #campaignCreate .firstWrapper .maxWidthAdj .campAdHeader {
   width: 1200px;
@@ -1048,7 +1048,7 @@
   float: none;
 }
 #campaignCreate .firstWrapper .maxWidthAdj .campAdHeader .campSettingOverView {
-  border-width: 0px;
+  border-width: 0;
 }
 #campaignCreate .firstWrapper .maxWidthAdj .campAdHeader .campSettingOverView label {
   font-size: 12px;
@@ -1085,18 +1085,18 @@
   float: left;
 }
 #campaignCreate .firstWrapper .maxWidthAdj .campAdHeader .campSettingOverView .each-objective {
-  padding-left: 15px ;
+  padding-left: 15px;
 }
 #campaignCreate .firstWrapper .maxWidthAdj .campAdHeader .campSettingOverView .each-objective span {
   clear: none;
-  margin-right: 5px ;
+  margin-right: 5px;
 }
 #campaignCreate .firstWrapper .maxWidthAdj .campAdHeader .campSettingOverView .pull-left:first-child {
   padding-left: 0;
 }
 #campaignCreate .firstWrapper .maxWidthAdj .adWrap {
   background: #EDF2F8;
-  margin: 0px;
+  margin: 0;
   border-top: 1px solid #BFC9D7;
 }
 #campaignCreate .firstWrapper .maxWidthAdj .adWrap .adContainer {
@@ -1224,7 +1224,7 @@
   display: inline-block;
 }
 #campaignCreate .campaignAdCreate .adMainWrapper .hdr_ad {
-  padding: 8px 0px;
+  padding: 8px 0;
   text-align: center;
 }
 #campaignCreate .campaignAdCreate .adMainWrapper .adHeader {
@@ -1235,7 +1235,7 @@
 }
 #campaignCreate .campaignAdCreate .adMainWrapper .adSubHeader {
   color: #b3b3b3;
-  padding: 2px 0px 5px 0px;
+  padding: 2px 0 5px 0;
 }
 #campaignCreate .campaignAdCreate .adMainWrapper .hdr_paused {
   padding-top: 8px;
@@ -1255,7 +1255,7 @@
   border: 1px solid #DDDDDD;
   background-color: #FFF;
   border-radius: 4px;
-  padding: 10px 0px 10px 10px;
+  padding: 10px 0 10px 10px;
   margin-right: 1%;
   width: 24.001%;
 }
@@ -1377,7 +1377,7 @@
   border-bottom: 1px solid #ddd;
   border-right-color: transparent;
   text-align: center;
-  border-radius: 4px 4px 0px 0px;
+  border-radius: 4px 4px 0 0;
 }
 #campaignCreate .campaignAdCreate .adMainWrapper .sideways > li.active > a,
 #campaignCreate .campaignAdCreate .adMainWrapper .sideways > li.active > a:hover,
@@ -1447,7 +1447,7 @@
   position: relative;
   left: 50%;
   margin-left: -32px;
-  margin-top: 0px;
+  margin-top: 0;
   cursor: pointer;
 }
 #campaignCreate .campaignAdCreate .adMainWrapper .platformHolder .btn.active {
@@ -1537,8 +1537,8 @@
 #campaignCreate .campaignAdCreate .adMainWrapper .offeringsWrap .container .carousel-inner {
   position: absolute;
   top: 70px;
-  left: 0px;
-  margin: 0px 40px;
+  left: 0;
+  margin: 0 40px;
   width: 815px;
 }
 #campaignCreate .campaignAdCreate .adMainWrapper .offeringsWrap .container .carousel-control {
@@ -1661,7 +1661,7 @@
   margin: 2px 0 20px 10px;
 }
 #campaignCreate .campaignAdCreate .adMainWrapper .newInventoryFilters .closeBtnCreative span {
-  margin: 0px 10px;
+  margin: 0 10px;
   float: left;
 }
 #campaignCreate .campaignAdCreate .adMainWrapper .newInventoryFilters .closeBtnCreative img {
@@ -1682,13 +1682,13 @@
 #campaignCreate .table span,
 #campaignCreate .table a,
 #campaignCreate .table p {
-  padding: 0px;
+  padding: 0;
 }
 #campaignCreate .table p {
   margin-bottom: 3px;
 }
 #campaignCreate .table .row-gap {
-  margin-bottom: 10px ;
+  margin-bottom: 10px;
 }
 #campaignCreate .table .squareCreativeOne {
   width: 24px;
@@ -1710,7 +1710,7 @@
 }
 #campaignCreate .table tbody tr {
   margin: 10px 0 20px;
-  color: #57606d ;
+  color: #57606d;
 }
 #campaignCreate .popCreativeLib {
   position: absolute;
@@ -1734,9 +1734,9 @@
   background: white;
   border-radius: 5px;
   display: inline-block;
-  -webkit-box-shadow: 1px 0px 11px 0px rgba(0, 0, 0, 0.75);
-  -moz-box-shadow: 1px 0px 11px 0px rgba(0, 0, 0, 0.75);
-  box-shadow: 1px 0px 11px 0px rgba(0, 0, 0, 0.75);
+  -webkit-box-shadow: 1px 0 11px 0 rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 1px 0 11px 0 rgba(0, 0, 0, 0.75);
+  box-shadow: 1px 0 11px 0 rgba(0, 0, 0, 0.75);
 }
 #campaignCreate .popCreativeLib .creativeLib .dataName {
   word-wrap: break-word;
@@ -1778,7 +1778,7 @@
 }
 #campaignCreate .popCreativeLib .creativeLib .table tbody tr td {
   background: #fff !important;
-  border-width: 0px !important;
+  border-width: 0 !important;
   padding-top: 15px;
   padding-bottom: 15px;
 }
@@ -1884,6 +1884,171 @@
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
 }
+#campaignCreate .pop-inventory-lib {
+  left: 0;
+  top: 50px;
+  width: 100%;
+  height: 100%;
+  z-index: 999999;
+  background: rgba(0, 0, 0, 0.8);
+  position: relative;
+  margin-top: -50px;
+}
+#campaignCreate .pop-inventory-lib .inventory-lib {
+  position: absolute;
+  width: 800px;
+  min-height: 250px;
+  left: 50%;
+  top: 55px;
+  margin-left: -400px;
+  background: white;
+  border-radius: 5px;
+  display: inline-block;
+  -webkit-box-shadow: 1px 0 11px 0 rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 1px 0 11px 0 rgba(0, 0, 0, 0.75);
+  box-shadow: 1px 0 11px 0 rgba(0, 0, 0, 0.75);
+}
+#campaignCreate .pop-inventory-lib .inventory-lib .data-name {
+  word-wrap: break-word;
+}
+#campaignCreate .pop-inventory-lib .inventory-lib .table > thead > tr > th {
+  border-width: 0;
+}
+#campaignCreate .pop-inventory-lib .inventory-lib .table > tbody > tr:first-child td {
+  border-width: 0;
+}
+#campaignCreate .pop-inventory-lib .inventory-lib .tableWrapper {
+  overflow-y: auto;
+  max-height: 300px;
+  margin-top: 25px;
+  border-right: 1px solid #dde6eb;
+}
+#campaignCreate .pop-inventory-lib .inventory-lib .tableWrapper .data-from-inventory-not-found {
+  float: left;
+  width: 100%;
+  background: #f5f9fd;
+}
+#campaignCreate .pop-inventory-lib .inventory-lib .tableWrapper .data-from-inventory-not-found span {
+  float: left;
+  width: 100%;
+  text-align: center;
+  color: #939eb6;
+  padding: 30px 0;
+}
+#campaignCreate .pop-inventory-lib .inventory-lib .table {
+  margin-bottom: 0;
+}
+#campaignCreate .pop-inventory-lib .inventory-lib .table thead {
+  display: none;
+}
+#campaignCreate .pop-inventory-lib .inventory-lib .table td {
+  background: #fff !important;
+  border-width: 0 !important;
+  padding-top: 15px;
+  padding-bottom: 15px;
+}
+#campaignCreate .pop-inventory-lib .inventory-lib .col-md-7 {
+  min-height: 300px;
+  padding: 0 30px;
+}
+#campaignCreate .pop-inventory-lib .inventory-lib .col-md-7 h2 {
+  font-size: 16px;
+  float: left;
+}
+#campaignCreate .pop-inventory-lib .inventory-lib .col-md-7 h3 {
+  float: left;
+  width: 100%;
+  font-size: 14px;
+  font-weight: bold;
+  color: #9A9A9A;
+  margin: 20px 0 0 0;
+}
+#campaignCreate .pop-inventory-lib .inventory-lib .col-md-7 #custom-search-input {
+  background-color: #fff;
+  float: left;
+  margin: 7px 0 0 0;
+  position: relative;
+  height: 36px;
+  padding-right: 0;
+}
+#campaignCreate .pop-inventory-lib .inventory-lib .col-md-7 #custom-search-input input {
+  position: absolute;
+  z-index: 10;
+  top: 0;
+  right: 0;
+  background: transparent;
+}
+#campaignCreate .pop-inventory-lib .inventory-lib .col-md-7 #custom-search-input .icon-search {
+  font-size: 14px;
+  float: right;
+  margin: 11px 8px 0 0;
+}
+#campaignCreate .pop-inventory-lib .inventory-lib .col-md-5 {
+  overflow: scroll;
+  height: 300px;
+  padding: 0 30px;
+  padding-left: 0;
+}
+#campaignCreate .pop-inventory-lib .inventory-lib .col-md-5 h2 {
+  font-size: 16px;
+  float: left;
+  width: 100%;
+}
+#campaignCreate .pop-inventory-lib .inventory-lib .col-md-5 .table td {
+  border-bottom: 1px solid #dde6eb !important;
+  padding: 10px 0;
+}
+#campaignCreate .pop-inventory-lib .inventory-lib .col-md-5 .icon-close {
+  font-size: 7px;
+  width: 7px;
+  height: 7px;
+  float: left;
+  margin: 6px;
+  cursor: pointer;
+}
+#campaignCreate .pop-inventory-lib .inventory-lib .close-pop-btn {
+  position: absolute;
+  top: 3px;
+  right: 3px;
+  z-index: 10;
+  cursor: pointer;
+  font-size: 12px;
+  width: 12px;
+  height: 12px;
+  color: #21252B;
+  opacity: .25;
+}
+#campaignCreate .pop-inventory-lib .inventory-lib .close-pop-btn:hover {
+  opacity: .5;
+}
+#campaignCreate .pop-inventory-lib .inventory-lib .header-lib {
+  padding: 30px;
+  float: left;
+  width: 100%;
+  background: #fff;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}
+#campaignCreate .pop-inventory-lib .inventory-lib .header-lib .btn-default {
+  float: right;
+  margin: 0;
+}
+#campaignCreate .pop-inventory-lib .inventory-lib .header-lib h1 {
+  float: left;
+  color: #000;
+  width: auto;
+  margin-top: 0;
+}
+#campaignCreate .pop-inventory-lib .inventory-lib .header-lib a {
+  float: left;
+  clear: left;
+}
+#campaignCreate .pop-inventory-lib .inventory-lib .pop-footer {
+  padding: 20px 30px;
+  background: #E1EDF9;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
 #campaignCreate .platformSlide {
   /*Just for now */
 }
@@ -1897,7 +2062,7 @@
   display: none;
   position: absolute;
   z-index: 10;
-  padding: 0px 0px 0px 30px;
+  padding: 0 0 0 30px;
 }
 #campaignCreate .platformSlide .platform-custom .breadcrumbs .switchPlatform {
   float: right;
@@ -1971,7 +2136,7 @@
   background-image: url("../images/cdesk/common_down_arrow.png");
   background-repeat: no-repeat;
   background-position: right 8px top 12px;
-  height: 36px ;
+  height: 36px;
   padding-top: 7px;
 }
 #campaignCreate .platformSlide .platform-custom .platWrap .minLeft {
@@ -2011,19 +2176,19 @@
 }
 #campaignCreate .platformSlide .form-group-section {
   float: left;
-  margin-right: 10px ;
+  margin-right: 10px;
   position: relative;
-  width: 100px ;
+  width: 100px;
 }
 #campaignCreate .platformSlide .form-group-section select {
-  margin-top: 37px ;
+  margin-top: 37px;
 }
 #campaignCreate .platformSlide .form-individual-section .form-group-section {
   float: none;
-  width: 210px ;
+  width: 210px;
 }
 #campaignCreate .platformSlide .form-individual-section .form-group-section select {
-  margin-top: 0px ;
+  margin-top: 0;
 }
 #campaignCreate .platformSlide .form-individual-section .form-group-section:before,
 #campaignCreate .platformSlide .form-individual-section .form-group-section:after {
@@ -2037,7 +2202,7 @@
   width: 150px;
 }
 #campaignCreate .platformSlide .auto-bid-option select {
-  margin: 0 ;
+  margin: 0;
 }
 #campaignCreate .newCreativeSlide .hideRightPanel {
   display: none !important;
@@ -2049,9 +2214,9 @@
   min-height: 1035px;
   top: 106px;
   display: none;
-  -webkit-box-shadow: -3px 0px 0px 0px rgba(0, 0, 0, 0.19);
-  -moz-box-shadow: -3px 0px 0px 0px rgba(0, 0, 0, 0.19);
-  box-shadow: -3px 0px 0px 0px rgba(0, 0, 0, 0.19);
+  -webkit-box-shadow: -3px 0 0 0 rgba(0, 0, 0, 0.19);
+  -moz-box-shadow: -3px 0 0 0 rgba(0, 0, 0, 0.19);
+  box-shadow: -3px 0 0 0 rgba(0, 0, 0, 0.19);
 }
 #campaignCreate .newCreativeSlide .closeBtnCreative {
   float: left;
@@ -2065,7 +2230,7 @@
   margin: 2px 0 20px 10px;
 }
 #campaignCreate .newCreativeSlide .closeBtnCreative span {
-  margin: 0px 10px;
+  margin: 0 10px;
   float: left;
 }
 #campaignCreate .newCreativeSlide .closeBtnCreative img {
@@ -2086,7 +2251,7 @@
 }
 .bodyWrapOverview {
   width: 100%;
-  padding: 0px;
+  padding: 0;
 }
 .adCreateMaster .campTitleWrap h1 {
   line-height: 18px !important;
@@ -2115,8 +2280,8 @@
   padding-left: 5px;
 }
 .adCreateMaster .page_header_container .nav-tabs {
-  border-width: 0px;
-  width: 100% ;
+  border-width: 0;
+  width: 100%;
 }
 .adCreateMaster .page_header_container .nav-tabs li.active {
   background-image: url("../../assets/images/workflow/blueSelector.png");
@@ -2152,7 +2317,7 @@
   float: left;
   min-height: 750px;
   width: 100%;
-  padding: 50px 10px 0px 30px;
+  padding: 50px 10px 0 30px;
 }
 .adCreateMaster .tab-content .tab-pane h2 {
   font-size: 20px;
@@ -2191,7 +2356,7 @@
   color: rgba(66, 139, 202, 0.31);
 }
 .adCreateMaster #targetting .regionCityTab ul.nav.nav-tabs {
-  margin: 26px 0 20px 0px ;
+  margin: 26px 0 20px 0;
   border-width: 0;
   width: auto;
   left: 0;
@@ -2213,20 +2378,20 @@
   background: #f5f9fd;
 }
 .adCreateMaster #targetting .regionCityTab ul.nav.nav-tabs li.active {
-  background: #0978c9 ;
+  background: #0978c9;
   border: 1px solid #0978c9;
 }
 .adCreateMaster #targetting .regionCityTab ul.nav.nav-tabs li.active a {
   color: #fff;
-  background: #0978c9 ;
+  background: #0978c9;
   margin: 0;
   font-family: "Avenir";
 }
 .adCreateMaster #targetting .regionCityTab ul.nav.nav-tabs li:first-child {
   border-top-left-radius: 2px;
   border-bottom-left-radius: 2px;
-  border-top-right-radius: 0px;
-  border-bottom-right-radius: 0px;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
 }
 .adCreateMaster #targetting .regionCityTab .nav-tabs {
   margin-top: 20px;
@@ -2236,7 +2401,7 @@
 }
 .adCreateMaster #targetting .regionCityTab .nav-tabs li {
   background: #f5f9fd;
-  border-radius: 0px;
+  border-radius: 0;
   border-top: 1px solid #dde6eb;
   border-right: 1px solid #dde6eb;
   border-bottom: 1px solid #dde6eb;
@@ -2248,7 +2413,7 @@
 }
 .adCreateMaster #targetting .regionCityTab .nav-tabs li.active {
   background: #fff;
-  border-bottom: 0px;
+  border-bottom: 0;
 }
 .adCreateMaster #targetting .regionCityTab .nav-tabs li.active a {
   background: #fff;
@@ -2259,8 +2424,8 @@
   border-left: 1px solid #dde6eb;
 }
 .adCreateMaster #targetting .list_head {
-  border-bottom: solid 2px #ccc ;
-  padding: 10px 0 10px 12px ;
+  border-bottom: solid 2px #ccc;
+  padding: 10px 0 10px 12px;
 }
 .adCreateMaster #targetting .list_row_holder {
   max-height: 525px;
@@ -2269,9 +2434,9 @@
   height: 100%;
 }
 .adCreateMaster #targetting .list_val_col {
-  margin-left: 10px ;
-  min-width: 170px ;
-  max-width: 170px ;
+  margin-left: 10px;
+  min-width: 170px;
+  max-width: 170px;
 }
 .adCreateMaster #targetting .list_holder {
   position: relative;
@@ -2280,7 +2445,7 @@
   width: 100%;
 }
 .adCreateMaster #targetting .list_holder .list_row {
-  margin: 10px 0 ;
+  margin: 10px 0;
 }
 .adCreateMaster #targetting .addTargetBtn {
   float: left;
@@ -2316,8 +2481,8 @@
   border-top: 0;
 }
 .adCreateMaster #targetting .targettingFormWrap {
-  border: 0px solid #E6E6E6;
-  padding: 0px !important;
+  border: 0 solid #E6E6E6;
+  padding: 0 !important;
 }
 .adCreateMaster #targetting .targettingFormWrap h2 {
   /*float: left;*/
@@ -2332,10 +2497,10 @@
   margin: 0 5px;
 }
 .adCreateMaster #targetting .targettingFormWrap .loading-icon {
-  margin-top: 0px ;
+  margin-top: 0;
 }
 .adCreateMaster #targetting .targettingFormWrap .show_tooltip #tab_region {
-  opacity: 0.5 ;
+  opacity: 0.5;
   cursor: default;
 }
 .adCreateMaster #targetting .targettingFormWrap .show_tooltip .common_tooltip {
@@ -2349,7 +2514,7 @@
   width: 100%;
   border-left: 1px solid #dde6eb;
   border-right: 1px solid #dde6eb;
-  padding: 20px 0 0 0 ;
+  padding: 20px 0 0 0;
 }
 .adCreateMaster #targetting .targettingFormWrap .searchInput .geoTypeResult {
   float: left;
@@ -2404,7 +2569,7 @@
 }
 .adCreateMaster #targetting .targettingFormWrap .tabbable .nav-tabs li {
   background: #F5F9FD;
-  border-radius: 0px;
+  border-radius: 0;
   border-top: 1px solid #dde6eb;
   border-right: 1px solid #dde6eb;
   border-bottom: 1px solid #dde6eb;
@@ -2418,7 +2583,7 @@
 }
 .adCreateMaster #targetting .targettingFormWrap .tabbable .nav-tabs li.active {
   background: #fff;
-  border-bottom: 0px;
+  border-bottom: 0;
 }
 .adCreateMaster #targetting .targettingFormWrap .tabbable .nav-tabs li.active a {
   background: #fff;
@@ -2433,7 +2598,7 @@
 }
 .adCreateMaster #targetting .targettingFormWrap .tabbable .tab-pane {
   min-height: initial !important;
-  padding-bottom: 0px !important;
+  padding-bottom: 0 !important;
 }
 .adCreateMaster #targetting .targettingFormWrap .tabbable .tab-pane .tab-content {
   border-left: 1px solid #dde6eb;
@@ -2454,7 +2619,7 @@
   border-left: 1px solid #dde6eb;
   border-bottom: 1px solid #dde6eb;
   border-right: 1px solid #dde6eb;
-  padding: 6px 0px !important;
+  padding: 6px 0 !important;
   float: left;
   width: 100%;
 }
@@ -2503,10 +2668,10 @@
 .adCreateMaster #targetting .targettingFormWrap .selectedTables .emptyTableLabel {
   text-align: left;
   padding: 10px 15px;
-  margin: 0px 0 30px;
+  margin: 0 0 30px;
 }
 .adCreateMaster #targetting .targettingFormWrap .selectedTables .each-row {
-  padding: 10px 0 ;
+  padding: 10px 0;
 }
 .adCreateMaster #targetting .targettingFormWrap .selectedTables .each-row img {
   margin: -3px 3px 0 0;
@@ -2516,7 +2681,7 @@
   overflow-y: auto;
 }
 .adCreateMaster #targetting .targettingFormWrap .selectedTables .values-table .each-row {
-  border-bottom: solid 2px #DDE6EB ;
+  border-bottom: solid 2px #DDE6EB;
 }
 .adCreateMaster #targetting .targettingFormWrap .selectedTables .values-table .each-row .group {
   float: left;
@@ -2536,10 +2701,10 @@
   left: -185px;
 }
 .adCreateMaster #targetting .targettingFormWrap .selectedTables .msgPopup:after {
-  left: 221px ;
+  left: 221px;
 }
 .adCreateMaster #targetting .targettingFormWrap .selectedTables .msgPopup:before {
-  left: 220px ;
+  left: 220px;
 }
 .adCreateMaster #targetting .targettingFormWrap .selectedTables .cancel {
   cursor: pointer;
@@ -2576,7 +2741,7 @@
   border-top-color: #A2A2A2;
 }
 .adCreateMaster #targetting .targettingFormWrap .selectedTables .col-md-12 .table {
-  margin: 0 0 20px 0 ;
+  margin: 0 0 20px 0;
 }
 .adCreateMaster #targetting .targettingFormWrap .selectedTables .col-md-12 .table thead {
   border-width: 0;
@@ -2625,7 +2790,7 @@
 }
 .adCreateMaster #targetting .targettingSelected {
   border: 1px solid #BFC9D7;
-  padding: 0px !important;
+  padding: 0 !important;
   margin-top: 20px;
   -o-transition: border 0.2s ease-out, background 2s ease-in;
   -ms-transition: border 0.2s ease-out, background 2s ease-in;
@@ -2671,7 +2836,7 @@
         }*/
 }
 .adCreateMaster #targetting .targettingSelected .tsBody h5 {
-  color: #939eae ;
+  color: #939eae;
   font-family: "Avenir";
 }
 .adCreateMaster #targetting .targettingSelected .tsBody .regioncity,
@@ -2679,7 +2844,7 @@
 .adCreateMaster #targetting .targettingSelected .tsBody .dmas {
   width: 100%;
   border-bottom: 1px solid #939EAE;
-  padding: 0 0 15px 0 ;
+  padding: 0 0 15px 0;
   margin: 0 0 15px 0;
   width: 93%;
 }
@@ -2695,10 +2860,10 @@
   padding-bottom: 20px;
 }
 .adCreateMaster #targetting .targettingSelected .tsBody .data_list {
-  margin: 4px 0 ;
+  margin: 4px 0;
 }
 .adCreateMaster #targetting .targettingSelected .tsBody .total_data_holder:last-child {
-  border: 0 ;
+  border: 0;
 }
 .adCreateMaster #targetting .targettingSelected .tsBody .less_data .data_list {
   display: none;
@@ -2708,9 +2873,9 @@
   display: block;
 }
 .adCreateMaster #targetting .targettingSelected .tsBody .show_more_less {
-  color: #0978c9 ;
+  color: #0978c9;
   cursor: pointer;
-  margin: 5px 0 10px ;
+  margin: 5px 0 10px;
 }
 .adCreateMaster #targetting .targettingSelected .tsBody a {
   float: left;
@@ -2728,11 +2893,11 @@
   width: 930px;
   height: auto;
   min-height: 600px;
-  top: 0px;
+  top: 0;
   display: none;
   position: absolute;
   z-index: 9999999;
-  padding: 0px 0px 30px 30px;
+  padding: 0 0 30px 30px;
   opacity: 0;
 }
 .adCreateMaster #targetting .targetingSlide .closeBtnCreative {
@@ -2749,7 +2914,7 @@
   position: relative;
   left: 50%;
   margin-left: -251px;
-  margin-bottom: 0px;
+  margin-bottom: 0;
   margin-top: 5px;
   border-width: 0;
 }
@@ -2931,7 +3096,7 @@
 .adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segHeaderTable .columnFour,
 .adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segHeaderTable .columnFive,
 .adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segHeaderTable .columnSix {
-  border-width: 0px !important;
+  border-width: 0 !important;
   padding-top: 15px;
 }
 .adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segBodyWrap {
@@ -3100,9 +3265,9 @@
 }
 .adCreateMaster #targetting .targetingSlide .segmentHolder .segmentRow .col-md-9 .segmentMove .tooltip > .tooltip-inner {
   background-color: #fff;
-  -webkit-box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
-  -moz-box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
-  box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
+  -webkit-box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.75);
+  box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.75);
   color: #000;
   text-align: left;
 }
@@ -3170,7 +3335,7 @@
 }
 .adCreateMaster #targetting .targetingSlide .dayRow button.dropdown-toggle.icon-arrow-down:before .icon-arrow-down,
 .adCreateMaster #targetting .targetingSlide .dayRow button.dropdown-toggle.icon-arrow-down:before span.icon-arrow-down:before {
-  display: none !important ;
+  display: none !important;
 }
 .adCreateMaster #targetting #dayTargeting {
   padding: 0;
@@ -3187,21 +3352,21 @@
   background-color: rgba(237, 241, 248, 0.5);
 }
 .adCreateMaster #targetting .tab-pane {
-  padding: 0px;
+  padding: 0;
 }
 .adCreateMaster #targetting .tab-pane .table thead {
-  border: 0px ;
+  border: 0;
 }
 .adCreateMaster #targetting .tab-pane .table thead tr {
-  border-bottom: 2px solid #dde6eb ;
+  border-bottom: 2px solid #dde6eb;
 }
 .adCreateMaster #targetting .tab-pane .table thead th {
-  padding: 8px 0 ;
+  padding: 8px 0;
 }
 .adCreateMaster #targetting .tab-pane .table tbody tr td {
-  padding: 10px 0 10px 0px !important;
+  padding: 10px 0 10px 0 !important;
   background: #fff !important;
-  border-width: 0px;
+  border-width: 0;
 }
 .adCreateMaster #targetting .tab-pane .table tbody tr td:first-child {
   text-align: center;
@@ -3243,7 +3408,7 @@
   padding-top: 14px;
   height: 50px;
   vertical-align: top;
-  padding: 20px ;
+  padding: 20px;
 }
 .adCreateMaster #creative .creativeTableTag .table tbody tr {
   margin: 0;
@@ -3265,7 +3430,7 @@
   color: #939eb6;
 }
 .adCreateMaster .form-group {
-  margin-bottom: 0px;
+  margin-bottom: 0;
 }
 .adCreateMaster .spacingInput {
   height: 30px !important;
@@ -3275,33 +3440,33 @@
 }
 .campaignAdCreatePage .common-btns {
   position: absolute;
-  top: 0px ;
-  right: 0px ;
-  z-index: 1 ;
-  width: 100% ;
+  top: 0;
+  right: 0;
+  z-index: 1;
+  width: 100%;
   padding-left: 30px;
 }
 .campaignAdCreatePage .common-btns .adName {
   float: left;
   width: 100%;
-  margin: 7px 0 0 0px;
+  margin: 7px 0 0 0;
 }
 .campaignAdCreatePage .paddingTop {
-  padding-top: 5px ;
+  padding-top: 5px;
 }
 .campaignAdCreatePage .tab-content .cancel-btn {
   margin: 8px 10px;
   display: inline-block;
-  text-decoration: none ;
+  text-decoration: none;
 }
 .campaignAdCreatePage .tab-content .cancel-btn:hover {
-  text-decoration: none ;
+  text-decoration: none;
 }
 .campaignAdCreatePage .tab-content .btn-primary {
-  margin: 0 10px 0 0 ;
+  margin: 0 10px 0 0;
 }
 .campaignAdCreatePage .marginBottom {
-  margin-bottom: 8px !important ;
+  margin-bottom: 8px !important;
 }
 .campaignAdCreatePage input,
 .campaignAdCreatePage select {
@@ -3311,7 +3476,7 @@
   margin: 0;
 }
 .campaignAdCreatePage .tab-pane .btn_border {
-  margin-bottom: 0px ;
+  margin-bottom: 0;
 }
 .glyphicon {
   font-family: 'Glyphicons Halflings' !important;
@@ -3323,7 +3488,7 @@
 }
 .accounts-page .accounts-page-container,
 .users-creation-page .accounts-page-container {
-  max-width: 100% ;
+  max-width: 100%;
   min-width: 750px;
 }
 .accounts-page .common_primary_btn,
@@ -3340,7 +3505,7 @@
 }
 .accounts-page .common-load-more,
 .users-creation-page .common-load-more {
-  margin: 30px auto ;
+  margin: 30px auto;
 }
 .accounts-page .adding-section,
 .users-creation-page .adding-section {
@@ -3358,11 +3523,11 @@
 }
 .accounts-page .heading,
 .users-creation-page .heading {
-  margin: 15px 0 ;
+  margin: 15px 0;
 }
 .accounts-page .heading .common_primary_btn,
 .users-creation-page .heading .common_primary_btn {
-  margin: 10px 15px 0 0px ;
+  margin: 10px 15px 0 0;
 }
 .accounts-page .account-name,
 .users-creation-page .account-name {
@@ -3378,37 +3543,37 @@
 }
 .accounts-page .advertiser-name,
 .users-creation-page .advertiser-name {
-  margin: 10px 0 0 ;
+  margin: 10px 0 0;
 }
 .accounts-page .advertiser-name .adv-name,
 .users-creation-page .advertiser-name .adv-name {
-  max-width: 80% ;
+  max-width: 80%;
 }
 .accounts-page .advertiser-name .adding-section,
 .users-creation-page .advertiser-name .adding-section {
-  font-size: 11px ;
+  font-size: 11px;
 }
 .accounts-page .advertiser-list,
 .users-creation-page .advertiser-list,
 .accounts-page .advertiser-resp-brands-list,
 .users-creation-page .advertiser-resp-brands-list {
-  padding-left: 30px ;
+  padding-left: 30px;
   display: none;
 }
 .accounts-page .brand-name,
 .users-creation-page .brand-name {
   cursor: default;
-  margin-bottom: 10px ;
-  max-width: 90% ;
+  margin-bottom: 10px;
+  max-width: 90%;
 }
 .accounts-page .each-account-details,
 .users-creation-page .each-account-details {
-  margin-bottom: 10px ;
+  margin-bottom: 10px;
 }
 .accounts-page .label_heading,
 .users-creation-page .label_heading {
-  font-size: 10px ;
-  color: #999 ;
+  font-size: 10px;
+  color: #999;
 }
 .accounts-page .particular-account-box,
 .users-creation-page .particular-account-box {
@@ -3458,7 +3623,7 @@
 }
 .accounts-page .particular-account-box.data-loaded .each-advertiser.no-data-open .brand-name:after,
 .users-creation-page .particular-account-box.data-loaded .each-advertiser.no-data-open .brand-name:after {
-  display: none ;
+  display: none;
 }
 .accounts-page .particular-account-box.data-loaded .advertiser-list,
 .users-creation-page .particular-account-box.data-loaded .advertiser-list {
@@ -3502,14 +3667,14 @@
 .users-creation-page .edit {
   background: url("/assets/images/cdesk/edit_blue.png") no-repeat right center;
   display: inline-block;
-  height: 20px ;
-  width: 20px ;
+  height: 20px;
+  width: 20px;
   cursor: pointer;
-  margin-left: 10px ;
+  margin-left: 10px;
 }
 .accounts-page .each-user,
 .users-creation-page .each-user {
-  margin: 10px 0 0 20px  ;
+  margin: 10px 0 0 20px;
 }
 .accounts-popup.popup-holder input[type="text"],
 .users-popup.popup-holder input[type="text"],
@@ -3517,11 +3682,11 @@
 .users-popup.popup-holder input[type="password"],
 .accounts-popup.popup-holder textarea,
 .users-popup.popup-holder textarea {
-  margin: 0 ;
+  margin: 0;
 }
 .accounts-popup.popup-holder .modal-title,
 .users-popup.popup-holder .modal-title {
-  margin-bottom: 20px ;
+  margin-bottom: 20px;
 }
 .accounts-popup.popup-holder .common_primary_btn,
 .users-popup.popup-holder .common_primary_btn {
@@ -3533,7 +3698,7 @@
 .users-popup.popup-holder input[type="text"],
 .accounts-popup.popup-holder input[type="password"],
 .users-popup.popup-holder input[type="password"] {
-  color: #21252B ;
+  color: #21252B;
   padding: 10px 20px 7px;
 }
 .accounts-popup.popup-holder select,
@@ -3543,7 +3708,7 @@
 }
 .accounts-popup.popup-holder .dropdown-menu,
 .users-popup.popup-holder .dropdown-menu {
-  width: 100% ;
+  width: 100%;
 }
 .accounts-popup.popup-holder .dropdown-menu li > a,
 .users-popup.popup-holder .dropdown-menu li > a {
@@ -3566,19 +3731,19 @@
 }
 .accounts-popup.popup-holder .add-filters label,
 .users-popup.popup-holder .add-filters label {
-  font-size: 12px ;
+  font-size: 12px;
 }
 .accounts-popup.popup-holder .add-filters .col-md-3,
 .users-popup.popup-holder .add-filters .col-md-3 {
-  padding-left: 0px ;
+  padding-left: 0;
 }
 .accounts-popup.popup-holder .add-filters .col-md-3:last-child,
 .users-popup.popup-holder .add-filters .col-md-3:last-child {
-  padding-right: 0px ;
+  padding-right: 0;
 }
 .accounts-popup.popup-holder .add-filters .dropdown,
 .users-popup.popup-holder .add-filters .dropdown {
-  margin: 0px ;
+  margin: 0;
 }
 .accounts-popup.popup-holder .add-filters .dropdown .btn,
 .users-popup.popup-holder .add-filters .dropdown .btn {
@@ -3587,12 +3752,12 @@
 }
 .accounts-popup.popup-holder .add-filters ul.dropdown-menu li,
 .users-popup.popup-holder .add-filters ul.dropdown-menu li {
-  padding: 0 ;
+  padding: 0;
 }
 .accounts-popup.popup-holder .add-filters ul.dropdown-menu ul,
 .users-popup.popup-holder .add-filters ul.dropdown-menu ul {
   list-style: none;
-  padding: 0 ;
+  padding: 0;
 }
 .accounts-popup.popup-holder .add-filters ul.dropdown-menu ul li,
 .users-popup.popup-holder .add-filters ul.dropdown-menu ul li {
@@ -3601,7 +3766,7 @@
 .accounts-popup.popup-holder .add-filters ul.dropdown-menu ul li a,
 .users-popup.popup-holder .add-filters ul.dropdown-menu ul li a {
   color: #21252b;
-  font-size: 14px ;
+  font-size: 14px;
 }
 .accounts-popup.popup-holder .add-filters ul.dropdown-menu ul li:hover,
 .users-popup.popup-holder .add-filters ul.dropdown-menu ul li:hover {
@@ -3613,8 +3778,8 @@
 }
 .accounts-popup.popup-holder .add_filter_link,
 .users-popup.popup-holder .add_filter_link {
-  color: #0978C9 ;
-  text-align: right  ;
+  color: #0978C9;
+  text-align: right;
 }
 .accounts-popup.popup-holder .add_filter_link span,
 .users-popup.popup-holder .add_filter_link span {
@@ -3622,14 +3787,14 @@
 }
 .accounts-popup.popup-holder .account_name_list,
 .users-popup.popup-holder .account_name_list {
-  max-height: 100px ;
+  max-height: 100px;
   overflow: scroll;
 }
 .accounts-popup.popup-holder .radio + .radio,
 .users-popup.popup-holder .radio + .radio,
 .accounts-popup.popup-holder .checkbox + .checkbox,
 .users-popup.popup-holder .checkbox + .checkbox {
-  margin: 10px 0px 10px 20px ;
+  margin: 10px 0 10px 20px;
 }
 .keywordWrap {
   float: left;
