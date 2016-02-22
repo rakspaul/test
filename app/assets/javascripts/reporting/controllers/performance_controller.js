@@ -164,8 +164,7 @@ var angObj = angObj || {};
             $scope.api_return_code=200;
 
             var url = urlService.APIVistoCustomQuery(param);
-            console.log('url',url);
-            return dataService.fetch(url).then(function (result) { console.log('result',result);
+            return dataService.fetch(url).then(function (result) {
                 $scope.strategyLoading =  false;
                 if (result.status === "OK" || result.status === "success") {
                     $scope.hidePerformanceReportTab = $scope.checkForSelectedTabData(result.data.data, tab);
