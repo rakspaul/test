@@ -348,7 +348,7 @@ var angObj = angObj || {};
                 index,
                 idx,
                 i;
-
+            $scope.$broadcast("EditAdResponseData")
             $scope.workflowData.adsData = responseData;
 
             if (responseData.adPlatformCustomInputs) {
