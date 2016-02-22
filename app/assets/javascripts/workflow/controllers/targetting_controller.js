@@ -109,6 +109,7 @@ var angObj = angObj || {};
             $scope.adData.isDaypartSelected = false;
             var dayPartData = $scope.selectedDayParts['data'];
             if(dayPartData) dayPartData.length = 0;
+            $scope.adData.targetName = null;
             localStorage.removeItem("dayPart");
             localStorage.removeItem("dayTimeSelected");
             localStorage.removeItem("daytimeArr");
