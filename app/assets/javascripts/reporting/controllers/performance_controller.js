@@ -167,6 +167,7 @@ var angObj = angObj || {};
             return dataService.fetch(url).then(function (result) {
                 $scope.strategyLoading =  false;
                 if (result.status === "OK" || result.status === "success") {
+                    $scope['dataNotFoundFor'+tab] = false;
                     $scope.hidePerformanceReportTab = $scope.checkForSelectedTabData(result.data.data, tab);
                     if($scope.hidePerformanceReportTab) {
                         errorHandlerForPerformanceTab();
