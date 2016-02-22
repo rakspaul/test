@@ -54,7 +54,7 @@
                 $scope.resetAlertMessage() ;
             };
 
-            $rootScope.setErrAlertMessage = function (errMsg,isErrorMsg,isMsg) {
+            $rootScope.setErrAlertMessage = function (errMsg,isErrorMsg,isMsg, addClass) {
                 $scope.errMsg = (typeof errMsg !== 'undefined') ? errMsg : $rootScope.errMsg;
                 $scope.isErrorMsg = (typeof isErrorMsg !== 'undefined') ? isErrorMsg : 1;
                 $scope.isMsg = (typeof isMsg !== 'undefined') ? isMsg : 0;
@@ -62,6 +62,12 @@
                 $rootScope[$rootScope.errMsgKey].isErrorMsg = $scope.isErrorMsg ;
                 $rootScope[$rootScope.errMsgKey].isMsg = $scope.isMsg;
                 $scope.msgtimeoutReset();
+                if(addClass != undefined){
+                    $scope.addClass = addClass;
+                    $('.top_message_box').addClass(addClass);
+                }else{
+                    $('.top_message_box').removeClass($scope.addClass);
+                }
             };
         });
 }());
