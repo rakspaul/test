@@ -145,7 +145,9 @@ var angObj = angObj || {};
                     $scope.setPlatform(event, platform);
                 }
             } else {
-                $rootScope.$broadcast('resetTargeting');
+                if($scope.adData && platform.id !== $scope.adData.platformId) {
+                    $rootScope.$broadcast('resetTargeting');
+                }
                 $scope.setPlatform(event, platform);
             }
         };
