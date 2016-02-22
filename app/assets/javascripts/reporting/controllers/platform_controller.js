@@ -21,6 +21,7 @@ var angObj = angObj || {};
         $scope.sortReverseForPerfImps = true;
         $scope.sortReverseForCostImps = true;
         $scope.sortReverseForQualImps = true;
+        $scope.sortReverseForMarginImps = true;
         $scope.sortReverseKpiDropdown = true; // set the default sort order
         $scope.sortReverseForCostscpm = true;
         $scope.sortReverseForCostscpa = true;

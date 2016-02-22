@@ -3,7 +3,7 @@ var angObj = angObj || {};
 (function () {
     'use strict';
 
-    angObj.controller('GeoTargettingController', function ($scope, workflowService, $timeout, zipCode) {
+    angObj.controller('GeoTargettingController', function ($rootScope, $scope, workflowService, $timeout, zipCode) {
 
         $scope.showTargettingForm = false;
         $scope.geoTargetingData = {};
@@ -373,9 +373,30 @@ var angObj = angObj || {};
                     }
                 });
             });
+
+
+            _.each(zipCodesObj.removed, function (removeval) {
+                _.each(zipCodeList, function (obj, idx) {
+                    if (obj) {
+                        _.each(obj.added, function (val) {
+                            if (removeval === val) {
+                                zipCodeList.splice(idx, 1);
+                            }
+                        });
+                    }
+                });
+            });
+
             $scope.zipCodesObj = zipCodesObj;
             $scope.geoTargetingData.selected.zip.push(zipCodesObj);
             $scope.adData.zipCodes = '';
+            if($scope.zipCodesObj.info && $scope.zipCodesObj.info.length > 0) {
+                $rootScope.setErrAlertMessage(zipCodesObj.info[0]);
+            }
+
+            if($scope.zipCodesObj.error && $scope.zipCodesObj.error.length > 0) {
+                $rootScope.setErrAlertMessage(zipCodesObj.error[0]);
+            }
         };
 
         $scope.includeorExcludeCityOnly = function (type, isIncluded) {
@@ -415,6 +436,10 @@ var angObj = angObj || {};
                 $scope.geoTargetingData.selected.cities.length > 0) {
                 $scope.showCitiesOnly = true;
                 $scope.geoTargetingData.selected.cities = [];
+            }
+
+            if(type === 'regions' && $scope.geoTargetingData.selected.regions.length === 0 && $scope.geoTargetingData.selected.cities.length === 0) {
+                $scope.removeSelectedList('regions', 'cities');
             }
         };
 
@@ -1036,6 +1061,11 @@ var angObj = angObj || {};
                 $scope.adData.isGeographySelected = false;
                 $scope.adData.targetName = null;
                 $scope.resetGeoTargetingVariables();
+            }
+
+            if($scope.zipCodesObj) {
+                $scope.zipCodesObj.info = [];
+                $scope.zipCodesObj.error = [];
             }
 
             if (cancelClicked && workflowService.getSavedGeo()) {
