@@ -391,7 +391,7 @@ var angObj = angObj || {};
             $scope.geoTargetingData.selected.zip.push(zipCodesObj);
             $scope.adData.zipCodes = '';
             if($scope.zipCodesObj.info && $scope.zipCodesObj.info.length > 0) {
-                $rootScope.setErrAlertMessage(zipCodesObj.info[0]);
+                $rootScope.setErrAlertMessage(zipCodesObj.info[0], 0,0, 'info');
             }
 
             if($scope.zipCodesObj.error && $scope.zipCodesObj.error.length > 0) {
