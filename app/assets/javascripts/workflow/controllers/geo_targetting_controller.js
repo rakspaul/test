@@ -450,11 +450,14 @@ var angObj = angObj || {};
                 k,
                 removeFromSelectedCityArr;
 
-            for (i = 0; i < selectedItem.length; i++) {
-                if (selectedItem[i].id === item.id) {
-                    selectedItem.splice(i, 1);
+            if(type !== 'zip') {
+                for (i = 0; i < selectedItem.length; i++) {
+                    if (selectedItem[i].id === item.id) {
+                        selectedItem.splice(i, 1);
+                    }
                 }
             }
+
             if ($scope.geoTargetingData.selected[type].length === 0) {
                 $scope.includeorExcludeCityOnly(type);
             }
@@ -508,7 +511,16 @@ var angObj = angObj || {};
             }
 
             if (type === 'zip') {
-                if ($scope.zipCodesObj)  $scope.zipCodesObj = [];
+                var zipObj = $scope.geoTargetingData.selected.zip;
+                _.each(zipObj, function(obj) {
+                    if(obj.added) {
+                        _.each(obj.added, function(zip, idx) {
+                            if(zip === item) {
+                                obj.added.splice(idx, 1);
+                            }
+                        })
+                    }
+                })
             }
         };
 
