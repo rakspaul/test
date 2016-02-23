@@ -4,14 +4,15 @@
 </div>
 <popup-msg ng-show="partialSaveAlertMessage" ng-controller="popUpMsgCtr"
            ng-init="init('partialSaveAlertMessage','WF_CAMPAIGN_ARCHIVE_FAILURE')"></popup-msg>
-<div id="overlay" style="width: 100%;
-    background-color: black;
-    height: 100%;
-    position: fixed;
-    z-index: 999;
-    opacity: 0.6;
-
-}" ng-show="redirectFlag"></div>
+<div id="overlay"
+     style="
+            width: 100%;
+            background-color: black;
+            height: 100%;
+            position: fixed;
+            z-index: 999;
+            opacity: 0.6;"
+     ng-show="redirectFlag"></div>
 <div id="campaignCreate" class="adCreateMaster">
     <div class="firstWrapper">
         <div class="masterContainer adMasterContainer">

@@ -195,7 +195,9 @@
         <div class="inventoryLib">
             <div class="headerLib">
                 <span class="icon-close closePopBtn" aria-hidden="true" ng-click="hideExistingListPopup()"></span>
-                <h1>Select from Existing {{"Whitelist / Blacklist"}}</h1>
+                <h1 ng-bind="'Select from Existing ' +
+                                adData.inventory.domainAction === 'INCLUDE' ? 'Whitelist' : 'Blacklist'">
+                </h1>
             </div>
             <div class="popBody">
                 <div class="col-md-6">
