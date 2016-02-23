@@ -145,9 +145,6 @@ var angObj = angObj || {};
                     $scope.setPlatform(event, platform);
                 }
             } else {
-                if($scope.adData && platform.id !== $scope.adData.platformId) {
-                    $rootScope.$broadcast('resetTargeting');
-                }
                 $scope.setPlatform(event, platform);
             }
         };
@@ -155,6 +152,11 @@ var angObj = angObj || {};
         $scope.setPlatform = function (event, platform) {
             var name;
 
+            if(event && !$scope.changePlatformPopup) {
+                if($scope.adData && platform.id !== $scope.adData.platformId) {
+                    $rootScope.$broadcast('resetTargeting');
+                }
+            }
             $scope.selectedPlatform = {};
             workflowService.setPlatform(platform);
             //audience targetting

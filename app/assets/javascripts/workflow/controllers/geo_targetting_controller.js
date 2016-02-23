@@ -349,6 +349,7 @@ var angObj = angObj || {};
                 $scope.citiesIncluded = true;
                 $scope.dmasIncluded = true;
                 $scope.adData.targetName = null;
+
                 citiesListArray.length = 0;
                 regionsListArray.length = 0;
                 dmasListArray.length = 0;
@@ -1240,7 +1241,7 @@ var angObj = angObj || {};
         $scope.resetGeoTargetingVariables();
 
         $scope.$on('resetVariables', function() {
-            $scope.resetGeoTargetingVariables();
+           $scope.resetGeoTargetingVariables();
         })
 
         $(function () {
