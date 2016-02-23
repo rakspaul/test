@@ -1869,6 +1869,7 @@ var angObj = angObj || {};
                             $scope.reportData = response.data.data;
                             $scope.prefillData(response.data.data);
                             $("#toggle").prop("disabled", true);
+                            $(".img_table_txt").html('Please select dimensions, timeframe and any additional <br> parameters to update the report');
                         }
                     });
                 } else if (localStorage.getItem('customReport')) {
