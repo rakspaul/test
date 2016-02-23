@@ -281,7 +281,6 @@
         this.CREATIVE = "Creative";
         this.RESEARCH = "Research";
         this.AD_VERIFICATION = "Ad Verification";
-        this.COLLECTIVE = "Collective Fee";
         this.TRANSPARENT_PLATFORM_FEE_CHARGED = "Transparent platform fee charged by Collective for technology and services associated with programmatic media activity";
         this.TOTAL_COST = "Total Cost";
         this.TOTAL_MARGIN = "Total Margin";
@@ -360,6 +359,7 @@
         this.STRATEGY = "Ad Group";
 
         this.PLATFORM_NAME = "Platform Name";
+        this.COLLECTIVE_FEE = "Collective Fee";
 
         this.SUSPICIOUS = "Suspicious";
         this.TOTAL = "Total";
@@ -870,6 +870,7 @@
         this.INCZIP = 'Including zip / postal codes is going to limit your geographic targeting significantly.';
         this.CONTINUE = 'Continue';
         this.REGCITY = 'REGION & CITY';
+        this.REGTABLABEL = 'REGION';
         this.METRO = 'METRO';
         this.ZIPPOSTCODE = 'ZIP / POSTAL CODE';
         this.INCEXCCITYNOTE =
@@ -881,6 +882,9 @@
         this.REMOVEALL = 'Remove All';
         this.METROS = 'Metros';
         this.DMAS = 'DMAs';
+        this.SEARCHFORMETROS  ='Search for metros';
+        this.SEARCHFORREGIONANDCITY = 'Search for regions or cities';
+        this.SEARCHFORREGION = 'Search for regions';
 
         //audience
         this.DEFAULTANDORSTATUS = 'Or';

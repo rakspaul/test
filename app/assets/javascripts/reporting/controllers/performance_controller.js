@@ -167,6 +167,7 @@ var angObj = angObj || {};
             return dataService.fetch(url).then(function (result) {
                 $scope.strategyLoading =  false;
                 if (result.status === "OK" || result.status === "success") {
+                    $scope['dataNotFoundFor'+tab] = false;
                     $scope.hidePerformanceReportTab = $scope.checkForSelectedTabData(result.data.data, tab);
                     if($scope.hidePerformanceReportTab) {
                         errorHandlerForPerformanceTab();
@@ -182,7 +183,7 @@ var angObj = angObj || {};
                             $scope['strategyPerfDataBy'+tab]  = _.filter(result.data.data, function(item) { return item.ad_id == -1; })
                             $scope['strategyPerfDataByTactic'+tab]  =_.filter(result.data.data, function(item) { return item.ad_id != -1; });
                             $scope.groupThem = _.chain($scope['strategyPerfDataByTactic'+tab])
-                                .groupBy('name')
+                                .groupBy('ad_name')
                                 .map(function(value, key) {
                                     return {
                                         name: key,

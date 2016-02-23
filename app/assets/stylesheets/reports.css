@@ -2793,7 +2793,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 }
 .reports_cost_header_holder .total_cost,
 #reports_platform_cost_block .total_cost {
-  width: 170px;
+  width: 121px;
 }
 .reports_cost_header_holder .more_options .dd_txt,
 #reports_platform_cost_block .more_options .dd_txt,
@@ -3014,6 +3014,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 #reports_platform_cost_block .reports_platform_header .tenth_col,
 #reports_platform_cost_block .strategy_total_container_header .tenth_col {
   padding-right: 17px ;
+  width: 121px;
 }
 #reports_platform_cost_block .reports_platform_header .total_cost,
 #reports_platform_cost_block .strategy_total_container_header .total_cost {

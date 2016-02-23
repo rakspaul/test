@@ -109,6 +109,7 @@ var angObj = angObj || {};
             $scope.adData.isDaypartSelected = false;
             var dayPartData = $scope.selectedDayParts['data'];
             if(dayPartData) dayPartData.length = 0;
+            $scope.adData.targetName = null;
             localStorage.removeItem("dayPart");
             localStorage.removeItem("dayTimeSelected");
             localStorage.removeItem("daytimeArr");
@@ -258,10 +259,12 @@ var angObj = angObj || {};
             $scope.isPlatformSelected = platformId ? true : false;
             $scope.showRegionsTab = true;
             $scope.showCitiesTab = true;
-            $scope.showSwitchBox = true;
+            $scope.isSwitchForVistoBidder = true;
+            $scope.searchLabel = $scope.textConstants.SEARCHFORREGIONANDCITY;
             if (($scope.isPlatformId === 1) || ($scope.adData.platformId === 25)) {
                 $scope.showCitiesTab = false;  // Hide Cities Tab for Visto Bidder (platform Id 25)
-                $scope.showSwitchBox = false;
+                $scope.isSwitchForVistoBidder = false;
+                $scope.searchLabel = $scope.textConstants.SEARCHFORREGION;
             }
         });
     });

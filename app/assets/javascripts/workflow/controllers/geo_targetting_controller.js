@@ -391,7 +391,7 @@ var angObj = angObj || {};
             $scope.geoTargetingData.selected.zip.push(zipCodesObj);
             $scope.adData.zipCodes = '';
             if($scope.zipCodesObj.info && $scope.zipCodesObj.info.length > 0) {
-                $rootScope.setErrAlertMessage(zipCodesObj.info[0]);
+                $rootScope.setErrAlertMessage(zipCodesObj.info[0], 0,0, 'info');
             }
 
             if($scope.zipCodesObj.error && $scope.zipCodesObj.error.length > 0) {
@@ -450,11 +450,14 @@ var angObj = angObj || {};
                 k,
                 removeFromSelectedCityArr;
 
-            for (i = 0; i < selectedItem.length; i++) {
-                if (selectedItem[i].id === item.id) {
-                    selectedItem.splice(i, 1);
+            if(type !== 'zip') {
+                for (i = 0; i < selectedItem.length; i++) {
+                    if (selectedItem[i].id === item.id) {
+                        selectedItem.splice(i, 1);
+                    }
                 }
             }
+
             if ($scope.geoTargetingData.selected[type].length === 0) {
                 $scope.includeorExcludeCityOnly(type);
             }
@@ -491,12 +494,33 @@ var angObj = angObj || {};
                 citiesListArray = [];
                 $scope.listCities();
             }
+
+
             if(type === 'dmas') {
-                $scope.dmasIncluded = true;
+                if(selectedItem && selectedItem.length >0) {
+                    var dmasIncluded = _.uniq(_.pluck(selectedItem, 'dmasIncluded'));
+                    if(dmasIncluded.length  ===1 && dmasIncluded[0]) {
+                        $scope.dmasIncluded = true;
+                    } else {
+                        $scope.dmasIncluded = false;
+                    }
+
+                } else {
+                    $scope.dmasIncluded = true;
+                }
             }
 
             if (type === 'zip') {
-                if ($scope.zipCodesObj)  $scope.zipCodesObj = [];
+                var zipObj = $scope.geoTargetingData.selected.zip;
+                _.each(zipObj, function(obj) {
+                    if(obj.added) {
+                        _.each(obj.added, function(zip, idx) {
+                            if(zip === item) {
+                                obj.added.splice(idx, 1);
+                            }
+                        })
+                    }
+                })
             }
         };
 
@@ -1079,7 +1103,7 @@ var angObj = angObj || {};
                         }
                     })
 
-                    if($scope.selectedTab == 'cities' && presavedGeo.regions.length ==0 && presavedGeo.cities.length >0) {
+                    if($scope.selectedTab == 'cities' && presavedGeo.regions.length === 0 && presavedGeo.cities.length >0) {
                         var citiesIncluded = _.uniq(_.pluck(presavedGeo.cities, 'citiesIncluded'));
                         if(citiesIncluded.length  ===1 && citiesIncluded[0]) {
                             $scope.isRegionSelected = false;
@@ -1088,7 +1112,7 @@ var angObj = angObj || {};
                             $scope.listCities();
                         }
                     } else {
-                        if($scope.selectedTab == 'regions' && presavedGeo.regions) {
+                        if(($scope.selectedTab == 'regions' || $scope.selectedTab == 'cities') && presavedGeo.regions.length > 0) {
                             var regionCityElem = $(".regionCityTab");
                             regionCityElem.find("li").removeClass("active");
                             regionCityElem.find(".tab_region_holder").addClass("active")
@@ -1096,10 +1120,28 @@ var angObj = angObj || {};
                             if(regionsIncluded.length  ===1 && regionsIncluded[0]) {
                                 $scope.regionsIncluded = true;
                                 $scope.citiesIncluded = false;
+                            } else {
+                                $scope.regionsIncluded = false;
+                                $scope.citiesIncluded = true;
                             }
                             $scope.listRegions();
                         }
                     }
+
+                    if(presavedGeo && presavedGeo.dmas) {
+                        $scope.showSwitch = true;
+                        var dmasIncluded = _.uniq(_.pluck(presavedGeo.dmas, 'dmasIncluded'));
+                        if(dmasIncluded.length  ===1 && dmasIncluded[0]) {
+                            $scope.dmasIncluded = true;
+                        } else {
+                            $scope.dmasIncluded = false;
+                        }
+                    }
+
+                    var navTabsTargetElem = $(".targettingFormWrap").find(".nav-tabs");
+                    $timeout(function () {
+                        $(navTabsTargetElem[0]).find("li a").triggerHandler('click');
+                    }, 50);
                 }
             }
             geoTargetingView.hideGeoTargetingBox();
