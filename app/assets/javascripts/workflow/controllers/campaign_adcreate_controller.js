@@ -763,6 +763,10 @@ var angObj = angObj || {};
             campaignOverView.cloneAd();
         }
 
+        $scope.cancelAdClone = function () {
+            $scope.showCloneAdPopup = !$scope.showCloneAdPopup;
+        };
+
         $scope.cancelAdResume = function () {
             $scope.resumeMessage =
                 'Resume delivery for flight dates ' +

@@ -234,58 +234,72 @@
         </div>
     </div>
     <div class="common-popup-container" ng-show="showCloneAdPopup">
-        <div class="popup">
+        <div style="height:430px" class="popup">
             <div class="popup-header-body">
                 <div class="clearfix">
-                    <h1 class="pull-left">{{textConstants.WF_CLONE_AD}}
-                    </h1>
+                    <h1 class="pull-left">{{textConstants.WF_CLONE_AD}}</h1>
+                    <span class="icon-close close unselectable" aria-hidden="true" ng-click="cancelAdClone()"></span>
                 </div>
                 <div class="popup-content">
                     <div class="form-group col-md-12 zeroPadding">
-                        <label >{{textConstants.WF_SELECT_MEDIA_PLAN}}</label>
+                        <label class="greyTxt">{{textConstants.WF_SELECT_MEDIA_PLAN}}</label> <br>
                         <!--<select class="form-control">-->
                             <!--<option ng-repeat="mediaplan in mediaPlanList" >{{mediaplan.name}}</option>-->
                         <!--</select>-->
+                        <div class="col-md-12 zeroPadding dropdown-workflow">
+                            <div class="dropdown">
                         <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                             <!--<span class="text">{{mode == 'edit' ? selectedAccount : 'Account' }}</span>-->
                             <span class="text" >{{mediaPlanName ? mediaPlanName :textConstants.WF_SELECT_MEDIA_PLAN}}</span>
                             <span class="icon-arrow-down"></span>
                         </button>
-                        <ul class="dropdown-menu" aria-labelledby="accountType">
+                        <ul class="dropdown-menu" aria-labelledby="accountType" data-toggle="dropdown">
+                            <li class="searchBar">
+                                <div class="col-md-12 input-group input-group-sm search-control">
+                                    <input type="text" class="form-control" name="mediaplanSearch" ng-model="" ng-keyup="" placeholder="Search Media Plan"/>
+                                    <div class="icon-search"></div>
+                                </div>
+                            </li>
                             <li ng-repeat="mediaplan in mediaPlanList" >
                                 <a ng-click="selectMediaPlan(mediaplan)">{{mediaplan.name}}</a>
                             </li>
                         </ul>
-
+                        </div>
+                        </div>
                     </div>
-                    <div  class="form-group col-md-12 zeroPadding" ng-show="isMediaPlanSelected">
-                        <label>{{textConstants.WF_SELECT_AD_GROUP}}</label>
+                    <div class="form-group col-md-12 zeroPadding" ng-show="isMediaPlanSelected">
+                        <label class="greyTxt">{{textConstants.WF_SELECT_AD_GROUP}}</label><br>
                         <!--<select class="form-control">-->
                             <!--<option ng-repeat="groups in adGroupList" ng-click="selectMediaPlan(group.id)">{{group.name}}</option>-->
                         <!--</select>-->
+                        <div class="col-md-12 zeroPadding dropdown-workflow">
+                            <div class="dropdown">
                         <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                             <span class="text" >{{adGroupName ? adGroupName :textConstants.WF_SELECT_AD_GROUP}}</span>
                             <span class="icon-arrow-down"></span>
                         </button>
-                        <ul class="dropdown-menu" aria-labelledby="accountType">
-                            <li  >
+                        <ul class="dropdown-menu" aria-labelledby="accountType" data-toggle="dropdown">
+                            <li>
                                 <a ng-click="selectAdGroup(null)">{{textConstants.WF_NO_AD_GROUP}}</a>
                             </li>
                             <li ng-repeat="groups in adGroupList" >
                                 <a ng-click="selectAdGroup(groups)">{{groups.name}}</a>
                             </li>
                         </ul>
+                        </div>
+                        </div>
                     </div>
-
-
+                    <div class="form-group col-md-12 zeroPadding">
+                        <label class="greyTxt">Rename Ad</label><br>
+                        <input type="text" class="form-control" ng-model="newData.name" placeholder="Copy of Ad"/>
+                    </div>
                 </div>
             </div>
-            <div class="clearfix popup-footer" style="bottom: -55px;">
-                <button type="button"
-                        ng-click="cloneAd((archivedAdFlag && archivedCampaignFlag === false)?true:false)"
-                        class="common_primary_btn pull-right">
-                    {{textConstants.WF_CLONE}}
-                </button>
+            <div class="clearfix popup-footer" >
+                <button ng-show="!adArchiveLoader" type="button" ng-click=""
+                        class="common_primary_btn pull-right">{{textConstants.WF_CLONE}}</button>
+                <div ng-show ="adArchiveLoader" class="pull-right common-loading-btn" ></div>
+                <button type="button" ng-click="cancelAdClone()" class="secondary_txt pull-right">Cancel</button>
             </div>
         </div>
     </div>
