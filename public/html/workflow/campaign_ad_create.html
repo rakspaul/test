@@ -65,7 +65,7 @@
                                                                 <a ng-bind="textConstants.WF_MOVE_TO"></a>
                                                             </li>
                                                             <li ng-click="showClonePopup()">
-                                                                <a ng-bind="textConstants.WF_COPY_TO"></a>
+                                                                <a ng-bind="textConstants.WF_CLONE"></a>
                                                             </li>
                                                             <li>
                                                                 <a id="archiveAdbtn"
@@ -234,7 +234,7 @@
         </div>
     </div>
     <div class="common-popup-container" ng-show="showCloneAdPopup">
-        <div style="height:430px" class="popup">
+        <div style="height:380px" class="popup">
             <div class="popup-header-body">
                 <div class="clearfix">
                     <h1 class="pull-left">{{textConstants.WF_CLONE_AD}}</h1>
@@ -288,10 +288,6 @@
                         </ul>
                         </div>
                         </div>
-                    </div>
-                    <div class="form-group col-md-12 zeroPadding">
-                        <label class="greyTxt">Rename Ad</label><br>
-                        <input type="text" class="form-control" ng-model="newData.name" placeholder="Copy of Ad"/>
                     </div>
                 </div>
             </div>
