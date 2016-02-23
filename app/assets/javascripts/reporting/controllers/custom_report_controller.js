@@ -1868,6 +1868,7 @@ var angObj = angObj || {};
                         if (response.status == 'success') {
                             $scope.reportData = response.data.data;
                             $scope.prefillData(response.data.data);
+                            $("#toggle").prop("disabled", true);
                         }
                     });
                 } else if (localStorage.getItem('customReport')) {
