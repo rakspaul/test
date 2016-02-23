@@ -303,6 +303,44 @@ var angObj = angObj || {};
                         $location.url('/mediaplans');
                     }
                     console.log(errData);
+                },
+                getAllMediaPlan: function(){
+                    // make api call to fetch all media plan - used in ad clone popup
+                     workflowService.getAllCampaignsForAdClone().then(function(result){
+                         var responseData;
+                         if (result.status === 'OK' || result.status === 'success') {
+                             responseData = result.data.data;
+                             console.log("response  --" , responseData);
+                             $scope.mediaPlanList = responseData;
+                         } else {
+                             campaignOverView.errorHandler(result);
+                         }
+                     });
+                    //$scope.mediaPlanList = [{id:1,name:"shrujan"},{id:2,name:"shetty"}]; // ask dummy json
+                },
+                getAdGroups: function(){
+                    // make api call to fetch all media plan - used in ad clone popup
+                     workflowService.getAdgroups(selectedMediaPlanId,true).then(function(result){
+                         var responseData;
+                         if (result.status === 'OK' || result.status === 'success') {
+                             responseData = result.data.data;
+                             $scope.adGroupList = responseData;
+                             $scope.isMediaPlanSelected = true;
+                         } else {
+                             campaignOverView.errorHandler(result);
+                         }
+                     });
+                },
+                cloneAd: function(){
+                    workflowService.cloneAd($scope.adId).then(function(result){
+                        var responseData;
+                        if (result.status === 'OK' || result.status === 'success') {
+                            responseData = result.data.data;
+                            $rootScope.setErrAlertMessage(responseData.message);
+                        } else {
+                            campaignOverView.errorHandler(result);
+                        }
+                    });
                 }
             };
 
@@ -527,6 +565,8 @@ var angObj = angObj || {};
                 _.size(responseData.targets.segmentTargets.segmentList) > 0 ) {
                 $scope.$broadcast('setTargeting', ['Audience']);
             }
+
+
         }
 
         function disablePauseEnableResume(getAdResultData) {
@@ -689,11 +729,39 @@ var angObj = angObj || {};
             $scope.adArchive = !$scope.adArchive;
         };
 
+        $scope.showClonePopup = function () {
+            // ad clone - fetch all media plans
+            campaignOverView.getAllMediaPlan();
+            $scope.showCloneAdPopup = !$scope.showCloneAdPopup;
+        };
+
         $scope.cancelAdPause = function () {
             if ($scope.disablePause !== 'disabled') {
                 $scope.adPause = !$scope.adPause;
             }
         };
+
+        $scope.selectMediaPlan = function (mediaPlan) {
+            selectedMediaPlanId = mediaPlan.id;
+            $scope.mediaPlanName = mediaPlan.name;
+            campaignOverView.getAdGroups();
+        };
+
+        $scope.selectAdGroup = function (adGroup) {
+            if(adGroup){
+                selectedAdGroupId = adGroup.id;
+                $scope.adGroupName = adGroup.name;
+            }
+            else{
+                selectedAdGroupId = -1;
+                $scope.adGroupName = constants.WF_NO_AD_GROUP;
+            }
+
+        };
+
+        $scope.cloneAd = function(){
+            campaignOverView.cloneAd();
+        }
 
         $scope.cancelAdResume = function () {
             $scope.resumeMessage =
@@ -1093,7 +1161,7 @@ var angObj = angObj || {};
                     if (!$scope.TrackingIntegrationsSelected) {
                         postAdDataObj.targets = {};
                         if (workflowService.getSavedGeo()) {
-                            $scope.adData.geoTargetingData = workflowService.getSavedGeo().original
+                            $scope.adData.geoTargetingData = workflowService.getSavedGeo().original;
                             postGeoTargetObj = postAdDataObj.targets.geoTargets = {};
                             buildGeoTargetingParams = function (data, type) {
                                 var obj = {};
@@ -1377,6 +1445,14 @@ var angObj = angObj || {};
         $scope.redirectFlag = false;
         $scope.archivedAdFlag = false;
         $scope.archivedCampaignFlag = false;
+        $scope.showCloneAdPopup = false;
+        $scope.mediaPlanList = [];
+        $scope.adGroupList = [];
+        $scope.isMediaPlanSelected = false;
+        $scope.mediaPlanName = null;
+        $scope.adGroupName = null;
+        var selectedMediaPlanId = null,
+            selectedAdGroupId = -1;
 
         RoleBasedService.setCurrencySymbol();
         localStorage.setItem('campaignData', '');

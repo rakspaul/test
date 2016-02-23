@@ -64,7 +64,7 @@
                                                             <li class="disabled">
                                                                 <a ng-bind="textConstants.WF_MOVE_TO"></a>
                                                             </li>
-                                                            <li class="disabled">
+                                                            <li ng-click="showClonePopup()">
                                                                 <a ng-bind="textConstants.WF_COPY_TO"></a>
                                                             </li>
                                                             <li>
@@ -229,6 +229,62 @@
                         ng-click="redirectUser((archivedAdFlag && archivedCampaignFlag === false)?true:false)"
                         class="common_primary_btn pull-right">
                     Continue
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="common-popup-container" ng-show="showCloneAdPopup">
+        <div class="popup">
+            <div class="popup-header-body">
+                <div class="clearfix">
+                    <h1 class="pull-left">{{textConstants.WF_CLONE_AD}}
+                    </h1>
+                </div>
+                <div class="popup-content">
+                    <div class="form-group col-md-12 zeroPadding">
+                        <label >{{textConstants.WF_SELECT_MEDIA_PLAN}}</label>
+                        <!--<select class="form-control">-->
+                            <!--<option ng-repeat="mediaplan in mediaPlanList" >{{mediaplan.name}}</option>-->
+                        <!--</select>-->
+                        <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                            <!--<span class="text">{{mode == 'edit' ? selectedAccount : 'Account' }}</span>-->
+                            <span class="text" >{{mediaPlanName ? mediaPlanName :textConstants.WF_SELECT_MEDIA_PLAN}}</span>
+                            <span class="icon-arrow-down"></span>
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="accountType">
+                            <li ng-repeat="mediaplan in mediaPlanList" >
+                                <a ng-click="selectMediaPlan(mediaplan)">{{mediaplan.name}}</a>
+                            </li>
+                        </ul>
+
+                    </div>
+                    <div  class="form-group col-md-12 zeroPadding" ng-show="isMediaPlanSelected">
+                        <label>{{textConstants.WF_SELECT_AD_GROUP}}</label>
+                        <!--<select class="form-control">-->
+                            <!--<option ng-repeat="groups in adGroupList" ng-click="selectMediaPlan(group.id)">{{group.name}}</option>-->
+                        <!--</select>-->
+                        <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                            <span class="text" >{{adGroupName ? adGroupName :textConstants.WF_SELECT_AD_GROUP}}</span>
+                            <span class="icon-arrow-down"></span>
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="accountType">
+                            <li  >
+                                <a ng-click="selectAdGroup(null)">{{textConstants.WF_NO_AD_GROUP}}</a>
+                            </li>
+                            <li ng-repeat="groups in adGroupList" >
+                                <a ng-click="selectAdGroup(groups)">{{groups.name}}</a>
+                            </li>
+                        </ul>
+                    </div>
+
+
+                </div>
+            </div>
+            <div class="clearfix popup-footer" style="bottom: -55px;">
+                <button type="button"
+                        ng-click="cloneAd((archivedAdFlag && archivedCampaignFlag === false)?true:false)"
+                        class="common_primary_btn pull-right">
+                    {{textConstants.WF_CLONE}}
                 </button>
             </div>
         </div>
