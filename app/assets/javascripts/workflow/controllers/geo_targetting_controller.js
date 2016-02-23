@@ -386,9 +386,7 @@ var angObj = angObj || {};
                     }
                 });
             });
-
             $scope.zipCodesObj = zipCodesObj;
-            $scope.geoTargetingData.selected.zip.push(zipCodesObj);
             $scope.adData.zipCodes = '';
             if($scope.zipCodesObj.info && $scope.zipCodesObj.info.length > 0) {
                 $rootScope.setErrAlertMessage(zipCodesObj.info[0], 0,0, 'info');
@@ -396,7 +394,10 @@ var angObj = angObj || {};
 
             if($scope.zipCodesObj.error && $scope.zipCodesObj.error.length > 0) {
                 $rootScope.setErrAlertMessage(zipCodesObj.error[0]);
+                return false;
             }
+            $scope.geoTargetingData.selected.zip.push(zipCodesObj);
+
         };
 
         $scope.includeorExcludeCityOnly = function (type, isIncluded) {
@@ -492,7 +493,9 @@ var angObj = angObj || {};
                 //reload city
                 $scope.geoTargetingData.cities = [];
                 citiesListArray = [];
-                $scope.listCities();
+                if($scope.selectedTab === 'cities') {
+                    $scope.listCities();
+                }
             }
 
 
@@ -505,8 +508,6 @@ var angObj = angObj || {};
                         $scope.dmasIncluded = false;
                     }
 
-                } else {
-                    $scope.dmasIncluded = true;
                 }
             }
 
@@ -652,7 +653,11 @@ var angObj = angObj || {};
             if (flag !== 'cancellable') {
                 flag = 'normal';
             }
+
             if (event) {
+                if($scope.geoTargetingData.selected.regions.length === 0 && $scope.geoTargetingData.selected.cities.length === 0) {  //if you are changing tab without selecting region
+                    $scope.citiesIncludeSwitchLabel = true;
+                }
                 $scope.selectedTab = 'cities';
                 citiesListArray = [];
             }
@@ -721,6 +726,13 @@ var angObj = angObj || {};
             if (flag !== 'cancellable') {
                 flag = 'normal';
             }
+
+            if (event) { //if you are changing tab without selecting region
+                if ($scope.geoTargetingData.selected.regions.length === 0) {
+                    $scope.regionsIncluded = true;
+                }
+            }
+
             if (!$scope.isRegionSelected && event) {
                 regionTab.addClass('show_tooltip');
                 regionTab.find('.common_tooltip').show();
@@ -728,6 +740,7 @@ var angObj = angObj || {};
                 event.stopPropagation();
                 return false;
             }
+
 
             //this flag should be below to isRegionSelecled condition.
             $scope.selectedTab = 'regions';
@@ -1035,10 +1048,6 @@ var angObj = angObj || {};
             $scope.includeorExcludeSelectedItems();
         };
 
-        $scope.resetTargeting = function () {
-            $scope.adData.targetName = null;
-        };
-
         $scope.changeSortingOrder = function (section) {
             if ($('.common-sort-icon').hasClass('ascending')) {
                 $('.common-sort-icon')
@@ -1154,7 +1163,7 @@ var angObj = angObj || {};
         })
 
         $scope.$on('triggerGeography', function () {
-            $scope.selectedTab === 'regions'
+            $scope.selectedTab === 'regions';
             $scope.storedResponse = angular.copy(workflowService.getAdsDetails());
             var moduleDeleted = workflowService.getDeleteModule();
             if(_.indexOf(moduleDeleted, 'Geography') !== -1) {
@@ -1229,6 +1238,10 @@ var angObj = angObj || {};
         });
 
         $scope.resetGeoTargetingVariables();
+
+        $scope.$on('resetVariables', function() {
+            $scope.resetGeoTargetingVariables();
+        })
 
         $(function () {
             $('#slider-range').slider({
