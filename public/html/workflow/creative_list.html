@@ -75,77 +75,68 @@
 					</div>
 					<div class="tr childRow childRowHead">
 						<div class="col-md-7 td">
-							<div class="inDentWrap shadowLeft">
-								<span>Campaign / Ad</span>
-							</div>
+							<span>Campaign / Ad</span>
 						</div>
-						<div class="col-md-5 td shadowRight">Brand</div>
+						<div class="col-md-5 td">Brand</div>
 					</div>
 			    </div>
 			    <div class="tbody">
 				<div ng-if="!creativeListLoading" ng-repeat="creativeData in creativeData.creatives" class="tr oneDimensionRow">
-				    <!--Creative Name-->
-				    <div class="col-md-3 td shadowLeft">
-					<input type="checkbox" ng-disabled="creativeData.pushedCount>0" ng-checked="creativeData.active" ng-click="selectedCreativeCheckbox(creativeData)"/>
-					<span ng-if="(creativeData.noOfAds > 0)" class="icon-arrow-down-thick" ng-click="toggleCreativeAds(this,creativeData.id, $index,$event)"></span>
-					<span ng-if="(creativeData.noOfAds === 0)" style="margin-left: 25px;"></span>
-					<a href="javascript:void(0);" ng-click="ShowHideTag(creativeData, $index)">{{creativeData.name}}</a>
-					<div class="script_tag">
-					    <div ng-show = "IsVisible" class="ng-cloak">{{creativeData.tag}}</div>
-					    <div id="creativetagValue"><pre>{{creativeData.tag}}</pre></div>
+				    <div class="parentWrap">
+						<!--Creative Name-->
+						<div class="col-md-3 td">
+						<input type="checkbox" ng-disabled="creativeData.pushedCount>0" ng-checked="creativeData.active" ng-click="selectedCreativeCheckbox(creativeData)"/>
+						<span ng-if="(creativeData.noOfAds > 0)" class="icon-arrow-down-thick" ng-click="toggleCreativeAds(this,creativeData.id, $index,$event)"></span>
+						<span ng-if="(creativeData.noOfAds === 0)" style="margin-left: 25px;"></span>
+						<a href="javascript:void(0);" ng-click="ShowHideTag(creativeData, $index)">{{creativeData.name}}</a>
+						<div class="script_tag">
+							<div ng-show = "IsVisible" class="ng-cloak">{{creativeData.tag}}</div>
+							<div id="creativetagValue"><pre>{{creativeData.tag}}</pre></div>
+						</div>
+						</div>
+						<!--Format-->
+						<div class="col-md-1 td text-center">
+						<span class="{{getAdFormatIconName(creativeData.creativeFormat)}}" aria-hidden="true"></span>
+						<span style="text-transform: capitalize;">{{creativeData.creativeFormat|lowercase}}</span>
+						</div>
+						<!--Type-->
+						<div class="col-md-1 td text-center">
+						<span>{{creativeData.creativeType}}</span>
+						</div>
+						<!--Ad Server-->
+						<div class="col-md-1 td text-center">
+						<span ng-if="creativeData.isTracking" >Tracking-Only</span>
+						<span ng-if="!creativeData.isTracking"> <img ng-if="!(creativeData.isTracking)" style="max-height: 35px;max-width: 70px;" ng-src="{{creativeData.adServer.iconUrl}}"/> </span>
+						</div>
+						<!--Sizes-->
+						<div class="col-md-1 td text-center">
+						<span>{{creativeData.size.size|lowercase}}</span>
+						</div>
+						<!--Advertiser-->
+						<div class="col-md-2 td">
+						<span>{{creativeData.advertiser.name}}</span>
+						</div>
+						<!--Platform-->
+						<div class="col-md-1 td text-center">
+						<span>{{creativeData.noOfPlatforms}}</span>
+						</div>
+						<!--Created-->
+						<div class="col-md-2 td">
+						<!--<span>{{formatDate(creativeData.createdAt)}}</span>-->
+						<span>{{utcToLocalTime(creativeData.updatedAt,'DD MMM YYYY  HH:mm A')}}</span>
+						</div>
 					</div>
-				    </div>
-				    <!--Format-->
-				    <div class="col-md-1 td text-center">
-					<span class="{{getAdFormatIconName(creativeData.creativeFormat)}}" aria-hidden="true"></span>
-					<span style="text-transform: capitalize;">{{creativeData.creativeFormat|lowercase}}</span>
-				    </div>
-				    <!--Type-->
-				    <div class="col-md-1 td text-center">
-					<span>{{creativeData.creativeType}}</span>
-				    </div>
-				    <!--Ad Server-->
-				    <div class="col-md-1 td text-center">
-					<span ng-if="creativeData.isTracking" >Tracking-Only</span>
-					<span ng-if="!creativeData.isTracking"> <img ng-if="!(creativeData.isTracking)" style="max-height: 35px;max-width: 70px;" ng-src="{{creativeData.adServer.iconUrl}}"/> </span>
-				    </div>
-				    <!--Sizes-->
-				    <div class="col-md-1 td text-center">
-					<span>{{creativeData.size.size|lowercase}}</span>
-				    </div>
-				    <!--Advertiser-->
-				    <div class="col-md-2 td">
-					<span>{{creativeData.advertiser.name}}</span>
-				    </div>
-				    <!--Platform-->
-				    <div class="col-md-1 td text-center">
-					<span>{{creativeData.noOfPlatforms}}</span>
-				    </div>
-				    <!--Created-->
-				    <div class="col-md-2 td shadowRight">
-					<!--<span>{{formatDate(creativeData.createdAt)}}</span>-->
-					<span>{{utcToLocalTime(creativeData.updatedAt,'DD MMM YYYY  HH:mm A')}}</span>
-				    </div>
-                    <!--<div class="tr childRow" style="width: 100%; float: left;" ng-show="showHideToggle">
-                        <div class="col-md-7 td">
-                            <span>Campaign/Ad</span>
-                        </div>
-                        <div class="col-md-2 td">Brand</div>
-                        <div class="col-md-1 td text-center"></div>
-                        <div class="col-md-2 td"></div>
-                    </div>-->
+					
                     <div style="display:none;" class="secondDimensionList">
 	                    <div class="tr childRow adsList"  ng-repeat="adData in creativeAds.creativeAdData[$index]">
 	                        <div class="col-md-7 td">
-								<div class="inDentWrap shadowLeft">
-									<span ng-if="(adData.messageType==='ERROR')" class="icon-error" title="{{adData.message}}"></span>
-									<span ng-if="(adData.messageType==='WARNING')" class="icon-warning" title="{{adData.message}}"></span>
-									<span ng-click="redirectAdEditPage(adData)">{{adData.campaignName}} / {{adData.adName}}</span>
-								</div>
+								<span ng-if="(adData.messageType==='ERROR')" class="icon-error" title="{{adData.message}}"></span>
+								<span ng-if="(adData.messageType==='WARNING')" class="icon-warning" title="{{adData.message}}"></span>
+								<span ng-click="redirectAdEditPage(adData)">{{adData.campaignName}} / {{adData.adName}}</span>
 	                        </div>
 	                        <div class="col-md-2 td">{{adData.brandName}}</div>
 	                        <div class="col-md-1 td text-center" ><img ng-src="{{adData.platform.iconUrl}}"/></div>
-	                        <div class="col-md-2 td shadowRight">{{utcToLocalTime(adData.updatedAt,'DD MMM YYYY  HH:mm A')}}</div>
+	                        <div class="col-md-2 td">{{utcToLocalTime(adData.updatedAt,'DD MMM YYYY  HH:mm A')}}</div>
 	                    </div>
                     </div>
 				</div>
