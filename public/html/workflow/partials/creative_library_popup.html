@@ -36,10 +36,9 @@
                                            ng-checked="data.checked ? true : false"
                                            ng-click="stateChanged($event, data);"/>
                                 </span>
-                                <span class="col-md-3">
-                                    {{data.size.size | lowercase}}
+                                <span class="col-md-3" ng-bind="data.size.size | lowercase">
                                 </span>
-                                <span class="col-md-8">{{data.name}}</span>
+                                <span class="col-md-8" ng-bind="data.name"></span>
                             </div>
                         </div>
                     </div>
