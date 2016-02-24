@@ -754,6 +754,10 @@ var angObj = angObj || {};
                         resetCustomSchedule();
                     }
 
+                    if($scope.Schedule.daytimeArr.length ===0 ) {
+                        $scope.saveDayPartFlag = true;
+                    }
+
                     break;
             }
         };
