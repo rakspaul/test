@@ -147,6 +147,7 @@
             '<span class="bold-font">Success. </span> Media Plan has been successfully updated';
         this.PARTIAL_AD_SAVE_FAILURE = '<span class="bold-font">Error. </span> Ad could not be created' ;
         this.PARTIAL_AD_SAVE_SUCCESS = '<span class="bold-font">Success. </span> Ad has been successfully saved';
+        this.PARTIAL_AD_CLONE_SUCCESS = '<span class="bold-font">Success. </span> Ad has been successfully cloned';
         this.AD_GROUP_CREATED_SUCCESS =
             '<span class="bold-font">Success. </span> Ad Group has been successfully created';
         this.AD_GROUP_CREATED_FAILURE = '<span class="bold-font">Error. </span> Ad Group could not be created';
@@ -534,17 +535,22 @@
         this.WF_AD_RESUME_FAILURE="Ad Resume Failed"
         this.WF_AD_RESUME_SUCCESS="Ad Resumed Successfully"
         this.WF_AD_PAUSE_MESSAGE="Are you sure you want to pause delivery ?"
-        this.WF_AD_UPDATE="Ad Update"
-        this.WF_PAUSE_AD="Pause Ad"
+        this.WF_AD_UPDATE="Ad Update";
+        this.WF_PAUSE_AD="Pause Ad";
         this.WF_RESUME_AD="Resume Ad";
-        this.WF_ARCHIVE_AD="We're sorry."
-        this.WF_ARCHIVE_CAMPAIGN="We're sorry."
+        this.WF_ARCHIVE_AD="We're sorry.";
+        this.WF_ARCHIVE_CAMPAIGN="We're sorry.";
         this.WF_REDIRECT_USER_FOR_ARCHIVED_AD="You are unable to edit this archived Ad. Click 'Continue' to return to Campaign Overview Screen";
         this.WF_REDIRECT_USER_FOR_ARCHIVED_CAMPAIGN="You are unable to edit this archived Media Plan. Click 'Continue' to return to Media Plan List Screen";
-        this.WF_PAUSE="Pause"
-        this.WF_RESUME="Resume"
+        this.WF_CLONE_AD="Clone this Ad to";
+        this.WF_SELECT_MEDIA_PLAN="Media Plan";
+        this.WF_SELECT_AD_GROUP="Ad Group";
+        this.WF_NO_AD_GROUP="No Ad Group";
+        this.WF_CLONE="Clone Ad";
+        this.WF_PAUSE="Pause";
+        this.WF_RESUME="Resume";
         this.WF_MOVE_TO="Move to"
-        this.WF_COPY_TO="Copy to"
+        this.WF_CLONE="Clone"
         this.WF_ARCHIVE="Archive"
         this.WF_NOT_SET = "Not Set"
         this.WF_AD_SAVE_CLOSE = "Save & Close";

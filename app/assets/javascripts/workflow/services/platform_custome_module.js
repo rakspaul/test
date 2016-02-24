@@ -26,12 +26,12 @@
                 _self
                     .elem
                     .find('div[relationwith=selectBoxchkDependentItems]')
-                    .length > 0 && _self.elem.find('div[relationWith=selectBoxchkDependentItems]')
+                    .length > 0 && _self.elem.find('div[relationWith=selectBoxchkDependentItems]').parent(".form-group")
                     .remove();
                 _self
                     .elem
                     .find('div[relationwith=chkDependentItems]')
-                    .length > 0 && _self.elem.find('div[relationWith=chkDependentItems]')
+                    .length > 0 && _self.elem.find('div[relationWith=chkDependentItems]').parent(".form-group")
                     .remove();
             }
 
@@ -125,6 +125,16 @@
                             'name' : inputList.name + '$$' + inputList.id
                         })
                         .on('change', function () {
+                            var chkSelValue = this.checked ?  'TRUE' : 'FALSE';
+                            var formGroupSectionElem = inputListHTML.parent().siblings(".form-group-section");
+                            if(formGroupSectionElem.parent().hasClass('form-individual-section')) {
+                                if(formGroupSectionElem && formGroupSectionElem.length >0) {
+                                    var formGroupSectionInputElem = formGroupSectionElem.find("input");
+                                    var orginalDefaultValue = formGroupSectionInputElem.attr("value")
+                                    formGroupSectionInputElem.val(orginalDefaultValue);
+                                }
+                            }
+
                             if (inputList.dependentGroups) {
                                 selectPlatform(this.value, inputList, inputGroupList.platformCustomInputChildrenGroupList,
                                     'selectBoxchkDependentItems');
@@ -194,7 +204,6 @@
                             .appendTo(fieldLabel);
 
                     inputListHTML && inputListHTML.on('change', function () {
-                        var chkSelValue = this.checked ?  'TRUE' : 'FALSE';
 
                         if (inputList.dependentGroups) {
                             selectPlatform(chkSelValue , inputList, inputGroupList.platformCustomInputChildrenGroupList,

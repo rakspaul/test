@@ -12,7 +12,6 @@
         <input type="text" class="form-control" name="adName" placeholder="Max 250 characters. No symbols or punctuation" remove-special-character='remove-special-character' ng-model="adData.adName" maxlength="250" autofocus/>
     </div>
 </div>
-
 <!--=== AD Format ===-->
 <div class="col-md-12 zeroPadding adFormatChkBox">
     <div class="col-md-12 adHeader" data-ng-bind="textConstants.WF_HEADER_CREATIVES"></div>
@@ -26,12 +25,10 @@
                 aria-disabled="{{(adformat.name=='Video'|| adformat.name=='Social') ? true : false }}">
                 <input type="radio"
                        name="adFormat"
-                       value="{{adformat.name}}"
+                       value="{{adData.adFormat}}"
                        class="btn_rad"
                        ng-click="adFormatSelection(adformat.name, $event)"
                        ng-checked="adformat.active">
-                <!--<input type="radio" name="adFormat" value="{{adformat.name}}" class="btn_rad" ng-model="adData.adFormat"
-                ng-click="adFormatSelection(adformat.name, $event)" ng-checked="adformat.active">-->
                 <div class="hideRadioBtn">
                     <div class="icon-{{getAdFormatIconName(adformat.name)}}"></div>
                     <span data-ng-bind="adformat.name"></span>

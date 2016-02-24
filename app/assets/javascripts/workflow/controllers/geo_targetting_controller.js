@@ -297,7 +297,7 @@ var angObj = angObj || {};
                     zipEditable[i] = zipEditableObj[i].code;
                 }
                 $scope.adData.zipCodes = zipEditable.toString();
-                $scope.addZipCode();
+                $scope.addZipCode({zipEditInit : true});
             }
         };
 
@@ -357,7 +357,7 @@ var angObj = angObj || {};
             }
         };
 
-        $scope.addZipCode = function () {
+        $scope.addZipCode = function (obj) {
             var values = $scope.adData.zipCodes,
                 zipCodeList = $scope.geoTargetingData.selected.zip,
                 addedZipCodes = getAllAddedZipCode(zipCodeList),
@@ -389,13 +389,16 @@ var angObj = angObj || {};
             });
             $scope.zipCodesObj = zipCodesObj;
             $scope.adData.zipCodes = '';
-            if($scope.zipCodesObj.info && $scope.zipCodesObj.info.length > 0) {
-                $rootScope.setErrAlertMessage(zipCodesObj.info[0], 0,0, 'info');
-            }
+            if(obj && obj.zipEditInit) {
+                //dont show any error and info messages.
+            } else {
+                if ($scope.zipCodesObj.info && $scope.zipCodesObj.info.length > 0) {
+                    $rootScope.setErrAlertMessage(zipCodesObj.info[0], 0, 0, 'info');
+                }
 
-            if($scope.zipCodesObj.error && $scope.zipCodesObj.error.length > 0) {
-                $rootScope.setErrAlertMessage(zipCodesObj.error[0]);
-                return false;
+                if ($scope.zipCodesObj.error && $scope.zipCodesObj.error.length > 0) {
+                    $rootScope.setErrAlertMessage(zipCodesObj.error[0]);
+                }
             }
             $scope.geoTargetingData.selected.zip.push(zipCodesObj);
 
@@ -1217,6 +1220,7 @@ var angObj = angObj || {};
             if ($scope.selectedTab === 'regions') {
                 $scope.listRegions();
             }
+
             if ($scope.selectedTab === 'cities') {
                 $scope.listCities();
             }
