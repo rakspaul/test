@@ -27,6 +27,9 @@ var angObj = angObj || {};
                                 $scope.workflowData.selectedLists = selectedLists.sort(function (a, b) {
                                     return a.domainListId > b.domainListId;
                                 });
+                                _.each($scope.workflowData.selectedLists, function (list) {
+                                    list.domainNamesDisplay = 'collapsed';
+                                });
 
                                 $scope.adData.inventory = $scope.workflowData.selectedLists[0];
                                 if ($scope.savedDomainAction === 'INCLUDE') {
@@ -51,7 +54,7 @@ var angObj = angObj || {};
         function uploadSuccessCallback (response/*, status, headers, config*/) {
             var inventoryData = $scope.workflowData.inventoryData,
                 selectedLists = $scope.workflowData.selectedLists;
-console.log(inventoryData)
+
             if ($scope.inventoryCreate) {
                 inventoryData.push(response.data);
                 _.each(selectedLists, function (val) {
@@ -111,7 +114,6 @@ console.log(inventoryData)
                         setTimeout(function(){
                             $('#listName').focus();
                         }, 1);
-
                     } else if (action === 'INVENTORY_UPDATE') {
                         // If called from Inventory Update (Replace) button click, reset flag to false
                         $scope.inventoryCreate = false;
@@ -127,7 +129,7 @@ console.log(inventoryData)
         //Check windows height
         var winSizeHeight = $(window).height();
 
-        //Show Existing Invenory List Modal
+        //Show Existing Inventory List Modal
         $scope.showInventoryModal = function () {
             // When loading Inventory filters screen for the first time, default is Whitelist
             if (!$scope.adData.inventory.domainAction) {
@@ -135,16 +137,32 @@ console.log(inventoryData)
                 $scope.workflowData.whiteListsSelected = true;
             }
 
+            // Copy the selected list array to a temp array.
+            // This will be used to restore the current state if we abort (close the popup without saving)
+            // after making changes.
+            $scope.workflowData.selectedListsTemp = _.extend([], $scope.workflowData.selectedLists);
             $scope.showExistingListPopup = true;
             //$scope.workflowData.showDomainListPopup = true;
             $('.inventoryLib .popBody .col-md-6:last-child').css('min-height', winSizeHeight - 350);
         };
 
-        $scope.hideExistingListPopup = function () {
+        $scope.saveCancelExistingListPopup = function (action) {
+            if (action === 'cancel') {
+                $scope.workflowData.selectedLists = $scope.workflowData.selectedListsTemp;
+            }
+
+            if ($scope.adData.inventory.domainAction === 'INCLUDE') {
+                $scope.workflowData.selectedWhiteLists = $scope.workflowData.selectedLists;
+                $scope.workflowData.selectedBlackLists = [];
+            } else {
+                $scope.workflowData.selectedBlackLists = $scope.workflowData.selectedLists;
+                $scope.workflowData.selectedWhiteLists =[];
+            }
+
             $scope.showExistingListPopup = false;
         };
 
-        $scope.uploadDomain = function () {
+        $scope.workflowData.uploadDomain = function () {
             var domainId = $scope.adData.inventory && $scope.adData.inventory.id || null,
                 files = $scope.files,
                 i,
@@ -180,19 +198,27 @@ console.log(inventoryData)
             }
         };
 
-        $scope.sort = function () {
-            var commonSortIcon = $('.common-sort-icon');
+        $scope.workflowData.assignCurrentInventory = function (obj) {
+            $scope.adData.inventory = obj;
+        };
 
-            $scope.sortDomain = !$scope.sortDomain;
-            if (commonSortIcon.hasClass('ascending')) {
-                commonSortIcon
+        $scope.workflowData.sort = function (listId) {
+            var target = $('#sort-icon-holder-' + listId).find('.common-sort-icon'),
+                idx;
+
+            if (target.hasClass('ascending')) {
+                target
                     .removeClass('ascending')
                     .addClass('descending');
             } else {
-                commonSortIcon
+                target
                     .removeClass('descending')
                     .addClass('ascending');
             }
+
+            // TODO: Make it dynamic, and also (above) select the sort icon of the specific target object
+            idx = _.findIndex($scope.workflowData.selectedLists, {id: listId});
+            $scope.workflowData.selectedLists[idx].reverseOrder = !$scope.workflowData.selectedLists[idx].reverseOrder;
         };
 
         $scope.closeDomainListPop = function () {
@@ -222,6 +248,7 @@ console.log(inventoryData)
         $scope.workflowData.selectedWhiteLists = [];
         $scope.workflowData.selectedBlackLists = [];
         $scope.workflowData.selectedLists = [];
+        $scope.workflowData.selectedListsTemp = [];
         $scope.workflowData.whiteListsSelected = false;
         $scope.workflowData.blackListsSelected = false;
 
@@ -362,10 +389,10 @@ console.log(inventoryData)
             $scope.adData.inventory = temp[0];
         };
 
-        $scope.workflowData.domainNamesDisplay = 'collapsed';
+        $scope.workflowData.changeDomainNamesDisplay = function (mode, listId) {
+            var idx = _.findIndex($scope.workflowData.selectedLists, {id: listId});
 
-        $scope.workflowData.changeDomainNamesDisplayTo = function (mode) {
-            $scope.workflowData.domainNamesDisplay = mode;
+            $scope.workflowData.selectedLists[idx].domainNamesDisplay = mode;
         };
 
         $scope.workflowData.toggleBlackAndWhite = function (event) {
@@ -397,37 +424,21 @@ console.log(inventoryData)
             selectedChkBox = _.filter($scope.workflowData.selectedLists, function (obj) {
                 return obj.id === inventoryObj.id;
             });
+
             if (selectedChkBox.length > 0) {
                 idx = _.findIndex($scope.workflowData.selectedLists, function (item) {
                     return item.id === inventoryObj.id;
                 });
                 $scope.workflowData.selectedLists.splice(idx, 1);
             } else {
+                inventoryObj.domainNamesDisplay = 'collapsed';
                 $scope.workflowData.selectedLists.push(inventoryObj);
             }
 
-            selectedChkBox = _.filter($scope.workflowData.inventoryData, function (obj) {
-                return obj.id === inventoryObj.id;
-            });
-    console.log($scope.workflowData.inventoryData)
-    console.log(inventoryObj)
-
             // TODO: Update checked state of checkbox
-
-            // Update
-            if (inventoryObj.domainAction === 'INCLUDE') {
-                $scope.workflowData.selectedWhiteLists = $scope.workflowData.selectedLists;
-                $scope.workflowData.selectedBlackLists = [];
-            } else {
-                $scope.workflowData.selectedBlackLists = $scope.workflowData.selectedLists;
-                $scope.workflowData.selectedWhiteLists =[];
-            }
-console.log('$scope.workflowData.selectedLists = ', $scope.workflowData.selectedLists);
-console.log('$scope.workflowData.selectedWhiteLists = ', $scope.workflowData.selectedWhiteLists);
-console.log('$scope.workflowData.selectedBlackLists = ', $scope.workflowData.selectedBlackLists);
         };
 
-        $scope.removeInventory = function (inventoryObj) {
+        $scope.workflowData.removeInventory = function (inventoryObj) {
             var idx;
 
             idx = _.findIndex($scope.workflowData.selectedLists, function (obj) {
@@ -435,13 +446,54 @@ console.log('$scope.workflowData.selectedBlackLists = ', $scope.workflowData.sel
             });
             $scope.workflowData.selectedLists.splice(idx, 1);
 
-            // Synchronise with main list, on removing an item
+            // TODO: Synchronise with main list, on removing an item
             idx = _.findIndex($scope.workflowData.inventoryData, {'id': inventoryObj.id});
             if ($scope.workflowData.inventoryData[idx]) {
                 $scope.workflowData.inventoryData[idx].checked = false;
             }
-console.log('inventoryObj = ', inventoryObj);
-console.log('$scope.workflowData.selectedLists = ', $scope.workflowData.selectedLists);
+        };
+
+        $scope.workflowData.removeDomainList = function (event) {
+            var domainListId = $(event.target).attr('data-id'),
+                idx = _.findIndex($scope.workflowData.selectedLists, {id: Number(domainListId)});
+
+            $scope.workflowData.selectedLists.splice(idx, 1);
+            if ($scope.workflowData.selectedLists.length > 0) {
+                if ($scope.workflowData.selectedLists[0].domainAction === 'INCLUDE') {
+                    $scope.workflowData.selectedWhiteLists = $scope.workflowData.selectedLists;
+                } else {
+                    $scope.workflowData.selectedBlackLists = $scope.workflowData.selectedLists;
+                }
+            } else {
+                $scope.workflowData.selectedWhiteLists = [];
+                $scope.workflowData.selectedBlackLists = [];
+            }
+        };
+
+        // TODO: 
+        $scope.domainListsSearch = function () {
+            var format;
+
+            if ($scope.adData.adFormat === constants.WF_RICH_MEDIA) {
+                format = constants.WF_RICH_MEDIA_SEARCH;
+            } else if ($scope.adData.adFormat === constants.WF_DISPLAY) {
+                format = constants.WF_DISPLAY_SEARCH;
+            } else if ($scope.adData.adFormat === constants.WF_VIDEO){
+                format = constants.WF_VIDEO_SEARCH;
+            } else if ($scope.adData.adFormat === constants.WF_SOCIAL){
+                format = constants.WF_SOCIAL_SEARCH;
+            }
+
+            var campaignId = $scope.workflowData.campaignData.clientId,
+                advertiserId = $scope.workflowData.campaignData.advertiserId,
+                searchVal = $scope.adData.creativeSearch,
+                qryStr = '',
+                formats = format;
+
+            if (searchVal.length > 0) {
+                qryStr += '&query=' + searchVal;
+            }
+            addFromLibrary.getCreativesFromLibrary(campaignId, advertiserId, formats, qryStr);
         };
 
         // Close domain list dropdown on clicking outside it.
