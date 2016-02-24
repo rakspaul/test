@@ -400,7 +400,7 @@ var angObj = angObj || {};
                     'query_id': 32,
                     'label' : 'Optimization Report',
                     'report_type' : 'all',
-                    'report_cat' : 'optimize'
+                    'report_cat' : 'optimization_impact'
                 }
             ];
         };
