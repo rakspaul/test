@@ -95,12 +95,16 @@
                 return dataService.fetch(url, {cache:false});
             },
 
-            getAdgroups: function (campaignId) {
+            getAdgroups: function (campaignId,isForClone) {
                 var clientId =  loginModel.getSelectedClient().id,
                     url = apiPaths.WORKFLOW_API_URL +
                         '/clients/' + clientId +
                         '/campaigns/' + campaignId +
                         '/ad_groups';
+
+                if(isForClone){
+                    url += '?status=ACTIVE';
+                }
 
                 return dataService.fetch(url, {cache: false});
             },
@@ -462,8 +466,34 @@
             getDeleteModule :  function() {
                 return deletedModule;
             },
+
             resetDeleteModule : function() {
                 deletedModule = [];
+            },
+
+            getAllCampaignsForAdClone: function(){
+                var clientId =  loginModel.getSelectedClient().id,
+                    advertiserId = JSON.parse(localStorage.campaignData).advertiserId,
+                    url = apiPaths.WORKFLOW_API_URL + '/clients/'+clientId+'/advertisers/'+advertiserId+'/campaigns?status=ACTIVE';
+
+                return dataService.fetch(url, {cache: false});
+            },
+
+            cloneAd: function(data,selectedMediaPlanId){
+                var clientId =  loginModel.getSelectedClient().id,
+                    url = apiPaths.WORKFLOW_API_URL + '/clients/'+clientId+'/campaigns/'+selectedMediaPlanId+'/ads/clone';
+                if(data.source_ad_id){
+                    url += '?source_ad_id='+data.source_ad_id;
+                }
+                if(data.ad_group){
+                    url += '&ad_group='+data.ad_group;
+                }
+
+                return dataService.post(
+                    url,
+                    data,
+                    {'Content-Type': 'application/json'}
+                );
             }
         };
     });
