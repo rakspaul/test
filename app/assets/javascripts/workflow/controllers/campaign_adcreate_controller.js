@@ -6,7 +6,7 @@ var angObj = angObj || {};
     angObj.controller('CampaignAdsCreateController', function ($scope, $rootScope, $routeParams, $locale,
                                                                constants, workflowService, $location, $filter,
                                                                loginModel, dataService, apiPaths, audienceService,
-                                                               RoleBasedService, momentService, vistoconfig) {
+                                                               RoleBasedService, momentService, vistoconfig,$timeout) {
         // Flag to denote that ad format has changed
         $scope.adFormatChanged = false;
 
@@ -355,8 +355,14 @@ var angObj = angObj || {};
                                 url += 'adGroup/'+responseData.adGroupId+'/';
                             }
                             url += 'ads/'+responseData.id+'/edit';
-                            $location.url(url);
+                            $scope.showCloneAdPopup = false;
+                            $rootScope.setErrAlertMessage($scope.textConstants.PARTIAL_AD_CLONE_SUCCESS, 0);
+                            $timeout(function(){
+                                $location.url(url);
+                            },500);
+
                         } else {
+                            $scope.showCloneAdPopup = false;
                             $scope.adArchiveLoader = false;
                             campaignOverView.errorHandler(result);
                         }
@@ -791,6 +797,7 @@ var angObj = angObj || {};
         }
 
         $scope.cancelAdClone = function () {
+            $scope.adArchiveLoader = false;
             $scope.showCloneAdPopup = !$scope.showCloneAdPopup;
         };
 
