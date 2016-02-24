@@ -395,7 +395,6 @@ var angObj = angObj || {};
 
             if($scope.zipCodesObj.error && $scope.zipCodesObj.error.length > 0) {
                 $rootScope.setErrAlertMessage(zipCodesObj.error[0]);
-                return false;
             }
             $scope.geoTargetingData.selected.zip.push(zipCodesObj);
 
@@ -1217,6 +1216,7 @@ var angObj = angObj || {};
             if ($scope.selectedTab === 'regions') {
                 $scope.listRegions();
             }
+
             if ($scope.selectedTab === 'cities') {
                 $scope.listCities();
             }
