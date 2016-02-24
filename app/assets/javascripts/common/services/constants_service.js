@@ -370,7 +370,7 @@
 
         this.FORGOT_PASSWORD = "Forgot Password";
         this.FORGOT_PASSWORD_CONTACT_ACCOUNT_MANAGER = 'Contact your Account Manager to reset your password';
-        this.COPY_RIGHTS = "Copyright &copy; 2015 Collective, Inc. All Rights Reserved";
+        this.COPY_RIGHTS = "Copyright &copy; 2016 Collective, Inc. All Rights Reserved";
         this.ABOUT_US = "About Us";
         this.USERNAME_OR_PASSWORD_INCORRECT = "The Username/Password is incorrect";
 
@@ -386,7 +386,7 @@
 
         this.FORGOT_PASSWORD = 'Forgot Password';
         this.FORGOT_PASSWORD_CONTACT_ACCOUNT_MANAGER = 'Contact your Account Manager to reset your password';
-        this.COPY_RIGHTS = 'Copyright &copy; 2015 Collective, Inc. All Rights Reserved';
+        this.COPY_RIGHTS = 'Copyright &copy; 2016 Collective, Inc. All Rights Reserved';
         this.ABOUT_US = 'About Us';
         this.USERNAME_OR_PASSWORD_INCORRECT = 'The Username/Password is incorrect';
 
