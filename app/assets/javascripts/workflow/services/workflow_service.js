@@ -479,14 +479,18 @@
                 return dataService.fetch(url, {cache: false});
             },
 
-            cloneAd: function(adId){
+            cloneAd: function(data,selectedMediaPlanId){
                 var clientId =  loginModel.getSelectedClient().id,
-                    advertiserId = JSON.parse(localStorage.campaignData).advertiserId,
-                    url = apiPaths.WORKFLOW_API_URL + '/clients/'+clientId+'/campaigns/'+advertiserId+'/ads/clone';
-
+                    url = apiPaths.WORKFLOW_API_URL + '/clients/'+clientId+'/campaigns/'+selectedMediaPlanId+'/ads/clone';
+                if(data.source_ad_id){
+                    url += '?source_ad_id='+data.source_ad_id;
+                }
+                if(data.ad_group){
+                    url += '&ad_group='+data.ad_group;
+                }
 
                 return dataService.post(
-                    apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/campaigns',
+                    url,
                     data,
                     {'Content-Type': 'application/json'}
                 );
