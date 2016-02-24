@@ -132,7 +132,7 @@
 	                        <div class="col-md-7 td">
 								<span ng-if="(adData.messageType==='ERROR')" class="icon-error" title="{{adData.message}}"></span>
 								<span ng-if="(adData.messageType==='WARNING')" class="icon-warning" title="{{adData.message}}"></span>
-								<span ng-click="redirectAdEditPage(adData)">{{adData.campaignName}} / {{adData.adName}}</span>
+								<a ng-click="redirectAdEditPage(adData)">{{adData.campaignName}} / {{adData.adName}}</a>
 	                        </div>
 	                        <div class="col-md-2 td">{{adData.brandName}}</div>
 	                        <div class="col-md-1 td text-center" ><img ng-src="{{adData.platform.iconUrl}}"/></div>

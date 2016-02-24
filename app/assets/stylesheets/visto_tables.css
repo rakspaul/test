@@ -121,6 +121,9 @@
 .table-responsive .vistoTable .tbody .tr .td input[type="checkbox"] {
   float: left;
 }
+.table-responsive .vistoTable .tbody .tr .td a:hover {
+  cursor: pointer;
+}
 .table-responsive .vistoTable .tbody .tr .td .icon-arrow-down-thick {
   float: left;
   font-size: 10px;
