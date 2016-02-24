@@ -11,19 +11,24 @@
     .thead {
       float: left;
       width: 100%;
-      padding: 0 1px;
+      padding: 0;
+      border-bottom: 2px solid #939eae;
       .tr {
         float: left;
         width: 100%;
         background-color: #fff;
-        border-bottom: 1px solid rgba(191, 201, 215, 0.5);
+        border: 1px solid #bfc9d7;
         .th {
           padding: 20px 15px 0;
           vertical-align: top;
           min-height: 60px;
+          font-family: "Avenir-bold";
+          color: #57606d;
           span, a {
             width: 100%;
             text-align: center;
+            font-family: "Avenir-bold";
+            color: #57606d;
           }
           input[type="checkbox"] {
             float: left;
@@ -50,9 +55,6 @@
           padding-left: 11px;
         }
       }
-      .tr:first-child {
-        box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
-      }
       .childRow {
         background: transparent;
         border-width: 0;
@@ -60,23 +62,20 @@
         .td {
           background-color: #f7f7f7;
           padding: 10px 15px;
+          font-family: "Avenir-bold";
+          color: #57606d;
           input[type="checkbox"] {
             float: left;
             margin-right: 10px;
           }
         }
         .td:first-child {
-          padding: 0 0 0 10px;
           box-shadow: none;
-          border-width: 0;
-          background: transparent;
-          .inDentWrap {
-            float: left;
-            width: 100%;
-            border-bottom: 1px solid rgba(191, 201, 215, 0.5);
-            background: #f7f7f7;
-            padding: 10px 37px;
-          }
+          border-left: 1px solid rgba(191, 201, 215, 0.5);
+          padding: 10px 10px 10px 48px;
+        }
+        .td:last-child {
+          border-right: 1px solid rgba(191, 201, 215, 0.5);
         }
       }
     }
@@ -86,12 +85,18 @@
       width: 1200px;
       z-index: 999;
     }
+    .fixedParent {
+      position: fixed;
+      top: 104px;
+      width: 1200px !important;
+      z-index: 999;
+    }
     .tbody {
       float: left;
       width: 100%;
       //min-height: 500px;
       overflow: scroll;
-      padding: 0 1px;
+      padding: 0;
       .tr {
         float: left;
         width: 100%;
@@ -107,6 +112,9 @@
           }
           input[type="checkbox"] {
             float: left;
+          }
+          a:hover {
+            cursor: pointer;
           }
           .icon-arrow-down-thick {
             float: left;
@@ -150,10 +158,10 @@
             color: #f5c023;
           }
         }
-      }
-      .tr:hover {
-        .td {
-          background: #E1EDF9; 
+        .parentWrap:hover {
+          .td {
+            background: #E1EDF9;
+          }
         }
       }
       .childRow {
@@ -169,20 +177,14 @@
           }
         }
         .td:first-child {
-          padding: 0 0 0 10px;
+          padding: 0;
           box-shadow: none;
-          border-width: 0;
-          background: transparent !important;
-          .inDentWrap {
-            float: left;
-            width: 100%;
-            border-right: 1px solid rgba(191, 201, 215, 0.5);
-            border-bottom: 1px solid rgba(191, 201, 215, 0.5);
-            min-height: 60px;
-            background: #f7f7f7;
-            padding: 10px 37px 0;
-          }
+          padding: 10px 10px 10px 48px;
         }
+      }
+      .parentWrap {
+        float: left;
+        width: 100%;
       }
     }
   }
