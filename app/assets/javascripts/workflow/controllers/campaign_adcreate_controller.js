@@ -359,7 +359,7 @@ var angObj = angObj || {};
                             $rootScope.setErrAlertMessage($scope.textConstants.PARTIAL_AD_CLONE_SUCCESS, 0);
                             $timeout(function(){
                                 $location.url(url);
-                            },2000);
+                            },500);
 
                         } else {
                             $scope.showCloneAdPopup = false;
