@@ -6,7 +6,6 @@
             brands: {},
             filter: "end_date"
         };
-
         this.getGanttChartData = function () {
             var url;
             var clientId = loginModel.getSelectedClient().id;
@@ -15,6 +14,8 @@
 
             if (brandId !== -1) {
                 url = urlService.APICalendarWidgetForBrand(clientId, advertiserId, brandId, this.filter, dashboardModel.campaignStatusToSend());
+                url += "&pageCount="+this.pageCount;
+
             } else {
                 url = urlService.APICalendarWidgetForAllBrands(clientId, advertiserId, this.filter,dashboardModel.campaignStatusToSend());
             }
