@@ -318,7 +318,7 @@ var angObj = angObj || {};
                                  return parseInt(plan.id) === parseInt($scope.campaignId);
                              });
                              if(index !== -1){
-                                 $scope.mediaPlanName = $scope.mediaPlanList[index].name + ' (Current)';
+                                 $scope.mediaPlanName = $scope.mediaPlanList[index].name + ' <span class="greyTxt">(Current)</span>';
                              }
                              campaignOverView.getAdGroups();
                          } else {
@@ -770,7 +770,7 @@ var angObj = angObj || {};
         $scope.selectMediaPlan = function (mediaPlan) {
             selectedMediaPlanId = mediaPlan.id;
             if(parseInt(selectedMediaPlanId) === parseInt($scope.campaignId)){
-                $scope.mediaPlanName = mediaPlan.name+ ' (Current)';
+                $scope.mediaPlanName = mediaPlan.name+ ' <span class="greyTxt">(Current)</span>';
             }
             else{
                 $scope.mediaPlanName = mediaPlan.name;
