@@ -238,7 +238,7 @@
         <div style="height:380px" class="popup">
             <div class="popup-header-body">
                 <div class="clearfix">
-                    <h1 class="pull-left">{{textConstants.WF_CLONE_AD}}</h1>
+                    <h1 class="pull-left">{{textConstants.WF_CLONE_THIS_AD}}</h1>
                     <span class="icon-close close unselectable" aria-hidden="true" ng-click="cancelAdClone()"></span>
                 </div>
                 <div class="popup-content">
@@ -254,10 +254,10 @@
                             <span class="text" ng-bind-html="mediaPlanName"></span>
                             <span class="icon-arrow-down"></span>
                         </button>
-                        <ul class="dropdown-menu" aria-labelledby="accountType" data-toggle="dropdown">
+                        <ul class="dropdown-menu dropdown-search" aria-labelledby="accountType" data-toggle="dropdown">
                             <li class="searchBar">
                                 <div class="col-md-12 input-group input-group-sm search-control">
-                                    <input type="text" class="form-control" name="mediaplanSearch" ng-model="media"  placeholder="Search Media Plan"/>
+                                    <input type="text" class="col-md-12" name="mediaplanSearch" ng-model="media"  placeholder="Search Media Plan"/>
                                     <div class="icon-search"></div>
                                 </div>
                             </li>
@@ -282,10 +282,10 @@
                             <span class="text" >{{adGroupName ? adGroupName :textConstants.WF_NO_AD_GROUP}}</span>
                             <span class="icon-arrow-down"></span>
                         </button>
-                        <ul class="dropdown-menu" aria-labelledby="accountType" data-toggle="dropdown">
+                        <ul class="dropdown-menu dropdown-search" aria-labelledby="accountType" data-toggle="dropdown">
                             <li class="searchBar">
                                 <div class="col-md-12 input-group input-group-sm search-control">
-                                    <input type="text" class="form-control" name="mediaplanSearch" ng-model="adGroup"  placeholder="Search Ad Group"/>
+                                    <input type="text" class="col-md-12" name="mediaplanSearch" ng-model="adGroup"  placeholder="Search Ad Group"/>
                                     <div class="icon-search"></div>
                                 </div>
                             </li>
@@ -303,7 +303,7 @@
             </div>
             <div class="clearfix popup-footer" >
                 <button ng-show="!adArchiveLoader" type="button" ng-click="beginAdClone()"
-                        class="common_primary_btn pull-right">{{textConstants.WF_CLONE}}</button>
+                        class="common_primary_btn pull-right">{{textConstants.WF_CLONE_AD}}</button>
                 <div ng-show ="adArchiveLoader" class="pull-right common-loading-btn" ></div>
                 <button type="button" ng-click="cancelAdClone()" class="secondary_txt pull-right">Cancel</button>
             </div>
