@@ -413,7 +413,7 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
 }*/
 .reports_main_page_holder {
   margin: 0px auto 80px;
-  /*width: 1200px;*/
+  width: 1200px;
   .load-more {
     margin: 80px auto 0;
     display: block;
@@ -575,6 +575,8 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
 .common_reports_container , .breadcrumb_campaign_strategy {
   font-family: "Avenir";
   position: relative;
+  float: left;
+  width: 100%;
   #optimization_strategies_dd {
     width: 80% ;
   }
@@ -975,16 +977,35 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
   font-size: 12px;
 }
 div.strategy_total_container {
+  float: left;
+  width: 100%;
   div.strategy_total_container_header {
     background: @reportHighlight  ;
     border: solid 1px @reportBorder ;
     border-top-width: 2px ;
     padding: 15px 20px 5px 20px ;
+    float: left;
+    width: 100%;
     div.each_col.first_col {
       .StrategyHeadingFontColor();
     }
   }
   .all_strategies_holder {
+    float: left;
+    width: 100%;
+    .each_strategy_holder {
+      padding: 0 !important;
+      float: left;
+      width: 100%;
+      border-width: 0 !important;
+      .each_strategy {
+        float: left;
+        width: 100%;
+      }
+      .linkage_bar {
+        display: none;
+      }
+    }
     .linkage_lines {
       position: relative;
       float: left;
@@ -1005,7 +1026,7 @@ div.strategy_total_container {
     .each_strategy {
       float: left;
       width: 100% ;
-      padding: 15px 20px 5px 6px;
+      padding: 15px 20px 20px 20px;
       margin: 10px 0 0 0px;
       border: solid 1px @reportBorder ;
       background: #fff;
@@ -2125,9 +2146,13 @@ div.strategy_total_container {
 /* margin block end */
 
 /**************** reports performance table styling ***********/
-
+.platform_container {
+  float: left;
+  width: 100%;
+}
 .reports_tabs_content_container {
   margin-top: 15px ;
+  float: left;
   .common-load-icon {
     text-align: center;
     text-indent: -99999;
@@ -2308,6 +2333,8 @@ div.strategy_total_container {
     min-height: 100px ;
     font-family: "Avenir" ;
     color: #313233 ;
+    float: left;
+    width: 1200px;
     .each_col {
       float: left;
       width: 146px;
@@ -2408,7 +2435,9 @@ div.strategy_total_container {
   .vid_none_hdr_hide {
     display:none;
   }
-  .vid_show {display:block;}
+  .vid_show {
+    float: left;
+  }
   .vid_data_hdr {
     width:336px;
     border:1px none #FF6600;
@@ -2741,9 +2770,21 @@ div.strategy_total_container {
         }
       }
       div.each_col.first_col {
-        float: none;
+        float: left;
         width: 100% !important;
         margin-left: 0px;
+      }
+      .row_list_holder {
+        float: left;
+        width: 100%;
+        .each_row_list {
+          float: left;
+          width: 100%;
+          .platform_row {
+            float: left;
+            width: 100%;
+          }
+        }
       }
       div.eight_col {
         margin-right : 20px ;
@@ -2753,11 +2794,10 @@ div.strategy_total_container {
       max-width: 80% ;
     }
     div.reports_platform_header {
+      padding-right: 0;
       .ng-isolate-scope .ng-scope{
         text-align:left
       }
-
-      padding-right: 0px ;
       div.sec_col {
         margin-left: 0px ;
         width: 214px;
@@ -3199,7 +3239,6 @@ div.strategy_total_container {
   .strategy_total_container_header {
     padding: 15px 15px 5px;
   }
-
   .each_cost_col{
     text-align:right;
     &.first_col{
