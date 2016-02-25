@@ -68,7 +68,7 @@
 
         var showSelectedClient = function(evt, clientName) {
             var elem = $(evt.target);
-            $(".accountsList").find(".selected-li").removeClass("selected-li") ;
+            $(".accountsList-dropdown-li").find(".selected-li").removeClass("selected-li") ;
             elem.addClass("selected-li") ;
             $(".accountsList").find(".dd_txt").text(clientName) ;
             $(".main_nav").find(".account-name-nav").text(clientName) ;
