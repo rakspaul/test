@@ -319,6 +319,7 @@ var angObj = angObj || {};
                              });
                              if(index !== -1){
                                  $scope.mediaPlanName = $scope.mediaPlanList[index].name + ' <span class="greyTxt">(Current)</span>';
+                                 selectedMediaPlanId = $scope.mediaPlanList[index].id;
                              }
                              campaignOverView.getAdGroups();
                          } else {
