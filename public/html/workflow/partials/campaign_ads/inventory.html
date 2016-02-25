@@ -266,14 +266,12 @@
                                class="form-control"
                                name="domainListsSearch"
                                ng-model="adData.domainListsSearch"
-                               ng-keyup="domainListsSearch()"
                                placeholder="Search domain lists">
                         <span class="icon-search"></span>
                     </div>
                     <ul class="col-md-12 zeroPadding" style="max-height: 280px; overflow: scroll;">
                         <li ng-repeat="inventoryData in workflowData.inventoryData |
-                                filter: {domainAction: adData.inventory.domainAction} |
-                                orderBy: name"
+                            filter: {domainAction: adData.inventory.domainAction, name: adData.domainListsSearch}"
                             class="selected">
                             <input class="checkboxcls"
                                    type="checkbox"

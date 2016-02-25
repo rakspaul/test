@@ -12,7 +12,13 @@ var angObj = angObj || {};
                         var selectedLists,
                             idx;
 
-                        $scope.workflowData.inventoryData = result.data.data;
+                        $scope.workflowData.inventoryData = result.data.data.sort(function (a, b) {
+                            return (a.name > b.name) ? 1 : -1;
+                        });
+                        // Search filter for domain names list (used together with domainAction)
+                        $scope.adData = $scope.adData || {};
+                        $scope.adData.domainListsSearch = '';
+
                         if ($scope.mode === 'edit') {
                             $scope.savedDomainListIds =
                                 $scope.getAd_result.targets.domainTargets.inheritedList.ADVERTISER;
@@ -49,14 +55,12 @@ var angObj = angObj || {};
                                 } else {
                                     obj.checked = false;
                                 }
-                                console.log('id = ', obj.id, ', name = ', obj.name, ', checked = ', obj.checked);
                             });
 
                             $scope.$broadcast('updateInventory');
                         } else {
                             _.each($scope.workflowData.inventoryData, function (obj) {
                                 obj.checked = false;
-                                console.log('id = ', obj.id, ', name = ', obj.name, ', checked = ', obj.checked);
                             });
                         }
                     });
@@ -102,7 +106,7 @@ var angObj = angObj || {};
                 }
                 $scope.adData.inventory = response.data;
             }
-console.log(response.data)
+
             $scope.domainUploadInProgress = false;
             $scope.showDomainListPopup = false;
             $scope.showExistingListPopup = false;
@@ -237,7 +241,6 @@ console.log(response.data)
                     .addClass('ascending');
             }
 
-            // TODO: Make it dynamic, and also (above) select the sort icon of the specific target object
             idx = _.findIndex($scope.workflowData.selectedLists, {id: listId});
             $scope.workflowData.selectedLists[idx].reverseOrder = !$scope.workflowData.selectedLists[idx].reverseOrder;
         };
@@ -426,11 +429,9 @@ console.log(response.data)
             } else {
                 $('#inventoryFilters').find('.miniToggle .whitelist').addClass('active');
             }
-            console.log('$scope.adData.inventory.domainAction = ', $scope.adData.inventory.domainAction);
         };
 
         $scope.workflowData.toggleBlackAndWhite = function (event) {
-            console.log('Black & white toggle, event = ', event.target.value);
             $scope.adData.inventory.domainAction = event.target.value;
             if ($scope.adData.inventory.domainAction === 'INCLUDE') {
                 $scope.workflowData.whiteListsSelected = true;
@@ -476,7 +477,6 @@ console.log(response.data)
                 });
                 $scope.workflowData.selectedLists.splice(idx, 1);
 
-                console.log('removed idx = ', idx2);
                 if ($scope.workflowData.inventoryData[idx2]) {
                     $scope.workflowData.inventoryData[idx2].checked = false;
                 }
@@ -485,21 +485,10 @@ console.log(response.data)
                 inventoryObj.domainNamesDisplay = 'collapsed';
                 $scope.workflowData.selectedLists.push(inventoryObj);
 
-                console.log('removed idx = ', idx2);
                 if ($scope.workflowData.inventoryData[idx2]) {
                     $scope.workflowData.inventoryData[idx2].checked = true;
                 }
             }
-
-            console.log('$scope.workflowData.inventoryData');
-            _.each($scope.workflowData.inventoryData, function (obj) {
-                console.log('id = ', obj.id, ', name = ', obj.name, ', checked = ', obj.checked);
-            });
-            console.log('$scope.workflowData.inventoryDataTemp');
-            _.each($scope.workflowData.inventoryDataTemp, function (obj) {
-                console.log('id = ', obj.id, ', name = ', obj.name, ', checked = ', obj.checked);
-            });
-            // TODO: Update checked state of checkbox
         };
 
         $scope.workflowData.removeInventory = function (inventoryObj) {
@@ -511,7 +500,7 @@ console.log(response.data)
             $scope.workflowData.selectedLists.splice(idx, 1);
 
             // Synchronise with main list, on removing an item
-            idx = _.findIndex($scope.workflowData.inventoryData, {'id': inventoryObj.id});
+            idx = _.findIndex($scope.workflowData.inventoryData, {id: inventoryObj.id});
             if ($scope.workflowData.inventoryData[idx]) {
                 $scope.workflowData.inventoryData[idx].checked = false;
             }
@@ -532,32 +521,12 @@ console.log(response.data)
                 $scope.workflowData.selectedWhiteLists = [];
                 $scope.workflowData.selectedBlackLists = [];
             }
-        };
 
-        // TODO:
-        $scope.domainListsSearch = function () {
-            var format;
-
-            if ($scope.adData.adFormat === constants.WF_RICH_MEDIA) {
-                format = constants.WF_RICH_MEDIA_SEARCH;
-            } else if ($scope.adData.adFormat === constants.WF_DISPLAY) {
-                format = constants.WF_DISPLAY_SEARCH;
-            } else if ($scope.adData.adFormat === constants.WF_VIDEO){
-                format = constants.WF_VIDEO_SEARCH;
-            } else if ($scope.adData.adFormat === constants.WF_SOCIAL){
-                format = constants.WF_SOCIAL_SEARCH;
+            // Synchronise with main list, on removing an item
+            idx = _.findIndex($scope.workflowData.inventoryData, {id: Number(domainListId)});
+            if ($scope.workflowData.inventoryData[idx]) {
+                $scope.workflowData.inventoryData[idx].checked = false;
             }
-
-            var campaignId = $scope.workflowData.campaignData.clientId,
-                advertiserId = $scope.workflowData.campaignData.advertiserId,
-                searchVal = $scope.adData.creativeSearch,
-                qryStr = '',
-                formats = format;
-
-            if (searchVal.length > 0) {
-                qryStr += '&query=' + searchVal;
-            }
-            addFromLibrary.getCreativesFromLibrary(campaignId, advertiserId, formats, qryStr);
         };
 
         // Close domain list dropdown on clicking outside it.
