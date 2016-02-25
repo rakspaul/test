@@ -378,12 +378,21 @@ var angObj = angObj || {};
                 if ($scope.selected_tab === "viewability") {
                     $(".view_mode_switch_container").show();
                     $(".lifetime_filter").css("display", "block");
+                    if(localStorage.getItem('timeSetTextLocStore') === '"Custom"'){
+                        $("#newDatePickerBox").show();
+                    }
                 }
                  else if ($scope.selected_tab === "cost") {
                     $(".lifetime_filter").css("display", "block");
+                    if(localStorage.getItem('timeSetTextLocStore') === '"Custom"'){
+                        $("#newDatePickerBox").show();
+                    }
                 }
                 else if ($scope.selected_tab === "performance") {
                     $(".lifetime_filter").css("display", "block");
+                    if(localStorage.getItem('timeSetTextLocStore') === '"Custom"'){
+                        $("#newDatePickerBox").show();
+                    }
                 }
                 else if ($scope.selected_tab === "margin") {
                     $(".lifetime_filter").css("display", "none");
