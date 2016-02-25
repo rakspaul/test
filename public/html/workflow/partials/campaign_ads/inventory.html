@@ -11,7 +11,7 @@
 
             <div class="col-md-12 zeroPadding radioBtnToggle">
                 <div class="btn-group miniToggle">
-                    <label class="btn btn-default active spend_evenly" style="width: auto;">
+                    <label class="btn btn-default whitelist" style="width: auto;">
                         <span>Whitelist</span>
                         <input type="radio"
                                name="inventoryList"
@@ -23,7 +23,7 @@
                                class="btn_rad"
                                ng-click="workflowData.toggleBlackAndWhite($event);">
                     </label>
-                    <label class="btn btn-default" style="width: auto;">
+                    <label class="btn btn-default blacklist" style="width: auto;">
                         <span>Blacklist</span>
                         <input type="radio"
                                name="inventoryList"
@@ -111,7 +111,9 @@
                                 data-ng-bind="domain">
                             </li>
                         </ul>
-                        <div class="clearfix" style="display: inline-block;">
+                        <div class="clearfix"
+                             ng-show="inventory.domainList.length >= 3"
+                             style="display: inline-block;">
                             <span ng-click="workflowData.changeDomainNamesDisplay('expanded', inventory.id)"
                                   style="cursor: pointer; color: #0978c9;"
                                   ng-bind="'+ ' + (inventory.domainList.length - 3) + ' more'">
@@ -192,7 +194,7 @@
                                data-ng-bind="textConstants.TYPE">
                         </label>
                         <div class="btn-group miniToggle">
-                            <label class="btn btn-default {{adData.inventory.domainAction === 'INCLUDE' ? 'active' : ''}}">
+                            <label class="btn btn-default{{adData.inventory.domainAction === 'INCLUDE' ? ' active' : ''}}">
                                 <span data-ng-bind="textConstants.WHITELIST"></span>
                                 <input type="radio"
                                        name="inventoryType"
@@ -204,7 +206,7 @@
                                        hidden="hidden"
                                        ng-click="workflowData.toggleBlackAndWhite($event);">
                             </label>
-                            <label class="btn btn-default {{adData.inventory.domainAction === 'EXCLUDE' ? 'active' : ''}}">
+                            <label class="btn btn-default{{adData.inventory.domainAction === 'EXCLUDE' ? ' active' : ''}}">
                                 <span data-ng-bind="textConstants.BLACKLIST"></span>
                                 <input type="radio"
                                        name="inventoryType"
@@ -229,7 +231,7 @@
                 <button type="button"
                         class="btn btn-primary pull-right"
                         ng-disabled="!adData.listName.length || (files && files.length === 0)"
-                        ng-click="workflowData.uploadDomain()"
+                        ng-click="uploadDomain()"
                         data-ng-bind="textConstants.IMPORT">
                 </button>
                 <button type="button"

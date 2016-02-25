@@ -151,10 +151,16 @@
 
         <li id="inventoryView-tab">
              <span ng-if="TrackingIntegrationsSelected">
-                <a role="tab" class="leftNavLink inventory-tab-link" data-ng-bind="textConstants.INVENTORYSIDE"></a>
+                <a role="tab"
+                   class="leftNavLink inventory-tab-link"
+                   data-ng-bind="textConstants.INVENTORYSIDE"></a>
              </span>
             <span ng-if="!TrackingIntegrationsSelected">
-                <a href="#inventoryView" role="tab" class="leftNavLink inventory-tab-link" data-toggle="tab"
+                <a href="#inventoryView"
+                   role="tab"
+                   class="leftNavLink inventory-tab-link"
+                   data-toggle="tab"
+                   ng-click="workflowData.initInventory()"
                    data-ng-bind="textConstants.INVENTORYSIDE">
                 </a>
             </span>

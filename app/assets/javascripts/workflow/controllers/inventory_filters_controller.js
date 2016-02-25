@@ -9,7 +9,8 @@ var angObj = angObj || {};
                 workflowService
                     .getAdvertisersDomainList(clientId, advertiserId)
                     .then(function (result) {
-                        var selectedLists;
+                        var selectedLists,
+                            idx;
 
                         $scope.workflowData.inventoryData = result.data.data;
                         if ($scope.mode === 'edit') {
@@ -41,7 +42,22 @@ var angObj = angObj || {};
                                 }
                             }
 
+                            _.each($scope.workflowData.inventoryData, function (obj) {
+                                idx = _.findIndex($scope.workflowData.selectedLists, {id: obj.id});
+                                if (idx >= 0) {
+                                    obj.checked = true;
+                                } else {
+                                    obj.checked = false;
+                                }
+                                console.log('id = ', obj.id, ', name = ', obj.name, ', checked = ', obj.checked);
+                            });
+
                             $scope.$broadcast('updateInventory');
+                        } else {
+                            _.each($scope.workflowData.inventoryData, function (obj) {
+                                obj.checked = false;
+                                console.log('id = ', obj.id, ', name = ', obj.name, ', checked = ', obj.checked);
+                            });
                         }
                     });
             }
@@ -54,6 +70,8 @@ var angObj = angObj || {};
         function uploadSuccessCallback (response/*, status, headers, config*/) {
             var inventoryData = $scope.workflowData.inventoryData,
                 selectedLists = $scope.workflowData.selectedLists;
+
+            response.data.domainNamesDisplay = 'collapsed';
 
             if ($scope.inventoryCreate) {
                 inventoryData.push(response.data);
@@ -84,7 +102,7 @@ var angObj = angObj || {};
                 }
                 $scope.adData.inventory = response.data;
             }
-
+console.log(response.data)
             $scope.domainUploadInProgress = false;
             $scope.showDomainListPopup = false;
             $scope.showExistingListPopup = false;
@@ -137,10 +155,12 @@ var angObj = angObj || {};
                 $scope.workflowData.whiteListsSelected = true;
             }
 
-            // Copy the selected list array to a temp array.
-            // This will be used to restore the current state if we abort (close the popup without saving)
+            // Copy the list arrays to a temp array.
+            // They will be used to restore the current state if we abort (close the popup without saving)
             // after making changes.
-            $scope.workflowData.selectedListsTemp = _.extend([], $scope.workflowData.selectedLists);
+            $scope.workflowData.selectedListsTemp = $.extend(true, [], $scope.workflowData.selectedLists);
+            $scope.workflowData.inventoryDataTemp = $.extend(true, [], $scope.workflowData.inventoryData);
+
             $scope.showExistingListPopup = true;
             //$scope.workflowData.showDomainListPopup = true;
             $('.inventoryLib .popBody .col-md-6:last-child').css('min-height', winSizeHeight - 350);
@@ -149,6 +169,7 @@ var angObj = angObj || {};
         $scope.saveCancelExistingListPopup = function (action) {
             if (action === 'cancel') {
                 $scope.workflowData.selectedLists = $scope.workflowData.selectedListsTemp;
+                $scope.workflowData.inventoryData = $scope.workflowData.inventoryDataTemp;
             }
 
             if ($scope.adData.inventory.domainAction === 'INCLUDE') {
@@ -162,7 +183,7 @@ var angObj = angObj || {};
             $scope.showExistingListPopup = false;
         };
 
-        $scope.workflowData.uploadDomain = function () {
+        $scope.uploadDomain = function () {
             var domainId = $scope.adData.inventory && $scope.adData.inventory.id || null,
                 files = $scope.files,
                 i,
@@ -395,6 +416,19 @@ var angObj = angObj || {};
             $scope.workflowData.selectedLists[idx].domainNamesDisplay = mode;
         };
 
+        $scope.workflowData.initInventory = function () {
+            if ($scope.mode === 'edit') {
+                if ($scope.adData.inventory.domainAction === 'INCLUDE') {
+                    $('#inventoryFilters').find('.miniToggle .whitelist').addClass('active');
+                } else {
+                    $('#inventoryFilters').find('.miniToggle .blacklist').addClass('active');
+                }
+            } else {
+                $('#inventoryFilters').find('.miniToggle .whitelist').addClass('active');
+            }
+            console.log('$scope.adData.inventory.domainAction = ', $scope.adData.inventory.domainAction);
+        };
+
         $scope.workflowData.toggleBlackAndWhite = function (event) {
             console.log('Black & white toggle, event = ', event.target.value);
             $scope.adData.inventory.domainAction = event.target.value;
@@ -414,27 +448,57 @@ var angObj = angObj || {};
                 $scope.workflowData.selectedWhiteLists = [];
             }
 
+            // Reset checked state of all items
+            $scope.workflowData.resetCheckedState();
+
             $scope.toggleBtn(event);
+        };
+
+        $scope.workflowData.resetCheckedState = function () {
+            _.each($scope.workflowData.inventoryData, function (obj) {
+                obj.checked = false;
+            });
         };
 
         $scope.workflowData.inventoryStateChanged = function (event, inventoryObj) {
             var selectedChkBox,
-                idx;
+                idx,
+                idx2 = _.findIndex($scope.workflowData.inventoryData, {'id': inventoryObj.id});
 
             selectedChkBox = _.filter($scope.workflowData.selectedLists, function (obj) {
                 return obj.id === inventoryObj.id;
             });
 
+            // Current item unselected
             if (selectedChkBox.length > 0) {
                 idx = _.findIndex($scope.workflowData.selectedLists, function (item) {
                     return item.id === inventoryObj.id;
                 });
                 $scope.workflowData.selectedLists.splice(idx, 1);
+
+                console.log('removed idx = ', idx2);
+                if ($scope.workflowData.inventoryData[idx2]) {
+                    $scope.workflowData.inventoryData[idx2].checked = false;
+                }
             } else {
+                // Current item selected
                 inventoryObj.domainNamesDisplay = 'collapsed';
                 $scope.workflowData.selectedLists.push(inventoryObj);
+
+                console.log('removed idx = ', idx2);
+                if ($scope.workflowData.inventoryData[idx2]) {
+                    $scope.workflowData.inventoryData[idx2].checked = true;
+                }
             }
 
+            console.log('$scope.workflowData.inventoryData');
+            _.each($scope.workflowData.inventoryData, function (obj) {
+                console.log('id = ', obj.id, ', name = ', obj.name, ', checked = ', obj.checked);
+            });
+            console.log('$scope.workflowData.inventoryDataTemp');
+            _.each($scope.workflowData.inventoryDataTemp, function (obj) {
+                console.log('id = ', obj.id, ', name = ', obj.name, ', checked = ', obj.checked);
+            });
             // TODO: Update checked state of checkbox
         };
 
@@ -446,7 +510,7 @@ var angObj = angObj || {};
             });
             $scope.workflowData.selectedLists.splice(idx, 1);
 
-            // TODO: Synchronise with main list, on removing an item
+            // Synchronise with main list, on removing an item
             idx = _.findIndex($scope.workflowData.inventoryData, {'id': inventoryObj.id});
             if ($scope.workflowData.inventoryData[idx]) {
                 $scope.workflowData.inventoryData[idx].checked = false;
@@ -470,7 +534,7 @@ var angObj = angObj || {};
             }
         };
 
-        // TODO: 
+        // TODO:
         $scope.domainListsSearch = function () {
             var format;
 
