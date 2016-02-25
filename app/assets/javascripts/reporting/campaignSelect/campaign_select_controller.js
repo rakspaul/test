@@ -33,6 +33,7 @@
             if(args.event_type === 'clicked') {
                 resetSearchCriteria(); //Get Campaign for the selected brand
                 $scope.exhausted = false;
+                campaignSelectModel.removeSelectedCampaign();
                 $scope.fetchCampaigns(true, true);
             }
 
