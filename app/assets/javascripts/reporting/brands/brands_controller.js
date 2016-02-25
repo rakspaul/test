@@ -1,6 +1,6 @@
 (function () {
     'use strict';
-    brandsModule.controller('BrandsController', function ($scope, brandsModel, brandsService, utils, $rootScope, constants, loginModel, analytics,advertiserModel) {
+    brandsModule.controller('BrandsController', function ($scope, brandsModel, utils, $rootScope, constants, loginModel, analytics,advertiserModel) {
 
         var search = false;
         var searchCriteria = utils.typeaheadParams,

@@ -1,8 +1,7 @@
 var angObj = angObj || {};
 (function () {
     'use strict';
-    angObj.controller('CreativeController', function ($scope,$rootScope, $window, $routeParams, constants,
-                                                      workflowService, $timeout, utils, $location) {
+    angObj.controller('CreativeController', function ($scope,$rootScope, $routeParams, constants, workflowService, $location) {
 
         var creatives = {
             /*Function to get creatives sizes*/
@@ -24,10 +23,10 @@ var angObj = angObj || {};
 
             fetchAdFormats: function () {
                 $scope.creativeSizeData.adFormats = [
-                    {id: 1, name: 'Display',    active: true},
-                    {id: 2, name: 'Video',      active: false},
-                    {id: 3, name: 'Rich Media', active: true},
-                    {id: 4, name: 'Social',     active: false}
+                    {id: 1, name: 'Display',    active: true , disabled:false},
+                    {id: 2, name: 'Video',      active: false, disabled:true},
+                    {id: 3, name: 'Rich Media', active: false, disabled:false},
+                    {id: 4, name: 'Social',     active: false, disabled:true}
                 ];
                 //default value
                 $scope.adData.adFormat = 'Display';
@@ -49,6 +48,7 @@ var angObj = angObj || {};
         }
 
         $scope.textConstants = constants;
+        $scope.mode = workflowService.getMode();
         $scope.workflowData = {};
         $scope.adData = {};
         $scope.newData={};
@@ -67,9 +67,47 @@ var angObj = angObj || {};
         } else {
             $scope.adPage = false;
         }
+        $scope.getAdFormatIconName = function (adFormat) {
+            var adFormatMapper = {
+                'display': 'image',
+                'video': 'video',
+                'rich media': 'rich-media',
+                'social': 'social'
+            };
+
+            return adFormatMapper[adFormat.toLowerCase()];
+        };
+        $scope.adFormatSelection=function(adFormatName,event){
+            var index=_.findIndex($scope.creativeSizeData.adFormats, function(obj){
+                return angular.uppercase(obj.name)===angular.uppercase(adFormatName)
+            })
+            for(var i in $scope.creativeSizeData.adFormats){
+                $scope.creativeSizeData.adFormats[i].active=false;
+            }
+            if(index>=0){
+                $scope.creativeSizeData.adFormats[index].active=true;
+            }
+            $scope.creativeFormat=angular.uppercase(adFormatName);
+
+        }
+        $scope.$on('EditAdResponseData',function(){
+            creatives.fetchAdFormats();
+        })
 
         $scope.$on('adFormatChanged', function (event, adType) {
-            $scope.formatLabel = adType;
+            var index=_.findIndex($scope.creativeSizeData.adFormats, function(obj){
+                return angular.uppercase(obj.name)===angular.uppercase(adType)
+            })
+            for(var i in $scope.creativeSizeData.adFormats){
+                $scope.creativeSizeData.adFormats[i].active=false;
+                $scope.creativeSizeData.adFormats[i].disabled=true;
+            }
+            if(index>=0) {
+                $scope.creativeSizeData.adFormats[index].active = true;
+                $scope.creativeSizeData.adFormats[index].disabled = false;
+            }
+            $scope.creativeFormat=angular.uppercase(adType);
+
         });
         
         $scope.creativePopularSizes = [
@@ -96,7 +134,9 @@ var angObj = angObj || {};
             $scope.advertiserId = advertiserId;
             localStorage.setItem('campaignData', JSON.stringify(campaignData));
             creatives.getCreativeSizes(clientId, advertiserId);
-            creatives.fetchAdFormats();
+            if ($scope.mode !== 'edit') { // in edit mode, on response data in processeditmode, broadcast is made to fetch
+                creatives.fetchAdFormats();
+            }
         };
         
         $(function () {
@@ -119,12 +159,13 @@ var angObj = angObj || {};
                         postCrDataObj.name = formData.name;
                         postCrDataObj.tag = '%%TRACKER%%';
                         postCrDataObj.sizeId = formData.creativeSize;
-                        if ($scope.campaignId) {
-                            postCrDataObj.creativeFormat = $scope.formatLabel.replace(/\s+/g, '').toUpperCase();
-                        } else {
-                            postCrDataObj.creativeFormat =
-                                formData.creativeFormat && formData.creativeFormat.replace(/\s+/g, '').toUpperCase();
-                        }
+                        //if ($scope.campaignId) {
+                        //    postCrDataObj.creativeFormat = $scope.formatLabel.replace(/\s+/g, '').toUpperCase();
+                        //} else {
+                        //    postCrDataObj.creativeFormat =
+                        //        formData.creativeFormat && formData.creativeFormat.replace(/\s+/g, '').toUpperCase();
+                        //}
+                        postCrDataObj.creativeFormat=$scope.creativeFormat.replace(/\s+/g, '').toUpperCase();
                         postCrDataObj.creativeType = 'JS';
                         postCrDataObj.sslEnable = 'true';
                         postCrDataObj.isTracking = 'true';
@@ -136,28 +177,30 @@ var angObj = angObj || {};
                         formElem = $('#formCreativeCreate');
                         formData = formElem.serializeArray();
                         formData = _.object(_.pluck(formData, 'name'), _.pluck(formData, 'value'));
-                        PatternOutside = new RegExp(/<script.*>.*(https:).*<\/script>.*/);
-                        PatternInside = new RegExp(/<script.*(https:).*>.*<\/script>.*/);
-                        tagLower = formData.tag.toLowerCase().replace(' ', '').replace(/(\r\n|\n|\r)/gm, '');
-                        if (tagLower.match(PatternOutside)) {
-                            if ( (tagLower.indexOf('%%tracker%%') > -1)) {
-                                $scope.creativeSave(formData);
+                        if (formData.name && formData.creativeSize) {
+                            PatternOutside = new RegExp(/<script.*>.*(https:).*<\/script>.*/);
+                            PatternInside = new RegExp(/<script.*(https:).*>.*<\/script>.*/);
+                            tagLower = formData.tag.toLowerCase().replace(' ', '').replace(/(\r\n|\n|\r)/gm, '');
+                            if (tagLower.match(PatternOutside)) {
+                                if ((tagLower.indexOf('%%tracker%%') > -1)) {
+                                    $scope.creativeSave(formData);
+                                } else {
+                                    $scope.IncorrectTag = true;
+                                    $scope.incorrectTagMessage = $scope.textConstants.WF_INVALID_CREATIVE_TAG_TRACKER;
+                                }
+                            } else if (tagLower.match(PatternInside)) {
+                                if ((tagLower.indexOf('%%tracker%%') > -1)) {
+                                    $scope.creativeSave(formData);
+                                } else {
+                                    $scope.IncorrectTag = true;
+                                    $scope.incorrectTagMessage = $scope.textConstants.WF_INVALID_CREATIVE_TAG_TRACKER;
+                                }
                             } else {
                                 $scope.IncorrectTag = true;
-                                $scope.incorrectTagMessage = $scope.textConstants.WF_INVALID_CREATIVE_TAG_TRACKER;
+                                $scope.incorrectTagMessage =
+                                    'You have entered an invalid Javascript tag.Please review carefully and try again';
+                                console.log('Incorrect tag');
                             }
-                        } else if (tagLower.match(PatternInside)) {
-                            if ( (tagLower.indexOf('%%tracker%%') > -1)) {
-                                $scope.creativeSave(formData);
-                            } else{
-                                $scope.IncorrectTag = true;
-                                $scope.incorrectTagMessage = $scope.textConstants.WF_INVALID_CREATIVE_TAG_TRACKER;
-                            }
-                        } else {
-                            $scope.IncorrectTag = true;
-                            $scope.incorrectTagMessage =
-                                'You have entered an invalid Javascript tag.Please review carefully and try again';
-                            console.log('Incorrect tag');
                         }
                     }
                 }
@@ -171,12 +214,13 @@ var angObj = angObj || {};
             postCrDataObj.name = formData.name;
             postCrDataObj.tag = formData.tag;
             postCrDataObj.sizeId = formData.creativeSize;
-            if ($scope.campaignId) {
-                postCrDataObj.creativeFormat = $scope.formatLabel.replace(/\s+/g, '').toUpperCase();
-            } else {
-                postCrDataObj.creativeFormat =
-                    formData.creativeFormat && formData.creativeFormat.replace(/\s+/g, '').toUpperCase();
-            }
+            //if ($scope.campaignId) {
+            //    postCrDataObj.creativeFormat = $scope.formatLabel.replace(/\s+/g, '').toUpperCase();
+            //} else {
+            //    postCrDataObj.creativeFormat =
+            //        formData.creativeFormat && formData.creativeFormat.replace(/\s+/g, '').toUpperCase();
+            //}
+            postCrDataObj.creativeFormat=$scope.creativeFormat.replace(/\s+/g, '').toUpperCase();
             postCrDataObj.creativeType = formData.creativeType;
             postCrDataObj.sslEnable = 'true';
             $scope.CrDataObj = postCrDataObj;

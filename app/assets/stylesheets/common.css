@@ -92,6 +92,22 @@
 /*popup using modal */
 .modal-backdrop.in {
   opacity: .8 ;
+  z-index: 999999 !important;
+}
+.modal {
+  z-index: 999999 !important;
+}
+.closePopBtn {
+  position: absolute;
+  top: 3px;
+  right: 3px;
+  z-index: 10;
+  cursor: pointer;
+  font-size: 12px;
+  width: 12px;
+  height: 12px;
+  color: #21252B;
+  opacity: .25;
 }
 .about_popup .close {
   margin: 10px;
@@ -476,6 +492,25 @@
   display: none ;
 }
 /*end of for error messages only*/
+/*for info message*/
+.top_message_box.info span.msg_box {
+  border-color: #6ABDFA ;
+}
+.top_message_box.info span.msg_box .msg_icon {
+  background: #6ABDFA ;
+  padding-top: 10px ;
+}
+.top_message_box.info span.msg_box .msg_icon:after {
+  font-family: "visto-con" !important;
+  content: "s";
+  font-size: 16px ;
+  color: #fff ;
+  transform: rotate(0deg);
+  -moz-transform: rotate(0deg);
+  -webkit-transform: rotate(0deg);
+  border: 0 ;
+}
+/* end for info message*/
 /* end of top message/error box */
 /*common tooltip and tooltip message*/
 .tooltip_holder {
@@ -1424,9 +1459,9 @@ multiselect .dropdown-menu > li > a {
   right: 3px;
   z-index: 10;
   cursor: pointer;
-  font-size: 22px;
-  width: 22px;
-  height: 22px;
+  font-size: 12px;
+  width: 12px;
+  height: 12px;
   opacity: .2;
 }
 .common-popup-container .popup .close:hover {

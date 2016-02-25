@@ -2,14 +2,14 @@
 (function () {
     "use strict";
     //originally in models/campaign.js
-    campaignListModule.factory("campaignListService", ["dataService", "utils", "common", "line", '$q', 'modelTransformer',
-        'campaignModel', 'dataStore', 'apiPaths', 'requestCanceller',
-        'constants', 'vistoconfig' , 'momentService','domainReports', 'loginModel',
-        'advertiserModel', 'brandsModel', 'timePeriodModel', 'urlService', 'momentService',
-        function (dataService,  utils, common, line, $q, modelTransformer,
-                  campaignModel, dataStore, apiPaths, requestCanceller,
-                  constants, vistoconfig , momentInNetworkTZ, domainReports, loginModel,
-                  advertiserModel, brandsModel, timePeriodModel, urlService, momentService) {
+    campaignListModule.factory("campaignListService", ["dataService", "utils", "line", 'modelTransformer',
+        'campaignModel', 'requestCanceller',
+        'constants', 'momentService','domainReports', 'loginModel',
+          'timePeriodModel', 'urlService',
+        function (dataService,  utils, line, modelTransformer,
+                  campaignModel, requestCanceller,
+                  constants , momentInNetworkTZ, domainReports, loginModel,
+                    timePeriodModel, urlService) {
 
             var listCampaign = "";
 
@@ -107,8 +107,8 @@
                         case 'last_7_days':
                         case 'last_30_days':
                             //campaign period dates for timefiltering
-                            filterStartDate = campaign.periodStartDate;
-                            filterEndDate = campaign.periodEndDate;
+                            filterStartDate = '';
+                            filterEndDate = '';
                             break;
                         case 'life_time':
                         default:
@@ -561,9 +561,9 @@
                         }
 
                         dataArr[obj].start_date =
-                            momentService.utcToLocalTime(dataArr[obj].start_date, constants.DATE_UTC_SHORT_FORMAT);
+                            momentInNetworkTZ.utcToLocalTime(dataArr[obj].start_date, constants.DATE_UTC_SHORT_FORMAT);
                         dataArr[obj].end_date =
-                            momentService.utcToLocalTime(dataArr[obj].end_date, constants.DATE_UTC_SHORT_FORMAT);
+                            momentInNetworkTZ.utcToLocalTime(dataArr[obj].end_date, constants.DATE_UTC_SHORT_FORMAT);
 
                         var campaign = modelTransformer.transform(dataArr[obj], campaignModel);
                         campaign.periodStartDate = periodStartDate;

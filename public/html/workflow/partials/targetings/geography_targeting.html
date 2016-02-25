@@ -17,7 +17,7 @@
         </div>
 
         <ul class="nav nav-tabs">
-          <li class="active"><a ng-click="showGeographyTabsBox($event, 'regions')" ng-href="#" data-ng-bind="textConstants.REGCITY"></a></li>
+          <li class="active"><a ng-click="showGeographyTabsBox($event, 'regions')" ng-href="#" data-ng-bind="isSwitchForVistoBidder ? textConstants.REGCITY : textConstants.REGTABLABEL"></a></li>
           <li><a ng-href="#" ng-click="locale.id === 'en-gb' ? '' : showGeographyTabsBox($event, 'dmas')" data-ng-bind="textConstants.METRO"></a></li>
           <li><a  id="zipCodeTab" ng-href="#" ng-click="locale.id === 'en-gb' ? '' : showGeographyTabsBox($event, 'zip', true); " data-ng-bind="textConstants.ZIPPOSTCODE"></a></li>
         </ul>
@@ -28,7 +28,7 @@
                 <div class="col-md-12 searchInput radioBtnToggle">
                     <div class="col-md-12">
                         <div class="input-group">
-                          <input type="text" class="form-control searchBox" data-searchfield= "{{selectedTab}}" ng-keyup="search($event)" placeholder="Search for regions or cities">
+                          <input type="text" class="form-control searchBox" data-searchfield= "{{selectedTab}}" ng-keyup="search($event)" placeholder="{{selectedTab ==='dmas' ? textConstants.SEARCHFORMETROS : searchLabel}}">
                           <span class="input-group-btn">
                             <button class="btn btn-default disabled" type="button" style="padding: 8px 15px 6px;"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
                           </span>
@@ -43,16 +43,16 @@
                                     <li id="cityTab" ng-show="showCitiesTab"><a href="#city" ng-click ="listCities($event);" data-toggle="tab" data-ng-bind="textConstants.CITY"></a></li>
                                 </ul>
                             </div>
-                            <div class="col-md-4 zeroPadding switchWrap" ng-show="selectedTab !== 'dmas' && showSwitchBox">
-                                <div class="btn-group btn-ani-toggle pull-right regions" ng-show="showSwitch" ng-click="switchInclude()">
+                            <div class="col-md-4 zeroPadding switchWrap" ng-show="selectedTab !== 'dmas'">
+                                <div class="btn-group btn-ani-toggle pull-right regions" ng-show="showSwitch && isSwitchForVistoBidder" ng-click="switchInclude()">
                                     <button class="btn btn-xs btn-success active"></button>
                                     <div class="togBtnBg"></div>
                                 </div>
                                 <span ng-show="selectedTab === 'regions'"><img ng-src="/assets/images/workflow/{{regionsIncluded ? 'icon_target' : 'icon_exclude'}}.svg" alt="" height="15"/> {{regionsIncluded? 'Include' : 'Exclude'}}</span>
                                 <span ng-show="selectedTab === 'cities'"><img ng-src="/assets/images/workflow/{{citiesIncluded ? 'icon_target' : 'icon_exclude'}}.svg" alt="" height="15"/> {{citiesIncluded? 'Include' : 'Exclude'}}</span>
                             </div>
-                            <div class="col-md-4 zeroPadding switchWrap " ng-show="selectedTab === 'dmas' && showSwitchBox">
-                                <div class="btn-group btn-ani-toggle pull-right dmas" ng-click="switchInclude()">
+                            <div class="col-md-4 zeroPadding switchWrap " ng-show="selectedTab === 'dmas'">
+                                <div class="btn-group btn-ani-toggle pull-right dmas" ng-show="isSwitchForVistoBidder" ng-click="switchInclude()">
                                     <button class="btn btn-xs btn-success active"></button>
                                     <div class="togBtnBg"></div>
                                 </div>
@@ -150,11 +150,6 @@
                         <img ng-src="/assets/images/workflow/icon_target.svg" alt="" height="15" /> Include
                     </button>
                 </div>
-                <div class="clearfix message">
-                        <span class="info" ng-if="zipCodesObj.info.length > 0" data-ng-bind="zipCodesObj.info[0]"></span>
-                        <span class="error" ng-if="zipCodesObj.error.length > 0" data-ng-bind="zipCodesObj.error[0]"></span>
-                </div>
-
             </div>
             <!---- end Zip Container ---------->
 

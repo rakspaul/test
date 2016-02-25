@@ -1,7 +1,7 @@
 /*global angObj*/
 (function () {
     "use strict";
-    commonModule.factory("dataService", function ($q, $http, api, apiPaths, common, campaign_api, dataStore, utils, urlService, loginModel, $cookieStore, $location, constants, analytics,_) {
+    commonModule.factory("dataService", function ($q, $http, api, apiPaths, common, dataStore, utils, urlService, loginModel, constants, analytics,_) {
         $http.defaults.headers.common['Authorization'] = loginModel.getAuthToken();
         var errorObject = {status:"error", data: {message:"Error"}};
 
@@ -38,9 +38,9 @@
                     }
                 }
                 if (type == 'campaigns') {
-                    urlPath =  apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId + '/campaigns/' + campaignId + '/bydays/perf?'+durationQuery
+                    urlPath =  apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId + '/campaigns/' + campaignId + '/bydays/perf?'+durationQuery;
                 } else if (type == 'strategies') {
-                    urlPath =  apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId + '/campaigns/' + campaignId + (strategyId ? ('/strategies/' + strategyId) : '') + '/bydays/perf?'+durationQuery;
+                    urlPath =  apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId + '/campaigns/' + campaignId + '/strategies/' + strategyId + '/bydays/perf?'+durationQuery;
                 }
                 return this.fetch(urlPath);
             },

@@ -1,6 +1,6 @@
 (function () {
     'use strict';
-    timePeriodModule.controller('TimePeriodPickController', function ($scope, timePeriodModel, constants, $rootScope, loginModel, analytics) {
+    timePeriodModule.controller('TimePeriodPickController', function ($scope, timePeriodModel, constants, $rootScope) {
 
         $scope.timeData = timePeriodModel.timeData;
 
@@ -40,6 +40,9 @@
         }
 
         $(document).ready(function() {
+            $("#endDateInput,#startDateInput").keydown(function() {
+                return false;
+            });
         $('.input-daterange').datepicker({
             //format: "dd-mm-yyyy",
             format: "yyyy-mm-dd",

@@ -1,7 +1,7 @@
 /*global angObj, angular*/
 (function () {
     "use strict";
-    angObj.factory("domainReports", ['loginModel', 'RoleBasedService','accountsService', function (loginModel, RoleBasedService,accountsService) {
+    angObj.factory("domainReports", ['loginModel', 'RoleBasedService', function (loginModel, RoleBasedService) {
 
         return {
             getReportsTabs : function() {
@@ -373,20 +373,6 @@
         };
     });
 
-    angObj.directive('clearall',function(){
-        return function(scope,el,attr){
-            $(el).click(function(){
-                scope.Schedule.dayPart=[];
-                scope.Schedule.daytimeArr=[];
-                scope.Schedule.customLength = 0;
-                scope.Schedule.dayTimeSelected = null;
-                scope.$apply();
-            })
-        }
-
-    });
-
-
     angObj.directive('ngUpdateHiddenDropdwn',function() {
         return function(scope, el, attr) {
             var model = attr['ngModel'];
@@ -397,9 +383,6 @@
 
         };
     });
-
-
-
 
     angObj.directive('creativesHeader', ['$http', '$compile','constants', function ($http, $compile,constants) {
         return {

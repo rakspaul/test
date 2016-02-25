@@ -2,7 +2,7 @@
 (function() {
     'use strict';
 
-    angObj.controller('UsersAddOrEdit', function($scope, $modalInstance,accountsService,$timeout,$modal, $location,$rootScope,constants) {
+    angObj.controller('UsersAddOrEdit', function($scope, $modalInstance,accountsService,$modal,$rootScope,constants) {
         $scope.permissions = [];
         $scope.isSuperAdmin=true;
         $scope.clientName=[];

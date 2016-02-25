@@ -3,7 +3,7 @@ var angObj = angObj || {};
 (function () {
     'use strict';
 
-    angObj.controller('targettingController', function ($scope, $rootScope, $window, $routeParams, $timeout, constants, workflowService, audienceService) {
+    angObj.controller('targettingController', function ($scope, $rootScope, $timeout, workflowService, audienceService) {
 
         var _targeting = this;
 
@@ -79,6 +79,7 @@ var angObj = angObj || {};
             $scope.adData.isAudienceSelected = null;
             var audienceData = $scope.audienceDataForPreview;
             if(audienceData) audienceData.length = 0;
+            $scope.adData.isAudienceSelected = null;
             workflowService.setDeleteModule('Audience');
             if($scope.mode === 'edit') {
                 var adData = angular.copy(workflowService.getAdsDetails());
@@ -109,6 +110,10 @@ var angObj = angObj || {};
             $scope.adData.isDaypartSelected = false;
             var dayPartData = $scope.selectedDayParts['data'];
             if(dayPartData) dayPartData.length = 0;
+            $scope.adData.isDaypartSelected = null;
+            localStorage.removeItem("dayPart");
+            localStorage.removeItem("dayTimeSelected");
+            localStorage.removeItem("daytimeArr");
             workflowService.setDeleteModule('dayParting');
             if($scope.mode === 'edit') {
                 var adData = angular.copy(workflowService.getAdsDetails());
@@ -128,6 +133,7 @@ var angObj = angObj || {};
             var includeLabel = [];
             var excludeLabel = [];
             var str='';
+
             if(data.REGION && data.REGION.geoTargetList.length >0) {
                 if(data.REGION.isIncluded) {
                     includedCount = data.REGION.geoTargetList.length;
@@ -197,10 +203,11 @@ var angObj = angObj || {};
         $scope.deleteGeoTargetting = function () {
             $scope.adData.isGeographySelected = false;
             $scope.geoTargetingPreviewObj = null;
-            $scope.adData.targetName = null;
             workflowService.resetDeleteModule();
             workflowService.setSavedGeo(null);
+            $scope.adData.isGeographySelected  = null;
             workflowService.setDeleteModule('Geography');
+            $scope.$broadcast('resetVariables');
             if($scope.mode === 'edit') {
                 var adData = angular.copy(workflowService.getAdsDetails());
                 adData.targets.geoTargets= null;
@@ -255,10 +262,12 @@ var angObj = angObj || {};
             $scope.isPlatformSelected = platformId ? true : false;
             $scope.showRegionsTab = true;
             $scope.showCitiesTab = true;
-            $scope.showSwitchBox = true;
+            $scope.isSwitchForVistoBidder = true;
+            $scope.searchLabel = $scope.textConstants.SEARCHFORREGIONANDCITY;
             if (($scope.isPlatformId === 1) || ($scope.adData.platformId === 25)) {
                 $scope.showCitiesTab = false;  // Hide Cities Tab for Visto Bidder (platform Id 25)
-                $scope.showSwitchBox = false;
+                $scope.isSwitchForVistoBidder = false;
+                $scope.searchLabel = $scope.textConstants.SEARCHFORREGION;
             }
         });
     });

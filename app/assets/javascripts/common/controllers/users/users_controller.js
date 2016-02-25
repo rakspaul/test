@@ -1,7 +1,7 @@
 var angObj = angObj || {};
 (function () {
     'use strict';
-    angObj.controller('UsersController', function ($scope, $window, $routeParams, constants, utils,  $modal ,accountsService,$rootScope,$timeout) {
+    angObj.controller('UsersController', function ($scope,constants,$modal ,accountsService,$rootScope,$timeout) {
         $scope.textConstants = constants;
         $scope.UsersData={};
         $scope.userConsoleFormDetails={};

@@ -1,8 +1,8 @@
 (function () {
     'use strict';
 
-    angObj.factory('workflowService', function ($http, $location, api, apiPaths, dataService, loginModel,
-                                                $cookieStore, requestCanceller, constants, $rootScope) {
+    angObj.factory('workflowService', function (api, apiPaths, dataService, loginModel, requestCanceller,
+                                                constants, $rootScope) {
         var mode,
             adDetails,
             newCreative,
@@ -44,7 +44,8 @@
 
             getBrands: function (advertiserId, accessLevel) {
                 var clientId =  loginModel.getSelectedClient().id,
-                    url = apiPaths.WORKFLOW_API_URL + '/clients/' + clientId +'/advertisers/' + advertiserId + '/brands';
+                    url = apiPaths.WORKFLOW_API_URL + '/clients/' + clientId +
+                            '/advertisers/' + advertiserId + '/brands';
 
                 if (accessLevel) {
                     url = url + '?access_level=' + accessLevel;
@@ -96,12 +97,16 @@
                 return dataService.fetch(url, {cache:false});
             },
 
-            getAdgroups: function (campaignId) {
+            getAdgroups: function (campaignId,isForClone) {
                 var clientId =  loginModel.getSelectedClient().id,
                     url = apiPaths.WORKFLOW_API_URL +
                         '/clients/' + clientId +
                         '/campaigns/' + campaignId +
                         '/ad_groups';
+
+                if(isForClone){
+                    url += '?status=ACTIVE';
+                }
 
                 return dataService.fetch(url, {cache: false});
             },
@@ -131,7 +136,7 @@
             },
 
             createAdGroupOfIndividualAds: function () {
-                // TODO:
+                // TODO: ???
             },
 
             createAd: function (data) {
@@ -268,9 +273,11 @@
             getCreatives: function (clientId, advertiserId, formats, query, cacheObj, integrationTracking) {
                 var queryStr = query ? query : '',
                     creativeFormats = formats ? '?creativeFormat=' + formats : '',
-                    integration_Tracking = integrationTracking ? '&tracking=true' : '&tracking=false',
-                    url = apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/advertisers/' + advertiserId + '/creatives' +
-                        creativeFormats + queryStr + integration_Tracking;
+                    intTracking = integrationTracking ? '&tracking=true' : '&tracking=false',
+                    url = apiPaths.WORKFLOW_API_URL +
+                            '/clients/' + clientId +
+                            '/advertisers/' + advertiserId +
+                            '/creatives' + creativeFormats + queryStr + intTracking;
 
                 return dataService.fetch(url, cacheObj);
             },
@@ -356,7 +363,7 @@
                 url = apiPaths.WORKFLOW_API_URL +
                     '/clients/' + clientId +
                     '/advertisers/' + advertiserId +
-                    '/domain_lists';
+                    '/domain_lists?sortBy=name&sortOrder=asc';
 
                 return dataService.fetch(url);
             },
@@ -463,8 +470,38 @@
             getDeleteModule :  function() {
                 return deletedModule;
             },
+
             resetDeleteModule : function() {
                 deletedModule = [];
+            },
+
+            getAllCampaignsForAdClone: function(){
+                var clientId =  loginModel.getSelectedClient().id,
+                    advertiserId = window.JSON.parse(localStorage.campaignData).advertiserId,
+                    url = apiPaths.WORKFLOW_API_URL + '/clients/' + clientId +
+                            '/advertisers/' + advertiserId + '/campaigns?status=ACTIVE';
+
+                return dataService.fetch(url, {cache: false});
+            },
+
+            cloneAd: function(data,selectedMediaPlanId){
+                var clientId =  loginModel.getSelectedClient().id,
+                    url = apiPaths.WORKFLOW_API_URL + '/clients/' + clientId +
+                            '/campaigns/' + selectedMediaPlanId + '/ads/clone';
+
+                if (data.source_ad_id) {
+                    url += '?source_ad_id='+data.source_ad_id;
+                }
+
+                if (data.ad_group) {
+                    url += '&ad_group='+data.ad_group;
+                }
+
+                return dataService.post(
+                    url,
+                    data,
+                    {'Content-Type': 'application/json'}
+                );
             }
         };
     });

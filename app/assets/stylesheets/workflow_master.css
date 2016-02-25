@@ -24,7 +24,8 @@ body {
   border-bottom: 1px solid #bfc9d7;
 }
 .workflow ::-webkit-scrollbar,
-#user-menu ::-webkit-scrollbar {
+#user-menu ::-webkit-scrollbar,
+.vistoTable ::-webkit-scrollbar {
   display: none;
 }
 h1 {
@@ -1193,6 +1194,18 @@ input.cmn-toggle-round:checked + label:after {
   float: left;
   margin: 6px;
   cursor: pointer;
+}
+.closePopBtn {
+  position: absolute;
+  top: 3px;
+  right: 3px;
+  z-index: 10;
+  cursor: pointer;
+  font-size: 12px;
+  width: 12px;
+  height: 12px;
+  color: #21252B;
+  opacity: .25;
 }
 .cardSelectHolder {
   border-radius: 1px;

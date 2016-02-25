@@ -18,11 +18,11 @@
             <div id="cost_strategies_dd" ng-show="isStrategyDropDownShow">
                 <strategy-drop-down selected-obj=selectedStrategy ></strategy-drop-down >
             </div> -->
-            <div class="clearfix page_top_header">
-                <div class="pull-left page_name">
+            <div class="clearfix page_top_header col-md-12">
+                <div class="pull-left col-md-6 page_name">
                     Cost Report
                 </div>
-                <div class="pull-right download_report">
+                <div class="pull-right col-md-6 download_report">
                     <download-report></download-report>
                 </div>
             </div>
@@ -32,10 +32,10 @@
             </div>
 
             <div class="common-load-icon_viewability"  ng-show="strategyLoading && selectedCampaign.id != -1"></div>
-            <div class="cost_container" ng-hide="strategyLoading && selectedCampaign.id != -1">
+            <div class="cost_container smallSreenScrollContainer" ng-hide="strategyLoading && selectedCampaign.id != -1">
                 <div class="no_data_found" ng-if="!strategyFound" ng-bind-html="getMessageForDataNotAvailable(selectedCampaign)"></div>
-                <div class="reports_main_page_holder" ng-show="strategyFound">
-                    <div class="reports_cost_header_holder">
+                <div class="reports_main_page_holder smallSreenScrollDiv" ng-show="strategyFound">
+                    <div class="reports_cost_header_holder smallSreenScrollContent">
                         <!--cost filter -->
                         <div class="clearfix cost_header_holder">
                             <div class="each_cost_col first_col icon_text_holder" ng-class="sortClassFunction('-impressions',sortType,sortReverseDefaultSelection)" ng-click="sortType = '-impressions'; sortReverse = sortReverseDefaultSelection;sortReverseDefaultSelection = !sortReverseDefaultSelection;removeKpiActive();"><span class="default-kpi-header-icon" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() === 'delivery'"></span>Imps.</div>
@@ -49,7 +49,7 @@
                             <div class="each_cost_col four_col  icon_text_holder" ng-class="sortClassFunction('data_cost',sortType,sortReverse)" ng-click="sortType = 'data_cost'; sortReverse = !sortReverse;removeKpiActive();">{{ textConstants.DATA}}</div>
                             <div class="each_cost_col five_col  icon_text_holder" ng-class="sortClassFunction('ad_serving_cost',sortType,sortReverse)" ng-click="sortType = 'ad_serving_cost'; sortReverse = !sortReverse;removeKpiActive();">{{ textConstants.AD_SERVING}}</div>
                             <div class="each_cost_col eight_col  icon_text_holder" ng-class="sortClassFunction('ad_verification_cost',sortType,sortReverse)" ng-click="sortType = 'ad_verification_cost'; sortReverse = !sortReverse;removeKpiActive();">{{ textConstants.AD_VERIFICATION}}</div>
-                            <div class="each_cost_col ninth_col  icon_text_holder" ng-class="sortClassFunction('collective_cost',sortType,sortReverse)" ng-click="sortType = 'collective_cost'; sortReverse = !sortReverse;removeKpiActive();">{{ textConstants.COLLECTIVE}}</div>
+                            <div class="each_cost_col ninth_col  icon_text_holder" ng-class="sortClassFunction('collective_cost',sortType,sortReverse)" ng-click="sortType = 'collective_cost'; sortReverse = !sortReverse;removeKpiActive();">{{ textConstants.COLLECTIVE_FEE}}</div>
                             <div class="each_cost_col tenth_col total_cost">{{textConstants.TOTAL_SPEND}}</div>
                         </div>
                         <!--cost  filter ends-->

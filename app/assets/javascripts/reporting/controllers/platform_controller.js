@@ -1,11 +1,10 @@
 var angObj = angObj || {};
 (function () {
     'use strict';
-    angObj.controller('PlatformController', function ($rootScope, $scope, $window, campaignSelectModel,
+    angObj.controller('PlatformController', function ($scope, campaignSelectModel,
                                                       strategySelectModel, kpiSelectModel,
-                                                      utils, dataService, apiPaths, constants, domainReports,
-                                                      timePeriodModel, RoleBasedService, loginModel, analytics,
-                                                      $timeout, advertiserModel, brandsModel, urlService) {
+                                                      dataService, constants, domainReports,
+                                                      timePeriodModel, RoleBasedService, loginModel, analytics, advertiserModel, brandsModel, urlService) {
 
         $scope.textConstants = constants;
 
@@ -22,6 +21,7 @@ var angObj = angObj || {};
         $scope.sortReverseForPerfImps = true;
         $scope.sortReverseForCostImps = true;
         $scope.sortReverseForQualImps = true;
+        $scope.sortReverseForMarginImps = true;
         $scope.sortReverseKpiDropdown = true; // set the default sort order
         $scope.sortReverseForCostscpm = true;
         $scope.sortReverseForCostscpa = true;
@@ -378,12 +378,21 @@ var angObj = angObj || {};
                 if ($scope.selected_tab === "viewability") {
                     $(".view_mode_switch_container").show();
                     $(".lifetime_filter").css("display", "block");
+                    if(localStorage.getItem('timeSetTextLocStore') === '"Custom"'){
+                        $("#newDatePickerBox").show();
+                    }
                 }
                  else if ($scope.selected_tab === "cost") {
                     $(".lifetime_filter").css("display", "block");
+                    if(localStorage.getItem('timeSetTextLocStore') === '"Custom"'){
+                        $("#newDatePickerBox").show();
+                    }
                 }
                 else if ($scope.selected_tab === "performance") {
                     $(".lifetime_filter").css("display", "block");
+                    if(localStorage.getItem('timeSetTextLocStore') === '"Custom"'){
+                        $("#newDatePickerBox").show();
+                    }
                 }
                 else if ($scope.selected_tab === "margin") {
                     $(".lifetime_filter").css("display", "none");

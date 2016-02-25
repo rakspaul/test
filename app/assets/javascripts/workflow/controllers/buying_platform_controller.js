@@ -3,8 +3,7 @@ var angObj = angObj || {};
 (function () {
     'use strict';
 
-    angObj.controller('BuyingPlatformController', function ($scope, $window, $routeParams, constants, workflowService,
-        $timeout, utils, $location, $modal, $filter, platformCustomeModule, $rootScope) {
+    angObj.controller('BuyingPlatformController', function ($scope, constants, $timeout, workflowService, $modal, $filter, platformCustomeModule, $rootScope) {
         var tempPlatform,
             storedResponse,
             oldPlatformName,
@@ -153,6 +152,11 @@ var angObj = angObj || {};
         $scope.setPlatform = function (event, platform) {
             var name;
 
+            if(event && !$scope.changePlatformPopup) {
+                if($scope.adData && platform.id !== $scope.adData.platformId) {
+                    $rootScope.$broadcast('resetTargeting');
+                }
+            }
             $scope.selectedPlatform = {};
             workflowService.setPlatform(platform);
             //audience targetting
@@ -363,6 +367,10 @@ var angObj = angObj || {};
                                 $('.customFieldErrorMsg').remove();
                                 if ($('#customPlatformForm') && $('#customPlatformForm').length >0) {
                                     $('#customPlatformForm')[0].reset();
+                                    $timeout(function() {
+                                        $("#customPlatformForm").find("select").trigger("change");
+                                    }, 200)
+
                                 }
                                 hideCustomPlatformBox();
                             };

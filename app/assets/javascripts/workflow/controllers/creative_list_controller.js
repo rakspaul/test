@@ -3,8 +3,7 @@ var angObj = angObj || {};
 (function () {
     'use strict';
 
-    angObj.controller('CreativeListController', function ($scope,$rootScope, $window, $routeParams, constants, workflowService, 
-        $timeout, utils, $location,momentService, $route) {
+    angObj.controller('CreativeListController', function ($scope,$rootScope, $routeParams, constants, workflowService, $location,momentService, $route) {
         var checkedCreativeArr=[];
         $scope.creativeAds={};
         $scope.creativeAds['creativeAdData'] = {};
@@ -26,6 +25,78 @@ var angObj = angObj || {};
         $scope.campaignId = $routeParams.campaignId;
         $scope.loadCreativeData=false;
         $scope.deletePopup=false;
+
+        //viewPort Plugin Start
+        //**Abi Commented Future Sticky Header
+        //(function($){
+        //    /**
+        //     * Copyright 2012, Digital Fusion
+        //     * Licensed under the MIT license.
+        //     * http://teamdf.com/jquery-plugins/license/
+        //     * Git Link https://github.com/customd/jquery-visible
+        //     *
+        //     * @author Sam Sehnert
+        //     * @desc A small plugin that checks whether elements are within
+        //     *       the user visible viewport of a web browser.
+        //     *       only accounts for vertical position, not horizontal.
+        //     */
+        //    var $w = $(window);
+        //    $.fn.visible = function(partial,hidden,direction){
+        //
+        //        if (this.length < 1)
+        //            return;
+        //
+        //        var $t        = this.length > 1 ? this.eq(0) : this,
+        //            t         = $t.get(0),
+        //            vpWidth   = $w.width(),
+        //            vpHeight  = $w.height(),
+        //            direction = (direction) ? direction : 'both',
+        //            clientSize = hidden === true ? t.offsetWidth * t.offsetHeight : true;
+        //
+        //        if (typeof t.getBoundingClientRect === 'function'){
+        //
+        //            // Use this native browser method, if available.
+        //            var rec = t.getBoundingClientRect(),
+        //                tViz = rec.top    >= 0 && rec.top    <  vpHeight,
+        //                bViz = rec.bottom >  0 && rec.bottom <= vpHeight,
+        //                lViz = rec.left   >= 0 && rec.left   <  vpWidth,
+        //                rViz = rec.right  >  0 && rec.right  <= vpWidth,
+        //                vVisible   = partial ? tViz || bViz : tViz && bViz,
+        //                hVisible   = partial ? lViz || rViz : lViz && rViz;
+        //
+        //            if(direction === 'both')
+        //                return clientSize && vVisible && hVisible;
+        //            else if(direction === 'vertical')
+        //                return clientSize && vVisible;
+        //            else if(direction === 'horizontal')
+        //                return clientSize && hVisible;
+        //        } else {
+        //
+        //            var viewTop         = $w.scrollTop(),
+        //                viewBottom      = viewTop + vpHeight,
+        //                viewLeft        = $w.scrollLeft(),
+        //                viewRight       = viewLeft + vpWidth,
+        //                offset          = $t.offset(),
+        //                _top            = offset.top,
+        //                _bottom         = _top + $t.height(),
+        //                _left           = offset.left,
+        //                _right          = _left + $t.width(),
+        //                compareTop      = partial === true ? _bottom : _top,
+        //                compareBottom   = partial === true ? _top : _bottom,
+        //                compareLeft     = partial === true ? _right : _left,
+        //                compareRight    = partial === true ? _left : _right;
+        //
+        //            if(direction === 'both')
+        //                return !!clientSize && ((compareBottom <= viewBottom) && (compareTop >= viewTop)) && ((compareRight <= viewRight) && (compareLeft >= viewLeft));
+        //            else if(direction === 'vertical')
+        //                return !!clientSize && ((compareBottom <= viewBottom) && (compareTop >= viewTop));
+        //            else if(direction === 'horizontal')
+        //                return !!clientSize && ((compareRight <= viewRight) && (compareLeft >= viewLeft));
+        //        }
+        //    };
+        //
+        //})(jQuery);
+        //viewPort Plugin Ends
 
         var isSearch = false;
 
@@ -158,9 +229,9 @@ var angObj = angObj || {};
 
         $scope.getAdFormatIconName = function (adFormat) {
             var adFormatMapper = {
-                'display': 'icon-image', 
-                'video': 'icon-video', 
-                'richmedia': 'icon-rich-media', 
+                'display': 'icon-image',
+                'video': 'icon-video',
+                'richmedia': 'icon-rich-media',
                 'social': 'icon-social'
             };
 
@@ -230,9 +301,9 @@ var angObj = angObj || {};
             $scope.updateForceSaveData = putCrDataObj;
             workflowService
                 .updateCreative(
-                    $scope.selectedCreativeData.clientId, 
-                    $scope.selectedCreativeData.advertiserId, 
-                    $scope.selectedCreativeData.id, 
+                    $scope.selectedCreativeData.clientId,
+                    $scope.selectedCreativeData.advertiserId,
+                    $scope.selectedCreativeData.id,
                     putCrDataObj
                 )
                 .then(function (result) {
@@ -252,7 +323,7 @@ var angObj = angObj || {};
                 });
         };
 
-        $scope.updateTag = function (context) { 
+        $scope.updateTag = function (context) {
             var PatternOutside = new RegExp(/<script.*>.*(https:).*<\/script>.*/),
                 PatternInside = new RegExp(/<script.*(https:).*>.*<\/script>.*/),
                 tagLower = $scope.editableTag.toLowerCase().replace(' ', '').replace(/(\r\n|\n|\r)/gm, '');
@@ -290,16 +361,43 @@ var angObj = angObj || {};
             if (elem.hasClass("icon-arrow-down-open")) {
                 elem.removeClass("icon-arrow-down-open");
                 elem.closest(".oneDimensionRow").find(".secondDimensionList").hide() ;
+                elem.closest(".oneDimensionRow").removeClass('visible') ;
                 if( $(".secondDimensionList:visible").length == 0 ) {
                     $( ".childRowHead" ).hide();
                 }
             } else {
                 elem.addClass("icon-arrow-down-open") ;
                 elem.closest(".oneDimensionRow").find(".secondDimensionList").show() ;
+                elem.closest(".oneDimensionRow").addClass('visible') ;
                 creativeList.getCreativeAds(creativeId,index);
                 $( ".childRowHead" ).show();
             }
+            //$scope.chkActiveParent();
         };
+
+        //Fix position for parent row
+        //$scope.chkActiveParent = function () {
+        //    var visible = false;
+        //
+        //    $( '.visible' ).each( function() {
+        //        if ( $( this ).visible( true ) ) {
+        //            visible = true;
+        //        }
+        //
+        //        if ( visible ) {
+        //            $(this).find(".parentWrap").removeClass('fixedParent');
+        //            console.log("I SEE PARENT");
+        //        } else {
+        //            $(this).find(".parentWrap").addClass("fixedParent");
+        //            console.log("Dont SEE PARENTs");
+        //        }
+        //    });
+        //}
+        //
+        //$(window).scroll(function(){
+        //    $scope.chkActiveParent();
+        //});
+
         $scope.utcToLocalTime = function (date, format) {
             return momentService.utcToLocalTime(date, format);
         };
@@ -319,8 +417,8 @@ var angObj = angObj || {};
         $scope.saveDuplicate = function () {
             workflowService
                 .forceSaveCreatives(
-                    $scope.selectedCreativeData.clientId, 
-                    $scope.selectedCreativeData.advertiserId, 
+                    $scope.selectedCreativeData.clientId,
+                    $scope.selectedCreativeData.advertiserId,
                     $scope.updateForceSaveData
                 )
                 .then(function (result) {
@@ -372,7 +470,7 @@ var angObj = angObj || {};
             searchInputForm.show();
             searchInputForm.animate({width: '300px'}, 'fast');
         };
-        
+
         $scope.searchHideInput = function () {
             isSearch = false;
             $(".searchInputForm").animate({width: '44px'}, 'fast');
@@ -384,25 +482,34 @@ var angObj = angObj || {};
             var selectedClientObj = localStorage.selectedClient && JSON.parse(localStorage.selectedClient);
             creativeList.getCreativesList(JSON.parse(localStorage.selectedClient).id,'', '',20, 1);
         };
-        
+
         $scope.headerToggle = function () {
             $(".vistoTable .thead .childRow").toggle();
-            $(".vistoTable .thead .icon-arrow-down-thick").toggleClass('arrowLookDown');   
+            $(".vistoTable .thead .icon-arrow-down-thick").toggleClass('arrowLookDown');
         }
-        
+
         //Sticky Header
         $(window).scroll(function() {
-            if ($(this).scrollTop() > 200){  
+            if ($(this).scrollTop() > 210) {
                 $('.vistoTable .thead').addClass("sticky");
+                if( $(".thead .childRow:visible").length == 0 ) {
+                    $('.vistoTable .tbody').css("margin-top","64px");
+                } else {
+                    $('.vistoTable .tbody').css("margin-top","104px");
+                }
+                if( $(".fixedParent").length > 0 ) {
+                    $('.vistoTable .tbody').css("margin-top","164px");
+                }
             } else{
                 $('.vistoTable .thead').removeClass("sticky");
+                $('.vistoTable .tbody').css("margin-top","0px");
             }
         });
-        
+
         //Flexible tbody
         var winBrowserHeight = $(window).height();
         //$('.vistoTable .tbody').css('maxHeight', winBrowserHeight - 341);
-        
+
         //Pagination
         $(function() {
             $(window).scroll(function(){
@@ -418,6 +525,6 @@ var angObj = angObj || {};
                 }
             });
         });
-        
+
     });
 })();

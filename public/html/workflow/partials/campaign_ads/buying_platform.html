@@ -1,11 +1,11 @@
-<div class="col-md-6" style="padding: 0 30px;">
+<div class="col-md-6" style="padding: 0 0 0 30px;">
     <h2 class="col-md-12 zeroPadding marginBottom" data-ng-bind="textConstants.SELECTBUYPLAT"></h2>
     <span data-ng-bind="textConstants.FULLINT"></span>
     <div class="greyTxt" style="padding: 1px 0 0 0 !important;" data-ng-bind="textConstants.SELECTAPLAT"></div>
 </div>
 
 <div class="buyingPlatformHolder">
-    <div class="col-md-12" style="padding: 0 30px;">
+    <div class="col-md-12" style="padding: 0 0 0 30px;">
         <div class="col-md-6 platformHolder"
              ng-repeat="platform in workflowData.platforms"
              ng-click="!platform.active ? '' : selectPlatform($event, platform)">

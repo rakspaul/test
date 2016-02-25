@@ -138,7 +138,6 @@ span.cost_opaque {
 }
 .total_reports_page {
   margin: 0px auto 40px;
-  width: 1200px;
   .load_more_rows {
     display: none;
   }
@@ -414,7 +413,7 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
 }*/
 .reports_main_page_holder {
   margin: 0px auto 80px;
-  width: 1200px;
+  /*width: 1200px;*/
   .load-more {
     margin: 80px auto 0;
     display: block;
@@ -613,7 +612,6 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
     border-radius: 5px ;
     -moz-border-radius: 5px ;
     -webkit-border-radius: 5px ;
-    margin: 0px 0px 0px 50px;
     background-image : url( "/assets/images/cdesk/download_report_icon.png" )  ;
     font-family: "Avenir" ;
     background-repeat: no-repeat ;
@@ -621,10 +619,10 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
     .dropdown {
       width: 100%;
       height: 100%;
-      background : url( "/assets/images/cdesk/download_report_arrow.png") no-repeat 155px 12px ;
+      background : url( "/assets/images/cdesk/download_report_arrow.png") no-repeat 148px 13px ;
       ul.dropdown-menu {
         width: 193px;
-        left: 0px;
+        left: -16px;
         top: 36px;
         li {
           padding: 0px ;
@@ -659,7 +657,7 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
       background-color:  #2298ef;
       background-position: 20px -52px ;
       .dropdown {
-        background-position: 155px -45px ;
+        background-position: 148px -44px ;
       }
       a {
         color: #fff ;
@@ -1588,6 +1586,21 @@ div.strategy_total_container {
     top : 145px ;
   }
 }
+
+
+.viewability_quality {
+  .viewability_container
+   {
+    margin-top: 53px;
+  }
+  .view_mode_switch_container {
+    top: 41px;
+    position: relative;
+    clear: both;
+    float: right;
+  }
+}
+
 .video_tooltip {
   .video_tooltip_icon {
     display: inline-block;
@@ -1894,6 +1907,8 @@ div.strategy_total_container {
     border-top : solid 1px #d2dee7;
     padding: 120px 0;
   }
+  
+  
   .viewability_header {
       background: #fff;
       padding: 10px 20px;
@@ -1987,7 +2002,7 @@ div.strategy_total_container {
       float:right;
     }
     .margin_hdr {
-      width:180px;
+      width:210px;
       border:1px none #FF6600;
       float:left;
       padding-bottom:5px;
@@ -2003,10 +2018,10 @@ div.strategy_total_container {
       span {
         display: block;
         float: left;
-        padding-right:5px;
+        padding-right:17px;
         color: #939EAF;
-        width:87px;
-        text-align:center;
+        width:99px;
+        text-align:right;
         border:1px none #FF6600;
       }
       span:last-child {
@@ -2019,7 +2034,7 @@ div.strategy_total_container {
         display: block;
         float: left;
         padding-right:5px;
-        width:87px;
+        width:99px;
         text-align:center;
         border:1px none #FF6600;
       }
@@ -2059,12 +2074,12 @@ div.strategy_total_container {
   }
 
   .forth_col, .fifth_col, .six_col {
-    width: 263px ;
+    width: 305px ;
     border:1px none #FF6600;
   }
 
   .seventhMargin_col {
-    width: 174px ;
+    width: 204px ;
     border:1px none #000fff;
   }
 
@@ -2926,7 +2941,7 @@ div.strategy_total_container {
     width: 80px;*/
   }
   .total_cost {
-    width: 170px;
+    width: 121px;
   }
   .more_options .dd_txt , .dropdown-menu  {
     background: #fff ;
@@ -3133,6 +3148,7 @@ div.strategy_total_container {
     }
     .fourth_col , .fifth_col , .sixth_col , .seventh_col , .eigth_col , .ninth_col , .tenth_col {
         padding-right: 17px ;
+        width: 121px;
     }
     .total_cost {
       margin-right: 0px ;
@@ -3746,8 +3762,9 @@ only screen and (min-device-pixel-ratio: 2) {
         }
       }
     .container {
-      width: 1200px ;
+      max-width: 1200px ;
       padding: 0 ;
+      width: auto ;
     }
     .timeframe_selector {
       padding: 0px ;
@@ -3771,10 +3788,6 @@ only screen and (min-device-pixel-ratio: 2) {
     input:-moz-placeholder { 
       color:  #939ead;
       font-size: 14px;
-    }
-    .left_border {
-      border-left: solid 1px #ccc ;
-      padding : 0 0 25px 80px ;
     }
     .each_section_custom_report {
       margin: 0px 0 30px 0 ;
@@ -4530,8 +4543,10 @@ div.reports_tabs_content_container {
 }
 .page_top_header {
   margin: 23px 0 20px;
+  padding: 0 ;
   .page_name {
     color: #21252b ;
+    padding: 0 ;
     font-size: 26px ;
     font-family: "Avenir-bold";
   }
@@ -4573,6 +4588,70 @@ body.custom_report_page {
     margin-right:-4px;
     border-radius: 2px
 
+  }
+}
+@media (min-width: 560px) {
+    .left_border {
+      border-left: solid 1px #ccc ;
+      padding : 0 0 25px 80px ;
+    }
+}
+@media (max-width: 560px) { 
+  .page_top_header {
+    .page_name {
+      width: 100% ;
+    }
+    .pull-right {
+      margin-top: 20px ;
+      float : left !important ;
+    }
+  }
+
+}
+@media (max-width: 735px) { 
+  .nav_filters > div  {
+    width: 100% ;
+    max-width: 100% ;
+    min-width: 100% ;
+    margin: 0 0 20px 0 ;
+    padding-left: 0px ;
+  }
+  .nav_filters {
+    .campaign_name_selected {
+      min-width: 140px ;
+    }
+    div.lifetime_filter {
+      padding-left: 0 ;
+      .dropdown-menu {
+        left: 0 ;
+      }
+    }
+    .dropdown_type1 .dropdown-menu {
+      width: 100%;
+      min-width: 300px;
+      left: 16px;
+    }
+  }
+  .dropdown_type2  {
+    #strategy_dropdown {
+      min-width: 140px ;
+    }
+    #strategies_list {
+      width: 100%;
+    }
+  }
+
+}
+@media (max-width: 1260px) { 
+  .smallSreenScrollContainer {
+    overflow: hidden;
+    .smallSreenScrollDiv  {
+      overflow: auto;
+      width: 100%;
+      .smallSreenScrollContent {
+        width: 1200px ;
+      }
+    }
   }
 }
 

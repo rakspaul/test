@@ -1,6 +1,6 @@
 (function () {
     'use strict';
-    angObj.directive('campaignCostSort', function (utils,constants) {
+    angObj.directive('campaignCostSort', function (constants) {
         return {
             restrict:'EAC',
 

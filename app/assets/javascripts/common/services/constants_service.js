@@ -105,6 +105,7 @@
         this.VIDEO_PLAYS = "Video Plays";
         this.AD_SIZES = "Ad Sizes";
         this.DELETE_CREATIVES="Are you sure you want to delete creatives?"
+        this.CPMV = "CPMv";
 
         this.COLLECTIVE_INSIGHTS = "Collective Insights";
         this.UPLOAD_REPORT = "Upload Report";
@@ -146,6 +147,7 @@
             '<span class="bold-font">Success. </span> Media Plan has been successfully updated';
         this.PARTIAL_AD_SAVE_FAILURE = '<span class="bold-font">Error. </span> Ad could not be created' ;
         this.PARTIAL_AD_SAVE_SUCCESS = '<span class="bold-font">Success. </span> Ad has been successfully saved';
+        this.PARTIAL_AD_CLONE_SUCCESS = '<span class="bold-font">Success. </span> Ad has been successfully cloned';
         this.AD_GROUP_CREATED_SUCCESS =
             '<span class="bold-font">Success. </span> Ad Group has been successfully created';
         this.AD_GROUP_CREATED_FAILURE = '<span class="bold-font">Error. </span> Ad Group could not be created';
@@ -280,7 +282,6 @@
         this.CREATIVE = "Creative";
         this.RESEARCH = "Research";
         this.AD_VERIFICATION = "Ad Verification";
-        this.COLLECTIVE = "Collective Fee";
         this.TRANSPARENT_PLATFORM_FEE_CHARGED = "Transparent platform fee charged by Collective for technology and services associated with programmatic media activity";
         this.TOTAL_COST = "Total Cost";
         this.TOTAL_MARGIN = "Total Margin";
@@ -359,6 +360,7 @@
         this.STRATEGY = "Ad Group";
 
         this.PLATFORM_NAME = "Platform Name";
+        this.COLLECTIVE_FEE = "Collective Fee";
 
         this.SUSPICIOUS = "Suspicious";
         this.TOTAL = "Total";
@@ -368,7 +370,7 @@
 
         this.FORGOT_PASSWORD = "Forgot Password";
         this.FORGOT_PASSWORD_CONTACT_ACCOUNT_MANAGER = 'Contact your Account Manager to reset your password';
-        this.COPY_RIGHTS = "Copyright &copy; 2015 Collective, Inc. All Rights Reserved";
+        this.COPY_RIGHTS = "Copyright &copy; 2016 Collective, Inc. All Rights Reserved";
         this.ABOUT_US = "About Us";
         this.USERNAME_OR_PASSWORD_INCORRECT = "The Username/Password is incorrect";
 
@@ -384,7 +386,7 @@
 
         this.FORGOT_PASSWORD = 'Forgot Password';
         this.FORGOT_PASSWORD_CONTACT_ACCOUNT_MANAGER = 'Contact your Account Manager to reset your password';
-        this.COPY_RIGHTS = 'Copyright &copy; 2015 Collective, Inc. All Rights Reserved';
+        this.COPY_RIGHTS = 'Copyright &copy; 2016 Collective, Inc. All Rights Reserved';
         this.ABOUT_US = 'About Us';
         this.USERNAME_OR_PASSWORD_INCORRECT = 'The Username/Password is incorrect';
 
@@ -533,17 +535,22 @@
         this.WF_AD_RESUME_FAILURE="Ad Resume Failed"
         this.WF_AD_RESUME_SUCCESS="Ad Resumed Successfully"
         this.WF_AD_PAUSE_MESSAGE="Are you sure you want to pause delivery ?"
-        this.WF_AD_UPDATE="Ad Update"
-        this.WF_PAUSE_AD="Pause Ad"
+        this.WF_AD_UPDATE="Ad Update";
+        this.WF_PAUSE_AD="Pause Ad";
         this.WF_RESUME_AD="Resume Ad";
-        this.WF_ARCHIVE_AD="We're sorry."
-        this.WF_ARCHIVE_CAMPAIGN="We're sorry."
+        this.WF_ARCHIVE_AD="We're sorry.";
+        this.WF_ARCHIVE_CAMPAIGN="We're sorry.";
         this.WF_REDIRECT_USER_FOR_ARCHIVED_AD="You are unable to edit this archived Ad. Click 'Continue' to return to Campaign Overview Screen";
         this.WF_REDIRECT_USER_FOR_ARCHIVED_CAMPAIGN="You are unable to edit this archived Media Plan. Click 'Continue' to return to Media Plan List Screen";
-        this.WF_PAUSE="Pause"
-        this.WF_RESUME="Resume"
+        this.WF_CLONE_AD="Clone this Ad to";
+        this.WF_SELECT_MEDIA_PLAN="Media Plan";
+        this.WF_SELECT_AD_GROUP="Ad Group";
+        this.WF_NO_AD_GROUP="No Ad Group";
+        this.WF_CLONE="Clone Ad";
+        this.WF_PAUSE="Pause";
+        this.WF_RESUME="Resume";
         this.WF_MOVE_TO="Move to"
-        this.WF_COPY_TO="Copy to"
+        this.WF_CLONE="Clone"
         this.WF_ARCHIVE="Archive"
         this.WF_NOT_SET = "Not Set"
         this.WF_AD_SAVE_CLOSE = "Save & Close";
@@ -701,9 +708,9 @@
 
         //Ad Create: 5 Inventory Filters
         this.SETFILTERS = 'Set Inventory Filters';
-        this.HOWMANINVENFILTERS = 'How do I manage my Inventory Filters?';
+        this.HOWMANINVENFILTERS = 'Which Inventory Filters should I use?';
         this.SELECTEXISTING = 'Select from Existing';
-        this.ONLYONELIST = 'Only 1 list is supported at this moment.';
+        this.NO_DOMAIN_LIST_FOUND = 'No domain list found.';
         this.UPLOADDOMAINLIST = 'Upload Domain List';
         this.CSVTXTFILE = '(.csv, .txt file)';
         this.DOMAINLIST = 'Domain List';
@@ -718,6 +725,11 @@
         this.BLACKLIST = 'Blacklist';
         this.LISTYPEMOD = 'List type cannot be modified. ';
         this.IMPORT = 'Import';
+        this.INVENTORY_REPLACE_CURRENT_LIST = 'Replace Current List';
+        this.INVENTORY_UPLOAD_NEW = 'Upload New';
+        this.INVENTORY_SELECTED_DOMAIN_LISTS = 'Selected domain Lists';
+        this.INVENTORY_SELECT_FROM_EXISTING = 'Select from Existing';
+        this.ACTIVITIES = 'Activities';
 
         //Ad Create: 6 Creative
         this.ADDCREATIVETAG = 'Add Creative';
@@ -797,7 +809,7 @@
         this.MAXCOST = 'Max Cost';
         this.MEDIAPLANUPD = 'Media Plan Update';
         this.ARCHIVE = 'Archive';
-        this.OPTIMIZATION_REPORT = 'Optimization Report';
+        this.OPTIMIZATION_REPORT = 'Optimization Impact Report';
         this.BUILD_REPORT = 'Build Report';
         this.CUSTOM_REPORTS = 'Custom Reports';
         this.MEDIA_PLAN_REPORTS = 'Media Plan Reports';
@@ -865,6 +877,7 @@
         this.INCZIP = 'Including zip / postal codes is going to limit your geographic targeting significantly.';
         this.CONTINUE = 'Continue';
         this.REGCITY = 'REGION & CITY';
+        this.REGTABLABEL = 'REGION';
         this.METRO = 'METRO';
         this.ZIPPOSTCODE = 'ZIP / POSTAL CODE';
         this.INCEXCCITYNOTE =
@@ -876,10 +889,12 @@
         this.REMOVEALL = 'Remove All';
         this.METROS = 'Metros';
         this.DMAS = 'DMAs';
+        this.SEARCHFORMETROS  ='Search for metros';
+        this.SEARCHFORREGIONANDCITY = 'Search for regions or cities';
+        this.SEARCHFORREGION = 'Search for regions';
 
-        //audience
+        //Audience Targeting
         this.DEFAULTANDORSTATUS = 'Or';
-
         this.timeFrameStartDateGreater = 'Timeframe Start date can not be greater than end date';
         this.requiredTimeFrameDates = 'Please provide timeframe dates';
         this.requiredRptNameFreq = 'Please provide report name and frequency';
@@ -892,7 +907,6 @@
         this.reportNameErrorMsg =
             'Please use only alphanumeric characters for report names. ' +
             'Report name should start with alphabetic character';
-
         this.START_OR_END_DATE_CAN_NOT_LESS_THAN_CURRENTDATE =
             'Start date or end date cannot be less than the current date';
         this.DELIVER_DATE_CAN_NOT_LESS_THAN_CURRENTDATE =  'Deliver on date cannot be less than the current date';
@@ -904,15 +918,29 @@
         this.SELECT_VALID_CUSTOM_DATE = 'Select valid custom date';
         this.MONTHLY_SCHEDULING_DATE_RANGE__AT_LEAST_ONE_MONTH =
             'You have chosen monthly Scheduling, please choose a date range that is at least one month';
-
         this.CUSTOMDATE_ERROR_MESSAGE = 'The custom date does not fall within the range of Start and End Dates.';
 
-        // New
-        this.INVENTORY_REPLACE_CURRENT_LIST = 'Replace Current List';
-        this.INVENTORY_UPLOAD_NEW = 'Upload New';
-        this.INVENTORY_SELECTED_DOMAIN_LISTS = 'Selected domain Lists';
-
-        this.ACTIVITIES = 'Activities';
+        //Creative List
+        this.NEWCREATIVEALERT = 'New Creative has been created successfully.';
+        this.CREATIVELIBRARY = 'Creative Library';
+        this.CREATE = 'Create';
+        this.EDIT = 'Edit';
+        this.ARCHIVE = 'Archive';
+        this.CLONE = 'Clone';
+        this.CREATIVENAME = 'Creative Name';
+        this.FORMAT = 'Format';
+        this.TYPE = 'Type';
+        this.ADSERVER = 'Ad Server';
+        this.SIZE = 'Size';
+        this.ADVERTISER = 'Advertiser';
+        this.PLATFORMSPAR = 'Platform(s)';
+        this.LASTUPDATED = 'Last Updated';
+        this.CAMPAIGNDASHAD = 'Campaign / Ad';
+        this.BRAND = 'Brand';
+        this.TRACKINGONLY = 'Tracking-Only';
+        this.DATANOTAVAILABLE = 'Data not available';
+        this.UPDATETAG = 'Update Tag';
+        this.CREATIVESDELETE = 'Creatives Delete';
     };
 
     commonModule.service('constants', constants);

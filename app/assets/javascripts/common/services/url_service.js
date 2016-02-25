@@ -153,7 +153,7 @@
 
         this.APICalendarWidgetForBrand = function (clientId, advertiserId, brandId, sortColumn, status) {
             var url = apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId + '/brands/campaigns/meta?advertiser_id=' + advertiserId + '&brand_id=' + brandId;
-            url += '&topCount=200&sort_column=' + sortColumn + '&campaignState=' + status;
+            url += '&topCount=25&sort_column=' + sortColumn + '&campaignState=' + status;
             return url;
         };
 

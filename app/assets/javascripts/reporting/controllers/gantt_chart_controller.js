@@ -1,7 +1,9 @@
 (function () {
     'use strict';
-    commonModule.controller('GanttChartController', function ($scope, $location, $timeout, ganttChart, ganttChartModel, constants, brandsModel, loginModel, analytics,momentService) {
+    commonModule.controller('GanttChartController', function ($scope, ganttChart, ganttChartModel, constants, brandsModel, loginModel, analytics,momentService) {
 
+        var _curCtrl = this;
+        _curCtrl.filter = undefined;
         $scope.dataFound = true;
         $scope.style = constants.DATA_NOT_AVAILABLE_STYLE;
         $scope.message = constants.MSG_DATA_NOT_AVAILABLE;
@@ -9,6 +11,7 @@
 
             $scope.selected = "quarter";
             if (brandsModel.getSelectedBrand().id == -1) {
+                _curCtrl.filter = filter;
                 $scope.init(null, filter);
             } else {
                 $scope.init('single_brand', filter);
@@ -26,6 +29,8 @@
             $('.header-chart').remove();
             $scope.calendarBusy = true;
             $scope.selected = "quarter";
+            ganttChartModel.pageCount = 1;
+            _curCtrl.calendarLastPage = false;
             if (filter === undefined) {
                 ganttChartModel.filter = 'end_date';
             } else {
@@ -135,9 +140,76 @@
                     $scope.calendarBusy = false;
                     $scope.dataFound = false;
                 }
+                _curCtrl.count = count;
             });
         };
 
+        $scope.loadMoreItems = function(filter){
+            $scope.loadingMore = true;
+            $scope.brandNotSelected = false;
+            if (filter === undefined) {
+                ganttChartModel.filter = 'end_date';
+            } else {
+                ganttChartModel.filter = filter;
+            }
+            ganttChartModel.getGanttChartData().then(function (result) {
+                $scope.loadingMore = false;
+                var brands = [],
+                    campaigns = [],
+                    count = _curCtrl.count,
+                    limit = 5,
+                    o = {};
+                o.selected = $scope.selected;
+                //TODO: move this into a service
+                if (result != undefined && result.brands != undefined && result.brands.length > 0) {
+                        $scope.calendarData = result.brands.length;
+                        $scope.dataFound = true;
+
+                        //getting endpoint dates for calendar.
+                        var loop = 0;
+                        _.each(result.brands, function (datum) {
+                            _.each(datum.campaigns, function (tasks) {
+                                var campaignEndDate = momentService.utcToLocalTime(tasks.end_date, constants.DATE_UTC_SHORT_FORMAT);
+                                var campaignStartDate = momentService.utcToLocalTime(tasks.start_date, constants.DATE_UTC_SHORT_FORMAT);
+                                if (loop == 0) {
+                                    o.startDate = moment(campaignEndDate).startOf('day');
+                                    o.endDate = moment(campaignStartDate).endOf('day');
+                                }
+                                loop++;
+
+                                if (moment(o.startDate).toDate() > moment(campaignStartDate).toDate()) {
+                                    o.startDate = moment(campaignStartDate).startOf('month');
+                                }
+
+                                if (moment(o.endDate).toDate() < moment(campaignEndDate).toDate()) {
+                                    o.endDate = moment(campaignEndDate).endOf('month');
+                                }
+
+                            });
+                        });
+
+
+                        _.each(result.brands, function (datum) {
+                            _.each(datum.campaigns, function (tasks) {
+                                count++;
+                                var c = {};
+                                c.id = tasks.id;
+                                c.name = tasks.name;
+                                c.startDate = moment(momentService.utcToLocalTime(tasks.start_date, constants.DATE_UTC_SHORT_FORMAT)).startOf('day');
+                                c.endDate = moment(momentService.utcToLocalTime(tasks.end_date, constants.DATE_UTC_SHORT_FORMAT)).endOf('day');
+                                c.state = tasks.state;
+                                c.kpiStatus = tasks.kpi_status;
+                                c.taskName = count;
+                                brands.push(count);
+                                campaigns.push(c);
+                            });
+                        });
+                        ganttChart.loadMoreItemToCalender(campaigns, brands, o);
+                }else{
+                    _curCtrl.calendarLastPage = true;
+                }
+            });
+        }
 
         $scope.add = function () {
             ganttChart.addTask();
@@ -196,5 +268,14 @@
         $scope.getMessageForDataNotAvailable = function () {
             return constants.MSG_DATA_NOT_AVAILABLE_FOR_DASHBOARD;
         };
+
+        $scope.calendarWidgetInit = function(){
+            $("#calendar_widget").scroll(function(){
+                if(brandsModel.getSelectedBrand().id != -1 && !$scope.loadingMore && !$scope.calendarBusy && !_curCtrl.calendarLastPage && ($(this).scrollTop() + $(this).innerHeight() >= $(this)[0].scrollHeight)) {
+                    ganttChartModel.pageCount++;
+                    $scope.loadMoreItems();
+                }
+            });
+        }
     });
 }());

@@ -103,7 +103,6 @@ span.cost_opaque .cost_opaque_icon {
 }
 .total_reports_page {
   margin: 0px auto 40px;
-  width: 1200px;
 }
 .total_reports_page .load_more_rows {
   display: none;
@@ -375,7 +374,7 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
 }*/
 .reports_main_page_holder {
   margin: 0px auto 80px;
-  width: 1200px;
+  /*width: 1200px;*/
   /*  .each_cost_col {
     .first_col.icon_text_holder {
       width: 33px;
@@ -566,7 +565,6 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
   border-radius: 5px ;
   -moz-border-radius: 5px ;
   -webkit-border-radius: 5px ;
-  margin: 0px 0px 0px 50px;
   background-image: url("/assets/images/cdesk/download_report_icon.png");
   font-family: "Avenir";
   background-repeat: no-repeat;
@@ -576,12 +574,12 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
 .breadcrumb_campaign_strategy .download_report .dropdown {
   width: 100%;
   height: 100%;
-  background: url("/assets/images/cdesk/download_report_arrow.png") no-repeat 155px 12px;
+  background: url("/assets/images/cdesk/download_report_arrow.png") no-repeat 148px 13px;
 }
 .common_reports_container .download_report .dropdown ul.dropdown-menu,
 .breadcrumb_campaign_strategy .download_report .dropdown ul.dropdown-menu {
   width: 193px;
-  left: 0px;
+  left: -16px;
   top: 36px;
 }
 .common_reports_container .download_report .dropdown ul.dropdown-menu li,
@@ -625,7 +623,7 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
 }
 .common_reports_container .download_report:hover .dropdown,
 .breadcrumb_campaign_strategy .download_report:hover .dropdown {
-  background-position: 155px -45px;
+  background-position: 148px -44px;
 }
 .common_reports_container .download_report:hover a,
 .breadcrumb_campaign_strategy .download_report:hover a {
@@ -1606,6 +1604,15 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 .platform_reports_container .view_mode_switch_container {
   top: 145px ;
 }
+.viewability_quality .viewability_container {
+  margin-top: 53px;
+}
+.viewability_quality .view_mode_switch_container {
+  top: 41px;
+  position: relative;
+  clear: both;
+  float: right;
+}
 .video_tooltip .video_tooltip_icon {
   display: inline-block;
   float: left;
@@ -1946,7 +1953,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
   float: right;
 }
 #reports_platform_margin_block .each_col .margin_hdr {
-  width: 180px;
+  width: 210px;
   border: 1px none #FF6600;
   float: left;
   padding-bottom: 5px;
@@ -1961,10 +1968,10 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 #reports_platform_margin_block .each_col .sub_col span {
   display: block;
   float: left;
-  padding-right: 5px;
+  padding-right: 17px;
   color: #939EAF;
-  width: 87px;
-  text-align: center;
+  width: 99px;
+  text-align: right;
   border: 1px none #FF6600;
 }
 #reports_platform_margin_block .each_col .sub_col span:last-child {
@@ -1974,7 +1981,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
   display: block;
   float: left;
   padding-right: 5px;
-  width: 87px;
+  width: 99px;
   text-align: center;
   border: 1px none #FF6600;
 }
@@ -2012,11 +2019,11 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 #reports_platform_margin_block .forth_col,
 #reports_platform_margin_block .fifth_col,
 #reports_platform_margin_block .six_col {
-  width: 263px ;
+  width: 305px ;
   border: 1px none #FF6600;
 }
 #reports_platform_margin_block .seventhMargin_col {
-  width: 174px ;
+  width: 204px ;
   border: 1px none #000fff;
 }
 #reports_platform_margin_block div.each_row_list div.platform_aggregation_row {
@@ -2793,7 +2800,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 }
 .reports_cost_header_holder .total_cost,
 #reports_platform_cost_block .total_cost {
-  width: 170px;
+  width: 121px;
 }
 .reports_cost_header_holder .more_options .dd_txt,
 #reports_platform_cost_block .more_options .dd_txt,
@@ -3014,6 +3021,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 #reports_platform_cost_block .reports_platform_header .tenth_col,
 #reports_platform_cost_block .strategy_total_container_header .tenth_col {
   padding-right: 17px ;
+  width: 121px;
 }
 #reports_platform_cost_block .reports_platform_header .total_cost,
 #reports_platform_cost_block .strategy_total_container_header .total_cost {
@@ -3580,8 +3588,9 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
   padding: 7px 10px ;
 }
 .report_generator_and_response .report_builder_container .container {
-  width: 1200px ;
+  max-width: 1200px ;
   padding: 0 ;
+  width: auto ;
 }
 .report_generator_and_response .report_builder_container .timeframe_selector {
   padding: 0px ;
@@ -3605,10 +3614,6 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 .report_generator_and_response .report_builder_container input:-moz-placeholder {
   color: #939ead;
   font-size: 14px;
-}
-.report_generator_and_response .report_builder_container .left_border {
-  border-left: solid 1px #ccc ;
-  padding: 0 0 25px 80px ;
 }
 .report_generator_and_response .report_builder_container .each_section_custom_report {
   margin: 0px 0 30px 0 ;
@@ -4289,9 +4294,11 @@ div.reports_tabs_content_container div#reports_bycreatives_block div.reports_det
 }
 .page_top_header {
   margin: 23px 0 20px;
+  padding: 0 ;
 }
 .page_top_header .page_name {
   color: #21252b ;
+  padding: 0 ;
   font-size: 26px ;
   font-family: "Avenir-bold";
 }
@@ -4334,4 +4341,60 @@ body.custom_report_page .bodyWrap {
   padding-left: 8px;
   padding-top: 8px;
   left: -33px;
+}
+@media (min-width: 560px) {
+  .left_border {
+    border-left: solid 1px #ccc ;
+    padding: 0 0 25px 80px ;
+  }
+}
+@media (max-width: 560px) {
+  .page_top_header .page_name {
+    width: 100% ;
+  }
+  .page_top_header .pull-right {
+    margin-top: 20px ;
+    float: left !important ;
+  }
+}
+@media (max-width: 735px) {
+  .nav_filters > div {
+    width: 100% ;
+    max-width: 100% ;
+    min-width: 100% ;
+    margin: 0 0 20px 0 ;
+    padding-left: 0px ;
+  }
+  .nav_filters .campaign_name_selected {
+    min-width: 140px ;
+  }
+  .nav_filters div.lifetime_filter {
+    padding-left: 0 ;
+  }
+  .nav_filters div.lifetime_filter .dropdown-menu {
+    left: 0 ;
+  }
+  .nav_filters .dropdown_type1 .dropdown-menu {
+    width: 100%;
+    min-width: 300px;
+    left: 16px;
+  }
+  .dropdown_type2 #strategy_dropdown {
+    min-width: 140px ;
+  }
+  .dropdown_type2 #strategies_list {
+    width: 100%;
+  }
+}
+@media (max-width: 1260px) {
+  .smallSreenScrollContainer {
+    overflow: hidden;
+  }
+  .smallSreenScrollContainer .smallSreenScrollDiv {
+    overflow: auto;
+    width: 100%;
+  }
+  .smallSreenScrollContainer .smallSreenScrollDiv .smallSreenScrollContent {
+    width: 1200px ;
+  }
 }

@@ -1,7 +1,7 @@
 var angObj = angObj || {};
 (function () {
     'use strict';
-    angObj.controller('OptimizationController', function ( $rootScope, $scope, $location, $window, $anchorScroll, campaignSelectModel, kpiSelectModel, strategySelectModel,  dataService, utils,  $http, actionChart, $timeout, domainReports, apiPaths, actionColors, campaignListService,constants, timePeriodModel, loginModel, analytics, momentService, urlService, advertiserModel, brandsModel) {
+    angObj.controller('OptimizationController', function ( $rootScope, $scope, campaignSelectModel, kpiSelectModel, strategySelectModel,  dataService, utils, actionChart, $timeout, domainReports, apiPaths, actionColors,constants, timePeriodModel, loginModel, analytics, momentService, urlService, advertiserModel, brandsModel) {
 
         $scope.textConstants = constants;
 
@@ -400,7 +400,7 @@ var angObj = angObj || {};
                     'query_id': 32,
                     'label' : 'Optimization Report',
                     'report_type' : 'all',
-                    'report_cat' : 'optimize'
+                    'report_cat' : 'optimization_impact'
                 }
             ];
         };

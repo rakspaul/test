@@ -1,10 +1,10 @@
 <div class="reports_main_page_holder">
     <div class="common_reports_container platform_reports_container" >
         <div class="clearfix page_top_header">
-            <div class="pull-left page_name">
+            <div class="pull-left col-md-6 page_name">
                 Platform Report
             </div>
-            <div class="pull-right download_report">
+            <div class="pull-right col-md-6 download_report">
                 <download-report></download-report>
             </div>
         </div>
@@ -30,12 +30,12 @@
         <div class="common-load-icon_viewability" ng-show="strategyLoading && selectedCampaign.id != -1"></div>
     </div>
 
-    <div class="platform_container" ng-hide="strategyLoading && selectedCampaign.id != -1">
+    <div class="platform_container smallSreenScrollContainer" ng-hide="strategyLoading && selectedCampaign.id != -1">
         <div class="no_data_found" ng-if="!strategyFound" ng-bind-html="getMessageForDataNotAvailable(selectedCampaign)"></div>
 
 
-        <div class="reports_tabs_content_container"  ng-show="strategyFound">
-            <div class="reports_tabs_content_container">
+        <div class="reports_tabs_content_container smallSreenScrollDiv"  ng-show="strategyFound">
+            <div class="reports_tabs_content_container  smallSreenScrollContent">
                 <!-- -------START :  Platform Tabs ------------------------ -->
                 <div class="clearfix">
                     <div class="clearfix reports_tabs_holder">
@@ -179,7 +179,7 @@
                     <div class="reports_block" id="reports_platform_margin_block" style="display:none; position:relative; overflow-x:scroll; border:1px solid #F2F2F2">
                     <div class="no_data_found" ng-if="dataNotFoundForMargin" ng-bind-html="getMessageForDataNotAvailable(selectedCampaign)"></div>
 
-                    <div class="reports_details_outer_container" style="overflow:auto; width:1480px;" ng-show="!dataNotFoundForMargin">
+                    <div class="reports_details_outer_container" style="overflow:auto; width:1650px;" ng-show="!dataNotFoundForMargin">
 
                         <div class="clearfix reports_platform_header" ng-hide="marginBusy">
                             <margin-header></margin-header>
@@ -351,11 +351,12 @@
             <span class="plat_name" title="{{platform.platform_name}}">{{platform.platform_name}}</span>
         </div>
         <div class="each_cost_col sec_col">{{((platform.impressions >0)|| (platform.impressions == 0))? (platform.impressions | nrFormat) : '-'}}</div>
-        <div class="each_cost_col third_col">{{platform[selected_filters.kpi_type.toLowerCase()] | appendDollor : selected_filters.kpi_type.toLowerCase() }}</div>
+        <div class="each_cost_col third_col">{{selected_filters.kpi_type.toLowerCase() === 'vtc'? platform['vtc_100']:platform[selected_filters.kpi_type.toLowerCase()] | appendDollor : selected_filters.kpi_type.toLowerCase() }}</div>
         <div class="each_cost_col fourth_col">{{((platform.inventory_cost >0)|| (platform.inventory_cost == 0))? (platform.inventory_cost | currency:undefined:0) : '-'}}</div>
         <div class="each_cost_col fifth_col">{{((platform.data_cost >0)|| (platform.data_cost == 0))? (platform.data_cost | currency:undefined:0) : '-'}}</div>
         <div class="each_cost_col sixth_col">{{((platform.serving_cost >0)|| (platform.serving_cost == 0))? (platform.serving_cost | currency:undefined:0) : '-'}}</div>
-        <div class="each_cost_col sev_col">{{((platform.verification_cost >0)|| (platform.verification_cost == 0))? (platform.verification_cost | currency:undefined:0) : '-'}}</div>
+        <div class="each_cost_col seventh_col">{{((platform.verification_cost >0)|| (platform.verification_cost == 0))? (platform.verification_cost | currency:undefined:0) : '-'}}</div>
+        <div class="each_cost_col seventh_col">{{((platform.collective_cost >0)|| (platform.collective_cost == 0))? (platform.collective_cost | currency:undefined:0) : '-'}}</div>
         <div class="each_cost_col eight_col total_cost">{{((platform.spend >0)|| (platform.spend == 0))? (platform.spend | currency:undefined:0) : '-'}}</div>
     </div>
 </script>

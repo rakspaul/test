@@ -1,8 +1,7 @@
 var angObj = angObj || {};
 (function () {
     'use strict';
-    angObj.controller('daypartController', function ($scope, audienceService, workflowService, $rootScope,$window, $routeParams, 
-        constants, $timeout, $location,utils) {
+    angObj.controller('daypartController', function ($scope, audienceService, workflowService, $timeout) {
         var _dayPartTargetting = this;
 
         $scope.Schedule = {
@@ -19,6 +18,7 @@ var angObj = angObj || {};
         $scope.twelve = true;
         $scope.clock = '12 hr';
         $scope.timezoneFormat = 'Advertiser';
+        $scope.saveDayPartFlag = false;
 
         $scope.getStartTimes = [
             {time: 0,  twelveHrFormat: '12:00AM', twentyfourHrFormat: '00:00'},
@@ -401,20 +401,20 @@ var angObj = angObj || {};
             $scope.dayTimeSelected = [];
             $scope.Schedule.daytimeArr = [];
 
-            var daypartObj = JSON.parse(localStorage.getItem("dayPart"));
-            var selectedDayTime = JSON.parse(localStorage.getItem("dayTimeSelected"));
-            var dayTimeArr = JSON.parse(localStorage.getItem("daytimeArr"));
+            var daypartObj = localStorage.getItem("dayPart");
+            var selectedDayTime = localStorage.getItem("dayTimeSelected");
+            var dayTimeArr = localStorage.getItem("daytimeArr");
 
             if(selectedDayTime)
-                $scope.dayTimeSelected = selectedDayTime;
+                $scope.dayTimeSelected = JSON.parse(selectedDayTime);
 
             var previouslySavedData = audienceService.getDayPartdata();
             if(daypartObj) {
-                $scope.Schedule.dayPart = daypartObj;
+                $scope.Schedule.dayPart = JSON.parse(daypartObj);
             }
 
             if(dayTimeArr) {
-                $scope.Schedule.daytimeArr = dayTimeArr;
+                $scope.Schedule.daytimeArr = JSON.parse(dayTimeArr);
             }
 
             if(!daypartObj && !selectedDayTime && !dayTimeArr){
@@ -432,13 +432,14 @@ var angObj = angObj || {};
 
         // Closes Daypart Targeting View
         $scope.resetDayPartTargetingVariables = function () {
+            $scope.saveDayPartFlag = false;
             var dayParting = audienceService.getDaytimeObj();
             if (!dayParting || dayParting.length === 0) {
                 $scope.adData.isDaypartSelected = false;
                 $scope.adData.targetName = null;
-            } else {
+            } //else {
                 $scope.setSelectedDayparts();
-            }
+            //}
             _dayPartTargetting.hideDayPartTargetingBox();
         };
 
@@ -549,11 +550,12 @@ var angObj = angObj || {};
             $scope.Schedule.customLength = $scope.Schedule.customLength + 1;
             $scope.Schedule.daytimeArr.push({day: 'Sunday', startTime: 'All Day'});
             $scope.Schedule.dayPart.push({day: 'Sunday', stTime: 24});
+            $scope.saveDayPartFlag = false;
         };
 
         $scope.Schedule.dayTimeSelected = function (value, event) {
             var daytimeObj;
-
+            $scope.saveDayPartFlag = false;
             $scope.customFlag = false;
             switch (value) {
                 case 0:
@@ -736,7 +738,7 @@ var angObj = angObj || {};
                 case 7:
                     $scope.dayTimeSelected = 'Custom schedule';
                     $scope.storedResponse = angular.copy(workflowService.getAdsDetails());
-                    var dayParts = $scope.storedResponse.targets.adDaypartTargets;
+                    var dayParts = $scope.storedResponse && $scope.storedResponse.targets.adDaypartTargets;
                     var resetCustomSchedule = function() {
                         $scope.Schedule.dayPart = [];
                         $scope.customFlag = true;
@@ -750,6 +752,10 @@ var angObj = angObj || {};
 
                     if(event) { //for create since we dont have any response
                         resetCustomSchedule();
+                    }
+
+                    if($scope.Schedule.daytimeArr.length ===0 ) {
+                        $scope.saveDayPartFlag = true;
                     }
 
                     break;
@@ -788,6 +794,13 @@ var angObj = angObj || {};
             }
         };
 
+        $scope.clearDayPart = function() {
+            $scope.Schedule.dayPart=[];
+            $scope.Schedule.daytimeArr=[];
+            $scope.Schedule.customLength = 0;
+            $scope.saveDayPartFlag = true;
+            $scope.changeDayTime();
+        };
 
         $scope.$on('triggerDayPart', function() {
             var moduleDeleted = workflowService.getDeleteModule();

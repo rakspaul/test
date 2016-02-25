@@ -2,7 +2,7 @@
  * Created by collective on 27/08/2015.
  */
 (function() {
-    commonModule.factory('RoleBasedService', ['momentService', 'constants', '$locale', 'tmhDynamicLocale','$rootScope', function (momentService, constants, $locale, tmhDynamicLocale, $rootScope) {
+    commonModule.factory('RoleBasedService', ['momentService', 'constants', '$locale', 'tmhDynamicLocale', function (momentService, constants, $locale, tmhDynamicLocale) {
 
         var getClientRole = function() {
             return JSON.parse(localStorage.getItem('clientRoleObj'));

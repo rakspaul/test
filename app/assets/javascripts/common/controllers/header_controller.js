@@ -1,6 +1,6 @@
 (function () {
     'use strict';
-    commonModule.controller('HeaderController', function ($scope, $rootScope, $http, loginModel, $timeout, $route, $modal, $cookieStore, $location , constants, domainReports , campaignSelectModel, RoleBasedService, workflowService,advertiserModel, tmhDynamicLocale ) {
+    commonModule.controller('HeaderController', function ($scope, $rootScope, loginModel, $route, $modal, $cookieStore, $location , constants, domainReports , campaignSelectModel, RoleBasedService, workflowService ) {
 
         $scope.user_name = loginModel.getUserName();
         $scope.version = version;
@@ -98,6 +98,7 @@
                                     $scope.getClientData(id);
                                     showSelectedClient(event, name);
                                     $rootScope.clientName = name;
+                                    $scope.defaultAccountsName = name;
                                     if(moduleObj.redirect) {
                                         $location.url('/mediaplans');
                                     } else {
@@ -113,6 +114,7 @@
                 showSelectedClient(event, name);
                 $scope.getClientData(id);
                 $rootScope.clientName = name;
+                $scope.defaultAccountsName = name;
                 $rootScope.$broadcast(constants.ACCOUNT_CHANGED, {'client' : id, 'event_type' :'clicked'});
             }
 

@@ -1,5 +1,5 @@
 //Data Manipulation in model
-campaignSelectModule.factory("campaignSelectModel", ['urlService','dataService' ,'kpiSelectModel','constants','loginModel','advertiserModel', function (urlService,dataService,kpiSelectModel, constants,loginModel,advertiserModel) {
+campaignSelectModule.factory("campaignSelectModel", ['urlService','dataService' ,'kpiSelectModel','loginModel','advertiserModel', function (urlService,dataService,kpiSelectModel,loginModel,advertiserModel) {
     var campaign = {};
     campaign.campaigns = {};
     campaign.selectedCampaign = (localStorage.getItem('selectedCampaign') == undefined) ? { id: -1,name : 'Loading...', kpi : 'ctr', startDate : '-1', endDate : '-1' } : (JSON.parse( localStorage.getItem('selectedCampaign') )) ;

@@ -1,6 +1,6 @@
 (function () {
   'use strict';
-  brandsModule.controller('BrandsListController', function ($scope, brandsModel, utils, $rootScope, constants) {
+  brandsModule.controller('BrandsListController', function ($scope, constants) {
     $scope.$watch('selectedBrand.name', function (newName, oldName) {
       if (newName === oldName) {
         return;

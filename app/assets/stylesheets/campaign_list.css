@@ -2069,8 +2069,9 @@ input[type="submit"] {
 .main_navigation_holder {
   height: 50px;
   background: #0978c9;
-  padding: 0px 15px 0px 50px;
+  padding: 0px 15px;
   position: relative;
+  z-index: 999999999;
 }
 .main_navigation_holder .profile-photo-tab {
   position: relative;
@@ -2116,9 +2117,11 @@ input[type="submit"] {
   font-size: 16px ;
 }
 .main_navigation_holder .account-name-nav {
-  margin: 15px 50px 0 0;
+  margin: 16px 15px 0 0;
   font-size: 14px;
+  width: 180px;
   cursor: pointer;
+  text-align: right;
 }
 .main_navigation_holder .main_nav_dropdown {
   display: none;
@@ -2136,32 +2139,112 @@ input[type="submit"] {
   float: left;
 }
 .main_navigation_holder .main_nav_dropdown .user-photo-details {
-  width: 170px ;
+  width: 100%;
+  float: left;
+}
+.main_navigation_holder .main_nav_dropdown .user-photo-details .dropdown {
+  position: static;
+}
+.main_navigation_holder .main_nav_dropdown .user-photo-details .accountsList-dropdown-li {
+  width: 100%;
+  padding: 0;
+  float: left;
+}
+.main_navigation_holder .main_nav_dropdown .user-photo-details .dropdown-menu {
+  overflow: scroll;
+  top: 0;
+  left: 0;
+  border: 0;
+  max-width: 100%;
+  min-width: 100%;
+  background: transparent ;
+  padding: 0px ;
+  margin: 0;
+  float: left;
+  position: initial;
+  box-shadow: none;
+}
+.main_navigation_holder .main_nav_dropdown .user-photo-details .dropdown-menu:before {
+  display: none ;
+}
+.main_navigation_holder .main_nav_dropdown .user-photo-details .dropdown_ul_text {
+  cursor: pointer;
+  margin: 0;
+  display: block;
+  width: 190px;
+}
+.main_navigation_holder .main_nav_dropdown .user-photo-details .dropdown_ul_text .glyphicon {
+  font-size: 11px;
+  margin-top: 4px;
+}
+.main_navigation_holder .main_nav_dropdown .user-photo-details .dropdown_ul_text .icon-arrow-down-thick {
+  color: #fff;
+  margin-top: 2px;
+}
+.main_navigation_holder .main_nav_dropdown .user-photo-details li {
+  list-style: none;
+  cursor: pointer;
+  border-bottom: solid 1px #0978c9;
+  font-size: 14px;
+  padding: 8px 10px;
+}
+.main_navigation_holder .main_nav_dropdown .user-photo-details li:hover {
+  background: transparent ;
+}
+.main_navigation_holder .main_nav_dropdown .user-photo-details li:hover span {
+  border-bottom: solid 1px #fff ;
+}
+.main_navigation_holder .main_nav_dropdown .user-photo-details li:last-child {
+  border-width: 0;
+}
+.main_navigation_holder .main_nav_dropdown .user-photo-details .selected-li {
+  font-family: "Avenir-bold";
+  background: transparent;
+}
+.main_navigation_holder .main_nav_dropdown .user-photo-details .selected-li:hover span {
+  border-bottom: solid 1px transparent ;
 }
 .main_navigation_holder .main_nav_dropdown .user-photo-details .username {
   white-space: nowrap;
-  width: 100%;
+  width: 189px;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+.main_navigation_holder .main_nav_dropdown .user-photo-details .dropdown_ul_text {
+  float: left;
+  width: 100%;
+  cursor: pointer;
+  padding-bottom: 15px;
 }
 .main_navigation_holder .main_nav_dropdown .user-photo-details .dropdown_ul_text .dd_txt {
   white-space: nowrap;
-  width: 90%;
+  width: 169px;
   overflow: hidden;
   text-overflow: ellipsis;
 }
+.main_navigation_holder .main_nav_dropdown .user-photo-details .dropdown_ul_text .icon-arrow-down-thick {
+  color: #fff;
+}
+.main_navigation_holder .main_nav_dropdown .logout-option-link {
+  width: 100%;
+  text-align: center;
+  float: left;
+  background: #0564A9;
+}
+.main_navigation_holder .main_nav_dropdown .logout-option-link .logout_link {
+  width: 100%;
+  float: left;
+  text-align: center;
+  padding: 8px 0;
+}
 .main_navigation_holder .main_nav_dropdown .profile-data {
   position: relative;
-  padding-top: 16px;
-  padding-left: 30px ;
-  background: #134A89;
-  width: 230px  ;
+  background: #004478;
+  width: 300px;
   box-sizing: initial;
   -webkit-box-sizing: initial;
   -moz-box-sizing: initial;
-  margin-right: 30px ;
-  padding-right: 20px ;
-  padding-bottom: 16px ;
+  padding: 15px 0 0 0;
 }
 .main_navigation_holder .main_nav_dropdown .profile-data .user-photo {
   display: inline-block;
@@ -2181,60 +2264,6 @@ input[type="submit"] {
 .main_navigation_holder .main_nav_dropdown .profile-data .username {
   margin-top: 2px;
   display: inline-block;
-}
-.main_navigation_holder .main_nav_dropdown .accountsList .dropdown {
-  position: static;
-}
-.main_navigation_holder .main_nav_dropdown .accountsList .accountsList-dropdown-li {
-  margin-left: 30px ;
-}
-.main_navigation_holder .main_nav_dropdown .accountsList .dropdown-menu {
-  max-height: 200px;
-  overflow: scroll;
-  top: 80px;
-  left: 0;
-  border: 0;
-  max-width: 100%;
-  min-width: 100%;
-  background: #134A89 ;
-  padding: 0px ;
-  margin: 0 ;
-}
-.main_navigation_holder .main_nav_dropdown .accountsList .dropdown-menu:before {
-  display: none ;
-}
-.main_navigation_holder .main_nav_dropdown .accountsList .dropdown_ul_text {
-  cursor: pointer;
-  margin: 0;
-  display: block;
-}
-.main_navigation_holder .main_nav_dropdown .accountsList .dropdown_ul_text .glyphicon {
-  font-size: 11px;
-  margin-top: 4px;
-}
-.main_navigation_holder .main_nav_dropdown .accountsList .dropdown_ul_text .icon-arrow-down-thick {
-  color: #fff;
-  margin-top: 2px;
-}
-.main_navigation_holder .main_nav_dropdown .accountsList li {
-  list-style: none;
-  cursor: pointer;
-  border-bottom: solid 1px #0978c9;
-  font-size: 14px;
-  padding: 8px 10px;
-}
-.main_navigation_holder .main_nav_dropdown .accountsList li:hover {
-  background: transparent ;
-}
-.main_navigation_holder .main_nav_dropdown .accountsList li:hover span {
-  border-bottom: solid 1px #fff ;
-}
-.main_navigation_holder .main_nav_dropdown .selected-li {
-  font-family: "Avenir-bold";
-  background: transparent;
-}
-.main_navigation_holder .main_nav_dropdown .selected-li:hover span {
-  border-bottom: solid 1px transparent ;
 }
 .main_navigation_holder .main_nav_dropdown .about_link {
   margin-top: 40px ;
@@ -2258,6 +2287,12 @@ input[type="submit"] {
 }
 .main_navigation_holder #user-menu {
   min-height: 80px;
+  width: 300px;
+  left: initial;
+  right: 0;
+}
+.main_navigation_holder #user-menu .nav-menu {
+  background: transparent;
 }
 .main_navigation_holder .dropdown-menu {
   padding: 10px 0px ;
@@ -2600,6 +2635,7 @@ input[type="submit"] {
 .nav_filters .timeline_dd {
   background: url("/assets/images/cdesk/common_down_arrow.png") no-repeat right 4px;
   padding-right: 20px ;
+  max-width: 140px ;
 }
 .nav_filters .each_filter {
   margin-top: 0px ;
@@ -2767,7 +2803,7 @@ input[type="submit"] {
   height: 20px ;
   /*min-width: 120px ; */
   padding-right: 20px ;
-  max-width: 133px ;
+  max-width: 140px ;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis ;

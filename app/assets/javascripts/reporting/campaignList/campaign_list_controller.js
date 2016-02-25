@@ -1,7 +1,7 @@
 (function() {
   'use strict';
 
-  campaignListModule.controller('CampaignListController', function($scope,  $rootScope, kpiSelectModel ,  campaignListModel, campaignSelectModel, strategySelectModel, utils, $location, _, constants, brandsModel, loginModel, analytics, gaugeModel, RoleBasedService) {
+  campaignListModule.controller('CampaignListController', function($scope,  $rootScope, kpiSelectModel ,  campaignListModel, campaignSelectModel, strategySelectModel, utils, $location, _, constants, brandsModel, loginModel, gaugeModel, RoleBasedService) {
     //Hot fix to show the campaign tab selected
     $(".main_navigation").find('.active').removeClass('active').end().find('#campaigns_nav_link').addClass('active');
     $(".main_navigation_holder").find('.active_tab').removeClass('active_tab') ;
@@ -118,10 +118,10 @@
               if(scroll_to_element < window_scrollTop){
               window.scrollTo(0,scroll_to_element);
               }*/
-             if ($(window).scrollTop() >= $(document).height() - $(window).height() - 10) {
-                 var test_height = parseInt($(this).height())+1;
-                 $(this).height(test_height);
-             }
+//             if ($(window).scrollTop() >= $(document).height() - $(window).height() - 10) {
+//                 var test_height = parseInt($(this).height())+1;
+//                 $(this).height(test_height);
+//             }
              if(!$scope.campaigns.busy && ($(this).scrollTop() + $(this).innerHeight() >= $(this)[0].scrollHeight)) {
                  $scope.campaigns.fetchData();
              }

@@ -1,6 +1,6 @@
 (function () {
     'use strict';
-    advertiserModule.controller('AdvertiserController', function ($scope,$routeParams, advertiserModel, workflowService,  advertiserService, utils, $rootScope, constants, loginModel, analytics) {
+    advertiserModule.controller('AdvertiserController', function ($scope, advertiserModel, utils, $rootScope, constants, loginModel) {
 
         var search = false;
         var searchCriteria = utils.typeaheadParams,
@@ -29,8 +29,9 @@
             $('#advertisersDropdown').attr('placeholder', advertiser.name).val('');
             $scope.advertiserData.showAll = true;
             advertiserModel.setSelectedAdvertisers(advertiser);
-            if(!advertiser.referedFrom)
+            if(!advertiser.referedFrom) {
                 advertiserModel.callAdvertiserBroadcast(advertiser, event_type);
+            }
             $scope.selectedAdvertiser = null;
         };
 
@@ -61,7 +62,7 @@
             $scope.selectAdvertiser(advertiser);
             advertiserModel.setSelectedAdvertisers(advertiser);
             advertiserModel.callAdvertiserBroadcast(advertiser, args.event_type);
-            $rootScope.$broadcast('CAMPAIGN_CHANGE');
+           // $rootScope.$broadcast('CAMPAIGN_CHANGE');
         });
 
         $scope.$on('$destroy', function() {
