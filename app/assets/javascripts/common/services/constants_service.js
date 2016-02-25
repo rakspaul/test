@@ -550,7 +550,6 @@
         this.WF_PAUSE="Pause";
         this.WF_RESUME="Resume";
         this.WF_MOVE_TO="Move to"
-        this.WF_CLONE="Clone"
         this.WF_ARCHIVE="Archive"
         this.WF_NOT_SET = "Not Set"
         this.WF_AD_SAVE_CLOSE = "Save & Close";

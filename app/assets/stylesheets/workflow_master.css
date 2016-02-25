@@ -360,6 +360,7 @@ select {
 .dropdown-workflow .searchBar {
   position: relative;
   margin-bottom: 15px;
+  margin-top: -5px;
 }
 .dropdown-workflow .searchBar .icon-search {
   position: absolute;
