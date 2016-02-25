@@ -262,7 +262,10 @@
                                 </div>
                             </li>
                             <li ng-repeat="mediaplan in mediaPlanList | filter: media" >
-                                <a ng-click="selectMediaPlan(mediaplan)">{{mediaplan.name}}{{(mediaplan.id == campaignId)? ' (Current)':''}}</a>
+                                <a ng-click="selectMediaPlan(mediaplan)">
+                                    <span ng-if="mediaplan.id == campaignId"><b>{{mediaplan.name}} (Current)</b></span>
+                                    <span ng-if="mediaplan.id != campaignId">{{mediaplan.name}}</span>
+                                </a>
                             </li>
                         </ul>
                         </div>
@@ -280,10 +283,16 @@
                             <span class="icon-arrow-down"></span>
                         </button>
                         <ul class="dropdown-menu" aria-labelledby="accountType" data-toggle="dropdown">
+                            <li class="searchBar">
+                                <div class="col-md-12 input-group input-group-sm search-control">
+                                    <input type="text" class="form-control" name="mediaplanSearch" ng-model="adGroup"  placeholder="Search Ad Group"/>
+                                    <div class="icon-search"></div>
+                                </div>
+                            </li>
                             <li>
                                 <a ng-click="selectAdGroup(null)">{{textConstants.WF_NO_AD_GROUP}}</a>
                             </li>
-                            <li ng-repeat="groups in adGroupList" >
+                            <li ng-repeat="groups in adGroupList | filter: adGroup" >
                                 <a ng-click="selectAdGroup(groups)">{{groups.name}}</a>
                             </li>
                         </ul>
