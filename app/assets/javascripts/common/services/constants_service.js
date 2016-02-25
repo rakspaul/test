@@ -221,7 +221,7 @@
         this.NEUTRAL = 'Neutral (no status)';
         this.IMP_WITH_DOT = 'Imps.';
         this.VTC = 'VTC';
-        this.QUARTILE_DETAILS = 'Quartile Details';
+        this.QUARTILE_DETAILS = 'Quartile Data';
         this.YET_TO_START = 'Yet to start';
         this.ENDED = 'Ended';
         this.ARCHIVED = 'Archived';
