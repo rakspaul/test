@@ -25,7 +25,7 @@ var angObj = angObj || {};
         $scope.campaignId = $routeParams.campaignId;
         $scope.loadCreativeData=false;
         $scope.deletePopup=false;
-        
+
         //viewPort Plugin Start
         //**Abi Commented Future Sticky Header
         //(function($){
@@ -229,9 +229,9 @@ var angObj = angObj || {};
 
         $scope.getAdFormatIconName = function (adFormat) {
             var adFormatMapper = {
-                'display': 'icon-image', 
-                'video': 'icon-video', 
-                'richmedia': 'icon-rich-media', 
+                'display': 'icon-image',
+                'video': 'icon-video',
+                'richmedia': 'icon-rich-media',
                 'social': 'icon-social'
             };
 
@@ -301,9 +301,9 @@ var angObj = angObj || {};
             $scope.updateForceSaveData = putCrDataObj;
             workflowService
                 .updateCreative(
-                    $scope.selectedCreativeData.clientId, 
-                    $scope.selectedCreativeData.advertiserId, 
-                    $scope.selectedCreativeData.id, 
+                    $scope.selectedCreativeData.clientId,
+                    $scope.selectedCreativeData.advertiserId,
+                    $scope.selectedCreativeData.id,
                     putCrDataObj
                 )
                 .then(function (result) {
@@ -323,7 +323,7 @@ var angObj = angObj || {};
                 });
         };
 
-        $scope.updateTag = function (context) { 
+        $scope.updateTag = function (context) {
             var PatternOutside = new RegExp(/<script.*>.*(https:).*<\/script>.*/),
                 PatternInside = new RegExp(/<script.*(https:).*>.*<\/script>.*/),
                 tagLower = $scope.editableTag.toLowerCase().replace(' ', '').replace(/(\r\n|\n|\r)/gm, '');
@@ -374,7 +374,7 @@ var angObj = angObj || {};
             }
             //$scope.chkActiveParent();
         };
-        
+
         //Fix position for parent row
         //$scope.chkActiveParent = function () {
         //    var visible = false;
@@ -383,7 +383,7 @@ var angObj = angObj || {};
         //        if ( $( this ).visible( true ) ) {
         //            visible = true;
         //        }
-        //    
+        //
         //        if ( visible ) {
         //            $(this).find(".parentWrap").removeClass('fixedParent');
         //            console.log("I SEE PARENT");
@@ -397,7 +397,7 @@ var angObj = angObj || {};
         //$(window).scroll(function(){
         //    $scope.chkActiveParent();
         //});
-        
+
         $scope.utcToLocalTime = function (date, format) {
             return momentService.utcToLocalTime(date, format);
         };
@@ -417,8 +417,8 @@ var angObj = angObj || {};
         $scope.saveDuplicate = function () {
             workflowService
                 .forceSaveCreatives(
-                    $scope.selectedCreativeData.clientId, 
-                    $scope.selectedCreativeData.advertiserId, 
+                    $scope.selectedCreativeData.clientId,
+                    $scope.selectedCreativeData.advertiserId,
                     $scope.updateForceSaveData
                 )
                 .then(function (result) {
@@ -470,7 +470,7 @@ var angObj = angObj || {};
             searchInputForm.show();
             searchInputForm.animate({width: '300px'}, 'fast');
         };
-        
+
         $scope.searchHideInput = function () {
             isSearch = false;
             $(".searchInputForm").animate({width: '44px'}, 'fast');
@@ -482,15 +482,15 @@ var angObj = angObj || {};
             var selectedClientObj = localStorage.selectedClient && JSON.parse(localStorage.selectedClient);
             creativeList.getCreativesList(JSON.parse(localStorage.selectedClient).id,'', '',20, 1);
         };
-        
+
         $scope.headerToggle = function () {
             $(".vistoTable .thead .childRow").toggle();
-            $(".vistoTable .thead .icon-arrow-down-thick").toggleClass('arrowLookDown');   
+            $(".vistoTable .thead .icon-arrow-down-thick").toggleClass('arrowLookDown');
         }
-        
+
         //Sticky Header
         $(window).scroll(function() {
-            if ($(this).scrollTop() > 210){  
+            if ($(this).scrollTop() > 210) {
                 $('.vistoTable .thead').addClass("sticky");
                 if( $(".thead .childRow:visible").length == 0 ) {
                     $('.vistoTable .tbody').css("margin-top","64px");
@@ -505,11 +505,11 @@ var angObj = angObj || {};
                 $('.vistoTable .tbody').css("margin-top","0px");
             }
         });
-        
+
         //Flexible tbody
         var winBrowserHeight = $(window).height();
         //$('.vistoTable .tbody').css('maxHeight', winBrowserHeight - 341);
-        
+
         //Pagination
         $(function() {
             $(window).scroll(function(){
@@ -525,6 +525,6 @@ var angObj = angObj || {};
                 }
             });
         });
-        
+
     });
 })();

@@ -3977,7 +3977,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 }
 .custom_report_response_page .custom_report_response_table .each_col.more_dimension_arrow {
   display: none;
-  background: url("/assets/images/cdesk/common_side_arrow.png") no-repeat left 1px #ffffff;
+  background: url("/assets/images/cdesk/common_side_arrow.png") no-repeat left 1px #fff;
   height: 11px;
   width: 12px;
   min-width: 12px;
