@@ -3,7 +3,7 @@ var angObj = angObj || {};
 (function () {
     'use strict';
 
-    angObj.controller('BuyingPlatformController', function ($scope, constants, workflowService, $modal, $filter, platformCustomeModule, $rootScope) {
+    angObj.controller('BuyingPlatformController', function ($scope, constants, $timeout, workflowService, $modal, $filter, platformCustomeModule, $rootScope) {
         var tempPlatform,
             storedResponse,
             oldPlatformName,
@@ -367,6 +367,10 @@ var angObj = angObj || {};
                                 $('.customFieldErrorMsg').remove();
                                 if ($('#customPlatformForm') && $('#customPlatformForm').length >0) {
                                     $('#customPlatformForm')[0].reset();
+                                    $timeout(function() {
+                                        $("#customPlatformForm").find("select").trigger("change");
+                                    }, 200)
+
                                 }
                                 hideCustomPlatformBox();
                             };
