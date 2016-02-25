@@ -41,12 +41,15 @@ var angObj = angObj || {};
                         $scope.Campaign.costArr[i].rateTypeName="CPM";//change to CPM
                         $scope.Campaign.costArr[i].rateTypeId=1;//change id to that of CPM
                         /*change rate value selected from CPC to CPM*/
-                        selVendorObj= _.filter($scope.vendorRateData[i],function(obj){
-                            return obj.id===Number($scope.Campaign.costArr[i].vendorId);
-                        })
-                        cpmRate = _.filter(selVendorObj[0].rates,function(item){return item.rate_type==="CPM"});
-
-                        $scope.Campaign.costArr[i].rateValue=cpmRate[0].rate_val;
+                        if($scope.vendorRateData[i] && $scope.vendorRateData[i].length>0){
+                            selVendorObj= _.filter($scope.vendorRateData[i],function(obj){
+                                return obj.id===Number($scope.Campaign.costArr[i].vendorId);
+                            })
+                            if(selVendorObj[0] && selVendorObj[0].length>0){
+                                cpmRate = _.filter(selVendorObj[0].rates,function(item){return item.rate_type==="CPM"});
+                                $scope.Campaign.costArr[i].rateValue=cpmRate[0].rate_val;
+                            }
+                        }
 
                     }
                 }
@@ -63,18 +66,30 @@ var angObj = angObj || {};
                         $scope.Campaign.costArr[i].rateTypeId=2;//change id to that of CPM
 
                         /*change rate value selected from CPM to CPC*/ /*$scope.vendorRateData contains vendors and rates for each row*/
-                        selVendorObj= _.filter($scope.vendorRateData[i],function(obj){
-                            return obj.id===Number($scope.Campaign.costArr[i].vendorId);
-                        })
-                        cpcRate = _.filter(selVendorObj[0].rates,function(item){return item.rate_type==="CPC"});
-
-                        $scope.Campaign.costArr[i].rateValue=cpcRate[0].rate_val;
+                        if($scope.vendorRateData[i] && $scope.vendorRateData[i].length>0) {
+                            selVendorObj = _.filter($scope.vendorRateData[i], function (obj) {
+                                return obj.id === Number($scope.Campaign.costArr[i].vendorId);
+                            })
+                            if(selVendorObj[0] && selVendorObj[0].length>0){
+                                cpcRate = _.filter(selVendorObj[0].rates, function (item) {return item.rate_type === "CPC"});
+                                $scope.Campaign.costArr[i].rateValue = cpcRate[0].rate_val;
+                            }
+                        }
 
                     }
                 }
             }
         }
 
+        /*on deleting a KPI row*/
+        $scope.changeCostArrOnKpiRemoval=function(kpi){
+            if(angular.uppercase(kpi) === "CLICKS"){
+                $scope.resetCostArrCPC();
+            }else if(angular.uppercase(kpi) === "IMPRESSIONS" || angular.uppercase(kpi) === "VIEWABLE IMPRESSIONS"){
+                $scope.resetCostArrCPM();
+            }
+
+        }
 
         $scope.selectedKpi = function (index, kpi) {
             $scope.Campaign.kpiArr[index]['kpiType'] = kpi.name;
@@ -84,15 +99,15 @@ var angObj = angObj || {};
             }else if(angular.uppercase(kpi.name) === "CLICKS"){
                 $scope.resetCostArrCPM();
             }
-            /*on deleting a KPI row*/
-            $scope.changeCostArrOnKpiRemoval=function(kpi){
-                if(angular.uppercase(kpi) === "CLICKS"){
-                    $scope.resetCostArrCPC();
-                }else if(angular.uppercase(kpi) === "IMPRESSIONS" || angular.uppercase(kpi) === "VIEWABLE IMPRESSIONS"){
-                    $scope.resetCostArrCPM();
-                }
-
-            }
+            ///*on deleting a KPI row*/
+            //$scope.changeCostArrOnKpiRemoval=function(kpi){
+            //    if(angular.uppercase(kpi) === "CLICKS"){
+            //        $scope.resetCostArrCPC();
+            //    }else if(angular.uppercase(kpi) === "IMPRESSIONS" || angular.uppercase(kpi) === "VIEWABLE IMPRESSIONS"){
+            //        $scope.resetCostArrCPM();
+            //    }
+            //
+            //}
 
 
             /*enable disable calculation/cost type in dropdown based on KPI selected*/
@@ -700,6 +715,16 @@ var angObj = angObj || {};
                     if (result.status === "OK" || result.status === "success") {
                         var responseData = result.data.data;
                         $scope.vendorRateData[index] = responseData;
+                        if(responseData.length<=0){
+                            $scope.Campaign.costArr[index].rateTypeId='';
+                            $scope.Campaign.costArr[index].vendorId='';
+                            $scope.Campaign.costArr[index].vendorName='Select';
+                            $scope.Campaign.costArr[index].rateValue='';
+                            $scope.Campaign.costArr[index].rateTypeName='Select';
+                            $scope.Campaign.costArr[index].targetPercentage='';
+                            $scope.Campaign.costArr[index].description='';
+                            $scope.ComputeCost();
+                        }
                     }
                 })
             },
