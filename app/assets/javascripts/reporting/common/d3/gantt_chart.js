@@ -1,6 +1,6 @@
 (function() {
     "use strict";
-    commonModule.service("ganttChart", ['loginModel', 'analytics', '$location', '$rootScope', '$window' ,function(loginModel, analytics, $location, $rootScope, $window) {
+    commonModule.service("ganttChart", ['loginModel', 'analytics', '$location', '$rootScope', '$window', 'brandsModel' ,function(loginModel, analytics, $location, $rootScope, $window, brandsModel) {
         this.createGanttChart = function() {
 
         };
@@ -2311,6 +2311,73 @@
 
         };
 
+        function loadMoreItemToCalender(task, taskName, o){
+            $(".div-chart > .chart").remove();
+            $(".header-chart").remove();
+            _.each(tasks, function(item, i){
+                if(item.id == brandsModel.getSelectedBrand().id){
+                    tasks[i].startDate = o.startDate;
+                    tasks[i].endDate = o.endDate;
+                    if(i){
+                        var tempO = $.extend({}, tasks[0]);
+                        tasks[0] = $.extend({}, tasks[i]);
+                        tasks[i] = $.extend({}, tempO);
+                    }
+                }
+            });
+            _.each(task,function(item){
+                 tasks.push(item);
+            });
+
+            taskNames = taskNames.concat(taskName);
+            taskStatus = {
+                "ontrack": "bar",
+                "underperforming": "bar",
+                "paused": "bar",
+                "ready": "bar",
+                "completed": "bar"
+            };
+
+            maxDate = tasks[tasks.length - 1].endDate;
+
+            minDate = tasks[0].startDate;
+
+            format = "%d";
+            timeDomainString = o.selected;
+
+            var calendar_height = 0;
+            var countBrands = 0;
+            _.each(tasks, function(t){
+                if(t.type == "brand" && t.name!=" ") {
+                    countBrands++;
+                    calendar_height += 55; //TODO: recalculation strategy for height
+                } else {
+                    calendar_height += 31;
+                }
+            });
+
+            var margin = {
+                top: 20,
+                right: 40,
+                bottom: 20,
+                left: 50
+            };
+
+            //new height after changing brand placement
+            calendar_height = calendar_height - (countBrands * BRAND_PADDING) + (margin.top + margin.bottom + 5);
+
+            calendar_height = (calendar_height > MIN_CALENDAR_HEIGHT) ? calendar_height : MIN_CALENDAR_HEIGHT;
+            gantt = d3.gantt(calendar_height).taskTypes(taskNames).taskStatus(taskStatus).tickFormat(format); //.height(450).width(800);;
+
+            gantt.isSingleBrand(true);
+
+            gantt.margin(margin);
+            gantt.timeDomainMode("fixed");
+            changeTimeDomain(timeDomainString);
+            gantt(tasks, timeDomainString);
+            gantt.redraw(tasks, timeDomainString);
+        }
+
         //expose this function to public
         this.newCalendar = newCalendar;
         this.updateCalendar = updateCalendar;
@@ -2321,8 +2388,7 @@
         this.today = today;
         this.year = year;
         this.quarter = quarter;
-
-
+        this.loadMoreItemToCalender = loadMoreItemToCalender;
 
     }])
 }());
