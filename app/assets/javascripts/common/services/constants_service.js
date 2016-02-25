@@ -370,7 +370,7 @@
 
         this.FORGOT_PASSWORD = "Forgot Password";
         this.FORGOT_PASSWORD_CONTACT_ACCOUNT_MANAGER = 'Contact your Account Manager to reset your password';
-        this.COPY_RIGHTS = "Copyright &copy; 2015 Collective, Inc. All Rights Reserved";
+        this.COPY_RIGHTS = "Copyright &copy; 2016 Collective, Inc. All Rights Reserved";
         this.ABOUT_US = "About Us";
         this.USERNAME_OR_PASSWORD_INCORRECT = "The Username/Password is incorrect";
 
@@ -386,7 +386,7 @@
 
         this.FORGOT_PASSWORD = 'Forgot Password';
         this.FORGOT_PASSWORD_CONTACT_ACCOUNT_MANAGER = 'Contact your Account Manager to reset your password';
-        this.COPY_RIGHTS = 'Copyright &copy; 2015 Collective, Inc. All Rights Reserved';
+        this.COPY_RIGHTS = 'Copyright &copy; 2016 Collective, Inc. All Rights Reserved';
         this.ABOUT_US = 'About Us';
         this.USERNAME_OR_PASSWORD_INCORRECT = 'The Username/Password is incorrect';
 
@@ -726,9 +726,10 @@
         this.LISTYPEMOD = 'List type cannot be modified. ';
         this.IMPORT = 'Import';
         this.INVENTORY_REPLACE_CURRENT_LIST = 'Replace Current List';
-        this.INVENTORY_UPLOAD_NEW = 'Upload Domain List';
+        this.INVENTORY_UPLOAD_NEW = 'Upload New';
         this.INVENTORY_SELECTED_DOMAIN_LISTS = 'Selected domain Lists';
         this.INVENTORY_SELECT_FROM_EXISTING = 'Select from Existing';
+        this.ACTIVITIES = 'Activities';
 
         //Ad Create: 6 Creative
         this.ADDCREATIVETAG = 'Add Creative';
@@ -808,7 +809,7 @@
         this.MAXCOST = 'Max Cost';
         this.MEDIAPLANUPD = 'Media Plan Update';
         this.ARCHIVE = 'Archive';
-        this.OPTIMIZATION_REPORT = 'Optimization Report';
+        this.OPTIMIZATION_REPORT = 'Optimization Impact Report';
         this.BUILD_REPORT = 'Build Report';
         this.CUSTOM_REPORTS = 'Custom Reports';
         this.MEDIA_PLAN_REPORTS = 'Media Plan Reports';
@@ -892,9 +893,8 @@
         this.SEARCHFORREGIONANDCITY = 'Search for regions or cities';
         this.SEARCHFORREGION = 'Search for regions';
 
-        //audience
+        //Audience Targeting
         this.DEFAULTANDORSTATUS = 'Or';
-
         this.timeFrameStartDateGreater = 'Timeframe Start date can not be greater than end date';
         this.requiredTimeFrameDates = 'Please provide timeframe dates';
         this.requiredRptNameFreq = 'Please provide report name and frequency';
@@ -907,7 +907,6 @@
         this.reportNameErrorMsg =
             'Please use only alphanumeric characters for report names. ' +
             'Report name should start with alphabetic character';
-
         this.START_OR_END_DATE_CAN_NOT_LESS_THAN_CURRENTDATE =
             'Start date or end date cannot be less than the current date';
         this.DELIVER_DATE_CAN_NOT_LESS_THAN_CURRENTDATE =  'Deliver on date cannot be less than the current date';
@@ -919,10 +918,29 @@
         this.SELECT_VALID_CUSTOM_DATE = 'Select valid custom date';
         this.MONTHLY_SCHEDULING_DATE_RANGE__AT_LEAST_ONE_MONTH =
             'You have chosen monthly Scheduling, please choose a date range that is at least one month';
-
         this.CUSTOMDATE_ERROR_MESSAGE = 'The custom date does not fall within the range of Start and End Dates.';
 
-        this.ACTIVITIES = 'Activities';
+        //Creative List
+        this.NEWCREATIVEALERT = 'New Creative has been created successfully.';
+        this.CREATIVELIBRARY = 'Creative Library';
+        this.CREATE = 'Create';
+        this.EDIT = 'Edit';
+        this.ARCHIVE = 'Archive';
+        this.CLONE = 'Clone';
+        this.CREATIVENAME = 'Creative Name';
+        this.FORMAT = 'Format';
+        this.TYPE = 'Type';
+        this.ADSERVER = 'Ad Server';
+        this.SIZE = 'Size';
+        this.ADVERTISER = 'Advertiser';
+        this.PLATFORMSPAR = 'Platform(s)';
+        this.LASTUPDATED = 'Last Updated';
+        this.CAMPAIGNDASHAD = 'Campaign / Ad';
+        this.BRAND = 'Brand';
+        this.TRACKINGONLY = 'Tracking-Only';
+        this.DATANOTAVAILABLE = 'Data not available';
+        this.UPDATETAG = 'Update Tag';
+        this.CREATIVESDELETE = 'Creatives Delete';
     };
 
     commonModule.service('constants', constants);

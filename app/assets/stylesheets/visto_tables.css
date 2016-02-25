@@ -11,23 +11,28 @@
 .table-responsive .vistoTable .thead {
   float: left;
   width: 100%;
-  padding: 0 1px;
+  padding: 0;
+  border-bottom: 2px solid #939eae;
 }
 .table-responsive .vistoTable .thead .tr {
   float: left;
   width: 100%;
   background-color: #fff;
-  border-bottom: 1px solid rgba(191, 201, 215, 0.5);
+  border: 1px solid #bfc9d7;
 }
 .table-responsive .vistoTable .thead .tr .th {
   padding: 20px 15px 0;
   vertical-align: top;
   min-height: 60px;
+  font-family: "Avenir-bold";
+  color: #57606d;
 }
 .table-responsive .vistoTable .thead .tr .th span,
 .table-responsive .vistoTable .thead .tr .th a {
   width: 100%;
   text-align: center;
+  font-family: "Avenir-bold";
+  color: #57606d;
 }
 .table-responsive .vistoTable .thead .tr .th input[type="checkbox"] {
   float: left;
@@ -56,9 +61,6 @@
 .table-responsive .vistoTable .thead .tr .th:first-child {
   padding-left: 11px;
 }
-.table-responsive .vistoTable .thead .tr:first-child {
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
-}
 .table-responsive .vistoTable .thead .childRow {
   background: transparent;
   border-width: 0;
@@ -67,23 +69,20 @@
 .table-responsive .vistoTable .thead .childRow .td {
   background-color: #f7f7f7;
   padding: 10px 15px;
+  font-family: "Avenir-bold";
+  color: #57606d;
 }
 .table-responsive .vistoTable .thead .childRow .td input[type="checkbox"] {
   float: left;
   margin-right: 10px;
 }
 .table-responsive .vistoTable .thead .childRow .td:first-child {
-  padding: 0 0 0 10px;
   box-shadow: none;
-  border-width: 0;
-  background: transparent;
+  border-left: 1px solid rgba(191, 201, 215, 0.5);
+  padding: 10px 10px 10px 48px;
 }
-.table-responsive .vistoTable .thead .childRow .td:first-child .inDentWrap {
-  float: left;
-  width: 100%;
-  border-bottom: 1px solid rgba(191, 201, 215, 0.5);
-  background: #f7f7f7;
-  padding: 10px 37px;
+.table-responsive .vistoTable .thead .childRow .td:last-child {
+  border-right: 1px solid rgba(191, 201, 215, 0.5);
 }
 .table-responsive .vistoTable .thead.sticky {
   position: fixed;
@@ -91,11 +90,17 @@
   width: 1200px;
   z-index: 999;
 }
+.table-responsive .vistoTable .fixedParent {
+  position: fixed;
+  top: 104px;
+  width: 1200px !important;
+  z-index: 999;
+}
 .table-responsive .vistoTable .tbody {
   float: left;
   width: 100%;
   overflow: scroll;
-  padding: 0 1px;
+  padding: 0;
 }
 .table-responsive .vistoTable .tbody .tr {
   float: left;
@@ -115,6 +120,9 @@
 }
 .table-responsive .vistoTable .tbody .tr .td input[type="checkbox"] {
   float: left;
+}
+.table-responsive .vistoTable .tbody .tr .td a:hover {
+  cursor: pointer;
 }
 .table-responsive .vistoTable .tbody .tr .td .icon-arrow-down-thick {
   float: left;
@@ -161,7 +169,7 @@
   height: 12px;
   color: #f5c023;
 }
-.table-responsive .vistoTable .tbody .tr:hover .td {
+.table-responsive .vistoTable .tbody .tr .parentWrap:hover .td {
   background: #E1EDF9;
 }
 .table-responsive .vistoTable .tbody .childRow .td {
@@ -176,19 +184,13 @@
   max-width: 70px;
 }
 .table-responsive .vistoTable .tbody .childRow .td:first-child {
-  padding: 0 0 0 10px;
+  padding: 0;
   box-shadow: none;
-  border-width: 0;
-  background: transparent !important;
+  padding: 10px 10px 10px 48px;
 }
-.table-responsive .vistoTable .tbody .childRow .td:first-child .inDentWrap {
+.table-responsive .vistoTable .tbody .parentWrap {
   float: left;
   width: 100%;
-  border-right: 1px solid rgba(191, 201, 215, 0.5);
-  border-bottom: 1px solid rgba(191, 201, 215, 0.5);
-  min-height: 60px;
-  background: #f7f7f7;
-  padding: 10px 37px 0;
 }
 .table-responsive .arrowLookDown {
   -ms-transform: rotate(0deg) !important;

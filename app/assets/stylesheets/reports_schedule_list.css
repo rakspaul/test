@@ -31,6 +31,8 @@
 }
 .reports-scheduled-list .scheduled_list_table .table-th,
 .reports-scheduled-list .scheduled_list_table .table-td {
+  float: left;
+  width: 200px ;
   min-height: 35px ;
 }
 .reports-scheduled-list .scheduled_list_table .table-th:first-child,
