@@ -11,7 +11,19 @@
             vistoModule,
             deletedModule = [];
 
+            function createObj(platform){
+                var integrationObj = {};
+                integrationObj.id = platform.id;
+                integrationObj.name = platform.vendorExecutionPlatform.code;
+                integrationObj.displayName = platform.name;
+                integrationObj.iconUrl = platform.iconURL;
+                integrationObj.customInputJson = platform.vendorExecutionPlatform.customInputJson;
+                integrationObj.fullIntegration = platform.vendorExecutionPlatform.fullIntegration;
+                integrationObj.active = true; // TODO hardcoded true for now...
+                integrationObj.summary = platform.description;
 
+                return integrationObj;
+            }
         return {
             fetchCampaigns: function() {
                 var clientId =  loginModel.getSelectedClient().id,
@@ -82,9 +94,11 @@
 
             getPlatforms: function (cacheObj) {
                 var clientId =  loginModel.getSelectedClient().id,
-                    url = apiPaths.WORKFLOW_API_URL +  '/clients/' + clientId + '/platforms?sortBy=displayName';
+                    //url = apiPaths.WORKFLOW_API_URL +  '/clients/' + clientId + '/platforms?sortBy=displayName';
+                    url = apiPaths.WORKFLOW_API_URL +  '/clients/' + clientId + '/vendors?vendorType=EXECUTION_PLATFORM&sortBy=name';
 
-                return dataService.fetch(url,cacheObj);
+
+                    return dataService.fetch(url,cacheObj);
             },
 
             getAdsForCampaign: function (campaignId) {
@@ -319,7 +333,7 @@
             },
 
             getRegionsList: function (platformId, data, success, failure, flag) {
-                var url = apiPaths.WORKFLOW_API_URL + '/platforms/' + platformId + '/regions' + data,
+                var url = apiPaths.WORKFLOW_API_URL + '/vendors/' + platformId + '/regions' + data,
                     canceller;
 
                 if (flag === 'cancellable') {
@@ -332,7 +346,7 @@
 
             getCitiesList: function (platformId, data, success, failure, flag) {
                 var clientId =  loginModel.getSelectedClient().id,
-                    url = apiPaths.WORKFLOW_API_URL + '/platforms/' + platformId + '/cities'+data,
+                    url = apiPaths.WORKFLOW_API_URL + '/vendors/' + platformId + '/cities'+data,
                     canceller;
 
                 if (flag === 'cancellable') {
@@ -345,7 +359,7 @@
 
             getDMAsList: function (platformId, data, success, failure, flag) {
                 var // clientId =  loginModel.getSelectedClient().id,
-                    url = apiPaths.WORKFLOW_API_URL + '/platforms/' + platformId + '/dmas' + data,
+                    url = apiPaths.WORKFLOW_API_URL + '/vendors/' + platformId + '/dmas' + data,
                     canceller;
 
                 if (flag === 'cancellable') {
@@ -502,7 +516,23 @@
                     data,
                     {'Content-Type': 'application/json'}
                 );
+            },
+            platformResponseModifier: function(resp){
+                var platforms = {};
+                platforms.fullIntegrationsPlatforms = [];
+                platforms.trackingPlatforms = [];
+                for(var i = 0; i < resp.length;i++){
+                    if(resp[i].vendorExecutionPlatform.fullIntegration){
+                        //full integration platform
+                        platforms.fullIntegrationsPlatforms.push(createObj(resp[i]));
+                    }
+                    else{
+                        platforms.trackingPlatforms.push(createObj(resp[i]));
+                    }
+                }
+                return platforms;
             }
+
         };
     });
 }());
