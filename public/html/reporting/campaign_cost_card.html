@@ -34,7 +34,7 @@
                             </div>
                             <div class="graph_start_point {{(getSpendTickWidth(campaign) <= 0) ? 'start_beginning' : ''}} {{(getSpendTickWidth(campaign) >= 88) ? 'start_end_point' : ''}}" ng-style="{'left':getSpendTickWidth(campaign) +'%'};"><!-- put start_beginning when at start -->
                                 <div class="end_point_val">
-                                    <span ng-bind="campaign.expectedMediaCost |  nrFormatWithCurrency"></span>
+                                    <span class="icon_KPI" ng-bind="campaign.expectedMediaCost |  nrFormatWithCurrency"></span>
                                     <div class="end_point_line"></div>
                                 </div>
                             </div>

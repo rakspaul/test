@@ -93,7 +93,7 @@
                         ctr: 0,
                         vtc: 0,
                         actionRate: 0,
-                        chart: true,
+                        chart: false,
                         momentInNetworkTZ: momentInNetworkTZ,
                         is_tracking: tactic.is_tracking
                     };
@@ -263,7 +263,7 @@
                         expectedMediaCost: utils.roundOff(strategy.expected_media_cost, 2),
                         ctr: 0,
                         actionRate: 0,
-                        chart: true,
+                        chart: false,
                         momentInNetworkTZ: momentInNetworkTZ
                     };
                     strategy_1.durationCompletion = campaign.durationCompletion.bind(strategy_1);
