@@ -6,7 +6,7 @@
   <li ng-repeat="timeObj in timeData.timePeriodList track by $index" class={{timeObj.className}}>
       <a data-ng-click="filterByTimePeriod(timeObj)">
       <span class="tick"></span>
-      <span class="menuItemText" id="{{timeObj.key}}" ng-bind="timeObj.display"></span>
+      <span class="menuItemText" id="{{timeObj.display == 'Lifetime'?'life_time':timeObj.key}}" ng-bind="timeObj.display"></span>
     </a>
   </li>
 </ul>
