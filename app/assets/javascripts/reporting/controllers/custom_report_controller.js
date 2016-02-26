@@ -1690,7 +1690,7 @@ var angObj = angObj || {};
                     }
 
                     //returns name of the breakdown/filter key passed
-                    $scope.getFilterBreakdownName = function(key,dimensionType) {
+                    $scope.getFilterBreakdownName = function(key) {
                         var dimensionObj = $scope.customeDimensionData[0].dimensions;
                         var name;
                         _.each(dimensionObj, function(item) {
@@ -1710,7 +1710,7 @@ var angObj = angObj || {};
                         var removeIndex = $scope.secondaryDimensionArr.map(function(item){return item.key}).indexOf(obj.dimension);
                         $scope.secondaryDimensionArr.splice(removeIndex,1);
 
-                        $scope.reports.reportDefinition.dimensions.primary.name = $scope.getFilterBreakdownName(obj.dimension,'primary');
+                        $scope.reports.reportDefinition.dimensions.primary.name = $scope.getFilterBreakdownName(obj.dimension);
                         $scope.reports.reportDefinition.dimensions.primary.dimension = obj.dimension;
                         if (obj.values) {
                             $scope.reports.reportDefinition.dimensions.primary.value = obj.values;
