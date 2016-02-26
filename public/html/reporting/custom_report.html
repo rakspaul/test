@@ -93,7 +93,7 @@
                             <div class="row" ng-show="showAddBreakdownButton">
                                 <div class="add_breakdown_line"></div>
                                 <div class="clearfix add_breakdown_btn">
-                                    <div class="pull-left add_circle_symbol"></div>
+                                    <div class="pull-left add_circle_symbol" ng-click="showSecondDimension()"></div>
                                     <div class="pull-left"
                                          ng-click="showSecondDimension()"
                                          ng-bind-html="textConstants.ADD_BREAKDOWN_LABEL">
@@ -214,7 +214,7 @@
                             </div>
                             <div class="clearfix title_row_separator">
                                 <div class="pull-left additional_filters_label">
-                                    <div class="pull-left add_circle_symbol"></div>
+                                    <div class="pull-left add_circle_symbol" ng-click="addAdditionalFilters()"></div>
                                     <div ng-click="addAdditionalFilters()"
                                          class="pull-left blue_txt"
                                          ng-bind-html="textConstants.REPORT_ADD_FILTERS">
