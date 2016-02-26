@@ -2262,7 +2262,7 @@
                     countBrands++;
                     calendar_height += 55; //TODO: recalculation strategy for height
                 } else {
-                    calendar_height += 22;
+                    calendar_height += 25;
                 }
             });
 
