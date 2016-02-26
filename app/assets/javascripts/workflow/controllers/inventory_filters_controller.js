@@ -114,6 +114,9 @@ var angObj = angObj || {};
             $scope.domainUploadInProgress = false;
             $scope.showDomainListPopup = false;
             $scope.showExistingListPopup = false;
+
+            // Enable scrolling in window again as overlay popup is now closed.
+            $('body').css({'overflow': ''});
         }
 
         $scope.prarentHandler = function (clientId, clientName, advertiserId, advertiserName) {
@@ -125,6 +128,9 @@ var angObj = angObj || {};
         $scope.selectFiles = function (files, action) {
             if (files) {
                 if (files.length > 0) {
+                    // Prevent window from scrolling while popup overlay is showing
+                    $('body').css({'overflow': 'hidden'});
+
                     $scope.showDomainListPopup = true;
                     $scope.files = files;
                     $scope.adData.listName = $scope.adData.inventory && $scope.adData.inventory.name;
@@ -283,6 +289,9 @@ var angObj = angObj || {};
 
         $scope.closeDomainListPop = function () {
             $scope.showDomainListPopup = false;
+
+            // Enable scrolling in window again as overlay popup is now closed.
+            $('body').css({'overflow': ''});
         };
 
         $scope.showDomainListPopup = false;
