@@ -3,7 +3,7 @@ var angObj = angObj || {};
 (function () {
     'use strict';
 
-    angObj.controller('InventoryFiltersController', function ($scope, workflowService, Upload, zipCode) {
+    angObj.controller('InventoryFiltersController', function ($scope, workflowService, Upload, fileReader) {
         var InventoryFiltersView = {
             getAdvertisersDomainList: function (clientId, advertiserId) {
                 workflowService
@@ -18,6 +18,10 @@ var angObj = angObj || {};
                         // Search filter for domain names list (used together with domainAction)
                         $scope.adData = $scope.adData || {};
                         $scope.adData.domainListsSearch = '';
+                        // Sort filter for domain names list in "upload new domain list" popup
+                        $scope.inventoryNew = {
+                            reverseOrder: false
+                        };
 
                         if ($scope.mode === 'edit') {
                             $scope.savedDomainListIds =
@@ -124,7 +128,6 @@ var angObj = angObj || {};
                     $scope.showDomainListPopup = true;
                     $scope.files = files;
                     $scope.adData.listName = $scope.adData.inventory && $scope.adData.inventory.name;
-                    $('.inventoryLib .uploadList').css('min-height', winSizeHeight - 350);
 
                     // If called from Inventory Create New button click,
                     if (action === 'INVENTORY_CREATE') {
@@ -160,7 +163,6 @@ var angObj = angObj || {};
                             result = result.map(Function.prototype.call, String.prototype.trim);
 
                             $scope.workflowData.csvFileContents = result;
-                            console.log($scope.workflowData.csvFileContents);
                         });
                 }
             }
@@ -261,6 +263,22 @@ var angObj = angObj || {};
 
             idx = _.findIndex($scope.workflowData.selectedLists, {id: listId});
             $scope.workflowData.selectedLists[idx].reverseOrder = !$scope.workflowData.selectedLists[idx].reverseOrder;
+        };
+
+        $scope.workflowData.sortInventoryNew = function () {
+            var target = $('.pop-list .common-sort-icon');
+
+            if (target.hasClass('ascending')) {
+                target
+                    .removeClass('ascending')
+                    .addClass('descending');
+            } else {
+                target
+                    .removeClass('descending')
+                    .addClass('ascending');
+            }
+
+            $scope.inventoryNew.reverseOrder = !$scope.inventoryNew.reverseOrder;
         };
 
         $scope.closeDomainListPop = function () {

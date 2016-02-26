@@ -148,16 +148,29 @@
 <div class="popInventoryLib" ng-show="showDomainListPopup">
     <form id="inventoryNewForm" name="inventoryNewForm" novalidate>
         <div class="inventoryLib">
+            <div class="thick-margin"></div>
             <div class="headerLib">
                 <span class="icon-close closePopBtn" aria-hidden="true" ng-click="closeDomainListPop()"></span>
                 <h1 data-ng-bind="textConstants.UPLOADLIST"></h1>
-                <span data-ng-bind="textConstants.FILENAME"></span>
+                <div class="pop-list">
+                    <div class="filterHead">
+                        <div class="sort-icon-holder active" ng-click="workflowData.sortInventoryNew();"
+                             style="display: inline-block;">
+                            <span ng-bind="textConstants.DOMAIN"></span>
+                            <span class="common-sort-icon ascending"></span>
+                        </div>
+                    </div>
+                    <div class="filterBody">
+                        <ul>
+                            <li ng-repeat="domainName in workflowData.csvFileContents |
+                                    orderBy : domainName : inventoryNew.reverseOrder"
+                                ng-bind="domainName">
+                            </li>
+                        </ul>
+                    </div>
+                </div>
             </div>
             <div class="popBody uploadList">
-                <div class="popList">
-                    <span ng-repeat="file in files" data-ng-bind="file.name"></span>
-                </div>
-
                 <div class="col-md-12 zeroPadding">
                     <div class="col-md-12 zeroPadding">
                         <label class="col-sm-12 control-label greyTxt miniLabels"
@@ -194,7 +207,9 @@
                                data-ng-bind="textConstants.TYPE">
                         </label>
                         <div class="btn-group miniToggle">
-                            <label class="btn btn-default{{adData.inventory.domainAction === 'INCLUDE' ? ' active' : ''}}">
+                            <label class="btn btn-default
+                                        {{adData.inventory.domainAction === 'INCLUDE' ? ' active' : ''}}
+                                        {{!inventoryCreate ? ' disabled' : ''}}">
                                 <span data-ng-bind="textConstants.WHITELIST"></span>
                                 <input type="radio"
                                        name="inventoryType"
@@ -206,7 +221,9 @@
                                        hidden="hidden"
                                        ng-click="workflowData.toggleBlackAndWhite($event);">
                             </label>
-                            <label class="btn btn-default{{adData.inventory.domainAction === 'EXCLUDE' ? ' active' : ''}}">
+                            <label class="btn btn-default
+                                        {{adData.inventory.domainAction === 'EXCLUDE' ? ' active' : ''}}
+                                        {{!inventoryCreate ? ' disabled' : ''}}">
                                 <span data-ng-bind="textConstants.BLACKLIST"></span>
                                 <input type="radio"
                                        name="inventoryType"
@@ -269,7 +286,7 @@
                                placeholder="Search domain lists">
                         <span class="icon-search"></span>
                     </div>
-                    <ul class="col-md-12 zeroPadding" style="max-height: 280px; overflow: scroll;">
+                    <ul class="col-md-12 zeroPadding domain-lists">
                         <li ng-repeat="inventoryData in workflowData.inventoryData |
                             filter: {domainAction: adData.inventory.domainAction, name: adData.domainListsSearch}"
                             class="selected">
@@ -291,7 +308,7 @@
                         <div ng-if="loadingFlag" class="loading-icon"></div>
                     </div>
                 </div>
-                <div class="col-md-6" style="height: 403px;">
+                <div class="col-md-6" class="selected-list-wrapper" style="height: 403px;">
                     <h4>Selected</h4>
                     <ul class="col-md-12 zeroPadding" style="max-height: 328px; overflow: scroll;;">
                         <li ng-repeat="selectedList in workflowData.selectedLists | orderBy: name"
