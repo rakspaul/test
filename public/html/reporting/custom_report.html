@@ -68,7 +68,7 @@
                                                     <li ng-click="select_dropdown_option($event)"
                                                         ng-bind-html="textConstants.REPORT_CHOOSE_BREAKDOWN">
                                                     </li>
-                                                    <li ng-repeat="dimension in customeDimensionData[0].dimensions"
+                                                    <li ng-repeat="dimension in secondaryDimensionArr"
                                                         id="{{dimension.key}}"
                                                         ng-click="selectPriSecDimension(dimension,'Secondary')"
                                                         ng-bind-html="dimension.value">
