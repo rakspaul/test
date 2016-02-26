@@ -171,12 +171,13 @@
 			    <span ng-show="errorMsgCustomRptName"><span class="bold-font">Error. </span> Custom Report Name is required</span>
 				<span ng-show="deleteSuccessMsg"><span class="bold-font">Success. </span> File successfully deleted</span>
 				<span ng-show="deleteErrorMsg"><span class="bold-font">Error. </span> Error in deleting file</span>
-				<span ng-show="!errorMsg && !successMsg && !deleteSuccessMsg && !deleteErrorMsg && !errorMsgCustomRptName"><span class="bold-font">Error. </span> Cannot upload files bigger than 10MB / Unsupported file format</span>
+            
+                <span ng-show="!errorMsg && !successMsg && !deleteSuccessMsg && !deleteErrorMsg && !errorMsgCustomRptName"><span class="bold-font">Error. </span>Uploading file(s), please check that the: <ul> <li><span> file type is a supported format <br /><span  class="grey_txt"><small>(ppt, pptx, pdf, xls, xlsx)</small></span></li> <li>file is less than 10MB in Size
 
-			<!-- {{(!successMsg)? 'Cannot upload files bigger than 10MB / Unsupported file format' : 'You have sucessfully uploaded '+ uploadedCount +' files '}} -->
-			<div ng-show="!successMsg && !errorMsg && rejFiles.length" ng-repeat="r in rejFiles">
-				- {{r.name}} ( {{r.size/1000000 | number:2}} MB. )
-			</div>
+			    <!-- {{(!successMsg)? 'Cannot upload files bigger than 10MB / Unsupported file format' : 'You have sucessfully uploaded '+ uploadedCount +' files '}} -->
+			    <div ng-show="!successMsg && !errorMsg && rejFiles.length" ng-repeat="r in rejFiles">
+                     <span  class="grey_txt"><small>{{r.name}} ( {{r.size/1000000 | number:2}} MB. )</small></span>
+			    </div></li> </ul></span>
 		</span>
 		<span class="close_msg_box_holder">
 			<span class="close_msg_box" ng-click="closeMessage()">x</span> <!--ng-click="close_msg_box($event);"-->
