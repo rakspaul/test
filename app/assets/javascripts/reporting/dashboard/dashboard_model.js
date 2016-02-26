@@ -46,7 +46,7 @@ dashboardModule.factory("dashboardModel", ['loginModel', 'advertiserModel', 'bra
 
     function addCampaigns() {
         var selectedBrand = brandsModel.getSelectedBrand().name;
-        dashboardData.titleSecondPart = dashboardData.selectedStatus + ' Media Plans for Lifetime for ';
+        dashboardData.titleSecondPart = dashboardData.selectedStatus + ' Media Plans for ';
         if (selectedBrand === constants.ALL_BRANDS) {
             dashboardData.titleSecondPart += constants.ALL_BRANDS;
         }

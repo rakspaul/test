@@ -430,7 +430,7 @@
 														<a>{{kpi.name}}</a>
 													</li>
 												</ul>
-												<input type="hidden" name="kpi"  ng-model="Campaign.kpiArr[$index]['kpiType']" ng-value="{{kpi.name}}" field="kpiType" index="{{$index}}" required hiddenkpi>
+												<input type="hidden" name="kpi"  ng-model="Campaign.kpiArr[$index]['kpiType']" ng-value="kpi.name" field="kpiType" index="{{$index}}" required hiddenkpi>
 												<!--<input type="hidden" name="kpi" ng-init="Campaign.kpiArr[$index]['kpiType']='Select from list';" ng-model="Campaign.kpiArr[$index]['kpiId']" ng-value="{{kpi.id}}" field="kpiId" index="{{$index}}" required hiddenkpi>-->
 											</div>
 										</div>
@@ -465,8 +465,8 @@
                                                     <ul class="dropdown-menu" aria-labelledby="selectKPI"  id="selectKPI">
                                                         <li ng-repeat="vendor in workflowData.vendor" ng-click="selectedVendor($parent.$index,vendor)" class="available"><a>{{vendor.name}}</a></li>
                                                     </ul>
-                                                    <input ng-if="mode!=='edit'" type="hidden" name="vendor" ng-init="Campaign.kpiArr[$index]['vendorName']='Select from list';"  ng-model="Campaign.kpiArr[$index]['vendorId']" ng-value="{{vendor.id}}" field="vendorId" index="{{$index}}" hiddenkpi required>
-                                                    <input ng-if="mode==='edit'"type="hidden" name="vendor" ng-model="Campaign.kpiArr[$index]['vendorId']"  ng-value="{{vendor.id}}" field="vendorId" index="{{$index}}" hiddenkpi>
+                                                    <input ng-if="mode!=='edit'" type="hidden" name="vendor" ng-init="Campaign.kpiArr[$index]['vendorName']='Select from list';"  ng-model="Campaign.kpiArr[$index]['vendorId']" ng-value="vendor.id" field="vendorId" index="{{$index}}" hiddenkpi required>
+                                                    <input ng-if="mode==='edit'"type="hidden" name="vendor" ng-model="Campaign.kpiArr[$index]['vendorId']"  ng-value="vendor.id" field="vendorId" index="{{$index}}" hiddenkpi>
                                                 </div>
                                             <label ng-if="Campaign.kpiArr[$index]['vendorId']==='' && saveCampaignClicked"  class="col-sm-12  greyTxt errorLabel" style="display:block;">Select Vendor</label>
                                         </div>
@@ -547,15 +547,15 @@
 									<div class="col-md-12 zeroPadding">
 										<div class="col-md-6 zeroPadding dropdown-workflow">
 											<div class="dropdown">
-												<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" >
-													<span class="text" ng-bind="Campaign.costArr[$index]['costCategoryName']" ></span>
+												<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ng-bind="Campaign.costArr[$index]['costCategoryName']">
+													<!--<span class="text"  ></span>-->
 													<span class="icon-arrow-down"></span>
 												</button>
 												<ul class="dropdown-menu" aria-labelledby="selectKPI"  id="selectKPI">
 													<li ng-repeat="cost in workflowData.costCategory" ng-click="selectedCostCategory($parent.$index,cost)" ng-value="cost.id" class="available"><a>{{cost.description}}</a></li>
 												</ul>
-												<input ng-if="mode!=='edit'" type="hidden" name="costCategory" ng-init="Campaign.costArr[$index]['costCategoryName']='Select from list'" ng-model="Campaign.costArr[$index]['costCategoryId']" ng-value="{{cost.id}}" field="costCategoryId" index="{{$index}}"  hiddencost>
-												<input ng-if="mode==='edit'" type="hidden" name="costCategory"  ng-model="Campaign.costArr[$index]['costCategoryId']" ng-value="{{cost.id}}" field="costCategoryId" index="{{$index}}"  hiddencost>
+												<input ng-if="mode!=='edit'" type="hidden" name="costCategory" ng-init="Campaign.costArr[$index]['costCategoryName']='Select from list'" ng-model="Campaign.costArr[$index]['costCategoryId']" ng-value="cost.id" field="costCategoryId" index="{{$index}}"  hiddencost>
+												<input ng-if="mode==='edit'" type="hidden" name="costCategory"  ng-model="Campaign.costArr[$index]['costCategoryId']" ng-value="cost.id" field="costCategoryId" index="{{$index}}"  hiddencost>
 											</div>
 										</div>
 										<div class="col-md-6 zeroPadding kpiTable pull-right" style="width: 150px; max-width: none; padding-right: 0px !important;">
@@ -578,18 +578,17 @@
 								</div>
 
 								<div class="col-md-1 zeroPadding kpiTable" style="width: 98px;">
-
 									<div class="col-md-12 zeroPadding dropdown-workflow">
 										<div class="dropdown">
-											<button class="btn btn-default dropdown-toggle" ng-class="Campaign.costArr[$index]['type']!='fixed'?'':'disabled'" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" >
-												<span class="text" ng-bind="Campaign.costArr[$index]['rateTypeName']" ></span>
+											<button class="btn btn-default dropdown-toggle" ng-class="Campaign.costArr[$index]['type']!='fixed'?'':'disabled'" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ng-bind="Campaign.costArr[$index]['rateTypeName']">
+												<!--<span class="text" ></span>-->
 												<span class="icon-arrow-down"></span>
 											</button>
 											<ul class="dropdown-menu" aria-labelledby="selectKPI"  id="selectKPI" style="overflow:visible;">
 												<li class="calculation.active?available:''" ng-class="{disabled : !calculation.active, available : calculation.active}"   tooltip-placement="{{!calculation.active ? 'right':''}}" tooltip="{{!calculation.active ? 'Not Available for KPI selected.':''}}" ng-repeat="calculation in workflowData.calculation" ng-click="calculation.active?selectedCalculation($parent.$index,calculation):''" ng-value="calculation.id" ><a>{{calculation.name}}</a></li>
 											</ul>
-											<input ng-if="mode!=='edit'" type="hidden" name="costcalculation" ng-init="Campaign.costArr[$index]['rateTypeName']='Select'" ng-model="Campaign.costArr[$index]['rateTypeId']" ng-value="{{calculation.id}}" field="rateTypeId" index="{{$index}}"  hiddencost>
-											<input ng-if="mode==='edit'" type="hidden" name="costcalculation" ng-model="Campaign.costArr[$index]['rateTypeId']" ng-value="{{calculation.id}}" field="rateTypeId" index="{{$index}}"  hiddencost>
+											<input ng-if="mode!=='edit'" type="hidden" name="costcalculation" ng-init="Campaign.costArr[$index]['rateTypeName']='Select'" ng-model="Campaign.costArr[$index]['rateTypeId']" ng-value="calculation.id" field="rateTypeId" index="{{$index}}"  hiddencost>
+											<input ng-if="mode==='edit'" type="hidden" name="costcalculation" ng-model="Campaign.costArr[$index]['rateTypeId']" ng-value="calculation.id" field="rateTypeId" index="{{$index}}"  hiddencost>
 										</div>
 										<!--<label ng-if="createCampaignForm.costcalculation.$error.required" class="col-sm-12  greyTxt errorLabel">Select Calculation Type</label>-->
 
@@ -600,16 +599,16 @@
 
 									<div class="col-md-12 zeroPadding dropdown-workflow">
 										<div class="dropdown">
-											<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" >
-												<span class="text" ng-bind="Campaign.costArr[$index]['vendorName']"></span>
+											<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ng-bind="Campaign.costArr[$index]['vendorName']">
+												<!--<span class="text" ng-bind="Campaign.costArr[$index]['vendorName']"></span>-->
 												<span class="icon-arrow-down"></span>
 											</button>
 											<ul class="dropdown-menu" aria-labelledby="selectKPI"  id="selectKPI">
 												<li class="available" ng-click="selectedVendorRate($parent.$index,vendorItem)" ng-repeat="vendorItem in vendorRateData[$index]"><a>{{vendorItem.name}}</a></li>
 												<!--<li class="available" ng-click="selectedVendorRate($parent.$index,vendorItem)" ng-repeat="vendorItem in vendorRateData[$index]['vendors']"><a>{{vendorItem.name}}</a></li>-->
 											</ul>
-											<input ng-if="mode!=='edit'" type="hidden" name="costvendor" ng-init="Campaign.costArr[$index]['vendorName']='Select from list';" ng-model="Campaign.costArr[$index]['vendorId']" ng-value="{{vendorItem.id}}" field="vendorId" index="{{$index}}"  hiddencost>
-											<input ng-if="mode==='edit'"type="hidden" name="costvendor"  ng-model="Campaign.costArr[$index]['vendorId']" ng-value="{{vendorItem.id}}" field="vendorId" index="{{$index}}"  hiddencost>
+											<input ng-if="mode!=='edit'" type="hidden" name="costvendor" ng-init="Campaign.costArr[$index]['vendorName']='Select from list';" ng-model="Campaign.costArr[$index]['vendorId']" ng-value="vendorItem.id" field="vendorId" index="{{$index}}"  hiddencost>
+											<input ng-if="mode==='edit'" type="hidden" name="costvendor"  ng-model="Campaign.costArr[$index]['vendorId']" ng-value="vendorItem.id" field="vendorId" index="{{$index}}"  hiddencost>
 										</div>
 										<!--<label ng-if="createCampaignForm.costvendor.$error.required" class="col-sm-12  greyTxt errorLabel">Select Vendor</label>-->
 									</div>

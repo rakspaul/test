@@ -104,20 +104,23 @@
     z-index: 999999 !important;
   }
   .modal {
-    z-index: 999999 !important;
+    z-index: 999999999 !important;
   }
-  .closePopBtn {
-    position: absolute;
-    top: 3px;
-    right: 3px;
-    z-index: 10;
-    cursor: pointer;
-    font-size: 12px;
-    width: 12px;
-    height: 12px;
-    color: #21252B;
-    opacity: .25;
-  }
+
+.closePopBtn {
+  position: absolute;
+  top: 3px;
+  right: 3px;
+  z-index: 10;
+  cursor: pointer;
+  font-size: 12px;
+  width: 12px;
+  height: 12px;
+  color: #21252B;
+  opacity: .25;
+}
+
+
   .about_popup {
     .close {
       margin: 10px;
@@ -433,7 +436,7 @@
   text-align: center;
   width: 100%;
   height: 100px;
-  z-index: 1006;
+  z-index: 999999999;
   span.msg_box {
     display: table;
     /*color: #3e763f;
@@ -1557,8 +1560,8 @@ multiselect .dropdown-menu > li > a {
         display: inline-block;
         
         position: absolute;
-        top: 11px;
-        right: 3px;
+        top: 0px;
+        right: 0px;
         z-index: 10;
         cursor: pointer;
         font-size: 12px;

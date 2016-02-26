@@ -2,7 +2,7 @@ var angObj = angObj || {};
 (function () {
     'use strict';
     angObj.controller('CreativeController', function ($scope,$rootScope, $routeParams, constants, workflowService, $location) {
-
+         $scope.creativeFormat="DISPLAY";
         var creatives = {
             /*Function to get creatives sizes*/
             getCreativeSizes: function () {
@@ -25,7 +25,7 @@ var angObj = angObj || {};
                 $scope.creativeSizeData.adFormats = [
                     {id: 1, name: 'Display',    active: true , disabled:false},
                     {id: 2, name: 'Video',      active: false, disabled:true},
-                    {id: 3, name: 'Rich Media', active: false, disabled:false},
+                    {id: 3, name: 'Rich Media', active: false, disabled:true},
                     {id: 4, name: 'Social',     active: false, disabled:true}
                 ];
                 //default value

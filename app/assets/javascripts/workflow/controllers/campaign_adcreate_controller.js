@@ -240,6 +240,12 @@ var angObj = angObj || {};
 
                     }
 
+                    function adSaveErrorHandler () {
+                        $scope.downloadingTracker = false;
+                        $scope.abc = $scope.textConstants.PARTIAL_AD_SAVE_FAILURE;
+                        $rootScope.setErrAlertMessage($scope.textConstants.PARTIAL_AD_SAVE_FAILURE);
+                    }
+
                     promiseObj = $scope.adId ?
                         workflowService.updateAd(postDataObj) :
                         workflowService.createAd(postDataObj);
@@ -267,13 +273,15 @@ var angObj = angObj || {};
                                 campaignOverView.saveTrackerFile();
                             }
                         } else {
-                            $scope.downloadingTracker = false;
-                            $rootScope.setErrAlertMessage(responseData.message);
+                            if(responseData.statusCode === 400) {
+                                adSaveErrorHandler();
+                            } else {
+                                $scope.downloadingTracker = false;
+                                $rootScope.setErrAlertMessage(responseData.message);
+                            }
                         }
                     }, function (errorObj) {
-                        $scope.downloadingTracker = false;
-                        $scope.abc = $scope.textConstants.PARTIAL_AD_SAVE_FAILURE;
-                        $rootScope.setErrAlertMessage($scope.textConstants.PARTIAL_AD_SAVE_FAILURE);
+                        adSaveErrorHandler();
                     });
                 },
 

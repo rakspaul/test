@@ -85,11 +85,11 @@
                 </div>
             </div>
             <div class="clearfix metric_graph_details">
-                <div class="each_metric_graph_details">
-                    <span class="detail_val">{{strategy.totalImpressions | nrFormat}}</span>
+                <div class="each_metric_graph_details" ng-if="strategy.totalImpressions">
+                    <span class="detail_val" ng-bind="strategy.totalImpressions | nrFormat"></span>
                     <span>{{textConstants.IMP_WITH_DOT}}</span>
                 </div>
-                <div class="each_metric_graph_details metric_graph_details_ctr">
+                <div class="each_metric_graph_details metric_graph_details_ctr" ng-if="strategy.ctr > 0">
                     <span class="detail_val">{{strategy.ctr | roundThisOff : 2}}% </span>
                     <span>{{textConstants.CTR}}</span>
                 </div>
