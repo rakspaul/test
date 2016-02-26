@@ -373,7 +373,6 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
   border-right: solid 8px transparent;
 }*/
 .reports_main_page_holder {
-  margin: 0px auto 80px;
   width: 1200px;
   /*  .each_cost_col {
     .first_col.icon_text_holder {
