@@ -155,8 +155,12 @@ var angObj = angObj || {};
             if(event && !$scope.changePlatformPopup) {
                 if($scope.adData && platform.id !== $scope.adData.platformId) {
                     $rootScope.$broadcast('resetTargeting');
+                    //reseting the custom field values on change of platform.
+                    $scope.$parent.postPlatformDataObj = null;
+                    localStorage.removeItem('adPlatformCustomInputs');
                 }
             }
+
             $scope.selectedPlatform = {};
             workflowService.setPlatform(platform);
             //audience targetting
