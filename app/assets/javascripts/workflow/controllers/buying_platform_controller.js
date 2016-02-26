@@ -35,6 +35,8 @@ var angObj = angObj || {};
 
                     if (result.status === 'OK' || result.status === 'success') {
                         responseData = result.data.data;
+                        //wrapper to transform new API response to old one
+                        responseData = workflowService.platformResponseModifier(responseData);
                         adsDetails = workflowService.getAdsDetails();
                         if ($scope.mode == 'edit' && platform) {
                             platformStatus = !$scope.isAdsPushed;

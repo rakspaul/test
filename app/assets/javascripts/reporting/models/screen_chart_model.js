@@ -85,8 +85,7 @@
                     type = eachObj.screen_type;
                 } else if (selectedFormat.toLowerCase() === 'formats') {
                     cls = formatTypeMap[eachObj.ad_format.toLowerCase()];
-                   // cls = eachObj.ad_format.toLowerCase() + "_graph" ;
-                    type = eachObj.ad_format;
+                    type = eachObj.ad_format.toLowerCase();
                 } else {
                     type = eachObj.platform_name;
                     icon_url = eachObj.platform_icon_url == 'Unknown' ? 'platform_logo.png' : type.toLowerCase().replace(/ /g, '_') + '.png';

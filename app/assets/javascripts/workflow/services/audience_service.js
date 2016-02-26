@@ -1,4 +1,4 @@
-(function () {
+     (function () {
     "use strict";
     angObj.factory("audienceService", function (apiPaths,dataService,workflowService, loginModel,constants) {
         var audience;
@@ -26,7 +26,7 @@
                     pageNo = pageNum;
                 if (size)
                     pageSize = size;
-                var url = apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/platform/' + workflowService.getPlatform().id + '/segments?pageNo=' + pageNo + '&pageSize=' + pageSize;
+                var url = apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/vendors/' + workflowService.getPlatform().id + '/segments?pageNo=' + pageNo + '&pageSize=' + pageSize;
                 if (sortCol && sortCol != '')
                     url += '&sortBy=' + sortCol;
                 if (sortOrder && sortOrder != '')
@@ -87,7 +87,7 @@
             },
 
             fetchAudiencekeywords: function (key) {
-                var url = apiPaths.WORKFLOW_API_URL + '/clients/'+loginModel.getSelectedClient().id+'/platform/'+workflowService.getPlatform().id+'/segments/keywords?search='+key;
+                var url = apiPaths.WORKFLOW_API_URL + '/clients/'+loginModel.getSelectedClient().id+'/vendors/'+workflowService.getPlatform().id+'/segments/keywords?search='+key;
                 return dataService.fetch(url, {cache: false});
             },
             setAudienceKeywords: function (s) {
