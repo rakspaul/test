@@ -680,6 +680,8 @@ var angObj = angObj || {};
                 workflowService.getPlatforms({cache: false}).then(function (result) {
                     if (result.status === "OK" || result.status === "success") {
                         var responseData = result.data.data;
+                        //wrapper to transform new API response to old one
+                        responseData = workflowService.platformResponseModifier(responseData);
                         $scope.platformKeywords = responseData.fullIntegrationsPlatforms;
                     }
                 })
