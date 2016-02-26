@@ -883,12 +883,25 @@ var angObj = angObj || {};
                 if (type == 'Primary') {
                     $scope.reports.reportDefinition.dimensions.primary.name = dimension.value;
                     $scope.reports.reportDefinition.dimensions.primary.dimension = (dimension.key == undefined) ? dimension.dimension : dimension.key;
+
+                    //if a dimension is selected as Primary it should not appear in secondary
+                    $scope.secondaryDimensionArr  = angular.copy($scope.customeDimensionData[0].dimensions);
+                    var removeIndex = $scope.secondaryDimensionArr .map(function(item){return item.key}).indexOf(dimension.key);
+                    $scope.secondaryDimensionArr .splice(removeIndex,1);
+
+                    //After selecting secondary dimension if primary is reset as secondary dimension then initialize secondary dimension
+                    if( $scope.reports.reportDefinition.dimensions.secondary.dimension == $scope.reports.reportDefinition.dimensions.primary.dimension) {
+                        $scope.deleteSecondDimensionBlock();
+                        $scope.showSecondDimension();
+                    }
+
                 } else {
                     $scope.showSecondaryTxtBox = true;
                     $scope.reports.reportDefinition.dimensions.secondary.name = dimension.value;
                     $scope.reports.reportDefinition.dimensions.secondary.dimension = (dimension.key == undefined) ? dimension.dimension : dimension.key;
                 }
             }
+
         }
 
 
@@ -1651,6 +1664,7 @@ var angObj = angObj || {};
                 $scope.setMetrixText('Default');
 
                 $scope.customeDimensionData = result.data.data;
+               // $scope.secondaryDimensionArr = $scope.customeDimensionData[0].dimensions;
                 var modifiedDimesionArr = result.data.data[0];
                 $scope.showDefaultDimension = modifiedDimesionArr.dimensions[0];
                 $scope.showDefaultDimension['template_id'] = modifiedDimesionArr.template_id;
@@ -1662,6 +1676,7 @@ var angObj = angObj || {};
                     $scope.generateBtnDisabled = false;
                     $scope.reports.schedule = responseData.schedule;
                     $scope.reports.reportDefinition.timeframe = responseData.reportDefinition.timeframe;
+
                     if (responseData.isScheduled) {
                         $('#toggle').bootstrapToggle('on');
                     }
@@ -1679,16 +1694,22 @@ var angObj = angObj || {};
                         var dimensionObj = $scope.customeDimensionData[0].dimensions;
                         var name;
                         _.each(dimensionObj, function(item) {
-                            var value1 = key;
-                            var value2 = item.key;
-                            if (value1.trim() === value2.trim()) {
-                                name = item.value.trim();
-                            }
+                                var value1 = key;
+                                var value2 = item.key;
+                                if (value1.trim() === value2.trim()) {
+                                    name = item.value.trim();
+                                }
                         });
                         return name;
                     }
 
                     $scope.setPrimaryDimension = function(obj) {
+
+                        //if a dimension is selected as Primary it should not appear in secondary
+                        $scope.secondaryDimensionArr = angular.copy($scope.customeDimensionData[0].dimensions);
+                        var removeIndex = $scope.secondaryDimensionArr.map(function(item){return item.key}).indexOf(obj.dimension);
+                        $scope.secondaryDimensionArr.splice(removeIndex,1);
+
                         $scope.reports.reportDefinition.dimensions.primary.name = $scope.getFilterBreakdownName(obj.dimension);
                         $scope.reports.reportDefinition.dimensions.primary.dimension = obj.dimension;
                         if (obj.values) {

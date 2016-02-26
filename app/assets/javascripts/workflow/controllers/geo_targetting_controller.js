@@ -398,9 +398,12 @@ var angObj = angObj || {};
 
                 if ($scope.zipCodesObj.error && $scope.zipCodesObj.error.length > 0) {
                     $rootScope.setErrAlertMessage(zipCodesObj.error[0]);
+
                 }
             }
-            $scope.geoTargetingData.selected.zip.push(zipCodesObj);
+            if($scope.zipCodesObj.added && $scope.zipCodesObj.added.length > 0) {
+                $scope.geoTargetingData.selected.zip.push(zipCodesObj);
+            }
 
         };
 
