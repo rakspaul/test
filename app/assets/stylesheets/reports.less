@@ -412,7 +412,8 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
   border-right: solid 8px transparent;
 }*/
 .reports_main_page_holder {
-  width: 1200px;
+  margin: 0px auto 80px;
+  /*width: 1200px;*/
   .load-more {
     margin: 80px auto 0;
     display: block;
@@ -574,8 +575,6 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
 .common_reports_container , .breadcrumb_campaign_strategy {
   font-family: "Avenir";
   position: relative;
-  float: left;
-  width: 100%;
   #optimization_strategies_dd {
     width: 80% ;
   }
@@ -949,7 +948,7 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
       }
     }
   }
-  
+
 }
 .download-report-load-icon {
     text-align: left;
@@ -976,35 +975,16 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
   font-size: 12px;
 }
 div.strategy_total_container {
-  float: left;
-  width: 100%;
   div.strategy_total_container_header {
     background: @reportHighlight  ;
     border: solid 1px @reportBorder ;
     border-top-width: 2px ;
     padding: 15px 20px 5px 20px ;
-    float: left;
-    width: 100%;
     div.each_col.first_col {
       .StrategyHeadingFontColor();
     }
   }
   .all_strategies_holder {
-    float: left;
-    width: 100%;
-    .each_strategy_holder {
-      padding: 0 !important;
-      float: left;
-      width: 100%;
-      border-width: 0 !important;
-      .each_strategy {
-        float: left;
-        width: 100%;
-      }
-      .linkage_bar {
-        display: none;
-      }
-    }
     .linkage_lines {
       position: relative;
       float: left;
@@ -1025,7 +1005,7 @@ div.strategy_total_container {
     .each_strategy {
       float: left;
       width: 100% ;
-      padding: 15px 20px 20px 20px;
+      padding: 15px 20px 5px 6px;
       margin: 10px 0 0 0px;
       border: solid 1px @reportBorder ;
       background: #fff;
@@ -1927,8 +1907,8 @@ div.strategy_total_container {
     border-top : solid 1px #d2dee7;
     padding: 120px 0;
   }
-  
-  
+
+
   .viewability_header {
       background: #fff;
       padding: 10px 20px;
@@ -2145,13 +2125,9 @@ div.strategy_total_container {
 /* margin block end */
 
 /**************** reports performance table styling ***********/
-.platform_container {
-  float: left;
-  width: 100%;
-}
+
 .reports_tabs_content_container {
   margin-top: 15px ;
-  float: left;
   .common-load-icon {
     text-align: center;
     text-indent: -99999;
@@ -2332,8 +2308,6 @@ div.strategy_total_container {
     min-height: 100px ;
     font-family: "Avenir" ;
     color: #313233 ;
-    float: left;
-    width: 1200px;
     .each_col {
       float: left;
       width: 146px;
@@ -2434,9 +2408,7 @@ div.strategy_total_container {
   .vid_none_hdr_hide {
     display:none;
   }
-  .vid_show {
-    float: left;
-  }
+  .vid_show {display:block;}
   .vid_data_hdr {
     width:336px;
     border:1px none #FF6600;
@@ -2769,21 +2741,9 @@ div.strategy_total_container {
         }
       }
       div.each_col.first_col {
-        float: left;
+        float: none;
         width: 100% !important;
         margin-left: 0px;
-      }
-      .row_list_holder {
-        float: left;
-        width: 100%;
-        .each_row_list {
-          float: left;
-          width: 100%;
-          .platform_row {
-            float: left;
-            width: 100%;
-          }
-        }
       }
       div.eight_col {
         margin-right : 20px ;
@@ -2793,10 +2753,11 @@ div.strategy_total_container {
       max-width: 80% ;
     }
     div.reports_platform_header {
-      padding-right: 0;
       .ng-isolate-scope .ng-scope{
         text-align:left
       }
+
+      padding-right: 0px ;
       div.sec_col {
         margin-left: 0px ;
         width: 214px;
@@ -3117,7 +3078,7 @@ div.strategy_total_container {
       margin: 10px 5px 5px 0px ;
 
     }
-    
+
   }
   .reports_platform_header , .strategy_total_container_header{
     .each_cost_col {
@@ -3176,7 +3137,7 @@ div.strategy_total_container {
         width: 51px;
 
       }*/
-      
+
     }
 /*    .seventh_col {
       min-width: 72px;
@@ -3238,6 +3199,7 @@ div.strategy_total_container {
   .strategy_total_container_header {
     padding: 15px 15px 5px;
   }
+
   .each_cost_col{
     text-align:right;
     &.first_col{
@@ -3811,19 +3773,19 @@ only screen and (min-device-pixel-ratio: 2) {
     .common_dropdown .dropdown {
       margin-right: 4px ;
     }
-    ::-webkit-input-placeholder { 
+    ::-webkit-input-placeholder {
       color:  #939ead;
       font-size: 14px;
     }
-    ::-moz-placeholder { 
+    ::-moz-placeholder {
       color:  #939ead;
       font-size: 14px;
     } /* firefox 19+ */
-    :-ms-input-placeholder { 
+    :-ms-input-placeholder {
       color:  #939ead;
       font-size: 14px;
     } /* ie */
-    input:-moz-placeholder { 
+    input:-moz-placeholder {
       color:  #939ead;
       font-size: 14px;
     }
@@ -3920,7 +3882,7 @@ only screen and (min-device-pixel-ratio: 2) {
             -moz-transform: rotate(-45deg);
             -o-transform: rotate(-45deg);
             -ms-transform: rotate(-45deg);
-            transform: rotate(-45deg);  
+            transform: rotate(-45deg);
             border-left: solid 3px #007ac9;
             width: 9px;
             height: 5px;
@@ -3963,14 +3925,14 @@ only screen and (min-device-pixel-ratio: 2) {
         border: solid 2px rgb(9, 120, 201);
         color: rgb(9, 120, 201);
         &:hover {
-          color : #21252b ; 
+          color : #21252b ;
         }
       }
       .each_option:hover {
         border: solid 2px rgb(9, 120, 201); ;
       }
     }
-    
+
     .add_breakdown_btn {
       padding: 7px 10px 0 0;
       border-radius: 4px;
@@ -4073,7 +4035,7 @@ only screen and (min-device-pixel-ratio: 2) {
         min-width: 140px ;
         margin-right: 0;
       }
-      
+
       .input-daterange {
         width: 140px ;
       }
@@ -4157,8 +4119,8 @@ only screen and (min-device-pixel-ratio: 2) {
             background-color: #fff;
         }
         .btn:active, .btn.active {
-           -webkit-box-shadow: inset 0 0px 0px transparent; 
-           box-shadow: inset 0 0px 0px transparent; 
+           -webkit-box-shadow: inset 0 0px 0px transparent;
+           box-shadow: inset 0 0px 0px transparent;
            border:  0px ;
         }
       }
@@ -4210,7 +4172,7 @@ only screen and (min-device-pixel-ratio: 2) {
         left : 0px ;
         background-color: #fff;
         z-index: 4;
-      } 
+      }
 //      .first_dimension_row_holder {
 //        margin-top: 20px ;
 //      }
@@ -4225,8 +4187,8 @@ only screen and (min-device-pixel-ratio: 2) {
 //        margin-top: 20px ;
 //      }
 //    }
-    
-    
+
+
     .each_col.more_dimension_arrow {
       display: none;
       background: url("/assets/images/cdesk/common_side_arrow.png") no-repeat left 1px #fff;
@@ -4420,7 +4382,7 @@ only screen and (min-device-pixel-ratio: 2) {
       padding-bottom: 15px;*/
       text-align: right;
     }
-    
+
     .each_col_cost {
       display: table-cell;
       width: 160px;
@@ -4430,7 +4392,7 @@ only screen and (min-device-pixel-ratio: 2) {
       padding-right: 20px;/*
       padding-bottom: 15px;*/
       text-align: right;
-      
+
     }
 
     .tree_dimension_col {
@@ -4490,8 +4452,8 @@ div.reports_tabs_content_container {
     border: 0;
     width: 100% ;
     border-bottom: solid 1px #ccc;
-    padding: 5px 6px;   
-    background: url("/assets/images/cdesk/search_input.png") no-repeat 250px center; 
+    padding: 5px 6px;
+    background: url("/assets/images/cdesk/search_input.png") no-repeat 250px center;
   }
 }
 
@@ -4598,6 +4560,7 @@ body.custom_report_page {
   position: relative;
   float: right !important;
   border: solid 0px #BFC9D7;
+
   button{
     float: right;
     left:0px;
@@ -4634,7 +4597,7 @@ body.custom_report_page {
       padding : 0 0 25px 80px ;
     }
 }
-@media (max-width: 560px) { 
+@media (max-width: 560px) {
   .page_top_header {
     .page_name {
       width: 100% ;
@@ -4646,7 +4609,7 @@ body.custom_report_page {
   }
 
 }
-@media (max-width: 735px) { 
+@media (max-width: 735px) {
   .nav_filters > div  {
     width: 100% ;
     max-width: 100% ;
@@ -4680,7 +4643,7 @@ body.custom_report_page {
   }
 
 }
-@media (max-width: 1260px) { 
+@media (max-width: 1260px) {
   .smallSreenScrollContainer {
     overflow: hidden;
     .smallSreenScrollDiv  {
