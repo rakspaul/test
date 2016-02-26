@@ -542,11 +542,12 @@
         this.WF_ARCHIVE_CAMPAIGN="We're sorry.";
         this.WF_REDIRECT_USER_FOR_ARCHIVED_AD="You are unable to edit this archived Ad. Click 'Continue' to return to Campaign Overview Screen";
         this.WF_REDIRECT_USER_FOR_ARCHIVED_CAMPAIGN="You are unable to edit this archived Media Plan. Click 'Continue' to return to Media Plan List Screen";
-        this.WF_CLONE_AD="Clone this Ad to";
         this.WF_SELECT_MEDIA_PLAN="Media Plan";
         this.WF_SELECT_AD_GROUP="Ad Group";
         this.WF_NO_AD_GROUP="No Ad Group";
-        this.WF_CLONE="Clone Ad";
+        this.WF_CLONE_THIS_AD="Clone this Ad to";
+        this.WF_CLONE_AD="Clone Ad";
+        this.WF_CLONE="Clone";
         this.WF_PAUSE="Pause";
         this.WF_RESUME="Resume";
         this.WF_MOVE_TO="Move to"
