@@ -3,7 +3,7 @@ var angObj = angObj || {};
 (function () {
     'use strict';
 
-    angObj.controller('InventoryFiltersController', function ($scope,workflowService, Upload) {
+    angObj.controller('InventoryFiltersController', function ($scope, workflowService, Upload, zipCode) {
         var InventoryFiltersView = {
             getAdvertisersDomainList: function (clientId, advertiserId) {
                 workflowService
@@ -144,6 +144,24 @@ var angObj = angObj || {};
                     if (!$scope.adData.inventory.domainAction) {
                         $scope.adData.inventory.domainAction = 'INCLUDE';
                     }
+
+                    fileReader.readAsText($scope.files[0], $scope)
+                        .then( function(result) {
+                            // Separators are (\n) new line & comma (,)
+                            // 1. Convert into array using new line as separator
+                            result = result.split('\n');
+                            // 2. Convert back into string using comma as separator
+                            result = result.join(',');
+                            // 3. Convert back into array using comma as separator
+                            result = result.split(',');
+                            // 4. Remove empty strings from array
+                            result = _.compact(result);
+                            // 5. Trim all leading / trailing blanks from strings
+                            result = result.map(Function.prototype.call, String.prototype.trim);
+
+                            $scope.workflowData.csvFileContents = result;
+                            console.log($scope.workflowData.csvFileContents);
+                        });
                 }
             }
         };
