@@ -6,7 +6,7 @@
   <meta content='Collective Desk UI' name='description'>
   <meta content='Collective' name='author'>
   <meta name="fragment" content="!" />
-  <link href='/assets/images/collective.png' rel='shortcut icon' type='image/x-icon'>
+  <link href='/images/collective.png' rel='shortcut icon' type='image/x-icon'>
   <link href="//fonts.googleapis.com/css?family=Armata" media="screen" rel="stylesheet" />
   <!-- @exclude -->
   <link rel="stylesheet" href="styles/libs/bootstrap.css">
@@ -19,7 +19,7 @@
       IMAGES_STATUS_BULBS_PATH = IMAGES_PATH + 'statusBulbs/',
       IMAGES_CDESK_PATH = IMAGES_PATH + 'cdesk/',
       IMAGES_CALENDAR_PATH = IMAGES_PATH + 'calendar/',
-      STYLESHEETS_PATH = '../assets/stylesheets/',
+      STYLESHEETS_PATH = '../styles/',
       assets = {};
 
     assets.platform_icon     = IMAGES_PATH + 'tag_icon.png';
@@ -144,23 +144,21 @@
 
     //Visto 2.0 Templates
     assets.html_dashboard_2          = 'views/visto2.0/dashboard.html';
+
+    window.scala_api="http://qa-desk.collective.com/api/reporting/v2"
+    window.scala_api_NEW="http://qa-desk.collective.com/api/reporting/v3"
+    window.workflow_api="http://qa-desk.collective.com/api/workflow/v2"
+    window.workflowCreate_api="http://qa-desk.collective.com/api/workflow/v3"
+    window.ga_id = "UA-54603772-1"
+    window.version ='';
+    window.help_domain_url="https://vistohelpqa.collective.com"
+
   </script>
 </head>
-<body>
-<!--[if lt IE 7]>
-<p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
-<![endif]-->
-
+<body class="{{bodyclass}} {{productType}} {{customReport}}">
 <header></header>
-<!-- Add your site or application content here -->
-<div data-nav-menu class="navbar navbar-inverse" role="navigation"></div>
-<div data-ui-view class="container"></div>
-
-
-<!--[if lt IE 9]>
-<script src="es5-shim/es5-shim.js"></script>
-<script src="json3/lib/json3.js"></script>
-<![endif]-->
+<div class='bodyWrap' ng-view=''></div>
+<div class='loading-spinner-holder loader'></div>
 
 <!-- @exclude -->
 <script src="http://localhost:35729/livereload.js?snipver=1" type="text/javascript"></script>

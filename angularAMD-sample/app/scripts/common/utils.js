@@ -1,5 +1,5 @@
 define(['angularAMD','common/services/constants_service'], function (angularAMD) {
-  angularAMD.factory('utils', ["$location", "$sce", "constantsService",function ($location, $sce,constants) {
+  angularAMD.factory('utils', ["$location", "$sce", "constants",function ($location, $sce,constants) {
 
         var formatDate = function (input) {
                 var date = new Date(input),

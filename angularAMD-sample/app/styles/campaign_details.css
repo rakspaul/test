@@ -1,0 +1,1575 @@
+body {
+  font-family: "Avenir";
+}
+.tooltip {
+  word-wrap: break-word;
+}
+.no-chart,
+.no_data_found {
+  color: #939ead;
+  line-height: 20px;
+  font-size: 12px;
+}
+.no-data-common {
+  display: block;
+  width: 180px;
+  text-align: center;
+  margin: 0 auto;
+  color: #939ead;
+  line-height: 20px;
+  font-size: 12px;
+}
+.reload-img {
+  background: url("/assets/images/cdesk/reload.png") no-repeat 6px 2px;
+  height: 24px;
+  width: 24px;
+  display: block;
+  margin: 0 auto;
+  border-radius: 4px;
+  -moz-border-radius: 4px;
+  -webkit-border-radius: 4px;
+  border: solid 1px #dde6eb ;
+  margin-top: 10px;
+  cursor: pointer;
+}
+.each_campaign_list_container .no-chart {
+  display: block;
+  width: 180px;
+  text-align: center;
+  margin: 0 auto;
+  height: 67px;
+  border: solid 1px #D2DEE7;
+  width: 293px;
+  border-radius: 2px;
+  margin-top: 17px;
+  opacity: 0.7;
+}
+.campaign_details_page {
+  font-family: "Avenir";
+  color: #2d2f31 ;
+  padding-top: 20px;
+}
+.campaign_details_page .disabled_dd {
+  position: absolute;
+  height: 87px;
+  width: 130px;
+  top: -1px;
+  left: -1px;
+  opacity: 0.8;
+  background: #FFF;
+  z-index: 1001;
+}
+.campaign_details_page .load-more-strategies {
+  margin: 30px;
+  text-align: center;
+  cursor: default;
+  display: block;
+}
+.campaign_details_page .load-more-strategies a {
+  text-decoration: none;
+  cursor: pointer;
+}
+.campaign_details_page .load-more-tactics {
+  margin-top: 120px;
+}
+.campaign_details_page .dropdown-menu li {
+  cursor: default;
+  padding: 5px 10px;
+  line-height: 15px;
+}
+.campaign_details_page .dropdown-menu li:hover {
+  background: #d2dee7 ;
+}
+.campaign_details_page .campaign_details_header {
+  margin-bottom: 20px ;
+  /* .time_period_filter {
+      margin: 8px 40px 0 0;
+      background: url("/assets/images/cdesk/lifetime_icon.png") no-repeat 2px 3px;
+      padding-left: 20px;
+      .dropdown-menu {
+        min-width: 130px;
+        left: -26px;
+        li {
+          padding-left: 25px;
+        }
+      }
+      .dd_txt {
+        color: #697075;
+      }
+      .dropdown_ul_text {
+        cursor: pointer;
+        .arrow_img {
+          background: url("/assets/images/cdesk/common_down_arrow.png") no-repeat center center; 
+          display: inline-block;
+          height: 10px;
+          width: 10px;
+          margin-left: 6px;
+        }
+      }
+    }*/
+}
+.campaign_details_page .campaign_details_header .campaign_name {
+  font-size: 26px;
+  color: #313233;
+  max-width: 880px;
+  font-family: "Avenir-bold";
+  word-wrap: break-word;
+}
+.campaign_details_page .campaign_details_header .campaign_name .campaign_name_txt {
+  max-width: 880px;
+  word-wrap: break-word;
+}
+.campaign_details_page .campaign_details_header .campaign_name .sub_title {
+  font-family: "Avenir";
+  font-size: 14px ;
+}
+.campaign_details_page .campaign_details_header .view_report {
+  border: solid 1px #359eea ;
+  cursor: pointer;
+  color: #359eea ;
+  font-size: 10px ;
+  text-transform: uppercase;
+  border-radius: 5px ;
+  -moz-border-radius: 5px ;
+  -webkit-border-radius: 5px ;
+  padding: 10px 10px 10px 30px;
+  margin: 0px 0px 0px 50px;
+  /*background: url("/assets/images/cdesk/view_report_icon.png") no-repeat 10px 10px ;*/
+  background: url("/assets/images/cdesk/sprites.png") no-repeat -618px -297px;
+}
+.campaign_details_page .campaign_details_header .view_report:hover {
+  background-color: #359eea ;
+  color: #fff ;
+  /*background-position: 10px -52px  ;*/
+  background-position: -618px -359px;
+}
+.campaign_details_page .action_filter_holder {
+  border: solid 1px #ebf0f5 ;
+  background: #fbfcff ;
+  margin-top: 40px ;
+  margin-bottom: 10px ;
+  box-shadow: 0px 1px 1px #ebf0f5;
+  -moz-box-shadow: 0px 1px 1px #ebf0f5;
+  -webkit-box-shadow: 0px 1px 1px #ebf0f5;
+  position: relative;
+  z-index: 20 ;
+}
+.campaign_details_page .action_filter_holder .error_message {
+  position: absolute;
+  color: #fff ;
+  z-index: 5 ;
+  bottom: 40px;
+  left: 0px;
+  background: #323133;
+  width: 210px;
+  font-size: 12px;
+  padding: 10px;
+  border-radius: 5px ;
+  -moz-border-radius: 5px ;
+  -webkit-border-radius: 5px ;
+}
+.campaign_details_page .action_filter_holder .error_message:after {
+  content: "";
+  height: 0;
+  width: 0;
+  position: absolute;
+  bottom: -8px;
+  left: 20px;
+  border-right: solid 8px transparent;
+  border-left: solid 8px transparent;
+  border-top: solid 8px #323133 ;
+}
+.campaign_details_page .action_filter_holder .heading {
+  font-size: 14px ;
+  color: #0978c9 ;
+  text-transform: uppercase;
+  padding: 15px ;
+  border-bottom: solid 1px #ebf0f5 ;
+  background: #fbfcff ;
+}
+.campaign_details_page .action_filter_holder #activityMessage {
+  visibility: hidden;
+  margin-left: 18px;
+  color: #5cb85c;
+}
+.campaign_details_page .action_filter_holder .comment_area {
+  width: 85%;
+  position: relative;
+  padding: 10px 0 6px ;
+}
+.campaign_details_page .action_filter_holder .comment_area .error_message {
+  bottom: 70px ;
+}
+.campaign_details_page .action_filter_holder .comment_area textarea {
+  border: 0px;
+  background: transparent;
+  overflow-y: auto;
+  width: 100%;
+  resize: none;
+  height: 42px;
+  line-height: 21px ;
+  padding-bottom: 0;
+  padding-top: 0px;
+  font-family: "Avenir";
+  font-size: 16px ;
+}
+.campaign_details_page .action_filter_holder .filter_holder {
+  padding: 4px 15px 6px 3px ;
+  font-size: 14px ;
+  color: #2d2f31 ;
+  background: #fbfcff ;
+}
+.campaign_details_page .action_filter_holder .filter_holder .external_chkbox {
+  float: left;
+  margin-top: 4px;
+  color: #70787e;
+  font-size: 13px;
+}
+.campaign_details_page .action_filter_holder .filter_holder .external_chkbox .squaredFour {
+  width: 20px;
+  margin: 0px 8px 0 0;
+  position: relative;
+  float: left;
+}
+.campaign_details_page .action_filter_holder .filter_holder .external_chkbox .squaredFour input[type="checkbox"] {
+  visibility: hidden;
+}
+.campaign_details_page .action_filter_holder .filter_holder .external_chkbox .squaredFour input[type="checkbox"]:focus {
+  outline: 0px ;
+}
+.campaign_details_page .action_filter_holder .filter_holder .external_chkbox .squaredFour label {
+  cursor: pointer;
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  top: 0;
+  left: 0px;
+  border-radius: 1px;
+  border: solid 1px #d9d9d9;
+}
+.campaign_details_page .action_filter_holder .filter_holder .external_chkbox .squaredFour label:after {
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+  filter: alpha(opacity=0);
+  opacity: 0;
+  content: '';
+  position: absolute;
+  width: 9px;
+  height: 5px;
+  background: transparent;
+  top: 3px;
+  left: 3px;
+  border: 3px solid #333;
+  border-top: none;
+  border-right: none;
+  -webkit-transform: rotate(-45deg);
+  -moz-transform: rotate(-45deg);
+  -o-transform: rotate(-45deg);
+  -ms-transform: rotate(-45deg);
+  transform: rotate(-45deg);
+}
+.campaign_details_page .action_filter_holder .filter_holder .external_chkbox .squaredFour label:hover::after {
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=30)";
+  filter: alpha(opacity=30);
+  opacity: 0.5;
+}
+.campaign_details_page .action_filter_holder .filter_holder .external_chkbox .squaredFour input[type=checkbox]:checked + label:after {
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+  filter: alpha(opacity=100);
+  opacity: 1;
+}
+.campaign_details_page .action_filter_holder .filter_holder .external_chkbox .squaredFourTxt {
+  float: left;
+}
+.campaign_details_page .action_filter_holder .filter_holder .filter_dropdown {
+  float: left;
+  position: relative;
+  margin-right: 35px ;
+  width: 178px;
+  color: #2d2f31 ;
+  font-size: 14px ;
+  height: 30px;
+}
+.campaign_details_page .action_filter_holder .filter_holder .filter_dropdown .error_msg_input {
+  position: absolute;
+  top: 0px ;
+  left: 0px ;
+  z-index: 1 ;
+  display: none;
+}
+.campaign_details_page .action_filter_holder .filter_holder .filter_dropdown .input-xlarge {
+  position: absolute;
+  top: 0px ;
+  left: 0px ;
+  z-index: 2 ;
+  background: #fff;
+  width: 90%;
+}
+.campaign_details_page .action_filter_holder .filter_holder .filter_dropdown .btn:active {
+  outline: 0;
+  box-shadow: 0px 0px 0px transparent;
+  -moz-box-shadow: 0px 0px 0px transparent;
+  -webkit-box-shadow: 0px 0px 0px transparent;
+}
+.campaign_details_page .action_filter_holder .filter_holder .filter_dropdown multiselect .btn {
+  background: transparent;
+}
+.campaign_details_page .action_filter_holder .filter_holder .filter_dropdown multiselect .btn .caret {
+  display: none;
+}
+.campaign_details_page .action_filter_holder .filter_holder .filter_dropdown .dropdown {
+  background: #fff ;
+}
+.campaign_details_page .action_filter_holder .filter_holder .filter_dropdown .dropdown .btn {
+  padding-bottom: 0px;
+  position: absolute;
+  z-index: 1;
+  padding-right: 0px ;
+  padding-top: 4px ;
+  background: url("/assets/images/cdesk/common_down_arrow.png") no-repeat 95% 8px #fff;
+  border: solid 1px transparent;
+  border-bottom: 0;
+  padding-bottom: 1px;
+}
+.campaign_details_page .action_filter_holder .filter_holder .filter_dropdown .dropdown .btn span {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  width: 100%;
+  text-align: left;
+}
+.campaign_details_page .action_filter_holder .filter_holder .filter_dropdown .dropdown.open .btn {
+  border: solid 1px #eee;
+  border-bottom: 0px ;
+  padding-bottom: 3px;
+  border-radius: 0;
+  -moz-border-radius: 0;
+  -webkit-border-radius: 0;
+  z-index: 11;
+}
+.campaign_details_page .action_filter_holder .filter_holder .filter_dropdown .dropdown-menu {
+  position: absolute;
+  top: 25px;
+  left: 0;
+  min-width: 100% ;
+  box-shadow: 0px 0px 0px transparent;
+  -webkit-box-shadow: 0px 0px 0px transparent;
+  -moz-box-shadow: 0px 0px 0px transparent;
+  border: solid 1px #eee;
+  border-radius: 0;
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  width: auto ;
+  max-height: 600px ;
+  z-index: 8;
+  max-width: 500px;
+}
+.campaign_details_page .action_filter_holder .filter_holder .filter_dropdown .dropdown-menu .btn-link {
+  padding: 0px ;
+  color: #262626 ;
+  margin: 0px ;
+  text-decoration: none;
+  border: 0px ;
+  display: block;
+  width: 100%;
+  text-align: left;
+}
+.campaign_details_page .action_filter_holder .filter_holder .filter_dropdown .dropdown-menu li {
+  color: #57606d ;
+}
+.campaign_details_page .action_filter_holder .filter_holder .filter_dropdown .dropdown-menu li a {
+  padding: 0px ;
+  display: block;
+  white-space: nowrap;
+}
+.campaign_details_page .action_filter_holder .filter_holder .filter_dropdown .dropdown-menu li:hover .icon-single {
+  /*background-image: url("/assets/images/cdesk/only_check_mark.png") ;*/
+  background: url("/assets/images/cdesk/sprites-2.png") no-repeat -534px -58px;
+  opacity: 0.5 ;
+}
+.campaign_details_page .action_filter_holder .filter_holder .filter_dropdown .dropdown-menu .icon-empty,
+.campaign_details_page .action_filter_holder .filter_holder .filter_dropdown .dropdown-menu .icon-ok {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  vertical-align: text-top;
+  /*background: url("/assets/images/cdesk/list_checkbox.png") no-repeat top left ;*/
+  background: url("/assets/images/cdesk/sprites-2.png") no-repeat -532px -186px;
+}
+.campaign_details_page .action_filter_holder .filter_holder .filter_dropdown .dropdown-menu .icon-ok {
+  /*background-image: url("/assets/images/cdesk/list_checkbox_checked.png") ;*/
+  background: url("/assets/images/cdesk/sprites-2.png") no-repeat -532px -120px;
+}
+.campaign_details_page .action_filter_holder .filter_holder .filter_dropdown .dropdown-menu .icon-single,
+.campaign_details_page .action_filter_holder .filter_holder .filter_dropdown .dropdown-menu .icon-ok2 {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  vertical-align: text-top;
+  background: no-repeat center center;
+}
+.campaign_details_page .action_filter_holder .filter_holder .filter_dropdown .dropdown-menu .icon-ok2 {
+  /*background-image: url("/assets/images/cdesk/only_check_mark.png") ;*/
+  background: url("/assets/images/cdesk/sprites-2.png") no-repeat -534px -58px;
+}
+.campaign_details_page .action_filter_holder .filter_holder .filter_dropdown select {
+  padding: 5px 20px 5px 10px ;
+  max-width: 198px;
+  -moz-appearance: none;
+  text-indent: 0.01px;
+  text-overflow: "";
+  background: transparent;
+  width: 100%;
+  -webkit-appearance: none;
+  border: 0px ;
+  font-family: "Avenir";
+}
+.campaign_details_page .action_filter_holder .filter_holder .filter_dropdown select:focus {
+  outline: 0px ;
+}
+.campaign_details_page .action_filter_holder .filter_holder .select_all_filter_dropdown {
+  width: 210px;
+}
+.campaign_details_page .action_filter_holder .filter_holder .select_all_filter_dropdown .dropdown-menu li:first-child {
+  border-bottom: solid 1px #eee ;
+}
+.campaign_details_page .action_filter_holder .filter_holder .metric_selected_filter_dropdown {
+  width: 202px;
+}
+.campaign_details_page .action_filter_holder .submit_activity_holder {
+  border-top: solid 1px #ebf0f5 ;
+  padding: 0px 15px ;
+  background: #fff ;
+}
+.campaign_details_page .action_filter_holder .submit_activity_holder .submit_btn_holder {
+  border-left: solid 1px #ebf0f5 ;
+  padding: 15px 0px  15px 15px ;
+}
+.campaign_details_page .action_filter_holder .submit_activity_holder .submit_btn_holder .submit_btn {
+  border: solid 1px #359eea;
+  background: #359eea;
+  color: white;
+  text-transform: uppercase;
+  font-size: 12px;
+  width: 130px;
+  padding: 10px;
+  border-radius: 5px;
+  display: block;
+  line-height: 12px;
+}
+.campaign_details_page .campaign_details_graphs_holder {
+  margin: 0px 0 15px;
+  font-size: 12px;
+  color: #2c2f31 ;
+  /*carousel styling*/
+  /*end of carousel styling*/
+}
+.campaign_details_page .campaign_details_graphs_holder .carousel-inner .active.left {
+  left: -25%;
+}
+.campaign_details_page .campaign_details_graphs_holder .carousel-inner .next {
+  left: 25%;
+}
+.campaign_details_page .campaign_details_graphs_holder .carousel-inner .prev {
+  left: -25%;
+}
+.campaign_details_page .campaign_details_graphs_holder .carousel-control {
+  width: 4% ;
+  z-index: 200 ;
+  opacity: 1 ;
+  border-radius: 50%;
+  -moz-border-radius: 50%;
+  -webkit-border-radius: 50%;
+  top: 48% ;
+  height: 30px ;
+  margin: 0px !important ;
+  width: 30px ;
+}
+.campaign_details_page .campaign_details_graphs_holder .carousel-control.left,
+.campaign_details_page .campaign_details_graphs_holder .carousel-control.right {
+  margin-left: 15px;
+  background-image: none;
+}
+.campaign_details_page .campaign_details_graphs_holder .col-md-12 {
+  padding: 0 ;
+}
+.campaign_details_page .campaign_details_graphs_holder .carousel-inner {
+  padding-top: 30px ;
+}
+.campaign_details_page .campaign_details_graphs_holder .col-xs-3 {
+  padding: 0 ;
+}
+.campaign_details_page .campaign_details_graphs_holder .glyphicon-chevron-right:before,
+.campaign_details_page .campaign_details_graphs_holder .glyphicon-chevron-left:before {
+  content: " ";
+  display: block;
+  border-radius: 50%;
+  -moz-border-radius: 50%;
+  -webkit-border-radius: 50%;
+  background-color: rgba(33, 37, 43, 0.6);
+  box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.54);
+  -webkit-box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.54);
+  -moz-box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.54);
+  width: 30px;
+  height: 30px;
+  background-image: url("/assets/images/cdesk/carousel_left_arrow.png");
+  background-repeat: no-repeat;
+  background-position: center center ;
+}
+.campaign_details_page .campaign_details_graphs_holder .glyphicon-chevron-right:before {
+  background-image: url("/assets/images/cdesk/carousel_right_arrow.png");
+  background-repeat: no-repeat;
+  background-position: center center ;
+}
+.campaign_details_page .campaign_details_graphs_holder .carousel-control:hover,
+.campaign_details_page .campaign_details_graphs_holder .carousel-control:focus {
+  opacity: 1 ;
+}
+.campaign_details_page .campaign_details_graphs_holder .carousel-control:hover .glyphicon-chevron-right:before,
+.campaign_details_page .campaign_details_graphs_holder .carousel-control:focus .glyphicon-chevron-right:before,
+.campaign_details_page .campaign_details_graphs_holder .carousel-control:hover .glyphicon-chevron-left:before,
+.campaign_details_page .campaign_details_graphs_holder .carousel-control:focus .glyphicon-chevron-left:before {
+  background-color: rgba(33, 37, 43, 0.8);
+}
+.campaign_details_page .campaign_details_graphs_holder .carousel-control .glyphicon-chevron-left,
+.campaign_details_page .campaign_details_graphs_holder .carousel-control .glyphicon-chevron-right,
+.campaign_details_page .campaign_details_graphs_holder .carousel-control .icon-prev,
+.campaign_details_page .campaign_details_graphs_holder .carousel-control .icon-next {
+  margin: 0px ;
+  top: 0px ;
+}
+.campaign_details_page .campaign_details_graphs_holder .carousel-control .icon-next,
+.campaign_details_page .campaign_details_graphs_holder .carousel-control .glyphicon-chevron-right {
+  right: 5px ;
+}
+.campaign_details_page .campaign_details_graphs_holder .carousel-control .icon-prev,
+.campaign_details_page .campaign_details_graphs_holder .carousel-control .glyphicon-chevron-left {
+  left: 5px ;
+}
+.campaign_details_page .campaign_details_graphs_holder .campaign_details_graphs_scroll {
+  height: 250px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  white-space: nowrap;
+  width: 1300px;
+}
+.campaign_details_page .campaign_details_graphs_holder .no-data-available {
+  margin: 60px auto 0 ;
+  text-align: center ;
+  width: 180px ;
+  color: #939ead ;
+}
+.campaign_details_page .campaign_details_graphs_holder .load-more {
+  margin: 80px 0 0 0 ;
+}
+.campaign_details_page .campaign_details_graphs_holder .each_section_graph_holder {
+  float: left;
+  border: solid 1px transparent;
+  border-right: solid 1px #ebf0f5 ;
+  padding: 15px 20px ;
+  margin: 0px 0px 20px ;
+  width: 260px;
+  height: 210px;
+}
+.campaign_details_page .campaign_details_graphs_holder .each_section_graph_holder .graph_heading {
+  font-size: 16px ;
+  color: #2c2f31;
+  margin-bottom: 20px ;
+}
+.campaign_details_page .campaign_details_graphs_holder .each_section_graph_holder .each_section_graph .section_graph {
+  height: 100px ;
+  width: 100px ;
+  margin: 0px 10px 10px 0px ;
+}
+.campaign_details_page .campaign_details_graphs_holder .each_section_graph_holder .each_section_graph .section_graph .section_graph_highcharts {
+  width: 116px;
+  height: 135px;
+  margin-top: 4px;
+}
+.campaign_details_page .campaign_details_graphs_holder .each_section_graph_holder .each_section_graph .section_graph_details {
+  width: 105px;
+}
+.campaign_details_page .campaign_details_graphs_holder .each_section_graph_holder .each_section_graph .section_graph_details .each_detail {
+  color: #939eaf ;
+  font-size: 12px ;
+  padding: 8px 0px 0 5px ;
+}
+.campaign_details_page .campaign_details_graphs_holder .each_section_graph_holder .each_section_graph .section_graph_details .graph_color {
+  height: 7px  ;
+  width: 7px  ;
+  border-radius: 7px  ;
+  -moz-border-radius: 7px  ;
+  -webkit-border-radius: 7px  ;
+  background: #BFC3D1 ;
+  display: inline-block;
+  margin-right: 2px;
+}
+.campaign_details_page .campaign_details_graphs_holder .each_section_graph_holder .each_section_graph .section_graph_details .color1 {
+  background: #f8810e ;
+}
+.campaign_details_page .campaign_details_graphs_holder .each_section_graph_holder .each_section_graph .section_graph_details .color2 {
+  background: #0072bc ;
+}
+.campaign_details_page .campaign_details_graphs_holder .each_section_graph_holder .each_section_graph .section_graph_details .color3 {
+  background: #45cb41 ;
+}
+.campaign_details_page .campaign_details_graphs_holder .each_section_graph_holder .each_section_graph .section_graph_details .play_color {
+  color: #0978c9 ;
+  font-size: 11px ;
+  margin: 0 7px 0 52px;
+}
+.campaign_details_page .campaign_details_graphs_holder .each_section_graph_holder .each_section_graph .section_graph_details .play_color .graph_color {
+  background: #0978c9 ;
+}
+.campaign_details_page .campaign_details_graphs_holder .each_section_graph_holder .each_section_graph .section_graph_details .view_color {
+  color: #4cc94a ;
+  font-size: 11px ;
+}
+.campaign_details_page .campaign_details_graphs_holder .each_section_graph_holder .each_section_graph .section_graph_details .view_color .graph_color {
+  background: #4cc94a ;
+}
+.campaign_details_page .campaign_details_graphs_holder .each_section_graph_holder .graph_holding_section {
+  position: relative;
+}
+.campaign_details_page .campaign_details_graphs_holder .each_section_graph_holder .graph_holding_section .top_layer_graph {
+  position: absolute;
+  top: 0px ;
+  left: 0px ;
+  height: 110px ;
+  width: 110px ;
+  z-index: 1 ;
+}
+.campaign_details_page .campaign_details_graphs_holder .each_section_graph_holder .graph_summary {
+  font-size: 12px ;
+}
+.campaign_details_page .campaign_details_graphs_holder .each_section_graph_holder .graph_summary span {
+  color: #2c2f31 ;
+  font-family: "Avenir-bold";
+}
+.campaign_details_page .campaign_details_graphs_holder .each_section_graph_holder .graph_summary .graph_val {
+  margin: 0 0px;
+}
+.campaign_details_page .campaign_details_graphs_holder .each_section_graph_holder:hover {
+  border: solid 1px #359eea;
+}
+.campaign_details_page .campaign_details_graphs_holder .each_section_graph_holder:last-child {
+  margin-right: 0px ;
+}
+.campaign_details_page .campaign_details_graphs_holder .first_bar_section_graph_holder {
+  border-left: solid 1px #ebf0f5;
+  border-right: 0px ;
+}
+.campaign_details_page .campaign_details_graphs_holder .bar_section_graph_holder_video_viewability .sub_headings {
+  color: #21252b ;
+  font-size: 12px ;
+  margin-bottom: 10px;
+  font-family: "Avenir-bold";
+}
+.campaign_details_page .campaign_details_graphs_holder .bar_section_graph_holder_video_viewability .video_viewability_graph {
+  height: 80px ;
+  width: 216px ;
+}
+.campaign_details_page .campaign_details_graphs_holder .bar_section_graph_holder {
+  color: #939eaf ;
+  font-size: 12px ;
+  font-family: "Avenir";
+}
+.campaign_details_page .campaign_details_graphs_holder .bar_section_graph_holder .dataScreenIconsText {
+  position: absolute !important;
+  top: 57px;
+}
+.campaign_details_page .campaign_details_graphs_holder .bar_section_graph_holder .format_section_graph .each_bar_section_holder {
+  margin-top: 16px;
+  height: 17px;
+}
+.campaign_details_page .campaign_details_graphs_holder .bar_section_graph_holder .format_section_graph .each_bar_section_holder [class^="icon-"],
+.campaign_details_page .campaign_details_graphs_holder .bar_section_graph_holder .format_section_graph .each_bar_section_holder [class*=" icon-"] {
+  margin-right: 10px;
+}
+.campaign_details_page .campaign_details_graphs_holder .bar_section_graph_holder .format_section_graph .each_bar_section_holder:first-child {
+  margin-top: 11px;
+}
+.campaign_details_page .campaign_details_graphs_holder .bar_section_graph_holder .format_section_graph .mobile_graph {
+  background: url("/assets/images/cdesk/mobile_icon.png") no-repeat 5px 2px;
+}
+.campaign_details_page .campaign_details_graphs_holder .bar_section_graph_holder .format_section_graph .display_graph {
+  background: url("/assets/images/cdesk/display_icon.png") no-repeat 4px 4px;
+}
+.campaign_details_page .campaign_details_graphs_holder .bar_section_graph_holder .format_section_graph .video_graph {
+  background: url("/assets/images/cdesk/video_icon.png") no-repeat 4px 6px;
+}
+.campaign_details_page .campaign_details_graphs_holder .bar_section_graph_holder .format_section_graph .social_graph {
+  background: url("/assets/images/cdesk/social_icon.png") no-repeat 4px 3px;
+}
+.campaign_details_page .campaign_details_graphs_holder .bar_section_graph_holder .format_section_graph .tablet_graph {
+  background: url("/assets/images/cdesk/tablet_icon.png") no-repeat 4px 3px;
+}
+.campaign_details_page .campaign_details_graphs_holder .bar_section_graph_holder .each_bar_graph {
+  height: 4px;
+  width: 200px;
+  background: #0072bc;
+}
+.campaign_details_page .campaign_details_graphs_holder .bar_section_graph_holder .each_bar_graph_na {
+  background: #CCC ;
+  width: 100% !important;
+}
+.campaign_details_page .campaign_details_graphs_holder .bar_section_graph_holder .platform_number {
+  color: #2d2f31 ;
+  margin-bottom: 4px ;
+}
+.campaign_details_page .campaign_details_graphs_holder .bar_section_graph_holder .each_bar_section_holder {
+  margin-top: 12px ;
+}
+.campaign_details_page .campaign_details_graphs_holder .bar_section_graph_holder_inventory .graph_heading {
+  margin-bottom: 2px ;
+}
+.campaign_details_page .campaign_details_graphs_holder .bar_section_graph_holder_cost {
+  border-left: solid 1px #ebf0f5 ;
+}
+.campaign_details_page .campaign_details_graphs_holder .bar_section_graph_holder_screen {
+  border-left: solid 1px #ebf0f5;
+  position: relative;
+  /* D3 Starts Here */
+}
+.campaign_details_page .campaign_details_graphs_holder .bar_section_graph_holder_screen .graph_heading {
+  margin-bottom: 2px ;
+}
+.campaign_details_page .campaign_details_graphs_holder .bar_section_graph_holder_screen h2 {
+  font-size: .8em;
+  margin-left: 10px;
+}
+.campaign_details_page .campaign_details_graphs_holder .bar_section_graph_holder_screen .each_section_graph {
+  position: absolute;
+  top: 64px;
+  z-index: 10;
+}
+.campaign_details_page .campaign_details_graphs_holder .bar_section_graph_holder_screen .each_section_graph .each_bar_section_holder {
+  margin: 16px 0 0 0;
+}
+.campaign_details_page .campaign_details_graphs_holder .bar_section_graph_holder_screen .each_section_graph .each_bar_section_holder:first-child {
+  margin-top: 4px;
+}
+.campaign_details_page .campaign_details_graphs_holder .bar_section_graph_holder_screen .each_section_graph .dataPlatformIconsText {
+  float: left;
+  position: absolute;
+  top: 30px;
+  left: 0;
+  z-index: 10;
+  width: 100%;
+}
+.campaign_details_page .campaign_details_graphs_holder .bar_section_graph_holder_screen .each_section_graph .dataPlatformIconsText .widgetPlatformString {
+  float: left;
+  margin-top: 16px;
+}
+.campaign_details_page .campaign_details_graphs_holder .bar_section_graph_holder_screen .each_section_graph .dataPlatformIconsText .widgetPlatformString .imgContainer {
+  float: left;
+  width: 25px;
+  margin: 2px 0 0 3px;
+}
+.campaign_details_page .campaign_details_graphs_holder .bar_section_graph_holder_screen .each_section_graph .dataPlatformIconsText .widgetPlatformString .imgContainer img {
+  float: left;
+}
+.campaign_details_page .campaign_details_graphs_holder .bar_section_graph_holder_screen .each_section_graph .dataPlatformIconsText .widgetPlatformString span {
+  float: left;
+  margin: 0;
+}
+.campaign_details_page .campaign_details_graphs_holder .bar_section_graph_holder_screen .each_section_graph .dataPlatformIconsText .widgetPlatformString span:last-child {
+  margin-left: 6px;
+}
+.campaign_details_page .campaign_details_graphs_holder .bar_section_graph_holder_screen .each_section_graph .dataPlatformIconsText .widgetPlatformString:first-child {
+  margin-top: 0;
+}
+.campaign_details_page .campaign_details_graphs_holder .bar_section_graph_holder_screen {
+  border-left: solid 1px #ebf0f5;
+}
+.campaign_details_page .campaign_details_graphs_holder .bar_section_graph_holder_platform,
+.campaign_details_page .campaign_details_graphs_holder .bar_section_graph_holder {
+  border-right: solid 1px #ebf0f5;
+  border-left: solid 1px #ebf0f5;
+  position: relative;
+  /* D3 Starts Here */
+}
+.campaign_details_page .campaign_details_graphs_holder .bar_section_graph_holder_platform .graph_heading,
+.campaign_details_page .campaign_details_graphs_holder .bar_section_graph_holder .graph_heading {
+  margin-bottom: 2px ;
+}
+.campaign_details_page .campaign_details_graphs_holder .bar_section_graph_holder_platform h2,
+.campaign_details_page .campaign_details_graphs_holder .bar_section_graph_holder h2 {
+  font-size: .8em;
+  margin-left: 10px;
+}
+.campaign_details_page .campaign_details_graphs_holder .bar_section_graph_holder_platform .each_section_graph,
+.campaign_details_page .campaign_details_graphs_holder .bar_section_graph_holder .each_section_graph {
+  position: relative;
+}
+.campaign_details_page .campaign_details_graphs_holder .bar_section_graph_holder_platform .inventory_number,
+.campaign_details_page .campaign_details_graphs_holder .bar_section_graph_holder .inventory_number {
+  color: #2d2f31 ;
+}
+.campaign_details_page .campaign_details_graphs_holder .bar_section_graph_holder_platform .dataPlatformIconsText,
+.campaign_details_page .campaign_details_graphs_holder .bar_section_graph_holder .dataPlatformIconsText {
+  float: left;
+  position: absolute;
+  top: 30px;
+  left: 0;
+  z-index: 10;
+  width: 100%;
+}
+.campaign_details_page .campaign_details_graphs_holder .bar_section_graph_holder_platform .dataPlatformIconsText .widgetPlatformString,
+.campaign_details_page .campaign_details_graphs_holder .bar_section_graph_holder .dataPlatformIconsText .widgetPlatformString {
+  float: left;
+  margin-top: 16px;
+}
+.campaign_details_page .campaign_details_graphs_holder .bar_section_graph_holder_platform .dataPlatformIconsText .widgetPlatformString .imgContainer,
+.campaign_details_page .campaign_details_graphs_holder .bar_section_graph_holder .dataPlatformIconsText .widgetPlatformString .imgContainer {
+  float: left;
+  width: 25px;
+  margin: 2px 0 0 3px;
+}
+.campaign_details_page .campaign_details_graphs_holder .bar_section_graph_holder_platform .dataPlatformIconsText .widgetPlatformString .imgContainer img,
+.campaign_details_page .campaign_details_graphs_holder .bar_section_graph_holder .dataPlatformIconsText .widgetPlatformString .imgContainer img {
+  float: left;
+}
+.campaign_details_page .campaign_details_graphs_holder .bar_section_graph_holder_platform .dataPlatformIconsText .widgetPlatformString span,
+.campaign_details_page .campaign_details_graphs_holder .bar_section_graph_holder .dataPlatformIconsText .widgetPlatformString span {
+  float: left;
+  margin: 0;
+}
+.campaign_details_page .campaign_details_graphs_holder .bar_section_graph_holder_platform .dataPlatformIconsText .widgetPlatformString span:last-child,
+.campaign_details_page .campaign_details_graphs_holder .bar_section_graph_holder .dataPlatformIconsText .widgetPlatformString span:last-child {
+  margin-left: 6px;
+}
+.campaign_details_page .campaign_details_graphs_holder .bar_section_graph_holder_platform .dataPlatformIconsText .widgetPlatformString:first-child,
+.campaign_details_page .campaign_details_graphs_holder .bar_section_graph_holder .dataPlatformIconsText .widgetPlatformString:first-child {
+  margin-top: 0;
+}
+.campaign_details_page .campaign_details_graphs_holder .bar_section_graph_holder_platform .barChartWidget,
+.campaign_details_page .campaign_details_graphs_holder .bar_section_graph_holder .barChartWidget {
+  margin-top: 46px !important ;
+}
+.campaign_details_page .campaign_details_graphs_holder .bar_section_graph_holder_platform #platformWidget,
+.campaign_details_page .campaign_details_graphs_holder .bar_section_graph_holder #platformWidget,
+.campaign_details_page .campaign_details_graphs_holder .bar_section_graph_holder_platform .barChartWidget,
+.campaign_details_page .campaign_details_graphs_holder .bar_section_graph_holder .barChartWidget {
+  float: left;
+  width: 200px;
+  margin-top: 26px;
+  /* D3 Ends Here */
+}
+.campaign_details_page .campaign_details_graphs_holder .bar_section_graph_holder_platform #platformWidget .chart,
+.campaign_details_page .campaign_details_graphs_holder .bar_section_graph_holder #platformWidget .chart,
+.campaign_details_page .campaign_details_graphs_holder .bar_section_graph_holder_platform .barChartWidget .chart,
+.campaign_details_page .campaign_details_graphs_holder .bar_section_graph_holder .barChartWidget .chart {
+  background: transparent;
+  margin: 0px;
+  width: 100%;
+  float: left;
+  margin-left: 10px ;
+}
+.campaign_details_page .campaign_details_graphs_holder .bar_section_graph_holder_platform #platformWidget .chart rect,
+.campaign_details_page .campaign_details_graphs_holder .bar_section_graph_holder #platformWidget .chart rect,
+.campaign_details_page .campaign_details_graphs_holder .bar_section_graph_holder_platform .barChartWidget .chart rect,
+.campaign_details_page .campaign_details_graphs_holder .bar_section_graph_holder .barChartWidget .chart rect {
+  fill: #0072bc;
+}
+.campaign_details_page .campaign_details_graphs_holder .bar_section_graph_holder_platform #platformWidget .chart text,
+.campaign_details_page .campaign_details_graphs_holder .bar_section_graph_holder #platformWidget .chart text,
+.campaign_details_page .campaign_details_graphs_holder .bar_section_graph_holder_platform .barChartWidget .chart text,
+.campaign_details_page .campaign_details_graphs_holder .bar_section_graph_holder .barChartWidget .chart text {
+  fill: #000;
+}
+.campaign_details_page .campaign_details_graphs_holder .bar_section_graph_holder_platform #platformWidget .chart text.name,
+.campaign_details_page .campaign_details_graphs_holder .bar_section_graph_holder #platformWidget .chart text.name,
+.campaign_details_page .campaign_details_graphs_holder .bar_section_graph_holder_platform .barChartWidget .chart text.name,
+.campaign_details_page .campaign_details_graphs_holder .bar_section_graph_holder .barChartWidget .chart text.name {
+  fill: #000;
+}
+.campaign_details_page .campaign_details_graphs_holder .bar_section_graph_holder_platform #platformWidget .chart .rule,
+.campaign_details_page .campaign_details_graphs_holder .bar_section_graph_holder #platformWidget .chart .rule,
+.campaign_details_page .campaign_details_graphs_holder .bar_section_graph_holder_platform .barChartWidget .chart .rule,
+.campaign_details_page .campaign_details_graphs_holder .bar_section_graph_holder .barChartWidget .chart .rule {
+  fill: #000;
+}
+.campaign_details_page .campaign_details_graphs_holder .bar_section_graph_holder_platform .barChartWidget .chart,
+.campaign_details_page .campaign_details_graphs_holder .bar_section_graph_holder .barChartWidget .chart {
+  margin-left: 0px ;
+}
+.campaign_details_page .campaign_details_graphs_holder .common_bar_data .barChartWidget {
+  margin-top: 26px  !important;
+}
+.campaign_details_page .campaign_details_graphs_holder .common_bar_data .each_section_graph .each_bar_section_holder {
+  padding-left: 0px ;
+}
+.campaign_details_page .campaign_details_graphs_holder .common_bar_data .imgContainer {
+  margin-right: 8px ;
+}
+.campaign_details_page .campaign_details_graphs_holder .each_section_graph_holder .section_graph_details {
+  margin-top: 10px ;
+}
+.campaign_details_page .campaign_details_graphs_holder .each_section_graph_holder #costBreakdownWidget {
+  float: left;
+  position: absolute;
+  z-index: 2;
+  top: 40px;
+  left: 15px;
+}
+.campaign_details_page .campaign_details_graphs_holder .each_section_graph_holder #costBreakdownWidget path {
+  stroke: #fff;
+}
+.campaign_details_page .campaign_details_graphs_holder .each_section_graph_holder .totalCostLabel {
+  margin-top: 40px;
+  float: left;
+  text-align: center;
+  width: 100px;
+}
+.campaign_details_page .campaign_details_graphs_holder .each_section_graph_holder.active {
+  border: solid 1px #359eea;
+}
+.campaign_details_page .platform_widget .barChartWidget,
+.campaign_details_page .screens_widget .barChartWidget,
+.campaign_details_page .formats_widget .barChartWidget {
+  margin-left: 23px ;
+}
+.campaign_details_page .graphValues span {
+  margin-right: 5px ;
+  display: inline-block;
+  text-transform: capitalize;
+}
+.campaign_details_page .campaigns_details_holder .flight_dates_holder {
+  padding: 20px 0px 10px 0;
+  background: #fff ;
+  margin-bottom: 0px ;
+}
+.campaign_details_page .campaigns_details_holder .flight_dates_holder .total_days_holder {
+  margin-top: 57px ;
+}
+.campaign_details_page .campaigns_details_holder .flight_dates_holder .total_days_holder .days_over_text {
+  right: -52px;
+}
+.campaign_details_page .campaigns_details_holder .flight_dates_holder .total_days_holder .ended_text {
+  right: 0px ;
+}
+.campaign_details_page .campaigns_details_holder .flight_dates_holder .each_col {
+  float: left;
+  margin-left: 22px;
+}
+.campaign_details_page .campaigns_details_holder .flight_dates_holder .each_col .col_val {
+  font-family: "Avenir-bold";
+  color: #21252b;
+  font-size: 14px;
+}
+.campaign_details_page .campaigns_details_holder .flight_dates_holder .each_col .metric_val {
+  font-family: "Avenir-bold";
+  color: #21252b;
+  font-size: 14px;
+  float: right;
+}
+.campaign_details_page .campaigns_details_holder .flight_dates_holder .col_first {
+  width: 48% ;
+  margin: 10px 0 21px 0px ;
+}
+.campaign_details_page .campaigns_details_holder .flight_dates_holder .col_spend,
+.campaign_details_page .campaigns_details_holder .flight_dates_holder .col_vtc {
+  width: 48% ;
+  float: right;
+  margin: 10px 0 0 0;
+}
+.campaign_details_page .campaigns_details_holder .flight_dates_holder .col_spend .col_heading,
+.campaign_details_page .campaigns_details_holder .flight_dates_holder .col_vtc .col_heading {
+  font-family: "Avenir-bold";
+  color: #21252b;
+  font-size: 14px;
+  margin-bottom: 37px ;
+}
+.campaign_details_page .campaigns_details_holder .flight_dates_holder .campaign_overview_details {
+  margin-bottom: 20px ;
+}
+.campaign_details_page .campaigns_details_holder .flight_dates_holder .campaign_overview_details .campaign_overview_details_title {
+  font-family: "Avenir-bold";
+  color: #21252b;
+  font-size: 14px;
+  font-size: 18px;
+}
+.campaign_details_page .campaigns_details_holder .flight_dates_holder .campaign_overview_details .campaign_overview_details_categories .col_heading {
+  background: #bdccd4 ;
+  float: left;
+  padding: 0 5px;
+  border-radius: 1px;
+  -moz-border-radius: 1px;
+  -webkit-border-radius: 1px;
+  margin-right: 8px;
+  position: relative;
+}
+.campaign_details_page .campaigns_details_holder .flight_dates_holder .campaign_overview_details .campaign_overview_details_categories .col_heading:after {
+  content: " ";
+  height: 0;
+  width: 0;
+  display: block;
+  position: absolute;
+  top: 5px;
+  right: -7px;
+  border-top: solid 4px transparent;
+  border-left: solid 4px #bdccd4 ;
+  border-bottom: solid 4px transparent;
+  border-right: solid 4px transparent;
+}
+.campaign_details_page .campaigns_details_holder .flight_dates_holder .campaign_overview_details .campaign_overview_details_categories .col_val {
+  float: left;
+}
+.campaign_details_page .campaigns_details_holder .flight_dates_holder .campaign_overview_graphs_with_vtc .col_vtc {
+  display: block;
+  float: right;
+}
+.campaign_details_page .campaigns_details_holder .flight_dates_holder .campaign_overview_graphs_with_vtc .col_vtc .col_heading {
+  margin-bottom: 5px ;
+}
+.campaign_details_page .campaigns_details_holder .flight_dates_holder .campaign_overview_graphs_with_vtc .col_first {
+  width: 322px ;
+}
+.campaign_details_page .campaigns_details_holder .flight_dates_holder .campaign_overview_graphs_with_vtc .col_spend {
+  float: left;
+  margin-left: 30px;
+  width: 324px ;
+}
+.campaign_details_page .campaigns_details_holder .flight_dates_holder .campaign_overview_graphs_with_vtc .col_vtc {
+  width: 340px ;
+}
+.campaign_details_page .campaigns_details_holder .flight_dates_holder .campaign_overview_graphs_with_vtc .vtc_graph {
+  width: 340px ;
+  height: 70px ;
+}
+.campaign_details_page .campaigns_details_holder .campaign_list_header_holder {
+  padding-left: 2px ;
+}
+.campaign_details_page .campaigns_details_holder .campaign_list_header_holder .metrics_title {
+  margin-left: 142px ;
+  text-transform: none;
+  width: 316px;
+}
+.campaign_details_page .campaigns_details_holder .campaign_list_header_holder .kpi_title {
+  margin-left: 130px ;
+}
+.campaign_details_page .campaigns_details_holder .campaign_list_header_holder .each_header_title .sortable {
+  margin-left: 5px ;
+}
+.campaign_details_page .campaigns_details_holder .campaign_list_header_holder .each_header_title .sortable.descending {
+  background-position: -433px -349px;
+}
+.campaign_details_page .campaigns_details_holder .campaign_list_header_holder .each_header_title.active {
+  color: #0978c9 ;
+}
+.campaign_details_page .campaigns_details_holder .campaign_list_header_holder .each_header_title.active .sortable.descending {
+  background-position: -433px -415px;
+}
+.campaign_details_page .campaigns_details_holder .campaign_list_header_holder .each_header_title.active .sortable.ascending {
+  background-position: -196px -412px;
+}
+.campaign_details_page .campaigns_details_holder .campaign_list_header_holder .each_header_title.deactive {
+  color: #333 ;
+  cursor: default;
+}
+.campaign_details_page .campaigns_details_holder .campaign_list_header_holder .each_header_title.deactive .sortable {
+  display: none;
+}
+.campaign_details_page .campaigns_details_holder .total_campaign_list_holder {
+  margin-bottom: 20px ;
+}
+.campaign_details_page .campaigns_details_holder .total_campaign_list_holder .strategy_tactic_holder {
+  margin-top: 30px ;
+}
+.campaign_details_page .campaigns_details_holder .total_campaign_list_holder .strategy_tactic_holder .each_campaign_list_container {
+  margin-bottom: 0px ;
+  padding-left: 10px ;
+}
+.campaign_details_page .campaigns_details_holder .total_campaign_list_holder .strategy_tactic_holder .each_campaign_list_container .strategy_heading {
+  text-transform: uppercase;
+  font-size: 10px;
+  margin-bottom: 10px;
+}
+.campaign_details_page .campaigns_details_holder .total_campaign_list_holder .strategy_tactic_holder .each_campaign_list_container .campaigns_list_buttons_holder .campaign_btn {
+  cursor: pointer;
+}
+.campaign_details_page .campaigns_details_holder .total_campaign_list_holder .strategy_tactic_holder .each_campaign_list_container .campaigns_list_buttons_holder .tactics_open_btn {
+  cursor: pointer;
+  border: solid 1px #dde6eb ;
+  border-bottom: 0px ;
+  padding: 10px ;
+  min-width: 86px;
+  background: #fff;
+  color: #a2acbb;
+  font-size: 10px;
+  margin-top: 20px ;
+}
+.campaign_details_page .campaigns_details_holder .total_campaign_list_holder .strategy_tactic_holder .each_campaign_list_container .campaigns_list_buttons_holder .tactics_open_btn .open_icon {
+  margin: 0px 6px 0 0;
+  background-image: url("/assets/images/cdesk/gamburger.png");
+  background-position: 0px -62px;
+  background-repeat: no-repeat;
+  height: 12px;
+  width: 10px;
+}
+.campaign_details_page .campaigns_details_holder .total_campaign_list_holder .strategy_tactic_holder .each_campaign_list_container .campaigns_list_buttons_holder .tactics_open_btn .open_icon span {
+  display: none;
+  height: 1px;
+  width: 12px;
+  margin-bottom: 2px;
+  background: #666;
+}
+.campaign_details_page .campaigns_details_holder .total_campaign_list_holder .strategy_tactic_holder .each_campaign_list_container .campaigns_list_buttons_holder .tactics_open_btn:hover {
+  background: #dde6eb ;
+}
+.campaign_details_page .campaigns_details_holder .total_campaign_list_holder .strategy_tactic_holder .each_campaign_list_container .campaigns_list_buttons_holder .tactic_open_class {
+  background: #f5f9fd ;
+}
+.campaign_details_page .campaigns_details_holder .total_campaign_list_holder .strategy_tactic_holder .each_campaign_list_container .campaigns_list_buttons_holder .tactic_open_class .open_icon {
+  background-image: url("/assets/images/cdesk/gamburger.png");
+  background-position: 0px 0px ;
+  background-repeat: no-repeat;
+}
+.campaign_details_page .campaigns_details_holder .total_campaign_list_holder .strategy_tactic_holder .only_strategy_container {
+  padding-bottom: 0px ;
+  margin-bottom: 0px ;
+  padding-top: 14px;
+  padding-left: 20px ;
+}
+.campaign_details_page .campaigns_details_holder .total_campaign_list_holder .strategy_tactic_holder .only_strategy_container .strategy_title {
+  color: #939eaf;
+  font-size: 12px;
+  margin: 0 0 5px 22px;
+}
+.campaign_details_page .campaigns_details_holder .total_campaign_list_holder .strategy_tactic_holder .only_strategy_container .first_section {
+  margin-top: 30px ;
+}
+.campaign_details_page .campaigns_details_holder .total_campaign_list_holder .strategy_tactic_holder .only_strategy_container .campaign_status_icon {
+  margin-top: 4px ;
+}
+.campaign_details_page .campaigns_details_holder .total_campaign_list_holder .strategy_tactic_holder .tactics_container .each_campaign_list_container {
+  background: #FBFCFF;
+}
+.campaign_details_page .campaigns_details_holder .total_campaign_list_holder .strategy_tactic_holder .tactics_container .tactics_linkage_lines {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-left: solid 1px #ccd9e3;
+}
+.campaign_details_page .campaigns_details_holder .total_campaign_list_holder .strategy_tactic_holder .tactics_container .tactics_linkage_lines_bar {
+  height: 1px;
+  width: 1% ;
+  background: #ccd9e3;
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: 0;
+}
+.campaign_details_page .campaigns_details_holder .total_campaign_list_holder .strategy_tactic_holder .tactics_container .each_tactic_holder:last-of-type {
+  height: 140px ;
+}
+.campaign_details_page .campaigns_details_holder .total_campaign_list_holder .strategy_tactic_holder .tactics_container .each_tactic_holder:last-of-type .tactics_linkage_lines_bar {
+  top: 100% ;
+}
+.campaign_details_page .campaigns_details_holder .total_campaign_list_holder .strategy_tactic_holder .tactics_container .each_tactic_container {
+  background: #fbfcff;
+  width: 99%;
+  float: right;
+  margin-top: 10px;
+}
+.campaign_details_page .campaigns_details_holder .total_campaign_list_holder .strategy_tactic_holder .tactics_container .each_tactic_container .main_heading {
+  font-family: "Avenir";
+}
+.campaign_details_page .campaigns_details_holder .total_campaign_list_holder .strategy_tactic_holder .tactics_container .each_tactic_container .tactic_accordion_details {
+  color: #727272;
+  font-size: 12px ;
+  margin-left: 12px ;
+}
+.campaign_details_page .campaigns_details_holder .total_campaign_list_holder .strategy_tactic_holder .tactics_container .each_tactic_container .channel_details {
+  color: #727272;
+  margin-top: 40px;
+  font-size: 12px;
+  color: #a2acba ;
+}
+.campaign_details_page .campaigns_details_holder .total_campaign_list_holder .strategy_tactic_holder .tactics_container .each_tactic_container .channel_details img {
+  display: inline-block;
+  margin-right: 5px ;
+  max-height: 20px;
+}
+.campaign_details_page .campaigns_details_holder .total_campaign_list_holder .strategy_tactic_holder .tactics_container .each_tactic_container .tactic_accordion_details {
+  margin-bottom: 10px;
+}
+.campaign_details_page .campaigns_details_holder .total_campaign_list_holder .strategy_tactic_holder .tactics_container .each_tactic_container .tactic_accordion_details > div {
+  margin-top: 2px ;
+  float: left;
+}
+.campaign_details_page .campaigns_details_holder .total_campaign_list_holder .strategy_tactic_holder .tactics_container .each_tactic_container .tactic_accordion_details > div span {
+  margin-right: 5px;
+  vertical-align: baseline;
+}
+.campaign_details_page .campaigns_details_holder .total_campaign_list_holder .strategy_tactic_holder .tactics_container .each_tactic_container .tactic_accordion_details > div .audience-icon {
+  width: 16px;
+  height: 16px;
+  display: inline-block;
+  background: url("/assets/images/cdesk/icn_audience.png") no-repeat scroll -3px 1px rgba(0, 0, 0, 0);
+}
+.campaign_details_page .campaigns_details_holder .total_campaign_list_holder .strategy_tactic_holder .tactics_container .each_tactic_container .tactic_accordion_details > div .globe-icon {
+  width: 16px;
+  height: 16px;
+  vertical-align: sub;
+  display: inline-block;
+  background: url("/assets/images/cdesk/icn_globe.png") no-repeat scroll -1px 1px rgba(0, 0, 0, 0);
+}
+.campaign_details_page .campaigns_details_holder .total_campaign_list_holder .strategy_tactic_holder .tactics_container .each_tactic_container .tactic_accordion_details > div .location-icon {
+  width: 17px;
+  height: 17px;
+  vertical-align: sub;
+  display: inline-block;
+  background: url("/assets/images/cdesk/icn_location.png") no-repeat scroll -1px 1px rgba(0, 0, 0, 0);
+}
+.campaign_details_page .campaigns_details_holder .total_campaign_list_holder .strategy_tactic_holder .tactics_container .each_tactic_container .tactic_accordion_details > div .device-icon {
+  width: 17px;
+  height: 18px;
+  vertical-align: sub;
+  display: inline-block;
+}
+.campaign_details_page .campaigns_details_holder .total_campaign_list_holder .strategy_tactic_holder .tactics_container .each_tactic_container .tactic_accordion_details > div .device-icon.mobile_graph {
+  background-image: url("/assets/images/cdesk/mobile_icon.png");
+}
+.campaign_details_page .campaigns_details_holder .total_campaign_list_holder .strategy_tactic_holder .tactics_container .each_tactic_container .tactic_accordion_details > div .device-icon.social_graph {
+  background-image: url("/assets/images/cdesk/social_icon.png");
+}
+.campaign_details_page .campaigns_details_holder .total_campaign_list_holder .strategy_tactic_holder .tactics_container .each_tactic_container .tactic_accordion_details > div .device-icon.display_graph {
+  background-image: url("/assets/images/cdesk/display_icon.png");
+}
+.campaign_details_page .campaigns_details_holder .total_campaign_list_holder .strategy_tactic_holder .tactics_container .each_tactic_container .tactic_accordion_details > div .device-icon.video_graph {
+  background: url("/assets/images/cdesk/video_icon.png") no-repeat 0px 6px;
+}
+.campaign_details_page .campaigns_details_holder .total_campaign_list_holder .strategy_tactic_holder .tactics_container .each_tactic_container .tactic_accordion_details > div .device-icon.tablet_graph {
+  background-image: url("/assets/images/cdesk/tablet_icon.png");
+}
+.campaign_details_page .campaigns_details_holder .total_campaign_list_holder .strategy_tactic_holder .tactics_container .each_tactic_container .tactic_accordion_details > div .device-icon.passback_graph {
+  background-image: url("/assets/images/cdesk/passback_icon.png");
+}
+.campaign_details_page .campaigns_details_holder .total_campaign_list_holder .strategy_tactic_holder:first-child {
+  margin-top: 0px ;
+}
+.campaign_details_page .activity_log_holder {
+  position: relative;
+  margin-bottom: 20px ;
+  padding-bottom: 5px ;
+  border-bottom: solid 1px #ebf0f5 ;
+}
+.campaign_details_page .activity_log_holder .graph_activity_holder .activity_log_header {
+  margin-bottom: 0px ;
+}
+.campaign_details_page .activity_log_holder .graph_activity_holder .internal_legend .legend {
+  border: solid 2px #57606c ;
+}
+.campaign_details_page .activity_log_holder .graph_activity_holder .no-data-available {
+  color: #939ead ;
+  font-size: 12px;
+  padding-top: 180px;
+  text-align: center;
+  display: block;
+  width: 180px;
+  margin: 0 auto;
+}
+.campaign_details_page .activity_log_holder .edit_activity_log_holder {
+  position: absolute;
+  top: 0px ;
+  left: 0px ;
+  z-index: 2 ;
+  height: 400px ;
+  width: 1040px ;
+  background: rgba(0, 0, 0, 0.5);
+}
+.campaign_details_page .activity_log_holder .edit_activity_log_holder .action_filter_holder {
+  width: 90%;
+  margin: 120px auto 0;
+}
+.campaign_details_page .activity_log_holder .edit_activity_log_holder .action_filter_holder .filter_dropdown_sel_list {
+  margin-left: 12px ;
+  margin-top: 5px ;
+}
+.campaign_details_page .activity_log_holder .edit_activity_log_holder .action_filter_holder .filter_dropdown_sel_list .filter_dropdown_sel_txt {
+  margin-right: 30px ;
+}
+.campaign_details_page .activity_log_holder .edit_activity_log_holder .primary_button {
+  border-radius: 4px;
+  -moz-border-radius: 4px;
+  -webkit-border-radius: 4px;
+  background-color: #0978c9;
+  height: 40px;
+  color: #ffffff;
+  font-size: 12px;
+  font-family: "Avenir-bold";
+}
+.campaign_details_page .activity_log_holder .edit_activity_log_holder .primary_button:hover {
+  background-color: #2298ef;
+}
+.campaign_details_page .activity_log_holder .edit_activity_log_holder .primary_button:active {
+  background-color: #0564a9;
+}
+.campaign_details_page .activity_log_holder .edit_activity_log_holder .primary_button:disabled {
+  opacity: 0.5 ;
+}
+.campaign_details_page .activity_log_holder .edit_activity_log_holder .primary_button_disabled {
+  opacity: 0.5 ;
+}
+.campaign_details_page .activity_log_holder .edit_activity_log_holder .secondary_button {
+  text-transform: uppercase;
+  margin-right: 15px;
+  cursor: pointer;
+  border-radius: 4px;
+  -moz-border-radius: 4px;
+  -webkit-border-radius: 4px;
+  border: solid 1px #0978c9;
+  background-color: #ffffff;
+  height: 40px;
+  color: #0978c9;
+  font-size: 12px;
+  font-family: "Avenir-bold";
+  width: 130px;
+  padding: 12px;
+  text-align: center;
+}
+.campaign_details_page .activity_log_holder .edit_activity_log_holder .secondary_button:hover {
+  border-color: #0978c9;
+  background-color: #6abdfa;
+  color: #0978c9;
+}
+.campaign_details_page .activity_log_holder .edit_activity_log_holder .secondary_button:active {
+  background-color: #0978c9;
+  color: #ffffff;
+}
+.campaign_details_page .activity_log_holder .edit_activity_log_holder .comment_area {
+  width: 67% ;
+}
+.campaign_details_page .activity_log_holder .activity_log_list_container {
+  position: relative;
+}
+.campaign_details_page .activity_log_holder .activity_log_list_container .gradient_div {
+  background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(255, 255, 255, 0.2)), to(rgba(255, 255, 255, 0.8)), color-stop(1, #fff));
+  background-image: -moz-linear-gradient(rgba(255, 255, 255, 0.2) 20%, rgba(255, 255, 255, 0.8) 80%);
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100px;
+  z-index: 1;
+}
+.campaign_details_page .activity_log_holder .activity_log_list_container .activity_log_header {
+  margin-bottom: 13px;
+}
+.campaign_details_page .activity_log_holder .activity_log_list_container .activity_log_list {
+  height: 336px ;
+  width: 560px ;
+  overflow-y: auto ;
+  border: solid 1px #ebf0f5;
+  border-bottom: 0px ;
+}
+.campaign_details_page .activity_log_holder .activity_log_list_container .activity_log_list .load-more {
+  margin-top: 80px ;
+}
+.campaign_details_page .activity_log_holder .activity_log_list_container .activity_log_list .each_activity_log {
+  position: relative;
+  font-size: 14px ;
+  color: #2d2f31 ;
+  padding: 12px 10px 12px 16px ;
+  border-bottom: solid 1px #ebf0f5;
+}
+.campaign_details_page .activity_log_holder .activity_log_list_container .activity_log_list .each_activity_log .activity_tooltip {
+  display: none;
+  position: absolute;
+  top: -36px;
+  left: 36%;
+  color: white;
+  z-index: 5;
+  background: #323133;
+  width: 170px;
+  font-size: 12px;
+  padding: 6px 10px;
+  border-radius: 5px;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  text-align: center;
+}
+.campaign_details_page .activity_log_holder .activity_log_list_container .activity_log_list .each_activity_log .activity_tooltip:after {
+  content: "";
+  height: 0;
+  width: 0;
+  position: absolute;
+  bottom: -8px;
+  left: 80px;
+  border-right: solid 8px transparent;
+  border-left: solid 8px transparent;
+  border-top: solid 8px #323133;
+}
+.campaign_details_page .activity_log_holder .activity_log_list_container .activity_log_list .each_activity_log .activity_tooltip_bottom {
+  bottom: -35px;
+  top: auto;
+}
+.campaign_details_page .activity_log_holder .activity_log_list_container .activity_log_list .each_activity_log .activity_tooltip_bottom:after {
+  bottom: 28px;
+  border-top: solid 8px transparent;
+  border-bottom: solid 8px #323133;
+}
+.campaign_details_page .activity_log_holder .activity_log_list_container .activity_log_list .each_activity_log .activity_points {
+  padding-top: 5px;
+}
+.campaign_details_page .activity_log_holder .activity_log_list_container .activity_log_list .each_activity_log .activity_main_details {
+  margin: 0 14px ;
+  width: 120px;
+}
+.campaign_details_page .activity_log_holder .activity_log_list_container .activity_log_list .each_activity_log .activity_other_details {
+  color: #21252b ;
+  font-size: 12px ;
+  margin-top: 3px;
+  width: 328px;
+}
+.campaign_details_page .activity_log_holder .activity_log_list_container .activity_log_list .each_activity_log .activity_other_details .more_details {
+  font-size: 14px ;
+  color: #2d2f31 ;
+  margin-top: 4px;
+  word-wrap: break-word;
+}
+.campaign_details_page .activity_log_holder .activity_log_list_container .activity_log_list .each_activity_log .activity_other_details .other_details_txt span {
+  display: block;
+  float: left;
+  margin-right: 20px ;
+}
+.campaign_details_page .activity_log_holder .activity_log_list_container .activity_log_list .each_activity_log .activity_other_details .other_details_txt span.impacts_name_txt {
+  width: 75px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.campaign_details_page .activity_log_holder .activity_log_list_container .activity_log_list .each_activity_log .activity_other_details .other_details_txt span.optimization_txt {
+  margin-right: 0px ;
+  width: 230px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.campaign_details_page .activity_log_holder .activity_log_list_container .activity_log_list .each_activity_log .activity_edit_holder {
+  display: none;
+}
+.campaign_details_page .activity_log_holder .activity_log_list_container .activity_log_list .each_activity_log .activity_edit_holder .activity_edit {
+  height: 15px;
+  width: 15px;
+  margin-bottom: 12px ;
+  background: url("/assets/images/cdesk/sprites.png") no-repeat -168px -82px;
+}
+.campaign_details_page .activity_log_holder .activity_log_list_container .activity_log_list .each_activity_log .activity_edit_holder .activity_edit:hover {
+  background: url("/assets/images/cdesk/sprites.png") no-repeat -241px -82px;
+}
+.campaign_details_page .activity_log_holder .activity_log_list_container .activity_log_list .each_activity_log .activity_edit_holder .activity_report {
+  height: 15px;
+  width: 15px;
+  background: url("/assets/images/cdesk/sprites.png") no-repeat -628px -445px;
+}
+.campaign_details_page .activity_log_holder .activity_log_list_container .activity_log_list .each_activity_log .activity_edit_holder .activity_report:hover {
+  background: url("/assets/images/cdesk/sprites.png") no-repeat -628px -307px;
+}
+.campaign_details_page .activity_log_holder .activity_log_list_container .activity_log_list .each_activity_log .activity_main {
+  font-family: "Avenir-bold";
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: #21252b ;
+}
+.campaign_details_page .activity_log_holder .activity_log_list_container .activity_log_list .each_activity_log .activity_date {
+  font-size: 12px ;
+  color: #939eaf ;
+  margin-top: 7px ;
+}
+.campaign_details_page .activity_log_holder .activity_log_list_container .activity_log_list .each_activity_log:hover .activity_tooltip {
+  display: block;
+}
+.campaign_details_page .activity_log_holder .activity_log_list_container .activity_log_list .each_activity_log:hover {
+  background: #f8faff;
+}
+.campaign_details_page .activity_log_holder .activity_log_list_container .activity_log_list .each_activity_log.active {
+  background: #cfdaf4;
+}
+.campaign_details_page .activity_log_holder .activity_log_list_container .activity_log_list .each_activity_log:hover .activity_edit_holder,
+.campaign_details_page .activity_log_holder .activity_log_list_container .activity_log_list .each_activity_log.active .activity_edit_holder {
+  display: block;
+}
+.campaign_details_page .activity_log_holder .activity_log_list_container .activity_log_list .no_activity_class {
+  text-align: center;
+  margin: 154px auto 0 ;
+  color: #939ead;
+  line-height: 20px;
+  font-size: 12px;
+  width: 180px ;
+}
+.campaign_details_page .activity_log_holder .activity_point,
+.campaign_details_page .activity_log_holder .activity_point_ext,
+.campaign_details_page .activity_log_holder .activity_point_int,
+.campaign_details_page .activity_log_holder .activity_point_int_sel {
+  height: 10px;
+  width: 10px;
+  border-radius: 50% ;
+  -moz-border-radius: 50% ;
+  -webkit-border-radius: 50% ;
+  color: #fff ;
+  background: #0072bc ;
+  font-size: 10px;
+  border: solid 2px #177ac6 ;
+  text-align: center;
+  padding-top: 1px;
+  padding-right: 1px;
+  padding-left: 2px ;
+}
+.campaign_details_page .activity_log_holder .activity_point_ext {
+  background: transparent ;
+  color: #0072bc ;
+}
+.campaign_details_page .activity_log_holder .activity_point_int {
+  background: transparent ;
+  color: #57606c ;
+  border-color: #57606c;
+}
+.campaign_details_page .activity_log_holder .each_activity_log.active .activity_point_int {
+  background: #57606c ;
+  border: solid 1px #57606c ;
+  color: #fff ;
+}
+.campaign_details_page .activity_log_holder .each_activity_log.active .activity_point_ext {
+  background: #2c9aec ;
+  border: solid 1px #2c9aec ;
+  color: #fff ;
+}
+.campaign_details_page .activity_log_holder .activity_log_header {
+  font-size: 16px ;
+  color: #2d2f31 ;
+  margin-bottom: 25px ;
+}
+.campaign_details_page .activity_log_holder .activity_log_header .activity_external_dd {
+  cursor: default;
+}
+.campaign_details_page .activity_log_holder .activity_log_header .activity_external_dd .arrow_img {
+  background: url("/assets/images/cdesk/common_down_arrow.png") no-repeat center center;
+  height: 10px;
+  width: 10px;
+  display: inline-block;
+  margin-left: 10px;
+}
+.campaign_details_page .activity_log_holder .activity_log_header .activity_external_dd .dropdown_ul {
+  min-width: 100px ;
+  right: 0;
+  left: auto;
+}
+.campaign_details_page .activity_log_holder .graph_activity {
+  height: 350px ;
+  width: 450px  ;
+}
+.campaign_details_page .activity_log_holder .graph_activity .load-more {
+  margin: 100px 0px 0px 0px;
+  display: block;
+}
+.onlyFormatsWidget .barIcon {
+  margin-right: 10px;
+  height: 16px;
+  width: 16px;
+  font-size: 16px;
+  display: inline-block;
+  fill: currentColor;
+  color: #57606D;
+}

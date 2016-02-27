@@ -2,7 +2,7 @@
     <div class="main_nav clearfix">
         <div class="pull-left">
             <a href="/dashboard" class="main_logo" id="logo" style="cursor:pointer;">
-                <img ng-src="/assets/images/visto_logos/Visto_Logo_hi-res.svg" alt="" height="32"/>
+                <img ng-src="images/visto_logos/Visto_Logo_hi-res.svg" alt="" height="32"/>
             </a>
         </div>
         <div class="pull-left main_navigation clearfix">
@@ -56,7 +56,7 @@
                                 <span class="pull-left dd_txt" ng-bind="defaultAccountsName"></span>
                                 <span ng-show="multipleClient" class="pull-right icon-arrow-down-thick"></span>
                             </span>
-                            
+
                             <ul class="dropdown-menu">
                                 <div class="accountsList-dropdown-li">
                                     <li ng-repeat="eachaccount in accountsData" id="{{eachaccount.id}}"
@@ -68,7 +68,7 @@
                             </ul>
                         </div>
                     </div>
-                    
+
                     <div ng-click="logout()" class="col-md-12 zeroPadding logout-option-link">
                         <a class="logout_link" ng-bind="textConstants.LOGOUT"></a>
                     </div>

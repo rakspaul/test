@@ -1,5 +1,11 @@
-(function() {
-  var vistoconfig = function () {
+define(['angularAMD'], function (angularAMD) {
+  angularAMD.service("vistoconfig", function () {
+      var urlPaths = {
+        apiSerivicesUrl: scala_api,
+        workflow_apiServicesUrl: workflow_api,
+        WORKFLOW_APIUrl : workflowCreate_api
+      };
+
       this.screenTypeMap = {
           'desktop'     : 'icon-desktop' ,
           'unknown'     : 'icon-help'    ,
@@ -38,10 +44,9 @@
       this.INVENTORY_LINK = '/inventory';
       this.QUALITY_LINK = '/quality';
       this.OPTIMIZATION_LINK = '/optimization';
-      this.MEDIA_PLANS_LINK = '/mediaplans'
+      this.MEDIA_PLANS_LINK = '/mediaplans';
 
-  };
-
-  commonModule.service("vistoconfig", vistoconfig);
-
-}());
+      this.api = scala_api;
+      this.apiPaths = urlPaths;
+  });
+});

@@ -1,4 +1,4 @@
-define(['angularAMD','common/services/data_service','common/services/constants_service'],function (angularAMD) {
+define(['angularAMD','common/services/constants_service', 'workflow/services/workflow_service'],function (angularAMD) {
   'use strict';
   angularAMD.service("advertiserService", function ($rootScope, $http, constants, workflowService) {
     //default values

@@ -1,0 +1,763 @@
+.dashboard_body {
+  background: #fff ;
+}
+.dashboard_body #dashboard_nav_link a {
+  color: #fff;
+}
+.main_dashboard {
+  margin-top: 10px ;
+  margin-bottom: 20px ;
+  font-family: "Avenir";
+  font-size: 12px;
+  width: auto;
+  color: #21252b;
+}
+.main_dashboard .data_not_found {
+  font-family: "Avenir-bold";
+  font-size: 26px;
+  color: #ccd2da;
+  line-height: 36px;
+  text-align: center;
+  position: absolute;
+  width: 100%;
+  top: 50%;
+  left: 0  ;
+  transform: translate(0%, -50%);
+  -ms-transform: translate(0%, -50%);
+  -webkit-transform: translate(0%, -50%);
+}
+.main_dashboard .row {
+  margin: 0 ;
+}
+.main_dashboard .dashboard_main_heading_row {
+  margin: 22px 0px 13px;
+}
+.main_dashboard .dashboard_main_heading_row .nav_filters {
+  width: auto;
+}
+.main_dashboard .dashboard_main_heading_row .nav_filters #brandsList {
+  right: -12px;
+  left: auto;
+  border-top: solid 1px #ccc;
+}
+.main_dashboard .dropdown {
+  cursor: default;
+}
+.main_dashboard .dropdown .dropdown_ul_text {
+  cursor: pointer;
+}
+.main_dashboard .dropdown .dropdown_ul {
+  text-align: left;
+  min-width: 86px;
+  left: -20px;
+}
+.main_dashboard .dropdown .arrow_img {
+  background: url("/assets/images/cdesk/common_down_arrow.png") no-repeat center center;
+  height: 8px;
+  width: 10px;
+  display: inline-block;
+  margin-left: 2px;
+}
+.main_dashboard .dropdown ul {
+  padding: 0px;
+}
+.main_dashboard .dropdown ul li {
+  padding: 2px 5px ;
+}
+.main_dashboard .dropdown ul li:hover {
+  background: #f5f9fd ;
+}
+.main_dashboard .status_filter .dropdown_ul {
+  min-width: 100px ;
+  right: 0;
+  left: auto;
+}
+.main_dashboard .tooltip_holder {
+  margin-left: 10px;
+  margin-top: 5px;
+  font-family: "Avenir";
+}
+.main_dashboard .tooltip_holder .common_tooltip {
+  font-size: 12px ;
+  width: 200px ;
+  bottom: 28px;
+  left: -90px;
+  display: none;
+  font-family: "Avenir";
+}
+.main_dashboard .tooltip_holder .common_tooltip:after {
+  left: 44% ;
+}
+.main_dashboard .tooltip_holder:hover .common_tooltip {
+  display: block;
+}
+.main_dashboard .status_filter {
+  line-height: 20px;
+  font-size: 14px;
+  margin-left: 20px ;
+}
+.main_dashboard .status_filter .status_filter_dd {
+  margin-top: 1px ;
+  position: relative;
+  cursor: pointer;
+}
+.main_dashboard .status_filter .status_filter_dd .arrow_img {
+  float: right;
+  margin-top: 5px;
+  margin-left: 10px ;
+}
+.main_dashboard .status_filter .status_filter_dd li {
+  text-align: left;
+  padding: 6px 10px;
+}
+.main_dashboard .status_filter .status_filter_dd li.active {
+  font-family: "Avenir-bold";
+}
+.main_dashboard .status_filter .status_filter_dd .dd_options_disabled {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  opacity: 0.3;
+  cursor: default;
+  background: #000;
+  height: 48px;
+}
+.main_dashboard .status_filter .dd_heading {
+  color: #939eaf;
+  font-size: 12px;
+}
+.main_dashboard .dashboard_main_heading {
+  max-width: 750px ;
+  margin-top: 8px;
+}
+.main_dashboard .dashboard_main_heading .more_txt_heading {
+  margin-left: 5px ;
+}
+.main_dashboard .dashboard_main_heading .tooltip_holder {
+  margin-top: 3px ;
+}
+.main_dashboard .dashboard_main_heading .brand_close_btn {
+  display: inline;
+  font-size: 15px;
+  cursor: pointer;
+  float: right;
+  margin-left: 10px;
+  transform: rotate(45deg);
+  -moz-transform: rotate(45deg);
+  -webkit-transform: rotate(45deg);
+}
+.main_dashboard .dashboard_main_heading .dashboard_main_heading_sub {
+  display: inline-block;
+  float: left;
+  font-size: 18px;
+  font-family: "Avenir-bold";
+}
+.main_dashboard .dashboard_main_heading .bubble_heading {
+  color: white;
+  background: #108AE2;
+  padding: 4px 16px;
+  border-radius: 15px;
+  margin-left: 10px;
+  font-size: 14px;
+  font-family: "Avenir";
+  cursor: default;
+}
+.main_dashboard .dashboard_main_heading .bubble_heading:hover {
+  background: #108AE2;
+}
+.main_dashboard .dashboard_main_heading .bubble_heading:hover .brand_close_btn {
+  visibility: visible;
+}
+.main_dashboard .calendar_holder {
+  border: solid 1px #e7edf1;
+  border-radius: 4px;
+  -moz-border-radius: 4px;
+  -webkit-border-radius: 4px;
+  margin: 0 0 0 40px;
+  color: #21252b;
+  font-size: 14px;
+  background-color: #ffffff;
+}
+.main_dashboard .calendar_holder span {
+  padding: 2px 18px;
+  border-left: solid 1px #e7edf1;
+  display: inline-block;
+  text-align: center;
+  float: left;
+}
+.main_dashboard .calendar_holder span:first-child {
+  border-left: solid 0px #e7edf1;
+}
+.main_dashboard .calendar_holder span.end_dates {
+  cursor: pointer;
+}
+.main_dashboard .cal_nav_btns_holder {
+  border: solid 1px #dee6eb ;
+  border-radius: 4px ;
+  -moz-border-radius: 4px ;
+  -webkit-border-radius: 4px ;
+  -moz-user-select: -moz-none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
+  padding: 0 ;
+  text-align: center;
+  width: 60px ;
+}
+.main_dashboard .cal_nav_btns_holder .cal_nav_btn {
+  float: left;
+  padding: 7px 0px;
+  width: 50%;
+  height: 30px;
+  cursor: pointer;
+  min-width: 28px;
+  border-left: solid 1px #dee6eb  ;
+}
+.main_dashboard .cal_nav_btns_holder .cal_nav_btn span {
+  height: 16px;
+  width: 10px;
+  background: url("/assets/images/cdesk/sprites.png") no-repeat -521px 0;
+  display: inline-block;
+}
+.main_dashboard .cal_nav_btns_holder .cal_nav_btn span.arrow_left {
+  background: url("/assets/images/cdesk/sprites.png") no-repeat -428px 0;
+}
+.main_dashboard .cal_nav_btns_holder .cal_nav_btn:first-child {
+  border-right: solid 1px #dee6eb  ;
+  border-left: 0px ;
+}
+.main_dashboard .cal_nav_btns_holder .cal_nav_btn:hover {
+  background-color: #dee6eb;
+}
+.main_dashboard .cal_nav_btns_holder .cal_nav_btn.disabled {
+  opacity: 0.2 ;
+  cursor: default;
+}
+.main_dashboard .cal_nav_btns_holder .cal_nav_btn.disabled:hover {
+  background-color: #fff ;
+}
+.main_dashboard .calendar_holder_period {
+  font-size: 14px;
+  min-width: 280px ;
+}
+.main_dashboard .calendar_holder_period span {
+  width: 24% ;
+  padding: 5px 0px;
+  display: inline-block;
+  text-align: center;
+  float: left;
+  cursor: pointer;
+  margin-right: 2px;
+  border: solid 1px transparent;
+  border-radius: 4px;
+  -moz-border-radius: 4px;
+  -webkit-border-radius: 4px;
+}
+.main_dashboard .calendar_holder_period span:hover {
+  border: solid 1px #dee6eb;
+}
+.main_dashboard .calendar_holder_period span.active {
+  border: solid 1px #dee6eb;
+}
+.main_dashboard .dashboard_section {
+  min-height: 340px;
+  border: solid 1px #dde6eb ;
+  background: #fff;
+  position: relative;
+  margin-bottom: 20px ;
+}
+.main_dashboard .dashboard_section .div-chart {
+  position: relative;
+}
+.main_dashboard .dashboard_section .div-header-chart {
+  background: #fff ;
+  height: 45px ;
+  width: 1007px ;
+}
+.main_dashboard .dashboard_section .div-header-chart .header-chart {
+  overflow: hidden;
+  width: 1155px ;
+}
+.main_dashboard .dashboard_section .calendar_tooltip {
+  position: absolute;
+  z-index: 2000;
+  top: 0;
+  left: 50px;
+  background: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  padding: 5px 10px;
+  border-radius: 4px;
+  text-align: center;
+}
+.main_dashboard .dashboard_section .calendar_tooltip:after {
+  content: " ";
+  height: 0;
+  width: 0;
+  position: absolute;
+  bottom: -6px;
+  border-left: solid 6px transparent;
+  border-right: solid 6px transparent;
+  border: solid 6px transparent;
+  display: block;
+  border-bottom: 0;
+  border-top: solid 6px #000;
+  border-top-color: rgba(0, 0, 0, 0.8);
+  left: 45%;
+}
+.main_dashboard .dashboard_section .calendar_tooltip_left {
+  position: absolute;
+  z-index: 2000;
+  top: 0;
+  left: 50px;
+  background: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  padding: 5px 10px;
+  border-radius: 4px;
+  text-align: center;
+}
+.main_dashboard .dashboard_section .calendar_tooltip_left:after {
+  content: " ";
+  height: 0;
+  width: 0;
+  position: absolute;
+  bottom: -6px;
+  border-left: solid 6px transparent;
+  border-right: solid 6px transparent;
+  border: solid 6px transparent;
+  display: block;
+  border-bottom: 0;
+  border-top: solid 6px #000;
+  border-top-color: rgba(0, 0, 0, 0.8);
+  left: 25%;
+}
+.main_dashboard .dashboard_section .dashboard_heading .tooltip_holder {
+  margin-left: 10px ;
+  margin-top: 1px ;
+}
+.main_dashboard .dashboard_section .dashboard_heading .tooltip_holder .common_tooltip {
+  background: #323133;
+  color: #fff ;
+  padding: 15px;
+  width: 255px;
+  bottom: auto ;
+  top: -8px;
+  left: 26px;
+  border-radius: 6px;
+  z-index: 1001;
+  font-size: 12px ;
+}
+.main_dashboard .dashboard_section .dashboard_heading .tooltip_holder .common_tooltip .bubble_graph_legend {
+  width: 80px ;
+  text-align: center;
+}
+.main_dashboard .dashboard_section .dashboard_heading .tooltip_holder .common_tooltip .bubble_graph_legend span {
+  display: inline-block;
+}
+.main_dashboard .dashboard_section .dashboard_heading .tooltip_holder .common_tooltip .bubble_graph_legend .bubble_graph_legend_img {
+  /*background: url("/assets/images/cdesk/bubble_img.png") no-repeat center center;*/
+  background: url("/assets/images/cdesk/sprites.png") no-repeat -593px 3px;
+  height: 70px;
+  width: 50px;
+}
+.main_dashboard .dashboard_section .dashboard_heading .tooltip_holder .common_tooltip .legend_container {
+  width: 135px ;
+}
+.main_dashboard .dashboard_section .dashboard_heading .tooltip_holder .common_tooltip .legend_container .legend_holder {
+  margin-bottom: 10px ;
+}
+.main_dashboard .dashboard_section .dashboard_heading .tooltip_holder .common_tooltip .legend_container .legend_holder .legend_color {
+  height: 8px ;
+  width: 8px ;
+  border-radius: 8px ;
+  -moz-border-radius: 8px ;
+  -webkit-border-radius: 8px ;
+  background: #aaa ;
+  margin: 5px 5px 0 0;
+}
+.main_dashboard .dashboard_section .dashboard_heading .tooltip_holder .common_tooltip .legend_container .legend_holder .legend_text {
+  width: 120px;
+}
+.main_dashboard .dashboard_section .dashboard_heading .tooltip_holder .common_tooltip .legend_container .legend_holder.blue .legend_color {
+  background: #1F9FF4 ;
+}
+.main_dashboard .dashboard_section .dashboard_heading .tooltip_holder .common_tooltip .legend_container .legend_holder.green .legend_color {
+  background: #6abc52 ;
+}
+.main_dashboard .dashboard_section .dashboard_heading .tooltip_holder .common_tooltip .legend_container .legend_holder.amber .legend_color {
+  background: #F17828  ;
+}
+.main_dashboard .dashboard_section .dashboard_heading .tooltip_holder .common_tooltip:after {
+  bottom: auto ;
+  top: 12px;
+  border-left: solid 6px transparent;
+  border-top: solid 6px transparent;
+  display: block;
+  border-bottom: solid 6px transparent;
+  border-right: solid 6px #323133 ;
+  left: -12px;
+}
+.main_dashboard .dashboard_calendar_graph_holder {
+  overflow: hidden;
+}
+.main_dashboard .dashboard_calendar_graph_holder .dashboard_heading .tooltip_holder .common_tooltip {
+  width: 300px ;
+}
+.main_dashboard .dashboard_calendar_graph_holder .dashboard_heading .tooltip_holder .common_tooltip .tooltip_heading {
+  font-size: 14px ;
+}
+.main_dashboard .dashboard_calendar_graph_holder .dashboard_heading .tooltip_holder .common_tooltip .status_legend {
+  margin-top: 12px ;
+  line-height: 12px ;
+}
+.main_dashboard .dashboard_calendar_graph_holder .dashboard_heading .tooltip_holder .common_tooltip .status_legend .status_legend_bulb {
+  float: left;
+  height: 12px;
+  width: 12px;
+  border-radius: 50%;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  margin-right: 10px;
+}
+.main_dashboard .dashboard_calendar_graph_holder .dashboard_heading .tooltip_holder .common_tooltip .calendar_legend_holder {
+  margin-top: 12px ;
+}
+.main_dashboard .dashboard_calendar_graph_holder .dashboard_heading .tooltip_holder .common_tooltip .calendar_legend_holder .legend_color {
+  background: #939eae;
+  width: 101px;
+  height: 2px;
+  margin-bottom: 2px;
+}
+.main_dashboard .dashboard_calendar_graph_holder .dashboard_heading .tooltip_holder .common_tooltip .calendar_legend_holder.green .legend_color {
+  background: #47ab1d;
+}
+.main_dashboard .dashboard_calendar_graph_holder .dashboard_heading .tooltip_holder .common_tooltip .calendar_legend_holder.amber .legend_color {
+  background: #ee9455;
+}
+.main_dashboard .dashboard_budget_graph_holder .dashboard_perf_graph,
+.main_dashboard .dashboard_perf_graph_holder .dashboard_perf_graph,
+.main_dashboard .dashboard_screens_graph_holder .dashboard_perf_graph {
+  max-height: 280px;
+  position: static;
+}
+.main_dashboard .dashboard_budget_graph_holder #brands .node {
+  cursor: pointer;
+}
+.main_dashboard .dashboard_budget_graph_holder #campaigns .node {
+  cursor: default;
+}
+.main_dashboard #dashboard_metric_dd {
+  font-size: 14px;
+  margin-top: 7px;
+}
+.main_dashboard #dashboard_metric_dd .dropdown_ul {
+  left: -18px;
+  width: 100px;
+}
+.main_dashboard #dashboard_metric_dd .dropdown_ul li {
+  padding: 2px 5px;
+}
+.main_dashboard #dashboard_screen_dd .dropdown_ul {
+  left: -6px;
+}
+.main_dashboard #dashboard_allocation_dd {
+  color: #555;
+  font-size: 14px;
+  margin-top: 2px;
+  font-family: "Avenir";
+}
+.main_dashboard #dashboard_allocation_dd .dropdown_ul {
+  width: 110px;
+  left: auto;
+  right: -10px;
+}
+.main_dashboard #dashboard_allocation_dd .metrics_text {
+  color: #21252b;
+  margin-right: 10px;
+  font-family: "Avenir-bold";
+}
+.main_dashboard .dashboard_perf_graph {
+  min-height: 175px;
+  margin: 20px 5px 0;
+  position: relative;
+}
+.main_dashboard .dashboard_perf_graph #dashboardContainer,
+.main_dashboard .dashboard_perf_graph #brands {
+  display: block;
+  text-align: center;
+}
+.main_dashboard .dashboard_perf_graph .data_not_available {
+  text-align: center;
+  position: absolute;
+  width: 100%;
+  top: 35%;
+}
+.main_dashboard .dashboard_perf_graph .each_screen_bar {
+  margin: 40px 15px ;
+  color: #57606d;
+  font-size: 14px;
+}
+.main_dashboard .dashboard_perf_graph .each_screen_bar .screen_bar_icon {
+  height: 28px ;
+}
+.main_dashboard .dashboard_perf_graph .each_screen_bar .percentage_screen {
+  color: #444;
+  font-size: 20px;
+  font-family: "Avenir-bold";
+}
+.main_dashboard .dashboard_perf_graph .each_screen_bar .percentage_screen span {
+  font-size: 14px;
+}
+.main_dashboard .dashboard_perf_graph #smartphone_screen .screen_bar_icon {
+  background: url("/assets/images/cdesk/smartphone_screen_icon.png") no-repeat left center;
+}
+.main_dashboard .dashboard_perf_graph #tablet_screen .screen_bar_icon {
+  background: url("/assets/images/cdesk/tablet_screen_icon.png") no-repeat left center;
+}
+.main_dashboard .dashboard_perf_graph #desktop_screen .screen_bar_icon {
+  background: url("/assets/images/cdesk/desktop_screen_icon.png") no-repeat left center;
+}
+.main_dashboard .dashboard_calendar_graph_holder {
+  min-height: 545px;
+}
+.main_dashboard .dashboard_calendar_graph_holder .dashboard_heading {
+  padding: 20px 0px 15px ;
+}
+.main_dashboard .dashboard_calendar_graph_holder #calendar_widget {
+  /*margin-left: -56px; */
+  height: 502px;
+  overflow-y: auto;
+  overflow-x: hidden ;
+  padding: 0px 24px;
+  /*width: 1050px; */
+}
+.main_dashboard .dashboard_calendar_graph_holder #calendar_widget .chart {
+  font-size: 12px;
+}
+.main_dashboard .dashboard_calendar_graph_holder #calendar_widget .axis path,
+.main_dashboard .dashboard_calendar_graph_holder #calendar_widget .axis line {
+  fill: none;
+  stroke: #e7edf1;
+  shape-rendering: crispEdges;
+}
+.main_dashboard .dashboard_calendar_graph_holder #calendar_widget .x.axis path {
+  display: none;
+}
+.main_dashboard .dashboard_calendar_graph_holder #calendar_widget .y.axis path {
+  display: none;
+}
+.main_dashboard .dashboard_calendar_graph_holder #calendar_widget .bar {
+  fill: #f5f9fd;
+  shape-rendering: crispEdges;
+}
+.main_dashboard .dashboard_calendar_graph_holder .dashboard_perf_graph {
+  margin: 5px 0px 20px ;
+  position: relative;
+  margin-right: 16px ;
+}
+.main_dashboard .dashboard_calendar_graph_holder .dashboard_perf_graph .data_not_available {
+  text-align: center;
+  position: absolute;
+  width: 100%;
+  top: 35%;
+}
+.main_dashboard .dashboard_heading {
+  font-size: 16px;
+  padding: 15px 18px 0px;
+}
+.main_dashboard .dashboard_heading .show_link {
+  margin: 7px 5px 0 0px;
+  font-size: 14px;
+  font-family: "Avenir-bold";
+}
+.main_dashboard .dashboard_heading .top_budget_subtitle {
+  font-family: "Avenir";
+  color: #555 ;
+  margin-left: 5px ;
+}
+.main_dashboard .dashboard_heading_bold {
+  font-family: "Avenir-bold";
+}
+.main_dashboard .calendar_heading {
+  margin-top: 4px ;
+  margin-bottom: 10px ;
+  white-space: nowrap;
+}
+.main_dashboard .dashboard_graph_legends {
+  padding: 20px;
+  color: #999;
+}
+.main_dashboard .dashboard_graph_legends .legend_details {
+  white-space: nowrap;
+  margin: 5px 20px 0 0;
+  display: inline-block;
+}
+.main_dashboard .dashboard_graph_legends .legend_details .graph_legend {
+  height: 8px;
+  width: 8px;
+  border-radius: 8px;
+  -moz-border-radius: 8px;
+  -webkit-border-radius: 8px;
+  background: green;
+  display: inline-block;
+}
+.main_dashboard .dashboard_graph_legends .underperf_legend .graph_legend {
+  background: #fc0;
+}
+.main_dashboard .dashboard_graph_legends .legend_type1 .graph_legend {
+  background: #a5a5f0;
+}
+.main_dashboard .dashboard_graph_legends .legend_type2 .graph_legend {
+  background: #5679b0;
+}
+.main_dashboard .dashboard_graph_legends .legend_type3 .graph_legend {
+  background: #a3badf;
+}
+.main_dashboard .dashboard_graph_legends .legend_type4 .graph_legend {
+  background: #8eb7f9;
+}
+.main_dashboard .dashboard_graph_legends .legend_type5 .graph_legend {
+  background: blue;
+}
+.main_dashboard .data_not_available_common {
+  text-align: center;
+  position: absolute;
+  width: 100%;
+  top: 35%;
+}
+.main_dashboard .common_loading_icon {
+  text-align: center;
+  height: 20px;
+  width: 40px;
+  background: url("/assets/images/loading.gif") no-repeat scroll 48% 45% rgba(0, 0, 0, 0);
+  margin: 120px auto 0;
+  display: block;
+  position: absolute;
+  width: 100%;
+}
+.main_dashboard #backToBrands {
+  cursor: pointer;
+  text-transform: none;
+}
+.bubble_tooltip:before {
+  content: "";
+  display: block;
+  height: 0px;
+  width: 0px;
+  position: absolute;
+  top: 50%;
+  left: -10px;
+  border: solid 10px #cccccc;
+  border-left: solid 0px transparent;
+  border-top: 10px solid transparent;
+  border-bottom: solid 10px transparent;
+  transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  -webkit-transform: translateY(-50%);
+}
+.bubble_tooltip:after {
+  content: "";
+  display: block;
+  height: 0px;
+  width: 0px;
+  position: absolute;
+  top: 50%;
+  left: -8px;
+  border: solid 8px #fff ;
+  border-left: solid 0px transparent;
+  border-top: 8px solid transparent;
+  border-bottom: solid 8px transparent;
+  transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  -webkit-transform: translateY(-50%);
+}
+.dashboard_screens_graph_holder .bar_section_graph_holder_screen {
+  color: #57606d;
+  font-weight: 500;
+  font-size: 14px;
+}
+.dashboard_screens_graph_holder .bar_section_graph_holder_screen .graphValues.pull-left {
+  float: none !important ;
+}
+.dashboard_screens_graph_holder .bar_section_graph_holder_screen .graphValues_title {
+  float: left;
+  margin: 0 0 0 10px;
+}
+.dashboard_screens_graph_holder .bar_section_graph_holder_screen .graphValues_title:first-letter {
+  text-transform: uppercase;
+}
+.dashboard_screens_graph_holder .bar_section_graph_holder_screen .graphValues_number {
+  float: right;
+  font-weight: 900;
+  color: #333333;
+  font-size: 20px;
+  line-height: 100%;
+}
+.dashboard_screens_graph_holder .bar_section_graph_holder_screen .barChartWidget {
+  margin: 75px 0 0 47px ;
+}
+.dashboard_screens_graph_holder .bar_section_graph_holder_screen .dataScreenIconsText {
+  position: absolute;
+  top: 80px ;
+  left: 0px ;
+  width: 100%;
+}
+.dashboard_screens_graph_holder .bar_section_graph_holder_screen .dataScreenIconsText .each_bar_section_holder {
+  height: 60px;
+  padding: 0 20px;
+  margin-bottom: 10px;
+}
+.dashboard_screens_graph_holder .bar_section_graph_holder_screen .dataScreenIconsText .each_bar_section_holder [class^="icon-"],
+.dashboard_screens_graph_holder .bar_section_graph_holder_screen .dataScreenIconsText .each_bar_section_holder [class*=" icon-"] {
+  margin-top: 2px;
+}
+.dashboard_screens_graph_holder .bar_section_graph_holder_screen .dataScreenIconsText .display_graph {
+  background: url("/assets/images/cdesk/desktop_screen_icon.png") no-repeat 20px 10px;
+}
+.dashboard_screens_graph_holder .bar_section_graph_holder_screen .dataScreenIconsText .mobile_graph {
+  background: url("/assets/images/cdesk/smartphone_screen_icon.png") no-repeat 19px 10px;
+}
+.dashboard_screens_graph_holder .bar_section_graph_holder_screen .dataScreenIconsText .tablet_graph {
+  background: url("/assets/images/cdesk/tablet_screen_icon.png") no-repeat 20px 6px;
+}
+.dashboard_screens_graph_holder .bar_section_graph_holder_screen .dataScreenIconsText .video_graph {
+  background: url("/assets/images/cdesk/video_screen_icon.png") no-repeat 22px 6px;
+}
+.dashboard_screens_graph_holder .bar_section_graph_holder_screen .dataScreenIconsText .social_graph {
+  background: url("/assets/images/cdesk/social_screen_icon.png") no-repeat 20px 6px;
+}
+.dashboard_screens_graph_holder.dashboard_screens_platform .each_bar_section_holder {
+  position: relative;
+}
+.dashboard_screens_graph_holder.dashboard_screens_platform .each_bar_section_holder .imgContainer {
+  position: absolute;
+  top: 6px;
+  left: 22px;
+  height: 20px;
+  width: 20px;
+  text-align: center;
+}
+.dashboard_screens_graph_holder.dashboard_screens_platform .each_bar_section_holder .graphValues_title {
+  margin: 7px 0 0 30px;
+}
+.dashboard_screens_graph_holder.dashboard_screens_platform .each_bar_section_holder .graphValues_number {
+  margin-top: 7px ;
+}
+@media (max-width: 1200px) {
+  .dashboard_body .bodyWrap {
+    width: auto;
+  }
+}
+@media (max-width: 990px) {
+  .dashboard_body .calendar_holder_period {
+    margin-top: 14px;
+    width: 100%;
+  }
+  .dashboard_body .calendar_heading {
+    margin-bottom: 10px ;
+    padding-right: 0px ;
+  }
+  .dashboard_body .dashboard-filters {
+    float: left!important;
+  }
+}

@@ -1,0 +1,136 @@
+// New Dashboard
+.dashboard_2 {
+  background: #ececec;
+  .row {
+    margin: 15px 0;
+    [class^="col-md-"], [class*=" col-md-"] {
+      padding: 0 15px;
+      margin: 15px 0;
+      .widgetWrap {
+        background-color: white;
+        border-radius: 2px;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+        width: 100%;
+        float: left;
+        min-height: 352px;
+        overflow: hidden;
+        .chartHeader {
+          float: left;
+          width: 100%;
+          padding: 10px;
+          border-bottom: 1px solid #bfc9d7;
+          h5 {
+            margin-top: 0;
+          }
+          .widgetCountBig {
+            float: left;
+            clear: left;
+            color: #57606d;
+            font-family: "Avenir";
+            font-size: 30px;
+            font-weight: 400;
+            line-height: 36px;
+          }
+          .icon-arrow-down-thick {
+            float: left;
+            font-size: 30px;
+            font-weight: 400;
+            line-height: 36px;
+            color: #F24444;
+            width: 30px;
+            height: 30px;
+            margin: 0 15px 0 30px;
+          }
+          .widgetCountQuote {
+            float: left;
+            color: #F24444;
+            font-family: "Avenir";
+            font-size: 30px;
+            line-height: 36px;
+          }
+          .icon-arrow-down-thick.positive {
+            color: #4CC94A;
+            /* Safari */
+            -webkit-transform: rotate(-180deg);
+            /* Firefox */
+            -moz-transform: rotate(-180deg);
+            /* IE */
+            -ms-transform: rotate(-180deg);
+            /* Opera */
+            -o-transform: rotate(-180deg);
+            /* Internet Explorer */
+            filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=6);
+          }
+          .widgetCountQuote.positive {
+            color: #4CC94A;
+          }
+        }
+        .chartLegend {
+          float: left;
+          width: 100%;
+          min-width: 430px;
+          position: relative;
+          .squareStatus {
+            float: left;
+            width: 10px;
+            height: 10px;
+            margin: 10px 5px 0 10px;
+            background: #000;
+          }
+          .labelStatus {
+            float: left;
+            margin: 7px 5px 0 0;
+            font-size: 12px;
+          }
+          .scrollLeftLabel.icon-arrow-down-thick {
+            float: left;
+            position: absolute;
+            z-index: 10;
+            top: 0;
+            left: 60px;
+            font-size: 12px;
+            height: 30px;
+            width: 30px;
+            line-height: 36px;
+            -ms-transform: rotate(90deg); /* IE 9 */
+            -webkit-transform: rotate(90deg); /* Chrome, Safari, Opera */
+            transform: rotate(90deg);
+            background: #fff;
+            cursor: pointer;
+            text-align: center;
+            display: none;
+          }
+          .scrollRightLabel.icon-arrow-down-thick {
+            float: left;
+            position: absolute;
+            z-index: 10;
+            top: 0;
+            left: 340px;
+            font-size: 12px;
+            height: 30px;
+            width: 30px;
+            line-height: 36px;
+            -ms-transform: rotate(-90deg); /* IE 9 */
+            -webkit-transform: rotate(-90deg); /* Chrome, Safari, Opera */
+            transform: rotate(-90deg);
+            background: #fff;
+            cursor: pointer;
+            text-align: center;
+          }
+        }
+        .chartBody {
+          float: left;
+          width: 100%;
+          padding: 10px;
+          border-top: 1px solid #bfc9d7;
+        }
+      }
+      .miniChart {
+        min-height: 80px;
+        .chartHeader {
+          border-width: 0;
+        }
+      }
+    }
+  }
+}

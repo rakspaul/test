@@ -1,0 +1,167 @@
+.reports-scheduled-list .scheduled-list-header {
+  margin: 30px 0 20px ;
+}
+.reports-scheduled-list h2 {
+  margin-top: 0px ;
+}
+.reports-scheduled-list .scheduled-list-nav {
+  margin-bottom: 23px ;
+}
+.reports-scheduled-list .scheduled-list-nav .each-nav {
+  color: #939eae ;
+  font-size: 13px ;
+  text-transform: uppercase;
+  cursor: pointer;
+  margin-right: 34px ;
+}
+.reports-scheduled-list .scheduled-list-nav .each-nav.active {
+  color: #57606c ;
+  border-bottom: solid 2px #0978c9 ;
+}
+.reports-scheduled-list .scheduled_list_table {
+  margin-bottom: 40px ;
+}
+.reports-scheduled-list .scheduled_list_table .row {
+  margin: 0 ;
+}
+.reports-scheduled-list .scheduled_list_table .table-td {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis ;
+}
+.reports-scheduled-list .scheduled_list_table .table-th,
+.reports-scheduled-list .scheduled_list_table .table-td {
+  float: left;
+  width: 200px ;
+  min-height: 35px ;
+}
+.reports-scheduled-list .scheduled_list_table .table-th:first-child,
+.reports-scheduled-list .scheduled_list_table .table-td:first-child {
+  padding-left: 40px ;
+  background-image: url("/assets/images/cdesk/common_side_arrow.png");
+  background-repeat: no-repeat;
+  background-position: left 15px center ;
+  cursor: pointer;
+}
+.reports-scheduled-list .scheduled_list_table div.name-col {
+  width: 405px ;
+}
+.reports-scheduled-list .scheduled_list_table .table-th.name-col {
+  cursor: text;
+}
+.reports-scheduled-list .scheduled_list_table div.frequency-col {
+  width: 130px ;
+  cursor: pointer;
+}
+.reports-scheduled-list .scheduled_list_table div.more-options {
+  width: 65px ;
+  padding-left: 5px;
+  padding-right: 0;
+}
+.reports-scheduled-list .scheduled_list_table .common-sort-icon {
+  display: inline-block;
+}
+.reports-scheduled-list .scheduled_list_table .table-body .downloaded {
+  font-family: "Avenir-bold";
+}
+.reports-scheduled-list .scheduled_list_table .row.open .table-td:first-child {
+  background-image: url("/assets/images/cdesk/common_down_arrow.png");
+}
+.reports-scheduled-list .scheduled_list_table .row .table-td:first-child.no-instance {
+  background-image: none;
+  cursor: text;
+}
+.reports-scheduled-list .scheduled_list_table .table-td.more-options {
+  overflow: visible;
+  padding: 0;
+}
+.reports-scheduled-list .scheduled_list_table .table-td.more-options .dropdown {
+  border: 0;
+  min-width: auto;
+  min-height: 34px;
+}
+.reports-scheduled-list .scheduled_list_table .table-td.more-options .dropdown .dropdown-menu {
+  font-family: "Avenir";
+  left: auto;
+  right: -1px;
+  min-width: 140px;
+  top: 92%;
+  width: 140px;
+  border-color: #dde6eb ;
+}
+.reports-scheduled-list .scheduled_list_table .table-td.more-options .dropdown .dropdown-menu li {
+  padding: 5px 15px;
+  cursor: pointer;
+}
+.reports-scheduled-list .scheduled_list_table .table-td.more-options .dropdown .dropdown-menu li:hover {
+  background: #e1edf9 ;
+}
+.reports-scheduled-list .scheduled_list_table .table-td.more-options .dropdown:hover {
+  background: #dde6eb ;
+}
+.reports-scheduled-list .scheduled_list_table .table-td.more-options .dropdown.open {
+  background: #dde6eb ;
+}
+.reports-scheduled-list .scheduled_list_table .option-horizontal {
+  text-align: center;
+  cursor: pointer;
+  height: 33px;
+  padding-top: 5px;
+}
+.reports-scheduled-list .scheduled_list_table .option-horizontal > span {
+  display: inline-block;
+  height: 5px ;
+  width: 5px ;
+  background: #5D5D5D ;
+  margin: 0 2px ;
+  border-radius: 50% ;
+  -moz-border-radius: 50% ;
+  -webkit-border-radius: 50% ;
+}
+.reports-scheduled-list .scheduled_list_table .row .inner-row {
+  display: none;
+}
+.reports-scheduled-list .scheduled_list_table .row .inner-row .table-td {
+  background-color: #fff  ;
+}
+.reports-scheduled-list .scheduled_list_table .row .inner-row .table-td:first-child {
+  background-image: none ;
+  padding-left: 55px;
+  cursor: text;
+}
+.reports-scheduled-list .scheduled_list_table .table-th {
+  padding: 20px;
+  border-color: #d2dee7  ;
+  border-width: 1px 0 2px 0px ;
+  border-style: solid ;
+}
+.reports-scheduled-list .scheduled_list_table .table-th:first-child {
+  border-left-width: 1px  ;
+  background-image: none ;
+}
+.reports-scheduled-list .scheduled_list_table .table-th:last-child {
+  border-right-width: 1px  ;
+}
+.reports-scheduled-list .scheduled_list_table .table-td {
+  border-color: #bfc9d7  ;
+  border-width: 0px 0 1px 1px ;
+  border-style: solid ;
+  padding: 7px 20px;
+  background-color: #edf2f8 ;
+}
+.reports-scheduled-list .scheduled_list_table .table-td:last-child {
+  border-right-width: 1px  ;
+}
+.reports-scheduled-list .scheduled_list_table .view-all-link {
+  text-align: center;
+}
+.reports-scheduled-list .scheduled_list_table .view-all-link .table-td {
+  background-image: none;
+}
+.reports-scheduled-list .scheduled_list_table .view-all-link a {
+  color: #0978c9 ;
+  text-decoration: underline;
+}
+.reports-scheduled-list .scheduled_list_table .name-col {
+  width: 325px ;
+}
