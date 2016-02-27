@@ -1,0 +1,24 @@
+<div class="clearfix dropdown_type1_holder pull-left active " >
+    <div class="report_heading_dropdown_txt nav_filters_heading">{{ headerText }}</div>
+    <div class="campaign_name_selected" title="{{selectedObj.name}}" campaignid="{{selectedObj.id}}" id="campaign_name_selected" ng-model="selectedObj.name">{{selectedObj.name }}</div>
+    <div class="clearfix dropdown dropdown_type1">
+        <div class="dropdown_ul_text" data-toggle="dropdown">
+            <!--Campaign data: {{campaignData.campaigns}}-->
+            <ul class="nav navbar-nav">
+                <li class="dropdown" >
+                    <ul class="dropdown-menu campaigns_list" role="menu"  id="campaigns_list" >
+                        <div id="campaignsDropdownDiv">
+                            <input class="dropdown-toggle inactive dd_txt campaignDropdown" id="campaignDropdown" ng-keyup="search(fileIndex)" placeHolder="Select Campaign" />
+                            <span class="sort-image-inactive" id="#campaignsDropdownDiv"></span>
+                            <span class="campaign_name_length">{{selectedObj.name}}</span>
+                        </div>
+                        <div class="dropdown_list_scroll" lr-infinite-scroll="loadMore" scroll-threshold="200" list-exhausted="{{exhausted}}" fetching="{{fetching}}">
+                            <li ng-repeat="campaign in campaignData.campaigns track by $index" class="campaigns_list_li {{campaign.name === selectedObj.name ? 'active' : ''}}" value="{{(campaign.campaign_id == undefined)? campaign.id : campaign.campaign_id}}" _kpi="{{(campaign.kpi_type == undefined )? campaign.kpi : campaign.kpi_type}}" title="{{campaign.name}}"
+                                _startDate="{{(campaign.start_date == undefined) ? campaign.startDate : campaign.start_date}}" _endDate="{{(campaign.end_date == undefined) ? campaign.endDate : campaign.end_date}}" ng-click="add_active_selection();">{{campaign.name }}</li>
+                        </div>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

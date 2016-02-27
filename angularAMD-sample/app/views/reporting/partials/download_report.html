@@ -1,0 +1,9 @@
+<div class="dropdown">
+    <span class="dropdown_ul_text " data-toggle="dropdown"><a class="download_anchor" id="performance_download_btn" href="">{{textConstants.DOWNLOAD_REPORT}}</a></span>
+    <ul class="dropdown_ul_perf dropdown-menu" id="performance_download" >
+        <li ng-repeat="report in download_report" class="{{report.className}}">
+            <a class="download_anchor" ng-click="downloadPerformanceReport(report)">{{report.label}}</a>
+        </li>
+      </ul>
+</div>
+<span class="download-report-load-icon" ng-if="reportDownloadBusy">{{textConstants.DOWNLOADING}} </span>

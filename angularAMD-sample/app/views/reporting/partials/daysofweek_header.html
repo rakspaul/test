@@ -1,0 +1,50 @@
+<div class="each_col sec_col">
+    <span class="icon_text_holder" ng-class="sortClassFunction('dimension',sortTypebydaysofweek,sortReverseDaysTab)" ng-click="sortTypebydaysofweek = 'dimension'; sortReverseDaysTab = !sortReverseDaysTab;removeKpiActive();" >{{textConstants.DAY_OF_WEEK}} </span>
+</div>
+<div class="each_col third_col">
+    <span class="icon_text_holder" ng-class="sortClassFunction('-impressions',sortTypebydaysofweek,!sortReverseDaysTab)" ng-click="sortTypebydaysofweek = '-impressions'; sortReverseDaysTab = !sortReverseDaysTab;removeKpiActive();" ><span class="default-kpi-header-icon" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() === 'delivery'"></span>{{textConstants.IMP_WITH_DOT}}</span>
+</div>
+<div class="vid_col" ng-show="adFormats.videoAds == true">
+    <div class="each_col third_col">
+            <span class="icon_text_holder" ng-class="sortClassFunction('video_played',sortTypebydaysofweek,sortReverseDaysTab)"
+                  ng-click="sortTypebydaysofweek = 'video_played'; sortReverseDaysTab = !sortReverseDaysTab;removeKpiActive();" >
+                {{textConstants.VIDEO}} <br> {{textConstants.PLAYS}}
+            </span>
+    </div>
+    <div class="vid_data_hdr">
+        <span>{{textConstants.QUARTILE_DATA}}</span> <br>
+        <div class="vid_sub_col">
+            <div class="vid_sub_col_hdr"><span class="icon_text_holder" ng-class="sortClassFunction('vtc_25',sortTypebydaysofweek,sortReverseDaysTab)" ng-click="sortTypebydaysofweek = 'vtc_25'; sortReverseDaysTab = !sortReverseDaysTab;removeKpiActive();" >25%</span></div>
+            <div class="vid_sub_col_hdr"><span class="icon_text_holder" ng-class="sortClassFunction('vtc_50',sortTypebydaysofweek,sortReverseDaysTab)" ng-click="sortTypebydaysofweek = 'vtc_50'; sortReverseDaysTab = !sortReverseDaysTab;removeKpiActive();" >50%</span></div>
+            <div class="vid_sub_col_hdr"><span class="icon_text_holder" ng-class="sortClassFunction('vtc_75',sortTypebydaysofweek,sortReverseDaysTab)" ng-click="sortTypebydaysofweek = 'vtc_75'; sortReverseDaysTab = !sortReverseDaysTab;removeKpiActive();" >75%</span></div>
+            <div class="vid_sub_col_hdr"><span class="icon_text_holder" ng-class="sortClassFunction('vtc_100',sortTypebydaysofweek,sortReverseDaysTab)" ng-click="sortTypebydaysofweek = 'vtc_100'; sortReverseDaysTab = !sortReverseDaysTab;removeKpiActive();" >100%</span></div>
+        </div>
+    </div>
+    <div class="each_col third_col">
+        <span class="icon_text_holder" ng-class="sortClassFunction('vtc_100',sortTypebydaysofweek,sortReverseDaysTab)" ng-click="sortTypebydaysofweek = 'vtc_100'; sortReverseDaysTab = !sortReverseDaysTab;removeKpiActive();" >
+            <span class="default-kpi-header-icon" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() === 'vtc'"></span>{{textConstants.VTC}}
+        </span>
+    </div>
+</div>
+<div class="each_col forth_col">
+    <span class="icon_text_holder" ng-class="sortClassFunction('ctr',sortTypebydaysofweek,sortReverseDaysTab)" ng-click="sortTypebydaysofweek = 'ctr'; sortReverseDaysTab = !sortReverseDaysTab;removeKpiActive();" ><span class="default-kpi-header-icon" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() === 'ctr'"></span>{{textConstants.CTR}}</span>
+</div>
+<div class="each_col fifth_col">
+    <span class="icon_text_holder" ng-class="sortClassFunction('action_rate',sortTypebydaysofweek,sortReverseDaysTab)" ng-click="sortTypebydaysofweek = 'action_rate'; sortReverseDaysTab = !sortReverseDaysTab;removeKpiActive();" ><span class="default-kpi-header-icon" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() === 'action_rate'"></span>{{textConstants.ACTION_RATE}}</span>
+</div>
+<span  ng-show="adFormats.videoAds  == false">
+<div class="each_col sixth_col">
+    <span class="icon_text_holder" ng-class="sortClassFunction('-cpa',sortTypebydaysofweek,sortReverseForCostscpaDaysofweek)" ng-click="sortTypebydaysofweek = '-cpa'; sortReverseDaysTab = sortReverseForCostscpaDaysofweek; sortReverseForCostscpaDaysofweek = !sortReverseForCostscpaDaysofweek;removeKpiActive();" ><span class="default-kpi-header-icon" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() === 'cpa'"></span>{{textConstants.CPA}}</span>
+</div>
+<div class="each_col seventh_col">
+    <span class="icon_text_holder" ng-class="sortClassFunction('-cpc',sortTypebydaysofweek,sortReverseForCostscpcDaysofweek)" ng-click="sortTypebydaysofweek = '-cpc'; sortReverseDaysTab = sortReverseForCostscpcDaysofweek; sortReverseForCostscpcDaysofweek = !sortReverseForCostscpcDaysofweek;removeKpiActive();" ><span class="default-kpi-header-icon" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() === 'cpc'"></span>{{textConstants.CPC}}</span>
+</div>
+<div class="each_col seventh_col">
+    <span class="icon_text_holder" ng-class="sortClassFunction('-cpm',sortTypebydaysofweek,sortReverseForCostscpmDaysofweek)" ng-click="sortTypebydaysofweek = '-cpm'; sortReverseDaysTab = sortReverseForCostscpmDaysofweek; sortReverseForCostscpmDaysofweek = !sortReverseForCostscpmDaysofweek; removeKpiActive();" ><span class="default-kpi-header-icon" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() === 'cpm'"></span>{{textConstants.CPM}}</span>
+</div>
+</span>
+<div class="each_col seventh_col" >
+    <div ng-if="adFormats.videoAds"  class="dropdown kpi-dd-holder " >
+        <kpi-drop-down type="cpm" changedrpval="yes" ></kpi-drop-down>
+    </div>
+</div>

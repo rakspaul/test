@@ -1,0 +1,45 @@
+<!--cost filter -->
+    <div class="each_cost_col first_col active" ng-bind="textConstants.IMP_WITH_DOT"></div>
+    <div class="each_cost_col second_col">
+        <div class="dropdown dropdown-workflow" id="campaign_cost_metrics_dd">
+            <span class="dropdown_ul_text" data-toggle="dropdown">
+                <span class="ng-binding unselectable" ng-bind="campaigns.selectedCostType|uppercase">{{textConstants.CPA}}</span>
+                <span class="arrrow_img"></span>
+            </span>
+
+              <ul class="dropdown_ul dropdown-menu">
+                  <li class="available"><a data-ng-click="campaigns.filterCostType('cpa')" ng-bind="textConstants.CPA"></a></li>
+                  <li class="available"><a data-ng-click="campaigns.filterCostType('cpc')" ng-bind="textConstants.CPC"></a></li>
+                  <li class="available"><a data-ng-click="campaigns.filterCostType('cpm')" ng-bind="textConstants.CPM"></a></li>
+                  <li class="available"><a data-ng-click="campaigns.filterCostType('ctr')" ng-bind="textConstants.CTR"></a></li>
+                  <li class="available"><a data-ng-click="campaigns.filterCostType('vtc')" ng-bind="textConstants.VTC"></a></li>
+              </ul>
+        </div>
+
+    </div>
+    <div class="each_cost_col three_col" ng-bind="textConstants.INVENTORY"></div>
+    <div class="each_cost_col four_col" ng-bind="textConstants.DATA"></div>
+    <div class="each_cost_col five_col" ng-bind="textConstants.AD_SERVING"></div>
+    <div class="each_cost_col eight_col" ng-bind="textConstants.AD_VERIFICATION"></div>
+    <div class="each_cost_col ninth_col" ng-bind="textConstants.COLLECTIVE"></div>
+    <div class="each_cost_col tenth_col total_cost unselectable" ng-bind="textConstants.TOTAL_SPEND"></div>
+    <div class="more_options">
+        <div class="dropdown">
+            <span data-toggle="dropdown">
+                <span class="dd_txt">
+                    <span class="dots sort_dd_up"></span>
+                    <span class="dots sort_dd_down"></span>
+                </span>
+            </span>
+            <ul class="dropdown-menu">
+              <li class="{{sortField.className}} {{(sortField.key == 'start_date')?'flight_date_li':''}}" ng-repeat="sortField in campaigns.sortFieldList track by $index" data-ng-click="campaigns.sortCampaigns(sortField.key)">
+                <a id="campaign_cost_sort_{{sortField.key}}">
+                {{sortField.display}}&nbsp;<span class="sortable {{campaigns.sortIcon(sortField.key)}}"></span> 
+              </a>
+              </li>
+            </ul>
+        </div>
+       
+    </div>  
+<!--</div>-->
+<!--cost  filter ends-->

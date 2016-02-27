@@ -1,0 +1,105 @@
+<div class="campaign-list-container">
+    <div id="detailedPage" class="container"></div>
+    <div class="total_reports_page  ">
+        <div class="reports_header_section">
+        </div>
+        <div class="common_reports_container">
+            <!-- <div class="clearfix inventory_header">
+                <div id="report_cost_camp_list_dd">
+                    <campaign-drop-down selected-obj=selectedCampaign> </campaign-drop-down>
+                </div>
+
+                <div class="pull-right download_report">
+                    <download-report></download-report>
+                </div>
+            </div> -->
+            <!-- <div class="clearfix"></div>
+            
+            <div id="cost_strategies_dd" ng-show="isStrategyDropDownShow">
+                <strategy-drop-down selected-obj=selectedStrategy ></strategy-drop-down >
+            </div> -->
+            <div class="clearfix page_top_header col-md-12">
+                <div class="pull-left col-md-6 page_name">
+                    Cost Report
+                </div>
+                <div class="pull-right col-md-6 download_report">
+                    <download-report></download-report>
+                </div>
+            </div>
+            
+            <div class="clearfix">
+                <filters-header reports="true"></filters-header>
+            </div>
+
+            <div class="common-load-icon_viewability"  ng-show="strategyLoading && selectedCampaign.id != -1"></div>
+            <div class="cost_container smallSreenScrollContainer" ng-hide="strategyLoading && selectedCampaign.id != -1">
+                <div class="no_data_found" ng-if="!strategyFound" ng-bind-html="getMessageForDataNotAvailable(selectedCampaign)"></div>
+                <div class="reports_main_page_holder smallSreenScrollDiv" ng-show="strategyFound">
+                    <div class="reports_cost_header_holder smallSreenScrollContent">
+                        <!--cost filter -->
+                        <div class="clearfix cost_header_holder">
+                            <div class="each_cost_col first_col icon_text_holder" ng-class="sortClassFunction('-impressions',sortType,sortReverseDefaultSelection)" ng-click="sortType = '-impressions'; sortReverse = sortReverseDefaultSelection;sortReverseDefaultSelection = !sortReverseDefaultSelection;removeKpiActive();"><span class="default-kpi-header-icon" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() === 'delivery'"></span>Imps.</div>
+                            <div class="each_cost_col second_col">
+                                <div class="dropdown kpi-dd-holder" id="kpi_dropdown">
+                                    <kpi-drop-down> </kpi-drop-down>
+
+                                    </div>
+                            </div>
+                            <div class="each_cost_col three_col  icon_text_holder" ng-class="sortClassFunction('inventory_cost',sortType,sortReverse)" ng-click="sortType = 'inventory_cost'; sortReverse = !sortReverse;removeKpiActive();">{{textConstants.INVENTORY}}</div>
+                            <div class="each_cost_col four_col  icon_text_holder" ng-class="sortClassFunction('data_cost',sortType,sortReverse)" ng-click="sortType = 'data_cost'; sortReverse = !sortReverse;removeKpiActive();">{{ textConstants.DATA}}</div>
+                            <div class="each_cost_col five_col  icon_text_holder" ng-class="sortClassFunction('ad_serving_cost',sortType,sortReverse)" ng-click="sortType = 'ad_serving_cost'; sortReverse = !sortReverse;removeKpiActive();">{{ textConstants.AD_SERVING}}</div>
+                            <div class="each_cost_col eight_col  icon_text_holder" ng-class="sortClassFunction('ad_verification_cost',sortType,sortReverse)" ng-click="sortType = 'ad_verification_cost'; sortReverse = !sortReverse;removeKpiActive();">{{ textConstants.AD_VERIFICATION}}</div>
+                            <div class="each_cost_col ninth_col  icon_text_holder" ng-class="sortClassFunction('collective_cost',sortType,sortReverse)" ng-click="sortType = 'collective_cost'; sortReverse = !sortReverse;removeKpiActive();">{{ textConstants.COLLECTIVE_FEE}}</div>
+                            <div class="each_cost_col tenth_col total_cost">{{textConstants.TOTAL_SPEND}}</div>
+                        </div>
+                        <!--cost  filter ends-->
+
+                        <div class="cost_transparency_container">
+                            <div class="each_cost_row_holder strategy_total_row">
+                                <div class="each_cost_row">
+                                    <div class="no_data_found_cost_strategy" ng-if="dataNotFound" ng-bind-html="getMessageForDataNotAvailable(selectedCampaign)"></div>
+                                    <div class="common-load-icon" ng-show="strategyCostBusy"></div>
+                                    <div class="clearfix each_cost_heading" ng-if="!dataNotFound">
+                                        <span class="pull-left text_next_margin_per" ng-bind="strategyHeading"></span>                                        <!-- <span class="margin_percentage" ng-if ="(strategyMarginValue >=0)">{{strategyMarginValue}}{{strategyMarginUnit}}</span> -->
+                                    </div>
+                               
+                                    <div class="clearfix cost_col_container cost_cols_holder" ng-repeat="strategy in strategyCostData track by $index" ng-if="!dataNotFound">
+                                        <div class="each_cost_col first_col" ng-bind="strategy.impressions != null ? (strategy.impressions | nrFormat) : '-'"></div>
+                                        <div class="each_cost_col second_clol" ng-bind="(selected_filters.kpi_type.toLowerCase() == 'vtc' && strategy['vtc_100'] != null) ? (strategy['vtc_100'] | number:2): (strategy[selected_filters.kpi_type.toLowerCase()] != null ? (strategy[selected_filters.kpi_type.toLowerCase()] | appendDollor : selected_filters.kpi_type.toLowerCase()) : '-' )"></div>
+                                        <div class="each_cost_col three_col" ng-bind="strategy.inventory_cost != null ? (strategy.inventory_cost |currency:undefined:0) : '-'"></div>
+                                        <div class="each_cost_col four_col" ng-bind="strategy.data_cost != null ? (strategy.data_cost | currency:undefined:0) : '-'"></div>
+                                        <div class="each_cost_col five_col" ng-bind="strategy.serving_cost != null ? (strategy.serving_cost | currency:undefined:0) : '-'"></div>
+                                        <div class="each_cost_col six_col" ng-bind="strategy.verification_cost != null ? (strategy.verification_cost | currency:undefined:0) : '-'"></div>
+                                        <div class="each_cost_col sev_col" ng-bind="strategy.collective_cost != null ? (strategy.collective_cost | currency:undefined:0) :'-'"></div>
+                                        <div class="each_cost_col eight_col total_cost" ng-bind="strategy.gross_rev != null ? (strategy.gross_rev | currency:undefined:0) : '-'"></div>
+                                    </div>
+                                </div>
+                                <div class="all_startegy_cost">
+                                    <div class="common-load-icon" ng-show="tacticCostBusy">&nbsp;</div>
+                                    <!--{{filter.sortByColumn}}-->
+                                    <div class="each_cost_row_holder" ng-repeat="tactic in tacticsCostData | orderBy:sortType:sortReverse track by $index">
+                                        <div class="each_cost_row">
+                                            <div class="each_cost_heading" ng-bind="tactic.name"></div>
+                                            <div class="clearfix cost_col_container cost_cols_holder">
+                                                <div class="each_cost_col first_col" ng-bind="tactic.impressions != null ? (tactic.impressions | nrFormat) : '-'"></div>
+                                                <!--<div class="each_cost_col second_col">{{formattingNumber(selected_filters.kpi_type.toLowerCase(), tactic.kpi_metrics[selected_filters.kpi_type.toLowerCase()])}}</div>-->
+                                                <div class="each_cost_col second_col" ng-bind="(selected_filters.kpi_type.toLowerCase() == 'vtc' && tactic['vtc_100'] != null ) ? (tactic['vtc_100'] | number:2) : ( tactic[selected_filters.kpi_type.toLowerCase()] != null ? (tactic[selected_filters.kpi_type.toLowerCase()] | appendDollor : selected_filters.kpi_type.toLowerCase()) : '_' )"></div>
+                                                <div class="each_cost_col three_col" ng-bind="tactic.inventory_cost != null ? (tactic.inventory_cost | currency:undefined:0) : '-'"></div>
+                                                <div class="each_cost_col four_col" ng-bind="tactic.data_cost != null ? (tactic.data_cost | currency:undefined:0) : '-'"></div>
+                                                <div class="each_cost_col five_col" ng-bind="tactic.serving_cost != null ? (tactic.serving_cost | currency:undefined:0) : '-'"></div>
+                                                <div class="each_cost_col eight_col" ng-bind="tactic.verification_cost != null ? (tactic.verification_cost | currency:undefined:0) : '-'"></div>
+                                                <div class="each_cost_col sev_col" ng-bind="tactic.collective_cost != null ? (tactic.collective_cost | currency:undefined:0) : '-'"></div>
+                                                <div class="each_cost_col eight_col total_cost" ng-bind="tactic.gross_rev != null ? (tactic.gross_rev | currency:undefined:0) : '-'"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

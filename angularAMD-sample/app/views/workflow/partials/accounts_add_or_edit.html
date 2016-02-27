@@ -1,0 +1,71 @@
+<div class="popup-holder accounts-popup">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"
+                ng-click="close()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        <h2 class="modal-title" id="myModalLabel">{{(mode === 'create'?'Add':'Edit')}} Account</h2>
+    </div>
+    <div class="clearfix modal-body">
+        <div class="form-group col-md-5 zeroPadding">
+            <label >Account Type:</label>
+            <select name='clientType' class="form-control" ng-change="setSelectedClientType(clientType)" ng-model="clientType">
+                <option value='MARKETER'>Marketer</option>
+                <option value='AGENCY'>Agency</option>
+                <option value='INTERNAL'>Internal</option>
+                <option value='RESELLER'>Reseller</option>
+            </select>
+        </div>
+
+        <div class="form-group col-md-12 zeroPadding">
+            <label >Currency:</label>
+            <select class="form-control" name="selectedCurrency" ng-model="selectedCurrency">
+              <option value="{{curr.id}}" ng-repeat="curr in currency" ng-selected="{{curr.id == selectedCurrency}}" >{{curr.currencyCode}}</option>
+            </select>
+        </div>
+
+        <div class="form-group col-md-12 zeroPadding">
+            <label >Geography:</label>
+            <select class="form-control" name="selectedCountry" ng-model="selectedCountry">
+                <option value="{{country.id}}" ng-repeat="country in Geography" ng-selected="{{country.id == selectedCountry}}" >{{country.name}}</option>
+            </select>
+        </div>
+        <div class="form-group col-md-12 zeroPadding">
+		    <label >Account Name:</label>
+		    <input type="text" class="form-control" ng-model="clientName" ng-keyup="showDropdown()" data-toggle="dropdown">
+            <!--<ul ng-if="allAdvertiser.length>0" class="dropdown-menu account_name_list" role="menu" id="advertiserList"  >
+                    <li ng-repeat="advertiser in allAdvertiser | filter:clientType == 'MARKETER' ? clientName : name" data-ng-click="selectClientAdvertiser(advertiser)">
+                        <a>
+                            <span class="tick"></span>
+                            <span class="menuItemText ng-binding" >{{advertiser.name}}</span>
+                        </a>
+                    </li>
+
+            </ul>-->
+        </div>
+
+        <div class="form-group col-md-12 zeroPadding">
+            <label >Timezone:</label>
+            <!--<input type="text" class="form-control" ng-model="timezone">-->
+            <!--<select name='timezone' class="form-control" ng-model="timezone">
+                <option value='EST' >EST (Eastern Standard Time) </option>
+                <option value='CST' >CST (Central Standard Time) </option>
+                <option value='PST' >PST (Pacific Standard Time)  </option>
+                <option value='BST' >BST (British Standard Time)  </option>
+            </select>-->
+            <select name='timezone' class="form-control" ng-model="timezone">
+                <option value="{{key}}" ng-repeat="(key, value) in timezones" ng-selected="{{key == timezone}}" >{{value}}</option>
+            </select>
+        </div>
+
+
+
+    </div><!-- end of modal_body -->
+    <div class="clearfix popup-btns-holder">
+        <span class="common_primary_btn" ng-click="saveClients()">Save</span>
+        <span class="secondary_txt" data-dismiss="modal" ng-click="close()" >
+            Cancel
+        </span>
+
+    </div>
+</div> <!-- end of popup-holder -->

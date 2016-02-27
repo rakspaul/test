@@ -1,0 +1,114 @@
+<div class="col-md-12 zeroPadding">
+    <h2 class="col-md-12 zeroPadding marginBottom" data-ng-bind="textConstants.ADDCREATIVETAG"></h2>
+    <a href="javascript:void(0);" class="helpLink" data-ng-bind="textConstants.ADDINGTHIRD"></a>
+    <br/>
+
+    <div class="spacingInput"></div>
+    <div class="clearfix">
+        <button type="button"
+                class="btn btn-default pull-left"
+                ng-disabled="adData.adFormat === undefined"
+                ng-click="showPopup()"
+                data-ng-bind="textConstants.ADDEXISTNG"></button>
+        <button type="button"
+                class="btn btn-default pull-left"
+                ng-click="showCreateNewWindow()"
+                style="margin-left: 10px;"
+                data-ng-bind="textConstants.CREATENEW"></button>
+        <div class="pull-left">
+            <div>
+                <button type="button"
+                        class="btn btn-default"
+                        ng-show="TrackingIntegrationsSelected"
+                        ng-disabled="!adData.adName || !(creativeData.creativeInfo.creatives.length > 0)"
+                        ng-click="downloadTrackerUrls()"
+                        style="margin-left: 10px;"
+                        data-ng-bind="textConstants.DLTRACKER"></button>
+            </div>
+            <span ng-if="downloadingTracker"
+                  class="download-report-load-icon"
+                  data-ng-bind="textConstants.DOWNLOADING"> </span>
+        </div>
+    </div>
+</div>
+
+<div class="col-md-12 zeroPadding creativeTableTag">
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th class="col-md-2" data-ng-bind="textConstants.SIZE"></th>
+                    <th class="col-md-6" data-ng-bind="textConstants.TAGNAME"></th>
+                    <th ng-if="!TrackingIntegrationsSelected" class="col-md-2" data-ng-bind="textConstants.TAGTYPE"></th>
+                    <th class="col-md-1" data-ng-bind="textConstants.SSL"></th>
+                    <th class="col-md-1"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="creativeData in creativeData.creativeInfo.creatives">
+                    <!-- <td class="col-md-1">
+                         <span >{{$index+1}}</span>
+                    </td> -->
+                    <td class="col-md-2">
+                        <span data-ng-bind="creativeData.size.size | lowercase"></span>
+                    </td>
+                    <td class="col-md-6">
+                        <a class="col-md-8"
+                           href="javascript:void(0);"
+                           ng-click="TrackingIntegrationsSelected ? '': ShowHide(creativeData)"
+                           data-ng-bind="creativeData.name"></a>
+                        <!--<div style="width:350px;word-wrap:break-word;height:100px;">-->
+                            <!--<div ng-show="IsVisible" class="ng-cloak">-->
+                                <!--{{creativeData.tag}}-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    </td>
+                    <td class="col-md-2" ng-if="!TrackingIntegrationsSelected">
+                        <span data-ng-bind="creativeData.creativeType"></span>
+                    </td>
+                    <td class="col-md-1">
+                        <span class="common-ok" aria-hidden="true"></span>
+                        <!-- glyphicon glyphicon-ok-circle -->
+                    </td>
+                    <td class="col-md-1">
+                        <span class="pull-right icon-close"
+                              aria-hidden="true"
+                              ng-click="removeCreativeTags(creativeData)"></span>
+                        <!-- glyphicon glyphicon-remove  -->
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div ng-show="!creativeData.creativeInfo.creatives || creativeData.creativeInfo.creatives.length === 0"
+             class="emptyCreativesFlag">
+            <span data-ng-bind="textConstants.YOUHAVENTADDED"></span>
+        </div>
+    </div>
+</div>
+
+<!--=== Next Step Panel ===-->
+<div class="row">
+    <span class="nextWrapper leftNavLink">
+         <button ng-show ="!$parent.adCreateLoader" ng-disabled="!adData.adName"
+                 ng-click="campaignAdSave(false)"
+                 class="btn btn-primary"
+                 data-ng-bind="textConstants.WF_AD_SAVE_CLOSE"></button>
+    </span>
+</div>
+
+<div class="popContainerHolder" ng-show="IsVisible">
+    <div class="popContainer popup-holder">
+        <div class="modal-content">
+            <div class="clearfix modal-header">
+                <h1 class="pull-left modal-title" data-ng-bind="creativeObj.name"></h1>
+                <span class="icon-close close unselectable" aria-hidden="true" ng-click="ShowHide()"></span>
+            </div>
+            <div class="modal-body">
+                <div class="textarea_edit_holder">
+                    <textarea  style="width: 100%;" rows="15" name="tag" id="tag" data-ng-model="creativeObj.tag"
+                    ng-readonly="true" data-ng-bind="creativeObj.tag" required></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,21 @@
+<div class="nav_filters_heading">Advertisers</div>
+<div class="brand_name_selected" id="advertiser_name_selected" ng-click="showAdvertisersDropDown()" title="{{brandData.selectedAdvertiser.name}}"  ng-bind="(advertiserData.selectedAdvertiser.name ? advertiserData.selectedAdvertiser.name : 'All Advertisers')"></div>
+<div class="clearfix">
+    <div class="brandsDropdownSearch">
+        <ul class="dropdown-menu" role="menu" id="advertisersDropDownList">
+            <div id="brandsDropdownDiv">
+                <input class="dropdown-toggle inactive"  id="advertisersDropdown"  ng-keyup="disableShowAll();" ng-model="selectedAdvertiser.name"/>
+                <span class="sort-image-inactive brands_dd_filter_arrow" id="#brandsDropDownImg"></span>
+            </div>
+            <div  class="advertisersList_ul">
+                <li ng-repeat="advertiser in advertisers  | filter : selectedAdvertiser.name track by advertiser.id" ng-hide="isExcludedByAdvertiserFilter" ng-class="{'active' : advertiser.id === advertiserData.selectedAdvertiser.id}" >
+                    <a data-ng-click="selectAdvertiser(advertiser, 'clicked')">
+                        <span class="tick"></span>
+                        <span class="menuItemText" ng-bind-html="highlightSearch(advertiser.name, selectedAdvertiser.name)" ng-bind="advertiser.name"></span>
+                    </a>
+                </li>
+            </div>
+        </ul>
+    </div>
+</div>
+

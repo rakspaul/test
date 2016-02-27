@@ -1,0 +1,24 @@
+<!--campaign card sort-->
+<div class="clearfix campaign_list_header_holder">
+    <div ng-repeat="sortField in campaigns.sortFieldList track by $index" class="each_header_title {{sortField.className}}">
+      <a data-ng-click="campaigns.sortCampaigns(sortField.key)" id="campaign_list_sort">
+        <span class="unselectable">{{sortField.display}}&nbsp;<span class="{{campaigns.sortIcon(sortField.key)}}"></span> </span>
+      </a>
+    </div>
+    <div class="each_header_title metrics_title unselectable" data-ng-bind="textConstants.METRICS"></div>
+    <div class="each_header_title kpi_title unselectable">
+        <div class="pull-left" data-ng-bind="textConstants.KPI"></div>
+        <div class="pull-left tooltip_holder">
+              <span class="tooltip_show_icon"></span>
+              <div class="common_tooltip">
+                <div class="target_zone">
+                  <div class="target_zone_lines"></div>
+                  {{textConstants.TARGET_ZONE}}
+                </div>
+                <div class="legend_line ontarget_line" data-ng-bind="textConstants.KPI_ON_TARGET"></div>
+                <div class="legend_line underperformance_line" data-ng-bind="textConstants.KPI_UNDERPERFORMANCE"></div> 
+              </div>
+        </div>
+    </div>                
+</div>
+<!--campaign card sort ends-->

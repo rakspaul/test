@@ -1,0 +1,59 @@
+
+
+<div id="campaignListContainer" class="campaignListContainer" ng-controller="WorkFlowCampaignListController">
+    <popup-msg ng-show="alertMessage" ng-controller="popUpMsgCtr"
+               ng-init="init('alertMessage','WF_CAMPAIGN_ARCHIVE_FAILURE')"></popup-msg>
+    <div class="clearfix page_header_container campaign_list_header">
+        <div class="pull-left campaign_name_holder">
+            <span class="campaign_name">Campaigns</span>
+            <span class="campaign_name_details" ng-if="campaignData">({{campaignData.length}})</span>
+        </div>
+        <div class="pull-right">
+            <div class="pull-left create_btn_holder">
+                <a href="/mediaplan/create" class="submit_btn btn btn-primary"  ng-show="isWorkFlowUser">Create Campaign</a>
+            </div>
+        </div>
+    </div>
+    <div class="campaignListHolder">
+        <div class="clearfix each-row list-head">
+            <div class="column">Campaign Id</div>
+            <div class="column">Campaign Name</div>
+            <div class="column">Advertiser Name</div>
+            <div class="column">Brand Name</div>
+            <div class="column">Budget</div>
+            <div class="column">Status</div>
+            <div class="column">Start Date</div>
+            <div class="column">End Date</div>
+        </div>
+        <div class="data_holder">
+            <div class="common-load-more" ng-show="campaignData == undefined">
+            </div>
+            <div class="clearfix each-row" ng-repeat="campaign in campaignData " ng-show="campaignData != ''">
+                <a ng-href="/mediaplan/{{campaign.id}}/overview">
+                    <div class="column">{{campaign.id}}</div>
+                    <div class="column" style="word-wrap: break-word;" style="word-wrap: break-word;lines-to-show: 2" tooltip="{{campaign.name}}">{{campaign.name | textEllipsis: 16}}</div>
+                    <div class="column" style="word-wrap: break-word;" style="word-wrap: break-word; lines-to-show: 2" tooltip="{{campaign.advertiserName}}">{{campaign.advertiserName | textEllipsis: 16}}</div>
+                    <div class="column" ng-if="campaign.hasOwnProperty('brandName')">{{ campaign.brandName }}</div>
+                    <div class="column" ng-if="!campaign.hasOwnProperty('brandName')"> - </div>
+
+
+                    <div class="column" ng-if="campaign.hasOwnProperty('bookedRevenue')">
+                        <span class="statusIcon" style="width: 12px; text-align: right; display: inline-table;">{{ locale.NUMBER_FORMATS.CURRENCY_SYM }}</span>
+                        <span id="budgetAmount"  class="">{{campaign.bookedRevenue | number}}</span>
+                    </div>
+                    <div class="column" ng-if="!campaign.hasOwnProperty('bookedRevenue')"> - </div>
+
+                    <div class="column" ng-if="campaign.hasOwnProperty('status')">{{campaign.status}}</div>
+                    <div class="column" ng-if="!campaign.hasOwnProperty('status')"> - </div>
+                    <div class="column" ng-if="campaign.hasOwnProperty('startTime')">{{utcToLocalTime(campaign.startTime,'YYYY-MM-DD')}}</div>
+                    <!--<div class="column" ng-if="campaign.hasOwnProperty('startTime')">{{ utc(campaign.startTime) | date : 'yyyy-MM-dd'}}</div>-->
+                    <div class="column" ng-if="!campaign.hasOwnProperty('startTime')"> - </div>
+                    <div class="column" ng-if="campaign.hasOwnProperty('endTime')">{{utcToLocalTime(campaign.endTime,'YYYY-MM-DD')}}</div>
+                    <!--<div class="column" ng-if="campaign.hasOwnProperty('endTime')">{{utc(campaign.endTime) | date : 'yyyy-MM-dd'}}</div>-->
+                    <div class="column" ng-if="!campaign.hasOwnProperty('endTime')"> - </div>
+                    <!--<div class="column icon-settings" tooltip="Edit Campaign" ng-click="editCampaign($event,campaign)"></div>-->
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

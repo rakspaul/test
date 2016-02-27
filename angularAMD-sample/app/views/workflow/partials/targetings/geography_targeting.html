@@ -1,0 +1,314 @@
+<div class="col-md-12 zeroPadding breadcrumbs">
+	<h5 ng-click="redirectTargettingMain($event);" data-ng-bind="textConstants.TARGETING"></h5>
+	<span class="icon-arrow-down"></span>
+	<h5 style="cursor: default;" data-ng-bind="textConstants.GEOGRAPHY"></h5>
+	
+    <button ng-disabled="!(geoTargetingData.selected.regions.length >0 || geoTargetingData.selected.cities.length>0 || geoTargetingData.selected.dmas.length>0 || geoTargetingData.selected.zip.length>0)" class="pull-right btn btn-default" style="text-transform:none;" ng-click="saveGeography()">Save Geography</button>
+    <a ng-href="#" class="pull-right btn btn-link" ng-click="redirectTargettingMain(true);" data-ng-bind="textConstants.CANCEL"></a>
+</div>
+
+<div class="col-md-12 zeroPadding targettingFormWrap">
+    <div class="col-md-7 zeroPadding tabbable" style="padding-right: 10px !important;">
+        <h2>{{adData.geoTargetName}} <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span><span>({{locale.id === 'en-gb' ? 'UK' : 'US'}} only)</span></h2>
+        <div class="tooltipWrap zipCodeTooltip" ng-show="enableZipCodePopUp">
+            <span data-ng-bind="textConstants.INCZIP"></span>
+            <a ng-href="#" class="btn btn-default pull-right" ng-click="showGeographyTabsBox(null, 'zip', false);" role="button" data-ng-bind="textConstants.CONTINUE"></a>
+            <a href="#" ng-click="hidezipCodeTooltip()" class="btn btn-link pull-right"  role="button" data-ng-bind="textConstants.CANCEL"></a>
+        </div>
+
+        <ul class="nav nav-tabs">
+          <li class="active"><a ng-click="showGeographyTabsBox($event, 'regions')" ng-href="#" data-ng-bind="isSwitchForVistoBidder ? textConstants.REGCITY : textConstants.REGTABLABEL"></a></li>
+          <li><a ng-href="#" ng-click="locale.id === 'en-gb' ? '' : showGeographyTabsBox($event, 'dmas')" data-ng-bind="textConstants.METRO"></a></li>
+          <li><a  id="zipCodeTab" ng-href="#" ng-click="locale.id === 'en-gb' ? '' : showGeographyTabsBox($event, 'zip', true); " data-ng-bind="textConstants.ZIPPOSTCODE"></a></li>
+        </ul>
+
+        <div class="tab-content">
+            <!---- start region and city Container ---------->
+            <!--Search Input-->
+                <div class="col-md-12 searchInput radioBtnToggle">
+                    <div class="col-md-12">
+                        <div class="input-group">
+                          <input type="text" class="form-control searchBox" data-searchfield= "{{selectedTab}}" ng-keyup="search($event)" placeholder="{{selectedTab ==='dmas' ? textConstants.SEARCHFORMETROS : searchLabel}}">
+                          <span class="input-group-btn">
+                            <button class="btn btn-default disabled" type="button" style="padding: 8px 15px 6px;"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+                          </span>
+                        </div>
+                        <div class="col-md-12 zeroPadding">
+                            <div class="pull-left zeroPadding regionCityTab" ng-show="selectedTab !== 'dmas'">
+                                <ul class="nav nav-tabs">
+                                    <li class="tab_region_holder active"><!-- add tooltip_holder when you want the tooltip to be visible -->
+                                        <a href="#region"  id="tab_region"  data-toggle="tab" ng-click="listRegions('', $event);" data-ng-bind="textConstants.REGION"></a>
+                                        <span class="common_tooltip" style="display:none;" data-ng-bind="textConstants.INCEXCCITYNOTE"></span>
+                                    </li>
+                                    <li id="cityTab" ng-show="showCitiesTab"><a href="#city" ng-click ="listCities($event);" data-toggle="tab" data-ng-bind="textConstants.CITY"></a></li>
+                                </ul>
+                            </div>
+                            <div class="col-md-4 zeroPadding switchWrap" ng-show="selectedTab !== 'dmas'">
+                                <div class="btn-group btn-ani-toggle pull-right regions" ng-show="showSwitch && isSwitchForVistoBidder" ng-click="switchInclude()">
+                                    <button class="btn btn-xs btn-success active"></button>
+                                    <div class="togBtnBg"></div>
+                                </div>
+                                <span ng-show="selectedTab === 'regions'"><img ng-src="/assets/images/workflow/{{regionsIncluded ? 'icon_target' : 'icon_exclude'}}.svg" alt="" height="15"/> {{regionsIncluded? 'Include' : 'Exclude'}}</span>
+                                <span ng-show="selectedTab === 'cities'"><img ng-src="/assets/images/workflow/{{citiesIncluded ? 'icon_target' : 'icon_exclude'}}.svg" alt="" height="15"/> {{citiesIncluded? 'Include' : 'Exclude'}}</span>
+                            </div>
+                            <div class="col-md-4 zeroPadding switchWrap " ng-show="selectedTab === 'dmas'">
+                                <div class="btn-group btn-ani-toggle pull-right dmas" ng-show="isSwitchForVistoBidder" ng-click="switchInclude()">
+                                    <button class="btn btn-xs btn-success active"></button>
+                                    <div class="togBtnBg"></div>
+                                </div>
+                                <span><img ng-src="/assets/images/workflow/{{dmasIncluded ? 'icon_target' : 'icon_exclude'}}.svg" alt="" height="15"/> {{dmasIncluded ? 'Include' : 'Exclude'}}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="clearfix list_head">
+                        <!--<div ng-show="selectedTab !=='regions'" class="pull-left list_val_col">City</div>-->
+                        <div ng-show="selectedTab ==='regions'" class="pull-left sort-icon-holder active list_val_col " ng-click="changeSortingOrder(selectedTab)"><!-- add "sort-icon-holder" always after implementing sorting--> <!-- add "active" when selected -->
+                            <span class="pull-left" data-ng-bind="textConstants.REGION"></span>
+                            <span class="pull-left common-sort-icon ascending" style="display: block;"></span> <!-- add "descending" or "ascending" whenever sorted  and remove display:none -->
+                        </div>
+
+                        <div ng-show="selectedTab !=='regions'" class="pull-left sort-icon-holder active list_val_col" ng-click="changeSortingOrder(selectedTab)">
+                            <span class="pull-left">{{(selectedTab == 'cities')?'City':'Metro'}}</span>
+                            <span class="pull-left common-sort-icon ascending" style="display: block;"></span> <!-- add "descending" or "ascending" whenever sorted  and remove display:none -->
+                        </div>
+                        <div ng-show="selectedTab !=='regions'" class="pull-left list_val_col" style="margin-left: 30px;" data-ng-bind="textConstants.REGION"><!-- add "sort-icon-holder" always after implementing sorting--> <!-- add "active" when selected -->
+                        </div>
+
+                    </div>
+
+                </div>
+            <div id="regions" class="tab-pane active contentBox" >
+                    <!-- --- start region block ----------------- -->
+                    <div id="region" class="tab-pane active" ng-show="selectedTab == 'regions'">
+						<div class="list_holder">
+							<div class="list_row_holder"  lr-infinite-scroll="loadMoreRegions" time-threshold="100">
+								<div class="clearfix list_row" ng-repeat="region in geoTargetingData.regions">
+									<div class="pull-left list_row_chkbox"><input name="regionchkbox" id="{{region.id}}" ng-model="bool" ng-click="sync(bool, region, 'regions')" ng-checked="isChecked(region.id, 'regions')" type="checkbox" value="" /></div>
+									<div class="pull-left list_val_col" data-ng-bind="region.name"></div>
+								</div>
+								<div ng-if="regionFetching" class="common-load-more"></div>
+							</div>
+						</div>
+                    </div>
+                    <!-- --- end region block ----------------- -->
+
+                    <!-- --- start city block ----------------- -->
+                    <div id="city" class="tab-pane"  ng-show="selectedTab == 'cities'">
+						<div class="list_holder">
+							<div class="list_row_holder" lr-infinite-scroll="loadMoreCities" time-threshold="100">
+								<div class="clearfix list_row" ng-repeat="city in geoTargetingData.cities track by $index">
+									<div class="pull-left list_row_chkbox"><input name="regionchkbox" id="{{city.id}}" ng-model="bool" ng-click="sync(bool, city, 'cities')" ng-checked="isChecked(city.id, 'cities')" type="checkbox" value="" /></div>
+									<div class="pull-left list_val_col" data-ng-bind="city.name"></div>
+									<div class="pull-left list_val_col" data-ng-bind="city.parent.name"></div>
+								</div>
+								<div ng-if="cityFetching" class="common-load-more"></div>
+							</div>
+						</div>
+                    </div>
+                    <!----- end city block ------------------->
+            </div>
+            <!---- end region and city block ---------->
+
+            <!---- start DMA container -------->
+            <div id="dmas" class="tab-pane contentBox" ng-show="selectedTab == 'dmas'">
+                <!-- <div class="col-md-12 searchInput radioBtnToggle">
+                    <div class="col-md-12 zeroPadding">
+                        <div class="col-md-4 zeroPadding switchWrap">
+                            <span id="switchLabel1"><img ng-src="/assets/images/workflow/icon_target.svg" alt="" height="15"/> Include</span>
+                            <span id="switchLabel2"><img ng-src="/assets/images/workflow/icon_exclude.svg" alt="" height="15"/> Exclude</span>
+
+                            <div class="btn-group btn-ani-toggle pull-right"  ng-click="switchInclude()">
+                                <button class="btn btn-xs btn-success active"></button>
+                                <div class="togBtnBg"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div> -->
+                <div  >
+                    <div class="list_holder">
+
+                        <div class="list_row_holder" lr-infinite-scroll="loadMoreDmas" time-threshold="100">
+                            <div class="clearfix list_row" ng-repeat="dma in geoTargetingData.dmas">
+                                <div class="pull-left list_row_chkbox"><input id="{{dma.id}}" type="checkbox" ng-model="bool" ng-click="sync(bool, dma, 'dmas')" ng-checked="isChecked(dma.id, 'dmas')" value="" /></div>
+                                <div class="pull-left list_val_col" data-ng-bind="dma.dmaName"></div>
+                                <div class="pull-left list_val_col" data-ng-bind="dma.parent.name"></div>
+                            </div>
+                            <div ng-show="dmasFetching" class="loading-icon"></div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <!----- end DMA container ----------->
+
+            <!---- start Zip Container ---------->
+            <div id="zip" class="tab-pane contentBox">
+                <textarea class="form-control" id="zipCodes" name="zipCodes" ng-model="adData.zipCodes" rows="3" placeholder="Separate zip / postal codes by comma. Use hyphens to denote ranges."></textarea>
+                <div class="col-md-12 zeroPadding">
+                    <button type="button" ng-click="addZipCode()" ng-disabled="!adData.zipCodes" class="btn btn-default pull-right">
+                        <img ng-src="/assets/images/workflow/icon_target.svg" alt="" height="15" /> Include
+                    </button>
+                </div>
+            </div>
+            <!---- end Zip Container ---------->
+
+
+        </div>
+    </div>
+    <div class="col-md-5 zeroPadding selectedTables">
+        <div class="col-md-12">
+            <h2 data-ng-bind="textConstants.SELECTED"></h2>
+        </div>
+        <div class="col-md-12" ng-if="geoTargetingData.selected.regions.length >0 || geoTargetingData.selected.cities.length >0 || geoTargetingData.selected.dmas.length >0 || geoTargetingData.selected.zip.length >0">
+            <div class="table regionTable" ng-if="geoTargetingData.selected.regions.length >0 || geoTargetingData.selected.cities.length >0">
+                <div>
+                    <div class="clearfix each-row" >
+                        <div class="pull-left" data-ng-bind="textConstants.REGCITIES"></div>
+                        <div class="pull-right removeAll">
+                            <a ng-href="#" ng-click="showRemoveConfirmBox($event, 'regions', 'cities');" data-ng-bind="textConstants.REMOVEALL"></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="values-table">
+                    <div class="clearfix each-row"  ng-repeat="region in geoTargetingData.selected.regions">
+                        <div class="pull-left"><img ng-src="/assets/images/workflow/{{region.regionsIncluded ? 'icon_target' : 'icon_exclude'}}.svg" alt="" height="15"/> {{region.name}}</div>
+                        <div class="pull-right cancel"><span class="icon-close removeItem" ng-click="removeItem(region, 'regions')"></span></div>
+                        <div class="group">
+                            <div ng-repeat="city in region.cities">
+                                <div class="pull-left"><img ng-src="/assets/images/workflow/{{city.citiesIncluded ? 'icon_target' : 'icon_exclude'}}.svg" alt="" height="15"/> {{city.name}}</div>
+                                <div class="pull-right cancel"><span class="icon-close removeItem" ng-click="removeItem(city, 'regions')"></span></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div ng-if="showCitiesOnly" class="clearfix each-row"  ng-repeat="city in geoTargetingData.selected.cities">
+                        <div class="pull-left"><img ng-src="/assets/images/workflow/{{city.citiesIncluded ? 'icon_target' : 'icon_exclude'}}.svg" alt="" height="15"/> {{city.name}} ({{city.parent.name}})</div>
+                        <div class="pull-right cancel"><span class="icon-close removeItem" ng-click="removeItem(city, 'cities')"></span></div>
+                    </div>
+                    <div ng-if="geoTargetingData.selected.regions.length === 0 && geoTargetingData.selected.cities.length  === 0">
+                        <div class="emptyTableLabel" data-ng-bind="textConstants.NOTSET"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="table dmaTable" ng-if="geoTargetingData.selected.dmas.length >0">
+                <div>
+                    <div class="clearfix each-row" >
+                        <div class="pull-left" data-ng-bind="textConstants.METROS"></div>
+                        <div class="pull-right removeAll">
+                            <a ng-href="#" ng-click="showRemoveConfirmBox($event, 'dmas');" data-ng-bind="textConstants.REMOVEALL"></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="values-table">
+                    <div class="clearfix each-row"  ng-repeat="dma in geoTargetingData.selected.dmas">
+                        <div class="pull-left"><img ng-src="/assets/images/workflow/{{dma.dmasIncluded ? 'icon_target' : 'icon_exclude'}}.svg" alt="" height="15"/>{{dma.name}}</div>
+                        <div class="pull-right cancel"><span class="icon-close removeItem" ng-click="removeItem(dma, 'dmas')"></span></div>
+                    </div>
+                    <div ng-if="geoTargetingData.selected.dmas.length === 0">
+                        <div class="emptyTableLabel" data-ng-bind="textConstants.NOTSET"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="table zipTable" ng-if="geoTargetingData.selected.zip.length >0">
+                <div>
+                    <div class="clearfix each-row" >
+                        <div class="pull-left" data-ng-bind="textConstants.ZIPPOSTCODE"></div>
+                        <div class="pull-right removeAll">
+                            <a ng-href="#" ng-click="showRemoveConfirmBox($event, 'zip');" data-ng-bind="textConstants.REMOVEALL"></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="values-table">
+                    <div ng-repeat="zipCodeList in geoTargetingData.selected.zip">
+                        <div class="clearfix each-row" ng-repeat="zipCode in zipCodeList.added">
+                            <div class="pull-left"><img ng-src="/assets/images/workflow/icon_target.svg" alt="" height="15"/> {{zipCode}}</div>
+                            <div class="pull-right cancel"><span class="icon-close removeItem" ng-click="removeItem(zipCode, 'zip')"></span></div>
+                        </div>
+                        <div ng-if="geoTargetingData.selected.zip.length === 0">
+                            <div class="emptyTableLabel" data-ng-bind="textConstants.NOTSET"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div ng-if="geoTargetingData.selected.regions.length === 0 && geoTargetingData.selected.cities.length ===0 && geoTargetingData.selected.dmas.length === 0 && geoTargetingData.selected.zip.length === 0" class="emptyTableLabel" data-ng-bind="textConstants.NOTSET"></div>
+
+    </div>
+</div>
+
+<!--=== Selected Targeting ===-->
+<div class="col-md-12 targettingSelected" style="display:none;">
+    <div class="col-md-12 tsHeader">
+        <h2>Geography <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span><span>({{locale.id === 'en-gb' ? 'UK' : 'US'}})</span></h2>
+        <a ng-href="#" ng-click="deleteGeography()"><img ng-src="/assets/images/workflow/icon_trash.svg" alt="" height="15"/></a>
+        <a ng-href="#" ng-click="editGeography()"><img ng-src="/assets/images/workflow/icon_pencil.svg" alt="" height="15"/></a>
+        <div class="col-md-6 zeroPadding" style="clear: left;">
+            <span><img ng-src="/assets/images/workflow/icon_target.svg" alt="" height="15"/> Include</span>
+        </div>
+        <div class="col-md-6 zeroPadding">
+            <span><img ng-src="/assets/images/workflow/icon_exclude.svg" alt="" height="15"/> Exclude</span>
+        </div>
+    </div>
+
+    <div class="col-md-12 tsBody">
+        <div class="col-md-6 zeroPadding">
+            <div class="total_data_holder regioncity" ng-if="geoTargetingData.selected.previewData.include.regions.length>0 || geoTargetingData.selected.previewData.include.cities.length>0">
+                <h5 data-ng-bind="textConstants.REGCITIES"></h5>
+                <div class="data_list_holder less_data">
+                    <div class="data_list" ng-repeat="regioncity in geoTargetingData.selected.previewData.include.regions" data-ng-bind="regioncity.name"></div>
+                    <div class="data_list" ng-repeat="regioncity in geoTargetingData.selected.previewData.include.cities">{{regioncity.parent.name}}, {{regioncity.name}}</div>
+                </div>
+                <div class="show_more_less" ng-if="geoTargetingData.selected.previewData.include.regions.length>2 || geoTargetingData.selected.previewData.include.cities.length>2" ng-click="show_more_less_list($event);">+
+                    {{ (geoTargetingData.selected.previewData.include.regions.length-2) < 0 ? (geoTargetingData.selected.previewData.include.cities.length-2):(geoTargetingData.selected.previewData.include.regions.length-2)}}
+                    more
+                </div>
+            </div>
+            <div class="total_data_holder zipCode" ng-if="geoTargetingData.selected.previewData.include.zipCodes[0].values.length>0">
+                <h5 data-ng-bind="textConstants.ZIPPOSTCODE"></h5>
+                <div class="data_list_holder less_data">
+                    <div class="data_list" ng-repeat="zipCode in geoTargetingData.selected.previewData.include.zipCodes[0].values" data-ng-bind="zipCode"></div>
+                </div>
+                <div class="show_more_less" ng-if="geoTargetingData.selected.previewData.include.zipCodes[0].values.length>2" ng-click="show_more_less_list($event);">+ {{geoTargetingData.selected.previewData.include.zipCodes[0].values.length-2}} more</div>
+            </div>
+            <div class="total_data_holder dmas" ng-if="geoTargetingData.selected.previewData.include.dmas.length>0">
+                <h5 data-ng-bind="textConstants.DMAS"></h5>
+                <div class="data_list_holder less_data">
+                    <div class="data_list" ng-repeat="dma in geoTargetingData.selected.previewData.include.dmas" data-ng-bind="dma.name"></div>
+                </div>
+                <div class="show_more_less" ng-if="geoTargetingData.selected.previewData.include.dmas.length>2" ng-click="show_more_less_list($event);">+ {{geoTargetingData.selected.previewData.include.dmas.length-2}} more</div>
+            </div>
+        </div>
+        <div class="col-md-6 zeroPadding">
+            <div class="total_data_holder regioncity" ng-if="geoTargetingData.selected.previewData.exclude.regions.length>0 || geoTargetingData.selected.previewData.exclude.cities.length>0">
+                <h5 data-ng-bind="textConstants.REGCITIES"></h5>
+                <div class="data_list_holder less_data">
+                    <div class="data_list" ng-repeat="regioncity in geoTargetingData.selected.previewData.exclude.regions" data-ng-bind="regioncity.name"></div>
+                    <div class="data_list" ng-repeat="regioncity in geoTargetingData.selected.previewData.exclude.cities">{{regioncity.parent.name}}, {{regioncity.name}}</div>
+                </div>
+                <div class="show_more_less" ng-if="geoTargetingData.selected.previewData.exclude.regions.length>2 || geoTargetingData.selected.previewData.exclude.cities.length>2" ng-click="show_more_less_list($event);">
+                    + {{ (geoTargetingData.selected.previewData.exclude.regions.length-2) < 0 ? (geoTargetingData.selected.previewData.exclude.cities.length-2):(geoTargetingData.selected.previewData.exclude.regions.length-2)}}  more
+                </div>
+            </div>
+            <div class="total_data_holder dmas" ng-if="geoTargetingData.selected.previewData.exclude.dmas.length>0">
+                <h5 data-ng-bind="textConstants.DMAS"></h5>
+                <div class="data_list_holder less_data">
+                    <div class="data_list" ng-repeat="dma in geoTargetingData.selected.previewData.exclude.dmas" data-ng-bind="dma.name"></div>
+                </div>
+                <div class="show_more_less" ng-if="geoTargetingData.selected.previewData.exclude.dmas.length>2" ng-click="show_more_less_list($event);">+ {{geoTargetingData.selected.previewData.exclude.dmas.length-2}} more</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="msgPopupHolder" id="confirmBox" ng-show="showConfirmBox">
+    <div class="msgPopup">
+        <div>
+            <div class="msg pull-left" style="padding-top: 10px;" data-ng-bind="textConstants.AREYOUSURE"></div>
+            <div class="clearfix btn-holder" style="margin: 0;">
+                <div class="pull-right common_primary_btn" ng-click="removeSelectedList(boxType, boxsubType);" data-ng-bind="textConstants.YES"></div>
+                <div class="pull-right secondary_txt"  ng-click="hideConfirmBox()" data-ng-bind="textConstants.NO"></div>
+            </div>
+        </div>
+    </div>
+</div>

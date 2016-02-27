@@ -1,0 +1,83 @@
+<div class="viewability_header clearfix">
+    <div class="each_col platform_name_col icon_text_holder" ng-class="sortClassFunction('platform_name',sortTypebyViewability,sortReverse)" ng-click="sortTypebyViewability = 'platform_name'; sortReverse = !sortReverse;removeKpiActive();" >
+        {{textConstants.PLATFORM_NAME}}
+    </div>
+    <div class="each_col third_col delivered_col">
+            <span class="icon_text_holder" ng-class="sortClassFunction('-other_view_impressions',sortTypebyViewability,sortReverseForQualImps)"
+                  ng-click="sortTypebyViewability = '-other_view_impressions'; sortTypebyViewabilitySubSort='-other_view_impressions';
+                  sortReverse = sortReverseForQualImps; sortReverseForQualImps = !sortReverseForQualImps; removeKpiActive();" >
+                {{textConstants.DELIVERED_IMPS}}</span>
+    </div>
+    <div class="each_col third_col measurable_col" >
+        <span>{{textConstants.MEASURABLE}}</span>
+        <div class="sub_col">
+            <span class="icon_text_holder" ng-class="sortClassFunction('other_view_measurable',sortTypebyViewability,sortReverse)" ng-click="sortTypebyViewability = 'other_view_measurable'; sortReverse = !sortReverse;removeKpiActive();" >{{textConstants.IMP_WITH_DOT}}</span>
+            <span class="icon_text_holder" ng-class="sortClassFunction('other_view_measurable_perc',sortTypebyViewability,sortReverse)" ng-click="sortTypebyViewability = 'other_view_measurable_perc'; sortReverse = !sortReverse;removeKpiActive();" >%</span></div>
+    </div>
+    <div class="each_col forth_col"  >
+        <span>{{textConstants.VIEWABLE}}</span>
+        <div class="sub_col">
+            <span class="icon_text_holder" ng-class="sortClassFunction('other_viewable_impressions',sortTypebyViewability,sortReverse)" ng-click="sortTypebyViewability = 'other_viewable_impressions'; sortReverse = !sortReverse;removeKpiActive();" >{{textConstants.IMP_WITH_DOT}}</span>
+            <span class="tooltip_holder icon_text_holder" ng-class="sortClassFunction('other_viewable_impressions_perc',sortTypebyViewability,sortReverse)" ng-click="sortTypebyViewability = 'other_viewable_impressions_perc'; sortReverse = !sortReverse;removeKpiActive();" >%<sup>*</sup><div class="common_tooltip">{{textConstants.BASED_ONLY_ON_VIEWABLE_IMPS}}</div></span></div>
+    </div>
+
+    <!--<div class="each_col ad_col"  ng-show="adFormats.videoAds && videoMode" >
+        <span class="clearfix icon_text_holder" ng-class="sortClassFunction('videos_viewable_imps',sortTypebyViewability,sortReverse)" ng-click="sortTypebyViewability = 'videos_viewable_imps'; sortReverse = !sortReverse;"  >
+           
+            <span class="pull-left tooltip_for_txt" >{{textConstants.AD_START_IMPS}}</span>
+            <span class="pull-left tooltip_holder">
+                <span class="tooltip_show_icon"></span>
+                <span class="clearfix common_tooltip">
+                  <div class="video_tooltip">
+                    <div class="clearfix ">
+                        <span class="video_tooltip_icon play_icon"></span>
+                        <span class="pull-left">{{textConstants.VIDEO_PLAYS}}</span>
+                    </div>
+                    <div class="clearfix view_video_tooltip">
+                        <span class="video_tooltip_icon view_icon"></span>
+                        <span class="pull-left">{{textConstants.VIDEO_VIEWS}}-=-=-=</span>
+                    </div>
+                  </div>
+                </span>
+            </span>
+        </span>
+    </div>-->
+    <div class="each_col sub_four_cols"  ng-show="adFormats.videoAds && videoMode">
+        <div class="clearfix title_tooltip">
+            <span class="pull-left">{{ textConstants.QUARTILE_DETAILS }}</span>
+            <span class="pull-left tooltip_holder">
+                <span class="tooltip_show_icon"></span>
+                <span class="clearfix common_tooltip">
+                  {{ textConstants.VIDEO_PLAY_COMPLETION_AND_VIDEO_VIEWABILITY_AT_THE_VARIOUS_QUARTILES_OF_THE_AD }}
+                </span>
+            </span>
+        </div>
+
+        <div class="sub_col">
+            <span class="icon_text_holder" ng-class="sortClassFunction('videos_1q_completed',sortTypebyViewability,sortReverse)" ng-click="sortTypebyViewability = 'videos_1q_completed'; sortReverse = !sortReverse;" >25%</span>
+            <span class="icon_text_holder" ng-class="sortClassFunction('videos_2q_completed',sortTypebyViewability,sortReverse)" ng-click="sortTypebyViewability = 'videos_2q_completed'; sortReverse = !sortReverse;">50%</span>
+            <span class="icon_text_holder" ng-class="sortClassFunction('videos_3q_completed',sortTypebyViewability,sortReverse)" ng-click="sortTypebyViewability = 'videos_3q_completed'; sortReverse = !sortReverse;">75%</span>
+            <span class="icon_text_holder" ng-class="sortClassFunction('videos_4q_completed',sortTypebyViewability,sortReverse)" ng-click="sortTypebyViewability = 'videos_4q_completed'; sortReverse = !sortReverse;">100%</span>
+        </div>
+    </div>
+    <!--<div class="each_col vtc_col"  ng-show="adFormats.videoAds && videoMode">
+        <div class="icon_text_holder" ng-class="sortClassFunction('vtc',sortTypebyViewability,sortReverse)" ng-click="sortTypebyViewability = 'vtc'; sortReverse = !sortReverse;" >
+            <span class="pull-left " >{{ textConstants.VTC }}</span>
+            <span class="pull-left tooltip_holder">
+                <span class="tooltip_show_icon"></span>
+                <span class="clearfix common_tooltip">
+                  {{ textConstants.MEASURED_AS_HUNDRED_PERCENT_VIDEO_PLAYED_DIVIDED_BY_AD_START}}
+                </span>
+            </span>
+        </div>
+    </div>-->
+
+    <div class="each_col suspicious_col">
+        <span class="tooltip_holder icon_text_holder" ng-class="sortClassFunction('other_view_imps_suspicious_perc',sortTypebyViewability,sortReverse)"  ng-click="sortTypebyViewability = 'other_view_imps_suspicious_perc'; sortReverse = !sortReverse;removeKpiActive();" >{{textConstants.SUSPICIOUS}}<br> {{textConstants.ACTIVITY}} %</span>
+    </div>
+    <!--<div class="each_col seventh_col"  ng-hide="adFormats.videoAds && videoMode">
+        <div class="dropdown kpi-dd-holder "  >
+            <kpi-drop-down type="selected_filters.kpi_type.toLowerCase()" ></kpi-drop-down>
+        </div>
+    </div>-->
+</div>
