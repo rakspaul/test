@@ -66,6 +66,18 @@ module.exports = function (grunt) {
     less: {
       setup: {
         options: {
+          cleancss: true,
+        },
+        files: [{
+          expand: true,
+          cwd: '<%= cvars.app %>/<%= cvars.appcss %>/',
+          src: ['**/*.less'],
+          dest: '<%= cvars.app %>/<%= cvars.appcss %>/',
+          ext: '.css'
+        }]
+      },
+      buid: {
+        options: {
           compress: true,
           cleancss: true,
           optimization: 2,
@@ -73,9 +85,9 @@ module.exports = function (grunt) {
         },
         files: [{
           expand: true,
-          cwd: '<%= cvars.app %>/<%= cvars.appcss %>/styles/',
+          cwd: '<%= cvars.app %>/<%= cvars.appcss %>/',
           src: ['**/*.less'],
-          dest: '<%= cvars.app %>/<%= cvars.appcss %>/styles/',
+          dest: '<%= cvars.app %>/<%= cvars.appcss %>/',
           ext: '.css'
         }]
       }
@@ -128,7 +140,7 @@ module.exports = function (grunt) {
           }
         ]
       },
-      
+
       deploy: {
         options: {
           collapseWhitespace: true
@@ -209,7 +221,7 @@ module.exports = function (grunt) {
       watch: {
       www: {
         files: ['<%= cvars.app %>/**/*'],
-        tasks: [],
+        tasks: ['less:setup'],
         options: {
           spawn: false,
           livereload: true
