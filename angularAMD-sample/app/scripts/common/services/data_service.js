@@ -1,5 +1,5 @@
-define(['angularAMD','common/services/data_store_model','common/utils','common/services/url_service','login/login_model','common/services/constants_service','common/services/analytics_service'], function (angularAMD) {
-    angularAMD.factory("dataService", function ($q, $http, $cookieStore, $location, dataStore, utils, urlService, loginModel, constants) {
+define(['angularAMD','common/services/vistoconfig_service', 'common/services/data_store_model','common/utils','common/services/url_service','login/login_model','common/services/constants_service','common/services/analytics_service'], function (angularAMD) {
+    angularAMD.factory("dataService", function ($q, $http, $cookieStore, $location, vistoconfig, dataStore, utils, urlService, loginModel, constants) {
         $http.defaults.headers.common['Authorization'] = loginModel.getAuthToken();
         var errorObject = {status:"error", data: {message:"Error"}};
 
@@ -18,7 +18,7 @@ define(['angularAMD','common/services/data_store_model','common/utils','common/s
             },
 
             getCampaignStrategies: function (urlPath, type) {
-                return this.fetch(apiPaths.apiSerivicesUrl_NEW + urlPath)
+                return this.fetch(vistoconfig.apiPaths.apiSerivicesUrl_NEW + urlPath)
             },
 
             getCdbChartData: function (campaign, timePeriod, type, strategyId) {
@@ -36,70 +36,70 @@ define(['angularAMD','common/services/data_store_model','common/utils','common/s
                     }
                 }
                 if (type == 'campaigns') {
-                    urlPath =  apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId + '/campaigns/' + campaignId + '/bydays/perf?'+durationQuery;
+                    urlPath =  vistoconfig.apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId + '/campaigns/' + campaignId + '/bydays/perf?'+durationQuery;
                 } else if (type == 'strategies') {
-                    urlPath =  apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId + '/campaigns/' + campaignId + '/strategies/' + strategyId + '/bydays/perf?'+durationQuery;
+                    urlPath =  vistoconfig.apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId + '/campaigns/' + campaignId + '/strategies/' + strategyId + '/bydays/perf?'+durationQuery;
                 }
                 return this.fetch(urlPath);
             },
 
             getCdbTacticsMetrics: function(campaignId, filterStartDate, filterEndDate) {
                 var clientId = loginModel.getSelectedClient().id;
-                var url = apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId + '/campaigns/' + campaignId + '/strategies/tactics?start_date=' + filterStartDate + '&end_date=' + filterEndDate;
+                var url = vistoconfig.apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId + '/campaigns/' + campaignId + '/strategies/tactics?start_date=' + filterStartDate + '&end_date=' + filterEndDate;
                 return this.fetch(url);
             },
 
             getCdbTacticsChartData: function(campaignId, strategyId, tacticsId, timePeriod, filterStartDate, filterEndDate) {
                 var clientId = loginModel.getSelectedClient().id;
-                var url = apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId + '/campaigns/' + campaignId + '/strategies/' + strategyId + '/tactics/' + tacticsId + '/bydays/perf?start_date=' + filterStartDate + '&end_date=' + filterEndDate;
+                var url = vistoconfig.apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId + '/campaigns/' + campaignId + '/strategies/' + strategyId + '/tactics/' + tacticsId + '/bydays/perf?start_date=' + filterStartDate + '&end_date=' + filterEndDate;
                 return this.fetch(url);
             },
 
             getStrategyTacticList: function(adGroupId) {
                 var clientId = loginModel.getSelectedClient().id;
-                var url = apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId + '/ad_groups/' + adGroupId + '/ads';
+                var url = vistoconfig.apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId + '/ad_groups/' + adGroupId + '/ads';
                 return this.fetch(url);
             },
 
             getUnassignedTacticList: function(campaignId) {
                 var clientId = loginModel.getSelectedClient().id;
-                var url = apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId + '/campaigns/' + campaignId + '/no_ad_group/ads';
+                var url = vistoconfig.apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId + '/campaigns/' + campaignId + '/no_ad_group/ads';
                 return this.fetch(url);
             },
 
             getCostViewability: function(campaign, timePeriod) {
                 var clientId = loginModel.getSelectedClient().id;
-                var url = apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId + '/campaigns/' + campaign.orderId + '/viewReport?date_filter=' + timePeriod;
+                var url = vistoconfig.apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId + '/campaigns/' + campaign.orderId + '/viewReport?date_filter=' + timePeriod;
                 return this.fetch(url);
             },
 
             getCustomReportMetrics :  function(campaign) {
                 var clientId = loginModel.getSelectedClient().id;
-                var url = apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId + '/reports/custom/meta';
+                var url = vistoconfig.apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId + '/reports/custom/meta';
                 return this.fetch(url);
             },
 
             getCustomReportData: function(campaign, queryString) {
                 var clientId = loginModel.getSelectedClient().id;
-                var url = apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId + '/custom_reports/' + queryString;
+                var url = vistoconfig.apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId + '/custom_reports/' + queryString;
                 return this.fetch(url);
             },
 
             getVideoViewabilityData: function(campaign) {
                 var clientId = loginModel.getSelectedClient().id;
-                var url = apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId + '/campaigns/' + campaign.orderId + '/viewReport';
+                var url = vistoconfig.apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId + '/campaigns/' + campaign.orderId + '/viewReport';
                 return this.fetch(url);
             },
 
             getActions: function () {
                 var clientId = loginModel.getSelectedClient().id;
-                var url = apiPaths.workflow_apiServicesUrl + '/clients/' + clientId + '/actionTypes';
+                var url = vistoconfig.apiPaths.workflow_apiServicesUrl + '/clients/' + clientId + '/actionTypes';
                 return this.fetch(url);
             },
 
             getTactics: function (orderId) {
                 var clientId = loginModel.getSelectedClient().id;
-                var url = apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId + '/campaigns/' + orderId + '/ads/meta';
+                var url = vistoconfig.apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId + '/campaigns/' + orderId + '/ads/meta';
                 return this.fetch(url)
             },
 
@@ -120,7 +120,7 @@ define(['angularAMD','common/services/data_store_model','common/utils','common/s
 
             createAction: function (data) {
                 var clientId = loginModel.getSelectedClient().id;
-                var url = apiPaths.workflow_apiServicesUrl + '/clients/' + clientId + '/actions';
+                var url = vistoconfig.apiPaths.workflow_apiServicesUrl + '/clients/' + clientId + '/actions';
                 analytics.track(loginModel.getUserRole(), constants.GA_CAMPAIGN_DETAILS_CREATE_ACTIVITY, 'number_of_action_subtypes_selected', loginModel.getLoginName(), data.action_sub_type_ids.length);
                 analytics.track(loginModel.getUserRole(), constants.GA_CAMPAIGN_DETAILS_CREATE_ACTIVITY, 'number_of_tactics_selected', loginModel.getLoginName(), data.action_tactic_ids.length);
                 analytics.track(loginModel.getUserRole(), constants.GA_CAMPAIGN_DETAILS_CREATE_ACTIVITY, (data.make_external ? 'external' : 'internal'), loginModel.getLoginName());
@@ -296,7 +296,7 @@ define(['angularAMD','common/services/data_store_model','common/utils','common/s
                     }
                 );
             },
-            
+
 
             post: function (url, data, header) {
                 loginModel.checkCookieExpiry();

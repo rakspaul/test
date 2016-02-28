@@ -1,7 +1,6 @@
-(function () {
-    'use strict';
-    commonModule.controller('GanttChartController', function ($scope, ganttChart, ganttChartModel, constants, brandsModel, loginModel, analytics,momentService) {
-
+define(['angularAMD','reporting/common/d3/gantt_chart','reporting/models/gantt_chart_model','common/services/constants_service','reporting/brands/brands_model','login/login_model', 'common/moment_utils' ],function (angularAMD) {
+  'use strict';
+  angularAMD.controller('GanttChartController', function($scope, ganttChart, ganttChartModel, constants, brandsModel, loginModel, momentService) {
         var _curCtrl = this;
         _curCtrl.filter = undefined;
         $scope.dataFound = true;
@@ -47,7 +46,7 @@
                     $scope.calendarData = result.brands.length;
                     $scope.dataFound = true;
 
-                    //getting endpoint dates for calendar. 
+                    //getting endpoint dates for calendar.
                     var startDate, endDate, loop = 0;
                     _.each(result.brands, function (datum) {
                         _.each(datum.campaigns, function (tasks) {
@@ -278,4 +277,4 @@
             });
         }
     });
-}());
+});

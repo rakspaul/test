@@ -1,6 +1,7 @@
-(function () {
-  "use strict";
-  var gauge = function (urlService, dashboardModel, dataService, loginModel, advertiserModel, brandsModel, requestCanceller, constants) {
+define(['angularAMD', 'common/services/url_service','reporting/dashboard/dashboard_model','common/services/data_service','reporting/brands/brands_model','common/services/request_cancel_service','common/services/constants_service', 'login/login_model', 'reporting/advertiser/advertiser_model'],function (angularAMD) {
+  'use strict';
+  angularAMD.service('gaugeModel', ['urlService', 'dashboardModel' , 'dataService', 'brandsModel', 'requestCanceller', 'constantsService', 'loginModel', 'advertiserModel', function (urlService, dashboardModel, dataService, brandsModel, requestCanceller, constantsService, loginModel, advertiserModel) {
+
     this.dashboard = {selectedFilter: ''};
     this.resetDashboardFilters = function() {
       this.dashboard.selectedFilter = '';
@@ -38,6 +39,5 @@
         };
       })
     }
-  }
-  commonModule.service('gaugeModel', ['urlService', 'dashboardModel' , 'dataService', 'loginModel', 'advertiserModel', 'brandsModel', 'requestCanceller', 'constants', gauge]);
-}());
+  }]);
+});

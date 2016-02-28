@@ -1,5 +1,5 @@
-define(['angularAMD', 'common/services/constants_service'], function (angularAMD) {
-    angularAMD.factory("RoleBasedService", ['$locale', 'tmhDynamicLocale', 'momentService', 'constants', function (momentService, constants, $locale, tmhDynamicLocale) {
+define(['angularAMD', 'common/moment_utils', 'common/services/constants_service'], function (angularAMD) {
+    angularAMD.factory("RoleBasedService", ['$locale','momentService', 'constants', 'tmhDynamicLocale',function ($locale, momentService, constants , tmhDynamicLocale) {
         var getClientRole = function() {
             return JSON.parse(localStorage.getItem('clientRoleObj'));
         };

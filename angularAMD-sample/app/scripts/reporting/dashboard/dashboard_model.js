@@ -1,4 +1,7 @@
-dashboardModule.factory("dashboardModel", ['loginModel', 'advertiserModel', 'brandsModel','constants', 'urlService', 'dataService', 'utils', function (loginModel, advertiserModel, brandsModel, constants, urlService, dataService, utils) {
+define(['angularAMD', 'login/login_model', 'reporting/advertiser/advertiser_model', 'reporting/brands/brands_model','reporting/timePeriod/time_period_model','common/services/constants_service','common/services/url_service','common/services/request_cancel_service','common/services/data_service','common/utils'],function (angularAMD) {
+  'use strict';
+  angularAMD.factory("dashboardModel", ['loginModel', 'advertiserModel', 'brandsModel', 'timePeriodModel', 'constants', 'urlService', 'requestCanceller', 'dataService', 'utils', function (loginModel, advertiserModel, brandsModel, timePeriodModel, constants, urlService, requestCanceller, dataService, utils) {
+
     var dashboardData = {selectedStatus: constants.DASHBOARD_STATUS_IN_FLIGHT};//by default it is active.  Now check local storage if we want to change it last saved status.
     var localStoredCampaignStatus = JSON.parse(localStorage.getItem('dashboardStatusFilter'));
     if (localStoredCampaignStatus != null && localStoredCampaignStatus !== undefined &&
@@ -82,4 +85,5 @@ dashboardModule.factory("dashboardModel", ['loginModel', 'advertiserModel', 'bra
         getData: getData,
         campaignStatusToSend: campaignStatusToSend
     };
-}]);
+  }]);
+});

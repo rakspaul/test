@@ -20,7 +20,7 @@ body {
   font-size: 12px;
 }
 .reload-img {
-  background: url("/assets/images/cdesk/reload.png") no-repeat 6px 2px;
+  background: url("images/cdesk/reload.png") no-repeat 6px 2px;
   height: 24px;
   width: 24px;
   display: block;
@@ -84,7 +84,7 @@ body {
   margin-bottom: 20px ;
   /* .time_period_filter {
       margin: 8px 40px 0 0;
-      background: url("/assets/images/cdesk/lifetime_icon.png") no-repeat 2px 3px;
+      background: url("/images/cdesk/lifetime_icon.png") no-repeat 2px 3px;
       padding-left: 20px;
       .dropdown-menu {
         min-width: 130px;
@@ -99,7 +99,7 @@ body {
       .dropdown_ul_text {
         cursor: pointer;
         .arrow_img {
-          background: url("/assets/images/cdesk/common_down_arrow.png") no-repeat center center; 
+          background: url("/images/cdesk/common_down_arrow.png") no-repeat center center;
           display: inline-block;
           height: 10px;
           width: 10px;
@@ -134,8 +134,8 @@ body {
   -webkit-border-radius: 5px ;
   padding: 10px 10px 10px 30px;
   margin: 0px 0px 0px 50px;
-  /*background: url("/assets/images/cdesk/view_report_icon.png") no-repeat 10px 10px ;*/
-  background: url("/assets/images/cdesk/sprites.png") no-repeat -618px -297px;
+  /*background: url("/images/cdesk/view_report_icon.png") no-repeat 10px 10px ;*/
+  background: url("/images/cdesk/sprites.png") no-repeat -618px -297px;
 }
 .campaign_details_page .campaign_details_header .view_report:hover {
   background-color: #359eea ;
@@ -325,7 +325,7 @@ body {
   z-index: 1;
   padding-right: 0px ;
   padding-top: 4px ;
-  background: url("/assets/images/cdesk/common_down_arrow.png") no-repeat 95% 8px #fff;
+  background: url("/images/cdesk/common_down_arrow.png") no-repeat 95% 8px #ffffff;
   border: solid 1px transparent;
   border-bottom: 0;
   padding-bottom: 1px;
@@ -381,8 +381,8 @@ body {
   white-space: nowrap;
 }
 .campaign_details_page .action_filter_holder .filter_holder .filter_dropdown .dropdown-menu li:hover .icon-single {
-  /*background-image: url("/assets/images/cdesk/only_check_mark.png") ;*/
-  background: url("/assets/images/cdesk/sprites-2.png") no-repeat -534px -58px;
+  /*background-image: url("/images/cdesk/only_check_mark.png") ;*/
+  background: url("/images/cdesk/sprites-2.png") no-repeat -534px -58px;
   opacity: 0.5 ;
 }
 .campaign_details_page .action_filter_holder .filter_holder .filter_dropdown .dropdown-menu .icon-empty,
@@ -391,12 +391,12 @@ body {
   width: 20px;
   height: 20px;
   vertical-align: text-top;
-  /*background: url("/assets/images/cdesk/list_checkbox.png") no-repeat top left ;*/
-  background: url("/assets/images/cdesk/sprites-2.png") no-repeat -532px -186px;
+  /*background: url("/images/cdesk/list_checkbox.png") no-repeat top left ;*/
+  background: url("/images/cdesk/sprites-2.png") no-repeat -532px -186px;
 }
 .campaign_details_page .action_filter_holder .filter_holder .filter_dropdown .dropdown-menu .icon-ok {
-  /*background-image: url("/assets/images/cdesk/list_checkbox_checked.png") ;*/
-  background: url("/assets/images/cdesk/sprites-2.png") no-repeat -532px -120px;
+  /*background-image: url("/images/cdesk/list_checkbox_checked.png") ;*/
+  background: url("/images/cdesk/sprites-2.png") no-repeat -532px -120px;
 }
 .campaign_details_page .action_filter_holder .filter_holder .filter_dropdown .dropdown-menu .icon-single,
 .campaign_details_page .action_filter_holder .filter_holder .filter_dropdown .dropdown-menu .icon-ok2 {
@@ -407,8 +407,8 @@ body {
   background: no-repeat center center;
 }
 .campaign_details_page .action_filter_holder .filter_holder .filter_dropdown .dropdown-menu .icon-ok2 {
-  /*background-image: url("/assets/images/cdesk/only_check_mark.png") ;*/
-  background: url("/assets/images/cdesk/sprites-2.png") no-repeat -534px -58px;
+  /*background-image: url("/images/cdesk/only_check_mark.png") ;*/
+  background: url("/images/cdesk/sprites-2.png") no-repeat -534px -58px;
 }
 .campaign_details_page .action_filter_holder .filter_holder .filter_dropdown select {
   padding: 5px 20px 5px 10px ;
@@ -510,12 +510,12 @@ body {
   -moz-box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.54);
   width: 30px;
   height: 30px;
-  background-image: url("/assets/images/cdesk/carousel_left_arrow.png");
+  background-image: url("/images/cdesk/carousel_left_arrow.png");
   background-repeat: no-repeat;
   background-position: center center ;
 }
 .campaign_details_page .campaign_details_graphs_holder .glyphicon-chevron-right:before {
-  background-image: url("/assets/images/cdesk/carousel_right_arrow.png");
+  background-image: url("/images/cdesk/carousel_right_arrow.png");
   background-repeat: no-repeat;
   background-position: center center ;
 }
@@ -688,19 +688,19 @@ body {
   margin-top: 11px;
 }
 .campaign_details_page .campaign_details_graphs_holder .bar_section_graph_holder .format_section_graph .mobile_graph {
-  background: url("/assets/images/cdesk/mobile_icon.png") no-repeat 5px 2px;
+  background: url("/images/cdesk/mobile_icon.png") no-repeat 5px 2px;
 }
 .campaign_details_page .campaign_details_graphs_holder .bar_section_graph_holder .format_section_graph .display_graph {
-  background: url("/assets/images/cdesk/display_icon.png") no-repeat 4px 4px;
+  background: url("/images/cdesk/display_icon.png") no-repeat 4px 4px;
 }
 .campaign_details_page .campaign_details_graphs_holder .bar_section_graph_holder .format_section_graph .video_graph {
-  background: url("/assets/images/cdesk/video_icon.png") no-repeat 4px 6px;
+  background: url("/images/cdesk/video_icon.png") no-repeat 4px 6px;
 }
 .campaign_details_page .campaign_details_graphs_holder .bar_section_graph_holder .format_section_graph .social_graph {
-  background: url("/assets/images/cdesk/social_icon.png") no-repeat 4px 3px;
+  background: url("/images/cdesk/social_icon.png") no-repeat 4px 3px;
 }
 .campaign_details_page .campaign_details_graphs_holder .bar_section_graph_holder .format_section_graph .tablet_graph {
-  background: url("/assets/images/cdesk/tablet_icon.png") no-repeat 4px 3px;
+  background: url("/images/cdesk/tablet_icon.png") no-repeat 4px 3px;
 }
 .campaign_details_page .campaign_details_graphs_holder .bar_section_graph_holder .each_bar_graph {
   height: 4px;
@@ -1100,7 +1100,7 @@ body {
 }
 .campaign_details_page .campaigns_details_holder .total_campaign_list_holder .strategy_tactic_holder .each_campaign_list_container .campaigns_list_buttons_holder .tactics_open_btn .open_icon {
   margin: 0px 6px 0 0;
-  background-image: url("/assets/images/cdesk/gamburger.png");
+  background-image: url("/images/cdesk/gamburger.png");
   background-position: 0px -62px;
   background-repeat: no-repeat;
   height: 12px;
@@ -1120,7 +1120,7 @@ body {
   background: #f5f9fd ;
 }
 .campaign_details_page .campaigns_details_holder .total_campaign_list_holder .strategy_tactic_holder .each_campaign_list_container .campaigns_list_buttons_holder .tactic_open_class .open_icon {
-  background-image: url("/assets/images/cdesk/gamburger.png");
+  background-image: url("/images/cdesk/gamburger.png");
   background-position: 0px 0px ;
   background-repeat: no-repeat;
 }
@@ -1205,21 +1205,21 @@ body {
   width: 16px;
   height: 16px;
   display: inline-block;
-  background: url("/assets/images/cdesk/icn_audience.png") no-repeat scroll -3px 1px rgba(0, 0, 0, 0);
+  background: url("/images/cdesk/icn_audience.png") no-repeat scroll -3px 1px rgba(0, 0, 0, 0);
 }
 .campaign_details_page .campaigns_details_holder .total_campaign_list_holder .strategy_tactic_holder .tactics_container .each_tactic_container .tactic_accordion_details > div .globe-icon {
   width: 16px;
   height: 16px;
   vertical-align: sub;
   display: inline-block;
-  background: url("/assets/images/cdesk/icn_globe.png") no-repeat scroll -1px 1px rgba(0, 0, 0, 0);
+  background: url("/images/cdesk/icn_globe.png") no-repeat scroll -1px 1px rgba(0, 0, 0, 0);
 }
 .campaign_details_page .campaigns_details_holder .total_campaign_list_holder .strategy_tactic_holder .tactics_container .each_tactic_container .tactic_accordion_details > div .location-icon {
   width: 17px;
   height: 17px;
   vertical-align: sub;
   display: inline-block;
-  background: url("/assets/images/cdesk/icn_location.png") no-repeat scroll -1px 1px rgba(0, 0, 0, 0);
+  background: url("/images/cdesk/icn_location.png") no-repeat scroll -1px 1px rgba(0, 0, 0, 0);
 }
 .campaign_details_page .campaigns_details_holder .total_campaign_list_holder .strategy_tactic_holder .tactics_container .each_tactic_container .tactic_accordion_details > div .device-icon {
   width: 17px;
@@ -1228,22 +1228,22 @@ body {
   display: inline-block;
 }
 .campaign_details_page .campaigns_details_holder .total_campaign_list_holder .strategy_tactic_holder .tactics_container .each_tactic_container .tactic_accordion_details > div .device-icon.mobile_graph {
-  background-image: url("/assets/images/cdesk/mobile_icon.png");
+  background-image: url("/images/cdesk/mobile_icon.png");
 }
 .campaign_details_page .campaigns_details_holder .total_campaign_list_holder .strategy_tactic_holder .tactics_container .each_tactic_container .tactic_accordion_details > div .device-icon.social_graph {
-  background-image: url("/assets/images/cdesk/social_icon.png");
+  background-image: url("/images/cdesk/social_icon.png");
 }
 .campaign_details_page .campaigns_details_holder .total_campaign_list_holder .strategy_tactic_holder .tactics_container .each_tactic_container .tactic_accordion_details > div .device-icon.display_graph {
-  background-image: url("/assets/images/cdesk/display_icon.png");
+  background-image: url("/images/cdesk/display_icon.png");
 }
 .campaign_details_page .campaigns_details_holder .total_campaign_list_holder .strategy_tactic_holder .tactics_container .each_tactic_container .tactic_accordion_details > div .device-icon.video_graph {
-  background: url("/assets/images/cdesk/video_icon.png") no-repeat 0px 6px;
+  background: url("/images/cdesk/video_icon.png") no-repeat 0px 6px;
 }
 .campaign_details_page .campaigns_details_holder .total_campaign_list_holder .strategy_tactic_holder .tactics_container .each_tactic_container .tactic_accordion_details > div .device-icon.tablet_graph {
-  background-image: url("/assets/images/cdesk/tablet_icon.png");
+  background-image: url("/images/cdesk/tablet_icon.png");
 }
 .campaign_details_page .campaigns_details_holder .total_campaign_list_holder .strategy_tactic_holder .tactics_container .each_tactic_container .tactic_accordion_details > div .device-icon.passback_graph {
-  background-image: url("/assets/images/cdesk/passback_icon.png");
+  background-image: url("/images/cdesk/passback_icon.png");
 }
 .campaign_details_page .campaigns_details_holder .total_campaign_list_holder .strategy_tactic_holder:first-child {
   margin-top: 0px ;
@@ -1344,7 +1344,7 @@ body {
   position: relative;
 }
 .campaign_details_page .activity_log_holder .activity_log_list_container .gradient_div {
-  background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(255, 255, 255, 0.2)), to(rgba(255, 255, 255, 0.8)), color-stop(1, #fff));
+  background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(255, 255, 255, 0.2)), to(rgba(255, 255, 255, 0.8)), color-stop(1, #ffffff));
   background-image: -moz-linear-gradient(rgba(255, 255, 255, 0.2) 20%, rgba(255, 255, 255, 0.8) 80%);
   position: absolute;
   bottom: 0;
@@ -1453,18 +1453,18 @@ body {
   height: 15px;
   width: 15px;
   margin-bottom: 12px ;
-  background: url("/assets/images/cdesk/sprites.png") no-repeat -168px -82px;
+  background: url("/images/cdesk/sprites.png") no-repeat -168px -82px;
 }
 .campaign_details_page .activity_log_holder .activity_log_list_container .activity_log_list .each_activity_log .activity_edit_holder .activity_edit:hover {
-  background: url("/assets/images/cdesk/sprites.png") no-repeat -241px -82px;
+  background: url("/images/cdesk/sprites.png") no-repeat -241px -82px;
 }
 .campaign_details_page .activity_log_holder .activity_log_list_container .activity_log_list .each_activity_log .activity_edit_holder .activity_report {
   height: 15px;
   width: 15px;
-  background: url("/assets/images/cdesk/sprites.png") no-repeat -628px -445px;
+  background: url("/images/cdesk/sprites.png") no-repeat -628px -445px;
 }
 .campaign_details_page .activity_log_holder .activity_log_list_container .activity_log_list .each_activity_log .activity_edit_holder .activity_report:hover {
-  background: url("/assets/images/cdesk/sprites.png") no-repeat -628px -307px;
+  background: url("/images/cdesk/sprites.png") no-repeat -628px -307px;
 }
 .campaign_details_page .activity_log_holder .activity_log_list_container .activity_log_list .each_activity_log .activity_main {
   font-family: "Avenir-bold";
@@ -1545,7 +1545,7 @@ body {
   cursor: default;
 }
 .campaign_details_page .activity_log_holder .activity_log_header .activity_external_dd .arrow_img {
-  background: url("/assets/images/cdesk/common_down_arrow.png") no-repeat center center;
+  background: url("/images/cdesk/common_down_arrow.png") no-repeat center center;
   height: 10px;
   width: 10px;
   display: inline-block;

@@ -52,7 +52,7 @@
   left: -20px;
 }
 .main_dashboard .dropdown .arrow_img {
-  background: url("/assets/images/cdesk/common_down_arrow.png") no-repeat center center;
+  background: url("/images/cdesk/common_down_arrow.png") no-repeat center center;
   height: 8px;
   width: 10px;
   display: inline-block;
@@ -217,11 +217,11 @@
 .main_dashboard .cal_nav_btns_holder .cal_nav_btn span {
   height: 16px;
   width: 10px;
-  background: url("/assets/images/cdesk/sprites.png") no-repeat -521px 0;
+  background: url("/images/cdesk/sprites.png") no-repeat -521px 0;
   display: inline-block;
 }
 .main_dashboard .cal_nav_btns_holder .cal_nav_btn span.arrow_left {
-  background: url("/assets/images/cdesk/sprites.png") no-repeat -428px 0;
+  background: url("/images/cdesk/sprites.png") no-repeat -428px 0;
 }
 .main_dashboard .cal_nav_btns_holder .cal_nav_btn:first-child {
   border-right: solid 1px #dee6eb  ;
@@ -355,8 +355,8 @@
   display: inline-block;
 }
 .main_dashboard .dashboard_section .dashboard_heading .tooltip_holder .common_tooltip .bubble_graph_legend .bubble_graph_legend_img {
-  /*background: url("/assets/images/cdesk/bubble_img.png") no-repeat center center;*/
-  background: url("/assets/images/cdesk/sprites.png") no-repeat -593px 3px;
+  /*background: url("/images/cdesk/bubble_img.png") no-repeat center center;*/
+  background: url("/images/cdesk/sprites.png") no-repeat -593px 3px;
   height: 70px;
   width: 50px;
 }
@@ -509,13 +509,13 @@
   font-size: 14px;
 }
 .main_dashboard .dashboard_perf_graph #smartphone_screen .screen_bar_icon {
-  background: url("/assets/images/cdesk/smartphone_screen_icon.png") no-repeat left center;
+  background: url("/images/cdesk/smartphone_screen_icon.png") no-repeat left center;
 }
 .main_dashboard .dashboard_perf_graph #tablet_screen .screen_bar_icon {
-  background: url("/assets/images/cdesk/tablet_screen_icon.png") no-repeat left center;
+  background: url("/images/cdesk/tablet_screen_icon.png") no-repeat left center;
 }
 .main_dashboard .dashboard_perf_graph #desktop_screen .screen_bar_icon {
-  background: url("/assets/images/cdesk/desktop_screen_icon.png") no-repeat left center;
+  background: url("/images/cdesk/desktop_screen_icon.png") no-repeat left center;
 }
 .main_dashboard .dashboard_calendar_graph_holder {
   min-height: 545px;
@@ -629,7 +629,7 @@
   text-align: center;
   height: 20px;
   width: 40px;
-  background: url("/assets/images/loading.gif") no-repeat scroll 48% 45% rgba(0, 0, 0, 0);
+  background: url("/images/loading.gif") no-repeat scroll 48% 45% rgba(0, 0, 0, 0);
   margin: 120px auto 0;
   display: block;
   position: absolute;
@@ -712,19 +712,19 @@
   margin-top: 2px;
 }
 .dashboard_screens_graph_holder .bar_section_graph_holder_screen .dataScreenIconsText .display_graph {
-  background: url("/assets/images/cdesk/desktop_screen_icon.png") no-repeat 20px 10px;
+  background: url("/images/cdesk/desktop_screen_icon.png") no-repeat 20px 10px;
 }
 .dashboard_screens_graph_holder .bar_section_graph_holder_screen .dataScreenIconsText .mobile_graph {
-  background: url("/assets/images/cdesk/smartphone_screen_icon.png") no-repeat 19px 10px;
+  background: url("/images/cdesk/smartphone_screen_icon.png") no-repeat 19px 10px;
 }
 .dashboard_screens_graph_holder .bar_section_graph_holder_screen .dataScreenIconsText .tablet_graph {
-  background: url("/assets/images/cdesk/tablet_screen_icon.png") no-repeat 20px 6px;
+  background: url("/images/cdesk/tablet_screen_icon.png") no-repeat 20px 6px;
 }
 .dashboard_screens_graph_holder .bar_section_graph_holder_screen .dataScreenIconsText .video_graph {
-  background: url("/assets/images/cdesk/video_screen_icon.png") no-repeat 22px 6px;
+  background: url("/images/cdesk/video_screen_icon.png") no-repeat 22px 6px;
 }
 .dashboard_screens_graph_holder .bar_section_graph_holder_screen .dataScreenIconsText .social_graph {
-  background: url("/assets/images/cdesk/social_screen_icon.png") no-repeat 20px 6px;
+  background: url("/images/cdesk/social_screen_icon.png") no-repeat 20px 6px;
 }
 .dashboard_screens_graph_holder.dashboard_screens_platform .each_bar_section_holder {
   position: relative;

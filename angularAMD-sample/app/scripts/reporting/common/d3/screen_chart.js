@@ -1,6 +1,6 @@
-(function () {
-    "use strict";
-    commonModule.directive("screenChart", function (constants) {
+define(['angularAMD','common/services/constants_service'],function (angularAMD) {
+  'use strict';
+  angularAMD.directive("screenChart", function (constants) {
         return {
             restrict: 'EAC',
             templateUrl: assets.html_screen_chart,

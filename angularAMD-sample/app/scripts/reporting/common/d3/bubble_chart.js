@@ -1,6 +1,6 @@
-(function() {
-    "use strict";
-    commonModule.service("bubbleChart", function($rootScope,constants, brandsModel, loginModel, analytics, $locale, RoleBasedService) {
+define(['angularAMD','common/services/constants_service','reporting/brands/brands_model','login/login_model', 'common/services/role_based_service' ],function (angularAMD) {
+  'use strict';
+  angularAMD.service("bubbleChart", function($rootScope,$locale,constants, brandsModel, loginModel, RoleBasedService) {
 
         var brands_svg = {},
             campaigns_svg = {} ,
@@ -497,7 +497,7 @@
                    .attr("stroke" , (focused_obj.objectType == 'brands') ? colors.brands.spendPathOutline : (focused_obj.status.toLowerCase() == 'ontrack' ? colors.campaigns.onTrack.spendPathOutline : (focused_obj.status.toLowerCase() == 'underperforming' ? colors.campaigns.underPerforming.spendPathOutline  : colors.campaigns.others.spendPathOutline  ))) // colors.campaigns.underPerforming.spendPathOutline ))
                      .attr("stroke-width", 3)
                    .attr("fill", (focused_obj.objectType == 'brands') ? colors.brands.spendFillLight : (focused_obj.status.toLowerCase() == 'ontrack' ? colors.campaigns.onTrack.spendFillLight : (focused_obj.status.toLowerCase() == 'underperforming' ? colors.campaigns.underPerforming.spendFillLight  : colors.campaigns.others.spendFillLight  )  )) ; //colors.campaigns.underPerforming.spendFillLight ));
-                
+
 
 
                 return tooltip
@@ -566,17 +566,5 @@
         };
 
     });
-}());
+});
 
-(function() {
-    "use strict";
-    commonModule.directive("bubbleChart", function (constants) {
-        return {
-            restrict: 'EAC',
-            templateUrl: assets.html_bubble_chart,
-            link: function($scope, iElm, iAttrs, controller) {
-                $scope.textConstants = constants;
-            }
-        }
-    })
-}());

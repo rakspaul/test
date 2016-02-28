@@ -1,6 +1,5 @@
-(function () {
-    "use strict";
-    var ganttChart = function (urlService, dataService, brandsModel, dashboardModel, loginModel, advertiserModel) {
+define(['angularAMD', 'common/services/url_service','common/services/data_service','reporting/brands/brands_model','reporting/dashboard/dashboard_model', 'login/login_model', 'reporting/advertiser/advertiser_model'], function (angularAMD) {
+  angularAMD.service('ganttChartModel', ['utils', 'urlService', 'dataService', 'brandsModel','dashboardModel','loginModel', 'advertiserModel', function (utils, urlService , dataService, brandsModel, dashboardModel, loginModel, advertiserModel) {
         this.dashboard = {
             tasks: {},
             brands: {},
@@ -24,6 +23,5 @@
                 return data;
             })
         }
-    }
-    commonModule.service('ganttChartModel', ['urlService', 'dataService', 'brandsModel', 'dashboardModel', 'loginModel', 'advertiserModel', ganttChart]);
-}());
+  }]);
+});

@@ -43,9 +43,9 @@ define(['angularAMD','common/services/constants_service'], function (angularAMD)
             setUser: function (user) {
                 data = user;
 
-                var time = moment().add(user.expiry_secs, 'seconds'),
-                    expiryTime = new Date(time);
-                document.cookie = 'cdesk_session=' + JSON.stringify(user) + ';expires=' + expiryTime.toGMTString() + ';path=/';
+                //var time = moment().add(user.expiry_secs, 'seconds'),
+                  //  expiryTime = new Date(time);
+                document.cookie = 'cdesk_session=' + JSON.stringify(user) + ';expires='  + ';path=/';
 
                 // campaignDetails object is required for reports tab.
                 localStorage.setItem('selectedCampaign', JSON.stringify({

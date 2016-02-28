@@ -62,6 +62,25 @@ module.exports = function (grunt) {
         ]
       }
     },
+
+    less: {
+      setup: {
+        options: {
+          compress: true,
+          cleancss: true,
+          optimization: 2,
+          sourceMap: true
+        },
+        files: [{
+          expand: true,
+          cwd: '<%= cvars.app %>/<%= cvars.appcss %>/styles/',
+          src: ['**/*.less'],
+          dest: '<%= cvars.app %>/<%= cvars.appcss %>/styles/',
+          ext: '.css'
+        }]
+      }
+    },
+
     clean: {
       options: { force: true },
       build: ['<%= cvars.build %>'],
@@ -186,8 +205,7 @@ module.exports = function (grunt) {
         }
       }
     },
-
-    watch: {
+      watch: {
       www: {
         files: ['<%= cvars.app %>/**/*'],
         tasks: [],
@@ -213,7 +231,7 @@ module.exports = function (grunt) {
    * setup task
    * Run the initial setup, sourcing all needed upstream dependencies
    */
-  grunt.registerTask('setup', ['bower:setup', 'copy:setup']);
+  grunt.registerTask('setup', ['bower:setup', 'copy:setup', 'less:setup']);
 
 
   /**

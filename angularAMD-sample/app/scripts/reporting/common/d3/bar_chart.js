@@ -1,6 +1,6 @@
-(function () {
-    'use strict';
-    angObj.directive('barChart', function ($window) {
+define(['angularAMD'],function (angularAMD) {
+  'use strict';
+  angularAMD.directive('barChart', function ($window) {
         return {
             restrict: 'EA',
             templateUrl: assets.html_bar_chart,
@@ -105,4 +105,4 @@
 
         }
     });
-}());
+});

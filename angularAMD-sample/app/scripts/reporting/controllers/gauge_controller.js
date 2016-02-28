@@ -1,6 +1,6 @@
-(function () {
-    'use strict';
-    commonModule.controller('GaugeController', function ($scope, gauge, gaugeModel, constants, loginModel, analytics, $location) {
+define(['angularAMD','reporting/common/d3/gauge','reporting/models/gauge_model','common/services/constants_service','login/login_model'],function (angularAMD) {
+  'use strict';
+  angularAMD.controller('GaugeController', function ($scope, $rootScope,$window, $location, gauge, gaugeModel, constantsService, loginModel) {
         var campaigns = '/mediaplans';
         gauge.setLeftArcClickHandler(function () {
             gaugeModel.dashboard.selectedFilter = constants.ACTIVE_ONTRACK;
@@ -44,4 +44,4 @@
             return constants.MSG_NO_CAMPAIGNS_WITH_SET_KPI;
         };
     });
-}());
+});

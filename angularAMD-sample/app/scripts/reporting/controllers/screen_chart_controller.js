@@ -1,9 +1,6 @@
-/**
- * Created by richa on 11/02/15.
- */(function () {
-    'use strict';
-    commonModule.controller('ScreenChartController', function ($scope, loginModel, screenChartModel, constants, analytics) {
-
+define(['angularAMD','login/login_model', 'reporting/models/screen_chart_model','common/services/constants_service'],function (angularAMD) {
+  'use strict';
+  angularAMD.controller('ScreenChartController', function ($scope, loginModel, screenChartModel, constants) {
 
         $scope.dataFound = true;
         $scope.screenWidgetData = screenChartModel.getScreenWidgetData();
@@ -85,4 +82,4 @@
         $scope.init();
 
     });
-}());
+});

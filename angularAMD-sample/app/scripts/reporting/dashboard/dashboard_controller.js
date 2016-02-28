@@ -1,6 +1,7 @@
-(function () {
-    "use strict";
-    dashboardModule.controller('DashboardController', function ($scope, $rootScope, constants, dashboardModel, advertiserModel, brandsModel, campaignSelectModel, loginModel, analytics) {
+define(['angularAMD','common/services/constants_service','reporting/dashboard/dashboard_model','reporting/brands/brands_model','reporting/campaignSelect/campaign_select_model','login/login_model'],function (angularAMD) {
+  'use strict';
+  angularAMD.controller('DashboardController', function ($scope, $rootScope, constants, dashboardModel, brandsModel, campaignSelectModel ,loginModel) {
+
         $(".main_navigation_holder").find('.active_tab').removeClass('active_tab') ;
         $(".main_navigation").find('.active').removeClass('active').end().find('#dashboard_nav_link').addClass('active');
         $scope.data = dashboardModel.getData();
@@ -71,4 +72,4 @@
             statusChangedFunc();
         });
     })
-}());
+});

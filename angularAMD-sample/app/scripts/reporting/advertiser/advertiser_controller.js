@@ -1,6 +1,5 @@
-(function () {
-    'use strict';
-    advertiserModule.controller('AdvertiserController', function ($scope, advertiserModel, utils, $rootScope, constants, loginModel) {
+define(['angularAMD','reporting/advertiser/advertiser_model','common/utils','common/services/constants_service','login/login_model'],function (angularAMD) {
+  angularAMD.controller('AdvertiserController', function ($scope, $rootScope, advertiserModel, utils,  constants, loginModel) {
 
         var search = false;
         var searchCriteria = utils.typeaheadParams,
@@ -75,4 +74,4 @@
             });
         });
     });
-}());
+});

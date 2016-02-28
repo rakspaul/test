@@ -1,7 +1,6 @@
-(function () {
-    'use strict';
-    brandsModule.controller('BrandsController', function ($scope, brandsModel, utils, $rootScope, constants, loginModel, analytics,advertiserModel) {
-
+define(['angularAMD','reporting/brands/brands_model','reporting/brands/brands_service','common/utils','common/services/constants_service','login/login_model', 'reporting/advertiser/advertiser_model'],function (angularAMD) {
+  'use strict';
+  angularAMD.controller('BrandsController', function ($scope, $rootScope, brandsModel, brandsService, utils, constants, loginModel, advertiserModel) {
         var search = false;
         var searchCriteria = utils.typeaheadParams,
             loadBrands = true;
@@ -58,7 +57,7 @@
 
 
         $scope.brandData = brandsModel.getBrand();
-        
+
         $(function () {
             $("header").on('click', '#brandsDropdownDiv', function () {
                 $('.brandsList_ul').scrollTop($(this).offset().top - 20 + 'px')
@@ -83,4 +82,4 @@
             eventBrandChangedFromDashBoard();
         });
     });
-}());
+});

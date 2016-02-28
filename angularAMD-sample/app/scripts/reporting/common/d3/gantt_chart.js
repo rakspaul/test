@@ -1,6 +1,6 @@
-(function() {
-    "use strict";
-    commonModule.service("ganttChart", ['loginModel', 'analytics', '$location', '$rootScope', '$window', 'brandsModel' ,function(loginModel, analytics, $location, $rootScope, $window, brandsModel) {
+define(['angularAMD', 'reporting/brands/brands_model'],function (angularAMD) {
+  'use strict';
+  angularAMD.service("ganttChart", ['$location', '$rootScope', '$window', 'loginModel', 'brandsModel',  function($location, $rootScope, $window, brandsModel) {
         this.createGanttChart = function() {
 
         };
@@ -98,9 +98,9 @@
                     }
 
 
-                    //if first - show date and month, 
+                    //if first - show date and month,
                     //if 1st day of month - show month, day
-                    //if other views - quarter, year, month 
+                    //if other views - quarter, year, month
                     //year - show month - year for 1st
 
                 })
@@ -172,9 +172,9 @@
 
                         }
 
-                        //if first - show date and month, 
+                        //if first - show date and month,
                         //if 1st day of month - show month, day
-                        //if other views - quarter, year, month 
+                        //if other views - quarter, year, month
                         //year - show month - year for 1st
 
                     })
@@ -230,7 +230,7 @@
                 svg.append('rect').attr("class", "marker");
                 svg.append('rect').attr("class", "marker_body");
 
-                
+
                 svgHeader.append("rect").attr("class", "header_background");
                 svgHeader.append('rect').attr("class", "marker");
                 svgHeader.append('rect').attr("class", "marker_body");
@@ -340,7 +340,7 @@
                                 } else {
                                     navigationButtonControl("#cal_next", "disabled");
                                 }
-                                //if user requests next duration data -  scroll the view 
+                                //if user requests next duration data -  scroll the view
                                 gantt.redraw(tasks, timeDomainString);
                                 navigationButtonControl("#cal_prev", "enabled");
                             } else if(moment(_.first(data).startDate).toDate() < moment(td[0]).toDate()) {
@@ -363,7 +363,7 @@
                     })
                     .on('dragend', function() {
                          if(d3.event.sourceEvent.which == 1) {
-                            //end the drag check 
+                            //end the drag check
                             dragInitiated = false;
                         }
                         d3.event.sourceEvent.stopPropagation();
@@ -371,7 +371,7 @@
 
 
                 //------
-                var tdEdges = gantt.timeDomain(); 
+                var tdEdges = gantt.timeDomain();
                 var isPast = function (timeDomainEdge, date) {
                     if(moment(timeDomainEdge).toDate() <= moment(date).toDate()){
                         return true;
@@ -389,11 +389,11 @@
 
                 /**
                 * Check if campaign is in the PAST view of the calendar timeline
-                * 
-                * @param date calendarStart The start date of calendar timeline 
+                *
+                * @param date calendarStart The start date of calendar timeline
                 * @param date campaignStartDate
                 * @param date campaignEndDate
-                * @return bool True if it is in the past 
+                * @return bool True if it is in the past
                 *              False if it is not
                 */
                 var isPastView = function (calendarStart, campaignStartDate, campaignEndDate) {
@@ -408,11 +408,11 @@
 
                 /**
                 * Check if campaign is in the FUTURE view of the calendar timeline
-                * 
-                * @param date calendarEnd The end date of calendar timeline 
+                *
+                * @param date calendarEnd The end date of calendar timeline
                 * @param date campaignStartDate
                 * @param date campaignEndDate
-                * @return bool True if it is in the future 
+                * @return bool True if it is in the future
                 *              False if it is not
                 */
                 var isFutureView = function (calendarEnd, campaignStartDate, campaignEndDate) {
@@ -462,7 +462,7 @@
                     .style("stroke-width", "1")
                     //.style("opacity","0.3")
                     .style("shape-rendering", "crispEdges");
-  
+
 
                 var markerData = ganttChartGroup.selectAll(".node-marker").data(tasks, keyFunction);
                 var mark = markerData.enter();
@@ -485,22 +485,22 @@
                         if( isPastView(tdEdges[0], d.startDate, d.endDate) ) {
                             direction = "left";
                             if (d.kpiStatus == "ontrack") {
-                                return window.assets.green_left; 
+                                return window.assets.green_left;
                             } else if (d.kpiStatus == "underperforming") {
-                                return window.assets.orange_left; 
+                                return window.assets.orange_left;
                             } else {
-                                return window.assets.gray_left; 
+                                return window.assets.gray_left;
                             }
                         } else if( isFutureView(tdEdges[1], d.startDate, d.endDate) ) {
                             direction = "right";
                             if (d.kpiStatus == "ontrack") {
-                                return window.assets.green_right; 
+                                return window.assets.green_right;
                             } else if (d.kpiStatus == "underperforming") {
-                                return window.assets.orange_right; 
+                                return window.assets.orange_right;
                             } else {
-                                return window.assets.gray_right; 
+                                return window.assets.gray_right;
                             }
-                        } 
+                        }
                     })
                     .attr("class", "past-marker")
                     .attr("style", "cursor:pointer")
@@ -519,7 +519,7 @@
                         } else {
                             return 0;
                         }
-                    }) 
+                    })
                     .on('click', function(d) {
                         var e, f;
                         switch(tDomainString){
@@ -539,7 +539,7 @@
                                         e = moment(d.startDate).startOf('week').startOf('day').unix()*1000;
                                         f = moment(e).add(1, 'weeks').endOf('day').unix()*1000;
                                         break;
-                        } 
+                        }
                         //scroll navigation reset
                         navigationButtonControl("#cal_next", "enabled");
                         navigationButtonControl("#cal_prev", "enabled");
@@ -549,25 +549,25 @@
                     })
                     .attr("height", CAMPAIGN_HEIGHT/2)
                     .on('mouseover', function(d) {
-                        //select the marker tooltip's date text and make it visible 
+                        //select the marker tooltip's date text and make it visible
                         var container_primary = d3.select(this.parentNode).select("text.past-marker-text");
-                        container_primary.style('display', function(d) {                   
+                        container_primary.style('display', function(d) {
                                 return "block";
                         });
                         container_primary.style("shape-rendering", "crispEdges");
                         //select the marker tooltip's details text and make it visible
                         var container = d3.select(this.parentNode).select("text.past-marker-text-details");
-                        container.style('display', function(d) {                   
+                        container.style('display', function(d) {
                                 return "block";
                         });
-                        
-                        var tdEdges = gantt.timeDomain(); 
+
+                        var tdEdges = gantt.timeDomain();
                         if( isFutureView(tdEdges[1], d.startDate, d.endDate) ) {
-                             //if right marker - calculate position 
+                             //if right marker - calculate position
 
                             var bbox = 0,
-                                textWidth = 0, 
-                                offset = 0, 
+                                textWidth = 0,
+                                offset = 0,
                                 containerWidth = 465;
 
                             //get width of the text by using BBox's width
@@ -583,7 +583,7 @@
                                 return containerWidth - textWidth;
                             });
                             container.attr('x', function(){
-                                //place the tooltip details after giving some padding 
+                                //place the tooltip details after giving some padding
                                 return containerWidth - textWidth + offset;
                             });
 
@@ -595,22 +595,22 @@
                         im.attr("xlink:href", function(d) {
                             if( isPastView(tdEdges[0], d.startDate, d.endDate) ) {
                                 if (d.kpiStatus == "ontrack") {
-                                    return window.assets.green_left_act; 
+                                    return window.assets.green_left_act;
                                 } else if (d.kpiStatus == "underperforming") {
-                                    return window.assets.orange_left_act; 
+                                    return window.assets.orange_left_act;
                                 } else {
-                                    return window.assets.gray_left_act; 
+                                    return window.assets.gray_left_act;
                                 }
 
                             } else if( isFutureView(tdEdges[1], d.startDate, d.endDate) ) {
                                 if (d.kpiStatus == "ontrack") {
-                                    return window.assets.green_right_act; 
+                                    return window.assets.green_right_act;
                                 } else if (d.kpiStatus == "underperforming") {
-                                    return window.assets.orange_right_act; 
+                                    return window.assets.orange_right_act;
                                 } else {
-                                    return window.assets.gray_right_act; 
+                                    return window.assets.gray_right_act;
                                 }
-                            } 
+                            }
                         });
                     })
                     .on('mouseout', function(d) {
@@ -620,7 +620,7 @@
                                 return "none";
                         });
                         container = d3.select(this.parentNode).select("text.past-marker-text-details");
-                        container.style('display', function(d) {                   
+                        container.style('display', function(d) {
                                 return "none";
                         });
 
@@ -629,22 +629,22 @@
                         im.attr("xlink:href", function(d) {
                             if( isPastView(tdEdges[0], d.startDate, d.endDate) ) {
                                 if (d.kpiStatus == "ontrack") {
-                                    return window.assets.green_left; 
+                                    return window.assets.green_left;
                                 } else if (d.kpiStatus == "underperforming") {
-                                    return window.assets.orange_left; 
+                                    return window.assets.orange_left;
                                 } else {
-                                    return window.assets.gray_left; 
+                                    return window.assets.gray_left;
                                 }
 
                             } else if( isFutureView(tdEdges[1], d.startDate, d.endDate) ) {
                                 if (d.kpiStatus == "ontrack") {
-                                    return window.assets.green_right; 
+                                    return window.assets.green_right;
                                 } else if (d.kpiStatus == "underperforming") {
-                                    return window.assets.orange_right; 
+                                    return window.assets.orange_right;
                                 } else {
-                                    return window.assets.gray_right; 
+                                    return window.assets.gray_right;
                                 }
-                            } 
+                            }
                         })
 
                     })
@@ -720,7 +720,7 @@
                                                 return "javascript:void(0)";
                                             } else {
                                                 return '/mediaplans/' + d.id;
-                                            }  
+                                            }
                                         })
                                         .style("text-decoration", "none")
                                         .on("click", function(d){
@@ -729,14 +729,14 @@
                 .append("g").attr("class", "node")
                     .on("click", function(d) {
                         if (d.type != "brand") {
-  
+
                             analytics.track(loginModel.getUserRole(), 'dashboard_calendar_widget', ('campaign_status_' + d.state + '_performance_' + d.kpiStatus), loginModel.getLoginName());
-                            
+
                             //on ^ + click / ⌘ + click - (supported keys)  d3.event.shiftKey, d3.event.altKey
                             if (d3.event.ctrlKey || d3.event.metaKey) {
                                 //on supported key combination and click open in new tab
                                 $window.open('/mediaplans/' + d.id);
-                            } else {    
+                            } else {
                                 //on normal click open link in current tab
                                 $location.url('/mediaplans/' + d.id);
                             }
@@ -746,8 +746,8 @@
                         }
                     })
 
-                //on mouseover tanstitions for campaigns 
-                //resize and display the campaign text 
+                //on mouseover tanstitions for campaigns
+                //resize and display the campaign text
                 .on('mouseover', function(d) {
                         var width = (x(d.endDate) - x(d.startDate));
                         //character count of the camapaign name
@@ -780,11 +780,11 @@
                                         return "none";
                                     }
                                 });
-                               
+
                                 container.text(function(d) {
                                     return d.name;
                                 });
-                                    
+
                             }
                         }
 
@@ -862,7 +862,7 @@
                     .attr("transform",brandTransform);
                 //brand grouping ends
 
-                //top bar 
+                //top bar
                 rectGroup.append("rect")
                     .attr("x", 0)
                     .attr("class", "header")
@@ -963,7 +963,7 @@
                     .style('stroke', '#ccd2da')
                     .style('stroke-width', '1px')
                     .style('shape-rendering', 'crispEdges')
-     
+
                 rectGroup.append("text")
                     .attr("class", "campaigns_name")
                     .attr("x", 30)
@@ -1044,7 +1044,7 @@
                             if(d.id === t.id) {
                                 //break flag to stop counting -adjustment multiplier
                                 flag = true;
-                            } 
+                            }
                         });
 
                         //calculate correction for the tooltip placement
@@ -1063,7 +1063,7 @@
                         }
                         if( d.state == "In_flight" ) {
                             d.state = "In Flight" ;
-                        } 
+                        }
 
                         d3.select(classTooltip)
                             .style("display", "block")
@@ -1170,7 +1170,7 @@
                     .transition()
                     .attr("transform", markerTransform);
 
-                    //for year, quarter, month - marker 
+                    //for year, quarter, month - marker
                     ganttChartGroup.select("rect.date_marker")
                      .attr("x", 0)
                     .attr("y", 47)
@@ -1210,7 +1210,7 @@
                     .transition()
                     .attr("transform", markerTransform);
 
-                    
+
                 //today marker ends
 
                 var node = ganttChartGroup.selectAll(".node").data(tasks, keyFunction);
@@ -1304,7 +1304,7 @@
                                 if (d.type == "brand")
                                     return 0;
                                 else if (d.kpiStatus == "ontrack" || d.kpiStatus == "underperforming" || d.kpiStatus == "NA" || d.kpiStatus === undefined || d.kpiStatus === "Unknown") {
-                                    
+
                                     //fix for removing the  rectangle that was sticking on the axis even after campaigns were scrolled out of the view
                                     if(x(d.endDate) - x(d.startDate) == 0) {
                                         return 0;
@@ -1313,9 +1313,9 @@
                                     if(!isFuture(tdEdges[1], d.endDate) && isPast(tdEdges[0], d.startDate)) {
                                         return (x(d.endDate) - x(d.startDate)) + 2;
                                     }
-                                    
+
                                     var width = (x(d.endDate) - x(d.startDate));
-                                    
+
                                     //prevent passing negative width to the attribute
                                     if( width >= 0) {
                                         return width;
@@ -1346,22 +1346,22 @@
                                 if( isPastView(tdEdges[0], d.startDate, d.endDate) ) {
                                     //left
                                     if (d.kpiStatus == "ontrack") {
-                                        return window.assets.green_left; 
+                                        return window.assets.green_left;
                                     } else if (d.kpiStatus == "underperforming") {
-                                        return window.assets.orange_left; 
+                                        return window.assets.orange_left;
                                     } else {
-                                        return window.assets.gray_left; 
+                                        return window.assets.gray_left;
                                     }
                                 } else if( isFutureView(tdEdges[1], d.startDate, d.endDate) ) {
                                     //right
                                     if (d.kpiStatus == "ontrack") {
-                                        return window.assets.green_right; 
+                                        return window.assets.green_right;
                                     } else if (d.kpiStatus == "underperforming") {
-                                        return window.assets.orange_right; 
+                                        return window.assets.orange_right;
                                     } else {
-                                        return window.assets.gray_right; 
+                                        return window.assets.gray_right;
                                     }
-                                } 
+                                }
                             })
                         .attr("width", function(d) {
                             if (d.type == "brand") {
@@ -1377,14 +1377,14 @@
                             } else {
                                 return 0;
                             }
-                        }) 
+                        })
                         .attr("transform", function(d) {
                             if( isPastView(tdEdges[0], d.startDate, d.endDate) ) {
                                 return  "translate(0," + y(d.taskName) + ")";
                             } else if( isFutureView(tdEdges[1], d.startDate, d.endDate) ) {
                                 return  "translate(480," + y(d.taskName) + ")";
-                            } 
-                            //TODO - check if this is required in corner cases - will take it up during calendar refactoring 
+                            }
+                            //TODO - check if this is required in corner cases - will take it up during calendar refactoring
                             // else {
                             //     return  "translate(-100," + y(d.taskName) + ")";
                             // }
@@ -1399,8 +1399,8 @@
                                     return  "translate(0," + (y(d.taskName) - padding) + ")";
                                 } else if( isFutureView(tdEdges[1], d.startDate, d.endDate) ) {
                                     return  "translate(480," + (y(d.taskName) - padding) + ")";
-                                } 
-                                //TODO - check if this is required in corner cases - will take it up during calendar refactoring 
+                                }
+                                //TODO - check if this is required in corner cases - will take it up during calendar refactoring
                                 // else {
                                 //     return  "translate(-100," + y(d.taskName) + ")";
                                 // }
@@ -1524,7 +1524,7 @@
                 translateVisualElements(markers, "past-markers");
                 translateGraphicElements(pastMarkerText, "past-marker-text");
                 translateGraphicElements(pastMarkerTextDetails, "past-marker-text-details");
-                
+
                 translateGraphicElements(campaignText, "text");
                 translateGraphicElements(brandNameText, "brand_name");
                 translateGraphicElements(campaignsStatusIcon);
@@ -1687,7 +1687,7 @@
                         }
                     }, height);
 
-                
+
 
                 // svg.select(".x").transition().call(xAxis)
                 //     .selectAll(".tick text").attr("style", "font-family:Avenir;font-size:12pt").attr("x", function(d, i) {
@@ -1701,7 +1701,7 @@
                 //      if(i == 0) {return 16; }else {return 26;}
                 //          } else {
                 //          if(i == 0) {return 128; }else {return 145;}
-                //      } 
+                //      }
                 //     });
 
 
@@ -1713,7 +1713,7 @@
             };//END OF DRAW
 
             gantt.redraw = function(tasks, timeDomainString) {
-                
+
                 initTimeDomain(tasks);
                 initAxis(timeDomainString);
                 gantt.draw(tasks, timeDomainString);
@@ -1952,7 +1952,7 @@
                             navigationButtonControl("#cal_prev", "disabled");
                         }
 
-                        
+
                         break;
                 }
 
@@ -2066,7 +2066,7 @@
                     navigationButtonControl("#cal_next", "disabled");
                 }
 
-                
+
             } else {
                         //disable 'next' navigation button
                         navigationButtonControl("#cal_next", "disabled");
@@ -2117,7 +2117,7 @@
 
         function changeTimeDomain(timeDomainString) {
 
-            //calculating timedomain based on present day 
+            //calculating timedomain based on present day
             var todayIs = moment();
             var thisMonth = moment().format("MM");
             var presentYear = moment().format("YYYY");
@@ -2273,7 +2273,7 @@
                 left: 50
             };
 
-            //new height after changing brand placement 
+            //new height after changing brand placement
             calendar_height = calendar_height - (countBrands * BRAND_PADDING) + (margin.top + margin.bottom + 5);
 
             calendar_height = (calendar_height > MIN_CALENDAR_HEIGHT) ? calendar_height : MIN_CALENDAR_HEIGHT;
@@ -2389,16 +2389,5 @@
         this.year = year;
         this.quarter = quarter;
         this.loadMoreItemToCalender = loadMoreItemToCalender;
-
     }])
-}());
-
-(function() {
-    "use strict";
-    commonModule.directive("ganttChart", function() {
-        return {
-            restrict: 'EAC',
-            templateUrl: assets.html_gantt_chart
-        }
-    })
-}());
+});

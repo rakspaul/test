@@ -12,8 +12,8 @@ define(['angularAMD','login/login_model','reporting/models/domain_reports','repo
         if($cookieStore.get('cdesk_session')) {
             workflowService.getClients().then(function (result) {
                 if (result && result.data.data.length > 0) {
-                    if(!loginModel.getSelectedClient() && loginModel.getSelectedClient().name) {
-                        $scope.result.data.data[0].children = _.sortBy(result.data.data[0].children);
+                    if(!loginModel.getSelectedClient() || loginModel.getSelectedClient().name) {
+                        //$scope.result.data.data[0].children = _.sortBy(result.data.data[0].children);
                         loginModel.setSelectedClient({
                             'id': result.data.data[0].children[0].id,
                             'name': result.data.data[0].children[0].name
