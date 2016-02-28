@@ -128,6 +128,7 @@ module.exports = function (grunt) {
           }
         ]
       },
+      
       deploy: {
         options: {
           collapseWhitespace: true
