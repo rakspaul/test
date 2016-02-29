@@ -333,10 +333,20 @@ define(['common'], function (angularAMD) {
         controller: 'HelpController'
       }))
 
+
       .otherwise({redirectTo: '/'});
       delete $httpProvider.defaults.headers.common['X-Requested-With'];
 
-  }).config(function (tmhDynamicLocaleProvider) {
+  }).config([
+    '$locationProvider', function ($locationProvider) {
+      return $locationProvider.html5Mode({
+        enabled: true,
+        requireBase: false
+      }).hashPrefix('!');
+      // enable the new HTML5 routing and history API
+      // return $locationProvider.html5Mode(true).hashPrefix('!');
+    }
+  ]).config(function (tmhDynamicLocaleProvider) {
     tmhDynamicLocaleProvider.localeLocationPattern('/scripts/libs/angular-locale_{{locale}}.js');
   })
     .run(function ($rootScope, $location, $cookies, loginModel, brandsModel, dataService, $cookieStore, workflowService) {
