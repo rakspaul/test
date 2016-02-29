@@ -1,7 +1,14 @@
-(function() {
-  'use strict';
+define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaignList/campaign_list_model', 'reporting/campaignSelect/campaign_select_model',
+                     'reporting/strategySelect/strategy_select_model', 'common/utils', 'common/services/constants_service',
+                     'reporting/brands/brands_model', 'login/login_model', 'reporting/model/guage_model',
+                     'common/services/role_based_service'],function (angularAMD) {
 
-  campaignListModule.controller('CampaignListController', function($scope,  $rootScope, kpiSelectModel ,  campaignListModel, campaignSelectModel, strategySelectModel, utils, $location, _, constants, brandsModel, loginModel, gaugeModel, RoleBasedService) {
+
+    angularAMD.controller('CampaignListController', function($scope,  $rootScope, $location,
+                                                             kpiSelectModel, campaignListModel, campaignSelectModel,
+                                                             strategySelectModel, utils, constants,
+                                                             brandsModel, loginModel, gaugeModel,
+                                                             RoleBasedService) {
     //Hot fix to show the campaign tab selected
     $(".main_navigation").find('.active').removeClass('active').end().find('#campaigns_nav_link').addClass('active');
     $(".main_navigation_holder").find('.active_tab').removeClass('active_tab') ;
@@ -130,4 +137,4 @@
 
   });
 
-}());
+});

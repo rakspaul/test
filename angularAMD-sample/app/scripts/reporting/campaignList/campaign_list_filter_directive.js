@@ -1,6 +1,6 @@
-(function () {
-    'use strict';
-    campaignListModule.directive('campaignListFilterDirective', function (constants) {
+define(['angularAMD','common/services/constants_service'],function (angularAMD) {
+
+    angularAMD.directive('campaignListFilterDirective', function (constants) {
         return {
             restrict:'EAC',
 
@@ -19,4 +19,4 @@
         };
     });
 
-}());
+});

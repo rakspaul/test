@@ -1,6 +1,7 @@
-(function() {
+define(['angularAMD', 'common/utils', 'common/services/constants_service'
+],function (angularAMD) {
     "use strict";
-    commonModule.factory("columnline", function($timeout, $locale, utils,constants) {
+    angularAMD.factory("columnline", function($timeout, $locale, utils, constants) {
 
         var  getRepString = function(x) {
             //if(isNaN(x)) return x;
@@ -316,4 +317,4 @@
             highChart: columnChart
         };
     });
-}());
+});

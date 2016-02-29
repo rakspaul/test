@@ -1,6 +1,8 @@
-(function () {
+define(['angularAMD','common/services/constants_service'
+],function (angularAMD) {
+
     'use strict';
-    kpiSelectModule.directive('kpiDropDown', function (constants) {
+    angularAMD.directive('kpiDropDown', function (constants) {
         return {
             restrict:'EAC',
             controller: 'KpiSelectController',
@@ -20,4 +22,4 @@
         };
     });
 
-}());
+});

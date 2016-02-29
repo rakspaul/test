@@ -1,6 +1,6 @@
-(function () {
+define(['angularAMD'],function (angularAMD) {
     'use strict';
-    angObj.directive('quartilesGraph', function($window) {
+    angularAMD.directive('quartilesGraph', function($window) {
         return {
             restrict: 'EA',
             template: "<svg></svg>",
@@ -248,4 +248,4 @@
             }
         }
     });
-}());
+});

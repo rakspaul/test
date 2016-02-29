@@ -1,6 +1,8 @@
-(function () {
-  'use strict';
-  timePeriodModule.controller('TimePeriodController', function ($scope, timePeriodModel, constants, $rootScope, loginModel, analytics) {
+define(['angularAMD','reporting/timePeriod/time_period_model', 'common/services/constants_service', 'login/login_model', 'common/services/analytics_service'
+],function (angularAMD) {
+
+    'use strict';
+  timePeriodModule.controller('TimePeriodController', function ($scope, $rootScope, timePeriodModel, constants,  loginModel, analytics) {
 
     $scope.timeData = timePeriodModel.timeData;
 
@@ -44,4 +46,4 @@
         );
     }
   });
-}());
+});

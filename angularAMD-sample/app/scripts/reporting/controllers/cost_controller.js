@@ -1,10 +1,17 @@
 var angObj = angObj || {};
-(function () {
+define(['angularAMD', 'reporting/campaignSelect/campaign_select_model', 'reporting/kpiSelect/kpi_select_model', 'reporting/advertiser/advertiser_model',
+    'reporting/strategySelect/strategy_select_model', 'reporting/brands/brands_model', 'common/services/data_service',
+    'common/utils', 'login/login_model', 'common/services/url_service',
+    'common/services/constants_service', 'reporting/timePeriod/time_period_model', 'reporting/models/domain_reports',
+    'common/services/viscongif_service', 'common/services/analytics_service'
+],function (angularAMD) {
     'use strict';
-    angObj.controller('CostController', function ($scope, $window, campaignSelectModel, kpiSelectModel,
-                                                  strategySelectModel, brandsModel, dataService, utils,
-                                                  domainReports, apiPaths,constants, timePeriodModel,
-                                                  loginModel, analytics, urlService, advertiserModel) {
+    angularAMD.controller('CostController', function ( $scope, $window,
+                                                       campaignSelectModel, kpiSelectModel, advertiserModel,
+                                                       strategySelectModel, brandsModel, dataService,
+                                                       utils, loginModel, urlService,
+                                                       constants, timePeriodModel, domainReports,
+                                                       vistoconfig, analytics) {
 
         $scope.textConstants = constants;
 
@@ -210,7 +217,7 @@ var angObj = angObj || {};
         //creating download report url
         $scope.createDownloadReportUrl = function () {
             //var clientId =  loginModel.getSelectedClient().id;
-            //var urlPath = apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId + '/campaigns/' + $scope.selectedCampaign.id + '/cost/';
+            //var urlPath = vistoconfig.apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId + '/campaigns/' + $scope.selectedCampaign.id + '/cost/';
             $scope.strategyMarginValue = -1 ;
             $scope.strategyMarginUnit = constants.SYMBOL_PERCENT;
 
@@ -283,4 +290,4 @@ var angObj = angObj || {};
         // end of hot fix for the enabling the active link in the reports dropdown
 
     });
-}());
+});

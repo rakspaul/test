@@ -1,6 +1,6 @@
-(function () {
+define(['angularAMD', 'common/services/constants_service'],function (angularAMD) {
     'use strict';
-    strategySelectModule.directive('strategyDropDown', function(constants) {
+    angularAMD.directive('strategyDropDown', function(constants) {
         return {
             restrict: 'AE',
             scope:{
@@ -19,4 +19,4 @@
             }
         }
     })
-}());
+});

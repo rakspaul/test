@@ -57,10 +57,10 @@ define(['angularAMD'], function (angularAMD) {
           } else {
             period.className = '';
           }
-        })
+        });
 
       };
     };
     return new tpModel();
-  })
+  });
 });

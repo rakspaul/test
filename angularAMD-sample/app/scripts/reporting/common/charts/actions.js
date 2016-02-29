@@ -1,7 +1,9 @@
 /*global angObj, angular*/
-(function() {
+define(['angularAMD', 'login/login_model', 'common/services/constants_service', 'common/services/analytics_service',
+    'common/utils'
+],function (angularAMD) {
     "use strict";
-    commonModule.factory("actionChart", function($timeout, loginModel, constants, analytics,utils) {
+    angularAMD.factory("actionChart", function($timeout, loginModel, constants, analytics, utils) {
 
         var kpiPrefix = function (kpiType) {
             var kpiTypeLower = kpiType.toLowerCase();
@@ -747,4 +749,4 @@
             lineChart: lineChart
         };
     });
-}());
+});

@@ -1,6 +1,6 @@
-(function() {
+define(['angularAMD', 'common/services/constants_service', 'common/services/analytics_service', 'login/login_model'], function (angularAMD) {
     'use strict';
-    angObj.directive('campaignChart', function($window, constants, analytics, loginModel, $filter) {
+    angularAMD.directive('campaignChart', function($window, $filter, constants, analytics, loginModel) {
         return {
             restrict: 'EA',
             template: "<svg></svg>",
@@ -1528,4 +1528,4 @@
             }
         }
     });
-}());
+});

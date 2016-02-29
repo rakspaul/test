@@ -1,6 +1,9 @@
-(function () {
+define(['angularAMD','reporting/editActions/edit_actions_service', 'common/services/constants_service', 'common/services/analytics_service',
+    'login/login_model', 'reporting/editActions/edit_action_model'],function (angularAMD) {
   'use strict';
-  editActionsModule.controller('EditActionsController', function ($rootScope, $scope, editActionsService, editAction, activityList, loginModel, analytics, constants) {
+    angularAMD.controller('EditActionsController', function ($rootScope, $scope,
+                                                             editActionsService, constants, analytics,
+                                                             loginModel, editAction, activityList) {
    
         $scope.showList = editAction.data;
         $scope.actionItems = activityList.data;
@@ -115,4 +118,4 @@
         });
 
   });
-}());
+});

@@ -1,6 +1,6 @@
-(function () {
+define(['angularAMD','common/services/constants_service'], function (angularAMD) {
     'use strict';
-    advertiserModule.controller('AdvertiserListController', function ($scope, constants) {
+    angularAMD.controller('AdvertiserListController', function ($scope, constants) {
 
         $scope.$watch('selectedAdvertiser.name', function (newName, oldName) {
             if (newName === oldName) {
@@ -28,4 +28,4 @@
             $scope.isExcludedByAdvertiserFilter = !isSubString && ($scope.advertiserData.showAll === false);
         };
     });
-}());
+});

@@ -1,7 +1,21 @@
 var angObj = angObj || {};
-(function () {
+define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaignSelect/campaign_select_model', 'reporting/strategySelect/strategy_select_model',
+        'common/services/data_service', 'common/utils', 'common/charts/actions',
+        'reporting/models/domain_reports', 'common/services/constants_service', 'reporting/timePeriod/time_period_model',
+        'login/login_model', 'common/moment_utils', 'common/services/url_service',
+        'reporting/advertiser/advertiser_model', 'reporting/brands/brands_model', 'common/services/analytics_service',
+        'common/services/viscongif_service'
+    ],
+
+    function (angularAMD) {
     'use strict';
-    angObj.controller('OptimizationController', function ( $rootScope, $scope, campaignSelectModel, kpiSelectModel, strategySelectModel,  dataService, utils, actionChart, $timeout, domainReports, apiPaths, actionColors,constants, timePeriodModel, loginModel, analytics, momentService, urlService, advertiserModel, brandsModel) {
+        angularAMD.controller('OptimizationController', function ($timeout, $rootScope, $scope,
+                                                                  kpiSelectModel, campaignSelectModel, strategySelectModel,
+                                                                  dataService, utils, actionChart,
+                                                                  domainReports, constants, timePeriodModel,
+                                                                  loginModel, momentService, urlService,
+                                                                  advertiserModel, brandsModel, analytics,
+                                                                  vistoconfig, actionColors) {
 
         $scope.textConstants = constants;
 
@@ -495,4 +509,4 @@ var angObj = angObj || {};
         // end of hot fix for the enabling the active link in the reports dropdown
 
     });
-}());
+});

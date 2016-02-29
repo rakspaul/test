@@ -1,7 +1,7 @@
-(function() {
-  "use strict";
+define(['angularAMD', 'reporting/models/activity_list'],function (angularAMD) {
+    "use strict";
   var ActivityList = function() {
     this.data = {};
   }
-  angObj.service('activityList', ActivityList);
-}());
+  angularAMD.service('activityList', ActivityList);
+});
