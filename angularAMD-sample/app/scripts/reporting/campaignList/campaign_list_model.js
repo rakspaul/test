@@ -1,15 +1,19 @@
 define(['angularAMD','reporting/campaignList/campaign_list_service', 'common/services/transformer_service', 'reporting/models/campaign_cdb_data',
     'reporting/models/campaign_cost', 'common/services/request_cancel_services', 'common/services/constants_service',
     'reporting/brands/brands_model', 'login/login_model', 'reporting/advertiser/advertiser_model',
-    'common/services/url_service'],function (angularAMD) {
+    'common/services/url_service', 'common/services/analytics_service', 'common/services/viscongif_service'
+],function (angularAMD) {
 
     //originally part of controllers/campaign_controller.js
-    angularAMD.factory("campaignListModel", ['campaignListService', 'modelTransformer', 'campaignCDBData',
+    angularAMD.factory("campaignListModel", ['$rootScope', '$location', 'campaignListService', 'modelTransformer', 'campaignCDBData',
         'campaignCost', 'requestCanceller', 'constants',
         'brandsModel', 'loginModel', 'advertiserModel',
-        'urlService', 'apiPaths', 'analytics',
-        '$rootScope', '$location',
-        function (campaignListService, modelTransformer, campaignCDBData, campaignCost, requestCanceller, constants, brandsModel, loginModel, advertiserModel, urlService, apiPaths, analytics, $rootScope, $location) {
+        'urlService', 'analytics', 'vistoconfig',
+
+        function ($rootScope, $location, campaignListService, modelTransformer, campaignCDBData,
+                  campaignCost, requestCanceller, constants,
+                  brandsModel, loginModel, advertiserModel,
+                  urlService, vistoconfig, analytics) {
             //var scrollFlag = 1;
             var Campaigns = function () {
                 this.timePeriodList = buildTimePeriodList();
@@ -301,7 +305,7 @@ define(['angularAMD','reporting/campaignList/campaign_list_service', 'common/ser
                         var clientId = loginModel.getSelectedClient().id;
                         var advertiserId = advertiserModel.getSelectedAdvertiser().id;
                         var brandId = brandsModel.getSelectedBrand().id;
-                        var url = apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId + '/campaigns/summary/counts?date_filter=' + this.timePeriod + '&advertiser_id=' + advertiserId,
+                        var url = vistoconfig.apiSerivicesUrl_NEW + '/clients/' + clientId + '/campaigns/summary/counts?date_filter=' + this.timePeriod + '&advertiser_id=' + advertiserId,
                             self = this;
                         //applying brand filter if active
                         if (brandId > 0) {
@@ -609,7 +613,7 @@ define(['angularAMD','reporting/campaignList/campaign_list_service', 'common/ser
                     } else {
                         params.push('cond_type=status');
                     }
-                    return apiPaths.apiSerivicesUrl_NEW + '/reportBuilder/customQuery?query_id=42&' + params.join('&');
+                    return vistoconfig.apiSerivicesUrl_NEW + '/reportBuilder/customQuery?query_id=42&' + params.join('&');
                 },
                     toggleSortDirection = function (dir) {
                         if (dir == 'asc') {
