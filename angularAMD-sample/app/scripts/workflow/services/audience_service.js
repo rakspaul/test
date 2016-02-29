@@ -1,6 +1,7 @@
-     (function () {
-    "use strict";
-    angObj.factory("audienceService", function (apiPaths,dataService,workflowService, loginModel,constants) {
+define(['angularAMD','common/services/vistoconfig_service','common/services/data_service','common/services/constant_service','workflow/services/workflow_service','login/login_model'],function (angularAMD) {
+    'use strict';
+    angularAMD.factory('audienceService', function(vistoconfig, dataService, constants, workflowService,loginModel) {
+
         var audience;
         var source;
         var keywords;
@@ -26,7 +27,7 @@
                     pageNo = pageNum;
                 if (size)
                     pageSize = size;
-                var url = apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/vendors/' + workflowService.getPlatform().id + '/segments?pageNo=' + pageNo + '&pageSize=' + pageSize;
+                var url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/vendors/' + workflowService.getPlatform().id + '/segments?pageNo=' + pageNo + '&pageSize=' + pageSize;
                 if (sortCol && sortCol != '')
                     url += '&sortBy=' + sortCol;
                 if (sortOrder && sortOrder != '')
@@ -72,11 +73,11 @@
                 return dataService.fetch(url, {cache: false});
             },
             fetchAudienceSource: function () {
-                var url = apiPaths.WORKFLOW_API_URL + '/costCategories/6/vendors';// ask abhi
+                var url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/costCategories/6/vendors';// ask abhi
                 return dataService.fetch(url, {cache: false});
             },
             fetchAudienceCategories: function () {
-                var url = apiPaths.WORKFLOW_API_URL + '/segments/categories';
+                var url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/segments/categories';
                 return dataService.fetch(url, {cache: false});
             },
             setAudienceSource: function (s) {
@@ -87,7 +88,7 @@
             },
 
             fetchAudiencekeywords: function (key) {
-                var url = apiPaths.WORKFLOW_API_URL + '/clients/'+loginModel.getSelectedClient().id+'/vendors/'+workflowService.getPlatform().id+'/segments/keywords?search='+key;
+                var url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/'+loginModel.getSelectedClient().id+'/vendors/'+workflowService.getPlatform().id+'/segments/keywords?search='+key;
                 return dataService.fetch(url, {cache: false});
             },
             setAudienceKeywords: function (s) {
@@ -138,6 +139,6 @@
                 return dayArr;
             }
 
-    }
+    };
     });
-}());
+});

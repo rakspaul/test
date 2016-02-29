@@ -1,7 +1,6 @@
-(function () {
+define(['angularAMD', 'common/services/constant_service'], function (angularAMD) {
     'use strict';
-
-    angObj.factory('platformCustomeModule', function ($timeout, constants, $locale) {
+    angularAMD.factory('accountsService', function ($timeout, $locale, constants ) {
         var _self = this;
         var textConstants = constants;
 
@@ -389,4 +388,4 @@
             init: init
         };
     });
-}());
+});
