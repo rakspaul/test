@@ -1,7 +1,15 @@
 var angObj = angObj || {};
-(function () {
+define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaignSelect/campaign_select_model', 'reporting/strategySelect/strategy_select_model',
+        'reporting/common/charts/column_line', 'common/services/data_service', 'common/services/constants_service',
+        'reporting/timePeriod/time_period_model', 'login/login_model', 'reporting/advertiser/advertiser_model',
+        'reporting/brands/brands_model', 'common/services/url_service'
+    ],
+
+    function (angularAMD) {
     'use strict';
-    angObj.controller('OptimizationController', function ( $rootScope, $scope, campaignSelectModel, kpiSelectModel, strategySelectModel,  dataService, utils, actionChart, $timeout, domainReports, apiPaths, actionColors,constants, timePeriodModel, loginModel, analytics, momentService, urlService, advertiserModel, brandsModel) {
+        angularAMD.controller('OptimizationController', function (campaignSelectModel, kpiSelectModel, strategySelectModel,
+                                                                  dataService, utils, actionChart,
+                                                                  domainReports, actionColors,constants, timePeriodModel, loginModel, momentService, urlService, advertiserModel, brandsModel, analytics, apiPaths, $timeout, $rootScope, $scope) {
 
         $scope.textConstants = constants;
 
@@ -495,4 +503,4 @@ var angObj = angObj || {};
         // end of hot fix for the enabling the active link in the reports dropdown
 
     });
-}());
+});

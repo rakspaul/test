@@ -1,11 +1,18 @@
 var angObj = angObj || {};
-(function() {
+define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reporting/strategySelect/strategy_select_model', 'reporting/kpiSelect/kpi_select_model',
+        'common/utils', 'common/services/data_service', 'common/services/request_cancel_service',
+        'common/services/constants_service', 'reporting/timePeriod/time_period_model', 'common/moment_utils',
+        'login/login_model', 'common/services/url_service', 'common/services/data_store_model'
+],
+
+    function (angularAMD) {
     'use strict';
-    angObj.controller('CustomReportController', function($rootScope, $scope, $route, $window, campaignSelectModel,
-                                                         strategySelectModel, kpiSelectModel, utils, dataService,
-                                                         apiPaths, requestCanceller, constants, domainReports,
-                                                         timePeriodModel, loginModel, analytics, $timeout, $routeParams,
-                                                         $location, urlService, dataStore, momentService) {
+        angularAMD.controller('CustomReportController', function( campaignSelectModel, strategySelectModel, kpiSelectModel,
+                                                          utils, dataService, requestCanceller,
+                                                          constants, timePeriodModel, momentService,
+                                                          loginModel, urlService, dataStore,
+                                                          domainReports, $timeout, $location, analytics,
+                                                          apiPaths, $routeParams, $rootScope, $scope, $route, $window) {
         $scope.additionalFilters = [];
         $scope.textConstants = constants;
         $scope.additionalValue = "Contains keywords ...";
@@ -1917,4 +1924,4 @@ var angObj = angObj || {};
             });
         });
     });
-}());
+});

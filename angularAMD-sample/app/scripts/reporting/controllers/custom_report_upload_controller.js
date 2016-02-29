@@ -1,12 +1,19 @@
 var angObj = angObj || {};
-(function () {
+define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reporting/strategySelect/strategy_select_model', 'reporting/kpiSelect/kpi_select_model',
+        'common/utils', 'common/services/data_service', 'common/services/request_cancel_service',
+        'common/services/constants_service', 'reporting/timePeriod/time_period_model', 'reporting/collectiveReport/collective_report_model',
+        'reporting/advertiser/advertiser_model', 'common/services/url_service', 'reporting/collectiveReport/collective_report_model',
+        'reporting/brands/brands_model'
+    ],
+
+    function (angularAMD) {
     'use strict';
-    angObj.controller('CustomReportUploadController', function ($rootScope, $scope, $route, $window, campaignSelectModel,
-                                                                strategySelectModel, kpiSelectModel, utils,
-                                                                dataService,  apiPaths, requestCanceller, constants, domainReports,
-                                                                timePeriodModel, loginModel, analytics, $timeout, Upload,
-                                                                reportsUploadList, urlService, collectiveReportModel,
-                                                                advertiserModel, brandsModel, $modal,dataStore ,$location) {
+        angularAMD.controller('CustomReportUploadController', function (campaignSelectModel, strategySelectModel, kpiSelectModel,
+                                                                        utils, dataService,   requestCanceller,
+                                                                        constants, timePeriodModel, loginModel,
+                                                                        advertiserModel, urlService, collectiveReportModel,
+                                                                        brandsModel, Upload, apiPaths,
+                                                                        reportsUploadList, domainReports, analytics, $modal,dataStore, $timeout, $location, $rootScope, $scope, $route, $window,) {
 
       $scope.textConstants = constants;
       $scope.completed = false;
@@ -454,4 +461,4 @@ var angObj = angObj || {};
 
 
     });
-}());
+});

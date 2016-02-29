@@ -1,5 +1,5 @@
 define(['angularAMD','common/services/url_service','common/services/data_service','reporting/kpiSelect/kpi_select_model',
-                     'reporting/advertiser/advertiser_model'], function (angularAMD) {
+                     'login/login_model', 'reporting/advertiser/advertiser_model'], function (angularAMD) {
   angularAMD.factory("campaignSelectModel", ['urlService', 'dataService', 'kpiSelectModel',
                                              'loginModel', 'advertiserModel',
     function (urlService, dataService, kpiSelectModel, loginModel, advertiserModel) {
