@@ -1,4 +1,4 @@
-define(['angularAMD','common/services/vistoconfig_service', 'common/services/data_store_model','common/utils','common/services/url_service','login/login_model','common/services/constants_service','common/services/analytics_service'], function (angularAMD) {
+define(['angularAMD','common/services/vistoconfig_service', 'common/services/data_store_model','common/utils','common/services/url_service','login/login_model','common/services/constants_service'], function (angularAMD) {
     angularAMD.factory("dataService", function ($q, $http, $cookieStore, $location, vistoconfig, dataStore, utils, urlService, loginModel, constants) {
         $http.defaults.headers.common['Authorization'] = loginModel.getAuthToken();
         var errorObject = {status:"error", data: {message:"Error"}};

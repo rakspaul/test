@@ -1,5 +1,5 @@
-define(['angularAMD','angular-route', 'angular-resource', 'angular-cookies', 'angular-cache',  'angulartics',
-  'angulartics-ga', 'tmhDynamicLocale', 'angulartics', 'angulartics-ga', 'underscore', 'angular-css', 'd3', 'angular-sanitize',
+define(['angularAMD','angular-route', 'angular-resource', 'angular-cookies', 'angular-cache',
+  'tmhDynamicLocale', 'underscore', 'angular-css', 'd3', 'angular-sanitize',
   'date-picker', 'filesaver', 'ui-bootstrap-tpls', 'ng-file-upload', 'ng-file-upload-shim', 'moment', 'moment-tz',
     'common/directives/common_directives',
     'common/controllers/header_controller',
