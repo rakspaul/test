@@ -3,17 +3,19 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
         'common/utils', 'common/services/data_service', 'common/services/request_cancel_service',
         'common/services/constants_service', 'reporting/timePeriod/time_period_model', 'reporting/collectiveReport/collective_report_model',
         'reporting/advertiser/advertiser_model', 'common/services/url_service', 'reporting/collectiveReport/collective_report_model',
-        'reporting/brands/brands_model'
+        'reporting/brands/brands_model', 'common/services/analytics_service', 'common/services/viscongif_service',
+        'reporting/models/domain_reports'
     ],
 
     function (angularAMD) {
     'use strict';
-        angularAMD.controller('CustomReportUploadController', function (campaignSelectModel, strategySelectModel, kpiSelectModel,
+        angularAMD.controller('CustomReportUploadController', function ($modal,dataStore, $timeout, $location, $rootScope, $scope, $route, $window,
+                                                                        campaignSelectModel, strategySelectModel, kpiSelectModel,
                                                                         utils, dataService,   requestCanceller,
                                                                         constants, timePeriodModel, loginModel,
                                                                         advertiserModel, urlService, collectiveReportModel,
-                                                                        brandsModel, Upload, apiPaths,
-                                                                        reportsUploadList, domainReports, analytics, $modal,dataStore, $timeout, $location, $rootScope, $scope, $route, $window,) {
+                                                                        brandsModel, analytics, vistoconfig,
+                                                                        domainReports, Upload, reportsUploadList) {
 
       $scope.textConstants = constants;
       $scope.completed = false;

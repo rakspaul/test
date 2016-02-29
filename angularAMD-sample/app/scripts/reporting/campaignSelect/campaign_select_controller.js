@@ -1,10 +1,10 @@
 define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'common/services/constants_service', 'reporting/brands/brands_model',
-    'login/login_model', 'common/utils'],function (angularAMD) {
+                      'login/login_model', 'common/utils', 'common/services/analytics_service'], function (angularAMD) {
     'use strict';
 
-    angularAMD.controller('CampaignSelectController', function (campaignSelectModel, constants, brandsModel,
-                                                                loginModel, utils, analytics,
-                                                                $scope, $rootScope) {
+    angularAMD.controller('CampaignSelectController', function ($scope, $rootScope,
+                                                                campaignSelectModel, constants, brandsModel,
+                                                                loginModel, utils, analytics) {
 
         $scope.campaignData = {
             campaigns: {},

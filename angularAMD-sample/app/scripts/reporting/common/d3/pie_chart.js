@@ -1,6 +1,6 @@
-(function () {
+define(['angularAMD'], function (angularAMD) {
     'use strict';
-    angObj.directive('pieChart', function ($window) {
+    angularAMD.directive('pieChart', function ($window) {
         return {
             restrict: 'EA',
             controller: ['$scope', '$http', function($scope, $http) {
@@ -31,4 +31,4 @@
 
         }
     });
-}());
+});

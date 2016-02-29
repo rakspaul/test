@@ -7,11 +7,11 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model', 'common/
 ],function (angularAMD) {
     'use strict';
 
-    angularAMD.controller('CollectiveEditReportController', function(campaignSelectModel, dataService, urlService,
-                                                                                 advertiserModel, brandsModel, constants,
-                                                                                 collectiveReportModel, utils, dataStore,
-                                                                                 $scope, $rootScope, $modalInstance, report,
-                                                                                 reportIndex, $modal) {
+    angularAMD.controller('CollectiveEditReportController', function($modal,$scope, $rootScope, $modalInstance,
+                                                                     campaignSelectModel, dataService, urlService,
+                                                                     advertiserModel, brandsModel, constants,
+                                                                     collectiveReportModel, utils, dataStore,
+                                                                     report,reportIndex) {
         $scope.report = report;
         $scope.editScreenBusy = false;
         $scope.editedObj = angular.copy(report);

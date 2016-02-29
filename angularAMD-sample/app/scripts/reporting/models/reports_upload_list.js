@@ -1,11 +1,14 @@
-angObj.factory('reportsUploadList', function(){
-  var files = {};
+define(['angularAMD', 'reporting/models/reports_upload_list'],function (angularAMD) {
 
-  files.list = [];
+    angularAMD.factory('reportsUploadList', function () {
+        var files = {};
 
-  files.add = function(file){
-    files.list.push(file);
-  };
+        files.list = [];
 
-  return files;
+        files.add = function (file) {
+            files.list.push(file);
+        };
+
+        return files;
+    });
 });

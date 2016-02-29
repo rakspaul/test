@@ -1,4 +1,7 @@
-strategySelectModule.factory("strategySelectModel", ['urlService','dataService' , 'requestCanceller','constants', function (urlService,dataService,requestCanceller,constants) {
+define(['angularAMD', 'common/services/url_service', 'common/services/data_service', 'common/services/request_cancel_service',
+                      'common/services/constants_service'],function (angularAMD) {
+
+    angularAMD.factory("strategySelectModel", ['urlService','dataService' , 'requestCanceller','constants', function (urlService,dataService,requestCanceller,constants) {
     var strategyObj = {};
     strategyObj.strategies = {};
     //strategyObj.selectedStrategy = (localStorage.getItem('selectedStrategy') == undefined) ? { id: -1,name : 'Loading...'} : (JSON.parse( localStorage.getItem('selectedStrategy') )) ;

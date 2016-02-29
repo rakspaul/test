@@ -1,6 +1,7 @@
-(function() {
+define(['angularAMD'
+],function (angularAMD) {
     "use strict";
-    commonModule.factory("solidGaugeChart", function($timeout) {
+    angularAMD.factory("solidGaugeChart", function($timeout) {
         var solidGaugeChart = function(viewabilityData) {
         //for testing -mock data
         //var viewabilityData = {pct_1s: 25.876533630764754, pct_5s: 16.308617428834683, pct_15s: 8.534988603850444, pct_total: 42.78647980214345, total: 8823}
@@ -94,4 +95,4 @@
             highChart: solidGaugeChart
         };
     });
-}());
+});

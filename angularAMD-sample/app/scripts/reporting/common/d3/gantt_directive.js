@@ -5,5 +5,5 @@ define(['angularAMD'],function (angularAMD) {
       restrict: 'EAC',
       templateUrl: assets.html_gantt_chart
     }
-  })
+  });
 });

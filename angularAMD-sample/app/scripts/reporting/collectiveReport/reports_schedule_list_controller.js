@@ -3,10 +3,10 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
     'common/services/data_service'
 ],function (angularAMD) {
     'use strict';
-    collectiveReportModule.controller('ReportsScheduleListController', function(collectiveReportModel, momentService, loginModel,
+    collectiveReportModule.controller('ReportsScheduleListController', function($scope,$filter, $location, $modal, $rootScope,
+                                                                                collectiveReportModel, momentService, loginModel,
                                                                                 constants, urlService, dataStore,
-                                                                                dataService, $rootScope, $scope,
-                                                                                $filter, $location, $modal) {
+                                                                                dataService) {
         $scope.noOfSchldInstToShow = 3;
         $scope.scheduleInstCount = [];
         $scope.sort = {

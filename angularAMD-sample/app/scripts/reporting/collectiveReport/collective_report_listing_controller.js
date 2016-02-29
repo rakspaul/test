@@ -3,14 +3,16 @@
  */
 define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'reporting/brands/brands_model', 'common/services/data_service',
     'common/services/url_service', 'reporting/campaignSelect/campaign_select_model', 'common/services/constants_service',
-    'common/services/data_store_model', 'common/utils', 'reporting/advertiser/advertiser_model'
+    'common/services/data_store_model', 'common/utils', 'reporting/advertiser/advertiser_model',
+    'reporting/models/domain_reports'
 ],function (angularAMD) {
 
     'use strict';
-    angularAMD.controller('CollectiveReportListingController', function(collectiveReportModel, brandsModel, dataService,
-                                                                                    urlService, campaignSelectModel, constants,
-                                                                                    dataStore, utils, advertiserModel,
-                                                                                    domainReports, $filter, $scope,$rootScope, $modal  ) {
+    angularAMD.controller('CollectiveReportListingController', function($filter, $scope,$rootScope, $modal,
+                                                                        collectiveReportModel, brandsModel, dataService,
+                                                                        urlService, campaignSelectModel, constants,
+                                                                        dataStore, utils, advertiserModel,
+                                                                        domainReports) {
         $scope.reportToEdit = {};
         $scope.showEditReport = false;
         $scope.campaign =  "Media Plan Name";

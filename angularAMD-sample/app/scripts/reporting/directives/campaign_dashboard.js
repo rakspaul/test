@@ -1,6 +1,8 @@
-(function () {
+define(['angularAMD', 'common/services/constants_service'
+
+],function (angularAMD) {
     'use strict';
-    angObj.directive('campaignDashboard', function (constants) {
+    angularAMD.directive('campaignDashboard', function (constants) {
         return {
             restrict:'EAC',
 
@@ -73,4 +75,4 @@
         };
     });
 
-}());
+});

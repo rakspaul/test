@@ -1,6 +1,6 @@
 define(['angularAMD','common/services/constants_service'], function (angularAMD) {
     'use strict';
-    angularAMD.controller('AdvertiserListController', function (constants, $scope) {
+    angularAMD.controller('AdvertiserListController', function ($scope, constants) {
 
         $scope.$watch('selectedAdvertiser.name', function (newName, oldName) {
             if (newName === oldName) {

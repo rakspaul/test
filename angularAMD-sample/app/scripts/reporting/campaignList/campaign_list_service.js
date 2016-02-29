@@ -1,7 +1,7 @@
 define(['angularAMD', 'common/services/data_service', 'common/utils', 'common/service/transformer_service',
                       'reporting/models/campaign_model', 'common/services/request_cancel_services', 'common/services/constants_service',
                       'common/moment_utils', 'reporting/models/domain_reports', 'login/login_model',
-                      'reporting/timePeriod/time_repriod_model', 'reporting/common/url_service'
+                      'reporting/timePeriod/time_repriod_model', 'reporting/common/url_service', 'reporting/common/charts/line'
          ],function (angularAMD) {
     "use strict";
     //originally in models/campaign.js

@@ -6,21 +6,24 @@ define(['angularAMD', 'reporting/timePeriod/time_period_model', 'common/services
                       'common/services/constants_service', 'login/login_model', 'login/login_service',
                       'reporting/brands/brands_model', 'common/services/url_service', 'common/moment_utils',
                       'common/services/role_based_service', 'reporting/advertiser/advertiser_model', 'reporting/kpiSelect/kpi_select_model',
-                      'common/services/data_store_model', 'common/services/vistoconfig_service'
+                      'common/services/data_store_model', 'common/services/vistoconfig_service', 'reporting/models/domain_reports',
+                      'common/services/analytics_service', 'reporting/editActions/edit_action_model'
+
 ],function (angularAMD) {
     'use strict';
 
-    angularAMD.controller('CampaignDetailsController', function(timePeriodModel, modelTransformer, campaignCDBData,
+    angularAMD.controller('CampaignDetailsController', function($rootScope, $scope, $routeParams,
+                                                                $window,$filter,$location,  $timeout,
+                                                                timePeriodModel, modelTransformer, campaignCDBData,
                                                                 campaignListService, campaignListModel, campaignSelectModel,
                                                                 strategySelectModel, actionChart, dataService,
                                                                 utils, pieChart, solidGaugeChart,
                                                                 constants, loginModel, loginService,
                                                                 brandsModel, urlService,momentService,
                                                                 RoleBasedService, advertiserModel, kpiSelectModel,
-                                                                dataStore, vistoconfig, editAction,
-                                                                apiPaths, actionColors, $location,  $timeout,
-                                                            $filter, activityList, analytics, $rootScope, $scope, $routeParams,
-                                                            $window, domainReports ) {
+                                                                dataStore, vistoconfig, domainReports,
+                                                                analytics, editAction, actionColors,
+                                                                activityList) {
         var orderBy = $filter('orderBy');
         var campaign = campaignListService;
         var Campaigns = campaignListModel;
@@ -165,7 +168,7 @@ define(['angularAMD', 'reporting/timePeriod/time_period_model', 'common/services
 
         //API call for campaign details
         var clientId = loginModel.getSelectedClient().id,
-            url = apiPaths.apiSerivicesUrl_NEW + "/clients/" + clientId + "/campaigns/" + $routeParams.campaignId;
+            url = vistoconfig.apiPaths.apiSerivicesUrl_NEW + "/clients/" + clientId + "/campaigns/" + $routeParams.campaignId;
         dataService.getSingleCampaign(url).then(function(result) {
             if (result.status == "success" && !angular.isString(result.data)) {
                 var dataArr = [result.data.data];

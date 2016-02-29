@@ -1,6 +1,6 @@
-define(['angularAMD', 'reporting/brands/brands_model'],function (angularAMD) {
+define(['angularAMD', 'login/login_model', 'reporting/brands/brands_model'],function (angularAMD) {
   'use strict';
-  angularAMD.service("ganttChart", ['$location', '$rootScope', '$window', 'loginModel', 'brandsModel',  function($location, $rootScope, $window, brandsModel) {
+  angularAMD.service("ganttChart", ['$location', '$rootScope', '$window', 'loginModel', 'brandsModel',  function($location, $rootScope, $window, loginModel, brandsModel) {
         this.createGanttChart = function() {
 
         };
