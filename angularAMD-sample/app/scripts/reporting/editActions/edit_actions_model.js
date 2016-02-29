@@ -1,4 +1,4 @@
-(function() {
+define(['angularAMD'],function (angularAMD) {
   "use strict";
   var editAction = function() {
     this.data = {
@@ -16,7 +16,7 @@
       //WIP
     };
   }
-  angObj.service('editAction',  editAction);
+  angularAMD.service("editAction",  editAction);
 
 
-}());
+});
