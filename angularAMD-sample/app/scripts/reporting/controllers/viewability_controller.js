@@ -7,7 +7,7 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
 
     function (angularAMD) {
     'use strict';
-    angObj.controller('ViewabilityController', function ($scope, kpiSelectModel, campaignSelectModel, strategySelectModel,
+        angularAMD.controller('ViewabilityController', function ($scope, kpiSelectModel, campaignSelectModel, strategySelectModel,
                                                                  dataService, domainReports, constants,
                                                                  timePeriodModel, loginModel, urlService,
                                                                  advertiserModel, brandsModel) {

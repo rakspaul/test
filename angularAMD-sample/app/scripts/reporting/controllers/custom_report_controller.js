@@ -3,7 +3,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
         'common/utils', 'common/services/data_service', 'common/services/request_cancel_service',
         'common/services/constants_service', 'reporting/timePeriod/time_period_model', 'common/moment_utils',
         'login/login_model', 'common/services/url_service', 'common/services/data_store_model',
-        'reporting/models/domain_reports', 'common/services/visconfig_service'
+        'reporting/models/domain_reports', 'common/services/vistoconfig_service'
 ],
 
     function (angularAMD) {
