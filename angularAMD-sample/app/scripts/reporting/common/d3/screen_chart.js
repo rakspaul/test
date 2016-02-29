@@ -7,6 +7,6 @@ define(['angularAMD','common/services/constants_service'],function (angularAMD) 
             link: function(scope, element, attrs) {
                 scope.textConstants = constants;
             }
-        }
-    })
-}());
+        };
+    });
+});
