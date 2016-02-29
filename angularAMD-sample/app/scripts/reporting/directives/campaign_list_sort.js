@@ -1,6 +1,8 @@
-(function () {
+define(['angularAMD', 'common/services/constants_service'
+
+],function (angularAMD) {
     'use strict';
-    angObj.directive('campaignListSort', function (constants) {
+    angularAMD.directive('campaignListSort', function (constants) {
         return {
             restrict:'EAC',
 
@@ -17,4 +19,4 @@
         };
     });
 
-}());
+});

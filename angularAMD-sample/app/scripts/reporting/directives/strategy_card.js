@@ -1,6 +1,8 @@
-(function () {
+define(['angularAMD', 'common/services/constants_service'
+
+],function (angularAMD) {
     'use strict';
-    angObj.directive('campaignStrategyCard', function (utils, loginModel, analytics, constants, campaignListService,momentService) {
+    angularAMD.directive('campaignStrategyCard', function (utils, loginModel, analytics, constants, campaignListService,momentService) {
         return {
             restrict:'EAC',
 
@@ -170,4 +172,4 @@
         };
     });
 
-}());
+});

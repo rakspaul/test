@@ -1,6 +1,8 @@
-(function () {
+define(['angularAMD', 'common/utils', 'common/services/constants_service', 'common/moment_utils'
+
+],function (angularAMD) {
     'use strict';
-    angObj.directive('campaignCostCard', function (utils, constants,momentService,$location) {
+    angularAMD.directive('campaignCostCard', function ($location, utils, constants,momentService) {
         return {
             restrict:'EAC',
 
@@ -137,4 +139,4 @@
         };
     });
 
-}());
+});

@@ -1,6 +1,8 @@
-(function () {
+define(['angularAMD', 'common/services/constants_service'
+
+],function (angularAMD) {
     'use strict';
-    angObj.directive('campaignTacticsCard', function (utils,constants,momentService) {
+    angularAMD.directive('campaignTacticsCard', function (utils,constants,momentService) {
         return {
             restrict:'EAC',
 
@@ -153,4 +155,4 @@
         };
     });
 
-}());
+});
