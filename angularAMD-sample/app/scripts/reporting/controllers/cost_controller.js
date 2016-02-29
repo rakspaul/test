@@ -3,7 +3,7 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model', 'reporti
     'reporting/strategySelect/strategy_select_model', 'reporting/brands/brands_model', 'common/services/data_service',
     'common/utils', 'login/login_model', 'common/services/url_service',
     'common/services/constants_service', 'reporting/timePeriod/time_period_model', 'reporting/models/domain_reports',
-    'common/services/viscongif_service'
+    'common/services/vistoconfig_service'
 ],function (angularAMD) {
     'use strict';
     angularAMD.controller('CostController', function ( $scope, $window,

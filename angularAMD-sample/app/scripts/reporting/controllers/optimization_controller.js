@@ -1,10 +1,10 @@
 var angObj = angObj || {};
 define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaignSelect/campaign_select_model', 'reporting/strategySelect/strategy_select_model',
-        'common/services/data_service', 'common/utils', 'common/charts/actions',
+        'common/services/data_service', 'common/utils', 'reporting/common/charts/actions',
         'reporting/models/domain_reports', 'common/services/constants_service', 'reporting/timePeriod/time_period_model',
         'login/login_model', 'common/moment_utils', 'common/services/url_service',
         'reporting/advertiser/advertiser_model', 'reporting/brands/brands_model',
-        'common/services/viscongif_service'
+        'common/services/vistoconfig_service'
     ],
 
     function (angularAMD) {

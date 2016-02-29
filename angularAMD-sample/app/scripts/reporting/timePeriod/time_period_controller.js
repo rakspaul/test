@@ -1,8 +1,7 @@
 define(['angularAMD','reporting/timePeriod/time_period_model', 'common/services/constants_service', 'login/login_model'
 ],function (angularAMD) {
-
     'use strict';
-  timePeriodModule.controller('TimePeriodController', function ($scope, $rootScope, timePeriodModel, constants,  loginModel) {
+    angularAMD.controller('TimePeriodController', function ($scope, $rootScope, timePeriodModel, constants,  loginModel) {
 
     $scope.timeData = timePeriodModel.timeData;
 

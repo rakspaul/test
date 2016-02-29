@@ -20,7 +20,9 @@ define(['angularAMD','angular-route', 'angular-resource', 'angular-cookies', 'an
   'reporting/controllers/screen_chart_controller',
   'reporting/common/d3/gantt_directive',
     'reporting/advertiser/advertiser_model',
-    'reporting/campaignList/campaign_list_controller'
+    'reporting/campaignList/campaign_list_controller',
+    'reporting/timePeriod/time_period_controller',
+    'reporting/timePeriod/time_period_pick_controller'
 ], function (angularAMD) {
   'use strict';
   return angularAMD;

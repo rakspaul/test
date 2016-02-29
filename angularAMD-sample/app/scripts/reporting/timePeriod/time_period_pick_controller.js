@@ -1,7 +1,7 @@
 define(['angularAMD','reporting/timePeriod/time_period_model', 'common/services/constants_service'
 ],function (angularAMD) {
     'use strict';
-    timePeriodModule.controller('TimePeriodPickController', function ($scope, $rootScope, timePeriodModel, constants) {
+    angularAMD.controller('TimePeriodPickController', function ($scope, $rootScope, timePeriodModel, constants) {
 
         $scope.timeData = timePeriodModel.timeData;
 
