@@ -1,13 +1,16 @@
 /**
  * Created by Sapna kotresh on 06/08/15.
  */
-(function() {
+define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'reporting/brands/brands_model', 'common/services/data_service',
+    'common/services/url_service', 'reporting/campaignSelect/campaign_select_model', 'common/services/constants_service',
+    'common/services/data_store_model', 'common/utils', 'reporting/advertiser/advertiser_model'
+],function (angularAMD) {
+
     'use strict';
-    collectiveReportModule.controller('CollectiveReportListingController', function(collectiveReportModel,
-                                                                                    $scope,$rootScope, $modal, domainReports,
-                                                                                    dataService, urlService, campaignSelectModel,
-                                                                                    constants, $filter, dataStore, utils,
-                                                                                    advertiserModel, brandsModel) {
+    angularAMD.controller('CollectiveReportListingController', function(collectiveReportModel, brandsModel, dataService,
+                                                                                    urlService, campaignSelectModel, constants,
+                                                                                    dataStore, utils, advertiserModel,
+                                                                                    domainReports, $filter, $scope,$rootScope, $modal  ) {
         $scope.reportToEdit = {};
         $scope.showEditReport = false;
         $scope.campaign =  "Media Plan Name";
@@ -162,4 +165,4 @@
        }
 
     });
-}());
+});

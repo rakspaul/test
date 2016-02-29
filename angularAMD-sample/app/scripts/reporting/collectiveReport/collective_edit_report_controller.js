@@ -1,14 +1,17 @@
 /**
  * Created by Sapna kotresh on 06/08/15.
  */
-(function() {
+define(['angularAMD', 'reporting/campaignSelect/campaign_select_model', 'common/services/data_service', 'common/services/url_service',
+    'reporting/advertiser/advertiser_model', 'reporting/brands/brands_model', 'common/services/constants_service',
+    'reporting/collectiveReport/collective_report_model', 'common/utils', 'common/services/data_store_model'
+],function (angularAMD) {
     'use strict';
 
-    collectiveReportModule.controller('CollectiveEditReportController', function($scope, $rootScope, $modalInstance, report,
-                                                                                 reportIndex, campaignSelectModel, dataService,
-                                                                                 urlService, collectiveReportModel, utils,
-                                                                                 advertiserModel, brandsModel, constants, $modal,
-                                                                                 dataStore) {
+    angularAMD.controller('CollectiveEditReportController', function(campaignSelectModel, dataService, urlService,
+                                                                                 advertiserModel, brandsModel, constants,
+                                                                                 collectiveReportModel, utils, dataStore,
+                                                                                 $scope, $rootScope, $modalInstance, report,
+                                                                                 reportIndex, $modal) {
         $scope.report = report;
         $scope.editScreenBusy = false;
         $scope.editedObj = angular.copy(report);
@@ -122,4 +125,4 @@
             $scope.editedData.campaignName = campName;
         };
     });
-}());
+});
