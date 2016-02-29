@@ -1,54 +1,52 @@
 {
-  "configVars": {
-    "app": "app",
-    "appjs": "scripts",
-    "appcss": "styles",
-    "build": "build",
-    "dist": "dist",
-    "hostname": "localhost",
-    "port": 8080
-  },
-  "bowerFiles": [
-    "angular/angular.js",
-    "angular-route/angular-route.js",
-    "angularAMD/angularAMD.js",
-    "angularAMD/ngload.js",
-    "requirejs/require.js",
-    "es5-shim/es5-shim.js",
-    "json3/lib/json3.js",
-    "angular-resource/angular-resource.js",
-    "jquery/dist/jquery.js",
-    "bootstrap/dist/js/bootstrap.js",
-    "angular-cache/dist/angular-cache.js",
-    "angular-cookies/angular-cookies.js",
-    "angular-dynamic-locale/dist/tmhDynamicLocale.js",
-    "moment/moment.js",
-    "moment-timezone/moment-timezone.js",
-    "angular-i18n/angular-locale_en-gb.js",
-    "angular-i18n/angular-locale_en-us.js",
-    "underscore/underscore.js",
-    "ng-file-upload/ng-file-upload.js",
-    "ng-file-upload/ng-file-upload-shim.js",
-    "ng-infinite-scroll/ng-infinite-scroll.js",
-    "bootstrap-datepicker/dist/js/bootstrap-datepicker.js",
-    "angular-css/angular-css.js",
-    "angulartics/dist/angulartics.min.js",
-    "angulartics-google-analytics/dist/angulartics-google-analytics.min.js",
-    "d3/d3.js",
-    "angular-sanitize/angular-sanitize.js",
-    "filesaver/FileSaver.js"
-
-
-
-  ],
-  "cssFiles": [
-    "bootstrap/dist/css/bootstrap.css"
-  ],
-  "cssFonts": [
-    "bootstrap/fonts/glyphicons-halflings-regular.*"
-  ],
-  "buildFiles": [
-    "images/**", "views/**", "scripts/libs/require.js"
-  ]
-
+    "configVars": {
+        "app": "app",
+        "appjs": "scripts",
+        "appcss": "styles",
+        "build": "build",
+        "dist": "dist",
+        "hostname": "localhost",
+        "port": 8080
+    },
+    "bowerFiles": [
+        "angular/angular.js",
+        "angular-route/angular-route.js",
+        "angularAMD/angularAMD.js",
+        "angularAMD/ngload.js",
+        "requirejs/require.js",
+        "es5-shim/es5-shim.js",
+        "json3/lib/json3.js",
+        "angular-resource/angular-resource.js",
+        "jquery/dist/jquery.js",
+        "bootstrap/dist/js/bootstrap.js",
+        "angular-cache/dist/angular-cache.js",
+        "angular-cookies/angular-cookies.js",
+        "angular-dynamic-locale/dist/tmhDynamicLocale.js",
+        "moment/moment.js",
+        "moment-timezone/moment-timezone.js",
+        "angular-i18n/angular-locale_en-gb.js",
+        "angular-i18n/angular-locale_en-us.js",
+        "underscore/underscore.js",
+        "ng-file-upload/ng-file-upload.js",
+        "ng-file-upload/ng-file-upload-shim.js",
+        "ng-infinite-scroll/ng-infinite-scroll.js",
+        "bootstrap-datepicker/dist/js/bootstrap-datepicker.js",
+        "angular-css/angular-css.js",
+        "angulartics/dist/angulartics.min.js",
+        "angulartics-google-analytics/dist/angulartics-google-analytics.min.js",
+        "d3/d3.js",
+        "angular-sanitize/angular-sanitize.js",
+        "filesaver/FileSaver.js"
+    ],
+    "cssFiles": [
+        "bootstrap/dist/css/bootstrap.css"
+    ],
+    "cssFonts": [
+        "bootstrap/fonts/glyphicons-halflings-regular.*"
+    ],
+    "buildFiles": [
+        "images/**",
+        "views/**",
+        "scripts/libs/require.js"
+    ]
 }
