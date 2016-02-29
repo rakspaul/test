@@ -1,7 +1,7 @@
-var angObj = angObj || {};
-(function () {
-    'use strict';
-    angObj.controller('CreateCampaignController', function ($scope, $rootScope, $routeParams, $locale, $timeout, $location, constants, workflowService, loginModel, momentService) {
+define(['angularAMD', 'common/services/constants_service', 'workflow/services/workflow_service','login/login_model','common/moment_utils'], function (angularAMD) {
+  'use strict';
+  angularAMD.controller('CreateCampaignController', function ($scope,  $rootScope,$routeParams, $locale, $location, $timeout,constants, workflowService,loginModel,momentService) {
+
         $scope.selectedKeywords = [];
         $scope.platformKeywords = [];
         $scope.dropdownCss = {
@@ -952,9 +952,9 @@ var angObj = angObj || {};
         };
 
         $scope.showKeywords = function (keyword) {
-            if ( keyword.length > 0 ) 
+            if ( keyword.length > 0 )
                 $scope.dropdownCss.display = 'block';
-            else 
+            else
                 $scope.dropdownCss.display = 'none';
         };
 
@@ -1059,4 +1059,4 @@ var angObj = angObj || {};
             }
         })
     });
-})();
+});

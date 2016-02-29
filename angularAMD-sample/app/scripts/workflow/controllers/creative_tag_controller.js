@@ -1,9 +1,8 @@
-var angObj = angObj || {};
 
-(function () {
-    'use strict';
+define(['angularAMD','common/services/constants_service','workflow/services/workflow_service'],function (angularAMD) {
+  'use strict';
+  angularAMD.controller('CreativeTagController', function($scope, constantsService, workflowService) {
 
-    angObj.controller('CreativeTagController', function ($scope, constants, workflowService) {
         var addFromLibrary = {
             modifyCreativesData: function (respData) {
                 var arr;
@@ -221,4 +220,4 @@ var angObj = angObj || {};
             // TODO: Enable save button of popup library if elements exists
         });
     });
-})();
+});

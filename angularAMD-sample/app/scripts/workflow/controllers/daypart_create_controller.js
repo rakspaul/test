@@ -1,14 +1,15 @@
-var angObj = angObj || {};
-(function () {
-    'use strict';
-    angObj.controller('daypartController', function ($scope, audienceService, workflowService, $timeout) {
+
+define(['angularAMD','workflow/services/audience_service','workflow/services/workflow_service'],function (angularAMD) {
+  'use strict';
+  angularAMD.controller('daypartController', function($scope, $timeout,audienceService, workflowService) {
+
         var _dayPartTargetting = this;
 
         $scope.Schedule = {
             dayPart: [],
             daytimeArr: []
         };
-        
+
 
         $scope.customFlag = false;
         $scope.timeSelected = 'All days and times';
@@ -458,31 +459,31 @@ var angObj = angObj || {};
             adDaypartTargets.isIncluded=true;
             adDaypartTargets.timeZone = $scope.timezoneFormat;
             adDaypartTargets.clock = $scope.clock;
-            sunday = _.filter($scope.Schedule.dayPart, function (obj) { 
+            sunday = _.filter($scope.Schedule.dayPart, function (obj) {
                 return obj.day === 'Sunday';
             });
             $scope.Sunday = _dayPartTargetting.generateDayArr(sunday);
-            monday = _.filter($scope.Schedule.dayPart, function (obj) { 
+            monday = _.filter($scope.Schedule.dayPart, function (obj) {
                 return obj.day === 'Monday';
             });
             $scope.Monday = _dayPartTargetting.generateDayArr(monday);
-            tuesday = _.filter($scope.Schedule.dayPart, function (obj) { 
+            tuesday = _.filter($scope.Schedule.dayPart, function (obj) {
                 return obj.day === 'Tuesday';
             });
             $scope.Tuesday = _dayPartTargetting.generateDayArr(tuesday);
-            wednesday = _.filter($scope.Schedule.dayPart, function (obj) { 
+            wednesday = _.filter($scope.Schedule.dayPart, function (obj) {
                 return obj.day === 'Wednesday';
             });
             $scope.Wednesday = _dayPartTargetting.generateDayArr(wednesday);
-            thursday = _.filter($scope.Schedule.dayPart, function (obj) { 
+            thursday = _.filter($scope.Schedule.dayPart, function (obj) {
                 return obj.day === 'Thursday';
             });
             $scope.Thursday = _dayPartTargetting.generateDayArr(thursday);
-            friday = _.filter($scope.Schedule.dayPart, function (obj) { 
+            friday = _.filter($scope.Schedule.dayPart, function (obj) {
                 return obj.day === 'Friday';
             });
             $scope.Friday = _dayPartTargetting.generateDayArr(friday);
-            saturday = _.filter($scope.Schedule.dayPart, function (obj) { 
+            saturday = _.filter($scope.Schedule.dayPart, function (obj) {
                 return obj.day === 'Saturday';
             });
             $scope.Saturday = _dayPartTargetting.generateDayArr(saturday);
@@ -768,7 +769,7 @@ var angObj = angObj || {};
                 timeMatched;
 
             $scope.tmpDayTimeSelected = dayTimeSelected;
-            timeMatched = _.filter($scope.Schedule.daytimeArr, function (obj) { 
+            timeMatched = _.filter($scope.Schedule.daytimeArr, function (obj) {
                 return obj.startTime === time;
             });
             if (timeMatched.length === 0) {
@@ -815,4 +816,4 @@ var angObj = angObj || {};
         $scope.resetDayPartTargetingVariables();
 
     });
-})();
+});

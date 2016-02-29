@@ -1,9 +1,6 @@
-var angObj = angObj || {};
-
-(function () {
-    'use strict';
-
-    angObj.controller('GeoTargettingController', function ($rootScope, $scope, workflowService, $timeout, zipCode) {
+define(['angularAMD','workflow/services/workflow_service','common/services/zip_code'],function (angularAMD) {
+  'use strict';
+  angularAMD.controller('GeoTargettingController', function($scope, $rootScope, $timeout, workflowService, zipCode) {
 
         $scope.showTargettingForm = false;
         $scope.geoTargetingData = {};
@@ -1274,4 +1271,4 @@ var angObj = angObj || {};
             $scope.includeSelectedItems();
         }
     });
-})();
+});
