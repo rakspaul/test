@@ -1,6 +1,5 @@
-(function () {
-    'use strict';
-    campaignSelectModule.directive('campaignDropDown', ['constants', function (constants) {
+define(['angularAMD', 'common/services/constants_service'],function (angularAMD) {
+    angularAMD.directive('campaignDropDown', ['constants', function (constants) {
         return {
             restrict: 'AE',
             scope: {
@@ -104,4 +103,4 @@
         };
     }]);
 
-}());
+});
