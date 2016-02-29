@@ -1,5 +1,5 @@
-(function () {
-  "use strict";
+define(['angularAMD', 'reporting/models/campaign_cost'],function (angularAMD) {
+    "use strict";
   var CampaignCostData = function () {
     this.id = 0;
     this.impressions = 0;
@@ -66,5 +66,5 @@
       return Math.round(value * factor) / factor;
     }
   }
-  angObj.value('campaignCost', CampaignCostData);
-}());
+  angularAMD.value('campaignCost', CampaignCostData);
+});

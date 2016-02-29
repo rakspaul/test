@@ -1,5 +1,5 @@
-(function () {
-  "use strict";
+define(['angularAMD', 'reporting/models/campaign_cdb_data'],function (angularAMD) {
+    "use strict";
   var CampaignCDBData = function () {
     this.id = 0;
     this.impressions = 0;
@@ -38,5 +38,5 @@
       return Math.round(value * factor) / factor;
     }
   }
-  commonModule.value('campaignCDBData', CampaignCDBData);
-}());
+  angularAMD.value('campaignCDBData', CampaignCDBData);
+});

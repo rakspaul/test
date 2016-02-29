@@ -1,5 +1,6 @@
-(function () {
-  "use strict";
+define(['angularAMD', 'reporting/models/campaign_model'],function (angularAMD) {
+
+    "use strict";
   var CampaignModel = function () {
     //following variables are returned by API
     this.id = -1;
