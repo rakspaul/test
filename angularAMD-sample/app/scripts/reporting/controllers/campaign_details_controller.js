@@ -7,7 +7,7 @@ define(['angularAMD', 'reporting/timePeriod/time_period_model', 'common/services
                       'reporting/brands/brands_model', 'common/services/url_service', 'common/moment_utils',
                       'common/services/role_based_service', 'reporting/advertiser/advertiser_model', 'reporting/kpiSelect/kpi_select_model',
                       'common/services/data_store_model', 'common/services/vistoconfig_service', 'reporting/models/domain_reports',
-                      'common/services/analytics_service', 'reporting/editActions/edit_action_model'
+                      'reporting/editActions/edit_action_model'
 
 ],function (angularAMD) {
     'use strict';
@@ -22,7 +22,7 @@ define(['angularAMD', 'reporting/timePeriod/time_period_model', 'common/services
                                                                 brandsModel, urlService,momentService,
                                                                 RoleBasedService, advertiserModel, kpiSelectModel,
                                                                 dataStore, vistoconfig, domainReports,
-                                                                analytics, editAction, actionColors,
+                                                                editAction, actionColors,
                                                                 activityList) {
         var orderBy = $filter('orderBy');
         var campaign = campaignListService;
@@ -713,7 +713,7 @@ define(['angularAMD', 'reporting/timePeriod/time_period_model', 'common/services
 
         $scope.getFormatsGraphData  = function(campaign){
             var formats;
-            
+
             var formatTypeMap = vistoconfig.formatTypeMap ;
 
             var params=getCustomQueryParams(constants.QUERY_ID_CAMPAIGN_FORMATS);

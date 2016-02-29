@@ -2,7 +2,7 @@ var angObj = angObj || {};
 define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaignSelect/campaign_select_model', 'reporting/strategySelect/strategy_select_model',
         'reporting/common/charts/column_line', 'common/services/data_service', 'common/services/constants_service',
         'reporting/timePeriod/time_period_model', 'login/login_model', 'reporting/advertiser/advertiser_model',
-        'reporting/brands/brands_model', 'common/services/url_service', 'common/services/analytics_service',
+        'reporting/brands/brands_model', 'common/services/url_service',
         'reporting/models/domain_reports'
     ],
 
@@ -10,7 +10,7 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
         angularAMD.controller('InventoryController', function ($scope, kpiSelectModel, campaignSelectModel, strategySelectModel,
                                                                columnline, dataService, constants,
                                                                timePeriodModel, loginModel, advertiserModel,
-                                                               brandsModel, urlService, analytics,
+                                                               brandsModel, urlService,
                                                                domainReports) {
 
       $scope.textConstants = constants;

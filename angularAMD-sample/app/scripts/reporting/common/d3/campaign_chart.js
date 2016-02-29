@@ -1,6 +1,6 @@
-define(['angularAMD', 'common/services/constants_service', 'common/services/analytics_service', 'login/login_model'], function (angularAMD) {
+define(['angularAMD', 'common/services/constants_service', 'login/login_model'], function (angularAMD) {
     'use strict';
-    angularAMD.directive('campaignChart', function($window, $filter, constants, analytics, loginModel) {
+    angularAMD.directive('campaignChart', function($window, $filter, constants, loginModel) {
         return {
             restrict: 'EA',
             template: "<svg></svg>",

@@ -3,7 +3,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
         'common/utils', 'common/services/data_service', 'common/services/request_cancel_service',
         'common/services/constants_service', 'reporting/timePeriod/time_period_model', 'common/moment_utils',
         'login/login_model', 'common/services/url_service', 'common/services/data_store_model',
-        'reporting/models/domain_reports', 'common/services/analytics_service', 'common/services/viscongif_service'
+        'reporting/models/domain_reports', 'common/services/viscongif_service'
 ],
 
     function (angularAMD) {
@@ -13,7 +13,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                                                                   utils, dataService, requestCanceller,
                                                                   constants, timePeriodModel, momentService,
                                                                   loginModel, urlService, dataStore,
-                                                                  domainReports, analytics, vistoconfig) {
+                                                                  domainReports, vistoconfig) {
         $scope.additionalFilters = [];
         $scope.textConstants = constants;
         $scope.additionalValue = "Contains keywords ...";
@@ -281,7 +281,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                         if (!$.isEmptyObject(metrics)) {
                             _.extend(metricObj, metrics);
                         }
-                    } 
+                    }
                     metricObj.idx = index
                 });
                 metricObj.level = typeofDimension;
@@ -1595,7 +1595,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                 } else {
                     $scope.scheduleReport();
                 }
-                setTimeout(function(){ 
+                setTimeout(function(){
                     $scope.loadingBtn = false ;
                 }, 1000);
             }

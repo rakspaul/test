@@ -1,19 +1,19 @@
 define(['angularAMD','reporting/campaignList/campaign_list_service', 'common/services/transformer_service', 'reporting/models/campaign_cdb_data',
-    'reporting/models/campaign_cost', 'common/services/request_cancel_services', 'common/services/constants_service',
+    'reporting/models/campaign_cost', 'common/services/request_cancel_service', 'common/services/constants_service',
     'reporting/brands/brands_model', 'login/login_model', 'reporting/advertiser/advertiser_model',
-    'common/services/url_service', 'common/services/analytics_service', 'common/services/viscongif_service'
+    'common/services/url_service', 'common/services/vistoconfig_service'
 ],function (angularAMD) {
 
     //originally part of controllers/campaign_controller.js
     angularAMD.factory("campaignListModel", ['$rootScope', '$location', 'campaignListService', 'modelTransformer', 'campaignCDBData',
         'campaignCost', 'requestCanceller', 'constants',
         'brandsModel', 'loginModel', 'advertiserModel',
-        'urlService', 'analytics', 'vistoconfig',
+        'urlService', 'vistoconfig',
 
         function ($rootScope, $location, campaignListService, modelTransformer, campaignCDBData,
                   campaignCost, requestCanceller, constants,
                   brandsModel, loginModel, advertiserModel,
-                  urlService, vistoconfig, analytics) {
+                  urlService, vistoconfig) {
             //var scrollFlag = 1;
             var Campaigns = function () {
                 this.timePeriodList = buildTimePeriodList();

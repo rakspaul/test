@@ -3,7 +3,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
         'common/utils', 'common/services/data_service', 'common/services/request_cancel_service',
         'common/services/constants_service', 'reporting/timePeriod/time_period_model', 'reporting/collectiveReport/collective_report_model',
         'reporting/advertiser/advertiser_model', 'common/services/url_service', 'reporting/collectiveReport/collective_report_model',
-        'reporting/brands/brands_model', 'common/services/analytics_service', 'common/services/viscongif_service',
+        'reporting/brands/brands_model', 'common/services/vistoconfig_service',
         'reporting/models/domain_reports'
     ],
 
@@ -14,7 +14,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                                                                         utils, dataService,   requestCanceller,
                                                                         constants, timePeriodModel, loginModel,
                                                                         advertiserModel, urlService, collectiveReportModel,
-                                                                        brandsModel, analytics, vistoconfig,
+                                                                        brandsModel, vistoconfig,
                                                                         domainReports, Upload, reportsUploadList) {
 
       $scope.textConstants = constants;

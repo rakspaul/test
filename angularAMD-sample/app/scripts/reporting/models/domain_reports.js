@@ -169,7 +169,7 @@ define(['angularAMD','login/login_model','common/services/role_based_service','c
         };
     });
 
-  angularAMD.directive('downloadReport', function ($http, $location, loginModel, advertiserModel, brandsModel, dataService, urlService, apiPaths, constants, analytics) {
+  angularAMD.directive('downloadReport', function ($http, $location, loginModel, advertiserModel, brandsModel, dataService, urlService, apiPaths, constants) {
         return {
             controller: function($scope, $cookieStore, $location){
 

@@ -1,10 +1,10 @@
 define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', 'reporting/campaignSelect/campaign_select_model', 'common/services/constants_service',
-                      'common/services/analytics_service', 'login/login_model'],function (angularAMD) {
+                       'login/login_model'],function (angularAMD) {
 
     'use strict';
     angularAMD.controller('KpiSelectController', function ($scope, $rootScope,
                                                                 kpiSelectModel, campaignSelectModel, constants,
-                                                                analytics, loginModel) {
+                                                                loginModel) {
 
         $scope.kpiData = {};
         $scope.kpiData.selectedKpi = kpiSelectModel.getSelectedKpi() ;

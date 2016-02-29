@@ -1,9 +1,9 @@
 /*global angObj, angular*/
-define(['angularAMD', 'login/login_model', 'common/services/constants_service', 'common/services/analytics_service',
+define(['angularAMD', 'login/login_model', 'common/services/constants_service',
     'common/utils'
 ],function (angularAMD) {
     "use strict";
-    angularAMD.factory("actionChart", function($timeout, loginModel, constants, analytics, utils) {
+    angularAMD.factory("actionChart", function($timeout, loginModel, constants, utils) {
 
         var kpiPrefix = function (kpiType) {
             var kpiTypeLower = kpiType.toLowerCase();
@@ -134,7 +134,7 @@ define(['angularAMD', 'login/login_model', 'common/services/constants_service', 
                 return parseInt(that.getAttribute(axis));
             };
             var getCircleStatus = function(that){
-               return that.getAttribute("circle_slno").substr(0,3);     
+               return that.getAttribute("circle_slno").substr(0,3);
             };
             var chartMouserOver =  function(event, chart, that) {
                 chart.tooltip.hide();
@@ -198,12 +198,12 @@ define(['angularAMD', 'login/login_model', 'common/services/constants_service', 
                       // Mouseout for the circle
                      $("#"+getId).attr({stroke:circleStroke});
                      // Mouseout for the Text
-                     $("#t"+getId).css({color:display_color,fill:display_color});  
+                     $("#t"+getId).css({color:display_color,fill:display_color});
                 }else{
                      //$("#"+getId).attr({stroke:circleStroke});
                      // Mouseout for the Text
                      if(activityCount > 1)
-                     $("#t"+getId).css({color:'#fff',fill:'#fff'});  
+                     $("#t"+getId).css({color:'#fff',fill:'#fff'});
                 }
             };
             var chartClick =  function(circleObj, that) {
@@ -323,7 +323,7 @@ define(['angularAMD', 'login/login_model', 'common/services/constants_service', 
         //actionUTC activity date
         var getCircleSLNo = function(make_external,extSLNo,intSLNo,actionUTC,selectedCampaignId){
             var circleSLNo = undefined;
-            if(make_external == true){   
+            if(make_external == true){
                 circleSLNo ="extSL_"+extSLNo+"_"+actionUTC+"_"+selectedCampaignId;
                 extSLNo++;
             }else{
@@ -357,7 +357,7 @@ define(['angularAMD', 'login/login_model', 'common/services/constants_service', 
                 setMaxVal = maxVal;
                 if(threshold >= 0){
                     setMinVal = minVal <= threshold ? minVal : threshold;
-                    setMaxVal = maxVal <= threshold ? threshold : maxVal;    
+                    setMaxVal = maxVal <= threshold ? threshold : maxVal;
                 }
                 if(percentage > 0 ){
                     setMaxVal = setMaxVal + percentage;
@@ -419,7 +419,7 @@ define(['angularAMD', 'login/login_model', 'common/services/constants_service', 
                         maxPadding:0,
                         minPadding:0,
                         min:setMinVal,
-                        max:setMaxVal, 
+                        max:setMaxVal,
                         title: {
                             align: 'high',
                             offset: 13,

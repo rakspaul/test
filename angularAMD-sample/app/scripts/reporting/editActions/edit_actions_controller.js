@@ -1,10 +1,10 @@
-define(['angularAMD','reporting/editActions/edit_actions_service', 'common/services/constants_service', 'common/services/analytics_service',
+define(['angularAMD','reporting/editActions/edit_actions_service', 'common/services/constants_service',
     'login/login_model', 'reporting/editActions/edit_action_model'],function (angularAMD) {
   'use strict';
     angularAMD.controller('EditActionsController', function ($rootScope, $scope,
-                                                             editActionsService, constants, analytics,
+                                                             editActionsService, constants,
                                                              loginModel, editAction, activityList) {
-   
+
         $scope.showList = editAction.data;
         $scope.actionItems = activityList.data;
 
@@ -21,7 +21,7 @@ define(['angularAMD','reporting/editActions/edit_actions_service', 'common/servi
             document.getElementById("error_edit_action_more_comment").style.display='none';
 
             analytics.track(loginModel.getUserRole(), constants.GA_CAMPAIGN_DETAILS, 'activity_log_edit', loginModel.getLoginName());
- 
+
             _.each(activityList.data.data, function(activity) {
                 if(activity.id == ad_id){
                     //updateUIModel
@@ -61,11 +61,11 @@ define(['angularAMD','reporting/editActions/edit_actions_service', 'common/servi
                 var txt_data ='';
                 for(i=0; i< max_line;i++){
                     if(i == (parseInt(max_line) ) - 1){
-                        txt_data += split[i] ; 
+                        txt_data += split[i] ;
                     }else{
-                        txt_data += split[i] + '\n'; 
+                        txt_data += split[i] + '\n';
                     }
-                 
+
                 }
                 data.name = txt_data;
               }
@@ -95,9 +95,9 @@ define(['angularAMD','reporting/editActions/edit_actions_service', 'common/servi
             });
             }else{
                 $scope.saveBtnDisabled = false;
-                $scope.commentError = true;                
+                $scope.commentError = true;
             }
-            
+
         }
 
         function resetEditActionFormData() {

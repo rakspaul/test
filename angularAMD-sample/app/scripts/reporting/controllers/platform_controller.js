@@ -2,7 +2,7 @@ var angObj = angObj || {};
 define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaignSelect/campaign_select_model', 'reporting/strategySelect/strategy_select_model',
         'common/services/data_service', 'common/services/constants_service', 'reporting/models/domain_reports',
         'reporting/timePeriod/time_period_model', 'login/login_model', 'common/services/role_based_service',
-        'common/services/analytics_service', 'reporting/advertiser/advertiser_model', 'reporting/brands/brands_model',
+        'reporting/advertiser/advertiser_model', 'reporting/brands/brands_model',
         'common/services/url_service'
     ],
 
@@ -10,7 +10,7 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
         angularAMD.controller('PlatformController', function ($scope, kpiSelectModel, campaignSelectModel, strategySelectModel,
                                                       dataService, constants, domainReports,
                                                       timePeriodModel, loginModel, RoleBasedService,
-                                                      analytics, advertiserModel, brandsModel,
+                                                      advertiserModel, brandsModel,
                                                       urlService) {
 
         $scope.textConstants = constants;
