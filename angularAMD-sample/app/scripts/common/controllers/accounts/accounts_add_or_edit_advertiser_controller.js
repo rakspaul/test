@@ -1,9 +1,9 @@
 var angObj = angObj || {};
 
-(function () {
+define(['angularAMD','workflow/services/account_service'],function (angularAMD) {
     'use strict';
 
-    angObj.controller('AccountsAddOrEditAdvertiser', function ($scope, $rootScope, $modalInstance, accountsService) {
+    angularAMD.controller('AccountsAddOrEditAdvertiser', function ($scope, $rootScope, $modalInstance, accountsService) {
         $scope.close=function () {
             $scope.resetBrandAdvertiserAfterEdit();
             $modalInstance.dismiss();
@@ -71,4 +71,4 @@ var angObj = angObj || {};
             return respBody;
         }
     });
-}());
+});

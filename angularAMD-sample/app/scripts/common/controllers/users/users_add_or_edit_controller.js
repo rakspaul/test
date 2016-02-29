@@ -1,8 +1,8 @@
 
-(function() {
+define(['angularAMD', 'common/services/constants_service', 'workflow/services/account_service'],function (angularAMD) {
     'use strict';
 
-    angObj.controller('UsersAddOrEdit', function($scope, $modalInstance,accountsService,$modal,$rootScope,constants) {
+    angularAMD.controller('UsersAddOrEdit', function($scope, $modalInstance,$modal,$rootScope,constants,accountsService) {
         $scope.permissions = [];
         $scope.isSuperAdmin=true;
         $scope.clientName=[];
@@ -452,4 +452,4 @@
 
 
 
-}());
+});

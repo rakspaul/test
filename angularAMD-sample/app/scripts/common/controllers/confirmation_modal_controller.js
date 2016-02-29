@@ -1,8 +1,7 @@
-(function() {
+define(['angularAMD'],function (angularAMD) {
     'use strict';
 
-    commonModule.controller('ConfirmationModalController', function( $scope , $modalInstance,headerMsg,mainMsg,execute,buttonName) {
-console.log('ConfirmationModalController');
+    angularAMD.controller('ConfirmationModalController', function( $scope , $modalInstance,headerMsg,mainMsg,execute,buttonName) {
         $scope.headerMsg = headerMsg;
         $scope.mainMsg =  mainMsg;
         $scope.execute = execute;
@@ -12,4 +11,4 @@ console.log('ConfirmationModalController');
             $modalInstance.dismiss();
         };
     });
-}());
+});

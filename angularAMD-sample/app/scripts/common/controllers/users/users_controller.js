@@ -1,7 +1,7 @@
 var angObj = angObj || {};
-(function () {
+define(['angularAMD', 'common/services/constants_service', 'workflow/services/account_service'],function (angularAMD) {
     'use strict';
-    angObj.controller('UsersController', function ($scope,constants,$modal ,accountsService,$rootScope,$timeout) {
+    angularAMD.controller('UsersController', function ($scope,,$modal,$rootScope,$timeout,constants,accountsService) {
         $scope.textConstants = constants;
         $scope.UsersData={};
         $scope.userConsoleFormDetails={};
@@ -55,4 +55,4 @@ var angObj = angObj || {};
         })
     });
 
-})();
+});

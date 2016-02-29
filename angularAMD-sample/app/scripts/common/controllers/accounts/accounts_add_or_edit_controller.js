@@ -1,9 +1,9 @@
 var angObj = angObj || {};
 
-(function () {
+define(['angularAMD', 'workflow/services/account_service'],function (angularAMD) {
     'use strict';
 
-    angObj.controller('AccountsAddOrEdit', function ($scope, $rootScope, $modalInstance, accountsService) {
+    angularAMD.controller('AccountsAddOrEdit', function ($scope, $rootScope, $modalInstance, accountsService) {
         $scope.currencySelected = '';
         $scope.referenceId;
 
@@ -165,4 +165,4 @@ var angObj = angObj || {};
             };
         }
     });
-}());
+});

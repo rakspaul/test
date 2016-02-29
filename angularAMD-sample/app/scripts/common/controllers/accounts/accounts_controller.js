@@ -1,7 +1,7 @@
 var angObj = angObj || {};
-(function () {
+define(['angularAMD', 'common/services/constants_service', 'workflow/services/account_service'],function (angularAMD) {
     'use strict';
-    angObj.controller('AccountsController', function ($scope,$rootScope, constants, accountsService, $modal ) {
+    angularAMD.controller('AccountsController', function ($scope, $rootScope, $modal, constants, accountsService ) {
         $(".main_navigation").find('.active').removeClass('active').end().find('#creative_nav_link').addClass('active');
         $scope.textConstants = constants;
         $scope.clientsDetails = [];
@@ -227,4 +227,4 @@ var angObj = angObj || {};
 
     });
 
-})();
+});
