@@ -1,6 +1,6 @@
 define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaignList/campaign_list_model', 'reporting/campaignSelect/campaign_select_model',
                      'reporting/strategySelect/strategy_select_model', 'common/utils', 'common/services/constants_service',
-                     'reporting/brands/brands_model', 'login/login_model', 'reporting/model/guage_model',
+                     'reporting/brands/brands_model', 'login/login_model', 'reporting/models/gauge_model',
                      'common/services/role_based_service'],function (angularAMD) {
 
 
@@ -12,10 +12,10 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
     //Hot fix to show the campaign tab selected
     $(".main_navigation").find('.active').removeClass('active').end().find('#campaigns_nav_link').addClass('active');
     $(".main_navigation_holder").find('.active_tab').removeClass('active_tab') ;
-    
+
     //Resets Header
     $(".main_navigation_holder .main_nav .main_navigation .each_nav_link.active .arrowSelect").show();
-        
+
     $scope.campaigns = new campaignListModel();
 
     $scope.sortReverse = false;
@@ -32,7 +32,7 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
     });
 
     $("html").css('background', '#fff');
-    
+
     var selectedBrand = brandsModel.getSelectedBrand();
     $scope.isAgencyCostModelTransparent = loginModel.getIsAgencyCostModelTransparent();
 

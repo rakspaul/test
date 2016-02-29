@@ -1,6 +1,6 @@
 define(['angularAMD','reporting/common/d3/gauge','reporting/models/gauge_model','common/services/constants_service','login/login_model'],function (angularAMD) {
   'use strict';
-  angularAMD.controller('GaugeController', function ($scope, $rootScope,$window, $location, gauge, gaugeModel, constantsService, loginModel) {
+  angularAMD.controller('GaugeController', function ($scope, $rootScope,$window, $location, gauge, gaugeModel, constants, loginModel) {
         var campaigns = '/mediaplans';
         gauge.setLeftArcClickHandler(function () {
             gaugeModel.dashboard.selectedFilter = constants.ACTIVE_ONTRACK;
@@ -10,7 +10,7 @@ define(['angularAMD','reporting/common/d3/gauge','reporting/models/gauge_model',
         });
         gauge.setRightArcClickHandler(function () {
             gaugeModel.dashboard.selectedFilter = constants.ACTIVE_UNDERPERFORMING;
-            analytics.track(loginModel.getUserRole(), 'dashboard_campaign_widget', 'campaign_widget_underperforming_clicked', loginModel.getLoginName());
+           //grunt analytics.track(loginModel.getUserRole(), 'dashboard_campaign_widget', 'campaign_widget_underperforming_clicked', loginModel.getLoginName());
             $location.path(campaigns);
             $scope.$apply(); //TODO we need to remove this, added because of removing the hashtag
         })

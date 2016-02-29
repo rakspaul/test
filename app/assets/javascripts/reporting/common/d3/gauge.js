@@ -1,6 +1,6 @@
-(function() {
-  "use strict";
-  commonModule.service("gauge", function(_,constants, $window) {
+define(['angularAMD','common/services/constants_service'],function (angularAMD) {
+  'use strict';
+  angularAMD.service("gauge", function(constants, $window) {
     var gauges = [];
     var dashContainer;
     var readings = [];
@@ -323,15 +323,15 @@
 
       }
     };
-  })
-}());
+  });
+});
 
-(function() {
-  "use strict";
-  commonModule.directive("gauge", function () {
+define(['angularAMD'],function (angularAMD) {
+  'use strict';
+  angularAMD.directive("gauge", function () {
     return {
       restrict: 'EAC',
       templateUrl: assets.html_gauge
-    }
-  })
-}());
+    };
+  });
+});
