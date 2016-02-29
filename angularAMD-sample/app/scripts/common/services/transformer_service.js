@@ -1,6 +1,6 @@
-(function() {
+define(['angularAMD'], function (angularAMD) {
 
-  var transformObject = function(jsonResult, constructor) {
+    var transformObject = function(jsonResult, constructor) {
     var model = new constructor();
     angular.extend(model, jsonResult);
     return model;
@@ -26,6 +26,6 @@
     };
   };
 
-  commonModule.factory("modelTransformer", modelTransformer);
+    angularAMD.factory("modelTransformer", modelTransformer);
 
-}());
+});

@@ -1,6 +1,6 @@
-define(['angularAMD'],function (angularAMD) {
+define(['angularAMD', 'libs/angulartics.min'],function (angularAMD) {
   'use strict';
-  angularAMD.service("analytics", ['angulartics',function(angulartics) {
+    angularAMD.service("analytics", ['angulartics',function(angulartics) {
     this.track = function(category, action, label, loginName, value) {
       ga('set', 'dimension1', loginName);
       if(value !== undefined) {
@@ -9,5 +9,5 @@ define(['angularAMD'],function (angularAMD) {
         analytics.eventTrack(action, { category: category, label: label});
       }
     }
- }])
+ }]);
 });

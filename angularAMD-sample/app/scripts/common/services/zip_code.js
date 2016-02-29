@@ -1,5 +1,6 @@
-(function() {
-    commonModule.factory("zipCode", function () {
+define(['angularAMD'], function (angularAMD) {
+
+    angularAMD.factory("zipCode", function () {
         var _oZipCodeRegex = new RegExp(/^\d{5}(-\d{5})?$/);
 
         // returns the integer value of a zip code
@@ -182,4 +183,4 @@
         }
 
     });
-})();
+});
