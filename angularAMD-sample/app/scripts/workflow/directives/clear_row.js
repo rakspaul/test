@@ -1,6 +1,6 @@
-(function () {
+define(['angularAMD'],function (angularAMD) {
     'use strict';
-    angObj.directive('clearkpirow',function() {
+    angularAMD.directive("clearkpirow", function() {
         return function(scope, el, attr) {
             $(el).click(function(){
                 var kpi=scope.Campaign.kpiArr[attr.index].kpiType;
@@ -11,8 +11,8 @@
             })
 
         };
-    })
-    angObj.directive('clearcostrow',function() {
+    });
+    angularAMD.directive('clearcostrow',function() {
         return function(scope, el, attr) {
             $(el).click(function(){
                 scope.Campaign.costArr.splice(attr.index, 1);
@@ -22,37 +22,28 @@
             })
 
         };
-    })
-    angObj.directive('hiddenkpi',function() {
+    });
+    angularAMD.directive('hiddenkpi',function() {
         return function(scope, el, attr) {
             var model = attr['ngModel'];
             scope.$watch(model, function(nv) {
                 if(nv) {
                     el.val(nv);
-//                   scope.Schedule.dayPart[parseInt(attr.index)] = scope.Schedule.dayPart[parseInt(attr.index)] || {};
-                    //scope.selectedDays[attr.index] = el.val();
-
                     scope.Campaign.kpiArr[parseInt(attr.index)][attr.field] = el.val();
-//                    scope.Campaign.kpiArr[parseInt(attr.index)][attr.field] = nv.id;
                 }
             });
 
         };
     });
-    angObj.directive('hiddencost',function() {
+    angularAMD.directive('hiddencost',function() {
         return function(scope, el, attr) {
             var model = attr['ngModel'];
             scope.$watch(model, function(nv) {
                 if(nv) {
                     el.val(nv);
-//                   scope.Schedule.dayPart[parseInt(attr.index)] = scope.Schedule.dayPart[parseInt(attr.index)] || {};
-                    //scope.selectedDays[attr.index] = el.val();
-
                     scope.Campaign.costArr[parseInt(attr.index)][attr.field] = el.val();
-//                    scope.Campaign.kpiArr[parseInt(attr.index)][attr.field] = nv.id;
                 }
             });
-
         };
     });
-}());
+});

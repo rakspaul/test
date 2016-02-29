@@ -1,6 +1,6 @@
-(function () {
+define(['angularAMD'],function (angularAMD) {
     'use strict';
-    angObj.directive('ngUpdateHidden',function() {
+    angularAMD.directive("ngUpdateHidden", function() {
         return function(scope, el, attr) {
             var model = attr['ngModel'];
             scope.$watch(model, function(nv) {
@@ -9,4 +9,4 @@
 
         };
     })
-}());
+});

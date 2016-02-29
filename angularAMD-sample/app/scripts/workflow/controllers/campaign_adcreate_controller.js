@@ -1,12 +1,7 @@
-var angObj = angObj || {};
+define(['angularAMD', 'common/services/constants_service', 'workflow/services/workflow_service','login/login_model','common/services/data_service','workflow/services/audience_service','common/services/role_based_service','common/moment_utils','common/services/vistoconfig_service'], function (angularAMD) {
+  'use strict';
+  angularAMD.controller('CampaignAdsCreateController', function ($scope,  $rootScope,$routeParams, $locale, $location,  $filter, $timeout,constants, workflowService,loginModel,dataService,audienceService,RoleBasedService,momentService,vistoconfig) {
 
-(function () {
-    'use strict';
-
-    angObj.controller('CampaignAdsCreateController', function ($scope, $rootScope, $routeParams, $locale,
-                                                               constants, workflowService, $location, $filter,
-                                                               loginModel, dataService, apiPaths, audienceService,
-                                                               RoleBasedService, momentService, vistoconfig,$timeout) {
         // Flag to denote that ad format has changed
         $scope.adFormatChanged = false;
 
@@ -206,7 +201,7 @@ var angObj = angObj || {};
 
                     if ($scope.adId) {
                         clientId = loginModel.getSelectedClient().id;
-                        url = apiPaths.WORKFLOW_API_URL +
+                        url = vistoconfig.apiPaths.WORKFLOW_API_URL +
                             '/clients/' + clientId +
                             '/campaigns/' + $scope.campaignId +
                             '/ads/' + $scope.adId +
@@ -1643,4 +1638,4 @@ var angObj = angObj || {};
             }
         };
     });
-})();
+});

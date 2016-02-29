@@ -1,9 +1,7 @@
-var angObj = angObj || {};
+define(['angularAMD', 'common/services/constants_service', 'workflow/services/workflow_service','workflow/services/platform_custome_module'], function (angularAMD) {
+  'use strict';
+  angularAMD.controller('BuyingPlatformController', function ($scope, $timeout, $modal, $filter, $rootScope, constants, workflowService,platformCustomeModule) {
 
-(function () {
-    'use strict';
-
-    angObj.controller('BuyingPlatformController', function ($scope, constants, $timeout, workflowService, $modal, $filter, platformCustomeModule, $rootScope) {
         var tempPlatform,
             storedResponse,
             oldPlatformName,
@@ -403,4 +401,4 @@ var angObj = angObj || {};
             });
         };
     });
-})();
+});

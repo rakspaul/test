@@ -34,7 +34,7 @@ define(['angularAMD','reporting/brands/brands_model','reporting/brands/brands_se
             $scope.brandData.showAll = true;
             brandsModel.setSelectedBrand(brand);
             brandsModel.callBrandBroadcast(brand, advertiser, event_type);
-            analytics.track(loginModel.getUserRole(), constants.GA_BRAND_SELECTED, brand.name, loginModel.getLoginName());
+           //grunt analytics.track(loginModel.getUserRole(), constants.GA_BRAND_SELECTED, brand.name, loginModel.getLoginName());
             $scope.selectedBrand = null;
         };
 

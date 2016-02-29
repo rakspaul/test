@@ -1,6 +1,6 @@
 define(['angularAMD','login/login_model','login/login_service','reporting/common/d3/bubble_chart','reporting/models/bubble_chart_model','reporting/brands/brands_model','common/services/constants_service'],function (angularAMD) {
   'use strict';
-  angularAMD.controller('BubbleChartController', function ($scope, $cookieStore, $location, loginModel, loginService, bubbleChart, bubbleChartModel, brandsModel, constantsService) {
+  angularAMD.controller('BubbleChartController', function ($scope, $cookieStore, $location, loginModel, loginService, bubbleChart, bubbleChartModel, brandsModel, constants) {
         $scope.data = {
             brandData: {},
             campaignDataForSelectedBrand: {},

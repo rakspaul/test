@@ -1,6 +1,7 @@
-(function () {
+define(['angularAMD'],function (angularAMD) {
     'use strict';
-    angObj.directive('creativeDropDown', function (/*$compile*/) {
+    angularAMD.directive("creativeDropDown", function() {
+
         return {
             controller: function($scope, workflowService/*,
                                  $timeout, utils, $location*/) {
@@ -110,4 +111,4 @@
             }
         };
     });
-}());
+});

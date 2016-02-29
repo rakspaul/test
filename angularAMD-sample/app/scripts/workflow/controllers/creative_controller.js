@@ -1,7 +1,7 @@
-var angObj = angObj || {};
-(function () {
-    'use strict';
-    angObj.controller('CreativeController', function ($scope,$rootScope, $routeParams, constants, workflowService, $location) {
+define(['angularAMD','common/services/constants_service','workflow/services/workflow_service'],function (angularAMD) {
+  'use strict';
+  angularAMD.controller('CreativeController', function($scope, $rootScope, $routeParams, $location, constants, workflowService) {
+
          $scope.creativeFormat="DISPLAY";
         var creatives = {
             /*Function to get creatives sizes*/
@@ -109,7 +109,7 @@ var angObj = angObj || {};
             $scope.creativeFormat=angular.uppercase(adType);
 
         });
-        
+
         $scope.creativePopularSizes = [
             {id: 16, size: '300x250'},
             {id: 7,  size: '160x600'},
@@ -117,7 +117,7 @@ var angObj = angObj || {};
             {id: 18, size: '300x600'},
             {id: 20, size: '320x50'}
         ];
-        
+
         $scope.resetAlertMessage = function () {
             $rootScope.setErrAlertMessage('', 0);
         };
@@ -138,7 +138,7 @@ var angObj = angObj || {};
                 creatives.fetchAdFormats();
             }
         };
-        
+
         $(function () {
             $('#saveCreative').on('click', function () {
                 var formElem,
@@ -340,14 +340,14 @@ var angObj = angObj || {};
                 .find('.dropdown-toggle')
                 .html('<span>' + selText + '</span> <span class="caret"></span>');
         });
-        
+
         // DDL Search Input Prevent Default
         $('.dropdown-menu')
             .find('input')
             .click(function (e) {
                 e.stopPropagation();
             });
-        
+
         // DDL with Search
         $('.dropdown-menu-search li a').click(function () {
             var selText = $(this).text();
@@ -358,4 +358,4 @@ var angObj = angObj || {};
                 .attr('value=' + selText);
         });
     });
-})();
+});

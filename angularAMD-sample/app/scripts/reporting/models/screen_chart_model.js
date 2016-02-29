@@ -1,5 +1,6 @@
 define(['angularAMD', 'common/services/url_service','common/services/data_service','reporting/brands/brands_model','reporting/dashboard/dashboard_model','common/services/constants_service','login/login_model','common/services/role_based_service', 'reporting/advertiser/advertiser_model', 'common/services/vistoconfig_service'],function (angularAMD) {
   'use strict';
+
   angularAMD.service('screenChartModel', ['urlService', 'dataService', 'brandsModel','dashboardModel' ,'constants' , 'loginModel', 'RoleBasedService', 'advertiserModel', 'vistoconfig', function (urlService, dataService, brandsModel ,dashboardModel, constants, loginModel, RoleBasedService, advertiserModel, vistoconfig) {
 
         var screenWidgetData = { selectedMetric : constants.SPEND ,
