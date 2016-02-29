@@ -1,5 +1,5 @@
 /*global angObj, angular*/
-define(['angularAMD', 'common/utils', 'common/services/constants_service'
+define(['angularAMD'
 ],function (angularAMD) {
     "use strict";
     angularAMD.factory("line", function($timeout) {

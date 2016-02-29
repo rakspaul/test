@@ -2,7 +2,7 @@ define(['angularAMD', 'common/utils', 'common/services/constants_service', 'comm
 
 ],function (angularAMD) {
     'use strict';
-    angularAMD.directive('campaignCostCard', function ($location, utils, constants,momentService) {
+    angularAMD.directive('campaignCostCard', function ($location, utils, constants, momentService) {
         return {
             restrict:'EAC',
 
