@@ -305,7 +305,7 @@ define(['angularAMD','reporting/campaignList/campaign_list_service', 'common/ser
                         var clientId = loginModel.getSelectedClient().id;
                         var advertiserId = advertiserModel.getSelectedAdvertiser().id;
                         var brandId = brandsModel.getSelectedBrand().id;
-                        var url = vistoconfig.apiSerivicesUrl_NEW + '/clients/' + clientId + '/campaigns/summary/counts?date_filter=' + this.timePeriod + '&advertiser_id=' + advertiserId,
+                        var url = vistoconfig.apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId + '/campaigns/summary/counts?date_filter=' + this.timePeriod + '&advertiser_id=' + advertiserId,
                             self = this;
                         //applying brand filter if active
                         if (brandId > 0) {
@@ -613,7 +613,7 @@ define(['angularAMD','reporting/campaignList/campaign_list_service', 'common/ser
                     } else {
                         params.push('cond_type=status');
                     }
-                    return vistoconfig.apiSerivicesUrl_NEW + '/reportBuilder/customQuery?query_id=42&' + params.join('&');
+                    return vistoconfig.apiPaths.apiSerivicesUrl_NEW + '/reportBuilder/customQuery?query_id=42&' + params.join('&');
                 },
                     toggleSortDirection = function (dir) {
                         if (dir == 'asc') {
