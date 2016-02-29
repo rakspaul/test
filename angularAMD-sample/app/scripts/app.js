@@ -129,6 +129,7 @@ define(['common'], function (angularAMD) {
         templateUrl: assets.html_campaign_create,
         title: 'Create - Media Plan',
         controller: 'CreateCampaignController',
+        controllerUrl: 'workflow/controllers/campaign_create_controller.js',
         resolve: {
           'check': function ($location, RoleBasedService, workflowService, constants) {
             var isWorkflowUser =
@@ -150,7 +151,8 @@ define(['common'], function (angularAMD) {
       .when('/admin/accounts', angularAMD.route({
         templateUrl: assets.html_accounts,
         title: 'Accounts',
-        controller: 'AccountsController'
+        controller: 'AccountsController',
+        controllerUrl:'workflow/controllers/accounts_controller.js'
       }))
 
       .when('/admin/users', angularAMD.route({
@@ -163,6 +165,7 @@ define(['common'], function (angularAMD) {
         templateUrl: assets.html_campaign_create,
         title :  'Edit - Media Plan',
         controller: 'CreateCampaignController',
+        controllerUrl: 'workflow/controllers/campaign_create_controller.js',
         resolve:{
           'check': function ($location, RoleBasedService, workflowService, constants) {
             var isWorkflowUser =
@@ -185,6 +188,7 @@ define(['common'], function (angularAMD) {
         templateUrl: assets.html_campaign_create_ad,
         title: 'Media Plan - Overview',
         controller: 'CampaignOverViewController',
+        controllerUrl: 'workflow/controllers/campaign_overview_controller.js',
         resolve: {
           'check': function ($location, RoleBasedService, workflowService, constants) {
             var isWorkflowUser =
@@ -206,6 +210,7 @@ define(['common'], function (angularAMD) {
         templateUrl: assets.html_campaign_create_adBuild,
         title: 'Media Plan - Ad Create',
         controller: 'CampaignAdsCreateController',
+        controllerUrl: 'workflow/controllers/campaign_adcreate_controller.js',
         resolve: {
           'check': function ($location, RoleBasedService, workflowService, constants) {
             var isWorkflowUser =
@@ -228,6 +233,7 @@ define(['common'], function (angularAMD) {
         templateUrl: assets.html_campaign_create_adBuild,
         title: 'Media Plan - Ad Create',
         controller: 'CampaignAdsCreateController',
+        controllerUrl: 'workflow/controllers/campaign_adcreate_controller.js',
         resolve: {
           'check': function ($location, RoleBasedService, workflowService, constants) {
             var isWorkflowUser =
@@ -250,6 +256,7 @@ define(['common'], function (angularAMD) {
         templateUrl: assets.html_campaign_create_adBuild,
         title :  'Media Plan - Ad Edit',
         controller: 'CampaignAdsCreateController',
+        controllerUrl: 'workflow/controllers/campaign_adcreate_controller.js',
         resolve:{
           'check': function ($location, RoleBasedService, workflowService, constants) {
             var isWorkflowUser =
@@ -272,6 +279,7 @@ define(['common'], function (angularAMD) {
         templateUrl: assets.html_campaign_create_adBuild,
         title :  'Media Plan - Ad Edit',
         controller: 'CampaignAdsCreateController',
+        controllerUrl: 'workflow/controllers/campaign_adcreate_controller.js',
         resolve:{
           'check': function($location, RoleBasedService, workflowService, constants){
             var isWorkflowUser =
@@ -309,6 +317,7 @@ define(['common'], function (angularAMD) {
         templateUrl: assets.html_creative_list,
         title: 'Creative List',
         controller: 'CreativeListController',
+        controllerUrl: 'workflow/controllers/creative_list_controller.js',
         resolve: {
           'check': function ($location, RoleBasedService, workflowService, constants) {
             var isWorkflowUser =
@@ -347,7 +356,7 @@ define(['common'], function (angularAMD) {
       // return $locationProvider.html5Mode(true).hashPrefix('!');
     }
   ]).config(function (tmhDynamicLocaleProvider) {
-    tmhDynamicLocaleProvider.localeLocationPattern('/scripts/libs/angular-locale_{{locale}}.js');
+    tmhDynamicLocaleProvider.localeLocationPattern('libs/angular-locale_{{locale}}.js');
   })
     .run(function ($rootScope, $location, $cookies, loginModel, brandsModel, dataService, $cookieStore, workflowService) {
       var handleLoginRedirection = function () {
