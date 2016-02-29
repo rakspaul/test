@@ -1,7 +1,12 @@
-(function() {
+define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'common/moment_utils', 'login/login_model',
+    'common/services/constants_service', 'common/services/url_service', 'common/services/data_store_model',
+    'common/services/data_service'
+],function (angularAMD) {
     'use strict';
-    collectiveReportModule.controller('ReportsScheduleListController', function($rootScope, $scope, $filter, collectiveReportModel, momentService,
-                                                                                $location, $modal, loginModel, constants, urlService, dataStore, dataService) {
+    collectiveReportModule.controller('ReportsScheduleListController', function(collectiveReportModel, momentService, loginModel,
+                                                                                constants, urlService, dataStore,
+                                                                                dataService, $rootScope, $scope,
+                                                                                $filter, $location, $modal) {
         $scope.noOfSchldInstToShow = 3;
         $scope.scheduleInstCount = [];
         $scope.sort = {
@@ -249,4 +254,4 @@
             $scope.getScheduledReports();
         }
     });
-}());
+});
