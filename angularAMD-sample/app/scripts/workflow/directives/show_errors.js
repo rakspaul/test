@@ -1,6 +1,6 @@
-(function () {
+define(['angularAMD'],function (angularAMD) {
     'use strict';
-    angObj.directive('showErrors', function ($timeout, showErrorsConfig) {
+    angularAMD.directive("showErrors", function() {
         var getShowSuccess, linkFn;
 
         getShowSuccess = function (options) {
@@ -84,7 +84,7 @@
         };
     });
 
-    angObj.provider('showErrorsConfig', function () {
+    angularAMD.provider('showErrorsConfig', function () {
         var _showSuccess;
 
         _showSuccess = false;
@@ -95,4 +95,4 @@
             return { showSuccess: _showSuccess };
         };
     });
-}());
+});
