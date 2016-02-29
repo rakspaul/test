@@ -2,17 +2,18 @@ var angObj = angObj || {};
 define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reporting/strategySelect/strategy_select_model', 'reporting/kpiSelect/kpi_select_model',
         'common/utils', 'common/services/data_service', 'common/services/request_cancel_service',
         'common/services/constants_service', 'reporting/timePeriod/time_period_model', 'common/moment_utils',
-        'login/login_model', 'common/services/url_service', 'common/services/data_store_model'
+        'login/login_model', 'common/services/url_service', 'common/services/data_store_model',
+        'reporting/models/domain_reports', 'common/services/analytics_service', 'common/services/viscongif_service'
 ],
 
     function (angularAMD) {
     'use strict';
-        angularAMD.controller('CustomReportController', function( campaignSelectModel, strategySelectModel, kpiSelectModel,
-                                                          utils, dataService, requestCanceller,
-                                                          constants, timePeriodModel, momentService,
-                                                          loginModel, urlService, dataStore,
-                                                          domainReports, $timeout, $location, analytics,
-                                                          apiPaths, $routeParams, $rootScope, $scope, $route, $window) {
+        angularAMD.controller('CustomReportController', function( $routeParams, $rootScope, $scope, $route, $window, $timeout, $location,
+                                                                  campaignSelectModel, strategySelectModel, kpiSelectModel,
+                                                                  utils, dataService, requestCanceller,
+                                                                  constants, timePeriodModel, momentService,
+                                                                  loginModel, urlService, dataStore,
+                                                                  domainReports, analytics, vistoconfig) {
         $scope.additionalFilters = [];
         $scope.textConstants = constants;
         $scope.additionalValue = "Contains keywords ...";

@@ -1,15 +1,21 @@
 var angObj = angObj || {};
 define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaignSelect/campaign_select_model', 'reporting/strategySelect/strategy_select_model',
-        'reporting/common/charts/column_line', 'common/services/data_service', 'common/services/constants_service',
-        'reporting/timePeriod/time_period_model', 'login/login_model', 'reporting/advertiser/advertiser_model',
-        'reporting/brands/brands_model', 'common/services/url_service'
+        'common/services/data_service', 'common/utils', 'common/charts/actions',
+        'reporting/models/domain_reports', 'common/services/constants_service', 'reporting/timePeriod/time_period_model',
+        'login/login_model', 'common/moment_utils', 'common/services/url_service',
+        'reporting/advertiser/advertiser_model', 'reporting/brands/brands_model', 'common/services/analytics_service',
+        'common/services/viscongif_service'
     ],
 
     function (angularAMD) {
     'use strict';
-        angularAMD.controller('OptimizationController', function (campaignSelectModel, kpiSelectModel, strategySelectModel,
+        angularAMD.controller('OptimizationController', function ($timeout, $rootScope, $scope,
+                                                                  kpiSelectModel, campaignSelectModel, strategySelectModel,
                                                                   dataService, utils, actionChart,
-                                                                  domainReports, actionColors,constants, timePeriodModel, loginModel, momentService, urlService, advertiserModel, brandsModel, analytics, apiPaths, $timeout, $rootScope, $scope) {
+                                                                  domainReports, constants, timePeriodModel,
+                                                                  loginModel, momentService, urlService,
+                                                                  advertiserModel, brandsModel, analytics,
+                                                                  vistoconfig, actionColors) {
 
         $scope.textConstants = constants;
 

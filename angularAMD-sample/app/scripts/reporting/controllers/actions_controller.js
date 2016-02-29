@@ -3,9 +3,9 @@ define(['angularAMD', 'common/services/data_service', 'common/services/transform
 ],function (angularAMD) {
 
     'use strict';
-    angularAMD.controller('ActionsController', function ( dataService, modelTransformer, Tactic,
-                                                      constants, ActionType, ActionSubType,
-                                                      $timeout, $scope, $rootScope, $filter, $routeParams) {
+    angularAMD.controller('ActionsController', function ( $timeout, $scope, $rootScope, $filter, $routeParams,
+                                                          dataService, modelTransformer, Tactic,
+                                                          constants, ActionType, ActionSubType) {
 
         var loadActionTypes = true,
             loadAdsMeta = true;
