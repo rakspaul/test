@@ -7,7 +7,7 @@ define(['angularAMD', 'reporting/timePeriod/time_period_model', 'common/services
                       'reporting/brands/brands_model', 'common/services/url_service', 'common/moment_utils',
                       'common/services/role_based_service', 'reporting/advertiser/advertiser_model', 'reporting/kpiSelect/kpi_select_model',
                       'common/services/data_store_model', 'common/services/vistoconfig_service', 'reporting/models/domain_reports',
-                      'reporting/editActions/edit_action_model'
+                      'reporting/editActions/edit_actions_model','reporting/controllers/actions_controller','reporting/editActions/edit_actions_controller','reporting/common/d3/campaign_chart'
 
 ],function (angularAMD) {
     'use strict';
@@ -1255,15 +1255,18 @@ define(['angularAMD', 'reporting/timePeriod/time_period_model', 'common/services
                 }
             }
         });
-    }).run(function($rootScope,$route, vistoconfig){
-        $rootScope.$on('$locationChangeSuccess',function(evt, absNewUrl, absOldUrl) {
-            var prevUrl = absOldUrl.substring(absOldUrl.lastIndexOf('/'));
-            var paramsObj = $route.current.params;
-            if((prevUrl === vistoconfig.MEDIA_PLANS_LINK) && (absNewUrl !== vistoconfig.MEDIA_PLANS_LINK)) {
-                $rootScope.isFromCampaignList = true;
-            } else {
-                $rootScope.isFromCampaignList = false;
-            }
+        angularAMD.inject(function($rootScope,$route, vistoconfig){
+            $rootScope.$on('$locationChangeSuccess',function(evt, absNewUrl, absOldUrl) {
+                var prevUrl = absOldUrl.substring(absOldUrl.lastIndexOf('/'));
+                var paramsObj = $route.current.params;
+                if((prevUrl === vistoconfig.MEDIA_PLANS_LINK) && (absNewUrl !== vistoconfig.MEDIA_PLANS_LINK)) {
+                    $rootScope.isFromCampaignList = true;
+                } else {
+                    $rootScope.isFromCampaignList = false;
+                }
+            });
         });
     });
-});
+
+})
+

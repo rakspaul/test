@@ -1,5 +1,5 @@
 define(['angularAMD','reporting/editActions/edit_actions_service', 'common/services/constants_service',
-    'login/login_model', 'reporting/editActions/edit_action_model'],function (angularAMD) {
+    'login/login_model', 'reporting/editActions/edit_actions_model'],function (angularAMD) {
   'use strict';
     angularAMD.controller('EditActionsController', function ($rootScope, $scope,
                                                              editActionsService, constants,

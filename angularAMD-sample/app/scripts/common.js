@@ -25,7 +25,11 @@ define(['angularAMD','angular-route', 'angular-resource', 'angular-cookies', 'an
     'reporting/campaignList/campaign_list_controller',
     'reporting/models/domain_reports',
     'reporting/timePeriod/time_period_controller',
-    'reporting/timePeriod/time_period_pick_controller'
+    'reporting/timePeriod/time_period_pick_controller',
+
+    'reporting/controllers/campaign_details_controller'
+
+
 ], function (angularAMD) {
   'use strict';
   return angularAMD;
