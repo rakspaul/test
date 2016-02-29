@@ -1,16 +1,26 @@
 /*global angObj*/
-(function() {
+define(['angularAMD', 'reporting/timePeriod/time_period_model', 'common/services/transformer_service', 'reporting/models/campaign_cdb_data',
+                      'reporting/campaignList/campaign_list_service', 'reporting/campaignList/campaign_list_model', 'reporting/campaignSelect/campaign_select_model',
+                      'reporting/strategySelect/strategy_select_model', 'common/charts/actions', 'common/services/data_service',
+                      'common/utils', 'reporting/common/charts/pie_chart', 'reporting/common/charts/solid_gauge',
+                      'common/services/constants_service', 'login/login_model', 'login/login_service',
+                      'reporting/brands/brands_model', 'common/services/url_service', 'common/moment_utils',
+                      'common/services/role_based_service', 'reporting/advertiser/advertiser_model', 'reporting/kpiSelect/kpi_select_model',
+                      'common/services/data_store_model', 'common/services/vistoconfig_service'
+],function (angularAMD) {
     'use strict';
 
-    angObj.controller('CampaignDetailsController', function($rootScope, $scope, $routeParams, kpiSelectModel,
-                                                            $window, domainReports, timePeriodModel,
-                                                            modelTransformer, campaignCDBData, campaignListService,
-                                                            campaignListModel, campaignSelectModel, strategySelectModel,
-                                                            actionChart, dataService, apiPaths, actionColors,
-                                                            $location, utils, $timeout, pieChart, solidGaugeChart,
-                                                            $filter, constants, editAction, activityList, loginModel,
-                                                            loginService, brandsModel, analytics, dataStore, urlService,
-                                                            momentService, RoleBasedService, advertiserModel , vistoconfig ) {
+    angularAMD.controller('CampaignDetailsController', function(timePeriodModel, modelTransformer, campaignCDBData,
+                                                                campaignListService, campaignListModel, campaignSelectModel,
+                                                                strategySelectModel, actionChart, dataService,
+                                                                utils, pieChart, solidGaugeChart,
+                                                                constants, loginModel, loginService,
+                                                                brandsModel, urlService,momentService,
+                                                                RoleBasedService, advertiserModel, kpiSelectModel,
+                                                                dataStore, vistoconfig, editAction,
+                                                                apiPaths, actionColors, $location,  $timeout,
+                                                            $filter, activityList, analytics, $rootScope, $scope, $routeParams,
+                                                            $window, domainReports ) {
         var orderBy = $filter('orderBy');
         var campaign = campaignListService;
         var Campaigns = campaignListModel;
@@ -1253,4 +1263,4 @@
             }
         });
     });
-}());
+});
