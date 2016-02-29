@@ -390,7 +390,7 @@ define(['angularAMD','reporting/campaignList/campaign_list_service', 'common/ser
                         resetCostBreakdown.call(this);
                         this.scrollFlag = 1;
                         fetchData.call(this);
-                        analytics.track(loginModel.getUserRole(), constants.GA_CAMPAIGN_STATUS_FILTER, (state ? state : type), loginModel.getLoginName());
+                        // grunt analytics.track(loginModel.getUserRole(), constants.GA_CAMPAIGN_STATUS_FILTER, (state ? state : type), loginModel.getLoginName());
                     },
                     filterCostType = function (type) {
                         this.selectedCostType = type;
@@ -447,7 +447,7 @@ define(['angularAMD','reporting/campaignList/campaign_list_service', 'common/ser
                         this.scrollFlag = 1;
                         //fetchCampaigns.call(this);
                         fetchData.call(this);
-                        analytics.track(loginModel.getUserRole(), constants.GA_CAMPAIGN_LIST_SORTING, (fieldName + '_' + (sortDirection ? sortDirection : 'asc')), loginModel.getLoginName());
+                        // grunt analytics.track(loginModel.getUserRole(), constants.GA_CAMPAIGN_LIST_SORTING, (fieldName + '_' + (sortDirection ? sortDirection : 'asc')), loginModel.getLoginName());
                     },
                     setActiveSortElement = function (fieldName) {
                         this.sortParam = fieldName;
@@ -483,7 +483,7 @@ define(['angularAMD','reporting/campaignList/campaign_list_service', 'common/ser
                          }
                          });
                          */
-                        analytics.track(loginModel.getUserRole(), constants.GA_CAMPAIGN_CARD_ACTIVITY, constants.GA_CAMPAIGN_ACTIVITY_BUBBLE_COUNT, loginModel.getLoginName(), campaign.actionsCount);
+                       //grunt analytics.track(loginModel.getUserRole(), constants.GA_CAMPAIGN_CARD_ACTIVITY, constants.GA_CAMPAIGN_ACTIVITY_BUBBLE_COUNT, loginModel.getLoginName(), campaign.actionsCount);
                         if (status == false) {
                             $location.path("/mediaplans/" + campaign.orderId);
                         }
@@ -585,7 +585,7 @@ define(['angularAMD','reporting/campaignList/campaign_list_service', 'common/ser
                     resetCostBreakdown.call(this);
                     this.scrollFlag = 1;
                     fetchData.call(this);
-                    analytics.track(loginModel.getUserRole(), constants.GA_CAMPAIGN_STATUS_FILTER, (kpiStatus ? kpiStatus : type), loginModel.getLoginName());
+                   //grunt analytics.track(loginModel.getUserRole(), constants.GA_CAMPAIGN_STATUS_FILTER, (kpiStatus ? kpiStatus : type), loginModel.getLoginName());
                 }
 
                 _campaignServiceUrl = function (from) {

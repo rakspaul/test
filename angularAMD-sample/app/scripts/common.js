@@ -12,6 +12,8 @@ define(['angularAMD','angular-route', 'angular-resource', 'angular-cookies', 'an
     'reporting/advertiser/advertiser_controller',
     'reporting/brands/brands_controller',
     'reporting/common/d3/gauge',
+    'reporting/advertiser/advertiser_directive',
+    'reporting/brands/brands_directive',
 
   'reporting/common/d3/gauge_directive',
   'reporting/controllers/bubble_chart_controller',
@@ -21,6 +23,7 @@ define(['angularAMD','angular-route', 'angular-resource', 'angular-cookies', 'an
   'reporting/common/d3/gantt_directive',
     'reporting/advertiser/advertiser_model',
     'reporting/campaignList/campaign_list_controller',
+    'reporting/models/domain_reports',
     'reporting/timePeriod/time_period_controller',
     'reporting/timePeriod/time_period_pick_controller'
 ], function (angularAMD) {
