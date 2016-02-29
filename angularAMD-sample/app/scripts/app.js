@@ -356,7 +356,7 @@ define(['common'], function (angularAMD) {
       // return $locationProvider.html5Mode(true).hashPrefix('!');
     }
   ]).config(function (tmhDynamicLocaleProvider) {
-    tmhDynamicLocaleProvider.localeLocationPattern('libs/angular-locale_{{locale}}.js');
+    tmhDynamicLocaleProvider.localeLocationPattern('/scripts/libs/angular-locale_{{locale}}.js');
   })
     .run(function ($rootScope, $location, $cookies, loginModel, brandsModel, dataService, $cookieStore, workflowService) {
       var handleLoginRedirection = function () {
