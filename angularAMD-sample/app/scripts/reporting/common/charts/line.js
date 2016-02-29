@@ -1,7 +1,8 @@
 /*global angObj, angular*/
-(function() {
+define(['angularAMD', 'common/utils', 'common/services/constants_service'
+],function (angularAMD) {
     "use strict";
-    commonModule.factory("line", function($timeout) {
+    angularAMD.factory("line", function($timeout) {
        var findKey = function(obj, value) {
            var key;
            _.each(obj, function(v, k) {
@@ -223,4 +224,4 @@
             highChart: lineChart
         };
     });
-}());
+});
