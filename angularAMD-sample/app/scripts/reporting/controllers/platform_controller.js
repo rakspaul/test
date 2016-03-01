@@ -3,7 +3,7 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
         'common/services/data_service', 'common/services/constants_service', 'reporting/models/domain_reports',
         'reporting/timePeriod/time_period_model', 'login/login_model', 'common/services/role_based_service',
         'reporting/advertiser/advertiser_model', 'reporting/brands/brands_model',
-        'common/services/url_service'
+        'common/services/url_service','reporting/strategySelect/strategy_select_directive','reporting/strategySelect/strategy_select_controller',
     ],
 
     function (angularAMD) {    'use strict';
@@ -172,7 +172,7 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
                 } else {
                     $scope.strategyFound = true;
                     $scope.getPlatformData();
-                    analytics.track(loginModel.getUserRole(), constants.GA_USER_STRATEGY_SELECTION, $scope.selectedStrategy.name, loginModel.getLoginName());
+                    // grunt analytics.track(loginModel.getUserRole(), constants.GA_USER_STRATEGY_SELECTION, $scope.selectedStrategy.name, loginModel.getLoginName());
                 }
             };
 

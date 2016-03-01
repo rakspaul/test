@@ -31,7 +31,8 @@ define(['angularAMD','angular-route', 'angular-resource', 'angular-cookies', 'an
     'workflow/controllers/campaign_overview_controller',
 
     'reporting/campaignSelect/campaign_select_directive',
-    'reporting/campaignSelect/campaign_select_controller'
+    'reporting/campaignSelect/campaign_select_controller',
+
 
 
 ], function (angularAMD) {

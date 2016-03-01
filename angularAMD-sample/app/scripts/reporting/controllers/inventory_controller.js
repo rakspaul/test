@@ -2,12 +2,12 @@ var angObj = angObj || {};
 define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaignSelect/campaign_select_model', 'reporting/strategySelect/strategy_select_model',
         'reporting/common/charts/column_line', 'common/services/data_service', 'common/services/constants_service',
         'reporting/timePeriod/time_period_model', 'login/login_model', 'reporting/advertiser/advertiser_model',
-        'reporting/brands/brands_model', 'common/services/url_service',
-        'reporting/models/domain_reports'
+        'reporting/brands/brands_model', 'common/services/url_service','reporting/kpiSelect/kpi_select_directive','reporting/kpiSelect/kpi_select_controller',
+        'reporting/models/domain_reports','reporting/strategySelect/strategy_select_directive','reporting/strategySelect/strategy_select_controller'
     ],
 
     function (angularAMD) {  'use strict';
-        angularAMD.controller('InventoryController', function ($scope, kpiSelectModel, campaignSelectModel, strategySelectModel,
+        angularAMD.controller('InventoryController', function ($scope,kpiSelectModel, campaignSelectModel, strategySelectModel,
                                                                columnline, dataService, constants,
                                                                timePeriodModel, loginModel, advertiserModel,
                                                                brandsModel, urlService,
@@ -242,7 +242,7 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
           } else {
               $scope.strategyFound = true;
               $scope.getStrategyChartData();
-              analytics.track(loginModel.getUserRole(), constants.GA_USER_STRATEGY_SELECTION, $scope.selectedStrategy.name, loginModel.getLoginName());
+              // grunt analytics.track(loginModel.getUserRole(), constants.GA_USER_STRATEGY_SELECTION, $scope.selectedStrategy.name, loginModel.getLoginName());
           }
           $scope.inventoryBusy = false ;
       };
@@ -281,7 +281,7 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
           $(e.target).parent().addClass("inventory_tab_active");
           $scope.$apply();
           $scope.callBackStrategyChange();
-          analytics.track(loginModel.getUserRole(), constants.GA_INVENTORY_TAB_USER_SELECTION, $scope.selected_filters_tab, loginModel.getLoginName());
+          // grunt analytics.track(loginModel.getUserRole(), constants.GA_INVENTORY_TAB_USER_SELECTION, $scope.selected_filters_tab, loginModel.getLoginName());
       });
 
      $scope.$on(constants.EVENT_TIMEPERIOD_CHANGED , function(event,strategy){

@@ -252,7 +252,7 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model', 'reporti
                     endDate: $scope.selectedCampaign.endDate,
                     timeFilter: $scope.selected_filters.time_filter
                 });
-                analytics.track(loginModel.getUserRole(), constants.GA_USER_STRATEGY_SELECTION, $scope.selectedStrategy.name, loginModel.getLoginName());
+              // grunt  analytics.track(loginModel.getUserRole(), constants.GA_USER_STRATEGY_SELECTION, $scope.selectedStrategy.name, loginModel.getLoginName());
             }
         };
 
