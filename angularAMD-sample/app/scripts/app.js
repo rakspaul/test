@@ -1,51 +1,64 @@
-define(['angularAMD','angular-route', 'angular-resource', 'angular-cookies', 'angular-cache',
-    'tmhDynamicLocale', 'underscore', 'angular-css', 'd3', 'angular-sanitize','multiselect',
-    'date-picker', 'filesaver', 'ui-bootstrap-tpls', 'ng-file-upload', 'ng-file-upload-shim', 'moment', 'moment-tz',
-    'common/directives/common_directives',
-    'common/controllers/header_controller',
-    'common/controllers/popup_msg_controller',
-    'common/moment_utils', 'reporting/brands/brands_model',
-    'common/services/data_service',
-    'common/popup_msg',
-    'workflow/services/workflow_service',
-    'reporting/controllers/gantt_chart_controller',
-    'reporting/advertiser/advertiser_controller',
-    'reporting/brands/brands_controller',
-    'reporting/common/d3/gauge',
-    'reporting/advertiser/advertiser_directive',
-    'reporting/brands/brands_directive',
-
-    'reporting/common/d3/gauge_directive',
-    'reporting/controllers/bubble_chart_controller',
-    'reporting/common/d3/screen_chart',
-    'reporting/common/d3/bar_chart',
-    'reporting/controllers/screen_chart_controller',
-    'reporting/common/d3/gantt_directive',
-    'reporting/advertiser/advertiser_model',
-    'reporting/campaignList/campaign_list_controller',
-    'reporting/models/domain_reports',
-    'reporting/timePeriod/time_period_controller',
-    'reporting/timePeriod/time_period_pick_controller',
-
-    'reporting/controllers/campaign_details_controller',
-    'workflow/controllers/campaign_overview_controller',
-
-    'reporting/campaignSelect/campaign_select_directive',
-    'reporting/campaignSelect/campaign_select_controller'
-
-
-
+define(['angularAMD',
+        'angular-route',
+        'angular-cookies',
+        'angular-cache',
+        'moment',
+        'moment-tz',
+        'tmhDynamicLocale',
+        'underscore',
+        'angular-css',
+        'd3',
+        'angular-sanitize',
+        'date-picker',
+        'filesaver',
+        'ui-bootstrap-tpls',
+        'ng-file-upload',
+        'ng-file-upload-shim',
+        'multiselect',
+        'login/login_service',
+        'login/login_model',
+        'reporting/brands/brands_model',
+        'common/services/data_service',
+        'common/services/role_based_service',
+        'common/services/constants_service',
+        'common/directives/common_directives',
+        'reporting/controllers/gantt_chart_controller',
+        'reporting/dashboard/dashboard_controller',
+        'reporting/brands/brands_controller',
+        'common/controllers/header_controller',
+        'reporting/common/d3/gauge',
+        'reporting/controllers/gauge_controller',
+        'reporting/common/d3/gauge_directive',
+        'reporting/controllers/bubble_chart_controller',
+        'reporting/common/d3/screen_chart',
+        'reporting/common/d3/bar_chart',
+        'reporting/controllers/screen_chart_controller',
+        'reporting/common/d3/gantt_directive',
+        'reporting/campaignList/campaign_list_controller',
+        'reporting/models/domain_reports',
+        'reporting/campaignSelect/campaign_select_directive',
+        'reporting/directives/campaign_sort',
+        'reporting/campaignSelect/campaign_select_controller',
+        'reporting/advertiser/advertiser_model',
+        'reporting/advertiser/advertiser_controller',
+        'reporting/timePeriod/time_period_controller',
+        'reporting/timePeriod/time_period_pick_controller',
+        'reporting/controllers/campaign_details_controller',
+        'common/controllers/popup_msg_controller',
+        'common/popup_msg',
+        'common/moment_utils'
 ], function (angularAMD) {
-  'use strict';
-  var app = angular.module('vistoApp', ['ngRoute', 'ngCookies','tmh.dynamicLocale','ui.bootstrap', 'door3.css','ngFileUpload', 'ngSanitize']);
-  app.config(function ($routeProvider, $httpProvider) {
 
-    $routeProvider.when('/login', angularAMD.route({
-      templateUrl: assets.html_reports_login,
-      title: 'Login',
-      controller: 'loginController',
-      controllerUrl: 'login/login_controller',
-    }))
+  var app = angular.module('vistoApp', ['ngRoute', 'ngCookies','tmh.dynamicLocale','ui.bootstrap', 'door3.css','ngFileUpload', 'ngSanitize']);
+
+  app.config(function ($routeProvider, $httpProvider) {
+    $routeProvider
+        .when('/login', angularAMD.route({
+          templateUrl: assets.html_reports_login,
+          title: 'Login',
+          controller: 'loginController',
+          controllerUrl: 'login/login_controller',
+        }))
       .when('/dashboard', angularAMD.route({
         templateUrl: assets.html_dashboard,
         controller: 'DashboardController',
@@ -54,7 +67,6 @@ define(['angularAMD','angular-route', 'angular-resource', 'angular-cookies', 'an
         bodyclass : 'dashboard_body',
         resolve: {}
       }))
-
       .when('/dashboard_2', angularAMD.route({
         templateUrl: assets.html_dashboard_2,
         controller: 'DashboardController_2',

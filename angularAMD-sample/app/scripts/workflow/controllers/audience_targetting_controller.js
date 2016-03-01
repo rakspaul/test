@@ -1,4 +1,4 @@
-define(['angularAMD', 'common/services/audience_service', 'workflow/services/workflow_service', 'common/services/constants_service'], function (angularAMD) {
+define(['angularAMD', 'workflow/services/audience_service', 'workflow/services/workflow_service', 'common/services/constants_service'], function (angularAMD) {
   'use strict';
   angularAMD.controller('AudienceTargettingController', function ($scope, audienceService, workflowService, constants) {
 

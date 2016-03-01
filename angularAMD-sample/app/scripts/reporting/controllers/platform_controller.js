@@ -476,7 +476,7 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
         };
 
         $scope.platformIconUrl = function (name, iconUrl) {
-            return '/assets/images/platform_favicons/' + (iconUrl == 'Unknown' ? 'platform_logo.png' : name.toLowerCase().replace(/ /g, '_') + '.png');
+            return '/images/platform_favicons/' + (iconUrl == 'Unknown' ? 'platform_logo.png' : name.toLowerCase().replace(/ /g, '_') + '.png');
         };
 
         // hot fix for the enabling the active link in the reports dropdown

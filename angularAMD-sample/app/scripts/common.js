@@ -1,6 +1,6 @@
-define(['angularAMD','angular-route', 'angular-resource', 'angular-cookies', 'angular-cache',
-  'tmhDynamicLocale', 'underscore', 'angular-css', 'd3', 'angular-sanitize','multiselect',
-  'date-picker', 'filesaver', 'ui-bootstrap-tpls', 'ng-file-upload', 'ng-file-upload-shim', 'moment', 'moment-tz',
+define(['angularAMD', 'angular-route', 'angular-resource', 'angular-cookies', 'angular-cache',
+    'tmhDynamicLocale', 'underscore', 'angular-css', 'd3', 'angular-sanitize', 'multiselect',
+    'date-picker', 'filesaver', 'ui-bootstrap-tpls', 'ng-file-upload', 'ng-file-upload-shim', 'moment', 'moment-tz',
     'common/directives/common_directives',
     'common/controllers/header_controller',
     'common/controllers/popup_msg_controller',
@@ -14,37 +14,19 @@ define(['angularAMD','angular-route', 'angular-resource', 'angular-cookies', 'an
     'reporting/common/d3/gauge',
     'reporting/advertiser/advertiser_directive',
     'reporting/brands/brands_directive',
-
-  'reporting/common/d3/gauge_directive',
-  'reporting/controllers/bubble_chart_controller',
-
-  'reporting/common/d3/screen_chart',
-  'reporting/common/d3/bar_chart',
-  'reporting/controllers/screen_chart_controller',
-  'reporting/common/d3/gantt_directive',
+    'reporting/common/d3/gauge_directive',
+    'reporting/controllers/bubble_chart_controller',
+    'reporting/common/d3/screen_chart',
+    'reporting/common/d3/bar_chart',
+    'reporting/controllers/screen_chart_controller',
+    'reporting/common/d3/gantt_directive',
     'reporting/advertiser/advertiser_model',
     'reporting/campaignList/campaign_list_controller',
     'reporting/models/domain_reports',
     'reporting/timePeriod/time_period_controller',
     'reporting/timePeriod/time_period_pick_controller',
-
-    'reporting/controllers/campaign_details_controller',
-<<<<<<< HEAD
-    'workflow/controllers/campaign_create_controller',
-    'workflow/controllers/get_adgroups_controller',
-    'workflow/controllers/create_adGroups_controller',
-    'workflow/controllers/budget_delivery_controller',
-    'workflow/controllers/buying_platform_controller',
-=======
-    'workflow/controllers/campaign_overview_controller',
-
-    'reporting/campaignSelect/campaign_select_directive',
-    'reporting/campaignSelect/campaign_select_controller',
->>>>>>> 6345714881c92c6cffa1681fdb2891a6f75b95af
-
-
-
+    'reporting/controllers/campaign_details_controller'
 ], function (angularAMD) {
-  'use strict';
-  return angularAMD;
+    'use strict';
+    return angularAMD;
 });

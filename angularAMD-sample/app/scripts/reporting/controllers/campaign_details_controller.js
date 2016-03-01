@@ -696,7 +696,7 @@ define(['angularAMD', 'reporting/timePeriod/time_period_model', 'common/services
                             kpiData = (kpiModel === 'ctr') ? (data[kpiModel] * 100) : data[kpiModel];
                             var type = data.platform_name;
                             var icon_url = data.platform_icon_url == 'Unknown' ? 'platform_logo.png' : type.toLowerCase().replace(/ /g, '_') + '.png';
-                            icon_url = '/assets/images/platform_favicons/' + icon_url;
+                            icon_url = '/images/platform_favicons/' + icon_url;
                             $scope.chartDataPlatform.push({'gross_env': data.gross_rev, 'className': '', 'icon_url': icon_url, 'type': type, 'value': kpiData});
                         });
                     }

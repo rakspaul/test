@@ -940,7 +940,7 @@ select {
   text-align: right;
 }
 .left_column_nav .stepCompLabel .active {
-  background-image: url("../../assets/images/workflow/blueSelector.png");
+  background-image: url("/images/workflow/blueSelector.png");
   background-position: top right;
   background-repeat: no-repeat;
 }

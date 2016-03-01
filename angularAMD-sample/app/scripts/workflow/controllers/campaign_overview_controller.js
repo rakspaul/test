@@ -1,7 +1,5 @@
-define(['angularAMD','common/services/constants_service','workflow/services/workflow_service','common/moment_utils', 'common/services/vistoconfig_service'],function (angularAMD) {
-  'use strict';
-  angularAMD.controller('CampaignOverViewController', function($scope,$rootScope, $routeParams, $timeout, $location,$route, constants, workflowService, momentService,vistoconfig) {
-
+define(['app','common/services/constants_service','workflow/services/workflow_service','common/moment_utils', 'common/services/vistoconfig_service', 'workflow/controllers/get_adgroups_controller', 'workflow/controllers/create_adgroups_controller'],function (app) {
+    app.controller('CampaignOverViewController', function($scope,$rootScope, $routeParams, $timeout, $location,$route, constants, workflowService, momentService,vistoconfig) {
         $(".main_navigation_holder").find('.active_tab').removeClass('active_tab') ;
         $(".main_navigation").find('.active').removeClass('active').end().find('#campaigns_nav_link').addClass('active');
         $(".bodyWrap").addClass('bodyWrapOverview');
