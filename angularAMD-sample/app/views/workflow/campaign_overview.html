@@ -175,7 +175,7 @@
                 <div class="col-md-12 adContainer">
                     <!--===Start get ad groups ===-->
                     <div id="getAdgroups"
-                         ng-include="'/assets/html/workflow/partials/overview_partials/overview_getAdgroups.html'"
+                         ng-include="'/views/workflow/partials/overview_partials/overview_getAdgroups.html'"
                          ng-controller = "GetAdgroupsController">
                     </div>
                     <!--===END get ad groups ===-->
@@ -186,7 +186,7 @@
                         </div>
                         <!--ng-include of create Ad groups-->
                         <div id="createAdgroups"
-                             ng-include="'/assets/html/workflow/partials/overview_partials/overview_createAdgroups.html'"
+                             ng-include="'/views/workflow/partials/overview_partials/overview_createAdgroups.html'"
                              ng-controller="CreateAdGroupsController">
                         </div>
 
@@ -299,17 +299,17 @@
                                 <div class="col-md-12 adTitle">
                                     <div class="clearfix">
                                         <img ng-src="{{adsData.platform.iconUrl}}"
-                                            height="16" 
-                                            class="adIconWidget" 
-                                            ng-show="(adsData.platform)" 
+                                            height="16"
+                                            class="adIconWidget"
+                                            ng-show="(adsData.platform)"
                                             title="{{adsData.platform.displayName | uppercase}}" />
                                         <!--<span class="pull-left"> {{adsData.id}}</span>-->
                                         <span class="pull-left greyTxt adDisplay"
-                                            ng-show="!(adsData.platform)" 
+                                            ng-show="!(adsData.platform)"
                                             data-ng-bind="textConstants.PLATNOTSET">
                                         </span>
-                                        <span class="pull-right greyTxt adDisplay" 
-                                            ng-show="(!adsData.isTracking) && (adsData.state === 'READY' || adsData.state === 'INCOMPLETE')" 
+                                        <span class="pull-right greyTxt adDisplay"
+                                            ng-show="(!adsData.isTracking) && (adsData.state === 'READY' || adsData.state === 'INCOMPLETE')"
                                             data-ng-bind="textConstants.NOTPUSHEDPAR">
                                         </span>
                                         <span ng-if="(adsData.sourceId)" class="pull-right greyTxt adDisplay"
@@ -712,13 +712,13 @@
                                     <div class="col-md-12">
                                         <div class="col-md-5 platformHolder">
                                             <input type="radio" name="group5" value="collective" class="btn_rad clickCm">
-                                            <img src="/assets/images/cdesk/logo_C.png"/>
+                                            <img src="/images/cdesk/logo_C.png"/>
                                             {{ textConstants.WF_COLLECTIVE_MEDIA }}
                                         </div>
                                         <div class="col-md-1"></div>
                                         <div class="col-md-5 platformHolder">
                                             <input type="radio" name="group5" value="bidder" class="btn_rad clickCb">
-                                            <img src="/assets/images/cdesk/logo_C_bidder.png"/>
+                                            <img src="/images/cdesk/logo_C_bidder.png"/>
                                             {{ textConstants.WF_COLLECTIVE_BIDDER }}
                                         </div>
                                         <div class="col-md-1"></div>
@@ -727,7 +727,7 @@
                                     <div class="col-md-12">
                                         <div class="col-md-5 platformHolder">
                                             <input type="radio" name="group5" value="collective" class="btn_rad">
-                                            <img src="/assets/images/cdesk/logo_C_appnexus.png"/>
+                                            <img src="/images/cdesk/logo_C_appnexus.png"/>
                                             {{ textConstants.WF_APPNEXUS }}
                                         </div>
                                         <div class="col-md-1"></div>
@@ -930,4 +930,4 @@
         });
     })
 </script>
-      
+

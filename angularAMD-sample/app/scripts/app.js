@@ -141,12 +141,11 @@ define(['common'], function (angularAMD) {
         templateUrl: assets.html_campaign_create,
         title: 'Create - Media Plan',
         controller: 'CreateCampaignController',
-        controllerUrl: 'workflow/controllers/campaign_create_controller',
+        controllerUrl: '/scripts/workflow/controllers/campaign_create_controller',
         resolve: {
           'check': function ($location, RoleBasedService, workflowService, constants) {
             var isWorkflowUser =
               RoleBasedService.getClientRole() && RoleBasedService.getClientRole().workFlowUser;
-
             workflowService.setMode('create');
             workflowService.setModuleInfo({
               'moduleName' : 'WORKFLOW',

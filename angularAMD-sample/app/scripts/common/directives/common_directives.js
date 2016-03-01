@@ -11,7 +11,7 @@ define(['angularAMD','common/services/constants_service'],function (angularAMD) 
             scope.textConstants = constants;
             var template;
             if (!scope.isCdeskSession) {
-                $http.get('views/reporting/header.html').then(function (tmpl) {
+                $http.get(assets.html_header).then(function (tmpl) {
                     template = $compile(tmpl.data)(scope);
                     element.append(template);
                 });

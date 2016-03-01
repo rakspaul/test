@@ -17,6 +17,7 @@ define(['angularAMD','angular-route', 'angular-resource', 'angular-cookies', 'an
 
   'reporting/common/d3/gauge_directive',
   'reporting/controllers/bubble_chart_controller',
+
   'reporting/common/d3/screen_chart',
   'reporting/common/d3/bar_chart',
   'reporting/controllers/screen_chart_controller',
@@ -27,7 +28,13 @@ define(['angularAMD','angular-route', 'angular-resource', 'angular-cookies', 'an
     'reporting/timePeriod/time_period_controller',
     'reporting/timePeriod/time_period_pick_controller',
 
-    'reporting/controllers/campaign_details_controller'
+    'reporting/controllers/campaign_details_controller',
+    'workflow/controllers/campaign_create_controller',
+    'workflow/controllers/get_adgroups_controller',
+    'workflow/controllers/create_adGroups_controller',
+    'workflow/controllers/budget_delivery_controller',
+    'workflow/controllers/buying_platform_controller',
+
 
 
 ], function (angularAMD) {

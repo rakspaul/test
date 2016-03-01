@@ -18,13 +18,13 @@
         <div class="masterContainer adMasterContainer">
             <!-- Header Starts -->
             <div class="clearfix page_header_container campAdHeader"
-                 ng-include="'/assets/html/workflow/partials/campaign_ads/campain_header.html'">
+                 ng-include="'/views/workflow/partials/campaign_ads/campain_header.html'">
             </div>
             <!-- Header Ends -->
 
             <div class="campaignAdCreateWrap">
                 <div class="clearfix left_column_nav"
-                     ng-include="'/assets/html/workflow/partials/campaign_ads/sidebar.html'"
+                     ng-include="'/views/workflow/partials/campaign_ads/sidebar.html'"
                      ng-init="loadSideBar()">
                 </div>
                 <!--=== Steps ===-->
@@ -95,31 +95,31 @@
 
                                             <!-- Tab1 Setting start-->
                                             <div class="tab-pane fade in active" id="adType"
-                                                 ng-include="'/assets/html/workflow/partials/campaign_ads/select_type.html'">
+                                                 ng-include="'/views/workflow/partials/campaign_ads/select_type.html'">
                                             </div>
                                             <!-- Tab1 Setting end-->
 
                                             <!-- Tab2 Setting start-->
                                             <div class="tab-pane fade" id="setting"
-                                                 ng-include="'/assets/html/workflow/partials/campaign_ads/budget_delivery.html'"
+                                                 ng-include="'/views/workflow/partials/campaign_ads/budget_delivery.html'"
                                                  ng-controller="BudgetDeliveryController">
                                             </div>
                                             <!-- Tab1 Setting Ends -->
 
                                             <!-- Tabs Buying Platform -->
-                                            <div class="tab-pane fade"
-                                                 id="buying"
-                                                 style="padding: 50px 0 0 0;
-                                                 min-height: 1032px;"
-                                                 ng-include="'/assets/html/workflow/partials/campaign_ads/buying_platform.html'"
-                                                 ng-controller="BuyingPlatformController">
-                                                 </div>
+                                            <!--<div class="tab-pane fade"-->
+                                                 <!--id="buying"-->
+                                                 <!--style="padding: 50px 0 0 0;-->
+                                                 <!--min-height: 1032px;"-->
+                                                 <!--ng-include="'/views/workflow/partials/campaign_ads/buying_platform.html'"-->
+                                                 <!--ng-controller="BuyingPlatformController">-->
+                                                 <!--</div>-->
                                             <!-- Tabs Buying Platform Ends -->
 
                                             <!-- Tabs Targeting -->
                                             <div ng-if="!TrackingIntegrationsSelected"
                                                  class="tab-pane fade" id="targetting"
-                                                 ng-include="'/assets/html/workflow/partials/campaign_ads/targetting.html'"
+                                                 ng-include="'/views/workflow/partials/campaign_ads/targetting.html'"
                                                  ng-controller="targettingController">
                                             </div>
                                             <!-- Tabs Targetting Platform -->
@@ -128,14 +128,14 @@
                                             <div class="tab-pane fade"
                                                  id="creative"
                                                  style="width:100%;"
-                                                 ng-include="'/assets/html/workflow/partials/campaign_ads/ad_sizes_and_creatives.html'">
+                                                 ng-include="'/views/workflow/partials/campaign_ads/ad_sizes_and_creatives.html'">
                                             </div>
                                             <!-- Tabs Creative -->
 
                                             <!-- Tabs Inventory Filters -->
                                             <div class="tab-pane fade"
                                                  id="inventoryView"
-                                                 ng-include="'/assets/html/workflow/partials/campaign_ads/inventory.html'"
+                                                 ng-include="'/views/workflow/partials/campaign_ads/inventory.html'"
                                                  ng-controller="InventoryFiltersController">
                                             </div>
                                             <!-- Tabs Inventory Filters -->
@@ -151,14 +151,14 @@
             </div>
         </div>
     </div>
-    <div ng-include="'/assets/html/workflow/partials/creative_library_popup.html'"
+    <div ng-include="'/views/workflow/partials/creative_library_popup.html'"
          ng-controller="CreativeTagController">
     </div>
-    <div ng-include="'/assets/html/workflow/creative.html'"
+    <div ng-include="'/views/workflow/creative.html'"
          ng-if="workflowData.campaignData"
          class="newCreativeSlide">
     </div>
-    <div ng-include="'/assets/html/workflow/partials/custom_platform.html'"
+    <div ng-include="'/views/workflow/partials/custom_platform.html'"
          class="platformSlide plat-collective-bidder">
     </div>
 

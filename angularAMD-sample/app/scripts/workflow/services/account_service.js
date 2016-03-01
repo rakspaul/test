@@ -1,4 +1,4 @@
-define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/data_service', 'common/services/constant_service', 'common/services/request_canceller_service'], function (angularAMD) {
+define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/data_service', 'common/services/constants_service', 'common/services/request_canceller_service'], function (angularAMD) {
     'use strict';
     angularAMD.factory('accountsService', function (vistoconfig, dataService, constants, requestCanceller) {
 

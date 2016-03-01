@@ -1,4 +1,4 @@
-define(['angularAMD', 'common/services/constants_service', 'workflow/services/workflow_service','login/login_model','common/services/data_service','workflow/services/audience_service','common/services/role_based_service','common/moment_utils','common/services/vistoconfig_service'], function (angularAMD) {
+define(['angularAMD', 'common/services/constants_service', 'workflow/services/workflow_service','login/login_model','common/services/data_service','workflow/services/audience_service','common/services/role_based_service','common/moment_utils','common/services/vistoconfig_service','workflow/controllers/buying_platform_controller'], function (angularAMD) {
   'use strict';
   angularAMD.controller('CampaignAdsCreateController', function ($scope,  $rootScope,$routeParams, $locale, $location,  $filter, $timeout,constants, workflowService,loginModel,dataService,audienceService,RoleBasedService,momentService,vistoconfig) {
 

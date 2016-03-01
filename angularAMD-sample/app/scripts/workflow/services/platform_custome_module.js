@@ -1,4 +1,4 @@
-define(['angularAMD', 'common/services/constant_service'], function (angularAMD) {
+define(['angularAMD', 'common/services/constants_service'], function (angularAMD) {
     'use strict';
     angularAMD.factory('accountsService', function ($timeout, $locale, constants ) {
         var _self = this;
