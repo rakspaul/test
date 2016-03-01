@@ -1,7 +1,7 @@
-
-(function() {
+define(['angularAMD'
+],function (angularAMD) {
     "use strict";
-    commonModule.factory("pieChart", function($timeout) {
+    angularAMD.factory("pieChart", function($timeout) {
 
         var pieChart = function(graphData) {
             var data = [], colors;
@@ -88,4 +88,4 @@
             highChart: pieChart
         };
     });
-}());
+});

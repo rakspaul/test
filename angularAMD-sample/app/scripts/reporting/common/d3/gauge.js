@@ -1,6 +1,6 @@
 define(['angularAMD','common/services/constants_service'],function (angularAMD) {
   'use strict';
-  angularAMD.service("gauge", function(constants, $window) {
+  angularAMD.service("gauge", function($window, constants) {
     var gauges = [];
     var dashContainer;
     var readings = [];
@@ -323,6 +323,6 @@ define(['angularAMD','common/services/constants_service'],function (angularAMD) 
 
       }
     };
-  })
+  });
 });
 

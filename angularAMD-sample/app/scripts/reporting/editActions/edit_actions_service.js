@@ -1,6 +1,7 @@
-(function () {
-  "use strict";
-  editActionsModule.factory("editActionsService", ["dataService",'urlService',  function (dataService,urlService) {
+define(['angularAMD', 'common/services/data_service', 'common/services/url_service'],
+    function (angularAMD) {
+    "use strict";
+    angularAMD.factory("editActionsService", ["dataService",'urlService',  function (dataService,urlService) {
 	
     var editAction = function (data) {
       return dataService.put(urlService.APIeditAction(data.ad_id), data).then(function(response) {
@@ -17,4 +18,4 @@
     }
 
   }]);
-}());
+});

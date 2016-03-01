@@ -1,6 +1,6 @@
-(function () {
-  'use strict';
-  brandsModule.controller('BrandsListController', function ($scope, constants) {
+define(['angularAMD','common/services/constants_service'],function (angularAMD) {
+    'use strict';
+    angularAMD.controller('BrandsListController', function ($scope, constants) {
     $scope.$watch('selectedBrand.name', function (newName, oldName) {
       if (newName === oldName) {
         return;
@@ -27,4 +27,4 @@
       $scope.isExcludedByBrandFilter = !isSubString && ($scope.brandData.showAll === false);
     };
   });
-}());
+});

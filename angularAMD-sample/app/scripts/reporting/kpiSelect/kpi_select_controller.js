@@ -1,6 +1,10 @@
-(function () {
+define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', 'reporting/campaignSelect/campaign_select_model', 'common/services/constants_service',
+                       'login/login_model'],function (angularAMD) {
+
     'use strict';
-    kpiSelectModule.controller('KpiSelectController', function ($scope, $rootScope , kpiSelectModel, campaignSelectModel , constants , analytics, loginModel) {
+    angularAMD.controller('KpiSelectController', function ($scope, $rootScope,
+                                                                kpiSelectModel, campaignSelectModel, constants,
+                                                                loginModel) {
 
         $scope.kpiData = {};
         $scope.kpiData.selectedKpi = kpiSelectModel.getSelectedKpi() ;
@@ -159,4 +163,4 @@
             }
         };
     });
-}());
+});

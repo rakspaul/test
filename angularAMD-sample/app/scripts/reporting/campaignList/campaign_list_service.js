@@ -1,15 +1,18 @@
-
-(function () {
+define(['angularAMD', 'common/services/data_service', 'common/utils', 'common/services/transformer_service',
+                      'reporting/models/campaign_model', 'common/services/request_cancel_service', 'common/services/constants_service',
+                      'common/moment_utils', 'reporting/models/domain_reports', 'login/login_model',
+                      'reporting/timePeriod/time_period_model', 'common/services/url_service', 'reporting/common/charts/line'
+         ],function (angularAMD) {
     "use strict";
     //originally in models/campaign.js
-    campaignListModule.factory("campaignListService", ["dataService", "utils", "line", 'modelTransformer',
-        'campaignModel', 'requestCanceller',
-        'constants', 'momentService','domainReports', 'loginModel',
-          'timePeriodModel', 'urlService',
-        function (dataService,  utils, line, modelTransformer,
+    angularAMD.factory("campaignListService", ['dataService', 'utils', 'modelTransformer',
+                                               'campaignModel', 'requestCanceller', 'constants',
+                                               'momentService','domainReports', 'loginModel',
+                                               'timePeriodModel', 'urlService', "line",
+        function (dataService,  utils,  modelTransformer,
                   campaignModel, requestCanceller,
                   constants , momentInNetworkTZ, domainReports, loginModel,
-                    timePeriodModel, urlService) {
+                  timePeriodModel, urlService, line) {
 
             var listCampaign = "";
 
@@ -621,4 +624,4 @@
                 }
             };
         }]);
-}());
+});

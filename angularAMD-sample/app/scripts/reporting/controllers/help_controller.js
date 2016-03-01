@@ -1,5 +1,6 @@
 var angObj = angObj || {};
-(function () {
+define(['angularAMD'
+],function (angularAMD) {
     'use strict';
     angObj.controller('HelpController', function ($scope, $sce) {
         
@@ -70,4 +71,4 @@ var angObj = angObj || {};
        
        
      });
-}());
+});

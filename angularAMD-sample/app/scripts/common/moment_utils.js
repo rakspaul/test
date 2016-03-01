@@ -1,4 +1,4 @@
-define(['angularAMD', 'login/login_model', 'common/services/constants_service'], function (angularAMD) {
+define(['angularAMD','moment', 'login/login_model', 'common/services/constants_service'], function (angularAMD) {
   angularAMD.service("momentService", ['loginModel', 'constants', function (loginModel, constants) {
     this.today = function () {
       var m = moment.tz(loginModel.networkTimezone());

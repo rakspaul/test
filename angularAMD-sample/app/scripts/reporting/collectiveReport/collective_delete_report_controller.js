@@ -1,7 +1,7 @@
-(function() {
-    'use strict';
+define(['angularAMD'],function (angularAMD) {
 
-    collectiveReportModule.controller('CollectiveDeleteReportController', function( $scope , $modalInstance,headerMsg,mainMsg,deleteAction) {
+    'use strict';
+    angularAMD.controller('CollectiveDeleteReportController', function( $scope , $modalInstance,headerMsg,mainMsg,deleteAction) {
 
         $scope.headerMsg = headerMsg;
         $scope.mainMsg =  mainMsg;
@@ -11,4 +11,4 @@
             $modalInstance.dismiss();
         };
     });
-}());
+});

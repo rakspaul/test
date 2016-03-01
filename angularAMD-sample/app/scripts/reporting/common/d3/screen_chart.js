@@ -9,4 +9,4 @@ define(['angularAMD','common/services/constants_service'],function (angularAMD) 
             }
         }
     })
-}());
+});

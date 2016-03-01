@@ -1,9 +1,7 @@
-var angObj = angObj || {};
+define(['angularAMD','workflow/services/workflow_service', 'workflow/service/file_reader'],function (angularAMD) {
+  'use strict';
+  angularAMD.controller('InventoryFiltersController', function($scope, Upload, workflowService,fileReader) {
 
-(function () {
-    'use strict';
-
-    angObj.controller('InventoryFiltersController', function ($scope, workflowService, Upload, fileReader) {
         var InventoryFiltersView = {
             getAdvertisersDomainList: function (clientId, advertiserId) {
                 workflowService
@@ -581,4 +579,4 @@ var angObj = angObj || {};
             }
         });
     });
-})();
+});

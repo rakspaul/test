@@ -1,16 +1,29 @@
 /*global angObj*/
-(function() {
+define(['angularAMD', 'reporting/timePeriod/time_period_model', 'common/services/transformer_service', 'reporting/models/campaign_cdb_data',
+                      'reporting/campaignList/campaign_list_service', 'reporting/campaignList/campaign_list_model', 'reporting/campaignSelect/campaign_select_model',
+                      'reporting/strategySelect/strategy_select_model', 'reporting/common/charts/actions', 'common/services/data_service',
+                      'common/utils', 'reporting/common/charts/pie_chart', 'reporting/common/charts/solid_gauge',
+                      'common/services/constants_service', 'login/login_model', 'login/login_service',
+                      'reporting/brands/brands_model', 'common/services/url_service', 'common/moment_utils',
+                      'common/services/role_based_service', 'reporting/advertiser/advertiser_model', 'reporting/kpiSelect/kpi_select_model',
+                      'common/services/data_store_model', 'common/services/vistoconfig_service', 'reporting/models/domain_reports',
+                      'reporting/editActions/edit_actions_model','reporting/controllers/actions_controller','reporting/editActions/edit_actions_controller','reporting/common/d3/campaign_chart'
+
+],function (angularAMD) {
     'use strict';
 
-    angObj.controller('CampaignDetailsController', function($rootScope, $scope, $routeParams, kpiSelectModel,
-                                                            $window, domainReports, timePeriodModel,
-                                                            modelTransformer, campaignCDBData, campaignListService,
-                                                            campaignListModel, campaignSelectModel, strategySelectModel,
-                                                            actionChart, dataService, apiPaths, actionColors,
-                                                            $location, utils, $timeout, pieChart, solidGaugeChart,
-                                                            $filter, constants, editAction, activityList, loginModel,
-                                                            loginService, brandsModel, analytics, dataStore, urlService,
-                                                            momentService, RoleBasedService, advertiserModel , vistoconfig ) {
+    angularAMD.controller('CampaignDetailsController', function($rootScope, $scope, $routeParams,
+                                                                $window,$filter,$location,  $timeout,
+                                                                timePeriodModel, modelTransformer, campaignCDBData,
+                                                                campaignListService, campaignListModel, campaignSelectModel,
+                                                                strategySelectModel, actionChart, dataService,
+                                                                utils, pieChart, solidGaugeChart,
+                                                                constants, loginModel, loginService,
+                                                                brandsModel, urlService,momentService,
+                                                                RoleBasedService, advertiserModel, kpiSelectModel,
+                                                                dataStore, vistoconfig, domainReports,
+                                                                editAction, actionColors,
+                                                                activityList) {
         var orderBy = $filter('orderBy');
         var campaign = campaignListService;
         var Campaigns = campaignListModel;
@@ -155,7 +168,7 @@
 
         //API call for campaign details
         var clientId = loginModel.getSelectedClient().id,
-            url = apiPaths.apiSerivicesUrl_NEW + "/clients/" + clientId + "/campaigns/" + $routeParams.campaignId;
+            url = vistoconfig.apiPaths.apiSerivicesUrl_NEW + "/clients/" + clientId + "/campaigns/" + $routeParams.campaignId;
         dataService.getSingleCampaign(url).then(function(result) {
             if (result.status == "success" && !angular.isString(result.data)) {
                 var dataArr = [result.data.data];
@@ -700,7 +713,7 @@
 
         $scope.getFormatsGraphData  = function(campaign){
             var formats;
-            
+
             var formatTypeMap = vistoconfig.formatTypeMap ;
 
             var params=getCustomQueryParams(constants.QUERY_ID_CAMPAIGN_FORMATS);
@@ -1242,15 +1255,18 @@
                 }
             }
         });
-    }).run(function($rootScope,$route, vistoconfig){
-        $rootScope.$on('$locationChangeSuccess',function(evt, absNewUrl, absOldUrl) {
-            var prevUrl = absOldUrl.substring(absOldUrl.lastIndexOf('/'));
-            var paramsObj = $route.current.params;
-            if((prevUrl === vistoconfig.MEDIA_PLANS_LINK) && (absNewUrl !== vistoconfig.MEDIA_PLANS_LINK)) {
-                $rootScope.isFromCampaignList = true;
-            } else {
-                $rootScope.isFromCampaignList = false;
-            }
+        angularAMD.inject(function($rootScope,$route, vistoconfig){
+            $rootScope.$on('$locationChangeSuccess',function(evt, absNewUrl, absOldUrl) {
+                var prevUrl = absOldUrl.substring(absOldUrl.lastIndexOf('/'));
+                var paramsObj = $route.current.params;
+                if((prevUrl === vistoconfig.MEDIA_PLANS_LINK) && (absNewUrl !== vistoconfig.MEDIA_PLANS_LINK)) {
+                    $rootScope.isFromCampaignList = true;
+                } else {
+                    $rootScope.isFromCampaignList = false;
+                }
+            });
         });
     });
-}());
+
+})
+

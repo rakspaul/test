@@ -163,7 +163,7 @@
                     <div class="filterBody">
                         <ul>
                             <li ng-repeat="domainName in workflowData.csvFileContents |
-                                    orderBy : domainName : inventoryNew.reverseOrder"
+                                    orderBy : domainName : inventoryNew.reverseOrder track by $index"
                                 ng-bind="domainName">
                             </li>
                         </ul>

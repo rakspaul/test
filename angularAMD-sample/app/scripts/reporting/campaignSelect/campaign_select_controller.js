@@ -1,7 +1,10 @@
-(function () {
+define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'common/services/constants_service', 'reporting/brands/brands_model',
+                      'login/login_model', 'common/utils'], function (angularAMD) {
     'use strict';
 
-    campaignSelectModule.controller('CampaignSelectController', function ($scope, $rootScope, campaignSelectModel, constants, brandsModel, loginModel, analytics, utils) {
+    angularAMD.controller('CampaignSelectController', function ($scope, $rootScope,
+                                                                campaignSelectModel, constants, brandsModel,
+                                                                loginModel, utils) {
 
         $scope.campaignData = {
             campaigns: {},
@@ -181,4 +184,4 @@
 
         });
     });
-}());
+});

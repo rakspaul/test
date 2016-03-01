@@ -1,9 +1,7 @@
-var angObj = angObj || {};
+define(['angularAMD','common/moment_utils'],function (angularAMD) {
+  'use strict';
+  angularAMD.controller('GetAdgroupsController', function($scope, $routeParams, $location, momentService) {
 
-(function () {
-    'use strict';
-
-    angObj.controller('GetAdgroupsController', function ($scope, $routeParams, $location, momentService) {
         $scope.numOfDays = function (startTime, endTime) {
             var startTime = momentService.utcToLocalTime(startTime),
                 endTime = momentService.utcToLocalTime(endTime);
@@ -25,4 +23,4 @@ var angObj = angObj || {};
             return momentService.utcToLocalTime(date, format);
         };
     });
-})();
+});

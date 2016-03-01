@@ -7,7 +7,7 @@ define(['common'], function (angularAMD) {
       templateUrl: assets.html_reports_login,
       title: 'Login',
       controller: 'loginController',
-      controllerUrl: 'login/login_controller'
+      controllerUrl: 'login/login_controller',
     }))
       .when('/dashboard', angularAMD.route({
         templateUrl: assets.html_dashboard,
@@ -34,31 +34,36 @@ define(['common'], function (angularAMD) {
       .when('/mediaplans/:campaignId', angularAMD.route({
         templateUrl: assets.html_campaign_details,
         title: 'Reports Overview',
-        controller: 'CampaignDetailsController'
+        controller: 'CampaignDetailsController',
+        controllerUrl: 'reporting/controllers/campaign_details_controller'
       }))
 
       .when('/optimization', angularAMD.route({
         templateUrl: assets.html_optimization,
         title: 'Reports - Optimization',
-        controller: 'OptimizationController'
+        controller: 'OptimizationController',
+        controllerUrl: 'reporting/controllers/optimization_controller'
       }))
 
       .when('/inventory', angularAMD.route({
         templateUrl: assets.html_inventory,
         title: 'Reports - Inventory',
-        controller: 'InventoryController'
+        controller: 'InventoryController',
+        controllerUrl: 'reporting/controllers/inventory_controller'
       }))
 
       .when('/quality', angularAMD.route({
         templateUrl: assets.html_viewability,
         title: 'Reports - Quality',
-        controller: 'ViewabilityController'
+        controller: 'ViewabilityController',
+        controllerUrl: 'reporting/controllers/viewability_controller'
       }))
 
       .when('/cost', angularAMD.route({
         templateUrl: assets.html_cost,
         title: 'Reports - Cost',
         controller: 'CostController',
+        controllerUrl: 'reporting/controllers/cost_controller',
         resolve: {
           'check': function ($location, RoleBasedService, loginModel) {
             // if  cost modal is opaque and some one trying to access cost direclty from the url
@@ -80,7 +85,8 @@ define(['common'], function (angularAMD) {
       .when('/platform', angularAMD.route({
         templateUrl: assets.html_platform,
         title: 'Reports - Platform',
-        controller: 'PlatformController'
+        controller: 'PlatformController',
+        controllerUrl: 'reporting/controllers/platform_controller'
         //css: 'assets/stylesheets/platform.css'
       }))
 
@@ -88,6 +94,7 @@ define(['common'], function (angularAMD) {
         templateUrl: assets.html_custom_report,
         title: 'Report Builder',
         controller: 'CustomReportController',
+        controllerUrl: 'reporting/controllers/custom_report_controller',
         bodyclass : 'custom_report_page'
       }))
 
@@ -95,6 +102,7 @@ define(['common'], function (angularAMD) {
         templateUrl: assets.html_custom_report,
         title: 'Report Builder',
         controller: 'CustomReportController',
+        controllerUrl: 'reporting/controllers/custom_report_controller',
         bodyclass : 'custom_report_page'
       }))
 
@@ -102,6 +110,7 @@ define(['common'], function (angularAMD) {
         templateUrl: assets.html_custom_report_upload,
         title: 'Upload Custom Reports',
         controller: 'CustomReportUploadController',
+        controllerUrl: 'reporting/controllers/custom_report_upload_controller',
         css: assets.css_custom_reports
       }))
 
@@ -109,6 +118,7 @@ define(['common'], function (angularAMD) {
         templateUrl: assets.html_collective_report_listing,
         title: 'Collective Insights',
         controller: 'CollectiveReportListingController',
+        controllerUrl: 'reporting/collectiveReport/CollectiveReportListingController',
         css: assets.css_custom_reports
       }))
 
@@ -116,19 +126,22 @@ define(['common'], function (angularAMD) {
         templateUrl: assets.html_reports_schedule_list,
         title: 'Scheduled Reports',
         controller: 'ReportsScheduleListController',
+          controllerUrl: 'reporting/collectiveReport/report_schedule_list_controller',
         css: assets.css_reports_schedule_list
       }))
 
       .when('/performance', angularAMD.route({
         templateUrl: assets.html_performance,
         title: 'Reports - Performance',
-        controller: 'PerformanceController'
+        controller: 'PerformanceController',
+        controllerUrl: 'reporting/controllers/performance_controller'
       }))
 
       .when('/mediaplan/create', angularAMD.route({
         templateUrl: assets.html_campaign_create,
         title: 'Create - Media Plan',
         controller: 'CreateCampaignController',
+        controllerUrl: 'workflow/controllers/campaign_create_controller',
         resolve: {
           'check': function ($location, RoleBasedService, workflowService, constants) {
             var isWorkflowUser =
@@ -150,7 +163,8 @@ define(['common'], function (angularAMD) {
       .when('/admin/accounts', angularAMD.route({
         templateUrl: assets.html_accounts,
         title: 'Accounts',
-        controller: 'AccountsController'
+        controller: 'AccountsController',
+        controllerUrl:'workflow/controllers/accounts_controller'
       }))
 
       .when('/admin/users', angularAMD.route({
@@ -163,6 +177,7 @@ define(['common'], function (angularAMD) {
         templateUrl: assets.html_campaign_create,
         title :  'Edit - Media Plan',
         controller: 'CreateCampaignController',
+        controllerUrl: 'workflow/controllers/campaign_create_controller',
         resolve:{
           'check': function ($location, RoleBasedService, workflowService, constants) {
             var isWorkflowUser =
@@ -185,6 +200,7 @@ define(['common'], function (angularAMD) {
         templateUrl: assets.html_campaign_create_ad,
         title: 'Media Plan - Overview',
         controller: 'CampaignOverViewController',
+        controllerUrl: 'workflow/controllers/campaign_overview_controller',
         resolve: {
           'check': function ($location, RoleBasedService, workflowService, constants) {
             var isWorkflowUser =
@@ -206,6 +222,7 @@ define(['common'], function (angularAMD) {
         templateUrl: assets.html_campaign_create_adBuild,
         title: 'Media Plan - Ad Create',
         controller: 'CampaignAdsCreateController',
+        controllerUrl: 'workflow/controllers/campaign_adcreate_controller',
         resolve: {
           'check': function ($location, RoleBasedService, workflowService, constants) {
             var isWorkflowUser =
@@ -228,6 +245,7 @@ define(['common'], function (angularAMD) {
         templateUrl: assets.html_campaign_create_adBuild,
         title: 'Media Plan - Ad Create',
         controller: 'CampaignAdsCreateController',
+        controllerUrl: 'workflow/controllers/campaign_adcreate_controller',
         resolve: {
           'check': function ($location, RoleBasedService, workflowService, constants) {
             var isWorkflowUser =
@@ -250,6 +268,7 @@ define(['common'], function (angularAMD) {
         templateUrl: assets.html_campaign_create_adBuild,
         title :  'Media Plan - Ad Edit',
         controller: 'CampaignAdsCreateController',
+        controllerUrl: 'workflow/controllers/campaign_adcreate_controller',
         resolve:{
           'check': function ($location, RoleBasedService, workflowService, constants) {
             var isWorkflowUser =
@@ -272,6 +291,7 @@ define(['common'], function (angularAMD) {
         templateUrl: assets.html_campaign_create_adBuild,
         title :  'Media Plan - Ad Edit',
         controller: 'CampaignAdsCreateController',
+        controllerUrl: 'workflow/controllers/campaign_adcreate_controller',
         resolve:{
           'check': function($location, RoleBasedService, workflowService, constants){
             var isWorkflowUser =
@@ -309,6 +329,7 @@ define(['common'], function (angularAMD) {
         templateUrl: assets.html_creative_list,
         title: 'Creative List',
         controller: 'CreativeListController',
+        controllerUrl: 'workflow/controllers/creative_list_controller',
         resolve: {
           'check': function ($location, RoleBasedService, workflowService, constants) {
             var isWorkflowUser =

@@ -1,6 +1,8 @@
-(function () {
+define(['angularAMD', 'common/services/constants_service', 'reporting/campaignList/campaign_list_service', 'common/moment_utils'
+
+],function (angularAMD) {
     'use strict';
-    angObj.directive('campaignStrategyCard', function (utils, loginModel, analytics, constants, campaignListService,momentService) {
+    angularAMD.directive('campaignStrategyCard', function (utils, loginModel, constants, campaignListService,momentService) {
         return {
             restrict:'EAC',
 
@@ -103,13 +105,13 @@
                 $scope.showStrategies = function(campaignId, strategiesCount) {
                     if(strategiesCount > 0) {
                       $('#strategies-accordion-' + campaignId).toggle();
-                    }          
+                    }
                 };
 
                 $scope.showTactics = function(strategy) {
                     var strategyId = strategy.id,
                         tacticsCount = strategy.tactics_count;
-                    //TODO: check if object already requested! 
+                    //TODO: check if object already requested!
                     //introducing the tactic data call initiation on click here
                     campaignListService.requestTacticsList(strategy, constants.PERIOD_LIFE_TIME, $scope.campaign,$scope.goToStrategyStartingPosition);
                     if($('#tactics-accordion-' + strategyId).css('display') === 'none') {
@@ -123,7 +125,7 @@
                         $("#strategy_"+strategyId).find(".tactics_open_btn").removeClass("tactic_open_class");
                     }
                     $('#tactics-accordion-' + strategyId).toggle();
-                    
+
                 };
                 //This will call after loaded Tactics
                 $scope.goToStrategyStartingPosition = function(strategyId,loadingFlag){
@@ -136,12 +138,12 @@
                 }
                 //This will call the Parent controllers loadMoreStrategies function
                 $scope.loadMoreStrategies = function(campaignId) {
-                    $scope.$parent.loadMoreStrategies(campaignId);         
+                    $scope.$parent.loadMoreStrategies(campaignId);
                 };
 
                 //This will call the Parent controllers loadMoreTactics function
                 $scope.loadMoreTactics = function(strategyId, campaignId) {
-                    $scope.$parent.loadMoreTactics(strategyId, campaignId);         
+                    $scope.$parent.loadMoreTactics(strategyId, campaignId);
                 };
 
                 //This is called when the user clicks on the campaign title
@@ -166,8 +168,8 @@
                 else
                   return constants.MSG_DATA_NOT_AVAILABLE;
               };
-            } 
+            }
         };
     });
 
-}());
+});

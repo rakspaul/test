@@ -1,9 +1,6 @@
-var angObj = angObj || {};
-
-(function () {
-    'use strict';
-
-    angObj.controller('targettingController', function ($scope, $rootScope, $timeout, workflowService, audienceService) {
+define(['angularAMD','workflow/services/workflow_service','workflow/services/audience_service'],function (angularAMD) {
+  'use strict';
+  angularAMD.controller('targettingController', function($scope, $rootScope, $timeout, workflowService,audienceService) {
 
         var _targeting = this;
 
@@ -272,4 +269,4 @@ var angObj = angObj || {};
         });
     });
 
-})();
+});

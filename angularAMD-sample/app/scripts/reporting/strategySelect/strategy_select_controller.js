@@ -1,6 +1,9 @@
-(function () {
+define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reporting/strategySelect/strategy_select_model','common/services/constants_service'
+    ],function (angularAMD) {
+
     'use strict';
-    strategySelectModule.controller('StrategySelectController', function ($scope, $rootScope , campaignSelectModel ,strategySelectModel , constants ) {
+    angularAMD.controller('StrategySelectController', function ($scope, $rootScope,
+                                                                          campaignSelectModel ,strategySelectModel , constants ) {
 
         $scope.strategyData = {
             strategies : {},
@@ -84,5 +87,5 @@
         });
 
     });
-}());
+});
 

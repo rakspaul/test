@@ -1,6 +1,6 @@
-(function () {
+define(['angularAMD'],function (angularAMD) {
     'use strict';
-    angObj.directive('advertiserDropDown',  function () {
+    angularAMD.directive('advertiserDropDown',  function () {
         return {
             restrict: 'EAC',
             templateUrl: assets.html_advertiser_drop_down,
@@ -10,5 +10,5 @@
         };
     });
 
-}());
+});
 

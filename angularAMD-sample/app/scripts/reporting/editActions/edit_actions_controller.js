@@ -1,7 +1,10 @@
-(function () {
+define(['angularAMD','reporting/editActions/edit_actions_service', 'common/services/constants_service',
+    'login/login_model', 'reporting/editActions/edit_actions_model'],function (angularAMD) {
   'use strict';
-  editActionsModule.controller('EditActionsController', function ($rootScope, $scope, editActionsService, editAction, activityList, loginModel, analytics, constants) {
-   
+    angularAMD.controller('EditActionsController', function ($rootScope, $scope,
+                                                             editActionsService, constants,
+                                                             loginModel, editAction, activityList) {
+
         $scope.showList = editAction.data;
         $scope.actionItems = activityList.data;
 
@@ -18,7 +21,7 @@
             document.getElementById("error_edit_action_more_comment").style.display='none';
 
             analytics.track(loginModel.getUserRole(), constants.GA_CAMPAIGN_DETAILS, 'activity_log_edit', loginModel.getLoginName());
- 
+
             _.each(activityList.data.data, function(activity) {
                 if(activity.id == ad_id){
                     //updateUIModel
@@ -58,11 +61,11 @@
                 var txt_data ='';
                 for(i=0; i< max_line;i++){
                     if(i == (parseInt(max_line) ) - 1){
-                        txt_data += split[i] ; 
+                        txt_data += split[i] ;
                     }else{
-                        txt_data += split[i] + '\n'; 
+                        txt_data += split[i] + '\n';
                     }
-                 
+
                 }
                 data.name = txt_data;
               }
@@ -92,9 +95,9 @@
             });
             }else{
                 $scope.saveBtnDisabled = false;
-                $scope.commentError = true;                
+                $scope.commentError = true;
             }
-            
+
         }
 
         function resetEditActionFormData() {
@@ -115,4 +118,4 @@
         });
 
   });
-}());
+});

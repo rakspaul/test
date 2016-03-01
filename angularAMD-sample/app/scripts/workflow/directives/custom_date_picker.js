@@ -1,6 +1,6 @@
-(function () {
+define(['angularAMD'],function (angularAMD) {
     'use strict';
-    angObj.directive('customDatePicker', function() {
+    angularAMD.directive("customDatePicker", function() {
         return {
             // Restrict it to be an attribute in this case
             restrict: 'A',
@@ -12,4 +12,4 @@
             }
         };
     });
-}());
+});

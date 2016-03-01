@@ -1,7 +1,8 @@
-(function() {
+define(['angularAMD'
+],function (angularAMD) {
     'use strict';
 
-    collectiveReportModule.controller('ReportScheduleDeleteController', function( $scope , $modalInstance,headerMsg,mainMsg,deleteAction) {
+    angularAMD.controller('ReportScheduleDeleteController', function( $scope , $modalInstance,headerMsg,mainMsg,deleteAction) {
 
         $scope.headerMsg = headerMsg;
         $scope.mainMsg =  mainMsg;
@@ -11,4 +12,4 @@
             $modalInstance.dismiss();
         };
     });
-}());
+});

@@ -1,4 +1,5 @@
-define(['angularAMD','reporting/brands/brands_model','reporting/brands/brands_service','common/utils','common/services/constants_service','login/login_model', 'reporting/advertiser/advertiser_model'],function (angularAMD) {
+define(['angularAMD','reporting/brands/brands_model','reporting/brands/brands_service','common/utils',
+                    'common/services/constants_service','login/login_model', 'reporting/advertiser/advertiser_model'],function (angularAMD) {
   'use strict';
   angularAMD.controller('BrandsController', function ($scope, $rootScope, brandsModel, brandsService, utils, constants, loginModel, advertiserModel) {
         var search = false;
@@ -33,7 +34,7 @@ define(['angularAMD','reporting/brands/brands_model','reporting/brands/brands_se
             $scope.brandData.showAll = true;
             brandsModel.setSelectedBrand(brand);
             brandsModel.callBrandBroadcast(brand, advertiser, event_type);
-            analytics.track(loginModel.getUserRole(), constants.GA_BRAND_SELECTED, brand.name, loginModel.getLoginName());
+           //grunt analytics.track(loginModel.getUserRole(), constants.GA_BRAND_SELECTED, brand.name, loginModel.getLoginName());
             $scope.selectedBrand = null;
         };
 

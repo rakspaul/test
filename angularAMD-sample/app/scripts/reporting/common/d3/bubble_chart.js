@@ -486,7 +486,7 @@ define(['angularAMD','common/services/constants_service','reporting/brands/brand
 
                 var focusedObjId = (focused_obj.objectType == 'brands')? "brands_"+focused_obj.id : "campaigns_"+focused_obj.id ;
 
-                analytics.track(loginModel.getUserRole(), 'dashboard_bubblechart_widget', (focused_obj.objectType === 'brands' ? 'brand_bubble_hover' : 'campaign_bubble_hover_' + obj.status), loginModel.getLoginName());
+               //grunt analytics.track(loginModel.getUserRole(), 'dashboard_bubblechart_widget', (focused_obj.objectType === 'brands' ? 'brand_bubble_hover' : 'campaign_bubble_hover_' + obj.status), loginModel.getLoginName());
 
                 d3.select("#"+focusedObjId + "_circle").attr('opacity', 1);
                 d3.select("#"+focusedObjId + "_path").attr('opacity', 1);
@@ -551,7 +551,7 @@ define(['angularAMD','common/services/constants_service','reporting/brands/brand
             });
 
             node.on("click", function(obj) {
-                analytics.track(loginModel.getUserRole(), 'dashboard_bubblechart_widget', (obj.objectType === 'brands' ? 'brand_bubble_clicked' : 'campaign_bubble_clicked_' + obj.status), loginModel.getLoginName());
+               //grunt analytics.track(loginModel.getUserRole(), 'dashboard_bubblechart_widget', (obj.objectType === 'brands' ? 'brand_bubble_clicked' : 'campaign_bubble_clicked_' + obj.status), loginModel.getLoginName());
                 if(obj.objectType == 'brands'){
                     tooltip.style("display", "none");
                     $rootScope.$broadcast(constants.BUBBLE_BRAND_CLICKED, obj);

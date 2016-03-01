@@ -1,9 +1,6 @@
-var angObj = angObj || {};
-
-(function () {
-    'use strict';
-
-    angObj.controller('CreateAdGroupsController', function ($scope, $routeParams, constants, workflowService, momentService, $route) {
+define(['angularAMD','common/services/constants_service','workflow/services/workflow_service', 'common/moment_utils'],function (angularAMD) {
+  'use strict';
+  angularAMD.controller('CreateAdGroupsController', function($scope, $routeParams, $route, constantsService, workflowService, momentService) {
         $scope.loadingBtn = false ;
         $scope.handleFlightDate = function (data) {
             var startTime = data,
@@ -61,4 +58,4 @@ var angObj = angObj || {};
             }
         };
     });
-})();
+});

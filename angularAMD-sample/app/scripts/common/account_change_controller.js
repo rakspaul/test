@@ -1,7 +1,8 @@
-(function() {
+define(['angularAMD'],function (angularAMD) {
+
     'use strict';
 
-    commonModule.controller('AccountChangeController', function( $scope , $modalInstance, headerMsg, mainMsg, accountChangeAction) {
+    angularAMD.controller('AccountChangeController', function( $scope , $modalInstance, headerMsg, mainMsg, accountChangeAction) {
 
         $scope.headerMsg = headerMsg;
         $scope.mainMsg =  mainMsg;
@@ -11,4 +12,4 @@
             $modalInstance.dismiss();
         };
     });
-}());
+});

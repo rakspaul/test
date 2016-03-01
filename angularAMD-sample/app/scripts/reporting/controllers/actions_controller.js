@@ -1,8 +1,11 @@
-(function () {
+define(['angularAMD', 'common/services/data_service', 'common/services/transformer_service', 'reporting/models/tactic',
+                      'common/services/constants_service', 'reporting/models/action_type', 'reporting/models/action_sub_type'
+],function (angularAMD) {
+
     'use strict';
-    angObj.controller('ActionsController', function ($scope,$rootScope, $filter, dataService, $routeParams,
-                                                     modelTransformer, ActionType, ActionSubType, Tactic,
-                                                     constants, $timeout) {
+    angularAMD.controller('ActionsController', function ( $timeout, $scope, $rootScope, $filter, $routeParams,
+                                                          dataService, modelTransformer, Tactic,
+                                                          constants, ActionType, ActionSubType) {
 
         var loadActionTypes = true,
             loadAdsMeta = true;
@@ -238,4 +241,4 @@
             $scope.enableSubTypePopup = flag;
         }
     });
-}());
+});

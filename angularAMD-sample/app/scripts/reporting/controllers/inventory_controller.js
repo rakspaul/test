@@ -1,7 +1,17 @@
 var angObj = angObj || {};
-(function () {
-  'use strict';
-  angObj.controller('InventoryController', function ($scope,kpiSelectModel, campaignSelectModel, strategySelectModel , columnline, dataService, domainReports, constants, timePeriodModel, loginModel,advertiserModel,brandsModel, urlService, analytics) {
+define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaignSelect/campaign_select_model', 'reporting/strategySelect/strategy_select_model',
+        'reporting/common/charts/column_line', 'common/services/data_service', 'common/services/constants_service',
+        'reporting/timePeriod/time_period_model', 'login/login_model', 'reporting/advertiser/advertiser_model',
+        'reporting/brands/brands_model', 'common/services/url_service',
+        'reporting/models/domain_reports'
+    ],
+
+    function (angularAMD) {  'use strict';
+        angularAMD.controller('InventoryController', function ($scope, kpiSelectModel, campaignSelectModel, strategySelectModel,
+                                                               columnline, dataService, constants,
+                                                               timePeriodModel, loginModel, advertiserModel,
+                                                               brandsModel, urlService,
+                                                               domainReports) {
 
       $scope.textConstants = constants;
 
@@ -287,4 +297,4 @@ var angObj = angObj || {};
       }, 200);
       // end of hot fix for the enabling the active link in the reports dropdown
   });
-}());
+});
