@@ -1,5 +1,4 @@
 define(['angularAMD', 'common/services/constants_service', 'workflow/services/workflow_service','login/login_model','common/services/data_service','workflow/services/audience_service','common/services/role_based_service','common/moment_utils','common/services/vistoconfig_service','workflow/controllers/budget_delivery_controller', 'workflow/controllers/buying_platform_controller', 'workflow/controllers/targetting_controller', 'workflow/controllers/geo_targetting_controller', 'workflow/controllers/audience_targetting_controller', 'workflow/controllers/daypart_create_controller', 'workflow/controllers/inventory_filters_controller', 'workflow/controllers/creative_controller', 'workflow/controllers/creative_list_controller', 'workflow/controllers/creative_tag_controller','workflow/services/platform_custome_module','common/services/zip_code'], function (angularAMD) {
-  'use strict';
   angularAMD.controller('CampaignAdsCreateController', function ($scope,  $rootScope,$routeParams, $locale, $location,  $filter, $timeout,constants, workflowService,loginModel,dataService,audienceService,RoleBasedService,momentService,vistoconfig) {
 
         // Flag to denote that ad format has changed
@@ -1534,7 +1533,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 .parents('li')
                 .addClass('active');
 
-            target = $(this).attr('href');
+            target = $(this).attr('data-target');
 
             $('#myTabs')
                 .find(target + '-tab')
@@ -1545,7 +1544,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             bottom = $(target).offset().bottom;
 
             $(target)
-                .css({bottom: bottom})
+               // .css({bottom: bottom})
                 .animate({'bottom': '0px'}, '10');
 
             $scope.$broadcast('closeAddCreativePage');

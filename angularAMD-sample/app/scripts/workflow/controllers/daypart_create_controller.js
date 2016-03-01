@@ -1,6 +1,4 @@
-
 define(['angularAMD','workflow/services/audience_service','workflow/services/workflow_service'],function (angularAMD) {
-  'use strict';
   angularAMD.controller('daypartController', function($scope, $timeout,audienceService, workflowService) {
 
         var _dayPartTargetting = this;

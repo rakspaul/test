@@ -1,6 +1,5 @@
-<!doctype html>
+<!doctype>
 <html>
-
 <head>
     <meta charset="utf-8">
     <title ng-bind="'Visto | ' + title"></title>
@@ -133,15 +132,12 @@
         assets.html_accounts = '/views/workflow/accounts.html';
 
         assets.html_creative_drop_down = '/views/workflow/partials/creative_drop_down.html';
-        assets.html_platform_collective_bidder =
-            '/views/workflow/partials/platforms/plat-collective-bidder.html';
+        assets.html_platform_collective_bidder = '/views/workflow/partials/platforms/plat-collective-bidder.html';
         assets.html_platform_app_nexus = '/views/workflow/partials/platforms/plat-app-nexus.html';
-        assets.html_accounts_add_or_edit_advertiser =
-            '/views/workflow/partials/accounts_add_or_edit_advertiser.html';
+        assets.html_accounts_add_or_edit_advertiser = '/views/workflow/partials/accounts_add_or_edit_advertiser.html';
         assets.html_accounts_add_or_edit_brand = '/views/workflow/partials/accounts_add_or_edit_brand.html';
         assets.html_accounts_add_or_edit = '/views/workflow/partials/accounts_add_or_edit.html';
         assets.html_change_account_warning = '/views/workflow/partials/change_account_warning.html';
-
         //Visto 2.0 Templates
         assets.html_dashboard_2 = '/views/visto2.0/dashboard.html';
 
@@ -155,9 +151,9 @@
     </script>
 </head>
 
-<body class="{{bodyclass}} {{productType}} {{customReport}}">
+<body class='{{bodyclass}} {{productType}} {{customReport}}'>
 <header></header>
-<div class="bodyWrap" ng-view=""></div>
+<div class="bodyWrap" ng-view></div>
 <div class="loading-spinner-holder loader"></div>
 
 <script src="http://localhost:35729/livereload.js?snipver=1" type="text/javascript"></script>

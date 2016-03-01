@@ -83,7 +83,7 @@
                         <ul>
                             <li ng-repeat="kpi in kpiObj.kpiValues" ng-model="adData.primaryKpi"
                                 ng-class="{disabled:kpi.disabled}"
-                                ng-click="kpi.disabled ? '': adData.primaryKpi = kpi.name" >
+                                ng-click=" kpi.disabled ? '' : (adData.primaryKpi = kpi.name)" >
                                 <a data-ng-bind="kpi.name"></a>
                             </li>
                         </ul>

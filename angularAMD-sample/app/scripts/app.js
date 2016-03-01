@@ -1,6 +1,7 @@
 define(['angularAMD',
         'angular-route',
         'angular-cookies',
+        'angular-resource',
         'angular-cache',
         'moment',
         'moment-tz',
@@ -10,8 +11,10 @@ define(['angularAMD',
         'd3',
         'angular-sanitize',
         'date-picker',
+        'jquery-ui',
         'filesaver',
         'ui-bootstrap-tpls',
+        'angular-switch',
         'ng-file-upload',
         'ng-file-upload-shim',
         'multiselect',
@@ -46,11 +49,11 @@ define(['angularAMD',
         'reporting/controllers/campaign_details_controller',
         'common/controllers/popup_msg_controller',
         'common/popup_msg',
-        'common/moment_utils'
+        'common/moment_utils',
+        'workflow/controllers/campaign_create_controller'
 ], function (angularAMD) {
 
-  var app = angular.module('vistoApp', ['ngRoute', 'ngCookies','tmh.dynamicLocale','ui.bootstrap', 'door3.css','ngFileUpload', 'ngSanitize']);
-
+  var app = angular.module('vistoApp', ['ngRoute', 'ngCookies','tmh.dynamicLocale','ui.bootstrap', 'uiSwitch', 'door3.css','ngFileUpload', 'ngSanitize']);
   app.config(function ($routeProvider, $httpProvider) {
     $routeProvider
         .when('/login', angularAMD.route({

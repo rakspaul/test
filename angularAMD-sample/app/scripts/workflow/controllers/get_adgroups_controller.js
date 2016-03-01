@@ -1,5 +1,4 @@
 define(['angularAMD','common/moment_utils'],function (angularAMD) {
-  'use strict';
   angularAMD.controller('GetAdgroupsController', function($scope, $routeParams, $location, momentService) {
 
         $scope.numOfDays = function (startTime, endTime) {

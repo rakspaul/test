@@ -1,6 +1,6 @@
 define(['angularAMD','login/login_model','reporting/models/domain_reports','reporting/campaignSelect/campaign_select_model','common/services/role_based_service'],function (angularAMD) {
   'use strict';
-  angularAMD.controller('HeaderController', function ($scope, $rootScope, $route, $cookieStore, $location , constants, loginModel, domainReports, campaignSelectModel, RoleBasedService, workflowService) {
+  angularAMD.controller('HeaderController', function ($scope, $rootScope, $route, $cookieStore, $location , $model,  constants, loginModel, domainReports, campaignSelectModel, RoleBasedService, workflowService) {
 
         $scope.user_name = loginModel.getUserName();
         $scope.version = version;
@@ -264,7 +264,6 @@ define(['angularAMD','login/login_model','reporting/models/domain_reports','repo
                         campaignsListId.hide();
                     }
                 }
-
             });
 
         })

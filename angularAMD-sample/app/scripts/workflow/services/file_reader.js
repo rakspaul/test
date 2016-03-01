@@ -1,8 +1,5 @@
-// Module for file upload preview
 define(['angularAMD'],function (angularAMD) {
-    'use strict';
-    angularAMD.factory('fileReader', '$q', function ($q) {
-
+    angularAMD.factory('fileReader', ['$q', function ($q) {
 
         function onLoad(reader, deferred, scope) {
             return function () {
@@ -50,5 +47,5 @@ define(['angularAMD'],function (angularAMD) {
         return {
             readAsText: readAsText
         };
-    });
+    }]);
 });

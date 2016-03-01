@@ -1,6 +1,6 @@
 /*
  * Visto Workflow 2.0
  */
-@import "assets/stylesheet/workflow_master.css";
-@import "app/assets/stylesheet/campaign_create.css";
+@import "styles/workflow_master.css";
+@import "styles/campaign_create.css";
 @import "creative.css";

@@ -2,7 +2,7 @@
 	<h5 ng-click="redirectTargettingMain($event);" data-ng-bind="textConstants.TARGETING"></h5>
 	<span class="icon-arrow-down"></span>
 	<h5 style="cursor: default;" data-ng-bind="textConstants.GEOGRAPHY"></h5>
-	
+
     <button ng-disabled="!(geoTargetingData.selected.regions.length >0 || geoTargetingData.selected.cities.length>0 || geoTargetingData.selected.dmas.length>0 || geoTargetingData.selected.zip.length>0)" class="pull-right btn btn-default" style="text-transform:none;" ng-click="saveGeography()">Save Geography</button>
     <a ng-href="#" class="pull-right btn btn-link" ng-click="redirectTargettingMain(true);" data-ng-bind="textConstants.CANCEL"></a>
 </div>
@@ -48,15 +48,15 @@
                                     <button class="btn btn-xs btn-success active"></button>
                                     <div class="togBtnBg"></div>
                                 </div>
-                                <span ng-show="selectedTab === 'regions'"><img ng-src="/assets/images/workflow/{{regionsIncluded ? 'icon_target' : 'icon_exclude'}}.svg" alt="" height="15"/> {{regionsIncluded? 'Include' : 'Exclude'}}</span>
-                                <span ng-show="selectedTab === 'cities'"><img ng-src="/assets/images/workflow/{{citiesIncluded ? 'icon_target' : 'icon_exclude'}}.svg" alt="" height="15"/> {{citiesIncluded? 'Include' : 'Exclude'}}</span>
+                                <span ng-show="selectedTab === 'regions'"><img ng-src="/images/workflow/{{regionsIncluded ? 'icon_target' : 'icon_exclude'}}.svg" alt="" height="15"/> {{regionsIncluded? 'Include' : 'Exclude'}}</span>
+                                <span ng-show="selectedTab === 'cities'"><img ng-src="/images/workflow/{{citiesIncluded ? 'icon_target' : 'icon_exclude'}}.svg" alt="" height="15"/> {{citiesIncluded? 'Include' : 'Exclude'}}</span>
                             </div>
                             <div class="col-md-4 zeroPadding switchWrap " ng-show="selectedTab === 'dmas'">
                                 <div class="btn-group btn-ani-toggle pull-right dmas" ng-show="isSwitchForVistoBidder" ng-click="switchInclude()">
                                     <button class="btn btn-xs btn-success active"></button>
                                     <div class="togBtnBg"></div>
                                 </div>
-                                <span><img ng-src="/assets/images/workflow/{{dmasIncluded ? 'icon_target' : 'icon_exclude'}}.svg" alt="" height="15"/> {{dmasIncluded ? 'Include' : 'Exclude'}}</span>
+                                <span><img ng-src="/images/workflow/{{dmasIncluded ? 'icon_target' : 'icon_exclude'}}.svg" alt="" height="15"/> {{dmasIncluded ? 'Include' : 'Exclude'}}</span>
                             </div>
                         </div>
                     </div>
@@ -147,7 +147,7 @@
                 <textarea class="form-control" id="zipCodes" name="zipCodes" ng-model="adData.zipCodes" rows="3" placeholder="Separate zip / postal codes by comma. Use hyphens to denote ranges."></textarea>
                 <div class="col-md-12 zeroPadding">
                     <button type="button" ng-click="addZipCode()" ng-disabled="!adData.zipCodes" class="btn btn-default pull-right">
-                        <img ng-src="/assets/images/workflow/icon_target.svg" alt="" height="15" /> Include
+                        <img ng-src="/images/workflow/icon_target.svg" alt="" height="15" /> Include
                     </button>
                 </div>
             </div>
@@ -172,17 +172,17 @@
                 </div>
                 <div class="values-table">
                     <div class="clearfix each-row"  ng-repeat="region in geoTargetingData.selected.regions">
-                        <div class="pull-left"><img ng-src="/assets/images/workflow/{{region.regionsIncluded ? 'icon_target' : 'icon_exclude'}}.svg" alt="" height="15"/> {{region.name}}</div>
+                        <div class="pull-left"><img ng-src="/images/workflow/{{region.regionsIncluded ? 'icon_target' : 'icon_exclude'}}.svg" alt="" height="15"/> {{region.name}}</div>
                         <div class="pull-right cancel"><span class="icon-close removeItem" ng-click="removeItem(region, 'regions')"></span></div>
                         <div class="group">
                             <div ng-repeat="city in region.cities">
-                                <div class="pull-left"><img ng-src="/assets/images/workflow/{{city.citiesIncluded ? 'icon_target' : 'icon_exclude'}}.svg" alt="" height="15"/> {{city.name}}</div>
+                                <div class="pull-left"><img ng-src="/images/workflow/{{city.citiesIncluded ? 'icon_target' : 'icon_exclude'}}.svg" alt="" height="15"/> {{city.name}}</div>
                                 <div class="pull-right cancel"><span class="icon-close removeItem" ng-click="removeItem(city, 'regions')"></span></div>
                             </div>
                         </div>
                     </div>
                     <div ng-if="showCitiesOnly" class="clearfix each-row"  ng-repeat="city in geoTargetingData.selected.cities">
-                        <div class="pull-left"><img ng-src="/assets/images/workflow/{{city.citiesIncluded ? 'icon_target' : 'icon_exclude'}}.svg" alt="" height="15"/> {{city.name}} ({{city.parent.name}})</div>
+                        <div class="pull-left"><img ng-src="/images/workflow/{{city.citiesIncluded ? 'icon_target' : 'icon_exclude'}}.svg" alt="" height="15"/> {{city.name}} ({{city.parent.name}})</div>
                         <div class="pull-right cancel"><span class="icon-close removeItem" ng-click="removeItem(city, 'cities')"></span></div>
                     </div>
                     <div ng-if="geoTargetingData.selected.regions.length === 0 && geoTargetingData.selected.cities.length  === 0">
@@ -201,7 +201,7 @@
                 </div>
                 <div class="values-table">
                     <div class="clearfix each-row"  ng-repeat="dma in geoTargetingData.selected.dmas">
-                        <div class="pull-left"><img ng-src="/assets/images/workflow/{{dma.dmasIncluded ? 'icon_target' : 'icon_exclude'}}.svg" alt="" height="15"/>{{dma.name}}</div>
+                        <div class="pull-left"><img ng-src="/images/workflow/{{dma.dmasIncluded ? 'icon_target' : 'icon_exclude'}}.svg" alt="" height="15"/>{{dma.name}}</div>
                         <div class="pull-right cancel"><span class="icon-close removeItem" ng-click="removeItem(dma, 'dmas')"></span></div>
                     </div>
                     <div ng-if="geoTargetingData.selected.dmas.length === 0">
@@ -221,7 +221,7 @@
                 <div class="values-table">
                     <div ng-repeat="zipCodeList in geoTargetingData.selected.zip">
                         <div class="clearfix each-row" ng-repeat="zipCode in zipCodeList.added">
-                            <div class="pull-left"><img ng-src="/assets/images/workflow/icon_target.svg" alt="" height="15"/> {{zipCode}}</div>
+                            <div class="pull-left"><img ng-src="/images/workflow/icon_target.svg" alt="" height="15"/> {{zipCode}}</div>
                             <div class="pull-right cancel"><span class="icon-close removeItem" ng-click="removeItem(zipCode, 'zip')"></span></div>
                         </div>
                         <div ng-if="geoTargetingData.selected.zip.length === 0">
@@ -240,13 +240,13 @@
 <div class="col-md-12 targettingSelected" style="display:none;">
     <div class="col-md-12 tsHeader">
         <h2>Geography <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span><span>({{locale.id === 'en-gb' ? 'UK' : 'US'}})</span></h2>
-        <a ng-href="#" ng-click="deleteGeography()"><img ng-src="/assets/images/workflow/icon_trash.svg" alt="" height="15"/></a>
-        <a ng-href="#" ng-click="editGeography()"><img ng-src="/assets/images/workflow/icon_pencil.svg" alt="" height="15"/></a>
+        <a ng-href="#" ng-click="deleteGeography()"><img ng-src="/images/workflow/icon_trash.svg" alt="" height="15"/></a>
+        <a ng-href="#" ng-click="editGeography()"><img ng-src="/images/workflow/icon_pencil.svg" alt="" height="15"/></a>
         <div class="col-md-6 zeroPadding" style="clear: left;">
-            <span><img ng-src="/assets/images/workflow/icon_target.svg" alt="" height="15"/> Include</span>
+            <span><img ng-src="/images/workflow/icon_target.svg" alt="" height="15"/> Include</span>
         </div>
         <div class="col-md-6 zeroPadding">
-            <span><img ng-src="/assets/images/workflow/icon_exclude.svg" alt="" height="15"/> Exclude</span>
+            <span><img ng-src="/images/workflow/icon_exclude.svg" alt="" height="15"/> Exclude</span>
         </div>
     </div>
 

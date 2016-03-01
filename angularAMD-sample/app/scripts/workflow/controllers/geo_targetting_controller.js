@@ -1,5 +1,4 @@
 define(['angularAMD','workflow/services/workflow_service','common/services/zip_code'],function (angularAMD) {
-  'use strict';
   angularAMD.controller('GeoTargettingController', function($scope, $rootScope, $timeout, workflowService, zipCode) {
 
         $scope.showTargettingForm = false;

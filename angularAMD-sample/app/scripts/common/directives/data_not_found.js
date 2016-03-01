@@ -6,7 +6,7 @@ define(['angularAMD'],function (angularAMD) {
     angularAMD.directive('notFound',function(){
       return{
         restrict:'EAC',
-        templateUrl:'/assets/html/data_not_found.html',
+        templateUrl:'/views/data_not_found.html',
         scope :{
           message :'=',
           styleClass :'='

@@ -3,8 +3,7 @@
     <h1 class="campaign_name" data-ng-bind="textConstants.ADSETUP"></h1>
     <ul class="nav nav-tabs tabs-left stepCompLabel" id="myTabs">
         <li id="adType-tab" class="active">
-            <a href="#adType"
-               role="tab"
+            <a data-target="#adType"
                class="leftNavLink"
                data-toggle="tab"
                data-ng-bind="textConstants.ADTYPESIDE">
@@ -42,8 +41,7 @@
         </li>
 
         <li id="setting-tab">
-            <a href="#setting"
-               role="tab"
+            <a data-target="#setting"
                class="leftNavLink budget-tab-link"
                data-toggle="tab"
                data-ng-bind="textConstants.BUDGETDELIVERYSIDE">
@@ -84,8 +82,7 @@
         </li>
 
         <li id="buying-tab">
-            <a href="#buying"
-               role="tab"
+            <a data-target="#buying"
                class="leftNavLink buying-platform-tab-link"
                data-toggle="tab"
                data-ng-bind="textConstants.BUYINGPLATFORMSIDE">
@@ -98,7 +95,7 @@
                 </div>
                 <div class="statusLabel" ng-if="adData.platform">
                     <div class="col-md-12">
-                        <img ng-src="/assets/images/cdesk/{{getPlatformIconName(adData.platform)}}.png"
+                        <img ng-src="/images/cdesk/{{getPlatformIconName(adData.platform)}}.png"
                              width="12"
                              class="statusIcon"
                              style="margin-top: 1px;">
@@ -114,8 +111,7 @@
                 <a role="tab" class="leftNavLink" data-ng-bind="textConstants.TARGETINGSIDE"></a>
             </span>
             <span ng-if="!TrackingIntegrationsSelected">
-                <a href="#targetting"
-                   role="tab"
+                <a data-target="#targetting"
                    class="leftNavLink targetting-tab-link"
                    data-toggle="tab"
                    data-ng-bind="textConstants.TARGETINGSIDE">
@@ -156,8 +152,7 @@
                    data-ng-bind="textConstants.INVENTORYSIDE"></a>
              </span>
             <span ng-if="!TrackingIntegrationsSelected">
-                <a href="#inventoryView"
-                   role="tab"
+                <a data-target="#inventoryView"
                    class="leftNavLink inventory-tab-link"
                    data-toggle="tab"
                    ng-click="workflowData.initInventory()"
@@ -192,8 +187,7 @@
             </div>
         </li>
         <li id="creative-tab">
-            <a href="#creative"
-               role="tab"
+            <a data-target="#creative"
                class="leftNavLink creative-tab-link"
                data-toggle="tab"
                data-ng-bind="textConstants.CREATIVESIDE">

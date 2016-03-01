@@ -38,7 +38,7 @@
 .reports-scheduled-list .scheduled_list_table .table-th:first-child,
 .reports-scheduled-list .scheduled_list_table .table-td:first-child {
   padding-left: 40px ;
-  background-image: url("/assets/images/cdesk/common_side_arrow.png");
+  background-image: url("/images/cdesk/common_side_arrow.png");
   background-repeat: no-repeat;
   background-position: left 15px center ;
   cursor: pointer;
@@ -65,7 +65,7 @@
   font-family: "Avenir-bold";
 }
 .reports-scheduled-list .scheduled_list_table .row.open .table-td:first-child {
-  background-image: url("/assets/images/cdesk/common_down_arrow.png");
+  background-image: url("/images/cdesk/common_down_arrow.png");
 }
 .reports-scheduled-list .scheduled_list_table .row .table-td:first-child.no-instance {
   background-image: none;

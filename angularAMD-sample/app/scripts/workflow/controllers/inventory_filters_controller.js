@@ -1,6 +1,5 @@
 define(['angularAMD','workflow/services/workflow_service', 'workflow/services/file_reader'],function (angularAMD) {
-  'use strict';
-  angularAMD.controller('InventoryFiltersController', function($scope, Upload, workflowService,fileReader) {
+  angularAMD.controller('InventoryFiltersController', function($scope, workflowService, fileReader, Upload) {
 
         var InventoryFiltersView = {
             getAdvertisersDomainList: function (clientId, advertiserId) {

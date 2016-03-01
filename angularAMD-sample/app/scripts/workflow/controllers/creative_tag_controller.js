@@ -1,7 +1,6 @@
 
 define(['angularAMD','common/services/constants_service','workflow/services/workflow_service'],function (angularAMD) {
-  'use strict';
-  angularAMD.controller('CreativeTagController', function($scope, constantsService, workflowService) {
+  angularAMD.controller('CreativeTagController', function($scope, constants, workflowService) {
 
         var addFromLibrary = {
             modifyCreativesData: function (respData) {
