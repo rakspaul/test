@@ -229,7 +229,7 @@ define(['angularAMD','login/login_model','common/services/role_based_service','c
         };
     });
 
-  angularAMD.directive('screenHeader', ['$http', '$compile','constants', function ($http, $compile,constants) {
+  angularAMD.directive('screenHeader', ['$http', '$compile','constants', function ($http, $compile,constants) { console.log('test');
         return {
             controller: function($scope, $cookieStore, $location){
             },

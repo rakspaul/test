@@ -106,7 +106,7 @@ define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', 'reporting/campaig
         $scope.changeClickedSelectedKpiAlt = function(_kpi){
             $scope.setSelectedKpi(_kpi);
             $scope.setSelectedKpiAlt(_kpi);
-            analytics.track(loginModel.getUserRole(), constants.GA_COST_METRIC_SELECTED, _kpi, loginModel.getLoginName());
+            // grunt analytics.track(loginModel.getUserRole(), constants.GA_COST_METRIC_SELECTED, _kpi, loginModel.getLoginName());
 
         };
         $('.kpi_indicator_ul').click(function (e) {
@@ -130,7 +130,7 @@ define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', 'reporting/campaig
             if(_selectedKpi) {
                 $scope.setSelectedKpi(_selectedKpi);
                 $scope.setSelectedKpiAlt(_selectedKpi, 'clicked');
-                analytics.track(loginModel.getUserRole(), constants.GA_COST_METRIC_SELECTED, _selectedKpi, loginModel.getLoginName());
+               //grunt  analytics.track(loginModel.getUserRole(), constants.GA_COST_METRIC_SELECTED, _selectedKpi, loginModel.getLoginName());
                 $(e.target).closest(".reports_platform_header").find(".kpi-dd-holder").find(".open").removeClass("open") ;
                 $("kpi-drop-down").removeClass('open');
                 $scope.$apply();

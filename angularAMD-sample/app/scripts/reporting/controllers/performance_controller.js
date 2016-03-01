@@ -2,7 +2,8 @@ var angObj = angObj || {};
 define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaignSelect/campaign_select_model', 'reporting/strategySelect/strategy_select_model',
         'common/services/data_service', 'reporting/models/domain_reports', 'common/services/constants_service',
         'reporting/timePeriod/time_period_model', 'reporting/brands/brands_model', 'login/login_model',
-        'common/services/url_service', 'reporting/advertiser/advertiser_model'
+        'common/services/url_service', 'reporting/advertiser/advertiser_model','reporting/timePeriod/time_period_controller','reporting/kpiSelect/kpi_select_directive','reporting/kpiSelect/kpi_select_controller',
+       'reporting/strategySelect/strategy_select_directive','reporting/strategySelect/strategy_select_controller'
     ],
 
     function (angularAMD) {
@@ -306,7 +307,7 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
             } else {
                 $scope.strategyFound = true;
                 $scope.getPerformanceData();
-                analytics.track(loginModel.getUserRole(), constants.GA_USER_STRATEGY_SELECTION, $scope.selectedStrategy.name, loginModel.getLoginName());
+               // grunt analytics.track(loginModel.getUserRole(), constants.GA_USER_STRATEGY_SELECTION, $scope.selectedStrategy.name, loginModel.getLoginName());
             }
         };
 
