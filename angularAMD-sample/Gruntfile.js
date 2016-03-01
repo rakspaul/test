@@ -1,5 +1,5 @@
 // Gruntfile
-module.exports = function(grunt) {
+module.exports = function (grunt) {
     'use strict';
 
     require('load-grunt-tasks')(grunt);
@@ -77,6 +77,7 @@ module.exports = function(grunt) {
             }
         },
 
+        // TODO: Optimize this task
         less: {
             setup: {
                 options: {
@@ -137,7 +138,7 @@ module.exports = function(grunt) {
                 options: {
                     removeComments: true,
                     // https://github.com/yeoman/grunt-usemin/issues/44
-                    //collapseWhitespace: true,
+                    collapseWhitespace: true,
                     collapseBooleanAttributes: true,
                     removeAttributeQuotes: true,
                     removeRedundantAttributes: true,
@@ -146,34 +147,44 @@ module.exports = function(grunt) {
                     removeEmptyElements: false
                 },
 
-                files: [{
-                    '<%= cvars.build %>/index.html': '<%= cvars.build %>/index.build.html'
-                }, {
-                    cwd: '<%= cvars.app %>/views/',
-                    expand: true,
-                    flatten: false,
-                    dest: '<%= cvars.build %>/views/',
-                    src: ['*.html']
-                }]
+                files: [
+                    {
+                        '<%= cvars.build %>/index.html': '<%= cvars.build %>/index.build.html'
+                    },
+
+                    {
+                        cwd: '<%= cvars.app %>/views/',
+                        expand: true,
+                        flatten: false,
+                        dest: '<%= cvars.build %>/views/',
+                        src: ['*.html']
+                    }
+                ]
             },
 
             deploy: {
                 options: {
                     collapseWhitespace: true
                 },
-                files: [{
-                    '<%= cvars.dist %>/index.html': '<%= cvars.build %>/index.html'
-                }, {
-                    cwd: '<%= cvars.build %>/<%= cvars.appjs %>/main/templates/',
-                    expand: true,
-                    dest: '<%= cvars.dist %>/<%= cvars.appjs %>/main/templates/',
-                    src: ['*.html']
-                }, {
-                    cwd: '<%= cvars.build %>/views/',
-                    expand: true,
-                    dest: '<%= cvars.dist %>/views/',
-                    src: ['**/*.html']
-                }]
+                files: [
+                    {
+                        '<%= cvars.dist %>/index.html': '<%= cvars.build %>/index.html'
+                    },
+
+                    {
+                        cwd: '<%= cvars.build %>/<%= cvars.appjs %>/main/templates/',
+                        expand: true,
+                        dest: '<%= cvars.dist %>/<%= cvars.appjs %>/main/templates/',
+                        src: ['*.html']
+                    },
+
+                    {
+                        cwd: '<%= cvars.build %>/views/',
+                        expand: true,
+                        dest: '<%= cvars.dist %>/views/',
+                        src: ['**/*.html']
+                    }
+                ]
             }
         },
 
@@ -186,18 +197,27 @@ module.exports = function(grunt) {
                     findNestedDependencies: true,
                     optimize: 'none',
                     dir: '<%= cvars.build %>/<%= cvars.appjs %>/',
-                    modules: [{
-                        name: 'app'
-                    }, {
-                        name: 'main/home_ctrl',
-                        exclude: ['common']
-                    }, {
-                        name: 'rooms/rooms_ctrl',
-                        exclude: ['common']
-                    }, {
-                        name: 'users/users_ctrl',
-                        exclude: ['common']
-                    }]
+
+                    modules: [
+                        {
+                            name: 'app'
+                        },
+
+                        {
+                            name: 'main/home_ctrl',
+                            exclude: ['common']
+                        },
+
+                        {
+                            name: 'rooms/rooms_ctrl',
+                            exclude: ['common']
+                        },
+
+                        {
+                            name: 'users/users_ctrl',
+                            exclude: ['common']
+                        }
+                    ]
                 }
             }
         },
@@ -209,6 +229,7 @@ module.exports = function(grunt) {
                     sourceMapIncludeSources: true,
                     sourceMap: true
                 },
+
                 files: [{
                     cwd: '<%= cvars.build %>/<%= cvars.appjs %>/',
                     expand: true,
@@ -223,6 +244,7 @@ module.exports = function(grunt) {
                 options: {
                     jshintrc: '.jshintrc'
                 },
+
                 files: {
                     src: [
                         '<%= cvars.app %>/<%= cvars.appjs %>/*.js',
@@ -238,6 +260,7 @@ module.exports = function(grunt) {
             www: {
                 files: ['<%= cvars.app %>/**/*'],
                 tasks: ['less:setup'],
+
                 options: {
                     spawn: false,
                     livereload: true
@@ -248,67 +271,79 @@ module.exports = function(grunt) {
         connect: {
             server: {
                 livereload: true,
+
                 options: {
                     port: gruntConfig.configVars.port,
                     hostname: gruntConfig.configVars.hostname,
                     base: '<%= cvars.app %>',
+
                     middleware: function(connect, options) {
                         var middlewares = [];
-                        middlewares.push(modRewrite(['^[^\\.]*$ /index.html [L]'])); //Matches everything that does not contain a '.' (period)
+
+                        //Matches everything that does not contain a '.' (period)
+                        middlewares.push(modRewrite(['^[^\\.]*$ /index.html [L]']));
+
                         options.base.forEach(function(base) {
                             middlewares.push(connect.static(base));
                         });
+
                         return middlewares;
                     }
                 }
             }
         },
 
-        preprocess : {
-            build: {
-                src: '<%= cvars.app %>/index.html',
-                dest: '<%= cvars.build %>/index.build.html'
-            },
-            // TODO: Change the default settings
+        preprocess: {
             dev: {
                 options: {
-                    context: { ENV : 'dev' }
+                    context: { ENV: 'dev' }
                 },
-                src: 'template.html',
-                dest: 'base.html'
+
+                src: '<%= cvars.app %>/index.master.html',
+                dest: '<%= cvars.app %>/index.html'
             },
-            // TODO: Change the default settings
+
+            qa: {
+                options: {
+                    context: { ENV: 'qa' }
+                },
+
+                src: '<%= cvars.app %>/index.master.html',
+                dest: '<%= cvars.build %>/index.html'
+            },
+
+            beta: {
+                options: {
+                    context: { ENV: 'beta' }
+                },
+
+                src: '<%= cvars.app %>/index.master.html',
+                dest: '<%= cvars.build %>/index.html'
+            },
+
             production: {
                 options: {
-                    context: { ENV : 'production' }
+                    context: { ENV: 'production' }
                 },
-                src: 'template.html',
-                dest: 'base.html'
-            }
-        },
 
-        environment: {
-            default: 'development',
-            environments: ['development', 'production'],
-            version: function () {
-                return grunt.file.readJSON('package.json')['version']
-            },
-            file: 'build.json'
+                src: '<%= cvars.app %>/index.master.html',
+                dest: '<%= cvars.dist %>/index.html'
+            }
         }
     });
-
-    grunt.loadNpmTasks('grunt-environment');
 
     /**
      * setup task
      * Run the initial setup, sourcing all needed upstream dependencies
      */
+    // TODO: Integrate this with the local dev machine 'build & watch' & 'devel' tasks? See below...
     grunt.registerTask('setup', ['bower:setup', 'copy:setup', 'less:setup']);
 
     /**
      * devel task
      * Launch webserver and watch for changes
      */
+    // TODO: This task can be merged with the local dev machine 'build & watch' task. See below...
     grunt.registerTask('devel', [
         'connect:server', 'watch:www'
     ]);
@@ -317,7 +352,26 @@ module.exports = function(grunt) {
      * build task
      * Use r.js to build the project
      */
+    // TODO: Customize each build task lists
+    // TODO: Look up how to use env plugin
+    // REFERENCE: http://stackoverflow.com/questions/13800205/alternate-grunt-js-tasks-for-dev-prod-environments
+    // 1. Local dev machine (TODO: This should be a 'build & watch', instead of a 'build'
     grunt.registerTask('build', [
+        // htmlhint comes here
+        // ng-annotate comes here (?)
+        // js-beautifier comes here (also beautifies HTML, CSS & JSON apart from JS)
+        'jshint:build',
+        // jsonlint comes here
+        // image-optimizer comes here (use contrib-imagemin?)
+        // CSS auto-prefixer comes here
+        'less:setup'
+        // postcss comes here
+        // csslint comes here
+        // live-reload / browser-sync comes here
+    ]);
+
+    // 2. Dev box environment
+    grunt.registerTask('build-dev', [
         'jshint:build',
         'clean:build',
         'preprocess:build',
@@ -325,13 +379,56 @@ module.exports = function(grunt) {
         'cssmin:build',
         'requirejs:build',
         'clean:post-requirejs',
-        'copy:build'
+        'copy:build',
+        'preprocess:dev'
+        // use contrib-compress?
+    ]);
+
+    // 3. QA box environment
+    grunt.registerTask('build-qa', [
+        'jshint:build',
+        'clean:build',
+        'preprocess:build',
+        'htmlmin:build',
+        'cssmin:build',
+        'requirejs:build',
+        'clean:post-requirejs',
+        'copy:build',
+        'preprocess:qa'
+    ]);
+
+    // 4. Beta box environment
+    grunt.registerTask('build-beta', [
+        'jshint:build',
+        'clean:build',
+        'preprocess:build',
+        'htmlmin:build',
+        'cssmin:build',
+        'requirejs:build',
+        'clean:post-requirejs',
+        'copy:build',
+        'preprocess:beta'
+    ]);
+
+    // 5. Production environment
+    grunt.registerTask('build-production', [
+        'jshint:build',
+        'clean:build',
+        'preprocess:build',
+        'htmlmin:build',
+        'cssmin:build',
+        'requirejs:build',
+        'clean:post-requirejs',
+        'copy:build',
+        'preprocess:production'
     ]);
 
     /**
      * deploy task
      * Deploy to dist_www directory
      */
+    // TODO: This is basically the intended task for 'build-production'. Remove this & implement the tasks here in
+    // TODO: 'build-production' given above.
     grunt.registerTask('deploy', [
         'build',
         'clean:deploy',
@@ -340,14 +437,20 @@ module.exports = function(grunt) {
         'uglify:deploy'
     ]);
 
+    // TODO: This is a test / dummy task. Remove it or keep it?
     grunt.registerTask('hello', function() {
         grunt.log.write('hello task called with: ', gruntConfig);
     });
 
     /**
-     * grunt-environment test
+     * grunt-preprocess test
      */
-    grunt.registerTask('preprocess', function () {
-        grunt.log.write(gruntConfig.configVars.app);
-    });
+    // TODO: These are temp tasks. Remove after the 'build-*' tasks are implemented
+    grunt.registerTask('preprocess-default',
+        ['preprocess:dev']
+    );
+
+    grunt.registerTask('preprocess-production',
+        ['preprocess:production']
+    );
 };

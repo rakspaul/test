@@ -10,12 +10,24 @@
     <link href="/images/collective.png" rel="shortcut icon" type="image/x-icon">
     <link href="//fonts.googleapis.com/css?family=Armata" media="screen" rel="stylesheet">
 
+    <!-- @if ENV='dev' -->
     <link rel="stylesheet" href="styles/libs/bootstrap.css">
     <link rel="stylesheet" href="styles/cdesk_application.css">
     <script data-main="scripts/main.js" src="scripts/libs/require.js"></script>
     <script>
         console.log('testing... this is dev env')
     </script>
+    <!-- @endif -->
+
+    <!-- @if ENV='production' -->
+    <link rel="stylesheet" href="styles/libs/bootstrap.css">
+    <link rel="stylesheet" href="styles/cdesk_application.css">
+    <script data-main="scripts/main.js" src="scripts/libs/require.js"></script>
+    <script>
+        console.log('testing... this is production env')
+    </script>
+    <!-- @endif -->
+
     <script>
         var IMAGES_PATH = '/images/',
             IMAGES_STATUS_WIDGET_PATH = IMAGES_PATH + 'statusWidget/',
@@ -163,7 +175,9 @@
 <div class="bodyWrap" ng-view=""></div>
 <div class="loading-spinner-holder loader"></div>
 
+<!-- @if ENV='dev' -->
 <script src="http://localhost:35729/livereload.js?snipver=1" type="text/javascript"></script>
+<!-- @endif -->
 </body>
 
 </html>
