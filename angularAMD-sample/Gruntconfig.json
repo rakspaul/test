@@ -24,7 +24,6 @@
         "angular-cookies/angular-cookies.js",
         "angular-dynamic-locale/dist/tmhDynamicLocale.js",
         "moment/moment.js",
-        "moment-timezone/moment-timezone.js",
         "angular-i18n/angular-locale_en-gb.js",
         "angular-i18n/angular-locale_en-us.js",
         "underscore/underscore.js",
@@ -37,7 +36,10 @@
         "angulartics-google-analytics/dist/angulartics-google-analytics.min.js",
         "d3/d3.js",
         "angular-sanitize/angular-sanitize.js",
-        "filesaver/FileSaver.js"
+        "filesaver/FileSaver.js",
+        "highcharts/highcharts",
+        "highcharts-ng/dist/highcharts-ng"
+
     ],
 
     "cssFiles": [
