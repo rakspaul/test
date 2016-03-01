@@ -254,7 +254,8 @@ module.exports = function(grunt) {
                     base: '<%= cvars.app %>',
                     middleware: function(connect, options) {
                         var middlewares = [];
-                        middlewares.push(modRewrite(['^[^\\.]*$ /index.html [L]'])); //Matches everything that does not contain a '.' (period)
+                        //Matches everything that does not contain a '.' (period)
+                        middlewares.push(modRewrite(['^[^\\.]*$ /index.html [L]']));
                         options.base.forEach(function(base) {
                             middlewares.push(connect.static(base));
                         });
@@ -264,40 +265,26 @@ module.exports = function(grunt) {
             }
         },
 
-        preprocess : {
-            build: {
-                src: '<%= cvars.app %>/index.html',
-                dest: '<%= cvars.build %>/index.build.html'
-            },
-            // TODO: Change the default settings
+        preprocess: {
             dev: {
                 options: {
-                    context: { ENV : 'dev' }
+                    context: { ENV: 'dev' }
                 },
-                src: 'template.html',
-                dest: 'base.html'
+                src: '<%= cvars.app %>/index.master.html',
+                dest: '<%= cvars.app %>/index.html'
             },
-            // TODO: Change the default settings
+
             production: {
                 options: {
-                    context: { ENV : 'production' }
+                    context: { ENV: 'production' }
                 },
-                src: 'template.html',
-                dest: 'base.html'
+                src: '<%= cvars.app %>/index.master.html',
+                dest: '<%= cvars.build %>/index.html'
             }
-        },
-
-        environment: {
-            default: 'development',
-            environments: ['development', 'production'],
-            version: function () {
-                return grunt.file.readJSON('package.json')['version']
-            },
-            file: 'build.json'
         }
     });
 
-    grunt.loadNpmTasks('grunt-environment');
+    grunt.loadNpmTasks('grunt-preprocess');
 
     /**
      * setup task
@@ -345,9 +332,12 @@ module.exports = function(grunt) {
     });
 
     /**
-     * grunt-environment test
+     * grunt-preprocess test
      */
-    grunt.registerTask('preprocess', function () {
-        grunt.log.write(gruntConfig.configVars.app);
-    });
-};
+    grunt.registerTask('preprocess-default',
+        ['preprocess:dev']
+    );
+
+    grunt.registerTask('preprocess-production',
+        ['preprocess:production']
+    );};
