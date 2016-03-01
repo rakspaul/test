@@ -8,6 +8,7 @@
         "hostname": "localhost",
         "port": 8080
     },
+
     "bowerFiles": [
         "angular/angular.js",
         "angular-route/angular-route.js",
@@ -38,12 +39,15 @@
         "angular-sanitize/angular-sanitize.js",
         "filesaver/FileSaver.js"
     ],
+
     "cssFiles": [
         "bootstrap/dist/css/bootstrap.css"
     ],
+
     "cssFonts": [
         "bootstrap/fonts/glyphicons-halflings-regular.*"
     ],
+
     "buildFiles": [
         "images/**",
         "views/**",

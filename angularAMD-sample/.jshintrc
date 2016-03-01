@@ -9,7 +9,7 @@
     "bitwise": true,
     "camelcase": false,
     "curly": true,
-    "eqeqeq": false, 
+    "eqeqeq": false,
     "immed": true,
     "indent": 4,
     "latedef": "nofunc",

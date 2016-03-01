@@ -4,6 +4,8 @@ module.exports = function(grunt) {
 
     require('load-grunt-tasks')(grunt);
 
+    var modRewrite = require('connect-modrewrite');
+
     /**
      * Define Configuration Variables.
      * Note: cwd is './setup' so the `setup` variable defined below is only to be used
@@ -14,6 +16,7 @@ module.exports = function(grunt) {
     // Grunt Config
     grunt.initConfig({
         cvars: gruntConfig.configVars,
+
         bower: {
             setup: {
                 options: {
@@ -22,6 +25,7 @@ module.exports = function(grunt) {
                 }
             }
         },
+
         copy: {
             setup: {
                 files: [
@@ -33,6 +37,7 @@ module.exports = function(grunt) {
                         dest: '<%= cvars.app %>/<%= cvars.appjs %>/libs/',
                         src: gruntConfig.bowerFiles
                     },
+
                     // CSS with standard .min.css naming convention
                     {
                         cwd: 'bower_components',
@@ -41,6 +46,7 @@ module.exports = function(grunt) {
                         dest: '<%= cvars.app %>/<%= cvars.appcss %>/libs/',
                         src: gruntConfig.cssFiles
                     },
+
                     // CSS Fonts
                     {
                         cwd: 'bower_components',
@@ -51,6 +57,7 @@ module.exports = function(grunt) {
                     }
                 ]
             },
+
             build: {
                 files: [{
                     cwd: '<%= cvars.app %>/',
@@ -59,6 +66,7 @@ module.exports = function(grunt) {
                     src: gruntConfig.buildFiles
                 }]
             },
+
             deploy: {
                 files: [{
                     cwd: '<%= cvars.build %>/',
@@ -74,6 +82,7 @@ module.exports = function(grunt) {
                 options: {
                     cleancss: true
                 },
+
                 files: [{
                     expand: true,
                     cwd: '<%= cvars.app %>/<%= cvars.appcss %>/',
@@ -82,13 +91,15 @@ module.exports = function(grunt) {
                     ext: '.css'
                 }]
             },
-            buid: {
+
+            build: {
                 options: {
                     compress: true,
                     cleancss: true,
                     optimization: 2,
                     sourceMap: true
                 },
+
                 files: [{
                     expand: true,
                     cwd: '<%= cvars.app %>/<%= cvars.appcss %>/',
@@ -103,12 +114,12 @@ module.exports = function(grunt) {
             options: {
                 force: true
             },
+
             build: ['<%= cvars.build %>'],
             'post-requirejs': ['<%= cvars.build %>/<%= cvars.appjs %>/libs'],
-            deploy: [
-                '<%= cvars.dist %>/*'
-            ]
+            deploy: ['<%= cvars.dist %>/*']
         },
+
         cssmin: {
             build: {
                 files: {
@@ -119,12 +130,7 @@ module.exports = function(grunt) {
                 }
             }
         },
-        preprocess: {
-            build: {
-                src: '<%= cvars.app %>/index.html',
-                dest: '<%= cvars.build %>/index.build.html'
-            }
-        },
+
         htmlmin: {
             // See https://github.com/yeoman/grunt-usemin/issues/44 for using 2 passes
             build: {
@@ -132,50 +138,45 @@ module.exports = function(grunt) {
                     removeComments: true,
                     // https://github.com/yeoman/grunt-usemin/issues/44
                     //collapseWhitespace: true,
-                    collapseBooleanAttributes: false,
-                    removeAttributeQuotes: false,
+                    collapseBooleanAttributes: true,
+                    removeAttributeQuotes: true,
                     removeRedundantAttributes: true,
                     removeEmptyAttributes: true,
                     // Cannot remove empty elements with angular directives
                     removeEmptyElements: false
                 },
-                files: [
-                    {
-                        '<%= cvars.build %>/index.html': '<%= cvars.build %>/index.build.html'
-                    },
-                    {
-                        cwd: '<%= cvars.app %>/views/',
-                        expand: true,
-                        flatten: false,
-                        dest: '<%= cvars.build %>/views/',
-                        src: ['*.html']
-                    }
-                ]
+
+                files: [{
+                    '<%= cvars.build %>/index.html': '<%= cvars.build %>/index.build.html'
+                }, {
+                    cwd: '<%= cvars.app %>/views/',
+                    expand: true,
+                    flatten: false,
+                    dest: '<%= cvars.build %>/views/',
+                    src: ['*.html']
+                }]
             },
 
             deploy: {
                 options: {
                     collapseWhitespace: true
                 },
-                files: [
-                    {
-                        '<%= cvars.dist %>/index.html': '<%= cvars.build %>/index.html'
-                    },
-                    {
-                        cwd: '<%= cvars.build %>/<%= cvars.appjs %>/main/templates/',
-                        expand: true,
-                        dest: '<%= cvars.dist %>/<%= cvars.appjs %>/main/templates/',
-                        src: ['*.html']
-                    },
-                    {
-                        cwd: '<%= cvars.build %>/views/',
-                        expand: true,
-                        dest: '<%= cvars.dist %>/views/',
-                        src: ['**/*.html']
-                    }
-                ]
+                files: [{
+                    '<%= cvars.dist %>/index.html': '<%= cvars.build %>/index.html'
+                }, {
+                    cwd: '<%= cvars.build %>/<%= cvars.appjs %>/main/templates/',
+                    expand: true,
+                    dest: '<%= cvars.dist %>/<%= cvars.appjs %>/main/templates/',
+                    src: ['*.html']
+                }, {
+                    cwd: '<%= cvars.build %>/views/',
+                    expand: true,
+                    dest: '<%= cvars.dist %>/views/',
+                    src: ['**/*.html']
+                }]
             }
         },
+
         requirejs: {
             build: {
                 options: {
@@ -185,26 +186,22 @@ module.exports = function(grunt) {
                     findNestedDependencies: true,
                     optimize: 'none',
                     dir: '<%= cvars.build %>/<%= cvars.appjs %>/',
-                    modules: [
-                        {
-                            name: 'app'
-                        },
-                        {
-                            name: 'main/home_ctrl',
-                            exclude: ['common']
-                        },
-                        {
-                            name: 'rooms/rooms_ctrl',
-                            exclude: ['common']
-                        },
-                        {
-                            name: 'users/users_ctrl',
-                            exclude: ['common']
-                        }
-                    ]
+                    modules: [{
+                        name: 'app'
+                    }, {
+                        name: 'main/home_ctrl',
+                        exclude: ['common']
+                    }, {
+                        name: 'rooms/rooms_ctrl',
+                        exclude: ['common']
+                    }, {
+                        name: 'users/users_ctrl',
+                        exclude: ['common']
+                    }]
                 }
             }
         },
+
         uglify: {
             deploy: {
                 options: {
@@ -212,16 +209,15 @@ module.exports = function(grunt) {
                     sourceMapIncludeSources: true,
                     sourceMap: true
                 },
-                files: [
-                    {
-                        cwd: '<%= cvars.build %>/<%= cvars.appjs %>/',
-                        expand: true,
-                        dest: '<%= cvars.dist %>/<%= cvars.appjs %>/',
-                        src: '**/*.js'
-                    }
-                ]
+                files: [{
+                    cwd: '<%= cvars.build %>/<%= cvars.appjs %>/',
+                    expand: true,
+                    dest: '<%= cvars.dist %>/<%= cvars.appjs %>/',
+                    src: '**/*.js'
+                }]
             }
         },
+
         jshint: {
             build: {
                 options: {
@@ -237,6 +233,7 @@ module.exports = function(grunt) {
                 }
             }
         },
+
         watch: {
             www: {
                 files: ['<%= cvars.app %>/**/*'],
@@ -247,16 +244,60 @@ module.exports = function(grunt) {
                 }
             }
         },
+
         connect: {
             server: {
                 livereload: true,
                 options: {
                     port: gruntConfig.configVars.port,
-                    base: '<%= cvars.app %>'
+                    hostname: gruntConfig.configVars.hostname,
+                    base: '<%= cvars.app %>',
+                    middleware: function(connect, options) {
+                        var middlewares = [];
+                        middlewares.push(modRewrite(['^[^\\.]*$ /index.html [L]'])); //Matches everything that does not contain a '.' (period)
+                        options.base.forEach(function(base) {
+                            middlewares.push(connect.static(base));
+                        });
+                        return middlewares;
+                    }
                 }
             }
+        },
+
+        preprocess : {
+            build: {
+                src: '<%= cvars.app %>/index.html',
+                dest: '<%= cvars.build %>/index.build.html'
+            },
+            // TODO: Change the default settings
+            dev: {
+                options: {
+                    context: { ENV : 'dev' }
+                },
+                src: 'template.html',
+                dest: 'base.html'
+            },
+            // TODO: Change the default settings
+            production: {
+                options: {
+                    context: { ENV : 'production' }
+                },
+                src: 'template.html',
+                dest: 'base.html'
+            }
+        },
+
+        environment: {
+            default: 'development',
+            environments: ['development', 'production'],
+            version: function () {
+                return grunt.file.readJSON('package.json')['version']
+            },
+            file: 'build.json'
         }
     });
+
+    grunt.loadNpmTasks('grunt-environment');
 
     /**
      * setup task
@@ -269,8 +310,7 @@ module.exports = function(grunt) {
      * Launch webserver and watch for changes
      */
     grunt.registerTask('devel', [
-        'connect:server',
-        'watch:www'
+        'connect:server', 'watch:www'
     ]);
 
     /**
@@ -288,7 +328,6 @@ module.exports = function(grunt) {
         'copy:build'
     ]);
 
-
     /**
      * deploy task
      * Deploy to dist_www directory
@@ -303,5 +342,12 @@ module.exports = function(grunt) {
 
     grunt.registerTask('hello', function() {
         grunt.log.write('hello task called with: ', gruntConfig);
+    });
+
+    /**
+     * grunt-environment test
+     */
+    grunt.registerTask('preprocess', function () {
+        grunt.log.write(gruntConfig.configVars.app);
     });
 };
