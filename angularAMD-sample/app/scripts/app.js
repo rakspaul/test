@@ -53,7 +53,8 @@ define(['angularAMD',
         'workflow/controllers/campaign_create_controller'
 ], function (angularAMD) {
 
-  var app = angular.module('vistoApp', ['ngRoute', 'ngCookies','tmh.dynamicLocale','ui.bootstrap', 'uiSwitch', 'door3.css','ngFileUpload', 'ngSanitize']);
+  var app = angular.module('vistoApp', ['ngRoute', 'ngCookies','tmh.dynamicLocale', 'uiSwitch', 'door3.css','ngFileUpload', 'ngSanitize']);
+
   app.config(function ($routeProvider, $httpProvider) {
     $routeProvider
         .when('/login', angularAMD.route({

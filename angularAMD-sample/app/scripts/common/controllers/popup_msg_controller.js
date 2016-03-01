@@ -1,5 +1,4 @@
 define(['angularAMD','common/services/constants_service'],function (angularAMD) {
-    'use strict';
     angularAMD.controller('popUpMsgCtr', function ($scope, $rootScope, $timeout, constants) {
         $scope.addClass = '';
         $scope.init = function (msg, errMsg) {

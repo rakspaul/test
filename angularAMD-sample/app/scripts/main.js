@@ -32,7 +32,7 @@
         'd3': 'libs/d3',
         'lrInfiniteScroll': 'libs/lrInfiniteScroll',
         'filesaver': 'libs/filesaver',
-        'multiselect':'multi_select'
+        'multiselect':'multi_select',
       },
 
       // Add angular modules that does not support AMD out of the box, put it in a shim
