@@ -10,7 +10,7 @@ define(['angularAMD','reporting/timePeriod/time_period_model', 'common/services/
         if(!timePeriod.key.startsWith("custom")){
             $rootScope.$broadcast(constants.EVENT_TIMEPERIOD_CHANGED);
         }
-      analytics.track(loginModel.getUserRole(), constants.GA_TIME_PERIOD_SELECTED, timePeriod.display, loginModel.getLoginName());
+      // grunt analytics.track(loginModel.getUserRole(), constants.GA_TIME_PERIOD_SELECTED, timePeriod.display, loginModel.getLoginName());
     };
 
     $scope.timePeriodClicked = function() {

@@ -1,4 +1,4 @@
-define(['angularAMD', 'common/services/constants_service', 'reporting/campaignList/campaign_list_service', 'common/moment_utils'
+define(['angularAMD', 'common/services/constants_service', 'reporting/campaignList/campaign_list_service', 'common/moment_utils','reporting/directives/tactic_card','reporting/common/d3/campaign_chart'
 
 ],function (angularAMD) {
     'use strict';
@@ -118,7 +118,7 @@ define(['angularAMD', 'common/services/constants_service', 'reporting/campaignLi
                         if(tacticsCount > 0){
                             $("#loading_icon_"+strategyId).show();
                         }
-                        analytics.track(loginModel.getUserRole(), constants.GA_CAMPAIGN_DETAILS, 'show_tactics_for_strategy', loginModel.getLoginName());
+                        // grunt analytics.track(loginModel.getUserRole(), constants.GA_CAMPAIGN_DETAILS, 'show_tactics_for_strategy', loginModel.getLoginName());
                         $("#strategy_"+strategyId).find(".tactics_open_btn").addClass("tactic_open_class");
                     }else{
                          $("#loading_icon_"+strategyId).hide();

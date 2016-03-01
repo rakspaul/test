@@ -20,11 +20,11 @@
 }
 .datepicker .prev {
   float: left;
-  background: url("/assets/images/cdesk/calendar_arrow_left.png") no-repeat center center;
+  background: url("/images/cdesk/calendar_arrow_left.png") no-repeat center center;
 }
 .datepicker .next {
   float: right;
-  background: url("/assets/images/cdesk/calendar_arrow_right.png") no-repeat center center;
+  background: url("/images/cdesk/calendar_arrow_right.png") no-repeat center center;
 }
 .datepicker table,
 .datepicker td,

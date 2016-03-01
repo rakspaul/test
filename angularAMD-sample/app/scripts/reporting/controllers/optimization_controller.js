@@ -4,7 +4,8 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
         'reporting/models/domain_reports', 'common/services/constants_service', 'reporting/timePeriod/time_period_model',
         'login/login_model', 'common/moment_utils', 'common/services/url_service',
         'reporting/advertiser/advertiser_model', 'reporting/brands/brands_model',
-        'common/services/vistoconfig_service'
+        'common/services/vistoconfig_service','reporting/strategySelect/strategy_select_directive','reporting/strategySelect/strategy_select_controller',
+        ,'reporting/kpiSelect/kpi_select_directive','reporting/kpiSelect/kpi_select_controller'
     ],
 
     function (angularAMD) {
@@ -15,7 +16,7 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
                                                                   domainReports, constants, timePeriodModel,
                                                                   loginModel, momentService, urlService,
                                                                   advertiserModel, brandsModel,
-                                                                  vistoconfig, actionColors) {
+                                                                  vistoconfig) {
 
         $scope.textConstants = constants;
 
@@ -199,7 +200,7 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
             }
             var activityLocalStorage={"actionSelStatusFlag":isActionExternal,"actionSelActivityCount":getActivityCount,"actionSel":'actionItem_' + id,"selectedCircleSLNo":circle_slno};
                 localStorage.setItem('activityLocalStorage',JSON.stringify(activityLocalStorage));
-            analytics.track(loginModel.getUserRole(), constants.GA_OPTIMIZATION_TAB, constants.GA_OPTIMIZATION_TAB_ACTIVITY_SELECTED, loginModel.getLoginName());
+            // grunt analytics.track(loginModel.getUserRole(), constants.GA_OPTIMIZATION_TAB, constants.GA_OPTIMIZATION_TAB_ACTIVITY_SELECTED, loginModel.getLoginName());
         };
 
 
@@ -303,7 +304,7 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
                 for (var i = 0; i < actionItems.length; i++) {
                     if (actionItems[i].lineitemId == $scope.selectedStrategy.id) {
                         for (var j = actionItems[i].action.length - 1; j >= 0; j--) {
-                            actionItems[i].action[j].action_color = actionColors[counter % 9];
+                            actionItems[i].action[j].action_color = vistoconfig.actionColors[counter % 9];
                             // $scope.clicked.strategy.action = actionItems[i].action; //TODO: remove it.
                             $scope.selectedStrategy.action = actionItems[i].action;
 
@@ -312,7 +313,7 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
                         }
                     } else if ($scope.selectedStrategy.id == -1) {
                         for (var j = actionItems[i].action.length - 1; j >= 0; j--) {
-                            actionItems[i].action[j].action_color = actionColors[counter % 9];
+                            actionItems[i].action[j].action_color = vistoconfig.actionColors[counter % 9];
                             $scope.selectedStrategy.action = actionItems[i].action;
                             actionItemsArray.push(actionItems[i].action[j]);
                             counter++;
@@ -384,7 +385,7 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
             if ($scope.selectedCampaign && $scope.selectedCampaign.id != 0 && $scope.selectedCampaign.id != -1) {
                 //API call for campaign details
                 var clientId =  loginModel.getSelectedClient().id;
-                var url = apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId + "/campaigns/" + $scope.selectedCampaign.id;
+                var url = vistoconfig.apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId + "/campaigns/" + $scope.selectedCampaign.id;
                 dataService.getSingleCampaign(url).then(function (result) {
                     if (result.data.data !== undefined) {
                         var res = result.data.data;
@@ -426,7 +427,7 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
             if ($scope.selectedStrategy.id !== -99) { // Means selected campaing has valid strategy
                     $scope.chartForStrategy = true;
                     $scope.actionDataForSelectedStrategy();
-                    analytics.track(loginModel.getUserRole(), constants.GA_USER_STRATEGY_SELECTION, $scope.selectedStrategy.name, loginModel.getLoginName());
+                    // grunt analytics.track(loginModel.getUserRole(), constants.GA_USER_STRATEGY_SELECTION, $scope.selectedStrategy.name, loginModel.getLoginName());
             } else {
                 $scope.chartForStrategy = false;// means selected strategy id is not valid
                 $scope.tacticNotFound = true;
@@ -480,7 +481,7 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
                 $scope.seeDate.value = true;
                 $scope.seeDate.className = 'see_dates_selected' ;
                 $(".details_with_heading_total").addClass("see_dates_selected") ;
-                analytics.track(loginModel.getUserRole(), constants.GA_OPTIMIZATION_TAB, constants.GA_OPTIMIZATION_TAB_SEE_DATES, loginModel.getLoginName());
+                // grunt analytics.track(loginModel.getUserRole(), constants.GA_OPTIMIZATION_TAB, constants.GA_OPTIMIZATION_TAB_SEE_DATES, loginModel.getLoginName());
             } else {
                 localStorage.setItem(loginModel.getUserId()+'_opt_seeDate',false);
                 $scope.seeDate.value = false;
