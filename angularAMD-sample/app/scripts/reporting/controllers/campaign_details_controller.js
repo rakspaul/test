@@ -7,7 +7,9 @@ define(['angularAMD', 'reporting/timePeriod/time_period_model', 'common/services
                       'reporting/brands/brands_model', 'common/services/url_service', 'common/moment_utils',
                       'common/services/role_based_service', 'reporting/advertiser/advertiser_model', 'reporting/kpiSelect/kpi_select_model',
                       'common/services/data_store_model', 'common/services/vistoconfig_service', 'reporting/models/domain_reports',
-                      'reporting/editActions/edit_actions_model','reporting/controllers/actions_controller','reporting/editActions/edit_actions_controller','reporting/common/d3/campaign_chart'
+                      'reporting/editActions/edit_actions_model','reporting/models/activity_list','reporting/controllers/actions_controller',
+                      'reporting/editActions/edit_actions_controller','reporting/common/d3/campaign_chart','reporting/common/d3/quartiles_graph',
+                      'reporting/directives/strategy_card','reporting/common/d3/pie_chart',
 
 ],function (angularAMD) {
     'use strict';
@@ -22,7 +24,7 @@ define(['angularAMD', 'reporting/timePeriod/time_period_model', 'common/services
                                                                 brandsModel, urlService,momentService,
                                                                 RoleBasedService, advertiserModel, kpiSelectModel,
                                                                 dataStore, vistoconfig, domainReports,
-                                                                editAction, actionColors,
+                                                                editAction,
                                                                 activityList) {
         var orderBy = $filter('orderBy');
         var campaign = campaignListService;
@@ -339,7 +341,7 @@ define(['angularAMD', 'reporting/timePeriod/time_period_model', 'common/services
                     if (actionItemsLen > 0) {
                         for (var i = actionItemsLen - 1; i >= 0; i--) {
                             for (var j = actionItems[i].action.length - 1; j >= 0; j--) {
-                                actionItems[i].action[j].action_color = actionColors[counter % 9];
+                                actionItems[i].action[j].action_color = vistoconfig.actionColors[counter % 9];
                                 actionItemsArray.push(actionItems[i].action[j]);
                                 strategyByActionId[actionItems[i].action[j].id] = actionItems[i];
                                 counter++;

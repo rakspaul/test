@@ -178,7 +178,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'common/s
             $scope.setCampaign(selectedCampaign);
 
             $('.campaigns_list').hide();
-            analytics.track(loginModel.getUserRole(), constants.GA_USER_CAMPAIGN_SELECTION, selectedCampaign.name, loginModel.getLoginName());
+            //grunt analytics.track(loginModel.getUserRole(), constants.GA_USER_CAMPAIGN_SELECTION, selectedCampaign.name, loginModel.getLoginName());
             e.preventDefault();
             e.stopImmediatePropagation();
 

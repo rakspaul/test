@@ -1,5 +1,5 @@
 define(['angularAMD','angular-route', 'angular-resource', 'angular-cookies', 'angular-cache',
-  'tmhDynamicLocale', 'underscore', 'angular-css', 'd3', 'angular-sanitize',
+  'tmhDynamicLocale', 'underscore', 'angular-css', 'd3', 'angular-sanitize','multiselect',
   'date-picker', 'filesaver', 'ui-bootstrap-tpls', 'ng-file-upload', 'ng-file-upload-shim', 'moment', 'moment-tz',
     'common/directives/common_directives',
     'common/controllers/header_controller',
@@ -27,7 +27,11 @@ define(['angularAMD','angular-route', 'angular-resource', 'angular-cookies', 'an
     'reporting/timePeriod/time_period_controller',
     'reporting/timePeriod/time_period_pick_controller',
 
-    'reporting/controllers/campaign_details_controller'
+    'reporting/controllers/campaign_details_controller',
+    'workflow/controllers/campaign_overview_controller',
+
+    'reporting/campaignSelect/campaign_select_directive',
+    'reporting/campaignSelect/campaign_select_controller'
 
 
 ], function (angularAMD) {

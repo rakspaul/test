@@ -7,6 +7,8 @@ define(['angularAMD'], function (angularAMD) {
         WORKFLOW_API_URL : workflowCreate_api
       };
 
+      this.actionColors = ["#7ED86C", "#2C417F", "#FF9F19", "#A750E5", "#6C717F", "#3F7F57", "#7F4F2C", "#3687D8", "#B235B2"];
+
       this.screenTypeMap = {
           'desktop'     : 'icon-desktop' ,
           'unknown'     : 'icon-help'    ,

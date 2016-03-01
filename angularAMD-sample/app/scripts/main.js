@@ -33,7 +33,8 @@ require.config({
     'ui-bootstrap-tpls': 'libs/ui-bootstrap-tpls-1.2.0.min',
     'd3': 'libs/d3',
     'lrInfiniteScroll': 'libs/lrInfiniteScroll',
-    'filesaver': 'libs/filesaver'
+    'filesaver': 'libs/filesaver',
+      'multiselect':'multi_select'
   },
 
   // Add angular modules that does not support AMD out of the box, put it in a shim
@@ -68,7 +69,8 @@ require.config({
     'filesaver':  ['angular-sanitize'],
     'ui-bootstrap-tpls':  ['filesaver'],
     'lrInfiniteScroll':  ['ui-bootstrap-tpls'],
-    'angular-css':['angular']
+    'angular-css':['angular'],
+    'multiselect' : ['angular']
   },
 
   priority: [
