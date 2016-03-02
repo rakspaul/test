@@ -222,7 +222,7 @@ define(['angularAMD','login/login_model','common/services/role_based_service','c
                         }, function() {
                             $scope.reportDownloadBusy = false;
                         });
-                        //analytics.track(loginModel.getUserRole(), constants.GA_DOWNLOAD_REPORT, 'performance_' + report.report_type + '_report', loginModel.getLoginName());
+                        //grunt analytics.track(loginModel.getUserRole(), constants.GA_DOWNLOAD_REPORT, 'performance_' + report.report_type + '_report', loginModel.getLoginName());
                     }
                 }
             }

@@ -223,25 +223,25 @@ define(['angularAMD','reporting/common/d3/gantt_chart','reporting/models/gantt_c
 
         $scope.month = function () {
             $scope.selected = "month";
-            analytics.track(loginModel.getUserRole(), 'dashboard_calendar_widget', 'date_type_month_selected', loginModel.getLoginName());
+            //grunt analytics.track(loginModel.getUserRole(), 'dashboard_calendar_widget', 'date_type_month_selected', loginModel.getLoginName());
             ganttChart.month();
         }
 
         $scope.today = function () {
             $scope.selected = "today";
-            analytics.track(loginModel.getUserRole(), 'dashboard_calendar_widget', 'date_type_week_selected', loginModel.getLoginName());
+           //grunt analytics.track(loginModel.getUserRole(), 'dashboard_calendar_widget', 'date_type_week_selected', loginModel.getLoginName());
             ganttChart.today();
         }
 
         $scope.quarter = function () {
             $scope.selected = "quarter";
-            analytics.track(loginModel.getUserRole(), 'dashboard_calendar_widget', 'date_type_quarter_selected', loginModel.getLoginName());
+           //grunt analytics.track(loginModel.getUserRole(), 'dashboard_calendar_widget', 'date_type_quarter_selected', loginModel.getLoginName());
             ganttChart.quarter();
         }
 
         $scope.year = function () {
             $scope.selected = "year";
-            analytics.track(loginModel.getUserRole(), 'dashboard_calendar_widget', 'date_type_year_selected', loginModel.getLoginName());
+      // grunt     analytics.track(loginModel.getUserRole(), 'dashboard_calendar_widget', 'date_type_year_selected', loginModel.getLoginName());
             ganttChart.year();
         }
 

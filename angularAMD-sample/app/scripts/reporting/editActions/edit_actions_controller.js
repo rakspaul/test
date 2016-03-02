@@ -20,7 +20,7 @@ define(['angularAMD','reporting/editActions/edit_actions_service', 'common/servi
             editAction.data.show = true;
             document.getElementById("error_edit_action_more_comment").style.display='none';
 
-            analytics.track(loginModel.getUserRole(), constants.GA_CAMPAIGN_DETAILS, 'activity_log_edit', loginModel.getLoginName());
+            //grunt analytics.track(loginModel.getUserRole(), constants.GA_CAMPAIGN_DETAILS, 'activity_log_edit', loginModel.getLoginName());
 
             _.each(activityList.data.data, function(activity) {
                 if(activity.id == ad_id){

@@ -108,7 +108,7 @@ define(['angularAMD', 'reporting/timePeriod/time_period_model', 'common/services
             !$scope.details.sortDirection && ($scope.details.sortDirection = 'asc');
             $scope.details.sortParam = fieldName;
             $scope.applySortStrategies();
-            analytics.track(loginModel.getUserRole(), constants.GA_CAMPAIGN_DETAILS, ('sort_' + fieldName + (sortDirection ? sortDirection : '_asc')), loginModel.getLoginName());
+            //grunt analytics.track(loginModel.getUserRole(), constants.GA_CAMPAIGN_DETAILS, ('sort_' + fieldName + (sortDirection ? sortDirection : '_asc')), loginModel.getLoginName());
         };
         $scope.details.getSortDirection= function(){
             return ($scope.details.sortDirection == "desc")? "false" : "true";
@@ -807,7 +807,7 @@ define(['angularAMD', 'reporting/timePeriod/time_period_model', 'common/services
 
             // Campaign and strategy both are reset then fire EVENT_CAMPAIGN_STRATEGY_CHANGED event so that we just fetch strategy list and retain selected strategy.
             localStorage.setItem('isNavigationFromCampaigns', true);
-            analytics.track(loginModel.getUserRole(), constants.GA_CAMPAIGN_DETAILS, 'view_report_for_strategy', loginModel.getLoginName());
+          //grunt  analytics.track(loginModel.getUserRole(), constants.GA_CAMPAIGN_DETAILS, 'view_report_for_strategy', loginModel.getLoginName());
             utils.goToLocation(vistoconfig.PERFORMANCE_LINK);
         };
 
@@ -845,7 +845,7 @@ define(['angularAMD', 'reporting/timePeriod/time_period_model', 'common/services
 
             localStorage.setItem('isNavigationFromCampaigns', true);
             localStorage.setItem('selectedAction',JSON.stringify(action) );
-            analytics.track(loginModel.getUserRole(), constants.GA_CAMPAIGN_DETAILS, 'activity_log_detailed_report', loginModel.getLoginName(), action.id);
+        //grunt    analytics.track(loginModel.getUserRole(), constants.GA_CAMPAIGN_DETAILS, 'activity_log_detailed_report', loginModel.getLoginName(), action.id);
             utils.goToLocation(vistoconfig.OPTIMIZATION_LINK);
         };
         $scope.setReportMenu = function(){
@@ -863,7 +863,7 @@ define(['angularAMD', 'reporting/timePeriod/time_period_model', 'common/services
             };
             // Campaign and strategy both are reset then fire EVENT_CAMPAIGN_STRATEGY_CHANGED event so that we just fetch strategy list and retain selected strategy.
             localStorage.setItem('isNavigationFromCampaigns', true);
-            analytics.track(loginModel.getUserRole(), constants.GA_CAMPAIGN_DETAILS, 'view_activity_for_strategy', loginModel.getLoginName());
+      //grunt      analytics.track(loginModel.getUserRole(), constants.GA_CAMPAIGN_DETAILS, 'view_activity_for_strategy', loginModel.getLoginName());
             utils.goToLocation(vistoconfig.OPTIMIZATION_LINK);
         };
 
@@ -875,7 +875,7 @@ define(['angularAMD', 'reporting/timePeriod/time_period_model', 'common/services
                 kpiSelectModel.setSelectedKpi(campaign.kpiType);
             }
             $rootScope.$broadcast(constants.EVENT_CAMPAIGN_CHANGED);
-            analytics.track(loginModel.getUserRole(), constants.GA_CAMPAIGN_DETAILS, (type === 'view_report' ? type : type + '_widget'), loginModel.getLoginName());
+    // grunt       analytics.track(loginModel.getUserRole(), constants.GA_CAMPAIGN_DETAILS, (type === 'view_report' ? type : type + '_widget'), loginModel.getLoginName());
             if (type === 'cost') {
                 utils.goToLocation(vistoconfig.COST_LINK);
             } else if (type === 'quality' || type === 'videoViewability') {
@@ -917,7 +917,7 @@ define(['angularAMD', 'reporting/timePeriod/time_period_model', 'common/services
                 showExternal: showExternal
             };
 
-            analytics.track(loginModel.getUserRole(), constants.GA_CAMPAIGN_DETAILS, 'activity_log_' + (showExternal ? 'external' : 'all'), loginModel.getLoginName());
+  // grunt         analytics.track(loginModel.getUserRole(), constants.GA_CAMPAIGN_DETAILS, 'activity_log_' + (showExternal ? 'external' : 'all'), loginModel.getLoginName());
             return filter;
         };
 

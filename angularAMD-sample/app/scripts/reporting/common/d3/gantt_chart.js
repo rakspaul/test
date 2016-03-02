@@ -730,7 +730,7 @@ define(['angularAMD', 'login/login_model', 'reporting/brands/brands_model'],func
                     .on("click", function(d) {
                         if (d.type != "brand") {
 
-                            analytics.track(loginModel.getUserRole(), 'dashboard_calendar_widget', ('campaign_status_' + d.state + '_performance_' + d.kpiStatus), loginModel.getLoginName());
+                            //grunt analytics.track(loginModel.getUserRole(), 'dashboard_calendar_widget', ('campaign_status_' + d.state + '_performance_' + d.kpiStatus), loginModel.getLoginName());
 
                             //on ^ + click / ⌘ + click - (supported keys)  d3.event.shiftKey, d3.event.altKey
                             if (d3.event.ctrlKey || d3.event.metaKey) {

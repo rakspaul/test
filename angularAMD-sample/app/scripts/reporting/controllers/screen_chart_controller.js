@@ -40,7 +40,7 @@ define(['angularAMD','login/login_model', 'reporting/models/screen_chart_model',
             $scope.cleanScreenWidget();
             screenChartModel.setScreenWidgetFormat(obj);
             screenChartModel.getScreenWidgetData()['chartData'] = {};
-            analytics.track(loginModel.getUserRole(), 'screens_and_formats_widget', obj.toLowerCase() + '_selected', loginModel.getLoginName());
+            //grunt analytics.track(loginModel.getUserRole(), 'screens_and_formats_widget', obj.toLowerCase() + '_selected', loginModel.getLoginName());
             $scope.getScreenAndFormatData();
         };
 
@@ -51,7 +51,7 @@ define(['angularAMD','login/login_model', 'reporting/models/screen_chart_model',
             }
             $scope.cleanScreenWidget();
             screenChartModel.setScreenWidgetMetric(obj);
-            analytics.track(loginModel.getUserRole(), 'screens_and_formats_widget', obj.toLowerCase() + '_metric_selected', loginModel.getLoginName());
+    //grunt        analytics.track(loginModel.getUserRole(), 'screens_and_formats_widget', obj.toLowerCase() + '_metric_selected', loginModel.getLoginName());
             $scope.updateScreenChartData();
         };
 

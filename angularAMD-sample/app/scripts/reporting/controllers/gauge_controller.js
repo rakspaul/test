@@ -4,7 +4,7 @@ define(['angularAMD','reporting/common/d3/gauge','reporting/models/gauge_model',
         var campaigns = '/mediaplans';
         gauge.setLeftArcClickHandler(function () {
             gaugeModel.dashboard.selectedFilter = constants.ACTIVE_ONTRACK;
-            analytics.track(loginModel.getUserRole(), 'dashboard_campaign_widget', 'campaign_widget_on_track_clicked', loginModel.getLoginName());
+            //grunt analytics.track(loginModel.getUserRole(), 'dashboard_campaign_widget', 'campaign_widget_on_track_clicked', loginModel.getLoginName());
             $location.path(campaigns);
             $scope.$apply(); //TODO we need to remove this, added because of removing the hashtag
         });

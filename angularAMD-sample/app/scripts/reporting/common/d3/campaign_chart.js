@@ -1249,7 +1249,7 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model'],
                                 });
 
                             }
-                            analytics.track(loginModel.getUserRole(), constants.GA_OPTIMIZATION_TAB, 'optimization_graph_activity_marker_click', loginModel.getLoginName());
+                            //grunt analytics.track(loginModel.getUserRole(), constants.GA_OPTIMIZATION_TAB, 'optimization_graph_activity_marker_click', loginModel.getLoginName());
                         }
                     } else {
                     //click to scroll and highlight activity
@@ -1276,7 +1276,7 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model'],
                                     scrollTop: scrollTo.offset().top - myContainer.offset().top + myContainer.scrollTop()
                                 });
                             }
-                            analytics.track(loginModel.getUserRole(), constants.GA_CAMPAIGN_DETAILS, 'campaign_performance_graph_activity_click', loginModel.getLoginName());
+                          //grunt  analytics.track(loginModel.getUserRole(), constants.GA_CAMPAIGN_DETAILS, 'campaign_performance_graph_activity_click', loginModel.getLoginName());
                         }
                     }
                 };

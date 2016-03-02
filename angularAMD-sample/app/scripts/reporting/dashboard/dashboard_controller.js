@@ -24,7 +24,7 @@ define(['angularAMD','common/services/constants_service','reporting/dashboard/da
         };
 
         $scope.clickOnBrandButton = function (e) {
-            analytics.track(loginModel.getUserRole(), 'dashboard_bubble_widget', 'close_campaign_view', loginModel.getLoginName());
+            //grunt analytics.track(loginModel.getUserRole(), 'dashboard_bubble_widget', 'close_campaign_view', loginModel.getLoginName());
             // if brand selected from bubble then on close reset advertiser and brand to all else retain advertiser
             if ($scope.brandSelectedFromBubble) {
                 selectAdvertiser(advertiserModel.getAdvertiser().allAdvertiserObject, 'clicked');
