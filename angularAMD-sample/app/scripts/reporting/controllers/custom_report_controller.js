@@ -399,7 +399,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
             //timeframe
             str += '&start_date=' + $scope.reports.reportDefinition.timeframe.start_date + "&end_date=" + $scope.reports.reportDefinition.timeframe.end_date;
 
-            params = reportId + "?dimension=" + str + "&page_num=" + (isPrimary ? _customctrl.reportPageNum_1D : _customctrl.reportPageNum_2D[rowIndex_2D]);
+            params = reportId + "?dimension=" + str + "&page_num=" + (isPrimary ? _customctrl.reportPageNum_1D : _customctrl.reportPageNum_2D[$scope.activeTab][rowIndex_2D]);
             return params;
         };
 
@@ -436,18 +436,21 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                         $scope.showhasBreakdown = 'hasBreakdown';
                     }
                     _.each(respData,function(){
-                        _customctrl.isReportLastPage_2D.push(false);
-                        _customctrl.reportPageNum_2D.push(1);
+                        _customctrl.isReportLastPage_2D[$scope.activeTab].push(false);
+                        _customctrl.reportPageNum_2D[$scope.activeTab].push(1);
                     });
                     _customctrl.getMetricValues(respData, $scope.selectedMetricsList, 'first_dimension');
 
                 } else {
-                    if(_customctrl.isReportLastPage_1D == 1) {
+                    if(_customctrl.reportPageNum_1D == 1) {
                         _customctrl.errorHandler();
                     }
                 }
             }, function() {
                 _customctrl.errorHandler();
+                if(_customctrl.reportPageNum_1D == 1) {
+                    _customctrl.errorHandler();
+                }
             });
         }
 
@@ -486,6 +489,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                     $scope.hideReportsTabs = false;
                 }
                 _customctrl.reset();
+                _customctrl.createJSONforPage($scope.activeTab);
                 _customctrl.getDimensionList($scope.customeDimensionData[0], $scope.selectedMetricsList);
                 _customctrl.getReportData();
                 var str = $scope.reports.reportDefinition.dimensions.primary.dimension + ':' + $scope.reports.reportDefinition.dimensions.primary.value + '&';
@@ -711,7 +715,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
         };
 
         $scope.fetchMoreSecondDimensionData = function(ev, value, rowIndex, loadMore) {
-            _customctrl.reportPageNum_2D[rowIndex] += 1;
+            _customctrl.reportPageNum_2D[$scope.activeTab][rowIndex] += 1;
             $scope.showDataForClikedDimension(ev, value, loadMore);
         };
 
@@ -736,7 +740,10 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                     currFirtDimensionElem.addClass('active');
                     return true;
                 }
-                if(_customctrl.reportPageNum_2D[currentRowIndex] == 1) {
+                if(!_customctrl.reportPageNum_2D[$scope.activeTab].hasOwnProperty(currentRowIndex)){
+                    _customctrl.reportPageNum_2D[$scope.activeTab][currentRowIndex] = 1;
+                }
+                if(_customctrl.reportPageNum_2D[$scope.activeTab][currentRowIndex] == 1) {
                     $scope.secondDimensionReportLoading[$scope.activeTab] = {}
                     $scope.secondDimensionReportLoading[$scope.activeTab][currentRowIndex] = true;
                     $scope.secondDimensionReportDataNotFound[$scope.activeTab] = {};
@@ -753,7 +760,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                 _customctrl.fetchReportData($scope.selectedMetricsList, paramsObj, currentRowIndex, function(respData, currentRowIndex) {
                     $scope.secDimensionLoadIcon[$scope.activeTab][currentRowIndex] = false;
                     currFirtDimensionElem.addClass('active');
-                    _customctrl.isReportLastPage_2D[currentRowIndex] = respData.last_page;
+                    _customctrl.isReportLastPage_2D[$scope.activeTab][currentRowIndex] = respData.last_page;
                     if(!respData.last_page){
                         $scope.secDimensionLoadMore[$scope.activeTab][currentRowIndex] = true;
                     }else{
@@ -770,7 +777,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                             currFirtDimensionElem.removeClass('noDataOpen');
                             _customctrl.getMetricValues(respData, $scope.selectedMetricsList, 'second_dimension', currentRowIndex);
                         } else {
-                            if(_customctrl.reportPageNum_2D[currentRowIndex] == 1){
+                            if(_customctrl.reportPageNum_2D[$scope.activeTab][currentRowIndex] == 1){
                                 $scope.secondDimensionReportDataNotFound[$scope.activeTab][currentRowIndex] = true;
                                 currFirtDimensionElem.addClass('noDataOpen');
                             }
@@ -778,9 +785,11 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                     }
 
                 }, function(currentRowIndex) {
-                    $scope.secondDimensionReportLoading[$scope.activeTab][currentRowIndex] = false;
-                    $scope.secondDimensionReportDataNotFound[$scope.activeTab][currentRowIndex] = true;
-                    currFirtDimensionElem.addClass('noDataOpen');
+                    if(_customctrl.reportPageNum_2D[$scope.activeTab][currentRowIndex] == 1) {
+                        $scope.secondDimensionReportLoading[$scope.activeTab][currentRowIndex] = false;
+                        $scope.secondDimensionReportDataNotFound[$scope.activeTab][currentRowIndex] = true;
+                        currFirtDimensionElem.addClass('noDataOpen');
+                    }
                 });
                 $scope.generateBtnDisabled = false;
 
@@ -794,11 +803,24 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
             }
         };
 
+            _customctrl.createJSONforPage = function(activeTab){
+
+                var pageData = ['reportPageNum_2D', 'isReportLastPage_2D'];
+                _.each(pageData,function(d, i){
+                    if(!_customctrl.hasOwnProperty(d)){
+                        _customctrl[d] = {}
+                    }
+                    if(!_customctrl[d].hasOwnProperty(activeTab)){
+                        _customctrl[d][activeTab] = []
+                    }
+                });
+            }
+
         _customctrl.reset = function() {
             _customctrl.reportPageNum_1D = 1;
             _customctrl.isReportLastPage_1D = false;
-            _customctrl.reportPageNum_2D = [];
-            _customctrl.isReportLastPage_2D = [];
+            _customctrl.reportPageNum_2D = {};
+            _customctrl.isReportLastPage_2D = {};
             $scope.limit = 1000;
             $scope.firstDimensionoffset = 0;
             $scope.fetching = false;
@@ -1019,12 +1041,20 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                 $(".schedule-occurs-custom").hide();
             }
         }
+
+        $scope.checkHeaderScroll = function(activeTab){
+            var id = activeTab + '_table';
+            $(".custom_report_response_page .custom_report_response_table .custom_report_scroll .heading_row").css({"left": "-" + $("#"+id+" .custom_report_scroll").scrollLeft() + "px"});
+        }
+
+
         $scope.show_respective_table = function(id) {
             $(".custom_report_response_table").hide();
             $("#" + id + "_table").show();
             $(".custom_report_response_tabs").find(".each_tab").removeClass("active");
             $(".custom_report_response_tabs").find("#" + id + "_tab").addClass("active");
             $scope.activeTab = id + "_metrics";
+            _customctrl.createJSONforPage($scope.activeTab);
             _customctrl.getDataBasedOnTabSelected($scope.activeTab);
             $scope.checkHeaderScroll(id);
         };
@@ -1915,10 +1945,6 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                     }
                 });
             });
-            $scope.checkHeaderScroll = function(activeTab){
-                var id = activeTab + '_table';
-                $(".custom_report_response_page .custom_report_response_table .custom_report_scroll .heading_row").css({"left": "-" + $("#"+id+" .custom_report_scroll").scrollLeft() + "px"});
-            }
 
             $(window).on('beforeunload', function(){    // On refresh of page
                 $scope.intermediateSave();

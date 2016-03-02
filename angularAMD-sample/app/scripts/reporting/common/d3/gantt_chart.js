@@ -1398,7 +1398,7 @@ define(['angularAMD', 'login/login_model', 'reporting/brands/brands_model'],func
                                 if( isPastView(tdEdges[0], d.startDate, d.endDate) ) {
                                     return  "translate(0," + (y(d.taskName) - padding) + ")";
                                 } else if( isFutureView(tdEdges[1], d.startDate, d.endDate) ) {
-                                    return  "translate(480," + (y(d.taskName) - padding) + ")";
+                                    return  "translate(630," + (y(d.taskName) - padding) + ")";
                                 }
                                 //TODO - check if this is required in corner cases - will take it up during calendar refactoring
                                 // else {
