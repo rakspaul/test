@@ -1,5 +1,8 @@
-define(['angularAMD',  'login/login_model','reporting/models/domain_reports','reporting/campaignSelect/campaign_select_model','common/services/role_based_service'],function (angularAMD) {
-  angularAMD.controller('HeaderController', function ($scope, $rootScope, $route, $cookieStore, $location ,  $modal, constants, loginModel, domainReports, campaignSelectModel, RoleBasedService, workflowService) {
+define(['angularAMD',  'common/services/constants_service', 'login/login_model','reporting/models/domain_reports',
+                        'reporting/campaignSelect/campaign_select_model', 'common/services/role_based_service', 'workflow/services/workflow_service'],function (angularAMD) {
+  angularAMD.controller('HeaderController', function ($scope, $rootScope, $route, $cookieStore, $location, $modal,
+                                                      constants, loginModel, domainReports,
+                                                      campaignSelectModel, RoleBasedService, workflowService) {
         $scope.user_name = loginModel.getUserName();
         $scope.version = version;
         $scope.filters = domainReports.getReportsTabs();
@@ -10,7 +13,7 @@ define(['angularAMD',  'login/login_model','reporting/models/domain_reports','re
         if($cookieStore.get('cdesk_session')) {
             workflowService.getClients().then(function (result) {
                 if (result && result.data.data.length > 0) {
-                    if(!loginModel.getSelectedClient() || loginModel.getSelectedClient().name) {
+                    if(!loginModel.getSelectedClient()) {
                         //$scope.result.data.data[0].children = _.sortBy(result.data.data[0].children);
                         loginModel.setSelectedClient({
                             'id': result.data.data[0].children[0].id,

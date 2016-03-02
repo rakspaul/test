@@ -19,6 +19,7 @@ define(['angularAMD','workflow/services/workflow_service','workflow/services/aud
             var fetchedObj = angular.copy(workflowService.getAdsDetails()),
                 previouslySelectedAudience = fetchedObj.targets.segmentTargets.segmentList;
             _.each(previouslySelectedAudience, function(audienceObj) {
+                audienceObj.segment.isIncluded = audienceObj.isIncluded;
                 $scope.audienceDataForPreview.push(audienceObj.segment);
             })
             audienceService.setSelectedAudience(angular.copy($scope.audienceDataForPreview));

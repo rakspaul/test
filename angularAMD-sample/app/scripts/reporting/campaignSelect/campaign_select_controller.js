@@ -143,6 +143,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'common/s
                 campaignSelectModel.setSelectedCampaign(selectedCampaignNew);
             }
             if ($scope.allCampaign == "true" || $scope.allCampaign == true) {
+                resetSearchCriteria();
                 $scope.fetchCampaigns(true, true);
             } else if ((campaignSelectModel.getSelectedCampaign().id == -1)) {
                 $scope.fetchCampaigns(true, true);
@@ -176,6 +177,12 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'common/s
 
             };
             $scope.setCampaign(selectedCampaign);
+
+            if(selectedCampaign.id == 0) {
+                 resetSearchCriteria();
+                 $scope.fetchCampaigns(false, false);
+            }
+
 
             $('.campaigns_list').hide();
             //grunt analytics.track(loginModel.getUserRole(), constants.GA_USER_CAMPAIGN_SELECTION, selectedCampaign.name, loginModel.getLoginName());

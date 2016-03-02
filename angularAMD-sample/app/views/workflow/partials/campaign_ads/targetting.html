@@ -80,7 +80,7 @@
     <!--END : Geo Targeting Card-->
 
     <!--START : Daypart Targeting Card-->
-    <div class="col-md-6 cardSelectHolder" ng-if="adData.platformName !== 'DORADO'" ng-class="{true: 'active'}[selectedTargeting['daily']]">
+    <div class="col-md-6 cardSelectHolder" ng-if="isPlatformId !== 25 || isPlatformId !== 1" ng-class="{true: 'active'}[selectedTargeting['daily']]">
         <span ng-if="selectedDayParts['data'].length  > 0"  class="icon-trash" ng-style="(selectedDayParts['data'].length >0)?{'display':'block'}:{'display':'none'}" ng-click="deletetargets('DAYPART', $event)"></span>
         <div class="icon-activity"></div>
         <p data-ng-bind="textConstants.DAYPART"></p>

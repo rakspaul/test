@@ -22,7 +22,7 @@
         'ng-file-upload': 'libs/ng-file-upload',
         'ng-file-upload-shim': 'libs/ng-file-upload-shim',
         'tmhDynamicLocale': 'libs/tmhDynamicLocale',
-        'ng-infinite-scroll': 'libs/ng-infinite-scroll',
+        'ng-infinite-scroll': 'libs/ng-infinite-scroll.min',
         'highcharts': 'libs/highcharts',
         'highcharts-ng': 'libs/highcharts-ng',
         'highcharts-more': 'libs/highcharts-more',
