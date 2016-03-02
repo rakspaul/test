@@ -1070,6 +1070,10 @@ input[type="submit"] {
 .each_cost_col.first_col {
   text-align: left;
 }
+.each_cost_col.second_col {
+  text-align: center;
+  width: 119px;
+}
 .each_cost_col.total_cost {
   width: 140px;
 }

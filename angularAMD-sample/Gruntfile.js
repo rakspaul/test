@@ -197,25 +197,9 @@ module.exports = function (grunt) {
                     findNestedDependencies: true,
                     optimize: 'none',
                     dir: '<%= cvars.build %>/<%= cvars.appjs %>/',
-
                     modules: [
                         {
                             name: 'app'
-                        },
-
-                        {
-                            name: 'main/home_ctrl',
-                            exclude: ['common']
-                        },
-
-                        {
-                            name: 'rooms/rooms_ctrl',
-                            exclude: ['common']
-                        },
-
-                        {
-                            name: 'users/users_ctrl',
-                            exclude: ['common']
                         }
                     ]
                 }
@@ -247,10 +231,7 @@ module.exports = function (grunt) {
 
                 files: {
                     src: [
-                        '<%= cvars.app %>/<%= cvars.appjs %>/*.js',
-                        '<%= cvars.app %>/<%= cvars.appjs %>/main/*.js',
-                        '<%= cvars.app %>/<%= cvars.appjs %>/rooms/*.js',
-                        '<%= cvars.app %>/<%= cvars.appjs %>/users/*.js'
+                        '<%= cvars.app %>/<%= cvars.appjs %>/*.js'
                     ]
                 }
             }
@@ -372,9 +353,7 @@ module.exports = function (grunt) {
 
     // 2. Dev box environment
     grunt.registerTask('build-dev', [
-        'jshint:build',
         'clean:build',
-        'preprocess:build',
         'htmlmin:build',
         'cssmin:build',
         'requirejs:build',
@@ -386,9 +365,7 @@ module.exports = function (grunt) {
 
     // 3. QA box environment
     grunt.registerTask('build-qa', [
-        'jshint:build',
         'clean:build',
-        'preprocess:build',
         'htmlmin:build',
         'cssmin:build',
         'requirejs:build',
@@ -399,9 +376,7 @@ module.exports = function (grunt) {
 
     // 4. Beta box environment
     grunt.registerTask('build-beta', [
-        'jshint:build',
         'clean:build',
-        'preprocess:build',
         'htmlmin:build',
         'cssmin:build',
         'requirejs:build',
@@ -414,7 +389,6 @@ module.exports = function (grunt) {
     grunt.registerTask('build-production', [
         'jshint:build',
         'clean:build',
-        'preprocess:build',
         'htmlmin:build',
         'cssmin:build',
         'requirejs:build',
