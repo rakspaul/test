@@ -4,7 +4,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
         'common/services/constants_service', 'reporting/timePeriod/time_period_model', 'reporting/collectiveReport/collective_report_model',
         'reporting/advertiser/advertiser_model', 'common/services/url_service', 'reporting/collectiveReport/collective_report_model',
         'reporting/brands/brands_model', 'common/services/vistoconfig_service',
-        'reporting/models/domain_reports'
+        'reporting/models/domain_reports','reporting/models/reports_upload_list'
     ],
 
     function (angularAMD) {
@@ -15,7 +15,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                                                                         constants, timePeriodModel, loginModel,
                                                                         advertiserModel, urlService, collectiveReportModel,
                                                                         brandsModel, vistoconfig,
-                                                                        domainReports, Upload, reportsUploadList) {
+                                                                        domainReports, reportsUploadList,Upload) {
 
       $scope.textConstants = constants;
       $scope.completed = false;

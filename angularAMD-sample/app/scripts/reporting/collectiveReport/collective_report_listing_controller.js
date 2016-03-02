@@ -4,7 +4,8 @@
 define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'reporting/brands/brands_model', 'common/services/data_service',
     'common/services/url_service', 'reporting/campaignSelect/campaign_select_model', 'common/services/constants_service',
     'common/services/data_store_model', 'common/utils', 'reporting/advertiser/advertiser_model',
-    'reporting/models/domain_reports'
+    'reporting/models/domain_reports','reporting/campaignSelect/campaign_select_directive','reporting/collectiveReport/collective_delete_report_controller',
+    'reporting/collectiveReport/collective_edit_report_controller'
 ],function (angularAMD) {
 
     'use strict';

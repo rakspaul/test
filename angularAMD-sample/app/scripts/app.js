@@ -52,7 +52,9 @@ define(['angularAMD',
         'common/popup_msg',
         'common/moment_utils',
         'workflow/controllers/campaign_create_controller',
-        'reporting/collectiveReport/reports_schedule_list_controller'
+        'reporting/collectiveReport/reports_schedule_list_controller',
+        'reporting/collectiveReport/collective_report_listing_controller'
+
 ], function (angularAMD) {
 
     angular.module( 'ui.bootstrap.carousel' ,  [ 'ui.bootstrap.transition' ])
@@ -180,7 +182,7 @@ define(['angularAMD',
         templateUrl: assets.html_collective_report_listing,
         title: 'Collective Insights',
         controller: 'CollectiveReportListingController',
-        controllerUrl: 'reporting/collectiveReport/CollectiveReportListingController',
+        controllerUrl: 'reporting/collectiveReport/collective_report_listing_controller',
         css: assets.css_custom_reports
       }))
 
