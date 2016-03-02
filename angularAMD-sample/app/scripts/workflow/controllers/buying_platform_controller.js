@@ -144,6 +144,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     $scope.setPlatform(event, platform);
                 }
             } else {
+                $rootScope.$broadcast('resetTargeting');
                 $scope.setPlatform(event, platform);
             }
         };
@@ -341,6 +342,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             if (platform[0]) {
                 $scope.defaultPlatform = platform[0];
                 $scope.selectPlatform((platform[0].switchPlatform ? event : ''), platform[0]);
+                $scope.adData.platformId = platform[0].id
                 $scope.saveCustomeFieldForPlatform(true);
             }
         });

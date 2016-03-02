@@ -189,7 +189,7 @@ define(['angularAMD','login/login_model','common/services/role_based_service','c
                         campaignId: $scope.selectedCampaign.id,
                         advertiserId : advertiserModel.getSelectedAdvertiser().id,
                         brandId : brandsModel.getSelectedBrand().id,
-                        dateFilter: $scope.selected_filters.time_filter,
+                        dateFilter: 'life_time',//$scope.selected_filters.time_filter,
                         download_config_id : report.download_config_id
                     }
 

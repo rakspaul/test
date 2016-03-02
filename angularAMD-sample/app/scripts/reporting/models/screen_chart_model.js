@@ -93,7 +93,7 @@ define(['angularAMD', 'common/services/url_service','common/services/data_servic
                     icon_url = '/images/platform_favicons/' + icon_url;
                 }
                 var value = (((eachObj[calValMetricKey])*100)/total).toFixed(0);
-                screenDataArr.push({"className":cls,"type":type,"value":value, 'icon_url': icon_url});
+                screenDataArr.push({"className":cls,"type":type,"value": Number(value), 'icon_url': icon_url});
             })
             screenBarChartConfig.data = screenDataArr;
             return screenBarChartConfig;

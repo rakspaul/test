@@ -37,7 +37,7 @@
             <div id="myCarousel" class="carousel slide" data-ride="carousel">
                 <!-- Wrapper for slides -->
                 <div class="carousel-inner" role="listbox">
-                    <div class="item" ng-repeat="trackingIntegration1 in workflowData.tracking_integrations track by $index" ng-class="{'active': $index==1}">
+                    <div class="item" ng-repeat="trackingIntegration1 in workflowData.tracking_integrations track by $index" ng-class="{'active': $index==0}">
                         <div class="offeringWrap"  ng-repeat="trackingIntegration in trackingIntegration1 track by $index">
                             <div class="col-md-12 zeroPadding text-center">
                                 <img ng-src="{{trackingIntegration.iconUrl}}">

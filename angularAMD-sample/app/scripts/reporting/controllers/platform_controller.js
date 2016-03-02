@@ -338,6 +338,7 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
                 $(this).addClass("active");
                 $(".reports_block").hide();
                 $scope.selected_tab = tab_id[0].split("_")[1];
+                $(".view_mode_switch_container").hide();
 
                 var tabImps = ['cpc', 'cpa', 'cpm', 'vtc', 'action_rate', 'ctr'];
 

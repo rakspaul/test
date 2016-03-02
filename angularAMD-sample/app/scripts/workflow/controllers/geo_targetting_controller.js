@@ -254,13 +254,15 @@ define(['angularAMD','workflow/services/workflow_service','common/services/zip_c
         $scope.cityEdit = function (flatArr) {
             var citiesEditable;
             var geoTargets = $scope.storedResponse.targets.geoTargets;
-            if (geoTargets && _.size(geoTargets) > 0 && geoTargets.CITY) {
-                citiesEditable = angular.copy(geoTargets.CITY.geoTargetList);
-                $scope.citiesIncluded = geoTargets.CITY.isIncluded;
-                _.each(citiesEditable, function (item) {
-                    $scope.sync(true, item, 'cities');
-                });
-                cityInitialLoad = true;
+            if (geoTargets && _.size(geoTargets) > 0) {
+                if(geoTargets.CITY) {
+                    citiesEditable = angular.copy(geoTargets.CITY.geoTargetList);
+                    $scope.citiesIncluded = geoTargets.CITY.isIncluded;
+                    _.each(citiesEditable, function (item) {
+                        $scope.sync(true, item, 'cities');
+                    });
+                    cityInitialLoad = true;
+                }
                 $scope.saveGeography(1);
             }
         };

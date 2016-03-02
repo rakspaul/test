@@ -241,14 +241,19 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
   .after_before_title {
     position: absolute;
     top: 6px;
-    right: 131px;
+    right: 400px;
     font-size: 10px;
     color: #6c6c6c;
     text-transform: none;
-    div {
-      width: 270px;
-      float: left;
-      text-align: center;
+      .before_title {
+          width: 480px;
+          float: left;
+          text-align: center;
+      }
+      .after_title {
+        width: 51px;
+        float: left;
+        text-align: center;
     }
   }
   .each_rep_col {
@@ -1771,7 +1776,7 @@ div.strategy_total_container {
      }
    }
    .strategy_total_container {
-     border-top  : solid 2px @reportBorder ;
+     border-top  : none ;
      .each_strategy_holder:last-child {
        height : auto ;
        .each_strategy:before {
@@ -3080,7 +3085,7 @@ div.strategy_total_container {
     }
 
   }
-  .reports_platform_header , .strategy_total_container_header{
+    .reports_platform_header , .strategy_total_container_header, .each_strategy_holder {
     .each_cost_col {
       &.fifth_col{
        /* width: 97px ;*/
@@ -3117,7 +3122,7 @@ div.strategy_total_container {
 
       &.sec_col{
         min-width: 11px;
-        width: 69px;
+        width: 70px;
       }
 
       &.ninth_col{
@@ -3173,7 +3178,7 @@ div.strategy_total_container {
     }
     .row_list_holder {
       .first_col {
-        width: 80px;
+        width: 200px;
       }
     }
   }
