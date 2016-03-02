@@ -1,7 +1,6 @@
-var angObj = angObj || {};
-define(['angularAMD', 'common/services/constants_service', 'workflow/services/account_service'],function (angularAMD) {
+define(['angularAMD', 'common/services/constants_service', 'workflow/services/account_service','common/controllers/users/users_add_or_edit_controller'],function (angularAMD) {
     'use strict';
-    angularAMD.controller('UsersController', function ($scope,,$modal,$rootScope,$timeout,constants,accountsService) {
+    angularAMD.controller('UsersController', function ($scope,$modal,$rootScope,$timeout,constants,accountsService) {
         $scope.textConstants = constants;
         $scope.UsersData={};
         $scope.userConsoleFormDetails={};
@@ -17,7 +16,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/ac
                 templateUrl: assets.html_users_add_or_edit,
                 scope:$scope,
                 windowClass: 'edit-dialog',
-                controller: "UsersAddOrEdit" 
+                controller: "UsersAddOrEdit"
             });
             $scope.isEdit = false;
             if(mode == 'edit'){
