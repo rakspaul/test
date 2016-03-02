@@ -31,7 +31,7 @@
         'ui-bootstrap-tpls': 'libs/ui-bootstrap-tpls-1.2.0.min',
         'd3': 'libs/d3',
         'lrInfiniteScroll': 'libs/lrInfiniteScroll',
-        'filesaver': 'libs/filesaver',
+        'filesaver': 'libs/FileSaver',
         'multiselect':'multi_select',
       },
 
