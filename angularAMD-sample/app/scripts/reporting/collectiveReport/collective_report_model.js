@@ -6,8 +6,7 @@ define(['angularAMD', 'common/services/url_service', 'common/services/data_servi
     'reporting/brands/brands_model', 'common/services/data_store_model'
 ],function (angularAMD) {
 
-}
-collectiveReportModule.factory("collectiveReportModel", ['urlService', 'dataService', 'advertiserModel', 'brandsModel',
+angularAMD.factory("collectiveReportModel", ['urlService', 'dataService', 'advertiserModel', 'brandsModel',
     'dataStore', function(urlService, dataService, advertiserModel, brandsModel,dataStore) {
 
         var reportList = {};

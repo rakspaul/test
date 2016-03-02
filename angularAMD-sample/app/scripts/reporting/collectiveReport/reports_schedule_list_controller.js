@@ -3,7 +3,7 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
     'common/services/data_service'
 ],function (angularAMD) {
     'use strict';
-    collectiveReportModule.controller('ReportsScheduleListController', function($scope,$filter, $location, $modal, $rootScope,
+    angularAMD.controller('ReportsScheduleListController', function($scope,$filter, $location, $modal, $rootScope,
                                                                                 collectiveReportModel, momentService, loginModel,
                                                                                 constants, urlService, dataStore,
                                                                                 dataService) {
@@ -42,9 +42,9 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
         };
 
         $scope.getScheduledReports();
-        
+
         //Dropdown Auto Positioning
-        
+
         $scope.open_second_dimension = function(event, index) {
             var elem = $(event.target);
             if (!elem.closest(".row").hasClass("open")) {

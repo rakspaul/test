@@ -9,7 +9,7 @@ define(['angularAMD', 'reporting/timePeriod/time_period_model', 'common/services
                       'common/services/data_store_model', 'common/services/vistoconfig_service', 'reporting/models/domain_reports',
                       'reporting/editActions/edit_actions_model','reporting/models/activity_list','reporting/controllers/actions_controller',
                       'reporting/editActions/edit_actions_controller','reporting/common/d3/campaign_chart','reporting/common/d3/quartiles_graph',
-                      'reporting/directives/strategy_card','reporting/common/d3/pie_chart',
+                      'reporting/directives/strategy_card','reporting/common/d3/pie_chart','reporting/advertiser/advertiser_directive','reporting/brands/brands_directive'
 
 ],function (angularAMD) {
     'use strict';

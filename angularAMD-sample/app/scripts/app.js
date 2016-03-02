@@ -50,10 +50,11 @@ define(['angularAMD',
         'common/controllers/popup_msg_controller',
         'common/popup_msg',
         'common/moment_utils',
-        'workflow/controllers/campaign_create_controller'
+        'workflow/controllers/campaign_create_controller',
+        'reporting/collectiveReport/reports_schedule_list_controller'
 ], function (angularAMD) {
 
-  var app = angular.module('vistoApp', ['ngRoute', 'ngCookies','tmh.dynamicLocale', 'uiSwitch', 'door3.css','ngFileUpload', 'ngSanitize']);
+  var app = angular.module('vistoApp', ['ngRoute', 'ngCookies','tmh.dynamicLocale','ui.bootstrap', 'uiSwitch', 'door3.css','ngFileUpload', 'ngSanitize']);
 
   app.config(function ($routeProvider, $httpProvider) {
     $routeProvider
@@ -179,7 +180,7 @@ define(['angularAMD',
         templateUrl: assets.html_reports_schedule_list,
         title: 'Scheduled Reports',
         controller: 'ReportsScheduleListController',
-          controllerUrl: 'reporting/collectiveReport/report_schedule_list_controller',
+          controllerUrl: 'reporting/collectiveReport/reports_schedule_list_controller',
         css: assets.css_reports_schedule_list
       }))
 
