@@ -49,6 +49,7 @@ define(['angularAMD',
         'reporting/timePeriod/time_period_pick_controller',
         'reporting/controllers/campaign_details_controller',
         'common/controllers/popup_msg_controller',
+        'common/account_change_controller',
         'common/popup_msg',
         'common/moment_utils',
         'workflow/controllers/campaign_create_controller',
@@ -231,7 +232,8 @@ define(['angularAMD',
       .when('/admin/users', angularAMD.route({
         templateUrl: assets.html_users,
         title: 'Users',
-        controller: 'UsersController'
+        controller: 'UsersController',
+        controllerUrl:'common/controllers/users/users_controller'
       }))
 
       .when('/mediaplan/:campaignId/edit', angularAMD.route({

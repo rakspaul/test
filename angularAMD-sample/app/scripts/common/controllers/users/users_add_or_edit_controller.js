@@ -1,5 +1,5 @@
 
-define(['angularAMD', 'common/services/constants_service', 'workflow/services/account_service'],function (angularAMD) {
+define(['angularAMD', 'common/services/constants_service', 'workflow/services/account_service','workflow/directives/ng_update_hidden_dropdown'],function (angularAMD) {
     'use strict';
 
     angularAMD.controller('UsersAddOrEdit', function($scope, $modalInstance,$modal,$rootScope,constants,accountsService) {
