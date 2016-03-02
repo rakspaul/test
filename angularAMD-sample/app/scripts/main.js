@@ -68,7 +68,8 @@
         'ui-bootstrap-tpls':  ['filesaver'],
         'lrInfiniteScroll':  ['ui-bootstrap-tpls'],
         'angular-css':['angular'],
-        'multiselect' : ['angular']
+        'multiselect' : ['angular'],
+          'bootstrap-toggle':['jquery']
       },
 
       priority: [

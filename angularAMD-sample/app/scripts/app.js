@@ -17,6 +17,7 @@ define(['angularAMD',
         'angular-switch',
         'ng-file-upload',
         'ng-file-upload-shim',
+        'bootstrap-toggle',
         'multiselect',
         'login/login_service',
         'login/login_model',
@@ -54,7 +55,14 @@ define(['angularAMD',
         'reporting/collectiveReport/reports_schedule_list_controller'
 ], function (angularAMD) {
 
-  var app = angular.module('vistoApp', ['ngRoute', 'ngCookies','tmh.dynamicLocale','ui.bootstrap', 'uiSwitch', 'door3.css','ngFileUpload', 'ngSanitize']);
+    angular.module( 'ui.bootstrap.carousel' ,  [ 'ui.bootstrap.transition' ])
+        .controller ( 'CarouselController' ,  [ '$scope' ,  '$timeout' ,  '$transition' ,  '$q' ,  function  ( $scope ,  $timeout ,  $transition ,  $q )  {
+        }]).directive ( 'carousel' ,  [ function ()  {
+        return  {
+        }
+    }]);
+
+  var app = angular.module('vistoApp', ['ngRoute', 'ngCookies','tmh.dynamicLocale','ui.bootstrap', 'uiSwitch', 'door3.css','ngFileUpload', 'ngSanitize','ui.multiselect']);
 
   app.config(function ($routeProvider, $httpProvider) {
     $routeProvider
