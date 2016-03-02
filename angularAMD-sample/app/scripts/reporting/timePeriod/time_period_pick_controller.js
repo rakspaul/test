@@ -60,9 +60,9 @@ define(['angularAMD','reporting/timePeriod/time_period_model', 'common/services/
                 var deliverOn = $("#deliverOn").val(),
                     startDate = $("#startDateInput").val(),
                     endDate = $("#endDateInput").val();
-                $('#startDateInput').datepicker('update', startDate);
+                $('#startDateInput').datepicker({ dateFormat: 'YYYY-MM-DD', 'update': startDate});
                 //$('#startDateInputGlyph').datepicker('update', startDate);
-                $("#endDateInput, #endDateInputGlyph").datepicker('update', endDate);
+                $("#endDateInput, #endDateInputGlyph").datepicker({ dateFormat: 'YYYY-MM-DD', 'update': endDate});
                 //$('#endDateInputGlyph').datepicker('update', endDate);
             }
         );
