@@ -53,18 +53,21 @@ define(['angularAMD',
         'common/moment_utils',
         'workflow/controllers/campaign_create_controller',
         'reporting/collectiveReport/reports_schedule_list_controller',
-        'reporting/collectiveReport/collective_report_listing_controller'
+        'reporting/collectiveReport/collective_report_listing_controller',
+        'highcharts',
+        'highcharts-ng',
+        'highcharts-more'
 
 ], function (angularAMD) {
 
     angular.module( 'ui.bootstrap.carousel' ,  [ 'ui.bootstrap.transition' ])
-        .controller ( 'CarouselController' ,  [ '$scope' ,  '$timeout' ,  '$transition' ,  '$q' ,  function  ( $scope ,  $timeout ,  $transition ,  $q )  {
+        .controller ( 'CarouselController' ,  [ '$scope' ,  '$timeout' ,  '$transition' ,  '$q' ,'ngFileUpload' , function  ( $scope ,  $timeout ,  $transition ,  $q )  {
         }]).directive ( 'carousel' ,  [ function ()  {
         return  {
         }
     }]);
 
-  var app = angular.module('vistoApp', ['ngRoute', 'ngCookies','tmh.dynamicLocale','ui.bootstrap', 'uiSwitch', 'door3.css','ngFileUpload', 'ngSanitize','ui.multiselect']);
+  var app = angular.module('vistoApp', ['ngRoute', 'ngCookies','tmh.dynamicLocale','ui.bootstrap', 'uiSwitch', 'door3.css','ngFileUpload', 'ngSanitize','ui.multiselect','highcharts-ng']);
 
   app.config(function ($routeProvider, $httpProvider) {
     $routeProvider

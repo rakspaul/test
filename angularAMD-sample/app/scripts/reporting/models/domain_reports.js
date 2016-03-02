@@ -322,6 +322,7 @@ define(['angularAMD','login/login_model','common/services/role_based_service','c
             templateUrl: assets.html_filters_header,
             link: function(scope, element, attrs) {
                 scope.reportFilter = attrs.reports ;
+console.log('attrs.reports',attrs.reports);
                 scope.textConstants = constants;
                 scope.allCampaign = attrs.allCampaign;
                 if(scope.allCampaign == "true" || scope.allCampaign == true) {

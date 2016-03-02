@@ -234,7 +234,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                                   }
 
                                 });
-                            }).error(function(data){
+                            }).error(function(data){ console.log('data',data);
                               $scope.loaded++;
                               $scope.errorCount++;
                               $scope.rejFiles = [];
