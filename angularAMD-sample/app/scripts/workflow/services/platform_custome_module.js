@@ -1,6 +1,6 @@
 define(['angularAMD', 'common/services/constants_service'], function (angularAMD) {
     'use strict';
-    angularAMD.factory('accountsService', function ($timeout, $locale, constants ) {
+    angularAMD.factory('platformCustomeModule', function ($timeout, $locale, constants ) {
         var _self = this;
         var textConstants = constants;
 
