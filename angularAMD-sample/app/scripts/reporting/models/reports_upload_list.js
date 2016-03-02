@@ -1,4 +1,4 @@
-define(['angularAMD', 'reporting/models/reports_upload_list'],function (angularAMD) {
+define(['angularAMD'],function (angularAMD) {
 
     angularAMD.factory('reportsUploadList', function () {
         var files = {};
