@@ -1,4 +1,4 @@
-define(['angularAMD', '../../common/services/constants_service', 'workflow/services/workflow_service','workflow/services/platform_custome_module'], function (angularAMD) {
+define(['angularAMD', 'common/services/constants_service', 'workflow/services/workflow_service','workflow/services/platform_custome_module'], function (angularAMD) {
   angularAMD.controller('BuyingPlatformController',  function ($scope, $timeout, $modal, $filter, $rootScope, constants, workflowService, platformCustomeModule) {
 
         var tempPlatform,
