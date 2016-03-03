@@ -8,7 +8,7 @@
         'jquery-ui': 'libs/jquery-ui',
         'bootstrap': 'libs/bootstrap',
         'angular-resource': 'libs/angular-resource',
-        'angular-switch':'libs/angular-ui-switch',
+        'angular-switch':'libs/angular-ui-switch.min',
         'angular-css':'libs/angular-css',
         'angular-cookies': 'libs/angular-cookies',
         'angular-cache': 'libs/angular-cache',
