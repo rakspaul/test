@@ -20,7 +20,6 @@
         "angular-resource/angular-resource.js",
         "jquery/dist/jquery.js",
         "jquery-ui/jquery-ui.js",
-        "angular-ui-switch/angular-ui-switch.js",
         "bootstrap/dist/js/bootstrap.js",
         "bootstrap-toggle/js/bootstrap-toggle.js",
         "angular-cache/dist/angular-cache.js",
