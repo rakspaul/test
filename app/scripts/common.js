@@ -57,7 +57,8 @@ define(['angularAMD',
     'reporting/collectiveReport/collective_report_listing_controller',
     'highcharts',
     'highcharts-ng',
-    'highcharts-more'
+    'highcharts-more',
+    'chosen'
 ], function (angularAMD) {
     'use strict';
     return angularAMD;

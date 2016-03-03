@@ -33,6 +33,7 @@
         'lrInfiniteScroll': 'libs/lrInfiniteScroll',
         'filesaver': 'libs/FileSaver',
         'multiselect':'multi_select',
+        'chosen': 'libs/chosen',
       },
 
       // Add angular modules that does not support AMD out of the box, put it in a shim
@@ -69,7 +70,8 @@
         'lrInfiniteScroll':  ['ui-bootstrap-tpls'],
         'angular-css':['angular'],
         'multiselect' : ['angular'],
-          'bootstrap-toggle':['jquery']
+        'bootstrap-toggle':['jquery'],
+        'chosen':['jquery']
       },
 
       priority: [
