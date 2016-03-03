@@ -37,10 +37,10 @@
                             <div class="pull-left zeroPadding regionCityTab" ng-show="selectedTab !== 'dmas'">
                                 <ul class="nav nav-tabs">
                                     <li class="tab_region_holder active"><!-- add tooltip_holder when you want the tooltip to be visible -->
-                                        <a href="#region"  id="tab_region"  data-toggle="tab" ng-click="listRegions('', $event);" data-ng-bind="textConstants.REGION"></a>
+                                        <a data-target="#region"  id="tab_region"  data-toggle="tab" ng-click="listRegions('', $event);" data-ng-bind="textConstants.REGION"></a>
                                         <span class="common_tooltip" style="display:none;" data-ng-bind="textConstants.INCEXCCITYNOTE"></span>
                                     </li>
-                                    <li id="cityTab" ng-show="showCitiesTab"><a href="#city" ng-click ="listCities($event);" data-toggle="tab" data-ng-bind="textConstants.CITY"></a></li>
+                                    <li id="cityTab" ng-show="showCitiesTab"><a data-target="#city" ng-click ="listCities($event);" data-toggle="tab" data-ng-bind="textConstants.CITY"></a></li>
                                 </ul>
                             </div>
                             <div class="col-md-4 zeroPadding switchWrap" ng-show="selectedTab !== 'dmas'">
