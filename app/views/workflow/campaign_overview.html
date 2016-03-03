@@ -175,7 +175,7 @@
                 <div class="col-md-12 adContainer">
                     <!--===Start get ad groups ===-->
                     <div id="getAdgroups"
-                         ng-include="'/views/workflow/partials/overview_partials/overview_getAdgroups.html'"
+                         ng-include="'/assets/html/workflow/partials/overview_partials/overview_getAdgroups.html'"
                          ng-controller = "GetAdgroupsController">
                     </div>
                     <!--===END get ad groups ===-->
@@ -186,7 +186,7 @@
                         </div>
                         <!--ng-include of create Ad groups-->
                         <div id="createAdgroups"
-                             ng-include="'/views/workflow/partials/overview_partials/overview_createAdgroups.html'"
+                             ng-include="'/assets/html/workflow/partials/overview_partials/overview_createAdgroups.html'"
                              ng-controller="CreateAdGroupsController">
                         </div>
 
@@ -213,24 +213,61 @@
                             <form id="createIndependantAdsGrp" name="createIndependantAdsGrp"  novalidate>
                                 <div class="adGroupCreateForm">
                                     <h1 class="col-md-12 zeroPadding" data-ng-bind="textConstants.CREATEADGRP"></h1>
-                                    <div class="col-md-6 zeroPadding">
+                                    
+                                    <!--Setup Name / Label Ad Group-->
+                                    <div class="col-md-12 zeroPadding">
                                         <label for="nameIndividualAdGroup" class="col-sm-12 control-label labelQuestTxt" data-ng-bind="textConstants.NAMEADGROUP"></label>
-                                        <label class="col-sm-12 control-label greyTxt miniLabels" data-ng-bind="textConstants.ADGROUPNAME"></label>
-                                        <div class="form-group col-sm-9 zeroPadding" show-errors='{showSuccess: true}'>
-                                            <input type="text"
-                                                   class="form-control"
-                                                   id="nameIndividualAdGroup"
-                                                   remove-special-character='remove-special-character'
-                                                   name="adIGroupName"
-                                                   ng-model="adIGroupName"
-                                                   maxlength="250"
-                                                   placeholder="Enter Ad Group Name in this field up to 250 Characters"
-                                                   required/>
-                                            <label ng-if="createIndependantAdsGrp.adIGroupName.$error.required"
-                                                   class="col-sm-12 control-label greyTxt errorLabel" data-ng-bind="textConstants.ENTERADGRP"></label>
+                                        <!--Column 1-->
+                                        <div class="col-md-6" style="padding: 0 10px 0 0;">
+                                            <label class="col-sm-12 control-label greyTxt miniLabels" data-ng-bind="textConstants.ADGROUPNAME"></label>
+                                            <div class="form-group col-sm-12 zeroPadding" show-errors='{showSuccess: true}'>
+                                                <input type="text"
+                                                       class="form-control"
+                                                       id="nameIndividualAdGroup"
+                                                       remove-special-character='remove-special-character'
+                                                       name="adIGroupName"
+                                                       ng-model="adIGroupName"
+                                                       maxlength="250"
+                                                       placeholder="Enter Ad Group Name in this field up to 250 Characters"
+                                                       required/>
+                                                <label ng-if="createIndependantAdsGrp.adIGroupName.$error.required"
+                                                       class="col-sm-12 control-label greyTxt errorLabel" data-ng-bind="textConstants.ENTERADGRP"></label>
+                                            </div>
+                                        </div>
+                                        
+                                        <!--Column 2-->
+                                        <div class="col-md-6" style="padding: 0 0 0 10px;">
+                                            <label class="col-sm-12 control-label greyTxt miniLabels">Label</label>
+                                            <select data-placeholder="Choose a Country..." class="chosen-select" multiple tabindex="4">
+                                                <option value=""></option>
+                                                <option value="United States">United States</option>
+                                                <option value="United Kingdom">United Kingdom</option>
+                                                <option value="Afghanistan">Afghanistan</option>
+                                                <option value="Aland Islands">Aland Islands</option>
+                                            </select>
                                         </div>
                                     </div>
-                                    <div class="col-md-4 zeroPadding">
+                                    
+                                    <div class="col-md-12 zeroPadding">
+                                        <label for="budgetIndividualAdGroup" class="col-sm-12 control-label labelQuestTxt">What's the maximum
+                                        you can spend for your Ad Group?</label>
+                                        <label class="col-sm-12 control-label greyTxt miniLabels">Budget</label>
+                                        <div class="form-group col-md-3" style="padding: 0 10px 0 0;">
+                                            <span class="currencyFly">$</span>
+                                            <input type="text"
+                                                   class="form-control text-right"
+                                                   id="budgetIndividualAdGroup"
+                                                   name="adIGroupBudget"
+                                                   maxlength="30"/>
+                                        </div>
+                                        
+                                        <div class="col-md-3" style="padding: 0 0 0 10px;">
+                                            Widget Goes Here
+                                        </div>
+                                    </div>
+                                    
+                                    <!--Date Setup For Ad Group-->
+                                    <div class="col-md-10 zeroPadding">
                                         <label for="dateIndividualAdGroup"
                                                class="col-sm-12 control-label labelQuestTxt" data-ng-bind="textConstants.LIKEADSRUN"></label>
                                         <div class="span4 col-md-12 input-daterange input-group date pull-left"
@@ -299,17 +336,17 @@
                                 <div class="col-md-12 adTitle">
                                     <div class="clearfix">
                                         <img ng-src="{{adsData.platform.iconUrl}}"
-                                            height="16"
-                                            class="adIconWidget"
-                                            ng-show="(adsData.platform)"
+                                            height="16" 
+                                            class="adIconWidget" 
+                                            ng-show="(adsData.platform)" 
                                             title="{{adsData.platform.displayName | uppercase}}" />
                                         <!--<span class="pull-left"> {{adsData.id}}</span>-->
                                         <span class="pull-left greyTxt adDisplay"
-                                            ng-show="!(adsData.platform)"
+                                            ng-show="!(adsData.platform)" 
                                             data-ng-bind="textConstants.PLATNOTSET">
                                         </span>
-                                        <span class="pull-right greyTxt adDisplay"
-                                            ng-show="(!adsData.isTracking) && (adsData.state === 'READY' || adsData.state === 'INCOMPLETE')"
+                                        <span class="pull-right greyTxt adDisplay" 
+                                            ng-show="(!adsData.isTracking) && (adsData.state === 'READY' || adsData.state === 'INCOMPLETE')" 
                                             data-ng-bind="textConstants.NOTPUSHEDPAR">
                                         </span>
                                         <span ng-if="(adsData.sourceId)" class="pull-right greyTxt adDisplay"
@@ -325,7 +362,7 @@
                                 <div class="col-md-12" style="padding: 0px 20px 20px 20px;">
                                     <div class="cardTopLayer">
                                         <h4 class="col-md-10 adCamp" style="word-wrap: break-word;" tooltip="{{adsData.name}}">
-                                            {{adsData.name | textEllipsis: 57}}
+                                            {{adsData.name | textEllipsis: 60}}
                                         </h4>
                                         <span ng-if="adsData.adFormat"
                                               class="glyphicon glyphicon-{{getAdFormatIconName(adsData.adFormat)}} pull-right"
@@ -712,13 +749,13 @@
                                     <div class="col-md-12">
                                         <div class="col-md-5 platformHolder">
                                             <input type="radio" name="group5" value="collective" class="btn_rad clickCm">
-                                            <img src="/images/cdesk/logo_C.png"/>
+                                            <img src="/assets/images/cdesk/logo_C.png"/>
                                             {{ textConstants.WF_COLLECTIVE_MEDIA }}
                                         </div>
                                         <div class="col-md-1"></div>
                                         <div class="col-md-5 platformHolder">
                                             <input type="radio" name="group5" value="bidder" class="btn_rad clickCb">
-                                            <img src="/images/cdesk/logo_C_bidder.png"/>
+                                            <img src="/assets/images/cdesk/logo_C_bidder.png"/>
                                             {{ textConstants.WF_COLLECTIVE_BIDDER }}
                                         </div>
                                         <div class="col-md-1"></div>
@@ -727,7 +764,7 @@
                                     <div class="col-md-12">
                                         <div class="col-md-5 platformHolder">
                                             <input type="radio" name="group5" value="collective" class="btn_rad">
-                                            <img src="/images/cdesk/logo_C_appnexus.png"/>
+                                            <img src="/assets/images/cdesk/logo_C_appnexus.png"/>
                                             {{ textConstants.WF_APPNEXUS }}
                                         </div>
                                         <div class="col-md-1"></div>
@@ -930,4 +967,4 @@
         });
     })
 </script>
-
+      

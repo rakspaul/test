@@ -1902,6 +1902,12 @@
   float: left;
   margin: 1px 6px 0 0;
 }
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroup .currencyFly {
+  position: absolute;
+  left: 10px;
+  top: 9px;
+  z-index: 10;
+}
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroupCreate {
   background: #fff;
   float: left;
@@ -1913,6 +1919,12 @@
   border-bottom: 0;
   float: left;
   padding: 30px 30px 0 30px;
+}
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroupCreate .adGroupCreateForm .currencyFly {
+  position: absolute;
+  left: 10px;
+  top: 9px;
+  z-index: 10;
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroupCreate .adGroupCreateModules {
   background: #fff;
@@ -1989,8 +2001,7 @@
   color: #0978C9;
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroupSelectionWrap.active {
-  background: #fff;
-  border: 1px solid #939EAE;
+  border-width: 0;
   padding-top: 0;
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroupSelectionWrap.active .adGroupCreateForm {
@@ -2000,6 +2011,10 @@
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroupSelectionWrap.active .btnCreateGroup {
   display: none;
+}
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroupSelectionWrap.active .singleCardWrap {
+  margin-top: 30px;
+  border: 1px dashed #939eae;
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule {
   cursor: pointer;
@@ -2197,6 +2212,7 @@
   padding-left: .75%;
   position: relative;
   width: 100%;
+  padding-bottom: .75%;
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .singleCardWrap .overlay {
   background: #fff;

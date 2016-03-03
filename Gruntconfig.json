@@ -38,7 +38,8 @@
         "angular-sanitize/angular-sanitize.js",
         "filesaver/FileSaver.js",
         "highcharts/highcharts",
-        "highcharts-ng/dist/highcharts-ng"
+        "highcharts-ng/dist/highcharts-ng",
+        "chosen/chosen.js"
 
     ],
 
