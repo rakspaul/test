@@ -10,6 +10,7 @@ if [ $CDESK_ENV == "ewr_dev" ]
 then
   echo "Its EWR DEV environment !!!"
   #cp ${CONF_EWR_QA_FILE} ${CONF_FILE}
+  mkdir /tmp/crpt-ui-grunt/bin
   cp /tmp/crpt-ui-grunt/scripts/crpt-ui-runit.sh  /tmp/crpt-ui-grunt/bin/
   cp -r /tmp/crpt-ui-grunt/* /home/amp/crpt-ui-grunt/
   rm -Rvf /tmp/crpt-ui-grunt
