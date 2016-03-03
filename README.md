@@ -1,32 +1,33 @@
-angularAMD-sample
-=================
+VISTO Enviroment
+================
+> [Developer](http://dev-desk.collective-media.net/) | [QA](https://qa-desk.collective.com) | [Beta](https://beta.collective.com/) | [LA](https://apps.collective.com)
 
-Sample App created using angularAMD
+Setup prerequisites for VISTO
+=============================
 
-## Development
-To setup and run this project, do the following:
+##Packages to install
 
-```
-npm install
-grunt setup
-grunt build
-grunt devel
-```
+0. Node - (download stable version) [Install](https://nodejs.org/en/)
+0. Install grunt cli
+> sudo npm install -g grunt-cli
+0 Install bower
+>sudo npm install -g bower
 
-## optimised Using r.js
-To create an `r.js` optimised version of the code in under the `build` directory.  Note that JS script at this stage is
-left in the un-minimized state.  This will allow further testing making sure that optimised code is done correctly and
-works.
 
-```
-grunt build
-```
+##Clone Project
 
-## Deploy
-To create a final version to be deployed.  The code will be source from the `build` directory and only the needed
-files are copied and minified to the `dist` directory.
+0. git clone https://github.com/collectivemedia/crpt-ui/
+0. git checkout branch (e.g. git checkout sprint-1609)
+
+## Run below mentioned commands
+0. npm install
+0. bower install
+0. grunt devel (it's developer mode)
 
 ```
-grunt deploy
+Now you can access the site using url
+http://localhost:8080/login
 ```
+
+
 
