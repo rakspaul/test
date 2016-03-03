@@ -84,7 +84,7 @@
 						<div class="list_holder">
 							<div class="list_row_holder"  lr-infinite-scroll="loadMoreRegions" time-threshold="100">
 								<div class="clearfix list_row" ng-repeat="region in geoTargetingData.regions">
-									<div class="pull-left list_row_chkbox"><input name="regionchkbox" id="{{region.id}}" ng-model="bool" ng-click="sync(bool, region, 'regions')" ng-checked="isChecked(region.id, 'regions')" type="checkbox" value="" /></div>
+									<div class="pull-left list_row_chkbox"><input name="regionchkbox" id="{{region.id}}" ng-model="bool" ng-change="sync(bool, region, 'regions')" ng-checked="isChecked(region.id, 'regions')" type="checkbox" value="" /></div>
 									<div class="pull-left list_val_col" data-ng-bind="region.name"></div>
 								</div>
 								<div ng-if="regionFetching" class="common-load-more"></div>
@@ -98,7 +98,7 @@
 						<div class="list_holder">
 							<div class="list_row_holder" lr-infinite-scroll="loadMoreCities" time-threshold="100">
 								<div class="clearfix list_row" ng-repeat="city in geoTargetingData.cities track by $index">
-									<div class="pull-left list_row_chkbox"><input name="regionchkbox" id="{{city.id}}" ng-model="bool" ng-click="sync(bool, city, 'cities')" ng-checked="isChecked(city.id, 'cities')" type="checkbox" value="" /></div>
+									<div class="pull-left list_row_chkbox"><input name="regionchkbox" id="{{city.id}}" ng-model="bool" ng-change="sync(bool, city, 'cities')" ng-checked="isChecked(city.id, 'cities')" type="checkbox" value="" /></div>
 									<div class="pull-left list_val_col" data-ng-bind="city.name"></div>
 									<div class="pull-left list_val_col" data-ng-bind="city.parent.name"></div>
 								</div>
@@ -130,7 +130,7 @@
 
                         <div class="list_row_holder" lr-infinite-scroll="loadMoreDmas" time-threshold="100">
                             <div class="clearfix list_row" ng-repeat="dma in geoTargetingData.dmas">
-                                <div class="pull-left list_row_chkbox"><input id="{{dma.id}}" type="checkbox" ng-model="bool" ng-click="sync(bool, dma, 'dmas')" ng-checked="isChecked(dma.id, 'dmas')" value="" /></div>
+                                <div class="pull-left list_row_chkbox"><input id="{{dma.id}}" type="checkbox" ng-model="bool" ng-change="sync(event, dma, 'dmas')" ng-checked="isChecked(dma.id, 'dmas')" value="" /></div>
                                 <div class="pull-left list_val_col" data-ng-bind="dma.dmaName"></div>
                                 <div class="pull-left list_val_col" data-ng-bind="dma.parent.name"></div>
                             </div>
