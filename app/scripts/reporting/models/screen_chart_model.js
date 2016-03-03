@@ -96,7 +96,6 @@ define(['angularAMD', 'common/services/vistoconfig_service','common/services/dat
                 screenDataArr.push({"className":cls,"type":type,"value": Number(value), 'icon_url': icon_url});
             })
             screenBarChartConfig.data = screenDataArr;
-            screenBarChartConfig.total = total;
             return screenBarChartConfig;
         };
 
