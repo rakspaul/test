@@ -101,13 +101,16 @@ span.cost_opaque .cost_opaque_icon {
   -ms-transform: translate(0, -50%);
   -webkit-transform: translate(-50%, -50%);
 }
-.total_reports_page {
+.total_reports_page,
+.testfooooooooooooo {
   margin: 0px auto 40px;
 }
-.total_reports_page .load_more_rows {
+.total_reports_page .load_more_rows,
+.testfooooooooooooo .load_more_rows {
   display: none;
 }
-.total_reports_page .reports_graph_top_section {
+.total_reports_page .reports_graph_top_section,
+.testfooooooooooooo .reports_graph_top_section {
   min-height: 240px;
   width: 100% ;
   margin: 20px auto;
@@ -117,31 +120,37 @@ span.cost_opaque .cost_opaque_icon {
   background: #fff;
   border: solid 1px #d2dee7 ;
 }
-.total_reports_page .reports_graph_top_section .rep_graph_holder {
+.total_reports_page .reports_graph_top_section .rep_graph_holder,
+.testfooooooooooooo .reports_graph_top_section .rep_graph_holder {
   margin: 20px;
   min-height: 200px;
 }
-.total_reports_page .reports_graph_top_section .common_graph_legend {
+.total_reports_page .reports_graph_top_section .common_graph_legend,
+.testfooooooooooooo .reports_graph_top_section .common_graph_legend {
   margin: 60px auto 0;
 }
-.total_reports_page .reports_graph_top_section .load-more {
+.total_reports_page .reports_graph_top_section .load-more,
+.testfooooooooooooo .reports_graph_top_section .load-more {
   text-align: center;
   text-indent: -99999;
   background: url("/images/loading.gif") no-repeat scroll 48% 45% rgba(0, 0, 0, 0);
   margin: 100px auto;
   display: block;
 }
-.total_reports_page .reports_graph_top_section .no-chart {
+.total_reports_page .reports_graph_top_section .no-chart,
+.testfooooooooooooo .reports_graph_top_section .no-chart {
   text-align: center;
   margin-top: 100px;
   display: block;
   font-family: "Avenir";
   color: #939ead ;
 }
-.total_reports_page .reports_graph_top_section .col-md-12 {
+.total_reports_page .reports_graph_top_section .col-md-12,
+.testfooooooooooooo .reports_graph_top_section .col-md-12 {
   padding-left: 0px;
 }
-.total_reports_page .row {
+.total_reports_page .row,
+.testfooooooooooooo .row {
   margin: 0px;
 }
 div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
