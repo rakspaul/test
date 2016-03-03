@@ -7,12 +7,11 @@ Setup prerequisites for VISTO
 
 ##Packages to install
 
-0. Node - (download stable version) [Install](https://nodejs.org/en/)
-0. Install grunt cli
-> sudo npm install -g grunt-cli
-0 Install bower
->sudo npm install -g bower
-
+0. [Node](https://nodejs.org/en/)
+0. install grunt cli
+`sudo npm install -g grunt-cli`
+0. install bower
+`sudo npm install -g bower`
 
 ##Clone Project
 
