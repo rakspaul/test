@@ -15,7 +15,7 @@
         'angulartics': 'libs/angulartics.min',
         'angulartics-ga': 'libs/angulartics-google-analytics.min',
         'angular-sanitize': 'libs/angular-sanitize',
-        'date-picker': 'libs/bootstrap-datepicker',
+        'date-picker': 'libs/bootstrap-datepicker.min',
         'bootstrap-toggle': 'libs/bootstrap-toggle',
         'moment': 'libs/moment',
         'moment-tz': 'libs/moment-timezone',
