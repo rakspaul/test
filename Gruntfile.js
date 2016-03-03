@@ -125,8 +125,8 @@ module.exports = function (grunt) {
             build: {
                 files: {
                     '<%= cvars.build %>/<%= cvars.appcss %>/main.css': [
-                        '<%= cvars.app %>/<%= cvars.appcss %>/libs/bootstrap.css',
-                        '<%= cvars.app %>/<%= cvars.appcss %>/main.css'
+                        '<%= cvars.build %>/<%= cvars.bootstrapCss %>/bootstrap.css',
+                        '<%= cvars.build %>/<%= cvars.appcss %>/cdesk_application.css'
                     ]
                 }
             }
@@ -149,7 +149,7 @@ module.exports = function (grunt) {
 
                 files: [
                     {
-                        '<%= cvars.build %>/index.html': '<%= cvars.build %>/index.build.html'
+                        '<%= cvars.build %>/index.html': '<%= cvars.app %>/index.master.html'
                     },
 
                     {
@@ -192,22 +192,19 @@ module.exports = function (grunt) {
             build: {
                 options: {
                     baseUrl: '<%= cvars.app %>/<%= cvars.appjs %>',
+                    generateSourceMaps: true,
                     mainConfigFile: '<%= cvars.app %>/<%= cvars.appjs %>/main.js',
                     removeCombined: true,
                     findNestedDependencies: true,
                     optimize: 'none',
                     dir: '<%= cvars.build %>/<%= cvars.appjs %>/',
-                    modules: [
-                        {
-                            name: 'app'
-                        }
-                    ]
+                    modules: [{name: 'app'}]
                 }
             }
         },
 
         uglify: {
-            deploy: {
+            build: {
                 options: {
                     preserveComments: 'some',
                     sourceMapIncludeSources: true,
@@ -217,7 +214,7 @@ module.exports = function (grunt) {
                 files: [{
                     cwd: '<%= cvars.build %>/<%= cvars.appjs %>/',
                     expand: true,
-                    dest: '<%= cvars.dist %>/<%= cvars.appjs %>/',
+                    dest: '<%= cvars.build %>/<%= cvars.appjs %>/',
                     src: '**/*.js'
                 }]
             }
@@ -231,7 +228,7 @@ module.exports = function (grunt) {
 
                 files: {
                     src: [
-                        '<%= cvars.app %>/<%= cvars.appjs %>/*.js'
+                        '<%= cvars.app %>/<%= cvars.appjs %>/**/*.js'
                     ]
                 }
             }
@@ -275,6 +272,17 @@ module.exports = function (grunt) {
         },
 
         preprocess: {
+            build: {
+                options: {
+                    context: {
+                        ENV: 'qa'
+                    }
+                },
+
+                src: '<%= cvars.app %>/index.master.html',
+                dest: '<%= cvars.build %>/index.html'
+            },
+
             dev: {
                 options: {
                     context: { ENV: 'dev' }
@@ -310,6 +318,29 @@ module.exports = function (grunt) {
                 src: '<%= cvars.app %>/index.master.html',
                 dest: '<%= cvars.dist %>/index.html'
             }
+        },
+
+        htmlhint: {
+            options: {
+                htmlhintrc: '.htmlhintrc'
+            },
+
+            html1: {
+                src: ['app/index.html']
+            }
+        },
+
+        autoprefixer: {
+            options: {
+                browsers: ['last 2 versions']
+            },
+
+            build: {
+                files: {
+                    //'dist/': 'css/*.css'
+                    '<%= cvars.build %>/<%= cvars.appcss %>/': '<%= cvars.app %>/<%= cvars.appcss %>/**/*.css'
+                }
+            }
         }
     });
 
@@ -317,14 +348,14 @@ module.exports = function (grunt) {
      * setup task
      * Run the initial setup, sourcing all needed upstream dependencies
      */
-    // TODO: Integrate this with the local dev machine 'build & watch' & 'devel' tasks? See below...
+        // TODO: Integrate this with the local dev machine 'build & watch' & 'devel' tasks? See below...
     grunt.registerTask('setup', ['bower:setup', 'copy:setup', 'less:setup']);
 
     /**
      * devel task
      * Launch webserver and watch for changes
      */
-    // TODO: This task can be merged with the local dev machine 'build & watch' task. See below...
+        // TODO: This task can be merged with the local dev machine 'build & watch' task. See below...
     grunt.registerTask('devel', [
         'connect:server', 'watch:www'
     ]);
@@ -333,6 +364,23 @@ module.exports = function (grunt) {
      * build task
      * Use r.js to build the project
      */
+
+        // TODO: This is temp for now, for Dev box  & QA environment (USAGE: grunt build-now)
+    grunt.registerTask('build-now', [
+        'clean:build', // Clean (delete build folder)
+        'copy:build',  // Copy relevant files & folders from app to build folder
+        'preprocess:build', // Generate HTML file(s) with different version depending on environment
+        'htmlmin:build',    // Minimize the HTML files
+        'less:build',       // Compile LESS to SASS
+        // 'autoprefixer:build', TODO: Need to be fixed
+        // 'postcss:build', // Optimize CSS TODO: Need to be fixed
+        'cssmin:build',
+        'requirejs:build', // Bundle JS modules
+        'clean:post-requirejs', // Clean up /lib folder
+        'uglify:build'     // Minimize JS files
+    ]);
+
+
     // TODO: Customize each build task lists
     // TODO: Look up how to use env plugin
     // REFERENCE: http://stackoverflow.com/questions/13800205/alternate-grunt-js-tasks-for-dev-prod-environments
@@ -346,14 +394,16 @@ module.exports = function (grunt) {
         // image-optimizer comes here (use contrib-imagemin?)
         // CSS auto-prefixer comes here
         'less:setup'
-        // postcss comes here
+        // postcss and / or cssc comes here
         // csslint comes here
         // live-reload / browser-sync comes here
     ]);
 
     // 2. Dev box environment
     grunt.registerTask('build-dev', [
+        'jshint:build', // TODO: implement later
         'clean:build',
+        'preprocess:build',
         'htmlmin:build',
         'cssmin:build',
         'requirejs:build',
@@ -365,8 +415,10 @@ module.exports = function (grunt) {
 
     // 3. QA box environment
     grunt.registerTask('build-qa', [
+        'jshint:build', // TODO: implement later
         'clean:build',
         'htmlmin:build',
+        'preprocess:build',
         'cssmin:build',
         'requirejs:build',
         'clean:post-requirejs',
@@ -376,7 +428,9 @@ module.exports = function (grunt) {
 
     // 4. Beta box environment
     grunt.registerTask('build-beta', [
+        'jshint:build', // TODO: implement later
         'clean:build',
+        'preprocess:build',
         'htmlmin:build',
         'cssmin:build',
         'requirejs:build',
@@ -387,8 +441,9 @@ module.exports = function (grunt) {
 
     // 5. Production environment
     grunt.registerTask('build-production', [
-        'jshint:build',
+        'jshint:build', // TODO: implement later
         'clean:build',
+        'preprocess:build',
         'htmlmin:build',
         'cssmin:build',
         'requirejs:build',
@@ -401,8 +456,8 @@ module.exports = function (grunt) {
      * deploy task
      * Deploy to dist_www directory
      */
-    // TODO: This is basically the intended task for 'build-production'. Remove this & implement the tasks here in
-    // TODO: 'build-production' given above.
+        // TODO: This is basically the intended task for 'build-production'. Remove this & implement the tasks here in
+        // TODO: 'build-production' given above.
     grunt.registerTask('deploy', [
         'build',
         'clean:deploy',
@@ -419,7 +474,7 @@ module.exports = function (grunt) {
     /**
      * grunt-preprocess test
      */
-    // TODO: These are temp tasks. Remove after the 'build-*' tasks are implemented
+        // TODO: These are temp tasks. Remove after the 'build-*' tasks are implemented
     grunt.registerTask('preprocess-default',
         ['preprocess:dev']
     );
@@ -427,4 +482,10 @@ module.exports = function (grunt) {
     grunt.registerTask('preprocess-production',
         ['preprocess:production']
     );
+
+    /**
+     * htmlhint
+     */
+        // TODO: There's some issues with the plugin
+    grunt.registerTask('htmlhint', ['htmlhint']);
 };
