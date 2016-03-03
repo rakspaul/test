@@ -1,4 +1,4 @@
-<div ng-show="(barData.data.length > 0 && total > 0)">
+<div ng-show="(barData.data.length > 0 && barData.total > 0)">
 	<div class="platform_number" ng-if="barData.showLabel" ng-style="disableLabel">
 		<span> {{ textConstants.TOP_THREE }}</span>
 	</div>
@@ -17,4 +17,4 @@
 		<div class="barChartWidget" ></div>
 	</div>
 </div>
-<div ng-if="(total == 0 ||barData.data.length == 0 )" class="no-data-available" ng-bind-html="getMessageForDataNotAvailable('', barData.graphName)"></div>
+<div ng-if="(barData.total == 0 || barData.data.length == 0 )" class="no-data-available" ng-bind-html="getMessageForDataNotAvailable('', barData.graphName)"></div>
