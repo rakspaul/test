@@ -12,7 +12,9 @@ then
   #cp ${CONF_EWR_QA_FILE} ${CONF_FILE}
   mkdir /tmp/crpt-ui-grunt/bin
   cp /tmp/crpt-ui-grunt/scripts/crpt-ui-runit.sh  /tmp/crpt-ui-grunt/bin/
+  echo "Copying build to amp home directory"
   cp -r /tmp/crpt-ui-grunt/* /home/amp/crpt-ui-grunt/
+  echo "Removing build from /tmp directory"
   rm -Rvf /tmp/crpt-ui-grunt
   /sbin/sv t crpt-ui-grunt
 elif [ $CDESK_ENV == "ewr_qa" ]
