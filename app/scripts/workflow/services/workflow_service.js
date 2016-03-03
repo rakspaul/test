@@ -393,7 +393,8 @@ define(['angularAMD','common/services/vistoconfig_service', 'common/services/con
             },
 
             getPlatformCustomInputs: function (platformId) {
-                var url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/platforms/' + platformId;
+                var clientId =  loginModel.getSelectedClient().id;
+                var url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId +'/vendors/'+platformId;
 
                 return dataService.fetch(url);
             },
@@ -530,6 +531,9 @@ define(['angularAMD','common/services/vistoconfig_service', 'common/services/con
                     }
                 }
                 return platforms;
+            },
+            platformCreateObj: function(resp){
+                return createObj(resp);
             }
 
         };

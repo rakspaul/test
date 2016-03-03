@@ -233,6 +233,8 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
                         adPlatformCustomInputsLocalStorageValue;
 
                     if (result.status === 'OK' || result.status === 'success') {
+                        //invoke wrapper
+                        result.data.data = workflowService.platformCreateObj(result.data.data);
                         if (result.data.data.customInputJson != '') {
                             platformCustomeJson = JSON.parse(result.data.data.customInputJson);
                             if ($scope.mode === 'edit') {
