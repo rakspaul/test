@@ -42,20 +42,22 @@
         "filesaver/FileSaver.js",
         "highcharts/highcharts",
         "highcharts-ng/dist/highcharts-ng"
-
     ],
 
-    "cssFiles": [
-        "bootstrap/dist/css/bootstrap.css"
+    "bootstrapCss": [
+        "bower_components/bootstrap/dist/css"
     ],
 
     "cssFonts": [
-        "bootstrap/fonts/glyphicons-halflings-regular.*"
+        "bootstrap/fonts/**/*.*"
     ],
 
     "buildFiles": [
         "images/**",
-        "views/**",
-        "scripts/libs/require.js"
+        "scripts/libs/require.js",
+        "styles/fonts/**",
+        "styles/visto2.0",
+        "styles/*.css",
+        "views/**"
     ]
 }
