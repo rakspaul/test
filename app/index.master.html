@@ -11,18 +11,17 @@
     <link href="//fonts.googleapis.com/css?family=Armata" media="screen" rel="stylesheet">
 
     <!-- @if ENV='dev' -->
-    <link rel="stylesheet" href="styles/libs/bootstrap.css">
-    <link rel="stylesheet" href="styles/cdesk_application.css">
-    <script data-main="scripts/main.js" src="scripts/libs/require.js"></script>
+    <link rel="stylesheet" href="/styles/libs/bootstrap.css">
+    <link rel="stylesheet" href="/styles/cdesk_application.css">
+    <script data-main="/scripts/main.js" src="/scripts/libs/require.js"></script>
     <script>
         console.log('testing... this is dev env')
     </script>
     <!-- @endif -->
 
     <!-- @if ENV='qa' -->
-    <link rel="stylesheet" href="styles/libs/bootstrap.css">
-    <link rel="stylesheet" href="styles/cdesk_application.css">
-    <script data-main="scripts/main.js" src="scripts/libs/require.js"></script>
+    <link rel="stylesheet" href="/styles/main.css">
+    <script src="/scripts/app.js"></script>
     <script>
         console.log('testing... this is qa env')
     </script>
@@ -175,6 +174,7 @@
     window.version = '';
     window.help_domain_url = 'https://vistohelpqa.collective.com';
 </script>
+<script src="http://localhost:35729/livereload.js?snipver=1" type="text/javascript"></script>
 <!-- @endif -->
 
 <!-- @if ENV='qa' -->
@@ -187,10 +187,6 @@
     window.version = '';
     window.help_domain_url = 'https://vistohelpqa.collective.com';
 </script>
-<!-- @endif -->
-
-<!-- @if ENV='dev' -->
-<script src="http://localhost:35729/livereload.js?snipver=1" type="text/javascript"></script>
 <!-- @endif -->
 </body>
 
