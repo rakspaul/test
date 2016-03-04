@@ -66,7 +66,7 @@
                                           ng-if="(selected_filters_tab == 'domains' )">
                                         <a href="http://{{ stable.dimension}}" target='_blank' id="inventory_url_val">{{ stable.dimension | formatUrl :15 }}</a>
                                      </span>
-                                    <span class="cpa_col cpa_data pull-right">{{selected_filters.kpi_type.toLowerCase() == 'vtc' ? (((stable['vtc_100'] > 0) || (stable['vtc_100'] == 0))?(stable['vtc_100'] | number:2):'-'): (stable[selected_filters.kpi_type.toLowerCase()] | appendDollor : selected_filters.kpi_type.toLowerCase() )}}
+                                    <span class="cpa_col cpa_data pull-right">{{(stable[(selected_filters.kpi_type.toLowerCase() === 'vtc')?'vtc_100':selected_filters.kpi_type.toLowerCase()] | appendDollor : selected_filters.kpi_type.toLowerCase())}}
 
                                     </span>
                                     <span class="imps_del_data imps_del_col pull-right">{{((stable.impressions >0)|| (stable.impressions == 0))? (stable.impressions | nrFormat) : '-'}}</span>
@@ -114,7 +114,7 @@
                                           ng-if="(selected_filters_tab == 'domains' )">
                                         <a href="http://{{ tableData.dimension}}" target='_blank' id="inventory_domain" > {{ tableData.dimension | formatUrl:15}}</a>
                                      </span>
-                                    <span class="cpa_col cpa_data pull-right">{{selected_filters.kpi_type.toLowerCase() == 'vtc' ? (((tableData['vtc_100'] > 0 || tableData['vtc_100'] == 0))?(tableData['vtc_100'] | number:2):'-'): (tableData[selected_filters.kpi_type.toLowerCase()] | appendDollor : selected_filters.kpi_type.toLowerCase() )}}</span>
+                                    <span class="cpa_col cpa_data pull-right">{{(tableData[(selected_filters.kpi_type.toLowerCase() === 'vtc')?'vtc_100':selected_filters.kpi_type.toLowerCase()] | appendDollor : selected_filters.kpi_type.toLowerCase())}}</span>
                                     <span class="imps_del_data imps_del_col pull-right">{{((tableData.impressions >0)|| (tableData.impressions == 0))? (tableData.impressions | nrFormat) : '-'}}</span>
                                 </div>
                             </div>
