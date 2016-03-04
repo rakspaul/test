@@ -1,4 +1,3 @@
-var angObj = angObj || {};
 define(['angularAMD', 'reporting/campaignSelect/campaign_select_model', 'reporting/kpiSelect/kpi_select_model', 'reporting/advertiser/advertiser_model',
     'reporting/strategySelect/strategy_select_model', 'reporting/brands/brands_model', 'common/services/data_service',
     'common/utils', 'login/login_model', 'common/services/url_service',

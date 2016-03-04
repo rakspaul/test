@@ -43,16 +43,16 @@
                 <div class="col-md-12 adTitle">
                     <div class="clearfix">
                         <img ng-src="{{adsData.platform.iconUrl}}"
-                            height="16" 
+                            height="16"
                             class="pull-left adIconWidget"
-                            ng-show="adsData.platform" 
+                            ng-show="adsData.platform"
                             title="{{adsData.platform.displayName | uppercase}}"/>
                         <span class="pull-left greyTxt adDisplay"
-                            ng-show="!(adsData.platform)" 
+                            ng-show="!(adsData.platform)"
                             data-ng-bind="textConstants.PLATNOTSET">
                         </span>
-                        <span class="pull-right greyTxt adDisplay" 
-                            ng-show="(!adsData.isTracking) && (adsData.state === 'READY' || adsData.state === 'INCOMPLETE')" 
+                        <span class="pull-right greyTxt adDisplay"
+                            ng-show="(!adsData.isTracking) && (adsData.state === 'READY' || adsData.state === 'INCOMPLETE')"
                             data-ng-bind="textConstants.NOTPUSHEDPAR">
                         </span>
                         <span class="pull-right greyTxt adDisplay"
@@ -69,7 +69,7 @@
                 <div class="col-md-12" style="padding: 0px 20px 20px 20px;">
                     <div class="col-md-12 zeroPadding cardTopLayer">
                         <h4 class="col-md-10 adCamp">
-                            <div style="word-wrap: break-word;" tooltip="{{adsData.name}}">{{adsData.name | textEllipsis: 60}}</div>
+                            <div style="word-wrap: break-word;" tooltip="{{adsData.name}}">{{adsData.name | textEllipsis: 57}}</div>
                         </h4>
                         <span ng-if="adsData.adFormat" class="glyphicon glyphicon-{{getAdFormatIconName(adsData.adFormat)}} pull-right" aria-hidden="true"></span>
                         <span class="pull-left adTxtGray dateAd" ng-if="adsData.startTime && adsData.endTime">{{utcToLocalTime(adsData.startTime, 'DD MMM YYYY')}} - {{utcToLocalTime(adsData.endTime,'DD MMM YYYY')}}</span>

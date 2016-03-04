@@ -20,7 +20,6 @@
         "angular-resource/angular-resource.js",
         "jquery/dist/jquery.js",
         "jquery-ui/jquery-ui.js",
-        "angular-ui-switch/angular-ui-switch.js",
         "bootstrap/dist/js/bootstrap.js",
         "bootstrap-toggle/js/bootstrap-toggle.js",
         "angular-cache/dist/angular-cache.js",
@@ -30,10 +29,8 @@
         "angular-i18n/angular-locale_en-gb.js",
         "angular-i18n/angular-locale_en-us.js",
         "underscore/underscore.js",
-        "ng-file-upload/ng-file-upload.js",
         "ng-file-upload/ng-file-upload-shim.js",
-        "ng-infinite-scroll/ng-infinite-scroll.js",
-        "bootstrap-datepicker/dist/js/bootstrap-datepicker.js",
+        "bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js",
         "angular-css/angular-css.js",
         "angulartics/dist/angulartics.min.js",
         "angulartics-google-analytics/dist/angulartics-google-analytics.min.js",
@@ -48,16 +45,13 @@
         "bower_components/bootstrap/dist/css"
     ],
 
+    "cssFiles": [
+        "bootstrap/dist/css/bootstrap.min.css"
+    ],
+
     "cssFonts": [
         "bootstrap/fonts/**/*.*"
     ],
 
-    "buildFiles": [
-        "images/**",
-        "scripts/libs/require.js",
-        "styles/fonts/**",
-        "styles/visto2.0",
-        "styles/*.css",
-        "views/**"
-    ]
+    "buildFiles": ["**", "!js/**", "!lib/**", "!**/*.css"]
 }

@@ -1,6 +1,5 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
-
 <head>
     <meta charset="utf-8">
     <title ng-bind="'Visto | ' + title"></title>
@@ -10,14 +9,13 @@
     <link href="/images/collective.png" rel="shortcut icon" type="image/x-icon">
     <link href="//fonts.googleapis.com/css?family=Armata" media="screen" rel="stylesheet">
 
-    <link rel="stylesheet" href="/styles/libs/bootstrap.css">
+    <link rel="stylesheet" href="/styles/libs/bootstrap.min.css">
     <link rel="stylesheet" href="/styles/cdesk_application.css">
     <script data-main="/scripts/main.js" src="/scripts/libs/require.js"></script>
     <script>
         console.log('testing... this is dev env')
     </script>
 </head>
-
 <body class="{{bodyclass}} {{productType}} {{customReport}}">
 <header></header>
 <div class="bodyWrap" ng-view=""></div>
@@ -165,5 +163,4 @@
 </script>
 <script src="http://localhost:35729/livereload.js?snipver=1" type="text/javascript"></script>
 </body>
-
 </html>

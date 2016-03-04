@@ -17,4 +17,4 @@
 		<div class="barChartWidget" ></div>
 	</div>
 </div>
-<div ng-if="(total == 0 ||barData.data.length == 0 )" class="no-data-available" ng-bind-html="getMessageForDataNotAvailable('', barData.graphName)"></div>
+<div ng-if="(!total || barData.data.length == 0 )" class="no-data-available" ng-bind-html="getMessageForDataNotAvailable('', barData.graphName)"></div>

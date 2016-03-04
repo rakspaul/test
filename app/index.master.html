@@ -1,6 +1,5 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
-
 <head>
     <meta charset="utf-8">
     <title ng-bind="'Visto | ' + title"></title>
@@ -11,7 +10,7 @@
     <link href="//fonts.googleapis.com/css?family=Armata" media="screen" rel="stylesheet">
 
     <!-- @if ENV='dev' -->
-    <link rel="stylesheet" href="/styles/libs/bootstrap.css">
+    <link rel="stylesheet" href="/styles/libs/bootstrap.min.css">
     <link rel="stylesheet" href="/styles/cdesk_application.css">
     <script data-main="/scripts/main.js" src="/scripts/libs/require.js"></script>
     <script>
@@ -27,7 +26,6 @@
     </script>
     <!-- @endif -->
 </head>
-
 <body class="{{bodyclass}} {{productType}} {{customReport}}">
 <header></header>
 <div class="bodyWrap" ng-view=""></div>
@@ -189,5 +187,4 @@
 </script>
 <!-- @endif -->
 </body>
-
 </html>

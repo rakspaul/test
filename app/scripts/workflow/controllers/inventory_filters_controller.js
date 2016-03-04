@@ -1,4 +1,4 @@
-define(['angularAMD','../services/workflow_service', 'workflow/services/file_reader'],function (angularAMD) {
+define(['angularAMD','workflow/services/workflow_service', 'workflow/services/file_reader', 'workflow/directives/creative_drop_down'],function (angularAMD) {
   angularAMD.controller('InventoryFiltersController', function($scope, workflowService, fileReader, Upload) {
 
         var InventoryFiltersView = {
