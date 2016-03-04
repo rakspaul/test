@@ -266,6 +266,23 @@ define(['angularAMD',  'common/services/constants_service', 'login/login_model',
                     }
                 }
             });
+            
+            //Mobile Menu
+            $scope.mobileMenuShow = function () {
+                var winHeightMaster = $(".bodyWrap").height();
+                var winWidthMaster = $("body").width();
+                $(".mobileNavWrap, .mobileNav").css('height', winHeightMaster - 50);
+                $(".mobileHideFunc").css({'height': winHeightMaster, 'width': winWidthMaster - 200});
+                $(".mobileNavWrap").show();
+                $(".mobileHideFunc").fadeIn();
+                $(".mobileNav").show("slide", { direction: "left" }, 300);
+                $(".icon-hamburger").css({"-ms-transform" : "rotate(90deg)", "-webkit-transform" : "rotate(90deg)", "transform" : "rotate(90deg)"});
+            }
+            
+            $scope.mobileMenuHide = function () {
+                $(".mobileNavWrap").hide();
+                $(".icon-hamburger").css({"-ms-transform" : "rotate(0deg)", "-webkit-transform" : "rotate(0deg)", "transform" : "rotate(0deg)"});
+            }
 
         })
 
