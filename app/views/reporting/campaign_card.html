@@ -1,26 +1,30 @@
-<div class="clearfix each_campaign_list_container">
-    <div class="clearfix">
-        <div class="each_campaign_section">
-            <div class="campaign_status_icon  {{campaign.status.toLowerCase()}}_bulb" tooltip-placement="left" tooltip="{{campaign.status.toLowerCase() == 'in_flight'?'In Flight':( campaign.status.toLowerCase() | toTitleCase ) }}"></div>
-        </div>
-        <div class="each_campaign_section">
-            <div class="main_heading">
-                <a ng-if="!$parent.isWorkFlowUser" ng-href="/mediaplans/{{campaign.orderId}}" id="campaign_heading_anchor">
-                    <truncate-text-with-hover txt="{{campaign.campaignTitle}}" txtlength="75" lst-campaign=campaign>
-                    </truncate-text-with-hover>
-                </a>
-                <a ng-if="$parent.isWorkFlowUser"
-                   ng-click="redirectTo(campaign, campaigns.dashboard.appliedFilterType, $event)">
-                    <truncate-text-with-hover txt="{{campaign.campaignTitle}}" txtlength="75" lst-campaign=campaign>
-                    </truncate-text-with-hover>
-                </a>
-            </div>
+<div class="col-md-12 each_campaign_list_container">
+    <!--Campaign Title-->
+    <div class="col-md-12 zeroPadding">
+        <!--Status Icon-->
+        <div class="pull-left campaign_status_icon {{campaign.status.toLowerCase()}}_bulb" tooltip-placement="bottom" tooltip="{{campaign.status.toLowerCase() == 'in_flight'?'In Flight':( campaign.status.toLowerCase() | toTitleCase ) }}"></div>
+        
+        <!--Title / Brand Name-->
+        <div class="pull-left main_heading">
+            <a ng-if="!$parent.isWorkFlowUser" ng-href="/mediaplans/{{campaign.orderId}}" id="campaign_heading_anchor">
+                <truncate-text-with-hover txt="{{campaign.campaignTitle}}" txtlength="75" lst-campaign=campaign>
+                </truncate-text-with-hover>
+            </a>
+            <a ng-if="$parent.isWorkFlowUser"
+               ng-click="redirectTo(campaign, campaigns.dashboard.appliedFilterType, $event)">
+                <truncate-text-with-hover txt="{{campaign.campaignTitle}}" txtlength="75" lst-campaign=campaign>
+                </truncate-text-with-hover>
+            </a>
         </div>
     </div>
-    <div class="clearfix">
+    
+    <!--Brand Name-->
+    <div class="col-md-12 zeroPadding">
         <div class="heading" ng-bind="campaign.brandName"></div>
     </div>
-    <div class="each_campaign_section campaign_list_details">
+    
+    <!--Time Left-->
+    <div class="col-md-4 each_campaign_section campaign_list_details">
         <div class="days_left_holder">
             <div class="total_days_holder">
                 <div class="clearfix days_end_points">
@@ -50,7 +54,9 @@
 
         </div>
     </div>
-    <div class="each_campaign_section metric_campaign_section">
+    
+    <!--Metrics-->
+    <div class="col-md-4 each_campaign_section metric_campaign_section">
         <div class="clearfix metric_graph_header">
             <span class="metric_title" ng-bind="textConstants.SPEND"></span>
             <span class="metric_val" ng-bind="campaigns.cdbDataMap[campaign.orderId].getGrossRev() |  currency "></span>
@@ -101,13 +107,14 @@
             </div>
         </div>
     </div>
-    <div class="each_campaign_section campaign_section_KPI">
+    
+    <!--KPI-->
+    <div class="col-md-4 each_campaign_section campaign_section_KPI">
         <div class="graph_details_KPI">
             <div class="clearfix details_KPI_row1">
                 <span class="details_KPI_title">{{campaign.kpiType!='null' ? (campaign.kpiType | displayToCamelCase) : 'NA'}}</span>
                 <span class="pull-right details_KPI_row2" ng-if="campaign.kpiValue || campaign.targetKPIImpressions">
-                    <span
-                            ng-show="campaign.kpiType.toLowerCase()=='delivery'?campaign.targetKPIImpressions:campaign.kpiValue">{{campaign.kpiType.toLowerCase()=="delivery"?( campaign.targetKPIImpressions |
+                    <span ng-show="campaign.kpiType.toLowerCase()=='delivery'?campaign.targetKPIImpressions:campaign.kpiValue">{{campaign.kpiType.toLowerCase()=="delivery"?( campaign.targetKPIImpressions |
                         nrFormat ): (campaign.kpiValue | kpiFormatter:campaign.kpiType)}}</span>
                     <span ng-if="campaign.chart !==false" class="icon_KPI"></span>
                 </span>

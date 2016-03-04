@@ -3,7 +3,7 @@
            ng-init="init('alertMessage', 'WF_CAMPAIGN_ARCHIVE_FAILURE')">
 </popup-msg>
 
-<div id="detailedPage" class="dashboard_outer_container" ng-controller="CampaignListController">
+<div id="detailedPage" class="dashboard_outer_container yo" ng-controller="CampaignListController">
  <!-- header-->
     <div class="clearfix page_header_container campaign_list_header">
         <div class="pull-left campaign_name_holder">
@@ -19,10 +19,14 @@
     </div>
     <div campaign-list-filter-directive campaigns="campaigns"></div>
 
- <!-- header ends-->
-<div><span ng-bind-html="campaigns.appliedQuickFilterText == 'Ontrack'?'On Track':campaigns.appliedQuickFilterText"></span> Filter applied | Displaying {{campaigns.dashboard.quickFilterSelectedCount}} results</div>
+    <!-- header ends-->
+    <div class="col-md-12 zeroPadding">
+        <span ng-bind-html="campaigns.appliedQuickFilterText == 'Ontrack'?'On Track':campaigns.appliedQuickFilterText"></span>
+        Filter applied | Displaying {{campaigns.dashboard.quickFilterSelectedCount}} results
+    </div>
+    
     <div class="fixed_line"></div>
-    <div class="fixed_container">
+    <div class="col-md-12 zeroPadding fixed_container">
         <!--dashboard (status bar) partial view-->
        <!--<div campaign-dashboard campaigns="campaigns"></div>-->
 
@@ -41,16 +45,16 @@
             </div>
 
             <!--cost filter -->
-            <div campaign-cost-sort class="clearfix filter_header_block cost_col_container campaign_cost_header_holder"  campaigns="campaigns" style="display:none" id="cost_filter_header"></div>
+            <div campaign-cost-sort class="clearfix filter_header_block cost_col_container campaign_cost_header_holder hideMobile"  campaigns="campaigns" style="display:none" id="cost_filter_header"></div>
             <!--cost  filter ends-->
 
             <!--filter (campaign sort filter) partial view-->
-            <div campaign-list-sort campaigns="campaigns" id="performance_filter_header" class="filter_header_block" ></div>
+            <div campaign-list-sort campaigns="campaigns" id="performance_filter_header" class="filter_header_block col-md-12 zeroPadding hideMobile"></div>
             <!--filter (campaign sort filter) partial view ends-->
 
         </div>
     </div>
-    <div class="scrollable_container">
+    <div class="col-md-12 zeroPadding scrollable_container">
         <!-- COST DIV -->
         <div class="each_section_block total_campaign_cost_holder" id="cost_block" style="display:none" >
             <div class="all_campaigns_container">
@@ -61,7 +65,7 @@
                      orderBy:campaignListSortFunction:sortReverse track by campaign.orderId">
                     <!-- campaign cost card -->
                     <div ng-if="(campaigns.dashboard.filterTotal > 0 )"
-                      campaign-cost-card campaign="campaign" campaigns="campaigns"></div>
+                      campaign-cost-card campaign="campaign" campaigns="campaigns" class="col-md-12 zeroPadding"></div>
                      <!-- campaign cost card ends-->
                 </div>
             </div>
@@ -77,7 +81,7 @@
                 <div class="row-fluid each_campaign_holder" data-ng-repeat="campaign in campaigns.campaignList">
                     <!-- campaign strategy card -->
                     <div ng-if="(campaigns.dashboard.filterTotal > 0 )"
-                         campaign-card campaign="campaign" campaigns="campaigns"></div>
+                         campaign-card campaign="campaign" campaigns="campaigns" class="col-md-12 zeroPadding"></div>
                     <!-- campaign strategy card ends-->
                 </div>
             </div>
@@ -100,6 +104,5 @@
         $(".dropdown_ul li").click( function() {
             $(this).closest(".dropdown").find(".dd_txt").text($(this).text()) ;
         }) ;
-
     });
 </script>
