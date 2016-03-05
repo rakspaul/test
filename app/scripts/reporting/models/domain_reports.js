@@ -202,7 +202,6 @@ define(['angularAMD','../../login/login_model','common/services/role_based_servi
                     var report_url = urlService.APIVistoCustomQuery(queryObj);
                     if(report.report_cat && report.report_type) {
                         report_url += "&report_cat=" + report.report_cat + "&report_type=" + report.report_type;
-                        console.log("url", report_url);
                     }
 
 
@@ -229,7 +228,7 @@ define(['angularAMD','../../login/login_model','common/services/role_based_servi
         };
     });
 
-  angularAMD.directive('screenHeader', ['$http', '$compile','constants', function ($http, $compile,constants) { console.log('test');
+  angularAMD.directive('screenHeader', ['$http', '$compile','constants', function ($http, $compile,constants) {
         return {
             controller: function($scope, $cookieStore, $location){
             },
@@ -322,7 +321,6 @@ define(['angularAMD','../../login/login_model','common/services/role_based_servi
             templateUrl: assets.html_filters_header,
             link: function(scope, element, attrs) {
                 scope.reportFilter = attrs.reports ;
-console.log('attrs.reports',attrs.reports);
                 scope.textConstants = constants;
                 scope.allCampaign = attrs.allCampaign;
                 if(scope.allCampaign == "true" || scope.allCampaign == true) {
