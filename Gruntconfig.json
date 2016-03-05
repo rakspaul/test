@@ -3,6 +3,8 @@
         "app": "app",
         "appjs": "scripts",
         "appcss": "styles",
+        "appimage": "images",
+        "production" : "production",
         "build": "build",
         "dist": "dist",
         "hostname": "localhost",

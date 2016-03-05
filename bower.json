@@ -30,12 +30,10 @@
     "angulartics": "^1.0.3",
     "angulartics-google-analytics": "^0.1.4",
     "angular-cookies": "1.2.16",
-    "bootstrap-toggle": "^2.2.1",
-    "bootstrap": "3.1.1"
+    "bootstrap-toggle": "^2.2.1"
   },
   "resolutions": {
     "angular": "1.2.16",
-    "bootstrap": "3.1.1",
     "bootstrap-datepicker": "1.4.0"
   }
 }
