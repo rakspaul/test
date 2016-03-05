@@ -47,7 +47,7 @@ define(['common'], function (angularAMD) {
 
       .when('/optimization', angularAMD.route({
         templateUrl: assets.html_optimization,
-        title: 'Reports - Optimization',
+        title: 'Reports - Optimization Impact',
         controller: 'OptimizationController',
         controllerUrl: 'reporting/controllers/optimization_controller'
       }))
