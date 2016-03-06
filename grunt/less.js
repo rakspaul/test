@@ -2,7 +2,7 @@ module.exports =function(grunt) {
     'use strict';
 
     var config = {
-        dev: {
+        local: {
             options: {
                 cleancss: true
             },
@@ -27,7 +27,7 @@ module.exports =function(grunt) {
                 expand: true,
                 cwd: '<%= cvars.app %>/<%= cvars.appcss %>/',
                 src: ['**/*.less'],
-                dest: '<%= cvars.app %>/<%= cvars.appcss %>/',
+                dest: '<%= cvars.build %>/<%= cvars.appcss %>/',
                 ext: '.css'
             }]
         }

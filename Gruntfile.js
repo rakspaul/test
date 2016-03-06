@@ -5,6 +5,8 @@ module.exports = function (grunt) {
 
     require('load-grunt-tasks')(grunt);
 
+    require('time-grunt')(grunt);
+
     var gruntConfig = grunt.file.readJSON('Gruntconfig.json');
 
     // Grunt Config
@@ -21,13 +23,18 @@ module.exports = function (grunt) {
      */
     grunt.registerTask('setup', ['bower:setup', 'copy:setup']);
 
+    var env = grunt.option('target') || 'local';
+
 
     /**
      * devel task
      * Launch webserver and watch for changes
      */
     grunt.registerTask('devel', [
-        'connect:dev', 'watch', 'less:dev'
+        'less:local',
+        'preprocess:local',
+        'connect:local',
+        'watch'
     ]);
 
     /**
@@ -35,16 +42,10 @@ module.exports = function (grunt) {
      * Use r.js to build the project
      */
     grunt.registerTask('build', [
-        //'jshint:build',
         'clean:build',
-        'preprocess:build',
-        'htmlmin:build',
-        'cssmin:build',
-        'requirejs:build',
-        'clean:post-requirejs',
-        'copy:build'
+        'copy:build',
+        'preprocess:'+env
     ]);
-
 
     /**
      * deploy task
@@ -53,9 +54,7 @@ module.exports = function (grunt) {
     grunt.registerTask('deploy', [
         'build',
         'clean:deploy',
-        'htmlmin:deploy',
         'copy:deploy',
-        //'uglify:deploy',
         'connect:server'
     ]);
 

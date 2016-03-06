@@ -38,7 +38,7 @@ module.exports =function(grunt) {
                 {
                     cwd: '<%= cvars.build %>/', expand: true,
                     dest: '<%= cvars.dist %>/',
-                    src: ['<%= cvars.appcss %>/**', 'images/**', 'fonts/**', 'views/**']
+                    src: ['**']
                 }
             ]
         }
