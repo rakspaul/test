@@ -18,26 +18,29 @@ then
   /sbin/sv t crpt-ui-grunt
 elif [ $CDESK_ENV == "ewr_qa" ]
 then
-  echo "Its EWR QA environment !!!"
-  #cp ${CONF_EWR_QA_FILE} ${CONF_FILE}
-  cp /tmp/visto-ui/scripts/crpt-ui-runit.sh  /tmp/visto-ui/bin/crpt-ui-runit.sh
+  mkdir /tmp/visto-ui/bin
+  cp /tmp/visto-ui/scripts/crpt-ui-runit.sh  /tmp/visto-ui/bin/
+  echo "Copying build to amp home directory"
   cp -r /tmp/visto-ui/* /home/amp/visto-ui/
+  echo "Removing build from /tmp directory"
   rm -Rvf /tmp/visto-ui
   /sbin/sv t visto-ui
 elif [ $CDESK_ENV == "ewr_stg" ]
 then
-  echo "Its EWR Staging environment !!!"
-  #cp ${CONF_EWR_STG_FILE} ${CONF_FILE}
-  cp /tmp/visto-ui/scripts/crpt-ui-runit.sh  /tmp/visto-ui/bin/crpt-ui-runit.sh
+  mkdir /tmp/visto-ui/bin
+  cp /tmp/visto-ui/scripts/crpt-ui-runit.sh  /tmp/visto-ui/bin/
+  echo "Copying build to amp home directory"
   cp -r /tmp/visto-ui/* /home/amp/visto-ui/
+  echo "Removing build from /tmp directory"
   rm -Rvf /tmp/visto-ui
   /sbin/sv t visto-ui
 elif [ $CDESK_ENV == "ewr_prod" ]
 then
-  echo "Its EWR Production environment !!!"
-  #cp ${CONF_EWR_PROD_FILE} ${CONF_FILE}
-  cp /tmp/visto-ui/scripts/crpt-ui-runit.sh  /tmp/visto-ui/bin/crpt-ui-runit.sh
+  mkdir /tmp/visto-ui/bin
+  cp /tmp/visto-ui/scripts/crpt-ui-runit.sh  /tmp/visto-ui/bin/
+  echo "Copying build to amp home directory"
   cp -r /tmp/visto-ui/* /home/amp/visto-ui/
+  echo "Removing build from /tmp directory"
   rm -Rvf /tmp/visto-ui
   /sbin/sv t visto-ui
 else
