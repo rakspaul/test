@@ -258,9 +258,7 @@
                     <div class="data_list" ng-repeat="regioncity in geoTargetingData.selected.previewData.include.regions" data-ng-bind="regioncity.name"></div>
                     <div class="data_list" ng-repeat="regioncity in geoTargetingData.selected.previewData.include.cities">{{regioncity.parent.name}}, {{regioncity.name}}</div>
                 </div>
-                <div class="show_more_less" ng-if="geoTargetingData.selected.previewData.include.regions.length>2 || geoTargetingData.selected.previewData.include.cities.length>2" ng-click="show_more_less_list($event);">+
-                    {{ (geoTargetingData.selected.previewData.include.regions.length-2) < 0 ? (geoTargetingData.selected.previewData.include.cities.length-2):(geoTargetingData.selected.previewData.include.regions.length-2)}}
-                    more
+                <div class="show_more_less" ng-if="geoTargetingData.selected.previewData.include.regions.length>2 || geoTargetingData.selected.previewData.include.cities.length>2" ng-click="show_more_less_list($event);" ng-bind="'+' + (geoTargetingData.selected.previewData.include.regions.length-2) < 0 ? (geoTargetingData.selected.previewData.include.cities.length-2):(geoTargetingData.selected.previewData.include.regions.length-2) + ' more '">+
                 </div>
             </div>
             <div class="total_data_holder zipCode" ng-if="geoTargetingData.selected.previewData.include.zipCodes[0].values.length>0">
@@ -285,8 +283,7 @@
                     <div class="data_list" ng-repeat="regioncity in geoTargetingData.selected.previewData.exclude.regions" data-ng-bind="regioncity.name"></div>
                     <div class="data_list" ng-repeat="regioncity in geoTargetingData.selected.previewData.exclude.cities">{{regioncity.parent.name}}, {{regioncity.name}}</div>
                 </div>
-                <div class="show_more_less" ng-if="geoTargetingData.selected.previewData.exclude.regions.length>2 || geoTargetingData.selected.previewData.exclude.cities.length>2" ng-click="show_more_less_list($event);">
-                    + {{ (geoTargetingData.selected.previewData.exclude.regions.length-2) < 0 ? (geoTargetingData.selected.previewData.exclude.cities.length-2):(geoTargetingData.selected.previewData.exclude.regions.length-2)}}  more
+                <div class="show_more_less" ng-if="geoTargetingData.selected.previewData.exclude.regions.length>2 || geoTargetingData.selected.previewData.exclude.cities.length>2" ng-click="show_more_less_list($event);" ng-bind="'+' (geoTargetingData.selected.previewData.exclude.regions.length-2) < 0 ? (geoTargetingData.selected.previewData.exclude.cities.length-2):(geoTargetingData.selected.previewData.exclude.regions.length-2) + ' more ' ">
                 </div>
             </div>
             <div class="total_data_holder dmas" ng-if="geoTargetingData.selected.previewData.exclude.dmas.length>0">
