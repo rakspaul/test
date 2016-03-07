@@ -60,7 +60,7 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
         }
 
         $scope.sortSchdlReport = function() {
-            $scope.schdReportList = $filter('orderBy')($scope.schdReportList, 'frequency', $scope.sort.descending);
+            $scope.schdReportList = $filter('orderBy')($scope.schdReportList, 'name', $scope.sort.descending);
             $scope.sort.descending = !$scope.sort.descending;
         }
 
