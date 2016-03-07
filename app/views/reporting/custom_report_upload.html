@@ -38,7 +38,7 @@
 				<div class="progress_bar">
 					<div class="progress_area" style="width: {{100 *(loaded/total)}}%"></div>
 				</div>
-				<span class="progress-upload-info">Uploading {{ (loaded < total) ? loaded+1 : loaded }} of {{total}}</span>
+				<span class="progress-upload-info" ng-bind="'Uploading ' + (loaded < total ? loaded+1 : loaded) + ' of ' + total"></span>
 			</div>
 
 	</div>

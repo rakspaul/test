@@ -18,7 +18,7 @@ module.exports =function(grunt) {
                 cwd: '<%= cvars.dist %>',
                 src: [
                     '{,*/}*.html',
-                    'views/{,*/}*.*'
+                    'views/**/*.html'
                 ],
                 dest: '<%= cvars.dist %>'
             }]

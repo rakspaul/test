@@ -35,6 +35,7 @@ module.exports =function(grunt) {
                     '.htaccess',
                     'images/{,*/}*.webp',
                     '{,*/}*.html',
+                    '!*.master.html',
                     'fonts/{,*/}*.*',
                     'views/**',
                     'conf/{,*/}*.*',
