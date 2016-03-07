@@ -175,7 +175,7 @@
                 <div class="col-md-12 adContainer">
                     <!--===Start get ad groups ===-->
                     <div id="getAdgroups"
-                         ng-include="'/assets/html/workflow/partials/overview_partials/overview_getAdgroups.html'"
+                         ng-include="'/views/workflow/partials/overview_partials/overview_getAdgroups.html'"
                          ng-controller = "GetAdgroupsController">
                     </div>
                     <!--===END get ad groups ===-->
@@ -186,7 +186,7 @@
                         </div>
                         <!--ng-include of create Ad groups-->
                         <div id="createAdgroups"
-                             ng-include="'/assets/html/workflow/partials/overview_partials/overview_createAdgroups.html'"
+                             ng-include="'/views/workflow/partials/overview_partials/overview_createAdgroups.html'"
                              ng-controller="CreateAdGroupsController">
                         </div>
 
@@ -213,7 +213,7 @@
                             <form id="createIndependantAdsGrp" name="createIndependantAdsGrp"  novalidate>
                                 <div class="adGroupCreateForm">
                                     <h1 class="col-md-12 zeroPadding" data-ng-bind="textConstants.CREATEADGRP"></h1>
-                                    
+
                                     <!--Setup Name / Label Ad Group-->
                                     <div class="col-md-12 zeroPadding">
                                         <label for="nameIndividualAdGroup" class="col-sm-12 control-label labelQuestTxt" data-ng-bind="textConstants.NAMEADGROUP"></label>
@@ -234,7 +234,7 @@
                                                        class="col-sm-12 control-label greyTxt errorLabel" data-ng-bind="textConstants.ENTERADGRP"></label>
                                             </div>
                                         </div>
-                                        
+
                                         <!--Column 2-->
                                         <div class="col-md-6" style="padding: 0 0 0 10px;">
                                             <label class="col-sm-12 control-label greyTxt miniLabels">Label</label>
@@ -247,7 +247,7 @@
                                             </select>
                                         </div>
                                     </div>
-                                    
+
                                     <div class="col-md-12 zeroPadding">
                                         <label for="budgetIndividualAdGroup" class="col-sm-12 control-label labelQuestTxt">What's the maximum
                                         you can spend for your Ad Group?</label>
@@ -260,12 +260,12 @@
                                                    name="adIGroupBudget"
                                                    maxlength="30"/>
                                         </div>
-                                        
+
                                         <div class="col-md-3" style="padding: 0 0 0 10px;">
                                             Widget Goes Here
                                         </div>
                                     </div>
-                                    
+
                                     <!--Date Setup For Ad Group-->
                                     <div class="col-md-10 zeroPadding">
                                         <label for="dateIndividualAdGroup"
@@ -336,17 +336,17 @@
                                 <div class="col-md-12 adTitle">
                                     <div class="clearfix">
                                         <img ng-src="{{adsData.platform.iconUrl}}"
-                                            height="16" 
-                                            class="adIconWidget" 
-                                            ng-show="(adsData.platform)" 
+                                            height="16"
+                                            class="adIconWidget"
+                                            ng-show="(adsData.platform)"
                                             title="{{adsData.platform.displayName | uppercase}}" />
                                         <!--<span class="pull-left"> {{adsData.id}}</span>-->
                                         <span class="pull-left greyTxt adDisplay"
-                                            ng-show="!(adsData.platform)" 
+                                            ng-show="!(adsData.platform)"
                                             data-ng-bind="textConstants.PLATNOTSET">
                                         </span>
-                                        <span class="pull-right greyTxt adDisplay" 
-                                            ng-show="(!adsData.isTracking) && (adsData.state === 'READY' || adsData.state === 'INCOMPLETE')" 
+                                        <span class="pull-right greyTxt adDisplay"
+                                            ng-show="(!adsData.isTracking) && (adsData.state === 'READY' || adsData.state === 'INCOMPLETE')"
                                             data-ng-bind="textConstants.NOTPUSHEDPAR">
                                         </span>
                                         <span ng-if="(adsData.sourceId)" class="pull-right greyTxt adDisplay"
@@ -967,4 +967,4 @@
         });
     })
 </script>
-      
+
