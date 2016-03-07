@@ -3188,7 +3188,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
   background-attachment: fixed;
   background-size: cover;
   background-color: #070817 ;
-  z-index: 1005;
+  z-index: 9999999;
 }
 .reports_login_outer_container .login_copyright_holder {
   color: #939ead;
