@@ -220,7 +220,7 @@
                                         <!--Column 1-->
                                         <div class="col-md-6" style="padding: 0 10px 0 0;">
                                             <label class="col-sm-12 control-label greyTxt miniLabels" data-ng-bind="textConstants.ADGROUPNAME"></label>
-                                            <div class="form-group col-sm-12 zeroPadding" show-errors='{showSuccess: true}'>
+                                            <div class="form-group col-sm-12 zeroPadding" show-errors>
                                                 <input type="text"
                                                        class="form-control"
                                                        id="nameIndividualAdGroup"
@@ -283,7 +283,7 @@
                                                            readonly name="lowestStartTime"
                                                            required/>
                                                 </div>
-                                                <div class="dateContainer form-group" style="padding-left: 10px;" show-errors='{showSuccess: true}'>
+                                                <div class="dateContainer form-group" style="padding-left: 10px;" show-errors>
                                                     <label class="col-sm-12 control-label greyTxt miniLabels" data-ng-bind="textConstants.END_DATE"></label>
                                                     <input type="text" id="individualAdsEndDateInput" placeholder="MM/DD/YYYY" class="form-control" readonly  name="highestEndTime" ng-model="highestEndTime"  required/>
                                                     <label ng-if="createIndependantAdsGrp.highestEndTime.$error.required"  class="col-sm-12 control-label greyTxt errorLabel" data-ng-bind="textConstants.SELENDDATE"></label>

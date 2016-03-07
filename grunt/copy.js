@@ -11,11 +11,11 @@ module.exports =function(grunt) {
                     src: gruntConfig.bowerFiles
                 },
                 // CSS with standard .min.css naming convention
-                {
-                    cwd: 'bower_components', expand: true, flatten: true,
-                    dest: '<%= cvars.app %>/<%= cvars.appcss %>/libs/',
-                    src: gruntConfig.cssFiles
-                },
+                //{
+                //    cwd: 'bower_components', expand: true, flatten: true,
+                //    dest: '<%= cvars.app %>/<%= cvars.appcss %>/libs/',
+                //    src: gruntConfig.cssFiles
+                //},
                 // CSS Fonts
                 {
                     cwd: 'bower_components', expand: true, flatten: true,
