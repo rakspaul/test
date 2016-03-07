@@ -31,7 +31,7 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
             localStorage.removeItem('topAlertMessage');
             $rootScope.setErrAlertMessage("",0);
         };
-        
+
         //Pills
         var configPills = {
             '.chosen-select'           : {},
@@ -348,13 +348,12 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
 
         $scope.appendSizes = function (creative) {
             var creativeSizeArr = []
-            if (typeof creative != 'undefined' && creative.length>0) {
+            if (typeof creative != 'undefined' && creative.length>0 && creative[0].size) {
                 if (creative.length == 1) {
                     $scope.sizeString = creative[0].size.size;
                 } else if (creative.length > 1) {
                     $scope.sizeString = "";
                     for (var i in creative) {
-                        //$scope.sizeString += creative[i].size.size + ", ";
                         creativeSizeArr.push(creative[i].size.size)
                     }
                     $scope.sizeString = creativeSizeArr;
