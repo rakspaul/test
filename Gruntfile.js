@@ -56,7 +56,11 @@ module.exports = function (grunt) {
         //'usemin',
         //'htmlmin',
         'preprocess:'+env,
-        'connect:server'
+
+    ]);
+
+    grunt.registerTask('start', [
+       'connect:server'
     ]);
 
 };
