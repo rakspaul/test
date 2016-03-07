@@ -1,22 +1,29 @@
 <popup-msg ng-show="flashMessage" ng-controller="popUpMsgCtr"
 		   ng-init="init('flashMessage','WF_USER_CREATION_FAIL')"></popup-msg>
-<div class="container users-creation-page" >
-	<div class="row">
-		<div class="clearfix col-md-12 heading">
+<div class="users-creation-page" >
+		<!--Header-->
+        <div class="col-md-12 zeroPadding heading">
 			<h1 class="pull-left">
 				Users
 			</h1>
 			<div class="pull-right common_primary_btn" ng-click="AddOrEditUserModal()">Create User</div>
 		</div>
-		<div class="col-md-12 user-list" ng-repeat="user in UsersData.users">
-			<div class="clearfix each-user">
-				<div class="pull-left" >{{user.firstName +' '+ user.lastName}}</div>
-				<div class="pull-left edit" ng-click="AddOrEditUserModal('edit',user)"></div>
+        
+        <!--User List-->
+		<div class="col-md-12 zeroPadding user-list animated" ng-repeat="user in UsersData.users">
+			<div class="each-user" ng-click="AddOrEditUserModal('edit',user)">
+                <div class="pull-left icon-user"></div>
+				<span class="pull-left">{{user.firstName +' '+ user.lastName}}</span>
+				<div class="pull-left edit"></div>
 			</div>
 			<!--<div class="clearfix each-user">-->
 				<!--<div class="pull-left">User2</div>-->
 				<!--<div class="pull-left edit" ng-click="AddOrEditUserModal()"></div>-->
 			<!--</div>--> 
 		</div>
-	</div>
+        
+        <!--User Form-->
+        <div class="edit-dialog" ng-include="'/views/reporting/partials/users_add_or_edit.html'"
+            ng-controller="UsersAddOrEdit">
+        </div>
 </div>

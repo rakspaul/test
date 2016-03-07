@@ -3995,6 +3995,9 @@
 /*Accounts Page*/
 .users-creation-page,
 .accounts-page {
+    float: left;
+    width: 100%;
+    padding: 0;
     position: relative;
 
     .accounts-page-container {
@@ -4188,6 +4191,37 @@
             width: 10px;
         }
     }
+    
+    .user-list {
+        float: left;
+        clear: left;
+        .each-user {
+            margin: 0 0 15px 0;
+            float: left;
+            clear: left;
+            cursor: pointer;
+            .icon-user {
+                float: left;
+                margin: 0 5px 0 0;
+            }
+        }
+    }
+    
+    .edit-dialog {
+        display: none;
+        .add-filters {
+            position: relative;
+            .delete_row {
+                position: absolute;
+                z-index: 10;
+                right: 0;
+                top: 34px;
+                cursor: pointer;
+                margin: 0;
+            }
+        }
+    }
+    
 }
 
 .accounts-popup.popup-holder,

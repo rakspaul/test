@@ -3285,6 +3285,9 @@
 /*Accounts Page*/
 .users-creation-page,
 .accounts-page {
+  float: left;
+  width: 100%;
+  padding: 0;
   position: relative;
 }
 .users-creation-page .accounts-page-container,
@@ -3472,6 +3475,40 @@
   position: absolute;
   top: 16px;
   width: 10px;
+}
+.users-creation-page .user-list,
+.accounts-page .user-list {
+  float: left;
+  clear: left;
+}
+.users-creation-page .user-list .each-user,
+.accounts-page .user-list .each-user {
+  margin: 0 0 15px 0;
+  float: left;
+  clear: left;
+  cursor: pointer;
+}
+.users-creation-page .user-list .each-user .icon-user,
+.accounts-page .user-list .each-user .icon-user {
+  float: left;
+  margin: 0 5px 0 0;
+}
+.users-creation-page .edit-dialog,
+.accounts-page .edit-dialog {
+  display: none;
+}
+.users-creation-page .edit-dialog .add-filters,
+.accounts-page .edit-dialog .add-filters {
+  position: relative;
+}
+.users-creation-page .edit-dialog .add-filters .delete_row,
+.accounts-page .edit-dialog .add-filters .delete_row {
+  position: absolute;
+  z-index: 10;
+  right: 0;
+  top: 34px;
+  cursor: pointer;
+  margin: 0;
 }
 .accounts-popup.popup-holder .add-filters,
 .users-popup.popup-holder .add-filters {

@@ -2,7 +2,7 @@
 define(['angularAMD', '../../services/constants_service', 'workflow/services/account_service','workflow/directives/ng_update_hidden_dropdown'],function (angularAMD) {
     'use strict';
 
-    angularAMD.controller('UsersAddOrEdit', function($scope, $modalInstance,$modal,$rootScope,constants,accountsService) {
+    angularAMD.controller('UsersAddOrEdit', function($scope,$rootScope,constants,accountsService) {
         $scope.permissions = [];
         $scope.isSuperAdmin=true;
         $scope.clientName=[];
@@ -20,7 +20,7 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
         var defaultAccess = 'ADMIN';
         var editedUserDetails = {};
         $scope.userConsoleFormDetails.roleTemplateId = constants.account_admin;
-
+        
         $scope.delete_filter = function(event,index) {// the last one getting deleted always
             var elem = $(event.target);
 //            elem.closest(".add-filters").remove();
@@ -34,7 +34,7 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
 
         };
         $scope.close=function(){
-            $modalInstance.dismiss();
+            //$modalInstance.dismiss();
         };
         $scope.selectedRole=function(roleType){
             if(roleType == constants.super_admin){

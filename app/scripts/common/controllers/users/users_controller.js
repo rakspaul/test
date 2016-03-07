@@ -1,24 +1,29 @@
 define(['angularAMD', '../../services/constants_service', 'workflow/services/account_service','common/controllers/users/users_add_or_edit_controller'],function (angularAMD) {
     'use strict';
-    angularAMD.controller('UsersController', function ($scope,$modal,$rootScope,$timeout,constants,accountsService) {
+    angularAMD.controller('UsersController', function ($scope,$rootScope,$timeout,constants,accountsService) {
         $scope.textConstants = constants;
         $scope.UsersData={};
         $scope.userConsoleFormDetails={};
-
+        
         //Add or Edit Pop up for User
-
         $scope.AddOrEditUserModal = function(mode,userObj) {
             //$timeout(function () {
             //    $rootScope.$broadcast('resetUserModal');
             //}, 500)
 
-            var $modalInstance = $modal.open({
-                templateUrl: assets.html_users_add_or_edit,
-                scope:$scope,
-                windowClass: 'edit-dialog',
-                controller: "UsersAddOrEdit"
-            });
+            //var $modalInstance = $modal.open({
+            //    templateUrl: assets.html_users_add_or_edit,
+            //    scope:$scope,
+            //    windowClass: 'edit-dialog',
+            //    controller: "UsersAddOrEdit"
+            //});
+            
+            //$('.user-list').addClass('fadeOutLeft');
+            $('.user-list').fadeOut();
+            $('.edit-dialog').fadeIn();
+            
             $scope.isEdit = false;
+            
             if(mode == 'edit'){
                 $scope.isEdit = true;
                 //$scope.userConsoleFormDetails.email = userObj.email;
@@ -37,8 +42,12 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
 
                 //}
             }
-
         };
+        
+        $scope.closeForm = function () {
+            $('.user-list').fadeIn();
+            $('.edit-dialog').fadeOut();
+        }
 
         var usersList = {
             getUsers:function(){
@@ -51,7 +60,8 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
         $rootScope.$on('refreshUserList',function(){
             console.log('user list refresh');
             usersList.getUsers();
-        })
+        });
+        
     });
 
 });
