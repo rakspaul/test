@@ -29,6 +29,7 @@
         'solid-gauge': 'libs/solid-gauge',
         'underscore': 'libs/underscore',
         'ui-bootstrap-tpls': 'libs/ui-bootstrap-tpls-0.12.1.min',
+        'showErrors': 'libs/showErrors.min',
         'd3': 'libs/d3',
         'lrInfiniteScroll': 'libs/lrInfiniteScroll',
         'filesaver': 'libs/FileSaver',
@@ -71,7 +72,8 @@
         'angular-css':['angular'],
         'multiselect' : ['angular'],
         'bootstrap-toggle':['jquery'],
-        'chosen':['jquery']
+        'chosen':['jquery'],
+         'showErrors' :  ['angular']
       },
 
       priority: [
