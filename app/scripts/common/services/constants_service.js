@@ -122,6 +122,9 @@ define(['angularAMD'], function (angularAMD) {
         this.SCHEDULE_START_DATE_LABEL ='Starts on';
         this.SCHEDULE_END_DATE_LABEL ='Ends on';
         this.SCHEDULER_UPDATE = 'Do you want to update the Schedule report ?';
+        this.SCHEDULE_LIST_REPORT_TYPE = "Report Types";
+        this.SCHEDULE_LIST_DATE = "Report Generated";
+        this.SCHEDULE_LIST_DIMENSIONS = "Dimensions";
         this.REPORT_BUILDER_TIMEFRAME ='Timeframe';
         this.REPORT_CHOOSE_BREAKDOWN = 'Choose Breakdown';
         this.REPORT_ADDITIONAL_FILTERS = 'Additional Filters';
