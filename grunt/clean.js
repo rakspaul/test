@@ -2,18 +2,17 @@ module.exports =function(grunt) {
     'use strict';
 
     var config = {
-        options: {
-            force: true
+        dist: {
+            files: [{
+                dot: true,
+                src: [
+                    '.tmp',
+                    '<%= cvars.dist %>/*',
+                    '!<%= cvars.dist %>/.git*'
+                ]
+            }]
         },
-        build: [
-            '<%= cvars.build %>'
-        ],
-        'post-requirejs': [
-            '<%= cvars.build %>/<%= cvars.appjs %>/libs'
-        ],
-        deploy: [
-            '<%= cvars.dist %>/*'
-        ]
+        server: '.tmp'
     };
 
     grunt.config('clean', config);

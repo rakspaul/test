@@ -15,7 +15,7 @@ module.exports =function(grunt) {
             }]
         },
 
-        build: {
+        dist: {
             options: {
                 compress: true,
                 cleancss: true,
@@ -27,7 +27,7 @@ module.exports =function(grunt) {
                 expand: true,
                 cwd: '<%= cvars.app %>/<%= cvars.appcss %>/',
                 src: ['**/*.less'],
-                dest: '<%= cvars.build %>/<%= cvars.appcss %>/',
+                dest: '<%= cvars.dist %>/<%= cvars.appcss %>/',
                 ext: '.css'
             }]
         }

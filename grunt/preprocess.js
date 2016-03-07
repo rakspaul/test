@@ -13,7 +13,7 @@ module.exports =function(grunt) {
                 context: { ENV: 'dev' }
             },
             src: '<%= cvars.app %>/index.master.html',
-            dest: '<%= cvars.build %>/index.html'
+            dest: '<%= cvars.dist %>/index.html'
         },
 
         qa: {
@@ -22,7 +22,7 @@ module.exports =function(grunt) {
             },
 
             src: '<%= cvars.app %>/index.master.html',
-            dest: '<%= cvars.build %>/index.html'
+            dest: '<%= cvars.dist %>/index.html'
         },
 
         beta: {
@@ -31,7 +31,7 @@ module.exports =function(grunt) {
             },
 
             src: '<%= cvars.app %>/index.master.html',
-            dest: '<%= cvars.build %>/index.html'
+            dest: '<%= cvars.dist %>/index.html'
         },
 
         prod: {
