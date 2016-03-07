@@ -3,7 +3,7 @@ module.exports =function(grunt) {
     var gruntConfig = grunt.file.readJSON('Gruntconfig.json');
     var modRewrite = require('connect-modrewrite');
     var config = {
-        dev: {
+        local: {
             livereload: true,
             options: {
                 port: gruntConfig.configVars.port,
@@ -43,10 +43,11 @@ module.exports =function(grunt) {
                 }
             }
         }
-    };
+  };
 
     grunt.config('connect', config);
 }
+
 
 
 

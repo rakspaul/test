@@ -53,5 +53,5 @@
         "bootstrap/fonts/glyphicons-halflings-regular.*"
     ],
 
-    "buildFiles": ["**", "!js/**", "!lib/**", "!**/*.css"]
+    "buildFiles": ["**"]
 }

@@ -17,10 +17,12 @@
 
         <div class="bodyWrap" ng-view></div>
 
-        <script src="/conf/application-local.js"></script>
-        <script src="/scripts/config.js"></script>
+        <script src="/conf/application-<!-- @echo ENV -->.js"></script>
+        <script src="scripts/config.js"></script>
         <script data-main="/scripts/main.js" src="/scripts/libs/require.js"></script>
 
+        <!-- @if ENV='local' -->
             <script src="http://localhost:35729/livereload.js?snipver=1" type="text/javascript"></script>
+        <!-- @endif -->
     </body>
 </html>

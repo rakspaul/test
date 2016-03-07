@@ -24,23 +24,31 @@ module.exports =function(grunt) {
                 }
             ]
         },
-        build: {
-            files: [
-                {
-                    cwd: '<%= cvars.app %>/', expand: true,
-                    dest: '<%= cvars.build %>/',
-                    src: gruntConfig.buildFiles
-                }
-            ]
+        dist: {
+            files: [{
+                expand: true,
+                //dot: true,
+                cwd: '<%= cvars.app %>',
+                dest: '<%= cvars.dist %>',
+                src: [
+                    '*.{ico,png,txt}',
+                    '.htaccess',
+                    'images/{,*/}*.webp',
+                    '{,*/}*.html',
+                    'fonts/{,*/}*.*',
+                    'views/**',
+                    'conf/{,*/}*.*',
+                    'scripts/**'
+
+                ]
+            }]
         },
-        deploy: {
-            files: [
-                {
-                    cwd: '<%= cvars.build %>/', expand: true,
-                    dest: '<%= cvars.dist %>/',
-                    src: ['<%= cvars.appcss %>/**', 'images/**', 'fonts/**', 'views/**']
-                }
-            ]
+        styles: {
+            expand: true,
+            dot: true,
+            cwd: '<%= cvars.app %>/styles',
+            dest: '<%= cvars.dist %>/styles/',
+            src: ['**']
         }
     };
     grunt.config('copy', config);
