@@ -137,9 +137,9 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
 //     });
      
     $(window).scroll(function() {
-      if(($(window).scrollTop() + $(window).height() == $(document).height())) {
-        $scope.campaigns.fetchData();
+      if(!$scope.campaigns.busy && ($(window).scrollTop() + $(window).height() == $(document).height())){
         console.log('bottom');
+        $scope.campaigns.fetchData();
       }
     });
 
