@@ -60,7 +60,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
         $scope.reports.reportDefinition.timeframe.end_date = moment().subtract(1, 'day').format(constants.DATE_UTC_SHORT_FORMAT);
         $scope.reports.reportDefinition.metrics = {};
         $scope.reports.reportDefinition.filters = [];
-        $scope.reports.reportDefinition.dimensions = [];
+        $scope.reports.reportDefinition.dimensions = {};
         $scope.selectedMetricsList = [];
         $scope.reports.reportDefinition.dimensions.primary = {
             'name': '',
@@ -491,6 +491,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                 _customctrl.createJSONforPage($scope.activeTab);
                 _customctrl.getDimensionList($scope.customeDimensionData[0], $scope.selectedMetricsList);
                 _customctrl.getReportData();
+                _customctrl.inputDataOnGenerate = JSON.parse(JSON.stringify($scope.reports.reportDefinition));
                 var str = $scope.reports.reportDefinition.dimensions.primary.dimension + ':' + $scope.reports.reportDefinition.dimensions.primary.value + '&';
                 if ($scope.reports.reportDefinition.dimensions.secondary.value) {
                     str += "&filter=" + $scope.reports.reportDefinition.dimensions.secondary.dimension + ':' + $scope.reports.reportDefinition.dimensions.secondary.value + '&';
@@ -511,7 +512,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
             $scope.requestData.reportDefinition.timeframe = {};
             $scope.requestData.reportDefinition.metrics = {};
             $scope.requestData.reportDefinition.filters = [];
-            $scope.requestData.reportDefinition.dimensions = [];
+            $scope.requestData.reportDefinition.dimensions = {};
             $scope.requestData.name = '';
             $scope.requestData.client_id = loginModel.getSelectedClient().id;
             $scope.requestData.name = $scope.reports.name;
@@ -520,10 +521,10 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
             $scope.requestData.schedule = $scope.reports.schedule;
             $scope.requestData.isScheduled = $scope.scheduleReportActive;
             $scope.requestData.schedule.occurance = $scope.reports.schedule.occurance;
-            $scope.requestData.reportDefinition.dimensions.push({
+            $scope.requestData.reportDefinition.dimensions.primary = {
                 "dimension": $scope.reports.reportDefinition.dimensions.primary.dimension,
                 'type': "Primary"
-            });
+            };
             if ($scope.reports.reportDefinition.dimensions.primary.value || isIntermediateSave) {
                 $scope.requestData.reportDefinition.filters.push({
                     "dimension": $scope.reports.reportDefinition.dimensions.primary.dimension,
@@ -535,10 +536,10 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                 $scope.reports.schedule.endDate = $scope.reports.schedule.startDate;
             }
             if ($scope.reports.reportDefinition.dimensions.secondary.name) {
-                $scope.requestData.reportDefinition.dimensions.push({
+                $scope.requestData.reportDefinition.dimensions.secondary = {
                     "dimension": $scope.reports.reportDefinition.dimensions.secondary.dimension,
                     'type': "Secondary"
-                });
+                };
             }
 
             if ($scope.reports.reportDefinition.dimensions.secondary.value) {
@@ -718,7 +719,29 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
             $scope.showDataForClikedDimension(ev, value, loadMore);
         };
 
+        _customctrl.isInputsChangedAfterGenerate = function(oldJSON, newJSON){
+            var retVal = false;
+            if(oldJSON.dimensions.hasOwnProperty("primary")){
+                if(!newJSON.dimensions.hasOwnProperty("primary") || newJSON.dimensions.primary.dimension != oldJSON.dimensions.primary.dimension || (newJSON.dimensions.primary.value && newJSON.dimensions.primary.value != $scope.reports.reportDefinition.dimensions.primary.value)){
+                    retVal = true;
+                }
+            }
+            if(oldJSON.dimensions.hasOwnProperty("secondary")){
+                if(!newJSON.dimensions.hasOwnProperty("secondary") || newJSON.dimensions.secondary.dimension != oldJSON.dimensions.secondary.dimension || (newJSON.dimensions.secondary.value && newJSON.dimensions.secondary.value != $scope.reports.reportDefinition.dimensions.secondary.value)){
+                    retVal = true;
+                }
+            }
+            if(retVal || !_.isEqual(oldJSON.filters,newJSON.filters) || !_.isEqual(oldJSON.metrics,newJSON.metrics) || !_.isEqual(oldJSON.timeframe,newJSON.timeframe)){
+                retVal = true;
+            }
+            return retVal;
+        }
+
         $scope.showDataForClikedDimension = function(ev, value, loadMore) {
+           if(_customctrl.isInputsChangedAfterGenerate(_customctrl.inputDataOnGenerate, $scope.createData().reportDefinition)){
+                $rootScope.setErrAlertMessage("Please regenerate the page, input data had changed");
+                return;
+            }
             var currFirtDimensionElem = $(ev.target).parents(".reportData");
             var currSecondDimensionElem = currFirtDimensionElem.find('.second_dimension_row_holder');
             if(loadMore == undefined){
