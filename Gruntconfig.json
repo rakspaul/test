@@ -3,6 +3,8 @@
         "app": "app",
         "appjs": "scripts",
         "appcss": "styles",
+        "appimage": "images",
+        "production" : "production",
         "build": "build",
         "dist": "dist",
         "hostname": "localhost",
@@ -30,7 +32,7 @@
         "angular-i18n/angular-locale_en-us.js",
         "underscore/underscore.js",
         "ng-file-upload/ng-file-upload-shim.js",
-        "bootstrap-datepicker/dist/js/bootstrap-datepicker.js",
+        "bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js",
         "angular-css/angular-css.js",
         "angulartics/dist/angulartics.min.js",
         "angulartics-google-analytics/dist/angulartics-google-analytics.min.js",
@@ -38,21 +40,18 @@
         "angular-sanitize/angular-sanitize.js",
         "filesaver/FileSaver.js",
         "highcharts/highcharts",
-        "highcharts-ng/dist/highcharts-ng"
+        "highcharts-ng/dist/highcharts-ng",
+        "chosen/chosen.js"
 
     ],
 
     "cssFiles": [
-        "bootstrap/dist/css/bootstrap.css"
+        "bootstrap/dist/css/bootstrap.min.css"
     ],
 
     "cssFonts": [
         "bootstrap/fonts/glyphicons-halflings-regular.*"
     ],
 
-    "buildFiles": [
-        "images/**",
-        "views/**",
-        "scripts/libs/require.js"
-    ]
+    "buildFiles": ["**", "!js/**", "!lib/**", "!**/*.css"]
 }

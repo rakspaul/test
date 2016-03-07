@@ -15,7 +15,7 @@
         'angulartics': 'libs/angulartics.min',
         'angulartics-ga': 'libs/angulartics-google-analytics.min',
         'angular-sanitize': 'libs/angular-sanitize',
-        'date-picker': 'libs/bootstrap-datepicker',
+        'date-picker': 'libs/bootstrap-datepicker.min',
         'bootstrap-toggle': 'libs/bootstrap-toggle',
         'moment': 'libs/moment',
         'moment-tz': 'libs/moment-timezone',
@@ -33,6 +33,7 @@
         'lrInfiniteScroll': 'libs/lrInfiniteScroll',
         'filesaver': 'libs/FileSaver',
         'multiselect':'multi_select',
+        'chosen': 'libs/chosen',
       },
 
       // Add angular modules that does not support AMD out of the box, put it in a shim
@@ -69,7 +70,8 @@
         'lrInfiniteScroll':  ['ui-bootstrap-tpls'],
         'angular-css':['angular'],
         'multiselect' : ['angular'],
-          'bootstrap-toggle':['jquery']
+        'bootstrap-toggle':['jquery'],
+        'chosen':['jquery']
       },
 
       priority: [

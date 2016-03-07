@@ -2313,6 +2313,12 @@
                                 }
                             }
                         }
+                        .currencyFly {
+                              position: absolute;
+                              left: 10px;
+                              top: 9px;
+                              z-index: 10;
+                            }
                     }
 
                     .adGroupCreate {
@@ -2326,6 +2332,12 @@
                             border-bottom: 0;
                             float: left;
                             padding: 30px 30px 0 30px;
+                            .currencyFly {
+                              position: absolute;
+                              left: 10px;
+                              top: 9px;
+                              z-index: 10;
+                            }
                         }
 
                         .adGroupCreateModules {
@@ -2421,8 +2433,9 @@
                     }
 
                     .adGroupSelectionWrap.active {
-                        background: #fff;
-                        border: 1px solid #939EAE;
+                        //background: #fff;
+                        //border: 1px solid #939EAE;
+                        border-width: 0;
                         padding-top: 0;
 
                         .adGroupCreateForm {
@@ -2433,6 +2446,11 @@
 
                         .btnCreateGroup {
                             display: none;
+                        }
+                        
+                        .singleCardWrap {
+                            margin-top: 30px;
+                            border: 1px dashed #939eae;
                         }
                     }
 
@@ -2681,6 +2699,7 @@
                         padding-left: .75%;
                         position: relative;
                         width: 100%;
+                        padding-bottom: .75%;
 
                         .overlay {
                             background: #fff;

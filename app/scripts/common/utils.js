@@ -908,10 +908,11 @@ define(['angularAMD','common/services/constants_service'], function (angularAMD)
                 } else if (type.toLowerCase() === 'delivery (impressions)') {
                     return (val.toFixed(2)).toLocaleString();
                 } else {
+                    val = (val >0 && val <1) ? val.toFixed(4):val.toFixed(2);
                     return (type.toLowerCase() === 'ctr' || type.toLowerCase() === 'action_rate' ||
                         type.toLowerCase() === 'action rate' || type.toLowerCase() === 'vtc') ?
-                        val.toFixed(2) + '%' :
-                        constants.currencySymbol + val.toFixed(2);
+                        val + '%' :
+                        constants.currencySymbol + val;
                 }
             };
         })
