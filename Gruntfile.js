@@ -5,15 +5,27 @@ module.exports = function (grunt) {
 
     require('load-grunt-tasks')(grunt);
 
+    require('time-grunt')(grunt);
+
     var gruntConfig = grunt.file.readJSON('Gruntconfig.json');
+
 
     // Grunt Config
     grunt.initConfig({
         cvars: gruntConfig.configVars,
+
+        concurrent: {
+            dist: [
+                'less:dist',
+                'copy:styles',
+                'imagemin',
+                'svgmin'
+            ]
+        }
     });
 
-
     grunt.loadTasks('grunt');
+
 
     /**
      * setup task
@@ -21,46 +33,30 @@ module.exports = function (grunt) {
      */
     grunt.registerTask('setup', ['bower:setup', 'copy:setup']);
 
+    var env = grunt.option('target') || 'local';
 
     /**
      * devel task
      * Launch webserver and watch for changes
      */
     grunt.registerTask('devel', [
-        'connect:dev', 'watch', 'less:dev'
+        'less:local',
+        'preprocess:local',
+        'connect:local',
+        'watch'
     ]);
 
-    /**
-     * build task
-     * Use r.js to build the project
-     */
+
     grunt.registerTask('build', [
-        //'jshint:build',
-        'clean:build',
-        'preprocess:build',
-        'htmlmin:build',
-        'cssmin:build',
-        'requirejs:build',
-        'clean:post-requirejs',
-        'copy:build'
-    ]);
-
-
-    /**
-     * deploy task
-     * Deploy to dist_www directory
-     */
-    grunt.registerTask('deploy', [
-        'build',
-        'clean:deploy',
-        'htmlmin:deploy',
-        'copy:deploy',
-        //'uglify:deploy',
+        'clean:dist',
+        'concurrent:dist',
+        'autoprefixer',
+        'copy:dist',
+        //'rev',
+        //'usemin',
+        //'htmlmin',
+        'preprocess:'+env,
         'connect:server'
     ]);
-
-    grunt.registerTask('hello', function () {
-        grunt.log.write('hello task called with: ', gruntConfig);
-    });
 
 };

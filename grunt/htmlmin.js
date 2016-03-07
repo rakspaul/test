@@ -2,30 +2,26 @@ module.exports =function(grunt) {
     'use strict';
     var config = {
         // See https://github.com/yeoman/grunt-usemin/issues/44 for using 2 passes
-        build: {
+        dist: {
             options: {
-                removeComments: true,
                 collapseBooleanAttributes: true,
+                collapseWhitespace: true,
                 removeAttributeQuotes: true,
-                removeRedundantAttributes: true,
+                removeCommentsFromCDATA: true,
                 removeEmptyAttributes: true,
-                removeEmptyElements: false
+                removeOptionalTags: true,
+                removeRedundantAttributes: true,
+                useShortDoctype: true
             },
-            files: [
-                { '<%= cvars.build %>/index.html': '<%= cvars.build %>/index.build.html' },
-                {
-                    expand: true,
-                    flatten: false,
-                    cwd: '<%= cvars.app %>/views/',
-                    dest: '<%= cvars.build %>/views/',
-                    src: ['*.html']
-                }
-            ]
-        },
-        deploy: {
-            files: [
-                { '<%= cvars.dist %>/index.html': '<%= cvars.build %>/index.html' }
-            ]
+            files: [{
+                expand: true,
+                cwd: '<%= cvars.dist %>',
+                src: [
+                    '{,*/}*.html',
+                    'views/{,*/}*.*'
+                ],
+                dest: '<%= cvars.dist %>'
+            }]
         }
     };
 

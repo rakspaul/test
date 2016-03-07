@@ -5,13 +5,13 @@ module.exports =function(grunt) {
             files: [{
                 expand: true,
                 cwd: '<%= cvars.app %>/<%= cvars.appimage %>/',
-                src: '{,*/}*.{gif,jpeg,jpg,png}',
+                src: '{,*/}*.svg',
                 dest: '<%= cvars.dist %>/<%= cvars.appimage %>/'
             }]
         }
     };
 
-    grunt.config('imagemin', config);
+    grunt.config('svgmin', config);
 }
 
 
