@@ -1039,7 +1039,7 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
             $('.input-daterange').datepicker({
                 //format: "mm/dd/yyyy",
                 format: "mm/dd/yyyy",
-                orientation: "auto",
+                orientation: "top auto",
                 autoclose: true,
                 todayHighlight: true
             });
