@@ -12,7 +12,7 @@
 	    <div class="col-md-12 zeroPadding">
 		<!--<span class="breadcrumbFlow">Creative Tag Library</span>-->
 		<!--<img src="/assets/images/workflow/arrowBreadcrumbs.png" class="pull-left" alt="" width="10" style="margin: 5px 18px;"/>-->
-		<h2 class="pull-left" style="margin: 0;">Add Creative</h2>
+		<h2 class="pull-left" style="margin: 0;">Creative Setup</h2>
 	    </div>
         </div>
     </div>
@@ -20,9 +20,9 @@
     <!--=== List Starts ===-->
     <div class="creativeList">
         <div class="col-md-12 containerWrap">
-            <div class="col-md-6 zeroPadding clearfix nav_filters">
-                <creative-drop-down></creative-drop-down>
-            </div>
+            <!--<div class="col-md-6 zeroPadding clearfix nav_filters" >-->
+            <!--    <creative-drop-down></creative-drop-down>-->
+            <!--</div>-->
 
             <form role="form" name="formCreativeCreate" id="formCreativeCreate" novalidate>
 				<div class="col-md-6 zeroPadding pull-right saveCreativeBtn">
@@ -35,16 +35,17 @@
                 <!--</div>-->
 
                     <div class="form-group col-md-8" show-errors>
-                        <label for="name" class="greyTxt">Creative Name</label>
+                        <label for="name" class="greyTxt" style="margin-top: 0;">Name</label>
                         <input type="text" class="form-control ng-pristine ng-valid" remove-special-character ='remove-special-character' id="name" name="name" ng-model="name" placeholder="Max 250 characters. No symbols or punctuation" required>
                         <label ng-if="formCreativeCreate.name.$error.required"  class="col-sm-12 control-label greyTxt errorLabel">{{textConstants.WF_MANDATORY_CREATIVE_NAME}}</label>
                     </div>
                     <div class="col-md-12 zeroPadding clearfix nav_filters" style="display:none;">
                         <creative-drop-down></creative-drop-down>
                     </div>
-                    <div class="col-sm-12 zeroPadding">
-                        <div class="form-group col-sm-3"  style="padding-left: 0;" show-errors>
-                            <label for="advertiserDDL" class="col-sm-12  greyTxt miniLabels">{{ textConstants.ADVERTISERS }}</label>
+                    <span class="col-md-12 labelQuestTxt" style="margin-top: 30px !important;">Who is this Creative for?</span>
+                    <div class="col-sm-8 zeroPadding">
+                        <div class="form-group col-sm-6"  style="padding-right: 0;" show-errors>
+                            <label for="advertiserDDL" class="col-sm-12  greyTxt miniLabels" style="margin: 0;">{{ textConstants.ADVERTISERS }}</label>
                             <div class="col-md-12 zeroPadding dropdown-workflow">
                                 <div class="dropdown">
                                     <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ng-disabled="adPage">
@@ -60,8 +61,8 @@
                             </div>
                             <label ng-if="formCreativeCreate.advertiserId.$error.required" class="col-sm-12 greyTxt errorLabel">Please select the Advertiser.</label>
                         </div>
-                        <div class="form-group col-sm-3" style="margin-left: 30px;">
-                            <label for="brandDDL" class="col-sm-12  greyTxt miniLabels">{{ textConstants.BRAND }}</label>
+                        <div class="form-group col-sm-6" style="padding-left: 15px;">
+                            <label for="brandDDL" class="col-sm-12  greyTxt miniLabels" style="margin: 0;">{{ textConstants.BRAND }}</label>
                             <div class="col-md-12 zeroPadding dropdown-workflow">
                                 <div class="dropdown">
                                     <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
@@ -77,8 +78,9 @@
                         </div>
                     </div>
 
-                    <div class="form-group col-md-3" show-errors>
-                        <label for="sel1" class="greyTxt">Ad Server</label>
+                    <span class="col-md-12 labelQuestTxt" style="margin-top: 30px !important;">What Creative are you using?</span>
+                    <div class="form-group col-md-2" show-errors style="clear: left;">
+                        <label for="sel1" class="greyTxt" style="margin-top: 0;">Ad Server</label>
                         <div class="col-md-12 zeroPadding dropdown-workflow">
                             <div class="dropdown">
                                 <button class="btn btn-default dropdown-toggle" id="creativeAdServer" type="button"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
@@ -118,7 +120,7 @@
                     </div>
 
                     <!---->
-                    <div class="form-group col-md-3">
+                    <div class="form-group col-md-4">
                         <label for="sel1" class="greyTxt">Creative Template</label>
                         <div class="col-md-12 zeroPadding dropdown-workflow">
                             <div class="dropdown">
@@ -137,21 +139,21 @@
                         <!--<label ng-if="formCreativeCreate.creativeTemplate.$error.required" class="col-sm-12 control-label greyTxt errorLabel" style="margin: 0;">Please select the Ad Server size.</label>-->
                     </div>
                     <!--Static template Ui Elements-->
-                    <div ng-hide="$parent.TrackingIntegrationsSelected" class="form-group col-md-12" show-errors>
+                    <div ng-hide="$parent.TrackingIntegrationsSelected" class="form-group col-md-8" style="clear: left;" show-errors>
                         <label for="tag" class="col-md-12 zeroPadding greyTxt">Secure Tag (SSL compatible)</label>
                         <textarea class="form-control col-md-12 ng-pristine ng-valid" rows="15" name="tag" id="tag" placeholder="Copy and paste the tag from your ad server" ng-model="tag" required></textarea>
                         <label ng-if="formCreativeCreate.tag.$error.required" class="col-sm-12 control-label greyTxt errorLabel">{{textConstants.SSL_ERROR_MESSAGE}}</label>
                         <label ng-show="WrongTag" class="col-sm-12 control-label customErrorLabel">{{IncorrectTagMessage}}</label>
                     </div>
 
-                    <div class="form-group col-md-5 radioBtnToggle" style="padding-top: 20px">
+                    <div class="form-group col-md-4 radioBtnToggle" style="padding-top: 20px; clear: left;">
                         <div class="label-txt">SSL Compatible</div>
                         <div class="schedule-on-off-btn">
                             <input type="checkbox" checked data-toggle="toggle" id="toggle" data-on=" true" data-off="false" disabled="true">
                             <input type="hidden"  name="sslEnable" value="true" >
                         </div>
                     </div>
-                    <div class="form-group col-md-3" show-errors="" style="clear: left;">
+                    <div class="form-group col-md-4" show-errors="" style="clear: left;">
                         <label for="sel1" class="greyTxt">Size</label>
                         <div class="col-md-12 zeroPadding dropdown-workflow">
                             <div class="dropdown">
