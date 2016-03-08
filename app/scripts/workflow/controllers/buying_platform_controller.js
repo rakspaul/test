@@ -1,5 +1,5 @@
-define(['angularAMD', 'common/services/constants_service', 'workflow/services/workflow_service','workflow/services/platform_custome_module'], function (angularAMD) {
-  angularAMD.controller('BuyingPlatformController',  function ($scope, $timeout, $modal, $filter, $rootScope, constants, workflowService, platformCustomeModule) {
+define(['angularAMD', 'common/services/constants_service', 'workflow/services/workflow_service', 'workflow/services/platform_custome_module'], function (angularAMD) {
+    angularAMD.controller('BuyingPlatformController', function ($scope, $timeout, $modal, $filter, $rootScope, constants, workflowService, platformCustomeModule) {
 
         var tempPlatform,
             storedResponse,
@@ -15,10 +15,27 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                         $scope.showPlatformBox = false;
                     });
                 $('.offeringsWrap').show();
+            },
+            hideTargetingBox = function() {
+                $('#geographyTargeting').delay(300).animate({left: '100%', marginLeft: '0', opacity: '0'}, function () {
+                    $(this).hide();
+                });
+
+                $('#dayTargeting').delay(300).animate({left: '100%', marginLeft: '0px', opacity: '0.0'}, function () {
+                    $(this).hide();
+                });
+
+                $('#audienceTargeting')
+                    .delay(300)
+                    .animate({left: '100%', marginLeft: '0', opacity: '0.0'}, function () {
+                        $(this).hide();
+                    });
             };
 
-        $scope.fetchPlatforms =  function (platform) {
-            var errorHandler =  function (errData) {
+
+
+        $scope.fetchPlatforms = function (platform) {
+            var errorHandler = function (errData) {
                 console.log(errData);
             };
 
@@ -37,32 +54,32 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                         adsDetails = workflowService.getAdsDetails();
                         if ($scope.mode == 'edit' && platform) {
                             platformStatus = !$scope.isAdsPushed;
-                            if($scope.isAdsPushed){
-                            if ($scope.TrackingIntegrationsSelected) {
-                                for (i in responseData.fullIntegrationsPlatforms) {
-                                    responseData.fullIntegrationsPlatforms[i].active = false;
-                                }
-                                $scope.workflowData.platforms = responseData.fullIntegrationsPlatforms;
-                                for (i in responseData.trackingPlatforms) {
-                                    responseData.trackingPlatforms[i].active = platformStatus;
-                                }
-                                $scope.trackingPlatformCarouselData(responseData);
-                            } else {
-                                for (i in responseData.fullIntegrationsPlatforms) {
-                                    if (adsDetails.platform.id == responseData.fullIntegrationsPlatforms[i].id) {
-                                        responseData.fullIntegrationsPlatforms[i].active = true;
-                                    } else {
-                                        responseData.fullIntegrationsPlatforms[i].active =
-                                            responseData.fullIntegrationsPlatforms[i].active ? platformStatus : false;
+                            if ($scope.isAdsPushed) {
+                                if ($scope.TrackingIntegrationsSelected) {
+                                    for (i in responseData.fullIntegrationsPlatforms) {
+                                        responseData.fullIntegrationsPlatforms[i].active = false;
                                     }
+                                    $scope.workflowData.platforms = responseData.fullIntegrationsPlatforms;
+                                    for (i in responseData.trackingPlatforms) {
+                                        responseData.trackingPlatforms[i].active = platformStatus;
+                                    }
+                                    $scope.trackingPlatformCarouselData(responseData);
+                                } else {
+                                    for (i in responseData.fullIntegrationsPlatforms) {
+                                        if (adsDetails.platform.id == responseData.fullIntegrationsPlatforms[i].id) {
+                                            responseData.fullIntegrationsPlatforms[i].active = true;
+                                        } else {
+                                            responseData.fullIntegrationsPlatforms[i].active =
+                                                responseData.fullIntegrationsPlatforms[i].active ? platformStatus : false;
+                                        }
+                                    }
+                                    $scope.workflowData.platforms = responseData.fullIntegrationsPlatforms;
+                                    for (i in responseData.trackingPlatforms) {
+                                        responseData.trackingPlatforms[i].active = false;
+                                    }
+                                    $scope.trackingPlatformCarouselData(responseData);
                                 }
-                                $scope.workflowData.platforms = responseData.fullIntegrationsPlatforms;
-                                for (i in responseData.trackingPlatforms) {
-                                    responseData.trackingPlatforms[i].active = false;
-                                }
-                                $scope.trackingPlatformCarouselData(responseData);
-                            }
-                        }else{
+                            } else {
                                 $scope.workflowData.platforms = responseData.fullIntegrationsPlatforms;
                                 $scope.trackingPlatformCarouselData(responseData);
                             }
@@ -87,22 +104,10 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             }
         };
 
+
         $scope.selectPlatform = function (event, platform) {
             //showing card view when you change the platform.
-
-            $('#geographyTargeting').delay(300).animate({ left: '100%', marginLeft: '0', opacity: '0' }, function () {
-                $(this).hide();
-            });
-
-            $('#dayTargeting').delay(300).animate({ left: '100%', marginLeft: '0px',  opacity: '0.0'}, function () {
-                $(this).hide();
-            });
-
-            $('#audienceTargeting')
-                .delay(300)
-                .animate({ left: '100%', marginLeft: '0', opacity: '0.0'}, function () {
-                    $(this).hide();
-                });
+            hideTargetingBox();
 
             var settings = '';
 
@@ -152,8 +157,9 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         $scope.setPlatform = function (event, platform) {
             var name;
 
-            if(event && !$scope.changePlatformPopup) {
-                if($scope.adData && platform.id !== $scope.adData.platformId) {
+            //reset the targeting and platform while changing the platform
+            if (event && !$scope.changePlatformPopup) {
+                if ($scope.adData && platform.id !== $scope.adData.platformId) {
                     $rootScope.$broadcast('resetTargeting');
                     //reseting the custom field values on change of platform.
                     $scope.$parent.postPlatformDataObj = null;
@@ -163,6 +169,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
             $scope.selectedPlatform = {};
             workflowService.setPlatform(platform);
+
             //audience targetting
             if ($scope.mode != 'edit' || ($scope.defaultPlatform && $scope.defaultPlatform.id !== platform.id)) {
                 $scope.$parent.TrackingIntegrationsSelected = false;
@@ -172,8 +179,9 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             var wasPrevTrackingInt = _.findIndex($scope.workflowData.platforms, function (item) {
                 return item.id === $scope.adData.platformId;
             });
+
             // code to make creatives already set to empty
-            if(event && wasPrevTrackingInt<0){
+            if (event && wasPrevTrackingInt < 0) {
                 $scope.adData.setSizes = constants.WF_NOT_SET;
                 $scope.creativeData.creativeInfo = 'undefined';
                 $scope.$parent.selectedArr.length = 0;
@@ -193,9 +201,9 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             $scope.showtrackingSetupInfoPopUp = false;
             $scope.$parent.postPlatformDataObj = [];
             $scope.platformCustomInputs();
-            trackingIntegration =  $scope.trackingIntegration || trackingIntegration;
+            trackingIntegration = $scope.trackingIntegration || trackingIntegration;
             // if ($scope.mode !== 'edit') {
-                $scope.$parent.TrackingIntegrationsSelected = true;
+            $scope.$parent.TrackingIntegrationsSelected = true;
             //}
             $scope.selectedPlatform = {};
             $scope.selectedPlatform[trackingIntegration.id] = trackingIntegration.displayName;
@@ -242,7 +250,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                                 adPlatformCustomInputsLocalStorageValue = localStorage.getItem('adPlatformCustomInputs');
                                 adPlatformCustomInputs =
                                     (adPlatformCustomInputsLocalStorageValue &&
-                                        JSON.parse(adPlatformCustomInputsLocalStorageValue)) ||
+                                    JSON.parse(adPlatformCustomInputsLocalStorageValue)) ||
                                     platformCustomeJson;
                                 platformCustomeModule.init(platformCustomeJson, platformWrap, adPlatformCustomInputs);
                             } else {
@@ -266,8 +274,12 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         };
 
         $scope.confirmChange = function () {
-            $scope.setPlatform(null, tempPlatform);
+
             $scope.changePlatformPopup = false;
+            $scope.$parent.postPlatformDataObj = null;
+            localStorage.removeItem('adPlatformCustomInputs');
+            $scope.setPlatform(null, tempPlatform);
+
             storedResponse.targets.geoTargets = {};
             $rootScope.$broadcast('resetTargeting');
             $scope.platformCustomInputs();
@@ -277,12 +289,12 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             var offset = $(event.target).offset(),
                 left = offset.left,
                 top = offset.top,
-                relativeX = $(event.target).closest('.offeringWrap').offset().left  -
+                relativeX = $(event.target).closest('.offeringWrap').offset().left -
                     $(event.target).closest('.carousel-inner').offset().left + 50;
 
             $scope.trackingIntegration = trackingIntegration;
             $('.buyingPlatformHolder .popUpCue').css({
-                top: 125 ,
+                top: 125,
                 left: relativeX
             });
             $scope.showtrackingSetupInfoPopUp = true;
@@ -321,10 +333,6 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             if ($scope.mode == 'edit') {
                 localStorage.setItem('adPlatformCustomInputs', JSON.stringify($scope.$parent.postPlatformDataObj));
             }
-            //trigger targeting tab link only when intentionally clicked not on edit mode by default
-            /*if (editModeFlag == "clickedFromCustom") {
-                $scope.triggerTargetting();
-            }*/
             $scope.switchPlatform();
         };
 
@@ -357,7 +365,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 $modalInstance = $modal.open({
                     templateUrl: assets.html_confirmation_modal,
                     controller: 'ConfirmationModalController',
-                    scope:$scope,
+                    scope: $scope,
                     windowClass: 'delete-dialog',
                     resolve: {
                         headerMsg: function () {
@@ -372,9 +380,9 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                         execute: function () {
                             return function () {
                                 $('.customFieldErrorMsg').remove();
-                                if ($('#customPlatformForm') && $('#customPlatformForm').length >0) {
+                                if ($('#customPlatformForm') && $('#customPlatformForm').length > 0) {
                                     $('#customPlatformForm')[0].reset();
-                                    $timeout(function() {
+                                    $timeout(function () {
                                         $("#customPlatformForm").find("select").trigger("change");
                                     }, 200)
 

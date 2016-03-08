@@ -1318,13 +1318,13 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                         postAdDataObj.domainAction = $scope.adData.inventory.domainAction;
                     }
 
+                    //custom field section.
                     if (!$scope.TrackingIntegrationsSelected) {
                         if ($.isEmptyObject($scope.postPlatformDataObj)) {
                             $scope.saveCustomeFieldForPlatform(1);
                         }
                         postAdDataObj.adPlatformCustomInputs = $scope.postPlatformDataObj;
                     }
-
                     campaignOverView.saveAds(postAdDataObj, isDownloadTrackerClicked);
                 }
             }

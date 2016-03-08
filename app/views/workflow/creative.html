@@ -38,7 +38,7 @@
                     <a class="btn btn-link pull-right" role="button" ng-disabled="disableCancelSave" ng-click="cancelBtn()"> Cancel</a>
                 </div>
 
-                <div class="form-group col-md-8" show-errors='{showSuccess: true}'>
+                <div class="form-group col-md-8" show-errors>
                     <label for="name" class="greyTxt">Name</label>
                     <input type="text" class="form-control ng-pristine ng-valid" remove-special-character ='remove-special-character' id="name" name="name" ng-model="name" placeholder="Max 250 characters. No symbols or punctuation" required>
                     <label ng-if="formCreativeCreate.name.$error.required"  class="col-sm-12 control-label greyTxt errorLabel">{{textConstants.WF_MANDATORY_CREATIVE_NAME}}</label>
@@ -117,7 +117,7 @@
 
 
 
-                <div ng-hide="$parent.TrackingIntegrationsSelected" class="form-group col-md-12" show-errors='{showSuccess: true}'>
+                <div ng-hide="$parent.TrackingIntegrationsSelected" class="form-group col-md-12" show-errors>
                     <label for="tag" class="col-md-12 zeroPadding greyTxt">Secure Tag (SSL compatible)</label>
                     <textarea class="form-control col-md-8 ng-pristine ng-valid" style="width: 66.66666667%;" rows="15" name="tag" id="tag" placeholder="Copy and paste the tag from your ad server" ng-model="tag" required></textarea>
                     <span class="col-md-4 previewBtn helpLink">Preview</span>
@@ -140,7 +140,7 @@
 					</div>
                 </div>
 
-                <div class="form-group col-md-3" show-errors='{showSuccess: true}'>
+                <div class="form-group col-md-3">
                     <label for="sel1" class="greyTxt">Size</label>
 
 		    <!--Abi version 1
