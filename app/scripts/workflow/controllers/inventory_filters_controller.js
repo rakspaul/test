@@ -272,6 +272,11 @@ define(['angularAMD','workflow/services/workflow_service', 'workflow/services/fi
             $scope.adData.inventory = obj;
         };
 
+      // Proxy function used for filtering orderBy over a simple array
+      $scope.proxyOrderBy = function(x) {
+          return x;
+      };
+
         $scope.workflowData.sort = function (listId) {
             var target = $('#sort-icon-holder-' + listId).find('.common-sort-icon'),
                 idx;
@@ -304,7 +309,6 @@ define(['angularAMD','workflow/services/workflow_service', 'workflow/services/fi
             }
 
             $scope.inventoryNew.reverseOrder = !$scope.inventoryNew.reverseOrder;
-            console.log($scope.workflowData.selectedLists[idx].reverseOrder)
         };
 
         $scope.closeDomainListPop = function () {

@@ -147,11 +147,11 @@
 							<!--==== Row 1 ====-->
 							<div class="col-md-12 zeroPadding">
 								<label for="nameTitleCampaign" class="col-sm-12  labelQuestTxt" style="margin-bottom: 5px;">{{textConstants.WF_NAME_CAMPAIGN_TXT}}</label>
-								<div ng-if=(mode=='edit') class="form-group col-sm-9 zeroPadding" show-errors='{showSuccess: true}'  style="margin-top: 15px;">
+								<div ng-if=(mode=='edit') class="form-group col-sm-9 zeroPadding" show-errors  style="margin-top: 15px;">
 									<input type="text" class="form-control" id="nameTitleCampaign" remove-special-character ='remove-special-character' name="campaignName" ng-model="editCampaignData.name"  ng-value="editCampaignData.name" autofocus maxlength="250" ng-maxlength="250" required/>
 									<label ng-if="createCampaignForm.campaignName.$error.required" class="col-sm-12  greyTxt errorLabel">{{textConstants.WF_ENTER_NAME_CAMPAIGN}}</label>
 								</div>
-								<div ng-if=(mode!='edit') class="form-group col-sm-9 zeroPadding" show-errors='{showSuccess: true}'  style="margin-top: 15px;">
+								<div ng-if=(mode!='edit') class="form-group col-sm-9 zeroPadding" show-errors  style="margin-top: 15px;">
 									<input type="text" class="form-control" id="nameTitleCampaign" remove-special-character ='remove-special-character' name="campaignName" ng-model="selectedCampaign.campaignName"  maxlength="250" ng-maxlength="250" autofocus placeholder="Max 250 characters. No symbols or punctuation" required/>
 									<label ng-if="createCampaignForm.campaignName.$error.required" class="col-sm-12  greyTxt errorLabel">{{textConstants.WF_ENTER_NAME_CAMPAIGN}}</label>
 								</div>
@@ -161,7 +161,7 @@
 							<!--==== Row 2 ====-->
 							<div class="col-md-12 zeroPadding">
 								<label for="nameTitleCampaign" class="col-sm-12 labelQuestTxt">{{textConstants.WF_CAMPAIGN_FOR}}</label>
-								<div class="form-group col-sm-3" show-errors='{showSuccess: true}' style="padding-left: 0;">
+								<div class="form-group col-sm-3" style="padding-left: 0;">
 									<label for="advertiserDDL" class="col-sm-12  greyTxt miniLabels">{{ textConstants.ADVERTISERS }}</label>
 									<div class="col-md-12 zeroPadding dropdown-workflow">
 										<div class="dropdown">
@@ -299,7 +299,7 @@
 								<label for="nameTitleCampaign" class="col-sm-12  labelQuestTxt">When would you like your Media Plan to run?</label>
 								<div class="span4 col-md-12 input-daterange input-group date pull-left" id="datepicker">
 
-									<div class="col-md-12 dateWrapper form-group" show-errors='{showSuccess: true}'>
+									<div class="col-md-12 dateWrapper form-group" show-errors>
 										<div class="dateContainer">
 											<label class="col-sm-12  greyTxt miniLabels">{{ textConstants.START_DATE }}</label>
 											<input type="text" id="startDateInput" placeholder="MM/DD/YYYY" class="form-control" readonly name="startTime" ng-model="selectedCampaign.startTime" ng-change=" handleFlightDate(selectedCampaign)" required />
@@ -337,7 +337,7 @@
 							<div class="col-md-12 zeroPadding">
 								<label for="nameTitleCampaign" class="col-sm-12 labelQuestTxt" style="margin-bottom: 5px;">Display - Set up how you want to Budget and Measure</label>
 								<div class="col-md-12 zeroPadding marginCal">
-									<div class="calTable form-group" show-errors='{showSuccess: true}'>
+									<div class="calTable form-group" show-errors>
 										<h3>Total Budget</h3>
 										<div class="symbol-input">
 											<span class="symbol">{{locale.NUMBER_FORMATS.CURRENCY_SYM}}</span>

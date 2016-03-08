@@ -94,7 +94,9 @@ define(['angularAMD'],function (angularAMD) {
                                 .append("line")
                                 .attr({
                                     "y1": _config.height,
-                                    "y2": _config.margin.top,
+                                    "y2": function(d) {
+                                          return _config.yScale(d[ykeyVal]);
+                                    },
                                     "x1": function(d) {
                                         return _config.xScale(d[xkeyVal]);
                                     },

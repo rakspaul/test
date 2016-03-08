@@ -31,11 +31,12 @@
     "angulartics-google-analytics": "^0.1.4",
     "angular-cookies": "1.2.16",
     "bootstrap-toggle": "^2.2.1",
-    "bootstrap": "3.1.1"
+    "bootstrap": "3.1.1",
+    "chosen": "1.5.1",
+    "angular-bootstrap-show-errors": "^2.3.0"
   },
   "resolutions": {
     "angular": "1.2.16",
-    "bootstrap": "3.1.1",
     "bootstrap-datepicker": "1.4.0"
   }
 }

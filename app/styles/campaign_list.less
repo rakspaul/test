@@ -2,12 +2,12 @@
 
 @font-face {
     font-family: "Avenir";
-    src: url("fonts/Avenir/Avenir.eot");
-    src: url("fonts/Avenir/Avenir.eot?#iefix") format("embedded-opentype"), url("fonts/Avenir/Avenir.woff") format("woff"), url("fonts/Avenir/Avenir.ttf") format("truetype") ;
+    src: url("/fonts/Avenir/Avenir.eot");
+    src: url("/fonts/Avenir/Avenir.eot?#iefix") format("embedded-opentype"), url("/fonts/Avenir/Avenir.woff") format("woff"), url("/fonts/Avenir/Avenir.ttf") format("truetype") ;
 }
 @font-face {
     font-family: "Avenir-bold";
-    src: url("fonts/Avenir/Avenir_bold.woff") format("woff"), url("fonts/Avenir/Avenir_bold.woff2") format("woff2") ,  url("fonts/Avenir/Avenir.ttf") format("truetype") ;
+    src: url("/fonts/Avenir/Avenir_bold.woff") format("woff"), url("/fonts/Avenir/Avenir_bold.woff2") format("woff2") ,  url("/fonts/Avenir/Avenir.ttf") format("truetype") ;
 }
 /* base variables */
 @primaryFont: "Avenir";
@@ -2066,6 +2066,7 @@ button, i, input[type="submit"] {
   background: #0978c9;
   padding: 0px 15px;
   position: relative;
+  z-index: 9999999;
   .profile-photo-tab {
     position: relative;
     height: 42px;

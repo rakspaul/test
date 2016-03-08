@@ -101,11 +101,11 @@
                     </div>
                 </div>
                 <div class="filterBody">
-                    <div id={{'collapsed-' + inventory.id}}
+                    <div id="{{'collapsed-' + inventory.id}}"
                          ng-show="inventory.domainNamesDisplay === 'collapsed'">
                         <ul class="zeroPadding">
                             <li ng-repeat="domain in inventory.domainList |
-                                    orderBy: name : inventory.reverseOrder |
+                                    orderBy: proxyOrderBy : inventory.reverseOrder |
                                     limitTo: 3"
                                 style="list-style: none; color: #939eae; padding: 5px 0;"
                                 data-ng-bind="domain">
@@ -120,12 +120,12 @@
                             </span>
                         </div>
                     </div>
-                    <div id={{'expanded-' + inventory.id}}
+                    <div id="{{'expanded-' + inventory.id}}"
                          ng-show="inventory.domainNamesDisplay === 'expanded'">
                         <ul class="zeroPadding"
                             style="max-height: 470px; overflow: scroll;">
                             <li ng-repeat="domain in inventory.domainList |
-                                    orderBy : name : inventory.reverseOrder"
+                                    orderBy : proxyOrderBy : inventory.reverseOrder"
                                 style="list-style: none; color: #939eae; padding: 5px 0;"
                                 data-ng-bind="domain">
                             </li>
@@ -163,7 +163,7 @@
                     <div class="filterBody">
                         <ul>
                             <li ng-repeat="domainName in workflowData.csvFileContents |
-                                    orderBy : domainName : inventoryNew.reverseOrder"
+                                    orderBy : proxyOrderBy : inventoryNew.reverseOrder"
                                 ng-bind="domainName">
                             </li>
                         </ul>
@@ -176,7 +176,7 @@
                         <label class="col-sm-12 control-label greyTxt miniLabels"
                                data-ng-bind="textConstants.LISTNAME">
                         </label>
-                        <div class="form-group col-sm-12 zeroPadding" show-errors='{showSuccess: true}'>
+                        <div class="form-group col-sm-12 zeroPadding" show-errors>
                             <input type="text"
                                    name="listName"
                                    id="listName"

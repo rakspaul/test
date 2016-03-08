@@ -32,6 +32,18 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
             $rootScope.setErrAlertMessage("",0);
         };
 
+        //Pills
+        var configPills = {
+            '.chosen-select'           : {},
+            '.chosen-select-deselect'  : {allow_single_deselect:true},
+            '.chosen-select-no-single' : {disable_search_threshold:10},
+            '.chosen-select-no-results': {no_results_text:'Oops, nothing found!'},
+            '.chosen-select-width'     : {width:"95%"}
+        }
+        for (var selector in configPills) {
+            $(selector).chosen(configPills[selector]);
+        }
+
         //show selected targets in ads card
         $scope.displaySelectedTargets = function (adsData) {
             var selectedStr = '';
@@ -336,13 +348,12 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
 
         $scope.appendSizes = function (creative) {
             var creativeSizeArr = []
-            if (typeof creative != 'undefined' && creative.length>0) {
+            if (typeof creative != 'undefined' && creative.length>0 && creative[0].size) {
                 if (creative.length == 1) {
                     $scope.sizeString = creative[0].size.size;
                 } else if (creative.length > 1) {
                     $scope.sizeString = "";
                     for (var i in creative) {
-                        //$scope.sizeString += creative[i].size.size + ", ";
                         creativeSizeArr.push(creative[i].size.size)
                     }
                     $scope.sizeString = creativeSizeArr;

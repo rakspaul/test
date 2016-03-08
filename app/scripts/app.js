@@ -7,7 +7,7 @@ define(['common'], function (angularAMD) {
         }
     }]);
 
-  var app = angular.module('vistoApp', ['ngRoute', 'ngCookies','tmh.dynamicLocale','ui.bootstrap', 'uiSwitch', 'door3.css','ngFileUpload', 'ngSanitize','ui.multiselect','highcharts-ng']);
+  var app = angular.module('vistoApp', ['ngRoute', 'ngCookies','tmh.dynamicLocale','ui.bootstrap', 'uiSwitch', 'door3.css','ngFileUpload', 'ngSanitize','ui.multiselect','highcharts-ng', 'ui.bootstrap.showErrors']);
 
   app.config(function ($routeProvider, $httpProvider) {
     $routeProvider
@@ -47,7 +47,7 @@ define(['common'], function (angularAMD) {
 
       .when('/optimization', angularAMD.route({
         templateUrl: assets.html_optimization,
-        title: 'Reports - Optimization',
+        title: 'Reports - Optimization Impact',
         controller: 'OptimizationController',
         controllerUrl: 'reporting/controllers/optimization_controller'
       }))

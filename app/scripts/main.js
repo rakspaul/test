@@ -29,10 +29,12 @@
         'solid-gauge': 'libs/solid-gauge',
         'underscore': 'libs/underscore',
         'ui-bootstrap-tpls': 'libs/ui-bootstrap-tpls-0.12.1.min',
+        'showErrors': 'libs/showErrors.min',
         'd3': 'libs/d3',
         'lrInfiniteScroll': 'libs/lrInfiniteScroll',
         'filesaver': 'libs/FileSaver',
         'multiselect':'multi_select',
+        'chosen': 'libs/chosen',
       },
 
       // Add angular modules that does not support AMD out of the box, put it in a shim
@@ -69,7 +71,9 @@
         'lrInfiniteScroll':  ['ui-bootstrap-tpls'],
         'angular-css':['angular'],
         'multiselect' : ['angular'],
-          'bootstrap-toggle':['jquery']
+        'bootstrap-toggle':['jquery'],
+        'chosen':['jquery'],
+         'showErrors' :  ['angular']
       },
 
       priority: [

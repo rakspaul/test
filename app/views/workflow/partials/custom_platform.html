@@ -6,8 +6,7 @@
         </div>
         <h5 ng-click="switchPlatform()" style="font-size: 16px; font-family: 'Avenir'; cursor: pointer;">Buying Platform</h5>
         <span class="icon-arrow-down"></span>
-        <img ng-src="/images/workflow/platform_icons/{{getPlatformIconName(adData.platform)}}.png"/>
-        <!--<a href="javascript:void(0);" ng-click="switchPlatform()">Switch Platform</a>-->
+        <img ng-if="adData.platform" ng-src="/images/workflow/platform_icons/{{getPlatformIconName(adData.platform)}}.png"/>
     </div>
     <!--Collective Bidder Form-->
     <form name="customPlatformForm" id="customPlatformForm">

@@ -10,7 +10,8 @@ var commonModule = angular.module('commonModule',
         'ngCookies',
         'highcharts-ng',
         'infinite-scroll',
-        'underscore'])
+        'underscore',
+        'chosen'])
     .constant('campaign_api', '')
     .constant('api', scala_api)
 

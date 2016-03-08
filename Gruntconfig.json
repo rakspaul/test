@@ -3,6 +3,8 @@
         "app": "app",
         "appjs": "scripts",
         "appcss": "styles",
+        "appimage": "images",
+        "production" : "production",
         "build": "build",
         "dist": "dist",
         "hostname": "localhost",
@@ -22,6 +24,7 @@
         "jquery-ui/jquery-ui.js",
         "bootstrap/dist/js/bootstrap.js",
         "bootstrap-toggle/js/bootstrap-toggle.js",
+        "angular-bootstrap-show-errors/src/showErrors.min.js",
         "angular-cache/dist/angular-cache.js",
         "angular-cookies/angular-cookies.js",
         "angular-dynamic-locale/dist/tmhDynamicLocale.js",
@@ -38,11 +41,9 @@
         "angular-sanitize/angular-sanitize.js",
         "filesaver/FileSaver.js",
         "highcharts/highcharts",
-        "highcharts-ng/dist/highcharts-ng"
-    ],
+        "highcharts-ng/dist/highcharts-ng",
+        "chosen/chosen.js"
 
-    "bootstrapCss": [
-        "bower_components/bootstrap/dist/css"
     ],
 
     "cssFiles": [
@@ -50,8 +51,8 @@
     ],
 
     "cssFonts": [
-        "bootstrap/fonts/**/*.*"
+        "bootstrap/fonts/glyphicons-halflings-regular.*"
     ],
 
-    "buildFiles": ["**", "!js/**", "!lib/**", "!**/*.css"]
+    "buildFiles": ["**"]
 }

@@ -213,24 +213,61 @@
                             <form id="createIndependantAdsGrp" name="createIndependantAdsGrp"  novalidate>
                                 <div class="adGroupCreateForm">
                                     <h1 class="col-md-12 zeroPadding" data-ng-bind="textConstants.CREATEADGRP"></h1>
-                                    <div class="col-md-6 zeroPadding">
+
+                                    <!--Setup Name / Label Ad Group-->
+                                    <div class="col-md-12 zeroPadding">
                                         <label for="nameIndividualAdGroup" class="col-sm-12 control-label labelQuestTxt" data-ng-bind="textConstants.NAMEADGROUP"></label>
-                                        <label class="col-sm-12 control-label greyTxt miniLabels" data-ng-bind="textConstants.ADGROUPNAME"></label>
-                                        <div class="form-group col-sm-9 zeroPadding" show-errors='{showSuccess: true}'>
-                                            <input type="text"
-                                                   class="form-control"
-                                                   id="nameIndividualAdGroup"
-                                                   remove-special-character='remove-special-character'
-                                                   name="adIGroupName"
-                                                   ng-model="adIGroupName"
-                                                   maxlength="250"
-                                                   placeholder="Enter Ad Group Name in this field up to 250 Characters"
-                                                   required/>
-                                            <label ng-if="createIndependantAdsGrp.adIGroupName.$error.required"
-                                                   class="col-sm-12 control-label greyTxt errorLabel" data-ng-bind="textConstants.ENTERADGRP"></label>
+                                        <!--Column 1-->
+                                        <div class="col-md-6" style="padding: 0 10px 0 0;">
+                                            <label class="col-sm-12 control-label greyTxt miniLabels" data-ng-bind="textConstants.ADGROUPNAME"></label>
+                                            <div class="form-group col-sm-12 zeroPadding" show-errors>
+                                                <input type="text"
+                                                       class="form-control"
+                                                       id="nameIndividualAdGroup"
+                                                       remove-special-character='remove-special-character'
+                                                       name="adIGroupName"
+                                                       ng-model="adIGroupName"
+                                                       maxlength="250"
+                                                       placeholder="Enter Ad Group Name in this field up to 250 Characters"
+                                                       required/>
+                                                <label ng-if="createIndependantAdsGrp.adIGroupName.$error.required"
+                                                       class="col-sm-12 control-label greyTxt errorLabel" data-ng-bind="textConstants.ENTERADGRP"></label>
+                                            </div>
+                                        </div>
+
+                                        <!--Column 2-->
+                                        <div class="col-md-6" style="padding: 0 0 0 10px;">
+                                            <label class="col-sm-12 control-label greyTxt miniLabels">Label</label>
+                                            <select data-placeholder="Choose a Country..." class="chosen-select" multiple tabindex="4">
+                                                <option value=""></option>
+                                                <option value="United States">United States</option>
+                                                <option value="United Kingdom">United Kingdom</option>
+                                                <option value="Afghanistan">Afghanistan</option>
+                                                <option value="Aland Islands">Aland Islands</option>
+                                            </select>
                                         </div>
                                     </div>
-                                    <div class="col-md-4 zeroPadding">
+
+                                    <div class="col-md-12 zeroPadding">
+                                        <label for="budgetIndividualAdGroup" class="col-sm-12 control-label labelQuestTxt">What's the maximum
+                                        you can spend for your Ad Group?</label>
+                                        <label class="col-sm-12 control-label greyTxt miniLabels">Budget</label>
+                                        <div class="form-group col-md-3" style="padding: 0 10px 0 0;">
+                                            <span class="currencyFly">$</span>
+                                            <input type="text"
+                                                   class="form-control text-right"
+                                                   id="budgetIndividualAdGroup"
+                                                   name="adIGroupBudget"
+                                                   maxlength="30"/>
+                                        </div>
+
+                                        <div class="col-md-3" style="padding: 0 0 0 10px;">
+                                            Widget Goes Here
+                                        </div>
+                                    </div>
+
+                                    <!--Date Setup For Ad Group-->
+                                    <div class="col-md-10 zeroPadding">
                                         <label for="dateIndividualAdGroup"
                                                class="col-sm-12 control-label labelQuestTxt" data-ng-bind="textConstants.LIKEADSRUN"></label>
                                         <div class="span4 col-md-12 input-daterange input-group date pull-left"
@@ -246,7 +283,7 @@
                                                            readonly name="lowestStartTime"
                                                            required/>
                                                 </div>
-                                                <div class="dateContainer form-group" style="padding-left: 10px;" show-errors='{showSuccess: true}'>
+                                                <div class="dateContainer form-group" style="padding-left: 10px;" show-errors>
                                                     <label class="col-sm-12 control-label greyTxt miniLabels" data-ng-bind="textConstants.END_DATE"></label>
                                                     <input type="text" id="individualAdsEndDateInput" placeholder="MM/DD/YYYY" class="form-control" readonly  name="highestEndTime" ng-model="highestEndTime"  required/>
                                                     <label ng-if="createIndependantAdsGrp.highestEndTime.$error.required"  class="col-sm-12 control-label greyTxt errorLabel" data-ng-bind="textConstants.SELENDDATE"></label>
@@ -325,7 +362,7 @@
                                 <div class="col-md-12" style="padding: 0px 20px 20px 20px;">
                                     <div class="cardTopLayer">
                                         <h4 class="col-md-10 adCamp" style="word-wrap: break-word;" tooltip="{{adsData.name}}">
-                                            {{adsData.name | textEllipsis: 57}}
+                                            {{adsData.name | textEllipsis: 60}}
                                         </h4>
                                         <span ng-if="adsData.adFormat"
                                               class="glyphicon glyphicon-{{getAdFormatIconName(adsData.adFormat)}} pull-right"

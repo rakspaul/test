@@ -33,10 +33,10 @@ define(['angularAMD', '../../../common/utils', 'common/services/constants_servic
             var xData = [],
                 impLine = [],
                 kpiColumn = [];
+            kpIType = kpIType.toLowerCase();
 
             for (var i = 0; i < chartData.length; i++) {
                 var kpi_value=0;
-                kpIType = kpIType.toLowerCase();
 
                 if(kpIType === 'vtc') {
                     kpi_value=chartData[i]['vtc_100'];
@@ -101,7 +101,7 @@ define(['angularAMD', '../../../common/utils', 'common/services/constants_servic
                                     // here I have used Math.floor , not toFixed(n) because we dont wanted to show rounded off values in tooltip, we just wanted to show
                                     // values till decimal 4 places.
                                    // return_val = ((kpIType === 'CTR' || kpIType === 'action_rate' || kpIType.toLowerCase() === 'action rate' || kpIType.toLowerCase() === 'vtc')) ?  (this.key.y +' : ' + yVal + '%') : (this.key.y +' : ' + constants.currencySymbol + yVal  ) ;
-                                     return_val = ((kpIType === 'CTR' || kpIType.toLowerCase() === 'ctr'|| kpIType === 'action_rate' || kpIType.toLowerCase() === 'action rate'|| kpIType.toLowerCase() === 'vtc')) ? (this.key.y +' : ' + yVal + constants.SYMBOL_PERCENT) : (this.key.y +' : ' + $locale.NUMBER_FORMATS.CURRENCY_SYM  + yVal);
+                                    return_val = ((kpIType === 'ctr'|| kpIType === 'action_rate' || kpIType === 'vtc')) ? (this.key.y +' : ' + yVal + constants.SYMBOL_PERCENT) : (this.key.y +' : ' + $locale.NUMBER_FORMATS.CURRENCY_SYM  + yVal);
                                 }
                                 return "<div id='inventory_tooltip' class='inventory-tool-tip'>" +return_val+ "</div>";
                             } else {
@@ -193,7 +193,7 @@ define(['angularAMD', '../../../common/utils', 'common/services/constants_servic
                         title: {
                             align: 'high',
                             offset: 5,
-                            text: (kpIType.toLowerCase() === 'action_rate' ? 'Action Rate' : kpIType.toUpperCase()),
+                            text: (kpIType === 'action_rate' ? 'Action Rate' : kpIType.toUpperCase()),
                             style :{
                                 color : "#0D6DCC"
                             },
@@ -214,9 +214,9 @@ define(['angularAMD', '../../../common/utils', 'common/services/constants_servic
                                    //  constants.SYMBOL_PERCENT : constants.SYMBOL_DOLLAR;
                                   //   var $returnLabel =  Highcharts.numberFormat(this.value, 2) + currency;
                                    //    return $returnLabel;
-
-                                 var currency = ((kpIType === 'CTR' || kpIType.toLowerCase() === 'ctr'|| kpIType === 'action_rate' || kpIType.toLowerCase() === 'action rate'|| kpIType.toLowerCase() === 'vtc')) ? (Highcharts.numberFormat(this.value, 2) + constants.SYMBOL_PERCENT) :($locale.NUMBER_FORMATS.CURRENCY_SYM + Highcharts.numberFormat(this.value, 2));
-                                 return currency;
+                                var yVal = (Number(this.value) > 0 && Number(this.value) < 1) ? Highcharts.numberFormat(this.value,4):Highcharts.numberFormat(this.value,0);
+                                var currency = ((kpIType === 'ctr'|| kpIType === 'action_rate' || kpIType === 'vtc')) ? (yVal + constants.SYMBOL_PERCENT) :($locale.NUMBER_FORMATS.CURRENCY_SYM + yVal);
+                                return currency;
                                /* } else {
                                     return '';
                                 }*/
