@@ -257,6 +257,24 @@ define(['angularAMD','common/services/vistoconfig_service', 'common/services/con
 
                 return dataService.fetch(url);
             },
+            /*creative Library Flow*/
+            getVendorsAdServer:function(){
+                var clientId =  loginModel.getSelectedClient().id;
+                return dataService.fetch(vistoconfig.apiPaths.WORKFLOW_API_URL  +'/clients/'+clientId+'/vendors?vendorType=ADSERVING');
+            },
+            /*Ad Create Flow*/
+            getAdServers:function(adFormat){
+                var clientId =  loginModel.getSelectedClient().id;
+
+                return dataService.fetch(vistoconfig.apiPaths.WORKFLOW_API_URL  +'/clients/'+clientId+'/vendors?format='+adFormat);
+            },
+            getTemplates:function(adServer,format,isTracking){
+                if(isTracking!== undefined)
+                    return dataService.fetch(vistoconfig.apiPaths.WORKFLOW_API_URL  +'/vendors/'+adServer.id+'/templates?format='+format.replace(/\s+/g, '').toUpperCase()+'&tracking='+isTracking);
+                else
+                    return dataService.fetch(vistoconfig.apiPaths.WORKFLOW_API_URL  +'/vendors/'+adServer.id+'/templates?format='+format.replace(/\s+/g, '').toUpperCase()+'&tracking=false');
+
+            },
 
             getCreativeSizes: function () {
                 return dataService.fetch(vistoconfig.apiPaths.WORKFLOW_API_URL  +'/sizes');
