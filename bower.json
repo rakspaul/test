@@ -36,10 +36,10 @@
     "bootstrap-datepicker": "1.6.0"
   },
   "resolutions": {
-    "angular": "1.2.16",
-    "bootstrap-datepicker": "1.6.0",
-    "angular-bootstrap-show-errors": "^2.3.0",
-    "ng-tags-input": "3.0.0"
+        "angular": "1.2.16",
+        "bootstrap-datepicker": "1.6.0",
+        "angular-bootstrap-show-errors": "^2.3.0",
+        "ng-tags-input": "3.0.0"
+      }
   }
-  }
-}
+
