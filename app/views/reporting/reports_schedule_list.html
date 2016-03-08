@@ -25,15 +25,20 @@
             <div class="scheduled_list_table smallSreenScrollContent">
                 <div class="table-header">
                     <div class="row">
-                        <div class="table-th name-col" ng-bind-html="textConstants.REPORT_NAME" />
-                        <div class="table-th more-options">&nbsp;</div>
-                        <div class="table-th frequency-col sort-icon-holder">
-                            <span ng-click="sortSchdlReport()" ng-bind-html="textConstants.WF_FREQUENCY"/>
+                        <div class="table-th name-col sort-icon-holder">
+                            <span ng-click="sortSchdlReport()" ng-bind-html="textConstants.REPORT_NAME"/>
                             <span class="common-sort-icon" ng-class="(sort.descending?'ascending':'descending')" ></span>
                         </div>
+                        <!--<div class="table-th name-col" ng-bind-html="textConstants.REPORT_NAME" />-->
+                        <div class="table-th more-options">&nbsp;</div>
+                        <div class="table-th frequency-col" ng-bind-html="textConstants.SCHEDULE_LIST_REPORT_TYPE" />
+                        <!--<div class="table-th frequency-col sort-icon-holder">-->
+                            <!--<span ng-click="sortSchdlReport()" ng-bind-html="textConstants.WF_FREQUENCY"/>-->
+                            <!--<span class="common-sort-icon" ng-class="(sort.descending?'ascending':'descending')" ></span>-->
+                        <!--</div>-->
                         <div class="table-th" ng-bind-html="textConstants.COMPLETE_ON"/>
+                        <div class="table-th" ng-bind-html="textConstants.SCHEDULE_LIST_DIMENSIONS"/>
                         <div class="table-th" ng-bind-html="textConstants.CREATED_BY"/>
-                        <div class="table-th" ng-bind-html="textConstants.DISTRIBUTED_TO"/>
 
                     </div>
                 </div>
@@ -71,8 +76,8 @@
                                  'Pending Status':
                                  srlist.instances[0].completedOn | date : 'EEE, MMM d yyyy'">
                             </div>
+                            <div class="table-td" ng-bind-html="srlist.dimensions"></div>
                             <div class="table-td" ng-bind-html="srlist.createdBy"></div>
-                            <div class="table-td" ng-bind-html="srlist.distributionList"></div>
 
                         </div>
                         <div class="inner-row" ng-if="srlist.instances.length > 0" >
@@ -101,8 +106,8 @@
                                 </div>
                                 <div class="table-td frequency-col" ng-bind-html="srlist.frequency"/>
                                 <div class="table-td" ng-bind-html="inst.completedOn | date : 'EEE, MMM d yyyy'"/>
+                                <div class="table-td" ng-bind-html="srlist.dimensions"/>
                                 <div class="table-td" ng-bind-html="srlist.createdBy"/>
-                                <div class="table-td" ng-bind-html="srlist.distributionList"/>
 
                             </div>
                             <div class="row view-all-link"
