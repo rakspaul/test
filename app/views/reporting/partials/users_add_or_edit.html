@@ -51,27 +51,6 @@
                         <!--</div>-->
                     <!--</div>-->
                 <!--</div>-->
-        
-                <div class="form-group col-md-3" style="padding-left: 0; clear: left;"><!--add model also-->
-                    <label >Role:</label>
-                    <select id="role" class="form-control" ng-init="userConsoleFormDetails.roleTemplateId = textConstants.super_admin; isSuperAdmin = true" ng-model="userConsoleFormDetails.roleTemplateId" ng-change="selectedRole(userConsoleFormDetails.roleTemplateId)">
-                        <option value="{{textConstants.super_admin}}"  ng-selected="userConsoleFormDetails.roleTemplateId == textConstants.super_admin">Super Admin</option>
-                        <option value="{{textConstants.account_admin}}" >Account Admin</option>
-                        <option value="{{textConstants.advertiser_admin}}" >Advertiser Admin</option>
-                        <option value="{{textConstants.generic_user}}" >Generic User </option>
-                    </select>
-                </div>
-                
-                <div class="form-group col-md-9" style="padding-right: 0;"><!--add model also-->
-                    <label >Per Page Permission:</label>
-                    <select data-placeholder="Page Permission" class="chosen-select" multiple tabindex="4">
-                        <option value=""></option>
-                        <option value="Media Plans">Media Plans</option>
-                        <option value="Reports">Reports</option>
-                        <option value="Creative">Creative</option>
-                        <option value="New Creative">New Creative</option>
-                    </select>
-                </div>
             </div>
 
 
@@ -142,7 +121,7 @@
                 <!--</div>-->
                 <!---->
             <!--</div>-->
-            <div class="col-md-12 zeroPadding add-filters" ng-repeat="(permissionIndex,item) in permissions track by $index"> <!--$index--{{$index}}-->
+            <div class="col-md-12 add-filters" ng-repeat="(permissionIndex,item) in permissions track by $index"> <!--$index--{{$index}}-->
                 <div class="form-group col-md-3 accounts-multi-dimension" id="id_{{$index}}" style="padding-left: 0;"><!--id_$index---id_{{$index}}-->
                     <label >Accounts:</label>
                     <div class="zeroPadding dropdown-workflow">
@@ -173,69 +152,103 @@
                     <!--</select>-->
                 </div>
                 
-                <div class="form-group col-md-3">
-                    <label> Advertiser Name:</label>
-                    <!--<select class="form-control" name="advertiserName" ng-model="selectedAdvertiser">-->
-                    <!--<select class="form-control" name="advertiserName" ng-init="User.data[$index].advertisers=0" ng-model="User.data[$index].advertisers">-->
-                        <!--<option value="{{advertiser.id}}" ng-repeat="advertiser in userModalData[permissionIndex].Advertisers" ng-selected="{{advertiser.id == 31}}" ng-click="selectAdvertiser()">{{advertiser.name}}</option>-->
-                        <!--&lt;!&ndash;<option value=value="{{advertiser.id}}" ng-repeat="advertiser in userModalData.Advertisers" ng-selected="{{advertiser.id == selectedAdvertiser}}" >{{advertiser.name}}</option>&ndash;&gt;-->
-                    <!--</select>-->
-
-                    <div class="zeroPadding dropdown-workflow">
-                        <div class="dropdown">
-                            <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                <!--<span class="text">{{mode == 'edit' ? selectedAccount : 'Account' }}</span>-->
-                                <span class="text" >{{advertiserName[$index] ? advertiserName[$index] :'Select Advertiser'}}</span>
-                                <span class="icon-arrow-down"></span>
-                            </button>
-                            <ul class="dropdown-menu" aria-labelledby="accountType">
-                                <li ng-repeat="advertiser in userModalData[permissionIndex].Advertisers"><a ng-click="selectAdvertiser(advertiser,permissionIndex)">{{advertiser.name}}</a>
-                                </li>
-                            </ul>
-                            <!--<input type="hidden" name="accountType" ng-model="selectedClient" ng-update-hidden required/>-->
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="form-group col-md-3">
-                    <label >Brand Name:</label>
-                    <!--<select name="brandName" class="form-control" ng-init="User.data[$index].brand=0" ng-model="User.data[$index].brand">-->
-                        <!--<option value="{{brand.id}}" ng-repeat="brand in userModalData.Brands" ng-selected="{{brand.id == 21}}">{{brand.name}}</option>-->
-                    <!--</select>-->
-                    <div class="zeroPadding dropdown-workflow">
-                        <div class="dropdown">
-                            <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                <!--<span class="text">{{mode == 'edit' ? selectedAccount : 'Account' }}</span>-->
-                                <span class="text" >{{brandName[$index] ? brandName[$index] :'Select Brand'}}</span>
-                                <span class="icon-arrow-down"></span>
-                            </button>
-                            <ul class="dropdown-menu" aria-labelledby="accountType">
-                                <li ng-repeat="brand in userModalData[permissionIndex].Brands"><a ng-click="selectBrand(brand,permissionIndex)">{{brand.name}}</a>
-                                </li>
-                            </ul>
-                            <!--<input type="hidden" name="accountType" ng-model="selectedClient" ng-update-hidden required/>-->
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="form-group col-md-3" style="padding-right: 25px;">
-                    <label >Permission:</label>
-                    <select name="accessLevel" class="form-control" ng-init="(!User.data[permissionIndex].accessLevel)?User.data[permissionIndex].accessLevel = 'ADMIN':User.data[permissionIndex].accessLevel" ng-change="setPermissionAccess(permissionIndex,User.data[permissionIndex].accessLevel)" ng-model="User.data[permissionIndex].accessLevel">
-                        <option value="{{perm.value}}" ng-repeat="perm in userModalData.Permission" ng-selected="User.data[permissionIndex].accessLevel == perm.value?true:false" >{{perm.name}}</option>
-                        <!--<option value="ADMIN">Admin</option>-->
-                        <!--<option value="WRITE">Write</option>-->
-                        <!--<option value="READ">Read</option>-->
+                <div class="form-group col-md-9" style="padding-right: 0;"><!--add model also-->
+                    <label >Per Page Permission:</label>
+                    <select data-placeholder="Page Permission" class="chosen-select" multiple tabindex="4">
+                        <option value=""></option>
+                        <option value="All">All</option>
+                        <option value="Media Plans">Media Plans</option>
+                        <option value="Reports">Reports</option>
+                        <option value="Creative">Creative</option>
+                        <option value="New Creative">New Creative</option>
                     </select>
                 </div>
                 
-                <div class="delete_row" ng-click="delete_filter($event, permissionIndex)"></div>
+                <div class="col-md-12 zeroPadding">
+                    <div class="form-group col-md-4" style="padding-left: 0;">
+                        <label> Advertiser Name:</label>
+                        <!--<select class="form-control" name="advertiserName" ng-model="selectedAdvertiser">-->
+                        <!--<select class="form-control" name="advertiserName" ng-init="User.data[$index].advertisers=0" ng-model="User.data[$index].advertisers">-->
+                            <!--<option value="{{advertiser.id}}" ng-repeat="advertiser in userModalData[permissionIndex].Advertisers" ng-selected="{{advertiser.id == 31}}" ng-click="selectAdvertiser()">{{advertiser.name}}</option>-->
+                            <!--&lt;!&ndash;<option value=value="{{advertiser.id}}" ng-repeat="advertiser in userModalData.Advertisers" ng-selected="{{advertiser.id == selectedAdvertiser}}" >{{advertiser.name}}</option>&ndash;&gt;-->
+                        <!--</select>-->
+    
+                        <div class="zeroPadding dropdown-workflow">
+                            <div class="dropdown">
+                                <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                    <!--<span class="text">{{mode == 'edit' ? selectedAccount : 'Account' }}</span>-->
+                                    <span class="text" >{{advertiserName[$index] ? advertiserName[$index] :'Select Advertiser'}}</span>
+                                    <span class="icon-arrow-down"></span>
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="accountType">
+                                    <li ng-repeat="advertiser in userModalData[permissionIndex].Advertisers"><a ng-click="selectAdvertiser(advertiser,permissionIndex)">{{advertiser.name}}</a>
+                                    </li>
+                                </ul>
+                                <!--<input type="hidden" name="accountType" ng-model="selectedClient" ng-update-hidden required/>-->
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group col-md-4">
+                        <label >Brand Name:</label>
+                        <!--<select name="brandName" class="form-control" ng-init="User.data[$index].brand=0" ng-model="User.data[$index].brand">-->
+                            <!--<option value="{{brand.id}}" ng-repeat="brand in userModalData.Brands" ng-selected="{{brand.id == 21}}">{{brand.name}}</option>-->
+                        <!--</select>-->
+                        <div class="zeroPadding dropdown-workflow">
+                            <div class="dropdown">
+                                <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                    <!--<span class="text">{{mode == 'edit' ? selectedAccount : 'Account' }}</span>-->
+                                    <span class="text" >{{brandName[$index] ? brandName[$index] :'Select Brand'}}</span>
+                                    <span class="icon-arrow-down"></span>
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="accountType">
+                                    <li ng-repeat="brand in userModalData[permissionIndex].Brands"><a ng-click="selectBrand(brand,permissionIndex)">{{brand.name}}</a>
+                                    </li>
+                                </ul>
+                                <!--<input type="hidden" name="accountType" ng-model="selectedClient" ng-update-hidden required/>-->
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group col-md-4" style="padding-right: 25px;">
+                        <label>Permission:</label>
+                        <select name="accessLevel" class="form-control" ng-init="(!User.data[permissionIndex].accessLevel)?User.data[permissionIndex].accessLevel = 'ADMIN':User.data[permissionIndex].accessLevel" ng-change="setPermissionAccess(permissionIndex,User.data[permissionIndex].accessLevel)" ng-model="User.data[permissionIndex].accessLevel">
+                            <option value="{{perm.value}}" ng-repeat="perm in userModalData.Permission" ng-selected="User.data[permissionIndex].accessLevel == perm.value?true:false" >{{perm.name}}</option>
+                            <!--<option value="ADMIN">Admin</option>-->
+                            <!--<option value="WRITE">Write</option>-->
+                            <!--<option value="READ">Read</option>-->
+                        </select>
+                    </div>
+                    
+                    <div class="delete_row" ng-click="delete_filter($event, permissionIndex)"></div>
+                    
+                    <div class="col-md-12 zeroPadding">
+                        <a class="btn btn-link pull-left addRowMedia">
+                            <span class="icon-plus"></span>
+                            <span>Add Permission</span>
+                        </a>
+                    </div>
+                </div>
+                <!--<div class="form-group col-md-3" style="padding-left: 0; clear: left;">-->
+                <!--    <label >Role:</label>-->
+                <!--    <select id="role" class="form-control" ng-init="userConsoleFormDetails.roleTemplateId = textConstants.super_admin; isSuperAdmin = true" ng-model="userConsoleFormDetails.roleTemplateId" ng-change="selectedRole(userConsoleFormDetails.roleTemplateId)">-->
+                <!--        <option value="{{textConstants.super_admin}}"  ng-selected="userConsoleFormDetails.roleTemplateId == textConstants.super_admin">Super Admin</option>-->
+                <!--        <option value="{{textConstants.account_admin}}" >Account Admin</option>-->
+                <!--        <option value="{{textConstants.advertiser_admin}}" >Advertiser Admin</option>-->
+                <!--        <option value="{{textConstants.generic_user}}" >Generic User </option>-->
+                <!--    </select>-->
+                <!--</div>-->
             </div>
 
             <div class="clearfix" id="filter-container"></div>
             
-            <div class="add_filter_link" ng-hide="isSuperAdmin">
-              <!--<span addfilterusers ng-click="incrementCounter()">Add Permissions</span>-->
-                <span ng-click="incrementCounter()">Add Permissions</span>
+            <div class="add_filter_link">
+                <!--<span addfilterusers ng-click="incrementCounter()">Add Permissions</span>-->
+                <!--<span ng-click="incrementCounter()">Add Account</span>-->
+                <a class="btn btn-link pull-left addRowMedia">
+                    <span class="icon-plus"></span>
+                    <span ng-click="incrementCounter()">Add Account</span>
+                </a>
             </div>
 
         </div>

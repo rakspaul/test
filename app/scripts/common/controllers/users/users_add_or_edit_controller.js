@@ -2,7 +2,7 @@
 define(['angularAMD', '../../services/constants_service', 'workflow/services/account_service','workflow/directives/ng_update_hidden_dropdown'],function (angularAMD) {
     'use strict';
 
-    angularAMD.controller('UsersAddOrEdit', function($scope, $modalInstance, $rootScope,constants,accountsService) {
+    angularAMD.controller('UsersAddOrEdit', function($scope, $rootScope,constants,accountsService) {
         $scope.permissions = [];
         $scope.isSuperAdmin=true;
         $scope.clientName=[];
