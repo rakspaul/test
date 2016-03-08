@@ -4,7 +4,7 @@
 }
 #creative .each_filter {
   float: left;
-  width: 206px;
+  width: 25%;
   margin: 20px 30px 0 0;
 }
 #creative .page_header_container {
@@ -42,11 +42,22 @@
 }
 #creative .containerWrap .nav_filters .dropdown {
   border: 1px solid #d4d4d4;
-  padding: 5px 10px;
+  padding: 10px 15px;
+  color: #363D49;
+  background-color: #ffffff;
+  font-family: Avenir;
+  border-radius: 2px;
+  border: 1px solid #BFC9D7 !important;
+  position: relative;
 }
 #creative .containerWrap .nav_filters .dropdown .dropdown_name_selected {
   margin-right: 0;
   padding-right: 0;
+}
+#creative .containerWrap .nav_filters .dropdown .dropdown_name_selected p {
+  margin: 0;
+  padding-right: 10px;
+  line-height: 100%;
 }
 #creative .containerWrap .accountTitleTag {
   float: left;
@@ -54,7 +65,6 @@
 }
 #creative .creativeList {
   width: 100%;
-  margin-top: 20px;
   float: left;
 }
 #creative .creativeList .hideRightPanel {
@@ -66,12 +76,12 @@
   width: 100%;
 }
 #creative .creativeList .containerWrap .saveCreativeBtn {
-  margin: -64px 0 0 0;
+  margin: -113px 0 0 0;
 }
 #creative .creativeList .containerWrap .form-group {
-  clear: left;
   padding: 0;
   position: relative;
+  margin-bottom: 0;
 }
 #creative .creativeList .containerWrap .form-group label {
   margin-top: 20px;
@@ -226,7 +236,7 @@
 }
 #inventoryFilters .each_filter {
   float: left;
-  width: 206px;
+  width: 25%;
   margin: 0px 10px 0 0;
 }
 #inventoryFilters .each_filter .nav_filters_heading {
@@ -247,7 +257,13 @@
 }
 #inventoryFilters .containerWrap .nav_filters .dropdown {
   border: 1px solid #d4d4d4;
-  padding: 5px 10px;
+  padding: 10px 15px;
+  color: #363D49;
+  background-color: #ffffff;
+  font-family: Avenir;
+  border-radius: 2px;
+  border: 1px solid #BFC9D7 !important;
+  position: relative;
 }
 #inventoryFilters .containerWrap .nav_filters .dropdown .dropdown_name_selected {
   margin-right: 0;
@@ -548,8 +564,31 @@
   border-top: solid 1px #ccc;
 }
 body div div.nav_filters .dropdown-menu {
-  max-height: none;
-  width: 280px;
+  -webkit-box-shadow: 0 1px 7px rgba(0, 0, 0, 0.15) !important;
+  width: auto;
+  min-width: 100%;
+  max-width: 340px;
+  max-height: 280px;
+  overflow: auto;
+  margin-top: 3px;
+  margin-left: 0;
+  border: 1px solid #ccd2da;
+  border-radius: 1px;
+}
+body div div.nav_filters .dropdown-menu li:hover {
+  color: #21252b;
+  text-decoration: none;
+  background-color: #E1EDF9;
+}
+body div div.nav_filters .dropdown-menu > li > a:hover,
+body div div.nav_filters .dropdown-menu > li > a:focus,
+body div div.nav_filters .dropdown-menu > li > .active > a,
+body div div.nav_filters .dropdown-menu-search > li > a:hover,
+body div div.nav_filters .dropdown-menu-search > li > a:focus,
+body div div.nav_filters .dropdown-menu-search > li > .active > a {
+  color: #21252b !important;
+  text-decoration: none;
+  background-color: #E1EDF9 !important;
 }
 body div div.nav_filters .advertisersList_ul,
 body div div.nav_filters #clientsList {

@@ -320,6 +320,8 @@ define(['common'], function (angularAMD) {
       .when('/creative/add', angularAMD.route({
         templateUrl: assets.html_creative,
         title: 'Add Creative',
+        controller: 'CreativeController',
+        controllerUrl: 'workflow/controllers/creative_controller',
         resolve: {
           'check': function ($location, RoleBasedService) {
             var isWorkflowUser =

@@ -68,6 +68,7 @@ define(['angularAMD','../../common/services/constants_service','workflow/service
 
       if ($location.path() === '/creative/add') {
           $scope.isAddCreativePopup = true;
+          $('html').css('background', '#fff');
           $('.main_navigation')
               .find('.active')
               .removeClass('active')
