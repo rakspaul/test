@@ -1056,8 +1056,11 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                 .delay(300)
                 .animate({
                     left: '50%',
-                    marginLeft: '-325px'
+                    marginLeft: '-325px',
+                    paddingLeft: '30px'
                 }, 'slow');
+            
+            $('.saveCreativeBtn').css('margin','-171px 0 0 0');
 
             $('#creative')
                 .delay(300)

@@ -88,7 +88,7 @@
 						<div class="col-md-3 td">
 						<input type="checkbox" ng-disabled="creativeData.pushedCount>0" ng-checked="creativeData.active" ng-click="selectedCreativeCheckbox(creativeData)"/>
 						<span ng-if="(creativeData.noOfAds > 0)" class="icon-arrow-down-thick" ng-click="toggleCreativeAds(this,creativeData.id, $index,$event)"></span>
-						<span ng-if="(creativeData.noOfAds === 0)" style="margin-left: 25px;"></span>
+						<span ng-if="(creativeData.noOfAds === 0)" style="width: 25px; height: 48px; float: left;"></span>
 						<a href="javascript:void(0);" ng-click="ShowHideTag(creativeData, $index)" data-ng-bind="creativeData.name"></a>
 						<div class="script_tag">
 							<div ng-show = "IsVisible" class="ng-cloak" data-ng-bind="creativeData.tag"></div>

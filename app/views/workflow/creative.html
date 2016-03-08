@@ -6,7 +6,6 @@
                ng-init="init('createAlertMessage','WF_CAMPAIGN_ARCHIVE_FAILURE')"></popup-msg>
     <!-- Header Starts -->
     <div class="page_header_container">
-	<div class="col-md-2 zeroPadding hideRightPanel"></div>
         <div class="col-md-10 containerWrap">
 	    <div class="closeBtnCreative" ng-click="cancelBtn()">
 		<img src="/images/workflow/icon_back.svg" class="pull-left" alt="" height="20" style=""/>
@@ -15,25 +14,21 @@
 	    <div class="col-md-12 zeroPadding">
 		<!--<span class="breadcrumbFlow">Creative Tag Library</span>-->
 		<!--<img src="/assets/images/workflow/arrowBreadcrumbs.png" class="pull-left" alt="" width="10" style="margin: 5px 18px;"/>-->
-		<h2>Add Creative > New Creative</h2>
+		<h2 class="pull-left" style="margin: 0;">Add Creative</h2>
 	    </div>
         </div>
     </div>
     <!-- Header Ends -->
     <!--=== List Starts ===-->
     <div class="creativeList">
-        <div class="col-md-2 zeroPadding hideRightPanel"></div>
-        <div class="col-md-10 containerWrap">
-	    <div class="col-md-12 zeroPadding">
-		<a href="javascript:void(0);" class="helpLink">Adding third party Creative Tag</a>
-	    </div>
-	    <div class="col-md-12 zeroPadding clearfix nav_filters">
-		<creative-drop-down></creative-drop-down>
-	    </div>
+        <div class="col-md-12 containerWrap">
+            <div class="col-md-6 zeroPadding clearfix nav_filters">
+                <creative-drop-down></creative-drop-down>
+            </div>
 
             <form role="form" name="formCreativeCreate" id="formCreativeCreate" novalidate>
-				<div class="col-md-6 zeroPadding pull-right" style="margin-top: -221px;">
-                    <div ng-show="addedSuccessfully" ng-model="addedSuccessfully">{{Message}}</div>
+				<div class="col-md-6 zeroPadding pull-right saveCreativeBtn">
+                    <div ng-show="addedSuccessfully" ng-model="addedSuccessfully" class="text-right">{{Message}}</div>
 					<button type="submit" class="btn btn-primary pull-right" ng-disabled="disableCancelSave" id="saveCreative" > Save Creative</button>
                     <a class="btn btn-link pull-right" role="button" ng-disabled="disableCancelSave" ng-click="cancelBtn()"> Cancel</a>
                 </div>
@@ -119,8 +114,7 @@
 
                 <div ng-hide="$parent.TrackingIntegrationsSelected" class="form-group col-md-12" show-errors>
                     <label for="tag" class="col-md-12 zeroPadding greyTxt">Secure Tag (SSL compatible)</label>
-                    <textarea class="form-control col-md-8 ng-pristine ng-valid" style="width: 66.66666667%;" rows="15" name="tag" id="tag" placeholder="Copy and paste the tag from your ad server" ng-model="tag" required></textarea>
-                    <span class="col-md-4 previewBtn helpLink">Preview</span>
+                    <textarea class="form-control col-md-12 ng-pristine ng-valid" rows="15" name="tag" id="tag" placeholder="Copy and paste the tag from your ad server" ng-model="tag" required></textarea>
 
                     <label ng-if="formCreativeCreate.tag.$error.required" class="col-sm-12 control-label greyTxt errorLabel">{{textConstants.SSL_ERROR_MESSAGE}}</label>
                     <label ng-show="IncorrectTag" class="col-sm-12 control-label customErrorLabel">{{incorrectTagMessage}}</label>

@@ -12,6 +12,9 @@
   margin-top: 30px;
   float: left;
 }
+#creative .page_header_container .hideRightPanel {
+  display: none;
+}
 #creative .page_header_container .closeBtnCreative {
   display: none;
 }
@@ -28,7 +31,7 @@
   margin-left: 20px;
 }
 #creative .containerWrap {
-  padding: 0 0 0 35px;
+  padding: 0;
 }
 #creative .containerWrap span a {
   text-decoration: none;
@@ -54,9 +57,16 @@
   margin-top: 20px;
   float: left;
 }
+#creative .creativeList .hideRightPanel {
+  display: none;
+}
 #creative .creativeList .containerWrap {
-  padding: 0 0 0 35px;
+  padding: 0;
   margin-bottom: 20px;
+  width: 100%;
+}
+#creative .creativeList .containerWrap .saveCreativeBtn {
+  margin: -64px 0 0 0;
 }
 #creative .creativeList .containerWrap .form-group {
   clear: left;
