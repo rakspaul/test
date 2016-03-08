@@ -74,7 +74,7 @@
             <div class="filterList"
                  ng-show="(workflowData.whiteListsSelected && workflowData.selectedWhiteLists.length > 0) ||
                         (workflowData.blackListsSelected && workflowData.selectedBlackLists.length > 0)">
-                <div class="filterHead" >
+                <div class="filterHead">
                     <span class="pull-left"
                           style="width: auto;"
                           ng-bind="inventory.name + ' (' + inventory.domainList.length + ')'">
@@ -112,7 +112,7 @@
                             </li>
                         </ul>
                         <div class="clearfix"
-                             ng-show="inventory.domainList.length >= 3"
+                             ng-show="inventory.domainList.length > 3"
                              style="display: inline-block;">
                             <span ng-click="workflowData.changeDomainNamesDisplay('expanded', inventory.id)"
                                   style="cursor: pointer; color: #0978c9;"

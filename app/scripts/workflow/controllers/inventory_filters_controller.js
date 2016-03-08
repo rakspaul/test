@@ -1,4 +1,5 @@
-define(['angularAMD','workflow/services/workflow_service', 'workflow/services/file_reader', 'workflow/directives/creative_drop_down'],function (angularAMD) {
+define(['angularAMD','workflow/services/workflow_service', 'workflow/services/file_reader', 'workflow/directives/creative_drop_down'],
+    function (angularAMD) {
   angularAMD.controller('InventoryFiltersController', function($scope, workflowService, fileReader, Upload) {
 
         var InventoryFiltersView = {
@@ -152,7 +153,7 @@ define(['angularAMD','workflow/services/workflow_service', 'workflow/services/fi
                     }
 
                     fileReader.readAsText($scope.files[0], $scope)
-                        .then( function(result) {
+                        .then(function (result) {
                             // Separators are (\n) new line & comma (,)
                             // 1. Convert into array using new line as separator
                             result = result.split('\n');
@@ -164,8 +165,29 @@ define(['angularAMD','workflow/services/workflow_service', 'workflow/services/fi
                             result = _.compact(result);
                             // 5. Trim all leading / trailing blanks from strings
                             result = result.map(Function.prototype.call, String.prototype.trim);
-
+                            // 6. Sort the array
+                            result.sort();
+                            // 7. Check & remove duplicates if any.
+                            if (hasDuplicates(result)) {
+                                result = _.uniq(result, true);
+                                // TODO: Display info popup fadeout to display "Duplicate domain names have been removed."
+                            }
                             $scope.workflowData.csvFileContents = result;
+
+                            function hasDuplicates(array) {
+                                var valuesSoFar = [],
+                                    i,
+                                    value;
+
+                                for (i = 0; i < array.length; ++i) {
+                                    value = array[i];
+                                    if (value in valuesSoFar) {
+                                        return true;
+                                    }
+                                    valuesSoFar[value] = true;
+                                }
+                                return false;
+                            }
                         });
                 }
             }
@@ -282,6 +304,7 @@ define(['angularAMD','workflow/services/workflow_service', 'workflow/services/fi
             }
 
             $scope.inventoryNew.reverseOrder = !$scope.inventoryNew.reverseOrder;
+            console.log($scope.workflowData.selectedLists[idx].reverseOrder)
         };
 
         $scope.closeDomainListPop = function () {
