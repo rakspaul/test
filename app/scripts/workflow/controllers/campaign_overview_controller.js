@@ -483,7 +483,7 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
         }
 
         $scope.createIndependantAdsGroup = function () {
-            console.log($scope.tags);
+            console.log(_.pluck($scope.tags, "label"));
             //api call here to group individual ads into a group
             $scope.$broadcast('show-errors-check-validity');
             if ($scope.createIndependantAdsGrp.$valid){
@@ -496,6 +496,7 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
                 postCreateAdObj.endTime = momentService.localTimeToUTC(formData.highestEndTime,'endTime');
                 postCreateAdObj.createdAt = "";
                 postCreateAdObj.updatedAt = "";
+                postCreateAdObj.label = _.pluck($scope.tags, "label");
                 postCreateAdObj.id="-9999";
 
                 var dataArray = new Array;
