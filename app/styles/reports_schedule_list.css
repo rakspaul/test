@@ -57,7 +57,7 @@
   width: 65px ;
   padding-left: 5px;
   padding-right: 0;
-  border-left:1px none #edf2f8;
+  border-left: 1px none #edf2f8;
 }
 .reports-scheduled-list .scheduled_list_table .common-sort-icon {
   display: inline-block;
@@ -88,8 +88,8 @@
   min-width: 140px;
   top: 62%;
   width: 140px;
-  border-color: #dde6eb;
-  border-radius:3px;
+  border-color: #dde6eb ;
+  border-radius: 3px;
 }
 .reports-scheduled-list .scheduled_list_table .table-td.more-options .dropdown .dropdown-menu li {
   padding: 5px 15px;
@@ -99,10 +99,10 @@
   background: #edf2f8 ;
 }
 .reports-scheduled-list .scheduled_list_table .table-td.more-options .dropdown:hover {
-  background: #edf2f8 ;
+  background: #dde6eb ;
 }
 .reports-scheduled-list .scheduled_list_table .table-td.more-options .dropdown.open {
-  background: #edf2f8 ;
+  background: #dde6eb ;
 }
 .reports-scheduled-list .scheduled_list_table .option-horizontal {
   text-align: center;

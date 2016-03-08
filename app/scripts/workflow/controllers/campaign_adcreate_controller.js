@@ -1337,27 +1337,40 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
         };
 
         $scope.triggerbudgetTab = function () {
-            angular.element('.budget-tab-link').trigger('click');
+            $timeout(function() {
+                $('a[data-target="#setting"]').trigger('click');
+            }, 100);
+
         };
 
         $scope.triggerPlatformTab = function () {
-            angular.element('.buying-platform-tab-link').trigger('click');
+            $timeout(function() {
+                $('a[data-target="#buying"]').trigger('click');
+            }, 100);
         };
 
         $scope.triggerTargetting = function () {
-            angular.element('.targetting-tab-link').trigger('click');
+            $timeout(function() {
+                $('a[data-target="#targetting"]').trigger('click');
+            }, 100);
         };
 
         $scope.triggerInventory = function () {
-            angular.element('.inventory-tab-link').trigger('click');
+            $timeout(function() {
+                $('a[data-target="#inventoryView"]').trigger('click');
+            }, 100);
         };
 
         $scope.trigerCreativeTag = function () {
-            angular.element('.creative-tab-link').trigger('click');
+            $timeout(function() {
+                $('a[data-target="#creative"]').trigger('click');
+            }, 100);
         };
 
         $scope.changePlatform = function (platformId) {
-            $scope.$broadcast('renderTargetingUI', platformId);
+            $timeout(function() {
+                $scope.$broadcast('renderTargetingUI', platformId);
+            }, 100);
         };
 
         $scope.showPopup = function () {
@@ -1541,11 +1554,8 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                 .addClass('active');
 
             $(target).css('bottom', '-' + $(window).width() + 'px');
-            bottom = $(target).offset().bottom;
 
-            $(target)
-               // .css({bottom: bottom})
-                .animate({'bottom': '0px'}, '10');
+            $(target).animate({'bottom': '0px'}, '10');
 
             $scope.$broadcast('closeAddCreativePage');
             $scope.$broadcast('switchPlatformFunc');
