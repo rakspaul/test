@@ -64,6 +64,7 @@ define(['angularAMD','workflow/services/workflow_service', 'workflow/services/fi
                             _.each($scope.workflowData.inventoryData, function (obj) {
                                 obj.checked = false;
                             });
+                            $scope.workflowData.whiteListsSelected = true;
                         }
                     });
             }

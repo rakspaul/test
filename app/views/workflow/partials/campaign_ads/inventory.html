@@ -151,7 +151,9 @@
             <div class="thick-margin"></div>
             <div class="headerLib">
                 <span class="icon-close closePopBtn" aria-hidden="true" ng-click="closeDomainListPop()"></span>
-                <h1 data-ng-bind="textConstants.UPLOADLIST"></h1>
+                <h1 ng-bind="workflowData.whiteListsSelected ?
+                    textConstants.UPLOAD_WHITE_LIST :
+                    textConstants.UPLOAD_BLACK_LIST"></h1>
                 <div class="pop-list">
                     <div class="filterHead">
                         <div class="sort-icon-holder active" ng-click="workflowData.sortInventoryNew();"
@@ -192,56 +194,6 @@
                             </label>
                         </div>
                     </div>
-                    <div class="categoryDDL">
-                        <label class="col-sm-12 control-label greyTxt miniLabels"
-                               data-ng-bind="textConstants.CATEGORY">
-                        </label>
-                        <div class="form-group col-md-12 zeroPadding">
-                            <select class="form-control" id="inventoryCat" disabled>
-                                <option value="" data-ng-bind="textConstants.DOMAINLIST" disabled></option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="radioBtnToggle">
-                        <label class="col-sm-12 control-label greyTxt miniLabels"
-                               data-ng-bind="textConstants.TYPE">
-                        </label>
-                        <div class="btn-group miniToggle">
-                            <label class="btn btn-default
-                                        {{adData.inventory.domainAction === 'INCLUDE' ? ' active' : ''}}
-                                        {{!inventoryCreate ? ' disabled' : ''}}">
-                                <span data-ng-bind="textConstants.WHITELIST"></span>
-                                <input type="radio"
-                                       name="inventoryType"
-                                       value="INCLUDE"
-                                       ng-disabled="!inventoryCreate  ?  true : false"
-                                       ng-model="adData.inventory.domainAction"
-                                       ng-checked="adData.inventory.domainAction === 'INCLUDE' ? true : false"
-                                       class="btn_rad"
-                                       hidden="hidden"
-                                       ng-click="workflowData.toggleBlackAndWhite($event);">
-                            </label>
-                            <label class="btn btn-default
-                                        {{adData.inventory.domainAction === 'EXCLUDE' ? ' active' : ''}}
-                                        {{!inventoryCreate ? ' disabled' : ''}}">
-                                <span data-ng-bind="textConstants.BLACKLIST"></span>
-                                <input type="radio"
-                                       name="inventoryType"
-                                       value="EXCLUDE"
-                                       ng-disabled="!inventoryCreate ?  true : false"
-                                       ng-model="adData.inventory.domainAction"
-                                       ng-checked="adData.inventory.domainAction === 'EXCLUDE' ? true : false"
-                                       hidden="hidden"
-                                       class="btn_rad"
-                                       ng-click="workflowData.toggleBlackAndWhite($event);">
-                            </label>
-                        </div>
-                        <div class="grey_txt note"
-                             style="margin-top: 4px;"
-                             ng-if="!inventoryCreate"
-                             data-ng-bind="textConstants.LISTYPEMOD">
-                        </div>
-                    </div>
                 </div>
             </div>
             <div class="col-md-12 popFooter">
@@ -272,7 +224,7 @@
                       ng-click="saveCancelExistingListPopup('cancel')">
                 </span>
                 <h1 ng-bind="'Select from Existing ' +
-                                (adData.inventory.domainAction === 'INCLUDE' ? 'Whitelist' : 'Blacklist')">
+                                (adData.inventory.domainAction === 'INCLUDE' ? 'Whitelists' : 'Blacklists')">
                 </h1>
             </div>
             <div class="popBody">

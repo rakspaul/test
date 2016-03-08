@@ -1,0 +1,24 @@
+com.typesafe.sbt.jse.SbtJsTask$JsTaskFailure: TypeError: Cannot read property "contents" from undefined (/Users/laldinglianat/projects/crpt-ui/node_modules/less/lib/less/parser/parser.js#117)	at /Users/laldinglianat/projects/crpt-ui/node_modules/less/lib/less/parser/parser.js:117 (anonymous)
+	at /Users/laldinglianat/projects/crpt-ui/project/target/less/sbt-less-1.0.5.jar:97 (anonymous)
+	at /Users/Apigee/src/noderunner/node10/node10src/src/main/javascript/io/apigee/trireme/node10/node/fs.js:266 (anonymous)
+	at /Users/Apigee/src/noderunner/node10/node10src/src/main/javascript/io/apigee/trireme/node10/node/fs.js:107 (anonymous)
+	at /Users/Apigee/src/noderunner/node10/node10src/src/main/javascript/io/apigee/trireme/node10/main/trireme.js:805 (submitTick)
+
+	at com.typesafe.sbt.jse.SbtJsTask$$anonfun$com$typesafe$sbt$jse$SbtJsTask$$executeJsOnEngine$1.apply(SbtJsTask.scala:195)
+	at com.typesafe.sbt.jse.SbtJsTask$$anonfun$com$typesafe$sbt$jse$SbtJsTask$$executeJsOnEngine$1.apply(SbtJsTask.scala:167)
+	at scala.util.Success$$anonfun$map$1.apply(Try.scala:206)
+	at scala.util.Try$.apply(Try.scala:161)
+	at scala.util.Success.map(Try.scala:206)
+	at scala.concurrent.Future$$anonfun$map$1.apply(Future.scala:235)
+	at scala.concurrent.Future$$anonfun$map$1.apply(Future.scala:235)
+	at scala.concurrent.impl.CallbackRunnable.run(Promise.scala:32)
+	at scala.concurrent.impl.ExecutionContextImpl$$anon$3.exec(ExecutionContextImpl.scala:107)
+	at scala.concurrent.forkjoin.ForkJoinTask.doExec(ForkJoinTask.java:260)
+	at scala.concurrent.forkjoin.ForkJoinPool$WorkQueue.runTask(ForkJoinPool.java:1339)
+	at scala.concurrent.forkjoin.ForkJoinPool.runWorker(ForkJoinPool.java:1979)
+	at scala.concurrent.forkjoin.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:107)
+[0m[[31merror[0m] [0m(web-assets:[31mless[0m) com.typesafe.sbt.jse.SbtJsTask$JsTaskFailure: TypeError: Cannot read property "contents" from undefined (/Users/laldinglianat/projects/crpt-ui/node_modules/less/lib/less/parser/parser.js#117)	at /Users/laldinglianat/projects/crpt-ui/node_modules/less/lib/less/parser/parser.js:117 (anonymous)[0m
+[0m[[31merror[0m] [0m	at /Users/laldinglianat/projects/crpt-ui/project/target/less/sbt-less-1.0.5.jar:97 (anonymous)[0m
+[0m[[31merror[0m] [0m	at /Users/Apigee/src/noderunner/node10/node10src/src/main/javascript/io/apigee/trireme/node10/node/fs.js:266 (anonymous)[0m
+[0m[[31merror[0m] [0m	at /Users/Apigee/src/noderunner/node10/node10src/src/main/javascript/io/apigee/trireme/node10/node/fs.js:107 (anonymous)[0m
+[0m[[31merror[0m] [0m	at /Users/Apigee/src/noderunner/node10/node10src/src/main/javascript/io/apigee/trireme/node10/main/trireme.js:805 (submitTick)[0m
