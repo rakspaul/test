@@ -35,6 +35,7 @@ module.exports =function(grunt) {
                     '.htaccess',
                     'images/{,*/}*.webp',
                     '{,*/}*.html',
+                    '!*.master.html',
                     'fonts/{,*/}*.*',
                     'views/**',
                     'conf/{,*/}*.*',
@@ -48,7 +49,7 @@ module.exports =function(grunt) {
             dot: true,
             cwd: '<%= cvars.app %>/styles',
             dest: '<%= cvars.dist %>/styles/',
-            src: ['**']
+            src: '{,*/}*.css'
         }
     };
     grunt.config('copy', config);

@@ -108,11 +108,14 @@ define(['angularAMD'], function (angularAMD) {
         this.COLLECTIVE_INSIGHTS = "Collective Insights";
         this.UPLOAD_REPORT = "Upload Report";
         this.REPORT_LABEL ='Report';
+        this.SELECT_DIMENTION ='Select Dimension(s)';
+
         this.SCHEDULED_REPORTS = "Scheduled Reports";
         this.SCHEDULE_LABEL = 'Schedule';
         this.GENERATE_LABEL ='Generate';
         this.RESET_LABEL ='Reset';
         this.SET_SCHEDULE = 'Set Schedule';
+        this.SAVE_SCHEDULE = 'Save/Schedule';
         this.NEW_REPORT = 'New Report';
         this.SCHEDULE_DELIVER_ON = 'Deliver on';
         this.SCHEDULE_OCCURS_ON= 'Occurs on';
@@ -122,7 +125,10 @@ define(['angularAMD'], function (angularAMD) {
         this.SCHEDULE_START_DATE_LABEL ='Starts on';
         this.SCHEDULE_END_DATE_LABEL ='Ends on';
         this.SCHEDULER_UPDATE = 'Do you want to update the Schedule report ?';
-        this.REPORT_BUILDER_TIMEFRAME ='Timeframe';
+        this.REPORT_BUILDER_TIMEFRAME ='Select Timeframe';
+        this.SCHEDULE_LIST_REPORT_TYPE = "Report Types";
+        this.SCHEDULE_LIST_DATE = "Report Generated";
+        this.SCHEDULE_LIST_DIMENSIONS = "Dimensions";
         this.REPORT_CHOOSE_BREAKDOWN = 'Choose Breakdown';
         this.REPORT_ADDITIONAL_FILTERS = 'Additional Filters';
         this.REPORT_ADD_FILTERS = 'Add Filters';
@@ -296,6 +302,7 @@ define(['angularAMD'], function (angularAMD) {
         this.FLIGHT_DATES = "Flight Dates";
         this.METRICS_LIFE_TIME = "Metrics (Lifetime)";
         this.METRICS = "Metrics";
+        this.SELECTED_METRICS = "Selected Metrics";
         this.LOAD_MORE_STRATEGIES = "Load More Ad Groups";
         this.LOAD_MORE_TACTICS = "Load More Ads";
 
@@ -505,6 +512,7 @@ define(['angularAMD'], function (angularAMD) {
         this.YESTERDAY = 'Yesterday';
         this.WF_NOT_SET='Not Set';
         this.REPORT_BUILDER = 'Report Builder';
+        this.REPORT_BUILDER_SUBTITLE = 'Select Dimension(s), Timeframe and any additional parameters to generate your report';
         this.CREATED_BY = 'Created by';
         this.DISTRIBUTED_TO = 'Distributed to';
         this.REPORT_NAME = 'Report Name';

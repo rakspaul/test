@@ -3314,8 +3314,7 @@ div.strategy_total_container {
   background-attachment: fixed;
   background-size: cover;
   background-color: #070817 ;
-  z-index: 1005;
-
+  z-index: 9999999;
   .login_copyright_holder {
     color:  #939ead;
     font-size: 14px;
@@ -3757,8 +3756,14 @@ only screen and (min-device-pixel-ratio: 2) {
       h3 {
         font-size: 21px ;
         color: #000 ;
-        margin: 30px 0 20px;
+        margin: 30px 0px 20px;
+        font-weight:bold;
       }
+        h6 {
+            font-size: 14px ;
+            color: #000 ;
+            margin: 37px 147px 20px;
+        }
     }
     .common_dropdown .dropdown {
         border-color: #BFC9D7 ;
@@ -3837,7 +3842,7 @@ only screen and (min-device-pixel-ratio: 2) {
       }
     }
     .each_section_custom_report.metrics_section {
-      margin-top: 60px ;
+      margin-top: 0px ;
     }
     .create_report_title  {
       color: #000 ;
@@ -4599,7 +4604,11 @@ body.custom_report_page {
 @media (min-width: 560px) {
     .left_border {
       border-left: solid 1px #ccc ;
-      padding : 0 0 25px 80px ;
+      padding : 0 0 25px 32px ;
+    }
+    .left_border_metrics {
+        border-left: solid 1px #ccc ;
+        padding : 0 0 25px 33px ;
     }
 }
 @media (max-width: 560px) {

@@ -5,14 +5,15 @@
     <div class="report_builder_container">
         <div class="container">
             <div class="row">
-                <div class="col-md-12 heading">
-                    <h3 ng-bind-html="textConstants.REPORT_BUILDER"></h3>
+                <div class="col-md-12">
+                    <span class="heading" style="float:left;"><h3 ng-bind-html="textConstants.REPORT_BUILDER"></h3></span>
+                    <span class="heading"><h6 ng-bind-html="textConstants.REPORT_BUILDER_SUBTITLE"></h6></span>
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-4">
                     <div class="each_section_custom_report">
-                        <div class="create_report_title" ng-bind-html="textConstants.REPORT_LABEL"></div>
+                        <div class="create_report_title" ng-bind-html="textConstants.SELECT_DIMENTION"></div>
                         <div>
                             <!-- Primary Dimension start -->
                             <div class="clearfix title_row_separator breakdown_div dimension_block">
@@ -102,7 +103,10 @@
                             </div>
                         </div>
                     </div>
-                    <div class="each_section_custom_report">
+                </div>
+                <!-- div class 1st column over -->
+                <div class="col-md-6 left_border">
+                     <div class="each_section_custom_report">
                         <div class="create_report_title" ng-bind-html="textConstants.REPORT_BUILDER_TIMEFRAME"></div>
                         <div>
                             <div class="clearfix title_row_separator customDatesTimeframe">
@@ -157,74 +161,14 @@
                                     </div>
                                 </div>
                             </div>
-
-
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6 left_border">
-                    <div class="each_section_custom_report">
-                        <div class="create_report_title" ng-bind-html="textConstants.REPORT_ADDITIONAL_FILTERS"></div>
-                        <div class="additional_filters_holder">
-                            <div id="filter_breakdown_row" ng-repeat="addFilts in additionalFilters track by $index">
-                                <!-- sapna -->
-                                <div class="clearfix custom_filter_breakdown breakdown_div">
-                                    <div class="pull-left custom_filter_dropdown custom_report_breakdown">
-                                        <div class="common_dropdown">
-                                            <div class="dropdown">
-													<span class="dropdown_ul_text" data-toggle="dropdown">
-                                                        <span class="dd_txt"
-                                                              ng-bind-html="addFilts.name ?
-                                                              addFilts.name :
-                                                              textConstants.CHOOSE_FILTER">
-                                                        </span>
-                                                        <span class="arrow_img"></span>
-                                                    </span>
-                                                <ul class="dropdown-menu">
-                                                    <div class="dropdown_autoselect_box">
-                                                        <input ng-click="addSearch($event)"
-                                                               type="text"
-                                                               ng-model="dimensionQuery"
-                                                               placeHolder="Search">
-                                                    </div>
-                                                    <li ng-repeat="dimension in customeDimensionData[0].dimensions
-														    | filter:dimensionQuery"
-                                                        id="{{dimension.key}}"
-                                                        ng-click="onChoosingAditFlts($parent.$index,
-                                                            dimension.key, dimension.value);"
-                                                        ng-model="addFilts.key"
-                                                        ng-bind-html="dimension.value">
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="pull-left filter_input_txtbox">
-                                        <input type="text"
-                                               name="filter"
-                                               class="reportFilter"
-                                               ng-model="addFilts.value"
-                                               ng-hide="addFilts.hide"
-                                               autofocus
-                                               placeholder="Contains keywords ...">
-                                    </div>
-                                    <div class="pull-left delete_row" ng-click="delAditFlt($index);"></div>
-                                </div>
-                                <!-- sapna -->
-                            </div>
-                            <div class="clearfix title_row_separator">
-                                <div class="pull-left additional_filters_label">
-                                    <div class="pull-left add_circle_symbol"></div>
-                                    <div ng-click="addAdditionalFilters()"
-                                         class="pull-left blue_txt"
-                                         ng-bind-html="textConstants.REPORT_ADD_FILTERS">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                <!-- div class 2nd column over -->
+                <!-- 3rd column Metrics -->
+                <div class="col-md-2 left_border_metrics">
                     <div class="each_section_custom_report metrics_section">
-                        <div class="create_report_title">Metrics</div>
+                        <div class="create_report_title" ng-bind="textConstants.SELECTED_METRICS"></div>
                         <div class="metrics_btns">
                             <div class="clearfix title_row_separator">
                                 <div class="pull-left metrics_edit_container">
@@ -461,13 +405,86 @@
                         </div>
                     </div>
                 </div>
+                <!-- div class 3rd col over -->
+
+
+
             </div>
+            <!-- first row over -->
+
+            <!-- Start 2nd Row Additional Filters -->
+            <div class="col-md-12">
+                <div class="each_section_custom_report">
+                    <div class="create_report_title" ng-bind-html="textConstants.REPORT_ADDITIONAL_FILTERS"></div>
+                    <div class="additional_filters_holder">
+                        <div id="filter_breakdown_row" ng-repeat="addFilts in additionalFilters track by $index">
+                            <!-- sapna -->
+                            <div class="clearfix custom_filter_breakdown breakdown_div">
+                                <div class="pull-left custom_filter_dropdown custom_report_breakdown">
+                                    <div class="common_dropdown">
+                                        <div class="dropdown">
+													<span class="dropdown_ul_text" data-toggle="dropdown">
+                                                        <span class="dd_txt"
+                                                              ng-bind-html="addFilts.name ?
+                                                              addFilts.name :
+                                                              textConstants.CHOOSE_FILTER">
+                                                        </span>
+                                                        <span class="arrow_img"></span>
+                                                    </span>
+                                            <ul class="dropdown-menu">
+                                                <div class="dropdown_autoselect_box">
+                                                    <input ng-click="addSearch($event)"
+                                                           type="text"
+                                                           ng-model="dimensionQuery"
+                                                           placeHolder="Search">
+                                                </div>
+                                                <li ng-repeat="dimension in customeDimensionData[0].dimensions
+														    | filter:dimensionQuery"
+                                                    id="{{dimension.key}}"
+                                                    ng-click="onChoosingAditFlts($parent.$index,
+                                                            dimension.key, dimension.value);"
+                                                    ng-model="addFilts.key"
+                                                    ng-bind-html="dimension.value">
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="pull-left filter_input_txtbox">
+                                    <input type="text"
+                                           name="filter"
+                                           class="reportFilter"
+                                           ng-model="addFilts.value"
+                                           ng-hide="addFilts.hide"
+                                           autofocus
+                                           placeholder="Contains keywords ...">
+                                </div>
+                                <div class="pull-left delete_row" ng-click="delAditFlt($index);"></div>
+                            </div>
+                            <!-- sapna -->
+                        </div>
+                        <div class="clearfix title_row_separator">
+                            <div class="pull-left additional_filters_label">
+                                <div class="pull-left add_circle_symbol"></div>
+                                <div ng-click="addAdditionalFilters()"
+                                     class="pull-left blue_txt"
+                                     ng-bind-html="textConstants.REPORT_ADD_FILTERS">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <!-- End 2nd Row Additional Filters -->
+
+            <!-- 3rd Row Save/Schedule -->
             <div class="row create_scheduled_report">
                 <div class="col-md-12  each_section_custom_report">
-                    <div class="create_report_title">{{textConstants.SCHEDULE_LABEL}}
+                    <div class="create_report_title">
                         <div class="clearfix scheduled_report_fields">
                             <div class="each-col" id="schedule-btn">
-                                <div class="label-txt" ng-bind-html="textConstants.SET_SCHEDULE"></div>
+                                <div class="label-txt" ng-bind-html="textConstants.SAVE_SCHEDULE"></div>
                                 <div class="schedule-on-off-btn">
                                     <input type="checkbox"
                                            ng-model="scheduleReportActive"
@@ -477,6 +494,21 @@
                                            data-off=" ">
                                 </div>
                             </div>
+                            <!-- SAVE/SCHEDULE TOGGELE BUTTON MARK UP -->
+                            <!--<div class="each-col default-schedule-col radioBtnToggle">
+                                <div class="label-txt">{{textConstants.REPORT_NAME}}</div>
+                                <div class="btn-group miniToggle">
+                                    <label class="btn btn-default whitelist active" style="width: auto;">
+                                        <span>Save As</span>
+                                        <input type="radio" name="saveSchedule" group="budgetGroup" value="Save As" ng-model="adData.inventory.domainAction" ng-checked="adData.inventory.domainAction === 'INCLUDE' ? true : false" hidden="hidden" class="" ng-click="workflowData.toggleBlackAndWhite($event);" checked="checked">
+                                    </label>
+                                    <label class="btn btn-default blacklist" style="width: auto;">
+                                        <span>Schedule As</span>
+                                        <input type="radio" name="saveSchedule" group="budgetGroup" value="Schedule As" ng-model="adData.inventory.domainAction" ng-checked="adData.inventory.domainAction === 'EXCLUDE' ? true : false" hidden="hidden" class="" ng-click="workflowData.toggleBlackAndWhite($event);">
+                                    </label>
+                                </div>
+                            </div> -->
+
                             <div class="each-col default-schedule-col report-name-col">
                                 <div class="label-txt">{{textConstants.REPORT_NAME}}</div>
                                 <div>

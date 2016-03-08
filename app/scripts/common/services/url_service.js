@@ -214,7 +214,7 @@ define(['angularAMD','common/services/vistoconfig_service', 'common/services/con
 
         this.scheduleReportsList = function () {
             var clientId =  loginModel.getSelectedClient().id;
-            return vistoconfig.apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId + '/scheduledreports/listReports';
+            return vistoconfig.apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId + '/reports/listReports';
            // return "http://ampqaapp001.ewr004.collective-media.net/api/reporting/v3/clients/2/scheduledreports/listReports";
         }
 

@@ -47,7 +47,7 @@ define(['angularAMD','reporting/timePeriod/time_period_model', 'common/services/
         $('.input-daterange').datepicker({
             //format: "dd-mm-yyyy",
             format: "yyyy-mm-dd",
-            orientation: "top right",
+            orientation: "top auto",
             autoclose: true,
             todayHighlight: true,
             keyboardNavigation: false,

@@ -46,7 +46,6 @@ module.exports = function (grunt) {
         'watch'
     ]);
 
-
     grunt.registerTask('build', [
         'clean:dist',
         'concurrent:dist',
@@ -54,9 +53,11 @@ module.exports = function (grunt) {
         'copy:dist',
         //'rev',
         //'usemin',
-        //'htmlmin',
-        'preprocess:'+env,
-        'connect:server'
+        'htmlmin',
+        'preprocess:'+env
     ]);
 
+    grunt.registerTask('start', [
+       'connect:server'
+    ]);
 };
