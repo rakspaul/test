@@ -83,65 +83,7 @@
                             </div>
                         </div>
                     </div>
-<<<<<<< HEAD
-                </div>
 
-                <!--&lt;!&ndash;Format Label for ad create page instead of dropdown&ndash;&gt;-->
-                <!--<div ng-if="adPage" class="form-group col-md-3">-->
-                    <!--<label for="sel1" class="greyTxt">Format</label>-->
-                    <!--<div class="col-md-12 zeroPadding dropdown-workflow">-->
-                        <!--<div ng-if="adPage" class="btn btn-default label-btn" ng-bind-html="formatLabel"></div>-->
-                        <!--<input  type="hidden" name="creativeFormat" ng-model="formatLabel"  ng-update-hidden  />-->
-                    <!--</div>-->
-                <!--</div>-->
-                <!--&lt;!&ndash;Dropdown selection for creative create&ndash;&gt;-->
-                <!--<div ng-if="!adPage" class="form-group col-md-3" show-errors='{showSuccess: true}'>-->
-                    <!--<label for="sel1" class="greyTxt">Format</label>-->
-                    <!--<div class="col-md-12 zeroPadding dropdown-workflow">-->
-                        <!--<div class="dropdown">-->
-                            <!--<button class="btn btn-default dropdown-toggle" type="button" id="formatType" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">-->
-                                 <!--<span class="text">{{adData.creativeFormat ? adData.creativeFormat.name :  'Select Format'}}</span>-->
-                                 <!--<span class="icon-arrow-down"></span>-->
-                            <!--</button>-->
-                            <!--<ul class="dropdown-menu" aria-labelledby="formatType">-->
-                               <!--<li ng-class="{disabled : !adformat.active, available : adformat.active}" ng-repeat="adformat in creativeSizeData.adFormats track by adformat.id"><a ng-click="adformat.active ? dropBoxItemSelected(adformat, 'creativeFormat') : '' ">{{adformat.name}}</a></li>-->
-                            <!--</ul>-->
-                        <!--</div>-->
-                        <!--<input  type="hidden" name="creativeFormat" ng-model="adData.creativeFormat.name"  ng-update-hidden  required/>-->
-		            <!--</div>-->
-                    <!--<label ng-if="formCreativeCreate.creativeFormat.$error.required" class="col-sm-12 control-label greyTxt errorLabel">{{textConstants.WF_MANDATORY_CREATIVE_FORMAT}}</label>-->
-                <!--</div>-->
-
-                <!--Dropdown selection for Ad server-->
-                <!--<div class="form-group col-md-3" show-errors='{showSuccess: true}'>-->
-                    <!--<label for="sel1" class="greyTxt">Ad server</label>-->
-                    <!--<div class="col-md-12 zeroPadding dropdown-workflow">-->
-                        <!--<div class="dropdown">-->
-                            <!--<button class="btn btn-default dropdown-toggle" type="button" id="formatType" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">-->
-                                <!--<span class="text">{{adData.adServer ? adData.adServer.name :  'Select Format'}}</span>-->
-                                <!--<span class="icon-arrow-down"></span>-->
-                            <!--</button>-->
-                            <!--<ul class="dropdown-menu" aria-labelledby="formatType">-->
-                                <!--<li><a href="#"><span class="icon-image"></span>Display</a></li>-->
-                                <!--<li><a href="#"><span class="icon-rich-media"></span>Rich Media</a></li>-->
-                                <!--<li><a href="#"><span class="icon-video"></span>Video</a></li>-->
-                            <!--</ul>-->
-                        <!--</div>-->
-                        <!--<input  type="hidden" name="creativeFormat" ng-model="adData.creativeFormat.name"  ng-update-hidden  required/>-->
-                    <!--</div>-->
-                    <!--<label ng-if="formCreativeCreate.creativeFormat.$error.required" class="col-sm-12 control-label greyTxt errorLabel">{{textConstants.WF_MANDATORY_CREATIVE_FORMAT}}</label>-->
-                <!--</div>-->
-
-
-
-                <div ng-hide="$parent.TrackingIntegrationsSelected" class="form-group col-md-12" show-errors>
-                    <label for="tag" class="col-md-12 zeroPadding greyTxt">Secure Tag (SSL compatible)</label>
-                    <textarea class="form-control col-md-12 ng-pristine ng-valid" rows="15" name="tag" id="tag" placeholder="Copy and paste the tag from your ad server" ng-model="tag" required></textarea>
-
-                    <label ng-if="formCreativeCreate.tag.$error.required" class="col-sm-12 control-label greyTxt errorLabel">{{textConstants.SSL_ERROR_MESSAGE}}</label>
-                    <label ng-show="IncorrectTag" class="col-sm-12 control-label customErrorLabel">{{incorrectTagMessage}}</label>
-                </div>
-=======
                     <div class="form-group col-md-5" show-errors>
                         <label for="sel1" class="greyTxt">Ad Server</label>
                         <div class="col-md-12 zeroPadding dropdown-workflow">
@@ -160,7 +102,6 @@
                         </div>
                         <label ng-if="formCreativeCreate.creativeAdServer.$error.required" class="col-sm-12 control-label greyTxt errorLabel" style="margin: 0;">Please select the Ad Server size.</label>
                     </div>
->>>>>>> sprint-1609
 
                     <!--Ad format Type-->
                     <div class="col-md-12 zeroPadding adFormatChkBox">
