@@ -20,7 +20,6 @@ module.exports =function(grunt) {
                 compress: true,
                 cleancss: true,
                 optimization: 2,
-                sourceMap: true
             },
 
             files: [{
