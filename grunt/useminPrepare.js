@@ -3,9 +3,9 @@ module.exports =function(grunt) {
 
     var config = {
         options: {
-            dest: '<%= cvars.dist %>index.html'
+            dest: '<%= cvars.dist %>'
         },
-        html: '<%= cvars.app %>/index.master.html'
+        html: '<%= cvars.app %>/{,*/}*.html'
     };
 
     grunt.config('useminPrepare', config);

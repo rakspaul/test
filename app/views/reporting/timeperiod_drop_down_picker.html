@@ -1,19 +1,11 @@
 <div class="col-md-12 input-daterange input-group date pull-left">
     <div class="startPicker">
-    <input  type="text"
-            id="startDateInput"
-            class="  timeframe"
-            ng-model="reports.schedule.startDate"
-            required>
+        <input  type="text" id="startDateInput" class="timeframe" ng-model="reports.schedule.startDate" required>
         <i id="startDateInputGlyph" class="icon-calendar glyphicon pull-right"></i>
-</div>
-<div class="endPicker">
-    <input  type="text"
-            id="endDateInput"
-            class="timeframe"
-            ng-model="reports.schedule.endDate"
-            required>
-    <i  id="endDateInputGlyph" class="icon-calendar glyphicon pull-right"></i>
-</div>
-    <button  class="btn btn-default" ng-click="datePickerfilterByTimePeriod(timeData.timePeriodList[3],reports.schedule.startDate,reports.schedule.endDate);" >Go</button>
+    </div>
+    <div class="endPicker">
+        <input type="text" id="endDateInput" class="timeframe" ng-model="reports.schedule.endDate" required>
+        <i id="endDateInputGlyph" class="icon-calendar glyphicon pull-right"></i>
+    </div>
+    <button class="btn btn-default" ng-click="datePickerfilterByTimePeriod(timeData.timePeriodList[3],reports.schedule.startDate,reports.schedule.endDate);" >Go</button>
 </div>

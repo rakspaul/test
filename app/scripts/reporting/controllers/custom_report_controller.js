@@ -1112,7 +1112,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
             $('.input-daterange').datepicker({
                 //format: "dd-mm-yyyy",
                 format: "yyyy-mm-dd",
-                orientation: "top auto",
+                orientation: "auto",
                 autoclose: true,
                 todayHighlight: true,
                 keyboardNavigation: false

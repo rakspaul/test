@@ -2,21 +2,17 @@ module.exports =function(grunt) {
     'use strict';
 
     var config = {
-        deploy: {
-            options: {
-                preserveComments: 'some',
-                sourceMapIncludeSources: true,
-                sourceMap: true
-            },
-            files: [
-                {
-                    expand: true,
-                    cwd: '<%= cvars.build %>/<%= cvars.appjs %>/',
-                    dest: '<%= cvars.dist %>/<%= cvars.appjs %>/',
-                    src: '**/*.js'
-                }
-            ]
-        }
+        options: {
+            preserveComments: 'some',
+        },
+        files: [
+            {
+                cwd: '<%= cvars.dist %>/<%= cvars.appjs %>/',
+                expand: true,
+                dest: '<%= cvars.dist %>/<%= cvars.appjs %>/',
+                src: '**/*.js'
+            }
+        ]
     };
 
     grunt.config('uglify', config);

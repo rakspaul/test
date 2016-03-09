@@ -23,7 +23,6 @@
     "lrInfiniteScroll": "^1.0.0",
     "filesaver": "*",
     "angular-bootstrap": "^1.1.2",
-    "bootstrap-datepicker": "1.4.0",
     "d3": "^3.5.16",
     "jquery-ui": "^1.11.4",
     "angular-i18n": "^1.5.0",
@@ -33,10 +32,11 @@
     "bootstrap-toggle": "^2.2.1",
     "bootstrap": "3.1.1",
     "chosen": "1.5.1",
-    "angular-bootstrap-show-errors": "^2.3.0"
+    "angular-bootstrap-show-errors": "^2.3.0",
+    "bootstrap-datepicker": "1.6.0"
   },
   "resolutions": {
     "angular": "1.2.16",
-    "bootstrap-datepicker": "1.4.0"
+    "bootstrap-datepicker": "1.6.0"
   }
 }
