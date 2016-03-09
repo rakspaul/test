@@ -8,18 +8,18 @@
 			<span class="glyphicon glyphicon-ok pull-left" aria-hidden="true"></span>
 			<span class="pull-left" style="margin-left: 10px;" data-ng-bind="textConstants.NEWCREATIVEALERT"></span>
 		</div>
-		
+
 		<!--<div class="col-md-12 zeroPadding clearfix nav_filters" style="display: none;">-->
 				<!--<creative-drop-down></creative-drop-down>-->
 		<!--</div>-->
-		
+
 		<div class="col-md-12 zeroPadding">
 			<h1 class="col-md-12 zeroPadding" style="margin-bottom: 50px;" data-ng-bind="textConstants.CREATIVELIBRARY"></h1>
 		</div>
-		
+
 		<div class="col-md-12 zeroPadding btn_list_filters">
 			<div class="btn-group" role="group" aria-label="...">
-				<a href="javascript:void(0);" role="button" class="btn btn-default disabled"><span class="icon-plus"></span><span data-ng-bind="textConstants.CREATE"></span></a>
+				<a href="/creative/add" role="button" class="btn btn-default"><span class="icon-plus"></span><span data-ng-bind="textConstants.CREATE"></span></a>
 				<button type="button" class="btn btn-default" style="display: none"><span class="icon-inline-edit"></span><span data-ng-bind="textConstants.EDIT"></span></button>
 				<button type="button" class="btn btn-default" ng-click="cancelDelete();"><span class="icon-archive"></span><span data-ng-bind="textConstants.ARCHIVE"></span></button>
 				<button type="button" class="btn btn-default" disabled="true"><span class="icon-copy"></span><span data-ng-bind="textConstants.CLONE"></span></button>
@@ -35,9 +35,9 @@
 						</ul>
 					</div>
 				</div>
-				
+
 			</div>
-			
+
 
 			<!--Search Input-->
 			<div class="btn-group pull-right">
@@ -127,7 +127,7 @@
 						<span data-ng-bind="utcToLocalTime(creativeData.updatedAt,'DD MMM YYYY  HH:mm A')"></span>
 						</div>
 					</div>
-					
+
                     <div style="display:none;" class="secondDimensionList">
 	                    <div class="tr childRow adsList"  ng-repeat="adData in creativeAds.creativeAdData[$index]">
 	                        <div class="col-md-7 td">
@@ -141,7 +141,7 @@
 	                    </div>
                     </div>
 				</div>
-				
+
 				<!--Sample Child / A Class "childRow" needs to be added to the data if its a Child-->
 				<!--<div class="tr childRow" style="width: 100%; float: left;">-->
 				    <!--<div class="col-md-7 td">-->

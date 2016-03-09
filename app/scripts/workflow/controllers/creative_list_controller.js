@@ -345,6 +345,11 @@ define(['angularAMD','../../common/services/constants_service','workflow/service
         };
 
         $scope.ShowHideTag = function (obj, pos) {
+            //workflowService.setCreativeEditMode("edit");
+            //workflowService.setCreativeEdit(obj);
+            //$location.url("/creative/add");
+
+
             $scope.selectedCreativeData = obj;
             $scope.selectedCreativePos = pos;
             $scope.showViewTagPopup = true;
