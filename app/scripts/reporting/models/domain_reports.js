@@ -193,7 +193,7 @@ define(['angularAMD','../../login/login_model','common/services/role_based_servi
                         download_config_id : report.download_config_id
                     }
 
-                    if(queryObj.queryId ===29 || queryObj.queryId === 16 || queryObj.queryId === 30 || queryObj.queryId === 31) {
+                    if(queryObj.queryId ===29 || queryObj.queryId === 16 || queryObj.queryId === 30 || queryObj.queryId === 31 || queryObj.queryId === 32) {
                         //we need not do any thing since for these query id we need not to pass the ad group id.
                     } else {
                         queryObj['adGroupId'] = $scope.selectedStrategy.id;
