@@ -4,8 +4,8 @@ module.exports =function(grunt) {
         deploy : {
             files: [{
                 expand: true,
-                cwd: '<%= cvars.app %>/<%= cvars.appimage %>/',
-                src: '{,*/}*.{gif,jpeg,jpg,png}',
+                cwd: '<%= cvars.app %>/<%= cvars.appimage %>',
+                src: '**/*.{gif,jpeg,jpg,png}',
                 dest: '<%= cvars.dist %>/<%= cvars.appimage %>/'
             }]
         }
