@@ -11,7 +11,8 @@
 
             <div class="col-md-12 zeroPadding radioBtnToggle">
                 <div class="btn-group miniToggle">
-                    <label class="btn btn-default whitelist" style="width: auto;">
+                    <label class="btn btn-default whitelist{{workflowData.whiteListsSelected ? ' active' : ''}}"
+                           style="width: auto;">
                         <span>Whitelist</span>
                         <input type="radio"
                                name="inventoryList"
@@ -20,10 +21,11 @@
                                ng-model="adData.inventory.domainAction"
                                ng-checked="adData.inventory.domainAction === 'INCLUDE' ? true : false"
                                hidden="hidden"
-                               class="btn_rad"
-                               ng-click="workflowData.toggleBlackAndWhite($event);">
+                               class="btn_rad whitelist"
+                               ng-click="showDomainListTypePopupCue('INCLUDE', $event)">
                     </label>
-                    <label class="btn btn-default blacklist" style="width: auto;">
+                    <label class="btn btn-default blacklist{{workflowData.blackListsSelected ? ' active' : ''}}"
+                           style="width: auto;">
                         <span>Blacklist</span>
                         <input type="radio"
                                name="inventoryList"
@@ -32,9 +34,23 @@
                                ng-model="adData.inventory.domainAction"
                                ng-checked="adData.inventory.domainAction === 'EXCLUDE' ? true : false"
                                hidden="hidden"
-                               class="btn_rad"
-                               ng-click="workflowData.toggleBlackAndWhite($event);">
+                               class="btn_rad blacklist"
+                               ng-click="showDomainListTypePopupCue('EXCLUDE', $event)">
                     </label>
+                    <div id="domain-list-type-popup-cue" class="popUpCue" ng-show="changeDomainListType">
+                        <span class="col-md-12 zeroPadding">
+                            Changing List type will reset the selected domain name lists
+                        </span>
+                        <a href="javascript:void(0);"
+                           class="leftNavLink pull-right btn btn-primary"
+                           ng-click="continueDomainListTypeChange($event)"
+                           data-ng-bind="textConstants.CONTINUE"></a>
+                        <a class="pull-right btn btn-link"
+                           data-ng-bind="textConstants.CANCEL"
+                           ng-click="hideDomainListTypePopupCue()">
+                        </a>
+                    </div>
+
                 </div>
             </div>
 
