@@ -970,11 +970,17 @@ define(['angularAMD','workflow/services/workflow_service','common/services/zip_c
         }
 
         $scope.saveGeography = function (doNotRedirectFlag) {
+            var geoTargetsData = workflowService.getAdsDetails();
             if ($scope.zipCodesObj) {
                 $scope.zipCodesObj = [];
             }
             $scope.adData.zipCodes = '';
             geoTargetsDataForListing();
+
+            if($scope.geoTargetingData.selected.zip.length === 0 && geoTargetsData.targets && geoTargetsData.targets.geoTargets.ZIP_CODE) {
+                geoTargetsData.targets.geoTargets.ZIP_CODE = null;
+                workflowService.setAdsDetails(geoTargetsData);
+            }
 
             var modifedGeoTargetObj = modifyDataForPreview();
             workflowService.setSavedGeo(angular.copy({
