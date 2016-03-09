@@ -9,9 +9,6 @@ define(['angularAMD','workflow/services/workflow_service','common/services/zip_c
         $scope.dmasIncluded = true;
         $scope.zipCodeTabSelected = false;
         $scope.selectedTab = 'regions';
-        $scope.adData.isGeographySelected = false;
-        $scope.adData.isAudienceSelected = false;
-        $scope.adData.isDaypartSelected = false;
 
         $scope.geoTargetArr = [
             {'name': 'Geography', 'enable': true},

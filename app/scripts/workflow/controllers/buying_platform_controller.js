@@ -179,7 +179,6 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             var wasPrevTrackingInt = _.findIndex($scope.workflowData.platforms, function (item) {
                 return item.id === $scope.adData.platformId;
             });
-
             // code to make creatives already set to empty
             if (event && wasPrevTrackingInt < 0) {
                 $scope.adData.setSizes = constants.WF_NOT_SET;
