@@ -553,13 +553,13 @@ define(['angularAMD', 'reporting/timePeriod/time_period_model', 'common/services
                             } else if(kpIType.toLowerCase() === 'cpm' || kpIType.toLowerCase() === 'cpc' || kpIType.toLowerCase() === 'vtc'){
                                 kpiData = parseFloat(kpiData.toFixed(2));
                             }
-                            $scope.chartDataInventory.push({'gross_env' : '' , className : '', 'icon_url' : '', 'type' : data.dimension, 'value' : kpiData});
+                            $scope.chartDataInventory.push({'gross_env' : '' , className : '', 'icon_url' : '', 'type' : data.dimension, 'value' : kpiData,  kpiType : kpIType});
                         });
                     }
                 }
                 $scope.inventoryBarChartConfig = {
                     data : $scope.chartDataInventory,
-                    kpiType : kpIType || 'NA',
+
                     showLabel : true,
                     graphName : 'inventory'
                 }
@@ -601,14 +601,13 @@ define(['angularAMD', 'reporting/timePeriod/time_period_model', 'common/services
                         _.each(sortedData, function(data, idx) {
                             var kpiData = (kpiModel === 'ctr') ? (data[kpiModel] * 100) : data[kpiModel];
                             var screenType = data.dimension.toLowerCase();
-                            $scope.chartDataScreen.push({'gross_env' : data.gross_rev, className : screenTypeMap[screenType], 'icon_url' : '', 'type' : data.dimension, 'value' : kpiData});
+                            $scope.chartDataScreen.push({'gross_env' : data.gross_rev, className : screenTypeMap[screenType], 'icon_url' : '', 'type' : data.dimension, 'value' : kpiData, kpiType : kpiModel});
                         });
                     }
                 }
 
                 $scope.screenBarChartConfig = {
                     data : $scope.chartDataScreen,
-                    kpiType : kpiModel || 'NA',
                     graphName : 'screens'
                 }
             },function(result){
@@ -645,7 +644,7 @@ define(['angularAMD', 'reporting/timePeriod/time_period_model', 'common/services
                         _.each(sortedData, function(data, idx) {
                             var kpiData = (kpiModel === 'ctr') ? (data[kpiModel] * 100) : data[kpiModel];
                             var screenType = data.dimension.toLowerCase();
-                            $scope.chartDataAdSize.push({'gross_env' : data.gross_rev, className : '', 'icon_url' : '', 'type' : data.dimension.toLowerCase(), 'value' : kpiData});
+                            $scope.chartDataAdSize.push({'gross_env' : data.gross_rev, className : '', 'icon_url' : '', 'type' : data.dimension.toLowerCase(), 'value' : kpiData, kpiType : kpiModel});
                         });
 
 
@@ -654,7 +653,6 @@ define(['angularAMD', 'reporting/timePeriod/time_period_model', 'common/services
 
                 $scope.adSizenBarChartConfig = {
                     data : $scope.chartDataAdSize,
-                    kpiType : kpiModel || 'NA',
                     showLabel : true,
                     graphName : 'adsizes'
                 }
@@ -697,13 +695,13 @@ define(['angularAMD', 'reporting/timePeriod/time_period_model', 'common/services
                             var type = data.platform_name;
                             var icon_url = data.platform_icon_url == 'Unknown' ? 'platform_logo.png' : type.toLowerCase().replace(/ /g, '_') + '.png';
                             icon_url = '/images/platform_favicons/' + icon_url;
-                            $scope.chartDataPlatform.push({'gross_env': data.gross_rev, 'className': '', 'icon_url': icon_url, 'type': type, 'value': kpiData});
+                            $scope.chartDataPlatform.push({'gross_env': data.gross_rev, 'className': '', 'icon_url': icon_url, 'type': type, 'value': kpiData,   kpiType : kpiModel});
                         });
                     }
                 }
                 $scope.platformBarChartConfig = {
                     data : $scope.chartDataPlatform,
-                    kpiType : kpiModel || 'NA',
+
                     showLabel : true,
                     graphName : 'platforms'
                 }
@@ -744,14 +742,14 @@ define(['angularAMD', 'reporting/timePeriod/time_period_model', 'common/services
                         _.each(sortedData, function(data, idx) {
                             var kpiData = (kpiModel === 'ctr') ? (data[kpiModel] * 100) : data[kpiModel];
                             var screenType = data.dimension.toLowerCase();
-                            $scope.chartDataFormat.push({'gross_env' : data.gross_rev, className : formatTypeMap[screenType], 'icon_url' : '', 'type' : data.dimension.toLowerCase(), 'value' : kpiData});
+                            $scope.chartDataFormat.push({'gross_env' : data.gross_rev, className : formatTypeMap[screenType], 'icon_url' : '', 'type' : data.dimension.toLowerCase(), 'value' : kpiData, kpiType : kpiModel});
                         });
                     }
                 }
 
                 $scope.formatBarChartConfig = {
                     data : $scope.chartDataFormat,
-                    kpiType : kpiModel || '',
+
                     graphName : 'formats'
                 }
             },function(result){

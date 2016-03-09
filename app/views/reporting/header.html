@@ -1,14 +1,27 @@
 <div class="main_navigation_holder" ng-controller="HeaderController">
     <div class="main_nav clearfix">
-        <div class="pull-left">
-            <a href="/dashboard" class="main_logo" id="logo" style="cursor:pointer;">
-                <img ng-src="/images/visto_logos/Visto_Logo_hi-res.svg" alt="" height="32"/>
-            </a>
+         <!--Hamburger Icon Mobile-->
+        <div class="icon-hamburger" ng-click="mobileMenuShow();"></div>
+        
+        <!--Logo-->
+        <a href="/dashboard" class="main_logo" id="logo" style="cursor:pointer;">
+            <img ng-src="/images/visto_logos/Visto_Logo_hi-res.svg" alt="" height="32"/>
+        </a>
+        
+        <!--Mobile Menu-->
+        <div class="mobileNavWrap">
+            <div class="mobileNav">
+                <a href="/mediaplans" ng-mouseover="hide_navigation_dropdown($event);" ng-bind="textConstants.MEDIA_PLAN"></a>
+                <a href="javascript:void(0);" reporttitle="reportOverview" ng-click="NavigateToTab('', $event ,'reportOverview')" ng-bind="textConstants.REPORTS"></a>
+                <a href="javascript:void(0);" ng-click="NavigateToTab('', $event ,'creativelist')" ng-bind="textConstants.CREATIVES"></a>
+            </div>
+            <div class="mobileHideFunc" ng-click="mobileMenuHide();"></div>
         </div>
+        
+        <!--Full Nav Links-->
         <div class="pull-left main_navigation clearfix">
             <!--<div class="pull-left each_nav_link" id="dashboard_nav_link">
                 <a href="/dashboard" ng-bind="textConstants.DASHBOARD"></a>
-
                 <div class="arrowSelect"></div>
             </div>-->
             <div class="pull-left each_nav_link" id="campaigns_nav_link">
@@ -56,7 +69,7 @@
                                 <span class="pull-left dd_txt" ng-bind="defaultAccountsName"></span>
                                 <span ng-show="multipleClient" class="pull-right icon-arrow-down-thick"></span>
                             </span>
-
+                            
                             <ul class="dropdown-menu">
                                 <div class="accountsList-dropdown-li">
                                     <li ng-repeat="eachaccount in accountsData" id="{{eachaccount.id}}"
@@ -68,7 +81,7 @@
                             </ul>
                         </div>
                     </div>
-
+                    
                     <div ng-click="logout()" class="col-md-12 zeroPadding logout-option-link">
                         <a class="logout_link" ng-bind="textConstants.LOGOUT"></a>
                     </div>

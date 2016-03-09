@@ -107,7 +107,7 @@ define(['angularAMD','../services/workflow_service','workflow/services/audience_
             $scope.adData.isDaypartSelected = false;
             var dayPartData = $scope.selectedDayParts['data'];
             if(dayPartData) dayPartData.length = 0;
-            $scope.adData.isDaypartSelected = null;
+            $scope.adData.isDaypartSelected = false;
             localStorage.removeItem("dayPart");
             localStorage.removeItem("dayTimeSelected");
             localStorage.removeItem("daytimeArr");

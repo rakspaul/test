@@ -118,22 +118,30 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
     $scope.highlightSearch = function(text, search) {
       return utils.highlightSearch(text, search);
     };
-     $(function() {
-         $( "#cost_block,#performance_block" ).scroll(function(){
-             var window_scrollTop = $(window).scrollTop();
-             /*             var scroll_to_element= $(".squaredFour").offset().top -15;
-              if(scroll_to_element < window_scrollTop){
-              window.scrollTo(0,scroll_to_element);
-              }*/
-//             if ($(window).scrollTop() >= $(document).height() - $(window).height() - 10) {
-//                 var test_height = parseInt($(this).height())+1;
-//                 $(this).height(test_height);
+    
+//     $(function() {
+//         $( "#cost_block,#performance_block" ).scroll(function(){
+//             var window_scrollTop = $(window).scrollTop();
+//             /*             var scroll_to_element= $(".squaredFour").offset().top -15;
+//              if(scroll_to_element < window_scrollTop){
+//              window.scrollTo(0,scroll_to_element);
+//              }*/
+////             if ($(window).scrollTop() >= $(document).height() - $(window).height() - 10) {
+////                 var test_height = parseInt($(this).height())+1;
+////                 $(this).height(test_height);
+////             }
+//             if(!$scope.campaigns.busy && ($(this).scrollTop() + $(this).innerHeight() >= $(this)[0].scrollHeight)) {
+//                 $scope.campaigns.fetchData();
 //             }
-             if(!$scope.campaigns.busy && ($(this).scrollTop() + $(this).innerHeight() >= $(this)[0].scrollHeight)) {
-                 $scope.campaigns.fetchData();
-             }
-         });
-     });
+//         });
+//     });
+     
+    $(window).scroll(function() {
+      if(!$scope.campaigns.busy && ($(window).scrollTop() + $(window).height() == $(document).height())){
+        console.log('bottom');
+        $scope.campaigns.fetchData();
+      }
+    });
 
   });
 

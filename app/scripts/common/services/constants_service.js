@@ -107,10 +107,15 @@ define(['angularAMD'], function(angularAMD) {
 
         this.COLLECTIVE_INSIGHTS = "Collective Insights";
         this.UPLOAD_REPORT = "Upload Report";
-        this.REPORT_LABEL = 'Report';
-        this.SELECT_DIMENTION = 'Select Dimension(s)';
+        this.REPORT_LABEL ='Report';
+        this.SELECT_DIMENTION ='Select Dimension(s)';
+        this.ALL_TYPES ='All Types';
+        this.AT_ANY_TIME ='At any time';
 
-        this.SCHEDULED_REPORTS = "Scheduled Reports";
+        this.SCHEDULED_REPORTS = "Save & Scheduled Reports";
+        this.REPORT_TYPES = "Report Types";
+        this.GENERATED = "Generated";
+        this.DIMENSIONS_FIVE = "Dimensions (select up to 5)";
         this.SCHEDULE_LABEL = 'Schedule';
         this.GENERATE_LABEL = 'Generate';
         this.RESET_LABEL = 'Reset';
@@ -290,6 +295,7 @@ define(['angularAMD'], function(angularAMD) {
         this.CREATIVE = "Creative";
         this.RESEARCH = "Research";
         this.AD_VERIFICATION = "Ad Verification";
+        this.COLLECTIVECOST = "Cost";
         this.TRANSPARENT_PLATFORM_FEE_CHARGED = "Transparent platform fee charged by Collective for technology and services associated with programmatic media activity";
         this.TOTAL_COST = "Total Cost";
         this.TOTAL_MARGIN = "Total Margin";
