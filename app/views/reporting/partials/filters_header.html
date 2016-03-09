@@ -1,6 +1,7 @@
 <div class="clearfix nav_filters">
 
-    <div class="pull-left dropdown each_filter2 advertisers_filter each_filter brands_filter " ng-controller="AdvertiserController" >
+    <div class="pull-left dropdown each_filter2 advertisers_filter each_filter brands_filter "
+         ng-controller="AdvertiserController">
         <advertiser-drop-down></advertiser-drop-down>
     </div>
 
@@ -8,20 +9,22 @@
         <brands-drop-down></brands-drop-down>
 
     </div>
-    <div class="pull-left dropdown breadcrumb_nav_campaign"  ng-if="reportFilter" style="max-width:190px">
-	    <campaign-drop-down selected-obj=selectedCampaign all-campaign="{{allCampaign}}"> </campaign-drop-down>
-	</div>
-    <div class="pull-left breadcrumb_nav_strategy" ng-show="{{isStrategyDropDownShow}}" ng-if=reportFilter >
-      <strategy-drop-down selected-obj=selectedStrategy ></strategy-drop-down>
-  </div>
-     <div class="pull-left dropdown dropdown-two each_filter lifetime_filter"  ng-show="{{isStrategyDropDownShow}}" ng-if="reportFilter == 'true'" >
+    <div class="pull-left dropdown breadcrumb_nav_campaign" ng-if="reportFilter" style="max-width:190px">
+        <campaign-drop-down selected-obj=selectedCampaign all-campaign="{{allCampaign}}"></campaign-drop-down>
+    </div>
+    <div class="pull-left breadcrumb_nav_strategy" ng-show="{{isStrategyDropDownShow}}" ng-if=reportFilter>
+        <strategy-drop-down selected-obj=selectedStrategy></strategy-drop-down>
+    </div>
+    <div class="pull-left dropdown dropdown-two each_filter lifetime_filter" ng-show="{{isStrategyDropDownShow}}"
+         ng-if="reportFilter == 'true'">
         <div class="nav_filters_heading">Timeframe</div>
         <div class="timeline_dd" ng-controller="TimePeriodController">
-          <timeperiod-drop-down></timeperiod-drop-down>
+            <timeperiod-drop-down></timeperiod-drop-down>
         </div>
-     </div>
+    </div>
 
-    <div class="pull-left dropdown dropdown-two each_filter" id="newDatePickerBox" ng-show="{{isStrategyDropDownShow}}"    ng-if="reportFilter == 'true'" ng-controller="TimePeriodPickController" style="display: none" >
+    <div class="pull-left dropdown dropdown-two each_filter" id="newDatePickerBox" ng-show="{{isStrategyDropDownShow}}"
+         ng-if="reportFilter == 'true'">
         <timeperiod-drop-down-picker></timeperiod-drop-down-picker>
     </div>
 </div>

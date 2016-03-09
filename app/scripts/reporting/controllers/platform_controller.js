@@ -2,7 +2,7 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
         'common/services/data_service', 'common/services/constants_service', 'reporting/models/domain_reports',
         'reporting/timePeriod/time_period_model', 'login/login_model', 'common/services/role_based_service',
         'reporting/advertiser/advertiser_model', 'reporting/brands/brands_model',
-        'common/services/url_service','reporting/strategySelect/strategy_select_directive','reporting/strategySelect/strategy_select_controller',
+        'common/services/url_service','reporting/strategySelect/strategy_select_directive','reporting/strategySelect/strategy_select_controller','reporting/timePeriod/time_period_pick_directive'
     ],
 
     function (angularAMD) {    'use strict';
@@ -91,12 +91,13 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
 
 
         $scope.getPlatformData = function () {
+            var datefilter = timePeriodModel.getTimePeriod(timePeriodModel.timeData.selectedTimePeriod.key);
             var param = {
                 campaignId: $scope.selectedCampaign.id,
                 clientId: loginModel.getSelectedClient().id,
                 advertiserId: advertiserModel.getSelectedAdvertiser().id,
                 brandId: brandsModel.getSelectedBrand().id,
-                dateFilter: timePeriodModel.timeData.selectedTimePeriod.key
+                dateFilter: datefilter
             };
 
             if ($scope.selected_tab === "margin") {

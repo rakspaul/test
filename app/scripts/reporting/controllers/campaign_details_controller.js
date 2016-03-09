@@ -316,13 +316,14 @@ define(['angularAMD', 'reporting/timePeriod/time_period_model', 'common/services
         });
 
         function getCustomQueryParams(queryId) {
+            var datefilter = timePeriodModel.getTimePeriod(timePeriodModel.timeData.selectedTimePeriod.key);
             return {
                 queryId:queryId,
                 campaignId: $scope.campaign.orderId,
                 clientId:  loginModel.getSelectedClient().id,
                 advertiserId: advertiserModel.getSelectedAdvertiser().id,
                 brandId: brandsModel.getSelectedBrand().id,
-                dateFilter: timePeriodModel.timeData.selectedTimePeriod.key
+                dateFilter: datefilter
             };
         }
         function updateActionItems(callbackCDBGraph,loadingFlag,showExternal) {
@@ -452,11 +453,12 @@ define(['angularAMD', 'reporting/timePeriod/time_period_model', 'common/services
         };
 
         $scope.getCostBreakdownData  = function(campaign){ //get cost break down data
+            var datefilter = timePeriodModel.getTimePeriod(timePeriodModel.timeData.selectedTimePeriod.key);
             var params = {
                 queryId: 14, //cost_report_for_one_or_more_campaign_ids
                 clientId: loginModel.getSelectedClient().id,
                 campaignIds: campaign.orderId,
-                dateFilter: timePeriodModel.timeData.selectedTimePeriod.key,
+                dateFilter: datefilter,
                 advertiserId: advertiserModel.getSelectedAdvertiser().id,
                 brandId: brandsModel.getSelectedBrand().id
             }

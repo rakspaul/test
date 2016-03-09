@@ -1,7 +1,8 @@
 define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaignSelect/campaign_select_model', 'reporting/strategySelect/strategy_select_model',
         'common/services/data_service', 'reporting/models/domain_reports', 'common/services/constants_service',
         'reporting/timePeriod/time_period_model', 'login/login_model', 'common/services/url_service',
-       'reporting/advertiser/advertiser_model', 'reporting/brands/brands_model','reporting/strategySelect/strategy_select_directive','reporting/strategySelect/strategy_select_controller'
+       'reporting/advertiser/advertiser_model', 'reporting/brands/brands_model','reporting/strategySelect/strategy_select_directive',
+    'reporting/strategySelect/strategy_select_controller','reporting/timePeriod/time_period_pick_directive'
     ],
 
     function (angularAMD) {
@@ -93,13 +94,13 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
                 $scope.strategyBusy = false;
             }
             $scope.api_return_code = 200;
-
+            var datefilter = timePeriodModel.getTimePeriod(timePeriodModel.timeData.selectedTimePeriod.key);
             var queryObj = {
                 campaignId: $scope.selectedCampaign.id,
                 clientId:  loginModel.getSelectedClient().id,
                 advertiserId: advertiserModel.getSelectedAdvertiser().id,
                 brandId: brandsModel.getSelectedBrand().id,
-                dateFilter: timePeriodModel.timeData.selectedTimePeriod.key
+                dateFilter: datefilter
             };
             if(_.has(param, 'strategyId') && param.strategyId >= 0) {
                 queryObj['queryId'] =  13;
