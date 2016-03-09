@@ -1395,6 +1395,26 @@ input.cmn-toggle-round:checked + label:after {
   position: absolute;
   pointer-events: none;
 }
+/* Over-ride for Inventory domain name delete comfirmation popup */
+.remove-domain-list {
+  display: none;
+  left: auto;
+  right: 0;
+  top: -50px;
+  width: auto;
+}
+.remove-domain-list span {
+  display: inline-block;
+  height: auto;
+  margin: 8px 0 0;
+  width: auto;
+}
+.remove-domain-list:after,
+.remove-domain-list:before {
+  left: auto;
+  right: 20px;
+}
+/* END: Over-ride for Inventory domain name delete comfirmation popup */
 .popUpCue:after {
   border-color: rgba(255, 255, 255, 0);
   border-top-color: #fff;

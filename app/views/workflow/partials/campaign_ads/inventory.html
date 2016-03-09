@@ -38,8 +38,8 @@
                                ng-click="showDomainListTypePopupCue('EXCLUDE', $event)">
                     </label>
                     <div id="domain-list-type-popup-cue" class="popUpCue" ng-show="changeDomainListType">
-                        <span class="col-md-12 zeroPadding">
-                            Changing List type will reset the selected domain name lists
+                        <span class="col-md-12 zeroPadding" style="height: auto;">
+                            Change filter type and remove selected lists?
                         </span>
                         <a href="javascript:void(0);"
                            class="leftNavLink pull-right btn btn-primary"
@@ -50,7 +50,6 @@
                            ng-click="hideDomainListTypePopupCue()">
                         </a>
                     </div>
-
                 </div>
             </div>
 
@@ -90,15 +89,30 @@
             <div class="filterList"
                  ng-show="(workflowData.whiteListsSelected && workflowData.selectedWhiteLists.length > 0) ||
                         (workflowData.blackListsSelected && workflowData.selectedBlackLists.length > 0)">
-                <div class="filterHead">
+                <div class="filterHead" style="position: relative;">
                     <span class="pull-left"
                           style="width: auto;"
                           ng-bind="inventory.name + ' (' + inventory.domainList.length + ')'">
                     </span>
                     <a class="icon-trash pull-right"
-                       ng-click="workflowData.removeDomainList($event)"
+                       ng-click="showRemoveDomainListPopup($event)"
                        data-id="{{inventory.id}}"
-                       style="margin: 10px 0 0 50px;"></a>
+                       style="margin: 10px 0 0 50px;">
+                    </a>
+                    <div class="popUpCue remove-domain-list">
+                        <span class="col-md-12 zeroPadding">
+                            Are you sure?
+                        </span>
+                        <a href="javascript:void(0);"
+                           class="leftNavLink pull-right btn btn-primary"
+                           style="margin-right: 0;"
+                           ng-click="workflowData.removeDomainList()"
+                           data-ng-bind="textConstants.CONTINUE"></a>
+                        <a class="pull-right btn btn-link"
+                           data-ng-bind="textConstants.CANCEL"
+                           ng-click="hideRemoveDomainListPopup()">
+                        </a>
+                    </div>
                     <button class="btn btn-default pull-right"
                             ng-click="workflowData.assignCurrentInventory(inventory)"
                             ngf-select="selectFiles($files, 'INVENTORY_UPDATE')"
@@ -308,5 +322,10 @@
 <!-- Modal End -->
 <!--=== Next Step Panel ===-->
 <span class="nextWrapper leftNavLink" ng-hide="showDomainListPopup">
-    <a href data-toggle="tab" class="btn btn-default" ng-click="trigerCreativeTag()" data-ng-bind="textConstants.WF_AD_SAVE_CONTINUE"></a>
+    <a href
+       data-toggle="tab"
+       class="btn btn-default"
+       ng-click="trigerCreativeTag()"
+       data-ng-bind="textConstants.WF_AD_SAVE_CONTINUE">
+    </a>
 </span>
