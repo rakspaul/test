@@ -589,11 +589,12 @@ define(['angularAMD', 'common/services/data_service', 'common/utils', 'common/se
 
                 //should be moved to costservice inside cost module later
                 getCampaignCostData: function(campaignIds, filterStartDate, filterEndDate, advertiserId, brandId, success, failure) {
+                    var datefilter = timePeriodModel.getTimePeriod(timePeriodModel.timeData.selectedTimePeriod.key);
                     var queryObj = {
                         queryId: 14, //14 : cost_report_for_one_or_more_campaign_ids
                         clientId: loginModel.getSelectedClient().id,
                         campaignIds: campaignIds,
-                        dateFilter: timePeriodModel.timeData.selectedTimePeriod.key,
+                        dateFilter: datefilter,
                         advertiserId: advertiserId,
                         brandId: brandId
                     }

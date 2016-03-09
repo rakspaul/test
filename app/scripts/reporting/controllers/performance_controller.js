@@ -2,7 +2,7 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
         'common/services/data_service', 'reporting/models/domain_reports', 'common/services/constants_service',
         'reporting/timePeriod/time_period_model', 'reporting/brands/brands_model', 'login/login_model',
         'common/services/url_service', 'reporting/advertiser/advertiser_model','reporting/timePeriod/time_period_controller','reporting/kpiSelect/kpi_select_directive','reporting/kpiSelect/kpi_select_controller',
-       'reporting/strategySelect/strategy_select_directive','reporting/strategySelect/strategy_select_controller'
+       'reporting/strategySelect/strategy_select_directive','reporting/strategySelect/strategy_select_controller','reporting/timePeriod/time_period_pick_directive'
     ],
 
     function (angularAMD) {
@@ -140,12 +140,15 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
         $scope.getPerformanceData =  function() {
             var performanceQueryIdMapperWithAllAdsGroup = { 'screen' : 7, 'format' : 8, 'adsizes' : 9, 'creatives' :10, 'dow' :11};
             var performanceQueryIdMapperWithSelectedAdsGroup = { 'screen' : 17, 'format' : 18, 'adsizes' : 19, 'creatives' :20, 'dow' :21};
+
+            var datefilter = timePeriodModel.getTimePeriod(timePeriodModel.timeData.selectedTimePeriod.key);
+
             var param = {
                 campaignId: $scope.selectedCampaign.id,
                 clientId:  loginModel.getSelectedClient().id,
                 advertiserId: advertiserModel.getSelectedAdvertiser().id,
                 brandId: brandsModel.getSelectedBrand().id,
-                dateFilter: timePeriodModel.timeData.selectedTimePeriod.key,
+                dateFilter: datefilter,
                 tab: $scope.selected_tab
             };
             var tab = _.compact(_.pluck(performaceTabMap, [param.tab]))[0];

@@ -2,7 +2,7 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
         'reporting/common/charts/column_line', 'common/services/data_service', 'common/services/constants_service',
         'reporting/timePeriod/time_period_model', 'login/login_model', 'reporting/advertiser/advertiser_model',
         'reporting/brands/brands_model', 'common/services/url_service','reporting/kpiSelect/kpi_select_directive','reporting/kpiSelect/kpi_select_controller',
-        'reporting/models/domain_reports','reporting/strategySelect/strategy_select_directive','reporting/strategySelect/strategy_select_controller'
+        'reporting/models/domain_reports','reporting/strategySelect/strategy_select_directive','reporting/strategySelect/strategy_select_controller','reporting/timePeriod/time_period_pick_directive'
     ],
 
     function (angularAMD) {  'use strict';
@@ -143,12 +143,13 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
       $scope.getStrategyChartData = function () {
           var inventoryQueryIdMapperWithAllAdsGroup = { 'categories' : 25, 'domains' : 27}
           var inventoryQueryIdMapperWithSelectedAdsGroup = { 'categories' : 26, 'domains' : 28}
+          var datefilter = timePeriodModel.getTimePeriod(timePeriodModel.timeData.selectedTimePeriod.key);
           var param = {
               campaignId: $scope.selectedCampaign.id,
               clientId:  loginModel.getSelectedClient().id,
               advertiserId: advertiserModel.getSelectedAdvertiser().id,
               brandId: brandsModel.getSelectedBrand().id,
-              dateFilter: timePeriodModel.timeData.selectedTimePeriod.key,
+              dateFilter: datefilter,
               domain: $scope.selected_filters_tab
           };
           if (Number($scope.selectedStrategy.id) >= 0) {

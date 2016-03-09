@@ -1,12 +1,12 @@
-define(['angularAMD','reporting/timePeriod/time_period_model', 'common/services/constants_service'
-],function (angularAMD) {
+define(['angularAMD', 'reporting/timePeriod/time_period_model', 'common/services/constants_service'
+], function (angularAMD) {
     'use strict';
     angularAMD.controller('TimePeriodPickController', function ($scope, $rootScope, timePeriodModel, constants) {
 
         $scope.timeData = timePeriodModel.timeData;
 
-        $scope.datePickerfilterByTimePeriod = function(key,timePeriod,timePeriods) {
-            key.key ="custom&start_date="+timePeriods+"&end_date="+timePeriod;
+        $scope.datePickerfilterByTimePeriod = function (key, timePeriod, timePeriods) {
+            key.key = "custom&start_date=" + timePeriod + "&end_date=" + timePeriods;
             timePeriodModel.selectTimePeriod(key);
             $rootScope.$broadcast(constants.EVENT_TIMEPERIOD_CHANGED, key);
             localStorage.setItem('customStartDate', JSON.stringify(timePeriod));
@@ -21,50 +21,45 @@ define(['angularAMD','reporting/timePeriod/time_period_model', 'common/services/
         // first check in local storage here
         var datesFromLocStore = localStorage.getItem('customStartDate');
         var endDatesFromLocStore = localStorage.getItem('customEndDate');
-        if(datesFromLocStore || endDatesFromLocStore) {
+        if (datesFromLocStore || endDatesFromLocStore) {
             datesFromLocStore = JSON.parse(localStorage.getItem('customStartDate'));
             endDatesFromLocStore = JSON.parse(localStorage.getItem('customEndDate'));
-            $scope.reports.schedule.startDate =  endDatesFromLocStore;
-            $scope.reports.schedule.endDate = datesFromLocStore;
+            $scope.reports.schedule.startDate = datesFromLocStore;
+            $scope.reports.schedule.endDate = endDatesFromLocStore;
         }
         else {
             $scope.reports.schedule.startDate = moment().subtract(0, 'days').format(constants.DATE_UTC_SHORT_FORMAT);
             $scope.reports.schedule.endDate = moment().subtract(0, 'days').format(constants.DATE_UTC_SHORT_FORMAT);
         }
 
-
-        if(timePeriodModel.timeData.displayTimePeriod === "Custom"){
+        if (timePeriodModel.timeData.displayTimePeriod === "Custom") {
             $("#newDatePickerBox").show();
         }
-        else{
+        else {
             $("#newDatePickerBox").hide();
         }
 
-        $(document).ready(function() {
-            $("#endDateInput,#startDateInput").keydown(function() {
+        $(document).ready(function () {
+            $("#endDateInput,#startDateInput").keydown(function () {
                 return false;
             });
-        $('.input-daterange').datepicker({
-            //format: "dd-mm-yyyy",
-            format: "yyyy-mm-dd",
-            orientation: "top auto",
-            autoclose: true,
-            todayHighlight: true,
-            keyboardNavigation: false,
-            endDate: '+0d'
-         });
+
+            $('.input-daterange').datepicker({
+                //format: "dd-mm-yyyy",
+                format: "yyyy-mm-dd",
+                orientation: "top auto",
+                autoclose: true,
+                todayHighlight: true,
+                keyboardNavigation: false,
+                endDate: '+0d'
+            });
+
+            $('#startDateInput').datepicker('setEndDate', moment().subtract(0, 'days').format(constants.DATE_UTC_SHORT_FORMAT));
+            $('#startDateInput').datepicker('update', moment().subtract(0, 'days').format(constants.DATE_UTC_SHORT_FORMAT));
+            $('#endDateInput').datepicker('update', moment().subtract(0, 'days').format(constants.DATE_UTC_SHORT_FORMAT));
+
         });
 
-        $('#newDatePickerBox').click(
-            function(e){
-                var deliverOn = $("#deliverOn").val(),
-                    startDate = $("#startDateInput").val(),
-                    endDate = $("#endDateInput").val();
-                $('#startDateInput').datepicker({ dateFormat: 'YYYY-MM-DD', 'update': startDate});
-                //$('#startDateInputGlyph').datepicker('update', startDate);
-                $("#endDateInput, #endDateInputGlyph").datepicker({ dateFormat: 'YYYY-MM-DD', 'update': endDate});
-                //$('#endDateInputGlyph').datepicker('update', endDate);
-            }
-        );
+
     });
 });

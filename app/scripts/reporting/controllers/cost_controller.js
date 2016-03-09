@@ -101,12 +101,12 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model', 'reporti
                 $scope.tacticCostBusy = false;
             }
             $scope.api_return_code=200;
-
+            var datefilter = timePeriodModel.getTimePeriod(timePeriodModel.timeData.selectedTimePeriod.key);
             var queryObj = {
                 clientId: loginModel.getSelectedClient().id,
                 advertiserId: advertiserModel.getSelectedAdvertiser().id,
                 brandId: brandsModel.getSelectedBrand().id,
-                dateFilter: timePeriodModel.timeData.selectedTimePeriod.key
+                dateFilter: datefilter
             };
             if (_.has(param, 'strategyId') && param.strategyId >= 0) {
                 queryObj.queryId = 15; // cost_report_for_given_ad_group_id
