@@ -279,6 +279,7 @@
                                                            placeholder="MM/DD/YYYY"
                                                            class="form-control"
                                                            readonly name="lowestStartTime"
+                                                           ng-model="startTime"
                                                            required/>
                                                 </div>
                                                 <div class="dateContainer form-group" style="padding-left: 10px;" show-errors>
@@ -896,7 +897,8 @@
                     <div class="zeroPadding">
                         <div class="adSave">
                             <!-- Standard button -->
-                            <button type="button" class="btn" data-ng-bind="textConstants.SAVE"></button>
+                            <span class="pull-right common-loading-btn" style="width: 61px;" ng-show="loadingBtn"></span>
+                            <button type="button" class="btn" data-ng-bind="textConstants.SAVE" ng-disabled="createIndependantAdsGrp.$invalid" ng-show="!loadingBtn"></button>
                             <button type="button" class="btn btn-link addClose" data-ng-bind="textConstants.CANCEL"></button>
                         </div>
                     </div>

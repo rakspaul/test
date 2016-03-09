@@ -38,7 +38,7 @@ define(['angularAMD','../../common/services/constants_service','workflow/service
                 postCreateAdObj.endTime = momentService.localTimeToUTC(formData.endTime, 'endTime');
                 postCreateAdObj.createdAt = '';
                 postCreateAdObj.updatedAt = '';
-                postCreateAdObj.label = _.pluck($scope.tags, "label");
+                postCreateAdObj.labels = _.pluck($scope.tags, "label");
 
                 workflowService
                     .createAdGroups($routeParams.campaignId, postCreateAdObj)

@@ -22,6 +22,7 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
         $scope.tags = [
 
         ];
+        $scope.loadingBtn = false;
         //$scope.moreThenThree = '';// not used
         $scope.campaignArchiveLoader = false;
         $scope.editCampaign=function(workflowcampaignData){
@@ -483,9 +484,10 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
         }
 
         $scope.createIndependantAdsGroup = function () {
-            console.log(_.pluck($scope.tags, "label"));
+
             //api call here to group individual ads into a group
             $scope.$broadcast('show-errors-check-validity');
+            $scope.loadingBtn = true;
             if ($scope.createIndependantAdsGrp.$valid){
                 var formElem = $("#createIndependantAdsGrp");
                 var formData = formElem.serializeArray();
@@ -496,7 +498,7 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
                 postCreateAdObj.endTime = momentService.localTimeToUTC(formData.highestEndTime,'endTime');
                 postCreateAdObj.createdAt = "";
                 postCreateAdObj.updatedAt = "";
-                postCreateAdObj.label = _.pluck($scope.tags, "label");
+                postCreateAdObj.labels = _.pluck($scope.tags, "label");
                 postCreateAdObj.id="-9999";
 
                 var dataArray = new Array;
