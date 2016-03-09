@@ -269,6 +269,7 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
 
 
 
+
         $scope.refreshReportList = function() {
             var url = urlService.scheduleReportsList();
             if (url) {

@@ -33,16 +33,16 @@
                 </div>
             </div>
             </div>
-            <div class="searchInput" style="border:1px none #000000; float:right;">
+            <div class="searchInput" style="float:right;">
                 <button type="button" class="btn btn-default"
-                        data-toggle="collapse" data-target="#schedule_report_filter" style="height:36px;"><span class="icon-filter" style="margin: -1px 0 0 0;"></span></button>
+                        data-toggle="collapse" data-target="#schedule_report_filter" style="height:34px;"><span class="icon-filter" style="margin: -1px 0 0 0;"></span></button>
                 <!-- attribute data-toogle="collapse"  attached to id="toggle-example"-->
             </div>
         </div>
-        <div id="schedule_report_filter"  class="collapse">
+        <div id="schedule_report_filter" class="collapse">
             <div class="container zeroPadding">
                 <div class="row zeroPadding">
-                   <hr>
+                   <hr style="margin-top:10px; margin-bottom:10px;">
                     <div class="col-md-2 zeroPadding" style="margin-right: -5px;">
                         <div class="col-md-12 zeroPadding dropdown-workflow">
                             <label  class="col-sm-12 greyTxt miniLabels ng-binding" data-ng-bind="textConstants.REPORT_TYPES"></label>
@@ -100,10 +100,10 @@
                         <a href="" data-toggle="tab" class="btn btn-default ng-binding"
                            ng-click="triggerInventory()">Apply</a>
                     </div>
-                    <div style="margin-top:32px;"class="col-md-1 zeroPadding">
+                    <div style="margin-top:32px;" class="col-md-1 zeroPadding">
                         <a class="btn btn-default pull-right" role="button" ng-click="ComputeCost()">
-                            <div class="glyphicon glyphicon-refresh pull-left" aria-hidden="true"></div>
-                            <span>Clear</span>
+                            <div style="top:0px !important;" class="glyphicon glyphicon-repeat pull-left" aria-hidden="true"></div>
+                            <span style="margin-left:6px;">Clear</span>
                         </a>
                     </div>
                 </div>
@@ -122,7 +122,7 @@
                     <div class="row">
                         <div class="table-th name-col sort-icon-holder">
                             <span ng-click="sortSchdlReport()" ng-bind-html="textConstants.REPORT_NAME"/>
-                            <span class="common-sort-icon" ng-class="(sort.descending?'ascending':'descending')" ></span>
+                            <span class="common-sort-icon" ng-class="(sort.descending?'ascending':'descending')"></span>
                         </div>
                         <!--<div class="table-th name-col" ng-bind-html="textConstants.REPORT_NAME" />-->
                         <div class="table-th more-options">&nbsp;</div>
@@ -139,8 +139,8 @@
                 </div>
                 <div class="table-body">
 
-                    <div class="row"  ng-repeat="srlist in schdReportList track by $index">
-                        <div class="clearfix rowbg"
+                    <div class="row" ng-repeat="srlist in schdReportList track by $index">
+                        <div class="clearfix rowHover"
                              ng-class="{downloaded:((srlist.instances.length >0) && (srlist.instances[0].viewedOn.length > 0))}">
                             <div class="table-td name-col"
                                  ng-class="{'no-instance':srlist.instances.length <= 0}"
@@ -151,7 +151,7 @@
                             </div>
                             <div class="table-td more-options">
                                 <div class="dropdown-workflow">
-                                    <div class="dropdown">
+                                    <div class="dropdown hideOption">
                                         <span data-toggle="dropdown">
                                             <div class="option-horizontal">
                                                 <span></span><span></span><span></span>
@@ -169,7 +169,7 @@
                                                 ng-bind-html="textConstants.DELETE"/>
 
                                             <li class="headerDownload">
-                                                <span class="icon-performance zeroPadding"></span>
+                                                <span class="icon-download zeroPadding"></span>
                                                 <span class="greyTxt" style="padding-left: 7px !important;"><a href="">Download</a></span>
                                             </li>
                                         </ul>
@@ -187,27 +187,31 @@
 
                         </div>
                         <div class="inner-row" ng-if="srlist.instances.length > 0" >
-                            <div class="row"
+                            <div class="clearfix rowHover"
                                  ng-repeat="inst in srlist.instances | limitTo: scheduleInstCount[$parent.$index] track by $index"
                                  ng-class="{downloaded:inst.viewedOn.length > 0}">
                                 <div class="table-td name-col" ng-bind-html="srlist.name"/>
                                 <div class="table-td more-options">
-                                    <div class="common_dropdown" >
-                                        <div class="dropdown">
-                                            <span data-toggle="dropdown">
-                                                <div class="option-horizontal">
-                                                    <span></span><span></span><span></span>
-                                                </div>
-                                            </span>
+                                    <div class="dropdown-workflow">
+                                        <div class="dropdown hideOption">
+                                        <span data-toggle="dropdown">
+                                            <div class="option-horizontal">
+                                                <span></span><span></span><span></span>
+                                            </div>
+                                        </span>
                                             <ul class="dropdown-menu">
+                                                <!-- <li ng-click="editSchdReport(srlist.reportId)" ng-bind-html="textConstants.EDIT"/>
+                                                <li ng-click="copyScheduleRpt(srlist.reportId)" ng-bind-html="textConstants.COPY"/>
+                                                <li ng-click="deleteSchdRpt(srlist.reportId)" ng-bind-html="textConstants.DELETE"/> -->
                                                 <li ng-click="downloadSchdReport($parent.$index,$index,srlist.instances[$index].instanceId)"
                                                     ng-bind-html="textConstants.EDIT"/>
                                                 <li ng-click="deleteSchdRptInstance(srlist.reportId,srlist.instances[$index].instanceId)"
-                                                    ng-bind-html="textConstants.DELETE"/>
+                                                    ng-bind-html="textConstants.COPY"/>
                                                 <li ng-click="archiveSchdRpt(srlist.reportId,srlist.instances[$index].instanceId)"
-                                                    ng-bind-html="textConstants.ARCHIEVE"/>
+                                                    ng-bind-html="textConstants.DELETE"/>
+
                                                 <li class="headerDownload">
-                                                    <span class="icon-performance zeroPadding"></span>
+                                                    <span class="icon-download zeroPadding"></span>
                                                     <span class="greyTxt" style="padding-left: 7px !important;"><a href="">Download</a></span>
                                                 </li>
                                             </ul>
