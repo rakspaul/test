@@ -3,20 +3,115 @@
 <popup-msg ng-show="flashMessage" ng-controller="popUpMsgCtr"
            ng-init="init('flashMessage','reportEditFailed')"></popup-msg>
 <!-- End of Message on top , if that is an error message add "red_msg" class to "top_message_box" container -->
-
-
 <div class="reports-scheduled-list">
     <div class="scheduled-list-header">
         <div class="clearfix" >
             <h2 class="pull-left" ng-bind-html="textConstants.SCHEDULED_REPORTS"/>
-            <a class="btn btn-default pull-right" ng-click="reset_custom_report()" href="/customreport"
-               ng-bind-html="textConstants.NEW_REPORT"/>
+          <!--  <a class="btn btn-default pull-right" ng-click="reset_custom_report()" href="/customreport"
+               ng-bind-html="textConstants.NEW_REPORT"/> -->
         </div>
     </div>
-    <div class="scheduled-list-nav clearfix">
+    <!-- <div class="scheduled-list-nav clearfix">
         <div class="pull-left each-nav active" ng-bind-html="textConstants.REPORTS" />
         <div class="pull-left each-nav" ng-bind-html="textConstants.WF_ARCHIVE" />
+    </div> -->
+    <div id="searchList">
+    <div class="col-md-12 zeroPadding btn_list_filters">
+        <div class="btn-group" role="group" aria-label="...">
+            <a role="button" class="btn btn-default" ng-click="reset_custom_report()" href="/customreport"><span class="icon-plus"></span><span data-ng-bind="textConstants.CREATE"></span></a>
+        </div>
+    <!--Search Input-->
+        <div class="pull-right">
+            <div class="searchInput" style="float:left;">
+            <a class="btn btn-default searchInputBtn" ng-click="searchShowInput()">
+                <span class="icon-search" aria-hidden="true" style="margin: -1px 0 0 0;"></span>
+            </a>
+            <div class="input-group searchInputForm" >
+                <input type="text" class="form-control" name="creativeSearch" ng-model="creativeSearch" ng-keyup="creativeSearchFunc()" placeholder="Search Reports By Report Name..">
+                <div class="btn btn-default" ng-click="searchHideInput()">
+                    <span class="icon-clear" aria-hidden="true"></span>
+                </div>
+            </div>
+            </div>
+            <div class="searchInput" style="border:1px none #000000; float:right;">
+                <button type="button" class="btn btn-default"
+                        data-toggle="collapse" data-target="#schedule_report_filter" style="height:36px;"><span class="icon-filter" style="margin: -1px 0 0 0;"></span></button>
+                <!-- attribute data-toogle="collapse"  attached to id="toggle-example"-->
+            </div>
+        </div>
+        <div id="schedule_report_filter"  class="collapse">
+            <div class="container zeroPadding">
+                <div class="row zeroPadding">
+                   <hr>
+                    <div class="col-md-2 zeroPadding" style="margin-right: -5px;">
+                        <div class="col-md-12 zeroPadding dropdown-workflow">
+                            <label  class="col-sm-12 greyTxt miniLabels ng-binding" data-ng-bind="textConstants.REPORT_TYPES"></label>
+                            <div class="dropdown">
+                                <button style="width:170px;" class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                    <span class="text">All Types</span>
+                                    <span class="icon-arrow-down"></span>
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="unitcostType" ng-model="adData.unitType"  id="unitcostType" data-toggle="dropdown">
+                                    <li ng-repeat="unitType in workflowData.unitTypes track by unitType.id" class="available">
+                                        <a ng-click="dropBoxItemSelected(unitType, 'unitType')" data-ng-bind="unitType.name"></a>
+                                    </li>
+                                </ul>
+                                <input type="hidden" name="unitType" ng-model="adData.unitType.name" ng-update-hidden/>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 1st column md-2 -->
+                    <div class="col-md-2" style="margin-right: -5px;">
+                        <div class="col-md-12 zeroPadding dropdown-workflow">
+                            <label  class="col-sm-12 greyTxt miniLabels ng-binding" data-ng-bind="textConstants.GENERATED"></label>
+                            <div class="dropdown">
+                                <button style="width:170px;" class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                    <span class="text">At any time</span>
+                                    <span class="icon-arrow-down"></span>
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="unitcostType" ng-model="adData.unitType"  id="unitcostType" data-toggle="dropdown">
+                                    <li ng-repeat="unitType in workflowData.unitTypes track by unitType.id" class="available">
+                                        <a ng-click="dropBoxItemSelected(unitType, 'unitType')" data-ng-bind="unitType.name"></a>
+                                    </li>
+                                </ul>
+                                <input type="hidden" name="unitType" ng-model="adData.unitType.name" ng-update-hidden/>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Generated Column over -->
+                    <div class="col-md-6" style="margin-right: -5px;">
+                        <div class="col-md-12 zeroPadding dropdown-workflow">
+                            <label  class="col-sm-12 greyTxt miniLabels ng-binding" data-ng-bind="textConstants.DIMENSIONS_FIVE"></label>
+                            <div class="dropdown">
+                                <button style="width:560px;" class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                    <span class="text"></span>
+                                    <span class="icon-arrow-down"></span>
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="unitcostType" ng-model="adData.unitType"  id="unitcostType" data-toggle="dropdown">
+                                    <li ng-repeat="unitType in workflowData.unitTypes track by unitType.id" class="available">
+                                        <a ng-click="dropBoxItemSelected(unitType, 'unitType')" data-ng-bind="unitType.name"></a>
+                                    </li>
+                                </ul>
+                                <input type="hidden" name="unitType" ng-model="adData.unitType.name" ng-update-hidden/>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="margin-top:32px;" class="col-md-1">
+                        <a href="" data-toggle="tab" class="btn btn-default ng-binding"
+                           ng-click="triggerInventory()">Apply</a>
+                    </div>
+                    <div style="margin-top:32px;"class="col-md-1 zeroPadding">
+                        <a class="btn btn-default pull-right" role="button" ng-click="ComputeCost()">
+                            <div class="glyphicon glyphicon-refresh pull-left" aria-hidden="true"></div>
+                            <span>Clear</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
+    </div>
+
     <div style="text-align:center;">
         <span class="download-report-load-icon" style="margin:5px 0px;" ng-if="reportDownloadBusy" ng-bind-html="textConstants.DOWNLOADING"/>
     </div>
@@ -44,8 +139,8 @@
                 </div>
                 <div class="table-body">
 
-                    <div class="row "  ng-repeat="srlist in schdReportList track by $index">
-                        <div class="clearfix"
+                    <div class="row"  ng-repeat="srlist in schdReportList track by $index">
+                        <div class="clearfix rowbg"
                              ng-class="{downloaded:((srlist.instances.length >0) && (srlist.instances[0].viewedOn.length > 0))}">
                             <div class="table-td name-col"
                                  ng-class="{'no-instance':srlist.instances.length <= 0}"
@@ -63,9 +158,20 @@
                                             </div>
                                         </span>
                                         <ul class="dropdown-menu">
-                                            <li ng-click="editSchdReport(srlist.reportId)" ng-bind-html="textConstants.EDIT"/>
+                                            <!-- <li ng-click="editSchdReport(srlist.reportId)" ng-bind-html="textConstants.EDIT"/>
                                             <li ng-click="copyScheduleRpt(srlist.reportId)" ng-bind-html="textConstants.COPY"/>
-                                            <li ng-click="deleteSchdRpt(srlist.reportId)" ng-bind-html="textConstants.DELETE"/>
+                                            <li ng-click="deleteSchdRpt(srlist.reportId)" ng-bind-html="textConstants.DELETE"/> -->
+                                            <li ng-click="downloadSchdReport($parent.$index,$index,srlist.instances[$index].instanceId)"
+                                                ng-bind-html="textConstants.EDIT"/>
+                                            <li ng-click="deleteSchdRptInstance(srlist.reportId,srlist.instances[$index].instanceId)"
+                                                ng-bind-html="textConstants.COPY"/>
+                                            <li ng-click="archiveSchdRpt(srlist.reportId,srlist.instances[$index].instanceId)"
+                                                ng-bind-html="textConstants.DELETE"/>
+
+                                            <li class="headerDownload">
+                                                <span class="icon-performance zeroPadding"></span>
+                                                <span class="greyTxt" style="padding-left: 7px !important;"><a href="">Download</a></span>
+                                            </li>
                                         </ul>
                                     </div>
                                 </div>
@@ -95,11 +201,15 @@
                                             </span>
                                             <ul class="dropdown-menu">
                                                 <li ng-click="downloadSchdReport($parent.$index,$index,srlist.instances[$index].instanceId)"
-                                                    ng-bind-html="textConstants.DOWNLOAD"/>
+                                                    ng-bind-html="textConstants.EDIT"/>
                                                 <li ng-click="deleteSchdRptInstance(srlist.reportId,srlist.instances[$index].instanceId)"
                                                     ng-bind-html="textConstants.DELETE"/>
                                                 <li ng-click="archiveSchdRpt(srlist.reportId,srlist.instances[$index].instanceId)"
                                                     ng-bind-html="textConstants.ARCHIEVE"/>
+                                                <li class="headerDownload">
+                                                    <span class="icon-performance zeroPadding"></span>
+                                                    <span class="greyTxt" style="padding-left: 7px !important;"><a href="">Download</a></span>
+                                                </li>
                                             </ul>
                                         </div>
                                     </div>

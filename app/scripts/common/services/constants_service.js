@@ -109,8 +109,13 @@ define(['angularAMD'], function (angularAMD) {
         this.UPLOAD_REPORT = "Upload Report";
         this.REPORT_LABEL ='Report';
         this.SELECT_DIMENTION ='Select Dimension(s)';
+        this.ALL_TYPES ='All Types';
+        this.AT_ANY_TIME ='At any time';
 
-        this.SCHEDULED_REPORTS = "Scheduled Reports";
+        this.SCHEDULED_REPORTS = "Save & Scheduled Reports";
+        this.REPORT_TYPES = "Report Types";
+        this.GENERATED = "Generated";
+        this.DIMENSIONS_FIVE = "Dimensions (select up to 5)";
         this.SCHEDULE_LABEL = 'Schedule';
         this.GENERATE_LABEL ='Generate';
         this.RESET_LABEL ='Reset';
