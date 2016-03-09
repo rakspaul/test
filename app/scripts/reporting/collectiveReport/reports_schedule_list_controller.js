@@ -12,6 +12,7 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
         $scope.sort = {
             descending: true
         };
+        var isSearch = false;
         $scope.getScheduledReports = function() {
             var scheduleReportListSucc = function(schdReportList) {
                 var instances,
@@ -245,6 +246,28 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
                 }
             });
         }
+
+        //Search Hide / Show
+        $scope.searchShowInput = function () {
+            $(".searchInputBtn").hide();
+            var searchInputForm = $(".searchInputForm");
+            searchInputForm.show();
+            searchInputForm.animate({width: '300px'}, 'fast');
+        };
+
+        $scope.searchHideInput = function () {
+            isSearch = false;
+            $(".searchInputForm").animate({width: '44px'}, 'fast');
+            var inputSearch = $(".searchInputForm input");
+            inputSearch.val('');
+            setTimeout(function(){ $(".searchInputForm").hide(); }, 300);
+            setTimeout(function(){ $(".searchInputBtn").fadeIn(); }, 300);
+            $scope.creativeData['creatives']=[];
+            var selectedClientObj = localStorage.selectedClient && JSON.parse(localStorage.selectedClient);
+            creativeList.getCreativesList(JSON.parse(localStorage.selectedClient).id,'', '',20, 1);
+        };
+
+
 
         $scope.refreshReportList = function() {
             var url = urlService.scheduleReportsList();
