@@ -9,8 +9,8 @@
 				<div class="pull-left imgContainer" ng-if="d.icon_url"><img ng-src="{{d.icon_url}}" height='15'/></div>
 				<div class="pull-left graphValues" ng-switch on="page">
 					<span class="graphValues_title">{{d.type}}{{separator}}</span>
-					<span ng-switch-when="dashboard" class="graphValues_number" >{{d.value > 0 ? (d.value | dashboardKpiFormatter : kpiType) : ''}}</span>
-					<span ng-switch-default class="graphValues_number" >{{d.value > 0 ? (d.value | kpiFormatter : kpiType) : ''}}</span>
+					<span ng-switch-when="dashboard" class="graphValues_number" >{{d.value > 0 ? (d.value | dashboardKpiFormatter : d.kpiType) : ''}}</span>
+					<span ng-switch-default class="graphValues_number" >{{d.value > 0 ? (d.value | kpiFormatter : d.kpiType) : ''}}</span>
 				</div>
 			</div>
 		</div>
