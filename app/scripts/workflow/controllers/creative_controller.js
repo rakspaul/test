@@ -1,6 +1,40 @@
-define(['angularAMD','../../common/services/constants_service','workflow/services/workflow_service','workflow/services/creative_custom_module','workflow/directives/creative_drop_down'],function (angularAMD) {
+define(['angularAMD','../../common/services/constants_service','workflow/services/workflow_service','workflow/services/creative_custom_module','workflow/directives/creative_drop_down','workflow/directives/ng_upload_hidden'],function (angularAMD) {
   angularAMD.controller('CreativeController', function($scope, $rootScope, $routeParams, $location, constants, workflowService,creativeCustomModule) {
       $scope.creativeFormat="DISPLAY";
+      $scope.creative={};
+      $scope.adData = {};
+      $scope.textConstants = constants;
+      $scope.mode = workflowService.getMode();
+      $scope.workflowData = {};
+      $scope.newData={};
+      $scope.adData.screenTypes = [];
+      $scope.selectedCreative = {};
+      $scope.creativeSizeData = {};
+      $scope.addedSuccessfully = false;
+      $scope.IncorrectTag = false;
+      $scope.disableCancelSave = false;
+      $scope.campaignId = $routeParams.campaignId;
+      var validTag=false;
+
+      $scope.creativeMode=workflowService.getCreativeEditMode();
+      if($scope.creativeMode==="edit"){
+          $scope.creativeEditData=workflowService.getCreativeEditData();
+          $scope.name=$scope.creativeEditData.name;
+          $scope.advertiserName=$scope.creativeEditData.advertiser.name;
+          $scope.creative.advertiserId=$scope.creativeEditData.advertiserId;
+          //$scope.brandName=$scope.creativeEditData.brand.name;
+          $scope.creative.brandId=$scope.creativeEditData.brandId;
+          $scope.selectedAdServer=$scope.creativeEditData.adServer;
+          $scope.selectedAdServer.id=$scope.creativeEditData.adServer.id;
+          $scope.creativeFormat=$scope.creativeEditData.creativeFormat;
+          $scope.adFormatSelection($scope.creativeFormat,'');
+          //$scope.CreativeTemplate=$scope.creativeEditData.
+          //$scope.adData.creativeTemplate=$scope.creativeEditData.
+          $scope.tag=$scope.creativeEditData.tag;
+          $scope.adData.creativeSize=$scope.creativeEditData.size;
+
+      }
+
       $scope.data = {
           availableOptions: [
               {id: '1', name: 'Option A'},
@@ -77,20 +111,7 @@ define(['angularAMD','../../common/services/constants_service','workflow/service
               .addClass('active');
       }
 
-      $scope.textConstants = constants;
-      $scope.mode = workflowService.getMode();
-      $scope.workflowData = {};
-      $scope.adData = {};
-      $scope.newData={};
-      $scope.adData.screenTypes = [];
-      $scope.selectedCreative = {};
-      $scope.creativeSizeData = {};
-      $scope.addedSuccessfully = false;
-      $scope.IncorrectTag = false;
-      $scope.disableCancelSave = false;
-      $scope.campaignId = $routeParams.campaignId;
-      $scope.creative={};
-      var validTag=false;
+
 
 
       /*AD Format Type*/
@@ -140,7 +161,7 @@ define(['angularAMD','../../common/services/constants_service','workflow/service
           $scope.creativeFormat=angular.uppercase(adFormatName);
 
           /*CreativeLibrary page, get templates*/
-          if(!$scope.adPage){
+          if(!$scope.adPage && $scope.selectedAdServer){
               $scope.getTemplates($scope.selectedAdServer,adFormatName);
           }
       }
@@ -148,6 +169,9 @@ define(['angularAMD','../../common/services/constants_service','workflow/service
       $scope.adServerSelected=function(adServer){
           $scope.selectedAdServer=adServer;// used in adFormatSelection function to get all templates.
 
+          if(!$scope.adPage && $scope.creativeFormat){
+              $scope.getTemplates($scope.selectedAdServer,$scope.creativeFormat);
+          }
 
           /*function to get the possible templates in adCreate Page)*/
           if($scope.adPage){
@@ -284,8 +308,9 @@ define(['angularAMD','../../common/services/constants_service','workflow/service
               })
       }
 
-      $(function () {
-          $('#saveCreative').on('click', function () {
+      //$(function () {
+          $scope.submitForm=function(form){
+              //$('#saveCreative').on('click', function (form) {
               var formElem,
                   formData,
                   PatternOutside,
@@ -294,7 +319,8 @@ define(['angularAMD','../../common/services/constants_service','workflow/service
               var indexArr=[];
 
               $scope.$broadcast('show-errors-check-validity');
-              if ($scope.formCreativeCreate.$valid) {
+              if (form.$valid) {
+              //if ($scope.formCreativeCreate.$valid) {
                   //formElem = $('#formCreativeCreate');
                   var formDataObj = $("#formCreativeCreate").serializeArray();
                   console.log("formDataObj",formDataObj)
@@ -310,7 +336,7 @@ define(['angularAMD','../../common/services/constants_service','workflow/service
                   postCrDataObj.sslEnable = 'true';
                   postCrDataObj.tag = '%%TRACKER%%';
                   postCrDataObj.sizeId = formData.creativeSize;
-                  postCrDataObj.creativeTemplate = formData.creativeTemplate;
+                  postCrDataObj.vendorCreativeTemplateId = formData.creativeTemplate;
                   if ($scope.$parent.TrackingIntegrationsSelected) {
                     postCrDataObj.tag = '%%TRACKER%%';
                       validTag=true;
@@ -343,8 +369,8 @@ define(['angularAMD','../../common/services/constants_service','workflow/service
                           $scope.creativeSave(postCrDataObj);
               }
               }
-          });
-      });
+          };
+     // });
       var validateScriptTag= function (scriptTag) {
           var PatternOutside,
               PatternInside,

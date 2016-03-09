@@ -24,7 +24,7 @@
             <!--    <creative-drop-down></creative-drop-down>-->
             <!--</div>-->
 
-            <form role="form" name="formCreativeCreate" id="formCreativeCreate" novalidate>
+            <form role="form" name="formCreativeCreate" id="formCreativeCreate" novalidate ng-submit="submitForm(formCreativeCreate)">
 				<div class="col-md-6 zeroPadding pull-right saveCreativeBtn">
                     <div ng-show="addedSuccessfully" ng-model="addedSuccessfully" class="text-right">{{Message}}</div>
 					<button type="submit" class="btn btn-primary pull-right" ng-disabled="disableCancelSave" id="saveCreative" > Save Creative</button>
@@ -164,7 +164,7 @@
                                 <ul class="dropdown-menu dropdown-search" aria-labelledby="sel1" id="sel1">
                                     <li class="searchBar">
                                         <div class="input-group col-md-12 zeroPadding">
-                                            <input type="text" class="form-control col-md-12" id="listBoxSize" ng-model="newData.creativeSize" placeholder="Search"/>
+                                            <input type="text" class="col-md-12" id="listBoxSize" ng-model="newData.creativeSize" placeholder="Search"/>
                                             <div class="icon-search"></div>
                                         </div>
                                     </li>

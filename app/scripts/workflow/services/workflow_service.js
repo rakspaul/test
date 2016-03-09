@@ -8,6 +8,9 @@ define(['angularAMD','common/services/vistoconfig_service', 'common/services/con
             platform,
             savedGeo,
             vistoModule,
+            creativeMode,
+            creativeEditData,
+
             deletedModule = [];
 
             function createObj(platform){
@@ -505,6 +508,18 @@ define(['angularAMD','common/services/vistoconfig_service', 'common/services/con
 
             resetDeleteModule : function() {
                 deletedModule = [];
+            },
+            setCreativeEdit:function(data){
+                creativeEditData=data;
+            },
+            getCreativeEditData:function(){
+                return creativeEditData;
+            },
+            setCreativeEditMode:function(mode){
+                creativeMode=mode;
+            },
+            getCreativeEditMode:function(){
+                return creativeMode
             },
 
             getAllCampaignsForAdClone: function(){
