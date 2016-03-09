@@ -48,12 +48,15 @@ module.exports = function (grunt) {
 
     grunt.registerTask('build', [
         'clean:dist',
+        //'useminPrepare',
         'concurrent:dist',
         'autoprefixer',
         'copy:dist',
         //'rev',
         //'usemin',
-        'htmlmin',
+        //'htmlmin',
+        'ngAnnotate',
+        'requirejs',
         'preprocess:'+env
     ]);
 
