@@ -896,7 +896,8 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                 'facebook-tracking': 'facebook-FBexchange',
                 'appnexus-tracking': 'logo_C_appnexus',
                 'dorado-tracking': 'Visto_fav_icon',
-                'dbm-tracking': 'doubleclick-DFP'
+                'dbm-tracking': 'doubleclick-DFP',
+                'beeswax' : 'Beeswax'
             };
 
             if (platform) {
@@ -1059,7 +1060,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                     marginLeft: '-325px',
                     paddingLeft: '30px'
                 }, 'slow');
-            
+
             $('.saveCreativeBtn').css('margin','-64px 0 0 0');
 
             $('#creative')

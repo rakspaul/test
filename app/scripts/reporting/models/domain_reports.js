@@ -357,18 +357,7 @@ define(['angularAMD','../../login/login_model','common/services/role_based_servi
         };
     });
 
-  angularAMD.directive('clearrow',function() {
-        return function(scope, el, attr) {
-            $(el).click(function(){
-                scope.Schedule.dayPart.splice(attr.index, 1);
-                scope.Schedule.daytimeArr.splice(attr.index, 1);
-                scope.Schedule.customLength -= 1;
-                scope.changeDayTime();
-                scope.$apply();
-            })
 
-        };
-    });
 
   angularAMD.directive('ngUpdateHiddenDropdwn',function() {
         return function(scope, el, attr) {

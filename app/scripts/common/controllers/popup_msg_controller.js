@@ -1,4 +1,4 @@
-define(['angularAMD','../services/constants_service'],function (angularAMD) {
+define(['angularAMD','common/services/constants_service'],function (angularAMD) {
     angularAMD.controller('popUpMsgCtr', function ($scope, $rootScope, $timeout, constants) {
         $scope.addClass = '';
         $scope.init = function (msg, errMsg) {
