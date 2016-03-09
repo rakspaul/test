@@ -147,7 +147,7 @@ define(['angularAMD','reporting/campaignList/campaign_list_service', 'common/ser
                     },
                     findScrollerFromContainer = function () {
                         var self = this;
-                        $('.each_section_block').bind('scroll', function () {
+                        $(window).bind('scroll', function () {
                             self.scrollFlag = 1;
                         });
                     },
