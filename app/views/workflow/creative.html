@@ -1,52 +1,51 @@
 <div class="popCreativeLib" ng-init ="abc()" ng-show="isAddCreativePopup" ng-controller="CreativeController">
-    <div id="creative">
-        <popup-msg ng-show="createAlertMessage" ng-controller="popUpMsgCtr"
-                   ng-init="init('createAlertMessage','WF_CAMPAIGN_ARCHIVE_FAILURE')"></popup-msg>
-        <!-- Header Starts -->
-        <div class="page_header_container">
-            <div class="col-md-2 zeroPadding hideRightPanel"></div>
-            <div class="col-md-10 containerWrap">
-                <div class="closeBtnCreative" ng-click="cancelBtn()">
-                    <img src="/images/workflow/icon_back.svg" class="pull-left" alt="" height="20" style=""/>
-                    <p class="">Back</p>
-                </div>
-                <div class="col-md-12 zeroPadding">
-                    <!--<span class="breadcrumbFlow">Creative Tag Library</span>-->
-                    <!--<img src="/assets/images/workflow/arrowBreadcrumbs.png" class="pull-left" alt="" width="10" style="margin: 5px 18px;"/>-->
-                    <h2>Add Creative > New Creative</h2>
-                </div>
+<div id="creative">
+    <popup-msg ng-show="createAlertMessage" ng-controller="popUpMsgCtr"
+               ng-init="init('createAlertMessage','WF_CAMPAIGN_ARCHIVE_FAILURE')"></popup-msg>
+    <!-- Header Starts -->
+    <div class="page_header_container">
+        <div class="col-md-10 containerWrap">
+            <div class="closeBtnCreative" ng-click="cancelBtn()">
+            <img src="/images/workflow/icon_back.svg" class="pull-left" alt="" height="20" style=""/>
+            <p class="">Back</p>
+            </div>
+            <div class="col-md-12 zeroPadding">
+            <!--<span class="breadcrumbFlow">Creative Tag Library</span>-->
+            <!--<img src="/assets/images/workflow/arrowBreadcrumbs.png" class="pull-left" alt="" width="10" style="margin: 5px 18px;"/>-->
+            <h2 class="pull-left" style="margin: 0;">Creative Setup</h2>
             </div>
         </div>
-        <!-- Header Ends -->
-        <!--=== List Starts ===-->
-        <div class="creativeList">
-            <div class="col-md-2 zeroPadding hideRightPanel"></div>
-            <div class="col-md-10 containerWrap">
-                <div class="col-md-12 zeroPadding">
-                    <a href="javascript:void(0);" class="helpLink">Adding third party Creative Tag</a>
+    </div>
+    <!-- Header Ends -->
+    <!--=== List Starts ===-->
+    <div class="creativeList">
+        <div class="col-md-12 containerWrap">
+            <!--<div class="col-md-6 zeroPadding clearfix nav_filters" >-->
+            <!--    <creative-drop-down></creative-drop-down>-->
+            <!--</div>-->
+
+            <form role="form" name="formCreativeCreate" id="formCreativeCreate" novalidate>
+				<div class="col-md-6 zeroPadding pull-right saveCreativeBtn">
+                    <div ng-show="addedSuccessfully" ng-model="addedSuccessfully" class="text-right">{{Message}}</div>
+					<button type="submit" class="btn btn-primary pull-right" ng-disabled="disableCancelSave" id="saveCreative" > Save Creative</button>
+                    <a class="btn btn-link pull-right" role="button" ng-disabled="disableCancelSave" ng-click="cancelBtn()"> Cancel</a>
                 </div>
                 <!--<div class="col-md-12 zeroPadding clearfix nav_filters">-->
                 <!--<creative-drop-down></creative-drop-down>-->
                 <!--</div>-->
 
-                <form role="form" name="formCreativeCreate" id="formCreativeCreate" novalidate>
-                    <div class="col-md-6 zeroPadding pull-right" style="margin-top: -221px;">
-                        <div ng-show="addedSuccessfully" ng-model="addedSuccessfully">{{Message}}</div>
-                        <button type="submit" class="btn btn-primary pull-right" ng-disabled="disableCancelSave" id="saveCreative" > Save Creative</button>
-                        <a class="btn btn-link pull-right" role="button" ng-disabled="disableCancelSave" ng-click="cancelBtn()"> Cancel</a>
-                    </div>
-
                     <div class="form-group col-md-8" show-errors>
-                        <label for="name" class="greyTxt">Creative Name</label>
+                        <label for="name" class="greyTxt" style="margin-top: 0;">Name</label>
                         <input type="text" class="form-control ng-pristine ng-valid" remove-special-character ='remove-special-character' id="name" name="name" ng-model="name" placeholder="Max 250 characters. No symbols or punctuation" required>
                         <label ng-if="formCreativeCreate.name.$error.required"  class="col-sm-12 control-label greyTxt errorLabel">{{textConstants.WF_MANDATORY_CREATIVE_NAME}}</label>
                     </div>
                     <div class="col-md-12 zeroPadding clearfix nav_filters" style="display:none;">
                         <creative-drop-down></creative-drop-down>
                     </div>
-                    <div class="col-sm-12 zeroPadding">
-                        <div class="form-group col-sm-3"  style="padding-left: 0;" show-errors>
-                            <label for="advertiserDDL" class="col-sm-12  greyTxt miniLabels">{{ textConstants.ADVERTISERS }}</label>
+                    <span class="col-md-12 labelQuestTxt" style="margin-top: 30px !important;">Who is this Creative for?</span>
+                    <div class="col-sm-8 zeroPadding">
+                        <div class="form-group col-sm-6"  style="padding-right: 0;" show-errors>
+                            <label for="advertiserDDL" class="col-sm-12  greyTxt miniLabels" style="margin: 0;">{{ textConstants.ADVERTISERS }}</label>
                             <div class="col-md-12 zeroPadding dropdown-workflow">
                                 <div class="dropdown">
                                     <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ng-disabled="adPage">
@@ -62,8 +61,8 @@
                             </div>
                             <label ng-if="formCreativeCreate.advertiserId.$error.required" class="col-sm-12 greyTxt errorLabel">Please select the Advertiser.</label>
                         </div>
-                        <div class="col-sm-3" style="padding-left: 20px;display:inline;position: relative">
-                            <label for="brandDDL" class="col-sm-12  greyTxt miniLabels">{{ textConstants.BRAND }}</label>
+                        <div class="form-group col-sm-6" style="padding-left: 15px;">
+                            <label for="brandDDL" class="col-sm-12  greyTxt miniLabels" style="margin: 0;">{{ textConstants.BRAND }}</label>
                             <div class="col-md-12 zeroPadding dropdown-workflow">
                                 <div class="dropdown">
                                     <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
@@ -78,8 +77,10 @@
                             </div>
                         </div>
                     </div>
-                    <div class="form-group col-md-5" show-errors>
-                        <label for="sel1" class="greyTxt">Ad Server</label>
+
+                    <span class="col-md-12 labelQuestTxt" style="margin-top: 30px !important;">What Creative are you using?</span>
+                    <div class="form-group col-md-2" show-errors style="clear: left;">
+                        <label for="sel1" class="greyTxt" style="margin-top: 0;">Ad Server</label>
                         <div class="col-md-12 zeroPadding dropdown-workflow">
                             <div class="dropdown">
                                 <button class="btn btn-default dropdown-toggle" id="creativeAdServer" type="button"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
@@ -87,7 +88,7 @@
                                     <span class="icon-arrow-down"></span>
                                 </button>
                                 <ul class="dropdown-menu" aria-labelledby="sel1" id="sel1">
-                                    <li style="padding-left:15px;" class="available" ng-repeat="adServer in creativeAdServers track by adServer.id">
+                                    <li class="available" ng-repeat="adServer in creativeAdServers track by adServer.id">
                                         <a ng-click="adServerSelected(adServer)">{{adServer.name}}</a>
                                     </li>
                                 </ul>
@@ -98,7 +99,7 @@
                     </div>
 
                     <!--Ad format Type-->
-                    <div class="col-md-12 zeroPadding adFormatChkBox">
+                    <div class="col-md-12 zeroPadding adFormatChkBox" style="margin-top: 20px;">
                         <div class="col-md-12 greyTxt" data-ng-bind="textConstants.WF_AD_FORMAT"></div>
                         <div class="goalBtnWithPopup">
                             <div class="btn-group goalBtnGroup zeroPadding"
@@ -107,7 +108,7 @@
                                 <label class="btn btn-primary {{adformat.active ? 'active' : '' }} {{(adformat.disabled) ? 'disabled' : '' }}"
                                        aria-disabled="{{(adformat.disabled) ? true : false }}">
                                     <input type="radio" value="{{adformat.name}}"class="btn_rad" ng-click="adFormatSelection(adformat.name, $event)" ng-checked="adformat.active">
-                                    <div class="hideRadioBtn">
+                                    <div class="hideRadioBtn" style="margin-top: -18px;">
                                         <div class="icon-{{getAdFormatIconName(adformat.name)}}"></div>
                                         <span data-ng-bind="adformat.name"></span>
                                     </div>
@@ -119,7 +120,7 @@
                     </div>
 
                     <!---->
-                    <div class="form-group col-md-5">
+                    <div class="form-group col-md-4">
                         <label for="sel1" class="greyTxt">Creative Template</label>
                         <div class="col-md-12 zeroPadding dropdown-workflow">
                             <div class="dropdown">
@@ -138,21 +139,21 @@
                         <!--<label ng-if="formCreativeCreate.creativeTemplate.$error.required" class="col-sm-12 control-label greyTxt errorLabel" style="margin: 0;">Please select the Ad Server size.</label>-->
                     </div>
                     <!--Static template Ui Elements-->
-                    <div ng-hide="$parent.TrackingIntegrationsSelected" class="form-group col-md-12" show-errors>
+                    <div ng-hide="$parent.TrackingIntegrationsSelected" class="form-group col-md-8" style="clear: left;" show-errors>
                         <label for="tag" class="col-md-12 zeroPadding greyTxt">Secure Tag (SSL compatible)</label>
-                        <textarea class="form-control col-md-8 ng-pristine ng-valid" style="width: 66.66666667%;" rows="15" name="tag" id="tag" placeholder="Copy and paste the tag from your ad server" ng-model="tag" required></textarea>
+                        <textarea class="form-control col-md-12 ng-pristine ng-valid" rows="15" name="tag" id="tag" placeholder="Copy and paste the tag from your ad server" ng-model="tag" required></textarea>
                         <label ng-if="formCreativeCreate.tag.$error.required" class="col-sm-12 control-label greyTxt errorLabel">{{textConstants.SSL_ERROR_MESSAGE}}</label>
                         <label ng-show="WrongTag" class="col-sm-12 control-label customErrorLabel">{{IncorrectTagMessage}}</label>
                     </div>
 
-                    <div class="form-group col-md-5 radioBtnToggle" style="padding-top: 20px">
+                    <div class="form-group col-md-4 radioBtnToggle" style="padding-top: 20px; clear: left;">
                         <div class="label-txt">SSL Compatible</div>
                         <div class="schedule-on-off-btn">
                             <input type="checkbox" checked data-toggle="toggle" id="toggle" data-on=" true" data-off="false" disabled="true">
                             <input type="hidden"  name="sslEnable" value="true" >
                         </div>
                     </div>
-                    <div class="form-group col-md-3" show-errors="">
+                    <div class="form-group col-md-4" show-errors="" style="clear: left;">
                         <label for="sel1" class="greyTxt">Size</label>
                         <div class="col-md-12 zeroPadding dropdown-workflow">
                             <div class="dropdown">
@@ -162,7 +163,7 @@
                                 </button>
                                 <ul class="dropdown-menu dropdown-search" aria-labelledby="sel1" id="sel1">
                                     <li class="searchBar">
-                                        <div class="input-group input-group-sm search-control">
+                                        <div class="input-group col-md-12 zeroPadding">
                                             <input type="text" class="form-control col-md-12" id="listBoxSize" ng-model="newData.creativeSize" placeholder="Search"/>
                                             <div class="icon-search"></div>
                                         </div>
