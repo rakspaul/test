@@ -34,7 +34,7 @@
         'lrInfiniteScroll': 'libs/lrInfiniteScroll',
         'filesaver': 'libs/FileSaver',
         'multiselect':'multi_select',
-        'chosen': 'libs/chosen',
+        'ng-tag': 'libs/ng-tags-input.min'
       },
 
       // Add angular modules that does not support AMD out of the box, put it in a shim
@@ -72,8 +72,8 @@
         'angular-css':['angular'],
         'multiselect' : ['angular'],
         'bootstrap-toggle':['jquery'],
-        'chosen':['jquery'],
-         'showErrors' :  ['angular']
+        'showErrors' :  ['angular'],
+        'ng-tag': ['angular']
       },
 
       priority: [

@@ -238,13 +238,11 @@
                                         <!--Column 2-->
                                         <div class="col-md-6" style="padding: 0 0 0 10px;">
                                             <label class="col-sm-12 control-label greyTxt miniLabels">Label</label>
-                                            <select data-placeholder="Choose a Country..." class="chosen-select" multiple tabindex="4">
-                                                <option value=""></option>
-                                                <option value="United States">United States</option>
-                                                <option value="United Kingdom">United Kingdom</option>
-                                                <option value="Afghanistan">Afghanistan</option>
-                                                <option value="Aland Islands">Aland Islands</option>
-                                            </select>
+
+                                            <tags-input ng-model="tags"
+                                                        display-property="label"
+                                                        min-length="2"
+                                                ></tags-input>
                                         </div>
                                     </div>
 
@@ -281,6 +279,7 @@
                                                            placeholder="MM/DD/YYYY"
                                                            class="form-control"
                                                            readonly name="lowestStartTime"
+                                                           ng-model="startTime"
                                                            required/>
                                                 </div>
                                                 <div class="dateContainer form-group" style="padding-left: 10px;" show-errors>
@@ -898,7 +897,8 @@
                     <div class="zeroPadding">
                         <div class="adSave">
                             <!-- Standard button -->
-                            <button type="button" class="btn" data-ng-bind="textConstants.SAVE"></button>
+                            <span class="pull-right common-loading-btn" style="width: 61px;" ng-show="loadingBtn"></span>
+                            <button type="button" class="btn" data-ng-bind="textConstants.SAVE" ng-disabled="createIndependantAdsGrp.$invalid" ng-show="!loadingBtn"></button>
                             <button type="button" class="btn btn-link addClose" data-ng-bind="textConstants.CANCEL"></button>
                         </div>
                     </div>
@@ -967,4 +967,9 @@
         });
     })
 </script>
+<style>
+    tags-input .tags .tag-item {
+        background: #edf2f8;
+    }
+</style>
 

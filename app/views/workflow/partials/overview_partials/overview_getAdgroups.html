@@ -1,7 +1,7 @@
-<div class="col-md-12 adGroup" ng-repeat="adGroupsData in workflowData.campaignGetAdGroupsData">
+<div class="col-md-12 adGroup" ng-click="ToggleAdGroups(this,adGroupsData.adGroup.id,$index+1, $event)" ng-repeat="adGroupsData in workflowData.campaignGetAdGroupsData">
     <div class="adTitle" >
         <a class="collapseIcon" role="button" id="{{$index+1}}" href="">
-            <span class="icon-plus" ng-click="ToggleAdGroups(this,adGroupsData.adGroup.id,$index+1, $event)"></span>
+            <span class="icon-plus" ></span>
         </a>
 
         <div class="col-md-5 zeroPadding">

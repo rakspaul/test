@@ -58,9 +58,9 @@ define(['angularAMD',
     'highcharts',
     'highcharts-ng',
     'highcharts-more',
-    'chosen',
     'solid-gauge',
-    'showErrors'
+    'showErrors',
+    'ng-tag'
 ], function (angularAMD) {
     'use strict';
     return angularAMD;

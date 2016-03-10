@@ -19,6 +19,10 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
         $scope.performance=[];
         $scope.redirectFlag = false;
         localStorage.setItem('campaignData','');
+        $scope.tags = [
+
+        ];
+        $scope.loadingBtn = false;
         //$scope.moreThenThree = '';// not used
         $scope.campaignArchiveLoader = false;
         $scope.editCampaign=function(workflowcampaignData){
@@ -33,16 +37,16 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
         };
 
         //Pills
-        var configPills = {
-            '.chosen-select'           : {},
-            '.chosen-select-deselect'  : {allow_single_deselect:true},
-            '.chosen-select-no-single' : {disable_search_threshold:10},
-            '.chosen-select-no-results': {no_results_text:'Oops, nothing found!'},
-            '.chosen-select-width'     : {width:"95%"}
-        }
-        for (var selector in configPills) {
-            $(selector).chosen(configPills[selector]);
-        }
+        //var configPills = {
+        //    '.chosen-select'           : {},
+        //    '.chosen-select-deselect'  : {allow_single_deselect:true},
+        //    '.chosen-select-no-single' : {disable_search_threshold:10},
+        //    '.chosen-select-no-results': {no_results_text:'Oops, nothing found!'},
+        //    '.chosen-select-width'     : {width:"95%"}
+        //}
+        //for (var selector in configPills) {
+        //    $(selector).chosen(configPills[selector]);
+        //}
 
         //show selected targets in ads card
         $scope.displaySelectedTargets = function (adsData) {
@@ -403,10 +407,12 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
         $scope.ToggleAdGroups = function (context, adGrpId, index, event) {
             var elem = $(event.target);
             if (context.showHideToggle) {
-                elem.removeClass("icon-minus").addClass("icon-plus") ;
+                elem.parent().find(".collapseIcon span").removeClass("icon-minus").addClass("icon-plus") ;
+                //elem.removeClass("icon-minus").addClass("icon-plus") ;
                 context.showHideToggle = !context.showHideToggle
             } else {
-                elem.removeClass("icon-plus").addClass("icon-minus") ;
+                //elem.removeClass("icon-plus").addClass("icon-minus") ;
+                elem.parent().find(".collapseIcon span").removeClass("icon-plus").addClass("icon-minus") ;
                 context.showHideToggle = !context.showHideToggle
                 campaignOverView.getAdsInAdGroup($routeParams.campaignId, adGrpId, index);
             }
@@ -480,8 +486,10 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
         }
 
         $scope.createIndependantAdsGroup = function () {
+
             //api call here to group individual ads into a group
             $scope.$broadcast('show-errors-check-validity');
+            $scope.loadingBtn = true;
             if ($scope.createIndependantAdsGrp.$valid){
                 var formElem = $("#createIndependantAdsGrp");
                 var formData = formElem.serializeArray();
@@ -492,6 +500,7 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
                 postCreateAdObj.endTime = momentService.localTimeToUTC(formData.highestEndTime,'endTime');
                 postCreateAdObj.createdAt = "";
                 postCreateAdObj.updatedAt = "";
+                postCreateAdObj.labels = _.pluck($scope.tags, "label");
                 postCreateAdObj.id="-9999";
 
                 var dataArray = new Array;
@@ -548,5 +557,9 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
             $(this).find('.btn').toggleClass('btn-default');
 
         });
+
+        $scope.$watch($scope.tags,function(){
+            console.log("log == ",$scope.tags);
+        })
     });
 });
