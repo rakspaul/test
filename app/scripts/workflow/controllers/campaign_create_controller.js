@@ -13,6 +13,7 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
             costArr: []
 
         };
+        $scope.tags = [];
         $scope.saveCampaignClicked=false;
         $scope.platFormArr = [];
         $scope.selectedChannel = "Display";
@@ -855,6 +856,7 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
                 postDataObj.campaignCosts = $scope.newCostArr;//$scope.Campaign.costArr;
                 postDataObj.campaignObjectives = $scope.checkedObjectiveList;
                 postDataObj.preferredPlatforms = $scope.platFormArr;
+                postDataObj.labels = _.pluck($scope.tags, "label");
                 postDataObj.clientId = loginModel.getSelectedClient().id;
                 if ($scope.mode == 'edit') {
                     if (moment(formData.startTime).format(constants.DATE_UTC_SHORT_FORMAT) === momentService.utcToLocalTime($scope.editCampaignData.startTime, constants.DATE_UTC_SHORT_FORMAT))
