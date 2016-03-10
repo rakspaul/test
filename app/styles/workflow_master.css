@@ -1808,3 +1808,6 @@ input.cmn-toggle-round:checked + label:after {
 .dropdown-search-btn .category_dropdown {
   margin-top: 0px ;
 }
+tags-input .tags .tag-item {
+  background: #edf2f8;
+}
