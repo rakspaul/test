@@ -512,11 +512,14 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
                     $scope.Campaign.totalBudget = $scope.editCampaignData.totalBudget;
                     $scope.Campaign.marginPercent = $scope.editCampaignData.marginPercent ? $scope.editCampaignData.marginPercent :0;
                     $scope.Campaign.deliveryBudget = $scope.editCampaignData.deliveryBudget;
-                    for(var i = 0;i < $scope.editCampaignData.labels.length ;i++){
-                        var obj = {};
-                        obj.label = $scope.editCampaignData.labels[i];
-                        $scope.tags.push(obj);
+                    if( $scope.editCampaignData.labels && $scope.editCampaignData.labels.length > 0){
+                        for(var i = 0;i < $scope.editCampaignData.labels.length ;i++){
+                            var obj = {};
+                            obj.label = $scope.editCampaignData.labels[i];
+                            $scope.tags.push(obj);
+                        }
                     }
+
 
                     /*write condition for orange text here also*/
                     if (parseFloat($scope.Campaign.deliveryBudget) < 0) {
