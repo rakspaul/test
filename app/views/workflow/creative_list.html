@@ -90,6 +90,12 @@
 						<span ng-if="(creativeData.noOfAds > 0)" class="icon-arrow-down-thick" ng-click="toggleCreativeAds(this,creativeData.id, $index,$event)"></span>
 						<span ng-if="(creativeData.noOfAds === 0)" style="width: 25px; height: 48px; float: left;"></span>
 						<a href="javascript:void(0);" ng-click="ShowHideTag(creativeData, $index)" data-ng-bind="creativeData.name"></a>
+                        <div class="col-md-12 text-left zeroPadding">
+                            <div class="incompleteCreative" ng-show="creativeData.creativeState === 'INCOMPLETE'">
+                                <div class="icon-statusdraft"></div>
+                                <span style="text-transform: capitalize;" data-ng-bind="creativeData.creativeState|lowercase">Incomplete</span>
+                            </div>
+                        </div>
 						<div class="script_tag">
 							<div ng-show = "IsVisible" class="ng-cloak" data-ng-bind="creativeData.tag"></div>
 							<div id="creativetagValue"><pre data-ng-bind="creativeData.tag"></pre></div>

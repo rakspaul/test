@@ -113,7 +113,7 @@
   border-right: 1px solid rgba(191, 201, 215, 0.5);
   border-bottom: 1px solid rgba(191, 201, 215, 0.5);
   padding: 10px 15px 0;
-  min-height: 60px;
+  min-height: 84px;
 }
 .table-responsive .vistoTable .tbody .tr .td span,
 .table-responsive .vistoTable .tbody .tr .td a {
@@ -156,6 +156,24 @@
 }
 .table-responsive .vistoTable .tbody .tr .td:first-child a:hover {
   color: #0978C9;
+}
+.table-responsive .vistoTable .tbody .tr .td:first-child .incompleteCreative {
+  float: left;
+  padding: 0 0 5px 36px;
+  width: 100%;
+}
+.table-responsive .vistoTable .tbody .tr .td:first-child .incompleteCreative .icon-statusdraft {
+  float: left;
+  font-size: 12px;
+  width: 12px;
+  height: 12px;
+  margin: 3px 0 0 0;
+}
+.table-responsive .vistoTable .tbody .tr .td:first-child .incompleteCreative span {
+  float: left;
+  text-align: left;
+  padding: 0 0 0 4px;
+  width: auto;
 }
 .table-responsive .vistoTable .tbody .tr .td:first-child .icon-error {
   float: left;
