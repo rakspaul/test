@@ -879,6 +879,7 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
                     postDataObj.advertiserId = Number(formData.advertiserId);
                     workflowService.saveCampaign(postDataObj).then(function (result) {
                         if (result.status === "OK" || result.status === "success") {
+                            $scope.saveCampaignClicked=false;
                             $scope.sucessHandler(result);
                             localStorage.setItem('topAlertMessage', $scope.textConstants.CAMPAIGN_CREATED_SUCCESS);
                         }

@@ -182,7 +182,7 @@
 											<ul class="dropdown-menu" aria-labelledby="advertiserDDL"  id="advertiserDDL" ng-if="mode !== 'edit'">
 												<li ng-repeat="advertiser in workflowData.advertisers track by advertiser.id" class="available"><a ng-click="selectHandler('advertiser', advertiser)">{{advertiser.name}}</a></li>
 											</ul>
-											<input type="hidden" name="advertiserId" ng-model="selectedCampaign.advertiserId" ng-update-hidden required/>
+											<input type="hidden" name="advertiserId" ng-model="selectedCampaign.advertiserId"  ng-value="selectedCampaign.advertiserId" ng-update-hidden required/>
 										</div>
 									</div>
 									<label ng-if="createCampaignForm.advertiserId.$error.required" class="col-sm-12 greyTxt errorLabel">Please select the Advertiser.</label>
@@ -198,7 +198,7 @@
 											<ul class="dropdown-menu" aria-labelledby="brandDDL"  id="brandDDL">
 												<li ng-repeat="brand in workflowData.brands track by brand.id" class="available"><a ng-click="selectHandler('brand', brand)">{{brand.name}}</a></li>
 											</ul>
-											<input type="hidden" name="brandId" ng-model="selectedCampaign.brandId" ng-update-hidden/>
+											<input type="hidden" name="brandId" ng-model="selectedCampaign.brandId" ng-value="selectedCampaign.brandId" ng-update-hidden/>
 										</div>
 									</div>
 								</div>
