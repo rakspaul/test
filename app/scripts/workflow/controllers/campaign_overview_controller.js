@@ -19,6 +19,9 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
         $scope.performance=[];
         $scope.redirectFlag = false;
         localStorage.setItem('campaignData','');
+        $scope.tags = [
+
+        ];
         //$scope.moreThenThree = '';// not used
         $scope.campaignArchiveLoader = false;
         $scope.editCampaign=function(workflowcampaignData){
@@ -480,6 +483,7 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
         }
 
         $scope.createIndependantAdsGroup = function () {
+            console.log($scope.tags);
             //api call here to group individual ads into a group
             $scope.$broadcast('show-errors-check-validity');
             if ($scope.createIndependantAdsGrp.$valid){
@@ -548,5 +552,9 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
             $(this).find('.btn').toggleClass('btn-default');
 
         });
+
+        $scope.$watch($scope.tags,function(){
+            console.log("log == ",$scope.tags);
+        })
     });
 });
