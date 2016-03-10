@@ -1,7 +1,7 @@
 .showMobile {
   display: none;
 }
-@media (min-width: 1600px) {
+@media (min-width: 3000px) {
   .bodyWrap {
     width: 100% ;
     margin: 0 auto;
