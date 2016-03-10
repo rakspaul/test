@@ -8,7 +8,7 @@
            <!--  <div class="each_campaign_section">
                 <div class="campaign_status_icon {{strategy.li_status.toLowerCase()}}_bulb" tooltip-placement="left" tooltip="{{strategy.li_status.toLowerCase() | toCamelCase}}"></div>
             </div> -->
-            <div class="each_campaign_section" style="margin-left:20px;">
+            <div class="each_campaign_section">
                 <div class="main_heading">
                     <truncate-text-with-hover txt="{{strategy.name}}" txtlength="75"></truncate-text-with-hover>
                     <!--<span dynamic-tooltip="{{strategy.name}}" tooltip-element="searchElement" txt="{{strategy.name}}" txtLength="75"></span>-->
@@ -18,7 +18,9 @@
         <div class="clearfix heading">
             {{campaign.brandName}}
         </div>
-        <div class="each_campaign_section campaign_list_details">
+        
+        <!--Column 1-->
+        <div class="col-md-4 each_campaign_section campaign_list_details">
             <!-- <div class="strategy_heading">Strategy</div> -->
 
 
@@ -60,7 +62,9 @@
                 </a> -->
             </div>
         </div>
-        <div class="each_campaign_section metric_campaign_section">
+        
+        <!--Column 2-->
+        <div class="col-md-4 each_campaign_section metric_campaign_section">
             <div class="clearfix metric_graph_header">
                 <span class="metric_title">{{textConstants.SPEND}}</span>
                 <span class="metric_val">{{strategy.grossRev | currency:undefined: 2}}</span>
@@ -112,7 +116,9 @@
                 </div>
             </div>
         </div>
-        <div class="each_campaign_section campaign_section_KPI">
+        
+        <!--Column 3-->
+        <div class="col-md-4 each_campaign_section campaign_section_KPI">
             <div class="graph_details_KPI">
                 <div class="clearfix details_KPI_row1">
                     <span class="details_KPI_title">{{campaign.kpiType!='null' ?  campaign.kpiType : 'NA' | displayToCamelCase}}</span>
