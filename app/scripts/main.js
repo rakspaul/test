@@ -1,7 +1,7 @@
     require.config({
       // alias libraries paths.  Must set 'angular'
       paths: {
-        'angular': 'libs/angular',
+        'angular': 'libs/angular.min',
         'angular-route': 'libs/angular-route',
         'angularAMD': 'libs/angularAMD',
         'jquery': 'libs/jquery',
