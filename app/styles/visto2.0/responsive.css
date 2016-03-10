@@ -4,7 +4,6 @@
 @media (min-width: 1600px) {
   .bodyWrap {
     width: 100% ;
-    max-width: 1200px ;
     margin: 0 auto;
     padding: 0 30px;
   }
@@ -17,6 +16,12 @@
   }
   .bodyWrap .dashboardTest .row .col-md-8 {
     width: 50%;
+  }
+  .bodyWrap .table-responsive .vistoTable .thead.sticky {
+    width: 100%;
+    border-width: 0px;
+    padding: 0 30px;
+    left: 0;
   }
 }
 @media (max-width: 1260px) {

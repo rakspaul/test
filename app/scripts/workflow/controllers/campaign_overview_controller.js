@@ -19,9 +19,7 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
         $scope.performance=[];
         $scope.redirectFlag = false;
         localStorage.setItem('campaignData','');
-        $scope.tags = [
-
-        ];
+        $scope.tags = [];
         $scope.loadingBtn = false;
         //$scope.moreThenThree = '';// not used
         $scope.campaignArchiveLoader = false;
@@ -36,18 +34,8 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
             $rootScope.setErrAlertMessage("",0);
         };
 
-        //Pills
-        //var configPills = {
-        //    '.chosen-select'           : {},
-        //    '.chosen-select-deselect'  : {allow_single_deselect:true},
-        //    '.chosen-select-no-single' : {disable_search_threshold:10},
-        //    '.chosen-select-no-results': {no_results_text:'Oops, nothing found!'},
-        //    '.chosen-select-width'     : {width:"95%"}
-        //}
-        //for (var selector in configPills) {
-        //    $(selector).chosen(configPills[selector]);
-        //}
-
+        $(".bodyWrap").css('padding','0px');
+        
         //show selected targets in ads card
         $scope.displaySelectedTargets = function (adsData) {
             var selectedStr = '';
