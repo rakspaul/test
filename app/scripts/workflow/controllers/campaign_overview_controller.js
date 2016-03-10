@@ -500,6 +500,7 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
                 postCreateAdObj.endTime = momentService.localTimeToUTC(formData.highestEndTime,'endTime');
                 postCreateAdObj.createdAt = "";
                 postCreateAdObj.updatedAt = "";
+                postCreateAdObj.budget = formData.adIGroupBudget;
                 postCreateAdObj.labels = _.pluck($scope.tags, "label");
                 postCreateAdObj.id="-9999";
 
