@@ -6,13 +6,61 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
     angularAMD.controller('ReportsScheduleListController', function($scope,$filter, $location, $modal, $rootScope,
                                                                                 collectiveReportModel, momentService, loginModel,
                                                                                 constants, urlService, dataStore,
-                                                                                dataService) {
+                                                                               dataService) {
+
+        var _curCtrl = this;
         $scope.noOfSchldInstToShow = 3;
         $scope.scheduleInstCount = [];
         $scope.sort = {
             descending: true
         };
         var isSearch = false;
+        $scope.filters = {}
+        _curCtrl.isFilterExpanded = false;
+        $scope.clickedOnFilterIcon = function(){
+            _curCtrl.isFilterExpanded = !_curCtrl.isFilterExpanded;
+            var dropDownFilters = ["reportType", "startDate", "endDate", "dimensions"];
+            _.each(dropDownFilters,function(d){
+                _curCtrl.isFilterExpanded ? $scope.filters[d] = null : delete $scope.filters[d];
+            });
+        }
+        $scope.clearFilters = function(){
+            var filters = ["reportType", "startDate", "endDate", "dimensions", "searchText"];
+            _.each(filters,function(d){
+                $scope.filters[d] = null;
+            });
+            $scope.creativeSearch = '';
+        }
+        dataService.getCustomReportMetrics($scope.campaign).then(function(result) {
+            var jsonModifier = function(data) {
+                var arr = [];
+                _.each(data, function(obj) {
+                    var d = obj.split(":");
+                    arr.push({
+                        'key': d[0],
+                        'value': d[1]
+                    });
+                });
+
+                return arr;
+            }
+            $scope.customeDimension = jsonModifier(result.data.data[0].dimensions);
+        });
+
+        $scope.select_filter_option = function(key, value){
+            switch(key){
+                case "dimensions":
+                    $scope.filters[key] = ($scope.filters[key] ? ($scope.filters[key] + ','): '') + value;
+                break;
+                case "searchText":
+                    $scope.filters[key] = value;
+                    $scope.getScheduledReports();
+                default:
+                    $scope.filters[key] = value;
+            }
+
+        }
+
         $scope.getScheduledReports = function() {
             var scheduleReportListSucc = function(schdReportList) {
                 var instances,
@@ -34,8 +82,14 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
             var scheduleReportListError = function() {
                 // console.log('error occured');
             };
+            var queryStr = "?clientId="+loginModel.getSelectedClient().id;
+            queryStr += $scope.filters.reportType ? "&reportType="+$scope.filters.reportType : '';
+            queryStr += $scope.filters.startDate ? "&startDate="+$scope.filters.startDate : '';
+            queryStr += $scope.filters.endDate ? "&endDate="+$scope.filters.endDate : '';
+            queryStr += $scope.filters.dimensions ? "&dimensions="+$scope.filters.dimensions : '';
+            queryStr += $scope.filters.searchText ? "&searchText="+$scope.filters.searchText : '';
 
-            collectiveReportModel.getScheduleReportList(scheduleReportListSucc, scheduleReportListError);
+            collectiveReportModel.getScheduleReportList(scheduleReportListSucc, scheduleReportListError, queryStr);
         };
 
         $scope.reset_custom_report = function(event) {
@@ -256,6 +310,7 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
         };
 
         $scope.searchHideInput = function () {
+            delete $scope.filters.searchText;
             isSearch = false;
             $(".searchInputForm").animate({width: '44px'}, 'fast');
             var inputSearch = $(".searchInputForm input");

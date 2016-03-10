@@ -30,10 +30,13 @@ angularAMD.factory("collectiveReportModel", ['urlService', 'dataService', 'adver
             });
         }
 
-        var getScheduleReportList = function(successFn,errorFn) {
+        var getScheduleReportList = function(successFn, errorFn, queryStr) {
             var url = urlService.scheduleReportsList();
             if(url) {
                 dataStore.deleteFromCache(url);
+            }
+            if(queryStr){
+                url += queryStr;
             }
             dataService.fetch(url).then(function(response){
                 if(response.status == "error") {
