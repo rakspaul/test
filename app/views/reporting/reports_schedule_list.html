@@ -169,14 +169,14 @@
                                             <!-- <li ng-click="editSchdReport(srlist.reportId)" ng-bind-html="textConstants.EDIT"/>
                                             <li ng-click="copyScheduleRpt(srlist.reportId)" ng-bind-html="textConstants.COPY"/>
                                             <li ng-click="deleteSchdRpt(srlist.reportId)" ng-bind-html="textConstants.DELETE"/> -->
-                                            <li ng-click="downloadSchdReport($parent.$index,$index,srlist.instances[$index].instanceId)"
+                                            <li ng-click="editSchdReport(srlist.reportId)"
                                                 ng-bind-html="textConstants.EDIT"/>
-                                            <li ng-click="deleteSchdRptInstance(srlist.reportId,srlist.instances[$index].instanceId)"
+                                            <li ng-click="copyScheduleRpt(srlist.reportId)"
                                                 ng-bind-html="textConstants.COPY"/>
-                                            <li ng-click="archiveSchdRpt(srlist.reportId,srlist.instances[$index].instanceId)"
+                                            <li ng-click="deleteSchdRptInstance(srlist.reportId,srlist.instances[$index].instanceId)"
                                                 ng-bind-html="textConstants.DELETE"/>
 
-                                            <li class="headerDownload">
+                                            <li class="headerDownload" ng-click="downloadSchdReport($parent.$index,$index,srlist.instances[$index].instanceId)">
                                                 <span class="icon-download zeroPadding"></span>
                                                 <span class="greyTxt" style="padding-left: 7px !important;"><a href="">Download</a></span>
                                             </li>
