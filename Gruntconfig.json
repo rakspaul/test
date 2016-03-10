@@ -12,7 +12,7 @@
     },
 
     "bowerFiles": [
-        "angular/angular.js",
+        "angular/angular.min.js",
         "angular-route/angular-route.js",
         "angularAMD/angularAMD.js",
         "angularAMD/ngload.js",
@@ -44,10 +44,6 @@
         "highcharts-ng/dist/highcharts-ng",
         "ng-tags-input/ng-tags-input.min.js"
 
-    ],
-
-    "cssFiles": [
-        "bootstrap/dist/css/bootstrap.min.css"
     ],
 
     "cssFonts": [
