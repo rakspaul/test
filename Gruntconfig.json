@@ -42,7 +42,6 @@
         "filesaver/FileSaver.js",
         "highcharts/highcharts",
         "highcharts-ng/dist/highcharts-ng",
-        "chosen/chosen.js",
         "ng-tags-input/ng-tags-input.min.js"
 
     ],

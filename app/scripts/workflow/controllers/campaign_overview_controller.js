@@ -37,16 +37,16 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
         };
 
         //Pills
-        var configPills = {
-            '.chosen-select'           : {},
-            '.chosen-select-deselect'  : {allow_single_deselect:true},
-            '.chosen-select-no-single' : {disable_search_threshold:10},
-            '.chosen-select-no-results': {no_results_text:'Oops, nothing found!'},
-            '.chosen-select-width'     : {width:"95%"}
-        }
-        for (var selector in configPills) {
-            $(selector).chosen(configPills[selector]);
-        }
+        //var configPills = {
+        //    '.chosen-select'           : {},
+        //    '.chosen-select-deselect'  : {allow_single_deselect:true},
+        //    '.chosen-select-no-single' : {disable_search_threshold:10},
+        //    '.chosen-select-no-results': {no_results_text:'Oops, nothing found!'},
+        //    '.chosen-select-width'     : {width:"95%"}
+        //}
+        //for (var selector in configPills) {
+        //    $(selector).chosen(configPills[selector]);
+        //}
 
         //show selected targets in ads card
         $scope.displaySelectedTargets = function (adsData) {

@@ -34,7 +34,6 @@
         'lrInfiniteScroll': 'libs/lrInfiniteScroll',
         'filesaver': 'libs/FileSaver',
         'multiselect':'multi_select',
-        'chosen': 'libs/chosen',
         'ng-tag': 'libs/ng-tags-input.min'
       },
 
@@ -73,7 +72,6 @@
         'angular-css':['angular'],
         'multiselect' : ['angular'],
         'bootstrap-toggle':['jquery'],
-        'chosen':['jquery'],
         'showErrors' :  ['angular'],
         'ng-tag': ['angular']
       },

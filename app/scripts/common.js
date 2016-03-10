@@ -58,7 +58,6 @@ define(['angularAMD',
     'highcharts',
     'highcharts-ng',
     'highcharts-more',
-    'chosen',
     'solid-gauge',
     'showErrors',
     'ng-tag'
