@@ -154,8 +154,8 @@
                         <div class="col-md-9"
                             ng-class="{'no-instance':srlist.instances.length <= 0}"
                             title="{{srlist.name}}"
-                            ng-click="open_second_dimension($event,$index);">
-                            {{srlist.name}}
+                            ng-click="redirect_or_open_2nd_dimension($event,$index,srlist.reportId, srlist.frequency);">
+                        {{srlist.name}}
                             <span ng-if="srlist.instances.length > 0" ng-bind-html="' ('+srlist.instances.length+')'"></span>
                         </div>
                         
