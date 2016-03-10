@@ -201,9 +201,15 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
                 }
             });
         }
-
         $scope.editSchdReport = function(reportId) {
-            $location.path('/customreport/edit/' + reportId);
+            var url = '/customreport/edit/' + reportId;
+            localStorage['scheduleListReportType'] = "scheduled";
+            _.each($scope.schdReportList, function(item){
+                if(reportId == item.reportId && item.frequency == "Saved"){
+                    localStorage['scheduleListReportType'] = "Saved";
+                }
+            });
+            $location.path(url);
         }
 
 
