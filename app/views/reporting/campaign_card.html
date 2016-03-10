@@ -71,7 +71,7 @@
                         <div class="end_point_line"></div>
                     </div>
                 </div>
-                <div class="graph_end_point completed_end_point budget_graph_val" ng-hide="( (campaign.expectedMediaCost == campaign.totalMediaCost ) ||  (campaigns.durationLeft(campaign) == 0) ) "><!-- put completed_end_point when at end -->
+                <div class="graph_end_point completed_end_point budget_graph_val" ng-hide="(campaigns.durationLeft(campaign) == 0)"><!-- put completed_end_point when at end -->
                     <div class="end_point_val">
                         <div class="end_point_line"></div>
                         <span ng-bind='textConstants.BUDGET_WITH_COLON + " " + (campaign.totalMediaCost | currency:undefined:2)'></span>
