@@ -41,6 +41,11 @@
   background-position: left 15px center ;
   cursor: pointer;
 }
+.reports-scheduled-list .scheduled_list_table .table-th .no-instance,
+.reports-scheduled-list .scheduled_list_table .table-td .no-instance {
+  background-image: none !important;
+  cursor: initial !important;
+}
 .reports-scheduled-list .scheduled_list_table div.name-col {
   width: 33.33333333%;
   padding: 0 5px 0 0px;
