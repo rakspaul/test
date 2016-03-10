@@ -529,7 +529,7 @@ define(['angularAMD','../services/audience_service','workflow/services/workflow_
         };
 
         $scope.selectStartTime = function (parentIndex,stTime) {
-            $scope.Schedule.dayPart[parentIndex].stTime = stTime;
+            $scope.Schedule.dayPart[parentIndex].stTime = Number(stTime);
             $scope.dayTimeSelected = 'Custom schedule';
             $scope.customFlag = true;
         };

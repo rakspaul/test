@@ -49,6 +49,7 @@ define(['angularAMD','../services/workflow_service','workflow/services/audience_
             }
 
             if (targetingName === 'Daypart') {
+                $scope.adData.isDaypartSelected = true;
                 if(fetchedObj && fetchedObj.targets.adDaypartTargets && _.size(fetchedObj.targets.adDaypartTargets) > 0 && $scope.mode === 'edit' &&  !$scope.isDayPartTriggered) {
                     $timeout(function() {
                         $scope.$broadcast("updateDayPart", true);
@@ -56,7 +57,7 @@ define(['angularAMD','../services/workflow_service','workflow/services/audience_
                     }, 2000)
 
                 }
-                $scope.adData.isDaypartSelected = true;
+
             }
         };
 
@@ -68,8 +69,8 @@ define(['angularAMD','../services/workflow_service','workflow/services/audience_
 
         // Audience Targeting Trigger -- Onclick
         $scope.selectAudTarget = function () {
-            _targeting.setTargetingForPreview('Audience');
             $scope.$broadcast('triggerAudience');
+            _targeting.setTargetingForPreview('Audience');
         };
 
         $scope.deleteAudienceTargetting = function () {
@@ -77,7 +78,7 @@ define(['angularAMD','../services/workflow_service','workflow/services/audience_
             var audienceData = $scope.audienceDataForPreview;
             if(audienceData) audienceData.length = 0;
             $scope.adData.isAudienceSelected = null;
-            workflowService.setDeleteModule('Audience');
+
             if($scope.mode === 'edit') {
                 var adData = angular.copy(workflowService.getAdsDetails());
                 adData.targets.segmentTargets.segmentList = null;
@@ -85,8 +86,6 @@ define(['angularAMD','../services/workflow_service','workflow/services/audience_
                 audienceService.resetAudienceData();
             }
         };
-
-
 
         /****************** START : DAY PARTING TARGETING  ***********************/
 
@@ -98,8 +97,8 @@ define(['angularAMD','../services/workflow_service','workflow/services/audience_
 
         // Day Targeting Trigger
         $scope.selectDayTarget = function () {
-            _targeting.setTargetingForPreview('Daypart');
             $scope.$broadcast('triggerDayPart');
+            _targeting.setTargetingForPreview('Daypart');
 
         };
 
@@ -111,7 +110,6 @@ define(['angularAMD','../services/workflow_service','workflow/services/audience_
             localStorage.removeItem("dayPart");
             localStorage.removeItem("dayTimeSelected");
             localStorage.removeItem("daytimeArr");
-            workflowService.setDeleteModule('dayParting');
             if($scope.mode === 'edit') {
                 var adData = angular.copy(workflowService.getAdsDetails());
                 adData.targets.adDaypartTargets = null;
@@ -192,8 +190,8 @@ define(['angularAMD','../services/workflow_service','workflow/services/audience_
 
         // geo Targeting Trigger
         $scope.selectGeoTarget = function () {
-            _targeting.setTargetingForPreview('Geography'); // show targeting in side bar
             $scope.$broadcast('triggerGeography');
+            _targeting.setTargetingForPreview('Geography'); // show targeting in side bar
 
         };
 
@@ -203,7 +201,6 @@ define(['angularAMD','../services/workflow_service','workflow/services/audience_
             workflowService.resetDeleteModule();
             workflowService.setSavedGeo(null);
             $scope.adData.isGeographySelected  = null;
-            workflowService.setDeleteModule('Geography');
             $scope.$broadcast('resetVariables');
             if($scope.mode === 'edit') {
                 var adData = angular.copy(workflowService.getAdsDetails());
@@ -214,12 +211,16 @@ define(['angularAMD','../services/workflow_service','workflow/services/audience_
 
         $scope.deleteTargetting = function () {
             $scope.showDeleteConfirmationPopup = !$scope.showDeleteConfirmationPopup;
-            if ($scope.deleteType == "AUDIENCE")
+            if ($scope.deleteType == "AUDIENCE") {
+                workflowService.setDeleteModule('Audience');
                 $scope.deleteAudienceTargetting();
-            else if ($scope.deleteType == "GEO")
+            } else if ($scope.deleteType == "GEO") {
+                workflowService.setDeleteModule('Geography');
                 $scope.deleteGeoTargetting();
-            else if ($scope.deleteType == "DAYPART")
+            } else if ($scope.deleteType == "DAYPART") {
+                workflowService.setDeleteModule('dayParting');
                 $scope.deleteDayPartTargetting();
+            }
         };
 
         $scope.cancelTargettingDelete = function () {
