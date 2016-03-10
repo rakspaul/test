@@ -6,13 +6,11 @@ module.exports =function(grunt) {
             files: [{
                 dot: true,
                 src: [
-                    '.tmp',
                     '<%= cvars.dist %>/*',
                     '!<%= cvars.dist %>/.git*'
                 ]
             }]
-        },
-        server: '.tmp'
+        }
     };
 
     grunt.config('clean', config);

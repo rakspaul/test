@@ -7,8 +7,8 @@ module.exports =function(grunt) {
         },
         files: [
             {
-                cwd: '<%= cvars.dist %>/<%= cvars.appjs %>/',
                 expand: true,
+                cwd: '<%= cvars.dist %>/<%= cvars.appjs %>/',
                 dest: '<%= cvars.dist %>/<%= cvars.appjs %>/',
                 src: '**/*.js'
             }
