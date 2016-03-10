@@ -260,7 +260,7 @@
                                         </div>
 
                                         <div class="col-md-3" style="padding: 0 0 0 10px;">
-                                            Widget Goes Here
+                                            <!--Widget Goes Here-->
                                         </div>
                                     </div>
 
@@ -300,11 +300,12 @@
                                         </div>
                                     </div>
                                     <div class="col-md-2 zeroPadding" style="margin-top: 75px;">
+                                        <span class="pull-right common-loading-btn" style="width: 61px;" ng-show="loadingBtn"></span>
                                         <button type="submit"
                                                 class="btn btn-primary pull-right"
                                                 id="groupIndividual"
                                                 ng-disabled="createIndependantAdsGrp.$invalid"
-                                                ng-click="createIndependantAdsGroup()" data-ng-bind="textConstants.SAVE">
+                                                ng-click="createIndependantAdsGroup()" data-ng-bind="textConstants.SAVE" ng-show="!loadingBtn">
                                         </button>
                                         <span class="pull-right secondary_txt" ng-click="groupIndividualAds()" data-ng-bind="textConstants.CANCEL"></span>
                                     </div>
