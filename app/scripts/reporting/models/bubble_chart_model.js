@@ -90,17 +90,18 @@ define(['angularAMD','common/services/url_service','reporting/timePeriod/time_pe
       };
       var url = urlService.APISpendWidgetForCampaigns(queryObj);
       return dataService.fetch(url).then(function (response) {
+        if(response) {
+            var campaigns = (response.data.data !== undefined) ? response.data.data.campaigns : {};
+            var campaignLength = (campaigns !== undefined) ? campaigns.length : 0;
 
-        var campaigns = (response.data.data !== undefined) ? response.data.data.campaigns : {};
-        var campaignLength = (campaigns !== undefined) ? campaigns.length : 0;
+            if (campaigns != undefined) {
+                bubbleWidgetData['dataNotAvailable'] = false;
+                bubbleWidgetData['campaignDataForSelectedBrand'] = campaigns;
+                bubbleWidgetData['budget_top_title'] = (campaignLength >= 5) ? "(Top 5 Media Plans)" : "(All Media Plans)";
 
-        if (campaigns != undefined) {
-          bubbleWidgetData['dataNotAvailable'] = false;
-          bubbleWidgetData['campaignDataForSelectedBrand'] = campaigns;
-          bubbleWidgetData['budget_top_title'] = (campaignLength >= 5) ? "(Top 5 Media Plans)" : "(All Media Plans)";
-
-        } else {
-          bubbleWidgetData['dataNotAvailable'] = true;
+            } else {
+                bubbleWidgetData['dataNotAvailable'] = true;
+            }
         }
         return campaigns;
       })

@@ -418,16 +418,28 @@ define(['common'], function (angularAMD) {
           }
 
           dataService.updateRequestHeader();
-          if ((loginModel.getAuthToken()) && (localStorage.getItem('selectedClient') === null ||
-            localStorage.getItem('selectedClient') == undefined )) {
+          if ((loginModel.getAuthToken()) && (localStorage.getItem('selectedClient') === null || localStorage.getItem('selectedClient') == undefined )) {
+            var userObj = JSON.parse(localStorage.getItem("userObj"));
             workflowService
               .getClients()
               .then(function (result) {
                 if (result && result.data.data.length >0) {
-                  loginModel.setSelectedClient({
-                    'id': result.data.data[0].children[0].id,
-                    'name': result.data.data[0].children[0].name
-                  });
+                    _.each(result.data.data, function (org) {
+                        if(org.children.length > 1) {
+                            _.each(org.children, function (eachObj) {
+                                if(eachObj.id === userObj.preferred_client) {
+                                    loginModel.setSelectedClient({
+                                        'id': eachObj.id,
+                                        'name': eachObj.name
+                                    });
+                                }
+                            })
+                        }
+                    })
+                      //loginModel.setSelectedClient({
+                      //  'id': result.data.data[0].children[0].id,
+                      //  'name': result.data.data[0].children[0].name
+                      //});
                   if (locationPath === '/login' || locationPath === '/') {
                     handleLoginRedirection();
                   }
