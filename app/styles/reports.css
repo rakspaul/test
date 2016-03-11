@@ -3588,6 +3588,79 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 .report_generator_and_response {
   background: #fff ;
 }
+.report_generator_and_response .save_reset {
+  padding: 9px;
+  border: solid 1px #a9a9a9;
+  border-radius: 4px;
+  color: grey;
+  margin-top: 0px;
+}
+.report_generator_and_response .save_reset.glyphicon-repeat::before {
+  content: " ";
+  left: 2px;
+}
+.report_generator_and_response #dynamicHeader {
+  padding-left: 0;
+  min-width: 1277px;
+}
+.report_generator_and_response #dynamicHeader.smaller {
+  background-color: #fff;
+  border-bottom: solid 1px gray;
+  margin-bottom: 38px;
+  height: 58px;
+}
+.report_generator_and_response #dynamicHeader.smaller h3 {
+  font-size: 15px;
+  margin-bottom: -4px;
+  margin-right: 20px;
+  bottom: -5px;
+  float: left;
+  left: 6px;
+  position: relative;
+  margin-top: 0;
+}
+.report_generator_and_response #dynamicHeader.smaller h6 {
+  margin-top: 7px;
+}
+.report_generator_and_response #dynamicHeader.smaller .collapseIcon {
+  display: inline;
+}
+.report_generator_and_response #dynamicHeader.smaller .small {
+  display: block;
+}
+.report_generator_and_response #dynamicHeader.smaller .big {
+  display: none;
+}
+.report_generator_and_response #dynamicHeader {
+  padding-left: 0;
+}
+.report_generator_and_response #dynamicHeader .collapseIcon {
+  display: none;
+}
+.report_generator_and_response #dynamicHeader .small {
+  display: none;
+}
+.report_generator_and_response #dynamicHeader .big {
+  display: block;
+}
+.report_generator_and_response .collapseIcon {
+  visibility: hidden;
+}
+.report_generator_and_response .icon-minus,
+.report_generator_and_response .icon-plus {
+  color: #57606d;
+  font-size: 12px;
+  height: 24px;
+  padding: 6px;
+  top: 0;
+  width: 24px;
+  border: 1px solid #C6C9CE;
+  border-radius: 2px;
+  float: left;
+  margin-right: 10px;
+  margin-left: 18px;
+  margin-top: 17px;
+}
 .report_generator_and_response .report_builder_container {
   margin-bottom: 30px ;
   /* firefox 19+ */

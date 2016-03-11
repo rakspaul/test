@@ -228,6 +228,12 @@ define(['angularAMD','common/services/vistoconfig_service', 'common/services/con
             return vistoconfig.apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId + '/scheduledreports/getReport/' + reportId;
         }
 
+        this.savedReport = function (reportId) {
+            var clientId =  loginModel.getSelectedClient().id;
+            return vistoconfig.apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId + '/savedreports/getReport/' + reportId;
+        }
+
+
         this.deleteSchdRpt = function (reportId) {
             var clientId =  loginModel.getSelectedClient().id;
             return vistoconfig.apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId + '/scheduledreports/deleteReport/' + reportId;
@@ -242,6 +248,12 @@ define(['angularAMD','common/services/vistoconfig_service', 'common/services/con
             var clientId =  loginModel.getSelectedClient().id;
             return vistoconfig.apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId + '/scheduledreports/createReport';
         }
+
+        this.createSaveRpt = function () {
+            var clientId =  loginModel.getSelectedClient().id;
+            return vistoconfig.apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId + '/savedreports/createReport';
+        }
+
 
         this.archiveSchldRpt = function (reportId, instanceId) {
             var clientId =  loginModel.getSelectedClient().id;

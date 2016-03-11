@@ -26,30 +26,50 @@
     }
     .table-td  {
       white-space: nowrap;
-      overflow: hidden;
-      text-overflow : ellipsis ;
-
+      //overflow: hidden;
+      text-overflow: ellipsis ;
     }
     .table-th , .table-td  {
       float: left;
-      width: 200px ;
-      min-height: 35px ;
-      &:first-child {
-        padding-left: 40px ;
-        background-image : url("/images/cdesk/common_side_arrow.png") ;
-        background-repeat: no-repeat  ;
-        background-position: left 15px center ;
-        cursor: pointer;
-      }
+      //width: 200px ;
+      min-height: 51px ;
+      .col-md-9 {
+        &:first-child {
+            padding-left: 40px ;
+            background-image : url("/images/cdesk/common_side_arrow.png") ;
+            background-repeat: no-repeat  ;
+            background-position: left 15px center ;
+            cursor: pointer;
+            }  
+        }
+        .no-instance {
+            background-image: none !important;
+            cursor: initial !important;
+        }
     }
     div.name-col {
-      width: 405px ;
+      width: 33.33333333%;
+      padding: 0 5px 0 0px;
+      .col-md-9 {
+        padding: 15px 0;
+      }
+      .more-options {
+        float: right;
+        border-width: 0;
+        margin: 9px 0 0 0;
+        min-height: auto;
+        background: transparent !important;
+        .dropdown:hover {
+            background: transparent !important;
+        }
+      }
     }
     .table-th.name-col {
       cursor: text;
+      padding: 20px 40px;
     }
     div.frequency-col {
-      width: 130px ;
+      //width: 130px ;
       cursor: pointer;
     }
     div.more-options {
@@ -68,8 +88,10 @@
     }
     .row.open {
       .table-td {
-        &:first-child {
-          background-image : url("/images/cdesk/common_down_arrow.png") ;
+        .col-md-9 {
+            &:first-child {
+            background-image : url("/images/cdesk/common_down_arrow.png") ;
+          }
         }
       }
     }
@@ -84,7 +106,7 @@
           display:none;
       }
       .rowHover:hover {
-          background: #FF6600;
+          background-color: #DCE6F1;
           .hideOption {
               display:block;
           }
@@ -105,17 +127,8 @@
           width: 140px;
           border-color: #dde6eb ;
           border-radius:3px;
-          .headerDownload {
-              border-top:1px solid #ccd2da;
-              > span {
-                  border:1px none #FF6600;
-                  float: none;
-                  width: 23px;
-              }
-          }
-
           li {
-            padding: 5px 15px;
+            padding: 5px 0;
             cursor: pointer;
             &:hover {
               background: #FFFFFF ;
@@ -129,6 +142,28 @@
       .dropdown.open {
         background: #FFFFFF ;
       }
+        .headerDownload {
+                border-top:1px solid #ccd2da;
+                padding: 5px 15px !important;
+            span {
+                width: auto;
+                margin: 3px 0 0 9px;
+                display: inline-block;
+                clear: none;
+            }
+            a {
+                margin: 0;
+                color: #0978c9;
+                clear: none;
+                width: auto;
+                display: inline-block;
+                line-height: 100%;
+                padding: 7px 0 0 10px;
+            }
+            a:hover {
+                background: none;
+            }
+        }
     }
     .option-horizontal {
       text-align: center;
@@ -150,10 +185,10 @@
       .inner-row {
         display: none;
         .table-td {
-          background-color: #fff  ;
+          //background-color: #fff  ;
           &:first-child {
             background-image : none ;
-            padding-left: 55px;
+            padding-left: 30px;
             cursor: text;
           }
         }
@@ -176,8 +211,8 @@
       border-color: #bfc9d7  ;
       border-width: 0px 0 1px 1px ;
       border-style: solid ;
-      padding: 7px 20px;
-      background-color: #ffffff ;
+      padding: 15px 20px;
+      //background-color: #ffffff ;
       &:last-child {
         border-right-width : 1px  ;
       }
@@ -234,9 +269,10 @@
 
     .searchInput {
         width: auto;
-        border: 1px solid #BFC9D7;
+        border: 1px solid #dde6eb;
         border-radius: 2px;
         margin-right:5px;
+        float: left;
         a.btn {
             cursor: pointer;
             height: 34px;
