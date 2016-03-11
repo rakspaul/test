@@ -80,10 +80,10 @@ define(['angularAMD', 'workflow/services/workflow_service', 'workflow/services/f
                 $scope.domainUploadInProgress = true;
             }
 
-            function uploadSuccessCallback(response /*, status, headers, config*/ ) {
+            function uploadSuccessCallback(response) {
                 var inventoryData = $scope.workflowData.inventoryData,
                     selectedLists = $scope.workflowData.selectedLists;
-
+console.log('response.data = ', response.data);
                 response.data.domainNamesDisplay = 'collapsed';
 
                 if ($scope.inventoryCreate) {
@@ -98,6 +98,7 @@ define(['angularAMD', 'workflow/services/workflow_service', 'workflow/services/f
                     // Reset the flag variable
                     $scope.inventoryCreate = false;
                 } else {
+                    response.data.checked = true;
                     _.each(inventoryData, function(obj, idx) {
                         if (obj.id === response.data.id) {
                             inventoryData[idx] = response.data;
@@ -280,6 +281,8 @@ define(['angularAMD', 'workflow/services/workflow_service', 'workflow/services/f
             };
 
             $scope.workflowData.assignCurrentInventory = function(obj) {
+console.log('$scope.adData.inventory = ', $scope.adData.inventory);
+console.log('obj = ', obj)
                 $scope.adData.inventory = obj;
             };
 
