@@ -141,6 +141,11 @@ define(['angularAMD','common/services/vistoconfig_service', 'common/services/dat
                 return this.post( urlService.createScheduledRpt(), data, {'Content-Type': 'application/json'})
             },
 
+
+            createSaveReport :  function(data) {
+                return this.post( urlService.createSaveRpt(), data, {'Content-Type': 'application/json'})
+            },
+
             updateScheduleReport: function(reportId,data) {
                 var url = urlService.updateScheduledRpt(reportId);
                 return this.put(url,data);
