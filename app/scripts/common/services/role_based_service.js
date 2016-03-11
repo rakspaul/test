@@ -36,7 +36,8 @@ define(['angularAMD', '../moment_utils', 'common/services/constants_service'], f
 
         var setUserData = function(response) {
             var userObj = {
-                'authorizationKey' : response.data.data.auth_token
+                'authorizationKey' : response.data.data.auth_token,
+                'preferred_client' : response.data.data.preferred_client
             };
             localStorage.setItem('userObj', JSON.stringify(userObj));
         };

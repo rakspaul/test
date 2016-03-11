@@ -13,19 +13,19 @@ define(['angularAMD',  'common/services/constants_service', 'login/login_model',
         if($cookieStore.get('cdesk_session')) {
             workflowService.getClients().then(function (result) {
                 if (result && result.data.data.length > 0) {
-                    if(!loginModel.getSelectedClient()) {
-                        //$scope.result.data.data[0].children = _.sortBy(result.data.data[0].children);
-                        loginModel.setSelectedClient({
-                            'id': result.data.data[0].children[0].id,
-                            'name': result.data.data[0].children[0].name
-                        });
-                    }
+                    var preferred_client = RoleBasedService.getUserData().preferred_client;
                     $scope.accountsData = [];
                     _.each(result.data.data, function (org) {
                         if(org.children.length > 1) {
                             $scope.multipleClient = true;
                             _.each(org.children, function (eachObj) {
-                                $scope.accountsData.push({'id': eachObj.id, 'name': eachObj.name})
+                                $scope.accountsData.push({'id': eachObj.id, 'name': eachObj.name});
+                                if(eachObj.id === preferred_client && !loginModel.getSelectedClient()) {
+                                    loginModel.setSelectedClient({
+                                        'id': eachObj.id,
+                                        'name': eachObj.name
+                                    });
+                                }
                             })
                         } else {
                             $scope.multipleClient = false;
@@ -266,7 +266,7 @@ define(['angularAMD',  'common/services/constants_service', 'login/login_model',
                     }
                 }
             });
-            
+
             //Mobile Menu
             $scope.mobileMenuShow = function () {
                 var winHeightMaster = $(".bodyWrap").height();
@@ -278,7 +278,7 @@ define(['angularAMD',  'common/services/constants_service', 'login/login_model',
                 $(".mobileNav").show("slide", { direction: "left" }, 300);
                 $(".icon-hamburger").css({"-ms-transform" : "rotate(90deg)", "-webkit-transform" : "rotate(90deg)", "transform" : "rotate(90deg)"});
             }
-            
+
             $scope.mobileMenuHide = function () {
                 $(".mobileNavWrap").hide();
                 $(".icon-hamburger").css({"-ms-transform" : "rotate(0deg)", "-webkit-transform" : "rotate(0deg)", "transform" : "rotate(0deg)"});
