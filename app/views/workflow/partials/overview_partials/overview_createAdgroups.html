@@ -14,15 +14,31 @@
         </div>
 
         <!--Label for Ad Group-->
-        <div class="col-md-6 zeroPadding">
-            <label for="nameTitleAdGroup" class="col-sm-12 control-label labelQuestTxt">Label</label>
-            <select data-placeholder="Choose a Country..." class="chosen-select" multiple tabindex="4">
-                <option value=""></option>
-                <option value="United States">United States</option>
-                <option value="United Kingdom">United Kingdom</option>
-                <option value="Afghanistan">Afghanistan</option>
-                <option value="Aland Islands">Aland Islands</option>
-            </select>
+        <div class="col-md-6" style="padding: 0 0 0 10px;">
+            <label class="col-sm-12 control-label greyTxt miniLabels">Label</label>
+
+            <tags-input ng-model="tags"
+                        display-property="label"
+                        min-length="2"
+                ></tags-input>
+        </div>
+        <div class="col-md-12 zeroPadding">
+            <label for="budgetIndividualAdGroup" class="col-sm-12 control-label labelQuestTxt">What's the maximum
+                you can spend for your Ad Group?</label>
+            <label class="col-sm-12 control-label greyTxt miniLabels">Budget</label>
+            <div class="form-group col-md-3" style="padding: 0 10px 0 0;">
+                <span class="currencyFly">$</span>
+                <input type="number"
+                       class="form-control text-right"
+                       id="budgetIndividualAdGroup"
+                       name="adIGroupBudget"
+                       ng-model = "budget"
+                       maxlength="30"/>
+            </div>
+
+            <div class="col-md-3" style="padding: 0 0 0 10px;">
+                <!--Widget Goes Here-->
+            </div>
         </div>
 
         <!--Calender Ad Group-->

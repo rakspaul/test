@@ -304,14 +304,15 @@ define(['angularAMD','common/services/vistoconfig_service', 'common/services/con
                 );
             },
 
-            getCreatives: function (clientId, advertiserId, formats, query, cacheObj, integrationTracking) {
+            getCreatives: function (clientId, advertiserId, formats, query, cacheObj, integrationTracking,state) {
                 var queryStr = query ? query : '',
                     creativeFormats = formats ? '?creativeFormat=' + formats : '',
                     intTracking = integrationTracking ? '&tracking=true' : '&tracking=false',
+                    state=state ? '&status=READY':'',
                     url = vistoconfig.apiPaths.WORKFLOW_API_URL +
                             '/clients/' + clientId +
                             '/advertisers/' + advertiserId +
-                            '/creatives' + creativeFormats + queryStr + intTracking;
+                            '/creatives' + creativeFormats + queryStr + intTracking +state;
 
                 return dataService.fetch(url, cacheObj);
             },

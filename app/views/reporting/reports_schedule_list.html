@@ -23,11 +23,11 @@
     <!--Search Input-->
         <div class="pull-right">
             <div class="searchInput" style="float:left;">
-            <a class="btn btn-default searchInputBtn" ng-click="searchShowInput()">
+            <a class="btn btn-default searchInputBtn" ng-click="searchShowInput();filters.searchText=null">
                 <span class="icon-search" aria-hidden="true" style="margin: -1px 0 0 0;"></span>
             </a>
             <div class="input-group searchInputForm" >
-                <input type="text" class="form-control" name="creativeSearch" ng-model="creativeSearch" ng-keyup="creativeSearchFunc()" placeholder="Search Reports By Report Name..">
+                <input type="text" class="form-control" name="creativeSearch" ng-model="creativeSearch" ng-keyup="select_filter_option('searchText', creativeSearch)" placeholder="Search Reports By Report Name..">
                 <div class="btn btn-default" ng-click="searchHideInput()">
                     <span class="icon-clear" aria-hidden="true"></span>
                 </div>
@@ -35,7 +35,7 @@
             </div>
             <div class="searchInput" style="float:right;">
                 <button type="button" class="btn btn-default"
-                        data-toggle="collapse" data-target="#schedule_report_filter" style="height:34px;"><span class="icon-filter" style="margin: -1px 0 0 0;"></span></button>
+                        data-toggle="collapse" data-target="#schedule_report_filter" style="height:34px;" data-ng-click="clickedOnFilterIcon()"><span class="icon-filter" style="margin: -1px 0 0 0;"></span></button>
                 <!-- attribute data-toogle="collapse"  attached to id="toggle-example"-->
             </div>
         </div>
@@ -48,13 +48,18 @@
                             <label  class="col-sm-12 greyTxt miniLabels ng-binding" data-ng-bind="textConstants.REPORT_TYPES"></label>
                             <div class="dropdown">
                                 <button style="width:170px;" class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                    <span class="text">All Types</span>
+                                    <span class="text" ng-bind="filters.reportType ? filters.reportType : 'All Types'"></span>
                                     <span class="icon-arrow-down"></span>
                                 </button>
                                 <ul class="dropdown-menu" aria-labelledby="unitcostType" ng-model="adData.unitType"  id="unitcostType" data-toggle="dropdown">
                                     <li ng-repeat="unitType in workflowData.unitTypes track by unitType.id" class="available">
                                         <a ng-click="dropBoxItemSelected(unitType, 'unitType')" data-ng-bind="unitType.name"></a>
                                     </li>
+                                    <li style="padding: 5px" data-ng-click="select_filter_option('reportType', 'Once')">Once</li>
+                                    <li style="padding: 5px" data-ng-click="select_filter_option('reportType', 'Daily')">Daily</li>
+                                    <li style="padding: 5px" data-ng-click="select_filter_option('reportType', 'Weekly')">Weekly</li>
+                                    <li style="padding: 5px" data-ng-click="select_filter_option('reportType', 'Monthly')">Monthly</li>
+                                    <li style="padding: 5px" data-ng-click="select_filter_option('reportType', 'Saved')">Saved</li>
                                 </ul>
                                 <input type="hidden" name="unitType" ng-model="adData.unitType.name" ng-update-hidden/>
                             </div>
@@ -84,12 +89,15 @@
                             <label  class="col-sm-12 greyTxt miniLabels ng-binding" data-ng-bind="textConstants.DIMENSIONS_FIVE"></label>
                             <div class="dropdown">
                                 <button style="width:560px;" class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                    <span class="text"></span>
+                                    <span class="text" ng-bind="filters.dimensions ? filters.dimensions : 'All Dimensions'"></span>
                                     <span class="icon-arrow-down"></span>
                                 </button>
                                 <ul class="dropdown-menu" aria-labelledby="unitcostType" ng-model="adData.unitType"  id="unitcostType" data-toggle="dropdown">
-                                    <li ng-repeat="unitType in workflowData.unitTypes track by unitType.id" class="available">
-                                        <a ng-click="dropBoxItemSelected(unitType, 'unitType')" data-ng-bind="unitType.name"></a>
+                                    <li ng-repeat="dimension in customeDimension"
+                                        id="{{dimension.key}}"
+                                        style="padding:5px"
+                                        ng-click="select_filter_option('dimensions', dimension.value)"
+                                        ng-bind-html="dimension.value">
                                     </li>
                                 </ul>
                                 <input type="hidden" name="unitType" ng-model="adData.unitType.name" ng-update-hidden/>
@@ -98,10 +106,10 @@
                     </div>
                     <div style="margin-top:32px;" class="col-md-1">
                         <a href="" data-toggle="tab" class="btn btn-default ng-binding"
-                           ng-click="triggerInventory()">Apply</a>
+                           ng-click="getScheduledReports()">Apply</a>
                     </div>
                     <div style="margin-top:32px;" class="col-md-1 zeroPadding">
-                        <a class="btn btn-default pull-right" role="button" ng-click="ComputeCost()">
+                        <a class="btn btn-default pull-right" role="button" ng-click="clearFilters()">
                             <div style="top:0px !important;" class="glyphicon glyphicon-repeat pull-left" aria-hidden="true"></div>
                             <span style="margin-left:6px;">Clear</span>
                         </a>
@@ -161,14 +169,14 @@
                                             <!-- <li ng-click="editSchdReport(srlist.reportId)" ng-bind-html="textConstants.EDIT"/>
                                             <li ng-click="copyScheduleRpt(srlist.reportId)" ng-bind-html="textConstants.COPY"/>
                                             <li ng-click="deleteSchdRpt(srlist.reportId)" ng-bind-html="textConstants.DELETE"/> -->
-                                            <li ng-click="downloadSchdReport($parent.$index,$index,srlist.instances[$index].instanceId)"
+                                            <li ng-click="editSchdReport(srlist.reportId)"
                                                 ng-bind-html="textConstants.EDIT"/>
-                                            <li ng-click="deleteSchdRptInstance(srlist.reportId,srlist.instances[$index].instanceId)"
+                                            <li ng-click="copyScheduleRpt(srlist.reportId)"
                                                 ng-bind-html="textConstants.COPY"/>
-                                            <li ng-click="archiveSchdRpt(srlist.reportId,srlist.instances[$index].instanceId)"
+                                            <li ng-click="deleteSchdRptInstance(srlist.reportId,srlist.instances[$index].instanceId)"
                                                 ng-bind-html="textConstants.DELETE"/>
 
-                                            <li class="headerDownload">
+                                            <li class="headerDownload" ng-click="downloadSchdReport($parent.$index,$index,srlist.instances[$index].instanceId)">
                                                 <span class="icon-download zeroPadding"></span>
                                                 <span class="greyTxt" style="padding-left: 7px !important;"><a href="">Download</a></span>
                                             </li>
