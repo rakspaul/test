@@ -2220,7 +2220,7 @@
                     .adGroup {
                         background: #fff;
                         border: 1px solid #CDD2DA;
-                        cursor: pointer;
+                        //cursor: pointer;
                         margin-bottom: 15px;
                         max-width: 1200px;
                         min-height: 38px;
@@ -2237,25 +2237,33 @@
                             width: 100%;
 
                             .adGroupTxtName {
-                                margin-top: 0;
+                                margin-top: 5px;
                                 overflow: hidden;
                                 text-overflow: ellipsis;
                                 white-space: nowrap;
-                                width: 100%;
+                                width: auto;
+                            }
+                            
+                            .pillsWrap {
+                                float: left;
+                                margin: 5px 0 10px 0;
+                                .labelPills {
+                                    float: left;
+                                    color: gray;
+                                    margin: 0 0 0 5px;
+                                }
                             }
 
                             .adGroupTxtSecondary {
-                                border-right: 1px solid #000;
                                 float: right;
-                                padding: 0 15px;
+                                padding: 0 0 0 10px;
 
                                 &:first-child {
-                                    border-width: 0;
-                                    padding-right: 0;
+                                    
                                 }
 
                                 &:last-child {
-                                    border-width: 0;
+                                    padding-left: 0;
                                 }
 
                                 p {
@@ -2275,6 +2283,7 @@
                                 border-radius: 2px;
                                 float: left;
                                 margin-right: 10px;
+                                cursor: pointer;
 
                                 &:hover {
                                     border: 1px solid rgba(87, 96, 109, .3);
@@ -2302,7 +2311,6 @@
                             }
 
                             span.adGroupTxt {
-                                clear: left;
                                 color: #57606D;
                                 font-size: 14px;
 
@@ -2319,6 +2327,58 @@
                               top: 9px;
                               z-index: 10;
                             }
+                        .hideCollapse {
+                            display: none;
+                        }
+                    }
+                    
+                    .adGroup.openInstance {
+                        padding: 0;
+                        .adTitle {
+                            border-bottom: 1px solid #CDD2DA;
+                            padding: 15px;
+                            .pillsWrap {
+                                float: left;
+                                width: 100%;
+                                margin: 0 0 20px 0;
+                                .labelPills {
+                                    background: #edf2f8;
+                                    margin: 2px;
+                                    padding: 5px 7px;
+                                    display: inline-block;
+                                    float: left;
+                                    font: 14px "Avenir";
+                                    height: 26px;
+                                    line-height: 100%;
+                                    border: 1px solid #acacac;
+                                    border-radius: 3px;
+                                }
+                                .labelPills:first-child {
+                                    color: #fff;
+                                    margin: 0;
+                                    height: 20px;
+                                    width: 32px;
+                                    border-width: 0;
+                                    background: transparent;
+                                }
+                            }
+                        }
+                        #collapseAdGroup {
+                            padding: 15px;
+                            float: left;
+                            width: 100%;
+                        }
+                        .adModule {
+                            .adTitle {
+                                border-width: 0;
+                            }
+                        }
+                        .hideCollapse {
+                            display: inline-block;
+                        }
+                        .showCollapse {
+                            display: none;
+                        }
                     }
 
                     .adGroupCreate {
@@ -2889,7 +2949,7 @@
                 .campTitleWrap {
                     clear: both;
                     float: left;
-                    padding: 5px 0 0 10px !important;
+                    padding: 5px 0 0 0 !important;
 
                     .activeLabel {
                         background-color: #70d43d;

@@ -1823,7 +1823,6 @@
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroup {
   background: #fff;
   border: 1px solid #CDD2DA;
-  cursor: pointer;
   margin-bottom: 15px;
   max-width: 1200px;
   min-height: 38px;
@@ -1839,23 +1838,27 @@
   width: 100%;
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroup .adTitle .adGroupTxtName {
-  margin-top: 0;
+  margin-top: 5px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  width: 100%;
+  width: auto;
+}
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroup .adTitle .pillsWrap {
+  float: left;
+  margin: 5px 0 10px 0;
+}
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroup .adTitle .pillsWrap .labelPills {
+  float: left;
+  color: gray;
+  margin: 0 0 0 5px;
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroup .adTitle .adGroupTxtSecondary {
-  border-right: 1px solid #000;
   float: right;
-  padding: 0 15px;
-}
-#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroup .adTitle .adGroupTxtSecondary:first-child {
-  border-width: 0;
-  padding-right: 0;
+  padding: 0 0 0 10px;
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroup .adTitle .adGroupTxtSecondary:last-child {
-  border-width: 0;
+  padding-left: 0;
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroup .adTitle .adGroupTxtSecondary p {
   color: #2c9aec;
@@ -1871,6 +1874,7 @@
   border-radius: 2px;
   float: left;
   margin-right: 10px;
+  cursor: pointer;
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroup .adTitle .collapseIcon:hover {
   border: 1px solid rgba(87, 96, 109, 0.3);
@@ -1893,7 +1897,6 @@
   color: #000;
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroup .adTitle span.adGroupTxt {
-  clear: left;
   color: #57606D;
   font-size: 14px;
 }
@@ -1907,6 +1910,55 @@
   left: 10px;
   top: 9px;
   z-index: 10;
+}
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroup .hideCollapse {
+  display: none;
+}
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroup.openInstance {
+  padding: 0;
+}
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroup.openInstance .adTitle {
+  border-bottom: 1px solid #CDD2DA;
+  padding: 15px;
+}
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroup.openInstance .adTitle .pillsWrap {
+  float: left;
+  width: 100%;
+  margin: 0 0 20px 0;
+}
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroup.openInstance .adTitle .pillsWrap .labelPills {
+  background: #edf2f8;
+  margin: 2px;
+  padding: 5px 7px;
+  display: inline-block;
+  float: left;
+  font: 14px "Avenir";
+  height: 26px;
+  line-height: 100%;
+  border: 1px solid #acacac;
+  border-radius: 3px;
+}
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroup.openInstance .adTitle .pillsWrap .labelPills:first-child {
+  color: #fff;
+  margin: 0;
+  height: 20px;
+  width: 32px;
+  border-width: 0;
+  background: transparent;
+}
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroup.openInstance #collapseAdGroup {
+  padding: 15px;
+  float: left;
+  width: 100%;
+}
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroup.openInstance .adModule .adTitle {
+  border-width: 0;
+}
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroup.openInstance .hideCollapse {
+  display: inline-block;
+}
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroup.openInstance .showCollapse {
+  display: none;
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroupCreate {
   background: #fff;
@@ -2370,7 +2422,7 @@
 #campaignCreate .firstWrapper .masterContainer .campAdHeader .campTitleWrap {
   clear: both;
   float: left;
-  padding: 5px 0 0 10px !important;
+  padding: 5px 0 0 0 !important;
 }
 #campaignCreate .firstWrapper .masterContainer .campAdHeader .campTitleWrap .activeLabel {
   background-color: #70d43d;

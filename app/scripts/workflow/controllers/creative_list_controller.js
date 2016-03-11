@@ -22,6 +22,15 @@ define(['angularAMD','../../common/services/constants_service','workflow/service
         $scope.loadCreativeData=false;
         $scope.deletePopup=false;
 
+        var winHeight = $(window).height();
+        $(".common-load-more").css({
+            'top': winHeight / 2 - 150,
+            'position':'absolute',
+            'left':'50%',
+            'margin':'0 0 0 -15px',
+            'z-index':'999'
+        });
+        
         //viewPort Plugin Start
         //**Abi Commented Future Sticky Header
         //(function($){
