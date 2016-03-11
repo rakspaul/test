@@ -671,6 +671,7 @@ define(['angularAMD'], function(angularAMD) {
         this.SELECTADTYPE = 'Select Ad Type';
         this.LEARNADTYPES = 'Learn more about Ad Types';
         this.NAMEOFAD = 'What is the name of your Ad?';
+        this.LABEL = 'Add labels';
 
         //Ad Create: 2 Budget & Delivery
         this.SETBUDGET = 'Set Budget & Delivery';

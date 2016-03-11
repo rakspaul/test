@@ -568,6 +568,15 @@ define(['angularAMD','common/services/vistoconfig_service', 'common/services/con
             },
             platformCreateObj: function(resp){
                 return createObj(resp);
+            },
+            recreateLabels: function(labelObj){
+                var labelArr = [];
+                for(var i = 0;i < labelObj.length ;i++){
+                    var obj = {};
+                    obj.label = labelObj[i];
+                    labelArr.push(obj);
+                }
+                return labelArr;
             }
 
         };
