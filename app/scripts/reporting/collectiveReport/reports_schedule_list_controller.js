@@ -16,6 +16,7 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
         };
         var isSearch = false;
         $scope.filters = {}
+        $scope.sortReverse = false;
         _curCtrl.isFilterExpanded = false;
         $scope.clickedOnFilterIcon = function(){
             _curCtrl.isFilterExpanded = !_curCtrl.isFilterExpanded;
@@ -67,7 +68,7 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
                     i;
 
                 $scope.schdReportList = schdReportList;
-                $scope.sortSchdlReport();
+               // $scope.sortSchdlReport();
                 for (i = 0; i < $scope.schdReportList.length; i++) {
                     $scope.scheduleInstCount[i] = $scope.noOfSchldInstToShow;
                     instances = $scope.schdReportList[i].instances;
@@ -118,8 +119,8 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
         }
 
         $scope.sortSchdlReport = function() {
-            $scope.schdReportList = $filter('orderBy')($scope.schdReportList, 'name', $scope.sort.descending);
-            $scope.sort.descending = !$scope.sort.descending;
+          //  $scope.schdReportList = $filter('orderBy')($scope.schdReportList, 'name', $scope.sort.descending);
+          //  $scope.sort.descending = !$scope.sort.descending;
         }
 
         $scope.downloadSchdReport = function(parentIndex, instanceIndex, instanceId) {

@@ -129,8 +129,8 @@
         <!--Table Header-->
         <div class="col-md-12 zeroPadding table-header">
                 <div class="col-md-4 table-th name-col sort-icon-holder">
-                    <span ng-click="sortSchdlReport()" ng-bind-html="textConstants.REPORT_NAME"/>
-                    <span class="common-sort-icon" ng-class="(sort.descending?'ascending':'descending')"></span>
+                    <span ng-click="sortReverse =! sortReverse" ng-bind-html="textConstants.REPORT_NAME"/>
+                    <span class="common-sort-icon" ng-class="(!sortReverse?'ascending':'descending')"></span>
                 </div>
                 <!--<div class="table-th name-col" ng-bind-html="textConstants.REPORT_NAME" />-->
                 <!--<div class="table-th more-options">&nbsp;</div>-->
@@ -146,7 +146,7 @@
         
         <!--Table Body-->
         <div class="col-md-12 zeroPadding table-body">
-            <div class="row" ng-repeat="srlist in schdReportList track by $index">
+            <div class="row" ng-repeat="srlist in schdReportList | orderBy:'name':sortReverse track by $index">
                 <div class="clearfix rowHover" ng-class="{downloaded:((srlist.instances.length >0) && (srlist.instances[0].viewedOn.length > 0))}">
                     
                     <!--Column 1-->
