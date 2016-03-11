@@ -381,7 +381,7 @@ define(['common'], function (angularAMD) {
   }).config(function(tagsInputConfigProvider) {
       tagsInputConfigProvider
           .setDefaults('tagsInput', {
-              placeholder: 'New Label',
+              placeholder: 'Add labels',
               minLength: 2,
               displayProperty: 'label',
               replaceSpacesWithDashes : false
