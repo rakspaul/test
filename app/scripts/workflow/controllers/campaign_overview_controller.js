@@ -35,7 +35,7 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
         };
 
         $(".bodyWrap").css('padding','0px');
-        
+
         //show selected targets in ads card
         $scope.displaySelectedTargets = function (adsData) {
             var selectedStr = '';
@@ -490,7 +490,7 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
                 postCreateAdObj.endTime = momentService.localTimeToUTC(formData.highestEndTime,'endTime');
                 postCreateAdObj.createdAt = "";
                 postCreateAdObj.updatedAt = "";
-                postCreateAdObj.budget = formData.adIGroupBudget;
+                postCreateAdObj.deliveryBudget = formData.adIGroupBudget;
                 postCreateAdObj.labels = _.pluck($scope.tags, "label");
                 postCreateAdObj.id="-9999";
 
