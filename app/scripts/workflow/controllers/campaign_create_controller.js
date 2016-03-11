@@ -513,11 +513,7 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
                     $scope.Campaign.marginPercent = $scope.editCampaignData.marginPercent ? $scope.editCampaignData.marginPercent :0;
                     $scope.Campaign.deliveryBudget = $scope.editCampaignData.deliveryBudget;
                     if( $scope.editCampaignData.labels && $scope.editCampaignData.labels.length > 0){
-                        for(var i = 0;i < $scope.editCampaignData.labels.length ;i++){
-                            var obj = {};
-                            obj.label = $scope.editCampaignData.labels[i];
-                            $scope.tags.push(obj);
-                        }
+                        $scope.tags = workflowService.recreateLabels($scope.editCampaignData.labels);
                     }
 
 

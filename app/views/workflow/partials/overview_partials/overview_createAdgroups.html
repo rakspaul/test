@@ -15,12 +15,11 @@
 
         <!--Label for Ad Group-->
         <div class="col-md-6" style="padding: 0 0 0 10px;">
-            <label class="col-sm-12 control-label greyTxt miniLabels">Label</label>
+            <label class="col-sm-12 control-label greyTxt miniLabels">{{textConstants.LABEL}}</label>
 
-            <tags-input ng-model="tags"
-                        display-property="label"
-                        min-length="2"
-                ></tags-input>
+            <tags-input class="form-group col-sm-12 zeroPadding"
+                        ng-model="tags">
+            </tags-input>
         </div>
         <div class="col-md-12 zeroPadding">
             <label for="budgetIndividualAdGroup" class="col-sm-12 control-label labelQuestTxt">What's the maximum

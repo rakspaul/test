@@ -378,6 +378,15 @@ define(['common'], function (angularAMD) {
     }
   ]).config(function (tmhDynamicLocaleProvider) {
     tmhDynamicLocaleProvider.localeLocationPattern('/scripts/libs/angular-locale_{{locale}}.js');
+  }).config(function(tagsInputConfigProvider) {
+      tagsInputConfigProvider
+          .setDefaults('tagsInput', {
+              placeholder: 'New Label',
+              minLength: 2,
+              displayProperty: 'label',
+              replaceSpacesWithDashes : false
+          })
+
   })
     .run(function ($rootScope, $location, $cookies, loginModel, brandsModel, dataService, $cookieStore, workflowService) {
       var handleLoginRedirection = function () {

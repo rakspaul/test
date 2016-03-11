@@ -237,9 +237,10 @@
 
                                         <!--Column 2-->
                                         <div class="col-md-6" style="padding: 0 0 0 10px;">
-                                            <label class="col-sm-12 control-label greyTxt miniLabels">Add Labels</label>
-
-                                            <tags-input ng-model="tags" display-property="label" min-length="2"></tags-input>
+                                            <label class="col-sm-12 control-label greyTxt miniLabels">{{textConstants.LABEL}}</label>
+                                            <tags-input class="form-group col-sm-12 zeroPadding"
+                                                        ng-model="tags">
+                                            </tags-input>
                                         </div>
                                     </div>
 
