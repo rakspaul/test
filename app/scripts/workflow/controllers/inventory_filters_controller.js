@@ -509,17 +509,17 @@ define(['angularAMD', 'workflow/services/workflow_service', 'workflow/services/f
             $scope.workflowData.initInventory = function() {
                 if ($scope.mode === 'edit') {
                     if ($scope.adData.inventory.domainAction === 'INCLUDE') {
-                        $('#inventoryFilters').find('.miniToggle .whitelist').addClass('active');
+                        $('#inventoryFilters').find('.miniToggle .whitelist').addClass('active disabled');
                     } else {
-                        $('#inventoryFilters').find('.miniToggle .blacklist').addClass('active');
+                        $('#inventoryFilters').find('.miniToggle .blacklist').addClass('active disabled');
                     }
                 } else {
-                    $('#inventoryFilters').find('.miniToggle .whitelist').addClass('active');
+                    $('#inventoryFilters').find('.miniToggle .whitelist').addClass('active disabled');
                 }
             };
 
-            $scope.workflowData.toggleBlackAndWhite = function(event) {
-                $scope.adData.inventory.domainAction = $scope.tempDomainAction;
+            $scope.workflowData.toggleBlackAndWhite = function (event) {
+                $scope.adData.inventory.domainAction = event.target.value;
 
                 if ($scope.adData.inventory.domainAction === 'INCLUDE') {
                     $scope.workflowData.whiteListsSelected = true;
@@ -629,9 +629,10 @@ define(['angularAMD', 'workflow/services/workflow_service', 'workflow/services/f
                     $scope.workflowData.selectedWhiteLists.length === 0) {
                     $scope.workflowData.toggleBlackAndWhite(event);
                 } else {
+                    $scope.tempDomainListTypeEvent = event;
                     $scope.tempDomainAction = event.target.value;
 
-                    if ($scope.tempDomainAction === 'INCLUDE') {
+                    if (event.target.value === 'INCLUDE') {
                         domainListTypePopupCue.css({
                             'padding-bottom': '5px',
                             'top': '-132px',
@@ -647,19 +648,23 @@ define(['angularAMD', 'workflow/services/workflow_service', 'workflow/services/f
                 }
             };
 
-            $scope.continueDomainListTypeChange = function (event) {
+            $scope.continueDomainListTypeChange = function () {
                 $scope.hideDomainListTypePopupCue();
-                $scope.workflowData.toggleBlackAndWhite(event);
+                //console.log('event = ', event);
+                $scope.workflowData.toggleBlackAndWhite($scope.tempDomainListTypeEvent);
             };
 
             $scope.hideDomainListTypePopupCue = function () {
+                $scope.adData.inventory.domainAction = $scope.tempDomainListTypeEvent;
                 $scope.changeDomainListType = false;
 
             // TODO: Update the domain action, esp. on cancel.                $scope.tempDomainAction = ?????;
             };
 
             $scope.hideRemoveDomainListPopup = function (event) {
-                $scope.currentRemoveDomainListPopup.css({'display': ''});
+                if ($scope.currentRemoveDomainListPopup) {
+                    $scope.currentRemoveDomainListPopup.css({'display': ''});
+                }
             };
 
             $scope.showRemoveDomainListPopup = function (event) {
@@ -677,10 +682,20 @@ define(['angularAMD', 'workflow/services/workflow_service', 'workflow/services/f
             $(window).on('click', function (e) {
                 var targetClassNames = e.target.className.split(' ');
 
-                if (e.target !== $('#domain-list-type-popup-cue') &&
-                    (targetClassNames.indexOf('whitelist') === -1) &&
-                    (targetClassNames.indexOf('blacklist') === -1)) {
-                    $scope.hideDomainListTypePopupCue();
+                if (!($(e.target).hasClass('icon-trash') ||
+                        $(e.target).hasClass('remove-domain-list') ||
+                        $(e.target).parent().hasClass('remove-domain-list'))) {
+                    $scope.hideRemoveDomainListPopup();
+                }
+
+                if (!($(e.target).hasClass('blacklist') ||
+                        $(e.target).hasClass('whitelist') ||
+                        $(e.target).hasClass('domain-list-type-popup-cue') ||
+                        $(e.target).parent().hasClass('domain-list-type-popup-cue'))) {
+                    $('.domain-list-type-popup-cue').css('display', 'none');
+                    $scope.hideRemoveDomainListPopup();
+                } else {
+                    $('.domain-list-type-popup-cue').css('display', '');
                 }
 
                 // Close domain list dropdown on clicking outside it.
