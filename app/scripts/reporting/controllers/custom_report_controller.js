@@ -80,11 +80,12 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
         $scope.showPrimaryTxtBox = false;
         $scope.showSecondaryTxtBox = false;
         $scope.showSecondDimensionBlock = false;
-        $scope.showAddBreakdownButton = true;
+        $scope.showAddBreakdownButton = false;
         $scope.updateScheduleReport = false;
         $scope.buttonLabel = $scope.textConstants.GENERATE_LABEL;
         $scope.buttonResetCancel = $scope.textConstants.RESET_LABEL;
         $scope.stopRedirectingPage = true;
+        $scope.reportTypeSelect = $scope.textConstants.SAVE_LABEL;
 
         /*
             Sorting of report data
@@ -453,6 +454,25 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
             });
         }
 
+        /* commenting out work for edit saved repoert tomporarily ROBERT*/
+        /*var validateGenerateReport = function() {
+            if((window.location.search.indexOf('savedreports') > -1) !== true) {
+                if (!_customctrl.enableGenerateButton()) {
+                    $scope.generateBtnDisabled = true;
+                    $(".custom_report_filter").closest(".breakdown_div").find(".filter_input_txtbox").hide();
+                    return false;
+                }
+            if(momentService.dateDiffInDays($scope.reports.reportDefinition.timeframe.start_date,$scope.reports.reportDefinition.timeframe.end_date) < 0 ) {
+                    $scope.generateBtnDisabled = false;
+                    return setFlashMessage(constants.timeFrameStartDateGreater, 1, 0);
+                }
+                return true;
+            }
+            else{
+                return true;
+            }
+        }*/
+
         var validateGenerateReport = function() {
             if (!_customctrl.enableGenerateButton()) {
                 $scope.generateBtnDisabled = true;
@@ -691,6 +711,21 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
             }
         };
 
+            $scope.saveReport = function() {
+                var newObjNoSched = $scope.createData();
+                var key = "schedule";
+                delete newObjNoSched[key];
+                console.log(JSON.stringify(newObjNoSched));
+                $('#reportBuilderForm').slideUp(600);
+                $( "#dynamicHeader" ).addClass( "smaller" );
+
+                dataService.createSaveReport(newObjNoSched).then(function(result) {
+                    if (result.data.status_code == 200) {
+                        $rootScope.setErrAlertMessage('Success: The scheduled Report is listed.', 0);
+                    }
+                });
+                $scope.generateReport();
+            };
         $scope.enable_generate_btn = function() {
             if (_customctrl.enableGenerateButton()) {
                 $scope.generateBtnDisabled = false;
@@ -931,6 +966,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
 
         $scope.selectPriSecDimension = function(dimension, type) {
             $scope.showPrimaryTxtBox = true;
+            $scope.showAddBreakdownButton = true;
             if (dimension != undefined) {
                 if (type == 'Primary') {
                     $scope.reports.reportDefinition.dimensions.primary.name = dimension.value;
@@ -1089,11 +1125,16 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
         $scope.toggleSchedule = function(that) {
             $scope.scheduleReportActive = $(that).prop('checked');
             if ($scope.scheduleReportActive) {
-                $scope.buttonLabel = $scope.textConstants.SCHEDULE_LABEL;
+                $scope.buttonLabel = $scope.reportTypeSelect;
                 if ($routeParams.reportId) {
                     $scope.buttonLabel = "Update";
                 }
-            } else {
+
+                $scope.$watch('reportTypeSelect', function() {
+                    $scope.buttonLabel = $scope.reportTypeSelect;
+                });
+            }
+            else {
                 $scope.buttonLabel = $scope.textConstants.GENERATE_LABEL;
             }
 
@@ -1636,6 +1677,23 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                 return true;
             }
 
+
+            $scope.showHideToggle = false;
+            $scope.ToggleAdGroups = function (context, adGrpId, index, event) {
+                var elem = $(event.target);
+                if (context.showHideToggle) {
+                    $('#reportBuilderForm').slideUp(600);
+                     elem.removeClass("icon-minus").addClass("icon-plus") ;
+                     context.showHideToggle = !context.showHideToggle
+                } else {
+                    $('#reportBuilderForm').slideDown(600);
+                    elem.removeClass("icon-plus").addClass("icon-minus") ;
+                    $( "#dynamicHeader" ).removeClass( "smaller" );
+                     context.showHideToggle = !context.showHideToggle
+                     //campaignOverView.getAdsInAdGroup($routeParams.campaignId, adGrpId, index);
+                }
+            };
+
             $scope.scheduleReportAction = function() {
                 if(!$scope.validateScheduleDate()) return;
                 $scope.loadingBtn = true ;
@@ -1644,8 +1702,16 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                 } else if ($scope.buttonLabel == "Generate") {
                     $scope.generateBtnDisabled = true;
                     $scope.generateReport();
-                } else {
+                    $('.collapseIcon').css('visibility', 'hidden');
+                } else if ($scope.buttonLabel == "Save As"){
+                    $scope.saveReport();
+                    $scope.generateReport();
+                    $('.collapseIcon').css('visibility', 'visible');
+                }
+                else {
                     $scope.scheduleReport();
+                    $scope.generateReport();
+                    $('.collapseIcon').css('visibility', 'hidden');
                 }
                 setTimeout(function(){
                     $scope.loadingBtn = false ;
@@ -1656,14 +1722,14 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                 var url = '/reports/schedules';
                 if ($scope.buttonResetCancel == "Cancel") {
                     $location.url(url);
-                } else if ($scope.buttonResetCancel == "Reset") {
+                } else if ($scope.buttonResetCancel == "Clear") {
                     localStorage.removeItem('customReport');
                     $route.reload();
                 } else {}
             }
 
             $rootScope.$on(constants.ACCOUNT_CHANGED, function (event, args) {
-                $scope.buttonResetCancel = "Reset";
+                $scope.buttonResetCancel = "Clear";
                 $scope.resetMetricOptions();
             });
 
@@ -1732,6 +1798,21 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                 $scope.prefillData = function(reportData) {
                     var responseData = reportData;
                     $scope.reports.name = responseData.name;
+                    /* commented out work for edit saved report temporary ROBERT*/
+                    /*if(window.location.search.indexOf('savedreports') > -1){
+                        $scope.reports.name = responseData.reportName;
+                        $scope.generateReport();
+
+                        $( "#dynamicHeader" ).addClass( "smaller" );
+                        $('#reportBuilderForm').slideUp(600);
+                        *//*elem.removeClass("icon-minus").addClass("icon-plus") ;*//*
+                        context.showHideToggle = !context.showHideToggle;
+
+                    }
+                    else{
+                        $scope.reports.name = responseData.name;
+                    }*/
+
                     $scope.scheduleReportActive = responseData.isScheduled;
                     $scope.generateBtnDisabled = false;
                     $scope.reports.schedule = responseData.schedule;
@@ -1776,6 +1857,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                             $scope.reports.reportDefinition.dimensions.primary.value = obj.values;
                         }
                         $scope.showPrimaryTxtBox = true;
+                        $scope.showAddBreakdownButton = true;
                     }
 
                     $scope.setSecondaryDimension = function(obj) {
@@ -1818,9 +1900,10 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
 
                     //metrics
                     $scope.selectedMetricsList = [];
-                    if (responseData.reportDefinition.metrics.Delivery) {
+                    var reparceStringBackToObj = JSON.parse(responseData.reportDefinition);
+                    if (reparceStringBackToObj.metrics.Delivery) {
                         _.each($scope.deliveryMetrics, function(each) {
-                            var deliveryMetricsObj = _.find(responseData.reportDefinition.metrics.Delivery, function(num) {
+                            var deliveryMetricsObj = _.find(reparceStringBackToObj.metrics.Delivery, function(num) {
                                 return num == each.key;
                             });
                             if (deliveryMetricsObj == undefined) {
@@ -1836,9 +1919,9 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                             }
                         });
                     }
-                    if (responseData.reportDefinition.metrics.Engagement) {
+                    if (reparceStringBackToObj.metrics.Engagement) {
                         _.each($scope.engagementMetrics, function(each) {
-                            var engMetricsObj = _.find(responseData.reportDefinition.metrics.Engagement, function(num) {
+                            var engMetricsObj = _.find(reparceStringBackToObj.metrics.Engagement, function(num) {
                                 return num == each.key;
                             });
                             if (engMetricsObj == undefined) {
@@ -1854,9 +1937,9 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                             }
                         });
                     }
-                    if (responseData.reportDefinition.metrics.Cost) {
+                    if (reparceStringBackToObj.metrics.Cost) {
                         _.each($scope.costMetrics, function(each) {
-                            var costMetricsObj = _.find(responseData.reportDefinition.metrics.Cost, function(num) {
+                            var costMetricsObj = _.find(reparceStringBackToObj.metrics.Cost, function(num) {
                                 return num == each.key;
                             });
                             if (costMetricsObj == undefined) {
@@ -1872,9 +1955,9 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                             }
                         });
                     }
-                    if (responseData.reportDefinition.metrics.Video) {
+                    if (reparceStringBackToObj.metrics.Video) {
                         _.each($scope.videoMetrics, function(each) {
-                            var videoMetricsObj = _.find(responseData.reportDefinition.metrics.Video, function(num) {
+                            var videoMetricsObj = _.find(reparceStringBackToObj.metrics.Video, function(num) {
                                 return num == each.key;
                             });
                             if (videoMetricsObj == undefined) {
@@ -1891,9 +1974,9 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                         });
                     }
 
-                    if (responseData.reportDefinition.metrics['Quality Display']) {
+                    if (reparceStringBackToObj.metrics['Quality Display']) {
                         _.each($scope.displayQltyMetrics, function(each) {
-                            var qualityDisplayObj = _.find(responseData.reportDefinition.metrics['Quality Display'], function(num) {
+                            var qualityDisplayObj = _.find(reparceStringBackToObj.metrics['Quality Display'], function(num) {
                                 return num == each.key;
                             });
                             if (qualityDisplayObj == undefined) {
@@ -1910,9 +1993,9 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                         });
                     }
 
-                    if (responseData.reportDefinition.metrics['Quality Video']) {
+                    if (reparceStringBackToObj.metrics['Quality Video']) {
                         _.each($scope.videoQltyMetrics, function(each) {
-                            var videoQltyMetricsObj = _.find(responseData.reportDefinition.metrics['Quality Video'], function(num) {
+                            var videoQltyMetricsObj = _.find(reparceStringBackToObj.metrics['Quality Video'], function(num) {
                                 return num == each.key;
                             });
                             if (videoQltyMetricsObj == undefined) {
@@ -1944,6 +2027,15 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                     $scope.buttonLabel = "Update";
                     $scope.buttonResetCancel = "Cancel";
                     var url = urlService.scheduledReport($routeParams.reportId);
+                    /* commented out work for edit saved report temporarily ROBERT*/
+
+                    /*if(window.location.search.indexOf('savedreports') > -1){
+                        var url = urlService.savedReport($routeParams.reportId);
+                    }
+                    else{
+                        var url = urlService.scheduledReport($routeParams.reportId);
+                    }*/
+
                     dataStore.deleteFromCache(url);
                     dataService.fetch(url).then(function(response) {
                         if (response.status == 'success') {

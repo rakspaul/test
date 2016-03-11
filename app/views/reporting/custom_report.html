@@ -3,12 +3,27 @@
 
 <div class="report_generator_and_response">
     <div class="report_builder_container">
-        <div class="container">
+
+        <div class="col-md-12" id="dynamicHeader">
+            <!-- this will be hidden until fold happens -->
+            <a class="collapseIcon small" role="button" id="{{$index+1}}" href=""> 
+                <span class="icon-plus" ng-click="ToggleAdGroups(this,adGroupsData.adGroup.id,$index+1, $event)"></span> 
+            </a>
+            <!-- -->
+            <span class="heading" style="float:left;"><h3 ng-bind-html="textConstants.REPORT_BUILDER"></h3></span>
+            <!-- this will be hidden after fold-->
+            <span class="heading big"><h6 ng-bind-html="textConstants.REPORT_BUILDER_SUBTITLE"></h6></span>
+            <!-- -->
+            <!-- his will be hidden until fold happens -->
+            <span class="heading small" style="float: left;text-align: left;width: 66px;margin-top:6px" ><span>{{reports.name}}</span></span>
+            <span class="heading small"  style="float: left;margin-top:6px;margin-right:6px">| {{reports.reportDefinition.timeframe.start_date}}</span>
+            <span class="heading small" style="float: left;margin-top:6px" > {{reports.reportDefinition.timeframe.end_date}}</span>
+          <!-- -->
+        </div>
+
+        <div class="container" id="reportBuilderForm">
             <div class="row">
-                <div class="col-md-12">
-                    <span class="heading" style="float:left;"><h3 ng-bind-html="textConstants.REPORT_BUILDER"></h3></span>
-                    <span class="heading"><h6 ng-bind-html="textConstants.REPORT_BUILDER_SUBTITLE"></h6></span>
-                </div>
+
             </div>
             <div class="row">
                 <div class="col-md-4">
@@ -106,7 +121,7 @@
                 </div>
                 <!-- div class 1st column over -->
                 <div class="col-md-6 left_border">
-                     <div class="each_section_custom_report">
+                     <div class="each_section_custom_report" style="min-width: 566px;">
                         <div class="create_report_title" ng-bind-html="textConstants.REPORT_BUILDER_TIMEFRAME"></div>
                         <div>
                             <div class="clearfix title_row_separator customDatesTimeframe">
@@ -495,19 +510,19 @@
                                 </div>
                             </div>
                             <!-- SAVE/SCHEDULE TOGGELE BUTTON MARK UP -->
-                            <!--<div class="each-col default-schedule-col radioBtnToggle">
-                                <div class="label-txt">{{textConstants.REPORT_NAME}}</div>
+                            <div class="each-col default-schedule-col radioBtnToggle">
+                                <div class="label-txt">Select Save or Schedule</div>
                                 <div class="btn-group miniToggle">
-                                    <label class="btn btn-default whitelist active" style="width: auto;">
+                                    <label class="btn btn-default whitelist " style="width: auto;" ng-class="reportTypeSelect === 'Save As' ? 'active' : ''">
                                         <span>Save As</span>
-                                        <input type="radio" name="saveSchedule" group="budgetGroup" value="Save As" ng-model="adData.inventory.domainAction" ng-checked="adData.inventory.domainAction === 'INCLUDE' ? true : false" hidden="hidden" class="" ng-click="workflowData.toggleBlackAndWhite($event);" checked="checked">
+                                        <input type="radio" name="saveSchedule" group="budgetGroup" value="Save As" ng-model="reportTypeSelect" ng-checked="reportTypeSelect === 'Save As' ? true : false" hidden="hidden" class=""  >
                                     </label>
-                                    <label class="btn btn-default blacklist" style="width: auto;">
+                                    <label class="btn btn-default blacklist" style="width: auto;" ng-class="reportTypeSelect === 'Schedule As' ? 'active' : ''">
                                         <span>Schedule As</span>
-                                        <input type="radio" name="saveSchedule" group="budgetGroup" value="Schedule As" ng-model="adData.inventory.domainAction" ng-checked="adData.inventory.domainAction === 'EXCLUDE' ? true : false" hidden="hidden" class="" ng-click="workflowData.toggleBlackAndWhite($event);">
+                                        <input type="radio" name="saveSchedule" group="budgetGroup" value="Schedule As" ng-model="reportTypeSelect" ng-checked="reportTypeSelect === 'Schedule As' ? true : false" hidden="hidden" class=""  checked="checked">
                                     </label>
                                 </div>
-                            </div> -->
+                            </div>
 
                             <div class="each-col default-schedule-col report-name-col">
                                 <div class="label-txt">{{textConstants.REPORT_NAME}}</div>
@@ -515,7 +530,7 @@
                                     <input type="text" ng-model="reports.name" maxlength="256">
                                 </div>
                             </div>
-                            <div class="each-col default-schedule-col">
+                            <div class="each-col default-schedule-col" ng-show="reportTypeSelect !== 'Save As'" >
                                 <div class="label-txt" ng-bind-html="textConstants.WF_FREQUENCY"></div>
                                 <div>
                                     <div class="common_dropdown">
@@ -678,7 +693,7 @@
                         </button>
                         <button class="pull-right secondary_txt"
                                 ng-click="resetMetricOptions();"
-                                ng-bind-html="buttonResetCancel">
+                                ng-bind-html="buttonResetCancel" ng-class="reportTypeSelect === 'Save As' ? 'save_reset glyphicon glyphicon-repeat' : ''">
                         </button>
 
                         <!-- <div class="pull-right secondary_txt" ng-click="reset_metric_options()">
