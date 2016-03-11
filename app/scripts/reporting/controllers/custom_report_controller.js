@@ -704,7 +704,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
             if ($scope.verifyReportInputs()) {
                 dataService.createScheduleReport($scope.createData()).then(function(result) {
                     if (result.data.status_code == 200) {
-                        $rootScope.setErrAlertMessage('Success: The scheduled Report is listed.', 0);
+                        $rootScope.setErrAlertMessage('Success: The Saved Report is listed.', 0);
                         $location.url('/reports/schedules');
                     }
                 });
@@ -715,7 +715,6 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                 var newObjNoSched = $scope.createData();
                 var key = "schedule";
                 delete newObjNoSched[key];
-                console.log(JSON.stringify(newObjNoSched));
                 $('#reportBuilderForm').slideUp(600);
                 $( "#dynamicHeader" ).addClass( "smaller" );
 
