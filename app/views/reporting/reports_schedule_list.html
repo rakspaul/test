@@ -22,20 +22,21 @@
         </div>
     <!--Search Input-->
         <div class="pull-right">
-            <div class="searchInput" style="float:left;">
-            <a class="btn btn-default searchInputBtn" ng-click="searchShowInput();filters.searchText=null">
-                <span class="icon-search" aria-hidden="true" style="margin: -1px 0 0 0;"></span>
-            </a>
-            <div class="input-group searchInputForm" >
-                <input type="text" class="form-control" name="creativeSearch" ng-model="creativeSearch" ng-keyup="select_filter_option('searchText', creativeSearch)" placeholder="Search Reports By Report Name..">
-                <div class="btn btn-default" ng-click="searchHideInput()">
-                    <span class="icon-clear" aria-hidden="true"></span>
+            <div class="searchInput">
+                <a class="btn btn-default searchInputBtn" ng-click="searchShowInput();filters.searchText=null">
+                    <span class="icon-search" aria-hidden="true" style="margin: -1px 0 0 0;"></span>
+                </a>
+                <div class="input-group searchInputForm" >
+                    <input type="text" class="form-control" name="creativeSearch" ng-model="creativeSearch" ng-keyup="select_filter_option('searchText', creativeSearch)" placeholder="Search Reports By Report Name..">
+                    <div class="btn btn-default" ng-click="searchHideInput()">
+                        <span class="icon-clear" aria-hidden="true"></span>
+                    </div>
                 </div>
             </div>
-            </div>
-            <div class="searchInput" style="float:right;">
+            
+            <div class="pull-right">
                 <button type="button" class="btn btn-default"
-                        data-toggle="collapse" data-target="#schedule_report_filter" style="height:34px;" data-ng-click="clickedOnFilterIcon()"><span class="icon-filter" style="margin: -1px 0 0 0;"></span></button>
+                        data-toggle="collapse" data-target="#schedule_report_filter" style="height:36px;" data-ng-click="clickedOnFilterIcon()"><span class="icon-filter" style="margin: -1px 0 0 0;"></span></button>
                 <!-- attribute data-toogle="collapse"  attached to id="toggle-example"-->
             </div>
         </div>
@@ -123,122 +124,144 @@
     <div style="text-align:center;">
         <span class="download-report-load-icon" style="margin:5px 0px;" ng-if="reportDownloadBusy" ng-bind-html="textConstants.DOWNLOADING"/>
     </div>
-    <div class="smallSreenScrollContainer">
-        <div class="smallSreenScrollDiv">
-            <div class="scheduled_list_table smallSreenScrollContent">
-                <div class="table-header">
-                    <div class="row">
-                        <div class="table-th name-col sort-icon-holder">
-                            <span ng-click="sortSchdlReport()" ng-bind-html="textConstants.REPORT_NAME"/>
-                            <span class="common-sort-icon" ng-class="(sort.descending?'ascending':'descending')"></span>
-                        </div>
-                        <!--<div class="table-th name-col" ng-bind-html="textConstants.REPORT_NAME" />-->
-                        <div class="table-th more-options">&nbsp;</div>
-                        <div class="table-th frequency-col" ng-bind-html="textConstants.SCHEDULE_LIST_REPORT_TYPE" />
-                        <!--<div class="table-th frequency-col sort-icon-holder">-->
-                            <!--<span ng-click="sortSchdlReport()" ng-bind-html="textConstants.WF_FREQUENCY"/>-->
-                            <!--<span class="common-sort-icon" ng-class="(sort.descending?'ascending':'descending')" ></span>-->
-                        <!--</div>-->
-                        <div class="table-th" ng-bind-html="textConstants.COMPLETE_ON"/>
-                        <div class="table-th" ng-bind-html="textConstants.SCHEDULE_LIST_DIMENSIONS"/>
-                        <div class="table-th" ng-bind-html="textConstants.CREATED_BY"/>
 
-                    </div>
+    <div class="col-md-12 zeroPadding scheduled_list_table smallSreenScrollContent">
+        <!--Table Header-->
+        <div class="col-md-12 zeroPadding table-header">
+                <div class="col-md-4 table-th name-col sort-icon-holder">
+                    <span ng-click="sortSchdlReport()" ng-bind-html="textConstants.REPORT_NAME"/>
+                    <span class="common-sort-icon" ng-class="(sort.descending?'ascending':'descending')"></span>
                 </div>
-                <div class="table-body">
+                <!--<div class="table-th name-col" ng-bind-html="textConstants.REPORT_NAME" />-->
+                <!--<div class="table-th more-options">&nbsp;</div>-->
+                <div class="col-md-2 table-th frequency-col" ng-bind-html="textConstants.SCHEDULE_LIST_REPORT_TYPE" />
+                <!--<div class="table-th frequency-col sort-icon-holder">-->
+                    <!--<span ng-click="sortSchdlReport()" ng-bind-html="textConstants.WF_FREQUENCY"/>-->
+                    <!--<span class="common-sort-icon" ng-class="(sort.descending?'ascending':'descending')" ></span>-->
+                <!--</div>-->
+                <div class="col-md-2 table-th" ng-bind-html="textConstants.COMPLETE_ON"/>
+                <div class="col-md-2 table-th" ng-bind-html="textConstants.SCHEDULE_LIST_DIMENSIONS"/>
+                <div class="col-md-2 table-th" ng-bind-html="textConstants.CREATED_BY"/>
+        </div>
+        
+        <!--Table Body-->
+        <div class="col-md-12 zeroPadding table-body">
+            <div class="row" ng-repeat="srlist in schdReportList track by $index">
+                <div class="clearfix rowHover" ng-class="{downloaded:((srlist.instances.length >0) && (srlist.instances[0].viewedOn.length > 0))}">
+                    
+                    <!--Column 1-->
+                    <div class="col-md-4 table-td name-col">
+                        <div class="col-md-9"
+                            ng-class="{'no-instance':srlist.instances.length <= 0}"
+                            title="{{srlist.name}}"
+                            ng-click="redirect_or_open_2nd_dimension($event,$index,srlist.reportId, srlist.frequency);">
+                        {{srlist.name}}
+                            <span ng-if="srlist.instances.length > 0" ng-bind-html="' ('+srlist.instances.length+')'"></span>
+                        </div>
+                        
+                        <div class="col-md-3 table-td more-options">
+                            <div class="dropdown-workflow">
+                                <div class="dropdown hideOption">
+                                    <span data-toggle="dropdown">
+                                        <div class="option-horizontal">
+                                            <span></span><span></span><span></span>
+                                        </div>
+                                    </span>
+                                    <ul class="dropdown-menu">
+                                        <!-- <li ng-click="editSchdReport(srlist.reportId)" ng-bind-html="textConstants.EDIT"/>
+                                        <li ng-click="copyScheduleRpt(srlist.reportId)" ng-bind-html="textConstants.COPY"/>
+                                        <li ng-click="deleteSchdRpt(srlist.reportId)" ng-bind-html="textConstants.DELETE"/> -->
+                                        <li ng-click="editSchdReport(srlist.reportId)">
+                                            <a ng-bind-html="textConstants.EDIT"></a>
+                                        </li>
+                                        <li ng-click="copyScheduleRpt(srlist.reportId)">
+                                            <a ng-bind-html="textConstants.COPY"></a>
+                                        </li>
+                                        <li ng-click="deleteSchdRptInstance(srlist.reportId,srlist.instances[$index].instanceId)">
+                                            <a ng-bind-html="textConstants.DELETE"></a>
+                                        </li>
 
-                    <div class="row" ng-repeat="srlist in schdReportList track by $index">
-                        <div class="clearfix rowHover"
-                             ng-class="{downloaded:((srlist.instances.length >0) && (srlist.instances[0].viewedOn.length > 0))}">
-                            <div class="table-td name-col"
-                                 ng-class="{'no-instance':srlist.instances.length <= 0}"
-                                 title="{{srlist.name}}"
-                                 ng-click="open_second_dimension($event,$index);">
-                                {{srlist.name}}
-                                <span ng-if="srlist.instances.length > 0" ng-bind-html="' ('+srlist.instances.length+')'"></span>
-                            </div>
-                            <div class="table-td more-options">
-                                <div class="dropdown-workflow">
-                                    <div class="dropdown hideOption">
-                                        <span data-toggle="dropdown">
-                                            <div class="option-horizontal">
-                                                <span></span><span></span><span></span>
-                                            </div>
-                                        </span>
-                                        <ul class="dropdown-menu">
-                                            <!-- <li ng-click="editSchdReport(srlist.reportId)" ng-bind-html="textConstants.EDIT"/>
-                                            <li ng-click="copyScheduleRpt(srlist.reportId)" ng-bind-html="textConstants.COPY"/>
-                                            <li ng-click="deleteSchdRpt(srlist.reportId)" ng-bind-html="textConstants.DELETE"/> -->
-                                            <li ng-click="editSchdReport(srlist.reportId)"
-                                                ng-bind-html="textConstants.EDIT"/>
-                                            <li ng-click="copyScheduleRpt(srlist.reportId)"
-                                                ng-bind-html="textConstants.COPY"/>
-                                            <li ng-click="deleteSchdRptInstance(srlist.reportId,srlist.instances[$index].instanceId)"
-                                                ng-bind-html="textConstants.DELETE"/>
-
-                                            <li class="headerDownload" ng-click="downloadSchdReport($parent.$index,$index,srlist.instances[$index].instanceId)">
-                                                <span class="icon-download zeroPadding"></span>
-                                                <span class="greyTxt" style="padding-left: 7px !important;"><a href="">Download</a></span>
-                                            </li>
-                                        </ul>
-                                    </div>
+                                        <li class="headerDownload" ng-click="downloadSchdReport($parent.$index,$index,srlist.instances[$index].instanceId)">
+                                            <span class="icon-download zeroPadding pull-left"></span>
+                                            <a class="pull-left">Download</a>
+                                        </li>
+                                    </ul>
                                 </div>
                             </div>
-                            <div class="table-td frequency-col" ng-bind-html="srlist.frequency"/>
-                            <div class="table-td"
-                                 ng-bind-html="srlist.instances[0].completedOn === undefined?
-                                 'Pending Status':
-                                 srlist.instances[0].completedOn | date : 'EEE, MMM d yyyy'">
-                            </div>
-                            <div class="table-td" ng-bind-html="srlist.dimensions"></div>
-                            <div class="table-td" ng-bind-html="srlist.createdBy"></div>
-
                         </div>
-                        <div class="inner-row" ng-if="srlist.instances.length > 0" >
-                            <div class="clearfix rowHover"
-                                 ng-repeat="inst in srlist.instances | limitTo: scheduleInstCount[$parent.$index] track by $index"
-                                 ng-class="{downloaded:inst.viewedOn.length > 0}">
-                                <div class="table-td name-col" ng-bind-html="srlist.name"/>
+                    </div>
+                    
+                    <!--Column 2-->
+                    <div class="col-md-2 table-td frequency-col" ng-bind-html="srlist.frequency"/>
+                    
+                    <!--Column 3-->
+                    <div class="col-md-2 table-td"
+                         ng-bind-html="srlist.instances[0].completedOn === undefined?
+                         'Pending Status':
+                         srlist.instances[0].completedOn | date : 'EEE, MMM d yyyy'">
+                    </div>
+                    
+                    <!--Column 4-->
+                    <div class="col-md-2 table-td" ng-bind-html="srlist.dimensions"></div>
+                    
+                    <!--Column 5-->
+                    <div class="col-md-2 table-td" ng-bind-html="srlist.createdBy"></div>
+
+                </div>
+                <div class="inner-row" ng-if="srlist.instances.length > 0" >
+                    <div class="clearfix rowHover"
+                         ng-repeat="inst in srlist.instances | limitTo: scheduleInstCount[$parent.$index] track by $index"
+                         ng-class="{downloaded:inst.viewedOn.length > 0}">
+                        
+                        <div class="table-td name-col">
+                            <span class="col-md-9" ng-bind-html="srlist.name"></span>
+                            <div class="col-md-3">
                                 <div class="table-td more-options">
                                     <div class="dropdown-workflow">
                                         <div class="dropdown hideOption">
-                                        <span data-toggle="dropdown">
-                                            <div class="option-horizontal">
-                                                <span></span><span></span><span></span>
-                                            </div>
-                                        </span>
+                                            <span data-toggle="dropdown">
+                                                <div class="option-horizontal">
+                                                    <span></span><span></span><span></span>
+                                                </div>
+                                            </span>
                                             <ul class="dropdown-menu">
                                                 <!-- <li ng-click="editSchdReport(srlist.reportId)" ng-bind-html="textConstants.EDIT"/>
                                                 <li ng-click="copyScheduleRpt(srlist.reportId)" ng-bind-html="textConstants.COPY"/>
                                                 <li ng-click="deleteSchdRpt(srlist.reportId)" ng-bind-html="textConstants.DELETE"/> -->
-                                                <li ng-click="downloadSchdReport($parent.$index,$index,srlist.instances[$index].instanceId)"
-                                                    ng-bind-html="textConstants.EDIT"/>
-                                                <li ng-click="deleteSchdRptInstance(srlist.reportId,srlist.instances[$index].instanceId)"
-                                                    ng-bind-html="textConstants.COPY"/>
-                                                <li ng-click="archiveSchdRpt(srlist.reportId,srlist.instances[$index].instanceId)"
-                                                    ng-bind-html="textConstants.DELETE"/>
+                                                <li ng-click="downloadSchdReport($parent.$index,$index,srlist.instances[$index].instanceId)">
+                                                    <a ng-bind-html="textConstants.EDIT"></a>
+                                                </li>
+                                                <li ng-click="deleteSchdRptInstance(srlist.reportId,srlist.instances[$index].instanceId)">
+                                                    <a ng-bind-html="textConstants.COPY"></a>
+                                                </li>
+                                                <li ng-click="archiveSchdRpt(srlist.reportId,srlist.instances[$index].instanceId)">
+                                                    <a ng-bind-html="textConstants.DELETE"></a>
+                                                </li>
 
                                                 <li class="headerDownload">
-                                                    <span class="icon-download zeroPadding"></span>
-                                                    <span class="greyTxt" style="padding-left: 7px !important;"><a href="">Download</a></span>
+                                                    <span class="icon-download zeroPadding pull-left"></span>
+                                                    <a class="pull-left">Download</a>
                                                 </li>
                                             </ul>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="table-td frequency-col" ng-bind-html="srlist.frequency"/>
-                                <div class="table-td" ng-bind-html="inst.completedOn | date : 'EEE, MMM d yyyy'"/>
-                                <div class="table-td" ng-bind-html="srlist.dimensions"/>
-                                <div class="table-td" ng-bind-html="srlist.createdBy"/>
+                            </div>
+                        </div>
+                        
+                        
+                        
+                        <div class="col-md-2 table-td frequency-col" ng-bind-html="srlist.frequency"/>
+                        <div class="col-md-2 table-td" ng-bind-html="inst.completedOn | date : 'EEE, MMM d yyyy'"/>
+                        <div class="col-md-2 table-td" ng-bind-html="srlist.dimensions"/>
+                        <div class="col-md-2 table-td" ng-bind-html="srlist.createdBy"/>
 
-                            </div>
-                            <div class="row view-all-link"
-                                 ng-if="(srlist.instances.length > 3) && (scheduleInstCount[$parent.$index] < srlist.instances.length)">
-                                <div class="col-md-12 table-td">
-                                    <a ng-click="setScheduleInstCount($parent.$index,srlist.instances.length)"
-                                       href="javascript:void(0);" ng-bind-html="textConstants.VIEW_ALL_REPORTS"/>
-                                </div>
-                            </div>
+                    </div>
+                    <div class="row view-all-link"
+                         ng-if="(srlist.instances.length > 3) && (scheduleInstCount[$parent.$index] < srlist.instances.length)">
+                        <div class="col-md-12 table-td">
+                            <a ng-click="setScheduleInstCount($parent.$index,srlist.instances.length)"
+                               href="javascript:void(0);" ng-bind-html="textConstants.VIEW_ALL_REPORTS"/>
                         </div>
                     </div>
                 </div>

@@ -100,14 +100,17 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
 
         //Dropdown Auto Positioning
 
-        $scope.open_second_dimension = function(event, index) {
-            var elem = $(event.target);
-            if (!elem.closest(".row").hasClass("open")) {
-                $scope.scheduleInstCount[index] = $scope.noOfSchldInstToShow;
+        $scope.redirect_or_open_2nd_dimension = function(event, index,reportId,freq) {
+            if(freq && freq == "Saved") {
+                $scope.editSchdReport(reportId);
+            } else {
+                var elem = $(event.target);
+                if (!elem.closest(".row").hasClass("open")) {
+                    $scope.scheduleInstCount[index] = $scope.noOfSchldInstToShow;
+                }
+                elem.closest(".row").toggleClass("open");
+                elem.closest(".row").find(".inner-row").toggle();
             }
-            elem.closest(".row").toggleClass("open");
-            elem.closest(".row").find(".inner-row").toggle();
-
         };
 
         $scope.setScheduleInstCount = function(index, count) {
