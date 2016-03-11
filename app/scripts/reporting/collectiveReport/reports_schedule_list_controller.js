@@ -1,6 +1,6 @@
 define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'common/moment_utils', 'login/login_model',
     'common/services/constants_service', 'common/services/url_service', 'common/services/data_store_model',
-    'common/services/data_service'
+    'common/services/data_service', 'common/controllers/confirmation_modal_controller', 'reporting/collectiveReport/report_schedule_delete_controller'
 ],function (angularAMD) {
     'use strict';
     angularAMD.controller('ReportsScheduleListController', function($scope,$filter, $location, $modal, $rootScope,
@@ -136,8 +136,23 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
             })
         }
 
+        $scope.downloadSavedReport = function(parentIndex, instanceIndex, instanceId) {
+            $scope.reportDownloadBusy = true;
+            dataService.downloadFile(urlService.downloadSavedRpt(instanceId)).then(function(response) {
+                if (response.status === "success") {
+                    saveAs(response.file, response.fileName);
+                    $scope.reportDownloadBusy = false;
+                    $scope.schdReportList[parentIndex].instances[instanceIndex].viewedOn = momentService.reportDateFormat();
+                } else {
+                    $scope.reportDownloadBusy = false;
+                    $rootScope.setErrAlertMessage("File couldn't be downloaded");
+                }
+            })
+        }
+
+
         //Delete scheduled report Pop up
-        $scope.deleteSchdRpt = function(reportId) {
+        $scope.deleteSchdRpt = function(reportId, frequency) {
             var $modalInstance = $modal.open({
                 templateUrl: assets.html_delete_collective_report,
                 controller: "ReportScheduleDeleteController",
@@ -148,22 +163,38 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
                         return constants.deleteReportHeader;
                     },
                     mainMsg: function() {
-                        return "Are you sure you want to delete Scheduled Report?"
+                        return (frequency != "Saved") ? "Are you sure you want to delete Scheduled Report?" : "Are you sure you want to delete Saved Report?"
                     },
                     deleteAction: function() {
                         return function() {
-                            var successFun = function(data) {
-                                if (data.status_code == 200) {
-                                    $scope.refreshReportList();
-                                    $rootScope.setErrAlertMessage('The scheduled report is deleted successfully', 0);
-                                } else {
+                            if(frequency == "Saved") {
+                                var successFun = function (data) {
+                                    if (data.status_code == 200) {
+                                        $scope.refreshReportList();
+                                        $rootScope.setErrAlertMessage('The saved report is deleted successfully', 0);
+                                    } else {
+                                        $rootScope.setErrAlertMessage(data.message, data.message);
+                                    }
+                                }
+                                var errorFun = function (data) {
                                     $rootScope.setErrAlertMessage(data.message, data.message);
                                 }
+                                collectiveReportModel.deleteSavedReport(successFun, errorFun, reportId);
+                            }else{
+                                var successFun = function (data) {
+                                    if (data.status_code == 200) {
+                                        $scope.refreshReportList();
+                                        $rootScope.setErrAlertMessage('The scheduled report is deleted successfully', 0);
+                                    } else {
+                                        $rootScope.setErrAlertMessage(data.message, data.message);
+                                    }
+                                }
+                                var errorFun = function (data) {
+                                    $rootScope.setErrAlertMessage(data.message, data.message);
+                                }
+                                collectiveReportModel.deleteScheduledReport(successFun, errorFun, reportId);
                             }
-                            var errorFun = function(data) {
-                                $rootScope.setErrAlertMessage(data.message, data.message);
-                            }
-                            collectiveReportModel.deleteScheduledReport(successFun, errorFun, reportId);
+
                         }
                     }
                 }
@@ -216,43 +247,61 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
         }
 
 
-        $scope.copyScheduleRpt = function(reportId) {
+        $scope.copyScheduleRpt = function(reportId, frequency) {
             var $modalInstance = $modal.open({
                 templateUrl: assets.html_confirmation_modal,
                 controller: "ConfirmationModalController",
                 scope: $scope,
                 windowClass: 'delete-dialog',
                 resolve: {
-                    headerMsg: function() {
-                        return "Copy Scheduled Report?";
+                    headerMsg: function () {
+                        return (frequency != "Saved") ? "Copy Scheduled Report?" : "Copy Saved Report?";
                     },
-                    mainMsg: function() {
-                        return "Are you sure you want to copy Scheduled Report?"
+                    mainMsg: function () {
+                        return (frequency != "Saved") ? "Are you sure you want to copy Scheduled Report?" : "Are you sure you want to copy Saved Report?";
                     },
-                    buttonName: function() {
+                    buttonName: function () {
                         return "Copy"
                     },
-                    execute: function() {
-                        return function() {
-                            var copySuccess = function(data) {
-                                data.name = 'copy: ' + data.name;
-                                data.client_id = loginModel.getSelectedClient().id;
-                                data.schedule = $scope.pre_formatCopySchData(data.schedule);
-                                collectiveReportModel.createSchdReport(function() {
-                                    $scope.refreshReportList();
-                                    $rootScope.setErrAlertMessage('Schedule Report Copied Successfully', 0);
-                                }, function() {
-                                    $rootScope.setErrAlertMessage('Error Copying Schedule Report');
-                                }, data);
+                    execute: function () {
+                        return function () {
+                            if (frequency == "Saved") {
+                                var copySuccess = function (data) {
+                                    data.name = 'copy: ' + data.name;
+                                    data.client_id = loginModel.getSelectedClient().id;
+                                    data.schedule = $scope.pre_formatCopySchData(data.schedule);
+                                    collectiveReportModel.createSavedReport(function () {
+                                        $scope.refreshReportList();
+                                        $rootScope.setErrAlertMessage('Saved Report Copied Successfully', 0);
+                                    }, function () {
+                                        $rootScope.setErrAlertMessage('Error Copying Saved Report');
+                                    }, data);
+                                }
+                                var copyError = function () {
+                                    $rootScope.setErrAlertMessage('Error Copying Saved Report');
+                                }
+                                collectiveReportModel.getSaveRptDetail(copySuccess, copyError, reportId);
+                            } else {
+                                var copySuccess = function (data) {
+                                    data.name = 'copy: ' + data.name;
+                                    data.client_id = loginModel.getSelectedClient().id;
+                                    data.schedule = $scope.pre_formatCopySchData(data.schedule);
+                                    collectiveReportModel.createSchdReport(function () {
+                                        $scope.refreshReportList();
+                                        $rootScope.setErrAlertMessage('Schedule Report Copied Successfully', 0);
+                                    }, function () {
+                                        $rootScope.setErrAlertMessage('Error Copying Schedule Report');
+                                    }, data);
+                                }
+                                var copyError = function () {
+                                }
+                                collectiveReportModel.getSchdRptDetail(copySuccess, copyError, reportId);
+
                             }
-                            var copyError = function() {
-                                $rootScope.setErrAlertMessage('Error Copying Schedule Report');
-                            }
-                            collectiveReportModel.getSchdRptDetail(copySuccess, copyError, reportId);
                         }
                     }
                 }
-            });
+                });
         }
         $scope.pre_formatCopySchData = function(schData){
             var o = $.extend({}, schData);

@@ -223,6 +223,12 @@ define(['angularAMD','common/services/vistoconfig_service', 'common/services/con
             return vistoconfig.apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId + '/scheduledreports/downloadReport/'+instanceId;
         }
 
+        this.downloadSavedRpt = function (instanceId) {
+            var clientId =  loginModel.getSelectedClient().id;
+            return vistoconfig.apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId + '/savedreports/downloadReport/'+instanceId;
+        }
+
+
         this.scheduledReport = function (reportId) {
             var clientId =  loginModel.getSelectedClient().id;
             return vistoconfig.apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId + '/scheduledreports/getReport/' + reportId;
@@ -233,10 +239,14 @@ define(['angularAMD','common/services/vistoconfig_service', 'common/services/con
             return vistoconfig.apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId + '/savedreports/getReport/' + reportId;
         }
 
-
         this.deleteSchdRpt = function (reportId) {
             var clientId =  loginModel.getSelectedClient().id;
             return vistoconfig.apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId + '/scheduledreports/deleteReport/' + reportId;
+        }
+
+        this.deleteSavedRpt = function (reportId) {
+            var clientId =  loginModel.getSelectedClient().id;
+            return vistoconfig.apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId + '/savedreports/deleteReport/' + reportId;
         }
 
         this.deleteInstanceOfSchdRpt = function (reportId, instanceId) {

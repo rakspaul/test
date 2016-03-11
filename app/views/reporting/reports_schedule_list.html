@@ -171,18 +171,17 @@
                                         <!-- <li ng-click="editSchdReport(srlist.reportId)" ng-bind-html="textConstants.EDIT"/>
                                         <li ng-click="copyScheduleRpt(srlist.reportId)" ng-bind-html="textConstants.COPY"/>
                                         <li ng-click="deleteSchdRpt(srlist.reportId)" ng-bind-html="textConstants.DELETE"/> -->
-                                        <li ng-click="editSchdReport(srlist.reportId)">
+                                        <li ng-click="editSchdReport(srlist.reportId, srlist.frequency)">
                                             <a ng-bind-html="textConstants.EDIT"></a>
                                         </li>
-                                        <li ng-click="copyScheduleRpt(srlist.reportId)">
+                                        <li ng-click="copyScheduleRpt(srlist.reportId, srlist.frequency)">
                                             <a ng-bind-html="textConstants.COPY"></a>
                                         </li>
-                                        <li ng-click="deleteSchdRptInstance(srlist.reportId,srlist.instances[$index].instanceId)">
+                                        <li ng-click="deleteSchdRpt(srlist.reportId, srlist.frequency)">
                                             <a ng-bind-html="textConstants.DELETE"></a>
                                         </li>
 
-                                        <li class="headerDownload" ng-click="downloadSchdReport($parent.$index,$index,srlist.instances[$index].instanceId)">
-                                            <span class="icon-download zeroPadding pull-left"></span>
+                                        <li class="headerDownload" ng-click="downloadSavedReport($parent.$index,$index,srlist.reportId)" ng-if="srlist.frequency=='Saved'">                                            <span class="icon-download zeroPadding pull-left"></span>
                                             <a class="pull-left">Download</a>
                                         </li>
                                     </ul>
@@ -229,19 +228,19 @@
                                                 <li ng-click="copyScheduleRpt(srlist.reportId)" ng-bind-html="textConstants.COPY"/>
                                                 <li ng-click="deleteSchdRpt(srlist.reportId)" ng-bind-html="textConstants.DELETE"/> -->
                                                 <li ng-click="downloadSchdReport($parent.$index,$index,srlist.instances[$index].instanceId)">
-                                                    <a ng-bind-html="textConstants.EDIT"></a>
+                                                    <a ng-bind-html="textConstants.DOWNLOAD"></a>
                                                 </li>
                                                 <li ng-click="deleteSchdRptInstance(srlist.reportId,srlist.instances[$index].instanceId)">
-                                                    <a ng-bind-html="textConstants.COPY"></a>
-                                                </li>
-                                                <li ng-click="archiveSchdRpt(srlist.reportId,srlist.instances[$index].instanceId)">
                                                     <a ng-bind-html="textConstants.DELETE"></a>
                                                 </li>
-
-                                                <li class="headerDownload">
-                                                    <span class="icon-download zeroPadding pull-left"></span>
-                                                    <a class="pull-left">Download</a>
+                                                <li ng-click="archiveSchdRpt(srlist.reportId,srlist.instances[$index].instanceId)">
+                                                    <a ng-bind-html="textConstants.ARCHIEVE"></a>
                                                 </li>
+
+                                                <!--<li class="headerDownload">-->
+                                                    <!--<span class="icon-download zeroPadding pull-left"></span>-->
+                                                    <!--<a class="pull-left">Download</a>-->
+                                                <!--</li>-->
                                             </ul>
                                         </div>
                                     </div>
