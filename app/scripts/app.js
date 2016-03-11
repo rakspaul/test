@@ -22,7 +22,14 @@ define(['common'], function (angularAMD) {
                 controllerUrl: 'reporting/dashboard/dashboard_controller',
                 title: 'Dashboard',
                 bodyclass: 'dashboard_body',
-                resolve: {}
+                resolve: {
+                    'check': function ($location,featuresService) {
+                        var featureParams = featuresService.getFeatureParams();
+                        if(featureParams[0]['dashboard'] === false) {
+                            $location.url('/');
+                        }
+                    }
+                }
             }))
             .when('/dashboard_2', angularAMD.route({
                 templateUrl: assets.html_dashboard_2,
@@ -34,35 +41,75 @@ define(['common'], function (angularAMD) {
 
             .when('/mediaplans', angularAMD.route({
                 templateUrl: assets.html_campaign_list,
-                title: 'Media Plan List'
+                title: 'Media Plan List',
+                resolve: {
+                    'check': function ($location,featuresService) {
+                        var featureParams = featuresService.getFeatureParams();
+                        if(featureParams[0]['mediaplan_list'] === false) {
+                            $location.url('/');
+                        }
+                    }
+                }
             }))
 
             .when('/mediaplans/:campaignId', angularAMD.route({
                 templateUrl: assets.html_campaign_details,
                 title: 'Reports Overview',
                 controller: 'CampaignDetailsController',
-                controllerUrl: 'reporting/controllers/campaign_details_controller'
+                controllerUrl: 'reporting/controllers/campaign_details_controller',
+                resolve: {
+                    'check': function ($location,featuresService) {
+                        var featureParams = featuresService.getFeatureParams();
+                        if(featureParams[0]['report_overview'] === false) {
+                            $location.url('/');
+                        }
+                    }
+                }
             }))
 
             .when('/optimization', angularAMD.route({
                 templateUrl: assets.html_optimization,
                 title: 'Reports - Optimization Impact',
                 controller: 'OptimizationController',
-                controllerUrl: 'reporting/controllers/optimization_controller'
+                controllerUrl: 'reporting/controllers/optimization_controller',
+                resolve: {
+                    'check': function ($location,featuresService) {
+                        var featureParams = featuresService.getFeatureParams();
+                        if(featureParams[0]['optimization_impact'] === false) {
+                            $location.url('/');
+                        }
+                    }
+                }
             }))
 
             .when('/inventory', angularAMD.route({
                 templateUrl: assets.html_inventory,
                 title: 'Reports - Inventory',
                 controller: 'InventoryController',
-                controllerUrl: 'reporting/controllers/inventory_controller'
+                controllerUrl: 'reporting/controllers/inventory_controller',
+                resolve: {
+                    'check': function ($location,featuresService) {
+                        var featureParams = featuresService.getFeatureParams();
+                        if(featureParams[0]['inventory'] === false) {
+                            $location.url('/');
+                        }
+                    }
+                }
             }))
 
             .when('/quality', angularAMD.route({
                 templateUrl: assets.html_viewability,
                 title: 'Reports - Quality',
                 controller: 'ViewabilityController',
-                controllerUrl: 'reporting/controllers/viewability_controller'
+                controllerUrl: 'reporting/controllers/viewability_controller',
+                resolve: {
+                    'check': function ($location,featuresService) {
+                        var featureParams = featuresService.getFeatureParams();
+                        if(featureParams[0]['quality'] === false) {
+                            $location.url('/');
+                        }
+                    }
+                }
             }))
 
             .when('/cost', angularAMD.route({
@@ -92,7 +139,15 @@ define(['common'], function (angularAMD) {
                 templateUrl: assets.html_platform,
                 title: 'Reports - Platform',
                 controller: 'PlatformController',
-                controllerUrl: 'reporting/controllers/platform_controller'
+                controllerUrl: 'reporting/controllers/platform_controller',
+                resolve: {
+                    'check': function ($location,featuresService) {
+                        var featureParams = featuresService.getFeatureParams();
+                        if(featureParams[0]['platform'] === false) {
+                            $location.url('/');
+                        }
+                    }
+                }
                 //css: 'assets/stylesheets/platform.css'
             }))
 
@@ -101,7 +156,15 @@ define(['common'], function (angularAMD) {
                 title: 'Report Builder',
                 controller: 'CustomReportController',
                 controllerUrl: 'reporting/controllers/custom_report_controller',
-                bodyclass: 'custom_report_page'
+                bodyclass: 'custom_report_page',
+                resolve: {
+                    'check': function ($location,featuresService) {
+                        var featureParams = featuresService.getFeatureParams();
+                        if(featureParams[0]['scheduled_reports'] === false) {
+                            $location.url('/');
+                        }
+                    }
+                }
             }))
 
             .when('/customreport/edit/:reportId', angularAMD.route({
@@ -109,37 +172,78 @@ define(['common'], function (angularAMD) {
                 title: 'Report Builder',
                 controller: 'CustomReportController',
                 controllerUrl: 'reporting/controllers/custom_report_controller',
-                bodyclass: 'custom_report_page'
+                bodyclass: 'custom_report_page',
+                resolve: {
+                    'check': function ($location, featuresService) {
+                        var featureParams = featuresService.getFeatureParams();
+                        if (featureParams[0]['scheduled_reports'] === false) {
+                            $location.url('/');
+                        }
+                    }
+                }
             }))
 
             .when('/reports/upload', angularAMD.route({
                 templateUrl: assets.html_custom_report_upload,
                 title: 'Upload Custom Reports',
                 controller: 'CustomReportUploadController',
-                controllerUrl: 'reporting/controllers/custom_report_upload_controller'
+                controllerUrl: 'reporting/controllers/custom_report_upload_controller',
+                css: assets.css_custom_reports,
+                resolve: {
+                    'check': function ($location,featuresService) {
+                        var featureParams = featuresService.getFeatureParams();
+                        if(featureParams[0]['collective_insights'] === false) {
+                            $location.url('/');
+                        }
+                    }
+                }
             }))
 
             .when('/reports/list', angularAMD.route({
                 templateUrl: assets.html_collective_report_listing,
                 title: 'Collective Insights',
                 controller: 'CollectiveReportListingController',
-                controllerUrl: 'reporting/collectiveReport/collective_report_listing_controller'
-
+                controllerUrl: 'reporting/collectiveReport/collective_report_listing_controller',
+                css: assets.css_custom_reports,
+                resolve: {
+                    'check': function ($location,featuresService) {
+                        var featureParams = featuresService.getFeatureParams();
+                        if(featureParams[0]['collective_insights'] === false) {
+                            $location.url('/');
+                        }
+                    }
+                }
             }))
 
             .when('/reports/schedules', angularAMD.route({
                 templateUrl: assets.html_reports_schedule_list,
                 title: 'Scheduled Reports',
                 controller: 'ReportsScheduleListController',
-                controllerUrl: 'reporting/collectiveReport/reports_schedule_list_controller'
-
+                controllerUrl: 'reporting/collectiveReport/reports_schedule_list_controller',
+                css: assets.css_reports_schedule_list,
+                resolve: {
+                    'check': function ($location,featuresService) {
+                        var featureParams = featuresService.getFeatureParams();
+                        if(featureParams[0]['scheduled_reports'] === false) {
+                            $location.url('/');
+                        }
+                    }
+                }
             }))
 
             .when('/performance', angularAMD.route({
                 templateUrl: assets.html_performance,
                 title: 'Reports - Performance',
                 controller: 'PerformanceController',
-                controllerUrl: 'reporting/controllers/performance_controller'
+                controllerUrl: 'reporting/controllers/performance_controller',
+                resolve: {
+                    'check': function ($location,featuresService) {
+                        var featureParams = featuresService.getFeatureParams();
+                        if(featureParams[0]['performance'] === false) {
+                            $location.url('/');
+                        }
+                    }
+                }
             }))
 
             .when('/mediaplan/create', angularAMD.route({
@@ -159,6 +263,10 @@ define(['common'], function (angularAMD) {
                         });
                         if (!isWorkflowUser) {
                             $location.path('/');
+                        }
+                        var featureParams = featuresService.getFeatureParams();
+                        if(featureParams[0]['performance'] === false) {
+                            $location.url('/');
                         }
                     }
                 }
@@ -355,6 +463,10 @@ define(['common'], function (angularAMD) {
                         if (!isWorkflowUser) {
                             $location.path('/');
                         }
+                        var featureParams = featuresService.getFeatureParams();
+                        if(featureParams[0]['creative_list'] === false) {
+                            $location.url('/');
+                        }
                     }
                 }
             }))
@@ -480,6 +592,7 @@ define(['common'], function (angularAMD) {
                 locationChangeStartFunc();
                 routeChangeSuccessFunc();
             });
+
         });
 
     return angularAMD.bootstrap(app);
