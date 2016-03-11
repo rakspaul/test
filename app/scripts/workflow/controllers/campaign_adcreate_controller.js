@@ -1036,9 +1036,11 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
         };
 
         $scope.toggleBtn = function (event) {
-            var target = $(event.target),
-                parentElem = target.parents('.miniToggle');
+            var target,
+                parentElem;
 
+            target = $(event.target);
+            parentElem = target.parents('.miniToggle');
             parentElem.find('label').removeClass('active');
             target.parent().addClass('active');
             target.attr('checked', 'checked');
