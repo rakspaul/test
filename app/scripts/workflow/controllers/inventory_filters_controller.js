@@ -83,7 +83,7 @@ define(['angularAMD', 'workflow/services/workflow_service', 'workflow/services/f
             function uploadSuccessCallback(response) {
                 var inventoryData = $scope.workflowData.inventoryData,
                     selectedLists = $scope.workflowData.selectedLists;
-console.log('response.data = ', response.data);
+
                 response.data.domainNamesDisplay = 'collapsed';
 
                 if ($scope.inventoryCreate) {
@@ -281,8 +281,6 @@ console.log('response.data = ', response.data);
             };
 
             $scope.workflowData.assignCurrentInventory = function(obj) {
-console.log('$scope.adData.inventory = ', $scope.adData.inventory);
-console.log('obj = ', obj)
                 $scope.adData.inventory = obj;
             };
 
