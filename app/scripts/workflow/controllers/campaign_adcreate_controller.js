@@ -1048,6 +1048,8 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
 
         // Create Tag Slide Page
         $scope.showCreateNewWindow = function () {
+            workflowService.setCreativeEditMode("create");
+            workflowService.setCreativeEdit(null);
             $('#formCreativeCreate')[0].reset();
             $scope.isAddCreativePopup = true;
 

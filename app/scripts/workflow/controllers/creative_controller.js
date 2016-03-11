@@ -1,6 +1,6 @@
 define(['angularAMD','../../common/services/constants_service','workflow/services/workflow_service','workflow/services/creative_custom_module','workflow/directives/creative_drop_down','workflow/directives/ng_upload_hidden'],function (angularAMD) {
   angularAMD.controller('CreativeController', function($scope, $rootScope, $routeParams, $location, constants, workflowService,creativeCustomModule) {
-      $scope.creativeFormat="DISPLAY";
+     // $scope.creativeFormat="DISPLAY";
       $scope.creative={};
       $scope.adData = {};
       $scope.textConstants = constants;
@@ -10,6 +10,7 @@ define(['angularAMD','../../common/services/constants_service','workflow/service
       $scope.adData.screenTypes = [];
       $scope.selectedCreative = {};
       $scope.creativeSizeData = {};
+      $scope.selectedAdServer={};
       $scope.addedSuccessfully = false;
       $scope.IncorrectTag = false;
       $scope.disableCancelSave = false;
@@ -17,22 +18,25 @@ define(['angularAMD','../../common/services/constants_service','workflow/service
       var validTag=false;
 
       $scope.creativeMode=workflowService.getCreativeEditMode();
-      if($scope.creativeMode==="edit"){
-          $scope.creativeEditData=workflowService.getCreativeEditData();
-          $scope.name=$scope.creativeEditData.name;
-          $scope.advertiserName=$scope.creativeEditData.advertiser.name;
-          $scope.creative.advertiserId=$scope.creativeEditData.advertiserId;
-          //$scope.brandName=$scope.creativeEditData.brand.name;
-          $scope.creative.brandId=$scope.creativeEditData.brandId;
-          $scope.selectedAdServer=$scope.creativeEditData.adServer;
-          $scope.selectedAdServer.id=$scope.creativeEditData.adServer.id;
-          $scope.creativeFormat=$scope.creativeEditData.creativeFormat;
-          $scope.adFormatSelection($scope.creativeFormat,'');
-          //$scope.CreativeTemplate=$scope.creativeEditData.
-          //$scope.adData.creativeTemplate=$scope.creativeEditData.
-          $scope.tag=$scope.creativeEditData.tag;
-          $scope.adData.creativeSize=$scope.creativeEditData.size;
+      var processEditCreative=function(){
 
+          $scope.creativeEditData=workflowService.getCreativeEditData();
+          if($scope.creativeEditData){
+              $scope.name=$scope.creativeEditData.name;
+              $scope.advertiserName=$scope.creativeEditData.advertiser.name;
+              $scope.creative.advertiserId=$scope.creativeEditData.advertiserId;
+              $scope.brandName=$scope.creativeEditData.brand?$scope.creativeEditData.brand.name:'Select Brand';
+              $scope.creative.brandId=$scope.creativeEditData.brand?$scope.creativeEditData.brandId:'';
+              $scope.selectedAdServer=$scope.creativeEditData.adServer;
+              $scope.selectedAdServer.id=$scope.creativeEditData.adServer?$scope.creativeEditData.adServer.id:'';
+              $scope.creativeFormat=$scope.creativeEditData.creativeFormat;
+              //make cal to set the format type here //inturn makes call to get possible templates
+              $scope.adFormatSelection($scope.creativeFormat);
+              //make call to generate Template
+              $scope.onTemplateSelected($scope.creativeEditData.vendorCreativeTemplate,$scope.creativeEditData.creativeCustomInputs);
+              $scope.tag=$scope.creativeEditData.tag;
+              $scope.adData.creativeSize=$scope.creativeEditData.size;
+          }
       }
 
       $scope.data = {
@@ -148,7 +152,7 @@ define(['angularAMD','../../common/services/constants_service','workflow/service
           }
       }
       /*function on adFormat selected*/
-      $scope.adFormatSelection=function(adFormatName,event){
+      $scope.adFormatSelection=function(adFormatName){
           var index=_.findIndex($scope.creativeSizeData.adFormats, function(obj){
               return angular.uppercase(obj.name)===angular.uppercase(adFormatName)
           })
@@ -162,14 +166,21 @@ define(['angularAMD','../../common/services/constants_service','workflow/service
 
           /*CreativeLibrary page, get templates*/
           if(!$scope.adPage && $scope.selectedAdServer){
+              resetTemplate();
               $scope.getTemplates($scope.selectedAdServer,adFormatName);
           }
+      }
+      var resetTemplate=function(){
+          $scope.onTemplateSelected('','');
+          $scope.adData.creativeTemplate="";
+          $scope.CreativeTemplate.name='Select Template';
       }
       /*function on AdServer Selected*/
       $scope.adServerSelected=function(adServer){
           $scope.selectedAdServer=adServer;// used in adFormatSelection function to get all templates.
 
           if(!$scope.adPage && $scope.creativeFormat){
+              resetTemplate();
               $scope.getTemplates($scope.selectedAdServer,$scope.creativeFormat);
           }
 
@@ -229,12 +240,12 @@ define(['angularAMD','../../common/services/constants_service','workflow/service
       });
 
       /*Generate the Template*/
-      $scope.onTemplateSelected=function(templateJson){
+      $scope.onTemplateSelected=function(templateJson,customFieldsDataEditMode){
           console.log(templateJson);
           $scope.CreativeTemplate=templateJson;
           $scope.adData.creativeTemplate=templateJson.id;
           var creativeTemplateWrap = $('.creativeTemplate');
-          creativeCustomModule.init(templateJson,creativeTemplateWrap,$scope);
+          creativeCustomModule.init(templateJson,creativeTemplateWrap,$scope,customFieldsDataEditMode);
       }
 
       $scope.creativePopularSizes = [
@@ -280,7 +291,6 @@ define(['angularAMD','../../common/services/constants_service','workflow/service
           if(!$scope.adPage){
               getAdServers();
               creatives.fetchAdvertisers();
-
           }
       };
 
@@ -300,6 +310,9 @@ define(['angularAMD','../../common/services/constants_service','workflow/service
                           {id: 3, name: 'Rich Media', active: false, disabled:false},
                           {id: 4, name: 'Social',     active: false, disabled:false}
                       ];
+                      if($scope.creativeMode==="edit"){
+                          processEditCreative();
+                      }
 
                   }else{
                       console.log('failed to get template Json');
@@ -409,28 +422,49 @@ define(['angularAMD','../../common/services/constants_service','workflow/service
 
       $scope.creativeSave = function (postCrDataObj) {
           $scope.CrDataObj = postCrDataObj;
-          workflowService
-              .saveCreatives($scope.campaignId, $scope.advertiserId, postCrDataObj)
-              .then(function (result) {
-                  if (result.status === 'OK' || result.status === 'success') {
-                      $scope.addedSuccessfully = true;
-                      $scope.Message = 'Creative Added Successfully';
-                      workflowService.setNewCreative(result.data.data);
-                      // redirect user after successful saving
-                      $scope.cancelBtn();
-                      $rootScope.setErrAlertMessage($scope.textConstants.CREATIVE_SAVE_SUCCESS,0);
-                      localStorage.setItem( 'topAlertMessage', $scope.textConstants.CREATIVE_SAVE_SUCCESS);
-                  } else if (result.data.data.message ===
-                      'Creative with this tag already exists. If you still want to save, use force save') {
-                      $('.popup-holder').css('display', 'block');
-                      $scope.addedSuccessfully = false;
-                      $scope.disableCancelSave = true;
-                  } else {
-                      $scope.addedSuccessfully = true;
-                      $scope.Message = 'Unable to create Creatives';
-                      console.log(result);
-                  }
-              });
+          if($scope.creativeMode!=="edit"){
+              workflowService
+                  .saveCreatives($scope.campaignId, $scope.advertiserId, postCrDataObj)
+                  .then(function (result) {
+                      if (result.status === 'OK' || result.status === 'success') {
+                          $scope.addedSuccessfully = true;
+                          $scope.Message = 'Creative Added Successfully';
+                          workflowService.setNewCreative(result.data.data);
+                          // redirect user after successful saving
+                          $scope.cancelBtn();
+                          $rootScope.setErrAlertMessage($scope.textConstants.CREATIVE_SAVE_SUCCESS,0);
+                          localStorage.setItem( 'topAlertMessage', $scope.textConstants.CREATIVE_SAVE_SUCCESS);
+                      } else if (result.data.data.message ===
+                          'Creative with this tag already exists. If you still want to save, use force save') {
+                          $('.popup-holder').css('display', 'block');
+                          $scope.addedSuccessfully = false;
+                          $scope.disableCancelSave = true;
+                      } else {
+                          $scope.addedSuccessfully = true;
+                          $scope.Message = 'Unable to create Creatives';
+                          console.log(result);
+                      }
+                  });
+          }else{
+              postCrDataObj.updatedAt=$scope.creativeEditData.updatedAt;
+              workflowService
+                  .updateCreative($scope.campaignId, $scope.creativeEditData.advertiserId,$scope.creativeEditData.id,postCrDataObj)
+                  .then(function(result){
+                      if (result.status === 'OK' || result.status === 'success') {
+                          $scope.addedSuccessfully = true;
+                          $scope.Message = 'Creative Added Successfully';
+                         // workflowService.setNewCreative(result.data.data);
+                          // redirect user after successful saving
+                          $scope.cancelBtn();
+                          $rootScope.setErrAlertMessage($scope.textConstants.CREATIVE_SAVE_SUCCESS,0);
+                          localStorage.setItem( 'topAlertMessage', $scope.textConstants.CREATIVE_SAVE_SUCCESS);
+                      }else{
+                          $scope.addedSuccessfully = true;
+                          $scope.Message = 'Unable to create Creatives';
+                          console.log(result);
+                      }
+                  })
+          }
       };
 
       $scope.$on('closeAddCreativePage', function () {

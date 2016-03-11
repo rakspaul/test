@@ -19,7 +19,7 @@
 
 		<div class="col-md-12 zeroPadding btn_list_filters">
 			<div class="btn-group" role="group" aria-label="...">
-				<a href="/creative/add" role="button" class="btn btn-default"><span class="icon-plus"></span><span data-ng-bind="textConstants.CREATE"></span></a>
+				<a  role="button" class="btn btn-default" ng-click="creativeCreate();"><span class="icon-plus"></span><span data-ng-bind="textConstants.CREATE"></span></a>
 				<button type="button" class="btn btn-default" style="display: none"><span class="icon-inline-edit"></span><span data-ng-bind="textConstants.EDIT"></span></button>
 				<button type="button" class="btn btn-default" ng-click="cancelDelete();"><span class="icon-archive"></span><span data-ng-bind="textConstants.ARCHIVE"></span></button>
 				<button type="button" class="btn btn-default" disabled="true"><span class="icon-copy"></span><span data-ng-bind="textConstants.CLONE"></span></button>
