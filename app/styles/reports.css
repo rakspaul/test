@@ -3610,14 +3610,12 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
   height: 58px;
 }
 .report_generator_and_response #dynamicHeader.smaller h3 {
-  font-size: 15px;
   margin-bottom: -4px;
-  margin-right: 20px;
+  margin-right: 15px;
   bottom: -5px;
   float: left;
-  left: 6px;
   position: relative;
-  margin-top: 0;
+  margin-top: 18PX;
 }
 .report_generator_and_response #dynamicHeader.smaller h6 {
   margin-top: 7px;
@@ -3625,10 +3623,28 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 .report_generator_and_response #dynamicHeader.smaller .collapseIcon {
   display: inline;
 }
-.report_generator_and_response #dynamicHeader.smaller .small {
+.report_generator_and_response #dynamicHeader.smaller .savedSubTitle {
   display: block;
+  font-size: 14pt;
+  margin-top: 22px;
+  margin-right: 6px;
+  float: left;
 }
-.report_generator_and_response #dynamicHeader.smaller .big {
+.report_generator_and_response #dynamicHeader.smaller .iconPlusMinus {
+  display: block;
+  margin-top: 6px;
+  margin-right: 6px;
+  float: left;
+}
+.report_generator_and_response #dynamicHeader.smaller .downReport {
+  display: block;
+  float: right;
+  margin-top: 20px;
+}
+.report_generator_and_response #dynamicHeader.smaller .downReport a {
+  color: #312333;
+}
+.report_generator_and_response #dynamicHeader.smaller .subTitle {
   display: none;
 }
 .report_generator_and_response #dynamicHeader {
@@ -3637,10 +3653,13 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 .report_generator_and_response #dynamicHeader .collapseIcon {
   display: none;
 }
-.report_generator_and_response #dynamicHeader .small {
+.report_generator_and_response #dynamicHeader .savedSubTitle {
   display: none;
 }
-.report_generator_and_response #dynamicHeader .big {
+.report_generator_and_response #dynamicHeader .downReport {
+  display: none;
+}
+.report_generator_and_response #dynamicHeader .subTitle {
   display: block;
 }
 .report_generator_and_response .collapseIcon {
