@@ -1899,10 +1899,9 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
 
                     //metrics
                     $scope.selectedMetricsList = [];
-                    var reparceStringBackToObj = JSON.parse(responseData.reportDefinition);
-                    if (reparceStringBackToObj.metrics.Delivery) {
+                    if (responseData.reportDefinition.metrics.Delivery) {
                         _.each($scope.deliveryMetrics, function(each) {
-                            var deliveryMetricsObj = _.find(reparceStringBackToObj.metrics.Delivery, function(num) {
+                            var deliveryMetricsObj = _.find(responseData.reportDefinition.metrics.Delivery, function(num) {
                                 return num == each.key;
                             });
                             if (deliveryMetricsObj == undefined) {
@@ -1918,9 +1917,9 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                             }
                         });
                     }
-                    if (reparceStringBackToObj.metrics.Engagement) {
+                    if (responseData.reportDefinition.metrics.Engagement) {
                         _.each($scope.engagementMetrics, function(each) {
-                            var engMetricsObj = _.find(reparceStringBackToObj.metrics.Engagement, function(num) {
+                            var engMetricsObj = _.find(responseData.reportDefinition.metrics.Engagement, function(num) {
                                 return num == each.key;
                             });
                             if (engMetricsObj == undefined) {
@@ -1936,9 +1935,9 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                             }
                         });
                     }
-                    if (reparceStringBackToObj.metrics.Cost) {
+                    if (responseData.reportDefinition.metrics.Cost) {
                         _.each($scope.costMetrics, function(each) {
-                            var costMetricsObj = _.find(reparceStringBackToObj.metrics.Cost, function(num) {
+                            var costMetricsObj = _.find(responseData.reportDefinition.metrics.Cost, function(num) {
                                 return num == each.key;
                             });
                             if (costMetricsObj == undefined) {
@@ -1954,9 +1953,9 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                             }
                         });
                     }
-                    if (reparceStringBackToObj.metrics.Video) {
+                    if (responseData.reportDefinition.metrics.Video) {
                         _.each($scope.videoMetrics, function(each) {
-                            var videoMetricsObj = _.find(reparceStringBackToObj.metrics.Video, function(num) {
+                            var videoMetricsObj = _.find(responseData.reportDefinition.metrics.Video, function(num) {
                                 return num == each.key;
                             });
                             if (videoMetricsObj == undefined) {
@@ -1973,9 +1972,9 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                         });
                     }
 
-                    if (reparceStringBackToObj.metrics['Quality Display']) {
+                    if (responseData.reportDefinition.metrics['Quality Display']) {
                         _.each($scope.displayQltyMetrics, function(each) {
-                            var qualityDisplayObj = _.find(reparceStringBackToObj.metrics['Quality Display'], function(num) {
+                            var qualityDisplayObj = _.find(responseData.reportDefinition.metrics['Quality Display'], function(num) {
                                 return num == each.key;
                             });
                             if (qualityDisplayObj == undefined) {
@@ -1992,9 +1991,9 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                         });
                     }
 
-                    if (reparceStringBackToObj.metrics['Quality Video']) {
+                    if (responseData.reportDefinition.metrics['Quality Video']) {
                         _.each($scope.videoQltyMetrics, function(each) {
-                            var videoQltyMetricsObj = _.find(reparceStringBackToObj.metrics['Quality Video'], function(num) {
+                            var videoQltyMetricsObj = _.find(responseData.reportDefinition.metrics['Quality Video'], function(num) {
                                 return num == each.key;
                             });
                             if (videoQltyMetricsObj == undefined) {
