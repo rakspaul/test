@@ -343,18 +343,23 @@ define(['angularAMD','../../common/services/constants_service','workflow/service
                 context.incorrectTagMessage = $scope.textConstants.WF_INVALID_CREATIVE_TAG;
             }
         };
+      $scope.creativeCreate=function(){
+          workflowService.setCreativeEditMode("create");
+          workflowService.setCreativeEdit(null);
+          $location.url("/creative/add");
+      }
 
         $scope.ShowHideTag = function (obj, pos) {
-            //workflowService.setCreativeEditMode("edit");
-            //workflowService.setCreativeEdit(obj);
-            //$location.url("/creative/add");
+            workflowService.setCreativeEditMode("edit");
+            workflowService.setCreativeEdit(obj);
+            $location.url("/creative/add");
 
 
-            $scope.selectedCreativeData = obj;
-            $scope.selectedCreativePos = pos;
-            $scope.showViewTagPopup = true;
-            $scope.editorEnabled = false;
-            $scope.creativeTag = obj.tag;
+            //$scope.selectedCreativeData = obj;
+            //$scope.selectedCreativePos = pos;
+            //$scope.showViewTagPopup = true;
+            //$scope.editorEnabled = false;
+            //$scope.creativeTag = obj.tag;
         };
 
         $scope.toggleCreativeAds=function(context,creativeId,index,event){

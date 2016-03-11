@@ -275,7 +275,7 @@ define(['angularAMD','common/services/vistoconfig_service', 'common/services/con
                 if(isTracking!== undefined)
                     return dataService.fetch(vistoconfig.apiPaths.WORKFLOW_API_URL  +'/vendors/'+adServer.id+'/templates?format='+format.replace(/\s+/g, '').toUpperCase()+'&isTracking='+isTracking);
                 else
-                    return dataService.fetch(vistoconfig.apiPaths.WORKFLOW_API_URL  +'/vendors/'+adServer.id+'/templates?format='+format.replace(/\s+/g, '').toUpperCase()+'&isTracking=false');
+                    return dataService.fetch(vistoconfig.apiPaths.WORKFLOW_API_URL  +'/vendors/'+adServer.id+'/templates?format='+format.replace(/\s+/g, '').toUpperCase());
 
             },
 
