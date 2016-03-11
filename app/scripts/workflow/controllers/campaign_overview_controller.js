@@ -413,6 +413,7 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
             $('.adGroupSelectionWrap, .singleCardWrap').toggleClass('active');
             $scope.createGroupMessage=false;
             $scope.createGroupMessage=false;
+            $scope.tags = [];
         };
 
         $scope.createAdGrp = function () {
@@ -422,6 +423,7 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
             $('.adGroupSelectionWrap, .singleCardWrap').toggleClass('active');
             $scope.createGroupMessage = false;
             $scope.createGroupMessage = false;
+            $scope.tags = [];
         };
 
         $scope.extractor = function (IndividualAdsData) {

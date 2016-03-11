@@ -425,6 +425,10 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                 );
             }
 
+            if( $scope.workflowData.adsData.labels && $scope.workflowData.adsData.labels.length > 0){
+                $scope.tags = workflowService.recreateLabels($scope.workflowData.adsData.labels);
+            }
+
             workflowService.setAdsDetails(angular.copy(responseData));
             $scope.updatedAt = responseData.updatedAt;
             $scope.state = responseData.state;
@@ -1129,6 +1133,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                 creativesData = $scope.creativeData.creativeInfo;
                 postAdDataObj = {};
                 postAdDataObj.name = formData.adName;
+                postAdDataObj.labels = _.pluck($scope.tags, "label");
                 postAdDataObj.campaignId = Number($scope.campaignId);
 
                 if (formData.adFormat) {
@@ -1516,6 +1521,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
             selectedAdGroupId = -1;
 
         RoleBasedService.setCurrencySymbol();
+        $scope.tags = [];
         localStorage.setItem('campaignData', '');
         localStorage.removeItem('adPlatformCustomInputs');
 
