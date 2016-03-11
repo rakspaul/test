@@ -3,22 +3,28 @@
 
 <div class="report_generator_and_response">
     <div class="report_builder_container">
-
-        <div class="col-md-12" id="dynamicHeader">
+        <div class="container">
+        <div class="row">
+        <div style="padding-left:15px;" class="col-md-12" id="dynamicHeader">
             <!-- this will be hidden until fold happens -->
-            <a class="collapseIcon small" role="button" id="{{$index+1}}" href=""> 
+            <a class="collapseIcon iconPlusMinus" role="button" id="{{$index+1}}" href=""> 
                 <span class="icon-plus" ng-click="ToggleAdGroups(this,adGroupsData.adGroup.id,$index+1, $event)"></span> 
             </a>
             <!-- -->
             <span class="heading" style="float:left;"><h3 ng-bind-html="textConstants.REPORT_BUILDER"></h3></span>
             <!-- this will be hidden after fold-->
-            <span class="heading big"><h6 ng-bind-html="textConstants.REPORT_BUILDER_SUBTITLE"></h6></span>
+            <span class="heading subTitle"><h6 ng-bind-html="textConstants.REPORT_BUILDER_SUBTITLE"></h6></span>
             <!-- -->
             <!-- his will be hidden until fold happens -->
-            <span class="heading small" style="float: left;text-align: left;width: 66px;margin-top:6px" ><span>{{reports.name}}</span></span>
-            <span class="heading small"  style="float: left;margin-top:6px;margin-right:6px">| {{reports.reportDefinition.timeframe.start_date}}</span>
-            <span class="heading small" style="float: left;margin-top:6px" > {{reports.reportDefinition.timeframe.end_date}}</span>
-          <!-- -->
+            <span class="heading savedSubTitle"><span>{{reports.name}}</span></span>
+            <span class="heading savedSubTitle">| {{reports.reportDefinition.timeframe.start_date}}</span>
+            <span class="heading savedSubTitle">- {{reports.reportDefinition.timeframe.end_date}}</span>
+            <span class="heading downReport">
+                <span class="icon-download zeroPadding pull-left" style="margin-right:9px;"></span>
+                <a ng-click="downloadSavedReport(report)" class="pull-left">Download Report</a></span>
+            </span>
+        </div>
+        </div>
         </div>
 
         <div class="container" id="reportBuilderForm">
@@ -109,7 +115,7 @@
                             <div class="row" ng-show="showAddBreakdownButton">
                                 <div class="add_breakdown_line"></div>
                                 <div class="clearfix add_breakdown_btn">
-                                    <div class="pull-left add_circle_symbol"></div>
+                                    <div class="pull-left add_circle_symbol" ng-click="showSecondDimension()"></div>
                                     <div class="pull-left"
                                          ng-click="showSecondDimension()"
                                          ng-bind-html="textConstants.ADD_BREAKDOWN_LABEL">
@@ -428,6 +434,8 @@
             <!-- first row over -->
 
             <!-- Start 2nd Row Additional Filters -->
+            <div class="container">
+            <div class="row">
             <div class="col-md-12">
                 <div class="each_section_custom_report">
                     <div class="create_report_title" ng-bind-html="textConstants.REPORT_ADDITIONAL_FILTERS"></div>
@@ -480,7 +488,7 @@
                         </div>
                         <div class="clearfix title_row_separator">
                             <div class="pull-left additional_filters_label">
-                                <div class="pull-left add_circle_symbol"></div>
+                                <div class="pull-left add_circle_symbol" ng-click="addAdditionalFilters()"></div>
                                 <div ng-click="addAdditionalFilters()"
                                      class="pull-left blue_txt"
                                      ng-bind-html="textConstants.REPORT_ADD_FILTERS">
@@ -491,7 +499,10 @@
                 </div>
 
             </div>
+                </div>
+                </div>
             <!-- End 2nd Row Additional Filters -->
+
 
             <!-- 3rd Row Save/Schedule -->
             <div class="row create_scheduled_report">
@@ -645,11 +656,11 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="each-col scheduling-options schedule-date">
+                            <div class="each-col scheduling-options schedule-date" style="width:258px;">
                                 <div class="input-daterange-scheduled">
                                     <div class="input-daterange input-group date pull-left">
-                                        <div class="dateWrapper">
-                                            <div class="pull-left">
+                                        <div class="dateWrapper" style="width:258px;">
+                                            <div class="pull-left" style="width:124px;">
                                                 <div class="label-txt"
                                                      ng-bind-html="textConstants.SCHEDULE_START_DATE_LABEL">
                                                 </div>
@@ -663,7 +674,7 @@
                                                     <i class="icon-calendar glyphicon pull-right"></i>
                                                 </div>
                                             </div>
-                                            <div class="pull-left endScheduledDate">
+                                            <div class="pull-left endScheduledDate" style="width:124px;">
                                                 <div class="label-txt"
                                                      ng-bind-html="textConstants.SCHEDULE_END_DATE_LABEL">
                                                 </div>
