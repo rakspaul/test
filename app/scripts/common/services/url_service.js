@@ -265,5 +265,11 @@ define(['angularAMD','common/services/vistoconfig_service', 'common/services/con
             return vistoconfig.apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId + '/scheduledreports/updateReport/' + reportId;
         }
 
+        this.updateSavedRpt = function(reportId ) {
+            var clientId =  loginModel.getSelectedClient().id;
+            return vistoconfig.apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId + '/savedreports/updateReport/' + reportId;
+        }
+
+
     }]);
 });
