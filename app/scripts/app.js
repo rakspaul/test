@@ -502,7 +502,7 @@ define(['common'], function (angularAMD) {
                 })
 
         })
-        .run(function ($rootScope, $location, $cookies, loginModel, brandsModel, dataService, $cookieStore, workflowService) {
+        .run(function ($rootScope, $location, $cookies, loginModel, brandsModel, dataService, $cookieStore, workflowService,featuresService) {
             var handleLoginRedirection = function () {
                     var cookieRedirect = $cookieStore.get('cdesk_redirect') || null,
                         setDefaultPage;
@@ -516,6 +516,9 @@ define(['common'], function (angularAMD) {
                             $cookieStore.remove('cdesk_redirect');
                         } else {
                             setDefaultPage = 'dashboard';
+                            if(featuresService.getFeatureParams()[0].dashboard === false) {
+                                setDefaultPage = 'mediaplans';
+                            }
                             $location.url(setDefaultPage);
                         }
                     }
@@ -523,6 +526,12 @@ define(['common'], function (angularAMD) {
                 loginCheckFunc = function () {
                     var locationPath = $location.path(),
                         authorizationKey;
+
+                    if (loginModel.getSelectedClient) {
+                        workflowService.getClientData(JSON.parse(localStorage.getItem('selectedClient')).id).then(function (response) { console.log('&&&&');
+                            featuresService.setFeatureParams(response.data.data.features,'app');
+                        });
+                    }
 
                     if (JSON.parse(localStorage.getItem('userObj'))) {
                         authorizationKey = JSON.parse(localStorage.getItem('userObj')).authorizationKey;
@@ -592,7 +601,6 @@ define(['common'], function (angularAMD) {
                 locationChangeStartFunc();
                 routeChangeSuccessFunc();
             });
-
         });
 
     return angularAMD.bootstrap(app);

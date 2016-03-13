@@ -1,34 +1,29 @@
 define(['angularAMD','../../login/login_model','common/services/role_based_service','common/services/constants_service','reporting/timePeriod/time_period_directive'], function (angularAMD) {
-  angularAMD.factory("domainReports", ['loginModel', 'RoleBasedService', function (loginModel, RoleBasedService) {
+  angularAMD.factory("domainReports", ['loginModel', 'RoleBasedService','featuresService', function (loginModel, RoleBasedService,featuresService) {
 
         return {
             getReportsTabs : function() {
-                var tabs  =  [
-                    {
-                        href:'performance',
-                        title: 'Performance'
-                    },
-                    {
-                        href:'cost',
-                        title: 'Cost'
-                    },
-                    {
-                        href:'platform',
-                        title: 'Platform'
-                    },
-                    {
-                        href:'inventory',
-                        title: 'Inventory'
-                    },
-                    {
-                        href:'quality',
-                        title: 'Quality'
-                    },
-                    {
-                        href:'optimization',
-                        title: 'Optimization Impact'
-                    }
-                ];
+                var tabs = [];
+                var fParams = featuresService.getFeatureParams();
+
+                if(fParams[0]['performance'] === true) {
+                    tabs.push({ href:'performance', title: 'Performance'});
+                }
+                if(fParams[0]['cost'] === true) {
+                    tabs.push({ href:'cost', title: 'Cost'});
+                }
+                if(fParams[0]['platform'] === true) {
+                    tabs.push({ href:'platform', title: 'Platform'});
+                }
+                if(fParams[0]['inventory'] === true) { console.log('Yes inventory');
+                    tabs.push({ href:'inventory', title: 'inventory'});
+                }
+                if(fParams[0]['quality'] === true) {
+                    tabs.push({ href:'quality', title: 'Quality'});
+                }
+                if(fParams[0]['optimization_impact'] === true) {
+                    tabs.push({ href:'optimization', title: 'Optimization Impact'});
+                }
 
                 var isAgencyCostModelTransparent = loginModel.getIsAgencyCostModelTransparent();
                 if(!isAgencyCostModelTransparent) { //if agency level cost model is opaque
@@ -47,16 +42,16 @@ define(['angularAMD','../../login/login_model','common/services/role_based_servi
                 }
             },
             getCustomReportsTabs : function() {
-                var tabs  =  [
-                    {
-                        href:'reports/schedules',
-                        title: 'Saved/Scheduled'
-                    },
-                    {
-                        href:'reports/list',
-                        title: 'Collective Insights'
-                    }
-                ];
+                var tabs  =  [];
+                var fParams = featuresService.getFeatureParams();
+                console.log('fParams ,<<',fParams);
+                if(fParams[0]['scheduled_reports'] === true) {
+                    tabs.push({ href:'reports/schedules', title: 'Saved/Scheduled'});
+                }
+                if(fParams[0]['collective_insights'] === true) {
+                    tabs.push({ href:'reports/list', title: 'Collective Insights'});
+                }
+
                 return {
                     'tabs' :  tabs,
                      activeTab : document.location.pathname.substring(1)

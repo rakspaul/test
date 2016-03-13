@@ -70,29 +70,34 @@ define(['angularAMD'], function (angularAMD) {
             }
         }
 
-        this.setFeatureParams = function (featuresArr) {
+        this.setFeatureParams = function (featuresArr,consoleIt) {
             //API passes parameters :
             var self = this;
-
+           console.log('set feature params',consoleIt,featuresArr);
             // this.featureParams['inventory_page'] = true;
            // featuresArr.push('ENABLE_ALL');
             featuresArr.push('REP_SCH');
+            featuresArr.push('REP_QUALITY');
+            featuresArr.push('REP_PERF');
+            featuresArr.push('COST');
             console.log('features service: ', featuresArr);
 
             if (featuresArr.indexOf('ENABLE_ALL') > 0) {
                 //Enable all features
                 this.setAllFeatureParams(true);
             } else {
-
                 _.each(featuresArr, function (features) {
                     self.setSingleFeatureParam(features)
                 })
             }
+            if(this.featureParams[0].dashboard === false) {
+                this.featureParams[0].mediaplan = true;
+            }
 
         }
 
-        this.getFeatureParams = function () {
-            console.log('get feature params',this.featureParams[0]);
+        this.getFeatureParams = function (whichplace) {
+            console.log('get feature params',whichplace,this.featureParams[0]);
             return this.featureParams;
         }
 
