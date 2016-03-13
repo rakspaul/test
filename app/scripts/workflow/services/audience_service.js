@@ -48,28 +48,21 @@ define(['angularAMD','common/services/vistoconfig_service','common/services/data
                             url += ',';
                     }
                 }
-                if (classification && classification.length > 0)
-                //url += '&classification='+classification;
+                if (classification && classification.length > 0) {
                     url += '&classifiers=';
-                //this was for old code when user was able to select subcategories
-                //for (var i = 0; i < classification.length; i++) {
-                //    url += classification[i].id;
-                //    if (i + 1 < classification.length)
-                //        url += ',';
-                //}
-                for (var i = 0; i < classification.length; i++) {
-                    for(var j = 0;j < classification[i].subCategories.length;j++){
-                        url += classification[i].subCategories[j].id;
-                        if (i + 1 < classification.length)
+                    for (var i = 0; i < classification.length; i++) {
+                        for (var j = 0; j < classification[i].subCategories.length; j++) {
+                            url += classification[i].subCategories[j].id;
+                            if (j + 1 < classification[i].subCategories.length) {
+                                url += ',';
+                            }
+                        }
+
+                        if (i + 1 < classification.length) {
                             url += ',';
+                        }
                     }
-
-
                 }
-
-
-                //console.log(url);
-
                 return dataService.fetch(url, {cache: false});
             },
             fetchAudienceSource: function () {
