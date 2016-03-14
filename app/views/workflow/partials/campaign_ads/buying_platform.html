@@ -26,6 +26,9 @@
             <span data-ng-bind="textConstants.MORESELF"></span>
             <a href="" data-ng-bind="textConstants.CANTFIND"></a>
         </div>
+        <div class="col-md-6" style="margin-top: 150px;" ng-if="!workflowData.platforms">
+            <div class="common-loading-area"></div>
+        </div>
     </div>
     <div class="offeringsWrap">
         <div class="col-md-12" style="padding: 30px;">
