@@ -345,7 +345,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
 
         _customctrl.enableGenerateButton = function() {
             if (!$scope.scheduleReportActive) {
-                if (localStorage['scheduleListReportType'] != "Saved" ) {
+                if (localStorage['scheduleListReportType'] !== "Saved" ) {
                     $scope.buttonLabel = $scope.textConstants.GENERATE_LABEL;
                 }
             }
