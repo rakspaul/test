@@ -50,7 +50,7 @@ define(['angularAMD','../../login/login_model','common/services/role_based_servi
                 var tabs  =  [
                     {
                         href:'reports/schedules',
-                        title: 'Scheduled'
+                        title: 'Saved/Scheduled'
                     },
                     {
                         href:'reports/list',
