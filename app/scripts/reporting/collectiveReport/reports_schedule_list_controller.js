@@ -61,12 +61,17 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
             }
 
         }
-
+        _curCtrl.preProccessListData = function(schdReportList){
+            _.each(schdReportList, function(item){
+                item.dimensions = item.hasOwnProperty("primaryDimension") && item.primaryDimension ? item.primaryDimension : '';
+                item.dimensions += item.hasOwnProperty("secondaryDimension") && item.primaryDimension ? ','+ item.secondaryDimension : '';
+            })
+        }
         $scope.getScheduledReports = function() {
             var scheduleReportListSucc = function(schdReportList) {
                 var instances,
                     i;
-
+                _curCtrl.preProccessListData(schdReportList);
                 $scope.schdReportList = schdReportList;
                // $scope.sortSchdlReport();
                 for (i = 0; i < $scope.schdReportList.length; i++) {
@@ -338,6 +343,8 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
                 });
         }
         $scope.pre_formatCopySchData = function(schData){
+            schData.startDate = momentService.newMoment(schData.startDate).format('YYYY-MM-DD');
+            schData.endDate = momentService.newMoment(schData.endDate).format('YYYY-MM-DD');
             var o = $.extend({}, schData);
             o.startDate = momentService.todayDate('YYYY-MM-DD');
             if(momentService.isSameOrAfter(schData.startDate, o.startDate)){
