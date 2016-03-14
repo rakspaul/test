@@ -19,7 +19,6 @@ define(['angularAMD','../../common/services/constants_service','workflow/service
 
       $scope.creativeMode=workflowService.getCreativeEditMode();
       var processEditCreative=function(){
-
           $scope.creativeEditData=workflowService.getCreativeEditData();
           if($scope.creativeEditData){
               $scope.name=$scope.creativeEditData.name;
@@ -114,9 +113,6 @@ define(['angularAMD','../../common/services/constants_service','workflow/service
               .find('#creative_nav_link')
               .addClass('active');
       }
-
-
-
 
       /*AD Format Type*/
       $scope.formatLabel = 'Display';
@@ -448,7 +444,7 @@ define(['angularAMD','../../common/services/constants_service','workflow/service
           }else{
               postCrDataObj.updatedAt=$scope.creativeEditData.updatedAt;
               workflowService
-                  .updateCreative($scope.campaignId, $scope.creativeEditData.advertiserId,$scope.creativeEditData.id,postCrDataObj)
+                  .updateCreative($scope.campaignId, $scope.creative.advertiserId,$scope.creativeEditData.id,postCrDataObj)
                   .then(function(result){
                       if (result.status === 'OK' || result.status === 'success') {
                           $scope.addedSuccessfully = true;
