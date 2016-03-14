@@ -567,7 +567,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="each-col scheduling-options schedule-once">
+                            <div class="each-col scheduling-options schedule-once" ng-show="reportTypeSelect !== 'Save As'" >
                                 <div class="label-txt" ng-bind-html="textConstants.SCHEDULE_DELIVER_ON"></div>
                                 <div>
                                     <div class="input-daterange input-group date pull-left">
@@ -583,7 +583,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="each-col scheduling-options schedule-weekly">
+                            <div class="each-col scheduling-options schedule-weekly" ng-show="reportTypeSelect !== 'Save As'" >
                                 <div class="label-txt" ng-bind-html="textConstants.SCHEDULE_OCCURS_ON"></div>
                                 <div>
                                     <div class="common_dropdown">
@@ -608,7 +608,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="each-col scheduling-options schedule-monthly">
+                            <div class="each-col scheduling-options schedule-monthly" ng-show="reportTypeSelect !== 'Save As'" >
                                 <div class="label-txt" ng-bind-html="textConstants.SCHEDULE_OCCURS_ON"></div>
                                 <div>
                                     <div class="common_dropdown">
@@ -633,7 +633,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="each-col scheduling-options schedule-occurs-custom">
+                            <div class="each-col scheduling-options schedule-occurs-custom" ng-show="reportTypeSelect !== 'Save As'" >
                                 <div class="label-txt" ng-bind-html="textConstants.SELECT_DATE_LABEL"></div>
                                 <div>
                                     <div class="common_dropdown">
@@ -656,7 +656,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="each-col scheduling-options schedule-date" style="width:258px;">
+                            <div class="each-col scheduling-options schedule-date" style="width:258px;" ng-show="reportTypeSelect !== 'Save As'" >
                                 <div class="input-daterange-scheduled">
                                     <div class="input-daterange input-group date pull-left">
                                         <div class="dateWrapper" style="width:258px;">
