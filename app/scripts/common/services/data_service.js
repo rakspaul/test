@@ -150,6 +150,10 @@ define(['angularAMD','common/services/vistoconfig_service', 'common/services/dat
                 var url = urlService.updateScheduledRpt(reportId);
                 return this.put(url,data);
             },
+            updateSavedReport: function(reportId,data) {
+                var url = urlService.updateSavedRpt(reportId);
+                return this.put(url,data);
+            },
 
             append: function(url,paramsObj){
                 for(var property in paramsObj){

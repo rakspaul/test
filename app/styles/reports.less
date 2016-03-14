@@ -3761,30 +3761,47 @@ only screen and (min-device-pixel-ratio: 2) {
         min-width: 1277px;
         &.smaller{
             h3{
-                font-size: 15px;
                 margin-bottom: -4px;
-                margin-right: 20px;
+                margin-right:15px;
                 bottom: -5px;
                 float: left;
-                left: 6px;
                 position: relative;
-                margin-top:0
+                margin-top:18PX;
             }
             h6{
                 margin-top:7px;
             }
 
             background-color: #fff;
-            border-bottom: solid 1px gray;
-            margin-bottom: 38px;
+           /* border-bottom: solid 1px gray;
+            margin-bottom: 38px;*/
             height: 58px;
             .collapseIcon{
                 display:inline;
             }
-            .small{
+            .savedSubTitle{
                 display:block;
+                font-size:14pt;
+                margin-top:22px;
+                margin-right:6px;
+                float:left;
             }
-            .big{
+            .iconPlusMinus {
+                display:block;
+                margin-top:6px;
+                margin-right:6px;
+                float:left;
+            }
+            .downReport {
+                display:block;
+                float:right;
+                margin-top:20px;
+                a {
+                    color:#312333;
+                }
+
+            }
+            .subTitle{
                 display:none;
 
             }
@@ -3798,24 +3815,20 @@ only screen and (min-device-pixel-ratio: 2) {
         .collapseIcon{
             display:none;
         }
-        .small{
+        .savedSubTitle{
             display:none;
         }
-        .big{
+        .downReport {
+            display:none;
+        }
+        .subTitle{
             display:block;
         }
 
     }
-
-
-
-
-
-
-
-    .collapseIcon{
+    /*.collapseIcon{
         visibility: hidden;
-    }
+    }*/
     .icon-minus,
     .icon-plus {
         color: #57606d;

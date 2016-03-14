@@ -14,7 +14,7 @@
         </div>
 
         <!--Label for Ad Group-->
-        <div class="col-md-6" style="padding: 0 0 0 10px;">
+        <div class="col-md-6" style="padding: 42px 0 0 10px;">
             <label class="col-sm-12 control-label greyTxt miniLabels">{{textConstants.LABEL}}</label>
 
             <tags-input class="form-group col-sm-12 zeroPadding"
@@ -67,7 +67,7 @@
         </div>
 
         <!--Save / Cancel-->
-        <div class="col-md-6 zeroPadding">
+        <div class="col-md-6" style="padding: 62px 0 0 0;">
             <span class="pull-right common-loading-btn" style="width: 61px;" ng-show="loadingBtn"></span>
             <button type="submit" class="btn btn-primary pull-right" id="createAdGroup" ng-disabled="createNewAdGrp.$invalid" ng-click="createAdGroup(createNewAdGrp, $event)" data-ng-bind="textConstants.SAVE" ng-show="!loadingBtn"></button>
             <span class="pull-right secondary_txt" ng-click="createAdGrp();" data-ng-bind="textConstants.CANCEL"></span>

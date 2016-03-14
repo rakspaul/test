@@ -345,7 +345,7 @@
 							</h3>
 							<!--==== Row 1 ====-->
 							<div class="col-md-12 zeroPadding">
-								<label for="nameTitleCampaign" class="col-sm-12 labelQuestTxt" style="margin-bottom: 5px;">Display - Set up how you want to Budget and Measure</label>
+								<label for="nameTitleCampaign" class="col-sm-12 labelQuestTxt" style="margin-bottom: 5px;">{{selectedChannel | toTitleCase}} - Set up how you want to Budget and Measure</label>
 								<div class="col-md-12 zeroPadding marginCal">
 									<div class="calTable form-group" show-errors>
 										<h3>Total Budget</h3>
@@ -480,7 +480,7 @@
 									<div class="col-md-2 zeroPadding kpiTable symbol-input">
 
 										<span class="symbol">#</span>
-										<input type="text" class="col-md-12" ng-model="Campaign.kpiArr[$index]['kpiValue']" ng-keyup="setLeftNavPrimaryKpi($index); ComputeCost()" field="kpiValue"  whole-number-only="whole-number-only" index="{{$index}}" required/>
+										<input type="text" class="col-md-12" style="text-indent: 8px;" ng-model="Campaign.kpiArr[$index]['kpiValue']" ng-keyup="setLeftNavPrimaryKpi($index); ComputeCost()" field="kpiValue"  whole-number-only="whole-number-only" index="{{$index}}" required/>
 										<label ng-if="Campaign.kpiArr[$index]['kpiValue']==='0'"  class="col-sm-12  greyTxt errorLabel" style="display:inline;" ng-bind="textConstants.TARGET_GREATER_THAN_ZERO"></label>
 									</div>
 
@@ -621,7 +621,7 @@
 
 								<div class="col-md-1 zeroPadding kpiTable symbol-input">
 									<span class="symbol">{{locale.NUMBER_FORMATS.CURRENCY_SYM}}</span>
-									<input type="text" class="col-md-12" ng-model="Campaign.costArr[$index]['rateValue']" fraction-numbers="fraction-numbers" ng-keyup="ComputeCost()" field="rateValue"  index="{{$index}}"/>
+									<input type="text" class="col-md-12" style="text-indent: 8px;" ng-model="Campaign.costArr[$index]['rateValue']" fraction-numbers="fraction-numbers" ng-keyup="ComputeCost()" field="rateValue"  index="{{$index}}"/>
 								</div>
 
 								<div class="col-md-1 zeroPadding kpiTable symbol-input" style="width: 86px;">

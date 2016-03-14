@@ -390,17 +390,17 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
             return $scope.sizeString;
         }
 
-
-
         $scope.ToggleAdGroups = function (context, adGrpId, index, event) {
             var elem = $(event.target);
             if (context.showHideToggle) {
-                elem.parent().find(".collapseIcon span").removeClass("icon-minus").addClass("icon-plus") ;
-                //elem.removeClass("icon-minus").addClass("icon-plus") ;
+                //Closes
+                elem.closest(".adGroup").removeClass("openInstance").addClass("closedInstance") ;
+                elem.closest(".collapseIcon span").removeClass("icon-minus").addClass("icon-plus") ;
                 context.showHideToggle = !context.showHideToggle
             } else {
-                //elem.removeClass("icon-plus").addClass("icon-minus") ;
-                elem.parent().find(".collapseIcon span").removeClass("icon-plus").addClass("icon-minus") ;
+                //Opens
+                elem.closest(".adGroup").removeClass("closedInstance").addClass("openInstance") ;
+                elem.closest(".collapseIcon span").removeClass("icon-plus").addClass("icon-minus") ;
                 context.showHideToggle = !context.showHideToggle
                 campaignOverView.getAdsInAdGroup($routeParams.campaignId, adGrpId, index);
             }
