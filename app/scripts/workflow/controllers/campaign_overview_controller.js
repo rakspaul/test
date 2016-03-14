@@ -509,10 +509,12 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
                         $scope.independantGroupMessage="Successfully grouped Ads";
                         localStorage.setItem( 'topAlertMessage', $scope.textConstants.AD_GROUP_CREATED_SUCCESS);
                         location.reload();
+                        $scope.loadingBtn = false;
                     } else {
                         $scope.independantMessage=!$scope.independantMessage;
                         $scope.independantGroupMessage="unable to  group Ads";
                         $rootScope.setErrAlertMessage($scope.textConstants.AD_GROUP_CREATED_FAILURE);
+                        $scope.loadingBtn = false;
                     }
                 });
             }

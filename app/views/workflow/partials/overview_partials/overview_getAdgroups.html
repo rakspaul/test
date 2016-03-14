@@ -5,16 +5,14 @@
             <a class="collapseIcon" role="button" id="{{$index+1}}" href="" ng-click="ToggleAdGroups(this,adGroupsData.adGroup.id,$index+1, $event)">
                 <span class="icon-plus" ></span>
             </a>
-            
+
             <h4 class="pull-left adGroupTxt adGroupTxtName" title="{{adGroupsData.adGroup.name}}" data-ng-bind="adGroupsData.adGroup.name"></h4>
-            
-            <div class="pillsWrap">
-                <span class="labelPills">/</span>
-                <span class="labelPills">Site Traffic</span>
-                <span class="labelPills">Conversion</span>
-                <span class="labelPills">Year-end Sale</span>
+
+            <div class="pillsWrap" >
+                <span class="labelPills" ng-if="adGroupsData.labels.length > 0">/</span>
+                <span class="labelPills" ng-repeat="label in adGroupsData.labels">{{label}}</span>
             </div>
-            
+
             <div class="zeroPadding dropdown-workflow pull-right hideCollapse" style="margin-top: -82px;">
                 <div class="dropdown">
                     <button class="btn btn-default dropdown-toggle"
@@ -32,38 +30,38 @@
                     </ul>
                 </div>
             </div>
-            
+
             <div class="col-md-4 zeroPadding clearLeft">
                 <span class="col-md-12 zeroPadding greyTxt hideCollapse" style="padding-left: 26px !important;">Total Budget</span>
-                
+
                 <!--This Only Shows If its "Group Budget" instead of Total Budget-->
                 <!--<div class="pull-left showCollapse" style="padding-left: 35px; margin-top: 6px;">-->
                 <!--    <span>Group Budget</span>-->
                 <!--    <span>$250</span>-->
                 <!--    <span>($85 Unallocated)</span>-->
                 <!--</div>-->
-                
+
                 <div class="pull-left showCollapse" style="padding-left: 35px; margin-top: 6px;">
                     <span>Total Budget</span>
-                    <span>$200</span>
+                    <span>${{(adGroupsData.adGroup.deliveryBudget)?adGroupsData.adGroup.deliveryBudget:0}}</span>
                 </div>
-                
+
                 <div class="pull-left hideCollapse" style="padding-left: 35px;">
                     <span class="pull-left" style="margin-top: 6px;">$</span>
-                    <span style="font-size: 24px; line-height: 100%;">100</span>
+                    <span style="font-size: 24px; line-height: 100%;">{{(adGroupsData.adGroup.deliveryBudget)?adGroupsData.adGroup.deliveryBudget:0}}</span>
                 </div>
-                
+
                 <div class="pull-left hideCollapse" style="margin:6px 0 0 30px;">
                     <span>Spend</span>
                     <span>$0</span>
                 </div>
-                
+
                 <div class="pull-left" style="margin:6px 0 0 30px;">
                     <span>Unallocated</span>
-                    <span>$0</span>
+                    <span>${{(adGroupsData.adGroup.deliveryBudget > 0 && adGroupsData.adGroup.spentBudget > 0)? adGroupsData.adGroup.deliveryBudget - adGroupsData.adGroup.spentBudget:0}}</span>
                 </div>
             </div>
-            
+
             <span class="col-md-4 zeroPadding adGroupTxt">
                 <span class="col-md-12 zeroPadding greyTxt hideCollapse">Flight Dates</span>
                 <span class="icon-calendar" style="margin-top: 6px;"></span>
@@ -71,14 +69,14 @@
                     {{utcToLocalTime(adGroupsData.adGroup.startTime, 'ddd DD MMM YYYY')}} - {{utcToLocalTime(adGroupsData.adGroup.endTime,'ddd DD MMM YYYY')}} ({{numOfDays(adGroupsData.adGroup.startTime,adGroupsData.adGroup.endTime)}} Days)
                 </span>
             </span>
-            
+
             <div class="col-md-4 zeroPadding">
                 <span class="col-md-12 zeroPadding greyTxt hideCollapse">Total Ads</span>
                 <span class="adGroupTxtSecondary showCollapse" style="margin-top: 6px;">Ready <p class="{{ !adGroupsData.READY ? 'active' : '' }}">{{(adGroupsData.READY || 0)}}</p></span>
                 <span class="adGroupTxtSecondary showCollapse" style="margin-top: 6px;">Scheduled <p class="{{ !adGroupsData.SCHEDULED ? 'active' : '' }}">{{(adGroupsData.SCHEDULED || 0)}}</p></span>
                 <span class="adGroupTxtSecondary showCollapse" style="margin-top: 6px;">In Flight <p class="{{ !adGroupsData.IN_FLIGHT ? 'active' : '' }}">{{(adGroupsData.IN_FLIGHT || 0)}}</p></span>
                 <span class="adGroupTxtSecondary showCollapse" style="margin-top: 6px;">Total Ads <p class="{{ !adGroupsData.noOfAds ? 'active' : '' }}">{{adGroupsData.noOfAds || 0}}</p></span>
-                
+
                 <span class="adGroupTxtSecondary hideCollapse pull-left zeroPadding" style="width: 60px;"><p class="zeroPadding pull-left {{ !adGroupsData.noOfAds ? 'active' : '' }}" style="font-size: 24px; line-height: 100%;">{{adGroupsData.noOfAds || 0}}</p></span>
                 <span class="adGroupTxtSecondary hideCollapse pull-left" style="padding-left: 0px; margin-top: 6px;">In Flight <p class="{{ !adGroupsData.IN_FLIGHT ? 'active' : '' }}">{{(adGroupsData.IN_FLIGHT || 0)}}</p></span>
                 <span class="adGroupTxtSecondary hideCollapse pull-left" style="padding-left: 25px; margin-top: 6px;">Scheduled <p class="{{ !adGroupsData.SCHEDULED ? 'active' : '' }}">{{(adGroupsData.SCHEDULED || 0)}}</p></span>
