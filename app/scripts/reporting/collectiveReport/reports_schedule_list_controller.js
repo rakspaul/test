@@ -62,7 +62,6 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
 
         }
         _curCtrl.preProccessListData = function(schdReportList){
-            console.log(schdReportList);
             _.each(schdReportList, function(item){
                 item.dimensions = item.hasOwnProperty("primaryDimension") && item.primaryDimension ? item.primaryDimension : '';
                 item.dimensions += item.hasOwnProperty("secondaryDimension") && item.primaryDimension ? ','+ item.secondaryDimension : '';
