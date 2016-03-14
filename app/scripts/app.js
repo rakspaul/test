@@ -116,24 +116,23 @@ define(['common'], function (angularAMD) {
                 templateUrl: assets.html_custom_report_upload,
                 title: 'Upload Custom Reports',
                 controller: 'CustomReportUploadController',
-                controllerUrl: 'reporting/controllers/custom_report_upload_controller',
-                css: assets.css_custom_reports
+                controllerUrl: 'reporting/controllers/custom_report_upload_controller'
             }))
 
             .when('/reports/list', angularAMD.route({
                 templateUrl: assets.html_collective_report_listing,
                 title: 'Collective Insights',
                 controller: 'CollectiveReportListingController',
-                controllerUrl: 'reporting/collectiveReport/collective_report_listing_controller',
-                css: assets.css_custom_reports
+                controllerUrl: 'reporting/collectiveReport/collective_report_listing_controller'
+
             }))
 
             .when('/reports/schedules', angularAMD.route({
                 templateUrl: assets.html_reports_schedule_list,
                 title: 'Scheduled Reports',
                 controller: 'ReportsScheduleListController',
-                controllerUrl: 'reporting/collectiveReport/reports_schedule_list_controller',
-                css: assets.css_reports_schedule_list
+                controllerUrl: 'reporting/collectiveReport/reports_schedule_list_controller'
+
             }))
 
             .when('/performance', angularAMD.route({

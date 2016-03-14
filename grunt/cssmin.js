@@ -4,9 +4,8 @@ module.exports =function(grunt) {
     var config = {
         build: {
             files: {
-                '<%= cvars.build %>/<%= cvars.appcss %>/main.css': [
-                    '<%= cvars.app %>/<%= cvars.appcss %>/libs/bootstrap.css',
-                    '<%= cvars.app %>/<%= cvars.appcss %>/*.css'
+                '<%= cvars.dist %>/<%= cvars.appcss %>/cdesk_application.min.css': [
+                    '<%= cvars.app %>/<%= cvars.appcss %>/cdesk_application.css'
                 ]
             }
         }
