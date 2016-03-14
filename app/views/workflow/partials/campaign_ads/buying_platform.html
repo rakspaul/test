@@ -65,16 +65,16 @@
                         <span class="col-md-12 zeroPadding">
                             You can setup a tracking URL for {{trackingIntegration.displayName}}. You will be taken directly to the Creative section.
                         </span>
-                    <a href="#creative" data-toggle="tab" class="leftNavLink creative-tab-link pull-right btn btn-primary" ng-click="selectTrackingIntegrations()" data-ng-bind="textConstants.CONTINUE"></a>
+                    <a data-target="#creative" data-toggle="tab" class="leftNavLink creative-tab-link pull-right btn btn-primary" ng-click="selectTrackingIntegrations()" data-ng-bind="textConstants.CONTINUE"></a>
                     <a class="pull-right btn btn-link" ng-click="hideTrackingSetupInfoPopUp();" data-ng-bind="textConstants.CANCEL"></a>
                 </div>
                 <!-- Left and right controls -->
-                <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+                <a class="left carousel-control" data-target="#myCarousel" role="button" data-slide="prev">
                     <!--<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>-->
                     <span class="leftCtrl"></span>
                     <span class="sr-only" data-ng-bind="textConstants.PREVIOUS"></span>
                 </a>
-                <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+                <a class="right carousel-control" data-target="#myCarousel" role="button" data-slide="next">
                     <!--<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>-->
                     <span class="rightCtrl"></span>
                     <span class="sr-only" data-ng-bind="textConstants.NEXT"></span>
