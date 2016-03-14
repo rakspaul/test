@@ -344,7 +344,7 @@ function (angularAMD) {
                                     };
                                 //},10000);
 
-                                var activityLocalStorageInfo = JSON.parse(localStorage.getItem('activityLocalStorage'));
+                                activityLocalStorageInfo = JSON.parse(localStorage.getItem('activityLocalStorage'));
                                 if (activityLocalStorageInfo !== null) {
                                     if ((activityLocalStorageInfo.actionSel) !== null) {
                                         $scope.makeCampaignSelected(activityLocalStorageInfo.actionSel);
@@ -439,7 +439,6 @@ function (angularAMD) {
                             callbackCDBGraph && callbackCDBGraph(showExternal);
                             break;
                     }
-
                 }, function (result) {
                     console.log('call failed');
                 });
