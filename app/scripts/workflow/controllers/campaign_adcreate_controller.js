@@ -1056,6 +1056,8 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
             workflowService.setCreativeEditData(null);
             $('#formCreativeCreate')[0].reset();
             $scope.isAddCreativePopup = true;
+            // new call has to be made when platforms are changed hence seletion on new template. therefore broadcast to reset
+            $scope.$broadcast('creativeAdserverTemplateReset');
 
             // enable cancel, save button on load
             $scope.disableCancelSave = false;

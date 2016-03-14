@@ -171,6 +171,9 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
           $scope.adData.creativeTemplate="";
           $scope.CreativeTemplate.name='Select Template';
       }
+      var resetAdserver=function(){
+          $scope.selectedAdServer={};
+      }
       /*function on AdServer Selected*/
       $scope.adServerSelected=function(adServer){
           $scope.selectedAdServer=adServer;// used in adFormatSelection function to get all templates.
@@ -180,7 +183,7 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
               $scope.getTemplates($scope.selectedAdServer,$scope.creativeFormat);
           }
 
-          /*function to get the possible templates in adCreate Page)*/
+          /*function to get the possible templates in adCreate Page)*/ console.log("$scope.$parent.TrackingIntegrationsSelected:",$scope.$parent.TrackingIntegrationsSelected);
           if($scope.adPage){
               $scope.getTemplates(adServer,$scope.creativeFormat,$scope.$parent.TrackingIntegrationsSelected);
           }
@@ -239,6 +242,7 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
       $scope.onTemplateSelected=function(templateJson,customFieldsDataEditMode){
           console.log(templateJson);
           $scope.CreativeTemplate=templateJson;
+          $scope.TrackingIntegrationsSelected=templateJson.isTracking;
           $scope.adData.creativeTemplate=templateJson.id;
           var creativeTemplateWrap = $('.creativeTemplate');
           creativeCustomModule.init(templateJson,creativeTemplateWrap,$scope,customFieldsDataEditMode);
@@ -339,14 +343,14 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
                   postCrDataObj.clientId = $scope.campaignId;
                   postCrDataObj.advertiserId = formData.advertiserId;
                   postCrDataObj.brandId = formData.brandId;
-                  postCrDataObj.isTracking = $scope.$parent.TrackingIntegrationsSelected;
+                  postCrDataObj.isTracking = $scope.TrackingIntegrationsSelected;
                   postCrDataObj.adServerId = formData.creativeAdServer;
                   postCrDataObj.creativeFormat=$scope.creativeFormat.replace(/\s+/g, '').toUpperCase();
                   postCrDataObj.sslEnable = 'true';
                   postCrDataObj.tag = '%%TRACKER%%';
                   postCrDataObj.sizeId = formData.creativeSize;
                   postCrDataObj.vendorCreativeTemplateId = formData.creativeTemplate;
-                  if ($scope.$parent.TrackingIntegrationsSelected) {
+                  if ($scope.TrackingIntegrationsSelected) {
                     postCrDataObj.tag = '%%TRACKER%%';
                       validTag=true;
                   }else{
@@ -400,7 +404,6 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
               $scope.IncorrectTagMessage = 'You have entered an invalid Javascript tag.Please review carefully and try again';
               console.log('Incorrect tag');
           }
-
 
           //var PatternOutside,
           //    PatternInside,
@@ -483,6 +486,10 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
                   })
           }
       };
+      $scope.$on('creativeAdserverTemplateReset', function () {
+          resetAdserver();
+          resetTemplate();
+      });
 
       $scope.$on('closeAddCreativePage', function () {
           $('#formCreativeCreate')[0].reset();
