@@ -17,8 +17,8 @@ module.exports =function(grunt) {
                 modules: [
                     { name: 'app' }
 
-                ],
-                optimizeCss: 'standard'
+                ]
+                //,optimizeCss: 'standard'
             }
         }
     };

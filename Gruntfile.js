@@ -19,7 +19,8 @@ module.exports = function (grunt) {
                 'less:dist',
                 'copy:styles',
                 'imagemin',
-                'svgmin'
+                'svgmin',
+                'cssmin'
             ]
         }
     });
@@ -62,5 +63,10 @@ module.exports = function (grunt) {
 
     grunt.registerTask('start', [
        'connect:server'
+    ]);
+
+
+    grunt.registerTask('css', [
+        'cssmin'
     ]);
 };

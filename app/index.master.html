@@ -10,8 +10,14 @@
     <link href="//fonts.googleapis.com/css?family=Armata" media="screen" rel="stylesheet">
 
     <link rel="stylesheet" href="/styles/libs/bootstrap.min.css">
-    <link rel="stylesheet" href="/styles/cdesk_application.css">
     <link rel="stylesheet" href="/styles/libs/ng-tags-input.min.css">
+    <!-- @if ENV='local' -->
+        <link rel="stylesheet" href="/styles/cdesk_application.css">
+    <!-- @endif -->
+
+    <!-- @if ENV='qa' -->
+        <link rel="stylesheet" href="/styles/cdesk_application.min.css">
+    <!-- @endif -->
 </head>
 <body class='{{bodyclass}} {{productType}} {{customReport}}'>
     <header></header>
