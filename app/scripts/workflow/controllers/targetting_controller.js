@@ -1,4 +1,4 @@
-define(['angularAMD','../services/workflow_service','workflow/services/audience_service'],function (angularAMD) {
+define(['angularAMD','workflow/services/workflow_service','workflow/services/audience_service'],function (angularAMD) {
   angularAMD.controller('targettingController', function($scope, $rootScope, $timeout, workflowService,audienceService) {
 
         var _targeting = this;

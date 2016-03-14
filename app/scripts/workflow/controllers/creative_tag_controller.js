@@ -1,5 +1,5 @@
 
-define(['angularAMD','../../common/services/constants_service','workflow/services/workflow_service'],function (angularAMD) {
+define(['angularAMD','common/services/constants_service','workflow/services/workflow_service'],function (angularAMD) {
   angularAMD.controller('CreativeTagController', function($scope, constants, workflowService) {
 
         var addFromLibrary = {

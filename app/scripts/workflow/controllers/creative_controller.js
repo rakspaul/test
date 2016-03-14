@@ -1,4 +1,4 @@
-define(['angularAMD','../../common/services/constants_service','workflow/services/workflow_service','workflow/services/creative_custom_module','workflow/directives/creative_drop_down','workflow/directives/ng_upload_hidden'],function (angularAMD) {
+define(['angularAMD','common/services/constants_service','workflow/services/workflow_service','workflow/services/creative_custom_module','workflow/directives/creative_drop_down','workflow/directives/ng_upload_hidden'],function (angularAMD) {
   angularAMD.controller('CreativeController', function($scope, $rootScope, $routeParams, $location, constants, workflowService,creativeCustomModule) {
      // $scope.creativeFormat="DISPLAY";
       $scope.creative={};
