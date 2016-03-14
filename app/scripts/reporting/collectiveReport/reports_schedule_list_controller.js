@@ -306,7 +306,7 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
                         return function () {
                             if (frequency == "Saved") {
                                 var copySuccess = function (data) {
-                                    data.name = 'copy: ' + data.name;
+                                    data.name = 'copy: ' + data.reportName;
                                     data.client_id = loginModel.getSelectedClient().id;
                                  //   data.schedule = $scope.pre_formatCopySchData(data.schedule);
                                     collectiveReportModel.createSavedReport(function () {
