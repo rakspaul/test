@@ -26,7 +26,8 @@
 }
 .reports-scheduled-list .scheduled_list_table .table-td {
   white-space: nowrap;
-  text-overflow: ellipsis ;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .reports-scheduled-list .scheduled_list_table .table-th,
 .reports-scheduled-list .scheduled_list_table .table-td {

@@ -524,7 +524,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
             $scope.requestData.reportDefinition.timeframe = {};
             $scope.requestData.reportDefinition.metrics = {};
             $scope.requestData.reportDefinition.filters = [];
-            $scope.requestData.reportDefinition.dimensions = {};
+            $scope.requestData.reportDefinition.dimensions = [];
             $scope.requestData.name = '';
             $scope.requestData.client_id = loginModel.getSelectedClient().id;
             $scope.requestData.name = $scope.reports.name;
@@ -535,10 +535,10 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
             if(localStorage['scheduleListReportType'] !== "Saved") {
                  $scope.requestData.schedule.occurance = $scope.reports.schedule.occurance;
             }
-            $scope.requestData.reportDefinition.dimensions.primary = {
+            $scope.requestData.reportDefinition.dimensions.push({
                 "dimension": $scope.reports.reportDefinition.dimensions.primary.dimension,
                 'type': "Primary"
-            };
+            });
             if ($scope.reports.reportDefinition.dimensions.primary.value || isIntermediateSave) {
                 $scope.requestData.reportDefinition.filters.push({
                     "dimension": $scope.reports.reportDefinition.dimensions.primary.dimension,
@@ -550,10 +550,10 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                 $scope.reports.schedule.endDate = $scope.reports.schedule.startDate;
             }
             if ($scope.reports.reportDefinition.dimensions.secondary.name) {
-                $scope.requestData.reportDefinition.dimensions.secondary = {
+                $scope.requestData.reportDefinition.dimensions.push({
                     "dimension": $scope.reports.reportDefinition.dimensions.secondary.dimension,
                     'type': "Secondary"
-                };
+                });
             }
 
             if ($scope.reports.reportDefinition.dimensions.secondary.value) {
