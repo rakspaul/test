@@ -43,22 +43,22 @@
 
                 <div class="pull-left showCollapse" style="padding-left: 35px; margin-top: 6px;">
                     <span>Total Budget</span>
-                    <span>${{(adGroupsData.adGroup.deliveryBudget)?adGroupsData.adGroup.deliveryBudget:0}}</span>
+                    <span>{{calculateBudget(adGroupsData.adGroup)}}</span>
                 </div>
 
                 <div class="pull-left hideCollapse" style="padding-left: 35px;">
-                    <span class="pull-left" style="margin-top: 6px;">$</span>
-                    <span style="font-size: 24px; line-height: 100%;">{{(adGroupsData.adGroup.deliveryBudget)?adGroupsData.adGroup.deliveryBudget:0}}</span>
+                    <span class="pull-left" style="margin-top: 6px;"></span>
+                    <span style="font-size: 24px; line-height: 100%;">{{ calculateBudget(adGroupsData.adGroup) | currency:undefined}}</span>
                 </div>
 
                 <div class="pull-left hideCollapse" style="margin:6px 0 0 30px;">
                     <span>Spend</span>
-                    <span>$0</span>
+                    <span>{{(adGroupsData.adGroup.bookedSpend) ? (adGroupsData.adGroup.bookedSpend | currency:undefined) :(0| currency:undefined)}}</span>
                 </div>
 
                 <div class="pull-left" style="margin:6px 0 0 30px;">
                     <span>Unallocated</span>
-                    <span>${{(adGroupsData.adGroup.deliveryBudget > 0 && adGroupsData.adGroup.spentBudget > 0)? adGroupsData.adGroup.deliveryBudget - adGroupsData.adGroup.spentBudget:0}}</span>
+                    <span>{{calculateSpendBudget(adGroupsData.adGroup)| currency:undefined}}</span>
                 </div>
             </div>
 

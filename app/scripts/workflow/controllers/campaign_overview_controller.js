@@ -553,6 +553,25 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
 
         $scope.$watch($scope.tags,function(){
             console.log("log == ",$scope.tags);
-        })
+        });
+        $scope.calculateBudget = function(adGroupsData){
+            if((adGroupsData.deliveryBudget)){
+                return adGroupsData.deliveryBudget;
+            }
+            else{
+                return $scope.workflowData.campaignData.deliveryBudget - $scope.workflowData.campaignData.bookedSpend + adGroupsData.bookedSpend;
+            }
+        }
+
+        $scope.calculateSpendBudget = function(adGroupsData){
+            var deleveryBudget = (adGroupsData.deliveryBudget)?adGroupsData.deliveryBudget:$scope.calculateBudget(adGroupsData);
+
+            if(adGroupsData.bookedSpend && adGroupsData.bookedSpend > 0){
+                return deleveryBudget - adGroupsData.bookedSpend;
+            }
+            else{
+                return deleveryBudget - 0;
+            }
+        }
     });
 });
