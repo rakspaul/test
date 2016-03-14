@@ -622,7 +622,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
             if ($scope.generateBtnDisabled) {
                 return false;
             }
-            if (/^[A-Za-z ][A-Za-z0-9 ]*$/.test(str) === false) {
+            if (/^[A-Za-z ][A-Za-z0-9 ]*$/.test(str) === false || $scope.reports.name === undefined) {
                 return setFlashMessage(constants.reportNameErrorMsg, 1, 0);
             }
 
@@ -719,19 +719,22 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
         };
 
             $scope.saveReport = function() {
-                var newObjNoSched = $scope.createData();
-                var key = "schedule";
-                delete newObjNoSched[key];
-                $('#reportBuilderForm').slideUp(600);
-                $( "#dynamicHeader" ).addClass( "smaller" );
-                $scope.isSavedReportGen = true;
+                if ($scope.verifyReportInputs()) {
+                    var newObjNoSched = $scope.createData();
+                    var key = "schedule";
+                    delete newObjNoSched[key];
+                    $('#reportBuilderForm').slideUp(600);
+                    $("#dynamicHeader").addClass("smaller");
+                    $scope.isSavedReportGen = true;
 
-                dataService.createSaveReport(newObjNoSched).then(function(result) {
-                    if (result.data.status_code == 200) {
-                        $rootScope.setErrAlertMessage('Success: The Saved Report is listed.', 0);
-                    }
-                });
-                $scope.generateReport();
+                    dataService.createSaveReport(newObjNoSched).then(function (result) {
+                        if (result.data.status_code == 200) {
+                            $rootScope.setErrAlertMessage('Success: The Saved Report is listed.', 0);
+                        }
+                    });
+                    $scope.generateReport();
+                }
+
             };
         $scope.enable_generate_btn = function() {
             if (_customctrl.enableGenerateButton()) {
