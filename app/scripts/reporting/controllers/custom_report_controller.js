@@ -736,7 +736,22 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                 }
 
             };
-        $scope.enable_generate_btn = function() {
+
+            $scope.downloadCreateRepBuilder = function(parentIndex, instanceIndex, instanceId) {
+                $scope.reportDownloadBusy = true;
+                dataService.downloadFile(urlService.downloadCreateRpt(instanceId)).then(function (response) {
+                    if (response.status === "success") {
+                        saveAs(response.file, response.fileName);
+                        $scope.reportDownloadBusy = false;
+                        $scope.schdReportList[parentIndex].instances[instanceIndex].viewedOn = momentService.reportDateFormat();
+                    } else {
+                        $scope.reportDownloadBusy = false;
+                        $rootScope.setErrAlertMessage("File couldn't be downloaded");
+                    }
+                })
+            }
+
+            $scope.enable_generate_btn = function() {
             if (_customctrl.enableGenerateButton()) {
                 $scope.generateBtnDisabled = false;
             } else {
