@@ -9,7 +9,7 @@
         <div class="pull-left campaign_name_holder">
             <span class="campaign_name" data-ng-bind="textConstants.CAMPAIGNS"></span>
         </div>
-        <div class="pull-right common_primary_btn" ng-show="isWorkFlowUser">
+        <div class="pull-right common_primary_btn" ng-show="isWorkFlowUser" ng-if="showCreateMediaPlan">
             <a href="/mediaplan/create" data-ng-bind="textConstants.CREATE_CAMPAIGN"></a>
         </div>
         <div class="pull-right common-loading-btn" style="display:none;"></div>
@@ -24,7 +24,7 @@
         <span ng-bind-html="campaigns.appliedQuickFilterText == 'Ontrack'?'On Track':campaigns.appliedQuickFilterText"></span>
         Filter applied | Displaying {{campaigns.dashboard.quickFilterSelectedCount}} results
     </div>
-    
+
     <div class="fixed_line"></div>
     <div class="col-md-12 zeroPadding fixed_container">
         <!--dashboard (status bar) partial view-->
@@ -37,7 +37,7 @@
                     <div class="each_tab" id="performance_tab" ng-click="campaigns.getData('performance_tab')">
                         <div class="each_tab_text" data-ng-bind="textConstants.PERFORMANCE"></div>
                     </div>
-                    <div class="each_tab cost_tab" id="cost_tab" ng-show="isAgencyCostModelTransparent">
+                    <div class="each_tab cost_tab" id="cost_tab" ng-show="isAgencyCostModelTransparent && showCostTab">
                         <div class="each_tab_text" ng-click="campaigns.getData('cost_tab')" data-ng-bind="textConstants.COST_BREAKDOWN"></div>
                     </div>
                 </div>

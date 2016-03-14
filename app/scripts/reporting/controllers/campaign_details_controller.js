@@ -80,14 +80,15 @@ function (angularAMD) {
             return (dir === 'asc' ? 'desc': 'asc');
         };
 
+
         $scope.details.resetSortParams = function () {
             $scope.details.sortParam = undefined;
             $scope.details.sortDirection = undefined;
         };
 
         $scope.details.sortIcon = function (fieldName) {
-            if ($scope.details.sortParam === fieldName) {
-                return $scope.details.sortDirection === 'asc' ? 'ascending': 'descending';
+            if ($scope.details.sortParam == fieldName) {
+                return $scope.details.sortDirection == 'asc' ? 'ascending' : 'descending';
             }
             return '';
         };
@@ -257,8 +258,8 @@ function (angularAMD) {
                     $scope.activityLogFlag = true;
                     $scope.setWidgetLoadedStatus();
                     $scope.setEmptyWidget();
-                    $scope.campaign.getSelectedCampaign =campaignSelectModel.getSelectedCampaign;
-                    $scope.campaign.durationLeft= campaignSelectModel.durationLeft;
+                    $scope.campaign.getSelectedCampaign = campaignSelectModel.getSelectedCampaign;
+                    $scope.campaign.durationLeft = campaignSelectModel.durationLeft;
                     $scope.campaign.daysSinceEnded = campaignSelectModel.daysSinceEnded;
                 } else {
                     if (result.status ==='error') {
@@ -365,7 +366,7 @@ function (angularAMD) {
         var eventActionCreatedFunc = $rootScope.$on(constants.EVENT_ACTION_CREATED, function (event, args) {
             var callbackFunctionName = args.loadingFlag === 2  ?  $scope.refreshGraph : $scope.getCdbChartData;
             dataStore.deleteFromCache(urlService.APIActionData($routeParams.campaignId));
-            updateActionItems(callbackFunctionName,args.loadingFlag,args.showExternal);
+            updateActionItems(callbackFunctionName, args.loadingFlag, args.showExternal);
         });
 
         function getCustomQueryParams(queryId) {
@@ -373,7 +374,7 @@ function (angularAMD) {
             return {
                 queryId: queryId,
                 campaignId: $scope.campaign.orderId,
-                clientId:  loginModel.getSelectedClient().id,
+                clientId: loginModel.getSelectedClient().id,
                 advertiserId: advertiserModel.getSelectedAdvertiser().id,
                 brandId: brandsModel.getSelectedBrand().id,
                 dateFilter: datefilter
@@ -529,9 +530,9 @@ function (angularAMD) {
                        if (scrollTo.length > 0) {
                            myContainer.animate({
                             scrollTop: scrollTo.offset().top - myContainer.offset().top + myContainer.scrollTop()
-                          });
-                       }
-                 }
+                        });
+                    }
+                }
             } else { //Day wise single Activity
                 scrollTo = $('#actionItem_' + id);
                 if (scrollTo && scrollTo.length > 0) {
@@ -1119,7 +1120,7 @@ function (angularAMD) {
             utils.goToLocation(vistoconfig.PERFORMANCE_LINK);
         };
 
-        $scope.getMessageForDataNotAvailable = function (campaign,dataSetType) {
+        $scope.getMessageForDataNotAvailable = function (campaign, dataSetType) {
             campaign = campaign || $scope.campaign;
             if (!campaign || campaign.id === -1) {
                 return constants.MSG_DATA_NOT_AVAILABLE;
@@ -1307,7 +1308,6 @@ function (angularAMD) {
                 return $scope.getPercentDiff(expectedSpend, spend);
             }
         };
-
         $scope.getPercentDiff = function (expected, actual) {
             return (expected > 0) ? utils.roundOff((actual - expected) * 100 / expected, 2) : 0;
         };
@@ -1543,7 +1543,7 @@ function (angularAMD) {
                 if (carouselItem.length === 8) {
                     nextIndex = ItemsShown;
                 } else {
-                    nextIndex = $('.carousel .item').length  - ItemsShown;
+                    nextIndex = $('.carousel .item').length - ItemsShown;
                 }
 
                 carouselItem.slice(0,nextIndex).removeClass('active');
@@ -1614,6 +1614,7 @@ function (angularAMD) {
             });
 
             editActionComment.bind('change keyup keydown click', function () {
+
                 CommentValidation('edit_action_comment', 'error_edit_action_more_comment');
                 //enable save Button
                 updateSaveBtnStatus();
@@ -1622,6 +1623,7 @@ function (angularAMD) {
 
             editActionComment.bind('blur', function () {
                 $('#error_edit_action_more_comment').hide();
+
             });
 
             //Anywhere click close the error message tooltip while create activity
@@ -1661,7 +1663,6 @@ function (angularAMD) {
             $rootScope.$on('$locationChangeSuccess',function (evt, absNewUrl, absOldUrl) {
                 var prevUrl = absOldUrl.substring(absOldUrl.lastIndexOf('/'));
                 //var paramsObj = $route.current.params;
-
                 if ((prevUrl === vistoconfig.MEDIA_PLANS_LINK) && (absNewUrl !== vistoconfig.MEDIA_PLANS_LINK)) {
                     $rootScope.isFromCampaignList = true;
                 } else {

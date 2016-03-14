@@ -1,8 +1,8 @@
 define(['angularAMD'], function (angularAMD) {
-    angularAMD.service('featuresService', function () {
+    angularAMD.service('featuresService', function ($rootScope) {
 
         var params = ['dashboard', 'mediaplan', 'report_overview', 'inventory', 'performance', 'quality', 'cost', 'optimization_impact', 'platform', 'scheduled', 'collective',
-            'scheduled_reports', 'collective_insights', 'create_mediaplan', 'dashboard', 'mediaplan_list', 'ad_setup', 'meidaplan_hub', 'creative_list', 'reports_tab'];
+            'scheduled_reports', 'collective_insights', 'create_mediaplan', 'dashboard', 'mediaplan_list', 'ad_setup', 'mediaplan_hub', 'creative_list', 'reports_tab'];
         this.featureParams = [];
 
         this.setAllFeatureParams = function (booleanValue) {
@@ -20,7 +20,7 @@ define(['angularAMD'], function (angularAMD) {
             var self = this;
             switch (fParam) {
                 case 'REP_OVERVIEW':
-                    self.featureParams[0].report_overview = true;
+                    this.featureParams[0].report_overview = true;
                     break;
                 case 'REP_INV':
                     this.featureParams[0].inventory = true;
@@ -50,7 +50,7 @@ define(['angularAMD'], function (angularAMD) {
                     this.featureParams[0].create_mediaplan = true;
                     break;
                 case 'MEDIAPLAN_HUB':
-                    this.featureParams[0].meidaplan_hub = true;
+                    this.featureParams[0].mediaplan_hub = true;
                     break;
                 case 'AD_SETUP':
                     this.featureParams[0].ad_setup = true;
@@ -70,17 +70,30 @@ define(['angularAMD'], function (angularAMD) {
             }
         }
 
+        this.disableReportTab = function() {
+            this.featureParams[0].report_overview = false;
+            this.featureParams[0].inventory = false;
+            this.featureParams[0].performance = false;
+            this.featureParams[0].quality = false;
+            this.featureParams[0].cost = false;
+            this.featureParams[0].optimization_impact = false;
+            this.featureParams[0].platform = false;
+            this.featureParams[0].scheduled_reports = false;
+            this.featureParams[0].collective_insights = false;
+        }
+
         this.setFeatureParams = function (featuresArr,consoleIt) {
             //API passes parameters :
             var self = this;
-           console.log('set feature params',consoleIt,featuresArr);
             // this.featureParams['inventory_page'] = true;
            // featuresArr.push('ENABLE_ALL');
             featuresArr.push('REP_SCH');
             featuresArr.push('REP_QUALITY');
             featuresArr.push('REP_PERF');
-            featuresArr.push('COST');
-            console.log('features service: ', featuresArr);
+            featuresArr.push('MEDIAPLAN_HUB');
+            featuresArr.push('CREATIVE_LIST');
+          //  featuresArr.push('COST');
+         //   console.log('server feature Arr: ',featuresArr);
 
             if (featuresArr.indexOf('ENABLE_ALL') > 0) {
                 //Enable all features
@@ -89,15 +102,18 @@ define(['angularAMD'], function (angularAMD) {
                 _.each(featuresArr, function (features) {
                     self.setSingleFeatureParam(features)
                 })
+                //check if reports tab not there
+                if (featuresArr.indexOf('reports_tab') < 0) {
+                    this.disableReportTab();
+                }
             }
             if(this.featureParams[0].dashboard === false) {
                 this.featureParams[0].mediaplan = true;
             }
-
+            $rootScope.$broadcast('features');
         }
 
         this.getFeatureParams = function (whichplace) {
-            console.log('get feature params',whichplace,this.featureParams[0]);
             return this.featureParams;
         }
 

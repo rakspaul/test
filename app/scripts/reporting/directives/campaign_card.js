@@ -1,11 +1,11 @@
 define(['angularAMD', '../../common/utils', 'common/services/constants_service', 'common/moment_utils'
 
-],function (angularAMD) {
+], function (angularAMD) {
 
     'use strict';
-    angularAMD.directive('campaignCard', function ($location, utils, constants, momentService) {
+    angularAMD.directive('campaignCard', function ($rootScope, $location, utils, constants, momentService, featuresService) {
         return {
-            restrict:'EAC',
+            restrict: 'EAC',
 
             scope: {
                 campaign: '=',
@@ -16,14 +16,18 @@ define(['angularAMD', '../../common/utils', 'common/services/constants_service',
 
             link: function ($scope, element, attrs) {
 
+                var fparams = featuresService.getFeatureParams();
+                $scope.showReportsOverview = fparams[0]['report_overview'];
+                $scope.showManageButton = fparams[0]['mediaplan_hub'];
+
                 $scope.textConstants = constants;
 
                 // NOTE: The params have been modified. To utilize the new feature,
                 // pass $event as the 3rd actual param when calling this method.
-                $scope.redirectTo = function(campaign, filterType, event) {
+                $scope.redirectTo = function (campaign, filterType, event) {
                     var url = filterType !== 'archived' ?
-                        '/mediaplan/'+campaign.orderId+'/overview' :
-                        '/mediaplans/'+campaign.orderId;
+                    '/mediaplan/' + campaign.orderId + '/overview' :
+                    '/mediaplans/' + campaign.orderId;
 
                     if (event && (event.ctrlKey || event.metaKey)) {
                         window.open(url, '_blank');
@@ -32,8 +36,8 @@ define(['angularAMD', '../../common/utils', 'common/services/constants_service',
                     }
                 };
 
-                $scope.getSpendDifference = function(campaign) {
-                    if(campaign !== undefined) {
+                $scope.getSpendDifference = function (campaign) {
+                    if (campaign !== undefined) {
                         var spendDifference = -999; //fix for initial loading
                         var campaignCDBObj = $scope.campaigns.cdbDataMap[campaign.orderId];
                         if (campaignCDBObj == undefined) {
@@ -45,8 +49,8 @@ define(['angularAMD', '../../common/utils', 'common/services/constants_service',
                     }
                 };
 
-                $scope.getSpendTotalDifference = function(campaign) {
-                    if(campaign !== undefined) {
+                $scope.getSpendTotalDifference = function (campaign) {
+                    if (campaign !== undefined) {
                         var spendDifference = 0;
                         var campaignCDBObj = $scope.campaigns.cdbDataMap[campaign.orderId];
                         if (campaignCDBObj == undefined) {
@@ -58,8 +62,8 @@ define(['angularAMD', '../../common/utils', 'common/services/constants_service',
                     }
                 };
 
-                $scope.getSpendTickDifference = function(campaign) {
-                    if(campaign !== undefined) {
+                $scope.getSpendTickDifference = function (campaign) {
+                    if (campaign !== undefined) {
                         var spendDifference = 0;
                         var campaignCDBObj = $scope.campaigns.cdbDataMap[campaign.orderId];
                         if (campaignCDBObj == undefined) {
@@ -70,7 +74,7 @@ define(['angularAMD', '../../common/utils', 'common/services/constants_service',
                         return $scope.getPercentDiff(expectedSpend, spend);
                     }
                 };
-                $scope.getPercentDiff = function(expected, actual) {
+                $scope.getPercentDiff = function (expected, actual) {
                     var spendDifference = 0;
                     if (expected == 0) {
                         spendDifference = 0;
@@ -79,46 +83,46 @@ define(['angularAMD', '../../common/utils', 'common/services/constants_service',
                     }
                     return spendDifference;
                 }
-                $scope.getSpendClass = function(campaign) {
-                    if(campaign !== undefined) {
+                $scope.getSpendClass = function (campaign) {
+                    if (campaign !== undefined) {
                         var spendDifference = $scope.getSpendDifference(campaign);
-                        return $scope.getClassFromDiff(spendDifference,campaign.end_date);
+                        return $scope.getClassFromDiff(spendDifference, campaign.end_date);
                     }
                 };
 
-                $scope.getClassFromDiff = function(spendDifference,campaignEndDate) {
-                 if (campaignEndDate != undefined) {
-                    var dateDiffInDays = momentService.dateDiffInDays(momentService.todayDate('YYYY-MM-DD'), campaignEndDate);
-                 }
+                $scope.getClassFromDiff = function (spendDifference, campaignEndDate) {
+                    if (campaignEndDate != undefined) {
+                        var dateDiffInDays = momentService.dateDiffInDays(momentService.todayDate('YYYY-MM-DD'), campaignEndDate);
+                    }
 
-                 if (spendDifference == -999) { //fix for initial loading
-                    return '';
-                 }
+                    if (spendDifference == -999) { //fix for initial loading
+                        return '';
+                    }
 
-                 if(campaignEndDate != undefined) {
-                    if (momentService.isGreater(momentService.todayDate('YYYY-MM-DD'), campaignEndDate) == false) {
-                        if ((dateDiffInDays <= 7) && (spendDifference < -5 || spendDifference > 5)) {
-                            return 'red';
-                        }else if ((dateDiffInDays <= 7) && (spendDifference >= -5 && spendDifference <= 5)) {
+                    if (campaignEndDate != undefined) {
+                        if (momentService.isGreater(momentService.todayDate('YYYY-MM-DD'), campaignEndDate) == false) {
+                            if ((dateDiffInDays <= 7) && (spendDifference < -5 || spendDifference > 5)) {
+                                return 'red';
+                            } else if ((dateDiffInDays <= 7) && (spendDifference >= -5 && spendDifference <= 5)) {
                                 return 'blue';
+                            }
+                        }
+                        //  past a campaign end date
+                        if (momentService.isGreater(momentService.todayDate('YYYY-MM-DD'), campaignEndDate) == true) {
+                            return (spendDifference < -5 || spendDifference > 5) ? 'red' : 'blue';
                         }
                     }
-                    //  past a campaign end date
-                    if (momentService.isGreater(momentService.todayDate('YYYY-MM-DD'), campaignEndDate) == true) {
-                        return (spendDifference < -5 || spendDifference > 5) ? 'red' : 'blue';
+
+                    if (spendDifference < -10 || spendDifference > 20) {
+                        return 'red';
+                    } else if (spendDifference >= -10 && spendDifference <= 20) {
+                        return 'blue';
                     }
+                    return 'red';
                 }
 
-                if (spendDifference < -10 || spendDifference > 20) {
-                     return 'red';
-                     } else if (spendDifference >= -10 && spendDifference <= 20) {
-                     return 'blue';
-                }
-                return 'red';
-            }
-
-                $scope.getSpendWidth = function(campaign) {
-                    if(campaign !== undefined) {
+                $scope.getSpendWidth = function (campaign) {
+                    if (campaign !== undefined) {
                         var actualWidth = 100 + $scope.getSpendTotalDifference(campaign);
                         if (actualWidth > 100) {
                             actualWidth = 100;
@@ -126,8 +130,8 @@ define(['angularAMD', '../../common/utils', 'common/services/constants_service',
                         return actualWidth;
                     }
                 }
-                $scope.getSpendTickWidth = function(campaign) {
-                    if(campaign !== undefined) {
+                $scope.getSpendTickWidth = function (campaign) {
+                    if (campaign !== undefined) {
                         var actualWidth = 100 + $scope.getSpendTickDifference(campaign);
                         if (actualWidth > 100) {
                             actualWidth = 100;
@@ -137,42 +141,42 @@ define(['angularAMD', '../../common/utils', 'common/services/constants_service',
                 }
                 //$scope.campaigns.durationCompletion();
                 //To show the accorsponding strategy card
-                $scope.showStrategies = function(campaignId, strategiesCount) {
-                    if(strategiesCount > 0) {
+                $scope.showStrategies = function (campaignId, strategiesCount) {
+                    if (strategiesCount > 0) {
                         $('#strategies-accordion-' + campaignId).toggle();
                     }
                 };
 
-                $scope.showTactics = function(strategyId, tacticsCount) {
+                $scope.showTactics = function (strategyId, tacticsCount) {
                     $('#tactics-accordion-' + strategyId).toggle();
                 };
 
                 //This will call the Parent controllers loadMoreStrategies function
-                $scope.loadMoreStrategies = function(campaignId) {
+                $scope.loadMoreStrategies = function (campaignId) {
                     $scope.$parent.loadMoreStrategies(campaignId);
                 };
 
                 //This will call the Parent controllers loadMoreTactics function
-                $scope.loadMoreTactics = function(strategyId, campaignId) {
+                $scope.loadMoreTactics = function (strategyId, campaignId) {
                     $scope.$parent.loadMoreTactics(strategyId, campaignId);
                 };
 
                 //This is called when the user clicks on the campaign title
-                $scope.goToLocation = function(url){
+                $scope.goToLocation = function (url) {
                     utils.goToLocation(url);
                 };
-                $scope.VTCpopup = function(event,flag) {
-                    utils.VTCpopupfunc(event,flag) ;
+                $scope.VTCpopup = function (event, flag) {
+                    utils.VTCpopupfunc(event, flag);
                 }
 
                 $scope.getMessageForDataNotAvailable = function (campaign) {
                     if (!campaign)
                         return constants.MSG_DATA_NOT_AVAILABLE;
-                    else  if ( campaign.durationLeft() == 'Yet to start')
+                    else if (campaign.durationLeft() == 'Yet to start')
                         return constants.MSG_CAMPAIGN_YET_TO_START;
                     else if (campaign.daysSinceEnded() > 1000)
                         return constants.MSG_CAMPAIGN_VERY_OLD;
-                    else if (campaign.kpiType =='null')
+                    else if (campaign.kpiType == 'null')
                         return constants.MSG_CAMPAIGN_KPI_NOT_SET;
                     else if (campaign.status == 'active')
                         return constants.MSG_CAMPAIGN_ACTIVE_BUT_NO_DATA;

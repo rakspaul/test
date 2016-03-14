@@ -60,6 +60,10 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
             });
         }
 
+        var features = $rootScope.$on('features', function () {
+            $scope.fparams = featuresService.getFeatureParams();
+        });
+
         $scope.getClientData = function (clientId) {
             workflowService.getClientData(clientId).then(function (response) {
                 RoleBasedService.setClientRole(response);//set the type of user here in RoleBasedService.js
