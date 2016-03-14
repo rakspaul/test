@@ -524,7 +524,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
             $scope.requestData.reportDefinition.timeframe = {};
             $scope.requestData.reportDefinition.metrics = {};
             $scope.requestData.reportDefinition.filters = [];
-            $scope.requestData.reportDefinition.dimensions = {};
+            $scope.requestData.reportDefinition.dimensions = [];
             $scope.requestData.name = '';
             $scope.requestData.client_id = loginModel.getSelectedClient().id;
             $scope.requestData.name = $scope.reports.name;
@@ -535,10 +535,10 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
             if(localStorage['scheduleListReportType'] !== "Saved") {
                  $scope.requestData.schedule.occurance = $scope.reports.schedule.occurance;
             }
-            $scope.requestData.reportDefinition.dimensions.primary = {
+            $scope.requestData.reportDefinition.dimensions.push({
                 "dimension": $scope.reports.reportDefinition.dimensions.primary.dimension,
                 'type': "Primary"
-            };
+            });
             if ($scope.reports.reportDefinition.dimensions.primary.value || isIntermediateSave) {
                 $scope.requestData.reportDefinition.filters.push({
                     "dimension": $scope.reports.reportDefinition.dimensions.primary.dimension,
@@ -550,10 +550,10 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                 $scope.reports.schedule.endDate = $scope.reports.schedule.startDate;
             }
             if ($scope.reports.reportDefinition.dimensions.secondary.name) {
-                $scope.requestData.reportDefinition.dimensions.secondary = {
+                $scope.requestData.reportDefinition.dimensions.push({
                     "dimension": $scope.reports.reportDefinition.dimensions.secondary.dimension,
                     'type': "Secondary"
-                };
+                });
             }
 
             if ($scope.reports.reportDefinition.dimensions.secondary.value) {
@@ -622,7 +622,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
             if ($scope.generateBtnDisabled) {
                 return false;
             }
-            if (/^[A-Za-z ][A-Za-z0-9 ]*$/.test(str) === false) {
+            if (/^[A-Za-z ][A-Za-z0-9 ]*$/.test(str) === false || $scope.reports.name === undefined) {
                 return setFlashMessage(constants.reportNameErrorMsg, 1, 0);
             }
 
@@ -719,19 +719,22 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
         };
 
             $scope.saveReport = function() {
-                var newObjNoSched = $scope.createData();
-                var key = "schedule";
-                delete newObjNoSched[key];
-                $('#reportBuilderForm').slideUp(600);
-                $( "#dynamicHeader" ).addClass( "smaller" );
-                $scope.isSavedReportGen = true;
+                if ($scope.verifyReportInputs()) {
+                    var newObjNoSched = $scope.createData();
+                    var key = "schedule";
+                    delete newObjNoSched[key];
+                    $('#reportBuilderForm').slideUp(600);
+                    $("#dynamicHeader").addClass("smaller");
+                    $scope.isSavedReportGen = true;
 
-                dataService.createSaveReport(newObjNoSched).then(function(result) {
-                    if (result.data.status_code == 200) {
-                        $rootScope.setErrAlertMessage('Success: The Saved Report is listed.', 0);
-                    }
-                });
-                $scope.generateReport();
+                    dataService.createSaveReport(newObjNoSched).then(function (result) {
+                        if (result.data.status_code == 200) {
+                            $rootScope.setErrAlertMessage('Success: The Saved Report is listed.', 0);
+                        }
+                    });
+                    $scope.generateReport();
+                }
+
             };
         $scope.enable_generate_btn = function() {
             if (_customctrl.enableGenerateButton()) {

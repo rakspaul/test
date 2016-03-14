@@ -1163,7 +1163,7 @@
         <!----- Delivery report data ------------------------>
         <div class="each_col" ng-if="customeReportData.impressions>=0" ng-bind="customeReportData.impressions | nrFormat"></div>
         <div class="each_col" ng-if="customeReportData.clicks>=0" ng-bind="customeReportData.clicks | nrFormat"></div>
-        <div class="each_col" ng-if="customeReportData.ctr>=0" ng-bind="customeReportData.ctr*100 | kpiFormatter:'ctr'"></div>
+        <div class="each_col" ng-if="customeReportData.ctr>=0" ng-bind="customeReportData.ctr | kpiFormatter:'ctr'"></div>
         <div class="each_col" ng-if="customeReportData.post_imp>=0" ng-bind="customeReportData.post_imp | nrFormat"></div>
         <div class="each_col" ng-if="customeReportData.post_click>=0" ng-bind="customeReportData.post_click | nrFormat"></div>
         <div class="each_col" ng-if="customeReportData.pccr>=0" ng-bind="customeReportData.pccr | number:2"></div>

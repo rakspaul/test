@@ -35,7 +35,7 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
         };
 
         $(".bodyWrap").css('padding','0px');
-        
+
         //show selected targets in ads card
         $scope.displaySelectedTargets = function (adsData) {
             var selectedStr = '';
@@ -490,7 +490,7 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
                 postCreateAdObj.endTime = momentService.localTimeToUTC(formData.highestEndTime,'endTime');
                 postCreateAdObj.createdAt = "";
                 postCreateAdObj.updatedAt = "";
-                postCreateAdObj.budget = formData.adIGroupBudget;
+                postCreateAdObj.deliveryBudget = formData.adIGroupBudget;
                 postCreateAdObj.labels = _.pluck($scope.tags, "label");
                 postCreateAdObj.id="-9999";
 
@@ -509,10 +509,12 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
                         $scope.independantGroupMessage="Successfully grouped Ads";
                         localStorage.setItem( 'topAlertMessage', $scope.textConstants.AD_GROUP_CREATED_SUCCESS);
                         location.reload();
+                        $scope.loadingBtn = false;
                     } else {
                         $scope.independantMessage=!$scope.independantMessage;
                         $scope.independantGroupMessage="unable to  group Ads";
                         $rootScope.setErrAlertMessage($scope.textConstants.AD_GROUP_CREATED_FAILURE);
+                        $scope.loadingBtn = false;
                     }
                 });
             }
@@ -551,6 +553,25 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
 
         $scope.$watch($scope.tags,function(){
             console.log("log == ",$scope.tags);
-        })
+        });
+        $scope.calculateBudget = function(adGroupsData){
+            if((adGroupsData.deliveryBudget)){
+                return adGroupsData.deliveryBudget;
+            }
+            else{
+                return $scope.workflowData.campaignData.deliveryBudget - $scope.workflowData.campaignData.bookedSpend + adGroupsData.bookedSpend;
+            }
+        }
+
+        $scope.calculateSpendBudget = function(adGroupsData){
+            var deleveryBudget = (adGroupsData.deliveryBudget)?adGroupsData.deliveryBudget:$scope.calculateBudget(adGroupsData);
+
+            if(adGroupsData.bookedSpend && adGroupsData.bookedSpend > 0){
+                return deleveryBudget - adGroupsData.bookedSpend;
+            }
+            else{
+                return deleveryBudget - 0;
+            }
+        }
     });
 });

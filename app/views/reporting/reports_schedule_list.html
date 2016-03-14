@@ -53,14 +53,11 @@
                                     <span class="icon-arrow-down"></span>
                                 </button>
                                 <ul class="dropdown-menu" aria-labelledby="unitcostType" ng-model="adData.unitType"  id="unitcostType" data-toggle="dropdown">
-                                    <li ng-repeat="unitType in workflowData.unitTypes track by unitType.id" class="available">
-                                        <a ng-click="dropBoxItemSelected(unitType, 'unitType')" data-ng-bind="unitType.name"></a>
+                                    <li ng-repeat="type in textConstants.REPORT_LIST_REPORTTYPES"
+                                        ng-click="select_filter_option('reportType',type)"
+                                        style="padding: 5px"
+                                        ng-bind="type">
                                     </li>
-                                    <li style="padding: 5px" data-ng-click="select_filter_option('reportType', 'Once')">Once</li>
-                                    <li style="padding: 5px" data-ng-click="select_filter_option('reportType', 'Daily')">Daily</li>
-                                    <li style="padding: 5px" data-ng-click="select_filter_option('reportType', 'Weekly')">Weekly</li>
-                                    <li style="padding: 5px" data-ng-click="select_filter_option('reportType', 'Monthly')">Monthly</li>
-                                    <li style="padding: 5px" data-ng-click="select_filter_option('reportType', 'Saved')">Saved</li>
                                 </ul>
                                 <input type="hidden" name="unitType" ng-model="adData.unitType.name" ng-update-hidden/>
                             </div>
@@ -72,12 +69,14 @@
                             <label  class="col-sm-12 greyTxt miniLabels ng-binding" data-ng-bind="textConstants.GENERATED"></label>
                             <div class="dropdown">
                                 <button style="width:170px;" class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                    <span class="text">At any time</span>
+                                    <span class="text" ng-bind="filters.generated ? filters.generated : 'All'"></span>
                                     <span class="icon-arrow-down"></span>
                                 </button>
                                 <ul class="dropdown-menu" aria-labelledby="unitcostType" ng-model="adData.unitType"  id="unitcostType" data-toggle="dropdown">
-                                    <li ng-repeat="unitType in workflowData.unitTypes track by unitType.id" class="available">
-                                        <a ng-click="dropBoxItemSelected(unitType, 'unitType')" data-ng-bind="unitType.name"></a>
+                                    <li ng-repeat="type in textConstants.REPORT_LIST_GENERATEON"
+                                        ng-click="select_filter_option('generated' , type.key)"
+                                        style="padding: 5px"
+                                        ng-bind="type.value">
                                     </li>
                                 </ul>
                                 <input type="hidden" name="unitType" ng-model="adData.unitType.name" ng-update-hidden/>
@@ -129,8 +128,8 @@
         <!--Table Header-->
         <div class="col-md-12 zeroPadding table-header">
                 <div class="col-md-4 table-th name-col sort-icon-holder">
-                    <span ng-click="sortSchdlReport()" ng-bind-html="textConstants.REPORT_NAME"/>
-                    <span class="common-sort-icon" ng-class="(sort.descending?'ascending':'descending')"></span>
+                    <span ng-click="sortReverse =! sortReverse" ng-bind-html="textConstants.REPORT_NAME"/>
+                    <span class="common-sort-icon" ng-class="(!sortReverse?'ascending':'descending')"></span>
                 </div>
                 <!--<div class="table-th name-col" ng-bind-html="textConstants.REPORT_NAME" />-->
                 <!--<div class="table-th more-options">&nbsp;</div>-->
@@ -146,7 +145,7 @@
         
         <!--Table Body-->
         <div class="col-md-12 zeroPadding table-body">
-            <div class="row" ng-repeat="srlist in schdReportList track by $index">
+            <div class="row" ng-repeat="srlist in schdReportList | orderBy:'name':sortReverse track by $index">
                 <div class="clearfix rowHover" ng-class="{downloaded:((srlist.instances.length >0) && (srlist.instances[0].viewedOn.length > 0))}">
                     
                     <!--Column 1-->
@@ -171,18 +170,17 @@
                                         <!-- <li ng-click="editSchdReport(srlist.reportId)" ng-bind-html="textConstants.EDIT"/>
                                         <li ng-click="copyScheduleRpt(srlist.reportId)" ng-bind-html="textConstants.COPY"/>
                                         <li ng-click="deleteSchdRpt(srlist.reportId)" ng-bind-html="textConstants.DELETE"/> -->
-                                        <li ng-click="editSchdReport(srlist.reportId)">
+                                        <li ng-click="editSchdReport(srlist.reportId, srlist.frequency)">
                                             <a ng-bind-html="textConstants.EDIT"></a>
                                         </li>
-                                        <li ng-click="copyScheduleRpt(srlist.reportId)">
+                                        <li ng-click="copyScheduleRpt(srlist.reportId, srlist.frequency)">
                                             <a ng-bind-html="textConstants.COPY"></a>
                                         </li>
-                                        <li ng-click="deleteSchdRptInstance(srlist.reportId,srlist.instances[$index].instanceId)">
+                                        <li ng-click="deleteSchdRpt(srlist.reportId, srlist.frequency)">
                                             <a ng-bind-html="textConstants.DELETE"></a>
                                         </li>
 
-                                        <li class="headerDownload" ng-click="downloadSchdReport($parent.$index,$index,srlist.instances[$index].instanceId)">
-                                            <span class="icon-download zeroPadding pull-left"></span>
+                                        <li class="headerDownload" ng-click="downloadSavedReport($parent.$index,$index,srlist.reportId)" ng-if="srlist.frequency=='Saved'">                                            <span class="icon-download zeroPadding pull-left"></span>
                                             <a class="pull-left">Download</a>
                                         </li>
                                     </ul>
@@ -202,7 +200,7 @@
                     </div>
                     
                     <!--Column 4-->
-                    <div class="col-md-2 table-td" ng-bind-html="srlist.dimensions"></div>
+                    <div class="col-md-2 table-td" ng-bind-html="srlist.dimensions" style="white-space: nowrap;text-overflow: ellipsis;overflow:hidden;"></div>
                     
                     <!--Column 5-->
                     <div class="col-md-2 table-td" ng-bind-html="srlist.createdBy"></div>
@@ -229,19 +227,19 @@
                                                 <li ng-click="copyScheduleRpt(srlist.reportId)" ng-bind-html="textConstants.COPY"/>
                                                 <li ng-click="deleteSchdRpt(srlist.reportId)" ng-bind-html="textConstants.DELETE"/> -->
                                                 <li ng-click="downloadSchdReport($parent.$index,$index,srlist.instances[$index].instanceId)">
-                                                    <a ng-bind-html="textConstants.EDIT"></a>
+                                                    <a ng-bind-html="textConstants.DOWNLOAD"></a>
                                                 </li>
                                                 <li ng-click="deleteSchdRptInstance(srlist.reportId,srlist.instances[$index].instanceId)">
-                                                    <a ng-bind-html="textConstants.COPY"></a>
-                                                </li>
-                                                <li ng-click="archiveSchdRpt(srlist.reportId,srlist.instances[$index].instanceId)">
                                                     <a ng-bind-html="textConstants.DELETE"></a>
                                                 </li>
-
-                                                <li class="headerDownload">
-                                                    <span class="icon-download zeroPadding pull-left"></span>
-                                                    <a class="pull-left">Download</a>
+                                                <li ng-click="archiveSchdRpt(srlist.reportId,srlist.instances[$index].instanceId)">
+                                                    <a ng-bind-html="textConstants.ARCHIEVE"></a>
                                                 </li>
+
+                                                <!--<li class="headerDownload">-->
+                                                    <!--<span class="icon-download zeroPadding pull-left"></span>-->
+                                                    <!--<a class="pull-left">Download</a>-->
+                                                <!--</li>-->
                                             </ul>
                                         </div>
                                     </div>

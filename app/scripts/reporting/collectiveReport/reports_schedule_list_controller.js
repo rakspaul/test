@@ -1,6 +1,6 @@
 define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'common/moment_utils', 'login/login_model',
     'common/services/constants_service', 'common/services/url_service', 'common/services/data_store_model',
-    'common/services/data_service'
+    'common/services/data_service', 'common/controllers/confirmation_modal_controller', 'reporting/collectiveReport/report_schedule_delete_controller'
 ],function (angularAMD) {
     'use strict';
     angularAMD.controller('ReportsScheduleListController', function($scope,$filter, $location, $modal, $rootScope,
@@ -16,16 +16,17 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
         };
         var isSearch = false;
         $scope.filters = {}
+        $scope.sortReverse = false;
         _curCtrl.isFilterExpanded = false;
         $scope.clickedOnFilterIcon = function(){
             _curCtrl.isFilterExpanded = !_curCtrl.isFilterExpanded;
-            var dropDownFilters = ["reportType", "startDate", "endDate", "dimensions"];
+            var dropDownFilters = ["reportType", "generated", "dimensions"];
             _.each(dropDownFilters,function(d){
                 _curCtrl.isFilterExpanded ? $scope.filters[d] = null : delete $scope.filters[d];
             });
         }
         $scope.clearFilters = function(){
-            var filters = ["reportType", "startDate", "endDate", "dimensions", "searchText"];
+            var filters = ["reportType", "generated", "dimensions", "searchText"];
             _.each(filters,function(d){
                 $scope.filters[d] = null;
             });
@@ -60,14 +61,19 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
             }
 
         }
-
+        _curCtrl.preProccessListData = function(schdReportList){
+            _.each(schdReportList, function(item){
+                item.dimensions = item.hasOwnProperty("primaryDimension") && item.primaryDimension ? item.primaryDimension : '';
+                item.dimensions += item.hasOwnProperty("secondaryDimension") && item.primaryDimension ? ','+ item.secondaryDimension : '';
+            })
+        }
         $scope.getScheduledReports = function() {
             var scheduleReportListSucc = function(schdReportList) {
                 var instances,
                     i;
-
+                _curCtrl.preProccessListData(schdReportList);
                 $scope.schdReportList = schdReportList;
-                $scope.sortSchdlReport();
+               // $scope.sortSchdlReport();
                 for (i = 0; i < $scope.schdReportList.length; i++) {
                     $scope.scheduleInstCount[i] = $scope.noOfSchldInstToShow;
                     instances = $scope.schdReportList[i].instances;
@@ -83,15 +89,48 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
                 // console.log('error occured');
             };
             var queryStr = "?clientId="+loginModel.getSelectedClient().id;
-            queryStr += $scope.filters.reportType ? "&reportType="+$scope.filters.reportType : '';
-            queryStr += $scope.filters.startDate ? "&startDate="+$scope.filters.startDate : '';
-            queryStr += $scope.filters.endDate ? "&endDate="+$scope.filters.endDate : '';
-            queryStr += $scope.filters.dimensions ? "&dimensions="+$scope.filters.dimensions : '';
-            queryStr += $scope.filters.searchText ? "&searchText="+$scope.filters.searchText : '';
+            queryStr += _curCtrl.getFilterParam();
+
 
             collectiveReportModel.getScheduleReportList(scheduleReportListSucc, scheduleReportListError, queryStr);
         };
 
+        _curCtrl.getFilterParam = function(){
+            var queryStr,
+                startDate,
+                endDate;
+            queryStr = $scope.filters.reportType ? "&reportType="+$scope.filters.reportType : '';
+            //queryStr += $scope.filters.generated ? "&generated="+$scope.filters.generated : '';
+            queryStr += $scope.filters.dimensions ? "&dimensions="+$scope.filters.dimensions : '';
+            queryStr += $scope.filters.searchText ? "&searchText="+$scope.filters.searchText : '';
+
+            if($scope.filters.generated) {
+                switch ($scope.filters.generated) {
+                    case "Yesterday":
+                        startDate = moment().subtract(1, 'days').format(constants.DATE_UTC_SHORT_FORMAT);
+                        endDate = moment().subtract(1, 'days').format(constants.DATE_UTC_SHORT_FORMAT);
+                        break;
+                    case "Last7Days":
+                        startDate = moment().subtract(7, 'days').format(constants.DATE_UTC_SHORT_FORMAT);
+                        endDate = moment().subtract(0, 'days').format(constants.DATE_UTC_SHORT_FORMAT);
+                        break;
+                    case "Last2Weeks":
+                        startDate = moment().subtract(2, 'week').startOf('week').format(constants.DATE_UTC_SHORT_FORMAT);
+                        endDate = moment().subtract(2, 'week').endOf('week').format(constants.DATE_UTC_SHORT_FORMAT);
+                        break;
+                    case "LastMonth":
+                        startDate = moment().subtract(1, 'months').endOf('month').format('YYYY-MM') + '-01';
+                        endDate = moment().subtract(1, 'months').endOf('month').format(constants.DATE_UTC_SHORT_FORMAT);
+                        break;
+                    case "LastQuater":
+                        startDate = moment().subtract(1, 'quarter').startOf('quarter').format(constants.DATE_UTC_SHORT_FORMAT);
+                        endDate = moment().subtract(1, 'quarter').endOf('quarter').format(constants.DATE_UTC_SHORT_FORMAT);
+                        break;
+                }
+                queryStr += "&startDate="+startDate+"&endDate="+endDate;
+            }
+            return queryStr;
+        }
         $scope.reset_custom_report = function(event) {
             localStorage.removeItem('customReport');
         };
@@ -118,8 +157,8 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
         }
 
         $scope.sortSchdlReport = function() {
-            $scope.schdReportList = $filter('orderBy')($scope.schdReportList, 'name', $scope.sort.descending);
-            $scope.sort.descending = !$scope.sort.descending;
+          //  $scope.schdReportList = $filter('orderBy')($scope.schdReportList, 'name', $scope.sort.descending);
+          //  $scope.sort.descending = !$scope.sort.descending;
         }
 
         $scope.downloadSchdReport = function(parentIndex, instanceIndex, instanceId) {
@@ -136,8 +175,23 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
             })
         }
 
+        $scope.downloadSavedReport = function(parentIndex, instanceIndex, instanceId) {
+            $scope.reportDownloadBusy = true;
+            dataService.downloadFile(urlService.downloadSavedRpt(instanceId)).then(function(response) {
+                if (response.status === "success") {
+                    saveAs(response.file, response.fileName);
+                    $scope.reportDownloadBusy = false;
+                    $scope.schdReportList[parentIndex].instances[instanceIndex].viewedOn = momentService.reportDateFormat();
+                } else {
+                    $scope.reportDownloadBusy = false;
+                    $rootScope.setErrAlertMessage("File couldn't be downloaded");
+                }
+            })
+        }
+
+
         //Delete scheduled report Pop up
-        $scope.deleteSchdRpt = function(reportId) {
+        $scope.deleteSchdRpt = function(reportId, frequency) {
             var $modalInstance = $modal.open({
                 templateUrl: assets.html_delete_collective_report,
                 controller: "ReportScheduleDeleteController",
@@ -148,22 +202,38 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
                         return constants.deleteReportHeader;
                     },
                     mainMsg: function() {
-                        return "Are you sure you want to delete Scheduled Report?"
+                        return (frequency != "Saved") ? "Are you sure you want to delete Scheduled Report?" : "Are you sure you want to delete Saved Report?"
                     },
                     deleteAction: function() {
                         return function() {
-                            var successFun = function(data) {
-                                if (data.status_code == 200) {
-                                    $scope.refreshReportList();
-                                    $rootScope.setErrAlertMessage('The scheduled report is deleted successfully', 0);
-                                } else {
+                            if(frequency == "Saved") {
+                                var successFun = function (data) {
+                                    if (data.status_code == 200) {
+                                        $scope.refreshReportList();
+                                        $rootScope.setErrAlertMessage('The saved report is deleted successfully', 0);
+                                    } else {
+                                        $rootScope.setErrAlertMessage(data.message, data.message);
+                                    }
+                                }
+                                var errorFun = function (data) {
                                     $rootScope.setErrAlertMessage(data.message, data.message);
                                 }
+                                collectiveReportModel.deleteSavedReport(successFun, errorFun, reportId);
+                            }else{
+                                var successFun = function (data) {
+                                    if (data.status_code == 200) {
+                                        $scope.refreshReportList();
+                                        $rootScope.setErrAlertMessage('The scheduled report is deleted successfully', 0);
+                                    } else {
+                                        $rootScope.setErrAlertMessage(data.message, data.message);
+                                    }
+                                }
+                                var errorFun = function (data) {
+                                    $rootScope.setErrAlertMessage(data.message, data.message);
+                                }
+                                collectiveReportModel.deleteScheduledReport(successFun, errorFun, reportId);
                             }
-                            var errorFun = function(data) {
-                                $rootScope.setErrAlertMessage(data.message, data.message);
-                            }
-                            collectiveReportModel.deleteScheduledReport(successFun, errorFun, reportId);
+
                         }
                     }
                 }
@@ -216,45 +286,65 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
         }
 
 
-        $scope.copyScheduleRpt = function(reportId) {
+        $scope.copyScheduleRpt = function(reportId, frequency) {
             var $modalInstance = $modal.open({
                 templateUrl: assets.html_confirmation_modal,
                 controller: "ConfirmationModalController",
                 scope: $scope,
                 windowClass: 'delete-dialog',
                 resolve: {
-                    headerMsg: function() {
-                        return "Copy Scheduled Report?";
+                    headerMsg: function () {
+                        return (frequency != "Saved") ? "Copy Scheduled Report?" : "Copy Saved Report?";
                     },
-                    mainMsg: function() {
-                        return "Are you sure you want to copy Scheduled Report?"
+                    mainMsg: function () {
+                        return (frequency != "Saved") ? "Are you sure you want to copy Scheduled Report?" : "Are you sure you want to copy Saved Report?";
                     },
-                    buttonName: function() {
+                    buttonName: function () {
                         return "Copy"
                     },
-                    execute: function() {
-                        return function() {
-                            var copySuccess = function(data) {
-                                data.name = 'copy: ' + data.name;
-                                data.client_id = loginModel.getSelectedClient().id;
-                                data.schedule = $scope.pre_formatCopySchData(data.schedule);
-                                collectiveReportModel.createSchdReport(function() {
-                                    $scope.refreshReportList();
-                                    $rootScope.setErrAlertMessage('Schedule Report Copied Successfully', 0);
-                                }, function() {
-                                    $rootScope.setErrAlertMessage('Error Copying Schedule Report');
-                                }, data);
+                    execute: function () {
+                        return function () {
+                            if (frequency == "Saved") {
+                                var copySuccess = function (data) {
+                                    data.name = 'copy: ' + data.name;
+                                    data.client_id = loginModel.getSelectedClient().id;
+                                 //   data.schedule = $scope.pre_formatCopySchData(data.schedule);
+                                    collectiveReportModel.createSavedReport(function () {
+                                        $scope.refreshReportList();
+                                        $rootScope.setErrAlertMessage('Saved Report Copied Successfully', 0);
+                                    }, function () {
+                                        $rootScope.setErrAlertMessage('Error Copying Saved Report');
+                                    }, data);
+                                }
+                                var copyError = function () {
+                                    $rootScope.setErrAlertMessage('Error Copying Saved Report');
+                                }
+                                collectiveReportModel.getSaveRptDetail(copySuccess, copyError, reportId);
+                            } else {
+                                var copySuccess = function (data) {
+                                    data.name = 'copy: ' + data.name;
+                                    data.client_id = loginModel.getSelectedClient().id;
+                                    data.schedule = $scope.pre_formatCopySchData(data.schedule);
+                                    collectiveReportModel.createSchdReport(function () {
+                                        $scope.refreshReportList();
+                                        $rootScope.setErrAlertMessage('Schedule Report Copied Successfully', 0);
+                                    }, function () {
+                                        $rootScope.setErrAlertMessage('Error Copying Schedule Report');
+                                    }, data);
+                                }
+                                var copyError = function () {
+                                }
+                                collectiveReportModel.getSchdRptDetail(copySuccess, copyError, reportId);
+
                             }
-                            var copyError = function() {
-                                $rootScope.setErrAlertMessage('Error Copying Schedule Report');
-                            }
-                            collectiveReportModel.getSchdRptDetail(copySuccess, copyError, reportId);
                         }
                     }
                 }
-            });
+                });
         }
         $scope.pre_formatCopySchData = function(schData){
+            schData.startDate = momentService.newMoment(schData.startDate).format('YYYY-MM-DD');
+            schData.endDate = momentService.newMoment(schData.endDate).format('YYYY-MM-DD');
             var o = $.extend({}, schData);
             o.startDate = momentService.todayDate('YYYY-MM-DD');
             if(momentService.isSameOrAfter(schData.startDate, o.startDate)){

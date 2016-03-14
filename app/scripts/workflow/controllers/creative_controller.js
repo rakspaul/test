@@ -1,4 +1,4 @@
-define(['angularAMD','../../common/services/constants_service','workflow/services/workflow_service','workflow/services/creative_custom_module','workflow/directives/creative_drop_down','workflow/directives/ng_upload_hidden'],function (angularAMD) {
+define(['angularAMD','common/services/constants_service','workflow/services/workflow_service','workflow/services/creative_custom_module','workflow/directives/creative_drop_down','workflow/directives/ng_upload_hidden'],function (angularAMD) {
   angularAMD.controller('CreativeController', function($scope, $rootScope, $routeParams, $location, constants, workflowService,creativeCustomModule) {
      // $scope.creativeFormat="DISPLAY";
       $scope.creative={};
@@ -19,7 +19,6 @@ define(['angularAMD','../../common/services/constants_service','workflow/service
 
       $scope.creativeMode=workflowService.getCreativeEditMode();
       var processEditCreative=function(){
-
           $scope.creativeEditData=workflowService.getCreativeEditData();
           if($scope.creativeEditData){
               $scope.name=$scope.creativeEditData.name;
@@ -114,9 +113,6 @@ define(['angularAMD','../../common/services/constants_service','workflow/service
               .find('#creative_nav_link')
               .addClass('active');
       }
-
-
-
 
       /*AD Format Type*/
       $scope.formatLabel = 'Display';
@@ -385,46 +381,67 @@ define(['angularAMD','../../common/services/constants_service','workflow/service
           };
      // });
       var validateScriptTag= function (scriptTag) {
-          var PatternOutside,
-              PatternInside,
+          var pattern,
               tagLower;
-
-          PatternOutside = new RegExp(/<script.*>.*(https:).*<\/script>.*/);
-          PatternInside = new RegExp(/<script.*(https:).*>.*<\/script>.*/);
+          pattern=new RegExp(/.*(https:).*/);
           tagLower = scriptTag.toLowerCase().replace(' ', '').replace(/(\r\n|\n|\r)/gm, '');
-          if (tagLower.match(PatternOutside)) {
+          if (tagLower.match(pattern)) {
               if ((tagLower.indexOf('%%tracker%%') > -1)) {
                   postCrDataObj.tag=scriptTag;
                   validTag=true;
-                  //$scope.creativeSave(templateArr);
               } else {
                   validTag=false;
                   $scope.IncorrectTag = true;
                   $scope.IncorrectTagMessage = $scope.textConstants.WF_INVALID_CREATIVE_TAG_TRACKER;
               }
-          } else if (tagLower.match(PatternInside)) {
-              if ((tagLower.indexOf('%%tracker%%') > -1)) {
-                  postCrDataObj.tag=scriptTag;
-                  validTag=true;
-                  //$scope.creativeSave(templateArr);
-              } else {
-                  validTag=false;
-                  $scope.IncorrectTag = true;
-                  $scope.IncorrectTagMessage = $scope.textConstants.WF_INVALID_CREATIVE_TAG_TRACKER;
-              }
-          } else {
+          }else {
               validTag=false;
               $scope.IncorrectTag = true;
               $scope.IncorrectTagMessage = 'You have entered an invalid Javascript tag.Please review carefully and try again';
               console.log('Incorrect tag');
           }
+
+
+          //var PatternOutside,
+          //    PatternInside,
+          //    tagLower;
+          //
+          //PatternOutside = new RegExp(/<script.*>.*(https:).*<\/script>.*/);
+          //PatternInside = new RegExp(/<script.*(https:).*>.*<\/script>.*/);
+          //tagLower = scriptTag.toLowerCase().replace(' ', '').replace(/(\r\n|\n|\r)/gm, '');
+          //if (tagLower.match(PatternOutside)) {
+          //    if ((tagLower.indexOf('%%tracker%%') > -1)) {
+          //        postCrDataObj.tag=scriptTag;
+          //        validTag=true;
+          //        //$scope.creativeSave(templateArr);
+          //    } else {
+          //        validTag=false;
+          //        $scope.IncorrectTag = true;
+          //        $scope.IncorrectTagMessage = $scope.textConstants.WF_INVALID_CREATIVE_TAG_TRACKER;
+          //    }
+          //} else if (tagLower.match(PatternInside)) {
+          //    if ((tagLower.indexOf('%%tracker%%') > -1)) {
+          //        postCrDataObj.tag=scriptTag;
+          //        validTag=true;
+          //        //$scope.creativeSave(templateArr);
+          //    } else {
+          //        validTag=false;
+          //        $scope.IncorrectTag = true;
+          //        $scope.IncorrectTagMessage = $scope.textConstants.WF_INVALID_CREATIVE_TAG_TRACKER;
+          //    }
+          //} else {
+          //    validTag=false;
+          //    $scope.IncorrectTag = true;
+          //    $scope.IncorrectTagMessage = 'You have entered an invalid Javascript tag.Please review carefully and try again';
+          //    console.log('Incorrect tag');
+          //}
       }
 
       $scope.creativeSave = function (postCrDataObj) {
           $scope.CrDataObj = postCrDataObj;
           if($scope.creativeMode!=="edit"){
               workflowService
-                  .saveCreatives($scope.campaignId, $scope.advertiserId, postCrDataObj)
+                  .saveCreatives($scope.campaignId, postCrDataObj)
                   .then(function (result) {
                       if (result.status === 'OK' || result.status === 'success') {
                           $scope.addedSuccessfully = true;
@@ -448,7 +465,7 @@ define(['angularAMD','../../common/services/constants_service','workflow/service
           }else{
               postCrDataObj.updatedAt=$scope.creativeEditData.updatedAt;
               workflowService
-                  .updateCreative($scope.campaignId, $scope.creativeEditData.advertiserId,$scope.creativeEditData.id,postCrDataObj)
+                  .updateCreative($scope.campaignId, $scope.creative.advertiserId,$scope.creativeEditData.id,postCrDataObj)
                   .then(function(result){
                       if (result.status === 'OK' || result.status === 'success') {
                           $scope.addedSuccessfully = true;

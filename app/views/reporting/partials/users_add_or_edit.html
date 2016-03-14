@@ -13,7 +13,7 @@
         <form id="userCreateEditForm" name="userCreateEditForm">
         <div class="form-group col-md-12 zeroPadding" show-errors>
             <label >User Login:</label>
-            <input name="userLogin" type="email" class="form-control" ng-disabled="isEdit" ng-model="userConsoleFormDetails.email" required >
+            <input name="userLogin" type="email" class="form-control" ng-readonly="isEdit" ng-model="userConsoleFormDetails.email" required >
             <label ng-if="userCreateEditForm.userLogin.$error.required" class="col-sm-12  greyTxt errorLabel">You must enter user login.</label>
             <label ng-if="userCreateEditForm.userLogin.$error.email" class="col-sm-12  greyTxt errorLabel">Invalid email address.</label>
         </div>
