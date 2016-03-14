@@ -218,6 +218,12 @@ define(['angularAMD','common/services/vistoconfig_service', 'common/services/con
            // return "http://ampqaapp001.ewr004.collective-media.net/api/reporting/v3/clients/2/scheduledreports/listReports";
         }
 
+        //download option from the report builder
+        this.downloadGeneratedRpt = function (queryString) {
+            var clientId =  loginModel.getSelectedClient().id;
+            return vistoconfig.apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId + '/custom_reports/' + queryString;
+        }
+
         this.downloadSchdRpt = function (instanceId) {
             var clientId =  loginModel.getSelectedClient().id;
             return vistoconfig.apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId + '/scheduledreports/downloadReport/'+instanceId;
