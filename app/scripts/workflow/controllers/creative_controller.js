@@ -381,39 +381,60 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
           };
      // });
       var validateScriptTag= function (scriptTag) {
-          var PatternOutside,
-              PatternInside,
+          var pattern,
               tagLower;
-
-          PatternOutside = new RegExp(/<script.*>.*(https:).*<\/script>.*/);
-          PatternInside = new RegExp(/<script.*(https:).*>.*<\/script>.*/);
+          pattern=new RegExp(/.*(https:).*/);
           tagLower = scriptTag.toLowerCase().replace(' ', '').replace(/(\r\n|\n|\r)/gm, '');
-          if (tagLower.match(PatternOutside)) {
+          if (tagLower.match(pattern)) {
               if ((tagLower.indexOf('%%tracker%%') > -1)) {
                   postCrDataObj.tag=scriptTag;
                   validTag=true;
-                  //$scope.creativeSave(templateArr);
               } else {
                   validTag=false;
                   $scope.IncorrectTag = true;
                   $scope.IncorrectTagMessage = $scope.textConstants.WF_INVALID_CREATIVE_TAG_TRACKER;
               }
-          } else if (tagLower.match(PatternInside)) {
-              if ((tagLower.indexOf('%%tracker%%') > -1)) {
-                  postCrDataObj.tag=scriptTag;
-                  validTag=true;
-                  //$scope.creativeSave(templateArr);
-              } else {
-                  validTag=false;
-                  $scope.IncorrectTag = true;
-                  $scope.IncorrectTagMessage = $scope.textConstants.WF_INVALID_CREATIVE_TAG_TRACKER;
-              }
-          } else {
+          }else {
               validTag=false;
               $scope.IncorrectTag = true;
               $scope.IncorrectTagMessage = 'You have entered an invalid Javascript tag.Please review carefully and try again';
               console.log('Incorrect tag');
           }
+
+
+          //var PatternOutside,
+          //    PatternInside,
+          //    tagLower;
+          //
+          //PatternOutside = new RegExp(/<script.*>.*(https:).*<\/script>.*/);
+          //PatternInside = new RegExp(/<script.*(https:).*>.*<\/script>.*/);
+          //tagLower = scriptTag.toLowerCase().replace(' ', '').replace(/(\r\n|\n|\r)/gm, '');
+          //if (tagLower.match(PatternOutside)) {
+          //    if ((tagLower.indexOf('%%tracker%%') > -1)) {
+          //        postCrDataObj.tag=scriptTag;
+          //        validTag=true;
+          //        //$scope.creativeSave(templateArr);
+          //    } else {
+          //        validTag=false;
+          //        $scope.IncorrectTag = true;
+          //        $scope.IncorrectTagMessage = $scope.textConstants.WF_INVALID_CREATIVE_TAG_TRACKER;
+          //    }
+          //} else if (tagLower.match(PatternInside)) {
+          //    if ((tagLower.indexOf('%%tracker%%') > -1)) {
+          //        postCrDataObj.tag=scriptTag;
+          //        validTag=true;
+          //        //$scope.creativeSave(templateArr);
+          //    } else {
+          //        validTag=false;
+          //        $scope.IncorrectTag = true;
+          //        $scope.IncorrectTagMessage = $scope.textConstants.WF_INVALID_CREATIVE_TAG_TRACKER;
+          //    }
+          //} else {
+          //    validTag=false;
+          //    $scope.IncorrectTag = true;
+          //    $scope.IncorrectTagMessage = 'You have entered an invalid Javascript tag.Please review carefully and try again';
+          //    console.log('Incorrect tag');
+          //}
       }
 
       $scope.creativeSave = function (postCrDataObj) {
