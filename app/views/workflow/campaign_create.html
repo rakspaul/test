@@ -66,7 +66,6 @@
 						</li>
 						<li class="clearfix eachStepCompLabel" >
 							<a class="leftNavLink budget-page-trigger" data-target="#budget" data-toggle="tab">2. {{textConstants.MP_BUDGET}}</a>
-							<!--<div class="statusLabel " ng-hide="isPrimarySelected || Campaign.totalBudget || Campaign.deliveryBudget">-->
 							<div class="statusLabel " ng-hide="Campaign.totalBudget || Campaign.deliveryBudget">
 								<div class="col-md-12">
 									<span>{{textConstants.WF_NOT_SET}}</span>
@@ -74,7 +73,6 @@
 							</div>
 							<div class="statusLabel" ng-if="Campaign.totalBudget">
 								<div class="col-md-12">
-									<!--<span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>-->
 									<div class="statusIcon icon-usd"></div>
 									<span class="">{{locale.NUMBER_FORMATS.CURRENCY_SYM}}{{Campaign.totalBudget | setDecimal:2 | number : fractionSize}}</span>
 									<span>(Total Budget)</span>
@@ -82,7 +80,6 @@
 							</div>
 							<div class="statusLabel" ng-if="Campaign.deliveryBudget">
 								<div class="col-md-12">
-									<!--<span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>-->
 									<div class="statusIcon icon-usd"></div>
 									<span class="">{{locale.NUMBER_FORMATS.CURRENCY_SYM}}{{Campaign.deliveryBudget | setDecimal:2 | number : fractionSize}}</span>
 									<span>(Delivery Budget)</span>
@@ -90,7 +87,6 @@
 							</div>
 							<div class="statusLabel" ng-if="PrimaryImpressions>0">
 								<div class="col-md-12">
-									<!--<span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>-->
 									<div class="statusIcon icon-goal"></div>
 									<span class="">{{PrimaryImpressions | number : fractionSize}}</span>
 									<span>(Primary KPI)</span>
@@ -334,7 +330,7 @@
 							<div class="col-md-12 spacingInput"><!-- SPACING --></div>
 
 							<!--=== Next Step Panel ===-->
-							<a href="#budget" data-toggle="tab" role="tab" class="nextWrapper leftNavLink budget">
+							<a  data-toggle="tab" data-target="#budget" role="tab" class="nextWrapper leftNavLink budget">
 								<span class="btn btn-default" ng-click="highlightLeftNav(1)">Save & Continue</span>
 							</a>
 						</div>
@@ -664,7 +660,7 @@
 									</ul>
 								</div>
 							</div>
-							<a href="#contacts" data-toggle="tab" role="tab" class="nextWrapper leftNavLink contacts">
+							<a data-toggle="tab" data-target="#contacts" role="tab" class="nextWrapper leftNavLink contacts">
 								<span class="btn btn-default" ng-click="highlightLeftNav(2)">Save & Continue</span>
 							</a>
 						</div>
@@ -707,11 +703,6 @@
 				</div>
 			</div>
 
-			<!-- Modal End -->
-			<!--<div class="popMess errorPopMess">
-                <span>Please correct the {{errorAmount}} error(s) to continue.</span>
-            </div>-->
-			<!-- Message Pop End -->
 			<div class="common-popup-container" ng-show="campaignArchive">
 				<div class="popup">
 					<div class="popup-header-body">

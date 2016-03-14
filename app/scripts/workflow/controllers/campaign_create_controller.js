@@ -1,4 +1,4 @@
-define(['angularAMD', '../../common/services/constants_service', 'workflow/services/workflow_service','login/login_model','common/moment_utils','workflow/directives/clear_row', 'workflow/directives/ng_upload_hidden'], function (angularAMD) {
+define(['angularAMD', 'common/services/constants_service', 'workflow/services/workflow_service','login/login_model','common/moment_utils','workflow/directives/clear_row', 'workflow/directives/ng_upload_hidden'], function (angularAMD) {
   angularAMD.controller('CreateCampaignController', function ($scope,  $rootScope,$routeParams, $locale, $location, $timeout,constants, workflowService,loginModel,momentService) {
 
         $scope.selectedKeywords = [];
@@ -99,16 +99,6 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
             }else if(angular.uppercase(kpi.name) === "CLICKS"){
                 $scope.resetCostArrCPM();
             }
-            ///*on deleting a KPI row*/
-            //$scope.changeCostArrOnKpiRemoval=function(kpi){
-            //    if(angular.uppercase(kpi) === "CLICKS"){
-            //        $scope.resetCostArrCPC();
-            //    }else if(angular.uppercase(kpi) === "IMPRESSIONS" || angular.uppercase(kpi) === "VIEWABLE IMPRESSIONS"){
-            //        $scope.resetCostArrCPM();
-            //    }
-            //
-            //}
-
 
             /*enable disable calculation/cost type in dropdown based on KPI selected*/
             $scope.enableDisableCalculationType();
@@ -279,7 +269,6 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
 
             $scope.effectiveNegative = false;
             $scope.deliveryBudgetNegative = false;
-            // $scope.Campaign.nonInventoryCost=parseInt($scope.Campaign.totalBudget)*((100-parseInt($scope.Campaign.marginPercent))/100);
             $scope.costRowSum = 0;
             if ($scope.Campaign.costArr.length > 0 && $scope.Campaign.kpiArr.length > 0) {
                 for (var i = 0; i < $scope.Campaign.costArr.length; i++) {
