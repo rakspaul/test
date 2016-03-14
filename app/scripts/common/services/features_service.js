@@ -1,7 +1,7 @@
 define(['angularAMD'], function (angularAMD) {
     angularAMD.service('featuresService', function ($rootScope) {
 
-        var params = ['dashboard', 'mediaplan', 'report_overview', 'inventory', 'performance', 'quality', 'cost', 'optimization_impact', 'platform', 'scheduled', 'collective',
+        var params = ['dashboard','report_overview', 'inventory', 'performance', 'quality', 'cost', 'optimization_impact', 'platform', 'scheduled', 'collective',
             'scheduled_reports', 'collective_insights', 'create_mediaplan', 'dashboard', 'mediaplan_list', 'ad_setup', 'mediaplan_hub', 'creative_list', 'reports_tab'];
         this.featureParams = [];
 
@@ -87,13 +87,15 @@ define(['angularAMD'], function (angularAMD) {
             var self = this;
             // this.featureParams['inventory_page'] = true;
            // featuresArr.push('ENABLE_ALL');
-            featuresArr.push('REP_SCH');
+            /*featuresArr.push('REP_SCH');
             featuresArr.push('REP_QUALITY');
             featuresArr.push('REP_PERF');
             featuresArr.push('MEDIAPLAN_HUB');
             featuresArr.push('CREATIVE_LIST');
+            featuresArr.push('REPORTS_TAB');
+            featuresArr.push('DASHBOARD');*/
           //  featuresArr.push('COST');
-         //   console.log('server feature Arr: ',featuresArr);
+          //  console.log('server feature Arr: ',featuresArr);
 
             if (featuresArr.indexOf('ENABLE_ALL') > 0) {
                 //Enable all features
@@ -103,17 +105,17 @@ define(['angularAMD'], function (angularAMD) {
                     self.setSingleFeatureParam(features)
                 })
                 //check if reports tab not there
-                if (featuresArr.indexOf('reports_tab') < 0) {
+                if (featuresArr.indexOf('REPORTS_TAB') < 0) {
                     this.disableReportTab();
                 }
             }
             if(this.featureParams[0].dashboard === false) {
-                this.featureParams[0].mediaplan = true;
+                this.featureParams[0].mediaplan_list = true;
             }
             $rootScope.$broadcast('features');
         }
 
-        this.getFeatureParams = function (whichplace) {
+        this.getFeatureParams = function (whichplace) { //console.log('this.featureParams',this.featureParams[0]);
             return this.featureParams;
         }
 
