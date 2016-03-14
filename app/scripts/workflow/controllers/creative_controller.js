@@ -424,7 +424,7 @@ define(['angularAMD','../../common/services/constants_service','workflow/service
           $scope.CrDataObj = postCrDataObj;
           if($scope.creativeMode!=="edit"){
               workflowService
-                  .saveCreatives($scope.campaignId, $scope.advertiserId, postCrDataObj)
+                  .saveCreatives($scope.campaignId, postCrDataObj)
                   .then(function (result) {
                       if (result.status === 'OK' || result.status === 'success') {
                           $scope.addedSuccessfully = true;

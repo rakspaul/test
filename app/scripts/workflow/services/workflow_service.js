@@ -283,10 +283,10 @@ define(['angularAMD','common/services/vistoconfig_service', 'common/services/con
                 return dataService.fetch(vistoconfig.apiPaths.WORKFLOW_API_URL  +'/sizes');
             },
 
-            saveCreatives: function (clientId, adId, data) {
+            saveCreatives: function (clientId, data) {
                 clientId =  loginModel.getSelectedClient().id;
                 return dataService.post(
-                    vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/advertisers/' + adId + '/creatives',
+                    vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/advertisers/' + data.advertiserId + '/creatives',
                     data,
                     {'Content-Type': 'application/json'}
                 );
@@ -510,7 +510,7 @@ define(['angularAMD','common/services/vistoconfig_service', 'common/services/con
             resetDeleteModule : function() {
                 deletedModule = [];
             },
-            setCreativeEdit:function(data){
+            setCreativeEditData:function(data){
                 creativeEditData=data;
             },
             getCreativeEditData:function(){
