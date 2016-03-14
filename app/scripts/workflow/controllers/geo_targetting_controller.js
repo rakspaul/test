@@ -974,7 +974,7 @@ define(['angularAMD','workflow/services/workflow_service','common/services/zip_c
             $scope.adData.zipCodes = '';
             geoTargetsDataForListing();
 
-            if($scope.geoTargetingData.selected.zip.length === 0 && geoTargetsData.targets && geoTargetsData.targets.geoTargets.ZIP_CODE) {
+            if($scope.geoTargetingData.selected.zip.length === 0 && geoTargetsData && geoTargetsData.targets && geoTargetsData.targets.geoTargets && geoTargetsData.targets.geoTargets.ZIP_CODE) {
                 geoTargetsData.targets.geoTargets.ZIP_CODE = null;
                 workflowService.setAdsDetails(geoTargetsData);
             }
