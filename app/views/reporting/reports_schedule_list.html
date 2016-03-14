@@ -53,9 +53,6 @@
                                     <span class="icon-arrow-down"></span>
                                 </button>
                                 <ul class="dropdown-menu" aria-labelledby="unitcostType" ng-model="adData.unitType"  id="unitcostType" data-toggle="dropdown">
-                                    <li ng-repeat="unitType in workflowData.unitTypes track by unitType.id" class="available">
-                                        <a ng-click="dropBoxItemSelected(unitType, 'unitType')" data-ng-bind="unitType.name"></a>
-                                    </li>
                                     <li style="padding: 5px" data-ng-click="select_filter_option('reportType', 'Once')">Once</li>
                                     <li style="padding: 5px" data-ng-click="select_filter_option('reportType', 'Daily')">Daily</li>
                                     <li style="padding: 5px" data-ng-click="select_filter_option('reportType', 'Weekly')">Weekly</li>
@@ -72,13 +69,15 @@
                             <label  class="col-sm-12 greyTxt miniLabels ng-binding" data-ng-bind="textConstants.GENERATED"></label>
                             <div class="dropdown">
                                 <button style="width:170px;" class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                    <span class="text">At any time</span>
+                                    <span class="text" ng-bind="filters.generated ? filters.generated : 'All'"></span>
                                     <span class="icon-arrow-down"></span>
                                 </button>
                                 <ul class="dropdown-menu" aria-labelledby="unitcostType" ng-model="adData.unitType"  id="unitcostType" data-toggle="dropdown">
-                                    <li ng-repeat="unitType in workflowData.unitTypes track by unitType.id" class="available">
-                                        <a ng-click="dropBoxItemSelected(unitType, 'unitType')" data-ng-bind="unitType.name"></a>
-                                    </li>
+                                    <li style="padding: 5px" data-ng-click="select_filter_option('generated', 'Yesterday')">Yesterday</li>
+                                    <li style="padding: 5px" data-ng-click="select_filter_option('generated', 'Last7Days')">Last 7 Days</li>
+                                    <li style="padding: 5px" data-ng-click="select_filter_option('generated', 'Last2Weeks')">Last 2 weeks</li>
+                                    <li style="padding: 5px" data-ng-click="select_filter_option('generated', 'LastMonth')">Last Month</li>
+                                    <li style="padding: 5px" data-ng-click="select_filter_option('generated', 'LastQuater')">Last Quater</li>
                                 </ul>
                                 <input type="hidden" name="unitType" ng-model="adData.unitType.name" ng-update-hidden/>
                             </div>

@@ -115,7 +115,7 @@ angularAMD.factory("collectiveReportModel", ['urlService', 'dataService', 'adver
         }
 
         var createSavedReport = function(successCall, errorCall,data) {
-            var url = urlService.createSavedRpt();
+            var url = urlService.createSaveRpt();
             dataService.post(url, data, {'Content-Type': 'application/json'}).then(function(response) {
                 if(response.status == "success") {
                     successCall();

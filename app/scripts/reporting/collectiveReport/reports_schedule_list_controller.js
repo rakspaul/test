@@ -20,13 +20,13 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
         _curCtrl.isFilterExpanded = false;
         $scope.clickedOnFilterIcon = function(){
             _curCtrl.isFilterExpanded = !_curCtrl.isFilterExpanded;
-            var dropDownFilters = ["reportType", "startDate", "endDate", "dimensions"];
+            var dropDownFilters = ["reportType", "generated", "dimensions"];
             _.each(dropDownFilters,function(d){
                 _curCtrl.isFilterExpanded ? $scope.filters[d] = null : delete $scope.filters[d];
             });
         }
         $scope.clearFilters = function(){
-            var filters = ["reportType", "startDate", "endDate", "dimensions", "searchText"];
+            var filters = ["reportType", "generated", "dimensions", "searchText"];
             _.each(filters,function(d){
                 $scope.filters[d] = null;
             });
@@ -84,15 +84,48 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
                 // console.log('error occured');
             };
             var queryStr = "?clientId="+loginModel.getSelectedClient().id;
-            queryStr += $scope.filters.reportType ? "&reportType="+$scope.filters.reportType : '';
-            queryStr += $scope.filters.startDate ? "&startDate="+$scope.filters.startDate : '';
-            queryStr += $scope.filters.endDate ? "&endDate="+$scope.filters.endDate : '';
-            queryStr += $scope.filters.dimensions ? "&dimensions="+$scope.filters.dimensions : '';
-            queryStr += $scope.filters.searchText ? "&searchText="+$scope.filters.searchText : '';
+            queryStr += _curCtrl.getFilterParam();
+
 
             collectiveReportModel.getScheduleReportList(scheduleReportListSucc, scheduleReportListError, queryStr);
         };
 
+        _curCtrl.getFilterParam = function(){
+            var queryStr,
+                startDate,
+                endDate;
+            queryStr = $scope.filters.reportType ? "&reportType="+$scope.filters.reportType : '';
+            //queryStr += $scope.filters.generated ? "&generated="+$scope.filters.generated : '';
+            queryStr += $scope.filters.dimensions ? "&dimensions="+$scope.filters.dimensions : '';
+            queryStr += $scope.filters.searchText ? "&searchText="+$scope.filters.searchText : '';
+
+            if($scope.filters.generated) {
+                switch ($scope.filters.generated) {
+                    case "Yesterday":
+                        startDate = moment().subtract(1, 'days').format(constants.DATE_UTC_SHORT_FORMAT);
+                        endDate = moment().subtract(1, 'days').format(constants.DATE_UTC_SHORT_FORMAT);
+                        break;
+                    case "Last7Days":
+                        startDate = moment().subtract(7, 'days').format(constants.DATE_UTC_SHORT_FORMAT);
+                        endDate = moment().subtract(0, 'days').format(constants.DATE_UTC_SHORT_FORMAT);
+                        break;
+                    case "Last2Weeks":
+                        startDate = moment().subtract(2, 'week').startOf('week').format(constants.DATE_UTC_SHORT_FORMAT);
+                        endDate = moment().subtract(2, 'week').endOf('week').format(constants.DATE_UTC_SHORT_FORMAT);
+                        break;
+                    case "LastMonth":
+                        startDate = moment().subtract(1, 'months').endOf('month').format('YYYY-MM') + '-01';
+                        endDate = moment().subtract(1, 'months').endOf('month').format(constants.DATE_UTC_SHORT_FORMAT);
+                        break;
+                    case "LastQuater":
+                        startDate = moment().subtract(1, 'quarter').startOf('quarter').format(constants.DATE_UTC_SHORT_FORMAT);
+                        endDate = moment().subtract(1, 'quarter').endOf('quarter').format(constants.DATE_UTC_SHORT_FORMAT);
+                        break;
+                }
+                queryStr += "&startDate="+startDate+"&endDate="+endDate;
+            }
+            return queryStr;
+        }
         $scope.reset_custom_report = function(event) {
             localStorage.removeItem('customReport');
         };
@@ -270,7 +303,7 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
                                 var copySuccess = function (data) {
                                     data.name = 'copy: ' + data.name;
                                     data.client_id = loginModel.getSelectedClient().id;
-                                    data.schedule = $scope.pre_formatCopySchData(data.schedule);
+                                 //   data.schedule = $scope.pre_formatCopySchData(data.schedule);
                                     collectiveReportModel.createSavedReport(function () {
                                         $scope.refreshReportList();
                                         $rootScope.setErrAlertMessage('Saved Report Copied Successfully', 0);
