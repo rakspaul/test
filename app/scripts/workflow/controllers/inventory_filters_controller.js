@@ -28,7 +28,7 @@ define(['angularAMD', 'workflow/services/workflow_service', 'workflow/services/f
                             if ($scope.mode === 'edit') {
                                 $scope.savedDomainListIds =
                                     $scope.getAd_result.targets.domainTargets.inheritedList.ADVERTISER;
-                                $scope.savedDomainAction = $scope.getAd_result.domainAction;
+                                $scope.savedDomainAction = $scope.getAd_result.domainAction || 'INCLUDE';
 
                                 if ($scope.savedDomainListIds && $scope.savedDomainListIds.length) {
                                     selectedLists = _.map($scope.workflowData.inventoryData, function(value) {
@@ -52,6 +52,14 @@ define(['angularAMD', 'workflow/services/workflow_service', 'workflow/services/f
                                         $scope.workflowData.blackListsSelected = true;
                                         $scope.workflowData.selectedBlackLists = $scope.workflowData.selectedLists;
                                     }
+                                } else {
+                                    // The saved ad does not contain inventory data. Set all relevant defaults here.
+                                    $scope.adData.inventory.domainAction = 'INCLUDE';
+                                    $scope.workflowData.selectedLists = [];
+                                    $scope.workflowData.whiteListsSelected = true;
+                                    $scope.workflowData.selectedWhiteLists = [];
+                                    $scope.workflowData.blackListsSelected = false;
+                                    $scope.workflowData.selectedBlackLists = [];
                                 }
 
                                 _.each($scope.workflowData.inventoryData, function(obj) {
@@ -83,7 +91,7 @@ define(['angularAMD', 'workflow/services/workflow_service', 'workflow/services/f
             function uploadSuccessCallback(response) {
                 var inventoryData = $scope.workflowData.inventoryData,
                     selectedLists = $scope.workflowData.selectedLists;
-console.log('response.data = ', response.data);
+
                 response.data.domainNamesDisplay = 'collapsed';
 
                 if ($scope.inventoryCreate) {
@@ -281,8 +289,6 @@ console.log('response.data = ', response.data);
             };
 
             $scope.workflowData.assignCurrentInventory = function(obj) {
-console.log('$scope.adData.inventory = ', $scope.adData.inventory);
-console.log('obj = ', obj)
                 $scope.adData.inventory = obj;
             };
 

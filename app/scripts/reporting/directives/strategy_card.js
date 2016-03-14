@@ -19,30 +19,39 @@ define(['angularAMD', 'common/services/constants_service', 'reporting/campaignLi
 
                 $scope.getPercentDiff = function(expected, actual) {
                     var spendDifference = 0;
-                    if (expected == 0) {
+
+                    if (expected === 0) {
                         spendDifference = 0;
                     } else {
-                        spendDifference = utils.roundOff((actual - expected) * 100 / expected, 2)
+                        spendDifference = utils.roundOff((actual - expected) * 100 / expected, 2);
                     }
                     return spendDifference;
-                }
+                };
+
                 $scope.getSpendDiffForStrategy = function(strategy) {
-                    if (strategy == undefined) {
+                    var expectedSpend;
+
+                    if (strategy === undefined) {
                         return 0;
                     }
-                    var expectedSpend = strategy.expectedMediaCost;
-                    return $scope.getPercentDiff(expectedSpend, strategy.grossRev)
+                    expectedSpend = strategy.expectedMediaCost;
+                    return $scope.getPercentDiff(expectedSpend, strategy.grossRev);
                 };
+
                 $scope.getSpendTotalDiffForStrategy = function(strategy) {
-                    if (strategy == undefined) {
+                    var totalSpend;
+
+                    if (strategy === undefined) {
                         return 0;
                     }
-                    var totalSpend = strategy.totalMediaCost;
-                    return $scope.getPercentDiff(totalSpend, strategy.grossRev)
+                    totalSpend = strategy.totalMediaCost;
+                    return $scope.getPercentDiff(totalSpend, strategy.grossRev);
                 };
+
                 $scope.getSpendClassForStrategy = function(strategy) {
                     var spendDifference = $scope.getSpendDiffForStrategy(strategy);
-                    return $scope.getClassFromDiff(spendDifference,strategy.endDate);
+console.log('strategy.endDate = ', strategy.endDate);
+                    return $scope.getClassFromDiff(spendDifference, strategy.endDate);
                 };
 
                 $scope.getClassFromDiff = function(spendDifference,strategyEndDate) {
