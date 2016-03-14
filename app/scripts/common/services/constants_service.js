@@ -150,6 +150,14 @@ define(['angularAMD'], function(angularAMD) {
             'Year to date',
             'Custom dates'
         ];
+        this.REPORT_LIST_GENERATEON = [
+            { key:"Yesterday", value:"Yesterday"},
+            { key:"Last7Days", value:"Last 7 days"},
+            { key:"Last2Weeks", value:'Last 2 weeks'},
+            { key:"LastMonth", value:"Last month"},
+            { key:"LastQuater", value:"Last quarter"}
+        ];
+        this.REPORT_LIST_REPORTTYPES = ['Once', 'Daily', 'Weekly', 'Monthly', 'Saved'];
         this.AD_CREATED_SUCCESS = '<span class="bold-font">Success. </span> Ad has been successfully created';
         this.CAMPAIGN_CREATED_SUCCESS =
             '<span class="bold-font">Success. </span> Media Plan has been successfully created';

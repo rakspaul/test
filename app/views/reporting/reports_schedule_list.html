@@ -53,11 +53,11 @@
                                     <span class="icon-arrow-down"></span>
                                 </button>
                                 <ul class="dropdown-menu" aria-labelledby="unitcostType" ng-model="adData.unitType"  id="unitcostType" data-toggle="dropdown">
-                                    <li style="padding: 5px" data-ng-click="select_filter_option('reportType', 'Once')">Once</li>
-                                    <li style="padding: 5px" data-ng-click="select_filter_option('reportType', 'Daily')">Daily</li>
-                                    <li style="padding: 5px" data-ng-click="select_filter_option('reportType', 'Weekly')">Weekly</li>
-                                    <li style="padding: 5px" data-ng-click="select_filter_option('reportType', 'Monthly')">Monthly</li>
-                                    <li style="padding: 5px" data-ng-click="select_filter_option('reportType', 'Saved')">Saved</li>
+                                    <li ng-repeat="type in textConstants.REPORT_LIST_REPORTTYPES"
+                                        ng-click="select_filter_option('reportType',type)"
+                                        style="padding: 5px"
+                                        ng-bind="type">
+                                    </li>
                                 </ul>
                                 <input type="hidden" name="unitType" ng-model="adData.unitType.name" ng-update-hidden/>
                             </div>
@@ -73,11 +73,11 @@
                                     <span class="icon-arrow-down"></span>
                                 </button>
                                 <ul class="dropdown-menu" aria-labelledby="unitcostType" ng-model="adData.unitType"  id="unitcostType" data-toggle="dropdown">
-                                    <li style="padding: 5px" data-ng-click="select_filter_option('generated', 'Yesterday')">Yesterday</li>
-                                    <li style="padding: 5px" data-ng-click="select_filter_option('generated', 'Last7Days')">Last 7 Days</li>
-                                    <li style="padding: 5px" data-ng-click="select_filter_option('generated', 'Last2Weeks')">Last 2 weeks</li>
-                                    <li style="padding: 5px" data-ng-click="select_filter_option('generated', 'LastMonth')">Last Month</li>
-                                    <li style="padding: 5px" data-ng-click="select_filter_option('generated', 'LastQuater')">Last Quater</li>
+                                    <li ng-repeat="type in textConstants.REPORT_LIST_GENERATEON"
+                                        ng-click="select_filter_option('generated' , type.key)"
+                                        style="padding: 5px"
+                                        ng-bind="type.value">
+                                    </li>
                                 </ul>
                                 <input type="hidden" name="unitType" ng-model="adData.unitType.name" ng-update-hidden/>
                             </div>
