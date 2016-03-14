@@ -510,7 +510,8 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
 
                     //console.log("$(this).scrollTop():"+$(this).scrollTop()+"$(this).innerHeight():"+$(this).innerHeight()+"$(this)[0].scrollHeight:"+$(this)[0].scrollHeight)
                     var selectedClientObj = localStorage.selectedClient && JSON.parse(localStorage.selectedClient);
-                    if(selectedClientObj) {
+
+                    if(selectedClientObj && (window.location.href.indexOf("creative/list") > -1)) {
                         creativeList.getCreativesList(JSON.parse(localStorage.selectedClient).id,'','',$scope.pageSize, $scope.pageNo);
                         $scope.loadCreativeData=true;
                     }
