@@ -353,7 +353,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
 
 
 
-        _customctrl.createRequestParams = function(filterText, offset, isPrimary, rowIndex_2D) {
+        _customctrl.createRequestParams = function(filterText, offset, isPrimary, rowIndex_2D,dataFormat) {
             var params = '',
                 dropdownElem = $(".each_section_custom_report"),
                 reportId = dropdownElem.find('.dd_txt').attr('data-template_id'),
@@ -405,7 +405,8 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
             str += '&start_date=' + $scope.reports.reportDefinition.timeframe.start_date + "&end_date=" + $scope.reports.reportDefinition.timeframe.end_date;
 
             params = reportId + "?dimension=" + str + "&page_num=" + (isPrimary ? _customctrl.reportPageNum_1D : _customctrl.reportPageNum_2D[$scope.activeTab][rowIndex_2D]);
-            return params;
+
+            return  (dataFormat && dataFormat==='csv')?'download/'+params : params;
         };
 
         _customctrl.errorHandler = function() {
@@ -739,7 +740,8 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
 
             $scope.downloadCreateRepBuilder = function(parentIndex, instanceIndex, instanceId) {
                 $scope.reportDownloadBusy = true;
-                dataService.downloadFile(urlService.downloadCreateRpt(instanceId)).then(function (response) {
+                var params = _customctrl.createRequestParams(null, $scope.firstDimensionoffset, 1,0,'csv');
+                dataService.downloadFile(urlService.downloadGeneratedRpt(params)).then(function (response) {
                     if (response.status === "success") {
                         saveAs(response.file, response.fileName);
                         $scope.reportDownloadBusy = false;

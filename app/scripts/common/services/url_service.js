@@ -218,6 +218,12 @@ define(['angularAMD','common/services/vistoconfig_service', 'common/services/con
            // return "http://ampqaapp001.ewr004.collective-media.net/api/reporting/v3/clients/2/scheduledreports/listReports";
         }
 
+        //download option from the report builder
+        this.downloadGeneratedRpt = function (queryString) {
+            var clientId =  loginModel.getSelectedClient().id;
+            return vistoconfig.apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId + '/custom_reports/' + queryString;
+        }
+
         this.downloadSchdRpt = function (instanceId) {
             var clientId =  loginModel.getSelectedClient().id;
             return vistoconfig.apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId + '/scheduledreports/downloadReport/'+instanceId;
@@ -262,14 +268,6 @@ define(['angularAMD','common/services/vistoconfig_service', 'common/services/con
         this.createSaveRpt = function () {
             var clientId =  loginModel.getSelectedClient().id;
             return vistoconfig.apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId + '/savedreports/createReport';
-        }
-
-        // Download report from Report Builder
-        this.downloadCreateRpt = function (instanceId) {
-            var clientId =  loginModel.getSelectedClient().id;
-            return vistoconfig.apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId + '/custom_reports/download/' + clientId + '?dimension=' + ad_name + '&start_date=' + filterStartDate + '&end_date=' + filterEndDate;
-            // api/reporting/v3/clients/2/custom_reports/download/2?dimension=platform_name&start_date=2016-01-01&end_date=2016-03-11
-
         }
 
 
