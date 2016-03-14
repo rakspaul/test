@@ -1,4 +1,4 @@
-define(['angularAMD','../../common/services/constants_service','workflow/services/workflow_service','common/moment_utils'],function (angularAMD) {
+define(['angularAMD','common/services/constants_service','workflow/services/workflow_service','common/moment_utils'],function (angularAMD) {
   angularAMD.controller('CreativeListController', function($scope, $rootScope, $routeParams, $route, $location,constants, workflowService,momentService) {
         var checkedCreativeArr=[];
         $scope.creativeAds={};
@@ -30,7 +30,7 @@ define(['angularAMD','../../common/services/constants_service','workflow/service
             'margin':'0 0 0 -15px',
             'z-index':'999'
         });
-        
+
         //viewPort Plugin Start
         //**Abi Commented Future Sticky Header
         //(function($){

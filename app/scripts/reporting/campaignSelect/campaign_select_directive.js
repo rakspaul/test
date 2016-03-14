@@ -1,4 +1,4 @@
-define(['angularAMD', '../../common/services/constants_service'],function (angularAMD) {
+define(['angularAMD', 'common/services/constants_service'],function (angularAMD) {
     angularAMD.directive('campaignDropDown', ['constants', function (constants) {
         return {
             restrict: 'AE',
