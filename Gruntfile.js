@@ -58,7 +58,8 @@ module.exports = function (grunt) {
         'htmlmin',
         'ngAnnotate',
         'requirejs',
-        'preprocess:'+env
+        'preprocess:'+env,
+        'compress'
     ]);
 
     grunt.registerTask('start', [
@@ -66,7 +67,7 @@ module.exports = function (grunt) {
     ]);
 
 
-    grunt.registerTask('css', [
-        'cssmin'
+    grunt.registerTask('compressFile', [
+        'compress'
     ]);
 };
