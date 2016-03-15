@@ -19,6 +19,9 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
         _curCtrl.filters = {};
         $scope.sortReverse = false;
         _curCtrl.isFilterExpanded = false;
+
+        $('html').css('background', '#FFFFFF');
+
         $scope.clickedOnFilterIcon = function(){
             _curCtrl.isFilterExpanded = !_curCtrl.isFilterExpanded;
             var dropDownFilters = ["reportType", "generated", "reportDimensions"];

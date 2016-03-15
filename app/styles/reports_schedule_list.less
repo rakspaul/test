@@ -40,7 +40,7 @@
             background-repeat: no-repeat  ;
             background-position: left 15px center ;
             cursor: pointer;
-            }  
+            }
         }
         .no-instance {
             background-image: none !important;
@@ -50,9 +50,11 @@
     div.name-col {
       width: 33.33333333%;
       padding: 0 5px 0 0px;
+      cursor: pointer;
       .col-md-9 {
         padding: 15px 0;
       }
+
       .more-options {
         float: right;
         border-width: 0;
@@ -65,12 +67,12 @@
       }
     }
     .table-th.name-col {
-      cursor: text;
+      cursor: pointer;
       padding: 20px 40px;
     }
     div.frequency-col {
       //width: 130px ;
-      cursor: pointer;
+      // cursor: pointer;
     }
     div.more-options {
       width: 65px ;
@@ -199,6 +201,8 @@
       border-color: #d2dee7  ;
       border-width: 1px 0 2px 0px ;
       border-style: solid ;
+      font-family:Avenir-bold;
+      color: #57606D;
       &:first-child {
         border-left-width : 1px  ;
         background-image : none ;
@@ -258,20 +262,24 @@
         background-color: #e1edf9 !important;
     }
 
-    .btn-group .btn [class^="icon-"], #creativeList .btn-group .btn [class*=" icon-"] {
+    .btn-group .btn [class^="icon-"] {
         float: left;
         height: 14px;
         width: 14px;
         padding: 0;
         margin: -2px 10px 0 0;
         color: #363d49;
+        border-top-left-radius: 2px;
+        border-bottom-left-radius: 2px;
     }
 
     .searchInput {
         width: auto;
-        border: 1px solid #dde6eb;
-        border-radius: 2px;
-        margin-right:5px;
+        border-top: 1px solid #BFC9D7;
+        border-bottom: 1px solid #BFC9D7;
+        border-left: 1px solid #BFC9D7;
+        border-top-left-radius: 2px;
+        border-bottom-left-radius: 2px;
         float: left;
         a.btn {
             cursor: pointer;
