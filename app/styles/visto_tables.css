@@ -101,7 +101,6 @@
 .table-responsive .vistoTable .tbody {
   float: left;
   width: 100%;
-  overflow: scroll;
   padding: 0;
 }
 .table-responsive .vistoTable .tbody .tr {
