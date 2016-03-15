@@ -539,8 +539,11 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
             $scope.requestData.reportDefinition.metrics = $scope.reports.reportDefinition.metrics;
             $scope.requestData.schedule = $scope.reports.schedule;
             $scope.requestData.isScheduled = $scope.scheduleReportActive;
-            if(localStorage['scheduleListReportType'] !== "Saved") {
-                 $scope.requestData.schedule.occurance = $scope.reports.schedule.occurance;
+            if($scope.reportTypeSelect == "Save As") {
+                if(!$scope.reports.schedule) $scope.reports.schedule = {}
+                $scope.reports.schedule.occurance = "";
+            }else {
+                $scope.requestData.schedule.occurance = $scope.reports.schedule.occurance;
             }
             $scope.requestData.reportDefinition.dimensions.push({
                 "dimension": $scope.reports.reportDefinition.dimensions.primary.dimension,
@@ -587,7 +590,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
 
             })
 
-            if(localStorage['scheduleListReportType'] !== "Saved") {
+            if($scope.reportTypeSelect == "Schedule As") {
                 if (!$scope.reports.schedule.customOccuranceDate) {
                     $scope.reports.schedule.customOccuranceDate = '';
                     $scope.requestData.schedule.customOccuranceDate = '';
@@ -1647,11 +1650,11 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
 
             $scope.updateSchdReport = function() {
                 if ($scope.verifyReportInputs()) {
-                    //if(localStorage['scheduleListReportType'] == "Saved" && $scope.reportTypeSelect !== "Schedule As"){
-                    if(localStorage['scheduleListReportType'] == "Saved"){
+                    if($scope.reportTypeSelect == "Save As"){
+                    //if(localStorage['scheduleListReportType'] == "Saved"){
                         dataService.updateSavedReport($routeParams.reportId, $scope.createData()).then(function(result) {
                             if (result.data.status_code == 200) {
-                                $rootScope.setErrAlertMessage('Scheduled report updated successfully', 0);
+                                $rootScope.setErrAlertMessage('Saved report updated successfully', 0);
                                 $scope.stopRedirectingPage = false;
                                 $('#reportBuilderForm').slideUp(600);
                                 //$location.url('/reports/schedules');
