@@ -234,10 +234,14 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
 
                     }
 
-                    function adSaveErrorHandler () {
+                    function adSaveErrorHandler (data) {
+                        data = data || '' ;
                         $scope.downloadingTracker = false;
-                        $scope.abc = $scope.textConstants.PARTIAL_AD_SAVE_FAILURE;
-                        $rootScope.setErrAlertMessage($scope.textConstants.PARTIAL_AD_SAVE_FAILURE);
+                        var errMsg = $scope.textConstants.PARTIAL_AD_SAVE_FAILURE;
+                        if(data && data.data && data.data[0] && data.data[0].AdBudget) {
+                            errMsg = data.data[0].AdBudget;
+                        }
+                        $rootScope.setErrAlertMessage(errMsg);
                     }
 
                     promiseObj = $scope.adId ?
@@ -268,7 +272,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                             }
                         } else {
                             if(responseData.statusCode === 400) {
-                                adSaveErrorHandler();
+                                adSaveErrorHandler(responseData);
                             } else {
                                 $scope.downloadingTracker = false;
                                 $rootScope.setErrAlertMessage(responseData.message);
