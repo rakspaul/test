@@ -476,7 +476,7 @@
 									<div class="col-md-2 zeroPadding kpiTable symbol-input">
 
 										<span class="symbol">#</span>
-										<input type="text" class="col-md-12" style="text-indent: 8px;" ng-model="Campaign.kpiArr[$index]['kpiValue']" ng-keyup="setLeftNavPrimaryKpi($index); ComputeCost()" field="kpiValue"  whole-number-only="whole-number-only" index="{{$index}}" required/>
+										<input type="text" class="col-md-12" style="text-indent: 8px;height:36px;" ng-model="Campaign.kpiArr[$index]['kpiValue']" ng-keyup="setLeftNavPrimaryKpi($index); ComputeCost()" field="kpiValue"  whole-number-only="whole-number-only" index="{{$index}}" required/>
 										<label ng-if="Campaign.kpiArr[$index]['kpiValue']==='0'"  class="col-sm-12  greyTxt errorLabel" style="display:inline;" ng-bind="textConstants.TARGET_GREATER_THAN_ZERO"></label>
 									</div>
 
@@ -617,17 +617,17 @@
 
 								<div class="col-md-1 zeroPadding kpiTable symbol-input">
 									<span class="symbol">{{locale.NUMBER_FORMATS.CURRENCY_SYM}}</span>
-									<input type="text" class="col-md-12" style="text-indent: 8px;" ng-model="Campaign.costArr[$index]['rateValue']" fraction-numbers="fraction-numbers" ng-keyup="ComputeCost()" field="rateValue"  index="{{$index}}"/>
+									<input type="text" class="col-md-12" style="text-indent: 8px; height:36px;" ng-model="Campaign.costArr[$index]['rateValue']" fraction-numbers="fraction-numbers" ng-keyup="ComputeCost()" field="rateValue"  index="{{$index}}"/>
 								</div>
 
 								<div class="col-md-1 zeroPadding kpiTable symbol-input" style="width: 86px;">
 									<span class="symbol" style="left: initial; right: 25px;">{{textConstants.SYMBOL_PERCENT}}</span>
-									<input type="number" class="col-md-12" style="text-align: center; padding-left: 10px;" ng-model="Campaign.costArr[$index]['targetPercentage']" ng-keyup="ComputeCost()" whole-number-only="whole-number-only" max="100"  field="targetPercentage" index="{{$index}}" />
+									<input type="number" class="col-md-12" style="text-align: center; padding-left: 10px; height:36px;" ng-model="Campaign.costArr[$index]['targetPercentage']" ng-keyup="ComputeCost()" whole-number-only="whole-number-only" max="100"  field="targetPercentage" index="{{$index}}" />
 								</div>
 
 								<div class="col-md-1 zeroPadding kpiTable" style="padding: 0 !important; width: 145px;">
 
-									<input type="text" class="col-md-12" ng-model="Campaign.costArr[$index]['description']" field="description" index="{{$index}}"/>
+									<input style="height:36px;" type="text" class="col-md-12" ng-model="Campaign.costArr[$index]['description']" field="description" index="{{$index}}"/>
 								</div>
 								<!--<span class="remove-row ">-->
                             <span class="remove-row pull-right" ng-if="$index>0 || (Campaign.costArr.length>=2)">

@@ -4453,6 +4453,8 @@ body.custom_report_page .bodyWrap {
   border: solid 1px #BFC9D7;
   padding-right: -2px;
   width: 131px;
+  height: 36px;
+  padding-left: 10px;
 }
 #newDatePickerBox .startPicker #startDateInputGlyph,
 #newDatePickerBox .endPicker #startDateInputGlyph,
