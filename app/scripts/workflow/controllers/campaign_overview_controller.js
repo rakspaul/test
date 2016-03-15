@@ -192,12 +192,12 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
                     rateType = data.rateType && data.rateType.toLowerCase();
 
                     if(budgetType === "impressions") {
-                          data.budgetType = "Imps.";
-                       }
+                        data.budgetType = "Imps.";
+                    }
 
                     data.label = labelObj[rateType];
 
-                    if(budgetType === "cost" && rateType) {
+                    if(budgetType === "cost") {
                         data['cost'] = data.budgetValue;
                         if(rateType === 'cpm') {
                             data['calculatedValue'] = (data.budgetValue/data.rateValue)*1000;
