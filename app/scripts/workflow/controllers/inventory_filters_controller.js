@@ -13,6 +13,7 @@ define(['angularAMD', 'workflow/services/workflow_service', 'workflow/services/f
                             $scope.workflowData.inventoryData = result.data.data.sort(function(a, b) {
                                 return (a.name > b.name) ? 1 : -1;
                             });
+
                             // Search filter for domain names list (used together with domainAction)
                             $scope.adData = $scope.adData || {};
                             $scope.adData.domainListsSearch = '';
@@ -62,6 +63,10 @@ define(['angularAMD', 'workflow/services/workflow_service', 'workflow/services/f
                                     $scope.workflowData.selectedBlackLists = [];
                                 }
 
+                                // Fix for CW-2954 & CW-2797 (in conjunction with line #685)
+                                $scope.workflowData.inventoryDataTemp =
+                                    $.extend(true, [], $scope.workflowData.inventoryData);
+
                                 _.each($scope.workflowData.inventoryData, function(obj) {
                                     idx = _.findIndex($scope.workflowData.selectedLists, {
                                         id: obj.id
@@ -96,7 +101,7 @@ define(['angularAMD', 'workflow/services/workflow_service', 'workflow/services/f
 
                 if ($scope.inventoryCreate) {
                     inventoryData.push(response.data);
-                    _.each(selectedLists, function(val) {
+                    _.each(selectedLists, function (val) {
                         if ($scope.workflowData.whiteListsSelected) {
                             val.domainAction = 'INCLUDE';
                         } else {
@@ -107,21 +112,25 @@ define(['angularAMD', 'workflow/services/workflow_service', 'workflow/services/f
                     $scope.inventoryCreate = false;
                 } else {
                     response.data.checked = true;
+
                     _.each(inventoryData, function(obj, idx) {
                         if (obj.id === response.data.id) {
                             inventoryData[idx] = response.data;
                         }
                     });
+
                     _.each(selectedLists, function(obj, idx) {
                         if (obj.id === response.data.id) {
                             selectedLists[idx] = response.data;
                         }
                     });
+
                     if (response.data.domainAction === 'INCLUDE') {
                         $scope.workflowData.selectedWhiteLists = selectedLists;
                     } else {
                         $scope.workflowData.selectedBlackLists = selectedLists;
                     }
+
                     $scope.adData.inventory = response.data;
                 }
 
@@ -229,7 +238,6 @@ define(['angularAMD', 'workflow/services/workflow_service', 'workflow/services/f
                 // after making changes.
                 $scope.workflowData.selectedListsTemp = $.extend(true, [], $scope.workflowData.selectedLists);
                 $scope.workflowData.inventoryDataTemp = $.extend(true, [], $scope.workflowData.inventoryData);
-
                 $scope.showExistingListPopup = true;
                 //$scope.workflowData.showDomainListPopup = true;
                 $('.inventoryLib .popBody .col-md-6:last-child').css('min-height', winSizeHeight - 350);
@@ -288,7 +296,7 @@ define(['angularAMD', 'workflow/services/workflow_service', 'workflow/services/f
                 }
             };
 
-            $scope.workflowData.assignCurrentInventory = function(obj) {
+            $scope.workflowData.assignCurrentInventory = function (obj) {
                 $scope.adData.inventory = obj;
             };
 
@@ -356,7 +364,8 @@ define(['angularAMD', 'workflow/services/workflow_service', 'workflow/services/f
                     responseData.targets.domainTargets.inheritedList.ADVERTISER) {
                     // Make the first item of SelectedLists if at least 1 item has been selected,
                     // else the first item of the Advertiser domain list is the default
-                    $scope.adData.inventory = $scope.workflowData.selectedLists[0] || $scope.workflowData.inventoryData[0];
+                    $scope.adData.inventory =
+                        $scope.workflowData.selectedLists[0] || $scope.workflowData.inventoryData[0];
                 }
             });
 
@@ -372,7 +381,8 @@ define(['angularAMD', 'workflow/services/workflow_service', 'workflow/services/f
 
             // To determine if a domain list contains a given domain list name
             $scope.workflowData.isListSelected = function(listName, masterList) {
-                return _.find(masterList, function(obj) {
+                return _.find(masterList, function(obj) {                // Fix for CW-2954 & CW-2797 (in conjunction with line #67 - #68
+
                     return obj.name === listName;
                 });
             };
@@ -441,7 +451,9 @@ define(['angularAMD', 'workflow/services/workflow_service', 'workflow/services/f
                         $scope.adData.inventory = currentDomainList[0];
                     } else {
                         element.removeAttr('checked');
-                        totalSelected = $('#domain-list-dropdown').find('input[type="checkbox"][checked="checked"]').length;
+                        totalSelected =
+                            $('#domain-list-dropdown').find('input[type="checkbox"][checked="checked"]').length;
+
                         if (totalSelected) {
                             // Remove the current domain list
                             selectedLists = _.filter(selectedLists, function(domainList) {
@@ -458,11 +470,13 @@ define(['angularAMD', 'workflow/services/workflow_service', 'workflow/services/f
                     selectedLists.sort(function(a, b) {
                         return a.name > b.name;
                     });
+
                     if ($scope.workflowData.whiteListsSelected) {
                         $scope.workflowData.selectedWhiteLists = selectedLists;
                     } else if ($scope.workflowData.blackListsSelected) {
                         $scope.workflowData.selectedBlackLists = selectedLists;
                     }
+
                     $scope.workflowData.selectedLists = selectedLists;
 
                     // Update selected Inventory / Domain List name
@@ -666,6 +680,10 @@ define(['angularAMD', 'workflow/services/workflow_service', 'workflow/services/f
             $scope.continueDomainListTypeChange = function () {
                 $scope.changeDomainListType = false;
                 $scope.tempDomainAction = undefined;
+
+                // Fix for CW-2954 & CW-2797 (in conjunction with line #67 - #68)
+                $scope.workflowData.inventoryData = $scope.workflowData.inventoryDataTemp;
+
                 $scope.workflowData.toggleBlackAndWhite($scope.tempDomainListTypeEvent);
             };
 
