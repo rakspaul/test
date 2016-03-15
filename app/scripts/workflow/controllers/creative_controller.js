@@ -29,6 +29,7 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
               $scope.selectedAdServer=$scope.creativeEditData.adServer;
               $scope.selectedAdServer.id=$scope.creativeEditData.adServer?$scope.creativeEditData.adServer.id:'';
               $scope.creativeFormat=$scope.creativeEditData.creativeFormat;
+              //$scope.pushedCount=$scope.creativeEditData.pushedCount;
               //make cal to set the format type here //inturn makes call to get possible templates
               $scope.adFormatSelection($scope.creativeFormat);
               //make call to generate Template
@@ -150,7 +151,8 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
       /*function on adFormat selected*/
       $scope.adFormatSelection=function(adFormatName){
           var index=_.findIndex($scope.creativeSizeData.adFormats, function(obj){
-              return angular.uppercase(obj.name)===angular.uppercase(adFormatName)
+              return (obj.name).replace(/\s+/g, '').toUpperCase()===(adFormatName).replace(/\s+/g, '').toUpperCase();
+              //return angular.uppercase(obj.name)===angular.uppercase(adFormatName)
           })
           for(var i in $scope.creativeSizeData.adFormats){
               $scope.creativeSizeData.adFormats[i].active=false;
