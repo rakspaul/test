@@ -1850,15 +1850,15 @@
   margin: 0 0 4px 0;
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroup .adTitle .pillsWrap .labelPills {
-  background: #edf2f8;
-  margin: 2px;
-  padding: 5px 7px;
+  background: #EDF2F8;
+  margin: 0 5px 0 0;
+  padding: 2px 10px;
   display: inline-block;
   float: left;
-  font: 14px "Avenir";
-  height: 26px;
+  font: 12px "Avenir";
+  height: 20px;
   line-height: 100%;
-  border: 1px solid #acacac;
+  border: 1px solid #BFC9D7;
   border-radius: 3px;
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroup .adTitle .pillsWrap .labelPills:first-child {
@@ -1943,15 +1943,15 @@
   margin: 0 0 20px 0;
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroup.openInstance .adTitle .pillsWrap .labelPills {
-  background: #edf2f8;
-  margin: 2px;
-  padding: 5px 7px;
+  background: #EDF2F8;
+  margin: 0 5px 0 0;
+  padding: 2px 10px;
   display: inline-block;
   float: left;
-  font: 14px "Avenir";
-  height: 26px;
+  font: 12px "Avenir";
+  height: 20px;
   line-height: 100%;
-  border: 1px solid #acacac;
+  border: 1px solid #BFC9D7;
   border-radius: 3px;
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroup.openInstance .adTitle .pillsWrap .labelPills:first-child {

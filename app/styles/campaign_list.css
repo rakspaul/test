@@ -2077,7 +2077,7 @@ input[type="submit"] {
   background: #0978c9;
   padding: 0px;
   position: relative;
-  z-index: 9999999;
+  z-index: 99999999;
 }
 .main_navigation_holder .profile-photo-tab {
   position: relative;
@@ -2940,42 +2940,43 @@ input[type="submit"] {
 .dropdown_filters_holder {
   margin: 10px 0 ;
 }
-.quick_filters_holder .filters_selection_holder {
-  padding: 10px 0 ;
-  border-top: solid 1px #d2dee7 ;
-}
 .quick_filters_holder .filters_selection_holder .quick_filter {
   position: relative;
 }
 .quick_filters_holder .filters_selection_holder .quick_filter .sliding_dropdown_btn {
-  border: solid 1px #d2dee7;
-  padding: 5px;
   cursor: pointer;
   border-radius: 2px ;
   -moz-border-radius: 2px ;
   -webkit-border-radius: 2px ;
-  width: 32px;
   text-align: center;
-  height: 32px;
-  background: url("/images/cdesk/right_slide_in.png") no-repeat center center;
+  padding: 10px 15px;
+  width: auto;
+  border: 1px solid #BFC9D7;
+  border-radius: 2px;
+  border-left: 0px;
+  border-bottom-left-radius: 0;
+  border-top-left-radius: 0;
+  min-height: 36px;
+}
+.quick_filters_holder .filters_selection_holder .quick_filter .sliding_dropdown_btn:hover,
+.quick_filters_holder .filters_selection_holder .quick_filter .sliding_dropdown_btn:active,
+.quick_filters_holder .filters_selection_holder .quick_filter .sliding_dropdown_btn:focus {
+  background-color: #DCE6F1;
 }
 .quick_filters_holder .filters_selection_holder .quick_filter .sliding_dropdown_container {
   position: absolute;
-  top: -10px;
-  left: 0px;
+  top: -5px;
+  right: -5px;
   width: 207px;
-  border: solid 1px #ccc;
+  border: solid 1px #BFC9D7;
   z-index: 100;
   background-color: #fff;
   min-height: 300px;
-  padding: 14px 0;
-  box-shadow: 2px 0 4px #ccc;
-  -moz-box-shadow: 2px 0 4px #ccc;
-  -webkit-box-shadow: 2px 0 4px #ccc;
+  padding: 0 0 14px 0;
   overflow: auto;
 }
 .quick_filters_holder .filters_selection_holder .quick_filter .sliding_dropdown_container .each_section {
-  border-bottom: solid 1px #ccc ;
+  border-bottom: solid 1px #BFC9D7 ;
   padding: 10px 0 ;
 }
 .quick_filters_holder .filters_selection_holder .quick_filter .sliding_dropdown_container .each_section .filter_title {
@@ -2988,9 +2989,13 @@ input[type="submit"] {
 }
 .quick_filters_holder .filters_selection_holder .quick_filter .sliding_dropdown_container .each_section .close_sliding_dropdown {
   cursor: pointer;
-  background: url("/images/cdesk/left_slide_in.png") no-repeat right center;
-  height: 20px;
-  width: 20px;
+  width: auto;
+  border: 1px solid #BFC9D7;
+  border-radius: 2px;
+  height: 36px;
+  padding: 10px 15px;
+  background: #DCE6F1;
+  margin-top: 4px;
 }
 .quick_filters_holder .filters_selection_holder .quick_filter .sliding_dropdown_container .each_section .section_filter_list .each_filter {
   padding: 7px 14px ;
@@ -3005,7 +3010,7 @@ input[type="submit"] {
   border-radius: 30%;
   -moz-border-radius: 30%;
   -webkit-border-radius: 20px;
-  border: solid 1px #ccc;
+  border: solid 1px #BFC9D7;
   min-width: 30px;
   height: 16px;
   line-height: 14px;
@@ -3038,7 +3043,7 @@ input[type="submit"] {
 .quick_filters_holder .filters_selection_holder .quick_filter .sliding_dropdown_container .main_title {
   font-size: 18px;
   font-family: "Avenir-bold";
-  padding: 0 18px 10px 14px;
+  padding: 0 4px 5px 14px;
 }
 .quick_filters_holder .filters_selected_holder {
   background: #f5f9fd ;
