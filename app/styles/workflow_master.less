@@ -665,6 +665,13 @@ select {
       border-top-left-radius: 0 !important;
       border-bottom-left-radius: 0 !important;
     }
+
+    .btn.btn-default.whitelist.active.disabled,
+    .btn.btn-default.blacklist.active.disabled {
+      /* Override for Inventory whitelist/blacklist toggle active button */
+      border: 1px solid #0978C9;
+      opacity: 1;
+    }
   }
 }
 
@@ -1847,8 +1854,6 @@ input.cmn-toggle-round:checked + label:after {
     margin-top: 0px ;
   }
 }
-
-
 
 tags-input {
     .tags {

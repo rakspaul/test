@@ -716,6 +716,12 @@ select {
   border-top-left-radius: 0 !important;
   border-bottom-left-radius: 0 !important;
 }
+.radioBtnToggle .miniToggle .btn.btn-default.whitelist.active.disabled,
+.radioBtnToggle .miniToggle .btn.btn-default.blacklist.active.disabled {
+  /* Override for Inventory whitelist/blacklist toggle active button */
+  border: 1px solid #0978C9;
+  opacity: 1;
+}
 .goalBtnGroup .btn-primary {
   border-radius: 0px;
   width: auto;

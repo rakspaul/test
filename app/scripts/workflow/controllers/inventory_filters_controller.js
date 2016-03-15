@@ -642,6 +642,8 @@ define(['angularAMD', 'workflow/services/workflow_service', 'workflow/services/f
                     $scope.workflowData.selectedBlackLists = [];
                 }
 
+                $scope.workflowData.inventoryDataTemp = $.extend(true, [], $scope.workflowData.inventoryData);
+
                 // Synchronise with main list, on removing an item
                 idx = _.findIndex($scope.workflowData.inventoryData, {
                     id: Number($scope.currentRemoveDomainListId)
@@ -655,6 +657,7 @@ define(['angularAMD', 'workflow/services/workflow_service', 'workflow/services/f
                 var domainListTypePopupCue = $('#domain-list-type-popup-cue');
                 if ($scope.workflowData.selectedBlackLists.length === 0 &&
                     $scope.workflowData.selectedWhiteLists.length === 0) {
+                    $scope.workflowData.inventoryData = $scope.workflowData.inventoryDataTemp;
                     $scope.workflowData.toggleBlackAndWhite(event);
                 } else {
                     $scope.tempDomainListTypeEvent = event;
