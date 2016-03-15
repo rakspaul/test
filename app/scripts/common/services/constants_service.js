@@ -928,6 +928,7 @@ define(['angularAMD'], function(angularAMD) {
         this.timeFrameStartDateGreater = 'Timeframe Start date can not be greater than end date';
         this.requiredTimeFrameDates = 'Please provide timeframe dates';
         this.requiredRptNameFreq = 'Please provide report name and frequency';
+        this.requiredRptName = 'Please provide report name';
         this.dateRangeWeek = 'You have chosen weekly Scheduling, please choose a date range that is at least one week';
         this.dateRangeMonthly =
             'You have chosen monthly Scheduling, please choose a date range that is at least one month';
