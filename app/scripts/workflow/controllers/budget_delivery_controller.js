@@ -74,7 +74,6 @@ define(['angularAMD', 'common/services/constants_service', 'common/moment_utils'
                 if(unallocatedAmount < totalBudget){
                     adMaximumRevenue = unallocatedAmount;
                 }
-                console.log("unallocatedAmount",unallocatedAmount,"campaignBuget =="+totalBudget,"adMaximumRevenue ",adMaximumRevenue,'adAvailableRevenue',adAvailableRevenue);
             }
 
           if ($scope.mode === 'edit' && totalBudget > adAvailableRevenue) {
