@@ -578,13 +578,6 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
             else{
                 return deleveryBudget - adGroupsData.bookedSpend;
             }
-
-            //if(adGroupsData.bookedSpend && adGroupsData.bookedSpend > 0){
-            //    return deleveryBudget - adGroupsData.bookedSpend;
-            //}
-            //else{
-            //    return deleveryBudget - 0;
-            //}
         }
     });
 });
