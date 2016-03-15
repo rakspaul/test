@@ -629,7 +629,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
             if ($scope.generateBtnDisabled) {
                 return false;
             }
-            if (/^[A-Za-z ][A-Za-z0-9 ]*$/.test(str) === false || $scope.reports.name === undefined) {
+            if (/^[A-Za-z ][A-Za-z0-9: ]*$/.test(str) === false || $scope.reports.name === undefined) {
                 return setFlashMessage(constants.reportNameErrorMsg, 1, 0);
             }
 

@@ -331,6 +331,15 @@ define(['angularAMD','common/services/constants_service'], function (angularAMD)
             });
             return retVal;
         }
+      function getValueOfItem(data, key){
+          var retVal = '';
+          _.each(data,function(item){
+              if(item['key'] == key.trim()){
+                  retVal = item.value;
+              }
+          });
+          return retVal;
+      }
         return {
             formatDate: formatDate,
             makeTitle: makeTitle,
@@ -346,7 +355,8 @@ define(['angularAMD','common/services/constants_service'], function (angularAMD)
             reportTypeOptions: reportTypeOptions,
             convertToEST: convertToEST,
             convertToUTC: convertToUTC,
-            hasItem: hasItem
+            hasItem: hasItem,
+            getValueOfItem: getValueOfItem
         };
     }]);
 

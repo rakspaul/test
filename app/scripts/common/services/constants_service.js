@@ -159,6 +159,7 @@ define(['angularAMD'], function(angularAMD) {
             { key:"LastQuater", value:"Last quarter"}
         ];
         this.REPORT_LIST_REPORTTYPES = ['Once', 'Daily', 'Weekly', 'Monthly', 'Saved'];
+        this.REPORT_LIST_DIMENSION_COUNT = "Already five dimensions had been selected";
         this.AD_CREATED_SUCCESS = '<span class="bold-font">Success. </span> Ad has been successfully created';
         this.CAMPAIGN_CREATED_SUCCESS =
             '<span class="bold-font">Success. </span> Media Plan has been successfully created';
