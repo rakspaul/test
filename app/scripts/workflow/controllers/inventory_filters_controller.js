@@ -528,6 +528,7 @@ define(['angularAMD', 'workflow/services/workflow_service', 'workflow/services/f
             };
 
             $scope.workflowData.toggleBlackAndWhite = function (event) {
+                $scope.tempDomainAction = undefined;
                 $scope.adData.inventory.domainAction = event.target.value;
 
                 if ($scope.adData.inventory.domainAction === 'INCLUDE') {
@@ -633,7 +634,6 @@ define(['angularAMD', 'workflow/services/workflow_service', 'workflow/services/f
 
             $scope.showDomainListTypePopupCue = function (type, event) {
                 var domainListTypePopupCue = $('#domain-list-type-popup-cue');
-
                 if ($scope.workflowData.selectedBlackLists.length === 0 &&
                     $scope.workflowData.selectedWhiteLists.length === 0) {
                     $scope.workflowData.toggleBlackAndWhite(event);
