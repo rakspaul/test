@@ -632,11 +632,14 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
             if ($scope.generateBtnDisabled) {
                 return false;
             }
+            if(!$scope.reports.name ) {
+                return setFlashMessage(constants.requiredRptName, 1, 0);
+            }
             if (/^[A-Za-z ][A-Za-z0-9: ]*$/.test(str) === false || $scope.reports.name === undefined) {
                 return setFlashMessage(constants.reportNameErrorMsg, 1, 0);
             }
 
-            if(localStorage['scheduleListReportType'] !== "Saved") {
+            if($scope.buttonLabel !=="Save As") {
 
                 if (($scope.reports.reportDefinition.timeframe.start_date == undefined) || ($scope.reports.reportDefinition.timeframe.end_date == undefined)) {
                     return setFlashMessage(constants.requiredTimeFrameDates, 1, 0);
@@ -736,9 +739,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                     $scope.isSavedReportGen = true;
                     dataService.createSaveReport(newObjNoSched).then(function (result) {
                         if (result.data.status_code == 200) {
-                            setTimeout(function(){
                                 $rootScope.setErrAlertMessage('Success: The Saved Report is listed.', 0);
-                            }, 1000);
                         }
                     });
                 }
