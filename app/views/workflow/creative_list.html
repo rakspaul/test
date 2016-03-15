@@ -43,12 +43,12 @@
 			<div class="btn-group pull-right">
 				<button type="button" class="btn btn-default pull-right" style="display: none"><span class="icon-filter" style="margin: -1px 0 0 0;"></span></button>
 				<div class="searchInput pull-right">
-					<a class="btn btn-default searchInputBtn" ng-click="searchShowInput()" style="height: 34px;">
+					<a class="btn btn-default searchInputBtn" ng-click="searchShowInput()">
 						<span class="icon-search" aria-hidden="true" style="margin: -1px 0 0 0;"></span>
 					</a>
 					<div class="input-group searchInputForm" >
 						<input type="text" class="form-control" name="creativeSearch" ng-model="creativeSearch" ng-keyup="creativeSearchFunc()" placeholder="Search Creative By Name and Size..">
-						<div class="btn btn-default" style="width: 44px; height: 34px;" ng-click="searchHideInput()">
+						<div class="btn btn-default" ng-click="searchHideInput()">
 							<span class="icon-clear" aria-hidden="true"></span>
 						</div>
 					</div>
