@@ -1326,7 +1326,8 @@
         <div class="popup">
             <div class="popup-header-body">
                 <div class="clearfix">
-                    <h1 class="pull-left" ng-bind="textConstants.SCHEDULER_UPDATE"></h1>
+                    <h1 ng-show="scheduleReportActive == false" class="pull-left" ng-bind="textConstants.SAVED_UPDATE" ></h1>
+                    <h1 ng-show="scheduleReportActive === 'true'" class="pull-left" ng-bind="textConstants.SCHEDULER_UPDATE"></h1>
                     <span class="close unselectable" aria-hidden="true" ng-click="updateSchedule=false">x</span>
                 </div>
                 <div class="popup-content" ng-bind="archiveMessage"></div>

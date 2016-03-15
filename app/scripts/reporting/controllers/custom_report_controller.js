@@ -438,6 +438,10 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                 _customctrl.isReportLastPage_1D = respData.last_page;
                 respData = respData.report_data;
                 if (respData && respData.length > 0) {
+                    if(localStorage['scheduleListReportType'] === "Saved" || $scope.buttonLabel == "Generate") {
+                        $('#reportBuilderForm').slideUp(600);
+                        $("#dynamicHeader").addClass("smaller");
+                    }
                     $scope.reportDataLoading = false;
                     $scope.reportDataNotFound = false;
                     if ($scope.isReportForMultiDimension) {
@@ -726,16 +730,14 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                     var newObjNoSched = $scope.createData();
                     var key = "schedule";
                     delete newObjNoSched[key];
-                    $('#reportBuilderForm').slideUp(600);
-                    $("#dynamicHeader").addClass("smaller");
                     $scope.isSavedReportGen = true;
-
                     dataService.createSaveReport(newObjNoSched).then(function (result) {
                         if (result.data.status_code == 200) {
-                            $rootScope.setErrAlertMessage('Success: The Saved Report is listed.', 0);
+                            setTimeout(function(){
+                                $rootScope.setErrAlertMessage('Success: The Saved Report is listed.', 0);
+                            }, 1000);
                         }
                     });
-                    $scope.generateReport();
                 }
 
             };
@@ -1624,12 +1626,14 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
 
             $scope.updateSchdReport = function() {
                 if ($scope.verifyReportInputs()) {
+                    //if(localStorage['scheduleListReportType'] == "Saved" && $scope.reportTypeSelect !== "Schedule As"){
                     if(localStorage['scheduleListReportType'] == "Saved"){
                         dataService.updateSavedReport($routeParams.reportId, $scope.createData()).then(function(result) {
                             if (result.data.status_code == 200) {
                                 $rootScope.setErrAlertMessage('Scheduled report updated successfully', 0);
                                 $scope.stopRedirectingPage = false;
-                                $location.url('/reports/schedules');
+                                $('#reportBuilderForm').slideUp(600);
+                                //$location.url('/reports/schedules');
                             }
                         });
                     }
@@ -1750,7 +1754,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                 } else if ($scope.buttonLabel == "Generate") {
                     $scope.generateBtnDisabled = true;
                     $scope.generateReport();
-                    $('.collapseIcon').css('visibility', 'hidden');
+                    $('.collapseIcon').css('visibility', 'visible');
                 } else if ($scope.buttonLabel == "Save As"){
                     $scope.saveReport();
                     $scope.generateReport();
