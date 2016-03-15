@@ -2073,9 +2073,8 @@
   padding-top: 0;
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroupSelectionWrap.active .adGroupCreateForm {
-  border-width: 0;
-  border-bottom: 1px solid #cdd2da;
-  padding-bottom: 15px;
+  border: 1px solid #CDD2DA;
+  padding-bottom: 30px;
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroupSelectionWrap.active .btnCreateGroup {
   display: none;
