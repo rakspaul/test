@@ -2112,7 +2112,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                         $scope.isSavedReportGen = true;
                     }
                     else {
-                        $scope.reportTypeSelect = 'scheduled';
+                        $scope.reportTypeSelect = 'Schedule As';
                         var url = urlService.scheduledReport($routeParams.reportId);
                     }
 
