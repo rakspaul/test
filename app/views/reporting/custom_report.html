@@ -524,9 +524,9 @@
                             <div class="each-col default-schedule-col radioBtnToggle">
                                 <div class="label-txt">Select Save or Schedule</div>
                                 <div class="btn-group miniToggle">
-                                    <label class="btn btn-default whitelist " style="width: auto;" ng-class="reportTypeSelect === 'Save As' ? 'active' : ''" data-ng-click="scheduleReportActive=false">
+                                    <label class="btn btn-default whitelist " style="width: auto;" ng-class="reportTypeSelect === 'Save' ? 'active' : ''" data-ng-click="scheduleReportActive=false">
                                         <span>Save As</span>
-                                        <input type="radio" name="saveSchedule" group="budgetGroup" value="Save As" ng-model="reportTypeSelect" ng-checked="reportTypeSelect === 'Save As' ? true : false" hidden="hidden" class=""  >
+                                        <input type="radio" name="saveSchedule" group="budgetGroup" value="Save As" ng-model="reportTypeSelect" ng-checked="reportTypeSelect === 'Save' ? true : false" hidden="hidden" class=""  >
                                     </label>
                                     <label class="btn btn-default blacklist" style="width: auto;" ng-class="reportTypeSelect === 'Schedule As' ? 'active' : ''" data-ng-click="scheduleReportActive=true">
                                         <span>Schedule As</span>
@@ -541,7 +541,7 @@
                                     <input style="height:36px; width:300px;" type="text" ng-model="reports.name" maxlength="256">
                                 </div>
                             </div>
-                            <div class="each-col default-schedule-col" ng-show="reportTypeSelect !== 'Save As'" >
+                            <div class="each-col default-schedule-col" ng-show="reportTypeSelect !== 'Save'" >
                                 <div class="label-txt" ng-bind-html="textConstants.WF_FREQUENCY"></div>
                                 <div>
                                     <div class="common_dropdown">
@@ -567,7 +567,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="each-col scheduling-options schedule-once" ng-show="reportTypeSelect !== 'Save As'" >
+                            <div class="each-col scheduling-options schedule-once" ng-show="reportTypeSelect !== 'Save'" >
                                 <div class="label-txt" ng-bind-html="textConstants.SCHEDULE_DELIVER_ON"></div>
                                 <div>
                                     <div class="input-daterange input-group date pull-left">
@@ -583,7 +583,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="each-col scheduling-options schedule-weekly" ng-show="reportTypeSelect !== 'Save As'" >
+                            <div class="each-col scheduling-options schedule-weekly" ng-show="reportTypeSelect !== 'Save'" >
                                 <div class="label-txt" ng-bind-html="textConstants.SCHEDULE_OCCURS_ON"></div>
                                 <div>
                                     <div class="common_dropdown">
@@ -608,7 +608,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="each-col scheduling-options schedule-monthly" ng-show="reportTypeSelect !== 'Save As'" >
+                            <div class="each-col scheduling-options schedule-monthly" ng-show="reportTypeSelect !== 'Save'" >
                                 <div class="label-txt" ng-bind-html="textConstants.SCHEDULE_OCCURS_ON"></div>
                                 <div>
                                     <div class="common_dropdown">
@@ -633,7 +633,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="each-col scheduling-options schedule-occurs-custom" ng-show="reportTypeSelect !== 'Save As'" >
+                            <div class="each-col scheduling-options schedule-occurs-custom" ng-show="reportTypeSelect !== 'Save'" >
                                 <div class="label-txt" ng-bind-html="textConstants.SELECT_DATE_LABEL"></div>
                                 <div>
                                     <div class="common_dropdown">
@@ -656,7 +656,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="each-col scheduling-options schedule-date" style="width:258px;" ng-show="reportTypeSelect !== 'Save As'" >
+                            <div class="each-col scheduling-options schedule-date" style="width:258px;" ng-show="reportTypeSelect !== 'Save'" >
                                 <div class="input-daterange-scheduled">
                                     <div class="input-daterange input-group date pull-left">
                                         <div class="dateWrapper" style="width:258px;">
@@ -704,7 +704,7 @@
                         </button>
                         <button class="pull-right secondary_txt"
                                 ng-click="resetMetricOptions();"
-                                ng-bind-html="buttonResetCancel" ng-class="reportTypeSelect === 'Save As' ? 'save_reset glyphicon glyphicon-repeat' : ''">
+                                ng-bind-html="buttonResetCancel" ng-class="reportTypeSelect === 'Save' ? 'save_reset glyphicon glyphicon-repeat' : ''">
                         </button>
 
                         <!-- <div class="pull-right secondary_txt" ng-click="reset_metric_options()">

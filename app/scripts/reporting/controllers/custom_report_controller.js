@@ -539,7 +539,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
             $scope.requestData.reportDefinition.metrics = $scope.reports.reportDefinition.metrics;
             $scope.requestData.schedule = $scope.reports.schedule;
             $scope.requestData.isScheduled = $scope.scheduleReportActive;
-            if($scope.reportTypeSelect == "Save As") {
+            if($scope.reportTypeSelect == "Save") {
                 if(!$scope.reports.schedule) $scope.reports.schedule = {}
                 $scope.reports.schedule.occurance = "";
             }else {
@@ -639,7 +639,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                 return setFlashMessage(constants.reportNameErrorMsg, 1, 0);
             }
 
-            if($scope.buttonLabel !=="Save As") {
+            if($scope.buttonLabel !=="Save") {
 
                 if (($scope.reports.reportDefinition.timeframe.start_date == undefined) || ($scope.reports.reportDefinition.timeframe.end_date == undefined)) {
                     return setFlashMessage(constants.requiredTimeFrameDates, 1, 0);
@@ -1651,7 +1651,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
 
             $scope.updateSchdReport = function() {
                 if ($scope.verifyReportInputs()) {
-                    if($scope.reportTypeSelect == "Save As"){
+                    if($scope.reportTypeSelect == "Save"){
                     //if(localStorage['scheduleListReportType'] == "Saved"){
                         dataService.updateSavedReport($routeParams.reportId, $scope.createData()).then(function(result) {
                             if (result.data.status_code == 200) {
@@ -1780,7 +1780,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                     $scope.generateBtnDisabled = true;
                     $scope.generateReport();
                     $('.collapseIcon').css('visibility', 'visible');
-                } else if ($scope.buttonLabel == "Save As"){
+                } else if ($scope.buttonLabel == "Save"){
                     $scope.saveReport();
                     $scope.generateReport();
                     $('.collapseIcon').css('visibility', 'visible');

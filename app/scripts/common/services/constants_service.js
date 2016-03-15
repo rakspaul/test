@@ -119,7 +119,7 @@ define(['angularAMD'], function(angularAMD) {
         this.DIMENSIONS_FIVE = "Dimensions (select up to 5)";
         this.SCHEDULE_LABEL = 'Schedule';
         this.GENERATE_LABEL ='Generate';
-        this.SAVE_LABEL ='Save As';
+        this.SAVE_LABEL ='Save';
         this.RESET_LABEL ='Clear';
         this.SET_SCHEDULE = 'Set Schedule';
         this.SAVE_SCHEDULE = 'Save/Schedule';
