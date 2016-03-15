@@ -169,8 +169,13 @@ define(['angularAMD', 'workflow/services/workflow_service', 'workflow/services/f
                             // Reset list name to blank
                             $scope.adData.listName = '';
 
-                            setTimeout(function() {
-                                $('#listName').focus();
+                            setTimeout(function () {
+                                var listName = $('#listName');
+
+                                listName.on('focus', function (e) {
+                                    listName.parent().removeClass('has-error');
+                                });
+                                listName.focus();
                             }, 1);
                         } else if (action === 'INVENTORY_UPDATE') {
                             // If called from Inventory Update (Replace) button click, reset flag to false
