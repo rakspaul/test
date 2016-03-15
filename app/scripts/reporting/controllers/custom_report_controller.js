@@ -786,14 +786,33 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
         };
 
         _customctrl.isInputsChangedAfterGenerate = function(oldJSON, newJSON){
-            var retVal = false;
+            var retVal = false,
+                hasDim = false;
             if(oldJSON.dimensions.hasOwnProperty("primary")){
-                if(!newJSON.dimensions.hasOwnProperty("primary") || newJSON.dimensions.primary.dimension != oldJSON.dimensions.primary.dimension || (newJSON.dimensions.primary.value && newJSON.dimensions.primary.value != $scope.reports.reportDefinition.dimensions.primary.value)){
+                _.each(newJSON.dimensions,function(item){
+                    if(item.type == "Primary") {
+                        hasDim = true;
+                        if(oldJSON.dimensions.primary.dimension != item.dimension || oldJSON.dimensions.primary.value && oldJSON.dimensions.primary.value != $scope.reports.reportDefinition.dimensions.primary.value){
+                            retVal = true;
+                        }
+                    }
+                });
+                if(!hasDim){
                     retVal = true;
                 }
             }
             if(oldJSON.dimensions.hasOwnProperty("secondary")){
-                if(!newJSON.dimensions.hasOwnProperty("secondary") || newJSON.dimensions.secondary.dimension != oldJSON.dimensions.secondary.dimension || (newJSON.dimensions.secondary.value && newJSON.dimensions.secondary.value != $scope.reports.reportDefinition.dimensions.secondary.value)){
+                hasDim = false;
+                _.each(newJSON.dimensions,function(item){
+                    if(item.type == "Secondary"){
+                        hasDim = true;
+                        if(oldJSON.dimensions.secondary.dimension != item.dimension || oldJSON.dimensions.secondary.value && oldJSON.dimensions.secondary.value != $scope.reports.reportDefinition.dimensions.secondary.value)
+                        {
+                            retVal = true;
+                        }
+                    }
+                });
+                if(!hasDim){
                     retVal = true;
                 }
             }
@@ -804,12 +823,13 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
         }
 
         $scope.showDataForClikedDimension = function(ev, value, loadMore) {
-           if(_customctrl.isInputsChangedAfterGenerate(_customctrl.inputDataOnGenerate, $scope.createData().reportDefinition)){
+
+            var currFirtDimensionElem = $(ev.target).parents(".reportData");
+            var currSecondDimensionElem = currFirtDimensionElem.find('.second_dimension_row_holder');
+            if(!currFirtDimensionElem.hasClass('treeOpen') && _customctrl.isInputsChangedAfterGenerate(_customctrl.inputDataOnGenerate, $scope.createData().reportDefinition)){
                 $rootScope.setErrAlertMessage("Please regenerate the page, input data had changed");
                 return;
             }
-            var currFirtDimensionElem = $(ev.target).parents(".reportData");
-            var currSecondDimensionElem = currFirtDimensionElem.find('.second_dimension_row_holder');
             if(loadMore == undefined){
                 $scope.reportMetaData['second_dimension'] = {}
             }
