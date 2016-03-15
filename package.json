@@ -35,6 +35,7 @@
   "devDependencies": {
     "connect-modrewrite": "^0.8.5",
     "grunt-autoprefixer": "^0.7.6",
+    "grunt-cache-bust": "^1.1.1",
     "grunt-contrib-compress": "^1.0.0",
     "grunt-contrib-concat": "^0.4.0",
     "grunt-contrib-cssmin": "^0.9.0",
