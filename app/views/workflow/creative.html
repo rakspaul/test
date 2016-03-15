@@ -53,7 +53,7 @@
                                         <!--<span class="text" ng-if="mode == 'edit'">{{mode == 'edit' ? editCampaignData.advertiserName : 'Select Advertiser' }}</span>-->
                                         <span class="icon-arrow-down"></span>
                                     </button>
-                                    <ul class="dropdown-menu" aria-labelledby="advertiserDDL"  id="advertiserDDL" ng-if="mode !== 'edit'">
+                                    <ul class="dropdown-menu" aria-labelledby="advertiserDDL"  id="advertiserDDL">
                                         <li ng-repeat="advertiser in advertisers track by advertiser.id" class="available"><a ng-click="selectHandler('advertiser', advertiser)">{{advertiser.name}}</a></li>
                                     </ul>
                                 </div>
