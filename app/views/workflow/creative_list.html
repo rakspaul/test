@@ -67,7 +67,7 @@
 						<span style="margin-left: 25px;" data-ng-bind="textConstants.CREATIVENAME"></span>
 						</div>
 						<div class="col-md-1 th text-center" data-ng-bind="textConstants.FORMAT"></div>
-						<div class="col-md-1 th text-center" data-ng-bind="textConstants.TYPE"></div>
+						<!--<div class="col-md-1 th text-center" data-ng-bind="textConstants.TYPE"></div>-->
 						<div class="col-md-1 th text-center" data-ng-bind="textConstants.ADSERVER"></div>
 						<div class="col-md-1 th text-center" data-ng-bind="textConstants.SIZE"></div>
 						<div class="col-md-2 th" data-ng-bind="textConstants.ADVERTISER"></div>
@@ -107,13 +107,13 @@
 						<span style="text-transform: capitalize;" data-ng-bind="creativeData.creativeFormat|lowercase"></span>
 						</div>
 						<!--Type-->
-						<div class="col-md-1 td text-center">
-						<span data-ng-bind="creativeData.creativeType"></span>
-						</div>
+						<!--<div class="col-md-1 td text-center">-->
+						<!--<span data-ng-bind="creativeData.creativeType"></span>-->
+						<!--</div>-->
 						<!--Ad Server-->
 						<div class="col-md-1 td text-center">
 						<span ng-if="creativeData.isTracking" class="icon-tracking" style="margin-top: 15px;"></span>
-						<span ng-if="!creativeData.isTracking"> <img ng-if="!(creativeData.isTracking)" style="max-height: 35px;max-width: 70px;" ng-src="{{creativeData.adServer.iconUrl}}"/> </span>
+						<span ng-if="!creativeData.isTracking"> <img ng-if="!(creativeData.isTracking)" style="max-height: 35px;max-width: 70px;" ng-src="{{creativeData.adServer.iconURL}}"/> </span>
 						</div>
 						<!--Sizes-->
 						<div class="col-md-1 td text-center">

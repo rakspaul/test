@@ -223,7 +223,9 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
             }
         }
         $scope.cancelDelete=function(){
-            $scope.deletePopup=!$scope.deletePopup;
+            if(checkedCreativeArr.length>0){
+                $scope.deletePopup=!$scope.deletePopup;
+            }
         }
 
 
