@@ -85,6 +85,9 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
             _.each(schdReportList, function(item){
                 item.dimensions = item.hasOwnProperty("primaryDimension") && item.primaryDimension ? utils.getValueOfItem($scope.customeDimension, item.primaryDimension) : '';
                 item.dimensions += item.hasOwnProperty("secondaryDimension") && item.primaryDimension ? ','+ utils.getValueOfItem($scope.customeDimension, item.secondaryDimension) : '';
+                if(item.lastRunDate){
+                    item.lastRunDate = momentService.newMoment(item.lastRunDate).format('YYYY-MM-DD');
+                }
             })
         }
         $scope.getScheduledReports = function() {
