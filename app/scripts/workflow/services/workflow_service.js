@@ -269,7 +269,7 @@ define(['angularAMD','common/services/vistoconfig_service', 'common/services/con
             getAdServers:function(adFormat){
                 var clientId =  loginModel.getSelectedClient().id;
 
-                return dataService.fetch(vistoconfig.apiPaths.WORKFLOW_API_URL  +'/clients/'+clientId+'/vendors?format='+adFormat);
+                return dataService.fetch(vistoconfig.apiPaths.WORKFLOW_API_URL  +'/clients/'+clientId+'/vendors?format='+adFormat.replace(/\s+/g, '').toUpperCase());
             },
             getTemplates:function(adServer,format,isTracking){
                 if(isTracking!== undefined)
