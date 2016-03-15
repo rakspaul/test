@@ -657,6 +657,15 @@ select {
         color: #fff;
       }
     }
+
+    /* Override for Inventory whitelist/blacklist toggle active button */
+    .btn.btn-default.whitelist.active.disabled,
+    .btn.btn-default.blacklist.active.disabled {
+      border: 1px solid #0978C9;
+      opacity: 1;
+    }
+
+
     .btn-default:first-child {
       border-top-right-radius: 0 !important;
       border-bottom-right-radius: 0 !important;
@@ -1847,8 +1856,6 @@ input.cmn-toggle-round:checked + label:after {
     margin-top: 0px ;
   }
 }
-
-
 
 tags-input {
     .tags {
