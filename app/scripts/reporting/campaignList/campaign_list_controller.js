@@ -16,13 +16,16 @@ define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', 'reporting/campaig
         //Resets Header
         $(".main_navigation_holder .main_nav .main_navigation .each_nav_link.active .arrowSelect").show();
 
-
+        var fparams = featuresService.getFeatureParams();
+        var enableFeaturePermission = function() {
+            $scope.showCreateMediaPlan = fparams[0]['create_mediaplan'];
+            $scope.showCostTab = fparams[0]['cost'];
+        }
+        enableFeaturePermission();
         var featuredFeatures = $rootScope.$on('features', function () {
             var fparams = featuresService.getFeatureParams();
-            $scope.showCostTab = fparams[0]['cost'];
             $scope.showPerformanceTab = fparams[0]['performance'];
-            $scope.showCreateMediaPlan = fparams[0]['create_mediaplan']
-
+            enableFeaturePermission();
         })
 
         $scope.campaigns = new campaignListModel();

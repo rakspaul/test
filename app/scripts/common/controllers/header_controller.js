@@ -68,7 +68,6 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
             workflowService.getClientData(clientId).then(function (response) {
                 RoleBasedService.setClientRole(response);//set the type of user here in RoleBasedService.js
                 RoleBasedService.setCurrencySymbol();
-                console.log('headercontroller set');
                 featuresService.setFeatureParams(response.data.data.features,'headercontroller');
                 $scope.filters = domainReports.getReportsTabs();
                 $scope.customFilters = domainReports.getCustomReportsTabs();

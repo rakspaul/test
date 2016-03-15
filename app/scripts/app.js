@@ -468,7 +468,6 @@ define(['common'], function (angularAMD) {
 
         })
         .run(function ($rootScope, $location, $cookies, loginModel, brandsModel, dataService, $cookieStore, workflowService,featuresService) {
-            console.log('sapna');
             var handleLoginRedirection = function () {
                     var cookieRedirect = $cookieStore.get('cdesk_redirect') || null,
                         setDefaultPage;
@@ -483,9 +482,9 @@ define(['common'], function (angularAMD) {
                         } else {
                             setDefaultPage = 'dashboard';
                             //console.log('featuresService.getFeatureParams()[0].dashboard',featuresService.getFeatureParams()[0].dashboard);
-                            if(featuresService.getFeatureParams()[0].dashboard === false) {
+                            /*if(featuresService.getFeatureParams()[0].dashboard === false) {
                                 setDefaultPage = 'mediaplans';
-                            }
+                            }*/
                             $location.url(setDefaultPage);
                         }
                     }
@@ -494,12 +493,7 @@ define(['common'], function (angularAMD) {
                     var locationPath = $location.path(),
                         authorizationKey;
 
-                    if (loginModel.getSelectedClient) {
-                        workflowService.getClientData(JSON.parse(localStorage.getItem('selectedClient')).id).then(function (response) {
-                            console.log('appjs');
-                            featuresService.setFeatureParams(response.data.data.features,'app');
-                        });
-                    }
+
 
                     if (JSON.parse(localStorage.getItem('userObj'))) {
                         authorizationKey = JSON.parse(localStorage.getItem('userObj')).authorizationKey;
@@ -523,6 +517,11 @@ define(['common'], function (angularAMD) {
                                             'id': matchedClientsobj.id,
                                             'name': matchedClientsobj.name
                                         });
+                                         workflowService.getClientData(matchedClientsobj.id).then(function (response) {
+                                                console.log('appjs');
+                                                featuresService.setFeatureParams(response.data.data.features,'app');
+                                         });
+
                                     }
                                     if (locationPath === '/login' || locationPath === '/') {
                                         handleLoginRedirection();

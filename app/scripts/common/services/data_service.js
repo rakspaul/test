@@ -179,7 +179,6 @@ define(['angularAMD','common/services/vistoconfig_service', 'common/services/dat
 //                        return promise;
 //                    }
 //                }
-                console.log('cacheObj.cache',url,cacheObj.cache);
 
                 return $http({url: url, method: 'GET',cache: cacheObj.cache}).then(
                     function (response) {

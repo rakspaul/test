@@ -88,17 +88,6 @@ define(['angularAMD','workflow/services/workflow_service'], function (angularAMD
             this.serverResponseReceived = true;
             //API passes parameters :
             var self = this;
-            // this.featureParams['inventory_page'] = true;
-           // featuresArr.push('ENABLE_ALL');
-            featuresArr.push('REP_SCH');
-            featuresArr.push('REP_QUALITY');
-           // featuresArr.push('REP_PERF');
-            featuresArr.push('MEDIAPLAN_HUB');
-            featuresArr.push('CREATIVE_LIST');
-            featuresArr.push('REPORTS_TAB');
-            featuresArr.push('DASHBOARD');
-            featuresArr.push('MEDIAPLAN_LIST');
-           featuresArr.push('COST');
             console.log('server feature Arr: ',featuresArr);
 
             if (featuresArr.indexOf('ENABLE_ALL') > 0) {
@@ -127,7 +116,7 @@ define(['angularAMD','workflow/services/workflow_service'], function (angularAMD
             var self = this;
             var setFparams = function() {
                 var featureParams = self.getFeatureParams();
-                if(featureParams[0][feature_param] === false) { console.log('inventory true');
+                if(featureParams[0][feature_param] === false) {
                     $location.url('/');
                 }
             }
