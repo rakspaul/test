@@ -657,7 +657,7 @@ select {
 .btn-default {
   color: #57606d;
   font-size: 14px;
-  border: 1px solid #dde6eb;
+  border: 1px solid #BFC9D7;
 }
 .btn-default:not(.label-btn):hover {
   background: #e1edf9;
