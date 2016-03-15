@@ -2953,9 +2953,6 @@ input[type="submit"] {
   width: auto;
   border: 1px solid #BFC9D7;
   border-radius: 2px;
-  border-left: 0px;
-  border-bottom-left-radius: 0;
-  border-top-left-radius: 0;
   min-height: 36px;
 }
 .quick_filters_holder .filters_selection_holder .quick_filter .sliding_dropdown_btn:hover,
