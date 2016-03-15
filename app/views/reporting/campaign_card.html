@@ -3,7 +3,7 @@
     <div class="col-md-12 zeroPadding">
         <!--Status Icon-->
         <div class="pull-left campaign_status_icon {{campaign.status.toLowerCase()}}_bulb" tooltip-placement="bottom" tooltip="{{campaign.status.toLowerCase() == 'in_flight'?'In Flight':( campaign.status.toLowerCase() | toTitleCase ) }}"></div>
-        
+
         <!--Title / Brand Name-->
         <div class="pull-left main_heading">
             <a ng-if="!$parent.isWorkFlowUser" ng-href="/mediaplans/{{campaign.orderId}}" id="campaign_heading_anchor">
@@ -17,12 +17,12 @@
             </a>
         </div>
     </div>
-    
+
     <!--Brand Name-->
     <div class="col-md-12 zeroPadding">
         <div class="heading" ng-bind="campaign.brandName" style="padding-left: 25px;"></div>
     </div>
-    
+
     <!--Time Left-->
     <div class="col-md-4 each_campaign_section campaign_list_details">
         <div class="days_left_holder">
@@ -42,11 +42,11 @@
             </div>
         </div>
         <div class="clearfix campaigns_list_buttons_holder">
-            <a id="campaigns_view_report"> <!-- href="/#/performance" -->
+            <a id="campaigns_view_report"  ng-if="showReportsOverview"> <!-- href="/#/performance" -->
                 <div class="btn btn-default pull-right" ng-click="$parent.viewReports(campaign)" style="margin-left: 10px;" ng-bind="textConstants.VIEW_REPORT">
                 </div>
             </a>
-           <a href="/mediaplan/{{campaign.orderId}}/overview" id="campaigns_activity_btn">
+           <a href="/mediaplan/{{campaign.orderId}}/overview" id="campaigns_activity_btn" ng-show="showManageButton">
                 <div class="btn btn-default pull-right" ng-show="$parent.isWorkFlowUser && campaigns.dashboard.appliedFilterType !== 'archived' ">
                     <span ng-bind="textConstants.MANAGE"></span>
                 </div>
@@ -54,7 +54,7 @@
 
         </div>
     </div>
-    
+
     <!--Metrics-->
     <div class="col-md-4 each_campaign_section metric_campaign_section">
         <div class="clearfix metric_graph_header">
@@ -67,7 +67,7 @@
                 </div>
                 <div class="graph_start_point {{(getSpendTickWidth(campaign) <= 0) ? 'start_beginning' : ''}} {{(getSpendTickWidth(campaign) >= 88) ? 'start_end_point' : ''}}" ng-style="{'left': getSpendTickWidth(campaign) +'%'};" ng-hide="(campaigns.durationLeft(campaign) == 0)"><!-- put start_beginning when at start -->
                     <div class="end_point_val">
-                        <span class="icon_KPI">{{campaign.expectedMediaCost | nrFormatWithCurrency }} </span>
+                        <span class="icon_KPI">{{campaign.expectedMediaCost | nrFormatWithCurrency }}</span>
                         <div class="end_point_line"></div>
                     </div>
                 </div>
@@ -107,7 +107,7 @@
             </div>
         </div>
     </div>
-    
+
     <!--KPI-->
     <div class="col-md-4 each_campaign_section campaign_section_KPI">
         <div class="graph_details_KPI">

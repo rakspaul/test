@@ -61,7 +61,8 @@ define(['angularAMD',
     'highcharts-more',
     'solid-gauge',
     'showErrors',
-    'ng-tag'
+    'ng-tag',
+    'common/services/features_service'
 ], function (angularAMD) {
     'use strict';
     return angularAMD;

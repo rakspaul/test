@@ -14,7 +14,7 @@
                     <span id="activityMessage" ng-style="action.disableTagButton" ng-bind="textConstants.ACTIVITY_CREATED_SUCCESSFULLY_VIEW_ACTIVITY_LOG"></span>
 
                     <div class="clearfix filter_holder">
-                        <div class="filter_dropdown" ng-click="actionTypeDropdownClicked()">123
+                        <div class="filter_dropdown" ng-click="actionTypeDropdownClicked()">
                             <multiselect class="input-xlarge" multiple="false" class="myerror" multipleoption="false"
                                          acceptmultiple="0" defaultoption='- Action Type -'
                                          ng-model="action.selectedType"
@@ -78,7 +78,7 @@
                 <div class="col-md-12">
                     <div class="carousel slide" id="myCarousel">
                         <div class="carousel-inner">
-                            <div class="item active" id="costWidget">
+                            <div class="item active" id="costWidget" ng-if="showCostWidget===true">
                                 <div class="col-xs-3">
                                     <div ng-click="setGraphData(campaign,'cost')" tooltip-placement="top"
                                          tooltip="Click for detailed reports"
@@ -160,7 +160,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="item">
+                            <div class="item" ng-class="{'active':showCostWidget === false}">
                                 <div class="col-xs-3 formats_widget">
                                     <div ng-click="setGraphData(campaign,'formats')" tooltip-placement="top"
                                          tooltip="Click for detailed reports"
@@ -488,7 +488,7 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                         <!--Column 2-->
                         <div class="col-md-4 each_col col_spend">
                             <div class="col_heading clearfix">{{ textConstants.SPEND }}
@@ -521,7 +521,7 @@
                             </div>
                         </div>
                         <!-- <div class="each_col col_vtc" ng-if="campaigns.cdbDataMap[campaign.orderId].adFormats.videoAds && campaigns.cdbDataMap[campaign.orderId].video_metrics.vtc_rate >0"> -->
-                        
+
                         <!--Column 3-->
                         <div class="col-md-4 each_col col_vtc" ng-if="campaigns.cdbDataMap[campaign.orderId].video_metrics.vtc_rate >0">
                             <div class="col_heading clearfix">{{ textConstants.QUARTILE_DETAILS }}
