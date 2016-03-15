@@ -165,7 +165,7 @@ define(['angularAMD','common/services/vistoconfig_service', 'common/services/dat
             },
 
             fetch: function (url, cacheObj) {
-                cacheObj = _.extend({cache:true}, cacheObj);
+                cacheObj = _.extend({cache:false}, cacheObj);
                 loginModel.checkCookieExpiry();
 //                if(cacheObj.cache) {
 //                    var cachedResponse = dataStore.getCachedByUrl(url);
