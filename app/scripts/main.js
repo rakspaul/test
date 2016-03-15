@@ -1,5 +1,6 @@
     require.config({
       // alias libraries paths.  Must set 'angular'
+      waitSeconds: 0,
       paths: {
         'angular': 'libs/angular.min',
         'angular-route': 'libs/angular-route',
