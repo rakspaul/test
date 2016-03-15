@@ -93,7 +93,7 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
             if (searchVal.length > 0) {
                 qryStr += '&query=' + searchVal;
             }
-            addFromLibrary.getCreativesFromLibrary(campaignId, advertiserId, formats, qryStr);
+            addFromLibrary.getCreativesFromLibrary(campaignId, advertiserId, formats, qryStr,'READY');
         };
 
         $scope.saveCreativeTags = function () {
