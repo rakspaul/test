@@ -524,11 +524,11 @@
                             <div class="each-col default-schedule-col radioBtnToggle">
                                 <div class="label-txt">Select Save or Schedule</div>
                                 <div class="btn-group miniToggle">
-                                    <label class="btn btn-default whitelist " style="width: auto;" ng-class="reportTypeSelect === 'Save As' ? 'active' : ''">
+                                    <label class="btn btn-default whitelist " style="width: auto;" ng-class="reportTypeSelect === 'Save As' ? 'active' : ''" data-ng-click="scheduleReportActive=false">
                                         <span>Save As</span>
                                         <input type="radio" name="saveSchedule" group="budgetGroup" value="Save As" ng-model="reportTypeSelect" ng-checked="reportTypeSelect === 'Save As' ? true : false" hidden="hidden" class=""  >
                                     </label>
-                                    <label class="btn btn-default blacklist" style="width: auto;" ng-class="reportTypeSelect === 'Schedule As' ? 'active' : ''">
+                                    <label class="btn btn-default blacklist" style="width: auto;" ng-class="reportTypeSelect === 'Schedule As' ? 'active' : ''" data-ng-click="scheduleReportActive=true">
                                         <span>Schedule As</span>
                                         <input type="radio" name="saveSchedule" group="budgetGroup" value="Schedule As" ng-model="reportTypeSelect" ng-checked="reportTypeSelect === 'Schedule As' ? true : false" hidden="hidden" class=""  checked="checked">
                                     </label>
