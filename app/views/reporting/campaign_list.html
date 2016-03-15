@@ -9,20 +9,40 @@
         <div class="pull-left campaign_name_holder">
             <span class="campaign_name" data-ng-bind="textConstants.CAMPAIGNS"></span>
         </div>
-        <div class="pull-right common_primary_btn" ng-show="isWorkFlowUser" ng-if="showCreateMediaPlan">
-            <a href="/mediaplan/create" data-ng-bind="textConstants.CREATE_CAMPAIGN"></a>
-        </div>
+        
         <div class="pull-right common-loading-btn" style="display:none;"></div>
      </div>
     <div class="dropdown_filters_holder">
         <filters-header></filters-header>
     </div>
-    <div campaign-list-filter-directive campaigns="campaigns"></div>
 
     <!-- header ends-->
     <div class="col-md-12 zeroPadding">
-        <span ng-bind-html="campaigns.appliedQuickFilterText == 'Ontrack'?'On Track':campaigns.appliedQuickFilterText"></span>
-        Filter applied | Displaying {{campaigns.dashboard.quickFilterSelectedCount}} results
+        <!--<span ng-bind-html="campaigns.appliedQuickFilterText == 'Ontrack'?'On Track':campaigns.appliedQuickFilterText"></span>-->
+        
+        <!--Create Media Plan Btn-->
+        <a href="/mediaplan/create" ng-show="isWorkFlowUser" ng-if="showCreateMediaPlan" class="pull-left btn btn-primary" data-ng-bind="textConstants.CREATE_CAMPAIGN"></a>
+        
+        <!--Quick Filters-->
+        <div campaign-list-filter-directive campaigns="campaigns" class="pull-right"></div>
+        
+        <!--Search Input-->
+        <div class="btn-group pull-right">
+            <button type="button" class="btn btn-default pull-right" style="display: none"><span class="icon-filter" style="margin: -1px 0 0 0;"></span></button>
+            <div class="searchInput pull-right" style="border-top-right-radius: 0; border-bottom-right-radius: 0;">
+                <a class="btn btn-default searchInputBtn" ng-click="searchShowInput()">
+                    <span class="icon-search" aria-hidden="true" style="margin: -1px 0 0 0;"></span>
+                </a>
+                <div class="input-group searchInputForm" >
+                    <input type="text" class="form-control" name="creativeSearch" ng-model="creativeSearch" ng-keyup="creativeSearchFunc()" placeholder="Search Creative By Name and Size..">
+                    <div class="btn btn-default" ng-click="searchHideInput()">
+                        <span class="icon-clear" aria-hidden="true"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <span class="pull-right" style="font-size: 12px; margin: 10px 10px 0 0;">{{campaigns.dashboard.quickFilterSelectedCount}} Media Plans in list</span>
     </div>
 
     <div class="fixed_line"></div>
@@ -31,7 +51,7 @@
        <!--<div campaign-dashboard campaigns="campaigns"></div>-->
 
         <!--dashboard (status bar) partial view ends-->
-        <div class="cost_col_header_tabs_holder">
+        <div class="cost_col_header_tabs_holder" style="margin-top: 15px;">
             <div class="clearfix cost_tabs_margin">
                 <div class="clearfix cost_tabs_holder">
                     <div class="each_tab" id="performance_tab" ng-click="campaigns.getData('performance_tab')">
