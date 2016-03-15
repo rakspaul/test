@@ -133,6 +133,9 @@
 
         <!--Table Body-->
         <div class="col-md-12 zeroPadding table-body">
+            <div class="row" style="margin-top: 20px;" ng-if="!schdReportList || schdReportList.length ===0">
+                <div class="common-loading-area"></div>
+            </div>
             <div class="row" ng-repeat="srlist in schdReportList | orderBy:'name':sortReverse track by $index">
                 <div class="clearfix rowHover" ng-class="{downloaded:((srlist.instances.length >0) && (srlist.instances[0].viewedOn.length > 0))}">
 
