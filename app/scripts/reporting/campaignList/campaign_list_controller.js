@@ -148,24 +148,6 @@ define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', 'reporting/campaig
 //         });
 //     });
 
-        //Search Hide / Show
-        $scope.searchShowInput = function () {
-            $(".searchInputBtn").hide();
-            var searchInputForm = $(".searchInputForm");
-            searchInputForm.show();
-            searchInputForm.animate({width: '300px'}, 'fast');
-        };
-
-        $scope.searchHideInput = function () {
-            isSearch = false;
-            $(".searchInputForm").animate({width: '44px'}, 'fast');
-            var inputSearch = $(".searchInputForm input");
-            inputSearch.val('');
-            setTimeout(function(){ $(".searchInputForm").hide(); }, 300);
-            setTimeout(function(){ $(".searchInputBtn").fadeIn(); }, 300);
-        };
-
-        //Lazy Loader
         $(window).scroll(function () {
             if (!$scope.campaigns.busy && ($(window).scrollTop() + $(window).height() == $(document).height())) {
                 console.log('bottom');
