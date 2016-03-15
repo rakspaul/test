@@ -126,7 +126,7 @@
                     <span class="common-sort-icon" ng-class="(!sortReverse?'ascending':'descending')"></span>
                 </div>
                 <div class="col-md-2 table-th frequency-col" ng-bind-html="textConstants.SCHEDULE_LIST_REPORT_TYPE" ></div>
-                <div class="col-md-2 table-th" ng-bind-html="textConstants.COMPLETE_ON"></div>
+                <div class="col-md-2 table-th" ng-bind-html="textConstants.REPORT_GENERATED"></div>
                 <div class="col-md-2 table-th" ng-bind-html="textConstants.SCHEDULE_LIST_DIMENSIONS"></div>
                 <div class="col-md-2 table-th" ng-bind-html="textConstants.CREATED_BY"></div>
         </div>
@@ -179,9 +179,9 @@
 
                     <!--Column 3-->
                     <div class="col-md-2 table-td"
-                         ng-bind-html="srlist.instances[0].completedOn === undefined?
+                         ng-bind-html="(srlist.frequency != 'Saved' ? (srlist.instances[0].completedOn === undefined?
                          'Pending Status':
-                         srlist.instances[0].completedOn | date : 'EEE, MMM d yyyy'">
+                         srlist.instances[0].completedOn) : (srlist.lastRunDate == undefined ? 'Pending Status' : srlist.lastRunDate)) | date : 'EEE, MMM d yyyy'">
                     </div>
 
                     <!--Column 4-->
