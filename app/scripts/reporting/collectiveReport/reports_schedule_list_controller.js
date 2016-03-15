@@ -1,12 +1,12 @@
-define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'common/moment_utils', 'login/login_model',
+define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'common/utils', 'login/login_model',
     'common/services/constants_service', 'common/services/url_service', 'common/services/data_store_model',
-    'common/services/data_service', 'common/controllers/confirmation_modal_controller', 'reporting/collectiveReport/report_schedule_delete_controller'
+    'common/services/data_service', 'common/moment_utils', 'common/controllers/confirmation_modal_controller', 'reporting/collectiveReport/report_schedule_delete_controller'
 ],function (angularAMD) {
     'use strict';
     angularAMD.controller('ReportsScheduleListController', function($scope,$filter, $location, $modal, $rootScope,
-                                                                                collectiveReportModel, momentService, loginModel,
+                                                                                collectiveReportModel, utils, loginModel,
                                                                                 constants, urlService, dataStore,
-                                                                               dataService) {
+                                                                               dataService, momentService) {
 
         var _curCtrl = this;
         $scope.noOfSchldInstToShow = 3;
@@ -15,20 +15,29 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
             descending: true
         };
         var isSearch = false;
-        $scope.filters = {}
+        $scope.filters = {};
+        _curCtrl.filters = {};
         $scope.sortReverse = false;
         _curCtrl.isFilterExpanded = false;
         $scope.clickedOnFilterIcon = function(){
             _curCtrl.isFilterExpanded = !_curCtrl.isFilterExpanded;
-            var dropDownFilters = ["reportType", "generated", "dimensions"];
+            var dropDownFilters = ["reportType", "generated", "reportDimensions"];
             _.each(dropDownFilters,function(d){
                 _curCtrl.isFilterExpanded ? $scope.filters[d] = null : delete $scope.filters[d];
+                if(_curCtrl.isFilterExpanded){
+                    $scope.filters[d] = null;
+                    _curCtrl.filters[d] = null;
+                }else{
+                    delete $scope.filters[d];
+                    delete _curCtrl.filters[d];
+                }
             });
         }
         $scope.clearFilters = function(){
-            var filters = ["reportType", "generated", "dimensions", "searchText"];
+            var filters = ["reportType", "generated", "reportDimensions", "reportName"];
             _.each(filters,function(d){
                 $scope.filters[d] = null;
+                _curCtrl.filters[d] = null;
             });
             $scope.creativeSearch = '';
         }
@@ -50,21 +59,32 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
 
         $scope.select_filter_option = function(key, value){
             switch(key){
-                case "dimensions":
-                    $scope.filters[key] = ($scope.filters[key] ? ($scope.filters[key] + ','): '') + value;
-                break;
-                case "searchText":
+                case "reportDimensions":
+                    if(_curCtrl.filters[key] && _curCtrl.filters[key].split(",").length >= 5) {
+                        $rootScope.setErrAlertMessage(constants.REPORT_LIST_DIMENSION_COUNT);
+                        return;
+                    }
+                    $scope.filters[key] = ($scope.filters[key] ? ($scope.filters[key] + ',') : '') + utils.getValueOfItem($scope.customeDimension, value);
+                    _curCtrl.filters[key] = (_curCtrl.filters[key] ? (( _curCtrl.filters[key]) + ',') : '') + value;
+                    break;
+                case "reportName":
                     $scope.filters[key] = value;
+                    _curCtrl.filters[key] = value;
                     $scope.getScheduledReports();
-                default:
+                case "reportType":
                     $scope.filters[key] = value;
+                    _curCtrl.filters[key] = value;
+                break;
+                default:
+                    $scope.filters[key] = utils.getValueOfItem(constants.REPORT_LIST_GENERATEON, value);
+                    _curCtrl.filters[key] = value;
             }
 
         }
         _curCtrl.preProccessListData = function(schdReportList){
             _.each(schdReportList, function(item){
-                item.dimensions = item.hasOwnProperty("primaryDimension") && item.primaryDimension ? item.primaryDimension : '';
-                item.dimensions += item.hasOwnProperty("secondaryDimension") && item.primaryDimension ? ','+ item.secondaryDimension : '';
+                item.dimensions = item.hasOwnProperty("primaryDimension") && item.primaryDimension ? utils.getValueOfItem($scope.customeDimension, item.primaryDimension) : '';
+                item.dimensions += item.hasOwnProperty("secondaryDimension") && item.primaryDimension ? ','+ utils.getValueOfItem($scope.customeDimension, item.secondaryDimension) : '';
             })
         }
         $scope.getScheduledReports = function() {
@@ -99,13 +119,13 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
             var queryStr,
                 startDate,
                 endDate;
-            queryStr = $scope.filters.reportType ? "&reportType="+$scope.filters.reportType : '';
+            queryStr = _curCtrl.filters.reportType ? "&reportType="+_curCtrl.filters.reportType : '';
             //queryStr += $scope.filters.generated ? "&generated="+$scope.filters.generated : '';
-            queryStr += $scope.filters.dimensions ? "&dimensions="+$scope.filters.dimensions : '';
-            queryStr += $scope.filters.searchText ? "&searchText="+$scope.filters.searchText : '';
+            queryStr += _curCtrl.filters.reportDimensions ? "&reportDimensions="+_curCtrl.filters.reportDimensions : '';
+            queryStr += _curCtrl.filters.reportName ? "&reportName="+_curCtrl.filters.reportName : '';
 
-            if($scope.filters.generated) {
-                switch ($scope.filters.generated) {
+            if(_curCtrl.filters.generated) {
+                switch (_curCtrl.filters.generated) {
                     case "Yesterday":
                         startDate = moment().subtract(1, 'days').format(constants.DATE_UTC_SHORT_FORMAT);
                         endDate = moment().subtract(1, 'days').format(constants.DATE_UTC_SHORT_FORMAT);
