@@ -669,9 +669,6 @@ select {
 .label-btn {
   cursor: default;
 }
-.radioBtnToggle .miniToggle {
-  /* Override for Inventory whitelist/blacklist toggle active button */
-}
 .radioBtnToggle .miniToggle label {
   position: relative;
   padding: 10px 15px;
@@ -711,11 +708,6 @@ select {
 .radioBtnToggle .miniToggle .btn-default.active:hover span {
   color: #fff;
 }
-.radioBtnToggle .miniToggle .btn.btn-default.whitelist.active.disabled,
-.radioBtnToggle .miniToggle .btn.btn-default.blacklist.active.disabled {
-  border: 1px solid #0978C9;
-  opacity: 1;
-}
 .radioBtnToggle .miniToggle .btn-default:first-child {
   border-top-right-radius: 0 !important;
   border-bottom-right-radius: 0 !important;
@@ -723,6 +715,12 @@ select {
 .radioBtnToggle .miniToggle .btn-default:last-child {
   border-top-left-radius: 0 !important;
   border-bottom-left-radius: 0 !important;
+}
+.radioBtnToggle .miniToggle .btn.btn-default.whitelist.active.disabled,
+.radioBtnToggle .miniToggle .btn.btn-default.blacklist.active.disabled {
+  /* Override for Inventory whitelist/blacklist toggle active button */
+  border: 1px solid #0978C9;
+  opacity: 1;
 }
 .goalBtnGroup .btn-primary {
   border-radius: 0px;

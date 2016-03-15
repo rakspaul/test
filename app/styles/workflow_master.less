@@ -657,15 +657,6 @@ select {
         color: #fff;
       }
     }
-
-    /* Override for Inventory whitelist/blacklist toggle active button */
-    .btn.btn-default.whitelist.active.disabled,
-    .btn.btn-default.blacklist.active.disabled {
-      border: 1px solid #0978C9;
-      opacity: 1;
-    }
-
-
     .btn-default:first-child {
       border-top-right-radius: 0 !important;
       border-bottom-right-radius: 0 !important;
@@ -673,6 +664,13 @@ select {
     .btn-default:last-child {
       border-top-left-radius: 0 !important;
       border-bottom-left-radius: 0 !important;
+    }
+
+    .btn.btn-default.whitelist.active.disabled,
+    .btn.btn-default.blacklist.active.disabled {
+      /* Override for Inventory whitelist/blacklist toggle active button */
+      border: 1px solid #0978C9;
+      opacity: 1;
     }
   }
 }
