@@ -13,7 +13,7 @@ define(['angularAMD','../../common/services/constants_service'],function (angula
             link: function ($scope, element, attrs) {
                 $scope.constants = constants;
                 $(".sliding_dropdown_btn , .close_sliding_dropdown ").click( function() {
-                    $('.sliding_dropdown_container').toggle('slide', { direction: "left" }, 500);
+                    $('.sliding_dropdown_container').toggle('slide', { direction: "right" }, 500);
                 }) ;
             }
         };
