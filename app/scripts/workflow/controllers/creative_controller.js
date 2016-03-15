@@ -451,7 +451,9 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
                       if (result.status === 'OK' || result.status === 'success') {
                           $scope.addedSuccessfully = true;
                           $scope.Message = 'Creative Added Successfully';
-                          workflowService.setNewCreative(result.data.data);
+                          if(result.data.data.creativeState==='READY'){
+                              workflowService.setNewCreative(result.data.data);
+                          }
                           // redirect user after successful saving
                           $scope.cancelBtn();
                           $rootScope.setErrAlertMessage($scope.textConstants.CREATIVE_SAVE_SUCCESS,0);
