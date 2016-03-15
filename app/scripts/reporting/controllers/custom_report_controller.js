@@ -1017,9 +1017,9 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
 
         $scope.selectPriSecDimension = function(dimension, type) {
             $scope.showPrimaryTxtBox = true;
-            $scope.showAddBreakdownButton = true;
             if (dimension != undefined) {
                 if (type == 'Primary') {
+                    $scope.showAddBreakdownButton = true;
                     $scope.reports.reportDefinition.dimensions.primary.name = dimension.value;
                     $scope.reports.reportDefinition.dimensions.primary.dimension = (dimension.key == undefined) ? dimension.dimension : dimension.key;
 
@@ -1034,10 +1034,11 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                         $scope.showSecondDimension();
                     }
 
-                } else {
+                } else { console.log('make it false');
                     $scope.showSecondaryTxtBox = true;
                     $scope.reports.reportDefinition.dimensions.secondary.name = dimension.value;
                     $scope.reports.reportDefinition.dimensions.secondary.dimension = (dimension.key == undefined) ? dimension.dimension : dimension.key;
+                    $scope.showAddBreakdownButton = false;
                 }
             }
 
@@ -1934,7 +1935,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                         $scope.showAddBreakdownButton = true;
                     }
 
-                    $scope.setSecondaryDimension = function(obj) {
+                    $scope.setSecondaryDimension = function(obj) { console.log('am I called');
                         $scope.reports.reportDefinition.dimensions.secondary.name = $scope.getFilterBreakdownName(obj.dimension);
                         $scope.reports.reportDefinition.dimensions.secondary.dimension = obj.dimension;
                         if (obj.values) {
@@ -1957,11 +1958,12 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                     //set breakdown filter values if exist
                     angular.forEach(responseData.reportDefinition.filters, function(eachObj) {
                         eachObj['name'] = $scope.getFilterBreakdownName(eachObj.dimension);
-                        if ((eachObj.type == "Primary")) {
+                        /*if ((eachObj.type == "Primary")) {
                             $scope.setPrimaryDimension(eachObj);
-                        } else if ((eachObj.type == "Secondary")) {
+                        } else if ((eachObj.type == "Secondary")) { console.log('10 11 12');
                             $scope.setSecondaryDimension(eachObj);
-                        } else {
+                        } else*/
+                        if((eachObj.type !== "Primary")&& (eachObj.type !== "Secondary")){
                             $scope.additionalFilters.push({
                                 "key": eachObj.dimension,
                                 "name": eachObj.name,
