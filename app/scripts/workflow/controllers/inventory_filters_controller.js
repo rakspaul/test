@@ -642,7 +642,6 @@ define(['angularAMD', 'workflow/services/workflow_service', 'workflow/services/f
                     $scope.workflowData.selectedBlackLists = [];
                 }
 
-                // TODO:
                 $scope.workflowData.inventoryDataTemp = $.extend(true, [], $scope.workflowData.inventoryData);
 
                 // Synchronise with main list, on removing an item
