@@ -559,18 +559,24 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
                 return adGroupsData.deliveryBudget;
             }
             else{
-                return $scope.workflowData.campaignData.deliveryBudget - $scope.workflowData.campaignData.bookedSpend + adGroupsData.bookedSpend;
+                if(adGroupsData.bookedSpend){
+                    return adGroupsData.bookedSpend;
+                }
+                else{
+                    return 0;
+                }
+                //return $scope.workflowData.campaignData.deliveryBudget - $scope.workflowData.campaignData.bookedSpend + adGroupsData.bookedSpend;
             }
         }
 
         $scope.calculateSpendBudget = function(adGroupsData){
-            var deleveryBudget = (adGroupsData.deliveryBudget)?adGroupsData.deliveryBudget:$scope.calculateBudget(adGroupsData);
+            var deliveryBudget = $scope.calculateBudget(adGroupsData);
 
-            if(adGroupsData.bookedSpend && adGroupsData.bookedSpend > 0){
-                return deleveryBudget - adGroupsData.bookedSpend;
+            if(parseInt(deliveryBudget) == 0 ){
+                return 0
             }
             else{
-                return deleveryBudget - 0;
+                return deliveryBudget - adGroupsData.bookedSpend;
             }
         }
     });
