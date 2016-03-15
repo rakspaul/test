@@ -234,6 +234,7 @@ define(['common'], function (angularAMD) {
                             RoleBasedService.getClientRole() && RoleBasedService.getClientRole().workFlowUser;
 
                         workflowService.setMode('create');
+                        workflowService.setIsAdGroup(false);
                         workflowService.setModuleInfo({
                             'moduleName': 'WORKFLOW',
                             'warningMsg': constants.ACCOUNT_CHANGE_MSG_ON_CREATE_OR_EDIT_AD_PAGE,
@@ -257,6 +258,7 @@ define(['common'], function (angularAMD) {
                             RoleBasedService.getClientRole() && RoleBasedService.getClientRole().workFlowUser;
 
                         workflowService.setMode('create');
+                        workflowService.setIsAdGroup(true);
                         workflowService.setModuleInfo({
                             'moduleName': 'WORKFLOW',
                             'warningMsg': constants.ACCOUNT_CHANGE_MSG_ON_CREATE_OR_EDIT_AD_PAGE,
@@ -280,6 +282,7 @@ define(['common'], function (angularAMD) {
                             RoleBasedService.getClientRole() && RoleBasedService.getClientRole().workFlowUser;
 
                         workflowService.setMode('edit');
+                        workflowService.setIsAdGroup(false)
                         workflowService.setModuleInfo({
                             'moduleName': 'WORKFLOW',
                             'warningMsg': constants.ACCOUNT_CHANGE_MSG_ON_CREATE_OR_EDIT_AD_PAGE,
@@ -303,6 +306,7 @@ define(['common'], function (angularAMD) {
                             RoleBasedService.getClientRole() && RoleBasedService.getClientRole().workFlowUser;
 
                         workflowService.setMode('edit');
+                        workflowService.setIsAdGroup(true);
                         workflowService.setModuleInfo({
                             'moduleName': 'WORKFLOW',
                             'warningMsg': constants.ACCOUNT_CHANGE_MSG_ON_CREATE_OR_EDIT_AD_PAGE,

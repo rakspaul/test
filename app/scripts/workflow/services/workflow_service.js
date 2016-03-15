@@ -10,6 +10,8 @@ define(['angularAMD','common/services/vistoconfig_service', 'common/services/con
             vistoModule,
             creativeMode,
             creativeEditData,
+            isAdGroup,
+            unallocatedAmount,
 
             deletedModule = [];
 
@@ -439,6 +441,22 @@ define(['angularAMD','common/services/vistoconfig_service', 'common/services/con
 
             getMode: function () {
                 return mode;
+            },
+
+            setIsAdGroup: function (m) {
+                isAdGroup = m;
+            },
+
+            getIsAdGroup: function () {
+                return isAdGroup;
+            },
+
+            setUnallocatedAmount: function (m) {
+                unallocatedAmount = m;
+            },
+
+            getUnallocatedAmount: function () {
+                return unallocatedAmount;
             },
 
             setAdsDetails: function (ad) {
