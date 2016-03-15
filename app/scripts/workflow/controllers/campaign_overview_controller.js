@@ -570,13 +570,13 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
         }
 
         $scope.calculateSpendBudget = function(adGroupsData){
-            var deleveryBudget = $scope.calculateBudget(adGroupsData);
+            var deliveryBudget = $scope.calculateBudget(adGroupsData);
 
-            if(parseInt(deleveryBudget) == 0 ){
+            if(parseInt(deliveryBudget) == 0 ){
                 return 0
             }
             else{
-                return deleveryBudget - adGroupsData.bookedSpend;
+                return deliveryBudget - adGroupsData.bookedSpend;
             }
         }
     });
