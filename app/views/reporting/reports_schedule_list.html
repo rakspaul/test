@@ -21,7 +21,7 @@
                     <span class="icon-search" aria-hidden="true" style="margin: -1px 0 0 0;"></span>
                 </a>
                 <div class="input-group searchInputForm" >
-                    <input type="text" class="form-control" name="creativeSearch" ng-model="creativeSearch" ng-keyup="select_filter_option('searchText', creativeSearch)" placeholder="Search Reports By Report Name..">
+                    <input type="text" class="form-control" name="creativeSearch" ng-model="creativeSearch" ng-keyup="select_filter_option('reportName', creativeSearch)" placeholder="Search Reports By Report Name..">
                     <div class="btn btn-default" ng-click="searchHideInput()">
                         <span class="icon-clear" aria-hidden="true"></span>
                     </div>
@@ -83,15 +83,15 @@
                             <label  class="col-sm-12 greyTxt miniLabels ng-binding" data-ng-bind="textConstants.DIMENSIONS_FIVE"></label>
                             <div class="dropdown">
                                 <button style="width:560px;" class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                    <span class="text" ng-bind="filters.dimensions ? filters.dimensions : 'All Dimensions'"></span>
+                                    <span class="text" ng-bind="filters.reportDimensions ? filters.reportDimensions : 'All Dimensions'"></span>
                                     <span class="icon-arrow-down"></span>
                                 </button>
                                 <ul class="dropdown-menu" aria-labelledby="unitcostType" ng-model="adData.unitType"  id="unitcostType" data-toggle="dropdown">
                                     <li ng-repeat="dimension in customeDimension"
                                         id="{{dimension.key}}"
                                         style="padding:5px"
-                                        ng-click="select_filter_option('dimensions', dimension.value)"
-                                        ng-bind-html="dimension.value">
+                                        ng-click="select_filter_option('reportDimensions', dimension.key)"
+                                        ng-bind="dimension.value">
                                     </li>
                                 </ul>
                                 <input type="hidden" name="unitType" ng-model="adData.unitType.name" ng-update-hidden/>
