@@ -141,8 +141,17 @@ define(['angularAMD','common/services/vistoconfig_service', 'common/services/dat
                 return this.post( urlService.createScheduledRpt(), data, {'Content-Type': 'application/json'})
             },
 
+
+            createSaveReport :  function(data) {
+                return this.post( urlService.createSaveRpt(), data, {'Content-Type': 'application/json'})
+            },
+
             updateScheduleReport: function(reportId,data) {
                 var url = urlService.updateScheduledRpt(reportId);
+                return this.put(url,data);
+            },
+            updateSavedReport: function(reportId,data) {
+                var url = urlService.updateSavedRpt(reportId);
                 return this.put(url,data);
             },
 
@@ -170,7 +179,8 @@ define(['angularAMD','common/services/vistoconfig_service', 'common/services/dat
 //                        return promise;
 //                    }
 //                }
-                return $http({url: url, method: 'GET'}).then(
+
+                return $http({url: url, method: 'GET',cache: cacheObj.cache}).then(
                     function (response) {
                         var urlIndex = utils.getParameterByName(url, 'urlIndex');
                         var objOnSuccess = {

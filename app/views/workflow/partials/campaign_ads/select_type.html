@@ -12,6 +12,17 @@
         <input type="text" class="form-control" name="adName" placeholder="Max 250 characters. No symbols or punctuation" remove-special-character='remove-special-character' ng-model="adData.adName" maxlength="250" autofocus/>
     </div>
 </div>
+
+<!--=== AD Label ===-->
+<div class="col-md-12 zeroPadding adNameBox">
+    <div class="col-md-12 adHeader" data-ng-bind="textConstants.LABEL"></div>
+    <div class="col-md-12 zeroPadding" style="margin-top: 10px;">
+        <tags-input class="form-group col-sm-12 zeroPadding"
+                    ng-model="tags">
+        </tags-input>
+    </div>
+</div>
+
 <!--=== AD Format ===-->
 <div class="col-md-12 zeroPadding adFormatChkBox">
     <div class="col-md-12 adHeader" data-ng-bind="textConstants.WF_HEADER_CREATIVES"></div>
@@ -115,6 +126,7 @@
 
 <!--=== Next Step Panel ===-->
 <span class="leftNavLink nextWrapper">
-    <a href data-toggle="tab" role="tab" class="btn btn-default" ng-click="triggerbudgetTab()"
-       data-ng-bind="textConstants.WF_AD_SAVE_CONTINUE"></a>
+    <a data-toggle="tab" role="tab" class="btn btn-default" ng-click="triggerbudgetTab()" data-ng-bind="textConstants.WF_AD_SAVE_CONTINUE"></a>
 </span>
+
+

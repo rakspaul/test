@@ -1,15 +1,22 @@
 <div class="clearfix campaign_list_header_holder">
-    <div class="unselectable each_header_title brand_title active_title {{$parent.details.sortClass('brandName')}}"  ng-style="{'cursor':'default'}">
-        {{textConstants.ADVERTISERS}}
+    <!--Column 1-->
+    <div class="col-md-4">
+        <div class="unselectable each_header_title brand_title active_title pull-left {{$parent.details.sortClass('brandName')}}"  ng-style="{'cursor':'default'}">
+            {{textConstants.ADVERTISERS}}
+        </div>
+        <div class=" unselectable each_header_title flight_dates_title pull-right {{$parent.details.sortClass('startDate')}}"  id="details_dates_sort"  ng-click="$parent.details.callStrategiesSorting('startDate',$parent.campaign.campaignStrategies.length )"  ng-class="($parent.campaign.campaignStrategies.length > 1 ? 'active':'deactive')" >
+            {{textConstants.FLIGHT_DATES}}<span class="sortable {{$parent.details.sortIcon('startDate')}}"></span>
+        </div>
     </div>
-    <div class=" unselectable each_header_title flight_dates_title {{$parent.details.sortClass('startDate')}}"  id="details_dates_sort"  ng-click="$parent.details.callStrategiesSorting('startDate',$parent.campaign.campaignStrategies.length )"  ng-class="($parent.campaign.campaignStrategies.length > 1 ? 'active':'deactive')" >
-        {{textConstants.FLIGHT_DATES}}<span class="sortable {{$parent.details.sortIcon('startDate')}}"></span>
-    </div>
-    <div class=" unselectable each_header_title metrics_title">
+    
+    <!--Column 2-->
+    <div class="col-md-4 unselectable each_header_title metrics_title">
         {{textConstants.METRICS_LIFE_TIME}}
     </div>
-    <div class="unselectable each_header_title kpi_title">
-        <div class="pull-left" >
+    
+    <!--Column 3-->
+    <div class="col-md-4 unselectable each_header_title kpi_title">
+        <div class="pull-left text-center">
             {{textConstants.KPI}}
         </div>
         <div class="pull-left tooltip_holder">

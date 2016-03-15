@@ -1,23 +1,23 @@
-#creativeList .searchInput {
+.searchInput {
   width: auto;
   border: 1px solid #BFC9D7;
   border-radius: 2px;
 }
-#creativeList .searchInput a.btn {
+.searchInput a.btn {
   cursor: pointer;
   height: 34px;
   padding: 10px 15px;
   border-width: 0;
 }
-#creativeList .searchInput .input-group {
+.searchInput .input-group {
   position: relative;
   display: none;
   width: 34px;
 }
-#creativeList .searchInput .input-group input {
+.searchInput .input-group input {
   border-width: 0;
 }
-#creativeList .searchInput .input-group .btn {
+.searchInput .input-group .btn {
   position: absolute;
   z-index: 10;
   top: 0px;
@@ -25,15 +25,66 @@
   border-width: 0;
   box-shadow: none;
   padding: 0;
-  width: 44px;
+  width: 47px;
   height: 34px;
   border-left: 1px solid #BFC9D7;
 }
-#creativeList .searchInput .input-group .btn [class^="icon-"],
-#creativeList .searchInput .input-group .btn [class*=" icon-"] {
-  float: right;
+.searchInput .input-group .btn [class^="icon-"],
+.searchInput .input-group .btn [class*=" icon-"] {
+  float: right !important;
   cursor: pointer;
-  margin: 10px 15px;
+  margin: 10px 15px !important;
   top: 0;
   right: 0;
+}
+[class*="col-"] tags-input {
+  float: left;
+  width: 100%;
+  -webkit-box-shadow: none !important;
+  box-shadow: none !important;
+}
+[class*="col-"] tags-input .host {
+  float: left;
+  width: 100%;
+  margin: 0 !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
+[class*="col-"] tags-input .host .tags {
+  border: 1px solid #BFC9D7;
+  border-radius: 2px !important;
+  line-height: normal;
+  padding: 2px;
+  min-height: 36px;
+  box-shadow: none !important;
+  border-color: #BFC9D7;
+  float: left;
+  width: 100%;
+  -webkit-appearance: none !important;
+}
+[class*="col-"] tags-input .host .tags ti-tag-item span {
+  color: #21252b;
+  font-family: "Avenir";
+  font-size: inherit;
+}
+[class*="col-"] tags-input .host .tags input {
+  font-family: "Avenir";
+  box-shadow: none;
+}
+[class*="col-"] tags-input .host .tags input:focus {
+  border-width: 0px !important;
+  box-shadow: none;
+}
+[class*="col-"] tags-input .host .tags .tag-item {
+  box-shadow: none;
+  font-family: "Avenir";
+  line-height: 100%;
+  padding: 5px 7px;
+}
+[class*="col-"] tags-input .host .tags.focused {
+  -webkit-box-shadow: none !important;
+  box-shadow: none !important;
+  color: #21252b;
+  text-decoration: none;
+  border: 1px solid #0978c9;
 }

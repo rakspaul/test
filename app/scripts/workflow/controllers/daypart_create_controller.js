@@ -1,4 +1,4 @@
-define(['angularAMD','../services/audience_service','workflow/services/workflow_service'],function (angularAMD) {
+define(['angularAMD','workflow/services/audience_service','workflow/services/workflow_service', 'workflow/directives/clear_row'],function (angularAMD) {
   angularAMD.controller('daypartController', function($scope, $timeout,audienceService, workflowService) {
 
         var _dayPartTargetting = this;
@@ -307,7 +307,7 @@ define(['angularAMD','../services/audience_service','workflow/services/workflow_
 
             $scope.Schedule.dayTimeSelected(0);
             audienceService.setDayTimeArr(angular.copy($scope.Schedule.daytimeArr));
-            $scope.adData.isDaypartSelected=null;
+            $scope.adData.isDaypartSelected=false;
             var fetchedObj = workflowService.getAdsDetails();
             if(fetchedObj) {
                 fetchedObj.targets.adDaypartTargets = [];
@@ -529,7 +529,7 @@ define(['angularAMD','../services/audience_service','workflow/services/workflow_
         };
 
         $scope.selectStartTime = function (parentIndex,stTime) {
-            $scope.Schedule.dayPart[parentIndex].stTime = stTime;
+            $scope.Schedule.dayPart[parentIndex].stTime = Number(stTime);
             $scope.dayTimeSelected = 'Custom schedule';
             $scope.customFlag = true;
         };
@@ -543,6 +543,9 @@ define(['angularAMD','../services/audience_service','workflow/services/workflow_
         $scope.changeDayTime = function () {
             $scope.dayTimeSelected = 'Custom schedule';
             $scope.customFlag = true;
+            if($scope.Schedule.daytimeArr.length ===0 ) {
+                $scope.saveDayPartFlag = true;
+            }
         };
 
         $scope.addMoreCustom = function () {

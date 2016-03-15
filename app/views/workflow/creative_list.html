@@ -8,18 +8,18 @@
 			<span class="glyphicon glyphicon-ok pull-left" aria-hidden="true"></span>
 			<span class="pull-left" style="margin-left: 10px;" data-ng-bind="textConstants.NEWCREATIVEALERT"></span>
 		</div>
-		
+
 		<!--<div class="col-md-12 zeroPadding clearfix nav_filters" style="display: none;">-->
 				<!--<creative-drop-down></creative-drop-down>-->
 		<!--</div>-->
-		
+
 		<div class="col-md-12 zeroPadding">
 			<h1 class="col-md-12 zeroPadding" style="margin-bottom: 50px;" data-ng-bind="textConstants.CREATIVELIBRARY"></h1>
 		</div>
-		
+
 		<div class="col-md-12 zeroPadding btn_list_filters">
 			<div class="btn-group" role="group" aria-label="...">
-				<a href="javascript:void(0);" role="button" class="btn btn-default disabled"><span class="icon-plus"></span><span data-ng-bind="textConstants.CREATE"></span></a>
+				<a  role="button" class="btn btn-default" ng-click="creativeCreate();"><span class="icon-plus"></span><span data-ng-bind="textConstants.CREATE"></span></a>
 				<button type="button" class="btn btn-default" style="display: none"><span class="icon-inline-edit"></span><span data-ng-bind="textConstants.EDIT"></span></button>
 				<button type="button" class="btn btn-default" ng-click="cancelDelete();"><span class="icon-archive"></span><span data-ng-bind="textConstants.ARCHIVE"></span></button>
 				<button type="button" class="btn btn-default" disabled="true"><span class="icon-copy"></span><span data-ng-bind="textConstants.CLONE"></span></button>
@@ -35,20 +35,20 @@
 						</ul>
 					</div>
 				</div>
-				
+
 			</div>
-			
+
 
 			<!--Search Input-->
 			<div class="btn-group pull-right">
 				<button type="button" class="btn btn-default pull-right" style="display: none"><span class="icon-filter" style="margin: -1px 0 0 0;"></span></button>
 				<div class="searchInput pull-right">
-					<a class="btn btn-default searchInputBtn" ng-click="searchShowInput()">
+					<a class="btn btn-default searchInputBtn" ng-click="searchShowInput()" style="height: 34px;">
 						<span class="icon-search" aria-hidden="true" style="margin: -1px 0 0 0;"></span>
 					</a>
 					<div class="input-group searchInputForm" >
 						<input type="text" class="form-control" name="creativeSearch" ng-model="creativeSearch" ng-keyup="creativeSearchFunc()" placeholder="Search Creative By Name and Size..">
-						<div class="btn btn-default" ng-click="searchHideInput()">
+						<div class="btn btn-default" style="width: 44px; height: 34px;" ng-click="searchHideInput()">
 							<span class="icon-clear" aria-hidden="true"></span>
 						</div>
 					</div>
@@ -61,13 +61,13 @@
 			<div class="vistoTable" id="visto_table">
 			    <div class="thead">
 					<div class="tr">
-						<div class="col-md-3 th">
+						<div class="col-md-4 th">
 						<input type="checkbox" id="select_all_checkbox" ng-click="selectAllCreative()"/>
 						<!--<span class="icon-arrow-down-thick" ng-click="headerToggle();"></span>-->
 						<span style="margin-left: 25px;" data-ng-bind="textConstants.CREATIVENAME"></span>
 						</div>
 						<div class="col-md-1 th text-center" data-ng-bind="textConstants.FORMAT"></div>
-						<div class="col-md-1 th text-center" data-ng-bind="textConstants.TYPE"></div>
+						<!--<div class="col-md-1 th text-center" data-ng-bind="textConstants.TYPE"></div>-->
 						<div class="col-md-1 th text-center" data-ng-bind="textConstants.ADSERVER"></div>
 						<div class="col-md-1 th text-center" data-ng-bind="textConstants.SIZE"></div>
 						<div class="col-md-2 th" data-ng-bind="textConstants.ADVERTISER"></div>
@@ -85,11 +85,17 @@
 				<div ng-if="!creativeListLoading" ng-repeat="creativeData in creativeData.creatives" class="tr oneDimensionRow">
 				    <div class="parentWrap">
 						<!--Creative Name-->
-						<div class="col-md-3 td">
+						<div class="col-md-4 td">
 						<input type="checkbox" ng-disabled="creativeData.pushedCount>0" ng-checked="creativeData.active" ng-click="selectedCreativeCheckbox(creativeData)"/>
 						<span ng-if="(creativeData.noOfAds > 0)" class="icon-arrow-down-thick" ng-click="toggleCreativeAds(this,creativeData.id, $index,$event)"></span>
-						<span ng-if="(creativeData.noOfAds === 0)" style="margin-left: 25px;"></span>
-						<a href="javascript:void(0);" ng-click="ShowHideTag(creativeData, $index)" data-ng-bind="creativeData.name"></a>
+						<span ng-if="(creativeData.noOfAds === 0)" style="width: 25px; height: 30px; float: left;"></span>
+						<a href="javascript:void(0);" ng-click="ShowHideTag(creativeData, $index)" tooltip="{{creativeData.name}}" data-ng-bind="creativeData.name.length>0? (creativeData.name | textEllipsis: 40 ):''"></a>
+                        <div class="col-md-12 text-left zeroPadding">
+                            <div class="incompleteCreative" ng-show="creativeData.creativeState === 'INCOMPLETE'">
+                                <div class="icon-statusdraft"></div>
+                                <span style="text-transform: capitalize;" data-ng-bind="creativeData.creativeState|lowercase">Incomplete</span>
+                            </div>
+                        </div>
 						<div class="script_tag">
 							<div ng-show = "IsVisible" class="ng-cloak" data-ng-bind="creativeData.tag"></div>
 							<div id="creativetagValue"><pre data-ng-bind="creativeData.tag"></pre></div>
@@ -101,13 +107,13 @@
 						<span style="text-transform: capitalize;" data-ng-bind="creativeData.creativeFormat|lowercase"></span>
 						</div>
 						<!--Type-->
-						<div class="col-md-1 td text-center">
-						<span data-ng-bind="creativeData.creativeType"></span>
-						</div>
+						<!--<div class="col-md-1 td text-center">-->
+						<!--<span data-ng-bind="creativeData.creativeType"></span>-->
+						<!--</div>-->
 						<!--Ad Server-->
 						<div class="col-md-1 td text-center">
-						<span ng-if="creativeData.isTracking" data-ng-bind="textConstants.TRACKINGONLY"></span>
-						<span ng-if="!creativeData.isTracking"> <img ng-if="!(creativeData.isTracking)" style="max-height: 35px;max-width: 70px;" ng-src="{{creativeData.adServer.iconUrl}}"/> </span>
+						<span ng-if="creativeData.isTracking" class="icon-tracking" style="margin-top: 15px;"></span>
+						<span ng-if="!creativeData.isTracking"> <img ng-if="!(creativeData.isTracking)" style="max-height: 35px;max-width: 70px;" ng-src="{{creativeData.adServer.iconURL}}"/> </span>
 						</div>
 						<!--Sizes-->
 						<div class="col-md-1 td text-center">
@@ -127,7 +133,7 @@
 						<span data-ng-bind="utcToLocalTime(creativeData.updatedAt,'DD MMM YYYY  HH:mm A')"></span>
 						</div>
 					</div>
-					
+
                     <div style="display:none;" class="secondDimensionList">
 	                    <div class="tr childRow adsList"  ng-repeat="adData in creativeAds.creativeAdData[$index]">
 	                        <div class="col-md-7 td">
@@ -141,7 +147,7 @@
 	                    </div>
                     </div>
 				</div>
-				
+
 				<!--Sample Child / A Class "childRow" needs to be added to the data if its a Child-->
 				<!--<div class="tr childRow" style="width: 100%; float: left;">-->
 				    <!--<div class="col-md-7 td">-->

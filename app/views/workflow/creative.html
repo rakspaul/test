@@ -1,231 +1,203 @@
-
-
 <div class="popCreativeLib" ng-init ="abc()" ng-show="isAddCreativePopup" ng-controller="CreativeController">
 <div id="creative">
     <popup-msg ng-show="createAlertMessage" ng-controller="popUpMsgCtr"
                ng-init="init('createAlertMessage','WF_CAMPAIGN_ARCHIVE_FAILURE')"></popup-msg>
     <!-- Header Starts -->
     <div class="page_header_container">
-	<div class="col-md-2 zeroPadding hideRightPanel"></div>
         <div class="col-md-10 containerWrap">
-	    <div class="closeBtnCreative" ng-click="cancelBtn()">
-		<img src="/images/workflow/icon_back.svg" class="pull-left" alt="" height="20" style=""/>
-		<p class="">Back</p>
-	    </div>
-	    <div class="col-md-12 zeroPadding">
-		<!--<span class="breadcrumbFlow">Creative Tag Library</span>-->
-		<!--<img src="/assets/images/workflow/arrowBreadcrumbs.png" class="pull-left" alt="" width="10" style="margin: 5px 18px;"/>-->
-		<h2>Add Creative > New Creative</h2>
-	    </div>
+            <div class="closeBtnCreative" ng-click="cancelBtn()">
+            <img src="/images/workflow/icon_back.svg" class="pull-left" alt="" height="20" style=""/>
+            <p class="">Back</p>
+            </div>
+            <div class="col-md-12 zeroPadding">
+            <!--<span class="breadcrumbFlow">Creative Tag Library</span>-->
+            <!--<img src="/assets/images/workflow/arrowBreadcrumbs.png" class="pull-left" alt="" width="10" style="margin: 5px 18px;"/>-->
+            <h2 class="pull-left" style="margin: 0;">Creative Setup</h2>
+            </div>
         </div>
     </div>
     <!-- Header Ends -->
     <!--=== List Starts ===-->
     <div class="creativeList">
-        <div class="col-md-2 zeroPadding hideRightPanel"></div>
-        <div class="col-md-10 containerWrap">
-	    <div class="col-md-12 zeroPadding">
-		<a href="javascript:void(0);" class="helpLink">Adding third party Creative Tag</a>
-	    </div>
-	    <div class="col-md-12 zeroPadding clearfix nav_filters">
-		<creative-drop-down></creative-drop-down>
-	    </div>
+        <div class="col-md-12 containerWrap">
+            <!--<div class="col-md-6 zeroPadding clearfix nav_filters" >-->
+            <!--    <creative-drop-down></creative-drop-down>-->
+            <!--</div>-->
 
-            <form role="form" name="formCreativeCreate" id="formCreativeCreate" novalidate>
-				<div class="col-md-6 zeroPadding pull-right" style="margin-top: -221px;">
-                    <div ng-show="addedSuccessfully" ng-model="addedSuccessfully">{{Message}}</div>
+            <form role="form" name="formCreativeCreate" id="formCreativeCreate" novalidate ng-submit="submitForm(formCreativeCreate)">
+				<div class="col-md-6 zeroPadding pull-right saveCreativeBtn">
+                    <div ng-show="addedSuccessfully" ng-model="addedSuccessfully" class="text-right">{{Message}}</div>
 					<button type="submit" class="btn btn-primary pull-right" ng-disabled="disableCancelSave" id="saveCreative" > Save Creative</button>
                     <a class="btn btn-link pull-right" role="button" ng-disabled="disableCancelSave" ng-click="cancelBtn()"> Cancel</a>
                 </div>
+                <!--<div class="col-md-12 zeroPadding clearfix nav_filters">-->
+                <!--<creative-drop-down></creative-drop-down>-->
+                <!--</div>-->
 
-                <div class="form-group col-md-8" show-errors='{showSuccess: true}'>
-                    <label for="name" class="greyTxt">Name</label>
-                    <input type="text" class="form-control ng-pristine ng-valid" remove-special-character ='remove-special-character' id="name" name="name" ng-model="name" placeholder="Max 250 characters. No symbols or punctuation" required>
-                    <label ng-if="formCreativeCreate.name.$error.required"  class="col-sm-12 control-label greyTxt errorLabel">{{textConstants.WF_MANDATORY_CREATIVE_NAME}}</label>
-                </div>
-
-                <!--Ad format Type-->
-                <div class="col-md-12 zeroPadding adFormatChkBox">
-                    <div class="col-md-12 greyTxt" data-ng-bind="textConstants.WF_AD_FORMAT"></div>
-                    <div class="goalBtnWithPopup">
-                        <div class="btn-group goalBtnGroup zeroPadding"
-                             ng-class="{lastBtnGroup: $last, firstBtnGroup: $first}"
-                             ng-repeat="adformat in creativeSizeData.adFormats track by adformat.id">
-                            <label class="btn btn-primary {{adformat.active ? 'active' : '' }} {{(adformat.disabled) ? 'disabled' : '' }}"
-                                   aria-disabled="{{(adformat.disabled) ? true : false }}">
-                                <input type="radio"
-                                       name="adFormat"
-                                       value="{{adformat.name}}"
-                                       class="btn_rad"
-                                       ng-click="adFormatSelection(adformat.name, $event)"
-                                       ng-checked="adformat.active">
-                                <div class="hideRadioBtn">
-                                    <div class="icon-{{getAdFormatIconName(adformat.name)}}"></div>
-                                    <span data-ng-bind="adformat.name"></span>
+                    <div class="form-group col-md-8" show-errors>
+                        <label for="name" class="greyTxt" style="margin-top: 0;">Name</label>
+                        <input type="text" class="form-control ng-pristine ng-valid" remove-special-character ='remove-special-character' id="name" name="name" ng-model="name" placeholder="Max 250 characters. No symbols or punctuation" required>
+                        <label ng-if="formCreativeCreate.name.$error.required"  class="col-sm-12 control-label greyTxt errorLabel">{{textConstants.WF_MANDATORY_CREATIVE_NAME}}</label>
+                    </div>
+                    <div class="col-md-12 zeroPadding clearfix nav_filters" style="display:none;">
+                        <creative-drop-down></creative-drop-down>
+                    </div>
+                    <span class="col-md-12 labelQuestTxt" style="margin-top: 30px !important;">Who is this Creative for?</span>
+                    <div class="col-sm-8 zeroPadding">
+                        <div class="form-group col-sm-6"  style="padding-right: 0;" show-errors>
+                            <label for="advertiserDDL" class="col-sm-12  greyTxt miniLabels" style="margin: 0;">{{ textConstants.ADVERTISERS }}</label>
+                            <div class="col-md-12 zeroPadding dropdown-workflow">
+                                <div class="dropdown">
+                                    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ng-disabled="adPage">
+                                        <span class="text">{{advertiserName ? advertiserName : 'Select Advertiser' }}</span>
+                                        <!--<span class="text" ng-if="mode == 'edit'">{{mode == 'edit' ? editCampaignData.advertiserName : 'Select Advertiser' }}</span>-->
+                                        <span class="icon-arrow-down"></span>
+                                    </button>
+                                    <ul class="dropdown-menu" aria-labelledby="advertiserDDL"  id="advertiserDDL">
+                                        <li ng-repeat="advertiser in advertisers track by advertiser.id" class="available"><a ng-click="selectHandler('advertiser', advertiser)">{{advertiser.name}}</a></li>
+                                    </ul>
                                 </div>
-                                <input  type="hidden" name="creativeFormat" ng-model="creativeFormat"  ng-update-hidden  required/>
-                            </label>
+                                <input class="form-control" type="hidden" name="advertiserId" ng-model="creative.advertiserId" ng-update-hidden required/>
+                            </div>
+                            <label ng-if="formCreativeCreate.advertiserId.$error.required" class="col-sm-12 greyTxt errorLabel">Please select the Advertiser.</label>
+                        </div>
+                        <div class="form-group col-sm-6" style="padding-left: 15px;">
+                            <label for="brandDDL" class="col-sm-12  greyTxt miniLabels" style="margin: 0;">{{ textConstants.BRAND }}</label>
+                            <div class="col-md-12 zeroPadding dropdown-workflow">
+                                <div class="dropdown">
+                                    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                        <span class="text">{{brandName ? brandName : 'Select Brand' }}</span>
+                                        <span class="icon-arrow-down"></span>
+                                    </button>
+                                    <ul class="dropdown-menu" aria-labelledby="brandDDL"  id="brandDDL">
+                                        <li ng-repeat="brand in brands track by brand.id" class="available"><a ng-click="selectHandler('brand', brand)">{{brand.name}}</a></li>
+                                    </ul>
+                                    <input type="hidden" name="brandId" ng-model="creative.brandId" ng-update-hidden />
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <!--&lt;!&ndash;Format Label for ad create page instead of dropdown&ndash;&gt;-->
-                <!--<div ng-if="adPage" class="form-group col-md-3">-->
-                    <!--<label for="sel1" class="greyTxt">Format</label>-->
-                    <!--<div class="col-md-12 zeroPadding dropdown-workflow">-->
-                        <!--<div ng-if="adPage" class="btn btn-default label-btn" ng-bind-html="formatLabel"></div>-->
-                        <!--<input  type="hidden" name="creativeFormat" ng-model="formatLabel"  ng-update-hidden  />-->
-                    <!--</div>-->
-                <!--</div>-->
-                <!--&lt;!&ndash;Dropdown selection for creative create&ndash;&gt;-->
-                <!--<div ng-if="!adPage" class="form-group col-md-3" show-errors='{showSuccess: true}'>-->
-                    <!--<label for="sel1" class="greyTxt">Format</label>-->
-                    <!--<div class="col-md-12 zeroPadding dropdown-workflow">-->
-                        <!--<div class="dropdown">-->
-                            <!--<button class="btn btn-default dropdown-toggle" type="button" id="formatType" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">-->
-                                 <!--<span class="text">{{adData.creativeFormat ? adData.creativeFormat.name :  'Select Format'}}</span>-->
-                                 <!--<span class="icon-arrow-down"></span>-->
-                            <!--</button>-->
-                            <!--<ul class="dropdown-menu" aria-labelledby="formatType">-->
-                               <!--<li ng-class="{disabled : !adformat.active, available : adformat.active}" ng-repeat="adformat in creativeSizeData.adFormats track by adformat.id"><a ng-click="adformat.active ? dropBoxItemSelected(adformat, 'creativeFormat') : '' ">{{adformat.name}}</a></li>-->
-                            <!--</ul>-->
-                        <!--</div>-->
-                        <!--<input  type="hidden" name="creativeFormat" ng-model="adData.creativeFormat.name"  ng-update-hidden  required/>-->
-		            <!--</div>-->
-                    <!--<label ng-if="formCreativeCreate.creativeFormat.$error.required" class="col-sm-12 control-label greyTxt errorLabel">{{textConstants.WF_MANDATORY_CREATIVE_FORMAT}}</label>-->
-                <!--</div>-->
-
-                <!--Dropdown selection for Ad server-->
-                <!--<div class="form-group col-md-3" show-errors='{showSuccess: true}'>-->
-                    <!--<label for="sel1" class="greyTxt">Ad server</label>-->
-                    <!--<div class="col-md-12 zeroPadding dropdown-workflow">-->
-                        <!--<div class="dropdown">-->
-                            <!--<button class="btn btn-default dropdown-toggle" type="button" id="formatType" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">-->
-                                <!--<span class="text">{{adData.adServer ? adData.adServer.name :  'Select Format'}}</span>-->
-                                <!--<span class="icon-arrow-down"></span>-->
-                            <!--</button>-->
-                            <!--<ul class="dropdown-menu" aria-labelledby="formatType">-->
-                                <!--<li><a href="#"><span class="icon-image"></span>Display</a></li>-->
-                                <!--<li><a href="#"><span class="icon-rich-media"></span>Rich Media</a></li>-->
-                                <!--<li><a href="#"><span class="icon-video"></span>Video</a></li>-->
-                            <!--</ul>-->
-                        <!--</div>-->
-                        <!--<input  type="hidden" name="creativeFormat" ng-model="adData.creativeFormat.name"  ng-update-hidden  required/>-->
-                    <!--</div>-->
-                    <!--<label ng-if="formCreativeCreate.creativeFormat.$error.required" class="col-sm-12 control-label greyTxt errorLabel">{{textConstants.WF_MANDATORY_CREATIVE_FORMAT}}</label>-->
-                <!--</div>-->
-
-
-
-                <div ng-hide="$parent.TrackingIntegrationsSelected" class="form-group col-md-12" show-errors='{showSuccess: true}'>
-                    <label for="tag" class="col-md-12 zeroPadding greyTxt">Secure Tag (SSL compatible)</label>
-                    <textarea class="form-control col-md-8 ng-pristine ng-valid" style="width: 66.66666667%;" rows="15" name="tag" id="tag" placeholder="Copy and paste the tag from your ad server" ng-model="tag" required></textarea>
-                    <span class="col-md-4 previewBtn helpLink">Preview</span>
-
-                    <label ng-if="formCreativeCreate.tag.$error.required" class="col-sm-12 control-label greyTxt errorLabel">{{textConstants.SSL_ERROR_MESSAGE}}</label>
-                    <label ng-show="IncorrectTag" class="col-sm-12 control-label customErrorLabel">{{incorrectTagMessage}}</label>
-                </div>
-
-                <div ng-hide="$parent.TrackingIntegrationsSelected" class="form-group col-md-12 zeroPadding radioBtnToggle">
-					<div class="col-md-4 zeroPadding">
-					    <label for="sel1" class="greyTxt">Type</label><br/>
-						<div class="btn-group miniToggle">
-							<label class="btn btn-default active" style="width: auto; margin-top: 0;"><span>HTML</span>
-								<input type="radio" name="creativeType" checked  value ="HTML"  hidden="hidden" class="btn_rad" ng-click="toggleBtn($event);">
-							</label>
-							<label class="btn btn-default" style="width: auto; margin-top: 0;"><span>Javascript</span>
-								<input type="radio" name="creativeType" value ="JS"  hidden="hidden" class="btn_rad" ng-click="toggleBtn($event);">
-							</label>
-						</div>
-					</div>
-                </div>
-
-                <div class="form-group col-md-3" show-errors='{showSuccess: true}'>
-                    <label for="sel1" class="greyTxt">Size</label>
-
-		    <!--Abi version 1
-		    <div class="col-md-12 zeroPadding dropdown-workflow">
-			<div class="dropdown">
-			    <button class="btn btn-default dropdown-toggle" id="creativeSize" type="button"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-				<span class="text">{{adData.creativeSize ? adData.creativeSize.size :  'Select Size'}}</span>
-				<span class="icon-arrow-down"></span>
-			    </button>
-			    <ul class="dropdown-menu" aria-labelledby="creativeSize" id="sel1">
-					<li ng-repeat="creativeSize in creativeSizeData.creativeSize track by creativeSize.id"><a ng-click="dropBoxItemSelected(creativeSize, 'creativeSize')">{{creativeSize.size}}</a></li>
-			    </ul>
-			<input ng-model="adData.creativeSize.id" type="hidden" name="creativeSize" ng-update-hidden required/>
-			</div>
-		    </div> -->
-            <div class="col-md-12 zeroPadding dropdown-workflow">
-                <div class="dropdown">
-                    <button class="btn btn-default dropdown-toggle" id="creativeSize" type="button"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                        <span class="text">{{adData.creativeSize ? adData.creativeSize.size :  'Select Size'}}</span>
-                        <span class="icon-arrow-down"></span>
-                    </button>
-                    <ul class="dropdown-menu dropdown-search" aria-labelledby="sel1" id="sel1">
-                        <li class="searchBar">
-                            <div class="input-group input-group-sm search-control">
-                                <input type="text" class="col-md-12" id="listBoxSize" ng-model="newData.creativeSize" placeholder="Search"/>
-                                <div class="icon-search"></div>
+                    <span class="col-md-12 labelQuestTxt" style="margin-top: 30px !important;">What Creative are you using?</span>
+                    <div class="form-group col-md-2" show-errors style="clear: left;">
+                        <label for="sel1" class="greyTxt" style="margin-top: 0;">Ad Server</label>
+                        <div class="col-md-12 zeroPadding dropdown-workflow">
+                            <div class="dropdown">
+                                <button class="btn btn-default dropdown-toggle" id="creativeAdServer" type="button"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                    <span class="text" ng-bind="selectedAdServer.name ? selectedAdServer.name: 'Select Ad Server'"></span>
+                                    <span class="icon-arrow-down"></span>
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="sel1" id="sel1">
+                                    <li class="available" ng-repeat="adServer in creativeAdServers track by adServer.id">
+                                        <a ng-click="adServerSelected(adServer)">{{adServer.name}}</a>
+                                    </li>
+                                </ul>
+                                <input class="form-control" ng-model="selectedAdServer.id" type="hidden" name="creativeAdServer" ng-update-hidden required/>
                             </div>
-                        </li>
-                        <span ng-if="!newData.creativeSize" class="greyTxt" style="margin-left:15px; margin-top:10px;">POPULAR SIZES</span>
-                        <li>
-                            <ul><li class="available" ng-repeat="creativePopSizes in creativePopularSizes | filter:newData.creativeSize track by creativePopSizes.id"><a ng-click="dropBoxItemSelected(creativePopSizes, 'creativeSize')">{{creativePopSizes.size}}</a></li></ul>
-                        </li>
-                        <span class="greyTxt" style="margin-left:15px">AVAILABLE SIZES</span>
-                        <li style="padding-left:15px;" class="available" ng-repeat="creativeSize in creativeSizeData.creativeSize | filter:newData.creativeSize track by creativeSize.id">
-                            <a ng-click="dropBoxItemSelected(creativeSize, 'creativeSize')">{{creativeSize.size | lowercase}}</a>
-                        </li>
-                    </ul>
-                    <input ng-model="adData.creativeSize.id" type="hidden" name="creativeSize" ng-update-hidden required/>
-                </div>
+                        </div>
+                        <label ng-if="formCreativeCreate.creativeAdServer.$error.required" class="col-sm-12 control-label greyTxt errorLabel" style="margin: 0;">Please select the Ad Server size.</label>
+                    </div>
+
+                    <!--Ad format Type-->
+                    <div class="form-group col-md-12 zeroPadding adFormatChkBox" style="margin-top: 20px;" show-errors>
+                        <div class="col-md-12 greyTxt" data-ng-bind="textConstants.WF_AD_FORMAT"></div>
+                        <div class="goalBtnWithPopup">
+                            <div class="btn-group goalBtnGroup zeroPadding"
+                                 ng-class="{lastBtnGroup: $last, firstBtnGroup: $first}"
+                                 ng-repeat="adformat in creativeSizeData.adFormats track by adformat.id">
+                                <label class="btn btn-primary {{adformat.active ? 'active' : '' }} {{(adformat.disabled) ? 'disabled' : '' }}"
+                                       aria-disabled="{{(adformat.disabled) ? true : false }}">
+                                    <input type="radio" value="{{adformat.name}}"class="btn_rad" ng-click="adFormatSelection(adformat.name)" ng-checked="adformat.active">
+                                    <div class="hideRadioBtn" style="margin-top: -18px;">
+                                        <div class="icon-{{getAdFormatIconName(adformat.name)}}"></div>
+                                        <span data-ng-bind="adformat.name"></span>
+                                    </div>
+
+                                </label>
+                            </div>
+                            <input class="form-control" type="hidden" name="creativeFormat" ng-model="creativeFormat"  ng-update-hidden  required/>
+                        </div>
+                        <label ng-if="formCreativeCreate.creativeFormat.$error.required" class="col-sm-12 control-label greyTxt errorLabel" style="margin: 0;">Please select the Ad Format.</label>
+
+                    </div>
+
+                    <!---->
+                    <div class="form-group col-md-4">
+                        <label for="sel1" class="greyTxt">Creative Template</label>
+                        <div class="col-md-12 zeroPadding dropdown-workflow">
+                            <div class="dropdown">
+                                <button class="btn btn-default dropdown-toggle" id="creativeTemplate" type="button"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                    <span class="text" ng-bind="CreativeTemplate ? CreativeTemplate.name:'Select Template'"></span>
+                                    <span class="icon-arrow-down"></span>
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="sel1" id="sel1">
+                                    <li style="padding-left:15px;" class="available" ng-repeat="template in creativeTemplates track by template.id">
+                                        <a ng-click="onTemplateSelected(template)">{{template.name}}</a>
+                                    </li>
+                                </ul>
+                                <input name="creativeTemplate" ng-model="adData.creativeTemplate" type="hidden"  ng-update-hidden/>
+                            </div>
+                        </div>
+                        <!--<label ng-if="formCreativeCreate.creativeTemplate.$error.required" class="col-sm-12 control-label greyTxt errorLabel" style="margin: 0;">Please select the Ad Server size.</label>-->
+                    </div>
+                    <!--Static template Ui Elements-->
+                    <div ng-if="!TrackingIntegrationsSelected" class="form-group col-md-8" style="clear: left;" show-errors>
+                        <label for="tag" class="col-md-12 zeroPadding greyTxt">Secure Tag (SSL compatible)</label>
+                        <textarea class="form-control col-md-12 ng-pristine ng-valid" rows="15" name="tag" id="tag" placeholder="Copy and paste the tag from your ad server" ng-model="tag" required></textarea>
+                        <label ng-if="formCreativeCreate.tag.$error.required" class="col-sm-12 control-label greyTxt errorLabel">{{textConstants.SSL_ERROR_MESSAGE}}</label>
+                        <label ng-show="IncorrectTag" class="col-sm-12 control-label customErrorLabel">{{IncorrectTagMessage}}</label>
+                    </div>
+                    <div ng-if="TrackingIntegrationsSelected" ng-hide="TrackingIntegrationsSelected" class="form-group col-md-8" style="clear: left;">
+                        <textarea class="form-control col-md-12 ng-pristine ng-valid" rows="15" name="tag" id="tag" ng-value="'%%TRACKER%%'"></textarea>
+                    </div>
+
+                    <div class="form-group col-md-4 radioBtnToggle" style="padding-top: 20px; clear: left;">
+                        <div class="schedule-on-off-btn pull-left">
+                            <input type="checkbox" checked data-toggle="toggle" id="toggle" data-on=" true" data-off="false" disabled="true">
+                            <input type="hidden"  name="sslEnable" value="true" >
+                        </div>
+                        <div class="label-txt pull-left" style="margin: 1px 0 0 10px;">SSL Compatible</div>
+                    </div>
+                    <div class="form-group col-md-4" show-errors style="clear: left;">
+                        <label for="sel1" class="greyTxt">Size</label>
+                        <div class="col-md-12 zeroPadding dropdown-workflow">
+                            <div class="dropdown">
+                                <button class="btn btn-default dropdown-toggle" id="creativeSize" type="button"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                    <span class="text">{{adData.creativeSize ? adData.creativeSize.size :  'Select Size'}}</span>
+                                    <span class="icon-arrow-down"></span>
+                                </button>
+                                <ul class="dropdown-menu dropdown-search" aria-labelledby="sel1" id="sel1">
+                                    <li class="searchBar">
+                                        <div class="input-group col-md-12 zeroPadding">
+                                            <input type="text" class="col-md-12" id="listBoxSize" ng-model="newData.creativeSize" placeholder="Search"/>
+                                            <div class="icon-search"></div>
+                                        </div>
+                                    </li>
+                                    <span ng-if="!newData.creativeSize" class="greyTxt" style="margin-left:15px; margin-top:10px;">POPULAR SIZES</span>
+                                    <li>
+                                        <ul><li class="available" ng-repeat="creativePopSizes in creativePopularSizes | filter:newData.creativeSize track by creativePopSizes.id"><a ng-click="dropBoxItemSelected(creativePopSizes, 'creativeSize')">{{creativePopSizes.size}}</a></li></ul>
+                                    </li>
+                                    <span class="greyTxt" style="margin-left:15px">AVAILABLE SIZES</span>
+                                    <li style="padding-left:15px;" class="available" ng-repeat="creativeSize in creativeSizeData.creativeSize | filter:newData.creativeSize track by creativeSize.id">
+                                        <a ng-click="dropBoxItemSelected(creativeSize, 'creativeSize')">{{creativeSize.size | lowercase}}</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <input  class="form-control" ng-model="adData.creativeSize.id" type="hidden" name="creativeSize" ng-update-hidden required/>
+                        <label ng-if="formCreativeCreate.creativeSize.$error.required" class="col-sm-12 control-label greyTxt errorLabel" style="margin: 0;">Please select the creative size.</label>
+                    </div>
+
+
+                    <!--Template from Json to be appended on this DIV-->
+
+                    <div class="creativeTemplate"></div>
+
+                </form>
             </div>
-
-                    <!--Abi new version 2-->
-			<!--<div class="col-md-12 zeroPadding dropdown-workflow">-->
-			<!--	<div class="dropdown">-->
-			<!--	<input type="text" class="form-control dropdown-toggle dropdown-toggle-search" id="creativeSize" data-toggle="dropdown" value="{{adData.creativeSize ? adData.creativeSize.size :  'Search Size'}}">-->
-			<!--	    <span class="icon-search"></span>-->
-			<!--	    <ul class="dropdown-menu dropdown-menu-search" aria-labelledby="sel1" id="sel1">-->
-			<!--			<li ng-repeat="creativeSize in creativeSizeData.creativeSize track by creativeSize.id"><a ng-click="dropBoxItemSelected(creativeSize, 'creativeSize')">{{creativeSize.size}}</a></li>-->
-			<!--	    </ul>-->
-			<!--	<input ng-model="adData.creativeSize.id" type="hidden" name="creativeSize" ng-update-hidden required/>-->
-			<!--	</div>-->
-			<!--</div>-->
-
-			<!--Abi new version 3 From performance page-->
-			<!--<div class="brand_name_selected" id="brand_name_selected" ng-click="brandsDropdownClicked()" title="{{brandData.selectedBrand.name}}"  >{{brandData.selectedBrand.name ? brandData.selectedBrand.name : 'All Brands'}}</div>-->
-			<!--<div class="clearfix">-->
-			<!--<!--  <div class="pull-left brands_dd_icon"></div> -->
-			<!--  <div class="brandsDropdownSearch">-->
-			<!--	-->
-			<!--	<ul class="dropdown-menu" role="menu" id="brandsList">-->
-			<!--	  <div id="brandsDropdownDiv">-->
-			<!--		<input class="dropdown-toggle inactive"  id="brandsDropdown"-->
-			<!--			  placeholder="{{brandData.selectedBrand.name ? brandData.selectedBrand.name : 'All Brands'}}"  ng-keyup="disableShowAll();searchBrands()" ng-model="selectedBrand.name"/>-->
-			<!--		<span class="sort-image-inactive brands_dd_filter_arrow" id="#brandsDropDownImg"></span>-->
-			<!--	  </div>-->
-			<!--	  <div class="brandsList_ul" id="brandsList_ul" lr-infinite-scroll="loadMoreBrands" scroll-threshold="200" list-exhausted="{{exhausted}}" fetching="{{fetching}}">-->
-			<!--		<li ng-repeat="brand in brands track by brand.id" ng-hide="isExcludedByBrandFilter" ng-class="{'active' : brand.id === brandData.selectedBrand.id}" ng-controller="BrandsListController">-->
-			<!--		  <a data-ng-click="selectBrand(brand)">-->
-			<!--			<span class="tick"></span>-->
-			<!--			<span class="menuItemText" ng-bind-html="highlightSearch(brand.name, selectedBrand.name)">{{brand.name}}</span>-->
-			<!--		  </a>-->
-			<!--		</li>-->
-			<!--	  </div>-->
-			<!--	</ul>-->
-			<!--  </div>-->
-			<!--</div>-->
-
-            <label ng-if="formCreativeCreate.creativeSize.$error.required" class="col-sm-12 control-label greyTxt errorLabel" style="margin: 0;">Please select the creative size.</label>
-            </div>
-
-            </form>
         </div>
+        <!--=== List Ends ===-->
     </div>
-    <!--=== List Ends ===-->
-</div>
 
     <div class="about_popup popup-holder" style="display:none;">
         <div class="modal-header">

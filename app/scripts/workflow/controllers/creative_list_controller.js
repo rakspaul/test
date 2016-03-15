@@ -1,4 +1,4 @@
-define(['angularAMD','../../common/services/constants_service','workflow/services/workflow_service','common/moment_utils'],function (angularAMD) {
+define(['angularAMD','common/services/constants_service','workflow/services/workflow_service','common/moment_utils'],function (angularAMD) {
   angularAMD.controller('CreativeListController', function($scope, $rootScope, $routeParams, $route, $location,constants, workflowService,momentService) {
         var checkedCreativeArr=[];
         $scope.creativeAds={};
@@ -21,6 +21,15 @@ define(['angularAMD','../../common/services/constants_service','workflow/service
         $scope.campaignId = $routeParams.campaignId;
         $scope.loadCreativeData=false;
         $scope.deletePopup=false;
+
+        var winHeight = $(window).height();
+        $(".common-load-more").css({
+            'top': winHeight / 2 - 150,
+            'position':'absolute',
+            'left':'50%',
+            'margin':'0 0 0 -15px',
+            'z-index':'999'
+        });
 
         //viewPort Plugin Start
         //**Abi Commented Future Sticky Header
@@ -214,7 +223,9 @@ define(['angularAMD','../../common/services/constants_service','workflow/service
             }
         }
         $scope.cancelDelete=function(){
-            $scope.deletePopup=!$scope.deletePopup;
+            if(checkedCreativeArr.length>0){
+                $scope.deletePopup=!$scope.deletePopup;
+            }
         }
 
 
@@ -343,13 +354,23 @@ define(['angularAMD','../../common/services/constants_service','workflow/service
                 context.incorrectTagMessage = $scope.textConstants.WF_INVALID_CREATIVE_TAG;
             }
         };
+      $scope.creativeCreate=function(){
+          workflowService.setCreativeEditMode("create");
+          workflowService.setCreativeEditData(null);
+          $location.url("/creative/add");
+      }
 
         $scope.ShowHideTag = function (obj, pos) {
-            $scope.selectedCreativeData = obj;
-            $scope.selectedCreativePos = pos;
-            $scope.showViewTagPopup = true;
-            $scope.editorEnabled = false;
-            $scope.creativeTag = obj.tag;
+            workflowService.setCreativeEditMode("edit");
+            workflowService.setCreativeEditData(obj);
+            $location.url("/creative/add");
+
+
+            //$scope.selectedCreativeData = obj;
+            //$scope.selectedCreativePos = pos;
+            //$scope.showViewTagPopup = true;
+            //$scope.editorEnabled = false;
+            //$scope.creativeTag = obj.tag;
         };
 
         $scope.toggleCreativeAds=function(context,creativeId,index,event){
@@ -370,29 +391,6 @@ define(['angularAMD','../../common/services/constants_service','workflow/service
             }
             //$scope.chkActiveParent();
         };
-
-        //Fix position for parent row
-        //$scope.chkActiveParent = function () {
-        //    var visible = false;
-        //
-        //    $( '.visible' ).each( function() {
-        //        if ( $( this ).visible( true ) ) {
-        //            visible = true;
-        //        }
-        //
-        //        if ( visible ) {
-        //            $(this).find(".parentWrap").removeClass('fixedParent');
-        //            console.log("I SEE PARENT");
-        //        } else {
-        //            $(this).find(".parentWrap").addClass("fixedParent");
-        //            console.log("Dont SEE PARENTs");
-        //        }
-        //    });
-        //}
-        //
-        //$(window).scroll(function(){
-        //    $scope.chkActiveParent();
-        //});
 
         $scope.utcToLocalTime = function (date, format) {
             return momentService.utcToLocalTime(date, format);
@@ -456,7 +454,7 @@ define(['angularAMD','../../common/services/constants_service','workflow/service
             .end()
             .find('#creative_nav_link')
             .addClass('active');
-        $('html').css('background', '#ececec');
+        $('html').css('background', '#EDF2F8');
 
 
         //Search Hide / Show
@@ -514,7 +512,8 @@ define(['angularAMD','../../common/services/constants_service','workflow/service
 
                     //console.log("$(this).scrollTop():"+$(this).scrollTop()+"$(this).innerHeight():"+$(this).innerHeight()+"$(this)[0].scrollHeight:"+$(this)[0].scrollHeight)
                     var selectedClientObj = localStorage.selectedClient && JSON.parse(localStorage.selectedClient);
-                    if(selectedClientObj) {
+
+                    if(selectedClientObj && (window.location.href.indexOf("creative/list") > -1)) {
                         creativeList.getCreativesList(JSON.parse(localStorage.selectedClient).id,'','',$scope.pageSize, $scope.pageNo);
                         $scope.loadCreativeData=true;
                     }

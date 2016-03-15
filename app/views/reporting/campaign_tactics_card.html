@@ -1,21 +1,21 @@
-<div id="tactics-accordion-{{strategy.id}}" class="clearfix tactics_container" style="display:none">
+<div id="tactics-accordion-{{strategy.id}}" class="clearfix tactics_container col-md-12 zeroPadding" style="display:none">
     <div id="loading_icon_{{strategy.id}}" style="display:none" class="load-more">&nbsp;</div>
     <div ng-repeat="tactic in strategy.strategyTactics track by tactic.id" class="clearfix tactics_linkage_lines each_tactic_holder">
-        <div class="tactics_linkage_lines_bar"></div>
+        <!--<div class="tactics_linkage_lines_bar"></div>-->
         <div class="each_tactic_container">
 
             <div class="clearfix each_campaign_list_container">
                 <div class="clearfix">
-                    <div class="each_campaign_section">
+                    <div class="each_campaign_section" style="padding-right: 0;">
                         <div class="campaign_status_icon {{tactic.status.toLowerCase()}}_bulb" tooltip-placement="left" tooltip="{{tactic.status.toLowerCase() == 'in_flight'?'In Flight':tactic.status.toLowerCase() | toCamelCase}}"></div>
                     </div>
-                    <div class="each_campaign_section">
+                    <div class="each_campaign_section zeroPadding">
                         <div class="main_heading">
                              <truncate-text-with-hover txt="{{tactic.name}}" txtlength="75"></truncate-text-with-hover>
                         </div>
 
                     </div>
-                    <div class="each_campaign_section">
+                    <div class="each_campaign_section zeroPadding">
                         <div class="clearfix tactic_accordion_details">
                             <div ng-if="(tactic.audience_targeting!='null' && tactic.audience_targeting!='' && tactic.audience_targeting.length > 0  )">
                                <!--TODO - remove the commented one  after the fix -->
@@ -45,10 +45,8 @@
                     </div>
                 </div>
 
-
-                <div class="each_campaign_section campaign_list_details">
-
-
+                <!--Column 1-->
+                <div class="col-md-4 each_campaign_section campaign_list_details">
                     <div class="days_left_holder">
                         <div class="total_days_holder">
 
@@ -72,7 +70,9 @@
                         <span class="pull-left">{{tactic.platform_name}}</span>
                     </div>
                 </div>
-                <div class="each_campaign_section metric_campaign_section">
+                
+                <!--Column 2-->
+                <div class="col-md-4 each_campaign_section metric_campaign_section">
                     <div class="clearfix metric_graph_header">
                         <span class="metric_title">{{textConstants.SPEND}}</span>
                         <span class="metric_val">{{tactic.grossRev | currency:undefined:2}}</span>
@@ -88,7 +88,7 @@
                                       <div class="end_point_line"></div>
                                   </div>
                               </div>
-                              <div class="graph_end_point completed_end_point budget_graph_val" ng-hide="tactic.expectedMediaCost == tactic.totalMediaCost"><!-- put completed_end_point when at end -->
+                              <div class="graph_end_point completed_end_point budget_graph_val"><!-- put completed_end_point when at end -->
                                   <div class="end_point_val">
                                       <div class="end_point_line"></div>
                                       <span>{{textConstants.BUDGET}}: {{tactic.totalMediaCost | currency:undefined:2}}</span>
@@ -123,7 +123,9 @@
                         </div>
                     </div>
                 </div>
-                <div class="each_campaign_section campaign_section_KPI">
+                
+                <!--Column 3-->
+                <div class="col-md-4 each_campaign_section campaign_section_KPI">
                     <div class="graph_details_KPI">
                         <div class="clearfix details_KPI_row1">
                             <span class="details_KPI_title">{{campaign.kpiType !='null' ?  campaign.kpiType : 'NA' | displayToCamelCase}}</span>

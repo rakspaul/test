@@ -1,4 +1,4 @@
-define(['angularAMD', '../../common/services/constants_service', 'workflow/services/workflow_service','login/login_model','common/moment_utils','workflow/directives/clear_row'], function (angularAMD) {
+define(['angularAMD', 'common/services/constants_service', 'workflow/services/workflow_service','login/login_model','common/moment_utils','workflow/directives/clear_row', 'workflow/directives/ng_upload_hidden'], function (angularAMD) {
   angularAMD.controller('CreateCampaignController', function ($scope,  $rootScope,$routeParams, $locale, $location, $timeout,constants, workflowService,loginModel,momentService) {
 
         $scope.selectedKeywords = [];
@@ -13,6 +13,7 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
             costArr: []
 
         };
+        $scope.tags = [];
         $scope.saveCampaignClicked=false;
         $scope.platFormArr = [];
         $scope.selectedChannel = "Display";
@@ -98,16 +99,6 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
             }else if(angular.uppercase(kpi.name) === "CLICKS"){
                 $scope.resetCostArrCPM();
             }
-            ///*on deleting a KPI row*/
-            //$scope.changeCostArrOnKpiRemoval=function(kpi){
-            //    if(angular.uppercase(kpi) === "CLICKS"){
-            //        $scope.resetCostArrCPC();
-            //    }else if(angular.uppercase(kpi) === "IMPRESSIONS" || angular.uppercase(kpi) === "VIEWABLE IMPRESSIONS"){
-            //        $scope.resetCostArrCPM();
-            //    }
-            //
-            //}
-
 
             /*enable disable calculation/cost type in dropdown based on KPI selected*/
             $scope.enableDisableCalculationType();
@@ -278,7 +269,6 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
 
             $scope.effectiveNegative = false;
             $scope.deliveryBudgetNegative = false;
-            // $scope.Campaign.nonInventoryCost=parseInt($scope.Campaign.totalBudget)*((100-parseInt($scope.Campaign.marginPercent))/100);
             $scope.costRowSum = 0;
             if ($scope.Campaign.costArr.length > 0 && $scope.Campaign.kpiArr.length > 0) {
                 for (var i = 0; i < $scope.Campaign.costArr.length; i++) {
@@ -511,6 +501,11 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
                     $scope.Campaign.totalBudget = $scope.editCampaignData.totalBudget;
                     $scope.Campaign.marginPercent = $scope.editCampaignData.marginPercent ? $scope.editCampaignData.marginPercent :0;
                     $scope.Campaign.deliveryBudget = $scope.editCampaignData.deliveryBudget;
+                    if( $scope.editCampaignData.labels && $scope.editCampaignData.labels.length > 0){
+                        $scope.tags = workflowService.recreateLabels($scope.editCampaignData.labels);
+                    }
+
+
                     /*write condition for orange text here also*/
                     if (parseFloat($scope.Campaign.deliveryBudget) < 0) {
                         $scope.deliveryBudgetNegative = true;
@@ -855,6 +850,7 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
                 postDataObj.campaignCosts = $scope.newCostArr;//$scope.Campaign.costArr;
                 postDataObj.campaignObjectives = $scope.checkedObjectiveList;
                 postDataObj.preferredPlatforms = $scope.platFormArr;
+                postDataObj.labels = _.pluck($scope.tags, "label");
                 postDataObj.clientId = loginModel.getSelectedClient().id;
                 if ($scope.mode == 'edit') {
                     if (moment(formData.startTime).format(constants.DATE_UTC_SHORT_FORMAT) === momentService.utcToLocalTime($scope.editCampaignData.startTime, constants.DATE_UTC_SHORT_FORMAT))
@@ -877,6 +873,7 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
                     postDataObj.advertiserId = Number(formData.advertiserId);
                     workflowService.saveCampaign(postDataObj).then(function (result) {
                         if (result.status === "OK" || result.status === "success") {
+                            $scope.saveCampaignClicked=false;
                             $scope.sucessHandler(result);
                             localStorage.setItem('topAlertMessage', $scope.textConstants.CAMPAIGN_CREATED_SUCCESS);
                         }
@@ -1037,9 +1034,8 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
             }
 
             $('.input-daterange').datepicker({
-                //format: "mm/dd/yyyy",
                 format: "mm/dd/yyyy",
-                orientation: "auto",
+                orientation: "top auto",
                 autoclose: true,
                 todayHighlight: true
             });

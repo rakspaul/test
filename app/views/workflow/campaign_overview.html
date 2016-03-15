@@ -25,7 +25,7 @@
                             </div>
                         </div>
                         <div ng-if="workflowData.campaignData.status" class="campTitleWrap" >
-                            <span class="statuslabel {{workflowData.campaignData.status|lowercase}}_bulb" tooltip-placement="top" tooltip="{{workflowData.campaignData.status.toLowerCase() == 'in_flight'?'In Flight':workflowData.campaignData.status.toLowerCase()  | toCamelCase }}" ></span>
+                            <span class="statuslabel {{workflowData.campaignData.status|lowercase}}_bulb"  tooltip-placement="top" tooltip="{{workflowData.campaignData.status.toLowerCase() == 'in_flight'?'In Flight': (workflowData.campaignData.status.toLowerCase()  | toCamelCase) }}" ></span>
 
                             <h1 tooltip-placement="bottom" tooltip="{{workflowData.campaignData.name}}" class="overview-camp-name"
                                 ng-click="editCampaign(workflowData.campaignData)">
@@ -237,14 +237,10 @@
 
                                         <!--Column 2-->
                                         <div class="col-md-6" style="padding: 0 0 0 10px;">
-                                            <label class="col-sm-12 control-label greyTxt miniLabels">Label</label>
-                                            <select data-placeholder="Choose a Country..." class="chosen-select" multiple tabindex="4">
-                                                <option value=""></option>
-                                                <option value="United States">United States</option>
-                                                <option value="United Kingdom">United Kingdom</option>
-                                                <option value="Afghanistan">Afghanistan</option>
-                                                <option value="Aland Islands">Aland Islands</option>
-                                            </select>
+                                            <label class="col-sm-12 control-label greyTxt miniLabels">{{textConstants.LABEL}}</label>
+                                            <tags-input class="form-group col-sm-12 zeroPadding"
+                                                        ng-model="tags">
+                                            </tags-input>
                                         </div>
                                     </div>
 
@@ -254,15 +250,16 @@
                                         <label class="col-sm-12 control-label greyTxt miniLabels">Budget</label>
                                         <div class="form-group col-md-3" style="padding: 0 10px 0 0;">
                                             <span class="currencyFly">$</span>
-                                            <input type="text"
+                                            <input type="number"
                                                    class="form-control text-right"
                                                    id="budgetIndividualAdGroup"
                                                    name="adIGroupBudget"
+                                                   ng-model="budget"
                                                    maxlength="30"/>
                                         </div>
 
                                         <div class="col-md-3" style="padding: 0 0 0 10px;">
-                                            Widget Goes Here
+                                            <!--Widget Goes Here-->
                                         </div>
                                     </div>
 
@@ -281,6 +278,7 @@
                                                            placeholder="MM/DD/YYYY"
                                                            class="form-control"
                                                            readonly name="lowestStartTime"
+                                                           ng-model="startTime"
                                                            required/>
                                                 </div>
                                                 <div class="dateContainer form-group" style="padding-left: 10px;" show-errors>
@@ -301,11 +299,12 @@
                                         </div>
                                     </div>
                                     <div class="col-md-2 zeroPadding" style="margin-top: 75px;">
+                                        <span class="pull-right common-loading-btn" style="width: 61px;" ng-show="loadingBtn"></span>
                                         <button type="submit"
                                                 class="btn btn-primary pull-right"
                                                 id="groupIndividual"
                                                 ng-disabled="createIndependantAdsGrp.$invalid"
-                                                ng-click="createIndependantAdsGroup()" data-ng-bind="textConstants.SAVE">
+                                                ng-click="createIndependantAdsGroup()" data-ng-bind="textConstants.SAVE" ng-show="!loadingBtn">
                                         </button>
                                         <span class="pull-right secondary_txt" ng-click="groupIndividualAds()" data-ng-bind="textConstants.CANCEL"></span>
                                     </div>
@@ -318,7 +317,7 @@
                         <div class="singleCardWrap active">
                             <div class="overlay"></div>
                             <!--=== Create BTN Ad ===-->
-                            <div class="col-md-3 adModule adCreateBtn" ng-click="navigateToAdCreatePage()">
+                            <div class="col-md-3 adModule adCreateBtn" ng-click="navigateToAdCreatePage()" ng-if="showReportsOverview">
                                 <div class="col-md-12">
                                     <a ng-href="#"
                                        class="col-md-12 text-center addMaster">
@@ -898,7 +897,8 @@
                     <div class="zeroPadding">
                         <div class="adSave">
                             <!-- Standard button -->
-                            <button type="button" class="btn" data-ng-bind="textConstants.SAVE"></button>
+                            <span class="pull-right common-loading-btn" style="width: 61px;" ng-show="loadingBtn"></span>
+                            <button type="button" class="btn" data-ng-bind="textConstants.SAVE" ng-disabled="createIndependantAdsGrp.$invalid" ng-show="!loadingBtn"></button>
                             <button type="button" class="btn btn-link addClose" data-ng-bind="textConstants.CANCEL"></button>
                         </div>
                     </div>
@@ -961,10 +961,9 @@
     $(function() {
         $('.input-daterange').datepicker({
             format: "mm/dd/yyyy",
-            orientation: "top auto",
+            orientation: "auto",
             autoclose: true,
             todayHighlight: true
         });
     })
 </script>
-

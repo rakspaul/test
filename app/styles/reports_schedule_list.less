@@ -1,186 +1,321 @@
-
 .reports-scheduled-list {
-	.scheduled-list-header {
-		margin : 30px 0 20px ;
-	}
-	h2 {
-		margin-top: 0px ;
-	}
-	.scheduled-list-nav {
-		margin-bottom: 23px ;
-		.each-nav {
-			color: #939eae ;
-			font-size: 13px ;
-			text-transform: uppercase;
-			cursor: pointer;
-			margin-right: 34px ;
-		}
-		.each-nav.active {
-			color: #57606c ;
-			border-bottom: solid 2px #0978c9 ;
-		}
-	}
-	.scheduled_list_table {
-		margin-bottom: 40px ;
-		.row {
-			margin: 0 ;
-		}
-		.table-td  {
-			white-space: nowrap;
-			overflow: hidden;
-			text-overflow : ellipsis ;
+  .scheduled-list-header {
+    margin : 30px 0 20px ;
+  }
+  h2 {
+    margin-top: 0px ;
+  }
+  .scheduled-list-nav {
+    margin-bottom: 23px ;
+    .each-nav {
+      color: #939eae ;
+      font-size: 13px ;
+      text-transform: uppercase;
+      cursor: pointer;
+      margin-right: 34px ;
+    }
+    .each-nav.active {
+      color: #57606c ;
+      border-bottom: solid 2px #0978c9 ;
+    }
+  }
+  .scheduled_list_table {
+    margin-bottom: 40px ;
+    .row {
+      margin: 0 ;
+    }
+    .table-td  {
+      white-space: nowrap;
+      //overflow: hidden;
+      text-overflow: ellipsis ;
+    }
+    .table-th , .table-td  {
+      float: left;
+      //width: 200px ;
+      min-height: 51px ;
+      .col-md-9 {
+        &:first-child {
+            padding-left: 40px ;
+            background-image : url("/images/cdesk/common_side_arrow.png") ;
+            background-repeat: no-repeat  ;
+            background-position: left 15px center ;
+            cursor: pointer;
+            }
+        }
+        .no-instance {
+            background-image: none !important;
+            cursor: initial !important;
+        }
+    }
+    div.name-col {
+      width: 33.33333333%;
+      padding: 0 5px 0 0px;
+      cursor: pointer;
+      .col-md-9 {
+        padding: 15px 0;
+      }
 
-		}
-		.table-th , .table-td  {
-			float: left;
-			width: 200px ;
-			min-height: 35px ;
-			&:first-child {
-				padding-left: 40px ;
-				background-image : url("/images/cdesk/common_side_arrow.png") ;
-				background-repeat: no-repeat  ;
-				background-position: left 15px center ;
-				cursor: pointer;
-			}
-		}
-		div.name-col {
-			width: 405px ;
-		}
-		.table-th.name-col {
-			cursor: text;
-		}
-		div.frequency-col {
-			width: 130px ;
-			cursor: pointer;
-		}
-		div.more-options {
-			width: 65px ;
-			padding-left: 5px;
-    		padding-right: 0;
-		}
-		.common-sort-icon {
-			display: inline-block;
-		}
-		.table-body {
-			.downloaded {
-				font-family: "Avenir-bold" ;
-			}
-		}
-		.row.open {
-			.table-td {
-				&:first-child {
-					background-image : url("/images/cdesk/common_down_arrow.png") ;
-				}
-			}
-		}
-		.row {
-		  .table-td:first-child.no-instance {
-			background-image: none;
-			cursor: text;
-		  }
-		}
-		.table-td.more-options {
-			overflow: visible;
-			padding: 0;
-			.dropdown {
-				border: 0;
-				min-width: auto;
-				min-height: 34px;
-				.dropdown-menu {
-					font-family: "Avenir";
-					left: auto;
-					right: -1px;
-					min-width: 140px;
-					top: 92%;
-					width: 140px;
-					border-color: #dde6eb ;
-					li {
-						padding: 5px 15px;
-						cursor: pointer;
-						&:hover {
-							background: #e1edf9 ;
-						}
-					}
-				}
-				&:hover {
-					background: #dde6eb ;
-				}
-			}
-			.dropdown.open {
-				background: #dde6eb ;
-			}
-		}
-		.option-horizontal {
-			text-align: center;
-			cursor: pointer;
-			height: 33px;
-    		padding-top: 5px;
-			> span {
-				display: inline-block;
-				height: 5px ;
-				width: 5px ;
-				background: #5D5D5D ;
-				margin: 0 2px ;
-				border-radius: 50% ;
-				-moz-border-radius: 50% ;
-				-webkit-border-radius: 50% ;
-			}
-		}
-		.row {
-			.inner-row {
-				display: none;
-				.table-td {
-					background-color: #fff  ;
-					&:first-child {
-						background-image : none ;
-						padding-left: 55px;
-						cursor: text;
-					}
-				}
-			}
-		}
-		.table-th  {
-			padding: 20px;
-			border-color: #d2dee7  ;
-			border-width: 1px 0 2px 0px ;
-			border-style: solid ;
-			&:first-child {
-				border-left-width : 1px  ;
-				background-image : none ;
-			}
-			&:last-child {
-				border-right-width : 1px  ;
-			}
-		}
-		.table-td {
-			border-color: #bfc9d7  ;
-			border-width: 0px 0 1px 1px ;
-			border-style: solid ;
-			padding: 7px 20px;
-			background-color: #edf2f8 ;
-			&:last-child {
-				border-right-width : 1px  ;
-			}
-		}
+      .more-options {
+        float: right;
+        border-width: 0;
+        margin: 9px 0 0 0;
+        min-height: auto;
+        background: transparent !important;
+        .dropdown:hover {
+            background: transparent !important;
+        }
+      }
+    }
+    .table-th.name-col {
+      cursor: pointer;
+      padding: 20px 40px;
+    }
+    div.frequency-col {
+      //width: 130px ;
+      // cursor: pointer;
+    }
+    div.more-options {
+      width: 65px ;
+      padding-left: 5px;
+      padding-right: 0;
+      border-left:1px none #edf2f8;
+    }
+    .common-sort-icon {
+      display: inline-block;
+    }
+    .table-body {
+      .downloaded {
+        font-family: "Avenir-bold" ;
+      }
+    }
+    .row.open {
+      .table-td {
+        .col-md-9 {
+            &:first-child {
+            background-image : url("/images/cdesk/common_down_arrow.png") ;
+          }
+        }
+      }
+    }
+    .row {
+      .table-td:first-child.no-instance {
+        background-image: none;
+        cursor: text;
+      }
+    }
 
-		.view-all-link {
-			text-align: center;
-			.table-td {
-				background-image: none;
-			}
-			a {
-				color: #0978c9 ;
-				text-decoration: underline;
-			}
-		}
-	}
+      .hideOption {
+          display:none;
+      }
+      .rowHover:hover {
+          background-color: #DCE6F1;
+          .hideOption {
+              display:block;
+          }
+      }
+    .table-td.more-options {
+      overflow: visible;
+      padding: 0;
+      .dropdown {
+        border: 0;
+        min-width: auto;
+        min-height: 34px;
+        .dropdown-menu {
+          font-family: "Avenir";
+          left: auto;
+          right: -1px;
+          min-width: 140px;
+          top: 62%;
+          width: 140px;
+          border-color: #dde6eb ;
+          border-radius:3px;
+          li {
+            padding: 5px 0;
+            cursor: pointer;
+            &:hover {
+              background: #FFFFFF ;
+            }
+          }
+        }
+        &:hover {
+          background: #FFFFFF ;
+        }
+      }
+      .dropdown.open {
+        background: #FFFFFF ;
+      }
+        .headerDownload {
+                border-top:1px solid #ccd2da;
+                padding: 5px 15px !important;
+            span {
+                width: auto;
+                margin: 3px 0 0 9px;
+                display: inline-block;
+                clear: none;
+            }
+            a {
+                margin: 0;
+                color: #0978c9;
+                clear: none;
+                width: auto;
+                display: inline-block;
+                line-height: 100%;
+                padding: 7px 0 0 10px;
+            }
+            a:hover {
+                background: none;
+            }
+        }
+    }
+    .option-horizontal {
+      text-align: center;
+      cursor: pointer;
+      height: 33px;
+      padding-top: 5px;
+      > span {
+        display: inline-block;
+        height: 5px ;
+        width: 5px ;
+        background: #5D5D5D ;
+        margin: 0 2px ;
+        border-radius: 50% ;
+        -moz-border-radius: 50% ;
+        -webkit-border-radius: 50% ;
+      }
+    }
+    .row {
+      .inner-row {
+        display: none;
+        .table-td {
+          //background-color: #fff  ;
+          &:first-child {
+            background-image : none ;
+            padding-left: 30px;
+            cursor: text;
+          }
+        }
+      }
+    }
+    .table-th  {
+      padding: 20px;
+      border-color: #d2dee7  ;
+      border-width: 1px 0 2px 0px ;
+      border-style: solid ;
+      font-family:Avenir-bold;
+      color: #57606D;
+      &:first-child {
+        border-left-width : 1px  ;
+        background-image : none ;
+      }
+      &:last-child {
+        border-right-width : 1px  ;
+      }
+    }
+    .table-td {
+      border-color: #bfc9d7  ;
+      border-width: 0px 0 1px 1px ;
+      border-style: solid ;
+      padding: 15px 20px;
+      //background-color: #ffffff ;
+      &:last-child {
+        border-right-width : 1px  ;
+      }
+    }
+
+    .view-all-link {
+      text-align: center;
+      .table-td {
+        background-image: none;
+      }
+      a {
+        color: #0978c9 ;
+        text-decoration: underline;
+      }
+    }
+  }
 
 }
 
 .reports-scheduled-list {
-	.scheduled_list_table  {
-		.name-col {
-			width: 325px ;
-		}
-	}
+  .scheduled_list_table  {
+    .name-col {
+      width: 325px ;
+    }
+  }
 }
+
+
+
+#searchList {
+    .btn_list_filters {
+        margin-bottom:20px;
+    }
+    .icon-plus {
+        margin: -1px 10px 2px 4px;
+    }
+    .btn-default  {
+        .filter {
+            height: 36px !important;
+        }
+    }
+    .btn-default:hover, .btn-default:focus, .btn-default:active, .btn-default.active, .open .dropdown-toggle.btn-default {
+        background-color: #e1edf9 !important;
+    }
+
+    .btn-group .btn [class^="icon-"] {
+        float: left;
+        height: 14px;
+        width: 14px;
+        padding: 0;
+        margin: -2px 10px 0 0;
+        color: #363d49;
+        border-top-left-radius: 2px;
+        border-bottom-left-radius: 2px;
+    }
+
+    .searchInput {
+        width: auto;
+        border-top: 1px solid #BFC9D7;
+        border-bottom: 1px solid #BFC9D7;
+        border-left: 1px solid #BFC9D7;
+        border-top-left-radius: 2px;
+        border-bottom-left-radius: 2px;
+        float: left;
+        a.btn {
+            cursor: pointer;
+            height: 34px;
+            padding: 10px 15px;
+            border-width: 0;
+        }
+        .input-group {
+            position: relative;
+            display: none;
+            width: 34px;
+            input {
+                border-width: 0;
+            }
+            .btn {
+                position: absolute;
+                z-index: 10;
+                top: 0px;
+                right: 0px;
+                border-width: 0;
+                box-shadow: none;
+                padding: 0;
+                width: 44px;
+                height: 34px;
+                border-left: 1px solid #BFC9D7;
+                [class^="icon-"], [class*=" icon-"] {
+                    float: right;
+                    cursor: pointer;
+                    margin: 10px 15px;
+                    top: 0;
+                    right: 0;
+                }
+
+            }
+        }
+    }
+}
+
+

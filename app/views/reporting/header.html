@@ -1,29 +1,42 @@
 <div class="main_navigation_holder" ng-controller="HeaderController">
     <div class="main_nav clearfix">
-        <div class="pull-left">
-            <a href="/dashboard" class="main_logo" id="logo" style="cursor:pointer;">
-                <img ng-src="/images/visto_logos/Visto_Logo_hi-res.svg" alt="" height="32"/>
-            </a>
+         <!--Hamburger Icon Mobile-->
+        <div class="icon-hamburger" ng-click="mobileMenuShow();"></div>
+
+        <!--Logo-->
+        <a href="/dashboard" class="main_logo" id="logo" style="cursor:pointer;">
+            <img ng-src="/images/visto_logos/Visto_Logo_hi-res.svg" alt="" height="32"/>
+        </a>
+
+        <!--Mobile Menu-->
+        <div class="mobileNavWrap">
+            <div class="mobileNav">
+                <a href="/mediaplans" ng-mouseover="hide_navigation_dropdown($event);" ng-bind="textConstants.MEDIA_PLAN"></a>
+                <a href="javascript:void(0);" reporttitle="reportOverview" ng-click="NavigateToTab('', $event ,'reportOverview')" ng-bind="textConstants.REPORTS"></a>
+                <a href="javascript:void(0);" ng-click="NavigateToTab('', $event ,'creativelist')" ng-bind="textConstants.CREATIVES"></a>
+            </div>
+            <div class="mobileHideFunc" ng-click="mobileMenuHide();"></div>
         </div>
+
+        <!--Full Nav Links-->
         <div class="pull-left main_navigation clearfix">
             <!--<div class="pull-left each_nav_link" id="dashboard_nav_link">
                 <a href="/dashboard" ng-bind="textConstants.DASHBOARD"></a>
-
                 <div class="arrowSelect"></div>
             </div>-->
-            <div class="pull-left each_nav_link" id="campaigns_nav_link">
+            <div class="pull-left each_nav_link" id="campaigns_nav_link" ng-if="fparams[0]['mediaplan_list']">
                 <a href="/mediaplans" ng-mouseover="hide_navigation_dropdown($event);" ng-bind="textConstants.MEDIA_PLAN"></a>
 
                 <div class="arrowSelect"></div>
             </div>
-            <div class="pull-left each_nav_link" id="reports_nav_link">
+            <div class="pull-left each_nav_link" id="reports_nav_link" ng-if="fparams[0]['reports_tab']">
                 <a href="javascript:void(0);" reporttitle="reportOverview"
                    ng-click="NavigateToTab('', $event ,'reportOverview')"
                    ng-mouseover="show_hide_nav_dropdown($event,'reports','hover');" ng-bind="textConstants.REPORTS"></a>
 
                 <div class="arrowSelect" style="bottom: -1px;"></div>
             </div>
-            <div class="pull-left each_nav_link" id="creative_nav_link">
+            <div class="pull-left each_nav_link" id="creative_nav_link" ng-if="fparams[0]['creative_list']">
                 <a href="javascript:void(0);"
                    ng-click="NavigateToTab('', $event ,'creativelist')" ng-bind="textConstants.CREATIVES"></a>
                 <div class="arrowSelect" style="bottom: -14px;"></div>

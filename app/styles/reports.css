@@ -3587,6 +3587,98 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 }
 .report_generator_and_response {
   background: #fff ;
+  /*.collapseIcon{
+        visibility: hidden;
+    }*/
+}
+.report_generator_and_response .save_reset {
+  padding: 9px;
+  border: solid 1px #a9a9a9;
+  border-radius: 4px;
+  color: grey;
+  margin-top: 0px;
+}
+.report_generator_and_response .save_reset.glyphicon-repeat::before {
+  content: " ";
+  left: 2px;
+}
+.report_generator_and_response #dynamicHeader {
+  padding-left: 0;
+  min-width: 1277px;
+}
+.report_generator_and_response #dynamicHeader.smaller {
+  background-color: #fff;
+  /* border-bottom: solid 1px gray;
+            margin-bottom: 38px;*/
+  height: 58px;
+}
+.report_generator_and_response #dynamicHeader.smaller h3 {
+  margin-bottom: -4px;
+  margin-right: 15px;
+  bottom: -5px;
+  float: left;
+  position: relative;
+  margin-top: 18PX;
+}
+.report_generator_and_response #dynamicHeader.smaller h6 {
+  margin-top: 7px;
+}
+.report_generator_and_response #dynamicHeader.smaller .collapseIcon {
+  display: inline;
+}
+.report_generator_and_response #dynamicHeader.smaller .savedSubTitle {
+  display: block;
+  font-size: 14pt;
+  margin-top: 22px;
+  margin-right: 6px;
+  float: left;
+}
+.report_generator_and_response #dynamicHeader.smaller .iconPlusMinus {
+  display: block;
+  margin-top: 6px;
+  margin-right: 6px;
+  float: left;
+}
+.report_generator_and_response #dynamicHeader.smaller .downReport {
+  display: block;
+  float: right;
+  margin-top: 20px;
+}
+.report_generator_and_response #dynamicHeader.smaller .downReport a {
+  color: #312333;
+}
+.report_generator_and_response #dynamicHeader.smaller .subTitle {
+  display: none;
+}
+.report_generator_and_response #dynamicHeader {
+  padding-left: 0;
+}
+.report_generator_and_response #dynamicHeader .collapseIcon {
+  display: none;
+}
+.report_generator_and_response #dynamicHeader .savedSubTitle {
+  display: none;
+}
+.report_generator_and_response #dynamicHeader .downReport {
+  display: none;
+}
+.report_generator_and_response #dynamicHeader .subTitle {
+  display: block;
+}
+.report_generator_and_response .icon-minus,
+.report_generator_and_response .icon-plus {
+  color: #57606d;
+  font-size: 12px;
+  height: 24px;
+  padding: 6px;
+  top: 0;
+  width: 24px;
+  border: 1px solid #C6C9CE;
+  border-radius: 2px;
+  float: left;
+  margin-right: 10px;
+  margin-left: 18px;
+  margin-top: 17px;
 }
 .report_generator_and_response .report_builder_container {
   margin-bottom: 30px ;
@@ -4361,6 +4453,8 @@ body.custom_report_page .bodyWrap {
   border: solid 1px #BFC9D7;
   padding-right: -2px;
   width: 131px;
+  height: 36px;
+  padding-left: 10px;
 }
 #newDatePickerBox .startPicker #startDateInputGlyph,
 #newDatePickerBox .endPicker #startDateInputGlyph,

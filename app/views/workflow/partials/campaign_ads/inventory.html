@@ -11,7 +11,8 @@
 
             <div class="col-md-12 zeroPadding radioBtnToggle">
                 <div class="btn-group miniToggle">
-                    <label class="btn btn-default whitelist" style="width: auto;">
+                    <label class="btn btn-default whitelist{{workflowData.whiteListsSelected ? ' active disabled' : ''}}"
+                           style="width: auto;">
                         <span>Whitelist</span>
                         <input type="radio"
                                name="inventoryList"
@@ -20,10 +21,11 @@
                                ng-model="adData.inventory.domainAction"
                                ng-checked="adData.inventory.domainAction === 'INCLUDE' ? true : false"
                                hidden="hidden"
-                               class="btn_rad"
-                               ng-click="workflowData.toggleBlackAndWhite($event);">
+                               class="btn_rad whitelist"
+                               ng-click="showDomainListTypePopupCue('INCLUDE', $event)">
                     </label>
-                    <label class="btn btn-default blacklist" style="width: auto;">
+                    <label class="btn btn-default blacklist{{workflowData.blackListsSelected ? ' active disabled' : ''}}"
+                           style="width: auto;">
                         <span>Blacklist</span>
                         <input type="radio"
                                name="inventoryList"
@@ -32,9 +34,24 @@
                                ng-model="adData.inventory.domainAction"
                                ng-checked="adData.inventory.domainAction === 'EXCLUDE' ? true : false"
                                hidden="hidden"
-                               class="btn_rad"
-                               ng-click="workflowData.toggleBlackAndWhite($event);">
+                               class="btn_rad blacklist"
+                               ng-click="showDomainListTypePopupCue('EXCLUDE', $event)">
                     </label>
+                    <div id="domain-list-type-popup-cue"
+                         class="domain-list-type-popup-cue popUpCue"
+                         ng-show="changeDomainListType">
+                        <span class="col-md-12 zeroPadding" style="height: auto;">
+                            Change filter type and remove selected lists?
+                        </span>
+                        <a href="javascript:void(0);"
+                           class="leftNavLink pull-right btn btn-primary"
+                           ng-click="continueDomainListTypeChange()"
+                           data-ng-bind="textConstants.CONTINUE"></a>
+                        <a class="pull-right btn btn-link"
+                           data-ng-bind="textConstants.CANCEL"
+                           ng-click="hideDomainListTypePopupCue()">
+                        </a>
+                    </div>
                 </div>
             </div>
 
@@ -74,15 +91,30 @@
             <div class="filterList"
                  ng-show="(workflowData.whiteListsSelected && workflowData.selectedWhiteLists.length > 0) ||
                         (workflowData.blackListsSelected && workflowData.selectedBlackLists.length > 0)">
-                <div class="filterHead" >
+                <div class="filterHead" style="position: relative;">
                     <span class="pull-left"
                           style="width: auto;"
                           ng-bind="inventory.name + ' (' + inventory.domainList.length + ')'">
                     </span>
                     <a class="icon-trash pull-right"
-                       ng-click="workflowData.removeDomainList($event)"
+                       ng-click="showRemoveDomainListPopup($event)"
                        data-id="{{inventory.id}}"
-                       style="margin: 10px 0 0 50px;"></a>
+                       style="margin: 10px 0 0 50px;">
+                    </a>
+                    <div class="popUpCue remove-domain-list">
+                        <span class="col-md-12 zeroPadding">
+                            Are you sure?
+                        </span>
+                        <a href="javascript:void(0);"
+                           class="leftNavLink pull-right btn btn-primary"
+                           style="margin-right: 0;"
+                           ng-click="workflowData.removeDomainList()"
+                           data-ng-bind="textConstants.CONTINUE"></a>
+                        <a class="pull-right btn btn-link"
+                           data-ng-bind="textConstants.CANCEL"
+                           ng-click="hideRemoveDomainListPopup()">
+                        </a>
+                    </div>
                     <button class="btn btn-default pull-right"
                             ng-click="workflowData.assignCurrentInventory(inventory)"
                             ngf-select="selectFiles($files, 'INVENTORY_UPDATE')"
@@ -105,14 +137,14 @@
                          ng-show="inventory.domainNamesDisplay === 'collapsed'">
                         <ul class="zeroPadding">
                             <li ng-repeat="domain in inventory.domainList |
-                                    orderBy: name : inventory.reverseOrder |
+                                    orderBy: proxyOrderBy : inventory.reverseOrder |
                                     limitTo: 3"
                                 style="list-style: none; color: #939eae; padding: 5px 0;"
                                 data-ng-bind="domain">
                             </li>
                         </ul>
                         <div class="clearfix"
-                             ng-show="inventory.domainList.length >= 3"
+                             ng-show="inventory.domainList.length > 3"
                              style="display: inline-block;">
                             <span ng-click="workflowData.changeDomainNamesDisplay('expanded', inventory.id)"
                                   style="cursor: pointer; color: #0978c9;"
@@ -125,7 +157,7 @@
                         <ul class="zeroPadding"
                             style="max-height: 470px; overflow: scroll;">
                             <li ng-repeat="domain in inventory.domainList |
-                                    orderBy : name : inventory.reverseOrder"
+                                    orderBy : proxyOrderBy : inventory.reverseOrder"
                                 style="list-style: none; color: #939eae; padding: 5px 0;"
                                 data-ng-bind="domain">
                             </li>
@@ -151,7 +183,9 @@
             <div class="thick-margin"></div>
             <div class="headerLib">
                 <span class="icon-close closePopBtn" aria-hidden="true" ng-click="closeDomainListPop()"></span>
-                <h1 data-ng-bind="textConstants.UPLOADLIST"></h1>
+                <h1 ng-bind="workflowData.whiteListsSelected ?
+                    textConstants.UPLOAD_WHITE_LIST :
+                    textConstants.UPLOAD_BLACK_LIST"></h1>
                 <div class="pop-list">
                     <div class="filterHead">
                         <div class="sort-icon-holder active" ng-click="workflowData.sortInventoryNew();"
@@ -163,7 +197,7 @@
                     <div class="filterBody">
                         <ul>
                             <li ng-repeat="domainName in workflowData.csvFileContents |
-                                    orderBy : domainName : inventoryNew.reverseOrder"
+                                    orderBy : proxyOrderBy : inventoryNew.reverseOrder"
                                 ng-bind="domainName">
                             </li>
                         </ul>
@@ -184,62 +218,12 @@
                                    remove-special-character="remove-special-character"
                                    ng-model="adData.listName"
                                    placeholder="Enter List Name"
-                                   ng-disabled="!inventoryCreate  ?  true : false"
+                                   ng-disabled="!inventoryCreate ? true : false"
                                    autofocus
                                    required>
                             <label class="col-sm-12 control-label errorLabel"
                                    data-ng-bind="textConstants.PLEASEENTERLIST">
                             </label>
-                        </div>
-                    </div>
-                    <div class="categoryDDL">
-                        <label class="col-sm-12 control-label greyTxt miniLabels"
-                               data-ng-bind="textConstants.CATEGORY">
-                        </label>
-                        <div class="form-group col-md-12 zeroPadding">
-                            <select class="form-control" id="inventoryCat" disabled>
-                                <option value="" data-ng-bind="textConstants.DOMAINLIST" disabled></option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="radioBtnToggle">
-                        <label class="col-sm-12 control-label greyTxt miniLabels"
-                               data-ng-bind="textConstants.TYPE">
-                        </label>
-                        <div class="btn-group miniToggle">
-                            <label class="btn btn-default
-                                        {{adData.inventory.domainAction === 'INCLUDE' ? ' active' : ''}}
-                                        {{!inventoryCreate ? ' disabled' : ''}}">
-                                <span data-ng-bind="textConstants.WHITELIST"></span>
-                                <input type="radio"
-                                       name="inventoryType"
-                                       value="INCLUDE"
-                                       ng-disabled="!inventoryCreate  ?  true : false"
-                                       ng-model="adData.inventory.domainAction"
-                                       ng-checked="adData.inventory.domainAction === 'INCLUDE' ? true : false"
-                                       class="btn_rad"
-                                       hidden="hidden"
-                                       ng-click="workflowData.toggleBlackAndWhite($event);">
-                            </label>
-                            <label class="btn btn-default
-                                        {{adData.inventory.domainAction === 'EXCLUDE' ? ' active' : ''}}
-                                        {{!inventoryCreate ? ' disabled' : ''}}">
-                                <span data-ng-bind="textConstants.BLACKLIST"></span>
-                                <input type="radio"
-                                       name="inventoryType"
-                                       value="EXCLUDE"
-                                       ng-disabled="!inventoryCreate ?  true : false"
-                                       ng-model="adData.inventory.domainAction"
-                                       ng-checked="adData.inventory.domainAction === 'EXCLUDE' ? true : false"
-                                       hidden="hidden"
-                                       class="btn_rad"
-                                       ng-click="workflowData.toggleBlackAndWhite($event);">
-                            </label>
-                        </div>
-                        <div class="grey_txt note"
-                             style="margin-top: 4px;"
-                             ng-if="!inventoryCreate"
-                             data-ng-bind="textConstants.LISTYPEMOD">
                         </div>
                     </div>
                 </div>
@@ -272,7 +256,7 @@
                       ng-click="saveCancelExistingListPopup('cancel')">
                 </span>
                 <h1 ng-bind="'Select from Existing ' +
-                                (adData.inventory.domainAction === 'INCLUDE' ? 'Whitelist' : 'Blacklist')">
+                                (adData.inventory.domainAction === 'INCLUDE' ? 'Whitelists' : 'Blacklists')">
                 </h1>
             </div>
             <div class="popBody">
@@ -338,12 +322,11 @@
     </form>
 </div>
 <!-- Modal End -->
-
 <!--=== Next Step Panel ===-->
-<span class="nextWrapper leftNavLink creative-tab-link" ng-hide="showDomainListPopup">
-    <a class="btn btn-default"
-       href
+<span class="nextWrapper leftNavLink" ng-hide="showDomainListPopup">
+    <a href
        data-toggle="tab"
+       class="btn btn-default"
        ng-click="trigerCreativeTag()"
        data-ng-bind="textConstants.WF_AD_SAVE_CONTINUE">
     </a>

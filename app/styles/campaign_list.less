@@ -1013,16 +1013,12 @@ button, i, input[type="submit"] {
 /************* NEW DASHBOARD STYLING *******************************************/
 .each_cost_col {
   float: left;
-  width: 138px;
-  min-width: 86px;
+  width: 12.5%;
   min-height : 10px;
   font-size: 14px;
   color: #27292a;
-  margin-right: 5px;
-  text-align: center;
   word-wrap: break-word;
-  padding-right: 17px ;
-  text-align: right;
+  text-align: center;
   .kpi-dd-holder, #kpi_dropdown {
     padding: 0 ;
   }
@@ -1037,7 +1033,7 @@ button, i, input[type="submit"] {
 }
 
 .each_cost_col.total_cost  {
-  width: 140px;
+  //width: 140px;
 }
 .campaign_status_icon {
   margin-top: 5px;
@@ -1054,8 +1050,8 @@ button, i, input[type="submit"] {
   }
 }
 .total_cost {
-  width: 85px;
-  margin-right: 0;
+  //width: 85px;
+  //margin-right: 0;
 }
 .sortable {
   background: url("/images/cdesk/sprites.png") no-repeat -197px -346px;
@@ -1075,7 +1071,7 @@ button, i, input[type="submit"] {
   background: url("/images/cdesk/sprites.png") no-repeat -433px -350px ;
 }
 .dashboard_outer_container {
-  width: 1200px;
+  width: 100%;
   margin: 0 auto;
   .no-campaign-available {
     border: solid 1px #d2dee7;
@@ -1125,6 +1121,8 @@ button, i, input[type="submit"] {
   }
   .campaign_list_header {
     margin-right: 0px ;
+    width: 100%;
+    clear: both;
     .nav_filters {
       width: auto ;
       #brandsList {
@@ -1160,17 +1158,16 @@ button, i, input[type="submit"] {
     border: solid 1px #d2dee7 ;
     color: #333 ;
     height: 60px;
-    padding-top: 20px;
+    padding: 20px;
     margin: 0px ;
-    padding-left: 15px ;
+    width: 100%;
     .each_header_title {
       float: left;
-      min-width: 96px;
       text-align: center;
       font-size: 14px ;
       font-family: "Avenir" ;
       cursor: pointer;
-      margin: 0 10px;
+      margin: 0;
       a {
         color: #313233 ;
         text-decoration: none;
@@ -1194,13 +1191,13 @@ button, i, input[type="submit"] {
       }
     }
     .metrics_title {
-      width: 296px ;
+      //width: 296px ;
       cursor: default;
     }
     .kpi_title {
       cursor: default;
-      margin-left: 150px;
-      width: 80px;
+      //margin-left: 150px;
+      //width: 80px;
       .tooltip_holder {
         margin-left: 6px ;
         .common_tooltip {
@@ -1240,10 +1237,11 @@ button, i, input[type="submit"] {
     .each_campaign_list_container {
       border: solid 1px #d2dee7 ;
       background: #fff ;
-      padding: 18px 10px 0px 20px;
+      padding: 20px;
       margin: 0px 0 10px ;
       .each_campaign_section {
         float: left;
+        padding: 0 15px;
       }
       .main_heading {
         font-size: 18px ;
@@ -1260,12 +1258,12 @@ button, i, input[type="submit"] {
           color: #57606d ;
           font-size: 14px ;
           margin-top: 2px ;
-          margin-left: 22px ;
+          padding-left: 15px ;
       }
       .campaign_section_KPI {
-        width : 316px ;
+        //width : 316px ;
         float: right;
-        height: 142px ;
+        //height: 142px ;
         .no-data-common {
           margin-top: 20px ;
         }
@@ -1274,7 +1272,7 @@ button, i, input[type="submit"] {
             font-size: 16px;
             font-family: "Avenir";
             color: black;
-            margin-right: 8px;
+            //margin-right: 8px;
             .details_KPI_title {
               float: left;
               .darkBoldVal();
@@ -1313,20 +1311,24 @@ button, i, input[type="submit"] {
           }
         }
         .graph_KPI_outer_holder {
-          height:  150px ;
+          //height:  150px ;
           overflow: hidden;
-          margin-left: -13px;
+          //margin-left: -13px;
           .graph_KPI_holder {
-            height: 120px ;
+            //height: 120px ;
           }
           .load-more {
             margin-top: 50px ;
+          }
+          .no-chart {
+            float: left;
+            width: 100%;
           }
         }
       }
       .metric_campaign_section {
         font-family: "Avenir" ;
-        width: 306px;
+        //width: 306px;
         .metric_graph_header {
           .darkBoldVal();
           .metric_title {
@@ -1419,8 +1421,8 @@ button, i, input[type="submit"] {
       }
       .campaign_list_details {
         font-family: "Avenir" ;
-        width: 306px;
-        margin: 5px 30px 0 20px;
+        //width: 306px;
+        margin: 6px 0 0 0;
         .heading_holder {
           min-height: 80px ;
           word-wrap: break-word;
@@ -1497,7 +1499,7 @@ button, i, input[type="submit"] {
   }
   .total_campaign_cost_holder {
     .each_campaign_cost_container {
-      padding: 10px;
+      padding: 20px;
       .each_cost_section {
         float: left;
         .each_cost_details {
@@ -1528,14 +1530,17 @@ button, i, input[type="submit"] {
         }
       }
       .other_details {
-        width: 97% ;
+        width: 100%;
+        .col-md-6 {
+            width: 50%;
+        }
       }
       .each_cost_details {
         float: left;
       }
       .cost_metric_graph {
         float: right;
-        width: 375px ;
+        width: 50%;
       }
     }
   }
@@ -1914,7 +1919,9 @@ button, i, input[type="submit"] {
   }
 }
 .cost_col_header_tabs_holder {
-  margin-top: 30px ;
+    width: 100%;
+    float: left;
+    margin-top: 30px ;
   .cost_tabs_margin {
     font-size: 14px ;
     font-family:"Avenir";
@@ -1949,6 +1956,7 @@ button, i, input[type="submit"] {
         border-right: solid 1px #d2dee7 ;
       }
       .each_tab.active {
+        //active text
         .each_tab_text {
           background: #fff;
           height: 38px;
@@ -1967,9 +1975,23 @@ button, i, input[type="submit"] {
 .total_campaign_cost_holder {
   background: #fff;
   margin-bottom: 20px ;
-  height : 500px ;
-  overflow: auto ;
-  border-bottom: solid 1px #d2dee7 ;
+  min-height : 500px ;
+  //overflow: auto ;
+  border-bottom: solid 1px #d2dee7;
+  float: left;
+  width: 100%;
+  .all_campaigns_container {
+    float: left;
+    width: 100%;
+    .each_campaign_cost_container {
+        float: left;
+        width: 100%;
+        .col-md-12 {
+            float: left;
+            width: 100%;
+        }
+    }
+  }
   .first_col {
         padding-left: 23px;
   }
@@ -2004,7 +2026,10 @@ button, i, input[type="submit"] {
           margin-bottom: 4px;
         }
         .heading {
-          color: #727272 ;
+          color: #727272;
+          float: left;
+          width: 100%;
+          padding-left: 21px;
         }
         .dates_details {
           font-size: 12px ;
@@ -2043,7 +2068,7 @@ button, i, input[type="submit"] {
         font-family: "Avenir" ;
         font-size: 10px ;
         color: #717274 ;
-        margin: 12px 12px 0 12px ;
+        margin: 12px 0 0 12px ;
         width: 60px;
         word-wrap: break-word;
       }
@@ -2056,23 +2081,23 @@ button, i, input[type="submit"] {
 
 }
 #performance_block {
-  height: 500px;
-  overflow: auto;
+  min-height: 500px;
+  //overflow: auto;
 }
 /*  end of cost breakdown */
 
 .main_navigation_holder {
   height: 50px;
   background: #0978c9;
-  padding: 0px 15px;
+  padding: 0px;
   position: relative;
-  z-index: 9999999;
+  z-index: 99999999;
   .profile-photo-tab {
     position: relative;
     height: 42px;
     width: 31px;
     text-align: right;
-    margin-top: 8px;
+    margin: 8px 15px 0 0;
   }
   .profile-photo-tab.selected:after {
     bottom: 0px ;
@@ -2288,7 +2313,7 @@ button, i, input[type="submit"] {
     min-height: 80px;
     width: 300px;
     left: initial;
-    right: 0;
+    right: 0px;
     .nav-menu {
       background: transparent;
     }
@@ -2328,13 +2353,66 @@ button, i, input[type="submit"] {
     }
   }
   .main_nav {
-    color: #fff ;
+    color: #fff;
+    position: relative;
     .main_logo {
       display: block;
       //background: url("/images/visto_logos/visto-new-header.png") no-repeat left top;
       //width: 91px;
       //height: 40px;
-      margin: 8px 20px 0 0 ;
+        margin: 8px 20px 0 15px;
+        float: left;
+    }
+    .icon-hamburger {
+      float: left;
+      color: #fff;
+      cursor: pointer;
+      margin: 15px 0 0 10px;
+      font-size: 20px;
+      height: 20px;
+      width: 20px;
+      display: none;
+    }
+    .mobileNavWrap {
+      height: 100%;
+      width: 100%;
+      float: left;
+      position: absolute;
+      top: 50px;
+      left: 0;
+      z-index: 99;
+      display: none;
+      .mobileNav {
+        float: left;
+        position: fixed;
+        top: 50px;
+        left: 0px;
+        z-index: 10;
+        background: #004478;
+        width: 200px;
+        box-sizing: initial;
+        -webkit-box-sizing: initial;
+        -moz-box-sizing: initial;
+        padding: 0;
+        display: none;
+        a {
+          float: left;
+          width: 100%;
+          padding: 10px 15px;
+          text-decoration: none;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+        }
+        a:last-child {
+          border-width: 0;
+        }
+      }
+      .mobileHideFunc {
+        float: right;
+        right: 0;
+        position: fixed;
+        background: rgba(0, 0, 0, 0.25);
+        display: none;
+      }
     }
     .profile_menu {
       height: 30px ;
@@ -2412,6 +2490,21 @@ button, i, input[type="submit"] {
           height: 0;
           width: 0;
           border: solid 6px #fff;
+          border-left: solid 8px transparent;
+          border-top: 0;
+          border-right: solid 8px transparent;
+        }
+      }
+      .each_nav_link.active#creative_nav_link {
+        .arrowSelect {
+          content: "";
+          position: absolute;
+          display: block;
+          bottom: -15px;
+          left: 35%;
+          height: 0;
+          width: 0;
+          border: solid 6px #EDF2F8;
           border-left: solid 8px transparent;
           border-top: 0;
           border-right: solid 8px transparent;
@@ -2928,39 +3021,44 @@ button, i, input[type="submit"] {
 }
 .quick_filters_holder {
   .filters_selection_holder {
-    padding: 10px 0 ;
-    border-top: solid 1px #d2dee7 ;
     .quick_filter {
       position: relative;
       .sliding_dropdown_btn {
-        border: solid 1px #d2dee7;
-        padding: 5px;
         cursor: pointer;
         border-radius: 2px ;
         -moz-border-radius: 2px ;
         -webkit-border-radius: 2px ;
-        width: 32px;
         text-align: center;
-        height: 32px;
-        background: url("/images/cdesk/right_slide_in.png") no-repeat center center ;
-
+        padding: 10px 15px;
+        width: auto;
+        border: 1px solid #BFC9D7;
+        border-radius: 2px;
+        min-height: 36px;
+        
+        //When search is added uncomment below
+        //border-left: 0px;
+        //border-bottom-left-radius: 0;
+        //border-top-left-radius: 0;
+      }
+      .sliding_dropdown_btn:hover, .sliding_dropdown_btn:active, .sliding_dropdown_btn:focus {
+        background-color:#DCE6F1;
       }
       .sliding_dropdown_container {
         position: absolute;
-        top: -10px;
-        left: 0px;
+        top: -5px;
+        right: -5px;
         width: 207px;
-        border: solid 1px #ccc;
+        border: solid 1px #BFC9D7;
         z-index: 100;
         background-color: #fff;
         min-height: 300px;
-        padding: 14px 0;
-        box-shadow: 2px 0 4px #ccc;
-        -moz-box-shadow: 2px 0 4px #ccc;
-        -webkit-box-shadow: 2px 0 4px #ccc;
+        padding: 0 0 14px 0;
+        //box-shadow: 2px 0 4px #ccc;
+        //-moz-box-shadow: 2px 0 4px #ccc;
+        //-webkit-box-shadow: 2px 0 4px #ccc;
         overflow: auto;
         .each_section {
-          border-bottom: solid 1px #ccc ;
+          border-bottom: solid 1px #BFC9D7 ;
           padding: 10px 0 ;
           .filter_title {
             font-family: "Avenir-bold";
@@ -2972,9 +3070,13 @@ button, i, input[type="submit"] {
           }
           .close_sliding_dropdown {
             cursor: pointer;
-            background: url("/images/cdesk/left_slide_in.png") no-repeat right center;
-            height: 20px;
-            width: 20px;
+            width: auto;
+            border: 1px solid #BFC9D7;
+            border-radius: 2px;
+            height: 36px;
+            padding: 10px 15px;
+            background: #DCE6F1;
+            margin-top: 4px;
           }
           .section_filter_list {
             .each_filter {
@@ -2989,7 +3091,7 @@ button, i, input[type="submit"] {
                   border-radius: 30%;
                   -moz-border-radius: 30%;
                   -webkit-border-radius: 20px;
-                  border: solid 1px #ccc;
+                  border: solid 1px #BFC9D7;
                   min-width: 30px;
                   height: 16px;
                   line-height: 14px;
@@ -3025,7 +3127,7 @@ button, i, input[type="submit"] {
         .main_title {
           font-size: 18px;
           font-family: "Avenir-bold";
-          padding: 0 18px 10px 14px;
+          padding: 0 4px 5px 14px;
         }
       }
     }
@@ -3094,5 +3196,3 @@ button, i, input[type="submit"] {
     }
   }
 }
-
-

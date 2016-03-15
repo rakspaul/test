@@ -14,7 +14,7 @@
                     <span id="activityMessage" ng-style="action.disableTagButton" ng-bind="textConstants.ACTIVITY_CREATED_SUCCESSFULLY_VIEW_ACTIVITY_LOG"></span>
 
                     <div class="clearfix filter_holder">
-                        <div class="filter_dropdown" ng-click="actionTypeDropdownClicked()">123
+                        <div class="filter_dropdown" ng-click="actionTypeDropdownClicked()">
                             <multiselect class="input-xlarge" multiple="false" class="myerror" multipleoption="false"
                                          acceptmultiple="0" defaultoption='- Action Type -'
                                          ng-model="action.selectedType"
@@ -78,7 +78,7 @@
                 <div class="col-md-12">
                     <div class="carousel slide" id="myCarousel">
                         <div class="carousel-inner">
-                            <div class="item active" id="costWidget">
+                            <div class="item active" id="costWidget" ng-if="showCostWidget===true">
                                 <div class="col-xs-3">
                                     <div ng-click="setGraphData(campaign,'cost')" tooltip-placement="top"
                                          tooltip="Click for detailed reports"
@@ -160,7 +160,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="item">
+                            <div class="item" ng-class="{'active':showCostWidget === false}">
                                 <div class="col-xs-3 formats_widget">
                                     <div ng-click="setGraphData(campaign,'formats')" tooltip-placement="top"
                                          tooltip="Click for detailed reports"
@@ -263,7 +263,7 @@
 
 
             <!--activity log-->
-            <div class="clearfix activity_log_holder" ng-controller="EditActionsController">
+            <div class="col-md-12 zeroPadding activity_log_holder" ng-controller="EditActionsController">
                 <!--edit popup-->
                 <!-- edit activity log container -->
                 <div ng-controller="EditActionsController" class="edit_activity_log_holder" ng-show="showList.show">
@@ -320,8 +320,8 @@
                 </div>
                 <!-- end of edit activity log container -->
 
-                <div class="pull-left graph_activity_holder">
-                    <div class="activity_log_header">
+                <div class="col-md-6 graph_activity_holder" style="padding-left: 0;">
+                    <div class="activity_log_header" style="margin-bottom: 15px;">
                         {{ textConstants.CAMPAIGN_PERFORMANCE }}
                     </div>
                     <div class="graph_activity">
@@ -352,7 +352,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="pull-right activity_log_list_container">
+                <div class="col-md-6 activity_log_list_container" style="padding-right: 0;">
                     <div class="clearfix activity_log_header">
                         <div class="pull-left">
                             {{ textConstants.ACTIVITY_LOG }}
@@ -461,8 +461,9 @@
                     </div>
                     <!-- add campaign_overview_graphs_with_vtc when vtc is present -->
                     <!-- <div class="campaign_overview_graphs {{campaigns.cdbDataMap[campaign.orderId].adFormats.videoAds && campaigns.cdbDataMap[campaign.orderId].video_metrics.vtc_rate >0 ? 'campaign_overview_graphs_with_vtc' : ''}}">  -->
-                    <div class="campaign_overview_graphs {{campaigns.cdbDataMap[campaign.orderId].video_metrics.vtc_rate >0 ? 'campaign_overview_graphs_with_vtc' : ''}}">
-                        <div class="each_col col_first">
+                    <div class="col-md-12 zeroPadding campaign_overview_graphs {{campaigns.cdbDataMap[campaign.orderId].video_metrics.vtc_rate >0 ? 'campaign_overview_graphs_with_vtc' : ''}}">
+                        <!--Column 1-->
+                        <div class="col-md-4 each_col col_first">
                             <div class="col_heading"></div>
                             <div class="days_left_holder">
                                 <div class="total_days_holder">
@@ -488,7 +489,8 @@
                             </div>
                         </div>
 
-                        <div class="each_col col_spend">
+                        <!--Column 2-->
+                        <div class="col-md-4 each_col col_spend">
                             <div class="col_heading clearfix">{{ textConstants.SPEND }}
                                 <span class="metric_val">{{((campaigns.cdbDataMap[campaign.orderId].getGrossRev() >0)|| (campaigns.cdbDataMap[campaign.orderId].getGrossRev() == 0))? (campaigns.cdbDataMap[campaign.orderId].getGrossRev() | currency:undefined:2) : '-'}}</span>
                             </div>
@@ -519,8 +521,9 @@
                             </div>
                         </div>
                         <!-- <div class="each_col col_vtc" ng-if="campaigns.cdbDataMap[campaign.orderId].adFormats.videoAds && campaigns.cdbDataMap[campaign.orderId].video_metrics.vtc_rate >0"> -->
-                        <div class="each_col col_vtc"
-                             ng-if="campaigns.cdbDataMap[campaign.orderId].video_metrics.vtc_rate >0">
+
+                        <!--Column 3-->
+                        <div class="col-md-4 each_col col_vtc" ng-if="campaigns.cdbDataMap[campaign.orderId].video_metrics.vtc_rate >0">
                             <div class="col_heading clearfix">{{ textConstants.QUARTILE_DETAILS }}
                             </div>
                             <div class="quartile_details_graph" width='365' height='74' quartiles-graph
@@ -537,7 +540,7 @@
                     <div campaign-sort campaigns="campaigns" ng-show="campaign.campaignStrategies.length>0"></div>
                     <div class="total_campaign_list_holder">
                         <!--reusing the campaign and strategy partial view -->
-                        <div campaign-strategy-card campaign="campaign" campaigns="campaigns"></div>
+                        <div campaign-strategy-card campaign="campaign" campaigns="campaigns" class="col-md-12 zeroPadding"></div>
                     </div>
                 </div>
                 <!--<campaign-drop-down selected-obj=selectedCampaign style="visibility: hidden"> </campaign-drop-down>-->

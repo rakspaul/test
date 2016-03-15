@@ -8,6 +8,11 @@ define(['angularAMD','common/services/vistoconfig_service', 'common/services/con
             platform,
             savedGeo,
             vistoModule,
+            creativeMode,
+            creativeEditData,
+            isAdGroup,
+            unallocatedAmount,
+
             deletedModule = [];
 
             function createObj(platform){
@@ -40,7 +45,7 @@ define(['angularAMD','common/services/vistoconfig_service', 'common/services/con
             getClientData: function (clientId) {
                 var url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId;
 
-                return dataService.fetch(url, {cache: false});
+                return dataService.fetch(url, {cache: true});
             },
 
             getAdvertisers: function (accessLevel) {
@@ -257,15 +262,33 @@ define(['angularAMD','common/services/vistoconfig_service', 'common/services/con
 
                 return dataService.fetch(url);
             },
+            /*creative Library Flow*/
+            getVendorsAdServer:function(){
+                var clientId =  loginModel.getSelectedClient().id;
+                return dataService.fetch(vistoconfig.apiPaths.WORKFLOW_API_URL  +'/clients/'+clientId+'/vendors?vendorType=ADSERVING');
+            },
+            /*Ad Create Flow*/
+            getAdServers:function(adFormat){
+                var clientId =  loginModel.getSelectedClient().id;
+
+                return dataService.fetch(vistoconfig.apiPaths.WORKFLOW_API_URL  +'/clients/'+clientId+'/vendors?format='+adFormat.replace(/\s+/g, '').toUpperCase());
+            },
+            getTemplates:function(adServer,format,isTracking){
+                if(isTracking!== undefined)
+                    return dataService.fetch(vistoconfig.apiPaths.WORKFLOW_API_URL  +'/vendors/'+adServer.id+'/templates?format='+format.replace(/\s+/g, '').toUpperCase()+'&isTracking='+isTracking);
+                else
+                    return dataService.fetch(vistoconfig.apiPaths.WORKFLOW_API_URL  +'/vendors/'+adServer.id+'/templates?format='+format.replace(/\s+/g, '').toUpperCase());
+
+            },
 
             getCreativeSizes: function () {
                 return dataService.fetch(vistoconfig.apiPaths.WORKFLOW_API_URL  +'/sizes');
             },
 
-            saveCreatives: function (clientId, adId, data) {
+            saveCreatives: function (clientId, data) {
                 clientId =  loginModel.getSelectedClient().id;
                 return dataService.post(
-                    vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/advertisers/' + adId + '/creatives',
+                    vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/advertisers/' + data.advertiserId + '/creatives',
                     data,
                     {'Content-Type': 'application/json'}
                 );
@@ -283,14 +306,15 @@ define(['angularAMD','common/services/vistoconfig_service', 'common/services/con
                 );
             },
 
-            getCreatives: function (clientId, advertiserId, formats, query, cacheObj, integrationTracking) {
+            getCreatives: function (clientId, advertiserId, formats, query, cacheObj, integrationTracking,state) {
                 var queryStr = query ? query : '',
                     creativeFormats = formats ? '?creativeFormat=' + formats : '',
                     intTracking = integrationTracking ? '&tracking=true' : '&tracking=false',
+                    state=state ? '&status=READY':'',
                     url = vistoconfig.apiPaths.WORKFLOW_API_URL +
                             '/clients/' + clientId +
                             '/advertisers/' + advertiserId +
-                            '/creatives' + creativeFormats + queryStr + intTracking;
+                            '/creatives' + creativeFormats + queryStr + intTracking +state;
 
                 return dataService.fetch(url, cacheObj);
             },
@@ -419,6 +443,22 @@ define(['angularAMD','common/services/vistoconfig_service', 'common/services/con
                 return mode;
             },
 
+            setIsAdGroup: function (m) {
+                isAdGroup = m;
+            },
+
+            getIsAdGroup: function () {
+                return isAdGroup;
+            },
+
+            setUnallocatedAmount: function (m) {
+                unallocatedAmount = m;
+            },
+
+            getUnallocatedAmount: function () {
+                return unallocatedAmount;
+            },
+
             setAdsDetails: function (ad) {
                 adDetails = ad;
             },
@@ -488,6 +528,18 @@ define(['angularAMD','common/services/vistoconfig_service', 'common/services/con
             resetDeleteModule : function() {
                 deletedModule = [];
             },
+            setCreativeEditData:function(data){
+                creativeEditData=data;
+            },
+            getCreativeEditData:function(){
+                return creativeEditData;
+            },
+            setCreativeEditMode:function(mode){
+                creativeMode=mode;
+            },
+            getCreativeEditMode:function(){
+                return creativeMode
+            },
 
             getAllCampaignsForAdClone: function(){
                 var clientId =  loginModel.getSelectedClient().id,
@@ -534,6 +586,15 @@ define(['angularAMD','common/services/vistoconfig_service', 'common/services/con
             },
             platformCreateObj: function(resp){
                 return createObj(resp);
+            },
+            recreateLabels: function(labelObj){
+                var labelArr = [];
+                for(var i = 0;i < labelObj.length ;i++){
+                    var obj = {};
+                    obj.label = labelObj[i];
+                    labelArr.push(obj);
+                }
+                return labelArr;
             }
 
         };

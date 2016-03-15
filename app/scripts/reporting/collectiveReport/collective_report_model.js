@@ -30,10 +30,24 @@ angularAMD.factory("collectiveReportModel", ['urlService', 'dataService', 'adver
             });
         }
 
-        var getScheduleReportList = function(successFn,errorFn) {
+        var deleteSavedReport = function(successFn,errorFn,reportId) {
+            var url = urlService.deleteSavedRpt(reportId);
+            dataService.delete(url).then(function(response){
+                if(response.status == "success") {
+                    successFn(response.data);
+                } else {
+                    errorFn(response.data);
+                }
+            })
+        }
+
+        var getScheduleReportList = function(successFn, errorFn, queryStr) {
             var url = urlService.scheduleReportsList();
             if(url) {
                 dataStore.deleteFromCache(url);
+            }
+            if(queryStr){
+                url += queryStr;
             }
             dataService.fetch(url).then(function(response){
                 if(response.status == "error") {
@@ -43,6 +57,18 @@ angularAMD.factory("collectiveReportModel", ['urlService', 'dataService', 'adver
                 }
             })
         }
+
+        var getSaveRptDetail = function(successCall,errorCall,reportId) {
+            var url = urlService.savedReport(reportId);
+            dataService.fetch(url).then(function(response){
+                if(response.status == "error") {
+                    errorCall(response);
+                } else {
+                    successCall(response.data.data);
+                }
+            })
+        }
+
 
         var deleteScheduledReport = function(successFn,errorFn,reportId) {
             var url = urlService.deleteSchdRpt(reportId);
@@ -88,6 +114,17 @@ angularAMD.factory("collectiveReportModel", ['urlService', 'dataService', 'adver
             });
         }
 
+        var createSavedReport = function(successCall, errorCall,data) {
+            var url = urlService.createSaveRpt();
+            dataService.post(url, data, {'Content-Type': 'application/json'}).then(function(response) {
+                if(response.status == "success") {
+                    successCall();
+                } else {
+                    errorCall();
+                }
+            });
+        }
+
         var archiveSchdReport = function(successCall,errorCall,reportId,instanceId) {
             var url = urlService.archiveSchldRpt(reportId,instanceId);
             dataService.put(url).then(function(response) {
@@ -107,7 +144,11 @@ angularAMD.factory("collectiveReportModel", ['urlService', 'dataService', 'adver
             deleteScheduledReportInstance: deleteScheduledReportInstance,
             getSchdRptDetail:getSchdRptDetail,
             createSchdReport:createSchdReport,
-            archiveSchdReport:archiveSchdReport
+            archiveSchdReport:archiveSchdReport,
+            getSaveRptDetail:getSaveRptDetail,
+            deleteSavedReport:deleteSavedReport,
+            createSavedReport:createSavedReport
+
         }
     }]);
 });

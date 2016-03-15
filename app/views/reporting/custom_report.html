@@ -4,11 +4,32 @@
 <div class="report_generator_and_response">
     <div class="report_builder_container">
         <div class="container">
+        <div class="row">
+        <div style="padding-left:15px;" class="col-md-12" id="dynamicHeader">
+            <!-- this will be hidden until fold happens -->
+            <a class="collapseIcon iconPlusMinus" role="button" id="{{$index+1}}" href=""> 
+                <span class="icon-plus" ng-click="ToggleAdGroups(this,adGroupsData.adGroup.id,$index+1, $event)"></span> 
+            </a>
+            <!-- -->
+            <span class="heading" style="float:left;"><h3 ng-bind-html="textConstants.REPORT_BUILDER"></h3></span>
+            <!-- this will be hidden after fold-->
+            <span class="heading subTitle"><h6 ng-bind-html="textConstants.REPORT_BUILDER_SUBTITLE"></h6></span>
+            <!-- -->
+            <!-- his will be hidden until fold happens -->
+            <span class="heading savedSubTitle"><span>{{reports.name}}</span></span>
+            <span class="heading savedSubTitle">| {{reports.reportDefinition.timeframe.start_date}}</span>
+            <span class="heading savedSubTitle">- {{reports.reportDefinition.timeframe.end_date}}</span>
+            <span class="heading downReport">
+                <span class="icon-download zeroPadding pull-left" style="margin-right:9px;"></span>
+                <a ng-click="downloadCreateRepBuilder()" class="pull-left">Download Report</a></span>
+            </span>
+        </div>
+        </div>
+        </div>
+
+        <div class="container" id="reportBuilderForm">
             <div class="row">
-                <div class="col-md-12">
-                    <span class="heading" style="float:left;"><h3 ng-bind-html="textConstants.REPORT_BUILDER"></h3></span>
-                    <span class="heading"><h6 ng-bind-html="textConstants.REPORT_BUILDER_SUBTITLE"></h6></span>
-                </div>
+
             </div>
             <div class="row">
                 <div class="col-md-4">
@@ -94,7 +115,7 @@
                             <div class="row" ng-show="showAddBreakdownButton">
                                 <div class="add_breakdown_line"></div>
                                 <div class="clearfix add_breakdown_btn">
-                                    <div class="pull-left add_circle_symbol"></div>
+                                    <div class="pull-left add_circle_symbol" ng-click="showSecondDimension()"></div>
                                     <div class="pull-left"
                                          ng-click="showSecondDimension()"
                                          ng-bind-html="textConstants.ADD_BREAKDOWN_LABEL">
@@ -106,7 +127,7 @@
                 </div>
                 <!-- div class 1st column over -->
                 <div class="col-md-6 left_border">
-                     <div class="each_section_custom_report">
+                     <div class="each_section_custom_report" style="min-width: 566px;">
                         <div class="create_report_title" ng-bind-html="textConstants.REPORT_BUILDER_TIMEFRAME"></div>
                         <div>
                             <div class="clearfix title_row_separator customDatesTimeframe">
@@ -413,6 +434,8 @@
             <!-- first row over -->
 
             <!-- Start 2nd Row Additional Filters -->
+            <div class="container">
+            <div class="row">
             <div class="col-md-12">
                 <div class="each_section_custom_report">
                     <div class="create_report_title" ng-bind-html="textConstants.REPORT_ADDITIONAL_FILTERS"></div>
@@ -465,7 +488,7 @@
                         </div>
                         <div class="clearfix title_row_separator">
                             <div class="pull-left additional_filters_label">
-                                <div class="pull-left add_circle_symbol"></div>
+                                <div class="pull-left add_circle_symbol" ng-click="addAdditionalFilters()"></div>
                                 <div ng-click="addAdditionalFilters()"
                                      class="pull-left blue_txt"
                                      ng-bind-html="textConstants.REPORT_ADD_FILTERS">
@@ -476,7 +499,10 @@
                 </div>
 
             </div>
+                </div>
+                </div>
             <!-- End 2nd Row Additional Filters -->
+
 
             <!-- 3rd Row Save/Schedule -->
             <div class="row create_scheduled_report">
@@ -495,27 +521,27 @@
                                 </div>
                             </div>
                             <!-- SAVE/SCHEDULE TOGGELE BUTTON MARK UP -->
-                            <!--<div class="each-col default-schedule-col radioBtnToggle">
-                                <div class="label-txt">{{textConstants.REPORT_NAME}}</div>
+                            <div class="each-col default-schedule-col radioBtnToggle">
+                                <div class="label-txt">Select Save or Schedule</div>
                                 <div class="btn-group miniToggle">
-                                    <label class="btn btn-default whitelist active" style="width: auto;">
+                                    <label class="btn btn-default whitelist " style="width: auto;" ng-class="reportTypeSelect === 'Save As' ? 'active' : ''">
                                         <span>Save As</span>
-                                        <input type="radio" name="saveSchedule" group="budgetGroup" value="Save As" ng-model="adData.inventory.domainAction" ng-checked="adData.inventory.domainAction === 'INCLUDE' ? true : false" hidden="hidden" class="" ng-click="workflowData.toggleBlackAndWhite($event);" checked="checked">
+                                        <input type="radio" name="saveSchedule" group="budgetGroup" value="Save As" ng-model="reportTypeSelect" ng-checked="reportTypeSelect === 'Save As' ? true : false" hidden="hidden" class=""  >
                                     </label>
-                                    <label class="btn btn-default blacklist" style="width: auto;">
+                                    <label class="btn btn-default blacklist" style="width: auto;" ng-class="reportTypeSelect === 'Schedule As' ? 'active' : ''">
                                         <span>Schedule As</span>
-                                        <input type="radio" name="saveSchedule" group="budgetGroup" value="Schedule As" ng-model="adData.inventory.domainAction" ng-checked="adData.inventory.domainAction === 'EXCLUDE' ? true : false" hidden="hidden" class="" ng-click="workflowData.toggleBlackAndWhite($event);">
+                                        <input type="radio" name="saveSchedule" group="budgetGroup" value="Schedule As" ng-model="reportTypeSelect" ng-checked="reportTypeSelect === 'Schedule As' ? true : false" hidden="hidden" class=""  checked="checked">
                                     </label>
                                 </div>
-                            </div> -->
+                            </div>
 
                             <div class="each-col default-schedule-col report-name-col">
                                 <div class="label-txt">{{textConstants.REPORT_NAME}}</div>
                                 <div>
-                                    <input type="text" ng-model="reports.name" maxlength="256">
+                                    <input style="height:36px; width:300px;" type="text" ng-model="reports.name" maxlength="256">
                                 </div>
                             </div>
-                            <div class="each-col default-schedule-col">
+                            <div class="each-col default-schedule-col" ng-show="reportTypeSelect !== 'Save As'" >
                                 <div class="label-txt" ng-bind-html="textConstants.WF_FREQUENCY"></div>
                                 <div>
                                     <div class="common_dropdown">
@@ -541,7 +567,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="each-col scheduling-options schedule-once">
+                            <div class="each-col scheduling-options schedule-once" ng-show="reportTypeSelect !== 'Save As'" >
                                 <div class="label-txt" ng-bind-html="textConstants.SCHEDULE_DELIVER_ON"></div>
                                 <div>
                                     <div class="input-daterange input-group date pull-left">
@@ -557,7 +583,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="each-col scheduling-options schedule-weekly">
+                            <div class="each-col scheduling-options schedule-weekly" ng-show="reportTypeSelect !== 'Save As'" >
                                 <div class="label-txt" ng-bind-html="textConstants.SCHEDULE_OCCURS_ON"></div>
                                 <div>
                                     <div class="common_dropdown">
@@ -582,7 +608,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="each-col scheduling-options schedule-monthly">
+                            <div class="each-col scheduling-options schedule-monthly" ng-show="reportTypeSelect !== 'Save As'" >
                                 <div class="label-txt" ng-bind-html="textConstants.SCHEDULE_OCCURS_ON"></div>
                                 <div>
                                     <div class="common_dropdown">
@@ -607,7 +633,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="each-col scheduling-options schedule-occurs-custom">
+                            <div class="each-col scheduling-options schedule-occurs-custom" ng-show="reportTypeSelect !== 'Save As'" >
                                 <div class="label-txt" ng-bind-html="textConstants.SELECT_DATE_LABEL"></div>
                                 <div>
                                     <div class="common_dropdown">
@@ -630,11 +656,11 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="each-col scheduling-options schedule-date">
+                            <div class="each-col scheduling-options schedule-date" style="width:258px;" ng-show="reportTypeSelect !== 'Save As'" >
                                 <div class="input-daterange-scheduled">
                                     <div class="input-daterange input-group date pull-left">
-                                        <div class="dateWrapper">
-                                            <div class="pull-left">
+                                        <div class="dateWrapper" style="width:258px;">
+                                            <div class="pull-left" style="width:124px;">
                                                 <div class="label-txt"
                                                      ng-bind-html="textConstants.SCHEDULE_START_DATE_LABEL">
                                                 </div>
@@ -648,7 +674,7 @@
                                                     <i class="icon-calendar glyphicon pull-right"></i>
                                                 </div>
                                             </div>
-                                            <div class="pull-left endScheduledDate">
+                                            <div class="pull-left endScheduledDate" style="width:124px;">
                                                 <div class="label-txt"
                                                      ng-bind-html="textConstants.SCHEDULE_END_DATE_LABEL">
                                                 </div>
@@ -678,7 +704,7 @@
                         </button>
                         <button class="pull-right secondary_txt"
                                 ng-click="resetMetricOptions();"
-                                ng-bind-html="buttonResetCancel">
+                                ng-bind-html="buttonResetCancel" ng-class="reportTypeSelect === 'Save As' ? 'save_reset glyphicon glyphicon-repeat' : ''">
                         </button>
 
                         <!-- <div class="pull-right secondary_txt" ng-click="reset_metric_options()">
@@ -1137,7 +1163,7 @@
         <!----- Delivery report data ------------------------>
         <div class="each_col" ng-if="customeReportData.impressions>=0" ng-bind="customeReportData.impressions | nrFormat"></div>
         <div class="each_col" ng-if="customeReportData.clicks>=0" ng-bind="customeReportData.clicks | nrFormat"></div>
-        <div class="each_col" ng-if="customeReportData.ctr>=0" ng-bind="customeReportData.ctr*100 | kpiFormatter:'ctr'"></div>
+        <div class="each_col" ng-if="customeReportData.ctr>=0" ng-bind="customeReportData.ctr | kpiFormatter:'ctr'"></div>
         <div class="each_col" ng-if="customeReportData.post_imp>=0" ng-bind="customeReportData.post_imp | nrFormat"></div>
         <div class="each_col" ng-if="customeReportData.post_click>=0" ng-bind="customeReportData.post_click | nrFormat"></div>
         <div class="each_col" ng-if="customeReportData.pccr>=0" ng-bind="customeReportData.pccr | number:2"></div>
@@ -1300,7 +1326,8 @@
         <div class="popup">
             <div class="popup-header-body">
                 <div class="clearfix">
-                    <h1 class="pull-left" ng-bind="textConstants.SCHEDULER_UPDATE"></h1>
+                    <h1 ng-show="scheduleReportActive == false" class="pull-left" ng-bind="textConstants.SAVED_UPDATE" ></h1>
+                    <h1 ng-show="scheduleReportActive === 'true'" class="pull-left" ng-bind="textConstants.SCHEDULER_UPDATE"></h1>
                     <span class="close unselectable" aria-hidden="true" ng-click="updateSchedule=false">x</span>
                 </div>
                 <div class="popup-content" ng-bind="archiveMessage"></div>

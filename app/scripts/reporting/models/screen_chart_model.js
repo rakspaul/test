@@ -59,7 +59,7 @@ define(['angularAMD', 'common/services/vistoconfig_service','common/services/dat
         this.dataModifyForScreenChart = function(data) {
             var selectedFormat = this.getScreenWidgetFormat();
             var screenDataArr = [];
-            var screenBarChartConfig = {"widgetName":selectedFormat,"barHeight": 8, "kpiType": "gross_rev", "gapScreen": 70, "widthToSubtract": 88, "separator": " ", "page": "dashboard"};
+            var screenBarChartConfig = {"widgetName":selectedFormat,"barHeight": 8,  "gapScreen": 70, "widthToSubtract": 88, "separator": " ", "page": "dashboard"};
             var kpiModel = this.getScreenWidgetMetric().toLowerCase();
             var selectedMetricKey =  mapper[kpiModel] || kpiModel.toLowerCase();
 
@@ -77,6 +77,8 @@ define(['angularAMD', 'common/services/vistoconfig_service','common/services/dat
                 dataToDisplayOnWidget  = sortedData.slice(0, 3);
             }
 
+            var value;
+
             _.each(dataToDisplayOnWidget, function(eachObj) {
                 var cls = '';
                 var type = '';
@@ -92,8 +94,19 @@ define(['angularAMD', 'common/services/vistoconfig_service','common/services/dat
                     icon_url = eachObj.platform_icon_url == 'Unknown' ? 'platform_logo.png' : type.toLowerCase().replace(/ /g, '_') + '.png';
                     icon_url = '/images/platform_favicons/' + icon_url;
                 }
-                var value = (((eachObj[calValMetricKey])*100)/total).toFixed(0);
-                screenDataArr.push({"className":cls,"type":type,"value": Number(value), 'icon_url': icon_url});
+                if (calValMetricKey === 'spend' || calValMetricKey === 'impressions') {
+                    value = ((eachObj[calValMetricKey] * 100) / total);
+                    value = value && value.toFixed(0);
+                } else if (calValMetricKey === 'ctr' || calValMetricKey === 'action_rate' || calValMetricKey === 'vtc') {
+                    value = parseFloat(eachObj[calValMetricKey] * 100)
+                    value = value && value.toFixed(2);
+                } else {
+                    value = parseFloat(eachObj[calValMetricKey]);
+                    value= value && value.toFixed(2);
+                }
+
+                //var value = (((eachObj[calValMetricKey])*100)/total).toFixed(0);
+                screenDataArr.push({"className":cls,"type":type,"value": Number(value), 'icon_url': icon_url, kpiType : (calValMetricKey === 'spend' ? 'gross_rev' : calValMetricKey) });
             })
             screenBarChartConfig.data = screenDataArr;
             return screenBarChartConfig;

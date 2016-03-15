@@ -66,7 +66,6 @@
 						</li>
 						<li class="clearfix eachStepCompLabel" >
 							<a class="leftNavLink budget-page-trigger" data-target="#budget" data-toggle="tab">2. {{textConstants.MP_BUDGET}}</a>
-							<!--<div class="statusLabel " ng-hide="isPrimarySelected || Campaign.totalBudget || Campaign.deliveryBudget">-->
 							<div class="statusLabel " ng-hide="Campaign.totalBudget || Campaign.deliveryBudget">
 								<div class="col-md-12">
 									<span>{{textConstants.WF_NOT_SET}}</span>
@@ -74,7 +73,6 @@
 							</div>
 							<div class="statusLabel" ng-if="Campaign.totalBudget">
 								<div class="col-md-12">
-									<!--<span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>-->
 									<div class="statusIcon icon-usd"></div>
 									<span class="">{{locale.NUMBER_FORMATS.CURRENCY_SYM}}{{Campaign.totalBudget | setDecimal:2 | number : fractionSize}}</span>
 									<span>(Total Budget)</span>
@@ -82,7 +80,6 @@
 							</div>
 							<div class="statusLabel" ng-if="Campaign.deliveryBudget">
 								<div class="col-md-12">
-									<!--<span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>-->
 									<div class="statusIcon icon-usd"></div>
 									<span class="">{{locale.NUMBER_FORMATS.CURRENCY_SYM}}{{Campaign.deliveryBudget | setDecimal:2 | number : fractionSize}}</span>
 									<span>(Delivery Budget)</span>
@@ -90,7 +87,6 @@
 							</div>
 							<div class="statusLabel" ng-if="PrimaryImpressions>0">
 								<div class="col-md-12">
-									<!--<span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>-->
 									<div class="statusIcon icon-goal"></div>
 									<span class="">{{PrimaryImpressions | number : fractionSize}}</span>
 									<span>(Primary KPI)</span>
@@ -156,6 +152,16 @@
 									<label ng-if="createCampaignForm.campaignName.$error.required" class="col-sm-12  greyTxt errorLabel">{{textConstants.WF_ENTER_NAME_CAMPAIGN}}</label>
 								</div>
 							</div>
+
+                            <!--<div class="col-md-12 spacingInput">&lt;!&ndash; SPACING &ndash;&gt;</div>-->
+                            <!--==== Row 1.2 ====-->
+
+                            <div class="col-md-9 zeroPadding">
+                                <label  class="col-sm-9 control-label labelQuestTxt" style="margin-bottom: 5px!important;">{{textConstants.LABEL}}</label>
+                                <tags-input class="form-group col-sm-9 zeroPadding"
+                                            ng-model="tags">
+                                </tags-input>
+                            </div>
 
 							<div class="col-md-12 spacingInput"><!-- SPACING --></div>
 							<!--==== Row 2 ====-->
@@ -324,7 +330,7 @@
 							<div class="col-md-12 spacingInput"><!-- SPACING --></div>
 
 							<!--=== Next Step Panel ===-->
-							<a href="#budget" data-toggle="tab" role="tab" class="nextWrapper leftNavLink budget">
+							<a  data-toggle="tab" data-target="#budget" role="tab" class="nextWrapper leftNavLink budget">
 								<span class="btn btn-default" ng-click="highlightLeftNav(1)">Save & Continue</span>
 							</a>
 						</div>
@@ -335,7 +341,7 @@
 							</h3>
 							<!--==== Row 1 ====-->
 							<div class="col-md-12 zeroPadding">
-								<label for="nameTitleCampaign" class="col-sm-12 labelQuestTxt" style="margin-bottom: 5px;">Display - Set up how you want to Budget and Measure</label>
+								<label for="nameTitleCampaign" class="col-sm-12 labelQuestTxt" style="margin-bottom: 5px;">{{selectedChannel | toTitleCase}} - Set up how you want to Budget and Measure</label>
 								<div class="col-md-12 zeroPadding marginCal">
 									<div class="calTable form-group" show-errors>
 										<h3>Total Budget</h3>
@@ -470,7 +476,7 @@
 									<div class="col-md-2 zeroPadding kpiTable symbol-input">
 
 										<span class="symbol">#</span>
-										<input type="text" class="col-md-12" ng-model="Campaign.kpiArr[$index]['kpiValue']" ng-keyup="setLeftNavPrimaryKpi($index); ComputeCost()" field="kpiValue"  whole-number-only="whole-number-only" index="{{$index}}" required/>
+										<input type="text" class="col-md-12" style="text-indent: 8px;height:36px;" ng-model="Campaign.kpiArr[$index]['kpiValue']" ng-keyup="setLeftNavPrimaryKpi($index); ComputeCost()" field="kpiValue"  whole-number-only="whole-number-only" index="{{$index}}" required/>
 										<label ng-if="Campaign.kpiArr[$index]['kpiValue']==='0'"  class="col-sm-12  greyTxt errorLabel" style="display:inline;" ng-bind="textConstants.TARGET_GREATER_THAN_ZERO"></label>
 									</div>
 
@@ -611,17 +617,17 @@
 
 								<div class="col-md-1 zeroPadding kpiTable symbol-input">
 									<span class="symbol">{{locale.NUMBER_FORMATS.CURRENCY_SYM}}</span>
-									<input type="text" class="col-md-12" ng-model="Campaign.costArr[$index]['rateValue']" fraction-numbers="fraction-numbers" ng-keyup="ComputeCost()" field="rateValue"  index="{{$index}}"/>
+									<input type="text" class="col-md-12" style="text-indent: 8px; height:36px;" ng-model="Campaign.costArr[$index]['rateValue']" fraction-numbers="fraction-numbers" ng-keyup="ComputeCost()" field="rateValue"  index="{{$index}}"/>
 								</div>
 
 								<div class="col-md-1 zeroPadding kpiTable symbol-input" style="width: 86px;">
 									<span class="symbol" style="left: initial; right: 25px;">{{textConstants.SYMBOL_PERCENT}}</span>
-									<input type="number" class="col-md-12" style="text-align: center; padding-left: 10px;" ng-model="Campaign.costArr[$index]['targetPercentage']" ng-keyup="ComputeCost()" whole-number-only="whole-number-only" max="100"  field="targetPercentage" index="{{$index}}" />
+									<input type="number" class="col-md-12" style="text-align: center; padding-left: 10px; height:36px;" ng-model="Campaign.costArr[$index]['targetPercentage']" ng-keyup="ComputeCost()" whole-number-only="whole-number-only" max="100"  field="targetPercentage" index="{{$index}}" />
 								</div>
 
 								<div class="col-md-1 zeroPadding kpiTable" style="padding: 0 !important; width: 145px;">
 
-									<input type="text" class="col-md-12" ng-model="Campaign.costArr[$index]['description']" field="description" index="{{$index}}"/>
+									<input style="height:36px;" type="text" class="col-md-12" ng-model="Campaign.costArr[$index]['description']" field="description" index="{{$index}}"/>
 								</div>
 								<!--<span class="remove-row ">-->
                             <span class="remove-row pull-right" ng-if="$index>0 || (Campaign.costArr.length>=2)">
@@ -654,7 +660,7 @@
 									</ul>
 								</div>
 							</div>
-							<a href="#contacts" data-toggle="tab" role="tab" class="nextWrapper leftNavLink contacts">
+							<a data-toggle="tab" data-target="#contacts" role="tab" class="nextWrapper leftNavLink contacts">
 								<span class="btn btn-default" ng-click="highlightLeftNav(2)">Save & Continue</span>
 							</a>
 						</div>
@@ -697,11 +703,6 @@
 				</div>
 			</div>
 
-			<!-- Modal End -->
-			<!--<div class="popMess errorPopMess">
-                <span>Please correct the {{errorAmount}} error(s) to continue.</span>
-            </div>-->
-			<!-- Message Pop End -->
 			<div class="common-popup-container" ng-show="campaignArchive">
 				<div class="popup">
 					<div class="popup-header-body">

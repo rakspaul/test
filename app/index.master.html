@@ -8,21 +8,28 @@
     <meta name="fragment" content="!" />
     <link href="/images/collective.png" rel="shortcut icon" type="image/x-icon">
     <link href="//fonts.googleapis.com/css?family=Armata" media="screen" rel="stylesheet">
+
     <link rel="stylesheet" href="/styles/libs/bootstrap.min.css">
-    <link rel="stylesheet" href="/styles/cdesk_application.css">
+    <link rel="stylesheet" href="/styles/libs/ng-tags-input.min.css">
+    <!-- @if ENV='local' -->
+        <link rel="stylesheet" href="/styles/cdesk_application.css">
+    <!-- @endif -->
+
+    <!-- @if ENV!='local' -->
+        <link rel="stylesheet" href="/styles/cdesk_application.min.css">
+    <!-- @endif -->
 </head>
+<body class='{{bodyclass}} {{productType}} {{customReport}}'>
+    <header></header>
 
-    <body class='{{bodyclass}} {{productType}} {{customReport}}'>
-        <header></header>
+    <div class="bodyWrap" ng-view></div>
 
-        <div class="bodyWrap" ng-view></div>
+    <script src="/conf/application-<!-- @echo ENV -->.js"></script>
+    <script src="/scripts/config.js"></script>
+    <script data-main="/scripts/main.js" src="/scripts/libs/require.js"></script>
 
-        <script src="/conf/application-<!-- @echo ENV -->.js"></script>
-        <script src="/scripts/config.js"></script>
-        <script data-main="/scripts/main.js" src="/scripts/libs/require.js"></script>
-
-        <!-- @if ENV='local' -->
-            <script src="http://localhost:35729/livereload.js?snipver=1" type="text/javascript"></script>
-        <!-- @endif -->
-    </body>
+    <!-- @if ENV='local' -->
+        <script src="http://localhost:35729/livereload.js?snipver=1" type="text/javascript"></script>
+    <!-- @endif -->
+</body>
 </html>

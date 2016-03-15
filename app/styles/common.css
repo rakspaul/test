@@ -1,11 +1,3 @@
-[ng\:cloak],
-[ng-cloak],
-[data-ng-cloak],
-[x-ng-cloak],
-.ng-cloak,
-.x-ng-cloak {
-  display: none;
-}
 /* font- face declarations */
 @font-face {
   font-family: "Avenir";
@@ -16,22 +8,112 @@
   font-family: "Avenir-bold";
   src: url("/fonts/Avenir/Avenir_bold.woff") format("woff"), url("/fonts/Avenir/Avenir_bold.woff2") format("woff2"), url("/fonts/Avenir/Avenir.ttf") format("truetype");
 }
+/*common loading icon */
+/* end of common loading icon */
+/*common disabled dropdowns layout */
+/*end of common disabled dropdowns layout */
+/*common sort icon */
+/*end of common sort icon */
+/*common popup styling */
+/*popup using modal */
+/*
+}*/
+/*end of popup using modal */
+/*popup using css*/
+/*end of popup using css*/
+/*end of common popup styling */
+/*page title */
+/*end of page title */
+/*top message/error box */
+/*for error messages only*/
+/*end of for error messages only*/
+/*for info message*/
+/* end for info message*/
+/* end of top message/error box */
+/*common tooltip and tooltip message*/
+/*end of common tooltip and tooltip message*/
+/*common buttons i.e primary,secondary,etc */
+/*primary button changing to loading */
+/*end of primary button changing to loading */
+/*end of common buttons i.e primary,secondary,etc */
+/*Navigation filters which contains Brands, Campaigns, and Strategy*/
+/*End of Navigation filters which contains Brands, Campaigns, and Strategy*/
+/*Main top navigation*/
+@-webkit-keyframes "fadeIn" {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@-moz-keyframes "fadeIn" {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes "fadeIn" {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+/*end of Main top navigation*/
+/*common checkbox styling */
+/*end of common checkbox styling */
+/*for reports section common css styling */
+/*end of for reports section common css styling */
+/*legends for graphs*/
+/*end of legends for graphs*/
+/* Mulitiple select */
+/* Put your css in here */
+/* End Mulitiple select option */
+/*Small Message popup*/
+/*end of Small Message popup*/
+/*close ( only cross )*/
+/*end of close ( only cross )*/
+/*ok icon with circle*/
+/*end of ok icon with circle*/
+/* for edit icon */
+/*common poup container */
+/*Status Bulbs*/
+/*End of Status Bulbs*/
+[ng\:cloak] {
+  display: none;
+}
+[ng-cloak] {
+  display: none;
+}
+[data-ng-cloak] {
+  display: none;
+}
+[x-ng-cloak] {
+  display: none;
+}
+.ng-cloak {
+  display: none;
+}
+.x-ng-cloak {
+  display: none;
+}
 .common_outer_container {
   width: 1040px;
   margin: 0 auto;
 }
-/*common loading icon */
 .loading-icon {
   text-align: center;
   text-indent: -99999;
   height: 40px;
   width: 40px;
   background: url("/images/loading.gif") no-repeat scroll 48% 45% rgba(0, 0, 0, 0);
-  margin: 20px auto 0 ;
+  margin: 20px auto 0;
   display: block;
 }
-/* end of common loading icon */
-/*common disabled dropdowns layout */
 .disabled_dropdown_holder {
   position: relative;
 }
@@ -44,8 +126,6 @@
   left: 0px;
   z-index: 1;
 }
-/*end of common disabled dropdowns layout */
-/*common sort icon */
 .common-sort-icon {
   display: inline-block;
   height: 13px;
@@ -55,43 +135,44 @@
 .sort-icon-holder {
   cursor: pointer;
 }
-.sort-icon-holder .common-sort-icon.ascending,
-.sort-icon-holder .common-sort-icon.descending {
-  display: none;
-}
 .sort-icon-holder .common-sort-icon.ascending {
+  display: none;
   background: url("/images/cdesk/sprites.png") no-repeat -197px -348px;
 }
 .sort-icon-holder .common-sort-icon.descending {
+  display: none;
   background: url("/images/cdesk/sprites.png") no-repeat -430px -351px;
 }
-.sort-icon-holder:hover > .common-sort-icon.ascending,
+.sort-icon-holder:hover > .common-sort-icon.ascending {
+  display: inline-block;
+}
 .sort-icon-holder:hover > .common-sort-icon.descending {
   display: inline-block;
 }
-.sort-icon-holder.active,
+.sort-icon-holder.active {
+  color: #0978c9;
+}
 .sort-icon-holder.active:hover {
   color: #0978c9;
 }
-.sort-icon-holder.active .common-sort-icon.ascending,
-.sort-icon-holder.active:hover .common-sort-icon.ascending,
-.sort-icon-holder.active .common-sort-icon.descending,
-.sort-icon-holder.active:hover .common-sort-icon.descending {
-  display: inline-block;
-}
-.sort-icon-holder.active .common-sort-icon.ascending,
 .sort-icon-holder.active:hover .common-sort-icon.ascending {
+  display: inline-block;
   background: url("/images/cdesk/sprites.png") no-repeat -197px -414px;
 }
-.sort-icon-holder.active .common-sort-icon.descending,
 .sort-icon-holder.active:hover .common-sort-icon.descending {
+  display: inline-block;
   background: url("/images/cdesk/sprites.png") no-repeat -433px -417px;
 }
-/*end of common sort icon */
-/*common popup styling */
-/*popup using modal */
+.sort-icon-holder.active .common-sort-icon.ascending {
+  display: inline-block;
+  background: url("/images/cdesk/sprites.png") no-repeat -197px -414px;
+}
+.sort-icon-holder.active .common-sort-icon.descending {
+  display: inline-block;
+  background: url("/images/cdesk/sprites.png") no-repeat -433px -417px;
+}
 .modal-backdrop.in {
-  opacity: .8 ;
+  opacity: .8;
   z-index: 999999 !important;
 }
 .modal {
@@ -109,19 +190,10 @@
   color: #21252B;
   opacity: .25;
 }
-.about_popup .close {
-  margin: 10px;
-  opacity: 1;
-  color: #ccc;
-}
-.about_popup .close:hover {
-  color: #bbb ;
-}
-.about_popup,
-.popContainer {
+.about_popup {
   background-color: #ffffff;
   box-shadow: 0px 3px 13px 0px rgba(0, 0, 0, 0.27);
-  width: 412px ;
+  width: 412px;
   font-family: Avenir;
   color: #21252b;
   font-size: 16px;
@@ -133,27 +205,70 @@
   transform: translate(-50%, -50%);
   -ms-transform: translate(-50%, -50%);
   -webkit-transform: translate(-50%, -50%);
-  margin: 0 auto ;
-  z-index: 3000 ;
+  margin: 0 auto;
+  z-index: 3000;
 }
-.about_popup .logo,
-.popContainer .logo {
+.about_popup .close {
+  margin: 10px;
+  opacity: 1;
+  color: #ccc;
+}
+.about_popup .close:hover {
+  color: #bbb;
+}
+.about_popup .logo {
   background: url("/images/visto_logos/visto-new-logo-about.png") no-repeat center top;
-  width: 100% ;
+  width: 100%;
   height: 50px;
   margin: 28px auto 24px;
 }
-.about_popup .copyright_section,
+.about_popup .copyright_section {
+  background: #f5f9fd;
+  padding: 15px;
+  margin-top: 24px;
+}
+.about_popup .copyright_section .rights_text {
+  font-size: 14px;
+}
+.about_popup .version_detail {
+  color: #21252b;
+  font-size: 16px;
+  font-family: "Avenir-bold";
+  line-height: 28px;
+  text-align: center;
+}
+.popContainer {
+  background-color: #ffffff;
+  box-shadow: 0px 3px 13px 0px rgba(0, 0, 0, 0.27);
+  width: 412px;
+  font-family: Avenir;
+  color: #21252b;
+  font-size: 16px;
+  line-height: 24px;
+  text-align: center;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%);
+  margin: 0 auto;
+  z-index: 3000;
+}
+.popContainer .logo {
+  background: url("/images/visto_logos/visto-new-logo-about.png") no-repeat center top;
+  width: 100%;
+  height: 50px;
+  margin: 28px auto 24px;
+}
 .popContainer .copyright_section {
   background: #f5f9fd;
   padding: 15px;
   margin-top: 24px;
 }
-.about_popup .copyright_section .rights_text,
 .popContainer .copyright_section .rights_text {
-  font-size: 14px ;
+  font-size: 14px;
 }
-.about_popup .version_detail,
 .popContainer .version_detail {
   color: #21252b;
   font-size: 16px;
@@ -161,8 +276,6 @@
   line-height: 28px;
   text-align: center;
 }
-/*
-}*/
 .popup-holder {
   font-size: 14px;
   color: #21252B;
@@ -172,11 +285,7 @@
   -moz-border-radius: 5px;
   -webkit-border-radius: 5px;
 }
-.popup-holder input[type="text"],
-.popup-holder textarea {
-  border-radius: 2px;
-  -moz-border-radius: 2px;
-  -webkit-border-radius: 2px;
+.popup-holder input[type="text"] {
   border: 1px solid #dde6eb;
   background-color: #ffffff;
   font-size: 14px;
@@ -184,15 +293,24 @@
   line-height: 18px;
   padding: 8px;
   margin: 0 8px;
-  border-radius: 2px ;
-  -moz-border-radius: 2px ;
-  -webkit-border-radius: 2px ;
+  border-radius: 2px;
+  -moz-border-radius: 2px;
+  -webkit-border-radius: 2px;
 }
-.popup-holder input[type="text"]:hover,
-.popup-holder textarea:hover {
+.popup-holder input[type="text"]:hover {
   border: 1px solid #ccd2da;
 }
 .popup-holder textarea {
+  border: 1px solid #dde6eb;
+  background-color: #ffffff;
+  font-size: 14px;
+  color: #939ead;
+  line-height: 18px;
+  padding: 8px;
+  margin: 0 8px;
+  border-radius: 2px;
+  -moz-border-radius: 2px;
+  -webkit-border-radius: 2px;
   display: block;
   width: 100%;
   margin: 0;
@@ -201,8 +319,11 @@
   color: #21252b;
   margin-top: 4px;
 }
+.popup-holder textarea:hover {
+  border: 1px solid #ccd2da;
+}
 .popup-holder .dropdown {
-  margin-top: 4px ;
+  margin-top: 4px;
 }
 .popup-holder .dropdown .dropdown_txt {
   padding: 5px 16px 5px 10px;
@@ -237,25 +358,25 @@
   background-color: #eef2f5;
 }
 .popup-holder .modal-header {
-  border-bottom: 0px ;
-  padding: 30px 30px 0px 30px ;
+  border-bottom: 0px;
+  padding: 30px 30px 0px 30px;
 }
 .popup-holder .modal-body {
-  padding: 0 30px 30px ;
+  padding: 0 30px 30px;
 }
 .popup-holder .modal-title {
-  font-size: 24px ;
+  font-size: 24px;
 }
 .popup-holder .data_heading {
   font-family: "Avenir-bold";
   display: inline-block;
-  width: 100px ;
+  width: 100px;
 }
 .popup-holder .data_value {
   display: inline-block;
 }
 .popup-holder .popup-btns-holder {
-  background: #f5f9fd ;
+  background: #f5f9fd;
   padding: 20px 30px;
   border-radius: 0 0 5px 5px;
   -moz-border-radius: 0 0 5px 5px;
@@ -272,29 +393,29 @@
 }
 .popup-holder .popup-btns-holder .delete-option {
   color: #939ead;
-  padding-left: 20px ;
+  padding-left: 20px;
   background: url("/images/cdesk/delete-grey.png") no-repeat left 2px;
   margin-top: 10px;
   cursor: pointer;
 }
 .popup-holder .report-type-data {
-  width: 140px ;
-  margin-right: 20px ;
+  width: 140px;
+  margin-right: 20px;
 }
 .popup-holder .campaign-dd-data {
-  width: 480px ;
+  width: 480px;
 }
 .popup-holder .data_row {
-  margin-top: 20px ;
+  margin-top: 20px;
 }
 .popup-holder .data_row .bold-font {
   font-family: "Avenir-bold";
 }
 .popup-holder .data_row.custom_report_type .report-type-data {
-  width: 284px ;
+  width: 284px;
 }
 .popup-holder .data_row.custom_report_type .report-type-data .dropdown {
-  width: 140px ;
+  width: 140px;
   float: left;
 }
 .popup-holder .data_row.custom_report_type .report-type-data .report-type-name {
@@ -304,10 +425,8 @@
   padding: 5px 8px 4px;
 }
 .popup-holder .data_row.custom_report_type .campaign-dd-data {
-  width: 340px ;
+  width: 340px;
 }
-/*end of popup using modal */
-/*popup using css*/
 .popContainerHolder {
   overflow: auto;
   overflow-y: scroll;
@@ -341,7 +460,7 @@
   padding-bottom: 15px;
 }
 .popContainerHolder .popContainer .modal-header {
-  padding: 0px ;
+  padding: 0px;
 }
 .popContainerHolder .popContainer .close {
   position: absolute;
@@ -357,58 +476,81 @@
   margin: 6px;
 }
 .popContainerHolder .popContainer .popup-body {
-  margin: 30px 0 ;
+  margin: 30px 0;
 }
-.popContainerHolder .popContainer .textarea_edit_holder,
-.popContainerHolder .popContainer .textarea_editable_holder {
+.popContainerHolder .popContainer .textarea_edit_holder {
   position: relative;
   word-wrap: break-word;
 }
-.popContainerHolder .popContainer .textarea_edit_holder .activity_edit,
-.popContainerHolder .popContainer .textarea_editable_holder .activity_edit,
-.popContainerHolder .popContainer .textarea_edit_holder .icon-inline-edit,
-.popContainerHolder .popContainer .textarea_editable_holder .icon-inline-edit {
+.popContainerHolder .popContainer .textarea_edit_holder .activity_edit {
   position: absolute;
-  top: 10px ;
-  right: 10px ;
+  top: 10px;
+  right: 10px;
   cursor: pointer;
   display: inline-block;
-  height: 16px ;
-  width: 16px ;
+  height: 16px;
+  width: 16px;
+  color: #007ac9;
+}
+.popContainerHolder .popContainer .textarea_edit_holder .icon-inline-edit {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+  display: inline-block;
+  height: 16px;
+  width: 16px;
   color: #007ac9;
 }
 .popContainerHolder .popContainer .textarea_edit_holder textarea {
-  border: solid 1px #007ac9 ;
+  border: solid 1px #007ac9;
   padding: 20px;
   margin: 0px 0 20px;
-  width: 100% ;
+  width: 100%;
   font-size: 14px;
   height: 100%;
 }
 .popContainerHolder .popContainer .textarea_editable_holder {
-  border: solid 1px #007ac9 ;
+  position: relative;
+  word-wrap: break-word;
+  border: solid 1px #007ac9;
   padding: 20px;
-  width: 100% ;
-  min-height: 315px ;
+  width: 100%;
+  min-height: 315px;
   font-size: 14px;
+}
+.popContainerHolder .popContainer .textarea_editable_holder .activity_edit {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+  display: inline-block;
+  height: 16px;
+  width: 16px;
+  color: #007ac9;
+}
+.popContainerHolder .popContainer .textarea_editable_holder .icon-inline-edit {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+  display: inline-block;
+  height: 16px;
+  width: 16px;
+  color: #007ac9;
 }
 .popContainerHolder .popContainer .textarea_editable_holder textarea {
   border: 0;
   width: 100%;
-  height: 100% ;
-  padding: 0 ;
+  height: 100%;
+  padding: 0;
 }
-/*end of popup using css*/
-/*end of common popup styling */
-/*page title */
 .title1 h3 {
-  font-size: 26px ;
-  color: #21252b ;
-  margin-bottom: 25px ;
+  font-size: 26px;
+  color: #21252b;
+  margin-bottom: 25px;
   font-family: "Avenir-bold";
 }
-/*end of page title */
-/*top message/error box */
 .top_message_box {
   position: fixed;
   top: 0;
@@ -420,11 +562,8 @@
 }
 .top_message_box span.msg_box {
   display: table;
-  /*color: #3e763f;
-      background-color: #e0f0d9;
-      padding: 13px 10px;*/
-  background-color: #fff ;
-  border: solid 1px #4cc94a ;
+  background-color: #fff;
+  border: solid 1px #4cc94a;
   min-width: 420px;
   text-align: left;
   font-size: 14px;
@@ -442,7 +581,7 @@
   width: 50px;
   background-color: #4cc94a;
   padding: 5px 0 0 0;
-  font-size: 0px ;
+  font-size: 0px;
 }
 .top_message_box span.msg_box .msg_icon:after {
   content: "";
@@ -458,7 +597,7 @@
 }
 .top_message_box span.msg_box .msg_txt {
   display: table-cell;
-  padding: 10px ;
+  padding: 10px;
 }
 .top_message_box span.msg_box .msg_txt .msg_type {
   font-family: "Avenir-bold";
@@ -474,11 +613,10 @@
   margin: 0 8px 5px 0;
 }
 .top_message_box span.msg_box .close_msg_box_holder .close_msg_box:hover {
-  color: #333 ;
+  color: #333;
 }
-/*for error messages only*/
 .red_msg span.msg_box {
-  border: solid 1px #F24444 ;
+  border: solid 1px #F24444;
 }
 .red_msg span.msg_box .msg_icon {
   background: #F24444;
@@ -489,30 +627,25 @@
   padding: 0 0 0 1px;
 }
 .red_msg span.msg_box .msg_icon:after {
-  display: none ;
+  display: none;
 }
-/*end of for error messages only*/
-/*for info message*/
 .top_message_box.info span.msg_box {
-  border-color: #6ABDFA ;
+  border-color: #6ABDFA;
 }
 .top_message_box.info span.msg_box .msg_icon {
-  background: #6ABDFA ;
-  padding-top: 10px ;
+  background: #6ABDFA;
+  padding-top: 10px;
 }
 .top_message_box.info span.msg_box .msg_icon:after {
   font-family: "visto-con" !important;
   content: "s";
-  font-size: 16px ;
-  color: #fff ;
+  font-size: 16px;
+  color: #fff;
   transform: rotate(0deg);
   -moz-transform: rotate(0deg);
   -webkit-transform: rotate(0deg);
-  border: 0 ;
+  border: 0;
 }
-/* end for info message*/
-/* end of top message/error box */
-/*common tooltip and tooltip message*/
 .tooltip_holder {
   position: relative;
   cursor: default;
@@ -523,20 +656,23 @@
   display: inline-block;
   background: url("/images/cdesk/info_icon.png") no-repeat center left;
 }
+.tooltip_holder:hover .common_tooltip {
+  display: block;
+}
 .common_tooltip {
   display: none;
   position: absolute;
   background: rgba(0, 0, 0, 0.8);
   color: white;
-  padding: 10px 15px ;
+  padding: 10px 15px;
   float: none !important;
   width: 150px;
   bottom: 30px;
   left: -75px;
   border-radius: 6px;
-  font-size: 12px ;
+  font-size: 12px;
   font-family: "Avenir";
-  z-index: 100 ;
+  z-index: 100;
 }
 .common_tooltip:after {
   content: " ";
@@ -551,67 +687,84 @@
   border-bottom: 0px;
   border-top: solid 10px #000;
   border-top-color: rgba(0, 0, 0, 0.8);
-  left: 70px ;
+  left: 70px;
 }
-.tooltip_holder:hover .common_tooltip {
-  display: block;
-}
-/*end of common tooltip and tooltip message*/
-/*common buttons i.e primary,secondary,etc */
-.common_primary_btn,
-.common_secondary_btn,
-.common_secondary_blue_btn {
-  color: #fff ;
-  height: 36px ;
+.common_primary_btn {
+  height: 36px;
   text-align: center;
-  width: 150px ;
-  /*
-    margin: 0px 20px 0px 0 ;*/
-  background: #0978c9 ;
+  width: 150px;
+  background: #0978c9;
   font-size: 12px;
   -moz-border-radius: 4px;
-  -webkit-border-radius: 4px ;
+  -webkit-border-radius: 4px;
   border-radius: 4px;
   float: left;
   text-transform: uppercase;
   line-height: 36px;
   cursor: pointer;
-  border: 0px ;
-  padding: 0px ;
-}
-.common_primary_btn {
+  border: 0px;
+  padding: 0px;
   text-decoration: none;
-  color: #fff ;
-  padding: 0 20px ;
+  color: #fff;
+  padding: 0 20px;
   text-transform: none;
-  font-size: 14px ;
+  font-size: 14px;
 }
 .common_primary_btn:hover {
-  color: #fff ;
+  color: #fff;
   text-decoration: none;
 }
-.common_secondary_blue_btn {
-  border: solid 1px #0978c9 ;
-  color: #0978c9 ;
-  background: #fff ;
-}
 .common_secondary_btn {
-  background: #dee6eb ;
-  color: #a2acba ;
+  color: #fff;
+  height: 36px;
+  text-align: center;
+  width: 150px;
+  background: #0978c9;
+  font-size: 12px;
+  -moz-border-radius: 4px;
+  -webkit-border-radius: 4px;
+  border-radius: 4px;
+  float: left;
+  text-transform: uppercase;
+  line-height: 36px;
+  cursor: pointer;
+  border: 0px;
+  padding: 0px;
+  background: #dee6eb;
+  color: #a2acba;
+}
+.common_secondary_blue_btn {
+  color: #fff;
+  height: 36px;
+  text-align: center;
+  width: 150px;
+  background: #0978c9;
+  font-size: 12px;
+  -moz-border-radius: 4px;
+  -webkit-border-radius: 4px;
+  border-radius: 4px;
+  float: left;
+  text-transform: uppercase;
+  line-height: 36px;
+  cursor: pointer;
+  border: 0px;
+  padding: 0px;
+  border: solid 1px #0978c9;
+  color: #0978c9;
+  background: #fff;
 }
 .secondary_txt {
-  color: #428bca ;
+  color: #428bca;
   cursor: pointer;
   margin: 10px 24px 0 0;
   border: 0;
   background-color: transparent;
-  padding: 0px ;
+  padding: 0px;
 }
 .secondary_txt:hover {
-  color: #428bca ;
+  color: #428bca;
   text-decoration: none;
 }
-/*primary button changing to loading */
 .common_primary_btn.loading-icon {
   background: url("/images/cdesk/loading_white.gif") no-repeat center center #0978c9;
   opacity: 0.3;
@@ -620,16 +773,12 @@
 .common_primary_btn.disabled {
   opacity: 0.65;
 }
-/*end of primary button changing to loading */
-/*end of common buttons i.e primary,secondary,etc */
-/*Navigation filters which contains Brands, Campaigns, and Strategy*/
 .nav_filters {
   width: 1040px;
   margin: 0 auto;
   font-size: 14px;
   color: #21252B;
   line-height: 20px;
-  /*}*/
 }
 .nav_filters .advertisers_filter {
   margin-right: 30px;
@@ -638,263 +787,17 @@
   font-family: "Avenir-bold";
 }
 .nav_filters .dropdown-menu {
-  max-height: none ;
-}
-.nav_filters .dropdown-menu .dropdown_list_scroll {
-  max-height: 200px;
-  overflow-y: auto;
-}
-.nav_filters .dropdown .dropdown_name_selected {
-  padding-right: 20px;
-  cursor: default;
-  margin: 0;
-  position: relative;
-}
-.nav_filters .dropdown .dropdown_name_selected p {
-  margin: 0;
-  padding-right: 10px;
-}
-.nav_filters .dropdown .dropdown_name_selected img {
-  margin: 0px !important;
-  position: absolute;
-  z-index: 10;
-  top: 5px;
-  right: -3px;
-}
-.nav_filters .dropdown_type1_holder.active .campaign_name_selected {
-  font-family: "Avenir-bold";
-}
-.nav_filters .dropdown_type2.active #strategy_dropdown {
-  font-family: "Avenir-bold";
-}
-.nav_filters .timeline_dd {
-  background: url("/images/cdesk/common_down_arrow.png") no-repeat right 4px;
-  padding-right: 20px ;
-}
-.nav_filters .each_filter {
-  margin-top: 0px ;
-}
-.nav_filters .each_filter .header_filter_arrow_dropdown {
-  display: inline-block;
-  height: 18px;
-}
-.nav_filters .each_filter #advertisersDropdown {
-  font-family: "Avenir";
-  font-size: 14px;
-  min-width: 50px;
-  text-overflow: ellipsis;
-  width: 100%;
-  border: medium none;
-  cursor: pointer;
-  font-family: "Trade-Gothic-LT-Bold-Condensed-N-2";
-  font-size: 11pt;
-  height: 30px;
-}
-.nav_filters .each_filter #advertisersDropDownList {
-  width: 280px;
-  left: 0px ;
-  padding: 0 ;
-}
-.nav_filters .each_filter #advertisersDropDownList .brandsList_ul2 {
-  max-height: 200px;
-  overflow: auto ;
-}
-.nav_filters .each_filter #advertisersDropDownList .brand_search_highlight {
-  border-bottom: solid 1px #fff ;
-}
-.nav_filters .each_filter #advertisersDropDownList li {
-  padding: 0;
-}
-.nav_filters .each_filter #advertisersDropDownList li:hover {
-  background: #F5F9FD ;
-}
-.nav_filters .each_filter #advertisersDropDownList li.active {
-  background: url("/images/cdesk/sprites-2.png") no-repeat -535px 9px;
-}
-.nav_filters .each_filter #advertisersDropDownList li.active a {
-  font-family: "Avenir-bold";
-}
-.nav_filters .each_filter #advertisersDropDownList a {
-  white-space: normal;
-  word-wrap: break-word;
-  padding: 6px 10px ;
-  display: block;
-}
-.nav_filters .each_filter #brandsList {
-  width: 280px;
-  left: 0px ;
-  padding: 0 ;
-}
-.nav_filters .each_filter #brandsList .brandsList_ul {
-  max-height: 200px;
-  overflow: auto ;
-}
-.nav_filters .each_filter #brandsList .brand_search_highlight {
-  border-bottom: solid 1px #fff ;
-}
-.nav_filters .each_filter #brandsList li {
-  padding: 0;
-}
-.nav_filters .each_filter #brandsList li:hover {
-  background: #F5F9FD ;
-}
-.nav_filters .each_filter #brandsList li.active {
-  background: url("/images/cdesk/sprites-2.png") no-repeat -535px 9px;
-}
-.nav_filters .each_filter #brandsList li.active a {
-  font-family: "Avenir-bold";
-}
-.nav_filters .each_filter #brandsList a {
-  white-space: normal;
-  word-wrap: break-word;
-  padding: 6px 10px ;
-  display: block;
-}
-.nav_filters .each_filter a {
-  font-family: "Avenir";
-  text-decoration: none;
-}
-.nav_filters .disabled_brand_list {
-  display: none;
-  position: absolute;
-  top: -15px;
-  left: -15px;
-  height: 64px;
-  width: 155px;
-  cursor: default;
-  z-index: 1;
-}
-.nav_filters .brands_filter.brands_filter_disabled .disabled_brand_list {
-  display: block;
-}
-.nav_filters .brands_filter:hover .brands_dd_icon {
-  background-position: -200px -211px;
-}
-.nav_filters .brands_filter.brands_filter_disabled:hover .brands_dd_icon {
-  background-position: -200px -150px;
-}
-.nav_filters .lifetime_filter:hover .header_filter_arrow_dropdown {
-  background-position: 65px -46px;
-}
-.nav_filters .lifetime_filter .dropdown-menu {
-  left: -35px;
-  padding: 0 ;
-}
-.nav_filters .lifetime_filter .dropdown-menu .time_dropdown_disabled {
-  height: 55px;
-  width: 160px;
-  position: absolute;
-  top: 10px;
-  left: 0px;
-  cursor: default;
-}
-.nav_filters .lifetime_filter #cdbMenu:hover,
-.nav_filters .lifetime_filter #cdbMenu:focus {
-  color: #333 ;
-}
-.nav_filters .lifetime_filter .cdbMenu_options li:first-child a,
-.nav_filters .lifetime_filter .cdbMenu_options li:nth-child(2) a {
-  color: #817F7F;
-  font-style: italic;
-}
-.nav_filters .lifetime_filter div.timeline_dd.open #cdbMenu {
-  color: #333 ;
-}
-.nav_filters .each_filter a,
-.nav_filters .each_filter a:hover,
-.nav_filters .each_filter a:focus {
-  color: #333 ;
-  background: transparent;
-  padding: 0;
-  cursor: pointer;
-}
-.nav_filters #brandsDropdown {
-  min-width: 50px ;
-  width: 100% ;
-  text-overflow: ellipsis;
-  font-size: 14px;
-  font-family: "Avenir";
-}
-.nav_filters .filter_dropdown_open .header_filter_arrow_dropdown {
-  background-image: url("/images/cdesk/up_arrow_filter.png");
-}
-.nav_filters #brandsDropdown:focus {
-  color: #333 ;
-}
-.nav_filters .lifetime_filter {
-  padding-left: 30px;
-  border-left: solid 1px #DDE6EB;
-}
-.nav_filters .nav_filters_heading {
-  color: #939eaf ;
-  font-size: 12px ;
-}
-.nav_filters .brand_name_selected {
-  cursor: pointer;
-  padding-right: 20px ;
-  max-width: 140px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  background: url("/images/cdesk/common_down_arrow.png") no-repeat right center;
-}
-.nav_filters .campaign_name_selected {
-  height: 30px ;
-  min-width: 120px ;
-  padding-right: 20px ;
-  max-width: 220px ;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis ;
-  cursor: pointer;
-  background: url("/images/cdesk/common_down_arrow.png") no-repeat right 2px;
-}
-.nav_filters .brandsDropdownSearch {
-  position: relative;
-}
-.nav_filters .brandsDropdownSearch #brandsDropdownDiv {
-  width: 100%;
-  border-bottom: solid 1px #ccc;
-  padding: 0px 10px;
-}
-.nav_filters .brandsDropdownSearch #brandsDropdownDiv input {
-  font-family: "Avenir";
-  padding-right: 20px;
-  background: url("/images/cdesk/search_input.png") no-repeat right center;
-}
-.nav_filters #strategy_dropdown {
-  background: url("/images/cdesk/common_down_arrow.png") no-repeat right 2px;
-  padding-right: 20px ;
-}
-.nav_filters #campaignsDropdownDiv {
-  width: 100%;
-  border-bottom: solid 1px #ccc;
-  padding: 0 10px ;
-}
-.nav_filters #campaignsDropdownDiv .campaign_name_length {
-  display: none;
-}
-.nav_filters #campaignsDropdownDiv input {
-  float: none;
-  width: 100% ;
-  background: url("/images/cdesk/search_input.png") no-repeat right center;
-  padding-right: 20px ;
-  max-width: 660px;
-  overflow: hidden;
-  display: inline-block;
-  height: 32px;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  border: 0;
-}
-.nav_filters .dropdown-menu {
+  max-height: none;
   border-radius: 0;
-  /*border-top: 0;*/
   width: 206px;
   margin-top: 0;
   margin-left: -1px;
   box-shadow: none;
   min-width: inherit;
+}
+.nav_filters .dropdown-menu .dropdown_list_scroll {
+  max-height: 200px;
+  overflow-y: auto;
 }
 .nav_filters .dropdown-menu li {
   font-size: 14px;
@@ -915,42 +818,301 @@
   background: #F5F9FD;
 }
 .nav_filters .dropdown-menu li.disabled {
-  color: #999 ;
+  color: #999;
   cursor: text;
 }
 .nav_filters .dropdown-menu li.disabled:hover {
   background: transparent;
 }
-/*End of Navigation filters which contains Brands, Campaigns, and Strategy*/
-/*Main top navigation*/
-.main_navigation_holder {
-  /* make keyframes that tell the start state and the end state of our object */
+.nav_filters .dropdown .dropdown_name_selected {
+  padding-right: 20px;
+  cursor: default;
+  margin: 0;
+  position: relative;
 }
-@-webkit-keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
+.nav_filters .dropdown .dropdown_name_selected p {
+  margin: 0;
+  padding-right: 10px;
 }
-@-moz-keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
+.nav_filters .dropdown .dropdown_name_selected img {
+  margin: 0px !important;
+  position: absolute;
+  z-index: 10;
+  top: 5px;
+  right: -3px;
 }
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
+.nav_filters .dropdown .dropdown_name_selected .icon-arrow-down {
+  font-size: 10px;
+  color: #000;
+  height: 4px;
+  width: 2px;
+  line-height: 16px;
+  position: absolute;
+  z-index: 10;
+  top: 3px;
+  right: 5px;
 }
-.main_navigation_holder #reports_nav_link.selected:after,
+.nav_filters .dropdown_type1_holder.active .campaign_name_selected {
+  font-family: "Avenir-bold";
+}
+.nav_filters .dropdown_type2.active #strategy_dropdown {
+  font-family: "Avenir-bold";
+}
+.nav_filters .timeline_dd {
+  background: url("/images/cdesk/common_down_arrow.png") no-repeat right 4px;
+  padding-right: 20px;
+}
+.nav_filters .each_filter {
+  margin-top: 0px;
+}
+.nav_filters .each_filter .header_filter_arrow_dropdown {
+  display: inline-block;
+  height: 18px;
+}
+.nav_filters .each_filter #advertisersDropdown {
+  font-family: "Avenir";
+  font-size: 14px;
+  min-width: 50px;
+  text-overflow: ellipsis;
+  width: 100%;
+  border: medium none;
+  cursor: pointer;
+  font-family: "Trade-Gothic-LT-Bold-Condensed-N-2";
+  font-size: 11pt;
+  height: 30px;
+}
+.nav_filters .each_filter #advertisersDropDownList {
+  width: 280px;
+  left: 0px;
+  padding: 0;
+}
+.nav_filters .each_filter #advertisersDropDownList .brandsList_ul2 {
+  max-height: 200px;
+  overflow: auto;
+}
+.nav_filters .each_filter #advertisersDropDownList .brand_search_highlight {
+  border-bottom: solid 1px #fff;
+}
+.nav_filters .each_filter #advertisersDropDownList li {
+  padding: 0;
+}
+.nav_filters .each_filter #advertisersDropDownList li:hover {
+  background: #F5F9FD;
+}
+.nav_filters .each_filter #advertisersDropDownList li.active {
+  background: url("/images/cdesk/sprites-2.png") no-repeat -535px 9px;
+}
+.nav_filters .each_filter #advertisersDropDownList li.active a {
+  font-family: "Avenir-bold";
+}
+.nav_filters .each_filter #advertisersDropDownList a {
+  white-space: normal;
+  word-wrap: break-word;
+  padding: 6px 10px;
+  display: block;
+}
+.nav_filters .each_filter #brandsList {
+  width: 280px;
+  left: 0px;
+  padding: 0;
+}
+.nav_filters .each_filter #brandsList .brandsList_ul {
+  max-height: 200px;
+  overflow: auto;
+}
+.nav_filters .each_filter #brandsList .brand_search_highlight {
+  border-bottom: solid 1px #fff;
+}
+.nav_filters .each_filter #brandsList li {
+  padding: 0;
+}
+.nav_filters .each_filter #brandsList li:hover {
+  background: #F5F9FD;
+}
+.nav_filters .each_filter #brandsList li.active {
+  background: url("/images/cdesk/sprites-2.png") no-repeat -535px 9px;
+}
+.nav_filters .each_filter #brandsList li.active a {
+  font-family: "Avenir-bold";
+}
+.nav_filters .each_filter #brandsList a {
+  white-space: normal;
+  word-wrap: break-word;
+  padding: 6px 10px;
+  display: block;
+}
+.nav_filters .each_filter a {
+  font-family: "Avenir";
+  text-decoration: none;
+  color: #333;
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
+}
+.nav_filters .each_filter a:hover {
+  color: #333;
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
+}
+.nav_filters .each_filter a:focus {
+  color: #333;
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
+}
+.nav_filters .disabled_brand_list {
+  display: none;
+  position: absolute;
+  top: -15px;
+  left: -15px;
+  height: 64px;
+  width: 155px;
+  cursor: default;
+  z-index: 1;
+}
+.nav_filters .brands_filter.brands_filter_disabled .disabled_brand_list {
+  display: block;
+}
+.nav_filters .brands_filter.brands_filter_disabled:hover .brands_dd_icon {
+  background-position: -200px -150px;
+}
+.nav_filters .brands_filter:hover .brands_dd_icon {
+  background-position: -200px -211px;
+}
+.nav_filters .lifetime_filter {
+  padding-left: 30px;
+  border-left: solid 1px #DDE6EB;
+}
+.nav_filters .lifetime_filter:hover .header_filter_arrow_dropdown {
+  background-position: 65px -46px;
+}
+.nav_filters .lifetime_filter .dropdown-menu {
+  left: -35px;
+  padding: 0;
+}
+.nav_filters .lifetime_filter .dropdown-menu .time_dropdown_disabled {
+  height: 55px;
+  width: 160px;
+  position: absolute;
+  top: 10px;
+  left: 0px;
+  cursor: default;
+}
+.nav_filters .lifetime_filter #cdbMenu:hover {
+  color: #333;
+}
+.nav_filters .lifetime_filter #cdbMenu:focus {
+  color: #333;
+}
+.nav_filters .lifetime_filter .cdbMenu_options li:first-child a {
+  color: #817F7F;
+  font-style: italic;
+}
+.nav_filters .lifetime_filter .cdbMenu_options li:nth-child(2) a {
+  color: #817F7F;
+  font-style: italic;
+}
+.nav_filters .lifetime_filter div.timeline_dd.open #cdbMenu {
+  color: #333;
+}
+.nav_filters #brandsDropdown {
+  min-width: 50px;
+  width: 100%;
+  text-overflow: ellipsis;
+  font-size: 14px;
+  font-family: "Avenir";
+}
+.nav_filters #brandsDropdown:focus {
+  color: #333;
+}
+.nav_filters .filter_dropdown_open .header_filter_arrow_dropdown {
+  background-image: url("/images/cdesk/up_arrow_filter.png");
+}
+.nav_filters .nav_filters_heading {
+  color: #939eaf;
+  font-size: 12px;
+}
+.nav_filters .brand_name_selected {
+  cursor: pointer;
+  padding-right: 20px;
+  max-width: 140px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  background: url("/images/cdesk/common_down_arrow.png") no-repeat right center;
+}
+.nav_filters .campaign_name_selected {
+  height: 30px;
+  min-width: 120px;
+  padding-right: 20px;
+  max-width: 220px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: pointer;
+  background: url("/images/cdesk/common_down_arrow.png") no-repeat right 2px;
+}
+.nav_filters .brandsDropdownSearch {
+  position: relative;
+}
+.nav_filters .brandsDropdownSearch #brandsDropdownDiv {
+  width: 100%;
+  border-bottom: solid 1px #ccc;
+  padding: 0px 10px;
+}
+.nav_filters .brandsDropdownSearch #brandsDropdownDiv input {
+  font-family: "Avenir";
+  padding-right: 20px;
+  background: url("/images/cdesk/search_input.png") no-repeat right center;
+}
+.nav_filters #strategy_dropdown {
+  background: url("/images/cdesk/common_down_arrow.png") no-repeat right 2px;
+  padding-right: 20px;
+}
+.nav_filters #campaignsDropdownDiv {
+  width: 100%;
+  border-bottom: solid 1px #ccc;
+  padding: 0 10px;
+}
+.nav_filters #campaignsDropdownDiv .campaign_name_length {
+  display: none;
+}
+.nav_filters #campaignsDropdownDiv input {
+  float: none;
+  width: 100%;
+  background: url("/images/cdesk/search_input.png") no-repeat right center;
+  padding-right: 20px;
+  max-width: 660px;
+  overflow: hidden;
+  display: inline-block;
+  height: 32px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  border: 0;
+}
+.main_navigation_holder #reports_nav_link.selected:after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 35%;
+  height: 0;
+  width: 0;
+  border: solid 6px #103F7b;
+  border-left: solid 8px transparent;
+  border-top: 0;
+  border-right: solid 8px transparent;
+  opacity: 0;
+  -webkit-animation: fadeIn ease-in 1;
+  -moz-animation: fadeIn ease-in 1;
+  animation: fadeIn ease-in 1;
+  -webkit-animation-fill-mode: forwards;
+  -moz-animation-fill-mode: forwards;
+  animation-fill-mode: forwards;
+  -webkit-animation-duration: .55s;
+  -moz-animation-duration: .55s;
+  animation-duration: .55s;
+}
 .main_navigation_holder .profile-photo-tab.selected:after {
   content: "";
   position: absolute;
@@ -963,13 +1125,10 @@
   border-top: 0;
   border-right: solid 8px transparent;
   opacity: 0;
-  /* make things invisible upon start */
   -webkit-animation: fadeIn ease-in 1;
-  /* call our keyframe named fadeIn, use animattion ease-in and repeat it only 1 time */
   -moz-animation: fadeIn ease-in 1;
   animation: fadeIn ease-in 1;
   -webkit-animation-fill-mode: forwards;
-  /* this makes sure that after animation is done we remain at the last keyframe value (opacity: 1)*/
   -moz-animation-fill-mode: forwards;
   animation-fill-mode: forwards;
   -webkit-animation-duration: .55s;
@@ -977,19 +1136,19 @@
   animation-duration: .55s;
 }
 .main_navigation_holder div.reports_header_tabs_holder .header_tab_dd_subheading {
-  padding-right: 20px ;
-  color: #6ABDFA ;
+  padding-right: 20px;
+  color: #6ABDFA;
   text-transform: none;
   padding-bottom: 5px;
   cursor: default;
 }
 .main_navigation_holder div.reports_header_tabs_holder .reports_sub_menu_dd_holder {
-  margin: 0 50px ;
-  padding: 15px 0 ;
+  margin: 0 50px;
+  padding: 15px 0;
 }
 .main_navigation_holder div.reports_header_tabs_holder .reports_sub_menu_dd_holder .reports_sub_menu_dd {
   float: left;
-  padding: 16px 0 13px ;
+  padding: 16px 0 13px;
   min-width: 200px;
 }
 .main_navigation_holder div.reports_header_tabs_holder .canned_container {
@@ -1030,24 +1189,24 @@
   display: block;
   padding: 16px 0px 0px 0px;
   cursor: pointer;
-  margin: 24px 88px 0 0 ;
+  margin: 24px 88px 0 0;
 }
 .main_navigation_holder div.reports_header_tabs_holder .new_report_generate_btn .icon-report-builder {
   float: left;
   display: inline-block;
-  color: #fff ;
+  color: #fff;
   margin: 0 10px 0 0px;
-  font-size: 18px ;
+  font-size: 18px;
 }
 .main_navigation_holder div.reports_header_tabs_holder .new_report_generate_btn .icon_txt {
   float: left;
   margin-top: 1px;
 }
 .main_navigation_holder div.reports_header_tabs_holder .new_report_generate_btn:hover {
-  color: #84BCE4 ;
+  color: #84BCE4;
 }
 .main_navigation_holder div.reports_header_tabs_holder .new_report_generate_btn:hover .icon-report-builder {
-  color: #84BCE4 ;
+  color: #84BCE4;
 }
 .main_navigation_holder div.reports_header_tabs_holder .header_tab_dropdown {
   padding: 2px 20px 2px 0px;
@@ -1061,35 +1220,41 @@
   cursor: pointer;
 }
 .main_navigation_holder div.reports_header_tabs_holder .header_tab_dropdown a:hover {
-  color: #84BCE4 ;
+  color: #84BCE4;
 }
 .main_navigation_holder div.reports_header_tabs_holder div.header_tab_dropdown:hover a {
-  color: #84BCE4 ;
+  color: #84BCE4;
 }
 .main_navigation_holder div.reports_header_tabs_holder div.header_tab_dropdown:hover a:hover {
-  color: #84BCE4 ;
+  color: #84BCE4;
 }
-.main_navigation_holder div.reports_header_tabs_holder .active_tab a,
-.main_navigation_holder div.reports_header_tabs_holder .active_tab a:hover {
-  color: #84BCE4 ;
+.main_navigation_holder div.reports_header_tabs_holder .active_tab a {
+  color: #84BCE4;
   text-decoration: none;
 }
-.main_navigation_holder div.reports_header_tabs_holder div.active_tab:hover a,
+.main_navigation_holder div.reports_header_tabs_holder .active_tab a:hover {
+  color: #84BCE4;
+  text-decoration: none;
+}
+.main_navigation_holder div.reports_header_tabs_holder div.active_tab:hover a {
+  color: #84BCE4;
+  text-decoration: none;
+}
 .main_navigation_holder div.reports_header_tabs_holder div.active_tab:hover a:hover {
-  color: #84BCE4 ;
+  color: #84BCE4;
   text-decoration: none;
 }
 .main_navigation_holder #reports_nav_link.each_nav_link.active div.header_tab_dropdown.active_tab {
   background-color: rgba(255, 255, 255, 0.1);
 }
 .main_navigation_holder #reports_nav_link.each_nav_link.active div.header_tab_dropdown.active_tab a:hover {
-  color: #fff ;
+  color: #fff;
 }
 .main_navigation_holder #reports_nav_link.each_nav_link.active div.header_tab_dropdown.active_tab:hover a {
-  color: #fff ;
+  color: #fff;
 }
 .main_navigation_holder .dropdown-menu {
-  padding: 10px 0px ;
+  padding: 10px 0px;
   background: #026DB3;
   border-radius: 0px;
   -moz-border-radius: 0px;
@@ -1097,20 +1262,20 @@
   border: 0;
   top: 48px;
   left: -100px;
-  font-size: 12px ;
+  font-size: 12px;
 }
 .main_navigation_holder .dropdown-menu li {
   padding: 5px 10px;
 }
 .main_navigation_holder .dropdown-menu li a {
-  color: #fff ;
+  color: #fff;
 }
 .main_navigation_holder .dropdown-menu li:hover {
-  color: #fff ;
+  color: #fff;
   background: rgba(255, 255, 255, 0.1);
 }
 .main_navigation_holder .dropdown-menu li:hover a {
-  color: #fff ;
+  color: #fff;
 }
 .main_navigation_holder .dropdown-menu:before {
   background: url("/images/cdesk/dropdown_up_arrow.png") no-repeat center bottom;
@@ -1122,8 +1287,6 @@
   top: -10px;
   left: 50%;
 }
-/*end of Main top navigation*/
-/*common checkbox styling */
 .external_chkbox {
   float: left;
   margin-top: 4px;
@@ -1138,7 +1301,7 @@
   visibility: hidden;
 }
 .external_chkbox .squaredFour input[type="checkbox"]:focus {
-  outline: 0px ;
+  outline: 0px;
 }
 .external_chkbox .squaredFour label {
   cursor: pointer;
@@ -1186,12 +1349,10 @@
   float: left;
   font-family: "Avenir";
 }
-/*end of common checkbox styling */
-/*for reports section common css styling */
 .common-load-more {
   margin: 60px auto 0;
   width: 30px;
-  height: 30px ;
+  height: 30px;
   background: url("/images/loading.gif") no-repeat;
 }
 .common_dropdown .dropdown {
@@ -1206,7 +1367,7 @@
 }
 .common_dropdown .dropdown .dropdown_ul_text {
   cursor: default;
-  padding: 5px 10px ;
+  padding: 5px 10px;
   display: block;
 }
 .common_dropdown .dropdown .arrow_img {
@@ -1215,59 +1376,54 @@
   width: 10px;
   display: inline-block;
   float: right;
-  margin-left: 8px ;
+  margin-left: 8px;
 }
 .common_dropdown .dropdown .dropdown-menu {
-  padding: 0 ;
+  padding: 0;
   max-height: 200px;
   overflow: auto;
 }
 .common_dropdown .dropdown .dropdown-menu li {
-  padding: 5px ;
+  padding: 5px;
   cursor: default;
 }
 .common_dropdown .dropdown .dropdown-menu li:hover {
-  background: #d2dee7 ;
+  background: #d2dee7;
 }
-/*end of for reports section common css styling */
-/*legends for graphs*/
 .common_graph_legend {
-  margin: 0px auto 10px 165px ;
-  width: 240px ;
+  margin: 0px auto 10px 165px;
+  width: 240px;
 }
 .common_graph_legend .graph_legends {
   float: left;
-  margin-right: 24px ;
+  margin-right: 24px;
   line-height: 25px;
-  color: #0978c9 ;
+  color: #0978c9;
 }
 .common_graph_legend .graph_legends .legend {
   display: inline-block;
-  height: 10px ;
-  width: 10px  ;
-  border-radius: 10px  ;
-  -webkit-border-radius: 10px  ;
-  -moz-border-radius: 10px  ;
+  height: 10px;
+  width: 10px;
+  border-radius: 10px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
   border: solid 2px #0072bc;
   float: left;
-  margin-right: 6px ;
-  color: #0978c9 ;
+  margin-right: 6px;
+  color: #0978c9;
 }
 .common_graph_legend .graph_legends .legend_text {
   display: inline-block;
   float: left;
-  line-height: 12px ;
+  line-height: 12px;
 }
 .common_graph_legend .internal_legend {
-  color: #57606c ;
+  color: #57606c;
 }
 .common_graph_legend .internal_legend .legend {
-  border: solid 2px #57606c ;
-  color: #57606c ;
+  border: solid 2px #57606c;
+  color: #57606c;
 }
-/*end of legends for graphs*/
-/* Mulitiple select */
-/* Put your css in here */
 multiselect {
   display: block;
 }
@@ -1281,8 +1437,6 @@ multiselect .btn.error {
 multiselect .dropdown-menu {
   max-height: 300px;
   overflow-y: auto;
-}
-multiselect .dropdown-menu {
   width: 100%;
   box-sizing: border-box;
   padding: 2px;
@@ -1291,14 +1445,12 @@ multiselect .dropdown-menu > li > a {
   padding: 3px 10px;
   cursor: pointer;
 }
-/* End Mulitiple select option */
-/*Small Message popup*/
 .msgPopupHolder .msgPopup {
   padding: 20px;
   position: absolute;
-  top: 0px ;
+  top: 0px;
   left: 0px;
-  z-index: 9999999 ;
+  z-index: 9999999;
   background: #ffffff;
   width: 280px;
   border: 1px solid #DDE6EB;
@@ -1309,8 +1461,7 @@ multiselect .dropdown-menu > li > a {
   -moz-border-radius: 2px;
   -webkit-border-radius: 2px;
 }
-.msgPopupHolder .msgPopup:after,
-.msgPopupHolder .msgPopup:before {
+.msgPopupHolder .msgPopup:after {
   content: "";
   height: 0;
   width: 0;
@@ -1321,21 +1472,28 @@ multiselect .dropdown-menu > li > a {
   border-left: solid 6px transparent;
   border-right: solid 6px transparent;
   border-bottom: 0;
-}
-.msgPopupHolder .msgPopup:after {
-  z-index: 2 ;
+  z-index: 2;
 }
 .msgPopupHolder .msgPopup:before {
+  content: "";
+  height: 0;
+  width: 0;
+  position: absolute;
+  border: solid 6px #fff;
+  bottom: -5px;
+  left: 143px;
+  border-left: solid 6px transparent;
+  border-right: solid 6px transparent;
   border: solid 7px #DDE6EB;
   bottom: -7px;
   left: 142px;
   border-left: solid 7px transparent;
   border-right: solid 7px transparent;
   border-bottom: 0;
-  z-index: 1 ;
+  z-index: 1;
 }
 .msgPopupHolder .msgPopup .btn-holder {
-  margin-top: 20px ;
+  margin-top: 20px;
 }
 .msgPopupHolder .msgPopup .btn-holder .common_primary_btn {
   text-transform: none;
@@ -1343,18 +1501,14 @@ multiselect .dropdown-menu > li > a {
   padding: 2px 15px;
   width: auto;
 }
-/*end of Small Message popup*/
-/*close ( only cross )*/
 .common-close {
-  height: 20px ;
-  width: 20px ;
-  color: #999 ;
+  height: 20px;
+  width: 20px;
+  color: #999;
   text-align: right;
   display: block;
   cursor: pointer;
 }
-/*end of close ( only cross )*/
-/*ok icon with circle*/
 .common-ok {
   position: relative;
   height: 20px;
@@ -1378,7 +1532,6 @@ multiselect .dropdown-menu > li > a {
   -webkit-transform: rotate(-50deg);
   -moz-transform: rotate(-50deg);
 }
-/*end of ok icon with circle*/
 .bold-font {
   font-family: "Avenir-bold";
 }
@@ -1389,9 +1542,8 @@ multiselect .dropdown-menu > li > a {
   text-overflow: ellipsis;
 }
 .grey_txt {
-  color: #939dac ;
+  color: #939dac;
 }
-/* for edit icon */
 .blue-edit-icon {
   cursor: pointer;
   margin-left: 10px;
@@ -1402,7 +1554,6 @@ multiselect .dropdown-menu > li > a {
 .blue-edit-icon:hover {
   color: #0978C9;
 }
-/*common poup container */
 .common-popup-container {
   overflow: auto;
   overflow-y: scroll;
@@ -1471,7 +1622,7 @@ multiselect .dropdown-menu > li > a {
   margin: 0px 0 30px;
 }
 .common-popup-container .popup .popup-header-body {
-  padding: 30px ;
+  padding: 30px;
 }
 .common-popup-container .popup .popup-footer {
   padding: 20px 30px;
@@ -1491,11 +1642,13 @@ multiselect .dropdown-menu > li > a {
   line-height: 34px;
 }
 .common-popup-container .popup .popup-footer .secondary_txt {
-  color: #428bca ;
+  color: #428bca;
   margin-top: 6px;
 }
-/*Status Bulbs*/
-.draft_bulb,
+.draft_bulb {
+  border: solid 3px #939eae;
+  background: transparent;
+}
 .incomplete_bulb {
   border: solid 3px #939eae;
   background: transparent;
@@ -1505,28 +1658,29 @@ multiselect .dropdown-menu > li > a {
   background: transparent;
 }
 .scheduled_bulb {
-  background: #2c9aec ;
+  background: #2c9aec;
 }
 .in_flight_bulb {
-  background: #70d43d ;
+  background: #70d43d;
 }
 .deploying_bulb {
   background: #6abdfa;
 }
 .in_progress_bulb {
-  background: #6abdfa ;
+  background: #6abdfa;
 }
 .failed_bulb {
-  background: #FF8000 ;
+  background: #FF8000;
 }
 .ended_bulb {
-  background: #707AEB ;
+  background: #707AEB;
 }
 .paused_bulb {
-  background: #98B5C8 ;
+  background: #98B5C8;
 }
-/*End of Status Bulbs*/
-.disabled,
+.disabled {
+  cursor: default;
+}
 .disabled a {
   cursor: default;
 }
@@ -1539,8 +1693,8 @@ multiselect .dropdown-menu > li > a {
   left: 10px;
   z-index: 1;
 }
-.symbol-input .symbol ~ input {
-  padding-left: 20px ;
+.symbol-input .symbol input {
+  padding-left: 20px;
 }
 .txtError {
   color: #F24444 !important;
@@ -1559,5 +1713,5 @@ multiselect .dropdown-menu > li > a {
   width: 80px;
   border-radius: 4px;
   height: 36px;
-  margin: 0 auto ;
+  margin: 0 auto;
 }

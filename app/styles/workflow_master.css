@@ -129,9 +129,15 @@ input[type='number'],
 }
 input[type='text']:focus,
 input[type='number']:focus,
-.has-success input[type='text'].form-control:focus {
-  border: 1px solid #0978c9;
-  box-shadow: none;
+.has-success input[type='text'].form-control:focus,
+textarea:focus {
+  border: 1px solid #0978c9 !important;
+  box-shadow: none !important;
+}
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
 textarea {
   resize: none;
@@ -651,7 +657,7 @@ select {
 .btn-default {
   color: #57606d;
   font-size: 14px;
-  border: 1px solid #dde6eb;
+  border: 1px solid #BFC9D7;
 }
 .btn-default:not(.label-btn):hover {
   background: #e1edf9;
@@ -709,6 +715,12 @@ select {
 .radioBtnToggle .miniToggle .btn-default:last-child {
   border-top-left-radius: 0 !important;
   border-bottom-left-radius: 0 !important;
+}
+.radioBtnToggle .miniToggle .btn.btn-default.whitelist.active.disabled,
+.radioBtnToggle .miniToggle .btn.btn-default.blacklist.active.disabled {
+  /* Override for Inventory whitelist/blacklist toggle active button */
+  border: 1px solid #0978C9;
+  opacity: 1;
 }
 .goalBtnGroup .btn-primary {
   border-radius: 0px;
@@ -1353,6 +1365,7 @@ input.cmn-toggle-round:checked + label:after {
 }
 .cardSelectHolder:nth-child(3) {
   margin-right: 0;
+  z-index: 0;
 }
 .cardSelectHolder:hover {
   background-color: rgba(225, 237, 249, 0.4);
@@ -1395,6 +1408,26 @@ input.cmn-toggle-round:checked + label:after {
   position: absolute;
   pointer-events: none;
 }
+/* Over-ride for Inventory domain name delete comfirmation popup */
+.remove-domain-list {
+  display: none;
+  left: auto;
+  right: 0;
+  top: -50px;
+  width: auto;
+}
+.remove-domain-list span {
+  display: inline-block;
+  height: auto;
+  margin: 8px 0 0;
+  width: auto;
+}
+.remove-domain-list:after,
+.remove-domain-list:before {
+  left: auto;
+  right: 20px;
+}
+/* END: Over-ride for Inventory domain name delete comfirmation popup */
 .popUpCue:after {
   border-color: rgba(255, 255, 255, 0);
   border-top-color: #fff;
@@ -1787,4 +1820,7 @@ input.cmn-toggle-round:checked + label:after {
 }
 .dropdown-search-btn .category_dropdown {
   margin-top: 0px ;
+}
+tags-input .tags .tag-item {
+  background: #edf2f8;
 }

@@ -1,5 +1,4 @@
-define(['angularAMD','../../common/services/constants_service'
-],function (angularAMD) {
+define(['angularAMD','common/services/constants_service'],function (angularAMD) {
 
     'use strict';
     angularAMD.directive('kpiDropDown', function (constants) {

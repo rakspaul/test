@@ -329,6 +329,7 @@ body {
   border: solid 1px transparent;
   border-bottom: 0;
   padding-bottom: 1px;
+  height: 32px;
 }
 .campaign_details_page .action_filter_holder .filter_holder .filter_dropdown .dropdown .btn span {
   text-overflow: ellipsis;
@@ -566,7 +567,7 @@ body {
   border-right: solid 1px #ebf0f5 ;
   padding: 15px 20px ;
   margin: 0px 0px 20px ;
-  width: 260px;
+  width: 100%;
   height: 210px;
 }
 .campaign_details_page .campaign_details_graphs_holder .each_section_graph_holder .graph_heading {
@@ -949,7 +950,6 @@ body {
 }
 .campaign_details_page .campaigns_details_holder .flight_dates_holder .each_col {
   float: left;
-  margin-left: 22px;
 }
 .campaign_details_page .campaigns_details_holder .flight_dates_holder .each_col .col_val {
   font-family: "Avenir-bold";
@@ -962,15 +962,9 @@ body {
   font-size: 14px;
   float: right;
 }
-.campaign_details_page .campaigns_details_holder .flight_dates_holder .col_first {
-  width: 48% ;
-  margin: 10px 0 21px 0px ;
-}
 .campaign_details_page .campaigns_details_holder .flight_dates_holder .col_spend,
 .campaign_details_page .campaigns_details_holder .flight_dates_holder .col_vtc {
-  width: 48% ;
   float: right;
-  margin: 10px 0 0 0;
 }
 .campaign_details_page .campaigns_details_holder .flight_dates_holder .col_spend .col_heading,
 .campaign_details_page .campaigns_details_holder .flight_dates_holder .col_vtc .col_heading {
@@ -1021,31 +1015,18 @@ body {
 .campaign_details_page .campaigns_details_holder .flight_dates_holder .campaign_overview_graphs_with_vtc .col_vtc .col_heading {
   margin-bottom: 5px ;
 }
-.campaign_details_page .campaigns_details_holder .flight_dates_holder .campaign_overview_graphs_with_vtc .col_first {
-  width: 322px ;
-}
 .campaign_details_page .campaigns_details_holder .flight_dates_holder .campaign_overview_graphs_with_vtc .col_spend {
   float: left;
-  margin-left: 30px;
-  width: 324px ;
-}
-.campaign_details_page .campaigns_details_holder .flight_dates_holder .campaign_overview_graphs_with_vtc .col_vtc {
-  width: 340px ;
 }
 .campaign_details_page .campaigns_details_holder .flight_dates_holder .campaign_overview_graphs_with_vtc .vtc_graph {
   width: 340px ;
   height: 70px ;
 }
 .campaign_details_page .campaigns_details_holder .campaign_list_header_holder {
-  padding-left: 2px ;
+  padding-left: 30px ;
 }
 .campaign_details_page .campaigns_details_holder .campaign_list_header_holder .metrics_title {
-  margin-left: 142px ;
   text-transform: none;
-  width: 316px;
-}
-.campaign_details_page .campaigns_details_holder .campaign_list_header_holder .kpi_title {
-  margin-left: 130px ;
 }
 .campaign_details_page .campaigns_details_holder .campaign_list_header_holder .each_header_title .sortable {
   margin-left: 5px ;
@@ -1074,6 +1055,8 @@ body {
 }
 .campaign_details_page .campaigns_details_holder .total_campaign_list_holder .strategy_tactic_holder {
   margin-top: 30px ;
+  float: left;
+  width: 100%;
 }
 .campaign_details_page .campaigns_details_holder .total_campaign_list_holder .strategy_tactic_holder .each_campaign_list_container {
   margin-bottom: 0px ;
@@ -1090,13 +1073,12 @@ body {
 .campaign_details_page .campaigns_details_holder .total_campaign_list_holder .strategy_tactic_holder .each_campaign_list_container .campaigns_list_buttons_holder .tactics_open_btn {
   cursor: pointer;
   border: solid 1px #dde6eb ;
-  border-bottom: 0px ;
   padding: 10px ;
   min-width: 86px;
   background: #fff;
   color: #a2acbb;
   font-size: 10px;
-  margin-top: 20px ;
+  margin-bottom: 20px ;
 }
 .campaign_details_page .campaigns_details_holder .total_campaign_list_holder .strategy_tactic_holder .each_campaign_list_container .campaigns_list_buttons_holder .tactics_open_btn .open_icon {
   margin: 0px 6px 0 0;
@@ -1133,7 +1115,7 @@ body {
 .campaign_details_page .campaigns_details_holder .total_campaign_list_holder .strategy_tactic_holder .only_strategy_container .strategy_title {
   color: #939eaf;
   font-size: 12px;
-  margin: 0 0 5px 22px;
+  margin: 0 0 5px 15px;
 }
 .campaign_details_page .campaigns_details_holder .total_campaign_list_holder .strategy_tactic_holder .only_strategy_container .first_section {
   margin-top: 30px ;
@@ -1148,7 +1130,7 @@ body {
   position: relative;
   width: 100%;
   height: 100%;
-  border-left: solid 1px #ccd9e3;
+  float: left;
 }
 .campaign_details_page .campaigns_details_holder .total_campaign_list_holder .strategy_tactic_holder .tactics_container .tactics_linkage_lines_bar {
   height: 1px;
@@ -1159,17 +1141,13 @@ body {
   top: 50%;
   left: 0;
 }
-.campaign_details_page .campaigns_details_holder .total_campaign_list_holder .strategy_tactic_holder .tactics_container .each_tactic_holder:last-of-type {
-  height: 140px ;
-}
 .campaign_details_page .campaigns_details_holder .total_campaign_list_holder .strategy_tactic_holder .tactics_container .each_tactic_holder:last-of-type .tactics_linkage_lines_bar {
   top: 100% ;
 }
 .campaign_details_page .campaigns_details_holder .total_campaign_list_holder .strategy_tactic_holder .tactics_container .each_tactic_container {
   background: #fbfcff;
-  width: 99%;
-  float: right;
-  margin-top: 10px;
+  width: 100%;
+  float: left;
 }
 .campaign_details_page .campaigns_details_holder .total_campaign_list_holder .strategy_tactic_holder .tactics_container .each_tactic_container .main_heading {
   font-family: "Avenir";
@@ -1358,7 +1336,7 @@ body {
 }
 .campaign_details_page .activity_log_holder .activity_log_list_container .activity_log_list {
   height: 336px ;
-  width: 560px ;
+  width: 100% ;
   overflow-y: auto ;
   border: solid 1px #ebf0f5;
   border-bottom: 0px ;
@@ -1557,8 +1535,9 @@ body {
   left: auto;
 }
 .campaign_details_page .activity_log_holder .graph_activity {
-  height: 350px ;
-  width: 450px  ;
+  height: 350px;
+  width: 100%;
+  float: left;
 }
 .campaign_details_page .activity_log_holder .graph_activity .load-more {
   margin: 100px 0px 0px 0px;

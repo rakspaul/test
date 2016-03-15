@@ -1,5 +1,5 @@
-define(['angularAMD','../../common/moment_utils'],function (angularAMD) {
-  angularAMD.controller('GetAdgroupsController', function($scope, $routeParams, $location, momentService) {
+define(['angularAMD','common/moment_utils'],function (angularAMD) {
+  angularAMD.controller('GetAdgroupsController', function($scope, $routeParams, $location, momentService,workflowService) {
 
         $scope.numOfDays = function (startTime, endTime) {
             var startTime = momentService.utcToLocalTime(startTime),
@@ -9,12 +9,14 @@ define(['angularAMD','../../common/moment_utils'],function (angularAMD) {
             return $scope.numofdays;
         };
 
-        $scope.createAdforAdGroup = function (campId, stTime, edTime) {
+        $scope.createAdforAdGroup = function (campId, stTime, edTime,unallocatedAmount) {
             var navigateUrl = '/mediaplan/' + $routeParams.campaignId + '/adGroup/' + campId + '/ads/create';
             if (typeof(Storage) !== 'undefined') {
                 localStorage.setItem('stTime', stTime); // convert this to EST in ads page
                 localStorage.setItem('edTime', edTime); // convert this to EST in ads create page
             }
+            workflowService.setUnallocatedAmount(unallocatedAmount);
+            localStorage.setItem('unallocatedAmount',unallocatedAmount)
             $location.url(navigateUrl);
         };
 

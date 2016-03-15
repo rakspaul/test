@@ -336,6 +336,7 @@ body {
               border: solid 1px transparent;
               border-bottom: 0;
               padding-bottom: 1px;
+              height: 32px;
               span {
                 text-overflow: ellipsis;
                 overflow: hidden;
@@ -563,7 +564,7 @@ body {
       border-right: solid 1px #ebf0f5 ;
       padding: 15px 20px ;
       margin: 0px 0px 20px ;
-      width: 260px;
+      width: 100%;
       height: 210px;
       .graph_heading {
           font-size: 16px ;
@@ -936,7 +937,7 @@ body {
       }
       .each_col {
         float: left;
-        margin-left: 22px;
+        //margin-left: 22px;
         .col_val {
           .darkBoldVal();
         }
@@ -946,13 +947,13 @@ body {
         }
       }
       .col_first {
-        width: 48% ;
-        margin : 10px 0 21px 0px ;
+        //width: 48% ;
+        //margin : 10px 0 21px 0px ;
       }
       .col_spend , .col_vtc {
-        width: 48% ;
+        //width: 48% ;
         float: right;
-        margin: 10px 0 0 0;
+        //margin: 10px 0 0 0;
         .col_heading {
           .darkBoldVal();
           margin-bottom: 37px ;
@@ -1008,15 +1009,15 @@ body {
             }
           }
           .col_first {
-            width: 322px ;
+            //width: 322px ;
           }
           .col_spend {
             float: left;
-            margin-left: 30px;
-            width: 324px ;
+            //margin-left: 30px;
+            //width: 324px ;
           }
           .col_vtc {
-            width: 340px ;
+            //width: 340px ;
           }
           .vtc_graph {
             width: 340px ;
@@ -1026,14 +1027,14 @@ body {
 
     }
     .campaign_list_header_holder {
-      padding-left: 2px ;
+      padding-left: 30px ;
       .metrics_title {
-        margin-left: 142px ;
+        //margin-left: 142px ;
         text-transform: none;
-        width: 316px;
+        //width: 316px;
       }
       .kpi_title {
-        margin-left:  130px ;
+        //margin-left:  130px ;
       }
       .each_header_title {
         .sortable {
@@ -1064,6 +1065,8 @@ body {
       margin-bottom: 20px ;
       .strategy_tactic_holder {
         margin-top: 30px ;
+        float: left;
+        width: 100%;
         .each_campaign_list_container {
           margin-bottom: 0px ;
           padding-left: 10px ;
@@ -1080,13 +1083,13 @@ body {
             .tactics_open_btn {
               cursor: pointer;
               border: solid 1px #dde6eb ;
-              border-bottom: 0px ;
+              //border-bottom: 0px ;
               padding: 10px ;
               min-width: 86px;
               background : #fff;
               color: #a2acbb;
               font-size: 10px;
-              margin-top: 20px ;
+              margin-bottom: 20px ;
               .open_icon {
                 margin: 0px 6px 0 0;
                 background-image: url("/images/cdesk/gamburger.png") ;
@@ -1124,7 +1127,7 @@ body {
           .strategy_title {
             color: #939eaf;
             font-size: 12px;
-            margin: 0 0 5px 22px;
+            margin: 0 0 5px 15px;
           }
           .first_section {
             margin-top: 30px ;
@@ -1141,7 +1144,8 @@ body {
             position: relative;
             width: 100%;
             height: 100%;
-            border-left: solid 1px #ccd9e3;
+            float: left;
+            
           }
           .tactics_linkage_lines_bar {
             height: 1px;
@@ -1154,16 +1158,16 @@ body {
           }
           .each_tactic_holder:last-of-type {
 
-              height: 140px ;
+              //height: 140px ;
               .tactics_linkage_lines_bar {
                 top: 100% ;
               }
           }
           .each_tactic_container {
             background: #fbfcff;
-            width: 99%;
-            float: right;
-            margin-top: 10px;
+            width: 100%;
+            float: left;
+            //margin-top: 10px;
             .main_heading{
               font-family: "Avenir" ;
             }
@@ -1358,7 +1362,7 @@ body {
       }
       .activity_log_list {
         height: 336px ;
-        width : 560px ;
+        width : 100% ;
         overflow-y : auto ;
         border: solid 1px #ebf0f5;
         border-bottom: 0px ;
@@ -1563,8 +1567,9 @@ body {
       }
     }
     .graph_activity {
-      height: 350px ;
-      width: 450px  ;
+      height: 350px;
+      width: 100%;
+      float: left;
       .load-more {
         margin: 100px 0px 0px 0px;
         display: block;

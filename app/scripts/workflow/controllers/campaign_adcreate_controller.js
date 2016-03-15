@@ -234,10 +234,14 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
 
                     }
 
-                    function adSaveErrorHandler () {
+                    function adSaveErrorHandler (data) {
+                        data = data || '' ;
                         $scope.downloadingTracker = false;
-                        $scope.abc = $scope.textConstants.PARTIAL_AD_SAVE_FAILURE;
-                        $rootScope.setErrAlertMessage($scope.textConstants.PARTIAL_AD_SAVE_FAILURE);
+                        var errMsg = $scope.textConstants.PARTIAL_AD_SAVE_FAILURE;
+                        if(data && data.data && data.data[0] && data.data[0].AdBudget) {
+                            errMsg = data.data[0].AdBudget;
+                        }
+                        $rootScope.setErrAlertMessage(errMsg);
                     }
 
                     promiseObj = $scope.adId ?
@@ -268,7 +272,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                             }
                         } else {
                             if(responseData.statusCode === 400) {
-                                adSaveErrorHandler();
+                                adSaveErrorHandler(responseData);
                             } else {
                                 $scope.downloadingTracker = false;
                                 $rootScope.setErrAlertMessage(responseData.message);
@@ -423,6 +427,10 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                     'adPlatformCustomInputs',
                     window.JSON.stringify(responseData.adPlatformCustomInputs)
                 );
+            }
+
+            if( $scope.workflowData.adsData.labels && $scope.workflowData.adsData.labels.length > 0){
+                $scope.tags = workflowService.recreateLabels($scope.workflowData.adsData.labels);
             }
 
             workflowService.setAdsDetails(angular.copy(responseData));
@@ -896,7 +904,8 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                 'facebook-tracking': 'facebook-FBexchange',
                 'appnexus-tracking': 'logo_C_appnexus',
                 'dorado-tracking': 'Visto_fav_icon',
-                'dbm-tracking': 'doubleclick-DFP'
+                'dbm-tracking': 'doubleclick-DFP',
+                'beeswax' : 'Beeswax'
             };
 
             if (platform) {
@@ -1035,9 +1044,11 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
         };
 
         $scope.toggleBtn = function (event) {
-            var target = $(event.target),
-                parentElem = target.parents('.miniToggle');
+            var target,
+                parentElem;
 
+            target = $(event.target);
+            parentElem = target.parents('.miniToggle');
             parentElem.find('label').removeClass('active');
             target.parent().addClass('active');
             target.attr('checked', 'checked');
@@ -1045,8 +1056,12 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
 
         // Create Tag Slide Page
         $scope.showCreateNewWindow = function () {
+            workflowService.setCreativeEditMode("create");
+            workflowService.setCreativeEditData(null);
             $('#formCreativeCreate')[0].reset();
             $scope.isAddCreativePopup = true;
+            // new call has to be made when platforms are changed hence seletion on new template. therefore broadcast to reset
+            $scope.$broadcast('creativeAdserverTemplateReset');
 
             // enable cancel, save button on load
             $scope.disableCancelSave = false;
@@ -1056,8 +1071,11 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                 .delay(300)
                 .animate({
                     left: '50%',
-                    marginLeft: '-325px'
+                    marginLeft: '-325px',
+                    paddingLeft: '30px'
                 }, 'slow');
+
+            $('.saveCreativeBtn').css('margin','-64px 0 0 0');
 
             $('#creative')
                 .delay(300)
@@ -1121,6 +1139,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                 creativesData = $scope.creativeData.creativeInfo;
                 postAdDataObj = {};
                 postAdDataObj.name = formData.adName;
+                postAdDataObj.labels = _.pluck($scope.tags, "label");
                 postAdDataObj.campaignId = Number($scope.campaignId);
 
                 if (formData.adFormat) {
@@ -1318,13 +1337,13 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                         postAdDataObj.domainAction = $scope.adData.inventory.domainAction;
                     }
 
+                    //custom field section.
                     if (!$scope.TrackingIntegrationsSelected) {
                         if ($.isEmptyObject($scope.postPlatformDataObj)) {
                             $scope.saveCustomeFieldForPlatform(1);
                         }
                         postAdDataObj.adPlatformCustomInputs = $scope.postPlatformDataObj;
                     }
-
                     campaignOverView.saveAds(postAdDataObj, isDownloadTrackerClicked);
                 }
             }
@@ -1337,27 +1356,40 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
         };
 
         $scope.triggerbudgetTab = function () {
-            angular.element('.budget-tab-link').trigger('click');
+            $timeout(function() {
+                $('a[data-target="#setting"]').trigger('click');
+            }, 100);
+
         };
 
         $scope.triggerPlatformTab = function () {
-            angular.element('.buying-platform-tab-link').trigger('click');
+            $timeout(function() {
+                $('a[data-target="#buying"]').trigger('click');
+            }, 100);
         };
 
         $scope.triggerTargetting = function () {
-            angular.element('.targetting-tab-link').trigger('click');
+            $timeout(function() {
+                $('a[data-target="#targetting"]').trigger('click');
+            }, 100);
         };
 
         $scope.triggerInventory = function () {
-            angular.element('.inventory-tab-link').trigger('click');
+            $timeout(function() {
+                $('a[data-target="#inventoryView"]').trigger('click');
+            }, 100);
         };
 
         $scope.trigerCreativeTag = function () {
-            angular.element('.creative-tab-link').trigger('click');
+            $timeout(function() {
+                $('a[data-target="#creative"]').trigger('click');
+            }, 100);
         };
 
         $scope.changePlatform = function (platformId) {
-            $scope.$broadcast('renderTargetingUI', platformId);
+            $timeout(function() {
+                $scope.$broadcast('renderTargetingUI', platformId);
+            }, 100);
         };
 
         $scope.showPopup = function () {
@@ -1495,6 +1527,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
             selectedAdGroupId = -1;
 
         RoleBasedService.setCurrencySymbol();
+        $scope.tags = [];
         localStorage.setItem('campaignData', '');
         localStorage.removeItem('adPlatformCustomInputs');
 
@@ -1541,11 +1574,8 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                 .addClass('active');
 
             $(target).css('bottom', '-' + $(window).width() + 'px');
-            bottom = $(target).offset().bottom;
 
-            $(target)
-               // .css({bottom: bottom})
-                .animate({'bottom': '0px'}, '10');
+            $(target).animate({'bottom': '0px'}, '10');
 
             $scope.$broadcast('closeAddCreativePage');
             $scope.$broadcast('switchPlatformFunc');

@@ -1,30 +1,45 @@
 // Reponsive Code
 
+//Master Hidder When Not Mobile
+.showMobile {
+  display: none;
+}
+
 //WideScreen View
-//@media (min-width: 1600px) {
-//  .bodyWrap {
-//      width: 100%;
-//      margin: 0 auto;
-//      padding: 0 30px;
-//      .dashboardTest {
-//      .row {
-//        margin: 15px 0;
-//        .col-md-4, .col-md-6 {
-//          width: 25%;
-//        }
-//        .col-md-8 {
-//          width: 50%;
-//        }
-//      }
-//    }
-//  }
-//}
+//This can change to min-width: 1600px once Dashboard widgets are fixes.
+@media (min-width: 3000px) {
+  .bodyWrap {
+      width: 100% ;
+      margin: 0 auto;
+      padding: 0 30px;
+      .dashboardTest {
+      .row {
+        margin: 15px 0;
+        .col-md-4, .col-md-6 {
+          width: 25%;
+        }
+        .col-md-8 {
+          width: 50%;
+        }
+      }
+    }
+    .table-responsive {
+        .vistoTable {
+            .thead.sticky {
+                width: 100%;
+                border-width: 0px;
+                padding: 0 30px;
+                left: 0;
+            }
+        }
+    }
+  }
+}
 
 //Desktop Version
 @media (max-width: 1260px) {
   .bodyWrap {
     width: 100% ;
-    max-width: 1200px ;
     margin: 0 auto;
     padding: 0 30px;
     .dashboardTest {
@@ -64,10 +79,116 @@
 }
 
 //Mobile Version
-@media (max-width: 768px) {
+@media (max-width: 991px) {
+  //Responsive Grid
+  .col-md-1 {width: 8.33333333%; float: left;}
+  .col-md-2 {width: 16.66666667%; float: left;}
+  .col-md-3 {width: 25%; float: left;}
+  //Resets
+  .hideMobile {
+    display: none !important;
+  }
+  .showMobile {
+    display: inline-block !important;
+  }
   .bodyWrap {
     width: 100%;
-    padding: 0 30px;
+    padding: 0 15px;
+    float: left;
+    .dashboard_outer_container .page_header_container {
+      margin-top: 15px;
+    }
+    .dashboardTest {
+      .row {
+        [class^="col-md-"], [class*=" col-md-"] {
+          margin: 30px 0 0 0;
+          padding: 0;
+          float: left;
+          width: 100%;
+        }
+      }
+    }
+    .each_section_block{
+      float: left;
+      width: 100%;
+      .all_campaigns_container {
+        float: left;
+        width: 100%;
+        .each_campaign_cost_container:first-child {
+          border-top: 1px solid #d2dee7;
+        }
+        .each_campaign_holder {
+          float: left;
+          width: 100%;
+          .each_campaign_list_container {
+            float: left;
+            width: 100%;
+            border: solid 1px #d2dee7 !important;
+            .col-md-12 {
+              float: left;
+              width: 100%;
+            }
+            .each_campaign_section {
+              float: left;
+              width: 100%;
+              margin-bottom: 15px;
+            }
+            .each_campaign_section:last-child {
+              margin-bottom: 0;
+            }
+          }
+        }
+      }
+      .col-md-6 {
+        width: 100% !important;
+        float: left;
+      }
+      .cost_metric_graph {
+        float: left;
+        width: 100%;
+        .metric_and_values_graph {
+          float: left;
+          width: 100%;
+          .metric_graph_details_val {
+            width: 16%;
+            margin: 15px 0 0 0;
+            text-align: center;
+          }
+          .metric_graph {
+            width: 68%;
+          }
+        }
+      }
+      .each_cost_col {
+        width: 25%;
+        margin-top: 10px;
+        padding: 0px !important;
+        span {
+          float: left;
+          text-align: left;
+          padding-right: 10px;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .main_nav {
+    .icon-hamburger {
+      display: inline-block !important;
+    }
+    .main_navigation {
+      display: none;
+    }
+  }
+  .bodyWrap {
+    width: 100%;
+    padding: 0 15px;
+    float: left;
+    .dashboard_outer_container .page_header_container {
+      margin-top: 15px;
+    }
     .dashboardTest {
       .row {
         [class^="col-md-"], [class*=" col-md-"] {
