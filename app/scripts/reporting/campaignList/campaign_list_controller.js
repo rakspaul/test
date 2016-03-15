@@ -20,6 +20,7 @@ define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', 'reporting/campaig
         var featuredFeatures = $rootScope.$on('features', function () {
             var fparams = featuresService.getFeatureParams();
             $scope.showCostTab = fparams[0]['cost'];
+            $scope.showPerformanceTab = fparams[0]['performance'];
             $scope.showCreateMediaPlan = fparams[0]['create_mediaplan']
 
         })

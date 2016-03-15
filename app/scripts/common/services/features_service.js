@@ -1,9 +1,11 @@
-define(['angularAMD'], function (angularAMD) {
-    angularAMD.service('featuresService', function ($rootScope) {
+define(['angularAMD','workflow/services/workflow_service'], function (angularAMD) {
+    angularAMD.service('featuresService', function ($rootScope,$location,workflowService) {
 
         var params = ['dashboard','report_overview', 'inventory', 'performance', 'quality', 'cost', 'optimization_impact', 'platform', 'scheduled', 'collective',
             'scheduled_reports', 'collective_insights', 'create_mediaplan', 'dashboard', 'mediaplan_list', 'ad_setup', 'mediaplan_hub', 'creative_list', 'reports_tab'];
         this.featureParams = [];
+
+        this.serverResponseReceived = false;
 
         this.setAllFeatureParams = function (booleanValue) {
             var featureObj = {};
@@ -83,19 +85,21 @@ define(['angularAMD'], function (angularAMD) {
         }
 
         this.setFeatureParams = function (featuresArr,consoleIt) {
+            this.serverResponseReceived = true;
             //API passes parameters :
             var self = this;
             // this.featureParams['inventory_page'] = true;
            // featuresArr.push('ENABLE_ALL');
-            /*featuresArr.push('REP_SCH');
+            featuresArr.push('REP_SCH');
             featuresArr.push('REP_QUALITY');
-            featuresArr.push('REP_PERF');
+           // featuresArr.push('REP_PERF');
             featuresArr.push('MEDIAPLAN_HUB');
             featuresArr.push('CREATIVE_LIST');
             featuresArr.push('REPORTS_TAB');
-            featuresArr.push('DASHBOARD');*/
-          //  featuresArr.push('COST');
-          //  console.log('server feature Arr: ',featuresArr);
+            featuresArr.push('DASHBOARD');
+            featuresArr.push('MEDIAPLAN_LIST');
+           featuresArr.push('COST');
+            console.log('server feature Arr: ',featuresArr);
 
             if (featuresArr.indexOf('ENABLE_ALL') > 0) {
                 //Enable all features
@@ -117,6 +121,29 @@ define(['angularAMD'], function (angularAMD) {
 
         this.getFeatureParams = function (whichplace) { //console.log('this.featureParams',this.featureParams[0]);
             return this.featureParams;
+        }
+
+        this.setGetFeatureParams = function(feature_param) {
+            var self = this;
+            var setFparams = function() {
+                var featureParams = self.getFeatureParams();
+                if(featureParams[0][feature_param] === false) { console.log('inventory true');
+                    $location.url('/');
+                }
+            }
+            if(this.serverResponseReceived) {
+                setFparams();
+            } else {
+                var clientId = JSON.parse(localStorage.getItem('selectedClient')).id;
+                if(clientId) {
+                    workflowService.getClientData(clientId).then(function (response) {
+                        this.serverResponseReceived = true;
+                        self.setFeatureParams(response.data.data.features,'headercontroller');
+                        setFparams();
+                    });
+                }
+
+            }
         }
 
 

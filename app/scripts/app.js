@@ -24,10 +24,8 @@ define(['common'], function (angularAMD) {
                 bodyclass: 'dashboard_body',
                 resolve: {
                     'check': function ($location,featuresService) {
-                        var featureParams = featuresService.getFeatureParams();
-                        if(featureParams[0]['dashboard'] === false) {
-                            $location.url('/');
-                        }
+                        //redirects to default page if it has no permission to access it
+                        featuresService.setGetFeatureParams('dashboard');
                     }
                 }
             }))
@@ -44,10 +42,8 @@ define(['common'], function (angularAMD) {
                 title: 'Media Plan List',
                 resolve: {
                     'check': function ($location,featuresService) {
-                        var featureParams = featuresService.getFeatureParams();
-                        if(featureParams[0]['mediaplan_list'] === false) {
-                            $location.url('/');
-                        }
+                        //redirects to default page if it has no permission to access it
+                        featuresService.setGetFeatureParams('mediaplan_list');
                     }
                 }
             }))
@@ -59,10 +55,8 @@ define(['common'], function (angularAMD) {
                 controllerUrl: 'reporting/controllers/campaign_details_controller',
                 resolve: {
                     'check': function ($location,featuresService) {
-                        var featureParams = featuresService.getFeatureParams();
-                        if(featureParams[0]['report_overview'] === false) {
-                            $location.url('/');
-                        }
+                        //redirects to default page if it has no permission to access it
+                        featuresService.setGetFeatureParams('report_overview');
                     }
                 }
             }))
@@ -74,10 +68,8 @@ define(['common'], function (angularAMD) {
                 controllerUrl: 'reporting/controllers/optimization_controller',
                 resolve: {
                     'check': function ($location,featuresService) {
-                        var featureParams = featuresService.getFeatureParams();
-                        if(featureParams[0]['optimization_impact'] === false) {
-                            $location.url('/');
-                        }
+                        //redirects to default page if it has no permission to access it
+                        featuresService.setGetFeatureParams('optimization_impact');
                     }
                 }
             }))
@@ -88,11 +80,10 @@ define(['common'], function (angularAMD) {
                 controller: 'InventoryController',
                 controllerUrl: 'reporting/controllers/inventory_controller',
                 resolve: {
-                    'check': function ($location,featuresService) {
-                        var featureParams = featuresService.getFeatureParams();
-                        if(featureParams[0]['inventory'] === false) {
-                            $location.url('/');
-                        }
+                    'check': function ($location,featuresService,workflowService) {
+                             //redirects to default page if it has no permission to access it
+                              featuresService.setGetFeatureParams('inventory');
+
                     }
                 }
             }))
@@ -104,10 +95,8 @@ define(['common'], function (angularAMD) {
                 controllerUrl: 'reporting/controllers/viewability_controller',
                 resolve: {
                     'check': function ($location,featuresService) {
-                        var featureParams = featuresService.getFeatureParams();
-                        if(featureParams[0]['quality'] === false) {
-                            $location.url('/');
-                        }
+                        //redirects to default page if it has no permission to access it
+                        featuresService.setGetFeatureParams('quality');
                     }
                 }
             }))
@@ -131,10 +120,9 @@ define(['common'], function (angularAMD) {
                         if (!isAgencyCostModelTransparent && locationPath === '/cost') {
                             $location.url('/');
                         }
-                        var featureParams = featuresService.getFeatureParams();
-                        if(featureParams[0]['cost'] === false) {
-                            $location.url('/');
-                        }
+
+                        //redirects to default page if it has no permission to access it
+                        featuresService.setGetFeatureParams('cost');
                     }
                 }
             }))
@@ -146,10 +134,7 @@ define(['common'], function (angularAMD) {
                 controllerUrl: 'reporting/controllers/platform_controller',
                 resolve: {
                     'check': function ($location,featuresService) {
-                        var featureParams = featuresService.getFeatureParams();
-                        if(featureParams[0]['platform'] === false) {
-                            $location.url('/');
-                        }
+                        featuresService.setGetFeatureParams('platform');
                     }
                 }
                 //css: 'assets/stylesheets/platform.css'
@@ -163,10 +148,7 @@ define(['common'], function (angularAMD) {
                 bodyclass: 'custom_report_page',
                 resolve: {
                     'check': function ($location,featuresService) {
-                        var featureParams = featuresService.getFeatureParams();
-                        if(featureParams[0]['scheduled_reports'] === false) {
-                            $location.url('/');
-                        }
+                        featuresService.setGetFeatureParams('scheduled_reports');
                     }
                 }
             }))
@@ -179,10 +161,7 @@ define(['common'], function (angularAMD) {
                 bodyclass: 'custom_report_page',
                 resolve: {
                     'check': function ($location, featuresService) {
-                        var featureParams = featuresService.getFeatureParams();
-                        if (featureParams[0]['scheduled_reports'] === false) {
-                            $location.url('/');
-                        }
+                        featuresService.setGetFeatureParams('scheduled_reports');
                     }
                 }
             }))
@@ -195,10 +174,7 @@ define(['common'], function (angularAMD) {
                 css: assets.css_custom_reports,
                 resolve: {
                     'check': function ($location,featuresService) {
-                        var featureParams = featuresService.getFeatureParams();
-                        if(featureParams[0]['collective_insights'] === false) {
-                            $location.url('/');
-                        }
+                        featuresService.setGetFeatureParams('collective_insights');
                     }
                 }
             }))
@@ -211,10 +187,7 @@ define(['common'], function (angularAMD) {
                 css: assets.css_custom_reports,
                 resolve: {
                     'check': function ($location,featuresService) {
-                        var featureParams = featuresService.getFeatureParams();
-                        if(featureParams[0]['collective_insights'] === false) {
-                            $location.url('/');
-                        }
+                        featuresService.setGetFeatureParams('collective_insights');
                     }
                 }
             }))
@@ -227,10 +200,7 @@ define(['common'], function (angularAMD) {
                 css: assets.css_reports_schedule_list,
                 resolve: {
                     'check': function ($location,featuresService) {
-                        var featureParams = featuresService.getFeatureParams();
-                        if(featureParams[0]['scheduled_reports'] === false) {
-                            $location.url('/');
-                        }
+                        featuresService.setGetFeatureParams('scheduled_reports');
                     }
                 }
             }))
@@ -242,10 +212,7 @@ define(['common'], function (angularAMD) {
                 controllerUrl: 'reporting/controllers/performance_controller',
                 resolve: {
                     'check': function ($location,featuresService) {
-                        var featureParams = featuresService.getFeatureParams();
-                        if(featureParams[0]['performance'] === false) {
-                            $location.url('/');
-                        }
+                        featuresService.setGetFeatureParams('performance');
                     }
                 }
             }))
@@ -268,10 +235,7 @@ define(['common'], function (angularAMD) {
                         if (!isWorkflowUser) {
                             $location.path('/');
                         }
-                        var featureParams = featuresService.getFeatureParams();
-                        if(featureParams[0]['performance'] === false) {
-                            $location.url('/');
-                        }
+                        featuresService.setGetFeatureParams('create_mediaplan');
                     }
                 }
             }))
@@ -467,10 +431,7 @@ define(['common'], function (angularAMD) {
                         if (!isWorkflowUser) {
                             $location.path('/');
                         }
-                        var featureParams = featuresService.getFeatureParams();
-                        if(featureParams[0]['creative_list'] === false) {
-                            $location.url('/');
-                        }
+                        featuresService.setGetFeatureParams('creative_list');
                     }
                 }
             }))
@@ -507,6 +468,7 @@ define(['common'], function (angularAMD) {
 
         })
         .run(function ($rootScope, $location, $cookies, loginModel, brandsModel, dataService, $cookieStore, workflowService,featuresService) {
+            console.log('sapna');
             var handleLoginRedirection = function () {
                     var cookieRedirect = $cookieStore.get('cdesk_redirect') || null,
                         setDefaultPage;
@@ -533,7 +495,8 @@ define(['common'], function (angularAMD) {
                         authorizationKey;
 
                     if (loginModel.getSelectedClient) {
-                        workflowService.getClientData(JSON.parse(localStorage.getItem('selectedClient')).id).then(function (response) { console.log('&&&&');
+                        workflowService.getClientData(JSON.parse(localStorage.getItem('selectedClient')).id).then(function (response) {
+                            console.log('appjs');
                             featuresService.setFeatureParams(response.data.data.features,'app');
                         });
                     }
