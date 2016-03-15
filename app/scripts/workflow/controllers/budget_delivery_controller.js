@@ -1,5 +1,5 @@
 define(['angularAMD', 'common/services/constants_service', 'common/moment_utils', 'workflow/directives/ng_upload_hidden'], function (angularAMD) {
-  angularAMD.controller('BudgetDeliveryController', function ($scope, constants, momentService) {
+  angularAMD.controller('BudgetDeliveryController', function ($scope, constants, momentService,workflowService) {
 
 
     $scope.ImpressionPerUserValidator = function () {
@@ -24,7 +24,8 @@ define(['angularAMD', 'common/services/constants_service', 'common/moment_utils'
         budgetAmount,
         unitType,
         unitCost,
-        totalBudget;
+        totalBudget,
+        unallocatedAmount;
 
       if (!$scope.workflowData.campaignData) {
         return false;
@@ -37,6 +38,7 @@ define(['angularAMD', 'common/services/constants_service', 'common/moment_utils'
       campaignBuget = Number(campaignData.deliveryBudget || 0);
       adMaximumRevenue = Number(campaignData.deliveryBudget - (campaignData.bookedSpend || 0));
       budgetAmount = Number($scope.adData.budgetAmount);
+      unallocatedAmount = Number(localStorage.getItem('unallocatedAmount'));
 
       if ($scope.workflowData.adsData && $scope.mode === 'edit') {
         adsData = $scope.workflowData.adsData;
@@ -56,7 +58,7 @@ define(['angularAMD', 'common/services/constants_service', 'common/moment_utils'
           } else if (budgetAmount > adMaximumRevenue) {
             //in case of create ad total budget is greater then adMaximumRevene
             $scope.budgetErrorObj.availableMaximumAdRevenueValidator = true;
-            $scope.adMaximumRevenue = Math.round(adMaximumRevenue);
+            $scope.adMaximumRevenue = adMaximumRevenue;
           }
         } else {
           unitType = $scope.adData.unitType;
@@ -67,6 +69,13 @@ define(['angularAMD', 'common/services/constants_service', 'common/moment_utils'
           } else if (unitType.name === 'CPC' || unitType.name === 'CPA') {
             totalBudget = unitCost * budgetAmount;
           }
+
+            if(workflowService.getIsAdGroup() && unallocatedAmount > 0){
+                if(unallocatedAmount < totalBudget){
+                    adMaximumRevenue = unallocatedAmount;
+                }
+            }
+
           if ($scope.mode === 'edit' && totalBudget > adAvailableRevenue) {
             $scope.budgetErrorObj.availableRevenueValidator = true;
           }
@@ -74,6 +83,9 @@ define(['angularAMD', 'common/services/constants_service', 'common/moment_utils'
             //in case of create ad total budget is greater then adMaximumRevene
             $scope.budgetErrorObj.availableMaximumAdRevenueValidator = true;
           }
+            $scope.adMaximumRevenue = adMaximumRevenue;
+
+
         }
       }
     };
