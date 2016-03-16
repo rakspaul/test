@@ -1893,6 +1893,14 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                     $scope.scheduleReportActive = responseData.isScheduled;
                     $scope.generateBtnDisabled = false;
                     $scope.reports.schedule = responseData.schedule;
+                    if($scope.reports.schedule) {
+                        if ($scope.reports.schedule.startDate) {
+                            $scope.reports.schedule.startDate = momentService.newMoment($scope.reports.schedule.startDate).format("YYYY-MM-DD");
+                        }
+                        if ($scope.reports.schedule.endDate) {
+                            $scope.reports.schedule.endDate = momentService.newMoment($scope.reports.schedule.endDate).format("YYYY-MM-DD");
+                        }
+                    }
                     $scope.reports.reportDefinition.timeframe = responseData.reportDefinition.timeframe;
 
                     if (responseData.isScheduled) {
