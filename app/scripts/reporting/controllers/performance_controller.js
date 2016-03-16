@@ -447,7 +447,7 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
         //Binding click event on tab and fetch strategy method.
         $(function() {
             $(".each_tab").click(function (event) {
-                $rootScope.$broadcast('tab_changed');
+                $rootScope.$broadcast(constants.TAB_CHANGED);
                 var tab_id = $(this).attr("id").split("_tab");
                 if($scope.kpiDropdownActive == true){
                     $('.icon_text_holder').removeClass( "active" );
