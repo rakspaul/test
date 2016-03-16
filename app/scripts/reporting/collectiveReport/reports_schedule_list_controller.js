@@ -19,6 +19,9 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
         _curCtrl.filters = {};
         $scope.sortReverse = false;
         _curCtrl.isFilterExpanded = false;
+        $scope.showScheduleListLoader = false;
+        $scope.textconstants = constants;
+
 
         $('html').css('background', '#FFFFFF');
 
@@ -95,6 +98,7 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
         }
         $scope.getScheduledReports = function() {
             var scheduleReportListSucc = function(schdReportList) {
+                $scope.showScheduleListLoader = false;
                 var instances,
                     i;
                 _curCtrl.preProccessListData(schdReportList);
@@ -112,12 +116,12 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
             };
 
             var scheduleReportListError = function() {
-                // console.log('error occured');
+                $scope.showScheduleListLoader = false;
             };
             var queryStr = "?clientId="+loginModel.getSelectedClient().id;
             queryStr += _curCtrl.getFilterParam();
 
-
+            $scope.showScheduleListLoader = true;
             collectiveReportModel.getScheduleReportList(scheduleReportListSucc, scheduleReportListError, queryStr);
         };
 
