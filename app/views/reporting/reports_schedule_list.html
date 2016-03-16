@@ -6,7 +6,7 @@
 <div class="reports-scheduled-list">
     <div class="scheduled-list-header">
         <div class="clearfix" >
-            <h2 class="pull-left" ng-bind-html="textConstants.SCHEDULED_REPORTS"></h2>
+            <h1 class="pull-left" ng-bind-html="textConstants.SCHEDULED_REPORTS"></h1>
         </div>
     </div>
     <div id="searchList">
@@ -16,7 +16,7 @@
         </div>
     <!--Search Input-->
         <div class="pull-right">
-            <div class="searchInput">
+            <div class="searchInputSchedule">
                 <a class="btn btn-default searchInputBtn" ng-click="searchShowInput();filters.searchText=null">
                     <span class="icon-search" aria-hidden="true" style="margin: -1px 0 0 0;"></span>
                 </a>
@@ -47,10 +47,8 @@
                                     <span class="icon-arrow-down"></span>
                                 </button>
                                 <ul class="dropdown-menu" aria-labelledby="unitcostType" ng-model="adData.unitType"  id="unitcostType" data-toggle="dropdown">
-                                    <li ng-repeat="type in textConstants.REPORT_LIST_REPORTTYPES"
-                                        ng-click="select_filter_option('reportType',type)"
-                                        style="padding: 5px"
-                                        ng-bind="type">
+                                    <li ng-repeat="type in textConstants.REPORT_LIST_REPORTTYPES">
+                                        <a ng-click="select_filter_option('reportType',type)" ng-bind="type"></a>
                                     </li>
                                 </ul>
                                 <input type="hidden" name="unitType" ng-model="adData.unitType.name" ng-update-hidden />
@@ -67,10 +65,8 @@
                                     <span class="icon-arrow-down"></span>
                                 </button>
                                 <ul class="dropdown-menu" aria-labelledby="unitcostType" ng-model="adData.unitType"  id="unitcostType" data-toggle="dropdown">
-                                    <li ng-repeat="type in textConstants.REPORT_LIST_GENERATEON"
-                                        ng-click="select_filter_option('generated' , type.key)"
-                                        style="padding: 5px"
-                                        ng-bind="type.value">
+                                    <li ng-repeat="type in textConstants.REPORT_LIST_GENERATEON">
+                                        <a ng-click="select_filter_option('generated' , type.key)" ng-bind="type.value"></a>
                                     </li>
                                 </ul>
                                 <input type="hidden" name="unitType" ng-model="adData.unitType.name" ng-update-hidden />
@@ -87,11 +83,8 @@
                                     <span class="icon-arrow-down"></span>
                                 </button>
                                 <ul class="dropdown-menu" aria-labelledby="unitcostType" ng-model="adData.unitType"  id="unitcostType" data-toggle="dropdown">
-                                    <li ng-repeat="dimension in customeDimension"
-                                        id="{{dimension.key}}"
-                                        style="padding:5px"
-                                        ng-click="select_filter_option('reportDimensions', dimension.key)"
-                                        ng-bind="dimension.value">
+                                    <li ng-repeat="dimension in customeDimension">
+                                        <a ng-click="select_filter_option('reportDimensions', dimension.key)" ng-bind="dimension.value"></a>
                                     </li>
                                 </ul>
                                 <input type="hidden" name="unitType" ng-model="adData.unitType.name" ng-update-hidden/>
@@ -201,7 +194,7 @@
                          ng-class="{downloaded:inst.viewedOn.length > 0}">
 
                         <div class="table-td name-col">
-                            <span class="col-md-9" ng-bind-html="srlist.name"></span>
+                            <span class="col-md-9 arrow" ng-bind-html="srlist.name"></span>
                             <div class="col-md-3">
                                 <div class="table-td more-options">
                                     <div class="dropdown-workflow">

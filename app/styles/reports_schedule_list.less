@@ -42,6 +42,14 @@
             cursor: pointer;
             }
         }
+
+        .col-md-9.arrow {
+            &:first-child {
+                background-image: none !important;
+                padding-left:22px;
+             }
+        }
+
         .no-instance {
             background-image: none !important;
             cursor: initial !important;
@@ -113,6 +121,21 @@
               display:block;
           }
       }
+
+      .inner-row {
+           background-color: #f7f7f7;
+             .hideOption {
+                 display:none;
+             }
+            .rowHover:hover {
+                background-color: #f7f7f7;
+                 .hideOption {
+                     display:block;
+                  }
+           }
+      }
+
+
     .table-td.more-options {
       overflow: visible;
       padding: 0;
@@ -141,9 +164,7 @@
           background: #FFFFFF ;
         }
       }
-      .dropdown.open {
-        background: #FFFFFF ;
-      }
+
         .headerDownload {
                 border-top:1px solid #ccd2da;
                 padding: 5px 15px !important;
@@ -273,7 +294,7 @@
         border-bottom-left-radius: 2px;
     }
 
-    .searchInput {
+    .searchInputSchedule {
         width: auto;
         border-top: 1px solid #BFC9D7;
         border-bottom: 1px solid #BFC9D7;
