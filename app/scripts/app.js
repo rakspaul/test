@@ -15,6 +15,12 @@ define(['common'], function (angularAMD) {
                 title: 'Login',
                 controller: 'loginController',
                 controllerUrl: 'login/login_controller',
+                resolve: {
+                    'check': function() {
+                        //remove header bar on login page
+                        $('.main_navigation_holder').remove();
+                    }
+                }
             }))
             .when('/dashboard', angularAMD.route({
                 templateUrl: assets.html_dashboard,
