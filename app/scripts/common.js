@@ -64,6 +64,8 @@ define(['angularAMD',
     'ng-tag',
     'common/services/features_service',
     'chosen',
+    'classie',
+    'modernizr-custom',
     'dlmenu'
 ], function (angularAMD) {
     'use strict';

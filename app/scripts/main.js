@@ -37,6 +37,8 @@
         'multiselect':'multi_select',
         'ng-tag': 'libs/ng-tags-input.min',
         'chosen': 'libs/chosen',
+        'classie': 'libs/classie',
+        'modernizr-custom': 'libs/modernizr-custom',
         'dlmenu': 'libs/dlmenu'
       },
 
@@ -65,8 +67,10 @@
         'highcharts-ng': ['ng-infinite-scroll'],
         'highcharts': ['highcharts-ng'],
         'highcharts-more': ['highcharts'],
+        'classie': ['jquery'],
+        'modernizr-custom': ['jquery'],
         'chosen': ['jquery'],
-        'dlmenu': ['jquery'],
+        'dlmenu': ['jquery', 'modernizr-custom', 'classie'],
         'solid-gauge': ['highcharts-more'],
         'underscore': ['angular'],
         'd3': ['angulartics-ga'],

@@ -264,107 +264,82 @@
                 </a>
             </div>
             
-            <div id="dl-menu" class="dl-menuwrapper">
-                    <button class="dl-trigger">Open Menu</button>
-                    <ul class="dl-menu">
-                        <li>
-                            <a href="#">Fashion</a>
-                            <ul class="dl-submenu">
-                                <li>
-                                    <a href="#">Men</a>
-                                    <ul class="dl-submenu">
-                                        <li><a href="#">Shirts</a></li>
-                                        <li><a href="#">Jackets</a></li>
-                                        <li><a href="#">Chinos &amp; Trousers</a></li>
-                                        <li><a href="#">Jeans</a></li>
-                                        <li><a href="#">T-Shirts</a></li>
-                                        <li><a href="#">Underwear</a></li>
-                                    </ul>
-                                </li>
-                                <li>
-                                    <a href="#">Women</a>
-                                    <ul class="dl-submenu">
-                                        <li><a href="#">Jackets</a></li>
-                                        <li><a href="#">Knits</a></li>
-                                        <li><a href="#">Jeans</a></li>
-                                        <li><a href="#">Dresses</a></li>
-                                        <li><a href="#">Blouses</a></li>
-                                        <li><a href="#">T-Shirts</a></li>
-                                        <li><a href="#">Underwear</a></li>
-                                    </ul>
-                                </li>
-                                <li>
-                                    <a href="#">Children</a>
-                                    <ul class="dl-submenu">
-                                        <li><a href="#">Boys</a></li>
-                                        <li><a href="#">Girls</a></li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </li>
-                        <li>
-                            <a href="#">Electronics</a>
-                            <ul class="dl-submenu">
-                                <li><a href="#">Camera &amp; Photo</a></li>
-                                <li><a href="#">TV &amp; Home Cinema</a></li>
-                                <li><a href="#">Phones</a></li>
-                                <li><a href="#">PC &amp; Video Games</a></li>
-                            </ul>
-                        </li>
-                        <li>
-                            <a href="#">Furniture</a>
-                            <ul class="dl-submenu">
-                                <li>
-                                    <a href="#">Living Room</a>
-                                    <ul class="dl-submenu">
-                                        <li><a href="#">Sofas &amp; Loveseats</a></li>
-                                        <li><a href="#">Coffee &amp; Accent Tables</a></li>
-                                        <li><a href="#">Chairs &amp; Recliners</a></li>
-                                        <li><a href="#">Bookshelves</a></li>
-                                    </ul>
-                                </li>
-                                <li>
-                                    <a href="#">Bedroom</a>
-                                    <ul class="dl-submenu">
-                                        <li>
-                                            <a href="#">Beds</a>
-                                            <ul class="dl-submenu">
-                                                <li><a href="#">Upholstered Beds</a></li>
-                                                <li><a href="#">Divans</a></li>
-                                                <li><a href="#">Metal Beds</a></li>
-                                                <li><a href="#">Storage Beds</a></li>
-                                                <li><a href="#">Wooden Beds</a></li>
-                                                <li><a href="#">Children's Beds</a></li>
-                                            </ul>
-                                        </li>
-                                        <li><a href="#">Bedroom Sets</a></li>
-                                        <li><a href="#">Chests &amp; Dressers</a></li>
-                                    </ul>
-                                </li>
-                                <li><a href="#">Home Office</a></li>
-                                <li><a href="#">Dining &amp; Bar</a></li>
-                                <li><a href="#">Patio</a></li>
-                            </ul>
-                        </li>
-                        <li>
-                            <a href="#">Jewelry &amp; Watches</a>
-                            <ul class="dl-submenu">
-                                <li><a href="#">Fine Jewelry</a></li>
-                                <li><a href="#">Fashion Jewelry</a></li>
-                                <li><a href="#">Watches</a></li>
-                                <li>
-                                    <a href="#">Wedding Jewelry</a>
-                                    <ul class="dl-submenu">
-                                        <li><a href="#">Engagement Rings</a></li>
-                                        <li><a href="#">Bridal Sets</a></li>
-                                        <li><a href="#">Women's Wedding Bands</a></li>
-                                        <li><a href="#">Men's Wedding Bands</a></li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </li>
+            <button class="action action--open" aria-label="Open Menu"><span class="icon icon--menu"></span></button>
+            <nav id="ml-menu" class="menu">
+                <button class="action action--close" aria-label="Close Menu"><span class="icon icon--cross"></span></button>
+                <div class="menu__wrap">
+                    <ul data-menu="main" class="menu__level">
+                        <li class="menu__item"><a class="menu__link" data-submenu="submenu-1" href="#">Vegetables</a></li>
+                        <li class="menu__item"><a class="menu__link" data-submenu="submenu-2" href="#">Fruits</a></li>
+                        <li class="menu__item"><a class="menu__link" data-submenu="submenu-3" href="#">Grains</a></li>
+                        <li class="menu__item"><a class="menu__link" data-submenu="submenu-4" href="#">Mylk &amp; Drinks</a></li>
                     </ul>
-                </div><!-- /dl-menuwrapper -->
+                    <!-- Submenu 1 -->
+                    <ul data-menu="submenu-1" class="menu__level">
+                        <li class="menu__item"><a class="menu__link" href="#">Stalk Vegetables</a></li>
+                        <li class="menu__item"><a class="menu__link" href="#">Roots &amp; Seeds</a></li>
+                        <li class="menu__item"><a class="menu__link" href="#">Cabbages</a></li>
+                        <li class="menu__item"><a class="menu__link" href="#">Salad Greens</a></li>
+                        <li class="menu__item"><a class="menu__link" href="#">Mushrooms</a></li>
+                        <li class="menu__item"><a class="menu__link" data-submenu="submenu-1-1" href="#">Sale %</a></li>
+                    </ul>
+                    <!-- Submenu 1-1 -->
+                    <ul data-menu="submenu-1-1" class="menu__level">
+                        <li class="menu__item"><a class="menu__link" href="#">Fair Trade Roots</a></li>
+                        <li class="menu__item"><a class="menu__link" href="#">Dried Veggies</a></li>
+                        <li class="menu__item"><a class="menu__link" href="#">Our Brand</a></li>
+                        <li class="menu__item"><a class="menu__link" href="#">Homemade</a></li>
+                    </ul>
+                    <!-- Submenu 2 -->
+                    <ul data-menu="submenu-2" class="menu__level">
+                        <li class="menu__item"><a class="menu__link" href="#">Citrus Fruits</a></li>
+                        <li class="menu__item"><a class="menu__link" href="#">Berries</a></li>
+                        <li class="menu__item"><a class="menu__link" data-submenu="submenu-2-1" href="#">Special Selection</a></li>
+                        <li class="menu__item"><a class="menu__link" href="#">Tropical Fruits</a></li>
+                        <li class="menu__item"><a class="menu__link" href="#">Melons</a></li>
+                    </ul>
+                    <!-- Submenu 2-1 -->
+                    <ul data-menu="submenu-2-1" class="menu__level">
+                        <li class="menu__item"><a class="menu__link" href="#">Exotic Mixes</a></li>
+                        <li class="menu__item"><a class="menu__link" href="#">Wild Pick</a></li>
+                        <li class="menu__item"><a class="menu__link" href="#">Vitamin Boosters</a></li>
+                    </ul>
+                    <!-- Submenu 3 -->
+                    <ul data-menu="submenu-3" class="menu__level">
+                        <li class="menu__item"><a class="menu__link" href="#">Buckwheat</a></li>
+                        <li class="menu__item"><a class="menu__link" href="#">Millet</a></li>
+                        <li class="menu__item"><a class="menu__link" href="#">Quinoa</a></li>
+                        <li class="menu__item"><a class="menu__link" href="#">Wild Rice</a></li>
+                        <li class="menu__item"><a class="menu__link" href="#">Durum Wheat</a></li>
+                        <li class="menu__item"><a class="menu__link" data-submenu="submenu-3-1" href="#">Promo Packs</a></li>
+                    </ul>
+                    <!-- Submenu 3-1 -->
+                    <ul data-menu="submenu-3-1" class="menu__level">
+                        <li class="menu__item"><a class="menu__link" href="#">Starter Kit</a></li>
+                        <li class="menu__item"><a class="menu__link" href="#">The Essential 8</a></li>
+                        <li class="menu__item"><a class="menu__link" href="#">Bolivian Secrets</a></li>
+                        <li class="menu__item"><a class="menu__link" href="#">Flour Packs</a></li>
+                    </ul>
+                    <!-- Submenu 4 -->
+                    <ul data-menu="submenu-4" class="menu__level">
+                        <li class="menu__item"><a class="menu__link" href="#">Grain Mylks</a></li>
+                        <li class="menu__item"><a class="menu__link" href="#">Seed Mylks</a></li>
+                        <li class="menu__item"><a class="menu__link" href="#">Nut Mylks</a></li>
+                        <li class="menu__item"><a class="menu__link" href="#">Nutri Drinks</a></li>
+                        <li class="menu__item"><a class="menu__link" data-submenu="submenu-4-1" href="#">Selection</a></li>
+                    </ul>
+                    <!-- Submenu 4-1 -->
+                    <ul data-menu="submenu-4-1" class="menu__level">
+                        <li class="menu__item"><a class="menu__link" href="#">Nut Mylk Packs</a></li>
+                        <li class="menu__item"><a class="menu__link" href="#">Amino Acid Heaven</a></li>
+                        <li class="menu__item"><a class="menu__link" href="#">Allergy Free</a></li>
+                    </ul>
+                </div>
+            </nav>
+            <div class="content">
+                <p class="info">Please choose a category</p>
+                <!-- Ajax loaded content here -->
+            </div>
 
         </div>
 
@@ -379,6 +354,7 @@
 </div> <!-- end of popup-holder -->
 
 <script type="text/javascript">  
+    //Pills
     var config = {
       '.chosen-select'           : {},
       '.chosen-select-deselect'  : {allow_single_deselect:true},
@@ -389,7 +365,4 @@
     for (var selector in config) {
       $(selector).chosen(config[selector]);
     }
-    $( '#dl-menu' ).dlmenu({
-        animationClasses : { classin : 'dl-animate-in-2', classout : 'dl-animate-out-2' }
-    });
 </script>
