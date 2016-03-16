@@ -905,7 +905,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                 'appnexus-tracking': 'logo_C_appnexus',
                 'dorado-tracking': 'Visto_fav_icon',
                 'dbm-tracking': 'doubleclick-DFP',
-                'beeswax' : 'Beeswax'
+                'beeswax' : 'beeswax'
             };
 
             if (platform) {

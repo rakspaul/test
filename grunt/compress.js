@@ -3,12 +3,12 @@ module.exports =function(grunt) {
     var config = {
         'dist' : {
             options: {
-                pretty: true,
+                mode: 'zip',
                 archive: 'visto-ui.zip'
             },
             expand: true,
             cwd: './',
-            src: ['dist/**', 'grunt/**', '*.json', 'package.json', 'scripts/**'],
+            src: ['dist/**', 'grunt/**', '*.json', 'package.json', 'scripts/**', 'node_modules/**', 'Gruntfile.js'],
             dest: '/'
         }
     };
