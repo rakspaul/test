@@ -972,5 +972,6 @@ define(['angularAMD'], function(angularAMD) {
         this.DATANOTAVAILABLE = 'Data not available';
         this.UPDATETAG = 'Update Tag';
         this.CREATIVESDELETE = 'Creatives Delete';
+        this.TAB_CHANGED = 'tab_changed';
     });
 });
