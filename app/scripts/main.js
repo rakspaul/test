@@ -36,7 +36,8 @@
         'filesaver': 'libs/FileSaver',
         'multiselect':'multi_select',
         'ng-tag': 'libs/ng-tags-input.min',
-        'chosen': 'libs/chosen'
+        'chosen': 'libs/chosen',
+        'dlmenu': 'libs/dlmenu'
       },
 
       // Add angular modules that does not support AMD out of the box, put it in a shim
@@ -65,6 +66,7 @@
         'highcharts': ['highcharts-ng'],
         'highcharts-more': ['highcharts'],
         'chosen': ['jquery'],
+        'dlmenu': ['jquery'],
         'solid-gauge': ['highcharts-more'],
         'underscore': ['angular'],
         'd3': ['angulartics-ga'],

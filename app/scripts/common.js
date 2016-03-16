@@ -63,7 +63,8 @@ define(['angularAMD',
     'showErrors',
     'ng-tag',
     'common/services/features_service',
-    'chosen'
+    'chosen',
+    'dlmenu'
 ], function (angularAMD) {
     'use strict';
     return angularAMD;

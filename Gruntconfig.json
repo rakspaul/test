@@ -43,7 +43,8 @@
         "highcharts/highcharts",
         "highcharts-ng/dist/highcharts-ng",
         "ng-tags-input/ng-tags-input.min.js",
-        "chosen/chosen.js"
+        "chosen/chosen.js",
+        "dlmenu/dlmenu.js"
 
     ],
 
