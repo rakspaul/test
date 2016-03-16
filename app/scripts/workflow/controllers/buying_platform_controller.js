@@ -411,7 +411,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             });
         };
 
-        $(function () {
+        $(document).ready(function() {
             $('.input-daterange').datepicker({
                 format: "mm/dd/yyyy",
                 orientation: "top auto",
