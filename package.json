@@ -1,6 +1,6 @@
 {
-  "name": "angularAmdSample",
-  "version": "0.0.0",
+  "name": "visto-ui",
+  "version": "1.0.0",
   "dependencies": {
     "connect-modrewrite": "^0.8.5",
     "d3": "^3.5.16",
