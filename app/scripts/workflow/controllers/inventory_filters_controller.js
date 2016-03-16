@@ -113,6 +113,9 @@ define(['angularAMD', 'workflow/services/workflow_service', 'workflow/services/f
                             val.domainAction = 'EXCLUDE';
                         }
                     });
+
+                    // TODO: Display the newly loaded list
+
                     // Reset the flag variable
                     $scope.inventoryCreate = false;
                 } else {
