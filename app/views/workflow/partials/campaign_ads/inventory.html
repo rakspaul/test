@@ -155,7 +155,7 @@
                     <div id="{{'expanded-' + inventory.id}}"
                          ng-show="inventory.domainNamesDisplay === 'expanded'">
                         <ul class="zeroPadding"
-                            style="max-height: 470px; overflow: scroll;">
+                            style="max-height: 470px; overflow: auto;">
                             <li ng-repeat="domain in inventory.domainList |
                                     orderBy : proxyOrderBy : inventory.reverseOrder"
                                 style="list-style: none; color: #939eae; padding: 5px 0;"
@@ -255,7 +255,7 @@
                       aria-hidden="true"
                       ng-click="saveCancelExistingListPopup('cancel')">
                 </span>
-                <h1 ng-bind="'Select from Existing ' +
+                <h1 ng-bind="'Select from existing ' +
                                 (adData.inventory.domainAction === 'INCLUDE' ? 'Whitelists' : 'Blacklists')">
                 </h1>
             </div>
@@ -294,7 +294,7 @@
                 </div>
                 <div class="col-md-6" class="selected-list-wrapper" style="height: 403px;">
                     <h4>Selected</h4>
-                    <ul class="col-md-12 zeroPadding" style="max-height: 328px; overflow: scroll;;">
+                    <ul class="col-md-12 zeroPadding" style="max-height: 328px; overflow: auto;">
                         <li ng-repeat="selectedList in workflowData.selectedLists | orderBy: name"
                             class="selected">
                             <span ng-bind="selectedList.domainAction === 'INCLUDE' ? 'Whitelist' : 'Blacklist'"></span>

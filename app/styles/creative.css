@@ -384,7 +384,7 @@
 .popInventoryLib .inventoryLib .filterBody ul {
   height: 290px;
   margin: 0;
-  overflow: scroll;
+  overflow: auto;
   padding: 0;
 }
 .popInventoryLib .inventoryLib .filterBody ul li {
@@ -444,7 +444,7 @@
 }
 .popInventoryLib .inventoryLib .popBody .domain-lists {
   max-height: 280px;
-  overflow: scroll;
+  overflow: auto;
 }
 .popInventoryLib .inventoryLib .popBody .popList {
   float: left;
