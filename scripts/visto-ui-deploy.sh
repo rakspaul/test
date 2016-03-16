@@ -25,6 +25,7 @@ echo "Its ${VISTO_UI_ENV} environment !!!"
 cp -r /tmp/$ARTIFACT $RELEASE_FOLDER
 mkdir -p $RELEASE_FOLDER/bin
 cp /tmp/visto-ui-runit.sh $RELEASE_FOLDER/bin
+chmod 775 $RELEASE_FOLDER/bin/visto-ui-runit.sh
 
 #if [ -d "${RELEASE_FOLDER}/conf/${VISTO_UI_ENV}" ]
 #then
