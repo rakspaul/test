@@ -26,7 +26,7 @@ define(['angularAMD', 'common/services/constants_service', 'common/moment_utils'
         unitCost,
         totalBudget,
         unallocatedAmount;
-
+        unallocatedAmount = Number(localStorage.getItem('unallocatedAmount'));
       if (!$scope.workflowData.campaignData) {
         return false;
       }
@@ -36,25 +36,62 @@ define(['angularAMD', 'common/services/constants_service', 'common/moment_utils'
 
       campaignData = $scope.workflowData.campaignData;
       campaignBuget = Number(campaignData.deliveryBudget || 0);
-      adMaximumRevenue = Number(campaignData.deliveryBudget - (campaignData.bookedSpend || 0));
-      budgetAmount = Number($scope.adData.budgetAmount);
-      unallocatedAmount = Number(localStorage.getItem('unallocatedAmount'));
+        // new budget calculation
+        if(workflowService.getIsAdGroup() == false ){
+            adMaximumRevenue = Number(campaignData.deliveryBudget - (campaignData.bookedSpend || 0));
+        }
+        else{
+            if(unallocatedAmount > 0){
+                adMaximumRevenue = Number(unallocatedAmount);
+            }
+            else{
+                if(Number(localStorage.getItem('groupBudget')) > 0){
+                    adMaximumRevenue = 0;
+                }
+                else{
+                    adMaximumRevenue = Number(campaignData.deliveryBudget - (campaignData.bookedSpend || 0));
+                }
+            }
+        }
+        budgetAmount = Number($scope.adData.budgetAmount);
 
       if ($scope.workflowData.adsData && $scope.mode === 'edit') {
-        adsData = $scope.workflowData.adsData;
-        adAvailableRevenue = Number(adsData.availableRevenue);
+          if((workflowService.getIsAdGroup() && unallocatedAmount == 0)
+              || !workflowService.getIsAdGroup()){
+              if(Number(localStorage.getItem('groupBudget')) > 0){
+                  adAvailableRevenue = $scope.workflowData.adsData.budgetValue;
+              }
+              else{
+                  adsData = $scope.workflowData.adsData;
+                  adAvailableRevenue = Number(adsData.availableRevenue);
+              }
+
+          }
+          else{
+              adsData = $scope.workflowData.adsData;
+              adAvailableRevenue = unallocatedAmount +  Number(adsData.budgetValue);
+          }
       }
-      if (budgetAmount > 0) {
+        //console.log("adAvailableRevenue ",adAvailableRevenue);
+
+        if (budgetAmount > 0) {
         $scope.ImpressionPerUserValidator();
+
         if ($scope.adData.budgetType.toLowerCase() === 'cost') {
+            //if(workflowService.getIsAdGroup() && unallocatedAmount > 0){
+            //    if(unallocatedAmount < budgetAmount){
+            //        adMaximumRevenue = unallocatedAmount;
+            //        $scope.adMaximumRevenue = adMaximumRevenue;
+            //    }
+            //}
           if (adAvailableRevenue) {
             if (budgetAmount > adAvailableRevenue) {
-              $scope.budgetErrorObj.availableRevenueValidator = true;
+              $scope.budgetErrorObj.availableMaximumAdRevenueValidator = true;
               $scope.budgetErrorObj.mediaCostValidator = false;
             }
           } else if (budgetAmount > campaignBuget) {
-            $scope.budgetErrorObj.availableRevenueValidator = false;
-            $scope.budgetErrorObj.mediaCostValidator = true;
+            $scope.budgetErrorObj.availableMaximumAdRevenueValidator = false;
+                $scope.budgetErrorObj.mediaCostValidator = true;
           } else if (budgetAmount > adMaximumRevenue) {
             //in case of create ad total budget is greater then adMaximumRevene
             $scope.budgetErrorObj.availableMaximumAdRevenueValidator = true;
@@ -70,14 +107,14 @@ define(['angularAMD', 'common/services/constants_service', 'common/moment_utils'
             totalBudget = unitCost * budgetAmount;
           }
 
-            if(workflowService.getIsAdGroup() && unallocatedAmount > 0){
-                if(unallocatedAmount < totalBudget){
-                    adMaximumRevenue = unallocatedAmount;
-                }
-            }
+            //if(workflowService.getIsAdGroup() && unallocatedAmount > 0){
+            //    if(unallocatedAmount < totalBudget){
+            //        adMaximumRevenue = unallocatedAmount;
+            //    }
+            //}
 
           if ($scope.mode === 'edit' && totalBudget > adAvailableRevenue) {
-            $scope.budgetErrorObj.availableRevenueValidator = true;
+            $scope.budgetErrorObj.availableMaximumAdRevenueValidator = true;
           }
           if ($scope.mode === 'create' && totalBudget > adMaximumRevenue) {
             //in case of create ad total budget is greater then adMaximumRevene
