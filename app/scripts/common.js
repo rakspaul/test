@@ -62,7 +62,8 @@ define(['angularAMD',
     'solid-gauge',
     'showErrors',
     'ng-tag',
-    'common/services/features_service'
+    'common/services/features_service',
+    'chosen'
 ], function (angularAMD) {
     'use strict';
     return angularAMD;
