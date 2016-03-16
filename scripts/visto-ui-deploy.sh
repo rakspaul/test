@@ -13,10 +13,11 @@ ARTIFACT='visto-ui'
 VISTO_UI_HOME='/home/amp/visto-ui'
 mkdir -p $VISTO_UI_HOME/{shared,releases}
 RELEASE_FOLDER=$VISTO_UI_HOME/releases/`date +%Y%m%d%H%M%S`
+echo "Release folder $RELEASE_FOLDER"
 
 cd /tmp/
 rm -Rvf /tmp/$ARTIFACT
-mkdir /tmp/$ARTIFACT
+mkdir -p /tmp/$ARTIFACT
 cd /tmp/$ARTIFACT
 unzip /tmp/$ARTIFACT.zip
 echo "visto-ui unzipped."
