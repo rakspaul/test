@@ -1033,11 +1033,13 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 ($scope.mode == 'create') && $scope.selectHandler('client', $scope.client, null);
             }
 
-            $('.input-daterange').datepicker({
-                format: "mm/dd/yyyy",
-                orientation: "top auto",
-                autoclose: true,
-                todayHighlight: true
+            $(document).ready(function() {
+                $('.input-daterange').datepicker({
+                    format: "mm/dd/yyyy",
+                    orientation: "top auto",
+                    autoclose: true,
+                    todayHighlight: true
+                });
             });
             createCampaign.Kpi();
             createCampaign.platforms();

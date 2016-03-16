@@ -244,7 +244,7 @@ define(['common'], function (angularAMD) {
                 templateUrl: assets.html_accounts,
                 title: 'Accounts',
                 controller: 'AccountsController',
-                controllerUrl: 'workflow/controllers/accounts_controller'
+                controllerUrl: 'common/controllers/accounts/accounts_controller'
             }))
 
             .when('/admin/users', angularAMD.route({

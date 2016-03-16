@@ -1,13 +1,13 @@
 define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaignSelect/campaign_select_model', 'reporting/strategySelect/strategy_select_model',
         'common/services/data_service', 'reporting/models/domain_reports', 'common/services/constants_service',
         'reporting/timePeriod/time_period_model', 'reporting/brands/brands_model', 'login/login_model',
-        'common/services/url_service', 'reporting/advertiser/advertiser_model','reporting/timePeriod/time_period_controller','reporting/kpiSelect/kpi_select_directive','reporting/kpiSelect/kpi_select_controller',
+        'common/services/url_service', 'reporting/advertiser/advertiser_model','reporting/timePeriod/time_period_controller','reporting/kpiSelect/kpi_select_directive',
        'reporting/strategySelect/strategy_select_directive','reporting/strategySelect/strategy_select_controller','reporting/timePeriod/time_period_pick_directive'
     ],
 
     function (angularAMD) {
     'use strict';
-        angularAMD.controller('PerformanceController', function ($scope, kpiSelectModel, campaignSelectModel, strategySelectModel,
+        angularAMD.controller('PerformanceController', function ($scope,$rootScope, kpiSelectModel, campaignSelectModel, strategySelectModel,
                                                                  dataService, domainReports, constants,
                                                                  timePeriodModel, brandsModel, loginModel,
                                                                  urlService, advertiserModel) {
@@ -447,6 +447,7 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
         //Binding click event on tab and fetch strategy method.
         $(function() {
             $(".each_tab").click(function (event) {
+                $rootScope.$broadcast(constants.TAB_CHANGED);
                 var tab_id = $(this).attr("id").split("_tab");
                 if($scope.kpiDropdownActive == true){
                     $('.icon_text_holder').removeClass( "active" );
