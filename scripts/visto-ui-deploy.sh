@@ -17,7 +17,8 @@ RELEASE_FOLDER=$VISTO_UI_HOME/releases/`date +%Y%m%d%H%M%S`
 cd /tmp/
 rm -Rvf /tmp/$ARTIFACT
 mkdir /tmp/$ARTIFACT
-unzip /tmp/$ARTIFACT.zip -d /tmp/$ARTIFACT
+cd /tmp/$ARTIFACT
+unzip /tmp/$ARTIFACT.zip
 echo "visto-ui unzipped."
 
 echo "Its ${VISTO_UI_ENV} environment !!!"
