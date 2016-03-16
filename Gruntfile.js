@@ -60,7 +60,6 @@ module.exports = function (grunt) {
         'preprocess:'+env,
         'htmlmin',
         'compress'
-
     ]);
 
     grunt.registerTask('start', [

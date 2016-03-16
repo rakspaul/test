@@ -8,7 +8,7 @@ module.exports =function(grunt) {
             },
             expand: true,
             cwd: './',
-            src: ['dist/**', 'grunt/**', '*.json', 'package.json', 'scripts/**', 'node_modules/**', 'Gruntfile.js'],
+            src: ['dist/**', 'grunt/**', '*.json', 'package.json', 'scripts/**', 'Gruntfile.js'],
             dest: '/'
         }
     };
