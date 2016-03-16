@@ -55,10 +55,12 @@ module.exports = function (grunt) {
         'copy:dist',
         //'rev',
         //'usemin',
-        'htmlmin',
         'ngAnnotate',
         'requirejs',
-        'preprocess:'+env
+        'preprocess:'+env,
+        'htmlmin',
+        'compress'
+
     ]);
 
     grunt.registerTask('start', [
@@ -66,7 +68,7 @@ module.exports = function (grunt) {
     ]);
 
 
-    grunt.registerTask('css', [
-        'cssmin'
+    grunt.registerTask('compressFile', [
+        'compress'
     ]);
 };

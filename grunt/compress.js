@@ -1,18 +1,15 @@
 module.exports =function(grunt) {
     'use strict';
     var config = {
-        compress: {
+        'dist' : {
             options: {
                 mode: 'zip',
-                archive: '<%= cvars.production %>/crpt-ui.zip'
+                archive: 'visto-ui.zip'
             },
-            files: [
-                {
-                    expand: true,
-                    cwd: '<%= cvars.app %>',
-                    src: ['*']
-                }
-            ]
+            expand: true,
+            cwd: './',
+            src: ['dist/**', 'grunt/**', '*.json', 'package.json', 'scripts/**', 'node_modules/**', 'Gruntfile.js'],
+            dest: '/'
         }
     };
 

@@ -119,7 +119,7 @@ define(['angularAMD'], function(angularAMD) {
         this.DIMENSIONS_FIVE = "Dimensions (select up to 5)";
         this.SCHEDULE_LABEL = 'Schedule';
         this.GENERATE_LABEL ='Generate';
-        this.SAVE_LABEL ='Save As';
+        this.SAVE_LABEL ='Save';
         this.RESET_LABEL ='Clear';
         this.SET_SCHEDULE = 'Set Schedule';
         this.SAVE_SCHEDULE = 'Save/Schedule';
@@ -928,6 +928,7 @@ define(['angularAMD'], function(angularAMD) {
         this.timeFrameStartDateGreater = 'Timeframe Start date can not be greater than end date';
         this.requiredTimeFrameDates = 'Please provide timeframe dates';
         this.requiredRptNameFreq = 'Please provide report name and frequency';
+        this.requiredRptName = 'Please provide report name';
         this.dateRangeWeek = 'You have chosen weekly Scheduling, please choose a date range that is at least one week';
         this.dateRangeMonthly =
             'You have chosen monthly Scheduling, please choose a date range that is at least one month';
@@ -971,5 +972,6 @@ define(['angularAMD'], function(angularAMD) {
         this.DATANOTAVAILABLE = 'Data not available';
         this.UPDATETAG = 'Update Tag';
         this.CREATIVESDELETE = 'Creatives Delete';
+        this.TAB_CHANGED = 'tab_changed';
     });
 });

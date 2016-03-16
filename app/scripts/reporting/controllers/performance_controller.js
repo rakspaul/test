@@ -7,7 +7,7 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
 
     function (angularAMD) {
     'use strict';
-        angularAMD.controller('PerformanceController', function ($scope, kpiSelectModel, campaignSelectModel, strategySelectModel,
+        angularAMD.controller('PerformanceController', function ($scope,$rootScope, kpiSelectModel, campaignSelectModel, strategySelectModel,
                                                                  dataService, domainReports, constants,
                                                                  timePeriodModel, brandsModel, loginModel,
                                                                  urlService, advertiserModel) {
@@ -447,6 +447,7 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
         //Binding click event on tab and fetch strategy method.
         $(function() {
             $(".each_tab").click(function (event) {
+                $rootScope.$broadcast(constants.TAB_CHANGED);
                 var tab_id = $(this).attr("id").split("_tab");
                 if($scope.kpiDropdownActive == true){
                     $('.icon_text_holder').removeClass( "active" );
