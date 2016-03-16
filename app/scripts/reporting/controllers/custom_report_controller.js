@@ -646,7 +646,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                 return setFlashMessage(constants.timeFrameStartDateGreater, 1, 0);
             }
 
-            if($scope.buttonLabel !=="Save") {
+            if($scope.reportTypeSelect !=="Save") {
 
 
 
