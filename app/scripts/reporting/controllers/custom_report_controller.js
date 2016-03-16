@@ -638,16 +638,17 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
             if (/^[A-Za-z ][A-Za-z0-9: ]*$/.test(str) === false || $scope.reports.name === undefined) {
                 return setFlashMessage(constants.reportNameErrorMsg, 1, 0);
             }
+            if (($scope.reports.reportDefinition.timeframe.start_date == undefined) || ($scope.reports.reportDefinition.timeframe.end_date == undefined)) {
+                return setFlashMessage(constants.requiredTimeFrameDates, 1, 0);
+            }
+
+            if (momentService.dateDiffInDays($scope.reports.reportDefinition.timeframe.start_date, $scope.reports.reportDefinition.timeframe.end_date) < 0) {
+                return setFlashMessage(constants.timeFrameStartDateGreater, 1, 0);
+            }
 
             if($scope.buttonLabel !=="Save") {
 
-                if (($scope.reports.reportDefinition.timeframe.start_date == undefined) || ($scope.reports.reportDefinition.timeframe.end_date == undefined)) {
-                    return setFlashMessage(constants.requiredTimeFrameDates, 1, 0);
-                }
 
-                if (momentService.dateDiffInDays($scope.reports.reportDefinition.timeframe.start_date, $scope.reports.reportDefinition.timeframe.end_date) < 0) {
-                    return setFlashMessage(constants.timeFrameStartDateGreater, 1, 0);
-                }
 
 
                 if (!$scope.reports.name || !$scope.reports.schedule.frequency) {
