@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -e
 
 # Note:
 # 1. Copy this file to /home/amp/visto-ui
