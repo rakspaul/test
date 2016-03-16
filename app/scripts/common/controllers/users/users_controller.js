@@ -19,7 +19,7 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
             //});
             
             //$('.user-list').addClass('fadeOutLeft');
-            $('.user-list').fadeOut();
+            $('.user-list, .users-creation-page .heading').fadeOut();
             $('.edit-dialog').fadeIn();
             
             $scope.isEdit = false;
@@ -45,7 +45,7 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
         };
         
         $scope.closeForm = function () {
-            $('.user-list').fadeIn();
+            $('.user-list, .users-creation-page .heading').fadeIn();
             $('.edit-dialog').fadeOut();
         }
 
