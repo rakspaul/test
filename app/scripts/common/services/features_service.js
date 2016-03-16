@@ -90,7 +90,7 @@ define(['angularAMD','workflow/services/workflow_service'], function (angularAMD
             var self = this;
             console.log('server feature Arr: ',featuresArr);
 
-            if (featuresArr.indexOf('ENABLE_ALL') > 0) {
+            if (featuresArr.indexOf('ENABLE_ALL') !==-1) {
                 //Enable all features
                 this.setAllFeatureParams(true);
             } else {
