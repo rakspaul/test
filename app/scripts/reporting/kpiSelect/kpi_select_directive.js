@@ -1,4 +1,4 @@
-define(['angularAMD','common/services/constants_service'],function (angularAMD) {
+define(['angularAMD','common/services/constants_service','reporting/kpiSelect/kpi_select_controller'],function (angularAMD) {
 
     'use strict';
     angularAMD.directive('kpiDropDown', function (constants) {
