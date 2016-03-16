@@ -14,13 +14,7 @@ define(['common'], function (angularAMD) {
                 templateUrl: assets.html_reports_login,
                 title: 'Login',
                 controller: 'loginController',
-                controllerUrl: 'login/login_controller',
-                resolve: {
-                    'check': function() {
-                        //remove header bar on login page
-                        $('.main_navigation_holder').remove();
-                    }
-                }
+                controllerUrl: 'login/login_controller'
             }))
             .when('/dashboard', angularAMD.route({
                 templateUrl: assets.html_dashboard,
@@ -558,6 +552,7 @@ define(['common'], function (angularAMD) {
                     loginCheckFunc();
                 }),
                 routeChangeSuccessFunc = $rootScope.$on('$routeChangeSuccess', function (event, current, previous) {
+
                     var currentRoute = current.$$route;
 
                     if (currentRoute) {
@@ -566,6 +561,11 @@ define(['common'], function (angularAMD) {
                     }
                     if (loginModel.getLoginName()) {
                         //ga('set', 'dimension1', loginModel.getLoginName());
+                    }
+
+                    if (!$cookieStore.get('cdesk_session')) {
+                        //remove header bar on login page
+                        $('.main_navigation_holder').hide();
                     }
                 });
 
