@@ -45,6 +45,11 @@
   background-position: 15px 16px;
   cursor: pointer;
 }
+.reports-scheduled-list .scheduled_list_table .table-th .col-md-9.arrow:first-child,
+.reports-scheduled-list .scheduled_list_table .table-td .col-md-9.arrow:first-child {
+  background-image: none !important;
+  padding-left: 22px;
+}
 .reports-scheduled-list .scheduled_list_table .table-th .no-instance,
 .reports-scheduled-list .scheduled_list_table .table-td .no-instance {
   background-image: none !important;
@@ -101,6 +106,18 @@
 .reports-scheduled-list .scheduled_list_table .rowHover:hover .hideOption {
   display: block;
 }
+.reports-scheduled-list .scheduled_list_table .inner-row {
+  background-color: #f7f7f7;
+}
+.reports-scheduled-list .scheduled_list_table .inner-row .hideOption {
+  display: none;
+}
+.reports-scheduled-list .scheduled_list_table .inner-row .rowHover:hover {
+  background-color: #f7f7f7;
+}
+.reports-scheduled-list .scheduled_list_table .inner-row .rowHover:hover .hideOption {
+  display: block;
+}
 .reports-scheduled-list .scheduled_list_table .table-td.more-options {
   overflow: visible;
   padding: 0;
@@ -128,9 +145,6 @@
   background: #FFFFFF ;
 }
 .reports-scheduled-list .scheduled_list_table .table-td.more-options .dropdown:hover {
-  background: #FFFFFF ;
-}
-.reports-scheduled-list .scheduled_list_table .table-td.more-options .dropdown.open {
   background: #FFFFFF ;
 }
 .reports-scheduled-list .scheduled_list_table .table-td.more-options .headerDownload {
@@ -247,7 +261,7 @@
   border-top-left-radius: 2px;
   border-bottom-left-radius: 2px;
 }
-#searchList .searchInput {
+#searchList .searchInputSchedule {
   width: auto;
   border-top: 1px solid #BFC9D7;
   border-bottom: 1px solid #BFC9D7;
@@ -256,21 +270,21 @@
   border-bottom-left-radius: 2px;
   float: left;
 }
-#searchList .searchInput a.btn {
+#searchList .searchInputSchedule a.btn {
   cursor: pointer;
   height: 34px;
   padding: 10px 15px;
   border-width: 0;
 }
-#searchList .searchInput .input-group {
+#searchList .searchInputSchedule .input-group {
   position: relative;
   display: none;
   width: 34px;
 }
-#searchList .searchInput .input-group input {
+#searchList .searchInputSchedule .input-group input {
   border-width: 0;
 }
-#searchList .searchInput .input-group .btn {
+#searchList .searchInputSchedule .input-group .btn {
   position: absolute;
   z-index: 10;
   top: 0px;
@@ -282,8 +296,8 @@
   height: 34px;
   border-left: 1px solid #BFC9D7;
 }
-#searchList .searchInput .input-group .btn [class^="icon-"],
-#searchList .searchInput .input-group .btn [class*=" icon-"] {
+#searchList .searchInputSchedule .input-group .btn [class^="icon-"],
+#searchList .searchInputSchedule .input-group .btn [class*=" icon-"] {
   float: right;
   cursor: pointer;
   margin: 10px 15px;
