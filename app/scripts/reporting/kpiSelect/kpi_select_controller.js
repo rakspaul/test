@@ -34,6 +34,10 @@ define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', 'reporting/campaig
             $scope.campaign_default_kpi_type = campaignSelectModel.getSelectedCampaign().kpi;
         });
 
+        $rootScope.$on('tab_changed',function(){
+            $scope.kpiData.selectedKpi = kpiSelectModel.getSelectedKpi() ;
+        });
+
        /* $scope.dropdownSortDirection = function(direction,reverse){
 
         }*/
