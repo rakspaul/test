@@ -11,7 +11,7 @@ echo "Deploying into $VISTO_UI_ENV"
 
 ARTIFACT='visto-ui'
 VISTO_UI_HOME='/home/amp/visto-ui'
-mkdir -p $VISTO_UI_HOME/{shared,releases}
+mkdir -p $VISTO_UI_HOME/{shared/node_modules,releases}
 RELEASE_FOLDER=$VISTO_UI_HOME/releases/`date +%Y%m%d%H%M%S`
 echo "Release folder $RELEASE_FOLDER"
 
@@ -44,6 +44,10 @@ chmod 775 $RELEASE_FOLDER/bin/visto-ui-runit.sh
 #chmod 755 ${RELEASE_FOLDER}/bin/visto-api-runit.sh
 
 ln -sfn $RELEASE_FOLDER ${VISTO_UI_HOME}/current 
+ln -snf $VISTO_UI_HOME/shared/node_modules $VISTO_UI_HOME/current/node_modules
+
+cd $VISTO_UI_HOME/current
+npm install
 
 /sbin/sv u visto-ui
 
