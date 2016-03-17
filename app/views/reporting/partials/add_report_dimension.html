@@ -3,11 +3,11 @@
         <div class="common_dropdown">
             <div class="dropdown" >
                 <span class="dropdown_ul_text" data-toggle="dropdown">
-        <span class="dd_txt" data-template_id = "{{showDefaultDimension.template_id}}" id="{{showDefaultDimension.key}}">Choose Breakdown</span>
+        <span class="dd_txt" data-template_id = "{{showDefaultDimension.template_id}}" id="{{showDefaultDimension.key}}">Choose Dimension</span>
         <span class="arrow_img"></span>
         </span>
                 <ul class="dropdown-menu">
-                    <li ng-click="select_dropdown_option($event)">Choose Breakdown</li>
+                    <li ng-click="select_dropdown_option($event)">Choose Dimension</li>
                     <li ng-repeat="dimension in customeDimensionData[0].dimensions"  id="{{dimension.key}}" ng-click="select_dropdown_option($event)">{{dimension.value}}</li>
                 </ul>
             </div>
