@@ -9,14 +9,15 @@ define(['angularAMD','common/moment_utils'],function (angularAMD) {
             return $scope.numofdays;
         };
 
-        $scope.createAdforAdGroup = function (campId, stTime, edTime,unallocatedAmount) {
+        $scope.createAdforAdGroup = function (campId, stTime, edTime,unallocatedAmount,adGroupBudget) {
             var navigateUrl = '/mediaplan/' + $routeParams.campaignId + '/adGroup/' + campId + '/ads/create';
             if (typeof(Storage) !== 'undefined') {
                 localStorage.setItem('stTime', stTime); // convert this to EST in ads page
                 localStorage.setItem('edTime', edTime); // convert this to EST in ads create page
             }
             workflowService.setUnallocatedAmount(unallocatedAmount);
-            localStorage.setItem('unallocatedAmount',unallocatedAmount)
+            localStorage.setItem('unallocatedAmount',unallocatedAmount);
+            localStorage.setItem('groupBudget',Number(adGroupBudget));
             $location.url(navigateUrl);
         };
 
