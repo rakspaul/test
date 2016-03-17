@@ -110,7 +110,7 @@ angular.module('tmh.dynamicLocale', []).config(['$provide', function ($provide) 
       deferred = $q.defer();
     if (localeId === activeLocale) {
       deferred.resolve($locale);
-    } else if ((cachedLocale = localeCache.get(localeId))) {
+    } /*else if ((cachedLocale = localeCache.get(localeId))) {
       activeLocale = localeId;
       $rootScope.$evalAsync(function() {
         overrideValues($locale, cachedLocale);
@@ -118,34 +118,38 @@ angular.module('tmh.dynamicLocale', []).config(['$provide', function ($provide) 
         storage.put(storageKey, localeId);
         deferred.resolve($locale);
       });
-    } else {
+    }*/ else {
       activeLocale = localeId;
       promiseCache[localeId] = deferred.promise;
-      loadScript(localeUrl, function () {
-        // Create a new injector with the new locale
-        var localInjector = angular.injector(['ngLocale']),
-          externalLocale = localInjector.get('$locale');
+        $.ajax({
+            url : localeUrl,
+            async : false
+        }).done(function(){
+            var localInjector = angular.injector(['ngLocale']),
+                externalLocale = localInjector.get('$locale');
 
-        overrideValues($locale, externalLocale);
-        localeCache.put(localeId, externalLocale);
-        delete promiseCache[localeId];
+            overrideValues($locale, externalLocale);
+            localeCache.put(localeId, externalLocale);
+            delete promiseCache[localeId];
 
-        $rootScope.$apply(function () {
-          $rootScope.$broadcast('$localeChangeSuccess', localeId, $locale);
-          storage.put(storageKey, localeId);
-          deferred.resolve($locale);
+            storage.put(storageKey, localeId);
+            deferred.resolve($locale);
+        }).fail(function(){
+            delete promiseCache[localeId];
+            if (activeLocale === localeId) {
+                activeLocale = $locale.id;
+            }
+            deferred.reject(localeId);
         });
-      }, function () {
-        delete promiseCache[localeId];
 
-        $rootScope.$apply(function () {
-          if (activeLocale === localeId) activeLocale = $locale.id;
-          $rootScope.$broadcast('$localeChangeError', localeId);
-          deferred.reject(localeId);
-        });
-      }, $timeout);
+//        $rootScope.$apply(function () {
+//          if (activeLocale === localeId) activeLocale = $locale.id;
+//          $rootScope.$broadcast('$localeChangeError', localeId);
+//          deferred.reject(localeId);
+//        });
+//      }, $timeout);
     }
-    return deferred.promise;
+      return deferred.promise;
   }
 
   this.localeLocationPattern = function(value) {
