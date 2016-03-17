@@ -39,7 +39,12 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         $(".bodyWrap").css('padding', '0px');
 
         var fparams = featuresService.getFeatureParams();
-        $scope.showReportsOverview = fparams[0]['ad_setup'];
+        $scope.showAdSetUp = fparams[0]['ad_setup'];
+
+        $rootScope.$on('features',function() {
+            var fparams = featuresService.getFeatureParams();
+            $scope.showAdSetUp = fparams[0]['ad_setup'];
+        });
 
         //show selected targets in ads card
         $scope.displaySelectedTargets = function (adsData) {
