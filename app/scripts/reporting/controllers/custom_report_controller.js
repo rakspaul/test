@@ -821,9 +821,9 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                     retVal = true;
                 }
             }
-            if(retVal || !_.isEqual(oldJSON.filters,newJSON.filters) || !_.isEqual(oldJSON.metrics,newJSON.metrics) || !_.isEqual(oldJSON.timeframe,newJSON.timeframe)){
+            /*if(retVal || !_.isEqual(oldJSON.filters,newJSON.filters) || !_.isEqual(oldJSON.metrics,newJSON.metrics) || !_.isEqual(oldJSON.timeframe,newJSON.timeframe)){
                 retVal = true;
-            }
+            }*/
             return retVal;
         }
 
