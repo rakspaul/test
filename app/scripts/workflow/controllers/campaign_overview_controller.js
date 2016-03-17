@@ -177,6 +177,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                         var campaignEndTime = momentService.utcToLocalTime($scope.workflowData['campaignData'].endTime);
                         startDateElem.datepicker("setStartDate", campaignStartTime);
                         startDateElem.datepicker("setEndDate", campaignEndTime);
+                        startDateElem.datepicker("update", momentService.utcToLocalTime());
                         $scope.startTimeFormated = campaignStartTime;
                         $scope.campaignEndTime = campaignEndTime;
                         if ($scope.workflowData['campaignData'].pushable) {
