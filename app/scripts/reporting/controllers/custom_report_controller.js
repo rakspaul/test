@@ -1186,8 +1186,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
             localStorage.removeItem('customReport');
             $route.reload();
         };
-
-        $scope.applyCount = 0;
+            
         $scope.toggleSchedule = function(that) {
             $scope.scheduleReportActive = $(that).prop('checked');
             if ($scope.scheduleReportActive) {
@@ -1220,7 +1219,6 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
             if (!$scope.updateScheduleReport && !localStorage.getItem('customReport')) {
                 $scope.$apply();
             }
-            $scope.applyCount++;
         };
 
         $(document).ready(function() {
