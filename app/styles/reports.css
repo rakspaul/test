@@ -1895,9 +1895,6 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 #reports_platform_margin_block .viewability_header .suspicious_col .icon_text_holder:hover {
   background-position: 110px 1px;
 }
-#reports_platform_margin_block .strategy_total_container {
-  border-top: solid 2px #ccd9e3;
-}
 #reports_platform_margin_block .strategy_total_container .each_strategy_holder:last-child {
   height: auto ;
 }
@@ -1943,7 +1940,8 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 #reports_platform_margin_block .each_col {
   padding-top: 0px ;
   padding-bottom: 0px ;
-  margin-bottom: 10px;
+  margin-bottom: 15px;
+  margin-left: 20px;
 }
 #reports_platform_margin_block .each_col > span {
   text-align: center;
@@ -1953,17 +1951,26 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 #reports_platform_margin_block .each_col .tooltip_show_icon {
   height: 15px;
   width: 16px;
-  display: block;
   background: url("/images/cdesk/info_icon.png") no-repeat center left;
-  float: right;
+  position: absolute;
 }
 #reports_platform_margin_block .each_col .margin_hdr {
-  width: 210px;
+  width: 195px;
   border: 1px none #FF6600;
-  float: left;
+  border-bottom: 1px solid #dde6eb;
+  text-align: center;
   padding-bottom: 5px;
 }
 #reports_platform_margin_block .each_col .margin_hdr .hdr_space {
+  padding-right: 5px;
+}
+#reports_platform_margin_block .each_col .margin_hdrSeventh {
+  width: 144px;
+  border-bottom: 1px solid #dde6eb;
+  text-align: center;
+  padding-bottom: 5px;
+}
+#reports_platform_margin_block .each_col .margin_hdrSeventh .hdr_space {
   padding-right: 5px;
 }
 #reports_platform_margin_block .each_col .tooltip_holder {
@@ -1982,15 +1989,27 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 #reports_platform_margin_block .each_col .sub_col span:last-child {
   float: right;
 }
+#reports_platform_margin_block .each_col .sub_coldata {
+  padding-top: 10px;
+}
 #reports_platform_margin_block .each_col .sub_coldata span {
   display: block;
   float: left;
-  padding-right: 5px;
-  width: 99px;
-  text-align: center;
-  border: 1px none #FF6600;
+  padding-right: 14px;
+  width: 66px;
+  text-align: right;
 }
 #reports_platform_margin_block .each_col .sub_coldata span:last-child {
+  float: right;
+}
+#reports_platform_margin_block .each_col .sub_colData span {
+  display: block;
+  float: left;
+  padding-right: 14px;
+  width: 66px;
+  text-align: right;
+}
+#reports_platform_margin_block .each_col .sub_colData span:last-child {
   float: right;
 }
 #reports_platform_margin_block .each_col .sub_col:before,
@@ -2012,23 +2031,27 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 }
 #reports_platform_margin_block .second_col,
 #reports_platform_margin_block .third_col {
-  width: 110px ;
+  width: 64px ;
   border: 1px none #00FFFF;
   padding-top: 8px;
 }
 #reports_platform_margin_block .second_coldata,
 #reports_platform_margin_block .third_coldata {
-  width: 110px ;
+  width: 66px ;
   border: 1px none #00FFFF;
 }
-#reports_platform_margin_block .forth_col,
+#reports_platform_margin_block .forth_col {
+  width: 200px ;
+  border: 1px none #000000;
+  margin-left: 40px;
+}
 #reports_platform_margin_block .fifth_col,
 #reports_platform_margin_block .six_col {
-  width: 305px ;
+  width: 200px ;
   border: 1px none #FF6600;
 }
 #reports_platform_margin_block .seventhMargin_col {
-  width: 204px ;
+  width: 144px ;
   border: 1px none #000fff;
 }
 #reports_platform_margin_block div.each_row_list div.platform_aggregation_row {
