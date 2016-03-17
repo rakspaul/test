@@ -476,7 +476,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
 
         /* commenting out work for edit saved repoert tomporarily ROBERT*/
         var validateGenerateReport = function() {
-            if(localStorage['scheduleListReportType'] !== "Saved") {
+            if((localStorage['scheduleListReportType'] !== "Saved") && ($scope.reportTypeSelect !== 'Save')) {
                 if (!_customctrl.enableGenerateButton()) {
                     $scope.generateBtnDisabled = true;
                     $(".custom_report_filter").closest(".breakdown_div").find(".filter_input_txtbox").hide();
@@ -1186,7 +1186,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
             localStorage.removeItem('customReport');
             $route.reload();
         };
-            
+
         $scope.toggleSchedule = function(that) {
             $scope.scheduleReportActive = $(that).prop('checked');
             if ($scope.scheduleReportActive) {
