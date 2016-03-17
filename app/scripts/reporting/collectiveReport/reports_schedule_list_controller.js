@@ -138,7 +138,7 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
                 switch (_curCtrl.filters.generated) {
                     case "Yesterday":
                         startDate = moment().subtract(1, 'days').format(constants.DATE_UTC_SHORT_FORMAT);
-                        endDate = moment().subtract(1, 'days').format(constants.DATE_UTC_SHORT_FORMAT);
+                        endDate = moment().format(constants.DATE_UTC_SHORT_FORMAT);
                         break;
                     case "Last7Days":
                         startDate = moment().subtract(7, 'days').format(constants.DATE_UTC_SHORT_FORMAT);
