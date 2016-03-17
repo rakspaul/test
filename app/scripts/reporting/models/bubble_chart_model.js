@@ -81,30 +81,32 @@ define(['angularAMD','common/services/url_service','reporting/timePeriod/time_pe
 
     // So that user can fire paraller request to fetch campaigns of a brands.
     this.getBubbleChartDataForCampaignWithOutCanceller = function (selectedBrand) {
-      var queryObj = {
-        "clientId": loginModel.getSelectedClient().id,
-        "advertiserId": advertiserModel.getSelectedAdvertiser().id,
-        "brandId": ((selectedBrand == undefined) ? -1 : selectedBrand),
-        "dateFilter": constants.PERIOD_LIFE_TIME,
-        "campaignStatus": dashboardModel.campaignStatusToSend()
-      };
-      var url = urlService.APISpendWidgetForCampaigns(queryObj);
-      return dataService.fetch(url).then(function (response) {
-        if(response) {
-            var campaigns = (response.data.data !== undefined) ? response.data.data.campaigns : {};
-            var campaignLength = (campaigns !== undefined) ? campaigns.length : 0;
+      if(loginModel.getSelectedClient()) {
+          var queryObj = {
+              "clientId": loginModel.getSelectedClient().id,
+              "advertiserId": advertiserModel.getSelectedAdvertiser().id,
+              "brandId": ((selectedBrand == undefined) ? -1 : selectedBrand),
+              "dateFilter": constants.PERIOD_LIFE_TIME,
+              "campaignStatus": dashboardModel.campaignStatusToSend()
+          };
+          var url = urlService.APISpendWidgetForCampaigns(queryObj);
+          return dataService.fetch(url).then(function (response) {
+              if (response) {
+                  var campaigns = (response.data.data !== undefined) ? response.data.data.campaigns : {};
+                  var campaignLength = (campaigns !== undefined) ? campaigns.length : 0;
 
-            if (campaigns != undefined) {
-                bubbleWidgetData['dataNotAvailable'] = false;
-                bubbleWidgetData['campaignDataForSelectedBrand'] = campaigns;
-                bubbleWidgetData['budget_top_title'] = (campaignLength >= 5) ? "(Top 5 Media Plans)" : "(All Media Plans)";
+                  if (campaigns != undefined) {
+                      bubbleWidgetData['dataNotAvailable'] = false;
+                      bubbleWidgetData['campaignDataForSelectedBrand'] = campaigns;
+                      bubbleWidgetData['budget_top_title'] = (campaignLength >= 5) ? "(Top 5 Media Plans)" : "(All Media Plans)";
 
-            } else {
-                bubbleWidgetData['dataNotAvailable'] = true;
-            }
-        }
-        return campaigns;
-      })
+                  } else {
+                      bubbleWidgetData['dataNotAvailable'] = true;
+                  }
+              }
+              return campaigns;
+          })
+      }
     };
 
 
