@@ -887,7 +887,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                 'facebook': 'facebook-FBexchange',
                 'dbm': 'doubleclick-DFP',
                 'dfp': 'doubleclick-DFP',
-                'place media': 'placemedia',
+                'place media': 'place_media',
                 'telemetry': 'telemetry',
                 'xad': 'xad',
                 'twitter': 'twitter',
