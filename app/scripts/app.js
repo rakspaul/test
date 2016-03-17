@@ -463,7 +463,8 @@ define(['common'], function (angularAMD) {
                     placeholder: 'Add labels',
                     minLength: 2,
                     displayProperty: 'label',
-                    replaceSpacesWithDashes: false
+                    replaceSpacesWithDashes: false,
+                    maxLength: 127
                 })
 
         })
