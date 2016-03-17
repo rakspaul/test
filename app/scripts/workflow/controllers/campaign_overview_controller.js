@@ -533,11 +533,15 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             }
         };
 
-        $scope.goEdit = function (adsData) {
+
+        $scope.goEdit = function ( adsData ,unallocatedBudget,groupBudget) {
             var campaignId = adsData.campaignId;
             var adsId = adsData.id;
             var groupId = adsData.adGroupId;
-            $scope.editAdforAdGroup(campaignId, adsData.startTime, adsData.endTime, adsId, groupId);
+            workflowService.setUnallocatedAmount(unallocatedBudget);
+            localStorage.setItem('unallocatedAmount',unallocatedBudget);
+            localStorage.setItem('groupBudget',Number(groupBudget));
+            $scope.editAdforAdGroup(campaignId , adsData.startTime, adsData.endTime, adsId, groupId);
         };
 
         $scope.editAdforAdGroup = function (campaignId, stTime, edTime, adsId, groupId) {
@@ -549,6 +553,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             if (groupId && adsId) {
                 path = "/mediaplan/" + campaignId + "/adGroup/" + groupId + "/ads/" + adsId + "/edit";
             }
+
             $location.path(path);
         }
 
