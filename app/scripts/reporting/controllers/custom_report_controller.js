@@ -1707,10 +1707,6 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                     var deliverOn = $("#deliverOn").val(),
                         startDate = $("#startOn").val(),
                         endDate = $("#endOn").val();
-                    if(!$scope.reports.schedule || !$scope.reports.schedule.frequency){
-                        $rootScope.setErrAlertMessage(constants.requiredRptNameFreq);
-                        return false;
-                    }
                     if($scope.reports.schedule.frequency && $scope.reports.schedule.frequency != "Once" && (momentService.dateDiffInDays(currDate,startDate) < 0|| momentService.dateDiffInDays(currDate,endDate) < 0)){
                         $rootScope.setErrAlertMessage(constants.START_OR_END_DATE_CAN_NOT_LESS_THAN_CURRENTDATE);
                         return false;
