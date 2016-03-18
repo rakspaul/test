@@ -1,5 +1,5 @@
-define(['angularAMD','common/services/constants_service'], function (angularAMD) {
-  angularAMD.factory('utils', ["$location", "$sce", "constants",function ($location, $sce,constants) {
+define(['angularAMD','common/services/constants_service', 'common/services/role_based_service'], function (angularAMD) {
+  angularAMD.factory('utils', ["$location", "$sce", "constants", "RoleBasedService", function ($location, $sce, constants, RoleBasedService) {
 
         var formatDate = function (input) {
                 var date = new Date(input),

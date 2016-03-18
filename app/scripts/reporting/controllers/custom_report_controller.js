@@ -352,8 +352,16 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
             return $(".dimension_block").find(".dd_txt").text() !== 'Choose Breakdown';
         };
 
-
-
+        $scope.saveSchedule = function() {
+            var reportType = localStorage.getItem('scheduleListReportType');
+            if((reportType == 'Saved') && ($scope.reportTypeSelect == 'Save')) {
+                $scope.buttonLabel = 'Update';
+            } else if((reportType == 'scheduled') && ($scope.reportTypeSelect == 'Schedule As')) {
+                $scope.buttonLabel = 'Update';
+            } else {
+                $scope.buttonLabel = $scope.reportTypeSelect;
+            }
+        }
 
         _customctrl.createRequestParams = function(filterText, offset, isPrimary, rowIndex_2D,dataFormat) {
             var params = '',
@@ -468,7 +476,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
 
         /* commenting out work for edit saved repoert tomporarily ROBERT*/
         var validateGenerateReport = function() {
-            if(localStorage['scheduleListReportType'] !== "Saved") {
+            if((localStorage['scheduleListReportType'] !== "Saved") && ($scope.reportTypeSelect !== 'Save')) {
                 if (!_customctrl.enableGenerateButton()) {
                     $scope.generateBtnDisabled = true;
                     $(".custom_report_filter").closest(".breakdown_div").find(".filter_input_txtbox").hide();
@@ -646,7 +654,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                 return setFlashMessage(constants.timeFrameStartDateGreater, 1, 0);
             }
 
-            if($scope.buttonLabel !=="Save") {
+            if($scope.reportTypeSelect !=="Save") {
 
 
 
@@ -821,9 +829,9 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                     retVal = true;
                 }
             }
-            if(retVal || !_.isEqual(oldJSON.filters,newJSON.filters) || !_.isEqual(oldJSON.metrics,newJSON.metrics) || !_.isEqual(oldJSON.timeframe,newJSON.timeframe)){
+            /*if(retVal || !_.isEqual(oldJSON.filters,newJSON.filters) || !_.isEqual(oldJSON.metrics,newJSON.metrics) || !_.isEqual(oldJSON.timeframe,newJSON.timeframe)){
                 retVal = true;
-            }
+            }*/
             return retVal;
         }
 
@@ -1182,24 +1190,24 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
         $scope.toggleSchedule = function(that) {
             $scope.scheduleReportActive = $(that).prop('checked');
             if ($scope.scheduleReportActive) {
-                $scope.buttonLabel = $scope.reportTypeSelect;
                 if ($routeParams.reportId) {
                     $scope.buttonLabel = "Update";
+                } else {
+                    $scope.buttonLabel = $scope.reportTypeSelect;
+                    $scope.$apply();
                 }
-
                 $scope.$watch('reportTypeSelect', function() {
                     if ($routeParams.reportId) {
                         $scope.buttonLabel = "Update";
                     }
                     else{
                         $scope.buttonLabel = $scope.reportTypeSelect;
-
                     }
-
                 });
             }
             else {
                 $scope.buttonLabel = $scope.textConstants.GENERATE_LABEL;
+                $scope.$apply();
             }
 
             if ($(that).closest(".schedule-on-off-btn").find(".toggle.btn-primary").length > 0) {
@@ -1971,12 +1979,11 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                     //set breakdown filter values if exist
                     angular.forEach(responseData.reportDefinition.filters, function(eachObj) {
                         eachObj['name'] = $scope.getFilterBreakdownName(eachObj.dimension);
-                        /*if ((eachObj.type == "Primary")) {
+                        if ((eachObj.type == "Primary")) {
                             $scope.setPrimaryDimension(eachObj);
                         } else if ((eachObj.type == "Secondary")) {
                             $scope.setSecondaryDimension(eachObj);
-                        } else*/
-                        if((eachObj.type !== "Primary")&& (eachObj.type !== "Secondary")){
+                        } else if((eachObj.type !== "Primary")&& (eachObj.type !== "Secondary")){
                             $scope.additionalFilters.push({
                                 "key": eachObj.dimension,
                                 "name": eachObj.name,

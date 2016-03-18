@@ -277,16 +277,6 @@
 </script>
 
 <script type="text/ng-template" id="videoViewabilityPartialTpl">
-    <!--<div class="each_col ad_col">
-        <div class="clearfix played_ad">
-            <span class="specific_ad_icon"></span>
-            <span class="ad_val">{{((platform.video_played >0)|| (platform.video_played == 0))? (platform.video_played | nrFormat) : '-'}}</span>
-        </div>
-        <div class="clearfix next_val viewed_ad">
-            <span class="specific_ad_icon"></span>
-            <span class="ad_val">{{((platform.video_viewable_impressions >0)|| (platform.video_viewable_impressions == 0))? (platform.video_viewable_impressions | nrFormat) : '-'}}</span>
-        </div>
-    </div>-->
     <div class="each_col sub_four_cols">
         <div class="sub_col">
             <span>{{((platform.vtc_25 >0)|| (platform.vtc_25 == 0)) ? ((platform.vtc_25 | number:0)+'%') : '-'}}</span>
@@ -294,16 +284,7 @@
             <span>{{((platform.vtc_75 >0)|| (platform.vtc_75 == 0)) ? ((platform.vtc_75 | number:0)+'%') : '-'}}</span>
             <span>{{((platform.vtc_100 >0)|| (platform.vtc_100 == 0)) ? ((platform.vtc_100 | number:0)+'%') : '-'}}</span>
         </div>
-        <!--<div class="sub_col next_val">
-            <span>{{vvData.videos_1q_view >0 ? (vvData.videos_1q_view | nrFormat) : '-'}}</span>
-            <span>{{vvData.videos_2q_view >0 ? (vvData.videos_2q_view | nrFormat) : '-'}}</span>
-            <span>{{vvData.videos_3q_view >0 ? (vvData.videos_3q_view | nrFormat) : '-'}}</span>
-            <span>{{vvData.videos_4q_view >0 ? (vvData.videos_4q_view | nrFormat) : '-'}}</span>
-        </div>-->
     </div>
-    <!--<div class="each_col vtc_col">
-        {{vvData.vtc | number:2}}%
-    </div>-->
 </script>
 
 

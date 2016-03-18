@@ -39,7 +39,12 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         $(".bodyWrap").css('padding', '0px');
 
         var fparams = featuresService.getFeatureParams();
-        $scope.showReportsOverview = fparams[0]['ad_setup'];
+        $scope.showAdSetUp = fparams[0]['ad_setup'];
+
+        $rootScope.$on('features',function() {
+            var fparams = featuresService.getFeatureParams();
+            $scope.showAdSetUp = fparams[0]['ad_setup'];
+        });
 
         //show selected targets in ads card
         $scope.displaySelectedTargets = function (adsData) {
@@ -172,6 +177,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                         var campaignEndTime = momentService.utcToLocalTime($scope.workflowData['campaignData'].endTime);
                         startDateElem.datepicker("setStartDate", campaignStartTime);
                         startDateElem.datepicker("setEndDate", campaignEndTime);
+                        startDateElem.datepicker("update", momentService.utcToLocalTime());
                         $scope.startTimeFormated = campaignStartTime;
                         $scope.campaignEndTime = campaignEndTime;
                         if ($scope.workflowData['campaignData'].pushable) {
@@ -524,20 +530,33 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                         location.reload();
                         $scope.loadingBtn = false;
                     } else {
-                        $scope.independantMessage = !$scope.independantMessage;
-                        $scope.independantGroupMessage = "unable to  group Ads";
-                        $rootScope.setErrAlertMessage($scope.textConstants.AD_GROUP_CREATED_FAILURE);
+                        if(result.status === 'error' && result.data.status === 400) {
+                            if(result && result.data && result.data && result.data.data && result.data.data.data[0].budget) {
+                                $rootScope.setErrAlertMessage(result.data.data.data[0].budget);
+                            }
+                        } else {
+                            $scope.independantMessage = !$scope.independantMessage;
+                            $scope.independantGroupMessage = "unable to  group Ads";
+                            $rootScope.setErrAlertMessage($scope.textConstants.AD_GROUP_CREATED_FAILURE);
+                        }
                         $scope.loadingBtn = false;
                     }
+                }, function(result) {
+                    $rootScope.setErrAlertMessage($scope.textConstants.AD_GROUP_CREATED_FAILURE);
+
                 });
             }
         };
 
-        $scope.goEdit = function (adsData) {
+
+        $scope.goEdit = function ( adsData ,unallocatedBudget,groupBudget) {
             var campaignId = adsData.campaignId;
             var adsId = adsData.id;
             var groupId = adsData.adGroupId;
-            $scope.editAdforAdGroup(campaignId, adsData.startTime, adsData.endTime, adsId, groupId);
+            workflowService.setUnallocatedAmount(unallocatedBudget);
+            localStorage.setItem('unallocatedAmount',unallocatedBudget);
+            localStorage.setItem('groupBudget',Number(groupBudget));
+            $scope.editAdforAdGroup(campaignId , adsData.startTime, adsData.endTime, adsId, groupId);
         };
 
         $scope.editAdforAdGroup = function (campaignId, stTime, edTime, adsId, groupId) {
@@ -549,6 +568,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             if (groupId && adsId) {
                 path = "/mediaplan/" + campaignId + "/adGroup/" + groupId + "/ads/" + adsId + "/edit";
             }
+
             $location.path(path);
         }
 
@@ -590,7 +610,12 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 return 0
             }
             else{
-                return deliveryBudget - adGroupsData.bookedSpend;
+                if(adGroupsData.bookedSpend && adGroupsData.bookedSpend > 0){
+                    return deliveryBudget - adGroupsData.bookedSpend;
+                }
+                else{
+                    return deliveryBudget;
+                }
             }
         }
     });
