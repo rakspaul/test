@@ -88,6 +88,7 @@ define(['angularAMD', 'common/services/constants_service', 'common/moment_utils'
             if (budgetAmount > adAvailableRevenue) {
               $scope.budgetErrorObj.availableMaximumAdRevenueValidator = true;
               $scope.budgetErrorObj.mediaCostValidator = false;
+              $scope.adMaximumRevenue = adAvailableRevenue;
             }
           } else if (budgetAmount > campaignBuget) {
             $scope.budgetErrorObj.availableMaximumAdRevenueValidator = false;
@@ -115,12 +116,13 @@ define(['angularAMD', 'common/services/constants_service', 'common/moment_utils'
 
           if ($scope.mode === 'edit' && totalBudget > adAvailableRevenue) {
             $scope.budgetErrorObj.availableMaximumAdRevenueValidator = true;
+            $scope.adMaximumRevenue = adAvailableRevenue;
           }
           if ($scope.mode === 'create' && totalBudget > adMaximumRevenue) {
             //in case of create ad total budget is greater then adMaximumRevene
             $scope.budgetErrorObj.availableMaximumAdRevenueValidator = true;
-          }
             $scope.adMaximumRevenue = adMaximumRevenue;
+          }
 
 
         }
