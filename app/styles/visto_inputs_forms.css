@@ -37,6 +37,9 @@
   top: 0;
   right: 0;
 }
+.searchInput .searchInputForm input {
+  border-width: 0px !important;
+}
 [class*="col-"] tags-input {
   float: left;
   width: 100%;

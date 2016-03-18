@@ -618,5 +618,22 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 }
             }
         }
+        
+        //Search Hide / Show
+        $scope.searchShowInput = function () {
+            $(".searchInputBtn").hide();
+            var searchInputForm = $(".searchInputForm");
+            searchInputForm.show();
+            searchInputForm.animate({width: '400px'}, 'fast');
+        };
+
+        $scope.searchHideInput = function () {
+            isSearch = false;
+            $(".searchInputForm").animate({width: '44px'}, 'fast');
+            var inputSearch = $(".searchInputForm input");
+            inputSearch.val('');
+            setTimeout(function(){ $(".searchInputForm").hide(); }, 300);
+            setTimeout(function(){ $(".searchInputBtn").fadeIn(); }, 300);
+        };
     });
 });
