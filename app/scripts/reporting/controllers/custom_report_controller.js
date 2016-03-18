@@ -1202,7 +1202,10 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                     $scope.buttonLabel = "Update";
                 } else {
                     $scope.buttonLabel = $scope.reportTypeSelect;
-                    $scope.$apply();
+                    $timeout(function() {
+                        $scope.$apply();
+                    }, 100)
+
                 }
                 $scope.$watch('reportTypeSelect', function() {
                     if ($routeParams.reportId) {

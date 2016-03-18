@@ -18,8 +18,8 @@ define(['angularAMD','../../common/services/constants_service'],function (angula
                 });
 
                 $(document).mouseup(function (e){
-                    e.stopImmediatePropagation();
                     if (quickFilters.is(':visible') == true) {
+                        e.stopImmediatePropagation();
                         var container = $(".sliding_dropdown_container_quick");
 
                         if (!container.is(e.target) // if the target of the click isn't the container...
