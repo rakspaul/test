@@ -3737,6 +3737,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
   max-width: 1200px ;
   padding: 0 ;
   width: auto ;
+  margin-top: 10px;
 }
 .report_generator_and_response .report_builder_container .timeframe_selector {
   padding: 0px ;
