@@ -78,7 +78,7 @@
                 <div class="col-md-12">
                     <div class="carousel slide" id="myCarousel">
                         <div class="carousel-inner">
-                            <div class="item active" id="costWidget" ng-if="showCostWidget===true">
+                            <div class="item active" id="costWidget" ng-show="showCostWidget">
                                 <div class="col-xs-3">
                                     <div ng-click="setGraphData(campaign,'cost')" tooltip-placement="top"
                                          tooltip="Click for detailed reports"
@@ -189,9 +189,7 @@
                                     </div>
                                 </div>
                             </div>
-
-                            <div class="item" ng-if="adFormats.displayAds"
-                                 ng-hide="usrRole && !usrRole.showviewability">
+                            <div class="item" ng-show="adFormats.displayAds" ng-hide="usrRole && !usrRole.showviewability">
                                 <div class="col-xs-3">
                                     <div ng-click="setGraphData(campaign,'quality')" tooltip-placement="top"
                                          tooltip="Click for detailed reports" class="each_section_graph_holder">
