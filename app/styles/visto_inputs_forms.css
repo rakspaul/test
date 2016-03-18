@@ -37,6 +37,16 @@
   top: 0;
   right: 0;
 }
+.searchInput.geography .input-group {
+  display: block;
+  width: 100%;
+}
+.searchInput.geography .input-group input {
+  border-width: 1px;
+}
+.searchInput.geography .input-group .btn {
+  position: relative;
+}
 [class*="col-"] tags-input {
   float: left;
   width: 100%;
