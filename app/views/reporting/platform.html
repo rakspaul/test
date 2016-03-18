@@ -175,10 +175,10 @@
 
                 <!-- -------START :  Margin Block ----------------------------- -->
 
-                    <div class="reports_block" id="reports_platform_margin_block" style="display:none; position:relative; overflow-x:scroll; border:1px solid #F2F2F2">
+                    <div class="reports_block" id="reports_platform_margin_block" style="display:none; position:relative; border:1px solid #F2F2F2">
                     <div class="no_data_found" ng-if="dataNotFoundForMargin" ng-bind-html="getMessageForDataNotAvailable(selectedCampaign)"></div>
 
-                    <div class="reports_details_outer_container" style="overflow:auto; width:1650px;" ng-show="!dataNotFoundForMargin">
+                    <div class="reports_details_outer_container" ng-show="!dataNotFoundForMargin">
 
                         <div class="clearfix reports_platform_header" ng-hide="marginBusy">
                             <margin-header></margin-header>
@@ -394,29 +394,29 @@
         </div>
 
          <div class="each_col forth_col" >
-            <div class="sub_coldata">
+            <div class="sub_colData">
                 <span class="icon_text_holder">{{((platform.CTR >0)|| (platform.CTR == 0)) ? ((platform.CTR | number:2)+'%') : '-'}}</span>
                 <span class="tooltip_holder icon_text_holder">{{((platform.CPC >0)|| (platform.CPC == 0)) ? (platform.CPC | currency:undefined:2) : '-'}}</span>
                 <span class="tooltip_holder icon_text_holder">{{((platform.clicks >0)|| (platform.clicks == 0))? (platform.clicks | nrFormat) : '-'}}</span>
             </div>
         </div>
 
-      <div class="each_col forth_col">
-            <div class="sub_coldata">
+      <div class="each_col fifth_col">
+            <div class="sub_colData">
                 <span class="icon_text_holder">{{((platform.VIEWABLE_IMPRESSIONS >0)|| (platform.VIEWABLE_IMPRESSIONS == 0)) ? ((platform.VIEWABLE_IMPRESSIONS | number:2)+'%') : '-'}}</span>
                 <span class="tooltip_holder icon_text_holder">{{((platform.CPMv >0)|| (platform.CPMv == 0)) ? (platform.CPMv | currency:undefined:2) : '-'}}</span>
                 <span class="tooltip_holder icon_text_holder">{{((platform.VIEWABLE_IMPS >0)|| (platform.VIEWABLE_IMPS == 0))? (platform.VIEWABLE_IMPS | nrFormat) : '-'}}</span>
             </div>
         </div>
-        <div class="each_col forth_col">
-            <div class="sub_coldata">
+        <div class="each_col six_col">
+            <div class="sub_colData">
                 <span class="icon_text_holder">{{((platform.AR >0)|| (platform.AR == 0)) ? ((platform.AR | number:2)+'%') : '-'}}</span>
                 <span class="tooltip_holder icon_text_holder">{{((platform.CPA >0)|| (platform.CPA == 0)) ? (platform.CPA | currency:undefined:2) : '-'}}</span>
                 <span class="tooltip_holder icon_text_holder">{{((platform.actions >0)|| (platform.actions == 0)) ? (platform.actions) : '-'}}</span>
             </div>
         </div>
         <div class="each_col seventhMargin_col">
-            <div class="sub_coldata">
+            <div class="sub_colData">
                 <span class="icon_text_holder">{{((platform.impressions >0)|| (platform.impressions == 0))? (platform.impressions | nrFormat) : '-'}}</span>
                 <span class="tooltip_holder icon_text_holder">{{((platform.CPM >0)|| (platform.CPM == 0)) ? (platform.CPM | currency:undefined:2) : '-'}}</span>
             </div>
