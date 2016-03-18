@@ -510,7 +510,7 @@ define(['common'], function (angularAMD) {
                             .getClients()
                             .then(function (result) {
                                 if (result && result.data.data.length > 0) {
-                                    if(result.data.data[0].children && result.data.data[0].children.length >0) {
+                                    if(result.data.data[0].children && result.data.data[0].children.length >0 && userObj.preferred_client) {
                                         var matchedClientsobj = _.find(result.data.data[0].children, function (obj) {
                                             return obj.id === userObj.preferred_client
                                         });
