@@ -623,6 +623,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 }
             }
         }
+
         //Search Hide / Show
         $scope.searchShowInput = function () {
             $(".searchInputBtn").hide();
