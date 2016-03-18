@@ -167,8 +167,8 @@ define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', 'reporting/campaig
 
         //Lazy Loader
         $(window).scroll(function () {
-            if (!$scope.campaigns.busy && ($(window).scrollTop() + $(window).height() == $(document).height())) {
-                console.log('bottom');
+            if (!$scope.campaigns.busy && ($(window).scrollTop() + $(window).height() > $(document).height() - 100)) {
+                //console.log('bottom');
                 $scope.campaigns.fetchData();
             }
         });

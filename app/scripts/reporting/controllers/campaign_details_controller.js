@@ -4,7 +4,7 @@ define(['angularAMD', 'reporting/timePeriod/time_period_model', 'common/services
     'reporting/campaignList/campaign_list_model', 'reporting/campaignSelect/campaign_select_model',
     'reporting/strategySelect/strategy_select_model', 'reporting/common/charts/actions', 'common/services/data_service',
     'common/utils', 'reporting/common/charts/pie_chart', 'reporting/common/charts/solid_gauge',
-    'common/services/constants_service', 'login/login_model', 'login/login_service', 'reporting/brands/brands_model',
+    'common/services/constants_service', 'common/services/features_service', 'login/login_model', 'login/login_service', 'reporting/brands/brands_model',
     'common/services/url_service', 'common/moment_utils', 'common/services/role_based_service',
     'reporting/advertiser/advertiser_model', 'reporting/kpiSelect/kpi_select_model', 'common/services/data_store_model',
     'common/services/vistoconfig_service', 'reporting/models/domain_reports',
@@ -22,7 +22,7 @@ function (angularAMD) {
                                                                 campaignListService, campaignListModel,
                                                                 campaignSelectModel, strategySelectModel, actionChart,
                                                                 dataService, utils, pieChart, solidGaugeChart,
-                                                                constants, loginModel, loginService,
+                                                                constants, featuresService, loginModel, loginService,
                                                                 brandsModel, urlService,momentService,
                                                                 RoleBasedService, advertiserModel, kpiSelectModel,
                                                                 dataStore, vistoconfig, domainReports,
@@ -80,6 +80,13 @@ function (angularAMD) {
             return (dir === 'asc' ? 'desc': 'asc');
         };
 
+        var fparams = featuresService.getFeatureParams();
+        $scope.showCostWidget = fparams[0]['cost'];
+
+        var featuredFeatures = $rootScope.$on('features', function () {
+            var fparams = featuresService.getFeatureParams();
+            $scope.showCostWidget = fparams[0]['cost'];
+        });
 
         $scope.details.resetSortParams = function () {
             $scope.details.sortParam = undefined;
@@ -241,6 +248,9 @@ function (angularAMD) {
                 $scope.getPlatformData();
                 $scope.getAdSizeGraphData($scope.campaign);
                 $scope.getScreenGraphData($scope.campaign);
+                $scope.getFormatsGraphData($scope.campaign);
+                $scope.getInventoryGraphData($scope.campaign);
+                $scope.getCostViewabilityData($scope.campaign);
             } else {
                 if (result.status === 204 && result.data === '' ) {
                      //if data not found
@@ -1533,13 +1543,6 @@ function (angularAMD) {
              }*/
 
             carouselRight.click(function () {
-                if (loadLastThreeWidgets) {
-                    loadLastThreeWidgets = false;
-                    $scope.getFormatsGraphData($scope.campaign);
-                    $scope.getInventoryGraphData($scope.campaign);
-                    $scope.getCostViewabilityData($scope.campaign);
-                }
-
                 if (carouselItem.length === 8) {
                     nextIndex = ItemsShown;
                 } else {
