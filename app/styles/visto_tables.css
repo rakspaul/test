@@ -196,6 +196,8 @@
 }
 .table-responsive .vistoTable .tbody .childRow .td {
   background-color: #f7f7f7 !important;
+  min-height: 36px;
+  padding: 7px 15px;
 }
 .table-responsive .vistoTable .tbody .childRow .td input[type="checkbox"] {
   float: left;
@@ -205,10 +207,16 @@
   max-height: 40px;
   max-width: 70px;
 }
+.table-responsive .vistoTable .tbody .childRow .td .icon-warning {
+  color: #f5c023;
+}
+.table-responsive .vistoTable .tbody .childRow .td .icon-warning.error {
+  color: #f24444;
+}
 .table-responsive .vistoTable .tbody .childRow .td:first-child {
   padding: 0;
   box-shadow: none;
-  padding: 10px 10px 10px 48px;
+  padding: 7px 10px 7px 48px;
 }
 .table-responsive .vistoTable .tbody .parentWrap {
   float: left;
