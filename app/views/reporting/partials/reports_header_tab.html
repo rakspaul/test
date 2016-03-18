@@ -13,7 +13,7 @@
         </div>
         <div ng-repeat="tab in filters.tabs track by $index" class="header_tab_dropdown"
              ng-class="{'active_tab': tab.href == filters.activeTab}" id={{tab.href}}>
-            <a ng-click="NavigateToTab('/'+ tab.href, $event)" id="performance_tab_{{tab.href}}"
+            <a ng-click="NavigateToTab('/'+ tab.href, $event)" id="performance_tab_{{tab.href}}" style="text-transform: capitalize;"
                reportTitle="{{tab.title}}" id="performance_tab_{{tab.href}}" reportTitle="{{tab.title}}" ng-bind="tab.title">
                 </a>
         </div>
