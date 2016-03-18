@@ -349,7 +349,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                     $scope.buttonLabel = $scope.textConstants.GENERATE_LABEL;
                 }
             }
-            return $(".dimension_block").find(".dd_txt").text() !== 'Choose Breakdown';
+            return $(".dimension_block").find(".dd_txt").text() !== 'Choose Dimension';
         };
 
         $scope.saveSchedule = function() {

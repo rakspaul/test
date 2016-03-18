@@ -137,7 +137,7 @@ define(['angularAMD'], function(angularAMD) {
         this.SCHEDULE_LIST_REPORT_TYPE = "Report Types";
         this.SCHEDULE_LIST_DATE = "Report Generated";
         this.SCHEDULE_LIST_DIMENSIONS = "Dimensions";
-        this.REPORT_CHOOSE_BREAKDOWN = 'Choose Breakdown';
+        this.REPORT_CHOOSE_BREAKDOWN = 'Choose Dimension';
         this.REPORT_ADDITIONAL_FILTERS = 'Additional Filters';
         this.REPORT_ADD_FILTERS = 'Add Filters';
         this.REPORT_BUILDER_TIMEFRAME_LIST = [
@@ -540,7 +540,7 @@ define(['angularAMD'], function(angularAMD) {
         this.ACTIONS = 'Actions';
         this.COMPLETE_ON = 'Complete on';
         this.VIEW_ALL_REPORTS = 'View all reports';
-        this.ADD_BREAKDOWN_LABEL = 'Add Breakdown';
+        this.ADD_BREAKDOWN_LABEL = 'Add Dimension';
 
         this.WF_CREATIVE_TAG_ALREADY_EXISTS =
             'This tag already exists in your Creative Tag Library. Save a Creative anyway?';
