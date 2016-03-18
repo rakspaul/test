@@ -342,7 +342,7 @@ define(['angularAMD'], function(angularAMD) {
 
         this.DASHBOARD = "Dashboard";
         this.CAMPAIGNS = this.MEDIA_PLAN = "Media Plans";
-        this.CREATE_CAMPAIGN = "Create Media Plan";
+        this.CREATE_CAMPAIGN = "Create";
         this.REPORTS = "Reports";
         this.HELLO = "Hello";
         this.ABOUT = "About";
