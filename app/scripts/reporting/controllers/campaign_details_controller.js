@@ -248,6 +248,9 @@ function (angularAMD) {
                 $scope.getPlatformData();
                 $scope.getAdSizeGraphData($scope.campaign);
                 $scope.getScreenGraphData($scope.campaign);
+                $scope.getFormatsGraphData($scope.campaign);
+                $scope.getInventoryGraphData($scope.campaign);
+                $scope.getCostViewabilityData($scope.campaign);
             } else {
                 if (result.status === 204 && result.data === '' ) {
                      //if data not found
@@ -1540,13 +1543,6 @@ function (angularAMD) {
              }*/
 
             carouselRight.click(function () {
-                if (loadLastThreeWidgets) {
-                    loadLastThreeWidgets = false;
-                    $scope.getFormatsGraphData($scope.campaign);
-                    $scope.getInventoryGraphData($scope.campaign);
-                    $scope.getCostViewabilityData($scope.campaign);
-                }
-
                 if (carouselItem.length === 8) {
                     nextIndex = ItemsShown;
                 } else {
