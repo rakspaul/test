@@ -44,7 +44,6 @@
         "highcharts-ng/dist/highcharts-ng",
         "ng-tags-input/ng-tags-input.min.js",
         "chosen/chosen.js",
-        "classie/classie.js",
         "modernizr-custom/modernizr-custom.js",
         "dlmenu/dlmenu.js"
     ],
