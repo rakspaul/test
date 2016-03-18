@@ -8,7 +8,7 @@
         <div style="padding-left:15px;" class="col-md-12" id="dynamicHeader">
             <!-- this will be hidden until fold happens -->
             <a class="collapseIcon iconPlusMinus" role="button" id="{{$index+1}}" href=""> 
-                <span class="icon-plus" ng-click="ToggleAdGroups(this,adGroupsData.adGroup.id,$index+1, $event)"></span> 
+                <span class="icon-plus" ng-click="ToggleAdGroups(this)"></span> 
             </a>
             <!-- -->
             <span class="heading" style="float:left;"><h3 ng-bind-html="textConstants.REPORT_BUILDER"></h3></span>
@@ -17,7 +17,7 @@
             <!-- -->
             <!-- his will be hidden until fold happens -->
             <span class="heading savedSubTitle"><span>{{reports.name}}</span></span>
-            <span class="heading savedSubTitle">| {{reports.reportDefinition.timeframe.start_date}}</span>
+            <span class="heading savedSubTitle"><span ng-if="reports.name">|</span> {{reports.reportDefinition.timeframe.start_date}}</span>
             <span class="heading savedSubTitle">- {{reports.reportDefinition.timeframe.end_date}}</span>
             <span class="heading downReport">
                 <span class="icon-download zeroPadding pull-left" style="margin-right:9px;"></span>
