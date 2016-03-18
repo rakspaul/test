@@ -82,6 +82,7 @@
                     <!-- --- start region block ----------------- -->
                     <div id="region" class="tab-pane active" ng-show="selectedTab == 'regions'">
 						<div class="list_holder">
+                            <div class="common-load-icon_viewability" ng-if="!geoTargetingData.regions"></div>
 							<div class="list_row_holder"  lr-infinite-scroll="loadMoreRegions" time-threshold="100">
 								<div class="clearfix list_row" ng-repeat="region in geoTargetingData.regions">
 									<div class="pull-left list_row_chkbox"><input name="regionchkbox" id="{{region.id}}" ng-model="bool" ng-change="sync(bool, region, 'regions')" ng-checked="isChecked(region.id, 'regions')" type="checkbox" value="" /></div>
@@ -96,6 +97,7 @@
                     <!-- --- start city block ----------------- -->
                     <div id="city" class="tab-pane"  ng-show="selectedTab == 'cities'">
 						<div class="list_holder">
+                            <div class="common-load-icon_viewability" ng-if="!geoTargetingData.cities"></div>
 							<div class="list_row_holder" lr-infinite-scroll="loadMoreCities" time-threshold="100">
 								<div class="clearfix list_row" ng-repeat="city in geoTargetingData.cities track by $index">
 									<div class="pull-left list_row_chkbox"><input name="regionchkbox" id="{{city.id}}" ng-model="bool" ng-change="sync(bool, city, 'cities')" ng-checked="isChecked(city.id, 'cities')" type="checkbox" value="" /></div>
@@ -127,7 +129,7 @@
                 </div> -->
                 <div  >
                     <div class="list_holder">
-
+                        <div class="common-load-icon_viewability" ng-if="!geoTargetingData.dmas"></div>
                         <div class="list_row_holder" lr-infinite-scroll="loadMoreDmas" time-threshold="100">
                             <div class="clearfix list_row" ng-repeat="dma in geoTargetingData.dmas">
                                 <div class="pull-left list_row_chkbox"><input id="{{dma.id}}" type="checkbox" ng-model="bool" ng-change="sync(bool, dma, 'dmas')" ng-checked="isChecked(dma.id, 'dmas')" value="" /></div>
