@@ -27,7 +27,10 @@
             <form role="form" name="formCreativeCreate" id="formCreativeCreate" novalidate ng-submit="submitForm(formCreativeCreate)">
 				<div class="col-md-6 zeroPadding pull-right saveCreativeBtn">
                     <div ng-show="addedSuccessfully" ng-model="addedSuccessfully" class="text-right">{{Message}}</div>
-					<button type="submit" class="btn btn-primary pull-right" ng-disabled="disableCancelSave" id="saveCreative" > Save Creative</button>
+                    <div class="col-md-12" style="margin-top: 10px;" ng-show="savingCreative">
+                        <div class="common-loading-area"></div>
+                    </div>
+					<button type="submit" class="btn btn-primary pull-right" ng-disabled="disableCancelSave || savingCreative" id="saveCreative" > Save Creative</button>
                     <a class="btn btn-link pull-right" role="button" ng-disabled="disableCancelSave" ng-click="cancelBtn()"> Cancel</a>
                 </div>
                 <!--<div class="col-md-12 zeroPadding clearfix nav_filters">-->
@@ -48,7 +51,7 @@
                             <label for="advertiserDDL" class="col-sm-12  greyTxt miniLabels" style="margin: 0;">{{ textConstants.ADVERTISERS }}</label>
                             <div class="col-md-12 zeroPadding dropdown-workflow">
                                 <div class="dropdown">
-                                    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ng-disabled="adPage">
+                                    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ng-disabled="adPage || (pushedCount>0)">
                                         <span class="text">{{advertiserName ? advertiserName : 'Select Advertiser' }}</span>
                                         <!--<span class="text" ng-if="mode == 'edit'">{{mode == 'edit' ? editCampaignData.advertiserName : 'Select Advertiser' }}</span>-->
                                         <span class="icon-arrow-down"></span>
@@ -77,14 +80,13 @@
                             </div>
                         </div>
                     </div>
-
                     <span class="col-md-12 labelQuestTxt" style="margin-top: 30px !important;">What Creative are you using?</span>
-                    <div class="form-group col-md-2" show-errors style="clear: left;">
+                    <div class="form-group col-md-4" show-errors style="clear: left;">
                         <label for="sel1" class="greyTxt" style="margin-top: 0;">Ad Server</label>
                         <div class="col-md-12 zeroPadding dropdown-workflow">
                             <div class="dropdown">
-                                <button class="btn btn-default dropdown-toggle" id="creativeAdServer" type="button"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                    <span class="text" ng-bind="selectedAdServer.name ? selectedAdServer.name: 'Select Ad Server'"></span>
+                                <button class="btn btn-default dropdown-toggle" id="creativeAdServer" type="button"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ng-disabled="pushedCount>0" ng-bind="selectedAdServer.name ? selectedAdServer.name: 'Select Ad Server'">
+                                    <!--<span class="text" ng-bind="selectedAdServer.name ? selectedAdServer.name: 'Select Ad Server'"></span>-->
                                     <span class="icon-arrow-down"></span>
                                 </button>
                                 <ul class="dropdown-menu" aria-labelledby="sel1" id="sel1">
@@ -122,12 +124,12 @@
                     </div>
 
                     <!---->
-                    <div class="form-group col-md-4">
+                    <div class="form-group col-md-6">
                         <label for="sel1" class="greyTxt">Creative Template</label>
                         <div class="col-md-12 zeroPadding dropdown-workflow">
                             <div class="dropdown">
-                                <button class="btn btn-default dropdown-toggle" id="creativeTemplate" type="button"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                    <span class="text" ng-bind="CreativeTemplate ? CreativeTemplate.name:'Select Template'"></span>
+                                <button class="btn btn-default dropdown-toggle" id="creativeTemplate" type="button"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ng-bind="CreativeTemplate ? CreativeTemplate.name:'Select Template'">
+                                    <!--<span class="text" ng-bind="CreativeTemplate ? CreativeTemplate.name:'Select Template'"></span>-->
                                     <span class="icon-arrow-down"></span>
                                 </button>
                                 <ul class="dropdown-menu" aria-labelledby="sel1" id="sel1">
