@@ -88,6 +88,8 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
         $scope.reportTypeSelect = $scope.textConstants.SAVE_LABEL;
         $scope.isSavedReportGen = false;
 
+        var isGenerateAlreadyCalled = false;
+
             if($scope.isSavedReportGen === true){
                 $( "#dynamicHeader" ).addClass( "smaller" );
             }
@@ -349,7 +351,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                     $scope.buttonLabel = $scope.textConstants.GENERATE_LABEL;
                 }
             }
-            return $(".dimension_block").find(".dd_txt").text() !== 'Choose Breakdown';
+            return $(".dimension_block").find(".dd_txt").text() !== 'Choose Dimension';
         };
 
         $scope.saveSchedule = function() {
@@ -445,11 +447,11 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                 $scope.generateBtnDisabled = false;
                 _customctrl.isReportLastPage_1D = respData.last_page;
                 respData = respData.report_data;
+                if(localStorage['scheduleListReportType'] === "Saved" || $scope.buttonLabel == "Generate") {
+                    $('#reportBuilderForm').slideUp(600);
+                    $("#dynamicHeader").addClass("smaller");
+                }
                 if (respData && respData.length > 0) {
-                    if(localStorage['scheduleListReportType'] === "Saved" || $scope.buttonLabel == "Generate") {
-                        $('#reportBuilderForm').slideUp(600);
-                        $("#dynamicHeader").addClass("smaller");
-                    }
                     $scope.reportDataLoading = false;
                     $scope.reportDataNotFound = false;
                     if ($scope.isReportForMultiDimension) {
@@ -493,8 +495,14 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
             }
         }
 
-        $scope.generateReport = function() {
+        $scope.generateReport = function(generateReportType) {
             if (validateGenerateReport()) {
+               // $(".iconPlus")
+                if((isGenerateAlreadyCalled)) {
+                    $scope.ToggleAdGroups(this);
+                } else{
+                    isGenerateAlreadyCalled = true;
+                }
                 $scope.generateBtnDisabled = false;
                 $scope.metricValues = [];
                 $scope.reportMetaData = {};
@@ -1204,8 +1212,8 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                         $scope.buttonLabel = $scope.reportTypeSelect;
                     }
                 });
-            }
-            else {
+            } else {
+                $scope.reports.name = "";
                 $scope.buttonLabel = $scope.textConstants.GENERATE_LABEL;
                 $scope.$apply();
             }
@@ -1659,6 +1667,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
             }
 
             $scope.updateSchdReport = function() {
+                var self = this;
                 if ($scope.verifyReportInputs()) {
                     if($scope.reportTypeSelect == "Save"){
                     //if(localStorage['scheduleListReportType'] == "Saved"){
@@ -1667,6 +1676,12 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                                 $rootScope.setErrAlertMessage('Saved report updated successfully', 0);
                                 $scope.stopRedirectingPage = false;
                                 $('#reportBuilderForm').slideUp(600);
+                                if((isGenerateAlreadyCalled)) {
+                                    $scope.ToggleAdGroups(self);
+
+                                } else{
+                                    isGenerateAlreadyCalled = true;
+                                }
                                 //$location.url('/reports/schedules');
                             }
                         });
@@ -1765,18 +1780,15 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
 
 
             $scope.showHideToggle = false;
-            $scope.ToggleAdGroups = function (context, adGrpId, index, event) {
-                var elem = $(event.target);
+            $scope.ToggleAdGroups = function (context) {
                 if (context.showHideToggle) {
                     $('#reportBuilderForm').slideUp(600);
-                     elem.removeClass("icon-minus").addClass("icon-plus") ;
-                     context.showHideToggle = !context.showHideToggle
+                    $("#dynamicHeader > a > span").removeClass("icon-minus").addClass('icon-plus');
+                    context.showHideToggle = !context.showHideToggle;
                 } else {
                     $('#reportBuilderForm').slideDown(600);
-                    elem.removeClass("icon-plus").addClass("icon-minus") ;
-                    //$( "#dynamicHeader" ).removeClass( "smaller" );
-                     context.showHideToggle = !context.showHideToggle
-                     //campaignOverView.getAdsInAdGroup($routeParams.campaignId, adGrpId, index);
+                    $("#dynamicHeader > a > span").removeClass("icon-plus").addClass('icon-minus');
+                     context.showHideToggle = !context.showHideToggle;
                 }
             };
 
@@ -1787,11 +1799,11 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                     $scope.updateSchdReport();
                 } else if ($scope.buttonLabel == "Generate") {
                     $scope.generateBtnDisabled = true;
-                    $scope.generateReport();
+                    $scope.generateReport("Generate");
                     $('.collapseIcon').css('visibility', 'visible');
                 } else if ($scope.buttonLabel == "Save"){
                     $scope.saveReport();
-                    $scope.generateReport();
+                    $scope.generateReport("Save");
                     $('.collapseIcon').css('visibility', 'visible');
                 }
                 else {

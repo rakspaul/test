@@ -40,6 +40,16 @@
 .searchInput .searchInputForm input {
   border-width: 0px !important;
 }
+.searchInput.geography .input-group {
+  display: block;
+  width: 100%;
+}
+.searchInput.geography .input-group input {
+  border-width: 1px;
+}
+.searchInput.geography .input-group .btn {
+  position: relative;
+}
 [class*="col-"] tags-input {
   float: left;
   width: 100%;

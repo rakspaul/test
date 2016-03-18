@@ -2177,14 +2177,14 @@ input[type="submit"] {
   float: left;
 }
 .main_navigation_holder .main_nav_dropdown .user-photo-details .dropdown-menu {
-  overflow: scroll;
+  overflow: auto;
   top: 0;
   left: 0;
   border: 0;
   max-width: 100%;
   min-width: 100%;
   background: transparent ;
-  padding: 0px ;
+  padding: 0;
   margin: 0;
   float: left;
   position: initial;

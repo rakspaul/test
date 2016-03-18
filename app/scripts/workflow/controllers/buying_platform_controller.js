@@ -199,7 +199,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         $scope.selectTrackingIntegrations = function (trackingIntegration) {
             $scope.showtrackingSetupInfoPopUp = false;
             $scope.$parent.postPlatformDataObj = [];
-            $scope.platformCustomInputs();
+            //$scope.platformCustomInputs();
             trackingIntegration = $scope.trackingIntegration || trackingIntegration;
             // if ($scope.mode !== 'edit') {
             $scope.$parent.TrackingIntegrationsSelected = true;

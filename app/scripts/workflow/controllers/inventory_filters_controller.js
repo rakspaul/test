@@ -99,8 +99,12 @@ define(['angularAMD', 'workflow/services/workflow_service', 'workflow/services/f
 
                 response.data.domainNamesDisplay = 'collapsed';
 
+                response.data.checked = true;
+
                 if ($scope.inventoryCreate) {
                     inventoryData.push(response.data);
+                    selectedLists.push(response.data);
+
                     _.each(selectedLists, function (val) {
                         if ($scope.workflowData.whiteListsSelected) {
                             val.domainAction = 'INCLUDE';
@@ -108,11 +112,10 @@ define(['angularAMD', 'workflow/services/workflow_service', 'workflow/services/f
                             val.domainAction = 'EXCLUDE';
                         }
                     });
+
                     // Reset the flag variable
                     $scope.inventoryCreate = false;
                 } else {
-                    response.data.checked = true;
-
                     _.each(inventoryData, function(obj, idx) {
                         if (obj.id === response.data.id) {
                             inventoryData[idx] = response.data;
@@ -125,13 +128,13 @@ define(['angularAMD', 'workflow/services/workflow_service', 'workflow/services/f
                         }
                     });
 
-                    if (response.data.domainAction === 'INCLUDE') {
-                        $scope.workflowData.selectedWhiteLists = selectedLists;
-                    } else {
-                        $scope.workflowData.selectedBlackLists = selectedLists;
-                    }
-
                     $scope.adData.inventory = response.data;
+                }
+
+                if (response.data.domainAction === 'INCLUDE') {
+                    $scope.workflowData.selectedWhiteLists = selectedLists;
+                } else {
+                    $scope.workflowData.selectedBlackLists = selectedLists;
                 }
 
                 $scope.domainUploadInProgress = false;
