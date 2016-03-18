@@ -21,7 +21,9 @@
         <!--<span ng-bind-html="campaigns.appliedQuickFilterText == 'Ontrack'?'On Track':campaigns.appliedQuickFilterText"></span>-->
         
         <!--Create Media Plan Btn-->
-        <a href="/mediaplan/create" ng-show="isWorkFlowUser" ng-if="showCreateMediaPlan" class="pull-left btn btn-primary" data-ng-bind="textConstants.CREATE_CAMPAIGN"></a>
+        <div class="pull-left btn-group create" role="group" aria-label="...">
+            <a class="btn btn-default" href="/mediaplan/create" ng-show="isWorkFlowUser" ng-if="showCreateMediaPlan"><span class="icon-plus"></span><span data-ng-bind="textConstants.CREATE"></span></a>
+        </div>
         
         <!--Quick Filters-->
         <div campaign-list-filter-directive campaigns="campaigns" class="pull-right"></div>
