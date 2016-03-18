@@ -153,6 +153,34 @@
 
             <!-- Ads Start -->
             <div class="adWrap">
+                <!--Sub-Header-->
+                <div style="display: table; float: none; margin: 0 auto; padding: 30px 0 0 0; width: 1200px;">
+                    <!--Create Media Plan Btn-->
+                    <!--<a href="/mediaplan/create" class="pull-left btn btn-primary" data-ng-bind="textConstants.CREATE_CAMPAIGN"></a>-->
+                    
+                    <!--Quick Filters-->
+                    <!--<div campaign-list-filter-directive campaigns="campaigns" class="pull-right"></div>-->
+                    
+                    <!--Search Input-->
+                    <div class="btn-group pull-right">
+                        <button type="button" class="btn btn-default pull-right" style="display: none"><span class="icon-filter" style="margin: -1px 0 0 0;"></span></button>
+                        <div class="searchInput pull-right" style="border-top-right-radius: 0; border-bottom-right-radius: 0;">
+                            <a class="btn btn-default searchInputBtn" ng-click="searchShowInput()">
+                                <span class="icon-search" aria-hidden="true" style="margin: -1px 0 0 0;"></span>
+                            </a>
+                            <div class="input-group searchInputForm" >
+                                <input type="text" class="form-control" name="creativeSearch" ng-model="creativeSearch" ng-keyup="creativeSearchFunc()"
+                                       placeholder="Search Creative By Name and Size..">
+                                <div class="btn btn-default" ng-click="searchHideInput()">
+                                    <span class="icon-clear" aria-hidden="true"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!--<span class="pull-right" style="font-size: 12px; margin: 10px 10px 0 0;">{{campaigns.dashboard.quickFilterSelectedCount}} Media Plans in list</span>-->
+                </div>
+                
                 <div class="searchAds" style="display: none;">
                     <div class="input-group col-md-10">
                         <input type="text" class="form-control input-lg" placeholder="Search..." ng-model="sizeSearchVal"/>
