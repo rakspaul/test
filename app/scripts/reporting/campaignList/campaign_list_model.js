@@ -483,7 +483,7 @@ define(['angularAMD','reporting/campaignList/campaign_list_service', 'common/ser
                          }
                          });
                          */
-                       //grunt analytics.track(loginModel.getUserRole(), constants.GA_CAMPAIGN_CARD_ACTIVITY, constants.GA_CAMPAIGN_ACTIVITY_BUBBLE_COUNT, loginModel.getLoginName(), campaign.actionsCount);
+                        //grunt analytics.track(loginModel.getUserRole(), constants.GA_CAMPAIGN_CARD_ACTIVITY, constants.GA_CAMPAIGN_ACTIVITY_BUBBLE_COUNT, loginModel.getLoginName(), campaign.actionsCount);
                         if (status == false) {
                             $location.path("/mediaplans/" + campaign.orderId);
                         }
@@ -585,19 +585,19 @@ define(['angularAMD','reporting/campaignList/campaign_list_service', 'common/ser
                     resetCostBreakdown.call(this);
                     this.scrollFlag = 1;
                     fetchData.call(this);
-                   //grunt analytics.track(loginModel.getUserRole(), constants.GA_CAMPAIGN_STATUS_FILTER, (kpiStatus ? kpiStatus : type), loginModel.getLoginName());
+                    //grunt analytics.track(loginModel.getUserRole(), constants.GA_CAMPAIGN_STATUS_FILTER, (kpiStatus ? kpiStatus : type), loginModel.getLoginName());
                 }
 
                 _campaignServiceUrl = function (from) {
                     var clientId = loginModel.getSelectedClient().id;
                     var nextPageNumber = from == 'costBreakdown' ? this.CBdownParams.nextPage : this.performanceParams.nextPage;
                     var params = [
-                            'client_id=' + loginModel.getSelectedClient().id,
-                            'advertiser_id=' + advertiserModel.getSelectedAdvertiser().id,
-                            'brand_id=' + brandsModel.getSelectedBrand().id,
-                            'date_filter=' + this.timePeriod,
-                            'page_num=' + nextPageNumber,
-                            'page_size=' + this.pageSize
+                        'client_id=' + loginModel.getSelectedClient().id,
+                        'advertiser_id=' + advertiserModel.getSelectedAdvertiser().id,
+                        'brand_id=' + brandsModel.getSelectedBrand().id,
+                        'date_filter=' + this.timePeriod,
+                        'page_num=' + nextPageNumber,
+                        'page_size=' + this.pageSize
                     ];
                     this.sortParam && params.push('sort_column=' + this.sortParam);
                     this.sortDirection && params.push('sort_direction=' + this.sortDirection);
