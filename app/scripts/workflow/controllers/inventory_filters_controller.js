@@ -83,6 +83,9 @@ define(['angularAMD', 'workflow/services/workflow_service', 'workflow/services/f
                                 _.each($scope.workflowData.inventoryData, function(obj) {
                                     obj.checked = false;
                                 });
+                                $scope.workflowData.inventoryDataTemp =
+                                    $.extend(true, [], $scope.workflowData.inventoryData);
+
                                 $scope.workflowData.whiteListsSelected = true;
                             }
                         });
@@ -657,6 +660,7 @@ define(['angularAMD', 'workflow/services/workflow_service', 'workflow/services/f
             };
 
             $scope.showDomainListTypePopupCue = function (type, event) {
+console.log("$scope.workflowData.inventoryData = ", $scope.workflowData.inventoryData)
                 var domainListTypePopupCue = $('#domain-list-type-popup-cue');
                 if ($scope.workflowData.selectedBlackLists.length === 0 &&
                     $scope.workflowData.selectedWhiteLists.length === 0) {
