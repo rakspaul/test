@@ -410,14 +410,5 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 return item.id === $scope.adData.platformId;
             });
         };
-
-        $(document).ready(function() {
-            $('.input-daterange').datepicker({
-                format: "mm/dd/yyyy",
-                orientation: "top auto",
-                autoclose: true,
-                todayHighlight: true
-            });
-        });
     });
 });

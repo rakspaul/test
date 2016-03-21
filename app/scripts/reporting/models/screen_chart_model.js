@@ -98,7 +98,7 @@ define(['angularAMD', 'common/services/vistoconfig_service','common/services/dat
                     value = ((eachObj[calValMetricKey] * 100) / total);
                     value = value && value.toFixed(0);
                 } else if (calValMetricKey === 'ctr' || calValMetricKey === 'action_rate' || calValMetricKey === 'vtc') {
-                    value = parseFloat(eachObj[calValMetricKey] * 100)
+                    value = parseFloat(eachObj[calValMetricKey])
                     value = value && value.toFixed(2);
                 } else {
                     value = parseFloat(eachObj[calValMetricKey]);

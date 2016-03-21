@@ -56,9 +56,9 @@ define(['angularAMD', 'workflow/services/workflow_service', 'workflow/services/f
                                 } else {
                                     // The saved ad does not contain inventory data. Set all relevant defaults here.
                                     $scope.adData.inventory.domainAction = 'INCLUDE';
-                                    $scope.workflowData.selectedLists = [];
                                     $scope.workflowData.whiteListsSelected = true;
                                     $scope.workflowData.selectedWhiteLists = [];
+                                    $scope.workflowData.selectedLists = [];
                                     $scope.workflowData.blackListsSelected = false;
                                     $scope.workflowData.selectedBlackLists = [];
                                 }
@@ -83,7 +83,12 @@ define(['angularAMD', 'workflow/services/workflow_service', 'workflow/services/f
                                 _.each($scope.workflowData.inventoryData, function(obj) {
                                     obj.checked = false;
                                 });
-                                $scope.workflowData.whiteListsSelected = true;
+                                $scope.workflowData.inventoryDataTemp =
+                                    $.extend(true, [], $scope.workflowData.inventoryData);
+
+                                if (!$scope.workflowData.blackListsSelected) {
+                                    $scope.workflowData.whiteListsSelected = true;
+                                }
                             }
                         });
                 }
@@ -538,14 +543,13 @@ define(['angularAMD', 'workflow/services/workflow_service', 'workflow/services/f
             };
 
             $scope.workflowData.initInventory = function() {
-                if ($scope.mode === 'edit') {
-                    if ($scope.adData.inventory.domainAction === 'INCLUDE') {
-                        $('#inventoryFilters').find('.miniToggle .whitelist').addClass('active disabled');
-                    } else {
-                        $('#inventoryFilters').find('.miniToggle .blacklist').addClass('active disabled');
-                    }
-                } else {
+                if (!$scope.adData.inventory.domainAction) {
+                    $scope.adData.inventory.domainAction = 'INCLUDE';
+                }
+                if ($scope.adData.inventory.domainAction === 'INCLUDE') {
                     $('#inventoryFilters').find('.miniToggle .whitelist').addClass('active disabled');
+                } else {
+                    $('#inventoryFilters').find('.miniToggle .blacklist').addClass('active disabled');
                 }
             };
 

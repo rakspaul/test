@@ -58,7 +58,7 @@ module.exports = function (grunt) {
         'ngAnnotate',
         'requirejs',
         'preprocess:'+env,
-        'htmlmin',
+        //'htmlmin',
         'compress'
     ]);
 

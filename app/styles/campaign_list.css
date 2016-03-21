@@ -1425,8 +1425,8 @@ input[type="submit"] {
 .dashboard_outer_container .total_campaign_list_holder .each_campaign_list_container .metric_campaign_section .metric_graph_details .metric_graph_details_vtc .quartile_details_VTC {
   display: none;
   position: absolute;
-  top: 0px ;
-  left: 0px ;
+  top: -109px !important;
+  right: -115px !important;
   background: #fff;
   border: solid 1px #dde6eb ;
   z-index: 2 ;
@@ -1437,6 +1437,7 @@ input[type="submit"] {
   -moz-box-shadow: 0px 1px 8px 0px rgba(0, 0, 0, 0.15);
   padding: 12px 20px 0px 20px ;
   text-align: left;
+  left: initial !important;
 }
 .dashboard_outer_container .total_campaign_list_holder .each_campaign_list_container .metric_campaign_section .metric_graph_details .metric_graph_details_vtc .quartile_details_VTC .quartile_details_title {
   margin-bottom: 8px ;
