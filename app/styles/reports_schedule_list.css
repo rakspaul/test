@@ -304,3 +304,6 @@
   top: 0;
   right: 0;
 }
+#searchList .searchInputSchedule .searchInputForm input {
+  border-width: 0px !important;
+}
