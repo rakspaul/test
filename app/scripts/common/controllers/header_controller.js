@@ -183,7 +183,8 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
             }, 800);
             setTimeout(function () {
                 if (!( $(".main_navigation_holder").is(":hover") || $("#user-menu").is(":hover") || $("#reports-menu").is(":hover") ) || $("#campaigns_nav_link").is(":hover")) {
-                    $(".main_nav_dropdown").fadeOut();
+                    //$(".main_nav_dropdown").fadeOut();
+                    $("#reports-menu, #user-menu").css('min-height',0).slideUp('fast');
                     $(".main_navigation_holder").find(".selected").removeClass("selected");
                 }
             }, 800);

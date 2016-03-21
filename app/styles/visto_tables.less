@@ -190,6 +190,8 @@
       .childRow {
         .td {
           background-color: #f7f7f7 !important;
+          min-height: 36px;
+          padding: 7px 15px;
           input[type="checkbox"] {
             float: left;
             margin-right: 10px;
@@ -198,11 +200,17 @@
             max-height: 40px;
             max-width: 70px;
           }
+          .icon-warning {
+            color: #f5c023;
+          }
+          .icon-warning.error {
+            color: #f24444;
+          }
         }
         .td:first-child {
           padding: 0;
           box-shadow: none;
-          padding: 10px 10px 10px 48px;
+          padding: 7px 10px 7px 48px;
         }
       }
       .parentWrap {

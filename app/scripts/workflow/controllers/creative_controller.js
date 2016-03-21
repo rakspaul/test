@@ -29,7 +29,7 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
               $scope.selectedAdServer=$scope.creativeEditData.adServer;
               $scope.selectedAdServer.id=$scope.creativeEditData.adServer?$scope.creativeEditData.adServer.id:'';
               $scope.creativeFormat=$scope.creativeEditData.creativeFormat;
-              //$scope.pushedCount=$scope.creativeEditData.pushedCount;
+              $scope.pushedCount=$scope.creativeEditData.pushedCount;
               //make cal to set the format type here //inturn makes call to get possible templates
               $scope.adFormatSelection($scope.creativeFormat);
               //make call to generate Template
@@ -156,6 +156,8 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
           })
           for(var i in $scope.creativeSizeData.adFormats){
               $scope.creativeSizeData.adFormats[i].active=false;
+              if((!$scope.adPage) && ($scope.creativeMode=="edit") && $scope.pushedCount>0)
+                  $scope.creativeSizeData.adFormats[i].disabled=true;
           }
           if(index>=0){
               $scope.creativeSizeData.adFormats[index].active=true;
@@ -287,8 +289,6 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
               creatives.fetchAdFormats();
               $scope.$broadcast('adFormatChanged', 'DISPLAY');
           }
-          // var creativeTemplateWrap = $('.creativeTemplate');
-          // creativeCustomModule.init(templateJson,creativeTemplateWrap,$scope);
           /*In creative List Page to create new creative*/
           if(!$scope.adPage){
               getAdServers();
@@ -443,14 +443,16 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
       }
 
       $scope.creativeSave = function (postCrDataObj) {
+          $scope.savingCreative=true;
           $scope.CrDataObj = postCrDataObj;
-          if($scope.creativeMode!=="edit"){
+          if($scope.creativeMode!=="edit" || $scope.adPage){
               workflowService
                   .saveCreatives($scope.campaignId, postCrDataObj)
                   .then(function (result) {
                       if (result.status === 'OK' || result.status === 'success') {
                           $scope.addedSuccessfully = true;
                           $scope.Message = 'Creative Added Successfully';
+                          $scope.savingCreative=false;
                           if(result.data.data.creativeState==='READY'){
                               workflowService.setNewCreative(result.data.data);
                           }

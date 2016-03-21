@@ -18,7 +18,7 @@
 		</div>
 
 		<div class="col-md-12 zeroPadding btn_list_filters">
-			<div class="btn-group" role="group" aria-label="...">
+			<div class="btn-group create" role="group" aria-label="...">
 				<a  role="button" class="btn btn-default" ng-click="creativeCreate();"><span class="icon-plus"></span><span data-ng-bind="textConstants.CREATE"></span></a>
 				<button type="button" class="btn btn-default" style="display: none"><span class="icon-inline-edit"></span><span data-ng-bind="textConstants.EDIT"></span></button>
 				<button type="button" class="btn btn-default" ng-click="cancelDelete();"><span class="icon-archive"></span><span data-ng-bind="textConstants.ARCHIVE"></span></button>
@@ -35,9 +35,7 @@
 						</ul>
 					</div>
 				</div>
-
 			</div>
-
 
 			<!--Search Input-->
 			<div class="btn-group pull-right">
@@ -137,9 +135,9 @@
                     <div style="display:none;" class="secondDimensionList">
 	                    <div class="tr childRow adsList"  ng-repeat="adData in creativeAds.creativeAdData[$index]">
 	                        <div class="col-md-7 td">
-								<span ng-if="(adData.messageType==='ERROR')" class="icon-error" title="{{adData.message}}"></span>
+								<span ng-if="(adData.messageType==='ERROR')" class="icon-warning error" title="{{adData.message}}"></span>
 								<span ng-if="(adData.messageType==='WARNING')" class="icon-warning" title="{{adData.message}}"></span>
-								<a ng-click="redirectAdEditPage(adData)">{{adData.campaignName}} / {{adData.adName}}</a>
+								<a ng-click="redirectAdEditPage(adData)">{{adData.campaignName | textEllipsis: 50}} / {{adData.adName | textEllipsis: 50}}</a>
 	                        </div>
 	                        <div class="col-md-2 td" data-ng-bind="adData.brandName"></div>
 	                        <div class="col-md-1 td text-center" ><img ng-src="{{adData.platform.iconUrl}}"/></div>

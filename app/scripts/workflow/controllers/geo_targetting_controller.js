@@ -1,4 +1,4 @@
-define(['angularAMD','workflow/services/workflow_service','common/services/zip_code'],function (angularAMD) {
+define(['angularAMD','workflow/services/workflow_service','common/services/zip_code', 'lrInfiniteScroll'],function (angularAMD) {
   angularAMD.controller('GeoTargettingController', function($scope, $rootScope, $timeout, workflowService, zipCode) {
 
         $scope.showTargettingForm = false;
