@@ -9,15 +9,13 @@
                 tooltip="{{strategy.li_status.toLowerCase() | toCamelCase}}"></div>
             </div> -->
             <div class="each_campaign_section">
-                <div class="main_heading">
+                <div class="main_heading pull-left">
                     <truncate-text-with-hover txt="{{strategy.name}}" txtlength="75"></truncate-text-with-hover>
                     <!--<span dynamic-tooltip="{{strategy.name}}" tooltip-element="searchElement"
                     txt="{{strategy.name}}" txtLength="75"></span>-->
                 </div>
+                <div class="heading">{{campaign.brandName}}</div>
             </div>
-        </div>
-        <div class="clearfix heading">
-            {{campaign.brandName}}
         </div>
 
         <!--Column 1-->
@@ -62,7 +60,7 @@
                     </div>
                 </div>
                 <a ><!--  href="/#/performance" -->
-                    <div class="campaign_btn reports_btn" ng-click="$parent.$parent.viewReports(campaign, strategy)">
+                    <div class="btn btn-default pull-right" ng-click="$parent.$parent.viewReports(campaign, strategy)">
                         {{textConstants.VIEW_REPORT}}
                     </div>
                 </a>
