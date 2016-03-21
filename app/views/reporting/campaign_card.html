@@ -24,11 +24,8 @@
     <!--Label Pills-->
     <div class="col-md-12 zeroPadding">
         <div class="pillsWrap">
-            <span class="labelPills">Label 1</span>
-            <span class="labelPills">Label 2</span>
-            <span class="labelPills">Label 3</span>
-            <span class="labelPills">Label 4</span>
-            <span class="labelPills">Label 5</span>
+            <span ng-if="campaign.labels.length > 0"></span>
+            <span class="labelPills" ng-repeat="label in campaign.labels">{{label}}</span>
         </div>
     </div>
 
