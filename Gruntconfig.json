@@ -33,7 +33,6 @@
         "angular-i18n/angular-locale_en-us.js",
         "underscore/underscore.js",
         "ng-file-upload/ng-file-upload-shim.js",
-        "bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js",
         "angular-css/angular-css.js",
         "angulartics/dist/angulartics.min.js",
         "angulartics-google-analytics/dist/angulartics-google-analytics.min.js",
