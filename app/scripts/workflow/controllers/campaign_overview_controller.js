@@ -584,8 +584,8 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
         });
 
-        $scope.$watch($scope.tags,function(){
-            console.log("log == ",$scope.tags);
+        $scope.$watch($scope.tags, function () {
+            //console.log("log == ",$scope.tags);
         });
 
         $scope.calculateBudget = function(adGroupsData){
