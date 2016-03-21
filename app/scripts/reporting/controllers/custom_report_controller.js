@@ -386,7 +386,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                 if(isPrimary){
                     $scope.reportTitle += ' by ' + $scope.reports.reportDefinition.dimensions[filterDataKey].name;
                 }
-                str += "&first_dim_filter=" + $scope.reports.reportDefinition.dimensions[filterDataKey].dimension
+                str += ((dataFormat && dataFormat==='csv') ? "&second_dim=" : "&first_dim_filter=") + $scope.reports.reportDefinition.dimensions[filterDataKey].dimension
                 if ($scope.reports.reportDefinition.dimensions[filterDataKey].value) {
                     str += ':' + $scope.reports.reportDefinition.dimensions[filterDataKey].value;
                 }
@@ -775,7 +775,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                         $scope.reportDownloadBusy = false;
                         $rootScope.setErrAlertMessage("File couldn't be downloaded");
                     }
-                })
+                });
             }
 
             $scope.enable_generate_btn = function() {
