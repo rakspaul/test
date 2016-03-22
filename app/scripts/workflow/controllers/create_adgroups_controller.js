@@ -1,4 +1,4 @@
-define(['angularAMD','../../common/services/constants_service','workflow/services/workflow_service', 'common/moment_utils'],function (angularAMD) {
+define(['angularAMD','common/services/constants_service','workflow/services/workflow_service', 'common/moment_utils', 'workflow/directives/custom_date_picker'],function (angularAMD) {
   angularAMD.controller('CreateAdGroupsController', function($scope, $rootScope, $routeParams, $route, constants, workflowService, momentService) {
         $scope.loadingBtn = false ;
         $scope.handleFlightDate = function (data) {
