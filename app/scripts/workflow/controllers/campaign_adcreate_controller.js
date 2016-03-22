@@ -111,7 +111,10 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
 
                                     }
                                 } else {
-                                    $scope.initiateDatePicker();
+                                    $timeout(function() {
+                                        $scope.initiateDatePicker();
+                                    }, 2000)
+
                                 }
                             } else {
                                 campaignOverView.errorHandler(result);
@@ -1532,13 +1535,15 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
         localStorage.setItem('campaignData', '');
         localStorage.removeItem('adPlatformCustomInputs');
 
-        campaignOverView.getCampaignData($routeParams.campaignId);
-        campaignOverView.fetchAdFormats();
-        campaignOverView.fetchGoals();
-        campaignOverView.fetchPrimaryKpis();
-        campaignOverView.fetchScreenType();
-        campaignOverView.fetchUnitTypes();
+      $(document).ready(function() {
+          campaignOverView.getCampaignData($routeParams.campaignId);
+          campaignOverView.fetchAdFormats();
+          campaignOverView.fetchGoals();
+          campaignOverView.fetchPrimaryKpis();
+          campaignOverView.fetchScreenType();
+          campaignOverView.fetchUnitTypes();
 
+      })
         // Switch BTN Animation
         $('.btn-toggle').click(function () {
             $(this).find('.btn').toggleClass('active');
