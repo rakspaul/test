@@ -618,5 +618,14 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 }
             }
         }
+
+        $(document).ready(function() {
+            $('.input-daterange').datepicker({
+                format: "mm/dd/yyyy",
+                orientation: "top auto",
+                autoclose: true,
+                todayHighlight: true
+            });
+        });
     });
 });
