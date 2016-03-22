@@ -1060,6 +1060,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
             workflowService.setCreativeEditData(null);
             $('#formCreativeCreate')[0].reset();
             $scope.isAddCreativePopup = true;
+            //$scope.$parent.isAddCreativePopup = true;
             // new call has to be made when platforms are changed hence seletion on new template. therefore broadcast to reset
             $scope.$broadcast('creativeAdserverTemplateReset');
 
@@ -1577,7 +1578,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
 
             $(target).animate({'bottom': '0px'}, '10');
 
-            $scope.$broadcast('closeAddCreativePage');
+            //$scope.$broadcast('closeAddCreativePage');
             $scope.$broadcast('switchPlatformFunc');
         });
 
