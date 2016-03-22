@@ -183,6 +183,11 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                         if ($scope.workflowData['campaignData'].pushable) {
                             $scope.disablePushBtn = false;
                         }
+
+                        $timeout(function() {
+                            $scope.handleFlightDate($scope.startTimeFormated);
+                        }, 2000);
+                        
                         campaignOverView.modifyCampaignData();
                     }
                     else {
