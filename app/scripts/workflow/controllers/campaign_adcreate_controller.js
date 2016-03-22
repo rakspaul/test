@@ -1666,5 +1666,14 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                 $scope.updateCreativeData($scope.selectedArr);
             }
         };
+
+          $(document).ready(function() {
+              $('.input-daterange').datepicker({
+                  format: "mm/dd/yyyy",
+                  orientation: "top auto",
+                  autoclose: true,
+                  todayHighlight: true
+              });
+          });
     });
 });

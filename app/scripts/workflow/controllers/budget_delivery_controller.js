@@ -1,4 +1,4 @@
-define(['angularAMD', 'common/services/constants_service', 'common/moment_utils', 'workflow/directives/ng_upload_hidden', 'workflow/directives/custom_date_picker'], function (angularAMD) {
+define(['angularAMD', 'common/services/constants_service', 'common/moment_utils', 'workflow/directives/ng_upload_hidden'], function (angularAMD) {
   angularAMD.controller('BudgetDeliveryController', function ($scope, constants, momentService,workflowService) {
 
 
