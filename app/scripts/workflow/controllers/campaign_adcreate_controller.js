@@ -111,7 +111,10 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
 
                                     }
                                 } else {
-                                    $scope.initiateDatePicker();
+                                    $timeout(function() {
+                                        $scope.initiateDatePicker();
+                                    }, 2000)
+
                                 }
                             } else {
                                 campaignOverView.errorHandler(result);
