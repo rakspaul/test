@@ -293,6 +293,10 @@ define(['angularAMD','common/services/vistoconfig_service', 'common/services/con
                     {'Content-Type': 'application/json'}
                 );
             },
+            getCreativeData:function(id){
+                var clientId =  loginModel.getSelectedClient().id;
+                return dataService.fetch(vistoconfig.apiPaths.WORKFLOW_API_URL  +'/clients/'+clientId+'/creatives/'+id);
+            },
 
             forceSaveCreatives: function (clientId, adId, data) {
                 clientId =  loginModel.getSelectedClient().id;
@@ -319,10 +323,10 @@ define(['angularAMD','common/services/vistoconfig_service', 'common/services/con
                 return dataService.fetch(url, cacheObj);
             },
 
-            getCreativesforCreativeList: function (clientId, formats, query, pageSize, pageNo) {
+            getCreativesforCreativeList: function (clientId, formats, query, pageSize, pageNo,success, failure) {
                 var queryStr = query ? query : '',
                     creativeFormats = formats ? 'creativeFormat=' + formats : '',
-                    url;
+                    url,canceller;
 
                 pageSize = pageSize ? '&pageSize=' + pageSize : '';
                 pageNo = pageNo ? '&pageNo=' + pageNo : '';
@@ -330,7 +334,10 @@ define(['angularAMD','common/services/vistoconfig_service', 'common/services/con
                 url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/creatives?' +
                     creativeFormats + queryStr + pageSize + pageNo;
 
-                return dataService.fetch(url);
+                canceller = requestCanceller.initCanceller(constants.CAMPAIGN_FILTER_CANCELLER);
+                return dataService.fetchCancelable(url, canceller, success, failure);
+
+              //  return dataService.fetch(url);
             },
 
             deleteCreatives:function(clientId,data){
