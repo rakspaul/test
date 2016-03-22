@@ -37,6 +37,9 @@
   top: 0;
   right: 0;
 }
+.searchInput .searchInputForm input {
+  border-width: 0px !important;
+}
 .searchInput.geography .input-group {
   display: block;
   width: 100%;
