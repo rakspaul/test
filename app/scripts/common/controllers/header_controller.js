@@ -15,22 +15,30 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
                 if (result && result.data.data.length > 0) {
                     var preferred_client = RoleBasedService.getUserData().preferred_client;
                     $scope.accountsData = [];
+
                     _.each(result.data.data, function (org) {
-                        if (org.children.length > 1) {
-                            $scope.multipleClient = true;
-                            _.each(org.children, function (eachObj) {
-                                $scope.accountsData.push({'id': eachObj.id, 'name': eachObj.name});
-                                if(eachObj.id === preferred_client && !loginModel.getSelectedClient()) {
-                                    loginModel.setSelectedClient({
-                                        'id': eachObj.id,
-                                        'name': eachObj.name
-                                    });
-                                }
-                            })
-                        } else {
-                            $scope.multipleClient = false;
+                        console.log('org',org);
+                        $scope.accountsData.push({'id': org.id, 'name': org.name});
+                        if(preferred_client !== undefined && org.id === preferred_client && !loginModel.getSelectedClient()) {
+                            loginModel.setSelectedClient({
+                                'id': org.id,
+                                'name': org.name
+                            });
                         }
-                    })
+                    });
+
+                    if(preferred_client == undefined && !loginModel.getSelectedClient()){
+                        loginModel.setSelectedClient({
+                            'id': result.data.data[0].id,
+                            'name': result.data.data[0].name
+                        });
+                    }
+
+                    if(result.data.data.length > 1) {
+                        $scope.multipleClient = true;
+                    } else {
+                        $scope.multipleClient = false;
+                    }
 
                     $scope.accountsData = _.sortBy($scope.accountsData, 'name');
 

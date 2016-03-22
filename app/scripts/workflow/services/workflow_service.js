@@ -48,6 +48,8 @@ define(['angularAMD','common/services/vistoconfig_service', 'common/services/con
                 return dataService.fetch(url, {cache: true});
             },
 
+          //  getSubAccounts
+
             getAdvertisers: function (accessLevel) {
                 var clientId =  loginModel.getSelectedClient().id;
                 var url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/advertisers';

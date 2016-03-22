@@ -1,4 +1,4 @@
-define(['angularAMD', '../../login/login_model', 'common/services/role_based_service', 'common/services/constants_service', 'reporting/timePeriod/time_period_directive'], function (angularAMD) {
+define(['angularAMD', '../../login/login_model', 'common/services/role_based_service', 'common/services/constants_service', 'reporting/timePeriod/time_period_directive','reporting/subAccount/sub_account_directive'], function (angularAMD) {
     angularAMD.factory("domainReports", ['loginModel', 'RoleBasedService', 'featuresService', function (loginModel, RoleBasedService, featuresService) {
 
         return {

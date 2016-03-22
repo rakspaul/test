@@ -520,27 +520,37 @@ define(['common'], function (angularAMD) {
                         brandsModel.enable();
                     }
 
+                    var clientId;
                     dataService.updateRequestHeader();
                     if ((loginModel.getAuthToken()) && (localStorage.getItem('selectedClient') === null || localStorage.getItem('selectedClient') == undefined )) {
                         var userObj = JSON.parse(localStorage.getItem("userObj"));
                         workflowService
                             .getClients()
                             .then(function (result) {
-                                if (result && result.data.data.length > 0) {
-                                    if(result.data.data[0].children && result.data.data[0].children.length >0 && userObj.preferred_client) {
-                                        var matchedClientsobj = _.find(result.data.data[0].children, function (obj) {
+                                if ((result && result.data.data.length > 0) && userObj.preferred_client) {
+
+                                        var matchedClientsobj = _.find(result.data.data, function (obj) {
                                             return obj.id === userObj.preferred_client
                                         });
+                                    if(matchedClientsobj !== undefined) {
+                                        clientId = matchedClientsobj.id;
                                         loginModel.setSelectedClient({
                                             'id': matchedClientsobj.id,
                                             'name': matchedClientsobj.name
                                         });
-                                         workflowService.getClientData(matchedClientsobj.id).then(function (response) {
+                                    } else {
+                                        clientId = result.data.data[0].id;
+                                        loginModel.setSelectedClient({
+                                            'id': result.data.data[0].id,
+                                            'name': result.data.data[0].name
+                                        });
+                                    }
+                                         workflowService.getClientData(clientId).then(function (response) {
                                                 console.log('appjs');
                                                 featuresService.setFeatureParams(response.data.data.features,'app');
                                          });
 
-                                    }
+                                  //  }
                                     if (locationPath === '/login' || locationPath === '/') {
                                         handleLoginRedirection();
                                     }
