@@ -1,4 +1,4 @@
-define(['angularAMD','reporting/advertiser/advertiser_model','common/utils','common/services/constants_service','login/login_model'],function (angularAMD) {
+define(['angularAMD','reporting/advertiser/advertiser_model','common/utils','common/services/constants_service','login/login_model', 'reporting/advertiser/advertiser_directive'],function (angularAMD) {
   angularAMD.controller('AdvertiserController', function ($scope, $rootScope, advertiserModel, utils,  constants, loginModel) {
 
         var search = false;
