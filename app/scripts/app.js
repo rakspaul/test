@@ -412,6 +412,23 @@ define(['common'], function (angularAMD) {
                 }
             }))
 
+            .when('/creative/:creativeId/edit', angularAMD.route({
+                templateUrl: assets.html_creative,
+                title: 'Edit Creative',
+                controller: 'CreativeController',
+                controllerUrl: 'workflow/controllers/creative_controller',
+                resolve: {
+                    'check': function ($location, RoleBasedService) {
+                        var isWorkflowUser =
+                            RoleBasedService.getClientRole() && RoleBasedService.getClientRole().workFlowUser;
+
+                        if (!isWorkflowUser) {
+                            $location.path('/');
+                        }
+                    }
+                }
+            }))
+
             .when('/creative/list', angularAMD.route({
                 templateUrl: assets.html_creative_list,
                 title: 'Creative List',

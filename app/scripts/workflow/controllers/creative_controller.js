@@ -19,7 +19,13 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
 
       $scope.creativeMode=workflowService.getCreativeEditMode();
       var processEditCreative=function(){
-          $scope.creativeEditData=workflowService.getCreativeEditData();
+          var creativeId=$routeParams.creativeId;
+          workflowService
+              .getCreativeData(creativeId)
+              .then(function (result) {
+                  if (result.status === "OK" || result.status === "success") {
+                      $scope.creativeEditData=result.data.data;
+          //$scope.creativeEditData=workflowService.getCreativeEditData();
           if($scope.creativeEditData){
               $scope.name=$scope.creativeEditData.name;
               $scope.advertiserName=$scope.creativeEditData.advertiser.name;
@@ -37,6 +43,11 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
               $scope.tag=$scope.creativeEditData.tag;
               $scope.adData.creativeSize=$scope.creativeEditData.size;
           }
+
+                  }else {
+                      console.log("No data Available to edit")
+                  }
+              })
       }
 
       $scope.data = {
@@ -504,7 +515,7 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
           $('#formatType').html('Select Format<span class="icon-arrow-down"></span>');
           $('#creativeSize').html('Select Size<span class="icon-arrow-down"></span>');
           $scope.$broadcast('show-errors-reset');
-          if ($location.path() === '/creative/add') {
+          if ($location.path() === '/creative/add'|| ($scope.creativeMode==="edit" && !$scope.adPage)) {
               $location.url('/creative/list');
           } else {
               $('.newCreativeSlide .popCreativeLib')
