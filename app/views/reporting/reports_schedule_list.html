@@ -3,20 +3,16 @@
 <popup-msg ng-show="flashMessage" ng-controller="popUpMsgCtr"
            ng-init="init('flashMessage','reportEditFailed')"></popup-msg>
 <!-- End of Message on top , if that is an error message add "red_msg" class to "top_message_box" container -->
-<div class="reports-scheduled-list">
-    <div class="scheduled-list-header">
-        <div class="clearfix" >
-            <h2 class="pull-left" ng-bind-html="textConstants.SCHEDULED_REPORTS"></h2>
-        </div>
-    </div>
-    <div id="searchList">
+<div class="reports-scheduled-list col-md-12 zeroPadding">
+    <h1 class="col-md-12 zeroPadding" style="margin: 30px 0 50px 0;" ng-bind-html="textConstants.SCHEDULED_REPORTS"></h1>
+    <div id="searchList" class="col-md-12 zeroPadding">
     <div class="col-md-12 zeroPadding btn_list_filters">
         <div class="btn-group" role="group" aria-label="...">
             <a role="button" class="btn btn-default" ng-click="reset_custom_report()" href="/customreport"><span class="icon-plus"></span><span data-ng-bind="textConstants.CREATE"></span></a>
         </div>
     <!--Search Input-->
         <div class="pull-right">
-            <div class="searchInput">
+            <div class="searchInput" style="border-top-right-radius: 0; border-bottom-right-radius: 0;">
                 <a class="btn btn-default searchInputBtn" ng-click="searchShowInput();filters.searchText=null">
                     <span class="icon-search" aria-hidden="true" style="margin: -1px 0 0 0;"></span>
                 </a>
@@ -30,14 +26,13 @@
 
             <div class="pull-right">
                 <button type="button" class="btn btn-default"
-                        data-toggle="collapse" data-target="#schedule_report_filter" style="height:36px;" data-ng-click="clickedOnFilterIcon()"><span class="icon-filter" style="margin: -1px 0 0 0;"></span></button>
+                        data-toggle="collapse" data-target="#schedule_report_filter" style="height:36px; border-top-left-radius: 0; border-bottom-left-radius: 0; border-left: 0;" data-ng-click="clickedOnFilterIcon()"><span class="icon-filter" style="margin: -1px 0 0 0;"></span></button>
                 <!-- attribute data-toogle="collapse"  attached to id="toggle-example"-->
             </div>
         </div>
         <div id="schedule_report_filter" class="collapse">
             <div class="container zeroPadding">
-                <div class="row zeroPadding">
-                   <hr style="margin-top:10px; margin-bottom:10px;">
+                <div class="row zeroPadding" style="margin-top:10px; margin-bottom:10px;">
                     <div class="col-md-2 zeroPadding" style="margin-right: -5px;">
                         <div class="col-md-12 zeroPadding dropdown-workflow">
                             <label  class="col-sm-12 greyTxt miniLabels ng-binding" data-ng-bind="textConstants.REPORT_TYPES"></label>
