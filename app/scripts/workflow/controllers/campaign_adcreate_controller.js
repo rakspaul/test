@@ -1531,13 +1531,15 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
         localStorage.setItem('campaignData', '');
         localStorage.removeItem('adPlatformCustomInputs');
 
-        campaignOverView.getCampaignData($routeParams.campaignId);
-        campaignOverView.fetchAdFormats();
-        campaignOverView.fetchGoals();
-        campaignOverView.fetchPrimaryKpis();
-        campaignOverView.fetchScreenType();
-        campaignOverView.fetchUnitTypes();
+      $(document).ready(function() {
+          campaignOverView.getCampaignData($routeParams.campaignId);
+          campaignOverView.fetchAdFormats();
+          campaignOverView.fetchGoals();
+          campaignOverView.fetchPrimaryKpis();
+          campaignOverView.fetchScreenType();
+          campaignOverView.fetchUnitTypes();
 
+      })
         // Switch BTN Animation
         $('.btn-toggle').click(function () {
             $(this).find('.btn').toggleClass('active');
@@ -1666,14 +1668,5 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                 $scope.updateCreativeData($scope.selectedArr);
             }
         };
-
-          $(document).ready(function() {
-              $('.input-daterange').datepicker({
-                  format: "mm/dd/yyyy",
-                  orientation: "top auto",
-                  autoclose: true,
-                  todayHighlight: true
-              });
-          });
     });
 });

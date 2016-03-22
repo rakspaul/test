@@ -1,4 +1,4 @@
-define(['angularAMD', 'common/services/constants_service', 'common/moment_utils', 'workflow/directives/ng_upload_hidden'], function (angularAMD) {
+define(['angularAMD', 'common/services/constants_service', 'common/moment_utils', 'workflow/directives/ng_upload_hidden', 'workflow/directives/custom_date_picker'], function (angularAMD) {
   angularAMD.controller('BudgetDeliveryController', function ($scope, constants, momentService,workflowService) {
 
 
@@ -155,11 +155,12 @@ define(['angularAMD', 'common/services/constants_service', 'common/moment_utils'
     };
 
     $scope.handleStartFlightDate = function (data) {
+      if(!$scope.workflowData.campaignData)   return;
       var endDateElem = $('#endDateInput'),
         startDateElem = $('#startDateInput'),
         startDate = data.startTime,
         endDate = data.endTime,
-        campaignEndTime = $scope.workflowData.campaignData && momentService.utcToLocalTime($scope.workflowData.campaignData.endTime),
+        campaignEndTime = momentService.utcToLocalTime($scope.workflowData.campaignData.endTime),
         changeDate,
         adsDate;
 
