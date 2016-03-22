@@ -21,6 +21,7 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
         $scope.campaignId = $routeParams.campaignId;
         $scope.loadCreativeData=false;
         $scope.deletePopup=false;
+        //$scope.creativeData.creatives_count=1;
 
         var winHeight = $(window).height();
         $(".common-load-more").css({
@@ -107,35 +108,64 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
 
         var creativeList = {
             getCreativesList: function (campaignId, formats, query,pageSize,pageNo) {
-                workflowService
-                    .getCreativesforCreativeList(campaignId, formats, query,pageSize,pageNo)
-                    .then(function (result) {
-                        if (result.status === 'OK' || result.status === 'success') {
-                            $scope.creativeListLoading = false;
-                            $scope.creativesNotFound = false;
-                            if($scope.creativeData['creatives'].length === 0 || query) {
-                                $scope.creativeData['creatives'] = result.data.data;
-                            } else {
-                                if(result.data.data &&result.data.data.length>0){
-                                    var alreadyFound=_.filter($scope.creativeData['creatives'], function (obj) {
-                                        return obj.id === result.data.data[0].id;
-                                    });
-                                    if(alreadyFound<=0){
-                                        _.each(result.data.data , function (obj) {
-                                            $scope.creativeData['creatives'].push(obj);
-                                        });
-                                    }
-                                }
-                                $scope.loadCreativeData=false;
+                workflowService.getCreativesforCreativeList(campaignId, formats, query,pageSize,pageNo, function (result) {
+                    $scope.creativeListLoading = false;
+                    $scope.creativesNotFound = false;
+                    if($scope.creativeData['creatives'].length === 0 || query) {
+                        $scope.creativeData['creatives'].length=0;
+                        $scope.creativeData['creatives'] = result.data.data;
+                    } else {
+                        if(result.data.data &&result.data.data.length>0){
+                            var alreadyFound=_.filter($scope.creativeData['creatives'], function (obj) {
+                                return obj.id === result.data.data[0].id;
+                            });
+                            if(alreadyFound<=0){
+                                _.each(result.data.data , function (obj) {
+                                    $scope.creativeData['creatives'].push(obj);
+                                });
                             }
-                            if(pageNo>=1){
-                                $scope.pageNo = Number(pageNo)+1;
-                            }
-                            $scope.creativeData.creatives_count += result.data.data.length;
-                        } else {
-                            creativeList.errorHandler();
                         }
-                    }, creativeList.errorHandler);
+                        $scope.loadCreativeData=false;
+                    }
+                    if(pageNo>=1){
+                        $scope.pageNo = Number(pageNo)+1;
+                    }
+                    $scope.creativeData.creatives_count += result.data.data.length;
+                }, function (error) {
+                    console.log('error');
+                });
+
+
+                //workflowService
+                //    .getCreativesforCreativeList(campaignId, formats, query,pageSize,pageNo)
+                //    .then(function (result) {
+                //        if (result.status === 'OK' || result.status === 'success') {
+                //            $scope.creativeListLoading = false;
+                //            $scope.creativesNotFound = false;
+                //            if($scope.creativeData['creatives'].length === 0 || query) {
+                //                $scope.creativeData['creatives'].length=0;
+                //                $scope.creativeData['creatives'] = result.data.data;
+                //            } else {
+                //                if(result.data.data &&result.data.data.length>0){
+                //                    var alreadyFound=_.filter($scope.creativeData['creatives'], function (obj) {
+                //                        return obj.id === result.data.data[0].id;
+                //                    });
+                //                    if(alreadyFound<=0){
+                //                        _.each(result.data.data , function (obj) {
+                //                            $scope.creativeData['creatives'].push(obj);
+                //                        });
+                //                    }
+                //                }
+                //                $scope.loadCreativeData=false;
+                //            }
+                //            if(pageNo>=1){
+                //                $scope.pageNo = Number(pageNo)+1;
+                //            }
+                //            $scope.creativeData.creatives_count += result.data.data.length;
+                //        } else {
+                //            creativeList.errorHandler();
+                //        }
+                //    }, creativeList.errorHandler);
             },
             getCreativeAds:function(creativeId,index){
                 workflowService
@@ -259,10 +289,10 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
             if (searchVal.length > 0) {
                 qryStr += 'query=' + searchVal;
             }
-            if(qryStr.length > 2){
+            if(searchVal.length > 2){
                 var selectedClientObj = localStorage.selectedClient && JSON.parse(localStorage.selectedClient);
                 creativeList.getCreativesList(JSON.parse(localStorage.selectedClient).id, undefined, qryStr);
-            }else if(qryStr.length==0){
+            }else if(searchVal.length==0){
                 var selectedClientObj = localStorage.selectedClient && JSON.parse(localStorage.selectedClient);
                 creativeList.getCreativesList(JSON.parse(localStorage.selectedClient).id,'', '',20, 1);
             }
@@ -363,7 +393,9 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
         $scope.ShowHideTag = function (obj, pos) {
             workflowService.setCreativeEditMode("edit");
             workflowService.setCreativeEditData(obj);
-            $location.url("/creative/add");
+            //$location.url("/creative/add");
+            $scope.$parent.isAddCreativePopup = true;
+            $location.url("/creative/"+obj.id+"/edit");
 
 
             //$scope.selectedCreativeData = obj;
