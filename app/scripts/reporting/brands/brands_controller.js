@@ -1,5 +1,5 @@
 define(['angularAMD','reporting/brands/brands_model','reporting/brands/brands_service','common/utils',
-                    'common/services/constants_service','login/login_model', 'reporting/advertiser/advertiser_model'],function (angularAMD) {
+                    'common/services/constants_service','login/login_model', 'reporting/advertiser/advertiser_model', 'reporting/brands/brands_directive'],function (angularAMD) {
   angularAMD.controller('BrandsController', function ($scope, $rootScope, brandsModel, brandsService, utils, constants, loginModel, advertiserModel) {
         var search = false;
         var searchCriteria = utils.typeaheadParams,
