@@ -1,5 +1,5 @@
 define(['angularAMD','common/services/constants_service','workflow/services/workflow_service', 'common/moment_utils', 'workflow/directives/custom_date_picker'],function (angularAMD) {
-  angularAMD.controller('CreateAdGroupsController', function($scope, $rootScope, $routeParams, $route, constants, workflowService, momentService) {
+  angularAMD.controller('CreateAdGroupsController', function($scope, $rootScope, $routeParams, $timeout, $route, constants, workflowService, momentService) {
         $scope.loadingBtn = false ;
         $scope.handleFlightDate = function (data) {
             var startTime = data,
@@ -74,5 +74,17 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
                     });
             }
         };
+
+      $(document).ready(function() {
+          $timeout(function() {
+              $('.input-daterange').datepicker({
+                  format: "mm/dd/yyyy",
+                  orientation: "top auto",
+                  autoclose: true,
+                  todayHighlight: true
+              });
+          }, 2000)
+
+      });
     });
 });
