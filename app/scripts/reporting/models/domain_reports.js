@@ -312,7 +312,7 @@ define(['angularAMD', '../../login/login_model', 'common/services/role_based_ser
         };
     }]);
 
-    angularAMD.directive('filtersHeader', ['$http', '$compile', 'constants', function ($http, $compile, constants) {
+    angularAMD.directive('filtersHeader', ['$http', '$compile', 'constants','loginModel', function ($http, $compile, constants,loginModel) {
         return {
             controller: function ($scope, $cookieStore, $location) {
             },
@@ -322,6 +322,11 @@ define(['angularAMD', '../../login/login_model', 'common/services/role_based_ser
                 scope.reportFilter = attrs.reports;
                 scope.textConstants = constants;
                 scope.allCampaign = attrs.allCampaign;
+                var masterClient = loginModel.getMasterClient();
+                scope.isLeafNode = true;
+                if(masterClient.isLeafNode == false) {
+                    scope.isLeafNode = false;
+                }
                 if (scope.allCampaign == "true" || scope.allCampaign == true) {
                     scope.selectedCampaign = {
                         id: 0,

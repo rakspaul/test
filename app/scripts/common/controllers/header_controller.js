@@ -17,30 +17,34 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
                     $scope.accountsData = [];
 
                     _.each(result.data.data, function (org) {
-                        console.log('org',org);
-                        $scope.accountsData.push({'id': org.id, 'name': org.name});
+                        $scope.accountsData.push({'id': org.id, 'name': org.name, 'isLeafNode':org.isLeafNode });
                         if(preferred_client !== undefined && org.id === preferred_client && !loginModel.getMasterClient()) {
-                            loginModel.setSelectedClient({
-                                'id': org.id,
-                                'name': org.name
-                            });
                             loginModel.setMasterClient({
                                 'id': org.id,
-                                'name': org.name
+                                'name': org.name,
+                                'isLeafNode':org.isLeafNode
                             });
-
+                            if(org.isLeafNode == true) {
+                                loginModel.setSelectedClient({
+                                    'id': org.id,
+                                    'name': org.name
+                                });
+                            }
                         }
                     });
 
-                    if(preferred_client == undefined && !loginModel.getMasterClient()){
-                        loginModel.setSelectedClient({
-                            'id': result.data.data[0].id,
-                            'name': result.data.data[0].name
-                        });
+                    if(preferred_client == 0 && !loginModel.getMasterClient()){
                         loginModel.setMasterClient({
                             'id': result.data.data[0].id,
-                            'name': result.data.data[0].name
+                            'name': result.data.data[0].name,
+                            'isLeafNode': result.data.data[0].isleafNode
                         });
+                        if(result.data.data[0].isleafNode == true) {
+                            loginModel.setSelectedClient({
+                                'id': result.data.data[0].id,
+                                'name': result.data.data[0].name
+                            });
+                        }
                     }
 
                     if(result.data.data.length > 1) {
@@ -102,7 +106,7 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
             $("#user-menu").show();
         }
 
-        $scope.set_account_name = function (event, id, name) {
+        $scope.set_account_name = function (event, id, name,isLeafNode) {
             var moduleObj = workflowService.getModuleInfo();
             if (moduleObj && moduleObj.moduleName === 'WORKFLOW') {
                 if (loginModel.getMasterClient().id !== id) {
@@ -120,8 +124,10 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
                             },
                             accountChangeAction: function () {
                                 return function () {
-                                   // loginModel.setSelectedClient({'id': id, 'name': name});
-                                    loginModel.setMasterClient({'id': id, 'name': name});
+                                    loginModel.setMasterClient({'id': id, 'name': name,'isLeafNode':isLeafNode});
+                                    if(isLeafNode) {
+                                        loginModel.setSelectedClient({'id': id, 'name': name});
+                                    }
                                     $scope.getClientData(id);
                                     showSelectedClient(event, name);
                                     $rootScope.clientName = name;
@@ -137,8 +143,10 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
                     });
                 }
             } else {
-               // loginModel.setSelectedClient({'id': id, 'name': name});
-                loginModel.setMasterClient({'id': id, 'name': name});
+                loginModel.setMasterClient({'id': id, 'name': name,'isLeafNode':isLeafNode});
+                if(isLeafNode) {
+                    loginModel.setSelectedClient({'id': id, 'name': name});
+                }
                 showSelectedClient(event, name);
                 $scope.getClientData(id);
                 $rootScope.clientName = name;

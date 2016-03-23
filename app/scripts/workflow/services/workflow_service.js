@@ -38,7 +38,6 @@ define(['angularAMD','common/services/vistoconfig_service', 'common/services/con
 
             getClients: function () {
                 var url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients';
-
                 return dataService.fetch(url, {cache: false});
             },
 

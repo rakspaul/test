@@ -527,34 +527,30 @@ define(['common'], function (angularAMD) {
                         workflowService
                             .getClients()
                             .then(function (result) {
-                                if ((result && result.data.data.length > 0) && userObj.preferred_client) {
+                                if ((result && result.data.data.length > 0)) {
 
                                         var matchedClientsobj = _.find(result.data.data, function (obj) {
                                             return obj.id === userObj.preferred_client
                                         });
                                     if(matchedClientsobj !== undefined) {
                                         clientId = matchedClientsobj.id;
-                                        loginModel.setSelectedClient({
-                                            'id': matchedClientsobj.id,
-                                            'name': matchedClientsobj.name
-                                        });
-                                        loginModel.setMasterClient({
-                                            'id': matchedClientsobj.id,
-                                            'name': matchedClientsobj.name
-                                        });
+
+                                        loginModel.setMasterClient({ 'id': matchedClientsobj.id, 'name': matchedClientsobj.name, 'isLeafNode':matchedClientsobj.isLeafNode });
+                                        if(matchedClientsobj.isLeafNode) {
+                                            loginModel.setSelectedClient({
+                                                'id': matchedClientsobj.id,
+                                                'name': matchedClientsobj.name
+                                            });
+                                        }
                                     } else {
                                         clientId = result.data.data[0].id;
-                                        loginModel.setSelectedClient({
-                                            'id': result.data.data[0].id,
-                                            'name': result.data.data[0].name
-                                        });
-                                        loginModel.setMasterClient({
-                                            'id': result.data.data[0].id,
-                                            'name': result.data.data[0].name
-                                        });
+                                        loginModel.setMasterClient({'id': result.data.data[0].id, 'name': result.data.data[0].name, 'isLeafNode': result.data.data[0].isLeafNode});
+                                        if(result.data.data[0].isLeafNode) {
+                                            loginModel.setSelectedClient({'id': result.data.data[0].id, 'name': result.data.data[0].name});
+                                        }
+
                                     }
                                          workflowService.getClientData(clientId).then(function (response) {
-                                                console.log('appjs');
                                                 featuresService.setFeatureParams(response.data.data.features,'app');
                                          });
 
