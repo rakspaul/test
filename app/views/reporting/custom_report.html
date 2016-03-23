@@ -34,7 +34,8 @@
             <div class="row">
                 <div class="col-md-4">
                     <div class="each_section_custom_report">
-                        <div class="create_report_title" ng-bind-html="textConstants.SELECT_DIMENTION"></div>
+                        <div class="create_report_title create_report_title_label" ng-bind-html="textConstants.SELECT_DIMENTION" ></div>
+                        <div ng-show="showPrimaryTxtBox" class="create_report_title create_report_title_label filter_input_txtbox" ng-bind-html="textConstants.ADD_KEYWORDS"  ></div>
                         <div>
                             <!-- Primary Dimension start -->
                             <div class="clearfix title_row_separator breakdown_div dimension_block">
