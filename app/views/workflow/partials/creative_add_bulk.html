@@ -1,80 +1,212 @@
-		<div class="col-md-12"> <!-- add some_file_uploaded to reduce the height whenever one file is uploaded -->
-
-			<h1>Bulk Creative Upload</h1>
-
-			<div class="col-md-12 creativeSizeData">What Creative Record Template will you be uploading?</div>
-        <form role="form" name="formCreativeCreate" id="formCreativeCreate" novalidate ng-submit="submitForm(formCreativeCreate)">
-
-            <div class="form-group col-md-12" show-errors style="clear: left;">
-                <label for="sel1" class="greyTxt" style="margin-top: 0;">Ad Server</label>
-                <div class="col-md-12 zeroPadding dropdown-workflow">
-                    <div class="dropdown">
-                        <button class="btn btn-default dropdown-toggle" id="creativeAdServer" type="button"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ng-disabled="pushedCount>0" ng-bind="selectedAdServer.name ? selectedAdServer.name: 'Select Ad Server'">
-                            <!--<span class="text" ng-bind="selectedAdServer.name ? selectedAdServer.name: 'Select Ad Server'"></span>-->
-                            <span class="icon-arrow-down"></span>
-                        </button>
-                        <ul class="dropdown-menu" aria-labelledby="sel1" id="sel1">
-                            <li class="available" ng-repeat="adServer in creativeAdServers track by adServer.id">
-                                <a ng-click="adServerSelected(adServer)">{{adServer.name}}</a>
-                            </li>
-                        </ul>
-                        <input class="form-control" ng-model="selectedAdServer.id" type="hidden" name="creativeAdServer" ng-update-hidden required/>
-                    </div>
+<div class="col-md-12 centerAlign" style="padding: 30px 0;"> <!-- add some_file_uploaded to reduce the height whenever one file is uploaded -->
+    <!--Bulk Ad Setup Starts-->
+    <form role="form" class="col-md-12 zeroPadding" name="formCreativeCreate" id="formCreativeCreate" novalidate ng-submit="submitForm(formCreativeCreate)">
+        <h1 class="pull-left" style="margin-top: 0;">Bulk Creative Upload</h1>
+        <h3 class="pull-left" style="font-family: 'Avenir-bold'; margin: 5px 0 0 60px;">File Chosen:</h3>
+        <h3 class="pull-left" style="margin: 5px 0 0 5px;">NameOfFileUploaded.csv</h3>
+        <a class="icon-clear pull-left" style="margin: 5px 0 0 5px;"></a><!--Removes File Chosen-->
+        <a class="btn btn-primary pull-right" ng-click="showSuccessBulkUpload();">Upload</a>
+        <a class="btn btn-link pull-right" ng-click="hideBulkSetup();">Cancel</a>
+        <h3 class="col-md-12 creativeSizeData zeroPadding">What Creative Record Template will you be uploading?</h3>
+    
+        <!--Ad Server DDL-->
+        <div class="form-group pull-left" show-errors>
+            <label for="sel1" class="greyTxt" style="margin-top: 0;">Ad Server</label>
+            <div class="col-md-12 zeroPadding dropdown-workflow">
+                <div class="dropdown">
+                    <button class="btn btn-default dropdown-toggle" id="creativeAdServer" type="button"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ng-disabled="pushedCount>0">
+                        <!--<span class="text" ng-bind="selectedAdServer.name ? selectedAdServer.name: 'Select Ad Server'"></span>-->
+                        <span>{{selectedAdServer.name ? selectedAdServer.name: 'Select Ad Server'}}</span>
+                        <span class="icon-arrow-down"></span>
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="sel1" id="sel1">
+                        <li class="available" ng-repeat="adServer in creativeAdServers track by adServer.id">
+                            <a ng-click="adServerSelected(adServer)">{{adServer.name}}</a>
+                        </li>
+                    </ul>
+                    <input class="form-control" ng-model="selectedAdServer.id" type="hidden" name="creativeAdServer" ng-update-hidden required/>
                 </div>
-                <label ng-if="formCreativeCreate.creativeAdServer.$error.required" class="col-sm-12 control-label greyTxt errorLabel" style="margin: 0;">Please select the Ad Server size.</label>
             </div>
-            <!--Ad format Type-->
-            <div class="form-group col-md-12 adFormatChkBox" style="margin-top: 20px;" show-errors>
-                <div class="col-md-12 greyTxt" data-ng-bind="textConstants.WF_AD_FORMAT"></div>
-                <div class="goalBtnWithPopup">
-                    <div class="btn-group goalBtnGroup zeroPadding"
-                         ng-class="{lastBtnGroup: $last, firstBtnGroup: $first}"
-                         ng-repeat="adformat in creativeSizeData.adFormats track by adformat.id">
-                        <label class="btn btn-primary {{adformat.active ? 'active' : '' }} {{(adformat.disabled) ? 'disabled' : '' }}"
-                               aria-disabled="{{(adformat.disabled) ? true : false }}">
-                            <input type="radio" value="{{adformat.name}}"class="btn_rad" ng-click="adFormatSelection(adformat.name)" ng-checked="adformat.active">
-                            <div class="hideRadioBtn" style="margin-top: -18px;">
-                                <div class="icon-{{getAdFormatIconName(adformat.name)}}"></div>
-                                <span data-ng-bind="adformat.name"></span>
-                            </div>
-
-                        </label>
-                    </div>
-                    <input class="form-control" type="hidden" name="creativeFormat" ng-model="creativeFormat"  ng-update-hidden  required/>
+            <label ng-if="formCreativeCreate.creativeAdServer.$error.required" class="col-sm-12 control-label greyTxt errorLabel" style="margin: 0;">Please select the Ad Server size.</label>
+        </div>
+        
+        <!--Channel-->
+        <div class="form-group pull-left" style="margin-left: 20px;">
+            <div class="col-md-12 greyTxt">Channel</div>
+            <div class="goalBtnWithPopup">
+                <div class="btn-group goalBtnGroup zeroPadding" ng-class="{lastBtnGroup: $last, firstBtnGroup: $first}">
+                    <label class="btn btn-primary first">
+                        <input type="radio" value="Display"class="btn_rad">
+                        <div class="hideRadioBtn" style="margin-top: -18px;">
+                            <div class="icon-image"></div>
+                            <span>Display</span>
+                        </div>
+                    </label>
+                    <label class="btn btn-primary">
+                        <input type="radio" value="Video"class="btn_rad">
+                        <div class="hideRadioBtn" style="margin-top: -18px;">
+                            <div class="icon-video"></div>
+                            <span>Video</span>
+                        </div>
+                    </label>
+                    <label class="btn btn-primary">
+                        <input type="radio" value="Rich Media"class="btn_rad">
+                        <div class="hideRadioBtn" style="margin-top: -18px;">
+                            <div class="icon-rich-media"></div>
+                            <span>Rich Media</span>
+                        </div>
+                    </label>
+                    <label class="btn btn-primary last">
+                        <input type="radio" value="Social"class="btn_rad">
+                        <div class="hideRadioBtn" style="margin-top: -18px;">
+                            <div class="icon-social"></div>
+                            <span>Social</span>
+                        </div>
+                    </label>
                 </div>
-                <label ng-if="formCreativeCreate.creativeFormat.$error.required" class="col-sm-12 control-label greyTxt errorLabel" style="margin: 0;">Please select the Ad Format.</label>
-
+                <input class="form-control" type="hidden" name="creativeFormat" ng-model="creativeFormat"  ng-update-hidden  required/>
             </div>
+            <label ng-if="formCreativeCreate.creativeFormat.$error.required" class="col-sm-12 control-label greyTxt errorLabel" style="margin: 0;">Please select the Ad Format.</label>
+        </div>
 
-            <div class="form-group col-md-12">
-                <label for="sel1" class="greyTxt">Creative Template</label>
-                <div class="col-md-12 zeroPadding dropdown-workflow">
-                    <div class="dropdown">
-                        <button class="btn btn-default dropdown-toggle" id="creativeTemplate" type="button"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ng-bind="CreativeTemplate ? CreativeTemplate.name:'Select Template'">
-                            <!--<span class="text" ng-bind="CreativeTemplate ? CreativeTemplate.name:'Select Template'"></span>-->
-                            <span class="icon-arrow-down"></span>
-                        </button>
-                        <ul class="dropdown-menu" aria-labelledby="sel1" id="sel1">
-                            <li style="padding-left:15px;" class="available" ng-repeat="template in creativeTemplates track by template.id">
-                                <a ng-click="onTemplateSelected(template)">{{template.name}}</a>
-                            </li>
-                        </ul>
-                        <input name="creativeTemplate" ng-model="adData.creativeTemplate" type="hidden"  ng-update-hidden/>
-                    </div>
+        <!--Creative Template DDL-->
+        <div class="form-group pull-left" style="margin-left: 20px;">
+            <label for="sel1" class="greyTxt">Creative Record Template (CRT)</label>
+            <div class="col-md-12 zeroPadding dropdown-workflow">
+                <div class="dropdown">
+                    <button class="btn btn-default dropdown-toggle" id="creativeTemplate" type="button"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <!--<span class="text" ng-bind="CreativeTemplate ? CreativeTemplate.name:'Select Template'"></span>-->
+                        <span>{{CreativeTemplate ? CreativeTemplate.name:'Select Template'}}</span>
+                        <span class="icon-arrow-down"></span>
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="sel1" id="sel1">
+                        <li style="padding-left:15px;" class="available" ng-repeat="template in creativeTemplates track by template.id">
+                            <a ng-click="onTemplateSelected(template)">{{template.name}}</a>
+                        </li>
+                    </ul>
+                    <input name="creativeTemplate" ng-model="adData.creativeTemplate" type="hidden"  ng-update-hidden/>
                 </div>
-                <!--<label ng-if="formCreativeCreate.creativeTemplate.$error.required" class="col-sm-12 control-label greyTxt errorLabel" style="margin: 0;">Please select the Ad Server size.</label>-->
+            </div>
+            <!--<label ng-if="formCreativeCreate.creativeTemplate.$error.required" class="col-sm-12 control-label greyTxt errorLabel" style="margin: 0;">Please select the Ad Server size.</label>-->
+        </div>
+        
+        <a class="pull-left" style="margin: 40px 0 0 20px;">
+            <span class="icon-download pull-left"></span>
+            <span class="pull-left" style="margin-left: 10px;">Download template</span>
+        </a>
+
+        <!--Drag & Drop-->
+        <div class="col-md-12 zeroPadding">
+            <div ng-show="!progress" ngf-drop ngf-select ng-model="files" ng-model-rejected="rejFiles" ngf-multiple="false" ngf-allow-dir="false" class="drop-box" ngf-drag-over-class="dragover" ngf-accept="'.xls,.xlsx'" ngf-max-size='10000000'>
+                <div class="file_upload_icon" >
+                    <span class="img_table_txt">
+                        Drag and drop your completed Creative Record Template or <a id="fileupload" href="javascript:void(0);" >Browse</a>
+                    </span>
+                </div>
             </div>
 
-            <div class="col-md-12">
-				<div ng-show="!progress" ngf-drop ngf-select ng-model="files" ng-model-rejected="rejFiles" ngf-multiple="false" ngf-allow-dir="false" class="drop-box" ngf-drag-over-class="dragover" ngf-accept="'.xls,.xlsx'" ngf-max-size='10000000'>
-		            <div class="file_upload_icon" >
-		      			<span class="img_table_txt">
-		      				Drag and drop your completed Creative Record Template or <a id="fileupload" href="javascript:void(0);" >Browse</a>
-		      			</span>
-		            </div>
-				</div>
-
-		  		<div ngf-no-file-drop>File Drag/Drop is not supported for this browser</div>
-		  	</div>
-		</div>
+            <div ngf-no-file-drop>File Drag/Drop is not supported for this browser</div>
+        </div>		
     </form>
+    <!--Bulk Ad Setup Ends-->
+    
+    <!--Successful View Starts-->
+    <div class="col-md-12 zeroPadding successfullBulkUpView">
+        <div class="icon-success pull-left" style="margin: 5px 5px 0 0; color: #4CC94A;"></div>
+        <h1 class="pull-left" style="margin-top: 0;">File upload successful</h1>
+        
+        <a class="btn btn-primary pull-right">Add Records</a>
+        <a class="btn btn-link pull-right" ng-click="hideBulkSetup();">Cancel</a>
+        
+        <div class="col-md-12 zeroPadding" style="margin-top: 30px;">
+            <!--View Records List-->
+            <h3 class="pull-left" style="margin: 10px 5px 10px 0;">7</h3>
+            <h3 class="pull-left" style="margin: 10px 5px 10px 0;">Creative Records are ready for upload</h3>
+            
+            <a class="pull-right showRecordList" ng-click="showRecordList();" style="margin-top: 10px;">
+                <span class="pull-left icon-plus"></span>
+                <span class="pull-left" style="margin-left: 5px;">View Records</span>
+            </a>
+            
+            <a class="pull-right hideRecordList" ng-click="showRecordList();" style="margin-top: 10px;">
+                <span class="pull-left icon-minus"></span>
+                <span class="pull-left" style="margin-left: 5px;">View Records</span>
+            </a>
+            
+            <div class="col-md-12 recordList">
+                <!--List Header-->
+                <div class="col-md-12 zeroPadding headerList">
+                    <span class="col-md-4 zeroPadding">Creative Names</span>
+                    <span class="col-md-3 zeroPadding">Account</span>
+                    <span class="col-md-2 zeroPadding">Advertiser</span>
+                    <span class="col-md-2 zeroPadding">Ad Server</span>
+                    <span class="col-md-1 zeroPadding">Type</span>
+                </div>
+                
+                <!--Examples Start Below For List-->
+                <div class="col-md-12 zeroPadding bodyList">
+                    <span class="col-md-4 zeroPadding">Cr1234-videoplay-promo17</span>
+                    <span class="col-md-3 zeroPadding">The Griffin Group</span>
+                    <span class="col-md-2 zeroPadding">Lickety Splitz</span>
+                    <span class="col-md-2 zeroPadding">Sizmek</span>
+                    <span class="col-md-1 zeroPadding">HTML</span>
+                </div>
+                <div class="col-md-12 zeroPadding bodyList">
+                    <span class="col-md-4 zeroPadding">Cr1234-videoplay-promo17</span>
+                    <span class="col-md-3 zeroPadding">The Griffin Group</span>
+                    <span class="col-md-2 zeroPadding">Lickety Splitz</span>
+                    <span class="col-md-2 zeroPadding">Sizmek</span>
+                    <span class="col-md-1 zeroPadding">HTML</span>
+                </div>
+                <div class="col-md-12 zeroPadding bodyList">
+                    <span class="col-md-4 zeroPadding">Cr1234-videoplay-promo17</span>
+                    <span class="col-md-3 zeroPadding">The Griffin Group</span>
+                    <span class="col-md-2 zeroPadding">Lickety Splitz</span>
+                    <span class="col-md-2 zeroPadding">Sizmek</span>
+                    <span class="col-md-1 zeroPadding">HTML</span>
+                </div>
+                <div class="col-md-12 zeroPadding bodyList">
+                    <span class="col-md-4 zeroPadding">Cr1234-videoplay-promo17</span>
+                    <span class="col-md-3 zeroPadding">The Griffin Group</span>
+                    <span class="col-md-2 zeroPadding">Lickety Splitz</span>
+                    <span class="col-md-2 zeroPadding">Sizmek</span>
+                    <span class="col-md-1 zeroPadding">HTML</span>
+                </div>
+                <div class="col-md-12 zeroPadding bodyList">
+                    <span class="col-md-4 zeroPadding">Cr1234-videoplay-promo17</span>
+                    <span class="col-md-3 zeroPadding">The Griffin Group</span>
+                    <span class="col-md-2 zeroPadding">Lickety Splitz</span>
+                    <span class="col-md-2 zeroPadding">Sizmek</span>
+                    <span class="col-md-1 zeroPadding">HTML</span>
+                </div>
+                <div class="col-md-12 zeroPadding bodyList">
+                    <span class="col-md-4 zeroPadding">Cr1234-videoplay-promo17</span>
+                    <span class="col-md-3 zeroPadding">The Griffin Group</span>
+                    <span class="col-md-2 zeroPadding">Lickety Splitz</span>
+                    <span class="col-md-2 zeroPadding">Sizmek</span>
+                    <span class="col-md-1 zeroPadding">HTML</span>
+                </div>
+                <div class="col-md-12 zeroPadding bodyList">
+                    <span class="col-md-4 zeroPadding">Cr1234-videoplay-promo17</span>
+                    <span class="col-md-3 zeroPadding">The Griffin Group</span>
+                    <span class="col-md-2 zeroPadding">Lickety Splitz</span>
+                    <span class="col-md-2 zeroPadding">Sizmek</span>
+                    <span class="col-md-1 zeroPadding">HTML</span>
+                </div>
+                <!--Examples Ends Here For List-->
+            </div>
+            
+            <hr class="col-md-12 zeroPadding">
+            
+            <!--Error Records List-->
+            <h3 class="pull-left" style="color: #F24444; margin: 10px 5px 10px 0;">10</h3>
+            <h3 class="pull-left" style="margin: 10px 5px 10px 0;">Creative Records missing required fields.</h3>
+            
+            <a class="pull-right" style="margin-top: 10px;">
+                <span class="pull-left icon-download"></span>
+                <span class="pull-left" style="margin-left: 5px;">Download Error Log</span>
+            </a>
+        </div>
+    </div>
+    <!--Successful View Ends-->
+</div>

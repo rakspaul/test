@@ -25,7 +25,8 @@ body {
 }
 .workflow ::-webkit-scrollbar,
 #user-menu ::-webkit-scrollbar,
-.vistoTable ::-webkit-scrollbar {
+.vistoTable ::-webkit-scrollbar,
+.recordList ::-webkit-scrollbar {
   display: none;
 }
 h1,
