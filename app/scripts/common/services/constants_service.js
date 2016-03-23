@@ -808,6 +808,7 @@ define(['angularAMD'], function(angularAMD) {
         this.OLDEST = 'Oldest';
         this.CREATEAD = 'Create Ad';
         this.CREATEADGRP = 'Create Ad Group';
+        this.SETADGRP = 'Ad Group Setup';
         this.NAMEADGROUP = 'What is the name of your Ad Group?';
         this.ADGROUPNAME = 'Ad Group Name';
         this.ENTERADGRP = 'Please enter a name for the ad group.';
