@@ -784,6 +784,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
             } else {
                 $scope.generateBtnDisabled = true;
                 $(".custom_report_filter").closest(".breakdown_div").find(".filter_input_txtbox").hide();
+                $(".each_section_custom_report").find(".filter_input_txtbox").hide();
             }
         }
 

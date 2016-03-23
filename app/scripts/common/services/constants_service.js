@@ -108,6 +108,7 @@ define(['angularAMD'], function(angularAMD) {
         this.COLLECTIVE_INSIGHTS = "Collective Insights";
         this.UPLOAD_REPORT = "Upload Report";
         this.REPORT_LABEL ='Report';
+        this.ADD_KEYWORDS ='Add Keywords (optional)';
         this.SELECT_DIMENTION ='Select Dimension(s)';
         this.ALL_TYPES ='All Types';
         this.AT_ANY_TIME ='At any time';
