@@ -356,7 +356,7 @@ define(['angularAMD','common/services/vistoconfig_service', 'common/services/con
             updateCreative: function (clientId, adId, id, data) {
                 clientId =  loginModel.getSelectedClient().id;
                 return dataService.put(
-                    vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/advertisers/' + adId + '/creatives/' + id,
+                    vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/advertisers/' + adId + '/creatives/' + id+'?forceSave=true',
                     data,
                     {'Content-Type': 'application/json'}
                 );
