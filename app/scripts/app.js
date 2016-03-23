@@ -553,7 +553,6 @@ define(['common'], function (angularAMD) {
                                          workflowService.getClientData(clientId).then(function (response) {
                                                 featuresService.setFeatureParams(response.data.data.features,'app');
                                          });
-
                                   //  }
                                     if (locationPath === '/login' || locationPath === '/') {
                                         handleLoginRedirection();

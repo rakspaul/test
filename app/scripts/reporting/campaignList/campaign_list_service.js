@@ -396,7 +396,6 @@ define(['angularAMD', 'common/services/data_service', 'common/utils', 'common/se
                                 campaign.campaignStrategies = campaignStrategies;
                                 campaign.campaignStrategiesLoadMore = data.slice(pageSize);
                             }
-
                         }
                     }
                 });
@@ -522,7 +521,6 @@ define(['angularAMD', 'common/services/data_service', 'common/utils', 'common/se
             };
 
             return {
-
                 getCampaigns: function (url, success, failure) {
                     var canceller = requestCanceller.initCanceller(constants.CAMPAIGN_LIST_CANCELLER);
                     return dataService.fetchCancelable(url, canceller, success, failure);

@@ -661,6 +661,7 @@ define(['angularAMD', 'workflow/services/workflow_service', 'workflow/services/f
             };
 
             $scope.showDomainListTypePopupCue = function (type, event) {
+console.log("$scope.workflowData.inventoryData = ", $scope.workflowData.inventoryData)
                 var domainListTypePopupCue = $('#domain-list-type-popup-cue');
                 if ($scope.workflowData.selectedBlackLists.length === 0 &&
                     $scope.workflowData.selectedWhiteLists.length === 0) {

@@ -592,13 +592,14 @@ define(['angularAMD','common/services/constants_service', 'common/services/role_
                 restrict: 'AE',
                 scope: {
                     txt: '@txt',
+                    txtHtml: '@txtHtml',
                     txtLength: '@txtlength',
                     lstCampaign: '='
                 },
-                template: '<span ng-show="(txt.length > txtLength)" tooltip-placement="top" tooltip="{{txt}}">' +
-                    '{{txt|limitTo:txtLength}} ...</span>' +
-                    '<span  class="campaign_name_txt" ng-show="(txt.length <= txtLength)">' +
-                    '{{txt}}</span>',
+                template: '<span ng-show="(txt.length > txtLength)" tooltip-placement="top" tooltip="{{txt}}" ' +
+                    'ng-bind-html="txtHtml|limitTo:txtLength  + \'...\'"></span>' +
+                    '<span  class="campaign_name_txt" ng-show="(txt.length <= txtLength)" ng-bind-html="txtHtml">' +
+                    '</span>',
                 link: function (scope, element, attrs, modelCtrl) {
                     element.on('click', function (event) {
                         campaignListService.setListCampaign(scope.lstCampaign);
