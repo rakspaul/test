@@ -43,7 +43,7 @@ define(['angularAMD','reporting/advertiser/advertiser_model','common/utils','com
             $("#profileDropdown").hide();
         };
 
-        $scope.disableShowAll = function () {
+        $scope.disableShowAll = function () { console.log('am called');
             $scope.advertiserData.showAll = false;
         };
 

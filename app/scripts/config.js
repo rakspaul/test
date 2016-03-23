@@ -125,3 +125,5 @@ assets.html_accounts_add_or_edit = '/views/workflow/partials/accounts_add_or_edi
 assets.html_change_account_warning = '/views/workflow/partials/change_account_warning.html';
 //Visto 2.0 Templates
 assets.html_dashboard_2 = '/views/visto2.0/dashboard.html';
+
+assets.html_sub_account_drop_down = '/views/reporting/sub_account_drop_down.html';
