@@ -770,6 +770,7 @@ define(['angularAMD'], function(angularAMD) {
         this.SIZE = 'Size';
         this.TAGNAME = 'Creative Name';
         this.TAGTYPE = 'Type';
+        this.ADSRVER = 'Adserver';
         this.SSL = 'SSL';
         this.YOUHAVENTADDED = 'You haven\'t added any Creative Tags for your Ad yet';
         this.COPY = 'Copy';
