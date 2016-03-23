@@ -23,6 +23,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         localStorage.setItem('campaignData', '');
         $scope.tags = [];
         $scope.loadingBtn = false;
+
         //$scope.moreThenThree = '';// not used
         $scope.campaignArchiveLoader = false;
         $scope.editCampaign = function (workflowcampaignData) {
@@ -498,6 +499,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
             }
         }
+       
 
         $scope.createIndependantAdsGroup = function () {
 
