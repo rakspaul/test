@@ -16,8 +16,13 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
       $scope.disableCancelSave = false;
       $scope.campaignId = $routeParams.campaignId;
       var validTag=false;
+      if($routeParams.creativeId){
+          $scope.isAddCreativePopup = true;
+          $scope.creativeMode="edit";
+      }else{
+          $scope.creativeMode="create";
+      }
 
-      $scope.creativeMode=workflowService.getCreativeEditMode();
       var processEditCreative=function(){
           var creativeId=$routeParams.creativeId;
           workflowService
@@ -198,7 +203,7 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
               $scope.getTemplates($scope.selectedAdServer,$scope.creativeFormat);
           }
 
-          /*function to get the possible templates in adCreate Page)*/ console.log("$scope.$parent.TrackingIntegrationsSelected:",$scope.$parent.TrackingIntegrationsSelected);
+          /*function to get the possible templates in adCreate Page)*/
           if($scope.adPage){
               $scope.getTemplates(adServer,$scope.creativeFormat,$scope.$parent.TrackingIntegrationsSelected);
           }
@@ -255,7 +260,6 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
 
       /*Generate the Template*/
       $scope.onTemplateSelected=function(templateJson,customFieldsDataEditMode){
-          console.log(templateJson);
           $scope.CreativeTemplate=templateJson;
           $scope.TrackingIntegrationsSelected=templateJson.isTracking;
           $scope.adData.creativeTemplate=templateJson.id;
@@ -349,7 +353,7 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
               //if ($scope.formCreativeCreate.$valid) {
                   //formElem = $('#formCreativeCreate');
                   var formDataObj = $("#formCreativeCreate").serializeArray();
-                  console.log("formDataObj",formDataObj)
+                  //console.log("formDataObj",formDataObj)
                   formData = _.object(_.pluck(formDataObj, 'name'), _.pluck(formDataObj, 'value'));
                   postCrDataObj = {};
                   postCrDataObj.name = formData.name;
@@ -403,14 +407,14 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
           pattern=new RegExp(/.*(https:).*/);
           tagLower = scriptTag.toLowerCase().replace(' ', '').replace(/(\r\n|\n|\r)/gm, '');
           if (tagLower.match(pattern)) {
-              if ((tagLower.indexOf('%%tracker%%') > -1)) {
+              //if ((tagLower.indexOf('%%tracker%%') > -1)) {
                   postCrDataObj.tag=scriptTag;
                   validTag=true;
-              } else {
-                  validTag=false;
-                  $scope.IncorrectTag = true;
-                  $scope.IncorrectTagMessage = $scope.textConstants.WF_INVALID_CREATIVE_TAG_TRACKER;
-              }
+              //} else {
+              //    validTag=false;
+              //    $scope.IncorrectTag = true;
+              //    $scope.IncorrectTagMessage = $scope.textConstants.WF_INVALID_CREATIVE_TAG_TRACKER;
+              //}
           }else {
               validTag=false;
               $scope.IncorrectTag = true;
