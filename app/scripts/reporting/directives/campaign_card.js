@@ -35,17 +35,22 @@ define(['angularAMD', '../../common/utils', 'common/services/constants_service',
                         }
 
                         function highlightLabelPill(text, phrase) {
-                            if (phrase) {
-                                if (text.toString().indexOf(phrase) >= 0) {
-                                    text = $sce.trustAsHtml('<mark class="brand_search_highlight">' + text + '</mark>');
+                            var tempText = text.toString();
+
+                            if (phrase && tempText.indexOf('</mark>') === -1) {
+                                if (tempText.indexOf(phrase) >= 0) {
+                                    tempText = $sce.trustAsHtml('<mark class="brand_search_highlight">' +
+                                        tempText + '</mark>');
                                 }
                             }
 
-                            return text;
+                            return tempText;
                         }
 
                         $scope.addHighlightClass = function (text, phrase) {
-                            return text.toString().indexOf(phrase) >= 0;
+                            var tempText = text.toString().toLowerCase();
+
+                            return tempText.indexOf(phrase) >= 0;
                         };
 
                         $scope.showReportsOverview = fparams[0].report_overview;
