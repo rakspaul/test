@@ -1819,3 +1819,8 @@ input.cmn-toggle-round:checked + label:after {
 tags-input .tags .tag-item {
   background: #edf2f8;
 }
+.cancel-grey-btn {
+  color: #57606d;
+  margin: 8px 10px 0 0;
+  cursor: pointer;
+}

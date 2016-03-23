@@ -1,7 +1,6 @@
 <div class="col-md-12 adGroup" ng-repeat="adGroupsData in workflowData.campaignGetAdGroupsData">
     <div class="adTitle" >
-
-        <div class="col-md-12 zeroPadding">
+        <div class="col-md-12 zeroPadding adgroupDiv" >
             <a class="collapseIcon" role="button" id="{{$index+1}}" href="" ng-click="ToggleAdGroups(this,adGroupsData.adGroup.id,$index+1, $event)">
                 <span class="icon-plus" ></span>
             </a>
@@ -22,12 +21,13 @@
                             aria-expanded="true">
                         <span class="icon-more-options"></span>
                     </button>
-                    <ul class="dropdown-menu" id="moreOptionsAdsGroup" style="right: 0; left: initial;">
-                        <li><a class="available" data-ng-bind="textConstants.EDIT"></a></li>
+                    <ul class="dropdown-menu" id="moreOptionsAdsGroup" style="right: 0; left: initial;" >
+                        <li edit-ad-group-section><a class="available" data-ng-bind="textConstants.EDIT"></a></li>
                         <li class="disabled"><a class="available" data-ng-bind="textConstants.WF_PAUSE"></a></li>
                         <li class="disabled"><a class="available" data-ng-bind="textConstants.WF_RESUME"></a></li>
                         <li class="disabled"><a class="available" data-ng-bind="textConstants.WF_ARCHIVE"></a></li>
                     </ul>
+
                 </div>
             </div>
 
@@ -85,6 +85,7 @@
 
             </div>
         </div>
+        <div class="editAdgroupDiv" ></div>
     </div>
 
     <div id="collapseAdGroup" ng-show="showHideToggle">
