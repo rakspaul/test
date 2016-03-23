@@ -9,8 +9,8 @@
             <h4 class="pull-left adGroupTxt adGroupTxtName" title="{{adGroupsData.adGroup.name}}" data-ng-bind="adGroupsData.adGroup.name"></h4>
 
             <div class="pillsWrap" >
-                <span class="labelPills" ng-if="adGroupsData.labels.length > 0">Tantei</span>
-                <span class="labelPills" ng-repeat="label in adGroupsData.labels">{{label}} Hannah</span>
+                <span class="labelPills" ng-if="adGroupsData.labels.length > 0"></span>
+                <span class="labelPills" ng-repeat="label in adGroupsData.labels" ng-bind="label"></span>
             </div>
 
             <div class="zeroPadding dropdown-workflow pull-right hideCollapse" style="position: absolute; right: 0;">
