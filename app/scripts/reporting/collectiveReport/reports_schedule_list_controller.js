@@ -23,7 +23,7 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
         $scope.textconstants = constants;
 
 
-        $('html').css('background', 'rgb(237, 242, 248)');
+
 
         $scope.clickedOnFilterIcon = function(){
             _curCtrl.isFilterExpanded = !_curCtrl.isFilterExpanded;
