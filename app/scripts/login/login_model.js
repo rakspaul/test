@@ -24,6 +24,14 @@ define(['angularAMD','../common/services/constants_service'], function (angularA
                 return constants.ROLE_MARKETER;
             },
 
+            setMasterClient: function (data) {
+                localStorage.setItem('masterClient', JSON.stringify(data));
+            },
+
+            getMasterClient: function (data) {
+                return localStorage.getItem('masterClient') && JSON.parse(localStorage.getItem('masterClient'));
+            },
+
             setSelectedClient: function (data) {
                 localStorage.setItem('selectedClient', JSON.stringify(data));
             },

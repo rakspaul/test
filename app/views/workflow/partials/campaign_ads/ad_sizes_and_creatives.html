@@ -38,8 +38,8 @@
             <thead>
                 <tr>
                     <th class="col-md-2" data-ng-bind="textConstants.SIZE"></th>
-                    <th class="col-md-6" data-ng-bind="textConstants.TAGNAME"></th>
-                    <th ng-if="!TrackingIntegrationsSelected" class="col-md-2" data-ng-bind="textConstants.TAGTYPE"></th>
+                    <th class="col-md-7" data-ng-bind="textConstants.TAGNAME"></th>
+                    <th class="col-md-4" data-ng-bind="textConstants.ADSRVER"></th>
                     <th class="col-md-1" data-ng-bind="textConstants.SSL"></th>
                     <th class="col-md-1"></th>
                 </tr>
@@ -52,10 +52,10 @@
                     <td class="col-md-2">
                         <span data-ng-bind="creativeData.size.size | lowercase"></span>
                     </td>
-                    <td class="col-md-6">
+                    <td class="col-md-7">
                         <a class="col-md-8"
                            href="javascript:void(0);"
-                           ng-click="TrackingIntegrationsSelected ? '': ShowHide(creativeData)"
+                           ng-click="creativeData.isTracking ? '': ShowHide(creativeData)"
                            data-ng-bind="creativeData.name"></a>
                         <!--<div style="width:350px;word-wrap:break-word;height:100px;">-->
                             <!--<div ng-show="IsVisible" class="ng-cloak">-->
@@ -63,9 +63,11 @@
                             <!--</div>-->
                         <!--</div>-->
                     </td>
-                    <td class="col-md-2" ng-if="!TrackingIntegrationsSelected">
-                        <span data-ng-bind="creativeData.creativeType"></span>
+                    <td class="col-md-4">
+                        <span> <img ng-if="(creativeData.adServer)" style="max-height: 35px;max-width: 70px;" ng-src="{{creativeData.adServer.iconURL}}"/> </span>
                     </td>
+
+
                     <td class="col-md-1">
                         <span class="common-ok" aria-hidden="true"></span>
                         <!-- glyphicon glyphicon-ok-circle -->

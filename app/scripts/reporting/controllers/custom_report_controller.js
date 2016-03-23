@@ -447,11 +447,11 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                 $scope.generateBtnDisabled = false;
                 _customctrl.isReportLastPage_1D = respData.last_page;
                 respData = respData.report_data;
-                if(localStorage['scheduleListReportType'] === "Saved" || $scope.buttonLabel == "Generate") {
-                    $('#reportBuilderForm').slideUp(600);
-                    $("#dynamicHeader").addClass("smaller");
-                }
                 if (respData && respData.length > 0) {
+                    if(localStorage['scheduleListReportType'] === "Saved" || $scope.buttonLabel == "Generate") {
+                        $('#reportBuilderForm').slideUp(600);
+                        $("#dynamicHeader").addClass("smaller");
+                    }
                     $scope.reportDataLoading = false;
                     $scope.reportDataNotFound = false;
                     if ($scope.isReportForMultiDimension) {
@@ -784,6 +784,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
             } else {
                 $scope.generateBtnDisabled = true;
                 $(".custom_report_filter").closest(".breakdown_div").find(".filter_input_txtbox").hide();
+                $(".each_section_custom_report").find(".filter_input_txtbox").hide();
             }
         }
 

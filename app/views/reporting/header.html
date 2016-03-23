@@ -73,7 +73,7 @@
                             <ul class="dropdown-menu">
                                 <div class="accountsList-dropdown-li">
                                     <li ng-repeat="eachaccount in accountsData" id="{{eachaccount.id}}"
-                                        ng-click="set_account_name($event,eachaccount.id,eachaccount.name);"
+                                        ng-click="set_account_name($event,eachaccount.id,eachaccount.name,eachaccount.isLeafNode);"
                                         ng-class="{'selected-li':defaultAccountsName == eachaccount.name}">
                                         <span ng-bind="eachaccount.name"></span>
                                     </li>

@@ -1061,6 +1061,9 @@ body {
 .campaign_details_page .campaigns_details_holder .total_campaign_list_holder .strategy_tactic_holder .each_campaign_list_container {
   margin-bottom: 0px ;
   padding-left: 10px ;
+  float: left;
+  width: 100%;
+  position: relative;
 }
 .campaign_details_page .campaigns_details_holder .total_campaign_list_holder .strategy_tactic_holder .each_campaign_list_container .strategy_heading {
   text-transform: uppercase;
@@ -1131,6 +1134,7 @@ body {
   width: 100%;
   height: 100%;
   float: left;
+  z-index: 99;
 }
 .campaign_details_page .campaigns_details_holder .total_campaign_list_holder .strategy_tactic_holder .tactics_container .tactics_linkage_lines_bar {
   height: 1px;

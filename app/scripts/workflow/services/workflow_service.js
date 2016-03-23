@@ -38,7 +38,6 @@ define(['angularAMD','common/services/vistoconfig_service', 'common/services/con
 
             getClients: function () {
                 var url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients';
-
                 return dataService.fetch(url, {cache: false});
             },
 
@@ -46,6 +45,12 @@ define(['angularAMD','common/services/vistoconfig_service', 'common/services/con
                 var url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId;
 
                 return dataService.fetch(url, {cache: true});
+            },
+
+            getSubAccounts: function(){
+                var clientId =  loginModel.getMasterClient().id;
+                var url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/descendants?level=last';
+                return dataService.fetch(url);
             },
 
             getAdvertisers: function (accessLevel) {
@@ -293,6 +298,10 @@ define(['angularAMD','common/services/vistoconfig_service', 'common/services/con
                     {'Content-Type': 'application/json'}
                 );
             },
+            getCreativeData:function(id){
+                var clientId =  loginModel.getSelectedClient().id;
+                return dataService.fetch(vistoconfig.apiPaths.WORKFLOW_API_URL  +'/clients/'+clientId+'/creatives/'+id);
+            },
 
             forceSaveCreatives: function (clientId, adId, data) {
                 clientId =  loginModel.getSelectedClient().id;
@@ -319,10 +328,10 @@ define(['angularAMD','common/services/vistoconfig_service', 'common/services/con
                 return dataService.fetch(url, cacheObj);
             },
 
-            getCreativesforCreativeList: function (clientId, formats, query, pageSize, pageNo) {
+            getCreativesforCreativeList: function (clientId, formats, query, pageSize, pageNo,success, failure) {
                 var queryStr = query ? query : '',
                     creativeFormats = formats ? 'creativeFormat=' + formats : '',
-                    url;
+                    url,canceller;
 
                 pageSize = pageSize ? '&pageSize=' + pageSize : '';
                 pageNo = pageNo ? '&pageNo=' + pageNo : '';
@@ -330,7 +339,10 @@ define(['angularAMD','common/services/vistoconfig_service', 'common/services/con
                 url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/creatives?' +
                     creativeFormats + queryStr + pageSize + pageNo;
 
-                return dataService.fetch(url);
+                canceller = requestCanceller.initCanceller(constants.CAMPAIGN_FILTER_CANCELLER);
+                return dataService.fetchCancelable(url, canceller, success, failure);
+
+              //  return dataService.fetch(url);
             },
 
             deleteCreatives:function(clientId,data){
@@ -349,7 +361,7 @@ define(['angularAMD','common/services/vistoconfig_service', 'common/services/con
             updateCreative: function (clientId, adId, id, data) {
                 clientId =  loginModel.getSelectedClient().id;
                 return dataService.put(
-                    vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/advertisers/' + adId + '/creatives/' + id,
+                    vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/advertisers/' + adId + '/creatives/' + id+'?forceSave=true',
                     data,
                     {'Content-Type': 'application/json'}
                 );

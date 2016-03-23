@@ -1,7 +1,8 @@
-define(['angularAMD','../../common/services/constants_service','workflow/services/workflow_service', 'common/moment_utils'],function (angularAMD) {
-  angularAMD.controller('CreateAdGroupsController', function($scope, $routeParams, $route, constants, workflowService, momentService) {
+define(['angularAMD','common/services/constants_service','workflow/services/workflow_service', 'common/moment_utils', 'workflow/directives/custom_date_picker'],function (angularAMD) {
+  angularAMD.controller('CreateAdGroupsController', function($scope, $rootScope, $routeParams, $route, constants, workflowService, momentService) {
         $scope.loadingBtn = false ;
-        $scope.handleFlightDate = function (data) {
+        $scope.$parent.handleFlightDate = function (data) {
+            if(!$scope.$parent.workflowData.campaignData) return;
             var startTime = data,
                 endDateElem = $('#adGrpEndDateInput'),
                 campaignEndTime = momentService.utcToLocalTime($scope.$parent.workflowData.campaignData.endTime),
@@ -21,7 +22,17 @@ define(['angularAMD','../../common/services/constants_service','workflow/service
             }
         };
 
-        $scope.createAdGroup = function (createNewAdGrp) {
+      function adGroupSaveErrorHandler (data) {
+          data = data || '' ;
+          $scope.downloadingTracker = false;
+          if(data && data.data && data.data.data.data[0]) {
+              var errMsg = _.values(data.data.data.data[0])[0];
+          }
+          $rootScope.setErrAlertMessage(errMsg);
+      }
+
+
+      $scope.createAdGroup = function (createNewAdGrp) {
             var formElem,
                 formData,
                 postCreateAdObj;
@@ -41,6 +52,7 @@ define(['angularAMD','../../common/services/constants_service','workflow/service
                 postCreateAdObj.deliveryBudget = formData.adIGroupBudget;
                 postCreateAdObj.labels = _.pluck($scope.tags, "label");
 
+
                 workflowService
                     .createAdGroups($routeParams.campaignId, postCreateAdObj)
                     .then(function (result) {
@@ -52,8 +64,13 @@ define(['angularAMD','../../common/services/constants_service','workflow/service
                             localStorage.setItem( 'topAlertMessage', $scope.textConstants.AD_GROUP_CREATED_SUCCESS );
                             $route.reload();
                         } else {
-                            $scope.createGroupMessage = !$scope.createGroupMessage;
-                            $scope.createAdGroupMessage = 'Ad Group not Created';
+                            $scope.loadingBtn = false ;
+                            if(result.status ==='error' && result.data.status === 400) {
+                                adGroupSaveErrorHandler(result);
+                            } else {
+                                $scope.createGroupMessage = !$scope.createGroupMessage;
+                                $scope.createAdGroupMessage = 'Ad Group not Created';
+                            }
                         }
                     });
             }

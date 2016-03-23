@@ -111,7 +111,10 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
 
                                     }
                                 } else {
-                                    $scope.initiateDatePicker();
+                                    $timeout(function() {
+                                        $scope.initiateDatePicker();
+                                    }, 2000)
+
                                 }
                             } else {
                                 campaignOverView.errorHandler(result);
@@ -1060,6 +1063,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
             workflowService.setCreativeEditData(null);
             $('#formCreativeCreate')[0].reset();
             $scope.isAddCreativePopup = true;
+            //$scope.$parent.isAddCreativePopup = true;
             // new call has to be made when platforms are changed hence seletion on new template. therefore broadcast to reset
             $scope.$broadcast('creativeAdserverTemplateReset');
 
@@ -1531,13 +1535,15 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
         localStorage.setItem('campaignData', '');
         localStorage.removeItem('adPlatformCustomInputs');
 
-        campaignOverView.getCampaignData($routeParams.campaignId);
-        campaignOverView.fetchAdFormats();
-        campaignOverView.fetchGoals();
-        campaignOverView.fetchPrimaryKpis();
-        campaignOverView.fetchScreenType();
-        campaignOverView.fetchUnitTypes();
+      $(document).ready(function() {
+          campaignOverView.getCampaignData($routeParams.campaignId);
+          campaignOverView.fetchAdFormats();
+          campaignOverView.fetchGoals();
+          campaignOverView.fetchPrimaryKpis();
+          campaignOverView.fetchScreenType();
+          campaignOverView.fetchUnitTypes();
 
+      })
         // Switch BTN Animation
         $('.btn-toggle').click(function () {
             $(this).find('.btn').toggleClass('active');
@@ -1577,7 +1583,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
 
             $(target).animate({'bottom': '0px'}, '10');
 
-            $scope.$broadcast('closeAddCreativePage');
+            //$scope.$broadcast('closeAddCreativePage');
             $scope.$broadcast('switchPlatformFunc');
         });
 

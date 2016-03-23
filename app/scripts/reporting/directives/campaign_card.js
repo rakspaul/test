@@ -35,10 +35,8 @@ define(['angularAMD', '../../common/utils', 'common/services/constants_service',
                         }
 
                         function highlightLabelPill(text, phrase) {
-                            console.log('highlightLabelPill: ' + text + ' ' + phrase);
                             if (phrase) {
                                 if (text.toString().indexOf(phrase) >= 0) {
-                                    console.log(text + ' ' + phrase);
                                     text = $sce.trustAsHtml('<mark class="brand_search_highlight">' + text + '</mark>');
                                 }
                             }

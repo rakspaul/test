@@ -3916,6 +3916,7 @@ only screen and (min-device-pixel-ratio: 2) {
       max-width: 1200px ;
       padding: 0 ;
       width: auto ;
+      margin-top:10px;
     }
     .timeframe_selector {
       padding: 0px ;
@@ -3941,6 +3942,13 @@ only screen and (min-device-pixel-ratio: 2) {
       font-size: 14px;
     }
     .each_section_custom_report {
+        .custom_report_filter{
+            margin-right: 11px;
+        }
+        .filter_input_txtbox{
+            max-width: 159px;
+        }
+
       margin: 0px 0 30px 0 ;
       .measurable_col_holder {
         float: none;
@@ -3987,6 +3995,16 @@ only screen and (min-device-pixel-ratio: 2) {
     }
     .create_report_title  {
       color: #000 ;
+        &.create_report_title{
+            display: inline-block;
+
+        }
+        &.create_report_title:nth-child(2){
+            display: inline-block;
+            margin-left: 11px;
+            color: #8A9098;
+
+        }
     }
     .custom_report_col_title {
       .external_chkbox {
