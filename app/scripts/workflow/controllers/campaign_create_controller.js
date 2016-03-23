@@ -538,7 +538,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                         $scope.enableDisableCalculationType();
                     }
                     if ($scope.editCampaignData.preferredPlatforms) {
-                        $scope.selectedKeywords = $scope.editCampaignData.preferredPlatforms['fullIntegrationsPlatforms'];
+                        $scope.selectedKeywords = $scope.editCampaignData.preferredPlatforms;
                     }
 
                     $scope.initiateDatePicker();
