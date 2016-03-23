@@ -1299,6 +1299,9 @@ input[type="submit"] {
   border: 1px solid #BFC9D7;
   border-radius: 3px;
 }
+.dashboard_outer_container .total_campaign_list_holder .each_campaign_list_container .pillsWrap .brand_search_highlight {
+  background: yellow;
+}
 .dashboard_outer_container .total_campaign_list_holder .each_campaign_list_container .campaign_section_KPI {
   float: right;
 }

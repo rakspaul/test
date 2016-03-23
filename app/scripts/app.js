@@ -518,10 +518,9 @@ define(['common'], function (angularAMD) {
                                             'id': matchedClientsobj.id,
                                             'name': matchedClientsobj.name
                                         });
-                                         workflowService.getClientData(matchedClientsobj.id).then(function (response) {
-                                                console.log('appjs');
-                                                featuresService.setFeatureParams(response.data.data.features,'app');
-                                         });
+                                        workflowService.getClientData(matchedClientsobj.id).then(function (response) {
+                                            featuresService.setFeatureParams(response.data.data.features,'app');
+                                        });
 
                                     }
                                     if (locationPath === '/login' || locationPath === '/') {
