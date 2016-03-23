@@ -486,7 +486,7 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
             .end()
             .find('#creative_nav_link')
             .addClass('active');
-        $('html').css('background', '#EDF2F8');
+       
 
 
         //Search Hide / Show
