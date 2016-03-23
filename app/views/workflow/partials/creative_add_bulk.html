@@ -1,0 +1,80 @@
+		<div class="col-md-12"> <!-- add some_file_uploaded to reduce the height whenever one file is uploaded -->
+
+			<h1>Bulk Creative Upload</h1>
+
+			<div class="col-md-12 creativeSizeData">What Creative Record Template will you be uploading?</div>
+        <form role="form" name="formCreativeCreate" id="formCreativeCreate" novalidate ng-submit="submitForm(formCreativeCreate)">
+
+            <div class="form-group col-md-12" show-errors style="clear: left;">
+                <label for="sel1" class="greyTxt" style="margin-top: 0;">Ad Server</label>
+                <div class="col-md-12 zeroPadding dropdown-workflow">
+                    <div class="dropdown">
+                        <button class="btn btn-default dropdown-toggle" id="creativeAdServer" type="button"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ng-disabled="pushedCount>0" ng-bind="selectedAdServer.name ? selectedAdServer.name: 'Select Ad Server'">
+                            <!--<span class="text" ng-bind="selectedAdServer.name ? selectedAdServer.name: 'Select Ad Server'"></span>-->
+                            <span class="icon-arrow-down"></span>
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="sel1" id="sel1">
+                            <li class="available" ng-repeat="adServer in creativeAdServers track by adServer.id">
+                                <a ng-click="adServerSelected(adServer)">{{adServer.name}}</a>
+                            </li>
+                        </ul>
+                        <input class="form-control" ng-model="selectedAdServer.id" type="hidden" name="creativeAdServer" ng-update-hidden required/>
+                    </div>
+                </div>
+                <label ng-if="formCreativeCreate.creativeAdServer.$error.required" class="col-sm-12 control-label greyTxt errorLabel" style="margin: 0;">Please select the Ad Server size.</label>
+            </div>
+            <!--Ad format Type-->
+            <div class="form-group col-md-12 adFormatChkBox" style="margin-top: 20px;" show-errors>
+                <div class="col-md-12 greyTxt" data-ng-bind="textConstants.WF_AD_FORMAT"></div>
+                <div class="goalBtnWithPopup">
+                    <div class="btn-group goalBtnGroup zeroPadding"
+                         ng-class="{lastBtnGroup: $last, firstBtnGroup: $first}"
+                         ng-repeat="adformat in creativeSizeData.adFormats track by adformat.id">
+                        <label class="btn btn-primary {{adformat.active ? 'active' : '' }} {{(adformat.disabled) ? 'disabled' : '' }}"
+                               aria-disabled="{{(adformat.disabled) ? true : false }}">
+                            <input type="radio" value="{{adformat.name}}"class="btn_rad" ng-click="adFormatSelection(adformat.name)" ng-checked="adformat.active">
+                            <div class="hideRadioBtn" style="margin-top: -18px;">
+                                <div class="icon-{{getAdFormatIconName(adformat.name)}}"></div>
+                                <span data-ng-bind="adformat.name"></span>
+                            </div>
+
+                        </label>
+                    </div>
+                    <input class="form-control" type="hidden" name="creativeFormat" ng-model="creativeFormat"  ng-update-hidden  required/>
+                </div>
+                <label ng-if="formCreativeCreate.creativeFormat.$error.required" class="col-sm-12 control-label greyTxt errorLabel" style="margin: 0;">Please select the Ad Format.</label>
+
+            </div>
+
+            <div class="form-group col-md-12">
+                <label for="sel1" class="greyTxt">Creative Template</label>
+                <div class="col-md-12 zeroPadding dropdown-workflow">
+                    <div class="dropdown">
+                        <button class="btn btn-default dropdown-toggle" id="creativeTemplate" type="button"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ng-bind="CreativeTemplate ? CreativeTemplate.name:'Select Template'">
+                            <!--<span class="text" ng-bind="CreativeTemplate ? CreativeTemplate.name:'Select Template'"></span>-->
+                            <span class="icon-arrow-down"></span>
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="sel1" id="sel1">
+                            <li style="padding-left:15px;" class="available" ng-repeat="template in creativeTemplates track by template.id">
+                                <a ng-click="onTemplateSelected(template)">{{template.name}}</a>
+                            </li>
+                        </ul>
+                        <input name="creativeTemplate" ng-model="adData.creativeTemplate" type="hidden"  ng-update-hidden/>
+                    </div>
+                </div>
+                <!--<label ng-if="formCreativeCreate.creativeTemplate.$error.required" class="col-sm-12 control-label greyTxt errorLabel" style="margin: 0;">Please select the Ad Server size.</label>-->
+            </div>
+
+            <div class="col-md-12">
+				<div ng-show="!progress" ngf-drop ngf-select ng-model="files" ng-model-rejected="rejFiles" ngf-multiple="false" ngf-allow-dir="false" class="drop-box" ngf-drag-over-class="dragover" ngf-accept="'.xls,.xlsx'" ngf-max-size='10000000'>
+		            <div class="file_upload_icon" >
+		      			<span class="img_table_txt">
+		      				Drag and drop your completed Creative Record Template or <a id="fileupload" href="javascript:void(0);" >Browse</a>
+		      			</span>
+		            </div>
+				</div>
+
+		  		<div ngf-no-file-drop>File Drag/Drop is not supported for this browser</div>
+		  	</div>
+		</div>
+    </form>

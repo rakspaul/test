@@ -17,12 +17,20 @@
 			<h1 class="col-md-12 zeroPadding" style="margin: 17px 0 25px" data-ng-bind="textConstants.CREATIVELIBRARY"></h1>
 		</div>
 
+		<div class="col-md-12 file_upload_container"
+		     id="file_upload_container_a"
+		     ng-include="'/views/workflow/partials/creative_add_bulk.html'"
+		     ng-controller="CreativeController"
+		     ng-show="displayBulkCreateSection">
+		</div>
+
 		<div class="col-md-12 zeroPadding btn_list_filters">
 			<div class="btn-group create" role="group" aria-label="...">
-				<a  role="button" class="btn btn-default" ng-click="creativeCreate();"><span class="icon-plus"></span><span data-ng-bind="textConstants.CREATE"></span></a>
+				<a role="button" class="btn btn-default" ng-click="creativeCreate();"><span class="icon-plus"></span><span data-ng-bind="textConstants.CREATE"></span></a>
 				<button type="button" class="btn btn-default" style="display: none"><span class="icon-inline-edit"></span><span data-ng-bind="textConstants.EDIT"></span></button>
 				<button type="button" class="btn btn-default" ng-click="cancelDelete();"><span class="icon-archive"></span><span data-ng-bind="textConstants.ARCHIVE"></span></button>
 				<button type="button" class="btn btn-default" disabled="true"><span class="icon-copy"></span><span data-ng-bind="textConstants.CLONE"></span></button>
+				<a role="button" class="btn btn-default" ng-click="showBulkCreateSection();"><span class="icon-plus"></span><span data-ng-bind="textConstants.BULK_UPLOAD"></span></a>
 				<div class="btn btn-default zeroPadding dropdown-workflow pull-left" style="display: none">
 					<div class="dropdown">
 						<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">

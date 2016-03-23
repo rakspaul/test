@@ -455,6 +455,7 @@ define(['angularAMD'], function(angularAMD) {
         this.WF_CREATE_CAMPAIGN = 'Media Plan Setup';
         this.UPLOAD_TEMPLATE = 'Upload Template';
         this.CREATE = 'Create';
+        this.BULK_UPLOAD = 'Bulk Upload';
         this.WF_SETTINGS = 'Settings';
         this.ACCOUNT = 'Account';
         this.WF_BRAND = 'Brands';

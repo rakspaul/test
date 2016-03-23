@@ -1,5 +1,12 @@
+<<<<<<< 08d7ae6cadd526035f00d3801249a7b8b3c1cefb
 define(['angularAMD','common/services/constants_service','workflow/services/workflow_service','common/moment_utils'],function (angularAMD) {
     angularAMD.controller('CreativeListController', function($scope, $rootScope, $routeParams, $route, $location,constants, domainReports, workflowService,momentService) {
+=======
+define(['angularAMD','common/services/constants_service','workflow/services/workflow_service',
+    'common/moment_utils', 'workflow/controllers/creative_controller'], function (angularAMD) {
+  angularAMD.controller('CreativeListController', function($scope, $rootScope, $routeParams, $route, $location, 
+    constants, workflowService, momentService) {
+>>>>>>> Creative bulk upload UI changes #CW-3068
         var checkedCreativeArr=[];
         $scope.creativeAds={};
         $scope.creativeAds['creativeAdData'] = {};
@@ -391,6 +398,13 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
             workflowService.setCreativeEditMode("create");
             workflowService.setCreativeEditData(null);
             $location.url("/creative/add");
+
+        $scope.createCreativeInBulk = function() {
+            $location.url("/creative/add/bulk");
+        };
+
+        $scope.showBulkCreateSection = function() {
+            $scope.displayBulkCreateSection = !$scope.displayBulkCreateSection
         }
 
         $scope.ShowHideTag = function (obj, pos) {
