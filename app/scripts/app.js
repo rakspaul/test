@@ -538,9 +538,17 @@ define(['common'], function (angularAMD) {
                                             'id': matchedClientsobj.id,
                                             'name': matchedClientsobj.name
                                         });
+                                        loginModel.setMasterClient({
+                                            'id': matchedClientsobj.id,
+                                            'name': matchedClientsobj.name
+                                        });
                                     } else {
                                         clientId = result.data.data[0].id;
                                         loginModel.setSelectedClient({
+                                            'id': result.data.data[0].id,
+                                            'name': result.data.data[0].name
+                                        });
+                                        loginModel.setMasterClient({
                                             'id': result.data.data[0].id,
                                             'name': result.data.data[0].name
                                         });

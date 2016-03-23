@@ -19,16 +19,25 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
                     _.each(result.data.data, function (org) {
                         console.log('org',org);
                         $scope.accountsData.push({'id': org.id, 'name': org.name});
-                        if(preferred_client !== undefined && org.id === preferred_client && !loginModel.getSelectedClient()) {
+                        if(preferred_client !== undefined && org.id === preferred_client && !loginModel.getMasterClient()) {
                             loginModel.setSelectedClient({
                                 'id': org.id,
                                 'name': org.name
                             });
+                            loginModel.setMasterClient({
+                                'id': org.id,
+                                'name': org.name
+                            });
+
                         }
                     });
 
-                    if(preferred_client == undefined && !loginModel.getSelectedClient()){
+                    if(preferred_client == undefined && !loginModel.getMasterClient()){
                         loginModel.setSelectedClient({
+                            'id': result.data.data[0].id,
+                            'name': result.data.data[0].name
+                        });
+                        loginModel.setMasterClient({
                             'id': result.data.data[0].id,
                             'name': result.data.data[0].name
                         });
@@ -42,8 +51,8 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
 
                     $scope.accountsData = _.sortBy($scope.accountsData, 'name');
 
-                    if (loginModel.getSelectedClient() && loginModel.getSelectedClient().name) {
-                        $scope.defaultAccountsName = loginModel.getSelectedClient().name;
+                    if (loginModel.getMasterClient() && loginModel.getMasterClient().name) {
+                        $scope.defaultAccountsName = loginModel.getMasterClient().name;
                     } else {
                         $scope.defaultAccountsName = $scope.accountsData[0].name;
                     }
@@ -57,8 +66,8 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
                     }
 
                     var clientId;
-                    if (loginModel.getSelectedClient() && loginModel.getSelectedClient().id) {
-                        clientId = loginModel.getSelectedClient().id;
+                    if (loginModel.getMasterClient() && loginModel.getMasterClient().id) {
+                        clientId = loginModel.getMasterClient().id;
                     } else {
                         clientId = $scope.accountsData[0].id;
                     }
@@ -96,7 +105,7 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
         $scope.set_account_name = function (event, id, name) {
             var moduleObj = workflowService.getModuleInfo();
             if (moduleObj && moduleObj.moduleName === 'WORKFLOW') {
-                if (loginModel.getSelectedClient().id !== id) {
+                if (loginModel.getMasterClient().id !== id) {
                     var $modalInstance = $modal.open({
                         templateUrl: assets.html_change_account_warning,
                         controller: "AccountChangeController",
@@ -111,7 +120,8 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
                             },
                             accountChangeAction: function () {
                                 return function () {
-                                    loginModel.setSelectedClient({'id': id, 'name': name});
+                                   // loginModel.setSelectedClient({'id': id, 'name': name});
+                                    loginModel.setMasterClient({'id': id, 'name': name});
                                     $scope.getClientData(id);
                                     showSelectedClient(event, name);
                                     $rootScope.clientName = name;
@@ -127,7 +137,8 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
                     });
                 }
             } else {
-                loginModel.setSelectedClient({'id': id, 'name': name});
+               // loginModel.setSelectedClient({'id': id, 'name': name});
+                loginModel.setMasterClient({'id': id, 'name': name});
                 showSelectedClient(event, name);
                 $scope.getClientData(id);
                 $rootScope.clientName = name;
@@ -219,6 +230,7 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
                     cdbDropdownId = $("#cdbDropdown"),
                     brandsListId = $("#brandsList"),
                     advertisersDropDownList = $("#advertisersDropDownList"),
+                    subAccountDropDownList = $("#subAccountDropDownList"),
                     profileDropdownId = $("#profileDropdown"),
                     campObjId = $("#campObj"),
                     mainNavDropdown = $(".main_nav_dropdown"),
@@ -237,6 +249,11 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
                 if (advertisersDropDownList.is(':visible') && event.target.id != "advertiser_name_selected" && event.target.id != "advertisersDropdown") {
                     advertisersDropDownList.closest(".each_filter").removeClass("filter_dropdown_open");
                     advertisersDropDownList.hide();
+                }
+
+                if (subAccountDropDownList.is(':visible') && event.target.id != "sub_account_name_selected" && event.target.id != "subAccountDropdown") {
+                    subAccountDropDownList.closest(".each_filter").removeClass("filter_dropdown_open");
+                    subAccountDropDownList.hide();
                 }
 
                 if (profileDropdownId.is(':visible') && event.target.id != "profileItem") {

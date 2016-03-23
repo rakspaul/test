@@ -23,11 +23,11 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
             $scope.fetchStrategies();// fetch strategies
         });
 
-        $scope.reset= function(){
+        $scope.reset= function(){ console.log('reset');
             strategySelectModel.reset();// clean up models
             $scope.strategyData.strategies = strategySelectModel.getStrategyObj().strategies ;
             $scope.strategyData.selectedStrategy = strategySelectModel.getStrategyObj().selectedStrategy ;
-            $scope.$watch(function(scope) { return $scope.strategyData.selectedStrategy });
+            $scope.$watch(function(scope) { console.log('watch');return $scope.strategyData.selectedStrategy });
         };
         $scope.add_active_to_strategy = function() {
             $(".dropdown_type1_holder").removeClass("active");
