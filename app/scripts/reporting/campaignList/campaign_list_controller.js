@@ -33,12 +33,11 @@ define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', 'reporting/campaig
                 };
                 enableFeaturePermission();
 
-                // NOT USED
-                /*var featuredFeatures = $rootScope.$on('features', function () {
+                var featuredFeatures = $rootScope.$on('features', function () {
                     var fparams = featuresService.getFeatureParams();
                     $scope.showPerformanceTab = fparams[0].performance;
                     enableFeaturePermission();
-                });*/
+                });
 
                 $scope.campaigns = new campaignListModel();
                 $scope.sortReverse = false;
