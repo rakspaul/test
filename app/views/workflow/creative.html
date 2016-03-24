@@ -31,7 +31,7 @@
                     <div class="col-md-12" style="margin-top: 10px;" ng-show="savingCreative">
                         <div class="common-loading-area"></div>
                     </div>
-					<button type="submit" class="btn btn-primary pull-right" ng-disabled="disableCancelSave || savingCreative" id="saveCreative" > Save Creative</button>
+					<button type="submit" class="btn btn-primary pull-right" ng-disabled="savingCreative" id="saveCreative" > Save Creative</button>
                     <a class="btn btn-link pull-right" role="button" ng-disabled="disableCancelSave" ng-click="cancelBtn()"> Cancel</a>
                 </div>
                 <!--<div class="col-md-12 zeroPadding clearfix nav_filters">-->
@@ -52,7 +52,7 @@
                             <label for="advertiserDDL" class="col-sm-12  greyTxt miniLabels" style="margin: 0;">{{ textConstants.ADVERTISERS }}</label>
                             <div class="col-md-12 zeroPadding dropdown-workflow">
                                 <div class="dropdown">
-                                    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ng-disabled="adPage || (pushedCount>0)">
+                                    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ng-disabled="adPage || (pushedCount>0) || (associatedAdCount>0)">
                                         <span class="text">{{advertiserName ? advertiserName : 'Select Advertiser' }}</span>
                                         <!--<span class="text" ng-if="mode == 'edit'">{{mode == 'edit' ? editCampaignData.advertiserName : 'Select Advertiser' }}</span>-->
                                         <span class="icon-arrow-down"></span>
@@ -86,7 +86,7 @@
                         <label for="sel1" class="greyTxt" style="margin-top: 0;">Ad Server</label>
                         <div class="col-md-12 zeroPadding dropdown-workflow">
                             <div class="dropdown">
-                                <button class="btn btn-default dropdown-toggle" id="creativeAdServer" type="button"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ng-disabled="pushedCount>0" ng-bind="selectedAdServer.name ? selectedAdServer.name: 'Select Ad Server'">
+                                <button class="btn btn-default dropdown-toggle" id="creativeAdServer" type="button"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ng-disabled="(pushedCount>0) || (associatedAdCount>0)" ng-bind="selectedAdServer.name ? selectedAdServer.name: 'Select Ad Server'">
                                     <!--<span class="text" ng-bind="selectedAdServer.name ? selectedAdServer.name: 'Select Ad Server'"></span>-->
                                     <span class="icon-arrow-down"></span>
                                 </button>
@@ -129,7 +129,7 @@
                         <label for="sel1" class="greyTxt">Creative Template</label>
                         <div class="col-md-12 zeroPadding dropdown-workflow">
                             <div class="dropdown">
-                                <button class="btn btn-default dropdown-toggle" id="creativeTemplate" type="button"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ng-bind="CreativeTemplate ? CreativeTemplate.name:'Select Template'">
+                                <button class="btn btn-default dropdown-toggle" id="creativeTemplate" type="button"  data-toggle="dropdown" aria-haspopup="true" ng-disabled="pushedCount>0" aria-expanded="true" ng-bind="CreativeTemplate ? CreativeTemplate.name:'Select Template'">
                                     <!--<span class="text" ng-bind="CreativeTemplate ? CreativeTemplate.name:'Select Template'"></span>-->
                                     <span class="icon-arrow-down"></span>
                                 </button>
