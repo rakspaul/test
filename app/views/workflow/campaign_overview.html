@@ -236,9 +236,9 @@
                         <div class="btnCreateGroup" ng-click="groupIndividualAds()">
                             <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Create Ad Group
                         </div>
-                        
+
                         <!--Start of group individual ads into groups-->
-                        <div class="col-md-12 adGroupCreate" ng-show="showIndividualAds">
+                        <div class="col-md-12 adGroupCreate" ng-if="showIndividualAds">
                             <form id="createIndependantAdsGrp" name="createIndependantAdsGrp"  novalidate>
                                 <div class="adGroupCreateForm">
                                     <h1 class="col-md-12 zeroPadding" data-ng-bind="textConstants.CREATEADGRP"></h1>
@@ -272,19 +272,23 @@
                                             </tags-input>
                                         </div>
                                     </div>
-
                                     <div class="col-md-12 zeroPadding">
                                         <label for="budgetIndividualAdGroup" class="col-sm-12 control-label labelQuestTxt">What's the maximum
                                         you can spend for your Ad Group?</label>
                                         <label class="col-sm-12 control-label greyTxt miniLabels">Budget</label>
-                                        <div class="form-group col-md-3" style="padding: 0 10px 0 0;">
+                                        <div class="form-group col-md-3" style="padding: 0 10px 0 0;" show-errors>
                                             <span class="currencyFly">$</span>
                                             <input type="number" style="text-align: left; text-indent: 10px; padding-top: 9px;"
                                                    class="form-control text-right"
                                                    id="budgetIndividualAdGroup"
                                                    name="adIGroupBudget"
-                                                   ng-model="budget"
-                                                   maxlength="30"/>
+                                                   ng-model = "adIGroupBudget"
+                                                   min-value = "{{adGroupMinBudget}}"
+                                                   max-value ="{{adGroupMaxBudget}}"
+                                                   maxlength="30" required ng-blur="validateAdGroupSpend($event)"/>
+                                            <label ng-if="createIndependantAdsGrp.adIGroupBudget.$error.required" class="col-sm-12 control-label greyTxt errorLabel" data-ng-bind="textConstants.ADGROUPBUDGETMSG"></label>
+                                            <label ng-if="!isMinimumAdGroupBudget" class="col-sm-12 control-label greyTxt customErrorLabel" data-ng-bind="textConstants.ADGROUPMINIMUMBUDGETMSG"></label>
+                                            <label ng-if="!isMaximumAdGroupBudget" class="col-sm-12 control-label greyTxt customErrorLabel" data-ng-bind="textConstants.ADGROUPMAXIMUMBUDGETMSG"></label>
                                         </div>
 
                                         <div class="col-md-3" style="padding: 0 0 0 10px;">
@@ -333,7 +337,7 @@
                                                 class="btn btn-primary pull-right"
                                                 id="groupIndividual"
                                                 ng-disabled="createIndependantAdsGrp.$invalid"
-                                                ng-click="createIndependantAdsGroup()" data-ng-bind="textConstants.SAVE" ng-show="!loadingBtn">
+                                                ng-click="saveIndependantAdsGroup('create', createIndependantAdsGrp)" data-ng-bind="textConstants.SAVE" ng-show="!loadingBtn">
                                         </button>
                                         <span class="pull-right secondary_txt" ng-click="groupIndividualAds()" data-ng-bind="textConstants.CANCEL"></span>
                                     </div>

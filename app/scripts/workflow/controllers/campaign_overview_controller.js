@@ -1,4 +1,4 @@
-define(['angularAMD', 'common/services/constants_service', 'workflow/services/workflow_service', 'common/moment_utils', 'common/services/vistoconfig_service', 'workflow/controllers/get_adgroups_controller', 'workflow/controllers/create_adgroups_controller'], function (angularAMD) {
+define(['angularAMD', 'common/services/constants_service', 'workflow/services/workflow_service', 'common/moment_utils', 'common/services/vistoconfig_service', 'workflow/controllers/get_adgroups_controller', 'workflow/controllers/create_adgroups_controller', 'workflow/directives/edit_ad_group_section'], function (angularAMD) {
     angularAMD.controller('CampaignOverViewController', function ($scope, $rootScope, $routeParams, $timeout, $location, $route, constants, workflowService, momentService, vistoconfig, featuresService) {
         $(".main_navigation_holder").find('.active_tab').removeClass('active_tab');
         $(".main_navigation").find('.active').removeClass('active').end().find('#campaigns_nav_link').addClass('active');
@@ -430,6 +430,27 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             }
         };
 
+        $scope.isMinimumAdGroupBudget =  true;
+        $scope.isMaximumAdGroupBudget =  true;
+
+        $scope.validateAdGroupSpend = function(event) {
+            var target = event.target;
+            var newadGroupBudget = Number(target.value);
+            var minValue = Number($(target).attr("min-value"));
+            var maxValue = Number($(target).attr("max-value"));
+            if(newadGroupBudget < minValue) {
+                $scope.isMinimumAdGroupBudget =  false;
+            } else {
+                $scope.isMinimumAdGroupBudget =  true;
+            }
+
+            if(newadGroupBudget > maxValue) {
+                $scope.isMaximumAdGroupBudget =  false;
+            } else {
+                $scope.isMaximumAdGroupBudget =  true;
+            }
+        };
+
         $scope.groupIndividualAds = function () {
             $scope.showIndividualAds = !$scope.showIndividualAds;
             $('#createIndependantAdsGrp')[0].reset();
@@ -438,6 +459,13 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             $scope.createGroupMessage = false;
             $scope.createGroupMessage = false;
             $scope.tags = [];
+            var campaignAdsData  = $scope.workflowData.campaignAdsData;
+            $scope.adGroupMinBudget = campaignAdsData.reduce(function(memo, obj) {
+                return memo + obj.cost;
+            }, 0);
+
+            $scope.adIGroupBudget = $scope.adGroupMinBudget;
+            $scope.adGroupMaxBudget = $scope.workflowData.campaignData.deliveryBudget - $scope.workflowData.campaignData.bookedSpend;
         };
 
         $scope.createAdGrp = function () {
@@ -450,7 +478,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             $scope.tags = [];
         };
 
-        $scope.extractor = function (IndividualAdsData) {
+        $scope.extractor = function (IndividualAdsData, formElem) {
             $scope.independantAdData = IndividualAdsData;
             //find lowest startDate
             var startDatelow = new Array;
@@ -464,13 +492,12 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 return o.startTime;
             });
 
+            var startDateElem = formElem ? formElem.find("#individualAdsStartDateInput") : $('#individualAdsStartDateInput');
             if (ascending.length > 0) {
                 $scope.lowestStartTime = momentService.utcToLocalTime(ascending[0].startTime);
-                var startDateElem = $('#individualAdsStartDateInput');
                 startDateElem.datepicker("setStartDate", $scope.setStartdateIndependant);
                 startDateElem.datepicker("setEndDate", $scope.lowestStartTime);
             } else {
-                var startDateElem = $('#individualAdsStartDateInput');
                 startDateElem.datepicker("setStartDate", $scope.setStartdateIndependant);
                 startDateElem.datepicker("setEndDate", $scope.setStartdateIndependant);
             }
@@ -487,26 +514,26 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 return o.endTime;
             });
             descending.reverse();
+
+            var endDateElem = formElem ? formElem.find("#individualAdsEndDateInput") : $('#individualAdsEndDateInput');
             if (descending.length > 0) {
                 $scope.highestEndTime = momentService.utcToLocalTime(descending[0].endTime);
-                var endDateElem = $('#individualAdsEndDateInput');
                 endDateElem.datepicker("setStartDate", $scope.highestEndTime);
                 endDateElem.datepicker("setEndDate", $scope.campaignEndTime);
             } else {
-                var endDateElem = $('#individualAdsEndDateInput');
                 endDateElem.datepicker("setStartDate", $scope.campaignEndTime);
                 endDateElem.datepicker("setEndDate", $scope.campaignEndTime);
 
             }
         }
-       
 
-        $scope.createIndependantAdsGroup = function () {
+
+        $scope.saveIndependantAdsGroup = function (type, formName) { // type can be edit and create
 
             //api call here to group individual ads into a group
             $scope.$broadcast('show-errors-check-validity');
             $scope.loadingBtn = true;
-            if ($scope.createIndependantAdsGrp.$valid) {
+            if (formName.$valid && $scope.isMinimumAdGroupBudget && $scope.isMaximumAdGroupBudget) {
                 var formElem = $("#createIndependantAdsGrp");
                 var formData = formElem.serializeArray();
                 formData = _.object(_.pluck(formData, 'name'), _.pluck(formData, 'value'));
@@ -519,6 +546,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 postCreateAdObj.deliveryBudget = formData.adIGroupBudget;
                 postCreateAdObj.labels = _.pluck($scope.tags, "label");
                 postCreateAdObj.id = "-9999";
+                postCreateAdObj.adgroupId = Number(formData.adgroupId);
 
                 var dataArray = new Array;
                 for (var i in $scope.independantAdData) {
@@ -526,7 +554,8 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 }
 
                 postCreateAdObj.adIds = dataArray;
-                workflowService.createAdGroups($routeParams.campaignId, postCreateAdObj).then(function (result) {
+
+                workflowService[type === 'edit' ? 'editAdGroups' : 'createAdGroups']($routeParams.campaignId, postCreateAdObj).then(function (result) {
                     if (result.status === "OK" || result.status === "success") {
                         $('#createIndependantAdsGrp')[0].reset();
                         $scope.$broadcast('show-errors-reset');
@@ -550,8 +579,10 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     }
                 }, function(result) {
                     $rootScope.setErrAlertMessage($scope.textConstants.AD_GROUP_CREATED_FAILURE);
-
                 });
+            } else {
+                $scope.loadingBtn = false;
+                $rootScope.setErrAlertMessage("Please fix the errors");
             }
         };
 
