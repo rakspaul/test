@@ -1089,6 +1089,15 @@ define(['angularAMD','common/services/constants_service', 'common/services/role_
                 }
                 return dispName;
             };
+        })
+
+        .filter('positive', function() {
+            return function(input) {
+                if (!input) {
+                    return 0;
+                }
+                return Math.abs(input);
+            };
         });
 
     $.fn.scrollWithInDiv = function () {
