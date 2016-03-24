@@ -386,39 +386,39 @@
         </div>
 
        <div class="each_col second_coldata">
-            <span class="icon_text_holder">{{((platform.spend >0)|| (platform.spend == 0))? (platform.spend | nrFormat) : '-'}}</span>
+            <span>{{((platform.spend >0)|| (platform.spend == 0))? (platform.spend | nrFormat) : '-'}}</span>
         </div>
 
       <div class="each_col third_coldata">
-            <span class="icon_text_holder">{{((platform.margin  !=null) ? (platform.margin | number:2) : '-')}}</span>
+            <span>{{((platform.margin  !=null) ? (platform.margin | number:2) : '-')}}</span>
         </div>
 
          <div class="each_col forth_col" >
             <div class="sub_colData">
-                <span class="icon_text_holder">{{((platform.CTR >0)|| (platform.CTR == 0)) ? ((platform.CTR | number:2)+'%') : '-'}}</span>
-                <span class="tooltip_holder icon_text_holder">{{((platform.CPC >0)|| (platform.CPC == 0)) ? (platform.CPC | currency:undefined:2) : '-'}}</span>
-                <span class="tooltip_holder icon_text_holder">{{((platform.clicks >0)|| (platform.clicks == 0))? (platform.clicks | nrFormat) : '-'}}</span>
+                <span>{{((platform.CTR >0)|| (platform.CTR == 0)) ? ((platform.CTR | number:2)+'%') : '-'}}</span>
+                <span class="tooltip_holder">{{((platform.CPC >0)|| (platform.CPC == 0)) ? (platform.CPC | currency:undefined:2) : '-'}}</span>
+                <span class="tooltip_holder">{{((platform.clicks >0)|| (platform.clicks == 0))? (platform.clicks | nrFormat) : '-'}}</span>
             </div>
         </div>
 
       <div class="each_col fifth_col">
             <div class="sub_colData">
-                <span class="icon_text_holder">{{((platform.VIEWABLE_IMPRESSIONS >0)|| (platform.VIEWABLE_IMPRESSIONS == 0)) ? ((platform.VIEWABLE_IMPRESSIONS | number:2)+'%') : '-'}}</span>
-                <span class="tooltip_holder icon_text_holder">{{((platform.CPMv >0)|| (platform.CPMv == 0)) ? (platform.CPMv | currency:undefined:2) : '-'}}</span>
-                <span class="tooltip_holder icon_text_holder">{{((platform.VIEWABLE_IMPS >0)|| (platform.VIEWABLE_IMPS == 0))? (platform.VIEWABLE_IMPS | nrFormat) : '-'}}</span>
+                <span>{{((platform.VIEWABLE_IMPRESSIONS >0)|| (platform.VIEWABLE_IMPRESSIONS == 0)) ? ((platform.VIEWABLE_IMPRESSIONS | number:2)+'%') : '-'}}</span>
+                <span class="tooltip_holder">{{((platform.CPMv >0)|| (platform.CPMv == 0)) ? (platform.CPMv | currency:undefined:2) : '-'}}</span>
+                <span class="tooltip_holder">{{((platform.VIEWABLE_IMPS >0)|| (platform.VIEWABLE_IMPS == 0))? (platform.VIEWABLE_IMPS | nrFormat) : '-'}}</span>
             </div>
         </div>
         <div class="each_col six_col">
             <div class="sub_colData">
-                <span class="icon_text_holder">{{((platform.AR >0)|| (platform.AR == 0)) ? ((platform.AR | number:2)+'%') : '-'}}</span>
-                <span class="tooltip_holder icon_text_holder">{{((platform.CPA >0)|| (platform.CPA == 0)) ? (platform.CPA | currency:undefined:2) : '-'}}</span>
-                <span class="tooltip_holder icon_text_holder">{{((platform.actions >0)|| (platform.actions == 0)) ? (platform.actions) : '-'}}</span>
+                <span>{{((platform.AR >0)|| (platform.AR == 0)) ? ((platform.AR | number:2)+'%') : '-'}}</span>
+                <span class="tooltip_holder">{{((platform.CPA >0)|| (platform.CPA == 0)) ? (platform.CPA | currency:undefined:2) : '-'}}</span>
+                <span class="tooltip_holder">{{((platform.actions >0)|| (platform.actions == 0)) ? (platform.actions) : '-'}}</span>
             </div>
         </div>
         <div class="each_col seventhMargin_col">
             <div class="sub_colData">
-                <span class="icon_text_holder">{{((platform.impressions >0)|| (platform.impressions == 0))? (platform.impressions | nrFormat) : '-'}}</span>
-                <span class="tooltip_holder icon_text_holder">{{((platform.CPM >0)|| (platform.CPM == 0)) ? (platform.CPM | currency:undefined:2) : '-'}}</span>
+                <span>{{((platform.impressions >0)|| (platform.impressions == 0))? (platform.impressions | nrFormat) : '-'}}</span>
+                <span class="tooltip_holder">{{((platform.CPM >0)|| (platform.CPM == 0)) ? (platform.CPM | currency:undefined:2) : '-'}}</span>
             </div>
         </div>
     </div>
