@@ -147,6 +147,19 @@ define(['angularAMD','common/services/vistoconfig_service', 'common/services/con
                 );
             },
 
+            editAdGroups: function (campaignId, data) {
+                var clientId =  loginModel.getSelectedClient().id;
+
+                return dataService.put(
+                    vistoconfig.apiPaths.WORKFLOW_API_URL +
+                    '/clients/' + clientId +
+                    '/campaigns/' + campaignId +
+                    '/ad_groups/'+ data.adgroupId,
+                    data,
+                    {'Content-Type': 'application/json'}
+                );
+            },
+
             getAdsInAdGroup: function (campaignId, adGroupID) {
                 var clientId =  loginModel.getSelectedClient().id,
                     url = vistoconfig.apiPaths.WORKFLOW_API_URL +
