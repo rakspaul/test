@@ -18,10 +18,11 @@ define(['angularAMD', '../../common/utils', 'common/services/constants_service',
                             campaignList = $scope.campaigns.campaignList,
                             i;
 
+                        $scope.searchTerm = $scope.campaigns.searchTerm;
                         _.each(campaignList, function (obj) {
-                            obj.campaignTitleHtml = highlightTitleText(obj.campaignTitle, 'test');
+                            obj.campaignTitleHtml = highlightTitleText(obj.campaignTitle, $scope.searchTerm);
                             for (i = 0; i < obj.labels.length; i++) {
-                                obj.labels[i] = highlightLabelPill(obj.labels[i], 'test');
+                                obj.labels[i] = highlightLabelPill(obj.labels[i], $scope.searchTerm);
                             }
                         });
 

@@ -154,8 +154,10 @@ define(['angularAMD','reporting/campaignList/campaign_list_service', 'common/ser
                             this.resetTabActivation();
                         },
 
-                        fetchData = function () {
+                        fetchData = function (searchTerm) {
                             var performanceTab = $('#performance_tab');
+                            this.searchTerm = searchTerm;
+                            console.log('fetchdata() with search term ' + this.searchTerm + '...');
 
                             if (performanceTab.hasClass('active') === false && $('#cost_tab').hasClass('active') === false) {
                                 performanceTab.addClass('active');
@@ -202,17 +204,20 @@ define(['angularAMD','reporting/campaignList/campaign_list_service', 'common/ser
 
                             // check scroller only inside container
                             findScrollerFromContainer.call(this);
-                            if (!this.performanceParams.lastPage && (this.dashboard.filterTotal > 0) &&
-                                (this.scrollFlag > 0)) {
+                            if ((!this.performanceParams.lastPage && (this.dashboard.filterTotal > 0) &&
+                                (this.scrollFlag > 0)) || this.searchTerm) {
                                 //Reseting scrollFlag
                                 this.scrollFlag = 0;
                                 this.busy = true;
                                 self = this;
                                 url = _campaignServiceUrl.call(this);
-
+console.log('REQUEST URL = ', url);
                                 campaignListService.getCampaigns(url, function (result) {
                                     var data = result.data.data;
-
+console.log('RESPONSE DATA = ', data);
+_.each(data, function (obj) {
+    console.log(obj.name, obj.labels);
+})
                                     requestCanceller.resetCanceller(constants.CAMPAIGN_LIST_CANCELLER);
                                     self.busy = false;
 
@@ -726,10 +731,16 @@ define(['angularAMD','reporting/campaignList/campaign_list_service', 'common/ser
 
                         _campaignServiceUrl = function (from) {
                             var clientId = loginModel.getSelectedClient().id,
-                                nextPageNumber = from === 'costBreakdown' ?
-                                    this.CBdownParams.nextPage :
-                                    this.performanceParams.nextPage,
-                                params = [
+                                nextPageNumber,
+                                params;
+
+                            if (from === 'costBreakdown') {
+                                nextPageNumber = this.CBdownParams.nextPage;
+                            } else {
+                                nextPageNumber = this.performanceParams.nextPage;
+                            }
+
+                            params = [
                                 'client_id=' + loginModel.getSelectedClient().id,
                                 'advertiser_id=' + advertiserModel.getSelectedAdvertiser().id,
                                 'brand_id=' + brandsModel.getSelectedBrand().id,
@@ -737,6 +748,11 @@ define(['angularAMD','reporting/campaignList/campaign_list_service', 'common/ser
                                 'page_num=' + nextPageNumber,
                                 'page_size=' + this.pageSize
                             ];
+
+                            console.log('_campaignServiceUrl() with search term ' + this.searchTerm + '...');
+                            if (this.searchTerm) {
+                                params.push('search_term=' + this.searchTerm);
+                            }
 
                             // NOTE: Please avoid these kind of cryptic code in the following 2 lines
                             // (Comment by Lalding)
@@ -758,8 +774,16 @@ define(['angularAMD','reporting/campaignList/campaign_list_service', 'common/ser
                                 params.push('cond_type=status');
                             }
 
-                            return vistoconfig.apiPaths.apiSerivicesUrl_NEW +
-                                '/reportBuilder/customQuery?query_id=42&' + params.join('&');
+                            if (this.searchTerm) {
+                                console.log('Perform search with search term ', this.searchTerm);
+                                return vistoconfig.apiPaths.apiSerivicesUrl_NEW +
+                                    '/search/campaigns?' + params.join('&');
+                                //return vistoconfig.apiPaths.apiSerivicesUrl_NEW +
+                                //    '/reportBuilder/customQuery?query_id=42&' + params.join('&');
+                            } else {
+                                return vistoconfig.apiPaths.apiSerivicesUrl_NEW +
+                                    '/reportBuilder/customQuery?query_id=42&' + params.join('&');
+                            }
                         },
 
                         toggleSortDirection = function (dir) {
