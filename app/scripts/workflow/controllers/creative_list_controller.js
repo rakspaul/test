@@ -1,5 +1,5 @@
 define(['angularAMD','common/services/constants_service','workflow/services/workflow_service','common/moment_utils'],function (angularAMD) {
-    angularAMD.controller('CreativeListController', function($scope, $rootScope, $routeParams, $route, $location,constants, workflowService,momentService) {
+    angularAMD.controller('CreativeListController', function($scope, $rootScope, $routeParams, $route, $location,constants, domainReports, workflowService,momentService) {
         var checkedCreativeArr=[];
         $scope.creativeAds={};
         $scope.creativeAds['creativeAdData'] = {};
@@ -22,6 +22,8 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
         $scope.loadCreativeData=false;
         $scope.deletePopup=false;
         //$scope.creativeData.creatives_count=1;
+        //highlight the header menu - Dashborad, Campaigns, Reports
+        domainReports.highlightHeaderMenu();
 
         var winHeight = $(window).height();
         $(".common-load-more").css({
@@ -486,7 +488,7 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
             .end()
             .find('#creative_nav_link')
             .addClass('active');
-       
+
 
 
         //Search Hide / Show
