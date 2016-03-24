@@ -999,6 +999,12 @@ div.strategy_total_container div.strategy_total_container_header div.each_col.fi
   font-size: 18px;
   font-family: "Avenir";
 }
+div.strategy_total_container div.strategy_total_container_header .rowData {
+  margin-bottom: 15px;
+  float: left;
+  width: 100%;
+  padding-right: 15px;
+}
 div.strategy_total_container .all_strategies_holder .linkage_lines {
   position: relative;
   float: left;

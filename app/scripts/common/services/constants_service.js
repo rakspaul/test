@@ -376,7 +376,7 @@ define(['angularAMD'], function(angularAMD) {
         this.CHANGE_IN_PERCENTAGE = "Change %";
 
         this.DAYS_OF_WEEK = "Days of Week";
-
+        this.DISCREPANCY = "Discrepancy";
         this.COST = "Cost";
         this.BASED_ONLY_ON_MEASURABLE_IMPS = "Based only on Measurable Imps";
         this.BASED_ONLY_ON_VIEWABLE_IMPS = "Based only on Viewable Imps";

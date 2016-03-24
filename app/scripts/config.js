@@ -96,6 +96,7 @@ assets.html_add_filter_users = '/views/reporting/partials/add_filter_users.html'
 assets.html_add_report_dimension = '/views/reporting/partials/add_report_dimension.html';
 assets.html_screen_header = '/views/reporting/partials/screen_header.html';
 assets.html_daysofweek_header = '/views/reporting/partials/daysofweek_header.html';
+assets.html_discrepancy_header = '/views/reporting/partials/discrepancy_header.html';
 assets.html_format_header = '/views/reporting/partials/format_header.html';
 assets.html_performance_header = '/views/reporting/partials/performance_header.html';
 assets.html_cost_header = '/views/reporting/partials/cost_header.html';
