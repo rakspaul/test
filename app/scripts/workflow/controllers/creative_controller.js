@@ -41,6 +41,7 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
               $scope.selectedAdServer.id=$scope.creativeEditData.adServer?$scope.creativeEditData.adServer.id:'';
               $scope.creativeFormat=$scope.creativeEditData.creativeFormat;
               $scope.pushedCount=$scope.creativeEditData.pushedCount;
+              $scope.associatedAdCount=$scope.creativeEditData.noOfAds;
               //make cal to set the format type here //inturn makes call to get possible templates
               $scope.adFormatSelection($scope.creativeFormat);
               //make call to generate Template
@@ -172,7 +173,7 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
           })
           for(var i in $scope.creativeSizeData.adFormats){
               $scope.creativeSizeData.adFormats[i].active=false;
-              if((!$scope.adPage) && ($scope.creativeMode=="edit") && $scope.pushedCount>0)
+              if((!$scope.adPage) && ($scope.creativeMode=="edit") && ($scope.pushedCount>0 || $scope.associatedAdCount>0))
                   $scope.creativeSizeData.adFormats[i].disabled=true;
           }
           if(index>=0){
@@ -458,6 +459,7 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
       }
 
       $scope.creativeSave = function (postCrDataObj) {
+          $scope.IncorrectTag = false;
           $scope.savingCreative=true;
           $scope.CrDataObj = postCrDataObj;
           if($scope.creativeMode!=="edit" || $scope.adPage){
@@ -582,6 +584,7 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
           $scope.Message = 'Unable to create Creatives';
           // enable cancel, save button on cancel duplicate
           $scope.disableCancelSave = false;
+          $scope.savingCreative=false;
 
       };
 
