@@ -5,7 +5,7 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
     'use strict';
     angularAMD.controller('ReportsScheduleListController', function($scope,$filter, $location, $modal, $rootScope,
                                                                                 collectiveReportModel, utils, loginModel,
-                                                                                constants, urlService, dataStore,
+                                                                                constants, urlService, dataStore, domainReports,
                                                                                dataService, momentService) {
 
         var _curCtrl = this;
@@ -21,9 +21,8 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
         _curCtrl.isFilterExpanded = false;
         $scope.showScheduleListLoader = false;
         $scope.textconstants = constants;
-
-
-        $('html').css('background', 'rgb(237, 242, 248)');
+        //highlight the header menu - Dashborad, Campaigns, Reports
+        domainReports.highlightHeaderMenu();
 
         $scope.clickedOnFilterIcon = function(){
             _curCtrl.isFilterExpanded = !_curCtrl.isFilterExpanded;

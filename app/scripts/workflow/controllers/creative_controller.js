@@ -41,6 +41,7 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
               $scope.selectedAdServer.id=$scope.creativeEditData.adServer?$scope.creativeEditData.adServer.id:'';
               $scope.creativeFormat=$scope.creativeEditData.creativeFormat;
               $scope.pushedCount=$scope.creativeEditData.pushedCount;
+              $scope.associatedAdCount=$scope.creativeEditData.noOfAds;
               //make cal to set the format type here //inturn makes call to get possible templates
               $scope.adFormatSelection($scope.creativeFormat);
               //make call to generate Template
@@ -172,7 +173,7 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
           })
           for(var i in $scope.creativeSizeData.adFormats){
               $scope.creativeSizeData.adFormats[i].active=false;
-              if((!$scope.adPage) && ($scope.creativeMode=="edit") && $scope.pushedCount>0)
+              if((!$scope.adPage) && ($scope.creativeMode=="edit") && ($scope.pushedCount>0 || $scope.associatedAdCount>0))
                   $scope.creativeSizeData.adFormats[i].disabled=true;
           }
           if(index>=0){
@@ -183,7 +184,11 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
           /*CreativeLibrary page, get templates*/
           if(!$scope.adPage && $scope.selectedAdServer){
               resetTemplate();
-              $scope.getTemplates($scope.selectedAdServer,adFormatName);
+              if($scope.creativeMode=="edit"){//In edit mode, do not let to change templateType from full-tracking or vice versa
+                  $scope.getTemplates($scope.selectedAdServer,adFormatName,$scope.creativeEditData.isTracking);
+              }else{
+                  $scope.getTemplates($scope.selectedAdServer,adFormatName);
+              }
           }
       }
       var resetTemplate=function(){
@@ -458,6 +463,7 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
       }
 
       $scope.creativeSave = function (postCrDataObj) {
+          $scope.IncorrectTag = false;
           $scope.savingCreative=true;
           $scope.CrDataObj = postCrDataObj;
           if($scope.creativeMode!=="edit" || $scope.adPage){
@@ -582,6 +588,7 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
           $scope.Message = 'Unable to create Creatives';
           // enable cancel, save button on cancel duplicate
           $scope.disableCancelSave = false;
+          $scope.savingCreative=false;
 
       };
 

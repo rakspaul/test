@@ -35,7 +35,7 @@
 .reports-scheduled-list .scheduled_list_table .table-th,
 .reports-scheduled-list .scheduled_list_table .table-td {
   float: left;
-  min-height: 51px ;
+  min-height: 36px ;
 }
 .reports-scheduled-list .scheduled_list_table .table-th .col-md-9:first-child,
 .reports-scheduled-list .scheduled_list_table .table-td .col-md-9:first-child {
@@ -88,7 +88,7 @@
   display: inline-block;
 }
 .reports-scheduled-list .scheduled_list_table .table-body .downloaded {
-  font-family: "Avenir-bold";
+  font-family: "Avenir";
 }
 .reports-scheduled-list .scheduled_list_table .row.open .table-td .col-md-9:first-child {
   background-image: url("/images/cdesk/common_down_arrow.png");
@@ -217,7 +217,7 @@
   border-width: 0px 0 1px 1px ;
   border-style: solid ;
   padding: 10px 20px;
-  min-height: 65px;
+  height: 36px;
 }
 .reports-scheduled-list .scheduled_list_table .table-td:last-child {
   border-right-width: 1px  ;

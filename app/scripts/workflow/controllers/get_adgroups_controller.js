@@ -23,5 +23,16 @@ define(['angularAMD','common/moment_utils'],function (angularAMD) {
         $scope.utcToLocalTime = function (date, format) {
             return momentService.utcToLocalTime(date, format);
         };
+        
+        //This stops input type numbers not to change when arrow key is pressed
+        $(document).bind('keydown', function(event) {
+            var target = event.srcElement || event.target;
+            var tag = target.tagName.toUpperCase();
+            var type = target.type.toUpperCase();
+            if (tag === 'INPUT' && type === 'NUMBER' && 
+               (event.keyCode === 38 || event.keyCode === 40)) {
+              event.preventDefault();
+            }
+        });
     });
 });

@@ -44,7 +44,7 @@ define(['angularAMD','common/services/vistoconfig_service', 'common/services/con
             getClientData: function (clientId) {
                 var url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId;
 
-                return dataService.fetch(url, {cache: true});
+                return dataService.fetch(url, {cache: false});
             },
 
             getSubAccounts: function(){
@@ -594,6 +594,8 @@ define(['angularAMD','common/services/vistoconfig_service', 'common/services/con
                         platforms.trackingPlatforms.push(createObj(resp[i]));
                     }
                 }
+                platforms.fullIntegrationsPlatforms = _.sortBy(platforms.fullIntegrationsPlatforms , "displayName");
+                platforms.trackingPlatforms = _.sortBy(platforms.trackingPlatforms , "displayName");
                 return platforms;
             },
             platformCreateObj: function(resp){
