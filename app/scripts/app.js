@@ -9,6 +9,8 @@ define(['common'], function (angularAMD) {
     var app = angular.module('vistoApp', ['ngRoute', 'ngCookies', 'tmh.dynamicLocale', 'ui.bootstrap', 'uiSwitch', 'door3.css', 'ngFileUpload', 'ngSanitize', 'ui.multiselect', 'highcharts-ng', 'ui.bootstrap.showErrors', 'ngTagsInput']);
 
     app.config(function ($routeProvider, $httpProvider) {
+        $routeProvider.caseInsensitiveMatch = true;
+
         $routeProvider
             .when('/login', angularAMD.route({
                 templateUrl: assets.html_reports_login,
