@@ -25,6 +25,11 @@ echo "visto-ui unzipped."
 echo "Its ${VISTO_UI_ENV} environment !!!"
 /sbin/sv d visto-ui
 
+echo "Cleaning up old releases. Only last 5 releases will be retained"
+cd $VISTO_UI_HOME/releases/
+ls -t | awk -F ' ' 'NR > 5 { system("rm -rf "$0)}'
+
+echo "Copying artifacts into releases folder"
 cp -r /tmp/$ARTIFACT $RELEASE_FOLDER
 mkdir -p $RELEASE_FOLDER/bin
 cp /tmp/visto-ui-runit.sh $RELEASE_FOLDER/bin
