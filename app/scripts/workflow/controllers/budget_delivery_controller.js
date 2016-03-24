@@ -69,7 +69,13 @@ define(['angularAMD', 'common/services/constants_service', 'common/moment_utils'
           }
           else{
               adsData = $scope.workflowData.adsData;
-              adAvailableRevenue = unallocatedAmount +  Number(adsData.budgetValue);
+              //BUDGET then add ad budget value + unallocated , IMPRESSION then just use unallocated value
+              if(adsData.frequencyCaps[0].capType === "BUDGET"){
+                  adAvailableRevenue = unallocatedAmount +  Number(adsData.budgetValue);
+              }
+              else{
+                  adAvailableRevenue = unallocatedAmount;
+              }
           }
       }
         //console.log("adAvailableRevenue ",adAvailableRevenue);
