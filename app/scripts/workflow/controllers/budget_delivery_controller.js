@@ -70,11 +70,14 @@ define(['angularAMD', 'common/services/constants_service', 'common/moment_utils'
           else{
               adsData = $scope.workflowData.adsData;
               //BUDGET then add ad budget value + unallocated , IMPRESSION then just use unallocated value
-              if(adsData.frequencyCaps[0].capType === "BUDGET"){
+              if(adsData.budgetType === "COST"){
                   adAvailableRevenue = unallocatedAmount +  Number(adsData.budgetValue);
               }
-              else{
-                  adAvailableRevenue = unallocatedAmount;
+              else if (adsData.budgetType === "IMPRESSIONS") {
+                  adAvailableRevenue = unallocatedAmount + (adsData.budgetValue * adsData.rateValue / 1000);
+              }
+              else {
+                  adAvailableRevenue = unallocatedAmount + (adsData.budgetValue * adsData.rateValue);
               }
           }
       }
