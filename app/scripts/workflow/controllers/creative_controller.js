@@ -184,7 +184,11 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
           /*CreativeLibrary page, get templates*/
           if(!$scope.adPage && $scope.selectedAdServer){
               resetTemplate();
-              $scope.getTemplates($scope.selectedAdServer,adFormatName);
+              if($scope.creativeMode=="edit"){//In edit mode, do not let to change templateType from full-tracking or vice versa
+                  $scope.getTemplates($scope.selectedAdServer,adFormatName,$scope.creativeEditData.isTracking);
+              }else{
+                  $scope.getTemplates($scope.selectedAdServer,adFormatName);
+              }
           }
       }
       var resetTemplate=function(){
