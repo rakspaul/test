@@ -91,7 +91,7 @@
                                     <span class="icon-arrow-down"></span>
                                 </button>
                                 <ul class="dropdown-menu" aria-labelledby="sel1" id="sel1">
-                                    <li class="available" ng-repeat="adServer in creativeAdServers track by adServer.id">
+                                    <li class="available" ng-repeat="adServer in creativeAdServers track by adServer.id" data-toggle="dropdown">
                                         <a ng-click="adServerSelected(adServer)">{{adServer.name}}</a>
                                     </li>
                                 </ul>
