@@ -594,6 +594,8 @@ define(['angularAMD','common/services/vistoconfig_service', 'common/services/con
                         platforms.trackingPlatforms.push(createObj(resp[i]));
                     }
                 }
+                platforms.fullIntegrationsPlatforms = _.sortBy(platforms.fullIntegrationsPlatforms , "displayName");
+                platforms.trackingPlatforms = _.sortBy(platforms.trackingPlatforms , "displayName");
                 return platforms;
             },
             platformCreateObj: function(resp){
