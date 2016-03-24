@@ -2,7 +2,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
         'common/utils', 'common/services/data_service', 'common/services/request_cancel_service',
         'common/services/constants_service', 'reporting/timePeriod/time_period_model', 'common/moment_utils',
         'login/login_model', 'common/services/url_service', 'common/services/data_store_model',
-        'reporting/models/domain_reports', 'common/services/vistoconfig_service'
+        'reporting/models/domain_reports', 'common/services/vistoconfig_service', 'common/services/features_service'
 ],
 
     function (angularAMD) {
@@ -12,7 +12,8 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                                                                   utils, dataService, requestCanceller,
                                                                   constants, timePeriodModel, momentService,
                                                                   loginModel, urlService, dataStore,
-                                                                  domainReports, vistoconfig) {
+                                                                  domainReports, vistoconfig, featuresService) {
+
         $scope.additionalFilters = [];
         $scope.textConstants = constants;
         $scope.additionalValue = "Contains keywords ...";
@@ -87,7 +88,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
         $scope.stopRedirectingPage = true;
         $scope.reportTypeSelect = $scope.textConstants.SAVE_LABEL;
         $scope.isSavedReportGen = false;
-
+        $scope.showCost = true;
         var isGenerateAlreadyCalled = false;
 
             if($scope.isSavedReportGen === true){
@@ -1341,7 +1342,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
 
 
             $scope.setAllMetrics = function() {
-                if ($scope.deliveryMetrics.isAllSelected && $scope.costMetrics.isAllSelected && $scope.engagementMetrics.isAllSelected && $scope.videoMetrics.isAllSelected && $scope.displayQltyMetrics.isAllSelected && $scope.videoQltyMetrics.isAllSelected) {
+                if ($scope.deliveryMetrics.isAllSelected && ($scope.costMetrics.isAllSelected || !$scope.showCost) && $scope.engagementMetrics.isAllSelected && $scope.videoMetrics.isAllSelected && $scope.displayQltyMetrics.isAllSelected && $scope.videoQltyMetrics.isAllSelected) {
                     $scope.allMetrics = true;
                 } else {
                     $scope.allMetrics = false;
@@ -1588,15 +1589,17 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
 
                 //cost Metrics
                 var selectedCostMetrics = [];
-                _.each($scope.costMetrics, function(eachObj) {
-                    if (eachObj.selected) {
-                        selectedCostMetrics.push(eachObj.key);
-                        $scope.selectedMetricsList.push({
-                            'key': eachObj.key,
-                            'value': eachObj.value
-                        });
-                    }
-                });
+                if($scope.showCost) {
+                    _.each($scope.costMetrics, function (eachObj) {
+                        if (eachObj.selected) {
+                            selectedCostMetrics.push(eachObj.key);
+                            $scope.selectedMetricsList.push({
+                                'key': eachObj.key,
+                                'value': eachObj.value
+                            });
+                        }
+                    });
+                }
                 $scope.reports.reportDefinition.metrics['Cost'] = [];
                 if (selectedCostMetrics.length > 0) {
                     $scope.reports.reportDefinition.metrics['Cost'] = selectedCostMetrics;
@@ -2048,7 +2051,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                             }
                         });
                     }
-                    if (responseData.reportDefinition.metrics.Cost) {
+                    if (responseData.reportDefinition.metrics.Cost && $scope.showCost) {
                         _.each($scope.costMetrics, function(each) {
                             var costMetricsObj = _.find(responseData.reportDefinition.metrics.Cost, function(num) {
                                 return num == each.key;
@@ -2177,7 +2180,19 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                     }
                 });
             });
-
+            $rootScope.$on('features', function () {      // On client change
+                _customctrl.showCost_permission();
+            });
+            _customctrl.showCost_permission = function(){
+                var fparams = featuresService.getFeatureParams();
+                $scope.showCost = fparams[0]['cost'];
+                if(!$scope.showCost){
+                    $scope.totalMetrics -= $scope.totalCostMetrics;
+                    $scope.saveMetrics();
+                    $scope.setMetrixText('Default');
+                }
+            }
+            _customctrl.showCost_permission();
             $(window).on('beforeunload', function(){    // On refresh of page
                 $scope.intermediateSave();
             });

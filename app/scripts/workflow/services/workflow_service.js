@@ -44,7 +44,7 @@ define(['angularAMD','common/services/vistoconfig_service', 'common/services/con
             getClientData: function (clientId) {
                 var url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId;
 
-                return dataService.fetch(url, {cache: true});
+                return dataService.fetch(url, {cache: false});
             },
 
             getSubAccounts: function(){
