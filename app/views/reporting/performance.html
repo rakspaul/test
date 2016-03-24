@@ -582,7 +582,7 @@
             <strong class="col-md-2 text-right">{{((vendor.imps >0) || (vendor.imps == 0)) ? (vendor.imps | nrFormat) : '-'}}</strong>
 
             <!--Column 3-->
-            <strong class="col-md-2" data-ng-bind="(selectedVendorImps - vendor.imps) | positive"></strong>
+            <strong class="col-md-2" data-ng-bind="(selectedVendorImps - vendor.imps) | positive | nrFormat"></strong>
 
             <!--&lt;!&ndash;Column 4&ndash;&gt;vendor.imps?((selectedVendorImps - vendor.imps)/vendor.imps):0   ((      (!selectedVendorImps && !vendor.imps) ? 0 :    ) * 100 | nrFormat | positive) + '%'-->
             <strong class="col-md-2 text-right" data-ng-bind="getRateOfDiscrepancy(selectedVendorImps, vendor.imps)"></strong>
