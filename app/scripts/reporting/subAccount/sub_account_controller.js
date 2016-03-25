@@ -17,7 +17,21 @@ define(['angularAMD','reporting/subAccount/sub_account_model'],function (angular
             });
         };
 
-        fetchSubAccounts();
+        function getSubAccounts(searchCriteria, search) {
+            $scope.subAccountData.subAccounts = subAccountModel.getSubAccounts();
+            $scope.subAccountData.selectedsubAccount.id = $scope.subAccountData.subAccounts[0].id;
+            $scope.subAccountData.selectedsubAccount.name = $scope.subAccountData.subAccounts[0].name;
+        }
+
+        function init() {
+            if(subAccountModel.getSubAccounts().length > 0) {
+                getSubAccounts();
+            } else {
+                fetchSubAccounts();
+            }
+        }
+
+        init();
 
         $scope.showSubAccountDropDown = function () {
           //  fetchAdvertisers(searchCriteria, search);
@@ -32,12 +46,12 @@ define(['angularAMD','reporting/subAccount/sub_account_model'],function (angular
             $("#sub_account_name_selected").text(sub_account.name);
             $('#subAccountDropdown').attr('placeholder', sub_account.name).val('');
             $scope.subAccountData.showAll = true;
-            console.log('sub_account',sub_account);
             var subAccountIdName = {'id':sub_account.id,'name': sub_account.name};
             subAccountModel.setSelectedSubAccount(subAccountIdName);
+            $scope.subAccountData.selectedsubAccount.id = sub_account.id ;
         };
 
-        $scope.disableShowAll = function () { console.log('dsiablibng');
+        $scope.disableShowAll = function () { 
             $scope.subAccountData.showAll = false;
         };
 

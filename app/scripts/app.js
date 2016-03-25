@@ -485,7 +485,7 @@ define(['common'], function (angularAMD) {
                 })
 
         })
-        .run(function ($rootScope, $location, $cookies, loginModel, brandsModel, dataService, $cookieStore, workflowService,featuresService) {
+        .run(function ($rootScope, $location, $cookies, loginModel, brandsModel, dataService, $cookieStore, workflowService,featuresService,subAccountModel) {
             var handleLoginRedirection = function () {
                     var cookieRedirect = $cookieStore.get('cdesk_redirect') || null,
                         setDefaultPage;
@@ -520,44 +520,47 @@ define(['common'], function (angularAMD) {
                         brandsModel.enable();
                     }
 
-                    var clientId;
+                    var clientObj;
                     dataService.updateRequestHeader();
                     if ((loginModel.getAuthToken()) && (localStorage.getItem('selectedClient') === null || localStorage.getItem('selectedClient') == undefined )) {
                         var userObj = JSON.parse(localStorage.getItem("userObj"));
                         workflowService
                             .getClients()
-                            .then(function (result) {
+                            .then(function (result) { console.log('clients: ',userObj.preferred_client,result.data.data);
                                 if ((result && result.data.data.length > 0)) {
-
+                                    if(userObj.preferred_client){
                                         var matchedClientsobj = _.find(result.data.data, function (obj) {
-                                            return obj.id === userObj.preferred_client
+                                            return obj.id === userObj.preferred_client;
                                         });
+                                    }
                                     if(matchedClientsobj !== undefined) {
-                                        clientId = matchedClientsobj.id;
+                                        clientObj = matchedClientsobj;
+                                    } else {
+                                        clientObj = result.data.data[0];
+                                    }
+                                    loginModel.setMasterClient({'id':clientObj.id,'name':clientObj.name,'isLeafNode':clientObj.isLeafNode});
 
-                                        loginModel.setMasterClient({ 'id': matchedClientsobj.id, 'name': matchedClientsobj.name, 'isLeafNode':matchedClientsobj.isLeafNode });
-                                        if(matchedClientsobj.isLeafNode) {
-                                            loginModel.setSelectedClient({
-                                                'id': matchedClientsobj.id,
-                                                'name': matchedClientsobj.name
-                                            });
+                                    if(clientObj.isLeafNode) {
+                                        loginModel.setSelectedClient({'id':clientObj.id,'name':clientObj.name});
+                                        workflowService.getClientData(clientObj.id).then(function (response) {
+                                            console.log('feature response',response);
+                                            featuresService.setFeatureParams(response.data.data.features);
+                                        });
+                                        if (locationPath === '/login' || locationPath === '/') {
+                                            handleLoginRedirection();
                                         }
                                     } else {
-                                        clientId = result.data.data[0].id;
-                                        loginModel.setMasterClient({'id': result.data.data[0].id, 'name': result.data.data[0].name, 'isLeafNode': result.data.data[0].isLeafNode});
-                                        if(result.data.data[0].isLeafNode) {
-                                            loginModel.setSelectedClient({'id': result.data.data[0].id, 'name': result.data.data[0].name});
-                                        }
-
-                                    }
-                                         workflowService.getClientData(clientId).then(function (response) {
-                                                featuresService.setFeatureParams(response.data.data.features,'app');
+                                        //set subAccount
+                                        subAccountModel.fetchSubAccounts(function(){
+                                            workflowService.getClientData(clientObj.id).then(function (response) {
+                                                featuresService.setFeatureParams(response.data.data.features);
+                                            });
+                                                if (locationPath === '/login' || locationPath === '/') {
+                                                    handleLoginRedirection();
+                                                }
                                          });
-                                  //  }
-                                    if (locationPath === '/login' || locationPath === '/') {
-                                        handleLoginRedirection();
                                     }
-                                }
+                                }//end of then if
                             });
                     } else {
                         if (loginModel.getSelectedClient) {

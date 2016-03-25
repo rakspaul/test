@@ -61,7 +61,8 @@ define(['angularAMD',
     'solid-gauge',
     'showErrors',
     'ng-tag',
-    'common/services/features_service'
+    'common/services/features_service',
+    'reporting/subAccount/sub_account_model'
 ], function (angularAMD) {
     'use strict';
     return angularAMD;
