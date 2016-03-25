@@ -42,7 +42,7 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
                         $scope.defaultAccountsName = $scope.accountsData[0].name;
                     }
 
-                    var campaignsClientData = function() { console.log('am getting called');
+                    var campaignsClientData = function(calledfrom) { console.log('am getting called',calledfrom);
                         if (Number($scope.selectedCampaign) === -1) {
                             campaignSelectModel.getCampaigns(-1, {limit: 1, offset: 0}).then(function (response) {
                                 if (response.length > 0) {
@@ -56,13 +56,15 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
                     if(angular.isUndefined(loginModel.getSelectedClient()) || loginModel.getSelectedClient() === null ) {
                         if(loginModel.getMasterClient().isLeafNode) {
                             loginModel.setSelectedClient({'id':loginModel.getMasterClient().id,'name':loginModel.getMasterClient().name});
-                            campaignsClientData();
+                            campaignsClientData(1);
 
                         } else {
                             subAccountModel.fetchSubAccounts(function(){
-                            campaignsClientData();
+                            campaignsClientData(2);
                             });
                         }
+                    } else {
+                        campaignsClientData(3);
                     }
 
 
@@ -76,6 +78,7 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
         });
 
         $scope.getClientData = function (clientId) {
+            console.log('getclientdata',clientId);
             workflowService.getClientData(clientId).then(function (response) {
                 RoleBasedService.setClientRole(response);//set the type of user here in RoleBasedService.js
                 RoleBasedService.setCurrencySymbol();
