@@ -20,7 +20,6 @@ define(['angularAMD', 'workflow/services/workflow_service'], function (angularAM
         this.fetchSubAccounts = function (successCallBack, searchCritera, search) {
             workflowService.getSubAccounts().then(function (response) {
                 self.setSelectedSubAccount({'id': response.data.data[0].id, 'name': response.data.data[0].name});
-                console.log({'id': response.data.data[0].id, 'name': response.data.data[0].name});
                 self.setSubAccounts(response.data.data);
                 successCallBack();
             });

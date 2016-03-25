@@ -46,12 +46,12 @@ define(['angularAMD','reporting/subAccount/sub_account_model'],function (angular
             $("#sub_account_name_selected").text(sub_account.name);
             $('#subAccountDropdown').attr('placeholder', sub_account.name).val('');
             $scope.subAccountData.showAll = true;
-            console.log('sub_account',sub_account);
             var subAccountIdName = {'id':sub_account.id,'name': sub_account.name};
             subAccountModel.setSelectedSubAccount(subAccountIdName);
+            $scope.subAccountData.selectedsubAccount.id = sub_account.id ;
         };
 
-        $scope.disableShowAll = function () { console.log('dsiablibng');
+        $scope.disableShowAll = function () { 
             $scope.subAccountData.showAll = false;
         };
 
