@@ -1,5 +1,5 @@
-define(['angularAMD','reporting/subAccount/sub_account_model'],function (angularAMD) {
-    angularAMD.controller('subAccountController', function ($scope,$rootScope,subAccountModel) {
+define(['angularAMD','reporting/subAccount/sub_account_model','common/services/constants_service'],function (angularAMD) {
+    angularAMD.controller('subAccountController', function ($scope,$rootScope,subAccountModel,constants) {
 
         $scope.subAccountData = {
             subAccounts : {},
@@ -48,12 +48,19 @@ define(['angularAMD','reporting/subAccount/sub_account_model'],function (angular
             $scope.subAccountData.showAll = true;
             var subAccountIdName = {'id':sub_account.id,'name': sub_account.name};
             subAccountModel.setSelectedSubAccount(subAccountIdName);
-            $scope.subAccountData.selectedsubAccount.id = sub_account.id ;
+          //  subAccountModel.broadCastSubAccount(sub_account, event_type);
+            $rootScope.$broadcast(constants.ACCOUNT_CHANGED, {'client':sub_account.id, 'event_type': 'clicked'});
         };
 
-        $scope.disableShowAll = function () { 
+        $scope.disableShowAll = function () {
             $scope.subAccountData.showAll = false;
         };
+
+        var eventClientChangedFromDashBoard = $rootScope.$on(constants.EVENT_CLIENT_CHANGED_FROM_DASHBOARD, function (event, args) {
+            console.log('****',args.subAccount);
+            $scope.selectSubAccount(args.subAccount, args.event_type);
+        });
+
 
         $(function () {
             $("header").on('click', '#subAccountDropdownDiv', function () {

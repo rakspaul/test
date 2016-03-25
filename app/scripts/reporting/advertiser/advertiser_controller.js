@@ -29,6 +29,7 @@ define(['angularAMD','reporting/advertiser/advertiser_model','common/utils','com
             $scope.advertiserData.showAll = true;
             advertiserModel.setSelectedAdvertisers(advertiser);
             if(!advertiser.referedFrom) {
+                console.log('selectAdvertiser');
                 advertiserModel.callAdvertiserBroadcast(advertiser, event_type);
             }
             $scope.selectedAdvertiser = null;
@@ -43,7 +44,7 @@ define(['angularAMD','reporting/advertiser/advertiser_model','common/utils','com
             $("#profileDropdown").hide();
         };
 
-        $scope.disableShowAll = function () { console.log('am called');
+        $scope.disableShowAll = function () {
             $scope.advertiserData.showAll = false;
         };
 
@@ -58,6 +59,7 @@ define(['angularAMD','reporting/advertiser/advertiser_model','common/utils','com
         var accountChanged = $rootScope.$on(constants.ACCOUNT_CHANGED, function (event, args) {
             loadAdvertisers = true;
             var advertiser = advertiserModel.getAllAdvertiser();
+            advertiser.referedFrom = "subaccount_change";
             $scope.selectAdvertiser(advertiser);
             advertiserModel.setSelectedAdvertisers(advertiser);
             advertiserModel.callAdvertiserBroadcast(advertiser, args.event_type);

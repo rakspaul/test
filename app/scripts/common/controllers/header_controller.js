@@ -138,7 +138,8 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
                 $scope.getClientData(id);
                 $rootScope.clientName = name;
                 $scope.defaultAccountsName = name;
-                $rootScope.$broadcast(constants.ACCOUNT_CHANGED, {'client': id, 'event_type': 'clicked'});
+                console.log('account changed');
+               // $rootScope.$broadcast(constants.ACCOUNT_CHANGED, {'client': id, 'event_type': 'clicked'});
             }
 
 

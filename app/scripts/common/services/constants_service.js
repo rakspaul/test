@@ -976,5 +976,11 @@ define(['angularAMD'], function(angularAMD) {
         this.UPDATETAG = 'Update Tag';
         this.CREATIVESDELETE = 'Creatives Delete';
         this.TAB_CHANGED = 'tab_changed';
+
+       // this.EVENT_CLIENT_CHANGED = 'eventClientChanged';
+        //this.EVENT_CLIENT_CHANGED_FROM_DASHBOARD = 'advertiserChangedFromDashboard';
+
+        this.EVENT_SUB_ACCOUNT_CHANGED = 'eventSubAccountChanged';
+        this.EVENT_SUB_ACCOUNT_CHANGED_FROM_DASHBOARD = 'SubAccountChangedFromDashboard';
     });
 });

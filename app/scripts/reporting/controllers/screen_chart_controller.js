@@ -17,6 +17,13 @@ define(['angularAMD','../../login/login_model', 'reporting/models/screen_chart_m
 
         });
 
+      /*$scope.$on(constants.EVENT_SUB_ACCOUNT_CHANGED, function (event, args) {
+          if (!$scope.screenBusy) {
+              $scope.refresh();
+          }
+
+      });*/
+
         $scope.$on(constants.EVENT_STATUS_FILTER_CHANGED, function (event, args) {
             $scope.refresh();
         });

@@ -23,6 +23,11 @@ define(['angularAMD','common/services/constants_service','reporting/dashboard/da
             $rootScope.$broadcast(constants.EVENT_ADVERTISER_CHANGED_FROM_DASHBOARD, obj);
         };
 
+        var selectClient = function(client,event_type){
+            var obj = {"advertiser": advertiser, "event_type": event_type}
+            $rootScope.$broadcast(constants.EVENT_CLIENT_CHANGED_FROM_DASHBOARD, obj);
+        }
+
         $scope.clickOnBrandButton = function (e) {
             //grunt analytics.track(loginModel.getUserRole(), 'dashboard_bubble_widget', 'close_campaign_view', loginModel.getLoginName());
             // if brand selected from bubble then on close reset advertiser and brand to all else retain advertiser
