@@ -1,24 +1,29 @@
-define(['angularAMD','workflow/services/workflow_service'],function (angularAMD) {
-    angularAMD.factory("subAccountModel", function ($rootScope,workflowService) {
-        var subAccounts = [];
-        return {
-            setSelectedSubAccount: function(selected_sub_account) {
-                localStorage.setItem('selectedClient', JSON.stringify(selected_sub_account));
+define(['angularAMD', 'workflow/services/workflow_service'], function (angularAMD) {
+    angularAMD.service("subAccountModel", function ($rootScope, workflowService) {
+        var self = this;
+        self.subAccounts = {
+            allSubAccounts: []
+        };
 
-            },
-            fetchSubAccounts: function (successCallBack, searchCritera, search) {
-                workflowService.getSubAccounts().then(function (response) {
-                      console.log('response',response.data.data);
-                       subAccounts = response.data.data;
-                       //self.setSelectedSubAccount({'id':response.data.data[0].id,'name':response.data.data[0].name});
-                    localStorage.setItem('selectedClient', JSON.stringify({'id':response.data.data[0].id,'name':response.data.data[0].name}));
-                       successCallBack();
-                });
-            },
-            getSubAccounts: function() {
-                return subAccounts;
-            }
+        this.setSelectedSubAccount = function (selected_sub_account) {
+            localStorage.setItem('selectedClient', JSON.stringify(selected_sub_account));
+        }
 
+        this.setSubAccounts = function (dataAry) {
+            self.subAccounts.allSubAccounts = dataAry;
+        }
+
+        this.getSubAccounts = function () {
+            return self.subAccounts.allSubAccounts;
+        }
+
+        this.fetchSubAccounts = function (successCallBack, searchCritera, search) {
+            workflowService.getSubAccounts().then(function (response) {
+                self.setSelectedSubAccount({'id': response.data.data[0].id, 'name': response.data.data[0].name});
+                console.log({'id': response.data.data[0].id, 'name': response.data.data[0].name});
+                self.setSubAccounts(response.data.data);
+                successCallBack();
+            });
         }
     });
 });

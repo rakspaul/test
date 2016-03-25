@@ -17,7 +17,21 @@ define(['angularAMD','reporting/subAccount/sub_account_model'],function (angular
             });
         };
 
-        fetchSubAccounts();
+        function getSubAccounts(searchCriteria, search) {
+            $scope.subAccountData.subAccounts = subAccountModel.getSubAccounts();
+            $scope.subAccountData.selectedsubAccount.id = $scope.subAccountData.subAccounts[0].id;
+            $scope.subAccountData.selectedsubAccount.name = $scope.subAccountData.subAccounts[0].name;
+        }
+
+        function init() {
+            if(subAccountModel.getSubAccounts().length > 0) {
+                getSubAccounts();
+            } else {
+                fetchSubAccounts();
+            }
+        }
+
+        init();
 
         $scope.showSubAccountDropDown = function () {
           //  fetchAdvertisers(searchCriteria, search);

@@ -1,8 +1,8 @@
 define(['angularAMD', 'common/services/constants_service', 'login/login_model', 'reporting/models/domain_reports',
-    'reporting/campaignSelect/campaign_select_model', 'common/services/role_based_service', 'workflow/services/workflow_service', 'common/services/features_service'], function (angularAMD) {
+    'reporting/campaignSelect/campaign_select_model', 'common/services/role_based_service', 'workflow/services/workflow_service', 'common/services/features_service','reporting/subAccount/sub_account_model'], function (angularAMD) {
     angularAMD.controller('HeaderController', function ($scope, $rootScope, $route, $cookieStore, $location, $modal,
                                                         constants, loginModel, domainReports,
-                                                        campaignSelectModel, RoleBasedService, workflowService,featuresService) {
+                                                        campaignSelectModel, RoleBasedService, workflowService,featuresService,subAccountModel) {
         $scope.user_name = loginModel.getUserName();
         $scope.version = version;
 
@@ -14,37 +14,18 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
             workflowService.getClients().then(function (result) {
                 if (result && result.data.data.length > 0) {
                     var preferred_client = RoleBasedService.getUserData().preferred_client;
+                    console.log('preferred_client',preferred_client);
                     $scope.accountsData = [];
 
                     _.each(result.data.data, function (org) {
                         $scope.accountsData.push({'id': org.id, 'name': org.name, 'isLeafNode':org.isLeafNode });
                         if(preferred_client !== undefined && org.id === preferred_client && !loginModel.getMasterClient()) {
-                            loginModel.setMasterClient({
-                                'id': org.id,
-                                'name': org.name,
-                                'isLeafNode':org.isLeafNode
-                            });
-                            if(org.isLeafNode == true) {
-                                loginModel.setSelectedClient({
-                                    'id': org.id,
-                                    'name': org.name
-                                });
-                            }
+                            loginModel.setMasterClient(org.id,org.name,org.isLeafNode);
                         }
                     });
 
                     if(preferred_client == 0 && !loginModel.getMasterClient()){
-                        loginModel.setMasterClient({
-                            'id': result.data.data[0].id,
-                            'name': result.data.data[0].name,
-                            'isLeafNode': result.data.data[0].isleafNode
-                        });
-                        if(result.data.data[0].isleafNode == true) {
-                            loginModel.setSelectedClient({
-                                'id': result.data.data[0].id,
-                                'name': result.data.data[0].name
-                            });
-                        }
+                        loginModel.setMasterClient(result.data.data[0].id,result.data.data[0].name,result.data.data[0].isLeafNode);
                     }
 
                     if(result.data.data.length > 1) {
@@ -61,21 +42,30 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
                         $scope.defaultAccountsName = $scope.accountsData[0].name;
                     }
 
-                    if (Number($scope.selectedCampaign) === -1) {
-                        campaignSelectModel.getCampaigns(-1, {limit: 1, offset: 0}).then(function (response) {
-                            if (response.length > 0) {
-                                $scope.selectedCampaign = response[0].campaign_id;
-                            }
-                        });
+                    var campaignsClientData = function() { console.log('am getting called');
+                        if (Number($scope.selectedCampaign) === -1) {
+                            campaignSelectModel.getCampaigns(-1, {limit: 1, offset: 0}).then(function (response) {
+                                if (response.length > 0) {
+                                    $scope.selectedCampaign = response[0].campaign_id;
+                                }
+                            });
+                        }
+                        $scope.getClientData(loginModel.getSelectedClient().id);
                     }
 
-                    var clientId;
-                    if (loginModel.getMasterClient() && loginModel.getMasterClient().id) {
-                        clientId = loginModel.getMasterClient().id;
-                    } else {
-                        clientId = $scope.accountsData[0].id;
+                    if(angular.isUndefined(loginModel.getSelectedClient()) || loginModel.getSelectedClient() === null ) {
+                        if(loginModel.getMasterClient().isLeafNode) {
+                            loginModel.setSelectedClient({'id':loginModel.getMasterClient().id,'name':loginModel.getMasterClient().name});
+                            campaignsClientData();
+
+                        } else {
+                            subAccountModel.fetchSubAccounts(function(){
+                            campaignsClientData();
+                            });
+                        }
                     }
-                    $scope.getClientData(clientId);
+
+
                     //$rootScope.$broadcast(constants.ACCOUNT_CHANGED, clientId);
                 }
             });
@@ -124,10 +114,7 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
                             },
                             accountChangeAction: function () {
                                 return function () {
-                                    loginModel.setMasterClient({'id': id, 'name': name,'isLeafNode':isLeafNode});
-                                    if(isLeafNode) {
-                                        loginModel.setSelectedClient({'id': id, 'name': name});
-                                    }
+                                    loginModel.setMasterAndClient(id,name,isLeafNode);
                                     $scope.getClientData(id);
                                     showSelectedClient(event, name);
                                     $rootScope.clientName = name;
@@ -143,10 +130,7 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
                     });
                 }
             } else {
-                loginModel.setMasterClient({'id': id, 'name': name,'isLeafNode':isLeafNode});
-                if(isLeafNode) {
-                    loginModel.setSelectedClient({'id': id, 'name': name});
-                }
+                loginModel.setMasterAndClient(id,name,isLeafNode);
                 showSelectedClient(event, name);
                 $scope.getClientData(id);
                 $rootScope.clientName = name;
