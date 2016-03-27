@@ -13,6 +13,10 @@ define(['angularAMD', 'workflow/services/workflow_service','common/services/cons
             self.subAccounts.allSubAccounts = dataAry;
         }
 
+        this.resetSubAccount = function() {
+            self.subAccounts.allSubAccounts = [];
+        }
+
         this.getSubAccounts = function () {
             return self.subAccounts.allSubAccounts;
         }

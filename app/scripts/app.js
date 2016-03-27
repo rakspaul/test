@@ -526,7 +526,7 @@ define(['common'], function (angularAMD) {
                         var userObj = JSON.parse(localStorage.getItem("userObj"));
                         workflowService
                             .getClients()
-                            .then(function (result) { console.log('clients: ',userObj.preferred_client,result.data.data);
+                            .then(function (result) {
                                 if ((result && result.data.data.length > 0)) {
                                     if(userObj.preferred_client){
                                         var matchedClientsobj = _.find(result.data.data, function (obj) {
@@ -543,7 +543,6 @@ define(['common'], function (angularAMD) {
                                     if(clientObj.isLeafNode) {
                                         loginModel.setSelectedClient({'id':clientObj.id,'name':clientObj.name});
                                         workflowService.getClientData(clientObj.id).then(function (response) {
-                                            console.log('feature response',response);
                                             featuresService.setFeatureParams(response.data.data.features);
                                         });
                                         if (locationPath === '/login' || locationPath === '/') {
