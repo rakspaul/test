@@ -240,8 +240,10 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
             });
         }
 
-        $scope.discrepancy_click_first_level = function(index){
+        $scope.discrepancy_click_first_level = function(index , event){
             $("#discrepancy_2nd_level_"+index).slideToggle();
+            var elem = $(event.target);
+            elem.closest(".discrepancyTplRow").toggleClass("open");
         }
 
         $scope.getRateOfDiscrepancy = function(imps1, imps2){
