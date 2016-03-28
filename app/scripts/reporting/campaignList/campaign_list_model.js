@@ -156,7 +156,10 @@ define(['angularAMD','reporting/campaignList/campaign_list_service', 'common/ser
 
                         fetchData = function (searchTerm) {
                             var performanceTab = $('#performance_tab');
-                            this.searchTerm = searchTerm;
+
+                            if (searchTerm) {
+                                this.searchTerm = searchTerm;
+                            }
                             console.log('fetchdata() with search term ' + this.searchTerm + '...');
 
                             if (performanceTab.hasClass('active') === false && $('#cost_tab').hasClass('active') === false) {
@@ -204,7 +207,7 @@ define(['angularAMD','reporting/campaignList/campaign_list_service', 'common/ser
 
                             // check scroller only inside container
                             findScrollerFromContainer.call(this);
-                            if ((!this.performanceParams.lastPage && (this.dashboard.filterTotal > 0) &&
+                            if ((!this.performanceParams.lastPage && (this.dashboard.filterTotal > 0) ||
                                 (this.scrollFlag > 0)) || this.searchTerm) {
                                 //Reseting scrollFlag
                                 this.scrollFlag = 0;
@@ -530,7 +533,7 @@ _.each(data, function (obj) {
                         sortCampaigns = function (fieldName) {
                             var totalItem = this.dashboard.quickFilterSelectedCount,
                                 sortDirection;
-
+console.log('sortCampaigns(), searchTerm = ', this.searchTerm);
                             if (this.sortParam) {
                                 if (this.sortParam === fieldName) {
                                     sortDirection = toggleSortDirection(this.sortDirection);

@@ -16,13 +16,36 @@ define(['angularAMD', '../../common/utils', 'common/services/constants_service',
                     link: function ($scope, element, attrs) {
                         var fparams = featuresService.getFeatureParams(),
                             campaignList = $scope.campaigns.campaignList,
-                            i;
+                            keywordsArr = '',
+                            keywords;
 
                         $scope.searchTerm = $scope.campaigns.searchTerm;
+console.log()
+                        keywordsArr = $scope.searchTerm ? $scope.searchTerm.split(' ') : '';
+                        if (keywordsArr) {
+                            // If search term contains more than 1 word,
+                            // add the entire search term into the list of keywords array.
+                            if (keywordsArr.length > 1) {
+                                keywordsArr.push($scope.searchTerm);
+                            }
+                            keywords = keywordsArr.join('|');
+                            console.log('keywordsArr = ', keywordsArr);
+                            console.log('keywords = ', keywords);
+                        }
+
                         _.each(campaignList, function (obj) {
-                            obj.campaignTitleHtml = highlightTitleText(obj.campaignTitle, $scope.searchTerm);
-                            for (i = 0; i < obj.labels.length; i++) {
-                                obj.labels[i] = highlightLabelPill(obj.labels[i], $scope.searchTerm);
+                            var labelsLen = 0,
+                                i;
+
+                            if (keywordsArr) {
+                                // Highlight keywords in title
+                                obj.campaignTitleHtml = highlightTitleText(obj.campaignTitle, keywords);
+
+                                // Highlight matching label pills
+                                labelsLen = obj.labels.length;
+                                for (i = 0; i < labelsLen; i++) {
+                                    obj.labels[i] = highlightLabelPill(obj.labels[i], $scope.searchTerm);
+                                }
                             }
                         });
 
@@ -36,10 +59,12 @@ define(['angularAMD', '../../common/utils', 'common/services/constants_service',
                         }
 
                         function highlightLabelPill(text, phrase) {
-                            var tempText = text.toString();
+                            var tempText = text.toString(),
+                                tempTextLower = tempText.toLowerCase(),
+                                tempPhrase = phrase.toLowerCase();
 
-                            if (phrase && tempText.indexOf('</mark>') === -1) {
-                                if (tempText.indexOf(phrase) >= 0) {
+                            if (phrase && tempTextLower.indexOf('</mark>') === -1) {
+                                if (tempTextLower.indexOf(tempPhrase) >= 0) {
                                     tempText = $sce.trustAsHtml('<mark class="brand_search_highlight">' +
                                         tempText + '</mark>');
                                 }
