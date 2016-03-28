@@ -187,6 +187,10 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model', 'reporti
             $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign() ;
         });
 
+       /* $scope.$on(constants.EVENT_SUB_ACCOUNT_CHANGED,function(){
+            $scope.callBackStrategyChange();
+        });*/
+
         $scope.$watch('selectedCampaign', function() {
             $scope.createDownloadReportUrl();
         });

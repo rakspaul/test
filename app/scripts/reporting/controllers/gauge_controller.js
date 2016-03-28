@@ -25,6 +25,10 @@ define(['angularAMD','../common/d3/gauge','reporting/models/gauge_model','common
             getGaugeData();
         });
 
+      /*$scope.$on(constants.EVENT_SUB_ACCOUNT_CHANGED, function (event, args) {
+          getGaugeData();
+      });*/
+
         function getGaugeData() {
             $scope.perfBusy = true;
             gaugeModel.getGaugeData().then(function (result) {

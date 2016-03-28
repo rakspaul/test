@@ -87,6 +87,10 @@ define(['angularAMD','login/login_model','login/login_service','reporting/common
             $scope.refresh();
         });
 
+        /*$scope.$on(constants.EVENT_SUB_ACCOUNT_CHANGED, function (event, args) {
+          $scope.refresh();
+        });*/
+
 
         $scope.getMessageForDataNotAvailable = function () {
             return constants.MSG_DATA_NOT_AVAILABLE_FOR_DASHBOARD;

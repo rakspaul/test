@@ -324,7 +324,7 @@ define(['angularAMD', '../../login/login_model', 'common/services/role_based_ser
         };
     }]);
 
-    angularAMD.directive('filtersHeader', ['$http', '$compile', 'constants','loginModel', function ($http, $compile, constants,loginModel) {
+    angularAMD.directive('filtersHeader', ['$rootScope','$http', '$compile', 'constants','loginModel', function ($rootScope,$http, $compile,constants,loginModel) {
         return {
             controller: function ($scope, $cookieStore, $location) {
             },
@@ -339,6 +339,9 @@ define(['angularAMD', '../../login/login_model', 'common/services/role_based_ser
                 if(masterClient.isLeafNode == false) {
                     scope.isLeafNode = false;
                 }
+                var masterClientChanged = $rootScope.$on(constants.EVENT_MASTER_CLIENT_CHANGED, function (event, args) {
+                    scope.isLeafNode = loginModel.getMasterClient().isLeafNode;
+                });
                 if (scope.allCampaign == "true" || scope.allCampaign == true) {
                     scope.selectedCampaign = {
                         id: 0,

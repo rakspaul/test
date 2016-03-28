@@ -1,5 +1,5 @@
-define(['angularAMD', 'workflow/services/workflow_service'], function (angularAMD) {
-    angularAMD.service("subAccountModel", function ($rootScope, workflowService) {
+define(['angularAMD', 'workflow/services/workflow_service','common/services/constants_service'], function (angularAMD) {
+    angularAMD.service("subAccountModel", function ($rootScope, workflowService,constants) {
         var self = this;
         self.subAccounts = {
             allSubAccounts: []
@@ -13,6 +13,10 @@ define(['angularAMD', 'workflow/services/workflow_service'], function (angularAM
             self.subAccounts.allSubAccounts = dataAry;
         }
 
+        this.resetSubAccount = function() {
+            self.subAccounts.allSubAccounts = [];
+        }
+
         this.getSubAccounts = function () {
             return self.subAccounts.allSubAccounts;
         }
@@ -24,5 +28,10 @@ define(['angularAMD', 'workflow/services/workflow_service'], function (angularAM
                 successCallBack();
             });
         }
+
+        this.broadCastSubAccount = function(subAccount,eventType) {
+            //$rootScope.$broadcast(constants.EVENT_SUB_ACCOUNT_CHANGED,{'subAccount':subAccount,'event_type':eventType});
+        }
+
     });
 });

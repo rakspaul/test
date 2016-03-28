@@ -14,7 +14,6 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
             workflowService.getClients().then(function (result) {
                 if (result && result.data.data.length > 0) {
                     var preferred_client = RoleBasedService.getUserData().preferred_client;
-                    console.log('preferred_client',preferred_client);
                     $scope.accountsData = [];
 
                     _.each(result.data.data, function (org) {
@@ -42,7 +41,7 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
                         $scope.defaultAccountsName = $scope.accountsData[0].name;
                     }
 
-                    var campaignsClientData = function(calledfrom) { console.log('am getting called',calledfrom);
+                    var campaignsClientData = function(calledfrom) {
                         if (Number($scope.selectedCampaign) === -1) {
                             campaignSelectModel.getCampaigns(-1, {limit: 1, offset: 0}).then(function (response) {
                                 if (response.length > 0) {
@@ -78,7 +77,6 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
         });
 
         $scope.getClientData = function (clientId) {
-            console.log('getclientdata',clientId);
             workflowService.getClientData(clientId).then(function (response) {
                 RoleBasedService.setClientRole(response);//set the type of user here in RoleBasedService.js
                 RoleBasedService.setCurrencySymbol();
@@ -89,7 +87,7 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
             });
         }
 
-        var showSelectedClient = function (evt, clientName) {
+        var showSelectedMasterClient = function (evt, clientName) {
             var elem = $(evt.target);
             $(".accountsList-dropdown-li").find(".selected-li").removeClass("selected-li");
             elem.addClass("selected-li");
@@ -97,6 +95,20 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
             $(".main_nav").find(".account-name-nav").text(clientName);
             $(".main_nav_dropdown").hide();
             $("#user-menu").show();
+        }
+
+        var setMasterClientData = function(id, name,isLeafNode) {
+            loginModel.setMasterClient({'id': id, 'name': name,'isLeafNode':isLeafNode});
+            showSelectedMasterClient(event, name);
+            if(isLeafNode) {
+                loginModel.setSelectedClient({'id': id, 'name': name});
+                $scope.getClientData(id);
+            } else {
+                subAccountModel.fetchSubAccounts(function(){
+                    $scope.getClientData(loginModel.getSelectedClient().id);
+                });
+            }
+            $scope.defaultAccountsName = name;
         }
 
         $scope.set_account_name = function (event, id, name,isLeafNode) {
@@ -117,11 +129,8 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
                             },
                             accountChangeAction: function () {
                                 return function () {
-                                    loginModel.setMasterAndClient(id,name,isLeafNode);
-                                    $scope.getClientData(id);
-                                    showSelectedClient(event, name);
-                                    $rootScope.clientName = name;
-                                    $scope.defaultAccountsName = name;
+                                    setMasterClientData(id, name,isLeafNode);
+                                    // check this condition .. when etners as workflow user should we broadcast masterclient - sapna
                                     if (moduleObj.redirect) {
                                         $location.url('/mediaplans');
                                     } else {
@@ -133,12 +142,9 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
                     });
                 }
             } else {
-                loginModel.setMasterAndClient(id,name,isLeafNode);
-                showSelectedClient(event, name);
-                $scope.getClientData(id);
-                $rootScope.clientName = name;
-                $scope.defaultAccountsName = name;
-                $rootScope.$broadcast(constants.ACCOUNT_CHANGED, {'client': id, 'event_type': 'clicked'});
+                setMasterClientData(id, name,isLeafNode);
+                $rootScope.$broadcast(constants.EVENT_MASTER_CLIENT_CHANGED, {'client': loginModel.getSelectedClient().id, 'event_type': 'clicked'});
+
             }
 
 
