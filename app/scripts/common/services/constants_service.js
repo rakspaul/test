@@ -114,7 +114,7 @@ define(['angularAMD'], function(angularAMD) {
         this.ALL_TYPES ='All Types';
         this.AT_ANY_TIME ='At any time';
 
-        this.SCHEDULED_REPORTS = "Saved & Scheduled Reports";
+        this.SCHEDULED_REPORTS = "My Reports";
         this.REPORT_TYPES = "Report Types";
         this.GENERATED = "Generated";
         this.REPORT_GENERATED = "Report Generated";
