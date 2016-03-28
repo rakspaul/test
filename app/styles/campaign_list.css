@@ -1273,6 +1273,9 @@ input[type="submit"] {
   color: #000;
   text-decoration: none;
 }
+.dashboard_outer_container .total_campaign_list_holder .each_campaign_list_container .main_heading a .brand_search_highlight {
+  background: #fcecbd;
+}
 .dashboard_outer_container .total_campaign_list_holder .each_campaign_list_container .heading {
   color: #57606d ;
   font-size: 14px ;
@@ -1300,7 +1303,7 @@ input[type="submit"] {
   border-radius: 3px;
 }
 .dashboard_outer_container .total_campaign_list_holder .each_campaign_list_container .pillsWrap .brand_search_highlight {
-  background: yellow;
+  background: #fcecbd;
 }
 .dashboard_outer_container .total_campaign_list_holder .each_campaign_list_container .campaign_section_KPI {
   float: right;

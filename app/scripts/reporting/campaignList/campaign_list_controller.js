@@ -43,6 +43,30 @@ define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', 'reporting/campaig
                 $scope.sortReverse = false;
                 $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign();
                 $scope.textConstants = constants;
+
+                $scope.searchTerm = '';
+                $scope.campaigns.searchTerm = '';
+                $scope.campaignSearchFunc = function (e) {
+                    // Perform search if enter key is pressed & user has entered something.
+                    if (e.keyCode === 13) {
+                        if ($scope.campaigns.searchTerm && $scope.campaigns.searchTerm.trim()) {
+                            // Store the total number of campaigns in a temp var.
+                            // This will be used when resetting after searching.
+                            if ($scope.campaigns.dashboard.quickFilterSelectedCount) {
+                                $scope.tempTotalItems = $scope.campaigns.dashboard.quickFilterSelectedCount;
+                            }
+                            // TODO: Have to handle search result 0 count
+                            //$scope.campaigns.dashboard.filterTotal = 0;
+
+                            $scope.campaigns.resetFilters();
+                            $scope.campaigns.fetchData($scope.campaigns.searchTerm);
+                            $scope.isCampaignSearched = true;
+                        } else {
+                            console.log('Please enter search term...');
+                        }
+                    }
+                };
+
                 $scope.isWorkFlowUser =
                     RoleBasedService.getClientRole() && RoleBasedService.getClientRole().workFlowUser;
 
@@ -160,7 +184,7 @@ define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', 'reporting/campaig
                 //         });
                 //     });
 
-                // Search Hide / Show
+                // Search show / hide
                 $scope.searchShowInput = function () {
                     var searchInputForm = $('.searchInputForm');
 
@@ -172,21 +196,43 @@ define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', 'reporting/campaig
                 $scope.searchHideInput = function () {
                     var inputSearch = $('.searchInputForm input');
 
-                    isSearch = false; // TODO: Where is this variable declared & where is it used???
                     $('.searchInputForm').animate({width: '44px'}, 'fast');
-                    inputSearch.val('');
                     setTimeout(function () {
                         $('.searchInputForm').hide();
                     }, 300);
                     setTimeout(function () {
                         $('.searchInputBtn').fadeIn();
                     }, 300);
+
+                    if ($scope.isCampaignSearched) {
+                        $scope.isCampaignSearched = false;
+                        $scope.campaigns.searchTerm = '';
+                        $scope.searchTerm = '';
+                        console.log('Search was performed, resetting $scope.campaigns.searchTerm = ', $scope.campaigns.searchTerm);
+                        // TODO: How to get correct Media Plans total count???
+                        $scope.campaigns.resetFilters();
+                        $scope.campaigns.fetchData();
+                        $scope.campaigns.dashboard.quickFilterSelectedCount = $scope.tempTotalItems;
+                        $scope.campaigns.dashboard.filterTotal = $scope.tempTotalItems;
+                        console.log('$scope.tempTotalItems = ', $scope.tempTotalItems);
+                    } else {
+                        console.log('Search has not been performed yet.');
+                    }
                 };
 
                 //Lazy Loader
                 $(window).scroll(function () {
+                    // Don't attempt to scroll if there's no data.
+                    if ($scope.campaigns.dashboard.filterTotal === 0) {
+                        return;
+                    }
+
                     if (!$scope.campaigns.busy && ($(window).scrollTop() + $(window).height() > $(document).height() - 100)) {
-                        $scope.campaigns.fetchData();
+                        if ($scope.campaigns.searchTerm) {
+                            $scope.campaigns.fetchData($scope.campaigns.searchTerm);
+                        } else {
+                            $scope.campaigns.fetchData();
+                        }
                     }
                 });
 

@@ -44,9 +44,9 @@
                 <div class="input-group searchInputForm" >
                     <input type="text"
                            class="form-control"
-                           name="creativeSearch"
-                           ng-model="creativeSearch"
-                           ng-keyup="creativeSearchFunc()"
+                           name="campaignSearch"
+                           ng-model="campaigns.searchTerm"
+                           ng-keyup="campaignSearchFunc($event)"
                            placeholder="Search Media Plans...">
                     <div class="btn btn-default" ng-click="searchHideInput()">
                         <span class="icon-clear" aria-hidden="true"></span>
@@ -103,7 +103,7 @@
         <div class="each_section_block total_campaign_cost_holder" id="cost_block" style="display:none" >
             <div class="all_campaigns_container">
                 <div  class="no-campaign-available"
-                      ng-if="(campaigns.dashboard.filterTotal == 0 )"
+                      ng-if="(campaigns.dashboard.filterTotal === 0)"
                       data-ng-bind="textConstants.NO_RELEVANT_CAMPAIGNS">
                 </div>
                 <div class="each_campaign_cost_container"
@@ -130,7 +130,7 @@
                       ng-if="(campaigns.dashboard.filterTotal == 0 )"
                       data-ng-bind="textConstants.NO_RELEVANT_CAMPAIGNS">
                 </div>
-                <div class="row-fluid each_campaign_holder" data-ng-repeat="campaign in campaigns.campaignList">
+                <div class="clearfix row-fluid each_campaign_holder" data-ng-repeat="campaign in campaigns.campaignList">
                     <!-- campaign strategy card -->
                     <div ng-if="(campaigns.dashboard.filterTotal > 0 )"
                          campaign-card campaign="campaign"
