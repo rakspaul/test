@@ -36,67 +36,74 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                 fetchCampaigns: function () {
                     var clientId = loginModel.getSelectedClient().id,
                         url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/campaigns';
-
                     return dataService.fetch(url);
                 },
 
-                getClients: function () {
-                    var url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients';
+            getClientData: function (clientId) {
+                var url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId;
 
-                    return dataService.fetch(url, {
-                        cache: false
-                    });
-                },
+                return dataService.fetch(url, {cache: false});
+            },
 
-                getClientData: function (clientId) {
-                    var url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId;
-
-                    return dataService.fetch(url, {
-                        cache: false
-                    });
-                },
-
-                getSubAccounts: function () {
-                    var clientId = loginModel.getMasterClient().id,
-                        url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/descendants?level=last';
-
-                    if (clientId !== undefined) {
-                        return dataService.fetch(url);
-                    }
-                },
-
-                getAdvertisers: function (accessLevel) {
-                    var clientId = loginModel.getSelectedClient().id,
-                        url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/advertisers';
-
-                    if (accessLevel) {
-                        url = url + '?access_level=' + accessLevel;
-                    }
-
+            getSubAccounts: function(access_level){
+                var accessLevel = '';
+                if(access_level !== undefined) {
+                    var accessLevel = '&access_level='+access_level;
+                }
+                var clientId =  loginModel.getMasterClient().id;
+                if(clientId !== undefined) {
+                    var url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/descendants?level=last' + accessLevel;
                     return dataService.fetch(url);
-                },
+                }
+            },
 
-                getBrands: function (advertiserId, accessLevel) {
-                    var clientId = loginModel.getSelectedClient().id,
-                        url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId +
+            getClients: function () {
+                var url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients';
+
+                return dataService.fetch(url, {
+                    cache: false
+                });
+            },
+
+            getAdvertisers: function (accessLevel,client_id) {
+                var clientId =  loginModel.getSelectedClient().id;
+                if(client_id) {
+                    var clientId =  client_id;
+                }
+                var url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/advertisers';
+                if(accessLevel) {
+                    url =  url +'?access_level='+accessLevel;
+                }
+
+                return dataService.fetch(url);
+            },
+
+            getBrands: function (client_id,advertiserId, accessLevel) {
+                var clientId =  loginModel.getSelectedClient().id;
+                if(client_id){
+                    var clientId =  client_id;
+                }
+                var url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId +
                             '/advertisers/' + advertiserId + '/brands';
+                if (accessLevel) {
+                    url = url + '?access_level=' + accessLevel;
+                }
+                return dataService.fetch(url);
+            },
+            saveCampaign: function (data) {
+                var isLeafNode = loginModel.getMasterClient().isLeafNode;
+                if(isLeafNode) {
+                    var clientId =  loginModel.getSelectedClient().id;
+                } else {
+                    var clientId = data.clientId;
 
-                    if (accessLevel) {
-                        url = url + '?access_level=' + accessLevel;
-                    }
-                    return dataService.fetch(url);
-                },
-
-                saveCampaign: function (data) {
-                    var clientId = loginModel.getSelectedClient().id;
-
-                    return dataService.post(
-                        vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/campaigns',
-                        data, {
-                            'Content-Type': 'application/json'
-                        }
-                    );
-                },
+                }
+                return dataService.post(
+                    vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/campaigns',
+                    data,
+                    {'Content-Type': 'application/json'}
+                );
+            },
 
                 updateCampaign: function (data, id) {
                     var clientId = loginModel.getSelectedClient().id;
