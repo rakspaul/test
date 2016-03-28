@@ -11,7 +11,10 @@
                     </div>
                     <div class="each_campaign_section zeroPadding">
                         <div class="main_heading">
-                             <truncate-text-with-hover txt="{{tactic.name}}" txtlength="75"></truncate-text-with-hover>
+                             <truncate-text-with-hover txt="{{tactic.name}}"
+                                                       txt-html="{{tactic.name}}"
+                                                       txtlength="75">
+                             </truncate-text-with-hover>
                         </div>
 
                     </div>
@@ -70,7 +73,7 @@
                         <span class="pull-left">{{tactic.platform_name}}</span>
                     </div>
                 </div>
-                
+
                 <!--Column 2-->
                 <div class="col-md-4 each_campaign_section metric_campaign_section">
                     <div class="clearfix metric_graph_header">
@@ -123,7 +126,7 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <!--Column 3-->
                 <div class="col-md-4 each_campaign_section campaign_section_KPI">
                     <div class="graph_details_KPI">
