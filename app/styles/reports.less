@@ -985,6 +985,46 @@ div.strategy_total_container {
     border: solid 1px @reportBorder ;
     border-top-width: 2px ;
     padding: 15px 20px 5px 20px ;
+    .discrepancyName {
+      width: 250px;
+      margin-bottom: 10px;
+    }
+    .discrepancySecLevel {
+      .discrepancySecLevelRow {
+        margin-bottom: 5px;
+      }
+      .platform_logo_img {
+        margin-left:45px;
+      }
+      .discrepancySecLevelName {
+        width: 177px;
+      }
+    }
+    .rowHasSubRow {
+      cursor: pointer;
+    }
+    .discrepancyTplRow {
+      .icon-arrow-down {
+        font-size: 9px; 
+        color: #000;
+        -ms-transform: rotate(-90deg);
+        -webkit-transform: rotate(-90deg);
+        transform: rotate(-90deg);
+        
+      }
+      .platform_logo_img {
+        margin-right: 8px ;
+      }
+    }
+    .discrepancyTplRow.open {
+      .icon-arrow-down {
+        -ms-transform: rotate(0deg);
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+        margin-top:7px;
+        
+      }
+    }
     div.each_col.first_col {
       .StrategyHeadingFontColor();
     }
