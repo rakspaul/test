@@ -4,6 +4,7 @@
         <h1 class="col-md-12 zeroPadding" ng-if="!editAdGroupFlag" data-ng-bind="textConstants.CREATEADGROUP"></h1>
         <div class="clearfix" ng-if="editAdGroupFlag">
                 <h1 class="col-md-4 zeroPadding" data-ng-bind="textConstants.SETADGRP"></h1>
+                <span class="pull-right common-loading-btn" style="width: 61px;" ng-show="loadingBtn"></span>
                 <button type="submit"
                         class="btn btn-primary pull-right"
                         id="groupIndividual"
@@ -55,8 +56,8 @@
                        max-value ="{{adGroupMaxBudget}}"
                        required ng-blur="validateAdGroupSpend($event)"/>
                 <label ng-if="createNewAdGrp.adIGroupBudget.$error.required" class="col-sm-12 control-label greyTxt errorLabel" data-ng-bind="textConstants.ADGROUPBUDGETMSG"></label>
-                <label ng-if="!isMinimumAdGroupBudget" class="col-sm-12 control-label greyTxt customErrorLabel" data-ng-bind="textConstants.ADGROUPMINIMUMBUDGETMSG"></label>
-                <label ng-if="!isMaximumAdGroupBudget" class="col-sm-12 control-label greyTxt customErrorLabel" data-ng-bind="textConstants.ADGROUPMAXIMUMBUDGETMSG"></label>
+                <label ng-if="adIGroupBudget >0 && !isMinimumAdGroupBudget" class="col-sm-12 control-label greyTxt customErrorLabel" data-ng-bind="textConstants.ADGROUPMINIMUMBUDGETMSG"></label>
+                <label ng-if="adIGroupBudget >0 && !isMaximumAdGroupBudget" class="col-sm-12 control-label greyTxt customErrorLabel" data-ng-bind="textConstants.ADGROUPMAXIMUMBUDGETMSG"></label>
             </div>
 
             <div class="col-md-3" style="padding: 0 0 0 10px;">
@@ -93,7 +94,7 @@
         <!--Save / Cancel-->
         <div class="col-md-6" style="padding: 62px 0 0 0;" ng-if="!editAdGroupFlag">
             <span class="pull-right common-loading-btn" style="width: 61px;" ng-show="loadingBtn"></span>
-            <button type="submit" class="btn btn-primary pull-right" id="createAdGroup" ng-disabled="createNewAdGrp.$invalid" ng-click="createAdGroup($event)" data-ng-bind="textConstants.SAVE" ng-show="!loadingBtn"></button>
+            <button type="submit" class="btn btn-primary pull-right" id="createAdGroup" ng-disabled="createNewAdGrp.$invalid || !isMinimumAdGroupBudget || !isMaximumAdGroupBudget" ng-click="createAdGroup($event)" data-ng-bind="textConstants.SAVE" ng-show="!loadingBtn"></button>
             <span class="pull-right secondary_txt" ng-click="createAdGrp();" data-ng-bind="textConstants.CANCEL"></span>
         </div>
         <div id="createGroupMessage" ng-if="!editAdGroupFlag" data-ng-bind="createAdGroupMessage"></div>
