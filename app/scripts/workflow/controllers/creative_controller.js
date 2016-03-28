@@ -481,8 +481,7 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
                           $scope.cancelBtn();
                           $rootScope.setErrAlertMessage($scope.textConstants.CREATIVE_SAVE_SUCCESS,0);
                           localStorage.setItem( 'topAlertMessage', $scope.textConstants.CREATIVE_SAVE_SUCCESS);
-                      } else if (result.data.data.message ===
-                          'Creative with this tag already exists. If you still want to save, use force save') {
+                      } else if (result.data.data.message ==='Creative with this tag already exists. If you still want to save, use force save') {
                           $('.popup-holder').css('display', 'block');
                           $scope.addedSuccessfully = false;
                           $scope.disableCancelSave = true;

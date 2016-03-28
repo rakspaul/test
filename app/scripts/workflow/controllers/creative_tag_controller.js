@@ -21,7 +21,7 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
                 return respData;
             },
 
-            getCreativesFromLibrary: function (clientID, adID, format, query,state) {
+            getCreativesFromLibrary: function (clientID, format, query,state) {
                 // If adFormat has changed (Eg: from Display to RichMedia, etc.),
                 // reset selected creatives array
                 if ($scope.$parent.adFormatChanged) {
@@ -33,8 +33,7 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
                 // remove spaces.
                 format = format.replace(/\s/g, '');
                 workflowService
-                    .getCreatives(clientID, adID, format, query, {cache: false}, $scope.TrackingIntegrationsSelected,state)
-                    .then(function (result) {
+                    .getCreatives(clientID, format, query, {cache: false}, $scope.TrackingIntegrationsSelected,state,function(result){
                         var responseData,
                             selectedCreative;
 
@@ -58,11 +57,11 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
                                     }
                                 });
                             }
-                        } else {
-                            addFromLibrary.errorHandler(result);
-                            $scope.loadingFlag = false;
                         }
-                    }, addFromLibrary.errorHandler);
+                    },function(error){
+                    addFromLibrary.errorHandler(error);
+                    $scope.loadingFlag = false;
+                });
             },
 
             errorHandler: function (/*errData*/) {
@@ -85,7 +84,7 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
             }
 
             var campaignId = $scope.workflowData.campaignData.clientId,
-                advertiserId = $scope.workflowData.campaignData.advertiserId,
+               // advertiserId = $scope.workflowData.campaignData.advertiserId,
                 searchVal = $scope.adData.creativeSearch,
                 qryStr = '',
                 formats = format;
@@ -93,7 +92,7 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
             if (searchVal.length > 0) {
                 qryStr += '&query=' + searchVal;
             }
-            addFromLibrary.getCreativesFromLibrary(campaignId, advertiserId, formats, qryStr,'READY');
+            addFromLibrary.getCreativesFromLibrary(campaignId, formats, qryStr,'READY');
         };
 
         $scope.saveCreativeTags = function () {
@@ -185,12 +184,12 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
         });
 
         $scope.$on('showCreativeLibrary', function () {
-            var campaignId = $scope.workflowData.campaignData.clientId,
-                advertiserId = $scope.workflowData.campaignData.advertiserId;
+            var campaignId = $scope.workflowData.campaignData.clientId;
+               // advertiserId = $scope.workflowData.campaignData.advertiserId;
 
             $scope.showHidePopup = true;
             $scope.creativeListLoading = true;
-            addFromLibrary.getCreativesFromLibrary(campaignId, advertiserId, $scope.adData.adFormat.toUpperCase(),'','READY');
+            addFromLibrary.getCreativesFromLibrary(campaignId, $scope.adData.adFormat.toUpperCase(),'','READY');
         });
 
         $scope.$on('removeCreativeTags', function ($event, arg) {
