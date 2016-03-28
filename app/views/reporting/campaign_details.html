@@ -274,19 +274,28 @@
                                 <div class="pull-left filter_dropdown_sel_list">
                                   <span class="filter_dropdown_sel_txt">
                                     <truncate-text-with-hover txt="{{showList.actionType}}"
-                                                              txtlength="30"></truncate-text-with-hover>
+                                                              txt-html="{{showList.actionType}}"
+                                                              txtlength="30">
+                                    </truncate-text-with-hover>
                                   </span>
                                   <span class="filter_dropdown_sel_txt">
                                     <truncate-text-with-hover txt="{{showList.actionSubtype}}"
-                                                              txtlength="30"></truncate-text-with-hover>
+                                                              txt-html="{{showList.actionSubtype}}"
+                                                              txtlength="30">
+                                    </truncate-text-with-hover>
                                   </span>
                                   <span class="filter_dropdown_sel_txt">
                                      <truncate-text-with-hover txt="{{showList.tactic}}"
-                                                               txtlength="30"></truncate-text-with-hover>
+                                                               txt-html="{{showList.tactic}}"
+                                                               txtlength="30">
+                                     </truncate-text-with-hover>
                                   </span>
                                   <span class="filter_dropdown_sel_txt">
-                                    {{ textConstants.IMPACTS }}: <truncate-text-with-hover
-                                          txt="{{showList.metricImpacted}}" txtlength="30"></truncate-text-with-hover>
+                                      {{ textConstants.IMPACTS }}:
+                                      <truncate-text-with-hover txt="{{showList.metricImpacted}}"
+                                                                txt-html="{{showList.metricImpacted}}"
+                                                                txtlength="30">
+                                      </truncate-text-with-hover>
                                   </span>
                                 </div>
                             </div>
