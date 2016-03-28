@@ -28,10 +28,10 @@
             <form role="form" name="formCreativeCreate" id="formCreativeCreate" novalidate ng-submit="submitForm(formCreativeCreate)">
 				<div class="col-md-6 zeroPadding pull-right saveCreativeBtn">
                     <div ng-show="addedSuccessfully" ng-model="addedSuccessfully" class="text-right">{{Message}}</div>
-                    <div class="col-md-12" style="margin-top: 10px;" ng-show="savingCreative">
-                        <div class="common-loading-area"></div>
-                    </div>
-					<button type="submit" class="btn btn-primary pull-right" ng-disabled="savingCreative" id="saveCreative" > Save Creative</button>
+                    <!--<div class="col-md-12" style="margin-top: 10px;" ng-show="savingCreative = true">-->
+                        <span class="common-loading-btn pull-right" ng-show="savingCreative" style="width:118px"></span>
+                    <!--</div>-->
+					<button type="submit" class="btn btn-primary pull-right" ng-disabled="savingCreative" id="saveCreative" ng-hide="savingCreative"> Save Creative</button>
                     <a class="btn btn-link pull-right" role="button" ng-disabled="disableCancelSave" ng-click="cancelBtn()"> Cancel</a>
                 </div>
                 <!--<div class="col-md-12 zeroPadding clearfix nav_filters">-->
