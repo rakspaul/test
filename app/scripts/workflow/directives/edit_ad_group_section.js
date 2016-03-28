@@ -83,6 +83,7 @@ define(['angularAMD'],function (angularAMD) {
                 $scope.cancelEditAdGroup = function () {
                     element.closest('.adGroup').find(".editAdgroupDiv").hide();
                     element.closest('.adGroup').find('.adgroupDiv').show();
+                    element.closest('.adGroup').find(".overlay").hide();
                 };
 
 

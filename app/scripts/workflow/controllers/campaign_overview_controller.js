@@ -411,7 +411,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
         $scope.createAdGrp = function () {
             $scope.showCreateAdGrp = !$scope.showCreateAdGrp;
-            var adGroupCreateformElem = $(".adGroupCreate").find("form");
+            var adGroupCreateformElem = $(".adGroupSelectionWrap").find(".adGroupCreate").find("form");
             adGroupCreateformElem[0].reset();
             $scope.$broadcast('show-errors-reset');
             $('.adGroupSelectionWrap, .singleCardWrap').toggleClass('active');
@@ -541,10 +541,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 changeDate = moment(startTime).format(constants.DATE_US_FORMAT);
                 endDateElem.datepicker('setStartDate', changeDate);
                 endDateElem.datepicker('setEndDate', campaignEndTime);
-                if (moment(startTime).isAfter(changeDate, 'day')) {
-                    endDateElem.datepicker('update', changeDate);
-                }
-
+                endDateElem.datepicker('update', changeDate);
             }
         };
 
