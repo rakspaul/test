@@ -348,6 +348,10 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
             }
         };
 
+        /*$scope.$on(constants.EVENT_SUB_ACCOUNT_CHANGED,function(){
+                getPerformanceData();
+        });
+*/
         //resetting the variable
         $scope.resetVariables =  function() {
             $scope.screenBusy = false;

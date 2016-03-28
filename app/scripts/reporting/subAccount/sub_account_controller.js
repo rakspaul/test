@@ -1,13 +1,19 @@
-define(['angularAMD','reporting/subAccount/sub_account_model'],function (angularAMD) {
-    angularAMD.controller('subAccountController', function ($scope,$rootScope,subAccountModel) {
+define(['angularAMD','reporting/subAccount/sub_account_model','common/services/constants_service','login/login_model','common/utils'],function (angularAMD) {
+    angularAMD.controller('subAccountController', function ($scope,$rootScope,subAccountModel,constants,loginModel,utils) {
 
-        $scope.subAccountData = {
-            subAccounts : {},
-            selectedsubAccount :  {
-                id: -1,
-                name : 'Loading...'
-            }
-        };
+        var initializeDataObj = function() {
+            $scope.subAccountData = {
+                subAccounts : {},
+                selectedsubAccount :  {
+                    id: -1,
+                    name : 'Loading...'
+                }
+            };
+        }
+        initializeDataObj();
+
+        var search = false;
+        var searchCriteria = utils.typeaheadParams;
 
         function fetchSubAccounts(searchCriteria, search) {
             subAccountModel.fetchSubAccounts(function () {
@@ -17,7 +23,21 @@ define(['angularAMD','reporting/subAccount/sub_account_model'],function (angular
             });
         };
 
-        fetchSubAccounts();
+        function getSubAccounts(searchCriteria, search) {
+            $scope.subAccountData.subAccounts = subAccountModel.getSubAccounts();
+            $scope.subAccountData.selectedsubAccount.id = $scope.subAccountData.subAccounts[0].id;
+            $scope.subAccountData.selectedsubAccount.name = $scope.subAccountData.subAccounts[0].name;
+        }
+
+        function getOrFetchSubAccounts() {
+            if(subAccountModel.getSubAccounts().length > 0) {
+                getSubAccounts();
+            } else {
+                fetchSubAccounts();
+            }
+        }
+
+        getOrFetchSubAccounts();
 
         $scope.showSubAccountDropDown = function () {
           //  fetchAdvertisers(searchCriteria, search);
@@ -29,17 +49,50 @@ define(['angularAMD','reporting/subAccount/sub_account_model'],function (angular
         };
 
         $scope.selectSubAccount = function (sub_account, event_type) {
+            var subAccountIdName = {'id':sub_account.id,'name': sub_account.name};
+
             $("#sub_account_name_selected").text(sub_account.name);
             $('#subAccountDropdown').attr('placeholder', sub_account.name).val('');
+
             $scope.subAccountData.showAll = true;
-            console.log('sub_account',sub_account);
-            var subAccountIdName = {'id':sub_account.id,'name': sub_account.name};
             subAccountModel.setSelectedSubAccount(subAccountIdName);
+            $rootScope.$broadcast(constants.ACCOUNT_CHANGED, {'client':sub_account.id, 'event_type': 'clicked'});
+            $scope.selectedSubAccount = null;
         };
 
-        $scope.disableShowAll = function () { console.log('dsiablibng');
+        $scope.disableShowAll = function () {
             $scope.subAccountData.showAll = false;
         };
+
+        //shold we have this
+        var eventClientChangedFromDashBoard = $rootScope.$on(constants.EVENT_CLIENT_CHANGED_FROM_DASHBOARD, function (event, args) {
+            console.log('****',args.subAccount);
+            $scope.selectSubAccount(args.subAccount, args.event_type);
+        });
+
+        var masterClientChanged = $rootScope.$on(constants.EVENT_MASTER_CLIENT_CHANGED, function (event, args) {
+          //  loadSubAccount = true;
+           // var advertiser = advertiserModel.getAllAdvertiser();
+            initializeDataObj();
+            subAccountModel.resetSubAccount();
+            var isLeafNode = loginModel.getMasterClient().isLeafNode;
+            var subAccountId = loginModel.getSelectedClient().id;
+            if(!isLeafNode) {
+
+                fetchSubAccounts();
+
+
+            }
+            $rootScope.$broadcast(constants.ACCOUNT_CHANGED, {'client':subAccountId, 'event_type': 'clicked'});
+          //  $scope.selectSubAccount();
+
+            /* advertiser.referedFrom = "subaccount_change";
+            $scope.selectAdvertiser(advertiser);
+            advertiserModel.setSelectedAdvertisers(advertiser);
+            advertiserModel.callAdvertiserBroadcast(advertiser, args.event_type);*/
+
+        });
+
 
         $(function () {
             $("header").on('click', '#subAccountDropdownDiv', function () {

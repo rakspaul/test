@@ -428,33 +428,6 @@ define(['angularAMD','common/services/constants_service', 'common/services/role_
             };
         })
 
-        .directive('editAdGroupSection', function ($http, $compile) {
-            return {
-                restrict:'EAC',
-                link: function($scope, element, attrs) {
-                    var template;
-                    element.bind('click', function() {
-                        $(".editAdgroupDiv").hide();
-                        $(".adgroupDiv").show();
-                        element.closest('.adGroup').find('.adgroupDiv').hide();
-                        element.closest('.adGroup').find('.editAdgroupDiv').show();
-                        $http.get(assets.html_edit_adgroup).then(function (tmpl) {
-                            template = $compile(tmpl.data)($scope);
-                            element.closest('.adGroup').find('.editAdgroupDiv').html(template);
-                        });
-                    });
-                    $scope.saveEditAdGroup = function () {
-                       element.closest('.adGroup').find(".editAdgroupDiv").hide();
-                       element.closest('.adGroup').find('.adgroupDiv').show();
-                    };
-                    $scope.cancelEditAdGroup = function () {
-                       element.closest('.adGroup').find(".editAdgroupDiv").hide();
-                       element.closest('.adGroup').find('.adgroupDiv').show();
-                    };
-                }
-            };
-        })
-
         //Details-Banner-Directive
         .directive('campaignDetailsBanner', function () {
             return {

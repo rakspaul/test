@@ -86,10 +86,10 @@ define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', 'reporting/campaig
                     $scope.campaigns.fetchData();
                 });*/
 
-                $rootScope.$on(constants.EVENT_ADVERTISER_CHANGED, function () {
-                    $scope.campaigns.fetchData();
+               /* $rootScope.$on(constants.EVENT_SUB_ACCOUNT_CHANGED, function () { console.log('anm called in list');
+                    $scope.campaigns.fetchDashboardData();
                 });
-
+*/
                 //Based on gauge click, load the filter and reset data set after gauge click.
                 var forceLoadCampaignsFilter;
                 if (gaugeModel.dashboard.selectedFilter !== '') {

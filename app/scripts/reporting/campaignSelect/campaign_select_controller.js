@@ -42,6 +42,19 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'common/s
 
         });
 
+       /* $scope.$on(constants.EVENT_SUB_ACCOUNT_CHANGED, function (event, args) {
+            if(args.event_type === 'clicked') {
+                resetSearchCriteria(); //Get Campaign for the selected brand
+                $scope.exhausted = false;
+                campaignSelectModel.removeSelectedCampaign();
+                $scope.fetchCampaigns(true, true);
+            }
+
+        });*/
+
+
+
+
         $scope.setCampaign = function (selectedCampaign) { // set campaign in campaign controller scope. and fire change in campaign event.
             if (selectedCampaign == undefined || selectedCampaign.id == -1) {
                 selectedCampaign = {

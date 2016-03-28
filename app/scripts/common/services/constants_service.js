@@ -3,6 +3,7 @@ define(['angularAMD'], function(angularAMD) {
         this.currencySymbol = $locale.NUMBER_FORMATS.CURRENCY_SYM;
         this.CAMPAIGN_LIST_CANCELLER = 1;
         this.CAMPAIGN_FILTER_CANCELLER = 1;
+        this.ADDLIBRARY_FILTER_CANCELLER = 10;
         this.COST_CANCELLER = 2;
         this.DASHBOARD_CANCELLER = 3;
         this.GAUGE_CANCELLER = 4;
@@ -172,6 +173,8 @@ define(['angularAMD'], function(angularAMD) {
         this.PARTIAL_AD_CLONE_SUCCESS = '<span class="bold-font">Success. </span> Ad has been successfully cloned';
         this.AD_GROUP_CREATED_SUCCESS =
             '<span class="bold-font">Success. </span> Ad Group has been successfully created';
+        this.AD_GROUP_EDITED_SUCCESS =
+            '<span class="bold-font">Success. </span> Ad Group has been successfully edited';
         this.AD_GROUP_CREATED_FAILURE = '<span class="bold-font">Error. </span> Ad Group could not be created';
         this.CREATIVE_SAVE_SUCCESS = '<span class="bold-font">Success. </span> Creative has been successfully created';
         this.WF_DATE_FORMAT = 'YYYY-MM-DD HH:mm:ss.SSS';
@@ -419,7 +422,7 @@ define(['angularAMD'], function(angularAMD) {
         this.USERNAME_OR_PASSWORD_INCORRECT = 'The Username/Password is incorrect';
 
         this.CAPAIGN_DETAILS = 'Media Plan Details';
-        this.FORMAT = 'Format';
+        this.CHANNEL = 'Channel';
         this.DOWNLOAD_REPORT = 'Download Report';
         this.DOWNLOADING = 'Downloading';
 
@@ -479,7 +482,7 @@ define(['angularAMD'], function(angularAMD) {
 
         this.WF_GUIDED_COPY = 'Guided Copy Here - What should i choose?';
         this.WF_HEADER_CREATIVES = 'What type of creatives are you using?';
-        this.WF_AD_FORMAT = 'Ad Format';
+        this.WF_CHANNEL = 'Channel';
         this.WF_DISPLAY = 'Display';
         this.WF_VIDEO = 'Video';
         this.WF_RICH_MEDIA = 'Rich Media';
@@ -853,6 +856,9 @@ define(['angularAMD'], function(angularAMD) {
         this.WHATADGROUPNAME = 'What is your Ad Group name?';
         this.ADGROUPNAME = 'Ad Group Name';
         this.PLEASENAMEADGRP = 'Please enter a name for the ad group.';
+        this.ADGROUPBUDGETMSG = 'Please enter a budget for the ad group.';
+        this.ADGROUPMINIMUMBUDGETMSG = 'Please enter a budget value more than the minimum budget for the ad group.';
+        this.ADGROUPMAXIMUMBUDGETMSG = 'Please enter a budget value less than the available media plan budget.';
         this.WHATFLIGHTDATES = 'What are the Flight Dates?';
         this.PLEASESELSTARTDATE = 'Please select the start Date.';
 
@@ -976,5 +982,12 @@ define(['angularAMD'], function(angularAMD) {
         this.UPDATETAG = 'Update Tag';
         this.CREATIVESDELETE = 'Creatives Delete';
         this.TAB_CHANGED = 'tab_changed';
+
+       // this.EVENT_CLIENT_CHANGED = 'eventClientChanged';
+        //this.EVENT_CLIENT_CHANGED_FROM_DASHBOARD = 'advertiserChangedFromDashboard';
+
+        this.EVENT_SUB_ACCOUNT_CHANGED = 'eventSubAccountChanged';
+        this.EVENT_SUB_ACCOUNT_CHANGED_FROM_DASHBOARD = 'SubAccountChangedFromDashboard';
+        this.EVENT_MASTER_CLIENT_CHANGED = 'eventMasterClientChanged';
     });
 });

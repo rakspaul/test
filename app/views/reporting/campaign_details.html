@@ -8,7 +8,7 @@
         </div>
         <div ng-show="(isWorkFlowUser && campaign.is_archived == false)">
             <!-- action filter -->
-            <form ng-controller="ActionsController" id="crActivityForm">
+            <form ng-controller="ActionsController" id="crActivityForm" ng-show="showOptimization">
                 <div class="action_filter_holder">
                     <div class="heading" ng-bind="textConstants.CREATE_ACTIVITY"></div>
                     <span id="activityMessage" ng-style="action.disableTagButton" ng-bind="textConstants.ACTIVITY_CREATED_SUCCESSFULLY_VIEW_ACTIVITY_LOG"></span>
@@ -318,7 +318,7 @@
                 </div>
                 <!-- end of edit activity log container -->
 
-                <div class="col-md-6 graph_activity_holder" style="padding-left: 0;">
+                <div class="col-md-6 graph_activity_holder" style="padding-left: 0;" ng-show="showOptimization">
                     <div class="activity_log_header" style="margin-bottom: 15px;">
                         {{ textConstants.CAMPAIGN_PERFORMANCE }}
                     </div>
@@ -350,7 +350,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6 activity_log_list_container" style="padding-right: 0;">
+                <div class="col-md-6 activity_log_list_container" style="padding-right: 0;" ng-show="showOptimization">
                     <div class="clearfix activity_log_header">
                         <div class="pull-left">
                             {{ textConstants.ACTIVITY_LOG }}

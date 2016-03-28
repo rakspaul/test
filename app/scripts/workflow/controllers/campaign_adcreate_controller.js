@@ -790,6 +790,10 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                 $scope.mediaPlanName = mediaPlan.name;
             }
 
+            //reset selected ad group 
+            selectedAdGroupId = -1;
+            $scope.adGroupName = null;
+
             campaignOverView.getAdGroups();
         };
 

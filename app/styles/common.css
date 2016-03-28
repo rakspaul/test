@@ -869,7 +869,8 @@
   display: inline-block;
   height: 18px;
 }
-.nav_filters .each_filter #advertisersDropdown {
+.nav_filters .each_filter #advertisersDropdown,
+.nav_filters .each_filter #subAccountDropdown {
   font-family: "Avenir";
   font-size: 14px;
   min-width: 50px;
@@ -1056,12 +1057,14 @@
 .nav_filters .brandsDropdownSearch {
   position: relative;
 }
-.nav_filters .brandsDropdownSearch #brandsDropdownDiv {
+.nav_filters .brandsDropdownSearch #brandsDropdownDiv,
+.nav_filters .brandsDropdownSearch #subAccountDropdownDiv {
   width: 100%;
   border-bottom: solid 1px #ccc;
   padding: 0px 10px;
 }
-.nav_filters .brandsDropdownSearch #brandsDropdownDiv input {
+.nav_filters .brandsDropdownSearch #brandsDropdownDiv input,
+.nav_filters .brandsDropdownSearch #subAccountDropdownDiv input {
   font-family: "Avenir";
   padding-right: 20px;
   background: url("/images/cdesk/search_input.png") no-repeat right center;
