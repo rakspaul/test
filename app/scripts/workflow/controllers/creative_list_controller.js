@@ -1,5 +1,5 @@
 define(['angularAMD','common/services/constants_service','workflow/services/workflow_service',
-    'common/moment_utils', 'workflow/controllers/creative_controller'], function (angularAMD) {
+    'common/moment_utils', 'workflow/controllers/bulk_creative_controller'], function (angularAMD) {
   angularAMD.controller('CreativeListController', function($scope, $rootScope, $routeParams, $route, $location, 
     constants, domainReports, workflowService, momentService) {
         var checkedCreativeArr=[];
@@ -393,10 +393,7 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
             workflowService.setCreativeEditMode("create");
             workflowService.setCreativeEditData(null);
             $location.url("/creative/add");
-
-        $scope.createCreativeInBulk = function() {
-            $location.url("/creative/add/bulk");
-        };
+        }
 
         $scope.showBulkCreateSection = function() {
             //$scope.displayBulkCreateSection = !$scope.displayBulkCreateSection

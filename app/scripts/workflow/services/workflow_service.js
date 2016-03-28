@@ -456,6 +456,12 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                 );
             },
 
+            downloadCreativeTemplate: function(clientId, adServerId, templateId) {
+                var url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/adserver/' + adServerId + '/template/' + templateId + '/creatives/export';
+
+                return dataService.downloadFile(url);
+            },
+
             getRegionsList: function (platformId, data, success, failure, flag) {
                 var url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/vendors/' + platformId + '/regions' + data,
                     canceller;
