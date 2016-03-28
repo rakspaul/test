@@ -330,17 +330,18 @@ define(['angularAMD','common/services/vistoconfig_service', 'common/services/con
                 );
             },
 
-            getCreatives: function (clientId, advertiserId, formats, query, cacheObj, integrationTracking,state) {
+            getCreatives: function (clientId, formats, query, cacheObj, integrationTracking,state,success, failure) {
                 var queryStr = query ? query : '',
                     creativeFormats = formats ? '?creativeFormat=' + formats : '',
                     intTracking = integrationTracking ? '&tracking=true' : '&tracking=false',
                     state=state ? '&status=READY':'',
                     url = vistoconfig.apiPaths.WORKFLOW_API_URL +
                             '/clients/' + clientId +
-                            '/advertisers/' + advertiserId +
-                            '/creatives' + creativeFormats + queryStr + intTracking +state;
+                            '/creatives' + creativeFormats + queryStr + intTracking +state,
+                    canceller;
+                canceller = requestCanceller.initCanceller(constants.CAMPAIGN_FILTER_CANCELLER);
 
-                return dataService.fetch(url, cacheObj);
+                return dataService.fetchCancelable(url, canceller,success, failure);
             },
 
             getCreativesforCreativeList: function (clientId, formats, query, pageSize, pageNo,success, failure) {
@@ -354,7 +355,7 @@ define(['angularAMD','common/services/vistoconfig_service', 'common/services/con
                 url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/creatives?' +
                     creativeFormats + queryStr + pageSize + pageNo;
 
-                canceller = requestCanceller.initCanceller(constants.CAMPAIGN_FILTER_CANCELLER);
+                canceller = requestCanceller.initCanceller(constants.ADDLIBRARY_FILTER_CANCELLER);
                 return dataService.fetchCancelable(url, canceller, success, failure);
 
               //  return dataService.fetch(url);

@@ -3,6 +3,7 @@ define(['angularAMD'], function(angularAMD) {
         this.currencySymbol = $locale.NUMBER_FORMATS.CURRENCY_SYM;
         this.CAMPAIGN_LIST_CANCELLER = 1;
         this.CAMPAIGN_FILTER_CANCELLER = 1;
+        this.ADDLIBRARY_FILTER_CANCELLER = 10;
         this.COST_CANCELLER = 2;
         this.DASHBOARD_CANCELLER = 3;
         this.GAUGE_CANCELLER = 4;
@@ -421,7 +422,7 @@ define(['angularAMD'], function(angularAMD) {
         this.USERNAME_OR_PASSWORD_INCORRECT = 'The Username/Password is incorrect';
 
         this.CAPAIGN_DETAILS = 'Media Plan Details';
-        this.FORMAT = 'Format';
+        this.CHANNEL = 'Channel';
         this.DOWNLOAD_REPORT = 'Download Report';
         this.DOWNLOADING = 'Downloading';
 
@@ -481,7 +482,7 @@ define(['angularAMD'], function(angularAMD) {
 
         this.WF_GUIDED_COPY = 'Guided Copy Here - What should i choose?';
         this.WF_HEADER_CREATIVES = 'What type of creatives are you using?';
-        this.WF_AD_FORMAT = 'Ad Format';
+        this.WF_CHANNEL = 'Channel';
         this.WF_DISPLAY = 'Display';
         this.WF_VIDEO = 'Video';
         this.WF_RICH_MEDIA = 'Rich Media';

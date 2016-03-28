@@ -86,11 +86,11 @@
                         <label for="sel1" class="greyTxt" style="margin-top: 0;">Ad Server</label>
                         <div class="col-md-12 zeroPadding dropdown-workflow">
                             <div class="dropdown">
-                                <button class="btn btn-default dropdown-toggle" id="creativeAdServer" type="button"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ng-disabled="(pushedCount>0) || (associatedAdCount>0)" ng-bind="selectedAdServer.name ? selectedAdServer.name: 'Select Ad Server'" title={{selectedAdServer.name}}>
-                                    <!--<span class="text" ng-bind="selectedAdServer.name ? selectedAdServer.name: 'Select Ad Server'"></span>-->
+                                <button class="btn btn-default dropdown-toggle" id="creativeAdServer" type="button"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ng-disabled="(pushedCount>0) || (associatedAdCount>0)" title={{selectedAdServer.name}}>
+                                    <span class="text">{{selectedAdServer.name ? selectedAdServer.name: 'Select Ad Server'}}</span>
                                     <span class="icon-arrow-down"></span>
                                 </button>
-                                <ul class="dropdown-menu" aria-labelledby="sel1" id="sel1">
+                                <ul class="dropdown-menu" aria-labelledby="sel1" id="adserverDDL">
                                     <li class="available" ng-repeat="adServer in creativeAdServers track by adServer.id" data-toggle="dropdown" title={{adServer.name}}>
                                         <a ng-click="adServerSelected(adServer)">{{adServer.name}}</a>
                                     </li>
@@ -103,7 +103,7 @@
 
                     <!--Ad format Type-->
                     <div class="form-group col-md-12 zeroPadding adFormatChkBox" style="margin-top: 20px;" show-errors>
-                        <div class="col-md-12 greyTxt" data-ng-bind="textConstants.WF_AD_FORMAT"></div>
+                        <div class="col-md-12 greyTxt" data-ng-bind="textConstants.WF_CHANNEL"></div>
                         <div class="goalBtnWithPopup">
                             <div class="btn-group goalBtnGroup zeroPadding"
                                  ng-class="{lastBtnGroup: $last, firstBtnGroup: $first}"
@@ -129,11 +129,11 @@
                         <label for="sel1" class="greyTxt">Creative Template</label>
                         <div class="col-md-12 zeroPadding dropdown-workflow">
                             <div class="dropdown">
-                                <button class="btn btn-default dropdown-toggle" id="creativeTemplate" type="button"  data-toggle="dropdown" aria-haspopup="true" ng-disabled="pushedCount>0" aria-expanded="true" ng-bind="CreativeTemplate ? CreativeTemplate.name:'Select Template'" title={{CreativeTemplate.name}}>
-                                    <!--<span class="text" ng-bind="CreativeTemplate ? CreativeTemplate.name:'Select Template'"></span>-->
+                                <button class="btn btn-default dropdown-toggle" id="creativeTemplate" type="button"  data-toggle="dropdown" aria-haspopup="true" ng-disabled="pushedCount>0" aria-expanded="true" title={{CreativeTemplate.name}}>
+                                    <span class="text">{{CreativeTemplate ? CreativeTemplate.name:'Select Template'}}</span>
                                     <span class="icon-arrow-down"></span>
                                 </button>
-                                <ul class="dropdown-menu" aria-labelledby="sel1" id="sel1">
+                                <ul class="dropdown-menu" aria-labelledby="sel1" id="templateDDL">
                                     <li style="padding-left:15px;" class="available" ng-repeat="template in creativeTemplates track by template.id"  data-toggle="dropdown" title={{template.name}}>
                                         <a ng-click="onTemplateSelected(template)">{{template.name}}</a>
                                     </li>
@@ -169,7 +169,7 @@
                                     <span class="text">{{adData.creativeSize ? adData.creativeSize.size :  'Select Size'}}</span>
                                     <span class="icon-arrow-down"></span>
                                 </button>
-                                <ul class="dropdown-menu dropdown-search" aria-labelledby="sel1" id="sel1">
+                                <ul class="dropdown-menu dropdown-search" aria-labelledby="sel1" id="sizeDDL">
                                     <li class="searchBar">
                                         <div class="input-group col-md-12 zeroPadding">
                                             <input type="text" class="col-md-12" id="listBoxSize" ng-model="newData.creativeSize" placeholder="Search"/>
