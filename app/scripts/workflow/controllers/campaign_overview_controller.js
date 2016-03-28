@@ -541,7 +541,10 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 changeDate = moment(startTime).format(constants.DATE_US_FORMAT);
                 endDateElem.datepicker('setStartDate', changeDate);
                 endDateElem.datepicker('setEndDate', campaignEndTime);
-                endDateElem.datepicker('update', changeDate);
+                if (moment(startTime).isAfter(changeDate, 'day')) {
+                    endDateElem.datepicker('update', changeDate);
+                }
+
             }
         };
 
@@ -706,7 +709,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         };
 
 
-        $(document).on('change', '.adGrpStartDateInput', function(ev) {
+        $(document).on('changeDate', '.adGrpStartDateInput', function(ev) {
             var formElem = $(ev.target).closest('form');
             var startTime = $(ev.target).val();
             $scope.startTime = startTime;
