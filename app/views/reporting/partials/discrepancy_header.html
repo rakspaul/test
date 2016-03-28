@@ -1,0 +1,40 @@
+<div class="col-md-12" style="padding: 10px 0 0 15px">
+    <!--Column 1-->
+   <span class="pull-left text-left" style="width: 250px;">
+      Vendor
+  </span>
+    <!--Column 2-->
+  <span class="col-md-2 text-right">
+       Imps*
+  </span>
+
+    <!--Column 3-->
+    <div class="col-md-4">
+        <div class="col-md-12" style="border-bottom: 1px solid rgba(0, 0, 0, 0.12); margin-bottom: 10px; padding: 0 0 10px 0;">
+            <span class="pull-left">Compare To</span>
+
+            <div class="dropdown pull-right">
+                <button style="padding: 0px; width:260px; border-width: 0; background: #fff !important; margin-top: 1px;" class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                    <span class="text" ng-bind="selectedVendor ? selectedVendor : 'All Types'"></span>
+                    <span class="icon-arrow-down" style="font-size: 9px; color: #000;"></span>
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="unitcostType" ng-model="adData.unitType"  id="unitcostType" data-toggle="dropdown">
+                    <li ng-repeat="vendor in vendorList">
+                        <a ng-click="select_vender_option(vendor.name)" ng-bind="vendor.name"></a>
+                    </li>
+                </ul>
+                <input type="hidden" name="unitType" ng-model="adData.unitType.name" ng-update-hidden />
+            </div>
+        </div>
+
+        <div class="col-md-12 zeroPadding">
+                 <span class="col-md-6 zeroPadding">
+                 Impression<br />Gap
+             </span>
+
+                 <span class="col-md-6 zeroPadding text-right">
+                 Rate of<br/>Discrepancy (%)
+             </span>
+        </div>
+    </div>
+</div>
