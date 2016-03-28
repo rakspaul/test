@@ -82,10 +82,12 @@ function (angularAMD) {
 
         var fparams = featuresService.getFeatureParams();
         $scope.showCostWidget = fparams[0]['cost'];
+        $scope.showOptimization = fparams[0]['optimization_impact'];
 
         var featuredFeatures = $rootScope.$on('features', function () {
             var fparams = featuresService.getFeatureParams();
             $scope.showCostWidget = fparams[0]['cost'];
+            $scope.showOptimization = fparams[0]['optimization_impact'];
         });
 
         $scope.details.resetSortParams = function () {
