@@ -1,89 +1,43 @@
 define(['angularAMD','common/services/constants_service','workflow/services/workflow_service',
   'workflow/directives/ng_upload_hidden'],function (angularAMD) {
   angularAMD.controller('BulkCreativeController', function($scope, $rootScope, $routeParams, $location, 
-    constants, workflowService) {
+    constants, workflowService, Upload) {
      // $scope.creativeFormat="DISPLAY";
       $scope.creative={};
       $scope.adData = {};
       $scope.textConstants = constants;
       $scope.mode = workflowService.getMode();
-      $scope.workflowData = {};
-      $scope.newData={};
-      $scope.adData.screenTypes = [];
-      $scope.selectedCreative = {};
       $scope.creativeSizeData = {};
       $scope.selectedAdServer={};
-      $scope.addedSuccessfully = false;
-      $scope.IncorrectTag = false;
-      $scope.disableCancelSave = false;
-      $scope.campaignId = $routeParams.campaignId;
-      var validTag=false;
-      if($routeParams.creativeId){
-          $scope.isAddCreativePopup = true;
-          $scope.creativeMode="edit";
-      }else{
-          $scope.creativeMode="create";
-      }
+      $scope.selectedCreative = {};
+      $scope.file;
 
-      $scope.data = {
-          availableOptions: [
-              {id: '1', name: 'Option A'},
-              {id: '2', name: 'Option B'},
-              {id: '3', name: 'Option C'}
-          ],
-      };
-      var postCrDataObj={};
+      $scope.showUploadRecordsMessage = false;
+
 
       var creatives = {
-          /*Function to get creatives sizes*/
-          getCreativeSizes: function () {
-              workflowService
-                  .getCreativeSizes()
-                  .then(function (result) {
-                      if (result.status === 'OK' || result.status === 'success') {
-                          $scope.creativeSizeData.creativeSize = result.data.data;
-                      } else {
-                          console.log('failed to get creatives sizes');
-                          creatives.errorHandler(result);
-                      }
-                  }, creatives.errorHandler);
-          },
-
-          fetchAdFormats: function () {
-              $scope.creativeSizeData.adFormats = [
-                  {id: 1, name: 'Display',    active: true , disabled:false},
-                  {id: 2, name: 'Video',      active: false, disabled:true},
-                  {id: 3, name: 'Rich Media', active: false, disabled:true},
-                  {id: 4, name: 'Social',     active: false, disabled:true}
-              ];
-              //default value
-              $scope.adData.adFormat = 'Display';
-          },
-
           errorHandler: function (errData) {
               console.log(errData);
           }
+      },
+
+      resetTemplate = function() {
+          $scope.templateSelected('', '');
+          $scope.adData.creativeTemplate = "";
+          $scope.CreativeTemplate.name = 'Select Template';
+      },
+
+      resetFormat = function() {
+          for(var i in $scope.creativeSizeData.adFormats) {
+              $scope.creativeSizeData.adFormats[i].active = false;
+          }
+          $scope.creativeFormat = undefined;
+      },
+
+      resetAdserver = function() {
+          $scope.selectedAdServer = {};
       };
 
-      if ($location.path() === '/creative/add') {
-          $scope.isAddCreativePopup = true;
-          $('html').css('background', '#fff');
-          $('.main_navigation')
-              .find('.active')
-              .removeClass('active')
-              .end()
-              .find('#creative_nav_link')
-              .addClass('active');
-      }
-
-      /*AD Format Type*/
-      $scope.formatLabel = 'Display';
-      if ($scope.campaignId) {
-          $scope.adPage = true;
-      } else {
-          $scope.adPage = false;
-      }
-      
       $scope.getAdFormatIconName = function(adFormat) {
           var adFormatMapper = {
               'display': 'image',
@@ -95,29 +49,21 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
           return adFormatMapper[adFormat.toLowerCase()];
       };
 
-      var resetTemplate = function() {
-          $scope.onTemplateSelected('', '');
-          $scope.adData.creativeTemplate = "";
-          $scope.CreativeTemplate.name = 'Select Template';
-      },
-
-      resetAdserver = function() {
-          $scope.selectedAdServer = {};
-      };
-      
       /*function on AdServer Selected*/
       $scope.adServerSelected = function(adServer) {
+          if ($scope.selectedAdServer && $scope.selectedAdServer.id === adServer.id) {
+              return;
+          }
           $scope.selectedAdServer = adServer;// used in adFormatSelection function to get all templates.
 
           if($scope.creativeFormat) {
               resetTemplate();
               getTemplates($scope.selectedAdServer, $scope.creativeFormat);
           }
-      }
+      };
       
       /*function on adFormat selected*/
       $scope.adFormatSelected = function(adFormatName) {
-          console.log('adFormatSelected');
           var index = _.findIndex($scope.creativeSizeData.adFormats, function(obj) {
               return (obj.name).replace(/\s+/g, '').toUpperCase() === (adFormatName).replace(/\s+/g, '').toUpperCase();
           });
@@ -126,6 +72,10 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
           }
           if(index >= 0) {
               $scope.creativeSizeData.adFormats[index].active = true;
+          }
+          if ($scope.creativeFormat === angular.uppercase(adFormatName)) {
+              // user selected on the same ad format
+              return;
           }
           $scope.creativeFormat = angular.uppercase(adFormatName);
 
@@ -137,7 +87,7 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
       }
 
       /*Generate the Template*/
-      $scope.onTemplateSelected = function(templateJson){
+      $scope.templateSelected = function(templateJson){
           $scope.CreativeTemplate = templateJson;
           $scope.TrackingIntegrationsSelected = templateJson.isTracking;
           $scope.adData.creativeTemplate = templateJson.id;
@@ -152,7 +102,7 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
           if ($scope.selectedAdServer.id && $scope.creativeFormat && $scope.adData.creativeTemplate) {
               $scope.downloadBusy = true;
               workflowService
-                  .downloadCreativeTemplate(2, $scope.selectedAdServer.id, $scope.adData.creativeTemplate)
+                  .downloadCreativeTemplate($scope.selectedAdServer.id, $scope.adData.creativeTemplate)
                   .then(function(response) {
                   if (response.status === "success") {
                       $scope.downloadBusy = false;
@@ -168,20 +118,59 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
           } else {
 
           }
+      };
 
-      }
-
-      $scope.showDownloadCreativeTemplateLink = function() {
+      $scope.formCompleted = function() {
           return $scope.selectedAdServer.name && $scope.creativeFormat && $scope.adData.creativeTemplate;
-      }
+      };
 
-      $scope.resetAlertMessage = function () {
+      $scope.fileChosen = function() {
+          return $scope.file && true;
+      };
+
+      $scope.resetFileChosen = function() {
+          $scope.file = undefined;
+      };
+
+      $scope.resetAlertMessage = function() {
           $rootScope.setErrAlertMessage('', 0);
+      };
+
+      $scope.uploadFileChosen = function() {
+          var url = workflowService.uploadBulkCreativeUrl($scope.selectedAdServer.id, $scope.creativeFormat, $scope.adData.creativeTemplate);
+          (function(file) {
+              $scope.uploadBusy = true;
+              Upload.upload({
+                  url: url,
+                  fileFormDataName: 'creativesList',
+                  file: file
+              }).then(function (response) {
+                  $scope.uploadBusy = false;
+                  resetAdserver();
+                  resetFormat();
+                  resetTemplate();
+                  $scope.resetFileChosen();
+
+                  $scope.successfulRecords = response.data.data.success.length;
+                  $scope.errorRecords = response.data.data.failure.length;
+                  $scope.bulkUploadResultHeader = "Upload complete"
+                  if ($scope.errorRecords > 0) {
+                      $scope.bulkUploadResultHeader = $scope.bulkUploadResultHeader + ' - Errors found';
+                  }
+                  $scope.showUploadRecordsMessage = true;
+              }, function (response) {
+                  $scope.uploadBusy = false;
+              });
+            })($scope.file);
+      };
+
+      $scope.hideUploadRecordsMessage = function() {
+          $scope.showUploadRecordsMessage = false;
+          $(".file_upload_container").slideUp();
       };
 
       /*Get all adserver in Creative Library Page*/
       var getAdServers = function() {
-          console.log('geting ad servers');
           workflowService
               .getVendorsAdServer()
               .then(function(result) {
@@ -221,32 +210,6 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
           resetTemplate();
       });
 
-      $scope.$on('closeAddCreativePage', function () {
-          $('#formCreativeCreate')[0].reset();
-          $scope.IncorrectTag = false;
-          $scope.addedSuccessfully = false;
-          $('#formatType').html('Select Format<span class="icon-arrow-down"></span>');
-          $('#creativeSize').html('Select Size<span class="icon-arrow-down"></span>');
-          $scope.$broadcast('show-errors-reset');
-          if ($location.path() === '/creative/add'|| ($scope.creativeMode==="edit" && !$scope.adPage)) {
-              $location.url('/creative/list');
-          } else {
-              $('.newCreativeSlide .popCreativeLib')
-                  .delay(300)
-                  .animate({
-                      left: '100%',
-                      marginLeft: '0px'
-                  }, 'slow', function () {
-                      $(this).hide();
-                  });
-              $('#creative')
-                  .delay(300)
-                  .animate({
-                      height: 'auto'
-                  }, 'slow');
-          }
-      });
-
       $scope.cancelBtn = function () {
           var winHeight = $(window).height() - 126;
           $scope.$broadcast('closeAddCreativePage');
@@ -261,8 +224,6 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
               .prev('.dropdown')
               .removeClass('open');
           $scope.adData[type] = item;
-          $scope.newData[type]='';
-
       };
 
       $scope.toggleBtn = function (event) {

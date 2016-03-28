@@ -2,10 +2,11 @@
     <!--Bulk Ad Setup Starts-->
     <form role="form" class="col-md-12 zeroPadding" name="formCreativeCreate" id="formCreativeCreate" novalidate ng-submit="submitForm(formCreativeCreate)">
         <h1 class="pull-left" style="margin-top: 0;">Bulk Creative Upload</h1>
-        <h3 class="pull-left" style="font-family: 'Avenir-bold'; margin: 5px 0 0 60px;">File Chosen:</h3>
-        <h3 class="pull-left" style="margin: 5px 0 0 5px;">NameOfFileUploaded.csv</h3>
-        <a class="icon-clear pull-left" style="margin: 5px 0 0 5px;"></a><!--Removes File Chosen-->
-        <a class="btn btn-primary pull-right" ng-click="showSuccessBulkUpload();">Upload</a>
+        <h3 class="pull-left" ng-show="fileChosen()" style="font-family: 'Avenir-bold'; margin: 5px 0 0 60px;">File Chosen:</h3>
+        <h3 class="pull-left" ng-show="fileChosen()" style="margin: 5px 0 0 5px;">{{file.name}}</h3>
+        <a class="icon-clear pull-left" ng-show="fileChosen()" ng-click="resetFileChosen();" style="margin: 5px 0 0 5px;"></a><!--Removes File Chosen-->
+        <a class="btn btn-primary pull-right" ng-show="fileChosen()" ng-click="uploadFileChosen(file);">Upload</a>
+        <span class="download-report-load-icon pull-right" ng-if="uploadBusy">Processing</span>
         <a class="btn btn-link pull-right" ng-click="hideBulkSetup();">Cancel</a>
         <h3 class="col-md-12 creativeSizeData zeroPadding">What Creative Record Template will you be uploading?</h3>
     
@@ -62,7 +63,7 @@
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="sel1" id="sel1">
                         <li style="padding-left:15px;" class="available" ng-repeat="template in creativeTemplates track by template.id">
-                            <a ng-click="onTemplateSelected(template)">{{template.name}}</a>
+                            <a ng-click="templateSelected(template)">{{template.name}}</a>
                         </li>
                     </ul>
                     <input type="hidden" name="creativeTemplate" ng-model="adData.creativeTemplate" ng-update-hidden/>
@@ -71,15 +72,16 @@
             <!--<label ng-if="formCreativeCreate.creativeTemplate.$error.required" class="col-sm-12 control-label greyTxt errorLabel" style="margin: 0;">Please select the Ad Server size.</label>-->
         </div>
         
-        <a class="pull-left" style="margin: 40px 0 0 20px;" ng-show="showDownloadCreativeTemplateLink()" ng-click="downloadCreativeTemplate()">
+        <a class="pull-left" style="margin: 40px 0 0 20px;" ng-show="formCompleted()" ng-click="downloadCreativeTemplate()">
             <span class="icon-download pull-left"></span>
             <span class="pull-left" style="margin-left: 10px;">Download template</span>
             <span class="download-report-load-icon" ng-if="downloadBusy">{{textConstants.DOWNLOADING}} </span>
         </a>
 
         <!--Drag & Drop-->
-        <div class="col-md-12 zeroPadding" ng-show="showDownloadCreativeTemplateLink()">
-            <div ng-show="!progress" ngf-drop ngf-select ng-model="files" ng-model-rejected="rejFiles" ngf-multiple="false" ngf-allow-dir="false" class="drop-box" ngf-drag-over-class="dragover" ngf-accept="'.xls,.xlsx'" ngf-max-size='10000000'>
+        <div class="col-md-12 zeroPadding" ng-show="formCompleted() && !fileChosen()">
+            <div ng-show="!progress" ngf-drop ngf-select ng-model="$parent.file" name="file" ngf-multiple="false" ngf-allow-dir="false" class="drop-box" ngf-drag-over-class="dragover" ngf-accept="'.csv'" ngf-max-size='10000000'>
+
                 <div class="file_upload_icon" >
                     <span class="img_table_txt">
                         Drag and drop your completed Creative Record Template or <a id="fileupload" href="javascript:void(0);" >Browse</a>
@@ -91,7 +93,26 @@
         </div>		
     </form>
     <!--Bulk Ad Setup Ends-->
-    
+    <div class="common-popup-container" ng-show="showUploadRecordsMessage">
+        <div class="popup">
+            <div class="popup-header-body">
+                <div class="clearfix">
+                    <h1 class="pull-left">{{bulkUploadResultHeader}}</h1>
+                </div>
+                <div class="popup-content" ng-show="successfulRecords">
+                    {{successfulRecords}} records were successful.
+                </div>
+                <div class="popup-content" ng-show="errorRecords">
+                    {{errorRecords}} records were failed.
+                </div>
+            </div>
+            <div class="clearfix popup-footer" >
+                <button type="button" ng-click="hideUploadRecordsMessage()" class="common_primary_btn pull-right" >Close Message</button>
+            </div>
+
+        </div>
+    </div>
+
     <!--Successful View Starts-->
     <div class="col-md-12 zeroPadding successfullBulkUpView">
         <div class="icon-success pull-left" style="margin: 5px 5px 0 0; color: #4CC94A;"></div>
