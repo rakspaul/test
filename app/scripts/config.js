@@ -124,7 +124,7 @@ assets.html_accounts_add_or_edit_advertiser = '/views/workflow/partials/accounts
 assets.html_accounts_add_or_edit_brand = '/views/workflow/partials/accounts_add_or_edit_brand.html';
 assets.html_accounts_add_or_edit = '/views/workflow/partials/accounts_add_or_edit.html';
 assets.html_change_account_warning = '/views/workflow/partials/change_account_warning.html';
-assets.html_edit_adgroup = '/views/workflow/partials/edit_adgroup_section.html';
+assets.html_edit_adgroup = '/views/workflow/partials/overview_partials/overview_createAdgroups.html';
 
 //Visto 2.0 Templates
 assets.html_dashboard_2 = '/views/visto2.0/dashboard.html';

@@ -172,6 +172,8 @@ define(['angularAMD'], function(angularAMD) {
         this.PARTIAL_AD_CLONE_SUCCESS = '<span class="bold-font">Success. </span> Ad has been successfully cloned';
         this.AD_GROUP_CREATED_SUCCESS =
             '<span class="bold-font">Success. </span> Ad Group has been successfully created';
+        this.AD_GROUP_EDITED_SUCCESS =
+            '<span class="bold-font">Success. </span> Ad Group has been successfully edited';
         this.AD_GROUP_CREATED_FAILURE = '<span class="bold-font">Error. </span> Ad Group could not be created';
         this.CREATIVE_SAVE_SUCCESS = '<span class="bold-font">Success. </span> Creative has been successfully created';
         this.WF_DATE_FORMAT = 'YYYY-MM-DD HH:mm:ss.SSS';

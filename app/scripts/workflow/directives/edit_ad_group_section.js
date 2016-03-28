@@ -3,18 +3,20 @@ define(['angularAMD'],function (angularAMD) {
     angularAMD.directive("editAdGroupSection", function ($http, $compile) {
         return {
             restrict:'EAC',
-            controller : function($scope, momentService, workflowService) {
-                $scope.processAdGroupEditData = function(formElem, adGroupsData) {
+            controller : function($scope, momentService, workflowService, constants) {
+                $scope.editAdGroupFlag = false;
+                $scope.processAdGroupEditData = function(formElem, adGroupsData, adGroupsIndex) {
                     console.log("adGroupsData", adGroupsData);
                     $scope.adgroupId = adGroupsData.adGroup.id;
-                    $scope.adIGroupName = adGroupsData.adGroup.name;
-                    $scope.editAgGroupLabels = workflowService.recreateLabels(adGroupsData.labels);
+                    $scope.adGroupName = adGroupsData.adGroup.name;
+                    $scope.tags = workflowService.recreateLabels(adGroupsData.labels);
                     $scope.adIGroupBudget = adGroupsData.adGroup.deliveryBudget;
+                    $scope.updatedAt = adGroupsData.adGroup.updatedAt
 
                     $scope.adGroupMinBudget = adGroupsData.adGroup.bookedSpend;
 
                     //total budget for ad group
-                    var campaignGetAdGroupsData = $scope.workflowData.campaignGetAdGroupsData;
+                        var campaignGetAdGroupsData = $scope.workflowData.campaignGetAdGroupsData;
                     var adGroupsBudget = campaignGetAdGroupsData.reduce(function(memo, obj) {
                         return memo + obj.adGroup.deliveryBudget;
                     }, 0);
@@ -33,15 +35,29 @@ define(['angularAMD'],function (angularAMD) {
                     var highestEndTime = momentService.utcToLocalTime(adGroupsData.adGroup.endTime);
 
 
-                    var startDateElem = formElem.find("#individualAdsStartDateInput");
+                    var startDateElem = formElem.find(".adGrpStartDateInput");
                     startDateElem.datepicker("update", startTime);
 
-                    var endDateElem = formElem.find("#individualAdsEndDateInput");
+                    var endDateElem = formElem.find(".adGrpEndDateInput");
                     endDateElem.datepicker("update", highestEndTime);
 
-                    $scope.$watch('setStartdateIndependant', function () {
-                        $scope.extractor(campaignAdsData, formElem);
-                    });
+                    console.log("$scope.independantAdData", $scope.independantAdData);
+                    var getADsForGroupData = $scope.workflowData['getADsForGroupData'][adGroupsIndex];
+
+                    if(getADsForGroupData.length >0 ) {
+                        $scope.extractor(getADsForGroupData, formElem);
+                    } else {
+                        $scope.resetAdsData();
+                        if (moment().isAfter(startTime, 'day')) {
+                            startTime = moment().format(constants.DATE_US_FORMAT);
+                        }
+
+                        startDateElem.datepicker("setStartDate", startTime);
+                        startDateElem.datepicker("setEndDate", $scope.campaignEndTime);
+
+                        endDateElem.datepicker("setStartDate", startTime);
+                        endDateElem.datepicker("setEndDate", $scope.campaignEndTime);
+                    }
                 }
             },
 
@@ -56,8 +72,11 @@ define(['angularAMD'],function (angularAMD) {
                         template = $compile(tmpl.data)($scope);
                         element.closest('.adGroup').find('.editAdgroupDiv').html(template);
                         $scope.adGroupsData = JSON.parse(attrs.adGroupData);
+                        $scope.adGroupsIndex = JSON.parse(attrs.adGroupIndex);
+                        $scope.editAdGroupFlag = true;
+                        $scope.showCreateAdGrp = true;
                         var formElem = element.closest('.adGroup').find('.editAdgroupDiv form');
-                        $scope.processAdGroupEditData(formElem, $scope.adGroupsData);
+                        $scope.processAdGroupEditData(formElem, $scope.adGroupsData, $scope.adGroupsIndex);
                     });
                 });
 
