@@ -1,18 +1,18 @@
 <div class="col-md-12 adGroupCreate" ng-show="showCreateAdGrp" >
 <form id="createNewAdGrp" name="createNewAdGrp" novalidate>
     <div class="adGroupCreateForm">
-        <h1 class="col-md-12 zeroPadding" data-ng-bind="editAdGroupFlag ? textConstants.SETADGRP : textConstants.CREATEADGROUP"></h1>
-        <div ng-if="editAdGroupFlag">
-            <span class="pull-right common-loading-btn" style="width: 61px;" ng-show="loadingBtn"></span>
-            <button type="submit"
-                    class="btn btn-primary pull-right"
-                    id="groupIndividual"
-                    ng-disabled="createNewAdGrp.$invalid"
-                    ng-click="createAdGroup($event)" data-ng-bind="textConstants.SAVE" ng-show="!loadingBtn">
-            </button>
-            <span type="button" class="pull-right cancel-grey-btn" ng-bind="textConstants.CANCEL" ng-click="cancelEditAdGroup()"></span>
-            <input type = "hidden" name="adgroupId" ng-model="adgroupId" ng-update-hidden/>
-            <input type = "hidden" name="updatedAt" ng-model="updatedAt" ng-update-hidden/>
+        <h1 class="col-md-12 zeroPadding" ng-if="!editAdGroupFlag" data-ng-bind="textConstants.CREATEADGROUP"></h1>
+        <div class="clearfix" ng-if="editAdGroupFlag">
+                <h1 class="col-md-4 zeroPadding" data-ng-bind="textConstants.SETADGRP"></h1>
+                <button type="submit"
+                        class="btn btn-primary pull-right"
+                        id="groupIndividual"
+                        ng-disabled="createNewAdGrp.$invalid"
+                        ng-click="createAdGroup($event)" data-ng-bind="textConstants.WF_AD_SAVE_CLOSE" ng-show="!loadingBtn">
+                </button>
+                <span type="button" class="pull-right secondary_txt" ng-bind="textConstants.CANCEL" ng-click="cancelEditAdGroup()"></span>
+                <input type = "hidden" name="adgroupId" ng-model="adgroupId" ng-update-hidden/>
+                <input type = "hidden" name="updatedAt" ng-model="updatedAt" ng-update-hidden/>
         </div>
 
         <!--Name Ad Group-->
@@ -32,7 +32,6 @@
                 <label ng-if="createNewAdGrp.adGroupName.$error.required" class="col-sm-12 control-label greyTxt errorLabel" data-ng-bind="textConstants.PLEASENAMEADGRP"></label>
             </div>
         </div>
-        tags --> {{tags}}
 
         <!--Label for Ad Group-->
         <div class="col-md-6" style="padding: 42px 0 0 10px;">
@@ -48,7 +47,7 @@
             <div class="form-group col-md-3" style="padding: 0 10px 0 0;" show-errors>
                 <span class="currencyFly">$</span>
                 <input type="number"
-                       class="form-control text-right"
+                       class="form-control"
                        id="budgetIndividualAdGroup"
                        name="adIGroupBudget"
                        ng-model="adIGroupBudget"
