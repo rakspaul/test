@@ -23,6 +23,13 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
           $scope.creativeMode="create";
       }
 
+      $scope.showSubAccount = false;
+
+      if(!loginModel.getMasterClient().isLeafNode) {
+          $scope.showSubAccount = true;
+      }
+
+
       var processEditCreative=function(){
           var creativeId=$routeParams.creativeId;
           workflowService
@@ -31,10 +38,10 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
                   if (result.status === "OK" || result.status === "success") {
                       $scope.creativeEditData=result.data.data;
           //$scope.creativeEditData=workflowService.getCreativeEditData();
-                      console.log('$scope.creativeEditData',$scope.creativeEditData);
           if($scope.creativeEditData){
               $scope.name=$scope.creativeEditData.name;
               $scope.advertiserName=$scope.creativeEditData.advertiser.name;
+              $scope.subAccountName = $scope.creativeEditData.client.name;
               $scope.creative.advertiserId=$scope.creativeEditData.advertiserId;
               $scope.brandName=$scope.creativeEditData.brand?$scope.creativeEditData.brand.name:'Select Brand';
               $scope.creative.brandId=$scope.creativeEditData.brand?$scope.creativeEditData.brandId:'';
@@ -49,6 +56,10 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
               $scope.creativeEditData.vendorCreativeTemplate ? $scope.onTemplateSelected($scope.creativeEditData.vendorCreativeTemplate,$scope.creativeEditData.creativeCustomInputs):'';
               $scope.tag=$scope.creativeEditData.tag;
               $scope.adData.creativeSize=$scope.creativeEditData.size;
+
+              $scope.creative.clientId = $scope.creativeEditData.client.id;
+              creatives.fetchAdvertisers($scope.creativeEditData.client.id);
+              creatives.fetchBrands($scope.creativeEditData.client.id,$scope.creativeEditData.advertiser.id);
           }
 
                   }else {
@@ -109,7 +120,7 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
                   }
               },  creatives.errorHandler);
           },
-          fetchBrands: function (clientId,advertiserId) { console.log('clientId',clientId);
+          fetchBrands: function (clientId,advertiserId) {
               workflowService.getBrands(clientId,advertiserId, 'write').then(function (result) {
                   if (result.status === "OK" || result.status === "success") {
                       var responseData = result.data.data;
@@ -160,7 +171,7 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
 
           return adFormatMapper[adFormat.toLowerCase()];
       };
-      $scope.selectHandler = function (type, data, event) { console.log('select handler',type, data, event  );
+      $scope.selectHandler = function (type, data, event) {
           switch (type) {
               case 'subAccount':
                   $scope.advertisers = {};
@@ -338,16 +349,17 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
   };
        */
 
-      $scope.prarentHandler = function () { console.log('prarent getting called',$scope.adPage);
+      $scope.prarentHandler = function () {
 
           /*in adPage, hardcode advertiser and call select Handler for Brand*/
-          if($scope.adPage){ console.log('adpage');
+          if($scope.adPage){
               var client = loginModel.getSelectedClient();
               var data={
                   'id':client.id,
                   'name':client.name
               }
               $scope.selectHandler('subAccount',data)
+
           }
 
           creatives.getCreativeSizes();
@@ -359,7 +371,12 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
           /*In creative List Page to create new creative*/
           if(!$scope.adPage){
               getAdServersInLibraryPage();
-              creatives.fetchSubAccounts();
+              if($scope.showSubAccount) {
+                  creatives.fetchSubAccounts();
+              } else {
+                  creatives.fetchAdvertisers();
+              }
+
           }
       };
 

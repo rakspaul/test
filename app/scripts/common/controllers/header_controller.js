@@ -103,10 +103,12 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
             if(isLeafNode) {
                 loginModel.setSelectedClient({'id': id, 'name': name});
                 $scope.getClientData(id);
+                $rootScope.$broadcast(constants.ACCOUNT_CHANGED, {'client': loginModel.getSelectedClient().id, 'event_type': 'clicked'});
             } else {
                 subAccountModel.fetchSubAccounts(function(){
                     $scope.getClientData(loginModel.getSelectedClient().id);
                 });
+                $rootScope.$broadcast(constants.EVENT_MASTER_CLIENT_CHANGED, {'client': loginModel.getSelectedClient().id, 'event_type': 'clicked'});
             }
             $scope.defaultAccountsName = name;
         }
@@ -143,8 +145,6 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
                 }
             } else {
                 setMasterClientData(id, name,isLeafNode);
-                $rootScope.$broadcast(constants.EVENT_MASTER_CLIENT_CHANGED, {'client': loginModel.getSelectedClient().id, 'event_type': 'clicked'});
-
             }
 
 

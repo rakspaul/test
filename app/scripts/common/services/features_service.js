@@ -1,5 +1,5 @@
-define(['angularAMD','workflow/services/workflow_service'], function (angularAMD) {
-    angularAMD.service('featuresService', function ($rootScope,$location,workflowService) {
+define(['angularAMD','workflow/services/workflow_service','common/services/vistoconfig_service'], function (angularAMD) {
+    angularAMD.service('featuresService', function ($rootScope,$location,workflowService,vistoconfig) {
 
         var params = ['dashboard','report_overview', 'inventory', 'performance', 'quality', 'cost', 'optimization_impact', 'platform', 'scheduled', 'collective',
             'scheduled_reports', 'collective_insights', 'create_mediaplan', 'dashboard', 'mediaplan_list', 'ad_setup', 'mediaplan_hub', 'creative_list', 'reports_tab'];
@@ -85,11 +85,11 @@ define(['angularAMD','workflow/services/workflow_service'], function (angularAMD
         }
 
         this.setFeatureParams = function (featuresArr) {
+           // featuresArr = ['REPORTS_TAB','DASHBOARD']
             console.log('Feature array: ',featuresArr);
             this.serverResponseReceived = true;
             //API passes parameters :
             var self = this;
-            //console.log('server feature Arr: ',featuresArr);
 
             if (featuresArr.indexOf('ENABLE_ALL') !==-1) {
                 //Enable all features
@@ -117,7 +117,10 @@ define(['angularAMD','workflow/services/workflow_service'], function (angularAMD
             var self = this;
             var setFparams = function() {
                 var featureParams = self.getFeatureParams();
-                if(featureParams[0][feature_param] === false) {
+                if((feature_param == 'dashboard') && (featureParams[0][feature_param] === false)) {
+                    $location.url(vistoconfig.MEDIA_PLANS_LINK);
+                    return false;
+                } else if(featureParams[0][feature_param] === false) {
                     $location.url('/');
                 }
             }

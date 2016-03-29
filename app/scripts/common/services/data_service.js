@@ -75,7 +75,7 @@ define(['angularAMD','common/services/vistoconfig_service', 'common/services/dat
             },
 
             getCustomReportMetrics :  function(campaign) {
-                var clientId = loginModel.getSelectedClient().id;
+                var clientId = loginModel.getMasterClient().id;
                 var url = vistoconfig.apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId + '/reports/custom/meta';
                 return this.fetch(url);
             },
