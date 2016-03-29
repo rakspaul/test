@@ -495,12 +495,8 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             };
 
             $scope.createAdGrp = function () {
-                var adGroupCreateformElem = $('.adGroupCreate').find('form'),
-                    endDateElem,
-                    startDateElem,
-                    setStartDate;
-
                 $scope.showCreateAdGrp = !$scope.showCreateAdGrp;
+                var adGroupCreateformElem = $(".adGroupSelectionWrap").find(".adGroupCreate").find("form");
                 adGroupCreateformElem[0].reset();
                 $scope.$broadcast('show-errors-reset');
                 $('.adGroupSelectionWrap, .singleCardWrap').toggleClass('active');
@@ -508,8 +504,10 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 $scope.createGroupMessage = false;
                 $scope.tags = [];
                 $scope.adGroupMinBudget = 0;
-                $scope.adGroupMaxBudget =
-                    $scope.workflowData.campaignData.deliveryBudget - $scope.workflowData.campaignData.bookedSpend;
+
+                $scope.adGroupMaxBudget = $scope.workflowData.campaignData.deliveryBudget - $scope.workflowData.campaignData.bookedSpend;
+
+
 
                 if ($scope.workflowData.campaignAdsData.length > 0) {
                     var campaignAdsData  = $scope.workflowData.campaignAdsData;
@@ -520,16 +518,15 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     $scope.extractor($scope.workflowData.campaignAdsData, adGroupCreateformElem);
                 } else {
                     $scope.resetAdsData();
-                    startDateElem = adGroupCreateformElem.find('.adGrpStartDateInput');
-                    endDateElem = adGroupCreateformElem.find('.adGrpEndDateInput');
-                    setStartDate = $scope.campaignStartTime;
+                    var startDateElem = adGroupCreateformElem.find('.adGrpStartDateInput');
+                    var endDateElem = adGroupCreateformElem.find('.adGrpEndDateInput');
 
+                    var setStartDate = $scope.campaignStartTime;
                     if (moment().isAfter(setStartDate, 'day')) {
                         setStartDate = moment().format(constants.DATE_US_FORMAT);
                     }
-
-                    startDateElem.datepicker('setStartDate', setStartDate);
-                    startDateElem.datepicker('setEndDate', $scope.campaignEndTime);
+                    startDateElem.datepicker("setStartDate", setStartDate);
+                    startDateElem.datepicker("setEndDate", $scope.campaignEndTime);
                 }
             };
 
@@ -714,7 +711,6 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 }
             };
 
-
             $scope.goEdit = function ( adsData ,unallocatedBudget,groupBudget) {
                 var campaignId = adsData.campaignId,
                     adsId = adsData.id,
@@ -727,15 +723,13 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             };
 
             $scope.editAdforAdGroup = function (campaignId, stTime, edTime, adsId, groupId) {
-                var path = '/mediaplan/' + campaignId + '/ads/' + adsId + '/edit';
-
-                if (typeof(Storage) !== 'undefined') {
-                    localStorage.setItem('stTime', stTime); //convert this to EST in ads page
-                    localStorage.setItem('edTime', edTime); //convert this to EST in ads create page
+                var path = "/mediaplan/" + campaignId + "/ads/" + adsId + "/edit";
+                if (typeof(Storage) !== "undefined") {
+                    localStorage.setItem("stTime", stTime); //convert this to EST in ads page
+                    localStorage.setItem("edTime", edTime); //convert this to EST in ads create page
                 }
-
                 if (groupId && adsId) {
-                    path = '/mediaplan/' + campaignId + '/adGroup/' + groupId + '/ads/' + adsId + '/edit';
+                    path = "/mediaplan/" + campaignId + "/adGroup/" + groupId + "/ads/" + adsId + "/edit";
                 }
 
                 $location.path(path);
@@ -754,31 +748,30 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             });
 
             $scope.$watch($scope.tags, function () {
-                //console.log('log == ',$scope.tags);
+                //console.log("log == ",$scope.tags);
             });
 
-            $scope.calculateBudget = function(adGroupsData){
+            $scope.calculateBudget = function(adGroupsData) {
                 if ((adGroupsData.deliveryBudget)) {
                     return adGroupsData.deliveryBudget;
                 } else {
-                    if (adGroupsData.bookedSpend){
+                    if (adGroupsData.bookedSpend) {
                         return adGroupsData.bookedSpend;
                     } else {
                         return 0;
                     }
-
-                    // return $scope.workflowData.campaignData.deliveryBudget -
+                    //return $scope.workflowData.campaignData.deliveryBudget -
                     // $scope.workflowData.campaignData.bookedSpend + adGroupsData.bookedSpend;
                 }
             };
 
-            $scope.calculateSpendBudget = function(adGroupsData){
+            $scope.calculateSpendBudget = function(adGroupsData) {
                 var deliveryBudget = $scope.calculateBudget(adGroupsData);
 
-                if (parseInt(deliveryBudget) === 0 ){
+                if (parseInt(deliveryBudget) === 0 ) {
                     return 0;
-                } else{
-                    if (adGroupsData.bookedSpend && adGroupsData.bookedSpend > 0){
+                } else {
+                    if (adGroupsData.bookedSpend && adGroupsData.bookedSpend > 0) {
                         return deliveryBudget - adGroupsData.bookedSpend;
                     } else {
                         return deliveryBudget;
@@ -788,23 +781,23 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
             //Search Hide / Show
             $scope.searchShowInput = function () {
-                var searchInputForm = $('.searchInputForm');
+                var searchInputForm = $(".searchInputForm");
 
-                $('.searchInputBtn').hide();
+                $(".searchInputBtn").hide();
                 searchInputForm.show();
                 searchInputForm.animate({width: '400px'}, 'fast');
             };
 
             $scope.searchHideInput = function () {
-                var inputSearch = $('.searchInputForm input');
+                var inputSearch = $(".searchInputForm input");
 
-                //isSearch = false; // TODO: This global var has no impact ???
-
-                $('.searchInputForm').animate({width: '44px'}, 'fast');
+                isSearch = false;
+                $(".searchInputForm").animate({width: '44px'}, 'fast');
                 inputSearch.val('');
-                setTimeout(function(){ $('.searchInputForm').hide(); }, 300);
-                setTimeout(function(){ $('.searchInputBtn').fadeIn(); }, 300);
+                setTimeout(function() { $(".searchInputForm").hide(); }, 300);
+                setTimeout(function() { $(".searchInputBtn").fadeIn(); }, 300);
             };
+
 
             $(document).on('changeDate', '.adGrpStartDateInput', function(ev) {
                 var formElem = $(ev.target).closest('form'),
@@ -813,5 +806,5 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 $scope.startTime = startTime;
                 $scope.handleFlightDate(formElem, startTime);
             });
+        });
     });
-});

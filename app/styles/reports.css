@@ -994,6 +994,38 @@ div.strategy_total_container div.strategy_total_container_header {
   border-top-width: 2px ;
   padding: 15px 20px 5px 20px ;
 }
+div.strategy_total_container div.strategy_total_container_header .discrepancyName {
+  width: 250px;
+  margin-bottom: 10px;
+}
+div.strategy_total_container div.strategy_total_container_header .discrepancySecLevel .discrepancySecLevelRow {
+  margin-bottom: 5px;
+}
+div.strategy_total_container div.strategy_total_container_header .discrepancySecLevel .platform_logo_img {
+  margin-left: 45px;
+}
+div.strategy_total_container div.strategy_total_container_header .discrepancySecLevel .discrepancySecLevelName {
+  width: 177px;
+}
+div.strategy_total_container div.strategy_total_container_header .rowHasSubRow {
+  cursor: pointer;
+}
+div.strategy_total_container div.strategy_total_container_header .discrepancyTplRow .icon-arrow-down {
+  font-size: 9px;
+  color: #000;
+  -ms-transform: rotate(-90deg);
+  -webkit-transform: rotate(-90deg);
+  transform: rotate(-90deg);
+}
+div.strategy_total_container div.strategy_total_container_header .discrepancyTplRow .platform_logo_img {
+  margin-right: 8px ;
+}
+div.strategy_total_container div.strategy_total_container_header .discrepancyTplRow.open .icon-arrow-down {
+  -ms-transform: rotate(0deg);
+  -webkit-transform: rotate(0deg);
+  transform: rotate(0deg);
+  margin-top: 7px;
+}
 div.strategy_total_container div.strategy_total_container_header div.each_col.first_col {
   color: #21252b ;
   font-size: 18px;

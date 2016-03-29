@@ -50,7 +50,7 @@ define(['angularAMD', '../../login/login_model', 'common/services/role_based_ser
                 var fParams = featuresService.getFeatureParams();
 
                 if(fParams[0]['scheduled_reports'] === true) {
-                    tabs.push({ href:'reports/schedules', title: 'Saved/Scheduled'});
+                    tabs.push({ href:'reports/schedules', title: 'My Reports'});
                 }
                 if (fParams[0]['collective_insights'] === true) {
                     tabs.push({href: 'reports/list', title: 'Collective Insights'});
