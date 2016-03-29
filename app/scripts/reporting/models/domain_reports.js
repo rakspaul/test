@@ -339,7 +339,11 @@ define(['angularAMD', '../../login/login_model', 'common/services/role_based_ser
                 if(masterClient.isLeafNode == false) {
                     scope.isLeafNode = false;
                 }
-                var masterClientChanged = $rootScope.$on(constants.EVENT_MASTER_CLIENT_CHANGED, function (event, args) {
+                var masterClientChanged = $rootScope.$on(constants.EVENT_MASTER_CLIENT_CHANGED, function (event, args) { console.log('master client changed');
+                    scope.isLeafNode = loginModel.getMasterClient().isLeafNode;
+                });
+
+                var masterClientChanged = $rootScope.$on(constants.ACCOUNT_CHANGED, function (event, args) { console.log('master client changed');
                     scope.isLeafNode = loginModel.getMasterClient().isLeafNode;
                 });
                 if (scope.allCampaign == "true" || scope.allCampaign == true) {

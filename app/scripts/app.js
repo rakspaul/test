@@ -505,11 +505,9 @@ define(['common'], function (angularAMD) {
                             $cookieStore.remove('cdesk_redirect');
                         } else {
                             setDefaultPage = 'dashboard';
-                            //console.log('featuresService.getFeatureParams()[0].dashboard',featuresService.getFeatureParams()[0].dashboard);
-                            /*if(featuresService.getFeatureParams()[0].dashboard === false) {
-                                setDefaultPage = 'mediaplans';
-                            }*/
                             $location.url(setDefaultPage);
+
+
                         }
                     }
                 },

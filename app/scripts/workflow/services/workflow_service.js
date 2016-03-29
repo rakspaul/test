@@ -36,67 +36,74 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                 fetchCampaigns: function () {
                     var clientId = loginModel.getSelectedClient().id,
                         url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/campaigns';
-
                     return dataService.fetch(url);
                 },
 
-                getClients: function () {
-                    var url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients';
+            getClientData: function (clientId) {
+                var url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId;
 
-                    return dataService.fetch(url, {
-                        cache: false
-                    });
-                },
+                return dataService.fetch(url, {cache: false});
+            },
 
-                getClientData: function (clientId) {
-                    var url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId;
-
-                    return dataService.fetch(url, {
-                        cache: false
-                    });
-                },
-
-                getSubAccounts: function () {
-                    var clientId = loginModel.getMasterClient().id,
-                        url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/descendants?level=last';
-
-                    if (clientId !== undefined) {
-                        return dataService.fetch(url);
-                    }
-                },
-
-                getAdvertisers: function (accessLevel) {
-                    var clientId = loginModel.getSelectedClient().id,
-                        url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/advertisers';
-
-                    if (accessLevel) {
-                        url = url + '?access_level=' + accessLevel;
-                    }
-
+            getSubAccounts: function(access_level){
+                var accessLevel = '';
+                if(access_level !== undefined) {
+                    var accessLevel = '&access_level='+access_level;
+                }
+                var clientId =  loginModel.getMasterClient().id;
+                if(clientId !== undefined) {
+                    var url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/descendants?level=last' + accessLevel;
                     return dataService.fetch(url);
-                },
+                }
+            },
 
-                getBrands: function (advertiserId, accessLevel) {
-                    var clientId = loginModel.getSelectedClient().id,
-                        url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId +
+            getClients: function () {
+                var url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients';
+
+                return dataService.fetch(url, {
+                    cache: false
+                });
+            },
+
+            getAdvertisers: function (accessLevel,client_id) {
+                var clientId =  loginModel.getSelectedClient().id;
+                if(client_id) {
+                    var clientId =  client_id;
+                }
+                var url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/advertisers';
+                if(accessLevel) {
+                    url =  url +'?access_level='+accessLevel;
+                }
+
+                return dataService.fetch(url);
+            },
+
+            getBrands: function (client_id,advertiserId, accessLevel) {
+                var clientId =  loginModel.getSelectedClient().id;
+                if(client_id){
+                    var clientId =  client_id;
+                }
+                var url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId +
                             '/advertisers/' + advertiserId + '/brands';
+                if (accessLevel) {
+                    url = url + '?access_level=' + accessLevel;
+                }
+                return dataService.fetch(url);
+            },
+            saveCampaign: function (data) {
+                var isLeafNode = loginModel.getMasterClient().isLeafNode;
+                if(isLeafNode) {
+                    var clientId =  loginModel.getSelectedClient().id;
+                } else {
+                    var clientId = data.clientId;
 
-                    if (accessLevel) {
-                        url = url + '?access_level=' + accessLevel;
-                    }
-                    return dataService.fetch(url);
-                },
-
-                saveCampaign: function (data) {
-                    var clientId = loginModel.getSelectedClient().id;
-
-                    return dataService.post(
-                        vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/campaigns',
-                        data, {
-                            'Content-Type': 'application/json'
-                        }
-                    );
-                },
+                }
+                return dataService.post(
+                    vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/campaigns',
+                    data,
+                    {'Content-Type': 'application/json'}
+                );
+            },
 
                 updateCampaign: function (data, id) {
                     var clientId = loginModel.getSelectedClient().id;
@@ -361,8 +368,13 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                     return dataService.fetch(vistoconfig.apiPaths.WORKFLOW_API_URL + '/sizes');
                 },
 
-                saveCreatives: function (clientId, data) {
-                    clientId = loginModel.getSelectedClient().id;
+                saveCreatives: function (client_id, data) {
+                    if(client_id) {
+                        var clientId = client_id;
+                    }else {
+                        var clientId = loginModel.getSelectedClient().id;
+                    }
+
                     return dataService.post(
                         vistoconfig.apiPaths.WORKFLOW_API_URL +
                             '/clients/' + clientId +
@@ -373,13 +385,16 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                     );
                 },
 
-                getCreativeData: function (id) {
-                    var clientId = loginModel.getSelectedClient().id;
+            getCreativeData:function(id,client_id){
+                if(client_id) {
+                    var clientId = client_id;
+                } else {
+                    var clientId =  loginModel.getSelectedClient().id;
+                }
 
-                    return dataService.fetch(vistoconfig.apiPaths.WORKFLOW_API_URL +
-                        '/clients/' + clientId +
-                        '/creatives/' + id);
-                },
+                return dataService.fetch(vistoconfig.apiPaths.WORKFLOW_API_URL  +'/clients/'+clientId+'/creatives/'+id);
+            },
+
 
                 forceSaveCreatives: function (clientId, adId, data) {
                     clientId = loginModel.getSelectedClient().id;
@@ -411,6 +426,58 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                     return dataService.fetchCancelable(url, canceller, success, failure);
                 },
 
+            deleteCreatives:function(clientId,data){
+                return dataService.post(vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId +'/creatives/bulkdelete',
+                    data,
+                    {'Content-Type': 'application/json'}
+                );
+            },
+
+            getCreativeAds:function(creativeId){
+                var url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/creatives/' + creativeId + '/ads?enabled=true';
+
+                return dataService.fetch(url, {cache: false});
+            },
+
+            updateCreative: function (client_id, adId, id, data) {
+                if(client_id) {
+                    var clientId = client_id;
+                } else {
+                    var clientId =  loginModel.getSelectedClient().id;
+                }
+
+                return dataService.put(
+                    vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/advertisers/' + adId + '/creatives/' + id+'?forceSave=true',
+                    data,
+                    {'Content-Type': 'application/json'}
+                );
+            },
+
+            getRegionsList: function (platformId, data, success, failure, flag) {
+                var url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/vendors/' + platformId + '/regions' + data,
+                    canceller;
+
+                if (flag === 'cancellable') {
+                    canceller = requestCanceller.initCanceller(constants.CAMPAIGN_FILTER_CANCELLER);
+                    return dataService.fetchCancelable(url, canceller, success, failure);
+                } else {
+                    return dataService.fetch(url);
+                }
+            },
+
+                getCitiesList: function (platformId, data, success, failure, flag) {
+                    var clientId = loginModel.getSelectedClient().id,
+                        url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/vendors/' + platformId + '/cities' + data,
+                        canceller;
+
+                    if (flag === 'cancellable') {
+                        canceller = requestCanceller.initCanceller(constants.CAMPAIGN_FILTER_CANCELLER);
+                        return dataService.fetchCancelable(url, canceller, success, failure);
+                    } else {
+                        return dataService.fetch(url);
+                    }
+                },
+
                 getCreativesforCreativeList: function (clientId, formats, query, pageSize, pageNo, success, failure) {
                     var queryStr = query ? query : '',
                         creativeFormats = formats ? 'creativeFormat=' + formats : '',
@@ -428,60 +495,8 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                     //  return dataService.fetch(url);
                 },
 
-                deleteCreatives: function (clientId, data) {
-                    return dataService.post(vistoconfig.apiPaths.WORKFLOW_API_URL +
-                        '/clients/' + clientId + '/creatives/bulkdelete',
-                        data, {
-                            'Content-Type': 'application/json'
-                        }
-                    );
-                },
 
-                getCreativeAds: function (creativeId) {
-                    var url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/creatives/' + creativeId + '/ads?enabled=true';
 
-                    return dataService.fetch(url, {
-                        cache: false
-                    });
-                },
-
-                updateCreative: function (clientId, adId, id, data) {
-                    clientId = loginModel.getSelectedClient().id;
-                    return dataService.put(
-                        vistoconfig.apiPaths.WORKFLOW_API_URL +
-                            '/clients/' + clientId +
-                            '/advertisers/' + adId +
-                            '/creatives/' + id + '?forceSave=true',
-                            data, {
-                                'Content-Type': 'application/json'
-                            }
-                    );
-                },
-
-                getRegionsList: function (platformId, data, success, failure, flag) {
-                    var url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/vendors/' + platformId + '/regions' + data,
-                        canceller;
-
-                    if (flag === 'cancellable') {
-                        canceller = requestCanceller.initCanceller(constants.CAMPAIGN_FILTER_CANCELLER);
-                        return dataService.fetchCancelable(url, canceller, success, failure);
-                    } else {
-                        return dataService.fetch(url);
-                    }
-                },
-
-                getCitiesList: function (platformId, data, success, failure, flag) {
-                    var clientId = loginModel.getSelectedClient().id,
-                        url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/vendors/' + platformId + '/cities' + data,
-                        canceller;
-
-                    if (flag === 'cancellable') {
-                        canceller = requestCanceller.initCanceller(constants.CAMPAIGN_FILTER_CANCELLER);
-                        return dataService.fetchCancelable(url, canceller, success, failure);
-                    } else {
-                        return dataService.fetch(url);
-                    }
-                },
 
                 getDMAsList: function (platformId, data, success, failure, flag) {
                     var // clientId =  loginModel.getSelectedClient().id,
