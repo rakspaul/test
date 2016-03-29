@@ -8,7 +8,7 @@
                 <button type="submit"
                         class="btn btn-primary pull-right"
                         id="groupIndividual"
-                        ng-disabled="createNewAdGrp.$invalid"
+                        ng-disabled="createNewAdGrp.$invalid || !isMinimumAdGroupBudget || !isMaximumAdGroupBudget"
                         ng-click="createAdGroup($event)" data-ng-bind="textConstants.WF_AD_SAVE_CLOSE" ng-show="!loadingBtn">
                 </button>
                 <span type="button" class="pull-right secondary_txt" ng-bind="textConstants.CANCEL" ng-click="cancelEditAdGroup()"></span>

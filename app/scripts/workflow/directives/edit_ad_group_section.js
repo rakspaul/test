@@ -34,7 +34,6 @@ define(['angularAMD'],function (angularAMD) {
                     var startTime = momentService.utcToLocalTime(adGroupsData.adGroup.startTime);
                     var highestEndTime = momentService.utcToLocalTime(adGroupsData.adGroup.endTime);
 
-                    console.log("$scope.independantAdData", $scope.independantAdData);
                     var getADsForGroupData = $scope.workflowData['getADsForGroupData'][adGroupsIndex];
 
                     if(getADsForGroupData.length >0 ) {
@@ -84,7 +83,10 @@ define(['angularAMD'],function (angularAMD) {
                     element.closest('.adGroup').find(".editAdgroupDiv").hide();
                     element.closest('.adGroup').find('.adgroupDiv').show();
                     element.closest('.adGroup').find(".overlay").hide();
+                    $scope.isMinimumAdGroupBudget = true;
+                    $scope.isMaximumAdGroupBudget = true;
                 };
+
 
 
             }

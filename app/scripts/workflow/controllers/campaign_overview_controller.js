@@ -495,6 +495,8 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             };
 
             $scope.createAdGrp = function () {
+                $scope.isMinimumAdGroupBudget = true;
+                $scope.isMaximumAdGroupBudget = true;
                 $scope.showCreateAdGrp = !$scope.showCreateAdGrp;
                 var adGroupCreateformElem = $(".adGroupSelectionWrap").find(".adGroupCreate").find("form");
                 adGroupCreateformElem[0].reset();
