@@ -368,8 +368,13 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                     return dataService.fetch(vistoconfig.apiPaths.WORKFLOW_API_URL + '/sizes');
                 },
 
-                saveCreatives: function (clientId, data) {
-                    clientId = loginModel.getSelectedClient().id;
+                saveCreatives: function (client_id, data) {
+                    if(client_id) {
+                        var clientId = client_id;
+                    }else {
+                        var clientId = loginModel.getSelectedClient().id;
+                    }
+
                     return dataService.post(
                         vistoconfig.apiPaths.WORKFLOW_API_URL +
                             '/clients/' + clientId +
