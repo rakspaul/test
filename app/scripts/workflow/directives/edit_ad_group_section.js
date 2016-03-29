@@ -35,6 +35,8 @@ define(['angularAMD'],function (angularAMD) {
                     var highestEndTime = momentService.utcToLocalTime(adGroupsData.adGroup.endTime);
 
                     var getADsForGroupData = $scope.workflowData['getADsForGroupData'][adGroupsIndex];
+                    var startDateElem = formElem.find(".adGrpStartDateInput");
+                    var endDateElem = formElem.find(".adGrpEndDateInput");;
 
                     if(getADsForGroupData.length >0 ) {
                         $scope.extractor(getADsForGroupData, formElem);
@@ -51,10 +53,8 @@ define(['angularAMD'],function (angularAMD) {
                         endDateElem.datepicker("setEndDate", $scope.campaignEndTime);
                     }
 
-                    var startDateElem = formElem.find(".adGrpStartDateInput");
                     startDateElem.datepicker("update", startTime);
 
-                    var endDateElem = formElem.find(".adGrpEndDateInput");
                     endDateElem.datepicker("update", highestEndTime);
 
                 }
