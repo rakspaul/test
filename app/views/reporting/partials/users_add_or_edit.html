@@ -24,10 +24,23 @@
                     <input name="lastName" type="text" ng-model="userConsoleFormDetails.lastName" class="form-control"  required>
                     <label ng-if="userCreateEditForm.lastName.$error.required" class="col-sm-12  greyTxt errorLabel">You must enter Last Name.</label>
                 </div>
-                <div class="form-group col-md-3" show-errors style="padding-right: 0;">
+                <div class="form-group col-md-2" show-errors>
                     <label >Password:</label>
-                <input name="password" type="password" ng-model="userConsoleFormDetails.password" class="form-control" ng-disabled="userConsoleFormDetails.isEditPassword" required>
+                    <input name="password" type="password" ng-model="userConsoleFormDetails.password" class="form-control" ng-disabled="userConsoleFormDetails.isEditPassword" required>
                     <label ng-if="userCreateEditForm.password.$error.required" class="col-sm-12  greyTxt errorLabel">You must enter password.</label>
+                </div>
+                <div class="form-group col-md-1" style="padding-right: 0;">
+                    <label class="pull-right">Super User</label>
+                    <div class="pull-right">
+                        <input id="cmn-toggle-1" class="cmn-toggle cmn-toggle-round" type="checkbox">
+                        <label for="cmn-toggle-1"></label>
+                    </div>
+                </div>
+                <div class="col-md-12 zeroPadding">
+                    <a class="btn btn-link pull-right addRowMedia">
+                        <span class="icon-trash" style="margin-right: 5px;"></span>
+                        <span>Remove User</span>
+                    </a>
                 </div>
                 <!--<div class="form-group col-md-12 zeroPadding">-->
                     <!--<label >Collective Internal:</label>-->
@@ -122,29 +135,53 @@
                 <!---->
             <!--</div>-->
             
+            <!--THIS IS TEST ELEMENTS STARTS HERE-->
             <div class="col-md-12 zeroPadding">
-                <label >Per Page Permission:</label>
-                <select data-placeholder="Page Permission" class="chosen-select" multiple tabindex="4">
-                    <option value=""></option>
-                    <option value="All">All</option>
-                    <option value="Media Plans">Media Plans</option>
-                    <option value="Reports">Reports</option>
-                    <option value="Creative">Creative</option>
-                    <option value="New Creative">New Creative</option>
-                </select>
+                <div class="col-md-2 zeroPadding">
+                    <label class="col-md-12 zeroPadding">Accounts:</label>
+                    <ul class="accountDDL">
+                        <li data-dropdown-text="Item 1"></li>
+                        <li data-dropdown-text="Item 2"></li>
+                        <li data-dropdown-text="Item 3">
+                            <ul>
+                                <li data-dropdown-text="Item 1"></li>
+                                <li data-dropdown-text="Item 2"></li>
+                                <li data-dropdown-text="Item 3"></li>
+                            </ul>
+                        </li>
+                        <li data-dropdown-text="Item 4"></li>
+                    </ul>
+                </div>
+                
+                <div class="col-md-8" style="padding: 0 30px;">
+                    <label>Per Page Permission:</label>
+                    <select data-placeholder="Page Permission" class="chosen-select" multiple tabindex="4">
+                        <option value=""></option>
+                        <option value="All">All</option>
+                        <option value="Media Plans">Media Plans</option>
+                        <option value="Reports">Reports</option>
+                        <option value="Creative">Creative</option>
+                        <option value="New Creative">New Creative</option>
+                    </select>
+                </div>
+                
+                <div class="col-md-2 zeroPadding">
+                    <label class="col-md-12 zeroPadding">Account Admin:</label>
+                    <div class="pull-left">
+                        <input id="cmn-toggle-1" class="cmn-toggle cmn-toggle-round" type="checkbox">
+                        <label for="cmn-toggle-1"></label>
+                    </div>
+                </div>
             </div>
-	    
-	    <div class="col-md-12 zeroPadding">
-            <ul class="dl-menu">
-                <li>Item 1</li>
-                <li>Item 2</li>
-                <li>Item 3</li>
-            </ul>
-	    </div>
+            <!--THIS IS TEST ELEMENTS ENDS HERE-->
             
             <div class="col-md-12 add-filters" ng-repeat="(permissionIndex,item) in permissions track by $index"> <!--$index--{{$index}}-->
-                <div class="form-group col-md-3 accounts-multi-dimension" id="id_{{$index}}" style="padding-left: 0;"><!--id_$index---id_{{$index}}-->
-                    <label >Accounts:</label>
+                <div class="col-md-12 zeroPadding">
+                    <h1 class="pull-left">Account Access</h1>
+                </div>
+                
+                <div class="form-group col-md-12 accounts-multi-dimension" id="id_{{$index}}" style="padding-left: 0;"><!--id_$index---id_{{$index}}-->
+                    <label>Accounts:</label>
                     <div class="zeroPadding dropdown-workflow">
                         <div class="dropdown">
                             <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
@@ -173,8 +210,24 @@
                     <!--</select>-->
                 </div>
                 
-                <div class="col-md-9" style="padding-right: 0;"><!--add model also-->
-                    <label >Per Page Permission:</label>
+                <div class="col-md-2 zeroPadding">
+                    <label class="col-md-12 zeroPadding">Accounts:</label>
+                    <ul class="accountDDL">
+                        <li data-dropdown-text="Item 1"></li>
+                        <li data-dropdown-text="Item 2"></li>
+                        <li data-dropdown-text="Item 3">
+                            <ul>
+                                <li data-dropdown-text="Item 1"></li>
+                                <li data-dropdown-text="Item 2"></li>
+                                <li data-dropdown-text="Item 3"></li>
+                            </ul>
+                        </li>
+                        <li data-dropdown-text="Item 4"></li>
+                    </ul>
+                </div>
+                
+                <div class="col-md-8" style="padding: 0 30px;">
+                    <label>Per Page Permission:</label>
                     <select data-placeholder="Page Permission" class="chosen-select" multiple tabindex="4">
                         <option value=""></option>
                         <option value="All">All</option>
@@ -185,7 +238,15 @@
                     </select>
                 </div>
                 
-                <div class="col-md-12 zeroPadding">
+                <div class="col-md-2 zeroPadding">
+                    <label class="col-md-12 zeroPadding">Account Admin:</label>
+                    <div class="pull-left">
+                        <input id="cmn-toggle-1" class="cmn-toggle cmn-toggle-round" type="checkbox">
+                        <label for="cmn-toggle-1"></label>
+                    </div>
+                </div>
+                
+                <div class="col-md-12" style="background: rgba(0, 0, 0, 0.08); padding: 15px 30px; margin: 15px 0;">
                     <div class="form-group col-md-4" style="padding-left: 0;">
                         <label> Advertiser Name:</label>
                         <!--<select class="form-control" name="advertiserName" ng-model="selectedAdvertiser">-->
@@ -242,13 +303,18 @@
                     </div>
                     
                     <div class="delete_row" ng-click="delete_filter($event, permissionIndex)"></div>
+                </div>
+                
+                <div class="col-md-12 zeroPadding">
+                    <a class="btn btn-link pull-left addRowMedia">
+                        <span class="icon-plus"></span>
+                        <span>Add Permission</span>
+                    </a>
                     
-                    <div class="col-md-12 zeroPadding">
-                        <a class="btn btn-link pull-left addRowMedia">
-                            <span class="icon-plus"></span>
-                            <span>Add Permission</span>
-                        </a>
-                    </div>
+                    <a class="btn btn-link pull-right addRowMedia">
+                        <span class="icon-trash" style="margin-right: 5px;"></span>
+                        <span>Remove Account Access</span>
+                    </a>
                 </div>
                 <!--<div class="form-group col-md-3" style="padding-left: 0; clear: left;">-->
                 <!--    <label >Role:</label>-->
@@ -268,7 +334,7 @@
                 <!--<span ng-click="incrementCounter()">Add Account</span>-->
                 <a class="btn btn-link pull-left addRowMedia">
                     <span class="icon-plus"></span>
-                    <span ng-click="incrementCounter()">Add Account</span>
+                    <span ng-click="incrementCounter()">Add Account Access</span>
                 </a>
             </div>
         </div>
@@ -297,7 +363,8 @@
     }
 	
     //DDL Tier Parent, Child
-    $(function() {
-        $('.dlmenu').dropdown();
+    
+    $('.accountDDL').dropdown({
+        toggleText: 'Select Account'
     });
 </script>

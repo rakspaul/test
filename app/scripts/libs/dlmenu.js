@@ -38,9 +38,9 @@
 			uid: null,
 
 			items: {},
-			menus: {},
+			menuDDLs: {},
 
-			menu: {
+			menuDDL: {
 				current: null,
 				main: null
 			},
@@ -135,7 +135,7 @@
 		 *
 		 *	================================================================ */
 
-		open: function( menu ) {
+		open: function( menuDDL ) {
 
 			var self = this;
 			var inst = self.instance,
@@ -147,10 +147,10 @@
 			if ( inst.opening || inst.closing )
 				return;
 
-			// Open a menu
-			if ( menu ) {
+			// Open a menuDDL
+			if ( menuDDL ) {
 
-				self.openMenu( menu );
+				self.openMenuDDL( menuDDL );
 				return;
 
 			}
@@ -187,7 +187,7 @@
 			} 
 
 			// Mobile?
-			var mobile = ( elem.menuWrapper.css( 'position' ) == 'fixed' ? true : false );
+			var mobile = ( elem.menuDDLWrapper.css( 'position' ) == 'fixed' ? true : false );
 
 			if ( mobile ) {
 
@@ -220,7 +220,7 @@
 			elem.dropdown.addClass( cls.animating );
 
 			// Animate
-			elem.menuWrapper.show().css( start );
+			elem.menuDDLWrapper.show().css( start );
 
 			if ( mobile ) {
 
@@ -228,7 +228,7 @@
 
 			}
 
-			elem.menuWrapper.transition( finish, opt.speed, function() {
+			elem.menuDDLWrapper.transition( finish, opt.speed, function() {
 
 				// Update state
 				inst.animating = false;
@@ -250,7 +250,7 @@
 		 *
 		 *	================================================================ */
 
-		close: function( menu ) {
+		close: function( menuDDL ) {
 
 			var self = this;
 			var inst = self.instance,
@@ -262,10 +262,10 @@
 			if ( !inst.open || inst.closing || inst.opening )
 				return;
 
-			// Close a menu
-			if ( menu ) {
+			// Close a menuDDL
+			if ( menuDDL ) {
 
-				self.closeMenu( menu );
+				self.closeMenuDDL( menuDDL );
 				return;
 
 			}
@@ -302,7 +302,7 @@
 			} 
 
 			// Mobile?
-			var mobile = ( elem.menuWrapper.css( 'position' ) == 'fixed' ? true : false );
+			var mobile = ( elem.menuDDLWrapper.css( 'position' ) == 'fixed' ? true : false );
 
 			if ( mobile ) {
 
@@ -335,7 +335,7 @@
 			elem.dropdown.addClass( cls.animating );
 
 			// Animate
-			elem.menuWrapper.show().css( start );
+			elem.menuDDLWrapper.show().css( start );
 
 			if ( mobile ) {
 
@@ -343,7 +343,7 @@
 
 			}
 
-			elem.menuWrapper.transition( finish, opt.speed, function() {
+			elem.menuDDLWrapper.transition( finish, opt.speed, function() {
 
 				// Update state
 				inst.animating = false;
@@ -351,8 +351,8 @@
 				// Update classes
 				elem.dropdown.removeClass( cls.animating );
 
-				// Hide the menu
-				elem.menuWrapper.hide();
+				// Hide the menuDDL
+				elem.menuDDLWrapper.hide();
 
 				// Callback
 				self._afterClose();
@@ -364,11 +364,11 @@
 
 		/**
 		 *
-		 *	Open a menu
+		 *	Open a menuDDL
 		 *
 		 *	================================================================ */
 
-		openMenu: function( menu, noAnimation ) {
+		openMenuDDL: function( menuDDL, noAnimation ) {
 
 			var self = this;
 			var inst = self.instance,
@@ -380,20 +380,20 @@
 			if ( inst.opening )
 				return;
 
-			// Get the menu
-			menu = self.getMenu( menu );
+			// Get the menuDDL
+			menuDDL = self.getMenuDDL( menuDDL );
 
-			// Get the current menu
-			var current = self.getMenu();
+			// Get the current menuDDL
+			var current = self.getMenuDDL();
 
 			// Callback
-			self._beforeOpenMenu( menu, current );
+			self._beforeOpenMenuDDL( menuDDL, current );
 
 			// No animation
-			if ( noAnimation || !opt.animate || menu.uid == current.uid ) {
+			if ( noAnimation || !opt.animate || menuDDL.uid == current.uid ) {
 
 				// Callback
-				self._afterOpenMenu( menu, current );
+				self._afterOpenMenuDDL( menuDDL, current );
 				return;
 
 			}
@@ -403,7 +403,7 @@
 				x: '100%'
 			};
 
-			menu.elem.show().css( start );
+			menuDDL.elem.show().css( start );
 			current.elem.css({ x: 0 });
 
 			// Set finish values
@@ -419,7 +419,7 @@
 
 			// Animate
 			current.elem.transition({ x: '-100%' }, opt.speed );
-			menu.elem.transition( finish, opt.speed, function() {
+			menuDDL.elem.transition( finish, opt.speed, function() {
 
 				// Update state
 				inst.animating = false;
@@ -428,7 +428,7 @@
 				elem.dropdown.removeClass( cls.animating );
 
 				// Callback
-				self._afterOpenMenu( menu, current );
+				self._afterOpenMenuDDL( menuDDL, current );
 
 			});
 
@@ -437,11 +437,11 @@
 
 		/**
 		 *
-		 *	Close a menu
+		 *	Close a menuDDL
 		 *
 		 *	================================================================ */
 
-		closeMenu: function( menu ) {
+		closeMenuDDL: function( menuDDL ) {
 
 			var self = this;
 			var inst = self.instance,
@@ -453,21 +453,21 @@
 			if ( inst.closing )
 				return;
 
-			// Get the menu
-			menu = self.getMenu( menu );
+			// Get the menuDDL
+			menuDDL = self.getMenuDDL( menuDDL );
 
-			// Get the target menu
+			// Get the target menuDDL
 			var target = false;
 
-			if ( menu.parent ) {
+			if ( menuDDL.parent ) {
 
-				var item   = self.getItem( menu.parent );
-				var target = self.getMenu( item.menu );
+				var item   = self.getItem( menuDDL.parent );
+				var target = self.getMenuDDL( item.menuDDL );
 
 			}
 
 			// Callback
-			self._beforeCloseMenu( menu, target );
+			self._beforeCloseMenuDDL( menuDDL, target );
 
 			// No animation
 			if ( !opt.animate || !target ) {
@@ -476,7 +476,7 @@
 					self.close();
 
 				// Callback
-				self._afterCloseMenu( menu, target );
+				self._afterCloseMenuDDL( menuDDL, target );
 				return;
 
 			}
@@ -486,7 +486,7 @@
 				x: 0
 			};
 
-			menu.elem.css( start );
+			menuDDL.elem.css( start );
 			target.elem.show().css({ x: '-100%' });
 
 			// Set finish values
@@ -502,7 +502,7 @@
 
 			// Animate
 			target.elem.transition({ x: 0 }, opt.speed );
-			menu.elem.transition( finish, opt.speed, function() {
+			menuDDL.elem.transition( finish, opt.speed, function() {
 
 				// Update state
 				inst.animating = false;
@@ -511,7 +511,7 @@
 				elem.dropdown.removeClass( cls.animating );
 
 				// Callback
-				self._afterCloseMenu( menu, target );
+				self._afterCloseMenuDDL( menuDDL, target );
 
 			});
 
@@ -524,7 +524,7 @@
 		 *
 		 *	================================================================ */
 
-		resize: function( menu, noAnimation ) {
+		resize: function( menuDDL, noAnimation ) {
 
 			var self = this;
 			var inst = self.instance,
@@ -537,21 +537,21 @@
 			if ( inst.resizing )
 				return;
 
-			var animate = ( noAnimation ? false : ( menu ? true : false ) );
+			var animate = ( noAnimation ? false : ( menuDDL ? true : false ) );
 
-			// Get the menu
-			if ( menu )
-				menu = self.getMenu( menu );
+			// Get the menuDDL
+			if ( menuDDL )
+				menuDDL = self.getMenuDDL( menuDDL );
 
-			// Menu doesn't exist, get current one
-			if ( !menu )
-				menu = self.getMenu();
+			// MenuDDL doesn't exist, get current one
+			if ( !menuDDL )
+				menuDDL = self.getMenuDDL();
 
 			// Get values
 			var resize = $.extend( true, {}, obj.resize );
 
 			// Callback
-			self._beforeResize( menu, resize );
+			self._beforeResize( menuDDL, resize );
 
 			// Window dimensions
 			resize.height.viewport = $(window).height();
@@ -560,62 +560,62 @@
 			// Show the dropdown if needed
 			if ( !inst.open ) {
 
-				elem.menuWrapper.show().css({ opacity: 0 });
+				elem.menuDDLWrapper.show().css({ opacity: 0 });
 
 			}
 
 			// Wrapper dimensions
-			resize.height.wrapper = elem.menuWrapper.outerHeight(true);
-			resize.width.wrapper  = elem.menuWrapper.outerWidth(true);
+			resize.height.wrapper = elem.menuDDLWrapper.outerHeight(true);
+			resize.width.wrapper  = elem.menuDDLWrapper.outerWidth(true);
 
-			resize.height.diff = resize.height.wrapper - elem.menuWrapper.height();
-			resize.width.diff  = resize.width.wrapper - elem.menuWrapper.width();
+			resize.height.diff = resize.height.wrapper - elem.menuDDLWrapper.height();
+			resize.width.diff  = resize.width.wrapper - elem.menuDDLWrapper.width();
 
-			// Show the menu
-			menu.elem.show().css({ opacity: 0, position: 'fixed', height: '', width: '' });
+			// Show the menuDDL
+			menuDDL.elem.show().css({ opacity: 0, position: 'fixed', height: '', width: '' });
 
 			// List dimensions
-			var $list = menu.elem.children( '.' + cls.core.menuList ).eq(0);
+			var $list = menuDDL.elem.children( '.' + cls.core.menuDDLList ).eq(0);
 
 			$list.css({ height: '', width: '' });
 
 			resize.height.list = $list.height();
 			resize.width.list  = $list.width();
 
-			// Menu dimensions
-			resize.height.menu = menu.elem.outerHeight(true);
-			resize.width.menu  = menu.elem.outerWidth(true);
+			// MenuDDL dimensions
+			resize.height.menuDDL = menuDDL.elem.outerHeight(true);
+			resize.width.menuDDL  = menuDDL.elem.outerWidth(true);
 
 			// Get collision values
-			var collision = self._collisionValues( menu, resize );
+			var collision = self._collisionValues( menuDDL, resize );
 
 			// Reset
 			if ( !inst.open ) {
 
-				elem.menuWrapper.css({ display: '', opacity: '' });
+				elem.menuDDLWrapper.css({ display: '', opacity: '' });
 
 			}
 
-			menu.elem.css({ display: '', opacity: '', position: '' });
+			menuDDL.elem.css({ display: '', opacity: '', position: '' });
 
 			$list.css({ height: resize.collision.height.list });
 
 			// No animation
 			if ( !animate || !opt.animate ) {
 
-				elem.menuWrapper.css({ height: resize.collision.height.menu });
+				elem.menuDDLWrapper.css({ height: resize.collision.height.menuDDL });
 
 				// Callback
-				self._afterResize( menu, resize );
+				self._afterResize( menuDDL, resize );
 				return resize;
 
 			}
 
 			// Animate
-			elem.menuWrapper.transition({ height: resize.collision.height.menu }, opt.speed, function() {
+			elem.menuDDLWrapper.transition({ height: resize.collision.height.menuDDL }, opt.speed, function() {
 
 				// Callback
-				self._afterResize( menu, resize );
+				self._afterResize( menuDDL, resize );
 
 			});
 
@@ -638,9 +638,9 @@
 			    elem = self.elements,
 			    cls  = self.classes;
 
-			// Get the menus
-			var target  = self.getMenu( 'default' );
-			var current = self.getMenu();
+			// Get the menuDDLs
+			var target  = self.getMenuDDL( 'default' );
+			var current = self.getMenuDDL();
 
 			// Callback
 			self._beforeReset( clear, target, current );
@@ -653,7 +653,7 @@
 
 		/**
 		 *
-		 *	Select an item or menu
+		 *	Select an item or menuDDL
 		 *
 		 *	================================================================ */
 
@@ -668,23 +668,23 @@
 			// Get the item
 			item = self.getItem( item );
 
-			// Get a menu
+			// Get a menuDDL
 			if ( !item ) {
 
-				var menu = self.getMenu( item );
+				var menuDDL = self.getMenuDDL( item );
 
-				// Open menu
-				if ( menu )
-					self.openMenu( menu );
+				// Open menuDDL
+				if ( menuDDL )
+					self.openMenuDDL( menuDDL );
 
 				return;
 
 			}
 
-			// Parent, open menu
-			if ( opt.nested && item.selectable && item.children.menu ) {
+			// Parent, open menuDDL
+			if ( opt.nested && item.selectable && item.children.menuDDL ) {
 
-				self.openMenu( item.children.menu );
+				self.openMenuDDL( item.children.menuDDL );
 				return;
 
 			}
@@ -1231,45 +1231,45 @@
 
 		/**
 		 *
-		 *	Get a menu
+		 *	Get a menuDDL
 		 *
 		 *	================================================================ */
 
-		getMenu: function( menu ) {
+		getMenuDDL: function( menuDDL ) {
 
 			var self = this;
 			var inst = self.instance,
 			    elem = self.elements;
 
 			// Check if this is an item
-			var item = self.getItem( menu );
+			var item = self.getItem( menuDDL );
 
 			if ( item ) {
 
-				menu = item.menu;
+				menuDDL = item.menuDDL;
 
 			}
 
-			// Get current menu
-			if ( !menu )
-				menu = inst.menu.current;
+			// Get current menuDDL
+			if ( !menuDDL )
+				menuDDL = inst.menuDDL.current;
 
-			// Get default menu
-			if ( 'default' == menu )
-				menu = inst.menu.main;
+			// Get default menuDDL
+			if ( 'default' == menuDDL )
+				menuDDL = inst.menuDDL.main;
 
 			// Get by ID
-			if ( typeof menu == 'string' ) {
+			if ( typeof menuDDL == 'string' ) {
 
-				if ( inst.menus[ menu ] ) {
+				if ( inst.menuDDLs[ menuDDL ] ) {
 
-					return inst.menus[ menu ];
+					return inst.menuDDLs[ menuDDL ];
 
 				} else {
 
-					if ( elem.dropdown.find( '#' + menu ).length ) {
+					if ( elem.dropdown.find( '#' + menuDDL ).length ) {
 
-						menu = elem.dropdown.find( '#' + menu );
+						menuDDL = elem.dropdown.find( '#' + menuDDL );
 
 					} else {
 
@@ -1282,21 +1282,21 @@
 			}
 
 			// Get from jQuery object
-			if ( menu.jquery ) {
+			if ( menuDDL.jquery ) {
 
-				var uid = menu.data( 'dropdown-uid' );
+				var uid = menuDDL.data( 'dropdown-uid' );
 
-				if ( !uid || !inst.menus[ uid ] )
+				if ( !uid || !inst.menuDDLs[ uid ] )
 					return false;
 
-				return inst.menus[ uid ];
+				return inst.menuDDLs[ uid ];
 
 			}
 
-			if ( typeof menu != 'object' )
+			if ( typeof menuDDL != 'object' )
 				return false;
 
-			return menu;
+			return menuDDL;
 
 		},
 
@@ -1307,7 +1307,7 @@
 		 *
 		 *	================================================================ */
 
-		addItem: function( item, menu ) {
+		addItem: function( item, menuDDL ) {
 
 			var self = this;
 			var inst = self.instance,
@@ -1317,14 +1317,14 @@
 			var items = item;
 			var added = [];
 
-			// Get the menu
+			// Get the menuDDL
 			if ( !opt.nested ) {
 
-				menu = self.getMenu();
+				menuDDL = self.getMenuDDL();
 
 			} else {
 
-				menu = self.getMenu( menu );
+				menuDDL = self.getMenuDDL( menuDDL );
 
 			}
 
@@ -1337,8 +1337,8 @@
 				if ( !item.uid )
 					item.uid = self.getID();
 
-				if ( !item.menu )
-					item.menu = menu.uid;
+				if ( !item.menuDDL )
+					item.menuDDL = menuDDL.uid;
 
 				// Add to plugin
 				inst.items[ item.uid ] = item;
@@ -1379,18 +1379,18 @@
 				// Any child items?
 				if ( item.children.items && item.children.items.length ) {
 
-					// Set menu
+					// Set menuDDL
 					if ( !opt.nested ) {
 
-						item.children.menu = menu;
+						item.children.menuDDL = menuDDL;
 
 					} else {
 
-						if ( !item.children.menu ) {
+						if ( !item.children.menuDDL ) {
 
-							var submenu = self.addMenu([{ parent: item.uid, title: item.children.title }]);
+							var submenuDDL = self.addMenuDDL([{ parent: item.uid, title: item.children.title }]);
 
-							item.children.menu = submenu[0].uid;
+							item.children.menuDDL = submenuDDL[0].uid;
 
 						}
 
@@ -1401,7 +1401,7 @@
 
 						var parent = $.extend( {}, item, { 
 							uid: false, 
-							menu: false,
+							menuDDL: false,
 							parent: item.uid, 
 							children: {}, 
 							divider: {
@@ -1433,7 +1433,7 @@
 
 					}
 
-					var children = self.addItem( item.children.items, item.children.menu );
+					var children = self.addItem( item.children.items, item.children.menuDDL );
 
 					item.children.items = [];
 
@@ -1469,11 +1469,11 @@
 
 		/**
 		 *
-		 *	Add a menu
+		 *	Add a menuDDL
 		 *
 		 *	================================================================ */
 
-		addMenu: function( menu ) {
+		addMenuDDL: function( menuDDL ) {
 
 			var self = this;
 			var inst = self.instance,
@@ -1481,33 +1481,33 @@
 			    cls  = self.classes;
 
 			// Make sure this is an array
-			var menus = menu;
+			var menuDDLs = menuDDL;
 			var added = [];
 
-			$.each( menus, function( i, menu ) {
+			$.each( menuDDLs, function( i, menuDDL ) {
 
-				menu = $.extend( true, {}, self.objects.menu, menu );
+				menuDDL = $.extend( true, {}, self.objects.menuDDL, menuDDL );
 
 				// Get unique ID
-				if ( !menu.uid )
-					menu.uid = self.getID();
+				if ( !menuDDL.uid )
+					menuDDL.uid = self.getID();
 
 				// Add to plugin
-				inst.menus[ menu.uid ] = menu;
-				added.push( menu );
+				inst.menuDDLs[ menuDDL.uid ] = menuDDL;
+				added.push( menuDDL );
 
 				// Set title
-				if ( !menu.title ) {
+				if ( !menuDDL.title ) {
 
-					menu.title = opt.titleText;
+					menuDDL.title = opt.titleText;
 
-					if ( opt.autoTitle && menu.parent ) {
+					if ( opt.autoTitle && menuDDL.parent ) {
 
-						var parent = self.getItem( menu.parent );
+						var parent = self.getItem( menuDDL.parent );
 
 						if ( parent ) {
 
-							menu.title = parent.text;
+							menuDDL.title = parent.text;
 
 						}
 
@@ -1516,23 +1516,23 @@
 				}
 
 				// Get element
-				menu.elem = self._buildMenu( menu );
+				menuDDL.elem = self._buildMenuDDL( menuDDL );
 
 				// Any items?
-				if ( menu.items ) {
+				if ( menuDDL.items ) {
 
-					self.addItem( menu.items, menu.uid );
+					self.addItem( menuDDL.items, menuDDL.uid );
 
 				}
 
 				// Default?
-				if ( !inst.menu.main ) {
+				if ( !inst.menuDDL.main ) {
 
-					inst.menu.main = menu.uid;
-					inst.menu.current = menu.uid;
+					inst.menuDDL.main = menuDDL.uid;
+					inst.menuDDL.current = menuDDL.uid;
 
-					menu.open = true;
-					menu.elem.addClass( cls.menuOpen );
+					menuDDL.open = true;
+					menuDDL.elem.addClass( cls.menuDDLOpen );
 
 				}
 
@@ -1567,24 +1567,24 @@
 		 *
 		 *	================================================================ */
 
-		titleText: function( text, menu ) {
+		titleText: function( text, menuDDL ) {
 
 			var self = this;
 			var elem = self.elements,
 			    cls  = self.classes;
 
-			// Get menu
-			menu = self.getMenu( menu );
+			// Get menuDDL
+			menuDDL = self.getMenuDDL( menuDDL );
 
-			// No menu, bail
-			if ( !menu )
+			// No menuDDL, bail
+			if ( !menuDDL )
 				return;
 
 			// Store the original
-			if ( !menu.elem.data('dropdown-title') )
-				menu.elem.data('dropdown-title', $title.html() );
+			if ( !menuDDL.elem.data('dropdown-title') )
+				menuDDL.elem.data('dropdown-title', $title.html() );
 
-			var $title = menu.elem.find( '.' + cls.core.menuTitle );
+			var $title = menuDDL.elem.find( '.' + cls.core.menuDDLTitle );
 
 			if ( text ) {
 
@@ -1592,7 +1592,7 @@
 
 			} else {
 
-				$title.html( menu.elem.data('dropdown-title') );
+				$title.html( menuDDL.elem.data('dropdown-title') );
 
 			}
 
@@ -1749,7 +1749,7 @@
 			});
 
 			// Select item
-			elem.dropdown.on( 'click', '.' + cls.core.menuItem, function(e) {
+			elem.dropdown.on( 'click', '.' + cls.core.menuDDLItem, function(e) {
 
 				e.preventDefault();
 
@@ -1766,12 +1766,12 @@
 
 			});
 
-			// Close menu
+			// Close menuDDL
 			elem.dropdown.on( 'click', '.' + cls.core.backButton, function(e) {
 
 				e.preventDefault();
 
-				self.closeMenu();
+				self.closeMenuDDL();
 
 			});
 
@@ -1857,22 +1857,22 @@
 							// Select an item
 							if ( focused ) {
 
-								// Check for menu
-								if ( focused.children.menu ) {
+								// Check for menuDDL
+								if ( focused.children.menuDDL ) {
 
-									// Get the menu
-									var menu = self.getMenu( focused.children.menu );
+									// Get the menuDDL
+									var menuDDL = self.getMenuDDL( focused.children.menuDDL );
 
 									// Focus the first or selected item
-									var target = menu.elem.find( '.' + cls.core.menuItem );
+									var target = menuDDL.elem.find( '.' + cls.core.menuDDLItem );
 
-									if ( menu.elem.find( '.' + cls.core.selected ).length )
-										target = menu.elem.find( '.' + cls.core.selected );
+									if ( menuDDL.elem.find( '.' + cls.core.selected ).length )
+										target = menuDDL.elem.find( '.' + cls.core.selected );
 
 									self.focus( target.eq(0) );
 
-									// Open the menu
-									self.open( focused.children.menu );
+									// Open the menuDDL
+									self.open( focused.children.menuDDL );
 
 								} else {
 
@@ -1917,7 +1917,7 @@
 
 							e.preventDefault();
 
-							var menu = self.getMenu();
+							var menuDDL = self.getMenuDDL();
 
 							// Open dropdown
 							if ( elem.toggleButton.is(':focus') && !inst.open ) {
@@ -1925,11 +1925,11 @@
 								self.open();
 
 								// Focus the first or selected item
-								var target = menu.elem.find( '.' + cls.core.menuItem );
+								var target = menuDDL.elem.find( '.' + cls.core.menuDDLItem );
 
-								if ( menu.elem.find( '.' + cls.core.selected ).length ) {
+								if ( menuDDL.elem.find( '.' + cls.core.selected ).length ) {
 
-									target = menu.elem.find( '.' + cls.core.selected );
+									target = menuDDL.elem.find( '.' + cls.core.selected );
 
 								}
 
@@ -1941,11 +1941,11 @@
 								if ( !focused ) {
 
 									// Focus the first or selected item
-									var target = menu.elem.find( '.' + cls.core.menuItem );
+									var target = menuDDL.elem.find( '.' + cls.core.menuDDLItem );
 
-									if ( menu.elem.find( '.' + cls.core.selected ).length ) {
+									if ( menuDDL.elem.find( '.' + cls.core.selected ).length ) {
 
-										target = menu.elem.find( '.' + cls.core.selected );
+										target = menuDDL.elem.find( '.' + cls.core.selected );
 
 										if ( target.next().length )
 											target = target.next();
@@ -1974,17 +1974,17 @@
 						// Left
 						case 37 :
 
-							// Close menu
-							if ( inst.open && inst.menu.main != inst.menu.current ) {
+							// Close menuDDL
+							if ( inst.open && inst.menuDDL.main != inst.menuDDL.current ) {
 
 								e.preventDefault();
 
 								// Get the target item
-								var menu = self.getMenu();
-								var item = self.getItem( menu.parent );
+								var menuDDL = self.getMenuDDL();
+								var item = self.getItem( menuDDL.parent );
 
-								// Close the menu
-								self.closeMenu();
+								// Close the menuDDL
+								self.closeMenuDDL();
 
 								// Focus the item
 								self.focus( item );
@@ -2020,26 +2020,26 @@
 						// Right
 						case 39 :
 
-							// Open menu
+							// Open menuDDL
 							if ( inst.open && focused ) {
 
-								if ( focused.children.menu ) {
+								if ( focused.children.menuDDL ) {
 
 									e.preventDefault();
 
-									// Get the menu
-									var menu = self.getMenu( focused.children.menu );
+									// Get the menuDDL
+									var menuDDL = self.getMenuDDL( focused.children.menuDDL );
 
 									// Focus the first or selected item
-									var target = menu.elem.find( '.' + cls.core.menuItem );
+									var target = menuDDL.elem.find( '.' + cls.core.menuDDLItem );
 
-									if ( menu.elem.find( '.' + cls.core.selected ).length )
-										target = menu.elem.find( '.' + cls.core.selected );
+									if ( menuDDL.elem.find( '.' + cls.core.selected ).length )
+										target = menuDDL.elem.find( '.' + cls.core.selected );
 
 									self.focus( target.eq(0) );
 
-									// Open the menu
-									self.open( focused.children.menu );
+									// Open the menuDDL
+									self.open( focused.children.menuDDL );
 
 								}
 
@@ -2091,10 +2091,10 @@
 			// Build the structure
 			elem.overlay.appendTo( elem.dropdown );
 
-			elem.menuWrapper.appendTo( elem.dropdown );
-			elem.menuContainer.appendTo( elem.menuWrapper );
+			elem.menuDDLWrapper.appendTo( elem.dropdown );
+			elem.menuDDLContainer.appendTo( elem.menuDDLWrapper );
 
-			elem.menuMask.prependTo( elem.menuWrapper );
+			elem.menuDDLMask.prependTo( elem.menuDDLWrapper );
 
 			// Toggle button
 			var toggleButton = ( opt.toggleElem.button ? $( opt.toggleElem.button ) : false );
@@ -2161,8 +2161,8 @@
 
 			}
 
-			// Add default menu
-			self.addMenu( [{}] );
+			// Add default menuDDL
+			self.addMenuDDL( [{}] );
 
 		},
 
@@ -2181,15 +2181,15 @@
 			    tpl  = self.templates,
 			    elem = self.elements;
 
-			// Get the menu
-			var menu = self.getMenu( item.menu );
+			// Get the menuDDL
+			var menuDDL = self.getMenuDDL( item.menuDDL );
 
-			// No menu, bail
-			if ( !menu )
+			// No menuDDL, bail
+			if ( !menuDDL )
 				return;
 
 			// Create elements
-			var $item = $( tpl.menuItem ).addClass( cls.menuItem );
+			var $item = $( tpl.menuDDLItem ).addClass( cls.menuDDLItem );
 
 			if ( item.html ) {
 
@@ -2197,8 +2197,8 @@
 
 			} else {
 
-				var $link = $( tpl.menuLink ).addClass( cls.menuLink ).appendTo( $item );
-				var $text = $( tpl.menuText ).addClass( cls.menuText ).appendTo( $link );
+				var $link = $( tpl.menuDDLLink ).addClass( cls.menuDDLLink ).appendTo( $item );
+				var $text = $( tpl.menuDDLText ).addClass( cls.menuDDLText ).appendTo( $link );
 
 				// Set href
 				if ( item.href ) {
@@ -2238,33 +2238,33 @@
 			// Add top divider
 			if ( item.divider.top || true == item.divider ) {
 
-				var $dividerTop = $( tpl.menuDivider ).addClass( cls.menuDivider );
+				var $dividerTop = $( tpl.menuDDLDivider ).addClass( cls.menuDDLDivider );
 
-				menu.elem.children( '.' + cls.core.menuList ).append( $dividerTop );
+				menuDDL.elem.children( '.' + cls.core.menuDDLList ).append( $dividerTop );
 
 			}
 
 			// Add label
 			if ( item.label ) {
 
-				var $label     = $( tpl.menuLabel ).addClass( cls.menuLabel );
-				var $labelText = $( tpl.menuText ).addClass( cls.menuText ).appendTo( $label );
+				var $label     = $( tpl.menuDDLLabel ).addClass( cls.menuDDLLabel );
+				var $labelText = $( tpl.menuDDLText ).addClass( cls.menuDDLText ).appendTo( $label );
 
 				$labelText.html( item.label );
 
-				menu.elem.children( '.' + cls.core.menuList ).append( $label );
+				menuDDL.elem.children( '.' + cls.core.menuDDLList ).append( $label );
 
 			}
 
-			// Add to menu
-			menu.elem.children( '.' + cls.core.menuList ).append( $item );
+			// Add to menuDDL
+			menuDDL.elem.children( '.' + cls.core.menuDDLList ).append( $item );
 
 			// Add bottom divider
 			if ( item.divider.bottom || true == item.divider ) {
 
-				var $dividerBottom = $( tpl.menuDivider ).addClass( cls.menuDivider );
+				var $dividerBottom = $( tpl.menuDDLDivider ).addClass( cls.menuDDLDivider );
 
-				menu.elem.children( '.' + cls.core.menuList ).append( $dividerBottom );
+				menuDDL.elem.children( '.' + cls.core.menuDDLList ).append( $dividerBottom );
 
 			}
 
@@ -2275,11 +2275,11 @@
 
 		/**
 		 *
-		 *	Build a menu
+		 *	Build a menuDDL
 		 *
 		 *	================================================================ */
 
-		_buildMenu: function( menu ) {
+		_buildMenuDDL: function( menuDDL ) {
 
 			var self = this;
 			var opt  = self.options,
@@ -2288,10 +2288,10 @@
 			    elem = self.elements;
 
 			// Create elements
-			var $menu = $( tpl.menuObject ).clone().addClass( cls.menuObject );
+			var $menuDDL = $( tpl.menuDDLObject ).clone().addClass( cls.menuDDLObject );
 
-			var $header = $( tpl.menuHeader ).addClass( cls.menuHeader ).appendTo( $menu );
-			var $title  = $( tpl.menuTitle ).addClass( cls.menuTitle ).appendTo( $header );
+			var $header = $( tpl.menuDDLHeader ).addClass( cls.menuDDLHeader ).appendTo( $menuDDL );
+			var $title  = $( tpl.menuDDLTitle ).addClass( cls.menuDDLTitle ).appendTo( $header );
 
 			var $close = $( tpl.closeButton ).addClass( cls.closeButton ).appendTo( $header );
 			var $back  = $( tpl.backButton ).addClass( cls.backButton ).prependTo( $header );
@@ -2302,35 +2302,35 @@
 			var $backIcon = $( tpl.backIcon ).addClass( cls.backIcon ).appendTo( $back );
 			var $backText = $( tpl.backText ).addClass( cls.backText ).appendTo( $back );
 
-			var $list = $( tpl.menuList ).addClass( cls.menuList ).appendTo( $menu );
+			var $list = $( tpl.menuDDLList ).addClass( cls.menuDDLList ).appendTo( $menuDDL );
 
 			// Add child classes
-			if ( menu.parent ) {
+			if ( menuDDL.parent ) {
 
-				$menu.addClass( cls.menuChild );
+				$menuDDL.addClass( cls.menuDDLChild );
 
 			}
 
 			// Set title text
-			$title.html( menu.title );
+			$title.html( menuDDL.title );
 
 			// Add button text
 			$closeText.html( opt.closeText );
 			$backText.html( opt.backText );
 
 			// Set ID
-			$menu.data( 'dropdown-uid', menu.uid );
+			$menuDDL.data( 'dropdown-uid', menuDDL.uid );
 
-			if ( menu.id ) {
+			if ( menuDDL.id ) {
 
-				$menu.attr( 'id', menu.id );
+				$menuDDL.attr( 'id', menuDDL.id );
 
 			}
 
 			// Add to dropdown
-			elem.menuContainer.append( $menu );
+			elem.menuDDLContainer.append( $menuDDL );
 
-			return $menu;
+			return $menuDDL;
 
 		},
 
@@ -2701,11 +2701,11 @@
 			// Reset overlay
 			elem.overlay.css({ display: '', opacity: '' });
 
-			// Reset menus
+			// Reset menuDDLs
 			self.reset();
 
 			// Reset dimensions
-			elem.menuWrapper.css({ height: '' });
+			elem.menuDDLWrapper.css({ height: '' });
 
 			// Event
 			self.$elem.trigger( 'dropdown-after-close', self );
@@ -2715,11 +2715,11 @@
 
 		/**
 		 *
-		 *	Called before a menu is opened
+		 *	Called before a menuDDL is opened
 		 *
 		 *	================================================================ */
 
-		_beforeOpenMenu: function( target, current ) {
+		_beforeOpenMenuDDL: function( target, current ) {
 
 			var self = this;
 			var inst = self.instance,
@@ -2733,25 +2733,25 @@
 			inst.opening = true;
 
 			// Update classes
-			target.elem.addClass( cls.menuOpening );
-			current.elem.addClass( cls.menuClosing );
+			target.elem.addClass( cls.menuDDLOpening );
+			current.elem.addClass( cls.menuDDLClosing );
 
 			// Scroll to selected item
 			self._scrollSelected( target.uid, resize );
 
 			// Event
-			self.$elem.trigger( 'dropdown-before-open-menu', [ target, current, self ] );
+			self.$elem.trigger( 'dropdown-before-open-menuDDL', [ target, current, self ] );
 
 		},
 
 
 		/**
 		 *
-		 *	Called after a menu is opened
+		 *	Called after a menuDDL is opened
 		 *
 		 *	================================================================ */
 
-		_afterOpenMenu: function( target, current ) {
+		_afterOpenMenuDDL: function( target, current ) {
 
 			var self = this;
 			var inst = self.instance,
@@ -2764,31 +2764,31 @@
 			target.open  = true;
 
 			// Update plugin
-			inst.menu.current = target.uid;
+			inst.menuDDL.current = target.uid;
 
 			// Update classes
-			target.elem.removeClass( cls.menuOpening );
-			current.elem.removeClass( cls.menuClosing );
+			target.elem.removeClass( cls.menuDDLOpening );
+			current.elem.removeClass( cls.menuDDLClosing );
 
-			current.elem.removeClass( cls.menuOpen );
-			target.elem.addClass( cls.menuOpen );
+			current.elem.removeClass( cls.menuDDLOpen );
+			target.elem.addClass( cls.menuDDLOpen );
 
 			// Reset dimensions
-			current.elem.find( '.' + cls.core.menuList ).eq(0).css({ height: '' });
+			current.elem.find( '.' + cls.core.menuDDLList ).eq(0).css({ height: '' });
 
 			// Event
-			self.$elem.trigger( 'dropdown-after-open-menu', [ target, current, self ] );
+			self.$elem.trigger( 'dropdown-after-open-menuDDL', [ target, current, self ] );
 
 		},
 
 
 		/**
 		 *
-		 *	Called before a menu is closed
+		 *	Called before a menuDDL is closed
 		 *
 		 *	================================================================ */
 
-		_beforeCloseMenu: function( current, target ) {
+		_beforeCloseMenuDDL: function( current, target ) {
 
 			var self = this;
 			var inst = self.instance,
@@ -2806,27 +2806,27 @@
 			inst.closing = true;
 
 			// Update classes
-			current.elem.addClass( cls.menuClosing );
+			current.elem.addClass( cls.menuDDLClosing );
 
 			if ( target ) {
 
-				target.elem.addClass( cls.menuOpening );
+				target.elem.addClass( cls.menuDDLOpening );
 
 			}
 
 			// Event
-			self.$elem.trigger( 'dropdown-before-close-menu', [ current, target, self ] );
+			self.$elem.trigger( 'dropdown-before-close-menuDDL', [ current, target, self ] );
 
 		},
 
 
 		/**
 		 *
-		 *	Called after a menu is closed
+		 *	Called after a menuDDL is closed
 		 *
 		 *	================================================================ */
 
-		_afterCloseMenu: function( current, target ) {
+		_afterCloseMenuDDL: function( current, target ) {
 
 			var self = this;
 			var inst = self.instance,
@@ -2846,30 +2846,30 @@
 			// Update plugin
 			if ( target ) {
 
-				inst.menu.current = target.uid;
+				inst.menuDDL.current = target.uid;
 
 			} else {
 
-				inst.menu.current = inst.menu.main;
+				inst.menuDDL.current = inst.menuDDL.main;
 
 			}
 
 			// Update classes
-			current.elem.removeClass( cls.menuClosing );
-			current.elem.removeClass( cls.menuOpen );
+			current.elem.removeClass( cls.menuDDLClosing );
+			current.elem.removeClass( cls.menuDDLOpen );
 
 			if ( target ) {
 
-				target.elem.removeClass( cls.menuOpening );
-				target.elem.addClass( cls.menuOpen );
+				target.elem.removeClass( cls.menuDDLOpening );
+				target.elem.addClass( cls.menuDDLOpen );
 
 			}
 
 			// Reset dimensions
-			current.elem.find( '.' + cls.core.menuList ).eq(0).css({ height: '' });
+			current.elem.find( '.' + cls.core.menuDDLList ).eq(0).css({ height: '' });
 
 			// Event
-			self.$elem.trigger( 'dropdown-after-close-menu', [ current, target, self ] );
+			self.$elem.trigger( 'dropdown-after-close-menuDDL', [ current, target, self ] );
 
 		},
 
@@ -2880,7 +2880,7 @@
 		 *
 		 *	================================================================ */
 
-		_beforeResize: function( menu, resize ) {
+		_beforeResize: function( menuDDL, resize ) {
 
 			var self = this;
 			var inst = self.instance,
@@ -2891,7 +2891,7 @@
 			inst.resizing = true;
 
 			// Event
-			self.$elem.trigger( 'dropdown-before-resize', [ menu, resize, self ] );
+			self.$elem.trigger( 'dropdown-before-resize', [ menuDDL, resize, self ] );
 
 		},
 
@@ -2902,7 +2902,7 @@
 		 *
 		 *	================================================================ */
 
-		_afterResize: function( menu, resize ) {
+		_afterResize: function( menuDDL, resize ) {
 
 			var self = this;
 			var inst = self.instance;
@@ -2911,7 +2911,7 @@
 			inst.resizing = false;
 
 			// Event
-			self.$elem.trigger( 'dropdown-after-resize', [ menu, resize, self ] );
+			self.$elem.trigger( 'dropdown-after-resize', [ menuDDL, resize, self ] );
 
 		},
 
@@ -2959,24 +2959,24 @@
 			target.open    = true;
 
 			// Update plugin
-			inst.menu.current = target.uid;
+			inst.menuDDL.current = target.uid;
 
 			// Update classes
-			target.elem.removeClass( cls.menuOpening );
-			current.elem.removeClass( cls.menuClosing );
+			target.elem.removeClass( cls.menuDDLOpening );
+			current.elem.removeClass( cls.menuDDLClosing );
 
-			current.elem.removeClass( cls.menuOpen );
-			target.elem.addClass( cls.menuOpen );
+			current.elem.removeClass( cls.menuDDLOpen );
+			target.elem.addClass( cls.menuDDLOpen );
 
 			// Update positions
-			elem.menuWrapper.css({ x: 0, y: 0 });
+			elem.menuDDLWrapper.css({ x: 0, y: 0 });
 
 			current.elem.css({ x: '-100%' });
 			target.elem.css({ x: 0 });
 
 			// Reset dimensions
-			elem.menuWrapper.css({ height: '' });
-			current.elem.find( '.' + cls.core.menuList ).eq(0).css({ height: '' });
+			elem.menuDDLWrapper.css({ height: '' });
+			current.elem.find( '.' + cls.core.menuDDLList ).eq(0).css({ height: '' });
 
 			// Event
 			self.$elem.trigger( 'dropdown-after-reset', [ clear, target, current, self ] );
@@ -3010,7 +3010,7 @@
 		 *
 		 *	================================================================ */
 
-		_collisionValues: function( menu, resize ) {
+		_collisionValues: function( menuDDL, resize ) {
 
 			var self = this;
 			var inst = self.instance,
@@ -3051,18 +3051,18 @@
 			});
 
 			// Check for mobile
-			var mobile = ( elem.menuWrapper.css('position') == 'fixed' ? true: false );
+			var mobile = ( elem.menuDDLWrapper.css('position') == 'fixed' ? true: false );
 
 			// Get new heights
 			var height = $.extend( {}, resize.height );
 
-			height.total = ( height.menu + height.diff );
+			height.total = ( height.menuDDL + height.diff );
 
 			if ( mobile ) {
 
-				if ( height.menu > height.wrapper ) {
+				if ( height.menuDDL > height.wrapper ) {
 
-					height.menu = ( height.wrapper - height.diff );
+					height.menuDDL = ( height.wrapper - height.diff );
 
 				}
 
@@ -3071,7 +3071,7 @@
 				// Exceeds maximum height?
 				if ( height.total > space.bottom || ( inst.above && height.total > space.top ) ) {
 
-					height.menu = ( space.bottom - height.diff );
+					height.menuDDL = ( space.bottom - height.diff );
 
 					// More space above?
 					if ( space.top > space.bottom ) {
@@ -3080,11 +3080,11 @@
 
 						if ( height.total > space.top ) {
 
-							height.menu = ( space.top - height.diff );
+							height.menuDDL = ( space.top - height.diff );
 
 						} else {
 
-							height.menu = resize.height.menu;
+							height.menuDDL = resize.height.menuDDL;
 
 						}
 
@@ -3094,7 +3094,7 @@
 
 			}
 
-			height.list = height.menu - ( resize.height.menu - resize.height.list );
+			height.list = height.menuDDL - ( resize.height.menuDDL - resize.height.list );
 
 			// Get new width
 			var width = $.extend( {}, resize.width );
@@ -3118,7 +3118,7 @@
 		 *
 		 *	================================================================ */
 
-		_scrollSelected: function( menu, resize ) {
+		_scrollSelected: function( menuDDL, resize ) {
 
 			var self = this;
 			var inst = self.instance,
@@ -3126,34 +3126,34 @@
 				elem = self.elements,
 				cls  = self.classes;
 
-			// Get the menu
-			menu = self.getMenu( menu );
+			// Get the menuDDL
+			menuDDL = self.getMenuDDL( menuDDL );
 
-			// No menu, bail
-			if ( !menu )
+			// No menuDDL, bail
+			if ( !menuDDL )
 				return;
 
 			// Show the dropdown if needed
 			if ( !inst.open ) {
 
-				elem.menuWrapper.show().css({ opacity: 0 });
+				elem.menuDDLWrapper.show().css({ opacity: 0 });
 
 			}
 
-			// Show the menu if needed
-			if ( !menu.open ) {
+			// Show the menuDDL if needed
+			if ( !menuDDL.open ) {
 
-				menu.elem.show().css({ opacity: 0 });
+				menuDDL.elem.show().css({ opacity: 0 });
 
 			}
 
 			// Get list
-			var $list = menu.elem.children( '.' + cls.core.menuList ).eq(0);
+			var $list = menuDDL.elem.children( '.' + cls.core.menuDDLList ).eq(0);
 
 			// Get selected position
 			var selectedOffset = 0;
 
-			var $selected = menu.elem.find( '.' + cls.core.selected ).eq(0);
+			var $selected = menuDDL.elem.find( '.' + cls.core.selected ).eq(0);
 
 			if ( $selected.length ) {
 
@@ -3165,7 +3165,7 @@
 
 				}
 
-				selectedOffset = selectedOffset - ( resize.collision.height.menu - resize.collision.height.list );
+				selectedOffset = selectedOffset - ( resize.collision.height.menuDDL - resize.collision.height.list );
 
 			}
 
@@ -3175,13 +3175,13 @@
 			// Reset
 			if ( !inst.open ) {
 
-				elem.menuWrapper.css({ display: '', opacity: '' });
+				elem.menuDDLWrapper.css({ display: '', opacity: '' });
 
 			}
 
-			if ( !menu.open ) {
+			if ( !menuDDL.open ) {
 
-				menu.elem.css({ display: '', opacity: '' });
+				menuDDL.elem.css({ display: '', opacity: '' });
 
 			}
 
@@ -3293,11 +3293,11 @@
 				selected: false,
 				selectable: true,
 
-				menu: false,
+				menuDDL: false,
 				parent: false,
 
 				children: {
-					menu: false,
+					menuDDL: false,
 					title: '',
 					items: false
 				},
@@ -3310,7 +3310,7 @@
 
 			},
 
-			menu: {
+			menuDDL: {
 
 				uid: null,
 				id: null,
@@ -3330,7 +3330,7 @@
 					viewport: 0,
 					wrapper: 0,
 					diff: 0,
-					menu: 0,
+					menuDDL: 0,
 					list: 0
 				},
 
@@ -3338,7 +3338,7 @@
 					viewport: 0,
 					wrapper: 0,
 					diff: 0,
-					menu: 0,
+					menuDDL: 0,
 					list: 0
 				},
 
@@ -3427,7 +3427,7 @@
 			classes: {
 
 				// Icons
-				toggleIcon: 'dropdown-icon-toggle',
+				toggleIcon: 'icon-arrow-down-thick',
 
 				backIcon: 'dropdown-icon-back',
 				closeIcon: 'dropdown-icon-close',
@@ -3454,19 +3454,19 @@
 			dropdown:      '<div />',
 			overlay:       '<div />',
 
-			// Menu
-			menuObject:    '<div />',
-			menuWrapper:   '<div />',
-			menuContainer: '<nav />',
-			menuHeader:    '<header />',
-			menuTitle:     '<div />',
-			menuMask:      '<div />',
-			menuList:      '<ul role="menu" />',
-			menuItem:      '<li role="presentation" />',
-			menuLabel:     '<li role="presentation" />',
-			menuDivider:   '<li role="presentation" />',
-			menuLink:      '<a href="#" role="menuitem" />',
-			menuText:      '<span />',
+			// MenuDDL
+			menuDDLObject:    '<div />',
+			menuDDLWrapper:   '<div />',
+			menuDDLContainer: '<nav />',
+			menuDDLHeader:    '<header />',
+			menuDDLTitle:     '<div />',
+			menuDDLMask:      '<div />',
+			menuDDLList:      '<ul role="menuDDL" />',
+			menuDDLItem:      '<li role="presentation" />',
+			menuDDLLabel:     '<li role="presentation" />',
+			menuDDLDivider:   '<li role="presentation" />',
+			menuDDLLink:      '<a href="#" role="menuDDLitem" />',
+			menuDDLText:      '<span />',
 
 			// Toggle
 			toggleButton:  '<a href="#" />',
@@ -3501,24 +3501,24 @@
 			dropdown:       'dropdown',
 			overlay:        'dropdown-overlay',
 
-			// Menu
-			mainMenu:       'dropdown-main-menu',
-			menuObject:     'dropdown-menu',
-			menuWrapper:    'dropdown-menu-wrapper',
-			menuContainer:  'dropdown-menu-container',
-			menuHeader:     'dropdown-header',
-			menuTitle:      'dropdown-title',
-			menuLabel:      'dropdown-label',
-			menuDivider:    'dropdown-divider',
-			menuMask:       'dropdown-mask',
-			menuParent:     'dropdown-parent',
-			menuChild:      'dropdown-child',
-			menuList:       'dropdown-list',
-			menuItem:       'dropdown-item',
+			// MenuDDL
+			mainMenuDDL:       'dropdown-main-menuDDL',
+			menuDDLObject:     'dropdown-menuDDL',
+			menuDDLWrapper:    'dropdown-menuDDL-wrapper',
+			menuDDLContainer:  'dropdown-menuDDL-container',
+			menuDDLHeader:     'dropdown-header',
+			menuDDLTitle:      'dropdown-title',
+			menuDDLLabel:      'dropdown-label',
+			menuDDLDivider:    'dropdown-divider',
+			menuDDLMask:       'dropdown-mask',
+			menuDDLParent:     'dropdown-parent',
+			menuDDLChild:      'dropdown-child',
+			menuDDLList:       'dropdown-list',
+			menuDDLItem:       'dropdown-item',
 
-			menuLink:       'dropdown-link',
-			menuText:       'dropdown-text',
-			menuAbove:      'dropdown-above',
+			menuDDLLink:       'dropdown-link',
+			menuDDLText:       'dropdown-text',
+			menuDDLAbove:      'dropdown-above',
 
 			// Back
 			backButton:     'dropdown-back',
@@ -3544,7 +3544,7 @@
 			below:          'dropdown-below',
 
 			open:           'dropdown-open',
-			menuOpen:       'dropdown-menu-open',
+			menuDDLOpen:       'dropdown-menuDDL-opened',
 			closed:         'dropdown-closed',
 			disabled:       'dropdown-disabled',
 
@@ -3553,8 +3553,8 @@
 			animating:      'dropdown-animating',
 			resize:         'dropdown-resizing',
 			loading:        'dropdown-loading',
-			menuOpening:    'dropdown-menu-opening',
-			menuClosing:    'dropdown-menu-closing',
+			menuDDLOpening:    'dropdown-menuDDL-opening',
+			menuDDLClosing:    'dropdown-menuDDL-closing',
 
 			selected:       'dropdown-selected',
 			selectedParent: 'dropdown-parent-selected',
