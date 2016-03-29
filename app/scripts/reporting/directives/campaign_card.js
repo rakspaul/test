@@ -32,7 +32,11 @@ define(['angularAMD', '../../common/utils', 'common/services/constants_service',
 
                         _.each(campaignList, function (obj) {
                             var labelsLen = 0,
-                                i;
+                                searchTermsArr,
+                                searchTermsLen = 0,
+                                i,
+                                j,
+                                temp;
 
                             if (keywordsArr) {
                                 // Highlight keywords in title
@@ -40,8 +44,19 @@ define(['angularAMD', '../../common/utils', 'common/services/constants_service',
 
                                 // Highlight matching label pills
                                 labelsLen = obj.labels.length;
+                                searchTermsArr = $scope.searchTerm.split(' ');
+                                searchTermsLen = searchTermsArr.length;
+                                if (searchTermsLen > 1) {
+                                    searchTermsArr.push($scope.searchTerm);
+                                }
                                 for (i = 0; i < labelsLen; i++) {
-                                    obj.labels[i] = highlightLabelPill(obj.labels[i], $scope.searchTerm);
+                                    for (j = 0; j < searchTermsLen; j++) {
+                                        temp = highlightLabelPill(obj.labels[i], searchTermsArr[j]).toString();
+                                        if (temp.indexOf('</mark>') >= 0) {
+                                            obj.labels[i] = temp;
+                                            break;
+                                        }
+                                    }
                                 }
                             }
                         });
@@ -56,9 +71,9 @@ define(['angularAMD', '../../common/utils', 'common/services/constants_service',
                         }
 
                         function highlightLabelPill(text, phrase) {
-                            var tempText = text.toString(),
+                            var tempText = text ? text.toString() : '',
                                 tempTextLower = tempText.toLowerCase(),
-                                tempPhrase = phrase.toLowerCase();
+                                tempPhrase = phrase ? phrase.toLowerCase() : '';
 
                             if (phrase && tempTextLower.indexOf('</mark>') === -1) {
                                 if (tempTextLower.indexOf(tempPhrase) >= 0) {
@@ -71,7 +86,7 @@ define(['angularAMD', '../../common/utils', 'common/services/constants_service',
                         }
 
                         $scope.addHighlightClass = function (text, phrase) {
-                            var tempText = text.toString().toLowerCase();
+                            var tempText = text ? text.toString().toLowerCase() : '';
 
                             return tempText.indexOf(phrase) >= 0;
                         };

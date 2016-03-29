@@ -210,7 +210,7 @@ define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', 'reporting/campaig
                     // - there's no data, or
                     // - last page is already loaded.
                     if ($scope.campaigns.dashboard.quickFilterSelectedCount <= 5 ||
-                        (($scope.campaigns.performanceParams.nextPage - 1) * 5 >
+                        (($scope.campaigns.performanceParams.nextPage - 1) * 5 >=
                         $scope.campaigns.dashboard.quickFilterSelectedCount)) {
                         return;
                     }
