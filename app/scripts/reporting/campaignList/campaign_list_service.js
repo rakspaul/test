@@ -528,7 +528,7 @@ define(['angularAMD', 'common/services/data_service', 'common/utils', 'common/se
 
                 getDashboardData: function (url, success, failure) {
                     var canceller = requestCanceller.initCanceller(constants.DASHBOARD_CANCELLER);
-                    return dataService.fetchCancelable(url, canceller, success, failure)
+                    return dataService.fetchCancelable(url, canceller, success, failure);
                 },
 
                 setListCampaign:setListCampaign,

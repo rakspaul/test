@@ -54,8 +54,9 @@
                 </div>
             </div>
         </div>
-        <span class="pull-right" style="font-size: 12px; margin: 10px 10px 0 0;">
-            {{campaigns.dashboard.quickFilterSelectedCount}} Media Plans in list
+        <span class="pull-right"
+              ng-bind="campaigns.searchTerm ? campaigns.dashboard.quickFilterSelectedCount + ' out of ' + campaigns.dashboard.originalFilterTotal + ' Media Plans' : campaigns.dashboard.quickFilterSelectedCount + ' Media Plans in list'"
+              style="font-size: 12px; margin: 10px 10px 0 0;">
         </span>
     </div>
 
@@ -100,17 +101,19 @@
     </div>
     <div class="col-md-12 zeroPadding scrollable_container">
         <!-- COST DIV -->
-        <div class="each_section_block total_campaign_cost_holder" id="cost_block" style="display:none" >
+        <div class="each_section_block total_campaign_cost_holder"
+             id="cost_block"
+             ng-if="(campaigns.dashboard.quickFilterSelectedCount === 0)">
             <div class="all_campaigns_container">
                 <div  class="no-campaign-available"
-                      ng-if="(campaigns.dashboard.filterTotal === 0)"
+                      ng-if="(campaigns.dashboard.quickFilterSelectedCount === 0)"
                       data-ng-bind="textConstants.NO_RELEVANT_CAMPAIGNS">
                 </div>
                 <div class="each_campaign_cost_container"
                      data-ng-repeat="campaign in campaigns.costBreakdownList |
                      orderBy:campaignListSortFunction:sortReverse track by campaign.orderId">
                     <!-- campaign cost card -->
-                    <div ng-if="(campaigns.dashboard.filterTotal > 0 )"
+                    <div ng-if="(campaigns.dashboard.quickFilterSelectedCount > 0 )"
                          campaign-cost-card
                          campaign="campaign"
                          campaigns="campaigns"

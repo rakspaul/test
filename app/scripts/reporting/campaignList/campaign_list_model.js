@@ -219,8 +219,18 @@ console.log('REQUEST URL = ', url);
                                     var data = result.data.data;
 console.log('RESPONSE DATA = ', data);
 _.each(data, function (obj) {
-    console.log(obj.name, obj.labels);
-})
+    console.log(obj.name, obj.labels, obj.count);
+});
+                                    // The total count is now returned as part of the main result set
+                                    if (data && data[0] && data[0].count) {
+                                        self.dashboard.filterTotal = data[0].count;
+                                        self.dashboard.quickFilterSelectedCount = data[0].count;
+                                        // This stores the original total count on first load
+                                        if (!self.dashboard.originalFilterTotal) {
+                                            self.dashboard.originalFilterTotal = data[0].count;
+                                        }
+                                    }
+
                                     requestCanceller.resetCanceller(constants.CAMPAIGN_LIST_CANCELLER);
                                     self.busy = false;
 
@@ -425,7 +435,11 @@ _.each(data, function (obj) {
                                         }
                                     } else {
                                         self.dashboard.displayFilterSection = false;
-                                        self.dashboard.filterTotal = result.data.data.total;
+
+                                        // TODO: The total count is now returned as part of the main data set.
+                                        // TODO: It has to be properly updated.
+                                        //self.dashboard.filterTotal = result.data.data.total;
+
                                         if (self.dashboard.total > 0) {
                                             self.dashboard.filterSelectAll = false;
                                             self.resetFilters();
@@ -643,7 +657,13 @@ console.log('sortCampaigns(), searchTerm = ', this.searchTerm);
                             switch (filterToApply) {
                                 case constants.ACTIVE_CONDITION:
                                     this.appliedQuickFilterText = constants.INFLIGHT_LABEL;
-                                    this.dashboard.quickFilterSelectedCount = this.dashboard.active.total;
+
+                                    // Don't assign on first page load. Total count will be taken from
+                                    // main result set.
+                                    if (this.dashboard.quickFilterSelectedCount) {
+                                        this.dashboard.quickFilterSelectedCount = this.dashboard.active.total;
+                                    }
+
                                     this.dashboard.status.active.bothItem = constants.ACTIVE;
                                     type = constants.ACTIVE;
                                     break;
@@ -713,7 +733,7 @@ console.log('sortCampaigns(), searchTerm = ', this.searchTerm);
                                     type = constants.ARCHIVED.toLowerCase();
                                     break;
 
-                                default :
+                                default:
                                     this.appliedQuickFilterText = constants.DASHBOARD_STATUS_IN_FLIGHT;
                                     this.dashboard.quickFilterSelectedCount = this.dashboard.active.total;
                                     this.dashboard.status.active.bothItem = constants.ACTIVE;
