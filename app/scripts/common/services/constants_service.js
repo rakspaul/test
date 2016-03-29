@@ -122,6 +122,7 @@ define(['angularAMD'], function(angularAMD) {
         this.SCHEDULE_LABEL = 'Schedule';
         this.GENERATE_LABEL ='Generate';
         this.SAVE_LABEL ='Save';
+        this.SAVE_PUSH_LABEL ='Save & Push';
         this.RESET_LABEL ='Clear';
         this.SET_SCHEDULE = 'Set Schedule';
         this.SAVE_SCHEDULE = 'Save/Schedule';
@@ -164,6 +165,8 @@ define(['angularAMD'], function(angularAMD) {
         this.REPORT_LIST_REPORTTYPES = ['Once', 'Daily', 'Weekly', 'Monthly', 'Saved'];
         this.REPORT_LIST_DIMENSION_COUNT = "Already five dimensions had been selected";
         this.AD_CREATED_SUCCESS = '<span class="bold-font">Success. </span> Ad has been successfully created';
+        this.MEDIA_PLAN_DRAFT = ' Save changes to Media Plan set-up?';
+        this.MEDIA_PLAN_NOT_DRAFT = 'Save changes to Media Plan set-up and repush to execution <br> platform(s)?';
         this.CAMPAIGN_CREATED_SUCCESS =
             '<span class="bold-font">Success. </span> Media Plan has been successfully created';
         this.CAMPAIGN_UPDATED_SUCCESS =
