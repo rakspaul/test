@@ -440,7 +440,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 startDateElem.datepicker("setStartDate", setStartDate);
                 startDateElem.datepicker("setEndDate", $scope.campaignEndTime);
             }
-            
+
             $scope.adGroupMaxBudget = (Math.ceil($scope.workflowData.campaignData.deliveryBudget) - $scope.workflowData.campaignData.bookedSpend) + Math.ceil($scope.adGroupMinBudget);
         };
 
