@@ -649,6 +649,18 @@ define(['angularAMD','common/services/constants_service', 'common/services/role_
             };
         })
 
+        .directive('errSrc', function() {
+            return {
+                link: function(scope, element, attrs) {
+                    element.bind('error', function() {
+                        if (attrs.src != attrs.errSrc) {
+                            attrs.$set('src', attrs.errSrc);
+                        }
+                    });
+                }
+            }
+        })
+
         .filter('spliter', function () {
             return function (input, splitIndex) {
                 // do some bounds checking here to ensure it has that index

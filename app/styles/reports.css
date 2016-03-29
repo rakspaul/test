@@ -988,15 +988,15 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
   line-height: 20px;
   font-size: 12px;
 }
+div.strategy_total_container .discrepancyName {
+  width: 250px;
+  margin-bottom: 10px;
+}
 div.strategy_total_container div.strategy_total_container_header {
   background: #f5f9fd;
   border: solid 1px #ccd9e3;
   border-top-width: 2px ;
   padding: 15px 20px 5px 20px ;
-}
-div.strategy_total_container div.strategy_total_container_header .discrepancyName {
-  width: 250px;
-  margin-bottom: 10px;
 }
 div.strategy_total_container div.strategy_total_container_header .discrepancySecLevel .discrepancySecLevelRow {
   margin-bottom: 5px;
