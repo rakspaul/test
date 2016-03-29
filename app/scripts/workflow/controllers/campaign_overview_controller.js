@@ -609,15 +609,13 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             };
 
             $scope.handleFlightDate = function (formElem, startTime) {
-                //var formElem = $(event.target).closest('form');
                 var endDateElem = formElem.find('.adGrpEndDateInput'),
                     campaignEndTime = momentService.utcToLocalTime($scope.workflowData.campaignData.endTime),
                     changeDate;
 
-                if (!$scope.workflowData.campaignData) {
-                    return;
-                }
+                if (!$scope.workflowData.campaignData) return;
 
+                //var formElem = $(event.target).closest('form');
                 endDateElem
                     .attr('disabled', 'disabled')
                     .css({'background': '#eee'});
@@ -626,12 +624,11 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     endDateElem
                         .removeAttr('disabled')
                         .css({'background': 'transparent'});
+
                     changeDate = moment(startTime).format(constants.DATE_US_FORMAT);
                     endDateElem.datepicker('setStartDate', changeDate);
                     endDateElem.datepicker('setEndDate', campaignEndTime);
-                    if (moment(startTime).isAfter(changeDate, 'day')) {
-                        endDateElem.datepicker('update', changeDate);
-                    }
+                    endDateElem.datepicker('update', changeDate);
                 }
             };
 

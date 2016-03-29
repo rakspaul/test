@@ -26,10 +26,10 @@ define(['angularAMD'],function (angularAMD) {
                     //total budget for no ad group
                     var campaignAdsData  = $scope.workflowData.campaignAdsData;
                     var adsBudget = campaignAdsData.reduce(function(memo, obj) {
-                        return memo + obj.cost;
+                        return memo + (obj.cost ||0);
                     }, 0);
 
-                    $scope.adGroupMaxBudget = $scope.workflowData.campaignData.deliveryBudget - (adGroupsBudget + adsBudget);
+                    $scope.adGroupMaxBudget = (Math.ceil($scope.workflowData.campaignData.deliveryBudget) - adGroupsBudget) + Math.ceil(adsBudget) ;
 
                     var startTime = momentService.utcToLocalTime(adGroupsData.adGroup.startTime);
                     var highestEndTime = momentService.utcToLocalTime(adGroupsData.adGroup.endTime);
