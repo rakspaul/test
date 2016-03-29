@@ -20,7 +20,6 @@ define(['angularAMD', '../../common/utils', 'common/services/constants_service',
                             keywords;
 
                         $scope.searchTerm = $scope.campaigns.searchTerm;
-console.log()
                         keywordsArr = $scope.searchTerm ? $scope.searchTerm.split(' ') : '';
                         if (keywordsArr) {
                             // If search term contains more than 1 word,
@@ -29,8 +28,6 @@ console.log()
                                 keywordsArr.push($scope.searchTerm);
                             }
                             keywords = keywordsArr.join('|');
-                            console.log('keywordsArr = ', keywordsArr);
-                            console.log('keywords = ', keywords);
                         }
 
                         _.each(campaignList, function (obj) {
