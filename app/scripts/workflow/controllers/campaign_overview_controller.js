@@ -41,6 +41,8 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             localStorage.setItem('campaignData', '');
             $scope.tags = [];
             $scope.loadingBtn = false;
+            $scope.isMinimumAdGroupBudget = true;
+            $scope.isMaximumAdGroupBudget = true;
 
             // TODO:
             /*$scope.searchTerm = '';
@@ -548,10 +550,11 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 }
             };
 
-            $scope.isMinimumAdGroupBudget = true;
-            $scope.isMaximumAdGroupBudget = true;
 
             $scope.validateAdGroupSpend = function (event) {
+                $scope.isMinimumAdGroupBudget = true;
+                $scope.isMaximumAdGroupBudget = true;
+
                 var target = event.target,
                     newadGroupBudget = Number(target.value),
                     minValue = Number($(target).attr('min-value')),
@@ -573,29 +576,26 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             $scope.extractor = function (IndividualAdsData, formElem) {
                 var startDatelow = [],
                     endDateHigh = [],
-                    ascending = _.sortBy(startDatelow, function (o) {//method to find lowest startTime
-                        return o.startTime;
-                    }),
-                    startDateElem = formElem.find('.adGrpStartDateInput'),
+                    ascending,
+                    descending,
                     i,
                     lowestStartTime,
                     ind,
-                    //method to find the highest endTime
-                    descending = _.sortBy(endDateHigh, function (o) {
-                        return o.endTime;
-                    }),
-                    endDateElem,
+                    endDateElem = formElem.find('.adGrpEndDateInput'),
+                    startDateElem = formElem.find('.adGrpStartDateInput'),
                     highestEndTime;
 
                 $scope.independantAdData = IndividualAdsData;
-                console.log('inside extractor  independantAdData', $scope.independantAdData);
-
                 //find lowest startDate
                 for (i in IndividualAdsData) {
                     if (IndividualAdsData[i].startTime) {
                         startDatelow.push(IndividualAdsData[i]);
                     }
                 }
+
+                ascending = _.sortBy(startDatelow, function (o) {//method to find lowest startTime
+                    return o.startTime;
+                });
 
                 if (ascending.length > 0) {
                     lowestStartTime = momentService.utcToLocalTime(ascending[0].startTime);
@@ -613,9 +613,12 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     }
                 }
 
+                descending = _.sortBy(endDateHigh, function (o) {
+                    return o.endTime;
+                });
+
                 descending.reverse();
 
-                endDateElem = formElem.find('.adGrpEndDateInput');
                 if (descending.length > 0) {
                     highestEndTime = momentService.utcToLocalTime(descending[0].endTime);
                     endDateElem.datepicker('setStartDate', highestEndTime);
@@ -631,7 +634,11 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     campaignEndTime = momentService.utcToLocalTime($scope.workflowData.campaignData.endTime),
                     changeDate;
 
-                if (!$scope.workflowData.campaignData) return;
+                endDateElem
+                    .removeAttr('disabled')
+                    .css({'background': 'transparent'});
+
+                if (!$scope.workflowData.campaignData ||  $scope.workflowData.campaignAdsData.length >0) return;
 
                 //var formElem = $(event.target).closest('form');
                 endDateElem
@@ -639,10 +646,6 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     .css({'background': '#eee'});
 
                 if (startTime) {
-                    endDateElem
-                        .removeAttr('disabled')
-                        .css({'background': 'transparent'});
-
                     changeDate = moment(startTime).format(constants.DATE_US_FORMAT);
                     endDateElem.datepicker('setStartDate', changeDate);
                     endDateElem.datepicker('setEndDate', campaignEndTime);
