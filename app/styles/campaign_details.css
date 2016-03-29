@@ -81,7 +81,6 @@ body {
   background: #d2dee7 ;
 }
 .campaign_details_page .campaign_details_header {
-  margin-bottom: 20px ;
   /* .time_period_filter {
       margin: 8px 40px 0 0;
       background: url("/images/cdesk/lifetime_icon.png") no-repeat 2px 3px;
@@ -146,7 +145,7 @@ body {
 .campaign_details_page .action_filter_holder {
   border: solid 1px #ebf0f5 ;
   background: #fbfcff ;
-  margin-top: 40px ;
+  margin-top: 25px ;
   margin-bottom: 10px ;
   box-shadow: 0px 1px 1px #ebf0f5;
   -moz-box-shadow: 0px 1px 1px #ebf0f5;
@@ -1330,7 +1329,7 @@ body {
   position: relative;
 }
 .campaign_details_page .activity_log_holder .activity_log_list_container .gradient_div {
-  background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(255, 255, 255, 0.2)), to(rgba(255, 255, 255, 0.8)), color-stop(1, #fff));
+  background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(255, 255, 255, 0.2)), to(rgba(255, 255, 255, 0.8)), color-stop(1, #ffffff));
   background-image: -moz-linear-gradient(rgba(255, 255, 255, 0.2) 20%, rgba(255, 255, 255, 0.8) 80%);
   position: absolute;
   bottom: 0;

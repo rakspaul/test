@@ -717,7 +717,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                         obj.label = labelObj[i];
                         labelArr.push(obj);
                     }
-                    
+
                     return labelArr;
                 }
             };

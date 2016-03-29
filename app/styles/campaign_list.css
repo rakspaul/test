@@ -56,7 +56,7 @@ input[type="submit"] {
 }
 .cpa-color {
   text-transform: uppercase;
-  color: #999;
+  color: #999999;
   font-size: 14px;
   font-family: "Avenir";
 }
@@ -145,7 +145,7 @@ input[type="submit"] {
 #detailedPage.container .row-fluid .col-md-12 .campaign {
   min-height: 220px;
   overflow: hidden;
-  background: #fff;
+  background: #ffffff;
   position: relative;
   border-radius: 5px;
   margin-bottom: 20px;
@@ -159,7 +159,7 @@ input[type="submit"] {
 }
 #campaignDetail.container .row-fluid .col-md-12 .campaign div,
 #detailedPage.container .row-fluid .col-md-12 .campaign div {
-  color: #999;
+  color: #999999;
   font-size: 10pt;
   font-family: "Avenir";
 }
@@ -188,7 +188,7 @@ input[type="submit"] {
 }
 #campaignDetail.container .row-fluid .col-md-12 .campaign div.edit-stats-icons #icon-campaign-edit.icons-bckground,
 #detailedPage.container .row-fluid .col-md-12 .campaign div.edit-stats-icons #icon-campaign-edit.icons-bckground {
-  background: url("/images/icn_action.png") no-repeat scroll center 6px #EBAB34;
+  background: url("/images/icn_action.png") no-repeat scroll center 6px #ebab34;
   border-radius: 20px;
   display: inline-block;
   height: 30px;
@@ -201,7 +201,7 @@ input[type="submit"] {
 }
 #campaignDetail.container .row-fluid .col-md-12 .campaign div.edit-stats-icons #icon-campaign-report.icons-bckground,
 #detailedPage.container .row-fluid .col-md-12 .campaign div.edit-stats-icons #icon-campaign-report.icons-bckground {
-  background: url("/images/icn_act_reports.png") no-repeat scroll 0 0 #EBAB34;
+  background: url("/images/icn_act_reports.png") no-repeat scroll 0 0 #ebab34;
   border-radius: 20px;
   display: inline-block;
   height: 30px;
@@ -229,7 +229,7 @@ input[type="submit"] {
 #campaignDetail.container .row-fluid .col-md-12 .campaign .col-md-5 .brand,
 #detailedPage.container .row-fluid .col-md-12 .campaign .col-md-5 .brand {
   margin-bottom: 20px;
-  color: #999;
+  color: #999999;
   font-size: 10pt;
   font-family: "Avenir";
 }
@@ -244,7 +244,7 @@ input[type="submit"] {
 #campaignDetail.container .row-fluid .col-md-12 .campaign .col-md-5 .duration .date,
 #detailedPage.container .row-fluid .col-md-12 .campaign .col-md-5 .duration .date {
   margin-bottom: 10px;
-  color: #999;
+  color: #999999;
 }
 #campaignDetail.container .row-fluid .col-md-12 .campaign .col-md-5 .duration .duration-bar,
 #detailedPage.container .row-fluid .col-md-12 .campaign .col-md-5 .duration .duration-bar {
@@ -315,26 +315,26 @@ input[type="submit"] {
 #campaignDetail.container .row-fluid .col-md-12 .campaign .col-md-3 .row-fluid .kpi-values,
 #detailedPage.container .row-fluid .col-md-12 .campaign .col-md-3 .row-fluid .kpi-values {
   text-align: right;
-  color: #999;
+  color: #999999;
   font-size: 12pt;
   font-family: "Avenir";
 }
 #campaignDetail.container .row-fluid .col-md-12 .campaign .col-md-3 .row-fluid .kpi-values .cumulative-text,
 #detailedPage.container .row-fluid .col-md-12 .campaign .col-md-3 .row-fluid .kpi-values .cumulative-text {
-  color: #999;
+  color: #999999;
   font-size: 13px;
   font-family: "Avenir";
 }
 #campaignDetail.container .row-fluid .col-md-12 .campaign .col-md-3 .row-fluid .kpi-values div span,
 #detailedPage.container .row-fluid .col-md-12 .campaign .col-md-3 .row-fluid .kpi-values div span {
   text-align: right;
-  color: #999;
+  color: #999999;
   font-size: 12pt;
   font-family: "Avenir";
 }
 #campaignDetail.container .row-fluid .col-md-12 .campaign .col-md-3 .row-fluid .kpi-values div > span:last-child,
 #detailedPage.container .row-fluid .col-md-12 .campaign .col-md-3 .row-fluid .kpi-values div > span:last-child {
-  color: #999;
+  color: #999999;
   font-size: 12pt;
   font-family: "Avenir";
 }
@@ -359,7 +359,7 @@ input[type="submit"] {
 #campaignDetail.container .row-fluid .col-md-12 .campaign .col-md-3.marg-10 .row-fluid.marg-10 .col-md-6 .imps-count,
 #detailedPage.container .row-fluid .col-md-12 .campaign .col-md-3.marg-10 .row-fluid.marg-10 .col-md-6 .imps-count {
   text-align: right;
-  color: #999;
+  color: #999999;
   font-size: 12pt;
   font-family: "Avenir";
 }
@@ -393,15 +393,15 @@ input[type="submit"] {
 #campaignDetail.container .row-fluid .col-md-12 .campaign .col-md-3.marg-10 .row-fluid .col-md-6 .ctr-container .progress .progress-bar,
 #detailedPage.container .row-fluid .col-md-12 .campaign .col-md-3.marg-10 .row-fluid .col-md-6 .ctr-container .progress .progress-bar {
   border: 1px solid #5EA9D8;
-  background: linear-gradient(to right, #6EBFF0, #1D7FC9);
-  background: -o-linear-gradient(left, #6EBFF0, #1D7FC9);
-  background: -moz-linear-gradient(left, #6EBFF0, #1D7FC9);
-  background: -webkit-linear-gradient(left, #6EBFF0, #1D7FC9);
+  background: linear-gradient(to right, #6ebff0, #1d7fc9);
+  background: -o-linear-gradient(left, #6ebff0, #1d7fc9);
+  background: -moz-linear-gradient(left, #6ebff0, #1d7fc9);
+  background: -webkit-linear-gradient(left, #6ebff0, #1d7fc9);
 }
 #campaignDetail.container .row-fluid .col-md-12 .campaign .col-md-3.marg-10 .row-fluid .col-md-6 .ctr-container.red .blue,
 #detailedPage.container .row-fluid .col-md-12 .campaign .col-md-3.marg-10 .row-fluid .col-md-6 .ctr-container.red .blue {
   height: 20px;
-  color: #E4696C;
+  color: #e4696c;
   font-size: 12pt;
   font-family: "Avenir";
 }
@@ -418,15 +418,15 @@ input[type="submit"] {
 #campaignDetail.container .row-fluid .col-md-12 .campaign .col-md-3.marg-10 .row-fluid .col-md-6 .ctr-container.red .progress .progress-bar,
 #detailedPage.container .row-fluid .col-md-12 .campaign .col-md-3.marg-10 .row-fluid .col-md-6 .ctr-container.red .progress .progress-bar {
   border: 1px solid #E4696C;
-  background: linear-gradient(to right, #FAC7C8, #F75256);
-  background: -o-linear-gradient(left, #FAC7C8, #F75256);
-  background: -moz-linear-gradient(left, #FAC7C8, #F75256);
-  background: -webkit-linear-gradient(left, #FAC7C8, #F75256);
+  background: linear-gradient(to right, #fac7c8, #f75256);
+  background: -o-linear-gradient(left, #fac7c8, #f75256);
+  background: -moz-linear-gradient(left, #fac7c8, #f75256);
+  background: -webkit-linear-gradient(left, #fac7c8, #f75256);
 }
 #campaignDetail.container .row-fluid .col-md-12 .campaign .col-md-3.marg-10 .row-fluid .col-md-6 .ctr-container.amber .blue,
 #detailedPage.container .row-fluid .col-md-12 .campaign .col-md-3.marg-10 .row-fluid .col-md-6 .ctr-container.amber .blue {
   height: 20px;
-  color: #FB8917;
+  color: #fb8917;
   font-size: 12pt;
   font-family: "Avenir";
 }
@@ -443,20 +443,20 @@ input[type="submit"] {
 #campaignDetail.container .row-fluid .col-md-12 .campaign .col-md-3.marg-10 .row-fluid .col-md-6 .ctr-container.amber .progress .progress-bar,
 #detailedPage.container .row-fluid .col-md-12 .campaign .col-md-3.marg-10 .row-fluid .col-md-6 .ctr-container.amber .progress .progress-bar {
   border: 1px solid #FB8917;
-  background: linear-gradient(to right, #F7B842, #FC8917);
-  background: -o-linear-gradient(left, #F7B842, #FC8917);
-  background: -moz-linear-gradient(left, #F7B842, #FC8917);
-  background: -webkit-linear-gradient(left, #F7B842, #FC8917);
+  background: linear-gradient(to right, #f7b842, #fc8917);
+  background: -o-linear-gradient(left, #f7b842, #fc8917);
+  background: -moz-linear-gradient(left, #f7b842, #fc8917);
+  background: -webkit-linear-gradient(left, #f7b842, #fc8917);
 }
 #campaignDetail.container .row-fluid .col-md-12 .campaign .col-md-3.marg-10 .row-fluid .col-md-6 .ctr-value,
 #detailedPage.container .row-fluid .col-md-12 .campaign .col-md-3.marg-10 .row-fluid .col-md-6 .ctr-value {
-  color: #999;
+  color: #999999;
   font-size: 12pt;
   font-family: "Avenir";
 }
 #campaignDetail.container .row-fluid .col-md-12 .campaign .col-md-3.marg-10 .row-fluid .col-md-6 .action-data,
 #detailedPage.container .row-fluid .col-md-12 .campaign .col-md-3.marg-10 .row-fluid .col-md-6 .action-data {
-  color: #999;
+  color: #999999;
   font-size: 12pt;
   font-family: "Avenir";
 }
@@ -499,7 +499,7 @@ input[type="submit"] {
   min-height: 240px;
   border-radius: 5px;
   background: #e9e6e0;
-  color: #999;
+  color: #999999;
   font-size: 10pt;
   font-family: "Avenir";
 }
@@ -565,14 +565,14 @@ input[type="submit"] {
   cursor: pointer;
   padding: 8px 25px 6px;
   border: 1px solid #ddd;
-  color: #999;
+  color: #999999;
   font-size: 12pt;
   font-family: "Avenir";
 }
 #campaignDetail.container .load-more-strategies a:hover,
 #detailedPage.container .load-more-strategies a:hover {
   text-decoration: none;
-  color: #999;
+  color: #999999;
   font-size: 12pt;
   font-family: "Avenir";
 }
@@ -629,7 +629,7 @@ input[type="submit"] {
   border-radius: 20px;
   display: inline-block;
   height: 40px;
-  background: url("/images/icn_act_edit.png") no-repeat scroll 5px 5px #EBAB34;
+  background: url("/images/icn_act_edit.png") no-repeat scroll 5px 5px #ebab34;
 }
 #campaignDetail.container .row-fluid .col-md-12 .detailed-campaign-bar.clearfix .col-md-1 #icon-campaign-edit.icons-bckground:hover {
   cursor: pointer;
@@ -640,7 +640,7 @@ input[type="submit"] {
   margin-top: 10px;
   border-radius: 20px;
   display: inline-block;
-  background: url("/images/icn_act_reports.png") no-repeat scroll 5px 5px #EBAB34;
+  background: url("/images/icn_act_reports.png") no-repeat scroll 5px 5px #ebab34;
 }
 #campaignDetail.container .row-fluid .col-md-12 .detailed-campaign-bar.clearfix .col-md-1 #icon-campaign-report.icons-bckground:hover {
   cursor: pointer;
@@ -650,7 +650,7 @@ input[type="submit"] {
   clear: both;
 }
 #campaignDetail.container .row-fluid .col-md-12 .detailed-campaign-bar.clearfix .col-md-12 .brand {
-  color: #999;
+  color: #999999;
   font-size: 12pt;
   font-family: "Avenir";
 }
@@ -722,7 +722,7 @@ input[type="submit"] {
   float: right;
   height: 30px ;
   width: 65px ;
-  color: #fff;
+  color: #ffffff;
   font-size: 14pt;
   font-family: "Avenir";
   background: #f5b236 ;
@@ -2705,7 +2705,7 @@ input[type="submit"] {
 }
 .nav_filters {
   width: 100%;
-  margin: 0 auto;
+  margin: 5px auto 2px ;
   font-size: 14px;
   color: #21252B;
   line-height: 20px;
