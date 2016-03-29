@@ -403,10 +403,14 @@ define(['common'], function (angularAMD) {
                 controller: 'CreativeController',
                 controllerUrl: 'workflow/controllers/creative_controller',
                 resolve: {
-                    'check': function ($location, RoleBasedService) {
+                    'check': function ($location, RoleBasedService,workflowService,constants) {
                         var isWorkflowUser =
                             RoleBasedService.getClientRole() && RoleBasedService.getClientRole().workFlowUser;
-
+                        workflowService.setModuleInfo({
+                            'moduleName': 'WORKFLOW',
+                            'warningMsg': constants.ACCOUNT_CHANGE_MSG_ON_CREATE_OR_EDIT_AD_PAGE,
+                            'redirect': false
+                        });
                         if (!isWorkflowUser) {
                             $location.path('/');
                         }
