@@ -16,7 +16,10 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 .find('#campaigns_nav_link')
                 .addClass('active');
 
-            $('.bodyWrap').addClass('bodyWrapOverview');
+            $('.bodyWrap')
+                .addClass('bodyWrapOverview')
+                .css('padding', '0');
+
             if ($('.adGroupSelectionWrap').length) {
                 $('html').css({'background-color': '#eef5fc'});
             }
@@ -41,6 +44,20 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             $scope.isMinimumAdGroupBudget = true;
             $scope.isMaximumAdGroupBudget = true;
 
+            // TODO:
+            /*$scope.searchTerm = '';
+            $scope.campaigns.searchTerm = '';
+            $scope.campaignOverviewSearchFunc = function (e) {
+                // Perform search if enter key is pressed & user has entered something.
+                if (e.keyCode === 13) {
+                    if ($scope.campaigns.searchTerm && $scope.campaigns.searchTerm.trim()) {
+                        $scope.campaigns.resetFilters();
+                        $scope.campaigns.fetchData($scope.campaigns.searchTerm);
+                        $scope.isCampaignSearched = true;
+                    }
+                }
+            };*/
+
             //$scope.moreThenThree = '';// not used
             $scope.campaignArchiveLoader = false;
             $scope.editCampaign = function (workflowcampaignData) {
@@ -55,8 +72,6 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 localStorage.removeItem('topAlertMessage');
                 $rootScope.setErrAlertMessage('', 0);
             };
-
-            $('.bodyWrap').css('padding', '0');
 
             var fparams = featuresService.getFeatureParams();
             $scope.showAdSetUp = 'fparams[0].ad_setup';
@@ -451,7 +466,6 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                             $scope.sizeString = result[0] && result[0].join(', ');
                         }
                     }
-
                 } else {
                     $scope.sizeString = constants.WF_NOT_SET;
                 }
@@ -497,10 +511,13 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             };
 
             $scope.createAdGrp = function () {
-                $scope.isMinimumAdGroupBudget = true;
-                $scope.isMaximumAdGroupBudget = true;
+                var adGroupCreateformElem = $('.adGroupSelectionWrap').find('.adGroupCreate').find('form'),
+                    campaignAdsData,
+                    startDateElem,
+                    endDateElem,
+                    setStartDate;
+
                 $scope.showCreateAdGrp = !$scope.showCreateAdGrp;
-                var adGroupCreateformElem = $(".adGroupSelectionWrap").find(".adGroupCreate").find("form");
                 adGroupCreateformElem[0].reset();
                 $scope.$broadcast('show-errors-reset');
                 $('.adGroupSelectionWrap, .singleCardWrap').toggleClass('active');
@@ -509,12 +526,11 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 $scope.tags = [];
                 $scope.adGroupMinBudget = 0;
 
-                $scope.adGroupMaxBudget = $scope.workflowData.campaignData.deliveryBudget - $scope.workflowData.campaignData.bookedSpend;
-
-
+                $scope.adGroupMaxBudget =
+                    $scope.workflowData.campaignData.deliveryBudget - $scope.workflowData.campaignData.bookedSpend;
 
                 if ($scope.workflowData.campaignAdsData.length > 0) {
-                    var campaignAdsData  = $scope.workflowData.campaignAdsData;
+                    campaignAdsData  = $scope.workflowData.campaignAdsData;
                     $scope.adGroupMinBudget = campaignAdsData.reduce(function(memo, obj) {
                         return memo + obj.cost;
                     }, 0);
@@ -522,15 +538,15 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     $scope.extractor($scope.workflowData.campaignAdsData, adGroupCreateformElem);
                 } else {
                     $scope.resetAdsData();
-                    var startDateElem = adGroupCreateformElem.find('.adGrpStartDateInput');
-                    var endDateElem = adGroupCreateformElem.find('.adGrpEndDateInput');
+                    startDateElem = adGroupCreateformElem.find('.adGrpStartDateInput');
+                    endDateElem = adGroupCreateformElem.find('.adGrpEndDateInput');
 
-                    var setStartDate = $scope.campaignStartTime;
+                    setStartDate = $scope.campaignStartTime;
                     if (moment().isAfter(setStartDate, 'day')) {
                         setStartDate = moment().format(constants.DATE_US_FORMAT);
                     }
-                    startDateElem.datepicker("setStartDate", setStartDate);
-                    startDateElem.datepicker("setEndDate", $scope.campaignEndTime);
+                    startDateElem.datepicker('setStartDate', setStartDate);
+                    startDateElem.datepicker('setEndDate', $scope.campaignEndTime);
                 }
             };
 
@@ -713,7 +729,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 }
             };
 
-            $scope.goEdit = function ( adsData ,unallocatedBudget,groupBudget) {
+            $scope.goEdit = function (adsData ,unallocatedBudget,groupBudget) {
                 var campaignId = adsData.campaignId,
                     adsId = adsData.id,
                     groupId = adsData.adGroupId;
@@ -725,13 +741,14 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             };
 
             $scope.editAdforAdGroup = function (campaignId, stTime, edTime, adsId, groupId) {
-                var path = "/mediaplan/" + campaignId + "/ads/" + adsId + "/edit";
-                if (typeof(Storage) !== "undefined") {
-                    localStorage.setItem("stTime", stTime); //convert this to EST in ads page
-                    localStorage.setItem("edTime", edTime); //convert this to EST in ads create page
+                var path = '/mediaplan/' + campaignId + '/ads/' + adsId + '/edit';
+
+                if (typeof(Storage) !== 'undefined') {
+                    localStorage.setItem('stTime', stTime); //convert this to EST in ads page
+                    localStorage.setItem('edTime', edTime); //convert this to EST in ads create page
                 }
                 if (groupId && adsId) {
-                    path = "/mediaplan/" + campaignId + "/adGroup/" + groupId + "/ads/" + adsId + "/edit";
+                    path = '/mediaplan/' + campaignId + '/adGroup/' + groupId + '/ads/' + adsId + '/edit';
                 }
 
                 $location.path(path);
@@ -750,7 +767,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             });
 
             $scope.$watch($scope.tags, function () {
-                //console.log("log == ",$scope.tags);
+                //console.log('log == ',$scope.tags);
             });
 
             $scope.calculateBudget = function(adGroupsData) {
@@ -783,21 +800,32 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
             //Search Hide / Show
             $scope.searchShowInput = function () {
-                var searchInputForm = $(".searchInputForm");
+                var searchInputForm = $('.searchInputForm');
 
-                $(".searchInputBtn").hide();
+                $('.searchInputBtn').hide();
                 searchInputForm.show();
                 searchInputForm.animate({width: '400px'}, 'fast');
             };
 
             $scope.searchHideInput = function () {
-                var inputSearch = $(".searchInputForm input");
+                var inputSearch = $('.searchInputForm input');
 
-                isSearch = false;
-                $(".searchInputForm").animate({width: '44px'}, 'fast');
-                inputSearch.val('');
-                setTimeout(function() { $(".searchInputForm").hide(); }, 300);
-                setTimeout(function() { $(".searchInputBtn").fadeIn(); }, 300);
+                $('.searchInputForm').animate({width: '44px'}, 'fast');
+                setTimeout(function () {
+                    $('.searchInputForm').hide();
+                }, 300);
+                setTimeout(function () {
+                    $('.searchInputBtn').fadeIn();
+                }, 300);
+
+                // TODO:
+                if ($scope.isCampaignSearched) {
+                    $scope.isCampaignSearched = false;
+                    $scope.campaigns.searchTerm = '';
+                    $scope.searchTerm = '';
+                    $scope.campaigns.resetFilters();
+                    $scope.campaigns.fetchData();
+                }
             };
 
 
