@@ -1,4 +1,4 @@
-define(['angularAMD', '../../services/constants_service', 'workflow/services/account_service','common/controllers/users/users_add_or_edit_controller'],function (angularAMD) {
+define(['angularAMD', '../../services/constants_service', 'workflow/services/account_service','common/controllers/users/users_add_or_edit_controller','libs/modernizr-custom', 'libs/dlmenu'],function (angularAMD) {
     'use strict';
     angularAMD.controller('UsersController', function ($scope,$rootScope,$timeout,constants,accountsService) {
         $scope.textConstants = constants;
