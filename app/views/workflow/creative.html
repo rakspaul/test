@@ -86,8 +86,8 @@
                         <label for="sel1" class="greyTxt" style="margin-top: 0;">Ad Server</label>
                         <div class="col-md-12 zeroPadding dropdown-workflow">
                             <div class="dropdown">
-                                <button class="btn btn-default dropdown-toggle" id="creativeAdServer" type="button"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ng-disabled="(pushedCount>0) || (associatedAdCount>0)" title={{selectedAdServer.name}}>
-                                    <span class="text">{{selectedAdServer.name ? selectedAdServer.name: 'Select Ad Server'}}</span>
+                                <button class="btn btn-default dropdown-toggle" id="creativeAdServer" type="button"  data-toggle="dropdown" ng-bind="selectedAdServer.name ? selectedAdServer.name: 'Select Ad Server'" aria-haspopup="true" aria-expanded="true" ng-disabled="(pushedCount>0) || (associatedAdCount>0)" title={{selectedAdServer.name}}>
+                                    <!--<span class="text">{{selectedAdServer.name ? selectedAdServer.name: 'Select Ad Server'}}</span>-->
                                     <span class="icon-arrow-down"></span>
                                 </button>
                                 <ul class="dropdown-menu" aria-labelledby="sel1" id="adserverDDL">
@@ -129,8 +129,8 @@
                         <label for="sel1" class="greyTxt">Creative Template</label>
                         <div class="col-md-12 zeroPadding dropdown-workflow">
                             <div class="dropdown">
-                                <button class="btn btn-default dropdown-toggle" id="creativeTemplate" type="button"  data-toggle="dropdown" aria-haspopup="true" ng-disabled="pushedCount>0" aria-expanded="true" title={{CreativeTemplate.name}}>
-                                    <span class="text">{{CreativeTemplate ? CreativeTemplate.name:'Select Template'}}</span>
+                                <button class="btn btn-default dropdown-toggle" id="creativeTemplate" type="button"  data-toggle="dropdown" aria-haspopup="true" ng-bind="CreativeTemplate ? CreativeTemplate.name:'Select Template'" ng-disabled="pushedCount>0" aria-expanded="true" title={{CreativeTemplate.name}}>
+                                    <!--<span class="text">{{CreativeTemplate ? CreativeTemplate.name:'Select Template'}}</span>-->
                                     <span class="icon-arrow-down"></span>
                                 </button>
                                 <ul class="dropdown-menu" aria-labelledby="sel1" id="templateDDL">
