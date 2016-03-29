@@ -50,19 +50,9 @@ define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', 'reporting/campaig
                     // Perform search if enter key is pressed & user has entered something.
                     if (e.keyCode === 13) {
                         if ($scope.campaigns.searchTerm && $scope.campaigns.searchTerm.trim()) {
-                            // Store the total number of campaigns in a temp var.
-                            // This will be used when resetting after searching.
-                            if ($scope.campaigns.dashboard.quickFilterSelectedCount) {
-                                $scope.tempTotalItems = $scope.campaigns.dashboard.quickFilterSelectedCount;
-                            }
-                            // TODO: Have to handle search result 0 count
-                            //$scope.campaigns.dashboard.filterTotal = 0;
-
                             $scope.campaigns.resetFilters();
                             $scope.campaigns.fetchData($scope.campaigns.searchTerm);
                             $scope.isCampaignSearched = true;
-                        } else {
-                            console.log('Please enter search term...');
                         }
                     }
                 };
@@ -86,10 +76,11 @@ define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', 'reporting/campaig
                     $scope.campaigns.fetchData();
                 });*/
 
-               /* $rootScope.$on(constants.EVENT_SUB_ACCOUNT_CHANGED, function () { console.log('anm called in list');
+                /* $rootScope.$on(constants.EVENT_SUB_ACCOUNT_CHANGED, function () {
                     $scope.campaigns.fetchDashboardData();
                 });
-*/
+                */
+
                 //Based on gauge click, load the filter and reset data set after gauge click.
                 var forceLoadCampaignsFilter;
                 if (gaugeModel.dashboard.selectedFilter !== '') {
@@ -208,26 +199,24 @@ define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', 'reporting/campaig
                         $scope.isCampaignSearched = false;
                         $scope.campaigns.searchTerm = '';
                         $scope.searchTerm = '';
-                        console.log('Search was performed, resetting $scope.campaigns.searchTerm = ', $scope.campaigns.searchTerm);
-                        // TODO: How to get correct Media Plans total count???
                         $scope.campaigns.resetFilters();
                         $scope.campaigns.fetchData();
-                        $scope.campaigns.dashboard.quickFilterSelectedCount = $scope.tempTotalItems;
-                        $scope.campaigns.dashboard.filterTotal = $scope.tempTotalItems;
-                        console.log('$scope.tempTotalItems = ', $scope.tempTotalItems);
-                    } else {
-                        console.log('Search has not been performed yet.');
                     }
                 };
 
                 //Lazy Loader
                 $(window).scroll(function () {
-                    // Don't attempt to scroll if there's no data.
-                    if ($scope.campaigns.dashboard.filterTotal === 0) {
+                    // Don't attempt to scroll if:
+                    // - there's no data, or
+                    // - last page is already loaded.
+                    if ($scope.campaigns.dashboard.quickFilterSelectedCount <= 5 ||
+                        (($scope.campaigns.performanceParams.nextPage - 1) * 5 >
+                        $scope.campaigns.dashboard.quickFilterSelectedCount)) {
                         return;
                     }
 
-                    if (!$scope.campaigns.busy && ($(window).scrollTop() + $(window).height() > $(document).height() - 100)) {
+                    if (!$scope.campaigns.busy && ($(window).scrollTop() + $(window).height() >
+                        $(document).height() - 100)) {
                         if ($scope.campaigns.searchTerm) {
                             $scope.campaigns.fetchData($scope.campaigns.searchTerm);
                         } else {

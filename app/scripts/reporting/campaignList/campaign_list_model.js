@@ -160,7 +160,6 @@ define(['angularAMD','reporting/campaignList/campaign_list_service', 'common/ser
                             if (searchTerm) {
                                 this.searchTerm = searchTerm;
                             }
-                            console.log('fetchdata() with search term ' + this.searchTerm + '...');
 
                             if (performanceTab.hasClass('active') === false && $('#cost_tab').hasClass('active') === false) {
                                 performanceTab.addClass('active');
@@ -214,13 +213,10 @@ define(['angularAMD','reporting/campaignList/campaign_list_service', 'common/ser
                                 this.busy = true;
                                 self = this;
                                 url = _campaignServiceUrl.call(this);
-console.log('REQUEST URL = ', url);
+
                                 campaignListService.getCampaigns(url, function (result) {
                                     var data = result.data.data;
-console.log('RESPONSE DATA = ', data);
-_.each(data, function (obj) {
-    console.log(obj.name, obj.labels, obj.count);
-});
+
                                     // The total count is now returned as part of the main result set
                                     if (data && data[0] && data[0].count) {
                                         self.dashboard.filterTotal = data[0].count;
@@ -435,10 +431,7 @@ _.each(data, function (obj) {
                                         }
                                     } else {
                                         self.dashboard.displayFilterSection = false;
-
-                                        // TODO: The total count is now returned as part of the main data set.
-                                        // TODO: It has to be properly updated.
-                                        //self.dashboard.filterTotal = result.data.data.total;
+                                        self.dashboard.filterTotal = result.data.data.total;
 
                                         if (self.dashboard.total > 0) {
                                             self.dashboard.filterSelectAll = false;
@@ -547,7 +540,7 @@ _.each(data, function (obj) {
                         sortCampaigns = function (fieldName) {
                             var totalItem = this.dashboard.quickFilterSelectedCount,
                                 sortDirection;
-console.log('sortCampaigns(), searchTerm = ', this.searchTerm);
+
                             if (this.sortParam) {
                                 if (this.sortParam === fieldName) {
                                     sortDirection = toggleSortDirection(this.sortDirection);
@@ -772,7 +765,6 @@ console.log('sortCampaigns(), searchTerm = ', this.searchTerm);
                                 'page_size=' + this.pageSize
                             ];
 
-                            console.log('_campaignServiceUrl() with search term ' + this.searchTerm + '...');
                             if (this.searchTerm) {
                                 params.push('search_term=' + this.searchTerm);
                             }
@@ -798,11 +790,8 @@ console.log('sortCampaigns(), searchTerm = ', this.searchTerm);
                             }
 
                             if (this.searchTerm) {
-                                console.log('Perform search with search term ', this.searchTerm);
                                 return vistoconfig.apiPaths.apiSerivicesUrl_NEW +
                                     '/search/campaigns?' + params.join('&');
-                                //return vistoconfig.apiPaths.apiSerivicesUrl_NEW +
-                                //    '/reportBuilder/customQuery?query_id=42&' + params.join('&');
                             } else {
                                 return vistoconfig.apiPaths.apiSerivicesUrl_NEW +
                                     '/reportBuilder/customQuery?query_id=42&' + params.join('&');
