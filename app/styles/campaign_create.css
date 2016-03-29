@@ -832,7 +832,7 @@
   float: left;
   max-height: 250px;
   min-height: 200px;
-  overflow: scroll;
+  overflow: auto;
   width: 100%;
 }
 .adCreateMaster #targetting .targettingFormWrap .selectedTables .col-md-12 .selectedTablesWrap .removeAllTooltip {
@@ -960,7 +960,7 @@
   border-right: 1px solid #dde6eb;
   float: left;
   max-height: 400px;
-  overflow: scroll;
+  overflow: auto;
   padding: 6px 0 !important;
   width: 100%;
 }
@@ -1836,6 +1836,10 @@
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroup .adTitle {
   float: left;
   width: 100%;
+}
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroup .adTitle .editAdgroupDiv .adGroupCreateForm {
+  border: 0 ;
+  padding: 0 ;
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroup .adTitle .adGroupTxtName {
   margin-top: 5px;
@@ -3250,7 +3254,7 @@
 }
 #campaignCreate .popCreativeLib .creativeLib .col-md-5 {
   height: 300px;
-  overflow: scroll;
+  overflow: auto;
   padding: 0 30px 0 0;
 }
 #campaignCreate .popCreativeLib .creativeLib .col-md-5 h2 {
@@ -3664,7 +3668,7 @@
 .accounts-popup.popup-holder .account_name_list,
 .users-popup.popup-holder .account_name_list {
   max-height: 100px;
-  overflow: scroll;
+  overflow: auto;
 }
 .accounts-popup.popup-holder .add_filter_link,
 .users-popup.popup-holder .add_filter_link {

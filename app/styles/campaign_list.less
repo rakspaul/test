@@ -1247,11 +1247,15 @@ button, i, input[type="submit"] {
         font-size: 18px ;
         color: #21252b ;
         line-height: 24px ;
-        .AvenirBold() ;
+        .AvenirBold();
         word-wrap: break-word;
         a {
           color: #000;
           text-decoration: none;
+
+            .brand_search_highlight {
+                background: #fcecbd;
+            }
         }
       }
       .heading {
@@ -1259,6 +1263,29 @@ button, i, input[type="submit"] {
           font-size: 14px ;
           margin-top: 2px ;
           padding-left: 15px ;
+          margin-left: 15px;
+          border-left: 1px solid #57606d;
+          float: left;
+      }
+      .pillsWrap {
+        float: left;
+        width: 100%;
+        padding: 3px 0 5px 22px;
+        .labelPills {
+            background: #EDF2F8;
+            margin: 0 5px 0 0;
+            padding: 2px 10px;
+            display: inline-block;
+            float: left;
+            font: 12px "Avenir";
+            height: 20px;
+            line-height: 100%;
+            border: 1px solid #BFC9D7;
+            border-radius: 3px;
+        }
+        .brand_search_highlight {
+            background: #fcecbd;
+        }
       }
       .campaign_section_KPI {
         //width : 316px ;
@@ -1388,8 +1415,8 @@ button, i, input[type="submit"] {
             .quartile_details_VTC {
               display: none;
               position: absolute;
-              top: 0px ;
-              left: 0px ;
+              top: -109px !important;
+              right: -115px !important;
               background: #fff;
               border: solid 1px #dde6eb ;
               z-index: 2 ;
@@ -1400,6 +1427,7 @@ button, i, input[type="submit"] {
               -moz-box-shadow: 0px 1px 8px 0px rgba(0, 0, 0, 0.15);
               padding: 12px 20px 0px 20px ;
               text-align: left;
+              left: initial !important;
               .quartile_details_title {
                 margin-bottom: 8px ;
               }
@@ -1582,7 +1610,7 @@ button, i, input[type="submit"] {
         top: -22px;
         color: #0078cc;
         font-size: 12px;
-        right: -35px;
+        right: -60px;
         white-space: nowrap;
       }
       .ended_text {
@@ -2171,14 +2199,14 @@ button, i, input[type="submit"] {
       }
       .dropdown-menu {
         //max-height: 200px;
-        overflow: scroll;
+        overflow: auto;
         top: 0;
         left: 0;
         border: 0;
         max-width: 100%;
         min-width: 100%;
         background: transparent ;
-        padding: 0px ;
+        padding: 0;
         margin: 0;
         float: left;
         position: initial;
@@ -2723,7 +2751,7 @@ button, i, input[type="submit"] {
 
 .nav_filters {
   width: 100%;
-  margin: 0 auto;
+  margin: 5px auto 2px ;
   font-size: 14px;
   color: #21252B;
   line-height: 20px;
@@ -2770,7 +2798,7 @@ button, i, input[type="submit"] {
       display: inline-block;
       height: 18px;
     }
-    #advertisersDropDownList{
+    #advertisersDropDownList , #subAccountDropDownList {
 
       width: 280px;
       left : 0px ;
@@ -2960,7 +2988,7 @@ button, i, input[type="submit"] {
   }
   .brandsDropdownSearch {
     position: relative;
-    #brandsDropdownDiv {
+    #brandsDropdownDiv , #subAccountDropdownDiv {
         width: 100%;
         border-bottom: solid 1px #ccc;
         padding: 0px 10px;
@@ -3034,11 +3062,11 @@ button, i, input[type="submit"] {
         border: 1px solid #BFC9D7;
         border-radius: 2px;
         min-height: 36px;
-        
+
         //When search is added uncomment below
-        //border-left: 0px;
-        //border-bottom-left-radius: 0;
-        //border-top-left-radius: 0;
+        border-left: 0px;
+        border-bottom-left-radius: 0;
+        border-top-left-radius: 0;
       }
       .sliding_dropdown_btn:hover, .sliding_dropdown_btn:active, .sliding_dropdown_btn:focus {
         background-color:#DCE6F1;

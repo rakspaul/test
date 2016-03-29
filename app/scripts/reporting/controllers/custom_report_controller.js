@@ -2,7 +2,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
         'common/utils', 'common/services/data_service', 'common/services/request_cancel_service',
         'common/services/constants_service', 'reporting/timePeriod/time_period_model', 'common/moment_utils',
         'login/login_model', 'common/services/url_service', 'common/services/data_store_model',
-        'reporting/models/domain_reports', 'common/services/vistoconfig_service'
+        'reporting/models/domain_reports', 'common/services/vistoconfig_service', 'common/services/features_service'
 ],
 
     function (angularAMD) {
@@ -12,7 +12,8 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                                                                   utils, dataService, requestCanceller,
                                                                   constants, timePeriodModel, momentService,
                                                                   loginModel, urlService, dataStore,
-                                                                  domainReports, vistoconfig) {
+                                                                  domainReports, vistoconfig, featuresService) {
+
         $scope.additionalFilters = [];
         $scope.textConstants = constants;
         $scope.additionalValue = "Contains keywords ...";
@@ -87,6 +88,8 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
         $scope.stopRedirectingPage = true;
         $scope.reportTypeSelect = $scope.textConstants.SAVE_LABEL;
         $scope.isSavedReportGen = false;
+        $scope.showCost = true;
+        var isGenerateAlreadyCalled = false;
 
             if($scope.isSavedReportGen === true){
                 $( "#dynamicHeader" ).addClass( "smaller" );
@@ -349,11 +352,19 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                     $scope.buttonLabel = $scope.textConstants.GENERATE_LABEL;
                 }
             }
-            return $(".dimension_block").find(".dd_txt").text() !== 'Choose Breakdown';
+            return $(".dimension_block").find(".dd_txt").text() !== 'Choose Dimension';
         };
 
-
-
+        $scope.saveSchedule = function() {
+            var reportType = localStorage.getItem('scheduleListReportType');
+            if((reportType == 'Saved') && ($scope.reportTypeSelect == 'Save')) {
+                $scope.buttonLabel = 'Update';
+            } else if((reportType == 'scheduled') && ($scope.reportTypeSelect == 'Schedule As')) {
+                $scope.buttonLabel = 'Update';
+            } else {
+                $scope.buttonLabel = $scope.reportTypeSelect;
+            }
+        }
 
         _customctrl.createRequestParams = function(filterText, offset, isPrimary, rowIndex_2D,dataFormat) {
             var params = '',
@@ -376,7 +387,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                 if(isPrimary){
                     $scope.reportTitle += ' by ' + $scope.reports.reportDefinition.dimensions[filterDataKey].name;
                 }
-                str += "&first_dim_filter=" + $scope.reports.reportDefinition.dimensions[filterDataKey].dimension
+                str += ((dataFormat && dataFormat==='csv') ? "&second_dim=" : "&first_dim_filter=") + $scope.reports.reportDefinition.dimensions[filterDataKey].dimension
                 if ($scope.reports.reportDefinition.dimensions[filterDataKey].value) {
                     str += ':' + $scope.reports.reportDefinition.dimensions[filterDataKey].value;
                 }
@@ -468,7 +479,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
 
         /* commenting out work for edit saved repoert tomporarily ROBERT*/
         var validateGenerateReport = function() {
-            if(localStorage['scheduleListReportType'] !== "Saved") {
+            if((localStorage['scheduleListReportType'] !== "Saved") && ($scope.reportTypeSelect !== 'Save')) {
                 if (!_customctrl.enableGenerateButton()) {
                     $scope.generateBtnDisabled = true;
                     $(".custom_report_filter").closest(".breakdown_div").find(".filter_input_txtbox").hide();
@@ -485,8 +496,14 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
             }
         }
 
-        $scope.generateReport = function() {
+        $scope.generateReport = function(generateReportType) {
             if (validateGenerateReport()) {
+               // $(".iconPlus")
+                if((isGenerateAlreadyCalled)) {
+                    $scope.ToggleAdGroups(this);
+                } else{
+                    isGenerateAlreadyCalled = true;
+                }
                 $scope.generateBtnDisabled = false;
                 $scope.metricValues = [];
                 $scope.reportMetaData = {};
@@ -759,7 +776,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                         $scope.reportDownloadBusy = false;
                         $rootScope.setErrAlertMessage("File couldn't be downloaded");
                     }
-                })
+                });
             }
 
             $scope.enable_generate_btn = function() {
@@ -768,6 +785,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
             } else {
                 $scope.generateBtnDisabled = true;
                 $(".custom_report_filter").closest(".breakdown_div").find(".filter_input_txtbox").hide();
+                $(".each_section_custom_report").find(".filter_input_txtbox").hide();
             }
         }
 
@@ -821,9 +839,9 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                     retVal = true;
                 }
             }
-            if(retVal || !_.isEqual(oldJSON.filters,newJSON.filters) || !_.isEqual(oldJSON.metrics,newJSON.metrics) || !_.isEqual(oldJSON.timeframe,newJSON.timeframe)){
+            /*if(retVal || !_.isEqual(oldJSON.filters,newJSON.filters) || !_.isEqual(oldJSON.metrics,newJSON.metrics) || !_.isEqual(oldJSON.timeframe,newJSON.timeframe)){
                 retVal = true;
-            }
+            }*/
             return retVal;
         }
 
@@ -1182,24 +1200,27 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
         $scope.toggleSchedule = function(that) {
             $scope.scheduleReportActive = $(that).prop('checked');
             if ($scope.scheduleReportActive) {
-                $scope.buttonLabel = $scope.reportTypeSelect;
                 if ($routeParams.reportId) {
                     $scope.buttonLabel = "Update";
-                }
+                } else {
+                    $scope.buttonLabel = $scope.reportTypeSelect;
+                    $timeout(function() {
+                        $scope.$apply();
+                    }, 100)
 
+                }
                 $scope.$watch('reportTypeSelect', function() {
                     if ($routeParams.reportId) {
                         $scope.buttonLabel = "Update";
                     }
                     else{
                         $scope.buttonLabel = $scope.reportTypeSelect;
-
                     }
-
                 });
-            }
-            else {
+            } else {
+                $scope.reports.name = "";
                 $scope.buttonLabel = $scope.textConstants.GENERATE_LABEL;
+                $scope.$apply();
             }
 
             if ($(that).closest(".schedule-on-off-btn").find(".toggle.btn-primary").length > 0) {
@@ -1321,7 +1342,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
 
 
             $scope.setAllMetrics = function() {
-                if ($scope.deliveryMetrics.isAllSelected && $scope.costMetrics.isAllSelected && $scope.engagementMetrics.isAllSelected && $scope.videoMetrics.isAllSelected && $scope.displayQltyMetrics.isAllSelected && $scope.videoQltyMetrics.isAllSelected) {
+                if ($scope.deliveryMetrics.isAllSelected && ($scope.costMetrics.isAllSelected || !$scope.showCost) && $scope.engagementMetrics.isAllSelected && $scope.videoMetrics.isAllSelected && $scope.displayQltyMetrics.isAllSelected && $scope.videoQltyMetrics.isAllSelected) {
                     $scope.allMetrics = true;
                 } else {
                     $scope.allMetrics = false;
@@ -1568,15 +1589,17 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
 
                 //cost Metrics
                 var selectedCostMetrics = [];
-                _.each($scope.costMetrics, function(eachObj) {
-                    if (eachObj.selected) {
-                        selectedCostMetrics.push(eachObj.key);
-                        $scope.selectedMetricsList.push({
-                            'key': eachObj.key,
-                            'value': eachObj.value
-                        });
-                    }
-                });
+                if($scope.showCost) {
+                    _.each($scope.costMetrics, function (eachObj) {
+                        if (eachObj.selected) {
+                            selectedCostMetrics.push(eachObj.key);
+                            $scope.selectedMetricsList.push({
+                                'key': eachObj.key,
+                                'value': eachObj.value
+                            });
+                        }
+                    });
+                }
                 $scope.reports.reportDefinition.metrics['Cost'] = [];
                 if (selectedCostMetrics.length > 0) {
                     $scope.reports.reportDefinition.metrics['Cost'] = selectedCostMetrics;
@@ -1651,6 +1674,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
             }
 
             $scope.updateSchdReport = function() {
+                var self = this;
                 if ($scope.verifyReportInputs()) {
                     if($scope.reportTypeSelect == "Save"){
                     //if(localStorage['scheduleListReportType'] == "Saved"){
@@ -1659,6 +1683,12 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                                 $rootScope.setErrAlertMessage('Saved report updated successfully', 0);
                                 $scope.stopRedirectingPage = false;
                                 $('#reportBuilderForm').slideUp(600);
+                                if((isGenerateAlreadyCalled)) {
+                                    $scope.ToggleAdGroups(self);
+
+                                } else{
+                                    isGenerateAlreadyCalled = true;
+                                }
                                 //$location.url('/reports/schedules');
                             }
                         });
@@ -1707,10 +1737,6 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                     var deliverOn = $("#deliverOn").val(),
                         startDate = $("#startOn").val(),
                         endDate = $("#endOn").val();
-                    if(!$scope.reports.schedule || !$scope.reports.schedule.frequency){
-                        $rootScope.setErrAlertMessage(constants.requiredRptNameFreq);
-                        return false;
-                    }
                     if($scope.reports.schedule.frequency && $scope.reports.schedule.frequency != "Once" && (momentService.dateDiffInDays(currDate,startDate) < 0|| momentService.dateDiffInDays(currDate,endDate) < 0)){
                         $rootScope.setErrAlertMessage(constants.START_OR_END_DATE_CAN_NOT_LESS_THAN_CURRENTDATE);
                         return false;
@@ -1761,18 +1787,15 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
 
 
             $scope.showHideToggle = false;
-            $scope.ToggleAdGroups = function (context, adGrpId, index, event) {
-                var elem = $(event.target);
+            $scope.ToggleAdGroups = function (context) {
                 if (context.showHideToggle) {
                     $('#reportBuilderForm').slideUp(600);
-                     elem.removeClass("icon-minus").addClass("icon-plus") ;
-                     context.showHideToggle = !context.showHideToggle
+                    $("#dynamicHeader > a > span").removeClass("icon-minus").addClass('icon-plus');
+                    context.showHideToggle = !context.showHideToggle;
                 } else {
                     $('#reportBuilderForm').slideDown(600);
-                    elem.removeClass("icon-plus").addClass("icon-minus") ;
-                    //$( "#dynamicHeader" ).removeClass( "smaller" );
-                     context.showHideToggle = !context.showHideToggle
-                     //campaignOverView.getAdsInAdGroup($routeParams.campaignId, adGrpId, index);
+                    $("#dynamicHeader > a > span").removeClass("icon-plus").addClass('icon-minus');
+                     context.showHideToggle = !context.showHideToggle;
                 }
             };
 
@@ -1783,11 +1806,11 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                     $scope.updateSchdReport();
                 } else if ($scope.buttonLabel == "Generate") {
                     $scope.generateBtnDisabled = true;
-                    $scope.generateReport();
+                    $scope.generateReport("Generate");
                     $('.collapseIcon').css('visibility', 'visible');
                 } else if ($scope.buttonLabel == "Save"){
                     $scope.saveReport();
-                    $scope.generateReport();
+                    $scope.generateReport("Save");
                     $('.collapseIcon').css('visibility', 'visible');
                 }
                 else {
@@ -1975,12 +1998,11 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                     //set breakdown filter values if exist
                     angular.forEach(responseData.reportDefinition.filters, function(eachObj) {
                         eachObj['name'] = $scope.getFilterBreakdownName(eachObj.dimension);
-                        /*if ((eachObj.type == "Primary")) {
+                        if ((eachObj.type == "Primary")) {
                             $scope.setPrimaryDimension(eachObj);
                         } else if ((eachObj.type == "Secondary")) {
                             $scope.setSecondaryDimension(eachObj);
-                        } else*/
-                        if((eachObj.type !== "Primary")&& (eachObj.type !== "Secondary")){
+                        } else if((eachObj.type !== "Primary")&& (eachObj.type !== "Secondary")){
                             $scope.additionalFilters.push({
                                 "key": eachObj.dimension,
                                 "name": eachObj.name,
@@ -2029,7 +2051,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                             }
                         });
                     }
-                    if (responseData.reportDefinition.metrics.Cost) {
+                    if (responseData.reportDefinition.metrics.Cost && $scope.showCost) {
                         _.each($scope.costMetrics, function(each) {
                             var costMetricsObj = _.find(responseData.reportDefinition.metrics.Cost, function(num) {
                                 return num == each.key;
@@ -2158,7 +2180,19 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                     }
                 });
             });
-
+            $rootScope.$on('features', function () {      // On client change
+                _customctrl.showCost_permission();
+            });
+            _customctrl.showCost_permission = function(){
+                var fparams = featuresService.getFeatureParams();
+                $scope.showCost = fparams[0]['cost'];
+                if(!$scope.showCost){
+                    $scope.totalMetrics -= $scope.totalCostMetrics;
+                    $scope.saveMetrics();
+                    $scope.setMetrixText('Default');
+                }
+            }
+            _customctrl.showCost_permission();
             $(window).on('beforeunload', function(){    // On refresh of page
                 $scope.intermediateSave();
             });

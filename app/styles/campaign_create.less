@@ -998,7 +998,7 @@
                         float: left;
                         max-height: 250px;
                         min-height:200px;
-                        overflow: scroll;
+                        overflow: auto;
                         width: 100%;
 
                         .removeAllTooltip {
@@ -1164,7 +1164,7 @@
                     border-right: 1px solid #dde6eb;
                     float: left;
                     max-height: 400px;
-                    overflow: scroll;
+                    overflow: auto;
                     padding: 6px 0 !important;
                     width: 100%;
 
@@ -2235,7 +2235,12 @@
                         .adTitle {
                             float: left;
                             width: 100%;
-
+                            .editAdgroupDiv {
+                                .adGroupCreateForm {
+                                    border : 0 ;
+                                    padding: 0 ;
+                                }
+                            }
                             .adGroupTxtName {
                                 margin-top: 5px;
                                 overflow: hidden;
@@ -2243,7 +2248,7 @@
                                 white-space: nowrap;
                                 width: auto;
                             }
-                            
+
                             //.pillsWrap {
                             //    float: left;
                             //    margin: 5px 0 10px 0;
@@ -2253,7 +2258,7 @@
                             //        margin: 0 0 0 5px;
                             //    }
                             //}
-                            
+
                             .pillsWrap {
                                 float: left;
                                 width: 100%;
@@ -2285,7 +2290,7 @@
                                 padding: 0 0 0 10px;
 
                                 &:first-child {
-                                    
+
                                 }
 
                                 &:last-child {
@@ -2357,7 +2362,7 @@
                             display: none;
                         }
                     }
-                    
+
                     .adGroup.openInstance {
                         padding: 0;
                         .adTitle {
@@ -2534,7 +2539,7 @@
                         .btnCreateGroup {
                             display: none;
                         }
-                        
+
                         .singleCardWrap {
                             margin-top: 30px;
                             border: 1px dashed #939eae;
@@ -3955,7 +3960,7 @@
 
             .col-md-5 {
                 height: 300px;
-                overflow: scroll;
+                overflow: auto;
                 padding: 0 30px 0 0;
 
                 h2 {
@@ -4397,7 +4402,7 @@
 
     .account_name_list {
         max-height: 100px;
-        overflow: scroll;
+        overflow: auto;
     }
 
     .add_filter_link {

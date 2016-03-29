@@ -96,6 +96,7 @@ assets.html_add_filter_users = '/views/reporting/partials/add_filter_users.html'
 assets.html_add_report_dimension = '/views/reporting/partials/add_report_dimension.html';
 assets.html_screen_header = '/views/reporting/partials/screen_header.html';
 assets.html_daysofweek_header = '/views/reporting/partials/daysofweek_header.html';
+assets.html_discrepancy_header = '/views/reporting/partials/discrepancy_header.html';
 assets.html_format_header = '/views/reporting/partials/format_header.html';
 assets.html_performance_header = '/views/reporting/partials/performance_header.html';
 assets.html_cost_header = '/views/reporting/partials/cost_header.html';
@@ -123,5 +124,9 @@ assets.html_accounts_add_or_edit_advertiser = '/views/workflow/partials/accounts
 assets.html_accounts_add_or_edit_brand = '/views/workflow/partials/accounts_add_or_edit_brand.html';
 assets.html_accounts_add_or_edit = '/views/workflow/partials/accounts_add_or_edit.html';
 assets.html_change_account_warning = '/views/workflow/partials/change_account_warning.html';
+assets.html_edit_adgroup = '/views/workflow/partials/overview_partials/overview_createAdgroups.html';
+
 //Visto 2.0 Templates
 assets.html_dashboard_2 = '/views/visto2.0/dashboard.html';
+
+assets.html_sub_account_drop_down = '/views/reporting/sub_account_drop_down.html';

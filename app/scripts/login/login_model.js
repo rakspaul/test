@@ -24,12 +24,29 @@ define(['angularAMD','../common/services/constants_service'], function (angularA
                 return constants.ROLE_MARKETER;
             },
 
+            setMasterClient: function (data) {
+                localStorage.setItem('masterClient', JSON.stringify(data));
+            },
+
+            getMasterClient: function (data) {
+                return localStorage.getItem('masterClient') && JSON.parse(localStorage.getItem('masterClient'));
+            },
+
             setSelectedClient: function (data) {
                 localStorage.setItem('selectedClient', JSON.stringify(data));
             },
 
             getSelectedClient: function () {
                 return localStorage.getItem('selectedClient') && JSON.parse(localStorage.getItem('selectedClient'));
+            },
+
+            setMasterAndClient: function(masterId,masterName,isLeafNode,clientId,clientName) {
+                localStorage.setItem('masterClient', JSON.stringify({'id':masterId,'name':masterName,'isLeafNode':isLeafNode}));
+                if(isLeafNode) {
+                    localStorage.setItem('selectedClient', JSON.stringify({'id':masterId,'name':masterName}));
+                } else {
+                    localStorage.setItem('selectedClient', JSON.stringify({'id':clientId,'name':clientName}));
+                }
             },
 
             setClientData: function (data) {

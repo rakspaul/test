@@ -1,4 +1,4 @@
-define(['angularAMD', '../../login/login_model', 'common/services/role_based_service', 'common/services/constants_service', 'reporting/timePeriod/time_period_directive'], function (angularAMD) {
+define(['angularAMD', '../../login/login_model', 'common/services/role_based_service', 'common/services/constants_service', 'reporting/timePeriod/time_period_directive','reporting/subAccount/sub_account_directive'], function (angularAMD) {
     angularAMD.factory("domainReports", ['loginModel', 'RoleBasedService', 'featuresService', function (loginModel, RoleBasedService, featuresService) {
 
         return {
@@ -50,7 +50,7 @@ define(['angularAMD', '../../login/login_model', 'common/services/role_based_ser
                 var fParams = featuresService.getFeatureParams();
 
                 if(fParams[0]['scheduled_reports'] === true) {
-                    tabs.push({ href:'reports/schedules', title: 'Saved/Scheduled'});
+                    tabs.push({ href:'reports/schedules', title: 'My Reports'});
                 }
                 if (fParams[0]['collective_insights'] === true) {
                     tabs.push({href: 'reports/list', title: 'Collective Insights'});
@@ -251,6 +251,18 @@ define(['angularAMD', '../../login/login_model', 'common/services/role_based_ser
         };
     }]);
 
+    angularAMD.directive('discrepancyHeader', ['$http', '$compile','constants', function ($http, $compile,constants) {
+        return {
+            controller: function($scope, $cookieStore, $location){
+            },
+            restrict:'EAC',
+            templateUrl: assets.html_discrepancy_header,
+            link: function(scope, element, attrs) {
+                scope.textConstants = constants;
+            }
+        };
+    }]);
+
     angularAMD.directive('formatHeader', ['$http', '$compile', 'constants', function ($http, $compile, constants) {
         return {
             controller: function ($scope, $cookieStore, $location) {
@@ -312,7 +324,7 @@ define(['angularAMD', '../../login/login_model', 'common/services/role_based_ser
         };
     }]);
 
-    angularAMD.directive('filtersHeader', ['$http', '$compile', 'constants', function ($http, $compile, constants) {
+    angularAMD.directive('filtersHeader', ['$rootScope','$http', '$compile', 'constants','loginModel', function ($rootScope,$http, $compile,constants,loginModel) {
         return {
             controller: function ($scope, $cookieStore, $location) {
             },
@@ -322,6 +334,14 @@ define(['angularAMD', '../../login/login_model', 'common/services/role_based_ser
                 scope.reportFilter = attrs.reports;
                 scope.textConstants = constants;
                 scope.allCampaign = attrs.allCampaign;
+                var masterClient = loginModel.getMasterClient();
+                scope.isLeafNode = true;
+                if(masterClient.isLeafNode == false) {
+                    scope.isLeafNode = false;
+                }
+                var masterClientChanged = $rootScope.$on(constants.EVENT_MASTER_CLIENT_CHANGED, function (event, args) {
+                    scope.isLeafNode = loginModel.getMasterClient().isLeafNode;
+                });
                 if (scope.allCampaign == "true" || scope.allCampaign == true) {
                     scope.selectedCampaign = {
                         id: 0,

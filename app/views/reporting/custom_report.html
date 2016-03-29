@@ -8,7 +8,7 @@
         <div style="padding-left:15px;" class="col-md-12" id="dynamicHeader">
             <!-- this will be hidden until fold happens -->
             <a class="collapseIcon iconPlusMinus" role="button" id="{{$index+1}}" href=""> 
-                <span class="icon-plus" ng-click="ToggleAdGroups(this,adGroupsData.adGroup.id,$index+1, $event)"></span> 
+                <span class="icon-plus" ng-click="ToggleAdGroups(this)"></span> 
             </a>
             <!-- -->
             <span class="heading" style="float:left;"><h3 ng-bind-html="textConstants.REPORT_BUILDER"></h3></span>
@@ -17,7 +17,7 @@
             <!-- -->
             <!-- his will be hidden until fold happens -->
             <span class="heading savedSubTitle"><span>{{reports.name}}</span></span>
-            <span class="heading savedSubTitle">| {{reports.reportDefinition.timeframe.start_date}}</span>
+            <span class="heading savedSubTitle"><span ng-if="reports.name">|</span> {{reports.reportDefinition.timeframe.start_date}}</span>
             <span class="heading savedSubTitle">- {{reports.reportDefinition.timeframe.end_date}}</span>
             <span class="heading downReport">
                 <span class="icon-download zeroPadding pull-left" style="margin-right:9px;"></span>
@@ -34,7 +34,8 @@
             <div class="row">
                 <div class="col-md-4">
                     <div class="each_section_custom_report">
-                        <div class="create_report_title" ng-bind-html="textConstants.SELECT_DIMENTION"></div>
+                        <div class="create_report_title create_report_title_label" ng-bind-html="textConstants.SELECT_DIMENTION" ></div>
+                        <div ng-show="showPrimaryTxtBox" class="create_report_title create_report_title_label filter_input_txtbox" ng-bind-html="textConstants.ADD_KEYWORDS"  ></div>
                         <div>
                             <!-- Primary Dimension start -->
                             <div class="clearfix title_row_separator breakdown_div dimension_block">
@@ -259,7 +260,7 @@
                                                 </div>
                                             </div>
                                             <!-- Cost Metrics -->
-                                            <div  class="col-md-3 each_measurable_col">
+                                            <div  class="col-md-3 each_measurable_col" ng-if="showCost">
                                                 <div class="custom_report_col_title">
                                                     <div class="external_chkbox clearfix">
                                                         <div class="squaredFour"
@@ -526,11 +527,11 @@
                                 <div class="btn-group miniToggle">
                                     <label class="btn btn-default whitelist " style="width: auto;" ng-class="reportTypeSelect === 'Save' ? 'active' : ''" data-ng-click="scheduleReportActive=false">
                                         <span>Save As</span>
-                                        <input type="radio" name="saveSchedule" group="budgetGroup" value="Save" ng-model="reportTypeSelect" ng-checked="reportTypeSelect === 'Save' ? true : false" hidden="hidden" class=""  >
+                                        <input type="radio" name="saveSchedule" group="budgetGroup" value="Save" ng-click = "saveSchedule('Save')" ng-model="reportTypeSelect" ng-checked="reportTypeSelect === 'Save' ? true : false" hidden="hidden" class=""  >
                                     </label>
                                     <label class="btn btn-default blacklist" style="width: auto;" ng-class="reportTypeSelect === 'Schedule As' ? 'active' : ''" data-ng-click="scheduleReportActive=true">
                                         <span>Schedule As</span>
-                                        <input type="radio" name="saveSchedule" group="budgetGroup" value="Schedule As" ng-model="reportTypeSelect" ng-checked="reportTypeSelect === 'Schedule As' ? true : false" hidden="hidden" class=""  checked="checked">
+                                        <input type="radio" name="saveSchedule" group="budgetGroup" ng-click = "saveSchedule('Schedule As')" value="Schedule As" ng-model="reportTypeSelect" ng-checked="reportTypeSelect === 'Schedule As' ? true : false" hidden="hidden" class=""  checked="checked">
                                     </label>
                                 </div>
                             </div>
@@ -739,7 +740,7 @@
                         <!--<div class="each_tab" ng-click="show_respective_table('booked')" id="booked_tab">
                             <span>Booked</span>
                         </div>-->
-                        <div class="each_tab" ng-click="show_respective_table('cost')" id="cost_tab">
+                        <div class="each_tab" ng-click="show_respective_table('cost')" id="cost_tab" ng-if="showCost">
                             <span>Cost</span>
                         </div>
                         <!--<div class="each_tab" ng-click="show_respective_table('engagement')" id="engagement_tab">
@@ -816,7 +817,7 @@
                         </div>
                         <div ng-if="fetching" class="common-load-more"></div>
                     </div>
-                    <div class="custom_report_response_table" id="cost_table" style="display:none;">
+                    <div class="custom_report_response_table" id="cost_table" style="display:none;" ng-if="showCost">
                         <div class="custom_report_scroll">
                             <div class="each_row heading_row">
                                 <div class="inner_heading_row">
@@ -1327,7 +1328,7 @@
             <div class="popup-header-body">
                 <div class="clearfix">
                     <h1 ng-show="scheduleReportActive == false" class="pull-left" ng-bind="textConstants.SAVED_UPDATE" ></h1>
-                    <h1 ng-show="scheduleReportActive === 'true'" class="pull-left" ng-bind="textConstants.SCHEDULER_UPDATE"></h1>
+                    <h1 ng-show="scheduleReportActive === true" class="pull-left" ng-bind="textConstants.SCHEDULER_UPDATE"></h1>
                     <span class="close unselectable" aria-hidden="true" ng-click="updateSchedule=false">x</span>
                 </div>
                 <div class="popup-content" ng-bind="archiveMessage"></div>

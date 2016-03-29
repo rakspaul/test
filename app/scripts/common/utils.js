@@ -1,5 +1,5 @@
-define(['angularAMD','common/services/constants_service'], function (angularAMD) {
-  angularAMD.factory('utils', ["$location", "$sce", "constants",function ($location, $sce,constants) {
+define(['angularAMD','common/services/constants_service', 'common/services/role_based_service'], function (angularAMD) {
+  angularAMD.factory('utils', ["$location", "$sce", "constants", "RoleBasedService", function ($location, $sce, constants, RoleBasedService) {
 
         var formatDate = function (input) {
                 var date = new Date(input),
@@ -565,13 +565,14 @@ define(['angularAMD','common/services/constants_service'], function (angularAMD)
                 restrict: 'AE',
                 scope: {
                     txt: '@txt',
+                    txtHtml: '@txtHtml',
                     txtLength: '@txtlength',
                     lstCampaign: '='
                 },
-                template: '<span ng-show="(txt.length > txtLength)" tooltip-placement="top" tooltip="{{txt}}">' +
-                    '{{txt|limitTo:txtLength}} ...</span>' +
-                    '<span  class="campaign_name_txt" ng-show="(txt.length <= txtLength)">' +
-                    '{{txt}}</span>',
+                template: '<span ng-show="(txt.length > txtLength)" tooltip-placement="top" tooltip="{{txt}}" ' +
+                    'ng-bind-html="txtHtml|limitTo:txtLength  + \'...\'"></span>' +
+                    '<span  class="campaign_name_txt" ng-show="(txt.length <= txtLength)" ng-bind-html="txtHtml">' +
+                    '</span>',
                 link: function (scope, element, attrs, modelCtrl) {
                     element.on('click', function (event) {
                         campaignListService.setListCampaign(scope.lstCampaign);
@@ -646,6 +647,18 @@ define(['angularAMD','common/services/constants_service'], function (angularAMD)
                     });
                 }
             };
+        })
+
+        .directive('errSrc', function() {
+            return {
+                link: function(scope, element, attrs) {
+                    element.bind('error', function() {
+                        if (attrs.src != attrs.errSrc) {
+                            attrs.$set('src', attrs.errSrc);
+                        }
+                    });
+                }
+            }
         })
 
         .filter('spliter', function () {
@@ -1060,6 +1073,15 @@ define(['angularAMD','common/services/constants_service'], function (angularAMD)
                     dispName = input.substring(0, len) + '...';
                 }
                 return dispName;
+            };
+        })
+
+        .filter('positive', function() {
+            return function(input) {
+                if (!input) {
+                    return 0;
+                }
+                return Math.abs(input);
             };
         });
 

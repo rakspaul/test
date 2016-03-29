@@ -128,6 +128,10 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
           }
       });
 
+     /*$scope.$on(constants.EVENT_SUB_ACCOUNT_CHANGED,function(){
+        $scope.callBackStrategyChange();
+     });*/
+
       $scope.$watch('selectedCampaign', function() {
           $scope.createDownloadReportUrl();
       });

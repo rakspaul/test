@@ -16,10 +16,21 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
       $scope.disableCancelSave = false;
       $scope.campaignId = $routeParams.campaignId;
       var validTag=false;
+      if($routeParams.creativeId){
+          $scope.isAddCreativePopup = true;
+          $scope.creativeMode="edit";
+      }else{
+          $scope.creativeMode="create";
+      }
 
-      $scope.creativeMode=workflowService.getCreativeEditMode();
       var processEditCreative=function(){
-          $scope.creativeEditData=workflowService.getCreativeEditData();
+          var creativeId=$routeParams.creativeId;
+          workflowService
+              .getCreativeData(creativeId)
+              .then(function (result) {
+                  if (result.status === "OK" || result.status === "success") {
+                      $scope.creativeEditData=result.data.data;
+          //$scope.creativeEditData=workflowService.getCreativeEditData();
           if($scope.creativeEditData){
               $scope.name=$scope.creativeEditData.name;
               $scope.advertiserName=$scope.creativeEditData.advertiser.name;
@@ -29,14 +40,20 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
               $scope.selectedAdServer=$scope.creativeEditData.adServer;
               $scope.selectedAdServer.id=$scope.creativeEditData.adServer?$scope.creativeEditData.adServer.id:'';
               $scope.creativeFormat=$scope.creativeEditData.creativeFormat;
-              //$scope.pushedCount=$scope.creativeEditData.pushedCount;
+              $scope.pushedCount=$scope.creativeEditData.pushedCount;
+              $scope.associatedAdCount=$scope.creativeEditData.noOfAds;
               //make cal to set the format type here //inturn makes call to get possible templates
               $scope.adFormatSelection($scope.creativeFormat);
               //make call to generate Template
-              $scope.onTemplateSelected($scope.creativeEditData.vendorCreativeTemplate,$scope.creativeEditData.creativeCustomInputs);
+              $scope.creativeEditData.vendorCreativeTemplate ? $scope.onTemplateSelected($scope.creativeEditData.vendorCreativeTemplate,$scope.creativeEditData.creativeCustomInputs):'';
               $scope.tag=$scope.creativeEditData.tag;
               $scope.adData.creativeSize=$scope.creativeEditData.size;
           }
+
+                  }else {
+                      console.log("No data Available to edit")
+                  }
+              })
       }
 
       $scope.data = {
@@ -156,6 +173,8 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
           })
           for(var i in $scope.creativeSizeData.adFormats){
               $scope.creativeSizeData.adFormats[i].active=false;
+              if((!$scope.adPage) && ($scope.creativeMode=="edit") && ($scope.pushedCount>0 || $scope.associatedAdCount>0))
+                  $scope.creativeSizeData.adFormats[i].disabled=true;
           }
           if(index>=0){
               $scope.creativeSizeData.adFormats[index].active=true;
@@ -165,7 +184,12 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
           /*CreativeLibrary page, get templates*/
           if(!$scope.adPage && $scope.selectedAdServer){
               resetTemplate();
-              $scope.getTemplates($scope.selectedAdServer,adFormatName);
+              //In edit mode, do not let to change templateType from full-tracking or vice versa if ads count >0.
+              if($scope.creativeMode=="edit" && $scope.associatedAdCount>0){
+                      $scope.getTemplates($scope.selectedAdServer,adFormatName,$scope.creativeEditData.isTracking);
+              }else{
+                  $scope.getTemplates($scope.selectedAdServer,adFormatName);
+              }
           }
       }
       var resetTemplate=function(){
@@ -185,7 +209,7 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
               $scope.getTemplates($scope.selectedAdServer,$scope.creativeFormat);
           }
 
-          /*function to get the possible templates in adCreate Page)*/ console.log("$scope.$parent.TrackingIntegrationsSelected:",$scope.$parent.TrackingIntegrationsSelected);
+          /*function to get the possible templates in adCreate Page)*/
           if($scope.adPage){
               $scope.getTemplates(adServer,$scope.creativeFormat,$scope.$parent.TrackingIntegrationsSelected);
           }
@@ -242,7 +266,6 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
 
       /*Generate the Template*/
       $scope.onTemplateSelected=function(templateJson,customFieldsDataEditMode){
-          console.log(templateJson);
           $scope.CreativeTemplate=templateJson;
           $scope.TrackingIntegrationsSelected=templateJson.isTracking;
           $scope.adData.creativeTemplate=templateJson.id;
@@ -287,17 +310,15 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
               creatives.fetchAdFormats();
               $scope.$broadcast('adFormatChanged', 'DISPLAY');
           }
-          // var creativeTemplateWrap = $('.creativeTemplate');
-          // creativeCustomModule.init(templateJson,creativeTemplateWrap,$scope);
           /*In creative List Page to create new creative*/
           if(!$scope.adPage){
-              getAdServers();
+              getAdServersInLibraryPage();
               creatives.fetchAdvertisers();
           }
       };
 
       /*Get all adserver in Creative Library Page*/
-      var getAdServers=function(){
+      var getAdServersInLibraryPage=function(){
           var responseData='';
           workflowService
               .getVendorsAdServer()
@@ -338,7 +359,7 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
               //if ($scope.formCreativeCreate.$valid) {
                   //formElem = $('#formCreativeCreate');
                   var formDataObj = $("#formCreativeCreate").serializeArray();
-                  console.log("formDataObj",formDataObj)
+                  //console.log("formDataObj",formDataObj)
                   formData = _.object(_.pluck(formDataObj, 'name'), _.pluck(formDataObj, 'value'));
                   postCrDataObj = {};
                   postCrDataObj.name = formData.name;
@@ -392,14 +413,14 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
           pattern=new RegExp(/.*(https:).*/);
           tagLower = scriptTag.toLowerCase().replace(' ', '').replace(/(\r\n|\n|\r)/gm, '');
           if (tagLower.match(pattern)) {
-              if ((tagLower.indexOf('%%tracker%%') > -1)) {
+              //if ((tagLower.indexOf('%%tracker%%') > -1)) {
                   postCrDataObj.tag=scriptTag;
                   validTag=true;
-              } else {
-                  validTag=false;
-                  $scope.IncorrectTag = true;
-                  $scope.IncorrectTagMessage = $scope.textConstants.WF_INVALID_CREATIVE_TAG_TRACKER;
-              }
+              //} else {
+              //    validTag=false;
+              //    $scope.IncorrectTag = true;
+              //    $scope.IncorrectTagMessage = $scope.textConstants.WF_INVALID_CREATIVE_TAG_TRACKER;
+              //}
           }else {
               validTag=false;
               $scope.IncorrectTag = true;
@@ -443,14 +464,17 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
       }
 
       $scope.creativeSave = function (postCrDataObj) {
+          $scope.IncorrectTag = false;
+          $scope.savingCreative=true;
           $scope.CrDataObj = postCrDataObj;
-          if($scope.creativeMode!=="edit"){
+          if($scope.creativeMode!=="edit" || $scope.adPage){
               workflowService
                   .saveCreatives($scope.campaignId, postCrDataObj)
                   .then(function (result) {
                       if (result.status === 'OK' || result.status === 'success') {
                           $scope.addedSuccessfully = true;
                           $scope.Message = 'Creative Added Successfully';
+                          $scope.savingCreative=false;
                           if(result.data.data.creativeState==='READY'){
                               workflowService.setNewCreative(result.data.data);
                           }
@@ -458,8 +482,7 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
                           $scope.cancelBtn();
                           $rootScope.setErrAlertMessage($scope.textConstants.CREATIVE_SAVE_SUCCESS,0);
                           localStorage.setItem( 'topAlertMessage', $scope.textConstants.CREATIVE_SAVE_SUCCESS);
-                      } else if (result.data.data.message ===
-                          'Creative with this tag already exists. If you still want to save, use force save') {
+                      } else if (result.data.data.message ==='Creative with this tag already exists. If you still want to save, use force save') {
                           $('.popup-holder').css('display', 'block');
                           $scope.addedSuccessfully = false;
                           $scope.disableCancelSave = true;
@@ -472,7 +495,7 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
           }else{
               postCrDataObj.updatedAt=$scope.creativeEditData.updatedAt;
               workflowService
-                  .updateCreative($scope.campaignId, $scope.creative.advertiserId,$scope.creativeEditData.id,postCrDataObj)
+                  .updateCreative($scope.campaignId, $scope.creativeEditData.advertiserId,$scope.creativeEditData.id,postCrDataObj)
                   .then(function(result){
                       if (result.status === 'OK' || result.status === 'success') {
                           $scope.addedSuccessfully = true;
@@ -502,7 +525,7 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
           $('#formatType').html('Select Format<span class="icon-arrow-down"></span>');
           $('#creativeSize').html('Select Size<span class="icon-arrow-down"></span>');
           $scope.$broadcast('show-errors-reset');
-          if ($location.path() === '/creative/add') {
+          if ($location.path() === '/creative/add'|| ($scope.creativeMode==="edit" && !$scope.adPage)) {
               $location.url('/creative/list');
           } else {
               $('.newCreativeSlide .popCreativeLib')
@@ -565,6 +588,7 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
           $scope.Message = 'Unable to create Creatives';
           // enable cancel, save button on cancel duplicate
           $scope.disableCancelSave = false;
+          $scope.savingCreative=false;
 
       };
 

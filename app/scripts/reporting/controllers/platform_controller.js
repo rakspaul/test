@@ -2,15 +2,16 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
         'common/services/data_service', 'common/services/constants_service', 'reporting/models/domain_reports',
         'reporting/timePeriod/time_period_model', 'login/login_model', 'common/services/role_based_service',
         'reporting/advertiser/advertiser_model', 'reporting/brands/brands_model',
-        'common/services/url_service','reporting/strategySelect/strategy_select_directive','reporting/strategySelect/strategy_select_controller','reporting/timePeriod/time_period_pick_directive'
+        'common/services/url_service', 'common/services/features_service',
+        'reporting/strategySelect/strategy_select_directive','reporting/strategySelect/strategy_select_controller','reporting/timePeriod/time_period_pick_directive'
     ],
 
     function (angularAMD) {    'use strict';
-        angularAMD.controller('PlatformController', function ($scope, kpiSelectModel, campaignSelectModel, strategySelectModel,
+        angularAMD.controller('PlatformController', function ($scope, $rootScope, kpiSelectModel, campaignSelectModel, strategySelectModel,
                                                       dataService, constants, domainReports,
                                                       timePeriodModel, loginModel, RoleBasedService,
                                                       advertiserModel, brandsModel,
-                                                      urlService) {
+                                                      urlService, featuresService) {
 
         $scope.textConstants = constants;
 
@@ -430,6 +431,13 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
             $scope.selected_filters2.kpi_type = kpiSelectModel.getSelectedKpiAlt();
         });
 
+        var fparams = featuresService.getFeatureParams();
+        $scope.showCostWidget = fparams[0]['cost'];
+
+        var featuredFeatures = $rootScope.$on('features', function () {
+            var fparams = featuresService.getFeatureParams();
+            $scope.showCostWidget = fparams[0]['cost'];
+        });
 
         $scope.$on('dropdown-arrow-clicked', function (event, args, sortorder) {
             if ($scope.selected_tab === "viewability") {

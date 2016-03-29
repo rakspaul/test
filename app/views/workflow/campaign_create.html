@@ -171,7 +171,7 @@
 									<label for="advertiserDDL" class="col-sm-12  greyTxt miniLabels">{{ textConstants.ADVERTISERS }}</label>
 									<div class="col-md-12 zeroPadding dropdown-workflow">
 										<div class="dropdown">
-											<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+											<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ng-click="hideMediaPlanDropdown()">
 												<span class="text">{{mode == 'edit' ? editCampaignData.advertiserName : 'Select Advertiser' }}</span>
 												<span class="icon-arrow-down"></span>
 											</button>
@@ -187,8 +187,8 @@
 									<label for="brandDDL" class="col-sm-12  greyTxt miniLabels">{{ textConstants.BRAND }}</label>
 									<div class="col-md-12 zeroPadding dropdown-workflow">
 										<div class="dropdown">
-											<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-												<span class="text">{{mode == 'edit' ? editCampaignData.brandName : 'Select Brand' }}</span>
+											<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ng-click="hideMediaPlanDropdown()" ng-disabled=" workflowData.brands.length == 0">
+												<span class="text">{{mode == 'edit' ? editCampaignData.brandName : 'Select Brand' }} </span>
 												<span class="icon-arrow-down"></span>
 											</button>
 											<ul class="dropdown-menu" aria-labelledby="brandDDL"  id="brandDDL">
@@ -649,7 +649,7 @@
 									<h3>Integrated Platforms</h3>
 									<label for="primaryKPI" class="col-sm-12 greyTxt miniLabels">Select as many as you require</label>
 									<input type="text" class="col-md-12 keyword-txt intPlatInput" ng-keyup="showKeywords(keywordText)" ng-focus="showKeyFocus(intPlatInput)" ng-model="keywordText"/>
-									<label class="keywordWrap" ng-repeat="key in selectedKeywords">{{key.displayName}} <span class="icon-close" ng-click="removeKeyword(key);"></span></label>
+									<label class="keywordWrap" ng-repeat="key in selectedKeywords">{{key.name}} <span class="icon-close" ng-click="removeKeyword(key);"></span></label>
 									<ul ng-if="platformKeywords.length>0" class="dropdown-menu intPlatWrap" role="menu" id="keywordsList" ng-style="dropdownCss">
 										<li ng-repeat="keyword in platformKeywords | filter:keywordText" ng-click="selectKeyword(keyword)">
 											<a>
@@ -690,12 +690,12 @@
 							<h1 class="pull-left">Media Plan Update</h1>
 							<span class="close unselectable" aria-hidden="true" ng-click="cancelRepushCampaign()" >x</span>
 						</div>
-						<div class="popup-content">
-							Save changes to Media Plan set-up and repush to execution <br> platform(s)?
+						<div class="popup-content"  ng-bind-html="(editCampaignData.status === 'DRAFT')?textConstants.MEDIA_PLAN_DRAFT:textConstants.MEDIA_PLAN_NOT_DRAFT">
 						</div>
+                       
 					</div>
 					<div class="clearfix popup-footer" >
-						<button ng-show="!repushCampaignLoader" type="button" ng-click="repushCampaign()" class="common_primary_btn pull-right" >Save & Push</button>
+						<button ng-show="!repushCampaignLoader" type="button" ng-click="repushCampaign()" class="common_primary_btn pull-right" >{{(editCampaignData.status === 'DRAFT')?textConstants.SAVE_LABEL:textConstants.SAVE_PUSH_LABEL}}</button>
 						<div ng-show ="repushCampaignLoader" class="pull-right common-loading-btn" ></div>
 						<button type="button" ng-click="cancelRepushCampaign()"class="secondary_txt pull-right" >Cancel</button>
 					</div>

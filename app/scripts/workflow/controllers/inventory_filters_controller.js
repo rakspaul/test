@@ -56,9 +56,9 @@ define(['angularAMD', 'workflow/services/workflow_service', 'workflow/services/f
                                 } else {
                                     // The saved ad does not contain inventory data. Set all relevant defaults here.
                                     $scope.adData.inventory.domainAction = 'INCLUDE';
-                                    $scope.workflowData.selectedLists = [];
                                     $scope.workflowData.whiteListsSelected = true;
                                     $scope.workflowData.selectedWhiteLists = [];
+                                    $scope.workflowData.selectedLists = [];
                                     $scope.workflowData.blackListsSelected = false;
                                     $scope.workflowData.selectedBlackLists = [];
                                 }
@@ -83,7 +83,12 @@ define(['angularAMD', 'workflow/services/workflow_service', 'workflow/services/f
                                 _.each($scope.workflowData.inventoryData, function(obj) {
                                     obj.checked = false;
                                 });
-                                $scope.workflowData.whiteListsSelected = true;
+                                $scope.workflowData.inventoryDataTemp =
+                                    $.extend(true, [], $scope.workflowData.inventoryData);
+
+                                if (!$scope.workflowData.blackListsSelected) {
+                                    $scope.workflowData.whiteListsSelected = true;
+                                }
                             }
                         });
                 }
@@ -99,8 +104,12 @@ define(['angularAMD', 'workflow/services/workflow_service', 'workflow/services/f
 
                 response.data.domainNamesDisplay = 'collapsed';
 
+                response.data.checked = true;
+
                 if ($scope.inventoryCreate) {
                     inventoryData.push(response.data);
+                    selectedLists.push(response.data);
+
                     _.each(selectedLists, function (val) {
                         if ($scope.workflowData.whiteListsSelected) {
                             val.domainAction = 'INCLUDE';
@@ -108,11 +117,10 @@ define(['angularAMD', 'workflow/services/workflow_service', 'workflow/services/f
                             val.domainAction = 'EXCLUDE';
                         }
                     });
+
                     // Reset the flag variable
                     $scope.inventoryCreate = false;
                 } else {
-                    response.data.checked = true;
-
                     _.each(inventoryData, function(obj, idx) {
                         if (obj.id === response.data.id) {
                             inventoryData[idx] = response.data;
@@ -125,13 +133,13 @@ define(['angularAMD', 'workflow/services/workflow_service', 'workflow/services/f
                         }
                     });
 
-                    if (response.data.domainAction === 'INCLUDE') {
-                        $scope.workflowData.selectedWhiteLists = selectedLists;
-                    } else {
-                        $scope.workflowData.selectedBlackLists = selectedLists;
-                    }
-
                     $scope.adData.inventory = response.data;
+                }
+
+                if (response.data.domainAction === 'INCLUDE') {
+                    $scope.workflowData.selectedWhiteLists = selectedLists;
+                } else {
+                    $scope.workflowData.selectedBlackLists = selectedLists;
                 }
 
                 $scope.domainUploadInProgress = false;
@@ -535,14 +543,13 @@ define(['angularAMD', 'workflow/services/workflow_service', 'workflow/services/f
             };
 
             $scope.workflowData.initInventory = function() {
-                if ($scope.mode === 'edit') {
-                    if ($scope.adData.inventory.domainAction === 'INCLUDE') {
-                        $('#inventoryFilters').find('.miniToggle .whitelist').addClass('active disabled');
-                    } else {
-                        $('#inventoryFilters').find('.miniToggle .blacklist').addClass('active disabled');
-                    }
-                } else {
+                if (!$scope.adData.inventory.domainAction) {
+                    $scope.adData.inventory.domainAction = 'INCLUDE';
+                }
+                if ($scope.adData.inventory.domainAction === 'INCLUDE') {
                     $('#inventoryFilters').find('.miniToggle .whitelist').addClass('active disabled');
+                } else {
+                    $('#inventoryFilters').find('.miniToggle .blacklist').addClass('active disabled');
                 }
             };
 
@@ -654,6 +661,7 @@ define(['angularAMD', 'workflow/services/workflow_service', 'workflow/services/f
             };
 
             $scope.showDomainListTypePopupCue = function (type, event) {
+console.log("$scope.workflowData.inventoryData = ", $scope.workflowData.inventoryData)
                 var domainListTypePopupCue = $('#domain-list-type-popup-cue');
                 if ($scope.workflowData.selectedBlackLists.length === 0 &&
                     $scope.workflowData.selectedWhiteLists.length === 0) {

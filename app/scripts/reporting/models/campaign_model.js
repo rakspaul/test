@@ -23,9 +23,10 @@ define(['angularAMD'], function (angularAMD) {
             this.orderId = this.id;
             this.startDate = this.start_date;
             this.endDate = this.end_date;
-            this.fromSuffix = ''
-            this.toSuffix = ''
+            this.fromSuffix = '';
+            this.toSuffix = '';
             this.campaignTitle = this.name;
+            this.campaignTitleHtml = this.name;
             this.brandName = this.brand_name;
             this.statusIcon = this.status;
             this.kpiType = this.kpi_type;
@@ -39,18 +40,18 @@ define(['angularAMD'], function (angularAMD) {
             this.tacticMetrics = [];
             this.chart = true;
             this.campaignStrategiesLoadMore = null;
-        }
+        };
 
         //following are redundant variables and should be removed from single campaign object as they are properties of campaign list.
         this.periodStartDate = '';
         this.periodEndDate = '';
         this.constructor = function () {
             return this;
-        },
+        };
 
-            this.setMomentInNetworkTz = function (momentInNetworkTZ) {
-                this.momentInNetworkTZ = momentInNetworkTZ;
-            }
+        this.setMomentInNetworkTz = function (momentInNetworkTZ) {
+            this.momentInNetworkTZ = momentInNetworkTZ;
+        };
 
         this.durationLeft = function () {
             //      console.log('durationLeft called: ' + this.startDate + " : " + this.endDate);
@@ -74,23 +75,23 @@ define(['angularAMD'], function (angularAMD) {
                 return "Started today";
             }
             return Math.round(endDate.diff(today, 'days', true)) + 1;
-        },
+        };
 
-            this.durationCompletion = function () {
-                var today = this.momentInNetworkTZ.today(),
-                    endDate = this.momentInNetworkTZ.newMoment(this.endDate),
-                    startDate = this.momentInNetworkTZ.newMoment(this.startDate);
-                if (today.isBefore(startDate)) {
-                    return 0;
-                }
-                if (endDate.isBefore(today)) {
-                    return 100;
-                }
-                var totalDays = endDate.diff(startDate, 'days') + 1,
-                    daysOver = Math.round(today.diff(startDate, 'days', true));
+        this.durationCompletion = function () {
+            var today = this.momentInNetworkTZ.today(),
+                endDate = this.momentInNetworkTZ.newMoment(this.endDate),
+                startDate = this.momentInNetworkTZ.newMoment(this.startDate);
+            if (today.isBefore(startDate)) {
+                return 0;
+            }
+            if (endDate.isBefore(today)) {
+                return 100;
+            }
+            var totalDays = endDate.diff(startDate, 'days') + 1,
+                daysOver = Math.round(today.diff(startDate, 'days', true));
 
-                return Math.round((daysOver / totalDays) * 100);
-            };
+            return Math.round((daysOver / totalDays) * 100);
+        };
 
         this.daysSinceEnded = function () {
             var today = this.momentInNetworkTZ.today(),

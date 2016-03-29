@@ -264,6 +264,12 @@ define(['angularAMD','reporting/common/d3/gantt_chart','reporting/models/gantt_c
             }
         });
 
+     /* $scope.$on(constants.EVENT_SUB_ACCOUNT_CHANGED, function (event, args) {
+          if (args.event_type === 'clicked') {
+              $scope.refresh();
+          }
+      });*/
+
         $scope.getMessageForDataNotAvailable = function () {
             return constants.MSG_DATA_NOT_AVAILABLE_FOR_DASHBOARD;
         };

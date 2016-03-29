@@ -31,5 +31,17 @@
     <!-- @if ENV='local' -->
         <script src="http://localhost:35729/livereload.js?snipver=1" type="text/javascript"></script>
     <!-- @endif -->
+
+    <div class="myModal modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="about_popup">
+            <span class="close unselectable" data-dismiss="modal" aria-hidden="true">×</span>
+            <div class="logo"></div>
+            <div class="version_detail">Version {{version}}</div>
+            <div class="copyright_section">
+                <div>Copyright &copy; 2016, Collective, Inc.</div>
+                <div class="rights_text">All Rights Reserved</div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

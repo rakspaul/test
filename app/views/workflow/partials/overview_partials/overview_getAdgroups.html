@@ -1,7 +1,6 @@
 <div class="col-md-12 adGroup" ng-repeat="adGroupsData in workflowData.campaignGetAdGroupsData">
     <div class="adTitle" >
-
-        <div class="col-md-12 zeroPadding">
+        <div class="col-md-12 zeroPadding adgroupDiv" >
             <a class="collapseIcon" role="button" id="{{$index+1}}" href="" ng-click="ToggleAdGroups(this,adGroupsData.adGroup.id,$index+1, $event)">
                 <span class="icon-plus" ></span>
             </a>
@@ -9,8 +8,8 @@
             <h4 class="pull-left adGroupTxt adGroupTxtName" title="{{adGroupsData.adGroup.name}}" data-ng-bind="adGroupsData.adGroup.name"></h4>
 
             <div class="pillsWrap" >
-                <span class="labelPills" ng-if="adGroupsData.labels.length > 0">/</span>
-                <span class="labelPills" ng-repeat="label in adGroupsData.labels">{{label}}</span>
+                <span class="labelPills" ng-if="adGroupsData.labels.length > 0"></span>
+                <span class="labelPills" ng-repeat="label in adGroupsData.labels" ng-bind="label"></span>
             </div>
 
             <div class="zeroPadding dropdown-workflow pull-right hideCollapse" style="position: absolute; right: 0;">
@@ -22,12 +21,13 @@
                             aria-expanded="true">
                         <span class="icon-more-options"></span>
                     </button>
-                    <ul class="dropdown-menu" id="moreOptionsAdsGroup" style="right: 0; left: initial;">
-                        <li><a class="available" data-ng-bind="textConstants.EDIT"></a></li>
+                    <ul class="dropdown-menu" id="moreOptionsAdsGroup" style="right: 0; left: initial;" >
+                        <li edit-ad-group-section ad-group-data="{{adGroupsData}}"  ad-group-index="{{$index+1}}" ><a class="available" data-ng-bind="textConstants.EDIT"></a></li>
                         <li class="disabled"><a class="available" data-ng-bind="textConstants.WF_PAUSE"></a></li>
                         <li class="disabled"><a class="available" data-ng-bind="textConstants.WF_RESUME"></a></li>
                         <li class="disabled"><a class="available" data-ng-bind="textConstants.WF_ARCHIVE"></a></li>
                     </ul>
+
                 </div>
             </div>
 
@@ -85,11 +85,13 @@
 
             </div>
         </div>
+        <div class="editAdgroupDiv" ></div>
     </div>
 
-    <div id="collapseAdGroup" ng-show="showHideToggle">
+    <div id="collapseAdGroup" ng-show="showHideToggle" class="singleCardWrap">
+        <div ng-if="adgroupId" class="overlay"></div>
         <!--=== Create BTN Ad ===-->
-        <div class="col-md-3 adModule adCreateBtn" ng-click="createAdforAdGroup(adGroupsData.adGroup.id,adGroupsData.adGroup.startTime,adGroupsData.adGroup.endTime,calculateSpendBudget(adGroupsData.adGroup))">
+        <div class="col-md-3 adModule adCreateBtn" ng-click="createAdforAdGroup(adGroupsData.adGroup.id,adGroupsData.adGroup.startTime,adGroupsData.adGroup.endTime,calculateSpendBudget(adGroupsData.adGroup),adGroupsData.adGroup.deliveryBudget)">
             <div class="col-md-12">
                 <a href="#"
                    class="col-md-12 text-center addMaster">
@@ -104,7 +106,7 @@
         </div>
         <div ng-if="workflowData.getADsForGroupData[$index+1]">
             <!--=== Single Ad Ready ===-->
-            <div class="col-md-3 adModule" ng-repeat="adsData in workflowData.getADsForGroupData[$index+1] track by adsData.id" ng-click="adsData.state=='DEPLOYING' ? '': goEdit(adsData)">
+            <div class="col-md-3 adModule" ng-repeat="adsData in workflowData.getADsForGroupData[$index+1] track by adsData.id" ng-click="adsData.state=='DEPLOYING' ? '': goEdit(adsData,calculateSpendBudget(adGroupsData.adGroup),adGroupsData.adGroup.deliveryBudget)">
                 <div class="col-md-12 adTitle">
                     <div class="clearfix">
                         <img ng-src="{{adsData.platform.iconUrl}}"

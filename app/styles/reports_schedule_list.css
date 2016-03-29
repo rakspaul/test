@@ -20,6 +20,10 @@
 }
 .reports-scheduled-list .scheduled_list_table {
   margin-bottom: 40px ;
+  background: #fff;
+}
+.reports-scheduled-list .scheduled_list_table .table-header {
+  border-bottom: 2px solid #939eae;
 }
 .reports-scheduled-list .scheduled_list_table .row {
   margin: 0 ;
@@ -31,15 +35,20 @@
 .reports-scheduled-list .scheduled_list_table .table-th,
 .reports-scheduled-list .scheduled_list_table .table-td {
   float: left;
-  min-height: 51px ;
+  min-height: 36px ;
 }
 .reports-scheduled-list .scheduled_list_table .table-th .col-md-9:first-child,
 .reports-scheduled-list .scheduled_list_table .table-td .col-md-9:first-child {
   padding-left: 40px ;
   background-image: url("/images/cdesk/common_side_arrow.png");
   background-repeat: no-repeat;
-  background-position: left 15px center ;
+  background-position: 15px 16px;
   cursor: pointer;
+}
+.reports-scheduled-list .scheduled_list_table .table-th .col-md-9.arrow:first-child,
+.reports-scheduled-list .scheduled_list_table .table-td .col-md-9.arrow:first-child {
+  background-image: none !important;
+  padding-left: 22px;
 }
 .reports-scheduled-list .scheduled_list_table .table-th .no-instance,
 .reports-scheduled-list .scheduled_list_table .table-td .no-instance {
@@ -52,12 +61,13 @@
   cursor: pointer;
 }
 .reports-scheduled-list .scheduled_list_table div.name-col .col-md-9 {
-  padding: 15px 0;
+  padding: 10px 15px 0;
+  min-height: 64px;
 }
 .reports-scheduled-list .scheduled_list_table div.name-col .more-options {
   float: right;
   border-width: 0;
-  margin: 9px 0 0 0;
+  margin: 2px 0 0 0;
   min-height: auto;
   background: transparent !important;
 }
@@ -72,13 +82,13 @@
   width: 65px ;
   padding-left: 5px;
   padding-right: 0;
-  border-left: 1px none #edf2f8;
+  border-left: 1px none rgba(191, 201, 215, 0.5);
 }
 .reports-scheduled-list .scheduled_list_table .common-sort-icon {
   display: inline-block;
 }
 .reports-scheduled-list .scheduled_list_table .table-body .downloaded {
-  font-family: "Avenir-bold";
+  font-family: "Avenir";
 }
 .reports-scheduled-list .scheduled_list_table .row.open .table-td .col-md-9:first-child {
   background-image: url("/images/cdesk/common_down_arrow.png");
@@ -94,6 +104,18 @@
   background-color: #DCE6F1;
 }
 .reports-scheduled-list .scheduled_list_table .rowHover:hover .hideOption {
+  display: block;
+}
+.reports-scheduled-list .scheduled_list_table .inner-row {
+  background-color: #f7f7f7;
+}
+.reports-scheduled-list .scheduled_list_table .inner-row .hideOption {
+  display: none;
+}
+.reports-scheduled-list .scheduled_list_table .inner-row .rowHover:hover {
+  background-color: #f7f7f7;
+}
+.reports-scheduled-list .scheduled_list_table .inner-row .rowHover:hover .hideOption {
   display: block;
 }
 .reports-scheduled-list .scheduled_list_table .table-td.more-options {
@@ -123,9 +145,6 @@
   background: #FFFFFF ;
 }
 .reports-scheduled-list .scheduled_list_table .table-td.more-options .dropdown:hover {
-  background: #FFFFFF ;
-}
-.reports-scheduled-list .scheduled_list_table .table-td.more-options .dropdown.open {
   background: #FFFFFF ;
 }
 .reports-scheduled-list .scheduled_list_table .table-td.more-options .headerDownload {
@@ -168,16 +187,20 @@
 }
 .reports-scheduled-list .scheduled_list_table .row .inner-row {
   display: none;
+  background-color: #f7f7f7 !important;
 }
 .reports-scheduled-list .scheduled_list_table .row .inner-row .table-td:first-child {
   background-image: none ;
   padding-left: 30px;
   cursor: text;
 }
+.reports-scheduled-list .scheduled_list_table .row .inner-row .table-td .col-md-9 {
+  background-image: none !important;
+}
 .reports-scheduled-list .scheduled_list_table .table-th {
   padding: 20px;
-  border-color: #d2dee7  ;
-  border-width: 1px 0 2px 0px ;
+  border-color: #bfc9d7;
+  border-width: 1px 0 0 0;
   border-style: solid ;
   font-family: Avenir-bold;
   color: #57606D;
@@ -190,10 +213,11 @@
   border-right-width: 1px  ;
 }
 .reports-scheduled-list .scheduled_list_table .table-td {
-  border-color: #bfc9d7  ;
+  border-color: rgba(191, 201, 215, 0.5);
   border-width: 0px 0 1px 1px ;
   border-style: solid ;
-  padding: 15px 20px;
+  padding: 10px 20px;
+  height: 36px;
 }
 .reports-scheduled-list .scheduled_list_table .table-td:last-child {
   border-right-width: 1px  ;
@@ -212,7 +236,7 @@
   width: 325px ;
 }
 #searchList .btn_list_filters {
-  margin-bottom: 20px;
+  margin-bottom: 15px;
 }
 #searchList .icon-plus {
   margin: -1px 10px 2px 4px;
@@ -237,7 +261,7 @@
   border-top-left-radius: 2px;
   border-bottom-left-radius: 2px;
 }
-#searchList .searchInput {
+#searchList .searchInputSchedule {
   width: auto;
   border-top: 1px solid #BFC9D7;
   border-bottom: 1px solid #BFC9D7;
@@ -246,21 +270,21 @@
   border-bottom-left-radius: 2px;
   float: left;
 }
-#searchList .searchInput a.btn {
+#searchList .searchInputSchedule a.btn {
   cursor: pointer;
   height: 34px;
   padding: 10px 15px;
   border-width: 0;
 }
-#searchList .searchInput .input-group {
+#searchList .searchInputSchedule .input-group {
   position: relative;
   display: none;
   width: 34px;
 }
-#searchList .searchInput .input-group input {
+#searchList .searchInputSchedule .input-group input {
   border-width: 0;
 }
-#searchList .searchInput .input-group .btn {
+#searchList .searchInputSchedule .input-group .btn {
   position: absolute;
   z-index: 10;
   top: 0px;
@@ -272,11 +296,14 @@
   height: 34px;
   border-left: 1px solid #BFC9D7;
 }
-#searchList .searchInput .input-group .btn [class^="icon-"],
-#searchList .searchInput .input-group .btn [class*=" icon-"] {
+#searchList .searchInputSchedule .input-group .btn [class^="icon-"],
+#searchList .searchInputSchedule .input-group .btn [class*=" icon-"] {
   float: right;
   cursor: pointer;
   margin: 10px 15px;
   top: 0;
   right: 0;
+}
+#searchList .searchInputSchedule .searchInputForm input {
+  border-width: 0px !important;
 }

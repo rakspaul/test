@@ -2,25 +2,45 @@
     <!--Campaign Title-->
     <div class="col-md-12 zeroPadding">
         <!--Status Icon-->
-        <div class="pull-left campaign_status_icon {{campaign.status.toLowerCase()}}_bulb" tooltip-placement="bottom" tooltip="{{campaign.status.toLowerCase() == 'in_flight'?'In Flight':( campaign.status.toLowerCase() | toTitleCase ) }}"></div>
+        <div class="pull-left campaign_status_icon {{campaign.status.toLowerCase()}}_bulb"
+             tooltip-placement="bottom"
+             tooltip="{{campaign.status.toLowerCase() == 'in_flight' ?
+             'In Flight':( campaign.status.toLowerCase() | toTitleCase ) }}">
+        </div>
 
         <!--Title / Brand Name-->
         <div class="pull-left main_heading">
             <a ng-if="!$parent.isWorkFlowUser" ng-href="/mediaplans/{{campaign.orderId}}" id="campaign_heading_anchor">
-                <truncate-text-with-hover txt="{{campaign.campaignTitle}}" txtlength="75" lst-campaign=campaign>
+                <truncate-text-with-hover
+                        txt="{{campaign.campaignTitle}}"
+                        txt-html="{{campaign.campaignTitleHtml}}"
+                        txtlength="75"
+                        lst-campaign=campaign>
                 </truncate-text-with-hover>
             </a>
             <a ng-if="$parent.isWorkFlowUser"
                ng-click="redirectTo(campaign, campaigns.dashboard.appliedFilterType, $event)">
-                <truncate-text-with-hover txt="{{campaign.campaignTitle}}" txtlength="75" lst-campaign=campaign>
+                <truncate-text-with-hover
+                        txt="{{campaign.campaignTitle}}"
+                        txt-html="{{campaign.campaignTitleHtml}}"
+                        txtlength="75"
+                        lst-campaign=campaign>
                 </truncate-text-with-hover>
             </a>
         </div>
+        <!--Brand Name-->
+        <div class="heading" ng-bind="campaign.adv_name"></div>
     </div>
 
-    <!--Brand Name-->
+    <!--Label Pills-->
     <div class="col-md-12 zeroPadding">
-        <div class="heading" ng-bind="campaign.adv_name" style="padding-left: 25px;"></div>
+        <div class="pillsWrap">
+            <span ng-if="campaign.labels.length > 0"></span>
+            <span class="labelPills {{addHighlightClass(label, '</mark>') ? ' brand_search_highlight' : ''}}"
+                  ng-repeat="label in campaign.labels"
+                  ng-bind-html="label">
+            </span>
+        </div>
     </div>
 
     <!--Time Left-->
@@ -33,16 +53,25 @@
                 </div>
                 <div ng-init="duration=campaign.durationLeft()"></div>
                 <div class="days_over" ng-style="{'width':campaign.durationCompletion() +'%'};">
-                    <span ng-if="duration == 'Yet to start'"  class="days_over_text start_text" ng-bind="textConstants.YET_TO_START"></span>
-                    <span ng-if="duration == 'Ended'" class="days_over_text ended_text" ng-bind="textConstants.ENDED"></span>
-                    <span ng-if="duration > 0"   class="days_over_text">{{duration}} {{ textConstants.DAYS_LEFT }}</span>
+                    <span ng-if="duration == 'Yet to start'"
+                          class="days_over_text start_text"
+                          ng-bind="textConstants.YET_TO_START">
+                    </span>
+                    <span ng-if="duration == 'Ended'"
+                          class="days_over_text ended_text"
+                          ng-bind="textConstants.ENDED">
+                    </span>
+                    <span ng-if="duration > 0"
+                          ng-bind="duration + ' ' + textConstants.DAYS_LEFT"
+                          class="days_over_text">
+                    </span>
                 </div>
                 <div ng-if="duration == 'Started today'" class="days_not_over_text start_text" ng-bind="textConstants.STARTED_TODAY"></div>
                 <div ng-if="duration == 'Ending today'" class="days_not_over_text ended_text" ng-bind="textConstants.ENDING_TODAY"></div>
             </div>
         </div>
         <div class="clearfix campaigns_list_buttons_holder">
-            <a id="campaigns_view_report"  ng-if="showReportsOverview"> <!-- href="/#/performance" -->
+            <a id="campaigns_view_report"  ng-show="showReportsOverview"> <!-- href="/#/performance" -->
                 <div class="btn btn-default pull-right" ng-click="$parent.viewReports(campaign)" style="margin-left: 10px;" ng-bind="textConstants.VIEW_REPORT">
                 </div>
             </a>

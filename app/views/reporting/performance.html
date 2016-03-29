@@ -11,7 +11,7 @@
         <!-- <div id="performance_strategies_dd" ng-show="isStrategyDropDownShow">
             <strategy-drop-down selected-obj=selectedStrategy ></strategy-drop-down >
         </div> -->
-         <div class="clearfix page_top_header col-md-12">
+         <div class="clearfix page_top_header">
             <div class="pull-left col-md-6 page_name">
                 Performance Report
             </div>
@@ -60,6 +60,11 @@
                             <div class="each_tab " id="bydaysofweek">
                                 <div class="each_tab_text">
                                     {{textConstants.DAYS_OF_WEEK}}
+                                </div>
+                            </div>
+                            <div class="each_tab " id="bydiscrepancy">
+                                <div class="each_tab_text">
+                                    {{textConstants.DISCREPANCY}}
                                 </div>
                             </div>
 
@@ -137,6 +142,45 @@
                         </div>
                     </div>
                     <!-- -------END :  Days of week Block ----------------------------- -->
+
+                    <!-- -------START :  Discrepancy Block ----------------------------- -->
+                    <div class="col-md-12 zeroPadding" ng-class="adFormats.videoAds ? 'reports_block quar_data' : 'reports_block' " id="reports_bydiscrepancy_block" style="display:none">
+                        <div class="no_data_found" ng-if="dataNotFoundForDiscrepancy" ng-bind-html="getMessageForDataNotAvailable(selectedCampaign)"></div>
+                        <div class="reports_details_outer_container"  ng-if="!dataNotFoundForDiscrepancy">
+                            <!--Header-->
+                            <div class="clearfix reports_performance_header" ng-hide="screenBusy">
+                                <discrepancy-header></discrepancy-header>
+                            </div>
+                            <!--Discrepancy Container-->
+                            <div class="col-md-12 zeroPadding strategy_total_container ">
+                                <div class="strategy_total_container_header clearfix">
+                                    <div class="col-md-12" ng-hide="screenBusy" style="font-size: 18px; margin: 5px 0 20px 0;">
+                                        {{strategyHeading}}:
+                                    </div>
+                                    <div class="row_list_holder clearfix">
+                                        <div class="common-load-icon" ng-show="screenBusy"></div>
+                                        <div class="col-md-12 zeroPadding" ng-show="!screenBusy" ng-repeat="vendor in strategyPerfDataByDiscrepancy" ng-include="'discrepancyTpl'"></div>
+                                    </div>
+                                </div>
+
+                                <div class="all_strategies_holder" ng-show="!screenBusy">
+                                    <div class="each_strategy_holder clearfix" ng-repeat="tactic in groupThem | orderBy:sortTypeScreens:sortReverse track by $index" ng-if="showPerfMetrix == true" >
+                                        <div class="linkage_bar"></div>
+                                        <div class="each_strategy clearfix">
+                                            <div class="each_col first_col">
+                                                {{tactic.name}}
+                                            </div>
+                                            <div class="row_list_holder">
+                                                <div class="clearfix each_row_list" ng-repeat="vendor in tactic.perf_metrics | orderBy:sortTypeScreens:sortReverse track by $index" ng-include="'discrepancyTpl'">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- -------END :  Discrepancy Block ----------------------------- -->
 
                     <!-- -------START :  Format Block ----------------------------- -->
                     <div ng-class="adFormats.videoAds ? 'reports_block quar_data' : 'reports_block' " id="reports_byformats_block" style="{{defaultDisplayFormat}}">
@@ -524,3 +568,42 @@
 
 
 </script>
+<!--Discrepancy Table Columns Starts-->
+<script type="text/ng-template" id="discrepancyTpl">
+    <!--Row 1-->
+    <div class="col-md-12 discrepancyTplRow"  data-row-index="{{$index}}" ng-class="{open:vendor.nodes.length > 1}" >
+        <div class="col-md-12 zeroPadding">
+                    
+
+            <strong class="pull-left discrepancyName" ng-class="{rowHasSubRow:vendor.nodes.length > 1}" data-ng-click="discrepancy_click_first_level($index , $event)">
+                <span class="pull-left icon-arrow-down" ng-if="vendor.nodes.length > 1" ></span>
+                <span class="pull-left platform_logo_img" ng-if="vendor.nodes.length == 1"><img ng-src="{{performanceIconUrl(vendor.nodes[0].name)}}" err-src="/images/platform_favicons/platform_logo.png" style="max-width: 10px;"></span>
+                <span ng-bind="vendor.nodes.length > 1 ? vendor.category : vendor.nodes[0].name" style="margin-left: 10px"></span>
+            </strong>
+
+
+            <!--Column 2-->
+            <strong class="col-md-2 text-right">{{((vendor.imps >0) || (vendor.imps == 0)) ? (vendor.imps | nrFormat) : '-'}}</strong>
+
+            <!--Column 3-->
+            <strong class="col-md-2" data-ng-bind="getDiscrepancyImpsGap(vendor.imps, vendor.ad_id) | nrFormat"></strong>
+
+            <!--&lt;!&ndash;Column 4&ndash;&gt;vendor.imps?((selectedVendorImps - vendor.imps)/vendor.imps):0   ((      (!selectedVendorImps && !vendor.imps) ? 0 :    ) * 100 | nrFormat | positive) + '%'-->
+            <strong class="col-md-2 text-right" data-ng-bind="getRateOfDiscrepancy(vendor.imps, vendor.ad_id) | setDecimal:2 "></strong>
+        </div>
+
+
+        <div class="col-md-12 zeroPadding discrepancySecLevel" id="discrepancy_2nd_level_{{$index}}" ng-if="vendor.nodes.length > 1">
+
+            <div class="col-md-12 zeroPadding discrepancySecLevelRow" data-ng-repeat="node in vendor.nodes" >
+                <span class="pull-left platform_logo_img"><img ng-src="{{performanceIconUrl(node.name)}}" style="max-width: 10px;"></span>
+                <span data-ng-bind="node.name" class="pull-left discrepancySecLevelName"></span>
+
+                <div class="col-md-2 text-right" ng-bind="((node.imps >0) || (node.imps == 0)) ? (node.imps | nrFormat) : '-'" style="padding:0"></div>
+                <!--<div class="col-md-2">0</div>-->
+                <!--<div class="col-md-2 text-right">0 %</div>-->
+            </div>
+        </div>
+    </div>
+</script>
+<!--Discrepancy Table Columns Ends-->

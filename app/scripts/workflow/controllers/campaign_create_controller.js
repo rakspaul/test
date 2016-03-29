@@ -538,7 +538,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                         $scope.enableDisableCalculationType();
                     }
                     if ($scope.editCampaignData.preferredPlatforms) {
-                        $scope.selectedKeywords = $scope.editCampaignData.preferredPlatforms['fullIntegrationsPlatforms'];
+                        $scope.selectedKeywords = $scope.editCampaignData.preferredPlatforms;
                     }
 
                     $scope.initiateDatePicker();
@@ -757,13 +757,13 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             switch (type) {
                 case 'client' :
                     $scope.workflowData['advertisers'] = {};
-                    $scope.workflowData['brands'] = {};
+                    $scope.workflowData['brands'] = [];
                     $scope.selectedCampaign.advertiser = '';
                     $scope.selectedCampaign.clientId = data.id;
                     createCampaign.fetchAdvertisers(data.id);
                     break;
                 case 'advertiser' :
-                    $scope.workflowData['brands'] = {};
+                    $scope.workflowData['brands'] = [];
                     $scope.selectedCampaign.brand = '';
                     $scope.selectedCampaign.advertiserId = data.id;
                     $("#brandDDL").parents('.dropdown').find('button').html("Select Brand <span class='icon-arrow-down'></span>");
@@ -985,6 +985,9 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             $(".eachStepCompLabel")[pageno].classList.add("active");
         }
 
+         $scope.hideMediaPlanDropdown = function(){
+                $('.multiSelectDDL').hide();
+         }
         $(function () {
             $(".main_navigation_holder").find('.active_tab').removeClass('active_tab') ;
             $(".main_navigation").find('.active').removeClass('active').end().find('#campaigns_nav_link').addClass('active');

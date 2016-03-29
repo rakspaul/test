@@ -21,6 +21,10 @@
   }
   .scheduled_list_table {
     margin-bottom: 40px ;
+    background: #fff;
+    .table-header {
+      border-bottom: 2px solid #939eae;
+    }
     .row {
       margin: 0 ;
     }
@@ -32,16 +36,24 @@
     .table-th , .table-td  {
       float: left;
       //width: 200px ;
-      min-height: 51px ;
+      min-height: 36px ;
       .col-md-9 {
         &:first-child {
             padding-left: 40px ;
             background-image : url("/images/cdesk/common_side_arrow.png") ;
             background-repeat: no-repeat  ;
-            background-position: left 15px center ;
+            background-position: 15px 16px;
             cursor: pointer;
             }
         }
+
+        .col-md-9.arrow {
+            &:first-child {
+                background-image: none !important;
+                padding-left:22px;
+             }
+        }
+
         .no-instance {
             background-image: none !important;
             cursor: initial !important;
@@ -52,13 +64,14 @@
       padding: 0 5px 0 0px;
       cursor: pointer;
       .col-md-9 {
-        padding: 15px 0;
+        padding: 10px 15px 0;
+        min-height: 64px;
       }
 
       .more-options {
         float: right;
         border-width: 0;
-        margin: 9px 0 0 0;
+        margin: 2px 0 0 0;
         min-height: auto;
         background: transparent !important;
         .dropdown:hover {
@@ -78,14 +91,14 @@
       width: 65px ;
       padding-left: 5px;
       padding-right: 0;
-      border-left:1px none #edf2f8;
+      border-left:1px none rgba(191, 201, 215, 0.5);
     }
     .common-sort-icon {
       display: inline-block;
     }
     .table-body {
       .downloaded {
-        font-family: "Avenir-bold" ;
+        font-family: "Avenir" ;
       }
     }
     .row.open {
@@ -113,6 +126,21 @@
               display:block;
           }
       }
+
+      .inner-row {
+           background-color: #f7f7f7;
+             .hideOption {
+                 display:none;
+             }
+            .rowHover:hover {
+                background-color: #f7f7f7;
+                 .hideOption {
+                     display:block;
+                  }
+           }
+      }
+
+
     .table-td.more-options {
       overflow: visible;
       padding: 0;
@@ -141,9 +169,7 @@
           background: #FFFFFF ;
         }
       }
-      .dropdown.open {
-        background: #FFFFFF ;
-      }
+
         .headerDownload {
                 border-top:1px solid #ccd2da;
                 padding: 5px 15px !important;
@@ -186,6 +212,7 @@
     .row {
       .inner-row {
         display: none;
+        background-color: #f7f7f7 !important;
         .table-td {
           //background-color: #fff  ;
           &:first-child {
@@ -193,13 +220,16 @@
             padding-left: 30px;
             cursor: text;
           }
+          .col-md-9 {
+            background-image: none !important;
+          }
         }
       }
     }
     .table-th  {
       padding: 20px;
-      border-color: #d2dee7  ;
-      border-width: 1px 0 2px 0px ;
+      border-color: #bfc9d7;
+      border-width: 1px 0 0 0;
       border-style: solid ;
       font-family:Avenir-bold;
       color: #57606D;
@@ -212,10 +242,11 @@
       }
     }
     .table-td {
-      border-color: #bfc9d7  ;
+      border-color: rgba(191, 201, 215, 0.5);
       border-width: 0px 0 1px 1px ;
       border-style: solid ;
-      padding: 15px 20px;
+      padding: 10px 20px;
+      height: 36px;
       //background-color: #ffffff ;
       &:last-child {
         border-right-width : 1px  ;
@@ -248,7 +279,7 @@
 
 #searchList {
     .btn_list_filters {
-        margin-bottom:20px;
+        margin-bottom:15px;
     }
     .icon-plus {
         margin: -1px 10px 2px 4px;
@@ -273,7 +304,7 @@
         border-bottom-left-radius: 2px;
     }
 
-    .searchInput {
+    .searchInputSchedule {
         width: auto;
         border-top: 1px solid #BFC9D7;
         border-bottom: 1px solid #BFC9D7;
@@ -315,6 +346,12 @@
 
             }
         }
+        .searchInputForm {
+            input {
+                border-width: 0px !important;
+            }
+        }
+
     }
 }
 

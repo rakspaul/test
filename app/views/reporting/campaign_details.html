@@ -8,7 +8,7 @@
         </div>
         <div ng-show="(isWorkFlowUser && campaign.is_archived == false)">
             <!-- action filter -->
-            <form ng-controller="ActionsController" id="crActivityForm">
+            <form ng-controller="ActionsController" id="crActivityForm" ng-show="showOptimization">
                 <div class="action_filter_holder">
                     <div class="heading" ng-bind="textConstants.CREATE_ACTIVITY"></div>
                     <span id="activityMessage" ng-style="action.disableTagButton" ng-bind="textConstants.ACTIVITY_CREATED_SUCCESSFULLY_VIEW_ACTIVITY_LOG"></span>
@@ -61,7 +61,7 @@
                             <div id="error_more_comment" class="error_message"></div>
                         </div>
                         <div class="pull-right submit_btn_holder">
-                            <input type="button" class="submit_btn" value="Submit"
+                            <input type="button" class="btn btn-primary" value="Submit"
                                    ng-disabled="action.submitBtnDisabled" id="action_submit_btn"
                                    ng-click="createAction()">
                         </div>
@@ -78,7 +78,7 @@
                 <div class="col-md-12">
                     <div class="carousel slide" id="myCarousel">
                         <div class="carousel-inner">
-                            <div class="item active" id="costWidget" ng-if="showCostWidget===true">
+                            <div class="item active" id="costWidget" ng-show="showCostWidget">
                                 <div class="col-xs-3">
                                     <div ng-click="setGraphData(campaign,'cost')" tooltip-placement="top"
                                          tooltip="Click for detailed reports"
@@ -189,9 +189,7 @@
                                     </div>
                                 </div>
                             </div>
-
-                            <div class="item" ng-if="adFormats.displayAds"
-                                 ng-hide="usrRole && !usrRole.showviewability">
+                            <div class="item" ng-show="adFormats.displayAds" ng-hide="usrRole && !usrRole.showviewability">
                                 <div class="col-xs-3">
                                     <div ng-click="setGraphData(campaign,'quality')" tooltip-placement="top"
                                          tooltip="Click for detailed reports" class="each_section_graph_holder">
@@ -276,19 +274,28 @@
                                 <div class="pull-left filter_dropdown_sel_list">
                                   <span class="filter_dropdown_sel_txt">
                                     <truncate-text-with-hover txt="{{showList.actionType}}"
-                                                              txtlength="30"></truncate-text-with-hover>
+                                                              txt-html="{{showList.actionType}}"
+                                                              txtlength="30">
+                                    </truncate-text-with-hover>
                                   </span>
                                   <span class="filter_dropdown_sel_txt">
                                     <truncate-text-with-hover txt="{{showList.actionSubtype}}"
-                                                              txtlength="30"></truncate-text-with-hover>
+                                                              txt-html="{{showList.actionSubtype}}"
+                                                              txtlength="30">
+                                    </truncate-text-with-hover>
                                   </span>
                                   <span class="filter_dropdown_sel_txt">
                                      <truncate-text-with-hover txt="{{showList.tactic}}"
-                                                               txtlength="30"></truncate-text-with-hover>
+                                                               txt-html="{{showList.tactic}}"
+                                                               txtlength="30">
+                                     </truncate-text-with-hover>
                                   </span>
                                   <span class="filter_dropdown_sel_txt">
-                                    {{ textConstants.IMPACTS }}: <truncate-text-with-hover
-                                          txt="{{showList.metricImpacted}}" txtlength="30"></truncate-text-with-hover>
+                                      {{ textConstants.IMPACTS }}:
+                                      <truncate-text-with-hover txt="{{showList.metricImpacted}}"
+                                                                txt-html="{{showList.metricImpacted}}"
+                                                                txtlength="30">
+                                      </truncate-text-with-hover>
                                   </span>
                                 </div>
                             </div>
@@ -305,8 +312,8 @@
                                     <div id="error_edit_action_more_comment" class="error_message"></div>
                                 </div>
                                 <div class="pull-right submit_btn_holder clearfix">
-                                    <span class="pull-left secondary_button" ng-click="closeEdit();">{{ textConstants.CANCEL }}</span>
-                                    <input type="submit" class="pull-right submit_btn primary_button" value="Save"
+                                    <span class="pull-left btn btn-link" ng-click="closeEdit();">{{ textConstants.CANCEL }}</span>
+                                    <input type="submit" class="pull-right btn btn-primary" value="Save"
                                            ng-disabled="saveBtnDisabled" id="action_save_btn">
                                     <input type="hidden" id="hidden_checkbox_status"
                                            ng-value="showList.hidden_checkboxStatus"/>
@@ -320,7 +327,7 @@
                 </div>
                 <!-- end of edit activity log container -->
 
-                <div class="col-md-6 graph_activity_holder" style="padding-left: 0;">
+                <div class="col-md-6 graph_activity_holder" style="padding-left: 0;" ng-show="showOptimization">
                     <div class="activity_log_header" style="margin-bottom: 15px;">
                         {{ textConstants.CAMPAIGN_PERFORMANCE }}
                     </div>
@@ -352,7 +359,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6 activity_log_list_container" style="padding-right: 0;">
+                <div class="col-md-6 activity_log_list_container" style="padding-right: 0;" ng-show="showOptimization">
                     <div class="clearfix activity_log_header">
                         <div class="pull-left">
                             {{ textConstants.ACTIVITY_LOG }}

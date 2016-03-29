@@ -9,6 +9,8 @@ define(['common'], function (angularAMD) {
     var app = angular.module('vistoApp', ['ngRoute', 'ngCookies', 'tmh.dynamicLocale', 'ui.bootstrap', 'uiSwitch', 'door3.css', 'ngFileUpload', 'ngSanitize', 'ui.multiselect', 'highcharts-ng', 'ui.bootstrap.showErrors', 'ngTagsInput']);
 
     app.config(function ($routeProvider, $httpProvider) {
+        $routeProvider.caseInsensitiveMatch = true;
+
         $routeProvider
             .when('/login', angularAMD.route({
                 templateUrl: assets.html_reports_login,
@@ -401,6 +403,27 @@ define(['common'], function (angularAMD) {
                 controller: 'CreativeController',
                 controllerUrl: 'workflow/controllers/creative_controller',
                 resolve: {
+                    'check': function ($location, RoleBasedService,workflowService,constants) {
+                        var isWorkflowUser =
+                            RoleBasedService.getClientRole() && RoleBasedService.getClientRole().workFlowUser;
+                        workflowService.setModuleInfo({
+                            'moduleName': 'WORKFLOW',
+                            'warningMsg': constants.ACCOUNT_CHANGE_MSG_ON_CREATE_OR_EDIT_AD_PAGE,
+                            'redirect': false
+                        });
+                        if (!isWorkflowUser) {
+                            $location.path('/');
+                        }
+                    }
+                }
+            }))
+
+            .when('/creative/:creativeId/edit', angularAMD.route({
+                templateUrl: assets.html_creative,
+                title: 'Edit Creative',
+                controller: 'CreativeController',
+                controllerUrl: 'workflow/controllers/creative_controller',
+                resolve: {
                     'check': function ($location, RoleBasedService) {
                         var isWorkflowUser =
                             RoleBasedService.getClientRole() && RoleBasedService.getClientRole().workFlowUser;
@@ -463,11 +486,12 @@ define(['common'], function (angularAMD) {
                     placeholder: 'Add labels',
                     minLength: 2,
                     displayProperty: 'label',
-                    replaceSpacesWithDashes: false
+                    replaceSpacesWithDashes: false,
+                    maxLength: 127
                 })
 
         })
-        .run(function ($rootScope, $location, $cookies, loginModel, brandsModel, dataService, $cookieStore, workflowService,featuresService) {
+        .run(function ($rootScope, $location, $cookies, loginModel, brandsModel, dataService, $cookieStore, workflowService,featuresService,subAccountModel) {
             var handleLoginRedirection = function () {
                     var cookieRedirect = $cookieStore.get('cdesk_redirect') || null,
                         setDefaultPage;
@@ -502,31 +526,46 @@ define(['common'], function (angularAMD) {
                         brandsModel.enable();
                     }
 
+                    var clientObj;
                     dataService.updateRequestHeader();
                     if ((loginModel.getAuthToken()) && (localStorage.getItem('selectedClient') === null || localStorage.getItem('selectedClient') == undefined )) {
                         var userObj = JSON.parse(localStorage.getItem("userObj"));
                         workflowService
                             .getClients()
                             .then(function (result) {
-                                if (result && result.data.data.length > 0) {
-                                    if(result.data.data[0].children && result.data.data[0].children.length >0) {
-                                        var matchedClientsobj = _.find(result.data.data[0].children, function (obj) {
-                                            return obj.id === userObj.preferred_client
+                                if ((result && result.data.data.length > 0)) {
+                                    if(userObj.preferred_client){
+                                        var matchedClientsobj = _.find(result.data.data, function (obj) {
+                                            return obj.id === userObj.preferred_client;
                                         });
-                                        loginModel.setSelectedClient({
-                                            'id': matchedClientsobj.id,
-                                            'name': matchedClientsobj.name
-                                        });
-                                         workflowService.getClientData(matchedClientsobj.id).then(function (response) {
-                                                console.log('appjs');
-                                                featuresService.setFeatureParams(response.data.data.features,'app');
-                                         });
+                                    }
+                                    if(matchedClientsobj !== undefined) {
+                                        clientObj = matchedClientsobj;
+                                    } else {
+                                        clientObj = result.data.data[0];
+                                    }
+                                    loginModel.setMasterClient({'id':clientObj.id,'name':clientObj.name,'isLeafNode':clientObj.isLeafNode});
 
+                                    if(clientObj.isLeafNode) {
+                                        loginModel.setSelectedClient({'id':clientObj.id,'name':clientObj.name});
+                                        workflowService.getClientData(clientObj.id).then(function (response) {
+                                            featuresService.setFeatureParams(response.data.data.features);
+                                        });
+                                        if (locationPath === '/login' || locationPath === '/') {
+                                            handleLoginRedirection();
+                                        }
+                                    } else {
+                                        //set subAccount
+                                        subAccountModel.fetchSubAccounts(function(){
+                                            workflowService.getClientData(clientObj.id).then(function (response) {
+                                                featuresService.setFeatureParams(response.data.data.features);
+                                            });
+                                                if (locationPath === '/login' || locationPath === '/') {
+                                                    handleLoginRedirection();
+                                                }
+                                         });
                                     }
-                                    if (locationPath === '/login' || locationPath === '/') {
-                                        handleLoginRedirection();
-                                    }
-                                }
+                                }//end of then if
                             });
                     } else {
                         if (loginModel.getSelectedClient) {

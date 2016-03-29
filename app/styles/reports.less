@@ -144,7 +144,7 @@ span.cost_opaque {
   .reports_graph_top_section {
     min-height: 240px;
     width: 100% ;
-    margin: 20px auto;
+    margin: 0px auto 20px ;
     color: #999;
     font-size: 14px;
     padding: 22px 36px 22px 20px ;
@@ -824,7 +824,7 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
   }
   .inventory_charts_details_holder , .reports_chart_details_holder {
     .chart_inventory_header {
-      margin-top: 15px;
+      margin-top: 21px;
       margin-right: 20px;
       .inventory_chart_details_list {
         width : 530px ;
@@ -980,13 +980,59 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
   font-size: 12px;
 }
 div.strategy_total_container {
+  .discrepancyName {
+    width: 250px;
+    margin-bottom: 10px;
+  }
   div.strategy_total_container_header {
     background: @reportHighlight  ;
     border: solid 1px @reportBorder ;
     border-top-width: 2px ;
     padding: 15px 20px 5px 20px ;
+    .discrepancySecLevel {
+      .discrepancySecLevelRow {
+        margin-bottom: 5px;
+      }
+      .platform_logo_img {
+        margin-left:45px;
+      }
+      .discrepancySecLevelName {
+        width: 177px;
+      }
+    }
+    .rowHasSubRow {
+      cursor: pointer;
+    }
+    .discrepancyTplRow {
+      .icon-arrow-down {
+        font-size: 9px; 
+        color: #000;
+        -ms-transform: rotate(-90deg);
+        -webkit-transform: rotate(-90deg);
+        transform: rotate(-90deg);
+        
+      }
+      .platform_logo_img {
+        margin-right: 8px ;
+      }
+    }
+    .discrepancyTplRow.open {
+      .icon-arrow-down {
+        -ms-transform: rotate(0deg);
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+        margin-top:7px;
+        
+      }
+    }
     div.each_col.first_col {
       .StrategyHeadingFontColor();
+    }
+    .rowData {
+      margin-bottom: 15px;
+      float: left;
+      width: 100%;
+      padding-right: 15px;
     }
   }
   .all_strategies_holder {
@@ -1596,7 +1642,7 @@ div.strategy_total_container {
 .viewability_quality {
   .viewability_container
    {
-    margin-top: 53px;
+    margin-top: 22px;
   }
   .view_mode_switch_container {
     top: 41px;
@@ -1913,6 +1959,10 @@ div.strategy_total_container {
     padding: 120px 0;
   }
 
+    .each_col {
+
+        // margin-right: 18px !important;
+    }
 
   .viewability_header {
       background: #fff;
@@ -1937,7 +1987,7 @@ div.strategy_total_container {
     }
   }
   .strategy_total_container {
-    border-top  : solid 2px @reportBorder ;
+    // border-top  : solid 2px @reportBorder ;
     .each_strategy_holder:last-child {
       height : auto ;
       .each_strategy:before {
@@ -1993,7 +2043,8 @@ div.strategy_total_container {
   .each_col {
     padding-top: 0px ;
     padding-bottom: 0px ;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
+    margin-left:20px;
     > span {
       text-align: center;
       display: block;
@@ -2002,19 +2053,30 @@ div.strategy_total_container {
     .tooltip_show_icon {
       height: 15px;
       width: 16px;
-      display: block;
       background: url("/images/cdesk/info_icon.png") no-repeat center left;
-      float:right;
+      position:absolute;
     }
     .margin_hdr {
-      width:210px;
+      width:195px;
       border:1px none #FF6600;
-      float:left;
+      border-bottom:1px solid #dde6eb;
+      text-align:center;
       padding-bottom:5px;
       .hdr_space {
         padding-right:5px;
       }
     }
+
+      .margin_hdrSeventh {
+          width:144px;
+          border-bottom:1px solid #dde6eb;
+          text-align:center;
+          padding-bottom:5px;
+          .hdr_space {
+              padding-right:5px;
+          }
+      }
+
     .tooltip_holder {
       display:inline;
       float:right;
@@ -2035,18 +2097,31 @@ div.strategy_total_container {
     }
 
     .sub_coldata {
+        padding-top:10px;
       span {
         display: block;
         float: left;
-        padding-right:5px;
-        width:99px;
-        text-align:center;
-        border:1px none #FF6600;
+        padding-right:14px;
+        width:66px;
+        text-align:right;
       }
       span:last-child {
         float: right;
       }
     }
+
+      .sub_colData {
+          span {
+              display: block;
+              float: left;
+              padding-right:14px;
+              width:66px;
+              text-align:right;
+          }
+          span:last-child {
+              float: right;
+          }
+      }
 
     .sub_col:before, .sub_col:after {
       display: table;
@@ -2068,24 +2143,33 @@ div.strategy_total_container {
   }
 
   .second_col , .third_col {
-    width: 110px ;
+    width: 64px ;
     border:1px none #00FFFF;
     padding-top: 8px;
   }
 
   .second_coldata , .third_coldata {
-    width: 110px ;
+    width: 66px ;
     border:1px none #00FFFF;
   }
 
-  .forth_col, .fifth_col, .six_col {
-    width: 305px ;
+    .forth_col {
+        width: 200px ;
+        border:1px none #000000;
+        margin-left:40px;
+
+    }
+
+  .fifth_col, .six_col {
+    width: 200px ;
     border:1px none #FF6600;
+
   }
 
   .seventhMargin_col {
-    width: 204px ;
+    width: 144px ;
     border:1px none #000fff;
+
   }
 
   div.each_row_list {
@@ -2132,7 +2216,7 @@ div.strategy_total_container {
 /**************** reports performance table styling ***********/
 
 .reports_tabs_content_container {
-  margin-top: 15px ;
+  margin-top: 22  px ;
   .common-load-icon {
     text-align: center;
     text-indent: -99999;
@@ -2249,6 +2333,7 @@ div.strategy_total_container {
     border: solid 1px #d2dee7;
     border-bottom: 0px;
     border-radius: 4px 4px 0 0;
+    margin-top: 21px ;
     .each_tab {
       position: relative;
       float: left;
@@ -2798,7 +2883,7 @@ div.strategy_total_container {
   }
 }
 .reports_cost_header_holder {
-  margin-top: 15px ;
+  margin-top: 21px ;
 /*  .cost_header_holder {
     .each_cost_col.three_col {
       min-width: 70px;
@@ -3859,14 +3944,14 @@ only screen and (min-device-pixel-ratio: 2) {
       h3 {
         font-size: 21px ;
         color: #000 ;
-        margin: 30px 0px 20px;
+        margin: 25px 0px;
         font-weight:bold;
       }
-        h6 {
-            font-size: 14px ;
-            color: #000 ;
-            margin: 37px 147px 20px;
-        }
+      h6 {
+          font-size: 14px ;
+          color: #000 ;
+          margin: 32px 147px 20px;
+      }
     }
     .common_dropdown .dropdown {
         border-color: #BFC9D7 ;
@@ -3903,7 +3988,13 @@ only screen and (min-device-pixel-ratio: 2) {
       font-size: 14px;
     }
     .each_section_custom_report {
-      margin: 0px 0 30px 0 ;
+      margin: 0px 0 20px 0 ;
+      .custom_report_filter{
+          margin-right: 11px;
+      }
+      .filter_input_txtbox{
+          max-width: 159px;
+      }
       .measurable_col_holder {
         float: none;
         overflow: auto;
@@ -3913,8 +4004,6 @@ only screen and (min-device-pixel-ratio: 2) {
       }
       .each_measurable_col {
           padding: 0;
-    /*          margin-right: 70px;
-          width: 182px;*/
           padding-right: 10px;
           width: 600px;
           display: table-cell;
@@ -3949,6 +4038,16 @@ only screen and (min-device-pixel-ratio: 2) {
     }
     .create_report_title  {
       color: #000 ;
+        &.create_report_title{
+            display: inline-block;
+
+        }
+        &.create_report_title:nth-child(2){
+            display: inline-block;
+            margin-left: 11px;
+            color: #8A9098;
+
+        }
     }
     .custom_report_col_title {
       .external_chkbox {
@@ -4139,7 +4238,6 @@ only screen and (min-device-pixel-ratio: 2) {
       }
     }
     div.create_scheduled_report {
-      margin-top: 10px ;
       margin-bottom: 20px ;
       .scheduled_report_fields {
         margin : 6px 0 15px ;
@@ -4582,6 +4680,9 @@ div.reports_tabs_content_container {
     color:#0978c9;
   }
 }
+.see_dates_holder {
+   margin: -10px 0 10px ;
+}
 .report_response_and_tabs {
   .custom_report_response_tabs {
     .each_tab {
@@ -4655,7 +4756,7 @@ div.reports_tabs_content_container {
   cursor: default;
 }
 .page_top_header {
-  margin: 23px 0 20px;
+  margin: 21px 0 0px;
   padding: 0 ;
   .page_name {
     color: #21252b ;

@@ -47,7 +47,6 @@ define(['angularAMD',
     'reporting/advertiser/advertiser_controller',
     'reporting/timePeriod/time_period_controller',
     'reporting/timePeriod/time_period_pick_controller',
-    'reporting/controllers/campaign_details_controller',
     'common/controllers/popup_msg_controller',
     'common/controllers/confirmation_modal_controller',
     'common/account_change_controller',
@@ -65,7 +64,8 @@ define(['angularAMD',
     'common/services/features_service',
     'chosen',
     'modernizr-custom',
-    'dlmenu'
+    'dlmenu',
+    'reporting/subAccount/sub_account_model'
 ], function (angularAMD) {
     'use strict';
     return angularAMD;

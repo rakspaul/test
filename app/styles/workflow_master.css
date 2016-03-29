@@ -3,16 +3,16 @@ body {
   color: #21252B;
 }
 .zeroPadding {
-  padding: 0px !important;
+  padding: 0 !important;
 }
 .zeroMargin {
-  margin: 0px !important;
+  margin: 0 !important;
 }
 .borderZero {
-  border-width: 0px !important;
+  border-width: 0 !important;
 }
 .disabledTxt {
-  color: #BBBBBB !important;
+  color: #BBB !important;
 }
 .clearLeft {
   clear: left;
@@ -28,35 +28,41 @@ body {
 .vistoTable ::-webkit-scrollbar {
   display: none;
 }
-h1 {
-  color: #21252b;
-  font-size: 24px;
-  font-family: "Avenir";
-}
-h2 {
-  color: #21252b;
-  font-size: 20px;
-  font-family: "Avenir";
-}
-h3 {
-  color: #21252b;
-  font-size: 18px;
-  font-family: "Avenir";
-}
-h4 {
-  color: #21252b;
-  font-size: 16px;
-  font-family: "Avenir-bold";
-}
+h1,
+h2,
+h3,
+h4,
 h5 {
   color: #21252b;
+}
+h1,
+h2,
+h3 {
+  font-family: Avenir, sans-serif;
+}
+h4,
+h5 {
+  font-family: Avenir-bold, sans-serif;
+}
+h1 {
+  font-size: 24px;
+}
+h2 {
+  font-size: 20px;
+}
+h3 {
+  font-size: 18px;
+}
+h4 {
+  font-size: 16px;
+}
+h5 {
   font-size: 14px;
-  font-family: "Avenir-bold";
 }
 a {
-  text-decoration: none;
   cursor: pointer;
   font-weight: normal;
+  text-decoration: none;
 }
 a:hover {
   text-decoration: none;
@@ -71,7 +77,7 @@ a:hover {
 .breadcrumbs h5 {
   float: left;
   font-size: 16px;
-  font-family: 'Avenir';
+  font-family: Avenir, sans-serif;
   cursor: pointer;
 }
 .breadcrumbs h5:first-child:hover {
@@ -82,7 +88,7 @@ a:hover {
   -ms-transform: rotate(270deg);
   -webkit-transform: rotate(270deg);
   transform: rotate(270deg);
-  margin: 11px 10px 0px 10px;
+  margin: 11px 10px 0 10px;
 }
 .labelQuestTxt {
   color: #21252b;
@@ -91,6 +97,9 @@ a:hover {
   text-align: left !important;
   margin: 20px 0 0 0 !important;
   padding: 0 !important;
+}
+strong {
+  font-family: Avenir-bold, sans-serif;
 }
 .greyTxt {
   color: #939eae !important;
@@ -116,20 +125,24 @@ a:hover {
 .form-group {
   padding-right: 10px;
 }
-input[type='text'],
-input[type='number'],
-.has-success input[type='text'].form-control {
+input[type="text"],
+input[type="number"],
+.has-success input[type="text"].form-control,
+textarea {
   border: 1px solid #BFC9D7;
   border-radius: 2px !important;
   line-height: normal;
   padding: 10px 12px 7px 12px;
   height: auto;
   box-shadow: none;
-  border-color: #BFC9D7;
 }
-input[type='text']:focus,
-input[type='number']:focus,
-.has-success input[type='text'].form-control:focus,
+.currencyFly ~ input[type="text"],
+.currencyFly ~ input[type="number"] {
+  padding-left: 20px ;
+}
+input[type="text"]:focus,
+input[type="number"]:focus,
+.has-success input[type="text"].form-control:focus,
 textarea:focus {
   border: 1px solid #0978c9 !important;
   box-shadow: none !important;
@@ -178,16 +191,10 @@ select {
 .dropdown-workflow .btn-default {
   color: #363D49;
   background-color: #ffffff;
-  font-family: Avenir;
+  font-family: Avenir, sans-serif;
   border-radius: 2px;
   border: 1px solid #BFC9D7 !important;
   position: relative;
-}
-.dropdown-workflow .btn-default .text {
-  float: left;
-  width: 90%;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 .dropdown-workflow .btn-default:not(.label-btn):hover {
   background-color: #E1EDF9 !important;
@@ -197,6 +204,12 @@ select {
   background-color: #DCEDF1 !important;
   border: 1px solid #BFC9D7 !important;
   box-shadow: none;
+}
+.dropdown-workflow .btn-default .text {
+  float: left;
+  width: 90%;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .dropdown-workflow span.icon-arrow-down,
 .dropdown-workflow .icon-search {
@@ -213,7 +226,7 @@ select {
 .dropdown-workflow .dropdown-menu > li > a,
 .dropdown-workflow .dropdown-menu-search > li > a {
   color: #21252b;
-  font-family: Avenir;
+  font-family: Avenir, sans-serif;
   font-size: 14px;
   overflow: hidden;
   cursor: pointer;
@@ -284,7 +297,7 @@ select {
   float: left;
   width: 100%;
   list-style: none;
-  padding: 0 0 5px 0;
+  padding: 0 0 5px;
 }
 .dropdown-workflow .dropdown-menu li ul li,
 .dropdown-workflow .dropdown-menu-search li ul li {
@@ -294,7 +307,7 @@ select {
 .dropdown-workflow .dropdown-menu li ul li a,
 .dropdown-workflow .dropdown-menu-search li ul li a {
   color: #21252b;
-  font-family: Avenir;
+  font-family: Avenir, sans-serif;
   font-size: 14px;
   overflow: hidden;
   cursor: pointer;
@@ -317,6 +330,10 @@ select {
   border-top: 1px solid #ccd2da;
   margin: 0;
 }
+.dropdown-workflow .dropdown-menu .headerDDL:first-child,
+.dropdown-workflow .dropdown-menu-search .headerDDL:first-child {
+  border-width: 0;
+}
 .dropdown-workflow .dropdown-menu .headerDDL [class^="icon-"],
 .dropdown-workflow .dropdown-menu-search .headerDDL [class^="icon-"],
 .dropdown-workflow .dropdown-menu .headerDDL [class*=" icon-"],
@@ -332,10 +349,6 @@ select {
   width: auto;
   padding: 12px 0 0 15px!important;
 }
-.dropdown-workflow .dropdown-menu .headerDDL:first-child,
-.dropdown-workflow .dropdown-menu-search .headerDDL:first-child {
-  border-width: 0px;
-}
 .dropdown-workflow .dropdown-menu .active a,
 .dropdown-workflow .dropdown-menu-search .active a {
   color: #21252b;
@@ -347,7 +360,7 @@ select {
   bottom: 105%;
 }
 .dropdown-workflow .dropdown-menu-search {
-  overflow: scroll;
+  overflow: auto;
 }
 .dropdown-workflow .dropdown-menu > li > a:hover,
 .dropdown-workflow .dropdown-menu > li > a:focus,
@@ -392,13 +405,13 @@ select {
 .dropdown-menu,
 .dropdown-menu-search {
   /*width: auto;
-  min-width: 100%;
-  max-width: 340px;
-  max-height: 255px;
-  margin-top: 3px;
-  margin-left: 0;
-  border: 1px solid #ccd2da;
-  border-radius: 1px;*/
+    min-width: 100%;
+    max-width: 340px;
+    max-height: 255px;
+    margin-top: 3px;
+    margin-left: 0;
+    border: 1px solid #ccd2da;
+    border-radius: 1px;*/
   /*reverted this as it is breaking calendar*/
   width: 280px;
   margin-top: 3px;
@@ -419,7 +432,7 @@ select {
   padding: 5px 10px;
 }
 .dropdown-search li a input[type="checkbox"] {
-  margin: 0px;
+  margin: 0;
 }
 .dropdown-search li a .icon-arrow-down-thick {
   font-size: 10px;
@@ -442,7 +455,7 @@ select {
   transform: rotate(0deg);
 }
 .dropdown-search li ul {
-  padding: 0 0 0 0;
+  padding: 0;
   list-style: none;
   float: left;
   width: 100%;
@@ -452,22 +465,22 @@ select {
   width: 100%;
   padding: 0 0 0 26px;
 }
+.dropdown-search li ul li:hover {
+  color: #21252b;
+  text-decoration: none;
+  background-color: #E1EDF9;
+}
 .dropdown-search li ul li a {
   width: 100%;
   padding: 5px 0;
   color: #21252b;
-  font-family: Avenir;
+  font-family: Avenir, sans-serif;
   font-size: 14px;
   cursor: pointer;
   float: left;
 }
 .dropdown-search li ul li a input[type="checkbox"] {
   margin: 0 6px 0 0;
-}
-.dropdown-search li ul li:hover {
-  color: #21252b;
-  text-decoration: none;
-  background-color: #E1EDF9;
 }
 .datepicker-dropdown {
   width: auto;
@@ -495,7 +508,6 @@ select {
   position: absolute;
   z-index: 15;
   width: 200px;
-  display: block;
   text-align: center;
   top: 50%;
   left: 50%;
@@ -570,12 +582,12 @@ select {
   color: #F24444 !important;
   padding: 2px 0 0 0;
   font-size: 12px;
-  font-family: 'Avenir';
+  font-family: Avenir, sans-serif;
   display: none;
 }
 /*don’t remove with out informing abhimanyu*/
 .customFieldErrorMsg {
-  color: #F24444 ;
+  color: #F24444;
   padding: 2px 0 0 0;
   font-size: 12px;
   float: left;
@@ -585,11 +597,11 @@ select {
   display: block;
 }
 .firstWrapper .has-error .form-control {
-  border-color: #f24444 !important ;
-  box-shadow: 0px 0px 0px transparent !important ;
+  border-color: #f24444 !important;
+  box-shadow: 0 0 0 transparent !important;
 }
 .has-error .form-control:focus {
-  box-shadow: 0px 0px 0px transparent !important ;
+  box-shadow: 0 0 0 transparent !important;
 }
 .customErrorLabel {
   color: #E83B05 !important;
@@ -602,7 +614,7 @@ select {
 }
 .bodyWrap {
   width: 1200px;
-  margin: 0 auto ;
+  margin: 0 auto;
 }
 .preloader {
   position: absolute;
@@ -617,7 +629,7 @@ select {
   -moz-appearance: none;
   -webkit-appearance: none;
   appearance: none;
-  background: url('/images/cdesk/common-down-arrow-space.png') no-repeat right 10px;
+  background: url(/images/cdesk/common-down-arrow-space.png) no-repeat right 10px;
   border: 1px solid #dbe8ef !important;
 }
 .firstWrapper .nav_filters {
@@ -628,16 +640,16 @@ select {
 select {
   border-radius: 2px;
   text-decoration: none;
-  font-family: "Avenir";
+  font-family: Avenir, sans-serif;
   line-height: 100%;
   padding: 10px 15px;
   box-shadow: none !important;
-  /*commented manny's changes here as it was reflecting all other places*/
+  /*commented manny"s changes here as it was reflecting all other places*/
   /*padding: 10px 15px 10px 15px;
-  text-align: center;
-  line-height: 16px;
-  font-size: 14px;
-  width: auto;*/
+    text-align: center;
+    line-height: 16px;
+    font-size: 14px;
+    width: auto;*/
 }
 .btn:hover,
 .btn:focus,
@@ -679,15 +691,12 @@ select {
   text-align: center;
 }
 .radioBtnToggle .miniToggle input[type="text"] {
-  margin: 0px 10px;
+  margin: 0 10px;
   float: left;
 }
 .radioBtnToggle .miniToggle .btn-default {
   border-radius: 2px !important;
   box-shadow: none;
-}
-.radioBtnToggle .miniToggle .btn-default span {
-  color: #363D49;
 }
 .radioBtnToggle .miniToggle .btn-default:hover {
   background-color: #E1EDF9;
@@ -716,35 +725,28 @@ select {
   border-top-left-radius: 0 !important;
   border-bottom-left-radius: 0 !important;
 }
-.radioBtnToggle .miniToggle .btn.btn-default.whitelist.active.disabled,
-.radioBtnToggle .miniToggle .btn.btn-default.blacklist.active.disabled {
+.radioBtnToggle .miniToggle .btn-default.whitelist.active.disabled,
+.radioBtnToggle .miniToggle .btn-default.blacklist.active.disabled {
   /* Override for Inventory whitelist/blacklist toggle active button */
   border: 1px solid #0978C9;
   opacity: 1;
 }
+.radioBtnToggle .miniToggle .btn-default span {
+  color: #363D49;
+}
 .goalBtnGroup .btn-primary {
-  border-radius: 0px;
+  border-radius: 0;
   width: auto;
   height: 36px;
   float: left;
   margin: 0 !important;
-  border-width: 0;
   color: #363D49;
   background-color: #ffffff;
-  font-family: Avenir;
+  font-family: Avenir, sans-serif;
   border: 1px solid #BFC9D7;
   border-left: 0;
   position: relative;
   padding: 10px 15px;
-}
-.goalBtnGroup .btn-primary span {
-  float: left;
-  color: #21252b;
-  font-size: 14px;
-  margin: 2px 0 0 10px;
-}
-.goalBtnGroup .btn-primary input {
-  opacity: 0;
 }
 .goalBtnGroup .btn-primary:hover {
   background-color: #E1EDF9;
@@ -766,26 +768,19 @@ select {
   background-color: #0978C9 !important;
   color: #363D49 !important;
 }
+.goalBtnGroup .btn-primary span {
+  float: left;
+  color: #21252b;
+  font-size: 14px;
+  margin: 2px 0 0 10px;
+}
+.goalBtnGroup .btn-primary input {
+  opacity: 0;
+}
 .goalBtnGroup label {
   position: relative;
   height: 60px;
   margin-top: 10px;
-}
-.goalBtnGroup label .hideRadioBtn {
-  top: 0;
-  left: 0;
-  width: auto ;
-  height: 100%;
-  margin-top: -15px;
-  margin-bottom: 0;
-}
-.goalBtnGroup label .hideRadioBtn img,
-.goalBtnGroup label .hideRadioBtn [class^="icon-"],
-.goalBtnGroup label .hideRadioBtn [class*=" icon-"] {
-  float: left;
-}
-.goalBtnGroup label .hideRadioBtn:hover {
-  background-color: #E1EDF9;
 }
 .goalBtnGroup label.active .hideRadioBtn:hover {
   background-color: #E1EDF9;
@@ -799,6 +794,22 @@ select {
 .goalBtnGroup label.active .hideRadioBtn [class^="icon-"],
 .goalBtnGroup label.active .hideRadioBtn [class*=" icon-"] {
   color: #fff;
+}
+.goalBtnGroup label .hideRadioBtn {
+  top: 0;
+  left: 0;
+  width: auto;
+  height: 100%;
+  margin-top: -15px;
+  margin-bottom: 0;
+}
+.goalBtnGroup label .hideRadioBtn img,
+.goalBtnGroup label .hideRadioBtn [class^="icon-"],
+.goalBtnGroup label .hideRadioBtn [class*=" icon-"] {
+  float: left;
+}
+.goalBtnGroup label .hideRadioBtn:hover {
+  background-color: #E1EDF9;
 }
 .firstBtnGroup .btn-primary {
   border-top-left-radius: 2px !important;
@@ -859,7 +870,7 @@ select {
   height: 100%;
 }
 .left_column_nav .campaign_name {
-  font-family: "Avenir";
+  font-family: Avenir, sans-serif;
   display: inline-block;
   float: left;
   margin-top: 0;
@@ -883,6 +894,17 @@ select {
   clear: left;
   margin: 8px 0 0 0;
 }
+.left_column_nav .stepCompLabel .statusLabel:first-child {
+  margin: 0;
+}
+.left_column_nav .stepCompLabel .statusLabel.ng-scope span:last-child,
+.left_column_nav .stepCompLabel .statusLabel.disabled span {
+  color: #939eae;
+  padding-left: 3px;
+}
+.left_column_nav .stepCompLabel .statusLabel.disabled span.creative_tab_sizes {
+  padding-left: 0;
+}
 .left_column_nav .stepCompLabel .statusLabel .errorTxt {
   color: #e83b05;
 }
@@ -894,7 +916,7 @@ select {
 .left_column_nav .stepCompLabel .statusLabel .col-md-5 {
   font-size: 11px;
   color: #939eae;
-  padding-right: 5px ;
+  padding-right: 5px;
 }
 .left_column_nav .stepCompLabel .statusLabel .col-md-12 {
   padding-left: 16px;
@@ -909,22 +931,14 @@ select {
   float: left;
   clear: left;
 }
-.left_column_nav .stepCompLabel .statusLabel:first-child {
-  margin: 0;
-}
-.left_column_nav .stepCompLabel .statusLabel.ng-scope span:last-child,
-.left_column_nav .stepCompLabel .statusLabel.disabled span {
-  color: #939eae;
-  padding-left: 3px;
-}
-.left_column_nav .stepCompLabel .statusLabel.disabled span.creative_tab_sizes {
-  padding-left: 0px ;
-}
 .left_column_nav .stepCompLabel li {
   width: 100%;
   margin-bottom: 2px;
   margin-top: 20px;
   float: left;
+}
+.left_column_nav .stepCompLabel li:first-child {
+  margin-top: 0;
 }
 .left_column_nav .stepCompLabel li a {
   font-size: 14px;
@@ -932,16 +946,13 @@ select {
   float: left;
   color: #939eae;
   text-decoration: none;
-  padding: 4px ;
+  padding: 4px;
   border-width: 0;
   cursor: pointer;
 }
 .left_column_nav .stepCompLabel li a:hover {
   background: transparent;
   text-decoration: none;
-}
-.left_column_nav .stepCompLabel li:first-child {
-  margin-top: 0;
 }
 .left_column_nav .stepCompLabel span {
   font-size: 12px;
@@ -952,18 +963,18 @@ select {
   text-align: right;
 }
 .left_column_nav .stepCompLabel .active {
-  background-image: url("/images/workflow/blueSelector.png");
+  background-image: url(/images/workflow/blueSelector.png);
   background-position: top right;
   background-repeat: no-repeat;
 }
 .left_column_nav .stepCompLabel .active a {
-  font-family: "Avenir-bold";
+  font-family: Avenir-bold, sans-serif;
   color: #0978c9;
   border-radius: 0;
   background: transparent;
 }
 .left_column_nav .stepCompLabel .active span {
-  font-family: "Avenir";
+  font-family: Avenir, sans-serif;
 }
 .left_column_nav .stepCompLabel .glyphicon {
   padding: 0 5px 0 0;
@@ -973,7 +984,7 @@ select {
 .left_column_nav .nav-tabs > li.active > a,
 .left_column_nav .nav-tabs > li.active > a:hover,
 .left_column_nav .nav-tabs > li.active > a:focus {
-  border-width: 0px;
+  border-width: 0;
   color: #0978c9;
   background: transparent;
 }
@@ -983,10 +994,10 @@ select {
   text-align: left !important;
 }
 .left_column_nav div.each-setting.statusLabel span {
-  font-size: 14px ;
+  font-size: 14px;
 }
 .left_column_nav div.each-setting.statusLabel .grey_txt {
-  font-size: 12px ;
+  font-size: 12px;
   margin-top: 2px;
 }
 .left_column_nav div.each-setting.statusLabel .icon_txt {
@@ -994,23 +1005,23 @@ select {
   margin-right: 4px;
 }
 .left_column_nav div.each-setting.statusLabel div.col-md-12 span.statusIcon {
-  margin: 2px 5px 0 0 ;
+  margin: 2px 5px 0 0;
 }
 .left_column_nav div.statusLabel div.col-md-12 .statusIcon.icon-calendar {
-  margin-left: 2px ;
+  margin-left: 2px;
 }
 .campaign-create-left-nav .campaign_name {
   float: none;
 }
 .campaign-create-left-nav .active .titleLabel {
-  font-family: "Avenir-bold";
-  color: #0978c9 ;
+  font-family: Avenir-bold, sans-serif;
+  color: #0978c9;
 }
 .campaign-create-left-nav .eachStepCompLabel {
-  margin-bottom: 20px ;
+  margin-bottom: 20px;
 }
 .campaign-create-left-nav .eachStepCompLabel p {
-  margin: 0 ;
+  margin: 0;
   float: none;
 }
 .table thead {
@@ -1021,12 +1032,12 @@ select {
   border-width: 0;
   font-weight: normal;
 }
+.table tbody tr:nth-child(odd) td {
+  background: #fff;
+}
 .table tbody tr td {
   background: #F5FAFD;
   padding: 20px;
-}
-.table tbody tr:nth-child(odd) td {
-  background: #fff;
 }
 .searchInput .input-group {
   width: 100%;
@@ -1055,28 +1066,9 @@ select {
   background: #fff;
   padding: 10px;
   border-radius: 5px;
-  -webkit-box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.49);
-  -moz-box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.49);
-  box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.49);
-}
-.tooltipWrap span {
-  color: #21252b;
-  font-size: 14px;
-  float: left;
-}
-.tooltipWrap .btn {
-  border: 1px solid #0978c9;
-  border-radius: 2px;
-  text-align: center;
-  width: 62px;
-  height: 32px;
-  background: #fff;
-  float: left;
-}
-.tooltipWrap .btn:last-child {
-  background: #0978c9;
-  color: #fff;
-  margin-left: 5px;
+  -webkit-box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.49);
+  -moz-box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.49);
+  box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.49);
 }
 .tooltipWrap:after,
 .tooltipWrap:before {
@@ -1100,6 +1092,25 @@ select {
   border-top-color: #E6E6E6;
   border-width: 11px;
   margin-left: -11px;
+}
+.tooltipWrap span {
+  color: #21252b;
+  font-size: 14px;
+  float: left;
+}
+.tooltipWrap .btn {
+  border: 1px solid #0978c9;
+  border-radius: 2px;
+  text-align: center;
+  width: 62px;
+  height: 32px;
+  background: #fff;
+  float: left;
+}
+.tooltipWrap .btn:last-child {
+  background: #0978c9;
+  color: #fff;
+  margin-left: 5px;
 }
 .cmn-toggle {
   position: absolute;
@@ -1145,7 +1156,7 @@ input.cmn-toggle-round + label:after {
 }
 input.cmn-toggle-round:checked + label:before {
   background-color: #0978C9;
-  background-image: url("/images/workflow/checkMark.svg");
+  background-image: url(/images/workflow/checkMark.svg);
   background-repeat: no-repeat;
   background-position-x: 15px;
   background-position-y: 11px;
@@ -1169,10 +1180,10 @@ input.cmn-toggle-round:checked + label:after {
   background: #fcfff4;
   background: linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
   border-radius: 4px;
-  box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0, 0, 0, 0.5);
+  box-shadow: inset 0 1px 1px white, 0 1px 3px rgba(0, 0, 0, 0.5);
 }
 .squaredChk label:after {
-  content: '';
+  content: "";
   width: 9px;
   height: 5px;
   position: absolute;
@@ -1198,7 +1209,7 @@ input.cmn-toggle-round:checked + label:after {
 .atlwdg-trigger {
   border-radius: 0 !important;
   background: #007ac9 !important;
-  font-family: "Avenir" !important;
+  font-family: Avenir, sans-serif !important;
 }
 .icon-close {
   font-size: 8px;
@@ -1231,6 +1242,25 @@ input.cmn-toggle-round:checked + label:after {
   float: left;
   position: relative;
 }
+.cardSelectHolder:nth-child(3) {
+  margin-right: 0;
+  z-index: 0;
+}
+.cardSelectHolder:hover {
+  background-color: rgba(225, 237, 249, 0.4);
+  border: 1px solid #0978c9;
+}
+.cardSelectHolder.active .icon-inline-edit {
+  display: initial;
+  color: #363d49;
+}
+.cardSelectHolder.active .icon-trash:hover {
+  color: #0978c9;
+}
+.cardSelectHolder.active:hover .icon-inline-edit {
+  display: initial;
+  color: #0978c9;
+}
 .cardSelectHolder span {
   float: left;
   width: 100%;
@@ -1239,7 +1269,7 @@ input.cmn-toggle-round:checked + label:after {
 }
 .cardSelectHolder p {
   color: #21252b;
-  font-family: "Avenir-bold";
+  font-family: Avenir-bold, sans-serif;
   font-size: 14px;
   width: 100%;
   text-align: center;
@@ -1247,7 +1277,7 @@ input.cmn-toggle-round:checked + label:after {
   float: left;
 }
 .cardSelectHolder p span {
-  font-family: "Avenir";
+  font-family: Avenir, sans-serif;
   color: #939eae;
   width: auto;
   float: none;
@@ -1270,7 +1300,7 @@ input.cmn-toggle-round:checked + label:after {
   box-shadow: none;
   width: auto;
   margin-left: -43px;
-  min-height: auto;
+  min-height: 0;
 }
 .cardSelectHolder a {
   color: #2c9aec;
@@ -1316,7 +1346,7 @@ input.cmn-toggle-round:checked + label:after {
 }
 .cardSelectHolder .targetDataSaved .targetDataSavedTop {
   display: table;
-  margin: 0 auto 2px ;
+  margin: 0 auto 2px;
 }
 .cardSelectHolder .targetDataSaved .icon-target,
 .cardSelectHolder .targetDataSaved .icon-exclude {
@@ -1363,25 +1393,6 @@ input.cmn-toggle-round:checked + label:after {
   background: transparent !important;
   border-width: 0;
 }
-.cardSelectHolder:nth-child(3) {
-  margin-right: 0;
-  z-index: 0;
-}
-.cardSelectHolder:hover {
-  background-color: rgba(225, 237, 249, 0.4);
-  border: 1px solid #0978c9;
-}
-.cardSelectHolder.active .icon-inline-edit {
-  display: initial;
-  color: #363d49;
-}
-.cardSelectHolder.active .icon-trash:hover {
-  color: #0978c9;
-}
-.cardSelectHolder.active:hover .icon-inline-edit {
-  display: initial;
-  color: #0978c9;
-}
 .popUpCue {
   position: absolute;
   z-index: 2;
@@ -1393,41 +1404,6 @@ input.cmn-toggle-round:checked + label:after {
   padding: 15px;
   border-radius: 5px;
 }
-.popUpCue span {
-  height: 80px;
-  margin-bottom: 10px;
-}
-.popUpCue:after,
-.popUpCue:before {
-  top: 100%;
-  left: 50%;
-  border: solid transparent;
-  content: " ";
-  height: 0;
-  width: 0;
-  position: absolute;
-  pointer-events: none;
-}
-/* Over-ride for Inventory domain name delete comfirmation popup */
-.remove-domain-list {
-  display: none;
-  left: auto;
-  right: 0;
-  top: -50px;
-  width: auto;
-}
-.remove-domain-list span {
-  display: inline-block;
-  height: auto;
-  margin: 8px 0 0;
-  width: auto;
-}
-.remove-domain-list:after,
-.remove-domain-list:before {
-  left: auto;
-  right: 20px;
-}
-/* END: Over-ride for Inventory domain name delete comfirmation popup */
 .popUpCue:after {
   border-color: rgba(255, 255, 255, 0);
   border-top-color: #fff;
@@ -1440,10 +1416,45 @@ input.cmn-toggle-round:checked + label:after {
   border-width: 8px;
   margin-left: -8px;
 }
+.popUpCue:after,
+.popUpCue:before {
+  top: 100%;
+  left: 50%;
+  border: solid transparent;
+  content: " ";
+  height: 0;
+  width: 0;
+  position: absolute;
+  pointer-events: none;
+}
+.popUpCue span {
+  height: 80px;
+  margin-bottom: 10px;
+}
+/* Over-ride for Inventory domain name delete comfirmation popup */
+.remove-domain-list {
+  display: none;
+  left: auto;
+  right: 0;
+  top: -50px;
+  width: auto;
+}
+.remove-domain-list:after,
+.remove-domain-list:before {
+  left: auto;
+  right: 20px;
+}
+.remove-domain-list span {
+  display: inline-block;
+  height: auto;
+  margin: 8px 0 0;
+  width: auto;
+}
+/* END: Over-ride for Inventory domain name delete comfirmation popup */
 .nextWrapper {
   position: absolute;
   left: -1px;
-  bottom: 0px;
+  bottom: 0;
   background: #fff;
   border-top: 1px solid #D0D0D0;
   height: 30px;
@@ -1455,7 +1466,6 @@ input.cmn-toggle-round:checked + label:after {
 .nextWrapper img {
   width: 35px;
   margin-top: -12px;
-  /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#ffffff+37,ffffff+100&amp;1+22,0+100 */
   background: -moz-linear-gradient(top, #ffffff 22%, rgba(255, 255, 255, 0.81) 37%, rgba(255, 255, 255, 0) 100%);
   /* FF3.6+ */
   background: -webkit-gradient(linear, left top, left bottom, color-stop(22%, #ffffff), color-stop(37%, rgba(255, 255, 255, 0.81)), color-stop(100%, rgba(255, 255, 255, 0)));
@@ -1468,19 +1478,12 @@ input.cmn-toggle-round:checked + label:after {
   /* IE10+ */
   background: linear-gradient(to bottom, #ffffff 22%, rgba(255, 255, 255, 0.81) 37%, rgba(255, 255, 255, 0) 100%);
   /* W3C */
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#00ffffff', GradientType=0);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#ffffff", endColorstr="#00ffffff", GradientType=0);
   /* IE6-9 */
 }
 .nextWrapper .btn {
   margin-top: -24px;
 }
-/*! jQuery UI - v1.11.4 - 2015-11-05 For Slider
-* http://jqueryui.com
-* Includes: core.css, slider.css, theme.css
-* To view and modify this theme, visit http://jqueryui.com/themeroller/?ffDefault=Verdana%2CArial%2Csans-serif&fwDefault=normal&fsDefault=1.1em&cornerRadius=4px&bgColorHeader=cccccc&bgTextureHeader=highlight_soft&bgImgOpacityHeader=75&borderColorHeader=aaaaaa&fcHeader=222222&iconColorHeader=222222&bgColorContent=ffffff&bgTextureContent=flat&bgImgOpacityContent=75&borderColorContent=aaaaaa&fcContent=222222&iconColorContent=222222&bgColorDefault=e6e6e6&bgTextureDefault=glass&bgImgOpacityDefault=75&borderColorDefault=d3d3d3&fcDefault=555555&iconColorDefault=888888&bgColorHover=dadada&bgTextureHover=glass&bgImgOpacityHover=75&borderColorHover=999999&fcHover=212121&iconColorHover=454545&bgColorActive=ffffff&bgTextureActive=glass&bgImgOpacityActive=65&borderColorActive=aaaaaa&fcActive=212121&iconColorActive=454545&bgColorHighlight=fbf9ee&bgTextureHighlight=glass&bgImgOpacityHighlight=55&borderColorHighlight=fcefa1&fcHighlight=363636&iconColorHighlight=2e83ff&bgColorError=fef1ec&bgTextureError=glass&bgImgOpacityError=95&borderColorError=cd0a0a&fcError=cd0a0a&iconColorError=cd0a0a&bgColorOverlay=aaaaaa&bgTextureOverlay=flat&bgImgOpacityOverlay=0&opacityOverlay=30&bgColorShadow=aaaaaa&bgTextureShadow=flat&bgImgOpacityShadow=0&opacityShadow=30&thicknessShadow=8px&offsetTopShadow=-8px&offsetLeftShadow=-8px&cornerRadiusShadow=8px
-* Copyright jQuery Foundation and other contributors; Licensed MIT */
-/* Layout helpers
-----------------------------------*/
 .ui-helper-hidden {
   display: none;
 }
@@ -1504,6 +1507,10 @@ input.cmn-toggle-round:checked + label:after {
   font-size: 100%;
   list-style: none;
 }
+.ui-helper-clearfix {
+  min-height: 0;
+  /* support: IE7 */
+}
 .ui-helper-clearfix:before,
 .ui-helper-clearfix:after {
   content: "";
@@ -1512,10 +1519,6 @@ input.cmn-toggle-round:checked + label:after {
 }
 .ui-helper-clearfix:after {
   clear: both;
-}
-.ui-helper-clearfix {
-  min-height: 0;
-  /* support: IE7 */
 }
 .ui-helper-zfix {
   width: 100%;
@@ -1558,6 +1561,10 @@ input.cmn-toggle-round:checked + label:after {
   position: relative;
   text-align: left;
 }
+.ui-slider.ui-state-disabled .ui-slider-handle,
+.ui-slider.ui-state-disabled .ui-slider-range {
+  filter: inherit;
+}
 .ui-slider .ui-slider-handle {
   position: absolute;
   z-index: 2;
@@ -1576,10 +1583,6 @@ input.cmn-toggle-round:checked + label:after {
   background-position: 0 0;
 }
 /* support: IE8 - See #6727 */
-.ui-slider.ui-state-disabled .ui-slider-handle,
-.ui-slider.ui-state-disabled .ui-slider-range {
-  filter: inherit;
-}
 .ui-slider-horizontal {
   height: .8em;
 }
@@ -1798,15 +1801,15 @@ input.cmn-toggle-round:checked + label:after {
   text-align: left;
 }
 .blueTxt {
-  color: #0978c9  !important ;
+  color: #0978c9 !important;
 }
 .setTargetOptions .msgPopup:before {
-  left: auto ;
-  right: 8px ;
+  left: auto;
+  right: 8px;
 }
 .setTargetOptions .msgPopup:after {
-  left: auto ;
-  right: 9px ;
+  left: auto;
+  right: 9px;
 }
 .dropdown-search-btn .searchBar {
   margin-bottom: 0;
@@ -1819,7 +1822,7 @@ input.cmn-toggle-round:checked + label:after {
   overflow: auto;
 }
 .dropdown-search-btn .category_dropdown {
-  margin-top: 0px ;
+  margin-top: 0;
 }
 tags-input .tags .tag-item {
   background: #edf2f8;

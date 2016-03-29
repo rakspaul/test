@@ -84,11 +84,12 @@ define(['angularAMD','workflow/services/workflow_service'], function (angularAMD
             this.featureParams[0].collective_insights = false;
         }
 
-        this.setFeatureParams = function (featuresArr,consoleIt) {
+        this.setFeatureParams = function (featuresArr) {
+            console.log('Feature array: ',featuresArr);
             this.serverResponseReceived = true;
             //API passes parameters :
             var self = this;
-            console.log('server feature Arr: ',featuresArr);
+            //console.log('server feature Arr: ',featuresArr);
 
             if (featuresArr.indexOf('ENABLE_ALL') !==-1) {
                 //Enable all features

@@ -3,6 +3,7 @@ define(['angularAMD'], function(angularAMD) {
         this.currencySymbol = $locale.NUMBER_FORMATS.CURRENCY_SYM;
         this.CAMPAIGN_LIST_CANCELLER = 1;
         this.CAMPAIGN_FILTER_CANCELLER = 1;
+        this.ADDLIBRARY_FILTER_CANCELLER = 10;
         this.COST_CANCELLER = 2;
         this.DASHBOARD_CANCELLER = 3;
         this.GAUGE_CANCELLER = 4;
@@ -108,11 +109,12 @@ define(['angularAMD'], function(angularAMD) {
         this.COLLECTIVE_INSIGHTS = "Collective Insights";
         this.UPLOAD_REPORT = "Upload Report";
         this.REPORT_LABEL ='Report';
+        this.ADD_KEYWORDS ='Add Keywords (optional)';
         this.SELECT_DIMENTION ='Select Dimension(s)';
         this.ALL_TYPES ='All Types';
         this.AT_ANY_TIME ='At any time';
 
-        this.SCHEDULED_REPORTS = "Saved & Scheduled Reports";
+        this.SCHEDULED_REPORTS = "My Reports";
         this.REPORT_TYPES = "Report Types";
         this.GENERATED = "Generated";
         this.REPORT_GENERATED = "Report Generated";
@@ -120,6 +122,7 @@ define(['angularAMD'], function(angularAMD) {
         this.SCHEDULE_LABEL = 'Schedule';
         this.GENERATE_LABEL ='Generate';
         this.SAVE_LABEL ='Save';
+        this.SAVE_PUSH_LABEL ='Save & Push';
         this.RESET_LABEL ='Clear';
         this.SET_SCHEDULE = 'Set Schedule';
         this.SAVE_SCHEDULE = 'Save/Schedule';
@@ -137,7 +140,7 @@ define(['angularAMD'], function(angularAMD) {
         this.SCHEDULE_LIST_REPORT_TYPE = "Report Types";
         this.SCHEDULE_LIST_DATE = "Report Generated";
         this.SCHEDULE_LIST_DIMENSIONS = "Dimensions";
-        this.REPORT_CHOOSE_BREAKDOWN = 'Choose Breakdown';
+        this.REPORT_CHOOSE_BREAKDOWN = 'Choose Dimension';
         this.REPORT_ADDITIONAL_FILTERS = 'Additional Filters';
         this.REPORT_ADD_FILTERS = 'Add Filters';
         this.REPORT_BUILDER_TIMEFRAME_LIST = [
@@ -162,6 +165,8 @@ define(['angularAMD'], function(angularAMD) {
         this.REPORT_LIST_REPORTTYPES = ['Once', 'Daily', 'Weekly', 'Monthly', 'Saved'];
         this.REPORT_LIST_DIMENSION_COUNT = "Already five dimensions had been selected";
         this.AD_CREATED_SUCCESS = '<span class="bold-font">Success. </span> Ad has been successfully created';
+        this.MEDIA_PLAN_DRAFT = ' Save changes to Media Plan set-up?';
+        this.MEDIA_PLAN_NOT_DRAFT = 'Save changes to Media Plan set-up and repush to execution <br> platform(s)?';
         this.CAMPAIGN_CREATED_SUCCESS =
             '<span class="bold-font">Success. </span> Media Plan has been successfully created';
         this.CAMPAIGN_UPDATED_SUCCESS =
@@ -171,6 +176,8 @@ define(['angularAMD'], function(angularAMD) {
         this.PARTIAL_AD_CLONE_SUCCESS = '<span class="bold-font">Success. </span> Ad has been successfully cloned';
         this.AD_GROUP_CREATED_SUCCESS =
             '<span class="bold-font">Success. </span> Ad Group has been successfully created';
+        this.AD_GROUP_EDITED_SUCCESS =
+            '<span class="bold-font">Success. </span> Ad Group has been successfully edited';
         this.AD_GROUP_CREATED_FAILURE = '<span class="bold-font">Error. </span> Ad Group could not be created';
         this.CREATIVE_SAVE_SUCCESS = '<span class="bold-font">Success. </span> Creative has been successfully created';
         this.WF_DATE_FORMAT = 'YYYY-MM-DD HH:mm:ss.SSS';
@@ -342,7 +349,7 @@ define(['angularAMD'], function(angularAMD) {
 
         this.DASHBOARD = "Dashboard";
         this.CAMPAIGNS = this.MEDIA_PLAN = "Media Plans";
-        this.CREATE_CAMPAIGN = "Create Media Plan";
+        this.CREATE_CAMPAIGN = "Create";
         this.REPORTS = "Reports";
         this.HELLO = "Hello";
         this.ABOUT = "About";
@@ -375,7 +382,7 @@ define(['angularAMD'], function(angularAMD) {
         this.CHANGE_IN_PERCENTAGE = "Change %";
 
         this.DAYS_OF_WEEK = "Days of Week";
-
+        this.DISCREPANCY = "Discrepancy";
         this.COST = "Cost";
         this.BASED_ONLY_ON_MEASURABLE_IMPS = "Based only on Measurable Imps";
         this.BASED_ONLY_ON_VIEWABLE_IMPS = "Based only on Viewable Imps";
@@ -418,7 +425,7 @@ define(['angularAMD'], function(angularAMD) {
         this.USERNAME_OR_PASSWORD_INCORRECT = 'The Username/Password is incorrect';
 
         this.CAPAIGN_DETAILS = 'Media Plan Details';
-        this.FORMAT = 'Format';
+        this.CHANNEL = 'Channel';
         this.DOWNLOAD_REPORT = 'Download Report';
         this.DOWNLOADING = 'Downloading';
 
@@ -478,7 +485,7 @@ define(['angularAMD'], function(angularAMD) {
 
         this.WF_GUIDED_COPY = 'Guided Copy Here - What should i choose?';
         this.WF_HEADER_CREATIVES = 'What type of creatives are you using?';
-        this.WF_AD_FORMAT = 'Ad Format';
+        this.WF_CHANNEL = 'Channel';
         this.WF_DISPLAY = 'Display';
         this.WF_VIDEO = 'Video';
         this.WF_RICH_MEDIA = 'Rich Media';
@@ -540,7 +547,7 @@ define(['angularAMD'], function(angularAMD) {
         this.ACTIONS = 'Actions';
         this.COMPLETE_ON = 'Complete on';
         this.VIEW_ALL_REPORTS = 'View all reports';
-        this.ADD_BREAKDOWN_LABEL = 'Add Breakdown';
+        this.ADD_BREAKDOWN_LABEL = 'Add Dimension';
 
         this.WF_CREATIVE_TAG_ALREADY_EXISTS =
             'This tag already exists in your Creative Tag Library. Save a Creative anyway?';
@@ -770,6 +777,7 @@ define(['angularAMD'], function(angularAMD) {
         this.SIZE = 'Size';
         this.TAGNAME = 'Creative Name';
         this.TAGTYPE = 'Type';
+        this.ADSRVER = 'Adserver';
         this.SSL = 'SSL';
         this.YOUHAVENTADDED = 'You haven\'t added any Creative Tags for your Ad yet';
         this.COPY = 'Copy';
@@ -806,6 +814,7 @@ define(['angularAMD'], function(angularAMD) {
         this.OLDEST = 'Oldest';
         this.CREATEAD = 'Create Ad';
         this.CREATEADGRP = 'Create Ad Group';
+        this.SETADGRP = 'Ad Group Setup';
         this.NAMEADGROUP = 'What is the name of your Ad Group?';
         this.ADGROUPNAME = 'Ad Group Name';
         this.ENTERADGRP = 'Please enter a name for the ad group.';
@@ -850,6 +859,9 @@ define(['angularAMD'], function(angularAMD) {
         this.WHATADGROUPNAME = 'What is your Ad Group name?';
         this.ADGROUPNAME = 'Ad Group Name';
         this.PLEASENAMEADGRP = 'Please enter a name for the ad group.';
+        this.ADGROUPBUDGETMSG = 'Please enter a budget for the ad group.';
+        this.ADGROUPMINIMUMBUDGETMSG = 'Please enter a budget value more than the minimum budget for the ad group.';
+        this.ADGROUPMAXIMUMBUDGETMSG = 'Please enter a budget value less than the available media plan budget.';
         this.WHATFLIGHTDATES = 'What are the Flight Dates?';
         this.PLEASESELSTARTDATE = 'Please select the start Date.';
 
@@ -973,5 +985,12 @@ define(['angularAMD'], function(angularAMD) {
         this.UPDATETAG = 'Update Tag';
         this.CREATIVESDELETE = 'Creatives Delete';
         this.TAB_CHANGED = 'tab_changed';
+
+       // this.EVENT_CLIENT_CHANGED = 'eventClientChanged';
+        //this.EVENT_CLIENT_CHANGED_FROM_DASHBOARD = 'advertiserChangedFromDashboard';
+
+        this.EVENT_SUB_ACCOUNT_CHANGED = 'eventSubAccountChanged';
+        this.EVENT_SUB_ACCOUNT_CHANGED_FROM_DASHBOARD = 'SubAccountChangedFromDashboard';
+        this.EVENT_MASTER_CLIENT_CHANGED = 'eventMasterClientChanged';
     });
 });
