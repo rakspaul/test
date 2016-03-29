@@ -352,7 +352,7 @@ define(['angularAMD','common/services/vistoconfig_service', 'common/services/con
                 pageSize = pageSize ? '&pageSize=' + pageSize : '';
                 pageNo = pageNo ? '&pageNo=' + pageNo : '';
 
-                url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/creatives?' +
+                url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/creatives?sortBy=name&sortOrder=asc' +
                     creativeFormats + queryStr + pageSize + pageNo;
 
                 canceller = requestCanceller.initCanceller(constants.ADDLIBRARY_FILTER_CANCELLER);
