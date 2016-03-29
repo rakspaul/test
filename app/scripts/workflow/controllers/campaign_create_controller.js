@@ -884,7 +884,6 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 }else {
                     postDataObj.clientId = loginModel.getSelectedClient().id;
                 }
-                
                 if ($scope.mode == 'edit') {
                     if (moment(formData.startTime).format(constants.DATE_UTC_SHORT_FORMAT) === momentService.utcToLocalTime($scope.editCampaignData.startTime, constants.DATE_UTC_SHORT_FORMAT))
                         postDataObj.startTime = $scope.editCampaignData.startTime;
