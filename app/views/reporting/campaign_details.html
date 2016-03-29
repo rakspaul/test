@@ -61,7 +61,7 @@
                             <div id="error_more_comment" class="error_message"></div>
                         </div>
                         <div class="pull-right submit_btn_holder">
-                            <input type="button" class="submit_btn" value="Submit"
+                            <input type="button" class="btn btn-primary" value="Submit"
                                    ng-disabled="action.submitBtnDisabled" id="action_submit_btn"
                                    ng-click="createAction()">
                         </div>
@@ -312,8 +312,8 @@
                                     <div id="error_edit_action_more_comment" class="error_message"></div>
                                 </div>
                                 <div class="pull-right submit_btn_holder clearfix">
-                                    <span class="pull-left secondary_button" ng-click="closeEdit();">{{ textConstants.CANCEL }}</span>
-                                    <input type="submit" class="pull-right submit_btn primary_button" value="Save"
+                                    <span class="pull-left btn btn-link" ng-click="closeEdit();">{{ textConstants.CANCEL }}</span>
+                                    <input type="submit" class="pull-right btn btn-primary" value="Save"
                                            ng-disabled="saveBtnDisabled" id="action_save_btn">
                                     <input type="hidden" id="hidden_checkbox_status"
                                            ng-value="showList.hidden_checkboxStatus"/>

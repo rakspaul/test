@@ -116,6 +116,9 @@ define(['angularAMD','reporting/editActions/edit_actions_service', 'common/servi
         $scope.$on('$destroy', function() {
             closeEditActivityScreenFunc();
         });
+        
+        var winHeight = $(document).height();
+        $(".edit_activity_log_holder").css('height',winHeight - 50);
 
   });
 });
