@@ -45,7 +45,7 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
               //make cal to set the format type here //inturn makes call to get possible templates
               $scope.adFormatSelection($scope.creativeFormat);
               //make call to generate Template
-              $scope.onTemplateSelected($scope.creativeEditData.vendorCreativeTemplate,$scope.creativeEditData.creativeCustomInputs);
+              $scope.creativeEditData.vendorCreativeTemplate ? $scope.onTemplateSelected($scope.creativeEditData.vendorCreativeTemplate,$scope.creativeEditData.creativeCustomInputs):'';
               $scope.tag=$scope.creativeEditData.tag;
               $scope.adData.creativeSize=$scope.creativeEditData.size;
           }
@@ -311,13 +311,13 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
           }
           /*In creative List Page to create new creative*/
           if(!$scope.adPage){
-              getAdServers();
+              getAdServersInLibraryPage();
               creatives.fetchAdvertisers();
           }
       };
 
       /*Get all adserver in Creative Library Page*/
-      var getAdServers=function(){
+      var getAdServersInLibraryPage=function(){
           var responseData='';
           workflowService
               .getVendorsAdServer()
@@ -494,7 +494,7 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
           }else{
               postCrDataObj.updatedAt=$scope.creativeEditData.updatedAt;
               workflowService
-                  .updateCreative($scope.campaignId, $scope.creative.advertiserId,$scope.creativeEditData.id,postCrDataObj)
+                  .updateCreative($scope.campaignId, $scope.creativeEditData.advertiserId,$scope.creativeEditData.id,postCrDataObj)
                   .then(function(result){
                       if (result.status === 'OK' || result.status === 'success') {
                           $scope.addedSuccessfully = true;
