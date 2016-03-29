@@ -802,7 +802,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             $(document).on('changeDate', '.adGrpStartDateInput', function(ev) {
                 var formElem = $(ev.target).closest('form'),
                     startTime = $(ev.target).val();
-                
+
                 $scope.startTime = startTime;
                 $scope.handleFlightDate(formElem, startTime);
             });
