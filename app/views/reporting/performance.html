@@ -577,7 +577,7 @@
 
             <strong class="pull-left discrepancyName" ng-class="{rowHasSubRow:vendor.nodes.length > 1}" data-ng-click="discrepancy_click_first_level($index , $event)">
                 <span class="pull-left icon-arrow-down" ng-if="vendor.nodes.length > 1" ></span>
-                <span class="pull-left platform_logo_img" ng-if="vendor.nodes.length == 1"><img ng-src="{{performanceIconUrl(vendor.nodes[0].name)}}" err-src="/images/platform_favicons/platform_logo.png" style="max-width: 10px;"></span>
+                <span class="pull-left platform_logo_img" ng-if="vendor.nodes.length == 1"><img ng-src="{{performanceIconUrl(vendor.nodes[0].iconName)}}" err-src="/images/platform_favicons/platform_logo.png" style="max-width: 10px;"></span>
                 <span ng-bind="vendor.nodes.length > 1 ? vendor.category : vendor.nodes[0].name" style="margin-left: 10px"></span>
             </strong>
 
@@ -596,7 +596,7 @@
         <div class="col-md-12 zeroPadding discrepancySecLevel" id="discrepancy_2nd_level_{{$index}}" ng-if="vendor.nodes.length > 1">
 
             <div class="col-md-12 zeroPadding discrepancySecLevelRow" data-ng-repeat="node in vendor.nodes" >
-                <span class="pull-left platform_logo_img"><img ng-src="{{performanceIconUrl(node.name)}}" style="max-width: 10px;"></span>
+                <span class="pull-left platform_logo_img"><img ng-src="{{performanceIconUrl(node.iconName)}}" err-src="/images/platform_favicons/platform_logo.png" style="max-width: 10px;"></span>
                 <span data-ng-bind="node.name" class="pull-left discrepancySecLevelName"></span>
 
                 <div class="col-md-2 text-right" ng-bind="((node.imps >0) || (node.imps == 0)) ? (node.imps | nrFormat) : '-'" style="padding:0"></div>
