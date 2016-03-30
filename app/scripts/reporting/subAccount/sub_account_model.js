@@ -1,5 +1,5 @@
-define(['angularAMD', 'workflow/services/workflow_service','common/services/constants_service'], function (angularAMD) {
-    angularAMD.service("subAccountModel", function ($rootScope, workflowService,constants) {
+define(['angularAMD', 'workflow/services/workflow_service','common/services/constants_service','login/login_model'], function (angularAMD) {
+    angularAMD.service("subAccountModel", function ($rootScope, workflowService,constants,loginModel) {
         var self = this;
         self.subAccounts = {
             allSubAccounts: []
@@ -22,9 +22,17 @@ define(['angularAMD', 'workflow/services/workflow_service','common/services/cons
         }
 
 
-        this.fetchSubAccounts = function (successCallBack, searchCritera, search) {
+        this.fetchSubAccounts = function (from,successCallBack, searchCritera, search) {
+            console.log('Subaccount Model: ',from)
             workflowService.getSubAccounts().then(function (response) {
-                self.setSelectedSubAccount({'id': response.data.data[0].id, 'name': response.data.data[0].name});
+                if(from == 'MasterClientChanged') {
+                    self.setSelectedSubAccount({'id': response.data.data[0].id, 'name': response.data.data[0].name});
+                } else {
+                    var selectedClient = loginModel.getSelectedClient();
+                    if(selectedClient && selectedClient.id){
+                        self.setSelectedSubAccount({'id': selectedClient.id, 'name': selectedClient.name});
+                    }
+                }
                 self.setSubAccounts(response.data.data);
                 successCallBack();
             });

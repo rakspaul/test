@@ -28,6 +28,8 @@ define(['angularAMD','reporting/brands/brands_model','reporting/brands/brands_se
          }
 
         $scope.selectBrand = function (brand, advertiser, event_type) {
+            console.log("selectBrand");
+            console.log("brand", brand , "advertiser", advertiser, "event_type", event_type);
             $("#brand_name_selected").text(brand.name);
             $('#brandsDropdown').attr('placeholder', brand.name).val('');
             $scope.brandData.showAll = true;
@@ -66,6 +68,7 @@ define(['angularAMD','reporting/brands/brands_model','reporting/brands/brands_se
 
         $scope.$on(constants.EVENT_ADVERTISER_CHANGED, function(event, args) {
             loadBrands = true;
+            console.log("args", args);
             var advertiser = args.advertiser;
             $scope.advertiser =  advertiser;
             $scope.brandData.selectedBrand = {};

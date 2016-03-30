@@ -178,9 +178,9 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
                    $scope.subAccountName = data.name;
                  //  $scope.creative.subAccountId = data.id;
                    $scope.creative.clientId = data.id;
-                  $scope.creative.advertiserId = '';
+               //   $scope.creative.advertiserId = '';
                   creatives.fetchAdvertisers(data.id);
-                  $scope.advertiserName = 'Select Advertiser';
+                 // $scope.advertiserName = 'Select Advertiser';
                   break;
               case 'advertiser' :
                   $scope.brands = {};
@@ -350,15 +350,20 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
        */
 
       $scope.prarentHandler = function () {
-
-          /*in adPage, hardcode advertiser and call select Handler for Brand*/
           if($scope.adPage){
               var client = loginModel.getSelectedClient();
               var data={
                   'id':client.id,
                   'name':client.name
               }
+
+              var campaignData = localStorage.getItem('campaignData');
+              campaignData = campaignData && JSON.parse(campaignData);
+
+              $scope.advertiserName = campaignData.advertiserName;
+              $scope.creative.advertiserId = campaignData.advertiserId;
               $scope.selectHandler('subAccount',data)
+              creatives.fetchBrands(client.id,campaignData.advertiserId);
 
           }
 

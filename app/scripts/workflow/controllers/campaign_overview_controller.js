@@ -1,10 +1,10 @@
 define(['angularAMD', 'common/services/constants_service', 'workflow/services/workflow_service', 'common/moment_utils',
     'common/services/vistoconfig_service', 'workflow/controllers/get_adgroups_controller',
-    'workflow/directives/edit_ad_group_section'],
+    'workflow/directives/edit_ad_group_section','login/login_model'],
     function (angularAMD) {
         angularAMD.controller('CampaignOverViewController', function ($scope, $rootScope, $routeParams, $timeout,
                                                                       $location, $route, constants, workflowService,
-                                                                      momentService, vistoconfig, featuresService) {
+                                                                      momentService, vistoconfig, featuresService,loginModel) {
             $('.main_navigation_holder')
                 .find('.active_tab')
                 .removeClass('active_tab');
@@ -43,6 +43,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             $scope.loadingBtn = false;
             $scope.isMinimumAdGroupBudget = true;
             $scope.isMaximumAdGroupBudget = true;
+            $scope.selectedClientName = loginModel.getSelectedClient().name;
 
             // TODO:
             /*$scope.searchTerm = '';

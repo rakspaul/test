@@ -506,8 +506,6 @@ define(['common'], function (angularAMD) {
                         } else {
                             setDefaultPage = 'dashboard';
                             $location.url(setDefaultPage);
-
-
                         }
                     }
                 },
@@ -554,7 +552,7 @@ define(['common'], function (angularAMD) {
                                         }
                                     } else {
                                         //set subAccount
-                                        subAccountModel.fetchSubAccounts(function(){
+                                        subAccountModel.fetchSubAccounts('app',function(){
                                             workflowService.getClientData(clientObj.id).then(function (response) {
                                                 featuresService.setFeatureParams(response.data.data.features);
                                             });
