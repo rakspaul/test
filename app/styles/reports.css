@@ -1002,10 +1002,10 @@ div.strategy_total_container div.strategy_total_container_header .discrepancySec
   margin-bottom: 5px;
 }
 div.strategy_total_container div.strategy_total_container_header .discrepancySecLevel .platform_logo_img {
-  margin-left: 45px;
+  margin-left: 25px;
 }
 div.strategy_total_container div.strategy_total_container_header .discrepancySecLevel .discrepancySecLevelName {
-  width: 177px;
+  width: 192px;
 }
 div.strategy_total_container div.strategy_total_container_header .rowHasSubRow {
   cursor: pointer;
@@ -4173,7 +4173,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 }
 .custom_report_response_page .custom_report_response_table .each_col.more_dimension_arrow {
   display: none;
-  background: url("/images/cdesk/common_side_arrow.png") no-repeat left 1px #fff;
+  background: url("/images/cdesk/common_side_arrow.png") no-repeat left 1px #ffffff;
   height: 11px;
   width: 12px;
   min-width: 12px;

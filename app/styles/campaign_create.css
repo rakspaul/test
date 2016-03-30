@@ -1837,6 +1837,9 @@
   float: left;
   width: 100%;
 }
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroup .adTitle .editAdgroupDiv {
+  padding: 15px ;
+}
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroup .adTitle .editAdgroupDiv .adGroupCreateForm {
   border: 0 ;
   padding: 0 ;
@@ -1939,7 +1942,7 @@
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroup.openInstance .adTitle {
   border-bottom: 1px solid #CDD2DA;
-  padding: 30px;
+  padding: 15px;
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroup.openInstance .adTitle .pillsWrap {
   float: left;
