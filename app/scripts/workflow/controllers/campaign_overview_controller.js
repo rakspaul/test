@@ -45,6 +45,8 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             $scope.isMaximumAdGroupBudget = true;
             $scope.selectedClientName = loginModel.getSelectedClient().name;
 
+           $scope.isLeafNode = loginModel.getMasterClient().isLeafNode;
+
             // TODO:
             /*$scope.searchTerm = '';
             $scope.campaigns.searchTerm = '';
