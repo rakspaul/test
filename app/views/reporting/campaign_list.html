@@ -106,7 +106,7 @@
              ng-if="(campaigns.dashboard.quickFilterSelectedCount === 0)">
             <div class="all_campaigns_container">
                 <div  class="no-campaign-available"
-                      ng-if="(campaigns.dashboard.quickFilterSelectedCount === 0)"
+                      ng-if="campaigns.noData"
                       data-ng-bind="textConstants.NO_RELEVANT_CAMPAIGNS">
                 </div>
                 <div class="each_campaign_cost_container"
@@ -129,13 +129,9 @@
         <!-- PERFORMANCE DIV -->
         <div class="each_section_block total_campaign_list_holder" id="performance_block">
             <div class="all_campaigns_container">
-                <div  class="no-campaign-available"
-                      ng-if="(campaigns.dashboard.filterTotal == 0 )"
-                      data-ng-bind="textConstants.NO_RELEVANT_CAMPAIGNS">
-                </div>
                 <div class="clearfix row-fluid each_campaign_holder" data-ng-repeat="campaign in campaigns.campaignList">
                     <!-- campaign strategy card -->
-                    <div ng-if="(campaigns.dashboard.filterTotal > 0 )"
+                    <div ng-if="(campaigns.dashboard.filterTotal > 0)"
                          campaign-card campaign="campaign"
                          campaigns="campaigns"
                          class="col-md-12 zeroPadding">

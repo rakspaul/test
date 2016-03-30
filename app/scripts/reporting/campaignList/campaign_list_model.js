@@ -225,6 +225,11 @@ define(['angularAMD','reporting/campaignList/campaign_list_service', 'common/ser
                                         if (!self.dashboard.originalFilterTotal) {
                                             self.dashboard.originalFilterTotal = data[0].count;
                                         }
+
+                                        // Show / Hide 'No Relevant Media Plans' display
+                                        self.noData = self.dashboard.quickFilterSelectedCount ? false : true;
+                                    } else {
+                                        self.noData = true;
                                     }
 
                                     requestCanceller.resetCanceller(constants.CAMPAIGN_LIST_CANCELLER);
