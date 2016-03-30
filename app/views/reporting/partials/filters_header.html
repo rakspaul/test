@@ -15,7 +15,8 @@
     <div class="pull-left dropdown breadcrumb_nav_campaign" ng-if="reportFilter" style="max-width:190px">
         <campaign-drop-down selected-obj=selectedCampaign all-campaign="{{allCampaign}}"></campaign-drop-down>
     </div>
-    <div class="pull-left breadcrumb_nav_strategy" ng-show="isStrategyDropDownShow" ng-if=reportFilter>
+    
+    <div class="pull-left breadcrumb_nav_strategy" ng-show="isStrategyDropDownShow" ng-if="showStrategies">
         <strategy-drop-down selected-obj=selectedStrategy></strategy-drop-down>
     </div>
     <div class="pull-left dropdown dropdown-two each_filter lifetime_filter" ng-show="isStrategyDropDownShow" ng-if="reportFilter == 'true'">

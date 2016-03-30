@@ -14,7 +14,7 @@
                 </div>
             </div> -->
             <!-- <div class="clearfix"></div>
-            
+
             <div id="cost_strategies_dd" ng-show="isStrategyDropDownShow">
                 <strategy-drop-down selected-obj=selectedStrategy ></strategy-drop-down >
             </div> -->
@@ -26,9 +26,9 @@
                     <download-report></download-report>
                 </div>
             </div>
-            
+
             <div class="clearfix">
-                <filters-header reports="true"></filters-header>
+                <filters-header reports="true" strategies="true"></filters-header>
             </div>
 
             <div class="common-load-icon_viewability"  ng-show="strategyLoading && selectedCampaign.id != -1"></div>
@@ -62,7 +62,7 @@
                                     <div class="clearfix each_cost_heading" ng-if="!dataNotFound">
                                         <span class="pull-left text_next_margin_per" ng-bind="strategyHeading"></span>                                        <!-- <span class="margin_percentage" ng-if ="(strategyMarginValue >=0)">{{strategyMarginValue}}{{strategyMarginUnit}}</span> -->
                                     </div>
-                               
+
                                     <div class="clearfix cost_col_container cost_cols_holder" ng-repeat="strategy in strategyCostData track by $index" ng-if="!dataNotFound">
                                         <div class="each_cost_col first_col" ng-bind="strategy.impressions != null ? (strategy.impressions | nrFormat) : '-'"></div>
                                         <div class="each_cost_col second_col" ng-bind="(strategy[(selected_filters.kpi_type.toLowerCase() === 'vtc')?'vtc_100':selected_filters.kpi_type.toLowerCase()] | appendDollor : selected_filters.kpi_type.toLowerCase())"></div>

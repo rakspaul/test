@@ -21,7 +21,7 @@
         </div>
 
         <div class="clearfix">
-            <filters-header reports="true"></filters-header>
+            <filters-header reports="true" strategies="true"></filters-header>
         </div>
 
         <div class="common-load-icon_viewability"  ng-show="strategyLoading && selectedCampaign.id != -1"></div>
@@ -573,7 +573,7 @@
     <!--Row 1-->
     <div class="col-md-12 discrepancyTplRow"  data-row-index="{{$index}}" ng-class="{open:vendor.nodes.length > 1}" >
         <div class="col-md-12 zeroPadding">
-                    
+
 
             <strong class="pull-left discrepancyName" ng-class="{rowHasSubRow:vendor.nodes.length > 1}" data-ng-click="discrepancy_click_first_level($index , $event)">
                 <span class="pull-left icon-arrow-down" ng-if="vendor.nodes.length > 1" ></span>
