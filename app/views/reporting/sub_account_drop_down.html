@@ -1,14 +1,14 @@
-<div class="nav_filters_heading">Sub Account</div>
-<div class="brand_name_selected" id="sub_account_name_selected" ng-click="showSubAccountDropDown()" title="{{brandData.selectedAdvertiser.name}}"  ng-bind="(subAccountData.selectedsubAccount.name ? subAccountData.selectedsubAccount.name:'dfdf')"></div>
+<div class="nav_filters_heading">Sub-Account</div>
+<div class="brand_name_selected" id="sub_account_name_selected" ng-click="showSubAccountDropDown()" title="{{subAccountData.selectedsubAccount.name}}"  ng-bind="(subAccountData.selectedsubAccount.name ? subAccountData.selectedsubAccount.name:'')"></div>
 <div class="clearfix">
     <div class="brandsDropdownSearch">
         <ul class="dropdown-menu" role="menu" id="subAccountDropDownList">
             <div id="subAccountDropdownDiv">
-                <input class="dropdown-toggle inactive"  id="subAccountDropdown"  ng-keyup="disableShowAll();" >
+                <input class="dropdown-toggle inactive"  id="subAccountDropdown"  ng-keyup="disableShowAll();" ng-model="selectedSubAccount.name">
                 <span class="sort-image-inactive brands_dd_filter_arrow" id="#brandsDropDownImg"></span>
             </div>
             <div  class="subAccountList_ul">
-                <li ng-repeat="saccount in subAccountData.subAccounts" >
+                <li ng-repeat="saccount in subAccountData.subAccounts" ng-class="{'active' : saccount.id === subAccountData.selectedsubAccount.id}">
                     <a data-ng-click="selectSubAccount(saccount, 'clicked')">
                         <span class="tick"></span>
                         <span class="menuItemText" ng-bind-html="highlightSearch(advertiser.name, selectedAdvertiser.name)" ng-bind="saccount.name"></span>

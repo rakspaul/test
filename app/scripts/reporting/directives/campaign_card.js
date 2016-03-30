@@ -16,13 +16,48 @@ define(['angularAMD', '../../common/utils', 'common/services/constants_service',
                     link: function ($scope, element, attrs) {
                         var fparams = featuresService.getFeatureParams(),
                             campaignList = $scope.campaigns.campaignList,
-                            i;
+                            keywordsArr = '',
+                            keywords;
 
                         $scope.searchTerm = $scope.campaigns.searchTerm;
+                        keywordsArr = $scope.searchTerm ? $scope.searchTerm.split(' ') : '';
+                        if (keywordsArr) {
+                            // If search term contains more than 1 word,
+                            // add the entire search term into the list of keywords array.
+                            if (keywordsArr.length > 1) {
+                                keywordsArr.push($scope.searchTerm);
+                            }
+                            keywords = keywordsArr.join('|');
+                        }
+
                         _.each(campaignList, function (obj) {
-                            obj.campaignTitleHtml = highlightTitleText(obj.campaignTitle, $scope.searchTerm);
-                            for (i = 0; i < obj.labels.length; i++) {
-                                obj.labels[i] = highlightLabelPill(obj.labels[i], $scope.searchTerm);
+                            var labelsLen = 0,
+                                searchTermsArr,
+                                searchTermsLen = 0,
+                                i,
+                                j,
+                                temp;
+
+                            if (keywordsArr) {
+                                // Highlight keywords in title
+                                obj.campaignTitleHtml = highlightTitleText(obj.campaignTitle, keywords);
+
+                                // Highlight matching label pills
+                                labelsLen = obj.labels.length;
+                                searchTermsArr = $scope.searchTerm.split(' ');
+                                searchTermsLen = searchTermsArr.length;
+                                if (searchTermsLen > 1) {
+                                    searchTermsArr.push($scope.searchTerm);
+                                }
+                                for (i = 0; i < labelsLen; i++) {
+                                    for (j = 0; j < searchTermsLen; j++) {
+                                        temp = highlightLabelPill(obj.labels[i], searchTermsArr[j]).toString();
+                                        if (temp.indexOf('</mark>') >= 0) {
+                                            obj.labels[i] = temp;
+                                            break;
+                                        }
+                                    }
+                                }
                             }
                         });
 
@@ -36,10 +71,12 @@ define(['angularAMD', '../../common/utils', 'common/services/constants_service',
                         }
 
                         function highlightLabelPill(text, phrase) {
-                            var tempText = text.toString();
+                            var tempText = text ? text.toString() : '',
+                                tempTextLower = tempText.toLowerCase(),
+                                tempPhrase = phrase ? phrase.toLowerCase() : '';
 
-                            if (phrase && tempText.indexOf('</mark>') === -1) {
-                                if (tempText.indexOf(phrase) >= 0) {
+                            if (phrase && tempTextLower.indexOf('</mark>') === -1) {
+                                if (tempTextLower.indexOf(tempPhrase) >= 0) {
                                     tempText = $sce.trustAsHtml('<mark class="brand_search_highlight">' +
                                         tempText + '</mark>');
                                 }
@@ -49,7 +86,7 @@ define(['angularAMD', '../../common/utils', 'common/services/constants_service',
                         }
 
                         $scope.addHighlightClass = function (text, phrase) {
-                            var tempText = text.toString().toLowerCase();
+                            var tempText = text ? text.toString().toLowerCase() : '';
 
                             return tempText.indexOf(phrase) >= 0;
                         };

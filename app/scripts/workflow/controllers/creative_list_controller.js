@@ -121,7 +121,7 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
                             var alreadyFound=_.filter($scope.creativeData['creatives'], function (obj) {
                                 return obj.id === result.data.data[0].id;
                             });
-                            if(alreadyFound<=0){
+                            if(alreadyFound.length<=0){
                                 _.each(result.data.data , function (obj) {
                                     $scope.creativeData['creatives'].push(obj);
                                 });
@@ -295,6 +295,7 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
                 var selectedClientObj = localStorage.selectedClient && JSON.parse(localStorage.selectedClient);
                 creativeList.getCreativesList(JSON.parse(localStorage.selectedClient).id, undefined, qryStr);
             }else if(searchVal.length==0){
+                $scope.creativeData['creatives'].length = 0;
                 var selectedClientObj = localStorage.selectedClient && JSON.parse(localStorage.selectedClient);
                 creativeList.getCreativesList(JSON.parse(localStorage.selectedClient).id,'', '',20, 1);
             }

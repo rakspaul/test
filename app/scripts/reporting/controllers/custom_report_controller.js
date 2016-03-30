@@ -179,7 +179,8 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
         }
 
 
-        $scope.reports.client_id = loginModel.getSelectedClient().id;
+       // $scope.reports.client_id = loginModel.getSelectedClient().id;
+        $scope.reports.client_id = loginModel.getMasterClient().id;
         $(".main_navigation").find('.active').removeClass('active').end().find('#reports_nav_link').addClass('active');
 
 
@@ -550,7 +551,8 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
             $scope.requestData.reportDefinition.filters = [];
             $scope.requestData.reportDefinition.dimensions = [];
             $scope.requestData.name = '';
-            $scope.requestData.client_id = loginModel.getSelectedClient().id;
+           // $scope.requestData.client_id = loginModel.getSelectedClient().id;
+            $scope.requestData.client_id = loginModel.getMasterClient().id;
             $scope.requestData.name = $scope.reports.name;
             $scope.requestData.reportDefinition.timeframe = $scope.reports.reportDefinition.timeframe;
             $scope.requestData.reportDefinition.metrics = $scope.reports.reportDefinition.metrics;

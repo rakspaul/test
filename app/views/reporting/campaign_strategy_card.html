@@ -10,7 +10,10 @@
             </div> -->
             <div class="each_campaign_section">
                 <div class="main_heading pull-left">
-                    <truncate-text-with-hover txt="{{strategy.name}}" txtlength="75"></truncate-text-with-hover>
+                    <truncate-text-with-hover txt="{{strategy.name}}"
+                                              txt-html="{{strategy.name}}"
+                                              txtlength="75">
+                    </truncate-text-with-hover>
                     <!--<span dynamic-tooltip="{{strategy.name}}" tooltip-element="searchElement"
                     txt="{{strategy.name}}" txtLength="75"></span>-->
                 </div>
@@ -187,5 +190,5 @@
 </div>
 
 <span ng-if='campaign.campaignStrategiesLoadMore.length' class="load-more-strategies">
-    <a ng-click="loadMoreStrategies(campaign.orderId)">{{textConstants.LOAD_MORE_STRATEGIES}}</a>
+    <a ng-click="loadMoreStrategies(campaign.orderId)" class="btn btn-link">{{textConstants.LOAD_MORE_STRATEGIES}}</a>
 </span>

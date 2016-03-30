@@ -110,7 +110,7 @@ span.cost_opaque .cost_opaque_icon {
 .total_reports_page .reports_graph_top_section {
   min-height: 240px;
   width: 100% ;
-  margin: 20px auto;
+  margin: 0px auto 20px ;
   color: #999;
   font-size: 14px;
   padding: 22px 36px 22px 20px ;
@@ -819,7 +819,7 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
 .breadcrumb_campaign_strategy .inventory_charts_details_holder .chart_inventory_header,
 .common_reports_container .reports_chart_details_holder .chart_inventory_header,
 .breadcrumb_campaign_strategy .reports_chart_details_holder .chart_inventory_header {
-  margin-top: 15px;
+  margin-top: 21px;
   margin-right: 20px;
 }
 .common_reports_container .inventory_charts_details_holder .chart_inventory_header .inventory_chart_details_list,
@@ -988,11 +988,43 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
   line-height: 20px;
   font-size: 12px;
 }
+div.strategy_total_container .discrepancyName {
+  width: 250px;
+  margin-bottom: 10px;
+}
 div.strategy_total_container div.strategy_total_container_header {
   background: #f5f9fd;
   border: solid 1px #ccd9e3;
   border-top-width: 2px ;
   padding: 15px 20px 5px 20px ;
+}
+div.strategy_total_container div.strategy_total_container_header .discrepancySecLevel .discrepancySecLevelRow {
+  margin-bottom: 5px;
+}
+div.strategy_total_container div.strategy_total_container_header .discrepancySecLevel .platform_logo_img {
+  margin-left: 25px;
+}
+div.strategy_total_container div.strategy_total_container_header .discrepancySecLevel .discrepancySecLevelName {
+  width: 192px;
+}
+div.strategy_total_container div.strategy_total_container_header .rowHasSubRow {
+  cursor: pointer;
+}
+div.strategy_total_container div.strategy_total_container_header .discrepancyTplRow .icon-arrow-down {
+  font-size: 9px;
+  color: #000;
+  -ms-transform: rotate(-90deg);
+  -webkit-transform: rotate(-90deg);
+  transform: rotate(-90deg);
+}
+div.strategy_total_container div.strategy_total_container_header .discrepancyTplRow .platform_logo_img {
+  margin-right: 8px ;
+}
+div.strategy_total_container div.strategy_total_container_header .discrepancyTplRow.open .icon-arrow-down {
+  -ms-transform: rotate(0deg);
+  -webkit-transform: rotate(0deg);
+  transform: rotate(0deg);
+  margin-top: 7px;
 }
 div.strategy_total_container div.strategy_total_container_header div.each_col.first_col {
   color: #21252b ;
@@ -1616,7 +1648,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
   top: 145px ;
 }
 .viewability_quality .viewability_container {
-  margin-top: 53px;
+  margin-top: 22px;
 }
 .viewability_quality .view_mode_switch_container {
   top: 41px;
@@ -2093,7 +2125,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 /* margin block end */
 /**************** reports performance table styling ***********/
 .reports_tabs_content_container {
-  margin-top: 15px ;
+  margin-top: 22  px ;
 }
 .reports_tabs_content_container .common-load-icon {
   text-align: center;
@@ -2194,6 +2226,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
   border: solid 1px #d2dee7;
   border-bottom: 0px;
   border-radius: 4px 4px 0 0;
+  margin-top: 21px ;
 }
 .reports_tabs_content_container .reports_tabs_holder .each_tab {
   position: relative;
@@ -2685,7 +2718,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
   padding-top: 10px;
 }
 .reports_cost_header_holder {
-  margin-top: 15px ;
+  margin-top: 21px ;
   /*  .cost_header_holder {
     .each_cost_col.three_col {
       min-width: 70px;
@@ -3725,13 +3758,13 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 .report_generator_and_response .report_builder_container .heading h3 {
   font-size: 21px ;
   color: #000 ;
-  margin: 30px 0px 20px;
+  margin: 25px 0px;
   font-weight: bold;
 }
 .report_generator_and_response .report_builder_container .heading h6 {
   font-size: 14px ;
   color: #000 ;
-  margin: 37px 147px 20px;
+  margin: 32px 147px 20px;
 }
 .report_generator_and_response .report_builder_container .common_dropdown .dropdown {
   border-color: #BFC9D7 ;
@@ -3743,7 +3776,6 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
   max-width: 1200px ;
   padding: 0 ;
   width: auto ;
-  margin-top: 10px;
 }
 .report_generator_and_response .report_builder_container .timeframe_selector {
   padding: 0px ;
@@ -3769,7 +3801,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
   font-size: 14px;
 }
 .report_generator_and_response .report_builder_container .each_section_custom_report {
-  margin: 0px 0 30px 0 ;
+  margin: 0px 0 20px 0 ;
 }
 .report_generator_and_response .report_builder_container .each_section_custom_report .custom_report_filter {
   margin-right: 11px;
@@ -3786,8 +3818,6 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 }
 .report_generator_and_response .report_builder_container .each_section_custom_report .each_measurable_col {
   padding: 0;
-  /*          margin-right: 70px;
-          width: 182px;*/
   padding-right: 10px;
   width: 600px;
   display: table-cell;
@@ -3999,7 +4029,6 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
   margin: 0 30px 0 0;
 }
 .report_generator_and_response div.create_scheduled_report {
-  margin-top: 10px ;
   margin-bottom: 20px ;
 }
 .report_generator_and_response div.create_scheduled_report .scheduled_report_fields {
@@ -4144,7 +4173,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 }
 .custom_report_response_page .custom_report_response_table .each_col.more_dimension_arrow {
   display: none;
-  background: url("/images/cdesk/common_side_arrow.png") no-repeat left 1px #fff;
+  background: url("/images/cdesk/common_side_arrow.png") no-repeat left 1px #ffffff;
   height: 11px;
   width: 12px;
   min-width: 12px;
@@ -4396,6 +4425,9 @@ div.reports_tabs_content_container div#reports_bycreatives_block div.reports_det
 .dropdown_ul_text.active {
   color: #0978c9;
 }
+.see_dates_holder {
+  margin: -10px 0 10px;
+}
 .report_response_and_tabs .custom_report_response_tabs .each_tab {
   float: left;
   padding: 7px 5px;
@@ -4460,7 +4492,7 @@ div.reports_tabs_content_container div#reports_bycreatives_block div.reports_det
   cursor: default;
 }
 .page_top_header {
-  margin: 23px 0 20px;
+  margin: 21px 0 0px;
   padding: 0 ;
 }
 .page_top_header .page_name {

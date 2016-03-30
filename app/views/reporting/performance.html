@@ -11,7 +11,7 @@
         <!-- <div id="performance_strategies_dd" ng-show="isStrategyDropDownShow">
             <strategy-drop-down selected-obj=selectedStrategy ></strategy-drop-down >
         </div> -->
-         <div class="clearfix page_top_header col-md-12">
+         <div class="clearfix page_top_header">
             <div class="pull-left col-md-6 page_name">
                 Performance Report
             </div>
@@ -21,7 +21,7 @@
         </div>
 
         <div class="clearfix">
-            <filters-header reports="true"></filters-header>
+            <filters-header reports="true" strategies="true"></filters-header>
         </div>
 
         <div class="common-load-icon_viewability"  ng-show="strategyLoading && selectedCampaign.id != -1"></div>
@@ -571,35 +571,35 @@
 <!--Discrepancy Table Columns Starts-->
 <script type="text/ng-template" id="discrepancyTpl">
     <!--Row 1-->
-    <div class="col-md-12"  data-row-index="{{$index}}" style="margin-bottom: 5px;">
+    <div class="col-md-12 discrepancyTplRow"  data-row-index="{{$index}}" ng-class="{open:vendor.nodes.length > 1}" >
         <div class="col-md-12 zeroPadding">
-                    <span class="platform_logo_img">
-                <img ng-src="{{vendor.nodes[0].icon}}">
-            </span>
-            <strong ng-bind="vendor.nodes.length > 1 ? vendor.category : vendor.nodes[0].name" class="pull-left" style="width: 250px;" data-ng-click="discrepancy_click_first_level($index)"></strong>
+
+
+            <strong class="pull-left discrepancyName" ng-class="{rowHasSubRow:vendor.nodes.length > 1}" data-ng-click="discrepancy_click_first_level($index , $event)">
+                <span class="pull-left icon-arrow-down" ng-if="vendor.nodes.length > 1" ></span>
+                <span class="pull-left platform_logo_img" ng-if="vendor.nodes.length == 1"><img ng-src="{{performanceIconUrl(vendor.nodes[0].iconName)}}" err-src="/images/platform_favicons/platform_logo.png" style="max-width: 10px;"></span>
+                <span ng-bind="vendor.nodes.length > 1 ? vendor.category : vendor.nodes[0].name" style="margin-left: 10px"></span>
+            </strong>
+
 
             <!--Column 2-->
             <strong class="col-md-2 text-right">{{((vendor.imps >0) || (vendor.imps == 0)) ? (vendor.imps | nrFormat) : '-'}}</strong>
 
             <!--Column 3-->
-            <strong class="col-md-2" data-ng-bind="(selectedVendorImps - vendor.imps) | positive | nrFormat"></strong>
+            <strong class="col-md-2" data-ng-bind="getDiscrepancyImpsGap(vendor.imps, vendor.ad_id) | nrFormat"></strong>
 
             <!--&lt;!&ndash;Column 4&ndash;&gt;vendor.imps?((selectedVendorImps - vendor.imps)/vendor.imps):0   ((      (!selectedVendorImps && !vendor.imps) ? 0 :    ) * 100 | nrFormat | positive) + '%'-->
-            <strong class="col-md-2 text-right" data-ng-bind="getRateOfDiscrepancy(selectedVendorImps, vendor.imps)"></strong>
+            <strong class="col-md-2 text-right" data-ng-bind="getRateOfDiscrepancy(vendor.imps, vendor.ad_id) | setDecimal:2 "></strong>
         </div>
 
 
-        <div class="col-md-12 zeroPadding" id="discrepancy_2nd_level_{{$index}}" ng-if="vendor.nodes.length > 1">
+        <div class="col-md-12 zeroPadding discrepancySecLevel" id="discrepancy_2nd_level_{{$index}}" ng-if="vendor.nodes.length > 1">
 
-            <div class="col-md-12 zeroPadding"
-                 data-ng-repeat="node in vendor.nodes"
-                 style="margin-bottom: 5px;">
-                        <span class="platform_logo_img">
-                <img ng-src="{{vendor.nodes[0].icon}}">
-            </span>
-                <span data-ng-bind="node.name" class="pull-left" style="width: 250px; padding-left: 45px;"></span>
+            <div class="col-md-12 zeroPadding discrepancySecLevelRow" data-ng-repeat="node in vendor.nodes" >
+                <span class="pull-left platform_logo_img"><img ng-src="{{performanceIconUrl(node.iconName)}}" err-src="/images/platform_favicons/platform_logo.png" style="max-width: 10px;"></span>
+                <span data-ng-bind="node.name" class="pull-left discrepancySecLevelName"></span>
 
-                <div class="col-md-2 text-right" ng-bind="((node.imps >0) || (node.imps == 0)) ? (node.imps | nrFormat) : '-'"></div>
+                <div class="col-md-2 text-right" ng-bind="((node.imps >0) || (node.imps == 0)) ? (node.imps | nrFormat) : '-'" style="padding:0"></div>
                 <!--<div class="col-md-2">0</div>-->
                 <!--<div class="col-md-2 text-right">0 %</div>-->
             </div>

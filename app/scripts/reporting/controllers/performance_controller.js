@@ -11,6 +11,7 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
                                                                  dataService, domainReports, constants,
                                                                  timePeriodModel, brandsModel, loginModel,
                                                                  urlService, advertiserModel) {
+        var _customctrl = this;
 
         $scope.textConstants = constants;
 
@@ -140,7 +141,7 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
 
         $scope.getPerformanceData =  function() {
             var performanceQueryIdMapperWithAllAdsGroup = { 'screen' : 7, 'format' : 8, 'adsizes' : 9, 'creatives' :10, 'dow' :11, 'discrepancy' : 44};
-            var performanceQueryIdMapperWithSelectedAdsGroup = { 'screen' : 17, 'format' : 18, 'adsizes' : 19, 'creatives' :20, 'dow' :21, 'discrepancy' : 22};
+            var performanceQueryIdMapperWithSelectedAdsGroup = { 'screen' : 17, 'format' : 18, 'adsizes' : 19, 'creatives' :20, 'dow' :21, 'discrepancy' : 45};
 
             var datefilter = timePeriodModel.getTimePeriod(timePeriodModel.timeData.selectedTimePeriod.key);
 
@@ -180,6 +181,7 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
             return dataService.fetch(url).then(function (result) {
                 $scope.strategyLoading =  false;
                 $scope.vendorList = [];
+                _customctrl.selectedVendorImps = {};
                 if (result.status === "OK" || result.status === "success") {
                     $scope['dataNotFoundFor'+tab] = false;
                     $scope.hidePerformanceReportTab = $scope.checkForSelectedTabData(result.data.data, tab);
@@ -215,10 +217,11 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
                         if(param.tab == "bydiscrepancy") {
                             _.each($scope['strategyPerfDataBy' + tab], function (item) {
                                 var vendorName = (item.nodes.length === 1) ? item.nodes[0].name : item.category;
-                                $scope.vendorList.push({"name": vendorName, "imps": item.imps});
+                                $scope.vendorList.push({"name": vendorName, "imps": item.imps, category: item.category});
                                 if(!$scope.selectedVendor){
                                     $scope.selectedVendor = vendorName;
                                     $scope.selectedVendorImps = item.imps;
+                                    $scope.selectedCategoryType = item.category;
                                 }
                             });
                         }
@@ -236,22 +239,46 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
             _.each($scope.vendorList, function(item){
                 if(item.name == arg){
                     $scope.selectedVendorImps = item.imps;
+                    $scope.selectedCategoryType = item.category;
                 }
             });
         }
 
-        $scope.discrepancy_click_first_level = function(index){
+        $scope.discrepancy_click_first_level = function(index , event){
             $("#discrepancy_2nd_level_"+index).slideToggle();
+            var elem = $(event.target);
+            elem.closest(".discrepancyTplRow").toggleClass("open");
         }
 
-        $scope.getRateOfDiscrepancy = function(imps1, imps2){
+        $scope.getRateOfDiscrepancy = function(imps1, adId){
+            var imps2 = Number($scope.selectedStrategy.id) >= 0 ? _customctrl.selectedVendorImps[adId] : $scope.selectedVendorImps;
             if(!imps1 && !imps2){
                 return "0 %";
             }
             var G_imps, L_imps;
             (imps1 > imps2) ? (G_imps = imps1, L_imps = imps2) : (G_imps = imps2, L_imps = imps1);
-            //var L_imps = imps1 > imps2 ? imps1
-            return ((G_imps - L_imps) / G_imps) * 100 + "%";
+            return ((imps2 > imps1) ? "-" : '') + ((G_imps - L_imps) / G_imps) * 100 + "%";
+        }
+
+        $scope.getDiscrepancyImpsGap = function(vendorImps, adId){
+            if(Number($scope.selectedStrategy.id) >= 0){
+                if(adId == -1) {
+                    _.each($scope.strategyPerfDataByDiscrepancy, function (item) {
+                        if(item.category == $scope.selectedCategoryType){
+                            _customctrl.selectedVendorImps["-1"] = item.imps;
+                        }
+                    });
+                }else{
+                    _.each($scope.strategyPerfDataByTacticDiscrepancy, function(item){
+                        if(item.ad_id == adId && (item.category == $scope.selectedCategoryType)){
+                            _customctrl.selectedVendorImps[adId] = item.imps;
+                        }
+                    });
+                }
+                return (vendorImps - _customctrl.selectedVendorImps[adId]);
+            }else{
+                return (vendorImps - $scope.selectedVendorImps);
+            }
         }
 
         $scope.$on(constants.EVENT_CAMPAIGN_CHANGED , function(event,campaign) {
@@ -348,6 +375,10 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
             }
         };
 
+        /*$scope.$on(constants.EVENT_SUB_ACCOUNT_CHANGED,function(){
+                getPerformanceData();
+        });
+*/
         //resetting the variable
         $scope.resetVariables =  function() {
             $scope.screenBusy = false;
@@ -503,6 +534,10 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
 
             // end of hot fix for the enabling the active link in the reports dropdown
         });
+        $scope.performanceIconUrl = function (iconName) {
+            return '/images/platform_favicons/' + ((!iconName || iconName == 'Unknown') ? 'platform_logo.png' : iconName.toLowerCase().replace(/ /g, '_') + '.png');
+        };
 
-    });
+
+        });
 });

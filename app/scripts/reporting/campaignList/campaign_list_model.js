@@ -156,8 +156,10 @@ define(['angularAMD','reporting/campaignList/campaign_list_service', 'common/ser
 
                         fetchData = function (searchTerm) {
                             var performanceTab = $('#performance_tab');
-                            this.searchTerm = searchTerm;
-                            console.log('fetchdata() with search term ' + this.searchTerm + '...');
+
+                            if (searchTerm) {
+                                this.searchTerm = searchTerm;
+                            }
 
                             if (performanceTab.hasClass('active') === false && $('#cost_tab').hasClass('active') === false) {
                                 performanceTab.addClass('active');
@@ -204,20 +206,32 @@ define(['angularAMD','reporting/campaignList/campaign_list_service', 'common/ser
 
                             // check scroller only inside container
                             findScrollerFromContainer.call(this);
-                            if ((!this.performanceParams.lastPage && (this.dashboard.filterTotal > 0) &&
+                            if ((!this.performanceParams.lastPage && (this.dashboard.filterTotal > 0) ||
                                 (this.scrollFlag > 0)) || this.searchTerm) {
                                 //Reseting scrollFlag
                                 this.scrollFlag = 0;
                                 this.busy = true;
                                 self = this;
                                 url = _campaignServiceUrl.call(this);
-console.log('REQUEST URL = ', url);
+
                                 campaignListService.getCampaigns(url, function (result) {
                                     var data = result.data.data;
-console.log('RESPONSE DATA = ', data);
-_.each(data, function (obj) {
-    console.log(obj.name, obj.labels);
-})
+
+                                    // The total count is now returned as part of the main result set
+                                    if (data && data[0] && data[0].count) {
+                                        self.dashboard.filterTotal = data[0].count;
+                                        self.dashboard.quickFilterSelectedCount = data[0].count;
+                                        // This stores the original total count on first load
+                                        if (!self.dashboard.originalFilterTotal) {
+                                            self.dashboard.originalFilterTotal = data[0].count;
+                                        }
+
+                                        // Show / Hide 'No Relevant Media Plans' display
+                                        self.noData = self.dashboard.quickFilterSelectedCount ? false : true;
+                                    } else {
+                                        self.noData = true;
+                                    }
+
                                     requestCanceller.resetCanceller(constants.CAMPAIGN_LIST_CANCELLER);
                                     self.busy = false;
 
@@ -423,6 +437,7 @@ _.each(data, function (obj) {
                                     } else {
                                         self.dashboard.displayFilterSection = false;
                                         self.dashboard.filterTotal = result.data.data.total;
+
                                         if (self.dashboard.total > 0) {
                                             self.dashboard.filterSelectAll = false;
                                             self.resetFilters();
@@ -640,7 +655,13 @@ _.each(data, function (obj) {
                             switch (filterToApply) {
                                 case constants.ACTIVE_CONDITION:
                                     this.appliedQuickFilterText = constants.INFLIGHT_LABEL;
-                                    this.dashboard.quickFilterSelectedCount = this.dashboard.active.total;
+
+                                    // Don't assign on first page load. Total count will be taken from
+                                    // main result set.
+                                    if (this.dashboard.quickFilterSelectedCount) {
+                                        this.dashboard.quickFilterSelectedCount = this.dashboard.active.total;
+                                    }
+
                                     this.dashboard.status.active.bothItem = constants.ACTIVE;
                                     type = constants.ACTIVE;
                                     break;
@@ -710,7 +731,7 @@ _.each(data, function (obj) {
                                     type = constants.ARCHIVED.toLowerCase();
                                     break;
 
-                                default :
+                                default:
                                     this.appliedQuickFilterText = constants.DASHBOARD_STATUS_IN_FLIGHT;
                                     this.dashboard.quickFilterSelectedCount = this.dashboard.active.total;
                                     this.dashboard.status.active.bothItem = constants.ACTIVE;
@@ -749,7 +770,6 @@ _.each(data, function (obj) {
                                 'page_size=' + this.pageSize
                             ];
 
-                            console.log('_campaignServiceUrl() with search term ' + this.searchTerm + '...');
                             if (this.searchTerm) {
                                 params.push('search_term=' + this.searchTerm);
                             }
@@ -775,11 +795,8 @@ _.each(data, function (obj) {
                             }
 
                             if (this.searchTerm) {
-                                console.log('Perform search with search term ', this.searchTerm);
                                 return vistoconfig.apiPaths.apiSerivicesUrl_NEW +
                                     '/search/campaigns?' + params.join('&');
-                                //return vistoconfig.apiPaths.apiSerivicesUrl_NEW +
-                                //    '/reportBuilder/customQuery?query_id=42&' + params.join('&');
                             } else {
                                 return vistoconfig.apiPaths.apiSerivicesUrl_NEW +
                                     '/reportBuilder/customQuery?query_id=42&' + params.join('&');

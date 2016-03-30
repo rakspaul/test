@@ -1,5 +1,5 @@
-define(['angularAMD','reporting/advertiser/advertiser_model','common/utils','common/services/constants_service','login/login_model', 'reporting/advertiser/advertiser_directive'],function (angularAMD) {
-  angularAMD.controller('AdvertiserController', function ($scope, $rootScope, advertiserModel, utils,  constants, loginModel) {
+define(['angularAMD','reporting/advertiser/advertiser_model','common/utils','common/services/constants_service','login/login_model', 'reporting/advertiser/advertiser_directive','reporting/subAccount/sub_account_model'],function (angularAMD) {
+  angularAMD.controller('AdvertiserController', function ($scope, $rootScope, advertiserModel, utils,  constants, loginModel,subAccountModel) {
 
         var search = false;
         var searchCriteria = utils.typeaheadParams,
@@ -11,6 +11,7 @@ define(['angularAMD','reporting/advertiser/advertiser_model','common/utils','com
             if (loginModel.getUserId() == undefined) {
               return;
             }
+
             if(loadAdvertisers) {
                 searchCriteria.clientId = loginModel.getSelectedClient().id
                 search = false;
@@ -43,7 +44,7 @@ define(['angularAMD','reporting/advertiser/advertiser_model','common/utils','com
             $("#profileDropdown").hide();
         };
 
-        $scope.disableShowAll = function () { console.log('am called');
+        $scope.disableShowAll = function () {
             $scope.advertiserData.showAll = false;
         };
 
@@ -58,11 +59,13 @@ define(['angularAMD','reporting/advertiser/advertiser_model','common/utils','com
         var accountChanged = $rootScope.$on(constants.ACCOUNT_CHANGED, function (event, args) {
             loadAdvertisers = true;
             var advertiser = advertiserModel.getAllAdvertiser();
-            $scope.selectAdvertiser(advertiser);
+            advertiser.referedFrom = 'selectedsubaccount';
+                $scope.selectAdvertiser(advertiser);
             advertiserModel.setSelectedAdvertisers(advertiser);
             advertiserModel.callAdvertiserBroadcast(advertiser, args.event_type);
            // $rootScope.$broadcast('CAMPAIGN_CHANGE');
         });
+
 
         $scope.$on('$destroy', function() {
             accountChanged();

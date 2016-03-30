@@ -50,7 +50,7 @@ define(['angularAMD', '../../login/login_model', 'common/services/role_based_ser
                 var fParams = featuresService.getFeatureParams();
 
                 if(fParams[0]['scheduled_reports'] === true) {
-                    tabs.push({ href:'reports/schedules', title: 'Saved/Scheduled'});
+                    tabs.push({ href:'reports/schedules', title: 'My Reports'});
                 }
                 if (fParams[0]['collective_insights'] === true) {
                     tabs.push({href: 'reports/list', title: 'Collective Insights'});
@@ -324,7 +324,7 @@ define(['angularAMD', '../../login/login_model', 'common/services/role_based_ser
         };
     }]);
 
-    angularAMD.directive('filtersHeader', ['$http', '$compile', 'constants','loginModel', function ($http, $compile, constants,loginModel) {
+    angularAMD.directive('filtersHeader', ['$rootScope','$http', '$compile', 'constants','loginModel', function ($rootScope,$http, $compile,constants,loginModel) {
         return {
             controller: function ($scope, $cookieStore, $location) {
             },
@@ -334,11 +334,19 @@ define(['angularAMD', '../../login/login_model', 'common/services/role_based_ser
                 scope.reportFilter = attrs.reports;
                 scope.textConstants = constants;
                 scope.allCampaign = attrs.allCampaign;
+                scope.showStrategies = attrs.strategies;
                 var masterClient = loginModel.getMasterClient();
                 scope.isLeafNode = true;
                 if(masterClient.isLeafNode == false) {
                     scope.isLeafNode = false;
                 }
+                var masterClientChanged = $rootScope.$on(constants.EVENT_MASTER_CLIENT_CHANGED, function (event, args) {
+                    scope.isLeafNode = loginModel.getMasterClient().isLeafNode;
+                });
+
+                var masterClientChanged = $rootScope.$on(constants.ACCOUNT_CHANGED, function (event, args) {
+                    scope.isLeafNode = loginModel.getMasterClient().isLeafNode;
+                });
                 if (scope.allCampaign == "true" || scope.allCampaign == true) {
                     scope.selectedCampaign = {
                         id: 0,

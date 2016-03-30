@@ -117,7 +117,8 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
             var scheduleReportListError = function() {
                 $scope.showScheduleListLoader = false;
             };
-            var queryStr = "?clientId="+loginModel.getSelectedClient().id;
+            //var queryStr = "?clientId="+loginModel.getSelectedClient().id;
+            var queryStr = "?clientId="+loginModel.getMasterClient().id;
             queryStr += _curCtrl.getFilterParam();
 
             $scope.showScheduleListLoader = true;
@@ -337,7 +338,8 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
                             if (frequency == "Saved") {
                                 var copySuccess = function (data) {
                                     data.name = 'copy: ' + data.reportName;
-                                    data.client_id = loginModel.getSelectedClient().id;
+                                   // data.client_id = loginModel.getSelectedClient().id;
+                                      data.client_id = loginModel.getMasterClient().id;
                                  //   data.schedule = $scope.pre_formatCopySchData(data.schedule);
                                     collectiveReportModel.createSavedReport(function () {
                                         $scope.refreshReportList();
@@ -353,7 +355,8 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
                             } else {
                                 var copySuccess = function (data) {
                                     data.name = 'copy: ' + data.name;
-                                    data.client_id = loginModel.getSelectedClient().id;
+                                   // data.client_id = loginModel.getSelectedClient().id;
+                                    data.client_id = loginModel.getMasterClient().id;
                                     data.schedule = $scope.pre_formatCopySchData(data.schedule);
                                     collectiveReportModel.createSchdReport(function () {
                                         $scope.refreshReportList();
@@ -447,8 +450,10 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
             setTimeout(function(){ $(".searchInputForm").hide(); }, 300);
             setTimeout(function(){ $(".searchInputBtn").fadeIn(); }, 300);
             $scope.creativeData['creatives']=[];
-            var selectedClientObj = localStorage.selectedClient && JSON.parse(localStorage.selectedClient);
-            creativeList.getCreativesList(JSON.parse(localStorage.selectedClient).id,'', '',20, 1);
+          //  var selectedClientObj = localStorage.selectedClient && JSON.parse(localStorage.selectedClient);
+            var selectedClientObj = localStorage.selectedMasterClient && JSON.parse(localStorage.selectedMasterClient);
+            //creativeList.getCreativesList(JSON.parse(localStorage.selectedClient).id,'', '',20, 1);
+            creativeList.getCreativesList(JSON.parse(localStorage.selectedMasterClient).id,'', '',20, 1);
         };
 
 

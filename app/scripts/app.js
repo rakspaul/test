@@ -9,6 +9,8 @@ define(['common'], function (angularAMD) {
     var app = angular.module('vistoApp', ['ngRoute', 'ngCookies', 'tmh.dynamicLocale', 'ui.bootstrap', 'uiSwitch', 'door3.css', 'ngFileUpload', 'ngSanitize', 'ui.multiselect', 'highcharts-ng', 'ui.bootstrap.showErrors', 'ngTagsInput']);
 
     app.config(function ($routeProvider, $httpProvider) {
+        $routeProvider.caseInsensitiveMatch = true;
+
         $routeProvider
             .when('/login', angularAMD.route({
                 templateUrl: assets.html_reports_login,
@@ -401,10 +403,14 @@ define(['common'], function (angularAMD) {
                 controller: 'CreativeController',
                 controllerUrl: 'workflow/controllers/creative_controller',
                 resolve: {
-                    'check': function ($location, RoleBasedService) {
+                    'check': function ($location, RoleBasedService,workflowService,constants) {
                         var isWorkflowUser =
                             RoleBasedService.getClientRole() && RoleBasedService.getClientRole().workFlowUser;
-
+                        workflowService.setModuleInfo({
+                            'moduleName': 'WORKFLOW',
+                            'warningMsg': constants.ACCOUNT_CHANGE_MSG_ON_CREATE_OR_EDIT_AD_PAGE,
+                            'redirect': false
+                        });
                         if (!isWorkflowUser) {
                             $location.path('/');
                         }
@@ -485,7 +491,7 @@ define(['common'], function (angularAMD) {
                 })
 
         })
-        .run(function ($rootScope, $location, $cookies, loginModel, brandsModel, dataService, $cookieStore, workflowService,featuresService) {
+        .run(function ($rootScope, $location, $cookies, loginModel, brandsModel, dataService, $cookieStore, workflowService,featuresService,subAccountModel) {
             var handleLoginRedirection = function () {
                     var cookieRedirect = $cookieStore.get('cdesk_redirect') || null,
                         setDefaultPage;
@@ -499,10 +505,6 @@ define(['common'], function (angularAMD) {
                             $cookieStore.remove('cdesk_redirect');
                         } else {
                             setDefaultPage = 'dashboard';
-                            //console.log('featuresService.getFeatureParams()[0].dashboard',featuresService.getFeatureParams()[0].dashboard);
-                            /*if(featuresService.getFeatureParams()[0].dashboard === false) {
-                                setDefaultPage = 'mediaplans';
-                            }*/
                             $location.url(setDefaultPage);
                         }
                     }
@@ -520,7 +522,7 @@ define(['common'], function (angularAMD) {
                         brandsModel.enable();
                     }
 
-                    var clientId;
+                    var clientObj;
                     dataService.updateRequestHeader();
                     if ((loginModel.getAuthToken()) && (localStorage.getItem('selectedClient') === null || localStorage.getItem('selectedClient') == undefined )) {
                         var userObj = JSON.parse(localStorage.getItem("userObj"));
@@ -528,36 +530,38 @@ define(['common'], function (angularAMD) {
                             .getClients()
                             .then(function (result) {
                                 if ((result && result.data.data.length > 0)) {
-
+                                    if(userObj.preferred_client){
                                         var matchedClientsobj = _.find(result.data.data, function (obj) {
-                                            return obj.id === userObj.preferred_client
+                                            return obj.id === userObj.preferred_client;
                                         });
+                                    }
                                     if(matchedClientsobj !== undefined) {
-                                        clientId = matchedClientsobj.id;
+                                        clientObj = matchedClientsobj;
+                                    } else {
+                                        clientObj = result.data.data[0];
+                                    }
+                                    loginModel.setMasterClient({'id':clientObj.id,'name':clientObj.name,'isLeafNode':clientObj.isLeafNode});
 
-                                        loginModel.setMasterClient({ 'id': matchedClientsobj.id, 'name': matchedClientsobj.name, 'isLeafNode':matchedClientsobj.isLeafNode });
-                                        if(matchedClientsobj.isLeafNode) {
-                                            loginModel.setSelectedClient({
-                                                'id': matchedClientsobj.id,
-                                                'name': matchedClientsobj.name
-                                            });
+                                    if(clientObj.isLeafNode) {
+                                        loginModel.setSelectedClient({'id':clientObj.id,'name':clientObj.name});
+                                        workflowService.getClientData(clientObj.id).then(function (response) {
+                                            featuresService.setFeatureParams(response.data.data.features);
+                                        });
+                                        if (locationPath === '/login' || locationPath === '/') {
+                                            handleLoginRedirection();
                                         }
                                     } else {
-                                        clientId = result.data.data[0].id;
-                                        loginModel.setMasterClient({'id': result.data.data[0].id, 'name': result.data.data[0].name, 'isLeafNode': result.data.data[0].isLeafNode});
-                                        if(result.data.data[0].isLeafNode) {
-                                            loginModel.setSelectedClient({'id': result.data.data[0].id, 'name': result.data.data[0].name});
-                                        }
-
-                                    }
-                                         workflowService.getClientData(clientId).then(function (response) {
-                                                featuresService.setFeatureParams(response.data.data.features,'app');
+                                        //set subAccount
+                                        subAccountModel.fetchSubAccounts('app',function(){
+                                            workflowService.getClientData(clientObj.id).then(function (response) {
+                                                featuresService.setFeatureParams(response.data.data.features);
+                                            });
+                                                if (locationPath === '/login' || locationPath === '/') {
+                                                    handleLoginRedirection();
+                                                }
                                          });
-                                  //  }
-                                    if (locationPath === '/login' || locationPath === '/') {
-                                        handleLoginRedirection();
                                     }
-                                }
+                                }//end of then if
                             });
                     } else {
                         if (loginModel.getSelectedClient) {

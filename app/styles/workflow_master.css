@@ -127,13 +127,18 @@ strong {
 }
 input[type="text"],
 input[type="number"],
-.has-success input[type="text"].form-control {
+.has-success input[type="text"].form-control,
+textarea {
   border: 1px solid #BFC9D7;
   border-radius: 2px !important;
   line-height: normal;
   padding: 10px 12px 7px 12px;
   height: auto;
   box-shadow: none;
+}
+.currencyFly ~ input[type="text"],
+.currencyFly ~ input[type="number"] {
+  padding-left: 20px ;
 }
 input[type="text"]:focus,
 input[type="number"]:focus,
@@ -606,6 +611,7 @@ select {
   font-size: 13px;
   font-weight: lighter;
   display: block;
+  border-width: 0px !important;
 }
 .bodyWrap {
   width: 1200px;
@@ -1821,9 +1827,4 @@ input.cmn-toggle-round:checked + label:after {
 }
 tags-input .tags .tag-item {
   background: #edf2f8;
-}
-.cancel-grey-btn {
-  color: #57606d;
-  margin: 8px 10px 0 0;
-  cursor: pointer;
 }

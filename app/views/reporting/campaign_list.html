@@ -7,7 +7,7 @@
     <!-- header-->
     <div class="clearfix page_header_container campaign_list_header">
         <div class="pull-left campaign_name_holder">
-            <h1 class="pull-left" style="margin: 10px 0 40px 0;" data-ng-bind="textConstants.CAMPAIGNS"></h1>
+            <h1 class="pull-left" style="margin: 7px 0 0px 0;" data-ng-bind="textConstants.CAMPAIGNS"></h1>
         </div>
 
         <div class="pull-right common-loading-btn" style="display:none;"></div>
@@ -17,7 +17,7 @@
     </div>
     <!-- header ends-->
 
-    <div class="col-md-12 zeroPadding">
+    <div class="col-md-12 zeroPadding" style="margin-top:15px;">
         <!--<span ng-bind-html="campaigns.appliedQuickFilterText == 'Ontrack'?'On Track':
         campaigns.appliedQuickFilterText"></span>-->
 
@@ -59,8 +59,9 @@
                 </div>
             </div>
         </div>
-        <span class="pull-right" style="font-size: 12px; margin: 10px 10px 0 0;">
-            {{campaigns.dashboard.quickFilterSelectedCount}} Media Plans in list
+        <span class="pull-right"
+              ng-bind="campaigns.searchTerm ? campaigns.dashboard.quickFilterSelectedCount + ' out of ' + campaigns.dashboard.originalFilterTotal + ' Media Plans' : campaigns.dashboard.quickFilterSelectedCount + ' Media Plans in list'"
+              style="font-size: 12px; margin: 10px 10px 0 0;">
         </span>
     </div>
 
@@ -105,17 +106,19 @@
     </div>
     <div class="col-md-12 zeroPadding scrollable_container">
         <!-- COST DIV -->
-        <div class="each_section_block total_campaign_cost_holder" id="cost_block" style="display:none" >
+        <div class="each_section_block total_campaign_cost_holder"
+             id="cost_block"
+             ng-if="(campaigns.dashboard.quickFilterSelectedCount === 0)">
             <div class="all_campaigns_container">
                 <div  class="no-campaign-available"
-                      ng-if="(campaigns.dashboard.filterTotal == 0 )"
+                      ng-if="campaigns.noData"
                       data-ng-bind="textConstants.NO_RELEVANT_CAMPAIGNS">
                 </div>
                 <div class="each_campaign_cost_container"
                      data-ng-repeat="campaign in campaigns.costBreakdownList |
                      orderBy:campaignListSortFunction:sortReverse track by campaign.orderId">
                     <!-- campaign cost card -->
-                    <div ng-if="(campaigns.dashboard.filterTotal > 0 )"
+                    <div ng-if="(campaigns.dashboard.quickFilterSelectedCount > 0 )"
                          campaign-cost-card
                          campaign="campaign"
                          campaigns="campaigns"
@@ -131,13 +134,9 @@
         <!-- PERFORMANCE DIV -->
         <div class="each_section_block total_campaign_list_holder" id="performance_block">
             <div class="all_campaigns_container">
-                <div  class="no-campaign-available"
-                      ng-if="(campaigns.dashboard.filterTotal == 0 )"
-                      data-ng-bind="textConstants.NO_RELEVANT_CAMPAIGNS">
-                </div>
                 <div class="clearfix row-fluid each_campaign_holder" data-ng-repeat="campaign in campaigns.campaignList">
                     <!-- campaign strategy card -->
-                    <div ng-if="(campaigns.dashboard.filterTotal > 0 )"
+                    <div ng-if="(campaigns.dashboard.filterTotal > 0)"
                          campaign-card campaign="campaign"
                          campaigns="campaigns"
                          class="col-md-12 zeroPadding">

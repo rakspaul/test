@@ -2705,7 +2705,7 @@ input[type="submit"] {
 }
 .nav_filters {
   width: 100%;
-  margin: 0 auto;
+  margin: 5px auto 2px ;
   font-size: 14px;
   color: #21252B;
   line-height: 20px;
@@ -2746,31 +2746,39 @@ input[type="submit"] {
   display: inline-block;
   height: 18px;
 }
-.nav_filters .each_filter #advertisersDropDownList {
+.nav_filters .each_filter #advertisersDropDownList,
+.nav_filters .each_filter #subAccountDropDownList {
   width: 280px;
   left: 0px ;
   padding: 0 ;
 }
-.nav_filters .each_filter #advertisersDropDownList .brandsList_ul2 {
+.nav_filters .each_filter #advertisersDropDownList .brandsList_ul2,
+.nav_filters .each_filter #subAccountDropDownList .brandsList_ul2 {
   max-height: 200px;
   overflow: auto ;
 }
-.nav_filters .each_filter #advertisersDropDownList .brand_search_highlight {
+.nav_filters .each_filter #advertisersDropDownList .brand_search_highlight,
+.nav_filters .each_filter #subAccountDropDownList .brand_search_highlight {
   border-bottom: solid 1px #fff ;
 }
-.nav_filters .each_filter #advertisersDropDownList li {
+.nav_filters .each_filter #advertisersDropDownList li,
+.nav_filters .each_filter #subAccountDropDownList li {
   padding: 0;
 }
-.nav_filters .each_filter #advertisersDropDownList li:hover {
+.nav_filters .each_filter #advertisersDropDownList li:hover,
+.nav_filters .each_filter #subAccountDropDownList li:hover {
   background: #F5F9FD ;
 }
-.nav_filters .each_filter #advertisersDropDownList li.active {
+.nav_filters .each_filter #advertisersDropDownList li.active,
+.nav_filters .each_filter #subAccountDropDownList li.active {
   background: url("/images/cdesk/sprites-2.png") no-repeat -535px 9px;
 }
-.nav_filters .each_filter #advertisersDropDownList li.active a {
+.nav_filters .each_filter #advertisersDropDownList li.active a,
+.nav_filters .each_filter #subAccountDropDownList li.active a {
   font-family: "Avenir-bold";
 }
-.nav_filters .each_filter #advertisersDropDownList a {
+.nav_filters .each_filter #advertisersDropDownList a,
+.nav_filters .each_filter #subAccountDropDownList a {
   white-space: normal;
   word-wrap: break-word;
   padding: 6px 10px ;
@@ -2912,12 +2920,14 @@ input[type="submit"] {
 .nav_filters .brandsDropdownSearch {
   position: relative;
 }
-.nav_filters .brandsDropdownSearch #brandsDropdownDiv {
+.nav_filters .brandsDropdownSearch #brandsDropdownDiv,
+.nav_filters .brandsDropdownSearch #subAccountDropdownDiv {
   width: 100%;
   border-bottom: solid 1px #ccc;
   padding: 0px 10px;
 }
-.nav_filters .brandsDropdownSearch #brandsDropdownDiv input {
+.nav_filters .brandsDropdownSearch #brandsDropdownDiv input,
+.nav_filters .brandsDropdownSearch #subAccountDropdownDiv input {
   font-family: "Avenir";
   padding-right: 20px;
   background: url("/images/cdesk/search_input.png") no-repeat right center;

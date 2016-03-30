@@ -92,7 +92,6 @@ body {
     background: #d2dee7 ;
   }
   .campaign_details_header {
-    margin-bottom: 20px ;
     .campaign_name {
       font-size: 26px;
       color: #313233;
@@ -157,7 +156,7 @@ body {
   .action_filter_holder {
     border:  solid 1px #ebf0f5 ;
     background: #fbfcff ;
-    margin-top : 40px ;
+    margin-top : 25px ;
     margin-bottom: 10px ;
     box-shadow: 0px 1px 1px #ebf0f5;
     -moz-box-shadow: 0px 1px 1px #ebf0f5;
@@ -203,29 +202,29 @@ body {
       color:#5cb85c;
     }
     .comment_area {
-      width: 85%;
+      width: 86%;
       position: relative;
-      padding: 10px 0 6px ;
+      padding: 11px 0px 0px ;
       .error_message  {
         bottom: 70px ;
       }
       textarea {
-        border: 0px;
+        //border: 0px;
         background: transparent;
         overflow-y: auto;
         width: 100%;
         resize: none;
         height: 42px;
         line-height: 21px ;
-        padding-bottom: 0;
-        padding-top: 0px;
+        //padding-bottom: 0;
+        //padding-top: 0px;
         font-family: "Avenir" ;
-        font-size: 16px ;
+        font-size: 14px ;
       }
     }
     .filter_holder {
-      padding: 4px 15px 6px 3px ;
-      font-size: 14px ;
+      padding: 4px 15px 15px 15px ;
+      //font-size: 14px ;
       color: #2d2f31 ;
       background: #fbfcff ;
       .external_chkbox {
@@ -292,11 +291,13 @@ body {
       .filter_dropdown {
         float: left;
         position: relative;
-        margin-right: 35px ;
-        width:178px;
+        margin-right: 30px ;
+        min-width:178px;
         color: #2d2f31 ;
-        font-size: 14px ;
-        height: 30px;
+        //font-size: 14px ;
+        height: 36px;
+        border: 1px solid #BFC9D7;
+        border-radius: 2px;
         .error_msg_input {
           position: absolute;
           top : 0px ;
@@ -305,12 +306,13 @@ body {
           display: none;
         }
         .input-xlarge {
-          position: absolute;
-          top: 0px ;
-          left: 0px ;
-          z-index: 2 ;
+          float: left;
           background: #fff;
-          width: 90%;
+          width: 100%;
+          .dropdown {
+            float: left;
+            width: 100%;
+          }
         }
         .btn:active {
             outline: 0;
@@ -326,17 +328,21 @@ body {
           }
           .dropdown {
             background: #fff ;
+            float: left;
+            width: 100%;
             .btn {
-              padding-bottom: 0px;
-              position: absolute;
-              z-index: 1;
-              padding-right: 0px ;
+              //padding-bottom: 0px;
+              //position: absolute;
+              //z-index: 1;
+              //padding-right: 0px ;
               padding-top: 4px ;
-              background: url("/images/cdesk/common_down_arrow.png") no-repeat 95% 8px #fff ;
+              background: url("/images/cdesk/common_down_arrow.png") no-repeat 95% 10px #fff ;
               border: solid 1px transparent;
               border-bottom: 0;
               padding-bottom: 1px;
-              height: 32px;
+              height: 34px;
+              float: left;
+              width: 100%;
               span {
                 text-overflow: ellipsis;
                 overflow: hidden;
@@ -359,20 +365,18 @@ body {
           }
         .dropdown-menu {
           position: absolute;
-          top: 25px;
+          top: 34px;
           left: 0;
           min-width: 100% ;
-          box-shadow: 0px 0px 0px transparent;
-          -webkit-box-shadow: 0px 0px 0px transparent;
-          -moz-box-shadow: 0px 0px 0px transparent;
-          border: solid 1px #eee;
-          border-radius: 0;
-          -webkit-border-radius: 0;
-          -moz-border-radius: 0;
+          box-shadow: 0 1px 7px rgba(0,0,0,.15) !important;
+          -webkit-box-shadow: 0 1px 7px rgba(0,0,0,.15) !important;
+          border: solid 1px #BFC9D7;
+          border-radius: 2px;
           width: auto ;
           max-height:  600px ;
           z-index: 8;
           max-width: 500px;
+          padding: 5px 0;
           .btn-link {
             padding: 0px ;
             color: #262626 ;
@@ -389,12 +393,20 @@ body {
               padding: 0px ;
               display: block;
               white-space: nowrap;
+              &:hover {
+                color: #21252b;
+                text-decoration: none;
+                background-color: #E1EDF9;
+              }
             }
             &:hover {
+              color: #21252b;
+              text-decoration: none;
+              background-color: #E1EDF9;
               .icon-single {
                 /*background-image: url("/images/cdesk/only_check_mark.png") ;*/
-                background : url("/images/cdesk/sprites-2.png") no-repeat  -534px -58px ;
-                opacity: 0.5 ;
+                //background : url("/images/cdesk/sprites-2.png") no-repeat  -534px -58px ;
+                //opacity: 0.5 ;
               }
             }
           }
@@ -475,7 +487,7 @@ body {
   }
   .campaign_details_graphs_holder {
     margin: 0px 0 15px;
-    font-size: 12px;
+    font-size: 14px;
     color: #2c2f31 ;
     /*carousel styling*/
     .carousel-inner .active.left { left: -25%; }
@@ -1278,12 +1290,12 @@ body {
        }
     }
     .edit_activity_log_holder {
-      position: absolute;
+      position: fixed;
       top: 0px ;
       left: 0px ;
-      z-index: 2 ;
-      height: 400px ;
-      width : 1040px ;
+      z-index: 999 ;
+      min-height: 400px ;
+      width : 100% ;
       background: rgba( 0 , 0, 0, 0.5 ) ;
       .action_filter_holder {
         width: 90%;

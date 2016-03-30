@@ -49,14 +49,16 @@ define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', 'reporting/campaig
                 $scope.campaignSearchFunc = function (e) {
                     // Perform search if enter key is pressed & user has entered something.
                     if (e.keyCode === 13) {
+                        $scope.campaigns.noData = false;
+                        $scope.campaigns.resetFilters();
                         if ($scope.campaigns.searchTerm && $scope.campaigns.searchTerm.trim()) {
-                            //$scope.campaigns.campaignList = [];
-                            $scope.campaigns.resetFilters();
+                            // Search term is entered
                             $scope.campaigns.fetchData($scope.campaigns.searchTerm);
-                            $scope.isCampaignSearched = true;
                         } else {
-                            console.log('Please enter search term...');
+                            // Empty search term
+                            $scope.campaigns.fetchData();
                         }
+                        $scope.isCampaignSearched = true;
                     }
                 };
 
@@ -79,9 +81,10 @@ define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', 'reporting/campaig
                     $scope.campaigns.fetchData();
                 });*/
 
-                $rootScope.$on(constants.EVENT_ADVERTISER_CHANGED, function () {
-                    $scope.campaigns.fetchData();
+                /* $rootScope.$on(constants.EVENT_SUB_ACCOUNT_CHANGED, function () {
+                    $scope.campaigns.fetchDashboardData();
                 });
+                */
 
                 //Based on gauge click, load the filter and reset data set after gauge click.
                 var forceLoadCampaignsFilter;
@@ -177,7 +180,7 @@ define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', 'reporting/campaig
                 //         });
                 //     });
 
-                // Search Hide / Show
+                // Search show / hide
                 $scope.searchShowInput = function () {
 		    $('.searchInputBtn').hide();
                     var searchInputForm = $('.searchInputForm');
@@ -188,8 +191,7 @@ define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', 'reporting/campaig
                 };
 
                 $scope.searchHideInput = function () {
-                    var inputSearch = $('.searchInputForm input'),
-                        totalCount;
+                    var inputSearch = $('.searchInputForm input');
 
 		    $('.searchInputBtn').show();
 		    $('.searchClearInputBtn, .searchInputBtnInline').hide();
@@ -200,12 +202,8 @@ define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', 'reporting/campaig
                         $scope.isCampaignSearched = false;
                         $scope.campaigns.searchTerm = '';
                         $scope.searchTerm = '';
-                        console.log('Search was performed, resetting $scope.campaigns.searchTerm = ', $scope.campaigns.searchTerm);
-                        // TODO: How to get correct Media Plans total count???
                         $scope.campaigns.resetFilters();
                         $scope.campaigns.fetchData();
-                    } else {
-                        console.log('Search has not been performed yet.');
                     }
                 };
 		
@@ -222,13 +220,22 @@ define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', 'reporting/campaig
 
                 //Lazy Loader
                 $(window).scroll(function () {
-                    if (!$scope.campaigns.busy && ($(window).scrollTop() + $(window).height() > $(document).height() - 100)) {
+                    // Don't attempt to scroll if:
+                    // - there's no data, or
+                    // - last page is already loaded.
+                    if ($scope.campaigns.dashboard.quickFilterSelectedCount <= 5 ||
+                        (($scope.campaigns.performanceParams.nextPage - 1) * 5 >=
+                        $scope.campaigns.dashboard.quickFilterSelectedCount)) {
+                        return;
+                    }
+
+                    if (!$scope.campaigns.busy && ($(window).scrollTop() + $(window).height() >
+                        $(document).height() - 100)) {
                         if ($scope.campaigns.searchTerm) {
                             $scope.campaigns.fetchData($scope.campaigns.searchTerm);
                         } else {
                             $scope.campaigns.fetchData();
                         }
-                        //$scope.campaigns.searchTerm = $scope.searchTerm; // TODO: Remove this before commit
                     }
                 });
 

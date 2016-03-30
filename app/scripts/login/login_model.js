@@ -40,6 +40,15 @@ define(['angularAMD','../common/services/constants_service'], function (angularA
                 return localStorage.getItem('selectedClient') && JSON.parse(localStorage.getItem('selectedClient'));
             },
 
+            setMasterAndClient: function(masterId,masterName,isLeafNode,clientId,clientName) {
+                localStorage.setItem('masterClient', JSON.stringify({'id':masterId,'name':masterName,'isLeafNode':isLeafNode}));
+                if(isLeafNode) {
+                    localStorage.setItem('selectedClient', JSON.stringify({'id':masterId,'name':masterName}));
+                } else {
+                    localStorage.setItem('selectedClient', JSON.stringify({'id':clientId,'name':clientName}));
+                }
+            },
+
             setClientData: function (data) {
                 localStorage.setItem('clientData', JSON.stringify(data));
             },

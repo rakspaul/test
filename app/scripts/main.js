@@ -55,7 +55,7 @@
         'angular-cache': ['angular'],
         'angulartics': ['angular'],
         'angulartics-ga': ['angulartics'],
-        'date-picker': ['jquery', 'jquery-ui', 'bootstrap'],
+        'date-picker': ['jquery', 'jquery-ui', 'bootstrap', 'angular'],
         'ng-file-upload-shim': [],
         'ng-file-upload': ['angular'],
         'tmhDynamicLocale'   : ['angular'],
