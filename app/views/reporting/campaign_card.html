@@ -37,7 +37,7 @@
         <div class="pillsWrap">
             <span ng-if="campaign.labels.length > 0"></span>
             <span class="labelPills {{addHighlightClass(label, '</mark>') ? ' brand_search_highlight' : ''}}"
-                  ng-repeat="label in campaign.labels"
+                  ng-repeat="label in campaign.labels track by $index"
                   ng-bind-html="label">
             </span>
         </div>
