@@ -49,12 +49,16 @@ define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', 'reporting/campaig
                 $scope.campaignSearchFunc = function (e) {
                     // Perform search if enter key is pressed & user has entered something.
                     if (e.keyCode === 13) {
+                        $scope.campaigns.noData = false;
+                        $scope.campaigns.resetFilters();
                         if ($scope.campaigns.searchTerm && $scope.campaigns.searchTerm.trim()) {
-                            $scope.campaigns.noData = false;
-                            $scope.campaigns.resetFilters();
+                            // Search term is entered
                             $scope.campaigns.fetchData($scope.campaigns.searchTerm);
-                            $scope.isCampaignSearched = true;
+                        } else {
+                            // Empty search term
+                            $scope.campaigns.fetchData();
                         }
+                        $scope.isCampaignSearched = true;
                     }
                 };
 
