@@ -78,19 +78,9 @@ define(['angularAMD','reporting/subAccount/sub_account_model','common/services/c
             var isLeafNode = loginModel.getMasterClient().isLeafNode;
             var subAccountId = loginModel.getSelectedClient().id;
             if(!isLeafNode) {
-
                 fetchSubAccounts();
-
-
             }
             $rootScope.$broadcast(constants.ACCOUNT_CHANGED, {'client':subAccountId, 'event_type': 'clicked'});
-          //  $scope.selectSubAccount();
-
-            /* advertiser.referedFrom = "subaccount_change";
-            $scope.selectAdvertiser(advertiser);
-            advertiserModel.setSelectedAdvertisers(advertiser);
-            advertiserModel.callAdvertiserBroadcast(advertiser, args.event_type);*/
-
         });
 
 

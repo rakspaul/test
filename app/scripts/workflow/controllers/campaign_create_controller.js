@@ -30,6 +30,11 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         $scope.Campaign.deliveryBudget = '00.00';
         $scope.Campaign.effectiveCPM = '00.00';
         $scope.repushCampaignLoader = false;
+        $scope.showSubAccount = false;
+
+        if(!loginModel.getMasterClient().isLeafNode) {
+          $scope.showSubAccount = true;
+        }
 
         $scope.resetCostArrCPC=function(){
             var selVendorObj=[];var cpmRate=[];
@@ -725,7 +730,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 })
             },
             fetchAdvertisers: function (clientId) {
-                workflowService.getAdvertisers('write').then(function (result) {
+                workflowService.getAdvertisers('write',clientId).then(function (result) {
                     if (result.status === "OK" || result.status === "success") {
                         var responseData = result.data.data;
                         $scope.workflowData['advertisers'] = _.sortBy(responseData, 'name');
@@ -737,10 +742,21 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             },
 
             fetchBrands: function (clientId, advertiserId) {
-                workflowService.getBrands(advertiserId, 'write').then(function (result) {
+                workflowService.getBrands(clientId,advertiserId, 'write').then(function (result) {
                     if (result.status === "OK" || result.status === "success") {
                         var responseData = result.data.data;
                         $scope.workflowData['brands'] = _.sortBy(responseData, 'name');
+                    }
+                    else {
+                        createCampaign.errorHandler(result);
+                    }
+                }, createCampaign.errorHandler);
+            },
+
+            fetchSubAccounts: function(){
+                workflowService.getSubAccounts('write').then(function(result) {
+                    if (result.status === "OK" || result.status === "success") {
+                        $scope.workflowData['subAccounts'] = result.data.data;
                     }
                     else {
                         createCampaign.errorHandler(result);
@@ -756,12 +772,23 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         $scope.selectHandler = function (type, data, event) {
             switch (type) {
                 case 'client' :
-                    $scope.workflowData['advertisers'] = {};
+                    $scope.workflowData['advertisers'] = [];
                     $scope.workflowData['brands'] = [];
                     $scope.selectedCampaign.advertiser = '';
-                    $scope.selectedCampaign.clientId = data.id;
-                    createCampaign.fetchAdvertisers(data.id);
+                    if($scope.showSubAccount){
+                        $scope.workflowData['subAccounts'] = [];
+                        $scope.selectedCampaign.clientId = '';
+                        createCampaign.fetchSubAccounts();
+                    } else {
+                        $scope.selectedCampaign.clientId = data.id;
+                        createCampaign.fetchAdvertisers(data.id);
+                    }
                     break;
+                case 'subAccount':
+                    $scope.selectedCampaign.advertiser = '';
+                    $scope.selectedCampaign.clientId = data.id;
+                    $scope.workflowData['advertisers'] = [];
+                    createCampaign.fetchAdvertisers(data.id);
                 case 'advertiser' :
                     $scope.workflowData['brands'] = [];
                     $scope.selectedCampaign.brand = '';
@@ -851,7 +878,12 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 postDataObj.campaignObjectives = $scope.checkedObjectiveList;
                 postDataObj.preferredPlatforms = $scope.platFormArr;
                 postDataObj.labels = _.pluck($scope.tags, "label");
-                postDataObj.clientId = loginModel.getSelectedClient().id;
+
+                if($scope.showSubAccount) {
+                    postDataObj.clientId = $scope.selectedCampaign.clientId;
+                }else {
+                    postDataObj.clientId = loginModel.getSelectedClient().id;
+                }
                 if ($scope.mode == 'edit') {
                     if (moment(formData.startTime).format(constants.DATE_UTC_SHORT_FORMAT) === momentService.utcToLocalTime($scope.editCampaignData.startTime, constants.DATE_UTC_SHORT_FORMAT))
                         postDataObj.startTime = $scope.editCampaignData.startTime;

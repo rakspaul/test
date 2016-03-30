@@ -1,5 +1,5 @@
-define(['angularAMD','common/services/constants_service','workflow/services/workflow_service','workflow/services/creative_custom_module','workflow/directives/creative_drop_down','workflow/directives/ng_upload_hidden'],function (angularAMD) {
-  angularAMD.controller('CreativeController', function($scope, $rootScope, $routeParams, $location, constants, workflowService,creativeCustomModule) {
+define(['angularAMD','common/services/constants_service','workflow/services/workflow_service','workflow/services/creative_custom_module','workflow/directives/creative_drop_down','workflow/directives/ng_upload_hidden','login/login_model'],function (angularAMD) {
+  angularAMD.controller('CreativeController', function($scope, $rootScope, $routeParams, $location, constants, workflowService,creativeCustomModule,loginModel) {
      // $scope.creativeFormat="DISPLAY";
       $scope.creative={};
       $scope.adData = {};
@@ -23,10 +23,17 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
           $scope.creativeMode="create";
       }
 
+      $scope.showSubAccount = false;
+
+      if(!loginModel.getMasterClient().isLeafNode) {
+          $scope.showSubAccount = true;
+      }
+
+
       var processEditCreative=function(){
           var creativeId=$routeParams.creativeId;
           workflowService
-              .getCreativeData(creativeId)
+              .getCreativeData(creativeId,$scope.creative.clientId)
               .then(function (result) {
                   if (result.status === "OK" || result.status === "success") {
                       $scope.creativeEditData=result.data.data;
@@ -34,6 +41,7 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
           if($scope.creativeEditData){
               $scope.name=$scope.creativeEditData.name;
               $scope.advertiserName=$scope.creativeEditData.advertiser.name;
+              $scope.subAccountName = $scope.creativeEditData.client.name;
               $scope.creative.advertiserId=$scope.creativeEditData.advertiserId;
               $scope.brandName=$scope.creativeEditData.brand?$scope.creativeEditData.brand.name:'Select Brand';
               $scope.creative.brandId=$scope.creativeEditData.brand?$scope.creativeEditData.brandId:'';
@@ -48,6 +56,10 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
               $scope.creativeEditData.vendorCreativeTemplate ? $scope.onTemplateSelected($scope.creativeEditData.vendorCreativeTemplate,$scope.creativeEditData.creativeCustomInputs):'';
               $scope.tag=$scope.creativeEditData.tag;
               $scope.adData.creativeSize=$scope.creativeEditData.size;
+
+              $scope.creative.clientId = $scope.creativeEditData.client.id;
+              creatives.fetchAdvertisers($scope.creativeEditData.client.id);
+              creatives.fetchBrands($scope.creativeEditData.client.id,$scope.creativeEditData.advertiser.id);
           }
 
                   }else {
@@ -97,8 +109,8 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
               console.log(errData);
           },
 
-          fetchAdvertisers: function () {
-              workflowService.getAdvertisers('write').then(function (result) {
+          fetchAdvertisers: function (clientId) {
+              workflowService.getAdvertisers('write',clientId).then(function (result) {
                   if (result.status === "OK" || result.status === "success") {
                       var responseData = result.data.data;
                       $scope.advertisers = _.sortBy(responseData, 'name');
@@ -108,11 +120,21 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
                   }
               },  creatives.errorHandler);
           },
-          fetchBrands: function ( advertiserId) {
-              workflowService.getBrands(advertiserId, 'write').then(function (result) {
+          fetchBrands: function (clientId,advertiserId) {
+              workflowService.getBrands(clientId,advertiserId, 'write').then(function (result) {
                   if (result.status === "OK" || result.status === "success") {
                       var responseData = result.data.data;
                       $scope.brands = _.sortBy(responseData, 'name');
+                  }
+                  else {
+                      creatives.errorHandler(result);
+                  }
+              }, creatives.errorHandler);
+          },
+          fetchSubAccounts: function(){
+              workflowService.getSubAccounts().then(function(result) {
+                  if (result.status === "OK" || result.status === "success") {
+                      $scope.subAccounts = result.data.data;
                   }
                   else {
                       creatives.errorHandler(result);
@@ -151,12 +173,21 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
       };
       $scope.selectHandler = function (type, data, event) {
           switch (type) {
+              case 'subAccount':
+                  $scope.advertisers = {};
+                   $scope.subAccountName = data.name;
+                 //  $scope.creative.subAccountId = data.id;
+                   $scope.creative.clientId = data.id;
+                  $scope.creative.advertiserId = '';
+                  creatives.fetchAdvertisers(data.id);
+                  $scope.advertiserName = 'Select Advertiser';
+                  break;
               case 'advertiser' :
                   $scope.brands = {};
                   $scope.advertiserName=data.name;
                   $scope.creative.brandId = '';
                   $scope.creative.advertiserId = data.id;
-                  creatives.fetchBrands(data.id);
+                  creatives.fetchBrands( $scope.creative.clientId,data.id);
                   $scope.brandName = 'Select Brand';
                   break;
               case 'brand' :
@@ -284,27 +315,54 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
       $scope.resetAlertMessage = function () {
           $rootScope.setErrAlertMessage('', 0);
       };
+      /*
+       $scope.prarentHandler = function (clientId, clientName, advertiserId, advertiserName) {
+       var campaignData = {
+       'advertiserId': advertiserId,
+       'advertiserName': advertiserName,
+       'clientId': clientId,
+       'clientName': clientName
+       };
+       /*in adPage, hardcode advertiser and call select Handler for Brand
+      if($scope.adPage){
+          var data={
+              'id':advertiserId,
+              'name':advertiserName
+          }
+          $scope.selectHandler('advertiser',data)
+      }
 
-      $scope.prarentHandler = function (clientId, clientName, advertiserId, advertiserName) {
-          var campaignData = {
-              'advertiserId': advertiserId,
-              'advertiserName': advertiserName,
-              'clientId': clientId,
-              'clientName': clientName
-          };
+      $scope.campaignId = clientId;
+      $scope.advertiserId = advertiserId;
+      localStorage.setItem('campaignData', JSON.stringify(campaignData));
+      creatives.getCreativeSizes(clientId, advertiserId);
+      // Ad create Mode.  [PS:In edit mode, on response data in processeditmode, broadcast is made to fetch]
+      if ($scope.mode !== 'edit' && $scope.adPage) {
+          creatives.fetchAdFormats();
+          $scope.$broadcast('adFormatChanged', 'DISPLAY');
+      }
+      /*In creative List Page to create new creative
+      if(!$scope.adPage){
+          getAdServers();
+          creatives.fetchAdvertisers();
+      }
+  };
+       */
+
+      $scope.prarentHandler = function () {
+
           /*in adPage, hardcode advertiser and call select Handler for Brand*/
           if($scope.adPage){
+              var client = loginModel.getSelectedClient();
               var data={
-                  'id':advertiserId,
-                  'name':advertiserName
+                  'id':client.id,
+                  'name':client.name
               }
-              $scope.selectHandler('advertiser',data)
+              $scope.selectHandler('subAccount',data)
+
           }
 
-          $scope.campaignId = clientId;
-          $scope.advertiserId = advertiserId;
-          localStorage.setItem('campaignData', JSON.stringify(campaignData));
-          creatives.getCreativeSizes(clientId, advertiserId);
+          creatives.getCreativeSizes();
           // Ad create Mode.  [PS:In edit mode, on response data in processeditmode, broadcast is made to fetch]
           if ($scope.mode !== 'edit' && $scope.adPage) {
               creatives.fetchAdFormats();
@@ -313,7 +371,12 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
           /*In creative List Page to create new creative*/
           if(!$scope.adPage){
               getAdServersInLibraryPage();
-              creatives.fetchAdvertisers();
+              if($scope.showSubAccount) {
+                  creatives.fetchSubAccounts();
+              } else {
+                  creatives.fetchAdvertisers();
+              }
+
           }
       };
 
@@ -343,6 +406,7 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
                   }
               })
       }
+      $scope.prarentHandler();
 
       //$(function () {
           $scope.submitForm=function(form){
@@ -363,7 +427,7 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
                   formData = _.object(_.pluck(formDataObj, 'name'), _.pluck(formDataObj, 'value'));
                   postCrDataObj = {};
                   postCrDataObj.name = formData.name;
-                  postCrDataObj.clientId = $scope.campaignId;
+                  postCrDataObj.clientId = $scope.creative.clientId;//$scope.campaignId;
                   postCrDataObj.advertiserId = formData.advertiserId;
                   postCrDataObj.brandId = formData.brandId;
                   postCrDataObj.isTracking = $scope.TrackingIntegrationsSelected;
@@ -381,7 +445,7 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
                   }
                   if (validTag) {
                       for(var i=0;i< formDataObj.length;i++){
-                          if (["name","advertiserId","brandId","adFormat","creativeFormat","sslEnable","creativeAdServer","creativeTemplate","tag","creativeSize"].indexOf(formDataObj[i].name) >= 0) {
+                          if (["name","subAccountId","advertiserId","brandId","adFormat","creativeFormat","sslEnable","creativeAdServer","creativeTemplate","tag","creativeSize"].indexOf(formDataObj[i].name) >= 0) {
                               indexArr.push(i);// contains all indexes of static Markup which will have to be removed before adding to the list.
                           }
                       }
@@ -469,7 +533,7 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
           $scope.CrDataObj = postCrDataObj;
           if($scope.creativeMode!=="edit" || $scope.adPage){
               workflowService
-                  .saveCreatives($scope.campaignId, postCrDataObj)
+                  .saveCreatives($scope.creative.clientId, postCrDataObj)
                   .then(function (result) {
                       if (result.status === 'OK' || result.status === 'success') {
                           $scope.addedSuccessfully = true;
@@ -495,7 +559,7 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
           }else{
               postCrDataObj.updatedAt=$scope.creativeEditData.updatedAt;
               workflowService
-                  .updateCreative($scope.campaignId, $scope.creativeEditData.advertiserId,$scope.creativeEditData.id,postCrDataObj)
+                  .updateCreative($scope.creative.clientId, $scope.creativeEditData.advertiserId,$scope.creativeEditData.id,postCrDataObj)
                   .then(function(result){
                       if (result.status === 'OK' || result.status === 'success') {
                           $scope.addedSuccessfully = true;

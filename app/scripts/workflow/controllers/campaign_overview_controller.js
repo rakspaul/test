@@ -517,17 +517,16 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     endDateElem,
                     setStartDate;
 
+                $scope.isMinimumAdGroupBudget = true;
+                $scope.isMaximumAdGroupBudget = true;
+
                 $scope.showCreateAdGrp = !$scope.showCreateAdGrp;
                 adGroupCreateformElem[0].reset();
                 $scope.$broadcast('show-errors-reset');
                 $('.adGroupSelectionWrap, .singleCardWrap').toggleClass('active');
                 $scope.createGroupMessage = false;
-                $scope.createGroupMessage = false;
                 $scope.tags = [];
                 $scope.adGroupMinBudget = 0;
-
-                $scope.adGroupMaxBudget =
-                    $scope.workflowData.campaignData.deliveryBudget - $scope.workflowData.campaignData.bookedSpend;
 
                 if ($scope.workflowData.campaignAdsData.length > 0) {
                     campaignAdsData  = $scope.workflowData.campaignAdsData;
@@ -548,6 +547,8 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     startDateElem.datepicker('setStartDate', setStartDate);
                     startDateElem.datepicker('setEndDate', $scope.campaignEndTime);
                 }
+
+                $scope.adGroupMaxBudget = (Math.ceil($scope.workflowData.campaignData.deliveryBudget) - $scope.workflowData.campaignData.bookedSpend) + Math.ceil($scope.adGroupMinBudget);
             };
 
 
