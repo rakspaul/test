@@ -507,7 +507,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     $scope.Campaign.marginPercent = $scope.editCampaignData.marginPercent ? $scope.editCampaignData.marginPercent :0;
                     $scope.Campaign.deliveryBudget = $scope.editCampaignData.deliveryBudget;
                     if( $scope.editCampaignData.labels && $scope.editCampaignData.labels.length > 0){
-                        $scope.tags = workflowService.recreateLabels($scope.editCampaignData.labels);
+                        $scope.tags = workflowService.recreateLabels(_.uniq($scope.editCampaignData.labels));
                     }
 
 
