@@ -416,11 +416,12 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                         intTracking = integrationTracking ? '&tracking=true' : '&tracking=false',
                         url,
                         canceller;
+                    state = state ? '&status=READY' : '';
 
                     url = vistoconfig.apiPaths.WORKFLOW_API_URL +
                         '/clients/' + clientId +
                         '/creatives' + creativeFormats + queryStr + intTracking + state;
-                    state = state ? '&status=READY' : '';
+
                     canceller = requestCanceller.initCanceller(constants.CAMPAIGN_FILTER_CANCELLER);
 
                     return dataService.fetchCancelable(url, canceller, success, failure);
