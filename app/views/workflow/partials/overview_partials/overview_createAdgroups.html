@@ -40,7 +40,6 @@
             <tags-input class="form-group col-sm-12 zeroPadding" ng-model="tags"></tags-input>
             <input type="hidden" name="ad_label" value="{{tags}}" />
         </div>
-
         <div class="col-md-12 zeroPadding">
             <label for="budgetIndividualAdGroup" class="col-sm-12 control-label labelQuestTxt">What's the maximum
                 you can spend for your Ad Group?</label>
@@ -52,6 +51,7 @@
                        id="budgetIndividualAdGroup"
                        name="adIGroupBudget"
                        ng-model="adIGroupBudget"
+                       ng-value="adIGroupBudget"
                        min-value = "{{adGroupMinBudget}}"
                        max-value ="{{adGroupMaxBudget}}"
                        required ng-keyup="validateAdGroupSpend($event)"/>
