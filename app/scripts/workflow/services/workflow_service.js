@@ -726,9 +726,10 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                 recreateLabels: function (labelObj) {
                     var labelArr = [],
                         i,
-                        obj = {};
+                        obj;
 
                     for (i = 0; i < labelObj.length; i++) {
+                        obj = {};
                         obj.label = labelObj[i];
                         labelArr.push(obj);
                     }
