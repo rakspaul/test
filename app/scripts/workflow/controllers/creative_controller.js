@@ -449,6 +449,8 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
                       validateScriptTag(formData.tag);
                   }
                   if (validTag) {
+                      var validFlag = true;
+                      $('#invalidUrl').remove();
                       for(var i=0;i< formDataObj.length;i++){
                           if (["name","subAccountId","advertiserId","brandId","adFormat","creativeFormat","sslEnable","creativeAdServer","creativeTemplate","tag","creativeSize"].indexOf(formDataObj[i].name) >= 0) {
                               indexArr.push(i);// contains all indexes of static Markup which will have to be removed before adding to the list.
@@ -463,6 +465,22 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
                           var creativeCustomInputs=[];
                           _.each(templateArr, function (data) {
                               var d = data.name.split('$$');
+
+                              if(d[0] === 'clickthrough_url.clickthrough_url' && data.value === ''){
+                                  validFlag = true;
+                                  $('#invalidUrl').remove();
+
+                              } else if(d[0] === 'clickthrough_url.clickthrough_url' && data.value !== ''){
+                                  // validate if the url is valid
+                                  validFlag = workflowService.validateValidUrl(data.value);
+                                  if(validFlag === false){
+                                      $('[name="clickthrough_url.clickthrough_url$$38"]').parent().append("<label id='invalidUrl' class='col-sm-12 control-label errorLabel ' style='display:block'>Please enter a valid url.</label>")
+                                  }
+                                  else{
+                                      $('#invalidUrl').remove();
+                                  }
+                              }
+
                               creativeCustomInputs.push({
                                   'creativeCustomInputId': Number(d[1]),
                                   'value': data.value
@@ -470,8 +488,9 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
                           });
                           postCrDataObj.creativeCustomInputs=creativeCustomInputs;
                           console.log("postCrDataObj",postCrDataObj);
-
-                          $scope.creativeSave(postCrDataObj);
+                          if(validFlag) {
+                              $scope.creativeSave(postCrDataObj);
+                          }
               }
               }
           };
