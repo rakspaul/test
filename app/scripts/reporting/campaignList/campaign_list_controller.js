@@ -50,6 +50,7 @@ define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', 'reporting/campaig
                     // Perform search if enter key is pressed & user has entered something.
                     if (e.keyCode === 13) {
                         if ($scope.campaigns.searchTerm && $scope.campaigns.searchTerm.trim()) {
+                            $scope.campaigns.noData = false;
                             $scope.campaigns.resetFilters();
                             $scope.campaigns.fetchData($scope.campaigns.searchTerm);
                             $scope.isCampaignSearched = true;
