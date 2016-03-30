@@ -59,7 +59,7 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
                             campaignsClientData(1);
 
                         } else {
-                            subAccountModel.fetchSubAccounts(function(){
+                            subAccountModel.fetchSubAccounts('headerCtrl',function(){
                             campaignsClientData(2);
                             });
                         }
@@ -106,8 +106,9 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
                 $scope.getClientData(id);
                $rootScope.$broadcast(constants.ACCOUNT_CHANGED, {'client': loginModel.getSelectedClient().id, 'event_type': 'clicked'});
             } else {
-                subAccountModel.fetchSubAccounts(function(){
+                subAccountModel.fetchSubAccounts('headerCtrl',function(){
                     $scope.getClientData(loginModel.getSelectedClient().id);
+                   // console.log('current url',$location.url());
                     $rootScope.$broadcast(constants.EVENT_MASTER_CLIENT_CHANGED, {'client': loginModel.getSelectedClient().id, 'event_type': 'clicked'});
                 });
 

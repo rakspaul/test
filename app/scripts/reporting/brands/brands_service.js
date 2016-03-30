@@ -8,7 +8,7 @@ define(['angularAMD', '../../common/services/constants_service', 'workflow/servi
     service.fetchBrands = function (searchCriteria) {
       var clientId = searchCriteria.clientId;
       var advertiserId = searchCriteria.advertiserId;
-      return workflowService.getBrands(advertiserId, 'read');
+      return workflowService.getBrands(clientId, advertiserId, 'read');
     };
 
     service.preForBrandBroadcast = function (brand, advertiser, event_type) {

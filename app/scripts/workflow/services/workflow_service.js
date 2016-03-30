@@ -88,6 +88,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                 if (accessLevel) {
                     url = url + '?access_level=' + accessLevel;
                 }
+                console.log("url", url);
                 return dataService.fetch(url);
             },
             saveCampaign: function (data) {
