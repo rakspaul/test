@@ -156,7 +156,7 @@
                                     <span class="icon-arrow-down"></span>
                                 </button>
                                 <ul class="dropdown-menu" aria-labelledby="sel1" id="templateDDL">
-                                    <li style="padding-left:15px;" class="available" ng-repeat="template in creativeTemplates track by template.id"  data-toggle="dropdown" title={{template.name}}>
+                                    <li class="available" ng-repeat="template in creativeTemplates track by template.id"  data-toggle="dropdown" title={{template.name}}>
                                         <a ng-click="onTemplateSelected(template)">{{template.name}}</a>
                                     </li>
                                 </ul>
