@@ -11,7 +11,7 @@
         <h3 class="col-md-12 creativeSizeData zeroPadding">What Creative Record Template will you be uploading?</h3>
     
         <!--Ad Server DDL-->
-        <div class="form-group pull-left" show-errors>
+        <div class="form-group pull-left" show-errors style="max-width: 265px;">
             <label for="sel1" class="greyTxt" style="margin-top: 0;">Ad Server</label>
             <div class="col-md-12 zeroPadding dropdown-workflow">
                 <div class="dropdown">
@@ -51,8 +51,9 @@
             </div>
             <label ng-if="formCreativeCreate.creativeFormat.$error.required" class="col-sm-12 control-label greyTxt errorLabel" style="margin: 0;">Please select the Ad Format.</label>
         </div>
+        
         <!--Creative Template DDL-->
-        <div class="form-group pull-left" style="margin-left: 20px;">
+        <div class="form-group pull-left" style="margin-left: 20px; max-width: 265px;">
             <label for="sel1" class="greyTxt">Creative Record Template (CRT)</label>
             <div class="col-md-12 zeroPadding dropdown-workflow">
                 <div class="dropdown">
@@ -62,7 +63,7 @@
                         <span class="icon-arrow-down"></span>
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="sel1" id="sel1">
-                        <li style="padding-left:15px;" class="available" ng-repeat="template in creativeTemplates track by template.id">
+                        <li class="available" ng-repeat="template in creativeTemplates track by template.id">
                             <a ng-click="templateSelected(template)">{{template.name}}</a>
                         </li>
                     </ul>
