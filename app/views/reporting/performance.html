@@ -154,7 +154,7 @@
                             <!--Discrepancy Container-->
                             <div class="col-md-12 zeroPadding strategy_total_container ">
                                 <div class="strategy_total_container_header clearfix">
-                                    <div class="col-md-12" ng-hide="screenBusy" style="font-size: 18px; margin: 5px 0 20px 0;">
+                                    <div class="col-md-12" ng-hide="screenBusy" style="font-size: 18px; margin: 0px 0 20px 0;">
                                         {{strategyHeading}}:
                                     </div>
                                     <div class="row_list_holder clearfix">
@@ -578,7 +578,7 @@
             <strong class="pull-left discrepancyName" ng-class="{rowHasSubRow:vendor.nodes.length > 1}" data-ng-click="discrepancy_click_first_level($index , $event)">
                 <span class="pull-left icon-arrow-down" ng-if="vendor.nodes.length > 1" ></span>
                 <span class="pull-left platform_logo_img" ng-if="vendor.nodes.length == 1"><img ng-src="{{performanceIconUrl(vendor.nodes[0].iconName)}}" err-src="/images/platform_favicons/platform_logo.png" style="max-width: 10px;"></span>
-                <span ng-bind="vendor.nodes.length > 1 ? vendor.category : vendor.nodes[0].name" style="margin-left: 10px"></span>
+                <span ng-bind="vendor.nodes.length > 1 ? vendor.category : vendor.nodes[0].name" style="margin-left: 2px"></span>
             </strong>
 
 
