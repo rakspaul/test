@@ -6,10 +6,9 @@ define(['angularAMD'],function (angularAMD) {
             controller : function($scope, momentService, workflowService, constants) {
                 $scope.editAdGroupFlag = false;
                 $scope.processAdGroupEditData = function(formElem, adGroupsData, adGroupsIndex) {
-                    console.log("adGroupsData", adGroupsData);
                     $scope.adgroupId = adGroupsData.adGroup.id;
                     $scope.adGroupName = adGroupsData.adGroup.name;
-                    $scope.tags = workflowService.recreateLabels(adGroupsData.labels);
+                    $scope.tags = workflowService.recreateLabels(_.uniq(adGroupsData.labels));
                     $scope.adIGroupBudget = adGroupsData.adGroup.deliveryBudget;
                     $scope.updatedAt = adGroupsData.adGroup.updatedAt
 
@@ -42,10 +41,6 @@ define(['angularAMD'],function (angularAMD) {
                         $scope.extractor(getADsForGroupData, formElem);
                     } else {
                         $scope.resetAdsData();
-                        if (moment().isAfter(startTime, 'day')) {
-                            startTime = moment().format(constants.DATE_US_FORMAT);
-                        }
-
                         startDateElem.datepicker("setStartDate", startTime);
                         startDateElem.datepicker("setEndDate", $scope.campaignEndTime);
 
