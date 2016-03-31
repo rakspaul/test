@@ -152,6 +152,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 $rootScope.$broadcast('resetTargeting');
                 $scope.setPlatform(event, platform);
             }
+            $rootScope.$broadcast('targettingCapability', platform)
         };
 
         $scope.setPlatform = function (event, platform) {

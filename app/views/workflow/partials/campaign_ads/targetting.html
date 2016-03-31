@@ -20,7 +20,7 @@
 
     <!--START : Audience Targeting Card-->
     <div class="col-md-6 cardSelectHolder" ng-class="{true: 'active'}[selectedTargeting['audience']]">
-        <span ng-if="audienceDataForPreview && audienceDataForPreview.length > 0" class="icon-trash" ng-style="(audienceDataForPreview.length >0)?{'display':'block'}:{'display':'none'}" ng-click="deletetargets('AUDIENCE', $event)"></span>
+        <span ng-if="(audienceDataForPreview && audienceDataForPreview.length > 0) || (isPlatformSelected && isAudienceTargetEnabled)" class="icon-trash" ng-style="(audienceDataForPreview.length >0 || (isAudienceTargetEnabled && isPlatformSelected))?{'display':'block'}:{'display':'none'}" ng-click="deletetargets('AUDIENCE', $event)"></span>
         <div class="icon-audience"></div>
         <p data-ng-bind="textConstants.AUDSEGMENTS"></p>
         <div class="cardTxtWrap" ng-if="!audienceDataForPreview || audienceDataForPreview.length == 0">
@@ -44,7 +44,7 @@
     <!--END : Audience Targeting Card-->
     <!--START : Geo Targeting Card-->
     <div class="col-md-6 cardSelectHolder" ng-class="{true: 'active'}[selectedTargeting['geography']]">
-        <span ng-if="geoTargetingPreviewObj" class="icon-trash" ng-style="(geoTargetingPreviewObj.include.count >0 || geoTargetingPreviewObj.exclude.count >0)?{'display':'block'}:{'display':'none'}" ng-click="deletetargets('GEO', $event)"></span>
+        <span ng-if="geoTargetingPreviewObj || (isPlatformSelected && isGeoTargetEnabled)" class="icon-trash" ng-style="(geoTargetingPreviewObj.include.count >0 || geoTargetingPreviewObj.exclude.count >0 || (isPlatformSelected && isGeoTargetEnabled))?{'display':'block'}:{'display':'none'}" ng-click="deletetargets('GEO', $event)"></span>
         <div class="icon-location"></div>
         <p>Geography <span>({{locale.id === 'en-gb' ? 'UK' : 'US'}} Only)</span></p>
         <div class="cardTxtWrap" ng-if="!geoTargetingPreviewObj.include && !geoTargetingPreviewObj.exclude ">
@@ -80,7 +80,7 @@
     <!--END : Geo Targeting Card-->
 
     <!--START : Daypart Targeting Card-->
-    <div class="col-md-6 cardSelectHolder" ng-hide="isPlatformId === 25 || isPlatformId === 1" ng-class="{true: 'active'}[selectedTargeting['daily']]">
+    <div class="col-md-6 cardSelectHolder" ng-if="(!isPlatformSelected || (isPlatformSelected && isDaypartTargetEnabled))" ng-class="{true: 'active'}[selectedTargeting['daily']]">
         <span ng-if="selectedDayParts['data'].length  > 0"  class="icon-trash" ng-style="(selectedDayParts['data'].length >0)?{'display':'block'}:{'display':'none'}" ng-click="deletetargets('DAYPART', $event)"></span>
         <div class="icon-activity"></div>
         <p data-ng-bind="textConstants.DAYPART"></p>
