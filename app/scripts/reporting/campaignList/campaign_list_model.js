@@ -656,12 +656,7 @@ define(['angularAMD','reporting/campaignList/campaign_list_service', 'common/ser
                                 case constants.ACTIVE_CONDITION:
                                     this.appliedQuickFilterText = constants.INFLIGHT_LABEL;
 
-                                    // Don't assign on first page load. Total count will be taken from
-                                    // main result set.
-                                    if (this.dashboard.quickFilterSelectedCount) {
-                                        this.dashboard.quickFilterSelectedCount = this.dashboard.active.total;
-                                    }
-
+                                    this.dashboard.quickFilterSelectedCount = this.dashboard.active.total;
                                     this.dashboard.status.active.bothItem = constants.ACTIVE;
                                     type = constants.ACTIVE;
                                     break;
