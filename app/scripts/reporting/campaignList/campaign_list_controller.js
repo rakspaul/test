@@ -183,21 +183,26 @@ define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', 'reporting/campaig
 
                 // Search show / hide
                 $scope.searchShowInput = function () {
-		    $('.searchInputBtn').hide();
                     var searchInputForm = $('.searchInputForm');
-		    $('.searchInputBtnInline').show();
+
+                    $('.searchInputBtn').hide();
+                    $('.searchInputBtnInline').show();
                     searchInputForm.show();
                     searchInputForm.animate({width: '400px'}, 'fast');
-		    setTimeout(function () { $('.searchClearInputBtn').fadeIn(); }, 300);
+                    setTimeout(function () {
+                        $('.searchClearInputBtn').fadeIn();
+                    }, 300);
                 };
 
                 $scope.searchHideInput = function () {
                     var inputSearch = $('.searchInputForm input');
 
-		    $('.searchInputBtn').show();
-		    $('.searchClearInputBtn, .searchInputBtnInline').hide();
-		    $('.searchInputForm').animate({width: '34px'}, 'fast');
-		    setTimeout(function () { $('.searchInputForm').hide(); }, 100);
+                    $('.searchInputBtn').show();
+                    $('.searchClearInputBtn, .searchInputBtnInline').hide();
+                    $('.searchInputForm').animate({width: '34px'}, 'fast');
+                    setTimeout(function () {
+                        $('.searchInputForm').hide();
+                    }, 100);
 
                     if ($scope.isCampaignSearched) {
                         $scope.isCampaignSearched = false;
@@ -208,16 +213,16 @@ define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', 'reporting/campaig
                     }
                 };
 
-		$scope.searchClearInput = function () {
-		    var inputSearch = $('.searchInputForm input');
-		    inputSearch.val('');
-		};
+                $scope.searchClearInput = function () {
+                    var inputSearch = $('.searchInputForm input');
+                    inputSearch.val('');
+                };
 
-		$('body').click(function(e) {
-		    if ($(e.target).closest('.searchInput').length === 0) {
-			$scope.searchHideInput();
-		    }
-		});
+                $('body').click(function(e) {
+                    if ($(e.target).closest('.searchInput').length === 0) {
+                        $scope.searchHideInput();
+                    }
+                });
 
                 //Lazy Loader
                 $(window).scroll(function () {

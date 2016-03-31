@@ -48,18 +48,27 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
            $scope.isLeafNode = loginModel.getMasterClient().isLeafNode;
 
             // TODO:
-            /*$scope.searchTerm = '';
-            $scope.campaigns.searchTerm = '';
-            $scope.campaignOverviewSearchFunc = function (e) {
+            $scope.adGroupsSearchTerm = '';
+            $scope.isAdGroupsSearched = false;
+            $scope.adGroupsSearchFunc = function (e) {
                 // Perform search if enter key is pressed & user has entered something.
                 if (e.keyCode === 13) {
+                    /*
                     if ($scope.campaigns.searchTerm && $scope.campaigns.searchTerm.trim()) {
-                        $scope.campaigns.resetFilters();
-                        $scope.campaigns.fetchData($scope.campaigns.searchTerm);
-                        $scope.isCampaignSearched = true;
+                        $scope.campaigns.noData = false;
+                        if ($scope.adGroupsSearchTerm && $scope.adGroupsSearchTerm.trim()) {
+                            // Search term is entered
+                            $scope.fetchAdGroupsData($scope.adGroupsSearchTerm);
+                        } else {
+                            // Empty search term
+                            $scope.fetchAdGroupsData();
+                        }
+                        $scope.isAdGroupsSearched = true;
                     }
+                    */
+                    console.log('Search for ad groups, search term = ', $scope.adGroupsSearchTerm);
                 }
-            };*/
+            };
 
             //$scope.moreThenThree = '';// not used
             $scope.campaignArchiveLoader = false;

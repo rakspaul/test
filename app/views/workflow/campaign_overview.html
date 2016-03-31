@@ -175,9 +175,9 @@
                             </a>
                             <div class="input-group searchInputForm" >
                                 <input type="text" class="form-control"
-                                       name="creativeSearch"
-                                       ng-model="creativeSearch"
-                                       ng-keyup="creativeSearchFunc()"
+                                       name="adGroupsSearch"
+                                       ng-model="adGroupsSearchTerm"
+                                       ng-keyup="adGroupsSearchFunc($event)"
                                        placeholder="Search Ad Groups and Ads...">
                                 <div class="btn btn-default" ng-click="searchHideInput()">
                                     <span class="icon-clear" aria-hidden="true"></span>
@@ -186,7 +186,8 @@
                         </div>
                     </div>
 
-                    <!--<span class="pull-right" style="font-size: 12px; margin: 10px 10px 0 0;">{{campaigns.dashboard.quickFilterSelectedCount}} Media Plans in list</span>-->
+                    <!--<span class="pull-right" style="font-size: 12px; margin: 10px 10px 0 0;">
+                    {{campaigns.dashboard.quickFilterSelectedCount}} Media Plans in list</span>-->
                 </div>
 
                 <div class="searchAds" style="display: none;">
