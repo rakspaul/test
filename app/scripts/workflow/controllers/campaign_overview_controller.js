@@ -610,7 +610,6 @@ console.log('$scope.workflowData.getADsForGroupData[index] = ', $scope.workflowD
 
                     return [a, b];
                 }
-
                 return $scope.sizeString;
             };
 
@@ -655,7 +654,7 @@ console.log('$scope.workflowData.getADsForGroupData[index] = ', $scope.workflowD
                 if ($scope.workflowData.campaignAdsData.length > 0) {
                     campaignAdsData  = $scope.workflowData.campaignAdsData;
                     $scope.adGroupMinBudget = campaignAdsData.reduce(function(memo, obj) {
-                        return memo + obj.cost;
+                        return memo + (obj.cost || 0);
                     }, 0);
                     $scope.adIGroupBudget = $scope.adGroupMinBudget;
                     $scope.extractor($scope.workflowData.campaignAdsData, adGroupCreateformElem);
@@ -675,11 +674,14 @@ console.log('$scope.workflowData.getADsForGroupData[index] = ', $scope.workflowD
                 $scope.adGroupMaxBudget = (Math.ceil($scope.workflowData.campaignData.deliveryBudget) - $scope.workflowData.campaignData.bookedSpend) + Math.ceil($scope.adGroupMinBudget);
             };
 
-
-            $scope.validateAdGroupSpend = function (event) {
+            $scope.resetAdsBudgetsFlag = function() {
                 $scope.isMinimumAdGroupBudget = true;
                 $scope.isMaximumAdGroupBudget = true;
+            };
 
+            $scope.validateAdGroupSpend = function (event) {
+                //reset the ad group max and min budget flag as soon as you enter budget
+                $scope.resetAdsBudgetsFlag();
                 var target = event.target,
                     newadGroupBudget = Number(target.value),
                     minValue = Number($(target).attr('min-value')),
@@ -766,11 +768,6 @@ console.log('$scope.workflowData.getADsForGroupData[index] = ', $scope.workflowD
                 if (!$scope.workflowData.campaignData ||  $scope.workflowData.campaignAdsData.length > 0) {
                     return;
                 }
-
-                //var formElem = $(event.target).closest('form');
-                endDateElem
-                    .attr('disabled', 'disabled')
-                    .css({'background': '#eee'});
 
                 if (startTime) {
                     changeDate = moment(startTime).format(constants.DATE_US_FORMAT);
@@ -950,6 +947,7 @@ console.log('Ad group was searched...')
                     $scope.adGroupsSearchFunc();
                 }
             };
+
 
 
             $(document).on('changeDate', '.adGrpStartDateInput', function(ev) {

@@ -6,6 +6,7 @@ define(['angularAMD'],function (angularAMD) {
             controller : function($scope, momentService, workflowService, constants) {
                 $scope.editAdGroupFlag = false;
                 $scope.processAdGroupEditData = function(formElem, adGroupsData, adGroupsIndex) {
+
                     $scope.adgroupId = adGroupsData.adGroup.id;
                     $scope.adGroupName = adGroupsData.adGroup.name;
                     $scope.tags = workflowService.recreateLabels(_.uniq(adGroupsData.labels));
@@ -27,6 +28,9 @@ define(['angularAMD'],function (angularAMD) {
                     var adsBudget = campaignAdsData.reduce(function(memo, obj) {
                         return memo + (obj.cost ||0);
                     }, 0);
+
+                    //reset the ad group max and min budget flag.
+                    $scope.resetAdsBudgetsFlag();
 
                     $scope.adGroupMaxBudget = (Math.ceil($scope.workflowData.campaignData.deliveryBudget) -
                         adGroupsBudget) + Math.ceil(adsBudget) ;
@@ -77,8 +81,6 @@ define(['angularAMD'],function (angularAMD) {
                     element.closest('.adGroup').find(".editAdgroupDiv").hide();
                     element.closest('.adGroup').find('.adgroupDiv').show();
                     element.closest('.adGroup').find(".overlay").hide();
-                    $scope.isMinimumAdGroupBudget = true;
-                    $scope.isMaximumAdGroupBudget = true;
                 };
             }
         };

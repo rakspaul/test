@@ -17,7 +17,6 @@ define(['angularAMD','reporting/subAccount/sub_account_model','common/services/c
 
         function fetchSubAccounts(from,searchCriteria, search) {
             subAccountModel.fetchSubAccounts(from,function () {
-                console.log('fetch subaccounts');
                 $scope.subAccountData.subAccounts = subAccountModel.getSubAccounts();
                 $scope.subAccountData.selectedsubAccount.id = loginModel.getSelectedClient().id;//$scope.subAccountData.subAccounts[0].id;
                 $scope.subAccountData.selectedsubAccount.name = loginModel.getSelectedClient().name;//$scope.subAccountData.subAccounts[0].name;
@@ -25,7 +24,6 @@ define(['angularAMD','reporting/subAccount/sub_account_model','common/services/c
         };
 
         function getSubAccounts(searchCriteria, search) {
-            console.log('get subaccounts');
             $scope.subAccountData.subAccounts = subAccountModel.getSubAccounts();
             $scope.subAccountData.selectedsubAccount.id = loginModel.getSelectedClient().id;//$scope.subAccountData.subAccounts[0].id;
             $scope.subAccountData.selectedsubAccount.name = loginModel.getSelectedClient().name;//$scope.subAccountData.subAccounts[0].name;

@@ -552,7 +552,7 @@ define(['common'], function (angularAMD) {
                                         }
                                     } else {
                                         //set subAccount
-                                        subAccountModel.fetchSubAccounts('app',function(){
+                                        subAccountModel.fetchSubAccounts('MasterClientChanged',function(){
                                             workflowService.getClientData(clientObj.id).then(function (response) {
                                                 featuresService.setFeatureParams(response.data.data.features);
                                             });

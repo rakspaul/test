@@ -23,7 +23,7 @@ define(['angularAMD', 'workflow/services/workflow_service','common/services/cons
 
 
         this.fetchSubAccounts = function (from,successCallBack, searchCritera, search) {
-            console.log('Subaccount Model: ',from)
+           // console.log('Subaccount Model From: ',from)
             workflowService.getSubAccounts().then(function (response) {
                 if(from == 'MasterClientChanged') {
                     self.setSelectedSubAccount({'id': response.data.data[0].id, 'name': response.data.data[0].name});
