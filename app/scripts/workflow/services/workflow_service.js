@@ -410,7 +410,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                     );
                 },
 
-                getCreatives: function (clientId, formats, query, cacheObj, integrationTracking, state, success,
+                getCreatives: function (clientId,adId, formats, query, cacheObj, integrationTracking, state, success,
                                         failure) {
                     var queryStr = query ? query : '',
                         creativeFormats = formats ? '?creativeFormat=' + formats : '',
@@ -421,6 +421,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
 
                     url = vistoconfig.apiPaths.WORKFLOW_API_URL +
                         '/clients/' + clientId +
+                        '/advertisers/' + adId +
                         '/creatives' + creativeFormats + queryStr + intTracking + state;
 
                     canceller = requestCanceller.initCanceller(constants.CAMPAIGN_FILTER_CANCELLER);
