@@ -32,7 +32,7 @@ define(['angularAMD'],function (angularAMD) {
                     //reset the ad group max and min budget flag.
                     $scope.resetAdsBudgetsFlag();
 
-                    $scope.adGroupMaxBudget = (Math.ceil($scope.workflowData.campaignData.deliveryBudget) - adGroupsBudget) + Math.ceil(adsBudget) ;
+                    $scope.adGroupMaxBudget = Math.ceil($scope.workflowData.campaignData.deliveryBudget) - (adGroupsBudget +  Math.ceil(adsBudget));
 
                     var startTime = momentService.utcToLocalTime(adGroupsData.adGroup.startTime);
                     var highestEndTime = momentService.utcToLocalTime(adGroupsData.adGroup.endTime);
