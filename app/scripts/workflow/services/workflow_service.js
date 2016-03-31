@@ -609,20 +609,20 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                 },
 
                 getVendors: function (categoryId) {
-                    // var url= vistoconfig.apiPaths.WORKFLOW_API_URL + '/costCategories/'+categoryId+'/vendors';
+                    // var url= vistoconfig.apiPaths.WORKFLOW_API_URL + '/cost_categories/'+categoryId+'/vendors';
                     // for system of records.
-                    return dataService.fetch(vistoconfig.apiPaths.WORKFLOW_API_URL + '/costCategories/5/vendors');
+                    return dataService.fetch(vistoconfig.apiPaths.WORKFLOW_API_URL + '/cost_categories/5/vendors');
                 },
 
                 getCostCategories: function () {
-                    return dataService.fetch(vistoconfig.apiPaths.WORKFLOW_API_URL + '/costCategories');
+                    return dataService.fetch(vistoconfig.apiPaths.WORKFLOW_API_URL + '/cost_categories');
                 },
 
                 getVendorForSelectedCostCategory: function (clientId, categoryId) {
                     return dataService.fetch(
                         vistoconfig.apiPaths.WORKFLOW_API_URL +
                         '/clients/' + clientId +
-                        '/costCategories/' + categoryId +
+                        '/cost_categories/' + categoryId +
                         '/vendors'
                     );
                 },
