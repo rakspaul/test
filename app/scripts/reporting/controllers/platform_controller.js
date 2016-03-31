@@ -2,7 +2,7 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
         'common/services/data_service', 'common/services/constants_service', 'reporting/models/domain_reports',
         'reporting/timePeriod/time_period_model', 'login/login_model', 'common/services/role_based_service',
         'reporting/advertiser/advertiser_model', 'reporting/brands/brands_model',
-        'common/services/url_service', 'common/services/features_service',
+        'common/services/url_service', 'common/services/features_service', 'common/services/request_cancel_service',
         'reporting/strategySelect/strategy_select_directive','reporting/strategySelect/strategy_select_controller','reporting/timePeriod/time_period_pick_directive'
     ],
 
@@ -11,7 +11,7 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
                                                       dataService, constants, domainReports,
                                                       timePeriodModel, loginModel, RoleBasedService,
                                                       advertiserModel, brandsModel,
-                                                      urlService, featuresService) {
+                                                      urlService, featuresService, requestCanceller) {
 
         $scope.textConstants = constants;
 
@@ -133,7 +133,9 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
 
             $scope.api_return_code = 200;
             var url = urlService.APIVistoCustomQuery(param);
-            dataService.fetch(url).then(function (result) {
+            requestCanceller.cancelLastRequest(constants.PLATFORM_TAB_CANCELLER);
+            var canceller = requestCanceller.initCanceller(constants.PLATFORM_TAB_CANCELLER);
+            dataService.fetchCancelable(url, canceller, function (result) {
                 $scope.strategyLoading = false;
                 if (result.status === "OK" || result.status === "success") {
                     $scope.performanceBusy = false;
@@ -145,7 +147,7 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
                     if (/*$scope.isCostModelTransparent === false && */result.data.data.length === 0) {
                         errorHandlerForPerformanceTab();
                     } else {
-                      //  $scope.isCostModelTransparentMsg = result.data.data.message;
+                        //  $scope.isCostModelTransparentMsg = result.data.data.message;
                         if (Number($scope.selectedStrategy.id) >= 0) {
                             // strategy selected
                             $scope['platformData'] = _.filter(result.data.data, function (item) {

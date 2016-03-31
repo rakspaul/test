@@ -4,6 +4,7 @@ define(['angularAMD'], function(angularAMD) {
         this.CAMPAIGN_LIST_CANCELLER = 1;
         this.CAMPAIGN_FILTER_CANCELLER = 1;
         this.ADDLIBRARY_FILTER_CANCELLER = 10;
+        this.PLATFORM_TAB_CANCELLER = 99;
         this.COST_CANCELLER = 2;
         this.DASHBOARD_CANCELLER = 3;
         this.GAUGE_CANCELLER = 4;
