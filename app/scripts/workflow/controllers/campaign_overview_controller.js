@@ -4,7 +4,8 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
     function (angularAMD) {
         angularAMD.controller('CampaignOverViewController', function ($scope, $rootScope, $routeParams, $timeout,
                                                                       $location, $route, constants, workflowService,
-                                                                      momentService, vistoconfig, featuresService,loginModel) {
+                                                                      momentService, vistoconfig, featuresService,
+                                                                      loginModel, $sce) {
             $('.main_navigation_holder')
                 .find('.active_tab')
                 .removeClass('active_tab');
@@ -45,28 +46,30 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             $scope.isMaximumAdGroupBudget = true;
             $scope.selectedClientName = loginModel.getSelectedClient().name;
 
-           $scope.isLeafNode = loginModel.getMasterClient().isLeafNode;
+            $scope.isLeafNode = loginModel.getMasterClient().isLeafNode;
 
             // TODO:
             $scope.adGroupsSearchTerm = '';
             $scope.isAdGroupsSearched = false;
+            $scope.adGroupsNoData = false;
             $scope.adGroupsSearchFunc = function (e) {
                 // Perform search if enter key is pressed & user has entered something.
-                if (e.keyCode === 13) {
-                    /*
-                    if ($scope.campaigns.searchTerm && $scope.campaigns.searchTerm.trim()) {
-                        $scope.campaigns.noData = false;
-                        if ($scope.adGroupsSearchTerm && $scope.adGroupsSearchTerm.trim()) {
-                            // Search term is entered
-                            $scope.fetchAdGroupsData($scope.adGroupsSearchTerm);
-                        } else {
-                            // Empty search term
-                            $scope.fetchAdGroupsData();
-                        }
+                if (!e || e.keyCode === 13) {
+                    $scope.adGroupsNoData = false;
+                    $scope.isAdGroupOpen = false;
+                    if ($scope.adGroupsSearchTerm && $scope.adGroupsSearchTerm.trim()) {
+                        // Search term is entered
+                        console.log('Search for ad groups, search term = ', $scope.adGroupsSearchTerm);
+                        // TODO: The following 2 API calls will be replaced by the Search API call
+                        campaignOverView.getAdsForCampaign($routeParams.campaignId);
+                        campaignOverView.getAdgroups($routeParams.campaignId);
                         $scope.isAdGroupsSearched = true;
+                    } else {
+                        // Empty search term
+                        console.log('Search for ad groups, without search term');
+                        campaignOverView.getAdsForCampaign($routeParams.campaignId);
+                        campaignOverView.getAdgroups($routeParams.campaignId);
                     }
-                    */
-                    console.log('Search for ad groups, search term = ', $scope.adGroupsSearchTerm);
                 }
             };
 
@@ -196,6 +199,43 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 }
             };
 
+            $scope.highlightTitleText = function (text, phrase) {
+                var keywordsArr,
+                    keywords;
+
+                keywordsArr = phrase ? phrase.split(' ') : [];
+
+                if (keywordsArr.length > 1) {
+                    keywordsArr.push(phrase);
+                }
+                keywords = keywordsArr.join('|');
+
+                return $sce.trustAsHtml(text.replace(new RegExp('(' + keywords + ')', 'gi'),
+                    '<mark class="search-highlight">$1</mark>'));
+
+            };
+
+            $scope.highlightLabelPill = function (text, phrase) {
+                var tempText = text ? text.toString() : '',
+                    tempTextLower = tempText.toLowerCase(),
+                    tempPhrase = phrase ? phrase.toLowerCase() : '';
+
+                if (phrase && tempTextLower.indexOf('</mark>') === -1) {
+                    if (tempTextLower.indexOf(tempPhrase) >= 0) {
+                        tempText = $sce.trustAsHtml('<mark class="search-highlight">' +
+                            tempText + '</mark>');
+                    }
+                }
+
+                return tempText;
+            };
+
+            $scope.addHighlightClass = function (text, phrase) {
+                var tempText = text ? text.toString().toLowerCase() : '';
+
+                return tempText.indexOf(phrase) >= 0;
+            };
+
             var campaignOverView = {
                 modifyCampaignData: function () {
                     var campaignData = $scope.workflowData.campaignData,
@@ -315,8 +355,17 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                                 }
 
                                 // call extract method if
-                                $scope.workflowData['campaignAdsData'] =
+                                $scope.workflowData.campaignAdsData =
                                     campaignOverView.adsDataMofiderFunc(responseData);
+
+                                // TODO: Highlight non-Adgroup ad name
+                                _.each($scope.workflowData.campaignAdsData, function (obj) {
+                                    obj.nameHtml = $scope.highlightTitleText(obj.name, $scope.adGroupsSearchTerm);
+                                });
+                                // End of TODO
+
+                                console.log('$scope.workflowData.campaignAdsData = ',
+                                    $scope.workflowData.campaignAdsData);
 
                                 isAdsInProgressState = _.filter(responseData, function (obj) {
                                     return obj.state === 'DEPLOYING';
@@ -341,20 +390,65 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
                             if (result.status === 'OK' || result.status === 'success') {
                                 responseData = result.data.data;
+
+                                // TODO: temp, testing highlighting of Ad group name & label pills
+                                //       NOTE: The highlighting will be done at the Search API call.
+                                _.each(responseData, function (obj) {
+                                    var i,
+                                        j,
+                                        temp,
+                                        labelsLen,
+                                        searchTermsArr,
+                                        searchTermsLen,
+                                        searchTerm = $scope.adGroupsSearchTerm.toLowerCase().trim();
+
+                                    obj.adGroup.nameHtml = obj.adGroup.name;
+                                    if (searchTerm) {
+                                        // Highlight Ad group title
+                                        obj.adGroup.nameHtml =
+                                            $scope.highlightTitleText(obj.adGroup.nameHtml, searchTerm);
+
+                                        // Highlight Ad group label pills
+                                        labelsLen = obj.labels.length;
+                                        searchTermsArr = searchTerm.split(' ');
+                                        searchTermsLen = searchTermsArr.length;
+
+                                        if (searchTermsLen > 1) {
+                                            searchTermsArr.push(searchTerm);
+                                        }
+                                        for (i = 0; i < labelsLen; i++) {
+                                            for (j = 0; j < searchTermsLen; j++) {
+                                                temp = $scope.highlightLabelPill(obj.labels[i], searchTermsArr[j])
+                                                            .toString();
+                                                if (temp.indexOf('</mark>') >= 0) {
+                                                    obj.labels[i] = temp;
+                                                    break;
+                                                }
+                                            }
+                                        }
+                                    }
+                                });
+                                // TODO ends here
+
                                 $scope.workflowData.campaignGetAdGroupsData = responseData;
                             } else {
                                 campaignOverView.errorHandler(result);
                             }
+
+                            console.log('getAdGroups called, $scope.workflowData.campaignGetAdGroupsData = ',
+                                $scope.workflowData.campaignGetAdGroupsData);
                         }, campaignOverView.errorHandler);
                 },
 
+                // TODO: Test this next for ads within an ad group
                 getAdsInAdGroup: function (campaignId, adGroupId, index) {
                     workflowService
                         .getAdsInAdGroup(campaignId, adGroupId)
                         .then(function (result) {
                             var responseData,
                                 i,
-                                isAdsInProgressState;
+                                isAdsInProgressState,
+                                searchTerm;
 
                             if (result.status === 'OK' || result.status === 'success') {
                                 responseData = result.data.data;
@@ -370,6 +464,21 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
                                 $scope.workflowData.getADsForGroupData[index] =
                                     campaignOverView.adsDataMofiderFunc(responseData);
+console.log('$scope.workflowData.getADsForGroupData[index] = ', $scope.workflowData.getADsForGroupData[index],
+', index = ', index);
+                                //obj.adGroup.nameHtml =
+                                //    $scope.highlightTitleText(obj.adGroup.nameHtml, searchTerm);
+
+                                // TODO: Highlight Ad titles inside Ad Group
+                                if ($scope.workflowData.getADsForGroupData[index].length) {
+                                    _.each($scope.workflowData.getADsForGroupData[index], function (obj) {
+                                        console.log(obj.name);
+                                        searchTerm = $scope.adGroupsSearchTerm.toLowerCase().trim();
+                                        obj.nameHtml = $scope.highlightTitleText(obj.name, searchTerm);
+                                    });
+                                } else {
+                                    console.log('No ads in Ad group');
+                                }
 
                                 isAdsInProgressState = _.filter(responseData, function (obj) {
                                     return obj.state === 'DEPLOYING';
@@ -510,16 +619,19 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
                 if (context.showHideToggle) {
                     //Closes
-                    elem.closest('.adGroup').removeClass('openInstance').addClass('closedInstance') ;
-                    elem.closest('.collapseIcon span').removeClass('icon-minus').addClass('icon-plus') ;
-                    context.showHideToggle = !context.showHideToggle
+                    elem.closest('.adGroup').removeClass('openInstance').addClass('closedInstance');
+                    elem.closest('.collapseIcon span').removeClass('icon-minus').addClass('icon-plus');
+                    context.showHideToggle = !context.showHideToggle;
+                    $scope.isAdGroupOpen = false;
                 } else {
                     //Opens
-                    elem.closest('.adGroup').removeClass('closedInstance').addClass('openInstance') ;
-                    elem.closest('.collapseIcon span').removeClass('icon-plus').addClass('icon-minus') ;
+                    elem.closest('.adGroup').removeClass('closedInstance').addClass('openInstance');
+                    elem.closest('.collapseIcon span').removeClass('icon-plus').addClass('icon-minus');
                     context.showHideToggle = !context.showHideToggle;
+                    $scope.isAdGroupOpen = true;
                     campaignOverView.getAdsInAdGroup($routeParams.campaignId, adGrpId, index);
                 }
+                console.log('$scope.isAdGroupOpen = ', $scope.isAdGroupOpen);
             };
 
             $scope.createAdGrp = function () {
@@ -651,7 +763,9 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     .removeAttr('disabled')
                     .css({'background': 'transparent'});
 
-                if (!$scope.workflowData.campaignData ||  $scope.workflowData.campaignAdsData.length >0) return;
+                if (!$scope.workflowData.campaignData ||  $scope.workflowData.campaignAdsData.length > 0) {
+                    return;
+                }
 
                 //var formElem = $(event.target).closest('form');
                 endDateElem
@@ -827,14 +941,13 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 setTimeout(function () {
                     $('.searchInputBtn').fadeIn();
                 }, 300);
-
+console.log('inside searchHideInput()')
                 // TODO:
-                if ($scope.isCampaignSearched) {
+                if ($scope.isAdGroupsSearched) {
+console.log('Ad group was searched...')
                     $scope.isCampaignSearched = false;
-                    $scope.campaigns.searchTerm = '';
-                    $scope.searchTerm = '';
-                    $scope.campaigns.resetFilters();
-                    $scope.campaigns.fetchData();
+                    $scope.adGroupsSearchTerm = '';
+                    $scope.adGroupsSearchFunc();
                 }
             };
 

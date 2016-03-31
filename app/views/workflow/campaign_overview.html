@@ -73,7 +73,11 @@
                                         <li class="disabled" ng-click="cancelAdResume()">
                                             <a data-ng-bind="textConstants.WF_RESUME"></a></li>
                                         <li>
-                                            <a class="available" id="archiveAdbtn" data-ng-bind="textConstants.WF_ARCHIVE" ng-click="cancelArchiveCampaign()"></a>
+                                            <a class="available"
+                                               id="archiveAdbtn"
+                                               data-ng-bind="textConstants.WF_ARCHIVE"
+                                               ng-click="cancelArchiveCampaign()">
+                                            </a>
                                         </li>
                                     </ul>
                                 </div>
@@ -259,23 +263,30 @@
                                             data-ng-bind="textConstants.PLATNOTSET">
                                         </span>
                                         <span class="pull-right greyTxt adDisplay"
-                                            ng-show="(!adsData.isTracking) && (adsData.state === 'READY' || adsData.state === 'INCOMPLETE')"
+                                            ng-show="(!adsData.isTracking) && (adsData.state === 'READY' ||
+                                                adsData.state === 'INCOMPLETE')"
                                             data-ng-bind="textConstants.NOTPUSHEDPAR">
                                         </span>
                                         <span ng-if="(adsData.sourceId)" class="pull-right greyTxt adDisplay"
-                                              ng-show="(adsData.sourceId && (adsData.pushStatus!='FAILED' && adsData.pushStatus!='IN_PROGRESS' && adsData.pushStatus!='UNPUSHED'))"
+                                              ng-show="(adsData.sourceId && (adsData.pushStatus!='FAILED' &&
+                                                adsData.pushStatus!='IN_PROGRESS' && adsData.pushStatus!='UNPUSHED'))"
                                               title="ID: {{adsData.sourceId}}"
                                               data-ng-bind="'ID:'+adsData.sourceId | formatUrl:8 ">
                                         </span>
                                     </div>
                                     <div style="margin-top:3px;">
-                                        <span class="greyTxt adDisplay" title="{{adsData.platform.displayName}}" ng-bind="adsData.platform.displayName | formatUrl:12"></span>
+                                        <span class="greyTxt adDisplay"
+                                              title="{{adsData.platform.displayName}}"
+                                              ng-bind="adsData.platform.displayName | formatUrl:12">
+                                        </span>
                                     </div>
                                 </div>
                                 <div class="col-md-12" style="padding: 0px 20px 20px 20px;">
                                     <div class="cardTopLayer">
-                                        <h4 class="col-md-10 adCamp" style="word-wrap: break-word;" tooltip="{{adsData.name}}">
-                                            {{adsData.name | textEllipsis: 60}}
+                                        <h4 class="col-md-10 adCamp"
+                                            style="word-wrap: break-word;"
+                                            ng-bind-html="adsData.nameHtml | textEllipsis: 60"
+                                            tooltip="{{adsData.name}}">
                                         </h4>
                                         <span ng-if="adsData.adFormat"
                                               class="glyphicon glyphicon-{{getAdFormatIconName(adsData.adFormat)}} pull-right"
@@ -288,7 +299,10 @@
                                                 {{utcToLocalTime(adsData.endTime, 'DD MMM YYYY')}}
                                             </span>
                                         </span>
-                                        <span class="pull-left adTxtGray dateAd" ng-show="{{!(adsData.startTime)}}" data-ng-bind="textConstants.FLTNOTSET"></span>
+                                        <span class="pull-left adTxtGray dateAd"
+                                              ng-show="{{!(adsData.startTime)}}"
+                                              data-ng-bind="textConstants.FLTNOTSET">
+                                        </span>
                                     </div>
                                     <div class="spacer">
                                         <div class="col-md-12"></div>
@@ -317,7 +331,8 @@
                                               </span>
                                         </div>
                                         <div class="col-md-4 zeroPadding text-center">
-                                             <span class="col-md-12 text-center adTxtGray zeroPadding" data-ng-bind="textConstants.BUDGET">
+                                             <span class="col-md-12 text-center adTxtGray zeroPadding"
+                                                   data-ng-bind="textConstants.BUDGET">
                                              </span>
                                             <span class="col-md-12 text-center zeroPadding">
                                                 {{adsData.cost ?
@@ -337,7 +352,8 @@
                                         </p>
                                     </div>
                                     <div class="col-md-12 zeroPadding">
-                                        <span class="col-md-12 text-left adTxtGray zeroPadding" data-ng-bind="textConstants.TARGETING">
+                                        <span class="col-md-12 text-left adTxtGray zeroPadding"
+                                              data-ng-bind="textConstants.TARGETING">
                                         </span>
                                         <span data-ng-bind="displaySelectedTargets(adsData)">
                                         </span>
@@ -346,7 +362,9 @@
                                 <!--Abi 3 Classes for color label for adStatus span are labelPush labelDraft labelNew-->
                                 <span class="pull-right adStatus {{adsData.state.toLowerCase().replace(' ','')}}">
                                     <span data-ng-bind="adsData.state"></span>
-                                    <span ng-if="adsData.pushStatus=='FAILED'" class="pull-right icon-warning" aria-hidden="true" tooltip="{{adsData.pushFeedback ? adsData.pushFeedback : ''}}">
+                                    <span ng-if="adsData.pushStatus=='FAILED'"
+                                          class="pull-right icon-warning" aria-hidden="true"
+                                          tooltip="{{adsData.pushFeedback ? adsData.pushFeedback : ''}}">
                                     </span>
                                     <span class="pull-right icon-tracking" ng-if="adsData.isTracking"></span>
                                 </span>
@@ -413,8 +431,8 @@
                                 <input type="radio"
                                        id="radioDisplay"
                                        name="group1"
-                                       value="Display" c
-                                       lass="btn_rad"
+                                       value="Display"
+                                       class="btn_rad"
                                        ng-model="adData.adFormat">
                                 <span class="glyphicon glyphicon-picture" aria-hidden="true"></span>
                                 <div class="btnLabel" data-ng-bind="textConstants.WF_DISPLAY"></div>
@@ -544,8 +562,14 @@
                     <div class="col-md-12 zeroPadding">
                         <div class="pull-left nextPanel">
                             <!-- Standard button -->
-                            <button type="button" class="btn btn-primary createAdNext" data-ng-bind="textConstants.NEXT"></button>
-                            <button type="button" class="btn btn-link addClose" data-ng-bind="textConstants.CANCEL"></button>
+                            <button type="button"
+                                    class="btn btn-primary createAdNext"
+                                    data-ng-bind="textConstants.NEXT">
+                            </button>
+                            <button type="button"
+                                    class="btn btn-link addClose"
+                                    data-ng-bind="textConstants.CANCEL">
+                            </button>
                         </div>
                     </div>
                     <!--=== End of Next Step Panel ===-->
