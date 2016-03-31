@@ -11,12 +11,12 @@ define(['angularAMD'],function (angularAMD) {
                     $scope.adGroupName = adGroupsData.adGroup.name;
                     $scope.tags = workflowService.recreateLabels(_.uniq(adGroupsData.labels));
                     $scope.adIGroupBudget = adGroupsData.adGroup.deliveryBudget;
-                    $scope.updatedAt = adGroupsData.adGroup.updatedAt
+                    $scope.updatedAt = adGroupsData.adGroup.updatedAt;
 
                     $scope.adGroupMinBudget = adGroupsData.adGroup.bookedSpend;
 
                     //total budget for ad group
-                        var campaignGetAdGroupsData = $scope.workflowData.campaignGetAdGroupsData;
+                    var campaignGetAdGroupsData = $scope.workflowData.campaignGetAdGroupsData;
                     var adGroupsBudget = campaignGetAdGroupsData.reduce(function(memo, obj) {
                         return memo + obj.adGroup.deliveryBudget;
                     }, 0);
@@ -32,14 +32,15 @@ define(['angularAMD'],function (angularAMD) {
                     //reset the ad group max and min budget flag.
                     $scope.resetAdsBudgetsFlag();
 
-                    $scope.adGroupMaxBudget = Math.ceil($scope.workflowData.campaignData.deliveryBudget) - (adGroupsBudget +  Math.ceil(adsBudget));
+                    $scope.adGroupMaxBudget = (Math.ceil($scope.workflowData.campaignData.deliveryBudget) -
+                        adGroupsBudget) + Math.ceil(adsBudget) ;
 
                     var startTime = momentService.utcToLocalTime(adGroupsData.adGroup.startTime);
                     var highestEndTime = momentService.utcToLocalTime(adGroupsData.adGroup.endTime);
 
                     var getADsForGroupData = $scope.workflowData['getADsForGroupData'][adGroupsIndex];
                     var startDateElem = formElem.find(".adGrpStartDateInput");
-                    var endDateElem = formElem.find(".adGrpEndDateInput");;
+                    var endDateElem = formElem.find(".adGrpEndDateInput");
 
                     if(getADsForGroupData.length >0 ) {
                         $scope.extractor(getADsForGroupData, formElem);
@@ -53,10 +54,8 @@ define(['angularAMD'],function (angularAMD) {
                     }
 
                     startDateElem.datepicker("update", startTime);
-
                     endDateElem.datepicker("update", highestEndTime);
-
-                }
+                };
             },
 
             link: function($scope, element, attrs) {
@@ -83,10 +82,7 @@ define(['angularAMD'],function (angularAMD) {
                     element.closest('.adGroup').find('.adgroupDiv').show();
                     element.closest('.adGroup').find(".overlay").hide();
                 };
-
-
-
             }
         };
-    })
+    });
 });

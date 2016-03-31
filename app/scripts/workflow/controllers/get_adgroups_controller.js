@@ -1,9 +1,8 @@
 define(['angularAMD','common/moment_utils'],function (angularAMD) {
   angularAMD.controller('GetAdgroupsController', function($scope, $routeParams, $location, momentService,workflowService) {
         $scope.numOfDays = function (startTime, endTime) {
-            var startTime = momentService.utcToLocalTime(startTime),
-                endTime = momentService.utcToLocalTime(endTime);
-
+            startTime = momentService.utcToLocalTime(startTime);
+            endTime = momentService.utcToLocalTime(endTime);
             $scope.numofdays = moment(endTime).diff(moment(startTime), 'days');
             return $scope.numofdays;
         };
