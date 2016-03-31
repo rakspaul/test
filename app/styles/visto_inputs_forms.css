@@ -1,41 +1,70 @@
 .searchInput {
   width: auto;
   border: 1px solid #BFC9D7;
+  border-width: 0;
   border-radius: 2px;
+  height: 36px;
 }
 .searchInput a.btn {
   cursor: pointer;
-  height: 34px;
+  height: 36px;
   padding: 10px 15px;
-  border-width: 0;
+  border: 1px solid #BFC9D7;
 }
 .searchInput .input-group {
   position: relative;
   display: none;
   width: 34px;
+  float: right;
+  margin-right: 1px;
 }
 .searchInput .input-group input {
-  border-width: 0;
+  border-top-right-radius: 0px !important;
+  border-bottom-right-radius: 0px !important;
+  height: 36px !important;
+  border: 1px solid #BFC9D7;
+  border-right: 0px;
+}
+.searchInput .input-group input:focus {
+  border: 1px solid #0978c9 !important;
+  box-shadow: none;
 }
 .searchInput .input-group .btn {
   position: absolute;
   z-index: 10;
-  top: 0px;
-  right: 0px;
+  top: 1px;
+  right: 1px;
   border-width: 0;
   box-shadow: none;
   padding: 0;
-  width: 47px;
-  height: 34px;
-  border-left: 1px solid #BFC9D7;
+  width: 36px;
+  height: 32px;
+  background: #fff !important;
 }
 .searchInput .input-group .btn [class^="icon-"],
 .searchInput .input-group .btn [class*=" icon-"] {
   float: right !important;
   cursor: pointer;
-  margin: 10px 15px !important;
+  padding: 10px 10px !important;
   top: 0;
   right: 0;
+  height: 34px;
+  width: 40px;
+}
+.searchInput .searchInputBtnInline {
+  display: none;
+  float: right;
+  background: #DCE6F1;
+  border-left: 1px solid #BFC9D7 !important;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+.searchInput .searchClearInputBtn [class^="icon-"],
+.searchInput .searchClearInputBtn [class*=" icon-"] {
+  background: #fff !important;
+}
+.searchInput.geography {
+  height: auto;
 }
 .searchInput.geography .input-group {
   display: block;
@@ -43,6 +72,7 @@
 }
 .searchInput.geography .input-group input {
   border-width: 1px;
+  border-right: 1px solid #BFC9D7;
 }
 .searchInput.geography .input-group .btn {
   position: relative;
