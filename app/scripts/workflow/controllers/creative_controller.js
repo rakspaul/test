@@ -449,6 +449,8 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
                       validateScriptTag(formData.tag);
                   }
                   if (validTag) {
+                      var validCreativeUrl = true;
+                      $('#invalidUrl').remove();
                       for(var i=0;i< formDataObj.length;i++){
                           if (["name","subAccountId","advertiserId","brandId","adFormat","creativeFormat","sslEnable","creativeAdServer","creativeTemplate","tag","creativeSize"].indexOf(formDataObj[i].name) >= 0) {
                               indexArr.push(i);// contains all indexes of static Markup which will have to be removed before adding to the list.
@@ -460,18 +462,25 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
                       });
 
                           $scope.IncorrectTag = false;
-                          var creativeCustomInputs=[];
-                          _.each(templateArr, function (data) {
+                          postCrDataObj.creativeCustomInputs = _.map(templateArr, function (data) {
                               var d = data.name.split('$$');
-                              creativeCustomInputs.push({
+
+                              if(d[0] === 'clickthrough_url.clickthrough_url' && data.value !== ''){
+                                  // validate if the url is valid
+                                  validCreativeUrl = workflowService.validateUrl(data.value);
+                                  if(validCreativeUrl === false){
+                                      $("[name='"+data.name+"']").parent().append("<label id='invalidUrl' class='col-sm-12 control-label errorLabel' style='display:block'>Please enter a valid url.</label>")
+                                  }
+                              }
+                              return {
                                   'creativeCustomInputId': Number(d[1]),
                                   'value': data.value
-                              });
+                              };
                           });
-                          postCrDataObj.creativeCustomInputs=creativeCustomInputs;
-                          console.log("postCrDataObj",postCrDataObj);
-
-                          $scope.creativeSave(postCrDataObj);
+                          
+                          if(validCreativeUrl) {
+                              $scope.creativeSave(postCrDataObj);
+                          }
               }
               }
           };
@@ -543,7 +552,7 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
                       if (result.status === 'OK' || result.status === 'success') {
                           $scope.addedSuccessfully = true;
                           $scope.Message = 'Creative Added Successfully';
-                          $scope.savingCreative=false;
+                          $scope.savingCreative = false;
                           if(result.data.data.creativeState==='READY'){
                               workflowService.setNewCreative(result.data.data);
                           }
@@ -551,13 +560,19 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
                           $scope.cancelBtn();
                           $rootScope.setErrAlertMessage($scope.textConstants.CREATIVE_SAVE_SUCCESS,0);
                           localStorage.setItem( 'topAlertMessage', $scope.textConstants.CREATIVE_SAVE_SUCCESS);
+                      } else if (result.status === 'error'){
+                          $scope.addedSuccessfully = true;
+                          $scope.savingCreative = false;
+                          $scope.Message = 'Unable to create Creative';
                       } else if (result.data.data.message ==='Creative with this tag already exists. If you still want to save, use force save') {
                           $('.popup-holder').css('display', 'block');
                           $scope.addedSuccessfully = false;
+                          $scope.savingCreative = false;
                           $scope.disableCancelSave = true;
                       } else {
                           $scope.addedSuccessfully = true;
-                          $scope.Message = 'Unable to create Creatives';
+                          $scope.savingCreative = false;
+                          $scope.Message = 'Unable to create Creative';
                           console.log(result);
                       }
                   });
