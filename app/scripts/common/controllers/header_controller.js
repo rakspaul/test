@@ -34,7 +34,7 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
                     }
 
                     $scope.accountsData = _.sortBy($scope.accountsData, 'name');
-                    console.log('$scope.accountsData',$scope.accountsData);
+                   // console.log('$scope.accountsData',$scope.accountsData);
 
                     if (loginModel.getMasterClient() && loginModel.getMasterClient().name) {
                         $scope.defaultAccountsName = loginModel.getMasterClient().name;
@@ -106,7 +106,7 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
                 $scope.getClientData(id);
                $rootScope.$broadcast(constants.ACCOUNT_CHANGED, {'client': loginModel.getSelectedClient().id, 'event_type': 'clicked'});
             } else {
-                subAccountModel.fetchSubAccounts('headerCtrl',function(){
+                subAccountModel.fetchSubAccounts('MasterClientChanged',function(){
                     $scope.getClientData(loginModel.getSelectedClient().id);
                    // console.log('current url',$location.url());
                     $rootScope.$broadcast(constants.EVENT_MASTER_CLIENT_CHANGED, {'client': loginModel.getSelectedClient().id, 'event_type': 'clicked'});
