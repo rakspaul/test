@@ -739,7 +739,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
 
                     return labelArr;
                 },
-                validateValidUrl: function(url){
+                validateUrl: function(url){
                     var re =  /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,4}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g
                     if (re.test(url)) {
                         return true;
