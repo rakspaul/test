@@ -510,7 +510,6 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                         $scope.tags = workflowService.recreateLabels(_.uniq($scope.editCampaignData.labels));
                     }
 
-
                     /*write condition for orange text here also*/
                     if (parseFloat($scope.Campaign.deliveryBudget) < 0) {
                         $scope.deliveryBudgetNegative = true;
@@ -951,10 +950,10 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         };
 
         $scope.initiateDatePicker = function () {
+            var startDateElem = $('#startDateInput');
+            var endDateElem = $('#endDateInput');
+            var today = momentService.utcToLocalTime();
             if ($scope.mode == 'edit') {
-                var startDateElem = $('#startDateInput');
-                var endDateElem = $('#endDateInput');
-                var today = new Date();
                 var campaignStartTime = momentService.utcToLocalTime($scope.editCampaignData.startTime);
                 var campaignEndTime = momentService.utcToLocalTime($scope.editCampaignData.endTime);
                 var currentDateTime = momentService.utcToLocalTime();
@@ -968,14 +967,15 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     startDateElem.datepicker("setEndDate", campaignStartTime);
                 }
             } else {
-                var startDateElem = $('#startDateInput');
-                var endDateElem = $('#endDateInput');
-                var today = momentService.utcToLocalTime();
-                startDateElem.datepicker("setStartDate", today);
-                endDateElem.datepicker("setStartDate", today);
-                startDateElem.datepicker("update", today);
                 $scope.selectedCampaign.startTime = today;
                 $scope.selectedCampaign.endTime = today;
+
+                startDateElem.datepicker("setStartDate", today);
+                startDateElem.datepicker("update", today);
+
+                endDateElem.datepicker("setStartDate", today);
+                endDateElem.datepicker("update", today);
+
             }
         };
 
@@ -1082,6 +1082,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             // createCampaign.vendor();/*from costcategory*/
             createCampaign.costCategories();
             createCampaign.calculation();
+
             if ($scope.mode == 'edit') {
                 $scope.processEditCampaignData();
             } else {
