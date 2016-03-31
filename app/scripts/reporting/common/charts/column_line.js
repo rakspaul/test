@@ -133,7 +133,7 @@ define(['angularAMD', '../../../common/utils', 'common/services/constants_servic
                                 color : '#21252B',
                                 fontWeight:'bold'
                             },
-                            y : -10,
+                            y : 18,
                             formatter: function() {
                                 if (this) {
                                     return parseInt(this.value.custom + 1);
