@@ -477,7 +477,7 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
                                   'value': data.value
                               };
                           });
-                          console.log("postCrDataObj",postCrDataObj);
+                          
                           if(validCreativeUrl) {
                               $scope.creativeSave(postCrDataObj);
                           }
