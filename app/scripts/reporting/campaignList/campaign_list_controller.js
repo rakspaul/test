@@ -47,8 +47,9 @@ define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', 'reporting/campaig
                 $scope.searchTerm = '';
                 $scope.campaigns.searchTerm = '';
                 $scope.campaignSearchFunc = function (e) {
-                    // Perform search if enter key is pressed & user has entered something.
-                    if (e.keyCode === 13) {
+                    // Perform search if enter key is pressed, or search button is clicked & user has entered something.
+                    // NOTE: The event object (e) is not passed if called from search button.
+                    if (!e || e.keyCode === 13) {
                         $scope.campaigns.noData = false;
                         $scope.campaigns.resetFilters();
                         if ($scope.campaigns.searchTerm && $scope.campaigns.searchTerm.trim()) {
@@ -206,12 +207,12 @@ define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', 'reporting/campaig
                         $scope.campaigns.fetchData();
                     }
                 };
-		
+
 		$scope.searchClearInput = function () {
 		    var inputSearch = $('.searchInputForm input');
 		    inputSearch.val('');
 		};
-		
+
 		$('body').click(function(e) {
 		    if ($(e.target).closest('.searchInput').length === 0) {
 			$scope.searchHideInput();
