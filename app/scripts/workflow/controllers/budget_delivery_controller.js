@@ -56,10 +56,24 @@ define(['angularAMD', 'common/services/constants_service', 'common/moment_utils'
         budgetAmount = Number($scope.adData.budgetAmount);
 
       if ($scope.workflowData.adsData && $scope.mode === 'edit') {
-          if((workflowService.getIsAdGroup() && unallocatedAmount == 0)
+          //when ads are inside ad group and unallocated amount is 0 OR ad is outside any ad group
+          if ((workflowService.getIsAdGroup() && unallocatedAmount == 0)
               || !workflowService.getIsAdGroup()){
-              if(Number(localStorage.getItem('groupBudget')) > 0){
-                  adAvailableRevenue = $scope.workflowData.adsData.budgetValue;
+              if (Number(localStorage.getItem('groupBudget')) > 0){
+                  if ( $scope.workflowData.adsData.budgetType === "COST"){
+                      adAvailableRevenue = unallocatedAmount + Number($scope.workflowData.adsData.budgetValue);
+                  }
+                  else if ($scope.workflowData.adsData.budgetType === "IMPRESSIONS"){
+                      if($scope.workflowData.adsData.rateValue > 0){
+                          adAvailableRevenue = unallocatedAmount + ($scope.workflowData.adsData.budgetValue * $scope.workflowData.adsData.rateValue / 1000);
+                      }
+                      else {
+                          adAvailableRevenue = 0;
+                      }
+                  }
+                  else {
+                      adAvailableRevenue = unallocatedAmount + ($scope.workflowData.adsData.budgetValue * $scope.workflowData.adsData.rateValue);
+                  }
               }
               else{
                   adsData = $scope.workflowData.adsData;
@@ -67,14 +81,18 @@ define(['angularAMD', 'common/services/constants_service', 'common/moment_utils'
               }
 
           }
-          else{
+          else {
               adsData = $scope.workflowData.adsData;
               //BUDGET then add ad budget value + unallocated , IMPRESSION then just use unallocated value
-              if(adsData.budgetType === "COST"){
+              if (adsData.budgetType === "COST"){
                   adAvailableRevenue = unallocatedAmount +  Number(adsData.budgetValue);
               }
               else if (adsData.budgetType === "IMPRESSIONS") {
-                  adAvailableRevenue = unallocatedAmount + (adsData.budgetValue * adsData.rateValue / 1000);
+                  if (adsData.rateValue > 0){
+                      adAvailableRevenue = unallocatedAmount + (adsData.budgetValue * adsData.rateValue / 1000);
+                  } else {
+                      adAvailableRevenue = unallocatedAmount;
+                  }
               }
               else {
                   adAvailableRevenue = unallocatedAmount + (adsData.budgetValue * adsData.rateValue);
