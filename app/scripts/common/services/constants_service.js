@@ -884,6 +884,24 @@ define(['angularAMD'], function(angularAMD) {
         this.SELECTED_SEGMENTS = 'Selected Segments';
         this.DONE = 'Done';
 
+        //Creative Add Bulk 
+        this.SAVEAUD = 'Save Audience';
+        this.SELSEGMENTS = 'Select Segments';
+        this.OPTIONALPAR = '(Optional)';
+        this.KEYWORD = 'Keyword';
+        this.SOURCE = 'Source';
+        this.CLEARALL = 'Clear All';
+        this.CATEGORY = 'Category';
+        this.SEGMENTNAME = 'Segment Name';
+        this.NORESULTSFOUND = ' No Results Found...';
+        this.AND = 'And';
+        this.OR = 'Or';
+        this.IS = 'Is';
+        this.ISNOT = 'Is Not';
+        this.SELECTED_SEGMENTS = 'Selected Segments';
+        this.DONE = 'Done';
+
+
         //Day Targeting
         this.DAYPART = 'Daypart';
         this.DAFAULTADNOTE =
