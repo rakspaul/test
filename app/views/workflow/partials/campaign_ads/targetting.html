@@ -19,8 +19,8 @@
 <div class="col-md-12 zeroPadding setTargetOptions">
 
     <!--START : Audience Targeting Card-->
-    <div class="col-md-6 cardSelectHolder" ng-class="{true: 'active'}[selectedTargeting['audience']]">
-        <span ng-if="(audienceDataForPreview && audienceDataForPreview.length > 0) || (isPlatformSelected && isAudienceTargetEnabled)" class="icon-trash" ng-style="(audienceDataForPreview.length >0 || (isAudienceTargetEnabled && isPlatformSelected))?{'display':'block'}:{'display':'none'}" ng-click="deletetargets('AUDIENCE', $event)"></span>
+    <div class="col-md-6 cardSelectHolder" ng-if="!isPlatformSelected || (isPlatformSelected && isAudienceTargetEnabled)" ng-class="{true: 'active'}[selectedTargeting['audience']]">
+        <span ng-if="audienceDataForPreview && audienceDataForPreview.length > 0" class="icon-trash" ng-style="(audienceDataForPreview.length >0 || (isAudienceTargetEnabled && isPlatformSelected))?{'display':'block'}:{'display':'none'}" ng-click="deletetargets('AUDIENCE', $event)"></span>
         <div class="icon-audience"></div>
         <p data-ng-bind="textConstants.AUDSEGMENTS"></p>
         <div class="cardTxtWrap" ng-if="!audienceDataForPreview || audienceDataForPreview.length == 0">
@@ -43,8 +43,8 @@
     </div>
     <!--END : Audience Targeting Card-->
     <!--START : Geo Targeting Card-->
-    <div class="col-md-6 cardSelectHolder" ng-class="{true: 'active'}[selectedTargeting['geography']]">
-        <span ng-if="geoTargetingPreviewObj || (isPlatformSelected && isGeoTargetEnabled)" class="icon-trash" ng-style="(geoTargetingPreviewObj.include.count >0 || geoTargetingPreviewObj.exclude.count >0 || (isPlatformSelected && isGeoTargetEnabled))?{'display':'block'}:{'display':'none'}" ng-click="deletetargets('GEO', $event)"></span>
+    <div class="col-md-6 cardSelectHolder" ng-if="!isPlatformSelected || (isPlatformSelected && isGeoTargetEnabled)" ng-class="{true: 'active'}[selectedTargeting['geography']]">
+        <span ng-if="geoTargetingPreviewObj" class="icon-trash" ng-style="(geoTargetingPreviewObj.include.count >0 || geoTargetingPreviewObj.exclude.count >0 || (isPlatformSelected && isGeoTargetEnabled))?{'display':'block'}:{'display':'none'}" ng-click="deletetargets('GEO', $event)"></span>
         <div class="icon-location"></div>
         <p>Geography <span>({{locale.id === 'en-gb' ? 'UK' : 'US'}} Only)</span></p>
         <div class="cardTxtWrap" ng-if="!geoTargetingPreviewObj.include && !geoTargetingPreviewObj.exclude ">
