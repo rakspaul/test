@@ -81,7 +81,7 @@
 
         <!--Drag & Drop-->
         <div class="col-md-12 zeroPadding" ng-show="formCompleted() && !fileChosen()">
-            <div ng-show="!progress" ngf-drop ngf-select ng-model="$parent.file" name="file" ngf-multiple="false" ngf-allow-dir="false" class="drop-box" ngf-drag-over-class="dragover" ngf-accept="'.csv'" ngf-max-size='10000000'>
+            <div ng-show="!progress" ngf-drop ngf-select ng-model="$parent.file" ng-model-rejected="$parent.rejFiles" name="file" ngf-multiple="false" ngf-allow-dir="false" class="drop-box" ngf-drag-over-class="dragover" ngf-accept="'.csv'" ngf-max-size='10000000'>
 
                 <div class="file_upload_icon" >
                     <span class="img_table_txt">
@@ -213,4 +213,23 @@
         </div>
     </div>
     <!--Successful View Ends-->
+    <!-- Message on top , if that is an error message add "red_msg" class to "top_message_box" container -->
+    <div class="top_message_box {{(uploadErrorMsg || rejFiles.length > 0) ? 'red_msg' : ''}}" ng-show="uploadErrorMsg || rejFiles.length">
+        <span class="msg_box" style="margin: 160px auto;">
+            <span class="msg_icon">x</span>
+            <span class="msg_txt">
+                <span ng-show="uploadErrorMsg"><span class="bold-font">Error. </span> {{uploadErrorMsg}}</span>
+                <span ng-show="rejFiles.length"><span class="bold-font">Error. </span> Cannot upload files bigger than 10MB / Unsupported file format</span>
+
+                <!-- {{(!successMsg)? 'Cannot upload files bigger than 10MB / Unsupported file format' : 'You have sucessfully uploaded '+ uploadedCount +' files '}} -->
+                <div ng-show="rejFiles.length" ng-repeat="r in rejFiles">
+                    - {{r.name}} ({{r.size/1000000 | number:2}} MB)
+                </div>
+            </span>
+            <span class="close_msg_box_holder">
+                <span class="close_msg_box" ng-click="closeErrorMessage()">x</span>
+            </span>
+        </span>
+    </div>
+    <!-- End of Message on top , if that is an error message add "red_msg" class to "top_message_box" container -->
 </div>

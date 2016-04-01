@@ -402,14 +402,6 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
             $(".moreOptCreative").html("<span class='icon-more-options'></span>");
         }
         
-        $scope.hideBulkSetup = function() {
-            $(".file_upload_container").slideUp();
-            setTimeout(function(){
-                $("#formCreativeCreate").show();
-                $(".successfullBulkUpView").hide();
-            }, 1000);
-        }
-        
         $scope.showSuccessBulkUpload = function() {
             $("#formCreativeCreate, .successfullBulkUpView").toggle();
         }

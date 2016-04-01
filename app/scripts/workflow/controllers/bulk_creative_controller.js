@@ -160,6 +160,7 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
                   $scope.showUploadRecordsMessage = true;
               }, function (response) {
                   $scope.uploadBusy = false;
+                  $scope.uploadErrorMsg = "Unable to upload the file.";
               });
             })($scope.file);
       };
@@ -167,6 +168,23 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
       $scope.hideUploadRecordsMessage = function() {
           $scope.showUploadRecordsMessage = false;
           $(".file_upload_container").slideUp();
+      };
+
+      $scope.hideBulkSetup = function() {
+          resetAdserver();
+          resetFormat();
+          resetTemplate();
+          $scope.resetFileChosen();
+          $(".file_upload_container").slideUp();
+          setTimeout(function(){
+              $("#formCreativeCreate").show();
+              $(".successfullBulkUpView").hide();
+          }, 1000);
+      };
+
+      $scope.closeErrorMessage = function() {
+          $scope.rejFiles = [];
+          $scope.uploadErrorMsg = undefined;
       };
 
       /*Get all adserver in Creative Library Page*/
