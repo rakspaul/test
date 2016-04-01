@@ -97,7 +97,7 @@ define(['angularAMD', '../../login/login_model', 'common/services/role_based_ser
         };
     }]);
 
-    angularAMD.directive('reportTabs', ['$http', '$compile', 'constants', function ($http, $compile, constants) {
+    angularAMD.directive('reportTabs', ['$http', '$compile', 'constants','featuresService','$rootScope', function ($http, $compile, constants,featuresService,$rootScope) {
         return {
             controller: function ($scope, $cookieStore, $location) {
             },
@@ -106,6 +106,27 @@ define(['angularAMD', '../../login/login_model', 'common/services/role_based_ser
             templateUrl: assets.html_report_header_tab,
             link: function (scope, element, attrs) {
                 scope.textConstants = constants;
+                scope.showCustomReportHeading = false;
+                scope.showMediaPlanReportHeading = false;
+                var enableFeaturePermission = function () {
+                    var fparams = featuresService.getFeatureParams();
+                    scope.showReportOverview = fparams[0].report_overview;
+                    scope.buildReport = fparams[0].scheduled_reports;
+
+                    if(fparams[0].scheduled_reports || fparams[0].collective_insights) {
+                        scope.showCustomReportHeading = true;
+                    }
+
+                    if(fparams[0].report_overview || fparams[0].inventory || fparams[0].performance || fparams[0].quality || fparams[0].cost || fparams[0].optimization_impact || fparams[0].platform) {
+                        scope.showMediaPlanReportHeading = true;
+                    }
+
+                };
+                enableFeaturePermission();
+
+                var featuredFeatures = $rootScope.$on('features', function () {
+                    enableFeaturePermission();
+                });
             }
         };
     }]);

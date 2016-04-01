@@ -1,5 +1,7 @@
-define(['angularAMD','common/services/constants_service','workflow/services/workflow_service','common/moment_utils'],function (angularAMD) {
-    angularAMD.controller('CreativeListController', function($scope, $rootScope, $routeParams, $route, $location,constants, domainReports, workflowService,momentService) {
+define(['angularAMD','common/services/constants_service','workflow/services/workflow_service',
+    'common/moment_utils', 'workflow/controllers/bulk_creative_controller'], function (angularAMD) {
+  angularAMD.controller('CreativeListController', function($scope, $rootScope, $routeParams, $route, $location, 
+    constants, domainReports, workflowService, momentService) {
         var checkedCreativeArr=[];
         $scope.creativeAds={};
         $scope.creativeAds['creativeAdData'] = {};
@@ -21,6 +23,7 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
         $scope.campaignId = $routeParams.campaignId;
         $scope.loadCreativeData=false;
         $scope.deletePopup=false;
+        $scope.successfulRecords = [];
         //$scope.creativeData.creatives_count=1;
         //highlight the header menu - Dashborad, Campaigns, Reports
         domainReports.highlightHeaderMenu();
@@ -393,6 +396,26 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
             $location.url("/creative/add");
         }
 
+        $scope.showBulkCreateSection = function() {
+            //$scope.displayBulkCreateSection = !$scope.displayBulkCreateSection
+            $(".file_upload_container").slideDown();
+            $(".moreOptCreative").find('span').remove();
+            $(".moreOptCreative").html("<span class='icon-more-options'></span>");
+        }
+        
+        $scope.showSuccessBulkUpload = function() {
+            $("#formCreativeCreate, .successfullBulkUpView").toggle();
+        }
+        
+        $scope.hideUploadRecordsMessage = function() {
+            $scope.showUploadRecordsMessage = false;
+        };
+
+
+        $scope.showRecordList = function() {
+            $(".showRecordList, .recordList, .hideRecordList").toggle();
+        }
+        
         $scope.ShowHideTag = function (obj, pos) {
             workflowService.setCreativeEditMode("edit");
             workflowService.setCreativeEditData(obj);
@@ -490,7 +513,8 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
             .find('#creative_nav_link')
             .addClass('active');
 
-
+        $('html').css('background', '#fff');
+        $('.bodyWrap').css('width', '100%');
 
         //Search Hide / Show
         $scope.searchShowInput = function () {

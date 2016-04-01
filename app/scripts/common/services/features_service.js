@@ -85,7 +85,7 @@ define(['angularAMD','workflow/services/workflow_service','common/services/visto
         }
 
         this.setFeatureParams = function (featuresArr) {
-           // featuresArr = ['REPORTS_TAB','DASHBOARD']
+            //featuresArr = ['REPORTS_TAB','DASHBOARD','REP_INV','CREATIVE_LIST','REP_SCH']
             console.log('Feature array: ',featuresArr);
             this.serverResponseReceived = true;
             //API passes parameters :

@@ -1,14 +1,14 @@
 <!-- <div class="pull-left breadcrumb_campaign"><a href="/campaigns/{{selectedCampaign.id}}">{{textConstants.CAPAIGN_DETAILS}}</a></div> -->
 <div class="clearfix reports_sub_menu_dd_holder">
-    <div class="pull-left">
+    <div class="pull-left" ng-if="buildReport">
         <a href="/customreport" class="clearfix new_report_generate_btn">
             <span class="icon-report-builder"></span>
             <span class="icon_txt" ng-bind="textConstants.BUILD_REPORT"></span>
         </a>
     </div>
     <div class="reports_sub_menu_dd canned_container">
-        <div class="header_tab_dd_subheading" ng-bind="textConstants.MEDIA_PLAN_REPORTS"></div>
-        <div class="header_tab_dropdown" id="reports_overview_tab">
+        <div class="header_tab_dd_subheading" ng-bind="textConstants.MEDIA_PLAN_REPORTS" ng-if="showMediaPlanReportHeading"></div>
+        <div class="header_tab_dropdown" id="reports_overview_tab" ng-show="showReportOverview">
             <a href="javascript:void(0);" ng-click="NavigateToTab('', $event ,'reportOverview')" ng-bind="textConstants.REPORTS_OVERVIEW"></a>
         </div>
         <div ng-repeat="tab in filters.tabs track by $index" class="header_tab_dropdown"
@@ -19,7 +19,7 @@
         </div>
     </div>
     <div class="reports_sub_menu_dd custom_container">
-        <div class="header_tab_dd_subheading" ng-bind="textConstants.CUSTOM_REPORTS"></div>
+        <div class="header_tab_dd_subheading" ng-if="showCustomReportHeading" ng-bind="textConstants.CUSTOM_REPORTS"></div>
         <div ng-repeat="tab in customFilters.tabs track by $index" class="clearfix header_tab_dropdown"
              ng-class="{'active_tab': tab.href == customFilters.activeTab}">
             <a href="javascript:void(0);" class="pull-left reports_list_link"

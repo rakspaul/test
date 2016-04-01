@@ -506,9 +506,9 @@ define(['angularAMD', 'workflow/services/audience_service', 'workflow/services/w
       if (_.indexOf(moduleDeleted, 'Audience') !== -1) {
         workflowService.resetDeleteModule();
         audienceService.resetAudienceData();
-        $scope.clearAllSelectedAudience();
-      }
 
+      }
+      $scope.clearAllSelectedAudience();
       $scope.pageNumber = 1;
       _audienceTargetting.showAudienceTargetingBox();
       _audienceTargetting.initAudienceTargetting();

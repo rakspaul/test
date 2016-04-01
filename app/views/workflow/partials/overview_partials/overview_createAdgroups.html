@@ -57,6 +57,7 @@
                        required ng-keyup="validateAdGroupSpend($event)" />
 
                 <label ng-if="createNewAdGrp.adIGroupBudget.$error.required" class="col-sm-12 control-label greyTxt errorLabel" data-ng-bind="textConstants.ADGROUPBUDGETMSG"></label>
+                <label ng-if="adIGroupBudget === 0" class="col-sm-12 control-label greyTxt customErrorLabel" data-ng-bind="textConstants.ADGROUPBUDGETGREATERTHANZEROMSG"></label>
                 <label ng-if="adIGroupBudget >0 && !isMinimumAdGroupBudget" class="col-sm-12 control-label greyTxt customErrorLabel" data-ng-bind="textConstants.ADGROUPMINIMUMBUDGETMSG"></label>
                 <label ng-if="adIGroupBudget >0 && !isMaximumAdGroupBudget" class="col-sm-12 control-label greyTxt customErrorLabel" data-ng-bind="textConstants.ADGROUPMAXIMUMBUDGETMSG"></label>
             </div>

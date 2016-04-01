@@ -71,8 +71,6 @@ define(['angularAMD','reporting/subAccount/sub_account_model','common/services/c
         });
 
         var masterClientChanged = $rootScope.$on(constants.EVENT_MASTER_CLIENT_CHANGED, function (event, args) {
-          //  loadSubAccount = true;
-           // var advertiser = advertiserModel.getAllAdvertiser();
             initializeDataObj();
             subAccountModel.resetSubAccount();
             var isLeafNode = loginModel.getMasterClient().isLeafNode;

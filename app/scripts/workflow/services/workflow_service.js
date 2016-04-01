@@ -443,18 +443,29 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
             },
 
             updateCreative: function (client_id, adId, id, data) {
-                if(client_id) {
-                    var clientId = client_id;
-                } else {
-                    var clientId =  loginModel.getSelectedClient().id;
-                }
-
+                var clientId =  client_id || loginModel.getSelectedClient().id;
+               
                 return dataService.put(
                     vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/advertisers/' + adId + '/creatives/' + id+'?forceSave=true',
                     data,
                     {'Content-Type': 'application/json'}
                 );
             },
+
+            downloadCreativeTemplate: function(adServerId, templateId) {
+                var clientId =  loginModel.getSelectedClient().id;
+                var url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/adserver/' + adServerId
+                    + '/template/' + templateId + '/creatives/export?type=HEADER_ONLY';
+
+                return dataService.downloadFile(url);
+            },
+
+            uploadBulkCreativeUrl: function(adServerId, creativeFormat, templateId) {
+                var clientId =  loginModel.getSelectedClient().id;
+                return  vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/adserver/' + adServerId
+                    + '/format/' + creativeFormat + '/template/' + templateId + '/creatives/bulkimport';
+            },
+
 
             getRegionsList: function (platformId, data, success, failure, flag) {
                 var url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/vendors/' + platformId + '/regions' + data,
