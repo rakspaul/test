@@ -863,6 +863,7 @@ define(['angularAMD'], function(angularAMD) {
         this.PLEASENAMEADGRP = 'Please enter a name for the ad group.';
         this.ADGROUPBUDGETMSG = 'Please enter a budget for the ad group.';
         this.ADGROUPMINIMUMBUDGETMSG = 'Please enter a budget value more than the minimum budget for the ad group.';
+        this.ADGROUPBUDGETGREATERTHANZEROMSG = 'Please enter a budget value greater than zero.';
         this.ADGROUPMAXIMUMBUDGETMSG = 'Please enter a budget value less than the available media plan budget.';
         this.WHATFLIGHTDATES = 'What are the Flight Dates?';
         this.PLEASESELSTARTDATE = 'Please select the start Date.';

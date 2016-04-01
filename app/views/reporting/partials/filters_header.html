@@ -1,5 +1,5 @@
 <div class="clearfix nav_filters">
-    <div class="pull-left dropdown each_filter2 advertisers_filter each_filter brands_filter " ng-if="isLeafNode == false">
+    <div class="pull-left dropdown each_filter2 advertisers_filter each_filter brands_filter " ng-show="isLeafNode == false">
         <sub-account-drop-down></sub-account-drop-down>
     </div>
 
@@ -15,7 +15,7 @@
     <div class="pull-left dropdown breadcrumb_nav_campaign" ng-if="reportFilter" style="max-width:190px">
         <campaign-drop-down selected-obj=selectedCampaign all-campaign="{{allCampaign}}"></campaign-drop-down>
     </div>
-    
+
     <div class="pull-left breadcrumb_nav_strategy" ng-show="isStrategyDropDownShow" ng-if="showStrategies">
         <strategy-drop-down selected-obj=selectedStrategy></strategy-drop-down>
     </div>
