@@ -142,7 +142,7 @@
                 </a>
             </div>
         </div>
-        <div class="col-md-9" style="margin-top: 150px;" ng-if="!workflowData.getADsForGroupData[$index + 1]">
+        <div class="col-md-9" style="margin-top: 150px;" ng-show="!workflowData.getADsForGroupData[$index + 1]">
             <div class="common-loading-area"></div>
         </div>
         <div ng-if="workflowData.getADsForGroupData[$index + 1]">
