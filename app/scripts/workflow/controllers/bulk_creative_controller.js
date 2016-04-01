@@ -151,23 +151,20 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
                   resetTemplate();
                   $scope.resetFileChosen();
 
-                  $scope.successfulRecords = response.data.data.success.length;
-                  $scope.errorRecords = response.data.data.failure.length;
-                  $scope.bulkUploadResultHeader = "Upload complete"
-                  if ($scope.errorRecords > 0) {
-                      $scope.bulkUploadResultHeader = $scope.bulkUploadResultHeader + ' - Errors found';
+                  $scope.$parent.successfulRecords = response.data.data.success;
+                  $scope.$parent.errorRecords = response.data.data.failure;
+                  $scope.$parent.bulkUploadResultHeader = "Upload complete"
+                  if ($scope.$parent.errorRecords.length > 0) {
+                      $scope.$parent.bulkUploadResultHeader += ' - Errors found';
                   }
-                  $scope.showUploadRecordsMessage = true;
+                  $scope.$parent.showUploadRecordsMessage = true;
+
+                  $(".file_upload_container").slideUp();
               }, function (response) {
                   $scope.uploadBusy = false;
                   $scope.uploadErrorMsg = "Unable to upload the file.";
               });
             })($scope.file);
-      };
-
-      $scope.hideUploadRecordsMessage = function() {
-          $scope.showUploadRecordsMessage = false;
-          $(".file_upload_container").slideUp();
       };
 
       $scope.hideBulkSetup = function() {

@@ -23,6 +23,7 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
         $scope.campaignId = $routeParams.campaignId;
         $scope.loadCreativeData=false;
         $scope.deletePopup=false;
+        $scope.successfulRecords = [];
         //$scope.creativeData.creatives_count=1;
         //highlight the header menu - Dashborad, Campaigns, Reports
         domainReports.highlightHeaderMenu();
@@ -406,6 +407,11 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
             $("#formCreativeCreate, .successfullBulkUpView").toggle();
         }
         
+        $scope.hideUploadRecordsMessage = function() {
+            $scope.showUploadRecordsMessage = false;
+        };
+
+
         $scope.showRecordList = function() {
             $(".showRecordList, .recordList, .hideRecordList").toggle();
         }
