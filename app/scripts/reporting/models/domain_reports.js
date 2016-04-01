@@ -97,7 +97,7 @@ define(['angularAMD', '../../login/login_model', 'common/services/role_based_ser
         };
     }]);
 
-    angularAMD.directive('reportTabs', ['$http', '$compile', 'constants', function ($http, $compile, constants) {
+    angularAMD.directive('reportTabs', ['$http', '$compile', 'constants','featuresService','$rootScope', function ($http, $compile, constants,featuresService,$rootScope) {
         return {
             controller: function ($scope, $cookieStore, $location) {
             },
@@ -106,6 +106,17 @@ define(['angularAMD', '../../login/login_model', 'common/services/role_based_ser
             templateUrl: assets.html_report_header_tab,
             link: function (scope, element, attrs) {
                 scope.textConstants = constants;
+
+                var enableFeaturePermission = function () {
+                    var fparams = featuresService.getFeatureParams();
+                    scope.showReportOverview = fparams[0].report_overview;
+                    scope.buildReport = fparams[0].scheduled_reports;
+                };
+                enableFeaturePermission();
+
+                var featuredFeatures = $rootScope.$on('features', function () {
+                    enableFeaturePermission();
+                });
             }
         };
     }]);

@@ -73,9 +73,19 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
             });
         }
 
-        var features = $rootScope.$on('features', function () {
+        /* Start Feature Permission */
+        var featurePermission = function() {
             $scope.fparams = featuresService.getFeatureParams();
+            $scope.showMediaPlanTab = $scope.fparams[0]['mediaplan_list'];
+            $scope.showReportTab = $scope.fparams[0]['reports_tab'];
+        }
+
+        var features = $rootScope.$on('features', function () {
+            featurePermission();
         });
+
+        featurePermission();
+        /* End Feature Permission */
 
         $scope.getClientData = function (clientId) {
             workflowService.getClientData(clientId).then(function (response) {
