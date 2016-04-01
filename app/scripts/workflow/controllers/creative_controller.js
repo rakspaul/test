@@ -52,6 +52,7 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
               $scope.associatedAdCount=$scope.creativeEditData.noOfAds;
               //make cal to set the format type here //inturn makes call to get possible templates
               $scope.adFormatSelection($scope.creativeFormat);
+              resetFormats($scope.selectedAdServer,$scope.creativeAdServers)
               //make call to generate Template
               $scope.creativeEditData.vendorCreativeTemplate ? $scope.onTemplateSelected($scope.creativeEditData.vendorCreativeTemplate,$scope.creativeEditData.creativeCustomInputs):'';
               $scope.tag=$scope.creativeEditData.tag;
@@ -231,10 +232,33 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
       var resetAdserver=function(){
           $scope.selectedAdServer={};
       }
+      var resetFormats=function(adserver,allAdserverData){
+          if(allAdserverData && allAdserverData.length>0){
+              var index=_.findIndex(allAdserverData, function(obj){
+                  return Number(obj.id)===Number(adserver.id)
+              })
+              var adserver=allAdserverData[index];
+          }
+
+          for(var i=0;i<adserver.formats.length;i++){
+
+            var index=_.findIndex($scope.creativeSizeData.adFormats, function(obj){
+                return (obj.name).replace(/\s+/g, '').toUpperCase()===angular.uppercase(adserver.formats[i])
+            })
+            if(index>=0) {
+                $scope.creativeSizeData.adFormats[index].disabled = false;
+            }else{
+                $scope.creativeSizeData.adFormats[index].disabled = true;
+            }
+        }
+      }
       /*function on AdServer Selected*/
       $scope.adServerSelected=function(adServer){
           $scope.selectedAdServer=adServer;// used in adFormatSelection function to get all templates.
 
+          if(!$scope.adPage){
+              resetFormats(adServer);
+          }
           if(!$scope.adPage && $scope.creativeFormat){
               resetTemplate();
               $scope.getTemplates($scope.selectedAdServer,$scope.creativeFormat);
@@ -396,10 +420,10 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
                       $scope.creativeAdServers = responseData;
                       //creatives.fetchAdFormats();
                       $scope.creativeSizeData.adFormats = [
-                          {id: 1, name: 'Display',    active: false ,disabled:false},
-                          {id: 2, name: 'Video',      active: false, disabled:false},
-                          {id: 3, name: 'Rich Media', active: false, disabled:false},
-                          {id: 4, name: 'Social',     active: false, disabled:false}
+                          {id: 1, name: 'Display',    active: false ,disabled:true},
+                          {id: 2, name: 'Video',      active: false, disabled:true},
+                          {id: 3, name: 'Rich Media', active: false, disabled:true},
+                          {id: 4, name: 'Social',     active: false, disabled:true}
                       ];
                       if($scope.creativeMode==="edit"){
                           processEditCreative();
@@ -441,6 +465,7 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
                   postCrDataObj.sslEnable = 'true';
                   postCrDataObj.tag = '%%TRACKER%%';
                   postCrDataObj.sizeId = formData.creativeSize;
+                  postCrDataObj.creativeType = formData.creativeType;
                   postCrDataObj.vendorCreativeTemplateId = formData.creativeTemplate;
                   if ($scope.TrackingIntegrationsSelected) {
                     postCrDataObj.tag = '%%TRACKER%%';
@@ -452,7 +477,7 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
                       var validCreativeUrl = true;
                       $('#invalidUrl').remove();
                       for(var i=0;i< formDataObj.length;i++){
-                          if (["name","subAccountId","advertiserId","brandId","adFormat","creativeFormat","sslEnable","creativeAdServer","creativeTemplate","tag","creativeSize"].indexOf(formDataObj[i].name) >= 0) {
+                          if (["name","subAccountId","advertiserId","brandId","adFormat","creativeFormat","sslEnable","creativeAdServer","creativeTemplate","tag","creativeSize","creativeType"].indexOf(formDataObj[i].name) >= 0) {
                               indexArr.push(i);// contains all indexes of static Markup which will have to be removed before adding to the list.
                           }
                       }
