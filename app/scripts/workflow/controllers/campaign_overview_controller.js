@@ -50,16 +50,36 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
             // TODO:
             $scope.adGroupsSearchTerm = '';
+            $scope.adGroupsSearchTermsArr = [''];
+            $scope.adGroupsSearchTermChanged = false;
+            $scope.isAdGroupsSearchReset = false;
             $scope.isAdGroupsSearched = false;
             $scope.adGroupsNoData = false;
+
             $scope.adGroupsSearchFunc = function (e) {
+                var searchTermsArr,
+                    len;
+
                 // Perform search if enter key is pressed & user has entered something.
                 if (!e || e.keyCode === 13) {
                     $scope.adGroupsNoData = false;
                     $scope.isAdGroupOpen = false;
-                    if ($scope.adGroupsSearchTerm && $scope.adGroupsSearchTerm.trim()) {
+
+                    $scope.adGroupsSearchTerm = $scope.adGroupsSearchTerm ? $scope.adGroupsSearchTerm.trim() : '';
+
+                    if ($scope.adGroupsSearchTerm) {
                         // Search term is entered
-                        console.log('Search for ad groups, search term = ', $scope.adGroupsSearchTerm);
+                        searchTermsArr = $scope.adGroupsSearchTermsArr;
+                        len = searchTermsArr.length;
+                        searchTermsArr[len] = $scope.adGroupsSearchTerm;
+                        if (searchTermsArr[len - 1] !== searchTermsArr[len - 2]) {
+                            $scope.adGroupsSearchTermChanged = true;
+                        } else {
+                            $scope.adGroupsSearchTermChanged = true;
+                        }
+
+                        console.log($scope.adGroupsSearchTermsArr, ', changed = ', $scope.adGroupsSearchTermChanged);
+
                         // TODO: The following 2 API calls will be replaced by the Search API call
                         campaignOverView.getAdsForCampaign($routeParams.campaignId);
                         campaignOverView.getAdgroups($routeParams.campaignId);
@@ -331,6 +351,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                             }
                         }
                     });
+
                     return adsData;
                 },
 
@@ -363,9 +384,6 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                                     obj.nameHtml = $scope.highlightTitleText(obj.name, $scope.adGroupsSearchTerm);
                                 });
                                 // End of TODO
-
-                                console.log('$scope.workflowData.campaignAdsData = ',
-                                    $scope.workflowData.campaignAdsData);
 
                                 isAdsInProgressState = _.filter(responseData, function (obj) {
                                     return obj.state === 'DEPLOYING';
@@ -434,9 +452,6 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                             } else {
                                 campaignOverView.errorHandler(result);
                             }
-
-                            console.log('getAdGroups called, $scope.workflowData.campaignGetAdGroupsData = ',
-                                $scope.workflowData.campaignGetAdGroupsData);
                         }, campaignOverView.errorHandler);
                 },
 
@@ -464,8 +479,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
                                 $scope.workflowData.getADsForGroupData[index] =
                                     campaignOverView.adsDataMofiderFunc(responseData);
-console.log('$scope.workflowData.getADsForGroupData[index] = ', $scope.workflowData.getADsForGroupData[index],
-', index = ', index);
+
                                 //obj.adGroup.nameHtml =
                                 //    $scope.highlightTitleText(obj.adGroup.nameHtml, searchTerm);
 
@@ -624,13 +638,26 @@ console.log('$scope.workflowData.getADsForGroupData[index] = ', $scope.workflowD
                     $scope.isAdGroupOpen = false;
                 } else {
                     //Opens
+                    // NOTE: The data is cleared here because we want to destroy & recreate the ads list
+                    // we expand an ad group in the following circumstances:
+                    // - When we search using a new term after having performed a prior search at least once.
+                    // - When we reset the search after having performed at least 1 search.
+                    // This is to avoid seeing the previously highlighted keywords in the ads title.
+                    // It is not cleared in the following circumstances:
+                    // - When not in search mode (except in #2 scenario above).
+                    // - When performing search using the exact search term as the last search. TODO:
+                    if (($scope.isAdGroupsSearched && $scope.adGroupsSearchTermChanged) ||
+                            $scope.isAdGroupsSearchReset) {
+                        $scope.isAdGroupsSearchReset = false;
+                        $scope.adGroupsSearchTermChanged = false;
+                        $scope.workflowData.getADsForGroupData[index] = null;
+                    }
                     elem.closest('.adGroup').removeClass('closedInstance').addClass('openInstance');
                     elem.closest('.collapseIcon span').removeClass('icon-plus').addClass('icon-minus');
                     context.showHideToggle = !context.showHideToggle;
                     $scope.isAdGroupOpen = true;
                     campaignOverView.getAdsInAdGroup($routeParams.campaignId, adGrpId, index);
                 }
-                console.log('$scope.isAdGroupOpen = ', $scope.isAdGroupOpen);
             };
 
             $scope.createAdGrp = function () {
@@ -671,7 +698,8 @@ console.log('$scope.workflowData.getADsForGroupData[index] = ', $scope.workflowD
                     startDateElem.datepicker('setEndDate', $scope.campaignEndTime);
                 }
 
-                $scope.adGroupMaxBudget = (Math.ceil($scope.workflowData.campaignData.deliveryBudget) - $scope.workflowData.campaignData.bookedSpend) + Math.ceil($scope.adGroupMinBudget);
+                $scope.adGroupMaxBudget = (Math.ceil($scope.workflowData.campaignData.deliveryBudget) -
+                    $scope.workflowData.campaignData.bookedSpend) + Math.ceil($scope.adGroupMinBudget);
             };
 
             $scope.resetAdsBudgetsFlag = function() {
@@ -938,12 +966,14 @@ console.log('$scope.workflowData.getADsForGroupData[index] = ', $scope.workflowD
                 setTimeout(function () {
                     $('.searchInputBtn').fadeIn();
                 }, 300);
-console.log('inside searchHideInput()')
+
                 // TODO:
                 if ($scope.isAdGroupsSearched) {
-console.log('Ad group was searched...')
-                    $scope.isCampaignSearched = false;
+                    $scope.isAdGroupsSearched = false;
+                    $scope.isAdGroupsSearchReset = true;
+                    $scope.adGroupsSearchTermChanged = false;
                     $scope.adGroupsSearchTerm = '';
+                    $scope.adGroupsSearchTermsArr = [''];
                     $scope.adGroupsSearchFunc();
                 }
             };
