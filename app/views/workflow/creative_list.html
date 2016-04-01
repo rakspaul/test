@@ -192,10 +192,10 @@
                 <h1 class="pull-left">{{bulkUploadResultHeader}}</h1>
             </div>
             <div class="popup-content" ng-show="successfulRecords.length">
-                {{successfulRecords.length}} record(s) were successful.
+                <strong>{{successfulRecords.length}}</strong> record(s) were successful.
             </div>
             <div class="popup-content" ng-show="errorRecords.length">
-                {{errorRecords.length}} record(s) were failed.
+                <span class="errorTxtColor">{{errorRecords.length}}</span> record(s) were failed.
             </div>
         </div>
         <div class="clearfix popup-footer" >

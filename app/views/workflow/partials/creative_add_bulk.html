@@ -1,27 +1,27 @@
-<div class="col-md-12 centerAlign" style="padding: 30px 0;"> <!-- add some_file_uploaded to reduce the height whenever one file is uploaded -->
+<div class="col-md-12 centerAlign creativeAdBulkDiv"> <!-- add some_file_uploaded to reduce the height whenever one file is uploaded -->
     <!--Bulk Ad Setup Starts-->
     <form role="form" class="col-md-12 zeroPadding" name="formCreativeCreate" id="formCreativeCreate" novalidate ng-submit="submitForm(formCreativeCreate)">
-        <h1 class="pull-left" style="margin-top: 0;">Bulk Creative Upload</h1>
-        <h3 class="pull-left" ng-show="fileChosen()" style="font-family: 'Avenir-bold'; margin: 5px 0 0 60px;">File Chosen:</h3>
-        <h3 class="pull-left" ng-show="fileChosen()" style="margin: 5px 0 0 5px;">{{file.name}}</h3>
-        <a class="icon-clear pull-left" ng-show="fileChosen()" ng-click="resetFileChosen();" style="margin: 5px 0 0 5px;"></a><!--Removes File Chosen-->
-        <a class="btn btn-primary pull-right" ng-show="fileChosen()" ng-click="uploadFileChosen(file);">Upload</a>
-        <span class="download-report-load-icon pull-right" ng-if="uploadBusy">Processing</span>
+        <h1 class="pull-left">Bulk Creative Upload</h1>
+        <h3 class="pull-left file-chosen" ng-show="fileChosen()" >File Chosen:</h3>
+        <h3 class="pull-left file-chosen-name" ng-show="fileChosen()" >{{file.name}}</h3>
+        <a class="icon-clear pull-left" ng-show="fileChosen()" ng-click="resetFileChosen();" ></a><!--Removes File Chosen-->
+        <a class="btn btn-primary pull-right" ng-show="fileChosen() && !uploadBusy" ng-click="uploadFileChosen(file);" >Upload</a>
+        <span class="common-loading-btn pull-right" ng-if="uploadBusy" ></span>
         <a class="btn btn-link pull-right" ng-click="hideBulkSetup();">Cancel</a>
         <h3 class="col-md-12 creativeSizeData zeroPadding">What Creative Record Template will you be uploading?</h3>
     
         <!--Ad Server DDL-->
-        <div class="form-group pull-left" show-errors style="max-width: 265px;">
+        <div class="form-group pull-left ad-server-dd" show-errors >
             <label for="sel1" class="greyTxt" style="margin-top: 0;">Ad Server</label>
             <div class="col-md-12 zeroPadding dropdown-workflow">
                 <div class="dropdown">
-                    <button class="btn btn-default dropdown-toggle" id="creativeAdServer" type="button"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ng-disabled="pushedCount>0">
+                    <button class="btn btn-default dropdown-toggle" id="creativeAdServer" type="button"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ng-disabled="pushedCount>0" title={{selectedAdServer.name}}>
                         <!--<span class="text" ng-bind="selectedAdServer.name ? selectedAdServer.name: 'Select Ad Server'"></span>-->
                         <span>{{selectedAdServer.name ? selectedAdServer.name: 'Select Ad Server'}}</span>
                         <span class="icon-arrow-down"></span>
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="sel1" id="sel1">
-                        <li class="available" ng-repeat="adServer in creativeAdServers track by adServer.id">
+                        <li class="available" ng-repeat="adServer in creativeAdServers track by adServer.id" title={{adServer.name}}>
                             <a ng-click="adServerSelected(adServer)">{{adServer.name}}</a>
                         </li>
                     </ul>
@@ -32,7 +32,7 @@
         </div>
         
         <!--Channel-->
-        <div class="form-group pull-left" style="margin-left: 20px;">
+        <div class="form-group pull-left channel-dd" >
             <div class="col-md-12 greyTxt">Channel</div>
             <div class="goalBtnWithPopup">
                 <div class="btn-group goalBtnGroup zeroPadding"
@@ -53,17 +53,17 @@
         </div>
         
         <!--Creative Template DDL-->
-        <div class="form-group pull-left" style="margin-left: 20px; max-width: 265px;">
+        <div class="form-group pull-left crt-dd" >
             <label for="sel1" class="greyTxt">Creative Record Template (CRT)</label>
             <div class="col-md-12 zeroPadding dropdown-workflow">
                 <div class="dropdown">
-                    <button class="btn btn-default dropdown-toggle" id="creativeTemplate" type="button"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                    <button class="btn btn-default dropdown-toggle" id="creativeTemplate" type="button"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" title={{CreativeTemplate.name}}>
                         <!--<span class="text" ng-bind="CreativeTemplate ? CreativeTemplate.name:'Select Template'"></span>-->
                         <span>{{CreativeTemplate ? CreativeTemplate.name : 'Select Template'}}</span>
                         <span class="icon-arrow-down"></span>
                     </button>
-                    <ul class="dropdown-menu" aria-labelledby="sel1" id="sel1">
-                        <li class="available" ng-repeat="template in creativeTemplates track by template.id">
+                    <ul class="dropdown-menu" aria-labelledby="sel1" id="sel1" >
+                        <li class="available" ng-repeat="template in creativeTemplates track by template.id" title={{template.name}}>
                             <a ng-click="templateSelected(template)">{{template.name}}</a>
                         </li>
                     </ul>
@@ -74,8 +74,10 @@
         </div>
         
         <a class="pull-left" style="margin: 40px 0 0 20px;" ng-show="formCompleted()" ng-click="downloadCreativeTemplate()">
-            <span class="icon-download pull-left"></span>
-            <span class="pull-left" style="margin-left: 10px;">Download template</span>
+            <span ng-hide="downloadBusy">
+                <span class="icon-download pull-left"></span>
+                <span class="pull-left" style="margin-left: 10px;" >Download template</span>
+            </span>
             <span class="download-report-load-icon" ng-if="downloadBusy">{{textConstants.DOWNLOADING}} </span>
         </a>
 
@@ -98,7 +100,7 @@
     <!--Successful View Starts-->
     <div class="col-md-12 zeroPadding successfullBulkUpView">
         <div class="icon-success pull-left" style="margin: 5px 5px 0 0; color: #4CC94A;"></div>
-        <h1 class="pull-left" style="margin-top: 0;">File upload successful</h1>
+        <h1 class="pull-left" >File upload successful</h1>
         
         <a class="btn btn-primary pull-right">Add Records</a>
         <a class="btn btn-link pull-right" ng-click="hideBulkSetup();">Cancel</a>

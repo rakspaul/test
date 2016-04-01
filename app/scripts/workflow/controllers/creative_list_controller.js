@@ -543,7 +543,8 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
 
         //Sticky Header
         $(window).scroll(function() {
-            if ($(this).scrollTop() > 210) {
+
+            if ($(this).scrollTop() > $(".vistoTable").offset().top) {
                 $('.vistoTable .thead').addClass("sticky");
                 if( $(".thead .childRow:visible").length == 0 ) {
                     $('.vistoTable .tbody').css("margin-top","64px");
