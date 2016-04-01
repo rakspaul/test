@@ -108,13 +108,13 @@ define(['angularAMD', '../../login/login_model', 'common/services/role_based_ser
                 scope.textConstants = constants;
 
                 var enableFeaturePermission = function () {
-                    var fparams = featuresService.getFeatureParams();console.log('fparams[0].report_overview',fparams[0].report_overview);
+                    var fparams = featuresService.getFeatureParams();
                     scope.showReportOverview = fparams[0].report_overview;
                     scope.buildReport = fparams[0].scheduled_reports;
                 };
                 enableFeaturePermission();
 
-                var featuredFeatures = $rootScope.$on('features', function () { console.log('feature on');
+                var featuredFeatures = $rootScope.$on('features', function () {
                     enableFeaturePermission();
                 });
             }
