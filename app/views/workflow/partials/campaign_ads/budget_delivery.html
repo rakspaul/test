@@ -79,7 +79,8 @@
              <label class="control-label greyTxt miniLabels" data-ng-bind="textConstants.TOTAL_AD_BUDGET"></label>
              <div class="budget_holder_input" >
                  <span data-ng-bind="locale.NUMBER_FORMATS.CURRENCY_SYM"></span>
-                 <input type="text" class="form-control disabled-field" value="-" fraction-numbers="fraction-numbers" name="unitCost" disabled><!-- add "errorBorder" when error -->
+                 <input type="text" class="form-control disabled-field" disabled><!-- add "errorBorder" when error -->
+                 <span class="disabled_value"></span>
              </div>
      </div>
      <div class="clearfix pull-left estimated_impressions" >
@@ -87,7 +88,7 @@
              <div class="impression_field disabled-field">
                  <div class="left-big-arrow"></div>
                  <label class="control-label greyTxt miniLabels" data-ng-bind="textConstants.ESTIMATED_IMPRESSIONS"></label>
-                 <div class="">-</div><!-- add "errorText" when error -->
+                 <div class="impressions-val">18000</div><!-- add "errorText" when error -->
              </div>
              <div class="pull-left txtError" ng-bind-html="textConstants.KPI_NOTSATISFIED_ERROR" ></div>
          </div>
