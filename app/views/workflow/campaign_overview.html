@@ -169,6 +169,14 @@
 
                     <!--Search Input-->
                     <div class="btn-group pull-right">
+                        <!-- TODO: The count display should be displayed at all times or only when in search mode? -->
+                        <div class="search-results-count pull-left"
+                             ng-if="isAdGroupsSearched || !isAdGroupsSearched"
+                             style="font-size: 12px; margin: 10px 10px 0 0;"
+                             ng-bind="adGroupsCount +
+                                 (adGroupsCount !== 1 ? ' Ad Groups, ' : ' Ad Group, ') +
+                                 adsCount +
+                                 (adsCount !== 1 ? ' Ads' : ' Ad')"></div>
                         <button type="button" class="btn btn-default pull-right" style="display: none">
                             <span class="icon-filter" style="margin: -1px 0 0 0;"></span>
                         </button>
