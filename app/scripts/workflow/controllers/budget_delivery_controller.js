@@ -274,9 +274,11 @@ define(['angularAMD', 'common/services/constants_service', 'common/moment_utils'
     $scope.enable_budget_input = function ( event ) {
       var elem = $(event.target);
       if(elem.is(':checked')) {
-        elem.closest(".impressions_holder").find(".budget_holder input").attr("disabled" , true).addClass("disabled-field").attr("value","-") ;
+        elem.closest(".impressions_holder").find(".budget_holder input").attr("disabled" , true).addClass("disabled-field") ;
+        elem.closest(".impressions_holder").find(".impression_field").addClass("disabled-field") ;
       } else {
-        elem.closest(".impressions_holder").find(".budget_holder input").attr("disabled" , false).removeClass("disabled-field").attr("value","") ;
+        elem.closest(".impressions_holder").find(".budget_holder input").attr("disabled" , false).removeClass("disabled-field") ;
+        elem.closest(".impressions_holder").find(".impression_field").removeClass("disabled-field") ;
       }
       
     };

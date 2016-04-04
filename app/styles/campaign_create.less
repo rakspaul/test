@@ -4424,7 +4424,6 @@
     font-size: 12px;
     margin: 5px 5px 0 0;
     padding: 5px 10px;
-
     .icon-close {
         float: right;
         font-size: 9px;
@@ -4468,6 +4467,23 @@
             width:130px; 
             padding-top:10px;
         }
+       
+    }
+    .disabled_value {
+        display: none;
+        height: 1px;
+        width: 15px;
+        background: #21252B;
+        left: 24px !important;
+        top: 20px !important;
+    }
+    .disabled-field ~ .disabled_value {
+        display: inline-block;
+    }
+}
+.disabled-field {
+    .impressions-val {
+        font-size: 0 ;
     }
 }
 .estimated_impressions {
@@ -4483,6 +4499,7 @@
         -webkit-border-radius: 0 2px 2px 0px;
         width:150px ;
         float:left;
+        background: #eee;
     }
     .greyTxt {
         padding:0px!important
@@ -4507,8 +4524,21 @@
          height: 0;
          width: 0;
          border: solid 25px transparent;
-         border-right: solid 25px #fff;
+         border-right: solid 25px #eee;
          content: "";
          z-index: 2;
      }
  }
+ .disabled-field {
+     .left-big-arrow  {
+        &:before {
+            position: absolute;
+            top: 8px;
+            left: 36px;
+            height: 1px;
+            width: 15px;
+            background: #21252B;
+            content: "";
+         }
+     }
+}

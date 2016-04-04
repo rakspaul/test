@@ -1719,9 +1719,6 @@ multiselect .dropdown-menu > li > a {
   background: #eee ;
   cursor: default;
 }
-.disabled-field div.left-big-arrow:after {
-  border-right-color: #eee ;
-}
 .common-loading-btn {
   width: 80px;
   border-radius: 4px;
