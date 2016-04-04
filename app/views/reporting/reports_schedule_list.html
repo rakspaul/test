@@ -73,16 +73,19 @@
                         <div class="col-md-12 zeroPadding dropdown-workflow">
                             <label  class="col-sm-12 greyTxt miniLabels ng-binding" data-ng-bind="textConstants.DIMENSIONS_FIVE"></label>
                             <div class="dropdown">
-                                <button style="width:560px;" class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                    <span class="text" ng-bind="filters.reportDimensions ? filters.reportDimensions : 'All Dimensions'"></span>
-                                    <span class="icon-arrow-down"></span>
-                                </button>
-                                <ul class="dropdown-menu" aria-labelledby="unitcostType" ng-model="adData.unitType"  id="unitcostType" data-toggle="dropdown">
-                                    <li ng-repeat="dimension in customeDimension">
-                                        <a ng-click="select_filter_option('reportDimensions', dimension.key)" ng-bind="dimension.value"></a>
-                                    </li>
-                                </ul>
-                                <input type="hidden" name="unitType" ng-model="adData.unitType.name" ng-update-hidden/>
+                                <tags-input
+                                        ng-model="dimensionFilterModel"
+                                        display-property="value"
+                                        placeholder="Type here..."
+                                        add-from-autocomplete-only="true"
+                                        on-tag-added="addDimensionFilter()"
+                                        on-tag-removed="removeDimensionFilter()"
+                                        max-tags="5">
+                                    <auto-complete source="loadDimensionsList()"
+                                                   min-length="1"
+                                                   load-on-down-arrow="true"
+                                                   max-results-to-show="50"></auto-complete>
+                                </tags-input>
                             </div>
                         </div>
                     </div>

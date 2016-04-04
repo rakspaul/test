@@ -6,7 +6,7 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
     angularAMD.controller('ReportsScheduleListController', function($scope,$filter, $location, $modal, $rootScope,
                                                                                 collectiveReportModel, utils, loginModel,
                                                                                 constants, urlService, dataStore, domainReports,
-                                                                               dataService, momentService) {
+                                                                               dataService, momentService,$q) {
 
         var _curCtrl = this;
         $scope.noOfSchldInstToShow = 3;
@@ -17,6 +17,7 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
         var isSearch = false;
         $scope.filters = {};
         _curCtrl.filters = {};
+        $scope.dimensionFilterModel = [{'key': "ALL",'value': "All Dimensions"}];
         $scope.sortReverse = false;
         _curCtrl.isFilterExpanded = false;
         $scope.showScheduleListLoader = false;
@@ -44,7 +45,10 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
                 $scope.filters[d] = null;
                 _curCtrl.filters[d] = null;
             });
+
+            $scope.dimensionFilterModel=[{'key': "ALL",'value': "All Dimensions"}];
             $scope.creativeSearch = '';
+            $scope.getScheduledReports();
         }
         dataService.getCustomReportMetrics($scope.campaign).then(function(result) {
             var jsonModifier = function(data) {
@@ -62,16 +66,30 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
             $scope.customeDimension = jsonModifier(result.data.data[0].dimensions);
         });
 
+        $scope.loadDimensionsList = function() {
+            var deferred = $q.defer();
+            deferred.resolve($scope.customeDimension);
+            return deferred.promise;
+        };
+        $scope.addDimensionFilter = function() {
+            if ($scope.dimensionFilterModel.length>5) {
+                $rootScope.setErrAlertMessage(constants.REPORT_LIST_DIMENSION_COUNT);
+                $scope.dimensionFilterModel.splice(5,1);
+            } else if ($scope.dimensionFilterModel[0].key==="ALL") {
+                $scope.dimensionFilterModel.splice(0,1);//as it is always going to be the first element
+            }
+            return true;
+        };
+        $scope.removeDimensionFilter = function() {
+            if ($scope.dimensionFilterModel.length==0) {
+                //insert all dimension as default
+                $scope.dimensionFilterModel = [{'key': "ALL",'value': "All Dimensions"}];
+            }
+            return true;
+        };
+
         $scope.select_filter_option = function(key, value){
             switch(key){
-                case "reportDimensions":
-                    if(_curCtrl.filters[key] && _curCtrl.filters[key].split(",").length >= 5) {
-                        $rootScope.setErrAlertMessage(constants.REPORT_LIST_DIMENSION_COUNT);
-                        return;
-                    }
-                    $scope.filters[key] = ($scope.filters[key] ? ($scope.filters[key] + ',') : '') + utils.getValueOfItem($scope.customeDimension, value);
-                    _curCtrl.filters[key] = (_curCtrl.filters[key] ? (( _curCtrl.filters[key]) + ',') : '') + value;
-                    break;
                 case "reportName":
                     $scope.filters[key] = value;
                     _curCtrl.filters[key] = value;
@@ -129,6 +147,13 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
             var queryStr,
                 startDate,
                 endDate;
+
+            _curCtrl.filters.reportDimensions = [];
+            if ($scope.dimensionFilterModel.length > 0 && $scope.dimensionFilterModel[0].key!== "ALL") {
+                var dimensionNames = $scope.dimensionFilterModel.map(function(item) {return item['key'];});
+                _curCtrl.filters.reportDimensions=dimensionNames.join(',');
+            }
+
             queryStr = _curCtrl.filters.reportType ? "&reportType="+_curCtrl.filters.reportType : '';
             //queryStr += $scope.filters.generated ? "&generated="+$scope.filters.generated : '';
             queryStr += _curCtrl.filters.reportDimensions ? "&reportDimensions="+_curCtrl.filters.reportDimensions : '';
