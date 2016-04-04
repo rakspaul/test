@@ -82,13 +82,13 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
                         // TODO: The following 2 API calls will be replaced by the Search API call
                         campaignOverView.getAdsForCampaign($routeParams.campaignId);
-                        campaignOverView.getAdgroups($routeParams.campaignId);
+                        campaignOverView.getAdgroups($routeParams.campaignId, $scope.tempFlag);
                         $scope.isAdGroupsSearched = true;
                     } else {
                         // Empty search term
                         console.log('Search for ad groups, without search term');
                         campaignOverView.getAdsForCampaign($routeParams.campaignId);
-                        campaignOverView.getAdgroups($routeParams.campaignId);
+                        campaignOverView.getAdgroups($routeParams.campaignId, $scope.tempFlag);
                     }
                 }
             };
@@ -400,15 +400,15 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                         }, campaignOverView.errorHandler);
                 },
 
-                getAdgroups: function (campaignId) {
+                getAdgroups: function (campaignId, searchFlag) {
                     workflowService
-                        .getAdgroups(campaignId)
+                        .getAdgroups(campaignId, searchFlag)
                         .then(function (result) {
                             var responseData;
 
                             if (result.status === 'OK' || result.status === 'success') {
                                 responseData = result.data.data;
-
+console.log('RESPONSE DATA = ', responseData)
                                 // TODO: temp, testing highlighting of Ad group name & label pills
                                 //       NOTE: The highlighting will be done at the Search API call.
                                 _.each(responseData, function (obj) {
@@ -551,7 +551,8 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
             campaignOverView.getCampaignData($routeParams.campaignId);
             campaignOverView.getAdsForCampaign($routeParams.campaignId);
-            campaignOverView.getAdgroups($routeParams.campaignId);
+            $scope.tempFlag = true;
+            campaignOverView.getAdgroups($routeParams.campaignId, $scope.tempFlag);
 
             $(function () {
                 $('#pushCampaignBtn').on('click', function () {

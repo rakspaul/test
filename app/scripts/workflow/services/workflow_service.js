@@ -148,7 +148,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                     });
                 },
 
-                getAdgroups: function (campaignId, isForClone) {
+                getAdgroups: function (campaignId, searchFlag, isForClone) {
                     var clientId = loginModel.getSelectedClient().id,
                         url = vistoconfig.apiPaths.WORKFLOW_API_URL +
                             '/clients/' + clientId +
@@ -158,6 +158,16 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                     if (isForClone) {
                         url += '?status=ACTIVE';
                     }
+
+                    if (searchFlag) {
+                        console.log('Search flag is true')
+                    } else {
+                        console.log('Search flag is FALSE')
+                    }
+                    url = 'http://qa-desk.collective.com/api/reporting/v3/clients/2/campaigns/824/search/adgroups?search_term=temp';
+                    console.log('URL = ', url);
+                    //'http://qa-desk.collective.com/api/reporting/v3/clients/2/campaigns/929/search/adgroups?search_term=keerthi'
+                    //'http://qa-desk.collective.com/api/workflow/v3/clients/2/campaigns/824/ad_groups'
 
                     return dataService.fetch(url, {
                         cache: false
@@ -444,7 +454,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
 
             updateCreative: function (client_id, adId, id, data) {
                 var clientId =  client_id || loginModel.getSelectedClient().id;
-               
+
                 return dataService.put(
                     vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/advertisers/' + adId + '/creatives/' + id+'?forceSave=true',
                     data,
