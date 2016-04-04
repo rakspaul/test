@@ -77,7 +77,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                                                     i;
 
                                                 if (result.status === 'OK' || result.status === 'success') {
-                                                    responseData = result.data.data;
+                                                    responseData = result.data.data.ad_groups;
                                                     $scope.workflowData.campaignGetAdGroupsData = responseData;
                                                     n = responseData.length;
                                                     for (i = 0; i < n; i++) {
@@ -91,23 +91,25 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                                                         }
                                                     }
                                                     $scope.workflowData.adGroupData = adGroupData;
+
+                                                    //to get all ads with in ad group
+                                                    workflowService
+                                                        .getDetailedAdsInAdGroup($scope.campaignId, $scope.adGroupId, $scope.adId)
+                                                        .then(function (result) {
+                                                            $scope.getAd_result = result.data.data;
+                                                            //redirect user to campaingn overview screen if ad is archived
+                                                            if ($scope.getAd_result.isArchived) {
+                                                                $scope.redirectFlag = true;
+                                                                $scope.archivedAdFlag = true;
+                                                            }
+                                                            disablePauseEnableResume($scope.getAd_result);
+                                                            processEditMode(result);
+                                                        });
+
                                                 } else {
                                                     campaignOverView.errorHandler(result);
                                                 }
                                             }, campaignOverView.errorHandler);
-
-                                        workflowService
-                                            .getDetailedAdsInAdGroup($scope.campaignId, $scope.adGroupId, $scope.adId)
-                                            .then(function (result) {
-                                                $scope.getAd_result = result.data.data;
-                                                //redirect user to campaingn overview screen if ad is archived
-                                                if ($scope.getAd_result.isArchived) {
-                                                    $scope.redirectFlag = true;
-                                                    $scope.archivedAdFlag = true;
-                                                }
-                                                disablePauseEnableResume($scope.getAd_result);
-                                                processEditMode(result);
-                                            });
 
                                     }
                                 } else {
@@ -418,7 +420,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
             var responseData = result.data.data,
                 format,
                 budgetElem,
-                dateObj,
+                dateObj= {},
                 index,
                 idx,
                 i;
@@ -496,8 +498,6 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                         .attr('checked', 'checked');
                 }
             }
-
-            dateObj = {};
 
             if (responseData.startTime) {
                 $scope.adData.startTime = momentService.utcToLocalTime(responseData.startTime);
@@ -606,7 +606,9 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                 $scope.$broadcast('setTargeting', ['Audience']);
             }
 
-
+            if(responseData.targets && responseData.targets.domainTargets && responseData.targets.domainTargets.domainList && responseData.targets.domainTargets.domainList.length >0) {
+                $scope.$broadcast('setDominList');
+            }
         }
 
         function disablePauseEnableResume(getAdResultData) {
@@ -790,7 +792,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                 $scope.mediaPlanName = mediaPlan.name;
             }
 
-            //reset selected ad group 
+            //reset selected ad group
             selectedAdGroupId = -1;
             $scope.adGroupName = null;
 

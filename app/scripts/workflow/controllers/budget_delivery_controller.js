@@ -282,15 +282,17 @@ define(['angularAMD', 'common/services/constants_service', 'common/moment_utils'
         adGroupStartDate,
         adGroupEndDate,
         currentDate = moment().format(constants.DATE_US_FORMAT);
-      ;
 
       if (moment().isAfter(campaignStartTime, 'day')) {
         campaignStartTime = moment().format(constants.DATE_US_FORMAT);
       }
+
       $scope.mode === 'edit' && endDateElem.removeAttr('disabled').css({'background': 'transparent'});
+
       // If we are handling an ad of an Adgroup
       if (location.href.indexOf('adGroup') > -1) {
         if ($scope.mode === 'edit') {
+
           if (momentService.isDateBefore($scope.workflowData.adGroupData.startDate, currentDate)) {
             adGroupStartDate = currentDate;
           } else {
@@ -300,6 +302,7 @@ define(['angularAMD', 'common/services/constants_service', 'common/moment_utils'
           startDateElem.datepicker('setStartDate', adGroupStartDate);
           startDateElem.datepicker('setEndDate', adGroupEndDate);
           $scope.setDateInEditMode(adGroupStartDate, adGroupEndDate);
+
         } else {
           // When creating a new Adgroup ad, if Adgroup start date is:
           // 1) before currrent date (in the past), default start & end dates will be current date
@@ -308,7 +311,7 @@ define(['angularAMD', 'common/services/constants_service', 'common/moment_utils'
           adGroupEndDate = momentService.utcToLocalTime(localStorage.getItem('edTime'));
           if (momentService.isDateBefore(adGroupStartDate, currentDate)) {
             startDateElem.datepicker('setStartDate', currentDate);
-            startDateElem.datepicker('update', currentDate);
+            startDateElem.datepicker('update', currentDate);1
           } else {
             startDateElem.datepicker('setStartDate', adGroupStartDate);
             startDateElem.datepicker('update', adGroupStartDate);
@@ -316,6 +319,7 @@ define(['angularAMD', 'common/services/constants_service', 'common/moment_utils'
           startDateElem.datepicker('setEndDate', adGroupEndDate);
         }
       } else {
+
         // Normal ad (non-Adgroup)
         startDateElem.datepicker('setStartDate', campaignStartTime);
         endDateElem.datepicker('setEndDate', campaignEndTime);
