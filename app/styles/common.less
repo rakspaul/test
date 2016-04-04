@@ -1830,8 +1830,23 @@ multiselect {
 	font-size: 12px;
 }
 .errorTxtColor {
-	color:#F24444;
-	font-family: 'Avenir-bold';
+	color:@color_25  ;
+	font-family: 'Avenir-bold'; 
+}
+.errorText {
+	color:@color_25  ;
+}
+.errorBorder {
+	border-color: @color_25 !important ;
+}
+.disabled-field {
+	background: #eee ;
+	cursor: default;
+	div.left-big-arrow {
+		&:after {
+			border-right-color: #eee ;
+		}
+	}
 }
 .common-loading-btn {
 	width: 80px;

@@ -271,6 +271,16 @@ define(['angularAMD', 'common/services/constants_service', 'common/moment_utils'
       $scope.budgetErrorObj.availableMaximumAdRevenueValidator = '';
     };
 
+    $scope.enable_budget_input = function ( event ) {
+      var elem = $(event.target);
+      if(elem.is(':checked')) {
+        elem.closest(".impressions_holder").find(".budget_holder input").attr("disabled" , true).addClass("disabled-field").attr("value","-") ;
+      } else {
+        elem.closest(".impressions_holder").find(".budget_holder input").attr("disabled" , false).removeClass("disabled-field").attr("value","") ;
+      }
+      
+    };
+
     $scope.$parent.initiateDatePicker = function () {
       var endDateElem = $('#endDateInput'),
         startDateElem = $('#startDateInput'),
