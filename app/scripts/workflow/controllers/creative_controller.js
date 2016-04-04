@@ -52,7 +52,9 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
               $scope.associatedAdCount=$scope.creativeEditData.noOfAds;
               //make cal to set the format type here //inturn makes call to get possible templates
               $scope.adFormatSelection($scope.creativeFormat);
-              resetFormats($scope.selectedAdServer,$scope.creativeAdServers)
+              if(!($scope.pushedCount>0 || $scope.associatedAdCount>0)){
+                resetFormats($scope.selectedAdServer,$scope.creativeAdServers)
+              }
               //make call to generate Template
               $scope.creativeEditData.vendorCreativeTemplate ? $scope.onTemplateSelected($scope.creativeEditData.vendorCreativeTemplate,$scope.creativeEditData.creativeCustomInputs):'';
               $scope.tag=$scope.creativeEditData.tag;
@@ -502,7 +504,7 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
                                   'value': data.value
                               };
                           });
-                          
+
                           if(validCreativeUrl) {
                               $scope.creativeSave(postCrDataObj);
                           }
