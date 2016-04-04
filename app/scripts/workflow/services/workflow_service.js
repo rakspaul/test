@@ -50,6 +50,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                 if(access_level !== undefined) {
                     var accessLevel = '&access_level='+access_level;
                 }
+
                 var clientId =  loginModel.getMasterClient().id;
                 if(clientId !== undefined) {
                     var url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/descendants?level=last' + accessLevel;
@@ -88,7 +89,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                 if (accessLevel) {
                     url = url + '?access_level=' + accessLevel;
                 }
-                console.log("url", url);
+
                 return dataService.fetch(url);
             },
             saveCampaign: function (data) {
@@ -148,23 +149,34 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                     });
                 },
 
-                getAdgroups: function (campaignId, searchFlag, isForClone) {
+                getAdgroups: function (campaignId, searchTerm, isForClone) {
                     var clientId = loginModel.getSelectedClient().id,
+                        url;
+
+                    if (searchTerm) {
+                        url = 'http://qa-desk.collective.com/api/reporting/v3' +
+                            '/clients/' + clientId +
+                            '/campaigns/' + campaignId +
+                            '/search/adgroups?search_term=' + searchTerm;
+                    } else {
                         url = vistoconfig.apiPaths.WORKFLOW_API_URL +
                             '/clients/' + clientId +
                             '/campaigns/' + campaignId +
                             '/ad_groups';
+                    }
 
                     if (isForClone) {
                         url += '?status=ACTIVE';
                     }
 
-                    if (searchFlag) {
-                        console.log('Search flag is true')
+                    if (searchTerm) {
+                        console.log('searchTerm = ', searchTerm)
                     } else {
-                        console.log('Search flag is FALSE')
+                        console.log('Normal non-search call')
                     }
-                    url = 'http://qa-desk.collective.com/api/reporting/v3/clients/2/campaigns/824/search/adgroups?search_term=temp';
+                    //url = 'http://qa-desk.collective.com/api/reporting/v3/clients/2/campaigns/824/search/adgroups?search_term=ad';
+                    //url = 'http://qa-desk.collective.com/api/workflow/v3/clients/2/campaigns/824/search/adgroups?search_term=ad';
+                    //url = 'http://qa-desk.collective.com/api/workflow/v3/clients/2/campaigns/824/ad_groups';
                     console.log('URL = ', url);
                     //'http://qa-desk.collective.com/api/reporting/v3/clients/2/campaigns/929/search/adgroups?search_term=keerthi'
                     //'http://qa-desk.collective.com/api/workflow/v3/clients/2/campaigns/824/ad_groups'

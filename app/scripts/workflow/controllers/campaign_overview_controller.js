@@ -81,15 +81,16 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                         console.log($scope.adGroupsSearchTermsArr, ', changed = ', $scope.adGroupsSearchTermChanged);
 
                         // TODO: The following 2 API calls will be replaced by the Search API call
-                        campaignOverView.getAdsForCampaign($routeParams.campaignId);
-                        campaignOverView.getAdgroups($routeParams.campaignId, $scope.tempFlag);
+                        //campaignOverView.getAdsForCampaign($routeParams.campaignId);
                         $scope.isAdGroupsSearched = true;
                     } else {
                         // Empty search term
+                        $scope.isAdGroupsSearched = false;
                         console.log('Search for ad groups, without search term');
-                        campaignOverView.getAdsForCampaign($routeParams.campaignId);
-                        campaignOverView.getAdgroups($routeParams.campaignId, $scope.tempFlag);
+                        //campaignOverView.getAdsForCampaign($routeParams.campaignId);
+                        //campaignOverView.getAdgroups($routeParams.campaignId, $scope.isAdGroupsSearched);
                     }
+                    campaignOverView.getAdgroups($routeParams.campaignId, $scope.adGroupsSearchTerm);
                 }
             };
 
@@ -404,11 +405,20 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     workflowService
                         .getAdgroups(campaignId, searchFlag)
                         .then(function (result) {
-                            var responseData;
+                            var responseData,
+                                nonAdGroupAds,
+                                i;
 
                             if (result.status === 'OK' || result.status === 'success') {
                                 responseData = result.data.data.ad_groups;
-                                console.log('RESPONSE DATA = ', responseData)
+                                $scope.adGroupsCount = result.data.data.ad_groups_count;
+                                $scope.adsCount = result.data.data.search_ads_count;
+                                nonAdGroupAds = result.data.data.no_ad_group_ads;
+                                console.log('Response Data = ', result.data.data,
+                                    ', Ad groups = ', responseData,
+                                    ', Non-Ad group ads = ', nonAdGroupAds,
+                                    ', Ad groups count = ', $scope.adGroupsCount,
+                                    ', Non-ad group ads count = ', $scope.adsCount);
 
                                 // TODO: temp, testing highlighting of Ad group name & label pills
                                 //       NOTE: The highlighting will be done at the Search API call.
@@ -450,6 +460,27 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                                 // TODO ends here
 
                                 $scope.workflowData.campaignGetAdGroupsData = responseData;
+
+                                // **Non Ad Group Ads section
+                                for (i in nonAdGroupAds) {
+                                    if (nonAdGroupAds[i].state === 'IN_FLIGHT') {
+                                        nonAdGroupAds[i].state = 'IN FLIGHT';
+                                    }
+
+                                    if (nonAdGroupAds[i].state === 'IN_PROGRESS') {
+                                        nonAdGroupAds[i].state = 'DEPLOYING';
+                                    }
+                                }
+
+                                // call extract method if
+                                $scope.workflowData.campaignAdsData =
+                                    campaignOverView.adsDataMofiderFunc(nonAdGroupAds);
+
+                                // Highlight non-Adgroup ad name
+                                _.each($scope.workflowData.campaignAdsData, function (obj) {
+                                    obj.nameHtml = $scope.highlightTitleText(obj.name, $scope.adGroupsSearchTerm);
+                                });
+                                // **Non Ad Group Ads section end here
                             } else {
                                 campaignOverView.errorHandler(result);
                             }
@@ -551,9 +582,8 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             };
 
             campaignOverView.getCampaignData($routeParams.campaignId);
-            campaignOverView.getAdsForCampaign($routeParams.campaignId);
-            $scope.tempFlag = true;
-            campaignOverView.getAdgroups($routeParams.campaignId, $scope.tempFlag);
+            //campaignOverView.getAdsForCampaign($routeParams.campaignId);
+            campaignOverView.getAdgroups($routeParams.campaignId);
 
             $(function () {
                 $('#pushCampaignBtn').on('click', function () {
@@ -680,7 +710,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 $scope.tags = [];
                 $scope.adGroupMinBudget = 0;
 
-                if ($scope.workflowData.campaignAdsData.length > 0) {
+                if ($scope.workflowData.campaignAdsData && $scope.workflowData.campaignAdsData.length > 0) {
                     campaignAdsData  = $scope.workflowData.campaignAdsData;
                     $scope.adGroupMinBudget = campaignAdsData.reduce(function(memo, obj) {
                         return memo + (obj.cost || 0);
@@ -795,7 +825,8 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     .removeAttr('disabled')
                     .css({'background': 'transparent'});
 
-                if (!$scope.workflowData.campaignData ||  $scope.workflowData.campaignAdsData.length > 0) {
+                if (!$scope.workflowData.campaignData ||  ($scope.workflowData.campaignAdsData &&
+                    $scope.workflowData.campaignAdsData.length > 0)) {
                     return;
                 }
 
