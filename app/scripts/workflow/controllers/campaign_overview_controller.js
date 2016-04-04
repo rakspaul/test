@@ -407,8 +407,9 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                             var responseData;
 
                             if (result.status === 'OK' || result.status === 'success') {
-                                responseData = result.data.data;
-console.log('RESPONSE DATA = ', responseData)
+                                responseData = result.data.data.ad_groups;
+                                console.log('RESPONSE DATA = ', responseData)
+
                                 // TODO: temp, testing highlighting of Ad group name & label pills
                                 //       NOTE: The highlighting will be done at the Search API call.
                                 _.each(responseData, function (obj) {

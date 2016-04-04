@@ -359,6 +359,12 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
                     'query_id': 21,
                     'label' : 'Performance by Days Of Week',
                     'download_config_id': 1
+                },
+                {
+                    'url': '/reportBuilder/customQueryDownload',
+                    'query_id': 45,
+                    'label': 'Performance by Discrepancy',
+                    'download_config_id': 1
                 }
             ];
         };
