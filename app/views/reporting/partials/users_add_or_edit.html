@@ -29,19 +29,19 @@
                     <input name="password" type="password" ng-model="userConsoleFormDetails.password" class="form-control" ng-disabled="userConsoleFormDetails.isEditPassword" required>
                     <label ng-if="userCreateEditForm.password.$error.required" class="col-sm-12  greyTxt errorLabel">You must enter password.</label>
                 </div>
-                <div class="form-group col-md-1" style="padding-right: 0;">
+                <div class="form-group col-md-1" style="padding-right: 0;" >
                     <label class="pull-right">Super User</label>
                     <div class="pull-right">
-                        <input id="cmn-toggle-1" class="cmn-toggle cmn-toggle-round" type="checkbox">
+                        <input id="cmn-toggle-1" class="cmn-toggle cmn-toggle-round" type="checkbox" data-ng-click="superUserToggleClicked($event)">
                         <label for="cmn-toggle-1"></label>
                     </div>
                 </div>
-                <div class="col-md-12 zeroPadding">
-                    <a class="btn btn-link pull-right addRowMedia">
-                        <span class="icon-trash" style="margin-right: 5px;"></span>
-                        <span>Remove User</span>
-                    </a>
-                </div>
+                <!--<div class="col-md-12 zeroPadding">-->
+                    <!--<a class="btn btn-link pull-right addRowMedia">-->
+                        <!--<span class="icon-trash" style="margin-right: 5px;"></span>-->
+                        <!--<span>Remove User</span>-->
+                    <!--</a>-->
+                <!--</div>-->
                 <!--<div class="form-group col-md-12 zeroPadding">-->
                     <!--<label >Collective Internal:</label>-->
                     <!--<div class="clearfix">-->
@@ -67,7 +67,7 @@
             </div>
 
 
-        <div class="form-group col-md-12 zeroPadding">
+        <div class="form-group col-md-12 zeroPadding" ng-if="!isCurr_SuperUser">
 		    <!--<label >Add Access:</label>-->
             <!--<div class="col-md-12 zeroPadding add-filters">-->
                 <!--<div class="form-group col-md-3">-->
@@ -136,80 +136,80 @@
             <!--</div>-->
             
             <!--THIS IS TEST ELEMENTS STARTS HERE-->
-            <div class="col-md-12 zeroPadding">
-                <div class="col-md-2 zeroPadding">
-                    <label class="col-md-12 zeroPadding">Accounts:</label>
-                    <ul class="accountDDL">
-                        <li data-dropdown-text="Item 1"></li>
-                        <li data-dropdown-text="Item 2"></li>
-                        <li data-dropdown-text="Item 3">
-                            <ul>
-                                <li data-dropdown-text="Item 1"></li>
-                                <li data-dropdown-text="Item 2"></li>
-                                <li data-dropdown-text="Item 3"></li>
-                            </ul>
-                        </li>
-                        <li data-dropdown-text="Item 4"></li>
-                    </ul>
-                </div>
-                
-                <div class="col-md-8" style="padding: 0 30px;">
-                    <label>Per Page Permission:</label>
-                    <select data-placeholder="Page Permission" class="chosen-select" multiple tabindex="4">
-                        <option value=""></option>
-                        <option value="All">All</option>
-                        <option value="Media Plans">Media Plans</option>
-                        <option value="Reports">Reports</option>
-                        <option value="Creative">Creative</option>
-                        <option value="New Creative">New Creative</option>
-                    </select>
-                </div>
-                
-                <div class="col-md-2 zeroPadding">
-                    <label class="col-md-12 zeroPadding">Account Admin:</label>
-                    <div class="pull-left">
-                        <input id="cmn-toggle-1" class="cmn-toggle cmn-toggle-round" type="checkbox">
-                        <label for="cmn-toggle-1"></label>
-                    </div>
-                </div>
-            </div>
+            <!--<div class="col-md-12 zeroPadding">-->
+                <!--<div class="col-md-2 zeroPadding">-->
+                    <!--<label class="col-md-12 zeroPadding">Accounts:</label>-->
+                    <!--<ul class="accountDDL">-->
+                        <!--<li data-dropdown-text="Item 1"></li>-->
+                        <!--<li data-dropdown-text="Item 2"></li>-->
+                        <!--<li data-dropdown-text="Item 3">-->
+                            <!--<ul>-->
+                                <!--<li data-dropdown-text="Item 1"></li>-->
+                                <!--<li data-dropdown-text="Item 2"></li>-->
+                                <!--<li data-dropdown-text="Item 3"></li>-->
+                            <!--</ul>-->
+                        <!--</li>-->
+                        <!--<li data-dropdown-text="Item 4"></li>-->
+                    <!--</ul>-->
+                <!--</div>-->
+                <!---->
+                <!--<div class="col-md-8" style="padding: 0 30px;">-->
+                    <!--<label>Per Page Permission:</label>-->
+                    <!--<select data-placeholder="Page Permission" class="chosen-select" multiple tabindex="4">-->
+                        <!--<option value=""></option>-->
+                        <!--<option value="All">All</option>-->
+                        <!--<option value="Media Plans">Media Plans</option>-->
+                        <!--<option value="Reports">Reports</option>-->
+                        <!--<option value="Creative">Creative</option>-->
+                        <!--<option value="New Creative">New Creative</option>-->
+                    <!--</select>-->
+                <!--</div>-->
+                <!---->
+                <!--<div class="col-md-2 zeroPadding">-->
+                    <!--<label class="col-md-12 zeroPadding">Account Admin:</label>-->
+                    <!--<div class="pull-left">-->
+                        <!--<input id="cmn-toggle-1" class="cmn-toggle cmn-toggle-round" type="checkbox">-->
+                        <!--<label for="cmn-toggle-1"></label>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
             <!--THIS IS TEST ELEMENTS ENDS HERE-->
             
-            <div class="col-md-12 add-filters" ng-repeat="(permissionIndex,item) in permissions track by $index"> <!--$index--{{$index}}-->
+            <div class="col-md-12 add-filters" ng-repeat="(permissionIndex,item) in permissions track by $index" data-row-index="{{$index}}"> <!--$index--{{$index}}-->
                 <div class="col-md-12 zeroPadding">
                     <h1 class="pull-left">Account Access</h1>
                 </div>
                 
-                <div class="form-group col-md-12 accounts-multi-dimension" id="id_{{$index}}" style="padding-left: 0;"><!--id_$index---id_{{$index}}-->
-                    <label>Accounts:</label>
-                    <div class="zeroPadding dropdown-workflow">
-                        <div class="dropdown">
-                            <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                <!--<span class="text">{{mode == 'edit' ? selectedAccount : 'Account' }}</span>-->
-                                <span class="text" >{{clientName[$index] ? clientName[$index] :'Select Client'}}</span>
-                                <span class="icon-arrow-down"></span>
-                            </button>
-                            <ul class="dropdown-menu" aria-labelledby="accountType">
-                                <li ng-repeat="client in userModalData.Clients"><a ng-click="selectedClientHandler(client, permissionIndex)">{{client.name}}</a>
-                                    <ul ng-if="client.children.length>0">
-                                        <li ng-repeat="clientChild in client.children"><a ng-click="selectedClientHandler(clientChild, permissionIndex, client.id)">{{clientChild.name}} </a>
-                                            <ul ng-if="clientChild.children.length>0">
-                                            <li ng-repeat="clientSecondChild in clientChild.children"><a ng-click="selectedClientHandler(clientSecondChild, permissionIndex, client.id, clientChild.id)">{{clientSecondChild.name}} </a>
-                                            </li>
-                                            </ul>
-                                        </li>
-                                    </ul>
-                                </li>
-                            </ul>
-                            <input type="hidden" name="accountType" class="accountType" ng-model="User.data[$index].clientId"  value="{{selectedClient.counter.id}}" ng-Update-Hidden required/>
-                            <!--<input type="hidden" name="accountType" ng-model="selectedClient" ng-update-hidden required/>-->
-                        </div>
-                    </div>
-                    <!--<select class="form-control" name="accountType">-->
-                    <!--<option value="{{client.id}}" ng-repeat="client in userModalData.Clients">{{client.name}}</option>-->
-                    <!--</select>-->
-                </div>
-                
+                <!--<div class="form-group col-md-12 accounts-multi-dimension" id="id_{{$index}}" style="padding-left: 0;">&lt;!&ndash;id_$index---id_{{$index}}&ndash;&gt;-->
+                    <!--<label>Accounts:</label>-->
+                    <!--<div class="zeroPadding dropdown-workflow">-->
+                        <!--<div class="dropdown">-->
+                            <!--<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">-->
+                                <!--&lt;!&ndash;<span class="text">{{mode == 'edit' ? selectedAccount : 'Account' }}</span>&ndash;&gt;-->
+                                <!--<span class="text" >{{clientName[$index] ? clientName[$index] :'Select Client'}}</span>-->
+                                <!--<span class="icon-arrow-down"></span>-->
+                            <!--</button>-->
+                            <!--<ul class="dropdown-menu" aria-labelledby="accountType">-->
+                                <!--<li ng-repeat="client in userModalData.Clients"><a ng-click="selectedClientHandler(client, permissionIndex)">{{client.name}}</a>-->
+                                    <!--<ul ng-if="client.children.length>0">-->
+                                        <!--<li ng-repeat="clientChild in client.children"><a ng-click="selectedClientHandler(clientChild, permissionIndex, client.id)">{{clientChild.name}} </a>-->
+                                            <!--<ul ng-if="clientChild.children.length>0">-->
+                                            <!--<li ng-repeat="clientSecondChild in clientChild.children"><a ng-click="selectedClientHandler(clientSecondChild, permissionIndex, client.id, clientChild.id)">{{clientSecondChild.name}} </a>-->
+                                            <!--</li>-->
+                                            <!--</ul>-->
+                                        <!--</li>-->
+                                    <!--</ul>-->
+                                <!--</li>-->
+                            <!--</ul>-->
+                            <!--<input type="hidden" name="accountType" class="accountType" ng-model="User.data[$index].clientId"  value="{{selectedClient.counter.id}}" ng-Update-Hidden required/>-->
+                            <!--&lt;!&ndash;<input type="hidden" name="accountType" ng-model="selectedClient" ng-update-hidden required/>&ndash;&gt;-->
+                        <!--</div>-->
+                    <!--</div>-->
+                    <!--&lt;!&ndash;<select class="form-control" name="accountType">&ndash;&gt;-->
+                    <!--&lt;!&ndash;<option value="{{client.id}}" ng-repeat="client in userModalData.Clients">{{client.name}}</option>&ndash;&gt;-->
+                    <!--&lt;!&ndash;</select>&ndash;&gt;-->
+                <!--</div>-->
+                <!---->
                 <div class="col-md-2 zeroPadding">
                     <label class="col-md-12 zeroPadding">Accounts:</label>
                     <ul class="accountDDL">
@@ -228,33 +228,44 @@
                 
                 <div class="col-md-8" style="padding: 0 30px;">
                     <label>Per Page Permission:</label>
-                    <select data-placeholder="Page Permission" class="chosen-select" multiple tabindex="4">
-                        <option value=""></option>
-                        <option value="All">All</option>
-                        <option value="Media Plans">Media Plans</option>
-                        <option value="Reports">Reports</option>
-                        <option value="Creative">Creative</option>
-                        <option value="New Creative">New Creative</option>
-                    </select>
+                    <!--<select placeholder="Page Permission" class="chosen-select" multiple tabindex="4">-->
+                        <!--<option value=""></option>-->
+                        <!--<option value="All">All</option>-->
+                        <!--<option value="Media Plans">Media Plans</option>-->
+                        <!--<option value="Reports">Reports</option>-->
+                        <!--<option value="Creative">Creative</option>-->
+                        <!--<option value="New Creative">New Creative</option>-->
+                    <!--</select>-->
+                    <div class="dropdown" style="z-index: 99999">
+                        <button style="width:600px;" class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                            <span class="text" ng-bind="pagePermissionValue[0].desc ? pagePermissionValue[0].desc : 'All'"></span>
+                            <span class="icon-arrow-down"></span>
+                        </button>
+                        <ul class="dropdown-menu" data-toggle="dropdown">
+                            <li ng-repeat="page in userPages">
+                                <a ng-click="select_page_option(page.description , page.code, $parent.$index)" ng-bind="page.description"></a>
+                            </li>
+                        </ul>
+                        <input type="hidden" name="unitType" ng-model="adData.unitType.name" ng-update-hidden />
+                    </div>
                 </div>
                 
                 <div class="col-md-2 zeroPadding">
                     <label class="col-md-12 zeroPadding">Account Admin:</label>
                     <div class="pull-left">
-                        <input id="cmn-toggle-1" class="cmn-toggle cmn-toggle-round" type="checkbox">
-                        <label for="cmn-toggle-1"></label>
+                        <input id="admin-toggle-{{$index}}" class="cmn-toggle cmn-toggle-round" type="checkbox" data-ng-click="adminUserToggleClicked($index, $event)" data-off="aa" data-on="aa">
+                        <label for="admin-toggle-{{$index}}"></label>
                     </div>
                 </div>
-                
-                <div class="col-md-12" style="background: rgba(0, 0, 0, 0.08); padding: 15px 30px; margin: 15px 0;">
+                <div class="col-md-12" style="background: rgba(0, 0, 0, 0.08); padding: 15px 30px; margin: 15px 0;" ng-repeat="i in item.addPermission" id="addPermission_{{$parent.$index}}_{{$index}}">
                     <div class="form-group col-md-4" style="padding-left: 0;">
                         <label> Advertiser Name:</label>
                         <!--<select class="form-control" name="advertiserName" ng-model="selectedAdvertiser">-->
                         <!--<select class="form-control" name="advertiserName" ng-init="User.data[$index].advertisers=0" ng-model="User.data[$index].advertisers">-->
                             <!--<option value="{{advertiser.id}}" ng-repeat="advertiser in userModalData[permissionIndex].Advertisers" ng-selected="{{advertiser.id == 31}}" ng-click="selectAdvertiser()">{{advertiser.name}}</option>-->
-                            <!--&lt;!&ndash;<option value=value="{{advertiser.id}}" ng-repeat="advertiser in userModalData.Advertisers" ng-selected="{{advertiser.id == selectedAdvertiser}}" >{{advertiser.name}}</option>&ndash;&gt;-->
+                            <!--<!--<option value=value="{{advertiser.id}}" ng-repeat="advertiser in userModalData.Advertisers" ng-selected="{{advertiser.id == selectedAdvertiser}}" >{{advertiser.name}}</option>-->-->
                         <!--</select>-->
-    
+
                         <div class="zeroPadding dropdown-workflow">
                             <div class="dropdown">
                                 <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
@@ -270,7 +281,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="form-group col-md-4">
                         <label >Brand Name:</label>
                         <!--<select name="brandName" class="form-control" ng-init="User.data[$index].brand=0" ng-model="User.data[$index].brand">-->
@@ -284,14 +295,13 @@
                                     <span class="icon-arrow-down"></span>
                                 </button>
                                 <ul class="dropdown-menu" aria-labelledby="accountType">
-                                    <li ng-repeat="brand in userModalData[permissionIndex].Brands"><a ng-click="selectBrand(brand,permissionIndex)">{{brand.name}}</a>
+                                    <li ng-repeat="brand in userModalData[0].Brands"><a ng-click="selectBrand(brand,permissionIndex)">{{brand.name}}</a>
                                     </li>
                                 </ul>
                                 <!--<input type="hidden" name="accountType" ng-model="selectedClient" ng-update-hidden required/>-->
                             </div>
                         </div>
                     </div>
-                    
                     <div class="form-group col-md-4" style="padding-right: 25px;">
                         <label>Permission:</label>
                         <select name="accessLevel" class="form-control" ng-init="User.data[permissionIndex].accessLevel = User.data[permissionIndex].accessLevel || 'ADMIN'" ng-change="setPermissionAccess(permissionIndex,User.data[permissionIndex].accessLevel)" ng-model="User.data[permissionIndex].accessLevel">
@@ -301,17 +311,17 @@
                             <!--<option value="READ">Read</option>-->
                         </select>
                     </div>
-                    
-                    <div class="delete_row" ng-click="delete_filter($event, permissionIndex)"></div>
+
+                    <div class="delete_row" ng-click="deletePermission($parent.$index, $index, $event)"></div>
                 </div>
                 
                 <div class="col-md-12 zeroPadding">
-                    <a class="btn btn-link pull-left addRowMedia">
+                    <a class="btn btn-link pull-left addRowMedia" id="addPermissionText_{{$index}}" ng-click="addPermission($index, $event)">
                         <span class="icon-plus"></span>
                         <span>Add Permission</span>
                     </a>
                     
-                    <a class="btn btn-link pull-right addRowMedia">
+                    <a class="btn btn-link pull-right addRowMedia" ng-click="deleteAccount($index, $event)">
                         <span class="icon-trash" style="margin-right: 5px;"></span>
                         <span>Remove Account Access</span>
                     </a>
@@ -348,7 +358,6 @@
         <span class="secondary_txt pull-right" data-dismiss="modal" ng-click="closeForm()">Cancel</span>
     </div>
 </div> <!-- end of popup-holder -->
-
 <script type="text/javascript">
     //Pills
     var config = {

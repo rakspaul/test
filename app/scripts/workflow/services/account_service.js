@@ -128,6 +128,10 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
                 var url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients';
                 return dataService.fetch(url);
             },
+            getUserPages: function(){
+                var url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/features';
+                return dataService.fetch(url);
+            },
             initCounter: function () {
                 counter = 0;
             },

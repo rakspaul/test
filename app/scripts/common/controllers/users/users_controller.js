@@ -58,9 +58,9 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
         };
         usersList.getUsers();
         $rootScope.$on('refreshUserList',function(){
-            console.log('user list refresh');
             usersList.getUsers();
         });
+
         
     });
 
