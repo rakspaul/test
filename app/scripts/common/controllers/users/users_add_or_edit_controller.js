@@ -1,10 +1,14 @@
 
-define(['angularAMD', '../../services/constants_service', 'workflow/services/account_service','workflow/directives/ng_update_hidden_dropdown'],function (angularAMD) {
+define(['angularAMD', '../../services/constants_service', 'workflow/services/account_service','common/moment_utils',
+    'workflow/directives/ng_update_hidden_dropdown'],function (angularAMD) {
     'use strict';
 
-    angularAMD.controller('UsersAddOrEdit', function($scope, $rootScope,constants,accountsService) {
+    angularAMD.controller('UsersAddOrEdit', function($scope, $rootScope,
+                                                     constants,accountsService,momentService) {
+        var _customctrl = this;
         $scope.permissions = [];
         $scope.pagePermissionValue = {};
+        $scope.dropdownList = []
         $scope.isSuperAdmin=true;
         $scope.clientName=[];
         $scope.advertiserName=[];
@@ -35,61 +39,108 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                 $scope.isSuperAdmin=false;
 
         };
+        _customctrl.createData = function(){
+            _customctrl.requestData = {
+                "id": 11595,
+                "firstName": $scope.userConsoleFormDetails.firstName,
+                "lastName": $scope.userConsoleFormDetails.lastName,
+                "email": $scope.userConsoleFormDetails.email,
+                "roleTemplateId": ($scope.isCurr_SuperUser ? 1 : 2),
+                "status": true,
+                "createdBy": null,
+                "updatedBy": null,
+                "createdAt": momentService.newMoment(new Date()).format('YYYY-MM-DD HH-MM-SS.SSS'),
+                "updatedAt": "2016-03-23 18:20:52.450",
+                "permissions": []
+//                "createdBy": 11568,
+//                "updatedBy": 11595,
+//                "createdAt": "2016-01-20 11:00:06.276",
+//                "updatedAt": "2016-03-23 18:20:52.450",
+            }
+            console.log($scope.permissions);
+            _.each($scope.permissions, function(item, i){
+               // console.lo
+                _customctrl.requestData.permissions.push({
+                    "clientId" : 2,
+                    "application": "visto",
+                    "features": $scope.pagePermissionValue[i]["code"].split(","),
+                    "resources": []
+                });
+                if($scope.pagePermissionValue[i]["code"] == "ENABLE_ALL"){
+                    _customctrl.requestData.permissions[i].resources.push({
+                        "accessLevel": "admin",
+                        "advertiserId": -1,
+                        "brandId": -1
+                    });
+                }else{
+                    _.each(item.addPermission, function(d, j){
+                        _customctrl.requestData.permissions[i].resources.push({
+                            "accessLevel": d.permissionValue,
+                            "advertiserId": d.advertiserId,
+                            "brandId": d.brandId
+                        });
+                    });
+                }
+            });
+            console.log(_customctrl.requestData);
+//            return _customctrl.requestData;
+        }
 
         $scope.saveUserForm=function(){
-            $scope.$broadcast('show-errors-check-validity');
-           // if ($scope.userCreateEditForm.$valid) {
-                var formElem = $("#userCreateEditForm");
-                var formData = formElem.serializeArray();
-                formData = _.object(_.pluck(formData, 'name'), _.pluck(formData, 'value'));
-                if($scope.editmode)
-                    formData.password = '123456';
-
-                if(formData.userLogin && formData.firstName && formData.lastName && formData.password){
-                   var postDataObj={};
-                    postDataObj=$scope.userConsoleFormDetails;
-                    if($scope.editmode)
-                        postDataObj.password = '123456';
-
-                    postDataObj.permissions=$scope.User.data;
-                    var deletableIndex = [];
-                    _.each(postDataObj.permissions,function(item,index){
-                        if(item){
-                            if(!item.advertiserId || item.advertiserId == "")
-                                item.advertiserId = -1;
-                            if(!item.brandId || item.brandId == "")
-                                item.brandId = -1;
-                            if(!item.clientId || item.clientId == "")
-                                item.clientId = -1;
-                            if(!item.orgId   || item.orgId == "")
-                                item.orgId = -1;
-                            if(item.resellerId !=0 && (item.resellerId == undefined || item.resellerId == ""))
-                                item.resellerId = -1;
-
-                            if(item.advertiserId == -1 && item.brandId == -1 && item.clientId == -1 && item.orgId == -1 && item.resellerId == -1)
-                                deletableIndex.push(index)
-                        }
-                    })
-
-                    _.each(deletableIndex,function(delIndex){
-                        postDataObj.permissions.splice(delIndex,1);
-                    });
-
-                    postDataObj.email=postDataObj.email.toLowerCase();
-                    //postDataObj.role_template_id = accountsService.getRoleId(postDataObj.role_template_id);
-
-                    //create user call goes here
-                    if((constants.super_admin != postDataObj.roleTemplateId && postDataObj.permissions.length > 0) || constants.super_admin == postDataObj.roleTemplateId ){
-                        if($scope.editmode)
-                            $scope.updateUser(postDataObj);
-                        else
-                            $scope.createUser(postDataObj);
-                    }
-                    else{
-                        $rootScope.setErrAlertMessage(constants.WF_PERMISSION_NEEDED);
-                    }
-                    //$scope.resetFields
-                }
+              console.log("Data",_customctrl.createData());
+//            $scope.$broadcast('show-errors-check-validity');
+//           // if ($scope.userCreateEditForm.$valid) {
+//                var formElem = $("#userCreateEditForm");
+//                var formData = formElem.serializeArray();
+//                formData = _.object(_.pluck(formData, 'name'), _.pluck(formData, 'value'));
+//                if($scope.editmode)
+//                    formData.password = '123456';
+//
+//                if(formData.userLogin && formData.firstName && formData.lastName && formData.password){
+//                   var postDataObj={};
+//                    postDataObj=$scope.userConsoleFormDetails;
+//                    if($scope.editmode)
+//                        postDataObj.password = '123456';
+//
+//                    postDataObj.permissions=$scope.User.data;
+//                    var deletableIndex = [];
+//                    _.each(postDataObj.permissions,function(item,index){
+//                        if(item){
+//                            if(!item.advertiserId || item.advertiserId == "")
+//                                item.advertiserId = -1;
+//                            if(!item.brandId || item.brandId == "")
+//                                item.brandId = -1;
+//                            if(!item.clientId || item.clientId == "")
+//                                item.clientId = -1;
+//                            if(!item.orgId   || item.orgId == "")
+//                                item.orgId = -1;
+//                            if(item.resellerId !=0 && (item.resellerId == undefined || item.resellerId == ""))
+//                                item.resellerId = -1;
+//
+//                            if(item.advertiserId == -1 && item.brandId == -1 && item.clientId == -1 && item.orgId == -1 && item.resellerId == -1)
+//                                deletableIndex.push(index)
+//                        }
+//                    })
+//
+//                    _.each(deletableIndex,function(delIndex){
+//                        postDataObj.permissions.splice(delIndex,1);
+//                    });
+//
+//                    postDataObj.email=postDataObj.email.toLowerCase();
+//                    //postDataObj.role_template_id = accountsService.getRoleId(postDataObj.role_template_id);
+//
+//                    //create user call goes here
+//                    if((constants.super_admin != postDataObj.roleTemplateId && postDataObj.permissions.length > 0) || constants.super_admin == postDataObj.roleTemplateId ){
+//                        if($scope.editmode)
+//                            $scope.updateUser(postDataObj);
+//                        else
+//                            $scope.createUser(postDataObj);
+//                    }
+//                    else{
+//                        $rootScope.setErrAlertMessage(constants.WF_PERMISSION_NEEDED);
+//                    }
+//                    //$scope.resetFields
+//                }
 
 
            // console.log($scope.permissions);
@@ -179,54 +230,80 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
 //            $scope.selectedClient['counter']=$scope.allPermissions[index].name;
         };
 
-        $scope.selectAdvertiser=function(advertiserObj,index,editmode,editData){
-            $scope.advertiserName[index] = advertiserObj.name;
-            $scope.User.data[index].advertiserId = advertiserObj.id;
+        $scope.selectAdvertiser=function(advertiserObj,accountIndex, permissionIndex,editmode,editData){
+            $scope.permissions[accountIndex].addPermission[permissionIndex]["advertiserName"] = advertiserObj.name;
+            $scope.permissions[accountIndex].addPermission[permissionIndex]["advertiserId"] = advertiserObj.id;
+//            if(!$scope.advertiserName[accountIndex]){
+//                $scope.advertiserName[accountIndex] = [];
+//                $scope.advertiserName[accountIndex].push({"advertiserName":advertiserObj.name,"advertiserId":advertiserObj.id});
+//                //if($scope.advertiserName[index])
+//            }else{
+//                $scope.advertiserName[accountIndex][permissionIndex] = {"advertiserName":advertiserObj.name,"advertiserId":advertiserObj.id};
+//            }
+//            $scope.advertiserName[index] = advertiserObj.name;
+//            $scope.User.data[index].advertiserId = advertiserObj.id;
             //initialize brand
-            if(!$scope.userModalData[index]){
-                //$scope.userModalData[index] = [];
-                $scope.userModalData[index]['Brands'] = [];
-            }
+//            if(!$scope.userModalData[index]){
+//                //$scope.userModalData[index] = [];
+//                $scope.userModalData[index]['Brands'] = [];
+//            }
 
             //hard reset advertiser and brand and permission before populating
-            $scope.brandName[index] = "Select Brand";
-            $scope.User.data[index].brandId = "";
-            $scope.userModalData[index].Brands = [];
+//            $scope.brandName[index] = "Select Brand";
+//            $scope.User.data[index].brandId = "";
+//            $scope.userModalData[index].Brands = [];
 
             //if in any case the client id is undefined set it from edit data
 //            if(!$scope.User.data[index].clientId)
 //                $scope.User.data[index].clientId = editData.clientId;
 
             // load brands based on advertiser and client
-            if(editmode)
-                userModalPopup.getUserBrands($scope.User.data[index].clientId,advertiserObj.id,index,editmode,editData);
-            else {
-                //userModalPopup.getUserBrands($scope.User.data[index].clientId,advertiserObj.id,index);
-                userModalPopup.getUserBrands(2,4,index);
-            }
+//            if(editmode)
+//                userModalPopup.getUserBrands($scope.User.data[index].clientId,advertiserObj.id,index,editmode,editData);
+//            else {
+//                //userModalPopup.getUserBrands($scope.User.data[index].clientId,advertiserObj.id,index);
+//                userModalPopup.getUserBrands(2,4,index);
+//            }
 
 
         };
 
-        $scope.selectBrand=function(brandObj,index){
-            $scope.brandName[index] = brandObj.name;
-            $scope.User.data[index].brandId = brandObj.id;
-
-            //initialize permission
-            if(!$scope.userModalData[index]){
-                //$scope.userModalData[index] = [];
-                $scope.userModalData[index]['Permissions'] = [];
-            }
+        $scope.selectBrand=function(brandObj, accountIndex, permissionIndex){
+            $scope.permissions[accountIndex].addPermission[permissionIndex]["brandName"] = brandObj.name;
+            $scope.permissions[accountIndex].addPermission[permissionIndex]["brandId"] = brandObj.id;
+//            $scope.brandName[index] = brandObj.name;
+//            $scope.User.data[index].brandId = brandObj.id;
+//
+//            //initialize permission
+//            if(!$scope.userModalData[index]){
+//                //$scope.userModalData[index] = [];
+//                $scope.userModalData[index]['Permissions'] = [];
+//            }
+        };
+        $scope.selectPermission=function(permissionObj, accountIndex, permissionIndex){
+            $scope.permissions[accountIndex].addPermission[permissionIndex]["permissionName"] = permissionObj.name;
+            $scope.permissions[accountIndex].addPermission[permissionIndex]["permissionValue"] = permissionObj.value;
+//            $scope.brandName[index] = brandObj.name;
+//            $scope.User.data[index].brandId = brandObj.id;
+//
+//            //initialize permission
+//            if(!$scope.userModalData[index]){
+//                //$scope.userModalData[index] = [];
+//                $scope.userModalData[index]['Permissions'] = [];
+//            }
         };
         accountsService.initCounter();
         $scope.incrementCounter=function(index){
-            $scope.pagePermissionValue[accountsService.getCounter()] = {desc: "Enable Access to all features", code: "ENABLE_ALL"}
+            _customctrl.accountIndex = accountsService.getCounter()
+            $scope.pagePermissionValue[_customctrl.accountIndex] = {desc: "Enable Access to all features", code: "ENABLE_ALL"}
             accountsService.setCounter();
             if(!$scope.User.data[accountsService.getCounter()-1])
                 $scope.User.data[accountsService.getCounter()-1] = {};
 
             $scope.User.data[accountsService.getCounter()-1]["accessLevel"] = defaultAccess;
-            $scope.permissions.push({addPermission:[{}]});
+            $scope.permissions.push({addPermission:[]});
+            $scope.dropdownList.push({"clients":[], "pages":[]});
+
         };
 
         $scope.setPermissionAccess = function(index,val){
@@ -244,38 +321,39 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
 
                  },'cancellable');
             },
-            getUserBrands:function(clientId,advertiserId,index,editmode,editData){
+            getUserBrands:function(clientId,advertiserId,accountIndex,permissionIndex,editmode,editData){
                 accountsService.getAdvertisersBrand(clientId,advertiserId).then(function(res){
-                    if(res.data.data) {
-                        if(!$scope.userModalData[index]){
-                            $scope.userModalData[index] = {};
-                            $scope.userModalData[index]['Brands'] = [];
-                        }
-                        $scope.userModalData[index]['Brands'] = res.data.data;
-                    }
-
-                    if(editmode){
-                        var brandIndex = _.findIndex($scope.userModalData[index]['Brands'], function(item) {
-                            return item.id == editData.brandId});
-
-                        if(brandIndex != -1){
-                            $scope.selectBrand($scope.userModalData[index]['Brands'][brandIndex],index,editmode,editData);
-                        }
-                    }
+//                    if(res.data.data) {
+//                        if(!$scope.userModalData[index]){
+//                            $scope.userModalData[index] = {};
+//                            $scope.userModalData[index]['Brands'] = [];
+//                        }
+//                        $scope.userModalData[index]['Brands'] = res.data.data;
+//                    }
+                    $scope.dropdownList[accountIndex][permissionIndex]['brands'] = res.data.data;
+//                    if(editmode){
+//                        var brandIndex = _.findIndex($scope.userModalData[index]['Brands'], function(item) {
+//                            return item.id == editData.brandId});
+//
+//                        if(brandIndex != -1){
+//                            $scope.selectBrand($scope.userModalData[index]['Brands'][brandIndex],index,editmode,editData);
+//                        }
+//                    }
                 });
 
                 //$scope.userModalData['Brands']=[{id:0,name:"All Brands"},{id:22,name:"brand1"},{id:23,name:"brand2"},{id:24,name:"brand3"}]
 
             },
-            getUserAdvertiser:function(clientObj,index,editmode,editData){
+            getUserAdvertiser:function(clientObj,accountIndex, permissionIndex, editmode,editData){
                 accountsService.getClientsAdvertisers(clientObj.id).then(function(res){
                     var counter = accountsService.getCounter();
                     if(res.data.data){
-                        if(!$scope.userModalData[index]){
-                            $scope.userModalData[index] = {};
-                            $scope.userModalData[index]['Advertisers'] = [];
-                        }
-                        $scope.userModalData[index]['Advertisers'] = res.data.data;
+//                        if(!$scope.userModalData[index]){
+//                            $scope.userModalData[index] = {};
+//                            $scope.userModalData[index]['Advertisers'] = [];
+//                        }
+//                        $scope.userModalData[index]['Advertisers'] = res.data.data;
+                        $scope.dropdownList[accountIndex]['advertisers'] = res.data.data;
 
                         if(editmode){
                             var advertiserIndex = _.findIndex($scope.userModalData[index]['Advertisers'], function(item) {
@@ -286,6 +364,7 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                             }
 
                         }
+                        userModalPopup.getUserBrands(2, 4, accountIndex, permissionIndex);
                         //$scope.userModalData['Advertisers'][0] = {id:0,name:"All Advertisers"}
                     }
                 });
@@ -335,9 +414,9 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
         //else{console.log("reset")
 
         //}
-        userModalPopup.getUserAdvertiser({id: 2}, 0);
-        userModalPopup.getUserBrands(2, 4, 0);
-        userModalPopup.getUserPermission();
+       // userModalPopup.getUserAdvertiser({id: 2}, 0);
+       // userModalPopup.getUserBrands(2, 4, 0);
+       // userModalPopup.getUserPermission();
 
         userModalPopup.getUserPages();
 
@@ -466,13 +545,17 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
 
         $scope.superUserToggleClicked = function(ev){
             $scope.isCurr_SuperUser = $("#cmn-toggle-1").prop('checked');
+            if(!$scope.isCurr_SuperUser){
+                $scope.permissions = []
+            }
         }
         $scope.adminUserToggleClicked = function(accountIndex, permissionIndex, ev){
-            var sel = $("div[id*=addPermission_"+accountIndex+"_], div[id*=addPermissionText_"+accountIndex+"_]")
+            var sel = $("div[id*=addPermission_"+accountIndex+"_], #addPermissionText_"+accountIndex);
             if(!$("#admin-toggle-"+accountIndex).prop('checked')) {
                 sel.show();
             }else{
                 $scope.pagePermissionValue[accountIndex] = {desc: "Enable Access to all features", code: "ENABLE_ALL"}
+                $scope.permissions[accountIndex].addPermission = [];
                 sel.hide();
             }
         }
@@ -492,7 +575,29 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
             }
         }
         $scope.addPermission = function(accountIndex){
-            $scope.permissions[accountIndex].addPermission.push({});
+            $scope.permissions[accountIndex].addPermission.push({"advertiserId":null,
+                                                                 "advertiserName":"Select Advertiser",
+                                                                 "brandId": null,
+                                                                 "brandName": "Select Brand",
+                                                                 "permissionName": "Select",
+                                                                 "permissionValue": "All"
+                                                               });
+            if(!$scope.dropdownList[accountIndex]["advertisers"]) {
+                $scope.dropdownList[accountIndex]["advertisers"] = [];
+            }
+            if(!$scope.dropdownList[accountIndex]["permission"]) {
+                $scope.dropdownList[accountIndex]["permission"] = [{value:"admin",name:"Admin"},{value:"write",name:"Write"},{value:"read",name:"Read"}];
+            }
+            var len = $scope.permissions[accountIndex].addPermission.length;
+            if(!$scope.dropdownList[accountIndex][len - 1]) {
+                $scope.dropdownList[accountIndex][len - 1] = {}
+                $scope.dropdownList[accountIndex][len - 1]["brands"] = [];
+            }
+            userModalPopup.getUserAdvertiser({id:2}, _customctrl.accountIndex, len-1);
+//            _.each($scope.permissions[accountIndex].addPermission, function(item, i){
+//
+//            })
+           // $scope.dropdownList[accountIndex]["brands"] = [];
         }
         $scope.deletePermission = function(accountIndex, permissionIndex, event) {// the last one getting deleted always
             var arr = $scope.permissions[accountIndex].addPermission;
@@ -500,6 +605,12 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                 return i !== permissionIndex;
             });
             $scope.permissions[accountIndex].addPermission = arr;
+
+            delete $scope.dropdownList[accountIndex][permissionIndex];
+            delete $scope.dropdownList[accountIndex].advertisers;
+
+
+
 //            var elem = $(event.target);
 ////            elem.closest(".add-filters").remove();
 //            $scope.permissions.splice(index,1);
@@ -517,6 +628,12 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                 return i !== accountIndex;
             });
             $scope.permissions = arr;
+
+            arr = $scope.dropdownList;
+            $scope.dropdownList = _(arr).filter(function(item, i) {
+                return i !== accountIndex;
+            });
+            //$scope.dropdownList[accountIndex] = arr;
         }
 
     });
