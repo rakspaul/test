@@ -225,7 +225,7 @@ define(['common'], function (angularAMD) {
                 controller: 'CreateCampaignController',
                 controllerUrl: '/scripts/workflow/controllers/campaign_create_controller',
                 resolve: {
-                    'check': function ($location, RoleBasedService, workflowService, constants,featuresService) {
+                    'check': function ($location, RoleBasedService, workflowService, constants,featuresService,$rootScope) {
                         var isWorkflowUser =
                             RoleBasedService.getClientRole() && RoleBasedService.getClientRole().workFlowUser;
                         workflowService.setMode('create');
@@ -238,6 +238,9 @@ define(['common'], function (angularAMD) {
                             $location.path('/');
                         }
                         featuresService.setGetFeatureParams('create_mediaplan');
+                        var featuredFeatures = $rootScope.$on('features', function () {
+                            featuresService.setGetFeatureParams('create_mediaplan');
+                        });
                     }
                 }
             }))
@@ -441,7 +444,7 @@ define(['common'], function (angularAMD) {
                 controller: 'CreativeListController',
                 controllerUrl: 'workflow/controllers/creative_list_controller',
                 resolve: {
-                    'check': function ($location, RoleBasedService, workflowService, constants,featuresService) {
+                    'check': function ($location, RoleBasedService, workflowService, constants,featuresService,$rootScope) {
                         var isWorkflowUser =
                             RoleBasedService.getClientRole() && RoleBasedService.getClientRole().workFlowUser;
 
@@ -455,6 +458,9 @@ define(['common'], function (angularAMD) {
                             $location.path('/');
                         }
                         featuresService.setGetFeatureParams('creative_list');
+                        var featuredFeatures = $rootScope.$on('features', function () {
+                            featuresService.setGetFeatureParams('creative_list');
+                        });
                     }
                 }
             }))
