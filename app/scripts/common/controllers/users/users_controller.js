@@ -4,9 +4,11 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
         $scope.textConstants = constants;
         $scope.UsersData={};
         $scope.userConsoleFormDetails={};
+
         
         //Add or Edit Pop up for User
         $scope.AddOrEditUserModal = function(mode,userObj) {
+
             //$timeout(function () {
             //    $rootScope.$broadcast('resetUserModal');
             //}, 500)
@@ -48,7 +50,7 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
             }
         };
         
-        $scope.closeForm = function () {
+        $scope.userConsoleFormDetails = function () {
             $('.user-list, .users-creation-page .heading').fadeIn();
             $('.edit-dialog').fadeOut();
         }

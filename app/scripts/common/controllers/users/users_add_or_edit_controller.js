@@ -10,36 +10,53 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
         $scope.permissions = [];
         $scope.pagePermissionValue = {};
         $scope.dropdownList = []
-        $scope.isSuperAdmin=true;
-        $scope.clientName=[];
-        $scope.advertiserName=[];
-        $scope.brandName=[];
+        $scope.isSuperAdmin = true;
+        $scope.clientName = [];
+        $scope.advertiserName = [];
+        $scope.brandName = [];
         $scope.User = {
             data: []
         };
         $scope.Usernew = {
             data: []
         };
-        $scope.userModalData=[];
+        $scope.userModalData = [];
 
         $scope.editmode = false;
         var defaultAccess = 'ADMIN';
         var editedUserDetails = {};
         $scope.userConsoleFormDetails.roleTemplateId = constants.account_admin;
-        
 
-        $scope.close=function(){
+
+        $scope.close = function () {
             //$modalInstance.dismiss();
         };
-        $scope.selectedRole=function(roleType){
-            if(roleType == constants.super_admin){
-                $scope.isSuperAdmin=true;
+        $scope.selectedRole = function (roleType) {
+            if (roleType == constants.super_admin) {
+                $scope.isSuperAdmin = true;
                 $scope.permissions = [];
             }
             else
-                $scope.isSuperAdmin=false;
+                $scope.isSuperAdmin = false;
 
         };
+        _customctrl.validateInputs = function () {
+
+            var icheck = ["email", "firstName", "lastName", "password"],
+                len = icheck.length,
+                retVal = true;
+            for(var i=0; i<len; i++){
+                console.log("icheck[i]..."+icheck[i]+"......."+$scope.userConsoleFormDetails[icheck[i]]+"...."+_customctrl.validateVal($scope.userConsoleFormDetails[icheck[i]]))
+                if(!_customctrl.validateVal($scope.userConsoleFormDetails[icheck[i]])){
+                    $rootScope.setErrAlertMessage("Please enter a valid user credentials");
+                    return false;
+                }
+            }
+           // _.each(icheck, function(item){
+
+           // });
+            return retVal;
+        }
         _customctrl.createData = function(){
             var timeNow = momentService.newMoment(new Date()).format('YYYY-MM-DD HH-MM-SS.SSS');
             console.log($scope);
@@ -48,6 +65,7 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                 "firstName": $scope.userConsoleFormDetails.firstName,
                 "lastName": $scope.userConsoleFormDetails.lastName,
                 "email": $scope.userConsoleFormDetails.email,
+                "password": $scope.userConsoleFormDetails.password,
                // "roleTemplateId": ($scope.isCurr_SuperUser ? 1 : 2),
                 "status": true,
                 "createdBy": null,
@@ -160,9 +178,18 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
             });
 
         };
+        _customctrl.validateVal = function(val){
+            return (typeof val == "undefined" || val.trim() == "") ? false : true;
+        }
+
         $scope.saveUserForm = function( ){
          //   console.log(_customctrl.createData());
+            if(!_customctrl.validateInputs()){
+                return;
+            }
             accountsService.createUser(_customctrl.createData()).then(function(res){
+                $('.user-list, .users-creation-page .heading').fadeIn();
+                $('.edit-dialog').fadeOut();
                 if (res.status === "OK" || res.status === "success") {
                     $rootScope.$broadcast('refreshUserList');
                     $scope.resetFields();
@@ -370,15 +397,8 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                     var counter = accountsService.getCounter(),
                         arr = null;
                     if(res.data.data){
-//                        if(!$scope.userModalData[index]){
-//                            $scope.userModalData[index] = {};
-//                            $scope.userModalData[index]['Advertisers'] = [];
-//                        }
-//                        $scope.userModalData[index]['Advertisers'] = res.data.data;
                         arr = res.data.data;
-                        console.log("arr....",arr);
                         arr.unshift({id: -1, name: constants.ALL_ADVERTISERS});
-                        console.log("arr...1...",arr);
                         $scope.dropdownList[accountIndex]['advertisers'] = arr;
 
                         if(editmode){
@@ -435,11 +455,8 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
         };
 
         $scope.resetFields();
-        if(!$scope.editmode)
-            userModalPopup.getUserClients();
-        //else{console.log("reset")
-
-        //}
+//        if(!$scope.editmode)
+//            userModalPopup.getUserClients();
        // userModalPopup.getUserAdvertiser({id: 2}, 0);
        // userModalPopup.getUserBrands(2, 4, 0);
        // userModalPopup.getUserPermission();
