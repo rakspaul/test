@@ -409,6 +409,8 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
         
         $scope.hideUploadRecordsMessage = function() {
             $scope.showUploadRecordsMessage = false;
+            $scope.successfulRecords = [];
+            creativeList.getCreativesList(JSON.parse(localStorage.selectedClient).id,'', '',20, 1);
         };
 
 
