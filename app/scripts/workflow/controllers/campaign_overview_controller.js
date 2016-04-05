@@ -54,6 +54,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             $scope.isAdGroupsSearchReset = false;
             $scope.isAdGroupsSearched = false;
             $scope.adGroupsNoData = false;
+            $scope.isAdGroupsBusy = false;
 
             $scope.adGroupsSearchFunc = function (e) {
                 var searchTermsArr,
@@ -63,6 +64,9 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 if (!e || e.keyCode === 13) {
                     $scope.adGroupsNoData = false;
                     $scope.isAdGroupOpen = false;
+
+                    // Show animated 'busy' icon and hide search results
+                    $scope.isAdGroupsBusy = true;
 
                     $scope.adGroupsSearchTerm = $scope.adGroupsSearchTerm ? $scope.adGroupsSearchTerm.trim() : '';
 
@@ -497,6 +501,9 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                                 _.each($scope.workflowData.campaignAdsData, function (obj) {
                                     obj.nameHtml = $scope.highlightTitleText(obj.name, $scope.adGroupsSearchTerm);
                                 });
+
+                                // Hide animated 'busy' icon and show search results
+                                $scope.isAdGroupsBusy = false;
                                 // **Non Ad Group Ads section end here
                             } else {
                                 campaignOverView.errorHandler(result);
