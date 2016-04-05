@@ -48,7 +48,6 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
             $scope.isLeafNode = loginModel.getMasterClient().isLeafNode;
 
-            // TODO:
             $scope.adGroupsSearchTerm = '';
             $scope.adGroupsSearchTermsArr = [''];
             $scope.adGroupsSearchTermChanged = false;
@@ -60,7 +59,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 var searchTermsArr,
                     len;
 
-                // Perform search if enter key is pressed & user has entered something.
+                // Perform search if enter key is pressed or search button is clicked.
                 if (!e || e.keyCode === 13) {
                     $scope.adGroupsNoData = false;
                     $scope.isAdGroupOpen = false;
@@ -78,19 +77,44 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                             $scope.adGroupsSearchTermChanged = true;
                         }
 
-                        console.log($scope.adGroupsSearchTermsArr, ', changed = ', $scope.adGroupsSearchTermChanged);
-
-                        // TODO: The following 2 API calls will be replaced by the Search API call
-                        //campaignOverView.getAdsForCampaign($routeParams.campaignId);
                         $scope.isAdGroupsSearched = true;
                     } else {
                         // Empty search term
                         $scope.isAdGroupsSearched = false;
-                        console.log('Search for ad groups, without search term');
-                        //campaignOverView.getAdsForCampaign($routeParams.campaignId);
-                        //campaignOverView.getAdgroups($routeParams.campaignId, $scope.isAdGroupsSearched);
                     }
                     campaignOverView.getAdgroups($routeParams.campaignId, $scope.adGroupsSearchTerm);
+                }
+            };
+
+            //Search Hide / Show
+            $scope.adGroupsShowInput = function () {
+                var searchInputForm = $('.searchInputForm');
+
+                $('.searchInputBtn').hide();
+                $('.searchInputBtnInline').show();
+                searchInputForm.show();
+                searchInputForm.animate({width: '400px'}, 'fast');
+                setTimeout(function () {
+                    $('.searchClearInputBtn').fadeIn();
+                }, 300);
+            };
+
+            $scope.adGroupsHideInput = function () {
+                $('.searchInputForm input').val('');
+                $('.searchInputBtn').show();
+                $('.searchClearInputBtn, .searchInputBtnInline').hide();
+                $('.searchInputForm').animate({width: '44px'}, 'fast');
+                setTimeout(function () {
+                    $('.searchInputForm').hide();
+                }, 100);
+
+                if ($scope.isAdGroupsSearched) {
+                    $scope.isAdGroupsSearched = false;
+                    $scope.isAdGroupsSearchReset = true;
+                    $scope.adGroupsSearchTermChanged = false;
+                    $scope.adGroupsSearchTerm = '';
+                    $scope.adGroupsSearchTermsArr = [''];
+                    $scope.adGroupsSearchFunc();
                 }
             };
 
@@ -380,11 +404,10 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                                 $scope.workflowData.campaignAdsData =
                                     campaignOverView.adsDataMofiderFunc(responseData);
 
-                                // TODO: Highlight non-Adgroup ad name
+                                // Highlight non-Adgroup ad name
                                 _.each($scope.workflowData.campaignAdsData, function (obj) {
                                     obj.nameHtml = $scope.highlightTitleText(obj.name, $scope.adGroupsSearchTerm);
                                 });
-                                // End of TODO
 
                                 isAdsInProgressState = _.filter(responseData, function (obj) {
                                     return obj.state === 'DEPLOYING';
@@ -414,14 +437,9 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                                 $scope.adGroupsCount = result.data.data.ad_groups_count;
                                 $scope.adsCount = result.data.data.search_ads_count;
                                 nonAdGroupAds = result.data.data.no_ad_group_ads;
-                                console.log('Response Data = ', result.data.data,
-                                    ', Ad groups = ', responseData,
-                                    ', Non-Ad group ads = ', nonAdGroupAds,
-                                    ', Ad groups count = ', $scope.adGroupsCount,
-                                    ', Non-ad group ads count = ', $scope.adsCount);
 
-                                // TODO: temp, testing highlighting of Ad group name & label pills
-                                //       NOTE: The highlighting will be done at the Search API call.
+                                // Highlighting of Ad group name & label pills.
+                                // The highlighting will be done at the Search API call.
                                 _.each(responseData, function (obj) {
                                     var i,
                                         j,
@@ -457,7 +475,6 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                                         }
                                     }
                                 });
-                                // TODO ends here
 
                                 $scope.workflowData.campaignGetAdGroupsData = responseData;
 
@@ -487,7 +504,6 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                         }, campaignOverView.errorHandler);
                 },
 
-                // TODO: Test this next for ads within an ad group
                 getAdsInAdGroup: function (campaignId, adGroupId, index) {
                     workflowService
                         .getAdsInAdGroup(campaignId, adGroupId)
@@ -512,18 +528,12 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                                 $scope.workflowData.getADsForGroupData[index] =
                                     campaignOverView.adsDataMofiderFunc(responseData);
 
-                                //obj.adGroup.nameHtml =
-                                //    $scope.highlightTitleText(obj.adGroup.nameHtml, searchTerm);
-
-                                // TODO: Highlight Ad titles inside Ad Group
+                                // Highlight Ad titles inside Ad Group
                                 if ($scope.workflowData.getADsForGroupData[index].length) {
                                     _.each($scope.workflowData.getADsForGroupData[index], function (obj) {
-                                        console.log(obj.name);
                                         searchTerm = $scope.adGroupsSearchTerm.toLowerCase().trim();
                                         obj.nameHtml = $scope.highlightTitleText(obj.name, searchTerm);
                                     });
-                                } else {
-                                    console.log('No ads in Ad group');
                                 }
 
                                 isAdsInProgressState = _.filter(responseData, function (obj) {
@@ -677,7 +687,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     // This is to avoid seeing the previously highlighted keywords in the ads title.
                     // It is not cleared in the following circumstances:
                     // - When not in search mode (except in #2 scenario above).
-                    // - When performing search using the exact search term as the last search. TODO:
+                    // - When performing search using the exact search term as the last search.
                     if (($scope.isAdGroupsSearched && $scope.adGroupsSearchTermChanged) ||
                             $scope.isAdGroupsSearchReset) {
                         $scope.isAdGroupsSearchReset = false;
@@ -979,39 +989,6 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     }
                 }
             };
-
-            //Search Hide / Show
-            $scope.searchShowInput = function () {
-                var searchInputForm = $('.searchInputForm');
-
-                $('.searchInputBtn').hide();
-                searchInputForm.show();
-                searchInputForm.animate({width: '400px'}, 'fast');
-            };
-
-            $scope.searchHideInput = function () {
-                var inputSearch = $('.searchInputForm input');
-
-                $('.searchInputForm').animate({width: '44px'}, 'fast');
-                setTimeout(function () {
-                    $('.searchInputForm').hide();
-                }, 300);
-                setTimeout(function () {
-                    $('.searchInputBtn').fadeIn();
-                }, 300);
-
-                // TODO:
-                if ($scope.isAdGroupsSearched) {
-                    $scope.isAdGroupsSearched = false;
-                    $scope.isAdGroupsSearchReset = true;
-                    $scope.adGroupsSearchTermChanged = false;
-                    $scope.adGroupsSearchTerm = '';
-                    $scope.adGroupsSearchTermsArr = [''];
-                    $scope.adGroupsSearchFunc();
-                }
-            };
-
-
 
             $(document).on('changeDate', '.adGrpStartDateInput', function(ev) {
                 var formElem = $(ev.target).closest('form'),

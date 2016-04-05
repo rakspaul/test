@@ -169,18 +169,6 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                         url += '?status=ACTIVE';
                     }
 
-                    if (searchTerm) {
-                        console.log('searchTerm = ', searchTerm)
-                    } else {
-                        console.log('Normal non-search call')
-                    }
-                    //url = 'http://qa-desk.collective.com/api/reporting/v3/clients/2/campaigns/824/search/adgroups?search_term=ad';
-                    //url = 'http://qa-desk.collective.com/api/workflow/v3/clients/2/campaigns/824/search/adgroups?search_term=ad';
-                    //url = 'http://qa-desk.collective.com/api/workflow/v3/clients/2/campaigns/824/ad_groups';
-                    console.log('URL = ', url);
-                    //'http://qa-desk.collective.com/api/reporting/v3/clients/2/campaigns/929/search/adgroups?search_term=keerthi'
-                    //'http://qa-desk.collective.com/api/workflow/v3/clients/2/campaigns/824/ad_groups'
-
                     return dataService.fetch(url, {
                         cache: false
                     });

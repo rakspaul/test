@@ -195,8 +195,7 @@ define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', 'reporting/campaig
                 };
 
                 $scope.searchHideInput = function () {
-                    var inputSearch = $('.searchInputForm input');
-
+                    $('.searchInputForm input').val('');
                     $('.searchInputBtn').show();
                     $('.searchClearInputBtn, .searchInputBtnInline').hide();
                     $('.searchInputForm').animate({width: '34px'}, 'fast');
@@ -211,11 +210,6 @@ define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', 'reporting/campaig
                         $scope.campaigns.resetFilters();
                         $scope.campaigns.fetchData();
                     }
-                };
-
-                $scope.searchClearInput = function () {
-                    var inputSearch = $('.searchInputForm input');
-                    inputSearch.val('');
                 };
 
                 $('body').click(function(e) {
