@@ -10,7 +10,7 @@
 					<h1 class="campaign_name">{{textConstants.MP_TITLE}}</h1>
 					<ul class="stepCompLabel nav nav-tabs" id="mediaTab">
 						<li class="active eachStepCompLabel">
-							<a class="leftNavLink selected" data-target="#settings" data-toggle="tab">1 {{ textConstants.WF_SETTINGS}}</a>
+							<a class="leftNavLink selected" data-target="#settings" data-toggle="tab">1 About this Media Plan</a>
 							<div class="statusLabel" ng-hide="selectedCampaign.goal.name || selectedCampaign.startTime || selectedCampaign.budget">
 								<div class="col-md-12">
 									<span>{{textConstants.WF_NOT_SET}}</span>
@@ -64,8 +64,18 @@
 								</div>
 							</div>
 						</li>
+
+                        <li class="clearfix eachStepCompLabel" >
+							<a class="leftNavLink" data-target="#pixels" data-toggle="tab">2 Pixels</a>
+							<div class="statusLabel disabled">
+								<div class="col-md-12">
+									<span>{{textConstants.WF_NOT_SET}}</span>
+								</div>
+							</div>
+						</li>
+
 						<li class="clearfix eachStepCompLabel" >
-							<a class="leftNavLink budget-page-trigger" data-target="#budget" data-toggle="tab">2 {{textConstants.MP_BUDGET}}</a>
+							<a class="leftNavLink budget-page-trigger" data-target="#budget" data-toggle="tab">3 {{textConstants.MP_BUDGET}} $ Measure</a>
 							<div class="statusLabel " ng-hide="Campaign.totalBudget || Campaign.deliveryBudget">
 								<div class="col-md-12">
 									<span>{{textConstants.WF_NOT_SET}}</span>
@@ -93,8 +103,9 @@
 								</div>
 							</div>
 						</li>
-						<li class="clearfix eachStepCompLabel" >
-							<a class="leftNavLink" data-target="#addLineItems" data-toggle="tab">3 Add Line Items</a>
+
+                        <li class="clearfix eachStepCompLabel" >
+							<a class="leftNavLink" data-target="#addLineItems" data-toggle="tab">4 Line Items</a>
 							<div class="statusLabel disabled">
 								<div class="col-md-12">
 									<span>{{textConstants.WF_NOT_SET}}</span>
@@ -143,6 +154,12 @@
 
 							<div ng-include="'/views/workflow/partials/campaign_create/settings.html'"></div>
 						</div>
+
+                        <!--Pixels-->
+						<div class="tab-pane fade" id="pixels">
+							<div ng-include="'/views/workflow/partials/campaign_create/pixels.html'"></div>
+						</div>
+
 
 						<!--Budget-->
 						<div class="tab-pane fade" id="budget">
