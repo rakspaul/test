@@ -1,0 +1,327 @@
+<h3 class="col-md-6 adName" tooltip="{{adData.adName}}">
+    {{selectedCampaign.campaignName.length>0 ? (selectedCampaign.campaignName | textEllipsis: 40 ) : editCampaignData.name}}
+</h3>
+<!--==== Row 1 ====-->
+<div class="col-md-12 zeroPadding">
+    <label for="nameTitleCampaign" class="col-sm-12 labelQuestTxt" style="margin-bottom: 5px;">{{selectedChannel | toTitleCase}} - Set up how you want to Budget and Measure</label>
+    <div class="col-md-12 zeroPadding marginCal">
+        <div class="calTable form-group" show-errors>
+            <h3>Total Budget</h3>
+            <div class="symbol-input">
+                <span class="symbol">{{locale.NUMBER_FORMATS.CURRENCY_SYM}}</span>
+                <input type="text"  ng-model="Campaign.totalBudget" name="totalBudget" class="form-control col-sm-8" ng-keyup="ComputeCost()" whole-number-only="whole-number-only" required/>
+            </div>
+            <label ng-if="createCampaignForm.totalBudget.$error.required" class="txtError budgetError errorLabel" >{{textConstants.TOTAL_BUDGET_REQUIRED}}</label>
+            <label ng-if="Campaign.totalBudget<=0" class="txtError budgetError">{{textConstants.TOTAL_BUDGET_GREATER_THAN_ZERO}}</label>
+        </div>
+        <div class="calTable">
+            <h3>Margin (Optional)</h3>
+            <div class="symbol-input">
+                <span class="symbol" style="left: initial; right: 15px;">{{textConstants.SYMBOL_PERCENT}}</span>
+                <input type="text" ng-model="Campaign.marginPercent" class="form-control col-sm-8" ng-keyup="ComputeCost()" style="text-align: center; padding-left: 8px;padding-right:21px;" whole-number-only="whole-number-only"/>
+            </div>
+        </div>
+        <div class="calTable calTableLarge">
+            <h3>Est. Non-Inventory Cost</h3>
+            <div class="symbol-input blindInput">
+                <span class="onlyShowValue" ><span>{{locale.NUMBER_FORMATS.CURRENCY_SYM}} </span><span ng-style="inventoryExceeds ? {'color':'#F9B537'}:''" ng-bind="Campaign.nonInventoryCost | setDecimal:2 | number : fractionSize"></span></span>
+                <input type="text" style="display:none" ng-model="Campaign.nonInventoryCost" class="form-control col-sm-8" />
+            </div>
+            <label ng-if="Campaign.nonInventoryCost>Campaign.totalBudget" class="col-sm-12 txtError budgetError" >{{textConstants.NON_INVENTORY_COST_GREATER_THAN_ZERO}}</label>
+        </div>
+        <div class="calTable calTableLarge">
+            <h3>Delivery Budget</h3>
+            <div class="symbol-input blindInput">
+                <span class="onlyShowValue"><span>{{locale.NUMBER_FORMATS.CURRENCY_SYM}} </span><span ng-style="deliveryBudgetNegative ? {'color':'#F9B537'}:''" ng-bind="Campaign.deliveryBudget? (Campaign.deliveryBudget | setDecimal:2 | number : fractionSize ):'' "></span></span>
+                <input type="text" style="display:none"  ng-model="Campaign.deliveryBudget" class="form-control col-sm-8" />
+            </div>
+            <label ng-if="deliveryLesserBookedspend" class="col-sm-12 txtError budgetError">{{textConstants.DELIVERY_BUDGET_BOOKEDSPEND}}({{editCampaignData.bookedSpend}})</label>
+            <label ng-if="Campaign.deliveryBudget<0" class="col-sm-12  txtError budgetError">{{textConstants.DELIVERY_BUDGET_GREATER_THAN_ZERO}}</label>
+        </div>
+        <div class="calTable calTableLarge">
+            <h3>Effective {{primaryType ? primaryType:'CPM'}}</h3>
+            <div class="symbol-input blindInput">
+                <span class="onlyShowValue"><span>{{locale.NUMBER_FORMATS.CURRENCY_SYM}} </span><span ng-style="effectiveNegative ? {'color':'#F9B537'}:''" ng-bind="Campaign.effectiveCPM | setDecimal:2 | number : fractionSize"></span></span>
+                <input type="text" style="display:none;" ng-model="Campaign.effectiveCPM" class="form-control col-sm-8" />
+            </div>
+        </div>
+        <div class="calTable calculate_btn">
+            <a class="btn btn-default pull-right" role="button" ng-click="ComputeCost()" >
+                <div class="glyphicon glyphicon-refresh pull-left" aria-hidden="true"></div>
+                <span>Calculate</span>
+            </a>
+        </div>
+    </div>
+</div>
+
+<!--==== Row 2 ====-->
+<div class="col-md-12 zeroPadding">
+    <label for="nameTitleCampaign" class="col-sm-12 labelQuestTxt" style="margin-bottom: 5px;"><span class="pull-left">{{textConstants.SELECT_KPIS}}</span><span ng-if="!isPrimarySelected" class="pull-left errorLabel show" style="margin-left: 115px;">You must select Primary KPI.</span></label>
+    <div class="col-md-12 zeroPadding">
+        <div class="col-md-3 zeroPadding kpiTable">
+            <h3>KPI</h3>
+            <label for="primaryKPI" class="col-sm-12 greyTxt miniLabels">{{textConstants.SELECT_ONE_YOU_MAY_ADD}}</label>
+        </div>
+        <div class="col-md-2 zeroPadding kpiTable">
+            <h3>Primary KPI</h3>
+            <label for="primaryKPI" class="col-sm-12 greyTxt miniLabels">{{textConstants.ONE_PRIMARY}}</label>
+        </div>
+        <div class="col-md-3 zeroPadding kpiTable">
+            <h3>Vendor</h3>
+            <label for="primaryKPI" class="col-sm-12 greyTxt miniLabels">{{textConstants.SELECT_ONE}}</label>
+        </div>
+        <div class="col-md-2 zeroPadding kpiTable" style="width: 130px;">
+            <h3>Target</h3>
+            <label for="primaryKPI" class="col-sm-12 greyTxt miniLabels">{{textConstants.ENTER_VALUE}}</label>
+        </div>
+        <div class="col-md-2 zeroPadding kpiTable">
+            <h3>Use for Billing</h3>
+            <label for="primaryKPI" class="col-sm-12 greyTxt miniLabels">{{textConstants.KPI_BILLING}}</label>
+        </div>
+    </div>
+    <div class="col-md-12 zeroPadding" ng-repeat="kpiObj in Campaign.kpiArr track by $index" style="margin-bottom:10px;">
+
+        <div class="col-md-3 zeroPadding kpiTable">
+            <div class="col-md-12 zeroPadding dropdown-workflow">
+                <div class="dropdown">
+                    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" >
+                        <span class="text" ng-bind="Campaign.kpiArr[$index]['kpiType'] | displayToCamelCase"></span>
+                        <span class="icon-arrow-down" ></span>
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="selectKPI"  id="selectKPI">
+                        <li class="kpi.active?available:''" ng-class="{disabled : !kpi.active, available : kpi.active}" ng-repeat="kpi in workflowData.Kpi" ng-click="kpi.active ? selectedKpi($parent.$index,kpi): ''" >
+                            <a>{{kpi.name}}</a>
+                        </li>
+                    </ul>
+                    <input type="hidden" name="kpi"  ng-model="Campaign.kpiArr[$index]['kpiType']" ng-value="kpi.name" field="kpiType" index="{{$index}}" required hiddenkpi>
+                    <!--<input type="hidden" name="kpi" ng-init="Campaign.kpiArr[$index]['kpiType']='Select from list';" ng-model="Campaign.kpiArr[$index]['kpiId']" ng-value="{{kpi.id}}" field="kpiId" index="{{$index}}" required hiddenkpi>-->
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-2 zeroPadding kpiTable">
+
+
+            <div class="col-md-12 btn-group goalBtnGroup zeroPadding">
+                <label class="btn btn-primary first " ng-class="Campaign.kpiArr[$index]['isPrimary']=='true' ?'active':''">
+                    <input type="radio" name="demoType" autocomplete="off" ng-click="primaryKpiSelected($event,$index,true);" ng-model="Campaign.kpiArr[$index]['isPrimary']" ng-value=true field="isPrimary" index="{{$index}}" hiddenKpi>
+                    <div class="hideRadioBtn" style="margin-top: -18px;">
+                        <span style="margin: 0;">Yes</span>
+                    </div>
+                </label>
+                <label class="btn btn-primary last" ng-class="Campaign.kpiArr[$index]['isPrimary']==false ?'active':''">
+                    <input type="radio" name="demoType" autocomplete="off" ng-click="primaryKpiSelected($event,$index,false);" ng-model="Campaign.kpiArr[$index]['isPrimary']" ng-value=false field="isPrimary" index="{{$index}}" hiddenKpi>
+                    <div class="hideRadioBtn" style="margin-top: -18px;">
+                        <span style="margin: 0;">No</span>
+                    </div>
+                </label>
+            </div>
+        </div>
+        <div class="col-md-3 zeroPadding kpiTable">
+
+            <div class="col-md-12 zeroPadding dropdown-workflow">
+                    <div class="dropdown">
+                        <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" >
+                            <span class="text" ng-bind="Campaign.kpiArr[$index]['vendorName']"></span>
+                            <span class="icon-arrow-down"></span>
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="selectKPI"  id="selectKPI">
+                            <li ng-repeat="vendor in workflowData.vendor" ng-click="selectedVendor($parent.$index,vendor)" class="available"><a>{{vendor.name}}</a></li>
+                        </ul>
+                        <input ng-if="mode!=='edit'" type="hidden" name="vendor" ng-init="Campaign.kpiArr[$index]['vendorName']='Select from list';"  ng-model="Campaign.kpiArr[$index]['vendorId']" ng-value="vendor.id" field="vendorId" index="{{$index}}" hiddenkpi required>
+                        <input ng-if="mode==='edit'"type="hidden" name="vendor" ng-model="Campaign.kpiArr[$index]['vendorId']"  ng-value="vendor.id" field="vendorId" index="{{$index}}" hiddenkpi>
+                    </div>
+                <label ng-if="Campaign.kpiArr[$index]['vendorId']==='' && saveCampaignClicked"  class="col-sm-12  greyTxt errorLabel" style="display:block;">Select Vendor</label>
+            </div>
+        </div>
+
+        <div class="col-md-2 zeroPadding kpiTable symbol-input">
+
+            <span class="symbol">#</span>
+            <input type="text" class="col-md-12" style="text-indent: 8px;height:36px;" ng-model="Campaign.kpiArr[$index]['kpiValue']" ng-keyup="setLeftNavPrimaryKpi($index); ComputeCost()" field="kpiValue"  whole-number-only="whole-number-only" index="{{$index}}" required/>
+            <label ng-if="Campaign.kpiArr[$index]['kpiValue']==='0'"  class="col-sm-12  greyTxt errorLabel" style="display:inline;" ng-bind="textConstants.TARGET_GREATER_THAN_ZERO"></label>
+        </div>
+
+        <div class="col-md-2 zeroPadding kpiTable">
+
+
+            <div class="col-md-12 btn-group goalBtnGroup zeroPadding">
+                <label class="btn btn-primary first" ng-class="Campaign.kpiArr[$index]['isBillable']=='true' ?'active':''">
+                    <input type="radio" name="demoType" autocomplete="off" ng-click="kpiBilling($event,$index,true);" ng-model="Campaign.kpiArr[$index]['isBillable']" ng-value=true field="isBillable" index="{{$index}}" hiddenKpi>
+                    <div class="hideRadioBtn" style="margin-top: -18px;">
+                        <span style="margin: 0;">Yes</span>
+                    </div>
+                </label>
+                <label class="btn btn-primary last" ng-class="(Campaign.kpiArr[$index]['isBillable']==false && Campaign.kpiArr[$index]['isBillable'] !== '' ) ?'active':''">
+                    <input type="radio" name="demoType" autocomplete="off" ng-click="kpiBilling($event,$index,false);" ng-model="Campaign.kpiArr[$index]['isBillable']" ng-value=false field="isBillable" index="{{$index}}" hiddenKpi >
+                    <div class="hideRadioBtn" style="margin-top: -18px;">
+                        <span style="margin: 0;">No</span>
+                    </div>
+                </label>
+            </div>
+        </div>
+        <!--<span class="remove-row selectkpiObj">-->
+    <span class="remove-row" ng-if="$index>0 || (Campaign.kpiArr.length>=2)">
+    <!--<span class="remove-row">-->
+        <span class="icon-clear" index="{{$index}}" clearkpirow></span>
+    </span>
+
+    </div>
+    <div class="col-md-12 zeroPadding">
+        <a class="btn btn-link pull-left addRowMedia" ng-click="addMoreKpi()"><span class="icon-plus"></span><span>Add another KPI</span></a>
+    </div>
+</div>
+
+<!--==== Row 3 ====-->
+<div class="col-md-12 zeroPadding">
+    <label for="nameTitleCampaign" class="col-sm-12 labelQuestTxt" style="margin-bottom: 5px;">{{textConstants.ADD_COST}}</label>
+    <div class="col-md-12 zeroPadding" >
+        <div class="col-md-3 zeroPadding kpiTable" style="width: 336px;">
+            <h3>Cost Category</h3>
+            <label for="primaryKPI" class="col-sm-12 greyTxt miniLabels">{{textConstants.ADD_COST}}</label>
+        </div>
+        <div class="col-md-1 zeroPadding kpiTable" style="width: 98px;">
+            <h3>Calculation</h3>
+            <label for="primaryKPI" class="col-sm-12 greyTxt miniLabels">{{textConstants.SELECT_ONE}}</label>
+        </div>
+        <div class="col-md-2 zeroPadding kpiTable" style="width: 153px;">
+            <h3>Vendor</h3>
+            <label for="primaryKPI" class="col-sm-12 greyTxt miniLabels">{{textConstants.SELECT_ONE}}</label>
+        </div>
+        <div class="col-md-1 zeroPadding kpiTable">
+            <h3>Rate</h3>
+            <label for="primaryKPI" class="col-sm-12 greyTxt miniLabels">{{textConstants.VALUE}}</label>
+        </div>
+        <div class="col-md-1 zeroPadding kpiTable" style="width: 86px;">
+            <h3>% of Target</h3>
+            <label for="primaryKPI" class="col-sm-12 greyTxt miniLabels">{{textConstants.ENTER_VALUE}}</label>
+        </div>
+
+        <div class="col-md-1 zeroPadding kpiTable" style="padding: 0 !important; width: 145px;">
+            <h3>Description</h3>
+            <label for="primaryKPI" class="col-sm-12 greyTxt miniLabels">{{textConstants.VALUE_IN_REPORTING}}</label>
+        </div>
+    </div>
+</div>
+
+<div class="col-md-12 zeroPadding" ng-repeat="costObj in Campaign.costArr track by $index" style="margin-bottom:10px;">
+    <div class="col-md-6 zeroPadding kpiTable" style="width: 336px;">
+
+        <div class="col-md-12 zeroPadding">
+            <div class="col-md-6 zeroPadding dropdown-workflow">
+                <div class="dropdown">
+                    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ng-bind="Campaign.costArr[$index]['costCategoryName']">
+                        <!--<span class="text"  ></span>-->
+                        <span class="icon-arrow-down"></span>
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="selectKPI"  id="selectKPI">
+                        <li ng-repeat="cost in workflowData.costCategory" ng-click="selectedCostCategory($parent.$index,cost)" ng-value="cost.id" class="available"><a>{{cost.description}}</a></li>
+                    </ul>
+                    <input ng-if="mode!=='edit'" type="hidden" name="costCategory" ng-init="Campaign.costArr[$index]['costCategoryName']='Select from list'" ng-model="Campaign.costArr[$index]['costCategoryId']" ng-value="cost.id" field="costCategoryId" index="{{$index}}"  hiddencost>
+                    <input ng-if="mode==='edit'" type="hidden" name="costCategory"  ng-model="Campaign.costArr[$index]['costCategoryId']" ng-value="cost.id" field="costCategoryId" index="{{$index}}"  hiddencost>
+                </div>
+            </div>
+            <div class="col-md-6 zeroPadding kpiTable pull-right" style="width: 150px; max-width: none; padding-right: 0px !important;">
+                <div class="col-md-12 btn-group goalBtnGroup zeroPadding">
+                    <label class="btn btn-primary first " ng-class="Campaign.costArr[$index]['type']==='fixed'?'active':''">
+                        <input type="radio" name="demoType" autocomplete="off" ng-click="rateTypeSelected($event,$index,'fixed');" ng-model="Campaign.costArr[$index]['type']" ng-value="fixed" field="type" index="{{$index}}" hiddencost>
+                        <div class="hideRadioBtn" style="margin-top: -18px;">
+                            <span style="margin: 0;">Fixed</span>
+                        </div>
+                    </label>
+                    <label class="btn btn-primary last " ng-class="Campaign.costArr[$index]['type']==='variable'?'active':''">
+                        <input type="radio" name="demoType" autocomplete="off" ng-click="rateTypeSelected($event,$index,'variable');" ng-model="Campaign.costArr[$index]['type']" ng-value="variable" field="type" index="{{$index}}" hiddencost>
+                        <div class="hideRadioBtn" style="margin-top: -18px;">
+                            <span style="margin: 0;">Variable</span>
+                        </div>
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-1 zeroPadding kpiTable" style="width: 98px;">
+        <div class="col-md-12 zeroPadding dropdown-workflow">
+            <div class="dropdown">
+                <button class="btn btn-default dropdown-toggle" ng-class="Campaign.costArr[$index]['type']!='fixed'?'':'disabled'" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ng-bind="Campaign.costArr[$index]['rateTypeName']">
+                    <!--<span class="text" ></span>-->
+                    <span class="icon-arrow-down"></span>
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="selectKPI"  id="selectKPI" style="overflow:visible;">
+                    <li class="calculation.active?available:''" ng-class="{disabled : !calculation.active, available : calculation.active}"   tooltip-placement="{{!calculation.active ? 'right':''}}" tooltip="{{!calculation.active ? 'Not Available for KPI selected.':''}}" ng-repeat="calculation in workflowData.calculation" ng-click="calculation.active?selectedCalculation($parent.$index,calculation):''" ng-value="calculation.id" ><a>{{calculation.name}}</a></li>
+                </ul>
+                <input ng-if="mode!=='edit'" type="hidden" name="costcalculation" ng-init="Campaign.costArr[$index]['rateTypeName']='Select'" ng-model="Campaign.costArr[$index]['rateTypeId']" ng-value="calculation.id" field="rateTypeId" index="{{$index}}"  hiddencost>
+                <input ng-if="mode==='edit'" type="hidden" name="costcalculation" ng-model="Campaign.costArr[$index]['rateTypeId']" ng-value="calculation.id" field="rateTypeId" index="{{$index}}"  hiddencost>
+            </div>
+            <!--<label ng-if="createCampaignForm.costcalculation.$error.required" class="col-sm-12  greyTxt errorLabel">Select Calculation Type</label>-->
+
+        </div>
+    </div>
+
+    <div class="col-md-2 zeroPadding kpiTable" style="width: 153px;">
+
+        <div class="col-md-12 zeroPadding dropdown-workflow">
+            <div class="dropdown">
+                <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ng-bind="Campaign.costArr[$index]['vendorName']">
+                    <!--<span class="text" ng-bind="Campaign.costArr[$index]['vendorName']"></span>-->
+                    <span class="icon-arrow-down"></span>
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="selectKPI"  id="selectKPI">
+                    <li class="available" ng-click="selectedVendorRate($parent.$index,vendorItem)" ng-repeat="vendorItem in vendorRateData[$index]"><a>{{vendorItem.name}}</a></li>
+                    <!--<li class="available" ng-click="selectedVendorRate($parent.$index,vendorItem)" ng-repeat="vendorItem in vendorRateData[$index]['vendors']"><a>{{vendorItem.name}}</a></li>-->
+                </ul>
+                <input ng-if="mode!=='edit'" type="hidden" name="costvendor" ng-init="Campaign.costArr[$index]['vendorName']='Select from list';" ng-model="Campaign.costArr[$index]['vendorId']" ng-value="vendorItem.id" field="vendorId" index="{{$index}}"  hiddencost>
+                <input ng-if="mode==='edit'" type="hidden" name="costvendor"  ng-model="Campaign.costArr[$index]['vendorId']" ng-value="vendorItem.id" field="vendorId" index="{{$index}}"  hiddencost>
+            </div>
+            <!--<label ng-if="createCampaignForm.costvendor.$error.required" class="col-sm-12  greyTxt errorLabel">Select Vendor</label>-->
+        </div>
+    </div>
+
+    <div class="col-md-1 zeroPadding kpiTable symbol-input">
+        <span class="symbol">{{locale.NUMBER_FORMATS.CURRENCY_SYM}}</span>
+        <input type="text" class="col-md-12" style="text-indent: 8px; height:36px;" ng-model="Campaign.costArr[$index]['rateValue']" fraction-numbers="fraction-numbers" ng-keyup="ComputeCost()" field="rateValue"  index="{{$index}}"/>
+    </div>
+
+    <div class="col-md-1 zeroPadding kpiTable symbol-input" style="width: 86px;">
+        <span class="symbol" style="left: initial; right: 25px;">{{textConstants.SYMBOL_PERCENT}}</span>
+        <input type="number" class="col-md-12" style="text-align: center; padding-left: 10px; height:36px;" ng-model="Campaign.costArr[$index]['targetPercentage']" ng-keyup="ComputeCost()" whole-number-only="whole-number-only" max="100"  field="targetPercentage" index="{{$index}}" />
+    </div>
+
+    <div class="col-md-1 zeroPadding kpiTable" style="padding: 0 !important; width: 145px;">
+
+        <input style="height:36px;" type="text" class="col-md-12" ng-model="Campaign.costArr[$index]['description']" field="description" index="{{$index}}"/>
+    </div>
+    <!--<span class="remove-row ">-->
+<span class="remove-row pull-right" ng-if="$index>0 || (Campaign.costArr.length>=2)">
+    <span class="icon-clear" index="{{$index}}" clearcostrow></span>
+</span>
+
+
+</div>
+
+<div class="col-md-12 zeroPadding">
+    <a class="btn btn-link pull-left addRowMedia" ng-click="addMoreCost();"><span class="icon-plus"></span><span>Add another Cost</span></a>
+</div>
+
+
+<!--==== Row 4 ====-->
+<div class="col-md-12 zeroPadding">
+    <label for="nameTitleCampaign" class="col-sm-12 labelQuestTxt" style="margin-bottom: 5px;">Preferred Execution Platforms</label>
+    <div class="col-md-12 zeroPadding kpiTable">
+        <h3>Integrated Platforms</h3>
+        <label for="primaryKPI" class="col-sm-12 greyTxt miniLabels">Select as many as you require</label>
+        <input type="text" class="col-md-12 keyword-txt intPlatInput" ng-keyup="showKeywords(keywordText)" ng-focus="showKeyFocus(intPlatInput)" ng-model="keywordText"/>
+        <label class="keywordWrap" ng-repeat="key in selectedKeywords">{{key.name}} <span class="icon-close" ng-click="removeKeyword(key);"></span></label>
+        <ul ng-if="platformKeywords.length>0" class="dropdown-menu intPlatWrap" role="menu" id="keywordsList" ng-style="dropdownCss">
+            <li ng-repeat="keyword in platformKeywords | filter:keywordText" ng-click="selectKeyword(keyword)">
+                <a>
+                    <span class="tick"></span>
+                    <span class="menuItemText ng-binding" >{{keyword.displayName}}</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
+<a data-toggle="tab" data-target="#addLineItems" role="tab" class="nextWrapper leftNavLink contacts">
+    <span class="btn btn-default" ng-click="highlightLeftNav(2)">Save & Continue</span>
+</a>
