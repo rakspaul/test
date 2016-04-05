@@ -1899,6 +1899,7 @@
   border-bottom: 1px solid rgba(191, 201, 215, 0.5);
   margin: 20px 0 0 0;
 }
+<<<<<<< HEAD
 #campaignCreate .firstWrapper .masterContainer .selectedPixels .pixelName {
   padding: 5px 0 !important;
   border-bottom: 1px solid rgba(191, 201, 215, 0.5);
@@ -1960,6 +1961,8 @@
   filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
   color: #428bca;
 }
+=======
+>>>>>>> Update Add line item toggles
 #campaignCreate .firstWrapper .masterContainer .adWrap {
   background: #fff;
   float: left;
