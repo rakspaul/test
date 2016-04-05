@@ -314,6 +314,7 @@ define(['angularAMD'], function(angularAMD) {
         this.AD_START_IMPS = "Ad Start Imps.";
         this.CREATIVE = "Creative";
         this.RESEARCH = "Research";
+        this.OTHER = "Other";
         this.AD_VERIFICATION = "Ad Verification";
         this.COLLECTIVECOST = "Cost";
         this.TRANSPARENT_PLATFORM_FEE_CHARGED = "Transparent platform fee charged by Collective for technology and services associated with programmatic media activity";
