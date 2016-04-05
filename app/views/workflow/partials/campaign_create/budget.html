@@ -5,7 +5,7 @@
 <div class="col-md-12 zeroPadding">
     <!--<label for="nameTitleCampaign" class="col-sm-12 labelQuestTxt" style="margin-bottom: 5px;">{{selectedChannel | toTitleCase}} - Set up how you want to Budget and Measure</label>-->
     <label for="nameTitleCampaign" class="col-sm-12 labelQuestTxt" style="margin-bottom: 5px;">Budget & Measure</label>
-    
+
     <div class="col-md-12 zeroPadding marginCal">
         <div class="calTable form-group" show-errors>
             <h3>Media Plan Budget</h3>
@@ -58,7 +58,7 @@
 
 <div class="col-md-12 zeroPadding">
     <label for="nameTitleCampaign" class="col-sm-12 labelQuestTxt" style="border-bottom: 1px solid rgba(191, 201, 215, 0.5); padding-bottom: 10px !important;">Measurement Settings and Costs</label>
-    
+
     <div data-toggle="collapse" data-target="#accountMeasurement" class="accordionDDL collapsed">
         <div class="icon-arrow-down-thick"></div>
         <span>Account / Advertiser Measurement Settings</span>
@@ -75,41 +75,21 @@
                         <div class="th col-md-3">Channels</div>
                     </div>
                 </div>
-                
+
                 <div class="tbody thin">
                     <!--Table Sample-->
-                    <div class="tr">
-                        <div class="td col-md-3">Impressions</div>
-                        <div class="td col-md-3">DCM</div>
-                        <div class="td col-md-3">DCM Griffin Group</div>
-                        <div class="td col-md-3">Display, Video</div>
+                    <div class="tr" ng-repeat="config in vendorConfig.userPermission">
+                        <div class="td col-md-3">{{config.metric}}</div>
+                        <div class="td col-md-3">{{config.vendorName}}</div>
+                        <div class="td col-md-3">{{config.configName}}</div>
+                        <div class="td col-md-3">{{config.adFormat}}</div>
                     </div>
-                    
-                    <div class="tr">
-                        <div class="td col-md-3">Impressions</div>
-                        <div class="td col-md-3">Sizmek</div>
-                        <div class="td col-md-3">Sizmek Griffin Group</div>
-                        <div class="td col-md-3">Rich Media</div>
-                    </div>
-                    
-                    <div class="tr">
-                        <div class="td col-md-3">Viewable Impressions</div>
-                        <div class="td col-md-3">Integral Ad Science</div>
-                        <div class="td col-md-3">IAS Griffin</div>
-                        <div class="td col-md-3">Display, Video, Rich Media</div>
-                    </div>
-                    
-                    <div class="tr">
-                        <div class="td col-md-3">Clicks</div>
-                        <div class="td col-md-3">DCM</div>
-                        <div class="td col-md-3">DCM Griffin Group</div>
-                        <div class="td col-md-3">Display, Video</div>
-                    </div>
+
                 </div>
             </div>
         </div>
     </div>
-    
+
     <div data-toggle="collapse" data-target="#costTracking" class="accordionDDL collapsed">
         <div class="icon-arrow-down-thick"></div>
         <span>Cost Tracking |</span>
@@ -127,45 +107,22 @@
                         <div class="th col-md-3">Rate</div>
                     </div>
                 </div>
-                
+
                 <div class="tbody thin">
                     <!--Table Sample-->
-                    <div class="tr">
-                        <div class="td col-md-2">Execution</div>
-                        <div class="td col-md-2">AppNexus</div>
-                        <div class="td col-md-2">AppNexus Collective</div>
-                        <div class="td col-md-3">Buying Open Exchange</div>
-                        <div class="td col-md-3">Media Cost + $2 CPM</div>
+                    <div class="tr" ng-repeat="config in vendorConfig.configs">
+                        <div class="td col-md-2">{{config.category}}</div>
+                        <div class="td col-md-2">{{config.vendorName}}</div>
+                        <div class="td col-md-2">{{config.configName}}</div>
+                        <div class="td col-md-3">{{config.adFormat}}</div>
+                        <div class="td col-md-3">{{config.rate}}</div>
                     </div>
-                    
-                    <div class="tr">
-                        <div class="td col-md-2">Impressions</div>
-                        <div class="td col-md-2">Sizmek</div>
-                        <div class="td col-md-2">Sizmek Griffin Group</div>
-                        <div class="td col-md-3">Rich Media</div>
-                        <div class="td col-md-3">Media Cost + $2 CPM</div>
-                    </div>
-                    
-                    <div class="tr">
-                        <div class="td col-md-2">Viewable Impressions</div>
-                        <div class="td col-md-2">Integral Ad Science</div>
-                        <div class="td col-md-2">IAS Griffin</div>
-                        <div class="td col-md-3">Display, Video, Rich Media</div>
-                        <div class="td col-md-3">Media Cost + $2 CPM</div>
-                    </div>
-                    
-                    <div class="tr">
-                        <div class="td col-md-2">Clicks</div>
-                        <div class="td col-md-2">DCM</div>
-                        <div class="td col-md-2">DCM Griffin Group</div>
-                        <div class="td col-md-3">Display, Video</div>
-                        <div class="td col-md-3">Media Cost + $2 CPM</div>
-                    </div>
+
                 </div>
             </div>
         </div>
     </div>
-    
+
     <div data-toggle="collapse" data-target="#addAdditionalCost" class="accordionDDL collapsed">
         <div class="icon-arrow-down-thick"></div>
         <span>Add Additional Costs (Optional)</span>
@@ -194,7 +151,7 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <!--Inputs-->
                 <div class="col-md-12 zeroPadding addCost" ng-repeat="costObj in Campaign.costArr track by $index" style="margin-bottom:10px;">
                     <!--Category-->
@@ -215,7 +172,7 @@
                             </div>
                         </div>
                     </div>
-                
+
                     <!--Vendor-->
                     <div class="col-md-3 zeroPadding kpiTable hiddenInputs">
                         <div class="col-md-12 zeroPadding dropdown-workflow">
@@ -234,9 +191,10 @@
                             <!--<label ng-if="createCampaignForm.costvendor.$error.required" class="col-sm-12  greyTxt errorLabel">Select Vendor</label>-->
                         </div>
                     </div>
-                
+
                     <!--Offering-->
                     <div class="col-md-3 zeroPadding kpiTable symbol-input hiddenInputs">
+
                         <div class="col-md-12 zeroPadding dropdown-workflow">
                             <div class="dropdown">
                                 <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
@@ -251,18 +209,20 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <!--Pricing-->
                     <div class="col-md-1 zeroPadding kpiTable symbol-input hiddenInputs">
+
                         <input type="text" class="col-md-12 disabled"  value="Flat" style="height:36px; background: #F4F1E9;" disabled/>
                     </div>
-                    
+
                     <!--Rate-->
                     <div class="col-md-2 zeroPadding kpiTable symbol-input hiddenInputs" style="padding-right: 0px !important; max-width: 118px;">
+
                         <span class="symbol">{{locale.NUMBER_FORMATS.CURRENCY_SYM}}</span>
                         <input type="text" class="col-md-12" style="text-indent: 8px; height:36px;" ng-model="Campaign.costArr[$index]['rateValue']" fraction-numbers="fraction-numbers" ng-keyup="ComputeCost()" field="rateValue"  index="{{$index}}"/>
                     </div>
-            
+
                     <!--Delete-->
                     <span class="remove-row pull-right hiddenInputs" ng-if="$index>0 || (Campaign.costArr.length>=2)">
                         <span class="icon-clear" index="{{$index}}" clearcostrow></span>
