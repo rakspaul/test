@@ -3804,9 +3804,6 @@
 .budget_holder .disabled-field ~ .disabled_value {
   display: inline-block;
 }
-.disabled-field .impressions-val {
-  font-size: 0 ;
-}
 .estimated_impressions {
   margin: 5px 0 0 -50px;
 }
@@ -3858,4 +3855,7 @@
   width: 15px;
   background: #21252B;
   content: "";
+}
+.disabled-field .impressions-val {
+  font-size: 0 ;
 }
