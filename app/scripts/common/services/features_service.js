@@ -4,8 +4,6 @@ define(['angularAMD','workflow/services/workflow_service','common/services/visto
         var params = ['dashboard','report_overview', 'inventory', 'performance', 'quality', 'cost', 'optimization_impact', 'platform', 'scheduled', 'collective',
             'scheduled_reports', 'collective_insights', 'create_mediaplan', 'dashboard', 'mediaplan_list', 'ad_setup', 'mediaplan_hub', 'creative_list', 'reports_tab'];
 
-        var apiFeatureKeys = ['REP_OVERVIEW','REP_INV','REP_PERF','REP_QUALITY','COST','REP_OPT','REP_PLATFORM','REP_SCH','REP_INSIGHTS','MEDIAPLAN_SETUP','MEDIAPLAN_HUB','AD_SETUP','MEDIAPLAN_LIST','CREATIVE_LIST','DASHBOARD','REPORTS_TAB'];
-
         this.featureParams = [];
 
         this.serverResponseReceived = false;
@@ -98,22 +96,23 @@ define(['angularAMD','workflow/services/workflow_service','common/services/visto
                 //Enable all features
                 this.setAllFeatureParams(true);
             } else {
-                apiFeatureKeysCopy = angular.copy(apiFeatureKeys);
+                //set all feature params to false before setting it true based on API enable list
+                this.setAllFeatureParams(false);
+
+                //set params true sent in enable list of API
                 _.each(featuresArr, function (features,index) {
                     self.setSingleFeatureParam(features,true);
-                    apiFeatureKeysCopyIndex = apiFeatureKeysCopy.indexOf(features);
-                    apiFeatureKeysCopy.splice(apiFeatureKeysCopyIndex,1);
-                })
-
-                //set features to false which are not sent in the API's enable list
-                _.each(apiFeatureKeysCopy,function(apiLeftOutParams){
-                    self.setSingleFeatureParam(apiLeftOutParams,false);
                 })
 
                 //check if reports tab not there
                 if (featuresArr.indexOf('REPORTS_TAB') < 0) {
                     this.disableReportTab();
                 }
+
+                if (featuresArr.indexOf('MEDIAPLAN_HUB') < 0) {
+                    this.setSingleFeatureParam('AD_SETUP',false);
+                }
+
             }
             if(this.featureParams[0].dashboard === false) {
                 this.featureParams[0].mediaplan_list = true;
