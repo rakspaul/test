@@ -161,6 +161,8 @@ define(['angularAMD','../common/services/constants_service'], function (angularA
                         updateRedirectUrl($location.$$path);
                     }
                     $location.url('/login');
+                    //remove header bar on login page
+                    $('.main_navigation_holder').hide();
                 }
             },
 
@@ -170,6 +172,8 @@ define(['angularAMD','../common/services/constants_service'], function (angularA
                 localStorage.clear();
                 this.deleteData();
                 $location.url('/login');
+                //remove header bar on login page
+                $('.main_navigation_holder').hide();
             },
 
             unauthorized: function () {
@@ -179,6 +183,8 @@ define(['angularAMD','../common/services/constants_service'], function (angularA
                     updateRedirectUrl($location.$$path);
                 }
                 $location.url('/login');
+                //remove header bar on login page
+                $('.main_navigation_holder').hide();
             },
 
             forbidden: function () {

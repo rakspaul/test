@@ -30,7 +30,7 @@
 							<label class="col-md-12 greyTxt" data-ng-bind="textConstants.KEYWORD"></label>
 	                        <input type="text" class="col-md-12 keyword-txt" name ="keywordText" placeholder="Max 10 keywords. Must be separated by commas" ng-keyup="showKeywords(keywordText,$event)" ng-model="keywordText"/>
 							<label class="keywordWrap" ng-repeat="key in selectedKeywords">{{key}} <span class="icon-close" ng-click="removeKeyword(key);"></span></label>
-							<ul ng-if="audienceKeywords.length>0" class="dropdown-menu" role="menu" id="keywordsList" ng-style="dropdownCss">
+							<ul ng-if="audienceKeywords.length>0" class="dropdown-menu" role="menu" id="keywordsList" ng-style="dropdownCss" style="width:585px;">
 								<li ng-repeat="keyword in audienceKeywords | filter:keywordText" ng-click="selectKeyword(keyword.keyword)">
 									<a >
 										<span class="tick"></span>
