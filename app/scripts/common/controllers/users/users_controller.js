@@ -37,10 +37,14 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                 //set permission set
                 $timeout(function () {
                     $rootScope.$broadcast('permissionsForUsers',[userObj]);
-                }, 2000)
+                }, 2000);
 
 
                 //}
+            }else{
+                $timeout(function () {
+                    $rootScope.$broadcast('permissionsForUsers');
+                }, 2000)
             }
         };
         

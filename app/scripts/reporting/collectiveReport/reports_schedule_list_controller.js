@@ -7,7 +7,6 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
                                                                                 collectiveReportModel, utils, loginModel,
                                                                                 constants, urlService, dataStore, domainReports,
                                                                                dataService, momentService) {
-
         var _curCtrl = this;
         $scope.noOfSchldInstToShow = 3;
         $scope.scheduleInstCount = [];
