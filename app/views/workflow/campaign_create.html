@@ -10,7 +10,7 @@
 					<h1 class="campaign_name">{{textConstants.MP_TITLE}}</h1>
 					<ul class="stepCompLabel nav nav-tabs" id="mediaTab">
 						<li class="active eachStepCompLabel">
-							<a class="leftNavLink selected" data-target="#settings" data-toggle="tab">1. {{ textConstants.WF_SETTINGS}}</a>
+							<a class="leftNavLink selected" data-target="#settings" data-toggle="tab">1 {{ textConstants.WF_SETTINGS}}</a>
 							<div class="statusLabel" ng-hide="selectedCampaign.goal.name || selectedCampaign.startTime || selectedCampaign.budget">
 								<div class="col-md-12">
 									<span>{{textConstants.WF_NOT_SET}}</span>
@@ -65,7 +65,7 @@
 							</div>
 						</li>
 						<li class="clearfix eachStepCompLabel" >
-							<a class="leftNavLink budget-page-trigger" data-target="#budget" data-toggle="tab">2. {{textConstants.MP_BUDGET}}</a>
+							<a class="leftNavLink budget-page-trigger" data-target="#budget" data-toggle="tab">2 {{textConstants.MP_BUDGET}}</a>
 							<div class="statusLabel " ng-hide="Campaign.totalBudget || Campaign.deliveryBudget">
 								<div class="col-md-12">
 									<span>{{textConstants.WF_NOT_SET}}</span>
@@ -94,7 +94,7 @@
 							</div>
 						</li>
 						<li class="clearfix eachStepCompLabel" >
-							<a class="leftNavLink" data-target="#contacts" data-toggle="tab">3. {{textConstants.MP_CONTACTS}} ({{textConstants.MP_OPTIONAL}})</a>
+							<a class="leftNavLink" data-target="#addLineItems" data-toggle="tab">3 Add Line Items</a>
 							<div class="statusLabel disabled">
 								<div class="col-md-12">
 									<span>{{textConstants.WF_NOT_SET}}</span>
@@ -684,12 +684,192 @@
 							</a>
 						</div>
 
-						<div class="tab-pane fade" id="contacts">
+						<!--Add Line Items-->
+						<div class="tab-pane fade" id="addLineItems">
 							<h3 class="col-md-6 adName" tooltip="{{adData.adName}}">
 								{{selectedCampaign.campaignName.length>0 ? (selectedCampaign.campaignName | textEllipsis: 40 ) : editCampaignData.name}}
 							</h3>
 							<div class="col-md-12 zeroPadding">
-								<label for="nameTitleCampaign" class="col-sm-12 labelQuestTxt" style="margin-bottom: 5px;">Contacts - Coming Soon</label>
+								<div class="col-md-5" style="background: #F0F0F0; padding: 0 10px 10px 10px;">
+									<div class="col-md-4 zeroPadding">
+										<label class="col-sm-12 greyTxt miniLabels zeroPadding">Media Plan Budget</label>
+										<span class="col-md-12 zeroPadding">$150,000</span>
+									</div>
+									<div class="col-md-4 zeroPadding">
+										<label class="col-sm-12 greyTxt miniLabels zeroPadding">Margin (Not Req)</label>
+										<span class="col-md-12 zeroPadding">30%</span>
+									</div>
+									<div class="col-md-4 zeroPadding">
+										<label class="col-sm-12 greyTxt miniLabels zeroPadding">Delivery Budget</label>
+										<span class="col-md-12 zeroPadding">$105,000</span>
+									</div>
+								</div>
+								
+								<label for="nameTitleCampaign" class="col-sm-12 labelQuestTxt" style="margin-bottom: 5px;">Setup Line Items</label>
+								
+								<div class="col-md-12 zeroPadding btn-group create" role="group" style="margin: 20px 0 10px 0;">
+									<a class="btn btn-default">
+										<span class="icon-plus"></span>
+										<span data-ng-bind="textConstants.CREATE"></span>
+									</a>
+									
+									<span class="pull-left" style="margin: 8px 0 0 15px;">0 Line Items Added</span>
+									
+									<!--Search Input-->
+									<div class="btn-group pull-right">
+									    <button type="button" class="btn btn-default pull-right" style="display: none">
+										<span class="icon-filter" style="margin: -1px 0 0;"></span>
+									    </button>
+								
+									    <div class="searchInput pull-right">
+										<a class="btn btn-default searchInputBtn" ng-click="searchShowInput()">
+										    <span class="icon-search" aria-hidden="true" style="margin: -1px 0 0;"></span>
+										</a>
+								
+										<a class="btn btn-default searchInputBtnInline" ng-click="campaignSearchFunc()">
+										    <span class="icon-search" aria-hidden="true" style="margin: -1px 0 0;"></span>
+										</a>
+										<div class="input-group searchInputForm" >
+										    <input type="text"
+											   class="form-control"
+											   name="campaignsSearch"
+											   placeholder="Search Line Items...">
+										    <div class="btn btn-default searchClearInputBtn" ng-click="searchHideInput()">
+											<span class="icon-clear" aria-hidden="true" style="margin: 0;"></span>
+										    </div>
+										</div>
+									    </div>
+									</div>
+								</div>
+									
+								<!--Create Item List Form Start-->
+								<div class="col-md-12 createItemList" style="background: #FEFBF0; padding: 0 10px 10px 10px;">
+									<!--Row 1-->
+									<div class="col-md-4 zeroPadding">
+										<label class="col-sm-12 greyTxt miniLabels zeroPadding">Line Item Name / Notes</label>
+										<input type="text" class="col-md-12" placeholder="Enter Line Item name up to 150 characters"/>
+									</div>
+									
+									<div class="col-md-2" style="padding: 0 0 0 10px;">
+										<label class="col-sm-12 greyTxt miniLabels zeroPadding">Type</label>
+										<div class="col-md-12 zeroPadding dropdown-workflow">
+										     <div class="dropdown">
+											  <button style="width:100%;" class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+											       <span class="text">Type 1</span>
+											       <span class="icon-arrow-down"></span>
+											  </button>
+											  <ul class="dropdown-menu" aria-labelledby="lineType" id="lineType" data-toggle="dropdown">
+											       <li class="available"><a>Type 1</a></li>
+											       <li class="available"><a>Type 2</a></li>
+											       <li class="available"><a>Type 3</a></li>
+											  </ul>
+										     </div>
+										</div>
+									</div>
+									
+									<div class="col-md-2" style="padding: 0 0 0 10px;">
+										<label class="col-sm-12 greyTxt miniLabels zeroPadding">Rate</label>
+										<input type="text" class="col-md-12" placeholder="Enter Rate"/>
+									</div>
+									
+									<div class="col-md-2" style="padding: 0 0 0 10px;">
+										<label class="col-sm-12 greyTxt miniLabels zeroPadding">Contracted Value</label>
+										<input type="text" class="col-md-12" placeholder=""/>
+									</div>
+									
+									<div class="col-md-2" style="padding: 0 0 0 10px;">
+										<label class="col-sm-12 greyTxt miniLabels zeroPadding">Target</label>
+										<input type="text" class="col-md-12" placeholder=""/>
+									</div>
+									
+									<!--Row 2-->
+									<div class="pull-left">
+										<div class="span4 col-md-12 input-daterange input-group date pull-left" id="datepicker">
+											<div class="col-md-12 dateWrapper zeroPadding">
+											    <div class="dateContainer">
+												<label class="col-sm-12 control-label greyTxt miniLabels">Billing Period Start</label>
+												<div style="background: #fff;">
+													<input type="text" id="startDateInput" custom-date-picker="{format: 'mm/dd/yyyy', orientation: 'auto',  autoclose: true, todayHighlight: true}" placeholder="MM/DD/YYYY" class="form-control"  readonly name="startTime" ng-model="adData.startTime"  ng-disabled="checkForPastDate(workflowData['campaignData'].startTime, workflowData['campaignData'].endTime) || (workflowData.adsData.state=='IN_FLIGHT' || workflowData.adsData.state === 'ENDED' || workflowData.adsData.state === 'PAUSED'?true:false)" ng-change=" handleStartFlightDate(adData)"/>
+												</div>
+											    </div>
+											    <div class="dateContainer">
+												<label class="col-sm-12 control-label greyTxt miniLabels">Billing Period End</label>
+												<div style="background: #fff;">
+													<input type="text" id="endDateInput" custom-date-picker="{format: 'mm/dd/yyyy', orientation: 'auto',  autoclose: true, todayHighlight: true}" placeholder="MM/DD/YYYY" class="form-control" readonly disabled="disabled" ng-model="adData.endTime" name="endTime" required ng-change="handleEndFlightDate(adData)"/>
+												</div>    
+											    </div>
+											</div>
+											<span class="col-md-12 input-group-addon">
+											    <div class="calenderIcon">
+												<span class="icon-calendar"></span>
+											    </div>
+											    <div class="calenderIcon">
+												<span class="icon-calendar"></span>
+											    </div>
+											</span>
+										</div>
+									</div>
+									
+									<div class="col-md-4" style="padding: 0;">
+										<label class="col-sm-12 greyTxt miniLabels zeroPadding">Create Ad Group for Line Item (optional)</label>
+										<input type="text" class="col-md-12" placeholder="Enter Ad Group name up to 100 characters"/>
+									</div>
+									
+									<div class="pull-right" style="padding: 30px 0 0 0;">
+										<div class="pull-right btn btn-primary">Save Line Item</div>
+										<div class="pull-right btn btn-link">Cancel</div>
+									</div>
+								</div>
+								<!--Create Item List Form End-->
+								
+								<!--Item List Table Sample Start-->
+								<div class="table-responsive" id="table_responsive" style="margin: 10px 0;">
+									<div class="vistoTable" id="visto_table">
+										<div class="thead">
+											<div class="tr">
+												<div class="th col-md-3">Line Item</div>
+												<div class="th col-md-2">Type</div>
+												<div class="th col-md-1">Rate</div>
+												<div class="th col-md-2">Contracted Value</div>
+												<div class="th col-md-2">Target</div>
+												<div class="th col-md-2">Billing Period</div>
+											</div>
+										</div>
+										<div class="tbody">
+											<div class="tr">
+												<div class="td col-md-3">Teen Girls 14-22 Video</div>
+												<div class="td col-md-2">Post Impression CPA</div>
+												<div class="td col-md-1">$1.00</div>
+												<div class="td col-md-2">$10,000</div>
+												<div class="td col-md-2">Action #10,000</div>
+												<div class="td col-md-2">03/30/2016 - 09/03/2016</div>
+											</div>
+											
+											<div class="tr">
+												<div class="td col-md-3">Research current TV trend teens</div>
+												<div class="td col-md-2">Fixed Fee</div>
+												<div class="td col-md-1">NA</div>
+												<div class="td col-md-2">$7,000</div>
+												<div class="td col-md-2">NA</div>
+												<div class="td col-md-2">03/30/2016 - 09/03/2016</div>
+											</div>
+											
+											<div class="tr">
+												<div class="td col-md-3">Adults 45+ or Seniors 55+ - Video</div>
+												<div class="td col-md-2">CPM</div>
+												<div class="td col-md-1">$5.00</div>
+												<div class="td col-md-2">$5,000</div>
+												<div class="td col-md-2">Impressions #10,000</div>
+												<div class="td col-md-2">03/30/2016 - 09/03/2016</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<!--Item List Table Sample Start-->
+								
+								<span class="col-md-12 text-right" style="padding: 0 0 5px 0; border-bottom: 1px solid rgba(191, 201, 215, 0.5);">Total Contracted Value: $22,000</span>
+							
+								<label for="nameTitleCampaign" class="col-sm-12 labelQuestTxt" style="margin-bottom: 5px;">Add Credits (0)</label>
 							</div>
 						</div>
 					</div>
