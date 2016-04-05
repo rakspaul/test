@@ -1,0 +1,166 @@
+<h3 class="col-md-6 adName" tooltip="{{adData.adName}}">
+{{selectedCampaign.campaignName.length>0 ? (selectedCampaign.campaignName | textEllipsis: 40 ) : editCampaignData.name}}
+</h3>
+
+<!--Pixel Option List-->
+<div class="col-md-8" style="padding: 0 10px 0 0;">
+    <label for="nameTitleCampaign" class="col-sm-12 labelQuestTxt" style="margin-bottom: 5px;">Pixels</label>
+    
+    <div class="col-md-12 zeroPadding btn-group create" role="group" style="margin: 20px 0 10px 0;">
+        <!--Search/Quickfilters Input-->
+        <div class="btn-group pull-right">
+            <button type="button" class="btn btn-default pull-right disabled" style="border-top-right-radius: 2px; border-bottom-right-radius: 2px;">
+                <span class="icon-filter" style="margin: -1px 0 0;"></span>
+            </button>
+    
+            <div class="searchInput pull-right">
+            <a class="btn btn-default searchInputBtn" ng-click="searchShowInput()" style="border-top-right-radius: 0; border-bottom-right-radius: 0; border-right: 0;">
+                <span class="icon-search" aria-hidden="true" style="margin: -1px 0 0;"></span>
+            </a>
+    
+            <a class="btn btn-default searchInputBtnInline" ng-click="campaignSearchFunc()" style="border-top-right-radius: 0; border-bottom-right-radius: 0; border-right: 0;">
+                <span class="icon-search" aria-hidden="true" style="margin: -1px 0 0;"></span>
+            </a>
+            <div class="input-group searchInputForm" >
+                <input type="text"
+                   class="form-control"
+                   name="campaignsSearch"
+                   placeholder="Search Line Items...">
+                <div class="btn btn-default searchClearInputBtn" ng-click="searchHideInput()">
+                <span class="icon-clear" aria-hidden="true" style="margin: 0;"></span>
+                </div>
+            </div>
+            </div>
+        </div>
+        
+        <span class="pull-right" style="margin: 8px 15px 0 0;">0 Pixels</span>
+    </div>
+        
+    
+    <!--Pixel Table Sample Start-->
+    <div class="table-responsive" id="table_responsive" style="margin: 10px 0;">
+        <div class="vistoTable" id="visto_table">
+            <div class="thead thin">
+                <div class="tr">
+                    <div class="th col-md-9">
+                        <input type="checkbox"/>
+                        <span>Pixel Name</span>
+                    </div>
+                    <div class="th col-md-3">Created</div>
+                </div>
+            </div>
+            
+            <div class="tbody thin">
+                <!--Table Data Sample-->
+                <div class="tr">
+                    <div class="td col-md-9">
+                        <input type="checkbox"/>
+                        <a>Blah Pixel Name</a>
+                    </div>
+                    <span class="td col-md-3">04/16/2016</span>
+                </div>
+                
+                <div class="tr">
+                    <div class="td col-md-9">
+                        <input type="checkbox"/>
+                        <a>Blah Pixel Name</a>
+                    </div>
+                    <span class="td col-md-3">04/16/2016</span>
+                </div>
+                
+                <div class="tr">
+                    <div class="td col-md-9">
+                        <input type="checkbox"/>
+                        <a>Blah Pixel Name</a>
+                    </div>
+                    <span class="td col-md-3">04/16/2016</span>
+                </div>
+                
+                <div class="tr">
+                    <div class="td col-md-9">
+                        <input type="checkbox"/>
+                        <a>Blah Pixel Name</a>
+                    </div>
+                    <span class="td col-md-3">04/16/2016</span>
+                </div>
+                
+                <div class="tr">
+                    <div class="td col-md-9">
+                        <input type="checkbox"/>
+                        <a>Blah Pixel Name</a>
+                    </div>
+                    <span class="td col-md-3">04/16/2016</span>
+                </div>
+                
+                <div class="tr">
+                    <div class="td col-md-9">
+                        <input type="checkbox"/>
+                        <a>Blah Pixel Name</a>
+                    </div>
+                    <span class="td col-md-3">04/16/2016</span>
+                </div>
+                
+                <div class="tr">
+                    <div class="td col-md-9">
+                        <input type="checkbox"/>
+                        <a>Blah Pixel Name</a>
+                    </div>
+                    <span class="td col-md-3">04/16/2016</span>
+                </div>
+                
+                <div class="tr">
+                    <div class="td col-md-9">
+                        <input type="checkbox"/>
+                        <a>Blah Pixel Name</a>
+                    </div>
+                    <span class="td col-md-3">04/16/2016</span>
+                </div>
+                
+                <div class="tr">
+                    <div class="td col-md-9">
+                        <input type="checkbox"/>
+                        <a>Blah Pixel Name</a>
+                    </div>
+                    <span class="td col-md-3">04/16/2016</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--Pixel Table Sample Start-->
+</div>
+
+<div class="col-md-4" style="padding: 10px; background: #ECF3F8; margin: 118px 0 0 0;">
+    <label for="nameTitleCampaign" class="pull-left labelQuestTxt" style="margin: 0 !important;">Selected Pixels (0)</label>
+    <a class="btn btn-default pull-right">Clear</a>
+    
+    <div class="col-md-12 zeroPadding selectedPixels">
+        <div class="col-md-12 zeroPadding pixelName">
+            <span>Selected Pixel Name</span>
+            <a class="icon-close pull-right"></a>
+        </div>
+        
+        <div class="col-md-12 zeroPadding pixelName">
+            <span>Selected Pixel Name</span>
+            <a class="icon-close pull-right"></a>
+        </div>
+        
+        <div class="col-md-12 zeroPadding pixelName">
+            <span>Selected Pixel Name</span>
+            <a class="icon-close pull-right"></a>
+        </div>
+        
+        <div class="col-md-12 zeroPadding pixelName">
+            <span>Selected Pixel Name</span>
+            <a class="icon-close pull-right"></a>
+        </div>
+        
+        <div class="col-md-12 zeroPadding pixelName">
+            <span>Selected Pixel Name</span>
+            <a class="icon-close pull-right"></a>
+        </div>
+    </div>
+</div>
+
+<a data-toggle="tab" data-target="#budget" role="tab" class="nextWrapper leftNavLink contacts">
+    <span class="btn btn-default" ng-click="highlightLeftNav(2)">Save & Continue</span>
+</a>

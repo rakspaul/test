@@ -1030,9 +1030,12 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             function colResize() {
                 var winHeight = $(window).height() - 50;
                 $("#campaignCreate .settingWrap").css('min-height', winHeight + 'px');
+                $(".tbody.thin").css('max-height', winHeight - 298 + 'px');
+                $(".selectedPixels").css('height', winHeight - 300 + 'px');
             }
-
-            colResize();
+            setTimeout(function(){ colResize(); }, 1000);
+            
+            
             $(window).resize(function () {
                 colResize();
             });
