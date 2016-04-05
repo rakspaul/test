@@ -20,25 +20,23 @@
     <label for="nameTitleCampaign" class="col-sm-12 labelQuestTxt" style="margin-bottom: 5px;">Setup Line Items</label>
     
     <div class="col-md-12 zeroPadding btn-group create" role="group" style="margin: 20px 0 10px 0;">
-        <a class="btn btn-default">
+        <a class="btn btn-default" ng-click="createItemList = ! createItemList">
             <span class="icon-plus"></span>
             <span data-ng-bind="textConstants.CREATE"></span>
         </a>
         
-        <span class="pull-left" style="margin: 8px 0 0 15px;">0 Line Items Added</span>
-        
-        <!--Search Input-->
+        <!--Search/Quickfilters Input-->
         <div class="btn-group pull-right">
-            <button type="button" class="btn btn-default pull-right" style="display: none">
-            <span class="icon-filter" style="margin: -1px 0 0;"></span>
+            <button type="button" class="btn btn-default pull-right disabled" style="border-top-right-radius: 2px; border-bottom-right-radius: 2px;">
+                <span class="icon-filter" style="margin: -1px 0 0;"></span>
             </button>
     
             <div class="searchInput pull-right">
-            <a class="btn btn-default searchInputBtn" ng-click="searchShowInput()">
+            <a class="btn btn-default searchInputBtn" ng-click="searchShowInput()" style="border-top-right-radius: 0; border-bottom-right-radius: 0; border-right: 0;">
                 <span class="icon-search" aria-hidden="true" style="margin: -1px 0 0;"></span>
             </a>
     
-            <a class="btn btn-default searchInputBtnInline" ng-click="campaignSearchFunc()">
+            <a class="btn btn-default searchInputBtnInline" ng-click="campaignSearchFunc()" style="border-top-right-radius: 0; border-bottom-right-radius: 0; border-right: 0;">
                 <span class="icon-search" aria-hidden="true" style="margin: -1px 0 0;"></span>
             </a>
             <div class="input-group searchInputForm" >
@@ -52,10 +50,12 @@
             </div>
             </div>
         </div>
+        
+        <span class="pull-right" style="margin: 8px 15px 0 0;">0 Line Items Added</span>
     </div>
         
     <!--Create Item List Form Start-->
-    <div class="col-md-12 createItemList" style="background: #FEFBF0; padding: 0 10px 10px 10px;">
+    <div class="col-md-12 createItemList" ng-show="createItemList">
         <!--Row 1-->
         <div class="col-md-4 zeroPadding">
             <label class="col-sm-12 greyTxt miniLabels zeroPadding">Line Item Name / Notes</label>
@@ -123,18 +123,19 @@
         </div>
         
         <div class="col-md-4" style="padding: 0;">
-            <label class="col-sm-12 greyTxt miniLabels zeroPadding">Create Ad Group for Line Item (optional)</label>
+            <label class="col-sm-12 greyTxt miniLabels zeroPadding">Ad Group Name</label>
             <input type="text" class="col-md-12" placeholder="Enter Ad Group name up to 100 characters"/>
         </div>
         
         <div class="pull-right" style="padding: 30px 0 0 0;">
             <div class="pull-right btn btn-primary">Save Line Item</div>
-            <div class="pull-right btn btn-link">Cancel</div>
+            <div class="pull-right btn btn-link" ng-click="createItemList = ! createItemList">Cancel</div>
         </div>
     </div>
     <!--Create Item List Form End-->
     
     <!--Item List Table Sample Start-->
+    <!--Note: ng-hide If data is empty or when new media plan is created-->
     <div class="table-responsive" id="table_responsive" style="margin: 10px 0;">
         <div class="vistoTable" id="visto_table">
             <div class="thead">
@@ -147,32 +148,85 @@
                     <div class="th col-md-2">Billing Period</div>
                 </div>
             </div>
-            <div class="tbody">
+            
+            <div class="tbody" style="max-height: 326px; overflow: auto;">
+                <!--Table Data Sample-->
                 <div class="tr">
-                    <div class="td col-md-3">Teen Girls 14-22 Video</div>
-                    <div class="td col-md-2">Post Impression CPA</div>
-                    <div class="td col-md-1">$1.00</div>
-                    <div class="td col-md-2">$10,000</div>
-                    <div class="td col-md-2">Action #10,000</div>
-                    <div class="td col-md-2">03/30/2016 - 09/03/2016</div>
+                    <div class="tableNormal" ng-click="showEditItemRow($event)">
+                        <a class="td col-md-3">Teen Girls 14-22 Video</a>
+                        <a class="td col-md-2">Post Impression CPA</a>
+                        <a class="td col-md-1">$1.00</a>
+                        <a class="td col-md-2">$10,000</a>
+                        <a class="td col-md-2">Action #10,000</a>
+                        <a class="td col-md-2">03/30/2016 - 09/03/2016</a>
+                    </div>
+                    
+                    <div class="tableEdit" ng-include="'listItemEditTpl'"></div>
                 </div>
                 
                 <div class="tr">
-                    <div class="td col-md-3">Research current TV trend teens</div>
-                    <div class="td col-md-2">Fixed Fee</div>
-                    <div class="td col-md-1">NA</div>
-                    <div class="td col-md-2">$7,000</div>
-                    <div class="td col-md-2">NA</div>
-                    <div class="td col-md-2">03/30/2016 - 09/03/2016</div>
+                    <div class="tableNormal" ng-click="showEditItemRow($event)">
+                        <a class="td col-md-3">Research current TV trend teens</a>
+                        <a class="td col-md-2">Fixed Fee</a>
+                        <a class="td col-md-1">NA</a>
+                        <a class="td col-md-2">$7,000</a>
+                        <a class="td col-md-2">NA</a>
+                        <a class="td col-md-2">03/30/2016 - 09/03/2016</a>
+                    </div>
+                    
+                    <div class="tableEdit" ng-include="'listItemEditTpl'"></div>
                 </div>
                 
                 <div class="tr">
-                    <div class="td col-md-3">Adults 45+ or Seniors 55+ - Video</div>
-                    <div class="td col-md-2">CPM</div>
-                    <div class="td col-md-1">$5.00</div>
-                    <div class="td col-md-2">$5,000</div>
-                    <div class="td col-md-2">Impressions #10,000</div>
-                    <div class="td col-md-2">03/30/2016 - 09/03/2016</div>
+                    <div class="tableNormal" ng-click="showEditItemRow($event)">
+                        <a class="td col-md-3">Adults 45+ or Seniors 55+ - Video</a>
+                        <a class="td col-md-2">CPM</a>
+                        <a class="td col-md-1">$5.00</a>
+                        <a class="td col-md-2">$5,000</a>
+                        <a class="td col-md-2">Impressions #10,000</a>
+                        <a class="td col-md-2">03/30/2016 - 09/03/2016</a>
+                    </div>
+                    
+                    <div class="tableEdit" ng-include="'listItemEditTpl'"></div>
+                </div>
+                
+                <div class="tr">
+                    <div class="tableNormal" ng-click="showEditItemRow($event)">
+                        <a class="td col-md-3">Teen Girls 14-22 Video</a>
+                        <a class="td col-md-2">Post Impression CPA</a>
+                        <a class="td col-md-1">$1.00</a>
+                        <a class="td col-md-2">$10,000</a>
+                        <a class="td col-md-2">Action #10,000</a>
+                        <a class="td col-md-2">03/30/2016 - 09/03/2016</a>
+                    </div>
+                    
+                    <div class="tableEdit" ng-include="'listItemEditTpl'"></div>
+                </div>
+                
+                <div class="tr">
+                    <div class="tableNormal" ng-click="showEditItemRow($event)">
+                        <a class="td col-md-3">Research current TV trend teens</a>
+                        <a class="td col-md-2">Fixed Fee</a>
+                        <a class="td col-md-1">NA</a>
+                        <a class="td col-md-2">$7,000</a>
+                        <a class="td col-md-2">NA</a>
+                        <a class="td col-md-2">03/30/2016 - 09/03/2016</a>
+                    </div>
+                    
+                    <div class="tableEdit" ng-include="'listItemEditTpl'"></div>
+                </div>
+                
+                <div class="tr">
+                    <div class="tableNormal" ng-click="showEditItemRow($event)">
+                        <a class="td col-md-3">Adults 45+ or Seniors 55+ - Video</a>
+                        <a class="td col-md-2">CPM</a>
+                        <a class="td col-md-1">$5.00</a>
+                        <a class="td col-md-2">$5,000</a>
+                        <a class="td col-md-2">Impressions #10,000</a>
+                        <a class="td col-md-2">03/30/2016 - 09/03/2016</a>
+                    </div>
+                    
+                    <div class="tableEdit" ng-include="'listItemEditTpl'"></div>
                 </div>
             </div>
         </div>
@@ -181,5 +235,96 @@
     
     <span class="col-md-12 text-right" style="padding: 0 0 5px 0; border-bottom: 1px solid rgba(191, 201, 215, 0.5);">Total Contracted Value: $22,000</span>
 
-    <label for="nameTitleCampaign" class="col-sm-12 labelQuestTxt" style="margin-bottom: 5px;">Add Credits (0)</label>
+    <label class="col-sm-12 labelQuestTxt showAddCreditForm" ng-click="showAddCreditForm()">
+        <span class="icon-arrow-down-thick"></span>Add Credits (0)
+    </label>
+    
+    <div class="col-md-12 addCreditForm">
+        <div class="col-md-12 zeroPadding">
+            <div class="col-md-4 zeroPadding">
+                <label class="col-sm-12 greyTxt miniLabels zeroPadding">Credit Name / Notes</label>
+                <input type="text" class="col-md-12" placeholder=""/>
+            </div>
+            
+            <div class="col-md-2" style="padding: 0 0 0 10px;">
+                <label class="col-sm-12 greyTxt miniLabels zeroPadding">Amount</label>
+                <input type="text" class="col-md-12" placeholder=""/>
+            </div>
+            
+            <a class="btn btn-link pull-right" style="margin: 33px 0 0 0;">Delete</a>
+        </div>
+        
+        <div class="col-md-12 zeroPadding">
+            <a class="btn btn-link pull-left addRowMedia">
+                <span class="icon-plus"></span>
+                <span>Add Another Credit</span>
+            </a>
+        </div>
+    </div>
 </div>
+
+<!--Table Edit Form Template-->
+<script type="text/ng-template" id="listItemEditTpl">
+    <!--Row 1-->
+    <div class="col-md-12 zeroPadding">
+        <div class="col-md-4 zeroPadding">
+            <label class="col-sm-12 greyTxt miniLabels zeroPadding">Line Item Name / Notes</label>
+            <input type="text" class="col-md-12" placeholder="Enter Line Item name up to 150 characters"/>
+        </div>
+        
+        <div class="col-md-2" style="padding: 0 0 0 10px;">
+            <label class="col-sm-12 greyTxt miniLabels zeroPadding">Type</label>
+            <div class="col-md-12 zeroPadding dropdown-workflow">
+                 <div class="dropdown">
+                  <button style="width:100%;" class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                       <span class="text">Type 1</span>
+                       <span class="icon-arrow-down"></span>
+                  </button>
+                  <ul class="dropdown-menu" aria-labelledby="lineType" id="lineType" data-toggle="dropdown">
+                       <li class="available"><a>Type 1</a></li>
+                       <li class="available"><a>Type 2</a></li>
+                       <li class="available"><a>Type 3</a></li>
+                  </ul>
+                 </div>
+            </div>
+        </div>
+        
+        <div class="col-md-2" style="padding: 0 0 0 10px;">
+            <label class="col-sm-12 greyTxt miniLabels zeroPadding">Rate</label>
+            <input type="text" class="col-md-12" placeholder="Enter Rate"/>
+        </div>
+        
+        <a class="btn btn-link pull-right" style="margin: 33px 0 0 0;">Delete</a>
+    </div>
+    
+    <!--Row 2-->
+    <div class="col-md-12 zeroPadding">
+        <div class="span4 col-md-12 input-daterange input-group date pull-left" id="datepicker">
+            <div class="col-md-12 dateWrapper zeroPadding">
+                <div class="dateContainer">
+                <label class="col-sm-12 control-label greyTxt miniLabels">Billing Period Start</label>
+                <div style="background: #fff;">
+                    <input type="text" id="startDateInput" custom-date-picker="{format: 'mm/dd/yyyy', orientation: 'auto',  autoclose: true, todayHighlight: true}" placeholder="MM/DD/YYYY" class="form-control"  readonly name="startTime" ng-model="adData.startTime"  ng-disabled="checkForPastDate(workflowData['campaignData'].startTime, workflowData['campaignData'].endTime) || (workflowData.adsData.state=='IN_FLIGHT' || workflowData.adsData.state === 'ENDED' || workflowData.adsData.state === 'PAUSED'?true:false)" ng-change=" handleStartFlightDate(adData)"/>
+                </div>
+                </div>
+                <div class="dateContainer">
+                <label class="col-sm-12 control-label greyTxt miniLabels">Billing Period End</label>
+                <div style="background: #fff;">
+                    <input type="text" id="endDateInput" custom-date-picker="{format: 'mm/dd/yyyy', orientation: 'auto',  autoclose: true, todayHighlight: true}" placeholder="MM/DD/YYYY" class="form-control" readonly disabled="disabled" ng-model="adData.endTime" name="endTime" required ng-change="handleEndFlightDate(adData)"/>
+                </div>    
+                </div>
+            </div>
+            <span class="col-md-12 input-group-addon">
+                <div class="calenderIcon">
+                <span class="icon-calendar"></span>
+                </div>
+                <div class="calenderIcon">
+                <span class="icon-calendar"></span>
+                </div>
+            </span>
+        </div>
+        
+        <a class="btn btn-primary pull-right">Save Changes</a>
+        <a class="btn btn-link pull-right" ng-click="showNormalItemRow($event);">Cancel</a>
+    </div>
+</script>
