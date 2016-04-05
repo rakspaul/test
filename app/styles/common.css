@@ -1727,3 +1727,6 @@ multiselect .dropdown-menu > li > a {
 tags-input .autocomplete {
   margin-top: 37px ;
 }
+.anchor-disabled {
+    cursor: default;
+}

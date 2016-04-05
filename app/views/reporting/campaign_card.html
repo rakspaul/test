@@ -19,7 +19,7 @@
                 </truncate-text-with-hover>
             </a>
             <a ng-if="$parent.isWorkFlowUser"
-               ng-click="redirectTo(campaign, campaigns.dashboard.appliedFilterType, $event)">
+               ng-click="showManageButton?redirectTo(campaign, campaigns.dashboard.appliedFilterType, $event):''" ng-class="{'anchor-disabled':showManageButton === false}">
                 <truncate-text-with-hover
                         txt="{{campaign.campaignTitle}}"
                         txt-html="{{campaign.campaignTitleHtml}}"
