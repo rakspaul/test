@@ -46,10 +46,10 @@ define(['angularAMD'],function (angularAMD) {
                         $scope.extractor(getADsForGroupData, formElem);
                     } else {
                         $scope.resetAdsData();
-                        startDateElem.datepicker("setStartDate", startTime);
+                        startDateElem.datepicker("setStartDate", $scope.campaignStartTime);
                         startDateElem.datepicker("setEndDate", $scope.campaignEndTime);
 
-                        endDateElem.datepicker("setStartDate", startTime);
+                        endDateElem.datepicker("setStartDate", $scope.campaignStartTime);
                         endDateElem.datepicker("setEndDate", $scope.campaignEndTime);
                     }
 

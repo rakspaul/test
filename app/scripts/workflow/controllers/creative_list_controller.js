@@ -543,20 +543,21 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
 
         //Sticky Header
         $(window).scroll(function() {
-
-            if ($(this).scrollTop() > $(".vistoTable").offset().top) {
-                $('.vistoTable .thead').addClass("sticky");
-                if( $(".thead .childRow:visible").length == 0 ) {
-                    $('.vistoTable .tbody').css("margin-top","64px");
-                } else {
-                    $('.vistoTable .tbody').css("margin-top","104px");
+            if( $(".vistoTable").length > 0  ) {
+                if ($(this).scrollTop() > $(".vistoTable").offset().top) {
+                    $('.vistoTable .thead').addClass("sticky");
+                    if( $(".thead .childRow:visible").length == 0 ) {
+                        $('.vistoTable .tbody').css("margin-top","64px");
+                    } else {
+                        $('.vistoTable .tbody').css("margin-top","104px");
+                    }
+                    if( $(".fixedParent").length > 0 ) {
+                        $('.vistoTable .tbody').css("margin-top","164px");
+                    }
+                } else{
+                    $('.vistoTable .thead').removeClass("sticky");
+                    $('.vistoTable .tbody').css("margin-top","0px");
                 }
-                if( $(".fixedParent").length > 0 ) {
-                    $('.vistoTable .tbody').css("margin-top","164px");
-                }
-            } else{
-                $('.vistoTable .thead').removeClass("sticky");
-                $('.vistoTable .tbody').css("margin-top","0px");
             }
         });
 

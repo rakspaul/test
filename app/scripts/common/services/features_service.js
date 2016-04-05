@@ -3,6 +3,9 @@ define(['angularAMD','workflow/services/workflow_service','common/services/visto
 
         var params = ['dashboard','report_overview', 'inventory', 'performance', 'quality', 'cost', 'optimization_impact', 'platform', 'scheduled', 'collective',
             'scheduled_reports', 'collective_insights', 'create_mediaplan', 'dashboard', 'mediaplan_list', 'ad_setup', 'mediaplan_hub', 'creative_list', 'reports_tab'];
+
+        var apiFeatureKeys = ['REP_OVERVIEW','REP_INV','REP_PERF','REP_QUALITY','COST','REP_OPT','REP_PLATFORM','REP_SCH','REP_INSIGHTS','MEDIAPLAN_SETUP','MEDIAPLAN_HUB','AD_SETUP','MEDIAPLAN_LIST','CREATIVE_LIST','DASHBOARD','REPORTS_TAB'];
+
         this.featureParams = [];
 
         this.serverResponseReceived = false;
@@ -18,56 +21,56 @@ define(['angularAMD','workflow/services/workflow_service','common/services/visto
         //initialize feature params
         this.setAllFeatureParams(false);
 
-        this.setSingleFeatureParam = function (fParam) {
+        this.setSingleFeatureParam = function (fParam,boolStatus) {
             var self = this;
             switch (fParam) {
                 case 'REP_OVERVIEW':
-                    this.featureParams[0].report_overview = true;
+                    this.featureParams[0].report_overview = boolStatus;
                     break;
                 case 'REP_INV':
-                    this.featureParams[0].inventory = true;
+                    this.featureParams[0].inventory = boolStatus;
                     break;
                 case 'REP_PERF':
-                    this.featureParams[0].performance = true;
+                    this.featureParams[0].performance = boolStatus;
                     break;
                 case 'REP_QUALITY':
-                    this.featureParams[0].quality = true;
+                    this.featureParams[0].quality = boolStatus;
                     break;
                 case 'COST':
-                    this.featureParams[0].cost = true;
+                    this.featureParams[0].cost = boolStatus;
                     break;
                 case 'REP_OPT':
-                    this.featureParams[0].optimization_impact = true;
+                    this.featureParams[0].optimization_impact = boolStatus;
                     break;
                 case 'REP_PLATFORM':
-                    this.featureParams[0].platform = true;
+                    this.featureParams[0].platform = boolStatus;
                     break;
                 case 'REP_SCH':
-                    this.featureParams[0].scheduled_reports = true;
+                    this.featureParams[0].scheduled_reports = boolStatus;
                     break;
                 case 'REP_INSIGHTS':
-                    this.featureParams[0].collective_insights = true;
+                    this.featureParams[0].collective_insights = boolStatus;
                     break;
                 case 'MEDIAPLAN_SETUP':
-                    this.featureParams[0].create_mediaplan = true;
+                    this.featureParams[0].create_mediaplan = boolStatus;
                     break;
                 case 'MEDIAPLAN_HUB':
-                    this.featureParams[0].mediaplan_hub = true;
+                    this.featureParams[0].mediaplan_hub = boolStatus;
                     break;
                 case 'AD_SETUP':
-                    this.featureParams[0].ad_setup = true;
+                    this.featureParams[0].ad_setup = boolStatus;
                     break;
                 case 'MEDIAPLAN_LIST':
-                    this.featureParams[0].mediaplan_list = true;
+                    this.featureParams[0].mediaplan_list = boolStatus;
                     break;
                 case 'CREATIVE_LIST':
-                    this.featureParams[0].creative_list = true;
+                    this.featureParams[0].creative_list = boolStatus;
                     break;
                 case 'DASHBOARD':
-                    this.featureParams[0].dashboard = true;
+                    this.featureParams[0].dashboard = boolStatus;
                     break;
                 case 'REPORTS_TAB':
-                    this.featureParams[0].reports_tab = true;
+                    this.featureParams[0].reports_tab = boolStatus;
                     break;
             }
         }
@@ -95,9 +98,18 @@ define(['angularAMD','workflow/services/workflow_service','common/services/visto
                 //Enable all features
                 this.setAllFeatureParams(true);
             } else {
-                _.each(featuresArr, function (features) {
-                    self.setSingleFeatureParam(features)
+                apiFeatureKeysCopy = angular.copy(apiFeatureKeys);
+                _.each(featuresArr, function (features,index) {
+                    self.setSingleFeatureParam(features,true);
+                    apiFeatureKeysCopyIndex = apiFeatureKeysCopy.indexOf(features);
+                    apiFeatureKeysCopy.splice(apiFeatureKeysCopyIndex,1);
                 })
+
+                //set features to false which are not sent in the API's enable list
+                _.each(apiFeatureKeysCopy,function(apiLeftOutParams){
+                    self.setSingleFeatureParam(apiLeftOutParams,false);
+                })
+
                 //check if reports tab not there
                 if (featuresArr.indexOf('REPORTS_TAB') < 0) {
                     this.disableReportTab();
@@ -109,7 +121,7 @@ define(['angularAMD','workflow/services/workflow_service','common/services/visto
             $rootScope.$broadcast('features');
         }
 
-        this.getFeatureParams = function (whichplace) { //console.log('this.featureParams',this.featureParams[0]);
+        this.getFeatureParams = function (whichplace) {
             return this.featureParams;
         }
 
@@ -117,6 +129,7 @@ define(['angularAMD','workflow/services/workflow_service','common/services/visto
             var self = this;
             var setFparams = function() {
                 var featureParams = self.getFeatureParams();
+
                 if((feature_param == 'dashboard') && (featureParams[0][feature_param] === false)) {
                     $location.url(vistoconfig.MEDIA_PLANS_LINK);
                     return false;

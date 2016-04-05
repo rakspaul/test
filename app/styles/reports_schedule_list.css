@@ -36,6 +36,7 @@
 .reports-scheduled-list .scheduled_list_table .table-td {
   float: left;
   min-height: 36px ;
+  /**/
 }
 .reports-scheduled-list .scheduled_list_table .table-th .col-md-9:first-child,
 .reports-scheduled-list .scheduled_list_table .table-td .col-md-9:first-child {
@@ -45,6 +46,10 @@
   background-position: 15px 16px;
   cursor: pointer;
 }
+.reports-scheduled-list .scheduled_list_table .table-th .col-md-9.no-instance:first-child,
+.reports-scheduled-list .scheduled_list_table .table-td .col-md-9.no-instance:first-child {
+  cursor: text;
+}
 .reports-scheduled-list .scheduled_list_table .table-th .col-md-9.arrow:first-child,
 .reports-scheduled-list .scheduled_list_table .table-td .col-md-9.arrow:first-child {
   background-image: none !important;
@@ -53,7 +58,7 @@
 .reports-scheduled-list .scheduled_list_table .table-th .no-instance,
 .reports-scheduled-list .scheduled_list_table .table-td .no-instance {
   background-image: none !important;
-  cursor: initial !important;
+  cursor: initial;
 }
 .reports-scheduled-list .scheduled_list_table div.name-col {
   width: 33.33333333%;
@@ -231,6 +236,9 @@
 .reports-scheduled-list .scheduled_list_table .view-all-link a {
   color: #0978c9 ;
   text-decoration: underline;
+}
+.reports-scheduled-list .scheduled_list_table div.name-col .col-md-9.no-instance.isSaved:first-child {
+  cursor: pointer;
 }
 .reports-scheduled-list .scheduled_list_table .name-col {
   width: 325px ;
