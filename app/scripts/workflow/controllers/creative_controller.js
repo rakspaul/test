@@ -1,4 +1,4 @@
-define(['angularAMD','common/services/constants_service','workflow/services/workflow_service','workflow/services/creative_custom_module','workflow/directives/creative_drop_down','workflow/directives/ng_upload_hidden','login/login_model'],function (angularAMD) {
+define(['angularAMD','common/services/constants_service','workflow/services/workflow_service','workflow/services/creative_custom_module','workflow/directives/creative_drop_down','workflow/directives/ng_upload_hidden','login/login_model', 'common/popup_msg'],function (angularAMD) {
   angularAMD.controller('CreativeController', function($scope, $rootScope, $routeParams, $location, constants, workflowService,creativeCustomModule,loginModel) {
      // $scope.creativeFormat="DISPLAY";
       $scope.creative={};
@@ -588,21 +588,24 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
                           $rootScope.setErrAlertMessage($scope.textConstants.CREATIVE_SAVE_SUCCESS,0);
                           localStorage.setItem( 'topAlertMessage', $scope.textConstants.CREATIVE_SAVE_SUCCESS);
                       } else if (result.status === 'error'){
-                          $scope.addedSuccessfully = true;
                           $scope.savingCreative = false;
                           $scope.Message = 'Unable to create Creative';
+                          $scope.partialSaveAlertMessage = true;
+                          $rootScope.setErrAlertMessage($scope.Message,1);
                       } else if (result.data.data.message ==='Creative with this tag already exists. If you still want to save, use force save') {
                           $('.popup-holder').css('display', 'block');
-                          $scope.addedSuccessfully = false;
                           $scope.savingCreative = false;
                           $scope.disableCancelSave = true;
                       } else {
-                          $scope.addedSuccessfully = true;
                           $scope.savingCreative = false;
                           $scope.Message = 'Unable to create Creative';
+                          $scope.partialSaveAlertMessage = true;
+                          $rootScope.setErrAlertMessage($scope.Message,1);
                           console.log(result);
                       }
                   });
+
+              //localStorage.setItem( 'topAlertMessage', $scope.textConstants.CREATIVE_SAVE_SUCCESS);
           }else{
               postCrDataObj.updatedAt=$scope.creativeEditData.updatedAt;
               workflowService

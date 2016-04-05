@@ -1,3 +1,7 @@
+
+<popup-msg ng-show="partialSaveAlertMessage" ng-controller="popUpMsgCtr"
+           ng-init="init('partialSaveAlertMessage','WF_CAMPAIGN_ARCHIVE_FAILURE')"></popup-msg>
+
 <div class="popCreativeLib" ng-show="isAddCreativePopup" ng-controller="CreativeController">
 <!--<div class="popCreativeLib" ng-init ="abc()" ng-show="isAddCreativePopup" ng-controller="CreativeController">-->
 <div id="creative">
@@ -27,7 +31,6 @@
 
             <form role="form" name="formCreativeCreate" id="formCreativeCreate" novalidate ng-submit="submitForm(formCreativeCreate)">
 				<div class="col-md-6 zeroPadding pull-right saveCreativeBtn">
-                    <div ng-show="addedSuccessfully" ng-model="addedSuccessfully" class="text-right">{{Message}}</div>
                     <!--<div class="col-md-12" style="margin-top: 10px;" ng-show="savingCreative = true">-->
                         <span class="common-loading-btn pull-right" ng-show="savingCreative" style="width:118px"></span>
                     <!--</div>-->
