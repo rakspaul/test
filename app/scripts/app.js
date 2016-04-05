@@ -375,7 +375,7 @@ define(['common'], function (angularAMD) {
                 controller: 'CampaignAdsCreateController',
                 controllerUrl: 'workflow/controllers/campaign_adcreate_controller',
                 resolve: {
-                    'check': function ($location, RoleBasedService, workflowService, constants) {
+                    'check': function ($location, RoleBasedService, workflowService, constants,featuresService,$rootScope) {
                         var isWorkflowUser =
                             RoleBasedService.getClientRole() && RoleBasedService.getClientRole().workFlowUser;
 
