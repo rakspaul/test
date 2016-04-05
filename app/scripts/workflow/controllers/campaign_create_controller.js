@@ -1127,5 +1127,24 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 $scope.searchHideInput();
             }
         });
+        
+        //Show Add Credits
+        $scope.showAddCreditForm = function() {
+            $(".addCreditForm").toggle();
+            $(".showAddCreditForm .icon-arrow-down-thick").toggleClass("active");
+        }
+        
+        //Line Item Table Row Edit
+        $scope.showEditItemRow = function(event) {
+            var target =  event.currentTarget;
+            $(target).toggle();
+            $(target).closest('.tr').find('.tableEdit').toggle();
+        }
+        
+        $scope.showNormalItemRow = function(event) {
+            var target =  event.currentTarget;
+            $(target).closest('.tr').find('.tableNormal').toggle();
+            $(target).closest('.tr').find('.tableEdit').toggle();
+        }
     });
 });
