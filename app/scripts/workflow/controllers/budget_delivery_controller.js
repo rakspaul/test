@@ -283,6 +283,20 @@ define(['angularAMD', 'common/services/constants_service', 'common/moment_utils'
       
     };
 
+    $scope.select_kpi = function (event , type) {
+       var elem = $(event.target);
+       console.log(type);
+       if( type != "impressions" ) {
+          $(".impressions_holder").find("input[type='checkbox']").attr("disabled" , true) ;
+          $(".budget_holder_input").find("input[type='text']").attr("disabled" , false).removeClass("disabled-field") ;
+          $(".impressions_holder").find(".external_chkbox").addClass("disabled") ;
+       } else {
+        $(".impressions_holder").find("input[type='checkbox']").attr("disabled" , false) ;
+        $(".budget_holder_input").find("input[type='text']").attr("disabled" , true).addClass("disabled-field") ;
+        $(".impressions_holder").find(".external_chkbox").removeClass("disabled") ;
+       }
+    };
+
     $scope.$parent.initiateDatePicker = function () {
       var endDateElem = $('#endDateInput'),
         startDateElem = $('#startDateInput'),
