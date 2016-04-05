@@ -3,7 +3,8 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
         'reporting/timePeriod/time_period_model', 'login/login_model', 'common/services/role_based_service',
         'reporting/advertiser/advertiser_model', 'reporting/brands/brands_model',
         'common/services/url_service', 'common/services/features_service', 'common/services/request_cancel_service',
-        'reporting/strategySelect/strategy_select_directive','reporting/strategySelect/strategy_select_controller','reporting/timePeriod/time_period_pick_directive'
+        'reporting/strategySelect/strategy_select_directive','reporting/strategySelect/strategy_select_controller','reporting/timePeriod/time_period_pick_directive',
+        'reporting/kpiSelect/kpi_select_directive'
     ],
 
     function (angularAMD) {    'use strict';
