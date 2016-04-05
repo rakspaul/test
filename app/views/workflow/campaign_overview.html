@@ -179,7 +179,7 @@
             <!-- Ads Start -->
             <div class="adWrap">
                 <!--Sub-Header-->
-                <div style="display: table; float: none; margin: 0 auto; padding: 30px 0 0 0; width: 1200px;">
+                <div style="display: table; float: none; margin: 0 auto; padding: 30px 0 0; width: 1200px;">
                     <!--Create Media Plan Btn-->
                     <!--<a href="/mediaplan/create" class="pull-left btn btn-primary" ng-bind="textConstants.CREATE_CAMPAIGN"></a>-->
 
@@ -245,7 +245,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-12 adContainer">
+                <div ng-show='isAdGroupsBusy' class="load-more">&nbsp;</div>
+                <div class="col-md-12 adContainer" ng-show="!isAdGroupsBusy">
                     <!--===Start get ad groups ===-->
                     <div id="getAdgroups"
                          ng-include="'/views/workflow/partials/overview_partials/overview_getAdgroups.html'"
