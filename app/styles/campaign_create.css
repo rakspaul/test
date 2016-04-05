@@ -1899,6 +1899,17 @@
   border-bottom: 1px solid rgba(191, 201, 215, 0.5);
   margin: 20px 0 0 0;
 }
+#campaignCreate .firstWrapper .masterContainer .selectedPixels .pixelName {
+  padding: 5px 0 !important;
+  border-bottom: 1px solid rgba(191, 201, 215, 0.5);
+}
+#campaignCreate .firstWrapper .masterContainer .selectedPixels .pixelName span {
+  float: left;
+  width: 85%;
+}
+#campaignCreate .firstWrapper .masterContainer .selectedPixels .pixelName:first-child {
+  margin-top: 30px;
+}
 #campaignCreate .firstWrapper .masterContainer .adWrap {
   background: #fff;
   float: left;

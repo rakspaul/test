@@ -259,6 +259,7 @@
 .table-responsive .yellowTable .tbody .tr .td:first-child {
   border-width: 0;
 }
+
 .table-responsive .arrowLookDown {
   -ms-transform: rotate(0deg) !important;
   /* IE 9 */
