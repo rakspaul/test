@@ -5,7 +5,7 @@
     </div>
 </div>
 <div class="row zeroPadding budgetWrap radioBtnToggle">
-     <div class="col-md-12 adHeader" data-ng-bind="textConstants.SETUPBUDGET" style="padding-top:5px;"></div>
+     <div class="col-md-12 adHeader" data-ng-bind="textConstants.TRACKBUDGET" style="padding-top:5px;"></div>
      <div class="col-md-12 zeroPadding symbolAbs">
          
          <div class="form-group col-md-2 zeroPadding" style="margin-right: -5px;">
@@ -14,15 +14,27 @@
                  <div class="col-md-12 zeroPadding dropdown-workflow">
                       <div class="dropdown">
                            <button style="width:130px;" class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                <span class="text">CPM</span>
+                                <span class="text">Impressions</span>
                                 <span class="icon-arrow-down"></span>
                            </button>
-                           <ul class="dropdown-menu" aria-labelledby="unitcostType" ng-model="adData.unitType"  id="unitcostType" data-toggle="dropdown">
-                                <li ng-repeat="unitType in workflowData.unitTypes track by unitType.id" class="available">
-                                 <a ng-click="dropBoxItemSelected(unitType, 'unitType')" data-ng-bind="unitType.name"></a>
+                           <ul class="dropdown-menu" data-toggle="dropdown">
+                                <li class="available" ng-click="select_kpi($event , 'impressions');" >
+                                  <a>Impressions</a>
+                                </li>
+                                <li class="available" ng-click="select_kpi($event , 'CPA');" >
+                                  <a>CPA</a>
+                                </li>
+                                <li class="available" ng-click="select_kpi($event , 'CPC');" >
+                                  <a>CPC</a>
+                                </li>
+                                <li class="available" ng-click="select_kpi($event , 'CTR');" >
+                                  <a>CTR</a>
+                                </li>
+                                <li class="available" ng-click="select_kpi($event , 'VTC');" >
+                                  <a>VTC</a>
                                 </li>
                            </ul>
-                          <input type="hidden" name="unitType" ng-model="adData.unitType.name" ng-update-hidden/>
+                          <input type="hidden" ng-update-hidden/>
                       </div>
                  </div>
             </div>
@@ -37,7 +49,7 @@
     </div>
 
     <div class="col-md-12 zeroPadding unitCost symbolAbs">
-        
+         <div class="col-md-12 adHeader" data-ng-bind="textConstants.SETUPBUDGET" ></div>
         <div class="form-group col-md-2 zeroPadding" style="margin-right: -5px;">
           <label class="col-sm-12 control-label greyTxt miniLabels" data-ng-bind="textConstants.UNITCOST"></label>
             <div class="col-md-12 zeroPadding dropdown-workflow">
@@ -48,7 +60,7 @@
                       </button>
                       <ul class="dropdown-menu" aria-labelledby="unitcostType" ng-model="adData.unitType"  id="unitcostType" data-toggle="dropdown">
                            <li ng-repeat="unitType in workflowData.unitTypes track by unitType.id" class="available">
-                            <a ng-click="dropBoxItemSelected(unitType, 'unitType')" data-ng-bind="unitType.name"></a>
+                            <a  data-ng-bind="unitType.name"></a>
                            </li>
                       </ul>
                      <input type="hidden" name="unitType" ng-model="adData.unitType.name" ng-update-hidden/>
@@ -90,7 +102,7 @@
                  <label class="control-label greyTxt miniLabels" data-ng-bind="textConstants.ESTIMATED_IMPRESSIONS"></label>
                  <div class="impressions-val">18000</div><!-- add "errorText" when error -->
              </div>
-             <div class="pull-left txtError" style="margin-left:-20px;" ng-bind-html="textConstants.KPI_NOTSATISFIED_ERROR" ></div>
+             <div class="pull-left txtError" style="margin-left:-20px;display:none;" ng-bind-html="textConstants.KPI_NOTSATISFIED_ERROR" ></div>
          </div>
      </div>
  </div>
