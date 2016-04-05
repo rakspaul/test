@@ -1,51 +1,51 @@
 <popup-msg ng-show="flashMessage" ng-controller="popUpMsgCtr"
-		   ng-init="init('flashMessage','WF_CAMPAIGN_ARCHIVE_FAILURE')"></popup-msg>
+           ng-init="init('flashMessage','WF_CAMPAIGN_ARCHIVE_FAILURE')"></popup-msg>
 
 <div id="campaignCreate">
-	<div class="firstWrapper">
-		<div class="masterContainer">
-			<!-- Header Starts -->
-			<div class="clearfix left_column_nav campaign-create-left-nav" style="border-width: 0;">
-				<div class="campaign_name_holder">
-					<h1 class="campaign_name">{{textConstants.MP_TITLE}}</h1>
-					<ul class="stepCompLabel nav nav-tabs" id="mediaTab">
-						<li class="active eachStepCompLabel">
-							<a class="leftNavLink selected" data-target="#settings" data-toggle="tab">1 About this Media Plan</a>
-							<!--<div class="statusLabel" ng-hide="selectedCampaign.goal.name || selectedCampaign.startTime || selectedCampaign.budget">-->
-							<!--	<div class="col-md-12">-->
-							<!--		<span>{{textConstants.WF_NOT_SET}}</span>-->
-							<!--	</div>-->
-							<!--</div>-->
-							<div class="statusLabel each-setting" ng-if="brand.length>0">
-								<div class="col-md-12">
-									<div class="pull-left">
-										<span class="statusIcon icon-brand"></span>
-									</div>
-									<div class="pull-left">
-										<div class="clearfix"><span class="icon_txt">Branding</span> <span class="grey_txt">(Objective)</span> </div>
-										<div ng-repeat="letter in brand track by $index">{{letter}}</div>
-									</div>
-								</div>
-							</div>
-							<div class="statusLabel each-setting" ng-if="performance.length>0">
-								<div class="col-md-12">
-									<div class="pull-left">
-										<span class="statusIcon icon-performance"></span>
-									</div>
-									<div class="pull-left">
-										<div class="clearfix"><span class="icon_txt">Performance</span> <span class="grey_txt">(Objective)</span> </div>
-										<div ng-repeat="letter in performance track by $index">{{letter}}</div>
-									</div>
-								</div>
-							</div>
-							<div class="statusLabel" ng-if="selectedCampaign.startTime">
-								<div class="col-md-12">
-									<!--<span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>-->
-									<div class="statusIcon icon-calendar"></div>
-									<span class="">{{selectedCampaign.startTime}}</span>  <span class="" ng-if="selectedCampaign.endTime"> - {{selectedCampaign.endTime}}</span></span>
-									<span>(Flight)</span>
-								</div>
-							</div>
+    <div class="firstWrapper">
+        <div class="masterContainer">
+            <!-- Header Starts -->
+            <div class="clearfix left_column_nav campaign-create-left-nav" style="border-width: 0;">
+                <div class="campaign_name_holder">
+                    <h1 class="campaign_name">{{textConstants.MP_TITLE}}</h1>
+                    <ul class="stepCompLabel nav nav-tabs" id="mediaTab">
+                        <li class="active eachStepCompLabel">
+                            <a class="leftNavLink selected" data-target="#settings" data-toggle="tab">1 About this Media Plan</a>
+                            <!--<div class="statusLabel" ng-hide="selectedCampaign.goal.name || selectedCampaign.startTime || selectedCampaign.budget">-->
+                            <!--    <div class="col-md-12">-->
+                            <!--        <span>{{textConstants.WF_NOT_SET}}</span>-->
+                            <!--    </div>-->
+                            <!--</div>-->
+                            <div class="statusLabel each-setting" ng-if="brand.length>0">
+                                <div class="col-md-12">
+                                    <div class="pull-left">
+                                        <span class="statusIcon icon-brand"></span>
+                                    </div>
+                                    <div class="pull-left">
+                                        <div class="clearfix"><span class="icon_txt">Branding</span> <span class="grey_txt">(Objective)</span> </div>
+                                        <div ng-repeat="letter in brand track by $index">{{letter}}</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="statusLabel each-setting" ng-if="performance.length>0">
+                                <div class="col-md-12">
+                                    <div class="pull-left">
+                                        <span class="statusIcon icon-performance"></span>
+                                    </div>
+                                    <div class="pull-left">
+                                        <div class="clearfix"><span class="icon_txt">Performance</span> <span class="grey_txt">(Objective)</span> </div>
+                                        <div ng-repeat="letter in performance track by $index">{{letter}}</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="statusLabel" ng-if="selectedCampaign.startTime">
+                                <div class="col-md-12">
+                                    <!--<span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>-->
+                                    <div class="statusIcon icon-calendar"></div>
+                                    <span class="">{{selectedCampaign.startTime}}</span>  <span class="" ng-if="selectedCampaign.endTime"> - {{selectedCampaign.endTime}}</span></span>
+                                    <span>(Flight)</span>
+                                </div>
+                            </div>
                             <div class="statusLabel each-setting">
                                 <div class="col-md-12">
                                     <div class="pull-left">
@@ -58,169 +58,169 @@
                                     </div>
                                 </div>
                             </div>
-							<div class="statusLabel" ng-if="selectedCampaign.budget">
-								<div class="col-md-12">
-									<span class="statusIcon" style="width: 12px; text-align: right; display: inline-table;">{{ locale.NUMBER_FORMATS.CURRENCY_SYM}}</span>
-									<span id="budgetAmount"  class="">{{selectedCampaign.budget | number}}</span>
-									<span>(Budget)</span>
-								</div>
-							</div>
-						</li>
+                            <div class="statusLabel" ng-if="selectedCampaign.budget">
+                                <div class="col-md-12">
+                                    <span class="statusIcon" style="width: 12px; text-align: right; display: inline-table;">{{ locale.NUMBER_FORMATS.CURRENCY_SYM}}</span>
+                                    <span id="budgetAmount"  class="">{{selectedCampaign.budget | number}}</span>
+                                    <span>(Budget)</span>
+                                </div>
+                            </div>
+                        </li>
 
                         <li class="clearfix eachStepCompLabel" >
-							<a class="leftNavLink" data-target="#pixels" data-toggle="tab">2 Pixels</a>
-							<!--<div class="statusLabel disabled">-->
-							<!--	<div class="col-md-12">-->
-							<!--		<span>{{textConstants.WF_NOT_SET}}</span>-->
-							<!--	</div>-->
-							<!--</div>-->
-						</li>
-
-						<li class="clearfix eachStepCompLabel" >
-							<a class="leftNavLink budget-page-trigger" data-target="#budget" data-toggle="tab">3 {{textConstants.MP_BUDGET}} $ Measure</a>
-							<!--<div class="statusLabel " ng-hide="Campaign.totalBudget || Campaign.deliveryBudget">-->
-							<!--	<div class="col-md-12">-->
-							<!--		<span>{{textConstants.WF_NOT_SET}}</span>-->
-							<!--	</div>-->
-							<!--</div>-->
-							<div class="statusLabel" ng-if="Campaign.totalBudget">
-								<div class="col-md-12">
-									<div class="statusIcon icon-usd"></div>
-									<span class="">{{locale.NUMBER_FORMATS.CURRENCY_SYM}}{{Campaign.totalBudget | setDecimal:2 | number : fractionSize}}</span>
-									<span>(Total Budget)</span>
-								</div>
-							</div>
-							<div class="statusLabel" ng-if="Campaign.deliveryBudget">
-								<div class="col-md-12">
-									<div class="statusIcon icon-usd"></div>
-									<span class="">{{locale.NUMBER_FORMATS.CURRENCY_SYM}}{{Campaign.deliveryBudget | setDecimal:2 | number : fractionSize}}</span>
-									<span>(Delivery Budget)</span>
-								</div>
-							</div>
-							<div class="statusLabel" ng-if="PrimaryImpressions>0">
-								<div class="col-md-12">
-									<div class="statusIcon icon-goal"></div>
-									<span class="">{{PrimaryImpressions | number : fractionSize}}</span>
-									<span>(Primary KPI)</span>
-								</div>
-							</div>
-						</li>
+                            <a class="leftNavLink" data-target="#pixels" data-toggle="tab">2 Pixels</a>
+                            <!--<div class="statusLabel disabled">-->
+                            <!--    <div class="col-md-12">-->
+                            <!--        <span>{{textConstants.WF_NOT_SET}}</span>-->
+                            <!--    </div>-->
+                            <!--</div>-->
+                        </li>
 
                         <li class="clearfix eachStepCompLabel" >
-							<a class="leftNavLink" data-target="#addLineItems" data-toggle="tab">4 Line Items</a>
-							<!--<div class="statusLabel disabled">-->
-							<!--	<div class="col-md-12">-->
-							<!--		<span>{{textConstants.WF_NOT_SET}}</span>-->
-							<!--	</div>-->
-							<!--</div>-->
-						</li>
-					</ul>
-				</div>
-			</div>
-			<!-- Header Ends -->
+                            <a class="leftNavLink budget-page-trigger" data-target="#budget" data-toggle="tab">3 {{textConstants.MP_BUDGET}} $ Measure</a>
+                            <!--<div class="statusLabel " ng-hide="Campaign.totalBudget || Campaign.deliveryBudget">-->
+                            <!--    <div class="col-md-12">-->
+                            <!--        <span>{{textConstants.WF_NOT_SET}}</span>-->
+                            <!--    </div>-->
+                            <!--</div>-->
+                            <div class="statusLabel" ng-if="Campaign.totalBudget">
+                                <div class="col-md-12">
+                                    <div class="statusIcon icon-usd"></div>
+                                    <span class="">{{locale.NUMBER_FORMATS.CURRENCY_SYM}}{{Campaign.totalBudget | setDecimal:2 | number : fractionSize}}</span>
+                                    <span>(Total Budget)</span>
+                                </div>
+                            </div>
+                            <div class="statusLabel" ng-if="Campaign.deliveryBudget">
+                                <div class="col-md-12">
+                                    <div class="statusIcon icon-usd"></div>
+                                    <span class="">{{locale.NUMBER_FORMATS.CURRENCY_SYM}}{{Campaign.deliveryBudget | setDecimal:2 | number : fractionSize}}</span>
+                                    <span>(Delivery Budget)</span>
+                                </div>
+                            </div>
+                            <div class="statusLabel" ng-if="PrimaryImpressions>0">
+                                <div class="col-md-12">
+                                    <div class="statusIcon icon-goal"></div>
+                                    <span class="">{{PrimaryImpressions | number : fractionSize}}</span>
+                                    <span>(Primary KPI)</span>
+                                </div>
+                            </div>
+                        </li>
 
-			<!-- Settings Start -->
-			<div class="settingWrap">
-				<form class="form-horizontal ng-scope ng-pristine ng-valid" id="createCampaignForm" role="form" name="createCampaignForm" action="#"  novalidate>
-					<div class="collapseHeader">
-						<div class="col-md-6 zeroPadding">
-							<h2>{{ textConstants.WF_SETTINGS }}</h2>
-						</div>
-						<div class="col-md-6 zeroPadding">
-							<div class="zeroPadding dropdown-workflow pull-right" style="margin-left: 10px;" ng-hide="(mode!='edit')">
-								<div class="dropdown">
-									<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" style="margin: 0; padding: 10px 15px;">
-										<span class="icon-more-options"></span>
-									</button>
-									<ul class="dropdown-menu" id="moreOptions" style="right: 0; left: initial;">
-										<li class="disabled"><a>{{textConstants.WF_PAUSE}}</a></li>
-										<li class="disabled"><a>{{textConstants.WF_RESUME}}</a></li>
-										<li><a class="available" id="archiveAdbtn" ng-hide="(mode!='edit')" ng-click="cancelArchiveCampaign()">{{textConstants.WF_ARCHIVE}}</a></li>
-									</ul>
-								</div>
-							</div>
+                        <li class="clearfix eachStepCompLabel" >
+                            <a class="leftNavLink" data-target="#addLineItems" data-toggle="tab">4 Line Items</a>
+                            <!--<div class="statusLabel disabled">-->
+                            <!--    <div class="col-md-12">-->
+                            <!--        <span>{{textConstants.WF_NOT_SET}}</span>-->
+                            <!--    </div>-->
+                            <!--</div>-->
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <!-- Header Ends -->
+
+            <!-- Settings Start -->
+            <div class="settingWrap">
+                <form class="form-horizontal ng-scope ng-pristine ng-valid" id="createCampaignForm" role="form" name="createCampaignForm" action="#"  novalidate>
+                    <div class="collapseHeader">
+                        <div class="col-md-6 zeroPadding">
+                            <h2>{{ textConstants.WF_SETTINGS }}</h2>
+                        </div>
+                        <div class="col-md-6 zeroPadding">
+                            <div class="zeroPadding dropdown-workflow pull-right" style="margin-left: 10px;" ng-hide="(mode!='edit')">
+                                <div class="dropdown">
+                                    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" style="margin: 0; padding: 10px 15px;">
+                                        <span class="icon-more-options"></span>
+                                    </button>
+                                    <ul class="dropdown-menu" id="moreOptions" style="right: 0; left: initial;">
+                                        <li class="disabled"><a>{{textConstants.WF_PAUSE}}</a></li>
+                                        <li class="disabled"><a>{{textConstants.WF_RESUME}}</a></li>
+                                        <li><a class="available" id="archiveAdbtn" ng-hide="(mode!='edit')" ng-click="cancelArchiveCampaign()">{{textConstants.WF_ARCHIVE}}</a></li>
+                                    </ul>
+                                </div>
+                            </div>
                             <!--ng-disabled="createCampaignForm.$invalid"-->
-							<a href="#" class="btn btn-primary pull-right" role="button" ng-show="!saveCampaignClicked"  ng-click="saveCampaign()">{{textConstants.MP_SAVE}}</a>
-							<div ng-hide="(mode!='edit')">
-								<a ng-href="/mediaplan/{{editCampaignData.id}}/overview" class="btn btn-link pull-right" role="button">{{textConstants.MP_CANCEL}}</a>
-							</div>
-							<div class="pull-right common-loading-btn" style="width:62px;" ng-show="saveCampaignClicked"></div>
-							<div ng-show="(mode!='edit')">
-								<a href="/mediaplans" class="btn btn-link pull-right" role="button">{{textConstants.MP_CANCEL}}</a>
-							</div>
-						</div>
-					</div>
+                            <a href="#" class="btn btn-primary pull-right" role="button" ng-show="!saveCampaignClicked"  ng-click="saveCampaign()">{{textConstants.MP_SAVE}}</a>
+                            <div ng-hide="(mode!='edit')">
+                                <a ng-href="/mediaplan/{{editCampaignData.id}}/overview" class="btn btn-link pull-right" role="button">{{textConstants.MP_CANCEL}}</a>
+                            </div>
+                            <div class="pull-right common-loading-btn" style="width:62px;" ng-show="saveCampaignClicked"></div>
+                            <div ng-show="(mode!='edit')">
+                                <a href="/mediaplans" class="btn btn-link pull-right" role="button">{{textConstants.MP_CANCEL}}</a>
+                            </div>
+                        </div>
+                    </div>
 
-					<div class="tab-content">
+                    <div class="tab-content">
                         <!--Settings-->
-						<div class="isCollapsed tab-pane fade in active" id="settings">
+                        <div class="isCollapsed tab-pane fade in active" id="settings">
 
-							<div ng-include="'/views/workflow/partials/campaign_create/settings.html'"></div>
-						</div>
+                            <div ng-include="'/views/workflow/partials/campaign_create/settings.html'"></div>
+                        </div>
 
                         <!--Pixels-->
-						<div class="tab-pane fade" id="pixels">
-							<div ng-include="'/views/workflow/partials/campaign_create/pixels.html'"></div>
-						</div>
-                        
-						<!--Budget-->
-						<div class="tab-pane fade" id="budget">
-							<div ng-include="'/views/workflow/partials/campaign_create/budget.html'"></div>
-						</div>
+                        <div class="tab-pane fade" id="pixels">
+                            <div ng-include="'/views/workflow/partials/campaign_create/pixels.html'"></div>
+                        </div>
 
-						<!--Add Line Items-->
-						<div class="tab-pane fade" id="addLineItems">
+                        <!--Budget-->
+                        <div class="tab-pane fade" id="budget">
+                            <div ng-include="'/views/workflow/partials/campaign_create/budget.html'"></div>
+                        </div>
+
+                        <!--Add Line Items-->
+                        <div class="tab-pane fade" id="addLineItems">
                             <div ng-include="'/views/workflow/partials/campaign_create/add_list_items.html'"></div>
-						</div>
-					</div>
-				</form>
-			</div>
-			<!-- Settings End -->
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!-- Settings End -->
 
-			<!-- Message Pop Starts -->
-			<div class="popMess succesfulPopMess" style="display:none;">
-				<span>Media Plan has been successfully saved.</span>
-			</div>
-			<!-- Modal Start -->
-			<div class="common-popup-container" ng-show="repushCampaignEdit">
-				<div class="popup">
-					<div class="popup-header-body">
-						<div class="clearfix">
-							<h1 class="pull-left">Media Plan Update</h1>
-							<span class="close unselectable" aria-hidden="true" ng-click="cancelRepushCampaign()" >x</span>
-						</div>
-						<div class="popup-content"  ng-bind-html="(editCampaignData.status === 'DRAFT')?textConstants.MEDIA_PLAN_DRAFT:textConstants.MEDIA_PLAN_NOT_DRAFT">
-						</div>
+            <!-- Message Pop Starts -->
+            <div class="popMess succesfulPopMess" style="display:none;">
+                <span>Media Plan has been successfully saved.</span>
+            </div>
+            <!-- Modal Start -->
+            <div class="common-popup-container" ng-show="repushCampaignEdit">
+                <div class="popup">
+                    <div class="popup-header-body">
+                        <div class="clearfix">
+                            <h1 class="pull-left">Media Plan Update</h1>
+                            <span class="close unselectable" aria-hidden="true" ng-click="cancelRepushCampaign()" >x</span>
+                        </div>
+                        <div class="popup-content"  ng-bind-html="(editCampaignData.status === 'DRAFT')?textConstants.MEDIA_PLAN_DRAFT:textConstants.MEDIA_PLAN_NOT_DRAFT">
+                        </div>
 
-					</div>
-					<div class="clearfix popup-footer" >
-						<button ng-show="!repushCampaignLoader" type="button" ng-click="repushCampaign()" class="common_primary_btn pull-right" >{{(editCampaignData.status === 'DRAFT')?textConstants.SAVE_LABEL:textConstants.SAVE_PUSH_LABEL}}</button>
-						<div ng-show ="repushCampaignLoader" class="pull-right common-loading-btn" ></div>
-						<button type="button" ng-click="cancelRepushCampaign()"class="secondary_txt pull-right" >Cancel</button>
-					</div>
+                    </div>
+                    <div class="clearfix popup-footer" >
+                        <button ng-show="!repushCampaignLoader" type="button" ng-click="repushCampaign()" class="common_primary_btn pull-right" >{{(editCampaignData.status === 'DRAFT')?textConstants.SAVE_LABEL:textConstants.SAVE_PUSH_LABEL}}</button>
+                        <div ng-show ="repushCampaignLoader" class="pull-right common-loading-btn" ></div>
+                        <button type="button" ng-click="cancelRepushCampaign()"class="secondary_txt pull-right" >Cancel</button>
+                    </div>
 
-				</div>
-			</div>
+                </div>
+            </div>
 
-			<div class="common-popup-container" ng-show="campaignArchive">
-				<div class="popup">
-					<div class="popup-header-body">
-						<div class="clearfix">
-							<h1 class="pull-left">Media Plan Update</h1>
-							<span class="close unselectable" aria-hidden="true" ng-click="cancelArchiveCampaign()" >x</span>
-						</div>
-						<div class="popup-content">
-							{{textConstants.CAMPAIGN_ARCHIVE_MESSAGES}}
-						</div>
-					</div>
-					<div class="clearfix popup-footer" >
-						<button type="button" ng-click="archiveCampaign($event)" class="common_primary_btn pull-right" ng-hide="deleteCampaignFailed">Archive</button>
-						<button type="button" ng-click="cancelArchiveCampaign()"class="secondary_txt pull-right" >Cancel</button>
-					</div>
+            <div class="common-popup-container" ng-show="campaignArchive">
+                <div class="popup">
+                    <div class="popup-header-body">
+                        <div class="clearfix">
+                            <h1 class="pull-left">Media Plan Update</h1>
+                            <span class="close unselectable" aria-hidden="true" ng-click="cancelArchiveCampaign()" >x</span>
+                        </div>
+                        <div class="popup-content">
+                            {{textConstants.CAMPAIGN_ARCHIVE_MESSAGES}}
+                        </div>
+                    </div>
+                    <div class="clearfix popup-footer" >
+                        <button type="button" ng-click="archiveCampaign($event)" class="common_primary_btn pull-right" ng-hide="deleteCampaignFailed">Archive</button>
+                        <button type="button" ng-click="cancelArchiveCampaign()"class="secondary_txt pull-right" >Cancel</button>
+                    </div>
 
-				</div>
-			</div>
+                </div>
+            </div>
 
-		</div>
-	</div>
+        </div>
+    </div>
 </div>
