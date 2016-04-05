@@ -213,10 +213,9 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
             };
 
             var strategyId = Number($scope.selectedStrategy.id);
-            strategyId = strategyId === -1 ? 0 : strategyId;
 
             $scope.api_return_code=200;
-            dataService.getCdbChartData(param, $scope.selected_filters.time_filter, 'strategies',  strategyId , true).then(function (result) {
+            dataService.getCdbChartData(param, $scope.selected_filters.time_filter, strategyId === -1 ? 'campaigns' : 'strategies',  strategyId , true).then(function (result) {
                 var lineData = [];
                 $scope.strategyLoading =  false;
                 if (result.status == "success" && !angular.isString(result.data)) {
