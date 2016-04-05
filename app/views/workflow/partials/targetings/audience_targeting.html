@@ -134,6 +134,7 @@
 					</div>
 
 					<div class="segBodyWrap">
+                        <div class="common-loading-area" ng-if="showAudienceLoader"></div>
 						<div class="segFixedWrap" id= "audienceTargetingContainer" lr-infinite-scroll="loadMoreAudience">
 							<div class="col-md-12 segBodyTable" ng-repeat="audience in audienceList">
 								<div class="columnOne">
@@ -151,7 +152,7 @@
 									<span data-ng-bind="audience.category"></span>
 								</div>
 							</div>
-							<div ng-if="audienceList.length == 0" style="color: #ccc;text-align: center;padding-top: 10px;" data-ng-bind="textConstants.NORESULTSFOUND"></div>
+							<div ng-if="!showAudienceLoader && audienceList.length == 0" style="color: #ccc;text-align: center;padding-top: 10px;" data-ng-bind="textConstants.NORESULTSFOUND"></div>
 						</div>
 					</div>
 

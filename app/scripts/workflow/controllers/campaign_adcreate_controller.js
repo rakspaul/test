@@ -26,7 +26,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                     workflowService
                         .getCampaignData(campaignId)
                         .then(function (result) {
-                            var responseData;
+                            var responseData, clientId, advertiserId;
 
                             if (result.status === 'OK' || result.status === 'success') {
                                 responseData = result.data.data;
@@ -50,6 +50,9 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                                         });
                                 }
 
+                                clientId = responseData.clientId,
+                                advertiserId = responseData.advertiserId;
+
                                 if ($scope.mode === 'edit') {
                                     if (!$scope.adGroupId) {
                                         workflowService
@@ -65,7 +68,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                                                     $scope.archivedAdFlag = true;
                                                 }
                                                 disablePauseEnableResume($scope.getAd_result);
-                                                processEditMode(result);
+                                                processEditMode(result, clientId, advertiserId);
                                             });
                                     } else {
                                         workflowService
@@ -103,7 +106,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                                                                 $scope.archivedAdFlag = true;
                                                             }
                                                             disablePauseEnableResume($scope.getAd_result);
-                                                            processEditMode(result);
+                                                            processEditMode(result, clientId, advertiserId);
                                                         });
 
                                                 } else {
@@ -113,11 +116,13 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
 
                                     }
                                 } else {
+                                    $scope.$broadcast('getDominList', [{'clientId' : clientId, 'advertiserId' :advertiserId}]);
                                     $timeout(function() {
                                         $scope.initiateDatePicker();
                                     }, 2000)
 
                                 }
+
                             } else {
                                 campaignOverView.errorHandler(result);
                             }
@@ -416,7 +421,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
         }
 
         //edit mode data population
-        function processEditMode(result, startDateElem) {
+        function processEditMode(result, clientId, advertiserId) {
             var responseData = result.data.data,
                 format,
                 budgetElem,
@@ -606,9 +611,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                 $scope.$broadcast('setTargeting', ['Audience']);
             }
 
-            if(responseData.targets && responseData.targets.domainTargets && responseData.targets.domainTargets.domainList && responseData.targets.domainTargets.domainList.length >0) {
-                $scope.$broadcast('setDominList');
-            }
+            $scope.$broadcast('getDominList', [{'clientId' : clientId, 'advertiserId' : advertiserId}]);
         }
 
         function disablePauseEnableResume(getAdResultData) {
