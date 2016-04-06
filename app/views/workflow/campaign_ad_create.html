@@ -292,8 +292,8 @@
                             <li>
                                 <a ng-click="selectAdGroup(null)">{{textConstants.WF_NO_AD_GROUP}}</a>
                             </li>
-                            <li ng-repeat="groups in adGroupList | filter: adGroup" >
-                                <a ng-click="selectAdGroup(groups)">{{groups.name}}</a>
+                            <li ng-repeat="groups in adGroupList" >
+                                <a ng-click="selectAdGroup(groups.adGroup)">{{groups.adGroup.name}}</a>
                             </li>
                         </ul>
                         </div>
