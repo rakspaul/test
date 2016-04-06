@@ -235,14 +235,30 @@
                         </div>
                     </div>
                 
+                    <!--Offering-->
+                    <div class="col-md-3 zeroPadding kpiTable symbol-input">
+                        <div class="col-md-12 zeroPadding dropdown-workflow">
+                            <div class="dropdown">
+                                <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                    <span class="text">Type 1</span>
+                                    <span class="icon-arrow-down"></span>
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li class="available"><a>Type 1</a></li>
+                                    <li class="available"><a>Type 2</a></li>
+                                    <li class="available"><a>Type 3</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
                     <!--Pricing-->
                     <div class="col-md-1 zeroPadding kpiTable symbol-input">
-                        <span class="symbol">{{locale.NUMBER_FORMATS.CURRENCY_SYM}}</span>
-                        <input type="text" class="col-md-12" style="text-indent: 8px; height:36px;" ng-model="Campaign.costArr[$index]['rateValue']" fraction-numbers="fraction-numbers" ng-keyup="ComputeCost()" field="rateValue"  index="{{$index}}"/>
+                        <input type="text" class="col-md-12 disabled"  value="Flat" style="height:36px; background: #F4F1E9;" disabled/>
                     </div>
                     
                     <!--Rate-->
-                    <div class="col-md-1 zeroPadding kpiTable symbol-input">
+                    <div class="col-md-2 zeroPadding kpiTable symbol-input" style="padding-right: 0px !important; max-width: 118px;">
                         <span class="symbol">{{locale.NUMBER_FORMATS.CURRENCY_SYM}}</span>
                         <input type="text" class="col-md-12" style="text-indent: 8px; height:36px;" ng-model="Campaign.costArr[$index]['rateValue']" fraction-numbers="fraction-numbers" ng-keyup="ComputeCost()" field="rateValue"  index="{{$index}}"/>
                     </div>

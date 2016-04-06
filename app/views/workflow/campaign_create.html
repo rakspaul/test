@@ -11,11 +11,11 @@
 					<ul class="stepCompLabel nav nav-tabs" id="mediaTab">
 						<li class="active eachStepCompLabel">
 							<a class="leftNavLink selected" data-target="#settings" data-toggle="tab">1 About this Media Plan</a>
-							<div class="statusLabel" ng-hide="selectedCampaign.goal.name || selectedCampaign.startTime || selectedCampaign.budget">
-								<div class="col-md-12">
-									<span>{{textConstants.WF_NOT_SET}}</span>
-								</div>
-							</div>
+							<!--<div class="statusLabel" ng-hide="selectedCampaign.goal.name || selectedCampaign.startTime || selectedCampaign.budget">-->
+							<!--	<div class="col-md-12">-->
+							<!--		<span>{{textConstants.WF_NOT_SET}}</span>-->
+							<!--	</div>-->
+							<!--</div>-->
 							<div class="statusLabel each-setting" ng-if="brand.length>0">
 								<div class="col-md-12">
 									<div class="pull-left">
@@ -67,20 +67,20 @@
 
                         <li class="clearfix eachStepCompLabel" >
 							<a class="leftNavLink" data-target="#pixels" data-toggle="tab">2 Pixels</a>
-							<div class="statusLabel disabled">
-								<div class="col-md-12">
-									<span>{{textConstants.WF_NOT_SET}}</span>
-								</div>
-							</div>
+							<!--<div class="statusLabel disabled">-->
+							<!--	<div class="col-md-12">-->
+							<!--		<span>{{textConstants.WF_NOT_SET}}</span>-->
+							<!--	</div>-->
+							<!--</div>-->
 						</li>
 
 						<li class="clearfix eachStepCompLabel" >
 							<a class="leftNavLink budget-page-trigger" data-target="#budget" data-toggle="tab">3 {{textConstants.MP_BUDGET}} $ Measure</a>
-							<div class="statusLabel " ng-hide="Campaign.totalBudget || Campaign.deliveryBudget">
-								<div class="col-md-12">
-									<span>{{textConstants.WF_NOT_SET}}</span>
-								</div>
-							</div>
+							<!--<div class="statusLabel " ng-hide="Campaign.totalBudget || Campaign.deliveryBudget">-->
+							<!--	<div class="col-md-12">-->
+							<!--		<span>{{textConstants.WF_NOT_SET}}</span>-->
+							<!--	</div>-->
+							<!--</div>-->
 							<div class="statusLabel" ng-if="Campaign.totalBudget">
 								<div class="col-md-12">
 									<div class="statusIcon icon-usd"></div>
@@ -106,11 +106,11 @@
 
                         <li class="clearfix eachStepCompLabel" >
 							<a class="leftNavLink" data-target="#addLineItems" data-toggle="tab">4 Line Items</a>
-							<div class="statusLabel disabled">
-								<div class="col-md-12">
-									<span>{{textConstants.WF_NOT_SET}}</span>
-								</div>
-							</div>
+							<!--<div class="statusLabel disabled">-->
+							<!--	<div class="col-md-12">-->
+							<!--		<span>{{textConstants.WF_NOT_SET}}</span>-->
+							<!--	</div>-->
+							<!--</div>-->
 						</li>
 					</ul>
 				</div>
