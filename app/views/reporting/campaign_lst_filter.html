@@ -12,7 +12,8 @@
                         {{constants.CAMPAIGN_STATUS}}
                     </div>
                     <div class="section_filter_list">
-                        <div class="clearfix each_filter {{campaigns.dashboard.status.draft}}" ng-click="campaigns.setQuickFilter(constants.DRAFT_CONDITION)">
+                        <div class="clearfix each_filter {{campaigns.dashboard.status.draft}}"
+                             ng-click="campaigns.setQuickFilter(constants.DRAFT_CONDITION)">
                             <div class="pull-left">
                                 {{constants.DRAFT}}
                             </div>
@@ -20,7 +21,8 @@
                                 <div class="number">{{campaigns.dashboard.draft}}</div>
                             </div>
                         </div>
-                        <div class="clearfix each_filter {{campaigns.dashboard.status.ready}}" ng-click="campaigns.setQuickFilter(constants.READY_CONDITION)">
+                        <div class="clearfix each_filter {{campaigns.dashboard.status.ready}}"
+                             ng-click="campaigns.setQuickFilter(constants.READY_CONDITION)">
                             <div class="pull-left">
                                 {{constants.SCHEDULED}}
                             </div>
@@ -28,7 +30,8 @@
                                 <div class="number">{{campaigns.dashboard.ready}}</div>
                             </div>
                         </div>
-                        <div class="clearfix each_filter {{campaigns.dashboard.status.active.bothItem}}" ng-click="campaigns.setQuickFilter(constants.ACTIVE_CONDITION)">
+                        <div class="clearfix each_filter {{campaigns.dashboard.status.active.bothItem}}"
+                             ng-click="campaigns.setQuickFilter(constants.ACTIVE_CONDITION)">
                             <div class="pull-left">
                                 {{constants.INFLIGHT_LABEL}}
                             </div>
@@ -36,7 +39,8 @@
                                 <div class="number">{{campaigns.dashboard.active.total}}</div>
                             </div>
                         </div>
-                        <!-- <div class="clearfix each_filter {{campaigns.dashboard.status.paused }}" ng-click="campaigns.setQuickFilter(constants.PAUSED_CONDITION)">
+                        <!-- <div class="clearfix each_filter {{campaigns.dashboard.status.paused }}"
+                                ng-click="campaigns.setQuickFilter(constants.PAUSED_CONDITION)">
                             <div class="pull-left">
                                 {{constants.PAUSED}}
                             </div>
@@ -44,7 +48,8 @@
                                 <div class="number">{{campaigns.dashboard.paused}}</div>
                             </div>
                         </div> -->
-                        <div class="clearfix each_filter {{campaigns.dashboard.status.completed }}" ng-click="campaigns.setQuickFilter(constants.COMPLETED_CONDITION)">
+                        <div class="clearfix each_filter {{campaigns.dashboard.status.completed }}"
+                             ng-click="campaigns.setQuickFilter(constants.COMPLETED_CONDITION)">
                             <div class="pull-left">
                                 {{constants.ENDED}}
                             </div>
@@ -52,7 +57,8 @@
                                 <div class="number">{{campaigns.dashboard.completed}}</div>
                             </div>
                         </div>
-                        <div class="clearfix each_filter {{campaigns.dashboard.status.archived }}" ng-click="campaigns.setQuickFilter(constants.ARCHIVED_CONDITION)">
+                        <div class="clearfix each_filter {{campaigns.dashboard.status.archived }}"
+                             ng-click="campaigns.setQuickFilter(constants.ARCHIVED_CONDITION)">
                             <div class="pull-left">
                                 {{constants.ARCHIVED}}
                             </div>
@@ -67,7 +73,9 @@
                         {{constants.PERFORMANCE}}
                     </div>
                     <div class="section_filter_list">
-                        <div class="clearfix each_filter {{campaigns.dashboard.status.active.ontrack}}" ng-click="campaigns.setQuickFilter(constants.ACTIVE_ONTRACK)"><!-- add active when it is selected -->
+                        <!-- add active when it is selected -->
+                        <div class="clearfix each_filter {{campaigns.dashboard.status.active.ontrack}}"
+                             ng-click="campaigns.setQuickFilter(constants.ACTIVE_ONTRACK)">
                             <div class="pull-left">
                                 {{constants.ON_TRACK}}
                             </div>
@@ -75,7 +83,8 @@
                                 <div class="number">{{campaigns.dashboard.active.ontrack}}</div>
                             </div>
                         </div>
-                        <div class="clearfix each_filter {{campaigns.dashboard.status.active.underperforming }}" ng-click="campaigns.setQuickFilter(constants.ACTIVE_UNDERPERFORMING)">
+                        <div class="clearfix each_filter {{campaigns.dashboard.status.active.underperforming }}"
+                             ng-click="campaigns.setQuickFilter(constants.ACTIVE_UNDERPERFORMING)">
                             <div class="pull-left" >
                                 {{constants.UNDERPERFORMING}}
                             </div>
@@ -91,7 +100,8 @@
                         {{constants.CAMPAIGNS}}
                     </div>
                     <div class="section_filter_list">
-                        <div class="clearfix each_filter {{campaigns.dashboard.status.active.endingSoon }}" ng-click="campaigns.setQuickFilter(constants.ENDING_SOON_CONDITION)">
+                        <div class="clearfix each_filter {{campaigns.dashboard.status.active.endingSoon }}"
+                             ng-click="campaigns.setQuickFilter(constants.ENDING_SOON_CONDITION)">
                             <div class="pull-left">
                                 {{constants.ENDING_SOON}}
                             </div>

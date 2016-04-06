@@ -34,6 +34,7 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
                     }
 
                     $scope.accountsData = _.sortBy($scope.accountsData, 'name');
+                   // console.log('$scope.accountsData',$scope.accountsData);
 
                     if (loginModel.getMasterClient() && loginModel.getMasterClient().name) {
                         $scope.defaultAccountsName = loginModel.getMasterClient().name;
@@ -58,7 +59,7 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
                             campaignsClientData(1);
 
                         } else {
-                            subAccountModel.fetchSubAccounts(function(){
+                            subAccountModel.fetchSubAccounts('headerCtrl',function(){
                             campaignsClientData(2);
                             });
                         }
@@ -72,9 +73,19 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
             });
         }
 
-        var features = $rootScope.$on('features', function () {
+        /* Start Feature Permission */
+        var featurePermission = function() {
             $scope.fparams = featuresService.getFeatureParams();
+            $scope.showMediaPlanTab = $scope.fparams[0]['mediaplan_list'];
+            $scope.showReportTab = $scope.fparams[0]['reports_tab'];
+        }
+
+        var features = $rootScope.$on('features', function () {
+            featurePermission();
         });
+
+        featurePermission();
+        /* End Feature Permission */
 
         $scope.getClientData = function (clientId) {
             workflowService.getClientData(clientId).then(function (response) {
@@ -103,10 +114,14 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
             if(isLeafNode) {
                 loginModel.setSelectedClient({'id': id, 'name': name});
                 $scope.getClientData(id);
+               $rootScope.$broadcast(constants.ACCOUNT_CHANGED, {'client': loginModel.getSelectedClient().id, 'event_type': 'clicked'});
             } else {
-                subAccountModel.fetchSubAccounts(function(){
+                subAccountModel.fetchSubAccounts('MasterClientChanged',function(){
                     $scope.getClientData(loginModel.getSelectedClient().id);
+                   // console.log('current url',$location.url());
+                    $rootScope.$broadcast(constants.EVENT_MASTER_CLIENT_CHANGED, {'client': loginModel.getSelectedClient().id, 'event_type': 'clicked'});
                 });
+
             }
             $scope.defaultAccountsName = name;
         }
@@ -143,8 +158,6 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
                 }
             } else {
                 setMasterClientData(id, name,isLeafNode);
-                $rootScope.$broadcast(constants.EVENT_MASTER_CLIENT_CHANGED, {'client': loginModel.getSelectedClient().id, 'event_type': 'clicked'});
-
             }
 
 

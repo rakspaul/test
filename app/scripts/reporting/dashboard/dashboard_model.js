@@ -29,7 +29,6 @@ define(['angularAMD', 'login/login_model', 'reporting/advertiser/advertiser_mode
         var advertiserId = advertiserModel.getSelectedAdvertiser().id;
         var brandId = brandsModel.getSelectedBrand().id;
         var url = urlService.APICampaignCountsSummary(constants.PERIOD_LIFE_TIME, clientId, advertiserId, brandId, campaignStatusToSend());
-        console.log('url: ',url);
         return dataService.fetch(url).then(function (response) {
             var searchCriteria = utils.typeaheadParams;
             searchCriteria.clientId = loginModel.getSelectedClient().id;

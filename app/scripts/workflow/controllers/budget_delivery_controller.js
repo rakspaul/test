@@ -56,10 +56,24 @@ define(['angularAMD', 'common/services/constants_service', 'common/moment_utils'
         budgetAmount = Number($scope.adData.budgetAmount);
 
       if ($scope.workflowData.adsData && $scope.mode === 'edit') {
-          if((workflowService.getIsAdGroup() && unallocatedAmount == 0)
+          //when ads are inside ad group and unallocated amount is 0 OR ad is outside any ad group
+          if ((workflowService.getIsAdGroup() && unallocatedAmount == 0)
               || !workflowService.getIsAdGroup()){
-              if(Number(localStorage.getItem('groupBudget')) > 0){
-                  adAvailableRevenue = $scope.workflowData.adsData.budgetValue;
+              if (Number(localStorage.getItem('groupBudget')) > 0){
+                  if ( $scope.workflowData.adsData.budgetType === "COST"){
+                      adAvailableRevenue = unallocatedAmount + Number($scope.workflowData.adsData.budgetValue);
+                  }
+                  else if ($scope.workflowData.adsData.budgetType === "IMPRESSIONS"){
+                      if($scope.workflowData.adsData.rateValue > 0){
+                          adAvailableRevenue = unallocatedAmount + ($scope.workflowData.adsData.budgetValue * $scope.workflowData.adsData.rateValue / 1000);
+                      }
+                      else {
+                          adAvailableRevenue = 0;
+                      }
+                  }
+                  else {
+                      adAvailableRevenue = unallocatedAmount + ($scope.workflowData.adsData.budgetValue * $scope.workflowData.adsData.rateValue);
+                  }
               }
               else{
                   adsData = $scope.workflowData.adsData;
@@ -67,14 +81,18 @@ define(['angularAMD', 'common/services/constants_service', 'common/moment_utils'
               }
 
           }
-          else{
+          else {
               adsData = $scope.workflowData.adsData;
               //BUDGET then add ad budget value + unallocated , IMPRESSION then just use unallocated value
-              if(adsData.budgetType === "COST"){
+              if (adsData.budgetType === "COST"){
                   adAvailableRevenue = unallocatedAmount +  Number(adsData.budgetValue);
               }
               else if (adsData.budgetType === "IMPRESSIONS") {
-                  adAvailableRevenue = unallocatedAmount + (adsData.budgetValue * adsData.rateValue / 1000);
+                  if (adsData.rateValue > 0){
+                      adAvailableRevenue = unallocatedAmount + (adsData.budgetValue * adsData.rateValue / 1000);
+                  } else {
+                      adAvailableRevenue = unallocatedAmount;
+                  }
               }
               else {
                   adAvailableRevenue = unallocatedAmount + (adsData.budgetValue * adsData.rateValue);
@@ -264,15 +282,17 @@ define(['angularAMD', 'common/services/constants_service', 'common/moment_utils'
         adGroupStartDate,
         adGroupEndDate,
         currentDate = moment().format(constants.DATE_US_FORMAT);
-      ;
 
       if (moment().isAfter(campaignStartTime, 'day')) {
         campaignStartTime = moment().format(constants.DATE_US_FORMAT);
       }
+
       $scope.mode === 'edit' && endDateElem.removeAttr('disabled').css({'background': 'transparent'});
+
       // If we are handling an ad of an Adgroup
       if (location.href.indexOf('adGroup') > -1) {
         if ($scope.mode === 'edit') {
+
           if (momentService.isDateBefore($scope.workflowData.adGroupData.startDate, currentDate)) {
             adGroupStartDate = currentDate;
           } else {
@@ -282,6 +302,7 @@ define(['angularAMD', 'common/services/constants_service', 'common/moment_utils'
           startDateElem.datepicker('setStartDate', adGroupStartDate);
           startDateElem.datepicker('setEndDate', adGroupEndDate);
           $scope.setDateInEditMode(adGroupStartDate, adGroupEndDate);
+
         } else {
           // When creating a new Adgroup ad, if Adgroup start date is:
           // 1) before currrent date (in the past), default start & end dates will be current date
@@ -290,7 +311,7 @@ define(['angularAMD', 'common/services/constants_service', 'common/moment_utils'
           adGroupEndDate = momentService.utcToLocalTime(localStorage.getItem('edTime'));
           if (momentService.isDateBefore(adGroupStartDate, currentDate)) {
             startDateElem.datepicker('setStartDate', currentDate);
-            startDateElem.datepicker('update', currentDate);
+            startDateElem.datepicker('update', currentDate);1
           } else {
             startDateElem.datepicker('setStartDate', adGroupStartDate);
             startDateElem.datepicker('update', adGroupStartDate);
@@ -298,6 +319,7 @@ define(['angularAMD', 'common/services/constants_service', 'common/moment_utils'
           startDateElem.datepicker('setEndDate', adGroupEndDate);
         }
       } else {
+
         // Normal ad (non-Adgroup)
         startDateElem.datepicker('setStartDate', campaignStartTime);
         endDateElem.datepicker('setEndDate', campaignEndTime);

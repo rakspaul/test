@@ -1,3 +1,7 @@
+
+<popup-msg ng-show="partialSaveAlertMessage" ng-controller="popUpMsgCtr"
+           ng-init="init('partialSaveAlertMessage','WF_CAMPAIGN_ARCHIVE_FAILURE')"></popup-msg>
+
 <div class="popCreativeLib" ng-show="isAddCreativePopup" ng-controller="CreativeController">
 <!--<div class="popCreativeLib" ng-init ="abc()" ng-show="isAddCreativePopup" ng-controller="CreativeController">-->
 <div id="creative">
@@ -27,7 +31,6 @@
 
             <form role="form" name="formCreativeCreate" id="formCreativeCreate" novalidate ng-submit="submitForm(formCreativeCreate)">
 				<div class="col-md-6 zeroPadding pull-right saveCreativeBtn">
-                    <div ng-show="addedSuccessfully" ng-model="addedSuccessfully" class="text-right">{{Message}}</div>
                     <!--<div class="col-md-12" style="margin-top: 10px;" ng-show="savingCreative = true">-->
                         <span class="common-loading-btn pull-right" ng-show="savingCreative" style="width:118px"></span>
                     <!--</div>-->
@@ -44,39 +47,61 @@
                         <label ng-if="formCreativeCreate.name.$error.required"  class="col-sm-12 control-label greyTxt errorLabel">{{textConstants.WF_MANDATORY_CREATIVE_NAME}}</label>
                     </div>
                     <div class="col-md-12 zeroPadding clearfix nav_filters" style="display:none;">
-                        <creative-drop-down></creative-drop-down>
+                        <!--<creative-drop-down></creative-drop-down>-->
                     </div>
                     <span class="col-md-12 labelQuestTxt" style="margin-top: 30px !important;">Who is this Creative for?</span>
                     <div class="col-sm-8 zeroPadding">
-                        <div class="form-group col-sm-6"  style="padding-right: 0;" show-errors>
-                            <label for="advertiserDDL" class="col-sm-12  greyTxt miniLabels" style="margin: 0;">{{ textConstants.ADVERTISERS }}</label>
-                            <div class="col-md-12 zeroPadding dropdown-workflow">
-                                <div class="dropdown">
-                                    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ng-disabled="adPage || (pushedCount>0) || (associatedAdCount>0)">
-                                        <span class="text">{{advertiserName ? advertiserName : 'Select Advertiser' }}</span>
-                                        <!--<span class="text" ng-if="mode == 'edit'">{{mode == 'edit' ? editCampaignData.advertiserName : 'Select Advertiser' }}</span>-->
-                                        <span class="icon-arrow-down"></span>
-                                    </button>
-                                    <ul class="dropdown-menu" aria-labelledby="advertiserDDL"  id="advertiserDDL">
-                                        <li ng-repeat="advertiser in advertisers track by advertiser.id" class="available"><a ng-click="selectHandler('advertiser', advertiser)">{{advertiser.name}}</a></li>
-                                    </ul>
+                        <!-- SubAccount start -->
+                        <div class="col-md-12 zeroPadding">
+                            <div class="form-group col-sm-6" style="padding-left: 0;" show-errors ng-if="showSubAccount">
+                                <label for="advertiserDDL" class="col-sm-12  greyTxt miniLabels" style="margin: 0;">Sub-Account</label><!-- {{ textConstants.SUB_ACCOUNT }} -->
+                                <div class="col-md-12 zeroPadding dropdown-workflow">
+                                    <div class="dropdown">
+                                        <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ng-disabled="adPage || creativeMode=='edit'">
+                                            <span class="text">{{subAccountName ? subAccountName : 'Select SubAccount' }}</span>
+                                            <span class="icon-arrow-down"></span>
+                                        </button>
+                                        <ul class="dropdown-menu" aria-labelledby="advertiserDDL"  id="advertiserDDL">
+                                            <li ng-repeat="subaccount in subAccounts track by subaccount.id" class="available"><a ng-click="selectHandler('subAccount', subaccount)">{{subaccount.name}}</a></li>
+                                        </ul>
+                                        <input class="form-control" type="hidden" name="subAccountId" ng-model="creative.clientId" ng-update-hidden required/>
+                                    </div>
                                 </div>
-                                <input class="form-control" type="hidden" name="advertiserId" ng-model="creative.advertiserId" ng-update-hidden required/>
+                                <label ng-if="formCreativeCreate.subAccountId.$error.required" class="col-sm-12 greyTxt errorLabel">Please select the SubAccount.</label>
                             </div>
-                            <label ng-if="formCreativeCreate.advertiserId.$error.required" class="col-sm-12 greyTxt errorLabel">Please select the Advertiser.</label>
                         </div>
-                        <div class="form-group col-sm-6" style="padding-left: 15px;">
-                            <label for="brandDDL" class="col-sm-12  greyTxt miniLabels" style="margin: 0;">{{ textConstants.BRAND }}</label>
-                            <div class="col-md-12 zeroPadding dropdown-workflow">
-                                <div class="dropdown">
-                                    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                        <span class="text">{{brandName ? brandName : 'Select Brand' }}</span>
-                                        <span class="icon-arrow-down"></span>
-                                    </button>
-                                    <ul class="dropdown-menu" aria-labelledby="brandDDL"  id="brandDDL">
-                                        <li ng-repeat="brand in brands track by brand.id" class="available"><a ng-click="selectHandler('brand', brand)">{{brand.name}}</a></li>
-                                    </ul>
-                                    <input type="hidden" name="brandId" ng-model="creative.brandId" ng-update-hidden />
+                        <!-- SubAccount End -->
+                        <div class="col-md-12 zeroPadding">
+                            <div class="form-group col-sm-6"  style="padding-right: 0;" show-errors >
+                                <label for="advertiserDDL" class="col-sm-12  greyTxt miniLabels" style="margin: 0;">{{ textConstants.ADVERTISERS }}</label>
+                                <div class="col-md-12 zeroPadding dropdown-workflow">
+                                    <div class="dropdown">
+                                        <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ng-disabled="adPage || (pushedCount>0) || (associatedAdCount>0)">
+                                            <span class="text">{{advertiserName ? advertiserName : 'Select Advertiser' }}</span>
+                                            <!--<span class="text" ng-if="mode == 'edit'">{{mode == 'edit' ? editCampaignData.advertiserName : 'Select Advertiser' }}</span>-->
+                                            <span class="icon-arrow-down"></span>
+                                        </button>
+                                        <ul class="dropdown-menu" aria-labelledby="advertiserDDL"  id="advertiserDDL">
+                                            <li ng-repeat="advertiser in advertisers track by advertiser.id" class="available"><a ng-click="selectHandler('advertiser', advertiser)">{{advertiser.name}}</a></li>
+                                        </ul>
+                                    </div>
+                                    <input class="form-control" type="hidden" name="advertiserId" ng-model="creative.advertiserId" ng-update-hidden required/>
+                                </div>
+                                <label ng-if="formCreativeCreate.advertiserId.$error.required" class="col-sm-12 greyTxt errorLabel">Please select the Advertiser.</label>
+                            </div>
+                            <div class="form-group col-sm-6" style="padding-left: 15px;">
+                                <label for="brandDDL" class="col-sm-12  greyTxt miniLabels" style="margin: 0;">{{ textConstants.BRAND }}</label>
+                                <div class="col-md-12 zeroPadding dropdown-workflow">
+                                    <div class="dropdown">
+                                        <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                            <span class="text">{{brandName ? brandName : 'Select Brand' }}</span>
+                                            <span class="icon-arrow-down"></span>
+                                        </button>
+                                        <ul class="dropdown-menu" aria-labelledby="brandDDL"  id="brandDDL">
+                                            <li ng-repeat="brand in brands track by brand.id" class="available"><a ng-click="selectHandler('brand', brand)">{{brand.name}}</a></li>
+                                        </ul>
+                                        <input type="hidden" name="brandId" ng-model="creative.brandId" ng-update-hidden />
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -134,7 +159,7 @@
                                     <span class="icon-arrow-down"></span>
                                 </button>
                                 <ul class="dropdown-menu" aria-labelledby="sel1" id="templateDDL">
-                                    <li style="padding-left:15px;" class="available" ng-repeat="template in creativeTemplates track by template.id"  data-toggle="dropdown" title={{template.name}}>
+                                    <li class="available" ng-repeat="template in creativeTemplates track by template.id"  data-toggle="dropdown" title={{template.name}}>
                                         <a ng-click="onTemplateSelected(template)">{{template.name}}</a>
                                     </li>
                                 </ul>

@@ -50,7 +50,6 @@ define(['angularAMD', 'common/services/constants_service', 'reporting/campaignLi
 
                 $scope.getSpendClassForStrategy = function(strategy) {
                     var spendDifference = $scope.getSpendDiffForStrategy(strategy);
-console.log('strategy.endDate = ', strategy.endDate);
                     return $scope.getClassFromDiff(spendDifference, strategy.endDate);
                 };
 

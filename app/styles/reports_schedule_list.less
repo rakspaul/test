@@ -47,6 +47,17 @@
             }
         }
 
+
+
+        /**/
+        .col-md-9  {
+            &.no-instance{
+                &:first-child{
+                    cursor: text;
+                }
+            }
+        }
+
         .col-md-9.arrow {
             &:first-child {
                 background-image: none !important;
@@ -56,7 +67,7 @@
 
         .no-instance {
             background-image: none !important;
-            cursor: initial !important;
+            cursor: initial;
         }
     }
     div.name-col {
@@ -269,6 +280,20 @@
 
 .reports-scheduled-list {
   .scheduled_list_table  {
+      div{
+          &.name-col{
+              .col-md-9  {
+                  &.no-instance{
+                      &.isSaved{
+                          &:first-child{
+                              cursor: pointer;
+                          }
+                      }
+                  }
+              }
+          }
+      }
+
     .name-col {
       width: 325px ;
     }

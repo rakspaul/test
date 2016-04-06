@@ -8,7 +8,7 @@
                 <button type="submit"
                         class="btn btn-primary pull-right"
                         id="groupIndividual"
-                        ng-disabled="createNewAdGrp.$invalid || !isMinimumAdGroupBudget || !isMaximumAdGroupBudget"
+                        ng-disabled="(createNewAdGrp.$invalid || !isMinimumAdGroupBudget || !isMaximumAdGroupBudget || adIGroupBudget === 0)"
                         ng-click="createAdGroup($event)" data-ng-bind="textConstants.WF_AD_SAVE_CLOSE" ng-show="!loadingBtn">
                 </button>
                 <span type="button" class="pull-right secondary_txt" ng-bind="textConstants.CANCEL" ng-click="cancelEditAdGroup()"></span>
@@ -40,7 +40,6 @@
             <tags-input class="form-group col-sm-12 zeroPadding" ng-model="tags"></tags-input>
             <input type="hidden" name="ad_label" value="{{tags}}" />
         </div>
-
         <div class="col-md-12 zeroPadding">
             <label for="budgetIndividualAdGroup" class="col-sm-12 control-label labelQuestTxt">What's the maximum
                 you can spend for your Ad Group?</label>
@@ -52,10 +51,13 @@
                        id="budgetIndividualAdGroup"
                        name="adIGroupBudget"
                        ng-model="adIGroupBudget"
+                       ng-value="adIGroupBudget"
                        min-value = "{{adGroupMinBudget}}"
                        max-value ="{{adGroupMaxBudget}}"
-                       required ng-keyup="validateAdGroupSpend($event)"/>
+                       required ng-keyup="validateAdGroupSpend($event)" />
+
                 <label ng-if="createNewAdGrp.adIGroupBudget.$error.required" class="col-sm-12 control-label greyTxt errorLabel" data-ng-bind="textConstants.ADGROUPBUDGETMSG"></label>
+                <label ng-if="adIGroupBudget === 0" class="col-sm-12 control-label greyTxt customErrorLabel" data-ng-bind="textConstants.ADGROUPBUDGETGREATERTHANZEROMSG"></label>
                 <label ng-if="adIGroupBudget >0 && !isMinimumAdGroupBudget" class="col-sm-12 control-label greyTxt customErrorLabel" data-ng-bind="textConstants.ADGROUPMINIMUMBUDGETMSG"></label>
                 <label ng-if="adIGroupBudget >0 && !isMaximumAdGroupBudget" class="col-sm-12 control-label greyTxt customErrorLabel" data-ng-bind="textConstants.ADGROUPMAXIMUMBUDGETMSG"></label>
             </div>
@@ -94,7 +96,7 @@
         <!--Save / Cancel-->
         <div class="col-md-6" style="padding: 62px 0 0 0;" ng-if="!editAdGroupFlag">
             <span class="pull-right common-loading-btn" style="width: 61px;" ng-show="loadingBtn"></span>
-            <button type="submit" class="btn btn-primary pull-right" id="createAdGroup" ng-disabled="createNewAdGrp.$invalid || !isMinimumAdGroupBudget || !isMaximumAdGroupBudget" ng-click="createAdGroup($event)" data-ng-bind="textConstants.SAVE" ng-show="!loadingBtn"></button>
+            <button type="submit" class="btn btn-primary pull-right" id="createAdGroup" ng-disabled=" (createNewAdGrp.$invalid || !isMinimumAdGroupBudget || !isMaximumAdGroupBudget || adIGroupBudget === 0)" ng-click="createAdGroup($event)" data-ng-bind="textConstants.SAVE" ng-show="!loadingBtn"></button>
             <span class="pull-right secondary_txt" ng-click="createAdGrp();" data-ng-bind="textConstants.CANCEL"></span>
         </div>
         <div id="createGroupMessage" ng-if="!editAdGroupFlag" data-ng-bind="createAdGroupMessage"></div>

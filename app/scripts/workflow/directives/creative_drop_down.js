@@ -66,6 +66,7 @@ define(['angularAMD'],function (angularAMD) {
                                     $scope.creativeFilterData.advertisers =  _.sortBy(responseData, 'name');
                                     creativeFilter.setDefaultValues($scope.creativeFilterData.advertisers,
                                         'advertisers');
+                                    console.log('fetch advertiser parent handler');
                                     $scope.$parent.prarentHandler(
                                         $scope.defaultClientId,
                                         $scope.defaultClientName,
@@ -100,6 +101,7 @@ define(['angularAMD'],function (angularAMD) {
                 $scope.selectAdvertisers = function(advertiser) {
                     localStorage.removeItem('campaignData');
                     $scope.defaultAdvertiserName = advertiser.name;
+                    console.log('select advertiser parent handler');
                     $scope.$parent.prarentHandler($scope.defaultClientId, $scope.defaultClientName,
                         advertiser.id, advertiser.name);
                 };

@@ -47,13 +47,19 @@ define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', 'reporting/campaig
                 $scope.searchTerm = '';
                 $scope.campaigns.searchTerm = '';
                 $scope.campaignSearchFunc = function (e) {
-                    // Perform search if enter key is pressed & user has entered something.
-                    if (e.keyCode === 13) {
+                    // Perform search if enter key is pressed, or search button is clicked & user has entered something.
+                    // NOTE: The event object (e) is not passed if called from search button.
+                    if (!e || e.keyCode === 13) {
+                        $scope.campaigns.noData = false;
+                        $scope.campaigns.resetFilters();
                         if ($scope.campaigns.searchTerm && $scope.campaigns.searchTerm.trim()) {
-                            $scope.campaigns.resetFilters();
+                            // Search term is entered
                             $scope.campaigns.fetchData($scope.campaigns.searchTerm);
-                            $scope.isCampaignSearched = true;
+                        } else {
+                            // Empty search term
+                            $scope.campaigns.fetchData();
                         }
+                        $scope.isCampaignSearched = true;
                     }
                 };
 
@@ -180,20 +186,22 @@ define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', 'reporting/campaig
                     var searchInputForm = $('.searchInputForm');
 
                     $('.searchInputBtn').hide();
+                    $('.searchInputBtnInline').show();
                     searchInputForm.show();
-                    searchInputForm.animate({width: '300px'}, 'fast');
+                    searchInputForm.animate({width: '400px'}, 'fast');
+                    setTimeout(function () {
+                        $('.searchClearInputBtn').fadeIn();
+                    }, 300);
                 };
 
                 $scope.searchHideInput = function () {
-                    var inputSearch = $('.searchInputForm input');
-
-                    $('.searchInputForm').animate({width: '44px'}, 'fast');
+                    $('.searchInputForm input').val('');
+                    $('.searchInputBtn').show();
+                    $('.searchClearInputBtn, .searchInputBtnInline').hide();
+                    $('.searchInputForm').animate({width: '34px'}, 'fast');
                     setTimeout(function () {
                         $('.searchInputForm').hide();
-                    }, 300);
-                    setTimeout(function () {
-                        $('.searchInputBtn').fadeIn();
-                    }, 300);
+                    }, 100);
 
                     if ($scope.isCampaignSearched) {
                         $scope.isCampaignSearched = false;

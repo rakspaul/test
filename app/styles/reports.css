@@ -988,9 +988,11 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
   line-height: 20px;
   font-size: 12px;
 }
-div.strategy_total_container .discrepancyName {
-  width: 250px;
-  margin-bottom: 10px;
+div.strategy_total_container .discrepancyTplRow {
+  margin-bottom: 10px ;
+}
+div.strategy_total_container .discrepancyTplRow .discrepancyName {
+  width: 250px ;
 }
 div.strategy_total_container div.strategy_total_container_header {
   background: #f5f9fd;
@@ -999,13 +1001,13 @@ div.strategy_total_container div.strategy_total_container_header {
   padding: 15px 20px 5px 20px ;
 }
 div.strategy_total_container div.strategy_total_container_header .discrepancySecLevel .discrepancySecLevelRow {
-  margin-bottom: 5px;
+  margin: 5px 0 ;
 }
 div.strategy_total_container div.strategy_total_container_header .discrepancySecLevel .platform_logo_img {
-  margin-left: 45px;
+  margin-left: 25px;
 }
 div.strategy_total_container div.strategy_total_container_header .discrepancySecLevel .discrepancySecLevelName {
-  width: 177px;
+  width: 187px;
 }
 div.strategy_total_container div.strategy_total_container_header .rowHasSubRow {
   cursor: pointer;
@@ -2717,14 +2719,62 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 .reports_tabs_content_container #reports_platform_performance_block div.reports_platform_header div.seventh_col.vid_show {
   padding-top: 10px;
 }
+.reports_tabs_content_container #reports_bydiscrepancy_block div.strategy_total_container div.strategy_total_container_header {
+  padding-bottom: 20px ;
+}
+.reports_tabs_content_container #reports_bydiscrepancy_block .col-xs-1,
+.reports_tabs_content_container #reports_bydiscrepancy_block .col-sm-1,
+.reports_tabs_content_container #reports_bydiscrepancy_block .col-md-1,
+.reports_tabs_content_container #reports_bydiscrepancy_block .col-lg-1,
+.reports_tabs_content_container #reports_bydiscrepancy_block .col-xs-2,
+.reports_tabs_content_container #reports_bydiscrepancy_block .col-sm-2,
+.reports_tabs_content_container #reports_bydiscrepancy_block .col-md-2,
+.reports_tabs_content_container #reports_bydiscrepancy_block .col-lg-2,
+.reports_tabs_content_container #reports_bydiscrepancy_block .col-xs-3,
+.reports_tabs_content_container #reports_bydiscrepancy_block .col-sm-3,
+.reports_tabs_content_container #reports_bydiscrepancy_block .col-md-3,
+.reports_tabs_content_container #reports_bydiscrepancy_block .col-lg-3,
+.reports_tabs_content_container #reports_bydiscrepancy_block .col-xs-4,
+.reports_tabs_content_container #reports_bydiscrepancy_block .col-sm-4,
+.reports_tabs_content_container #reports_bydiscrepancy_block .col-md-4,
+.reports_tabs_content_container #reports_bydiscrepancy_block .col-lg-4,
+.reports_tabs_content_container #reports_bydiscrepancy_block .col-xs-5,
+.reports_tabs_content_container #reports_bydiscrepancy_block .col-sm-5,
+.reports_tabs_content_container #reports_bydiscrepancy_block .col-md-5,
+.reports_tabs_content_container #reports_bydiscrepancy_block .col-lg-5,
+.reports_tabs_content_container #reports_bydiscrepancy_block .col-xs-6,
+.reports_tabs_content_container #reports_bydiscrepancy_block .col-sm-6,
+.reports_tabs_content_container #reports_bydiscrepancy_block .col-md-6,
+.reports_tabs_content_container #reports_bydiscrepancy_block .col-lg-6,
+.reports_tabs_content_container #reports_bydiscrepancy_block .col-xs-7,
+.reports_tabs_content_container #reports_bydiscrepancy_block .col-sm-7,
+.reports_tabs_content_container #reports_bydiscrepancy_block .col-md-7,
+.reports_tabs_content_container #reports_bydiscrepancy_block .col-lg-7,
+.reports_tabs_content_container #reports_bydiscrepancy_block .col-xs-8,
+.reports_tabs_content_container #reports_bydiscrepancy_block .col-sm-8,
+.reports_tabs_content_container #reports_bydiscrepancy_block .col-md-8,
+.reports_tabs_content_container #reports_bydiscrepancy_block .col-lg-8,
+.reports_tabs_content_container #reports_bydiscrepancy_block .col-xs-9,
+.reports_tabs_content_container #reports_bydiscrepancy_block .col-sm-9,
+.reports_tabs_content_container #reports_bydiscrepancy_block .col-md-9,
+.reports_tabs_content_container #reports_bydiscrepancy_block .col-lg-9,
+.reports_tabs_content_container #reports_bydiscrepancy_block .col-xs-10,
+.reports_tabs_content_container #reports_bydiscrepancy_block .col-sm-10,
+.reports_tabs_content_container #reports_bydiscrepancy_block .col-md-10,
+.reports_tabs_content_container #reports_bydiscrepancy_block .col-lg-10,
+.reports_tabs_content_container #reports_bydiscrepancy_block .col-xs-11,
+.reports_tabs_content_container #reports_bydiscrepancy_block .col-sm-11,
+.reports_tabs_content_container #reports_bydiscrepancy_block .col-md-11,
+.reports_tabs_content_container #reports_bydiscrepancy_block .col-lg-11,
+.reports_tabs_content_container #reports_bydiscrepancy_block .col-xs-12,
+.reports_tabs_content_container #reports_bydiscrepancy_block .col-sm-12,
+.reports_tabs_content_container #reports_bydiscrepancy_block .col-md-12,
+.reports_tabs_content_container #reports_bydiscrepancy_block .col-lg-12 {
+  padding-left: 20px ;
+  padding-right: 20px ;
+}
 .reports_cost_header_holder {
   margin-top: 21px ;
-  /*  .cost_header_holder {
-    .each_cost_col.three_col {
-      min-width: 70px;
-      width: 79px;
-    }
-  }*/
 }
 .text_next_margin_per {
   display: inline-block;

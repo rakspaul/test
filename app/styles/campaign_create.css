@@ -1319,6 +1319,10 @@
   float: left;
   height: 100%;
 }
+#campaignCreate .campaignAdCreate .adMainWrapper #formAdCreate .one-time-sixteen {
+  font-size: 16px;
+  color: #939eae;
+}
 #campaignCreate .campaignAdCreate .adMainWrapper #formAdCreate .adCreateConsole {
   float: left;
   height: 100%;
@@ -1495,7 +1499,7 @@
   border: 1px solid #ddd;
   float: left;
   margin-right: 2.48%;
-  min-height: 265px;
+  min-height: 191px;
   padding: 20px;
   width: 31.68%;
 }
@@ -1511,7 +1515,7 @@
 #campaignCreate .campaignAdCreate .adMainWrapper .offeringsWrap .container .offeringWrap .descrip {
   float: left;
   margin: 14px 0 0 0;
-  min-height: 93px;
+  /* min-height: 93px;*/
   text-align: center;
   width: 100%;
 }
@@ -1552,7 +1556,7 @@
   float: left;
   margin-right: 2%;
   margin-top: 2%;
-  min-height: 265px;
+  min-height: 191px;
   padding: 20px;
   position: relative;
   width: 32%;
@@ -1568,10 +1572,11 @@
   margin-right: 0;
 }
 #campaignCreate .campaignAdCreate .adMainWrapper .platformHolder:last-child {
-  border: 1px dashed #939EAE;
-}
-#campaignCreate .campaignAdCreate .adMainWrapper .platformHolder:last-child span {
-  margin: 80px 0 10px 0;
+  /*border: 1px dashed #939EAE;*/
+  visibility: hidden;
+  /*span {
+                        margin: 80px 0 10px 0;
+                    }*/
 }
 #campaignCreate .campaignAdCreate .adMainWrapper .platformHolder a {
   color: #2c9aec;
@@ -1624,7 +1629,7 @@
 #campaignCreate .campaignAdCreate .adMainWrapper .platformHolder span {
   float: left;
   margin: 14px 0 0 0;
-  min-height: 93px;
+  /*min-height: 93px;*/
   text-align: center;
   width: 100%;
 }
@@ -1836,6 +1841,9 @@
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroup .adTitle {
   float: left;
   width: 100%;
+}
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroup .adTitle .editAdgroupDiv {
+  padding: 15px ;
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroup .adTitle .editAdgroupDiv .adGroupCreateForm {
   border: 0 ;
@@ -3755,4 +3763,13 @@
 }
 .remove-row .icon-clear {
   margin: 10px 0;
+}
+.search-highlight {
+  background: #fcecbd !important;
+}
+.load-more {
+  margin: 20px;
+  text-align: center;
+  text-indent: -99999px;
+  background: url("/images/loading.gif") no-repeat scroll 48% 45% rgba(0, 0, 0, 0);
 }

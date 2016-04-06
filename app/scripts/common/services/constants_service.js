@@ -4,6 +4,7 @@ define(['angularAMD'], function(angularAMD) {
         this.CAMPAIGN_LIST_CANCELLER = 1;
         this.CAMPAIGN_FILTER_CANCELLER = 1;
         this.ADDLIBRARY_FILTER_CANCELLER = 10;
+        this.PLATFORM_TAB_CANCELLER = 99;
         this.COST_CANCELLER = 2;
         this.DASHBOARD_CANCELLER = 3;
         this.GAUGE_CANCELLER = 4;
@@ -454,6 +455,7 @@ define(['angularAMD'], function(angularAMD) {
         this.WF_CREATE_CAMPAIGN = 'Media Plan Setup';
         this.UPLOAD_TEMPLATE = 'Upload Template';
         this.CREATE = 'Create';
+        this.BULK_UPLOAD = 'Bulk Upload';
         this.WF_SETTINGS = 'Settings';
         this.ACCOUNT = 'Account';
         this.WF_BRAND = 'Brands';
@@ -861,6 +863,7 @@ define(['angularAMD'], function(angularAMD) {
         this.PLEASENAMEADGRP = 'Please enter a name for the ad group.';
         this.ADGROUPBUDGETMSG = 'Please enter a budget for the ad group.';
         this.ADGROUPMINIMUMBUDGETMSG = 'Please enter a budget value more than the minimum budget for the ad group.';
+        this.ADGROUPBUDGETGREATERTHANZEROMSG = 'Please enter a budget value greater than zero.';
         this.ADGROUPMAXIMUMBUDGETMSG = 'Please enter a budget value less than the available media plan budget.';
         this.WHATFLIGHTDATES = 'What are the Flight Dates?';
         this.PLEASESELSTARTDATE = 'Please select the start Date.';
@@ -992,5 +995,6 @@ define(['angularAMD'], function(angularAMD) {
         this.EVENT_SUB_ACCOUNT_CHANGED = 'eventSubAccountChanged';
         this.EVENT_SUB_ACCOUNT_CHANGED_FROM_DASHBOARD = 'SubAccountChangedFromDashboard';
         this.EVENT_MASTER_CLIENT_CHANGED = 'eventMasterClientChanged';
+        this.SUB_ACCOUNT = "Sub-Account";
     });
 });

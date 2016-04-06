@@ -1,4 +1,4 @@
-define(['angularAMD', 'workflow/services/workflow_service', 'workflow/services/file_reader', 'workflow/directives/creative_drop_down'],
+define(['angularAMD', 'workflow/services/workflow_service', 'workflow/services/file_reader'],
     function(angularAMD) {
         angularAMD.controller('InventoryFiltersController', function($scope, workflowService, fileReader, Upload) {
 
@@ -152,11 +152,17 @@ define(['angularAMD', 'workflow/services/workflow_service', 'workflow/services/f
                 });
             }
 
-            $scope.prarentHandler = function(clientId, clientName, advertiserId, advertiserName) {
-                $scope.clientId = clientId;
-                $scope.advertiserId = advertiserId;
-                InventoryFiltersView.getAdvertisersDomainList(clientId, advertiserId);
-            };
+            //$scope.prarentHandler = function(clientId, clientName, advertiserId, advertiserName) {
+            //    $scope.clientId = clientId;
+            //    $scope.advertiserId = advertiserId;
+            //};
+
+            $scope.$on('getDominList', function(event, args) {
+                console.log("args", args);
+                $scope.clientId = args[0].clientId;
+                $scope.advertiserId = args[0].advertiserId;
+                InventoryFiltersView.getAdvertisersDomainList(args[0].clientId, args[0].advertiserId);
+            });
 
             $scope.selectFiles = function(files, action) {
                 if (files) {
@@ -661,7 +667,6 @@ define(['angularAMD', 'workflow/services/workflow_service', 'workflow/services/f
             };
 
             $scope.showDomainListTypePopupCue = function (type, event) {
-console.log("$scope.workflowData.inventoryData = ", $scope.workflowData.inventoryData)
                 var domainListTypePopupCue = $('#domain-list-type-popup-cue');
                 if ($scope.workflowData.selectedBlackLists.length === 0 &&
                     $scope.workflowData.selectedWhiteLists.length === 0) {

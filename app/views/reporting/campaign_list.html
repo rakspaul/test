@@ -35,27 +35,34 @@
         <!--Search Input-->
         <div class="btn-group pull-right">
             <button type="button" class="btn btn-default pull-right" style="display: none">
-                <span class="icon-filter" style="margin: -1px 0 0 0;"></span>
+                <span class="icon-filter" style="margin: -1px 0 0;"></span>
             </button>
+
             <div class="searchInput pull-right" style="border-top-right-radius: 0; border-bottom-right-radius: 0;">
                 <a class="btn btn-default searchInputBtn" ng-click="searchShowInput()">
-                    <span class="icon-search" aria-hidden="true" style="margin: -1px 0 0 0;"></span>
+                    <span class="icon-search" aria-hidden="true" style="margin: -1px 0 0;"></span>
+                </a>
+
+                <a class="btn btn-default searchInputBtnInline" ng-click="campaignSearchFunc()">
+                    <span class="icon-search" aria-hidden="true" style="margin: -1px 0 0;"></span>
                 </a>
                 <div class="input-group searchInputForm" >
                     <input type="text"
                            class="form-control"
-                           name="campaignSearch"
+                           name="campaignsSearch"
                            ng-model="campaigns.searchTerm"
                            ng-keyup="campaignSearchFunc($event)"
                            placeholder="Search Media Plans...">
-                    <div class="btn btn-default" ng-click="searchHideInput()">
+                    <div class="btn btn-default searchClearInputBtn" ng-click="searchHideInput()">
                         <span class="icon-clear" aria-hidden="true"></span>
                     </div>
                 </div>
             </div>
         </div>
         <span class="pull-right"
-              ng-bind="campaigns.searchTerm ? campaigns.dashboard.quickFilterSelectedCount + ' out of ' + campaigns.dashboard.originalFilterTotal + ' Media Plans' : campaigns.dashboard.quickFilterSelectedCount + ' Media Plans in list'"
+              ng-bind="campaigns.searchTerm ? campaigns.dashboard.quickFilterSelectedCount + ' out of ' +
+                campaigns.dashboard.filterTotal + ' Media Plans' :
+                campaigns.dashboard.quickFilterSelectedCount + ' Media Plans'"
               style="font-size: 12px; margin: 10px 10px 0 0;">
         </span>
     </div>
@@ -106,7 +113,7 @@
              ng-if="(campaigns.dashboard.quickFilterSelectedCount === 0)">
             <div class="all_campaigns_container">
                 <div  class="no-campaign-available"
-                      ng-if="(campaigns.dashboard.quickFilterSelectedCount === 0)"
+                      ng-if="campaigns.noData"
                       data-ng-bind="textConstants.NO_RELEVANT_CAMPAIGNS">
                 </div>
                 <div class="each_campaign_cost_container"
@@ -129,13 +136,9 @@
         <!-- PERFORMANCE DIV -->
         <div class="each_section_block total_campaign_list_holder" id="performance_block">
             <div class="all_campaigns_container">
-                <div  class="no-campaign-available"
-                      ng-if="(campaigns.dashboard.filterTotal == 0 )"
-                      data-ng-bind="textConstants.NO_RELEVANT_CAMPAIGNS">
-                </div>
                 <div class="clearfix row-fluid each_campaign_holder" data-ng-repeat="campaign in campaigns.campaignList">
                     <!-- campaign strategy card -->
-                    <div ng-if="(campaigns.dashboard.filterTotal > 0 )"
+                    <div ng-if="(campaigns.dashboard.filterTotal > 0)"
                          campaign-card campaign="campaign"
                          campaigns="campaigns"
                          class="col-md-12 zeroPadding">

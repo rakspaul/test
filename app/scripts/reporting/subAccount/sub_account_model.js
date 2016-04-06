@@ -1,5 +1,5 @@
-define(['angularAMD', 'workflow/services/workflow_service','common/services/constants_service'], function (angularAMD) {
-    angularAMD.service("subAccountModel", function ($rootScope, workflowService,constants) {
+define(['angularAMD', 'workflow/services/workflow_service','common/services/constants_service','login/login_model'], function (angularAMD) {
+    angularAMD.service("subAccountModel", function ($rootScope, workflowService,constants,loginModel) {
         var self = this;
         self.subAccounts = {
             allSubAccounts: []
@@ -21,12 +21,24 @@ define(['angularAMD', 'workflow/services/workflow_service','common/services/cons
             return self.subAccounts.allSubAccounts;
         }
 
-        this.fetchSubAccounts = function (successCallBack, searchCritera, search) {
-            workflowService.getSubAccounts().then(function (response) {
-                self.setSelectedSubAccount({'id': response.data.data[0].id, 'name': response.data.data[0].name});
-                self.setSubAccounts(response.data.data);
-                successCallBack();
-            });
+
+        this.fetchSubAccounts = function (from,successCallBack, searchCritera, search) {
+           // console.log('Subaccount Model From: ',from)
+            var isLeafNode = loginModel.getMasterClient().isLeafNode;
+            if(!isLeafNode){
+                workflowService.getSubAccounts().then(function (response) {
+                    if(from == 'MasterClientChanged') {
+                        self.setSelectedSubAccount({'id': response.data.data[0].id, 'name': response.data.data[0].name});
+                    } else {
+                        var selectedClient = loginModel.getSelectedClient();
+                        if(selectedClient && selectedClient.id){
+                            self.setSelectedSubAccount({'id': selectedClient.id, 'name': selectedClient.name});
+                        }
+                    }
+                    self.setSubAccounts(response.data.data);
+                    successCallBack();
+                });
+            }
         }
 
         this.broadCastSubAccount = function(subAccount,eventType) {

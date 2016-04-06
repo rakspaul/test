@@ -30,6 +30,11 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         $scope.Campaign.deliveryBudget = '00.00';
         $scope.Campaign.effectiveCPM = '00.00';
         $scope.repushCampaignLoader = false;
+        $scope.showSubAccount = false;
+
+        if(!loginModel.getMasterClient().isLeafNode) {
+          $scope.showSubAccount = true;
+        }
 
         $scope.resetCostArrCPC=function(){
             var selVendorObj=[];var cpmRate=[];
@@ -502,9 +507,8 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     $scope.Campaign.marginPercent = $scope.editCampaignData.marginPercent ? $scope.editCampaignData.marginPercent :0;
                     $scope.Campaign.deliveryBudget = $scope.editCampaignData.deliveryBudget;
                     if( $scope.editCampaignData.labels && $scope.editCampaignData.labels.length > 0){
-                        $scope.tags = workflowService.recreateLabels($scope.editCampaignData.labels);
+                        $scope.tags = workflowService.recreateLabels(_.uniq($scope.editCampaignData.labels));
                     }
-
 
                     /*write condition for orange text here also*/
                     if (parseFloat($scope.Campaign.deliveryBudget) < 0) {
@@ -725,7 +729,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 })
             },
             fetchAdvertisers: function (clientId) {
-                workflowService.getAdvertisers('write').then(function (result) {
+                workflowService.getAdvertisers('write',clientId).then(function (result) {
                     if (result.status === "OK" || result.status === "success") {
                         var responseData = result.data.data;
                         $scope.workflowData['advertisers'] = _.sortBy(responseData, 'name');
@@ -737,10 +741,21 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             },
 
             fetchBrands: function (clientId, advertiserId) {
-                workflowService.getBrands(advertiserId, 'write').then(function (result) {
+                workflowService.getBrands(clientId,advertiserId, 'write').then(function (result) {
                     if (result.status === "OK" || result.status === "success") {
                         var responseData = result.data.data;
                         $scope.workflowData['brands'] = _.sortBy(responseData, 'name');
+                    }
+                    else {
+                        createCampaign.errorHandler(result);
+                    }
+                }, createCampaign.errorHandler);
+            },
+
+            fetchSubAccounts: function(){
+                workflowService.getSubAccounts('write').then(function(result) {
+                    if (result.status === "OK" || result.status === "success") {
+                        $scope.workflowData['subAccounts'] = result.data.data;
                     }
                     else {
                         createCampaign.errorHandler(result);
@@ -756,12 +771,23 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         $scope.selectHandler = function (type, data, event) {
             switch (type) {
                 case 'client' :
-                    $scope.workflowData['advertisers'] = {};
+                    $scope.workflowData['advertisers'] = [];
                     $scope.workflowData['brands'] = [];
                     $scope.selectedCampaign.advertiser = '';
-                    $scope.selectedCampaign.clientId = data.id;
-                    createCampaign.fetchAdvertisers(data.id);
+                    if($scope.showSubAccount){
+                        $scope.workflowData['subAccounts'] = [];
+                        $scope.selectedCampaign.clientId = '';
+                        createCampaign.fetchSubAccounts();
+                    } else {
+                        $scope.selectedCampaign.clientId = data.id;
+                        createCampaign.fetchAdvertisers(data.id);
+                    }
                     break;
+                case 'subAccount':
+                    $scope.selectedCampaign.advertiser = '';
+                    $scope.selectedCampaign.clientId = data.id;
+                    $scope.workflowData['advertisers'] = [];
+                    createCampaign.fetchAdvertisers(data.id);
                 case 'advertiser' :
                     $scope.workflowData['brands'] = [];
                     $scope.selectedCampaign.brand = '';
@@ -851,7 +877,12 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 postDataObj.campaignObjectives = $scope.checkedObjectiveList;
                 postDataObj.preferredPlatforms = $scope.platFormArr;
                 postDataObj.labels = _.pluck($scope.tags, "label");
-                postDataObj.clientId = loginModel.getSelectedClient().id;
+
+                if($scope.showSubAccount) {
+                    postDataObj.clientId = $scope.selectedCampaign.clientId;
+                }else {
+                    postDataObj.clientId = loginModel.getSelectedClient().id;
+                }
                 if ($scope.mode == 'edit') {
                     if (moment(formData.startTime).format(constants.DATE_UTC_SHORT_FORMAT) === momentService.utcToLocalTime($scope.editCampaignData.startTime, constants.DATE_UTC_SHORT_FORMAT))
                         postDataObj.startTime = $scope.editCampaignData.startTime;
@@ -919,10 +950,10 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         };
 
         $scope.initiateDatePicker = function () {
+            var startDateElem = $('#startDateInput');
+            var endDateElem = $('#endDateInput');
+            var today = momentService.utcToLocalTime();
             if ($scope.mode == 'edit') {
-                var startDateElem = $('#startDateInput');
-                var endDateElem = $('#endDateInput');
-                var today = new Date();
                 var campaignStartTime = momentService.utcToLocalTime($scope.editCampaignData.startTime);
                 var campaignEndTime = momentService.utcToLocalTime($scope.editCampaignData.endTime);
                 var currentDateTime = momentService.utcToLocalTime();
@@ -936,14 +967,15 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     startDateElem.datepicker("setEndDate", campaignStartTime);
                 }
             } else {
-                var startDateElem = $('#startDateInput');
-                var endDateElem = $('#endDateInput');
-                var today = momentService.utcToLocalTime();
-                startDateElem.datepicker("setStartDate", today);
-                endDateElem.datepicker("setStartDate", today);
-                startDateElem.datepicker("update", today);
                 $scope.selectedCampaign.startTime = today;
                 $scope.selectedCampaign.endTime = today;
+
+                startDateElem.datepicker("setStartDate", today);
+                startDateElem.datepicker("update", today);
+
+                endDateElem.datepicker("setStartDate", today);
+                endDateElem.datepicker("update", today);
+
             }
         };
 
@@ -1050,6 +1082,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             // createCampaign.vendor();/*from costcategory*/
             createCampaign.costCategories();
             createCampaign.calculation();
+
             if ($scope.mode == 'edit') {
                 $scope.processEditCampaignData();
             } else {

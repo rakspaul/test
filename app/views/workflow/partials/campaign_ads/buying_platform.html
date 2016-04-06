@@ -1,7 +1,7 @@
 <div class="col-md-6" style="padding: 0 0 0 30px;">
     <h2 class="col-md-12 zeroPadding marginBottom" data-ng-bind="textConstants.SELECTBUYPLAT"></h2>
-    <span data-ng-bind="textConstants.FULLINT"></span>
-    <div class="greyTxt" style="padding: 1px 0 0 0 !important;" data-ng-bind="textConstants.SELECTAPLAT"></div>
+    <span class="one-time-sixteen" data-ng-bind="textConstants.FULLINT"></span>
+   <!-- <div class="greyTxt" style="padding: 1px 0 0 0 !important;" data-ng-bind="textConstants.SELECTAPLAT"></div>-->
 </div>
 
 <div class="buyingPlatformHolder">
@@ -11,7 +11,8 @@
              ng-click="!platform.active ? '' : selectPlatform($event, platform)">
             <img ng-src="{{platform.iconUrl}}"/>
             <p data-ng-bind="platform.displayName"></p>
-            <span ng-bind-html="platform.summary"></span>
+            <!--<span ng-bind-html="platform.summary"></span>-->
+            <span></span>
             <div ng-if="selectedPlatform[platform.id]" class="btn btn-default active" data-ng-bind="textConstants.SELECTED"></div>
             <input ng-if="!selectedPlatform[platform.id]"
                    type="button"
@@ -32,8 +33,8 @@
     </div>
     <div class="offeringsWrap">
         <div class="col-md-12" style="padding: 30px;">
-            <span data-ng-bind="textConstants.TRACKINT"></span> <br />
-            <span class="greyTxt" data-ng-bind="textConstants.MOREPLATAVAIL"></span>
+            <!--<span data-ng-bind="textConstants.TRACKINT"></span> <br />-->
+            <span class="one-time-sixteen" data-ng-bind="textConstants.MOREPLATAVAIL"></span>
         </div>
         <div class="container">
             <br>
@@ -47,7 +48,8 @@
                             </div>
                             <div class="col-md-12 zeroPadding text-center">
                                 <span class="title" data-ng-bind="trackingIntegration.displayName"></span>
-                                <span class="descrip" data-ng-bind="trackingIntegration.summary"></span>
+                                <!--<span class="descrip" data-ng-bind="trackingIntegration.summary"></span>-->
+                                <span class="descrip"></span>
                             </div>
                             <div class="col-md-12 select-btn">
                                 <div ng-if="selectedPlatform[trackingIntegration.id]" class="btn btn-default active" data-ng-bind="textConstants.SELECTED"></div>

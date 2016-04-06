@@ -19,7 +19,7 @@
                 </truncate-text-with-hover>
             </a>
             <a ng-if="$parent.isWorkFlowUser"
-               ng-click="redirectTo(campaign, campaigns.dashboard.appliedFilterType, $event)">
+               ng-click="showManageButton?redirectTo(campaign, campaigns.dashboard.appliedFilterType, $event):''" ng-class="{'anchor-disabled':showManageButton === false}">
                 <truncate-text-with-hover
                         txt="{{campaign.campaignTitle}}"
                         txt-html="{{campaign.campaignTitleHtml}}"
@@ -31,13 +31,12 @@
         <!--Brand Name-->
         <div class="heading" ng-bind="campaign.adv_name"></div>
     </div>
-
     <!--Label Pills-->
     <div class="col-md-12 zeroPadding">
         <div class="pillsWrap">
             <span ng-if="campaign.labels.length > 0"></span>
-            <span class="labelPills {{addHighlightClass(label, '</mark>') ? ' brand_search_highlight' : ''}}"
-                  ng-repeat="label in campaign.labels"
+            <span class="labelPills{{addHighlightClass(label, '</mark>') ? ' brand_search_highlight' : ''}}"
+                  ng-repeat="label in campaign.labels track by $index"
                   ng-bind-html="label">
             </span>
         </div>

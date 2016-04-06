@@ -225,7 +225,7 @@ define(['common'], function (angularAMD) {
                 controller: 'CreateCampaignController',
                 controllerUrl: '/scripts/workflow/controllers/campaign_create_controller',
                 resolve: {
-                    'check': function ($location, RoleBasedService, workflowService, constants,featuresService) {
+                    'check': function ($location, RoleBasedService, workflowService, constants,featuresService,$rootScope) {
                         var isWorkflowUser =
                             RoleBasedService.getClientRole() && RoleBasedService.getClientRole().workFlowUser;
                         workflowService.setMode('create');
@@ -238,6 +238,9 @@ define(['common'], function (angularAMD) {
                             $location.path('/');
                         }
                         featuresService.setGetFeatureParams('create_mediaplan');
+                        var featuredFeatures = $rootScope.$on('features', function () {
+                            featuresService.setGetFeatureParams('create_mediaplan');
+                        });
                     }
                 }
             }))
@@ -262,7 +265,7 @@ define(['common'], function (angularAMD) {
                 controller: 'CreateCampaignController',
                 controllerUrl: 'workflow/controllers/campaign_create_controller',
                 resolve: {
-                    'check': function ($location, RoleBasedService, workflowService, constants) {
+                    'check': function ($location, RoleBasedService, workflowService, constants,featuresService,$rootScope) {
                         var isWorkflowUser =
                             RoleBasedService.getClientRole() && RoleBasedService.getClientRole().workFlowUser;
 
@@ -275,6 +278,11 @@ define(['common'], function (angularAMD) {
                         if (!isWorkflowUser) {
                             $location.path('/');
                         }
+                        featuresService.setGetFeatureParams('mediaplan_hub');
+                        var featuredFeatures = $rootScope.$on('features', function () {
+                            featuresService.setGetFeatureParams('mediaplan_hub');
+                        });
+
                     }
                 }
             }))
@@ -285,7 +293,7 @@ define(['common'], function (angularAMD) {
                 controller: 'CampaignOverViewController',
                 controllerUrl: 'workflow/controllers/campaign_overview_controller',
                 resolve: {
-                    'check': function ($location, RoleBasedService, workflowService, constants) {
+                    'check': function ($location, RoleBasedService, workflowService, constants,featuresService,$rootScope) {
                         var isWorkflowUser =
                             RoleBasedService.getClientRole() && RoleBasedService.getClientRole().workFlowUser;
 
@@ -297,6 +305,10 @@ define(['common'], function (angularAMD) {
                         if (!isWorkflowUser) {
                             $location.path('/');
                         }
+                        featuresService.setGetFeatureParams('mediaplan_hub');
+                        var featuredFeatures = $rootScope.$on('features', function () {
+                            featuresService.setGetFeatureParams('mediaplan_hub');
+                        });
                     }
                 }
             }))
@@ -307,7 +319,7 @@ define(['common'], function (angularAMD) {
                 controller: 'CampaignAdsCreateController',
                 controllerUrl: 'workflow/controllers/campaign_adcreate_controller',
                 resolve: {
-                    'check': function ($location, RoleBasedService, workflowService, constants) {
+                    'check': function ($location, RoleBasedService, workflowService, constants,featuresService,$rootScope) {
                         var isWorkflowUser =
                             RoleBasedService.getClientRole() && RoleBasedService.getClientRole().workFlowUser;
 
@@ -321,6 +333,10 @@ define(['common'], function (angularAMD) {
                         if (!isWorkflowUser) {
                             $location.path('/');
                         }
+                        featuresService.setGetFeatureParams('ad_setup');
+                        var featuredFeatures = $rootScope.$on('features', function () {
+                            featuresService.setGetFeatureParams('ad_setup');
+                        });
                     }
                 }
             }))
@@ -331,7 +347,7 @@ define(['common'], function (angularAMD) {
                 controller: 'CampaignAdsCreateController',
                 controllerUrl: 'workflow/controllers/campaign_adcreate_controller',
                 resolve: {
-                    'check': function ($location, RoleBasedService, workflowService, constants) {
+                    'check': function ($location, RoleBasedService, workflowService, constants,featuresService,$rootScope) {
                         var isWorkflowUser =
                             RoleBasedService.getClientRole() && RoleBasedService.getClientRole().workFlowUser;
 
@@ -345,6 +361,10 @@ define(['common'], function (angularAMD) {
                         if (!isWorkflowUser) {
                             $location.path('/');
                         }
+                        featuresService.setGetFeatureParams('mediaplan_hub');
+                        var featuredFeatures = $rootScope.$on('features', function () {
+                            featuresService.setGetFeatureParams('mediaplan_hub');
+                        });
                     }
                 }
             }))
@@ -355,7 +375,7 @@ define(['common'], function (angularAMD) {
                 controller: 'CampaignAdsCreateController',
                 controllerUrl: 'workflow/controllers/campaign_adcreate_controller',
                 resolve: {
-                    'check': function ($location, RoleBasedService, workflowService, constants) {
+                    'check': function ($location, RoleBasedService, workflowService, constants,featuresService,$rootScope) {
                         var isWorkflowUser =
                             RoleBasedService.getClientRole() && RoleBasedService.getClientRole().workFlowUser;
 
@@ -369,6 +389,10 @@ define(['common'], function (angularAMD) {
                         if (!isWorkflowUser) {
                             $location.path('/');
                         }
+                        featuresService.setGetFeatureParams('ad_setup');
+                        var featuredFeatures = $rootScope.$on('features', function () {
+                            featuresService.setGetFeatureParams('ad_setup');
+                        });
                     }
                 }
             }))
@@ -379,7 +403,7 @@ define(['common'], function (angularAMD) {
                 controller: 'CampaignAdsCreateController',
                 controllerUrl: 'workflow/controllers/campaign_adcreate_controller',
                 resolve: {
-                    'check': function ($location, RoleBasedService, workflowService, constants) {
+                    'check': function ($location, RoleBasedService, workflowService, constants,featuresService,$rootScope) {
                         var isWorkflowUser =
                             RoleBasedService.getClientRole() && RoleBasedService.getClientRole().workFlowUser;
 
@@ -393,6 +417,10 @@ define(['common'], function (angularAMD) {
                         if (!isWorkflowUser) {
                             $location.path('/');
                         }
+                        featuresService.setGetFeatureParams('mediaplan_hub');
+                        var featuredFeatures = $rootScope.$on('features', function () {
+                            featuresService.setGetFeatureParams('mediaplan_hub');
+                        });
                     }
                 }
             }))
@@ -403,7 +431,7 @@ define(['common'], function (angularAMD) {
                 controller: 'CreativeController',
                 controllerUrl: 'workflow/controllers/creative_controller',
                 resolve: {
-                    'check': function ($location, RoleBasedService,workflowService,constants) {
+                    'check': function ($location, RoleBasedService,workflowService,constants,featuresService,$rootScope) {
                         var isWorkflowUser =
                             RoleBasedService.getClientRole() && RoleBasedService.getClientRole().workFlowUser;
                         workflowService.setModuleInfo({
@@ -414,6 +442,10 @@ define(['common'], function (angularAMD) {
                         if (!isWorkflowUser) {
                             $location.path('/');
                         }
+                        featuresService.setGetFeatureParams('creative_list');
+                        var featuredFeatures = $rootScope.$on('features', function () {
+                            featuresService.setGetFeatureParams('creative_list');
+                        });
                     }
                 }
             }))
@@ -424,13 +456,17 @@ define(['common'], function (angularAMD) {
                 controller: 'CreativeController',
                 controllerUrl: 'workflow/controllers/creative_controller',
                 resolve: {
-                    'check': function ($location, RoleBasedService) {
+                    'check': function ($location, RoleBasedService,featuresService,$rootScope) {
                         var isWorkflowUser =
                             RoleBasedService.getClientRole() && RoleBasedService.getClientRole().workFlowUser;
 
                         if (!isWorkflowUser) {
                             $location.path('/');
                         }
+                        featuresService.setGetFeatureParams('creative_list');
+                        var featuredFeatures = $rootScope.$on('features', function () {
+                            featuresService.setGetFeatureParams('creative_list');
+                        });
                     }
                 }
             }))
@@ -441,7 +477,7 @@ define(['common'], function (angularAMD) {
                 controller: 'CreativeListController',
                 controllerUrl: 'workflow/controllers/creative_list_controller',
                 resolve: {
-                    'check': function ($location, RoleBasedService, workflowService, constants,featuresService) {
+                    'check': function ($location, RoleBasedService, workflowService, constants,featuresService,$rootScope) {
                         var isWorkflowUser =
                             RoleBasedService.getClientRole() && RoleBasedService.getClientRole().workFlowUser;
 
@@ -455,6 +491,9 @@ define(['common'], function (angularAMD) {
                             $location.path('/');
                         }
                         featuresService.setGetFeatureParams('creative_list');
+                        var featuredFeatures = $rootScope.$on('features', function () {
+                            featuresService.setGetFeatureParams('creative_list');
+                        });
                     }
                 }
             }))
@@ -505,10 +544,6 @@ define(['common'], function (angularAMD) {
                             $cookieStore.remove('cdesk_redirect');
                         } else {
                             setDefaultPage = 'dashboard';
-                            //console.log('featuresService.getFeatureParams()[0].dashboard',featuresService.getFeatureParams()[0].dashboard);
-                            /*if(featuresService.getFeatureParams()[0].dashboard === false) {
-                                setDefaultPage = 'mediaplans';
-                            }*/
                             $location.url(setDefaultPage);
                         }
                     }
@@ -556,7 +591,7 @@ define(['common'], function (angularAMD) {
                                         }
                                     } else {
                                         //set subAccount
-                                        subAccountModel.fetchSubAccounts(function(){
+                                        subAccountModel.fetchSubAccounts('MasterClientChanged',function(){
                                             workflowService.getClientData(clientObj.id).then(function (response) {
                                                 featuresService.setFeatureParams(response.data.data.features);
                                             });

@@ -97,7 +97,7 @@ define(['angularAMD', '../../login/login_model', 'common/services/role_based_ser
         };
     }]);
 
-    angularAMD.directive('reportTabs', ['$http', '$compile', 'constants', function ($http, $compile, constants) {
+    angularAMD.directive('reportTabs', ['$http', '$compile', 'constants','featuresService','$rootScope', function ($http, $compile, constants,featuresService,$rootScope) {
         return {
             controller: function ($scope, $cookieStore, $location) {
             },
@@ -106,6 +106,27 @@ define(['angularAMD', '../../login/login_model', 'common/services/role_based_ser
             templateUrl: assets.html_report_header_tab,
             link: function (scope, element, attrs) {
                 scope.textConstants = constants;
+                scope.showCustomReportHeading = false;
+                scope.showMediaPlanReportHeading = false;
+                var enableFeaturePermission = function () {
+                    var fparams = featuresService.getFeatureParams();
+                    scope.showReportOverview = fparams[0].report_overview;
+                    scope.buildReport = fparams[0].scheduled_reports;
+
+                    if(fparams[0].scheduled_reports || fparams[0].collective_insights) {
+                        scope.showCustomReportHeading = true;
+                    }
+
+                    if(fparams[0].report_overview || fparams[0].inventory || fparams[0].performance || fparams[0].quality || fparams[0].cost || fparams[0].optimization_impact || fparams[0].platform) {
+                        scope.showMediaPlanReportHeading = true;
+                    }
+
+                };
+                enableFeaturePermission();
+
+                var featuredFeatures = $rootScope.$on('features', function () {
+                    enableFeaturePermission();
+                });
             }
         };
     }]);
@@ -195,7 +216,7 @@ define(['angularAMD', '../../login/login_model', 'common/services/role_based_ser
                     if (queryObj.queryId === 29 || queryObj.queryId === 16 || queryObj.queryId === 30 || queryObj.queryId === 31 || queryObj.queryId === 32) {
                         //we need not do any thing since for these query id we need not to pass the ad group id.
                     } else {
-                        queryObj['adGroupId'] = $scope.selectedStrategy.id;
+                        queryObj['adGroupId'] = -1;
                     }
 
                     var report_url = urlService.APIVistoCustomQuery(queryObj);
@@ -334,12 +355,17 @@ define(['angularAMD', '../../login/login_model', 'common/services/role_based_ser
                 scope.reportFilter = attrs.reports;
                 scope.textConstants = constants;
                 scope.allCampaign = attrs.allCampaign;
+                scope.showStrategies = attrs.strategies;
                 var masterClient = loginModel.getMasterClient();
                 scope.isLeafNode = true;
                 if(masterClient.isLeafNode == false) {
                     scope.isLeafNode = false;
                 }
                 var masterClientChanged = $rootScope.$on(constants.EVENT_MASTER_CLIENT_CHANGED, function (event, args) {
+                    scope.isLeafNode = loginModel.getMasterClient().isLeafNode;
+                });
+
+                var masterClientChanged = $rootScope.$on(constants.ACCOUNT_CHANGED, function (event, args) {
                     scope.isLeafNode = loginModel.getMasterClient().isLeafNode;
                 });
                 if (scope.allCampaign == "true" || scope.allCampaign == true) {

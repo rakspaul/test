@@ -127,6 +127,7 @@ define(['angularAMD','reporting/campaignList/campaign_list_service', 'common/ser
                         this.sortParam = 'start_date';
                         this.sortDirection = 'desc';
                         this.dashboard.quickFilterSelectedCount = 0;
+                        this.dashboard.quickFilterSelectedCount = 0;
                         //this.brandId = brandsModel.getSelectedBrand().id;
                         this.resetCostBreakdown.call(this);
                     };
@@ -203,7 +204,6 @@ define(['angularAMD','reporting/campaignList/campaign_list_service', 'common/ser
                         fetchCampaigns = function () {
                             var self,
                                 url;
-
                             // check scroller only inside container
                             findScrollerFromContainer.call(this);
                             if ((!this.performanceParams.lastPage && (this.dashboard.filterTotal > 0) ||
@@ -219,12 +219,16 @@ define(['angularAMD','reporting/campaignList/campaign_list_service', 'common/ser
 
                                     // The total count is now returned as part of the main result set
                                     if (data && data[0] && data[0].count) {
-                                        self.dashboard.filterTotal = data[0].count;
                                         self.dashboard.quickFilterSelectedCount = data[0].count;
                                         // This stores the original total count on first load
                                         if (!self.dashboard.originalFilterTotal) {
                                             self.dashboard.originalFilterTotal = data[0].count;
                                         }
+
+                                        // Show / Hide 'No Relevant Media Plans' display
+                                        self.noData = self.dashboard.quickFilterSelectedCount ? false : true;
+                                    } else {
+                                        self.noData = true;
                                     }
 
                                     requestCanceller.resetCanceller(constants.CAMPAIGN_LIST_CANCELLER);
@@ -651,12 +655,7 @@ define(['angularAMD','reporting/campaignList/campaign_list_service', 'common/ser
                                 case constants.ACTIVE_CONDITION:
                                     this.appliedQuickFilterText = constants.INFLIGHT_LABEL;
 
-                                    // Don't assign on first page load. Total count will be taken from
-                                    // main result set.
-                                    if (this.dashboard.quickFilterSelectedCount) {
-                                        this.dashboard.quickFilterSelectedCount = this.dashboard.active.total;
-                                    }
-
+                                    this.dashboard.quickFilterSelectedCount = this.dashboard.active.total;
                                     this.dashboard.status.active.bothItem = constants.ACTIVE;
                                     type = constants.ACTIVE;
                                     break;

@@ -28,6 +28,8 @@ define(['angularAMD', 'workflow/services/audience_service', 'workflow/services/w
       left: '0'
     };
 
+    $scope.showAudienceLoader = false;
+
     var editOneTimeFlag = false;
 
     audienceService.resetAudienceData();
@@ -121,7 +123,10 @@ define(['angularAMD', 'workflow/services/audience_service', 'workflow/services/w
       fetchAllAudience: function (loadMoreFlag) {
         if (!loadMoreFlag) {
           $("#audienceTargetingContainer").scrollTop(0);
+            $scope.showAudienceLoader = true;
+            $scope.audienceList= [];
         }
+
         audienceService
           .fetchAudience(
           $scope.sortColumn,
@@ -134,6 +139,7 @@ define(['angularAMD', 'workflow/services/audience_service', 'workflow/services/w
         )
           .then(function (result) {
             if (result.status === 'OK' || result.status === 'success') {
+              $scope.showAudienceLoader = false;
               var responseData = result.data.data;
               audienceService.setAudience(responseData);
               if (loadMoreFlag) {
@@ -506,9 +512,9 @@ define(['angularAMD', 'workflow/services/audience_service', 'workflow/services/w
       if (_.indexOf(moduleDeleted, 'Audience') !== -1) {
         workflowService.resetDeleteModule();
         audienceService.resetAudienceData();
-        $scope.clearAllSelectedAudience();
-      }
 
+      }
+      $scope.clearAllSelectedAudience();
       $scope.pageNumber = 1;
       _audienceTargetting.showAudienceTargetingBox();
       _audienceTargetting.initAudienceTargetting();

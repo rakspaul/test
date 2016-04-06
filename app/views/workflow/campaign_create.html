@@ -167,7 +167,26 @@
 							<!--==== Row 2 ====-->
 							<div class="col-md-12 zeroPadding">
 								<label for="nameTitleCampaign" class="col-sm-12 labelQuestTxt">{{textConstants.WF_CAMPAIGN_FOR}}</label>
-								<div class="form-group col-sm-3" style="padding-left: 0;">
+
+                                <!-- SubAccount start -->
+                                <div class="form-group col-sm-3" style="padding-left: 0;" ng-if="showSubAccount">
+                                    <label for="advertiserDDL" class="col-sm-12  greyTxt miniLabels">{{ textConstants.SUB_ACCOUNT }}</label>
+                                    <div class="col-md-12 zeroPadding dropdown-workflow">
+                                        <div class="dropdown">
+                                            <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ng-click="hideMediaPlanDropdown()">
+                                                <span class="text">{{mode == 'edit' ? editCampaignData.advertiserName : 'Select SubAccount' }}</span>
+                                                <span class="icon-arrow-down"></span>
+                                            </button>
+                                            <ul class="dropdown-menu" aria-labelledby="advertiserDDL"  id="advertiserDDL" ng-if="mode !== 'edit'">
+                                                <li ng-repeat="subaccount in workflowData.subAccounts track by subaccount.id" class="available"><a ng-click="selectHandler('subAccount', subaccount)">{{subaccount.name}}</a></li>
+                                            </ul>
+                                            <input type="hidden" name="subAccountId" ng-model="selectedCampaign.clientId" ng-update-hidden required/>
+                                        </div>
+                                    </div>
+                                    <label ng-if="createCampaignForm.advertiserId.$error.required" class="col-sm-12 greyTxt errorLabel">Please select the SubAccount.</label>
+                                </div>
+                                <!-- SubAccount End -->
+                                <div class="form-group col-sm-3" style="padding-left: 0;">
 									<label for="advertiserDDL" class="col-sm-12  greyTxt miniLabels">{{ textConstants.ADVERTISERS }}</label>
 									<div class="col-md-12 zeroPadding dropdown-workflow">
 										<div class="dropdown">
@@ -692,7 +711,7 @@
 						</div>
 						<div class="popup-content"  ng-bind-html="(editCampaignData.status === 'DRAFT')?textConstants.MEDIA_PLAN_DRAFT:textConstants.MEDIA_PLAN_NOT_DRAFT">
 						</div>
-                       
+
 					</div>
 					<div class="clearfix popup-footer" >
 						<button ng-show="!repushCampaignLoader" type="button" ng-click="repushCampaign()" class="common_primary_btn pull-right" >{{(editCampaignData.status === 'DRAFT')?textConstants.SAVE_LABEL:textConstants.SAVE_PUSH_LABEL}}</button>

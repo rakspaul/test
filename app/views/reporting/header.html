@@ -24,12 +24,12 @@
                 <a href="/dashboard" ng-bind="textConstants.DASHBOARD"></a>
                 <div class="arrowSelect"></div>
             </div>-->
-            <div class="pull-left each_nav_link" id="campaigns_nav_link" ng-if="fparams[0]['mediaplan_list']">
+            <div class="pull-left each_nav_link" id="campaigns_nav_link" ng-if="showMediaPlanTab">
                 <a href="/mediaplans" ng-mouseover="hide_navigation_dropdown($event);" ng-bind="textConstants.MEDIA_PLAN"></a>
 
                 <div class="arrowSelect"></div>
             </div>
-            <div class="pull-left each_nav_link" id="reports_nav_link" ng-if="fparams[0]['reports_tab']">
+            <div class="pull-left each_nav_link" id="reports_nav_link" ng-if="showReportTab">
                 <a href="javascript:void(0);" reporttitle="reportOverview"
                    ng-click="NavigateToTab('', $event ,'reportOverview')"
                    ng-mouseover="show_hide_nav_dropdown($event,'reports','hover');" ng-bind="textConstants.REPORTS"></a>
