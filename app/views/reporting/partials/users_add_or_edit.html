@@ -218,7 +218,7 @@
                                 <span class="text" ng-bind="permissions[$index].clientName"></span>
                                 <span class="icon-arrow-down"></span>
                             </button>
-                            <ul class="dropdown-menu" data-toggle="dropdown" id="clientDropdown_0">
+                            <ul class="dropdown-menu clientDropdownCnt" data-toggle="dropdown" id="clientDropdown_0">
                                 <li ng-repeat="client in userModalData.Clients"   style="position:relative">
                                     <a ng-click="select_client_option(client.id, client.name, $parent.$index)" ng-bind="client.name"></a>
                                     <span class="icon-arrow-down icon-arrow-right" ng-click="getSubClientList(client.id, client.name, 0, $parent.$index)" ng-if="!client.isLeafNode"></span>
