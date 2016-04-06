@@ -65,6 +65,7 @@ define(['angularAMD'],function (angularAMD) {
                     $(".adgroupDiv").show();
                     element.closest('.adGroup').find('.adgroupDiv').hide();
                     element.closest('.adGroup').find('.editAdgroupDiv').show();
+                    element.closest('.adGroup').find(".overlay").show();
                     $http.get(assets.html_edit_adgroup).then(function (tmpl) {
                         template = $compile(tmpl.data)($scope);
                         element.closest('.adGroup').find('.editAdgroupDiv').html(template);
