@@ -754,6 +754,11 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/ac
         }
         $scope.subClientListData = {};
         $scope.getSubClientList = function(clientId, name, parentContianerId, accountIndex){
+            if($('#clientDropdown_'+clientId).length) {
+                $("#clientDropdown_"+parentContianerId).hide();
+                $('#clientDropdown_'+clientId).show();
+                return;
+            }
             $scope.loadingClientDropDown = true;
             accountsService.getSubClients(clientId).then(function(res){
                 var result = res.data.data;
@@ -761,11 +766,11 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/ac
                 if ((res.status === "OK" || res.status === "success") && result.length) {
                     $("#clientDropdown_"+parentContianerId).hide();
                     $scope.subClientListData[clientId] = result;
-                    if(!$('#clientDropdown_'+clientId).length) {
+                    //if(!$('#clientDropdown_'+clientId).length) {
                         angular.element(document.getElementById('accountDropDown')).append($compile('<div style="background:white;" id="clientDropdown_' + clientId + '"><div style="position: relative;height: 35px;" id="' + parentContianerId + '" ng-click="goToParentClientList(' + parentContianerId + ',' + clientId + ')"><div class="icon-arrow-down" style="position: absolute;left: -1px;top: 4px;transform: rotate(90deg);width: 40px;height: 103%;z-index: 999;"></div><div style="position:relative;text-align:center;">' + name + '</div></div><ul class="dropdown-menu1" data-toggle="dropdown"><li ng-repeat="client in subClientListData[' + clientId + ']"  id="topClients" style="position:relative;padding:5px;"><a ng-click="select_client_option(client.id, client.name, '+accountIndex+')" ng-bind="client.name"></a><span class="icon-arrow-down icon-arrow-right" ng-click="getSubClientList(client.id, client.name,'+clientId+','+accountIndex+' )" ng-if="!client.isLeafNode"></span></li></ul></div>')($scope));
-                    }else{
-                        $('#clientDropdown_'+clientId).show();
-                    }
+//                    }else{
+//                        $('#clientDropdown_'+clientId).show();
+//                    }
                 }else{
                     //$rootScope.setErrAlertMessage(constants.WF_USER_EDIT_FAIL);
                     console.log("Error: To get the sub-client list of "+name);
@@ -777,6 +782,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/ac
         }
 
         $scope.goToParentClientList = function(parentContianerId, clientId){
+            console.log("goToParentClientList...."+parentContianerId+"....clientId.."+clientId);
             $("#clientDropdown_"+parentContianerId).show();
             $("#clientDropdown_"+clientId).hide();
         }
