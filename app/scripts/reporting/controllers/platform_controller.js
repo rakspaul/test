@@ -13,6 +13,7 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
                                                       timePeriodModel, loginModel, RoleBasedService,
                                                       advertiserModel, brandsModel,
                                                       urlService, featuresService, requestCanceller) {
+        var _currCtrl = this;
 
         $scope.textConstants = constants;
 
@@ -434,13 +435,27 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
             $scope.selected_filters2.kpi_type = kpiSelectModel.getSelectedKpiAlt();
         });
 
+       _currCtrl.filter_download_report = function(type){
+            $scope.download_report = _.filter($scope.download_report, function (val, i) {
+                if(type == "cost") {
+                    return val.className !== "report_cost";
+                }
+            });
+        }
         var fparams = featuresService.getFeatureParams();
         $scope.showCostWidget = fparams[0]['cost'];
+        if(!$scope.showCostWidget){
+            _currCtrl.filter_download_report("cost");
+        }
 
         var featuredFeatures = $rootScope.$on('features', function () {
             var fparams = featuresService.getFeatureParams();
             $scope.showCostWidget = fparams[0]['cost'];
+            if(!$scope.showCostWidget){
+                _currCtrl.filter_download_report("cost");
+            }
         });
+
 
         $scope.$on('dropdown-arrow-clicked', function (event, args, sortorder) {
             if ($scope.selected_tab === "viewability") {
