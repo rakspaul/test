@@ -12,7 +12,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             kpiArr: [],
             costArr: []
 
-        }; 
+        };
         $scope.tags = [];
         $scope.saveCampaignClicked=false;
         $scope.platFormArr = [];
