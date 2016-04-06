@@ -87,7 +87,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/ac
             console.log("_customctrl.requestData.roleTemplateId...."+_customctrl.requestData.roleTemplateId+"......"+$scope.isCurr_SuperUser);
             _.each($scope.permissions, function(item, i){
                 _customctrl.requestData.permissions.push({
-                    "clientId" : 2,
+                    "clientId" : $scope.permissions[i].clientId,
                     "application": "visto",
                     "features": $scope.pagePermissionValue[i]["code"].split(","),
                     "resources": []
@@ -413,8 +413,9 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/ac
                 accountsService.getClientsAdvertisers(clientObj.id).then(function(res){
                     var counter = accountsService.getCounter(),
                         arr = null;
-                    if(res.data.data){
-                        arr = res.data.data;
+                    var result = res.data.data;
+                    if((res.status === "OK" || res.status === "success") && result.length){
+                        arr = result;
                         arr.unshift({id: -1, name: constants.ALL_ADVERTISERS});
                         $scope.dropdownList[accountIndex]['advertisers'] = arr;
 
@@ -503,90 +504,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/ac
                 $scope.User = {
                     data: []
                 };
-                var data = res.data.data;
-                _customctrl.responseData = {
-                    "id": 11595,
-                    "firstName": "Surya",
-                    "lastName": "Prabhakar",
-                    "email": "surya@collective.com",
-                    "roleTemplateId": 1,
-                    "status": false,
-                    "createdBy": null,
-                    "updatedBy": null,
-                    "createdAt": "2016-01-20 11:00:06.276",
-                    "updatedAt": "2016-03-23 18:20:52.450",
-                    "permissions": [
-//                        {
-//                            "clientId": 2,
-//                            "clientName" : "Collective Marketer",
-//                            "application": "visto",
-//                            "features": [
-//                                "AD_SETUP", "COST", "CREATIVE_LIST"
-//                            ],
-//                            "resources": [
-//                                {
-//                                    "accessLevel": "admin",
-//                                    "advertiserId": -1,
-//                                    "brandId": -1
-//                                }
-//                            ]
-//                        },
-                        {
-                            "clientId": 3,
-                            "clientName": "Marketer",
-                            "application": "visto",
-                            "features": [
-                                "REP_SCH"
-                            ],
-                            "resources": [
-                                {
-                                    "accessLevel": "read",
-                                    "advertiserId": 2,
-                                    "advertiserName" : "BWM",
-                                    "brandId": 4,
-                                    "brandName" : "BMW X1"
-                                },
-                                {
-                                    "accessLevel": "write",
-                                    "advertiserId": 3,
-                                    "advertiserName" : "Toyota",
-                                    "brandId": 6,
-                                    "brandName": "Innova"
-                                }
-                            ]
-                        }/*,
-                        {
-                            "clientId": 49,
-                            "clientName": "Collective Marketer",
-                            "application": "visto",
-                            "features": [
-                                "ENABLE_ALL"
-                            ],
-                            "resources": [
-                                {
-                                    "accessLevel": "admin",
-                                    "advertiserId": -1,
-                                    "brandId": -1
-                                }
-                            ]
-                        },
-                        {
-                            "clientId": 56,
-                            "application": "visto",
-                            "clientName": "Marketer Collective",
-                            "features": [
-                                "MEDIAPLAN_HUB"
-                            ],
-                            "resources": [
-                                {
-                                    "accessLevel": "admin",
-                                    "advertiserId": -1,
-                                    "brandId": -1
-                                }
-                            ]
-                        } */
-                    ]
-                }
+                _customctrl.responseData = res.data.data;
                 editedUserDetails = _customctrl.responseData;
                 $scope.userConsoleFormDetails.email = _customctrl.responseData.email;
                 $scope.userConsoleFormDetails.firstName = _customctrl.responseData.firstName;
@@ -764,6 +682,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/ac
             }
         }
         $scope.select_client_option = function(id, name, accountIndex){
+            console.log('id....'+id+'.....name....'+name+'....accountIndex..'+accountIndex);
             $scope.permissions[accountIndex].clientId = id;
             $scope.permissions[accountIndex].clientName = name;
             userModalPopup.getUserAdvertiser({id:id}, accountIndex);
@@ -834,40 +753,37 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/ac
             });
         }
         $scope.subClientListData = {};
-        $scope.getSubClientList = function(clientId, name, parentContianerId){
+        $scope.getSubClientList = function(clientId, name, parentContianerId, accountIndex){
+            $scope.loadingClientDropDown = true;
             accountsService.getSubClients(clientId).then(function(res){
-
-                if (res.status === "OK" || res.status === "success") {
-                    $("#a_"+parentContianerId).hide();
-                    $scope.subClientListData[clientId] = res.data.data;
-                    console.log("parentContianerId...."+parentContianerId+".....clientId...."+clientId);
-                    if(!$('#a_'+clientId).length) {
-                        angular.element(document.getElementById('accountDropDown')).append($compile('<div style="position: absolute;left: 6px;top: 44px;z-index: 99;width: 280px;height: 300px;background:white;" id="a_' + clientId + '"><span id="' + parentContianerId + '" ng-click="goToParentClientList(' + parentContianerId + ',' + clientId + ')">' + name + '</span><ul class="dropdown-menu1" data-toggle="dropdown"><li ng-repeat="client in subClientListData[' + clientId + ']"  id="topClients" style="position:relative"><a ng-click="select_client_option(client.id, client.name, $parent.$index,' + clientId + ')" ng-bind="client.name"></a><span class="icon-arrow-down" ng-click="getSubClientList(client.id)" ng-if="!client.isLeafNode" style="position: absolute;left: 242px;top: 8px;transform: rotate(-90deg);height: 18px;"></span></li></ul></div>')($scope));
+                var result = res.data.data;
+                $scope.loadingClientDropDown = false;
+                if ((res.status === "OK" || res.status === "success") && result.length) {
+                    $("#clientDropdown_"+parentContianerId).hide();
+                    $scope.subClientListData[clientId] = result;
+                    if(!$('#clientDropdown_'+clientId).length) {
+                        angular.element(document.getElementById('accountDropDown')).append($compile('<div style="background:white;" id="clientDropdown_' + clientId + '"><div style="position: relative;height: 35px;" id="' + parentContianerId + '" ng-click="goToParentClientList(' + parentContianerId + ',' + clientId + ')"><div class="icon-arrow-down" style="position: absolute;left: -1px;top: 4px;transform: rotate(90deg);width: 40px;height: 103%;z-index: 999;"></div><div style="position:relative;text-align:center;">' + name + '</div></div><ul class="dropdown-menu1" data-toggle="dropdown"><li ng-repeat="client in subClientListData[' + clientId + ']"  id="topClients" style="position:relative;padding:5px;"><a ng-click="select_client_option(client.id, client.name, '+accountIndex+')" ng-bind="client.name"></a><span class="icon-arrow-down icon-arrow-right" ng-click="getSubClientList(client.id, client.name,'+clientId+','+accountIndex+' )" ng-if="!client.isLeafNode"></span></li></ul></div>')($scope));
                     }else{
-                        $('#a_'+clientId).show();
+                        $('#clientDropdown_'+clientId).show();
                     }
-                }
-                else{
-                    $rootScope.setErrAlertMessage(constants.WF_USER_EDIT_FAIL);
+                }else{
+                    //$rootScope.setErrAlertMessage(constants.WF_USER_EDIT_FAIL);
+                    console.log("Error: To get the sub-client list of "+name);
                 }
             },function(err){
-                $rootScope.setErrAlertMessage(constants.WF_USER_EDIT_FAIL);
+                //$rootScope.setErrAlertMessage(constants.WF_USER_EDIT_FAIL);
+                console.log("Error: To get the sub-client list of "+name);
             });
         }
 
         $scope.goToParentClientList = function(parentContianerId, clientId){
-            console.log("goToParentClientList...."+parentContianerId+"....clientId....."+clientId);
-            $("#a_99999").show();
-            $("#a_77").hide();
+            $("#clientDropdown_"+parentContianerId).show();
+            $("#clientDropdown_"+clientId).hide();
         }
 
         $("span[id*=parentCnt_]").on( "click", function(event) {
-            console.log("Cliked on the title");
-            //console.log( $( this ).text() );
-
             var nowId = $(event).parent().attr("id");
             var toId = $(event).attr("id");
-            console.log("nowId....."+nowId+"......toId....."+toId);
             $("#toId").show();
             $("#nowId").hide();
         });

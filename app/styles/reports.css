@@ -1,3 +1,11 @@
+#accountDropDown .icon-arrow-right {
+  position: absolute;
+  right: 8px;
+  top: 8px;
+  transform: rotate(-90deg);
+  height: 18px;
+  width: 18px;
+}
 .each_cost_col .tooltip_holder {
   display: inline;
   float: right;
