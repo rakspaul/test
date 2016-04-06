@@ -271,6 +271,32 @@ define(['angularAMD', 'common/services/constants_service', 'common/moment_utils'
       $scope.budgetErrorObj.availableMaximumAdRevenueValidator = '';
     };
 
+    $scope.enable_budget_input = function ( event ) {
+      var elem = $(event.target);
+      if(elem.is(':checked')) {
+        elem.closest(".impressions_holder").find(".budget_holder input").attr("disabled" , true).addClass("disabled-field") ;
+        elem.closest(".impressions_holder").find(".impression_field").addClass("disabled-field") ;
+      } else {
+        elem.closest(".impressions_holder").find(".budget_holder input").attr("disabled" , false).removeClass("disabled-field") ;
+        elem.closest(".impressions_holder").find(".impression_field").removeClass("disabled-field") ;
+      }
+      
+    };
+
+    $scope.select_kpi = function (event , type) {
+       var elem = $(event.target);
+       console.log(type);
+       if( type != "impressions" ) {
+          $(".impressions_holder").find("input[type='checkbox']").attr("disabled" , true) ;
+          $(".budget_holder_input").find("input[type='text']").attr("disabled" , false).removeClass("disabled-field") ;
+          $(".impressions_holder").find(".external_chkbox").addClass("disabled") ;
+       } else {
+        $(".impressions_holder").find("input[type='checkbox']").attr("disabled" , false) ;
+        $(".budget_holder_input").find("input[type='text']").attr("disabled" , true).addClass("disabled-field") ;
+        $(".impressions_holder").find(".external_chkbox").removeClass("disabled") ;
+       }
+    };
+
     $scope.$parent.initiateDatePicker = function () {
       var endDateElem = $('#endDateInput'),
         startDateElem = $('#startDateInput'),
