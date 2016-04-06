@@ -212,12 +212,6 @@ define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', 'reporting/campaig
                     }
                 };
 
-                $('body').click(function(e) {
-                    if ($(e.target).closest('.searchInput').length === 0) {
-                        $scope.searchHideInput();
-                    }
-                });
-
                 //Lazy Loader
                 $(window).scroll(function () {
                     // Don't attempt to scroll if:
