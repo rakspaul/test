@@ -50,7 +50,7 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
             }
         };
         
-        $scope.userConsoleFormDetails = function () {
+        $scope.userConsoleFormDetails, $scope.closeForm = function () {
             $('.user-list, .users-creation-page .heading').fadeIn();
             $('.edit-dialog').fadeOut();
         }

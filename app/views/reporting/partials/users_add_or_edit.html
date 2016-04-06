@@ -210,23 +210,25 @@
                     <!--&lt;!&ndash;</select>&ndash;&gt;-->
                 <!--</div>-->
                 <!---->
-                <div class="col-md-2 zeroPadding">
+                <div class="col-md-3 zeroPadding">
                     <label class="col-md-12 zeroPadding">Accounts:</label>
-                    <div class="dropdown" style="z-index: 99999" id = "accountDropDown" >
-                        <button style="width:600px;" class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                            <span class="text" ng-bind="permissions[$index].clientName"></span>
-                            <span class="icon-arrow-down"></span>
-                        </button>
-                        <ul class="dropdown-menu" data-toggle="dropdown" id="a_99999">
-                            <li ng-repeat="client in userModalData.Clients"   style="position:relative">
-                                <a ng-click="select_client_option(client.id, client.name, $parent.$index)" ng-bind="client.name"></a>
-                                <span class="icon-arrow-down" ng-click="getSubClientList(client.id, client.name, 99999)" ng-if="!client.isLeafNode" style="position: absolute;left: 242px;top: 8px;transform: rotate(-90deg);height: 18px;"></span>
-                            </li>
-                        </ul>
+                    <div class="zeroPadding dropdown-workflow">
+                        <div class="dropdown" style="z-index: 99999" id = "accountDropDown" >
+                            <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                <span class="text" ng-bind="permissions[$index].clientName"></span>
+                                <span class="icon-arrow-down"></span>
+                            </button>
+                            <ul class="dropdown-menu" data-toggle="dropdown" id="a_99999">
+                                <li ng-repeat="client in userModalData.Clients"   style="position:relative">
+                                    <a ng-click="select_client_option(client.id, client.name, $parent.$index)" ng-bind="client.name"></a>
+                                    <span class="icon-arrow-down" ng-click="getSubClientList(client.id, client.name, 99999)" ng-if="!client.isLeafNode" style="position: absolute;left: 242px;top: 8px;transform: rotate(-90deg);height: 18px;"></span>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
                 
-                <div class="col-md-8" style="padding: 0 30px;">
+                <div class="col-md-7" style="padding: 0 30px;">
                     <label>Per Page Permission:</label>
                     <!--<select placeholder="Page Permission" class="chosen-select" multiple tabindex="4">-->
                         <!--<option value=""></option>-->
@@ -236,17 +238,19 @@
                         <!--<option value="Creative">Creative</option>-->
                         <!--<option value="New Creative">New Creative</option>-->
                     <!--</select>-->
-                    <div class="dropdown" style="z-index: 99999">
-                        <button style="width:600px;" class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                            <span class="text" ng-bind="pagePermissionValue[$index].desc ? pagePermissionValue[$index].desc : 'All'"></span>
-                            <span class="icon-arrow-down"></span>
-                        </button>
-                        <ul class="dropdown-menu" data-toggle="dropdown">
-                            <li ng-repeat="page in userPages">
-                                <a ng-click="select_page_option(page.description , page.code, $parent.$index)" ng-bind="page.description"></a>
-                            </li>
-                        </ul>
-                        <input type="hidden" name="unitType" ng-model="adData.unitType.name" ng-update-hidden />
+                    <div class="zeroPadding dropdown-workflow">
+                        <div class="dropdown" style="z-index: 99999">
+                            <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                <span class="text" ng-bind="pagePermissionValue[$index].desc ? pagePermissionValue[$index].desc : 'All'"></span>
+                                <span class="icon-arrow-down"></span>
+                            </button>
+                            <ul class="dropdown-menu" data-toggle="dropdown">
+                                <li ng-repeat="page in userPages">
+                                    <a ng-click="select_page_option(page.description , page.code, $parent.$index)" ng-bind="page.description"></a>
+                                </li>
+                            </ul>
+                            <input type="hidden" name="unitType" ng-model="adData.unitType.name" ng-update-hidden />
+                        </div>
                     </div>
                 </div>
                 
@@ -263,7 +267,7 @@
                         <!--<select class="form-control" name="advertiserName" ng-model="selectedAdvertiser">-->
                         <!--<select class="form-control" name="advertiserName" ng-init="User.data[$index].advertisers=0" ng-model="User.data[$index].advertisers">-->
                             <!--<option value="{{advertiser.id}}" ng-repeat="advertiser in userModalData[permissionIndex].Advertisers" ng-selected="{{advertiser.id == 31}}" ng-click="selectAdvertiser()">{{advertiser.name}}</option>-->
-                            <!--<!--<option value=value="{{advertiser.id}}" ng-repeat="advertiser in userModalData.Advertisers" ng-selected="{{advertiser.id == selectedAdvertiser}}" >{{advertiser.name}}</option>-->-->
+                            <!--<option value=value="{{advertiser.id}}" ng-repeat="advertiser in userModalData.Advertisers" ng-selected="{{advertiser.id == selectedAdvertiser}}" >{{advertiser.name}}</option>-->
                         <!--</select>-->
 
                         <div class="zeroPadding dropdown-workflow">
@@ -304,15 +308,20 @@
                     </div>
                     <div class="form-group col-md-4" style="padding-right: 25px;">
                         <label>Permission:</label>
-                        <button class="btn btn-default dropdown-toggle" style="width:300px" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                            <!--<span class="text">{{mode == 'edit' ? selectedAccount : 'Account' }}</span>-->
-                            <span class="text" >{{permissions[$parent.$index].resources[$index]["permissionName"]}}</span>
-                            <span class="icon-arrow-down"></span>
-                        </button>
-                        <ul class="dropdown-menu" aria-labelledby="accountType">
-                            <li ng-repeat="list in dropdownList[$parent.$index].permission"><a ng-click="selectPermission(list,$parent.$parent.$index, $parent.$index)">{{list.name}}</a>
-                            </li>
-                        </ul>
+                        <div class="zeroPadding dropdown-workflow">
+                            <div class="dropdown" style="padding-right: 25px;">
+                                <button class="btn btn-default dropdown-toggle" style="width:300px" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                    <!--<span class="text">{{mode == 'edit' ? selectedAccount : 'Account' }}</span>-->
+                                    <span class="text" >{{permissions[$parent.$index].resources[$index]["permissionName"]}}</span>
+                                    <span class="icon-arrow-down"></span>
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="accountType">
+                                    <li ng-repeat="list in dropdownList[$parent.$index].permission"><a ng-click="selectPermission(list,$parent.$parent.$index, $parent.$index)">{{list.name}}</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        
                         <!--<select name="accessLevel" class="form-control" ng-init="User.data[permissionIndex].accessLevel = User.data[permissionIndex].accessLevel || 'ADMIN'" ng-change="setPermissionAccess(permissionIndex,User.data[permissionIndex].accessLevel)" ng-model="User.data[permissionIndex].accessLevel">-->
                             <!--<option value="{{perm.value}}" ng-repeat="perm in dropdownList[$parent.$index][$index].permission" ng-selected="User.data[permissionIndex].accessLevel == perm.value?true:false" >{{perm.name}}</option>-->
                             <!--&lt;!&ndash;<option value="ADMIN">Admin</option>&ndash;&gt;-->
@@ -367,13 +376,8 @@
         <span class="secondary_txt pull-right" data-dismiss="modal" ng-click="closeForm()">Cancel</span>
     </div>
 </div> <!-- end of popup-holder -->
-<style>
-    button{
-        padding:0.3em;
-        margin: 0.3em;
-    }
-</style>
-subClientListData --> {{subClientListData}}
+
+<!--subClientListData {{subClientListData}} -->
 <script type="text/javascript">
     //Pills
     var config = {

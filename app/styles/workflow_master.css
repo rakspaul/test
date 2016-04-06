@@ -127,6 +127,7 @@ strong {
 }
 input[type="text"],
 input[type="number"],
+input[type="password"],
 .has-success input[type="text"].form-control,
 textarea {
   border: 1px solid #BFC9D7;
@@ -134,7 +135,7 @@ textarea {
   line-height: normal;
   padding: 10px 12px 7px 12px;
   height: auto;
-  box-shadow: none;
+  box-shadow: none !important;
 }
 .currencyFly ~ input[type="text"],
 .currencyFly ~ input[type="number"] {
@@ -375,6 +376,7 @@ select {
 .dropdown-workflow .dropdown {
   display: inline-block;
   width: 100%;
+  z-index: initial;
 }
 .dropdown-workflow .searchBar {
   position: relative;
