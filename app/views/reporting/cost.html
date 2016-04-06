@@ -51,7 +51,6 @@
                             <div class="each_cost_col eight_col  icon_text_holder" ng-class="sortClassFunction('ad_verification_cost',sortType,sortReverse)" ng-click="sortType = 'ad_verification_cost'; sortReverse = !sortReverse;removeKpiActive();">{{ textConstants.AD_VERIFICATION}}</div>
                             <div class="each_cost_col eight_col  icon_text_holder">{{ textConstants.CREATIVE}}</div>
                             <div class="each_cost_col eight_col  icon_text_holder">{{ textConstants.RESEARCH}}</div>
-                            <div class="each_cost_col eight_col  icon_text_holder">{{ textConstants.OTHER}}</div>
                             <div class="each_cost_col ninth_col  icon_text_holder" ng-class="sortClassFunction('collective_cost',sortType,sortReverse)" ng-click="sortType = 'collective_cost'; sortReverse = !sortReverse;removeKpiActive();">{{ textConstants.COLLECTIVE_FEE}}</div>
                             <div class="each_cost_col tenth_col total_cost">{{textConstants.TOTAL_SPEND}}</div>
                         </div>
@@ -75,7 +74,6 @@
                                         <div class="each_cost_col six_col" ng-bind="strategy.verification_cost != null ? (strategy.verification_cost | currency:undefined:0) : '-'"></div>
                                         <div class="each_cost_col six_col">$0</div>
                                         <div class="each_cost_col six_col">$0</div>
-                                        <div class="each_cost_col six_col">$0</div>
                                         <div class="each_cost_col sev_col" ng-bind="strategy.collective_cost != null ? (strategy.collective_cost | currency:undefined:0) :'-'"></div>
                                         <div class="each_cost_col eight_col total_cost" ng-bind="strategy.gross_rev != null ? (strategy.gross_rev | currency:undefined:0) : '-'"></div>
                                     </div>
@@ -93,7 +91,6 @@
                                                 <div class="each_cost_col four_col" ng-bind="tactic.data_cost != null ? (tactic.data_cost | currency:undefined:0) : '-'"></div>
                                                 <div class="each_cost_col five_col" ng-bind="tactic.serving_cost != null ? (tactic.serving_cost | currency:undefined:0) : '-'"></div>
                                                 <div class="each_cost_col eight_col" ng-bind="tactic.verification_cost != null ? (tactic.verification_cost | currency:undefined:0) : '-'"></div>
-                                                <div class="each_cost_col six_col">$0</div>
                                                 <div class="each_cost_col six_col">$0</div>
                                                 <div class="each_cost_col six_col">$0</div>
                                                 <div class="each_cost_col sev_col" ng-bind="tactic.collective_cost != null ? (tactic.collective_cost | currency:undefined:0) : '-'"></div>
