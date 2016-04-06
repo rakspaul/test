@@ -542,7 +542,7 @@ define(['common'], function (angularAMD) {
         .config(function (tagsInputConfigProvider) {
             tagsInputConfigProvider
                 .setDefaults('tagsInput', {
-                    placeholder: 'Add labels',
+                    placeholder: 'Add comma seperated values or press enter for each entry',
                     minLength: 2,
                     displayProperty: 'label',
                     replaceSpacesWithDashes: false,
