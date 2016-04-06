@@ -1,12 +1,15 @@
 
-define(['angularAMD', '../../services/constants_service', 'workflow/services/account_service','common/moment_utils',
+define(['angularAMD', 'common/services/constants_service', 'workflow/services/account_service','common/moment_utils',
+    'common/moment_utils',
     'workflow/directives/ng_update_hidden_dropdown'],function (angularAMD) {
     'use strict';
 
-    angularAMD.controller('UsersAddOrEdit', function($scope, $rootScope,
-                                                     constants,accountsService,momentService) {
+    angularAMD.controller('UsersAddOrEdit', function($scope, $rootScope, $compile,
+                                                     constants,accountsService,momentService,
+                                                     utils) {
         var _customctrl = this;
         _customctrl.editId = null;
+        $scope.count = 0;
         $scope.permissions = [];
         $scope.pagePermissionValue = {};
         $scope.dropdownList = []
@@ -58,23 +61,29 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
             return retVal;
         }
         _customctrl.createData = function(){
-            var timeNow = momentService.newMoment(new Date()).format('YYYY-MM-DD HH-MM-SS.SSS');
+          //  var a = moment().format("MM/DD/YYYY");
+            var timeNow = momentService.newMoment(moment().format("MM/DD/YYYY")).format('YYYY-MM-DD HH-MM-SS.SSS');
+            console.log("timeNow...."+timeNow+"......"+(new Date()));
             console.log($scope);
             _customctrl.requestData = {
-                "id": _customctrl.editId,
+         //       "id": _customctrl.editId,
                 "firstName": $scope.userConsoleFormDetails.firstName,
                 "lastName": $scope.userConsoleFormDetails.lastName,
                 "email": $scope.userConsoleFormDetails.email,
                 "password": $scope.userConsoleFormDetails.password,
                // "roleTemplateId": ($scope.isCurr_SuperUser ? 1 : 2),
                 "status": true,
-                "createdBy": null,
-                "updatedBy": null,
-                "createdAt": (_customctrl.editId ? _customctrl.responseData.createdAt : timeNow),
-                "updatedAt": (_customctrl.editId ? timeNow : null),
+         //       "createdBy": null,
+         //       "updatedBy": null,
+         //       "createdAt": (_customctrl.editId ? _customctrl.responseData.createdAt : timeNow),
+         //       "updatedAt": (_customctrl.editId ? timeNow : null),
                 "permissions": []
             }
             _customctrl.requestData.roleTemplateId = ($scope.isCurr_SuperUser ? 1 : 2);
+            if(_customctrl.editId){
+                _customctrl.requestData.id = _customctrl.editId;
+               // _customctrl.requestData.id =
+            }
             console.log("_customctrl.requestData.roleTemplateId...."+_customctrl.requestData.roleTemplateId+"......"+$scope.isCurr_SuperUser);
             _.each($scope.permissions, function(item, i){
                 _customctrl.requestData.permissions.push({
@@ -181,15 +190,23 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
         _customctrl.validateVal = function(val){
             return (typeof val == "undefined" || val.trim() == "") ? false : true;
         }
-
+        _customctrl.filterRequestData = function(){
+            var request = _customctrl.createData();
+            for(var k in request){
+                if(request[k] == null){
+                    delete request[k];
+                }
+            }
+            return request;
+        }
         $scope.saveUserForm = function( ){
          //   console.log(_customctrl.createData());
-            if(!_customctrl.validateInputs()){
-                return;
-            }
-            accountsService.createUser(_customctrl.createData()).then(function(res){
-                $('.user-list, .users-creation-page .heading').fadeIn();
-                $('.edit-dialog').fadeOut();
+//            if(!_customctrl.validateInputs()){
+//                return;
+//            }
+            accountsService.createUser(_customctrl.filterRequestData()).then(function(res){
+//                $('.user-list, .users-creation-page .heading').fadeIn();
+//                $('.edit-dialog').fadeOut();
                 if (res.status === "OK" || res.status === "success") {
                     $rootScope.$broadcast('refreshUserList');
                     $scope.resetFields();
@@ -816,8 +833,47 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                 return i !== accountIndex;
             });
         }
+        $scope.subClientListData = {};
+        $scope.getSubClientList = function(clientId, name, parentContianerId){
+            accountsService.getSubClients(clientId).then(function(res){
+
+                if (res.status === "OK" || res.status === "success") {
+                    $("#a_"+parentContianerId).hide();
+                    $scope.subClientListData[clientId] = res.data.data;
+                    console.log("parentContianerId...."+parentContianerId+".....clientId...."+clientId);
+                    if(!$('#a_'+clientId).length) {
+                        angular.element(document.getElementById('accountDropDown')).append($compile('<div style="position: absolute;left: 6px;top: 44px;z-index: 99;width: 280px;height: 300px;background:white;" id="a_' + clientId + '"><span id="' + parentContianerId + '" ng-click="goToParentClientList(' + parentContianerId + ',' + clientId + ')">' + name + '</span><ul class="dropdown-menu1" data-toggle="dropdown"><li ng-repeat="client in subClientListData[' + clientId + ']"  id="topClients" style="position:relative"><a ng-click="select_client_option(client.id, client.name, $parent.$index,' + clientId + ')" ng-bind="client.name"></a><span class="icon-arrow-down" ng-click="getSubClientList(client.id)" ng-if="!client.isLeafNode" style="position: absolute;left: 242px;top: 8px;transform: rotate(-90deg);height: 18px;"></span></li></ul></div>')($scope));
+                    }else{
+                        $('#a_'+clientId).show();
+                    }
+                }
+                else{
+                    $rootScope.setErrAlertMessage(constants.WF_USER_EDIT_FAIL);
+                }
+            },function(err){
+                $rootScope.setErrAlertMessage(constants.WF_USER_EDIT_FAIL);
+            });
+        }
+
+        $scope.goToParentClientList = function(parentContianerId, clientId){
+            console.log("goToParentClientList...."+parentContianerId+"....clientId....."+clientId);
+            $("#a_99999").show();
+            $("#a_77").hide();
+        }
+
+        $("span[id*=parentCnt_]").on( "click", function(event) {
+            console.log("Cliked on the title");
+            //console.log( $( this ).text() );
+
+            var nowId = $(event).parent().attr("id");
+            var toId = $(event).attr("id");
+            console.log("nowId....."+nowId+"......toId....."+toId);
+            $("#toId").show();
+            $("#nowId").hide();
+        });
 
     });
+
 
 
 

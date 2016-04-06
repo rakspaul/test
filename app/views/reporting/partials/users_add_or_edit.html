@@ -212,14 +212,15 @@
                 <!---->
                 <div class="col-md-2 zeroPadding">
                     <label class="col-md-12 zeroPadding">Accounts:</label>
-                    <div class="dropdown" style="z-index: 99999">
+                    <div class="dropdown" style="z-index: 99999" id = "accountDropDown" >
                         <button style="width:600px;" class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                             <span class="text" ng-bind="permissions[$index].clientName"></span>
                             <span class="icon-arrow-down"></span>
                         </button>
-                        <ul class="dropdown-menu" data-toggle="dropdown">
-                            <li ng-repeat="client in userModalData.Clients">
+                        <ul class="dropdown-menu" data-toggle="dropdown" id="a_99999">
+                            <li ng-repeat="client in userModalData.Clients"   style="position:relative">
                                 <a ng-click="select_client_option(client.id, client.name, $parent.$index)" ng-bind="client.name"></a>
+                                <span class="icon-arrow-down" ng-click="getSubClientList(client.id, client.name, 99999)" ng-if="!client.isLeafNode" style="position: absolute;left: 242px;top: 8px;transform: rotate(-90deg);height: 18px;"></span>
                             </li>
                         </ul>
                     </div>
@@ -366,6 +367,13 @@
         <span class="secondary_txt pull-right" data-dismiss="modal" ng-click="closeForm()">Cancel</span>
     </div>
 </div> <!-- end of popup-holder -->
+<style>
+    button{
+        padding:0.3em;
+        margin: 0.3em;
+    }
+</style>
+subClientListData --> {{subClientListData}}
 <script type="text/javascript">
     //Pills
     var config = {

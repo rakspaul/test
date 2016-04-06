@@ -54,6 +54,10 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
                     return dataService.fetch(url, {cache: false});
                 }
             },
+            getSubClients: function(clientId){
+                var url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/'+clientId+'/descendants?level=immediate';
+                return dataService.fetch(url, {cache: false});
+            },
             getClientsAdvertisers: function (clientId) {
                 var url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/advertisers';
                 return dataService.fetch(url, {cache: false});
