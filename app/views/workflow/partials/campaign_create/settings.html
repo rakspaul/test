@@ -197,21 +197,48 @@
 <div class="col-md-12 spacingInput"><!-- SPACING --></div>
 
 <!--Row 5-->
-<div class="col-md-9 zeroPadding">
-    <label for="nameTitleCampaign" class="col-sm-12 labelQuestTxt" style="margin-bottom: 5px;">What are your Preferred Buying/Execution Platforms</label>
-    <div class="col-md-12 zeroPadding kpiTable">
-        <!--<h3>Integrated Platforms</h3>-->
-        <label for="primaryKPI" class="col-sm-12 greyTxt miniLabels">Select as many as you require</label>
-        <input type="text" class="col-md-12 keyword-txt intPlatInput" ng-keyup="showKeywords(keywordText)" ng-focus="showKeyFocus(intPlatInput)" ng-model="keywordText"/>
-        <label class="keywordWrap" ng-repeat="key in selectedKeywords">{{key.name}} <span class="icon-close" ng-click="removeKeyword(key);"></span></label>
-        <ul ng-if="platformKeywords.length>0" class="dropdown-menu intPlatWrap" role="menu" id="keywordsList" ng-style="dropdownCss">
-            <li ng-repeat="keyword in platformKeywords | filter:keywordText" ng-click="selectKeyword(keyword)">
-                <a>
-                    <span class="tick"></span>
-                    <span class="menuItemText ng-binding" >{{keyword.displayName}}</span>
-                </a>
-            </li>
-        </ul>
+<div class="col-md-12 zeroPadding">
+    <label for="nameTitleCampaign" class="col-sm-12 labelQuestTxt" style="margin-bottom: 5px;"><span class="pull-left">{{textConstants.SELECT_KPIS}}</span><span ng-if="!isPrimarySelected" class="pull-left errorLabel show" style="margin-left: 115px;">You must select Primary KPI.</span></label>
+    <div class="col-md-12 zeroPadding">
+        <div class="col-md-3 zeroPadding kpiTable">
+            <h3>KPI</h3>
+            <label for="primaryKPI" class="col-sm-12 greyTxt miniLabels">{{textConstants.SELECT_ONE_YOU_MAY_ADD}}</label>
+        </div>
+        <div class="col-md-2 zeroPadding kpiTable" style="width: 130px;">
+            <h3>Target</h3>
+            <label for="primaryKPI" class="col-sm-12 greyTxt miniLabels">{{textConstants.ENTER_VALUE}}</label>
+        </div>
+    </div>
+    
+    <div class="col-md-12 zeroPadding" style="margin-bottom:10px;">
+        <div class="col-md-3 zeroPadding kpiTable">
+            <div class="col-md-12 zeroPadding dropdown-workflow">
+                <div class="dropdown">
+                    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" >
+                        <span class="text">Impressions</span>
+                        <span class="icon-arrow-down" ></span>
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="selectKPI"  id="selectKPI">
+                        <li class="available"><a>Impressions</a></li>
+                        <li class="available"><a>CTR</a></li>
+                        <li class="available"><a>VTC</a></li>
+                        <li class="available"><a>CPA</a></li>
+                        <li class="available"><a>CPM</a></li>
+                        <li class="available"><a>CPC</a></li>
+                        <li class="available"><a>Action Rate</a></li>
+                    </ul>
+                    <input type="hidden" name="kpi"  ng-model="Campaign.kpiArr[$index]['kpiType']" ng-value="kpi.name" field="kpiType" index="{{$index}}" required hiddenkpi>
+                    <!--<input type="hidden" name="kpi" ng-init="Campaign.kpiArr[$index]['kpiType']='Select from list';" ng-model="Campaign.kpiArr[$index]['kpiId']" ng-value="{{kpi.id}}" field="kpiId" index="{{$index}}" required hiddenkpi>-->
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-2 zeroPadding kpiTable symbol-input">
+            <span class="symbol">#</span>
+            <input type="text" class="col-md-12" style="text-indent: 8px;height:36px;" ng-model="Campaign.kpiArr[$index]['kpiValue']" ng-keyup="setLeftNavPrimaryKpi($index); ComputeCost()" field="kpiValue"  whole-number-only="whole-number-only" index="{{$index}}" required/>
+            <label ng-if="Campaign.kpiArr[$index]['kpiValue']==='0'"  class="col-sm-12  greyTxt errorLabel" style="display:inline;" ng-bind="textConstants.TARGET_GREATER_THAN_ZERO"></label>
+        </div>
+
     </div>
 </div>
 
