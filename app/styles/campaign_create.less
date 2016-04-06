@@ -2312,6 +2312,66 @@
                     margin-top: 30px;
                 }
             }
+            
+            .accordionDDL {
+                float: left;
+                width: 100%;
+                border-bottom: 1px solid rgba(191, 201, 215, 0.5);
+                padding: 12px 10px;
+                cursor: pointer;
+                span, a {
+                    float: left;
+                    margin-right: 5px;
+                    line-height: 100%;
+                }
+                span:last-child {
+                    font-style: italic;
+                }
+                .icon-arrow-down-thick {
+                    /* Safari */
+                    -webkit-transform: rotate(0deg);
+                    
+                    /* Firefox */
+                    -moz-transform: rotate(0deg);
+                    
+                    /* IE */
+                    -ms-transform: rotate(0deg);
+                    
+                    /* Opera */
+                    -o-transform: rotate(0deg);
+                    
+                    /* Internet Explorer */
+                    filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=0);
+                    float: left;
+                    font-size: 10px;
+                    height: 10px;
+                    width: 10px;
+                    color: #000;
+                    margin: 2px 5px 0 0;
+                }
+            }
+            .accordionDDL:first-child {
+                border-top: 1px solid rgba(191, 201, 215, 0.5);
+            }
+            .accordionDDL.collapsed {
+                .icon-arrow-down-thick {
+                    /* Safari */
+                    -webkit-transform: rotate(-90deg);
+                    
+                    /* Firefox */
+                    -moz-transform: rotate(-90deg);
+                    
+                    /* IE */
+                    -ms-transform: rotate(-90deg);
+                    
+                    /* Opera */
+                    -o-transform: rotate(-90deg);
+                    
+                    /* Internet Explorer */
+                    filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+                    color: #428bca;
+                }
+            }
 
             .selectedPixels {
                 .pixelName {
