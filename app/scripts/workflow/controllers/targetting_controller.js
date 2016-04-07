@@ -10,7 +10,25 @@ define(['angularAMD','workflow/services/workflow_service','workflow/services/aud
         $scope.geoTargetingPreviewObj = null;
         $scope.showSwitchBox = true;
         $scope.isDayPartTriggered = false;
+        $scope.isGeoTargetEnabled = false;
+        $scope.isAudienceTargetEnabled = false;
+        $scope.isDaypartTargetEnabled = false;
 
+
+        $rootScope.$on('targettingCapability',function (event, platform) {
+          console.log("Targetting Cap : ",platform);
+            angular.forEach(platform.vendorCapabilities, function(vendorCapability){
+                console.log("Capability", vendorCapability.capability)
+                switch (vendorCapability.capability) {
+                    case 'Geo Targeting': $scope.isGeoTargetEnabled = true;
+                                            break;
+                    case 'Audience Targeting': $scope.isAudienceTargetEnabled = true;
+                                            break;
+                    case 'Daypart Targeting': $scope.isDaypartTargetEnabled = true;
+                                            break;
+                }
+            })
+        });
 
         var targeting = {};
 

@@ -28,6 +28,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                 integrationObj.fullIntegration = platform.vendorExecutionPlatform.fullIntegration;
                 integrationObj.active = true; // TODO hardcoded true for now...
                 integrationObj.summary = platform.description;
+                integrationObj.vendorCapabilities=platform.vendorCapabilities;
 
                 return integrationObj;
             }
