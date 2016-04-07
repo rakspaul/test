@@ -336,8 +336,8 @@
         <div class="each_cost_col fifth_col">{{((platform.data_cost >0)|| (platform.data_cost == 0))? (platform.data_cost | currency:undefined:0) : '-'}}</div>
         <div class="each_cost_col sixth_col">{{((platform.serving_cost >0)|| (platform.serving_cost == 0))? (platform.serving_cost | currency:undefined:0) : '-'}}</div>
         <div class="each_cost_col seventh_col">{{((platform.verification_cost >0)|| (platform.verification_cost == 0))? (platform.verification_cost | currency:undefined:0) : '-'}}</div>
-        <div class="each_cost_col seventh_col">$0</div>
-        <div class="each_cost_col seventh_col">$0</div>
+        <div class="each_cost_col seventh_col" ng-bind="0 | currency:undefined:0"></div>
+        <div class="each_cost_col seventh_col" ng-bind="0 | currency:undefined:0"></div>
         <div class="each_cost_col seventh_col">{{((platform.collective_cost >0)|| (platform.collective_cost == 0))? (platform.collective_cost | currency:undefined:0) : '-'}}</div>
         <div class="each_cost_col eight_col total_cost">{{((platform.spend >0)|| (platform.spend == 0))? (platform.spend | currency:undefined:0) : '-'}}</div>
     </div>
