@@ -87,7 +87,7 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
         featurePermission();
         /* End Feature Permission */
 
-        $scope.getClientData = function (clientId) {
+        $scope.getClientData = function () {
             clientId = loginModel.getMasterClient().id;
             workflowService.getClientData(clientId).then(function (response) {
                 RoleBasedService.setClientRole(response);//set the type of user here in RoleBasedService.js
@@ -127,7 +127,7 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
             $scope.defaultAccountsName = name;
         }
 
-        $scope.set_account_name = function (event, id, name,isLeafNode) { console.log('set account name');
+        $scope.set_account_name = function (event, id, name,isLeafNode) {
             var moduleObj = workflowService.getModuleInfo();
             if (moduleObj && moduleObj.moduleName === 'WORKFLOW') {
                 if (loginModel.getMasterClient().id !== id) {
