@@ -24,7 +24,9 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/ac
         $scope.Usernew = {
             data: []
         };
-        $scope.userModalData = [];
+        if(!$scope.userModalData) {
+            $scope.userModalData = [];
+        }
 
         $scope.editmode = false;
         var defaultAccess = 'ADMIN';
@@ -253,52 +255,52 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/ac
 
         $scope.selectedClientHandler=function(clientObj,index, orgId, resellerId,editData){
 
-            var counter=accountsService.getCounter();
-            if(!$scope.User.data[index]){
-                $scope.User.data[index] = {};
-                $scope.User.data[index].accessLevel = "ADMIN";
-            }
-
-            $scope.selectedClient={};
-            if(clientObj.clientType === "ORGANIZATION") {
-                $scope.User.data[index].orgId = clientObj.id;
-                $scope.User.data[index].resellerId = -1;
-                $scope.User.data[index].clientId = -1;
-            } else if(clientObj.clientType === "RESELLER") {
-                $scope.User.data[index].resellerId = clientObj.id;
-                $scope.User.data[index].orgId = orgId;
-                $scope.User.data[index].clientId = -1;
-            } else {
-                $scope.User.data[index].orgId = orgId;
-                if(resellerId) {
-                    $scope.User.data[index].resellerId = resellerId;
-                } else {
-                    $scope.User.data[index].resellerId = 0;
-                }
-                $scope.User.data[index].clientId = clientObj.id;
-            }
-
-            $scope.clientName[index] = clientObj.name;
-
-            //initialize advertiser,brand
-            if(!$scope.userModalData[index]){
-                $scope.userModalData[index] = {};
-                $scope.userModalData[index]['Advertisers'] = [];
-            }
-
-            //hard reset advertiser and brand and permission before populating
-            $scope.advertiserName[index] = "Select Advertiser";
-            $scope.User.data[index].advertiserId = '-1';
-            $scope.userModalData[index].Advertisers = [];
-            $scope.brandName[index] = "Select Brand";
-            $scope.User.data[index].brandId = '-1';
-            $scope.userModalData[index].Brands = [];
-
-            //populate advertiser based on selected client
-            if(editData)
-                userModalPopup.getUserAdvertiser(clientObj,index,true,editData);
-            else
-                userModalPopup.getUserAdvertiser(clientObj,index);
+//            var counter=accountsService.getCounter();
+//            if(!$scope.User.data[index]){
+//                $scope.User.data[index] = {};
+//                $scope.User.data[index].accessLevel = "ADMIN";
+//            }
+//
+//            $scope.selectedClient={};
+//            if(clientObj.clientType === "ORGANIZATION") {
+//                $scope.User.data[index].orgId = clientObj.id;
+//                $scope.User.data[index].resellerId = -1;
+//                $scope.User.data[index].clientId = -1;
+//            } else if(clientObj.clientType === "RESELLER") {
+//                $scope.User.data[index].resellerId = clientObj.id;
+//                $scope.User.data[index].orgId = orgId;
+//                $scope.User.data[index].clientId = -1;
+//            } else {
+//                $scope.User.data[index].orgId = orgId;
+//                if(resellerId) {
+//                    $scope.User.data[index].resellerId = resellerId;
+//                } else {
+//                    $scope.User.data[index].resellerId = 0;
+//                }
+//                $scope.User.data[index].clientId = clientObj.id;
+//            }
+//
+//            $scope.clientName[index] = clientObj.name;
+//
+//            //initialize advertiser,brand
+//            if(!$scope.userModalData[index]){
+//                $scope.userModalData[index] = {};
+//                $scope.userModalData[index]['Advertisers'] = [];
+//            }
+//
+//            //hard reset advertiser and brand and permission before populating
+//            $scope.advertiserName[index] = "Select Advertiser";
+//            $scope.User.data[index].advertiserId = '-1';
+//            $scope.userModalData[index].Advertisers = [];
+//            $scope.brandName[index] = "Select Brand";
+//            $scope.User.data[index].brandId = '-1';
+//            $scope.userModalData[index].Brands = [];
+//
+//            //populate advertiser based on selected client
+//            if(editData)
+//                userModalPopup.getUserAdvertiser(clientObj,index,true,editData);
+//            else
+//                userModalPopup.getUserAdvertiser(clientObj,index);
 
 //            $scope.selectedClient['counter']=$scope.allPermissions[index].name;
         };
@@ -393,6 +395,8 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/ac
             getUserClients:function(editmode){
                  accountsService.getClients(function(res) {
                      $scope.userModalData['Clients'] = res.data.data;
+                 //    console.log();
+                 //    console.log();
                      console.log($scope.userModalData['Clients']);
 //                     if(editmode) {
 //                         _.each(permissions, function (item, i) {
@@ -619,37 +623,37 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/ac
 
         //get client object based on id
         function getClientObject(clientId,orgId,resellerId){
-                var finalClientObj;
-                //var flattenedClient = _.flatten($scope.userModalData['Clients'])
-                //console.log("flattentd cleint",flattenedClient);
-             //   console.log("orgId = ",orgId,"resellerId = ",resellerId,"clientId = ",clientId);
-
-                var orgIndex = _.findIndex($scope.userModalData['Clients'], function(item) {
-                return item.id == orgId});
-
-                if(orgIndex != -1){
-                    if(resellerId == -1 && clientId == -1){
-                        finalClientObj =  $scope.userModalData['Clients'][orgIndex];
-                    }  else if(resellerId == 0 && clientId > 0){
-                        var clientIndex = _.findIndex($scope.userModalData['Clients'][orgIndex]['children'] , function(item) {
-                            return item.id == clientId});
-                        finalClientObj = $scope.userModalData['Clients'][orgIndex]['children'][clientIndex];
-                    }  else if(resellerId > 0 && clientId > 0){
-                        var resellerIndex = _.findIndex($scope.userModalData['Clients'][orgIndex]['children'], function(item) {
-                            return item.id == resellerId});
-                        var clientIndex = _.findIndex($scope.userModalData['Clients'][orgIndex]['children'][resellerIndex]['children'], function(item) {
-                            return item.id == resellerId});
-                        finalClientObj = $scope.userModalData['Clients'][orgIndex]['children'][resellerIndex]['children'][clientIndex];
-                    } else if(resellerId > 0 && clientId < 0){
-                        var resellerIndex = _.findIndex($scope.userModalData['Clients'][orgIndex]['children'], function(item) {
-                            return item.id == resellerId});
-                        finalClientObj = $scope.userModalData['Clients'][orgIndex]['children'][resellerIndex];
-                    }
-
-                }
-
-               // console.log("finalClientObj =",finalClientObj);
-            return finalClientObj;
+//                var finalClientObj;
+//                //var flattenedClient = _.flatten($scope.userModalData['Clients'])
+//                //console.log("flattentd cleint",flattenedClient);
+//             //   console.log("orgId = ",orgId,"resellerId = ",resellerId,"clientId = ",clientId);
+//
+//                var orgIndex = _.findIndex($scope.userModalData['Clients'], function(item) {
+//                return item.id == orgId});
+//
+//                if(orgIndex != -1){
+//                    if(resellerId == -1 && clientId == -1){
+//                        finalClientObj =  $scope.userModalData['Clients'][orgIndex];
+//                    }  else if(resellerId == 0 && clientId > 0){
+//                        var clientIndex = _.findIndex($scope.userModalData['Clients'][orgIndex]['children'] , function(item) {
+//                            return item.id == clientId});
+//                        finalClientObj = $scope.userModalData['Clients'][orgIndex]['children'][clientIndex];
+//                    }  else if(resellerId > 0 && clientId > 0){
+//                        var resellerIndex = _.findIndex($scope.userModalData['Clients'][orgIndex]['children'], function(item) {
+//                            return item.id == resellerId});
+//                        var clientIndex = _.findIndex($scope.userModalData['Clients'][orgIndex]['children'][resellerIndex]['children'], function(item) {
+//                            return item.id == resellerId});
+//                        finalClientObj = $scope.userModalData['Clients'][orgIndex]['children'][resellerIndex]['children'][clientIndex];
+//                    } else if(resellerId > 0 && clientId < 0){
+//                        var resellerIndex = _.findIndex($scope.userModalData['Clients'][orgIndex]['children'], function(item) {
+//                            return item.id == resellerId});
+//                        finalClientObj = $scope.userModalData['Clients'][orgIndex]['children'][resellerIndex];
+//                    }
+//
+//                }
+//
+//               // console.log("finalClientObj =",finalClientObj);
+//            return finalClientObj;
                 //if(orgIndex != -1){
                 //    //first level client
                 //    if($scope.userModalData['Clients'][orgIndex].id != clientId){
@@ -684,7 +688,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/ac
         }
 
         $rootScope.$on('resetUserModal',function(){
-            $scope.resetFields(true);
+            //$scope.resetFields(true);
         });
 
 //        $(document).ready(function() {
@@ -732,6 +736,12 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/ac
             $scope.permissions[accountIndex].clientId = id;
             $scope.permissions[accountIndex].clientName = name;
             userModalPopup.getUserAdvertiser({id:id}, accountIndex);
+            $(".clientDropdownCnt , .childTier").hide() ;
+        }
+        $scope.open_accounts_dropdown = function(event) {
+            console.log("Open dropdown....");
+            var elem = $(event.target);
+            elem.closest(".dropdown").find(".dropdown-menu").show();
         }
         $scope.addPermission = function(accountIndex, editMode){
             if(editMode){

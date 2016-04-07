@@ -246,6 +246,7 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
                     advertisersDropDownList = $("#advertisersDropDownList"),
                     subAccountDropDownList = $("#subAccountDropDownList"),
                     profileDropdownId = $("#profileDropdown"),
+                    accountDropdownList = $(".clientDropdownCnt"),
                     campObjId = $("#campObj"),
                     mainNavDropdown = $(".main_nav_dropdown"),
                     reportTypeDropdownId = $("#reportTypeDropdown"),
@@ -284,6 +285,15 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
                 if (reportTypeDropdownId.is(':visible') && event.target.id != "reportTypeDropdownTxt") {
                     reportTypeDropdownId.hide();
                 }
+                if ( accountDropdownList.is(':visible') && ( $(event.target).closest(".clientDropdownCnt").length == 0) && ( $(event.target).closest(".accountDropDown").length == 0) ) {
+                    accountDropdownList.hide();
+                    $(".childTier").hide() ;
+                }
+                // In  admin users page, the multidimensional ( for nth dimension dropdown) account dropdown closes on click of body
+                if ( $(".childTier").is(':visible') && ( $(event.target).closest(".clientDropdownCnt").length == 0) && ( $(event.target).closest(".accountDropDown").length == 0) ) {
+                    $(".childTier").hide() ;
+                }
+
                 var regionTooltipId = $(event.target).closest('li').attr("id");
                 if (regionTooltip.is(':visible') && regionTooltipId != "cityTab" && event.target.id != "tab_region") {
                     regionTooltip.hide();

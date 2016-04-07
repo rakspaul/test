@@ -6,12 +6,31 @@
 #accountDropDown_0,#accountDropDown_1,#accountDropDown_2,#accountDropDown_3,#accountDropDown_4,#accountDropDown_5{
 //#accountDropDown_0{
   .icon-arrow-right{
-    position: absolute;
     right: 8px;
     top: 8px;
+    top: 2px;
     transform: rotate(-90deg);
     height: 18px;
     width: 18px;
+    height: 10px;
+    width: 22px;
+    padding-bottom: 0;
+    border: solid 1px transparent;
+    padding: 10px;
+    border-radius: 2px;
+    -moz-border-radius: 2px;
+    -webkit-border-radius: 2px;
+    transition-duration: .2s;
+    -webkit-transition-duration: .2s;
+    -moz-transition-duration: .2s;
+    &:hover {
+      border: solid 1px #ccd2da;
+    }
+    &:before {
+      display:block;
+      margin: -4px 0 0 -4px ;
+    }
+
   }
   .clientDropdownCnt{
     position: absolute;

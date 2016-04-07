@@ -214,11 +214,11 @@
                     <label class="col-md-12 zeroPadding">Accounts:</label>
                     <div class="zeroPadding dropdown-workflow dropdown-multi">
                         <div class="dropdown" style="z-index: 99999" id = "accountDropDown_{{$index}}" >
-                            <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                            <button class="btn btn-default" type="button" aria-haspopup="true" aria-expanded="true" ng-click="open_accounts_dropdown($event) ;">
                                 <span class="text" ng-bind="permissions[$index].clientName"></span>
                                 <span class="icon-arrow-down"></span>
                             </button>
-                            <ul class="dropdown-menu clientDropdownCnt" data-toggle="dropdown" id="clientDropdown_0" data-ng-init="accountIndex=$index">
+                            <ul class="dropdown-menu clientDropdownCnt" id="clientDropdown_0" data-ng-init="accountIndex=$index">
                                 <li ng-repeat="client in userModalData.Clients"   style="position:relative">
                                     <a ng-click="select_client_option(client.id, client.name, accountIndex)" ng-bind="client.name"></a>
                                     <span class="icon-arrow-down icon-arrow-right" ng-click="getSubClientList(client.id, client.name, 0, accountIndex)" ng-if="!client.isLeafNode"></span>
@@ -230,7 +230,7 @@
                         </div>
                     </div>
                 </div>
-                
+                userModalData -- > {{userModalData}}
                 <div class="col-md-7" style="padding: 0 30px;">
                     <label>Per Page Permission:</label>
                     <!--<select placeholder="Page Permission" class="chosen-select" multiple tabindex="4">-->
@@ -381,7 +381,7 @@
     </div>
 </div> <!-- end of popup-holder -->
 <!--subClientListData {{subClientListData}} -->
-dropdownList --> {{dropdownList}}
+userModalData --> {{userModalData}}
 <script type="text/javascript">
     //Pills
     var config = {
