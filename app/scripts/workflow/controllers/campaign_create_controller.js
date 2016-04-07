@@ -51,7 +51,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         $scope.rateReadOnlyEdit = false;
         $scope.rateTypeReadOnlyEdit = false;
         $scope.volumeFlagEdit = true;
-        $scope.amountFlagEdit = true;
+        $scope.amountFlagEdit = true; 
 
         $scope.editLineItem = {};
         $scope.vendorConfig = [];
