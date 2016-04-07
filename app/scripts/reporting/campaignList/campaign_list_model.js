@@ -641,6 +641,7 @@ define(['angularAMD','reporting/campaignList/campaign_list_service', 'common/ser
                             this.dashboard.status.paused = '';
                             this.dashboard.status.completed = '';
                             this.dashboard.status.archived = '';
+                            this.dashboard.status.all = '';
                         },
 
                         setQuickFilter = function (filterToApply) {
@@ -723,6 +724,14 @@ define(['angularAMD','reporting/campaignList/campaign_list_service', 'common/ser
                                         this.dashboard[constants.ARCHIVED.toLowerCase()];
                                     this.dashboard.status.archived = constants.ACTIVE;
                                     type = constants.ARCHIVED.toLowerCase();
+                                    break;
+                                
+                                case constants.ALL_CONDITION:
+                                    this.appliedQuickFilterText = constants.ALL;
+                                    this.dashboard.quickFilterSelectedCount =
+                                        this.dashboard[constants.ALL.toLowerCase()];
+                                    this.dashboard.status.all = constants.ACTIVE;
+                                    type = constants.ALL.toLowerCase();
                                     break;
 
                                 default:
