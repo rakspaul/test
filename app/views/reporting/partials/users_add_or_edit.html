@@ -260,10 +260,11 @@
                 <div class="col-md-2 zeroPadding">
                     <label class="col-md-12 zeroPadding">Account Admin:</label>
                     <div class="pull-left">
-                        <input id="admin-toggle-{{$index}}" class="cmn-toggle cmn-toggle-round" type="checkbox" data-ng-click="adminUserToggleClicked($index)" data-off="aa" data-on="aa">
-                        <label for="admin-toggle-{{$index}}"></label>
+                        <input id="admin-toggle-{{$index}}" data-ng-model="toggle1" class="cmn-toggle cmn-toggle-round" type="checkbox" data-ng-click="adminUserToggleClicked($index)">
+                        <label for="admin-toggle-{{$index}}" ></label>
                     </div>
                 </div>
+                toggle1 --> {{toggle1}}
                 <div class="col-md-12" style="background: rgba(0, 0, 0, 0.08); padding: 15px 30px; margin: 15px 0;" ng-repeat="i in item.resources" id="resources_{{$parent.$index}}_{{$index}}">
                     <div class="form-group col-md-4" style="padding-left: 0;">
                         <label> Advertiser Name:</label>
@@ -274,14 +275,14 @@
                         <!--</select>-->
 
                         <div class="zeroPadding dropdown-workflow">
-                            <div class="dropdown">
+                            <div class="dropdown" data-ng-init="accountIndex=$parent.$index;permissionIndex=$index;">
                                 <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                                     <!--<span class="text">{{mode == 'edit' ? selectedAccount : 'Account' }}</span>-->
                                     <span class="text" >{{permissions[$parent.$index].resources[$index]["advertiserName"]}}</span>
                                     <span class="icon-arrow-down"></span>
                                 </button>
                                 <ul class="dropdown-menu" aria-labelledby="accountType">
-                                    <li ng-repeat="advertiser in dropdownList[$parent.$index].advertisers"><a ng-click="selectAdvertiser(advertiser,$parent.$parent.$index, $parent.$index)">{{advertiser.name}}</a>
+                                    <li ng-repeat="advertiser in dropdownList[$parent.$index].advertisers"><a ng-click="selectAdvertiser(advertiser,accountIndex, permissionIndex)">{{advertiser.name}}</a>
                                     </li>
                                 </ul>
                                 <!--<input type="hidden" name="accountType" ng-model="selectedClient" ng-update-hidden required/>-->
@@ -380,7 +381,7 @@
     </div>
 </div> <!-- end of popup-holder -->
 <!--subClientListData {{subClientListData}} -->
-permissions --> {{permissions}}
+dropdownList --> {{dropdownList}}
 <script type="text/javascript">
     //Pills
     var config = {

@@ -60,9 +60,13 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/ac
                 $rootScope.setErrAlertMessage(constants.ADMIN_ADD_PERMISSION);
                 return false;
             }
-            _.each($scope.permissions, function(item){
+            _.each($scope.permissions, function(item, i){
                 if(!item.clientId){
                     $rootScope.setErrAlertMessage(constants.ADMIN_SELECT_CLIENT);
+                    retVal = false;
+                }
+                if(retVal && !$("#admin-toggle-"+i).prop('checked') && (!item.resources || !item.resources.length)){
+                    $rootScope.setErrAlertMessage(constants.ADMIN_ADD_ADVERTISER_PERMISSION);
                     retVal = false;
                 }
             });
@@ -90,10 +94,11 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/ac
          //       "updatedAt": (_customctrl.editId ? timeNow : null),
                 "permissions": []
             }
+            _customctrl.requestData.permissions = _customctrl.requestData.permissions;
             _customctrl.requestData.roleTemplateId = ($scope.isCurr_SuperUser ? 1 : 2);
             if(_customctrl.editId){
                 _customctrl.requestData.id = _customctrl.editId;
-                _customctrl.requestData.updatedAt = _customctrl.responseData.createdAt;
+                _customctrl.requestData.updatedAt = _customctrl.responseData.updatedAt;
                // _customctrl.requestData.id =
             }
             console.log("_customctrl.requestData.roleTemplateId...."+_customctrl.requestData.roleTemplateId+"......"+$scope.isCurr_SuperUser);
@@ -104,14 +109,15 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/ac
                     "features": $scope.pagePermissionValue[i]["code"].split(","),
                     "resources": []
                 });
-                if($scope.pagePermissionValue[i]["code"] == "ENABLE_ALL" && !item.resources.length){
+                if($scope.pagePermissionValue[i]["code"] == "ENABLE_ALL" && !item.resources.length && $("#admin-toggle-"+i).prop('checked')){
                     _customctrl.requestData.permissions[i].resources.push({
                         "accessLevel": "admin",
                         "advertiserId": -1,
-                        "brandId": -1
+                        "brandId": -1,
                     });
                 }else{
                     _.each(item.resources, function(d, j){
+                        console.log("d......",d);
                         _customctrl.requestData.permissions[i].resources.push({
                             "accessLevel": d.permissionValue,
                             "advertiserId": d.advertiserId,
@@ -119,7 +125,20 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/ac
                         });
                     });
                 }
+                console.log("item.features....."+JSON.stringify(item.features));
+                //var features = item.features;
+//                _customctrl.requestData.permissions[i].features = [];
+//                _.each(item.features,function(item){
+//                    console.log("item...."+item);
+//                    _customctrl.requestData.permissions[i].features.push(item);
+//                });
+                _customctrl.requestData.permissions[i].features = _.filter(item.features, function(item){ return item; });
+         //       console.log("_customctrl.requestData.permissions.features...."+_customctrl.requestData.permissions[i].features);
+//                _customctrl.requestData.permissions.features = _.filter(item.features, function(item){
+//                    return item;
+//                });
             });
+            console.log("_customctrl.requestData.permissions.features......"+JSON.stringify(_customctrl.requestData));
             return _customctrl.requestData;
         }
 
@@ -285,6 +304,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/ac
         };
 
         $scope.selectAdvertiser=function(advertiserObj,accountIndex, permissionIndex,editmode,editData){
+            console.log("selectAdvertiser.......accountIndex.."+accountIndex+"....permissionIndex...."+permissionIndex  );
             $scope.permissions[accountIndex].resources[permissionIndex]["advertiserName"] = advertiserObj.name;
             $scope.permissions[accountIndex].resources[permissionIndex]["advertiserId"] = advertiserObj.id;
            // console.log("$scope.permissions[accountIndex].cliendId...."+$scope.permissions[accountIndex].clientId);
@@ -403,12 +423,16 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/ac
 //                        $scope.userModalData[index]['Brands'] = res.data.data;
 //                    }
                     arr = res.data.data;
-                    console.log("arr....",arr);
-                    arr.unshift({id: -1, name: constants.ALL_BRANDS});
-                    if(!$scope.dropdownList[accountIndex][permissionIndex]){
-                        $scope.dropdownList[accountIndex][permissionIndex] = {}
+                    if((res.data.status == "OK" || res.data.statusCode == 200)&& arr) {
+                        console.log("arr....", arr);
+                        arr.unshift({id: -1, name: constants.ALL_BRANDS});
+                        if (!$scope.dropdownList[accountIndex][permissionIndex]) {
+                            $scope.dropdownList[accountIndex][permissionIndex] = {}
+                        }
+                        console.log("get Brands..."+accountIndex+"......permissionIndex....."+permissionIndex);
+                        console.log(arr)
+                        $scope.dropdownList[accountIndex][permissionIndex]['brands'] = arr;
                     }
-                    $scope.dropdownList[accountIndex][permissionIndex]['brands'] = arr;
 //                    if(editmode){
 //                        var brandIndex = _.findIndex($scope.userModalData[index]['Brands'], function(item) {
 //                            return item.id == editData.brandId});
@@ -499,14 +523,9 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/ac
 
         //set permissions in edit mode
         $rootScope.$on('permissionsForUsers',function(e,user){
-//            console.log(JSON.stringify($scope.userModalData));
-//            return;
+            $scope.resetFields(true);
+            userModalPopup.getUserClients();
             if(user) {
-                //console.log(JSON.stringify($scope.userModalData));
-                userModalPopup.getUserClients();
-                $scope.resetFields(true);
-                //  userModalPopup.getUserClients(true,user);
-                //  userModalPopup.getUserPermission();
                 setPreselectedPermission(user);
                 _customctrl.editId = user[0].id;
             }else{
@@ -514,7 +533,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/ac
             }
        //     $scope.createUser();
 //            $scope.editmode = true;
-        })
+        });
 
         function setPreselectedPermission(user){
 
@@ -523,6 +542,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/ac
                     data: []
                 };
                 _customctrl.responseData = res.data.data;
+                console.log(JSON.stringify(_customctrl.responseData));
                 editedUserDetails = _customctrl.responseData;
                 $scope.userConsoleFormDetails.email = _customctrl.responseData.email;
                 $scope.userConsoleFormDetails.firstName = _customctrl.responseData.firstName;
@@ -548,15 +568,19 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/ac
                         $scope.pagePermissionValue[i] = {desc:"", code:""}
                     }
                     _.each(item["resources"], function(d, j){
-                        if(d.accessLevel == "admin"){
-                            setTimeout(function(){
+                        console.log("ddddddddddd......",JSON.stringify(d));
+                        if(d.accessLevel.toLowerCase() == "admin"){
+                            setTimeout(function(i){
                                 $('#admin-toggle-'+i).bootstrapToggle('on');
                                 $scope.adminUserToggleClicked(i);
-                            },1);
+                            },1,i);
                         }
                         d.permissionName = d.accessLevel[0].toUpperCase() + d.accessLevel.slice(1);
+                        d.permissionValue = d.accessLevel.toLowerCase();
                         if(d.advertiserId) {
-                            console.log("Calling brand API....1...");
+                           // console.log("Calling brand API....1...");
+                            d.advertiserName = (d.advertiserId == -1) ? "All Advertisers" : d.advertiserName;
+                            d.brandName = (d.brandId == -1) ? "All Brands" : d.brandName;
                             userModalPopup.getUserBrands(item.clientId, d.advertiserId, i, j, true);
                         }
                     })
@@ -569,7 +593,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/ac
                         })
                     });
                 });
-
+                console.log("_customctrl.responseData.permissions......",_customctrl.responseData.permissions);
                 $scope.permissions = _customctrl.responseData.permissions;
 
                 if(_customctrl.responseData.roleTemplateId == 1){
@@ -679,6 +703,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/ac
         }
         $scope.adminUserToggleClicked = function(accountIndex, permissionIndex){
             var sel = $("div[id*=resources_"+accountIndex+"_], #addPermissionText_"+accountIndex);
+            console.log("Checked....."+$("#admin-toggle-"+accountIndex).prop('checked'));
             if(!$("#admin-toggle-"+accountIndex).prop('checked')) {
                 sel.show();
             }else{

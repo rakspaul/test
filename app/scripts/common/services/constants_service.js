@@ -999,5 +999,6 @@ define(['angularAMD'], function(angularAMD) {
 
         this.ADMIN_ADD_PERMISSION = "Please add permission";
         this.ADMIN_SELECT_CLIENT = "Please select the client";
+        this.ADMIN_ADD_ADVERTISER_PERMISSION = "Please add permission for the client";
     });
 });
