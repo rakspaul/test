@@ -530,7 +530,7 @@ define(['common'], function (angularAMD) {
                 })
 
         })
-        .run(function ($rootScope, $location, $cookies, loginModel, brandsModel, dataService, $cookieStore, workflowService,featuresService,subAccountModel) {
+        .run(function ($rootScope, $location, $cookies, loginModel, brandsModel, dataService, $cookieStore, workflowService,featuresService,subAccountModel, $window,$modal) {
             var handleLoginRedirection = function () {
                     var cookieRedirect = $cookieStore.get('cdesk_redirect') || null,
                         setDefaultPage;
@@ -648,6 +648,34 @@ define(['common'], function (angularAMD) {
                 locationChangeStartFunc();
                 routeChangeSuccessFunc();
             });
+
+            // If the internet is disconnected or connected, we show a popup notification
+
+            $rootScope.online = navigator.onLine;
+
+            $window.addEventListener("offline", function () {
+                $("html").append("<div class='slider-msg'>You are offline now</div>");
+                $(".slider-msg").show() ;
+                setTimeout(function(){ 
+                    $(".slider-msg").fadeOut("slow") ;
+                }, 3000);
+                $rootScope.$apply(function() {
+                  $rootScope.online = false;
+                });
+              }, false);
+
+
+              $window.addEventListener("online", function () {
+             
+                $("html").append("<div class='slider-msg'>You are online now</div>");
+                $(".slider-msg").show() ;
+                setTimeout(function(){ 
+                    $(".slider-msg").fadeOut("slow") ;
+                }, 3000);
+                $rootScope.$apply(function() {
+                  $rootScope.online = true;
+                });
+              }, false);
         });
 
     return angularAMD.bootstrap(app);
