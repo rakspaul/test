@@ -42,7 +42,7 @@ define(['angularAMD'],function (angularAMD) {
                     var startDateElem = formElem.find(".adGrpStartDateInput");
                     var endDateElem = formElem.find(".adGrpEndDateInput");
 
-                    if(getADsForGroupData.length >0 ) {
+                    if (getADsForGroupData && getADsForGroupData.length > 0 ) {
                         $scope.extractor(getADsForGroupData, formElem);
                     } else {
                         $scope.resetAdsData();
@@ -66,18 +66,40 @@ define(['angularAMD'],function (angularAMD) {
                     element.closest('.adGroup').find('.adgroupDiv').hide();
                     element.closest('.adGroup').find('.editAdgroupDiv').show();
                     $http.get(assets.html_edit_adgroup).then(function (tmpl) {
+                        var labels,
+                            i,
+                            len,
+                            regex = /(<([^>]+)>)/ig,
+                            formElem;
+
                         template = $compile(tmpl.data)($scope);
                         element.closest('.adGroup').find('.editAdgroupDiv').html(template);
                         $scope.adGroupsData = JSON.parse(attrs.adGroupData);
+
                         $scope.adGroupsIndex = JSON.parse(attrs.adGroupIndex);
                         $scope.editAdGroupFlag = true;
                         $scope.showCreateAdGrp = true;
-                        var formElem = element.closest('.adGroup').find('.editAdgroupDiv form');
+                        formElem = element.closest('.adGroup').find('.editAdgroupDiv form');
+
+                        // Temp variable for resetting in case of cancel
+                        $scope.adGroupsDataTemp = $scope.adGroupsData;
+
+                        // Strip <mark> tags from labels, if any.
+                        labels = $scope.adGroupsData.labels;
+                        len = labels.length;
+                        for (i = 0; i < len; i ++) {
+                            labels[i] = labels[i].replace(regex, '');
+                        }
+
                         $scope.processAdGroupEditData(formElem, $scope.adGroupsData, $scope.adGroupsIndex);
                     });
                 });
 
                 $scope.cancelEditAdGroup = function () {
+                    // Restore Adgroup data to previous state before edit. This is especially for the labels,
+                    // as we strip out the <mark> tags of the lighlighted labels for editing.
+                    $scope.workflowData.campaignGetAdGroupsData[$scope.adGroupsIndex] = $scope.adGroupsDataTemp;
+
                     element.closest('.adGroup').find(".editAdgroupDiv").hide();
                     element.closest('.adGroup').find('.adgroupDiv').show();
                     element.closest('.adGroup').find(".overlay").hide();
