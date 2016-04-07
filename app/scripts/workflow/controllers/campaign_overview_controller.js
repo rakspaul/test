@@ -259,8 +259,8 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 }
                 keywords = keywordsArr.join('|');
 
-                return $sce.trustAsHtml(text.replace(new RegExp('(' + keywords + ')', 'gi'),
-                    '<mark class="search-highlight">$1</mark>'));
+                return text.replace(new RegExp('(' + keywords + ')', 'gi'),
+                    $sce.trustAsHtml('<mark class="search-highlight">$1</mark>'));
 
             };
 
@@ -271,8 +271,8 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
                 if (phrase && tempTextLower.indexOf('</mark>') === -1) {
                     if (tempTextLower.indexOf(tempPhrase) >= 0) {
-                        tempText = $sce.trustAsHtml('<mark class="search-highlight">' +
-                            tempText + '</mark>');
+                        tempText = '<mark class="search-highlight">' +
+                            tempText + '</mark>';
                     }
                 }
 
@@ -441,6 +441,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                                 $scope.adGroupsCount = result.data.data.ad_groups_count;
                                 $scope.adsCount = result.data.data.search_ads_count;
                                 nonAdGroupAds = result.data.data.no_ad_group_ads;
+                                $scope.trustAsHtml = $sce.trustAsHtml;
 
                                 // Highlighting of Ad group name & label pills.
                                 // The highlighting will be done at the Search API call.
