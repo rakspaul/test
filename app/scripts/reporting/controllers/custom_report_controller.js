@@ -851,7 +851,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
 
             var currFirtDimensionElem = $(ev.target).parents(".reportData");
             var currSecondDimensionElem = currFirtDimensionElem.find('.second_dimension_row_holder');
-            if(!currFirtDimensionElem.hasClass('treeOpen') && _customctrl.isInputsChangedAfterGenerate(_customctrl.inputDataOnGenerate, $scope.createData().reportDefinition)){
+            if(!currFirtDimensionElem.hasClass('treeOpen') && _customctrl.isInputsChangedAfterGenerate(_customctrl.inputDataOnGenerate, $scope.createData().reportDefinition) && $scope.isReportForMultiDimension !== false){
                 $rootScope.setErrAlertMessage("Please regenerate the page, input data had changed");
                 return;
             }
