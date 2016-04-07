@@ -50,7 +50,7 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
                                 }
                             });
                         }
-                        $scope.getClientData(loginModel.getSelectedClient().id);
+                        $scope.getClientData();
                     }
 
                     if(angular.isUndefined(loginModel.getSelectedClient()) || loginModel.getSelectedClient() === null ) {
@@ -87,7 +87,8 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
         featurePermission();
         /* End Feature Permission */
 
-        $scope.getClientData = function (clientId) {
+        $scope.getClientData = function () {
+            clientId = loginModel.getMasterClient().id;
             workflowService.getClientData(clientId).then(function (response) {
                 RoleBasedService.setClientRole(response);//set the type of user here in RoleBasedService.js
                 RoleBasedService.setCurrencySymbol();
@@ -113,11 +114,11 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
             showSelectedMasterClient(event, name);
             if(isLeafNode) {
                 loginModel.setSelectedClient({'id': id, 'name': name});
-                $scope.getClientData(id);
+                $scope.getClientData();
                $rootScope.$broadcast(constants.ACCOUNT_CHANGED, {'client': loginModel.getSelectedClient().id, 'event_type': 'clicked'});
             } else {
                 subAccountModel.fetchSubAccounts('MasterClientChanged',function(){
-                    $scope.getClientData(loginModel.getSelectedClient().id);
+                    $scope.getClientData();
                    // console.log('current url',$location.url());
                     $rootScope.$broadcast(constants.EVENT_MASTER_CLIENT_CHANGED, {'client': loginModel.getSelectedClient().id, 'event_type': 'clicked'});
                 });
