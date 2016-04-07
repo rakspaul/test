@@ -213,18 +213,18 @@
                 <div class="col-md-3 zeroPadding">
                     <label class="col-md-12 zeroPadding">Accounts:</label>
                     <div class="zeroPadding dropdown-workflow dropdown-multi">
-                        <div class="dropdown" style="z-index: 99999" id = "accountDropDown" >
+                        <div class="dropdown" style="z-index: 99999" id = "accountDropDown_{{$index}}" >
                             <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                                 <span class="text" ng-bind="permissions[$index].clientName"></span>
                                 <span class="icon-arrow-down"></span>
                             </button>
-                            <ul class="dropdown-menu clientDropdownCnt" data-toggle="dropdown" id="clientDropdown_0">
+                            <ul class="dropdown-menu clientDropdownCnt" data-toggle="dropdown" id="clientDropdown_0" data-ng-init="accountIndex=$index">
                                 <li ng-repeat="client in userModalData.Clients"   style="position:relative">
-                                    <a ng-click="select_client_option(client.id, client.name, $parent.$index)" ng-bind="client.name"></a>
-                                    <span class="icon-arrow-down icon-arrow-right" ng-click="getSubClientList(client.id, client.name, 0, $parent.$index)" ng-if="!client.isLeafNode"></span>
+                                    <a ng-click="select_client_option(client.id, client.name, accountIndex)" ng-bind="client.name"></a>
+                                    <span class="icon-arrow-down icon-arrow-right" ng-click="getSubClientList(client.id, client.name, 0, accountIndex)" ng-if="!client.isLeafNode"></span>
                                 </li>
                             </ul>
-                            <div ng-if="loadingClientDropDown" style="position: absolute;width: 100%;height: 200px;background: rgba(255,255,255,0.63);z-index: 99999;">
+                            <div ng-if="loadingClientDropDown[accountIndex]" style="position: absolute;width: 100%;height: 200px;background: rgba(255,255,255,0.63);z-index: 99999;">
                                 <span class="common-load-more" style="/* width:150px; */position: absolute;top: 40px;left: 134px;/* z-index: 999999; */"></span>
                             </div>
                         </div>
@@ -380,6 +380,7 @@
     </div>
 </div> <!-- end of popup-holder -->
 <!--subClientListData {{subClientListData}} -->
+permissions --> {{permissions}}
 <script type="text/javascript">
     //Pills
     var config = {

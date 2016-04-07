@@ -15,6 +15,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/ac
         $scope.dropdownList = []
         $scope.isSuperAdmin = true;
         $scope.clientName = [];
+        $scope.loadingClientDropDown = {}
         $scope.advertiserName = [];
         $scope.brandName = [];
         $scope.User = {
@@ -55,6 +56,16 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/ac
                     return false;
                 }
             }
+            if(!$scope.isCurr_SuperUser && !$scope.permissions.length){
+                $rootScope.setErrAlertMessage(constants.ADMIN_ADD_PERMISSION);
+                return false;
+            }
+            _.each($scope.permissions, function(item){
+                if(!item.clientId){
+                    $rootScope.setErrAlertMessage(constants.ADMIN_SELECT_CLIENT);
+                    retVal = false;
+                }
+            });
            // _.each(icheck, function(item){
 
            // });
@@ -82,6 +93,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/ac
             _customctrl.requestData.roleTemplateId = ($scope.isCurr_SuperUser ? 1 : 2);
             if(_customctrl.editId){
                 _customctrl.requestData.id = _customctrl.editId;
+                _customctrl.requestData.updatedAt = _customctrl.responseData.createdAt;
                // _customctrl.requestData.id =
             }
             console.log("_customctrl.requestData.roleTemplateId...."+_customctrl.requestData.roleTemplateId+"......"+$scope.isCurr_SuperUser);
@@ -92,7 +104,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/ac
                     "features": $scope.pagePermissionValue[i]["code"].split(","),
                     "resources": []
                 });
-                if($scope.pagePermissionValue[i]["code"] == "ENABLE_ALL"){
+                if($scope.pagePermissionValue[i]["code"] == "ENABLE_ALL" && !item.resources.length){
                     _customctrl.requestData.permissions[i].resources.push({
                         "accessLevel": "admin",
                         "advertiserId": -1,
@@ -201,9 +213,9 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/ac
         }
         $scope.saveUserForm = function( ){
          //   console.log(_customctrl.createData());
-//            if(!_customctrl.validateInputs()){
-//                return;
-//            }
+            if(!_customctrl.validateInputs()){
+                return;
+            }
             accountsService.createUser(_customctrl.filterRequestData()).then(function(res){
 //                $('.user-list, .users-creation-page .heading').fadeIn();
 //                $('.edit-dialog').fadeOut();
@@ -277,6 +289,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/ac
             $scope.permissions[accountIndex].resources[permissionIndex]["advertiserId"] = advertiserObj.id;
            // console.log("$scope.permissions[accountIndex].cliendId...."+$scope.permissions[accountIndex].clientId);
            // console.log("accountIndex...."+accountIndex+".......permissionIndex....."+permissionIndex);
+            console.log("Calling getUserBrands.....2....");
             userModalPopup.getUserBrands($scope.permissions[accountIndex].clientId, advertiserObj.id, accountIndex, permissionIndex);
 //            if(!$scope.advertiserName[accountIndex]){
 //                $scope.advertiserName[accountIndex] = [];
@@ -355,7 +368,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/ac
             $scope.User.data[index].accessLevel = val;
         }
 
-
+        console.log("All time...",$scope.userModalData['Clients'])
         var userModalPopup = {
             getUserClients:function(editmode){
                  accountsService.getClients(function(res) {
@@ -458,6 +471,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/ac
             $scope.userConsoleFormDetails.isEditPassword = undefined;
             $scope.userConsoleFormDetails.updatedAt = undefined;
             $scope.clientName=[];
+            console.log("clear");
             $scope.userModalData = [];
             $scope.advertiserName=[];
             $scope.brandName=[];
@@ -485,7 +499,11 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/ac
 
         //set permissions in edit mode
         $rootScope.$on('permissionsForUsers',function(e,user){
+//            console.log(JSON.stringify($scope.userModalData));
+//            return;
             if(user) {
+                //console.log(JSON.stringify($scope.userModalData));
+                userModalPopup.getUserClients();
                 $scope.resetFields(true);
                 //  userModalPopup.getUserClients(true,user);
                 //  userModalPopup.getUserPermission();
@@ -520,10 +538,12 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/ac
 
 
                 _.each(_customctrl.responseData.permissions, function(item, i){
-                    $scope.addPermission(i , true);
                     if(item.clientId){
                         userModalPopup.getUserAdvertiser({id:item.clientId}, i);
+                    }else{
+                        return true;
                     }
+                    $scope.addPermission(i , true);
                     if(!$scope.pagePermissionValue[i]){
                         $scope.pagePermissionValue[i] = {desc:"", code:""}
                     }
@@ -536,6 +556,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/ac
                         }
                         d.permissionName = d.accessLevel[0].toUpperCase() + d.accessLevel.slice(1);
                         if(d.advertiserId) {
+                            console.log("Calling brand API....1...");
                             userModalPopup.getUserBrands(item.clientId, d.advertiserId, i, j, true);
                         }
                     })
@@ -551,7 +572,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/ac
 
                 $scope.permissions = _customctrl.responseData.permissions;
 
-                if(data.roleTemplateId == 1){
+                if(_customctrl.responseData.roleTemplateId == 1){
                       $scope.isCurr_SuperUser = true;
                       $scope.permissions = [];
                 }
@@ -767,7 +788,8 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/ac
                     $("#clientDropdown_"+parentContianerId).hide();
                     $scope.subClientListData[clientId] = result;
                     //if(!$('#clientDropdown_'+clientId).length) {
-                        angular.element(document.getElementById('accountDropDown')).append($compile('<div class="childTier" id="clientDropdown_' + clientId + '"><div class="tierHeader" id="' + parentContianerId + '" ng-click="goToParentClientList(' + parentContianerId + ',' + clientId + ')"><div class="icon-arrow-down"></div><span>' + name + '</span></div><ul class="dropdown-menu-child" data-toggle="dropdown"><li ng-repeat="client in subClientListData[' + clientId + ']"  id="topClients"><a ng-click="select_client_option(client.id, client.name, '+accountIndex+')" ng-bind="client.name"></a><span class="icon-arrow-down icon-arrow-right" ng-click="getSubClientList(client.id, client.name,'+clientId+','+accountIndex+' )" ng-if="!client.isLeafNode"></span></li></ul></div>')($scope));
+                    console.log("accountIndex...."+accountIndex);
+                        angular.element(document.getElementById('accountDropDown_'+accountIndex)).append($compile('<div class="childTier" id="clientDropdown_' + clientId + '"><div class="tierHeader" id="' + parentContianerId + '" ng-click="goToParentClientList(' + parentContianerId + ',' + clientId + ')"><div class="icon-arrow-down"></div><span>' + name + '</span></div><ul class="dropdown-menu-child" data-toggle="dropdown"><li ng-repeat="client in subClientListData[' + clientId + ']"  id="topClients"><a ng-click="select_client_option(client.id, client.name, '+accountIndex+')" ng-bind="client.name"></a><span class="icon-arrow-down icon-arrow-right" ng-click="getSubClientList(client.id, client.name,'+clientId+','+accountIndex+' )" ng-if="!client.isLeafNode"></span></li></ul></div>')($scope));
 //                    }else{
 //                        $('#clientDropdown_'+clientId).show();
 //                    }
@@ -785,8 +807,17 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/ac
             console.log("goToParentClientList...."+parentContianerId+"....clientId.."+clientId);
             $("#clientDropdown_"+parentContianerId).show();
             $("#clientDropdown_"+clientId).hide();
+        //    $scope.animateClientDropdown(parentContianerId, clientId, "toRight");
         }
 
+        $scope.animateClientDropdown = function(toId, fromId, direction){
+            if(direction == "toRight"){
+                $("#clientDropdown_"+toId).css({left:"-300px","display":"block", "z-index":"1001"}).animate({"left":"0px"},500,function(){
+                    $("#clientDropdown_"+fromId).hide();
+                });
+                $("#clientDropdown_"+fromId).css({"z-index":"1000"})
+            }
+        }
         $("span[id*=parentCnt_]").on( "click", function(event) {
             var nowId = $(event).parent().attr("id");
             var toId = $(event).attr("id");

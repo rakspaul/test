@@ -996,5 +996,8 @@ define(['angularAMD'], function(angularAMD) {
         this.EVENT_SUB_ACCOUNT_CHANGED_FROM_DASHBOARD = 'SubAccountChangedFromDashboard';
         this.EVENT_MASTER_CLIENT_CHANGED = 'eventMasterClientChanged';
         this.SUB_ACCOUNT = "Sub-Account";
+
+        this.ADMIN_ADD_PERMISSION = "Please add permission";
+        this.ADMIN_SELECT_CLIENT = "Please select the client";
     });
 });

@@ -1,4 +1,9 @@
-#accountDropDown .icon-arrow-right {
+#accountDropDown_0 .icon-arrow-right,
+#accountDropDown_1 .icon-arrow-right,
+#accountDropDown_2 .icon-arrow-right,
+#accountDropDown_3 .icon-arrow-right,
+#accountDropDown_4 .icon-arrow-right,
+#accountDropDown_5 .icon-arrow-right {
   position: absolute;
   right: 8px;
   top: 8px;
@@ -6,7 +11,12 @@
   height: 18px;
   width: 18px;
 }
-#accountDropDown .clientDropdownCnt {
+#accountDropDown_0 .clientDropdownCnt,
+#accountDropDown_1 .clientDropdownCnt,
+#accountDropDown_2 .clientDropdownCnt,
+#accountDropDown_3 .clientDropdownCnt,
+#accountDropDown_4 .clientDropdownCnt,
+#accountDropDown_5 .clientDropdownCnt {
   position: absolute;
   left: 0px;
   width: 284px;
