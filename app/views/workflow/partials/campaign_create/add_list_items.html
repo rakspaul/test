@@ -177,7 +177,9 @@
     </label>
 
     <div class="col-md-12 addCreditForm">
-        <div class="col-md-12 zeroPadding">
+        <a class="btn btn-default" ng-click="showAddCredit = ! showAddCredit" ng-hide="showAddCredit" style="margin: 10px 0;">Add Credit</a>
+        
+        <div class="col-md-12 zeroPadding" ng-show="showAddCredit">
             <div class="col-md-4 zeroPadding">
                 <label class="col-sm-12 greyTxt miniLabels zeroPadding">Credit Name / Notes</label>
                 <input type="text" class="col-md-12" placeholder=""/>
@@ -188,14 +190,11 @@
                 <input type="text" class="col-md-12" placeholder=""/>
             </div>
 
-            <a class="btn btn-link pull-right" style="margin: 33px 0 0 0;">Delete</a>
+            <a class="pull-right icon-clear" style="margin: 33px 0 0 0;"></a>
         </div>
 
-        <div class="col-md-12 zeroPadding">
-            <a class="btn btn-link pull-left addRowMedia">
-                <span class="icon-plus"></span>
-                <span>Add Another Credit</span>
-            </a>
+        <div class="col-md-12 zeroPadding" ng-show="showAddCredit" style="margin: 10px 0;">
+            <a class="btn btn-default pull-left">Add Another Credit</a>
         </div>
     </div>
 </div>

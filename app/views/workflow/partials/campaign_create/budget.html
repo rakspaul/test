@@ -180,23 +180,23 @@
                         <div class="col-md-3 zeroPadding kpiTable">
                             <label for="primaryKPI" class="col-sm-12 greyTxt miniLabels">Category</label>
                         </div>
-                        <div class="col-md-3 zeroPadding kpiTable">
+                        <div class="col-md-3 zeroPadding kpiTable hiddenInputs">
                             <label for="primaryKPI" class="col-sm-12 greyTxt miniLabels">Vendor</label>
                         </div>
-                        <div class="col-md-3 zeroPadding kpiTable">
+                        <div class="col-md-3 zeroPadding kpiTable hiddenInputs">
                             <label for="primaryKPI" class="col-sm-12 greyTxt miniLabels">Offering</label>
                         </div>
-                        <div class="col-md-1 zeroPadding kpiTable">
+                        <div class="col-md-1 zeroPadding kpiTable hiddenInputs">
                             <label for="primaryKPI" class="col-sm-12 greyTxt miniLabels">Pricing</label>
                         </div>
-                        <div class="col-md-1 zeroPadding kpiTable">
+                        <div class="col-md-1 zeroPadding kpiTable hiddenInputs">
                             <label for="primaryKPI" class="col-sm-12 greyTxt miniLabels">Rate</label>
                         </div>
                     </div>
                 </div>
                 
                 <!--Inputs-->
-                <div class="col-md-12 zeroPadding" ng-repeat="costObj in Campaign.costArr track by $index" style="margin-bottom:10px;">
+                <div class="col-md-12 zeroPadding addCost" ng-repeat="costObj in Campaign.costArr track by $index" style="margin-bottom:10px;">
                     <!--Category-->
                     <div class="col-md-3 zeroPadding kpiTable">
                         <div class="col-md-12 zeroPadding">
@@ -209,7 +209,7 @@
                                     <ul class="dropdown-menu" aria-labelledby="selectKPI"  id="selectKPI">
                                         <li ng-repeat="cost in workflowData.costCategory" ng-click="selectedCostCategory($parent.$index,cost)" ng-value="cost.id" class="available"><a>{{cost.description}}</a></li>
                                     </ul>
-                                    <input ng-if="mode!=='edit'" type="hidden" name="costCategory" ng-init="Campaign.costArr[$index]['costCategoryName']='Select from list'" ng-model="Campaign.costArr[$index]['costCategoryId']" ng-value="cost.id" field="costCategoryId" index="{{$index}}"  hiddencost>
+                                    <input ng-if="mode!=='edit'" type="hidden" name="costCategory" ng-init="Campaign.costArr[$index]['costCategoryName']='Add a Cost'" ng-model="Campaign.costArr[$index]['costCategoryId']" ng-value="cost.id" field="costCategoryId" index="{{$index}}"  hiddencost>
                                     <input ng-if="mode==='edit'" type="hidden" name="costCategory"  ng-model="Campaign.costArr[$index]['costCategoryId']" ng-value="cost.id" field="costCategoryId" index="{{$index}}"  hiddencost>
                                 </div>
                             </div>
@@ -217,7 +217,7 @@
                     </div>
                 
                     <!--Vendor-->
-                    <div class="col-md-3 zeroPadding kpiTable">
+                    <div class="col-md-3 zeroPadding kpiTable hiddenInputs">
                         <div class="col-md-12 zeroPadding dropdown-workflow">
                             <div class="dropdown">
                                 <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ng-bind="Campaign.costArr[$index]['vendorName']">
@@ -236,7 +236,7 @@
                     </div>
                 
                     <!--Offering-->
-                    <div class="col-md-3 zeroPadding kpiTable symbol-input">
+                    <div class="col-md-3 zeroPadding kpiTable symbol-input hiddenInputs">
                         <div class="col-md-12 zeroPadding dropdown-workflow">
                             <div class="dropdown">
                                 <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
@@ -253,24 +253,20 @@
                     </div>
                     
                     <!--Pricing-->
-                    <div class="col-md-1 zeroPadding kpiTable symbol-input">
+                    <div class="col-md-1 zeroPadding kpiTable symbol-input hiddenInputs">
                         <input type="text" class="col-md-12 disabled"  value="Flat" style="height:36px; background: #F4F1E9;" disabled/>
                     </div>
                     
                     <!--Rate-->
-                    <div class="col-md-2 zeroPadding kpiTable symbol-input" style="padding-right: 0px !important; max-width: 118px;">
+                    <div class="col-md-2 zeroPadding kpiTable symbol-input hiddenInputs" style="padding-right: 0px !important; max-width: 118px;">
                         <span class="symbol">{{locale.NUMBER_FORMATS.CURRENCY_SYM}}</span>
                         <input type="text" class="col-md-12" style="text-indent: 8px; height:36px;" ng-model="Campaign.costArr[$index]['rateValue']" fraction-numbers="fraction-numbers" ng-keyup="ComputeCost()" field="rateValue"  index="{{$index}}"/>
                     </div>
             
                     <!--Delete-->
-                    <span class="remove-row pull-right" ng-if="$index>0 || (Campaign.costArr.length>=2)">
+                    <span class="remove-row pull-right hiddenInputs" ng-if="$index>0 || (Campaign.costArr.length>=2)">
                         <span class="icon-clear" index="{{$index}}" clearcostrow></span>
                     </span>
-                </div>
-                
-                <div class="col-md-12 zeroPadding">
-                    <a class="btn btn-link pull-left addRowMedia" ng-click="addMoreCost();"><span class="icon-plus"></span><span>Add another Cost</span></a>
                 </div>
             </div>
         </div>

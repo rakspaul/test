@@ -207,6 +207,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             $scope.Campaign.costArr[index]['costCategoryName'] = costObj.name;
             //make a call to vendorRate API with the ID
             createCampaign.vendorRate(costObj.id, index);
+            $scope.addMoreCost();
         }
         $scope.selectedCalculation = function (index, calObj) {
             $scope.Campaign.costArr[index]['rateTypeId'] = calObj.id;
@@ -410,7 +411,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 targetPercentage: 100,
                 description: ''
             });
-            $(".selectcostObj").show();
+            $(".selectcostObj, .addCost .hiddenInputs").show();
 
         }
         $scope.msgtimeoutReset = function () {
