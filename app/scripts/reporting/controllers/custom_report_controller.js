@@ -1905,21 +1905,6 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                 $scope.prefillData = function(reportData) {
                     var responseData = reportData;
                     $scope.reports.name = responseData.name;
-                    /* commented out work for edit saved report temporary ROBERT*/
-                    /*if(window.location.search.indexOf('savedreports') > -1){
-                        $scope.reports.name = responseData.reportName;
-                        $scope.generateReport();
-
-                        $( "#dynamicHeader" ).addClass( "smaller" );
-                        $('#reportBuilderForm').slideUp(600);
-                        *//*elem.removeClass("icon-minus").addClass("icon-plus") ;*//*
-                        context.showHideToggle = !context.showHideToggle;
-
-                    }
-                    else{
-                        $scope.reports.name = responseData.name;
-                    }*/
-
                     $scope.scheduleReportActive = responseData.isScheduled;
                     $scope.generateBtnDisabled = false;
                     $scope.reports.schedule = responseData.schedule;

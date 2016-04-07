@@ -139,9 +139,9 @@ define(['angularAMD','workflow/services/workflow_service','common/services/visto
             if(this.serverResponseReceived) {
                 setFparams();
             } else {
-                var clientId = JSON.parse(localStorage.getItem('selectedClient')).id;
-                if(clientId) {
-                    workflowService.getClientData(clientId).then(function (response) {
+                var masterClientId = JSON.parse(localStorage.getItem('masterClient')).id;
+                if(masterClientId) {
+                    workflowService.getClientData(masterClientId).then(function (response) {
                         this.serverResponseReceived = true;
                         self.setFeatureParams(response.data.data.features,'headercontroller');
                         setFparams();
