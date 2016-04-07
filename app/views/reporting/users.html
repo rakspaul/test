@@ -2,23 +2,86 @@
 		   ng-init="init('flashMessage','WF_USER_CREATION_FAIL')"></popup-msg>
 <div class="users-creation-page" >
 		<!--Header-->
-        <div class="col-md-12 zeroPadding heading">
-			<h1 class="pull-left">Users</h1>
-			<div class="pull-right common_primary_btn" ng-click="AddOrEditUserModal()">Create User</div>
+        <div class="col-md-12 zeroPadding heading" style="margin: 30px 0;">
+			<h1 class="pull-left zeroMargin">Users</h1>
+            
+            <div class="col-md-12 zeroPadding" style="margin-top: 30px;">
+                <!--Create User Btn-->
+                <div class="pull-left btn-group create" role="group" aria-label="...">
+                    <a class="btn btn-default" ng-click="AddOrEditUserModal()">
+                        <span class="icon-plus"></span>
+                        <span>Create User</span>
+                    </a>
+                </div>
+        
+                <!--Quick Filters-->
+                <!--<div campaign-list-filter-directive campaigns="campaigns" class="pull-right"></div>-->
+        
+                <!--Search Input-->
+                <div class="btn-group pull-right">
+                    <button type="button" class="btn btn-default pull-right" style="display: none">
+                        <span class="icon-filter" style="margin: -1px 0 0;"></span>
+                    </button>
+        
+                    <div class="searchInput pull-right">
+                        <a class="btn btn-default searchInputBtn" ng-click="searchShowInput()">
+                        <!--<a class="btn btn-default searchInputBtn" ng-click="searchShowInput()" style="border-top-right-radius: 0; border-bottom-right-radius: 0;">-->
+                            <span class="icon-search" aria-hidden="true" style="margin: -1px 0 0;"></span>
+                        </a>
+        
+                        <a class="btn btn-default searchInputBtnInline" ng-click="campaignSearchFunc()">
+                            <span class="icon-search" aria-hidden="true" style="margin: -1px 0 0;"></span>
+                        </a>
+                        <div class="input-group searchInputForm" >
+                            <input type="text"
+                                   class="form-control"
+                                   name="usersSearch"
+                                   placeholder="Search Users...">
+                            <div class="btn btn-default searchClearInputBtn" ng-click="searchHideInput()">
+                                <span class="icon-clear" aria-hidden="true"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <span class="pull-right" style="font-size: 12px; margin: 10px 10px 0 0;">{{userTotal}} Users</span>
+            </div>
 		</div>
         
         <!--User List-->
-		<div class="col-md-12 zeroPadding user-list animated" ng-repeat="user in UsersData.users">
-			<div class="each-user" ng-click="AddOrEditUserModal('edit',user)">
-				<span class="pull-left">{{user.firstName +' '+ user.lastName}}</span>
-				<div class="pull-left edit"></div>
-			</div>
-			<!--<div class="clearfix each-user">-->
-				<!--<div class="pull-left">User2</div>-->
-				<!--<div class="pull-left edit" ng-click="AddOrEditUserModal()"></div>-->
-			<!--</div>--> 
-		</div>
-        
+        <div class="table-responsive user-list animated" id="table_responsive" style="margin-bottom: 30px;">
+			<div class="vistoTable" id="visto_table">
+			    <div class="thead thin">
+					<div class="tr">
+						<div class="col-md-4 th">Users Name</div>
+						<div class="col-md-4 th">Email</div>
+						<div class="col-md-3 th">Role</div>
+						<div class="col-md-1 th text-center" style="padding: 15px 0 0;">Edit</div>
+                    </div>
+                </div>
+                
+                <div class="tbody thin">
+                    <div class="tr" ng-repeat="user in UsersData.users">
+                        <div class="td col-md-4">
+                            <a ng-click="AddOrEditUserModal('edit',user)" style="color: #428bca;">{{user.firstName +' '+ user.lastName}}</a>
+                        </div>
+                        
+                        <div class="td col-md-4">
+                            <a ng-click="AddOrEditUserModal('edit',user)">{{user.email}}</a>
+                        </div>
+                        
+                        <div class="td col-md-3">
+                            <a ng-click="AddOrEditUserModal('edit',user)">{{user.roleTemplateId}}</a>
+                        </div>
+                        
+                        <div class="td col-md-1 text-center" style="padding: 8px 0 0;">
+                            <a class="icon-inline-edit" ng-click="AddOrEditUserModal('edit',user)"></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+                    
         <!--User Form-->
         <div class="edit-dialog" ng-include="'/views/reporting/partials/users_add_or_edit.html'"
             ng-controller="UsersAddOrEdit">

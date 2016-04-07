@@ -35,6 +35,7 @@ h3,
 h4,
 h5 {
   color: #21252b;
+  line-height: 100%;
 }
 h1,
 h2,
@@ -454,6 +455,7 @@ select {
   height: 35px;
   cursor: pointer;
   border-bottom: 1px solid #ccd2da;
+  margin-bottom: 10px;
 }
 .dropdown-multi .childTier .tierHeader .icon-arrow-down {
   position: absolute;

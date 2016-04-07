@@ -59,6 +59,7 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
             getUsers:function(){
                 accountsService.getUsers().then(function(res) {
                     $scope.UsersData['users']= res.data.data;
+                    $scope.userTotal = _.size(res.data.data);
                 });
             }
         };
@@ -66,8 +67,36 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
         $rootScope.$on('refreshUserList',function(){
             usersList.getUsers();
         });
-
         
+		//Search Hide / Show
+        $scope.searchShowInput = function () {
+            var searchInputForm = $('.searchInputForm');
+
+            $('.searchInputBtn').hide();
+            $('.searchInputBtnInline').show();
+            searchInputForm.show();
+            searchInputForm.animate({width: '400px'}, 'fast');
+            setTimeout(function () {
+                $('.searchClearInputBtn').fadeIn();
+            }, 300);
+        };
+
+        $scope.searchHideInput = function () {
+            $('.searchInputForm input').val('');
+            $('.searchInputBtn').show();
+            $('.searchClearInputBtn, .searchInputBtnInline').hide();
+            $('.searchInputForm').animate({width: '34px'}, 'fast');
+            setTimeout(function () {
+                $('.searchInputForm').hide();
+            }, 100);
+        };
+        
+        $('html').click(function(e) {
+		    if ($(e.target).closest('.searchInput').length === 0) {
+                $scope.searchHideInput();
+		    }
+		});
+
     });
 
 });
