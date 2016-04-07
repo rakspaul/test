@@ -171,6 +171,9 @@ input[type=number]::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
+.hiddenInputs {
+  display: none;
+}
 textarea {
   resize: none;
   border: 1px solid #dbe8ef;
