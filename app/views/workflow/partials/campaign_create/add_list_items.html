@@ -16,26 +16,26 @@
             <span class="col-md-12 zeroPadding">$105,000</span>
         </div>
     </div>
-    
+
     <label for="nameTitleCampaign" class="col-sm-12 labelQuestTxt" style="margin-bottom: 5px;">Setup Line Items</label>
-    
+
     <div class="col-md-12 zeroPadding btn-group create" role="group" style="margin: 20px 0 10px 0;">
-        <a class="btn btn-default" ng-click="createItemList = ! createItemList">
+        <a class="btn btn-default" ng-click="$parent.createItemList = ! $parent.createItemList">
             <span class="icon-plus"></span>
             <span data-ng-bind="textConstants.CREATE"></span>
         </a>
-        
+
         <!--Search/Quickfilters Input-->
         <div class="btn-group pull-right">
             <button type="button" class="btn btn-default pull-right disabled" style="border-top-right-radius: 2px; border-bottom-right-radius: 2px;">
                 <span class="icon-filter" style="margin: -1px 0 0;"></span>
             </button>
-    
+
             <div class="searchInput pull-right">
             <a class="btn btn-default searchInputBtn" ng-click="searchShowInput()" style="border-top-right-radius: 0; border-bottom-right-radius: 0; border-right: 0;">
                 <span class="icon-search" aria-hidden="true" style="margin: -1px 0 0;"></span>
             </a>
-    
+
             <a class="btn btn-default searchInputBtnInline" ng-click="campaignSearchFunc()" style="border-top-right-radius: 0; border-bottom-right-radius: 0; border-right: 0;">
                 <span class="icon-search" aria-hidden="true" style="margin: -1px 0 0;"></span>
             </a>
@@ -50,50 +50,50 @@
             </div>
             </div>
         </div>
-        
+
         <span class="pull-right" style="margin: 8px 15px 0 0;">0 Line Items Added</span>
     </div>
-        
+
     <!--Create Item List Form Start-->
-    <div class="col-md-12 createItemList" ng-show="createItemList">
+    <div class="col-md-12 createItemList" ng-show="createItemList" ng-form name="lineItemForm">
         <!--Row 1-->
         <div class="col-md-4 zeroPadding">
             <label class="col-sm-12 greyTxt miniLabels zeroPadding">Line Item Name / Notes</label>
-            <input type="text" class="col-md-12" placeholder="Enter Line Item name up to 150 characters"/>
+            <input type="text" class="col-md-12" placeholder="Enter Line Item name up to 150 characters" name="lineItemName" ng-model="$parent.lineItemName"  required/>
+            <span class="error" ng-show="lineItemForm.lineItemName.$error.required">Please enter a name</span>
         </div>
-        
+
         <div class="col-md-2" style="padding: 0 0 0 10px;">
             <label class="col-sm-12 greyTxt miniLabels zeroPadding">Type</label>
             <div class="col-md-12 zeroPadding dropdown-workflow">
                  <div class="dropdown">
                   <button style="width:100%;" class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                       <span class="text">Type 1</span>
+                       <span class="text">{{($parent.lineItemType !== '')?$parent.lineItemType:'Select Type'}}</span>
                        <span class="icon-arrow-down"></span>
                   </button>
-                  <ul class="dropdown-menu" aria-labelledby="lineType" id="lineType" data-toggle="dropdown">
-                       <li class="available"><a>Type 1</a></li>
-                       <li class="available"><a>Type 2</a></li>
-                       <li class="available"><a>Type 3</a></li>
+                  <ul class="dropdown-menu" aria-labelledby="lineType" id="lineType" data-toggle="dropdown" name="lineItemType">
+                       <li class="available" ng-repeat="t in type"  ng-click="$parent.lineItemType = t.name"><a>{{t.name}}</a></li>
+
                   </ul>
                  </div>
             </div>
         </div>
-        
+
         <div class="col-md-2" style="padding: 0 0 0 10px;">
             <label class="col-sm-12 greyTxt miniLabels zeroPadding">Rate</label>
-            <input type="text" class="col-md-12" placeholder="Enter Rate"/>
+            <input type="text" class="col-md-12" placeholder="Enter Rate" ng-model="$parent.lineRate"/>
         </div>
-        
+
         <div class="col-md-2" style="padding: 0 0 0 10px;">
             <label class="col-sm-12 greyTxt miniLabels zeroPadding">Contracted Value</label>
-            <input type="text" class="col-md-12" placeholder=""/>
+            <input type="text" class="col-md-12" placeholder="" ng-model="$parent.contractedValue"/>
         </div>
-        
+
         <div class="col-md-2" style="padding: 0 0 0 10px;">
             <label class="col-sm-12 greyTxt miniLabels zeroPadding">Target</label>
-            <input type="text" class="col-md-12" placeholder=""/>
+            <input type="text" class="col-md-12" placeholder="" ng-model="$parent.lineTarget"/>
         </div>
-        
+
         <!--Row 2-->
         <div class="pull-left">
             <div class="span4 col-md-12 input-daterange input-group date pull-left" id="datepicker">
@@ -108,7 +108,7 @@
                     <label class="col-sm-12 control-label greyTxt miniLabels">Billing Period End</label>
                     <div style="background: #fff;">
                         <input type="text" id="endDateInput" custom-date-picker="{format: 'mm/dd/yyyy', orientation: 'auto',  autoclose: true, todayHighlight: true}" placeholder="MM/DD/YYYY" class="form-control" readonly disabled="disabled" ng-model="adData.endTime" name="endTime" required ng-change="handleEndFlightDate(adData)"/>
-                    </div>    
+                    </div>
                     </div>
                 </div>
                 <span class="col-md-12 input-group-addon">
@@ -121,19 +121,19 @@
                 </span>
             </div>
         </div>
-        
+
         <div class="col-md-4" style="padding: 0;">
             <label class="col-sm-12 greyTxt miniLabels zeroPadding">Ad Group Name</label>
-            <input type="text" class="col-md-12" placeholder="Enter Ad Group name up to 100 characters"/>
+            <input type="text" class="col-md-12" placeholder="Enter Ad Group name up to 100 characters"  ng-model="$parent.adGroupName"/>
         </div>
-        
+
         <div class="pull-right" style="padding: 30px 0 0 0;">
-            <div class="pull-right btn btn-primary">Save Line Item</div>
-            <div class="pull-right btn btn-link" ng-click="createItemList = ! createItemList">Cancel</div>
+            <div class="pull-right btn btn-primary" ng-click="createNewLineItem()">Save Line Item</div>
+            <div class="pull-right btn btn-link" ng-click="$parent.createItemList = ! $parent.createItemList">Cancel</div>
         </div>
     </div>
     <!--Create Item List Form End-->
-    
+
     <!--Item List Table Sample Start-->
     <!--Note: ng-hide If data is empty or when new media plan is created-->
     <div class="table-responsive" id="table_responsive" style="margin: 10px 0;">
@@ -148,112 +148,49 @@
                     <div class="th col-md-2">Billing Period</div>
                 </div>
             </div>
-            
+
             <div class="tbody" style="max-height: 326px; overflow: auto;">
                 <!--Table Data Sample-->
-                <div class="tr">
+                <div class="tr" ng-repeat="item in lineItemList">
                     <div class="tableNormal" ng-click="showEditItemRow($event)">
-                        <a class="td col-md-3">Teen Girls 14-22 Video</a>
-                        <a class="td col-md-2">Post Impression CPA</a>
-                        <a class="td col-md-1">$1.00</a>
-                        <a class="td col-md-2">$10,000</a>
-                        <a class="td col-md-2">Action #10,000</a>
+                        <a class="td col-md-3">{{item.name}}</a>
+                        <a class="td col-md-2">{{item.lineItemType}}</a>
+                        <a class="td col-md-1">{{item.lineRate}}</a>
+                        <a class="td col-md-2">{{item.contractedValue}}</a>
+                        <a class="td col-md-2">{{item.lineTarget}}</a>
                         <a class="td col-md-2">03/30/2016 - 09/03/2016</a>
                     </div>
-                    
+
                     <div class="tableEdit" ng-include="'listItemEditTpl'"></div>
                 </div>
-                
-                <div class="tr">
-                    <div class="tableNormal" ng-click="showEditItemRow($event)">
-                        <a class="td col-md-3">Research current TV trend teens</a>
-                        <a class="td col-md-2">Fixed Fee</a>
-                        <a class="td col-md-1">NA</a>
-                        <a class="td col-md-2">$7,000</a>
-                        <a class="td col-md-2">NA</a>
-                        <a class="td col-md-2">03/30/2016 - 09/03/2016</a>
-                    </div>
-                    
-                    <div class="tableEdit" ng-include="'listItemEditTpl'"></div>
-                </div>
-                
-                <div class="tr">
-                    <div class="tableNormal" ng-click="showEditItemRow($event)">
-                        <a class="td col-md-3">Adults 45+ or Seniors 55+ - Video</a>
-                        <a class="td col-md-2">CPM</a>
-                        <a class="td col-md-1">$5.00</a>
-                        <a class="td col-md-2">$5,000</a>
-                        <a class="td col-md-2">Impressions #10,000</a>
-                        <a class="td col-md-2">03/30/2016 - 09/03/2016</a>
-                    </div>
-                    
-                    <div class="tableEdit" ng-include="'listItemEditTpl'"></div>
-                </div>
-                
-                <div class="tr">
-                    <div class="tableNormal" ng-click="showEditItemRow($event)">
-                        <a class="td col-md-3">Teen Girls 14-22 Video</a>
-                        <a class="td col-md-2">Post Impression CPA</a>
-                        <a class="td col-md-1">$1.00</a>
-                        <a class="td col-md-2">$10,000</a>
-                        <a class="td col-md-2">Action #10,000</a>
-                        <a class="td col-md-2">03/30/2016 - 09/03/2016</a>
-                    </div>
-                    
-                    <div class="tableEdit" ng-include="'listItemEditTpl'"></div>
-                </div>
-                
-                <div class="tr">
-                    <div class="tableNormal" ng-click="showEditItemRow($event)">
-                        <a class="td col-md-3">Research current TV trend teens</a>
-                        <a class="td col-md-2">Fixed Fee</a>
-                        <a class="td col-md-1">NA</a>
-                        <a class="td col-md-2">$7,000</a>
-                        <a class="td col-md-2">NA</a>
-                        <a class="td col-md-2">03/30/2016 - 09/03/2016</a>
-                    </div>
-                    
-                    <div class="tableEdit" ng-include="'listItemEditTpl'"></div>
-                </div>
-                
-                <div class="tr">
-                    <div class="tableNormal" ng-click="showEditItemRow($event)">
-                        <a class="td col-md-3">Adults 45+ or Seniors 55+ - Video</a>
-                        <a class="td col-md-2">CPM</a>
-                        <a class="td col-md-1">$5.00</a>
-                        <a class="td col-md-2">$5,000</a>
-                        <a class="td col-md-2">Impressions #10,000</a>
-                        <a class="td col-md-2">03/30/2016 - 09/03/2016</a>
-                    </div>
-                    
-                    <div class="tableEdit" ng-include="'listItemEditTpl'"></div>
-                </div>
+
+               
             </div>
         </div>
     </div>
     <!--Item List Table Sample Start-->
-    
+
     <span class="col-md-12 text-right" style="padding: 0 0 5px 0; border-bottom: 1px solid rgba(191, 201, 215, 0.5);">Total Contracted Value: $22,000</span>
 
     <label class="col-sm-12 labelQuestTxt showAddCreditForm" ng-click="showAddCreditForm()">
         <span class="icon-arrow-down-thick"></span>Add Credits (0)
     </label>
-    
+
     <div class="col-md-12 addCreditForm">
         <div class="col-md-12 zeroPadding">
             <div class="col-md-4 zeroPadding">
                 <label class="col-sm-12 greyTxt miniLabels zeroPadding">Credit Name / Notes</label>
                 <input type="text" class="col-md-12" placeholder=""/>
             </div>
-            
+
             <div class="col-md-2" style="padding: 0 0 0 10px;">
                 <label class="col-sm-12 greyTxt miniLabels zeroPadding">Amount</label>
                 <input type="text" class="col-md-12" placeholder=""/>
             </div>
-            
+
             <a class="btn btn-link pull-right" style="margin: 33px 0 0 0;">Delete</a>
         </div>
-        
+
         <div class="col-md-12 zeroPadding">
             <a class="btn btn-link pull-left addRowMedia">
                 <span class="icon-plus"></span>
@@ -271,7 +208,7 @@
             <label class="col-sm-12 greyTxt miniLabels zeroPadding">Line Item Name / Notes</label>
             <input type="text" class="col-md-12" placeholder="Enter Line Item name up to 150 characters"/>
         </div>
-        
+
         <div class="col-md-2" style="padding: 0 0 0 10px;">
             <label class="col-sm-12 greyTxt miniLabels zeroPadding">Type</label>
             <div class="col-md-12 zeroPadding dropdown-workflow">
@@ -288,15 +225,15 @@
                  </div>
             </div>
         </div>
-        
+
         <div class="col-md-2" style="padding: 0 0 0 10px;">
             <label class="col-sm-12 greyTxt miniLabels zeroPadding">Rate</label>
             <input type="text" class="col-md-12" placeholder="Enter Rate"/>
         </div>
-        
+
         <a class="btn btn-link pull-right" style="margin: 33px 0 0 0;">Delete</a>
     </div>
-    
+
     <!--Row 2-->
     <div class="col-md-12 zeroPadding">
         <div class="span4 col-md-12 input-daterange input-group date pull-left" id="datepicker">
@@ -311,7 +248,7 @@
                 <label class="col-sm-12 control-label greyTxt miniLabels">Billing Period End</label>
                 <div style="background: #fff;">
                     <input type="text" id="endDateInput" custom-date-picker="{format: 'mm/dd/yyyy', orientation: 'auto',  autoclose: true, todayHighlight: true}" placeholder="MM/DD/YYYY" class="form-control" readonly disabled="disabled" ng-model="adData.endTime" name="endTime" required ng-change="handleEndFlightDate(adData)"/>
-                </div>    
+                </div>
                 </div>
             </div>
             <span class="col-md-12 input-group-addon">
@@ -323,7 +260,7 @@
                 </div>
             </span>
         </div>
-        
+
         <a class="btn btn-primary pull-right">Save Changes</a>
         <a class="btn btn-link pull-right" ng-click="showNormalItemRow($event);">Cancel</a>
     </div>

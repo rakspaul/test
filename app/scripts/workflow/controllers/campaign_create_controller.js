@@ -31,6 +31,17 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         $scope.Campaign.effectiveCPM = '00.00';
         $scope.repushCampaignLoader = false;
         $scope.showSubAccount = false;
+        $scope.newLineItem = {};
+        $scope.lineItemName = ' ';
+        $scope.lineItemType = '';
+        $scope.lineRate = '';
+        $scope.adGroupName = '';
+        $scope.lineTarget = '';
+        $scope.createItemList = false;
+
+
+      $scope.type = [{"name":"CPM"},{"name":"CPC"},{"name":"CPA"},{"name":"CPV"},{"name":"FIXED"}];
+        $scope.lineItemList = [];
 
         if(!loginModel.getMasterClient().isLeafNode) {
           $scope.showSubAccount = true;
@@ -1034,8 +1045,8 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 $(".selectedPixels").css('height', winHeight - 243 + 'px');
             }
             setTimeout(function(){ colResize(); }, 1000);
-            
-            
+
+
             $(window).resize(function () {
                 colResize();
             });
@@ -1095,7 +1106,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
             }
         })
-        
+
         // Search show / hide
         $scope.searchShowInput = function () {
             var searchInputForm = $('.searchInputForm');
@@ -1130,24 +1141,55 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 $scope.searchHideInput();
             }
         });
-        
+
         //Show Add Credits
         $scope.showAddCreditForm = function() {
             $(".addCreditForm").toggle();
             $(".showAddCreditForm .icon-arrow-down-thick").toggleClass("active");
-        }
-        
+        };
+
         //Line Item Table Row Edit
         $scope.showEditItemRow = function(event) {
             var target =  event.currentTarget;
             $(target).toggle();
             $(target).closest('.tr').find('.tableEdit').toggle();
-        }
-        
+        };
+
         $scope.showNormalItemRow = function(event) {
             var target =  event.currentTarget;
             $(target).closest('.tr').find('.tableNormal').toggle();
             $(target).closest('.tr').find('.tableEdit').toggle();
-        }
+        };
+
+
+      //*************** LINE ITEM ****************************
+
+        $scope.createNewLineItem = function() {
+            var newItem = {};
+            if(newItem.name != ''){
+                newItem.name = $scope.lineItemName;
+                newItem.lineItemType = $scope.lineItemType;
+                newItem.lineRate = $scope.lineRate;
+                newItem.contractedValue = $scope.contractedValue;
+                newItem.adGroupName = $scope.adGroupName;
+                newItem.lineTarget = $scope.lineTarget;
+                $scope.lineItemList.push(newItem);
+                resetLineItemParameters();
+            }
+        };
+
+      function resetLineItemParameters(){
+          $scope.lineItemName = ' ';
+          $scope.lineItemType = '';
+          $scope.lineRate = '';
+          $scope.contractedValue = '';
+          $scope.adGroupName = '';
+          $scope.lineTarget = '';
+          $scope.createItemList = false;
+      }
+
+
+
+
     });
 });
