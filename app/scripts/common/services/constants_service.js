@@ -796,10 +796,10 @@ define(['angularAMD'], function(angularAMD) {
         this.advertiser_admin = '3';
         this.generic_user = '4';
         this.WF_USER_CREATION_SUCCESS = 'Created User Successfully';
-        this.WF_USER_EDIT_SUCCESS = 'Edited User Successfully';
+        this.WF_USER_EDIT_SUCCESS = 'Updated User Successfully';
         this.WF_PERMISSION_NEEDED = 'Atleast 1 permission needed';
         this.WF_USER_CREATION_FAIL = 'Unable to create User';
-        this.WF_USER_EDIT_FAIL = 'Unable to edit User';
+        this.WF_USER_EDIT_FAIL = 'Unable to update User';
 
         //Overview Page
         this.ADVERTISER = 'Advertiser';
@@ -1001,5 +1001,9 @@ define(['angularAMD'], function(angularAMD) {
         this.ADMIN_ADD_PERMISSION = "Please add permission";
         this.ADMIN_SELECT_CLIENT = "Please select the client";
         this.ADMIN_ADD_ADVERTISER_PERMISSION = "Please add permission for the client";
+        this.ERR_EDIT_USER_DATA = "Unable to get the user data";
+        this.CLIENTID_EXIST = "Client ID is already selected, please select another id.";
+        this.ADVERTISERID_EXIST = "Advertiser ID is already selected, please select another id.";
+        this.ADMIN_PAGE_PERMISSION = "Admin has access to all features";
     });
 });

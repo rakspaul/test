@@ -21,12 +21,13 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
             //});
             
             //$('.user-list').addClass('fadeOutLeft');
-            $('.user-list, .users-creation-page .heading').fadeOut();
-            $('.edit-dialog').fadeIn();
+//            $('.user-list, .users-creation-page .heading').fadeOut();
+//            $('.edit-dialog').fadeIn();
             
             $scope.isEdit = false;
             
             if(mode == 'edit'){
+                $("#maskWindow").show();
                 $scope.isEdit = true;
                 //$scope.userConsoleFormDetails.email = userObj.email;
                 //$scope.userConsoleFormDetails.firstName = userObj.firstName;

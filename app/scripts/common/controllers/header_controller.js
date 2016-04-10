@@ -286,7 +286,8 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
                 if (reportTypeDropdownId.is(':visible') && event.target.id != "reportTypeDropdownTxt") {
                     reportTypeDropdownId.hide();
                 }
-                if ( accountDropdownList.is(':visible') && ( $(event.target).closest(".clientDropdownCnt").length == 0) && ( $(event.target).closest(".accountDropDown").length == 0) ) {
+
+                if ( accountDropdownList.is(':visible') && ( $(event.target).closest(".clientDropdownCnt").length == 0) && ( $(event.target).closest(".accountDropDown").length == 0) && !$(event.target).parents("div[id^=accountDropDown]").length) {
                     accountDropdownList.hide();
                     $(".childTier").hide() ;
                 }

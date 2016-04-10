@@ -69,24 +69,27 @@
                     <label>Per Page Permission:</label>
                      <div class="zeroPadding dropdown-workflow">
                         <div class="dropdown" style="z-index: 99999">
-                            <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                <span class="text" ng-bind="pagePermissionValue[$index].desc ? pagePermissionValue[$index].desc : 'All'"></span>
-                                <span class="icon-arrow-down"></span>
-                            </button>
-                            <ul class="dropdown-menu" data-toggle="dropdown">
-                                <li ng-repeat="page in userPages">
-                                    <a ng-click="select_page_option(page.description , page.code, $parent.$index)" ng-bind="page.description"></a>
-                                </li>
-                            </ul>
-                            <input type="hidden" name="unitType" ng-model="adData.unitType.name" ng-update-hidden />
+                            <tags-input
+                                    ng-model="pagePermissionValue[$index]"
+                                    display-property="description"
+                                    placeholder="Type here..."
+                                    add-from-autocomplete-only="true"
+                                    on-tag-added="addPagePermissionFilter($index)"
+                                    on-tag-removed="removePagePermissionFilter($index)"
+                                    max-tags="5">
+                                <auto-complete source="loadPagePermissionList($index)"
+                                               min-length="1"
+                                               load-on-down-arrow="true"
+                                               max-results-to-show="50"></auto-complete>
+                            </tags-input>
                         </div>
                     </div>
                 </div>
                 
                 <div class="col-md-2 zeroPadding">
                     <label class="col-md-12 zeroPadding">Account Admin:</label>
-                    <div class="pull-left">
-                        <input id="admin-toggle-{{$index}}" data-ng-model="toggle1" class="cmn-toggle cmn-toggle-round" type="checkbox" data-ng-click="adminUserToggleClicked($index)">
+                    <div class="pull-left" data-ng-click="adminUserToggleClicked($index, $event)">
+                        <input id="admin-toggle-{{$index}}" data-ng-model="toggle" class="cmn-toggle cmn-toggle-round" type="checkbox" >
                         <label for="admin-toggle-{{$index}}" ></label>
                     </div>
                 </div>
@@ -161,7 +164,7 @@
         </form>
     </div><!-- end of modal_body -->
     <div class="col-md-12 zeroPadding">
-        <span class="common_primary_btn pull-right" ng-click="saveUserForm()">Save</span>
+        <span class="common_primary_btn pull-right" ng-click="saveUserForm()" data-ng-bind="editId ? 'Update' : 'Create'"></span>
         <span class="secondary_txt pull-right" data-dismiss="modal" ng-click="closeForm()">Cancel</span>
     </div>
 </div> <!-- end of popup-holder -->
