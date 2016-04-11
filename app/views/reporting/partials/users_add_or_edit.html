@@ -29,7 +29,7 @@
                     <input name="password" type="password" ng-model="userConsoleFormDetails.password" class="form-control" ng-disabled="userConsoleFormDetails.isEditPassword" required>
                     <label ng-if="userCreateEditForm.password.$error.required" class="col-sm-12  greyTxt errorLabel">You must enter password.</label>
                 </div>
-                <div class="form-group col-md-1" style="padding-right: 0;" >
+                <div class="form-group col-md-1" style="padding-right: 0;" ng-if="showSuperAdminButton">
                     <label class="pull-right">Super User</label>
                     <div class="pull-right">
                         <input id="cmn-toggle-1" class="cmn-toggle cmn-toggle-round" data-ng-model="isCurr_SuperUser" type="checkbox" data-ng-click="superUserToggleClicked(isCurr_SuperUser);">

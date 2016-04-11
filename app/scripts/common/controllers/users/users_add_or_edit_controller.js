@@ -1,13 +1,14 @@
 
 define(['angularAMD', 'common/services/constants_service', 'workflow/services/account_service','common/moment_utils',
-    'common/moment_utils',
+    'login/login_model',
     'workflow/directives/ng_update_hidden_dropdown'],function (angularAMD) {
     'use strict';
 
     angularAMD.controller('UsersAddOrEdit', function($scope, $rootScope, $compile, $q,
                                                      constants,accountsService,momentService,
-                                                     utils) {
+                                                     loginModel,utils) {
         var _customctrl = this;
+        $scope.showSuperAdminButton = loginModel.getClientData().is_super_admin;
         $scope.editId = null;
         $scope.count = 0;
         $scope.permissions = [];
@@ -149,7 +150,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/ac
                     $rootScope.setErrAlertMessage(successMsg, 0);
                 }
                 else{
-                    $rootScope.setErrAlertMessage(errMsg);
+                    $rootScope.setErrAlertMessage(res.data.data.message);
                 }
             },function(err){
                 $rootScope.setErrAlertMessage(errMsg);
@@ -383,7 +384,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/ac
                     });
                     $scope.permissions = _customctrl.responseData.permissions;
                 }else{
-                    $rootScope.setErrAlertMessage(constants.ERR_EDIT_USER_DATA);
+                    $rootScope.setErrAlertMessage(res.data.data.message);
                     return;
                 }
             });
