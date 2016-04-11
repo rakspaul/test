@@ -1,5 +1,5 @@
 var angObj = angObj || {};
-define(['angularAMD', '../../services/constants_service', 'workflow/services/account_service','common/controllers/accounts/accounts_add_or_edit_advertiser_controller','common/controllers/accounts/accounts_add_or_edit_brand_controller', 'common/controllers/accounts/accounts_add_or_edit_controller' ],function (angularAMD) {
+define(['angularAMD', '../../services/constants_service', 'workflow/services/account_service'],function (angularAMD) {
     'use strict';
     angularAMD.controller('AccountsController', function ($scope, $rootScope, $modal, constants, accountsService ) {
         $(".main_navigation").find('.active').removeClass('active').end().find('#creative_nav_link').addClass('active');

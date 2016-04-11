@@ -62,6 +62,7 @@ define(['angularAMD',
     'showErrors',
     'ng-tag',
     'common/services/features_service',
+    'chosen',
     'reporting/subAccount/sub_account_model'
 ], function (angularAMD) {
     'use strict';

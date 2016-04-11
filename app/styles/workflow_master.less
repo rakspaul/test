@@ -50,6 +50,7 @@ h3,
 h4,
 h5 {
     color: #21252b;
+    line-height: 100%;
 }
 
 h1,
@@ -165,13 +166,15 @@ strong {
 // Inputs
 input[type="text"],
 input[type="number"],
-.has-success input[type="text"].form-control , textarea {
+input[type="password"],
+.has-success input[type="text"].form-control,
+textarea {
     border: 1px solid #BFC9D7;
     border-radius: 2px !important;
     line-height: normal;
     padding: 10px 12px 7px 12px;
     height: auto;
-    box-shadow: none;
+    box-shadow: none !important;
 }
 
 .currencyFly ~ input[type="text"], .currencyFly ~ input[type="number"] {
@@ -451,6 +454,7 @@ select {
     .dropdown {
         display: inline-block;
         width: 100%;
+        z-index: initial;
     }
 
     .searchBar {
@@ -480,6 +484,89 @@ select {
 
         .btn {
             width: auto;
+        }
+    }
+}
+
+.dropdown-multi {
+    .icon-arrow-down, .icon-arrow-right {
+        background: transparent !important;
+        cursor: pointer;
+    }
+    .childTier {
+        background: #fff;
+        float: left;
+        width: 100%;
+        position: absolute;
+        box-shadow: 0 1px 7px rgba(0, 0, 0, 0.15) !important;
+        -webkit-box-shadow: 0 1px 7px rgba(0, 0, 0, 0.15) !important;
+        width: auto;
+        min-width: 100%;
+        max-width: 340px;
+        max-height: 280px;
+        overflow: auto;
+        margin-top: 3px;
+        margin-left: 0;
+        border: 1px solid #ccd2da;
+        border-radius: 1px;
+        .tierHeader {
+            position: relative;
+            height: 35px;
+            cursor: pointer;
+            border-bottom: 1px solid #ccd2da;
+            margin-bottom: 10px;
+            .icon-arrow-down {
+                position: absolute;
+                left: 15px;
+                top: 12px;
+                transform: rotate(90deg);
+                width: 10px;
+                height: 10px;
+                font-size: 10px;
+                z-index: 999;
+            }
+            span {
+                position:relative;
+                text-align:center;
+                width: 100%;
+                float: left;
+                padding: 6px 0;
+            }
+        }
+        .tierHeader:hover {
+            background-color: #E1EDF9;
+        }
+        .dropdown-menu-child {
+            list-style: none;
+            padding: 0;
+            float: left;
+            width: 100%;
+            li {
+                padding: 0;
+                width: 100%;
+                float: left;
+                position: relative;
+                a {
+                    float: left;
+                    width: 100%;
+                    padding: 3px 15px;
+                    color: #21252b;
+                }
+                .icon-arrow-down {
+                    width: 10px !important;
+                    height: 10px !important;
+                    font-size: 10px;
+                    right: 15px !important;
+                    padding: 0;
+                    display: inline-block;
+                }
+            }
+            li:hover {
+                a {
+                    text-decoration: none;
+                    background-color: #E1EDF9;
+                }
+            }
         }
     }
 }
