@@ -200,10 +200,11 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
                             $scope['strategyPerfDataBy'+tab]  = _.filter(result.data.data, function(item) { return item.ad_id == -1; })
                             $scope['strategyPerfDataByTactic'+tab]  =_.filter(result.data.data, function(item) { return item.ad_id != -1; });
                             $scope.groupThem = _.chain($scope['strategyPerfDataByTactic'+tab])
-                                .groupBy('ad_name')
+                                .groupBy('ad_id')
                                 .map(function(value, key) {
                                     return {
-                                        name: key,
+                                        ad_id: key,
+                                        name: value[0].ad_name,
                                         perf_metrics: value
                                     }
                                 })
