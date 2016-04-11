@@ -5,8 +5,8 @@
             <div class="col-md-6 zeroPadding each_cost_details">
                 <div class="main_heading">
                     <div class="campaign_status_icon pull-left {{campaign.status.toLowerCase()}}_bulb" tooltip-placement="left" tooltip="{{campaign.status.toLowerCase() == 'in_flight'?'In Flight': (campaign.status.toLowerCase() | toTitleCase ) }}" ></div>
-                    <a ng-if="!$parent.isWorkFlowUser" ng-href="/mediaplans/{{campaign.orderId}}"> {{campaign.campaignTitle}}</a>
-                    <a ng-if="$parent.isWorkFlowUser" ng-click="redirectTo(campaign, campaigns.dashboard.appliedFilterType)" ng-bind="campaign.campaignTitle"></a>
+                    <a  ng-href="/mediaplans/{{campaign.orderId}}"> {{campaign.campaignTitle}}</a>
+                    <a  ng-click="redirectTo(campaign, campaigns.dashboard.appliedFilterType)" ng-bind="campaign.campaignTitle"></a>
                 </div>
                 <div class="heading">
                     <span ng-bind="campaign.brandName"></span>
@@ -21,7 +21,7 @@
                     </span>
                 </div>
             </div>
-            
+
             <!--Column 2-->
             <div class="col-md-6 zeroPadding cost_metric_graph">
                 <div class="pull-right metric_and_values_graph">
@@ -48,7 +48,7 @@
                     </div>
                  </div>
             </div>
-            
+
         </div>
     </div>
 </div>

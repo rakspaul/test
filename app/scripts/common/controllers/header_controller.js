@@ -8,7 +8,6 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
 
 
         $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign().id;
-        $scope.isWorkFlowUser = RoleBasedService.getClientRole() && RoleBasedService.getClientRole().workFlowUser;
 
         if ($cookieStore.get('cdesk_session')) {
             workflowService.getClients().then(function (result) {
