@@ -35,7 +35,8 @@
         'lrInfiniteScroll': 'libs/lrInfiniteScroll',
         'filesaver': 'libs/FileSaver',
         'multiselect':'multi_select',
-        'ng-tag': 'libs/ng-tags-input.min'
+        'ng-tag': 'libs/ng-tags-input.min',
+        'chosen': 'libs/chosen'
       },
 
       // Add angular modules that does not support AMD out of the box, put it in a shim
@@ -63,6 +64,7 @@
         'highcharts-ng': ['ng-infinite-scroll'],
         'highcharts': ['highcharts-ng'],
         'highcharts-more': ['highcharts'],
+        'chosen': ['jquery'],
         'solid-gauge': ['highcharts-more'],
         'underscore': ['angular'],
         'd3': ['angulartics-ga'],

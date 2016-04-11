@@ -1,3 +1,54 @@
+#accountDropDown_0 .icon-arrow-right,
+#accountDropDown_1 .icon-arrow-right,
+#accountDropDown_2 .icon-arrow-right,
+#accountDropDown_3 .icon-arrow-right,
+#accountDropDown_4 .icon-arrow-right,
+#accountDropDown_5 .icon-arrow-right {
+  right: 8px;
+  top: 8px;
+  top: 2px;
+  transform: rotate(-90deg);
+  height: 18px;
+  width: 18px;
+  height: 10px;
+  width: 22px;
+  padding-bottom: 0;
+  border: solid 1px transparent;
+  padding: 10px;
+  border-radius: 2px;
+  -moz-border-radius: 2px;
+  -webkit-border-radius: 2px;
+  transition-duration: .2s;
+  -webkit-transition-duration: .2s;
+  -moz-transition-duration: .2s;
+}
+#accountDropDown_0 .icon-arrow-right:hover,
+#accountDropDown_1 .icon-arrow-right:hover,
+#accountDropDown_2 .icon-arrow-right:hover,
+#accountDropDown_3 .icon-arrow-right:hover,
+#accountDropDown_4 .icon-arrow-right:hover,
+#accountDropDown_5 .icon-arrow-right:hover {
+  border: solid 1px #ccd2da;
+}
+#accountDropDown_0 .icon-arrow-right:before,
+#accountDropDown_1 .icon-arrow-right:before,
+#accountDropDown_2 .icon-arrow-right:before,
+#accountDropDown_3 .icon-arrow-right:before,
+#accountDropDown_4 .icon-arrow-right:before,
+#accountDropDown_5 .icon-arrow-right:before {
+  display: block;
+  margin: -4px 0 0 -4px;
+}
+#accountDropDown_0 .clientDropdownCnt,
+#accountDropDown_1 .clientDropdownCnt,
+#accountDropDown_2 .clientDropdownCnt,
+#accountDropDown_3 .clientDropdownCnt,
+#accountDropDown_4 .clientDropdownCnt,
+#accountDropDown_5 .clientDropdownCnt {
+  position: absolute;
+  left: 0px;
+  width: 284px;
+}
 .each_cost_col .tooltip_holder {
   display: inline;
   float: right;
