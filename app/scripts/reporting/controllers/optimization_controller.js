@@ -110,7 +110,7 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
         };
 
         $scope.loadTableData = function () {
-            var tacticList = [],  actionItems;
+            var actionItems;
             if( $scope.selectedStrategy.id == -1){
                 actionItems = $scope.actionItems ; // for all strategies
             } else if( $scope.selectedStrategy.id == -99 ){
@@ -119,37 +119,15 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
                 actionItems = $scope.selectedStrategy.action ; //$scope.clicked.strategy.action;
             }
 
-            for (var index in actionItems) {
-                var tactic_id = actionItems[index].ad_id;
-                var grouped = false;
-                if (tacticList.length > 0) {
+            var groupedByAdId = _.groupBy(actionItems, function(item) {
+                return item.ad_id;
+            });
+            $scope.tacticList = _.map(_.keys(groupedByAdId), function(adId) {
+                var actionList = groupedByAdId[adId];
+                return {ad_id: actionList[0].ad_id, ad_name: actionList[0].ad_name, actionList: actionList};
+            });
 
-                    for (var i in tacticList) {
-                        if (tactic_id === tacticList[i].ad_id) {
-                            grouped = true;
-                            tacticList[i].actionList.push(actionItems[index]);
-                            break;
-                        }
-                    }
-                    if (!grouped) {
-                        var tactic = {};
-                        tactic.ad_id = actionItems[index].ad_id;
-                        tactic.ad_name = actionItems[index].ad_name;
-                        tactic.actionList = [];
-                        tactic.actionList.push(actionItems[index]);
-                        tacticList.push(tactic);
-                    }
-                }
-                else {
-                    var tactic = {};
-                    tactic.ad_id = actionItems[index].ad_id;
-                    tactic.ad_name = actionItems[index].ad_name;
-                    tactic.actionList = [];
-                    tactic.actionList.push(actionItems[index]);
-                    tacticList.push(tactic);
-                }
-            }
-            $scope.tacticList = tacticList;
+
             if ($scope.actionId !== null) {
                 $timeout(function () {
                     $scope.actionSelected($scope.actionId);
@@ -350,7 +328,6 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
                             actionItems[i].action[j].action_color = vistoconfig.actionColors[counter % 9];
                             // $scope.clicked.strategy.action = actionItems[i].action; //TODO: remove it.
                             $scope.selectedStrategy.action = actionItems[i].action;
-
                             actionItemsArray.push(actionItems[i].action[j]);
                             counter++;
                         }
