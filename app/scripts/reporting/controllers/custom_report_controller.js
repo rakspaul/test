@@ -2180,7 +2180,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                 }
             }
             _customctrl.showCost_permission();
-            $(window).on('beforeunload', function(){    // On refresh of page
+            $(window).on('beforeunload', function(){     // On refresh of page
                 $scope.intermediateSave();
             });
         });
