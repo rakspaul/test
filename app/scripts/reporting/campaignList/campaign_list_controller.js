@@ -29,6 +29,7 @@ define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', 'reporting/campaig
                 var fparams = featuresService.getFeatureParams();
                 var enableFeaturePermission = function () {
                     $scope.showCreateMediaPlan = fparams[0].create_mediaplan;
+                    console.log('$scope.showCreateMediaPlan',$scope.showCreateMediaPlan);
                     $scope.showCostTab = fparams[0].cost;
                 };
                 enableFeaturePermission();
@@ -62,9 +63,6 @@ define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', 'reporting/campaig
                         $scope.isCampaignSearched = true;
                     }
                 };
-
-                $scope.isWorkFlowUser =
-                    RoleBasedService.getClientRole() && RoleBasedService.getClientRole().workFlowUser;
 
                 $scope.$on(constants.EVENT_BRAND_CHANGED, function (event) {
                     $scope.campaigns.filterByBrand(brandsModel.getSelectedBrand());
