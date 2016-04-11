@@ -764,6 +764,10 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                 validateUrl: function(url){
                     var re =  /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,4}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g
                     return re.test(url);
+                },
+
+                createPlatformObj: function(platform){
+                    return createObj(platform)
                 }
             };
         });

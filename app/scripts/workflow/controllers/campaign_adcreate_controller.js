@@ -584,7 +584,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                 }
             }
 
-            $scope.$broadcast('updatePlatform', [responseData.platform]);
+            $scope.$broadcast('updatePlatform', [workflowService.createPlatformObj(responseData.platform)]);
 
             // creative tags
             if (responseData.creatives) {
