@@ -1,7 +1,7 @@
 define(['angularAMD','common/services/constants_service','workflow/services/workflow_service',
-    'common/moment_utils', 'workflow/controllers/bulk_creative_controller'], function (angularAMD) {
-  angularAMD.controller('CreativeListController', function($scope, $rootScope, $routeParams, $route, $location, 
-    constants, domainReports, workflowService, momentService) {
+    'common/moment_utils', 'workflow/controllers/bulk_creative_controller','workflow/directives/filter_directive', 'login/login_model'], function (angularAMD) {
+  angularAMD.controller('CreativeListController', function($scope, $rootScope, $routeParams, $route, $location,
+    constants, domainReports, workflowService, momentService,loginModel) {
         var checkedCreativeArr=[];
         $scope.creativeAds={};
         $scope.creativeAds['creativeAdData'] = {};
@@ -24,9 +24,13 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
         $scope.loadCreativeData=false;
         $scope.deletePopup=false;
         $scope.successfulRecords = [];
+        $scope.clientId = '';
+        var advertiserId = '';
         //$scope.creativeData.creatives_count=1;
         //highlight the header menu - Dashborad, Campaigns, Reports
         domainReports.highlightHeaderMenu();
+
+        $scope.isLeafNode = loginModel.getMasterClient().isLeafNode;
 
         var winHeight = $(window).height();
         $(".common-load-more").css({
@@ -113,7 +117,7 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
 
         var creativeList = {
             getCreativesList: function (campaignId, formats, query,pageSize,pageNo) {
-                workflowService.getCreativesforCreativeList(campaignId, formats, query,pageSize,pageNo, function (result) {
+                workflowService.getCreativesforCreativeList(campaignId, formats, query,pageSize,pageNo,advertiserId, function (result) {
                     $scope.creativeListLoading = false;
                     $scope.creativesNotFound = false;
                     if($scope.creativeData['creatives'].length === 0 || query) {
@@ -296,40 +300,63 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
             }
             if(searchVal.length > 2){
                 var selectedClientObj = localStorage.selectedClient && JSON.parse(localStorage.selectedClient);
-                creativeList.getCreativesList(JSON.parse(localStorage.selectedClient).id, undefined, qryStr);
+                creativeList.getCreativesList($scope.clientId, undefined, qryStr);
             }else if(searchVal.length==0){
                 $scope.creativeData['creatives'].length = 0;
                 var selectedClientObj = localStorage.selectedClient && JSON.parse(localStorage.selectedClient);
-                creativeList.getCreativesList(JSON.parse(localStorage.selectedClient).id,'', '',20, 1);
+                creativeList.getCreativesList($scope.clientId,'', '',20, 1);
             }
         };
 
-        function init() {
-            var campaignData, clientId, clientName;
-            var selectedClientObj = localStorage.selectedClient && JSON.parse(localStorage.selectedClient);
-            if(selectedClientObj) {
-                clientId = JSON.parse(localStorage.selectedClient).id;
-                clientName = JSON.parse(localStorage.selectedClient).name;
-                if (clientId) {
-                    $scope.creativeListLoading = true;
-                    $scope.creativesNotFound = false;
-                    campaignData = {
-                        'clientId': clientId,
-                        'clientName': clientName
-                    };
-                    localStorage.setItem('campaignData', JSON.stringify(campaignData));
-                    $scope.clientId =  clientId;
-                    $scope.creativeSearch = '';
-                    creativeList.getCreativesList(clientId,'','',$scope.pageSize,$scope.pageNo);
-                } else {
-                    $scope.creativeListLoading = false;
-                    $scope.creativesNotFound = true;
-                }
-            }
+      function init() {
 
-        };
+          //Note: Not sure if this is required just retaining - Sapna
+          var campaignData, clientId, clientName;
+          var selectedClientObj = localStorage.selectedClient && JSON.parse(localStorage.selectedClient);
+          if(selectedClientObj) {
+              clientId = JSON.parse(localStorage.selectedClient).id;
+              clientName = JSON.parse(localStorage.selectedClient).name;
+              if (clientId) {
+                  campaignData = {
+                      'clientId': clientId,
+                      'clientName': clientName
+                  };
+                  localStorage.setItem('campaignData', JSON.stringify(campaignData));
+              }
+          } // Note ends here  - Sapna
 
-        init();
+          $scope.pageSize=20;
+          $scope.pageNo = 1;
+          if($scope.clientId) {
+              $scope.creativeListLoading = true;
+              $scope.creativesNotFound = false;
+              $scope.creativeSearch = '';
+              $scope.creativeData['creatives']=[];
+              creativeList.getCreativesList($scope.clientId,'','',$scope.pageSize,$scope.pageNo);
+          }else {
+              $scope.creativeListLoading = false;
+              $scope.creativesNotFound = true;
+          }
+      };
+
+      // broadcasted from filter directive once it fetches subaccounts
+      $rootScope.$on('filterChanged',function(event, args){
+           if(args.from == 'creativeList') {
+               //it's required for bulkupload of creatives
+               localStorage.setItem('creativeAccountId',args.clientId);
+
+               $scope.clientId = args.clientId;
+               advertiserId = args.advertiserId;
+               init();
+           }
+      });
+
+      if($scope.isLeafNode) {
+          $scope.clientId = loginModel.getSelectedClient().id;
+          init();
+      }
+
+
 
         $scope.updateCreative = function () {
             var putCrDataObj = {};
@@ -402,11 +429,11 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
             $(".moreOptCreative").find('span').remove();
             $(".moreOptCreative").html("<span class='icon-more-options'></span>");
         }
-        
+
         $scope.showSuccessBulkUpload = function() {
             $("#formCreativeCreate, .successfullBulkUpView").toggle();
         }
-        
+
         $scope.hideUploadRecordsMessage = function() {
             $scope.showUploadRecordsMessage = false;
             $scope.successfulRecords = [];
@@ -428,7 +455,7 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
         $scope.showRecordList = function() {
             $(".showRecordList, .recordList, .hideRecordList").toggle();
         }
-        
+
         $scope.ShowHideTag = function (obj, pos) {
             workflowService.setCreativeEditMode("edit");
             workflowService.setCreativeEditData(obj);
@@ -588,7 +615,7 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
                     var selectedClientObj = localStorage.selectedClient && JSON.parse(localStorage.selectedClient);
 
                     if(selectedClientObj && (window.location.href.indexOf("creative/list") > -1)) {
-                        creativeList.getCreativesList(JSON.parse(localStorage.selectedClient).id,'','',$scope.pageSize, $scope.pageNo);
+                        creativeList.getCreativesList($scope.clientId,'','',$scope.pageSize, $scope.pageNo);
                         $scope.loadCreativeData=true;
                     }
                 }
