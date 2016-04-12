@@ -1,6 +1,122 @@
+<!--Header-->
+<div class="col-md-12 zeroPadding">
+    <h1 style="margin-top: 30px;">Invoice Reports</h1>
+    
+    <div class="dropdown_filters_holder pull-left" style="margin-top: 15px;">
+        <filters-header></filters-header>
+    </div>
+    
+    <!--Search Input-->
+    <div class="btn-group pull-right" style="margin-top: 25px;">
+        <button type="button" class="btn btn-default pull-right" style="display: none">
+            <span class="icon-filter" style="margin: -1px 0 0;"></span>
+        </button>
 
+        <div class="searchInput pull-right">
+            <a class="btn btn-default searchInputBtn" ng-click="searchShowInput()">
+                <span class="icon-search" aria-hidden="true" style="margin: -1px 0 0;"></span>
+            </a>
 
-    <h1>{{welcome}}</h1>
+            <a class="btn btn-default searchInputBtnInline" ng-click="campaignSearchFunc()">
+                <span class="icon-search" aria-hidden="true" style="margin: -1px 0 0;"></span>
+            </a>
+            <div class="input-group searchInputForm" >
+                <input type="text"
+                       class="form-control"
+                       name="campaignsSearch"
+                       placeholder="Search Media Plans...">
+                <div class="btn btn-default searchClearInputBtn" ng-click="searchHideInput()">
+                    <span class="icon-clear" aria-hidden="true"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Table-->
+<div class="col-md-12 zeroPadding centerAlign" style="margin: 20px 0 30px 0;">
+    <div class="table-responsive" id="table_responsive">
+	<div class="vistoTable">
+	    <!--Table Head-->
+            <div class="thead">
+		<div class="tr">
+		    <div class="col-md-2 th">Account</div>
+		    <div class="col-md-2 th">Advertiser</div>
+		    <div class="col-md-3 th">Media Plan Name</div>
+		    <div class="col-md-3 th">Labels</div>
+		    <div class="col-md-2 th">Invoice Date</div>
+                </div>
+            </div>
+            
+            <!--Table Body-->
+            <div class="tbody">
+                <div class="tr">
+                    <div class="col-md-2 td">Jay</div>
+		    <div class="col-md-2 td">Toyota</div>
+		    <div class="col-md-3 td">Camry 2017</div>
+		    <div class="col-md-3 td">Fast, Red</div>
+		    <div class="col-md-2 td">02/17/2016</div>
+                </div>
+                
+                <div class="tr">
+                    <div class="col-md-2 td">Jay</div>
+		    <div class="col-md-2 td">Toyota</div>
+		    <div class="col-md-3 td">Camry 2017</div>
+		    <div class="col-md-3 td">Fast, Red</div>
+		    <div class="col-md-2 td">02/17/2016</div>
+                </div>
+                
+                <div class="tr">
+                    <div class="col-md-2 td">Jay</div>
+		    <div class="col-md-2 td">Toyota</div>
+		    <div class="col-md-3 td">Camry 2017</div>
+		    <div class="col-md-3 td">Fast, Red</div>
+		    <div class="col-md-2 td">02/17/2016</div>
+                </div>
+                
+                <div class="tr">
+                    <div class="col-md-2 td">Jay</div>
+		    <div class="col-md-2 td">Toyota</div>
+		    <div class="col-md-3 td">Camry 2017</div>
+		    <div class="col-md-3 td">Fast, Red</div>
+		    <div class="col-md-2 td">02/17/2016</div>
+                </div>
+                
+                <div class="tr">
+                    <div class="col-md-2 td">Jay</div>
+		    <div class="col-md-2 td">Toyota</div>
+		    <div class="col-md-3 td">Camry 2017</div>
+		    <div class="col-md-3 td">Fast, Red</div>
+		    <div class="col-md-2 td">02/17/2016</div>
+                </div>
+                
+                <div class="tr">
+                    <div class="col-md-2 td">Jay</div>
+		    <div class="col-md-2 td">Toyota</div>
+		    <div class="col-md-3 td">Camry 2017</div>
+		    <div class="col-md-3 td">Fast, Red</div>
+		    <div class="col-md-2 td">02/17/2016</div>
+                </div>
+                
+                <div class="tr">
+                    <div class="col-md-2 td">Jay</div>
+		    <div class="col-md-2 td">Toyota</div>
+		    <div class="col-md-3 td">Camry 2017</div>
+		    <div class="col-md-3 td">Fast, Red</div>
+		    <div class="col-md-2 td">02/17/2016</div>
+                </div>
+                
+                <div class="tr">
+                    <div class="col-md-2 td">Jay</div>
+		    <div class="col-md-2 td">Toyota</div>
+		    <div class="col-md-3 td">Camry 2017</div>
+		    <div class="col-md-3 td">Fast, Red</div>
+		    <div class="col-md-2 td">02/17/2016</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 
 

@@ -7,9 +7,29 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
                                                                                 collectiveReportModel, utils, loginModel,
                                                                                 constants, urlService, dataStore, domainReports,
                                                                                dataService, momentService,$q) {
+        
+        //Search Hide / Show
+        $scope.searchShowInput = function () {
+            var searchInputForm = $('.searchInputForm');
 
+            $('.searchInputBtn').hide();
+            $('.searchInputBtnInline').show();
+            searchInputForm.show();
+            searchInputForm.animate({width: '400px'}, 'fast');
+            setTimeout(function () {
+                $('.searchClearInputBtn').fadeIn();
+            }, 300);
+        };
 
-        $scope.welcome = "Invoice Reports";
+        $scope.searchHideInput = function () {
+            $('.searchInputForm input').val('');
+            $('.searchInputBtn').show();
+            $('.searchClearInputBtn, .searchInputBtnInline').hide();
+            $('.searchInputForm').animate({width: '34px'}, 'fast');
+            setTimeout(function () {
+                $('.searchInputForm').hide();
+            }, 100);
+        };
 
 
     });
