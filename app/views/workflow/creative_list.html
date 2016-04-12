@@ -197,6 +197,12 @@
             <div class="popup-content" ng-show="errorRecords.length">
                 <span class="errorTxtColor">{{errorRecords.length}}</span> record(s) failed.
             </div>
+            <div class="popup-content" ng-show="errorRecords.length">
+	            <a class="pull-left" style="margin-top: 10px;" ng-click="downloadBulkCreativeErrorFile()">
+	                <span class="pull-left icon-download"></span>
+	                <span class="pull-left" style="margin-left: 5px;">Download Error Log</span>
+	            </a>
+			</div>
         </div>
         <div class="clearfix popup-footer" >
             <button type="button" ng-click="hideUploadRecordsMessage()" class="common_primary_btn pull-right" >Close Message</button>

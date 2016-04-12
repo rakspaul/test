@@ -471,10 +471,17 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                 return dataService.downloadFile(url);
             },
 
+            downloadCreativeErrors: function(fileName) {
+                fileName = fileName.substr(fileName.indexOf('fileName=') + 9);
+                var url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/creatives/downloadCreativeLogs?fileName=' + fileName;
+
+                return dataService.downloadFile(url);
+            },
+
             uploadBulkCreativeUrl: function(adServerId, creativeFormat, templateId) {
                 var clientId =  loginModel.getSelectedClient().id;
                 return  vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/adserver/' + adServerId
-                    + '/format/' + creativeFormat + '/template/' + templateId + '/creatives/bulkimport';
+                    + '/format/' + creativeFormat.replace(/\s+/g, '').toUpperCase() + '/template/' + templateId + '/creatives/bulkimport';
             },
 
 
