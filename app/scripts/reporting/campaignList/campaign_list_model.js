@@ -423,6 +423,7 @@ define(['angularAMD','reporting/campaignList/campaign_list_service', 'common/ser
                                     // self.dashboard.allOtherTotal =
                                     // result.data.data.na.total != undefined ? result.data.data.na.total : 0;
                                     self.dashboard.total = result.data.data.total;
+                                    self.dashboard.all = result.data.data.all;
 
                                     // forceLoadFilter - is used to identify whether the user has come from dashboard
                                     // by clicking campaign performance widget's ontrack or performance section.
@@ -641,6 +642,7 @@ define(['angularAMD','reporting/campaignList/campaign_list_service', 'common/ser
                             this.dashboard.status.paused = '';
                             this.dashboard.status.completed = '';
                             this.dashboard.status.archived = '';
+                            this.dashboard.status.all = '';
                         },
 
                         setQuickFilter = function (filterToApply) {
@@ -723,6 +725,15 @@ define(['angularAMD','reporting/campaignList/campaign_list_service', 'common/ser
                                         this.dashboard[constants.ARCHIVED.toLowerCase()];
                                     this.dashboard.status.archived = constants.ACTIVE;
                                     type = constants.ARCHIVED.toLowerCase();
+                                    break;
+                                
+                                case constants.ALL_CONDITION:
+                                    this.appliedQuickFilterText = constants.ALL;
+                                    this.dashboard.quickFilterSelectedCount =
+                                        this.dashboard[constants.ALL.toLowerCase()];
+                                    this.dashboard.status.all = constants.ALL.toLowerCase();
+                                    this.dashboard.status.active.all = constants.ACTIVE;
+                                    type = constants.ALL.toLowerCase();
                                     break;
 
                                 default:

@@ -31,6 +31,7 @@ define(['angularAMD'], function(angularAMD) {
         this.PAUSED_CONDITION = 'paused';
         this.ENDING_SOON_CONDITION = 'endingSoon';
         this.ARCHIVED_CONDITION = 'archived';
+        this.ALL_CONDITION = 'all';
         this.REPORTS_OVERVIEW = 'Reports Overview';
 
         this.ONTRACK = 'ontrack';
@@ -258,6 +259,7 @@ define(['angularAMD'], function(angularAMD) {
         this.YET_TO_START = 'Yet to start';
         this.ENDED = 'Ended';
         this.ARCHIVED = 'Archived';
+        this.ALL = 'All';
         this.DAYS_LEFT = 'Days Left';
         this.STARTED_TODAY = 'Started today';
         this.ENDING_TODAY = 'Ending today';
