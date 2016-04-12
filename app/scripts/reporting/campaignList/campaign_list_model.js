@@ -732,6 +732,7 @@ define(['angularAMD','reporting/campaignList/campaign_list_service', 'common/ser
                                     this.dashboard.quickFilterSelectedCount =
                                         this.dashboard[constants.ALL.toLowerCase()];
                                     this.dashboard.status.all = constants.ALL.toLowerCase();
+                                    this.dashboard.status.active.all = constants.ACTIVE;
                                     type = constants.ALL.toLowerCase();
                                     break;
 
