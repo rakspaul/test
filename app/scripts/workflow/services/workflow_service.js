@@ -479,7 +479,13 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
             },
 
             uploadBulkCreativeUrl: function(adServerId, creativeFormat, templateId) {
-                var clientId =  loginModel.getSelectedClient().id;
+
+                if(loginModel.getMasterClient().isLeafNode){
+                    var clientId = loginModel.getSelectedClient().id;
+                } else {
+                    var clientId = JSON.parse(localStorage.getItem('creativeAccountId'));
+                }
+
                 return  vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/adserver/' + adServerId
                     + '/format/' + creativeFormat.replace(/\s+/g, '').toUpperCase() + '/template/' + templateId + '/creatives/bulkimport';
             },
@@ -510,7 +516,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                     }
                 },
 
-                getCreativesforCreativeList: function (clientId, formats, query, pageSize, pageNo, success, failure) {
+                getCreativesforCreativeList: function (clientId, formats, query, pageSize, pageNo, advertiserId, success, failure) {
                     var queryStr = query ? query : '',
                         creativeFormats = formats ? 'creativeFormat=' + formats : '',
                         url, canceller;
@@ -518,7 +524,12 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                     pageSize = pageSize ? '&pageSize=' + pageSize : '';
                     pageNo = pageNo ? '&pageNo=' + pageNo : '';
 
-                    url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/creatives?' +
+                    var advertiserString = "";
+                    if(advertiserId>0){
+                        advertiserString = '/advertisers/'+ advertiserId
+                    }
+
+                    url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId +advertiserString+ '/creatives?' +
                         creativeFormats + queryStr + pageSize + pageNo;
 
                     canceller = requestCanceller.initCanceller(constants.ADDLIBRARY_FILTER_CANCELLER);

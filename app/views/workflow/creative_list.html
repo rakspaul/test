@@ -9,9 +9,10 @@
 			<span class="pull-left" style="margin-left: 10px;" data-ng-bind="textConstants.NEWCREATIVEALERT"></span>
 		</div>
 
-		<!--<div class="col-md-12 zeroPadding clearfix nav_filters" style="display: none;">-->
+		<div class="col-md-12 zeroPadding clearfix nav_filters" >
 				<!--<creative-drop-down></creative-drop-down>-->
-		<!--</div>-->
+            <filter-directive ng-if="!isLeafNode" from="creativeList"></filter-directive>
+		</div>
 
 		<div class="col-md-12 zeroPadding centerAlign">
 			<h1 class="col-md-12 zeroPadding" style="margin: 17px 0 25px" data-ng-bind="textConstants.CREATIVELIBRARY"></h1>
@@ -29,7 +30,7 @@
 				<button type="button" class="btn btn-default" style="display: none"><span class="icon-inline-edit"></span><span data-ng-bind="textConstants.EDIT"></span></button>
 				<button type="button" class="btn btn-default" ng-click="cancelDelete();"><span class="icon-archive"></span><span data-ng-bind="textConstants.ARCHIVE"></span></button>
 				<button type="button" class="btn btn-default" disabled="true"><span class="icon-copy"></span><span data-ng-bind="textConstants.CLONE"></span></button>
-				
+
 				<div class="btn btn-default zeroPadding dropdown-workflow pull-left">
 					<div class="dropdown">
 						<button class="btn btn-default dropdown-toggle moreOptCreative" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" style="padding-right: 18px;">
