@@ -413,6 +413,17 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
             creativeList.getCreativesList(JSON.parse(localStorage.selectedClient).id,'', '',20, 1);
         };
 
+        $scope.downloadBulkCreativeErrorFile = function() {
+              workflowService
+                  .downloadCreativeErrors($scope.errorRecordsFileName)
+                  .then(function(response) {
+                  if (response.status === "success") {
+                      saveAs(response.file, response.fileName);
+                  } else {
+                      $scope.downloadBusy = false;
+                  }
+              });
+        }
 
         $scope.showRecordList = function() {
             $(".showRecordList, .recordList, .hideRecordList").toggle();
