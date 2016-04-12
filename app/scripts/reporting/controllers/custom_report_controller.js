@@ -28,7 +28,8 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
             'engagement_metrics',
             'video_metrics',
             'display_quality_metrics',
-            'video_quality_metrics'
+            'video_quality_metrics',
+            'filters'
         ];
         var metricKey1 = [
             'dimension',
