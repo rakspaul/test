@@ -66,16 +66,6 @@
                                 <div class="number">{{campaigns.dashboard.archived}}</div>
                             </div>
                         </div>
-                        <!--View All-->
-                        <div class="clearfix each_filter {{campaigns.dashboard.status.all }}"
-                             ng-click="campaigns.setQuickFilter(constants.ALL_CONDITION)">
-                            <div class="pull-left">
-                                {{constants.ALL}}
-                            </div>
-                            <div class="pull-right">
-                                <div class="number">{{campaigns.dashboard.all}}</div>
-                            </div>
-                        </div>
                     </div>
                 </div>
                 <div class="each_section">
@@ -117,6 +107,16 @@
                             </div>
                             <div class="pull-right">
                                 <div class="number">{{campaigns.dashboard.active.total}}</div>
+                            </div>
+                        </div>
+                        <!--View All-->
+                        <div class="clearfix each_filter {{campaigns.dashboard.status.all }}"
+                             ng-click="campaigns.setQuickFilter(constants.ALL_CONDITION)">
+                            <div class="pull-left">
+                                {{constants.ALL}}
+                            </div>
+                            <div class="pull-right">
+                                <div class="number">{{campaigns.dashboard.all}}</div>
                             </div>
                         </div>
                     </div>
