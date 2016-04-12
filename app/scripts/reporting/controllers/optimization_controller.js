@@ -110,7 +110,7 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
         };
 
         $scope.loadTableData = function () {
-            var tacticList = [],  actionItems;
+            var actionItems;
             if( $scope.selectedStrategy.id == -1){
                 actionItems = $scope.actionItems ; // for all strategies
             } else if( $scope.selectedStrategy.id == -99 ){
@@ -119,37 +119,15 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
                 actionItems = $scope.selectedStrategy.action ; //$scope.clicked.strategy.action;
             }
 
-            for (var index in actionItems) {
-                var tactic_id = actionItems[index].ad_id;
-                var grouped = false;
-                if (tacticList.length > 0) {
+            var groupedByAdId = _.groupBy(actionItems, function(item) {
+                return item.ad_id;
+            });
+            $scope.tacticList = _.map(_.keys(groupedByAdId), function(adId) {
+                var actionList = groupedByAdId[adId];
+                return {ad_id: actionList[0].ad_id, ad_name: actionList[0].ad_name, actionList: actionList};
+            });
 
-                    for (var i in tacticList) {
-                        if (tactic_id === tacticList[i].ad_id) {
-                            grouped = true;
-                            tacticList[i].actionList.push(actionItems[index]);
-                            break;
-                        }
-                    }
-                    if (!grouped) {
-                        var tactic = {};
-                        tactic.ad_id = actionItems[index].ad_id;
-                        tactic.ad_name = actionItems[index].ad_name;
-                        tactic.actionList = [];
-                        tactic.actionList.push(actionItems[index]);
-                        tacticList.push(tactic);
-                    }
-                }
-                else {
-                    var tactic = {};
-                    tactic.ad_id = actionItems[index].ad_id;
-                    tactic.ad_name = actionItems[index].ad_name;
-                    tactic.actionList = [];
-                    tactic.actionList.push(actionItems[index]);
-                    tacticList.push(tactic);
-                }
-            }
-            $scope.tacticList = tacticList;
+
             if ($scope.actionId !== null) {
                 $timeout(function () {
                     $scope.actionSelected($scope.actionId);
@@ -213,10 +191,9 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
             };
 
             var strategyId = Number($scope.selectedStrategy.id);
-            strategyId = strategyId === -1 ? 0 : strategyId;
 
             $scope.api_return_code=200;
-            dataService.getCdbChartData(param, $scope.selected_filters.time_filter, 'strategies',  strategyId , true).then(function (result) {
+            dataService.getCdbChartData(param, $scope.selected_filters.time_filter, strategyId === -1 ? 'campaigns' : 'strategies',  strategyId , true).then(function (result) {
                 var lineData = [];
                 $scope.strategyLoading =  false;
                 if (result.status == "success" && !angular.isString(result.data)) {
@@ -289,13 +266,58 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
             $scope.iconIdToShow = -1;
         };
 
-        $scope.actionDataError = function(){
-            $scope.campaignActionList = [];
-            $scope.tacticNotFound = true;
-            $scope.tacticLoading = false;
-        };
+        var getCustomQueryParams = function (queryId) {
+            var datefilter = timePeriodModel.getTimePeriod(timePeriodModel.timeData.selectedTimePeriod.key);
+            return {
+                queryId: queryId,
+                campaignId: $scope.selectedCampaign.id,
+                clientId:  loginModel.getSelectedClient().id,
+                advertiserId: advertiserModel.getSelectedAdvertiser().id,
+                brandId: brandsModel.getSelectedBrand().id,
+                dateFilter: datefilter,
+                make_external : false
 
-        $scope.createActionItems = function() {
+            };
+        },
+
+        actionDataForSelectedCampaign = function (callback) {
+            var params = getCustomQueryParams(constants.QUERY_ID_CAMPAIGN_REPORTS_FOR_OPTIMIZATION_IMPACT);
+            var actionUrl = urlService.APIVistoCustomQuery(params);
+            dataService.getActionItems(actionUrl).then(function(result) {
+                if (result.status === "OK" || result.status === "success") {
+                    $scope.tacticNotFound = false;
+                    $scope.tacticLoading = false;
+                    $scope.campaignActionList = result.data.data;
+                }
+                else {
+                    actionDataError();
+                }
+                callback && callback();
+            })
+
+        },
+
+        actionDataForSelectedStrategy = function () {
+            actionDataForTactic();
+            if ($scope.selectedStrategy.id != -99) { // It is possible that the selected strategy has no action still it can have cdb data
+                $scope.loadCdbDataForStrategy();
+            } else {
+                $scope.chartForStrategy = false;
+            }
+        },
+
+        actionDataForTactic = function() {
+            createActionItems();
+            if ($scope.actionItems && $scope.actionItems.length > 0) {
+                $scope.tacticNotFound = false;
+                $scope.strategyBusy = false;
+                $scope.loadTableData();
+            } else {
+                actionDataError();
+            }
+        },
+
+        createActionItems = function() {
             var counter = 0;
             var actionItems = $scope.campaignActionList;
             var actionItemsArray = [];
@@ -306,12 +328,17 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
                             actionItems[i].action[j].action_color = vistoconfig.actionColors[counter % 9];
                             // $scope.clicked.strategy.action = actionItems[i].action; //TODO: remove it.
                             $scope.selectedStrategy.action = actionItems[i].action;
-
                             actionItemsArray.push(actionItems[i].action[j]);
                             counter++;
                         }
                     } else if ($scope.selectedStrategy.id == -1) {
                         for (var j = actionItems[i].action.length - 1; j >= 0; j--) {
+                            // convert the date string into date object so that angular can apply date filter
+                            actionItems[i].action[j].created_at = new Date(actionItems[i].action[j].created_at);
+                            actionItems[i].action[j].from_date_before = new Date(actionItems[i].action[j].from_date_before);
+                            actionItems[i].action[j].to_date_before = new Date(actionItems[i].action[j].to_date_before);
+                            actionItems[i].action[j].from_date_after = new Date(actionItems[i].action[j].from_date_after);
+                            actionItems[i].action[j].to_date_after = new Date(actionItems[i].action[j].to_date_after);
                             actionItems[i].action[j].action_color = vistoconfig.actionColors[counter % 9];
                             $scope.selectedStrategy.action = actionItems[i].action;
                             actionItemsArray.push(actionItems[i].action[j]);
@@ -327,61 +354,36 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
                 $scope.actionId =  selectedAction.id ;  //action.ad_id + '' + action.id;
                 $scope.showSelected(selectedAction.ad_id+''+selectedAction.id,selectedAction.make_external);
             }
-        };
+        },
 
-        $scope.actionDataForTactic = function() {
-            $scope.createActionItems();
-            if ($scope.actionItems && $scope.actionItems.length > 0) {
-                $scope.tacticNotFound = false;
-                $scope.strategyBusy = false;
-                $scope.loadTableData();
-            } else {
-                $scope.actionDataError();
-            }
-        };
+        actionDataError = function() {
+            $scope.campaignActionList = [];
+            $scope.tacticNotFound = true;
+            $scope.tacticLoading = false;
+        },
 
-        $scope.actionDataForSelectedStrategy = function () {
-            $scope.actionDataForTactic();
-            if ($scope.selectedStrategy.id != -99) { // It is possible that the selected strategy has no action still it can have cdb data
-                $scope.loadCdbDataForStrategy();
-            } else {
-                $scope.chartForStrategy = false;
-            }
-        };
+        ///////////////////////////////////////////////////////////////////////////////////////////////////////
+        //Campaign Strategy List
+        ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        function getCustomQueryParams(queryId) {
-            var datefilter = timePeriodModel.getTimePeriod(timePeriodModel.timeData.selectedTimePeriod.key);
-            return {
-                queryId:queryId,
-                campaignId: $scope.selectedCampaign.id,
-                clientId:  loginModel.getSelectedClient().id,
-                advertiserId: advertiserModel.getSelectedAdvertiser().id,
-                brandId: brandsModel.getSelectedBrand().id,
-                dateFilter: datefilter,
-                make_external : false
-
-            };
-        }
-
-        $scope.actionDataForSelectedCampaign = function (callback) {
-            var params=getCustomQueryParams(constants.QUERY_ID_CAMPAIGN_REPORTS_FOR_OPTIMIZATION_IMPACT);
-            var actionUrl = urlService.APIVistoCustomQuery(params);
-            dataService.getActionItems(actionUrl).then(function(result) {
-                if (result.status === "OK" || result.status === "success") {
-                    $scope.tacticNotFound = false;
-                    $scope.tacticLoading = false;
-                    $scope.campaignActionList = result.data.data;
+        //creating download report url
+        createDownloadReportUrl = function () {
+            $scope.download_report = [
+                {
+                    'url' : '/reportBuilder/customQueryDownload',
+                    'query_id': 32,
+                    'label' : 'Optimization Report',
+                    'download_config_id' : 1
                 }
-                else {
-                    $scope.actionDataError();
-                }
-                callback && callback();
-            })
+            ];
+        },
 
-        };
+        cbCampaignSelected = function () {
+            console.log('cbCampaignSelected');
+            getCampaignDetails(callStrategyChange); // As campaign is changed.Populate Campaing details and then get actionData for selected Campaign
+        },
 
-
-        $scope.getCampaignDetails = function (callback) {
+        getCampaignDetails = function (callback) {
             if ($scope.selectedCampaign && $scope.selectedCampaign.id != 0 && $scope.selectedCampaign.id != -1) {
                 //API call for campaign details
                 var clientId =  loginModel.getSelectedClient().id;
@@ -401,52 +403,32 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
                     console.log('call failed');
                 });
             }
-        };
+        },
 
-        ///////////////////////////////////////////////////////////////////////////////////////////////////////
-        //Campaign Strategy List
-        ////////////////////////////////////////////////////////////////////////////////////////////////////
+        callStrategyChange = function () {
+            actionDataForSelectedCampaign(cbStrategySelected);
+        },
 
-        //creating download report url
-        $scope.createDownloadReportUrl = function () {
-            $scope.download_report = [
-                {
-                    'url' : '/reportBuilder/customQueryDownload',
-                    'query_id': 32,
-                    'label' : 'Optimization Report',
-                    'download_config_id' : 1
-                }
-            ];
-        };
-
-        $scope.cbStrategyChange = function() {
+        cbStrategySelected = function() {
             $scope.tacticList = [];
             $scope.actionItems= {}; // action item for selected Strategy.
             $scope.isStrategyDropDownShow = (strategySelectModel.getStrategyCount() === 1) ? false : true;
             if ($scope.selectedStrategy.id !== -99) { // Means selected campaing has valid strategy
                     $scope.chartForStrategy = true;
-                    $scope.actionDataForSelectedStrategy();
+                    actionDataForSelectedStrategy();
                     // grunt analytics.track(loginModel.getUserRole(), constants.GA_USER_STRATEGY_SELECTION, $scope.selectedStrategy.name, loginModel.getLoginName());
             } else {
                 $scope.chartForStrategy = false;// means selected strategy id is not valid
                 $scope.tacticNotFound = true;
             }
-        };
+        },
 
-        //Function is called from startegylist directive
-        $scope.callStrategyChange = function () {
-            $scope.actionDataForSelectedCampaign($scope.cbStrategyChange);
-        };
-
-        $scope.setStrategyInScope = function() {
+        setStrategyInScope = function() {
             var selectedStrategyID =  $scope.selectedStrategy.id =  Number(strategySelectModel.getSelectedStrategy().id);
             $scope.selectedStrategy.name = strategySelectModel.getSelectedStrategy().name ;
             $scope.strategyHeading = selectedStrategyID === 0 ? 'Media Plan total' : 'Ad Group total';
         };
 
-        $scope.callBackCampaignsSuccess = function () {
-            $scope.getCampaignDetails($scope.callStrategyChange); // As campaign is changed.Populate Campaing details and then get actionData for selected Campaign
-        };
 
         $scope.$on(constants.EVENT_CAMPAIGN_CHANGED , function(event,_actionData){
             $scope.dataInit();
@@ -455,15 +437,15 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
         });
 
         $scope.$watch('selectedCampaign', function() {
-            $scope.createDownloadReportUrl();
-            $scope.callBackCampaignsSuccess(); // populate campaign kpi value by calling getCampaignDetails();
+            createDownloadReportUrl();
+            cbCampaignSelected(); // populate campaign kpi value by calling getCampaignDetails();
         });
 
         $scope.$on(constants.EVENT_STRATEGY_CHANGED , function() {
             $scope.paramObj = $scope.paramObj || {};
             if(!$scope.paramObj.isCampaignChanged) { //if action Items is not set
-                $scope.setStrategyInScope();
-                $scope.cbStrategyChange();
+                setStrategyInScope();
+                cbStrategySelected();
             } else {
                 $scope.paramObj.isCampaignChanged = false;
             }
@@ -494,7 +476,7 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
 
         $scope.$on(constants.EVENT_TIMEPERIOD_CHANGED, function(event,strategy) {
             $scope.selected_filters.time_filter = strategy;
-            $scope.callBackCampaignsSuccess();
+            cbCampaignSelected();
 
         });
 

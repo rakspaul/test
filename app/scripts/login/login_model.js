@@ -54,8 +54,10 @@ define(['angularAMD','../common/services/constants_service'], function (angularA
             },
 
             getClientData: function () {
-                localStorage.getItem('clientData');
+                return JSON.parse(localStorage.getItem('clientData'));
             },
+
+
 
             setUser: function (user) {
                 data = user;
