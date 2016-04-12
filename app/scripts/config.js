@@ -84,6 +84,7 @@ assets.html_users = '/views/reporting/users.html';
 assets.html_help = '/views/reporting/help.html';
 assets.html_collective_report_listing = '/views/reporting/collective_report_listing.html';
 assets.html_reports_schedule_list = '/views/reporting/reports_schedule_list.html';
+assets.html_reports_invoice_list = '/views/reporting/reports_invoice_list.html';
 assets.html_edit_collective_report = '/views/reporting/edit_collective_report.html';
 assets.html_delete_collective_report = '/views/reporting/delete_collective_report.html';
 assets.html_campaign_lst_filter = '/views/reporting/campaign_lst_filter.html';
