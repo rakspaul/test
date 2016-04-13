@@ -7,7 +7,27 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
                                                                                 collectiveReportModel, utils, loginModel,
                                                                                 constants, urlService, dataStore, domainReports,
                                                                                dataService, momentService,$q) {
-        
+
+
+
+
+        $scope.reports = {};
+        $scope.reports.reportDefinition = {};
+        $scope.reports.reportDefinition.timeframe = {};
+        $scope.reports.reportDefinition.timeframe.start_date = moment().subtract(0, 'day').format(constants.DATE_UTC_SHORT_FORMAT);
+        $scope.reports.reportDefinition.timeframe.end_date = moment().subtract(0, 'day').format(constants.DATE_UTC_SHORT_FORMAT);
+        $scope.scheduleReportActive = false;
+
+
+        $(document).ready(function() {
+            $('.input-daterange').datepicker({
+                format: "mm/dd/yyyy",
+                orientation: "auto",
+                autoclose: true,
+                todayHighlight: true
+            });
+        })
+
         //Search Hide / Show
         $scope.searchShowInput = function () {
             var searchInputForm = $('.searchInputForm');
@@ -15,7 +35,7 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
             $('.searchInputBtn').hide();
             $('.searchInputBtnInline').show();
             searchInputForm.show();
-            searchInputForm.animate({width: '400px'}, 'fast');
+            searchInputForm.animate({width: '300px'}, 'fast');
             setTimeout(function () {
                 $('.searchClearInputBtn').fadeIn();
             }, 300);
