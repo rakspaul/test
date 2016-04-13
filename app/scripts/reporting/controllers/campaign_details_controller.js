@@ -395,7 +395,7 @@ function (angularAMD) {
         }
 
         function updateActionItems(callbackCDBGraph,loadingFlag,showExternal) {
-            if (!showOptimization) {
+            if (!$scope.showOptimization) {
                 // dont call the activities api if the user doesn't have permission
                 return;
             }
