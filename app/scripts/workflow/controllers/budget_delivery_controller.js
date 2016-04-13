@@ -22,6 +22,7 @@ define(['angularAMD', 'common/services/constants_service', 'common/moment_utils'
     };
       $scope.calculateTotalAdBudget=function(){
           if($('#targetUnitCost_squaredFour').prop("checked") && ($scope.adData.primaryKpi).toUpperCase()=='IMPRESSIONS' && $scope.unitName=='CPM'){
+
               if($scope.adData.targetValue>=0 && $scope.adData.unitCost>=0){
                 $scope.adData.totalAdBudget=Number((Number($scope.adData.targetValue)*Number($scope.adData.unitCost))/1000);
               }
@@ -51,7 +52,6 @@ define(['angularAMD', 'common/services/constants_service', 'common/moment_utils'
               $scope.adBudgetExceedUnallocated=true;
           }else{
               $scope.adBudgetExceedUnallocated=false;
-
 
           }
       }
