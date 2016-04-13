@@ -8,7 +8,7 @@
                 <span class="sort-image-inactive brands_dd_filter_arrow" id="#brandsDropDownImg"></span>
             </div>
             <div  class="subAccountList_ul">
-                <li ng-repeat="saccount in subAccountData.subAccounts" ng-class="{'active' : saccount.id === subAccountData.selectedsubAccount.id}">
+                <li ng-repeat="saccount in subAccountData.subAccounts" ng-class="{'active' : saccount.id === subAccountData.selectedsubAccount.id}" title="{{saccount.name}}">
                     <a data-ng-click="selectSubAccount(saccount, 'clicked')">
                         <span class="tick"></span>
                         <span class="menuItemText" ng-bind-html="highlightSearch(advertiser.name, selectedAdvertiser.name)" ng-bind="saccount.name"></span>

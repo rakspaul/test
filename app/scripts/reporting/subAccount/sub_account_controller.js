@@ -51,7 +51,8 @@ define(['angularAMD','reporting/subAccount/sub_account_model','common/services/c
         $scope.selectSubAccount = function (sub_account, event_type) {
             var subAccountIdName = {'id':sub_account.id,'name': sub_account.name};
             $scope.subAccountData.selectedsubAccount.id = sub_account.id;
-                $("#sub_account_name_selected").text(sub_account.name);
+            $("#sub_account_name_selected").text(sub_account.name);
+            $("#sub_account_name_selected").attr("title" , sub_account.name);
             $('#subAccountDropdown').attr('placeholder', sub_account.name).val('');
 
             $scope.subAccountData.showAll = true;
