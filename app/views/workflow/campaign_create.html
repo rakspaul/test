@@ -178,7 +178,7 @@
                                                 <span class="icon-arrow-down"></span>
                                             </button>
                                             <ul class="dropdown-menu" aria-labelledby="advertiserDDL"  id="advertiserDDL" ng-if="mode !== 'edit'">
-                                                <li ng-repeat="subaccount in workflowData.subAccounts track by subaccount.id" class="available"><a ng-click="selectHandler('subAccount', subaccount)">{{subaccount.name}}</a></li>
+                                                <li ng-repeat="subaccount in workflowData.subAccounts track by subaccount.id" class="available"><a ng-click="selectHandler('subAccount', subaccount)">{{subaccount.displayName}}</a></li>
                                             </ul>
                                             <input type="hidden" name="subAccountId" ng-model="selectedCampaign.clientId" ng-update-hidden required/>
                                         </div>

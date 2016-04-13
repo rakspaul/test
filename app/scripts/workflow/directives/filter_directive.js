@@ -1,4 +1,4 @@
-define(['angularAMD','workflow/services/filter_service'],function (angularAMD) {
+define(['angularAMD','workflow/services/filter_service','common/services/constants_service'],function (angularAMD) {
     angularAMD.directive('filterDirective',  function (filterService) {
         return {
             controller: function($scope,$rootScope, workflowService,loginModel,constants) {
@@ -6,14 +6,15 @@ define(['angularAMD','workflow/services/filter_service'],function (angularAMD) {
                 $scope.filterData.subAccountList = [];
                 $scope.filterData.subAccSelectedName="";
                 $scope.filterData.subAccSelectedId="";
+                $scope.constants = constants;
 
-                $scope.filterData.advertiserList = [{'id':'-1','name':'-- select Advertiser --'}];
+                $scope.filterData.advertiserList = [{'id':'-1','name':constants.ALL_ADVERTISERS}];
                 $scope.filterData.advertiserSelectedName="";
                 $scope.filterData.advertiserSelectedId ="";
 
                 var fetchAdvertiserAndBroadCast = function() {
                     filterService.fetchAdvertisers($scope.filterData.subAccSelectedId,function(advertiserData){
-                        $scope.filterData.advertiserList= [{'id':'-1','name':'-- select Advertiser --'}].concat(advertiserData);
+                        $scope.filterData.advertiserList= [{'id':'-1','name':constants.ALL_ADVERTISERS}].concat(advertiserData);
                         var args = {'from':$scope.from,'clientId':$scope.filterData.subAccSelectedId,'advertiserId':-1}
                         $rootScope.$broadcast('filterChanged',args);
                     });
@@ -22,7 +23,7 @@ define(['angularAMD','workflow/services/filter_service'],function (angularAMD) {
                 var fetchSubAccounts = function(){
                     filterService.getSubAccount(function(accountData){
                         $scope.filterData.subAccountList = accountData;
-                        $scope.filterData.subAccSelectedName = accountData[0].name;
+                        $scope.filterData.subAccSelectedName = accountData[0].displayName;
                         $scope.filterData.subAccSelectedId = accountData[0].id;
                         $scope.filterData.advertiserSelectedName = $scope.filterData.advertiserList[0].name;
                         fetchAdvertiserAndBroadCast();
@@ -33,8 +34,8 @@ define(['angularAMD','workflow/services/filter_service'],function (angularAMD) {
 
 
                 $scope.selectClient = function(subAccount) {
-                    $("#subAcc_name_selected").text(subAccount.name);
-                    $scope.filterData.subAccSelectedName = subAccount.name;
+                    $("#subAcc_name_selected").text(subAccount.displayName);
+                    $scope.filterData.subAccSelectedName = subAccount.displayName;
                     $scope.filterData.subAccSelectedId = subAccount.id;
                     fetchAdvertiserAndBroadCast();
                 };

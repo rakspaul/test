@@ -1,14 +1,14 @@
 <div class="creative_filter_dropdowns">
     <div class="each_filter brands_filter">
-        <div class="greyTxt">Sub account</div>
+        <div class="greyTxt">{{constants.SUB_ACCOUNT}}</div>
         <div class="dropdown">
             <div class="dropdown_name_selected" data-model="subAcc_name_selected" id="client_name_selected" data-toggle="dropdown" title="{{filterData.subAccSelectedName}}">
                 <p>{{filterData.subAccSelectedName?  filterData.subAccSelectedName : 'Loading..'}}</p><span class="icon-arrow-down"></span>
             </div>
             <ul class="dropdown-menu" role="menu" id="clientsList">
                 <div class="clientsList_ul" id="clientsList_ul">
-                    <li ng-repeat="subaccount in filterData.subAccountList track by subaccount.id" title="{{subaccount.name}}">
-                        <a data-ng-click="selectClient(subaccount)"><span class="menuItemText">{{subaccount.name}}</span></a>
+                    <li ng-repeat="subaccount in filterData.subAccountList track by subaccount.id" title="{{subaccount.displayName}}">
+                        <a data-ng-click="selectClient(subaccount)"><span class="menuItemText">{{subaccount.displayName}}</span></a>
                     </li>
                 </div>
             </ul>
