@@ -145,11 +145,10 @@
         <div class="col-md-9" style="margin-top: 150px;" ng-show="!workflowData.getADsForGroupData[$index]">
             <div class="common-loading-area"></div>
         </div>
-        <div ng-if="workflowData.getADsForGroupData[$index]">
+        <div ng-if="workflowData.getADsForGroupData[$index] && workflowData.getADsForGroupData[$index].length > 0">
             <!--=== Single Ad Ready ===-->
             <div class="col-md-3 adModule"
                  ng-repeat="adsData in workflowData.getADsForGroupData[$index] track by adsData.id"
-                 ng-if="isAdGroupOpen"
                  ng-click="adsData.state=='DEPLOYING' ? '' :
                     goEdit(adsData, calculateSpendBudget(adGroupsData.adGroup), adGroupsData.adGroup.deliveryBudget)">
                 <div class="col-md-12 adTitle">
