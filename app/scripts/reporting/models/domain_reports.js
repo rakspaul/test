@@ -21,7 +21,7 @@ define(['angularAMD', '../../login/login_model', 'common/services/role_based_ser
                 if (fParams[0]['quality'] === true) {
                     tabs.push({href: 'quality', title: 'Quality'});
                 }
-                if (fParams[0]['optimization_impact'] === true) {
+                if (fParams[0]['optimization_create'] === true || fParams[0]['optimization_transparency'] === true) {
                     tabs.push({href: 'optimization', title: 'Optimization Impact'});
                 }
 

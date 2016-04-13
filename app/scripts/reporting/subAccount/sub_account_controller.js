@@ -14,6 +14,7 @@ define(['angularAMD','reporting/subAccount/sub_account_model','common/services/c
 
         var search = false;
         var searchCriteria = utils.typeaheadParams;
+        $scope.constants = constants;
 
         function fetchSubAccounts(from,searchCriteria, search) {
             subAccountModel.fetchSubAccounts(from,function () {
@@ -49,10 +50,13 @@ define(['angularAMD','reporting/subAccount/sub_account_model','common/services/c
         };
 
         $scope.selectSubAccount = function (sub_account, event_type) {
-            var subAccountIdName = {'id':sub_account.id,'name': sub_account.name};
+            var subAccountIdName = {'id':sub_account.id,'name': sub_account.displayName};
+
             $scope.subAccountData.selectedsubAccount.id = sub_account.id;
-                $("#sub_account_name_selected").text(sub_account.name);
-            $('#subAccountDropdown').attr('placeholder', sub_account.name).val('');
+
+            $("#sub_account_name_selected").text(sub_account.displayName);
+            $("#sub_account_name_selected").attr("title" , sub_account.displayName);
+            $('#subAccountDropdown').attr('placeholder', sub_account.displayName).val('');
 
             $scope.subAccountData.showAll = true;
             subAccountModel.setSelectedSubAccount(subAccountIdName);
@@ -66,7 +70,6 @@ define(['angularAMD','reporting/subAccount/sub_account_model','common/services/c
 
         //shold we have this
         var eventClientChangedFromDashBoard = $rootScope.$on(constants.EVENT_CLIENT_CHANGED_FROM_DASHBOARD, function (event, args) {
-            console.log('****',args.subAccount);
             $scope.selectSubAccount(args.subAccount, args.event_type);
         });
 

@@ -1,4 +1,4 @@
-<div class="nav_filters_heading">Sub-Account</div>
+<div class="nav_filters_heading">{{constants.SUB_ACCOUNT}}</div>
 <div class="brand_name_selected" id="sub_account_name_selected" ng-click="showSubAccountDropDown()" title="{{subAccountData.selectedsubAccount.name}}"  ng-bind="(subAccountData.selectedsubAccount.name ? subAccountData.selectedsubAccount.name:'')"></div>
 <div class="clearfix">
     <div class="brandsDropdownSearch">
@@ -8,10 +8,10 @@
                 <span class="sort-image-inactive brands_dd_filter_arrow" id="#brandsDropDownImg"></span>
             </div>
             <div  class="subAccountList_ul">
-                <li ng-repeat="saccount in subAccountData.subAccounts" ng-class="{'active' : saccount.id === subAccountData.selectedsubAccount.id}">
+                <li ng-repeat="saccount in subAccountData.subAccounts" ng-class="{'active' : saccount.id === subAccountData.selectedsubAccount.id}" title="{{saccount.displayName}}">
                     <a data-ng-click="selectSubAccount(saccount, 'clicked')">
                         <span class="tick"></span>
-                        <span class="menuItemText" ng-bind-html="highlightSearch(advertiser.name, selectedAdvertiser.name)" ng-bind="saccount.name"></span>
+                        <span class="menuItemText" ng-bind-html="highlightSearch(advertiser.name, selectedAdvertiser.name)" ng-bind="saccount.displayName"></span>
                     </a>
                 </li>
             </div>
