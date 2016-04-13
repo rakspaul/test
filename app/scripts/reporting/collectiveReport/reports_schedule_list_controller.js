@@ -88,15 +88,7 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
                     }
                     queryStr += '&startDate='+startDate+'&endDate='+endDate;
                 }
-                console.log('query string = ', queryStr)
-                // http://qa-desk.collective.com/api/reporting/v3/clients/2/reports/listReports?clientId=2
-                // &reportType=Weekly&reportDimensions=campaign_name,ad_name&reportName=copy&startDate=2016-01-01&endDate=2016-03-31
-                //
-                // reportType = Yesterday, Last7Days, Last2Weeks, LastMonth, LastQuarter, All
-                // reportDimensions = campaign_name, ad_name, etc. (comma separated)
-                // reportName = any string
-                // startDate & endDate = Date string in YYYY-MM-DD format
-                //
+
                 return queryStr;
             };
 
@@ -205,7 +197,6 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
             };
 
             $scope.select_filter_option = function (key, value) {
-                console.log('select_filter_option(), key = ', key, ', value = ', value)
                 switch(key) {
                     case 'reportName':
                         $scope.filters[key] = value;
@@ -261,8 +252,6 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
             $scope.reset_custom_report = function (event) {
                 localStorage.removeItem('customReport');
             };
-
-            $scope.getScheduledReports();
 
             //Dropdown Auto Positioning
             $scope.redirect_or_open_2nd_dimension = function (event, index,reportId,freq) {
@@ -379,7 +368,6 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
 
             //Delete scheduled report Pop up
             $scope.deleteSchdRptInstance = function (reportId, instanceId) {
-                // console.log('Delete Instance: ',reportId,instanceId);
                 var $modalInstance = $modal.open({
                     templateUrl: assets.html_delete_collective_report,
                     controller: 'ReportScheduleDeleteController',
@@ -458,7 +446,7 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
                                 var copySuccess,
                                     copyError;
 
-                                if (frequency == 'Saved') {
+                                if (frequency === 'Saved') {
                                     copySuccess = function (data) {
                                         data.name = 'copy: ' + data.reportName;
                                         // data.client_id = loginModel.getSelectedClient().id;
@@ -569,7 +557,7 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
             //Search Hide / Show
             $scope.searchShowInput = function () {
                 var searchInputForm = $('.searchInputForm');
-console.log('show search clicked!')
+
                 $('.searchInputBtn').hide();
                 searchInputForm.show();
                 searchInputForm.animate({width: '300px'}, 'fast');
@@ -601,66 +589,74 @@ console.log('show search clicked!')
                 $scope.getScheduledReports();
             };
 
-            // reports/schedules?reportName=aaaaaaAbhiAdvik&date_filter=last_7_days
-            // reportName=aaaaaaAbhiAdvik
-            // date_filter=last_7_days
-            // Date filter values: Yesterday, Last7Days, Last2Weeks, LastMonth, LastQuarter, All
-            var urlQueries = '',
+            // SECTION FOR APPLYING FILTER IF THE APPROPRIATE QUERY PARAMS ARE PASSED IN THE URL.
+            // TODO: This is a temporary solution, and should be handled properly using History API or similar technique
+            var urlQueries = $location.search(),
                 report_name = '',
-                dateFilter = '';
-            console.log('Reports Schedule is loaded, search = ', $location.search(), ', search.isEmpty? ', _.isEmpty($location.search()));
-            urlQueries = $location.search();
-            if (_.isEmpty(urlQueries)) {
-                console.log('Query params not given');
-            } else {
-                console.log('Query params given:');
+                dateFilter = '',
+                isValidQueryParamFilter = false;
+
+            // If any query param is given, check if there's at least 1 valid query param.
+            // URL & QUERY PARAM FORMAT: reports/schedules?report_name=reportnamestring&date_filter=datevalue
+            // report_name values: Any string
+            // date_filter values: yesterday, last_7_days, last_2_weeks, last_month, last_quarter
+            // Example URL: reports/schedules?report_name=pattest&date_filter=last_7_days
+            if (!(_.isEmpty(urlQueries))) {
                 _.each(urlQueries, function (val, key) {
-                    console.log(key, ' = ', val);
                     if (key === 'report_name') {
                         report_name = val;
-                    }
-                    if (key === 'date_filter') {
+                        isValidQueryParamFilter = true;
+                    } else if (key === 'date_filter') {
                         dateFilter = val;
+                        isValidQueryParamFilter = true;
                     }
                 });
 
-                if (report_name) {
-                    $timeout(function () {
-                        angular.element('.searchInput .searchInputBtn').triggerHandler('click');
-                        angular.element('#creativeSearch').val(report_name);
-                    }, 1);
-                }
+                // Perform filtering if valid query params are given
+                if (isValidQueryParamFilter) {
+                    // Filter on filter name if it is given
+                    if (report_name) {
+                        $timeout(function () {
+                            angular.element('.searchInput .searchInputBtn').triggerHandler('click');
+                            angular.element('#creativeSearch').val(report_name);
+                            $scope.select_filter_option('reportName', report_name);
+                        }, 1);
+                    }
 
-                // Date filter
-                // Map query param value (lowercase, separated by underscore) to internal value (Pascal case)
-                switch (dateFilter) {
-                    case 'yesterday':
-                        dateFilter = 'Yesterday';
-                        break;
-                    case 'last_7_days':
-                        dateFilter = 'Last7Days';
-                        break;
-                    case 'last_2_weeks':
-                        dateFilter = 'Last2Weeks';
-                        break;
-                    case 'last_month':
-                        dateFilter = 'LastMonth';
-                        break;
-                    case 'last_quarter':
-                        dateFilter = 'LastQuater';
-                        break;
-                    case 'all':
-                        dateFilter = 'All';
-                        break;
-                    default:
-                        dateFilter = '';
-                        break;
+                    // Filter on dateFilter only if valid param is given
+                    if (dateFilter === 'yesterday' || dateFilter === 'last_7_days' ||
+                        dateFilter === 'last_2_weeks' || dateFilter === 'last_month' ||
+                        dateFilter === 'last_quarter') {
+                        // Map query param value (lowercase, separated by underscore) to internal value (Pascal case)
+                        switch (dateFilter) {
+                            case 'yesterday':
+                                dateFilter = 'Yesterday';
+                                break;
+                            case 'last_7_days':
+                                dateFilter = 'Last7Days';
+                                break;
+                            case 'last_2_weeks':
+                                dateFilter = 'Last2Weeks';
+                                break;
+                            case 'last_month':
+                                dateFilter = 'LastMonth';
+                                break;
+                            case 'last_quarter':
+                                dateFilter = 'LastQuater';
+                                break;
+                        }
+
+                        $('button[data-target="#schedule_report_filter"]').trigger('click');
+                        $scope.select_filter_option('generated', dateFilter);
+                        $timeout(function () {
+                            angular.element('#applyFilter').triggerHandler('click');
+                        }, 1);
+                    }
+                } else {
+                    $scope.getScheduledReports();
                 }
-                if (dateFilter) {
-                    $('button[data-target="#schedule_report_filter"]').trigger('click');
-                    // key = generated , value =  Yesterday
-                    $scope.select_filter_option('generated', dateFilter);
-                }
+            } else {
+                $scope.getScheduledReports();
             }
         });
     }
