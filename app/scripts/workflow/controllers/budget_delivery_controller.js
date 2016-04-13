@@ -1,7 +1,9 @@
 define(['angularAMD', 'common/services/constants_service', 'common/moment_utils', 'workflow/directives/ng_upload_hidden', 'workflow/directives/custom_date_picker'], function (angularAMD) {
   angularAMD.controller('BudgetDeliveryController', function ($scope, constants, momentService,workflowService) {
 
-
+      $scope.adData.primaryKpi='Impressions';
+      $scope.BudgetExceeded=false;
+      $scope.isChecked=true;
     $scope.ImpressionPerUserValidator = function () {
       var impressionPerUser = Number($scope.adData.quantity),
         totalImpression;
@@ -14,6 +16,28 @@ define(['angularAMD', 'common/services/constants_service', 'common/moment_utils'
         }
       }
     };
+      $scope.calculateTotalAdBudget=function(){
+          if($scope.isChecked && ($scope.adData.primaryKpi).toUpperCase()=='IMPRESSIONS' && $scope.adData.unitType.name=='CPM'){
+              if($scope.adData.targetValue>=0 && $scope.adData.unitCost>=0){
+                $scope.adData.totalAdBudget=Number((Number($scope.adData.targetValue)*Number($scope.adData.unitCost))/1000);
+              }
+          }
+
+      }
+      $scope.checkBudgetExceed=function(){
+          if(($scope.adData.budgetType).toUpperCase()=="COST" && ($scope.adData.totalAdBudget>=0 && $scope.adData.budgetAmount>=0)){
+                if(Number($scope.adData.totalAdBudget)< Number($scope.adData.budgetAmount)){
+                    $scope.BudgetExceeded=true;
+                    console.log("errorMsg that mediacost exceeds total ad budget");
+                }else{
+                    $scope.BudgetExceeded=false;
+
+                }
+            }else{
+                $scope.BudgetExceeded=false;
+          }
+
+      }
 
     $scope.adBudgetValidator = function () {
       var campaignData,
@@ -101,7 +125,7 @@ define(['angularAMD', 'common/services/constants_service', 'common/moment_utils'
       }
         //console.log("adAvailableRevenue ",adAvailableRevenue);
 
-        if (budgetAmount > 0) {
+        if (budgetAmount > 0 && $scope.adData.budgetType.toLowerCase() !== 'impressions') {
         $scope.ImpressionPerUserValidator();
 
         if ($scope.adData.budgetType.toLowerCase() === 'cost') {
@@ -264,7 +288,7 @@ define(['angularAMD', 'common/services/constants_service', 'common/moment_utils'
       endDateElem.datepicker('setStartDate', currentDate);
     };
 
-    $scope.resetBudgetField = function () {
+    $scope.resetBudgetField = function (bookingType) {
       $scope.adData.budgetAmount = '';
       $scope.budgetErrorObj.mediaCostValidator = '';
       $scope.budgetErrorObj.availableRevenueValidator = '';
@@ -274,28 +298,58 @@ define(['angularAMD', 'common/services/constants_service', 'common/moment_utils'
     $scope.enable_budget_input = function ( event ) {
       var elem = $(event.target);
       if(elem.is(':checked')) {
-        elem.closest(".impressions_holder").find(".budget_holder input").attr("disabled" , true).addClass("disabled-field") ;
+        elem.closest(".impressions_holder").find(".budget_holder input").attr("disabled" , true);//.addClass("disabled-field") ;
         elem.closest(".impressions_holder").find(".impression_field").addClass("disabled-field") ;
       } else {
         elem.closest(".impressions_holder").find(".budget_holder input").attr("disabled" , false).removeClass("disabled-field") ;
         elem.closest(".impressions_holder").find(".impression_field").removeClass("disabled-field") ;
       }
-      
+
     };
 
     $scope.select_kpi = function (event , type) {
+        $scope.adData.primaryKpi=type;
+        $scope.adData.targetValue='';
+        $scope.adData.totalAdBudget='';
+
        var elem = $(event.target);
        console.log(type);
-       if( type != "impressions" ) {
-          $(".impressions_holder").find("input[type='checkbox']").attr("disabled" , true) ;
-          $(".budget_holder_input").find("input[type='text']").attr("disabled" , false).removeClass("disabled-field") ;
-          $(".impressions_holder").find(".external_chkbox").addClass("disabled") ;
+       if( type != "impressions") {
+           $('#targetUnitCost_squaredFour').prop("checked",false);
+          // $(".impressions_holder").find("input[type='checkbox']").removeAttr('checked');
+          // $scope.isChecked=false;
+           $(".impressions_holder").find("input[type='checkbox']").attr("disabled" , true) ;
+           $(".budget_holder_input").find("input[type='text']").attr("disabled" , false).removeClass("disabled-field") ;
+           $(".impressions_holder").find(".external_chkbox").addClass("disabled") ;
        } else {
-        $(".impressions_holder").find("input[type='checkbox']").attr("disabled" , false) ;
-        $(".budget_holder_input").find("input[type='text']").attr("disabled" , true).addClass("disabled-field") ;
-        $(".impressions_holder").find(".external_chkbox").removeClass("disabled") ;
+           if(($scope.adData.unitType.name).toUpperCase()=="CPM"){
+               $(".impressions_holder").find("input[type='checkbox']").attr("disabled" , false) ;
+              // $(".impressions_holder").find("input[type='checkbox']").attr('checked', 'checked');
+               $('#targetUnitCost_squaredFour').prop("checked",true);
+              // $scope.isChecked=true;
+               $(".budget_holder_input").find("input[type='text']").attr("disabled" , true);//.addClass("disabled-field") ;
+               $(".impressions_holder").find(".external_chkbox").removeClass("disabled") ;
+           }
        }
     };
+      $scope.select_unitType=function (event , type) {
+          $scope.adData.unitType.name=type;
+          $scope.adData.unitCost='';
+          $scope.adData.totalAdBudget='';
+          if( type != "CPM") {
+              $('#targetUnitCost_squaredFour').prop("checked",false);
+              $(".impressions_holder").find("input[type='checkbox']").attr("disabled" , true) ;
+              $(".budget_holder_input").find("input[type='text']").attr("disabled" , false).removeClass("disabled-field") ;
+              $(".impressions_holder").find(".external_chkbox").addClass("disabled") ;
+          } else {
+              if (($scope.adData.primaryKpi).toUpperCase() == "IMPRESSIONS") {
+                  $(".impressions_holder").find("input[type='checkbox']").attr("disabled", false);
+                  $('#targetUnitCost_squaredFour').prop("checked",true);
+                  $(".budget_holder_input").find("input[type='text']").attr("disabled", true);//.addClass("disabled-field") ;
+                  $(".impressions_holder").find(".external_chkbox").removeClass("disabled");
+              }
+          }
+      }
 
     $scope.$parent.initiateDatePicker = function () {
       var endDateElem = $('#endDateInput'),
