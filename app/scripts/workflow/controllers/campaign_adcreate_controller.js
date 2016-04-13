@@ -524,11 +524,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                 $scope.adData.unitCost = responseData.rateValue;
             }
 
-<<<<<<< HEAD
             if(responseData.totalBudget>=0){
-=======
-            if(responseData.totalBudget){
->>>>>>> Sub-task	CW-3122
                 $scope.adData.totalAdBudget=responseData.totalBudget;
                 $('#targetUnitCost_squaredFour').prop("checked",responseData.enabledBudgetCalculation);
                 $(".budget_holder_input").find("input[type='text']").attr("disabled", responseData.enabledBudgetCalculation);
