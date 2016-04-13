@@ -5,6 +5,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
         $scope.adFormatChanged = false;
 
         $scope.adCreateLoader = false;
+        $scope.isChecked=true;
 
         var winHeaderHeight = $(window).height() - 50,
             winHeight,
@@ -521,9 +522,28 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                 $scope.adData.unitCost = responseData.rateValue;
             }
 
-            if (responseData.budgetValue) {
+            if(responseData.totalBudget){
+                $scope.adData.totalAdBudget=responseData.totalBudget;
+                $('#targetUnitCost_squaredFour').prop("checked",responseData.enabledBudgetCalculation);
+                $(".budget_holder_input").find("input[type='text']").attr("disabled", responseData.enabledBudgetCalculation);
+                //disabled checkBox if its primary!=Impression && UnitCost!=CPM
+                if(((responseData.kpiType).toUpperCase()!="IMPRESSIONS" || (responseData.rateType).toUpperCase()!="CPM") && responseData.enabledBudgetCalculation){
+                    $(".impressions_holder").find("input[type='checkbox']").attr("disabled", true);
+                }else{
+                    $(".impressions_holder").find("input[type='checkbox']").attr("disabled", false);
+                }
+
+
+            }
+            if(responseData.kpiType){
+                $scope.adData.primaryKpi=responseData.kpiType;
+                $scope.adData.targetValue=responseData.kpiValue;
+            }
+
+            if (responseData.budgetValue>=0) {
                 $scope.adData.budgetAmount = responseData.budgetValue;
             }
+
 
             if (responseData.rateType) {
                 idx = _.findIndex($scope.workflowData.unitTypes, function (item) {
@@ -1194,7 +1214,10 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                     if(!isDownloadTrackerClicked) {
                         $scope.adCreateLoader = true;
                     }
-
+                    if(formData.targetValue){
+                        postAdDataObj.kpiType=formData.primaryKpi.toUpperCase();
+                        postAdDataObj.kpiValue=formData.targetValue;
+                    }
                     if (formData.unitCost) {
                         postAdDataObj.rateValue = formData.unitCost;
 
@@ -1203,6 +1226,10 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                         } else {
                             postAdDataObj.rateType = formData.unitType;
                         }
+                    }
+                    if(formData.totalAdBudget){
+                        postAdDataObj.totalBudget = formData.totalAdBudget;
+                        postAdDataObj.enabledBudgetCalculation = ($('#targetUnitCost_squaredFour').prop("checked")==false)?false:true;
                     }
 
                     if (getfreqCapParams(formData).length > 0) {
@@ -1521,7 +1548,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
         $scope.editedAdSourceId = null;
         $scope.dayPartData = {};
         $scope.adData.budgetTypeLabel = 'Impressions';
-        $scope.adData.budgetType = 'Impressions';
+        $scope.adData.budgetType = 'Cost';
         $scope.downloadingTracker = false;
         $scope.selectedAudience = [];
         $scope.selectedDayParts = [];
