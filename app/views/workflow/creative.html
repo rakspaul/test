@@ -62,7 +62,7 @@
                                             <span class="icon-arrow-down"></span>
                                         </button>
                                         <ul class="dropdown-menu" aria-labelledby="advertiserDDL"  id="advertiserDDL">
-                                            <li ng-repeat="subaccount in subAccounts track by subaccount.id" class="available"><a ng-click="selectHandler('subAccount', subaccount)">{{subaccount.name}}</a></li>
+                                            <li ng-repeat="subaccount in subAccounts track by subaccount.id" class="available"><a ng-click="selectHandler('subAccount', subaccount)">{{subaccount.displayName}}</a></li>
                                         </ul>
                                         <input class="form-control" type="hidden" name="subAccountId" ng-model="creative.clientId" ng-update-hidden required/>
                                     </div>

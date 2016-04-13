@@ -23,7 +23,7 @@ define(['angularAMD','workflow/services/filter_service','common/services/constan
                 var fetchSubAccounts = function(){
                     filterService.getSubAccount(function(accountData){
                         $scope.filterData.subAccountList = accountData;
-                        $scope.filterData.subAccSelectedName = accountData[0].name;
+                        $scope.filterData.subAccSelectedName = accountData[0].displayName;
                         $scope.filterData.subAccSelectedId = accountData[0].id;
                         $scope.filterData.advertiserSelectedName = $scope.filterData.advertiserList[0].name;
                         fetchAdvertiserAndBroadCast();
@@ -34,8 +34,8 @@ define(['angularAMD','workflow/services/filter_service','common/services/constan
 
 
                 $scope.selectClient = function(subAccount) {
-                    $("#subAcc_name_selected").text(subAccount.name);
-                    $scope.filterData.subAccSelectedName = subAccount.name;
+                    $("#subAcc_name_selected").text(subAccount.displayName);
+                    $scope.filterData.subAccSelectedName = subAccount.displayName;
                     $scope.filterData.subAccSelectedId = subAccount.id;
                     fetchAdvertiserAndBroadCast();
                 };

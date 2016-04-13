@@ -497,6 +497,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 if (result.status === "OK" || result.status === "success") {
                     createCampaign.objectives();
                     $scope.editCampaignData = result.data.data;
+                    console.log('$scope.editCampaignData',$scope.editCampaignData);
                     $scope.selectedCampaign.clientId = $scope.editCampaignData.clientId;
                     $scope.selectedCampaign.advertiserId = $scope.editCampaignData.advertiserId;
                     $scope.selectedCampaign.startTime = momentService.utcToLocalTime($scope.editCampaignData.startTime);
