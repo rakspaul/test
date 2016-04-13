@@ -42,8 +42,9 @@
        <div class="form-group col-md-3 zeroPadding">
             <label class="control-label greyTxt miniLabels" data-ng-bind="textConstants.TARGETVALUE"></label>
              <div style="position : relative;">
-                 <span data-ng-bind="textConstants.SYMBOL_HASH"></span>
-                 <input style="width:130px; padding-top:10px;" type="text" class="form-control" ng-model="adData.targetValue" ng-value="adData.targetValue" fraction-numbers="fraction-numbers" name="targetValue" ng-keyup="calculateTotalAdBudget();">
+                 <span class="KPI_symbol">#</span>
+                 <input class="target_val_input" type="text" class="form-control" ng-model="adData.targetValue" ng-value="adData.targetValue" fraction-numbers="fraction-numbers" name="targetValue" ng-keyup="calculateTotalAdBudget();">
+                 <span class="VTC_per" style="display:none;">%</span>
             </div>
         </div>
     </div>
@@ -125,7 +126,7 @@
               <label class="col-sm-12 control-label greyTxt miniLabels" data-ng-bind="textConstants.VALUE" style="padding-left:5px;"></label>
               <div>
                   <span style="position:relative; top:10px; left:20px; float:left;">{{adData.budgetType === 'Cost' ? locale.NUMBER_FORMATS.CURRENCY_SYM : '#'}}</span>
-                 <input style="width:130px; text-indent:8px; height:36px; padding-top:10px;" type="text" name="budgetAmount" whole-number-only="whole-number-only" class="form-control" ng-model="adData.budgetAmount" id="budgetAmount" placeholder="Enter Value" ng-keyup = "checkBudgetExceed();adBudgetValidator();">
+                 <input style="width:130px; text-indent:8px; height:36px; padding-top:10px;padding-left: 16px;" type="text" name="budgetAmount" whole-number-only="whole-number-only" class="form-control" ng-model="adData.budgetAmount" id="budgetAmount" placeholder="Enter Value" ng-keyup = "checkBudgetExceed();adBudgetValidator();">
              </div>
          </div>
         <label ng-if="budgetErrorObj.mediaCostValidator" class="col-sm-12 control-label  customErrorLabel" data-ng-bind="textConstants.WF_MEDIA_COST_LESS_THAN_CAMPAIGN_BUDGET"></label>

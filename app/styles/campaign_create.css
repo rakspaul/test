@@ -132,6 +132,17 @@
   position: absolute;
   top: 10px;
 }
+.adCreateMaster .tab-content .tab-pane .symbolAbs .col-md-3 .VTC_per {
+  left: 106px;
+}
+.adCreateMaster .tab-content .tab-pane .symbolAbs .col-md-3 .target_val_input {
+  width: 130px;
+  padding-top: 10px;
+}
+.adCreateMaster .tab-content .tab-pane .symbolAbs .col-md-3 .target_val_input_vtc {
+  padding-right: 28px;
+  padding-left: 0px;
+}
 .adCreateMaster .tab-content .tab-pane .symbolAbs .col-md-7 {
   position: relative;
 }
