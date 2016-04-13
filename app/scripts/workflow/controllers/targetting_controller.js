@@ -7,6 +7,7 @@ define(['angularAMD','workflow/services/workflow_service','workflow/services/aud
         $scope.adData.isGeographySelected = false;
         $scope.adData.isAudienceSelected = false;
         $scope.adData.isDaypartSelected = false;
+        $scope.adData.isVideoSelected = false;
         $scope.geoTargetingPreviewObj = null;
         $scope.showSwitchBox = true;
         $scope.isDayPartTriggered = false;
@@ -16,6 +17,7 @@ define(['angularAMD','workflow/services/workflow_service','workflow/services/aud
             $scope.isGeoTargetEnabled = false;
             $scope.isAudienceTargetEnabled = false;
             $scope.isDaypartTargetEnabled = false;
+            $scope.isVideoTargetEnabled = false;
             angular.forEach(platform.vendorCapabilities, function(vendorCapability){
                 console.log("Capability", vendorCapability.capability)
                 switch (vendorCapability.capability) {
@@ -24,6 +26,8 @@ define(['angularAMD','workflow/services/workflow_service','workflow/services/aud
                     case 'Audience Targeting': $scope.isAudienceTargetEnabled = true;
                                             break;
                     case 'Daypart Targeting': $scope.isDaypartTargetEnabled = true;
+                                            break;
+                    case 'Video Targeting': $scope.isVideoTargetEnabled = true;
                                             break;
                 }
             })
@@ -51,7 +55,6 @@ define(['angularAMD','workflow/services/workflow_service','workflow/services/aud
 
             if (targetingName === 'Geography') {
                 $scope.adData.isGeographySelected = true;
-
             }
 
             if (targetingName === 'Audience') {
@@ -72,9 +75,11 @@ define(['angularAMD','workflow/services/workflow_service','workflow/services/aud
                         $scope.$broadcast("updateDayPart", true);
                         $scope.isDayPartTriggered = true;
                     }, 2000)
-
                 }
-
+            }
+            
+            if (targetingName === 'Video') {
+                $scope.adData.isVideoSelected = true;
             }
         };
 
@@ -116,8 +121,20 @@ define(['angularAMD','workflow/services/workflow_service','workflow/services/aud
         $scope.selectDayTarget = function () {
             $scope.$broadcast('triggerDayPart');
             _targeting.setTargetingForPreview('Daypart');
-
         };
+        
+        // Video Targeting Trigger
+        $scope.selectVideoTarget = function () {
+            $scope.$broadcast('triggerVideo');
+            _targeting.setTargetingForPreview('Video');
+            
+            $("#videoTargeting").show();
+            $("#videoTargeting").animate({ marginLeft: "0px", left: "0px", opacity: "1"}, 800 );            
+        };
+        
+        $scope.hideVideoTargeting = function () {
+            $("#videoTargeting").animate({ marginLeft: "0px", left: "1000px", opacity: "0"}, 800 );
+        }
 
         $scope.deleteDayPartTargetting = function () {
             $scope.adData.isDaypartSelected = false;

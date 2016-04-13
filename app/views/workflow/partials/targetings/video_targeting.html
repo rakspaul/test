@@ -1,0 +1,165 @@
+<div class="col-md-12 zeroPadding breadcrumbs">
+	<h5 ng-click="hideVideoTargeting();">Targeting</h5>
+	<span class="icon-arrow-down"></span>
+	<h5 style="cursor: default;">Video Targeting</h5>
+
+	<button class="pull-right btn btn-default" type="button">Save Video Targeting</button>
+    <button class="pull-right btn btn-link" type="button" data-ng-bind="textConstants.CANCEL" ng-click="hideVideoTargeting();"></button>
+</div>
+
+<div class="col-md-12 zeroPadding">
+    <span class="col-md-12 zeroPadding">Specify which the types kinds of placements and players where you'd like<br/>your video ad to appear</span>
+    
+    <div class="col-md-12" style="background: #EDF2F8; padding: 12px 30px 30px 30px; margin-top: 30px;">
+        <!--Row 1-->
+        <div class="col-md-12 zeroPadding">
+            <div class="col-md-3 zeroPadding">
+                <label class="col-sm-12 control-label greyTxt miniLabels">Dimension</label>
+        
+                <div class="form-group col-md-12 zeroPadding">
+                   <div class="col-md-12 zeroPadding dropdown-workflow">
+                       <div class="dropdown">
+                           <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                 <span class="text">Select a Dimension</span>
+                                 <span class="icon-arrow-down"></span>
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="selectDimension" id="selectDimension" name='selectDimension' data-toggle="dropdown">
+                                  <li class="available"><a>Player Size</a></li>
+                                  <li class="available"><a>Position</a></li>
+                                  <li class="available"><a>Playback Method</a></li>
+                            </ul>
+                       </div>
+                   </div>
+                </div>
+            </div>
+            
+            <span class="col-md-1 text-center" style="margin-top: 40px;">Is</span>
+            
+            <div class="col-md-3 zeroPadding">
+                <label class="col-sm-12 control-label greyTxt miniLabels">Size</label>
+        
+                <div class="form-group col-md-12 zeroPadding">
+                   <div class="col-md-12 zeroPadding dropdown-workflow">
+                       <div class="dropdown">
+                           <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                 <span class="text">Select Size</span>
+                                 <span class="icon-arrow-down"></span>
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="selectDimension" id="selectDimension" name='selectDimension' data-toggle="dropdown">
+                                  <li class="available"><a>Any</a></li>
+                                  <li class="available"><a>300x50</a></li>
+                                  <li class="available"><a>600x50</a></li>
+                                  <li class="available"><a>50x500</a></li>
+                            </ul>
+                       </div>
+                   </div>
+                </div>
+            </div>
+            
+            <div class="col-md-5" style="padding-right: 0;">
+                <label class="col-sm-12 control-label greyTxt miniLabels">{{textConstants.LABEL}}</label>
+                <tags-input class="form-group col-sm-12 zeroPadding" ng-model="tags"></tags-input>
+            </div>
+        </div>
+        
+        <!--Row 2-->
+        <div class="col-md-12 zeroPadding">
+            <div class="col-md-3 zeroPadding">
+                <label class="col-sm-12 control-label greyTxt miniLabels">Player</label>
+        
+                <div class="form-group col-md-12 zeroPadding">
+                   <div class="col-md-12 zeroPadding dropdown-workflow">
+                       <div class="dropdown">
+                           <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                 <span class="text">Player Size</span>
+                                 <span class="icon-arrow-down"></span>
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="selectDimension" id="selectDimension" name='selectDimension' data-toggle="dropdown">
+                                  <li class="available"><a>Any</a></li>
+                                  <li class="available"><a>Screen</a></li>
+                            </ul>
+                       </div>
+                   </div>
+                </div>
+            </div>
+            
+            <span class="col-md-1 text-center" style="margin-top: 40px;">Is</span>
+            
+            <div class="col-md-3 zeroPadding">
+                <label class="col-sm-12 control-label greyTxt miniLabels">Size</label>
+        
+                <div class="form-group col-md-12 zeroPadding">
+                   <div class="col-md-12 zeroPadding dropdown-workflow">
+                       <div class="dropdown">
+                           <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                 <span class="text">Select Size</span>
+                                 <span class="icon-arrow-down"></span>
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="selectDimension" id="selectDimension" name='selectDimension' data-toggle="dropdown">
+                                  <li class="available"><a>Any</a></li>
+                                  <li class="available"><a>300x50</a></li>
+                                  <li class="available"><a>600x50</a></li>
+                                  <li class="available"><a>50x500</a></li>
+                            </ul>
+                       </div>
+                   </div>
+                </div>
+            </div>
+            
+            <div class="col-md-5" style="padding-right: 0;">
+                <label class="col-sm-12 control-label greyTxt miniLabels">{{textConstants.LABEL}}</label>
+                <tags-input class="form-group col-sm-12 zeroPadding" ng-model="tags"></tags-input>
+            </div>
+        </div>
+        
+        <!--Row 3-->
+        <div class="col-md-12 zeroPadding">
+            <div class="col-md-3 zeroPadding">
+                <label class="col-sm-12 control-label greyTxt miniLabels">Player</label>
+        
+                <div class="form-group col-md-12 zeroPadding">
+                   <div class="col-md-12 zeroPadding dropdown-workflow">
+                       <div class="dropdown">
+                           <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                 <span class="text">Player Size</span>
+                                 <span class="icon-arrow-down"></span>
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="selectDimension" id="selectDimension" name='selectDimension' data-toggle="dropdown">
+                                  <li class="available"><a>Playback Position</a></li>
+                            </ul>
+                       </div>
+                   </div>
+                </div>
+            </div>
+            
+            <span class="col-md-1 text-center" style="margin-top: 40px;">Is</span>
+            
+            <div class="col-md-3 zeroPadding">
+                <label class="col-sm-12 control-label greyTxt miniLabels">Size</label>
+        
+                <div class="form-group col-md-12 zeroPadding">
+                   <div class="col-md-12 zeroPadding dropdown-workflow">
+                       <div class="dropdown">
+                           <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                 <span class="text">Select Size</span>
+                                 <span class="icon-arrow-down"></span>
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="selectDimension" id="selectDimension" name='selectDimension' data-toggle="dropdown">
+                                  <li class="available"><a>Any</a></li>
+                                  <li class="available"><a>300x50</a></li>
+                                  <li class="available"><a>600x50</a></li>
+                                  <li class="available"><a>50x500</a></li>
+                            </ul>
+                       </div>
+                   </div>
+                </div>
+            </div>
+            
+            <div class="col-md-5" style="padding-right: 0;">
+                <label class="col-sm-12 control-label greyTxt miniLabels">{{textConstants.LABEL}}</label>
+                <tags-input class="form-group col-sm-12 zeroPadding" ng-model="tags"></tags-input>
+            </div>
+        </div>
+        
+    </div>
+</div>

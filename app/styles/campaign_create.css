@@ -326,13 +326,13 @@
   display: none;
   height: auto;
   left: 100%;
-  min-height: 600px;
+  min-height: 736px;
   opacity: 0;
   padding: 0 0 30px 30px;
   position: absolute;
   top: 0;
   width: 930px;
-  z-index: 9999999;
+  z-index: 999999;
 }
 .adCreateMaster #targetting .targetingSlide .closeBtnCreative {
   clear: both;
