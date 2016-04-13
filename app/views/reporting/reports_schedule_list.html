@@ -1,23 +1,35 @@
 
 <!-- Message on top , if that is an error message add "red_msg" class to "top_message_box" container -->
-<popup-msg ng-show="flashMessage" ng-controller="popUpMsgCtr"
-           ng-init="init('flashMessage','reportEditFailed')"></popup-msg>
+<popup-msg ng-show="flashMessage"
+           ng-controller="popUpMsgCtr"
+           ng-init="init('flashMessage','reportEditFailed')">
+</popup-msg>
 <!-- End of Message on top , if that is an error message add "red_msg" class to "top_message_box" container -->
+
 <div class="reports-scheduled-list col-md-12 zeroPadding">
     <h1 class="col-md-12 zeroPadding" style="margin: 27px 0;" ng-bind-html="textConstants.SCHEDULED_REPORTS"></h1>
     <div id="searchList" class="col-md-12 zeroPadding">
     <div class="col-md-12 zeroPadding btn_list_filters">
         <div class="btn-group" role="group" aria-label="...">
-            <a role="button" class="btn btn-default" ng-click="reset_custom_report()" href="/customreport"><span class="icon-plus"></span><span data-ng-bind="textConstants.CREATE"></span></a>
+            <a role="button" class="btn btn-default" ng-click="reset_custom_report()" href="/customreport">
+                <span class="icon-plus"></span><span data-ng-bind="textConstants.CREATE"></span>
+            </a>
         </div>
-    <!--Search Input-->
+
+        <!--Search Input-->
         <div class="pull-right">
             <div class="searchInput pull-left" style="border-top-right-radius: 0; border-bottom-right-radius: 0;">
                 <a class="btn btn-default searchInputBtn" ng-click="searchShowInput();filters.searchText=null">
                     <span class="icon-search" aria-hidden="true" style="margin: -1px 0 0 0;"></span>
                 </a>
                 <div class="input-group searchInputForm" >
-                    <input type="text" class="form-control" name="creativeSearch" ng-model="creativeSearch" ng-keyup="select_filter_option('reportName', creativeSearch)" placeholder="Search Reports By Report Name..">
+                    <input type="text"
+                           class="form-control"
+                           id="creativeSearch"
+                           name="creativeSearch"
+                           ng-model="creativeSearch"
+                           ng-keyup="select_filter_option('reportName', creativeSearch)"
+                           placeholder="Search Reports By Report Name..">
                     <div class="btn btn-default" ng-click="searchHideInput()">
                         <span class="icon-clear" aria-hidden="true"></span>
                     </div>
@@ -26,7 +38,12 @@
 
             <div class="pull-right">
                 <button type="button" class="btn btn-default"
-                        data-toggle="collapse" data-target="#schedule_report_filter" style="height:36px; border-top-left-radius: 0; border-bottom-left-radius: 0; border-left: 0;" data-ng-click="clickedOnFilterIcon()"><span class="icon-filter" style="margin: -1px 0 0 0;"></span></button>
+                        data-toggle="collapse"
+                        data-target="#schedule_report_filter"
+                        style="height:36px; border-top-left-radius: 0; border-bottom-left-radius: 0; border-left: 0;"
+                        data-ng-click="clickedOnFilterIcon()">
+                    <span class="icon-filter" style="margin: -1px 0 0;"></span>
+                </button>
                 <!-- attribute data-toogle="collapse"  attached to id="toggle-example"-->
             </div>
         </div>
@@ -35,13 +52,26 @@
                 <div class="row zeroPadding" style="margin-top:10px; margin-bottom:10px;">
                     <div class="col-md-2 zeroPadding" style="margin-right: -5px;">
                         <div class="col-md-12 zeroPadding dropdown-workflow">
-                            <label  class="col-sm-12 greyTxt miniLabels ng-binding" data-ng-bind="textConstants.REPORT_TYPES"></label>
+                            <label  class="col-sm-12 greyTxt miniLabels ng-binding"
+                                    data-ng-bind="textConstants.REPORT_TYPES">
+                            </label>
                             <div class="dropdown">
-                                <button style="width:170px;" class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                    <span class="text" ng-bind="filters.reportType ? filters.reportType : 'All Types'"></span>
+                                <button style="width:170px;"
+                                        class="btn btn-default dropdown-toggle"
+                                        type="button"
+                                        data-toggle="dropdown"
+                                        aria-haspopup="true"
+                                        aria-expanded="true">
+                                    <span class="text"
+                                          ng-bind="filters.reportType ? filters.reportType : 'All Types'">
+                                    </span>
                                     <span class="icon-arrow-down"></span>
                                 </button>
-                                <ul class="dropdown-menu" aria-labelledby="unitcostType" ng-model="adData.unitType"  id="unitcostType" data-toggle="dropdown">
+                                <ul class="dropdown-menu"
+                                    aria-labelledby="unitcostType"
+                                    ng-model="adData.unitType"
+                                    id="unitcostType"
+                                    data-toggle="dropdown">
                                     <li ng-repeat="type in textConstants.REPORT_LIST_REPORTTYPES">
                                         <a ng-click="select_filter_option('reportType',type)" ng-bind="type"></a>
                                     </li>
@@ -53,15 +83,28 @@
                     <!-- 1st column md-2 -->
                     <div class="col-md-2" style="margin-right: -5px;">
                         <div class="col-md-12 zeroPadding dropdown-workflow">
-                            <label  class="col-sm-12 greyTxt miniLabels ng-binding" data-ng-bind="textConstants.GENERATED"></label>
+                            <label  class="col-sm-12 greyTxt miniLabels ng-binding"
+                                    data-ng-bind="textConstants.GENERATED">
+                            </label>
                             <div class="dropdown">
-                                <button style="width:170px;" class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                <button style="width:170px;"
+                                        class="btn btn-default dropdown-toggle"
+                                        type="button"
+                                        data-toggle="dropdown"
+                                        aria-haspopup="true"
+                                        aria-expanded="true">
                                     <span class="text" ng-bind="filters.generated ? filters.generated : 'All'"></span>
                                     <span class="icon-arrow-down"></span>
                                 </button>
-                                <ul class="dropdown-menu" aria-labelledby="unitcostType" ng-model="adData.unitType"  id="unitcostType" data-toggle="dropdown">
+                                <ul class="dropdown-menu"
+                                    aria-labelledby="unitcostType"
+                                    ng-model="adData.unitType"
+                                    id="unitcostType"
+                                    data-toggle="dropdown">
                                     <li ng-repeat="type in textConstants.REPORT_LIST_GENERATEON">
-                                        <a ng-click="select_filter_option('generated' , type.key)" ng-bind="type.value"></a>
+                                        <a ng-click="select_filter_option('generated' , type.key)"
+                                           ng-bind="type.value">
+                                        </a>
                                     </li>
                                 </ul>
                                 <input type="hidden" name="unitType" ng-model="adData.unitType.name" ng-update-hidden />
@@ -71,7 +114,9 @@
                     <!-- Generated Column over -->
                     <div class="col-md-6" style="margin-right: -5px;">
                         <div class="col-md-12 zeroPadding dropdown-workflow">
-                            <label  class="col-sm-12 greyTxt miniLabels ng-binding" data-ng-bind="textConstants.DIMENSIONS_FIVE"></label>
+                            <label  class="col-sm-12 greyTxt miniLabels ng-binding"
+                                    data-ng-bind="textConstants.DIMENSIONS_FIVE">
+                            </label>
                             <div class="dropdown">
                                 <tags-input
                                         ng-model="dimensionFilterModel"
@@ -106,7 +151,11 @@
     </div>
 
     <div style="text-align:center;">
-        <span class="download-report-load-icon" style="margin:5px 0px;" ng-if="reportDownloadBusy" ng-bind-html="textConstants.DOWNLOADING"></span>
+        <span class="download-report-load-icon"
+              style="margin:5px 0px;"
+              ng-if="reportDownloadBusy"
+              ng-bind-html="textConstants.DOWNLOADING">
+        </span>
     </div>
 
     <div class="col-md-12 zeroPadding scheduled_list_table smallSreenScrollContent">
@@ -116,7 +165,8 @@
                     <span ng-click="sortReverse =! sortReverse" ng-bind-html="textConstants.REPORT_NAME"></span>
                     <span class="common-sort-icon" ng-class="(!sortReverse?'ascending':'descending')"></span>
                 </div>
-                <div class="col-md-2 table-th frequency-col" ng-bind-html="textConstants.SCHEDULE_LIST_REPORT_TYPE" ></div>
+                <div class="col-md-2 table-th frequency-col" ng-bind-html="textConstants.SCHEDULE_LIST_REPORT_TYPE" >
+                </div>
                 <div class="col-md-2 table-th" ng-bind-html="textConstants.REPORT_GENERATED"></div>
                 <div class="col-md-2 table-th" ng-bind-html="textConstants.SCHEDULE_LIST_DIMENSIONS"></div>
                 <div class="col-md-2 table-th" ng-bind-html="textConstants.CREATED_BY"></div>
@@ -126,19 +176,27 @@
             <div class="row" style="margin-top: 20px;" ng-if="showScheduleListLoader">
                 <div class="common-loading-area"></div>
             </div>
-            <div class="no_data_found" ng-if="!showScheduleListLoader && schdReportList.length === 0">{{textconstants.DATANOTAVAILABLE}}</div>
+            <div class="no_data_found"
+                 ng-bind="textconstants.DATANOTAVAILABLE"
+                 ng-if="!showScheduleListLoader && schdReportList.length === 0">
+            </div>
 
-            <div class="row" ng-if="!showScheduleListLoader" ng-repeat="srlist in schdReportList | orderBy:'name':sortReverse track by $index">
-                <div class="clearfix rowHover" ng-class="{downloaded:((srlist.instances.length >0) && (srlist.instances[0].viewedOn.length > 0))}">
+            <div class="row"
+                 ng-if="!showScheduleListLoader"
+                 ng-repeat="srlist in schdReportList | orderBy:'name':sortReverse track by $index">
+                <div class="clearfix rowHover"
+                     ng-class="{downloaded:((srlist.instances.length >0) && (srlist.instances[0].viewedOn.length > 0))}">
 
                     <!--Column 1-->
                     <div class="col-md-4 table-td name-col">
                         <div class="col-md-9"
-                            ng-class="{'no-instance':srlist.instances.length <= 0,'isSaved':srlist.frequency=='Saved'}"
-                            title="{{srlist.name}}"
-                            ng-click="redirect_or_open_2nd_dimension($event,$index,srlist.reportId, srlist.frequency);">
-                        {{srlist.name}}
-                            <span ng-if="srlist.instances.length > 0" ng-bind-html="' ('+srlist.instances.length+')'"></span>
+                             ng-class="{'no-instance':srlist.instances.length <= 0, 'isSaved':srlist.frequency=='Saved'}"
+                             title="{{srlist.name}}"
+                             ng-click="redirect_or_open_2nd_dimension($event, $index, srlist.reportId, srlist.frequency);">
+                            {{srlist.name}}
+                            <span ng-if="srlist.instances.length > 0"
+                                  ng-bind-html="' (' + srlist.instances.length + ')'">
+                            </span>
                         </div>
 
                         <div class="col-md-3 table-td more-options">
@@ -160,7 +218,10 @@
                                             <a ng-bind-html="textConstants.DELETE"></a>
                                         </li>
 
-                                        <li class="headerDownload" ng-click="downloadSavedReport($parent.$index,$index,srlist.reportId)" ng-if="srlist.frequency=='Saved'">                                            <span class="icon-download zeroPadding pull-left"></span>
+                                        <li class="headerDownload"
+                                            ng-click="downloadSavedReport($parent.$index,$index,srlist.reportId)"
+                                            ng-if="srlist.frequency=='Saved'">
+                                            <span class="icon-download zeroPadding pull-left"></span>
                                             <a class="pull-left">Download</a>
                                         </li>
                                     </ul>
@@ -174,13 +235,19 @@
 
                     <!--Column 3-->
                     <div class="col-md-2 table-td"
-                         ng-bind-html="(srlist.frequency != 'Saved' ? (srlist.instances[0].completedOn === undefined?
-                         'Pending Status':
-                         srlist.instances[0].completedOn) : (srlist.lastRunDate == undefined ? 'Pending Status' : srlist.lastRunDate)) | date : 'EEE, MMM d yyyy'">
+                         ng-bind-html="(srlist.frequency != 'Saved' ?
+                            (srlist.instances[0].completedOn === undefined ?
+                            'Pending Status' :
+                            srlist.instances[0].completedOn) :
+                            (srlist.lastRunDate == undefined ? 'Pending Status' : srlist.lastRunDate)) |
+                            date : 'EEE, MMM d yyyy'">
                     </div>
 
                     <!--Column 4-->
-                    <div class="col-md-2 table-td" ng-bind-html="srlist.dimensions" style="white-space: nowrap;text-overflow: ellipsis;overflow:hidden;"></div>
+                    <div class="col-md-2 table-td"
+                         ng-bind-html="srlist.dimensions"
+                         style="white-space: nowrap; text-overflow: ellipsis; overflow:hidden;">
+                    </div>
 
                     <!--Column 5-->
                     <div class="col-md-2 table-td" ng-bind-html="srlist.createdBy"></div>
@@ -203,13 +270,16 @@
                                                 </div>
                                             </span>
                                             <ul class="dropdown-menu">
-                                                <li ng-click="downloadSchdReport($parent.$index,$index,srlist.instances[$index].instanceId)">
+                                                <li ng-click="downloadSchdReport($parent.$index, $index,
+                                                        srlist.instances[$index].instanceId)">
                                                     <a ng-bind-html="textConstants.DOWNLOAD"></a>
                                                 </li>
-                                                <li ng-click="deleteSchdRptInstance(srlist.reportId,srlist.instances[$index].instanceId)">
+                                                <li ng-click="deleteSchdRptInstance(srlist.reportId,
+                                                        srlist.instances[$index].instanceId)">
                                                     <a ng-bind-html="textConstants.DELETE"></a>
                                                 </li>
-                                                <li ng-click="archiveSchdRpt(srlist.reportId,srlist.instances[$index].instanceId)">
+                                                <li ng-click="archiveSchdRpt(srlist.reportId,
+                                                        srlist.instances[$index].instanceId)">
                                                     <a ng-bind-html="textConstants.ARCHIEVE"></a>
                                                 </li>
                                             </ul>
@@ -219,13 +289,10 @@
                             </div>
                         </div>
 
-
-
                         <div class="col-md-2 table-td frequency-col" ng-bind-html="srlist.frequency"></div>
                         <div class="col-md-2 table-td" ng-bind-html="inst.completedOn | date : 'EEE, MMM d yyyy'"></div>
                         <div class="col-md-2 table-td" ng-bind-html="srlist.dimensions"></div>
                         <div class="col-md-2 table-td" ng-bind-html="srlist.createdBy"></div>
-
                     </div>
                     <div class="row view-all-link"
                          ng-if="(srlist.instances.length > 3) && (scheduleInstCount[$parent.$index] < srlist.instances.length)">
@@ -239,4 +306,3 @@
         </div>
     </div>
 </div>
-
