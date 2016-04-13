@@ -9,13 +9,14 @@
 			<span class="pull-left" style="margin-left: 10px;" data-ng-bind="textConstants.NEWCREATIVEALERT"></span>
 		</div>
 
-		<div class="col-md-12 zeroPadding clearfix nav_filters" >
-				<!--<creative-drop-down></creative-drop-down>-->
-            <filter-directive ng-if="!isLeafNode" from="creativeList"></filter-directive>
+		
+		<div class="col-md-12 zeroPadding centerAlign">
+			<h1 class="col-md-12 zeroPadding" style="margin: 17px 0 0px" data-ng-bind="textConstants.CREATIVELIBRARY"></h1>
 		</div>
 
-		<div class="col-md-12 zeroPadding centerAlign">
-			<h1 class="col-md-12 zeroPadding" style="margin: 17px 0 25px" data-ng-bind="textConstants.CREATIVELIBRARY"></h1>
+		<div class="col-md-12 zeroPadding clearfix nav_filters" >
+				<!--<creative-drop-down></creative-drop-down>-->
+            <filter-directive ng-if="!isLeafNode" from="creativeList"></filter-directive> 
 		</div>
 
 		<div class="col-md-12 file_upload_container"
