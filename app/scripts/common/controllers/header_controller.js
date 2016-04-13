@@ -8,7 +8,6 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
 
 
         $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign().id;
-        $scope.isWorkFlowUser = RoleBasedService.getClientRole() && RoleBasedService.getClientRole().workFlowUser;
 
         if ($cookieStore.get('cdesk_session')) {
             workflowService.getClients().then(function (result) {
@@ -50,7 +49,7 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
                                 }
                             });
                         }
-                        $scope.getClientData(loginModel.getSelectedClient().id);
+                        $scope.getClientData();
                     }
 
                     if(angular.isUndefined(loginModel.getSelectedClient()) || loginModel.getSelectedClient() === null ) {
@@ -87,7 +86,8 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
         featurePermission();
         /* End Feature Permission */
 
-        $scope.getClientData = function (clientId) {
+        $scope.getClientData = function () {
+            clientId = loginModel.getMasterClient().id;
             workflowService.getClientData(clientId).then(function (response) {
                 RoleBasedService.setClientRole(response);//set the type of user here in RoleBasedService.js
                 RoleBasedService.setCurrencySymbol();
@@ -113,11 +113,11 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
             showSelectedMasterClient(event, name);
             if(isLeafNode) {
                 loginModel.setSelectedClient({'id': id, 'name': name});
-                $scope.getClientData(id);
+                $scope.getClientData();
                $rootScope.$broadcast(constants.ACCOUNT_CHANGED, {'client': loginModel.getSelectedClient().id, 'event_type': 'clicked'});
             } else {
                 subAccountModel.fetchSubAccounts('MasterClientChanged',function(){
-                    $scope.getClientData(loginModel.getSelectedClient().id);
+                    $scope.getClientData();
                    // console.log('current url',$location.url());
                     $rootScope.$broadcast(constants.EVENT_MASTER_CLIENT_CHANGED, {'client': loginModel.getSelectedClient().id, 'event_type': 'clicked'});
                 });
@@ -246,6 +246,7 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
                     advertisersDropDownList = $("#advertisersDropDownList"),
                     subAccountDropDownList = $("#subAccountDropDownList"),
                     profileDropdownId = $("#profileDropdown"),
+                    accountDropdownList = $(".clientDropdownCnt"),
                     campObjId = $("#campObj"),
                     mainNavDropdown = $(".main_nav_dropdown"),
                     reportTypeDropdownId = $("#reportTypeDropdown"),
@@ -284,6 +285,16 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
                 if (reportTypeDropdownId.is(':visible') && event.target.id != "reportTypeDropdownTxt") {
                     reportTypeDropdownId.hide();
                 }
+
+                if ( accountDropdownList.is(':visible') && ( $(event.target).closest(".clientDropdownCnt").length == 0) && ( $(event.target).closest(".accountDropDown").length == 0) && !$(event.target).parents("div[id^=accountDropDown]").length) {
+                    accountDropdownList.hide();
+                    $(".childTier").hide() ;
+                }
+                // In  admin users page, the multidimensional ( for nth dimension dropdown) account dropdown closes on click of body
+                if ( $(".childTier").is(':visible') && ( $(event.target).closest(".clientDropdownCnt").length == 0) && ( $(event.target).closest(".accountDropDown").length == 0) ) {
+                    $(".childTier").hide() ;
+                }
+
                 var regionTooltipId = $(event.target).closest('li').attr("id");
                 if (regionTooltip.is(':visible') && regionTooltipId != "cityTab" && event.target.id != "tab_region") {
                     regionTooltip.hide();

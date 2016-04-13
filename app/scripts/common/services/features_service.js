@@ -37,8 +37,12 @@ define(['angularAMD','workflow/services/workflow_service','common/services/visto
                 case 'COST':
                     this.featureParams[0].cost = boolStatus;
                     break;
-                case 'REP_OPT':
-                    this.featureParams[0].optimization_impact = boolStatus;
+                case 'REP_OPT_WRITE':
+                    this.featureParams[0].optimization_create = boolStatus;
+                    this.featureParams[0].optimization_transparency = boolStatus;
+                    break;
+                case 'REP_OPT_TRANSPARENCY':
+                    this.featureParams[0].optimization_transparency = boolStatus;
                     break;
                 case 'REP_PLATFORM':
                     this.featureParams[0].platform = boolStatus;
@@ -139,9 +143,9 @@ define(['angularAMD','workflow/services/workflow_service','common/services/visto
             if(this.serverResponseReceived) {
                 setFparams();
             } else {
-                var clientId = JSON.parse(localStorage.getItem('selectedClient')).id;
-                if(clientId) {
-                    workflowService.getClientData(clientId).then(function (response) {
+                var masterClientId = JSON.parse(localStorage.getItem('masterClient')).id;
+                if(masterClientId) {
+                    workflowService.getClientData(masterClientId).then(function (response) {
                         this.serverResponseReceived = true;
                         self.setFeatureParams(response.data.data.features,'headercontroller');
                         setFparams();

@@ -31,6 +31,7 @@ define(['angularAMD'], function(angularAMD) {
         this.PAUSED_CONDITION = 'paused';
         this.ENDING_SOON_CONDITION = 'endingSoon';
         this.ARCHIVED_CONDITION = 'archived';
+        this.ALL_CONDITION = 'all';
         this.REPORTS_OVERVIEW = 'Reports Overview';
 
         this.ONTRACK = 'ontrack';
@@ -258,6 +259,7 @@ define(['angularAMD'], function(angularAMD) {
         this.YET_TO_START = 'Yet to start';
         this.ENDED = 'Ended';
         this.ARCHIVED = 'Archived';
+        this.ALL = 'All';
         this.DAYS_LEFT = 'Days Left';
         this.STARTED_TODAY = 'Started today';
         this.ENDING_TODAY = 'Ending today';
@@ -317,6 +319,7 @@ define(['angularAMD'], function(angularAMD) {
         this.AD_START_IMPS = "Ad Start Imps.";
         this.CREATIVE = "Creative";
         this.RESEARCH = "Research";
+        this.OTHER = "Other";
         this.AD_VERIFICATION = "Ad Verification";
         this.COLLECTIVECOST = "Cost";
         this.TRANSPARENT_PLATFORM_FEE_CHARGED = "Transparent platform fee charged by Collective for technology and services associated with programmatic media activity";
@@ -806,10 +809,10 @@ define(['angularAMD'], function(angularAMD) {
         this.advertiser_admin = '3';
         this.generic_user = '4';
         this.WF_USER_CREATION_SUCCESS = 'Created User Successfully';
-        this.WF_USER_EDIT_SUCCESS = 'Edited User Successfully';
+        this.WF_USER_EDIT_SUCCESS = 'Updated User Successfully';
         this.WF_PERMISSION_NEEDED = 'Atleast 1 permission needed';
         this.WF_USER_CREATION_FAIL = 'Unable to create User';
-        this.WF_USER_EDIT_FAIL = 'Unable to edit User';
+        this.WF_USER_EDIT_FAIL = 'Unable to update User';
 
         //Overview Page
         this.ADVERTISER = 'Advertiser';
@@ -1007,5 +1010,13 @@ define(['angularAMD'], function(angularAMD) {
         this.EVENT_SUB_ACCOUNT_CHANGED_FROM_DASHBOARD = 'SubAccountChangedFromDashboard';
         this.EVENT_MASTER_CLIENT_CHANGED = 'eventMasterClientChanged';
         this.SUB_ACCOUNT = "Sub-Account";
+
+        this.ADMIN_ADD_PERMISSION = "Please add permission";
+        this.ADMIN_SELECT_CLIENT = "Please select the client";
+        this.ADMIN_ADD_ADVERTISER_PERMISSION = "Please add permission for the client";
+        this.ERR_EDIT_USER_DATA = "Unable to get the user data";
+        this.CLIENTID_EXIST = "Client ID is already selected, please select another id.";
+        this.ADVERTISERID_EXIST = "Advertiser ID is already selected, please select another id.";
+        this.ADMIN_PAGE_PERMISSION = "Admin has access to all features";
     });
 });

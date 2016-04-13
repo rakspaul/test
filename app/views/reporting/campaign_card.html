@@ -10,16 +10,7 @@
 
         <!--Title / Brand Name-->
         <div class="pull-left main_heading">
-            <a ng-if="!$parent.isWorkFlowUser" ng-href="/mediaplans/{{campaign.orderId}}" id="campaign_heading_anchor">
-                <truncate-text-with-hover
-                        txt="{{campaign.campaignTitle}}"
-                        txt-html="{{campaign.campaignTitleHtml}}"
-                        txtlength="75"
-                        lst-campaign=campaign>
-                </truncate-text-with-hover>
-            </a>
-            <a ng-if="$parent.isWorkFlowUser"
-               ng-click="showManageButton?redirectTo(campaign, campaigns.dashboard.appliedFilterType, $event):''" ng-class="{'anchor-disabled':showManageButton === false}">
+            <a ng-click="showManageButton?redirectTo(campaign, campaigns.dashboard.appliedFilterType, $event):''" ng-class="{'anchor-disabled':showManageButton === false}">
                 <truncate-text-with-hover
                         txt="{{campaign.campaignTitle}}"
                         txt-html="{{campaign.campaignTitleHtml}}"
@@ -75,7 +66,7 @@
                 </div>
             </a>
            <a href="/mediaplan/{{campaign.orderId}}/overview" id="campaigns_activity_btn" ng-show="showManageButton">
-                <div class="btn btn-default pull-right" ng-show="$parent.isWorkFlowUser && campaigns.dashboard.appliedFilterType !== 'archived' ">
+                <div class="btn btn-default pull-right" ng-show="campaigns.dashboard.appliedFilterType !== 'archived' ">
                     <span ng-bind="textConstants.MANAGE"></span>
                 </div>
             </a>

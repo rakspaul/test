@@ -82,12 +82,13 @@ function (angularAMD) {
 
         var fparams = featuresService.getFeatureParams();
         $scope.showCostWidget = fparams[0]['cost'];
-        $scope.showOptimization = fparams[0]['optimization_impact'];
+        $scope.createOptimization = fparams[0]['optimization_create'];
+        $scope.showOptimization = fparams[0]['optimization_transparency'];
 
         var featuredFeatures = $rootScope.$on('features', function () {
             var fparams = featuresService.getFeatureParams();
-            $scope.showCostWidget = fparams[0]['cost'];
-            $scope.showOptimization = fparams[0]['optimization_impact'];
+            $scope.createOptimization = fparams[0]['optimization_create'];
+            $scope.showOptimization = fparams[0]['optimization_transparency'];
         });
 
         $scope.details.resetSortParams = function () {
@@ -394,6 +395,10 @@ function (angularAMD) {
         }
 
         function updateActionItems(callbackCDBGraph,loadingFlag,showExternal) {
+            if (!$scope.showOptimization) {
+                // dont call the activities api if the user doesn't have permission
+                return;
+            }
             var params = getCustomQueryParams(constants.QUERY_ID_CAMPAIGN_REPORTS_FOR_OPTIMIZATION_IMPACT);
 
             params.make_external = false;

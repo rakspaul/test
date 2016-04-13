@@ -6,9 +6,9 @@
         <div class="clearfix">
             <filters-header reports="true" strategies="false"></filters-header>
         </div>
-        <div ng-show="(isWorkFlowUser && campaign.is_archived == false)">
+        <div ng-show="(campaign.is_archived == false)">
             <!-- action filter -->
-            <form ng-controller="ActionsController" id="crActivityForm" ng-show="showOptimization">
+            <form ng-controller="ActionsController" id="crActivityForm" ng-show="createOptimization">
                 <div class="action_filter_holder">
                     <div class="heading" ng-bind="textConstants.CREATE_ACTIVITY"></div>
                     <span id="activityMessage" ng-style="action.disableTagButton" ng-bind="textConstants.ACTIVITY_CREATED_SUCCESSFULLY_VIEW_ACTIVITY_LOG"></span>
@@ -352,7 +352,7 @@
                             </span>
                           </span>
                     </div>
-                    <div class="clearfix common_graph_legend" ng-show="isWorkFlowUser">
+                    <div class="clearfix common_graph_legend">
                         <div class="clearfix graph_legends">
                             <span class="legend"></span>
                             <span class="legend_text">{{ textConstants.ACTIVITIES }}</span>

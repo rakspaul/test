@@ -152,6 +152,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 $rootScope.$broadcast('resetTargeting');
                 $scope.setPlatform(event, platform);
             }
+            $rootScope.$broadcast('targettingCapability', platform)
         };
 
         $scope.setPlatform = function (event, platform) {
@@ -176,9 +177,11 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             }
 
             //remove creatives only if tracking integrations is changed to Full integrations
-            var wasPrevTrackingInt = _.findIndex($scope.workflowData.platforms, function (item) {
-                return item.id === $scope.adData.platformId;
-            });
+            if($scope.adData.platformId) {
+                var wasPrevTrackingInt = _.findIndex($scope.workflowData.platforms, function (item) {
+                    return item.id === $scope.adData.platformId;
+                });
+            }
             // code to make creatives already set to empty
             if (event && wasPrevTrackingInt < 0) {
                 $scope.adData.setSizes = constants.WF_NOT_SET;
@@ -197,6 +200,10 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         };
 
         $scope.selectTrackingIntegrations = function (trackingIntegration) {
+            if($scope.adData.platformId==undefined){
+                $scope.resetCreatives();
+            }
+
             $scope.showtrackingSetupInfoPopUp = false;
             $scope.$parent.postPlatformDataObj = [];
             //$scope.platformCustomInputs();
@@ -406,9 +413,11 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         };
 
         $scope.wasFullIntegration = function () {
-            return _.findIndex($scope.workflowData.platforms, function (item) {
-                return item.id === $scope.adData.platformId;
-            });
+            if($scope.adData.platformId){
+                return _.findIndex($scope.workflowData.platforms, function (item) {
+                    return item.id === $scope.adData.platformId;
+                });
+            }
         };
     });
 });

@@ -200,10 +200,11 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
                             $scope['strategyPerfDataBy'+tab]  = _.filter(result.data.data, function(item) { return item.ad_id == -1; })
                             $scope['strategyPerfDataByTactic'+tab]  =_.filter(result.data.data, function(item) { return item.ad_id != -1; });
                             $scope.groupThem = _.chain($scope['strategyPerfDataByTactic'+tab])
-                                .groupBy('ad_name')
+                                .groupBy('ad_id')
                                 .map(function(value, key) {
                                     return {
-                                        name: key,
+                                        ad_id: key,
+                                        name: value[0].ad_name,
                                         perf_metrics: value
                                     }
                                 })
@@ -253,11 +254,11 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
         $scope.getRateOfDiscrepancy = function(imps1, adId){
             var imps2 = Number($scope.selectedStrategy.id) >= 0 ? _customctrl.selectedVendorImps[adId] : $scope.selectedVendorImps;
             if(!imps1 && !imps2){
-                return "0 %";
+                return "0";
             }
             var G_imps, L_imps;
             (imps1 > imps2) ? (G_imps = imps1, L_imps = imps2) : (G_imps = imps2, L_imps = imps1);
-            return ((imps2 > imps1) ? "-" : '') + ((G_imps - L_imps) / G_imps) * 100 + "%";
+            return ((imps2 > imps1) ? "-" : '') + ((G_imps - L_imps) / G_imps) * 100;
         }
 
         $scope.getDiscrepancyImpsGap = function(vendorImps, adId){

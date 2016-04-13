@@ -9,12 +9,14 @@
 			<span class="pull-left" style="margin-left: 10px;" data-ng-bind="textConstants.NEWCREATIVEALERT"></span>
 		</div>
 
-		<!--<div class="col-md-12 zeroPadding clearfix nav_filters" style="display: none;">-->
-				<!--<creative-drop-down></creative-drop-down>-->
-		<!--</div>-->
-
+		
 		<div class="col-md-12 zeroPadding centerAlign">
-			<h1 class="col-md-12 zeroPadding" style="margin: 17px 0 25px" data-ng-bind="textConstants.CREATIVELIBRARY"></h1>
+			<h1 class="col-md-12 zeroPadding" style="margin: 17px 0 0px" data-ng-bind="textConstants.CREATIVELIBRARY"></h1>
+		</div>
+
+		<div class="col-md-12 zeroPadding clearfix nav_filters" >
+				<!--<creative-drop-down></creative-drop-down>-->
+            <filter-directive ng-if="!isLeafNode" from="creativeList"></filter-directive> 
 		</div>
 
 		<div class="col-md-12 file_upload_container"
@@ -29,7 +31,7 @@
 				<button type="button" class="btn btn-default" style="display: none"><span class="icon-inline-edit"></span><span data-ng-bind="textConstants.EDIT"></span></button>
 				<button type="button" class="btn btn-default" ng-click="cancelDelete();"><span class="icon-archive"></span><span data-ng-bind="textConstants.ARCHIVE"></span></button>
 				<button type="button" class="btn btn-default" disabled="true"><span class="icon-copy"></span><span data-ng-bind="textConstants.CLONE"></span></button>
-				
+
 				<div class="btn btn-default zeroPadding dropdown-workflow pull-left">
 					<div class="dropdown">
 						<button class="btn btn-default dropdown-toggle moreOptCreative" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" style="padding-right: 18px;">
@@ -192,11 +194,17 @@
                 <h1 class="pull-left">{{bulkUploadResultHeader}}</h1>
             </div>
             <div class="popup-content" ng-show="successfulRecords.length">
-                <strong>{{successfulRecords.length}}</strong> record(s) were successful.
+                <strong>{{successfulRecords.length}}</strong> record(s) successful.
             </div>
             <div class="popup-content" ng-show="errorRecords.length">
-                <span class="errorTxtColor">{{errorRecords.length}}</span> record(s) were failed.
+                <span class="errorTxtColor">{{errorRecords.length}}</span> record(s) failed.
             </div>
+            <div class="popup-content" ng-show="errorRecords.length">
+	            <a class="pull-left" style="margin-top: 10px;" ng-click="downloadBulkCreativeErrorFile()">
+	                <span class="pull-left icon-download"></span>
+	                <span class="pull-left" style="margin-left: 5px;">Download Error Log</span>
+	            </a>
+			</div>
         </div>
         <div class="clearfix popup-footer" >
             <button type="button" ng-click="hideUploadRecordsMessage()" class="common_primary_btn pull-right" >Close Message</button>

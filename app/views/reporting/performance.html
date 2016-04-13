@@ -589,7 +589,7 @@
             <strong class="col-md-2" data-ng-bind="getDiscrepancyImpsGap(vendor.imps, vendor.ad_id) | nrFormat"></strong>
 
             <!--&lt;!&ndash;Column 4&ndash;&gt;vendor.imps?((selectedVendorImps - vendor.imps)/vendor.imps):0   ((      (!selectedVendorImps && !vendor.imps) ? 0 :    ) * 100 | nrFormat | positive) + '%'-->
-            <strong class="col-md-2 text-right" data-ng-bind="getRateOfDiscrepancy(vendor.imps, vendor.ad_id) | setDecimal:2 "></strong>
+            <strong class="col-md-2 text-right" data-ng-bind="(getRateOfDiscrepancy(vendor.imps, vendor.ad_id) | setDecimal:2) + '%' "></strong>
         </div>
 
 

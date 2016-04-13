@@ -12,6 +12,23 @@ define(['angularAMD','workflow/services/workflow_service','workflow/services/aud
         $scope.isDayPartTriggered = false;
 
 
+        $rootScope.$on('targettingCapability',function (event, platform) {
+            $scope.isGeoTargetEnabled = false;
+            $scope.isAudienceTargetEnabled = false;
+            $scope.isDaypartTargetEnabled = false;
+            angular.forEach(platform.vendorCapabilities, function(vendorCapability){
+                console.log("Capability", vendorCapability.capability)
+                switch (vendorCapability.capability) {
+                    case 'Geo Targeting': $scope.isGeoTargetEnabled = true;
+                                            break;
+                    case 'Audience Targeting': $scope.isAudienceTargetEnabled = true;
+                                            break;
+                    case 'Daypart Targeting': $scope.isDaypartTargetEnabled = true;
+                                            break;
+                }
+            })
+        });
+
         var targeting = {};
 
         _targeting.showAudienceInfo =  function() {

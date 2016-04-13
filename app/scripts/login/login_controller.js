@@ -1,6 +1,6 @@
-define(['../app','login/login_service','common/utils','common/services/constants_service','common/services/role_based_service'],function (app) {
+define(['../app','login/login_service','common/utils','common/services/constants_service','common/services/role_based_service','login/login_model'],function (app) {
     'use strict';
-    app.controller('loginController', function ($scope, $sce, loginService, utils, constants, RoleBasedService) {
+    app.controller('loginController', function ($scope, $sce, loginService, utils, constants, RoleBasedService, loginModel) {
         var browserNameList = '',
             supportedBrowser = [
                 {
@@ -44,6 +44,7 @@ define(['../app','login/login_service','common/utils','common/services/constants
                     if (response.status === 'success') {
                         user = response.data.data;
                         user.login_name = $scope.username;
+                        loginModel.setClientData(user);
                         loginService.setCredentials(user);
                         RoleBasedService.setUserData(response);
                         document.location = '/';

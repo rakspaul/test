@@ -462,13 +462,13 @@
                                                            ng-model="dimensionQuery"
                                                            placeHolder="Search">
                                                 </div>
-                                                <li ng-repeat="dimension in customeDimensionData[0].dimensions
+                                                <li ng-repeat="filters in customeDimensionData[0].filters
 														    | filter:dimensionQuery"
-                                                    id="{{dimension.key}}"
+                                                    id="{{filters.key}}"
                                                     ng-click="onChoosingAditFlts($parent.$index,
-                                                            dimension.key, dimension.value);"
+                                                            filters.key, filters.value);"
                                                     ng-model="addFilts.key"
-                                                    ng-bind-html="dimension.value">
+                                                    ng-bind-html="filters.value">
                                                 </li>
                                             </ul>
                                         </div>

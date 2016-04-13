@@ -31,7 +31,7 @@
                         <span class="icon-more-options"></span>
                     </button>
                     <ul class="dropdown-menu" id="moreOptionsAdsGroup" style="right: 0; left: initial;" >
-                        <li edit-ad-group-section ad-group-data="{{adGroupsData}}" ad-group-index="{{$index + 1}}">
+                        <li edit-ad-group-section ad-group-data="{{adGroupsData}}" ad-group-index="{{$index}}">
                             <a class="available" data-ng-bind="textConstants.EDIT"></a>
                         </li>
                         <li class="disabled"><a class="available" data-ng-bind="textConstants.WF_PAUSE"></a></li>
@@ -128,7 +128,7 @@
     </div>
 
     <div id="collapseAdGroup" ng-if="showHideToggle" class="singleCardWrap">
-        <div ng-if="adgroupId" class="overlay"></div>
+        <div class="overlay" style="display:none"></div>
         <!--=== Create BTN Ad ===-->
         <div class="col-md-3 adModule adCreateBtn"
              ng-click="createAdforAdGroup(adGroupsData.adGroup.id, adGroupsData.adGroup.startTime,

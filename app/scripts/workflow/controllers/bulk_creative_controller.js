@@ -153,6 +153,7 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
 
                   $scope.$parent.successfulRecords = response.data.data.success;
                   $scope.$parent.errorRecords = response.data.data.failure;
+                  $scope.$parent.errorRecordsFileName = response.data.data.logFileDownloadLink;
                   $scope.$parent.bulkUploadResultHeader = "Upload complete"
                   if ($scope.$parent.errorRecords.length > 0) {
                       $scope.$parent.bulkUploadResultHeader += ' - Errors found';

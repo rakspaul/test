@@ -346,10 +346,10 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                 },
                 getAdGroups: function(){
                     // make api call to fetch all media plan - used in ad clone popup
-                     workflowService.getAdgroups(selectedMediaPlanId,true).then(function(result){
+                     workflowService.getAdgroups(selectedMediaPlanId,false).then(function(result){
                          var responseData;
                          if (result.status === 'OK' || result.status === 'success') {
-                             responseData = result.data.data;
+                             responseData = result.data.data.ad_groups;
                              $scope.adGroupList = responseData;
                          } else {
                              campaignOverView.errorHandler(result);

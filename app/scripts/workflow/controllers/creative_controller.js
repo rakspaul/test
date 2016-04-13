@@ -178,7 +178,7 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
           switch (type) {
               case 'subAccount':
                   $scope.advertisers = {};
-                   $scope.subAccountName = data.name;
+                   $scope.subAccountName = data.displayName;
                  //  $scope.creative.subAccountId = data.id;
                    $scope.creative.clientId = data.id;
                //   $scope.creative.advertiserId = '';
