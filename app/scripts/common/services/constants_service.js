@@ -1007,7 +1007,5 @@ define(['angularAMD'], function(angularAMD) {
         this.CLIENTID_EXIST = "Client ID is already selected, please select another id.";
         this.ADVERTISERID_EXIST = "Advertiser ID is already selected, please select another id.";
         this.ADMIN_PAGE_PERMISSION = "Admin has access to all features";
-
-        this.subAccountText = 'Sub-Account';
     });
 });
