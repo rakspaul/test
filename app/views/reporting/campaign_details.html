@@ -8,7 +8,7 @@
         </div>
         <div ng-show="(campaign.is_archived == false)">
             <!-- action filter -->
-            <form ng-controller="ActionsController" id="crActivityForm" ng-show="showOptimization">
+            <form ng-controller="ActionsController" id="crActivityForm" ng-show="createOptimization">
                 <div class="action_filter_holder">
                     <div class="heading" ng-bind="textConstants.CREATE_ACTIVITY"></div>
                     <span id="activityMessage" ng-style="action.disableTagButton" ng-bind="textConstants.ACTIVITY_CREATED_SUCCESSFULLY_VIEW_ACTIVITY_LOG"></span>

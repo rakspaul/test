@@ -71,7 +71,7 @@ define(['common'], function (angularAMD) {
                 resolve: {
                     'check': function ($location,featuresService) {
                         //redirects to default page if it has no permission to access it
-                        featuresService.setGetFeatureParams('optimization_impact');
+                        featuresService.setGetFeatureParams('optimization_transparency');
                     }
                 }
             }))
