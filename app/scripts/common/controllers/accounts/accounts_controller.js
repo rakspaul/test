@@ -1,7 +1,8 @@
 var angObj = angObj || {};
-define(['angularAMD', '../../services/constants_service', 'workflow/services/account_service'],function (angularAMD) {
-    'use strict';
-    angularAMD.controller('AccountsController', function ($scope, $rootScope, $modal, constants, accountsService ) {
+define(['angularAMD', '../../services/constants_service', 'workflow/services/account_service','common/controllers/accounts/accounts_add_or_edit_advertiser_controller',
+    'common/controllers/accounts/accounts_add_or_edit_brand_controller', 'common/controllers/accounts/accounts_add_or_edit_controller' ],
+    function (angularAMD) {    angularAMD.controller('AccountsController', function ($scope, $rootScope, $modal, $compile,
+                                                                                     constants, accountsService ) {
         $(".main_navigation").find('.active').removeClass('active').end().find('#creative_nav_link').addClass('active');
         $scope.textConstants = constants;
         $scope.clientsDetails = [];
@@ -33,6 +34,31 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
             elem.closest(".each-account-details").find(".particular-account-box").toggleClass("open");
             $scope.fetchAllAdvertisers(clientId);
         };
+        $scope.subClientListData = {}
+        $scope.getSubClientList = function(event, clientObj){
+            var clientId = clientObj.id;
+            if(clientObj.isLeafNode){
+                $scope.show_advertisers(event,clientObj.id);
+            }else{
+                if(typeof ($scope.subClientListData[clientId]) != "undefined"){
+                    $("#client_"+clientId+"_sub").slideToggle();
+                }else {
+                    accountsService.getSubClients(clientId).then(function (res) {
+                        var result = res.data.data;
+                        if ((res.status === "OK" || res.status === "success") && result.length) {
+                            if (!$scope.subClientListData[clientId]) {
+                                $scope.subClientListData[clientId] = {subclients: [], advertisers: []}
+                            }
+                            $scope.subClientListData[clientId].subclients = result;
+                        } else {
+                            console.log("Error: To get the sub-client list of " + name);
+                        }
+                    }, function (err) {
+                        console.log("Error: To get the sub-client list of " + name);
+                    });
+                }
+            }
+        }
 
         $scope.show_advertisers_resp_brands = function(event,client,brand) {
             var elem = $(event.target);
@@ -48,19 +74,27 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
 
         $scope.fetchAllClients = function(){
             accountsService.getClients(null,null,'notCancellable').then(function(res) {
-                $scope.clientsDetails = res.data.data[0].children;
-                //$scope.clientsDetails = res.data.data;
+              //  $scope.clientsDetails = res.data.data[0].children;
+                $scope.clientsDetails = res.data.data;
             });
 
         };
         $scope.fetchAllClients();
 
         $scope.fetchAllAdvertisers = function(clientId){
+            if(!$scope.subClientListData[clientId]){
+                $scope.subClientListData[clientId] = {subclients:[],advertisers:[], advertisersLoader:false}
+            }
+            $scope.subClientListData[clientId].advertisersLoader = true;
                accountsService.getClientsAdvertisers(clientId).then(function(res){
+                //   $scope.subClientListData[clientId].advertisersLoader = false;
                    var index = _.findIndex($scope.clientsDetails, function(item) {
                    return item.id == clientId});
-                   $scope.clientsDetails[index]['advertisement'] = [];
-                   $scope.clientsDetails[index]['advertisement'] = res.data.data;
+//                   $scope.clientsDetails[index]['advertisement'] = [];
+//                   $scope.clientsDetails[index]['advertisement'] = res.data.data;
+
+                   $scope.subClientListData[clientId]['advertisers'] = [];
+                   $scope.subClientListData[clientId]['advertisers'] = res.data.data;
                });
         };
 
