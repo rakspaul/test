@@ -289,6 +289,7 @@
   padding: 5px 10px;
   border-radius: 4px;
   text-align: center;
+  text-transform: capitalize;
 }
 .main_dashboard .dashboard_section .calendar_tooltip:after {
   content: " ";
@@ -304,6 +305,7 @@
   border-top: solid 6px #000;
   border-top-color: rgba(0, 0, 0, 0.8);
   left: 45%;
+  text-transform: capitalize;
 }
 .main_dashboard .dashboard_section .calendar_tooltip_left {
   position: absolute;

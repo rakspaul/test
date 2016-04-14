@@ -644,74 +644,102 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
     background: #F5F9FD ;
   }
   .download_report {
-    height: 38px;
-    width: 191px;
-    border: solid 1px #359eea ;
-    font-size: 10px ;
-    text-transform: uppercase;
-    border-radius: 5px ;
-    -moz-border-radius: 5px ;
-    -webkit-border-radius: 5px ;
-    background-image : url( "/images/cdesk/download_report_icon.png" )  ;
-    font-family: "Avenir" ;
-    background-repeat: no-repeat ;
-    background-position: 20px 10px  ;
+    height: 36px;
+    width: auto;
+    border: solid 1px #BFC9D7;
+    font-size: 14px;
+    border-radius: 2px;
+    -moz-border-radius: 2px;
+    -webkit-border-radius: 2px;
+    //background-image: url("/images/cdesk/download_report_icon.png");
+    font-family: "Avenir";
+    background-repeat: no-repeat;
+    background-position: 15px 10px;
+    line-height: 16px;
+    padding: 0;
     .dropdown {
       width: 100%;
       height: 100%;
-      background : url( "/images/cdesk/download_report_arrow.png") no-repeat 148px 13px ;
+      
       ul.dropdown-menu {
-        width: 193px;
-        left: -16px;
-        top: 36px;
+        width: auto;
+        min-width: 220px;
+        max-width: 300px;
+        left: initial;
+        top: 34px;
+        padding: 5px 0;
+        right: -1px;
+        box-shadow: 0 1px 7px rgba(0,0,0,.15);
+        -webkit-box-shadow: 0 1px 7px rgba(0,0,0,.15);
+        border-radius: 2px;
         li {
-          padding: 0px ;
+          padding: 0px;
+          float: left;
+          width: 100%;
           a {
             white-space: normal;
-            font-size: 12px ;
+            font-size: 14px;
             text-transform: none;
-            color: #333 ;
-            padding: 5px 10px ;
+            color: #363D49;
+            padding: 5px 10px;
+            margin: 0;
           }
         }
       }
     }
     a {
-      color:   #2298ef;
+      color: #363d49;
+      //background: url( "/images/cdesk/download_report_arrow.png") no-repeat 148px 13px;
     }
     .dropdown_ul_text {
       width: 100%;
       height: 100%;
       display: block;
+      padding: 9px 15px;
     }
     .dropdown_ul {
-      width: 170px;
+      width: 100%;
     }
     .dropdown_ul_perf {
-      width: 240px;
+      width: 100%;
+      li {
+        a {
+            background: transparent !important;
+        }
+      }
     }
     .dropdown_ul_inv {
-      width: 270px;
+      width: 100%;
     }
     &:hover {
-      background-color:  #2298ef;
-      background-position: 20px -52px ;
+      background-color: #e1edf9;
+      border: 1px solid #bfc9d7;
+      
       .dropdown {
-        background-position: 148px -44px ;
+        //background-position: 148px -44px ;
       }
       a {
-        color: #fff ;
+        //color: #fff ;
       }
     }
   }
   .download_anchor {
-    display: block;
+    float: left;
     text-decoration: none;
-    padding: 0px;
-    height: 100%;
-    width: 100%;
-    padding: 10px 10px 10px 42px;
+    margin: 0 10px;
   }
+  .icon-download {
+    float: left;
+    font-size: 14px;
+  }
+  .icon-arrow-down-thick {
+    float: left;
+    color: #000;
+    font-size: 9px;
+    height: 9px;
+    width: 9px;
+    margin-top: 1px;
+    }
   .download_anchor_li_disabled {
     a {
       color: #ccc !important;
@@ -3877,18 +3905,19 @@ only screen and (min-device-pixel-ratio: 2) {
 .report_generator_and_response {
   background: #fff ;
     .save_reset{
-        padding: 9px;
-        border: solid 1px #a9a9a9;
-        border-radius: 4px;
-        color: grey;
-        margin-top: 0px;
+        //padding: 9px;
+        //border: solid 1px #a9a9a9;
+        //border-radius: 4px;
+        //color: grey;
+        margin-right: 10px;
+        top: 0;
+        line-height: 14px;
     }
     .save_reset.glyphicon-repeat::before {
-         content: " ";
-         left: 2px;
+         content: "";
+         margin-right: 10px;
+         font-size: 12px;
      }
-
-
 
     #dynamicHeader{
         padding-left:0;
