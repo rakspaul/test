@@ -14,7 +14,6 @@ define(['angularAMD','workflow/services/filter_service','common/services/constan
 
                 var fetchAdvertiserAndBroadCast = function(onClientSelect = false) {
                     filterService.fetchAdvertisers($scope.filterData.subAccSelectedId,function(advertiserData){
-                        console.log('adfertisers,',$scope.filterData.subAccSelectedId,advertiserData);
                         $scope.filterData.advertiserList= [{'id':'-1','name':constants.ALL_ADVERTISERS}].concat(advertiserData);
 
                         if(onClientSelect) {
