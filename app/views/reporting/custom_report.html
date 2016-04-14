@@ -740,7 +740,7 @@
                         <!--<div class="each_tab" ng-click="show_respective_table('booked')" id="booked_tab">
                             <span>Booked</span>
                         </div>-->
-                        <div class="each_tab" ng-click="show_respective_table('cost')" id="cost_tab" ng-if="showCost">
+                        <div class="each_tab" ng-click="show_respective_table('cost')" id="cost_tab" ng-show="showCost">
                             <span>Cost</span>
                         </div>
                         <!--<div class="each_tab" ng-click="show_respective_table('engagement')" id="engagement_tab">
@@ -762,7 +762,7 @@
                             <div class="each_row heading_row">
                                 <div class="inner_heading_row">
                                     <div class="each_col tree_dimension_col" ng-bind-html="reportTitle"></div>
-                                    <div class="each_col" ng-class="addReqClassToSort(dm.value,sortType,sortReverse)" ng-click="clickToSort(dm.value);"
+                                    <div class="each_col_delivery" ng-class="addReqClassToSort(dm.value,sortType,sortReverse)" ng-click="clickToSort(dm.value);"
                                          ng-repeat="dm in metricKeyArr.delivery_metrics track by $index"
                                          ng-bind-html="dm.value">
                                     </div>
@@ -817,7 +817,7 @@
                         </div>
                         <div ng-if="fetching" class="common-load-more"></div>
                     </div>
-                    <div class="custom_report_response_table" id="cost_table" style="display:none;" ng-if="showCost">
+                    <div class="custom_report_response_table" id="cost_table" style="display:none;" ng-show="showCost">
                         <div class="custom_report_scroll">
                             <div class="each_row heading_row">
                                 <div class="inner_heading_row">
@@ -1162,16 +1162,15 @@
         </div>
 
         <!----- Delivery report data ------------------------>
-        <div class="each_col" ng-if="customeReportData.impressions>=0" ng-bind="customeReportData.impressions | nrFormat"></div>
-        <div class="each_col" ng-if="customeReportData.clicks>=0" ng-bind="customeReportData.clicks | nrFormat"></div>
-        <div class="each_col" ng-if="customeReportData.ctr>=0" ng-bind="customeReportData.ctr | kpiFormatter:'ctr'"></div>
-        <div class="each_col" ng-if="customeReportData.post_imp>=0" ng-bind="customeReportData.post_imp | nrFormat"></div>
-        <div class="each_col" ng-if="customeReportData.post_click>=0" ng-bind="customeReportData.post_click | nrFormat"></div>
-        <div class="each_col" ng-if="customeReportData.pccr>=0" ng-bind="customeReportData.pccr | number:2"></div>
-        <div class="each_col" ng-if="customeReportData.actions>=0" ng-bind="customeReportData.actions | nrFormat"></div>
-        <div class="each_col" ng-if="customeReportData.pub_payout>=0" ng-bind="customeReportData.pub_payout | nrFormat"></div>
-        <div class="each_col" ng-if="customeReportData.gross_ecpm>=0" ng-bind="customeReportData.gross_ecpm | number:2"></div>
-        <div class="each_col" ng-if="customeReportData.gross_ecpc>=0" ng-bind="customeReportData.gross_ecpc | number:2"></div>
+        <div class="each_col_delivery" ng-if="customeReportData.impressions>=0" ng-bind="customeReportData.impressions | nrFormat"></div>
+        <div class="each_col_delivery" ng-if="customeReportData.clicks>=0" ng-bind="customeReportData.clicks | nrFormat"></div>
+        <div class="each_col_delivery" ng-if="customeReportData.ctr>=0" ng-bind="customeReportData.ctr | kpiFormatter:'ctr'"></div>
+        <div class="each_col_delivery" ng-if="customeReportData.post_imp>=0" ng-bind="customeReportData.post_imp | nrFormat"></div>
+        <div class="each_col_delivery" ng-if="customeReportData.post_click>=0" ng-bind="customeReportData.post_click | nrFormat"></div>
+        <div class="each_col_delivery" ng-if="customeReportData.pccr>=0" ng-bind="customeReportData.pccr | number:2"></div>
+        <div class="each_col_delivery" ng-if="customeReportData.actions>=0" ng-bind="customeReportData.actions | nrFormat"></div>
+        <div class="each_col_delivery" ng-if="customeReportData.pub_payout>=0" ng-bind="customeReportData.pub_payout | nrFormat"></div>
+
 
         <!----- Cost report data ------------------------>
         <div class="each_col_cost" ng-if="customeReportData.ad_servicing_cost>=0"
@@ -1200,6 +1199,8 @@
         <div class="each_col_cost" ng-if="customeReportData.research_cost>=0"
              ng-bind="customeReportData.research_cost | nrFormat">
         </div>
+        <div class="each_col_cost" ng-if="customeReportData.gross_ecpm>=0" ng-bind="customeReportData.gross_ecpm | number:2"></div>
+        <div class="each_col_cost" ng-if="customeReportData.gross_ecpc>=0" ng-bind="customeReportData.gross_ecpc | number:2"></div>
 
         <!----- booked report data ------------------------
         <div class="each_col" ng-if="customeReportData.ad_count>=0">{{customeReportData.ad_count}}</div>

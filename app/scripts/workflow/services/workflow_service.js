@@ -480,11 +480,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
 
             uploadBulkCreativeUrl: function(adServerId, creativeFormat, templateId) {
 
-                if(loginModel.getMasterClient().isLeafNode){
-                    var clientId = loginModel.getSelectedClient().id;
-                } else {
-                    var clientId = JSON.parse(localStorage.getItem('creativeAccountId'));
-                }
+                var clientId = loginModel.getSelectedClient().id;
 
                 return  vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/adserver/' + adServerId
                     + '/format/' + creativeFormat.replace(/\s+/g, '').toUpperCase() + '/template/' + templateId + '/creatives/bulkimport';
