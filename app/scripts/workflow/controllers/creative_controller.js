@@ -32,8 +32,9 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
 
       var processEditCreative=function(){
           var creativeId=$routeParams.creativeId;
+
           workflowService
-              .getCreativeData(creativeId,$scope.creative.clientId)
+              .getCreativeData(creativeId,loginModel.getSelectedClient().id)
               .then(function (result) {
                   if (result.status === "OK" || result.status === "success") {
                       $scope.creativeEditData=result.data.data;
