@@ -29,7 +29,6 @@ define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', 'reporting/campaig
                 var fparams = featuresService.getFeatureParams();
                 var enableFeaturePermission = function () {
                     $scope.showCreateMediaPlan = fparams[0].create_mediaplan;
-                    console.log('$scope.showCreateMediaPlan',$scope.showCreateMediaPlan);
                     $scope.showCostTab = fparams[0].cost;
                 };
                 enableFeaturePermission();
