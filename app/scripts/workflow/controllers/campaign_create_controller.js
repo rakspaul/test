@@ -38,8 +38,8 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         $scope.adGroupName = '';
         $scope.lineTarget = '';
         $scope.createItemList = false;
-
-
+        $scope.executionPlatforms = [];
+        $scope.kpiName = 'Impressions';
       $scope.type = [{"name":"CPM"},{"name":"CPC"},{"name":"CPA"},{"name":"CPV"},{"name":"FIXED"}];
         $scope.lineItemList = [];
 
@@ -693,6 +693,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                         //wrapper to transform new API response to old one
                         responseData = workflowService.platformResponseModifier(responseData);
                         $scope.platformKeywords = responseData.fullIntegrationsPlatforms;
+                        console.log("$scope.platformKeywords==",$scope.platformKeywords)
                     }
                 })
 

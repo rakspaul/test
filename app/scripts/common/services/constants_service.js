@@ -197,7 +197,7 @@ define(['angularAMD'], function(angularAMD) {
         this.VALUE_IN_REPORTING = 'Value appears in reporting';
         this.ONE_PRIMARY = 'Only one is primary';
         this.KPI_BILLING = 'Select a KPI for billing';
-        this.SELECT_ONE_YOU_MAY_ADD = 'Select one-you may add';
+        this.SELECT_ONE_YOU_MAY_ADD = 'Select one';
         this.SELECT_KPIS = 'Select KPIs ';
         this.TARGET_GREATER_THAN_ZERO = 'Target should be greater than 0';
 
