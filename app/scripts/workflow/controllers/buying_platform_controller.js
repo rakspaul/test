@@ -87,6 +87,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                             $scope.workflowData.platforms = responseData.fullIntegrationsPlatforms;
                             $scope.trackingPlatformCarouselData(responseData);
                         }
+                        //Broadcast that platforms are set correctly - Some operations can only be done after this is completed
                         $scope.$broadcast("platformsFetched")
                     } else {
                         errorHandler(result);
@@ -106,14 +107,12 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             }
         };
 
-
+        //select a platform one of the seat of the platform
         $scope.selectPlatform = function (event, platform, seat) {
             //showing card view when you change the platform.
             hideTargetingBox();
 
             var settings = '';
-            console.log(seat)
-            console.log(platform)
             //remove creatives only if Tracking-only is changed to Full integrations
             if ($scope.wasFullIntegration() === -1) {
                 $scope.resetCreatives();
@@ -134,7 +133,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                             $scope.setPlatform(event, platform, seat);
                         } else {
                             //display warning popup
-                            if ($scope.defaultPlatform.id !== platform.id || $scope.defaultPlatform.seardefaultSeat.id !== seat.id) {
+                            if ($scope.defaultPlatform.id !== platform.id || $scope.defaultPlatform.vendorSeatId !== seat.id) {
                                 tempPlatform = platform;
                                 $scope.changePlatformMessage =
                                     'Your entries for the following settings are not compatible with ' +
@@ -195,7 +194,6 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             }
 
             // To populate the newly selected Platform in sideBar
-
             $scope.adData.platform = seat.name;
             $scope.adData.platformId = platform.id;
             $scope.adData.platformName = seat.name;
