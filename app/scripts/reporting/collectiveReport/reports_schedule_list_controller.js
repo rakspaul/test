@@ -592,8 +592,15 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
             // SECTION FOR APPLYING FILTER IF THE APPROPRIATE QUERY PARAMS ARE PASSED IN THE URL.
             // TODO: This is a temporary solution, and should be handled properly using History API or similar technique
             var urlQueries = $location.search(),
-                report_name = '',
+                reportName = '',
                 dateFilter = '',
+                dateFiltersObj = {
+                    yesterday: 'Yesterday',
+                    last_7_days: 'Last7Days',
+                    last_2_weeks: 'Last2Weeks',
+                    last_month: 'LastMonth',
+                    last_quarter: 'LastQuater'
+                },
                 isValidQueryParamFilter = false;
 
             // If any query param is given, check if there's at least 1 valid query param.
@@ -602,50 +609,27 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
             // date_filter values: yesterday, last_7_days, last_2_weeks, last_month, last_quarter
             // Example URL: reports/schedules?report_name=pattest&date_filter=last_7_days
             if (!(_.isEmpty(urlQueries))) {
-                _.each(urlQueries, function (val, key) {
-                    if (key === 'report_name') {
-                        report_name = val;
-                        isValidQueryParamFilter = true;
-                    } else if (key === 'date_filter') {
-                        dateFilter = val;
-                        isValidQueryParamFilter = true;
-                    }
-                });
+                reportName = urlQueries.report_name;
+                dateFilter = urlQueries.date_filter;
+
+                if (reportName || dateFilter) {
+                    isValidQueryParamFilter = true;
+                }
 
                 // Perform filtering if valid query params are given
                 if (isValidQueryParamFilter) {
                     // Filter on filter name if it is given
-                    if (report_name) {
+                    if (reportName) {
                         $timeout(function () {
                             angular.element('.searchInput .searchInputBtn').triggerHandler('click');
-                            angular.element('#creativeSearch').val(report_name);
-                            $scope.select_filter_option('reportName', report_name);
+                            angular.element('#creativeSearch').val(reportName);
+                            $scope.select_filter_option('reportName', reportName);
                         }, 1);
                     }
 
                     // Filter on dateFilter only if valid param is given
-                    if (dateFilter === 'yesterday' || dateFilter === 'last_7_days' ||
-                        dateFilter === 'last_2_weeks' || dateFilter === 'last_month' ||
-                        dateFilter === 'last_quarter') {
-                        // Map query param value (lowercase, separated by underscore) to internal value (Pascal case)
-                        switch (dateFilter) {
-                            case 'yesterday':
-                                dateFilter = 'Yesterday';
-                                break;
-                            case 'last_7_days':
-                                dateFilter = 'Last7Days';
-                                break;
-                            case 'last_2_weeks':
-                                dateFilter = 'Last2Weeks';
-                                break;
-                            case 'last_month':
-                                dateFilter = 'LastMonth';
-                                break;
-                            case 'last_quarter':
-                                dateFilter = 'LastQuater';
-                                break;
-                        }
-
+                    if (dateFilter in dateFiltersObj) {
+                        dateFilter = dateFiltersObj[dateFilter];
                         $('button[data-target="#schedule_report_filter"]').trigger('click');
                         $scope.select_filter_option('generated', dateFilter);
                         $timeout(function () {
@@ -653,9 +637,11 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
                         }, 1);
                     }
                 } else {
+                    // No valid params, get all reports
                     $scope.getScheduledReports();
                 }
             } else {
+                // No params given, get all reports
                 $scope.getScheduledReports();
             }
         });
