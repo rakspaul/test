@@ -55,17 +55,26 @@
 <div class="col-md-12 spacingInput"><!-- SPACING --></div>
 
 <!--Row 2-->
-<div class="col-md-12 zeroPadding">
-    <label for="nameTitleCampaign" class="col-sm-12  labelQuestTxt" style="margin-bottom: 5px;">{{textConstants.WF_NAME_CAMPAIGN_TXT}}</label>
-    <div ng-if=(mode=='edit') class="form-group col-sm-9 zeroPadding" show-errors  style="margin-top: 15px;">
-        <input type="text" class="form-control" id="nameTitleCampaign" remove-special-character ='remove-special-character' name="campaignName" ng-model="editCampaignData.name"  ng-value="editCampaignData.name" autofocus maxlength="250" ng-maxlength="250" required/>
-        <label ng-if="createCampaignForm.campaignName.$error.required" class="col-sm-12  greyTxt errorLabel">{{textConstants.WF_ENTER_NAME_CAMPAIGN}}</label>
+<div class="row zeroPadding">
+    <div class="col-md-7 ">
+        <label for="nameTitleCampaign" class="col-sm-12  labelQuestTxt" style="margin-bottom: 5px;">{{textConstants.WF_NAME_CAMPAIGN_TXT}}</label>
+        <div ng-if=(mode=='edit') class="form-group col-sm-12 zeroPadding" show-errors  style="margin-top: 15px;">
+            <input type="text" class="form-control" id="nameTitleCampaign" remove-special-character ='remove-special-character' name="campaignName" ng-model="editCampaignData.name"  ng-value="editCampaignData.name" autofocus maxlength="250" ng-maxlength="250" required/>
+            <label ng-if="createCampaignForm.campaignName.$error.required" class="col-sm-12  greyTxt errorLabel">{{textConstants.WF_ENTER_NAME_CAMPAIGN}}</label>
+        </div>
+        <div ng-if=(mode!='edit') class="form-group col-sm-12 zeroPadding" show-errors  style="margin-top: 15px;">
+            <input type="text" class="form-control" id="nameTitleCampaign" remove-special-character ='remove-special-character' name="campaignName" ng-model="selectedCampaign.campaignName"  maxlength="250" ng-maxlength="250" autofocus placeholder="Max 250 characters. No symbols or punctuation" required/>
+            <label ng-if="createCampaignForm.campaignName.$error.required" class="col-sm-12  greyTxt errorLabel">{{textConstants.WF_ENTER_NAME_CAMPAIGN}}</label>
+        </div>
     </div>
-    <div ng-if=(mode!='edit') class="form-group col-sm-9 zeroPadding" show-errors  style="margin-top: 15px;">
-        <input type="text" class="form-control" id="nameTitleCampaign" remove-special-character ='remove-special-character' name="campaignName" ng-model="selectedCampaign.campaignName"  maxlength="250" ng-maxlength="250" autofocus placeholder="Max 250 characters. No symbols or punctuation" required/>
-        <label ng-if="createCampaignForm.campaignName.$error.required" class="col-sm-12  greyTxt errorLabel">{{textConstants.WF_ENTER_NAME_CAMPAIGN}}</label>
+    <div class="col-md-3 ">
+        <label for="nameTitleCampaign" class="col-sm-12  labelQuestTxt" style="margin-bottom: 5px;">{{textConstants.WF_PURCHASE_ORDER}}</label>
+        <div  class="form-group col-sm-9 zeroPadding" show-errors style="margin-top: 15px;">
+            <input type="text" class="form-control" id="purchaseOrder"  name="purchaseOrder" ng-model="selectedCampaign.purchaseOrder"   autofocus maxlength="250"  />
+        </div>
     </div>
 </div>
+
 
 <!--Row 3-->
 <div class="col-md-9 zeroPadding">
@@ -209,7 +218,6 @@
             <label for="primaryKPI" class="col-sm-12 greyTxt miniLabels">{{textConstants.ENTER_VALUE}}</label>
         </div>
     </div>
-
     <div class="col-md-12 zeroPadding" style="margin-bottom:10px;">
         <div class="col-md-3 zeroPadding kpiTable">
             <div class="col-md-12 zeroPadding dropdown-workflow">
@@ -219,13 +227,13 @@
                         <span class="icon-arrow-down" ></span>
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="selectKPI"  id="selectKPI">
-                        <li class="available" ng-click="kpiName = 'Impressions'"><a>Impressions</a></li>
-                        <li class="available" ng-click="kpiName = 'CTR'"><a>CTR</a></li>
-                        <li class="available" ng-click="kpiName = 'VTC'"><a>VTC</a></li>
-                        <li class="available" ng-click="kpiName = 'CPA'"><a>CPA</a></li>
-                        <li class="available" ng-click="kpiName = 'CPM'"><a>CPM</a></li>
-                        <li class="available" ng-click="kpiName = 'CPC'"><a>CPC</a></li>
-                        <li class="available" ng-click="kpiName = 'Action Rate'"><a>Action Rate</a></li>
+                        <li class="available" ng-click="setKPIName('Impressions')"><a>Impressions</a></li>
+                        <li class="available" ng-click="setKPIName('CTR')"><a>CTR</a></li>
+                        <li class="available" ng-click="setKPIName('VTC')"><a>VTC</a></li>
+                        <li class="available" ng-click="setKPIName('CPA')"><a>CPA</a></li>
+                        <li class="available" ng-click="setKPIName('CPM')"><a>CPM</a></li>
+                        <li class="available" ng-click="setKPIName('CPC')"><a>CPC</a></li>
+                        <li class="available" ng-click="setKPIName('Action Rate')"><a>Action Rate</a></li>
                     </ul>
                     <input type="hidden" name="kpi"  ng-model="kpiName" ng-value="kpiName" field="kpiType" index="{{$index}}" required hiddenkpi>
                     <!--<input type="hidden" name="kpi" ng-init="Campaign.kpiArr[$index]['kpiType']='Select from list';" ng-model="Campaign.kpiArr[$index]['kpiId']" ng-value="{{kpi.id}}" field="kpiId" index="{{$index}}" required hiddenkpi>-->
@@ -244,46 +252,21 @@
     </div>
 </div>
 
-<!--==== PREFERED EXECUTION PLATFORM ====-->
-<div class="col-md-12 zeroPadding">
-    <label for="nameTitleCampaign" class="col-sm-12 labelQuestTxt" style="margin-bottom: 5px;">Preferred Execution Platforms</label>
-    <div class="col-md-12 zeroPadding kpiTable">
-        <h3>Integrated Platforms</h3>
-        <label for="primaryKPI" class="col-sm-12 greyTxt miniLabels">Select as many as you require</label>
-        <!--<tags-input ng-model="executionPlatforms" display-property="displayName" add-on-blur="false">-->
-            <!--<auto-complete source="platformKeywords"></auto-complete>-->
-        <!--</tags-input>-->
-        <tags-input ng-model="executionPlatforms" display-property="displayName"  >
-            <auto-complete class="shrujan" source="platformKeywords"
-                           min-length="0"
-                           load-on-focus="true"
-                           load-on-empty="true" ></auto-complete>
-        </tags-input>
-    </div>
-</div>
-<!--==== Row 4 ====-->
-<!--<div class="col-md-12 zeroPadding">-->
-    <!--<label for="nameTitleCampaign" class="col-sm-12 labelQuestTxt" style="margin-bottom: 5px;">Preferred Execution Platforms</label>-->
-    <!--<div class="col-md-12 zeroPadding kpiTable">-->
-        <!--<h3>Integrated Platforms</h3>-->
-        <!--<label for="primaryKPI" class="col-sm-12 greyTxt miniLabels">Select as many as you require</label>-->
-        <!--<input type="text" class="col-md-12 keyword-txt intPlatInput" ng-keyup="showKeywords(keywordText)" ng-focus="showKeyFocus(intPlatInput)" ng-model="keywordText"/>-->
-        <!--<label class="keywordWrap" ng-repeat="key in selectedKeywords">{{key.name}} <span class="icon-close" ng-click="removeKeyword(key);"></span></label>-->
-        <!--<ul ng-if="platformKeywords.length>0" class="dropdown-menu intPlatWrap" role="menu" id="keywordsList" ng-style="dropdownCss">-->
-            <!--<li ng-repeat="keyword in platformKeywords | filter:keywordText" ng-click="selectKeyword(keyword)">-->
-                <!--<a>-->
-                    <!--<span class="tick"></span>-->
-                    <!--<span class="menuItemText ng-binding" >{{keyword.displayName}}</span>-->
-                <!--</a>-->
-            <!--</li>-->
-        <!--</ul>-->
-    <!--</div>-->
-<!--</div>-->
-
 
 
 <!--=== Next Step Panel ===-->
 <a  data-toggle="tab" data-target="#pixels" role="tab" class="nextWrapper leftNavLink budget">
     <span class="btn btn-default" ng-click="highlightLeftNav(1)">Save & Continue</span>
 </a>
+
+<script>
+    $(document).ready(function() {
+        $('.input-daterange').datepicker({
+            format: "mm/dd/yyyy",
+            orientation: "auto",
+            autoclose: true,
+            todayHighlight: true
+        });
+    })
+</script>
 
