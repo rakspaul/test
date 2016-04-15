@@ -4100,6 +4100,23 @@
     .accounts-page-container {
         max-width: 100%;
         min-width: 750px;
+        margin: 0 0 20px 120px;
+        /*.another-dimension {
+            margin: 20px 0px 20px 6px;
+            border-left: dashed 1px #ccc;
+            padding-left: 40px;
+            .each-account-details {
+                :after {
+                    border-top: dashed 1px #ccc;
+                    content: "";
+                    height: 20px;
+                    left: -41px;
+                    position: absolute;
+                    top: 10px;
+                    width: 35px;
+                }
+            }
+        }*/
     }
 
     .account-name,
@@ -4165,6 +4182,12 @@
 
     .each-account-details {
         margin-bottom: 10px;
+        > .particular-account-box {
+            margin: 10px 0px ;
+            .common_primary_btn {
+                margin-top: -8px;
+            }
+        }
     }
 
     .each-user {
@@ -4184,7 +4207,7 @@
         margin: 15px 0;
 
         .common_primary_btn {
-            margin: 10px 15px 0 0;
+            margin: 10px 0px 0 0;
         }
     }
 
@@ -4194,11 +4217,11 @@
     }
 
     .particular-account-box {
-        border: solid 1px transparent;
+        /*border: solid 1px transparent;*/
         border-radius: 5px;
-        min-width: 750px;
-        padding: 15px;
-
+        /*min-width: 750px;*/
+        /*padding: 15px;*/
+        width: 100% ;
         .account-name {
             position: relative;
         }
@@ -4222,13 +4245,14 @@
                 height: 20px;
                 left: -31px;
                 position: absolute;
-                top: 10px;
+                top: 20px;
                 width: 20px;
             }
 
             &:last-child:after {
                 background: #fff;
                 height: 100%;
+                min-height: 20px;
             }
 
             &.no-data-open {
@@ -4270,8 +4294,8 @@
     }
 
     .particular-account-box.open {
-        border: solid 1px #ccc;
-
+        /*border: solid 1px #ccc;
+*/
         .account-name {
             background-image: url(/images/cdesk/common_down_arrow.png);
         }

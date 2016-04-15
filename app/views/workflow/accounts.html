@@ -21,8 +21,10 @@
 						<span class="pull-right adding-section"  ng-if="client.isLeafNode" ng-click="AddOrEditAdvertiserModal({},'create',client)"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Create Advertiser</span>
                         <div class="pull-right common_primary_btn" ng-if="!client.isLeafNode" ng-click="AddOrEditAccountModal('create',client.id)">Create Account</div>
 					</div>
-					<div class="advertiser-list333" ng-if="clientsDetails[client.id].advertisers.length >  0">
-						<div class="each-advertiser333" ng-repeat="adv in clientsDetails[client.id].advertisers" ng-if="clientsDetails[client.id].advertisers.length >  0" ng-class="[(adv.brand.length ==  0)?'no-data-open':'',(adv.brand.length) > 0?'brand-data-loaded':'']">
+
+					<div class="advertiser-list" ng-if="clientsDetails[client.id].advertisers.length >  0">
+						<div class="each-advertiser" ng-repeat="adv in clientsDetails[client.id].advertisers" ng-if="clientsDetails[client.id].advertisers.length >  0" ng-class="[(clientsDetails[client.id]['brands'][adv.id].length ==  0)?'no-data-open':'',(clientsDetails[client.id]['brands'][adv.id].length) > 0?'brand-data-loaded':'']">
+
 							<div class="clearfix advertiser-name" >
 								<span class="pull-left adv-name" ng-click="show_advertisers_resp_brands($event,client.id,adv.id);"  ><span class="label_heading">Advertiser: </span>{{adv.name}}</span>
 								<span class="pull-left edit" ng-click="AddOrEditAdvertiserModal(adv,'edit',client)"></span>
@@ -34,7 +36,7 @@
 									<!--<span class="pull-left edit" ng-click="AddOrEditBrandModal(adv,'edit',client,brand)"></span>-->
 									<!--<span class="pull-left adding-section" ng-click="AddOrEditBrandModal(adv,'create',client,brand)"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Create Brand</span>-->
 								<!--</div>-->
-								<div class="advertiser-resp-brands-list11" style="margin-left:40px;" id="client_{{client.id}}_adv_{{adv.id}}">
+								<div class="advertiser-resp-brands-list" style="margin-left:40px;" id="client_{{client.id}}_adv_{{adv.id}}">
 									<div class="clearfix each-brand-name"  ng-repeat="brand in clientsDetails[client.id]['brands'][adv.id]" ng-if="clientsDetails[client.id]['brands'][adv.id].length > 0">
 										<span class="pull-left brand-name"><span class="label_heading">Brand: </span>{{brand.name}}</span>
 										<span class="pull-left edit" ng-click="AddOrEditBrandModal(adv,'edit',client,brand)"></span>
@@ -60,11 +62,11 @@
 							<!--</div>-->
 						<!--</div>-->
 					</div>
-				</div>
+				
                 <!--<div ng-if="clientsDetails[client.id].clientLoader" class="common-load-more"></div>-->
                 <!--<ng-include ng-init="clientId=client.id" src="'/views/workflow/partials/admin_accounts_subclientList.html'" class="ng-scope"></ng-include>-->
-                <ng-include ng-init="clientId=client.id" src="'/views/workflow/partials/admin_accounts_subclientList.html'" class="ng-scope"></ng-include>
-
+                	<ng-include ng-init="clientId=client.id" src="'/views/workflow/partials/admin_accounts_subclientList.html'" class="ng-scope"></ng-include>
+                </div>
                 <!--<div ng-include-variables="clientId={{client.id}}" ng-include-template="'/views/workflow/partials/creative_add_bulk.html'" class="ng-scope"></div>-->
 			</div>
 		</div>
