@@ -87,10 +87,12 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                             $scope.workflowData.platforms = responseData.fullIntegrationsPlatforms;
                             $scope.trackingPlatformCarouselData(responseData);
                         }
+                        $scope.$broadcast("platformsFetched")
                     } else {
                         errorHandler(result);
                     }
                 }, errorHandler);
+
         };
 
         $scope.trackingPlatformCarouselData = function (responseData) {
@@ -129,10 +131,10 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     } else {
                         //if the platform is changed but no targets were selected allow change
                         if (_.size(storedResponse.targets.geoTargets) == 0) {
-                            $scope.setPlatform(event, platform);
+                            $scope.setPlatform(event, platform, seat);
                         } else {
                             //display warning popup
-                            if ($scope.defaultPlatform.id !== platform.id || $scope.defaultSeat.id !== seat.id) {
+                            if ($scope.defaultPlatform.id !== platform.id || $scope.defaultPlatform.seardefaultSeat.id !== seat.id) {
                                 tempPlatform = platform;
                                 $scope.changePlatformMessage =
                                     'Your entries for the following settings are not compatible with ' +
@@ -174,7 +176,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             workflowService.setPlatformSeat(seat);
 
             //audience targetting
-            if ($scope.mode != 'edit' || ($scope.defaultPlatform && $scope.defaultPlatform.id !== platform.id)) {
+            if ($scope.mode != 'edit' || ($scope.defaultPlatform && $scope.defaultPlatform.vendorSeatId.id !== seat.id)) {
                 $scope.$parent.TrackingIntegrationsSelected = false;
             }
 
@@ -360,13 +362,24 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         });
 
         $scope.$on('updatePlatform', function (event, platform) {
-            $scope.fetchPlatforms(platform[0]);
-            if (platform[0]) {
-                $scope.defaultPlatform = platform[0];
-                $scope.selectPlatform((platform[0].switchPlatform ? event : ''), platform[0]);
-                $scope.adData.platformId = platform[0].id
-                $scope.saveCustomeFieldForPlatform(true);
-            }
+            $scope.fetchPlatforms(platform);
+
+            $scope.$on('platformsFetched',function (event) {
+                if (platform) {
+                    var selectedPlatformIndex = _.findIndex($scope.workflowData.platforms, function(item){
+                        return item.id == platform.id
+                    })
+
+                    var selectedSeat = _.findIndex($scope.workflowData.platforms[selectedPlatformIndex].seats, function(item){
+                        return item.id == platform.vendorSeatId
+                    })
+                    $scope.defaultPlatform = platform;
+                    $scope.selectPlatform((platform.switchPlatform ? event : ''), platform, $scope.workflowData.platforms[selectedPlatformIndex].seats[selectedSeat]);
+                    $scope.adData.platformId = platform.id
+                    $scope.adData.platfromSeatId = platform.vendorSeatId
+                    $scope.saveCustomeFieldForPlatform(true);
+                }
+            });
         });
 
         $scope.$on('switchPlatformFunc', function () {
