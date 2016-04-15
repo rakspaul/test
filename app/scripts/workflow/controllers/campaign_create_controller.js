@@ -19,7 +19,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         $scope.platFormArr = [];
         $scope.Campaign.marginPercent = 0;
         $scope.isPrimarySelected = true;
-        $scope.costRowSum = 0; 
+        $scope.costRowSum = 0;
         $scope.workflowData = {};
         $scope.vendorRateData = [];
         $scope.brand = [];
