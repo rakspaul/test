@@ -1,10 +1,14 @@
 var angObj = angObj || {};
-define(['angularAMD', '../../services/constants_service', 'workflow/services/account_service','common/controllers/accounts/accounts_add_or_edit_advertiser_controller',
+define(['angularAMD', '../../services/constants_service', 'workflow/services/account_service', 'common/moment_utils',
+        'common/controllers/accounts/accounts_add_or_edit_advertiser_controller',
     'common/controllers/accounts/accounts_add_or_edit_brand_controller', 'common/controllers/accounts/accounts_add_or_edit_controller' ],
     function (angularAMD) {    angularAMD.controller('AccountsController', function ($scope, $rootScope, $modal, $compile,
-                                                                                     constants, accountsService ) {
+                                                                                     constants, accountsService, momentService ) {
         $(".main_navigation").find('.active').removeClass('active').end().find('#creative_nav_link').addClass('active');
+
+        _currCtrl = this;
         $scope.textConstants = constants;
+        $scope.a = [{},{}]
         $scope.clientsDetails = {};
         $scope.advertiserName = '';
         $scope.mode = 'create';
@@ -22,7 +26,47 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
             top: '60px',
             left: '0px'
         };
-
+//        setTimeout(function(){
+//            console.log("Hiiiiii");
+//            $('.input-daterange').datepicker({
+//                format: "mm/dd/yyyy",
+//                orientation: "auto",
+//                autoclose: true,
+//                todayHighlight: true
+//            });
+//        },10000);
+        $scope.advertiserPopUp = {advertiserName: '', pixels:[]};
+        $scope.addPixel = function(){
+            $scope.advertiserPopUp.pixels.push({});
+            setTimeout(function(){
+            $('.input-daterange').datepicker({
+                format: "mm/dd/yyyy",
+                orientation: "auto",
+                autoclose: true,
+                todayHighlight: true
+            });
+            },25);
+        }
+        $scope.removePixel = function(pixelIndex){
+            $scope.advertiserPopUp.pixels = _.filter($scope.advertiserPopUp.pixels,function(item,i){
+                return i != pixelIndex;
+            })
+        }
+        _currCtrl.pixelJSON = {
+            impressionLookBack: 14,
+            clickLookBack: 14,
+            pixelType: "All",
+            pixelName: "",
+            pixelDate: momentService.todayDate('YYYY-MM-DD')
+        }
+//        $scope.advertiserPopUp = {
+//            advertiserName: '',
+//            impressionLookBack: 14,
+//            clickLookBack: 14,
+//            pixelType: "All",
+//            pixelName: "",
+//            pixelDate: momentService.todayDate('YYYY-MM-DD')
+//        }
         $scope.resetFlashMessage = function(){
             $rootScope.setErrAlertMessage('',0);
         };
@@ -38,7 +82,11 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
         $scope.getSubClientList = function(event, clientObj){
             var clientId = clientObj.id;
             if(clientObj.isLeafNode){
-                $scope.show_advertisers(event,clientObj.id);
+                if(typeof ($scope.clientsDetails[clientId]) == "undefined"){
+                    $scope.show_advertisers(event, clientObj.id);
+                }else{
+                    $("#client_"+clientId+"_adv").slideToggle();
+                }
             }else{
                 if(typeof ($scope.clientsDetails[clientId]) != "undefined"){
                     $("#client_"+clientId+"_sub").slideToggle();
@@ -267,7 +315,9 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
             $scope.dropdownCss.display = 'block';
             $(".account_name_list").show();
         };
-
+        $('#pixelExpirationDate').datepicker('update', new Date());
     });
 
-});
+
+
+    });
