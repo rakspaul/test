@@ -38,16 +38,6 @@
 									</div>
 								</div>
 							</div>
-							<div class="statusLabel each-setting">
-								<div class="col-md-12">
-									<div class="pull-left">
-										<span class="statusIcon icon-image"></span>
-									</div>
-									<div class="pull-left">
-										<div class="clearfix"><span class="icon_txt">{{selectedChannel | toTitleCase}}</span> <span class="grey_txt">(Channel)</span> </div>
-									</div>
-								</div>
-							</div>
 							<div class="statusLabel" ng-if="selectedCampaign.startTime">
 								<div class="col-md-12">
 									<!--<span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>-->
@@ -56,6 +46,18 @@
 									<span>(Flight)</span>
 								</div>
 							</div>
+                            <div class="statusLabel each-setting">
+                                <div class="col-md-12">
+                                    <div class="pull-left">
+                                        <span class="statusIcon icon-image"></span>
+                                    </div>
+                                    <div class="pull-left">
+                                        <div class="clearfix"><span
+                                            class="icon_txt">{{kpiName }}</span> <span
+                                            class="grey_txt">(KPI)</span></div>
+                                    </div>
+                                </div>
+                            </div>
 							<div class="statusLabel" ng-if="selectedCampaign.budget">
 								<div class="col-md-12">
 									<span class="statusIcon" style="width: 12px; text-align: right; display: inline-table;">{{ locale.NUMBER_FORMATS.CURRENCY_SYM}}</span>
@@ -137,7 +139,8 @@
 									</ul>
 								</div>
 							</div>
-							<a href="#" class="btn btn-primary pull-right" role="button" ng-show="!saveCampaignClicked" ng-disabled="createCampaignForm.$invalid" ng-click="saveCampaign()">{{textConstants.MP_SAVE}}</a>
+                            <!--ng-disabled="createCampaignForm.$invalid"-->
+							<a href="#" class="btn btn-primary pull-right" role="button" ng-show="!saveCampaignClicked"  ng-click="saveCampaign()">{{textConstants.MP_SAVE}}</a>
 							<div ng-hide="(mode!='edit')">
 								<a ng-href="/mediaplan/{{editCampaignData.id}}/overview" class="btn btn-link pull-right" role="button">{{textConstants.MP_CANCEL}}</a>
 							</div>
@@ -159,8 +162,7 @@
 						<div class="tab-pane fade" id="pixels">
 							<div ng-include="'/views/workflow/partials/campaign_create/pixels.html'"></div>
 						</div>
-
-
+                        
 						<!--Budget-->
 						<div class="tab-pane fade" id="budget">
 							<div ng-include="'/views/workflow/partials/campaign_create/budget.html'"></div>

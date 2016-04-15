@@ -606,6 +606,7 @@ define(['angularAMD'], function(angularAMD) {
         this.WF_ENTER_NAME_CAMPAIGN = "Please enter a name for the Media Plan.";
         this.WF_CAMPAIGN_FOR = "Who is the Media Plan for?";
         this.WF_CAMPAIGN_OBJECTIVES = "Media Plan Objectives";
+        this.WF_PURCHASE_ORDER = "Purchase Order";
 
         this.reportDownloadSuccess = "Report Downloaded Successfully";
         this.reportDownloadFailed = "Report Download Failed";
