@@ -1,9 +1,8 @@
 <div class="popup-holder accounts-popup">
     <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal"
-                ng-click="close()" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
+        <span class="btn btn-primary pull-right" ng-click="saveBrands()">Save</span>
+        <span class="btn btn-link pull-right" data-dismiss="modal" ng-click="close()">Cancel</span>
+
         <h2 class="modal-title" id="myModalLabel">{{(mode === 'create'?'Add':'Edit')}} Brand</h2>
     </div>
     <div class="modal-body">
@@ -12,24 +11,14 @@
 		    <input type="text" class="form-control" id="brandNameInp" ng-model="brandName" ng-keyup="mode == 'create' ? showDropdown() : ''">
 
             <ul class="dropdown-menu" role="menu" id="brandsList" ng-if="mode == 'create'" ng-style="dropdownCss">
-
-                    <li ng-repeat="brand in allBrands | filter:brandName" data-ng-click="selectBrand(brand)">
-                        <a >
-                            <span class="tick"></span>
-                            <span class="menuItemText ng-binding" >{{brand.name}}</span>
-                        </a>
-                    </li>
-
+                <li ng-repeat="brand in allBrands | filter:brandName" data-ng-click="selectBrand(brand)">
+                    <a >
+                        <span class="tick"></span>
+                        <span class="menuItemText ng-binding" >{{brand.name}}</span>
+                    </a>
+                </li>
             </ul>
             <input type="hidden"  ng-model="selectedBrandId" >
-
         </div>
     </div><!-- end of modal_body -->
-    <div class="clearfix popup-btns-holder">
-        <span class="common_primary_btn" ng-click="saveBrands()">Save</span>
-        <span class="secondary_txt" data-dismiss="modal" ng-click="close()" >
-            Cancel
-        </span>
-
-    </div>
 </div> <!-- end of popup-holder -->

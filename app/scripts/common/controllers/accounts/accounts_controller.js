@@ -175,6 +175,7 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
         $scope.AddOrEditAdvertiserModal = function(advObj,mode,client) {
             $scope.mode = mode;
             $scope.client = client;
+            $('html, body').animate({scrollTop : 0},30);
             if(mode == 'edit'){
                 accountsService.setToBeEditedAdvertiser(advObj);
                 $scope.advertiserName = advObj.name;
@@ -188,7 +189,7 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                 templateUrl: assets.html_accounts_add_or_edit_advertiser,
                 controller:"AccountsAddOrEditAdvertiser",
                 scope:$scope,
-                windowClass: 'edit-dialog',
+                windowClass: 'edit-dialog modalAccountRedx',
                 resolve: {
                     //accountsService.setToBeEditedAdvertiser(advObj);
 
@@ -212,6 +213,7 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
             $scope.client = client;
             $scope.brandName = brand.name;
             $scope.advertiser = advObj;
+            $('html, body').animate({scrollTop : 0},30);
             if(mode == 'edit'){
                 accountsService.setToBeEditedBrand(brand);
                 $scope.brandName = brand.name;
@@ -225,7 +227,7 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                 templateUrl: assets.html_accounts_add_or_edit_brand,
                 controller:"AccountsAddOrEditBrand",
                 scope:$scope,
-                windowClass: 'edit-dialog',
+                windowClass: 'edit-dialog modalAccountRedx',
                 resolve: {
                     // report: function () {
                     //     return $scope.reportList[index];
@@ -265,6 +267,7 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
         //Add or Edit Pop up for Account
         $scope.AddOrEditAccountModal = function(mode,clientObj) {
             $scope.mode = mode;
+            $('html, body').animate({scrollTop : 0},30);
             accountsService.getAllCurrency().then(function(result){
                 $scope.currency = result.data.data;
                // console.log($scope.currency);
@@ -276,7 +279,7 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                 templateUrl: assets.html_accounts_add_or_edit,
                 controller:"AccountsAddOrEdit",
                 scope:$scope,
-                windowClass: 'edit-dialog',
+                windowClass: 'edit-dialog modalAccountRedx',
                 resolve: {
                     // report: function () {
                     //     return $scope.reportList[index];
