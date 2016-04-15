@@ -16,7 +16,6 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         $scope.tags = [];
         $scope.saveCampaignClicked=false;
         $scope.platFormArr = [];
-        $scope.selectedChannel = "Display";
         $scope.Campaign.marginPercent = 0;
         $scope.isPrimarySelected = true;
         $scope.costRowSum = 0;
@@ -40,7 +39,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         $scope.createItemList = false;
         $scope.executionPlatforms = [];
         $scope.kpiName = 'Impressions';
-      $scope.type = [{"name":"CPM"},{"name":"CPC"},{"name":"CPA"},{"name":"CPV"},{"name":"FIXED"}];
+        $scope.type = [{"name":"CPM"},{"name":"CPC"},{"name":"CPA"},{"name":"CPV"},{"name":"FIXED"}];
         $scope.lineItemList = [];
 
         if(!loginModel.getMasterClient().isLeafNode) {
@@ -455,7 +454,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             var target = $(event.target);
             target.parent().siblings().removeClass('active');
             target.parent().addClass('active');
-            $scope.selectedChannel = channel;
+
         }
 
         $scope.onObjectiveSelected = function (objectiveObj, type) {
@@ -530,7 +529,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     $scope.Campaign.effectiveCPM=$scope.editCampaignData.effectiveCpm;
                     if(parseFloat($scope.Campaign.effectiveCPM)<0){$scope.effectiveNegative=true;}
 
-                    $scope.selectedChannel = $scope.editCampaignData.campaignType;
+
 
 
                     /*Left Nav brands and Performance code*/
@@ -875,21 +874,27 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             $scope.isPrimarySelected = isPrimarySelected;
             $scope.removeEmptyObjectCostArr();
             $scope.ComputeCost();
+
+            var formElem = $("#createCampaignForm");
+            var formData = formElem.serializeArray();
+            formData = _.object(_.pluck(formData, 'name'), _.pluck(formData, 'value'));
+
+
             if ($scope.createCampaignForm.$valid && isPrimarySelected && !$scope.saveDisabled) {
                 var formElem = $("#createCampaignForm");
                 var formData = formElem.serializeArray();
                 formData = _.object(_.pluck(formData, 'name'), _.pluck(formData, 'value'));
                 var postDataObj = {};
                 createCampaign.getBrandId(formData.brandId, postDataObj);
-
+                console.log('formData == ',formData)
                 postDataObj.name = formData.campaignName;
-                postDataObj.campaignType = $scope.selectedChannel;
                 postDataObj.totalBudget = $scope.Campaign.totalBudget;
                 postDataObj.marginPercent = $scope.Campaign.marginPercent ? $scope.Campaign.marginPercent :0;
                 postDataObj.campaignKpis = $scope.Campaign.kpiArr;
                 postDataObj.campaignCosts = $scope.newCostArr;//$scope.Campaign.costArr;
                 postDataObj.campaignObjectives = $scope.checkedObjectiveList;
                 postDataObj.preferredPlatforms = $scope.platFormArr;
+                postDataObj.purchaseOrder = $scope.selectedCampaign.purchaseOrder;
                 postDataObj.labels = _.pluck($scope.tags, "label");
 
                 if($scope.showSubAccount) {
@@ -1163,6 +1168,10 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             $(target).closest('.tr').find('.tableEdit').toggle();
         };
 
+      // ************** PAGE 1 ******************************
+      $scope.setKPIName = function(kpi){
+          $scope.kpiName = kpi;
+      }
 
       //*************** LINE ITEM ****************************
 
