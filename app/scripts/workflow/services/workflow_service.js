@@ -7,6 +7,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                 adDetails,
                 newCreative,
                 platform,
+                seat,
                 savedGeo,
                 vistoModule,
                 creativeMode,
@@ -27,7 +28,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                 integrationObj.active = true; // TODO hardcoded true for now...
                 integrationObj.summary = platform.description;
                 integrationObj.vendorCapabilities=platform.vendorCapabilities;
-
+                integrationObj.seats = platform.seats
                 return integrationObj;
             }
 
@@ -127,11 +128,12 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                 },
 
                 getPlatforms: function (cacheObj) {
+                    //console.log(localStorage.getItem("campaignData"));
                     var clientId = loginModel.getSelectedClient().id,
-                        //url = vistoconfig.apiPaths.WORKFLOW_API_URL +  '/clients/' + clientId +
-                    // '/platforms?sortBy=displayName',
+                        campaignData = JSON.parse(localStorage.getItem("campaignData")),
+                        advertiserId = campaignData.advertiserId,
                         url = vistoconfig.apiPaths.WORKFLOW_API_URL +
-                            '/clients/' + clientId + '/vendors?vendorType=EXECUTION_PLATFORM&sortBy=name';
+                            '/clients/' + clientId + '/advertisers/' + advertiserId +'/vendors?vendorType=EXECUTION_PLATFORM&sortBy=name';
 
                     return dataService.fetch(url, cacheObj);
                 },
@@ -154,6 +156,9 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
 
                     if (searchTerm) {
                         url = 'http://qa-desk.collective.com/api/reporting/v3' +
+
+
+
                             '/clients/' + clientId +
                             '/campaigns/' + campaignId +
                             '/search/adgroups?search_term=' + searchTerm;
@@ -635,8 +640,16 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                     platform = m;
                 },
 
+                setPlatformSeat: function(platformSeat) {
+                    seat = platformSeat
+                },
+
                 getPlatform: function () {
                     return platform;
+                },
+
+                getSeat: function () {
+                    return seat;
                 },
 
                 getObjectives: function () {
