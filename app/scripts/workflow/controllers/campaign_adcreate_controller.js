@@ -586,7 +586,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                 }
             }
 
-            $scope.$broadcast('updatePlatform', [responseData.platform]);
+            $scope.$broadcast('updatePlatform', responseData.platform);
 
             // creative tags
             if (responseData.creatives) {
@@ -896,8 +896,10 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
             var platformMapper = {
                 'visto bidder': 'Visto_fav_icon',
                 'visto bidder - test': 'Visto_fav_icon',
+                'collective dorado sandbox' : 'Visto_fav_icon',
                 'appnexus': 'logo_C_appnexus',
                 'appnexus - test': 'logo_C_appnexus',
+                'collective appnexus sandbox': 'logo_C_appnexus',
                 'facebook': 'facebook-FBexchange',
                 'dbm': 'doubleclick-DFP',
                 'dfp': 'doubleclick-DFP',
