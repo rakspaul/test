@@ -17,8 +17,10 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                     'clientName': data.clientName
                 };
 
+
                 localStorage.removeItem('campaignData');
                 localStorage.setItem('campaignData', window.JSON.stringify(campaignData));
+                $rootScope.$broadcast("adCampaignDataSet");
             },
 
             campaignOverView = {
@@ -1216,6 +1218,8 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
 
                     if (formData.platformId) {
                         postAdDataObj.platformId = Number(formData.platformId);
+                        postAdDataObj.platformSeatId = Number(formData.platformSeatId);
+
 
                         if ($scope.TrackingIntegrationsSelected) {
                             postAdDataObj.isTracking = true;

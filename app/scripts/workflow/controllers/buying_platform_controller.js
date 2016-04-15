@@ -105,12 +105,13 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         };
 
 
-        $scope.selectPlatform = function (event, platform) {
+        $scope.selectPlatform = function (event, platform, seat) {
             //showing card view when you change the platform.
             hideTargetingBox();
 
             var settings = '';
-
+            console.log(seat)
+            console.log(platform)
             //remove creatives only if Tracking-only is changed to Full integrations
             if ($scope.wasFullIntegration() === -1) {
                 $scope.resetCreatives();
@@ -122,16 +123,16 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     settings = 'Geography';
                 }
                 if (storedResponse.platform) {
-                    if (storedResponse.platform.name === platform.name) {
+                    if (storedResponse.platform.name === seat.name) {
                         //directly set  the platform if it is the same
-                        $scope.setPlatform(event, platform);
+                        $scope.setPlatform(event, platform, seat);
                     } else {
                         //if the platform is changed but no targets were selected allow change
                         if (_.size(storedResponse.targets.geoTargets) == 0) {
                             $scope.setPlatform(event, platform);
                         } else {
                             //display warning popup
-                            if ($scope.defaultPlatform.id !== platform.id) {
+                            if ($scope.defaultPlatform.id !== platform.id || $scope.defaultSeat.id !== seat.id) {
                                 tempPlatform = platform;
                                 $scope.changePlatformMessage =
                                     'Your entries for the following settings are not compatible with ' +
@@ -141,22 +142,21 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                                     '. Would you like to clear these settings and switch platforms? (OK/Cancel).';
                                 $scope.changePlatformPopup = true;
                             } else {
-                                $scope.setPlatform(event, platform);
+                                $scope.setPlatform(event, platform, seat);
                             }
                         }
                     }
                 } else {
-                    $scope.setPlatform(event, platform);
+                    $scope.setPlatform(event, platform, seat);
                 }
             } else {
                 $rootScope.$broadcast('resetTargeting');
-                $scope.setPlatform(event, platform);
+                $scope.setPlatform(event, platform, seat);
             }
             $rootScope.$broadcast('targettingCapability', platform)
         };
 
-        $scope.setPlatform = function (event, platform) {
-            var name;
+        $scope.setPlatform = function (event, platform, seat) {
 
             //reset the targeting and platform while changing the platform
             if (event && !$scope.changePlatformPopup) {
@@ -169,7 +169,9 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             }
 
             $scope.selectedPlatform = {};
+            $scope.selectedSeat = {};
             workflowService.setPlatform(platform);
+            workflowService.setPlatformSeat(seat);
 
             //audience targetting
             if ($scope.mode != 'edit' || ($scope.defaultPlatform && $scope.defaultPlatform.id !== platform.id)) {
@@ -191,11 +193,13 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             }
 
             // To populate the newly selected Platform in sideBar
-            name = platform.displayName ? platform.displayName : platform.name;
-            $scope.adData.platform = name;
+
+            $scope.adData.platform = seat.name;
             $scope.adData.platformId = platform.id;
-            $scope.adData.platformName = platform.name;
-            $scope.selectedPlatform[platform.id] = name;
+            $scope.adData.platformName = seat.name;
+            $scope.adData.platformSeatId = seat.id
+            $scope.selectedPlatform[platform.id] = seat.name;
+            $scope.selectedSeat[seat.id] = seat.name
             event && $scope.platformCustomInputs();
         };
 
@@ -349,9 +353,11 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             $scope.$parent.changePlatform(newValue);
         });
 
-        if ($scope.mode === 'create') {
-            $scope.fetchPlatforms();
-        }
+        $rootScope.$on('adCampaignDataSet',function (event) {
+            if ($scope.mode === 'create') {
+                $scope.fetchPlatforms();
+            }
+        });
 
         $scope.$on('updatePlatform', function (event, platform) {
             $scope.fetchPlatforms(platform[0]);
