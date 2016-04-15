@@ -2,7 +2,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'common/s
                       'login/login_model', 'common/utils'], function (angularAMD) {
     'use strict';
 
-    angularAMD.controller('CampaignSelectController', function ($scope, $rootScope,
+    angularAMD.controller('CampaignSelectController', function ($location,$scope, $rootScope,
                                                                 campaignSelectModel, constants, brandsModel,
                                                                 loginModel, utils) {
 
@@ -16,7 +16,19 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'common/s
                 endDate: '-1'
             }
         };
+        var setMediaPlan = function() {
+            var locationUrl = $location.url();
+            if(locationUrl == '/reports/list') {
+                $scope.isAllMediaPlan = true;
+            } else {
+                $scope.isAllMediaPlan = false;
+            }
+        }
+
+        setMediaPlan();
+
         $scope.campAll = [{id: 0, name: 'All Media Plans', kpi: 'ctr', startDate: '-1', endDate: '-1'}];
+
 
         //if list is exhausted and nothing more to scroll. This variable prevents making calls to the server.
         $scope.exhausted = false;
@@ -56,6 +68,8 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'common/s
 
 
         $scope.setCampaign = function (selectedCampaign) { // set campaign in campaign controller scope. and fire change in campaign event.
+            setMediaPlan();
+
             if (selectedCampaign == undefined || selectedCampaign.id == -1) {
                 selectedCampaign = {
                     id: -1,
@@ -64,7 +78,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'common/s
                     startDate: '-1',
                     endDate: '-1'
                 };
-            } else if (($scope.allCampaign == "true" || $scope.allCampaign == true) && selectedCampaign.id == 0) {
+            } else if (($scope.isAllMediaPlan == "true" || $scope.isAllMediaPlan == true) && selectedCampaign.id == 0) {
                 selectedCampaign = {
                     id: 0,
                     name: 'All Media Plans',
@@ -74,7 +88,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'common/s
                 };
             }
 
-            if(selectedCampaign.id ===0  && ($scope.allCampaign ===  undefined || $scope.allCampaign ===  "")) {
+            if(selectedCampaign.id ===0  && ($scope.isAllMediaPlan ===  undefined || $scope.isAllMediaPlan ===  "")) {
                 selectedCampaign = campaignSelectModel.getSelectedCampaign();
             }
 
@@ -82,7 +96,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'common/s
             if (selectedBrand.id !== -1) {
                 selectedCampaign['cost_transparency'] = selectedBrand.cost_transparency;
             }
-            campaignSelectModel.setSelectedCampaign(selectedCampaign, $scope.fileIndex, $scope.allCampaign);
+            campaignSelectModel.setSelectedCampaign(selectedCampaign, $scope.fileIndex, $scope.isAllMediaPlan);
             $rootScope.$broadcast(constants.EVENT_CAMPAIGN_CHANGED);
         };
 
@@ -98,7 +112,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'common/s
                 var campArrObj = campObj.campaigns
 
                 if (search) {
-                    if ($scope.allCampaign == "true" || $scope.allCampaign == true) {
+                    if ($scope.isAllMediaPlan == "true" || $scope.isAllMediaPlan == true) {
                         campArrObj.unshift.apply(campArrObj, $scope.campAll);
                         $scope.campaignData.campaigns = campArrObj;
                     } else {
@@ -155,7 +169,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'common/s
                 };
                 campaignSelectModel.setSelectedCampaign(selectedCampaignNew);
             }
-            if ($scope.allCampaign == "true" || $scope.allCampaign == true) {
+            if ($scope.isAllMediaPlan == "true" || $scope.isAllMediaPlan == true) {
                 resetSearchCriteria();
                 $scope.fetchCampaigns(true, true);
             } else if ((campaignSelectModel.getSelectedCampaign().id == -1)) {
