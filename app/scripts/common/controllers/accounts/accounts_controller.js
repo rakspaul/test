@@ -38,7 +38,11 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
         $scope.getSubClientList = function(event, clientObj){
             var clientId = clientObj.id;
             if(clientObj.isLeafNode){
-                $scope.show_advertisers(event,clientObj.id);
+                if(typeof ($scope.clientsDetails[clientId]) == "undefined"){
+                    $scope.show_advertisers(event, clientObj.id);
+                }else{
+                    $("#client_"+clientId+"_adv").slideToggle();
+                }
             }else{
                 if(typeof ($scope.clientsDetails[clientId]) != "undefined"){
                     $("#client_"+clientId+"_sub").slideToggle();

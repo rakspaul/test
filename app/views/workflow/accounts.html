@@ -21,7 +21,7 @@
 						<span class="pull-right adding-section"  ng-if="client.isLeafNode" ng-click="AddOrEditAdvertiserModal({},'create',client)"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Create Advertiser</span>
                         <div class="pull-right common_primary_btn" ng-if="!client.isLeafNode" ng-click="AddOrEditAccountModal('create',client.id)">Create Account</div>
 					</div>
-					<div class="advertiser-list333" ng-if="clientsDetails[client.id].advertisers.length >  0">
+					<div class="advertiser-list333" ng-if="clientsDetails[client.id].advertisers.length >  0" id="client_{{client.id}}_adv">
 						<div class="each-advertiser333" ng-repeat="adv in clientsDetails[client.id].advertisers" ng-if="clientsDetails[client.id].advertisers.length >  0" ng-class="[(adv.brand.length ==  0)?'no-data-open':'',(adv.brand.length) > 0?'brand-data-loaded':'']">
 							<div class="clearfix advertiser-name" >
 								<span class="pull-left adv-name" ng-click="show_advertisers_resp_brands($event,client.id,adv.id);"  ><span class="label_heading">Advertiser: </span>{{adv.name}}</span>
