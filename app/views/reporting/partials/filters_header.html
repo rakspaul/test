@@ -16,8 +16,10 @@
         <campaign-drop-down selected-obj=selectedCampaign all-campaign="{{allCampaign}}"></campaign-drop-down>
     </div>
 
-    <div class="pull-left breadcrumb_nav_strategy" ng-show="isStrategyDropDownShow" ng-if="showStrategies">
-        <strategy-drop-down selected-obj=selectedStrategy></strategy-drop-down>
+    <div class="pull-left breadcrumb_nav_strategy"  ng-if="showStrategies == 'true'">
+        <div ng-show="isStrategyDropDownShow">
+            <strategy-drop-down selected-obj=selectedStrategy></strategy-drop-down>
+        </div>
     </div>
     <div class="pull-left dropdown dropdown-two each_filter lifetime_filter" ng-show="isStrategyDropDownShow" ng-if="reportFilter == 'true'">
         <div class="nav_filters_heading">Timeframe</div>

@@ -160,6 +160,7 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
                             });
                         } else {
                             $scope['platformData'] = result.data.data;
+                            $scope['dataNotFoundFor'+tab] = false;
                         }
                     }
                 } else {
