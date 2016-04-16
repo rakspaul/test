@@ -112,6 +112,9 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             //showing card view when you change the platform.
             hideTargetingBox();
 
+            //Stop propogation to parent element
+            event.stopPropagation();
+
             var settings = '';
             //remove creatives only if Tracking-only is changed to Full integrations
             if ($scope.wasFullIntegration() === -1) {
@@ -194,7 +197,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             }
 
             // To populate the newly selected Platform in sideBar
-            $scope.adData.platform = seat.name;
+            $scope.adData.platform = platform.name;
             $scope.adData.platformId = platform.id;
             $scope.adData.platformName = seat.name;
             $scope.adData.platformSeatId = seat.id
