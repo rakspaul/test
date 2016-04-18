@@ -122,6 +122,18 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
             var sortDirection = (c === true ) ?  'sort_order_up' : 'sort_order_down';
             return isActive + " " + sortDirection;
         }
+
+        var slideUp = function() {
+            $('#reportBuilderForm').slideUp(600);
+            $("#dynamicHeader > a > span").removeClass("icon-minus").addClass('icon-plus');
+        }
+
+        var slideDown = function() {
+            $('#reportBuilderForm').slideDown(600);
+            $("#dynamicHeader > a > span").removeClass('icon-plus').addClass("icon-minus");
+        }
+
+
         $scope.initializeMetrics = function(dataObj) {
             //delivery metrics
             $scope.deliveryMetrics = dataObj.delivery_metrics;
@@ -451,8 +463,8 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                 _customctrl.isReportLastPage_1D = respData.last_page;
                 respData = respData.report_data;
                 if (respData && respData.length > 0) {
-                    if(localStorage['scheduleListReportType'] === "Saved" || $scope.buttonLabel == "Generate") {
-                        $('#reportBuilderForm').slideUp(600);
+                    if(localStorage['scheduleListReportType'] === "Saved" || $scope.buttonLabel == "Generate") { console.log('sliding up');
+                        slideUp();
                         $("#dynamicHeader").addClass("smaller");
                     }
                     $scope.reportDataLoading = false;
@@ -1685,7 +1697,8 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                             if (result.data.status_code == 200) {
                                 $rootScope.setErrAlertMessage('Saved report updated successfully', 0);
                                 $scope.stopRedirectingPage = false;
-                                $('#reportBuilderForm').slideUp(600);
+                               // $('#reportBuilderForm').slideUp(600);
+                                slideUp();
                                 if((isGenerateAlreadyCalled)) {
                                     $scope.ToggleAdGroups(self);
 
@@ -1792,12 +1805,10 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
             $scope.showHideToggle = false;
             $scope.ToggleAdGroups = function (context) {
                 if (context.showHideToggle) {
-                    $('#reportBuilderForm').slideUp(600);
-                    $("#dynamicHeader > a > span").removeClass("icon-minus").addClass('icon-plus');
+                    slideUp();
                     context.showHideToggle = !context.showHideToggle;
                 } else {
-                    $('#reportBuilderForm').slideDown(600);
-                    $("#dynamicHeader > a > span").removeClass("icon-plus").addClass('icon-minus');
+                    slideDown();
                      context.showHideToggle = !context.showHideToggle;
                 }
             };
@@ -2149,7 +2160,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                             if(localStorage['scheduleListReportType'] == "Saved"){
                                 $scope.reports.name = $scope.reportData.reportName;
                                 $scope.generateReport();
-                                $('#reportBuilderForm').slideUp(600);
+                                slideUp();
                                 $( "#dynamicHeader" ).addClass( "smaller" );
                             }
                         }
