@@ -76,7 +76,7 @@ define(['angularAMD', 'common/services/constants_service'],function (angularAMD)
 
                     // if(event.target.id !== 'campaignDropdown' && event.target.id !== 'campaign_name_selected' && $('#campaigns_list').css('display') == "block" ) {
                     if(( $(event.target).closest(".campaignDropdown").length == 0) && ( $(event.target).closest(".campaign_name_selected").length == 0)  && $('.campaigns_list').is(':visible') == true ) {
-                        console.log("dghsagdhgsa") ;
+                        // console.log("dghsagdhgsa") ;
                         $(".campaigns_list").hide();
                         var inputValue;
                         if(localStorageCampaignData.id || (localStorageCampaignData.id === $scope.$parent.selectedCampaign.id)) {

@@ -286,7 +286,6 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
                 if (reportTypeDropdownId.is(':visible') && event.target.id != "reportTypeDropdownTxt") {
                     reportTypeDropdownId.hide();
                 }
-                console.log("fdjsgjkdf") ;
                 if (campaigns_list_class.is(':visible') && ( $(event.target).closest(".campaign_name_selected").length == 0)) {
                     campaigns_list_class.hide();
                 }
