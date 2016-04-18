@@ -124,7 +124,10 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
       };
       $scope.toggle_dropdown = function(event) {
         var elem = $(event.target);
-        elem.closest(".dropdown").find(".dropdown-menu").toggle() ;
+        $(".campaigns_list").hide() ;
+        $(".reportTypeDropdownTxt").not(elem).closest(".upload_file_holder").find(".dropdown-menu").hide()  ;
+        elem.closest(".upload_file_holder").find(".campaigns_list").hide() ;
+        elem.closest(".report-type-col").find(".dropdown-menu").toggle();
       };
       // $scope.close_msg_box = function(event) {
       //   var elem = $(event.target);

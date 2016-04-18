@@ -250,6 +250,7 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
                     campObjId = $("#campObj"),
                     mainNavDropdown = $(".main_nav_dropdown"),
                     reportTypeDropdownId = $("#reportTypeDropdown"),
+                    campaigns_list_class = $(".campaigns_list"),
                     regionTooltip = $(".regionCityTab").find(".common_tooltip"),
                     quickFilters = $(".sliding_dropdown_container");
 
@@ -285,6 +286,10 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
                 if (reportTypeDropdownId.is(':visible') && event.target.id != "reportTypeDropdownTxt") {
                     reportTypeDropdownId.hide();
                 }
+                console.log("fdjsgjkdf") ;
+                if (campaigns_list_class.is(':visible') && ( $(event.target).closest(".campaign_name_selected").length == 0)) {
+                    campaigns_list_class.hide();
+                }
 
                 if ( accountDropdownList.is(':visible') && ( $(event.target).closest(".clientDropdownCnt").length == 0) && ( $(event.target).closest(".accountDropDown").length == 0) && !$(event.target).parents("div[id^=accountDropDown]").length) {
                     accountDropdownList.hide();
@@ -317,12 +322,14 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
                 closeMenuPopUs(event);
                 if (event.target.id == 'performance_download_btn') {
                     if (campaignDropdownId.is(':visible')) {
+                        console.log("1") ;
                         campaignsListId.hide();
                     }
                 }
 
                 if (event.target.id == 'strategy_dropdown') {
                     if (campaignDropdownId.is(':visible')) {
+                        console.log("2") ;
                         campaignsListId.hide();
                     }
                 }
