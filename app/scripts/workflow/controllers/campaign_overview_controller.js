@@ -258,14 +258,13 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     keywordsArr.push(phrase);
                 }
                 keywords = keywordsArr.join('|');
-                if(keywords){
+
+                if (keywords) {
                     return text.replace(new RegExp('(' + keywords + ')', 'gi'),
                         $sce.trustAsHtml('<mark class="search-highlight">$1</mark>'));
-                }else{
+                } else {
                     return text;
                 }
-
-
             };
 
             $scope.highlightLabelPill = function (text, phrase) {

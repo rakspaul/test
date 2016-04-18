@@ -17,6 +17,10 @@ define(['angularAMD'],function (angularAMD) {
 
                     var barChatPlotData = _.pluck(chartData.data, 'value');
 
+                    _.each(barChatPlotData,function(each,index){
+                        barChatPlotData[index] = isNaN(each)?0:each;
+                    })
+
                     barChatPlotData = _.filter(barChatPlotData, function(obj) { return obj !== 'NaN' });
                     if(barChatPlotData.length > 0) {
                         scope.total = _.reduce(barChatPlotData, function (sum, num) {
