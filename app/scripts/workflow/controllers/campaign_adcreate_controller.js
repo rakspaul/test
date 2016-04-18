@@ -540,7 +540,6 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                 }else{
                     $(".external_chkbox").hide();
                 }
-
             }
             if(responseData.kpiType){
                 $scope.adData.primaryKpi=responseData.kpiType;
