@@ -51,6 +51,8 @@ define(['angularAMD', 'common/services/constants_service', 'common/moment_utils'
               $scope.adBudgetExceedUnallocated=true;
           }else{
               $scope.adBudgetExceedUnallocated=false;
+
+
           }
       }
       $scope.checkBudgetExceed=function(){
