@@ -25,7 +25,7 @@ define(['angularAMD', 'workflow/services/workflow_service','common/services/cons
         this.fetchSubAccounts = function (from,successCallBack, searchCritera, search) {
            // console.log('Subaccount Model From: ',from)
             var isLeafNode = loginModel.getMasterClient().isLeafNode;
-            if(!isLeafNode){
+            if(!isLeafNode && workflowService.getSubAccounts()){
                 workflowService.getSubAccounts().then(function (response) {
                     if(from == 'MasterClientChanged') {
                         self.setSelectedSubAccount({'id': response.data.data[0].id, 'name': response.data.data[0].displayName});

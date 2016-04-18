@@ -590,7 +590,6 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
             };
 
             // SECTION FOR APPLYING FILTER IF THE APPROPRIATE QUERY PARAMS ARE PASSED IN THE URL.
-            // TODO: This is a temporary solution, and should be handled properly using History API or similar technique
             var urlQueries = $location.search(),
                 reportName = '',
                 dateFilter = '',

@@ -490,7 +490,12 @@ define(['common'], function (angularAMD) {
                        workflowService, featuresService, subAccountModel, $window) {
             var handleLoginRedirection = function () {
                 var cookieRedirect = $cookieStore.get('cdesk_redirect') || null,
-                        setDefaultPage;
+                    localStorageRedirect = localStorage.getItem('cdeskRedirect'),
+                    setDefaultPage;
+
+                    if (localStorageRedirect) {
+                        cookieRedirect = localStorageRedirect;
+                    }
 
                     if ($cookieStore.get('cdesk_session')) {
                         if (cookieRedirect) {
@@ -499,6 +504,7 @@ define(['common'], function (angularAMD) {
                         if (cookieRedirect && cookieRedirect !== 'dashboard') {
                             $location.url(cookieRedirect);
                             $cookieStore.remove('cdesk_redirect');
+                            localStorage.removeItem('cdeskRedirect');
                         } else {
                             setDefaultPage = 'dashboard';
                             $location.url(setDefaultPage);
@@ -530,7 +536,7 @@ define(['common'], function (angularAMD) {
                                 var matchedClientsobj;
 
                                 if ((result && result.data.data.length > 0)) {
-                                    if (userObj.preferred_client){
+                                    if (userObj && userObj.preferred_client) {
                                         matchedClientsobj = _.find(result.data.data, function (obj) {
                                             return obj.id === userObj.preferred_client;
                                         });
@@ -589,6 +595,9 @@ define(['common'], function (angularAMD) {
 
                     // if cookie is not set
                     if (!$cookieStore.get('cdesk_session')) {
+                        if ($location.path() !== '/login') {
+                            localStorage.setItem('cdeskRedirect', $location.url());
+                        }
                         $location.url('/login');
                     }
 

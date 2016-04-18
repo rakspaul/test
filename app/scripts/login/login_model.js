@@ -157,8 +157,12 @@ define(['angularAMD','../common/services/constants_service'], function (angularA
             },
 
             checkCookieExpiry: function () {
+                var redirectPath;
+
                 if (!$cookieStore.get('cdesk_session')) {
+                    redirectPath = localStorage.getItem('cdeskRedirect');
                     localStorage.clear();
+                    localStorage.setItem('cdeskRedirect', redirectPath);
                     if ($location.$$path !== '/login') {
                         updateRedirectUrl($location.$$path);
                     }
