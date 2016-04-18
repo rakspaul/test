@@ -67,7 +67,6 @@ define(['angularAMD', 'common/services/constants_service', 'common/moment_utils'
                 $scope.BudgetExceeded=false;
           }
 
-
       }
 /*
     $scope.adBudgetValidator = function () {
