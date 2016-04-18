@@ -1697,7 +1697,6 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                             if (result.data.status_code == 200) {
                                 $rootScope.setErrAlertMessage('Saved report updated successfully', 0);
                                 $scope.stopRedirectingPage = false;
-                               // $('#reportBuilderForm').slideUp(600);
                                 slideUp();
                                 if((isGenerateAlreadyCalled)) {
                                     $scope.ToggleAdGroups(self);
