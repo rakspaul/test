@@ -5,24 +5,24 @@
     <div class="col-md-5" style="background: #F0F0F0; padding: 0 10px 10px 10px;">
         <div class="col-md-4 zeroPadding">
             <label class="col-sm-12 greyTxt miniLabels zeroPadding">Media Plan Budget</label>
-            <span class="col-md-12 zeroPadding">$150,000</span>
+            <span class="col-md-12 zeroPadding">${{Campaign.totalBudget? Campaign.totalBudget:0}}</span>
         </div>
         <div class="col-md-4 zeroPadding">
             <label class="col-sm-12 greyTxt miniLabels zeroPadding">Margin (Not Req)</label>
-            <span class="col-md-12 zeroPadding">30%</span>
+            <span class="col-md-12 zeroPadding">{{Campaign.marginPercent?Campaign.marginPercent:0}}%</span>
         </div>
         <div class="col-md-4 zeroPadding">
             <label class="col-sm-12 greyTxt miniLabels zeroPadding">Delivery Budget</label>
-            <span class="col-md-12 zeroPadding">$105,000</span>
+            <span class="col-md-12 zeroPadding">${{Campaign.deliveryBudget?Campaign.deliveryBudget:0}}</span>
         </div>
     </div>
 
     <label for="nameTitleCampaign" class="col-sm-12 labelQuestTxt" style="margin-bottom: 5px;">Setup Line Items</label>
 
     <div class="col-md-12 zeroPadding btn-group create" role="group" style="margin: 20px 0 10px 0;">
-        <a class="btn btn-default" ng-click="$parent.createItemList = ! $parent.createItemList">
+        <a class="btn btn-default" ng-click="$parent.createItemList = ! $parent.createItemList; ">
             <span class="icon-plus"></span>
-            <span data-ng-bind="textConstants.CREATE"></span>
+            <span data-ng-bind="textConstants.CREATE" ></span>
         </a>
 
         <!--Search/Quickfilters Input-->
@@ -55,43 +55,46 @@
     </div>
 
     <!--Create Item List Form Start-->
-    <div class="col-md-12 createItemList" ng-show="createItemList" ng-form name="lineItemForm">
+    <div class="col-md-12 createItemList " ng-show="createItemList" ng-form name="lineItemForm">
         <!--Row 1-->
-        <div class="col-md-4 zeroPadding">
+        <div class="col-md-4 zeroPadding form-group"  show-errors>
             <label class="col-sm-12 greyTxt miniLabels zeroPadding">Line Item Name / Notes</label>
-            <input type="text" class="col-md-12" placeholder="Enter Line Item name up to 150 characters" name="lineItemName" ng-model="$parent.lineItemName"  required/>
-            <span class="error" ng-show="lineItemForm.lineItemName.$error.required">Please enter a name</span>
+            <input type="text" class="col-md-12 form-control" placeholder="Enter Line Item name up to 150 characters" name="lineItemName" ng-model="$parent.lineItemName"  ng-required="true"/>
+            <span class="greyTxt errorLabel" ng-if="lineItemForm.lineItemName.$error.required">Please enter a name</span>
         </div>
 
         <div class="col-md-2" style="padding: 0 0 0 10px;">
-            <label class="col-sm-12 greyTxt miniLabels zeroPadding">Type</label>
-            <div class="col-md-12 zeroPadding dropdown-workflow">
+            <label class="col-sm-12 greyTxt miniLabels zeroPadding">Rate Type</label>
+            <div class="col-md-12 zeroPadding dropdown-workflow form-group" show-errors>
                  <div class="dropdown">
                   <button style="width:100%;" class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                        <span class="text">{{($parent.lineItemType !== '')?$parent.lineItemType:'Select Type'}}</span>
                        <span class="icon-arrow-down"></span>
                   </button>
                   <ul class="dropdown-menu" aria-labelledby="lineType" id="lineType" data-toggle="dropdown" name="lineItemType">
-                       <li class="available" ng-repeat="t in type"  ng-click="$parent.lineItemType = t.name"><a>{{t.name}}</a></li>
+                       <li class="available" ng-repeat="t in type"  ng-click="setLineItem(t.name)"><a>{{t.name}}</a></li>
 
                   </ul>
+                     <input type="hidden" class="form-control" ng-model="lineItemType" name="lineItemType" required />
+                     <span class="greyTxt errorLabel" ng-if="lineItemForm.lineItemType.$error.required">Select Type</span>
                  </div>
+
             </div>
         </div>
 
-        <div class="col-md-2" style="padding: 0 0 0 10px;">
+        <div class="col-md-2  form-group" style="padding: 0 0 0 10px;" show-errors>
             <label class="col-sm-12 greyTxt miniLabels zeroPadding">Rate</label>
-            <input type="text" class="col-md-12" placeholder="Enter Rate" ng-model="$parent.lineRate"/>
+            <input type="text" class="col-md-12 form-control" placeholder="Enter Rate" ng-model="$parent.lineRate" ng-readonly="rateReadOnly" name="lineItemRate" required  whole-number-only/>
+            <span class="greyTxt errorLabel" ng-if="lineItemForm.lineItemRate.$error.required">Enter Rate</span>
         </div>
 
         <div class="col-md-2" style="padding: 0 0 0 10px;">
-            <label class="col-sm-12 greyTxt miniLabels zeroPadding">Contracted Value</label>
-            <input type="text" class="col-md-12" placeholder="" ng-model="$parent.contractedValue"/>
+            <label class="col-sm-12 greyTxt miniLabels zeroPadding">Amount</label>
+            <input type="text" class="col-md-12" placeholder="" ng-model="$parent.contractedValue" whole-number-only/>
         </div>
-
-        <div class="col-md-2" style="padding: 0 0 0 10px;">
-            <label class="col-sm-12 greyTxt miniLabels zeroPadding">Target</label>
-            <input type="text" class="col-md-12" placeholder="" ng-model="$parent.lineTarget"/>
+        <div class="col-md-2" style="padding: 0 0 0 10px;" ng-if="volumeFlag">
+            <label class="col-sm-12 greyTxt miniLabels zeroPadding">Volume</label>
+            <input type="text" class="col-md-12" placeholder="" ng-model="$parent.lineTarget" whole-number-only/>
         </div>
 
         <!--Row 2-->
@@ -99,15 +102,15 @@
             <div class="span4 col-md-12 input-daterange input-group date pull-left" id="datepicker">
                 <div class="col-md-12 dateWrapper zeroPadding">
                     <div class="dateContainer">
-                    <label class="col-sm-12 control-label greyTxt miniLabels">Billing Period Start</label>
+                    <label class="col-sm-12 control-label greyTxt miniLabels">Flight Date Start</label>
                     <div style="background: #fff;">
-                        <input type="text" id="startDateInput" custom-date-picker="{format: 'mm/dd/yyyy', orientation: 'auto',  autoclose: true, todayHighlight: true}" placeholder="MM/DD/YYYY" class="form-control"  readonly name="startTime" ng-model="adData.startTime"  ng-disabled="checkForPastDate(workflowData['campaignData'].startTime, workflowData['campaignData'].endTime) || (workflowData.adsData.state=='IN_FLIGHT' || workflowData.adsData.state === 'ENDED' || workflowData.adsData.state === 'PAUSED'?true:false)" ng-change=" handleStartFlightDate(adData)"/>
+                        <input type="text" id="startDateInput" custom-date-picker="{format: 'mm/dd/yyyy', orientation: 'auto',  autoclose: true, todayHighlight: true}" placeholder="MM/DD/YYYY" class="form-control"  readonly name="startTime" ng-model="startTime"  ng-disabled="checkForPastDate(workflowData['campaignData'].startTime, workflowData['campaignData'].endTime) || (workflowData.adsData.state=='IN_FLIGHT' || workflowData.adsData.state === 'ENDED' || workflowData.adsData.state === 'PAUSED'?true:false)" ng-change="validateDate(adData)"/>
                     </div>
                     </div>
                     <div class="dateContainer">
-                    <label class="col-sm-12 control-label greyTxt miniLabels">Billing Period End</label>
+                    <label class="col-sm-12 control-label greyTxt miniLabels">Flight Date End</label>
                     <div style="background: #fff;">
-                        <input type="text" id="endDateInput" custom-date-picker="{format: 'mm/dd/yyyy', orientation: 'auto',  autoclose: true, todayHighlight: true}" placeholder="MM/DD/YYYY" class="form-control" readonly disabled="disabled" ng-model="adData.endTime" name="endTime" required ng-change="handleEndFlightDate(adData)"/>
+                        <input type="text" id="endDateInput" custom-date-picker="{format: 'mm/dd/yyyy', orientation: 'auto',  autoclose: true, todayHighlight: true}" placeholder="MM/DD/YYYY" class="form-control"  ng-model="endTime" name="endTime" required ng-change="validateDate(adData)"/>
                     </div>
                     </div>
                 </div>
@@ -128,7 +131,7 @@
         </div>
 
         <div class="pull-right" style="padding: 30px 0 0 0;">
-            <div class="pull-right btn btn-primary" ng-click="createNewLineItem()">Save Line Item</div>
+            <div class="pull-right btn btn-primary" ng-disabled="(lineItemName === '' || lineItemType === '' || lineRate === '')" ng-click="createNewLineItem()">Save Line Item</div>
             <div class="pull-right btn btn-link" ng-click="$parent.createItemList = ! $parent.createItemList">Cancel</div>
         </div>
     </div>
@@ -142,10 +145,10 @@
                 <div class="tr">
                     <div class="th col-md-3">Line Item</div>
                     <div class="th col-md-2">Type</div>
-                    <div class="th col-md-1">Rate</div>
-                    <div class="th col-md-2">Contracted Value</div>
-                    <div class="th col-md-2">Target</div>
-                    <div class="th col-md-2">Billing Period</div>
+                    <div class="th col-md-1">Rate Type</div>
+                    <div class="th col-md-2">Amount</div>
+                    <div class="th col-md-2">Volume</div>
+                    <div class="th col-md-2">Flight Date</div>
                 </div>
             </div>
 
@@ -158,13 +161,13 @@
                         <a class="td col-md-1">{{item.lineRate}}</a>
                         <a class="td col-md-2">{{item.contractedValue}}</a>
                         <a class="td col-md-2">{{item.lineTarget}}</a>
-                        <a class="td col-md-2">03/30/2016 - 09/03/2016</a>
+                        <a class="td col-md-2">{{item.startDate}} - 09/03/2016</a>
                     </div>
 
                     <div class="tableEdit" ng-include="'listItemEditTpl'"></div>
                 </div>
 
-               
+
             </div>
         </div>
     </div>
@@ -178,7 +181,7 @@
 
     <div class="col-md-12 addCreditForm">
         <a class="btn btn-default" ng-click="showAddCredit = ! showAddCredit" ng-hide="showAddCredit" style="margin: 10px 0;">Add Credit</a>
-        
+
         <div class="col-md-12 zeroPadding" ng-show="showAddCredit">
             <div class="col-md-4 zeroPadding">
                 <label class="col-sm-12 greyTxt miniLabels zeroPadding">Credit Name / Notes</label>
@@ -246,7 +249,7 @@
                 <div class="dateContainer">
                 <label class="col-sm-12 control-label greyTxt miniLabels">Billing Period End</label>
                 <div style="background: #fff;">
-                    <input type="text" id="endDateInput" custom-date-picker="{format: 'mm/dd/yyyy', orientation: 'auto',  autoclose: true, todayHighlight: true}" placeholder="MM/DD/YYYY" class="form-control" readonly disabled="disabled" ng-model="adData.endTime" name="endTime" required ng-change="handleEndFlightDate(adData)"/>
+                    <input type="text" id="endDateInput" custom-date-picker="{format: 'mm/dd/yyyy', orientation: 'auto',  autoclose: true, todayHighlight: true}" placeholder="MM/DD/YYYY" class="form-control"   ng-model="adData.endTime" name="endTime" required ng-change="handleEndFlightDate(adData)"/>
                 </div>
                 </div>
             </div>
@@ -263,4 +266,14 @@
         <a class="btn btn-primary pull-right">Save Changes</a>
         <a class="btn btn-link pull-right" ng-click="showNormalItemRow($event);">Cancel</a>
     </div>
+</script>
+<script>
+    $(document).ready(function() {
+        $('.input-daterange').datepicker({
+            format: "mm/dd/yyyy",
+            orientation: "auto",
+            autoclose: true,
+            todayHighlight: true
+        });
+    })
 </script>
