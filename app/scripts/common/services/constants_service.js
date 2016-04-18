@@ -969,6 +969,10 @@ define(['angularAMD'], function(angularAMD) {
             'You have chosen monthly Scheduling, please choose a date range that is at least one month';
         this.CUSTOMDATE_ERROR_MESSAGE = 'The custom date does not fall within the range of Start and End Dates.';
 
+        this.VIDEO_TARGETING = 'Video Targeting';
+        this.SAVE_VIDEO_TARGETING = 'Save Video Targeting';
+        this.VIDEO_PLACENMENT_AND_PLAYERS = 'Specify the types of placements and players where you would like your video ad to appear';
+
         //Creative List
         this.NEWCREATIVEALERT = 'New Creative has been created successfully.';
         this.CREATIVELIBRARY = 'Creative Library';
