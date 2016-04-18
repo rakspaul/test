@@ -1,5 +1,5 @@
 define(['angularAMD','workflow/services/filter_service','common/services/constants_service'],function (angularAMD) {
-    angularAMD.directive('filterDirective',  function (filterService) {
+    angularAMD.directive('filterDirective', function (filterService) {
         return {
             controller: function($scope,$rootScope, workflowService,loginModel,constants) {
                 $scope.filterData = {};
@@ -12,7 +12,8 @@ define(['angularAMD','workflow/services/filter_service','common/services/constan
                 $scope.filterData.advertiserSelectedName="";
                 $scope.filterData.advertiserSelectedId ="";
 
-                var fetchAdvertiserAndBroadCast = function(onClientSelect = false) {
+                var fetchAdvertiserAndBroadCast = function(onClientSelect) {
+                    onClientSelect = onClientSelect || false;
                     filterService.fetchAdvertisers($scope.filterData.subAccSelectedId,function(advertiserData){
                         $scope.filterData.advertiserList= [{'id':'-1','name':constants.ALL_ADVERTISERS}].concat(advertiserData);
 
@@ -84,5 +85,4 @@ define(['angularAMD','workflow/services/filter_service','common/services/constan
             }
         };
     });
-
 });
