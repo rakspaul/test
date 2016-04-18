@@ -104,9 +104,11 @@
         <input ng-if="!selectedDayParts['data'] || selectedDayParts['data'].length  == 0" type="button" name="platform" value="Create" ng-disabled="!$parent.isPlatformSelected" class="btn btn-default" ng-click="selectDayTarget()">
     </div>
     <!--END : Daypart Targeting Card-->
-    
+    adData.adFormat --> {{adData.adFormat}}
+    isPlatformSelected --> {{isPlatformSelected}}
+    isVideoTargetEnabled --> {{isVideoTargetEnabled}}
     <!--START : Video Targeting Card-->
-    <div class="col-md-6 cardSelectHolder active">
+    <div class="col-md-6 cardSelectHolder active" ng-if="adData.adFormat === 'Video'">
         <span class="icon-trash" ng-click="deletetargets('VIDEO', $event)"></span>
         <div class="icon-video"></div>
         <p>Video</p>
@@ -118,7 +120,7 @@
         <input type="button" name="platform" value="Create" ng-disabled="!$parent.isPlatformSelected" class="btn btn-default" ng-click="selectVideoTarget()">
     </div>
     <!--END : Video Targeting Card-->
-    
+
     <div class="msgPopupHolder" ng-show="showDeleteConfirmationPopup">
         <div class="msgPopup" style="top:-60px">
             <div>
@@ -136,7 +138,7 @@
 <div class="col-md-12 targetingSlide" id="audienceTargeting" ng-include="'/views/workflow/partials/targetings/audience_targeting.html'" ng-controller="AudienceTargettingController"></div>
 <div class="col-md-12 targetingSlide" id="geographyTargeting" ng-include="'/views/workflow/partials/targetings/geography_targeting.html'" ng-controller="GeoTargettingController"></div>
 <div class="col-md-12 targetingSlide" ng-if="adData.platformName !== 'DORADO'" id="dayTargeting" ng-include="'/views/workflow/partials/targetings/day_targeting.html'" ng-controller="daypartController"></div>
-<div class="col-md-12 targetingSlide" id="videoTargeting" ng-include="'/views/workflow/partials/targetings/video_targeting.html'"></div>
+<div class="col-md-12 targetingSlide" id="videoTargeting" ng-include="'/views/workflow/partials/targetings/video_targeting.html'" ng-controller="VideoTargettingController"></div>
 
 <!--=== Next Step Panel ===-->
 <span class="nextWrapper leftNavLink">
