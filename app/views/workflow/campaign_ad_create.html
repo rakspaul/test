@@ -77,10 +77,9 @@
                                                          </ul>
                                                     </div>
                                                </div>
-
                                                 <button ng-show ="!adCreateLoader"
                                                         type="button"
-                                                        ng-disabled="!adData.adName"
+                                                        ng-disabled="!adData.adName || !(adData.targetValue>=0) || !(adData.unitCost>=0) || !(adData.totalAdBudget>=0)|| !(adData.budgetAmount>=0)"
                                                         id="SaveAd"
                                                         ng-click="campaignAdSave(false)"
                                                         ng-bind="textConstants.WF_AD_SAVE_CLOSE"
