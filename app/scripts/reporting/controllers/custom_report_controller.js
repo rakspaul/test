@@ -513,9 +513,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
         $scope.generateReport = function(generateReportType) {
             if (validateGenerateReport()) {
                // $(".iconPlus")
-                if((isGenerateAlreadyCalled)) {
-                    $scope.ToggleAdGroups(this);
-                } else{
+                if((!isGenerateAlreadyCalled)) {
                     isGenerateAlreadyCalled = true;
                 }
                 $scope.generateBtnDisabled = false;
