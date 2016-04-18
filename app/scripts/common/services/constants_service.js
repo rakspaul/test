@@ -870,6 +870,8 @@ define(['angularAMD'], function(angularAMD) {
         this.ADGROUPMAXIMUMBUDGETMSG = 'Please enter a budget value less than the available media plan budget.';
         this.WHATFLIGHTDATES = 'What are the Flight Dates?';
         this.PLEASESELSTARTDATE = 'Please select the start Date.';
+        this.EXPORT_CONVERSION_PIXELS = 'Export All Conversion Pixels' ;
+        this.TAGS_FOR_TRACKING_ONLY_ADS = 'Export Tags for Tracking Only Ads' ;
 
         //Audience Targeting
         this.SAVEAUD = 'Save Audience';
