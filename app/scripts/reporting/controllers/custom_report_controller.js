@@ -463,7 +463,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                 _customctrl.isReportLastPage_1D = respData.last_page;
                 respData = respData.report_data;
                 if (respData && respData.length > 0) {
-                    if(localStorage['scheduleListReportType'] === "Saved" || $scope.buttonLabel == "Generate") { console.log('sliding up');
+                    if(localStorage['scheduleListReportType'] === "Saved" || $scope.buttonLabel == "Generate") {
                         slideUp();
                         $("#dynamicHeader").addClass("smaller");
                     }
