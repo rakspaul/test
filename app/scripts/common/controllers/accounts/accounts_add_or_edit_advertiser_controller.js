@@ -16,7 +16,7 @@ define(['angularAMD','../../../workflow/services/account_service'],function (ang
             if ($scope.mode === 'edit') {
                 advertiserObj =  accountsService.getToBeEditedAdvertiser();
                 body = constructRequestBody(advertiserObj);
-                accountsService.updateAdvertiser(body,body.id).then(function (result) {
+                accountsService.updateAdvertiser($scope.clientId, $scope.response.advertiserId, $scope.advertiserData).then(function (result) {
                     if (result.status === 'OK' || result.status === 'success') {
                         $scope.fetchAllAdvertisers($scope.client.id);
                         $scope.close();
@@ -32,9 +32,7 @@ define(['angularAMD','../../../workflow/services/account_service'],function (ang
                  //when user does select and existing advertiser under a client
                 createAdvertiserUnderClient($scope.selectedAdvertiserId);
             } else {
-                // when user creates a brand new advertiser
-                body = constructRequestBody();
-                accountsService.createAdvertiser(body).then(function (adv) {
+                accountsService.createAdvertiser({name:$scope.advertiserName}).then(function (adv) {
                     if (adv.status === 'OK' || adv.status === 'success') {
                         createAdvertiserUnderClient(adv.data.data.id);
                     }

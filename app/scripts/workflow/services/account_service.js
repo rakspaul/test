@@ -66,11 +66,14 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
                 var url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/advertisers/' + advertiserId + '/brands';
                 return dataService.fetch(url, {cache: false});
             },
-            updateAdvertiser: function (data, id) {
-                return dataService.put(vistoconfig.apiPaths.WORKFLOW_API_URL + '/advertisers/' + id, data, {'Content-Type': 'application/json'})
+            updateAdvertiser: function (clientId, id, data) {
+                return dataService.put(vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/advertisers/' + id, data, {'Content-Type': 'application/json'})
             },
             createAdvertiser: function (data) {
                 return dataService.post(vistoconfig.apiPaths.WORKFLOW_API_URL + '/advertisers', data, {'Content-Type': 'application/json'})
+            },
+            getAdvertiserDetails: function(clientId, id){
+                return dataService.put(vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/advertisers/'+id, {'Content-Type': 'application/json'})
             },
             createAdvertiserUnderClient: function (clientId, advertiserId) {
                 return dataService.put(vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/advertisers/' + advertiserId, {}, {'Content-Type': 'application/json'})
@@ -78,12 +81,15 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
             createBrand: function (data) {
                 return dataService.post(vistoconfig.apiPaths.WORKFLOW_API_URL + '/brands', data, {'Content-Type': 'application/json'})
             },
+            getBrandDetails: function(clientId, advertiserId, brandId){
+                return dataService.put(vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/advertisers/'+id+'/brands/'+brandId, {'Content-Type': 'application/json'})
+            },
             createBrandUnderAdvertiser: function (clientId, advertiserId, brandId) {
                 return dataService.put(vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/advertisers/' + advertiserId + '/brands/' + brandId, {}, {'Content-Type': 'application/json'})
             }
             ,
-            updateBrand: function (data, id) {
-                return dataService.put(vistoconfig.apiPaths.WORKFLOW_API_URL + '/brands/' + id, data, {'Content-Type': 'application/json'})
+            updateBrand: function (clientId, advertiserId, brandId, data) {
+                return dataService.put(vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/advertisers/' +advertiserId+ '/brands/' + id, data, {'Content-Type': 'application/json'})
             },
             updateClient: function (data, id) {
                 return dataService.put(vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + id, data, {'Content-Type': 'application/json'})

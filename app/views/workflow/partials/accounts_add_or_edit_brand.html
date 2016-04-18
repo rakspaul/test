@@ -10,15 +10,19 @@
 		    <label >Brand Name:</label>
 		    <input type="text" class="form-control" id="brandNameInp" ng-model="brandName" ng-keyup="mode == 'create' ? showDropdown() : ''">
 
-            <ul class="dropdown-menu" role="menu" id="brandsList" ng-if="mode == 'create'" ng-style="dropdownCss">
-                <li ng-repeat="brand in allBrands | filter:brandName" data-ng-click="selectBrand(brand)">
-                    <a >
-                        <span class="tick"></span>
-                        <span class="menuItemText ng-binding" >{{brand.name}}</span>
-                    </a>
-                </li>
-            </ul>
-            <input type="hidden"  ng-model="selectedBrandId" >
+            <!--<ul class="dropdown-menu" role="menu" id="brandsList" ng-if="mode == 'create'" ng-style="dropdownCss">-->
+                <!--<li ng-repeat="brand in allBrands | filter:brandName" data-ng-click="selectBrand(brand)">-->
+                    <!--<a >-->
+                        <!--<span class="tick"></span>-->
+                        <!--<span class="menuItemText ng-binding" >{{brand.name}}</span>-->
+                    <!--</a>-->
+                <!--</li>-->
+            <!--</ul>-->
+            <!--<input type="hidden"  ng-model="selectedBrandId" >-->
+            <!--<label >Brand Name:</label>-->
+            <!--<select class="form-control" name="brandId" ng-model="brandId">-->
+                <!--<option value="{{brand.id}}" ng-repeat="brand in brandsList" ng-selected="{{brand.id == brandId}}" data-ng-bind="brand.name"></option>-->
+            <!--</select>-->
         </div>
     </div><!-- end of modal_body -->
 </div> <!-- end of popup-holder -->

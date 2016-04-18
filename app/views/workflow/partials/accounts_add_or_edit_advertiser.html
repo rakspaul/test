@@ -17,102 +17,43 @@
             
             <div class="form-group col-md-4" style="padding: 0 15px;">
                 <label >Impression Look Back:</label>
-                <input type="text" class="form-control" ng-model="advertiserPopUp.pixels[$index].impressionLookBack" ng-keyup="(advertiserPopUp.pixels[$index].impressionLookBack>30)?advertiserPopUp.pixels[$index].impressionLookBack=30:''">
+                <input type="text" class="form-control" ng-model="advertiserData.impressionLookBack" ng-keyup="(advertiserData.impressionLookBack>30)?advertiserData.impressionLookBack=30:''">
             </div>
             
             <div class="form-group col-md-4" style="padding: 0 0 0 15px;">
                 <label >Click:</label>
-                <input type="text" class="form-control" ng-model="advertiserPopUp.pixels[$index].clickLookBack" ng-keyup="(advertiserPopUp.pixels[$index].clickLookBack>30)?advertiserPopUp.pixels[$index].impressionLookBack=30:''">
+                <input type="text" class="form-control" ng-model="advertiserData.clickLookBack" ng-keyup="(advertiserData.clickLookBack>30)?advertiserData.impressionLookBack=30:''">
             </div>
-            <!--<label >Impression Look Back:</label>-->
-            <!--<input type="text" class="form-control" ng-model="advertiserPopUp.impressionLookBack" ng-keyup="(advertiserPopUp.impressionLookBack>30)?advertiserPopUp.impressionLookBack=30:''">-->
-            <!--<label >Click:</label>-->
-            <!--<input type="text" class="form-control" ng-model="advertiserPopUp.clickLookBack" ng-keyup="(advertiserPopUp.clickLookBack>30)?advertiserPopUp.impressionLookBack=30:''">-->
-            <!--<label >Pixel Type:</label>-->
-            <!--<div class="dropdown">-->
-                <!--<button style="width:170px;" class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">-->
-                    <!--<span class="text" ng-bind="advertiserPopUp.pixelType"></span>-->
-                    <!--<span class="icon-arrow-down"></span>-->
-                <!--</button>-->
-                <!--<ul class="dropdown-menu" aria-labelledby="unitcostType" ng-model="adData.unitType"  id="unitcostType" data-toggle="dropdown">-->
-                    <!--<li><a ng-click="advertiserPopUp.pixelType='Action - Page View'" ng-bind="'Action - Page View'"></a></li>-->
-                    <!--<li><a ng-click="advertiserPopUp.pixelType='Audience Creation Pixel'" ng-bind="'Audience Creation Pixel'"></a></li>-->
-                    <!--<li><a ng-click="advertiserPopUp.pixelType='Retargeting Pixel'" ng-bind="'Retargeting Pixel'"></a></li>-->
-                <!--</ul>-->
-                <!--<input type="hidden" name="unitType" ng-model="adData.unitType.name" ng-update-hidden />-->
-            <!--</div>-->
-            <!--<label >Pixel Name:</label>-->
-            <!--<input type="text" class="form-control" ng-model="advertiserPopUp.pixelName">-->
-            <!--&lt;!&ndash;<div class="input-daterange1" style="padding-left: 10px;">&ndash;&gt;-->
-                <!--&lt;!&ndash;<label >Pixel Expiration Date:</label>&ndash;&gt;-->
-                <!--&lt;!&ndash;<input type="text" id="pixelDateExp" placeholder="MM/DD/YYYY" class="form-control" readonly name="endTime" ng-model="advertiserPopUp.pixelDate"  required/>&ndash;&gt;-->
-                <!--&lt;!&ndash;<i class="icon-calendar glyphicon pull-right"></i>&ndash;&gt;-->
-            <!--&lt;!&ndash;</div>&ndash;&gt;-->
-            <!--<label >Pixel Expiration Date:</label>-->
-            <!--<div class="pull-left col-md-8">-->
-                <!--<div class="col-md-12 input-daterange input-group date pull-left">-->
-                    <!--<div class="col-md-12 dateWrapper ">-->
-                        <!--<div class="col-md-6">-->
-                            <!--<input type="text"-->
-                                   <!--id="startDateInput"-->
-                                   <!--class="input-sm form-control timeframe"-->
-                                   <!--ng-model="reports.reportDefinition.timeframe.start_date"-->
-                                   <!--required>-->
-                            <!--<i class="icon-calendar glyphicon pull-right"></i>-->
-                            <!--<label ng-if="!reports.reportDefinition.timeframe.start_date" style="display:block"-->
-                                   <!--class="errorLabel" ng-bind="textConstants.SELECT_DATE_LABEL"></label>-->
-                        <!--</div>-->
-                    <!--</div>-->
-                <!--</div>-->
-            <!--</div>-->
-            <!--<label >Pixel URL:</label>-->
-            <!--<input type="text" class="form-control" ng-model="advertiserPopUp.pixelURL">-->
         </div>
-            <!--<input type="text"-->
-                   <!--id="pixelExpiratioData"-->
-                   <!--class="input-sm form-control timeframe"-->
-                   <!--ng-model="advertiserPopUp.pixelDate"-->
-                   <!--required>-->
-            <!--<i class="icon-calendar glyphicon pull-right"></i>-->
-            <div id="pixelsCnt" ng-if="advertiserPopUp.pixels.length">
+            <div id="pixelsCnt" ng-if="advertiserData.pixels.length">
                 <div class="col-md-12 zeroPadding"><h1 class="pull-left">Add Pixel</h1></div>
-                
-                <div data-ng-repeat="pixel in advertiserPopUp.pixels" class="pixelLayer">
+                <div data-ng-repeat="pixel in advertiserData.pixels" class="pixelLayer">
                     <div class="form-group col-md-4" style="padding: 0 15px 0 0;">
                         <label>Pixel Name:</label>
-                        <input type="text" class="form-control" ng-model="advertiserPopUp.pixels[$index].pixelName">
+                        <input type="text" class="form-control" ng-model="advertiserData.pixels[$index].name">
                     </div>
-                    
                     <div class="form-group col-md-4" style="padding: 0 15px;">
                         <label >Pixel Type:</label>
                         <div class="col-md-12 zeroPadding dropdown-workflow">
                             <div class="dropdown" style="margin: 0;">
                                 <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                    <span class="text" ng-bind="advertiserPopUp.pixels[$index].pixelType"></span>
+                                    <span class="text" ng-bind="advertiserData.pixels[$index].type"></span>
                                     <span class="icon-arrow-down"></span>
                                 </button>
                                 <ul class="dropdown-menu" aria-labelledby="unitcostType" ng-model="adData.unitType"  id="unitcostType" data-toggle="dropdown">
-                                    <li><a ng-click="advertiserPopUp.pixels[$index].pixelType='Action - Page View'" ng-bind="'Action - Page View'"></a></li>
-                                    <li><a ng-click="advertiserPopUp.pixels[$index].pixelType='Audience Creation Pixel'" ng-bind="'Audience Creation Pixel'"></a></li>
-                                    <li><a ng-click="advertiserPopUp.pixels[$index].pixelType='Retargeting Pixel'" ng-bind="'Retargeting Pixel'"></a></li>
+                                    <li><a ng-click="advertiserData.pixels[$index].type='Action - Page View'" ng-bind="'Action - Page View'"></a></li>
+                                    <li><a ng-click="advertiserData.pixels[$index].type='Audience Creation Pixel'" ng-bind="'Audience Creation Pixel'"></a></li>
+                                    <li><a ng-click="advertiserData.pixels[$index].type='Retargeting Pixel'" ng-bind="'Retargeting Pixel'"></a></li>
                                 </ul>
-                                <!--<input type="hidden" name="unitType" ng-model="adData.unitType.name" ng-update-hidden />-->
                             </div>
                         </div>
                     </div>
-
-                    <!--<div class="input-daterange1" style="padding-left: 10px;">-->
-                    <!--<label >Pixel Expiration Date:</label>-->
-                    <!--<input type="text" id="pixelDateExp" placeholder="MM/DD/YYYY" class="form-control" readonly name="endTime" ng-model="advertiserPopUp.pixelDate"  required/>-->
-                    <!--<i class="icon-calendar glyphicon pull-right"></i>-->
-                    <!--</div>-->
-                    
                     <div class="form-group col-md-4" style="padding: 0 0 0 15px;">
                         <label style="display: block;">Pixel Expiration Date:</label>
                         <div class="col-md-12 input-daterange input-group date pull-left">
                             <div class="col-md-12 dateWrapper ">
                                 <input type="text" id="startDateInput" class="input-sm form-control timeframe"
-                                    ng-model="reports.reportDefinition.timeframe.start_date" required>
+                                    ng-model="advertiserData.pixels[$index].date" required>
                                 <i class="icon-calendar glyphicon pull-right"></i>
                                 <label ng-if="!reports.reportDefinition.timeframe.start_date" style="display:block"
                                     class="errorLabel" ng-bind="textConstants.SELECT_DATE_LABEL"></label>
@@ -122,39 +63,18 @@
                     
                     <div class="form-group col-md-12" style="padding: 0;">
                         <label class="pull-left">Pixel URL:</label>
-                        <input type="textarea" class="form-control" ng-model="advertiserPopUp.pixels[$index].pixelURL">
+                        <input type="textarea" class="form-control" ng-model="advertiserData.pixels[$index].url">
                     </div>
                     
                     <a class="pull-right btn btn-link" style="padding-right: 0;" data-dismiss="modal" ng-click="removePixel($index)" aria-label="Close">Cancel</a>
                 </div>
             </div>
-        <!--<div data-ng-repeat="i in a" style="position: relative">-->
-            <!--<div class="pull-left col-md-8">-->
-                <!--<div class="col-md-12 input-daterange input-group date pull-left">-->
-                    <!--<div class="col-md-12 dateWrapper ">-->
-                        <!--<div class="col-md-6">-->
-                            <!--<input type="text"-->
-                                   <!--id="startDateInput"-->
-                                   <!--class="input-sm form-control timeframe"-->
-                                   <!--ng-model="reports.reportDefinition.timeframe.start_date"-->
-                                   <!--required>-->
-                            <!--<i class="icon-calendar glyphicon pull-right"></i>-->
-                            <!--<label ng-if="!reports.reportDefinition.timeframe.start_date" style="display:block"-->
-                                   <!--class="errorLabel" ng-bind="textConstants.SELECT_DATE_LABEL"></label>-->
-                        <!--</div>-->
-                    <!--</div>-->
-                <!--</div>-->
-            <!--</div>-->
-        <!--</div>-->
-        
-            <!--Add Pixel Btn-->
             <div class="pull-right btn-group create" role="group" aria-label="...">
                 <a class="btn btn-default" data-ng-click="addPixel()">
                     <span class="icon-plus"></span>
                     <span>Add Pixel</span>
                 </a>
             </div>
-
             <ul ng-if="allAdvertiser.length>0" class="dropdown-menu" role="menu" id="advertiserList" ng-if="mode == 'create'" ng-style="dropdownCss">
                 <li ng-repeat="advertiser in allAdvertiser | filter:advertiserName" data-ng-click="selectAdvertiser(advertiser)">
                     <a>
@@ -168,17 +88,4 @@
         </div>
     </div><!-- end of modal_body -->
 </div> <!-- end of popup-holder -->
-<!--advertiserPopUp &ndash;&gt; {{advertiserPopUp}}-->
-
-<script>
-    $(document).ready(function() {
-        $('.input-daterange').datepicker({
-            format: "mm/dd/yyyy",
-            orientation: "auto",
-            autoclose: true,
-            todayHighlight: true
-        });
-    })
-
-</script>
 

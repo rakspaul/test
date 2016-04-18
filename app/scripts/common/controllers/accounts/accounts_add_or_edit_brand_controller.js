@@ -11,12 +11,17 @@ define(['angularAMD','../../../workflow/services/account_service'],function (ang
 
         $scope.saveBrands = function () {
             var brandObj,
-                body;
-
+                body,
+                requestData;
             if ($scope.mode === 'edit') {
                 brandObj =  accountsService.getToBeEditedBrand();
-                body = constructRequestBody(brandObj);
-                accountsService.updateBrand(body,body.id).then(function (result) {
+                //body = constructRequestBody(brandObj);
+                requestData = {
+                    clientId : $scope.clientId,
+                    advertiserId: $scope.advertiserId,
+                    brandId : $scope.reponseData.brandId
+                }
+                accountsService.updateBrand($scope.clientId, $scope.advertiserId, $scope.brandId).then(function (result) {
                     if (result.status === 'OK' || result.status === 'success') {
                         $scope.fetchBrands($scope.client.id, $scope.advertiser.id);
                         $scope.resetBrandAdvertiserAfterEdit();
@@ -32,10 +37,10 @@ define(['angularAMD','../../../workflow/services/account_service'],function (ang
                 //when user does select and existing brand under a advertiser
                 createBrandUnderAdvertiser($scope.selectedBrandId);
             } else {
-                body = constructRequestBody();
-                accountsService.createBrand(body).then(function (brand) {
+                accountsService.createBrand({name:$scope.brandName}).then(function (brand) {
                     if (brand.status === 'OK' || brand.status === 'success') {
-                        createBrandUnderAdvertiser(brand.data.data.id)
+                        createBrandUnderAdvertiser(brand.data.data.id);
+                        // $scope.brandId = brand.data.data.id
                     }
                 });
             }

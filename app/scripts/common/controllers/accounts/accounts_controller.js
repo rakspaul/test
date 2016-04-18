@@ -1,14 +1,23 @@
 var angObj = angObj || {};
 define(['angularAMD', '../../services/constants_service', 'workflow/services/account_service', 'common/moment_utils',
+        'login/login_model',
         'common/controllers/accounts/accounts_add_or_edit_advertiser_controller',
     'common/controllers/accounts/accounts_add_or_edit_brand_controller', 'common/controllers/accounts/accounts_add_or_edit_controller' ],
     function (angularAMD) {    angularAMD.controller('AccountsController', function ($scope, $rootScope, $modal, $compile,
-                                                                                     constants, accountsService, momentService ) {
+                                                                                     constants, accountsService, momentService,
+                                                                                    loginModel) {
         $(".main_navigation").find('.active').removeClass('active').end().find('#creative_nav_link').addClass('active');
 
         _currCtrl = this;
+        $scope.isSuperAdmin = loginModel.getClientData().is_super_admin;
+        $scope.brandsList = [];
+        $scope.advertisersList = [];
+        $scope.clientId = '';
+        $scope.parentClientId = '';
+        $scope.advertiserId = '';
+        $scope.brandName = '';
+        $scope.reponseData = '';
         $scope.textConstants = constants;
-        $scope.a = [{},{}]
         $scope.clientsDetails = {};
         $scope.advertiserName = '';
         $scope.mode = 'create';
@@ -26,18 +35,8 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
             top: '60px',
             left: '0px'
         };
-//        setTimeout(function(){
-//            console.log("Hiiiiii");
-//            $('.input-daterange').datepicker({
-//                format: "mm/dd/yyyy",
-//                orientation: "auto",
-//                autoclose: true,
-//                todayHighlight: true
-//            });
-//        },10000);
-        $scope.advertiserPopUp = {advertiserName: '', pixels:[]};
         $scope.addPixel = function(){
-            $scope.advertiserPopUp.pixels.push({});
+            $scope.advertiserData.pixels.push({});
             setTimeout(function(){
             $('.input-daterange').datepicker({
                 format: "mm/dd/yyyy",
@@ -48,7 +47,7 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
             },25);
         }
         $scope.removePixel = function(pixelIndex){
-            $scope.advertiserPopUp.pixels = _.filter($scope.advertiserPopUp.pixels,function(item,i){
+            $scope.advertiserData.pixels = _.filter($scope.advertiserData.pixels,function(item,i){
                 return i != pixelIndex;
             })
         }
@@ -59,14 +58,6 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
             pixelName: "",
             pixelDate: momentService.todayDate('YYYY-MM-DD')
         }
-//        $scope.advertiserPopUp = {
-//            advertiserName: '',
-//            impressionLookBack: 14,
-//            clickLookBack: 14,
-//            pixelType: "All",
-//            pixelName: "",
-//            pixelDate: momentService.todayDate('YYYY-MM-DD')
-//        }
         $scope.resetFlashMessage = function(){
             $rootScope.setErrAlertMessage('',0);
         };
@@ -84,6 +75,7 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
             if(clientObj.isLeafNode){
                 if(typeof ($scope.clientsDetails[clientId]) == "undefined"){
                     $scope.show_advertisers(event, clientObj.id);
+
                 }else{
                     $("#client_"+clientId+"_adv").slideToggle();
                 }
@@ -97,6 +89,7 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                             if (!$scope.clientsDetails[clientId]) {
                                 $scope.clientsDetails[clientId] = {subclients:[],advertisers:[],brands:{}, advertisersLoader:false}
                             }
+                            $scope.clientId = clientId;
                             $scope.clientsDetails[clientId].subclients = result;
                         } else {
                             console.log("Error: To get the sub-client list of " + name);
@@ -111,7 +104,7 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
         $scope.show_advertisers_resp_brands = function(event,client,brand) {
             var elem = $(event.target);
             elem.closest(".each-advertiser").find(".advertiser-resp-brands-list").toggle() ;
-            $scope.fetchBrands(client,brand);
+            $scope.fetchBrands(client, brand);
         };
 
         $scope.show_edit = function(type) {
@@ -122,7 +115,6 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
 
         $scope.fetchAllClients = function(){
             accountsService.getClients(null,null,'notCancellable').then(function(res) {
-              //  $scope.clientsDetails = res.data.data[0].children;
                 $scope.clientsDetails[0] = res.data.data;
             });
 
@@ -135,39 +127,22 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
             }
             $scope.clientsDetails[clientId].advertisersLoader = true;
                accountsService.getClientsAdvertisers(clientId).then(function(res){
+                   setTimeout(function(){
+                       $("#client_"+clientId+"_adv").slideDown();
+                   },25);
                 //   $scope.subClientListData[clientId].advertisersLoader = false;
                    var index = _.findIndex($scope.clientsDetails, function(item) {
                    return item.id == clientId});
-//                   $scope.clientsDetails[index]['advertisement'] = [];
-//                   $scope.clientsDetails[index]['advertisement'] = res.data.data;
-
                    $scope.clientsDetails[clientId]['advertisers'] = [];
                    $scope.clientsDetails[clientId]['advertisers'] = res.data.data;
-                   console.log("$scope.subClientListData....",$scope.clientsDetails);
                });
         };
 
-        $scope.fetchBrands = function(clientId,advertiserId){
+        $scope.fetchBrands = function(clientId,advertiserId, isReset){
             if(advertiserId != -1) {
-                console.log("advertiserId....",advertiserId);
-                console.log($scope.clientsDetails[clientId]['brands']);
-                if(typeof $scope.clientsDetails[clientId]['brands'][advertiserId] != "undefined"){
-                      $("#client_"+clientId+"_adv_"+advertiserId).slideToggle();
-                }else {
-                    accountsService.getAdvertisersBrand(clientId, advertiserId).then(function (res) {
-//                    var clientIndex = _.findIndex($scope.clientsDetails, function (item) {
-//                        return item.id == clientId
-//                    });
-//
-//                    var advIndex = _.findIndex($scope.clientsDetails[clientIndex]['advertisement'], function (item) {
-//                        return item.id == advertiserId
-//                    });
-
-                        // $scope.clientsDetails[clientIndex]['advertisement'][advIndex]['brand'] = res.data.data;
-                        $scope.clientsDetails[clientId]['brands'][advertiserId] = res.data.data;
-                        console.log("$scope.clientsDetails.....", $scope.clientsDetails);
-                    });
-                }
+                accountsService.getAdvertisersBrand(clientId, advertiserId).then(function (res) {
+                    $scope.clientsDetails[clientId]['brands'][advertiserId] = res.data.data;
+                });
             }
         };
 
@@ -175,16 +150,28 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
         $scope.AddOrEditAdvertiserModal = function(advObj,mode,client) {
             $scope.mode = mode;
             $scope.client = client;
+            $scope.clientId = client.id;
             $('html, body').animate({scrollTop : 0},30);
-            if(mode == 'edit'){
-                accountsService.setToBeEditedAdvertiser(advObj);
-                $scope.advertiserName = advObj.name;
-            }
-            else{
-                accountsService.getAllAdvertisers().then(function(result){
-                    $scope.allAdvertiser = result.data.data;
-                });
-            }
+//            if(mode == 'edit'){
+//               // accountsService.setToBeEditedadvertiserData(advObj);
+//               // $scope.advertiserName = advObj.name;
+//                $scope.advertiserData = {}
+//                accountsService.getAdvertiserDetails(client.id, advObj.id,function(res){
+//                   console.log("Edit advtiser data......",res);
+//                });
+//            }
+//            else{
+//                accountsService.getAllAdvertisers().then(function(result){
+//                    $scope.allAdvertiser = result.data.data;
+//                });
+//            }
+            $scope.advertiserData = {id:'', name: '',impressionLookBack: 14,clickLookBack: 14, pixels:[]};
+            accountsService.getClientsAdvertisers(client.id).then(function(res){
+                if(res.data.status == "OK" && res.data.statusCode == 200 && res.data.data.length){
+                    $scope.advertiserData.clientId = client.id;
+                    $scope.advertisersList = res.data.data;
+                }
+            });
             var $modalInstance = $modal.open({
                 templateUrl: assets.html_accounts_add_or_edit_advertiser,
                 controller:"AccountsAddOrEditAdvertiser",
@@ -213,16 +200,24 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
             $scope.client = client;
             $scope.brandName = brand.name;
             $scope.advertiser = advObj;
+            $scope.clientId = client.id;
+            $scope.advertiserId = advObj.id;
+//            $scope.
             $('html, body').animate({scrollTop : 0},30);
             if(mode == 'edit'){
                 accountsService.setToBeEditedBrand(brand);
                 $scope.brandName = brand.name;
             }
-            else{
-                accountsService.getAllBrands().then(function(result){
-                    $scope.allBrands = result.data.data;
-                });
-            }
+//            else{
+//                accountsService.getAllBrands().then(function(result){
+//                    $scope.allBrands = result.data.data;
+//                });
+//            }
+            accountsService.getAdvertisersBrand(client.id,advObj.id).then(function(res){
+                if(res.data.status == "OK" && res.data.statusCode == 200 && res.data.data.length){
+                    $scope.brandsList = res.data.data;
+                }
+            });
             var $modalInstance = $modal.open({
                 templateUrl: assets.html_accounts_add_or_edit_brand,
                 controller:"AccountsAddOrEditBrand",
