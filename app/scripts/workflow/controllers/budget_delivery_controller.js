@@ -66,7 +66,6 @@ define(['angularAMD', 'common/services/constants_service', 'common/moment_utils'
                 $scope.BudgetExceeded=false;
           }
 
-
       }
 /*
     $scope.adBudgetValidator = function () {
@@ -365,7 +364,6 @@ define(['angularAMD', 'common/services/constants_service', 'common/moment_utils'
                $(".external_chkbox").show();
                $(".impressions_holder").find("input[type='checkbox']").attr("disabled" , false) ;
                $('#targetUnitCost_squaredFour').prop("checked",true);
-
                $(".budget_holder_input").find("input[type='text']").attr("disabled" , true);//.addClass("disabled-field") ;
                $(".impressions_holder").find(".external_chkbox").removeClass("disabled") ;
            }
