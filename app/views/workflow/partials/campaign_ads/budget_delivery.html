@@ -49,7 +49,7 @@
         </div>
     </div>
 
-    <div class="col-md-12 zeroPadding unitCost symbolAbs">
+    <div class="col-md-15 zeroPadding unitCost symbolAbs">
          <div class="col-md-12 adHeader" data-ng-bind="textConstants.SETUPBUDGET" ></div>
         <div class="form-group col-md-2 zeroPadding" style="margin-right: -5px;">
           <label class="col-sm-12 control-label greyTxt miniLabels" data-ng-bind="textConstants.UNITCOST"></label>
@@ -59,12 +59,12 @@
                            <span class="text">{{adData.unitType.name ? adData.unitType.name :'CPM'}}</span>
                            <span class="icon-arrow-down"></span>
                       </button>
-                      <ul class="dropdown-menu" aria-labelledby="unitcostType" ng-model="adData.unitType"  id="unitcostType" data-toggle="dropdown">
+                      <ul class="dropdown-menu" aria-labelledby="unitcostType"   id="unitcostType" data-toggle="dropdown">
                            <li ng-repeat="unitType in workflowData.unitTypes track by unitType.id" class="available" ng-click="select_unitType($event,unitType.name);">
                             <a  data-ng-bind="unitType.name"></a>
                            </li>
                       </ul>
-                     <input type="hidden" name="unitType" ng-model="adData.unitType.name" ng-update-hidden/>
+                     <input type="hidden" name="unitType" ng-model="unitName" ng-update-hidden/>
                  </div>
             </div>
         </div>
@@ -72,7 +72,7 @@
             <label class="control-label greyTxt miniLabels" data-ng-bind="textConstants.RATE"></label>
              <div style="position : relative;">
                  <span data-ng-bind="locale.NUMBER_FORMATS.CURRENCY_SYM"></span>
-                 <input style="width:130px; padding-top:10px;" type="text" class="form-control" ng-model="adData.unitCost" fraction-numbers="fraction-numbers" name="unitCost" ng-keyup = "calculateTotalAdBudget();adBudgetValidator();">
+                 <input style="width:130px; padding-top:10px;" type="text" class="form-control" ng-model="adData.unitCost" fraction-numbers="fraction-numbers" name="unitCost" ng-keyup = "calculateTotalAdBudget();checkBudgetExceed();">
              </div>
         </div>
     </div>
@@ -93,10 +93,11 @@
              <label class="control-label greyTxt miniLabels" data-ng-bind="textConstants.TOTAL_AD_BUDGET"></label>
              <div class="budget_holder_input" >
                  <span data-ng-bind="locale.NUMBER_FORMATS.CURRENCY_SYM"></span>
-                 <input type="text" ng-value="adData.totalAdBudget" ng-model="adData.totalAdBudget" class="form-control " disabled ng-keyup="checkBudgetExceed();"><!-- add "errorBorder" when error -->
-                 <input type="hidden" name="totalAdBudget" ng-value="adData.totalAdBudget"><!-- add "errorBorder" when error -->
+                 <input type="text" ng-value="adData.totalAdBudget" ng-model="adData.totalAdBudget" class="form-control " disabled ng-keyup="checkBudgetExceed();calculateTotalAdBudget();"><!-- add "errorBorder" when error -->
+                 <input type="hidden" name="totalAdBudget" ng-model="adData.totalAdBudget" ng-value="adData.totalAdBudget"><!-- add "errorBorder" when error -->
                  <span class="disabled_value"></span>
                  <div class="errorText" ng-show="BudgetExceeded">Ad budget lesser than MediaCost</div>
+                 <div class="errorText" ng-show="adBudgetExceedUnallocated">Total Ad budget exceeds unallocated budget</div>
              </div>
      </div>
      <div class="clearfix pull-left estimated_impressions" >
@@ -126,7 +127,7 @@
               <label class="col-sm-12 control-label greyTxt miniLabels" data-ng-bind="textConstants.VALUE" style="padding-left:5px;"></label>
               <div>
                   <span style="position:relative; top:10px; left:20px; float:left;">{{adData.budgetType === 'Cost' ? locale.NUMBER_FORMATS.CURRENCY_SYM : '#'}}</span>
-                 <input style="width:130px; text-indent:8px; height:36px; padding-top:10px;padding-left: 16px;" type="text" name="budgetAmount" whole-number-only="whole-number-only" class="form-control" ng-model="adData.budgetAmount" id="budgetAmount" placeholder="Enter Value" ng-keyup = "checkBudgetExceed();adBudgetValidator();">
+                 <input style="width:130px; text-indent:8px; height:36px; padding-top:10px;padding-left: 16px;" type="text" name="budgetAmount" whole-number-only="whole-number-only" class="form-control" ng-model="adData.budgetAmount" id="budgetAmount" placeholder="Enter Value" ng-keyup = "checkBudgetExceed()">
              </div>
          </div>
         <label ng-if="budgetErrorObj.mediaCostValidator" class="col-sm-12 control-label  customErrorLabel" data-ng-bind="textConstants.WF_MEDIA_COST_LESS_THAN_CAMPAIGN_BUDGET"></label>

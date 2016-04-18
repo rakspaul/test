@@ -3,6 +3,7 @@ define(['angularAMD', 'common/services/constants_service', 'common/moment_utils'
 
       $scope.adData.primaryKpi='Impressions';
       $scope.BudgetExceeded=false;
+      $scope.adBudgetExceedUnallocated=false;
       $scope.isChecked=true;
     $scope.ImpressionPerUserValidator = function () {
       var impressionPerUser = Number($scope.adData.quantity),
@@ -17,12 +18,20 @@ define(['angularAMD', 'common/services/constants_service', 'common/moment_utils'
       }
     };
       $scope.calculateTotalAdBudget=function(){
-          if($scope.isChecked && ($scope.adData.primaryKpi).toUpperCase()=='IMPRESSIONS' && $scope.adData.unitType.name=='CPM'){
+          if($('#targetUnitCost_squaredFour').prop("checked") && ($scope.adData.primaryKpi).toUpperCase()=='IMPRESSIONS' && $scope.unitName=='CPM'){
               if($scope.adData.targetValue>=0 && $scope.adData.unitCost>=0){
                 $scope.adData.totalAdBudget=Number((Number($scope.adData.targetValue)*Number($scope.adData.unitCost))/1000);
               }
           }
+         var campaignData = $scope.workflowData.campaignData;
+            var unallocatedAmount = Number(campaignData.deliveryBudget - (campaignData.bookedSpend || 0));
+          if($scope.adData.totalAdBudget>unallocatedAmount){
+            console.log("total budget exceeds unallocated budget")
+              $scope.adBudgetExceedUnallocated=true;
+          }else{
+              $scope.adBudgetExceedUnallocated=false;
 
+          }
       }
       $scope.checkBudgetExceed=function(){
           if(($scope.adData.budgetType).toUpperCase()=="COST" && ($scope.adData.totalAdBudget>=0 && $scope.adData.budgetAmount>=0)){
@@ -38,7 +47,7 @@ define(['angularAMD', 'common/services/constants_service', 'common/moment_utils'
           }
 
       }
-
+/*
     $scope.adBudgetValidator = function () {
       var campaignData,
         campaignBuget,
@@ -77,7 +86,8 @@ define(['angularAMD', 'common/services/constants_service', 'common/moment_utils'
                 }
             }
         }
-        budgetAmount = Number($scope.adData.budgetAmount);
+      //  budgetAmount = Number($scope.adData.budgetAmount);
+        budgetAmount = Number($scope.adData.totalAdBudget);
 
       if ($scope.workflowData.adsData && $scope.mode === 'edit') {
           //when ads are inside ad group and unallocated amount is 0 OR ad is outside any ad group
@@ -179,7 +189,7 @@ define(['angularAMD', 'common/services/constants_service', 'common/moment_utils'
         }
       }
     };
-
+*/
     $scope.checkForPastDate = function (startDate, endDate) {
       var endDate = moment(endDate).format(constants.DATE_US_FORMAT);
 
@@ -318,13 +328,12 @@ define(['angularAMD', 'common/services/constants_service', 'common/moment_utils'
        elem.closest(".symbolAbs").find(".target_val_input").removeClass("target_val_input_vtc") ;
        if( type != "impressions") {
            $('#targetUnitCost_squaredFour').prop("checked",false);
-          // $(".impressions_holder").find("input[type='checkbox']").removeAttr('checked');
-          // $scope.isChecked=false;
            $(".impressions_holder").find("input[type='checkbox']").attr("disabled" , true) ;
            elem.closest(".symbolAbs").find(".KPI_symbol").html("$") ;
            $(".budget_holder_input").find("input[type='text']").attr("disabled" , false).removeClass("disabled-field") ;
            $(".impressions_holder").find(".external_chkbox").addClass("disabled") ;
-           if( type == "VTC" ) {
+           $(".external_chkbox").hide();
+           if( type == "VTC" ||type == "CTR") {
             elem.closest(".symbolAbs").find(".KPI_symbol").hide() ;
             elem.closest(".symbolAbs").find(".VTC_per").show() ;
             elem.closest(".symbolAbs").find(".target_val_input").addClass("target_val_input_vtc") ;
@@ -332,26 +341,28 @@ define(['angularAMD', 'common/services/constants_service', 'common/moment_utils'
        } else {
            elem.closest(".symbolAbs").find(".KPI_symbol").html("#") ;
            if(($scope.adData.unitType.name).toUpperCase()=="CPM"){
+               $(".external_chkbox").show();
                $(".impressions_holder").find("input[type='checkbox']").attr("disabled" , false) ;
-              // $(".impressions_holder").find("input[type='checkbox']").attr('checked', 'checked');
                $('#targetUnitCost_squaredFour').prop("checked",true);
-              // $scope.isChecked=true;
                $(".budget_holder_input").find("input[type='text']").attr("disabled" , true);//.addClass("disabled-field") ;
                $(".impressions_holder").find(".external_chkbox").removeClass("disabled") ;
            }
        }
     };
       $scope.select_unitType=function (event , type) {
-          $scope.adData.unitType.name=type;
+          //$scope.adData.unitType.name=type;
+          $scope.unitName=type;
           $scope.adData.unitCost='';
           $scope.adData.totalAdBudget='';
           if( type != "CPM") {
+              $(".external_chkbox").hide();
               $('#targetUnitCost_squaredFour').prop("checked",false);
               $(".impressions_holder").find("input[type='checkbox']").attr("disabled" , true) ;
               $(".budget_holder_input").find("input[type='text']").attr("disabled" , false).removeClass("disabled-field") ;
               $(".impressions_holder").find(".external_chkbox").addClass("disabled") ;
           } else {
               if (($scope.adData.primaryKpi).toUpperCase() == "IMPRESSIONS") {
+                  $(".external_chkbox").show();
                   $(".impressions_holder").find("input[type='checkbox']").attr("disabled", false);
                   $('#targetUnitCost_squaredFour').prop("checked",true);
                   $(".budget_holder_input").find("input[type='text']").attr("disabled", true);//.addClass("disabled-field") ;
@@ -428,7 +439,7 @@ define(['angularAMD', 'common/services/constants_service', 'common/moment_utils'
         $scope.budgetErrorObj.availableRevenueValidator = false;
         $scope.budgetErrorObj.mediaCostValidator = false;
       }
-      $scope.adBudgetValidator();
+    //  $scope.adBudgetValidator();
     });
   });
 });
