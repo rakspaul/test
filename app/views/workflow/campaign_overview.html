@@ -179,12 +179,30 @@
             <!-- Ads Start -->
             <div class="adWrap">
                 <!--Sub-Header-->
-                <div style="display: table; float: none; margin: 0 auto; padding: 30px 0 0; width: 1200px;">
+                <div class="create-adgroup-btn-row" >
                     <!--Create Media Plan Btn-->
                     <!--<a href="/mediaplan/create" class="pull-left btn btn-primary" ng-bind="textConstants.CREATE_CAMPAIGN"></a>-->
 
                     <!--Quick Filters-->
                     <!--<div campaign-list-filter-directive campaigns="campaigns" class="pull-right"></div>-->
+
+                    <div class="pull-left">
+                        <div class="btn-group create" role="group" aria-label="...">
+                            <a role="button" class="btn btn-default" ng-click="createAdGrp();"><span class="icon-plus"></span><span data-ng-bind="textConstants.CREATEADGRP"></span></a>
+
+                            <div class="btn btn-default zeroPadding dropdown-workflow pull-left">
+                                <div class="dropdown">
+                                    <button class="btn btn-default dropdown-toggle moreOptCreative" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" style="padding-right: 18px;">
+                                        <span class="icon-more-options"></span>
+                                    </button>
+                                    <ul class="dropdown-menu" id="moreOptions" style="left: 0; left: initial;">
+                                        <li class="disabled"><a class="text-left" role="button" ng-click="showBulkCreateSection();" data-ng-bind="textConstants.EXPORT_CONVERSION_PIXELS"></a></li>
+                                        <li class="disabled"><a class="text-left" data-ng-bind="textConstants.TAGS_FOR_TRACKING_ONLY_ADS"></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
                     <!--Search Input-->
                     <div class="btn-group pull-right">
@@ -247,29 +265,31 @@
                 </div>
                 <div ng-show='isAdGroupsBusy' class="load-more">&nbsp;</div>
                 <div class="col-md-12 adContainer" ng-show="!isAdGroupsBusy">
-                    <!--===Start get ad groups ===-->
-                    <div id="getAdgroups"
-                         ng-include="'/views/workflow/partials/overview_partials/overview_getAdgroups.html'"
-                         ng-controller = "GetAdgroupsController">
-                    </div>
-                    <!--===END get ad groups ===-->
+                   
                     <!--START of independant ads block-->
                     <div class="adGroupSelectionWrap">
-                        <div class="btnCreateGroup" ng-click="createAdGrp()">
+                        <!-- <div class="btnCreateGroup" ng-click="createAdGrp()">
                             <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Create Ad Group
-                        </div>
+                        </div> -->
 
                         <!--Start of group individual ads into groups-->
-                        <div class="col-md-12 adGroupCreate" ng-show="showCreateAdGrp">
+                        <div class="col-md-12 adGroupCreate" ng-show="showCreateAdGrp" style="margin-bottom:15px;">
                             <div ng-include="'/views/workflow/partials/overview_partials/overview_createAdgroups.html'">
                             </div>
                         </div>
                         <!--END of group individual ads into groups-->
 
-                        <div class="singleCardWrap active">
+                         <!--===Start get ad groups ===-->
+                        <div id="getAdgroups"
+                             ng-include="'/views/workflow/partials/overview_partials/overview_getAdgroups.html'"
+                             ng-controller = "GetAdgroupsController">
+                        </div>
+                        <!--===END get ad groups ===-->
+
+                        <div class="singleCardWrap active" >
                             <div class="overlay"></div>
                             <!--=== Create BTN Ad ===-->
-                            <div class="col-md-3 adModule adCreateBtn"
+                            <!-- <div class="col-md-3 adModule adCreateBtn"
                                  ng-click="navigateToAdCreatePage()"
                                  ng-if="showAdSetUp">
                                 <div class="col-md-12">
@@ -279,7 +299,7 @@
                                         <h2 ng-bind="textConstants.CREATEAD"></h2>
                                     </a>
                                 </div>
-                            </div>
+                            </div> -->
                             <!--=== End of Create BTN Ad ===-->
                             <!--=== Single Ad Ready ===-->
                             <div class="col-md-3 adModule"
