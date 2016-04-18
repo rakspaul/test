@@ -79,6 +79,7 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
             $scope.showReportTab = $scope.fparams[0]['reports_tab'];
         }
 
+
         var features = $rootScope.$on('features', function () {
             featurePermission();
         });
