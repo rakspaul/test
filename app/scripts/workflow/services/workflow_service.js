@@ -1,8 +1,6 @@
 define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/constants_service',
     'common/services/data_service', 'login/login_model', 'common/services/request_cancel_service'],
     function (angularAMD) {
-        'use strict';
-
         angularAMD.factory('workflowService', function ($rootScope, vistoconfig, constants, dataService, loginModel,
                                                        requestCanceller) {
             var mode,
