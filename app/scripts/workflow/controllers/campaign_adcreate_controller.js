@@ -522,7 +522,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                 $scope.adData.unitCost = responseData.rateValue;
             }
 
-            if(responseData.totalBudget){
+            if(responseData.totalBudget>=0){
                 $scope.adData.totalAdBudget=responseData.totalBudget;
                 $('#targetUnitCost_squaredFour').prop("checked",responseData.enabledBudgetCalculation);
                 $(".budget_holder_input").find("input[type='text']").attr("disabled", responseData.enabledBudgetCalculation);
@@ -531,6 +531,12 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                     $(".impressions_holder").find("input[type='checkbox']").attr("disabled", true);
                 }else{
                     $(".impressions_holder").find("input[type='checkbox']").attr("disabled", false);
+                }
+
+                if(((responseData.kpiType).toUpperCase()=="IMPRESSIONS") &&(responseData.rateType).toUpperCase()=="CPM"){
+                    $(".external_chkbox").show();
+                }else{
+                    $(".external_chkbox").hide();
                 }
 
 
@@ -549,7 +555,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                 idx = _.findIndex($scope.workflowData.unitTypes, function (item) {
                     return item.name === responseData.rateType;
                 });
-
+                $scope.unitName=responseData.rateType;
                 // cpm ..... dropdown
                 $scope.adData.unitType = $scope.workflowData.unitTypes[idx];
                 $('#unitcostType')
