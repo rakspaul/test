@@ -14,7 +14,7 @@
                  <div class="col-md-12 zeroPadding dropdown-workflow">
                       <div class="dropdown">
                            <button style="width:130px;" class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                <span class="text">{{adData.primaryKpi?(adData.primaryKpi | toTitleCase):'Impressions'}}</span>
+                                <span class="text">{{((adData.primaryKpi).toLowerCase()!='impressions')?(adData.primaryKpi):'Impressions'}}</span>
                                 <span class="icon-arrow-down"></span>
                            </button>
                            <ul class="dropdown-menu" data-toggle="dropdown">

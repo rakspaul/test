@@ -6,6 +6,8 @@ define(['angularAMD', 'common/services/constants_service', 'common/moment_utils'
       $scope.adBudgetExceedUnallocated=false;
       $scope.isChecked=true;
       $scope.unitName="CPM";
+      var unallocatedAmount=0;
+      var adMaximumRevenue=0;
     $scope.ImpressionPerUserValidator = function () {
       var impressionPerUser = Number($scope.adData.quantity),
         totalImpression;
@@ -25,8 +27,26 @@ define(['angularAMD', 'common/services/constants_service', 'common/moment_utils'
               }
           }
          var campaignData = $scope.workflowData.campaignData;
-            var unallocatedAmount = Number(campaignData.deliveryBudget - (campaignData.bookedSpend || 0));
-          if($scope.adData.totalAdBudget>unallocatedAmount){
+          unallocatedAmount = Number(localStorage.getItem('unallocatedAmount'));
+            //var unallocatedAmount = Number(campaignData.deliveryBudget - (campaignData.bookedSpend || 0));
+          // new budget calculation
+          if(workflowService.getIsAdGroup() == false ){
+              unallocatedAmount = Number(campaignData.deliveryBudget - (campaignData.bookedSpend || 0));
+          }
+          else{
+              if(unallocatedAmount > 0){
+                  adMaximumRevenue = Number(unallocatedAmount);
+              }
+              else{
+                  if(Number(localStorage.getItem('groupBudget')) > 0){
+                      adMaximumRevenue = 0;
+                  }
+                  else{
+                      adMaximumRevenue = Number(campaignData.deliveryBudget - (campaignData.bookedSpend || 0));
+                  }
+              }
+          }
+          if($scope.adData.totalAdBudget>unallocatedAmount || $scope.adData.totalAdBudget>adMaximumRevenue){
             console.log("total budget exceeds unallocated budget")
               $scope.adBudgetExceedUnallocated=true;
           }else{
