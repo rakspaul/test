@@ -5,6 +5,7 @@ define(['angularAMD', 'common/services/constants_service', 'common/moment_utils'
       $scope.BudgetExceeded=false;
       $scope.adBudgetExceedUnallocated=false;
       $scope.isChecked=true;
+      $scope.unitName="CPM";
     $scope.ImpressionPerUserValidator = function () {
       var impressionPerUser = Number($scope.adData.quantity),
         totalImpression;
