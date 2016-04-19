@@ -1,7 +1,7 @@
 define(['angularAMD', 'common/services/constants_service', 'common/moment_utils',
     'workflow/directives/ng_upload_hidden', 'workflow/directives/custom_date_picker'],
     function (angularAMD) {
-        angularAMD.controller('BudgetDeliveryController', function ($scope, constants, momentService,workflowService) {
+        angularAMD.controller('BudgetDeliveryController', function ($scope, constants, momentService, workflowService) {
             $scope.ImpressionPerUserValidator = function () {
                 var impressionPerUser = Number($scope.adData.quantity),
                     totalImpression;
@@ -180,13 +180,15 @@ define(['angularAMD', 'common/services/constants_service', 'common/moment_utils'
                     startDateElem = $('#startDateInput'),
                     startDate = data.startTime,
                     endDate = data.endTime,
-                    campaignEndTime = momentService.utcToLocalTime($scope.workflowData.campaignData.endTime),
+                    campaignEndTime,
                     changeDate,
                     adsDate;
 
                 if (!$scope.workflowData.campaignData) {
                     return;
                 }
+
+                campaignEndTime = momentService.utcToLocalTime($scope.workflowData.campaignData.endTime);
 
                 if ($scope.mode !== 'edit') {
                     endDateElem
@@ -271,7 +273,9 @@ define(['angularAMD', 'common/services/constants_service', 'common/moment_utils'
 
                 // this is to disable the enddate before today
                 currentDate = moment().format(constants.DATE_US_FORMAT);
-                endDateElem.datepicker('setStartDate', currentDate);
+                if (startDate < currentDate) {
+                    endDateElem.datepicker('setStartDate', currentDate);
+                }
             };
 
             $scope.resetBudgetField = function () {
