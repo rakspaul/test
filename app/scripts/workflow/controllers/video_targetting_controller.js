@@ -19,15 +19,15 @@ define(['angularAMD', 'workflow/services/workflow_service', 'common/services/con
         $scope.selectedDimesnion = [];
 
         $scope.dimensionArr = [];
-        $scope.dimensionArr.push({key : 'player', 'value': 'Player Size'});
-        $scope.dimensionArr.push({key : 'position', 'value': 'Position'});
-        $scope.dimensionArr.push({key : 'playback', 'value': 'Playback Method'});
+        $scope.dimensionArr.push({key : 'player', 'value': 'Player Size', active : true});
+        $scope.dimensionArr.push({key : 'position', 'value': 'Position', active : true});
+        $scope.dimensionArr.push({key : 'playback', 'value': 'Playback Method', active : true});
 
         var removeSelectedDimension = function() {
             if($scope.selectedDimesnion && $scope.selectedDimesnion.length >0) {
                 _.each($scope.dimensionArr, function(obj, index) {
                     if(_.indexOf($scope.selectedDimesnion, obj.key) !== -1) {
-                        $scope.dimensionArr.splice(index, 1)
+                        $scope.dimensionArr[index].active = false;
                     }
                 })
             }
@@ -41,6 +41,9 @@ define(['angularAMD', 'workflow/services/workflow_service', 'common/services/con
                 hide: true
             });
 
+            if(event) {
+                removeSelectedDimension();
+            }
             if( $scope.additionalDimension.length == 3 ) {
                 $(".video-dimension").find(".clickable-txt").hide();
             }
@@ -64,7 +67,13 @@ define(['angularAMD', 'workflow/services/workflow_service', 'common/services/con
             } else {
                 elem.closest(".each-video-dimension").find("#" + type + "InputBox").show() ;
             }
-            $scope.selectedDimesnion.push(type);
+            if(_.indexOf($scope.selectedDimesnion, type) === -1) {
+                $scope.selectedDimesnion.push(type);
+            }
+
+            if( $scope.additionalDimension.length == 3 ) {
+                removeSelectedDimension();
+            }
         }
 
         $scope.selectSize = function(event,type) {

@@ -22,7 +22,7 @@
                                 <span class="icon-arrow-down"></span>
                             </button>
                             <ul class="dropdown-menu" aria-labelledby="selectDimension" id="selectDimension" name='selectDimension' data-toggle="dropdown">
-                                <li class="available" ng-click="selectOption($event , dimension.key)" ng-repeat="dimension in dimensionArr"><a>{{dimension.value}}</a></li>
+                                <li class="available {{!dimension.active ? 'disabled' : ''}}" ng-click="dimension.active ? selectOption($event , dimension.key) : ''" ng-repeat="dimension in dimensionArr"><a>{{dimension.value}}</a></li>
                             </ul>
                         </div>
                     </div>
@@ -50,7 +50,6 @@
             </div>
 
             <div class="col-md-4 multiselectTagOptions zeroPadding" style="padding-right: 0;display:none;" id="playerInputBox">
-                <!-- <label class="col-sm-12 control-label greyTxt miniLabels">{{textConstants.LABEL}}</label> -->
                 <tags-input ng-model="tagsSize" display-property="name" placeholder="Select" replace-spaces-with-dashes="false">
                     <auto-complete source="loadSize($query)"
                                    min-length="0"
@@ -62,7 +61,6 @@
 
             </div>
             <div class="col-md-4 multiselectTagOptions zeroPadding" style="padding-right: 0;display:none;" id="positionInputBox" >
-                <!-- <label class="col-sm-12 control-label greyTxt miniLabels">{{textConstants.LABEL}}</label> -->
                 <tags-input ng-model="tagsPosition" display-property="name" placeholder="Select" replace-spaces-with-dashes="false">
                     <auto-complete source="loadPositions($query)"
                                    min-length="0"
@@ -74,7 +72,6 @@
 
             </div>
             <div class="col-md-4 multiselectTagOptions zeroPadding" style="padding-right: 0;display:none;" id="playbackInputBox" >
-                <!-- <label class="col-sm-12 control-label greyTxt miniLabels">{{textConstants.LABEL}}</label> -->
                 <tags-input ng-model="tagsPlayback" display-property="name" placeholder="Select" replace-spaces-with-dashes="false">
                     <auto-complete source="loadPlayback($query)"
                                    min-length="0"
