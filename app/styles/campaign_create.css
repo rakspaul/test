@@ -1847,7 +1847,7 @@
   width: 100%;
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroup:last-child {
-  margin-bottom: 30px;
+  margin-bottom: 15px;
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroup .adTitle {
   float: left;
@@ -2060,9 +2060,9 @@
   margin-top: 130px;
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroupSelectionWrap {
-  border: 1px dashed #939EAE;
+  /*border: 1px dashed #939EAE;*/
   float: left;
-  padding: 20px 0 .75% 0;
+  /*padding: 20px 0 .75% 0;*/
   position: relative;
   width: 100%;
 }
@@ -2094,6 +2094,10 @@
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroupSelectionWrap.active {
   border-width: 0;
   padding-top: 0;
+  /*.singleCardWrap {
+                            margin-top: 30px;
+                            border: 1px dashed #939eae;
+                        }*/
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroupSelectionWrap.active .adGroupCreateForm {
   border: 1px solid #CDD2DA;
@@ -2102,16 +2106,12 @@
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroupSelectionWrap.active .btnCreateGroup {
   display: none;
 }
-#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroupSelectionWrap.active .singleCardWrap {
-  margin-top: 30px;
-  border: 1px dashed #939eae;
-}
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule {
   cursor: pointer;
   background: rgba(255, 255, 255, 0.5);
   border: 1px solid #CDD2DA;
   margin-right: .75%;
-  margin-top: 1%;
+  margin-bottom: 15px;
   max-width: 1200px;
   min-height: 371px;
   padding: 0;
@@ -2299,10 +2299,10 @@
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .singleCardWrap {
   float: left;
-  padding-left: .75%;
   position: relative;
   width: 100%;
-  padding-bottom: .75%;
+  /*padding-bottom: .75%;*/
+  margin-top: 15px ;
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .singleCardWrap .overlay {
   background: #fff;
@@ -2899,15 +2899,22 @@
   width: 100%;
 }
 #campaignCreate .firstWrapper .maxWidthAdj .adWrap {
-  background: #EDF2F8;
+  background: #eef5fc;
   border-top: 1px solid #BFC9D7;
   margin: 0;
+}
+#campaignCreate .firstWrapper .maxWidthAdj .adWrap .create-adgroup-btn-row {
+  display: table;
+  float: none;
+  margin: 0 auto;
+  padding: 15px 0 ;
+  width: 1200px;
 }
 #campaignCreate .firstWrapper .maxWidthAdj .adWrap .adContainer {
   display: table;
   float: none;
   margin: 0 auto;
-  padding: 30px 0;
+  padding: 0px 0 30px;
   width: 1200px;
 }
 #campaignCreate .firstWrapper .maxWidthAdj .adWrap .adContainer .secondary_txt {

@@ -129,8 +129,10 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
 
             var tab = $scope.selected_tab.substr(0, 1).toUpperCase() + $scope.selected_tab.substr(1);
 
-            var errorHandlerForPerformanceTab = function (result) {
-                $scope['dataNotFoundFor'+tab] = true;
+            var errorHandlerForPerformanceTab = function(result){
+                if(result.data.status != 0) {
+                    $scope['dataNotFoundFor' + tab] = true;
+                }
             }
 
             $scope.api_return_code = 200;

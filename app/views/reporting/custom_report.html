@@ -697,13 +697,14 @@
                 <div class="row">
                     <div class="col-md-12">
                         <span class="pull-right common-loading-btn" style="width:150px;" ng-show="loadingBtn"></span>
-                        <button class="pull-right common_primary_btn report_generate_button {{generateBtnDisabled ?
+                        <button class="pull-right btn btn-primary {{generateBtnDisabled ?
                                     'disabled' :
                                     ''}}"
                                 ng-click="scheduleReportAction();"
                                 ng-bind-html="buttonLabel" ng-show="!loadingBtn">
                         </button>
-                        <button class="pull-right secondary_txt"
+                        
+                        <button class="pull-right btn btn-default"
                                 ng-click="resetMetricOptions();"
                                 ng-bind-html="buttonResetCancel" ng-class="reportTypeSelect === 'Save' ? 'save_reset glyphicon glyphicon-repeat' : ''">
                         </button>

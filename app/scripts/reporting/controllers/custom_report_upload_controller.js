@@ -1,9 +1,9 @@
 define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reporting/strategySelect/strategy_select_model', 'reporting/kpiSelect/kpi_select_model',
         'common/utils', 'common/services/data_service', 'common/services/request_cancel_service',
-        'common/services/constants_service', 'reporting/timePeriod/time_period_model', 'reporting/collectiveReport/collective_report_model',
-        'reporting/advertiser/advertiser_model', 'common/services/url_service', 'reporting/collectiveReport/collective_report_model',
+        'common/services/constants_service', 'reporting/timePeriod/time_period_model','login/login_model',
+        'reporting/advertiser/advertiser_model', 'common/services/url_service',  'reporting/collectiveReport/collective_report_model',
         'reporting/brands/brands_model', 'common/services/vistoconfig_service',
-        'reporting/models/domain_reports','reporting/models/reports_upload_list'
+        'reporting/models/domain_reports','reporting/models/reports_upload_list','workflow/directives/filter_directive'
     ],
 
     function (angularAMD) {
@@ -34,6 +34,8 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
         $scope.errorMsgCustomRptName = false;
       }
 
+       $scope.isLeafNode =  loginModel.getMasterClient().isLeafNode;
+
       $scope.timeoutReset = function(){
 
         $timeout(function(){
@@ -50,11 +52,20 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
 
       $scope.campaignList = [{ id: -1, name : 'Loading...'}];
 
-      var selectedBrand = brandsModel.getSelectedBrand();
-      campaignSelectModel.getCampaigns(selectedBrand.id).then(function(response){
-          $scope.campaignList = response;
-          console.log('fetching campaign data');
-      });
+       var getCampaings = function() {
+           var selectedBrand = brandsModel.getSelectedBrand();
+           campaignSelectModel.getCampaigns(selectedBrand.id).then(function(response){
+               $scope.campaignList = response;
+           });
+       }
+
+       $rootScope.$on('filterChanged',function(event, args){
+              if(args.from == 'customReportUpload') {
+                  getCampaings();
+                  $rootScope.$broadcast('CAMPAIGN_CHANGE');
+              }
+       })
+
 
       $scope.isDisabled = function(campaignId){
         if(!campaignId) {

@@ -1,8 +1,6 @@
 define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/constants_service',
     'common/services/data_service', 'login/login_model', 'common/services/request_cancel_service'],
     function (angularAMD) {
-        'use strict';
-
         angularAMD.factory('workflowService', function ($rootScope, vistoconfig, constants, dataService, loginModel,
                                                        requestCanceller) {
             var mode,
@@ -480,11 +478,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
 
             uploadBulkCreativeUrl: function(adServerId, creativeFormat, templateId) {
 
-                if(loginModel.getMasterClient().isLeafNode){
-                    var clientId = loginModel.getSelectedClient().id;
-                } else {
-                    var clientId = JSON.parse(localStorage.getItem('creativeAccountId'));
-                }
+                var clientId = loginModel.getSelectedClient().id;
 
                 return  vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/adserver/' + adServerId
                     + '/format/' + creativeFormat.replace(/\s+/g, '').toUpperCase() + '/template/' + templateId + '/creatives/bulkimport';
