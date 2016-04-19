@@ -75,8 +75,11 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
             getAdvertiserDetails: function(clientId, id){
                 return dataService.put(vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/advertisers/'+id, {'Content-Type': 'application/json'})
             },
-            createAdvertiserUnderClient: function (clientId, advertiserId) {
-                return dataService.put(vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/advertisers/' + advertiserId, {}, {'Content-Type': 'application/json'})
+            createAdvertiserUnderClient: function (clientId, advertiserId,data) {
+                return dataService.post(vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/advertisers/' + advertiserId, data, {'Content-Type': 'application/json'})
+            },
+            createPixelsUnderAdvertiser: function(clientId, advertiserId,data){
+                return dataService.post(vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/advertisers/' + advertiserId +'/pixels', data, {'Content-Type': 'application/json'})
             },
             createBrand: function (data) {
                 return dataService.post(vistoconfig.apiPaths.WORKFLOW_API_URL + '/brands', data, {'Content-Type': 'application/json'})

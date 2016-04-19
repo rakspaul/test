@@ -12,7 +12,8 @@ define(['angularAMD','../../../workflow/services/account_service'],function (ang
         $scope.saveAdvertisers = function () {
             var advertiserObj,
                 body;
-
+//            createPixelsforAdvertiser($scope.client.id, 270);
+//return;
             if ($scope.mode === 'edit') {
                 advertiserObj =  accountsService.getToBeEditedAdvertiser();
                 body = constructRequestBody(advertiserObj);
@@ -35,14 +36,57 @@ define(['angularAMD','../../../workflow/services/account_service'],function (ang
                 accountsService.createAdvertiser({name:$scope.advertiserName}).then(function (adv) {
                     if (adv.status === 'OK' || adv.status === 'success') {
                         createAdvertiserUnderClient(adv.data.data.id);
+                //        createPixelsforAdvertiser();
                     }
                 });
             }
         };
 
         function createAdvertiserUnderClient(advId) {
+            var requestData = {
+                impressionLookBack : $scope.advertiserData.impressionLookBack,
+                clickLookBack : $scope.advertiserData.clickLookBack
+            }
             accountsService
-                .createAdvertiserUnderClient($scope.client.id, advId)
+                .createAdvertiserUnderClient($scope.client.id, advId, requestData)
+                .then(function (result) {
+                    if (result.status === 'OK' || result.status === 'success') {
+                        $scope.fetchAllAdvertisers($scope.client.id);
+                        $scope.resetBrandAdvertiserAfterEdit();
+                        $scope.close();
+                        createPixelsforAdvertiser($scope.client.id, advId);
+                        $rootScope.setErrAlertMessage('Advertiser created successfully', 0);
+                    }else{
+                      //  createPixelsforAdvertiser($scope.client.id, advId);
+                    }
+                }, function (err) {
+                    //createPixelsforAdvertiser($scope.client.id, advId);
+                    $scope.close();
+                    $rootScope.setErrAlertMessage('Error in creating advertiser under client.');
+                });
+        }
+        function getRequestDataforPixel(clientId, advertiserId){
+            _.each($scope.advertiserData.pixels, function(item, index){
+                $scope.advertiserData.pixels[index] = {
+                    name : item.name,
+                    clientId : clientId,
+                    advertiserId : 82,
+                    pixelType : item.pixelType,
+                    poolSize : 0,
+                    description: "pixel desc",
+                    createdBy: 11568,
+                    createdAt: "2016-04-18 16:12:34.085",
+                    updatedAt: "2016-04-18 16:12:34.085",
+                    expireAt: item.date,
+                    url: item.url
+                }
+            });
+            return $scope.advertiserData.pixels;
+        }
+        function createPixelsforAdvertiser(clientId, advId){
+            //var requestData = getRequestDataforPixel();
+            accountsService
+                .createPixelsUnderAdvertiser(clientId, advId, getRequestDataforPixel(clientId, advId))
                 .then(function (result) {
                     if (result.status === 'OK' || result.status === 'success') {
                         $scope.fetchAllAdvertisers($scope.client.id);
@@ -55,7 +99,6 @@ define(['angularAMD','../../../workflow/services/account_service'],function (ang
                     $rootScope.setErrAlertMessage('Error in creating advertiser under client.');
                 });
         }
-
         function constructRequestBody(obj) {
             var respBody = {};
 

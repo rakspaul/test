@@ -37,13 +37,13 @@
                         <div class="col-md-12 zeroPadding dropdown-workflow">
                             <div class="dropdown" style="margin: 0;">
                                 <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                    <span class="text" ng-bind="advertiserData.pixels[$index].type"></span>
+                                    <span class="text" ng-bind="advertiserData.pixels[$index].pixelType"></span>
                                     <span class="icon-arrow-down"></span>
                                 </button>
                                 <ul class="dropdown-menu" aria-labelledby="unitcostType" ng-model="adData.unitType"  id="unitcostType" data-toggle="dropdown">
-                                    <li><a ng-click="advertiserData.pixels[$index].type='Action - Page View'" ng-bind="'Action - Page View'"></a></li>
-                                    <li><a ng-click="advertiserData.pixels[$index].type='Audience Creation Pixel'" ng-bind="'Audience Creation Pixel'"></a></li>
-                                    <li><a ng-click="advertiserData.pixels[$index].type='Retargeting Pixel'" ng-bind="'Retargeting Pixel'"></a></li>
+                                    <li><a ng-click="advertiserData.pixels[$index].pixelType='Action - Page View'" ng-bind="'Action - Page View'"></a></li>
+                                    <li><a ng-click="advertiserData.pixels[$index].pixelType='Audience Creation Pixel'" ng-bind="'Audience Creation Pixel'"></a></li>
+                                    <li><a ng-click="advertiserData.pixels[$index].pixelType='Retargeting Pixel'" ng-bind="'Retargeting Pixel'"></a></li>
                                 </ul>
                             </div>
                         </div>
