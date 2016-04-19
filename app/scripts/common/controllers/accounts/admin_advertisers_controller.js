@@ -25,6 +25,10 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
         $scope.fetchAllAdvertisers();
 
         $scope.createAdvertiser = function(){
+            if(!$scope.advertiserName || $scope.advertiserName.trim() == ""){
+                $rootScope.setErrAlertMessage(constants.ADVERTISER_FEILD_EMPTY);
+                return;
+            }
             if($scope.isEditAdvertiser){
                 var requestBody = $scope.editRequestBody;
                 requestBody.name = $scope.advertiserName;

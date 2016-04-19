@@ -12,20 +12,20 @@
         <div class="col-md-12 zeroPadding">
             <div class="form-group col-md-4" style="padding: 0 15px 0 0;">
                 <label >Advertiser:</label>
-                <!--<input type="text" class="form-control" id="advertiserNameInp" ng-model="advertiserName" ng-keyup="mode == 'create' ? showDropdown() : ''">-->
                 <select class="form-control" name="selectedAdvertiserId" ng-model="selectedAdvertiserId" ng-disabled="isEditMode">
+                    <option selected disabled data-ng-bind="'Select Advertiser'"></option>
                     <option value="{{advertiser.id}}" ng-repeat="advertiser in advertisersData" ng-selected="{{advertiser.id == selectedAdvertiserId}}" data-ng-bind="advertiser.name"></option>
                 </select>
             </div>
             
             <div class="form-group col-md-4" style="padding: 0 15px;">
                 <label >Impression Look Back:</label>
-                <input type="text" class="form-control" ng-model="advertiserData.impressionLookBack" ng-keyup="(advertiserData.impressionLookBack>30)?advertiserData.impressionLookBack=30:''">
+                <input type="text" class="form-control" ng-model="advertiserData.lookbackImpressions" ng-keyup="(advertiserData.lookbackImpressions>30)?advertiserData.lookbackImpressions=30:''">
             </div>
             
             <div class="form-group col-md-4" style="padding: 0 0 0 15px;">
                 <label >Click:</label>
-                <input type="text" class="form-control" ng-model="advertiserData.clickLookBack" ng-keyup="(advertiserData.clickLookBack>30)?advertiserData.impressionLookBack=30:''">
+                <input type="text" class="form-control" ng-model="advertiserData.lookbackClicks" ng-keyup="(advertiserData.lookbackClicks>30)?advertiserData.lookbackClicks=30:''">
             </div>
         </div>
             <div id="pixelsCnt" ng-if="advertiserData.pixels.length">

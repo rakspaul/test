@@ -49,10 +49,11 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                     autoclose: true,
                     todayHighlight: true
                 });
+                $('#pixelExpDate_'+_currCtrl.pixelIndex).datepicker('update', momentService.todayDate('YYYY-MM-DD'));
+                $('#pixelExpDate_'+_currCtrl.pixelIndex).datepicker('setStartDate', momentService.getCurrentYear().toString());
+                _currCtrl.pixelIndex++;
             },25);
-            $('#pixelExpDate_'+_currCtrl.pixelIndex).datepicker('update', momentService.todayDate('YYYY-MM-DD'));
-            $('#pixelExpDate_'+_currCtrl.pixelIndex).datepicker('setStartDate', momentService.getCurrentYear().toString());
-            _currCtrl.pixelIndex++;
+
         }
         $scope.removePixel = function(pixelIndex){
             $scope.advertiserData.pixels = _.filter($scope.advertiserData.pixels,function(item,i){
@@ -203,7 +204,7 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
 //                    $scope.allAdvertiser = result.data.data;
 //                });
 //            }
-            $scope.advertiserData = {id:'', name: '',impressionLookBack: 14,clickLookBack: 14, pixels:[]};
+            $scope.advertiserData = {id:'', name: '',lookbackImpressions: 14,lookbackClicks: 14, pixels:[]};
             accountsService.getClientsAdvertisers(client.id).then(function(res){
                 if(res.data.status == "OK" && res.data.statusCode == 200 && res.data.data.length){
                     $scope.advertiserData.clientId = client.id;

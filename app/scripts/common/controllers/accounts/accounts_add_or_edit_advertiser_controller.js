@@ -1,22 +1,61 @@
 var angObj = angObj || {};
 
-define(['angularAMD','../../../workflow/services/account_service'],function (angularAMD) {
+define(['angularAMD','../../../workflow/services/account_service', '../../services/constants_service'],function (angularAMD) {
     'use strict';
 
-    angularAMD.controller('AccountsAddOrEditAdvertiser', function ($scope, $rootScope, $modalInstance, accountsService) {
+    angularAMD.controller('AccountsAddOrEditAdvertiser', function ($scope, $rootScope, $modalInstance,
+                                                                    accountsService, constants) {
 
-
+        var _currCtrl = this;
         $scope.close=function () {
             $scope.resetBrandAdvertiserAfterEdit();
             $modalInstance.dismiss();
         };
 
-        $scope.saveAdvertisers = function () {
+        _currCtrl.verifyCreateAdvInputs = function(){
+            var ret = true,
+                errMsg = "Error";
+            if(!$scope.selectedAdvertiserId || $scope.selectedAdvertiserId == ""){
+                $rootScope.setErrAlertMessage(constants.EMPTY_ADV_SELECTION);
+                return false;
+            }
+            if(!$scope.advertiserData.lookbackImpressions || $scope.advertiserData.lookbackImpressions == ""){
+                $rootScope.setErrAlertMessage(constants.EMPTY_LOOKBACK_IMPRESSION);
+                return false;
+            }
+            if(!$scope.advertiserData.lookbackClicks || $scope.advertiserData.lookbackClicks == ""){
+                $rootScope.setErrAlertMessage(constants.EMPTY_LOOKBACK_CLICK);
+                return false;
+            }
+            _.each($scope.advertiserData.pixels, function(item){
+                if(ret){
+                    if(!item.name || item.name == "") {
+                        errMsg = constants.EMPTY_PIXEL_FIELD;
+                        ret = false;
+                    }else if(!item.pixelType || item.pixelType == ""){
+                        errMsg = constants.EMPTY_PIXEL_TYPE;
+                        ret = false;
+                    }else if(!item.expireAt || item.expireAt == ""){
+                        errMsg = constants.EMPTY_PIXEL_EXPIREAT;
+                        ret = false;
+                    }
+                }
+            });
+           // if(advertiserData.impressionLookBack)
+            if(!ret) {
+                $rootScope.setErrAlertMessage(errMsg);
+            }
+            return ret;
+        }
+        $scope.saveAdvertisers = function(){
+            if(!_currCtrl.verifyCreateAdvInputs()){
+                return;
+            }
+            console.log("$scope.selectedAdvertiserId....."+$scope.selectedAdvertiserId)
+
             if($scope.isEditMode){
-                console.log("Edit Mode");
                 createPixelsforAdvertiser($scope.client.id, $scope.selectedAdvertiserId)
             }else{
-                console.log("Create Mode");
                 createAdvertiserUnderClient($scope.selectedAdvertiserId);
 //                accountsService.createAdvertiser({name:$scope.advertiserName}).then(function (adv) {
 //                    if (adv.status === 'OK' || adv.status === 'success') {
@@ -59,20 +98,44 @@ define(['angularAMD','../../../workflow/services/account_service'],function (ang
 
         function createAdvertiserUnderClient(advId) {
             var requestData = {
-                impressionLookBack : $scope.advertiserData.impressionLookBack,
-                clickLookBack : $scope.advertiserData.clickLookBack
+                lookbackImpressions : $scope.advertiserData.lookbackImpressions,
+                lookbackClicks : $scope.advertiserData.lookbackClicks
             }
             accountsService
-                .createAdvertiserUnderClient($scope.client.id, advId, requestData)
+                .createAdvertiserUnderClient($scope.client.id, advId, {})
                 .then(function (result) {
                     if (result.status === 'OK' || result.status === 'success') {
                         $scope.fetchAllAdvertisersforClient($scope.client.id);
                         $scope.resetBrandAdvertiserAfterEdit();
                         $scope.close();
+                        addPixeltoAdvertiserUnderClient($scope.client.id, advId)
                         createPixelsforAdvertiser($scope.client.id, advId);
                         $rootScope.setErrAlertMessage('Advertiser created successfully', 0);
                     }else{
                       //  createPixelsforAdvertiser($scope.client.id, advId);
+                    }
+                }, function (err) {
+                    //createPixelsforAdvertiser($scope.client.id, advId);
+                    $scope.close();
+                    $rootScope.setErrAlertMessage('Error in creating advertiser under client.');
+                });
+        }
+        function addPixeltoAdvertiserUnderClient(clientId, advId){
+            var requestData = {
+                lookbackImpressions : $scope.advertiserData.lookbackImpressions,
+                lookbackClicks : $scope.advertiserData.lookbackClicks
+            }
+            accountsService
+                .updateAdvertiserUnderClient($scope.client.id, advId, requestData)
+                .then(function (result) {
+                    if (result.status === 'OK' || result.status === 'success') {
+//                        $scope.fetchAllAdvertisersforClient($scope.client.id);
+//                        $scope.resetBrandAdvertiserAfterEdit();
+//                        $scope.close();
+//                        createPixelsforAdvertiser($scope.client.id, advId);
+                        $rootScope.setErrAlertMessage('Pixels added successfully', 0);
+                    }else{
+                        //  createPixelsforAdvertiser($scope.client.id, advId);
                     }
                 }, function (err) {
                     //createPixelsforAdvertiser($scope.client.id, advId);

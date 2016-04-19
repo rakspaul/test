@@ -25,6 +25,10 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
             $scope.fetchAllBrands();
 
             $scope.createBrand = function(){
+                if(!$scope.brandName || $scope.brandName.trim() == ""){
+                    $rootScope.setErrAlertMessage(constants.BRAND_FEILD_EMPTY);
+                    return;
+                }
                 if($scope.isEditBrand) {
                     var requestBody = $scope.editRequestBody;
                     requestBody.name = $scope.brandName;
