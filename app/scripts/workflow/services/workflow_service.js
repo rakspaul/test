@@ -28,7 +28,10 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                 integrationObj.active = true; // TODO hardcoded true for now...
                 integrationObj.summary = platform.description;
                 integrationObj.vendorCapabilities=platform.vendorCapabilities;
-                integrationObj.seats = platform.seats
+                integrationObj.seats = platform.seats;
+                _.each(integrationObj.seats, function(obj, idx) {
+                        integrationObj.seats[idx]['platform_id'] = platform.id;  integrationObj.seats[idx]['iconUrl'] = platform.iconURL;
+                    });
                 return integrationObj;
             }
 
@@ -127,14 +130,15 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                     });
                 },
 
-                getPlatforms: function (cacheObj) {
-                    //console.log(localStorage.getItem("campaignData"));
+                getPlatforms: function (cacheObj, advertiserId) {
                     var clientId = loginModel.getSelectedClient().id,
-                        campaignData = JSON.parse(localStorage.getItem("campaignData")),
-                        advertiserId = campaignData.advertiserId,
-                        url = vistoconfig.apiPaths.WORKFLOW_API_URL +
-                            '/clients/' + clientId + '/advertisers/' + advertiserId +'/vendors?vendorType=EXECUTION_PLATFORM&sortBy=name';
+                        campaignData = JSON.parse(localStorage.getItem("campaignData"));
+                    if(!advertiserId  && campaignData) {
+                        advertiserId = campaignData.advertiserId;
+                    }
 
+                    var url = vistoconfig.apiPaths.WORKFLOW_API_URL +
+                        '/clients/' + clientId + '/advertisers/' + advertiserId +'/vendors?vendorType=EXECUTION_PLATFORM&sortBy=name';
                     return dataService.fetch(url, cacheObj);
                 },
 
