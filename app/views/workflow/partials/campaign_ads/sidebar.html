@@ -15,6 +15,7 @@
                         <span style="color: #000;" data-ng-bind="textConstants.NOTSET"></span>
                     </div>
                 </div>
+
                 <div class="statusLabel" ng-if="adData.adFormat">
                     <div class="col-md-12">
                         <div class="statusIcon icon-{{getAdFormatIconName(adData.adFormat)}}"></div>
@@ -119,7 +120,7 @@
             </span>
             <div>
                 <div class="statusLabel disabled"
-                     ng-if="(!adData.isGeographySelected && !adData.isAudienceSelected && !adData.isDaypartSelected) ||
+                     ng-if="(!adData.isGeographySelected && !adData.isAudienceSelected && !adData.isDaypartSelected && !adData.isVideoSelected) ||
                             TrackingIntegrationsSelected">
                     <div class="col-md-12">
                         <span style="color: #000;" data-ng-bind="textConstants.WF_NOT_SET">
@@ -127,20 +128,29 @@
                     </div>
                 </div>
                 <div class="statusLabel disabled"
-                     ng-if="(adData.isGeographySelected || adData.isAudienceSelected || adData.isDaypartSelected ) &&
+                     ng-if="(adData.isGeographySelected || adData.isAudienceSelected || adData.isDaypartSelected || adData.isVideoSelected) &&
                      !TrackingIntegrationsSelected">
+
                     <div class="col-md-12" ng-if="adData.isGeographySelected" style="margin-bottom: 5px;">
                         <div class="icon-location pull-left"></div>
                         <span data-ng-bind="textConstants.GEOGRAPHY"></span>
                     </div>
+
                     <div class="col-md-12" ng-if="adData.isAudienceSelected" style="margin-bottom: 5px;">
                         <div class="icon-audience pull-left"></div>
                         <span data-ng-bind="textConstants.AUDIENCE"></span>
                     </div>
+
                     <div class="col-md-12" ng-if="adData.isDaypartSelected" style="margin-bottom: 5px;">
                         <div class="icon-activity pull-left"></div>
                         <span data-ng-bind="textConstants.DAYPART"></span>
                     </div>
+
+                    <div class="col-md-12" ng-if="adData.isVideoSelected" style="margin-bottom: 5px;">
+                        <div class="icon-video pull-left"></div>
+                        <span data-ng-bind="textConstants.VIDEO"></span>
+                    </div>
+
                 </div>
             </div>
         </li>

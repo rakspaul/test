@@ -2,34 +2,17 @@ define(['angularAMD','workflow/services/workflow_service','workflow/services/aud
   angularAMD.controller('targettingController', function($scope, $rootScope, $timeout, workflowService,audienceService) {
 
         var _targeting = this;
+        var targeting = {};
 
         $scope.showDeleteConfirmationPopup = false;
         $scope.adData.isGeographySelected = false;
         $scope.adData.isAudienceSelected = false;
         $scope.adData.isDaypartSelected = false;
+        $scope.adData.isVideoSelected = false;
         $scope.geoTargetingPreviewObj = null;
         $scope.showSwitchBox = true;
         $scope.isDayPartTriggered = false;
 
-
-        $rootScope.$on('targettingCapability',function (event, platform) {
-            $scope.isGeoTargetEnabled = false;
-            $scope.isAudienceTargetEnabled = false;
-            $scope.isDaypartTargetEnabled = false;
-            angular.forEach(platform.vendorCapabilities, function(vendorCapability){
-                console.log("Capability", vendorCapability.capability)
-                switch (vendorCapability.capability) {
-                    case 'Geo Targeting': $scope.isGeoTargetEnabled = true;
-                                            break;
-                    case 'Audience Targeting': $scope.isAudienceTargetEnabled = true;
-                                            break;
-                    case 'Daypart Targeting': $scope.isDaypartTargetEnabled = true;
-                                            break;
-                }
-            })
-        });
-
-        var targeting = {};
 
         _targeting.showAudienceInfo =  function() {
             $scope.audienceDataForPreview = [];
@@ -49,32 +32,36 @@ define(['angularAMD','workflow/services/workflow_service','workflow/services/aud
             $scope.adData.targetName = targetingName;
             $scope.selectedTargeting[targetingName.toLowerCase()] = true;
 
-            if (targetingName === 'Geography') {
-                $scope.adData.isGeographySelected = true;
+            switch(targetingName) {
 
-            }
+                case 'Geography' :
+                    $scope.adData.isGeographySelected = true;
+                break;
 
-            if (targetingName === 'Audience') {
-                $scope.adData.isAudienceSelected = true;
-                if(audienceService.getSelectedAudience()){
-                    $scope.$broadcast('setSelectedAudience');
-                } else {
-                    if($scope.mode === 'edit') {
-                        _targeting.showAudienceInfo();
+                case 'Audience' :
+                    $scope.adData.isAudienceSelected = true;
+                    if(audienceService.getSelectedAudience()){
+                        $scope.$broadcast('setSelectedAudience');
+                    } else {
+                        if($scope.mode === 'edit') {
+                            _targeting.showAudienceInfo();
+                        }
                     }
-                }
-            }
+                break;
 
-            if (targetingName === 'Daypart') {
-                $scope.adData.isDaypartSelected = true;
-                if(fetchedObj && fetchedObj.targets.adDaypartTargets && _.size(fetchedObj.targets.adDaypartTargets) > 0 && $scope.mode === 'edit' &&  !$scope.isDayPartTriggered) {
-                    $timeout(function() {
-                        $scope.$broadcast("updateDayPart", true);
-                        $scope.isDayPartTriggered = true;
-                    }, 2000)
+                case 'Daypart' :
+                    $scope.adData.isDaypartSelected = true;
+                    if(fetchedObj && fetchedObj.targets.adDaypartTargets && _.size(fetchedObj.targets.adDaypartTargets) > 0 && $scope.mode === 'edit' &&  !$scope.isDayPartTriggered) {
+                        $timeout(function() {
+                            $scope.$broadcast("updateDayPart", true);
+                            $scope.isDayPartTriggered = true;
+                        }, 2000)
+                    }
+                break;
 
-                }
-
+                case 'Video' :
+                    $scope.adData.isVideoSelected = true;
+                break;
             }
         };
 
@@ -116,7 +103,6 @@ define(['angularAMD','workflow/services/workflow_service','workflow/services/aud
         $scope.selectDayTarget = function () {
             $scope.$broadcast('triggerDayPart');
             _targeting.setTargetingForPreview('Daypart');
-
         };
 
         $scope.deleteDayPartTargetting = function () {
@@ -247,7 +233,19 @@ define(['angularAMD','workflow/services/workflow_service','workflow/services/aud
 
         /****************** END : GEO TARGETING  ***********************/
 
-            // Targeting Trigger -- Onload.
+
+
+        /****************** START : VIDEO TARGETING  ***********************/
+
+        $scope.selectVideoTarget = function () {
+            $scope.$broadcast('triggerVideo');
+            _targeting.setTargetingForPreview('Video');
+        };
+
+        /****************** END : VIDEO TARGETING  ***********************/
+
+
+        // Targeting Trigger -- Onload.
         $scope.$on('setTargeting' , function($event, args) {
             _targeting.setTargetingForPreview(args[0]);
             if($scope.mode ==='edit' && args[0] === 'Geography'){
@@ -285,6 +283,32 @@ define(['angularAMD','workflow/services/workflow_service','workflow/services/aud
                 $scope.searchLabel = $scope.textConstants.SEARCHFORREGION;
             }
         });
-    });
 
+        $rootScope.$on('targettingCapability',function (event, platform) {
+          $scope.isGeoTargetEnabled = false;
+          $scope.isAudienceTargetEnabled = false;
+          $scope.isDaypartTargetEnabled = false;
+          $scope.isVideoTargetEnabled = false;
+          angular.forEach(platform.vendorCapabilities, function(vendorCapability){
+              switch (vendorCapability.capability) {
+
+                  case 'Geo Targeting':
+                      $scope.isGeoTargetEnabled = true;
+                      break;
+
+                  case 'Audience Targeting':
+                      $scope.isAudienceTargetEnabled = true;
+                      break;
+
+                  case 'Daypart Targeting':
+                      $scope.isDaypartTargetEnabled = true;
+                      break;
+
+                  case 'Video Creative Serving':
+                      $scope.isVideoTargetEnabled = true;
+                      break;
+              }
+          })
+        });
+  });
 });
