@@ -113,7 +113,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             hideTargetingBox();
 
             //Stop propogation to parent element
-            event.stopPropagation();
+            event && event.stopImmediatePropagation();
 
             var settings = '';
             //remove creatives only if Tracking-only is changed to Full integrations
