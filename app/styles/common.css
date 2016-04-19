@@ -1152,13 +1152,27 @@
   cursor: default;
 }
 .main_navigation_holder div.reports_header_tabs_holder .reports_sub_menu_dd_holder {
-  margin: 0 50px;
+  margin: 0 auto;
+  max-width: 1200px;
   padding: 15px 0;
+  width: auto;
 }
 .main_navigation_holder div.reports_header_tabs_holder .reports_sub_menu_dd_holder .reports_sub_menu_dd {
   float: left;
   padding: 16px 0 13px;
   min-width: 200px;
+}
+.main_navigation_holder div.reports_header_tabs_holder .reports_sub_menu_dd_holder .adminLinks {
+  float: left;
+  text-align: left;
+  width: auto;
+  padding: 5px;
+  margin: 20px;
+  cursor: pointer;
+}
+.main_navigation_holder div.reports_header_tabs_holder .reports_sub_menu_dd_holder .adminLinks:first-child {
+  margin-left: 0;
+  padding-left: 0;
 }
 .main_navigation_holder div.reports_header_tabs_holder .canned_container {
   max-width: 650px;

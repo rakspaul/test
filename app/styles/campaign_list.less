@@ -2508,7 +2508,10 @@ button, i, input[type="submit"] {
       .arrowSelect {
         display: none;
       }
-      .each_nav_link.active {
+      .each_nav_link.active, .each_nav_link.selected, .each_nav_link.active_tab {
+        a {
+            color: #fff;
+        }
         .arrowSelect {
           content: "";
           position: absolute;

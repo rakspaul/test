@@ -1,11 +1,12 @@
 <popup-msg ng-show="flashMessage" ng-controller="popUpMsgCtr"
 		   ng-init="init('flashMessage','WF_USER_CREATION_FAIL')"></popup-msg>
-<admin-header></admin-header>
+
 <div class="users-creation-page" >
 		<!--Header-->
         <div class="col-md-12 zeroPadding heading" style="margin: 30px 0;">
-            <div class="col-md-12 zeroPadding" style="margin-top: 30px;">
-                <label >Advertiser Name:</label>
+            <h1 class="zeroMargin">Advertiser</h1>
+            <div class="col-md-12 zeroPadding" style="margin: 30px 0 0 0;">
+                <label>Advertiser Name:</label>
                 <input type="text" class="form-control" placeholder="Add Name"
                        id="advertiserNameInp" ng-model="advertiserName"
                        ng-keyup="mode == 'create' ? showDropdown() : ''" style="width:500px">
@@ -16,6 +17,7 @@
                         <span class="icon-plus"></span>
                         <span data-ng-bind="isEditAdvertiser ? 'Update Advertiser' : 'Create Advertiser'"></span>
                     </a>
+                    <admin-header></admin-header>
                 </div>
 
                 <span class="delete_row" ng-show="isEditAdvertiser"

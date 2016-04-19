@@ -1,6 +1,6 @@
 <popup-msg ng-show="flashMessage" ng-controller="popUpMsgCtr"
            ng-init="init('flashMessage','WF_CAMPAIGN_ARCHIVE_FAILURE')"></popup-msg>
-<admin-header></admin-header>
+
 <div class="col-md-12 zeroPadding accounts-page">
     <!--Header-->
     <div class="col-md-12 zeroPadding heading" style="margin: 30px 0 15px 0;">
@@ -8,10 +8,11 @@
         
         <!--Create Account Btn-->
         <div class="pull-left btn-group create" role="group" aria-label="..." ng-if="isSuperAdmin">
-            <a class="btn btn-default" ng-click="AddOrEditAccountModal('create')">
+            <a class="btn btn-default" ng-click="AddOrEditAccountModal('create')" style="border-top-right-radius: 0; border-bottom-right-radius: 0;">
                 <span class="icon-plus"></span>
                 <span>Create New Account</span>
             </a>
+            <admin-header class="pull-left"></admin-header>
         </div>
     </div>
         
