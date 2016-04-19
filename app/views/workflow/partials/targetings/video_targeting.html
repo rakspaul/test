@@ -13,7 +13,7 @@
     <div class="col-md-12 video-dimension" >
         <!--Row 1-->
         <div class="col-md-12 zeroPadding each-video-dimension" ng-repeat="addDimension in additionalDimension track by $index" >
-            <div class="col-md-3 zeroPadding">
+            <div class="col-md-2 zeroPadding" style="width: 20%; margin-bottom: 5px;">
                 <div class="form-group col-md-12 zeroPadding">
                     <div class="col-md-12 zeroPadding dropdown-workflow">
                         <div class="dropdown">
@@ -22,15 +22,18 @@
                                 <span class="icon-arrow-down"></span>
                             </button>
                             <ul class="dropdown-menu" aria-labelledby="selectDimension" id="selectDimension" name='selectDimension' data-toggle="dropdown">
-                                <li class="available {{!dimension.active ? 'disabled' : ''}}" ng-click="selectOption($event , dimension.key, dimension.active)" ng-repeat="dimension in dimensionArr"><a>{{dimension.value}}</a></li>
+                                <li class="available {{!dimension.active ? 'disabled' : ''}}" ng-click="selectOption($event , dimension.key, dimension.active)" ng-repeat="dimension in dimensionArr">
+                                    <a ng-click="addAdditionalDimension($event)">{{dimension.value}}</a>
+                                </li>
                             </ul>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <span class="col-md-1 text-center" style="margin-top: 10px;">Is</span>
-            <div class="col-md-3 zeroPadding" id="selectSizeDropdown">
+            <span class="pull-left text-center" style="margin: 10px 10px 0 10px;">Is</span>
+            
+            <div class="col-md-2 zeroPadding" id="selectSizeDropdown" style="width: 20%;">
                 <!-- <label class="col-sm-12 control-label greyTxt miniLabels">Size</label> -->
 
                 <div class="form-group col-md-12 zeroPadding">
@@ -49,7 +52,7 @@
                 </div>
             </div>
 
-            <div class="col-md-4 multiselectTagOptions zeroPadding" style="padding-right: 0;display:none;" id="playerInputBox">
+            <div class="col-md-8 multiselectTagOptions zeroPadding" style="display:none; min-width: 54%; max-width: 54%;" id="playerInputBox">
                 <tags-input ng-model="tagsSize" display-property="name" placeholder="Select" replace-spaces-with-dashes="false">
                     <auto-complete source="loadSize($query)"
                                    min-length="0"
@@ -60,7 +63,7 @@
                 </tags-input>
 
             </div>
-            <div class="col-md-4 multiselectTagOptions zeroPadding" style="padding-right: 0;display:none;" id="positionInputBox" >
+            <div class="col-md-8 multiselectTagOptions zeroPadding" style="display:none; min-width: 76%; max-width: 76%;" id="positionInputBox" >
                 <tags-input ng-model="tagsPosition" display-property="name" placeholder="Select" replace-spaces-with-dashes="false">
                     <auto-complete source="loadPositions($query)"
                                    min-length="0"
@@ -71,7 +74,7 @@
                 </tags-input>
 
             </div>
-            <div class="col-md-4 multiselectTagOptions zeroPadding" style="padding-right: 0;display:none;" id="playbackInputBox" >
+            <div class="col-md-8 multiselectTagOptions zeroPadding" style="display:none; min-width: 76%; max-width: 76%;" id="playbackInputBox" >
                 <tags-input ng-model="tagsPlayback" display-property="name" placeholder="Select" replace-spaces-with-dashes="false">
                     <auto-complete source="loadPlayback($query)"
                                    min-length="0"
@@ -83,7 +86,8 @@
 
             </div>
         </div>
-        <div class="pull-left clickable-txt" ng-init="addAdditionalDimension()" ng-click="addAdditionalDimension($event)" ng-bind-html="textConstants.ADD_BREAKDOWN_LABEL"></div>
+        
+        <!--<div class="pull-left clickable-txt" ng-init="addAdditionalDimension()" ng-click="addAdditionalDimension($event)" ng-bind-html="textConstants.ADD_BREAKDOWN_LABEL"></div>-->
 
     </div>
 </div>

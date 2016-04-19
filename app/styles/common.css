@@ -1749,7 +1749,6 @@ tags-input .autocomplete {
 }
 .anchor-disabled {
   cursor: default;
-<<<<<<< HEAD
 }
 .slider-msg {
   border: solid 1px #0978C9;
@@ -1804,6 +1803,4 @@ tags-input .autocomplete {
     opacity: 1;
     transform: scale(1);
   }
-=======
->>>>>>> two pages in ad creation changed
 }
