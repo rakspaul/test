@@ -9,7 +9,7 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
         loginModel) {
 
         $scope.advertisersData = [];
-
+        $scope.isEditAdvertiser = false;
         $scope.fetchAllAdvertisers = function(){
             console.log("fetchAllAdvertisers......");
             accountsService.getUserAdvertiser().then(function(res){
@@ -25,20 +25,46 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
         $scope.fetchAllAdvertisers();
 
         $scope.createAdvertiser = function(){
-            accountsService.createAdvertiser({name:$scope.advertiserName}).then(function(res){
-                if (res.status === 'CREATED' || res.status === 'success') {
-                    $scope.advertiserName = "";
-                    $scope.fetchAllAdvertisers();
-                    $rootScope.setErrAlertMessage(constants.SUCCESS_CREATE_ADVERTISER,0);
-                }else{
-                    $rootScope.setErrAlertMessage(res.data.message);
+            if($scope.isEditAdvertiser){
+                var requestBody = $scope.editRequestBody;
+                requestBody.name = $scope.advertiserName;
+                accountsService.updateAdvertiser(requestBody.id, requestBody).then(function (res) {
+                    if (res.status === 'CREATED' || res.status === 'success') {
+                        $scope.advertiserName = "";
+                        $scope.fetchAllAdvertisers();
+                        $rootScope.setErrAlertMessage(constants.SUCCESS_UPDATED_ADVERTISER, 0);
+                        $scope.isEditAdvertiser = false;
+                    } else {
+                        $rootScope.setErrAlertMessage(constants.ERR_UPDATE_ADVERTISER);
+                        return;
+                    }
+                }, function (err) {
+                    $rootScope.setErrAlertMessage(constants.ERR_UPDATE_ADVERTISER);
                     return;
-                }
-            },function(err){
-                $rootScope.setErrAlertMessage(err.message);
-                return;
-                //$scope.fetchAllAdvertisers();
-            });
+                    //$scope.fetchAllAdvertisers();
+                });
+            }else {
+                accountsService.createAdvertiser({name: $scope.advertiserName}).then(function (res) {
+                    if (res.status === 'CREATED' || res.status === 'success') {
+                        $scope.advertiserName = "";
+                        $scope.fetchAllAdvertisers();
+                        $rootScope.setErrAlertMessage(constants.SUCCESS_CREATE_ADVERTISER, 0);
+                    } else {
+                        $rootScope.setErrAlertMessage(res.data.message);
+                        return;
+                    }
+                }, function (err) {
+                    $rootScope.setErrAlertMessage(err.message);
+                    return;
+                    //$scope.fetchAllAdvertisers();
+                });
+            }
+        }
+
+        $scope.editAdvertiser = function(obj){
+            $scope.isEditAdvertiser = obj.id;
+            $scope.editRequestBody = obj;
+            $scope.advertiserName = obj.name;
         }
     });
 });

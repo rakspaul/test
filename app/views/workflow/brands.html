@@ -11,9 +11,12 @@
             <div class="pull-left btn-group create" role="group" aria-label="..." style="position: absolute;top: 24px;left: 525px;">
                 <a class="btn btn-default" ng-click="createBrand()">
                     <span class="icon-plus"></span>
-                    <span>Create Brand</span>
+                    <span data-ng-bind="isEditBrand ? 'Update Brand' : 'Create Brand'"></span>
                 </a>
             </div>
+            <span class="delete_row" ng-show="isEditBrand"
+                  data-ng-click="isEditBrand=false;brandName=''"
+                  style="position: absolute;top: 19px;left: 470px;"></span>
             <!--Quick Filters-->
             <!--<div campaign-list-filter-directive campaigns="campaigns" class="pull-right"></div>-->
 
@@ -61,9 +64,10 @@
             </div>
 
             <div class="tbody thin">
-                <div class="tr" ng-repeat="brand in brandsData">
+                <div class="tr" ng-repeat="brand in brandsData" data-ng-click="editBrand(brand)">
                     <div class="td col-md-4">
                         <a style="color: #428bca;" data-ng-bind="brand.name"></a>
+                        <span class="pull-left edit" style="position:absolute;width:90%;z-index:1;left:0px;"></span>
                     </div>
 
                     <div class="td col-md-4">

@@ -1009,6 +1009,8 @@ define(['angularAMD'], function(angularAMD) {
         this.ADMIN_PAGE_PERMISSION = "Admin has access to all features";
         this.ERR_CREATE_ADVERTISER = "Failed to create the advertiser";
         this.SUCCESS_CREATE_ADVERTISER = "Advertiser successfully created";
+        this.SUCCESS_UPDATED_ADVERTISER = "Advertiser updated successfully";
+        this.ERR_UPDATE_ADVERTISER = "Failed to update the advertiser";
         this.ERR_CREATE_BRAND = "Failed to create the brand";
         this.SUCCESS_CREATE_BRAND = "Brand successfully created";
 

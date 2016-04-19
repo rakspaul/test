@@ -1,7 +1,7 @@
 <div class="popup-holder accounts-popup">
     <!--Header-->
     <div class="modal-header">
-        <span class="btn btn-primary pull-right" ng-click="saveAdvertisers()">Save</span>
+        <span class="btn btn-primary pull-right" ng-click="saveAdvertisers()" data-ng-bind="isEditMode ? 'Update' : 'Create'">Save</span>
         <span class="btn btn-link pull-right" data-dismiss="modal" ng-click="close()">Cancel</span>
         
         <h2 class="modal-title" id="myModalLabel">{{(mode === 'create'?'Add':'Edit')}} Advertiser</h2>
@@ -12,7 +12,10 @@
         <div class="col-md-12 zeroPadding">
             <div class="form-group col-md-4" style="padding: 0 15px 0 0;">
                 <label >Advertiser:</label>
-                <input type="text" class="form-control" id="advertiserNameInp" ng-model="advertiserName" ng-keyup="mode == 'create' ? showDropdown() : ''">
+                <!--<input type="text" class="form-control" id="advertiserNameInp" ng-model="advertiserName" ng-keyup="mode == 'create' ? showDropdown() : ''">-->
+                <select class="form-control" name="selectedAdvertiserId" ng-model="selectedAdvertiserId" ng-disabled="isEditMode">
+                    <option value="{{advertiser.id}}" ng-repeat="advertiser in advertisersData" ng-selected="{{advertiser.id == selectedAdvertiserId}}" data-ng-bind="advertiser.name"></option>
+                </select>
             </div>
             
             <div class="form-group col-md-4" style="padding: 0 15px;">
@@ -30,20 +33,23 @@
                 <div data-ng-repeat="pixel in advertiserData.pixels" class="pixelLayer">
                     <div class="form-group col-md-4" style="padding: 0 15px 0 0;">
                         <label>Pixel Name:</label>
-                        <input type="text" class="form-control" ng-model="advertiserData.pixels[$index].name">
+                        <input type="text" class="form-control" maxlength="50" ng-model="advertiserData.pixels[$index].name">
                     </div>
                     <div class="form-group col-md-4" style="padding: 0 15px;">
                         <label >Pixel Type:</label>
                         <div class="col-md-12 zeroPadding dropdown-workflow">
                             <div class="dropdown" style="margin: 0;">
                                 <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                    <span class="text" ng-bind="advertiserData.pixels[$index].pixelType"></span>
+                                    <span class="text" ng-bind="advertiserData.pixels[$index].pixelTypeName"></span>
                                     <span class="icon-arrow-down"></span>
                                 </button>
                                 <ul class="dropdown-menu" aria-labelledby="unitcostType" ng-model="adData.unitType"  id="unitcostType" data-toggle="dropdown">
-                                    <li><a ng-click="advertiserData.pixels[$index].pixelType='Action - Page View'" ng-bind="'Action - Page View'"></a></li>
-                                    <li><a ng-click="advertiserData.pixels[$index].pixelType='Audience Creation Pixel'" ng-bind="'Audience Creation Pixel'"></a></li>
-                                    <li><a ng-click="advertiserData.pixels[$index].pixelType='Retargeting Pixel'" ng-bind="'Retargeting Pixel'"></a></li>
+                                    <li><a ng-click="advertiserData.pixels[$index].pixelType='PAGE_VIEW';
+                                                     advertiserData.pixels[$index].pixelTypeName='Action - Page View'" ng-bind="'Action - Page View'"></a></li>
+                                    <li><a ng-click="advertiserData.pixels[$index].pixelTypeName='Audience Creation Pixel';
+                                                     advertiserData.pixels[$index].pixelType='AUDIENCE_CREATION'" ng-bind="'Audience Creation Pixel'"></a></li>
+                                    <li><a ng-click="advertiserData.pixels[$index].pixelTypeName='Retargeting Pixel';
+                                                     advertiserData.pixels[$index].pixelType='RETARGETING'" ng-bind="'Retargeting Pixel'"></a></li>
                                 </ul>
                             </div>
                         </div>
@@ -52,21 +58,23 @@
                         <label style="display: block;">Pixel Expiration Date:</label>
                         <div class="col-md-12 input-daterange input-group date pull-left">
                             <div class="col-md-12 dateWrapper ">
-                                <input type="text" id="startDateInput" class="input-sm form-control timeframe"
-                                    ng-model="advertiserData.pixels[$index].date" required>
+                                <input type="text" id="pixelExpDate_{{$index}}" class="input-sm form-control timeframe"
+                                    ng-model="advertiserData.pixels[$index].expireAt" required>
                                 <i class="icon-calendar glyphicon pull-right"></i>
-                                <label ng-if="!reports.reportDefinition.timeframe.start_date" style="display:block"
+                                <label ng-if="!advertiserData.pixels[$index].expireAt" style="display:block"
                                     class="errorLabel" ng-bind="textConstants.SELECT_DATE_LABEL"></label>
                             </div>
                         </div>
                     </div>
                     
                     <div class="form-group col-md-12" style="padding: 0;">
-                        <label class="pull-left">Pixel URL:</label>
-                        <input type="textarea" class="form-control" ng-model="advertiserData.pixels[$index].url">
+                        <label class="pull-left">Description</label>
+                        <input type="textarea" class="form-control" ng-model="advertiserData.pixels[$index].description">
                     </div>
                     
-                    <a class="pull-right btn btn-link" style="padding-right: 0;" data-dismiss="modal" ng-click="removePixel($index)" aria-label="Close">Cancel</a>
+                    <a class="pull-right btn btn-link" style="padding-right: 0;" data-dismiss="modal"
+                       ng-if="!isEditMode"
+                       ng-click="removePixel($index)" aria-label="Close">Cancel</a>
                 </div>
             </div>
             <div class="pull-right btn-group create" role="group" aria-label="...">
@@ -88,4 +96,3 @@
         </div>
     </div><!-- end of modal_body -->
 </div> <!-- end of popup-holder -->
-

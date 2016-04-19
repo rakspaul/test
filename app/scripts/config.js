@@ -138,10 +138,12 @@ assets.admin_accounts_subclient = '/views/workflow/partials/creative_add_bulk.ht
 
 //Admin page
 
+assets.html_admin_home = '/views/workflow/admin_home.html';
 assets.html_users = '/views/reporting/users.html';
 assets.html_accounts = '/views/workflow/accounts.html';
 assets.html_advertisers = '/views/workflow/advertisers.html';
 assets.html_brands = '/views/workflow/brands.html';
+
 
 
 

@@ -237,6 +237,12 @@ define(['common'], function (angularAMD) {
                 }
             }))
 
+            .when('/admin/home', angularAMD.route({
+                templateUrl: assets.html_admin_home,
+                title: 'AdminHome'
+             //   controller: 'AccountsController',
+             //   controllerUrl: 'common/controllers/accounts/accounts_controller'
+            }))
             .when('/admin/accounts', angularAMD.route({
                 templateUrl: assets.html_accounts,
                 title: 'Accounts',

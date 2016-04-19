@@ -25,20 +25,44 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
             $scope.fetchAllBrands();
 
             $scope.createBrand = function(){
-                accountsService.createBrand({name:$scope.brandName}).then(function(res){
-                    if (res.status === 'CREATED' || res.status === 'success') {
-                        $scope.brandName = "";
-                        $scope.fetchAllBrands();
-                        $rootScope.setErrAlertMessage(constants.SUCCESS_CREATE_BRAND,0);
-                    }else{
-                        $rootScope.setErrAlertMessage(res.data.message);
+                if($scope.isEditBrand) {
+                    var requestBody = $scope.editRequestBody;
+                    requestBody.name = $scope.brandName;
+                    accountsService.updateBrand(requestBody.id, requestBody).then(function (res) {
+                        if (res.status === 'CREATED' || res.status === 'success') {
+                            $scope.brandName = "";
+                            $scope.fetchAllBrands();
+                            $rootScope.setErrAlertMessage(constants.SUCCESS_CREATE_BRAND, 0);
+                        } else {
+                            $rootScope.setErrAlertMessage(res.data.message);
+                            return;
+                        }
+                    }, function (err) {
+                        $rootScope.setErrAlertMessage(err.message);
                         return;
-                    }
-                },function(err){
-                    $rootScope.setErrAlertMessage(err.message);
-                    return;
-                    //$scope.fetchAllAdvertisers();
-                });
+                        //$scope.fetchAllAdvertisers();
+                    });
+                }else {
+                    accountsService.createBrand({name: $scope.brandName}).then(function (res) {
+                        if (res.status === 'CREATED' || res.status === 'success') {
+                            $scope.brandName = "";
+                            $scope.fetchAllBrands();
+                            $rootScope.setErrAlertMessage(constants.SUCCESS_CREATE_BRAND, 0);
+                        } else {
+                            $rootScope.setErrAlertMessage(res.data.message);
+                            return;
+                        }
+                    }, function (err) {
+                        $rootScope.setErrAlertMessage(err.message);
+                        return;
+                        //$scope.fetchAllAdvertisers();
+                    });
+                }
+            }
+            $scope.editBrand = function(obj){
+                $scope.isEditBrand = obj.id;
+                $scope.editRequestBody = obj;
+                $scope.brandName = obj.name;
             }
         });
     });
