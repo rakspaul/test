@@ -1,9 +1,10 @@
 var angObj = angObj || {};
 
-define(['angularAMD','../../../workflow/services/account_service'],function (angularAMD) {
+define(['angularAMD','../../../workflow/services/account_service','reporting/models/domain_reports'],function (angularAMD) {
     'use strict';
 
-    angularAMD.controller('AccountsAddOrEditBrand', function ($scope, $rootScope, $modalInstance, accountsService) {
+    angularAMD.controller('AccountsAddOrEditBrand', function ($scope, $rootScope, $modalInstance,
+                                                              accountsService, domainReports) {
         $scope.close=function () {
             $modalInstance.dismiss();
             $scope.resetBrandAdvertiserAfterEdit();
