@@ -95,6 +95,11 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
 
                 return dataService.fetch(url);
             },
+            getRatesTypes: function () {
+                var url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/pricing_methods';
+
+                return dataService.fetch(url);
+            },
             saveCampaign: function (data) {
                 var isLeafNode = loginModel.getMasterClient().isLeafNode;
                 if(isLeafNode) {
