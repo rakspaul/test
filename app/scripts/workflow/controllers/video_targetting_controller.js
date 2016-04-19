@@ -41,10 +41,6 @@ define(['angularAMD', 'workflow/services/workflow_service', 'common/services/con
                 hide: true
             });
 
-            if(event) {
-                //removeSelectedDimension();
-            }
-
             if( $scope.additionalDimension.length == 3 ) {
                 $(".video-dimension").find(".clickable-txt").hide();
             }
@@ -69,9 +65,8 @@ define(['angularAMD', 'workflow/services/workflow_service', 'common/services/con
                 elem.closest(".each-video-dimension").find("#" + type + "InputBox").show() ;
             }
             $scope.selectedDimesnion.push(type);
-            //removeSelectedDimension();
-
         }
+
         $scope.selectSize = function(event,type) {
             var elem = $(event.target);
             if(type == "specific") {
