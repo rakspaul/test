@@ -22,7 +22,7 @@
                                 <span class="icon-arrow-down"></span>
                             </button>
                             <ul class="dropdown-menu" aria-labelledby="selectDimension" id="selectDimension" name='selectDimension' data-toggle="dropdown">
-                                <li class="available {{!dimension.active ? 'disabled' : ''}}" ng-click="dimension.active ? selectOption($event , dimension.key) : ''" ng-repeat="dimension in dimensionArr"><a>{{dimension.value}}</a></li>
+                                <li class="available {{!dimension.active ? 'disabled' : ''}}" ng-click="selectOption($event , dimension.key, dimension.active)" ng-repeat="dimension in dimensionArr"><a>{{dimension.value}}</a></li>
                             </ul>
                         </div>
                     </div>

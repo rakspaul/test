@@ -58,7 +58,12 @@ define(['angularAMD', 'workflow/services/workflow_service', 'common/services/con
             _videoTargetting.showBox();
         });
 
-        $scope.selectOption = function(event,type) {
+        $scope.selectOption = function(event,type, dimensionStatus) {
+
+            if(!dimensionStatus) {
+                event.stopImmediatePropagation();
+            }
+
             var elem = $(event.target);
             elem.closest(".each-video-dimension").find(".multiselectTagOptions").hide() ;
             elem.closest(".each-video-dimension").find("#selectSizeDropdown").hide() ;
