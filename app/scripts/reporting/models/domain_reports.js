@@ -225,9 +225,9 @@ define(['angularAMD', '../../login/login_model', 'common/services/role_based_ser
                     }
 
 
-                    if (!loginModel.cookieExists())
+                    if (!loginModel.cookieExists()) {
                         loginModel.checkCookieExpiry();
-                    else {
+                    } else {
                         $scope.reportDownloadBusy = true;
                         dataService.downloadFile(report_url).then(function (response) {
                             if (response.status === "success") {

@@ -1,13 +1,13 @@
 <div class="col-md-12 selectTypeTitle">
     <div class="col-md-12 zeroPadding">
         <h2 class="col-md-12 zeroPadding marginBottom" data-ng-bind="textConstants.SELECTADTYPE"></h2>
-        <a href="javascript:void(0);" class="helpLink" data-ng-bind="textConstants.LEARNADTYPES"></a>
+        <!-- <a href="javascript:void(0);" class="helpLink" data-ng-bind="textConstants.LEARNADTYPES"></a> -->
     </div>
 </div>
 
 <!--=== AD Name ===-->
 <div class="col-md-12 zeroPadding adNameBox">
-    <div class="col-md-12 adHeader" data-ng-bind="textConstants.NAMEOFAD"></div>
+    <div class="col-md-12 adHeader" data-ng-bind="textConstants.NAMEOFAD" style="padding-top:10px;"></div>
     <div class="col-md-12 zeroPadding" style="margin-top: 10px;">
         <input type="text" class="form-control" name="adName" placeholder="Max 250 characters. No symbols or punctuation" remove-special-character='remove-special-character' ng-model="adData.adName" maxlength="250" autofocus/>
     </div>
@@ -76,7 +76,7 @@
 
     <div class="col-md-12"></div>-->
 
-    <div class="form-group col-sm-4" style="padding-left: 0;">
+    <!-- <div class="form-group col-sm-4" style="padding-left: 0;">
         <div class="col-md-12 adHeader" data-ng-bind="textConstants.WF_HEADER_AD_OBJECTIVE"></div>
         <label for="primaryKPI" class="col-sm-12 greyTxt miniLabels" data-ng-bind="textConstants.WF_PRIMARY_KPI"></label>
         <div class="col-md-12 zeroPadding dropdown-workflow">
@@ -101,7 +101,7 @@
                 </ul>
             </div>
         </div>
-    </div>
+    </div> -->
 </div>
 
 <!--=== Screen Type ===-->

@@ -23,12 +23,12 @@
                         <span data-ng-bind="textConstants.FORMATPAR"></span>
                     </div>
                 </div>
-                <div class="statusLabel" ng-if="adData.primaryKpi">
-                    <div class="col-md-12">
-                        <span data-ng-bind="adData.primaryKpi"></span>
-                        <span data-ng-bind="textConstants.PRIMARYKPIPAR"></span>
-                    </div>
-                </div>
+                <!--<div class="statusLabel" ng-if="adData.primaryKpi">-->
+                    <!--<div class="col-md-12">-->
+                        <!--<span data-ng-bind="adData.primaryKpi"></span>-->
+                        <!--<span data-ng-bind="textConstants.PRIMARYKPIPAR"></span>-->
+                    <!--</div>-->
+                <!--</div>-->
                 <div class="statusLabel" ng-if="adData.screenTypes.length >0" style="margin: 0;">
                     <div class="col-md-12">
                         <div class="txtLabel" ng-repeat="screenType in adData.screenTypes">
@@ -48,6 +48,12 @@
                data-ng-bind="textConstants.BUDGETDELIVERYSIDE">
             </a>
             <div>
+                <div class="statusLabel" ng-if="adData.primaryKpi">
+                    <div class="col-md-12">
+                        <span data-ng-bind="((adData.primaryKpi).toLowerCase()!='impressions')?(adData.primaryKpi):'Impressions'"></span>
+                        <span data-ng-bind="textConstants.PRIMARYKPIPAR"></span>
+                    </div>
+                </div>
                 <div class="statusLabel disabled"
                      ng-if="!adData.startTime && !adData.unitCost && !adData.unitType &&
                      !adData.budgetMediaCostType && !adData.mediaCostValue && !adData.budgetImpressionType &&
