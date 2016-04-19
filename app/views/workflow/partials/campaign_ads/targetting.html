@@ -104,9 +104,7 @@
         <input ng-if="!selectedDayParts['data'] || selectedDayParts['data'].length  == 0" type="button" name="platform" value="Create" ng-disabled="!$parent.isPlatformSelected" class="btn btn-default" ng-click="selectDayTarget()">
     </div>
     <!--END : Daypart Targeting Card-->
-    adData.adFormat --> {{adData.adFormat}}
-    isPlatformSelected --> {{isPlatformSelected}}
-    isVideoTargetEnabled --> {{isVideoTargetEnabled}}
+
     <!--START : Video Targeting Card-->
     <div class="col-md-6 cardSelectHolder active" ng-if="adData.adFormat === 'Video'">
         <span class="icon-trash" ng-click="deletetargets('VIDEO', $event)"></span>
