@@ -1,0 +1,92 @@
+<div class="col-md-12 zeroPadding breadcrumbs">
+    <h5 ng-click="hideVideoTargeting();" data-ng-bind="textConstants.TARGETING"></h5>
+    <span class="icon-arrow-down"></span>
+    <h5 style="cursor: default;" data-ng-bind="textConstants.VIDEO_TARGETING">Video Targeting</h5>
+
+    <button class="pull-right btn btn-default" type="button" data-ng-bind="textConstants.SAVE_VIDEO_TARGETING"></button>
+    <button class="pull-right btn btn-link" type="button" data-ng-bind="textConstants.CANCEL" ng-click="hideVideoTargeting();"></button>
+</div>
+
+<div class="col-md-12 zeroPadding">
+    <span class="col-md-12 zeroPadding" data-ng-bind="textConstants.VIDEO_PLACENMENT_AND_PLAYERS"></span>
+
+    <div class="col-md-12 video-dimension" >
+        <!--Row 1-->
+        <div class="col-md-12 zeroPadding each-video-dimension" ng-repeat="addDimension in additionalDimension track by $index" >
+            <div class="col-md-3 zeroPadding">
+                <div class="form-group col-md-12 zeroPadding">
+                    <div class="col-md-12 zeroPadding dropdown-workflow">
+                        <div class="dropdown">
+                            <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                <span class="text">Select a Dimension</span>
+                                <span class="icon-arrow-down"></span>
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="selectDimension" id="selectDimension" name='selectDimension' data-toggle="dropdown">
+                                <li class="available" ng-click="selectOption($event , dimension.key)" ng-repeat="dimension in dimensionArr"><a>{{dimension.value}}</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <span class="col-md-1 text-center" style="margin-top: 10px;">Is</span>
+            <div class="col-md-3 zeroPadding" id="selectSizeDropdown">
+                <!-- <label class="col-sm-12 control-label greyTxt miniLabels">Size</label> -->
+
+                <div class="form-group col-md-12 zeroPadding">
+                    <div class="col-md-12 zeroPadding dropdown-workflow">
+                        <div class="dropdown">
+                            <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                <span class="text">Select Size</span>
+                                <span class="icon-arrow-down"></span>
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="selectDimension" id="selectDimension" name='selectDimension' data-toggle="dropdown">
+                                <li class="available" ng-click="selectSize($event , 'any')"><a>Any</a></li>
+                                <li class="available" ng-click="selectSize($event , 'specific')"><a>Specific Size</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4 multiselectTagOptions zeroPadding" style="padding-right: 0;display:none;" id="playerInputBox">
+                <!-- <label class="col-sm-12 control-label greyTxt miniLabels">{{textConstants.LABEL}}</label> -->
+                <tags-input ng-model="tagsSize" display-property="name" placeholder="Select" replace-spaces-with-dashes="false">
+                    <auto-complete source="loadSize($query)"
+                                   min-length="0"
+                                   load-on-focus="true"
+                                   load-on-empty="true"
+                                   max-results-to-show="32"
+                    ></auto-complete>
+                </tags-input>
+
+            </div>
+            <div class="col-md-4 multiselectTagOptions zeroPadding" style="padding-right: 0;display:none;" id="positionInputBox" >
+                <!-- <label class="col-sm-12 control-label greyTxt miniLabels">{{textConstants.LABEL}}</label> -->
+                <tags-input ng-model="tagsPosition" display-property="name" placeholder="Select" replace-spaces-with-dashes="false">
+                    <auto-complete source="loadPositions($query)"
+                                   min-length="0"
+                                   load-on-focus="true"
+                                   load-on-empty="true"
+                                   max-results-to-show="32"
+                    ></auto-complete>
+                </tags-input>
+
+            </div>
+            <div class="col-md-4 multiselectTagOptions zeroPadding" style="padding-right: 0;display:none;" id="playbackInputBox" >
+                <!-- <label class="col-sm-12 control-label greyTxt miniLabels">{{textConstants.LABEL}}</label> -->
+                <tags-input ng-model="tagsPlayback" display-property="name" placeholder="Select" replace-spaces-with-dashes="false">
+                    <auto-complete source="loadPlayback($query)"
+                                   min-length="0"
+                                   load-on-focus="true"
+                                   load-on-empty="true"
+                                   max-results-to-show="32"
+                    ></auto-complete>
+                </tags-input>
+
+            </div>
+        </div>
+        <div class="pull-left clickable-txt" ng-init="addAdditionalDimension()" ng-click="addAdditionalDimension($event)" ng-bind-html="textConstants.ADD_BREAKDOWN_LABEL"></div>
+
+    </div>
+</div>

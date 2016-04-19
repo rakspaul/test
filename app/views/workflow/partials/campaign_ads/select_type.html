@@ -31,9 +31,8 @@
         <div class="btn-group goalBtnGroup zeroPadding"
              ng-class="{lastBtnGroup: $last, firstBtnGroup: $first}"
              ng-repeat="adformat in workflowData.adFormats track by adformat.id">
-            <label class="btn btn-primary {{adformat.active ? 'active' : '' }} {{(adformat.name=='Video'||
-                    adformat.name=='Social') ? 'disabled' : '' }}"
-                aria-disabled="{{(adformat.name=='Video'|| adformat.name=='Social') ? true : false }}">
+            <label class="btn btn-primary {{adformat.active ? 'active' : '' }} {{(adformat.name=='Social') ? 'disabled' : '' }}"
+                aria-disabled="{{(adformat.name=='Social') ? true : false }}">
                 <input type="radio"
                        name="adFormat"
                        value="{{adData.adFormat}}"

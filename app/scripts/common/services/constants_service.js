@@ -831,6 +831,7 @@ define(['angularAMD'], function(angularAMD) {
         this.CREATEAD = 'Create Ad';
         this.CREATEADGRP = 'Create Ad Group';
         this.SETADGRP = 'Ad Group Setup';
+        this.EDITADGRP = 'Ad Group Edit'
         this.NAMEADGROUP = 'What is the name of your Ad Group?';
         this.ADGROUPNAME = 'Ad Group Name';
         this.ENTERADGRP = 'Please enter a name for the ad group.';
@@ -981,6 +982,10 @@ define(['angularAMD'], function(angularAMD) {
         this.MONTHLY_SCHEDULING_DATE_RANGE__AT_LEAST_ONE_MONTH =
             'You have chosen monthly Scheduling, please choose a date range that is at least one month';
         this.CUSTOMDATE_ERROR_MESSAGE = 'The custom date does not fall within the range of Start and End Dates.';
+
+        this.VIDEO_TARGETING = 'Video Targeting';
+        this.SAVE_VIDEO_TARGETING = 'Save Video Targeting';
+        this.VIDEO_PLACENMENT_AND_PLAYERS = 'Specify the types of placements and players where you would like your video ad to appear';
 
         //Creative List
         this.NEWCREATIVEALERT = 'New Creative has been created successfully.';

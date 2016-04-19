@@ -4,24 +4,27 @@
    <!-- <div class="greyTxt" style="padding: 1px 0 0 0 !important;" data-ng-bind="textConstants.SELECTAPLAT"></div>-->
 </div>
 
-<div class="buyingPlatformHolder">
+<div class="buyingPlatformHolder adBuyingPlatform">
     <div class="col-md-12" style="padding: 0 0 0 30px;">
-        <div class="col-md-6 platformHolder"
-             ng-repeat="platform in workflowData.platforms"
-             ng-click="!platform.active ? '' : selectPlatform($event, platform)">
+        <div ng-repeat="platform in workflowData.platforms" class="platformSeats">
+            <div class="col-md-6 platformHolder"
+                 ng-repeat="seat in platform.seats"
+                 ng-click="!platform.active ? '' : selectPlatform($event, platform, seat)">
             <img ng-src="{{platform.iconUrl}}"/>
-            <p data-ng-bind="platform.displayName"></p>
+            <p data-ng-bind="seat.name"></p>
             <!--<span ng-bind-html="platform.summary"></span>-->
             <span></span>
-            <div ng-if="selectedPlatform[platform.id]" class="btn btn-default active" data-ng-bind="textConstants.SELECTED"></div>
-            <input ng-if="!selectedPlatform[platform.id]"
+            <div ng-if="selectedPlatform[platform.id] && selectedSeat[seat.id]" class="btn btn-default active" data-ng-bind="textConstants.SELECTED"></div>
+            <input ng-if="!selectedPlatform[platform.id] || !selectedSeat[seat.id]"
                    type="button"
                    name="platform"
                    value="Select"
                    ng-disabled="!platform.active"
                    class="btn btn-default "
-                   ng-click="!platform.active ? '' : selectPlatform($event, platform)"> 
+                   ng-click="!platform.active ? '' : selectPlatform($event, platform, seat)"> 
             <input type="hidden" name="platformId" value="{{adData.platformId}}">
+            <input type="hidden" name="platformSeatId" value="{{adData.platformSeatId}}">
+            </div>
         </div>
         <div class="col-md-6 platformHolder">
             <span data-ng-bind="textConstants.MORESELF"></span>
@@ -110,3 +113,17 @@
     </div>
 </div>
 
+<!--  need to take these to less file -->
+<style>
+    #campaignCreate .campaignAdCreate .adMainWrapper .adBuyingPlatform .platformHolder  {
+        width: 285px;
+        margin-right: 12px;
+        margin-top : 12px ;
+    }
+    .adBuyingPlatform .platformSeats {
+        float: left;
+    }
+    #campaignCreate .campaignAdCreate .adMainWrapper .adBuyingPlatform .platformHolder:last-child {
+        visibility: visible;
+    }
+</style>

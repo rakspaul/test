@@ -1,4 +1,4 @@
-define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/workflow_service','login/login_model','common/services/data_service','workflow/services/audience_service','common/services/role_based_service','common/moment_utils','common/services/vistoconfig_service','workflow/controllers/budget_delivery_controller', 'workflow/controllers/buying_platform_controller', 'workflow/controllers/targetting_controller', 'workflow/controllers/geo_targetting_controller', 'workflow/controllers/audience_targetting_controller', 'workflow/controllers/daypart_create_controller', 'workflow/controllers/inventory_filters_controller', 'workflow/controllers/creative_controller', 'workflow/controllers/creative_list_controller', 'workflow/controllers/creative_tag_controller','workflow/services/platform_custome_module','common/services/zip_code'], function (angularAMD) {
+define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/workflow_service','login/login_model','common/services/data_service','workflow/services/audience_service','common/services/role_based_service','common/moment_utils','common/services/vistoconfig_service','workflow/controllers/budget_delivery_controller', 'workflow/controllers/buying_platform_controller', 'workflow/controllers/targetting_controller', 'workflow/controllers/geo_targetting_controller', 'workflow/controllers/audience_targetting_controller', 'workflow/controllers/daypart_create_controller', 'workflow/controllers/video_targetting_controller', 'workflow/controllers/inventory_filters_controller', 'workflow/controllers/creative_controller', 'workflow/controllers/creative_list_controller', 'workflow/controllers/creative_tag_controller','workflow/services/platform_custome_module','common/services/zip_code'], function (angularAMD) {
   angularAMD.controller('CampaignAdsCreateController', function ($scope,  $rootScope,$routeParams, $locale, $location,  $filter, $timeout,constants, workflowService,loginModel,dataService,audienceService,RoleBasedService,momentService,vistoconfig) {
 
         // Flag to denote that ad format has changed
@@ -18,8 +18,10 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                     'clientName': data.clientName
                 };
 
+
                 localStorage.removeItem('campaignData');
                 localStorage.setItem('campaignData', window.JSON.stringify(campaignData));
+                $rootScope.$broadcast("adCampaignDataSet");
             },
 
             campaignOverView = {
@@ -610,7 +612,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                 }
             }
 
-            $scope.$broadcast('updatePlatform', [responseData.platform]);
+            $scope.$broadcast('updatePlatform', responseData.platform);
 
             // creative tags
             if (responseData.creatives) {
@@ -1249,6 +1251,8 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
 
                     if (formData.platformId) {
                         postAdDataObj.platformId = Number(formData.platformId);
+                        postAdDataObj.platformSeatId = Number(formData.platformSeatId);
+
 
                         if ($scope.TrackingIntegrationsSelected) {
                             postAdDataObj.isTracking = true;
