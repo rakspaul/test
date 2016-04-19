@@ -58,7 +58,7 @@
                                                 </li>
                                                 <li ng-repeat="dimension in customeDimensionData[0].dimensions"
                                                     id="{{dimension.key}}"
-                                                    ng-click="selectPriSecDimension(dimension, 'Primary')"
+                                                    ng-click="selectPriSecDimension(dimension, 'Primary')" ng-if="checkDimension(dimension.key)"
                                                     ng-bind-html="dimension.value">
                                                 </li>
                                             </ul>
@@ -356,7 +356,7 @@
                                             </div>
 
                                             <!--  Quality Metrics -->
-                                            <div  class="col-md-3 each_measurable_col">
+                                            <div  class="col-md-3 each_measurable_col" ng-if="showQuality">
                                                 <div class="custom_report_col_title">
                                                     <div class="external_chkbox clearfix">
                                                         <div class="squaredFour"
@@ -384,7 +384,7 @@
                                             </div>
 
                                             <!-- video quality metrics -->
-                                            <div  class="col-md-3 each_measurable_col">
+                                            <div  class="col-md-3 each_measurable_col" ng-if="showQuality">
                                                 <div class="custom_report_col_title">
                                                     <div class="external_chkbox clearfix">
                                                         <div class="squaredFour"
@@ -703,7 +703,7 @@
                                 ng-click="scheduleReportAction();"
                                 ng-bind-html="buttonLabel" ng-show="!loadingBtn">
                         </button>
-                        
+
                         <button class="pull-right btn btn-default"
                                 ng-click="resetMetricOptions();"
                                 ng-bind-html="buttonResetCancel" ng-class="reportTypeSelect === 'Save' ? 'save_reset glyphicon glyphicon-repeat' : ''">
