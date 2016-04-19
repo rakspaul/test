@@ -88,11 +88,11 @@
             <span class="greyTxt errorLabel" ng-if="lineItemForm.lineItemRate.$error.required">Enter Rate</span>
         </div>
 
-        <div class="col-md-2" style="padding: 0 0 0 10px;">
-            <label class="col-sm-12 greyTxt miniLabels zeroPadding">Amount</label>
+        <div class="col-md-2" style="padding: 0 0 0 10px;" ng-show="amountFlag">
+            <label class="col-sm-12 greyTxt miniLabels zeroPadding" >Amount</label>
             <input type="text" class="col-md-12" placeholder="" ng-model="$parent.contractedValue" whole-number-only/>
         </div>
-        <div class="col-md-2" style="padding: 0 0 0 10px;" ng-if="volumeFlag">
+        <div class="col-md-2" style="padding: 0 0 0 10px;" ng-show="volumeFlag">
             <label class="col-sm-12 greyTxt miniLabels zeroPadding">Volume</label>
             <input type="text" class="col-md-12" placeholder="" ng-model="$parent.lineTarget" whole-number-only/>
         </div>
@@ -104,13 +104,13 @@
                     <div class="dateContainer">
                     <label class="col-sm-12 control-label greyTxt miniLabels">Flight Date Start</label>
                     <div style="background: #fff;">
-                        <input type="text" id="startDateInput" custom-date-picker="{format: 'mm/dd/yyyy', orientation: 'auto',  autoclose: true, todayHighlight: true}" placeholder="MM/DD/YYYY" class="form-control"  readonly name="startTime" ng-model="startTime"  ng-disabled="checkForPastDate(workflowData['campaignData'].startTime, workflowData['campaignData'].endTime) || (workflowData.adsData.state=='IN_FLIGHT' || workflowData.adsData.state === 'ENDED' || workflowData.adsData.state === 'PAUSED'?true:false)" ng-change="validateDate(adData)"/>
+                        <input type="text" id="lineItemStartDateInput" custom-date-picker="{format: 'mm/dd/yyyy', orientation: 'auto',  autoclose: true, todayHighlight: true}" placeholder="MM/DD/YYYY" class="form-control"  readonly name="startTime" ng-model="startTime"  ng-disabled="checkForPastDate(workflowData['campaignData'].startTime, workflowData['campaignData'].endTime) || (workflowData.adsData.state=='IN_FLIGHT' || workflowData.adsData.state === 'ENDED' || workflowData.adsData.state === 'PAUSED'?true:false)" ng-change="validateDate(adData)"/>
                     </div>
                     </div>
                     <div class="dateContainer">
                     <label class="col-sm-12 control-label greyTxt miniLabels">Flight Date End</label>
                     <div style="background: #fff;">
-                        <input type="text" id="endDateInput" custom-date-picker="{format: 'mm/dd/yyyy', orientation: 'auto',  autoclose: true, todayHighlight: true}" placeholder="MM/DD/YYYY" class="form-control"  ng-model="endTime" name="endTime" required ng-change="validateDate(adData)"/>
+                        <input type="text" id="lineItemEndDateInput" custom-date-picker="{format: 'mm/dd/yyyy', orientation: 'auto',  autoclose: true, todayHighlight: true}" placeholder="MM/DD/YYYY" class="form-control"  ng-model="endTime" name="endTime" required ng-change="validateDate(adData)"/>
                     </div>
                     </div>
                 </div>
@@ -154,8 +154,8 @@
 
             <div class="tbody" style="max-height: 326px; overflow: auto;">
                 <!--Table Data Sample-->
-                <div class="tr" ng-repeat="item in lineItemList">
-                    <div class="tableNormal" ng-click="showEditItemRow($event)">
+                <div class="tr" ng-repeat="item in lineItemList" >
+                    <div class="tableNormal" ng-click="showEditItemRow($event,item)">
                         <a class="td col-md-3">{{item.name}}</a>
                         <a class="td col-md-2">{{item.lineItemType}}</a>
                         <a class="td col-md-1">{{item.lineRate}}</a>
