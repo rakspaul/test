@@ -6,14 +6,12 @@
         <div class="col-md-12 zeroPadding heading" style="margin: 30px 0;">
             <h1 class="zeroMargin">Advertiser</h1>
             <div class="col-md-12 zeroPadding" style="margin: 30px 0 0 0;">
-                <label>Advertiser Name:</label>
-                <input type="text" class="form-control" placeholder="Add Name"
+                <label class="col-sm-12 greyTxt">Advertiser Name</label>
+                <input type="text" class="pull-left clearLeft" placeholder="Add Name"
                        id="advertiserNameInp" ng-model="advertiserName"
-                       ng-keyup="mode == 'create' ? showDropdown() : ''" style="width:500px">
-                <div class="pull-left btn-group create"
-                     role="group" aria-label="..."
-                     style="position: absolute;top: 24px;left: 525px;">
-                    <a class="btn btn-default" ng-click="createAdvertiser()">
+                       ng-keyup="mode == 'create' ? showDropdown() : ''" style="width:500px; border-top-right-radius: 0px; border-bottom-right-radius: 0;">
+                <div class="pull-left btn-group create" role="group" aria-label="...">
+                    <a class="btn btn-default" ng-click="createAdvertiser()" style="border-left: 0; border-radius: 0;">
                         <span class="icon-plus"></span>
                         <span data-ng-bind="isEditAdvertiser ? 'Update Advertiser' : 'Create Advertiser'"></span>
                     </a>
@@ -36,7 +34,7 @@
                 <!--<div campaign-list-filter-directive campaigns="campaigns" class="pull-right"></div>-->
         
                 <!--Search Input-->
-                <div class="btn-group pull-right" style="margin-top: -32px">
+                <div class="btn-group pull-right">
                     <button type="button" class="btn btn-default pull-right" style="display: none">
                         <span class="icon-filter" style="margin: -1px 0 0;"></span>
                     </button>
@@ -66,7 +64,7 @@
                     <!--<input type="text" class="form-control" placeholder="Add Name" id="advertiserNameInp" ng-model="advertiserName" ng-keyup="mode == 'create' ? showDropdown() : ''" style="width:500px">-->
                 <!--</div>-->
 
-                <span class="pull-right" style="font-size: 12px; margin: -21px 10px 0 0;"><span data-ng-bind="userTotal"></span> Users</span>
+                <span class="pull-right" style="font-size: 12px; margin: 9px 10px 0 0;"><span data-ng-bind="advertisersTotal"></span> Users</span>
             </div>
 		</div>
         <!--User List-->

@@ -11,7 +11,7 @@
     <div class="modal-body">
         <div class="col-md-12 zeroPadding">
             <div class="form-group col-md-4" style="padding: 0 15px 0 0;">
-                <label >Advertiser:</label>
+                <label class="col-sm-12 greyTxt">Advertiser:</label>
                 <select class="form-control" name="selectedAdvertiserId" ng-model="selectedAdvertiserId" ng-disabled="isEditMode">
                     <option selected disabled data-ng-bind="'Select Advertiser'"></option>
                     <option value="{{advertiser.id}}" ng-repeat="advertiser in advertisersData" ng-selected="{{advertiser.id == selectedAdvertiserId}}" data-ng-bind="advertiser.name"></option>
@@ -19,12 +19,12 @@
             </div>
             
             <div class="form-group col-md-4" style="padding: 0 15px;">
-                <label >Impression Look Back:</label>
+                <label class="col-sm-12 greyTxt">Impression Look Back:</label>
                 <input type="text" class="form-control" ng-model="advertiserData.lookbackImpressions" ng-keyup="(advertiserData.lookbackImpressions>30)?advertiserData.lookbackImpressions=30:''">
             </div>
             
             <div class="form-group col-md-4" style="padding: 0 0 0 15px;">
-                <label >Click:</label>
+                <label class="col-sm-12 greyTxt">Click:</label>
                 <input type="text" class="form-control" ng-model="advertiserData.lookbackClicks" ng-keyup="(advertiserData.lookbackClicks>30)?advertiserData.lookbackClicks=30:''">
             </div>
         </div>
@@ -32,11 +32,11 @@
                 <div class="col-md-12 zeroPadding"><h1 class="pull-left">Add Pixel</h1></div>
                 <div data-ng-repeat="pixel in advertiserData.pixels" class="pixelLayer">
                     <div class="form-group col-md-4" style="padding: 0 15px 0 0;">
-                        <label>Pixel Name:</label>
+                        <label class="col-sm-12 greyTxt">Pixel Name:</label>
                         <input type="text" class="form-control" maxlength="50" ng-model="advertiserData.pixels[$index].name">
                     </div>
                     <div class="form-group col-md-4" style="padding: 0 15px;">
-                        <label >Pixel Type:</label>
+                        <label class="col-sm-12 greyTxt">Pixel Type:</label>
                         <div class="col-md-12 zeroPadding dropdown-workflow">
                             <div class="dropdown" style="margin: 0;">
                                 <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
@@ -55,12 +55,12 @@
                         </div>
                     </div>
                     <div class="form-group col-md-4" style="padding: 0 0 0 15px;">
-                        <label style="display: block;">Pixel Expiration Date:</label>
+                        <label class="col-sm-12 greyTxt" style="display: block;">Pixel Expiration Date:</label>
                         <div class="col-md-12 input-daterange input-group date pull-left">
                             <div class="col-md-12 dateWrapper ">
                                 <input type="text" id="pixelExpDate_{{$index}}" class="input-sm form-control timeframe"
                                     ng-model="advertiserData.pixels[$index].expireAt" required>
-                                <i class="icon-calendar glyphicon pull-right"></i>
+                                <i class="icon-calendar glyphicon pull-right" style="position: absolute; z-index: 10; top: 10px; right: 10px;"></i>
                                 <label ng-if="!advertiserData.pixels[$index].expireAt" style="display:block"
                                     class="errorLabel" ng-bind="textConstants.SELECT_DATE_LABEL"></label>
                             </div>
@@ -68,7 +68,7 @@
                     </div>
                     
                     <div class="form-group col-md-12" style="padding: 0;">
-                        <label class="pull-left">Description</label>
+                        <label class="col-sm-12 greyTxt">Description</label>
                         <input type="textarea" class="form-control" ng-model="advertiserData.pixels[$index].description">
                     </div>
                     

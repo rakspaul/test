@@ -16,6 +16,7 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                console.log("brandList....",res);
                 if ((res.status === 'OK' || res.status === 'success') && res.data.data.length) {
                     $scope.advertisersData = res.data.data;
+                    $scope.advertisersTotal = _.size(res.data.data);
                     _.each($scope.advertisersData, function(item, i){
                         $scope.advertisersData[i].createdAt = momentService.newMoment($scope.advertisersData[i].createdAt).format('YYYY-MM-DD');
                     })
