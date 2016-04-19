@@ -11,7 +11,7 @@
                 <span class="icon-plus" ng-click="ToggleAdGroups(this)"></span> 
             </a>
             <!-- -->
-            <span class="heading" style="float:left;"><h3 ng-bind-html="textConstants.REPORT_BUILDER"></h3></span>
+            <span class="heading" style="float:left;"><h1 ng-bind-html="textConstants.REPORT_BUILDER"></h1></span>
             <!-- this will be hidden after fold-->
             <span class="heading subTitle"><h6 ng-bind-html="textConstants.REPORT_BUILDER_SUBTITLE"></h6></span>
             <!-- -->
@@ -703,7 +703,7 @@
                                 ng-click="scheduleReportAction();"
                                 ng-bind-html="buttonLabel" ng-show="!loadingBtn">
                         </button>
-                        
+
                         <button class="pull-right btn btn-default"
                                 ng-click="resetMetricOptions();"
                                 ng-bind-html="buttonResetCancel" ng-class="reportTypeSelect === 'Save' ? 'save_reset glyphicon glyphicon-repeat' : ''">

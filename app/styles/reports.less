@@ -4028,6 +4028,10 @@ only screen and (min-device-pixel-ratio: 2) {
       box-shadow: none;
     }
     .heading {
+        h1 {
+            margin: 25px 11px  25px  0;
+        }
+
       h3 {
         font-size: 21px ;
         color: #000 ;
@@ -4642,7 +4646,8 @@ only screen and (min-device-pixel-ratio: 2) {
       }
     }
     .first_dimension_row_holder {
-      padding: 20px 30px 0px 30px ;
+     /* padding: 20px 30px 0px 30px ;*/
+     padding: 20px 0px 0px 0px ;
       margin-top: 105px;
     }
     .second_dimension_row_holder  {
@@ -4840,7 +4845,18 @@ div.reports_tabs_content_container {
 }
 .heading_first_dimension {
   color: #5C5C5C ;
+    padding-top:5px;
+    padding-bottom:5px;
 }
+.heading_first_dimension:first-child {
+    padding-left:40px;
+}
+
+.heading_first_dimension:hover {
+    background-color: #DCE6F1;
+    cursor: default;
+}
+
 .new_breakdown_div {
   .filter_input_txtbox {
     display: none;
