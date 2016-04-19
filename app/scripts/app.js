@@ -250,7 +250,18 @@ define(['common'], function (angularAMD) {
                 controller: 'UsersController',
                 controllerUrl: 'common/controllers/users/users_controller'
             }))
-
+            .when('/admin/brands', angularAMD.route({
+                templateUrl: assets.html_brands,
+                title: 'AdminBrands',
+                controller: 'AdminAdvertisersController',
+                controllerUrl: 'common/controllers/accounts/admin_brands_controller'
+            }))
+            .when('/admin/advertisers', angularAMD.route({
+                templateUrl: assets.html_advertisers,
+                title: 'AdminAdvertisers',
+                controller: 'AdminUsersController',
+                controllerUrl: 'common/controllers/accounts/admin_advertisers_controller'
+            }))
             .when('/mediaplan/:campaignId/edit', angularAMD.route({
                 templateUrl: assets.html_campaign_create,
                 title: 'Edit - Media Plan',

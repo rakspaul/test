@@ -1007,5 +1007,10 @@ define(['angularAMD'], function(angularAMD) {
         this.CLIENTID_EXIST = "Client ID is already selected, please select another id.";
         this.ADVERTISERID_EXIST = "Advertiser ID is already selected, please select another id.";
         this.ADMIN_PAGE_PERMISSION = "Admin has access to all features";
+        this.ERR_CREATE_ADVERTISER = "Failed to create the advertiser";
+        this.SUCCESS_CREATE_ADVERTISER = "Advertiser successfully created";
+        this.ERR_CREATE_BRAND = "Failed to create the brand";
+        this.SUCCESS_CREATE_BRAND = "Brand successfully created";
+
     });
 });
