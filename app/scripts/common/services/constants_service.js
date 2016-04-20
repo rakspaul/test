@@ -1016,11 +1016,13 @@ define(['angularAMD'], function(angularAMD) {
         this.BRAND_FEILD_EMPTY = "Please add brand name";
         this.ADVERTISER_FEILD_EMPTY = "Please add advertiser name";
         this.EMPTY_ADV_SELECTION = "Please select the advertiser";
+        this.EMPTY_BRAND_SELECTION = "Please select the brand";
         this.EMPTY_LOOKBACK_IMPRESSION = "Please add some value for impression look back field";
         this.EMPTY_LOOKBACK_CLICK = "Please add some value for click look back field";
         this.EMPTY_PIXEL_FIELD = "Please add pixel name";
         this.EMPTY_PIXEL_TYPE = "Please select the pixel type";
         this.EMPTY_PIXEL_EXPIREAT = "Please select the pixel expiration date";
+        this.EMPTY_BRAND_LIST = "No Brands available for the advertiser";
 
     });
 });

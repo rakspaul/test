@@ -123,8 +123,12 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
 
 
         $scope.fetchAllClients = function(){
+            $scope.loadTopClientList = true;
             accountsService.getClients(null,null,'notCancellable').then(function(res) {
+                $scope.loadTopClientList = false;
                 $scope.clientsDetails[0] = res.data.data;
+            },function(err){
+                $scope.loadTopClientList = false;
             });
 
         };
@@ -151,13 +155,19 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
         $scope.fetchBrands = function(clientId,advertiserId, isReset){
             if(advertiserId != -1) {
                 accountsService.getAdvertisersBrand(clientId, advertiserId).then(function (res) {
-                    $scope.clientsDetails[clientId]['brands'][advertiserId] = res.data.data;
+                    if(res.data.status == "OK" || res.data.status == "success") {
+                        if(res.data.data.length) {
+                            $scope.clientsDetails[clientId]['brands'][advertiserId] = res.data.data;
+                        }else{
+                            $rootScope.setErrAlertMessage(constants.EMPTY_BRAND_LIST);
+                            return false;
+                        }
+                    }
                 });
             }
         };
         function getPixelsData(clientId, advId){
             accountsService.getPixelsUnderAdvertiser(clientId, advId).then(function(res){
-                console.log("res....",res);
                 if(res.data.status == "OK" || res.data.status == "success") {
                     $scope.advertiserData.pixels = res.data.data;
                     _.each($scope.advertiserData.pixels, function(item, i){
@@ -172,7 +182,6 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
         }
         //Add or Edit Pop up for Advertiser
         $scope.AddOrEditAdvertiserModal = function(advObj,mode,client) {
-            console.log("AddOrEditAdvertiserModal......"+mode);
             $scope.mode = mode;
             $scope.client = client;
             $scope.clientId = client.id;
@@ -188,7 +197,6 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
 //
 //                });
             }else{
-                console.log("adsfadf    ");
             }
             $('html, body').animate({scrollTop : 0},30);
 //            if(mode == 'edit'){
@@ -241,7 +249,6 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
             $scope.advertiser = advObj;
             $scope.clientId = client.id;
             $scope.advertiserId = advObj.id;
-//            $scope.
             $('html, body').animate({scrollTop : 0},30);
             if(mode == 'edit'){
                // accountsService.setToBeEditedBrand(brand);
@@ -252,11 +259,6 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
 //                });
                 //$scope.brandName = brand.name;
             }
-//            else{
-//                accountsService.getAllBrands().then(function(result){
-//                    $scope.allBrands = result.data.data;
-//                });
-//            }
             accountsService.getAdvertisersBrand(client.id,advObj.id).then(function(res){
                 if(res.data.status == "OK" && res.data.statusCode == 200 && res.data.data.length){
                     $scope.brandsList = res.data.data;
@@ -360,9 +362,7 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
         $('#pixelExpirationDate').datepicker('update', new Date());
 
         _currCtrl.fetchAllAdvertisers = function(){
-            console.log("fetchAllAdvertisers......");
             accountsService.getUserAdvertiser().then(function(res){
-                console.log("brandList....",res);
                 if ((res.status === 'OK' || res.status === 'success') && res.data.data.length) {
                     $scope.advertisersData = res.data.data;
 //                    _.each($scope.advertisersData, function(item, i){
@@ -374,9 +374,7 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
         _currCtrl.fetchAllAdvertisers();
 
         _currCtrl.fetchAllBrands = function(){
-            console.log("fetchAllAdvertisers......");
             accountsService.getUserBrands().then(function(res){
-                console.log("brandList....",res);
                 if ((res.status === 'OK' || res.status === 'success') && res.data.data.length) {
                     $scope.brandsData = res.data.data;
 //                    _.each($scope.brandsData, function(item, i){
@@ -386,8 +384,6 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
             });
         };
         _currCtrl.fetchAllBrands();
-
-        //_currCtrl.getAllAdvertisers = function(){}
     });
 
 

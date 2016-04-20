@@ -11,9 +11,9 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
         $scope.advertisersData = [];
         $scope.isEditAdvertiser = false;
         $scope.fetchAllAdvertisers = function(){
-            console.log("fetchAllAdvertisers......");
+            $scope.loadAdvertiserList = true;
             accountsService.getUserAdvertiser().then(function(res){
-               console.log("brandList....",res);
+                $scope.loadAdvertiserList = false;
                 if ((res.status === 'OK' || res.status === 'success') && res.data.data.length) {
                     $scope.advertisersData = res.data.data;
                     $scope.advertisersTotal = _.size(res.data.data);
@@ -46,7 +46,6 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                 }, function (err) {
                     $rootScope.setErrAlertMessage(constants.ERR_UPDATE_ADVERTISER);
                     return;
-                    //$scope.fetchAllAdvertisers();
                 });
             }else {
                 accountsService.createAdvertiser({name: $scope.advertiserName}).then(function (res) {
@@ -61,7 +60,6 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                 }, function (err) {
                     $rootScope.setErrAlertMessage(err.message);
                     return;
-                    //$scope.fetchAllAdvertisers();
                 });
             }
         }

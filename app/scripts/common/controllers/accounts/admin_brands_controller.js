@@ -11,9 +11,9 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
             $scope.brandsData = [];
 
             $scope.fetchAllBrands = function(){
-                console.log("fetchAllAdvertisers......");
+                $scope.loadBrandList = true;
                 accountsService.getUserBrands().then(function(res){
-                    console.log("brandList....",res);
+                    $scope.loadBrandList = false;
                     if ((res.status === 'OK' || res.status === 'success') && res.data.data.length) {
                         $scope.brandsData = res.data.data;
                         $scope.brandsTotal = _.size(res.data.data);

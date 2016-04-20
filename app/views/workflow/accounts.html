@@ -1,6 +1,6 @@
 <popup-msg ng-show="flashMessage" ng-controller="popUpMsgCtr"
            ng-init="init('flashMessage','WF_CAMPAIGN_ARCHIVE_FAILURE')"></popup-msg>
-
+<admin-header></admin-header>
 <div class="col-md-12 zeroPadding accounts-page">
     <!--Header-->
     <div class="col-md-12 zeroPadding heading" style="margin: 30px 0 15px 0;">
@@ -12,7 +12,7 @@
                 <span class="icon-plus"></span>
                 <span>Create New Account</span>
             </a>
-            <admin-header class="pull-left"></admin-header>
+            <!--<admin-header class="pull-left"></admin-header>-->
         </div>
     </div>
         
@@ -73,4 +73,5 @@
         </div>
         <!--<div ng-include-variables="clientId={{client.id}}" ng-include-template="'/views/workflow/partials/creative_add_bulk.html'" class="ng-scope"></div>-->
     </div>
+    <div ng-if="loadTopClientList" style="margin-top:188px;" class="common-load-more">
 </div>

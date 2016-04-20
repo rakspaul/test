@@ -1,6 +1,6 @@
 <popup-msg ng-show="flashMessage" ng-controller="popUpMsgCtr"
            ng-init="init('flashMessage','WF_USER_CREATION_FAIL')"></popup-msg>
-
+<admin-header></admin-header>
 <div class="users-creation-page" ng-controller='AdminAdvertisersController'>
     <!--Header-->
     <div class="col-md-12 zeroPadding heading" style="margin: 30px 0;">
@@ -14,7 +14,7 @@
                     <span class="icon-plus"></span>
                     <span data-ng-bind="isEditBrand ? 'Update Brand' : 'Create Brand'"></span>
                 </a>
-                <admin-header></admin-header>
+                <!--<admin-header></admin-header>-->
             </div>
             <span class="delete_row" ng-show="isEditBrand"
                   data-ng-click="isEditBrand=false;brandName=''"
@@ -84,6 +84,7 @@
                         <a data-ng-bind="brand.createdAt | date : 'EEE, MMM d yyyy'"></a>
                     </div>
                 </div>
+                <div ng-if="loadBrandList" class="common-load-more">
             </div>
         </div>
     </div>

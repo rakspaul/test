@@ -1,21 +1,24 @@
 var angObj = angObj || {};
 
-define(['angularAMD','../../../workflow/services/account_service','reporting/models/domain_reports'],function (angularAMD) {
+define(['angularAMD','../../../workflow/services/account_service','reporting/models/domain_reports', '../../services/constants_service'],
+    function (angularAMD) {
     'use strict';
 
     angularAMD.controller('AccountsAddOrEditBrand', function ($scope, $rootScope, $modalInstance,
-                                                              accountsService, domainReports) {
+                                                              accountsService, domainReports, constants ) {
         $scope.close=function () {
             $modalInstance.dismiss();
             $scope.resetBrandAdvertiserAfterEdit();
         };
 
         $scope.saveBrands = function () {
-            console.log("saveBrands......"+$scope.mode+"......id...."+$scope.selectedBrand);
             var brandObj,
                 body,
                 requestData;
-
+            if(!$scope.selectedBrandId || $scope.selectedBrandId == ""){
+                $rootScope.setErrAlertMessage(constants.EMPTY_BRAND_SELECTION);
+                return false;
+            }
           //  return;
             if ($scope.mode === 'edit') {
 //                brandObj =  accountsService.getToBeEditedBrand();
