@@ -36,6 +36,13 @@ define(['angularAMD'],function (angularAMD) {
                     //reset the ad group max and min budget flag.
                     $scope.resetAdsBudgetsFlag();
 
+                    var lineItemObj = {
+                        'id' : adGroupsData.adGroup.lineitemId,
+                        'name' : adGroupsData.adGroup.lineitemName
+                    }
+
+                    $scope.selectLineItems(null, lineItemObj);
+
                     $scope.adGroupMaxBudget = (Math.ceil($scope.workflowData.campaignData.deliveryBudget) -
                         adGroupsBudget) + Math.ceil(adsBudget) ;
 
@@ -59,6 +66,8 @@ define(['angularAMD'],function (angularAMD) {
 
                     startDateElem.datepicker("update", startTime);
                     endDateElem.datepicker("update", highestEndTime);
+
+                    $scope.getLineItems();
                 };
             },
 
