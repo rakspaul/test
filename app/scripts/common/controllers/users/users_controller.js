@@ -54,6 +54,11 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
         $scope.userConsoleFormDetails, $scope.closeForm = function () {
             $('.user-list, .users-creation-page .heading').fadeIn();
             $('.edit-dialog').fadeOut();
+            setTimeout(function(){
+                if($("#cmn-toggle-1").is(':checked')){
+                    $("#cmn-toggle-1").trigger('click');
+                }
+            },25);
         }
 
         var usersList = {
