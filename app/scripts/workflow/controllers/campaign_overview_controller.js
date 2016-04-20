@@ -137,23 +137,12 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
                         data.label = labelObj[rateType];
 
-                        if (budgetType === 'cost') {
-                            data.cost = data.budgetValue;
-                            if (rateType === 'cpm') {
-                                data.calculatedValue = (data.budgetValue / data.rateValue) * 1000;
-                            }
-
-                            if (rateType === 'cpc' || rateType === 'cpa') {
-                                data.calculatedValue = data.budgetValue / data.rateValue;
-                            }
-                        } else {
-                            data.calculatedValue = data.budgetValue;
-                            if (rateType === 'cpm') {
-                                data.cost = (data.budgetValue / 1000) * (data.rateValue);
-                            }
-                            if (rateType === 'cpc' || rateType === 'cpa') {
-                                data.cost = data.budgetValue * data.rateValue;
-                            }
+                        data.cost = data.totalBudget;
+                        if (rateType === 'cpm') {
+                            data.calculatedValue = (data.totalBudget / data.rateValue) * 1000;
+                        }
+                        if (rateType === 'cpc' || rateType === 'cpa') {
+                            data.calculatedValue = data.totalBudget / data.rateValue;
                         }
                     });
 
