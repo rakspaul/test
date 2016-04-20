@@ -64,7 +64,7 @@
                             <a  data-ng-bind="unitType.name"></a>
                            </li>
                       </ul>
-                     <input type="hidden" name="unitType" ng-model="unitName" ng-update-hidden/>
+                     <input type="hidden" name="unitType" ng-model="adData.unitType.name" ng-update-hidden/>
                  </div>
             </div>
         </div>
@@ -82,8 +82,8 @@
                 <input style="text-indent: 8px;" type="text" ng-value="adData.totalAdBudget" ng-model="adData.totalAdBudget" class="form-control totalBudgetInputClass" disabled ng-keyup="checkBudgetExceed();calculateTotalAdBudget();"><!-- add "errorBorder" when error -->
                 <input type="hidden" name="totalAdBudget" ng-model="adData.totalAdBudget" ng-value="adData.totalAdBudget"><!-- add "errorBorder" when error -->
                 <span class="disabled_value"></span>
-                <div class="errorText" ng-show="BudgetExceeded">Ad budget lesser than MediaCost</div>
-                <div class="errorText" ng-show="adBudgetExceedUnallocated">Total Ad budget exceeds unallocated budget</div>
+                <div class="errorText" ng-show="adData.budgetExceeded">Ad budget lesser than MediaCost</div>
+                <div class="errorText" ng-show="adData.adBudgetExceedUnallocated">Total Ad budget exceeds unallocated budget</div>
             </div>
          </div>
     </div>
