@@ -2,6 +2,13 @@ body {
   background: #fff;
   color: #21252B;
 }
+.adminElement {
+  margin: 25px 25px 0 0;
+}
+.adminElement.active {
+  background: #e1edf9 ;
+  cursor: default;
+}
 .zeroPadding {
   padding: 0 !important;
 }
@@ -27,7 +34,7 @@ body {
 #user-menu ::-webkit-scrollbar,
 .vistoTable ::-webkit-scrollbar,
 .recordList ::-webkit-scrollbar {
-  display: none;
+  /* //  display: none; //need to do */
 }
 h1,
 h2,
@@ -1966,4 +1973,7 @@ tags-input ul li:focus span,
 tags-input ul .suggestion-item.selected span {
   color: #21252b;
   text-decoration: none;
+}
+.edit-input {
+  border-color: #0978c9 !important;
 }

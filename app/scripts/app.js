@@ -242,14 +242,30 @@ define(['common'], function (angularAMD) {
                         }
                     }
                 }))
-
+                .when('/admin/home', angularAMD.route({
+                    templateUrl: assets.html_admin_home,
+                    title: 'AdminHome'
+                    //   controller: 'AccountsController',
+                    //   controllerUrl: 'common/controllers/accounts/accounts_controller'
+                }))
                 .when('/admin/accounts', angularAMD.route({
                     templateUrl: assets.html_accounts,
                     title: 'Accounts',
                     controller: 'AccountsController',
                     controllerUrl: 'common/controllers/accounts/accounts_controller'
                 }))
-
+                .when('/admin/brands', angularAMD.route({
+                    templateUrl: assets.html_brands,
+                    title: 'AdminBrands',
+                    controller: 'AdminAdvertisersController',
+                    controllerUrl: 'common/controllers/accounts/admin_brands_controller'
+                }))
+                .when('/admin/advertisers', angularAMD.route({
+                    templateUrl: assets.html_advertisers,
+                    title: 'AdminAdvertisers',
+                    controller: 'AdminUsersController',
+                    controllerUrl: 'common/controllers/accounts/admin_advertisers_controller'
+                }))
                 .when('/admin/users', angularAMD.route({
                     templateUrl: assets.html_users,
                     title: 'Users',

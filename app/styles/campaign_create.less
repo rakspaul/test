@@ -4123,6 +4123,7 @@
     .accounts-page-container {
         max-width: 100%;
         min-width: 750px;
+        margin: 0 0 20px 120px;
     }
 
     .account-name,
@@ -4186,9 +4187,26 @@
         text-transform: none;
     }
 
-    .each-account-details {
-        margin-bottom: 10px;
+  .each-account-details {
+    margin: 0;
+    padding: 15px 0;
+    border-top: 2px solid #939eae;
+    > .particular-account-box {
+      margin: 0px ;
+      .common_primary_btn {
+        margin-top: -8px;
+      }
     }
+  }
+
+  .subClient {
+    .each-account-details {
+      border-top: 1px solid #bfc9d7;
+    }
+    .each-account-details:last-child {
+      padding-bottom: 0;
+    }
+  }
 
     .each-user {
         margin: 10px 0 0 20px;
@@ -4207,7 +4225,7 @@
         margin: 15px 0;
 
         .common_primary_btn {
-            margin: 10px 15px 0 0;
+          margin: 10px 0px 0 0;
         }
     }
 
@@ -4217,11 +4235,11 @@
     }
 
     .particular-account-box {
-        border: solid 1px transparent;
+      /*  border: solid 1px transparent; */
         border-radius: 5px;
-        min-width: 750px;
-        padding: 15px;
-
+      /*  min-width: 750px;
+        padding: 15px; */
+        width: 100%;
         .account-name {
             position: relative;
         }
@@ -4245,13 +4263,14 @@
                 height: 20px;
                 left: -31px;
                 position: absolute;
-                top: 10px;
+                top: 20px;
                 width: 20px;
             }
 
             &:last-child:after {
                 background: #fff;
                 height: 100%;
+                min-height: 20px;
             }
 
             &.no-data-open {
@@ -4293,7 +4312,7 @@
     }
 
     .particular-account-box.open {
-        border: solid 1px #ccc;
+        /*border: solid 1px #ccc; */
 
         .account-name {
             background-image: url(/images/cdesk/common_down_arrow.png);
@@ -4366,6 +4385,60 @@
     }
 
 }
+
+//Modal Redesign For Account add/edit pop up
+.modalAccountRedx {
+  top: 50px;
+  background: #fff;
+  .modal-dialog {
+    width: 100%;
+    height: 100%;
+    float: left;
+    transition: none !important;
+    margin: 0;
+    .modal-content {
+      border-width: 0;
+      box-shadow: none;
+      width: 1200px;
+      margin: 30px auto;
+      .popup-holder {
+        .modal-header {
+          padding: 0;
+          .close {
+            display: none;
+          }
+          .modal-title {
+            margin-bottom: 30px;
+          }
+        }
+        .modal-body {
+          padding: 0;
+          #pixelsCnt {
+            float: left;
+            width: 100%;
+            margin: 30px 0;
+            position: relative;
+            background: #EDF2F8;
+            padding: 10px 30px;
+            .pixelLayer {
+              float: left;
+              width: 100%;
+            }
+          }
+        }
+        input[type="text"], select {
+          border: 1px solid #BFC9D7;
+          border-radius: 2px !important;
+          line-height: normal;
+          padding: 10px 12px 7px 12px;
+          height: auto;
+          box-shadow: none !important;
+        }
+      }
+    }
+  }
+}
+
 
 .accounts-popup.popup-holder,
 .users-popup.popup-holder {

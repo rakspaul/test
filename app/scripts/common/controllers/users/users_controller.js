@@ -58,7 +58,9 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
 
         var usersList = {
             getUsers:function(){
+                $scope.loadUserList = true;
                 accountsService.getUsers().then(function(res) {
+                    $scope.loadUserList = false;
                     $scope.UsersData['users']= res.data.data;
                     $scope.userTotal = _.size(res.data.data);
                 });

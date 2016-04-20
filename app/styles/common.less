@@ -1236,15 +1236,29 @@
 			padding-bottom: 5px;
 			cursor: default;
 		}
-		.reports_sub_menu_dd_holder {
-			margin: 0 50px;
-			padding: 15px 0;
-			.reports_sub_menu_dd {
-				float: left;
-				padding: 16px 0 13px;
-				min-width: 200px;
-			}
-		}
+      .reports_sub_menu_dd_holder {
+        margin: 0 auto;
+        max-width: 1200px;
+        padding: 15px 0;
+        width: auto;
+        .reports_sub_menu_dd {
+          float: left;
+          padding: 16px 0 13px;
+          min-width: 200px;
+        }
+        .adminLinks {
+          float: left;
+          text-align: left;
+          width: auto;
+          padding: 5px;
+          margin: 20px;
+          cursor: pointer;
+        }
+        .adminLinks:first-child {
+          margin-left: 0;
+          padding-left: 0;
+        }
+      }
 		.canned_container {
 			max-width: 650px;
 			margin-left: 10px;

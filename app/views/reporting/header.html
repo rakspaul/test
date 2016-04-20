@@ -41,6 +41,14 @@
                    ng-click="NavigateToTab('', $event ,'creativelist')" ng-bind="textConstants.CREATIVES"></a>
                 <div class="arrowSelect" style="bottom: -14px;"></div>
             </div>
+            <!--Admin DD-->
+            <div class="pull-left each_nav_link" id="admin_nav_link" ng-if="isSuperAdmin">
+                <a href="javascript:void(0);" reporttitle="adminOverview"
+                   ng-click="NavigateToTab('', $event ,'adminOverview')"
+                   ng-mouseover="show_hide_nav_dropdown($event,'admin','hover');">Admin</a>
+
+                <div class="arrowSelect"></div>
+            </div>
         </div>
         <div class="pull-right profile-photo-tab unselectable" id="user_nav_link"
              ng-mouseover="show_hide_nav_dropdown($event,'user');">
@@ -54,6 +62,16 @@
         <div class="main_nav_dropdown" id="reports-menu" ng-mouseleave="hide_navigation_dropdown($event)">
             <div class="nav-menu reports_header_tabs_holder clearfix">
                 <report-tabs></report-tabs>
+            </div>
+        </div>
+        <div class="main_nav_dropdown" id="admin-menu" ng-mouseleave="hide_navigation_dropdown($event)">
+            <div class="nav-menu reports_header_tabs_holder clearfix">
+                <div class="clearfix reports_sub_menu_dd_holder">
+                    <a class="adminLinks" href="/admin/accounts">Accounts</a>
+                    <a class="adminLinks" href="/admin/advertisers">Advertisers</a>
+                    <a class="adminLinks" href="/admin/brands">Brands</a>
+                    <a class="adminLinks" href="/admin/users">Users</a>
+                </div>
             </div>
         </div>
         <div class="main_nav_dropdown" id="user-menu" ng-mouseleave="hide_navigation_dropdown($event)">
