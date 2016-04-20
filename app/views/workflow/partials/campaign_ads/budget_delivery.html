@@ -49,13 +49,13 @@
         </div>
     </div>
 
-    <div class="col-md-15 zeroPadding unitCost symbolAbs">
-         <div class="col-md-12 adHeader" data-ng-bind="textConstants.SETUPBUDGET" ></div>
-        <div class="form-group col-md-2 zeroPadding" style="margin-right: -5px;">
+    <div class="col-md-12 zeroPadding unitCost symbolAbs">
+        <div class="col-md-12 adHeader" data-ng-bind="textConstants.SETUPBUDGET" ></div>
+        <div class="col-md-2 zeroPadding">
           <label class="col-sm-12 control-label greyTxt miniLabels" data-ng-bind="textConstants.UNITCOST"></label>
             <div class="col-md-12 zeroPadding dropdown-workflow">
                  <div class="dropdown">
-                      <button style="width:130px;" class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                      <button style="width:139px;" class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                            <span class="text">{{adData.unitType.name ? adData.unitType.name :'CPM'}}</span>
                            <span class="icon-arrow-down"></span>
                       </button>
@@ -68,71 +68,74 @@
                  </div>
             </div>
         </div>
-        <div class="form-group col-md-3 zeroPadding">
+        
+        <div class="col-md-2 zeroPadding">
             <label class="control-label greyTxt miniLabels" data-ng-bind="textConstants.RATE"></label>
-             <div style="position : relative;">
-                 <span data-ng-bind="locale.NUMBER_FORMATS.CURRENCY_SYM"></span>
-                 <input style="width:130px; padding-top:10px;" type="text" class="form-control" ng-model="adData.unitCost" fraction-numbers="fraction-numbers" name="unitCost" ng-keyup = "calculateTotalAdBudget();checkBudgetExceed();">
-             </div>
+            <span data-ng-bind="locale.NUMBER_FORMATS.CURRENCY_SYM" class="currencySymWLabel"></span>
+            <input style="width:139px; text-indent: 8px;" type="text" class="form-control" ng-model="adData.unitCost" fraction-numbers="fraction-numbers" name="unitCost" ng-keyup = "calculateTotalAdBudget();checkBudgetExceed();">
+        </div>
+        
+        <div class="col-md-3 zeroPadding budget_holder">
+            <label class="control-label greyTxt miniLabels" data-ng-bind="textConstants.TOTAL_AD_BUDGET"></label>
+            <div class="budget_holder_input">
+                <span data-ng-bind="locale.NUMBER_FORMATS.CURRENCY_SYM" class="currencySymWLabel"></span>
+                <input style="text-indent: 8px;" type="text" ng-value="adData.totalAdBudget" ng-model="adData.totalAdBudget" class="form-control " disabled ng-keyup="checkBudgetExceed();calculateTotalAdBudget();"><!-- add "errorBorder" when error -->
+                <input type="hidden" name="totalAdBudget" ng-model="adData.totalAdBudget" ng-value="adData.totalAdBudget"><!-- add "errorBorder" when error -->
+                <span class="disabled_value"></span>
+                <div class="errorText" ng-show="BudgetExceeded">Ad budget lesser than MediaCost</div>
+                <div class="errorText" ng-show="adBudgetExceedUnallocated">Total Ad budget exceeds unallocated budget</div>
+            </div>
+         </div>
+    </div>
+    
+<div class="col-md-12 zeroPadding symbolAbs impressions_holder">
+    <label class="pull-left">
+        <div class="clearfix checkbox_holder">
+            <div class="external_chkbox pull-right">
+                <div class="pull-left squaredFour">
+                    <!--<input type="checkbox" id="targetUnitCost_squaredFour" class="squaredFourChkbox" ng-checked="isChecked" ng-click="enable_budget_input($event);">-->
+                    <input type="checkbox" id="targetUnitCost_squaredFour" class="squaredFourChkbox" checked ng-click="enable_budget_input($event);">
+                    <label for="targetUnitCost_squaredFour"></label>
+                </div>
+                <span class="pull-left greyTxt" style="padding:0px!important;">Calculate from <br/>Target & Unit Cost</span>
+            </div>
+        </div>
+    </label>
+    
+    <div class="pull-left estimated_impressions" >
+         <div class="form-group zeroPadding" >
+            <div class="impression_field disabled-field" style="display:none;">
+                <div class="left-big-arrow"></div>
+                <label class="control-label greyTxt miniLabels" data-ng-bind="textConstants.ESTIMATED_IMPRESSIONS"></label>
+                <div class="impressions-val">18000</div><!-- add "errorText" when error -->
+            </div>
+            <div class="pull-left txtError" style="margin-left:-20px; display: none" ng-bind-html="textConstants.KPI_NOTSATISFIED_ERROR" ></div>
         </div>
     </div>
-    <div class="col-md-12 zeroPadding symbolAbs impressions_holder">
-     <label class="pull-left">
-         <div class="clearfix checkbox_holder">
-             <div class="external_chkbox pull-right">
-                 <div class="pull-left squaredFour">
-                     <!--<input type="checkbox" id="targetUnitCost_squaredFour" class="squaredFourChkbox" ng-checked="isChecked" ng-click="enable_budget_input($event);">-->
-                     <input type="checkbox" id="targetUnitCost_squaredFour" class="squaredFourChkbox" checked ng-click="enable_budget_input($event);">
-                     <label for="targetUnitCost_squaredFour"></label>
-                 </div>
-                 <span class="pull-left greyTxt" style="padding:0px!important;">Calculate from <br/>Target & Unit Cost</span>
-             </div>
-         </div>
-     </label>
-     <div class="form-group col-md-3 zeroPadding budget_holder">
-             <label class="control-label greyTxt miniLabels" data-ng-bind="textConstants.TOTAL_AD_BUDGET"></label>
-             <div class="budget_holder_input" >
-                 <span data-ng-bind="locale.NUMBER_FORMATS.CURRENCY_SYM"></span>
-                 <input type="text" ng-value="adData.totalAdBudget" ng-model="adData.totalAdBudget" class="form-control " disabled ng-keyup="checkBudgetExceed();calculateTotalAdBudget();"><!-- add "errorBorder" when error -->
-                 <input type="hidden" name="totalAdBudget" ng-model="adData.totalAdBudget" ng-value="adData.totalAdBudget"><!-- add "errorBorder" when error -->
-                 <span class="disabled_value"></span>
-                 <div class="errorText" ng-show="BudgetExceeded">Ad budget lesser than MediaCost</div>
-                 <div class="errorText" ng-show="adBudgetExceedUnallocated">Total Ad budget exceeds unallocated budget</div>
-             </div>
-     </div>
-     <div class="clearfix pull-left estimated_impressions" >
-          <div class="form-group zeroPadding" >
-             <div class="impression_field disabled-field" style="display:none;">
-                 <div class="left-big-arrow"></div>
-                 <label class="control-label greyTxt miniLabels" data-ng-bind="textConstants.ESTIMATED_IMPRESSIONS"></label>
-                 <div class="impressions-val">18000</div><!-- add "errorText" when error -->
-             </div>
-             <div class="pull-left txtError" style="margin-left:-20px; display: none" ng-bind-html="textConstants.KPI_NOTSATISFIED_ERROR" ></div>
-         </div>
-     </div>
- </div>
- <div class="clearfix col-md-12 zeroPadding">
-         <div class="pull-left">
-             <label class="control-label greyTxt miniLabels" data-ng-bind="textConstants.BUDGETCAL"></label>
-             <div class="btn-group miniToggle" style="display:block;">
-                 <label class="btn btn-default budget_cost active"><span data-ng-bind="textConstants.WF_MEDIA_COST"></span>
-                     <input type="radio" name="budgetType" value="Cost" checked hidden="hidden" ng-model="adData.budgetType" class="btn_rad budget_type" ng-click="resetBudgetField('mediaCost'); toggleBtn($event);">
-                 </label>
-                 <label class="btn btn-default budget_{{adData.budgetTypeLabel | lowercase}} "><span data-ng-bind="adData.budgetTypeLabel"></span>
-                     <input type="radio" name="budgetType" value="{{adData.budgetTypeLabel}}"  ng-model="adData.budgetType" class="btn_rad budget_type" hidden="hidden" ng-click="resetBudgetField('impressions'); toggleBtn($event); ">
-                 </label>
-             </div>
-         </div>
-         <div class="pull-left">
-              <label class="col-sm-12 control-label greyTxt miniLabels" data-ng-bind="textConstants.VALUE" style="padding-left:5px;"></label>
-              <div>
-                  <span style="position:relative; top:10px; left:20px; float:left;">{{adData.budgetType === 'Cost' ? locale.NUMBER_FORMATS.CURRENCY_SYM : '#'}}</span>
-                 <input style="width:130px; text-indent:8px; height:36px; padding-top:10px;padding-left: 16px;" type="text" name="budgetAmount" whole-number-only="whole-number-only" class="form-control" ng-model="adData.budgetAmount" id="budgetAmount" placeholder="Enter Value" ng-keyup = "checkBudgetExceed()">
-             </div>
-         </div>
-        <label ng-if="budgetErrorObj.mediaCostValidator" class="col-sm-12 control-label  customErrorLabel" data-ng-bind="textConstants.WF_MEDIA_COST_LESS_THAN_CAMPAIGN_BUDGET"></label>
-        <label ng-if="budgetErrorObj.availableRevenueValidator" class="col-sm-12 control-label  customErrorLabel" data-ng-bind="textConstants.WF_MEDIA_COST_LESS_THAN_MINIMUM_BUDEGT_FOR_AD"></label>
-        <label ng-if="budgetErrorObj.availableMaximumAdRevenueValidator" class="col-sm-12 control-label customErrorLabel">{{textConstants.BUDGET_LESS_THAN_AVAILABLE_BUDGET}} {{adMaximumRevenue}} .</label>
+</div>
+
+<div class="clearfix col-md-12 zeroPadding">
+    <div class="pull-left">
+        <label class="control-label greyTxt miniLabels" data-ng-bind="textConstants.BUDGETCAL"></label>
+        <div class="btn-group miniToggle" style="display:block;">
+            <label class="btn btn-default budget_cost active"><span data-ng-bind="textConstants.WF_MEDIA_COST"></span>
+                <input type="radio" name="budgetType" value="Cost" checked hidden="hidden" ng-model="adData.budgetType" class="btn_rad budget_type" ng-click="resetBudgetField('mediaCost'); toggleBtn($event);">
+            </label>
+            <label class="btn btn-default budget_{{adData.budgetTypeLabel | lowercase}} "><span data-ng-bind="adData.budgetTypeLabel"></span>
+                <input type="radio" name="budgetType" value="{{adData.budgetTypeLabel}}"  ng-model="adData.budgetType" class="btn_rad budget_type" hidden="hidden" ng-click="resetBudgetField('impressions'); toggleBtn($event); ">
+            </label>
+        </div>
+    </div>
+         
+    <div class="col-md-2 zeroPadding" style="margin-left: 10px;">
+       <label class="col-sm-12 control-label greyTxt miniLabels" data-ng-bind="textConstants.VALUE" style="padding-left:5px;"></label>
+       <span class="currencySymWLabel">{{adData.budgetType === 'Cost' ? locale.NUMBER_FORMATS.CURRENCY_SYM : '#'}}</span>
+       <input style="width:130px; text-indent:8px; height:36px; padding-top:10px;padding-left: 16px;" type="text" name="budgetAmount" whole-number-only="whole-number-only" class="form-control" ng-model="adData.budgetAmount" id="budgetAmount" placeholder="Enter Value" ng-keyup = "checkBudgetExceed()">
+    </div>
+         
+    <label ng-if="budgetErrorObj.mediaCostValidator" class="col-sm-12 control-label  customErrorLabel" data-ng-bind="textConstants.WF_MEDIA_COST_LESS_THAN_CAMPAIGN_BUDGET"></label>
+    <label ng-if="budgetErrorObj.availableRevenueValidator" class="col-sm-12 control-label  customErrorLabel" data-ng-bind="textConstants.WF_MEDIA_COST_LESS_THAN_MINIMUM_BUDEGT_FOR_AD"></label>
+    <label ng-if="budgetErrorObj.availableMaximumAdRevenueValidator" class="col-sm-12 control-label customErrorLabel">{{textConstants.BUDGET_LESS_THAN_AVAILABLE_BUDGET}} {{adMaximumRevenue}} .</label>
     </div>
 </div>
 

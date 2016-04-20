@@ -3795,7 +3795,7 @@
   min-height: 760px;
 }
 #selectSizeDropdown {
-  margin-right: 20px ;
+  margin-right: 17px ;
 }
 .video-dimension {
   background: #EDF2F8;
@@ -3804,6 +3804,11 @@
 }
 .video-dimension .each-video-dimension {
   margin-bottom: 20px ;
+}
+.video-dimension .each-video-dimension .multiselectTagOptions {
+  width: auto;
+  max-width: 100%;
+  min-width: 54%;
 }
 .video-dimension .clickable-txt {
   margin-left: 5px ;
