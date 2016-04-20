@@ -371,13 +371,6 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                         if (rateType === 'cpc' || rateType === 'cpa') {
                             data.calculatedValue = data.totalBudget / data.rateValue;
                         }
-
-                        if (rateType === 'cpm') {
-                            data.cost = (data.totalBudget / 1000) * (data.rateValue);
-                        }
-                        if (rateType === 'cpc' || rateType === 'cpa') {
-                            data.cost = data.totalBudget * data.rateValue;
-                        }
                     });
 
                     return adsData;
