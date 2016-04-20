@@ -3862,6 +3862,16 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
   margin-left: 18px;
   margin-top: 17px;
 }
+.report_generator_and_response .icon-minus:hover,
+.report_generator_and_response .icon-plus:hover {
+  color: #428bca;
+}
+.report_generator_and_response .icon-minus:before,
+.report_generator_and_response .icon-plus:before {
+  top: -1px;
+  position: relative;
+  left: -1px;
+}
 .report_generator_and_response .report_builder_container {
   margin-bottom: 30px ;
   /* firefox 19+ */
@@ -3874,6 +3884,9 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
   padding: 10px 12px 7px 12px;
   height: auto;
   box-shadow: none;
+}
+.report_generator_and_response .report_builder_container .heading h1 {
+  margin: 25px 11px  25px  0;
 }
 .report_generator_and_response .report_builder_container .heading h3 {
   font-size: 21px ;
@@ -4090,8 +4103,8 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
   margin-left: 20px;
 }
 .report_generator_and_response .custom_response_screenshot_container {
-  background: #f5f9fd ;
-  padding: 60px 0;
+  background: #edf2f8 ;
+  padding: 30px 0 60px 0;
   border-top: solid 2px #ccd9e3 ;
 }
 .report_generator_and_response .custom_response_screenshot_container .report-response-load {
@@ -4436,7 +4449,8 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
   width: 100% ;
 }
 .custom_report_response_page .custom_report_response_table .first_dimension_row_holder {
-  padding: 20px 30px 0px 30px ;
+  /* padding: 20px 30px 0px 30px ;*/
+  padding: 20px 0px 0px 0px ;
   margin-top: 105px;
 }
 .custom_report_response_page .custom_report_response_table .second_dimension_row_holder {
@@ -4610,6 +4624,15 @@ div.reports_tabs_content_container div#reports_bycreatives_block div.reports_det
 }
 .heading_first_dimension {
   color: #5C5C5C ;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+.heading_first_dimension:first-child {
+  padding-left: 40px;
+}
+.heading_first_dimension:hover {
+  background-color: #DCE6F1;
+  cursor: default;
 }
 .new_breakdown_div .filter_input_txtbox {
   display: none;
@@ -4634,6 +4657,9 @@ div.reports_tabs_content_container div#reports_bycreatives_block div.reports_det
   padding: 0 ;
   font-size: 26px ;
   font-family: "Avenir-bold";
+}
+body.custom_report_page {
+  background: #edf2f8;
 }
 body.custom_report_page .bodyWrap {
   width: 100% ;
