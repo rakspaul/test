@@ -188,8 +188,7 @@
 
                     <div class="pull-left">
                         <div class="btn-group create" role="group" aria-label="...">
-                            <a role="button" class="btn btn-default" ng-click="createAdGrp();"><span class="icon-plus"></span><span data-ng-bind="textConstants.CREATEADGRP"></span></a>
-
+                            <a ng-disabled="(budgetAvailable > 0 ? false : true) || isEndDateInPast" role="button" class="btn btn-default" ng-click="createAdGrp();"><span class="icon-plus"></span><span data-ng-bind="textConstants.CREATEADGRP"></span></a>
                             <div class="btn btn-default zeroPadding dropdown-workflow pull-left">
                                 <div class="dropdown">
                                     <button class="btn btn-default dropdown-toggle moreOptCreative" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" style="padding-right: 18px;">
@@ -265,7 +264,7 @@
                 </div>
                 <div ng-show='isAdGroupsBusy' class="load-more">&nbsp;</div>
                 <div class="col-md-12 adContainer" ng-show="!isAdGroupsBusy">
-                   
+
                     <!--START of independant ads block-->
                     <div class="adGroupSelectionWrap">
                         <!-- <div class="btnCreateGroup" ng-click="createAdGrp()">

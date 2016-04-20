@@ -587,6 +587,13 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                     return dataService.fetch(url);
                 },
 
+                getLineItem: function (campaignId) {
+                    var clientId = loginModel.getSelectedClient().id,
+                        url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/campaigns/' + campaignId +'/lineitems?flat_fee=false&archived=false';
+
+                    return dataService.fetch(url);
+                },
+
                 setModuleInfo: function (module) {
                     vistoModule = module;
                 },
