@@ -41,7 +41,7 @@
                         <div class="col-md-12 zeroPadding dropdown-workflow">
                             <div class="dropdown" style="margin: 0;">
                                 <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                    <span class="text" ng-bind="advertiserData.pixels[$index].pixelTypeName"></span>
+                                    <span class="text" ng-bind="advertiserData.pixels[$index].pixelTypeName ? advertiserData.pixels[$index].pixelTypeName : 'Select Pixel Type'"></span>
                                     <span class="icon-arrow-down"></span>
                                 </button>
                                 <ul class="dropdown-menu" aria-labelledby="unitcostType" ng-model="adData.unitType"  id="unitcostType" data-toggle="dropdown">
@@ -60,9 +60,9 @@
                         <div class="col-md-12 input-daterange input-group date pull-left">
                             <div class="col-md-12 dateWrapper ">
                                 <input type="text" id="pixelExpDate_{{$index}}" class="input-sm form-control timeframe"
-                                    ng-model="advertiserData.pixels[$index].expireAt" required>
+                                    ng-model="advertiserData.pixels[$index].expiryDate" required>
                                 <i class="icon-calendar glyphicon pull-right" style="position: absolute; z-index: 10; top: 10px; right: 10px;"></i>
-                                <label ng-if="!advertiserData.pixels[$index].expireAt" style="display:block"
+                                <label ng-if="!advertiserData.pixels[$index].expiryDate" style="display:block"
                                     class="errorLabel" ng-bind="textConstants.SELECT_DATE_LABEL"></label>
                             </div>
                         </div>

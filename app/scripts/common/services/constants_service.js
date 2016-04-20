@@ -1023,6 +1023,8 @@ define(['angularAMD'], function(angularAMD) {
         this.EMPTY_PIXEL_TYPE = "Please select the pixel type";
         this.EMPTY_PIXEL_EXPIREAT = "Please select the pixel expiration date";
         this.EMPTY_BRAND_LIST = "No Brands available for the advertiser";
+        this.ERR_ADD_PIXEL = "Error in adding pixel";
+        this.EMPTY_CLIENT_LIST = "No Clients available for the client";
 
     });
 });

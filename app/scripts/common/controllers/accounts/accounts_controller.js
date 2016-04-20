@@ -102,9 +102,13 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                             $scope.clientsDetails[clientId].subclients = result;
                         } else {
                             console.log("Error: To get the sub-client list of " + name);
+                            $rootScope.setErrAlertMessage(constants.EMPTY_CLIENT_LIST);
+                            return false;
                         }
                     }, function (err) {
                         console.log("Error: To get the sub-client list of " + name);
+                        $rootScope.setErrAlertMessage(constants.EMPTY_CLIENT_LIST);
+                        return false;
                     });
                 }
             }
@@ -173,6 +177,9 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                     _.each($scope.advertiserData.pixels, function(item, i){
                         $scope.advertiserData.pixels[i].pixelTypeName = (item.pixelType == "PAGE_VIEW") ? 'Action - Page View'
                                                                             : (item.pixelType == "AUDIENCE_CREATION") ? 'Audience Creation Pixel' : 'Retargeting Pixel';
+                        if(item.expiryData) {
+                            $scope.advertiserData.pixels[i].expiryData = momentService.newMoment(item.expiryData).format('YY/MM/DD');
+                        }
                         _currCtrl.setCalanderSetting();
                     });
                 }
@@ -188,30 +195,18 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
             $scope.isEditMode = (mode == "edit") ? true : false;
             if($scope.isEditMode){
                 $scope.selectedAdvertiserId = advObj.id;
-
-                getPixelsData(client.id,advObj.id);
-//                $scope.advertiserData = {}
-//                accountsService.getClientAdvertiserDetails(client.id, advObj.id).then(function(res){
-//                    console.log("res.....",res);
-//                },function(err){
-//
-//                });
+                accountsService.getAdvertiserUnderClient(client.id, advObj.id).then(function(res){
+                    if(res.data.status == "OK" && res.data.statusCode == 200){
+                        $scope.selectedAdvertiserId = res.data.data.id;
+                        $scope.advertiserData.lookbackImpressions = res.data.data.lookbackImpressions;
+                        $scope.advertiserData.lookbackClicks = res.data.data.lookbackClicks;
+                    }
+                    getPixelsData(client.id,advObj.id);
+                },function(err){
+                });
             }else{
             }
             $('html, body').animate({scrollTop : 0},30);
-//            if(mode == 'edit'){
-//               // accountsService.setToBeEditedadvertiserData(advObj);
-//               // $scope.advertiserName = advObj.name;
-//                $scope.advertiserData = {}
-//                accountsService.getAdvertiserDetails(client.id, advObj.id,function(res){
-//                   console.log("Edit advtiser data......",res);
-//                });
-//            }
-//            else{
-//                accountsService.getAllAdvertisers().then(function(result){
-//                    $scope.allAdvertiser = result.data.data;
-//                });
-//            }
             $scope.advertiserData = {id:'', name: '',lookbackImpressions: 14,lookbackClicks: 14, pixels:[]};
             accountsService.getClientsAdvertisers(client.id).then(function(res){
                 if(res.data.status == "OK" && res.data.statusCode == 200 && res.data.data.length){
@@ -251,13 +246,7 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
             $scope.advertiserId = advObj.id;
             $('html, body').animate({scrollTop : 0},30);
             if(mode == 'edit'){
-               // accountsService.setToBeEditedBrand(brand);
-//                accountsService.getAdvertiserBrandDetials(client.id, advObj.id, brand.id).then(function(res){
-//                    console.log("data.....",res);
-//                },function(err){
-//
-//                });
-                //$scope.brandName = brand.name;
+                // Code for edit brand;
             }
             accountsService.getAdvertisersBrand(client.id,advObj.id).then(function(res){
                 if(res.data.status == "OK" && res.data.statusCode == 200 && res.data.data.length){
@@ -311,9 +300,7 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
             $('html, body').animate({scrollTop : 0},30);
             accountsService.getAllCurrency().then(function(result){
                 $scope.currency = result.data.data;
-               // console.log($scope.currency);
             });
-
             accountsService.setToBeEditedClient(clientObj);
             $scope.clientObj = clientObj;
             var $modalInstance = $modal.open({

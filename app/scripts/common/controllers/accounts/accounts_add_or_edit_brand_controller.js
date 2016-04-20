@@ -19,30 +19,11 @@ define(['angularAMD','../../../workflow/services/account_service','reporting/mod
                 $rootScope.setErrAlertMessage(constants.EMPTY_BRAND_SELECTION);
                 return false;
             }
-          //  return;
             if ($scope.mode === 'edit') {
-//                brandObj =  accountsService.getToBeEditedBrand();
-//                //body = constructRequestBody(brandObj);
-//                requestData = {
-//                    clientId : $scope.clientId,
-//                    advertiserId: $scope.advertiserId,
-//                    brandId : $scope.reponseData.brandId
-//                }
-//                accountsService.updateBrand($scope.clientId, $scope.advertiserId, $scope.brandId).then(function (result) {
-//                    if (result.status === 'OK' || result.status === 'success') {
-//                        $scope.fetchBrands($scope.client.id, $scope.advertiser.id);
-//                        $scope.resetBrandAdvertiserAfterEdit();
-//                        $scope.close();
-//                        $rootScope.setErrAlertMessage('Brands updated successfully', 0);
-//                    }
-//
-//                }, function (err) {
-//                    $scope.close();
-//                    $rootScope.setErrAlertMessage('Error in creating brand.');
-//                });
-            } else if ($scope.selectedBrandId !== '') {
-                //when user does select and existing brand under a advertiser
-                createBrandUnderAdvertiser($scope.selectedBrandId);
+                // Code to Edit the brand
+//            } else if ($scope.selectedBrandId !== '') {
+//                //when user does select and existing brand under a advertiser
+//                createBrandUnderAdvertiser($scope.selectedBrandId);
             } else {
                 createBrandUnderAdvertiser($scope.selectedBrandId)
             }

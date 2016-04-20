@@ -21,18 +21,6 @@
                 <span class="delete_row" ng-show="isEditAdvertiser"
                       data-ng-click="isEditAdvertiser=false;advertiserName=''"
                       style="position: absolute;top: 19px;left: 470px;"></span>
-                <!--<div class="pull-left btn-group create"-->
-                     <!--role="group" aria-label="..."-->
-                     <!--style="position: absolute;top: 24px;left: 525px;background:rgba(0, 0, 0, 0.16)"-->
-                     <!--ng-if="isEditAdvertiser"   >-->
-                    <!--<a class="btn btn-default">-->
-                        <!--<span class="icon-plus"></span>-->
-                        <!--<span>Create Advertiser</span>-->
-                    <!--</a>-->
-                <!--</div>-->
-                <!--Quick Filters-->
-                <!--<div campaign-list-filter-directive campaigns="campaigns" class="pull-right"></div>-->
-        
                 <!--Search Input-->
                 <div class="btn-group pull-right">
                     <button type="button" class="btn btn-default pull-right" style="display: none">
@@ -41,10 +29,8 @@
         
                     <div class="searchInput pull-right">
                         <a class="btn btn-default searchInputBtn" ng-click="searchShowInput()">
-                        <!--<a class="btn btn-default searchInputBtn" ng-click="searchShowInput()" style="border-top-right-radius: 0; border-bottom-right-radius: 0;">-->
                             <span class="icon-search" aria-hidden="true" style="margin: -1px 0 0;"></span>
                         </a>
-        
                         <a class="btn btn-default searchInputBtnInline" ng-click="campaignSearchFunc()">
                             <span class="icon-search" aria-hidden="true" style="margin: -1px 0 0;"></span>
                         </a>
@@ -59,11 +45,6 @@
                         </div>
                     </div>
                 </div >
-                <!--<div style="margin-top: 22px;" ng-show="isEditAdvertiser">-->
-                    <!--<label >Update Advertiser Name to:</label>-->
-                    <!--<input type="text" class="form-control" placeholder="Add Name" id="advertiserNameInp" ng-model="advertiserName" ng-keyup="mode == 'create' ? showDropdown() : ''" style="width:500px">-->
-                <!--</div>-->
-
                 <span class="pull-right" style="font-size: 12px; margin: 9px 10px 0 0;"><span data-ng-bind="advertisersTotal"></span> Users</span>
             </div>
 		</div>
