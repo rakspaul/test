@@ -5,7 +5,7 @@ define(['angularAMD', 'common/services/constants_service', 'common/moment_utils'
         $scope.adData.budgetExceeded = false;
         $scope.adData.adBudgetExceedUnallocated = false;
         $scope.isChecked = true;
-        $scope.unitName = "CPM";
+        $scope.adData.unitType.name = "CPM";
         $scope.adData.targetValue = '';
         $scope.adData.unitCost = '';
         $scope.adData.totalAdBudget = '';
@@ -27,7 +27,7 @@ define(['angularAMD', 'common/services/constants_service', 'common/moment_utils'
         };
 
         $scope.calculateTotalAdBudget = function () {
-            if ($('#targetUnitCost_squaredFour').prop("checked") && ($scope.adData.primaryKpi).toUpperCase() == 'IMPRESSIONS' && $scope.unitName == 'CPM') {
+            if ($('#targetUnitCost_squaredFour').prop("checked") && ($scope.adData.primaryKpi).toUpperCase() == 'IMPRESSIONS' && $scope.adData.unitType.name == 'CPM') {
                 if ($scope.adData.targetValue >= 0 && $scope.adData.unitCost >= 0) {
                     $scope.adData.totalAdBudget = Number((Number($scope.adData.targetValue) * Number($scope.adData.unitCost)) / 1000);
                 }
@@ -239,8 +239,7 @@ define(['angularAMD', 'common/services/constants_service', 'common/moment_utils'
             }
         };
         $scope.select_unitType = function (event, type) {
-            //$scope.adData.unitType.name=type;
-            $scope.unitName = type;
+            $scope.adData.unitType.name = type;
             $scope.adData.unitCost = '';
             $scope.adData.totalAdBudget = '';
             if (type != "CPM") {
