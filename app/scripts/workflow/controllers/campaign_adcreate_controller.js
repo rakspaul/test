@@ -527,7 +527,8 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
             if(responseData.totalBudget>=0){
                 $scope.adData.totalAdBudget=responseData.totalBudget;
                 $('#targetUnitCost_squaredFour').prop("checked",responseData.enabledBudgetCalculation);
-                $(".budget_holder_input").find("input[type='text']").attr("disabled", responseData.enabledBudgetCalculation);
+                //$(".budget_holder_input").find("input[type='text']").attr("disabled", responseData.enabledBudgetCalculation);
+                $(".totalBudgetInputClass").attr("disabled", responseData.enabledBudgetCalculation);
                 //disabled checkBox if its primary!=Impression && UnitCost!=CPM
                 if(((responseData.kpiType).toUpperCase()!="IMPRESSIONS" || (responseData.rateType).toUpperCase()!="CPM") && responseData.enabledBudgetCalculation){
                     $(".impressions_holder").find("input[type='checkbox']").attr("disabled", true);
@@ -544,11 +545,11 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
             }
             if(responseData.kpiType){
                 $scope.adData.primaryKpi=responseData.kpiType;
-                $scope.adData.targetValue=responseData.kpiValue;
+                $scope.adData.targetValue=Number(responseData.kpiValue);
             }
 
             if (responseData.budgetValue>=0) {
-                $scope.adData.budgetAmount = responseData.budgetValue;
+                $scope.adData.budgetAmount = Number(responseData.budgetValue);
             }
 
 
