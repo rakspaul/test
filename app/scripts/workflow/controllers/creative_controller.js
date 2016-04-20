@@ -398,6 +398,8 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
           // Ad create Mode.  [PS:In edit mode, on response data in processeditmode, broadcast is made to fetch]
           if ($scope.mode !== 'edit' && $scope.adPage) {
               creatives.fetchAdFormats();
+              $scope.subAccountName = data.name;
+              $scope.subAccountId = data.id;
               $scope.$broadcast('adFormatChanged', 'DISPLAY');
           }
           /*In creative List Page to create new creative*/

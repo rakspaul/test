@@ -22,7 +22,7 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
         $scope.loadCreativeData=false;
         $scope.deletePopup=false;
         $scope.successfulRecords = [];
-        $scope.clientId = '';
+        $scope.clientId = loginModel.getSelectedClient().id;
 
         //$scope.creativeData.creatives_count=1;
         //highlight the header menu - Dashborad, Campaigns, Reports
@@ -341,7 +341,6 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
       });
 
       if($scope.isLeafNode) {
-          $scope.clientId = loginModel.getSelectedClient().id;
           init();
       }
 
