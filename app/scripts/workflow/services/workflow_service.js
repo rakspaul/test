@@ -698,11 +698,15 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                 getObjectives: function () {
                     return dataService.fetch(vistoconfig.apiPaths.WORKFLOW_API_URL + '/objectiveTypes');
                 },
-
                 getVendors: function (categoryId) {
                     // var url= vistoconfig.apiPaths.WORKFLOW_API_URL + '/cost_categories/'+categoryId+'/vendors';
                     // for system of records.
                     return dataService.fetch(vistoconfig.apiPaths.WORKFLOW_API_URL + '/cost_categories/5/vendors');
+                },
+                getVendorConfigs: function (advertiserId) {
+                    var clientId = loginModel.getSelectedClient().id;
+
+                    return dataService.fetch(vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/'+clientId+'/advertisers/'+advertiserId+'/clientVendorConfigs');
                 },
 
                 getCostCategories: function () {
@@ -832,6 +836,35 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                 validateUrl: function(url){
                     var re =  /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,4}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g
                     return re.test(url);
+                },
+                processVendorConfig: function(data){
+                    var processedData = {};
+                    processedData.userPermission = [];
+                    processedData.configs = [];
+
+                    for(var i = 0; i < data.clientConfigPermissions.length ; i ++){
+                        var permission = {};
+                        if(data.clientConfigPermissions[i]){
+                            permission.vendorName = data.vendorName;
+                            permission.configName = data.name;
+                            permission.metric = data.clientConfigPermissions[i].metric;
+                            permission.adFormat = data.clientConfigPermissions[i].adFormat;
+                            processedData.userPermission.push(permission);
+                        }
+
+                    }
+                    //vendor config object creation
+                    for(var i = 0; i < data.clientVendorOfferings.length ; i ++){
+                        var config = {};
+                        config.vendorName = data.vendorName;
+                        config.configName = data.name;
+                        config.adFormat = data.clientVendorOfferings[i].name;
+                        config.rate = data.clientVendorOfferings[i].rateType;
+                        config.category = data.clientVendorOfferings[i].costCategory.name;
+                        processedData.configs.push(config);
+                    }
+
+                    return processedData;
                 }
             };
         });
