@@ -1870,6 +1870,8 @@
   text-overflow: ellipsis;
   white-space: nowrap;
   width: auto;
+  padding-bottom: 5px;
+  margin-bottom: 5px;
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroup .adTitle .pillsWrap {
   float: left;
