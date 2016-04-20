@@ -65,19 +65,19 @@
                 <div class="tbody thin">
                     <div class="tr" ng-repeat="user in UsersData.users">
                         <div class="td col-md-4">
-                            <a ng-click="AddOrEditUserModal('edit',user)" style="color: #428bca;">{{user.firstName +' '+ user.lastName}}</a>
+                            <div >{{user.firstName +' '+ user.lastName}}</div>
                         </div>
                         
                         <div class="td col-md-4">
-                            <a ng-click="AddOrEditUserModal('edit',user)">{{user.email}}</a>
+                            <div>{{user.email}}</div>
                         </div>
                         
                         <div class="td col-md-3">
-                            <a ng-click="AddOrEditUserModal('edit',user)">{{user.roleTemplateId}}</a>
+                            <div>{{user.roleTemplateId}}</div>
                         </div>
                         
-                        <div class="td col-md-1 text-center" style="padding: 8px 0 0;">
-                            <a class="icon-inline-edit" ng-click="AddOrEditUserModal('edit',user)"></a>
+                        <div class="td col-md-1 text-center" style="padding-left:0px ;">
+                            <div class="edit" ng-click="AddOrEditUserModal('edit',user)" style="margin:0;"></div>
                         </div>
                     </div>
                     <div ng-if="loadUserList" class="common-load-more">

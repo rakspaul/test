@@ -3,10 +3,11 @@ body {
   color: #21252B;
 }
 .adminElement {
-  display: inline-block;
-  width: 24%;
-  padding: 0 0 22px 109px;
-  margin-top: 25px;
+  margin: 25px 25px 0 0;
+}
+.adminElement.active {
+  background: #e1edf9 ;
+  cursor: default;
 }
 .zeroPadding {
   padding: 0 !important;
@@ -1938,4 +1939,7 @@ input.cmn-toggle-round:checked + label:after {
 }
 tags-input .tags .tag-item {
   background: #edf2f8;
+}
+.edit-input {
+  border-color: #0978c9 !important;
 }

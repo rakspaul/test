@@ -8,7 +8,7 @@
         <div class="col-md-12 zeroPadding" style="margin-top: 30px;">
             <label class="col-sm-12 greyTxt">Brand Name</label>
             <input type="text" class="pull-left clearLeft" placeholder="Add Name" id="brandNameInp" ng-model="brandName"
-                   ng-keyup="mode == 'create' ? showDropdown() : ''" style="width:500px; border-top-right-radius: 0px; border-bottom-right-radius: 0;">
+                   ng-keyup="mode == 'create' ? showDropdown() : ''" style="width:500px; border-top-right-radius: 0px; border-bottom-right-radius: 0;" ng-class="{'edit-input':isEditBrand}">
             <div class="pull-left btn-group create" role="group" aria-label="...">
                 <a class="btn btn-default" ng-click="createBrand()" style="border-left: 0; border-radius: 0;">
                     <span class="icon-plus"></span>
@@ -18,7 +18,7 @@
             </div>
             <span class="delete_row" ng-show="isEditBrand"
                   data-ng-click="isEditBrand=false;brandName=''"
-                  style="position: absolute;top: 19px;left: 470px;"></span>
+                  style="position: absolute;top: 32px;left: 470px;"></span>
             <!--Quick Filters-->
             <!--<div campaign-list-filter-directive campaigns="campaigns" class="pull-right"></div>-->
 
@@ -59,29 +59,29 @@
             <div class="thead thin">
                 <div class="tr">
                     <div class="col-md-4 th">Brand Name</div>
-                    <div class="col-md-4 th">Id</div>
-                    <div class="col-md-3 th">Clients/Advertiser Associated</div>
-                    <div class="col-md-1 th text-center" style="padding: 15px 0 0;">Created At</div>
+                    <div class="col-md-1 th">Id</div>
+                    <div class="col-md-5 th">Clients/Advertiser Associated</div>
+                    <div class="col-md-2 th" >Created At</div>
                 </div>
             </div>
 
             <div class="tbody thin">
-                <div class="tr" ng-repeat="brand in brandsData" data-ng-click="editBrand(brand)">
+                <div class="tr" ng-repeat="brand in brandsData" >
                     <div class="td col-md-4">
-                        <a style="color: #428bca;" data-ng-bind="brand.name"></a>
-                        <span class="pull-left edit" style="position:absolute;width:90%;z-index:1;left:0px;"></span>
+                        <div class="col-md-10 zeroPadding" data-ng-bind="brand.name"></div>
+                        <div class="pull-right col-md-2 edit" style="margin-right:10px ;" data-ng-click="editBrand(brand)"></div>
                     </div>
 
-                    <div class="td col-md-4">
-                        <a data-ng-bind="brand.id"></a>
+                    <div class="td col-md-1">
+                        <div data-ng-bind="brand.id"></div>
                     </div>
 
-                    <div class="td col-md-3" style="width:21%">
-                        <a data-ng-bind="brand.clients"></a>
+                    <div class="td col-md-5">
+                        <div data-ng-bind="brand.clients"></div>
                     </div>
 
-                    <div class="td col-md-1 text-center" style="padding: 8px 0 0;width:12.33%">
-                        <a data-ng-bind="brand.createdAt | date : 'EEE, MMM d yyyy'"></a>
+                    <div class="td col-md-2" >
+                        <div data-ng-bind="brand.createdAt | date : 'EEE, MMM d yyyy'"></div>
                     </div>
                 </div>
                 <div ng-if="loadBrandList" class="common-load-more">
