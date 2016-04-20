@@ -10,6 +10,7 @@
         <div class="form-group col-md-4" style="padding: 0 15px 0 0;">
             <label class="col-sm-12 greyTxt">Account Type:</label>
             <select name='clientType' class="form-control" ng-change="setSelectedClientType(clientType)" ng-model="clientType">
+                <option selected disabled data-ng-bind="'Select Account'"></option>
                 <option value='MARKETER'>Marketer</option>
                 <option value='AGENCY'>Agency</option>
                 <option value='RESELLER'>Reseller</option>
@@ -18,7 +19,7 @@
         
         <div class="form-group col-md-4" style="padding: 0 15px;">
 		    <label class="col-sm-12 greyTxt">Account Name:</label>
-		    <input type="text" class="form-control" ng-model="clientName" ng-keyup="showDropdown()" data-toggle="dropdown">
+		    <input type="text" class="form-control" placeholder="Add Name" ng-model="clientName" ng-keyup="showDropdown()" data-toggle="dropdown">
             <!--<ul ng-if="allAdvertiser.length>0" class="dropdown-menu account_name_list" role="menu" id="advertiserList"  >
                     <li ng-repeat="advertiser in allAdvertiser | filter:clientType == 'MARKETER' ? clientName : name" data-ng-click="selectClientAdvertiser(advertiser)">
                         <a>
@@ -34,13 +35,15 @@
         <div class="form-group col-md-4" style="padding: 0 15px 0 0; clear: left">
             <label class="col-sm-12 greyTxt">Currency:</label>
             <select class="form-control" name="selectedCurrency" ng-model="selectedCurrency">
+              <option selected disabled data-ng-bind="'Select Currency'"></option>
               <option value="{{curr.id}}" ng-repeat="curr in currency" ng-selected="{{curr.id == selectedCurrency}}" >{{curr.currencyCode}}</option>
             </select>
         </div>
 
         <div class="form-group col-md-4" style="padding: 0 15px;">
             <label class="col-sm-12 greyTxt">Geography:</label>
-            <select class="form-control" name="selectedCountry" ng-model="selectedCountry">
+            <select class="form-control" name="selectedCountry" ng-model="selectedCountry" ng-disabled="mode=='edit'">
+                <option selected disabled data-ng-bind="'Select Geography'"></option>
                 <option value="{{country.id}}" ng-repeat="country in Geography" ng-selected="{{country.id == selectedCountry}}" >{{country.name}}</option>
             </select>
         </div>
@@ -55,6 +58,7 @@
                 <option value='BST' >BST (British Standard Time)  </option>
             </select>-->
             <select name='timezone' class="form-control" ng-model="timezone">
+                <option selected disabled data-ng-bind="'Select Time zone'"></option>
                 <option value="{{key}}" ng-repeat="(key, value) in timezones" ng-selected="{{key == timezone}}" >{{value}}</option>
             </select>
         </div>

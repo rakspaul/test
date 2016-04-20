@@ -37,7 +37,7 @@ define(['angularAMD','../../../workflow/services/account_service','reporting/mod
                         $scope.fetchBrands($scope.client.id,$scope.advertiser.id);
                         $scope.resetBrandAdvertiserAfterEdit();
                         $scope.close();
-                        $rootScope.setErrAlertMessage('Brands created successfully', 0);
+                        $rootScope.setErrAlertMessage('Brands add successfully', 0);
                     }
                 }, function (err) {
                     $scope.close();

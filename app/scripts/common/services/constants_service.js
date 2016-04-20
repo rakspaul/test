@@ -1025,6 +1025,12 @@ define(['angularAMD'], function(angularAMD) {
         this.EMPTY_BRAND_LIST = "No Brands available for the advertiser";
         this.ERR_ADD_PIXEL = "Error in adding pixel";
         this.EMPTY_CLIENT_LIST = "No Clients available for the client";
+        this.SELECT_CLIENT_TYPE = "Please select the client type";
+        this.SELECT_CLIENT_NAME = "Please select the client name";
+        this.SELECT_CURRENCY = "Please select the currency";
+        this.SELECT_GEOGRAPHY = "Please select the geography";
+        this.SELECT_TIMEZONE = "Please select the timezone";
+
 
     });
 });

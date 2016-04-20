@@ -22,7 +22,7 @@
             <div class="clearfix " >
                 <span class="pull-left account-name" ng-click="getSubClientList($event,client);">{{client.name}}</span>
                 <span class="pull-left edit"  ng-click="AddOrEditAccountModal('edit',client)"></span>
-                <span class="pull-right adding-section"  ng-if="client.isLeafNode" ng-click="AddOrEditAdvertiserModal({},'create',client)"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Create Advertiser</span>
+                <span class="pull-right adding-section"  ng-if="client.isLeafNode" ng-click="AddOrEditAdvertiserModal({},'create',client)"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Add Advertiser</span>
                 <div class="pull-right btn btn-default" ng-if="!client.isLeafNode" ng-click="AddOrEditAccountModal('create',client.id)">Create Sub Account</div>
             </div>
 
@@ -32,7 +32,7 @@
                     <div class="clearfix advertiser-name" >
                         <span class="pull-left adv-name" ng-click="show_advertisers_resp_brands($event,client.id,adv.id);"  ><span class="label_heading">Advertiser: </span>{{adv.name}}</span>
                         <span class="pull-left edit" ng-click="AddOrEditAdvertiserModal(adv,'edit',client)"></span>
-                        <span class="pull-left adding-section" ng-click="AddOrEditBrandModal(adv,'create',client,brand)"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Create Brand</span>
+                        <span class="pull-left adding-section" ng-click="AddOrEditBrandModal(adv,'create',client,brand)"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Add Brand</span>
                     </div>
                         <div class="advertiser-resp-brands-list" style="margin-left:40px;" id="client_{{client.id}}_adv_{{adv.id}}">
                             <div class="clearfix each-brand-name"  ng-repeat="brand in clientsDetails[client.id]['brands'][adv.id]" ng-if="clientsDetails[client.id]['brands'][adv.id].length > 0">

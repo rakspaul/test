@@ -71,12 +71,20 @@ define(['angularAMD','../../../workflow/services/account_service', '../../servic
                         if($scope.advertiserData.pixels.length) {
                             createPixelsforAdvertiser($scope.clientId, advId);
                         }
-                        $rootScope.setErrAlertMessage('Advertiser created successfully', 0);
+                        if($scope.isEditMode){
+                            $rootScope.setErrAlertMessage('Advertiser updated successfully', 0);
+                        }else{
+                            $rootScope.setErrAlertMessage('Advertiser add successfully', 0);
+                        }
                     }else{
                     }
                 }, function (err) {
                     $scope.close();
-                    $rootScope.setErrAlertMessage('Error in creating advertiser under client.');
+                    if($scope.isEditMode){
+                        $rootScope.setErrAlertMessage('Error in updating advertiser under client.', 0);
+                    }else {
+                        $rootScope.setErrAlertMessage('Error in creating advertiser under client.');
+                    }
                 });
         }
         function addPixeltoAdvertiserUnderClient(clientId, advId){

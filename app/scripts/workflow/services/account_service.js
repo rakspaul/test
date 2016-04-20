@@ -114,6 +114,9 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
             createClient: function (data) {
                 return dataService.post(vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients', data, {'Content-Type': 'application/json'})
             },
+            getClient: function(clientId){
+                return dataService.fetch(vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/'+clientId, {cache: false})
+            },
             setToBeEditedAdvertiser: function (advertiserObj) {
                 advertiser = advertiserObj;
             },

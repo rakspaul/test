@@ -1,12 +1,14 @@
 var angObj = angObj || {};
 
-define(['angularAMD', '../../../workflow/services/account_service'],function (angularAMD) {
+define(['angularAMD', '../../../workflow/services/account_service', 'common/services/constants_service'],function (angularAMD) {
     'use strict';
 
-    angularAMD.controller('AccountsAddOrEdit', function ($scope, $rootScope, $modalInstance, accountsService) {
+    angularAMD.controller('AccountsAddOrEdit', function ($scope, $rootScope, $modalInstance,
+                                                        accountsService, constants) {
+
+        var _currCtrl = this;
         $scope.currencySelected = '';
         $scope.referenceId;
-
         getCountries();
         getTimezones();
 
@@ -35,13 +37,38 @@ define(['angularAMD', '../../../workflow/services/account_service'],function (an
             $scope.clientName = advertiser.name;
             $scope.referenceId = advertiser.id;
         };
-
+        _currCtrl.verifyInput = function(){
+            var ret = true,
+                err = "";
+            if(!$scope.clientType || $scope.clientType == ""){
+                err = constants.SELECT_CLIENT_TYPE;
+                ret = false;
+            }else if(!$scope.clientName || $scope.clientName == ""){
+                err = constants.SELECT_CLIENT_NAME;
+                ret = false;
+            } else if(!$scope.selectedCurrency || $scope.selectedCurrency == ""){
+                err = constants.SELECT_CURRENCY;
+                ret = false;
+            } else if(!$scope.selectedCountry || $scope.selectedCountry == ""){
+                err = constants.SELECT_GEOGRAPHY;
+                ret = false;
+            } else if(!$scope.timezone || $scope.timezone == ""){
+                err = constants.SELECT_TIMEZONE;
+                ret = false;
+            }
+            if(!ret){
+                $rootScope.setErrAlertMessage(err);
+            }
+            return ret;
+        }
         $scope.saveClients = function () {
+            if(!_currCtrl.verifyInput()){
+                return true;
+            }
             var clientObj,
                 body,
                 billableBody,
                 createBillableAccount;
-
             if ($scope.mode === 'edit') {
                 clientObj =  accountsService.getToBeEditedClient();
                 body = constructRequestBody(clientObj);
@@ -53,9 +80,37 @@ define(['angularAMD', '../../../workflow/services/account_service'],function (an
                             $scope.fetchAllClients();
                             $rootScope.setErrAlertMessage('Account updated successfully', 0);
                             $scope.resetBrandAdvertiserAfterEdit();
+                            delete $scope.clientsDetails[body.parentId];
+                            $scope.getSubClientList('ev', {id:body.parentId});
                         }
                     });
             } else {
+                if($scope.isCreateTopClient){
+                    accountsService
+                        .createBillableAccount(createBillableBody())
+                        .then(function (result) {
+                          //  var body;
+                            if (result.status === 'OK' || result.status === 'success') {
+                                $scope.billableAccountId = result.data.data.id;
+                                body = constructRequestBody();
+                                createClient(body);
+                            }
+                        });
+                }else{
+                    accountsService.getClient($scope.clientObj).then(function(res){
+                        if (res.status === 'OK' || res.status === 'success') {
+                            body = constructRequestBody();
+                            body.billableAccountId = res.data.data.billableAccountId;
+                            body.parentId = $scope.clientObj;
+                            createClient(body);
+                        }
+                    },function(err){
+
+                    })
+                 //   body = constructRequestBody();
+                 //   createClient(body);
+                }
+                return;
                 billableBody = createBillableBody();
                 createBillableAccount = function () {
                     accountsService
@@ -99,7 +154,12 @@ define(['angularAMD', '../../../workflow/services/account_service'],function (an
                 .createClient(body)
                 .then(function (adv) {
                     if (adv.status === 'OK' || adv.status === 'success') {
-                        $scope.fetchAllClients();
+                        if($scope.isCreateTopClient){
+                            $scope.fetchAllClients();
+                        }else{
+                            delete $scope.clientsDetails[body.parentId];
+                            $scope.getSubClientList('ev', {id:body.parentId});
+                        }
                         $scope.close();
                         $rootScope.setErrAlertMessage('Account created successfully', 0);
                     }
@@ -124,13 +184,15 @@ define(['angularAMD', '../../../workflow/services/account_service'],function (an
                 respBody.updatedAt = obj.updatedAt;
                 respBody.billableAccountId = obj.billableAccountId;
                 respBody.clientType = $scope.clientType;
-                respBody.parentId = obj.parentId;
                 respBody.referenceId = obj.referenceId;
                 respBody.timezone = $scope.timezone;
                 respBody.currency = Number($scope.selectedCurrency);
                 respBody.countryId=Number($scope.selectedCountry);
+                if(!$scope.isCreateTopClient) {
+                    respBody.parentId = obj.parentId;
+                }
             } else {
-                respBody.billableAccountId = 1;
+                respBody.billableAccountId = $scope.billableAccountId;
                 respBody.clientType = $scope.clientType;
                 respBody.currency = Number($scope.selectedCurrency);
                 respBody.countryId=Number($scope.selectedCountry);
@@ -138,7 +200,9 @@ define(['angularAMD', '../../../workflow/services/account_service'],function (an
                 respBody.timezone = $scope.timezone;
                 respBody.billableAccountId = $scope.billableAccountId;
                 //temp hardcoded
-                respBody.parentId = 1;
+//                if(!$scope.isCreateTopClient) {
+//                    respBody.parentId = 1;
+//                }
             }
             return respBody;
         }

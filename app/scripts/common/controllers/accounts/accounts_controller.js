@@ -102,12 +102,12 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                             $scope.clientsDetails[clientId].subclients = result;
                         } else {
                             console.log("Error: To get the sub-client list of " + name);
-                            $rootScope.setErrAlertMessage(constants.EMPTY_CLIENT_LIST);
+                          //  $rootScope.setErrAlertMessage(constants.EMPTY_CLIENT_LIST);
                             return false;
                         }
                     }, function (err) {
                         console.log("Error: To get the sub-client list of " + name);
-                        $rootScope.setErrAlertMessage(constants.EMPTY_CLIENT_LIST);
+                        //$rootScope.setErrAlertMessage(constants.EMPTY_CLIENT_LIST);
                         return false;
                     });
                 }
@@ -297,12 +297,24 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
         //Add or Edit Pop up for Account
         $scope.AddOrEditAccountModal = function(mode,clientObj) {
             $scope.mode = mode;
+            $scope.isCreateTopClient = clientObj ? false : true;
             $('html, body').animate({scrollTop : 0},30);
             accountsService.getAllCurrency().then(function(result){
                 $scope.currency = result.data.data;
             });
             accountsService.setToBeEditedClient(clientObj);
+//            if($scope.mode == 'edit'){
+//                $('select[name=selectedCountry]').("attr","disabled");
+//            }else{
+//                $('select[name="selectedCountry"]').removeAttr("disabled");
+//            }
             $scope.clientObj = clientObj;
+            console.log("$scope.clientObj.....",$scope.clientObj);
+//            accountsService.getClient($scope.clientObj.id).then(function(res){
+//                console.log("res...",res);
+//            },function(err){
+//
+//            });
             var $modalInstance = $modal.open({
                 templateUrl: assets.html_accounts_add_or_edit,
                 controller:"AccountsAddOrEdit",

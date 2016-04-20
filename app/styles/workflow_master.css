@@ -30,12 +30,6 @@ body {
 .bottomBorder {
   border-bottom: 1px solid #bfc9d7;
 }
-.workflow ::-webkit-scrollbar,
-#user-menu ::-webkit-scrollbar,
-.vistoTable ::-webkit-scrollbar,
-.recordList ::-webkit-scrollbar {
-  display: none;
-}
 h1,
 h2,
 h3,
