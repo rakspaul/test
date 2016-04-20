@@ -884,6 +884,11 @@ define(['angularAMD'], function(angularAMD) {
         this.PLEASESELSTARTDATE = 'Please select the start Date.';
         this.EXPORT_CONVERSION_PIXELS = 'Export All Conversion Pixels' ;
         this.TAGS_FOR_TRACKING_ONLY_ADS = 'Export Tags for Tracking Only Ads' ;
+        this.MAX_SPEND_FOR_ADGROUP = 'Maximum Spend for Ad Group' ;
+        this.LINE_ITEM = 'Line Item' ;
+        this.MAX_YOU_CAN_SPEND = "What's the maximum you can spend for your Ad Group?" ;
+
+
 
         //Audience Targeting
         this.SAVEAUD = 'Save Audience';
