@@ -86,11 +86,14 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                     $scope.show_advertisers(event, clientObj.id);
 
                 }else{
-                    $("#client_"+clientId+"_adv").slideToggle();
+                    $("#client_"+clientId+"_adv").slideToggle(function(){
+                        var ele = $(this).parent();
+                        ele.hasClass("open data-loaded") ? ele.removeClass("open data-loaded") : ele.addClass("open data-loaded");
+                    });
                 }
             }else{
                 if(typeof ($scope.clientsDetails[clientId]) != "undefined"){
-                    $("#client_"+clientId+"_sub").slideToggle();
+                    $("#client_"+clientId+"_sub").slideToggle(function(){});
                 }else {
                     accountsService.getSubClients(clientId).then(function (res) {
                         var result = res.data.data;

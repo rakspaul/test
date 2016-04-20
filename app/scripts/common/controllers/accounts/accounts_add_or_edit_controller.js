@@ -106,45 +106,7 @@ define(['angularAMD', '../../../workflow/services/account_service', 'common/serv
                         }
                     },function(err){
 
-                    })
-                 //   body = constructRequestBody();
-                 //   createClient(body);
-                }
-                return;
-                billableBody = createBillableBody();
-                createBillableAccount = function () {
-                    accountsService
-                        .createBillableAccount(billableBody)
-                        .then(function (result) {
-                            var body;
-
-                            if (result.status === 'OK' || result.status === 'success') {
-                                $scope.billableAccountId = result.data.data.id;
-                                body = constructRequestBody();
-                                createClient(body);
-                            }
-                        });
-                };
-                if ($scope.clientType === 'MARKETER') {
-                    accountsService
-                        .createAdvertiser(billableBody)
-                        .then(function (result) {
-                            if (result.status === 'OK' || result.status === 'success') {
-                                $scope.referenceId = result.data.data.id;
-                                createBillableAccount();
-                            }
-                        });
-                } else if ($scope.clientType === 'AGENCY') {
-                    accountsService
-                        .createAgencies(billableBody)
-                        .then(function (result) {
-                            if (result.status === 'OK' || result.status === 'success') {
-                                $scope.referenceId = result.data.data.id;
-                                createBillableAccount();
-                            }
-                        });
-                } else {
-                    createBillableAccount();
+                    });
                 }
             }
         };
