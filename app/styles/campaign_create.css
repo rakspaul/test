@@ -2118,6 +2118,9 @@
   position: relative;
   width: 24.25%;
 }
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule .adTitle {
+  height: 67px ;
+}
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adModule:hover {
   background-color: rgba(225, 237, 249, 0.4);
   border: 1px solid #0978C9;
