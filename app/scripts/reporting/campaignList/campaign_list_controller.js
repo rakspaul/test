@@ -136,12 +136,15 @@ define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', 'reporting/campaig
 
                 $scope.loadMoreTactics = function (strategyId, campaignId) {
                     var pageSize = 3,
+
                         campaign = _.find($scope.campaigns.campaignList, function (c) {
                             return c.orderId === parseInt(campaignId);
                         }),
+
                         strategy = _.find(campaign.campaignStrategies, function (s) {
                             return s.id === parseInt(strategyId);
                         }),
+
                         loadMoreData = strategy.strategyTacticsLoadMore,
                         moreData;
 

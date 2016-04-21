@@ -61,6 +61,7 @@ define(['angularAMD','common/services/constants_service', 'common/services/role_
                             title += '<a id="a"' + (i + 1) + '>' + input[i] + '</a>';
                         }
                         title += '</div>';
+
                         return title;
                     },
 
@@ -91,6 +92,7 @@ define(['angularAMD','common/services/constants_service', 'common/services/role_
                                 return false;
                             }
                         }
+
                         return true;
                     },
 
@@ -345,6 +347,7 @@ define(['angularAMD','common/services/constants_service', 'common/services/role_
                             retVal = true;
                         }
                     });
+
                     return retVal;
                 }
 

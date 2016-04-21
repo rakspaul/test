@@ -205,7 +205,7 @@ define(['angularAMD', '../../common/utils', 'common/services/constants_service',
                                 }
 
                                 //  past a campaign end date
-                                if (momentService.isGreater(momentService.todayDate('YYYY-MM-DD'), campaignEndDate) == true) {
+                                if (momentService.isGreater(momentService.todayDate('YYYY-MM-DD'), campaignEndDate) === true) {
                                     return (spendDifference < -5 || spendDifference > 5) ? 'red' : 'blue';
                                 }
                             }

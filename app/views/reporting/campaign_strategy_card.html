@@ -17,7 +17,7 @@
                     <!--<span dynamic-tooltip="{{strategy.name}}" tooltip-element="searchElement"
                     txt="{{strategy.name}}" txtLength="75"></span>-->
                 </div>
-                <div class="heading">{{campaign.brandName}}</div>
+                <div class="heading" ng-bind="campaign.brandName"></div>
             </div>
         </div>
 
@@ -28,7 +28,7 @@
                 <div class="total_days_holder">
                     <div class="clearfix days_end_points">
                         <span class="start_end">{{strategy.startDate | date :'d MMM y' }}</span>
-                        <span class="finish_end">{{strategy.endDate | date :'d MMM y' }}</span>
+                        <span class="finish_end">{{strategy.endDate | date :'d MMM y' }}*date bug*</span>
                     </div>
                     <div ng-init="duration_s = strategy.durationLeft()"></div>
                     <div class="days_over" ng-style="{'width':strategy.durationCompletion() +'%'};">
@@ -84,7 +84,7 @@
             <div class="metric_graph {{getSpendClassForStrategy(strategy)}}">
                 <div class="full_metric_graph">
                     <!-- put completely_filled when 100% -->
-                    <div class="selected_graph {{(getSpendWidthForStrategy(strategy) >= 100) ? 'completely_filled' : ''}} "
+                    <div class="selected_graph {{(getSpendWidthForStrategy(strategy) >= 100) ? 'completely_filled' : ''}}"
                          ng-style="{'width':getSpendWidthForStrategy(strategy) +'%'};">
                     </div>
                     <!-- put start_beginning when at start -->

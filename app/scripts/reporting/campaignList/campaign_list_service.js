@@ -245,30 +245,35 @@ define(['angularAMD', 'common/services/data_service', 'common/utils', 'common/se
             };
 
             var createStrategyObject = function(strategyData, timePeriod, campaign, kpiType, kpiValue) {
-                var strategyObj = [], adSize = '', keyValues = '', geos = '';
-                for(var index in strategyData) {
-                    var strategy = strategyData[index];
-                    var strategy_1 = {
-                        id: strategy.id,
-                        brandName: campaign.brandName,
-                        name: strategy.name,
-                        startDate: momentInNetworkTZ.newMoment(strategy.start_date).format('YYYY-MM-DD'),
-                        endDate: momentInNetworkTZ.newMoment(strategy.end_date).format('YYYY-MM-DD'),
-                        order_id: strategy.order_id,
-                        li_status: "Draft",
-                        ad_size: adSize,
-                        tactics_count: strategy.ads_count || 0,
-                        selected_key_values: keyValues,
-                        selected_geos: geos,
-                        totalImpressions: null,
-                        grossRev: null,
-                        totalMediaCost: utils.roundOff(strategy.total_media_cost, 2),
-                        expectedMediaCost: utils.roundOff(strategy.expected_media_cost, 2),
-                        ctr: 0,
-                        actionRate: 0,
-                        chart: false,
-                        momentInNetworkTZ: momentInNetworkTZ
-                    };
+                var strategyObj = [],
+                    adSize = '',
+                    keyValues = '',
+                    geos = '';
+
+                for (var index in strategyData) {
+                    var strategy = strategyData[index],
+                        strategy_1 = {
+                            id: strategy.id,
+                            brandName: campaign.brandName,
+                            name: strategy.name,
+                            startDate: momentInNetworkTZ.utcToLocalTime(strategy.start_date),
+                            endDate: momentInNetworkTZ.utcToLocalTime(strategy.end_date),
+                            order_id: strategy.order_id,
+                            li_status: "Draft",
+                            ad_size: adSize,
+                            tactics_count: strategy.ads_count || 0,
+                            selected_key_values: keyValues,
+                            selected_geos: geos,
+                            totalImpressions: null,
+                            grossRev: null,
+                            totalMediaCost: utils.roundOff(strategy.total_media_cost, 2),
+                            expectedMediaCost: utils.roundOff(strategy.expected_media_cost, 2),
+                            ctr: 0,
+                            actionRate: 0,
+                            chart: false,
+                            momentInNetworkTZ: momentInNetworkTZ
+                        };
+
                     strategy_1.durationCompletion = campaign.durationCompletion.bind(strategy_1);
                     strategy_1.durationLeft = campaign.durationLeft.bind(strategy_1);
                     strategy_1.daysSinceEnded = campaign.daysSinceEnded.bind(strategy_1);
@@ -405,6 +410,7 @@ define(['angularAMD', 'common/services/data_service', 'common/utils', 'common/se
                 //this requests strategy data - invoked when requestStrategiesData is called from controller
                 var dataObj = createStrategyObject(data, timePeriod, campaign, campaign.kpiType, campaign.kpiValue);
                // var campaignStrategies = _.chain(dataObj).sortBy('name').sortBy('startDate').value().reverse();
+
                 return dataObj;
             };
 
