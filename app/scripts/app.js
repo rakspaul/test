@@ -243,59 +243,6 @@ define(['common'], function (angularAMD) {
                         check: function ($location, workflowService, constants, featuresService, $rootScope) {
                             var featuredFeatures = $rootScope.$on('features', function () {
                                 featuresService.setGetFeatureParams('create_mediaplan');
-<<<<<<< HEAD
-                                var featuredFeatures = $rootScope.$on('features', function () {
-                                    featuresService.setGetFeatureParams('create_mediaplan');
-                                });
-                    }
-                }
-            }))
-
-            .when('/admin/home', angularAMD.route({
-                templateUrl: assets.html_admin_home,
-                title: 'AdminHome'
-             //   controller: 'AccountsController',
-             //   controllerUrl: 'common/controllers/accounts/accounts_controller'
-            }))
-            .when('/admin/accounts', angularAMD.route({
-                templateUrl: assets.html_accounts,
-                title: 'Accounts',
-                controller: 'AccountsController',
-                controllerUrl: 'common/controllers/accounts/accounts_controller'
-            }))
-
-            .when('/admin/users', angularAMD.route({
-                templateUrl: assets.html_users,
-                title: 'Users',
-                controller: 'UsersController',
-                controllerUrl: 'common/controllers/users/users_controller'
-            }))
-            .when('/admin/brands', angularAMD.route({
-                templateUrl: assets.html_brands,
-                title: 'AdminBrands',
-                controller: 'AdminAdvertisersController',
-                controllerUrl: 'common/controllers/accounts/admin_brands_controller'
-            }))
-            .when('/admin/advertisers', angularAMD.route({
-                templateUrl: assets.html_advertisers,
-                title: 'AdminAdvertisers',
-                controller: 'AdminUsersController',
-                controllerUrl: 'common/controllers/accounts/admin_advertisers_controller'
-            }))
-            .when('/mediaplan/:campaignId/edit', angularAMD.route({
-                templateUrl: assets.html_campaign_create,
-                title: 'Edit - Media Plan',
-                controller: 'CreateCampaignController',
-                controllerUrl: 'workflow/controllers/campaign_create_controller',
-                resolve: {
-                    'check': function ($location, workflowService, constants,featuresService,$rootScope) {
-                                workflowService.setModuleInfo({
-                                    'moduleName': 'WORKFLOW',
-                                    'warningMsg': constants.ACCOUNT_CHANGE_MSG_ON_CREATE_OR_EDIT_CAMPAIGN_PAGE,
-                                    'redirect': true
-                                });
-                                workflowService.setMode('edit');
-=======
                             });
 
                             workflowService.setMode('create');
@@ -309,18 +256,36 @@ define(['common'], function (angularAMD) {
                     }
                 }))
 
-                .when('/admin/accounts', angularAMD.route({
-                    templateUrl: assets.html_accounts,
-                    title: 'Accounts',
-                    controller: 'AccountsController',
-                    controllerUrl: 'common/controllers/accounts/accounts_controller'
+                .when('/admin/home', angularAMD.route({
+                templateUrl: assets.html_admin_home,
+                title: 'AdminHome'
+                //   controller: 'AccountsController',
+                //   controllerUrl: 'common/controllers/accounts/accounts_controller'
                 }))
-
+                .when('/admin/accounts', angularAMD.route({
+                   templateUrl: assets.html_accounts,
+                   title: 'Accounts',
+                   controller: 'AccountsController',
+                   controllerUrl: 'common/controllers/accounts/accounts_controller'
+                }))
+   
                 .when('/admin/users', angularAMD.route({
-                    templateUrl: assets.html_users,
-                    title: 'Users',
-                    controller: 'UsersController',
-                    controllerUrl: 'common/controllers/users/users_controller'
+                   templateUrl: assets.html_users,
+                   title: 'Users',
+                   controller: 'UsersController',
+                   controllerUrl: 'common/controllers/users/users_controller'
+                }))
+                .when('/admin/brands', angularAMD.route({
+                   templateUrl: assets.html_brands,
+                   title: 'AdminBrands',
+                   controller: 'AdminAdvertisersController',
+                   controllerUrl: 'common/controllers/accounts/admin_brands_controller'
+                }))
+                .when('/admin/advertisers', angularAMD.route({
+                   templateUrl: assets.html_advertisers,
+                   title: 'AdminAdvertisers',
+                   controller: 'AdminUsersController',
+                   controllerUrl: 'common/controllers/accounts/admin_advertisers_controller'
                 }))
 
                 .when('/mediaplan/:campaignId/edit', angularAMD.route({
@@ -331,7 +296,6 @@ define(['common'], function (angularAMD) {
                     resolve: {
                         check: function ($location, workflowService, constants, featuresService, $rootScope) {
                             var featuredFeatures = $rootScope.$on('features', function () {
->>>>>>> sprint-1615
                                 featuresService.setGetFeatureParams('mediaplan_hub');
                             });
 
