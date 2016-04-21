@@ -507,7 +507,7 @@
 
             <!-- 3rd Row Save/Schedule -->
             <div class="row create_scheduled_report">
-                <div class="col-md-12  each_section_custom_report">
+                <div class="col-md-12 zeroPadding each_section_custom_report">
                     <div class="create_report_title">
                         <div class="clearfix scheduled_report_fields">
                             <div class="each-col" id="schedule-btn">
@@ -539,7 +539,7 @@
                             <div class="each-col default-schedule-col report-name-col">
                                 <div class="label-txt">{{textConstants.REPORT_NAME}}</div>
                                 <div>
-                                    <input style="height:36px; width:300px;" type="text" ng-model="reports.name" maxlength="256">
+                                    <input style="height:36px; width:100%;" type="text" ng-model="reports.name" maxlength="256">
                                 </div>
                             </div>
                             <div class="each-col default-schedule-col" ng-show="reportTypeSelect !== 'Save'" >
@@ -657,7 +657,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="each-col scheduling-options schedule-date" style="width:258px;" ng-show="reportTypeSelect !== 'Save'" >
+                            <div class="each-col scheduling-options schedule-date"  ng-show="reportTypeSelect !== 'Save'" >
                                 <div class="input-daterange-scheduled">
                                     <div class="input-daterange input-group date pull-left">
                                         <div class="dateWrapper" style="width:258px;">
@@ -701,7 +701,7 @@
                                     'disabled' :
                                     ''}}"
                                 ng-click="scheduleReportAction();"
-                                ng-bind-html="buttonLabel" ng-show="!loadingBtn">
+                                ng-bind-html="buttonLabel" ng-show="!loadingBtn" style="margin-left:10px;">
                         </button>
 
                         <button class="pull-right btn btn-default"
