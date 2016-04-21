@@ -278,7 +278,8 @@ define(['angularAMD', 'common/services/constants_service', 'common/moment_utils'
         $scope.select_unitType = function (event, type) {
             var impressionsHolder = $('.impressions_holder');
 
-            $scope.adData.unitType.name = type;
+            //  $scope.adData.unitType.name = type;
+            $scope.unitName=type;
             $scope.adData.unitCost = '';
             $scope.adData.totalAdBudget = '';
 
