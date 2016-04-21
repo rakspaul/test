@@ -17,6 +17,10 @@ define(['angularAMD'],function (angularAMD) {
 
                     var barChatPlotData = _.pluck(chartData.data, 'value');
 
+                    _.each(barChatPlotData,function(each,index){
+                        barChatPlotData[index] = isNaN(each)?0:each;
+                    })
+
                     barChatPlotData = _.filter(barChatPlotData, function(obj) { return obj !== 'NaN' });
                     if(barChatPlotData.length > 0) {
                         scope.total = _.reduce(barChatPlotData, function (sum, num) {
@@ -49,10 +53,10 @@ define(['angularAMD'],function (angularAMD) {
                                 .attr('class', 'barChart')
                                 .attr('width', widthScreen)
                                 .attr('height', 200);
-
+                            var randomNum = Math.floor((Math.random() * 50) + 1);
                             var gradient = chartScreen.append("svg:defs")
                                 .append("svg:linearGradient")
-                                .attr("id", "gradient")
+                                .attr("id", "gradient"+randomNum)
                                 .attr("x1", "0%")
                                 .attr("y1", "0%")
                                 .attr("x2", "100%")
@@ -75,7 +79,7 @@ define(['angularAMD'],function (angularAMD) {
                                 .attr("rx", 4)
                                 .attr("ry", 4)
                                 .attr("x", 0)
-                                .attr("fill", "url(#gradient)")
+                                .attr("fill", "url(#gradient"+randomNum+")")
                                 .attr("stroke-width", '0.5px')
                                 .attr("y", function (dScreen, iScreen) {
                                     return iScreen * gapScreen;

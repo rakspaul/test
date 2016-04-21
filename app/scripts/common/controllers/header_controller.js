@@ -80,6 +80,7 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
             $scope.showReportTab = $scope.fparams[0]['reports_tab'];
         }
 
+
         var features = $rootScope.$on('features', function () {
             featurePermission();
         });
@@ -260,7 +261,8 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
                     accountDropdownList = $(".clientDropdownCnt"),
                     campObjId = $("#campObj"),
                     mainNavDropdown = $(".main_nav_dropdown"),
-                    reportTypeDropdownId = $("#reportTypeDropdown"),
+                    reportTypeDropdownClass = $(".reportTypeDropdown"),
+                    campaigns_list_class = $(".campaigns_list"),
                     regionTooltip = $(".regionCityTab").find(".common_tooltip"),
                     quickFilters = $(".sliding_dropdown_container");
 
@@ -292,9 +294,12 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
                     mainNavDropdown.hide();
                     $(".main_navigation_holder").find(".selected").removeClass("selected");
                 }
-
-                if (reportTypeDropdownId.is(':visible') && event.target.id != "reportTypeDropdownTxt") {
-                    reportTypeDropdownId.hide();
+                
+                if (reportTypeDropdownClass.is(':visible') && ( $(event.target).closest(".reportTypeDropdownTxt").length == 0) ) {
+                    reportTypeDropdownClass.hide();
+                }
+                if (campaigns_list_class.is(':visible') && ( $(event.target).closest(".campaign_name_selected").length == 0)) {
+                    campaigns_list_class.hide();
                 }
 
                 if ( accountDropdownList.is(':visible') && ( $(event.target).closest(".clientDropdownCnt").length == 0) && ( $(event.target).closest(".accountDropDown").length == 0) && !$(event.target).parents("div[id^=accountDropDown]").length) {

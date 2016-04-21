@@ -1372,6 +1372,12 @@
   float: left;
   font-family: "Avenir";
 }
+.external_chkbox.disabled .squaredFour {
+  opacity: 0.5 ;
+}
+.external_chkbox.disabled .squaredFour label {
+  cursor: default;
+}
 .common-load-more {
   margin: 60px auto 0;
   width: 30px;
@@ -1726,6 +1732,16 @@ multiselect .dropdown-menu > li > a {
 .errorTxtColor {
   color: #F24444;
   font-family: 'Avenir-bold';
+}
+.errorText {
+  color: #F24444;
+}
+.errorBorder {
+  border-color: #F24444 !important;
+}
+.disabled-field {
+  background: #eee ;
+  cursor: default;
 }
 .common-loading-btn {
   width: 80px;

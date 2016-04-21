@@ -269,6 +269,9 @@ define(['angularAMD'], function(angularAMD) {
         this.BUDGET_WITH_COLON = 'Budget:';
         this.CUMULATIVE_VALUE = 'Cumulative Value';
         this.ACTION_RATE_R_CAPS = 'Action Rate';
+        this.TOTAL_AD_BUDGET = 'Total Ad Budget';
+        this.ESTIMATED_IMPRESSIONS = 'Estimated Impressions';
+        this.KPI_NOTSATISFIED_ERROR = 'Budget and unit cost entered <br>may not satisfy KPI target';
 
         this.SELECT_ALL = 'Select All';
         this.DRAFT = 'Draft';
@@ -451,6 +454,7 @@ define(['angularAMD'], function(angularAMD) {
         this.PRICING_METHOD_MARKUP = 'markup';
         this.SYMBOL_PERCENT = '%';
         this.SYMBOL_DOLLAR = '$';
+        this.SYMBOL_HASH = '#';
 
         this.QUARTILE_DATA = 'Quartile Data';
 
@@ -468,7 +472,9 @@ define(['angularAMD'], function(angularAMD) {
         this.SELECT_GOAL = 'Select Goal';
         this.BUDGET = 'Budget';
         this.START_DATE = 'Start Date';
+        this.FLIGHT_START_DATE = 'Flight Start Date';
         this.END_DATE = 'End Date';
+        this.FLIGHT_END_DATE = 'Flight End Date';
         this.SELECT_TIME = 'Select Time';
         this.ADS = 'Ads';
         this.UNTITLED_CAMPAIGN = 'Untitled Media Plan';
@@ -490,6 +496,7 @@ define(['angularAMD'], function(angularAMD) {
 
         this.WF_GUIDED_COPY = 'Guided Copy Here - What should i choose?';
         this.WF_HEADER_CREATIVES = 'What type of creatives are you using?';
+        this.WF_AD_FORMAT = 'Ad Format';
         this.WF_CHANNEL = 'Channel';
         this.WF_DISPLAY = 'Display';
         this.WF_VIDEO = 'Video';
@@ -699,11 +706,12 @@ define(['angularAMD'], function(angularAMD) {
         //Ad Create: 2 Budget & Delivery
         this.SETBUDGET = 'Set Budget & Delivery';
         this.LEARNMOREADSET = 'Learn more about Ad Settings';
-        this.WHENADRUN = 'When would you like your Ad to run?';
+        this.WHENADRUN = 'What are your flight and delivery settings?';
         this.FLIGHTPASSED = 'Media Plan flight date has passed';
-        this.SETUPBUDGET = 'How do you want to set up the Budget for your Ad?';
+        this.SETUPBUDGET = 'How do you want to budget your Ad?';
+        this.TRACKBUDGET = 'How do you want to track your Ad?';
         this.UNITCOST = 'Unit Cost';
-        this.BUDGETCAL = 'Budget Calculation';
+        this.BUDGETCAL = 'Select your Booking Method';
         this.COST = 'Cost';
         this.FREQCAP = 'Frequency Cap';
         this.YES = 'Yes';
@@ -715,6 +723,9 @@ define(['angularAMD'], function(angularAMD) {
         this.PACING = 'Pacing';
         this.PACEEVENLY = 'Pace Evenly';
         this.SENDFAST = 'Spend as fast as possible';
+        this.SELECTPRIMARYKPI = 'Select Primary KPI';
+        this.TARGETVALUE = 'Target Value';
+        this.RATE = 'Rate';
 
         //Ad Create: 3 Buying Platform
         this.SELECTBUYPLAT = 'Select Buying Platform';
@@ -820,6 +831,7 @@ define(['angularAMD'], function(angularAMD) {
         this.CREATEAD = 'Create Ad';
         this.CREATEADGRP = 'Create Ad Group';
         this.SETADGRP = 'Ad Group Setup';
+        this.EDITADGRP = 'Ad Group Edit'
         this.NAMEADGROUP = 'What is the name of your Ad Group?';
         this.ADGROUPNAME = 'Ad Group Name';
         this.ENTERADGRP = 'Please enter a name for the ad group.';
@@ -870,6 +882,13 @@ define(['angularAMD'], function(angularAMD) {
         this.ADGROUPMAXIMUMBUDGETMSG = 'Please enter a budget value less than the available media plan budget.';
         this.WHATFLIGHTDATES = 'What are the Flight Dates?';
         this.PLEASESELSTARTDATE = 'Please select the start Date.';
+        this.EXPORT_CONVERSION_PIXELS = 'Export All Conversion Pixels' ;
+        this.TAGS_FOR_TRACKING_ONLY_ADS = 'Export Tags for Tracking Only Ads' ;
+        this.MAX_SPEND_FOR_ADGROUP = 'Maximum Spend for Ad Group' ;
+        this.LINE_ITEM = 'Line Item' ;
+        this.MAX_YOU_CAN_SPEND = "What's the maximum you can spend for your Ad Group?" ;
+
+
 
         //Audience Targeting
         this.SAVEAUD = 'Save Audience';
@@ -968,6 +987,10 @@ define(['angularAMD'], function(angularAMD) {
         this.MONTHLY_SCHEDULING_DATE_RANGE__AT_LEAST_ONE_MONTH =
             'You have chosen monthly Scheduling, please choose a date range that is at least one month';
         this.CUSTOMDATE_ERROR_MESSAGE = 'The custom date does not fall within the range of Start and End Dates.';
+
+        this.VIDEO_TARGETING = 'Video Targeting';
+        this.SAVE_VIDEO_TARGETING = 'Save Video Targeting';
+        this.VIDEO_PLACENMENT_AND_PLAYERS = 'Specify the types of placements and players where you would like your video ad to appear';
 
         //Creative List
         this.NEWCREATIVEALERT = 'New Creative has been created successfully.';

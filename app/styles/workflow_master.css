@@ -112,6 +112,13 @@ strong {
   font-weight: normal;
   margin: 0;
 }
+.currencySymWLabel {
+  position: absolute;
+  left: 10px;
+  top: 45px !important;
+  z-index: 10;
+  line-height: 100%;
+}
 .helpLink {
   opacity: .3;
   text-decoration: none !important;
@@ -1933,6 +1940,33 @@ input.cmn-toggle-round:checked + label:after {
 }
 tags-input .tags .tag-item {
   background: #edf2f8;
+  width: auto !important;
+  padding: 6px 5px !important;
+}
+tags-input .tags .tag-item .remove-button {
+  vertical-align: bottom;
+}
+tags-input ul li {
+  width: 100% !important;
+  padding: 3px 15px !important;
+}
+tags-input ul li span {
+  cursor: pointer;
+  width: 100%;
+  font-family: "Avenir";
+  font-size: 14px;
+}
+tags-input ul li:hover,
+tags-input ul li:focus,
+tags-input ul .suggestion-item.selected {
+  background: #e1edf9 !important;
+  padding: 3px 15px !important;
+}
+tags-input ul li:hover span,
+tags-input ul li:focus span,
+tags-input ul .suggestion-item.selected span {
+  color: #21252b;
+  text-decoration: none;
 }
 .edit-input {
   border-color: #0978c9 !important;

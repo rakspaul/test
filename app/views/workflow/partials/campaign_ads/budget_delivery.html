@@ -1,126 +1,226 @@
 <div class="row" xmlns="http://www.w3.org/1999/html">
     <div class="col-md-6 zeroPadding">
         <h2 class="col-md-12 zeroPadding marginBottom" data-ng-bind="textConstants.SETBUDGET"></h2>
-        <a class="col-md-12 zeroPadding helpLink" href="javascript:void(0);" data-ng-bind="textConstants.LEARNMOREADSET"></a>
+        <!-- <a class="col-md-12 zeroPadding helpLink" href="javascript:void(0);" data-ng-bind="textConstants.LEARNMOREADSET"></a> -->
     </div>
 </div>
-<div class="col-md-12 zeroPadding">
-    <div class="col-md-12 adHeader" data-ng-bind="textConstants.WHENADRUN"></div>
-    <div class="span4 col-md-12 input-daterange input-group date pull-left" id="datepicker">
-        <div class="col-md-12 dateWrapper form-group zeroPadding">
-            <div class="dateContainer">
-                <label class="col-sm-12 control-label greyTxt miniLabels" data-ng-bind="textConstants.START_DATE"></label>
-                <input type="text" id="startDateInput" custom-date-picker="{format: 'mm/dd/yyyy', orientation: 'auto',  autoclose: true, todayHighlight: true}" placeholder="MM/DD/YYYY" class="form-control"  readonly name="startTime" ng-model="adData.startTime"  ng-disabled="checkForPastDate(workflowData['campaignData'].startTime, workflowData['campaignData'].endTime) || (workflowData.adsData.state=='IN_FLIGHT' || workflowData.adsData.state === 'ENDED' || workflowData.adsData.state === 'PAUSED'?true:false)" ng-change=" handleStartFlightDate(adData)"/>
-                <input type="hidden" ng-if ="workflowData.adsData.state=='IN_FLIGHT' || workflowData.adsData.state === 'ENDED' || workflowData.adsData.state === 'PAUSED'" name="startTime" value="{{adData.startTime}}" />
-
-            </div>
-            <div class="dateContainer" style="padding-left: 10px;">
-                <label class="col-sm-12 control-label greyTxt miniLabels" data-ng-bind="textConstants.END_DATE"></label>
-                <input type="text" id="endDateInput" custom-date-picker="{format: 'mm/dd/yyyy', orientation: 'auto',  autoclose: true, todayHighlight: true}" placeholder="MM/DD/YYYY" class="form-control" readonly disabled="disabled" ng-model="adData.endTime" name="endTime" required ng-change="handleEndFlightDate(adData)"/>
-            </div>
-            <div ng-show="checkForPastDate(workflowData['campaignData'].startTime, workflowData['campaignData'].endTime)" class="col-md-4 customErrorLabel" style="margin-left: 23px;margin-top: 38px !important;" data-ng-bind="textConstants.FLIGHTPASSED"></div>
-        </div>
-        <span class="col-md-12 input-group-addon">
-            <div class="calenderIcon">
-                <span class="icon-calendar"></span>
-            </div>
-            <div class="calenderIcon">
-                <span class="icon-calendar"></span>
-            </div>
-        </span>
-    </div>
-</div>
-
 <div class="row zeroPadding budgetWrap radioBtnToggle">
-    <div class="col-md-12 adHeader" data-ng-bind="textConstants.SETUPBUDGET"></div>
-    <div class="col-md-12 zeroPadding unitCost symbolAbs">
-        <label class="col-sm-12 control-label greyTxt miniLabels" data-ng-bind="textConstants.UNITCOST"></label>
+    <div class="col-md-12 adHeader" data-ng-bind="textConstants.TRACKBUDGET" style="padding-top:5px;"></div>
+    <div class="col-md-12 zeroPadding symbolAbs">
+
         <div class="form-group col-md-2 zeroPadding" style="margin-right: -5px;">
-            <div class="col-md-12 zeroPadding dropdown-workflow">
-                 <div class="dropdown">
-                      <button style="width:130px;" class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                           <span class="text">CPM</span>
-                           <span class="icon-arrow-down"></span>
-                      </button>
-                      <ul class="dropdown-menu" aria-labelledby="unitcostType" ng-model="adData.unitType"  id="unitcostType" data-toggle="dropdown">
-                           <li ng-repeat="unitType in workflowData.unitTypes track by unitType.id" class="available">
-                            <a ng-click="dropBoxItemSelected(unitType, 'unitType')" data-ng-bind="unitType.name"></a>
-                           </li>
-                      </ul>
-                     <input type="hidden" name="unitType" ng-model="adData.unitType.name" ng-update-hidden/>
-                 </div>
+            <div>
+                <label class="col-sm-12 control-label greyTxt miniLabels" data-ng-bind="textConstants.SELECTPRIMARYKPI"></label>
+                <div class="col-md-12 zeroPadding dropdown-workflow">
+                    <div class="dropdown">
+                        <button style="width:130px;" class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                            <span class="text">{{((adData.primaryKpi).toLowerCase()!='impressions')?(adData.primaryKpi):'Impressions'}}</span>
+                            <span class="icon-arrow-down"></span>
+                        </button>
+                        <ul class="dropdown-menu" data-toggle="dropdown">
+                            <li class="available" ng-click="select_kpi($event , 'impressions');" >
+                                <a>Impressions</a>
+                            </li>
+                            <li class="available" ng-click="select_kpi($event , 'CPA');" >
+                                <a>CPA</a>
+                            </li>
+                            <li class="available" ng-click="select_kpi($event , 'CPC');" >
+                                <a>CPC</a>
+                            </li>
+                            <li class="available" ng-click="select_kpi($event , 'CTR');" >
+                                <a>CTR</a>
+                            </li>
+                            <li class="available" ng-click="select_kpi($event , 'VTC');" >
+                                <a>VTC</a>
+                            </li>
+                        </ul>
+                        <input type="hidden" name="primaryKpi" ng-model="adData.primaryKpi" ng-update-hidden/>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="form-group col-md-3 zeroPadding">
-            <span data-ng-bind="locale.NUMBER_FORMATS.CURRENCY_SYM"></span>
-            <input style="width:130px; padding-top:10px;" type="text" class="form-control" ng-model="adData.unitCost" fraction-numbers="fraction-numbers" name="unitCost" ng-keyup = "adBudgetValidator();">
+            <label class="control-label greyTxt miniLabels" data-ng-bind="textConstants.TARGETVALUE"></label>
+            <div style="position : relative;">
+                <span class="KPI_symbol">#</span>
+                <input class="target_val_input" type="text" class="form-control" ng-model="adData.targetValue" ng-value="adData.targetValue" fraction-numbers="fraction-numbers" name="targetValue" ng-keyup="calculateTotalAdBudget();">
+                <span class="VTC_per" style="display:none;">%</span>
+            </div>
         </div>
     </div>
-    <label class="col-sm-12 control-label greyTxt miniLabels" data-ng-bind="textConstants.BUDGETCAL"></label>
-    <div class="btn-group miniToggle">
-        <label class="btn btn-default budget_{{adData.budgetTypeLabel | lowercase}} active"><span data-ng-bind="adData.budgetTypeLabel"></span>
-            <input type="radio" name="budgetType" value="{{adData.budgetTypeLabel}}" checked ng-model="adData.budgetType" class="btn_rad budget_type" hidden="hidden" ng-click=" resetBudgetField(); toggleBtn($event); ">
+    <div class="col-md-12 zeroPadding unitCost symbolAbs">
+        <div class="col-md-12 adHeader" data-ng-bind="textConstants.SETUPBUDGET" ></div>
+        <div class="col-md-2 zeroPadding">
+            <label class="col-sm-12 control-label greyTxt miniLabels" data-ng-bind="textConstants.UNITCOST"></label>
+            <div class="col-md-12 zeroPadding dropdown-workflow">
+                 <div class="dropdown">
+                      <button style="width:139px;" class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                           <span class="text">{{adData.unitType.name ? adData.unitType.name :'CPM'}}</span>
+                           <span class="icon-arrow-down"></span>
+                      </button>
+                      <ul class="dropdown-menu" aria-labelledby="unitcostType"  id="unitcostType" data-toggle="dropdown">
+                           <li ng-repeat="unitType in workflowData.unitTypes track by unitType.id" class="available" ng-click="select_unitType($event,unitType.name);">
+                            <a  data-ng-bind="unitType.name"></a>
+                           </li>
+                      </ul>
+                     <input type="hidden" name="unitType" ng-model="unitName" ng-update-hidden/>
+                 </div>
+            </div>
+        </div>
+
+        <div class="col-md-2 zeroPadding">
+            <label class="control-label greyTxt miniLabels" data-ng-bind="textConstants.RATE"></label>
+            <span data-ng-bind="locale.NUMBER_FORMATS.CURRENCY_SYM" class="currencySymWLabel"></span>
+            <input style="width:139px; text-indent: 8px;" type="text" class="form-control" ng-model="adData.unitCost" fraction-numbers="fraction-numbers" name="unitCost" ng-keyup = "calculateTotalAdBudget();checkBudgetExceed();">
+        </div>
+
+        <div class="col-md-3 zeroPadding budget_holder">
+            <label class="control-label greyTxt miniLabels" data-ng-bind="textConstants.TOTAL_AD_BUDGET"></label>
+            <div class="budget_holder_input">
+                <span data-ng-bind="locale.NUMBER_FORMATS.CURRENCY_SYM" class="currencySymWLabel"></span>
+                <input style="text-indent: 8px;" type="text" ng-value="adData.totalAdBudget" ng-model="adData.totalAdBudget" class="form-control totalBudgetInputClass" fraction-numbers="fraction-numbers" disabled ng-keyup="checkBudgetExceed();calculateTotalAdBudget();"><!-- add "errorBorder" when error -->
+                <input type="hidden" name="totalAdBudget" ng-model="adData.totalAdBudget" ng-value="adData.totalAdBudget"><!-- add "errorBorder" when error -->
+                <span class="disabled_value"></span>
+                <div class="errorText" ng-show="adData.budgetExceeded">Ad budget lesser than MediaCost</div>
+                <div class="errorText" ng-show="adData.adBudgetExceedUnallocated">Total Ad budget exceeds unallocated budget</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-12 zeroPadding symbolAbs impressions_holder">
+        <label class="pull-left">
+            <div class="clearfix checkbox_holder">
+                <div class="external_chkbox pull-right">
+                    <div class="pull-left squaredFour">
+                        <!--<input type="checkbox" id="targetUnitCost_squaredFour" class="squaredFourChkbox" ng-checked="isChecked" ng-click="enable_budget_input($event);">-->
+                        <input type="checkbox" id="targetUnitCost_squaredFour" class="squaredFourChkbox" checked ng-click="enable_budget_input($event);">
+                        <label for="targetUnitCost_squaredFour"></label>
+                    </div>
+                    <span class="pull-left greyTxt" style="padding:0px!important;">Calculate from <br/>Target & Unit Cost</span>
+                </div>
+            </div>
         </label>
-        <label class="btn btn-default budget_cost"><span data-ng-bind="textConstants.COST"></span>
-            <input type="radio" name="budgetType" value="Cost"  hidden="hidden" ng-model="adData.budgetType" class="btn_rad budget_type" ng-click="resetBudgetField(); toggleBtn($event);">
-        </label>
-         <span style="position:relative; top:10px; left:25px; float:left;">{{adData.budgetType === 'Cost' ? locale.NUMBER_FORMATS.CURRENCY_SYM : '#'}}</span>
-        <input style="width:130px; text-indent:8px; height:36px; padding-top:10px;" type="text" name="budgetAmount" whole-number-only="whole-number-only" class="form-control" ng-model="adData.budgetAmount" id="budgetAmount" placeholder="Enter Value" ng-keyup = "adBudgetValidator();">
+
+        <div class="pull-left estimated_impressions" >
+            <div class="form-group zeroPadding" >
+                <div class="impression_field disabled-field" style="display:none;">
+                    <div class="left-big-arrow"></div>
+                    <label class="control-label greyTxt miniLabels" data-ng-bind="textConstants.ESTIMATED_IMPRESSIONS"></label>
+                    <div class="impressions-val">18000</div><!-- add "errorText" when error -->
+                </div>
+                <div class="pull-left txtError" style="margin-left:-20px; display: none" ng-bind-html="textConstants.KPI_NOTSATISFIED_ERROR" ></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="clearfix col-md-12 zeroPadding">
+        <div class="pull-left">
+            <label class="control-label greyTxt miniLabels" data-ng-bind="textConstants.BUDGETCAL"></label>
+            <div class="btn-group miniToggle" style="display:block;">
+                <label class="btn btn-default budget_cost active"><span data-ng-bind="textConstants.WF_MEDIA_COST"></span>
+                    <input type="radio" name="budgetType" value="Cost" checked hidden="hidden" ng-model="adData.budgetType" class="btn_rad budget_type" ng-click="resetBudgetField('mediaCost'); toggleBtn($event);">
+                </label>
+                <label class="btn btn-default budget_{{adData.budgetTypeLabel | lowercase}} "><span data-ng-bind="adData.budgetTypeLabel"></span>
+                    <input type="radio" name="budgetType" value="{{adData.budgetTypeLabel}}"  ng-model="adData.budgetType" class="btn_rad budget_type" hidden="hidden" ng-click="resetBudgetField('impressions'); toggleBtn($event); ">
+                </label>
+            </div>
+        </div>
+
+        <div class="col-md-2 zeroPadding" style="margin-left: 10px;">
+            <label class="col-sm-12 control-label greyTxt miniLabels" data-ng-bind="textConstants.VALUE" style="padding-left:5px;"></label>
+            <span class="currencySymWLabel">{{adData.budgetType === 'Cost' ? locale.NUMBER_FORMATS.CURRENCY_SYM : '#'}}</span>
+            <input style="width:130px; text-indent:8px; height:36px; padding-top:10px;padding-left: 16px;" type="text" name="budgetAmount" whole-number-only="whole-number-only" class="form-control" ng-model="adData.budgetAmount" ng-value="adData.budgetAmount" id="budgetAmount" placeholder="Enter Value" ng-keyup = "checkBudgetExceed()">
+        </div>
+
         <label ng-if="budgetErrorObj.mediaCostValidator" class="col-sm-12 control-label  customErrorLabel" data-ng-bind="textConstants.WF_MEDIA_COST_LESS_THAN_CAMPAIGN_BUDGET"></label>
         <label ng-if="budgetErrorObj.availableRevenueValidator" class="col-sm-12 control-label  customErrorLabel" data-ng-bind="textConstants.WF_MEDIA_COST_LESS_THAN_MINIMUM_BUDEGT_FOR_AD"></label>
         <label ng-if="budgetErrorObj.availableMaximumAdRevenueValidator" class="col-sm-12 control-label customErrorLabel">{{textConstants.BUDGET_LESS_THAN_AVAILABLE_BUDGET}} {{adMaximumRevenue}} .</label>
     </div>
 </div>
 
-<div class="row zeroPadding unitCostTwo radioBtnToggle">
-    <div class="col-md-2 zeroPadding">
-        <label class="col-sm-12 control-label greyTxt miniLabels" data-ng-bind="textConstants.FREQCAP"></label>
-        <div class="btn-group miniToggle" ng-init="adData.setCap=false">
-            <label class="btn btn-default cap_yes" style="width: auto;"><span data-ng-bind="textConstants.YES"></span>
-                <input type="radio" name="setCap" value ="true"  hidden="hidden" class="btn_rad " ng-click="toggleBtn($event); adData.setCap = true; frequencySelected('Daily')">
-            </label>
-            <label class="btn btn-default active cap_no" style="width: auto;"><span data-ng-bind="textConstants.NO"></span>
-                <input type="radio" name="setCap" checked  value ="false"  hidden="hidden" class="btn_rad " ng-click="toggleBtn($event); adData.setCap = false;">
-            </label>
-        </div>
-    </div>
-    <div class="col-md-4 zeroPadding symbolAbs"  ng-show="adData.setCap">
-        <label class="col-sm-12 control-label greyTxt miniLabels" data-ng-bind="textConstants.IMPPERUSER"></label>
-        <div class="form-group col-md-7 zeroPadding">
-            <span>#</span>
-            <input type="text" name="quantity" class="form-control" whole-number-only="whole-number-only" ng-model="adData.quantity" ng-disabled="!adData.setCap" ng-keyup="ImpressionPerUserValidator();">
-            <label ng-if="budgetErrorObj.impressionPerUserValidator" class="col-sm-12 control-label customErrorLabel" data-ng-bind="textConstants.IMPRESSION_PER_USER_MESSAGE"></label>
-        </div>
 
-        <div class="form-group col-md-5" style="margin-left: -5px;">
-           <div class="col-md-12 zeroPadding dropdown-workflow">
-               <div class="dropdown">
-                   <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                         <span class="text">{{selectedFreq ? selectedFreq :'Daily'}}</span>
-                         <span class="icon-arrow-down"></span>
-                    </button>
-                    <ul class="dropdown-menu" aria-labelledby="frequencyType" id="frequencyType" name='frequencyType' ng-disabled="!adData.setCap" data-toggle="dropdown">
-                          <li><a data-value="Daily" ng-click="frequencySelected('Daily')" data-ng-bind="textConstants.DAILY"></a></li>
-                         <li><a data-value="Lifetime" ng-click="frequencySelected('Lifetime')" data-ng-bind="textConstants.LIFETIME"></a></li>
-                    </ul>
-                   <input type="hidden" name="frequencyType" value="{{selectedFreq}}" ng-model="capsPeriod" ng-update-hidden/>
-               </div>
-           </div>
-        </div>
-    </div>
-</div>
-<div class="row zeroPadding unitCostTwo radioBtnToggle">
+<div class="flightWrap">
     <div class="col-md-12 zeroPadding">
-        <div class="col-md-12 adHeader" data-ng-bind="textConstants.HOWADDEL"></div>
-        <label class="col-sm-12 control-label greyTxt miniLabels" data-ng-bind="textConstants.PACING"></label>
-        <div class="btn-group miniToggle">
-            <label class="btn btn-default active spend_evenly" style="width: auto;"><span data-ng-bind="textConstants.PACEEVENLY"></span>
-                <input type="radio" name="pacingType" checked group="budgetGroup" value="EVENLY" hidden="hidden" class="btn_rad" id="evenly" ng-click="toggleBtn($event);">
-            </label>
+        <div class="col-md-12 adHeader" data-ng-bind="textConstants.WHENADRUN"></div>
+        <div class="span4 col-md-12 input-daterange input-group date pull-left" id="datepicker" style="margin-top:10px;">
+            <div class="col-md-12 dateWrapper form-group zeroPadding">
+                <div class="dateContainer">
+                    <label class="col-sm-12 control-label greyTxt miniLabels" data-ng-bind="textConstants.FLIGHT_START_DATE"></label>
+                    <input type="text" id="startDateInput" custom-date-picker="{format: 'mm/dd/yyyy', orientation: 'auto',  autoclose: true, todayHighlight: true}" placeholder="MM/DD/YYYY" class="form-control"  readonly name="startTime" ng-model="adData.startTime"  ng-disabled="checkForPastDate(workflowData['campaignData'].startTime, workflowData['campaignData'].endTime) || (workflowData.adsData.state=='IN_FLIGHT' || workflowData.adsData.state === 'ENDED' || workflowData.adsData.state === 'PAUSED'?true:false)" ng-change=" handleStartFlightDate(adData)"/>
+                    <input type="hidden" ng-if ="workflowData.adsData.state=='IN_FLIGHT' || workflowData.adsData.state === 'ENDED' || workflowData.adsData.state === 'PAUSED'" name="startTime" value="{{adData.startTime}}" />
+                </div>
+                <div class="dateContainer" style="padding-left: 10px;">
+                    <label class="col-sm-12 control-label greyTxt miniLabels" data-ng-bind="textConstants.FLIGHT_END_DATE"></label>
+                    <input type="text" id="endDateInput" custom-date-picker="{format: 'mm/dd/yyyy', orientation: 'auto',  autoclose: true, todayHighlight: true}" placeholder="MM/DD/YYYY" class="form-control" readonly disabled="disabled" ng-model="adData.endTime" name="endTime" required ng-change="handleEndFlightDate(adData)"/>
+                </div>
+                <div ng-show="checkForPastDate(workflowData['campaignData'].startTime, workflowData['campaignData'].endTime)" class="col-md-4 customErrorLabel" style="margin-left: 23px;margin-top: 38px !important;" data-ng-bind="textConstants.FLIGHTPASSED"></div>
+            </div>
+         <span class="col-md-12 input-group-addon">
+             <div class="calenderIcon">
+                 <span class="icon-calendar"></span>
+             </div>
+             <div class="calenderIcon">
+                 <span class="icon-calendar"></span>
+             </div>
+         </span>
+        </div>
+        <div class="row zeroPadding unitCostTwo radioBtnToggle" >
+            <div class="col-md-12 zeroPadding" style="margin-top:10px;">
+                <!-- <div class="col-md-12 adHeader" data-ng-bind="textConstants.HOWADDEL"></div> -->
+                <label class="col-sm-12 control-label greyTxt miniLabels" data-ng-bind="textConstants.PACING"></label>
+                <div class="btn-group miniToggle">
+                    <label class="btn btn-default active spend_evenly" style="width: auto;"><span data-ng-bind="textConstants.PACEEVENLY"></span>
+                        <input type="radio" name="pacingType" checked group="budgetGroup" value="EVENLY" hidden="hidden" class="btn_rad" id="evenly" ng-click="toggleBtn($event);">
+                    </label>
 
-            <label class="btn btn-default spend_asap" style="width: auto;"><span data-ng-bind="textConstants.SENDFAST"></span>
-                <input type="radio" name="pacingType" group="budgetGroup" value="ASAP" hidden="hidden" class="btn_rad" id="asap" ng-click="toggleBtn($event);">
-            </label>
+                    <label class="btn btn-default spend_asap" style="width: auto;"><span data-ng-bind="textConstants.SENDFAST"></span>
+                        <input type="radio" name="pacingType" group="budgetGroup" value="ASAP" hidden="hidden" class="btn_rad" id="asap" ng-click="toggleBtn($event);">
+                    </label>
+                </div>
+            </div>
+            <div class="col-md-2 zeroPadding" style="margin-top:10px;" >
+                <label class="col-sm-12 control-label greyTxt miniLabels" data-ng-bind="textConstants.FREQCAP"></label>
+                <div class="btn-group miniToggle" ng-init="adData.setCap=false">
+                    <label class="btn btn-default cap_yes" style="width: auto;"><span data-ng-bind="textConstants.YES"></span>
+                        <input type="radio" name="setCap" value ="true"  hidden="hidden" class="btn_rad " ng-click="toggleBtn($event); adData.setCap = true; frequencySelected('Daily')">
+                    </label>
+                    <label class="btn btn-default active cap_no" style="width: auto;"><span data-ng-bind="textConstants.NO"></span>
+                        <input type="radio" name="setCap" checked  value ="false"  hidden="hidden" class="btn_rad " ng-click="toggleBtn($event); adData.setCap = false;">
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="row col-md-12 zeroPadding unitCostTwo radioBtnToggle" >
+
+
+
+        <div class="col-md-4 zeroPadding symbolAbs"  ng-show="adData.setCap" style="margin-top:10px;">
+            <label class="col-sm-12 control-label greyTxt miniLabels" data-ng-bind="textConstants.IMPPERUSER"></label>
+            <div class="form-group col-md-7 zeroPadding">
+                <span>#</span>
+                <input type="text" name="quantity" class="form-control" whole-number-only="whole-number-only" ng-model="adData.quantity" ng-disabled="!adData.setCap" ng-keyup="ImpressionPerUserValidator();">
+                <label ng-if="budgetErrorObj.impressionPerUserValidator" class="col-sm-12 control-label customErrorLabel" data-ng-bind="textConstants.IMPRESSION_PER_USER_MESSAGE"></label>
+            </div>
+
+            <div class="form-group col-md-5" style="margin-left: -5px;">
+                <div class="col-md-12 zeroPadding dropdown-workflow">
+                    <div class="dropdown">
+                        <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                            <span class="text">{{selectedFreq ? selectedFreq :'Daily'}}</span>
+                            <span class="icon-arrow-down"></span>
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="frequencyType" id="frequencyType" name='frequencyType' ng-disabled="!adData.setCap" data-toggle="dropdown">
+                            <li><a data-value="Daily" ng-click="frequencySelected('Daily')" data-ng-bind="textConstants.DAILY"></a></li>
+                            <li><a data-value="Lifetime" ng-click="frequencySelected('Lifetime')" data-ng-bind="textConstants.LIFETIME"></a></li>
+                        </ul>
+                        <input type="hidden" name="frequencyType" value="{{selectedFreq}}" ng-model="capsPeriod" ng-update-hidden/>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>

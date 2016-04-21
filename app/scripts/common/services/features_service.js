@@ -1,8 +1,10 @@
 define(['angularAMD','workflow/services/workflow_service','common/services/vistoconfig_service'], function (angularAMD) {
     angularAMD.service('featuresService', function ($rootScope,$location,workflowService,vistoconfig) {
 
-        var params = ['dashboard','report_overview', 'inventory', 'performance', 'quality', 'cost', 'optimization_impact', 'platform', 'scheduled', 'collective',
-            'scheduled_reports', 'collective_insights', 'create_mediaplan', 'dashboard', 'mediaplan_list', 'ad_setup', 'mediaplan_hub', 'creative_list', 'reports_tab'];
+        var params = ['dashboard','report_overview', 'inventory', 'performance', 'quality', 'cost', 'optimization_create', 
+            'optimization_transparency', 'platform', 'scheduled', 'collective',
+            'scheduled_reports', 'collective_insights', 'create_mediaplan', 'dashboard', 'mediaplan_list', 'ad_setup', 
+            'mediaplan_hub', 'creative_list', 'reports_tab'];
 
         this.featureParams = [];
 
@@ -19,8 +21,7 @@ define(['angularAMD','workflow/services/workflow_service','common/services/visto
         //initialize feature params
         this.setAllFeatureParams(false);
 
-        this.setSingleFeatureParam = function (fParam,boolStatus) {
-            var self = this;
+        this.setSingleFeatureParam = function (fParam, boolStatus) {
             switch (fParam) {
                 case 'REP_OVERVIEW':
                     this.featureParams[0].report_overview = boolStatus;
@@ -83,20 +84,18 @@ define(['angularAMD','workflow/services/workflow_service','common/services/visto
             this.featureParams[0].performance = false;
             this.featureParams[0].quality = false;
             this.featureParams[0].cost = false;
-            this.featureParams[0].optimization_impact = false;
+            this.featureParams[0].optimization_transparency = false;
             this.featureParams[0].platform = false;
             this.featureParams[0].scheduled_reports = false;
             this.featureParams[0].collective_insights = false;
         }
 
         this.setFeatureParams = function (featuresArr) {
-            //featuresArr = ['REPORTS_TAB','DASHBOARD','REP_INV','CREATIVE_LIST','REP_SCH']
-            console.log('Feature array: ',featuresArr);
             this.serverResponseReceived = true;
             //API passes parameters :
             var self = this;
 
-            if (featuresArr.indexOf('ENABLE_ALL') !==-1) {
+            if (featuresArr.indexOf('ENABLE_ALL') !== -1) {
                 //Enable all features
                 this.setAllFeatureParams(true);
             } else {
@@ -104,8 +103,8 @@ define(['angularAMD','workflow/services/workflow_service','common/services/visto
                 this.setAllFeatureParams(false);
 
                 //set params true sent in enable list of API
-                _.each(featuresArr, function (features,index) {
-                    self.setSingleFeatureParam(features,true);
+                _.each(featuresArr, function (feature, index) {
+                    self.setSingleFeatureParam(feature, true);
                 })
 
                 //check if reports tab not there
@@ -114,7 +113,7 @@ define(['angularAMD','workflow/services/workflow_service','common/services/visto
                 }
 
                 if (featuresArr.indexOf('MEDIAPLAN_HUB') < 0) {
-                    this.setSingleFeatureParam('AD_SETUP',false);
+                    this.setSingleFeatureParam('AD_SETUP', false);
                 }
 
             }

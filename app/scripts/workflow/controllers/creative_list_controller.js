@@ -1,7 +1,5 @@
-define(['angularAMD','common/services/constants_service','workflow/services/workflow_service',
-    'common/moment_utils', 'workflow/controllers/bulk_creative_controller','workflow/directives/filter_directive', 'login/login_model'], function (angularAMD) {
-  angularAMD.controller('CreativeListController', function($scope, $rootScope, $routeParams, $route, $location,
-    constants, domainReports, workflowService, momentService,loginModel) {
+define(['angularAMD','common/services/constants_service','workflow/services/workflow_service','common/moment_utils', 'login/login_model', 'reporting/advertiser/advertiser_model', 'workflow/controllers/bulk_creative_controller', 'workflow/directives/filter_directive'], function (angularAMD) {
+  angularAMD.controller('CreativeListController', function($scope, $rootScope, $routeParams, $route, $location, constants, domainReports, workflowService, momentService, loginModel, advertiserModel) {
         var checkedCreativeArr=[];
         $scope.creativeAds={};
         $scope.creativeAds['creativeAdData'] = {};
@@ -24,8 +22,8 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
         $scope.loadCreativeData=false;
         $scope.deletePopup=false;
         $scope.successfulRecords = [];
-        $scope.clientId = '';
-        var advertiserId = '';
+        $scope.clientId = loginModel.getSelectedClient().id;
+
         //$scope.creativeData.creatives_count=1;
         //highlight the header menu - Dashborad, Campaigns, Reports
         domainReports.highlightHeaderMenu();
@@ -117,6 +115,7 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
 
         var creativeList = {
             getCreativesList: function (campaignId, formats, query,pageSize,pageNo) {
+                var advertiserId = advertiserModel.getSelectedAdvertiser().id;
                 workflowService.getCreativesforCreativeList(campaignId, formats, query,pageSize,pageNo,advertiserId, function (result) {
                     $scope.creativeListLoading = false;
                     $scope.creativesNotFound = false;
@@ -313,6 +312,8 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
           //Note: Not sure if this is required just retaining - Sapna
           var campaignData, clientId, clientName;
           var selectedClientObj = localStorage.selectedClient && JSON.parse(localStorage.selectedClient);
+          $scope.pageSize=20;
+          $scope.pageNo = 1;
           if(selectedClientObj) {
               clientId = JSON.parse(localStorage.selectedClient).id;
               clientName = JSON.parse(localStorage.selectedClient).name;
@@ -323,16 +324,11 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
                   };
                   localStorage.setItem('campaignData', JSON.stringify(campaignData));
               }
-          } // Note ends here  - Sapna
-
-          $scope.pageSize=20;
-          $scope.pageNo = 1;
-          if($scope.clientId) {
               $scope.creativeListLoading = true;
               $scope.creativesNotFound = false;
               $scope.creativeSearch = '';
               $scope.creativeData['creatives']=[];
-              creativeList.getCreativesList($scope.clientId,'','',$scope.pageSize,$scope.pageNo);
+              creativeList.getCreativesList(clientId,'','',$scope.pageSize,$scope.pageNo);
           }else {
               $scope.creativeListLoading = false;
               $scope.creativesNotFound = true;
@@ -341,18 +337,10 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
 
       // broadcasted from filter directive once it fetches subaccounts
       $rootScope.$on('filterChanged',function(event, args){
-           if(args.from == 'creativeList') {
-               //it's required for bulkupload of creatives
-               localStorage.setItem('creativeAccountId',args.clientId);
-
-               $scope.clientId = args.clientId;
-               advertiserId = args.advertiserId;
                init();
-           }
       });
 
       if($scope.isLeafNode) {
-          $scope.clientId = loginModel.getSelectedClient().id;
           init();
       }
 

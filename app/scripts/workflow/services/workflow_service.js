@@ -1,14 +1,13 @@
 define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/constants_service',
     'common/services/data_service', 'login/login_model', 'common/services/request_cancel_service'],
     function (angularAMD) {
-        'use strict';
-
         angularAMD.factory('workflowService', function ($rootScope, vistoconfig, constants, dataService, loginModel,
                                                        requestCanceller) {
             var mode,
                 adDetails,
                 newCreative,
                 platform,
+                seat,
                 savedGeo,
                 vistoModule,
                 creativeMode,
@@ -29,7 +28,10 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                 integrationObj.active = true; // TODO hardcoded true for now...
                 integrationObj.summary = platform.description;
                 integrationObj.vendorCapabilities=platform.vendorCapabilities;
-
+                integrationObj.seats = platform.seats;
+                _.each(integrationObj.seats, function(obj, idx) {
+                        integrationObj.seats[idx]['platform_id'] = platform.id;  integrationObj.seats[idx]['iconUrl'] = platform.iconURL;
+                    });
                 return integrationObj;
             }
 
@@ -128,13 +130,15 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                     });
                 },
 
-                getPlatforms: function (cacheObj) {
+                getPlatforms: function (cacheObj, advertiserId) {
                     var clientId = loginModel.getSelectedClient().id,
-                        //url = vistoconfig.apiPaths.WORKFLOW_API_URL +  '/clients/' + clientId +
-                    // '/platforms?sortBy=displayName',
-                        url = vistoconfig.apiPaths.WORKFLOW_API_URL +
-                            '/clients/' + clientId + '/vendors?vendorType=EXECUTION_PLATFORM&sortBy=name';
+                        campaignData = JSON.parse(localStorage.getItem("campaignData"));
+                    if(!advertiserId  && campaignData) {
+                        advertiserId = campaignData.advertiserId;
+                    }
 
+                    var url = vistoconfig.apiPaths.WORKFLOW_API_URL +
+                        '/clients/' + clientId + '/advertisers/' + advertiserId +'/vendors?vendorType=EXECUTION_PLATFORM&sortBy=name';
                     return dataService.fetch(url, cacheObj);
                 },
 
@@ -156,6 +160,9 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
 
                     if (searchTerm) {
                         url = 'http://qa-desk.collective.com/api/reporting/v3' +
+
+
+
                             '/clients/' + clientId +
                             '/campaigns/' + campaignId +
                             '/search/adgroups?search_term=' + searchTerm;
@@ -480,11 +487,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
 
             uploadBulkCreativeUrl: function(adServerId, creativeFormat, templateId) {
 
-                if(loginModel.getMasterClient().isLeafNode){
-                    var clientId = loginModel.getSelectedClient().id;
-                } else {
-                    var clientId = JSON.parse(localStorage.getItem('creativeAccountId'));
-                }
+                var clientId = loginModel.getSelectedClient().id;
 
                 return  vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/adserver/' + adServerId
                     + '/format/' + creativeFormat.replace(/\s+/g, '').toUpperCase() + '/template/' + templateId + '/creatives/bulkimport';
@@ -584,6 +587,13 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                     return dataService.fetch(url);
                 },
 
+                getLineItem: function (campaignId) {
+                    var clientId = loginModel.getSelectedClient().id,
+                        url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/campaigns/' + campaignId +'/lineitems?flat_fee=false&archived=false';
+
+                    return dataService.fetch(url);
+                },
+
                 setModuleInfo: function (module) {
                     vistoModule = module;
                 },
@@ -641,8 +651,16 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                     platform = m;
                 },
 
+                setPlatformSeat: function(platformSeat) {
+                    seat = platformSeat
+                },
+
                 getPlatform: function () {
                     return platform;
+                },
+
+                getSeat: function () {
+                    return seat;
                 },
 
                 getObjectives: function () {

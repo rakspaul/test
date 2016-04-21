@@ -11,7 +11,7 @@
                 <span class="icon-plus" ng-click="ToggleAdGroups(this)"></span> 
             </a>
             <!-- -->
-            <span class="heading" style="float:left;"><h3 ng-bind-html="textConstants.REPORT_BUILDER"></h3></span>
+            <span class="heading" style="float:left;"><h1 ng-bind-html="textConstants.REPORT_BUILDER"></h1></span>
             <!-- this will be hidden after fold-->
             <span class="heading subTitle"><h6 ng-bind-html="textConstants.REPORT_BUILDER_SUBTITLE"></h6></span>
             <!-- -->
@@ -58,7 +58,7 @@
                                                 </li>
                                                 <li ng-repeat="dimension in customeDimensionData[0].dimensions"
                                                     id="{{dimension.key}}"
-                                                    ng-click="selectPriSecDimension(dimension, 'Primary')"
+                                                    ng-click="selectPriSecDimension(dimension, 'Primary')" ng-if="checkDimension(dimension.key)"
                                                     ng-bind-html="dimension.value">
                                                 </li>
                                             </ul>
@@ -356,7 +356,7 @@
                                             </div>
 
                                             <!--  Quality Metrics -->
-                                            <div  class="col-md-3 each_measurable_col">
+                                            <div  class="col-md-3 each_measurable_col" ng-if="showQuality">
                                                 <div class="custom_report_col_title">
                                                     <div class="external_chkbox clearfix">
                                                         <div class="squaredFour"
@@ -384,7 +384,7 @@
                                             </div>
 
                                             <!-- video quality metrics -->
-                                            <div  class="col-md-3 each_measurable_col">
+                                            <div  class="col-md-3 each_measurable_col" ng-if="showQuality">
                                                 <div class="custom_report_col_title">
                                                     <div class="external_chkbox clearfix">
                                                         <div class="squaredFour"
@@ -507,7 +507,7 @@
 
             <!-- 3rd Row Save/Schedule -->
             <div class="row create_scheduled_report">
-                <div class="col-md-12  each_section_custom_report">
+                <div class="col-md-12 zeroPadding each_section_custom_report">
                     <div class="create_report_title">
                         <div class="clearfix scheduled_report_fields">
                             <div class="each-col" id="schedule-btn">
@@ -539,7 +539,7 @@
                             <div class="each-col default-schedule-col report-name-col">
                                 <div class="label-txt">{{textConstants.REPORT_NAME}}</div>
                                 <div>
-                                    <input style="height:36px; width:300px;" type="text" ng-model="reports.name" maxlength="256">
+                                    <input style="height:36px; width:100%;" type="text" ng-model="reports.name" maxlength="256">
                                 </div>
                             </div>
                             <div class="each-col default-schedule-col" ng-show="reportTypeSelect !== 'Save'" >
@@ -657,7 +657,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="each-col scheduling-options schedule-date" style="width:258px;" ng-show="reportTypeSelect !== 'Save'" >
+                            <div class="each-col scheduling-options schedule-date"  ng-show="reportTypeSelect !== 'Save'" >
                                 <div class="input-daterange-scheduled">
                                     <div class="input-daterange input-group date pull-left">
                                         <div class="dateWrapper" style="width:258px;">
@@ -697,13 +697,14 @@
                 <div class="row">
                     <div class="col-md-12">
                         <span class="pull-right common-loading-btn" style="width:150px;" ng-show="loadingBtn"></span>
-                        <button class="pull-right common_primary_btn report_generate_button {{generateBtnDisabled ?
+                        <button class="pull-right btn btn-primary {{generateBtnDisabled ?
                                     'disabled' :
                                     ''}}"
                                 ng-click="scheduleReportAction();"
-                                ng-bind-html="buttonLabel" ng-show="!loadingBtn">
+                                ng-bind-html="buttonLabel" ng-show="!loadingBtn" style="margin-left:10px;">
                         </button>
-                        <button class="pull-right secondary_txt"
+
+                        <button class="pull-right btn btn-default"
                                 ng-click="resetMetricOptions();"
                                 ng-bind-html="buttonResetCancel" ng-class="reportTypeSelect === 'Save' ? 'save_reset glyphicon glyphicon-repeat' : ''">
                         </button>
@@ -740,7 +741,7 @@
                         <!--<div class="each_tab" ng-click="show_respective_table('booked')" id="booked_tab">
                             <span>Booked</span>
                         </div>-->
-                        <div class="each_tab" ng-click="show_respective_table('cost')" id="cost_tab" ng-if="showCost">
+                        <div class="each_tab" ng-click="show_respective_table('cost')" id="cost_tab" ng-show="showCost">
                             <span>Cost</span>
                         </div>
                         <!--<div class="each_tab" ng-click="show_respective_table('engagement')" id="engagement_tab">
@@ -762,7 +763,7 @@
                             <div class="each_row heading_row">
                                 <div class="inner_heading_row">
                                     <div class="each_col tree_dimension_col" ng-bind-html="reportTitle"></div>
-                                    <div class="each_col" ng-class="addReqClassToSort(dm.value,sortType,sortReverse)" ng-click="clickToSort(dm.value);"
+                                    <div class="each_col_delivery" ng-class="addReqClassToSort(dm.value,sortType,sortReverse)" ng-click="clickToSort(dm.value);"
                                          ng-repeat="dm in metricKeyArr.delivery_metrics track by $index"
                                          ng-bind-html="dm.value">
                                     </div>
@@ -817,7 +818,7 @@
                         </div>
                         <div ng-if="fetching" class="common-load-more"></div>
                     </div>
-                    <div class="custom_report_response_table" id="cost_table" style="display:none;" ng-if="showCost">
+                    <div class="custom_report_response_table" id="cost_table" style="display:none;" ng-show="showCost">
                         <div class="custom_report_scroll">
                             <div class="each_row heading_row">
                                 <div class="inner_heading_row">
@@ -1162,16 +1163,15 @@
         </div>
 
         <!----- Delivery report data ------------------------>
-        <div class="each_col" ng-if="customeReportData.impressions>=0" ng-bind="customeReportData.impressions | nrFormat"></div>
-        <div class="each_col" ng-if="customeReportData.clicks>=0" ng-bind="customeReportData.clicks | nrFormat"></div>
-        <div class="each_col" ng-if="customeReportData.ctr>=0" ng-bind="customeReportData.ctr | kpiFormatter:'ctr'"></div>
-        <div class="each_col" ng-if="customeReportData.post_imp>=0" ng-bind="customeReportData.post_imp | nrFormat"></div>
-        <div class="each_col" ng-if="customeReportData.post_click>=0" ng-bind="customeReportData.post_click | nrFormat"></div>
-        <div class="each_col" ng-if="customeReportData.pccr>=0" ng-bind="customeReportData.pccr | number:2"></div>
-        <div class="each_col" ng-if="customeReportData.actions>=0" ng-bind="customeReportData.actions | nrFormat"></div>
-        <div class="each_col" ng-if="customeReportData.pub_payout>=0" ng-bind="customeReportData.pub_payout | nrFormat"></div>
-        <div class="each_col" ng-if="customeReportData.gross_ecpm>=0" ng-bind="customeReportData.gross_ecpm | number:2"></div>
-        <div class="each_col" ng-if="customeReportData.gross_ecpc>=0" ng-bind="customeReportData.gross_ecpc | number:2"></div>
+        <div class="each_col_delivery" ng-if="customeReportData.impressions>=0" ng-bind="customeReportData.impressions | nrFormat"></div>
+        <div class="each_col_delivery" ng-if="customeReportData.clicks>=0" ng-bind="customeReportData.clicks | nrFormat"></div>
+        <div class="each_col_delivery" ng-if="customeReportData.ctr>=0" ng-bind="customeReportData.ctr | kpiFormatter:'ctr'"></div>
+        <div class="each_col_delivery" ng-if="customeReportData.post_imp>=0" ng-bind="customeReportData.post_imp | nrFormat"></div>
+        <div class="each_col_delivery" ng-if="customeReportData.post_click>=0" ng-bind="customeReportData.post_click | nrFormat"></div>
+        <div class="each_col_delivery" ng-if="customeReportData.pccr>=0" ng-bind="customeReportData.pccr | number:2"></div>
+        <div class="each_col_delivery" ng-if="customeReportData.actions>=0" ng-bind="customeReportData.actions | nrFormat"></div>
+        <div class="each_col_delivery" ng-if="customeReportData.pub_payout>=0" ng-bind="customeReportData.pub_payout | nrFormat"></div>
+
 
         <!----- Cost report data ------------------------>
         <div class="each_col_cost" ng-if="customeReportData.ad_servicing_cost>=0"
@@ -1200,6 +1200,8 @@
         <div class="each_col_cost" ng-if="customeReportData.research_cost>=0"
              ng-bind="customeReportData.research_cost | nrFormat">
         </div>
+        <div class="each_col_cost" ng-if="customeReportData.gross_ecpm>=0" ng-bind="customeReportData.gross_ecpm | number:2"></div>
+        <div class="each_col_cost" ng-if="customeReportData.gross_ecpc>=0" ng-bind="customeReportData.gross_ecpc | number:2"></div>
 
         <!----- booked report data ------------------------
         <div class="each_col" ng-if="customeReportData.ad_count>=0">{{customeReportData.ad_count}}</div>

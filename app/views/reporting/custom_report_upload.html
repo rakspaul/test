@@ -62,7 +62,9 @@
 				<li ng-repeat="file in reportsUploadList">{{file.name}} {{file.size}} :::: {{file.status}}</li>
 			</ol> -->
 
-			        <div class="custom_report_response_page " ng-show="reportsUploadList.length">
+
+        <div class="custom_report_response_page " ng-show="reportsUploadList.length">
+            <filter-directive ng-if="!isLeafNode" from="customReportUpload"></filter-directive>
 			        	<div class="upload_files_container {{(showStatus()) ? 'some_status' : ''}} "> <!-- add some_status when some status is there -->
 			              <div class="table_header clearfix" >
 							<span class="each-col status-col">Status</span>
@@ -83,8 +85,8 @@
 										<div class="disabled_dropdown" ng-show="(file.status == 'uploading' || file.status == 'success')"></div>
 										<!-- <select data-ng-options="o.name for o in reportTypeList" ng-model="file.reportType" class="pull-left" ng-click="$event=$event;" ng-change="show_report_name_txtbox($event);"></select> -->
 										<div class="dropdown">
-								                <span data-toggle="dropdown" class="dropdown_txt" ng-click="toggle_dropdown($event);" id="reportTypeDropdownTxt">PCAR</span>
-								                <ul class="dropdown-menu" id="reportTypeDropdown">
+								                <span data-toggle="dropdown" class="dropdown_txt reportTypeDropdownTxt" ng-click="toggle_dropdown($event);" id="reportTypeDropdownTxt">PCAR</span>
+								                <ul class="dropdown-menu reportTypeDropdown" id="reportTypeDropdown">
 								                    <li ng-repeat="filetype in reportTypeList" ng-click="show_report_name_txtbox($event); file.reportType =''+filetype.name">{{filetype.name}}</li>
 								                </ul>
 								         </div>
@@ -96,7 +98,7 @@
 											<div class="disabled_dropdown" ng-show="(file.status == 'uploading' || file.status == 'success')"></div>
 										<div class="clearfix nav_filters">
 											<div class="pull-left dropdown breadcrumb_nav_campaign">
-												<campaign-drop-down selected-obj=selectedCampaign file-index="index" multi-campaign="yes"> </campaign-drop-down>
+												<campaign-drop-down selected-obj=selectedCampaign file-index="index" all-campaign="false" multi-campaign="yes"> </campaign-drop-down>
 											</div>
 										</div>
 									</div>

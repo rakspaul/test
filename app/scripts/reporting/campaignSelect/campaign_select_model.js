@@ -1,8 +1,8 @@
 define(['angularAMD','../../common/services/url_service','common/services/data_service','reporting/kpiSelect/kpi_select_model',
                      'login/login_model', 'reporting/advertiser/advertiser_model'], function (angularAMD) {
-  angularAMD.factory("campaignSelectModel", ['urlService', 'dataService', 'kpiSelectModel',
+  angularAMD.factory("campaignSelectModel", ['$rootScope','urlService', 'dataService', 'kpiSelectModel',
                                              'loginModel', 'advertiserModel',
-    function (urlService, dataService, kpiSelectModel, loginModel, advertiserModel) {
+    function ($rootScope,urlService, dataService, kpiSelectModel, loginModel, advertiserModel) {
 
     var campaign = {};
     campaign.campaigns = {};

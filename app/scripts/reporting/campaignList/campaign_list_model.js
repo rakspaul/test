@@ -32,31 +32,37 @@ define(['angularAMD','reporting/campaignList/campaign_list_service', 'common/ser
                     this.displayTimePeriod = angular.uppercase(this.selectedTimePeriod.display);
 
                     this.sortFieldList = [
-                        { display: 'Media Plan', key: 'campaign_name'},
-                        { display: 'Advertiser', key: 'advertiser_name'},
-                        { display: 'Flight Dates', key: 'start_date', className: 'active'}
+                        {display: 'Media Plan', key: 'campaign_name'},
+                        {display: 'Advertiser', key: 'advertiser_name'},
+                        {display: 'Flight Dates', key: 'start_date', className: 'active'}
                     ];
 
                     this.cdbDataMap = {};
                     this.campaignList = [];
                     this.costBreakdownList = [];
+
                     this.performanceParams = {
                         nextPage: 1,
                         lastPage: false
                     };
+
                     this.CBdownParams = {
                         nextPage: 1,
                         lastPage: false
                     };
+
                     this.pageSize = 5;
+
                     this.tabActivation = {
                         costTab: 0,
                         performanceTab: 0
                     };
+
                     this.scrollFlag = 1;
                     this.costList = {};
                     this.costIds = '';
                     this.selectedCostType = 'cpa';
+
                     this.costDate = {
                         startDate: undefined,
                         endDate: undefined
@@ -70,22 +76,27 @@ define(['angularAMD','reporting/campaignList/campaign_list_service', 'common/ser
                     this.sortDirection = 'desc';
                     this.brandId = brandsModel.getSelectedBrand().id;
                     this.client_id = loginModel.getSelectedClient().id;
+
                     this.dashboard = {
                         filterTotal: 1,
                         filterSelectAll: false,
                         displayFilterSection: false,
                         busy: false,
+
                         pending: {
                             width: undefined
                         },
+
                         active: {
                             width: undefined,
                             ontrackWidth: undefined
                         },
+
                         completed: {
                             width: undefined,
                             ontrackWidth: undefined
                         },
+
                         // filterActive: '(active,underperforming)',
                         quickFilterSelected: this.getCapitalizeString(constants.ACTIVE),
                         quickFilterSelectedCount: 0,
@@ -93,6 +104,7 @@ define(['angularAMD','reporting/campaignList/campaign_list_service', 'common/ser
                         filterReady: undefined,
                         filterDraft: undefined,
                         filterCompleted: undefined,
+
                         status: {
                             active: {
                                 bothItem: '',
@@ -100,10 +112,12 @@ define(['angularAMD','reporting/campaignList/campaign_list_service', 'common/ser
                                 ontrack: '',
                                 endingSoon: ''
                             },
+
                             pending: {
                                 draft: '',
                                 ready: ''
                             },
+
                             completed: {
                                 underperforming: '',
                                 ontrack: ''
@@ -120,10 +134,12 @@ define(['angularAMD','reporting/campaignList/campaign_list_service', 'common/ser
                         this.campaignList = [];
                         this.timePeriod = 'life_time';
                         this.busy = false;
+
                         this.performanceParams = {
                             nextPage: 1,
                             lastPage: false
                         };
+
                         this.sortParam = 'start_date';
                         this.sortDirection = 'desc';
                         this.dashboard.quickFilterSelectedCount = 0;
@@ -151,6 +167,7 @@ define(['angularAMD','reporting/campaignList/campaign_list_service', 'common/ser
                                 nextPage: 1,
                                 totalPages: 0
                             };
+
                             this.costBreakdownList = [];
                             this.resetTabActivation();
                         },
@@ -162,7 +179,8 @@ define(['angularAMD','reporting/campaignList/campaign_list_service', 'common/ser
                                 this.searchTerm = searchTerm;
                             }
 
-                            if (performanceTab.hasClass('active') === false && $('#cost_tab').hasClass('active') === false) {
+                            if (performanceTab.hasClass('active') === false &&
+                                $('#cost_tab').hasClass('active') === false) {
                                 performanceTab.addClass('active');
                             }
 
@@ -455,11 +473,13 @@ define(['angularAMD','reporting/campaignList/campaign_list_service', 'common/ser
                             var self = this,
                                 advertiserId = advertiserModel.getSelectedAdvertiser().id,
                                 brandId = brandsModel.getSelectedBrand().id,
+
                                 hideLoader = function () {
                                     _.each(costidsList, function (value) {
                                         self.costList[value].costDataLoading = false
                                     });
                                 },
+
                                 costidsList = this.costIds.split(',');
 
                             _.each(costidsList, function (value) {
@@ -472,6 +492,7 @@ define(['angularAMD','reporting/campaignList/campaign_list_service', 'common/ser
                                 moment(this.costDate.startDate).format('YYYY-MM-DD'),
                                 moment(this.costDate.endDate).format('YYYY-MM-DD'),
                                 advertiserId, brandId,
+
                                 function (result) {
                                     if (result.status === 'success' &&
                                         !angular.isString(result.data) &&
@@ -705,7 +726,8 @@ define(['angularAMD','reporting/campaignList/campaign_list_service', 'common/ser
                                 /*
                                 case constants.PAUSED_CONDITION:
                                     this.appliedQuickFilterText = constants.PAUSED;
-                                    this.dashboard.quickFilterSelectedCount = this.dashboard[constants.PAUSED.toLowerCase()];
+                                    this.dashboard.quickFilterSelectedCount =
+                                        this.dashboard[constants.PAUSED.toLowerCase()];
                                     this.dashboard.status.paused= constants.ACTIVE;
                                     type = constants.PAUSED.toLowerCase();
                                     break;
@@ -726,7 +748,7 @@ define(['angularAMD','reporting/campaignList/campaign_list_service', 'common/ser
                                     this.dashboard.status.archived = constants.ACTIVE;
                                     type = constants.ARCHIVED.toLowerCase();
                                     break;
-                                
+
                                 case constants.ALL_CONDITION:
                                     this.appliedQuickFilterText = constants.ALL;
                                     this.dashboard.quickFilterSelectedCount =

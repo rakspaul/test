@@ -123,6 +123,9 @@
   margin: 0 auto;
   float: none;
 }
+#creativeList .creative_filter_dropdowns {
+  margin-top: -15px;
+}
 #creativeList .creativeAdBulkDiv {
   padding: 30px 0;
   min-height: 465px;
