@@ -56,7 +56,9 @@
             <input style="width:130px; padding-top:10px;" type="text" class="form-control" ng-model="adData.unitCost" fraction-numbers="fraction-numbers" name="unitCost" ng-keyup = "adBudgetValidator();">
         </div>
     </div>
+    
     <label class="col-sm-12 control-label greyTxt miniLabels" data-ng-bind="textConstants.BUDGETCAL"></label>
+    
     <div class="btn-group miniToggle">
         <label class="btn btn-default budget_{{adData.budgetTypeLabel | lowercase}} active"><span data-ng-bind="adData.budgetTypeLabel"></span>
             <input type="radio" name="budgetType" value="{{adData.budgetTypeLabel}}" checked ng-model="adData.budgetType" class="btn_rad budget_type" hidden="hidden" ng-click=" resetBudgetField(); toggleBtn($event); ">
