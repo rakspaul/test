@@ -177,18 +177,19 @@
 <div class="col-md-12 spacingInput"><!-- SPACING --></div>
 
 <!--Row 4-->
-<div class="col-md-12 zeroPadding">
+<div class=" form-group col-md-12 zeroPadding">
     <label for="nameTitleCampaign" class="col-sm-12  labelQuestTxt">When would you like your Media Plan to run?</label>
     <div class="span4 col-md-12 input-daterange input-group date pull-left" id="datepicker">
-
         <div class="col-md-12 dateWrapper form-group" show-errors>
             <div class="dateContainer">
                 <label class="col-sm-12  greyTxt miniLabels">{{ textConstants.START_DATE }}</label>
-                <input type="text" id="startDateInput" placeholder="MM/DD/YYYY" class="form-control" readonly name="startTime" ng-model="selectedCampaign.startTime" ng-change=" handleFlightDate(selectedCampaign)" required />
+                <!--<input type="text" class="form-control" id="nameTitleCampaign" remove-special-character ='remove-special-character' name="abcd" ng-model="editCampaignData.name"  ng-value="editCampaignData.name" autofocus maxlength="250" ng-maxlength="250" required/>-->
+
+                <input type="text" id="startDateInput" placeholder="MM/DD/YYYY" class="form-control" readonly name="startTime" ng-init="selectedCampaign.startTime" ng-model="selectedCampaign.startTime" ng-value="selectedCampaign.startTime" ng-change=" handleFlightDate(selectedCampaign)" required />
             </div>
             <div class="dateContainer" style="padding-left: 10px;">
                 <label class="col-sm-12  greyTxt miniLabels">{{ textConstants.END_DATE }}</label>
-                <input type="text" id="endDateInput" placeholder="MM/DD/YYYY" class="form-control" readonly name="endTime" ng-model="selectedCampaign.endTime"  required/>
+                <input type="text" id="endDateInput" placeholder="MM/DD/YYYY" class="form-control" readonly name="endTime" ng-init="selectedCampaign.endTime" ng-model="selectedCampaign.endTime" value="selectedCampaign.endTime" required/>
             </div>
             <label ng-if="createCampaignForm.startTime.$error.required" class="col-sm-12  greyTxt errorLabel">{{textConstants.STARTDATE_REQUIRED}}.</label>
         </div>
@@ -245,8 +246,8 @@
             <span class="symbol" ng-if="(kpiName === 'Impressions')">#</span>
             <span class="symbol" ng-if="(kpiName === 'CTR' || kpiName === 'VTC' || kpiName === 'Action Rate')">%</span>
             <span class="symbol" ng-if="(kpiName === 'CPA' || kpiName === 'CPM' || kpiName === 'CPC')">$</span>
-            <input type="text" class="col-md-12" style="text-indent: 8px;height:36px;" ng-model="Campaign.kpiArr[$index]['kpiValue']" ng-keyup="setLeftNavPrimaryKpi($index); ComputeCost()" field="kpiValue"  whole-number-only="whole-number-only" index="{{$index}}" required/>
-            <label ng-if="Campaign.kpiArr[$index]['kpiValue']==='0'"  class="col-sm-12  greyTxt errorLabel" style="display:inline;" ng-bind="textConstants.TARGET_GREATER_THAN_ZERO"></label>
+            <input type="text" class="col-md-12" style="text-indent: 8px;height:36px;" ng-model="kpiValue"  field="kpiValue"  whole-number-only="whole-number-only" name="kpiValue" required/>
+            <label ng-if="kpiValue==='0'"  class="col-sm-12  greyTxt errorLabel" style="display:inline;" ng-bind="textConstants.TARGET_GREATER_THAN_ZERO"></label>
         </div>
 
     </div>
