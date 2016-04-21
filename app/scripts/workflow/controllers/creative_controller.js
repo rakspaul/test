@@ -1,4 +1,4 @@
-define(['angularAMD','common/services/constants_service','workflow/services/workflow_service','workflow/services/creative_custom_module','workflow/directives/creative_drop_down','workflow/directives/ng_upload_hidden','login/login_model'],function (angularAMD) {
+define(['angularAMD','common/services/constants_service','workflow/services/workflow_service','workflow/services/creative_custom_module', 'login/login_model', 'workflow/directives/creative_drop_down','workflow/directives/ng_upload_hidden'],function (angularAMD) {
   angularAMD.controller('CreativeController', function($scope, $rootScope, $routeParams, $location, constants, workflowService,creativeCustomModule,loginModel) {
      // $scope.creativeFormat="DISPLAY";
       $scope.creative={};
@@ -32,8 +32,9 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
 
       var processEditCreative=function(){
           var creativeId=$routeParams.creativeId;
+
           workflowService
-              .getCreativeData(creativeId,$scope.creative.clientId)
+              .getCreativeData(creativeId,loginModel.getSelectedClient().id)
               .then(function (result) {
                   if (result.status === "OK" || result.status === "success") {
                       $scope.creativeEditData=result.data.data;
@@ -341,39 +342,6 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
       $scope.resetAlertMessage = function () {
           $rootScope.setErrAlertMessage('', 0);
       };
-      /*
-       $scope.prarentHandler = function (clientId, clientName, advertiserId, advertiserName) {
-       var campaignData = {
-       'advertiserId': advertiserId,
-       'advertiserName': advertiserName,
-       'clientId': clientId,
-       'clientName': clientName
-       };
-       /*in adPage, hardcode advertiser and call select Handler for Brand
-      if($scope.adPage){
-          var data={
-              'id':advertiserId,
-              'name':advertiserName
-          }
-          $scope.selectHandler('advertiser',data)
-      }
-
-      $scope.campaignId = clientId;
-      $scope.advertiserId = advertiserId;
-      localStorage.setItem('campaignData', JSON.stringify(campaignData));
-      creatives.getCreativeSizes(clientId, advertiserId);
-      // Ad create Mode.  [PS:In edit mode, on response data in processeditmode, broadcast is made to fetch]
-      if ($scope.mode !== 'edit' && $scope.adPage) {
-          creatives.fetchAdFormats();
-          $scope.$broadcast('adFormatChanged', 'DISPLAY');
-      }
-      /*In creative List Page to create new creative
-      if(!$scope.adPage){
-          getAdServers();
-          creatives.fetchAdvertisers();
-      }
-  };
-       */
 
       $scope.prarentHandler = function () {
           if($scope.adPage){
@@ -397,6 +365,8 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
           // Ad create Mode.  [PS:In edit mode, on response data in processeditmode, broadcast is made to fetch]
           if ($scope.mode !== 'edit' && $scope.adPage) {
               creatives.fetchAdFormats();
+              $scope.subAccountName = data.name;
+              $scope.subAccountId = data.id;
               $scope.$broadcast('adFormatChanged', 'DISPLAY');
           }
           /*In creative List Page to create new creative*/
@@ -439,133 +409,88 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
       }
       $scope.prarentHandler();
 
-      //$(function () {
-          $scope.submitForm=function(form){
-              //$('#saveCreative').on('click', function (form) {
-              var formElem,
-                  formData,
-                  PatternOutside,
-                  PatternInside,
-                  tagLower;
-              var indexArr=[];
+      $scope.submitForm=function(form){
+          var formElem,
+              formData,
+              PatternOutside,
+              PatternInside,
+              tagLower;
+          var indexArr=[];
 
-              $scope.$broadcast('show-errors-check-validity');
-              if (form.$valid) {
-              //if ($scope.formCreativeCreate.$valid) {
-                  //formElem = $('#formCreativeCreate');
-                  var formDataObj = $("#formCreativeCreate").serializeArray();
-                  //console.log("formDataObj",formDataObj)
-                  formData = _.object(_.pluck(formDataObj, 'name'), _.pluck(formDataObj, 'value'));
-                  postCrDataObj = {};
-                  postCrDataObj.name = formData.name;
-                  postCrDataObj.clientId = $scope.creative.clientId;//$scope.campaignId;
-                  postCrDataObj.advertiserId = formData.advertiserId;
-                  postCrDataObj.brandId = formData.brandId;
-                  postCrDataObj.isTracking = $scope.TrackingIntegrationsSelected;
-                  postCrDataObj.adServerId = formData.creativeAdServer;
-                  postCrDataObj.creativeFormat=$scope.creativeFormat.replace(/\s+/g, '').toUpperCase();
-                  postCrDataObj.sslEnable = 'true';
-                  postCrDataObj.tag = '%%TRACKER%%';
-                  postCrDataObj.sizeId = formData.creativeSize;
-                  postCrDataObj.creativeType = formData.creativeType;
-                  postCrDataObj.vendorCreativeTemplateId = formData.creativeTemplate;
-                  if ($scope.TrackingIntegrationsSelected) {
-                    postCrDataObj.tag = '%%TRACKER%%';
-                      validTag=true;
-                  }else{
-                      validateScriptTag(formData.tag);
-                  }
-                  if (validTag) {
-                      var validCreativeUrl = true;
-                      $('#invalidUrl').remove();
-                      for(var i=0;i< formDataObj.length;i++){
-                          if (["name","subAccountId","advertiserId","brandId","adFormat","creativeFormat","sslEnable","creativeAdServer","creativeTemplate","tag","creativeSize","creativeType"].indexOf(formDataObj[i].name) >= 0) {
-                              indexArr.push(i);// contains all indexes of static Markup which will have to be removed before adding to the list.
-                          }
+          $scope.$broadcast('show-errors-check-validity');
+          if (form.$valid) {
+              var formDataObj = $("#formCreativeCreate").serializeArray();
+              formData = _.object(_.pluck(formDataObj, 'name'), _.pluck(formDataObj, 'value'));
+              postCrDataObj = {};
+              postCrDataObj.name = formData.name;
+              postCrDataObj.clientId = $scope.creative.clientId;//$scope.campaignId;
+              postCrDataObj.advertiserId = formData.advertiserId;
+              postCrDataObj.brandId = formData.brandId;
+              postCrDataObj.isTracking = $scope.TrackingIntegrationsSelected;
+              postCrDataObj.adServerId = formData.creativeAdServer;
+              postCrDataObj.creativeFormat=$scope.creativeFormat.replace(/\s+/g, '').toUpperCase();
+              postCrDataObj.sslEnable = 'true';
+              postCrDataObj.tag = '%%TRACKER%%';
+              postCrDataObj.sizeId = formData.creativeSize;
+              postCrDataObj.creativeType = formData.creativeType;
+              postCrDataObj.vendorCreativeTemplateId = formData.creativeTemplate;
+              if ($scope.TrackingIntegrationsSelected) {
+                postCrDataObj.tag = '%%TRACKER%%';
+                  validTag=true;
+              }else{
+                  validateScriptTag(formData.tag);
+              }
+              if (validTag) {
+                  var validCreativeUrl = true;
+                  $('#invalidUrl').remove();
+                  for(var i=0;i< formDataObj.length;i++){
+                      if (["name","subAccountId","advertiserId","brandId","adFormat","creativeFormat","sslEnable","creativeAdServer","creativeTemplate","tag","creativeSize","creativeType"].indexOf(formDataObj[i].name) >= 0) {
+                          indexArr.push(i);// contains all indexes of static Markup which will have to be removed before adding to the list.
                       }
-                      /*Arr of objects of template HTML, which needs to be sent in the List in post Json*/
-                      var templateArr = $.grep(formDataObj, function(n, i) {
-                          return $.inArray(i, indexArr) ==-1;
+                  }
+                  /*Arr of objects of template HTML, which needs to be sent in the List in post Json*/
+                  var templateArr = $.grep(formDataObj, function(n, i) {
+                      return $.inArray(i, indexArr) ==-1;
+                  });
+
+                      $scope.IncorrectTag = false;
+                      postCrDataObj.creativeCustomInputs = _.map(templateArr, function (data) {
+                          var d = data.name.split('$$');
+
+                          if(d[0] === 'clickthrough_url.clickthrough_url' && data.value !== ''){
+                              // validate if the url is valid
+                              validCreativeUrl = workflowService.validateUrl(data.value);
+                              if(validCreativeUrl === false){
+                                  $("[name='"+data.name+"']").parent().append("<label id='invalidUrl' class='col-sm-12 control-label errorLabel' style='display:block'>Please enter a valid url.</label>")
+                              }
+                          }
+                          return {
+                              'creativeCustomInputId': Number(d[1]),
+                              'value': data.value
+                          };
                       });
 
-                          $scope.IncorrectTag = false;
-                          postCrDataObj.creativeCustomInputs = _.map(templateArr, function (data) {
-                              var d = data.name.split('$$');
+                      if(validCreativeUrl) {
+                          $scope.creativeSave(postCrDataObj);
+                      }
+          }
+          }
+      };
 
-                              if(d[0] === 'clickthrough_url.clickthrough_url' && data.value !== ''){
-                                  // validate if the url is valid
-                                  validCreativeUrl = workflowService.validateUrl(data.value);
-                                  if(validCreativeUrl === false){
-                                      $("[name='"+data.name+"']").parent().append("<label id='invalidUrl' class='col-sm-12 control-label errorLabel' style='display:block'>Please enter a valid url.</label>")
-                                  }
-                              }
-                              return {
-                                  'creativeCustomInputId': Number(d[1]),
-                                  'value': data.value
-                              };
-                          });
-
-                          if(validCreativeUrl) {
-                              $scope.creativeSave(postCrDataObj);
-                          }
-              }
-              }
-          };
-     // });
       var validateScriptTag= function (scriptTag) {
           var pattern,
               tagLower;
           pattern=new RegExp(/.*(https:).*/);
           tagLower = scriptTag.toLowerCase().replace(' ', '').replace(/(\r\n|\n|\r)/gm, '');
           if (tagLower.match(pattern)) {
-              //if ((tagLower.indexOf('%%tracker%%') > -1)) {
                   postCrDataObj.tag=scriptTag;
                   validTag=true;
-              //} else {
-              //    validTag=false;
-              //    $scope.IncorrectTag = true;
-              //    $scope.IncorrectTagMessage = $scope.textConstants.WF_INVALID_CREATIVE_TAG_TRACKER;
-              //}
-          }else {
+          } else {
               validTag=false;
               $scope.IncorrectTag = true;
               $scope.IncorrectTagMessage = 'You have entered an invalid Javascript tag.Please review carefully and try again';
               console.log('Incorrect tag');
           }
-
-          //var PatternOutside,
-          //    PatternInside,
-          //    tagLower;
-          //
-          //PatternOutside = new RegExp(/<script.*>.*(https:).*<\/script>.*/);
-          //PatternInside = new RegExp(/<script.*(https:).*>.*<\/script>.*/);
-          //tagLower = scriptTag.toLowerCase().replace(' ', '').replace(/(\r\n|\n|\r)/gm, '');
-          //if (tagLower.match(PatternOutside)) {
-          //    if ((tagLower.indexOf('%%tracker%%') > -1)) {
-          //        postCrDataObj.tag=scriptTag;
-          //        validTag=true;
-          //        //$scope.creativeSave(templateArr);
-          //    } else {
-          //        validTag=false;
-          //        $scope.IncorrectTag = true;
-          //        $scope.IncorrectTagMessage = $scope.textConstants.WF_INVALID_CREATIVE_TAG_TRACKER;
-          //    }
-          //} else if (tagLower.match(PatternInside)) {
-          //    if ((tagLower.indexOf('%%tracker%%') > -1)) {
-          //        postCrDataObj.tag=scriptTag;
-          //        validTag=true;
-          //        //$scope.creativeSave(templateArr);
-          //    } else {
-          //        validTag=false;
-          //        $scope.IncorrectTag = true;
-          //        $scope.IncorrectTagMessage = $scope.textConstants.WF_INVALID_CREATIVE_TAG_TRACKER;
-          //    }
-          //} else {
-          //    validTag=false;
-          //    $scope.IncorrectTag = true;
-          //    $scope.IncorrectTagMessage = 'You have entered an invalid Javascript tag.Please review carefully and try again';
-          //    console.log('Incorrect tag');
-          //}
       }
 
       $scope.creativeSave = function (postCrDataObj) {
@@ -589,7 +514,7 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
                           localStorage.setItem( 'topAlertMessage', $scope.textConstants.CREATIVE_SAVE_SUCCESS);
                       } else if (result.status === 'error'){
                           $scope.savingCreative = false;
-                          $scope.Message = 'Unable to create Creative';
+                          $scope.Message = result.data.data.message || 'Unable to create Creative';
                           $scope.partialSaveAlertMessage = true;
                           $rootScope.setErrAlertMessage($scope.Message,1);
                       } else if (result.data.data.message ==='Creative with this tag already exists. If you still want to save, use force save') {

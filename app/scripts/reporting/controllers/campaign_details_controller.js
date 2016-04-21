@@ -4,15 +4,15 @@ define(['angularAMD', 'reporting/timePeriod/time_period_model', 'common/services
     'reporting/campaignList/campaign_list_model', 'reporting/campaignSelect/campaign_select_model',
     'reporting/strategySelect/strategy_select_model', 'reporting/common/charts/actions', 'common/services/data_service',
     'common/utils', 'reporting/common/charts/pie_chart', 'reporting/common/charts/solid_gauge',
-    'common/services/constants_service', 'common/services/features_service', 'login/login_model', 'login/login_service', 'reporting/brands/brands_model',
-    'common/services/url_service', 'common/moment_utils', 'common/services/role_based_service',
-    'reporting/advertiser/advertiser_model', 'reporting/kpiSelect/kpi_select_model', 'common/services/data_store_model',
+    'common/services/constants_service', 'common/services/features_service', 'login/login_model', 'login/login_service',
+    'reporting/brands/brands_model', 'common/services/url_service', 'common/moment_utils',
+    'common/services/role_based_service', 'reporting/advertiser/advertiser_model',
+    'reporting/kpiSelect/kpi_select_model', 'common/services/data_store_model',
     'common/services/vistoconfig_service', 'reporting/models/domain_reports',
     'reporting/editActions/edit_actions_model', 'reporting/models/activity_list',
     'reporting/controllers/actions_controller', 'reporting/editActions/edit_actions_controller',
     'reporting/common/d3/campaign_chart', 'reporting/common/d3/quartiles_graph', 'reporting/directives/strategy_card',
-    'reporting/common/d3/pie_chart', 'reporting/advertiser/advertiser_directive', 'reporting/brands/brands_directive'
-],
+    'reporting/common/d3/pie_chart', 'reporting/advertiser/advertiser_directive', 'reporting/brands/brands_directive'],
 function (angularAMD) {
     'use strict';
 
@@ -30,12 +30,112 @@ function (angularAMD) {
         var orderBy = $filter('orderBy'),
             campaign = campaignListService,
             //onCampaignCount = 0,
-            Campaigns = campaignListModel;
+            Campaigns = campaignListModel,
+            fparams = featuresService.getFeatureParams(),
+            featuredFeatures = $rootScope.$on('features', function () {
+                var fparams = featuresService.getFeatureParams();
+                $scope.createOptimization = fparams[0].optimization_create;
+                $scope.showOptimization = fparams[0].optimization_transparency;
+            }),
+            //API call for campaign details
+            clientId = loginModel.getSelectedClient().id,
+            url = vistoconfig.apiPaths.apiSerivicesUrl_NEW +
+                '/clients/' + clientId +
+                '/campaigns/' + $routeParams.campaignId,
+            eventActionCreatedFunc = $rootScope.$on(constants.EVENT_ACTION_CREATED, function (event, args) {
+                var callbackFunctionName = args.loadingFlag === 2  ?  $scope.refreshGraph : $scope.getCdbChartData;
+                dataStore.deleteFromCache(urlService.APIActionData($routeParams.campaignId));
+                updateActionItems(callbackFunctionName, args.loadingFlag, args.showExternal);
+            }),
+            callRefreshGraphData = $rootScope.$on('callRefreshGraphData', function (event,args) {
+            $scope.refreshGraph(args);
+        });
+
+        function getCustomQueryParams(queryId) {
+            var datefilter = timePeriodModel.getTimePeriod(timePeriodModel.timeData.selectedTimePeriod.key);
+            return {
+                queryId: queryId,
+                campaignId: $scope.campaign.orderId,
+                clientId: loginModel.getSelectedClient().id,
+                advertiserId: advertiserModel.getSelectedAdvertiser().id,
+                brandId: brandsModel.getSelectedBrand().id,
+                dateFilter: datefilter
+            };
+        }
+
+        function updateActionItems(callbackCDBGraph,loadingFlag,showExternal) {
+            if (!$scope.showOptimization) {
+                // dont call the activities api if the user doesn't have permission
+                return;
+            }
+            var params = getCustomQueryParams(constants.QUERY_ID_CAMPAIGN_REPORTS_FOR_OPTIMIZATION_IMPACT);
+
+            params.make_external = false;
+            $scope.activityLogFlag = false;
+
+            dataService
+                .fetch(urlService.APIVistoCustomQuery(params), {cache: false})
+                .then(function (result) {
+                    var i,
+                        j,
+                        actionItemsArray,
+                        counter,
+                        actionItems,
+                        strategyByActionId,
+                        actionItemsLen;
+
+                    $scope.activityLogFlag = true;
+                    if (result.status === 'success') {
+                        actionItemsArray = [];
+                        counter = 0;
+                        actionItems = result.data.data;
+                        strategyByActionId = {};
+                        actionItemsLen = actionItems.length;
+
+                        if (actionItemsLen > 0) {
+                            for (i = actionItemsLen - 1; i >= 0; i--) {
+                                for (j = actionItems[i].action.length - 1; j >= 0; j--) {
+                                    actionItems[i].action[j].action_color = vistoconfig.actionColors[counter % 9];
+                                    actionItemsArray.push(actionItems[i].action[j]);
+                                    strategyByActionId[actionItems[i].action[j].id] = actionItems[i];
+                                    counter++;
+                                }
+                            }
+
+                            $scope.strategyByActionId = strategyByActionId;
+                            activityList.data.data = actionItemsArray;
+                            //dataService.updateLastViewedAction($routeParams.campaignId);
+                        } else {
+                            //preventing the model from sharing old data when no activity is present for other campaigns
+                            activityList.data.data = undefined;
+                        }
+                    } else { //if error
+                        activityList.data.data = undefined;
+                    }
+
+                    /*
+                     set 0 = when Add activity no need to do anything
+                     set 1 = when page refresh initial graph loading with call back function (getCdbChartData)
+                     set 2 = when edit activity just referesh the graph with call back function (refreshGraph)
+                     */
+                    switch(loadingFlag) {
+                        case 1:
+                            callbackCDBGraph && callbackCDBGraph($scope.campaign);
+                            break;
+                        case 2:
+                            callbackCDBGraph && callbackCDBGraph(showExternal);
+                            break;
+                    }
+                }, function (result) {
+                    console.log('call failed');
+                });
+        }
+
+        $scope.campaigns = new Campaigns();
 
         $scope.activityLogFlag = false;
         brandsModel.disable();
         $scope.api_return_code = 200;
-
         $scope.textConstants = constants;
         $scope.isStrategyDropDownShow = false;
         $scope.actionItems = activityList.data;
@@ -48,18 +148,6 @@ function (angularAMD) {
         $scope.loadingPlatformFlag = true;
         $scope.loadingAdSizeFlag = true;
         $scope.activityLogFilterByStatus = true;
-
-        //Hot fix to show the campaign tab selected
-        $('.main_navigation')
-            .find('.active')
-            .removeClass('active')
-        .end()
-            .find('#reports_nav_link')
-            .addClass('active');
-
-        $scope.campaigns = new Campaigns();
-        //var campaignList = [];
-
         $scope.details = {
             campaign: null,
             details: null,
@@ -72,7 +160,6 @@ function (angularAMD) {
         $scope.isLocaleSupportUk =
             RoleBasedService.getClientRole().i18n && RoleBasedService.getClientRole().i18n.locale === 'en-gb';
         $scope.isWorkFlowUser = RoleBasedService.getClientRole() && RoleBasedService.getClientRole().workFlowUser;
-
         $scope.details.sortParam = 'startDate';
         //by default is desc...  most recent strategies should display first.
         $scope.details.sortDirection = 'desc';
@@ -80,16 +167,9 @@ function (angularAMD) {
             return (dir === 'asc' ? 'desc': 'asc');
         };
 
-        var fparams = featuresService.getFeatureParams();
-        $scope.showCostWidget = fparams[0]['cost'];
-        $scope.createOptimization = fparams[0]['optimization_create'];
-        $scope.showOptimization = fparams[0]['optimization_transparency'];
-
-        var featuredFeatures = $rootScope.$on('features', function () {
-            var fparams = featuresService.getFeatureParams();
-            $scope.createOptimization = fparams[0]['optimization_create'];
-            $scope.showOptimization = fparams[0]['optimization_transparency'];
-        });
+        $scope.showCostWidget = fparams[0].cost;
+        $scope.createOptimization = fparams[0].optimization_create;
+        $scope.showOptimization = fparams[0].optimization_transparency;
 
         $scope.details.resetSortParams = function () {
             $scope.details.sortParam = undefined;
@@ -97,9 +177,10 @@ function (angularAMD) {
         };
 
         $scope.details.sortIcon = function (fieldName) {
-            if ($scope.details.sortParam == fieldName) {
-                return $scope.details.sortDirection == 'asc' ? 'ascending' : 'descending';
+            if ($scope.details.sortParam === fieldName) {
+                return $scope.details.sortDirection === 'asc' ? 'ascending' : 'descending';
             }
+
             return '';
         };
 
@@ -181,6 +262,7 @@ function (angularAMD) {
 
             if ($rootScope.isFromCampaignList === true) {
                 listCampaign = campaignListService.getListCampaign();
+
                 if (angular.isObject(listCampaign)) {
                     campListCampaign = {
                         id: listCampaign.id,
@@ -202,12 +284,6 @@ function (angularAMD) {
         $scope.$on(constants.EVENT_CAMPAIGN_CHANGED, function (event) {
             $location.path('/mediaplans/' + campaignSelectModel.getSelectedCampaign().id);
         });
-
-        //API call for campaign details
-        var clientId = loginModel.getSelectedClient().id,
-            url = vistoconfig.apiPaths.apiSerivicesUrl_NEW +
-                    '/clients/' + clientId +
-                    '/campaigns/' + $routeParams.campaignId;
 
         dataService.getSingleCampaign(url).then(function (result) {
             var dataArr,
@@ -288,7 +364,7 @@ function (angularAMD) {
         });
 
         //TODO: Performance Chart - Moving to D3
-         $scope.getCdbChartData = function (campaign) {
+        $scope.getCdbChartData = function (campaign) {
             //API call for campaign chart
             dataService
                 .getCdbChartData(campaign, 'life_time', 'campaigns', null)
@@ -375,92 +451,6 @@ function (angularAMD) {
                     }
                 });
         };
-
-        var eventActionCreatedFunc = $rootScope.$on(constants.EVENT_ACTION_CREATED, function (event, args) {
-            var callbackFunctionName = args.loadingFlag === 2  ?  $scope.refreshGraph : $scope.getCdbChartData;
-            dataStore.deleteFromCache(urlService.APIActionData($routeParams.campaignId));
-            updateActionItems(callbackFunctionName, args.loadingFlag, args.showExternal);
-        });
-
-        function getCustomQueryParams(queryId) {
-            var datefilter = timePeriodModel.getTimePeriod(timePeriodModel.timeData.selectedTimePeriod.key);
-            return {
-                queryId: queryId,
-                campaignId: $scope.campaign.orderId,
-                clientId: loginModel.getSelectedClient().id,
-                advertiserId: advertiserModel.getSelectedAdvertiser().id,
-                brandId: brandsModel.getSelectedBrand().id,
-                dateFilter: datefilter
-            };
-        }
-
-        function updateActionItems(callbackCDBGraph,loadingFlag,showExternal) {
-            if (!showOptimization) {
-                // dont call the activities api if the user doesn't have permission
-                return;
-            }
-            var params = getCustomQueryParams(constants.QUERY_ID_CAMPAIGN_REPORTS_FOR_OPTIMIZATION_IMPACT);
-
-            params.make_external = false;
-            $scope.activityLogFlag = false;
-
-            dataService
-                .fetch(urlService.APIVistoCustomQuery(params), {cache: false})
-                .then(function (result) {
-                    var i,
-                        j,
-                        actionItemsArray,
-                        counter,
-                        actionItems,
-                        strategyByActionId,
-                        actionItemsLen;
-
-                    $scope.activityLogFlag = true;
-                    if (result.status === 'success') {
-                        actionItemsArray = [];
-                        counter = 0;
-                        actionItems = result.data.data;
-                        strategyByActionId = {};
-                        actionItemsLen = actionItems.length;
-
-                        if (actionItemsLen > 0) {
-                            for (i = actionItemsLen - 1; i >= 0; i--) {
-                                for (j = actionItems[i].action.length - 1; j >= 0; j--) {
-                                    actionItems[i].action[j].action_color = vistoconfig.actionColors[counter % 9];
-                                    actionItemsArray.push(actionItems[i].action[j]);
-                                    strategyByActionId[actionItems[i].action[j].id] = actionItems[i];
-                                    counter++;
-                                }
-                            }
-
-                            $scope.strategyByActionId = strategyByActionId;
-                            activityList.data.data = actionItemsArray;
-                            //dataService.updateLastViewedAction($routeParams.campaignId);
-                        } else {
-                            //preventing the model from sharing old data when no activity is present for other campaigns
-                            activityList.data.data = undefined;
-                        }
-                    } else { //if error
-                        activityList.data.data = undefined;
-                    }
-
-                    /*
-                       set 0 = when Add activity no need to do anything
-                       set 1 = when page refresh initial graph loading with call back function (getCdbChartData)
-                       set 2 = when edit activity just referesh the graph with call back function (refreshGraph)
-                    */
-                    switch(loadingFlag) {
-                        case 1:
-                             callbackCDBGraph && callbackCDBGraph($scope.campaign);
-                            break;
-                        case 2:
-                            callbackCDBGraph && callbackCDBGraph(showExternal);
-                            break;
-                    }
-                }, function (result) {
-                    console.log('call failed');
-                });
-        }
 
         //$scope.details.actionChart = actionChart.lineChart();
         //Function called when the user clicks on the Load more button
@@ -751,7 +741,6 @@ function (angularAMD) {
                 $scope.loadingScreenFlag = false;
 
                 if (result.status === 'success' && !angular.isString(result.data)) {
-                    screensDataPerfMtcs;
                     screensData = [];
                     $scope.chartDataScreen = [];
                     screenResponseData = result.data.data;
@@ -897,6 +886,7 @@ function (angularAMD) {
                     $scope.loadingPlatformFlag = false;
                     $scope.chartDataPlatform = [];
                     $scope.chartData = [];
+
                     if ((result.status === 'OK' || result.status === 'success') && !angular.isString(result.data)) {
                         // Step 2 Data Mod Restructure of the Array on memory
                         resultData = result.data.data;
@@ -1172,7 +1162,7 @@ function (angularAMD) {
             // fetch strategy list and retain selected strategy.
 
             localStorage.setItem('isNavigationFromCampaigns', true);
-            localStorage.setItem('selectedAction',JSON.stringify(action) );
+            localStorage.setItem('selectedAction', JSON.stringify(action) );
 
             //grunt    analytics.track(loginModel.getUserRole(), constants.GA_CAMPAIGN_DETAILS,
             // 'activity_log_detailed_report', loginModel.getLoginName(), action.id);
@@ -1229,8 +1219,6 @@ function (angularAMD) {
                 utils.goToLocation(vistoconfig.OPTIMIZATION_LINK);
             }
         };
-
-        $scope.campaigns = new Campaigns();
 
         $scope.watchActionFilter = function (filter, showExternal) {
             $scope.activityLogFilterByStatus = showExternal;
@@ -1325,6 +1313,7 @@ function (angularAMD) {
                 return $scope.getPercentDiff(expectedSpend, spend);
             }
         };
+
         $scope.getPercentDiff = function (expected, actual) {
             return (expected > 0) ? utils.roundOff((actual - expected) * 100 / expected, 2) : 0;
         };
@@ -1335,6 +1324,7 @@ function (angularAMD) {
             if (typeof strategy === 'undefined') {
                 return 0;
             }
+
             return $scope.getPercentDiff(expectedSpend, strategy.grossRev);
         };
 
@@ -1462,10 +1452,6 @@ function (angularAMD) {
             };
         };
 
-        var callRefreshGraphData = $rootScope.$on('callRefreshGraphData', function (event,args) {
-            $scope.refreshGraph(args);
-        });
-
         $scope.$on('$destroy', function () {
             eventActionCreatedFunc();
             callRefreshGraphData();
@@ -1474,6 +1460,7 @@ function (angularAMD) {
         $scope.refreshCampaignDetailsPage = function () {
             $rootScope.$broadcast('closeEditActivityScreen');
         };
+
         $scope.refreshCampaignDetailsPage();
 
         $(document).ready(function () {
@@ -1669,9 +1656,18 @@ function (angularAMD) {
             });
         });
 
+        //Hot fix to show the campaign tab selected
+        $('.main_navigation')
+            .find('.active')
+            .removeClass('active')
+            .end()
+            .find('#reports_nav_link')
+            .addClass('active');
+
         angularAMD.inject(function ($rootScope, $route, vistoconfig) {
             $rootScope.$on('$locationChangeSuccess',function (evt, absNewUrl, absOldUrl) {
                 var prevUrl = absOldUrl.substring(absOldUrl.lastIndexOf('/'));
+
                 //var paramsObj = $route.current.params;
                 if ((prevUrl === vistoconfig.MEDIA_PLANS_LINK) && (absNewUrl !== vistoconfig.MEDIA_PLANS_LINK)) {
                     $rootScope.isFromCampaignList = true;

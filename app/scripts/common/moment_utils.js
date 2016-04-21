@@ -32,7 +32,7 @@ define(['angularAMD', 'moment', 'login/login_model', 'common/services/constants_
 
         this.addDays = function(dateFormat, noOfDays) {
             return moment().add('days', noOfDays).format(dateFormat);
-        }
+        };
 
         this.reportDateFormat = function(reportDateTime) {
             var yesterday = moment().subtract(1, 'day');

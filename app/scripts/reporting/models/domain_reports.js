@@ -225,9 +225,9 @@ define(['angularAMD', '../../login/login_model', 'common/services/role_based_ser
                     }
 
 
-                    if (!loginModel.cookieExists())
+                    if (!loginModel.cookieExists()) {
                         loginModel.checkCookieExpiry();
-                    else {
+                    } else {
                         $scope.reportDownloadBusy = true;
                         dataService.downloadFile(report_url).then(function (response) {
                             if (response.status === "success") {
@@ -345,7 +345,7 @@ define(['angularAMD', '../../login/login_model', 'common/services/role_based_ser
         };
     }]);
 
-    angularAMD.directive('filtersHeader', ['$rootScope','$http', '$compile', 'constants','loginModel', function ($rootScope,$http, $compile,constants,loginModel) {
+    angularAMD.directive('filtersHeader', ['$location','$rootScope','$http', '$compile', 'constants','loginModel', function ($location,$rootScope,$http, $compile,constants,loginModel) {
         return {
             controller: function ($scope, $cookieStore, $location) {
             },
@@ -354,7 +354,6 @@ define(['angularAMD', '../../login/login_model', 'common/services/role_based_ser
             link: function (scope, element, attrs) {
                 scope.reportFilter = attrs.reports;
                 scope.textConstants = constants;
-                scope.allCampaign = attrs.allCampaign;
                 scope.showStrategies = attrs.strategies;
                 var masterClient = loginModel.getMasterClient();
                 scope.isLeafNode = true;
@@ -368,6 +367,14 @@ define(['angularAMD', '../../login/login_model', 'common/services/role_based_ser
                 var masterClientChanged = $rootScope.$on(constants.ACCOUNT_CHANGED, function (event, args) {
                     scope.isLeafNode = loginModel.getMasterClient().isLeafNode;
                 });
+
+                var locationUrl = $location.url();
+                if(locationUrl == '/reports/list') {
+                    scope.allCampaign = true;
+                } else {
+                    scope.allCampaign = false;
+                }
+
                 if (scope.allCampaign == "true" || scope.allCampaign == true) {
                     scope.selectedCampaign = {
                         id: 0,

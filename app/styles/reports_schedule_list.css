@@ -105,9 +105,11 @@
 .reports-scheduled-list .scheduled_list_table .hideOption {
   display: none;
 }
+.reports-scheduled-list .scheduled_list_table .highlight-row,
 .reports-scheduled-list .scheduled_list_table .rowHover:hover {
   background-color: #DCE6F1;
 }
+.reports-scheduled-list .scheduled_list_table .highlight-row .hideOption,
 .reports-scheduled-list .scheduled_list_table .rowHover:hover .hideOption {
   display: block;
 }

@@ -1,18 +1,18 @@
 define(['angularAMD','../common/services/constants_service'], function (angularAMD) {
     angularAMD.service("loginModel", function ($cookieStore, $location, $http, constants) {
+        var data = {
+                user_id: undefined,
+                user_name: '',
+                is_workflow_user: true, //set the cookie value -->hardcoded
+                auth_token: undefined,
+                expiry_secs: undefined,
+                login_name: undefined,
+                agency_id: undefined
+            },
 
-        var data = {};
-        data.user_id = undefined;
-        data.user_name = '';
-        data.is_workflow_user = true;//set the cookie value -->hardcoded
-        data.auth_token = undefined;
-        data.expiry_secs = undefined;
-        data.login_name = undefined;
-        data.agency_id = undefined;
-
-        var updateRedirectUrl = function (value) {
-            $cookieStore.put(constants.COOKIE_REDIRECT, value);
-        };
+            updateRedirectUrl = function (value) {
+                $cookieStore.put(constants.COOKIE_REDIRECT, value);
+            };
 
         return {
             deleteData: function () {
@@ -40,12 +40,23 @@ define(['angularAMD','../common/services/constants_service'], function (angularA
                 return localStorage.getItem('selectedClient') && JSON.parse(localStorage.getItem('selectedClient'));
             },
 
-            setMasterAndClient: function(masterId,masterName,isLeafNode,clientId,clientName) {
-                localStorage.setItem('masterClient', JSON.stringify({'id':masterId,'name':masterName,'isLeafNode':isLeafNode}));
-                if(isLeafNode) {
-                    localStorage.setItem('selectedClient', JSON.stringify({'id':masterId,'name':masterName}));
+            setMasterAndClient: function(masterId, masterName, isLeafNode, clientId, clientName) {
+                localStorage.setItem('masterClient', JSON.stringify({
+                    id: masterId,
+                    name: masterName,
+                    isLeafNode: isLeafNode
+                }));
+
+                if (isLeafNode) {
+                    localStorage.setItem('selectedClient', JSON.stringify({
+                        id: masterId,
+                        name: masterName
+                    }));
                 } else {
-                    localStorage.setItem('selectedClient', JSON.stringify({'id':clientId,'name':clientName}));
+                    localStorage.setItem('selectedClient', JSON.stringify({
+                        id: clientId,
+                        name: clientName
+                    }));
                 }
             },
 
@@ -57,13 +68,11 @@ define(['angularAMD','../common/services/constants_service'], function (angularA
                 return JSON.parse(localStorage.getItem('clientData'));
             },
 
-
-
             setUser: function (user) {
                 data = user;
 
-                //var time = moment().add(user.expiry_secs, 'seconds'),
-                  //  expiryTime = new Date(time);
+                // var time = moment().add(user.expiry_secs, 'seconds'),
+                // expiryTime = new Date(time);
                 document.cookie = 'cdesk_session=' + JSON.stringify(user) + ';expires='  + ';path=/';
 
                 // campaignDetails object is required for reports tab.
@@ -80,7 +89,7 @@ define(['angularAMD','../common/services/constants_service'], function (angularA
             },
 
             getIsAgencyCostModelTransparent: function () {
-                return true;//for now until we define cost transparencies.  Sriram. Dec 28th.
+                return true;// TODO: for now until we define cost transparencies.  Sriram. Dec 28th.
                 if (data.is_network_user) {
                     data.cost_transparency = true;
                 }
@@ -157,8 +166,12 @@ define(['angularAMD','../common/services/constants_service'], function (angularA
             },
 
             checkCookieExpiry: function () {
+                var redirectPath;
+
                 if (!$cookieStore.get('cdesk_session')) {
+                    redirectPath = localStorage.getItem('cdeskRedirect');
                     localStorage.clear();
+                    localStorage.setItem('cdeskRedirect', redirectPath);
                     if ($location.$$path !== '/login') {
                         updateRedirectUrl($location.$$path);
                     }
@@ -192,8 +205,6 @@ define(['angularAMD','../common/services/constants_service'], function (angularA
             forbidden: function () {
                 $location.url('/mediaplans');
             }
-
         }; //return
-
-    }) //loginModel
+    }); //loginModel
 });

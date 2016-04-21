@@ -653,7 +653,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
 
             },
-            platforms: function () {
+            platforms: function (advertiserId) {
                 if ($scope.mode === 'create') {
                     $scope.Campaign.kpiArr.push({
                         kpiType: 'Impressions',
@@ -675,7 +675,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                         description: ''
                     });
                 }
-                workflowService.getPlatforms({cache: false}).then(function (result) {
+                workflowService.getPlatforms({cache: false}, advertiserId).then(function (result) {
                     if (result.status === "OK" || result.status === "success") {
                         var responseData = result.data.data;
                         //wrapper to transform new API response to old one
@@ -794,6 +794,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     $scope.selectedCampaign.advertiserId = data.id;
                     $("#brandDDL").parents('.dropdown').find('button').html("Select Brand <span class='icon-arrow-down'></span>");
                     createCampaign.fetchBrands($scope.selectedCampaign.clientId, data.id);
+                    createCampaign.platforms(data.id);
                     break;
                 case 'brand' :
                     $scope.selectedCampaign.brandId = data.id;
@@ -1077,7 +1078,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 });
             });
             createCampaign.Kpi();
-            createCampaign.platforms();
+            //createCampaign.platforms();
 
             // createCampaign.vendor();/*from costcategory*/
             createCampaign.costCategories();

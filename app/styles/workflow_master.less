@@ -144,6 +144,14 @@ strong {
     margin: 0;
 }
 
+.currencySymWLabel {
+    position: absolute;
+    left: 10px;
+    top: 45px !important;
+    z-index: 10;
+    line-height: 100%;
+}
+
 .helpLink {
     opacity: .3;
     text-decoration: none !important;
@@ -2307,6 +2315,34 @@ input.cmn-toggle-round:checked + label:after {
     }
 }
 
-tags-input .tags .tag-item {
-    background: #edf2f8;
+//Pills Styling
+tags-input {
+    .tags .tag-item {
+        background: #edf2f8;
+        width: auto !important;
+        padding: 6px 5px !important;
+        .remove-button {
+            vertical-align: bottom;
+        }
+    }
+    ul {
+        li {
+            width: 100% !important;
+            padding: 3px 15px !important;
+            span {
+                cursor: pointer;
+                width: 100%;
+                font-family: "Avenir";
+                font-size: 14px;
+            }
+        }
+        li:hover, li:focus, .suggestion-item.selected {
+            background: #e1edf9 !important;
+            padding: 3px 15px !important;
+            span {
+                color: #21252b;
+                text-decoration: none;
+            }
+        }
+    }
 }

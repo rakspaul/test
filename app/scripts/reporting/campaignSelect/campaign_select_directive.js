@@ -31,6 +31,7 @@ define(['angularAMD', 'common/services/constants_service'],function (angularAMD)
                 });
 
                 $('.campaign_name_selected').click(function (event) {
+                    var elem = $(event.target);
                     if($scope.multiCampaign == undefined) {
                         if ($('#campaigns_list').css('display') === 'block') {
                          $('#campaigns_list').hide();
@@ -59,6 +60,14 @@ define(['angularAMD', 'common/services/constants_service'],function (angularAMD)
                         event.stopImmediatePropagation();
                     }
 
+                    // to close the other media plan dropdown which is open
+                    $(".mediaplan-dd-open").removeClass("mediaplan-dd-open") ;
+                    $(".report-type-col .dropdown-menu").hide() ;
+                    elem.siblings(".dropdown_type1").addClass("mediaplan-dd-open") ;
+                    $(".dropdown_type1").not(".mediaplan-dd-open").hide() ;
+                    $(".mediaplan-dd-open").show() ;
+
+
                 });
 
                 $scope.add_active_selection = function() {
@@ -72,8 +81,11 @@ define(['angularAMD', 'common/services/constants_service'],function (angularAMD)
                     } else {
                         localStorageCampaignData = JSON.parse(localStorage.getItem('selectedCampaign'));
                     }
-                    if(event.target.id !== 'campaignDropdown' && event.target.id !== 'campaign_name_selected' && $('#campaigns_list').css('display') == "block" ) {
-                        $("#campaigns_list").hide();
+               
+
+                    // if(event.target.id !== 'campaignDropdown' && event.target.id !== 'campaign_name_selected' && $('#campaigns_list').css('display') == "block" ) {
+                    if(( $(event.target).closest(".campaignDropdown").length == 0) && ( $(event.target).closest(".campaign_name_selected").length == 0)  && $('.campaigns_list').is(':visible') == true ) {
+                        $(".campaigns_list").hide();
                         var inputValue;
                         if(localStorageCampaignData.id || (localStorageCampaignData.id === $scope.$parent.selectedCampaign.id)) {
                             inputValue = localStorageCampaignData.name;
