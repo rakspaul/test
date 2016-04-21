@@ -286,6 +286,14 @@ define(['angularAMD','common/services/vistoconfig_service', 'common/services/con
             return vistoconfig.apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId + '/savedreports/updateReport/' + reportId;
         }
 
+        this.getInvoiceData = function() {
+            var clientId =  loginModel.getMasterClient().id;
+            var url = vistoconfig.apiPaths.apiSerivicesUrl_NEW + '/clients/2/invoices/list?advertiser_id=-1&start_date=2016-01-01&end_date=2016-04-25';
+            //var url = vistoconfig.apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId + '/invoices/list?advertiser_id=' + advertiserId + '&start_date=' + startDate + '&end_date=' + endDate+'&page_num=1' +'&page_size=50';
+            return url;
+        }
+
+
 
     }]);
 });

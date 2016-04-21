@@ -1,10 +1,7 @@
 
 <div class="col-md-12 zeroPadding">
-
     <h1 style="margin-top: 30px; margin-bottom:25px;">Invoice Reports</h1>
-
-    </div>
-
+</div>
 <div class="row">
     <div class="col-md-4">
         <div class="pull-left"">
@@ -95,45 +92,18 @@
 		    <div class="col-md-2 th">Invoice Date</div>
                 </div>
             </div>
-
         <!--Table Body-->
         <div class="tbody">
             <div class="tr oneDimensionRow">
-                <div class="parentWrap">
-
-                    <div class="col-md-2 td">Test</div>
-                    <div class="col-md-2 td">Ford</div>
-                    <div class="col-md-3 td">Camry 2017</div>
-                    <div class="col-md-3 td">Fast, Red</div>
-                    <div class="col-md-2 td">02/17/2016</div>
-
+                <div data-ng-repeat="invoice in invoiceData" class="parentWrap">
+                    <div class="col-md-2 td">{{invoice.account}}</div>
+                    <div class="col-md-2 td">{{invoice.advertiser}}</div>
+                    <div class="col-md-3 td">{{invoice.mediaPlanName}}</div>
+                    <div class="col-md-3 td"></div>
+                    <div class="col-md-2 td">{{invoice.invoiceDate}}</div>
                 </div>
             </div>
 
-
-            <div class="tr oneDimensionRow">
-                <div class="parentWrap">
-
-                    <div class="col-md-2 td">Test</div>
-                    <div class="col-md-2 td">Ford</div>
-                    <div class="col-md-3 td">Camry 2017</div>
-                    <div class="col-md-3 td">Fast, Red</div>
-                    <div class="col-md-2 td">02/17/2016</div>
-
-                </div>
-            </div>
-
-            <div class="tr oneDimensionRow">
-                <div class="parentWrap">
-
-                    <div class="col-md-2 td">Test</div>
-                    <div class="col-md-2 td">Ford</div>
-                    <div class="col-md-3 td">Camry 2017</div>
-                    <div class="col-md-3 td">Fast, Red</div>
-                    <div class="col-md-2 td">02/17/2016</div>
-
-                </div>
-            </div>
         </div>
         </div>
     </div>
