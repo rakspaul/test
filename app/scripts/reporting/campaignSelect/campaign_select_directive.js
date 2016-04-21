@@ -31,6 +31,7 @@ define(['angularAMD', 'common/services/constants_service'],function (angularAMD)
                 });
 
                 $('.campaign_name_selected').click(function (event) {
+                    var elem = $(event.target);
                     if($scope.multiCampaign == undefined) {
                         if ($('#campaigns_list').css('display') === 'block') {
                          $('#campaigns_list').hide();
@@ -58,6 +59,12 @@ define(['angularAMD', 'common/services/constants_service'],function (angularAMD)
                         event.preventDefault();
                         event.stopImmediatePropagation();
                     }
+                    $(".mediaplan-dd-open").removeClass("mediaplan-dd-open") ;
+                    $(".report-type-col .dropdown-menu").hide() ;
+                    elem.siblings(".dropdown_type1").addClass("mediaplan-dd-open") ;
+                    $(".dropdown_type1").not(".mediaplan-dd-open").hide() ;
+                    $(".mediaplan-dd-open").show() ;
+
 
                 });
 

@@ -86,7 +86,7 @@
 										<!-- <select data-ng-options="o.name for o in reportTypeList" ng-model="file.reportType" class="pull-left" ng-click="$event=$event;" ng-change="show_report_name_txtbox($event);"></select> -->
 										<div class="dropdown">
 								                <span data-toggle="dropdown" class="dropdown_txt reportTypeDropdownTxt" ng-click="toggle_dropdown($event);" id="reportTypeDropdownTxt">PCAR</span>
-								                <ul class="dropdown-menu" id="reportTypeDropdown" class="reportTypeDropdown">
+								                <ul class="dropdown-menu reportTypeDropdown" id="reportTypeDropdown">
 								                    <li ng-repeat="filetype in reportTypeList" ng-click="show_report_name_txtbox($event); file.reportType =''+filetype.name">{{filetype.name}}</li>
 								                </ul>
 								         </div>

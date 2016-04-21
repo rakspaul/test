@@ -250,7 +250,7 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
                     accountDropdownList = $(".clientDropdownCnt"),
                     campObjId = $("#campObj"),
                     mainNavDropdown = $(".main_nav_dropdown"),
-                    reportTypeDropdownId = $("#reportTypeDropdown"),
+                    reportTypeDropdownClass = $(".reportTypeDropdown"),
                     campaigns_list_class = $(".campaigns_list"),
                     regionTooltip = $(".regionCityTab").find(".common_tooltip"),
                     quickFilters = $(".sliding_dropdown_container");
@@ -283,9 +283,9 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
                     mainNavDropdown.hide();
                     $(".main_navigation_holder").find(".selected").removeClass("selected");
                 }
-
-                if (reportTypeDropdownId.is(':visible') && event.target.id != "reportTypeDropdownTxt") {
-                    reportTypeDropdownId.hide();
+                
+                if (reportTypeDropdownClass.is(':visible') && ( $(event.target).closest(".reportTypeDropdownTxt").length == 0) ) {
+                    reportTypeDropdownClass.hide();
                 }
                 if (campaigns_list_class.is(':visible') && ( $(event.target).closest(".campaign_name_selected").length == 0)) {
                     campaigns_list_class.hide();
@@ -322,14 +322,12 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
                 closeMenuPopUs(event);
                 if (event.target.id == 'performance_download_btn') {
                     if (campaignDropdownId.is(':visible')) {
-                        console.log("1") ;
                         campaignsListId.hide();
                     }
                 }
 
                 if (event.target.id == 'strategy_dropdown') {
                     if (campaignDropdownId.is(':visible')) {
-                        console.log("2") ;
                         campaignsListId.hide();
                     }
                 }
