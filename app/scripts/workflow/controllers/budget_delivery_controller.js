@@ -38,8 +38,14 @@ define(['angularAMD', 'common/services/constants_service', 'common/moment_utils'
                 }
             }
 
-            campaignData = $scope.workflowData.campaignData;
-            unallocatedAmount = Number(localStorage.getItem('unallocatedAmount'));
+            var campaignData = $scope.workflowData.campaignData;
+            if($scope.mode=='edit'){
+                unallocatedAmount = Number(localStorage.getItem('unallocatedAmount')) + Number($scope.workflowData.adsData.totalBudget);
+
+            }else{
+                unallocatedAmount = Number(localStorage.getItem('unallocatedAmount'));
+
+            }
             //var unallocatedAmount = Number(campaignData.deliveryBudget - (campaignData.bookedSpend || 0));
 
             // new budget calculation
