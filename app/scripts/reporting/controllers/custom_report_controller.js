@@ -1935,7 +1935,9 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                     return name;
                 }
 
-                $scope.setPrimaryDimension = function(obj) {
+                $scope.setPrimaryDimension = function(obj,fromFilters) {
+
+                    fromFilters = fromFilters || false;
 
                     //if a dimension is selected as Primary it should not appear in secondary
                     $scope.secondaryDimensionArr = angular.copy($scope.customeDimensionData[0].dimensions);
@@ -1948,7 +1950,10 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                         $scope.reports.reportDefinition.dimensions.primary.value = obj.values;
                     }
                     $scope.showPrimaryTxtBox = true;
-                    $scope.showAddBreakdownButton = true;
+                    if(!fromFilters){
+                        $scope.showAddBreakdownButton = true;
+                    }
+
                 }
 
                 $scope.setSecondaryDimension = function(obj) {
@@ -1975,7 +1980,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                 angular.forEach(responseData.reportDefinition.filters, function(eachObj) {
                     eachObj['name'] = $scope.getFilterBreakdownName(eachObj.dimension);
                     if ((eachObj.type == "Primary")) {
-                        $scope.setPrimaryDimension(eachObj);
+                        $scope.setPrimaryDimension(eachObj,true);
                     } else if ((eachObj.type == "Secondary")) {
                         $scope.setSecondaryDimension(eachObj);
                     } else if((eachObj.type !== "Primary")&& (eachObj.type !== "Secondary")){
