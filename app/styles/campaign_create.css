@@ -3428,13 +3428,49 @@
 .accounts-page .advertiser-name {
   cursor: pointer;
 }
+.users-creation-page .icon-arrow-down-thick,
+.accounts-page .icon-arrow-down-thick {
+  float: left;
+  font-size: 9px;
+  width: 9px;
+  height: 9px;
+  cursor: pointer;
+  margin: 5px 10px 0 0;
+  /* Safari */
+  -webkit-transform: rotate(-90deg);
+  /* Firefox */
+  -moz-transform: rotate(-90deg);
+  /* IE */
+  -ms-transform: rotate(-90deg);
+  /* Opera */
+  -o-transform: rotate(-90deg);
+  /* Internet Explorer */
+  filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+}
+.users-creation-page .icon-arrow-down-thick.active,
+.accounts-page .icon-arrow-down-thick.active {
+  /* Safari */
+  -webkit-transform: rotate(0deg);
+  /* Firefox */
+  -moz-transform: rotate(0deg);
+  /* IE */
+  -ms-transform: rotate(0deg);
+  /* Opera */
+  -o-transform: rotate(0deg);
+  /* Internet Explorer */
+  filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=0);
+}
 .users-creation-page .account-name,
 .accounts-page .account-name {
-  background: url(/images/cdesk/common_side_arrow.png) no-repeat left center;
   font-family: Avenir-bold, sans-serif;
   max-width: 70%;
-  padding-left: 20px;
+  padding-left: 0px;
   transition-duration: .1s;
+}
+.users-creation-page .account-name span:last-child,
+.accounts-page .account-name span:last-child {
+  font-family: "Avenir";
+  clear: left;
 }
 .users-creation-page .adding-section,
 .accounts-page .adding-section {

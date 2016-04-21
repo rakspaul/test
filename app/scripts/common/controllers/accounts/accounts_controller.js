@@ -80,6 +80,7 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
         };
         $scope.subClientListData = {}
         $scope.getSubClientList = function(event, clientObj){
+            $(event.target).toggleClass("active");
             var clientId = clientObj.id;
             if(clientObj.isLeafNode){
                 if(typeof ($scope.clientsDetails[clientId]) == "undefined"){
