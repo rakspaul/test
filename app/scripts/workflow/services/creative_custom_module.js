@@ -5,7 +5,7 @@ define(['angularAMD', '../../common/services/constants_service'], function (angu
         var textConstants = constants;
         var idx=0;
 
-        var createInputElem = function (inputList, idx,scope) { console.log("input: ",inputList);
+        var createInputElem = function (inputList, idx,scope) {
             var inputWrapper,
                 options,
                 inputListHTML,
@@ -185,7 +185,7 @@ define(['angularAMD', '../../common/services/constants_service'], function (angu
             return inputWrapper;
         }
 
-        var createPlatformCustomInputList =  function (inputGroupList, elem,scope,editModeData) {  console.log("createPlatformCustomInputList",inputGroupList);
+        var createPlatformCustomInputList =  function (inputGroupList, elem,scope,editModeData) {
             var groupContainer;
             _.each(editModeData,function(obj){
                 if(obj.creativeCustomInputId===inputGroupList.id){
@@ -222,7 +222,7 @@ define(['angularAMD', '../../common/services/constants_service'], function (angu
         };
 
         var init=function(creativeTemplate,elem,scope,editModeData){
-            console.log("inside custom Module",creativeTemplate);
+
             elem.html('');
             _self.elem = elem;
             //_self.adPlatformCustomInputs= adPlatformCustomInputs;

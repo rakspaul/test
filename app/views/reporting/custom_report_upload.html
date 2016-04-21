@@ -62,7 +62,9 @@
 				<li ng-repeat="file in reportsUploadList">{{file.name}} {{file.size}} :::: {{file.status}}</li>
 			</ol> -->
 
-			        <div class="custom_report_response_page " ng-show="reportsUploadList.length">
+
+        <div class="custom_report_response_page " ng-show="reportsUploadList.length">
+            <filter-directive ng-if="!isLeafNode" from="customReportUpload"></filter-directive>
 			        	<div class="upload_files_container {{(showStatus()) ? 'some_status' : ''}} "> <!-- add some_status when some status is there -->
 			              <div class="table_header clearfix" >
 							<span class="each-col status-col">Status</span>
@@ -96,7 +98,7 @@
 											<div class="disabled_dropdown" ng-show="(file.status == 'uploading' || file.status == 'success')"></div>
 										<div class="clearfix nav_filters">
 											<div class="pull-left dropdown breadcrumb_nav_campaign">
-												<campaign-drop-down selected-obj=selectedCampaign file-index="index" multi-campaign="yes"> </campaign-drop-down>
+												<campaign-drop-down selected-obj=selectedCampaign file-index="index" all-campaign="false" multi-campaign="yes"> </campaign-drop-down>
 											</div>
 										</div>
 									</div>

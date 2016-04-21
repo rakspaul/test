@@ -55,6 +55,295 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             $scope.isAdGroupsSearched = false;
             $scope.adGroupsNoData = false;
             $scope.isAdGroupsBusy = false;
+            $scope.adGroupData = {};
+
+
+            var campaignOverView = {
+                modifyCampaignData: function () {
+                    var campaignData = $scope.workflowData.campaignData,
+                        end = momentService.utcToLocalTime(campaignData.endTime),
+                        start = momentService.utcToLocalTime(campaignData.startTime);
+
+                    campaignData.numOfDays = moment(end).diff(moment(start), 'days');
+
+                    $scope.isEndDateInPast =  moment().isAfter(end, 'day');
+                },
+
+                getCampaignData: function (campaignId) {
+                    workflowService
+                        .getCampaignData(campaignId)
+                        .then(function (result) {
+                            var responseData;
+
+                            if (result.status === 'OK' || result.status === 'success') {
+                                //redirect user to media plan list screen if campaign is archived campaign
+                                if (result.data.data.isArchived) {
+                                    $scope.redirectFlag = true;
+                                }
+
+                                responseData = result.data.data;
+                                $scope.workflowData.campaignData = responseData;
+
+                                if (responseData.selectedObjectives && responseData.selectedObjectives.length > 0) {
+                                    $scope.processObjectiveData(responseData.selectedObjectives);
+                                }
+
+                                if (responseData.primaryKpi) {
+                                    if (responseData.primaryKpi === 'IMPRESSIONS') {
+                                        $scope.primaryKpiSelected = 'Impressions';
+                                    } else if (responseData.primaryKpi === 'CLICKS') {
+                                        $scope.primaryKpiSelected = 'Clicks';
+                                    } else if (responseData.primaryKpi === 'ACTIONS') {
+                                        $scope.primaryKpiSelected = 'Actions';
+                                    } else if (responseData.primaryKpi === 'VIEWABLE_IMPRESSIONS') {
+                                        $scope.primaryKpiSelected = 'Impressions';
+                                    }
+                                }
+
+                                $scope.campaignStartTime =
+                                    momentService.utcToLocalTime($scope.workflowData.campaignData.startTime);
+                                $scope.campaignEndTime =
+                                    momentService.utcToLocalTime($scope.workflowData.campaignData.endTime);
+
+                                if ($scope.workflowData.campaignData.pushable) {
+                                    $scope.disablePushBtn = false;
+                                }
+                                $scope.budgetAvailable = Math.ceil($scope.workflowData.campaignData.deliveryBudget) - $scope.workflowData.campaignData.bookedSpend;
+
+                                campaignOverView.modifyCampaignData();
+                            } else {
+                                campaignOverView.errorHandler(result);
+                            }
+                        }, campaignOverView.errorHandler);
+                },
+
+                adsDataMofiderFunc: function (adsData) {
+                    var budgetType,
+                        rateType,
+                        labelObj = {
+                            'cpm': 'Imps.',
+                            'cpc': 'Clicks',
+                            'cpa': 'Actions'
+                        };
+
+                    //calculatedValue =  impression , clicks and actions value
+                    _.each(adsData, function (data) {
+                        budgetType = data.budgetType && data.budgetType.toLowerCase();
+                        rateType = data.rateType && data.rateType.toLowerCase();
+
+                        if (budgetType === 'impressions') {
+                            data.budgetType = 'Imps.';
+                        }
+
+                        data.label = labelObj[rateType];
+
+                        data.cost = data.totalBudget;
+                        if (rateType === 'cpm') {
+                            data.calculatedValue = (data.totalBudget / data.rateValue) * 1000;
+                        }
+                        if (rateType === 'cpc' || rateType === 'cpa') {
+                            data.calculatedValue = data.totalBudget / data.rateValue;
+                        }
+                    });
+
+                    return adsData;
+                },
+
+                getAdsForCampaign: function (campaignId) {
+                    workflowService
+                        .getAdsForCampaign(campaignId)
+                        .then(function (result) {
+                            var responseData,
+                                i,
+                                isAdsInProgressState;
+
+                            if (result.status === 'OK' || result.status === 'success') {
+                                responseData = result.data.data;
+
+                                for (i in responseData) {
+                                    if (responseData[i].state === 'IN_FLIGHT') {
+                                        responseData[i].state = 'IN FLIGHT';
+                                    }
+                                    if (responseData[i].state === 'IN_PROGRESS') {
+                                        responseData[i].state = 'DEPLOYING';
+                                    }
+                                }
+
+                                // call extract method if
+                                $scope.workflowData.campaignAdsData =
+                                    campaignOverView.adsDataMofiderFunc(responseData);
+
+                                // Highlight non-Adgroup ad name
+                                _.each($scope.workflowData.campaignAdsData, function (obj) {
+                                    obj.nameHtml = $scope.highlightTitleText(obj.name, $scope.adGroupsSearchTerm);
+                                });
+
+                                isAdsInProgressState = _.filter(responseData, function (obj) {
+                                    return obj.state === 'DEPLOYING';
+                                });
+
+                                if (isAdsInProgressState && isAdsInProgressState.length > 0) {
+                                    $timeout(function () {
+                                        campaignOverView.getAdsForCampaign($routeParams.campaignId);
+                                    }, 15000);
+                                }
+                            } else {
+                                campaignOverView.errorHandler(result);
+                            }
+                        }, campaignOverView.errorHandler);
+                },
+
+                getAdgroups: function (campaignId, searchFlag) {
+                    workflowService
+                        .getAdgroups(campaignId, searchFlag)
+                        .then(function (result) {
+                            var responseData,
+                                nonAdGroupAds,
+                                i;
+
+                            if (result.status === 'OK' || result.status === 'success') {
+                                responseData = result.data.data.ad_groups;
+                                $scope.adGroupsCount = result.data.data.ad_groups_count;
+                                $scope.adsCount = result.data.data.search_ads_count;
+                                nonAdGroupAds = result.data.data.no_ad_group_ads;
+                                $scope.trustAsHtml = $sce.trustAsHtml;
+
+                                // Highlighting of Ad group name & label pills.
+                                // The highlighting will be done at the Search API call.
+                                _.each(responseData, function (obj) {
+                                    var i,
+                                        j,
+                                        temp,
+                                        labelsLen,
+                                        searchTermsArr,
+                                        searchTermsLen,
+                                        searchTerm = $scope.adGroupsSearchTerm.toLowerCase().trim();
+
+                                    obj.adGroup.nameHtml = obj.adGroup.name;
+                                    if (searchTerm) {
+                                        // Highlight Ad group title
+                                        obj.adGroup.nameHtml =
+                                            $scope.highlightTitleText(obj.adGroup.nameHtml, searchTerm);
+
+                                        // Highlight Ad group label pills
+                                        labelsLen = obj.labels.length;
+                                        searchTermsArr = searchTerm.split(' ');
+                                        searchTermsLen = searchTermsArr.length;
+
+                                        if (searchTermsLen > 1) {
+                                            searchTermsArr.push(searchTerm);
+                                        }
+                                        for (i = 0; i < labelsLen; i++) {
+                                            for (j = 0; j < searchTermsLen; j++) {
+                                                temp = $scope.highlightLabelPill(obj.labels[i], searchTermsArr[j])
+                                                    .toString();
+                                                if (temp.indexOf('</mark>') >= 0) {
+                                                    obj.labels[i] = temp;
+                                                    break;
+                                                }
+                                            }
+                                        }
+                                    }
+                                });
+
+                                $scope.workflowData.campaignGetAdGroupsData = responseData;
+
+                                // **Non Ad Group Ads section
+                                for (i in nonAdGroupAds) {
+                                    if (nonAdGroupAds[i].state === 'IN_FLIGHT') {
+                                        nonAdGroupAds[i].state = 'IN FLIGHT';
+                                    }
+
+                                    if (nonAdGroupAds[i].state === 'IN_PROGRESS') {
+                                        nonAdGroupAds[i].state = 'DEPLOYING';
+                                    }
+                                }
+
+                                // call extract method if
+                                $scope.workflowData.campaignAdsData =
+                                    campaignOverView.adsDataMofiderFunc(nonAdGroupAds);
+
+                                // Highlight non-Adgroup ad name
+                                _.each($scope.workflowData.campaignAdsData, function (obj) {
+                                    obj.nameHtml = $scope.highlightTitleText(obj.name, $scope.adGroupsSearchTerm);
+                                });
+
+                                // Hide animated 'busy' icon and show search results
+                                $scope.isAdGroupsBusy = false;
+                                // **Non Ad Group Ads section end here
+                            } else {
+                                campaignOverView.errorHandler(result);
+                            }
+                        }, campaignOverView.errorHandler);
+                },
+
+                getAdsInAdGroup: function (campaignId, adGroupId, index) {
+                    workflowService
+                        .getAdsInAdGroup(campaignId, adGroupId)
+                        .then(function (result) {
+                            var responseData,
+                                i,
+                                isAdsInProgressState,
+                                searchTerm;
+
+                            if (result.status === 'OK' || result.status === 'success') {
+                                responseData = result.data.data;
+
+                                for (i in responseData) {
+                                    if (responseData[i].state === 'IN_FLIGHT') {
+                                        responseData[i].state = 'IN FLIGHT';
+                                    }
+                                    if (responseData[i].state === 'IN_PROGRESS') {
+                                        responseData[i].state = 'DEPLOYING';
+                                    }
+                                }
+
+                                $scope.workflowData.getADsForGroupData[index] =
+                                    campaignOverView.adsDataMofiderFunc(responseData);
+
+                                // Highlight Ad titles inside Ad Group
+                                if ($scope.workflowData.getADsForGroupData[index].length) {
+                                    _.each($scope.workflowData.getADsForGroupData[index], function (obj) {
+                                        searchTerm = $scope.adGroupsSearchTerm.toLowerCase().trim();
+                                        obj.nameHtml = $scope.highlightTitleText(obj.name, searchTerm);
+                                    });
+                                }
+
+                                isAdsInProgressState = _.filter(responseData, function (obj) {
+                                    return obj.state === 'DEPLOYING';
+                                });
+
+                                if (isAdsInProgressState && isAdsInProgressState.length > 0) {
+                                    $timeout(function () {
+                                        campaignOverView.getAdsInAdGroup($routeParams.campaignId, adGroupId, index);
+                                    }, 15000);
+                                }
+                            } else {
+                                campaignOverView.errorHandler(result);
+                            }
+                        }, campaignOverView.errorHandler);
+                },
+
+                pushSavedCampaign: function (campaignId) {
+                    $scope.showPushAdsLoader = true;
+
+                    workflowService
+                        .pushCampaign(campaignId)
+                        .then(function (result) {
+                            $scope.showPushAdsLoader = false;
+                            if (result.status === 'OK' || result.status === 'success') {
+                                $route.reload();
+                            }
+                        });
+                },
+
+                errorHandler: function (errData) {
+                    if (errData.data.status === 404) {
+                        $location.url('/mediaplans');
+                    }
+                }
+            };
+
 
             $scope.adGroupsSearchFunc = function (e) {
                 var searchTermsArr,
@@ -288,299 +577,6 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 return tempText.indexOf(phrase) >= 0;
             };
 
-            var campaignOverView = {
-                modifyCampaignData: function () {
-                    var campaignData = $scope.workflowData.campaignData,
-                        end = momentService.utcToLocalTime(campaignData.endTime),
-                        start = momentService.utcToLocalTime(campaignData.startTime);
-
-                    campaignData.numOfDays = moment(end).diff(moment(start), 'days');
-                },
-
-                getCampaignData: function (campaignId) {
-                    workflowService
-                        .getCampaignData(campaignId)
-                        .then(function (result) {
-                            var responseData;
-
-                            if (result.status === 'OK' || result.status === 'success') {
-                                //redirect user to media plan list screen if campaign is archived campaign
-                                if (result.data.data.isArchived) {
-                                    $scope.redirectFlag = true;
-                                }
-
-                                responseData = result.data.data;
-                                $scope.workflowData.campaignData = responseData;
-
-                                if (responseData.selectedObjectives && responseData.selectedObjectives.length > 0) {
-                                    $scope.processObjectiveData(responseData.selectedObjectives);
-                                }
-
-                                if (responseData.primaryKpi) {
-                                    if (responseData.primaryKpi === 'IMPRESSIONS') {
-                                        $scope.primaryKpiSelected = 'Impressions';
-                                    } else if (responseData.primaryKpi === 'CLICKS') {
-                                        $scope.primaryKpiSelected = 'Clicks';
-                                    } else if (responseData.primaryKpi === 'ACTIONS') {
-                                        $scope.primaryKpiSelected = 'Actions';
-                                    } else if (responseData.primaryKpi === 'VIEWABLE_IMPRESSIONS') {
-                                        $scope.primaryKpiSelected = 'Impressions';
-                                    }
-                                }
-
-                                $scope.campaignStartTime =
-                                    momentService.utcToLocalTime($scope.workflowData.campaignData.startTime);
-                                $scope.campaignEndTime =
-                                    momentService.utcToLocalTime($scope.workflowData.campaignData.endTime);
-
-                                if ($scope.workflowData.campaignData.pushable) {
-                                    $scope.disablePushBtn = false;
-                                }
-
-                                campaignOverView.modifyCampaignData();
-                            } else {
-                                campaignOverView.errorHandler(result);
-                            }
-                        }, campaignOverView.errorHandler);
-                },
-
-                adsDataMofiderFunc: function (adsData) {
-                    var budgetType,
-                        rateType,
-                        labelObj = {
-                            'cpm': 'Imps.',
-                            'cpc': 'Clicks',
-                            'cpa': 'Actions'
-                        };
-
-                    //calculatedValue =  impression , clicks and actions value
-                    _.each(adsData, function (data) {
-                        budgetType = data.budgetType && data.budgetType.toLowerCase();
-                        rateType = data.rateType && data.rateType.toLowerCase();
-
-                        if (budgetType === 'impressions') {
-                            data.budgetType = 'Imps.';
-                        }
-
-                        data.label = labelObj[rateType];
-
-                        if (budgetType === 'cost') {
-                            data.cost = data.budgetValue;
-                            if (rateType === 'cpm') {
-                                data.calculatedValue = (data.budgetValue / data.rateValue) * 1000;
-                            }
-
-                            if (rateType === 'cpc' || rateType === 'cpa') {
-                                data.calculatedValue = data.budgetValue / data.rateValue;
-                            }
-                        } else {
-                            data.calculatedValue = data.budgetValue;
-                            if (rateType === 'cpm') {
-                                data.cost = (data.budgetValue / 1000) * (data.rateValue);
-                            }
-                            if (rateType === 'cpc' || rateType === 'cpa') {
-                                data.cost = data.budgetValue * data.rateValue;
-                            }
-                        }
-                    });
-
-                    return adsData;
-                },
-
-                getAdsForCampaign: function (campaignId) {
-                    workflowService
-                        .getAdsForCampaign(campaignId)
-                        .then(function (result) {
-                            var responseData,
-                                i,
-                                isAdsInProgressState;
-
-                            if (result.status === 'OK' || result.status === 'success') {
-                                responseData = result.data.data;
-
-                                for (i in responseData) {
-                                    if (responseData[i].state === 'IN_FLIGHT') {
-                                        responseData[i].state = 'IN FLIGHT';
-                                    }
-                                    if (responseData[i].state === 'IN_PROGRESS') {
-                                        responseData[i].state = 'DEPLOYING';
-                                    }
-                                }
-
-                                // call extract method if
-                                $scope.workflowData.campaignAdsData =
-                                    campaignOverView.adsDataMofiderFunc(responseData);
-
-                                // Highlight non-Adgroup ad name
-                                _.each($scope.workflowData.campaignAdsData, function (obj) {
-                                    obj.nameHtml = $scope.highlightTitleText(obj.name, $scope.adGroupsSearchTerm);
-                                });
-
-                                isAdsInProgressState = _.filter(responseData, function (obj) {
-                                    return obj.state === 'DEPLOYING';
-                                });
-
-                                if (isAdsInProgressState && isAdsInProgressState.length > 0) {
-                                    $timeout(function () {
-                                        campaignOverView.getAdsForCampaign($routeParams.campaignId);
-                                    }, 15000);
-                                }
-                            } else {
-                                campaignOverView.errorHandler(result);
-                            }
-                        }, campaignOverView.errorHandler);
-                },
-
-                getAdgroups: function (campaignId, searchFlag) {
-                    workflowService
-                        .getAdgroups(campaignId, searchFlag)
-                        .then(function (result) {
-                            var responseData,
-                                nonAdGroupAds,
-                                i;
-
-                            if (result.status === 'OK' || result.status === 'success') {
-                                responseData = result.data.data.ad_groups;
-                                $scope.adGroupsCount = result.data.data.ad_groups_count;
-                                $scope.adsCount = result.data.data.search_ads_count;
-                                nonAdGroupAds = result.data.data.no_ad_group_ads;
-                                $scope.trustAsHtml = $sce.trustAsHtml;
-
-                                // Highlighting of Ad group name & label pills.
-                                // The highlighting will be done at the Search API call.
-                                _.each(responseData, function (obj) {
-                                    var i,
-                                        j,
-                                        temp,
-                                        labelsLen,
-                                        searchTermsArr,
-                                        searchTermsLen,
-                                        searchTerm = $scope.adGroupsSearchTerm.toLowerCase().trim();
-
-                                    obj.adGroup.nameHtml = obj.adGroup.name;
-                                    if (searchTerm) {
-                                        // Highlight Ad group title
-                                        obj.adGroup.nameHtml =
-                                            $scope.highlightTitleText(obj.adGroup.nameHtml, searchTerm);
-
-                                        // Highlight Ad group label pills
-                                        labelsLen = obj.labels.length;
-                                        searchTermsArr = searchTerm.split(' ');
-                                        searchTermsLen = searchTermsArr.length;
-
-                                        if (searchTermsLen > 1) {
-                                            searchTermsArr.push(searchTerm);
-                                        }
-                                        for (i = 0; i < labelsLen; i++) {
-                                            for (j = 0; j < searchTermsLen; j++) {
-                                                temp = $scope.highlightLabelPill(obj.labels[i], searchTermsArr[j])
-                                                            .toString();
-                                                if (temp.indexOf('</mark>') >= 0) {
-                                                    obj.labels[i] = temp;
-                                                    break;
-                                                }
-                                            }
-                                        }
-                                    }
-                                });
-
-                                $scope.workflowData.campaignGetAdGroupsData = responseData;
-
-                                // **Non Ad Group Ads section
-                                for (i in nonAdGroupAds) {
-                                    if (nonAdGroupAds[i].state === 'IN_FLIGHT') {
-                                        nonAdGroupAds[i].state = 'IN FLIGHT';
-                                    }
-
-                                    if (nonAdGroupAds[i].state === 'IN_PROGRESS') {
-                                        nonAdGroupAds[i].state = 'DEPLOYING';
-                                    }
-                                }
-
-                                // call extract method if
-                                $scope.workflowData.campaignAdsData =
-                                    campaignOverView.adsDataMofiderFunc(nonAdGroupAds);
-
-                                // Highlight non-Adgroup ad name
-                                _.each($scope.workflowData.campaignAdsData, function (obj) {
-                                    obj.nameHtml = $scope.highlightTitleText(obj.name, $scope.adGroupsSearchTerm);
-                                });
-
-                                // Hide animated 'busy' icon and show search results
-                                $scope.isAdGroupsBusy = false;
-                                // **Non Ad Group Ads section end here
-                            } else {
-                                campaignOverView.errorHandler(result);
-                            }
-                        }, campaignOverView.errorHandler);
-                },
-
-                getAdsInAdGroup: function (campaignId, adGroupId, index) {
-                    workflowService
-                        .getAdsInAdGroup(campaignId, adGroupId)
-                        .then(function (result) {
-                            var responseData,
-                                i,
-                                isAdsInProgressState,
-                                searchTerm;
-
-                            if (result.status === 'OK' || result.status === 'success') {
-                                responseData = result.data.data;
-
-                                for (i in responseData) {
-                                    if (responseData[i].state === 'IN_FLIGHT') {
-                                        responseData[i].state = 'IN FLIGHT';
-                                    }
-                                    if (responseData[i].state === 'IN_PROGRESS') {
-                                        responseData[i].state = 'DEPLOYING';
-                                    }
-                                }
-
-                                $scope.workflowData.getADsForGroupData[index] =
-                                    campaignOverView.adsDataMofiderFunc(responseData);
-
-                                // Highlight Ad titles inside Ad Group
-                                if ($scope.workflowData.getADsForGroupData[index].length) {
-                                    _.each($scope.workflowData.getADsForGroupData[index], function (obj) {
-                                        searchTerm = $scope.adGroupsSearchTerm.toLowerCase().trim();
-                                        obj.nameHtml = $scope.highlightTitleText(obj.name, searchTerm);
-                                    });
-                                }
-
-                                isAdsInProgressState = _.filter(responseData, function (obj) {
-                                    return obj.state === 'DEPLOYING';
-                                });
-
-                                if (isAdsInProgressState && isAdsInProgressState.length > 0) {
-                                    $timeout(function () {
-                                        campaignOverView.getAdsInAdGroup($routeParams.campaignId, adGroupId, index);
-                                    }, 15000);
-                                }
-                            } else {
-                                campaignOverView.errorHandler(result);
-                            }
-                        }, campaignOverView.errorHandler);
-                },
-
-                pushSavedCampaign: function (campaignId) {
-                    $scope.showPushAdsLoader = true;
-
-                    workflowService
-                        .pushCampaign(campaignId)
-                        .then(function (result) {
-                            $scope.showPushAdsLoader = false;
-                            if (result.status === 'OK' || result.status === 'success') {
-                                $route.reload();
-                            }
-                        });
-                },
-
-                errorHandler: function (errData) {
-                    if (errData.data.status === 404) {
-                        $location.url('/mediaplans');
-                    }
-                }
-            };
 
             $scope.redirectUserFromArchivedCampaign = function () {
                 $scope.redirectFlag = false;
@@ -713,6 +709,18 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 }
             };
 
+            $scope.getLineItems  = function() {
+                var campaignId = $scope.workflowData.campaignData.id;
+                var matchedLineItem;
+                if(!$scope.lineItems) {
+                    workflowService.getLineItem(campaignId).then(function (results) {
+                        if (results.status === 'success' && results.data.statusCode === 200) {
+                            $scope.lineItems = results.data.data;
+                        }
+                    });
+                }
+            };
+
             $scope.createAdGrp = function () {
                 var adGroupCreateformElem = $('.adGroupSelectionWrap').find('.adGroupCreate').find('form'),
                     campaignAdsData,
@@ -753,6 +761,14 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
                 $scope.adGroupMaxBudget = (Math.ceil($scope.workflowData.campaignData.deliveryBudget) -
                     $scope.workflowData.campaignData.bookedSpend) + Math.ceil($scope.adGroupMinBudget);
+
+                $scope.getLineItems();
+            };
+
+            $scope.selectLineItems = function(event, lineItem) {
+                $scope.adGroupData.lineitemName = lineItem.name;
+                $scope.adGroupData.lineitemId = lineItem.id;
+
             };
 
             $scope.resetAdsBudgetsFlag = function() {
@@ -890,6 +906,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     postCreateAdObj.createdAt = '';
                     postCreateAdObj.updatedAt = formData.adgroupId ? formData.updatedAt : '';
                     postCreateAdObj.deliveryBudget = formData.adIGroupBudget;
+                    postCreateAdObj.lineitemId = Number(formData.lineitemId);
                     postCreateAdObj.labels = _.pluck(JSON.parse(formData.ad_label), 'label');
                     if (formData.adgroupId) {
                         postCreateAdObj.adgroupId = Number(formData.adgroupId);

@@ -25,12 +25,23 @@ define(['angularAMD'],function (angularAMD) {
 
                     //total budget for no ad group
                     var campaignAdsData  = $scope.workflowData.campaignAdsData;
-                    var adsBudget = campaignAdsData.reduce(function(memo, obj) {
-                        return memo + (obj.cost ||0);
-                    }, 0);
+                    if(campaignAdsData) {
+                        var adsBudget = campaignAdsData.reduce(function(memo, obj) {
+                            return memo + (obj.cost ||0);
+                        }, 0);
+                    } else {
+                        adsBudget = 0;
+                    }
 
                     //reset the ad group max and min budget flag.
                     $scope.resetAdsBudgetsFlag();
+
+                    var lineItemObj = {
+                        'id' : adGroupsData.adGroup.lineitemId,
+                        'name' : adGroupsData.adGroup.lineitemName
+                    }
+
+                    $scope.selectLineItems(null, lineItemObj);
 
                     $scope.adGroupMaxBudget = (Math.ceil($scope.workflowData.campaignData.deliveryBudget) -
                         adGroupsBudget) + Math.ceil(adsBudget) ;
@@ -55,6 +66,8 @@ define(['angularAMD'],function (angularAMD) {
 
                     startDateElem.datepicker("update", startTime);
                     endDateElem.datepicker("update", highestEndTime);
+
+                    $scope.getLineItems();
                 };
             },
 
@@ -63,6 +76,7 @@ define(['angularAMD'],function (angularAMD) {
                 element.bind('click', function() {
                     $(".editAdgroupDiv").hide();
                     $(".adgroupDiv").show();
+                    $(".overlay").hide();
                     element.closest('.adGroup').find('.adgroupDiv').hide();
                     element.closest('.adGroup').find('.editAdgroupDiv').show();
                     element.closest('.adGroup').find(".overlay").show();
