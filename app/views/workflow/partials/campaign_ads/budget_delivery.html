@@ -7,8 +7,8 @@
 <div class="row zeroPadding budgetWrap radioBtnToggle">
     <h2 class="col-md-12 zeroPadding adHeader" data-ng-bind="textConstants.SETUPBUDGET" style="margin:10px 0 10px 0 !important;"></h2>
     
+    <!--Row 1-->
     <div class="col-md-12 zeroPadding symbolAbs">
-
         <div class="col-md-2 zeroPadding" style="margin-right: 10px;">
             <label class="col-sm-12 control-label greyTxt miniLabels" data-ng-bind="textConstants.SELECTPRIMARYKPI"></label>
             <div class="col-md-12 zeroPadding dropdown-workflow">
@@ -46,7 +46,9 @@
             <span class="VTC_per currencySymWLabel" style="display:none;">%</span>
         </div>
     </div>
-    <div class="col-md-12 zeroPadding unitCost symbolAbs">
+    
+    <!--Row 2-->
+    <div class="col-md-12 zeroPadding unitCost symbolAbs" style="margin-top: 10px;">
         <div class="col-md-2 zeroPadding" style="margin-right: 10px;">
             <label class="col-sm-12 control-label greyTxt miniLabels" data-ng-bind="textConstants.UNITCOST"></label>
             <div class="col-md-12 zeroPadding dropdown-workflow">
@@ -72,17 +74,19 @@
         </div>
     </div>
 
-    <div class="col-md-12 zeroPadding symbolAbs impressions_holder">
+    <!--Row 3-->
+    <div class="col-md-12 zeroPadding symbolAbs impressions_holder" style="margin-top: 10px;">
         <!--Checkbox Target& Unit Cost-->
-        <div class="col-md-2 zeroPadding" style="margin-right: 10px;">
+        <div class="col-md-2" style="margin-right: 10px; padding: 19px 0 0 0;">
             <div class="col-md-12 zeroPadding checkbox_holder">
-                <div class="external_chkbox zeroPadding" style="width: 100%;">
-                    <span class="col-md-12 greyTxt">Calculate from <br/>Target & Unit Cost</span>
-                    <div class="pull-left squaredFour">
+                <div class="external_chkbox zeroPadding" style="width: 100%; margin: 0;">
+                    <div class="pull-left squaredFour" style="margin-top: 16px;">
                         <!--<input type="checkbox" id="targetUnitCost_squaredFour" class="squaredFourChkbox" ng-checked="isChecked" ng-click="enable_budget_input($event);">-->
                         <input type="checkbox" id="targetUnitCost_squaredFour" class="squaredFourChkbox" checked ng-click="enable_budget_input($event);">
                         <label for="targetUnitCost_squaredFour"></label>
                     </div>
+                    
+                    <span class="pull-left greyTxt">Calculate from <br/>Target & Unit Cost</span>
                 </div>
             </div>
         </div>
@@ -111,8 +115,9 @@
             </div>
         </div>
     </div>
-
-    <div class="clearfix col-md-12 zeroPadding">
+    
+    <!--Row 4-->
+    <div class="clearfix col-md-12 zeroPadding" style="margin-top: 10px;">
         <div class="pull-left">
             <label class="control-label greyTxt miniLabels" data-ng-bind="textConstants.BUDGETCAL"></label>
             <div class="btn-group miniToggle" style="display:block;">
@@ -191,12 +196,7 @@
         </div>
     </div>
 
-
-
     <div class="row col-md-12 zeroPadding unitCostTwo radioBtnToggle" >
-
-
-
         <div class="col-md-4 zeroPadding symbolAbs"  ng-show="adData.setCap" style="margin-top:10px;">
             <label class="col-sm-12 control-label greyTxt miniLabels" data-ng-bind="textConstants.IMPPERUSER"></label>
             <div class="form-group col-md-7 zeroPadding">
