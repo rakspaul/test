@@ -193,7 +193,6 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'common/s
 
         //Function called when the user clicks on the campaign dropdown
          $('.campaigns_list').on('click', function () {
-            console.log("hello") ;
            $(".campaigns_list").not(this).hide();
 
         });
