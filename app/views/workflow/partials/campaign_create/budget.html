@@ -20,7 +20,7 @@
             <h3>Margin (Optional)</h3>
             <div class="symbol-input">
                 <span class="symbol" style="left: initial; right: 10px;">{{textConstants.SYMBOL_PERCENT}}</span>
-                <input type="text" ng-model="Campaign.marginPercent" class="form-control col-sm-8" ng-keyup="ComputeCost()" style="padding-right:21px;" whole-number-only="whole-number-only"/>
+                <input type="text" ng-model="Campaign.marginPercent" name="marginPercent" class="form-control col-sm-8" ng-keyup="ComputeCost()" style="padding-right:21px;" whole-number-only="whole-number-only"/>
             </div>
         </div>
         <!--<div class="calTable calTableLarge">-->
@@ -35,7 +35,7 @@
             <h3>Delivery Budget</h3>
             <div class="symbol-input blindInput">
                 <span class="onlyShowValue"><span>{{locale.NUMBER_FORMATS.CURRENCY_SYM}} </span><span ng-style="deliveryBudgetNegative ? {'color':'#F9B537'}:''" ng-bind="Campaign.deliveryBudget? (Campaign.deliveryBudget | setDecimal:2 | number : fractionSize ):'' "></span></span>
-                <input type="text" style="display:none"  ng-model="Campaign.deliveryBudget" class="form-control col-sm-8" />
+                <input type="text" style="display:none"  name="deliveryBudget" ng-model="Campaign.deliveryBudget" class="form-control col-sm-8" />
             </div>
             <label ng-if="deliveryLesserBookedspend" class="col-sm-12 txtError budgetError">{{textConstants.DELIVERY_BUDGET_BOOKEDSPEND}}({{editCampaignData.bookedSpend}})</label>
             <label ng-if="Campaign.deliveryBudget<0" class="col-sm-12  txtError budgetError">{{textConstants.DELIVERY_BUDGET_GREATER_THAN_ZERO}}</label>
