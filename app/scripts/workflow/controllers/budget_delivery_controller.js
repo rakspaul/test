@@ -1,6 +1,9 @@
 define(['angularAMD', 'common/services/constants_service', 'common/moment_utils',
     'workflow/directives/ng_upload_hidden', 'workflow/directives/custom_date_picker'], function (angularAMD) {
     angularAMD.controller('BudgetDeliveryController', function ($scope, constants, momentService, workflowService) {
+        var unallocatedAmount = 0,
+            adMaximumRevenue = 0;
+
         $scope.adData.primaryKpi = 'Impressions';
         $scope.adData.budgetExceeded = false;
         $scope.adData.adBudgetExceedUnallocated = false;
@@ -10,8 +13,6 @@ define(['angularAMD', 'common/services/constants_service', 'common/moment_utils'
         $scope.adData.unitCost = '';
         $scope.adData.totalAdBudget = '';
         $scope.adData.budgetAmount = '';
-        var unallocatedAmount = 0;
-        var adMaximumRevenue = 0;
 
         $scope.ImpressionPerUserValidator = function () {
             var impressionPerUser = Number($scope.adData.quantity),
@@ -27,6 +28,8 @@ define(['angularAMD', 'common/services/constants_service', 'common/moment_utils'
         };
 
         $scope.calculateTotalAdBudget = function () {
+            var campaignData;
+
             if ($('#targetUnitCost_squaredFour').prop('checked') &&
                 ($scope.adData.primaryKpi).toUpperCase() === 'IMPRESSIONS' && $scope.adData.unitType.name === 'CPM') {
                 if ($scope.adData.targetValue >= 0 && $scope.adData.unitCost >= 0) {
@@ -34,9 +37,11 @@ define(['angularAMD', 'common/services/constants_service', 'common/moment_utils'
                         Number((Number($scope.adData.targetValue) * Number($scope.adData.unitCost)) / 1000);
                 }
             }
-            var campaignData = $scope.workflowData.campaignData;
+
+            campaignData = $scope.workflowData.campaignData;
             unallocatedAmount = Number(localStorage.getItem('unallocatedAmount'));
             //var unallocatedAmount = Number(campaignData.deliveryBudget - (campaignData.bookedSpend || 0));
+
             // new budget calculation
             if (workflowService.getIsAdGroup() === false) {
                 unallocatedAmount = Number(campaignData.deliveryBudget - (campaignData.bookedSpend || 0));
@@ -204,6 +209,7 @@ define(['angularAMD', 'common/services/constants_service', 'common/moment_utils'
 
         $scope.enable_budget_input = function (event) {
             var elem = $(event.target);
+
             if (elem.is(':checked')) {
                 //elem.closest('.budget_holder_input').find('.budget_holder input').attr('disabled' , true);
                 // .addClass('disabled-field') ;
@@ -231,10 +237,24 @@ define(['angularAMD', 'common/services/constants_service', 'common/moment_utils'
 
             if (type !== 'impressions') {
                 $('#targetUnitCost_squaredFour').prop('checked', false);
-                impressionsHolder.find('input[type="checkbox"]').attr('disabled', true);
-                elem.closest('.symbolAbs').find('.KPI_symbol').html('$');
-                $('.budget_holder_input').find('input[type="text"]').attr('disabled', false).removeClass('disabled-field');
-                impressionsHolder.find('.external_chkbox').addClass('disabled');
+
+                impressionsHolder
+                    .find('input[type="checkbox"]')
+                    .attr('disabled', true);
+
+                elem.closest('.symbolAbs')
+                    .find('.KPI_symbol')
+                    .html('$');
+
+                $('.budget_holder_input')
+                    .find('input[type="text"]')
+                    .attr('disabled', false)
+                    .removeClass('disabled-field');
+
+                impressionsHolder
+                    .find('.external_chkbox')
+                    .addClass('disabled');
+
                 $('.external_chkbox').hide();
 
                 if (type === 'VTC' || type === 'CTR') {
@@ -244,6 +264,7 @@ define(['angularAMD', 'common/services/constants_service', 'common/moment_utils'
                 }
             } else {
                 elem.closest('.symbolAbs').find('.KPI_symbol').html('#');
+
                 if (($scope.adData.unitType.name).toUpperCase() === 'CPM') {
                     $('.external_chkbox').show();
                     impressionsHolder.find('input[type="checkbox"]').attr('disabled', false);
@@ -253,12 +274,15 @@ define(['angularAMD', 'common/services/constants_service', 'common/moment_utils'
                 }
             }
         };
+
         $scope.select_unitType = function (event, type) {
             var impressionsHolder = $('.impressions_holder');
-          //  $scope.adData.unitType.name = type;
+
+            //  $scope.adData.unitType.name = type;
             $scope.unitName=type;
             $scope.adData.unitCost = '';
             $scope.adData.totalAdBudget = '';
+
             if (type !== 'CPM') {
                 $('.external_chkbox').hide();
                 $('#targetUnitCost_squaredFour').prop('checked', false);
@@ -295,23 +319,23 @@ define(['angularAMD', 'common/services/constants_service', 'common/moment_utils'
             // If we are handling an ad of an Adgroup
             if (location.href.indexOf('adGroup') > -1) {
                 if ($scope.mode === 'edit') {
-
                     if (momentService.isDateBefore($scope.workflowData.adGroupData.startDate, currentDate)) {
                         adGroupStartDate = currentDate;
                     } else {
                         adGroupStartDate = $scope.workflowData.adGroupData.startDate;
                     }
+
                     adGroupEndDate = $scope.workflowData.adGroupData.endDate;
                     startDateElem.datepicker('setStartDate', adGroupStartDate);
                     startDateElem.datepicker('setEndDate', adGroupEndDate);
                     $scope.setDateInEditMode(adGroupStartDate, adGroupEndDate);
-
                 } else {
                     // When creating a new Adgroup ad, if Adgroup start date is:
                     // 1) before currrent date (in the past), default start & end dates will be current date
                     // 2) else (in the future)m default current date will be Adgroup start date.
                     adGroupStartDate = momentService.utcToLocalTime(localStorage.getItem('stTime'));
                     adGroupEndDate = momentService.utcToLocalTime(localStorage.getItem('edTime'));
+
                     if (momentService.isDateBefore(adGroupStartDate, currentDate)) {
                         startDateElem.datepicker('setStartDate', currentDate);
                         startDateElem.datepicker('update', currentDate);
@@ -319,13 +343,14 @@ define(['angularAMD', 'common/services/constants_service', 'common/moment_utils'
                         startDateElem.datepicker('setStartDate', adGroupStartDate);
                         startDateElem.datepicker('update', adGroupStartDate);
                     }
+
                     startDateElem.datepicker('setEndDate', adGroupEndDate);
                 }
             } else {
-
                 // Normal ad (non-Adgroup)
                 startDateElem.datepicker('setStartDate', campaignStartTime);
                 endDateElem.datepicker('setEndDate', campaignEndTime);
+
                 if ($scope.mode === 'edit') {
                     $scope.setDateInEditMode(campaignStartTime, campaignEndTime);
                 } else {

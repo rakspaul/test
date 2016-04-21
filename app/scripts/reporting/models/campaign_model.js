@@ -16,7 +16,7 @@ define(['angularAMD'], function (angularAMD) {
         this.lineitems_count = '';
         this.actions_count = '';
         this.kpi_status = -1;
-        this.momentInNetworkTZ;
+        this.momentInNetworkTZ = null;
 
         //following variables are used by campaignListModel
         this.setVariables = function () {
@@ -45,6 +45,7 @@ define(['angularAMD'], function (angularAMD) {
         //following are redundant variables and should be removed from single campaign object as they are properties of campaign list.
         this.periodStartDate = '';
         this.periodEndDate = '';
+
         this.constructor = function () {
             return this;
         };
@@ -58,37 +59,44 @@ define(['angularAMD'], function (angularAMD) {
             var today = this.momentInNetworkTZ.today(),
                 endDate = this.momentInNetworkTZ.newMoment(this.endDate),
                 startDate = this.momentInNetworkTZ.newMoment(this.startDate);
+
             if (today.isBefore(startDate)) {
                 //campaign yet to start
                 return "Yet to start";
             }
+
             if (endDate.isBefore(today)) {
                 //campaign ended
                 return "Ended";
             }
+
             if (endDate.isSame(today)) {
                 //campaign ending today
                 return "Ending today";
             }
+
             if (startDate.isSame(today)) {
                 //campaign starting today
                 return "Started today";
             }
+
             return Math.round(endDate.diff(today, 'days', true)) + 1;
         };
 
         this.durationCompletion = function () {
             var today = this.momentInNetworkTZ.today(),
                 endDate = this.momentInNetworkTZ.newMoment(this.endDate),
-                startDate = this.momentInNetworkTZ.newMoment(this.startDate);
+                startDate = this.momentInNetworkTZ.newMoment(this.startDate),
+                totalDays = endDate.diff(startDate, 'days') + 1,
+                daysOver = Math.round(today.diff(startDate, 'days', true));
+
             if (today.isBefore(startDate)) {
                 return 0;
             }
+
             if (endDate.isBefore(today)) {
                 return 100;
             }
-            var totalDays = endDate.diff(startDate, 'days') + 1,
-                daysOver = Math.round(today.diff(startDate, 'days', true));
 
             return Math.round((daysOver / totalDays) * 100);
         };
@@ -96,6 +104,7 @@ define(['angularAMD'], function (angularAMD) {
         this.daysSinceEnded = function () {
             var today = this.momentInNetworkTZ.today(),
                 endDate = this.momentInNetworkTZ.newMoment(this.endDate);
+
             return !endDate.isBefore(today) ? 0 : Math.round(today.diff(endDate, 'days', true)) + 1;
         };
     });
