@@ -19,8 +19,7 @@ define(['angularAMD'], function (angularAMD) {
                         highestEndTime = momentService.utcToLocalTime(adGroupsData.adGroup.endTime),
                         getADsForGroupData = $scope.workflowData.getADsForGroupData[adGroupsIndex],
                         startDateElem = formElem.find('.adGrpStartDateInput'),
-                        endDateElem = formElem.find('.adGrpEndDateInput'),
-                        lineItemObj;
+                        endDateElem = formElem.find('.adGrpEndDateInput');
 
                     $scope.adgroupId = adGroupsData.adGroup.id;
                     $scope.adGroupName = adGroupsData.adGroup.name;
@@ -43,12 +42,7 @@ define(['angularAMD'], function (angularAMD) {
                     //reset the ad group max and min budget flag.
                     $scope.resetAdsBudgetsFlag();
 
-                    lineItemObj = {
-                        id: adGroupsData.adGroup.lineitemId,
-                        name: adGroupsData.adGroup.lineitemName
-                    };
-
-                    $scope.selectLineItems(null, lineItemObj);
+                    $scope.setLineItem(adGroupsData.adGroup.lineitemId);
 
                     $scope.adGroupMaxBudget = (Math.ceil($scope.workflowData.campaignData.deliveryBudget) -
                         adGroupsBudget) + Math.ceil(adsBudget) ;
@@ -66,8 +60,6 @@ define(['angularAMD'], function (angularAMD) {
 
                     startDateElem.datepicker('update', startTime);
                     endDateElem.datepicker('update', highestEndTime);
-
-                    $scope.getLineItems();
                 };
             },
 

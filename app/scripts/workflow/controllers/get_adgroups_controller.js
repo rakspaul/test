@@ -7,8 +7,14 @@ define(['angularAMD','common/moment_utils'],function (angularAMD) {
             return $scope.numofdays;
         };
 
-        $scope.createAdforAdGroup = function (campId, stTime, edTime,unallocatedAmount,adGroupBudget) {
-            var navigateUrl = '/mediaplan/' + $routeParams.campaignId + '/adGroup/' + campId + '/ads/create';
+        $scope.createAdforAdGroup = function (adGroupsData, unallocatedAmount) {
+
+            var campId = adGroupsData.adGroup.id,
+                stTime = adGroupsData.adGroup.startTime,
+                edTime = adGroupsData.adGroup.endTime,
+                adGroupBudget = adGroupsData.adGroup.deliveryBudget,
+                navigateUrl = '/mediaplan/' + $routeParams.campaignId + '/adGroup/' + campId + '/ads/create';
+
             if (typeof(Storage) !== 'undefined') {
                 localStorage.setItem('stTime', stTime); // convert this to EST in ads page
                 localStorage.setItem('edTime', edTime); // convert this to EST in ads create page
@@ -16,6 +22,7 @@ define(['angularAMD','common/moment_utils'],function (angularAMD) {
             workflowService.setUnallocatedAmount(unallocatedAmount);
             localStorage.setItem('unallocatedAmount',unallocatedAmount);
             localStorage.setItem('groupBudget',Number(adGroupBudget));
+            localStorage.setItem("lineitemId", Number(adGroupsData.adGroup.lineitemId));
             $location.url(navigateUrl);
         };
 
