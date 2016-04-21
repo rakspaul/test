@@ -52,8 +52,9 @@
                                     <span class="icon-arrow-down"></span>
                                 </button>
                                 <ul class="dropdown-menu" >
+                                    <li class="available" ng-model="adGroupData.lineitemName" ng-click="adGroupData.lineitemName = 'Create New'"><a>Create New</a></li>
                                     <li ng-repeat="lineItem in lineItems" class="available" ng-model="adGroupData.lineitemName" ng-click="selectLineItems($event, lineItem)"><a>{{lineItem.name}}</a></li>
-                                    <input type= "hidden" name="lineitemId" ng-model="adGroupData.lineitemId" ng-update-hidden required/>
+                                    <input type= "hidden" name="lineitemId" ng-model="adGroupData.lineitemId" ng-update-hidden/>
                                 </ul>
                             </div>
                         </div>
