@@ -9,11 +9,11 @@
     
     <div class="col-md-12 zeroPadding symbolAbs">
 
-        <div class="col-md-2 zeroPadding">
+        <div class="col-md-2 zeroPadding" style="margin-right: 10px;">
             <label class="col-sm-12 control-label greyTxt miniLabels" data-ng-bind="textConstants.SELECTPRIMARYKPI"></label>
             <div class="col-md-12 zeroPadding dropdown-workflow">
                 <div class="dropdown">
-                    <button style="width:130px;" class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                         <span class="text">{{((adData.primaryKpi).toLowerCase()!='impressions')?(adData.primaryKpi):'Impressions'}}</span>
                         <span class="icon-arrow-down"></span>
                     </button>
@@ -42,16 +42,16 @@
         <div class="col-md-2 zeroPadding">
             <label class="control-label greyTxt miniLabels" data-ng-bind="textConstants.TARGETVALUE"></label>
             <span class="KPI_symbol currencySymWLabel">#</span>
-            <input class="target_val_input" style="text-indent: 8px; width: 100%;" type="text" ng-model="adData.targetValue" ng-value="adData.targetValue" fraction-numbers="fraction-numbers" name="targetValue" ng-keyup="calculateTotalAdBudget();">
+            <input class="target_val_input" style="text-indent: 9px; width: 100%;" type="text" ng-model="adData.targetValue" ng-value="adData.targetValue" fraction-numbers="fraction-numbers" name="targetValue" ng-keyup="calculateTotalAdBudget();">
             <span class="VTC_per currencySymWLabel" style="display:none;">%</span>
         </div>
     </div>
     <div class="col-md-12 zeroPadding unitCost symbolAbs">
-        <div class="col-md-2 zeroPadding">
+        <div class="col-md-2 zeroPadding" style="margin-right: 10px;">
             <label class="col-sm-12 control-label greyTxt miniLabels" data-ng-bind="textConstants.UNITCOST"></label>
             <div class="col-md-12 zeroPadding dropdown-workflow">
                  <div class="dropdown">
-                      <button style="width:139px;" class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                      <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                            <span class="text">{{adData.unitType.name ? adData.unitType.name :'CPM'}}</span>
                            <span class="icon-arrow-down"></span>
                       </button>
@@ -68,13 +68,14 @@
         <div class="col-md-2 zeroPadding">
             <label class="control-label greyTxt miniLabels" data-ng-bind="textConstants.RATE"></label>
             <span data-ng-bind="locale.NUMBER_FORMATS.CURRENCY_SYM" class="currencySymWLabel"></span>
-            <input style="width:139px; text-indent: 8px;" type="text" class="form-control" ng-model="adData.unitCost" fraction-numbers="fraction-numbers" name="unitCost" ng-keyup = "calculateTotalAdBudget();checkBudgetExceed();">
+            <input style="text-indent: 9px;" type="text" class="form-control" ng-model="adData.unitCost" fraction-numbers="fraction-numbers" name="unitCost" ng-keyup = "calculateTotalAdBudget();checkBudgetExceed();">
         </div>
     </div>
 
     <div class="col-md-12 zeroPadding symbolAbs impressions_holder">
-        <div class="col-md-2 zeroPadding">
-            <div class="clearfix checkbox_holder">
+        <!--Checkbox Target& Unit Cost-->
+        <div class="col-md-2 zeroPadding" style="margin-right: 10px;">
+            <div class="col-md-12 zeroPadding checkbox_holder">
                 <div class="external_chkbox zeroPadding" style="width: 100%;">
                     <span class="col-md-12 greyTxt">Calculate from <br/>Target & Unit Cost</span>
                     <div class="pull-left squaredFour">
@@ -86,7 +87,8 @@
             </div>
         </div>
 
-        <div class="col-md-3 zeroPadding budget_holder">
+        <!--Total Ad Budget-->
+        <div class="col-md-2 zeroPadding budget_holder">
             <label class="control-label greyTxt miniLabels" data-ng-bind="textConstants.TOTAL_AD_BUDGET"></label>
             <div class="budget_holder_input">
                 <span data-ng-bind="locale.NUMBER_FORMATS.CURRENCY_SYM" class="currencySymWLabel"></span>
