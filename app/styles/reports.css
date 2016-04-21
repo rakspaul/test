@@ -3786,7 +3786,8 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 }
 .report_generator_and_response #dynamicHeader {
   padding-left: 0;
-  min-width: 1277px;
+  /*
+        min-width: 1277px;*/
 }
 .report_generator_and_response #dynamicHeader.smaller {
   background-color: #fff;
@@ -4163,6 +4164,8 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 }
 .report_generator_and_response div.create_scheduled_report {
   margin-bottom: 20px ;
+  margin-left: 0;
+  margin-right: 0;
 }
 .report_generator_and_response div.create_scheduled_report .scheduled_report_fields {
   margin: 6px 0 15px ;
@@ -4175,7 +4178,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
   width: 140px ;
 }
 .report_generator_and_response div.create_scheduled_report .input-daterange-scheduled .input-daterange {
-  width: 390px ;
+  /*width: 390px ;*/
 }
 .report_generator_and_response div.create_scheduled_report .input-daterange-scheduled .endScheduledDate {
   margin-left: 10px;
@@ -4309,7 +4312,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 }
 .custom_report_response_page .custom_report_response_table .each_col.more_dimension_arrow {
   display: none;
-  background: url("/images/cdesk/common_side_arrow.png") no-repeat left 1px #fff;
+  background: url("/images/cdesk/common_side_arrow.png") no-repeat left 1px #ffffff;
   height: 11px;
   width: 12px;
   min-width: 12px;
