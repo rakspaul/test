@@ -23,7 +23,7 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
         $scope.deletePopup=false;
         $scope.successfulRecords = [];
         $scope.clientId = loginModel.getSelectedClient().id;
-
+    
         //$scope.creativeData.creatives_count=1;
         //highlight the header menu - Dashborad, Campaigns, Reports
         domainReports.highlightHeaderMenu();

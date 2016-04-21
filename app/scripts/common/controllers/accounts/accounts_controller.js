@@ -37,6 +37,8 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
             top: '60px',
             left: '0px'
         };
+        $(".each_nav_link").removeClass("active_tab");
+        $("#admin_nav_link").addClass("active_tab");
         $scope.addPixel = function(){
             $scope.advertiserData.pixels.push({});
             _currCtrl.setCalanderSetting();
