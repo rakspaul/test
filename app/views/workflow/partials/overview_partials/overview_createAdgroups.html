@@ -1,9 +1,9 @@
 <div class="col-md-12 adGroupCreate" ng-show="showCreateAdGrp" >
 <form id="createNewAdGrp" name="createNewAdGrp" novalidate>
     <div class="adGroupCreateForm">
-        <h1 class="col-md-12 zeroPadding" ng-if="!editAdGroupFlag" data-ng-bind="textConstants.CREATEADGROUP"></h1>
+        <h1 class="col-md-12 zeroPadding" ng-if="!editAdGroupFlag" data-ng-bind="textConstants.SETADGRP"></h1>
         <div class="clearfix" ng-if="editAdGroupFlag">
-                <h1 class="col-md-4 zeroPadding" data-ng-bind="textConstants.SETADGRP"></h1>
+                <h1 class="col-md-4 zeroPadding" data-ng-bind="textConstants.EDITADGRP"></h1>
                 <span class="pull-right common-loading-btn" style="width: 61px;" ng-show="loadingBtn"></span>
                 <button type="submit"
                         class="btn btn-primary pull-right"
@@ -20,7 +20,7 @@
         <div class="col-md-6 zeroPadding">
             <label for="nameTitleAdGroup" class="col-sm-12 control-label labelQuestTxt" data-ng-bind="textConstants.WHATADGROUPNAME"></label>
             <label class="col-sm-12 control-label greyTxt miniLabels" data-ng-bind="textConstants.ADGROUPNAME"></label>
-            <div class="form-group col-sm-9 zeroPadding" show-errors>
+            <div class="form-group col-sm-12" style="padding:0 30px 0 0 ;" show-errors>
                 <input type="text"
                        class="form-control"
                        id="nameTitleAdGroup"
@@ -41,26 +41,47 @@
             <input type="hidden" name="ad_label" value="{{tags}}" />
         </div>
         <div class="col-md-12 zeroPadding">
-            <label for="budgetIndividualAdGroup" class="col-sm-12 control-label labelQuestTxt">What's the maximum
-                you can spend for your Ad Group?</label>
-            <label class="col-sm-12 control-label greyTxt miniLabels">Budget</label>
-            <div class="form-group col-md-3" style="padding: 0 10px 0 0;" show-errors>
-                <span class="currencyFly">$</span>
-                <input type="number"
-                       class="form-control"
-                       id="budgetIndividualAdGroup"
-                       name="adIGroupBudget"
-                       ng-model="adIGroupBudget"
-                       ng-value="adIGroupBudget"
-                       min-value = "{{adGroupMinBudget}}"
-                       max-value ="{{adGroupMaxBudget}}"
-                       required ng-keyup="validateAdGroupSpend($event)" />
+            <label for="budgetIndividualAdGroup" class="col-sm-12 control-label labelQuestTxt" data-ng-bind="textConstants.MAX_YOU_CAN_SPEND"></label>
+                <div class="col-md-6 zeroPadding">
+                    <label class="col-sm-12 control-label greyTxt miniLabels" data-ng-bind="textConstants.LINE_ITEM"></label>
+                    <div class="form-group col-md-12" style="padding:0 30px 0 0;">
+                        <div class="col-md-12 zeroPadding dropdown-workflow">
+                            <div class="dropdown">
+                                <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" >
+                                    <span class="text">{{adGroupData.lineitemName ? adGroupData.lineitemName : textConstants.SELECT_LABEL}}</span>
+                                    <span class="icon-arrow-down"></span>
+                                </button>
+                                <ul class="dropdown-menu" >
+                                    <li class="available" ng-model="adGroupData.lineitemName" ng-click="adGroupData.lineitemName = 'Create New'"><a>Create New</a></li>
+                                    <li ng-repeat="lineItem in lineItems" class="available" ng-model="adGroupData.lineitemName" ng-click="selectLineItems($event, lineItem)"><a>{{lineItem.name}}</a></li>
+                                    <input type= "hidden" name="lineitemId" ng-model="adGroupData.lineitemId" ng-update-hidden/>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <label class="col-sm-12 control-label greyTxt miniLabels" data-ng-bind="textConstants.MAX_SPEND_FOR_ADGROUP"></label>
+                    <div class="form-group col-md-3" style="padding: 0 10px 0 0;" show-errors>
+                        <span class="currencyFly">$</span>
+                        <input type="number"
+                               class="form-control"
+                               id="budgetIndividualAdGroup"
+                               name="adIGroupBudget"
+                               ng-model="adIGroupBudget"
+                               ng-value="adIGroupBudget"
+                               min-value = "{{adGroupMinBudget}}"
+                               max-value ="{{adGroupMaxBudget}}"
+                               required ng-keyup="validateAdGroupSpend($event)" />
+                     </div>
+                        <label ng-if="createNewAdGrp.adIGroupBudget.$error.required" class="col-sm-12 control-label greyTxt errorLabel" data-ng-bind="textConstants.ADGROUPBUDGETMSG"></label>
+                        <label ng-if="adIGroupBudget === 0" class="col-sm-12 control-label greyTxt customErrorLabel" data-ng-bind="textConstants.ADGROUPBUDGETGREATERTHANZEROMSG"></label>
+                        <label ng-if="adIGroupBudget >0 && !isMinimumAdGroupBudget" class="col-sm-12 control-label greyTxt customErrorLabel" data-ng-bind="textConstants.ADGROUPMINIMUMBUDGETMSG"></label>
+                        <label ng-if="adIGroupBudget >0 && !isMaximumAdGroupBudget" class="col-sm-12 control-label greyTxt customErrorLabel" data-ng-bind="textConstants.ADGROUPMAXIMUMBUDGETMSG"></label>
 
-                <label ng-if="createNewAdGrp.adIGroupBudget.$error.required" class="col-sm-12 control-label greyTxt errorLabel" data-ng-bind="textConstants.ADGROUPBUDGETMSG"></label>
-                <label ng-if="adIGroupBudget === 0" class="col-sm-12 control-label greyTxt customErrorLabel" data-ng-bind="textConstants.ADGROUPBUDGETGREATERTHANZEROMSG"></label>
-                <label ng-if="adIGroupBudget >0 && !isMinimumAdGroupBudget" class="col-sm-12 control-label greyTxt customErrorLabel" data-ng-bind="textConstants.ADGROUPMINIMUMBUDGETMSG"></label>
-                <label ng-if="adIGroupBudget >0 && !isMaximumAdGroupBudget" class="col-sm-12 control-label greyTxt customErrorLabel" data-ng-bind="textConstants.ADGROUPMAXIMUMBUDGETMSG"></label>
-            </div>
+                </div>
+
+
 
             <div class="col-md-3" style="padding: 0 0 0 10px;">
                 <!--Widget Goes Here-->

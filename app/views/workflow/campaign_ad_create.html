@@ -77,10 +77,10 @@
                                                          </ul>
                                                     </div>
                                                </div>
-
-                                                <button ng-show ="!adCreateLoader"
+                                                <button
+                                                        ng-show ="!adCreateLoader"
                                                         type="button"
-                                                        ng-disabled="!adData.adName"
+                                                        ng-disabled="adData.budgetExceeded || adData.adBudgetExceedUnallocated || !adData.adName || adData.targetValue.length==0 || adData.unitCost.length==0 || adData.totalAdBudget.length==0 || adData.budgetAmount.length==0"
                                                         id="SaveAd"
                                                         ng-click="campaignAdSave(false)"
                                                         ng-bind="textConstants.WF_AD_SAVE_CLOSE"

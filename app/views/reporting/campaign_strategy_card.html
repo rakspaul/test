@@ -27,26 +27,31 @@
             <div class="days_left_holder">
                 <div class="total_days_holder">
                     <div class="clearfix days_end_points">
-                        <span class="start_end">{{strategy.startDate | date :'d MMM y' }}</span>
-                        <span class="finish_end">{{strategy.endDate | date :'d MMM y' }}*date bug*</span>
+                        <span class="start_end" ng-bind="strategy.startDate | date :'d MMM y'"></span>
+                        <span class="finish_end" ng-bind="strategy.endDate | date :'d MMM y'"></span>
                     </div>
                     <div ng-init="duration_s = strategy.durationLeft()"></div>
                     <div class="days_over" ng-style="{'width':strategy.durationCompletion() +'%'};">
-                        <span ng-if="duration_s == 'Yet to start'" class="days_over_text start_text">
-                            {{textConstants.YET_TO_START}}
+                        <span ng-if="duration_s == 'Yet to start'"
+                              ng-bind="textConstants.YET_TO_START"
+                              class="days_over_text start_text">
                         </span>
-                        <span ng-if="duration_s == 'Ended'" class="days_over_text ended_text" >
-                            {{textConstants.ENDED}}
+                        <span ng-if="duration_s == 'Ended'"
+                              ng-bind="textConstants.ENDED"
+                              class="days_over_text ended_text" >
                         </span>
-                        <span ng-if="duration_s > 0" class="days_over_text">
-                            {{duration_s}} {{textConstants.DAYS_LEFT}}
+                        <span ng-if="duration_s > 0"
+                              ng-bind="duration_s + ' ' + textConstants.DAYS_LEFT"
+                              class="days_over_text">
                         </span>
                     </div>
-                    <div ng-if="duration_s == 'Started today'" class="days_not_over_text start_text">
-                        {{textConstants.STARTED_TODAY}}
+                    <div ng-if="duration_s == 'Started today'"
+                         ng-bind="textConstants.STARTED_TODAY"
+                         class="days_not_over_text start_text">
                     </div>
-                    <div ng-if="duration_s == 'Ending today'" class="days_not_over_text ended_text" >
-                        {{textConstants.ENDING_TODAY}}
+                    <div ng-if="duration_s == 'Ending today'"
+                         ng-bind="textConstants.ENDING_TODAY"
+                         class="days_not_over_text ended_text" >
                     </div>
                 </div>
             </div>
@@ -57,14 +62,15 @@
                         <span></span>
                         <span></span>
                     </div>
-                    <div class="pull-left">
-                        {{strategy.tactics_count}} {{(strategy.tactics_count == 0 || strategy.tactics_count > 1) ?
-                            "Ads" : "Ad" }}
+                    <div class="pull-left"
+                         ng-bind="strategy.tactics_count + ' ' +
+                            (strategy.tactics_count == 0 || strategy.tactics_count > 1) ? 'Ads' : 'Ad'">
                     </div>
                 </div>
                 <a ><!--  href="/#/performance" -->
-                    <div class="btn btn-default pull-right" ng-click="$parent.$parent.viewReports(campaign, strategy)">
-                        {{textConstants.VIEW_REPORT}}
+                    <div class="btn btn-default pull-right"
+                         ng-bind="textConstants.VIEW_REPORT"
+                         ng-click="$parent.$parent.viewReports(campaign, strategy)">
                     </div>
                 </a>
                 <!-- <a  ng-click="$parent.$parent.setActivityButtonData(campaign, strategy)">
@@ -78,22 +84,22 @@
         <!--Column 2-->
         <div class="col-md-4 each_campaign_section metric_campaign_section">
             <div class="clearfix metric_graph_header">
-                <span class="metric_title">{{textConstants.SPEND}}</span>
-                <span class="metric_val">{{strategy.grossRev | currency:undefined: 2}}</span>
+                <span class="metric_title" ng-bind="textConstants.SPEND"></span>
+                <span class="metric_val" ng-bind="strategy.grossRev | currency:undefined: 2"></span>
             </div>
             <div class="metric_graph {{getSpendClassForStrategy(strategy)}}">
                 <div class="full_metric_graph">
                     <!-- put completely_filled when 100% -->
                     <div class="selected_graph {{(getSpendWidthForStrategy(strategy) >= 100) ? 'completely_filled' : ''}}"
-                         ng-style="{'width':getSpendWidthForStrategy(strategy) +'%'};">
+                         ng-style="{width: getSpendWidthForStrategy(strategy) + '%'};">
                     </div>
                     <!-- put start_beginning when at start -->
                     <div class="graph_start_point {{(getSpendTickWidthForStrategy(strategy) <= 0) ?
                             'start_beginning' : ''}} {{(getSpendTickWidthForStrategy(strategy) >= 88) ?
                             'start_end_point' : ''}}"
-                         ng-style="{'left':getSpendTickWidthForStrategy(strategy) +'%'};">
+                         ng-style="{left: getSpendTickWidthForStrategy(strategy) +'%'};">
                         <div class="end_point_val">
-                            <span class="icon_KPI"> {{strategy.expectedMediaCost |  nrFormatWithCurrency }}</span>
+                            <span class="icon_KPI" ng-bind="strategy.expectedMediaCost | nrFormatWithCurrency"></span>
                             <div class="end_point_line"></div>
                         </div>
                     </div>
@@ -101,7 +107,8 @@
                         <!-- put completed_end_point when at end -->
                         <div class="end_point_val">
                             <div class="end_point_line"></div>
-                            <span>{{textConstants.BUDGET}}: {{strategy.totalMediaCost | currency:undefined:2}}</span>
+                            <span ng-bind="textConstants.BUDGET + ': ' + strategy.totalMediaCost|currency:undefined:2">
+                            </span>
                         </div>
                     </div>
                 </div>
@@ -109,31 +116,35 @@
             <div class="clearfix metric_graph_details">
                 <div class="each_metric_graph_details" ng-if="strategy.totalImpressions">
                     <span class="detail_val" ng-bind="strategy.totalImpressions | nrFormat"></span>
-                    <span>{{textConstants.IMP_WITH_DOT}}</span>
+                    <span ng-bind="textConstants.IMP_WITH_DOT"></span>
                 </div>
                 <div class="each_metric_graph_details metric_graph_details_ctr" ng-if="strategy.ctr > 0">
-                    <span class="detail_val">{{strategy.ctr | roundThisOff : 2}}% </span>
-                    <span>{{textConstants.CTR}}</span>
+                    <span class="detail_val" ng-bind="(strategy.ctr | roundThisOff : 2) + '%'"></span>
+                    <span ng-bind="textConstants.CTR"></span>
                 </div>
                 <!-- when action rate is present -->
                 <!-- <div class="each_metric_graph_details metric_graph_details_action"
                 ng-if="!strategy.adFormats.videoAds || strategy.vtc_rate === 0"> -->
                 <div class="each_metric_graph_details metric_graph_details_action" ng-if="strategy.vtc_rate === 0">
-                    <span class="detail_val">{{strategy.actionRate | number : 2}}%</span>
+                    <span class="detail_val" ng-bind="(strategy.actionRate | number : 2) + '%'">{{}}%</span>
                     <span>{{textConstants.ACTION_RATE}}</span>
                 </div>
                 <!-- <div class="each_metric_graph_details  metric_graph_details_vtc"
                 ng-if="strategy.adFormats.videoAds && strategy.vtc_rate > 0"> -->
                 <div class="each_metric_graph_details  metric_graph_details_vtc" ng-if="strategy.vtc_rate > 0">
-                    <div class="quartile_details_VTC_btn" ng-mouseover="VTCpopup($event,1)"
-                         ng-mouseout="VTCpopup($event,0)">
-                            <span class="detail_val">{{strategy.vtc_rate | number : 2}}%</span>
-                        <span>{{textConstants.VTC}}</span>
+                    <div class="quartile_details_VTC_btn" ng-mouseover="VTCpopup($event, 1)"
+                         ng-mouseout="VTCpopup($event, 0)">
+                        <span class="detail_val" ng-bind="(strategy.vtc_rate | number : 2) + '%'"></span>
+                        <span ng-bind="textConstants.VTC"></span>
                     </div>
                     <div class="quartile_details_VTC">
-                        <div class="quartile_details_title">{{textConstants.QUARTILE_DETAILS}}</div>
-                        <div class="quartile_details_graph" width='328' height='158' quartiles-graph
-                             chart-data="{{strategy.vtcData}}"></div>
+                        <div class="quartile_details_title" ng-bind="textConstants.QUARTILE_DETAILS"></div>
+                        <div class="quartile_details_graph"
+                             width="328"
+                             height="158"
+                             quartiles-graph
+                             chart-data="{{strategy.vtcData}}">
+                        </div>
                     </div>
                 </div>
             </div>
@@ -143,22 +154,24 @@
         <div class="col-md-4 each_campaign_section campaign_section_KPI">
             <div class="graph_details_KPI">
                 <div class="clearfix details_KPI_row1">
-                    <span class="details_KPI_title">
-                        {{campaign.kpiType!='null' ?  campaign.kpiType : 'NA' | displayToCamelCase}}
+                    <span class="details_KPI_title"
+                          ng-bind="campaign.kpiType !== 'null' ?  campaign.kpiType : 'NA' | displayToCamelCase">
                     </span>
                     <span class="pull-right details_KPI_row2"
                           ng-if="campaign.kpiValue || strategy.targetKPIImpressions">
-                        <span ng-if="strategy.chart !==false">
-                            {{campaign.kpiType.toLowerCase()=="delivery"?( strategy.targetKPIImpressions | nrFormat ):
-                                (campaign.kpiValue | kpiFormatter:campaign.kpiType)}}
+                        <span ng-if="strategy.chart !== false"
+                              ng-bind="campaign.kpiType.toLowerCase() === 'delivery' ?
+                                    (strategy.targetKPIImpressions|nrFormat) :
+                                    (campaign.kpiValue | kpiFormatter:campaign.kpiType)">
                         </span>
                         <span class="icon_KPI" ng-if="strategy.chart !==false"></span>
                     </span>
                     <span class="pull-right cumulative_val" ng-if="strategy.chart !==false">
                         {{textConstants.CUMULATIVE_VALUE}}
-                            <span>{{ (campaign.kpiType.toLowerCase()=="delivery") ?
-                            (strategy.totalImpressions|  kpiFormatter:campaign.kpiType:1) :
-                            (strategy.map[campaign.kpiType.toLowerCase()] | kpiFormatter:campaign.kpiType:1)}}</span>
+                            <span ng-bind="(campaign.kpiType.toLowerCase() === 'delivery') ?
+                                (strategy.totalImpressions|  kpiFormatter:campaign.kpiType:1) :
+                                (strategy.map[campaign.kpiType.toLowerCase()] | kpiFormatter:campaign.kpiType:1)">
+                            </span>
                     </span>
                 </div>
             </div>
@@ -170,8 +183,13 @@
                 </span>
                 <span ng-switch-default>
                     <div ng-if="(strategy.chart && campaign.kpiType)" class="graph_KPI_holder" >
-                        <div class="campaign_details_graph" width='355' height='111' campaign-chart
-                             chart-data="{{strategy.lineChart}}" chart-location="strategy" chart-tag="{{strategy.id}}">
+                        <div class="campaign_details_graph"
+                             width="355"
+                             height="111"
+                             campaign-chart
+                             chart-data="{{strategy.lineChart}}"
+                             chart-location="strategy"
+                             chart-tag="{{strategy.id}}">
                         </div>
                         <!-- <highchart class="graph_KPI_holder" config="strategy.chart" chartTitle=""></highchart> -->
                     </div>
@@ -190,5 +208,8 @@
 </div>
 
 <span ng-if='campaign.campaignStrategiesLoadMore.length' class="load-more-strategies">
-    <a ng-click="loadMoreStrategies(campaign.orderId)" class="btn btn-link">{{textConstants.LOAD_MORE_STRATEGIES}}</a>
+    <a ng-click="loadMoreStrategies(campaign.orderId)"
+       class="btn btn-link"
+       ng-bind="textConstants.LOAD_MORE_STRATEGIES">
+    </a>
 </span>

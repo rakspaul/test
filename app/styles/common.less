@@ -1471,6 +1471,14 @@
 		font-family: @font-family_4;
 	}
 }
+.external_chkbox.disabled {
+	.squaredFour {
+		opacity: 0.5 ;
+		label {
+			cursor: default;
+		}
+	}
+}
 .common-load-more {
 	margin: 60px auto 0;
 	width: 30px;
@@ -1830,8 +1838,18 @@ multiselect {
 	font-size: 12px;
 }
 .errorTxtColor {
-	color:#F24444;
-	font-family: 'Avenir-bold';
+	color:@color_25  ;
+	font-family: 'Avenir-bold'; 
+}
+.errorText {
+	color:@color_25  ;
+}
+.errorBorder {
+	border-color: @color_25 !important ;
+}
+.disabled-field {
+	background: #eee ;
+	cursor: default;
 }
 .common-loading-btn {
 	width: 80px;

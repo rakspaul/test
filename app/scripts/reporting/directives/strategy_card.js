@@ -56,8 +56,7 @@ define(['angularAMD', 'common/services/constants_service', 'reporting/campaignLi
 
                     $scope.getSpendClassForStrategy = function (strategy) {
                         var spendDifference = $scope.getSpendDiffForStrategy(strategy);
-console.log('strategy.endDate = ', strategy.endDate)
-                        console.log('momentService.utcToLocalTime(strategy.endDate) = ', momentService.utcToLocalTime(strategy.endDate))
+
                         return $scope.getClassFromDiff(spendDifference, strategy.endDate);
                     };
 
@@ -106,15 +105,20 @@ console.log('strategy.endDate = ', strategy.endDate)
                         if (actualWidth > 100) {
                             actualWidth = 100;
                         }
+
                         return actualWidth;
                     };
 
                     $scope.getSpendTickWidthForStrategy = function (strategy) {
+                        var actualWidth;
+
                         if (strategy !== undefined) {
-                            var actualWidth = 100 + $scope.getSpendTickDifferenceForStrategy(strategy);
+                            actualWidth = 100 + $scope.getSpendTickDifferenceForStrategy(strategy);
+
                             if (actualWidth > 100) {
                                 actualWidth = 100;
                             }
+
                             return actualWidth;
                         }
                     };

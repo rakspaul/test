@@ -44,9 +44,11 @@ define(['angularAMD', '../../common/utils', 'common/services/constants_service',
                                 labelsLen = obj.labels.length;
                                 searchTermsArr = $scope.searchTerm.split(' ');
                                 searchTermsLen = searchTermsArr.length;
+
                                 if (searchTermsLen > 1) {
                                     searchTermsArr.push($scope.searchTerm);
                                 }
+
                                 for (i = 0; i < labelsLen; i++) {
                                     for (j = 0; j < searchTermsLen; j++) {
                                         temp = highlightLabelPill(obj.labels[i], searchTermsArr[j]).toString();
@@ -117,9 +119,11 @@ define(['angularAMD', '../../common/utils', 'common/services/constants_service',
                             if (campaign !== undefined) {
                                 spendDifference = -999; //fix for initial loading
                                 campaignCDBObj = $scope.campaigns.cdbDataMap[campaign.orderId];
+
                                 if (campaignCDBObj === undefined) {
                                     return spendDifference;
                                 }
+
                                 spend = campaignCDBObj.getGrossRev();
                                 expectedSpend = campaign.expectedMediaCost;
                                 return $scope.getPercentDiff(expectedSpend, spend);
@@ -135,11 +139,14 @@ define(['angularAMD', '../../common/utils', 'common/services/constants_service',
                             if (campaign !== undefined) {
                                 spendDifference = 0;
                                 campaignCDBObj = $scope.campaigns.cdbDataMap[campaign.orderId];
+
                                 if (campaignCDBObj === undefined) {
                                     return spendDifference;
                                 }
+
                                 spend = campaignCDBObj.getGrossRev();
                                 totalSpend = campaign.totalMediaCost;
+
                                 return $scope.getPercentDiff(totalSpend, spend);
                             }
                         };
@@ -153,11 +160,14 @@ define(['angularAMD', '../../common/utils', 'common/services/constants_service',
                             if (campaign !== undefined) {
                                 spendDifference = 0;
                                 campaignCDBObj = $scope.campaigns.cdbDataMap[campaign.orderId];
+
                                 if (campaignCDBObj === undefined) {
                                     return spendDifference;
                                 }
+
                                 spend = campaign.expectedMediaCost;
                                 expectedSpend = campaign.totalMediaCost;
+
                                 return $scope.getPercentDiff(expectedSpend, spend);
                             }
                         };
@@ -224,6 +234,7 @@ define(['angularAMD', '../../common/utils', 'common/services/constants_service',
 
                             if (campaign !== undefined) {
                                 actualWidth = 100 + $scope.getSpendTotalDifference(campaign);
+
                                 if (actualWidth > 100) {
                                     actualWidth = 100;
                                 }
@@ -236,9 +247,11 @@ define(['angularAMD', '../../common/utils', 'common/services/constants_service',
 
                             if (campaign !== undefined) {
                                 actualWidth = 100 + $scope.getSpendTickDifference(campaign);
+
                                 if (actualWidth > 100) {
                                     actualWidth = 100;
                                 }
+
                                 return actualWidth;
                             }
                         };

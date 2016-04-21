@@ -3,21 +3,21 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
     'common/moment_utils', 'common/services/vistoconfig_service', 'workflow/controllers/budget_delivery_controller',
     'workflow/controllers/buying_platform_controller', 'workflow/controllers/targetting_controller',
     'workflow/controllers/geo_targetting_controller', 'workflow/controllers/audience_targetting_controller',
-    'workflow/controllers/daypart_create_controller', 'workflow/controllers/inventory_filters_controller',
-    'workflow/controllers/creative_controller', 'workflow/controllers/creative_list_controller',
-    'workflow/controllers/creative_tag_controller', 'workflow/services/platform_custome_module',
-    'common/services/zip_code'],
+    'workflow/controllers/daypart_create_controller', 'workflow/controllers/video_targetting_controller',
+    'workflow/controllers/inventory_filters_controller', 'workflow/controllers/creative_controller',
+    'workflow/controllers/creative_list_controller', 'workflow/controllers/creative_tag_controller',
+    'workflow/services/platform_custome_module', 'common/services/zip_code'],
     function (angularAMD) {
         angularAMD.controller('CampaignAdsCreateController', function ($scope,  $rootScope,$routeParams, $locale,
-                                                                       $location,  $filter, $timeout, constants,
+                                                                       $location,  $filter, $timeout,constants,
                                                                        workflowService, loginModel, dataService,
                                                                        audienceService, RoleBasedService, momentService,
                                                                        vistoconfig) {
-
             // Flag to denote that ad format has changed
             $scope.adFormatChanged = false;
 
             $scope.adCreateLoader = false;
+            $scope.isChecked=true;
 
             var winHeaderHeight = $(window).height() - 50,
                 winHeight,
@@ -30,8 +30,10 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                         'clientName': data.clientName
                     };
 
+
                     localStorage.removeItem('campaignData');
                     localStorage.setItem('campaignData', window.JSON.stringify(campaignData));
+                    $rootScope.$broadcast('adCampaignDataSet');
                 },
 
                 campaignOverView = {
@@ -43,12 +45,10 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
 
                                 if (result.status === 'OK' || result.status === 'success') {
                                     responseData = result.data.data;
-                                    // redirect user to media plan list screen if new or edited ad
-                                    // is from archived campaign
-                                    if (responseData.isArchived){
+                                    //redirect user to media plan list screen if new or edited ad is from archived campaign
+                                    if(responseData.isArchived){
                                         $scope.redirectFlag = true;
                                     }
-
                                     $scope.workflowData.campaignData = responseData;
                                     saveDataInLocalStorage(responseData);
 
@@ -58,15 +58,13 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                                             _.filter($scope.workflowData.campaignData.selectedObjectives,
                                                 function (item) {
                                                     return item.objective === 'Branding';
-                                                }
-                                            );
+                                                });
 
                                         $scope.performanceIcon =
                                             _.filter($scope.workflowData.campaignData.selectedObjectives,
                                                 function (item) {
                                                     return item.objective === 'Performance';
-                                                }
-                                            );
+                                                });
                                     }
 
                                     clientId = responseData.clientId;
@@ -81,8 +79,8 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                                                 })
                                                 .then(function (result) {
                                                     $scope.getAd_result = result.data.data;
-                                                    // redirect user to campaingn overview screen if ad is archived
-                                                    if ($scope.getAd_result.isArchived){
+                                                    //redirect user to campaingn overview screen if ad is archived
+                                                    if($scope.getAd_result.isArchived){
                                                         $scope.redirectFlag = true;
                                                         $scope.archivedAdFlag = true;
                                                     }
@@ -102,9 +100,9 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                                                         responseData = result.data.data.ad_groups;
                                                         $scope.workflowData.campaignGetAdGroupsData = responseData;
                                                         n = responseData.length;
-
                                                         for (i = 0; i < n; i++) {
-                                                            if (responseData[i].adGroup.id === parseInt($scope.adGroupId)) {
+                                                            if (responseData[i].adGroup.id ===
+                                                                parseInt($scope.adGroupId)) {
                                                                 adGroupData.startDate =
                                                                     momentService
                                                                         .utcToLocalTime(responseData[i].adGroup.startTime);
@@ -113,17 +111,15 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                                                                         .utcToLocalTime(responseData[i].adGroup.endTime);
                                                             }
                                                         }
-
                                                         $scope.workflowData.adGroupData = adGroupData;
 
-                                                        // to get all ads with in ad group
+                                                        //to get all ads with in ad group
                                                         workflowService
                                                             .getDetailedAdsInAdGroup($scope.campaignId,
                                                                 $scope.adGroupId, $scope.adId)
                                                             .then(function (result) {
                                                                 $scope.getAd_result = result.data.data;
-
-                                                                // redirect user to campaingn overview screen
+                                                                //redirect user to campaingn overview screen
                                                                 // if ad is archived
                                                                 if ($scope.getAd_result.isArchived) {
                                                                     $scope.redirectFlag = true;
@@ -132,6 +128,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                                                                 disablePauseEnableResume($scope.getAd_result);
                                                                 processEditMode(result, clientId, advertiserId);
                                                             });
+
                                                     } else {
                                                         campaignOverView.errorHandler(result);
                                                     }
@@ -268,11 +265,10 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                         }
 
                         function adSaveErrorHandler (data) {
-                            var errMsg = $scope.textConstants.PARTIAL_AD_SAVE_FAILURE;
-
                             data = data || '' ;
                             $scope.downloadingTracker = false;
-                            if (data && data.data && data.data[0] && data.data[0].AdBudget) {
+                            var errMsg = $scope.textConstants.PARTIAL_AD_SAVE_FAILURE;
+                            if(data && data.data && data.data[0] && data.data[0].AdBudget) {
                                 errMsg = data.data[0].AdBudget;
                             }
                             $rootScope.setErrAlertMessage(errMsg);
@@ -281,7 +277,6 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                         promiseObj = $scope.adId ?
                             workflowService.updateAd(postDataObj) :
                             workflowService.createAd(postDataObj);
-
                         promiseObj.then(function (result) {
                             var responseData = result.data.data,
                                 url;
@@ -306,7 +301,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                                     campaignOverView.saveTrackerFile();
                                 }
                             } else {
-                                if (responseData.statusCode === 400) {
+                                if(responseData.statusCode === 400) {
                                     adSaveErrorHandler(responseData);
                                 } else {
                                     $scope.downloadingTracker = false;
@@ -327,6 +322,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
 
                                 if (result.status === 'OK' || result.status === 'success') {
                                     responseData = result.data.data;
+
                                     if (responseData.creatives.length > 0) {
                                         $scope.emptyCreativesFlag = false;
                                     } else {
@@ -346,80 +342,74 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                         console.log(errData);
                     },
 
-                    getAllMediaPlan: function(){
+                    getAllMediaPlan: function () {
                         // make api call to fetch all media plan - used in ad clone popup
-                         workflowService
-                             .getAllCampaignsForAdClone()
-                             .then(function (result) {
-                                 var responseData,
-                                     index;
+                        workflowService.getAllCampaignsForAdClone().then(function(result){
+                            var responseData,
+                                index;
+                            if (result.status === 'OK' || result.status === 'success') {
+                                responseData = result.data.data;
+                                $scope.mediaPlanList = responseData;
+                                //sort media plan list
+                                $scope.mediaPlanList =  _.sortBy($scope.mediaPlanList , 'name');
 
-                                 if (result.status === 'OK' || result.status === 'success') {
-                                     responseData = result.data.data;
-                                     $scope.mediaPlanList = responseData;
-                                     //sort media plan list
-                                     $scope.mediaPlanList =  _.sortBy($scope.mediaPlanList , 'name');
-                                     index = _.findIndex($scope.mediaPlanList,function(plan){
-                                         return parseInt(plan.id) === parseInt($scope.campaignId);
-                                     });
-
-                                     if (index !== -1){
-                                         $scope.mediaPlanName = $scope.mediaPlanList[index].name +
-                                             ' <span class="greyTxt">(Current)</span>';
-                                         selectedMediaPlanId = $scope.mediaPlanList[index].id;
-                                     }
-                                     campaignOverView.getAdGroups();
-                                 } else {
-                                     campaignOverView.errorHandler(result);
-                                 }
-                             });
-                        //$scope.mediaPlanList = [{id:1,name:"shrujan"},{id:2,name:"shetty"}]; // ask dummy json
+                                index = _.findIndex($scope.mediaPlanList,function(plan){
+                                    return parseInt(plan.id) === parseInt($scope.campaignId);
+                                });
+                                if(index !== -1){
+                                    $scope.mediaPlanName = $scope.mediaPlanList[index].name +
+                                        ' <span class="greyTxt">(Current)</span>';
+                                    selectedMediaPlanId = $scope.mediaPlanList[index].id;
+                                }
+                                campaignOverView.getAdGroups();
+                            } else {
+                                campaignOverView.errorHandler(result);
+                            }
+                        });
+                        //$scope.mediaPlanList = [{id:1,name:'shrujan'},{id:2,name:'shetty'}]; // ask dummy json
                     },
 
                     getAdGroups: function(){
                         // make api call to fetch all media plan - used in ad clone popup
-                         workflowService
-                             .getAdgroups(selectedMediaPlanId, false)
-                             .then(function (result) {
-                                 var responseData;
-
-                                 if (result.status === 'OK' || result.status === 'success') {
-                                     responseData = result.data.data.ad_groups;
-                                     $scope.adGroupList = responseData;
-                                 } else {
-                                     campaignOverView.errorHandler(result);
-                                 }
-                             });
+                        workflowService
+                            .getAdgroups(selectedMediaPlanId, false)
+                            .then(function (result) {
+                                var responseData;
+                                if (result.status === 'OK' || result.status === 'success') {
+                                    responseData = result.data.data.ad_groups;
+                                    $scope.adGroupList = responseData;
+                                } else {
+                                    campaignOverView.errorHandler(result);
+                                }
+                            });
                     },
 
-                    cloneAd: function(){
+                    cloneAd: function () {
                         var requestData = {
-                            source_ad_id: $scope.adId,
-                            ad_group: selectedAdGroupId
+                                source_ad_id: $scope.adId,
+                                ad_group: selectedAdGroupId
                             },
+
                             responseData;
 
                         workflowService
-                            .cloneAd(requestData, selectedMediaPlanId)
+                            .cloneAd(requestData,selectedMediaPlanId)
                             .then(function(result){
-                                var url;
-
                                 if (result.status === 'OK' || result.status === 'success') {
                                     responseData = result.data.data;
                                     //$rootScope.setErrAlertMessage(responseData.message);
-                                    url = '/mediaplan/'+responseData.campaignId+'/';
 
-                                    if (responseData.adGroupId){
+                                    var url = '/mediaplan/'+responseData.campaignId+'/';
+                                    if(responseData.adGroupId){
                                         url += 'adGroup/'+responseData.adGroupId+'/';
                                     }
-
                                     url += 'ads/'+responseData.id+'/edit';
                                     $scope.showCloneAdPopup = false;
                                     $rootScope.setErrAlertMessage($scope.textConstants.PARTIAL_AD_CLONE_SUCCESS, 0);
-
                                     $timeout(function(){
                                         $location.url(url);
-                                    }, 500);
+                                    },500);
+
                                 } else {
                                     $scope.showCloneAdPopup = false;
                                     $scope.adArchiveLoader = false;
@@ -429,7 +419,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                     }
                 };
 
-            $scope.redirectUser = function(isAdArchived){
+            $scope.redirectUser = function (isAdArchived) {
                 var url;
 
                 $scope.redirectFlag = false;
@@ -456,7 +446,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                 var winHeight = $(window).height() - 110;
 
                 $('.campaignAdCreateWrap, .campaignAdCreatePage, .left_column_nav').css('min-height', winHeight + 'px');
-                $('.adStepOne .tab-pane').css('min-height', winHeight - 30 + 'px');
+                // $('.adStepOne .tab-pane').css('min-height', winHeight - 30 + 'px');
                 $('.targetingSlide .tab-pane').css('min-height', winHeight - 130 + 'px');
                 $('.dayTargetLower').css('min-height', winHeight - 290 + 'px');
             }
@@ -481,7 +471,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                     );
                 }
 
-                if ( $scope.workflowData.adsData.labels && $scope.workflowData.adsData.labels.length > 0) {
+                if( $scope.workflowData.adsData.labels && $scope.workflowData.adsData.labels.length > 0){
                     $scope.tags = workflowService.recreateLabels($scope.workflowData.adsData.labels);
                 }
 
@@ -563,8 +553,36 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                     $scope.adData.unitCost = responseData.rateValue;
                 }
 
-                if (responseData.budgetValue) {
-                    $scope.adData.budgetAmount = responseData.budgetValue;
+                if (responseData.totalBudget >=0) {
+                    $scope.adData.totalAdBudget=responseData.totalBudget;
+                    $('#targetUnitCost_squaredFour').prop('checked',responseData.enabledBudgetCalculation);
+                    //$('.budget_holder_input').find('input[type="text"]')
+                    // .attr('disabled', responseData.enabledBudgetCalculation);
+                    $('.totalBudgetInputClass').attr('disabled', responseData.enabledBudgetCalculation);
+
+                    //disabled checkBox if its primary!=Impression && UnitCost!=CPM
+                    if(((responseData.kpiType).toUpperCase() !== 'IMPRESSIONS' ||
+                        (responseData.rateType).toUpperCase()!== 'CPM') && responseData.enabledBudgetCalculation) {
+                        $('.impressions_holder').find('input[type="checkbox"]').attr('disabled', true);
+                    }else{
+                        $('.impressions_holder').find('input[type="checkbox"]').attr('disabled', false);
+                    }
+
+                    if(((responseData.kpiType).toUpperCase() === 'IMPRESSIONS') &&
+                        (responseData.rateType).toUpperCase() === 'CPM') {
+                        $('.external_chkbox').show();
+                    }else{
+                        $('.external_chkbox').hide();
+                    }
+                }
+
+                if(responseData.kpiType){
+                    $scope.adData.primaryKpi=responseData.kpiType;
+                    $scope.adData.targetValue=Number(responseData.kpiValue);
+                }
+
+                if (responseData.budgetValue>=0) {
+                    $scope.adData.budgetAmount = Number(responseData.budgetValue);
                 }
 
                 if (responseData.rateType) {
@@ -572,8 +590,11 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                         return item.name === responseData.rateType;
                     });
 
+                    $scope.unitName=responseData.rateType;
+
                     // cpm ..... dropdown
                     $scope.adData.unitType = $scope.workflowData.unitTypes[idx];
+
                     $('#unitcostType')
                         .parents('.dropdown')
                         .find('.btn')
@@ -626,7 +647,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                     }
                 }
 
-                $scope.$broadcast('updatePlatform', [responseData.platform]);
+                $scope.$broadcast('updatePlatform', responseData.platform);
 
                 // creative tags
                 if (responseData.creatives) {
@@ -655,7 +676,10 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                     $scope.$broadcast('setTargeting', ['Audience']);
                 }
 
-                $scope.$broadcast('getDominList', [{'clientId' : clientId, 'advertiserId' : advertiserId}]);
+                $scope.$broadcast('getDominList', [{
+                    clientId: clientId,
+                    advertiserId: advertiserId
+                }]);
             }
 
             function disablePauseEnableResume(getAdResultData) {
@@ -832,9 +856,11 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
 
             $scope.selectMediaPlan = function (mediaPlan) {
                 selectedMediaPlanId = mediaPlan.id;
-                if (parseInt(selectedMediaPlanId) === parseInt($scope.campaignId)){
+
+                if(parseInt(selectedMediaPlanId) === parseInt($scope.campaignId)){
                     $scope.mediaPlanName = mediaPlan.name+ ' <span class="greyTxt">(Current)</span>';
-                } else {
+                }
+                else{
                     $scope.mediaPlanName = mediaPlan.name;
                 }
 
@@ -846,7 +872,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
             };
 
             $scope.selectAdGroup = function (adGroup) {
-                if (adGroup){
+                if(adGroup){
                     selectedAdGroupId = adGroup.id;
                     $scope.adGroupName = adGroup.name;
                 } else {
@@ -891,9 +917,11 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                 } else {
                     $scope.adData.budgetTypeLabel = 'Impressions';
                 }
+
                 if ($scope.adData.budgetType && $scope.adData.budgetType.toLowerCase() !== 'cost') {
                     $scope.adData.budgetType = $scope.adData.budgetTypeLabel;
                 }
+
                 $scope.adData[type] = item;
             };
 
@@ -904,10 +932,10 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
 
             $scope.getAdFormatIconName = function (adFormat) {
                 var adFormatMapper = {
-                    'display': 'image',
-                    'video': 'video',
+                    display: 'image',
+                    video: 'video',
                     'rich media': 'rich-media',
-                    'social': 'social'
+                    social: 'social'
                 };
 
                 return adFormatMapper[adFormat.toLowerCase()];
@@ -915,9 +943,9 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
 
             $scope.getScreenTypeIconName = function (screenType) {
                 var screenTypeMapper = {
-                    'desktop': 'desktop',
-                    'mobile': 'mobile',
-                    'tablet': 'tablet'
+                    desktop: 'desktop',
+                    mobile: 'mobile',
+                    tablet: 'tablet'
                 };
 
                 return screenTypeMapper[screenType.toLowerCase()];
@@ -925,8 +953,8 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
 
             $scope.getGoalIconName = function (goal) {
                 var goalMapper = {
-                    'performance': 'performance',
-                    'brand': 'brand'
+                    performance: 'performance',
+                    brand: 'brand'
                 };
 
                 return goalMapper[goal.toLowerCase()];
@@ -936,30 +964,30 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                 var platformMapper = {
                     'visto bidder': 'Visto_fav_icon',
                     'visto bidder - test': 'Visto_fav_icon',
-                    'appnexus': 'logo_C_appnexus',
+                    appnexus: 'logo_C_appnexus',
                     'appnexus - test': 'logo_C_appnexus',
-                    'facebook': 'facebook-FBexchange',
-                    'dbm': 'doubleclick-DFP',
-                    'dfp': 'doubleclick-DFP',
+                    facebook: 'facebook-FBexchange',
+                    dbm: 'doubleclick-DFP',
+                    dfp: 'doubleclick-DFP',
                     'place media': 'place_media',
-                    'telemetry': 'telemetry',
-                    'xad': 'xad',
-                    'twitter': 'twitter',
+                    telemetry: 'telemetry',
+                    xad: 'xad',
+                    twitter: 'twitter',
                     'ad theorent': 'ad_theorent',
-                    'dstillery': 'dstillery',
+                    dstillery: 'dstillery',
                     'adap.tv': 'adaptv',
-                    'youtube': 'youtube',
-                    'brightroll': 'brightroll',
-                    'doubleClick': 'doubleclick-DFP',
-                    'yahoo': 'yahoo',
+                    youtube: 'youtube',
+                    brightroll: 'brightroll',
+                    doubleClick: 'doubleclick-DFP',
+                    yahoo: 'yahoo',
                     'fb exchange': 'facebook-FBexchange',
                     'dfp-tracking': 'doubleclick-DFP',
-                    'doubleclick': 'doubleclick-DFP',
+                    doubleclick: 'doubleclick-DFP',
                     'facebook-tracking': 'facebook-FBexchange',
                     'appnexus-tracking': 'logo_C_appnexus',
                     'dorado-tracking': 'Visto_fav_icon',
                     'dbm-tracking': 'doubleclick-DFP',
-                    'beeswax' : 'beeswax'
+                    beeswax: 'beeswax'
                 };
 
                 if (platform) {
@@ -970,10 +998,10 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
             $scope.getPlatformDesc = function (platform) {
                 var platformMapper = {
                     'collective bidder': 'The programmactic solution for all screens and format.',
-                    'appnexus': 'The programmactic solution for all screens and formats',
-                    'facebook': 'All-in-one customer<br>support application',
-                    'dbm': 'All-in-one customer<br>support application',
-                    'dfp': 'A revenue management<br>solution for publishers'
+                    appnexus: 'The programmactic solution for all screens and formats',
+                    facebook: 'All-in-one customer<br>support application',
+                    dbm: 'All-in-one customer<br>support application',
+                    dfp: 'A revenue management<br>solution for publishers'
                 };
 
                 return platformMapper[platform.toLowerCase()];
@@ -996,6 +1024,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                             idx = k;
                         }
                     }
+
                     $scope.adData.screenTypes.splice(idx, 1);
                 } else {
                     $scope.adData.screenTypes.push(screenTypeObj);
@@ -1021,6 +1050,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                 // adFormatSelection code
                 $scope.$broadcast('adFormatChanged', $scope.adformatName);
                 adFormatsData = $scope.workflowData.adFormats;
+
                 _.each(adFormatsData, function (obj) {
                     obj.name === $scope.adformatName ? obj.active = true : obj.active = false;
                 });
@@ -1038,6 +1068,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                     index = _.findIndex($scope.workflowData.primaryKpi[1].kpiValues, function (item) {
                         return item.id === videoKpiObj.id;
                     });
+
                     if (index > 0) {
                         $scope.workflowData.primaryKpi[1].kpiValues =
                             $scope.workflowData.primaryKpi[1].kpiValues.slice(0, index);
@@ -1110,13 +1141,12 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
 
             // Create Tag Slide Page
             $scope.showCreateNewWindow = function () {
-                workflowService.setCreativeEditMode("create");
+                workflowService.setCreativeEditMode('create');
                 workflowService.setCreativeEditData(null);
                 $('#formCreativeCreate')[0].reset();
                 $scope.isAddCreativePopup = true;
-                // $scope.$parent.isAddCreativePopup = true;
-                // new call has to be made when platforms are changed hence seletion on new template.
-                // therefore broadcast to reset
+                //$scope.$parent.isAddCreativePopup = true;
+                // new call has to be made when platforms are changed hence seletion on new template. therefore broadcast to reset
                 $scope.$broadcast('creativeAdserverTemplateReset');
 
                 // enable cancel, save button on load
@@ -1131,7 +1161,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                         paddingLeft: '30px'
                     }, 'slow');
 
-                $('.saveCreativeBtn').css('margin', '-64px 0 0');
+                $('.saveCreativeBtn').css('margin','-64px 0 0 0');
 
                 $('#creative')
                     .delay(300)
@@ -1195,7 +1225,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                     creativesData = $scope.creativeData.creativeInfo;
                     postAdDataObj = {};
                     postAdDataObj.name = formData.adName;
-                    postAdDataObj.labels = _.pluck($scope.tags, "label");
+                    postAdDataObj.labels = _.pluck($scope.tags, 'label');
                     postAdDataObj.campaignId = Number($scope.campaignId);
 
                     if (formData.adFormat) {
@@ -1234,10 +1264,13 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                     ) {
                         $rootScope.setErrAlertMessage('Mandatory fields need to be specified for the Ad');
                     } else {
-                        if (!isDownloadTrackerClicked) {
+                        if(!isDownloadTrackerClicked) {
                             $scope.adCreateLoader = true;
                         }
-
+                        if(formData.targetValue){
+                            postAdDataObj.kpiType=formData.primaryKpi.toUpperCase();
+                            postAdDataObj.kpiValue=formData.targetValue;
+                        }
                         if (formData.unitCost) {
                             postAdDataObj.rateValue = formData.unitCost;
 
@@ -1246,6 +1279,11 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                             } else {
                                 postAdDataObj.rateType = formData.unitType;
                             }
+                        }
+                        if(formData.totalAdBudget){
+                            postAdDataObj.totalBudget = formData.totalAdBudget;
+                            postAdDataObj.enabledBudgetCalculation =
+                                ($('#targetUnitCost_squaredFour').prop('checked') == false) ? false : true;
                         }
 
                         if (getfreqCapParams(formData).length > 0) {
@@ -1259,6 +1297,8 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
 
                         if (formData.platformId) {
                             postAdDataObj.platformId = Number(formData.platformId);
+                            postAdDataObj.platformSeatId = Number(formData.platformSeatId);
+
 
                             if ($scope.TrackingIntegrationsSelected) {
                                 postAdDataObj.isTracking = true;
@@ -1337,7 +1377,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                                     adData = angular.copy(workflowService.getAdsDetails());
                                     postGeoTargetObj = adData.targets.geoTargets;
 
-                                    if (postGeoTargetObj) {
+                                    if(postGeoTargetObj) {
                                         if (postGeoTargetObj.REGION) {
                                             postGeoTargetObj.REGION.geoTargetList =
                                                 _.pluck(postGeoTargetObj.REGION.geoTargetList, 'id');
@@ -1353,7 +1393,6 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                                                 _.pluck(postGeoTargetObj.DMA.geoTargetList, 'id');
                                         }
                                     }
-
                                     postAdDataObj.targets.geoTargets = postGeoTargetObj;
                                 }
                             }
@@ -1402,7 +1441,6 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                             }
                             postAdDataObj.adPlatformCustomInputs = $scope.postPlatformDataObj;
                         }
-
                         campaignOverView.saveAds(postAdDataObj, isDownloadTrackerClicked);
                     }
                 }
@@ -1411,6 +1449,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
             $scope.downloadTrackerUrls = function () {
                 $scope.downloadingTracker = true;
                 $scope.campaignAdSave(true);
+
             };
 
             $scope.triggerbudgetTab = function () {
@@ -1483,10 +1522,10 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
 
             $('.main_navigation')
                 .find('.active')
-                    .removeClass('active')
+                .removeClass('active')
                 .end()
                 .find('#campaigns_nav_link')
-                    .addClass('active');
+                .addClass('active');
 
             $('.bodyWrap').addClass('bodyWrapOverview');
             $('html').css('background', '#fff');
@@ -1565,7 +1604,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
             $scope.editedAdSourceId = null;
             $scope.dayPartData = {};
             $scope.adData.budgetTypeLabel = 'Impressions';
-            $scope.adData.budgetType = 'Impressions';
+            $scope.adData.budgetType = 'Cost';
             $scope.downloadingTracker = false;
             $scope.selectedAudience = [];
             $scope.selectedDayParts = [];
@@ -1580,7 +1619,6 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
             $scope.adGroupList = [];
             $scope.mediaPlanName = null;
             $scope.adGroupName = null;
-
             var selectedMediaPlanId = parseInt($routeParams.campaignId),
                 selectedAdGroupId = -1;
 
@@ -1596,7 +1634,6 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                 campaignOverView.fetchPrimaryKpis();
                 campaignOverView.fetchScreenType();
                 campaignOverView.fetchUnitTypes();
-
             });
 
             // Switch BTN Animation
@@ -1636,7 +1673,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
 
                 $(target).css('bottom', '-' + $(window).width() + 'px');
 
-                $(target).animate({'bottom': '0'}, '10');
+                $(target).animate({'bottom': '0px'}, '10');
 
                 //$scope.$broadcast('closeAddCreativePage');
                 $scope.$broadcast('switchPlatformFunc');
@@ -1649,7 +1686,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
             };
 
             $scope.updateCreativeData = function (data) {
-                $scope.creativeData.creativeInfo = {'creatives': data.slice()};
+                $scope.creativeData.creativeInfo = {creatives: data.slice()};
                 // set sizes on side bar.
                 $scope.setSizes($scope.creativeData.creativeInfo);
             };
@@ -1716,6 +1753,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                 if (selectedCreatives.creatives.length === 0) {
                     $scope.sizeString = constants.WF_NOT_SET;
                 }
+
                 $scope.adData.setSizes = $scope.sizeString;
             };
 
