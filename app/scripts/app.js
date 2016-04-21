@@ -208,6 +208,19 @@ define(['common'], function (angularAMD) {
                         }
                     }
                 }))
+                .when('/v1sto/invoices', angularAMD.route({
+                        templateUrl: assets.html_reports_invoice_list,
+                        title: 'Invoices Reports',
+                        controller: 'ReportsInvoiceListController',
+                        controllerUrl: 'reporting/collectiveReport/reports_invoice_list_controller',
+                        css: assets.css_reports_schedule_list,
+                    resolve: {
+                        'check': function ($location,featuresService) {
+                            featuresService.setGetFeatureParams('scheduled_reports');
+                        }
+                               }
+                }))
+
 
                 .when('/performance', angularAMD.route({
                     templateUrl: assets.html_performance,
