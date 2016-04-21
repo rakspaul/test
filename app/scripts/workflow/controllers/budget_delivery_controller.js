@@ -38,7 +38,7 @@ define(['angularAMD', 'common/services/constants_service', 'common/moment_utils'
                 }
             }
 
-            var campaignData = $scope.workflowData.campaignData;
+            campaignData = $scope.workflowData.campaignData;
             if($scope.mode=='edit'){
                 unallocatedAmount = Number(localStorage.getItem('unallocatedAmount')) + Number($scope.workflowData.adsData.totalBudget);
 
