@@ -233,7 +233,7 @@
 }
 .adCreateMaster #targetting .list_row_holder {
   height: 100%;
-  max-height: 525px;
+  max-height: 300px;
   overflow: auto;
   width: 100%;
 }
@@ -352,6 +352,10 @@
 .adCreateMaster #targetting .targetingSlide .closeBtnCreative a {
   float: left;
   margin: 2px 0 30px 10px;
+}
+.adCreateMaster #targetting .targetingSlide .all-daypart-holder {
+  height: 220px ;
+  overflow: auto;
 }
 .adCreateMaster #targetting .targetingSlide .dayRow {
   margin-bottom: 10px;
@@ -1057,7 +1061,7 @@
   word-wrap: break-word;
 }
 .adCreateMaster #targetting .targettingFormWrap .tabbable #zip textarea {
-  min-height: 433px;
+  min-height: 400px;
 }
 .adCreateMaster #targetting .targettingFormWrap .tabbable .zipCodeTooltip {
   left: 150px;
