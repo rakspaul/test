@@ -20,6 +20,8 @@
     <div class="col-md-12 each-account-details" ng-repeat="client in clientsDetails[0]" id="client_{{client.id}}">
         <div class="pull-left particular-account-box" ng-class="[(clientsDetails[client.id].advertisers.length ==  0)?'no-data-open':'',(clientsDetails[client.id].advertisers.length) > 0?'data-loaded':'']">
             <div class="clearfix">
+                <!--Abi this should only show if the account has childs-->
+                <!--<span class="pull-left icon-arrow-down-thick" ng-click="getSubClientList($event,client);" ng-show="clientsDetails[client.id].advertisers.length > 0"></span>-->
                 <span class="pull-left icon-arrow-down-thick" ng-click="getSubClientList($event,client);"></span>
                 <div class="pull-left account-name" ng-click="AddOrEditAccountModal('edit',client)">
                     <span class="pull-left">{{client.name}}</span>
