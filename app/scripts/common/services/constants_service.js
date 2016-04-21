@@ -704,7 +704,7 @@ define(['angularAMD'], function(angularAMD) {
         this.LABEL = 'Add labels';
 
         //Ad Create: 2 Budget & Delivery
-        this.SETBUDGET = 'Set Budget & Delivery';
+        this.SETBUDGET = 'Budget & Delivery';
         this.LEARNMOREADSET = 'Learn more about Ad Settings';
         this.WHENADRUN = 'What are your flight and delivery settings?';
         this.FLIGHTPASSED = 'Media Plan flight date has passed';
