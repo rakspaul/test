@@ -48,24 +48,23 @@
             </div>
         </div>
     </div>
-
     <div class="col-md-12 zeroPadding unitCost symbolAbs">
         <div class="col-md-12 adHeader" data-ng-bind="textConstants.SETUPBUDGET" ></div>
         <div class="col-md-2 zeroPadding">
             <label class="col-sm-12 control-label greyTxt miniLabels" data-ng-bind="textConstants.UNITCOST"></label>
             <div class="col-md-12 zeroPadding dropdown-workflow">
-                <div class="dropdown">
-                    <button style="width:139px;" class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                        <span class="text">{{adData.unitType.name ? adData.unitType.name :'CPM'}}</span>
-                        <span class="icon-arrow-down"></span>
-                    </button>
-                    <ul class="dropdown-menu" aria-labelledby="unitcostType"   id="unitcostType" data-toggle="dropdown">
-                        <li ng-repeat="unitType in workflowData.unitTypes track by unitType.id" class="available" ng-click="select_unitType($event,unitType.name);">
+                 <div class="dropdown">
+                      <button style="width:139px;" class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                           <span class="text">{{adData.unitType.name ? adData.unitType.name :'CPM'}}</span>
+                           <span class="icon-arrow-down"></span>
+                      </button>
+                      <ul class="dropdown-menu" aria-labelledby="unitcostType"  id="unitcostType" data-toggle="dropdown">
+                           <li ng-repeat="unitType in workflowData.unitTypes track by unitType.id" class="available" ng-click="select_unitType($event,unitType.name);">
                             <a  data-ng-bind="unitType.name"></a>
-                        </li>
-                    </ul>
-                    <input type="hidden" name="unitType" ng-model="adData.unitType.name" ng-update-hidden/>
-                </div>
+                           </li>
+                      </ul>
+                     <input type="hidden" name="unitType" ng-model="unitName" ng-update-hidden/>
+                 </div>
             </div>
         </div>
 
@@ -79,7 +78,7 @@
             <label class="control-label greyTxt miniLabels" data-ng-bind="textConstants.TOTAL_AD_BUDGET"></label>
             <div class="budget_holder_input">
                 <span data-ng-bind="locale.NUMBER_FORMATS.CURRENCY_SYM" class="currencySymWLabel"></span>
-                <input style="text-indent: 8px;" type="text" ng-value="adData.totalAdBudget" ng-model="adData.totalAdBudget" class="form-control totalBudgetInputClass" disabled ng-keyup="checkBudgetExceed();calculateTotalAdBudget();"><!-- add "errorBorder" when error -->
+                <input style="text-indent: 8px;" type="text" ng-value="adData.totalAdBudget" ng-model="adData.totalAdBudget" class="form-control totalBudgetInputClass" fraction-numbers="fraction-numbers" disabled ng-keyup="checkBudgetExceed();calculateTotalAdBudget();"><!-- add "errorBorder" when error -->
                 <input type="hidden" name="totalAdBudget" ng-model="adData.totalAdBudget" ng-value="adData.totalAdBudget"><!-- add "errorBorder" when error -->
                 <span class="disabled_value"></span>
                 <div class="errorText" ng-show="adData.budgetExceeded">Ad budget lesser than MediaCost</div>
