@@ -131,9 +131,7 @@
         <div class="overlay" style="display:none"></div>
         <!--=== Create BTN Ad ===-->
         <div class="col-md-3 adModule adCreateBtn"
-             ng-click="createAdforAdGroup(adGroupsData.adGroup.id, adGroupsData.adGroup.startTime,
-                adGroupsData.adGroup.endTime, calculateSpendBudget(adGroupsData.adGroup),
-                adGroupsData.adGroup.deliveryBudget)">
+             ng-click="createAdforAdGroup(adGroupsData, calculateSpendBudget(adGroupsData.adGroup))">
             <div class="col-md-12">
                 <a href="#"
                    class="col-md-12 text-center addMaster">
@@ -150,7 +148,7 @@
             <div class="col-md-3 adModule"
                  ng-repeat="adsData in workflowData.getADsForGroupData[$index] track by adsData.id"
                  ng-click="adsData.state=='DEPLOYING' ? '' :
-                    goEdit(adsData, calculateSpendBudget(adGroupsData.adGroup), adGroupsData.adGroup.deliveryBudget)">
+                    goEdit(adsData, calculateSpendBudget(adGroupsData.adGroup), adGroupsData)">
                 <div class="col-md-12 adTitle">
                     <div class="clearfix">
                         <img ng-src="{{adsData.platform.iconUrl}}"
