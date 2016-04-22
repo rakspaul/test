@@ -1302,6 +1302,10 @@
 #campaignCreate .campaignAdCreate .adMainWrapper .buyingPlatformHolder {
   float: left;
 }
+#campaignCreate .campaignAdCreate .adMainWrapper .adBuyingPlatform .popUpCue {
+  top: 10px ;
+  left: 50px ;
+}
 #campaignCreate .campaignAdCreate .adMainWrapper .create_ad {
   color: #333;
   float: left;

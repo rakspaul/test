@@ -360,7 +360,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
             $scope.trackingIntegration = trackingIntegration;
             $('.buyingPlatformHolder .popUpCue').css({
-                top: 125,
+                top: 10,
                 left: relativeX
             });
             $scope.showtrackingSetupInfoPopUp = true;
