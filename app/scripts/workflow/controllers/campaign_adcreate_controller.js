@@ -1224,7 +1224,6 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                 } else {
                     //$('.workflowPreloader, .workflowPreloader .adSavePre').show();
                     creativesData = $scope.creativeData.creativeInfo;
-                    lineitemId = localStorage.getItem('lineitemId')
                     postAdDataObj = {};
                     postAdDataObj.name = formData.adName;
                     postAdDataObj.labels = _.pluck($scope.tags, 'label');
@@ -1254,8 +1253,8 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                         postAdDataObj.endTime = momentService.localTimeToUTC(formData.endTime, 'endTime');
                     }
 
-                    if(lineitemId) {
-                        postAdDataObj.lineitemId = Number(lineitemId);
+                    if($routeParams.lineItemId) {
+                        postAdDataObj.lineitemId = Number($routeParams.lineItemId);
                     }
 
 

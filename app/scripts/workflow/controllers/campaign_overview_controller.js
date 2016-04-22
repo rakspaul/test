@@ -961,16 +961,15 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     adsId = adsData.id,
                     groupId = adsData.adGroupId,
                     groupBudget = adGroupsData.adGroup.deliveryBudget,
-                    lineitemId = adGroupsData.adGroup.lineitemId;
+                    lineItemId = adGroupsData.adGroup.lineitemId;
 
                 workflowService.setUnallocatedAmount(unallocatedBudget);
                 localStorage.setItem('unallocatedAmount',unallocatedBudget);
                 localStorage.setItem('groupBudget',Number(groupBudget));
-                localStorage.setItem('lineitemId',Number(lineitemId));
-                $scope.editAdforAdGroup(campaignId , adsData.startTime, adsData.endTime, adsId, groupId);
+                $scope.editAdforAdGroup(campaignId , adsData.startTime, adsData.endTime, adsId, groupId, lineItemId);
             };
 
-            $scope.editAdforAdGroup = function (campaignId, stTime, edTime, adsId, groupId) {
+            $scope.editAdforAdGroup = function (campaignId, stTime, edTime, adsId, groupId, lineItemId) {
                 var path = '/mediaplan/' + campaignId + '/ads/' + adsId + '/edit';
 
                 if (typeof(Storage) !== 'undefined') {
@@ -978,7 +977,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     localStorage.setItem('edTime', edTime); //convert this to EST in ads create page
                 }
                 if (groupId && adsId) {
-                    path = '/mediaplan/' + campaignId + '/adGroup/' + groupId + '/ads/' + adsId + '/edit';
+                    path = '/mediaplan/' + campaignId + '/lineItem/' + lineItemId +'/adGroup/' + groupId + '/ads/' + adsId + '/edit';
                 }
 
                 $location.path(path);
