@@ -31,6 +31,14 @@ define(['angularAMD', 'workflow/services/workflow_service','common/services/cons
             self.subAccounts.dashboardSubAccounts = dataAry;
         };
 
+        this.isDashboardSubAccount = function() {
+            var locationPath = $location.url();
+            if((locationPath === '/dashboard') || (locationPath === '/')) {
+                return true;
+            }
+            return false;
+        }
+
         //Dashboard subAccount getter
         this.getDashboardSubAccounts = function() {
             console.log('getDashboardsubaccount',self.subAccounts.dashboardSubAccounts);
