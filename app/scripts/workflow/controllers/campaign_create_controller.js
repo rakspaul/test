@@ -1153,7 +1153,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         // nav control
 
         $scope.highlightLeftNav=function(pageno){
-            $(".eachStepCompLabel").removeClass('active')
+            $(".eachStepCompLabel").removeClass('active');
             $(".eachStepCompLabel")[pageno].classList.add("active");
         }
 
