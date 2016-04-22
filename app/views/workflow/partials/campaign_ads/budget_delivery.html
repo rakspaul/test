@@ -6,7 +6,7 @@
 </div>
 <div class="row zeroPadding budgetWrap radioBtnToggle">
     <h2 class="col-md-12 zeroPadding adHeader" data-ng-bind="textConstants.SETUPBUDGET" style="margin:10px 0 10px 0 !important;"></h2>
-    
+
     <!--Row 1-->
     <div class="col-md-12 zeroPadding symbolAbs">
         <div class="col-md-2 zeroPadding" style="margin-right: 10px;">
@@ -38,7 +38,7 @@
                 </div>
             </div>
         </div>
-        
+
         <div class="col-md-2 zeroPadding">
             <label class="control-label greyTxt miniLabels" data-ng-bind="textConstants.TARGETVALUE"></label>
             <span class="KPI_symbol currencySymWLabel">#</span>
@@ -46,7 +46,7 @@
             <span class="VTC_per currencySymWLabel" style="display:none;">%</span>
         </div>
     </div>
-    
+
     <!--Row 2-->
     <div class="col-md-12 zeroPadding unitCost symbolAbs" style="margin-top: 10px;">
         <div class="col-md-2 zeroPadding" style="margin-right: 10px;">
@@ -85,7 +85,7 @@
                         <input type="checkbox" id="targetUnitCost_squaredFour" class="squaredFourChkbox" checked ng-click="enable_budget_input($event);">
                         <label for="targetUnitCost_squaredFour"></label>
                     </div>
-                    
+
                     <span class="pull-left greyTxt">Calculate from <br/>Target & Unit Cost</span>
                 </div>
             </div>
@@ -115,7 +115,7 @@
             </div>
         </div>
     </div>
-    
+
     <!--Row 4-->
     <div class="clearfix col-md-12 zeroPadding" style="margin-top: 10px;">
         <div class="pull-left">
@@ -133,7 +133,7 @@
         <div class="col-md-2 zeroPadding" style="margin-left: 10px;">
             <label class="col-sm-12 control-label greyTxt miniLabels" data-ng-bind="textConstants.VALUE" style="padding-left:5px;"></label>
             <span class="currencySymWLabel">{{adData.budgetType === 'Cost' ? locale.NUMBER_FORMATS.CURRENCY_SYM : '#'}}</span>
-            <input style="width:130px; text-indent:8px; height:36px; padding-top:10px;padding-left: 16px;" type="text" name="budgetAmount" whole-number-only="whole-number-only" class="form-control" ng-model="adData.budgetAmount" ng-value="adData.budgetAmount" id="budgetAmount" placeholder="Enter Value" ng-keyup = "checkBudgetExceed()">
+            <input style="width:130px; text-indent:8px; height:36px; padding-top:10px;padding-left: 16px;" type="text" name="budgetAmount" fraction-numbers="fraction-numbers" class="form-control" ng-model="adData.budgetAmount" ng-value="adData.budgetAmount" id="budgetAmount" placeholder="Enter Value" ng-keyup = "checkBudgetExceed()">
         </div>
 
         <label ng-if="budgetErrorObj.mediaCostValidator" class="col-sm-12 control-label  customErrorLabel" data-ng-bind="textConstants.WF_MEDIA_COST_LESS_THAN_CAMPAIGN_BUDGET"></label>
