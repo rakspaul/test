@@ -219,8 +219,9 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             event && event.stopImmediatePropagation();
 
             var settings = '';
+
             //remove creatives only if Tracking-only is changed to Full integrations
-            if ($scope.wasFullIntegration() === -1) {
+            if (event && $scope.wasFullIntegration() === -1) {
                 _buyingPlatform.resetCreatives();
             }
 
