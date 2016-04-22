@@ -69,6 +69,16 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     $scope.isEndDateInPast =  moment().isAfter(end, 'day');
                 },
 
+                getLineItems : function() {
+                    var campaignId = $scope.workflowData.campaignData.id;
+                    var matchedLineItem;
+                    workflowService.getLineItem(campaignId).then(function (results) {
+                        if (results.status === 'success' && results.data.statusCode === 200) {
+                            $scope.lineItems = results.data.data;
+                        }
+                    });
+                },
+
                 getCampaignData: function (campaignId) {
                     workflowService
                         .getCampaignData(campaignId)
@@ -111,6 +121,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                                 $scope.budgetAvailable = Math.ceil($scope.workflowData.campaignData.deliveryBudget) - $scope.workflowData.campaignData.bookedSpend;
 
                                 campaignOverView.modifyCampaignData();
+                                campaignOverView.getLineItems();
                             } else {
                                 campaignOverView.errorHandler(result);
                             }
@@ -709,17 +720,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 }
             };
 
-            $scope.getLineItems  = function() {
-                var campaignId = $scope.workflowData.campaignData.id;
-                var matchedLineItem;
-                if(!$scope.lineItems) {
-                    workflowService.getLineItem(campaignId).then(function (results) {
-                        if (results.status === 'success' && results.data.statusCode === 200) {
-                            $scope.lineItems = results.data.data;
-                        }
-                    });
-                }
-            };
+
 
             $scope.createAdGrp = function () {
                 var adGroupCreateformElem = $('.adGroupSelectionWrap').find('.adGroupCreate').find('form'),
@@ -761,9 +762,12 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
                 $scope.adGroupMaxBudget = (Math.ceil($scope.workflowData.campaignData.deliveryBudget) -
                     $scope.workflowData.campaignData.bookedSpend) + Math.ceil($scope.adGroupMinBudget);
-
-                $scope.getLineItems();
             };
+
+            $scope.setLineItem = function(lineitemId) {
+                var matchedLineItem = _.filter($scope.lineItems, function(obj) { return obj.id ===  lineitemId})[0];
+                $scope.selectLineItems(null, matchedLineItem);
+            }
 
             $scope.selectLineItems = function(event, lineItem) {
                 $scope.adGroupData.lineitemName = lineItem.name;
@@ -952,18 +956,20 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 }
             };
 
-            $scope.goEdit = function (adsData ,unallocatedBudget,groupBudget) {
+            $scope.goEdit = function (adsData ,unallocatedBudget, adGroupsData) {
                 var campaignId = adsData.campaignId,
                     adsId = adsData.id,
-                    groupId = adsData.adGroupId;
+                    groupId = adsData.adGroupId,
+                    groupBudget = adGroupsData.adGroup.deliveryBudget,
+                    lineItemId = adGroupsData.adGroup.lineitemId;
 
                 workflowService.setUnallocatedAmount(unallocatedBudget);
                 localStorage.setItem('unallocatedAmount',unallocatedBudget);
                 localStorage.setItem('groupBudget',Number(groupBudget));
-                $scope.editAdforAdGroup(campaignId , adsData.startTime, adsData.endTime, adsId, groupId);
+                $scope.editAdforAdGroup(campaignId , adsData.startTime, adsData.endTime, adsId, groupId, lineItemId);
             };
 
-            $scope.editAdforAdGroup = function (campaignId, stTime, edTime, adsId, groupId) {
+            $scope.editAdforAdGroup = function (campaignId, stTime, edTime, adsId, groupId, lineItemId) {
                 var path = '/mediaplan/' + campaignId + '/ads/' + adsId + '/edit';
 
                 if (typeof(Storage) !== 'undefined') {
@@ -971,7 +977,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     localStorage.setItem('edTime', edTime); //convert this to EST in ads create page
                 }
                 if (groupId && adsId) {
-                    path = '/mediaplan/' + campaignId + '/adGroup/' + groupId + '/ads/' + adsId + '/edit';
+                    path = '/mediaplan/' + campaignId + '/lineItem/' + lineItemId +'/adGroup/' + groupId + '/ads/' + adsId + '/edit';
                 }
 
                 $location.path(path);

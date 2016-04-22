@@ -1784,7 +1784,7 @@ input[type="submit"] {
   background: #fff;
   border: solid 1px #d2dee7;
   border-bottom-width: 2px ;
-  text-transform: uppercase;
+  text-transform: capitalize;
   height: 60px;
   padding: 20px 10px 0 30px;
 }

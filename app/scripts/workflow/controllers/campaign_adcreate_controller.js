@@ -446,7 +446,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                 var winHeight = $(window).height() - 110;
 
                 $('.campaignAdCreateWrap, .campaignAdCreatePage, .left_column_nav').css('min-height', winHeight + 'px');
-                // $('.adStepOne .tab-pane').css('min-height', winHeight - 30 + 'px');
+                $('.adStepOne .tab-pane').css('min-height', winHeight - 30 + 'px');
                 $('.targetingSlide .tab-pane').css('min-height', winHeight - 130 + 'px');
                 $('.dayTargetLower').css('min-height', winHeight - 290 + 'px');
             }
@@ -1252,6 +1252,8 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                         postAdDataObj.endTime = momentService.localTimeToUTC(formData.endTime, 'endTime');
                     }
 
+                    postAdDataObj.lineitemId = $scope.adData.lineItemId;
+
                     if ((
                             !formData.startTime ||
                             !formData.endTime ||
@@ -1297,8 +1299,9 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
 
                         if (formData.platformId) {
                             postAdDataObj.platformId = Number(formData.platformId);
-                            postAdDataObj.platformSeatId = Number(formData.platformSeatId);
-
+                            if(formData.platformSeatId) {
+                                postAdDataObj.platformSeatId = Number(formData.platformSeatId);
+                            }
 
                             if ($scope.TrackingIntegrationsSelected) {
                                 postAdDataObj.isTracking = true;
@@ -1626,6 +1629,10 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
             $scope.tags = [];
             localStorage.setItem('campaignData', '');
             localStorage.removeItem('adPlatformCustomInputs');
+
+            if($routeParams.lineItemId) {
+                $scope.adData.lineItemId = Number($routeParams.lineItemId);
+            }
 
             $(document).ready(function() {
                 campaignOverView.getCampaignData($routeParams.campaignId);

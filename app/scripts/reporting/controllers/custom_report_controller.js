@@ -131,6 +131,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
         var slideUp = function() {
             $('#reportBuilderForm').slideUp(600);
             $("#dynamicHeader > a > span").removeClass("icon-minus").addClass('icon-plus');
+            $("#dynamicHeader").addClass("smaller");
         }
 
         var slideDown = function() {
@@ -776,6 +777,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                     dataService.createSaveReport(newObjNoSched).then(function (result) {
                         if (result.data.status_code == 200) {
                                 $rootScope.setErrAlertMessage('Success: The Saved Report is listed.', 0);
+                                slideUp();
                         }
                     });
                 }

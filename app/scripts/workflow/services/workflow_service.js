@@ -594,6 +594,11 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                     return dataService.fetch(url);
                 },
 
+                getVideoTargetsType: function (type) {
+                    var url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/video_targets/' + type;
+                    return dataService.fetch(url);
+                },
+
                 setModuleInfo: function (module) {
                     vistoModule = module;
                 },

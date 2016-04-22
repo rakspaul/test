@@ -501,8 +501,8 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
   float: left;
   list-style: outside none none;
   margin: 0;
-  padding: 0;
-  width: 110px;
+  padding: 5px 0;
+  width: 100%;
 }
 .reports_main_page_holder .drop_list li {
   white-space: nowrap;
@@ -2842,7 +2842,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
   padding-right: 20px ;
 }
 .reports_cost_header_holder {
-  margin-top: 21px ;
+  width: 1600px;
 }
 .text_next_margin_per {
   display: inline-block;
