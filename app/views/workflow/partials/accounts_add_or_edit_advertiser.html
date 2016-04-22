@@ -34,6 +34,44 @@
                 <label class="col-sm-12 greyTxt">Click:</label>
                 <input type="text" class="form-control" ng-model="advertiserData.lookbackClicks" ng-keyup="(advertiserData.lookbackClicks>30)?advertiserData.lookbackClicks=30:''">
             </div>
+            
+            <div class="adChoices">
+                <div class="col-md-12 zeroPadding"><h1 class="pull-left">Ad Choices</h1></div>
+                <div class="form-group col-md-4" style="padding: 0 15px 0 0;">
+                    <label class="col-sm-12 greyTxt">Enable Ad Choices:</label>
+                    <input id="cmn-toggle-1" class="cmn-toggle cmn-toggle-round" type="checkbox">
+                    <label for="cmn-toggle-1"></label>
+                </div>
+                
+                <div class="form-group col-md-4" style="padding: 0 15px;">
+                    <label class="col-sm-12 greyTxt">Ad Choices Code Block:</label>
+                    <input type="text" class="form-control" maxlength="50">
+                </div>
+            </div>
+            
+            <div class="billingMethods">
+                <div class="col-md-12 zeroPadding"><h1 class="pull-left">Billing Methods</h1></div>
+                <div class="form-group col-md-4" style="padding: 0 15px 0 0;">
+                    <label class="col-sm-12 greyTxt">Methods:</label>
+                    
+                    <div class="col-md-12 zeroPadding dropdown-workflow">
+                        <div class="dropdown">
+                            <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                <span class="text">Impressions</span>
+                                <span class="icon-arrow-down"></span>
+                            </button>
+                            <ul class="dropdown-menu" data-toggle="dropdown">
+                                <li class="available">
+                                    <a>CPM</a>
+                                </li>
+                                <li class="available">
+                                    <a>CPA</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         
         <!--Pixel Form-->
