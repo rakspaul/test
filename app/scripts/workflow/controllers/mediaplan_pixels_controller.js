@@ -1,7 +1,8 @@
-define(['angularAMD'],
+define(['angularAMD' , 'workflow/services/workflow_service' , 'common/moment_utils' , 'common/utils'],
     function(angularAMD) {
-        angularAMD.controller('mediaplanPixelsController', function($scope) {
-          alert("fdjsghf")
+        angularAMD.controller('mediaplanPixelsController', function($scope , workflowService , momentService , utils) {
+
+       
 
         });
     });
