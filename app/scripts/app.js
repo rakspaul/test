@@ -535,6 +535,7 @@ define(['common'], function (angularAMD) {
                             $cookieStore.remove('cdesk_redirect');
                             localStorage.removeItem('cdeskRedirect');
                         } else {
+                            console.log('dashboard');
                             setDefaultPage = 'dashboard';
                             $location.url(setDefaultPage);
                         }

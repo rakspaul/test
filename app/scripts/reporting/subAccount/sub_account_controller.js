@@ -1,7 +1,19 @@
 define(['angularAMD','reporting/subAccount/sub_account_model','common/services/constants_service','login/login_model','common/utils'],function (angularAMD) {
-    angularAMD.controller('subAccountController', function ($scope,$rootScope,subAccountModel,constants,loginModel,utils) {
+    angularAMD.controller('subAccountController', function ($scope,$rootScope,$location,subAccountModel,constants,loginModel,utils) {
+
+        var search = false;
+        var searchCriteria = utils.typeaheadParams;
+        $scope.constants = constants;
+        $scope.isDashboardFilter = false;
+
 
         var initializeDataObj = function() {
+            var locationPath = $location.url();
+            if((locationPath === '/dashboard') || (locationPath === '/')) {
+                $scope.isDashboardFilter = true;
+            }
+            console.log('subaccount Model isDashboard:',$scope.isDashboardFilter);
+
             $scope.subAccountData = {
                 subAccounts : {},
                 selectedsubAccount :  {
@@ -9,36 +21,37 @@ define(['angularAMD','reporting/subAccount/sub_account_model','common/services/c
                     name : 'Loading...'
                 }
             };
-        }
-        initializeDataObj();
+        }();
 
-        var search = false;
-        var searchCriteria = utils.typeaheadParams;
-        $scope.constants = constants;
-
-        function fetchSubAccounts(from,searchCriteria, search) {
+        function fetchSubAccounts(from,searchCriteria, search) { console.log('fetch subaccounts ctrl: isDashboard',$scope.isDashboardFilter);
             subAccountModel.fetchSubAccounts(from,function () {
-                $scope.subAccountData.subAccounts = subAccountModel.getSubAccounts();
-                $scope.subAccountData.selectedsubAccount.id = loginModel.getSelectedClient().id;//$scope.subAccountData.subAccounts[0].id;
-                $scope.subAccountData.selectedsubAccount.name = loginModel.getSelectedClient().name;//$scope.subAccountData.subAccounts[0].name;
+                if($scope.isDashboardFilter) {
+                    $scope.subAccountData.subAccounts = subAccountModel.getDashboardSubAccounts();
+                    $scope.subAccountData.selectedsubAccount.id = loginModel.getDashboardClient().id;
+                    $scope.subAccountData.selectedsubAccount.name = loginModel.getDashboardClient().name;
+                } else {
+                    $scope.subAccountData.subAccounts = subAccountModel.getSubAccounts();
+                    $scope.subAccountData.selectedsubAccount.id = loginModel.getSelectedClient().id;//$scope.subAccountData.subAccounts[0].id;
+                    $scope.subAccountData.selectedsubAccount.name = loginModel.getSelectedClient().name;//$scope.subAccountData.subAccounts[0].name;
+                }
+
             });
         };
 
-        function getSubAccounts(searchCriteria, search) {
+        function getSubAccounts(searchCriteria, search) { console.log('am coming here');
             $scope.subAccountData.subAccounts = subAccountModel.getSubAccounts();
             $scope.subAccountData.selectedsubAccount.id = loginModel.getSelectedClient().id;//$scope.subAccountData.subAccounts[0].id;
             $scope.subAccountData.selectedsubAccount.name = loginModel.getSelectedClient().name;//$scope.subAccountData.subAccounts[0].name;
         }
 
-        function getOrFetchSubAccounts() {
-            if(subAccountModel.getSubAccounts().length > 0) {
+        (function getOrFetchSubAccounts() {
+            if(subAccountModel.getSubAccounts().length > 0 && !$scope.isDashboardFilter) {
                 getSubAccounts();
             } else {
                 fetchSubAccounts('subAccountCtrl');
             }
-        }
+        })();
 
-        getOrFetchSubAccounts();
 
         $scope.showSubAccountDropDown = function () {
           //  fetchAdvertisers(searchCriteria, search);
@@ -59,7 +72,13 @@ define(['angularAMD','reporting/subAccount/sub_account_model','common/services/c
             $('#subAccountDropdown').attr('placeholder', sub_account.displayName).val('');
 
             $scope.subAccountData.showAll = true;
-            subAccountModel.setSelectedSubAccount(subAccountIdName);
+
+            if($scope.isDashboardFilter) {
+                subAccountModel.setSelectedDashboardSubAcc(subAccountIdName);
+            } else {
+                subAccountModel.setSelectedSubAccount(subAccountIdName);
+            }
+
             $rootScope.$broadcast(constants.ACCOUNT_CHANGED, {'client':sub_account.id, 'event_type': 'clicked'});
             $scope.selectedSubAccount = null;
         };
