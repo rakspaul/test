@@ -9,11 +9,12 @@ define(['angularAMD','common/moment_utils'],function (angularAMD) {
 
         $scope.createAdforAdGroup = function (adGroupsData, unallocatedAmount) {
 
-            var campId = adGroupsData.adGroup.id,
+            var adGroupId = adGroupsData.adGroup.id,
                 stTime = adGroupsData.adGroup.startTime,
                 edTime = adGroupsData.adGroup.endTime,
                 adGroupBudget = adGroupsData.adGroup.deliveryBudget,
-                navigateUrl = '/mediaplan/' + $routeParams.campaignId + '/adGroup/' + campId + '/ads/create';
+                lineItemId = Number(adGroupsData.adGroup.lineitemId),
+                navigateUrl = '/mediaplan/' + $routeParams.campaignId + '/lineItem/' + lineItemId +'/adGroup/' + adGroupId + '/ads/create';
 
             if (typeof(Storage) !== 'undefined') {
                 localStorage.setItem('stTime', stTime); // convert this to EST in ads page
@@ -22,7 +23,6 @@ define(['angularAMD','common/moment_utils'],function (angularAMD) {
             workflowService.setUnallocatedAmount(unallocatedAmount);
             localStorage.setItem('unallocatedAmount',unallocatedAmount);
             localStorage.setItem('groupBudget',Number(adGroupBudget));
-            localStorage.setItem("lineitemId", Number(adGroupsData.adGroup.lineitemId));
             $location.url(navigateUrl);
         };
 

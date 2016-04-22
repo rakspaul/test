@@ -336,7 +336,7 @@ define(['common'], function (angularAMD) {
                     }
                 }))
 
-                .when('/mediaplan/:campaignId/adGroup/:adGroupId/ads/create', angularAMD.route({
+                .when('/mediaplan/:campaignId/lineItem/:lineItemId/adGroup/:adGroupId/ads/create', angularAMD.route({
                     templateUrl: assets.html_campaign_create_adBuild,
                     title: 'Media Plan - Ad Create',
                     controller: 'CampaignAdsCreateController',
@@ -382,7 +382,7 @@ define(['common'], function (angularAMD) {
                     }
                 }))
 
-                .when('/mediaplan/:campaignId/adGroup/:adGroupId/ads/:adId/edit', angularAMD.route({
+                .when('/mediaplan/:campaignId/lineItem/:lineItemId/adGroup/:adGroupId/ads/:adId/edit', angularAMD.route({
                     templateUrl: assets.html_campaign_create_adBuild,
                     title: 'Media Plan - Ad Edit',
                     controller: 'CampaignAdsCreateController',
