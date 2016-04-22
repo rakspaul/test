@@ -45,6 +45,7 @@ assets.green_right_act = IMAGES_CALENDAR_PATH + 'cal_arrow_right_green_16x16_2x_
 
 assets.css_custom_reports = STYLESHEETS_PATH + 'custom_reports.css';
 assets.css_reports_schedule_list = STYLESHEETS_PATH + 'reports_schedule_list.css';
+assets.css_reports_invoice_list = STYLESHEETS_PATH + 'reports_invoice_list.css';
 assets.css_visto_application = STYLESHEETS_PATH + 'visto_application.css';
 
 assets.html_campaign_details = '/views/reporting/campaign_details.html';
