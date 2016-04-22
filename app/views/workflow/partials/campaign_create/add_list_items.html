@@ -21,7 +21,7 @@
     <label for="nameTitleCampaign" class="col-sm-12 labelQuestTxt" style="margin-bottom: 5px;">Setup Line Items</label>
 
     <div class="col-md-12 zeroPadding btn-group create" role="group" style="margin: 20px 0 10px 0;">
-        <a class="btn btn-default" ng-click="$parent.createItemList = ! $parent.createItemList; ">
+        <a class="btn btn-default" ng-click="showNewLineItemForm() ">
             <span class="icon-plus"></span>
             <span data-ng-bind="textConstants.CREATE" ></span>
         </a>
@@ -68,34 +68,34 @@
             <label class="col-sm-12 greyTxt miniLabels zeroPadding">Rate Type</label>
             <div class="col-md-12 zeroPadding dropdown-workflow form-group" show-errors>
                 <div class="dropdown">
-                    <button style="width:100%;" class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                        <span class="text">{{(lineItemType )?lineItemType.name:'Select Type'}}</span>
+                    <button style="width:100%;" class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ng-disabled="rateTypeReadOnly">
+                        <span class="text" >{{(lineItemType )?lineItemType.name:'Select Type'}}</span>
                         <span class="icon-arrow-down"></span>
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="lineType" id="lineType" data-toggle="dropdown" name="lineItemType">
                         <li class="available" ng-repeat="t in type"  ng-click="setLineItem(t,'create')"><a>{{t.name}}</a></li>
 
                     </ul>
-                    <input type="hidden" class="form-control" ng-model="lineItemType" name="lineItemType" required />
+                    <input type="hidden" class="form-control" ng-model="lineItemType.id" name="lineItemType"  />
                     <span class="greyTxt errorLabel" ng-if="lineItemForm.lineItemType.$error.required">Select Type</span>
                 </div>
 
             </div>
         </div>
 
-        <div class="col-md-2  form-group" style="padding: 0 0 0 10px;" show-errors>
+        <div class="col-md-2  " style="padding: 0 0 0 10px;" >
             <label class="col-sm-12 greyTxt miniLabels zeroPadding">Rate</label>
-            <input type="text" class="col-md-12 form-control" placeholder="Enter Rate" ng-model="$parent.lineRate" ng-readonly="rateReadOnly" name="lineItemRate" required  whole-number-only/>
+            <input type="text" class="col-md-12 form-control" placeholder="Enter Rate" ng-model="$parent.pricingRate" ng-readonly="rateReadOnly" name="lineItemRate"   whole-number-only/>
             <span class="greyTxt errorLabel" ng-if="lineItemForm.lineItemRate.$error.required">Enter Rate</span>
         </div>
 
         <div class="col-md-2" style="padding: 0 0 0 10px;" ng-show="amountFlag">
             <label class="col-sm-12 greyTxt miniLabels zeroPadding" >Amount</label>
-            <input type="text" class="col-md-12" placeholder="" ng-model="$parent.contractedValue" whole-number-only/>
+            <input type="text" class="col-md-12" placeholder="" ng-model="$parent.billableAmount" whole-number-only/>
         </div>
         <div class="col-md-2" style="padding: 0 0 0 10px;" ng-show="volumeFlag">
             <label class="col-sm-12 greyTxt miniLabels zeroPadding">Volume</label>
-            <input type="text" class="col-md-12" placeholder="" ng-model="$parent.lineTarget" whole-number-only/>
+            <input type="text" class="col-md-12" placeholder="" ng-model="$parent.volume" whole-number-only/>
         </div>
 
         <!--Row 2-->
@@ -128,12 +128,12 @@
 
         <div class="col-md-4" style="padding: 0;">
             <label class="col-sm-12 zeroPadding">Ad Group Name</label>
-            <input type="text" class="col-md-12" placeholder="Enter Ad Group name up to 100 characters"  ng-model="$parent.adGroupName"/>
+            <input type="text" class="col-md-12" placeholder="Enter Ad Group name up to 100 characters"  ng-model="adGroupName"/>
         </div>
 
         <div class="pull-right" style="padding: 30px 0 0 0;">
-            <div class="pull-right btn btn-primary" ng-disabled="(lineItemName === '' || lineItemType === '' || lineRate === '')" ng-click="createNewLineItem()">Save Line Item</div>
-            <div class="pull-right btn btn-link" ng-click="$parent.createItemList = ! $parent.createItemList">Cancel</div>
+            <div class="pull-right btn btn-primary" ng-disabled="(lineItemName === '' || lineItemType === '' || pricingRate === '')" ng-click="createNewLineItem()">Save Line Item</div>
+            <div class="pull-right btn btn-link" ng-click="resetLineItemParameters()">Cancel</div>
         </div>
     </div>
     <!--Create Item List Form End-->
@@ -216,7 +216,7 @@
             <label class="col-sm-12 greyTxt miniLabels zeroPadding">Type</label>
             <div class="col-md-12 zeroPadding dropdown-workflow">
                 <div class="dropdown">
-                    <button style="width:100%;" class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                    <button style="width:100%;" class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ng-disabled="">
                         <span class="text">{{editLineItem.lineItemType.name}}</span>
                         <span class="icon-arrow-down"></span>
                     </button>
@@ -229,13 +229,25 @@
             </div>
         </div>
 
-        <div class="col-md-2 " style="padding: 0 0 0 10px;" >
+
+        <div class="col-md-2  " style="padding: 0 0 0 10px;" >
             <label class="col-sm-12 greyTxt miniLabels zeroPadding">Rate</label>
-            <input type="text" class="col-md-12 form-control" placeholder="Enter Rate" ng-model="editLineItem.lineRate" ng-readonly="rateReadOnly" name="lineItemRate"   whole-number-only/>
-            <span class="greyTxt errorLabel" ng-show="lineItemForm.lineItemRate.$error.required">Enter Rate</span>
+            <input type="text" class="col-md-12 form-control" placeholder="Enter Rate" ng-model="editLineItem.pricingRate" ng-readonly="rateReadOnlyEdit" name="lineItemRate"   whole-number-only/>
+            <span class="greyTxt errorLabel" ng-if="lineItemForm.lineItemRate.$error.required">Enter Rate</span>
         </div>
 
-        <a class="btn btn-link pull-right" style="margin: 33px 0 0 0;">Delete</a>
+        <div class="col-md-2" style="padding: 0 0 0 10px;" ng-show="amountFlagEdit">
+            <label class="col-sm-12 greyTxt miniLabels zeroPadding" >Amount</label>
+            <input type="text" class="col-md-12" placeholder="" ng-model="editLineItem.billableAmount" whole-number-only/>
+        </div>
+        <div class="col-md-2" style="padding: 0 0 0 10px;" ng-show="volumeFlagEdit">
+            <label class="col-sm-12 greyTxt miniLabels zeroPadding">Volume</label>
+            <input type="text" class="col-md-12" placeholder="" ng-model="editLineItem.volume" whole-number-only/>
+        </div>
+
+
+
+        <a class="btn btn-link pull-right" style="margin: 33px 0 0 0;" ng-click="">Delete</a>
     </div>
 
     <!--Row 2-->
@@ -265,7 +277,7 @@
             </span>
         </div>
 
-        <a class="btn btn-primary pull-right">Save Changes</a>
+        <a class="btn btn-primary pull-right" ng-click="">Save Changes</a>
         <a class="btn btn-link pull-right" ng-click="showNormalItemRow($event);">Cancel</a>
     </div>
 </script>
