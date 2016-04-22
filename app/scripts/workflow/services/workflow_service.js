@@ -1,8 +1,9 @@
 define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/constants_service',
-    'common/services/data_service', 'login/login_model', 'common/services/request_cancel_service'],
+    'common/services/data_service', 'login/login_model', 'common/services/request_cancel_service','common/moment_utils'],
     function (angularAMD) {
-        angularAMD.factory('workflowService', function ($rootScope,$location, vistoconfig, constants, dataService, loginModel,
-                                                       requestCanceller) {
+        angularAMD.factory('workflowService', function ($rootScope, vistoconfig, constants, dataService, loginModel,
+                                                       requestCanceller,momentService) {
+
             var mode,
                 adDetails,
                 newCreative,
@@ -118,7 +119,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                 return dataService.fetch(url);
             },
             getRatesTypes: function () {
-                var url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/pricing_methods';
+                var url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/billing_types';
 
                 return dataService.fetch(url);
             },
@@ -865,7 +866,14 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                     }
 
                     return processedData;
+                },
+                processLineItemsObj: function(lineItemList){
+                    _.each(lineItemList,function(item){
+                            item.startTime = momentService.localTimeToUTC(item.startTime, 'startTime');
+                            item.endTime = momentService.localTimeToUTC(item.endTime, 'endTime');
+                    })
                 }
+
             };
         });
     }
