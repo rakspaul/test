@@ -1,3 +1,4 @@
+
 <h3 class="col-md-6 adName" tooltip="{{adData.adName}}">
     {{selectedCampaign.campaignName.length>0 ? (selectedCampaign.campaignName | textEllipsis: 40 ) : editCampaignData.name}}
 </h3>
@@ -57,10 +58,10 @@
     <!--Create Item List Form Start-->
     <div class="col-md-12 createItemList " ng-show="createItemList" ng-form name="lineItemForm">
         <!--Row 1-->
-        <div class="col-md-4 zeroPadding form-group"  show-errors>
+        <div class="col-md-4 zeroPadding ">
             <label class="col-sm-12 greyTxt miniLabels zeroPadding">Line Item Name / Notes</label>
-            <input type="text" class="col-md-12 form-control" placeholder="Enter Line Item name up to 150 characters" name="lineItemName" ng-model="$parent.lineItemName"  ng-required="true"/>
-            <span class="greyTxt errorLabel" ng-if="lineItemForm.lineItemName.$error.required">Please enter a name</span>
+            <input type="text" class="col-md-12 form-control" placeholder="Enter Line Item name up to 150 characters" name="lineItemName" ng-model="$parent.lineItemName" />
+            <span class="greyTxt errorLabel" ng-show="lineItemForm.lineItemName.$error.required">Please enter a name</span>
         </div>
 
         <div class="col-md-2" style="padding: 0 0 0 10px;">
@@ -68,11 +69,11 @@
             <div class="col-md-12 zeroPadding dropdown-workflow form-group" show-errors>
                 <div class="dropdown">
                     <button style="width:100%;" class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                        <span class="text">{{($parent.lineItemType !== '')?$parent.lineItemType:'Select Type'}}</span>
+                        <span class="text">{{(lineItemType )?lineItemType.name:'Select Type'}}</span>
                         <span class="icon-arrow-down"></span>
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="lineType" id="lineType" data-toggle="dropdown" name="lineItemType">
-                        <li class="available" ng-repeat="t in type"  ng-click="setLineItem(t.name,'create')"><a>{{t.name}}</a></li>
+                        <li class="available" ng-repeat="t in type"  ng-click="setLineItem(t,'create')"><a>{{t.name}}</a></li>
 
                     </ul>
                     <input type="hidden" class="form-control" ng-model="lineItemType" name="lineItemType" required />
@@ -104,13 +105,13 @@
                     <div class="dateContainer">
                         <label class="col-sm-12 control-label greyTxt miniLabels">Flight Date Start</label>
                         <div style="background: #fff;">
-                            <input type="text" id="lineItemStartDateInput" custom-date-picker="{format: 'mm/dd/yyyy', orientation: 'auto',  autoclose: true, todayHighlight: true}" placeholder="MM/DD/YYYY" class="form-control"  readonly name="startTime" ng-model="startTime"  ng-disabled="checkForPastDate(workflowData['campaignData'].startTime, workflowData['campaignData'].endTime) || (workflowData.adsData.state=='IN_FLIGHT' || workflowData.adsData.state === 'ENDED' || workflowData.adsData.state === 'PAUSED'?true:false)" ng-change="validateDate(adData)"/>
+                            <input type="text" id="lineItemStartDateInput" custom-date-picker="{format: 'mm/dd/yyyy', orientation: 'auto',  autoclose: true, todayHighlight: true}" placeholder="MM/DD/YYYY" class="form-control"  readonly name="startTime" ng-model="lineItemStartDate" ng-change="validateDateLineItem(lineItemStartDate,'startdate')" />
                         </div>
                     </div>
                     <div class="dateContainer">
                         <label class="col-sm-12 control-label greyTxt miniLabels">Flight Date End</label>
                         <div style="background: #fff;">
-                            <input type="text" id="lineItemEndDateInput" custom-date-picker="{format: 'mm/dd/yyyy', orientation: 'auto',  autoclose: true, todayHighlight: true}" placeholder="MM/DD/YYYY" class="form-control"  ng-model="endTime" name="endTime" required ng-change="validateDate(adData)"/>
+                            <input type="text" id="lineItemEndDateInput" custom-date-picker="{format: 'mm/dd/yyyy', orientation: 'auto',  autoclose: true, todayHighlight: true}" placeholder="MM/DD/YYYY" class="form-control"  ng-model="lineItemEndDate" name="endTime" required ng-change="validateDateLineItem(lineItemEndDate,'enddate')"/>
                         </div>
                     </div>
                 </div>
@@ -126,7 +127,7 @@
         </div>
 
         <div class="col-md-4" style="padding: 0;">
-            <label class="col-sm-12 greyTxt miniLabels zeroPadding">Ad Group Name</label>
+            <label class="col-sm-12 zeroPadding">Ad Group Name</label>
             <input type="text" class="col-md-12" placeholder="Enter Ad Group name up to 100 characters"  ng-model="$parent.adGroupName"/>
         </div>
 
@@ -157,11 +158,11 @@
                 <div class="tr" ng-repeat="item in lineItemList" >
                     <div class="tableNormal" ng-click="showEditItemRow($event,item)">
                         <a class="td col-md-3">{{item.name}}</a>
-                        <a class="td col-md-2">{{item.lineItemType}}</a>
-                        <a class="td col-md-1">{{item.lineRate}}</a>
-                        <a class="td col-md-2">{{item.contractedValue}}</a>
-                        <a class="td col-md-2">{{item.lineTarget}}</a>
-                        <a class="td col-md-2">{{item.startDate}} - 09/03/2016</a>
+                        <a class="td col-md-2">{{item.lineItemType.name}}</a>
+                        <a class="td col-md-1">{{item.pricingRate}}</a>
+                        <a class="td col-md-2">{{item.billableAmount}}</a>
+                        <a class="td col-md-2">{{item.volume}}</a>
+                        <a class="td col-md-2">{{item.startTime}} - {{item.endTime}}</a>
                     </div>
 
                     <div class="tableEdit" ng-include="'listItemEditTpl'"></div>
@@ -216,22 +217,22 @@
             <div class="col-md-12 zeroPadding dropdown-workflow">
                 <div class="dropdown">
                     <button style="width:100%;" class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                        <span class="text">{{editLineItem.lineItemType}}</span>
+                        <span class="text">{{editLineItem.lineItemType.name}}</span>
                         <span class="icon-arrow-down"></span>
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="lineType" id="lineType" data-toggle="dropdown">
-                        <li class="available" ng-repeat="t in type"  ng-click="setLineItem(t.name,'edit')"><a>{{t.name}}</a></li>
+                        <li class="available" ng-repeat="t in type"  ng-click="setLineItem(t,'edit')"><a>{{t.name}}</a></li>
                     </ul>
 
-                    <input type="text" ng-model="editLineItem.lineItemType"/>
+                    <input type="hidden" ng-model="editLineItem.lineItemType.id"/>
                 </div>
             </div>
         </div>
 
-        <div class="col-md-2  form-group" style="padding: 0 0 0 10px;" show-errors>
+        <div class="col-md-2 " style="padding: 0 0 0 10px;" >
             <label class="col-sm-12 greyTxt miniLabels zeroPadding">Rate</label>
-            <input type="text" class="col-md-12 form-control" placeholder="Enter Rate" ng-model="editLineItem.lineRate" ng-readonly="rateReadOnly" name="lineItemRate" required  whole-number-only/>
-            <span class="greyTxt errorLabel" ng-if="lineItemForm.lineItemRate.$error.required">Enter Rate</span>
+            <input type="text" class="col-md-12 form-control" placeholder="Enter Rate" ng-model="editLineItem.lineRate" ng-readonly="rateReadOnly" name="lineItemRate"   whole-number-only/>
+            <span class="greyTxt errorLabel" ng-show="lineItemForm.lineItemRate.$error.required">Enter Rate</span>
         </div>
 
         <a class="btn btn-link pull-right" style="margin: 33px 0 0 0;">Delete</a>
