@@ -435,6 +435,14 @@ select {
 .dropdown-workflow .category_dropdown .btn {
   width: auto;
 }
+.open .dropdown-toggle.btn-default {
+  color: #363D49;
+  background-color: #ffffff;
+  font-family: Avenir, sans-serif;
+  border-radius: 2px;
+  border: 1px solid #BFC9D7 !important;
+  position: relative;
+}
 .dropdown-multi .icon-arrow-down,
 .dropdown-multi .icon-arrow-right {
   background: transparent !important;
