@@ -1201,8 +1201,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                     domainTargetObj,
                     i,
                     domainListIds = [],
-                    adData,
-                    lineitemId;
+                    adData;
 
                 formData = _.object(_.pluck(formData, 'name'), _.pluck(formData, 'value'));
 
@@ -1253,10 +1252,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                         postAdDataObj.endTime = momentService.localTimeToUTC(formData.endTime, 'endTime');
                     }
 
-                    if($routeParams.lineItemId) {
-                        postAdDataObj.lineitemId = Number($routeParams.lineItemId);
-                    }
-
+                    postAdDataObj.lineitemId = $scope.adData.lineItemId;
 
                     if ((
                             !formData.startTime ||
@@ -1633,6 +1629,10 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
             $scope.tags = [];
             localStorage.setItem('campaignData', '');
             localStorage.removeItem('adPlatformCustomInputs');
+
+            if($routeParams.lineItemId) {
+                $scope.adData.lineItemId = Number($routeParams.lineItemId);
+            }
 
             $(document).ready(function() {
                 campaignOverView.getCampaignData($routeParams.campaignId);
