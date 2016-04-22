@@ -1,4 +1,9 @@
-<admin-header></admin-header>
+<div class="miniTabLinks sub" style="margin-bottom: 30px; width: 100%;">
+    <a class="btn btn-link subBasics active" data-ng-click="basicForm()">Basic</a>
+    <a class="btn btn-link subPixels" data-ng-click="addPixel()">Pixels</a>
+    <a class="btn btn-link subIABCat" data-ng-click="addIAB()">IAB Categories</a>
+</div>
+
 <div class="popup-holder accounts-popup">
     <!--Header-->
     <div class="modal-header">
@@ -10,7 +15,8 @@
     
     <!--Body-->
     <div class="modal-body">
-        <div class="col-md-12 zeroPadding">
+        <!--Basic Form-->
+        <div class="col-md-12 zeroPadding basicForm">
             <div class="form-group col-md-4" style="padding: 0 15px 0 0;">
                 <label class="col-sm-12 greyTxt">Advertiser:</label>
                 <select class="form-control" name="selectedAdvertiserId" ng-model="selectedAdvertiserId" ng-disabled="isEditMode">
@@ -29,71 +35,201 @@
                 <input type="text" class="form-control" ng-model="advertiserData.lookbackClicks" ng-keyup="(advertiserData.lookbackClicks>30)?advertiserData.lookbackClicks=30:''">
             </div>
         </div>
-            <div id="pixelsCnt" ng-if="advertiserData.pixels.length">
-                <div class="col-md-12 zeroPadding"><h1 class="pull-left">Add Pixel</h1></div>
-                <div data-ng-repeat="pixel in advertiserData.pixels" class="pixelLayer">
-                    <div class="form-group col-md-4" style="padding: 0 15px 0 0;">
-                        <label class="col-sm-12 greyTxt">Pixel Name:</label>
-                        <input type="text" class="form-control" maxlength="50" ng-model="advertiserData.pixels[$index].name">
-                    </div>
-                    <div class="form-group col-md-4" style="padding: 0 15px;">
-                        <label class="col-sm-12 greyTxt">Pixel Type:</label>
-                        <div class="col-md-12 zeroPadding dropdown-workflow">
-                            <div class="dropdown" style="margin: 0;">
-                                <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                    <span class="text" ng-bind="advertiserData.pixels[$index].pixelTypeName ? advertiserData.pixels[$index].pixelTypeName : 'Select Pixel Type'"></span>
-                                    <span class="icon-arrow-down"></span>
-                                </button>
-                                <ul class="dropdown-menu" aria-labelledby="unitcostType" ng-model="adData.unitType"  id="unitcostType" data-toggle="dropdown">
-                                    <li><a ng-click="advertiserData.pixels[$index].pixelType='PAGE_VIEW';
-                                                     advertiserData.pixels[$index].pixelTypeName='Action - Page View'" ng-bind="'Action - Page View'"></a></li>
-                                    <li><a ng-click="advertiserData.pixels[$index].pixelTypeName='Audience Creation Pixel';
-                                                     advertiserData.pixels[$index].pixelType='AUDIENCE_CREATION'" ng-bind="'Audience Creation Pixel'"></a></li>
-                                    <li><a ng-click="advertiserData.pixels[$index].pixelTypeName='Retargeting Pixel';
-                                                     advertiserData.pixels[$index].pixelType='RETARGETING'" ng-bind="'Retargeting Pixel'"></a></li>
-                                </ul>
-                            </div>
+        
+        <!--Pixel Form-->
+        <div id="pixelsCnt" ng-if="advertiserData.pixels.length">
+            <div class="col-md-12 zeroPadding"><h1 class="pull-left">Add Pixel</h1></div>
+            <div data-ng-repeat="pixel in advertiserData.pixels" class="pixelLayer">
+                <div class="form-group col-md-4" style="padding: 0 15px 0 0;">
+                    <label class="col-sm-12 greyTxt">Pixel Name:</label>
+                    <input type="text" class="form-control" maxlength="50" ng-model="advertiserData.pixels[$index].name">
+                </div>
+                <div class="form-group col-md-4" style="padding: 0 15px;">
+                    <label class="col-sm-12 greyTxt">Pixel Type:</label>
+                    <div class="col-md-12 zeroPadding dropdown-workflow">
+                        <div class="dropdown" style="margin: 0;">
+                            <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                <span class="text" ng-bind="advertiserData.pixels[$index].pixelTypeName ? advertiserData.pixels[$index].pixelTypeName : 'Select Pixel Type'"></span>
+                                <span class="icon-arrow-down"></span>
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="unitcostType" ng-model="adData.unitType"  id="unitcostType" data-toggle="dropdown">
+                                <li><a ng-click="advertiserData.pixels[$index].pixelType='PAGE_VIEW';
+                                                 advertiserData.pixels[$index].pixelTypeName='Action - Page View'" ng-bind="'Action - Page View'"></a></li>
+                                <li><a ng-click="advertiserData.pixels[$index].pixelTypeName='Audience Creation Pixel';
+                                                 advertiserData.pixels[$index].pixelType='AUDIENCE_CREATION'" ng-bind="'Audience Creation Pixel'"></a></li>
+                                <li><a ng-click="advertiserData.pixels[$index].pixelTypeName='Retargeting Pixel';
+                                                 advertiserData.pixels[$index].pixelType='RETARGETING'" ng-bind="'Retargeting Pixel'"></a></li>
+                            </ul>
                         </div>
                     </div>
-                    <div class="form-group col-md-4" style="padding: 0 0 0 15px;">
-                        <label class="col-sm-12 greyTxt" style="display: block;">Pixel Expiration Date:</label>
-                        <div class="col-md-12 input-daterange input-group date pull-left">
-                            <div class="col-md-12 dateWrapper ">
-                                <input type="text" id="pixelExpDate_{{$index}}" class="input-sm form-control timeframe"
-                                    ng-model="advertiserData.pixels[$index].expiryDate" required>
-                                <i class="icon-calendar glyphicon pull-right" style="position: absolute; z-index: 10; top: 10px; right: 10px;"></i>
-                                <label ng-if="!advertiserData.pixels[$index].expiryDate" style="display:block"
-                                    class="errorLabel" ng-bind="textConstants.SELECT_DATE_LABEL"></label>
-                            </div>
+                </div>
+                <div class="form-group col-md-4" style="padding: 0 0 0 15px;">
+                    <label class="col-sm-12 greyTxt" style="display: block;">Pixel Expiration Date:</label>
+                    <div class="col-md-12 input-daterange input-group date pull-left">
+                        <div class="col-md-12 dateWrapper ">
+                            <input type="text" id="pixelExpDate_{{$index}}" class="input-sm form-control timeframe"
+                                ng-model="advertiserData.pixels[$index].expiryDate" required>
+                            <i class="icon-calendar glyphicon pull-right" style="position: absolute; z-index: 10; top: 10px; right: 10px;"></i>
+                            <label ng-if="!advertiserData.pixels[$index].expiryDate" style="display:block"
+                                class="errorLabel" ng-bind="textConstants.SELECT_DATE_LABEL"></label>
                         </div>
                     </div>
+                </div>
+                
+                <div class="form-group col-md-12" style="padding: 0;">
+                    <label class="col-sm-12 greyTxt">Description</label>
+                    <input type="textarea" class="form-control" ng-model="advertiserData.pixels[$index].description">
+                </div>
+                
+                <a class="pull-right btn btn-link" style="padding-right: 0;" data-dismiss="modal"
+                   ng-if="!isEditMode"
+                   ng-click="removePixel($index)" aria-label="Close">Cancel</a>
+            </div>
+        </div>
+        
+        <div class="pull-right btn-group create createPixel" role="group" aria-label="..." style="display: none;">
+            <a class="btn btn-default" data-ng-click="addPixel()">
+                <span class="icon-plus"></span>
+                <span>Add Pixel</span>
+            </a>
+        </div>
+        
+        <!--IAB Category-->
+        <div class="col-md-12 IABForm" style="display: none;">
+            <div class="col-md-12 zeroPadding"><h1 class="pull-left">IAB Categories</h1></div>
+            <!--Row 1-->
+            <div class="col-md-12 zeroPadding">
+                <div class="form-group col-md-4" style="padding: 0 15px 0 0;">
+                    <label class="col-sm-12 greyTxt">Category:</label>
                     
-                    <div class="form-group col-md-12" style="padding: 0;">
-                        <label class="col-sm-12 greyTxt">Description</label>
-                        <input type="textarea" class="form-control" ng-model="advertiserData.pixels[$index].description">
+                    <div class="col-md-12 zeroPadding dropdown-workflow">
+                        <div class="dropdown">
+                            <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                <span class="text">Arts & Entertainment</span>
+                                <span class="icon-arrow-down"></span>
+                            </button>
+                            <ul class="dropdown-menu" data-toggle="dropdown">
+                                <li class="available">
+                                    <a>Arts & Entertainment</a>
+                                </li>
+                                <li class="available">
+                                    <a>Automotive</a>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
+                </div>
+                
+                <div class="form-group col-md-4" style="padding: 0 15px;">
+                    <label class="col-sm-12 greyTxt">Sub Category:</label>
                     
-                    <a class="pull-right btn btn-link" style="padding-right: 0;" data-dismiss="modal"
-                       ng-if="!isEditMode"
-                       ng-click="removePixel($index)" aria-label="Close">Cancel</a>
+                    <div class="col-md-12 zeroPadding dropdown-workflow">
+                        <div class="dropdown">
+                            <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                <span class="text">Books & Literature</span>
+                                <span class="icon-arrow-down"></span>
+                            </button>
+                            <ul class="dropdown-menu" data-toggle="dropdown">
+                                <li class="available">
+                                    <a>Books & Literature</a>
+                                </li>
+                                <li class="available">
+                                    <a>Celebrity Fan/Gossip</a>
+                                </li>
+                                <li class="available">
+                                    <a>Fine Art</a>
+                                </li>
+                                <li class="available">
+                                    <a>Humor</a>
+                                </li>
+                                <li class="available">
+                                    <a>Movies</a>
+                                </li>
+                                <li class="available">
+                                    <a>Music</a>
+                                </li>
+                                <li class="available">
+                                    <a>Television</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="pull-right btn-group create" role="group" aria-label="...">
-                <a class="btn btn-default" data-ng-click="addPixel()">
-                    <span class="icon-plus"></span>
-                    <span>Add Pixel</span>
-                </a>
-            </div>
-            <ul ng-if="allAdvertiser.length>0" class="dropdown-menu" role="menu" id="advertiserList" ng-if="mode == 'create'" ng-style="dropdownCss">
-                <li ng-repeat="advertiser in allAdvertiser | filter:advertiserName" data-ng-click="selectAdvertiser(advertiser)">
-                    <a>
-                        <span class="tick"></span>
-                        <span class="menuItemText ng-binding" >{{advertiser.name}}</span>
-                    </a>
-                </li>
-            </ul>
             
-            <input type="hidden"  ng-model="selectedAdvertiserId" >
+            <!--Row 2-->
+            <div class="col-md-12 zeroPadding">
+                <div class="form-group col-md-4" style="padding: 0 15px 0 0;">
+                    <label class="col-sm-12 greyTxt">Category:</label>
+                    
+                    <div class="col-md-12 zeroPadding dropdown-workflow">
+                        <div class="dropdown">
+                            <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                <span class="text">Automotive</span>
+                                <span class="icon-arrow-down"></span>
+                            </button>
+                            <ul class="dropdown-menu" data-toggle="dropdown">
+                                <li class="available">
+                                    <a>Arts & Entertainment</a>
+                                </li>
+                                <li class="available">
+                                    <a>Automotive</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group col-md-4" style="padding: 0 15px;">
+                    <label class="col-sm-12 greyTxt">Sub Category:</label>
+                    
+                    <div class="col-md-12 zeroPadding dropdown-workflow">
+                        <div class="dropdown">
+                            <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                <span class="text">Auto Parts</span>
+                                <span class="icon-arrow-down"></span>
+                            </button>
+                            <ul class="dropdown-menu" data-toggle="dropdown">
+                                <li class="available">
+                                    <a>Auto Parts</a>
+                                </li>
+                                <li class="available">
+                                    <a>Auto Repair</a>
+                                </li>
+                                <li class="available">
+                                    <a>Buying/Selling Cars</a>
+                                </li>
+                                <li class="available">
+                                    <a>Car Culture</a>
+                                </li>
+                                <li class="available">
+                                    <a>Certified Pre-Owned</a>
+                                </li>
+                                <li class="available">
+                                    <a>Convertible</a>
+                                </li>
+                                <li class="available">
+                                    <a>Coupe</a>
+                                </li>
+                                <li class="available">
+                                    <a>Crossover</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
+            
+        <ul ng-if="allAdvertiser.length>0" class="dropdown-menu" role="menu" id="advertiserList" ng-if="mode == 'create'" ng-style="dropdownCss">
+            <li ng-repeat="advertiser in allAdvertiser | filter:advertiserName" data-ng-click="selectAdvertiser(advertiser)">
+                <a>
+                    <span class="tick"></span>
+                    <span class="menuItemText ng-binding" >{{advertiser.name}}</span>
+                </a>
+            </li>
+        </ul>
+        
+        <input type="hidden"  ng-model="selectedAdvertiserId" >
     </div><!-- end of modal_body -->
 </div> <!-- end of popup-holder -->

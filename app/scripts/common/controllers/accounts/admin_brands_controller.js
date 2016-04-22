@@ -10,7 +10,7 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
             
             $(".each_nav_link").removeClass("active_tab");
             $("#admin_nav_link").addClass("active_tab");
-
+            
             $scope.brandsData = [];
 
             $scope.fetchAllBrands = function(){

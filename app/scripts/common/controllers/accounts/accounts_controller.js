@@ -39,10 +39,37 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
         };
         $(".each_nav_link").removeClass("active_tab");
         $("#admin_nav_link").addClass("active_tab");
+        
+        $(".miniTabLinks .btn").removeClass("active");
+        $("#accounts_link").addClass("active");
+        
+        $scope.basicForm = function() {
+            $(".miniTabLinks.sub .btn").removeClass("active");
+            $(".miniTabLinks.sub .subBasics").addClass("active");
+            
+            $(".basicForm").show();
+            $(".createPixel, #pixelsCnt, .IABForm").hide();
+        }
+        
         $scope.addPixel = function(){
             $scope.advertiserData.pixels.push({});
             _currCtrl.setCalanderSetting();
+            
+            $(".miniTabLinks.sub .btn").removeClass("active");
+            $(".miniTabLinks.sub .subPixels").addClass("active");
+            
+            $(".createPixel, #pixelsCnt").show();
+            $(".basicForm, .IABForm").hide();
         }
+        
+        $scope.addIAB = function() {
+            $(".miniTabLinks.sub .btn").removeClass("active");
+            $(".miniTabLinks.sub .subIABCat").addClass("active");
+            
+            $(".IABForm").show();
+            $(".createPixel, #pixelsCnt, .basicForm").hide();
+        }
+        
         _currCtrl.setCalanderSetting = function(){
             setTimeout(function(){
                 $('.input-daterange').datepicker({
