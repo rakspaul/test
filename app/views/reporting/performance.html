@@ -311,7 +311,7 @@
     <div class="each_col sec_col" >
         {{screenData.dimension}}
     </div>
-    <div class="each_col third_col">
+    <div class="each_col third_col {{screenData.kpi_type === 'IMPRESSIONS' ? 'bold' : ''}}">
         {{((screenData.impressions >0) || (screenData.impressions == 0)) ? (screenData.impressions | nrFormat) : '-'}}
     </div>
     <div class="vid_col" ng-show="adFormats.videoAds == true">
@@ -327,30 +327,31 @@
                 <div class="vid_quartile_data">{{((screenData.vtc_100 >0)|| (screenData.vtc_100 == 0)) ? (screenData.vtc_100 | nrFormat) : '-'}}</div>
             </div>
         </div>
-        <div class="each_col third_col">
+        <div class="each_col third_col {{screenData.kpi_type === 'VTC' ? 'bold' : ''}}">
             <span>{{((screenData.vtc_100 >0)|| (screenData.vtc_100 == 0)) ? ((screenData.vtc_100 | number:2)+'%') : '-'}}</span>
         </div>
     </div>
-    <div class="each_col forth_col">
+    <div class="each_col forth_col {{screenData.kpi_type === 'CTR' ? 'bold' : ''}}">
         {{((screenData.ctr >0)|| (screenData.ctr == 0)) ? ((screenData.ctr | number:2)+'%') : '-'}}
     </div>
-    <div class="each_col fifth_col">
+    <div class="each_col fifth_col {{screenData.kpi_type === 'ACTION_RATE' ? 'bold' : ''}}">
         {{((screenData.action_rate >0)|| (screenData.action_rate == 0)) ? ((screenData.action_rate | number:2)+'%') : '-'}}
     </div>
     <span  ng-if="!adFormats.videoAds">
-    <div class="each_col sixth_col">
-        {{((screenData.cpa >0)|| (screenData.cpa == 0)) ? (screenData.cpa | currency:undefined:2) : '-'}}
-    </div>
+        <div class="each_col sixth_col {{screenData.kpi_type === 'CPA' ? 'bold' : ''}}">
+            {{((screenData.cpa >0)|| (screenData.cpa == 0)) ? (screenData.cpa | currency:undefined:2) : '-'}}
+        </div>
 
-    <div class="each_col seventh_col">
-        {{((screenData.cpc >0)|| (screenData.cpc == 0)) ? (screenData.cpc | currency:undefined:2) : '-'}}
-    </div>
+        <div class="each_col seventh_col {{screenData.kpi_type === 'CPC' ? 'bold' : ''}}">
+            {{((screenData.cpc >0)|| (screenData.cpc == 0)) ? (screenData.cpc | currency:undefined:2) : '-'}}
+        </div>
 
-    <div class="each_col eight_col">
-        {{((screenData.cpm >0)|| (screenData.cpm == 0)) ? (screenData.cpm | currency:undefined:2) : '-'}}
-    </div>
-        </span>
-    <div ng-if="adFormats.videoAds" class="each_col eight_col" ng-class="{vid_none:adFormats.videoAds == false}">
+        <div class="each_col eight_col {{screenData.kpi_type === 'CPM' ? 'bold' : ''}}">
+            {{((screenData.cpm >0)|| (screenData.cpm == 0)) ? (screenData.cpm | currency:undefined:2) : '-'}}
+        </div>
+    </span>
+
+    <div ng-if="adFormats.videoAds" class="each_col eight_col {{screenData.kpi_type === selected_filters.kpi_type.toUpperCase() ? 'bold' : ''}}" ng-class="{vid_none:adFormats.videoAds == false}">
 
         <!--<span >{{selected_filters.kpi_type == 'cpa'? "cpm" : "cpm"}}</span>-->
         <span ng-if="selected_filters.kpi_type == 'vtc' " style="visibility: hidden">
@@ -363,12 +364,11 @@
     </div>
 </script>
 
-
 <script type="text/ng-template" id="daysofweekTpl">
     <div class="each_col sec_col">
         {{daysofweekData.dimension}}
     </div>
-    <div class="each_col third_col">
+    <div class="each_col third_col {{daysofweekData.kpi_type === 'IMPRESSIONS' ? 'bold' : ''}}">
         {{((daysofweekData.impressions >0)|| (daysofweekData.impressions == 0)) ? (daysofweekData.impressions | nrFormat) : '-'}}
     </div>
     <div class="vid_col" ng-show="adFormats.videoAds == true">
@@ -384,38 +384,39 @@
                 <div class="vid_quartile_data">{{((daysofweekData.vtc_100 >0)|| (daysofweekData.vtc_100 == 0)) ? (daysofweekData.vtc_100 | nrFormat) : '-'}}</div>
             </div>
         </div>
-        <div class="each_col third_col">
+        <div class="each_col third_col {{daysofweekData.kpi_type === 'VTC' ? 'bold' : ''}}">
             <span>{{((daysofweekData.vtc_100 >0)|| (daysofweekData.vtc_100 == 0)) ? ((daysofweekData.vtc_100 | number:2)+'%') : '-'}}</span>
         </div>
     </div>
-    <div class="each_col forth_col">
+    <div class="each_col forth_col {{daysofweekData.kpi_type === 'CTR' ? 'bold' : ''}}">
         {{((daysofweekData.ctr >0)|| (daysofweekData.ctr == 0)) ? ((daysofweekData.ctr | number:2)+'%') : '-'}}
     </div>
-    <div class="each_col fifth_col">
+    <div class="each_col fifth_col {{daysofweekData.kpi_type === 'ACTION_RATE' ? 'bold' : ''}}">
         {{((daysofweekData.action_rate >0)|| (daysofweekData.action_rate == 0)) ? ((daysofweekData.action_rate | number:2)+'%') : '-'}}
     </div>
     <span  ng-if="!adFormats.videoAds">
-    <div class="each_col sixth_col">
-        {{((daysofweekData.cpa >0)|| (daysofweekData.cpa == 0)) ? (daysofweekData.cpa | currency:undefined:2) : '-'}}
-    </div>
-    <div class="each_col seventh_col">
-        {{((daysofweekData.cpc >0)|| (daysofweekData.cpc == 0)) ? (daysofweekData.cpc | currency:undefined:2) : '-'}}
-    </div>
-    <div class="each_col eight_col">
-        {{((daysofweekData.cpm >0)|| (daysofweekData.cpm == 0)) ? (daysofweekData.cpm | currency:undefined:2) : '-'}}
-    </div>
+        <div class="each_col sixth_col {{daysofweekData.kpi_type === 'CPA' ? 'bold' : ''}}">
+            {{((daysofweekData.cpa >0)|| (daysofweekData.cpa == 0)) ? (daysofweekData.cpa | currency:undefined:2) : '-'}}
+        </div>
+        <div class="each_col seventh_col {{daysofweekData.kpi_type === 'CPC' ? 'bold' : ''}}">
+            {{((daysofweekData.cpc >0)|| (daysofweekData.cpc == 0)) ? (daysofweekData.cpc | currency:undefined:2) : '-'}}
+        </div>
+        <div class="each_col eight_col {{daysofweekData.kpi_type === 'CPM' ? 'bold' : ''}}">
+            {{((daysofweekData.cpm >0)|| (daysofweekData.cpm == 0)) ? (daysofweekData.cpm | currency:undefined:2) : '-'}}
+        </div>
     </span>
-    <div ng-if="adFormats.videoAds" class="each_col eight_col" ng-class="{vid_none:adFormats.videoAds == false}">
+    <div ng-if="adFormats.videoAds" class="each_col eight_col {{daysofweekData.kpi_type === selected_filters.kpi_type.toUpperCase() ? 'bold' : ''}}" ng-class="{vid_none:adFormats.videoAds == false}">
         {{daysofweekData[selected_filters.kpi_type.toLowerCase()] | appendDollor:
         selected_filters2.kpi_type}}
     </div>
 </script>
 
+
 <script type="text/ng-template" id="formatTpl">
     <div class="each_col sec_col">
         {{formatData.dimension}}
     </div>
-    <div class="each_col third_col">
+    <div class="each_col third_col {{formatData.kpi_type === 'IMPRESSIONS' ? 'bold' : ''}}">
         {{((formatData.impressions >0) || (formatData.impressions == 0)) ? (formatData.impressions | nrFormat) : '-'}}
     </div>
     <div class="vid_col" ng-show="adFormats.videoAds == true">
@@ -431,28 +432,28 @@
                 <div class="vid_quartile_data">{{((formatData.vtc_100 >0)|| (formatData.vtc_100 == 0)) ? (formatData.vtc_100 | nrFormat) : '-'}}</div>
             </div>
         </div>
-        <div class="each_col third_col">
+        <div class="each_col third_col {{formatData.kpi_type === 'VTC' ? 'bold' : ''}}">
             <span>{{((formatData.vtc_100 >0)|| (formatData.vtc_100 == 0)) ? ((formatData.vtc_100 | number:2)+'%') : '-'}}</span>
         </div>
     </div>
-    <div class="each_col forth_col">
+    <div class="each_col forth_col {{formatData.kpi_type === 'CTR' ? 'bold' : ''}}">
         {{((formatData.ctr >0)|| (formatData.ctr == 0)) ? ((formatData.ctr | number:2)+'%') : '-'}}
     </div>
-    <div class="each_col fifth_col">
+    <div class="each_col fifth_col {{formatData.kpi_type === 'ACTION_RATE' ? 'bold' : ''}}">
         {{((formatData.action_rate >0)|| (formatData.action_rate == 0)) ? ((formatData.action_rate | number:2)+'%') : '-'}}
     </div>
     <span  ng-if="!adFormats.videoAds">
-    <div class="each_col sixth_col">
-        {{((formatData.cpa >0)|| (formatData.cpa == 0)) ? (formatData.cpa | currency:undefined:2) : '-'}}
-    </div>
-    <div class="each_col seventh_col">
-        {{((formatData.cpc >0)|| (formatData.cpc == 0)) ? (formatData.cpc | currency:undefined:2) : '-'}}
-    </div>
-    <div class="each_col eight_col">
-        {{((formatData.cpm >0)|| (formatData.cpm == 0)) ? (formatData.cpm | currency:undefined:2) : '-'}}
-    </div>
-        </span>
-    <div ng-if="adFormats.videoAds" class="each_col eight_col" ng-class="{vid_none:adFormats.videoAds == false}">
+        <div class="each_col sixth_col {{formatData.kpi_type === 'CPA' ? 'bold' : ''}}">
+            {{((formatData.cpa >0)|| (formatData.cpa == 0)) ? (formatData.cpa | currency:undefined:2) : '-'}}
+        </div>
+        <div class="each_col seventh_col {{formatData.kpi_type === 'CPC' ? 'bold' : ''}}">
+            {{((formatData.cpc >0)|| (formatData.cpc == 0)) ? (formatData.cpc | currency:undefined:2) : '-'}}
+        </div>
+        <div class="each_col eight_col {{formatData.kpi_type === 'CPM' ? 'bold' : ''}}">
+            {{((formatData.cpm >0)|| (formatData.cpm == 0)) ? (formatData.cpm | currency:undefined:2) : '-'}}
+        </div>
+    </span>
+    <div ng-if="adFormats.videoAds" class="each_col eight_col {{formatData.kpi_type === selected_filters.kpi_type.toUpperCase() ? 'bold' : ''}}" ng-class="{vid_none:adFormats.videoAds == false}">
         {{formatData[selected_filters.kpi_type.toLowerCase()] | appendDollor:
         selected_filters2.kpi_type}}
     </div>
@@ -464,49 +465,49 @@
         <!-- {{creativesData.dimension | limitTo: characterLimit}}{{creativesData.dimension.length > characterLimit ? '...' : ''}}-->
         {{ creativesData.dimension | formatUrl :15 }}
     </div>
-    <div class="each_col third_col">
+    <div class="each_col third_col {{creativesData.kpi_type === 'IMPRESSIONS' ? 'bold' : ''}}">
         {{((creativesData.impressions >0)|| (creativesData.impressions == 0)) ? (creativesData.impressions | nrFormat) : '-'}}
         <!--{{creativesData.ctr | number:2}}%-->
     </div>
     <span  ng-if="adFormats.videoAds">
-    <div class="each_col third_col">
-        <!--{{creativesData.impressions >0 ? (formatData.impressions | nrFormat) : '-'}}-->
-        {{((creativesData.video_played >0)|| (creativesData.video_played == 0)) ? (creativesData.video_played | nrFormat) : '-'}}
-    </div>
-    <div class="vid_data_hdr">
-        <div>
-            <div class="vid_quartile_data">{{((creativesData.vtc_25 >0)|| (creativesData.vtc_25 == 0)) ? (creativesData.vtc_25 | nrFormat) : '-'}}</div>
-            <div class="vid_quartile_data">{{((creativesData.vtc_50 >0)|| (creativesData.vtc_50 == 0)) ? (creativesData.vtc_50 | nrFormat) : '-'}}</div>
-            <div class="vid_quartile_data">{{((creativesData.vtc_75 >0)|| (creativesData.vtc_75 == 0)) ? (creativesData.vtc_75 | nrFormat) : '-'}}</div>
-            <div class="vid_quartile_data">{{((creativesData.vtc_100 >0)|| (creativesData.vtc_100 == 0)) ? (creativesData.vtc_100 | nrFormat) : '-'}}</div>
+        <div class="each_col third_col">
+            <!--{{creativesData.impressions >0 ? (formatData.impressions | nrFormat) : '-'}}-->
+            {{((creativesData.video_played >0)|| (creativesData.video_played == 0)) ? (creativesData.video_played | nrFormat) : '-'}}
         </div>
-    </div>
-    <div class="each_col third_col">
-        {{((creativesData.vtc_100 >0)|| (creativesData.vtc_100 == 0)) ? ((creativesData.vtc_100 | number:2)+'%') : '-'}}
-    </div>
+        <div class="vid_data_hdr">
+            <div>
+                <div class="vid_quartile_data">{{((creativesData.vtc_25 >0)|| (creativesData.vtc_25 == 0)) ? (creativesData.vtc_25 | nrFormat) : '-'}}</div>
+                <div class="vid_quartile_data">{{((creativesData.vtc_50 >0)|| (creativesData.vtc_50 == 0)) ? (creativesData.vtc_50 | nrFormat) : '-'}}</div>
+                <div class="vid_quartile_data">{{((creativesData.vtc_75 >0)|| (creativesData.vtc_75 == 0)) ? (creativesData.vtc_75 | nrFormat) : '-'}}</div>
+                <div class="vid_quartile_data">{{((creativesData.vtc_100 >0)|| (creativesData.vtc_100 == 0)) ? (creativesData.vtc_100 | nrFormat) : '-'}}</div>
+            </div>
+        </div>
+        <div class="each_col third_col {{creativesData.kpi_type === 'VTC' ? 'bold' : ''}}">
+            {{((creativesData.vtc_100 >0)|| (creativesData.vtc_100 == 0)) ? ((creativesData.vtc_100 | number:2)+'%') : '-'}}
+        </div>
 
     </span>
-    <div class="each_col forth_col">
+    <div class="each_col forth_col {{creativesData.kpi_type === 'CTR' ? 'bold' : ''}}">
         {{((creativesData.ctr >0)|| (creativesData.ctr == 0)) ? ((creativesData.ctr | number:2)+'%') : '-'}}
     </div>
 
-    <div class="each_col fifth_col">
+    <div class="each_col fifth_col {{creativesData.kpi_type === 'ACTION_RATE' ? 'bold' : ''}}">
         {{((creativesData.action_rate >0)|| (creativesData.action_rate == 0)) ? ((creativesData.action_rate | number:2)+'%') : '-'}}
     </div>
     <span  ng-if="!adFormats.videoAds">
-    <div class="each_col sixth_col">
-        {{((creativesData.cpa >0)|| (creativesData.cpa == 0)) ? (creativesData.cpa | currency:undefined:2) : '-'}}
-    </div>
+        <div class="each_col sixth_col {{creativesData.kpi_type === 'CPA' ? 'bold' : ''}}">
+            {{((creativesData.cpa >0)|| (creativesData.cpa == 0)) ? (creativesData.cpa | currency:undefined:2) : '-'}}
+        </div>
 
-    <div class="each_col seventh_col">
-        {{((creativesData.cpc >0)|| (creativesData.cpc == 0)) ? (creativesData.cpc | currency:undefined:2) : '-'}}
-    </div>
-    <div class="each_col eight_col">
-        {{((creativesData.cpm >0)|| (creativesData.cpm == 0)) ? (creativesData.cpm | currency:undefined:2) : '-'}}
-    </div>
-        </span>
+        <div class="each_col seventh_col {{creativesData.kpi_type === 'CPC' ? 'bold' : ''}}">
+            {{((creativesData.cpc >0)|| (creativesData.cpc == 0)) ? (creativesData.cpc | currency:undefined:2) : '-'}}
+        </div>
+        <div class="each_col eight_col {{creativesData.kpi_type === 'CPM' ? 'bold' : ''}}">
+            {{((creativesData.cpm >0)|| (creativesData.cpm == 0)) ? (creativesData.cpm | currency:undefined:2) : '-'}}
+        </div>
+    </span>
 
-    <div ng-if="adFormats.videoAds" class="each_col seventh_col last_col" ng-class="{vid_none:adFormats.videoAds == false}">
+    <div ng-if="adFormats.videoAds" class="each_col seventh_col last_col {{creativesData.kpi_type === selected_filters.kpi_type.toUpperCase() ? 'bold' : ''}}" ng-class="{vid_none:adFormats.videoAds == false}">
         {{creativesData[selected_filters.kpi_type.toLowerCase()] | appendDollor:
         selected_filters2.kpi_type}}
     </div>
@@ -518,7 +519,7 @@
         <!-- {{adsizesData.dimension | limitTo: characterLimit}}{{adsizesData.dimension.length > characterLimit ? '...' : ''}}-->
         {{ adsizesData.dimension | formatUrl :15 }}
     </div>
-    <div class="each_col third_col">
+    <div class="each_col third_col {{adsizesData.kpi_type === 'IMPRESSIONS' ? 'bold' : ''}}">
         {{((adsizesData.impressions >0)|| (adsizesData.impressions == 0))? (adsizesData.impressions | nrFormat) : '-'}}
         <!--{{creativesData.ctr | number:2}}%-->
     </div>
@@ -535,33 +536,33 @@
             <div class="vid_quartile_data">{{((adsizesData.vtc_100 >0)|| (adsizesData.vtc_100 == 0)) ? (adsizesData.vtc_100 | nrFormat) : '-'}}</div>
         </div>
     </div>
-    <div class="each_col third_col">
+    <div class="each_col third_col {{adsizesData.kpi_type === 'VTC' ? 'bold' : ''}}">
         <!--{{creativesData.impressions >0 ? (formatData.impressions | nrFormat) : '-'}}-->
         {{((adsizesData.vtc_100 >0)|| (adsizesData.vtc_100 == 0))? ((adsizesData.vtc_100 | number:2)+'%') : '-'}}
     </div>
     </span>
-    <div class="each_col forth_col">
+    <div class="each_col forth_col {{adsizesData.kpi_type === 'CTR' ? 'bold' : ''}}">
         {{((adsizesData.ctr >0)|| (adsizesData.ctr == 0)) ? ((adsizesData.ctr | number:2)+'%') : '-'}}
     </div>
-    <div class="each_col forth_col">
+    <div class="each_col fifth_col {{adsizesData.kpi_type === 'ACTION_RATE' ? 'bold' : ''}}">
         {{((adsizesData.action_rate >0)|| (adsizesData.action_rate == 0)) ? ((adsizesData.action_rate | number:2)+'%') : '-'}}
     </div>
 
     <span  ng-if="!adFormats.videoAds">
-            <div class="each_col seventh_col">
-                {{((adsizesData.cpa >0)|| (adsizesData.cpa == 0)) ? (adsizesData.cpa | currency:undefined:2) : '-'}}
-            </div>
+        <div class="each_col sixth_col {{adsizesData.kpi_type === 'CPA' ? 'bold' : ''}}">
+            {{((adsizesData.cpa >0)|| (adsizesData.cpa == 0)) ? (adsizesData.cpa | currency:undefined:2) : '-'}}
+        </div>
 
-            <div class="each_col sixth_col">
-                {{((adsizesData.cpc >0)|| (adsizesData.cpc == 0))? (adsizesData.cpc | currency:undefined:2) : '-'}}
-            </div>
+        <div class="each_col seventh_col {{adsizesData.kpi_type === 'CPC' ? 'bold' : ''}}">
+            {{((adsizesData.cpc >0)|| (adsizesData.cpc == 0))? (adsizesData.cpc | currency:undefined:2) : '-'}}
+        </div>
 
-            <div class="each_col fifth_col">
-                {{((adsizesData.cpm >0)|| (adsizesData.cpm == 0)) ? (adsizesData.cpm | currency:undefined:2) : '-'}}
-            </div>
+        <div class="each_col eight_col {{adsizesData.kpi_type === 'CPM' ? 'bold' : ''}}">
+            {{((adsizesData.cpm >0)|| (adsizesData.cpm == 0)) ? (adsizesData.cpm | currency:undefined:2) : '-'}}
+        </div>
     </span>
 
-    <div ng-if="adFormats.videoAds" class="each_col eight_col" ng-class="{vid_none:adFormats.videoAds == false}">
+    <div ng-if="adFormats.videoAds" class="each_col eight_col {{adsizesData.kpi_type === selected_filters.kpi_type.toUpperCase() ? 'bold' : ''}}" ng-class="{vid_none:adFormats.videoAds == false}">
         {{adsizesData[selected_filters.kpi_type.toLowerCase()] | appendDollor:
         selected_filters2.kpi_type}}
     </div>
