@@ -8,30 +8,6 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
         var _buyingPlatform = {
 
-            platformsFetched : function(platform) {
-                if (platform) {
-                    var selectedPlatformIndex = _.findIndex($scope.workflowData.platforms, function(item){
-                        return item.id == platform.id
-                    })
-
-                    var selectedSeats;
-                    if(selectedPlatformIndex !== -1) {
-                        var selectedSeat = _.findIndex($scope.workflowData.platforms[selectedPlatformIndex].seats, function (item) {
-                            return item.id == platform.vendorSeatId
-                        })
-                        selectedSeats =  $scope.workflowData.platforms[selectedPlatformIndex].seats[selectedSeat];
-                        $scope.adData.platfromSeatId = platform.vendorSeatId
-                    } else {
-                        $scope.adData.platfromSeatId = null;
-                    }
-
-                    $scope.defaultPlatform = platform;
-                    $scope.adData.platformId = platform.id
-                    $scope.selectPlatform((platform.switchPlatform ? event : ''), platform, selectedSeats);
-                    $scope.saveCustomeFieldForPlatform(true);
-                }
-            },
-
             trackingPlatformCarouselData : function (responseData) {
                 var tempData = responseData.trackingPlatforms,
                     slides = Math.ceil((responseData.trackingPlatforms.length) / 3),
@@ -43,8 +19,29 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 }
             },
 
-            fetchPlatforms : function (platform) {
 
+            platformWrapper : function(platform) {
+                var selectedSeats,
+                    selectedPlatformIndex = _.findIndex($scope.workflowData.platforms, function (item) {
+                        return item.id == platform.id
+                    })
+
+                if (selectedPlatformIndex !== -1) {
+                    var selectedSeat = _.findIndex($scope.workflowData.platforms[selectedPlatformIndex].seats, function (item) {
+                        return item.id == platform.vendorSeatId
+                    })
+                    selectedSeats = $scope.workflowData.platforms[selectedPlatformIndex].seats[selectedSeat];
+                }
+                if(selectedSeats && platform) {
+                    $scope.adData.platfromSeatId = platform.vendorSeatId
+                } else {
+                    $scope.adData.platfromSeatId = null;
+                }
+
+                $scope.selectPlatform(null, platform, selectedSeats);
+            },
+
+            fetchPlatforms : function (platform) {
                 workflowService
                     .getPlatforms({cache: false})
                     .then(function (result) {
@@ -89,11 +86,12 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                                     $scope.workflowData.platforms = responseData.fullIntegrationsPlatforms;
                                     _buyingPlatform.trackingPlatformCarouselData(responseData);
                                 }
+                                _buyingPlatform.platformWrapper(platform)
                             } else {
                                 $scope.workflowData.platforms = responseData.fullIntegrationsPlatforms;
                                 _buyingPlatform.trackingPlatformCarouselData(responseData);
                             }
-                            _buyingPlatform.platformsFetched(platform)
+
                         } else {
                             _buyingPlatform.errorHandler(result);
                         }
@@ -101,12 +99,65 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
             },
 
+            //select a platform one of the seat of the platform
+            _selectPlatform : function (event, platform, seat) {
+                //showing card view when you change the platform.
+                _buyingPlatform.hideTargetingBox();
+
+                //Stop propogation to parent element
+                event && event.stopImmediatePropagation();
+
+                var settings = '';
+
+                //remove creatives only if Tracking-only is changed to Full integrations
+                if (event && $scope.wasFullIntegration() === -1) {
+                    _buyingPlatform.resetCreatives();
+                }
+
+                storedResponse = workflowService.getAdsDetails();
+
+                if ($scope.mode === 'edit') {
+                    if (storedResponse.targets.geoTargets) {
+                        settings = 'Geography';
+                    }
+                    if (seat && storedResponse.platform ) {
+                        if (storedResponse.platform.name === seat.name) {
+                            //directly set  the platform if it is the same
+                            _buyingPlatform.setPlatform(event, platform, seat);
+                        } else {
+                            //if the platform is changed but no targets were selected allow change
+                            if (_.size(storedResponse.targets.geoTargets) == 0) {
+                                _buyingPlatform.setPlatform(event, platform, seat);
+                            } else {
+                                //display warning popup
+                                if ($scope.defaultPlatform.id !== platform.id || $scope.defaultPlatform.vendorSeatId !== seat.id) {
+                                    tempPlatform = platform;
+                                    $scope.changePlatformMessage =
+                                        'Your entries for the following settings are not compatible with ' +
+                                        $filter('toPascalCase')(platform.name) +
+                                        ': ' +
+                                        settings +
+                                        '. Would you like to clear these settings and switch platforms? (OK/Cancel).';
+                                    $scope.changePlatformPopup = true;
+                                } else {
+                                    _buyingPlatform.setPlatform(event, platform, seat);
+                                }
+                            }
+                        }
+                    } else {
+                        _buyingPlatform.setPlatform(event, platform, seat);
+                    }
+                } else {
+                    $rootScope.$broadcast('resetTargeting');
+                    _buyingPlatform.setPlatform(event, platform, seat);
+                }
+                $rootScope.$broadcast('targettingCapability', platform)
+            },
+
             setPlatform : function (event, platform, seat) {
 
                 $scope.selectedPlatform = {};
                 $scope.selectedSeat = {};
-
-                $scope.defaultPlatform = null;
 
                 //reset the targeting and platform while changing the platform
                 if (event && !$scope.changePlatformPopup) {
@@ -120,12 +171,9 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
                 workflowService.setPlatform(platform);
 
-                if(seat) { // fill pl
+                if(seat) {
                     workflowService.setPlatformSeat(seat);
-                    if ($scope.mode != 'edit' || ($scope.defaultPlatform && $scope.defaultPlatform.vendorSeatId.id !== seat.id)) {
-                        $scope.$parent.TrackingIntegrationsSelected = false;
-                    }
-
+                    $scope.$parent.TrackingIntegrationsSelected = false;
                     $scope.adData.platformName = seat.name;
                     $scope.adData.platformSeatId = seat.id
                     $scope.selectedPlatform[platform.id] = seat.name;
@@ -134,6 +182,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     $scope.adData.platformName = platform.name;
                     $scope.selectedPlatform[platform.id] = platform.name;
                 }
+
 
                 //remove creatives only if tracking integrations is changed to Full integrations
                 if($scope.adData.platformId) {
@@ -149,6 +198,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     $scope.$parent.selectedArr.length = 0;
                     $scope.$parent.TrackingIntegrationsSelected = false;
                 }
+
                 $scope.adData.platform = platform.displayName;
                 $scope.adData.platformId = platform.id;
                 event && $scope.platformCustomInputs();
@@ -210,62 +260,12 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         }
 
 
-        //select a platform one of the seat of the platform
-        $scope.selectPlatform = function (event, platform, seat) {
-            //showing card view when you change the platform.
-            _buyingPlatform.hideTargetingBox();
 
-            //Stop propogation to parent element
-            event && event.stopImmediatePropagation();
-
-            var settings = '';
-
-            //remove creatives only if Tracking-only is changed to Full integrations
-            if (event && $scope.wasFullIntegration() === -1) {
-                _buyingPlatform.resetCreatives();
-            }
-
-            storedResponse = workflowService.getAdsDetails();
-
-            if ($scope.mode === 'edit') {
-                if (storedResponse.targets.geoTargets) {
-                    settings = 'Geography';
-                }
-                if (seat && storedResponse.platform ) {
-                    if (storedResponse.platform.name === seat.name) {
-                        //directly set  the platform if it is the same
-                        _buyingPlatform.setPlatform(event, platform, seat);
-                    } else {
-                        //if the platform is changed but no targets were selected allow change
-                        if (_.size(storedResponse.targets.geoTargets) == 0) {
-                            _buyingPlatform.setPlatform(event, platform, seat);
-                        } else {
-                            //display warning popup
-                            if ($scope.defaultPlatform.id !== platform.id || $scope.defaultPlatform.vendorSeatId !== seat.id) {
-                                tempPlatform = platform;
-                                $scope.changePlatformMessage =
-                                    'Your entries for the following settings are not compatible with ' +
-                                    $filter('toPascalCase')(platform.name) +
-                                    ': ' +
-                                    settings +
-                                    '. Would you like to clear these settings and switch platforms? (OK/Cancel).';
-                                $scope.changePlatformPopup = true;
-                            } else {
-                                _buyingPlatform.setPlatform(event, platform, seat);
-                            }
-                        }
-                    }
-                } else {
-                    _buyingPlatform.setPlatform(event, platform, seat);
-                }
-            } else {
-                $rootScope.$broadcast('resetTargeting');
-                _buyingPlatform.setPlatform(event, platform, seat);
-            }
-            $rootScope.$broadcast('targettingCapability', platform)
+        $scope.selectPlatform = function(event, platform, seat) {
+            $scope.defaultPlatform = platform;
+            _buyingPlatform._selectPlatform(event , platform, seat);
+            $scope.saveCustomeFieldForPlatform(true);
         };
-
-
 
         $scope.selectTrackingIntegrations = function (trackingIntegration) {
             if($scope.adData.platformId==undefined){

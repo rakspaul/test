@@ -1,56 +1,52 @@
 define(['angularAMD'],function (angularAMD) {
     'use strict';
-    angularAMD.factory('dimensionService', function() {
+    angularAMD.factory('videoService', function() {
 
-		var sizeArrayList =          
-		[
-		    { "name": "Large"              },
-		    { "name": "Medium"             },
-		    { "name": "Small"              },
-		    { "name": "No width indicated" }
+        var positionList,
+            playbackList,
+            sizeList;
 
-		] ;
-		var positionArrayList =          
-		[
-		    { "name": "Pre-roll"                 },
-		    { "name": "Mid-roll"                 },
-		    { "name": "Post-roll"                },
-		    { "name": "No roll position defined" },
-		    { "name": "Outstream"                }
-		]
-		var playbackArrayList =          
-		[
-		    { "name": "Auto-play, sound on"         },
-		    { "name": "Auto-play, sound off"        },
-		    { "name": "Auto-play, sound unknown"    },
-		    { "name": "Click-to-play"               },
-		    { "name": "Mouse-over"                  },
-		    { "name": "No playback method provided" }
-		]
+        var setPlayerSize = function(data) {
+            sizeList = data;
+        }
 
+        var getPlayerSize = function(searchText) {
+            var sizeArr = sizeList['Specific Size'];
+            console.log("sizeArr", sizeArr);
+            return sizeArr.filter(function(size) {
+                return size.name.toLowerCase().indexOf(searchText.toLowerCase()) != -1;
+            });
+        }
 
-		var sizes = function(searchText) {
-			var sizeArr = sizeArrayList;
-		      return sizeArr.filter(function(size) {
-		        return size.name.toLowerCase().indexOf(searchText.toLowerCase()) != -1;
-		      });
-		}
-		var positions = function(searchText) {
-			var posArr = positionArrayList;
-		      return posArr.filter(function(position) {
-		        return position.name.toLowerCase().indexOf(searchText.toLowerCase()) != -1;
-		      });
-		}
-		var playbackList = function(searchText) {
-			var playbackArr = playbackArrayList ;
-		      return playbackArr.filter(function(playback) {
-		        return playback.name.toLowerCase().indexOf(searchText.toLowerCase()) != -1;
-		      });
-		}
+        var setPosition = function(data) {
+            positionList = data;
+        }
+
+        var getPositions = function(searchText) {
+            var posArr = positionList;
+            return posArr.filter(function(position) {
+                return position.name.toLowerCase().indexOf(searchText.toLowerCase()) != -1;
+            });
+        }
+
+        var setPlaybackMethods = function(data) {
+            playbackList = data;
+        }
+
+        var getPlaybackMethods = function(searchText) {
+            var playbackArr = playbackList ;
+            return playbackArr.filter(function(playback) {
+                return playback.name.toLowerCase().indexOf(searchText.toLowerCase()) != -1;
+            });
+        }
+
     	return {
-			specificSizeOption  : sizes        ,
-			positionOption      : positions    ,
-			playbackOption      : playbackList
+            setPlayerSize : setPlayerSize,
+            getPlayerSize  : getPlayerSize,
+            setPosition : setPosition,
+            setPlaybackMethods : setPlaybackMethods,
+            getPositions      : getPositions    ,
+            getPlaybackMethods      : getPlaybackMethods
     	}
     })
 })
