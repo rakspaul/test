@@ -227,7 +227,7 @@
             </span>
             <span class="plat_name" title="{{platform.platform_name}}">{{platform.platform_name}}</span>
         </div>
-        <div class="each_col third_col">
+        <div class="each_col third_col {{platform.kpi_type === 'IMPRESSIONS' ? 'bold' : ''}}">
             {{((platform.impressions >0)|| (platform.impressions == 0))? (platform.impressions | nrFormat) : '-'}}
         </div>
 
@@ -244,32 +244,32 @@
                     <div class="vid_quartile_data">{{((platform.video_completion_100 >0)|| (platform.video_completion_100 == 0))? (platform.video_completion_100 | nrFormat) : '-'}}</div>
                 </div>
             </div>
-            <div class="each_col third_col">
+            <div class="each_col third_col {{platform.kpi_type === 'VTC' ? 'bold' : ''}}">
                 <span>{{((platform.vtc_100 >0)|| (platform.vtc_100 == 0)) ? ((platform.vtc_100 | number:2)+'%') : '-'}}</span>
             </div>
         </div>
 
-        <div class="each_col forth_col">
+        <div class="each_col forth_col {{platform.kpi_type === 'CTR' ? 'bold' : ''}}">
             {{((platform.ctr >0)|| (platform.ctr == 0)) ? ((platform.ctr | number:2)+'%') : '-'}}
         </div>
 
-        <div class="each_col fifth_col">
+        <div class="each_col fifth_col {{platform.kpi_type === 'ACTION_RATE' ? 'bold' : ''}}">
             {{((platform.action_rate >0)|| (platform.action_rate == 0)) ? ((platform.action_rate | number:2)+'%') : '-'}}
         </div>
 
 
     <span  ng-if="!adFormats.videoAds">
-        <div class="each_col sixth_col">
+        <div class="each_col sixth_col {{platform.kpi_type === 'CPA' ? 'bold' : ''}}">
             {{((platform.cpa >0)|| (platform.cpa == 0)) ? (platform.cpa | currency:undefined:2) : '-'}}
         </div>
-        <div class="each_col seventh_col">
+        <div class="each_col seventh_col {{platform.kpi_type === 'CPC' ? 'bold' : ''}}">
             {{((platform.cpc >0)|| (platform.cpc == 0)) ? (platform.cpc | currency:undefined:2) : '-'}}
         </div>
-        <div class="each_col eight_col">
+        <div class="each_col eight_col {{platform.kpi_type === 'CPM' ? 'bold' : ''}}">
             {{((platform.cpm >0)|| (platform.cpm == 0)) ? (platform.cpm | currency:undefined:2) : '-'}}
         </div>
     </span>
-        <div ng-if="adFormats.videoAds" class="each_col eight_col" ng-class="{vid_none:adFormats.videoAds == false}">
+        <div ng-if="adFormats.videoAds" class="each_col eight_col {{platform.kpi_type === selected_filters.kpi_type.toUpperCase() ? 'bold' : ''}}" ng-class="{vid_none:adFormats.videoAds == false}">
             <span ng-if="selected_filters.kpi_type=='ctr'||selected_filters.kpi_type=='vtc'||selected_filters.kpi_type=='action_rate'">{{((platform.cpm >0)|| (platform.cpm == 0)) ? (platform.cpm | currency:undefined:2) : '-'}}</span>
             <span ng-if="selected_filters.kpi_type=='cpm'||selected_filters.kpi_type=='cpc'||selected_filters.kpi_type=='cpa'">{{platform[selected_filters.kpi_type.toLowerCase()] | appendDollor:selected_filters2.kpi_type}}</span>
         </div>
@@ -331,7 +331,7 @@
             <span class="plat_name" title="{{platform.platform_name}}">{{platform.platform_name}}</span>
         </div>
         <div class="each_cost_col sec_col">{{((platform.impressions >0)|| (platform.impressions == 0))? (platform.impressions | nrFormat) : '-'}}</div>
-        <div class="each_cost_col third_col">{{selected_filters.kpi_type.toLowerCase() === 'vtc'? platform['vtc_100']:platform[selected_filters.kpi_type.toLowerCase()] | appendDollor : selected_filters.kpi_type.toLowerCase() }}</div>
+        <div class="each_cost_col third_col {{platform.kpi_type === selected_filters.kpi_type.toUpperCase() ? 'bold' : ''}}">{{selected_filters.kpi_type.toLowerCase() === 'vtc'? platform['vtc_100']:platform[selected_filters.kpi_type.toLowerCase()] | appendDollor : selected_filters.kpi_type.toLowerCase() }}</div>
         <div class="each_cost_col fourth_col">{{((platform.inventory_cost >0)|| (platform.inventory_cost == 0))? (platform.inventory_cost | currency:undefined:0) : '-'}}</div>
         <div class="each_cost_col fifth_col">{{((platform.data_cost >0)|| (platform.data_cost == 0))? (platform.data_cost | currency:undefined:0) : '-'}}</div>
         <div class="each_cost_col sixth_col">{{((platform.serving_cost >0)|| (platform.serving_cost == 0))? (platform.serving_cost | currency:undefined:0) : '-'}}</div>
@@ -370,7 +370,7 @@
         <div class="each_col suspicious_col">
             {{((platform.other_view_imps_suspicious_perc >0)|| (platform.other_view_imps_suspicious_perc == 0)) ? ((platform.other_view_imps_suspicious_perc | number:2)+'%') : '-'}}
         </div>
-        <!-- <div class="each_col seventh_col">
+        <!-- <div class="each_col seventh_col {{platform.kpi_type === selected_filters.kpi_type.toUpperCase() ? 'bold' : ''}}">
              {{platform[selected_filters.kpi_type.toLowerCase()] | appendDollor: selected_filters.kpi_type}}
          </div>-->
     </div>
