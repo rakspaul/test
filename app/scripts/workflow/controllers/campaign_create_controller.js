@@ -419,6 +419,9 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 workflowService.saveCampaign(postDataObj).then(function (result) {
                     if (result.status === "OK" || result.status === "success") {
                         console.log('success');
+                        $scope.resetLineItemParameters();
+                        $scope.editLineItem = {};
+
                     }
                 }, function() {
                 });
@@ -697,8 +700,9 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
         $scope.showNewLineItemForm = function(){
             $scope.createItemList = true;
-            //selectedAdvertiser.billingType = 'COGS + Percentage Markup';
-            //selectedAdvertiser.billingValue = 23;
+            selectedAdvertiser ={};
+            selectedAdvertiser.billingType = 'COGS + Percentage Markup';
+            selectedAdvertiser.billingValue = 23;
             if(selectedAdvertiser.billingType && selectedAdvertiser.billingValue){
 
                 var index = _.findIndex($scope.type, function (item) {
@@ -710,21 +714,36 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         }
 
 
-        $scope.createNewLineItem = function() {
+        $scope.createNewLineItem = function(mode) {
             var newItem = {};
-            if($scope.lineItemName != ''){
-                newItem.name = $scope.lineItemName;
-                newItem.lineItemType = $scope.lineItemType;
-                newItem.billingTypeId = $scope.lineItemType.id;
-                newItem.adGroupName = $scope.adGroupName;
-                newItem.billableAmount = $scope.billableAmount;
-                newItem.volume = $scope.volume;
-                newItem.pricingRate = $scope.pricingRate;
-                newItem.startTime = $scope.lineItemStartDate;
-                newItem.endTime = $scope.lineItemEndDate;
+            if(mode === 'create'){
+                if($scope.lineItemName != ''){
+                    newItem.name = $scope.lineItemName;
+                    newItem.lineItemType = $scope.lineItemType;
+                    newItem.billingTypeId = $scope.lineItemType.id;
+                    newItem.adGroupName = $scope.adGroupName;
+                    newItem.billableAmount = $scope.billableAmount;
+                    newItem.volume = $scope.volume;
+                    newItem.pricingRate = $scope.pricingRate;
+                    newItem.startTime = $scope.lineItemStartDate;
+                    newItem.endTime = $scope.lineItemEndDate;
+                    $scope.lineItemList.push(newItem);
+                    $scope.resetLineItemParameters();
+                }
+            } else {
+                newItem.name = $scope.editLineItem.lineItemName;
+                newItem.lineItemType = $scope.editLineItem.lineItemType;
+                newItem.billingTypeId = $scope.editLineItem.lineItemType.id;
+                newItem.adGroupName = $scope.editLineItem.adGroupName;
+                newItem.billableAmount = $scope.editLineItem.billableAmount;
+                newItem.volume = $scope.editLineItem.volume;
+                newItem.pricingRate = $scope.editLineItem.pricingRate;
+                newItem.startTime = $scope.editLineItem.startTime;
+                newItem.endTime = $scope.editLineItem.endTime;
                 $scope.lineItemList.push(newItem);
-                $scope.resetLineItemParameters();
+
             }
+
         };
 
         $scope.setLineItem = function(obj,mode){
@@ -747,6 +766,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                         $scope.rateTypeReadOnly = true;
                     }
                     $scope.volumeFlag = false;
+                    $scope.volume = '';
                 }
                 else if("COGS + CPM Markup" === $scope.lineItemType.name){
                     if(selectedAdvertiser.billingType && selectedAdvertiser.billingValue){
@@ -757,29 +777,55 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     //$scope.rateReadOnly = true;
                     //$scope.pricingRate = "$3 CPM"; //to get via advertiser api
                     $scope.volumeFlag = false;
+                    $scope.volume = '';
                 }
                 else if ("Flat Fee" === $scope.lineItemType.name){
+                    if(selectedAdvertiser.billingType && selectedAdvertiser.billingValue){
+                        $scope.rateReadOnly = true;
+                        $scope.pricingRate = selectedAdvertiser.billingValue;// to get via advertiser api
+                        $scope.rateTypeReadOnly = true;
+                    }
                     $scope.volumeFlag = false;
+                    $scope.volume = '';
                     $scope.amountFlag = false;
                 }
             } else {
                 $scope.rateReadOnlyEdit = false;
+                $scope.billableAmount = '';
                 $scope.volumeFlagEdit = true;
                 $scope.amountFlagEdit = true;
 
                 if("COGS + Percentage Markup" === $scope.editLineItem.lineItemType.name){
-                    $scope.rateReadOnlyEdit = true;
-                    $scope.editLineItem.pricingRate = "30% Markup";// to get via advertiser api
+
+                    if(selectedAdvertiser.billingType && selectedAdvertiser.billingValue){
+                        $scope.rateReadOnlyEdit = true;
+                        $scope.editLineItem.pricingRate = selectedAdvertiser.billingValue;// to get via advertiser api
+                        $scope.rateTypeReadOnly = true;
+                    }
                     $scope.volumeFlagEdit = false;
+                    $scope.editLineItem.volume = '';
+
                 }
                 else if("COGS + CPM Markup" === $scope.editLineItem.lineItemType.name){
-                    $scope.rateReadOnlyEdit = true;
-                    $scope.editLineItem.pricingRate = "$3 CPM"; //to get via advertiser api
+                    if(selectedAdvertiser.billingType && selectedAdvertiser.billingValue){
+                        $scope.rateReadOnlyEdit = true;
+                        $scope.editLineItem.pricingRate = selectedAdvertiser.billingValue;// to get via advertiser api
+                        $scope.rateTypeReadOnly = true;
+                    }
                     $scope.volumeFlagEdit = false;
+                    $scope.editLineItem.volume = '';
+
                 }
                 else if ("Flat Fee" === $scope.editLineItem.lineItemType.name){
+                    if(selectedAdvertiser.billingType && selectedAdvertiser.billingValue){
+                        $scope.rateReadOnlyEdit = true;
+                        $scope.editLineItem.pricingRate = selectedAdvertiser.billingValue;// to get via advertiser api
+                        $scope.rateTypeReadOnly = true;
+                    }
                     $scope.volumeFlagEdit = false;
+                    $scope.editLineItem.volume = '';
                     $scope.amountFlagEdit = false;
+                    $scope.editLineItem.billableAmount = '';
                 }
             }
         };
@@ -818,13 +864,35 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
         };
 
+        $scope.updateLineItem = function(newItem){
+            $scope.deleteLineItem(newItem);
+            console.log(newItem);
+            $scope.createNewLineItem('edit');
+            //$scope.lineItemList.push(index,1);
+
+        }
+
+        $scope.deleteLineItem = function(newItem){
+            var index = _.findIndex($scope.lineItemList,function(item){
+                console.log("item",item,'oldLineItem',oldLineItem);
+                if(item.name === oldLineItem.name && item.billingTypeId === oldLineItem.billingTypeId && item.pricingRate === oldLineItem.pricingRate){
+                    return true;
+                }
+            });
+            $scope.lineItemList.splice(index,1);
+        }
+
         //populate line item in case of edit and cancel of edit
         function populateLineItemEdit(lineItem) {
+            console.log('lineItem ====',lineItem);
             $scope.editLineItem.lineItemName = lineItem.name;
             $scope.editLineItem.lineItemType = lineItem.lineItemType;
             $scope.editLineItem.pricingRate = lineItem.pricingRate;
             $scope.editLineItem.billableAmount = lineItem.billableAmount;
             $scope.editLineItem.volume = lineItem.volume;
+            $scope.editLineItem.startTime = lineItem.startTime;
+            $scope.editLineItem.endTime = lineItem.endTime;
+            $scope.setLineItem($scope.editLineItem.lineItemType,'edit');
         }
 
         $scope.$watch('selectedCampaign.endTime',function(){
