@@ -700,9 +700,9 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
         $scope.showNewLineItemForm = function(){
             $scope.createItemList = true;
-            selectedAdvertiser ={};
-            selectedAdvertiser.billingType = 'COGS + Percentage Markup';
-            selectedAdvertiser.billingValue = 23;
+            //selectedAdvertiser ={};
+            //selectedAdvertiser.billingType = 'COGS + Percentage Markup';
+            //selectedAdvertiser.billingValue = 23;
             if(selectedAdvertiser.billingType && selectedAdvertiser.billingValue){
 
                 var index = _.findIndex($scope.type, function (item) {

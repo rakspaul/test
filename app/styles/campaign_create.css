@@ -1897,7 +1897,6 @@
   border-bottom: 1px solid rgba(191, 201, 215, 0.5);
   margin: 20px 0 0 0;
 }
-
 #campaignCreate .firstWrapper .masterContainer .selectedPixels .pixelName {
   padding: 5px 0 !important;
   border-bottom: 1px solid rgba(191, 201, 215, 0.5);
@@ -1959,7 +1958,67 @@
   filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
   color: #428bca;
 }
-
+#campaignCreate .firstWrapper .masterContainer .selectedPixels .pixelName {
+  padding: 5px 0 !important;
+  border-bottom: 1px solid rgba(191, 201, 215, 0.5);
+}
+#campaignCreate .firstWrapper .masterContainer .selectedPixels .pixelName span {
+  float: left;
+  width: 85%;
+}
+#campaignCreate .firstWrapper .masterContainer .selectedPixels .pixelName:first-child {
+  margin-top: 30px;
+}
+#campaignCreate .firstWrapper .masterContainer .accordionDDL {
+  float: left;
+  width: 100%;
+  border-bottom: 1px solid rgba(191, 201, 215, 0.5);
+  padding: 12px 10px;
+  cursor: pointer;
+}
+#campaignCreate .firstWrapper .masterContainer .accordionDDL span,
+#campaignCreate .firstWrapper .masterContainer .accordionDDL a {
+  float: left;
+  margin-right: 5px;
+  line-height: 100%;
+}
+#campaignCreate .firstWrapper .masterContainer .accordionDDL span:last-child {
+  font-style: italic;
+}
+#campaignCreate .firstWrapper .masterContainer .accordionDDL .icon-arrow-down-thick {
+  /* Safari */
+  -webkit-transform: rotate(0deg);
+  /* Firefox */
+  -moz-transform: rotate(0deg);
+  /* IE */
+  -ms-transform: rotate(0deg);
+  /* Opera */
+  -o-transform: rotate(0deg);
+  /* Internet Explorer */
+  filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=0);
+  float: left;
+  font-size: 10px;
+  height: 10px;
+  width: 10px;
+  color: #000;
+  margin: 2px 5px 0 0;
+}
+#campaignCreate .firstWrapper .masterContainer .accordionDDL:first-child {
+  border-top: 1px solid rgba(191, 201, 215, 0.5);
+}
+#campaignCreate .firstWrapper .masterContainer .accordionDDL.collapsed .icon-arrow-down-thick {
+  /* Safari */
+  -webkit-transform: rotate(-90deg);
+  /* Firefox */
+  -moz-transform: rotate(-90deg);
+  /* IE */
+  -ms-transform: rotate(-90deg);
+  /* Opera */
+  -o-transform: rotate(-90deg);
+  /* Internet Explorer */
+  filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+  color: #428bca;
+}
 #campaignCreate .firstWrapper .masterContainer .adWrap {
   background: #fff;
   float: left;
