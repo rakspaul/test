@@ -880,6 +880,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                             item.startTime = momentService.localTimeToUTC(item.startTime, 'startTime');
                             item.endTime = momentService.localTimeToUTC(item.endTime, 'endTime');
                     })
+                    return lineItemList;
                 }
 
             };
