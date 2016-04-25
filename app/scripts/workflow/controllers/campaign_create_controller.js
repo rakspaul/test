@@ -890,7 +890,6 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
         //populate line item in case of edit and cancel of edit
         function populateLineItemEdit(lineItem) {
-            console.log('lineItem ====',lineItem);
             $scope.editLineItem.lineItemName = lineItem.name;
             $scope.editLineItem.lineItemType = lineItem.lineItemType;
             $scope.editLineItem.pricingRate = lineItem.pricingRate;
@@ -957,6 +956,16 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             pixels.fetchPixels() ;
           }) ;
 
+        $scope.additionalCosts = [];
+         $scope.addAdditionalCost = function() {
+                $scope.additionalCosts.push({
+                    key: "",
+                    name: "",
+                    value: "",
+                    hide: true
+                });
+        }
+
 
         //select or unselect indiviual audience
         $scope.selectPixel = function (pixel) {
@@ -985,7 +994,6 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
               if ($scope.selectAllPixelChecked) {
                 console.log("inside if") ;
                 for (i = 0; i < $scope.pixelList.length; i++) {
-                    console.log("inside for loop") ;
                   $scope.selectedPixel.push($scope.pixelList[i]);
                   $scope.pixelList[i].isChecked = true;
                   $scope.pixelList[i].isIncluded = true;
