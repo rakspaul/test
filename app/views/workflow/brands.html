@@ -12,7 +12,7 @@
             <div class="pull-left btn-group create" role="group" aria-label="...">
                 <a class="btn btn-default" ng-click="createBrand()" style="border-left: 0; border-radius: 0;">
                     <span class="icon-plus"></span>
-                    <span data-ng-bind="isEditBrand ? 'Update Brand' : 'Create Brand'"></span>
+                    <span data-ng-bind="isEditBrand ? 'Update' : 'Create'"></span>
                 </a>
                 <!--<admin-header></admin-header>-->
             </div>
@@ -41,7 +41,7 @@
                         <input type="text"
                                class="form-control"
                                name="usersSearch"
-                               placeholder="Search Users...">
+                               placeholder="Search Brands...">
                         <div class="btn btn-default searchClearInputBtn" ng-click="searchHideInput()">
                             <span class="icon-clear" aria-hidden="true"></span>
                         </div>

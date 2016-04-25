@@ -116,12 +116,7 @@ define(['angularAMD', '../../../workflow/services/account_service', 'common/serv
                 .createClient(body)
                 .then(function (adv) {
                     if (adv.status === 'OK' || adv.status === 'success') {
-                        if($scope.isCreateTopClient){
-                            $scope.fetchAllClients();
-                        }else{
-                            delete $scope.clientsDetails[body.parentId];
-                            $scope.getSubClientList('ev', {id:body.parentId});
-                        }
+                        $scope.fetchAllClients();
                         $scope.close();
                         $rootScope.setErrAlertMessage('Account created successfully', 0);
                     }

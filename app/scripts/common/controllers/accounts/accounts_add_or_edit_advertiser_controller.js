@@ -1,6 +1,7 @@
 var angObj = angObj || {};
 
-define(['angularAMD','../../../workflow/services/account_service', '../../services/constants_service', 'common/moment_utils'],function (angularAMD) {
+define(['angularAMD','../../../workflow/services/account_service', '../../services/constants_service', 'common/moment_utils'
+    ,'workflow/directives/custom_date_picker'],function (angularAMD) {
     'use strict';
 
     angularAMD.controller('AccountsAddOrEditAdvertiser', function ($scope, $rootScope, $modalInstance,
@@ -11,7 +12,8 @@ define(['angularAMD','../../../workflow/services/account_service', '../../servic
             $scope.resetBrandAdvertiserAfterEdit();
             $modalInstance.dismiss();
         };
-
+        $(".miniTabLinks.sub .btn").removeClass("active");
+        $(".miniTabLinks.sub .subBasics").addClass("active");
         _currCtrl.verifyCreateAdvInputs = function(){
             var ret = true,
                 errMsg = "Error";
@@ -62,7 +64,7 @@ define(['angularAMD','../../../workflow/services/account_service', '../../servic
                 lookbackClicks : Number($scope.advertiserData.lookbackClicks)
             }
             accountsService
-                .updateAdvertiserUnderClient($scope.client.id, advId, requestData)
+                .createAdvertiserUnderClient($scope.client.id, advId, requestData)
                 .then(function (result) {
                     if (result.status === 'OK' || result.status === 'success') {
                         $scope.fetchAllAdvertisersforClient($scope.client.id);
@@ -70,6 +72,9 @@ define(['angularAMD','../../../workflow/services/account_service', '../../servic
                         $scope.close();
                         if($scope.advertiserData.pixels.length) {
                             createPixelsforAdvertiser($scope.clientId, advId);
+                        }else{
+                            //$scope.fetchAllAdvertisersforClient($scope.client.id);
+                            $scope.fetchAllClients();
                         }
                         if($scope.isEditMode){
                             $rootScope.setErrAlertMessage('Advertiser updated successfully', 0);
@@ -107,8 +112,13 @@ define(['angularAMD','../../../workflow/services/account_service', '../../servic
                 });
         }
         function getRequestDataforPixel(clientId, advertiserId){
-            var id = null;
+            var id = null,
+                expiryDate = null;
             _.each($scope.advertiserData.pixels, function(item, index){
+                expiryDate = (item.expiryDate).split("/");
+                expiryDate = expiryDate[2]+"/"+expiryDate[1]+"/"+expiryDate[0];
+                var date = new Date(expiryDate);
+                expiryDate = (date.getTime());
                 $scope.advertiserData.pixels[index] = {
                     name : item.name,
                     clientId : clientId,
@@ -119,7 +129,7 @@ define(['angularAMD','../../../workflow/services/account_service', '../../servic
                     createdBy: item.createdBy,
                     createdAt: item.createdAt,
                     updatedAt: item.updatedAt,
-                    expiryDate: momentService.newMoment(item.expiryDate).format('YYYY-MM-DD HH-MM-SS.SSS')
+                    expiryDate: momentService.newMoment(expiryDate).format('YYYY-MM-DD HH:MM:SS.SSS')
                 }
                 if(item.id){
                     $scope.advertiserData.pixels[index].id = item.id;
@@ -132,7 +142,8 @@ define(['angularAMD','../../../workflow/services/account_service', '../../servic
                 .createPixelsUnderAdvertiser(clientId, advId, getRequestDataforPixel(clientId, advId))
                 .then(function (result) {
                     if (result.status === 'OK' || result.status === 'success') {
-                        $scope.fetchAllAdvertisersforClient($scope.client.id);
+                       // $scope.fetchAllAdvertisersforClient($scope.client.id);
+                        $scope.fetchAllClients();
                         $scope.resetBrandAdvertiserAfterEdit();
                         $scope.close();
                         $rootScope.setErrAlertMessage('Advertiser created successfully', 0);

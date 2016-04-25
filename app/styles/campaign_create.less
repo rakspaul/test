@@ -4138,19 +4138,60 @@
     .advertiser-name {
         cursor: pointer;
     }
+    .icon-arrow-down-thick {
+      float: left;
+      font-size: 9px;
+      width: 9px;
+      height: 9px;
+      cursor: pointer;
+      margin: 5px 10px 0 0;
+      /* Safari */
+      -webkit-transform: rotate(-90deg);
 
+      /* Firefox */
+      -moz-transform: rotate(-90deg);
+
+      /* IE */
+      -ms-transform: rotate(-90deg);
+
+      /* Opera */
+      -o-transform: rotate(-90deg);
+
+      /* Internet Explorer */
+      filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+    }
+    .icon-arrow-down-thick.active {
+      /* Safari */
+      -webkit-transform: rotate(0deg);
+
+      /* Firefox */
+      -moz-transform: rotate(0deg);
+
+      /* IE */
+      -ms-transform: rotate(0deg);
+
+      /* Opera */
+      -o-transform: rotate(0deg);
+
+      /* Internet Explorer */
+      filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=0);
+    }
     .account-name {
-        background: url(/images/cdesk/common_side_arrow.png) no-repeat left center;
-        font-family: Avenir-bold, sans-serif;
-        max-width: 70%;
-        padding-left: 20px;
-        transition-duration: .1s;
+     // background: url(/images/cdesk/common_side_arrow.png) no-repeat left center;
+      font-family: Avenir-bold, sans-serif;
+      max-width: 70%;
+      padding-left: 0px;
+      transition-duration: .1s;
+      span:last-child {
+        font-family: "Avenir";
+        clear: left;
+      }
     }
 
     .adding-section {
         color: #939eae;
         padding: 5px 10px;
-        margin: -5px 0 0 10px;
+        margin: 0px 0 0 10px;
         background: #F7FAFF;
         border: 1px dashed #939EAE;
         cursor: pointer;
@@ -4323,13 +4364,13 @@
         /*border: solid 1px #ccc; */
 
         .account-name {
-            background-image: url(/images/cdesk/common_down_arrow.png);
+           // background-image: url(/images/cdesk/common_down_arrow.png);
         }
     }
 
     .particular-account-box.open.data-loaded:not(.no-data-open) {
         .account-name:after {
-            border-left: dashed 1px #ccc;
+//            border-left: dashed 1px #ccc;
             content: "";
             height: 18px;
             left: 5px;
@@ -4421,10 +4462,10 @@
         }
         .modal-body {
           padding: 0;
-          #pixelsCnt {
+          #pixelsCnt, .IABForm, .adChoices, .billingMethods {
             float: left;
             width: 100%;
-            margin: 30px 0;
+            margin: 0 0 30px 0;
             position: relative;
             background: #EDF2F8;
             padding: 10px 30px;

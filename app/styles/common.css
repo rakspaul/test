@@ -322,9 +322,6 @@
 .popup-holder textarea:hover {
   border: 1px solid #ccd2da;
 }
-.popup-holder .dropdown {
-  margin-top: 4px;
-}
 .popup-holder .dropdown .dropdown_txt {
   padding: 5px 16px 5px 10px;
   border: solid 1px #dde6eb;
