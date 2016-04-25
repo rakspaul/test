@@ -121,7 +121,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                         settings = 'Geography';
                     }
                     if (seat && storedResponse.platform ) {
-                        if (storedResponse.platform.name === seat.name) {
+                        if (storedResponse.platform.id === seat.platform_id) {
                             //directly set  the platform if it is the same
                             _buyingPlatform.setPlatform(event, platform, seat);
                         } else {
