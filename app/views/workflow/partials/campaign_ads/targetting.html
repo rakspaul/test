@@ -114,6 +114,25 @@
             <span>Target your video ads to specific players and placements</span>
             <p style="margin: 0px;"><span></span></p>
         </div>
+        <div class="cardTxtWrap targetDataSaved">
+            <div>
+                <div ng-if="adData.videoPreviewData.sizes">
+                    <span>Sizes</span>
+                    <span>{{adData.videoPreviewData.sizes}}</span>
+                </div>
+
+                <div ng-if="adData.videoPreviewData.positions">
+                    <span>Positions</span>
+                    <span>{{adData.videoPreviewData.positions}}</span>
+                </div>
+
+                <div ng-if="adData.videoPreviewData.playbackMethods">
+                    <span>Playback Method</span>
+                    <span>{{adData.videoPreviewData.playbackMethods}}</span>
+                </div>
+            </div>
+
+        </div>
         <span ng-if="$parent.isPlatformSelected" class="onSelectBtn btn btn-default active" ng-click="selectVideoTarget()"></span>
         <input type="button" name="platform" value="Create" ng-disabled="!$parent.isPlatformSelected" class="btn btn-default" ng-click="selectVideoTarget()">
     </div>

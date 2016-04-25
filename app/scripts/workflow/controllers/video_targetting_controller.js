@@ -1,4 +1,4 @@
-define(['angularAMD', 'workflow/services/workflow_service', 'common/services/constants_service','workflow/services/dimension_service'], function (angularAMD) {
+define(['angularAMD', 'workflow/services/workflow_service', 'common/services/constants_service','workflow/services/video_service'], function (angularAMD) {
     angularAMD.controller('VideoTargettingController', function ($scope, audienceService, workflowService, constants,videoService) {
 
         $scope.additionalDimension = [];
@@ -7,9 +7,15 @@ define(['angularAMD', 'workflow/services/workflow_service', 'common/services/con
         $scope.tagsSize = [];
         $scope.tagsPosition = [] ;
         $scope.tagsPlayback = [] ;
+        $scope.sizesLabels  = [];
 
 
+        $scope.adData.videoTargets = {};
+        $scope.adData.videoTargets['sizes'] =[];
+        $scope.adData.videoTargets['positions'] =[];
+        $scope.adData.videoTargets['playbackMethods'] =[];
 
+        $scope.adData.videoPreviewData = {};
 
         var _videoTargetting = {
             init : function() {
@@ -47,37 +53,40 @@ define(['angularAMD', 'workflow/services/workflow_service', 'common/services/con
                     key: "",
                     name: "",
                     value: "",
-                    hide: true
+                    hide: false
                 });
 
 
             }
         }
 
-        _videoTargetting.init();
 
-        $scope.hideVideoTargeting = function() {
-            _videoTargetting.hideBox();
-            _videoTargetting.init();
-            if($scope.mode =='edit') {
-            } else {
-                _videoTargetting.addAdditionalDimension();
+        $scope.showVideoPreviewData = function() {
+            var videoData =  videoService.getVideoData();
+
+            if(videoData && (videoData.videoTargets.sizes.length >0 || videoData.videoTargets.positions.length >0 || videoData.videoTargets.playbackMethods.length > 0)) {
+                $scope.adData.videoPreviewData['sizes'] = _.pluck(videoData.videoTargets.sizes, 'name').join(', ');
+                $scope.adData.videoPreviewData['positions'] = _.pluck(videoData.videoTargets.positions, 'name').join(', ');
+                $scope.adData.videoPreviewData['playbackMethods'] = _.pluck(videoData.videoTargets.playbackMethods, 'name').join(', ');
             }
         }
 
-        $scope.$on('triggerVideo', function () {
-            _videoTargetting.showBox();
-        });
+        //save data in video services
+        $scope.saveVideoTarget = function() {
+            videoService.saveVideoData($scope.adData.videoTargets);
+            $scope.showVideoPreviewData();
+            _videoTargetting.hideBox();
+        }
 
 
-
-
-        $scope.sizesLabels  = [];
         $scope.selectOption = function(event, index, type, dimensionStatus) {
 
             if(event && !dimensionStatus) {
                 return false;
             }
+
+            $scope.additionalDimension[index].hide = true;
+
 
             var elem = $(event.target);
             elem.closest(".each-video-dimension").find(".multiselectTagOptions").hide() ;
@@ -91,10 +100,10 @@ define(['angularAMD', 'workflow/services/workflow_service', 'common/services/con
             if(_.indexOf($scope.selectedDimesnion, type) === -1) {
                 $scope.selectedDimesnion.push(type);
                 workflowService.getVideoTargetsType(type).then(function(results) {
-                    console.log("results", results);
-                    console.log("index", index);
                     if(results.status === 'success' && results.data.statusCode === 200) {
                         var data = results.data.data;
+                        console.log(type+'Data')
+                        $scope[type+'Data'] = data;
                         switch (type) {
                             case "sizes" :
                                     $scope.sizesLabels[index] = _.keys(data);
@@ -126,23 +135,58 @@ define(['angularAMD', 'workflow/services/workflow_service', 'common/services/con
         $scope.selectSize = function(event,type) {
             var elem = $(event.target);
             if(type == "Specific Size") {
+                $scope.adData.videoTargets['sizes'] =[];
                 elem.closest(".each-video-dimension").find("#sizes_input_box").show() ;
             } else {
+                var playerSizeList = videoService.getPlayerSize(null, type);
+                _.each(playerSizeList, function(obj) {
+                    obj.targetId = obj.id;
+                    delete obj.id;//removing id and adding targetid as a key for creating data for save response.
+                })
+                $scope.adData.videoTargets['sizes'].push(playerSizeList)
                 elem.closest(".each-video-dimension").find(".multiselectTagOptions").hide() ;
             }
         }
 
 
-        $scope.loadSize = function(query) {
+        $scope.loadSizes = function(query) {
             return videoService.getPlayerSize(query);
         }
 
         $scope.loadPositions = function(query) {
             return videoService.getPositions(query);
         }
-        $scope.loadPlayback = function(query) {
+        $scope.loadPlaybacks = function(query) {
             return videoService.getPlaybackMethods(query);
         }
+
+
+
+        $scope.videoDimensionTagAdded = function(tag, type) {
+            tag.targetId = tag.id;
+            delete tag.id; //removing id and adding targetid as a key for creating data for save response.
+            $scope.adData.videoTargets[type].push(tag);
+        };
+
+        $scope.videoDimensionTagRemoved = function(tag, type) {
+            var pos = _.findIndex($scope.adData.videoTargets[type], function(Item) { return Item.id == tag.id });
+            $scope.adData.videoTargets[type].splice(pos, 1);
+        };
+
+        $scope.hideVideoTargeting = function() {
+            _videoTargetting.hideBox();
+            _videoTargetting.init();
+            if($scope.mode =='edit') {
+            } else {
+                _videoTargetting.addAdditionalDimension();
+            }
+        }
+
+        $scope.$on('triggerVideo', function () {
+            _videoTargetting.showBox();
+        });
+
+        _videoTargetting.init();
 
         $(function() {
             _videoTargetting.addAdditionalDimension();

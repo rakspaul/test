@@ -4,16 +4,20 @@ define(['angularAMD'],function (angularAMD) {
 
         var positionList,
             playbackList,
-            sizeList;
+            sizeList,
+            videoData;
 
         var setPlayerSize = function(data) {
             sizeList = data;
         }
 
-        var getPlayerSize = function(searchText) {
-            var sizeArr = sizeList['Specific Size'];
-            console.log("sizeArr", sizeArr);
-            return sizeArr.filter(function(size) {
+        var getPlayerSize = function(searchText, type) {
+
+            if(type === 'Any') {
+                return sizeList['Any'];
+            }
+
+            return sizeList['Specific Size'].filter(function(size) {
                 return size.name.toLowerCase().indexOf(searchText.toLowerCase()) != -1;
             });
         }
@@ -40,13 +44,23 @@ define(['angularAMD'],function (angularAMD) {
             });
         }
 
+        var saveVideoData = function(data) {
+            videoData = data;
+        }
+
+        var getVideoData = function(data) {
+            return {'videoTargets' : videoData};
+        }
+
     	return {
             setPlayerSize : setPlayerSize,
             getPlayerSize  : getPlayerSize,
             setPosition : setPosition,
             setPlaybackMethods : setPlaybackMethods,
             getPositions      : getPositions    ,
-            getPlaybackMethods      : getPlaybackMethods
+            getPlaybackMethods      : getPlaybackMethods,
+            saveVideoData : saveVideoData,
+            getVideoData : getVideoData
     	}
     })
 })

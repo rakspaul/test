@@ -1,6 +1,6 @@
 define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/workflow_service', 'login/login_model',
     'common/services/data_service', 'workflow/services/audience_service', 'common/services/role_based_service',
-    'common/moment_utils', 'common/services/vistoconfig_service', 'workflow/controllers/budget_delivery_controller',
+    'common/moment_utils', 'common/services/vistoconfig_service', 'workflow/services/video_service', 'workflow/controllers/budget_delivery_controller',
     'workflow/controllers/buying_platform_controller', 'workflow/controllers/targetting_controller',
     'workflow/controllers/geo_targetting_controller', 'workflow/controllers/audience_targetting_controller',
     'workflow/controllers/daypart_create_controller', 'workflow/controllers/video_targetting_controller',
@@ -12,7 +12,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                                                                        $location,  $filter, $timeout,constants,
                                                                        workflowService, loginModel, dataService,
                                                                        audienceService, RoleBasedService, momentService,
-                                                                       vistoconfig) {
+                                                                       vistoconfig, videoService) {
             // Flag to denote that ad format has changed
             $scope.adFormatChanged = false;
 
@@ -1417,9 +1417,14 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
 
                             //DayPart Segment
                             dayPart = audienceService.getDayPartdata();
-
                             if (dayPart) {
                                 postAdDataObj.targets.adDaypartTargets = dayPart;
+                            }
+
+                            //video Segment
+                            var videoTargetsData = videoService.getVideoData();
+                            if(videoTargetsData.videoTargets && (videoTargetsData.videoTargets.sizes.length >0 || videoTargetsData.videoTargets.positions.length >0 || videoTargetsData.videoTargets.playbackMethods.length > 0)) {
+                                postAdDataObj.targets = videoTargetsData;
                             }
                         }
 
@@ -1622,6 +1627,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
             $scope.adGroupList = [];
             $scope.mediaPlanName = null;
             $scope.adGroupName = null;
+            
             var selectedMediaPlanId = parseInt($routeParams.campaignId),
                 selectedAdGroupId = -1;
 
