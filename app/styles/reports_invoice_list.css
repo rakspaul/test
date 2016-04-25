@@ -44,6 +44,7 @@
 .reports-invoice-list .report_list_table .more-options .headerDownload {
   border-top: 1px solid #ccd2da;
   padding: 5px 15px !important;
+  width: 160px;
 }
 .reports-invoice-list .report_list_table .more-options .headerDownload span {
   width: auto !important;
@@ -55,7 +56,7 @@
   margin: 0;
   color: #0978c9;
   clear: none;
-  width: auto;
+  width: auto !important;
   display: inline-block;
   line-height: 100%;
   padding: 7px 0 0 10px;
@@ -78,4 +79,25 @@
   border-radius: 50% ;
   -moz-border-radius: 50% ;
   -webkit-border-radius: 50% ;
+}
+.reports-invoice-list .pillsWrap {
+  float: left;
+  width: 100%;
+  padding: 3px 0 5px 22px;
+}
+.reports-invoice-list .table-responsive .vistoTable .tbody .tr .td .pillsWrap .labelPills {
+  background: #EDF2F8;
+  margin: 2px 5px 0 0;
+  padding: 2px 10px;
+  display: inline-block;
+  float: left;
+  font: 12px Avenir;
+  height: 20px;
+  line-height: 100%;
+  border: 1px solid #BFC9D7;
+  border-radius: 3px;
+  width: auto;
+}
+.reports-invoice-list .table-responsive .vistoTable .tbody .tr .td a {
+  text-align: left !important;
 }
