@@ -1,10 +1,9 @@
-
 <div class="col-md-12 zeroPadding">
     <h1 style="margin-top: 30px; margin-bottom:25px;">Invoice Reports</h1>
 </div>
 <div class="row">
     <div class="col-md-4">
-        <div class="pull-left"">
+        <div class="pull-left">
             <filters-header></filters-header>
         </div>
     </div>
@@ -13,7 +12,6 @@
             <div class="each_section_custom_report" style="min-width: 384px;">
                 <div>
                     <div class="clearfix title_row_separator customDatesTimeframe">
-
                         <div class="pull-left col-md-12">
                             <div class="col-md-12 input-daterange input-group date pull-left">
                                 <div class="col-md-12 dateWrapper ">
@@ -24,8 +22,11 @@
                                                ng-model="reports.reportDefinition.timeframe.start_date"
                                                required>
                                         <i class="icon-calendar glyphicon pull-right"></i>
-                                        <!-- <label ng-if="!reports.reportDefinition.timeframe.start_date" style="display:block"
-                                               class="errorLabel" ng-bind="textConstants.SELECT_DATE_LABEL"></label> -->
+
+                                        <!-- <label ng-if="!reports.reportDefinition.timeframe.start_date"
+                                        style="display:block" class="errorLabel"
+                                        ng-bind="textConstants.SELECT_DATE_LABEL"></label> -->
+
                                     </div>
                                     <div class="col-md-5">
                                         <input type="text"
@@ -34,6 +35,7 @@
                                                ng-model="reports.reportDefinition.timeframe.end_date"
                                                required>
                                         <i class="icon-calendar glyphicon pull-right"></i>
+
                                        <!-- <label ng-if="!reports.reportDefinition.timeframe.end_date"
                                                style="display:block"
                                                class="errorLabel" ng-bind="textConstants.SELECT_DATE_LABEL"></label> -->
@@ -51,7 +53,7 @@
     </div>
 
     <div class="col-md-4">
-        <div class="btn-group pull-right"">
+        <div class="btn-group pull-right">
             <button type="button" class="btn btn-default pull-right" style="display: none">
                 <span class="icon-filter" style="margin: -1px 0 0;"></span>
             </button>
@@ -81,30 +83,29 @@
 <!--Table-->
 <div class="col-md-12 zeroPadding centerAlign" style="margin: 20px 0 30px 0;">
     <div class="table-responsive" id="table_responsive">
-	<div class="vistoTable">
-	    <!--Table Head-->
+        <div class="vistoTable">
+            <!--Table Head-->
             <div class="thead">
-		<div class="tr">
-		    <div class="col-md-2 th">Account</div>
-		    <div class="col-md-2 th">Advertiser</div>
-		    <div class="col-md-3 th">Media Plan Name</div>
-		    <div class="col-md-3 th">Labels</div>
-		    <div class="col-md-2 th">Invoice Date</div>
+                <div class="tr">
+                    <div class="col-md-2 th">Account</div>
+                    <div class="col-md-2 th">Advertiser</div>
+                    <div class="col-md-3 th">Media Plan Name</div>
+                    <div class="col-md-3 th">Labels</div>
+                    <div class="col-md-2 th">Invoice Date</div>
                 </div>
             </div>
-        <!--Table Body-->
-        <div class="tbody">
-            <div class="tr oneDimensionRow">
-                <div data-ng-repeat="invoice in invoiceData" class="parentWrap">
-                    <div class="col-md-2 td">{{invoice.account}}</div>
-                    <div class="col-md-2 td">{{invoice.advertiser}}</div>
-                    <div class="col-md-3 td">{{invoice.mediaPlanName}}</div>
-                    <div class="col-md-3 td"></div>
-                    <div class="col-md-2 td">{{invoice.invoiceDate}}</div>
+            <!--Table Body-->
+            <div class="tbody">
+                <div class="tr oneDimensionRow">
+                    <div data-ng-repeat="invoice in invoiceData" class="parentWrap">
+                        <div class="col-md-2 td" ng-bind="invoice.account"></div>
+                        <div class="col-md-2 td" ng-bind="invoice.advertiser"></div>
+                        <div class="col-md-3 td" ng-bind="invoice.mediaPlanName"></div>
+                        <div class="col-md-3 td"></div>
+                        <div class="col-md-2 td" ng-bind="invoice.invoiceDate"></div>
+                    </div>
                 </div>
             </div>
-
-        </div>
         </div>
     </div>
 </div>

@@ -131,5 +131,5 @@ assets.html_edit_adgroup = '/views/workflow/partials/overview_partials/overview_
 assets.html_dashboard_2 = '/views/visto2.0/dashboard.html';
 
 assets.html_sub_account_drop_down = '/views/reporting/sub_account_drop_down.html';
-assets.html_filter_drop_down = '/views/workflow/filter_drop_down.html'
+assets.html_filter_drop_down = '/views/workflow/filter_drop_down.html';
 
