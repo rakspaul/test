@@ -82,31 +82,6 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
               target.closest(".goalBtnWithPopup").find('label').removeClass('active');
               target.parent().addClass('active');
               target.attr('checked', 'checked');
-          }else{
-              //set the creativeType during edit mode for the first time
-
-
-              ///*enable only supported tag types for the template already selected*/
-              //for(var i=0;i<$scope.creativeEditData.vendorCreativeTemplate.supportedTags.length;i++){
-              //
-              //    var index1=_.findIndex($scope.creativeSizeData.tagTypes, function(obj){
-              //        return (obj.name).replace(/\s+/g, '').toUpperCase()===angular.uppercase($scope.creativeEditData.vendorCreativeTemplate.supportedTags[i])
-              //    })
-              //    if(index1>=0) {
-              //        $scope.creativeSizeData.tagTypes[index].disabled = false;
-              //    }else{
-              //        $scope.creativeSizeData.tagTypes[index].disabled = true;
-              //    }
-              //}
-
-              ///*set the seleted Tag type */
-              //var index=_.findIndex($scope.creativeSizeData.tagTypes, function(obj){
-              //    return (obj.name).replace(/\s+/g, '').toUpperCase()===(creativeType).replace(/\s+/g, '').toUpperCase();
-              //})
-              //if(index>=0){
-              //    $scope.creativeSizeData.tagTypes[index].active=true;
-              //}
-
           }
           $scope.creativeType=creativeType.toUpperCase();
       }
