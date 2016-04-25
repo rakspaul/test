@@ -110,31 +110,28 @@
         <span class="icon-trash" ng-click="deletetargets('VIDEO', $event)"></span>
         <div class="icon-video"></div>
         <p>Video</p>
-        <div class="cardTxtWrap" ng-if="!selectedDayParts['data'] || selectedDayParts['data'].length  == 0">
+        <div class="cardTxtWrap" ng-if="!adData.videoPreviewData.sizes || !adData.videoPreviewData.positions || !adData.videoPreviewData.playbackMethods">
             <span>Target your video ads to specific players and placements</span>
             <p style="margin: 0px;"><span></span></p>
         </div>
         <div class="cardTxtWrap targetDataSaved">
-            <div>
-                <div ng-if="adData.videoPreviewData.sizes">
-                    <span>Sizes</span>
-                    <span>{{adData.videoPreviewData.sizes}}</span>
+            <div class="video-targetting-holder">
+                <div class="col-md-12 zeroPadding" ng-if="adData.videoPreviewData.sizes">
+                    <span><strong>Sizes: </strong>{{adData.videoPreviewData.sizes}}</span>
                 </div>
 
-                <div ng-if="adData.videoPreviewData.positions">
-                    <span>Positions</span>
-                    <span>{{adData.videoPreviewData.positions}}</span>
+                <div class="col-md-12 zeroPadding" ng-if="adData.videoPreviewData.positions">
+                    <span><strong>Positions: </strong>{{adData.videoPreviewData.positions}}</span>
                 </div>
 
-                <div ng-if="adData.videoPreviewData.playbackMethods">
-                    <span>Playback Method</span>
-                    <span>{{adData.videoPreviewData.playbackMethods}}</span>
+                <div class="col-md-12 zeroPadding" ng-if="adData.videoPreviewData.playbackMethods">
+                    <span><strong>Playback Method: </strong>{{adData.videoPreviewData.playbackMethods}}</span>
                 </div>
             </div>
 
         </div>
         <span ng-if="$parent.isPlatformSelected" class="onSelectBtn btn btn-default active" ng-click="selectVideoTarget()"></span>
-        <input type="button" name="platform" value="Create" ng-disabled="!$parent.isPlatformSelected" class="btn btn-default" ng-click="selectVideoTarget()">
+        <input ng-if="!adData.videoPreviewData.sizes || !adData.videoPreviewData.positions || !adData.videoPreviewData.playbackMethods" type="button" name="platform" value="Create" ng-disabled="!$parent.isPlatformSelected" class="btn btn-default" ng-click="selectVideoTarget()">
     </div>
     <!--END : Video Targeting Card-->
 

@@ -173,12 +173,24 @@ define(['angularAMD', 'workflow/services/workflow_service', 'common/services/con
             $scope.adData.videoTargets[type].splice(pos, 1);
         };
 
+        var isVideoPreviewDataAvailable = function() {
+            var videoPreviewData = $scope.adData.videoPreviewData;
+            if(videoPreviewData && (videoPreviewData.sizes || videoPreviewData.positions|| videoData.playbackMethods)) {
+                return true;
+            }
+            return false;
+        }
         $scope.hideVideoTargeting = function() {
             _videoTargetting.hideBox();
-            _videoTargetting.init();
-            if($scope.mode =='edit') {
-            } else {
-                _videoTargetting.addAdditionalDimension();
+
+            //if($scope.mode =='edit') {
+            //} else {
+            //    _videoTargetting.addAdditionalDimension();
+            //}
+            //_videoTargetting.init();
+
+            if(!isVideoPreviewDataAvailable) {
+                _videoTargetting.init();
             }
         }
 

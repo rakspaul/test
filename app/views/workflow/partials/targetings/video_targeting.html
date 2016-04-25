@@ -1,16 +1,15 @@
 <div class="col-md-12 zeroPadding breadcrumbs">
     <h5 ng-click="hideVideoTargeting();" data-ng-bind="textConstants.TARGETING"></h5>
     <span class="icon-arrow-down"></span>
+
     <h5 style="cursor: default;" data-ng-bind="textConstants.VIDEO_TARGETING">Video Targeting</h5>
-    <button class="pull-right btn btn-default" type="button" ng-disabled ="!adData.videoTargets.sizes.length >0 || !adData.videoTargets.positions.length >0 || !adData.videoTargets.playbackMethods.length >0" ng-click="saveVideoTarget()" data-ng-bind="textConstants.SAVE_VIDEO_TARGETING"></button>
+    <button class="pull-right btn btn-default" type="button" ng-disabled ="(adData.videoTargets.sizes.length === 0 || adData.videoTargets.positions.length === 0 || adData.videoTargets.playbackMethods.length === 0)" ng-click="saveVideoTarget()" data-ng-bind="textConstants.SAVE_VIDEO_TARGETING"></button>
     <button class="pull-right btn btn-link" type="button" data-ng-bind="textConstants.CANCEL" ng-click="hideVideoTargeting();"></button>
 </div>
 
 <div class="col-md-12 zeroPadding">
     <span class="col-md-12 zeroPadding" data-ng-bind="textConstants.VIDEO_PLACENMENT_AND_PLAYERS"></span>
-    videoTargets --> {{adData.videoTargets}}
     <div class="col-md-12 video-dimension">
-        <!--Row 1-->additionalDimension --> {{additionalDimension}}
             <div class="col-md-12 zeroPadding each-video-dimension" ng-repeat="addDimension in additionalDimension track by $index" >
                 <div class="col-md-2 zeroPadding" style="width: 20%; margin-bottom: 5px;">
                     <div class="form-group col-md-12 zeroPadding">
