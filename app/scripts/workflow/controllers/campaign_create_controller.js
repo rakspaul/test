@@ -385,7 +385,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             //formData = _.object(_.pluck(formData, 'name'), _.pluck(formData, 'value'));
 
             console.log($scope.selectedCampaign.startTime);
-            if ($scope.createCampaignForm.$valid = true ) {
+            if ($scope.createCampaignForm.$valid) {
                 var formElem = $("#createCampaignForm").serializeArray();
                 console.log(formElem)
                 console.log(_.object(_.pluck(formElem, 'name'), _.pluck(formElem, 'value')));
@@ -413,8 +413,8 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 postDataObj.marginPercent = formData.marginPercent;
                 postDataObj.deliveryBudget = formData.deliveryBudget;
                 postDataObj.totalBudget = formData.totalBudget;
-                postDataObj.lineItems = workflowService.processLineItemsObj($scope.lineItemList);
-
+                postDataObj.lineItems = workflowService.processLineItemsObj(angular.copy($scope.lineItemList));
+                postDataObj.campaignType = 'Display';
                 postDataObj.labels = _.pluck($scope.tags, "label");
 
                 workflowService.saveCampaign(postDataObj).then(function (result) {
@@ -721,20 +721,21 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 if($scope.lineItemName != ''){
                     newItem.name = $scope.lineItemName;
                     newItem.lineItemType = $scope.lineItemType;
-                    newItem.billingTypeId = $scope.lineItemType.id;
+                    newItem.pricingMethodId = $scope.lineItemType.id;
                     newItem.adGroupName = $scope.adGroupName;
                     newItem.billableAmount = $scope.billableAmount;
                     newItem.volume = $scope.volume;
                     newItem.pricingRate = $scope.pricingRate;
                     newItem.startTime = $scope.lineItemStartDate;
                     newItem.endTime = $scope.lineItemEndDate;
+                    newItem.campaignId = "-999";
                     $scope.lineItemList.push(newItem);
                     $scope.resetLineItemParameters();
                 }
             } else {
                 newItem.name = $scope.editLineItem.lineItemName;
                 newItem.lineItemType = $scope.editLineItem.lineItemType;
-                newItem.billingTypeId = $scope.editLineItem.lineItemType.id;
+                newItem.pricingMethodId = $scope.editLineItem.lineItemType.id;
                 newItem.adGroupName = $scope.editLineItem.adGroupName;
                 newItem.billableAmount = $scope.editLineItem.billableAmount;
                 newItem.volume = $scope.editLineItem.volume;
@@ -789,6 +790,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     $scope.volumeFlag = false;
                     $scope.volume = '';
                     $scope.amountFlag = false;
+                    $scope.billableAmount = '';
                 }
             } else {
                 $scope.rateReadOnlyEdit = false;
@@ -952,7 +954,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             pixels.fetchPixels() ;
           }) ;
 
-                           
+
         //select or unselect indiviual audience
         $scope.selectPixel = function (pixel) {
               var pixelIndex = _.findIndex($scope.selectedPixel, function (item) {
@@ -996,7 +998,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             };
 
         // end of pixels page controller
-        
+
 
     });
 });

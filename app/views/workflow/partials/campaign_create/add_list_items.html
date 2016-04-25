@@ -66,7 +66,7 @@
 
         <div class="col-md-2" style="padding: 0 0 0 10px;">
             <label class="col-sm-12 greyTxt miniLabels zeroPadding">Rate Type</label>
-            <div class="col-md-12 zeroPadding dropdown-workflow form-group" show-errors>
+            <div class="col-md-12 zeroPadding dropdown-workflow" show-errors>
                 <div class="dropdown">
                     <button style="width:100%;" class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ng-disabled="rateTypeReadOnly">
                         <span class="text" >{{(lineItemType )?lineItemType.name:'Select Type'}}</span>
@@ -99,41 +99,43 @@
         </div>
 
         <!--Row 2-->
-        <div class="pull-left">
-            <div class="span4 col-md-12 input-daterange input-group date pull-left" id="datepicker">
-                <div class="col-md-12 dateWrapper zeroPadding">
-                    <div class="dateContainer">
-                        <label class="col-sm-12 control-label greyTxt miniLabels">Flight Date Start</label>
-                        <div style="background: #fff;">
-                            <input type="text" id="lineItemStartDateInput" custom-date-picker="{format: 'mm/dd/yyyy', orientation: 'auto',  autoclose: true, todayHighlight: true}" placeholder="MM/DD/YYYY" class="form-control"  readonly name="startTime" ng-model="lineItemStartDate" ng-change="validateDateLineItem(lineItemStartDate,'startdate')" />
+        <div class="clearfix col-md-12 zeroPadding">
+            <div class="pull-left">
+                <div class="span4 col-md-12 input-daterange input-group date pull-left" id="datepicker">
+                    <div class="col-md-12 dateWrapper zeroPadding">
+                        <div class="dateContainer">
+                            <label class="col-sm-12 control-label greyTxt miniLabels">Flight Date Start</label>
+                            <div style="background: #fff;">
+                                <input type="text" id="lineItemStartDateInput" custom-date-picker="{format: 'mm/dd/yyyy', orientation: 'auto',  autoclose: true, todayHighlight: true}" placeholder="MM/DD/YYYY" class="form-control"  readonly name="startTime" ng-model="lineItemStartDate" ng-change="validateDateLineItem(lineItemStartDate,'startdate')" />
+                            </div>
+                        </div>
+                        <div class="dateContainer">
+                            <label class="col-sm-12 control-label greyTxt miniLabels">Flight Date End</label>
+                            <div style="background: #fff;">
+                                <input type="text" id="lineItemEndDateInput" custom-date-picker="{format: 'mm/dd/yyyy', orientation: 'auto',  autoclose: true, todayHighlight: true}" placeholder="MM/DD/YYYY" class="form-control"  ng-model="lineItemEndDate" name="endTime"  ng-change="validateDateLineItem(lineItemEndDate,'enddate')"/>
+                            </div>
                         </div>
                     </div>
-                    <div class="dateContainer">
-                        <label class="col-sm-12 control-label greyTxt miniLabels">Flight Date End</label>
-                        <div style="background: #fff;">
-                            <input type="text" id="lineItemEndDateInput" custom-date-picker="{format: 'mm/dd/yyyy', orientation: 'auto',  autoclose: true, todayHighlight: true}" placeholder="MM/DD/YYYY" class="form-control"  ng-model="lineItemEndDate" name="endTime"  ng-change="validateDateLineItem(lineItemEndDate,'enddate')"/>
+                    <span class="col-md-12 input-group-addon">
+                        <div class="calenderIcon">
+                            <span class="icon-calendar"></span>
                         </div>
-                    </div>
+                        <div class="calenderIcon">
+                            <span class="icon-calendar"></span>
+                        </div>
+                    </span>
                 </div>
-                <span class="col-md-12 input-group-addon">
-                    <div class="calenderIcon">
-                        <span class="icon-calendar"></span>
-                    </div>
-                    <div class="calenderIcon">
-                        <span class="icon-calendar"></span>
-                    </div>
-                </span>
             </div>
-        </div>
 
-        <div class="col-md-4" style="padding: 0;">
-            <label class="col-sm-12 zeroPadding">Ad Group Name</label>
-            <input type="text" class="col-md-12" placeholder="Enter Ad Group name up to 100 characters"  ng-model="adGroupName"/>
-        </div>
+            <div class="col-md-4 greyTxt" style="padding-bottom: 2px !important;">
+                <label class="col-sm-12 zeroPadding">Ad Group Name</label>
+                <input type="text" class="col-md-12" placeholder="Enter Ad Group name up to 100 characters"  ng-model="adGroupName"/>
+            </div>
 
-        <div class="pull-right" style="padding: 30px 0 0 0;">
+            <div class="pull-right" style="padding: 30px 0 0 0;">
             <div class="pull-right btn btn-primary" ng-disabled="(lineItemName === '' || lineItemType.id === '' || pricingRate === '')" ng-click="createNewLineItem('create')">Save Line Item</div>
             <div class="pull-right btn btn-link" ng-click="resetLineItemParameters()">Cancel</div>
+        </div>
         </div>
     </div>
     <!--Create Item List Form End-->
@@ -165,7 +167,7 @@
                         <a class="td col-md-2">{{item.startTime}} - {{item.endTime}}</a>
                     </div>
 
-                    <div class="tableEdit" ng-include="'listItemEditTpl'"></div>
+                    <div class="tableEdit" ng-include="'listItemEditTpl'"  style="padding-top: 20px;"></div>
                 </div>
 
 
@@ -247,7 +249,7 @@
 
 
 
-        <a class="btn btn-link pull-right" style="margin: 33px 0 0 0;" ng-click="deleteLineItem(editLineItem)">Delete</a>
+        <a class="btn btn-link pull-right" style="position: absolute;top: -10px; right: 0; display: block;padding: 0; color: #0978c9;" ng-click="deleteLineItem(editLineItem)">Delete</a>
     </div>
 
     <!--Row 2-->
