@@ -120,10 +120,10 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
             },
             getPixels: function (advertiserId) {
                 var clientId =  loginModel.getSelectedClient().id;
-                
+
                 var url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId +
-                            '/advertisers/' + advertiserId + '/pixels';
-               
+                            '/advertisers/' + advertiserId + '/pixels?type=PAGE_VIEW';
+
                 return dataService.fetch(url);
             },
             getRatesTypes: function () {
