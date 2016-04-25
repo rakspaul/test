@@ -1258,8 +1258,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                             !formData.startTime ||
                             !formData.endTime ||
                             !postAdDataObj.screens ||
-                            !formData.adFormat ||
-                            !formData.goal
+                            !formData.adFormat 
                         ) &&
                         $scope.mode === 'edit' &&
                         $scope.isAdsPushed === true
@@ -1627,7 +1626,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
             $scope.adGroupList = [];
             $scope.mediaPlanName = null;
             $scope.adGroupName = null;
-            
+
             var selectedMediaPlanId = parseInt($routeParams.campaignId),
                 selectedAdGroupId = -1;
 
