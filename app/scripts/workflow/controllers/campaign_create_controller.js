@@ -1,4 +1,4 @@
-define(['angularAMD', 'common/services/constants_service', 'workflow/services/workflow_service','login/login_model','common/moment_utils','workflow/directives/clear_row', 'workflow/directives/ng_upload_hidden','workflow/controllers/mediaplan_pixels_controller'], function (angularAMD) {
+define(['angularAMD', 'common/services/constants_service', 'workflow/services/workflow_service','login/login_model','common/moment_utils','workflow/directives/clear_row', 'workflow/directives/ng_upload_hidden','workflow/controllers/mediaplan_pixels_controller','workflow/directives/custom_date_picker'], function (angularAMD) {
     angularAMD.controller('CreateCampaignController', function ($scope,  $rootScope,$routeParams, $locale, $location, $timeout,constants, workflowService,loginModel,momentService) {
 
         $scope.selectedKeywords = [];
@@ -63,7 +63,8 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         $scope.lineItemStartDate = '';
         $scope.lineItemEndDate = '';
 
-        var selectedAdvertiser;
+        var selectedAdvertiser,
+            campaignId = '-999';
 
         if(!loginModel.getMasterClient().isLeafNode) {
             $scope.showSubAccount = true;
@@ -416,6 +417,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 postDataObj.lineItems = workflowService.processLineItemsObj(angular.copy($scope.lineItemList));
                 postDataObj.campaignType = 'Display';
                 postDataObj.labels = _.pluck($scope.tags, "label");
+                postDataObj.campaignPixels = _.pluck($scope.selectedPixel, "id");
 
                 workflowService.saveCampaign(postDataObj).then(function (result) {
                     if (result.status === "OK" || result.status === "success") {
@@ -704,10 +706,10 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             //selectedAdvertiser ={};
             //selectedAdvertiser.billingType = 'COGS + Percentage Markup';
             //selectedAdvertiser.billingValue = 23;
-            if(selectedAdvertiser.billingType && selectedAdvertiser.billingValue){
+            if(selectedAdvertiser && (selectedAdvertiser.billingType && selectedAdvertiser.billingValue)){
 
                 var index = _.findIndex($scope.type, function (item) {
-                    return item.name === selectedAdvertiser.billingType;
+                    return item.id === selectedAdvertiser.billingType.id;
                 });
 
                 $scope.setLineItem($scope.type[index],'create');
@@ -722,13 +724,13 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     newItem.name = $scope.lineItemName;
                     newItem.lineItemType = $scope.lineItemType;
                     newItem.pricingMethodId = $scope.lineItemType.id;
-                    newItem.adGroupName = $scope.adGroupName;
+                    newItem.adGroupName = ($scope.adGroupName === '')?$scope.lineItemName:$scope.adGroupName;
                     newItem.billableAmount = $scope.billableAmount;
                     newItem.volume = $scope.volume;
                     newItem.pricingRate = $scope.pricingRate;
                     newItem.startTime = $scope.lineItemStartDate;
                     newItem.endTime = $scope.lineItemEndDate;
-                    newItem.campaignId = "-999";
+                    newItem.campaignId = campaignId;
                     $scope.lineItemList.push(newItem);
                     $scope.resetLineItemParameters();
                 }
@@ -742,6 +744,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 newItem.pricingRate = $scope.editLineItem.pricingRate;
                 newItem.startTime = $scope.editLineItem.startTime;
                 newItem.endTime = $scope.editLineItem.endTime;
+                newItem.campaignId = (campaignId === '-999')?'-999':campaignId; // handle real edit mode
                 $scope.lineItemList.push(newItem);
 
             }
@@ -762,16 +765,16 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 $scope.amountFlag = true;
 
                 if("COGS + Percentage Markup" === $scope.lineItemType.name){
-                    if(selectedAdvertiser.billingType && selectedAdvertiser.billingValue){
+                    if(selectedAdvertiser && (selectedAdvertiser.billingType && selectedAdvertiser.billingValue)){
                         $scope.rateReadOnly = true;
-                        $scope.pricingRate = selectedAdvertiser.billingValue;// to get via advertiser api
+                        $scope.pricingRate = selectedAdvertiser.billingValue + "% Markup";// to get via advertiser api
                         $scope.rateTypeReadOnly = true;
                     }
                     $scope.volumeFlag = false;
                     $scope.volume = '';
                 }
                 else if("COGS + CPM Markup" === $scope.lineItemType.name){
-                    if(selectedAdvertiser.billingType && selectedAdvertiser.billingValue){
+                    if(selectedAdvertiser && (selectedAdvertiser.billingType && selectedAdvertiser.billingValue)){
                         $scope.rateReadOnly = true;
                         $scope.pricingRate = selectedAdvertiser.billingValue;// to get via advertiser api
                         $scope.rateTypeReadOnly = true;
@@ -782,7 +785,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     $scope.volume = '';
                 }
                 else if ("Flat Fee" === $scope.lineItemType.name){
-                    if(selectedAdvertiser.billingType && selectedAdvertiser.billingValue){
+                    if(selectedAdvertiser && (selectedAdvertiser.billingType && selectedAdvertiser.billingValue)){
                         $scope.rateReadOnly = true;
                         $scope.pricingRate = selectedAdvertiser.billingValue;// to get via advertiser api
                         $scope.rateTypeReadOnly = true;
@@ -800,30 +803,30 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
                 if("COGS + Percentage Markup" === $scope.editLineItem.lineItemType.name){
 
-                    if(selectedAdvertiser.billingType && selectedAdvertiser.billingValue){
+                    if(selectedAdvertiser && (selectedAdvertiser.billingType && selectedAdvertiser.billingValue)){
                         $scope.rateReadOnlyEdit = true;
                         $scope.editLineItem.pricingRate = selectedAdvertiser.billingValue;// to get via advertiser api
-                        $scope.rateTypeReadOnly = true;
+                        $scope.rateTypeReadOnlyEdit = true;
                     }
                     $scope.volumeFlagEdit = false;
                     $scope.editLineItem.volume = '';
 
                 }
                 else if("COGS + CPM Markup" === $scope.editLineItem.lineItemType.name){
-                    if(selectedAdvertiser.billingType && selectedAdvertiser.billingValue){
+                    if(selectedAdvertiser && (selectedAdvertiser.billingType && selectedAdvertiser.billingValue)){
                         $scope.rateReadOnlyEdit = true;
                         $scope.editLineItem.pricingRate = selectedAdvertiser.billingValue;// to get via advertiser api
-                        $scope.rateTypeReadOnly = true;
+                        $scope.rateTypeReadOnlyEdit = true;
                     }
                     $scope.volumeFlagEdit = false;
                     $scope.editLineItem.volume = '';
 
                 }
                 else if ("Flat Fee" === $scope.editLineItem.lineItemType.name){
-                    if(selectedAdvertiser.billingType && selectedAdvertiser.billingValue){
+                    if(selectedAdvertiser && (selectedAdvertiser.billingType && selectedAdvertiser.billingValue)){
                         $scope.rateReadOnlyEdit = true;
                         $scope.editLineItem.pricingRate = selectedAdvertiser.billingValue;// to get via advertiser api
-                        $scope.rateTypeReadOnly = true;
+                        $scope.rateTypeReadOnlyEdit = true;
                     }
                     $scope.volumeFlagEdit = false;
                     $scope.editLineItem.volume = '';
