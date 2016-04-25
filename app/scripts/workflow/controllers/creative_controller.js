@@ -127,7 +127,7 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
               $scope.creativeSizeData.tagTypes = [
                   {id: 1, name: 'HTML',active: false , disabled:false},
                   {id: 2, name: 'JS',active: false, disabled:false},
-                  {id: 3, name: 'VAST XML URL', active: false, disabled:false}
+                  {id: 3, name: 'VAST', active: false, disabled:false}
               ];
           },
 
@@ -254,7 +254,7 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
               $scope.creativeSizeData.tagTypes = [
                   {id: 1, name: 'HTML',active: false , disabled:false},
                   {id: 2, name: 'JS',active: false, disabled:false},
-                  {id: 3, name: 'VAST XML URL', active: false, disabled:false}
+                  {id: 3, name: 'VAST', active: false, disabled:false}
               ];
           }
       }
@@ -366,7 +366,7 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
           $scope.creativeSizeData.tagTypes = [
               {id: 1, name: 'HTML',active: false , disabled:true},
               {id: 2, name: 'JS',active: false, disabled:true},
-              {id: 3, name: 'VAST XML URL', active: false, disabled:true}
+              {id: 3, name: 'VAST', active: false, disabled:true}
           ];
           if(templateJson){
               for (var i = 0; i < templateJson.supportedTags.length; i++) {
