@@ -192,6 +192,9 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
                           if (Number($scope.selectedStrategy.id) >= 0) {
                               // strategy selected
                               $scope.strategyTableData = _.filter(result.data.data, function(item) { return item.ad_id == -1; });
+                              _.each($scope.strategyTableData, function(item) {
+                                item.kpi_type = $scope.selected_filters.campaign_default_kpi_type;
+                              });
 
                               var adsTempData = _.filter(result.data.data, function(item) { return item.ad_id != -1; });
                               $scope.tacticListData = _.chain(adsTempData)
@@ -207,6 +210,9 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
                               $scope.getTacticsChartData();
                           } else {
                               $scope.strategyTableData = result.data.data;
+                              _.each($scope.strategyTableData, function(item) {
+                                item.kpi_type = $scope.selected_filters.campaign_default_kpi_type;
+                              });
                           }
                           if ($scope.strategyTableData.length > 0)
                             $scope.inventoryChart = columnline.highChart($scope.strategyTableData, $scope.selected_filters.kpi_type);
