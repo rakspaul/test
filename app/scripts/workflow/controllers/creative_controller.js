@@ -55,7 +55,7 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
               $scope.creativeTagSelected('',$scope.creativeEditData.creativeType);
 
               //make cal to set the format type here //inturn makes call to get possible templates
-              $scope.adFormatSelection($scope.creativeFormat);
+              $scope.adFormatSelection($scope.creativeFormat,'editCreativeTypeSet');
               if(!($scope.pushedCount>0 || $scope.associatedAdCount>0)){
                 resetFormats($scope.selectedAdServer,$scope.creativeAdServers)
               }
@@ -223,7 +223,7 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
           }
       }
       /*function on adFormat selected*/
-      $scope.adFormatSelection=function(adFormatName){
+      $scope.adFormatSelection=function(adFormatName,flag){
           var index=_.findIndex($scope.creativeSizeData.adFormats, function(obj){
               return (obj.name).replace(/\s+/g, '').toUpperCase()===(adFormatName).replace(/\s+/g, '').toUpperCase();
               //return angular.uppercase(obj.name)===angular.uppercase(adFormatName)
@@ -248,13 +248,15 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
                   $scope.getTemplates($scope.selectedAdServer,adFormatName);
               }
           }
-          $scope.creativeType='';
-          $(".creativeType").find('label').removeClass('active');
-          $scope.creativeSizeData.tagTypes = [
-              {id: 1, name: 'HTML',active: false , disabled:false},
-              {id: 2, name: 'JS',active: false, disabled:false},
-              {id: 3, name: 'VAST XML URL', active: false, disabled:false}
-          ];
+          if(flag!='editCreativeTypeSet'){
+              $scope.creativeType='';
+              $(".creativeType").find('label').removeClass('active');
+              $scope.creativeSizeData.tagTypes = [
+                  {id: 1, name: 'HTML',active: false , disabled:false},
+                  {id: 2, name: 'JS',active: false, disabled:false},
+                  {id: 3, name: 'VAST XML URL', active: false, disabled:false}
+              ];
+          }
       }
       var resetTemplate=function(){
           $scope.onTemplateSelected('','');
