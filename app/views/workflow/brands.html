@@ -1,21 +1,24 @@
 <popup-msg ng-show="flashMessage" ng-controller="popUpMsgCtr"
            ng-init="init('flashMessage','WF_USER_CREATION_FAIL')"></popup-msg>
 <admin-header></admin-header>
-<div class="users-creation-page">
+<div class="users-creation-page" ng-controller='AdminAdvertisersController'>
     <!--Header-->
     <div class="col-md-12 zeroPadding heading" style="margin: 30px 0;">
-        <h1 class="pull-left zeroMargin">Users</h1>
-
+        <h1 class="zeroMargin">Brands</h1>
         <div class="col-md-12 zeroPadding" style="margin-top: 30px;">
-            <!--Create User Btn-->
+            <label class="col-sm-12 greyTxt">Brand Name</label>
+            <input type="text" class="pull-left clearLeft" placeholder="Add Name" id="brandNameInp" ng-model="brandName"
+                   ng-keyup="mode == 'create' ? showDropdown() : ''" style="width:500px; border-top-right-radius: 0px; border-bottom-right-radius: 0;" ng-class="{'edit-input':isEditBrand}">
             <div class="pull-left btn-group create" role="group" aria-label="...">
-                <a class="btn btn-default" ng-click="AddOrEditUserModal()">
+                <a class="btn btn-default" ng-click="createBrand()" style="border-left: 0; border-radius: 0;">
                     <span class="icon-plus"></span>
-                    <span>Create User</span>
+                    <span data-ng-bind="isEditBrand ? 'Update Brand' : 'Create Brand'"></span>
                 </a>
                 <!--<admin-header></admin-header>-->
             </div>
-
+            <span class="delete_row" ng-show="isEditBrand"
+                  data-ng-click="isEditBrand=false;brandName=''"
+                  style="position: absolute;top: 32px;left: 470px;"></span>
             <!--Quick Filters-->
             <!--<div campaign-list-filter-directive campaigns="campaigns" class="pull-right"></div>-->
 
@@ -44,9 +47,9 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div >
 
-            <span class="pull-right" style="font-size: 12px; margin: 10px 10px 0 0;">{{userTotal}} Users</span>
+            <span class="pull-right" style="font-size: 12px; margin: 9px 10px 0 0;"><span data-ng-bind="brandsTotal"></span> Users</span>
         </div>
     </div>
 
@@ -55,41 +58,39 @@
         <div class="vistoTable" id="visto_table">
             <div class="thead thin">
                 <div class="tr">
-                    <div class="col-md-4 th">Users Name</div>
-                    <div class="col-md-4 th">Email</div>
-                    <div class="col-md-3 th">Role</div>
-                    <div class="col-md-1 th text-center" style="padding: 15px 0 0;">Edit</div>
+                    <div class="col-md-4 th">Brand Name</div>
+                    <div class="col-md-1 th">Id</div>
+                    <div class="col-md-5 th">Clients/Advertiser Associated</div>
+                    <div class="col-md-2 th" >Created At</div>
                 </div>
             </div>
 
-            <div class="tbody thin" style="height:350px;overflow-y:scroll;">
-                <div class="tr" ng-repeat="user in UsersData.users">
+            <div class="tbody thin" id="admin_brand_table_body" style="height:350px;overflow-y:scroll;">
+                <div class="tr" ng-repeat="brand in brandsData" >
                     <div class="td col-md-4">
-                        <div >{{user.firstName +' '+ user.lastName}}</div>
+                        <div class="col-md-10 zeroPadding" data-ng-bind="brand.name"></div>
+                        <div class="pull-right col-md-2 edit" style="margin-right:10px ;" data-ng-click="editBrand(brand)"></div>
                     </div>
 
-                    <div class="td col-md-4">
-                        <div>{{user.email}}</div>
+                    <div class="td col-md-1">
+                        <div data-ng-bind="brand.id"></div>
                     </div>
 
-                    <div class="td col-md-3">
-                        <div>{{user.roleTemplateId}}</div>
+                    <div class="td col-md-5">
+                        <div data-ng-bind="brand.clients"></div>
                     </div>
 
-                    <div class="td col-md-1 text-center" style="padding-left:0px ;">
-                        <div class="edit" ng-click="AddOrEditUserModal('edit',user)" style="margin:0;"></div>
+                    <div class="td col-md-2" >
+                        <div data-ng-bind="brand.createdAt | date : 'EEE, MMM d yyyy'"></div>
                     </div>
                 </div>
-                <div ng-if="loadUserList" class="common-load-more"></div>
+                <div ng-if="loadBrandList" class="common-load-more">
+                </div>
             </div>
         </div>
-    </div>
 
-    <!--User Form-->
-    <div class="edit-dialog" ng-include="'/views/reporting/partials/users_add_or_edit.html'"
-         ng-controller="UsersAddOrEdit">
+
+        <div id="maskWindow" style="width: 100%;height: 100%;background: rgba(255, 255, 253, 0.57);position: absolute;left: 0px;top: 0px;display:none">
+            <span class="common-load-more" style="position: absolute;z-index: 999999;top: 50%;left: 50%;transform: translateY(-50%);transform: translate(-50%,-50%);"></span>
+        </div>
     </div>
-    <div id="maskWindow" style="width: 100%;height: 100%;background: rgba(255, 255, 253, 0.57);position: absolute;left: 0px;top: 0px;display:none">
-        <span class="common-load-more" style="position: absolute;z-index: 999999;top: 50%;left: 50%;transform: translateY(-50%);transform: translate(-50%,-50%);"></span>
-    </div>
-</div>

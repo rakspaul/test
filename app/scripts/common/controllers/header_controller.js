@@ -4,6 +4,7 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
                                                         constants, loginModel, domainReports,
                                                         campaignSelectModel, RoleBasedService, workflowService,featuresService,subAccountModel) {
         $scope.user_name = loginModel.getUserName();
+        $scope.isSuperAdmin = loginModel.getClientData().is_super_admin;
         $scope.version = version;
 
 
@@ -179,11 +180,17 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
                     url = '/mediaplans';
                 } else {
                     url = '/mediaplans/' + $scope.selectedCampaign;
+                    $(".each_nav_link").removeClass('active_tab active selected');
                     $("#reports_overview_tab").addClass("active_tab");
                 }
             } else if (page === 'creativelist') {
+                $(".each_nav_link").removeClass('active_tab active selected');
                 url = '/creative/list'
                 $("#creative_nav_link").addClass("active_tab");
+            } else if (page === 'adminOverview') {
+                $(".each_nav_link").removeClass('active_tab active selected');
+                url = '/admin/accounts';
+                $("#admin_nav_link").addClass("active_tab");
             }
             if (event) {
                 $(event.currentTarget).parent().addClass('active_tab');
@@ -216,9 +223,8 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
                 $('.each_nav_link.active .arrowSelect').fadeIn();
             }, 800);
             setTimeout(function () {
-                if (!( $(".main_navigation_holder").is(":hover") || $("#user-menu").is(":hover") || $("#reports-menu").is(":hover") ) || $("#campaigns_nav_link").is(":hover")) {
-                    //$(".main_nav_dropdown").fadeOut();
-                    $("#reports-menu, #user-menu").css('min-height',0).slideUp('fast');
+                if (!( $(".main_navigation_holder").is(":hover") || $("#user-menu").is(":hover") || $("#reports-menu").is(":hover") || $("#admin-menu").is(":hover") ) || $("#campaigns_nav_link").is(":hover")) {                    //$(".main_nav_dropdown").fadeOut();
+                    $("#reports-menu, #admin-menu, #user-menu").css('min-height',0).slideUp('fast');
                     $(".main_navigation_holder").find(".selected").removeClass("selected");
                 }
             }, 800);

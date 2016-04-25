@@ -1,68 +1,49 @@
 <popup-msg ng-show="flashMessage" ng-controller="popUpMsgCtr"
            ng-init="init('flashMessage','WF_CAMPAIGN_ARCHIVE_FAILURE')"></popup-msg>
+<admin-header></admin-header>
+<div class="col-md-12 zeroPadding accounts-page">
+    <!--Header-->
+    <div class="col-md-12 zeroPadding heading" style="margin: 30px 0 15px 0;">
+        <h1 class="col-md-12 zeroPadding" style="margin: 0 0 30px 0;">Accounts</h1>
 
-<div class="container accounts-page" >
-	<div class="row">
-		<div class="pull-left accounts-page-container">
+        <!--Create Account Btn-->
+        <div class="pull-left btn-group create" role="group" aria-label="..." ng-if="isSuperAdmin">
+            <a class="btn btn-default" ng-click="AddOrEditAccountModal('create')" style="border-top-right-radius: 0; border-bottom-right-radius: 0;">
+                <span class="icon-plus"></span>
+                <span>Create New Account</span>
+            </a>
+            <!--<admin-header class="pull-left"></admin-header>-->
+        </div>
+    </div>
 
-		<div class="clearfix heading">
-			<h1 class="pull-left">
-				Accounts
+    <!--Body-->
+    <div class="col-md-12 each-account-details" ng-repeat="client in clientsDetails[0]" id="client_{{client.id}}">
+        <div class="pull-left particular-account-box" ng-class="[(clientsDetails[client.id].advertisers.length ==  0)?'no-data-open':'',(clientsDetails[client.id].advertisers.length) > 0?'data-loaded':'']">
+            <div class="clearfix " >
+                <span class="pull-left account-name" ng-click="getSubClientList($event,client);">{{client.name}}</span>
+                <span class="pull-left edit"  ng-click="AddOrEditAccountModal('edit',client)"></span>
+                <span class="pull-right adding-section"  ng-if="client.isLeafNode" ng-click="AddOrEditAdvertiserModal({},'create',client)"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Add Advertiser</span>
+                <div class="pull-right btn btn-default" ng-if="!client.isLeafNode" ng-click="AddOrEditAccountModal('create',client.id)">Create Sub Account</div>
+            </div>
 
-			</h1><div class="pull-right common_primary_btn" ng-click="AddOrEditAccountModal('create')">Create Account</div>
+            <div class="advertiser-list" ng-if="clientsDetails[client.id].advertisers.length >  0" id="client_{{client.id}}_adv">
+                <div class="each-advertiser" ng-repeat="adv in clientsDetails[client.id].advertisers" ng-if="clientsDetails[client.id].advertisers.length >  0" ng-class="[(clientsDetails[client.id]['brands'][adv.id].length ==  0)?'no-data-open':'',(clientsDetails[client.id]['brands'][adv.id].length) > 0?'brand-data-loaded':'']">
 
-		</div>
-		<div class="clearfix">
-			<div class="clearfix each-account-details" ng-repeat="client in clientsDetails">
-				<div class="pull-left particular-account-box" ng-class="[(client.advertisement.length ==  0)?'no-data-open':'',(client.advertisement.length) > 0?'data-loaded':'']">
-					<div class="clearfix " >
-						<span class="pull-left account-name" ng-click="show_advertisers($event,client.id);">{{client.name}}</span>
-						<span class="pull-left edit"  ng-click="AddOrEditAccountModal('edit',client)"></span>
-						<span class="pull-right adding-section"  ng-click="AddOrEditAdvertiserModal({},'create',client)"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Create Advertiser</span>
-
-					</div>
-					<div class="advertiser-list" >
-						<div class="each-advertiser" ng-repeat="adv in client.advertisement" ng-if="client.advertisement.length >  0" ng-class="[(adv.brand.length ==  0)?'no-data-open':'',(adv.brand.length) > 0?'brand-data-loaded':'']">
-							<div class="clearfix advertiser-name" >
-								<span class="pull-left adv-name" ng-click="show_advertisers_resp_brands($event,client.id,adv.id);"  ><span class="label_heading">Advertiser: </span>{{adv.name}}</span>
-								<span class="pull-left edit" ng-click="AddOrEditAdvertiserModal(adv,'edit',client)"></span>
-								<span class="pull-left adding-section" ng-click="AddOrEditBrandModal(adv,'create',client,brand)"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Create Brand</span>
-							</div>
-							<!-- <div class="advertiser-resp-brands-list"> -->
-								<!--<div class="clearfix each-brand-name"  ng-repeat="brand in adv.brand" ng-if="adv.brand.length > 0">-->
-									<!--<span class="pull-left brand-name"><span class="label_heading">Brand: </span>{{brand.name}}</span>-->
-									<!--<span class="pull-left edit" ng-click="AddOrEditBrandModal(adv,'edit',client,brand)"></span>-->
-									<!--<span class="pull-left adding-section" ng-click="AddOrEditBrandModal(adv,'create',client,brand)"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Create Brand</span>-->
-								<!--</div>-->
-								<div class="advertiser-resp-brands-list">
-									<div class="clearfix each-brand-name"  ng-repeat="brand in adv.brand" ng-if="adv.brand.length > 0">
-										<span class="pull-left brand-name"><span class="label_heading">Brand: </span>{{brand.name}}</span>
-										<span class="pull-left edit" ng-click="AddOrEditBrandModal(adv,'edit',client,brand)"></span>
-									</div>
-
-									<div ng-if="adv.brand == undefined" class="common-load-more"></div>
-									<div class="clearfix each-brand-name" ng-if="adv.brand.length == 0">
-										<span class="pull-left brand-name">No Brand Available</span>
-									</div>
-
-									<!--<span class="pull-left adding-section" ng-click="AddOrEditBrandModal(adv,'create',client,brand)"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Create Brand</span>-->
-								</div>
-
-
-							<!-- </div> -->
-
-						</div>
-						<div ng-if="client.advertisement == undefined" class="common-load-more"></div>
-						<div class="each-advertiser" ng-if="client.advertisement.length ==  0">
-							<div class="clearfix advertiser-name" >
-								<span class="pull-left" >No Advertisers Available</span>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		</div>
-	</div>
-</div>
+                    <div class="clearfix advertiser-name" >
+                        <span class="pull-left adv-name" ng-click="show_advertisers_resp_brands($event,client.id,adv.id);"  ><span class="label_heading">Advertiser: </span>{{adv.name}}</span>
+                        <span class="pull-left edit" ng-click="AddOrEditAdvertiserModal(adv,'edit',client)"></span>
+                        <span class="pull-left adding-section" ng-click="AddOrEditBrandModal(adv,'create',client,brand)"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Add Brand</span>
+                    </div>
+                    <div class="advertiser-resp-brands-list" style="margin-left:40px;" id="client_{{client.id}}_adv_{{adv.id}}">
+                        <div class="clearfix each-brand-name"  ng-repeat="brand in clientsDetails[client.id]['brands'][adv.id]" ng-if="clientsDetails[client.id]['brands'][adv.id].length > 0">
+                            <span class="pull-left brand-name"><span class="label_heading">Brand: </span>{{brand.name}}</span>
+                        </div>
+                    </div>
+                </div>
+                <div ng-if="clientsDetails[client.id].advertiserLoader" class="common-load-more"></div>
+            </div>
+            <ng-include ng-init="clientId=client.id" src="'/views/workflow/partials/admin_accounts_subclientList.html'" class="ng-scope"></ng-include>
+        </div>
+    </div>
+    <div ng-if="loadTopClientList" style="margin-top:188px;" class="common-load-more">
+    </div>

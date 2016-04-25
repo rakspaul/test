@@ -81,7 +81,6 @@ assets.html_multi_select = '/views/reporting/multi_select.html';
 assets.html_strategy_drop_down = '/views/reporting/strategy_drop_down.html';
 assets.html_timeperiod_drop_down = '/views/reporting/timeperiod_drop_down.html';
 assets.html_timeperiod_drop_down_picker = '/views/reporting/timeperiod_drop_down_picker.html';
-assets.html_users = '/views/reporting/users.html';
 assets.html_help = '/views/reporting/help.html';
 assets.html_collective_report_listing = '/views/reporting/collective_report_listing.html';
 assets.html_reports_schedule_list = '/views/reporting/reports_schedule_list.html';
@@ -110,6 +109,7 @@ assets.html_download_report = '/views/reporting/partials/download_report.html';
 assets.html_header_filters = '/views/reporting/partials/header_filters.html';
 assets.html_users_add_or_edit = '/views/reporting/partials/users_add_or_edit.html';
 assets.html_filters_header = '/views/reporting/partials/filters_header.html';
+assets.html_admin_header = '/views/reporting/partials/admin_header.html';
 
 assets.html_campaign_create = '/views/workflow/campaign_create.html';
 assets.html_campaign_create_ad = '/views/workflow/campaign_overview.html';
@@ -117,7 +117,6 @@ assets.html_campaign_create_adBuild = '/views/workflow/campaign_ad_create.html';
 assets.html_creative = '/views/workflow/creative.html';
 assets.html_creative_list = '/views/workflow/creative_list.html';
 assets.html_workflow_campaign_list = '/views/workflow/campaign_list.html';
-assets.html_accounts = '/views/workflow/accounts.html';
 
 assets.html_creative_drop_down = '/views/workflow/partials/creative_drop_down.html';
 assets.html_platform_collective_bidder = '/views/workflow/partials/platforms/plat-collective-bidder.html';
@@ -133,4 +132,16 @@ assets.html_dashboard_2 = '/views/visto2.0/dashboard.html';
 
 assets.html_sub_account_drop_down = '/views/reporting/sub_account_drop_down.html';
 assets.html_filter_drop_down = '/views/workflow/filter_drop_down.html'
+
+//admin
+assets.admin_accounts_subclient = '/views/workflow/partials/creative_add_bulk.html';
+//assets.admin_accounts_subclient = '/views/workflow/partials/admin_accounts_subclientList.html';
+
+//Admin page
+
+assets.html_admin_home = '/views/workflow/admin_home.html';
+assets.html_users = '/views/reporting/users.html';
+assets.html_accounts = '/views/workflow/accounts.html';
+assets.html_advertisers = '/views/workflow/advertisers.html';
+assets.html_brands = '/views/workflow/brands.html';
 

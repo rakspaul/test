@@ -2484,7 +2484,14 @@ input[type="submit"] {
 .main_navigation_holder .main_nav .main_navigation .arrowSelect {
   display: none;
 }
-.main_navigation_holder .main_nav .main_navigation .each_nav_link.active .arrowSelect {
+.main_navigation_holder .main_nav .main_navigation .each_nav_link.active a,
+.main_navigation_holder .main_nav .main_navigation .each_nav_link.selected a,
+.main_navigation_holder .main_nav .main_navigation .each_nav_link.active_tab a {
+  color: #fff;
+}
+.main_navigation_holder .main_nav .main_navigation .each_nav_link.active .arrowSelect,
+.main_navigation_holder .main_nav .main_navigation .each_nav_link.selected .arrowSelect,
+.main_navigation_holder .main_nav .main_navigation .each_nav_link.active_tab .arrowSelect {
   content: "";
   position: absolute;
   display: block;

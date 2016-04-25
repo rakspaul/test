@@ -115,6 +115,9 @@
   margin: 0 auto;
   display: table;
 }
+#creativeList .creative_filter_dropdowns {
+  margin-top: -25px;
+}
 #creativeList .nav_filters {
   width: 1200px;
   margin: 0 auto;
