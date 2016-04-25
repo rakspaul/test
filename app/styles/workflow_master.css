@@ -1509,6 +1509,9 @@ input.cmn-toggle-round:checked + label:after {
   font-size: 14px;
   float: left;
 }
+.cardSelectHolder .targetDataSaved .video-targetting-holder span {
+  text-align: left;
+}
 .cardSelectHolder .onSelectBtn {
   position: absolute;
   z-index: 10;
