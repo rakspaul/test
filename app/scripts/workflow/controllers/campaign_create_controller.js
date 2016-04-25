@@ -1,4 +1,4 @@
-define(['angularAMD', 'common/services/constants_service', 'workflow/services/workflow_service','login/login_model','common/moment_utils','workflow/directives/clear_row', 'workflow/directives/ng_upload_hidden'], function (angularAMD) {
+define(['angularAMD', 'common/services/constants_service', 'workflow/services/workflow_service','login/login_model','common/moment_utils','workflow/directives/clear_row', 'workflow/directives/ng_upload_hidden','workflow/controllers/mediaplan_pixels_controller'], function (angularAMD) {
     angularAMD.controller('CreateCampaignController', function ($scope,  $rootScope,$routeParams, $locale, $location, $timeout,constants, workflowService,loginModel,momentService) {
 
         $scope.selectedKeywords = [];
@@ -325,6 +325,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     createCampaign.fetchBrands($scope.selectedCampaign.clientId, data.id);
                     createCampaign.platforms(data.id);
                     createCampaign.fetchVendorConfigs();
+                    $scope.$broadcast('fetch_pixels');
                     break;
                 case 'brand' :
                     $scope.selectedCampaign.brandId = data.id;
@@ -902,6 +903,100 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         $scope.$watch('selectedCampaign.startTime',function(){
             $scope.initiateLineItemDatePicker();
         });
+
+
+
+
+
+
+
+
+        // start of pixels page controller
+
+        $scope.selectedPixel = [];
+        $scope.pixelList = [];
+        $scope.selectAllPixelsChecked = false;
+
+
+          var _pixelTargetting = {
+            resetPixel: function () {
+              var i;
+              for (i = 0; i < $scope.pixelList.length; i++) {
+                $scope.pixelList[i].isChecked = false;
+                $scope.pixelList[i].isIncluded = null;
+              }
+            }
+
+
+          }
+
+        var pixels = {
+              fetchPixels: function (clientId,advertiserId) {
+                  workflowService.getPixels($scope.selectedCampaign.advertiserId).then(function (result) {
+                      if (result.status === "OK" || result.status === "success") {
+                          var responseData = result.data.data;
+                          $scope.pixelList = _.sortBy(responseData, 'name');
+                          _.each($scope.pixelList, function( item , i ){
+                              item.createdAt = momentService.newMoment(item.createdAt).format('YYYY-MM-DD');
+                          });
+                      }
+                      else {
+                        console.log(result) ;
+                      }
+                  });
+              }
+          };
+
+
+          $scope.$on('fetch_pixels' , function() {
+            pixels.fetchPixels() ;
+          }) ;
+
+                           
+        //select or unselect indiviual audience
+        $scope.selectPixel = function (pixel) {
+              var pixelIndex = _.findIndex($scope.selectedPixel, function (item) {
+                return item.id === pixel.id;
+              });
+              if (pixelIndex === -1) {
+                pixel.isChecked = true;
+                pixel.isIncluded = true;
+                $scope.selectedPixel.push(pixel);
+              } else {
+                $scope.selectedPixel.splice(pixelIndex, 1);
+                var index = _.findIndex($scope.pixelList, function (list) {
+                  return pixel.id == list.id;
+                })
+                $scope.pixelList[index].isChecked = false;
+                $scope.pixelList[index].isIncluded = null;
+              }
+            };
+
+
+            $scope.selectAllPixel = function (event) {
+              var i;
+              $scope.selectedPixel = []; //empty the selected pixel array before populating/empting it with all the pixel
+              $scope.selectAllPixelChecked = event.target.checked;
+              if ($scope.selectAllPixelChecked) {
+                console.log("inside if") ;
+                for (i = 0; i < $scope.pixelList.length; i++) {
+                    console.log("inside for loop") ;
+                  $scope.selectedPixel.push($scope.pixelList[i]);
+                  $scope.pixelList[i].isChecked = true;
+                  $scope.pixelList[i].isIncluded = true;
+                }
+              } else {
+                _pixelTargetting.resetPixel(); // deselect all
+              }
+            };
+
+            $scope.clearAllSelectedPixel = function () {
+              _pixelTargetting.resetPixel();
+              $scope.selectedPixel = [];
+            };
+
+        // end of pixels page controller
+        
 
     });
 });

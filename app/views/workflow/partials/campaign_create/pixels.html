@@ -1,17 +1,18 @@
-<h3 class="col-md-6 adName" tooltip="{{adData.adName}}">
+<h3 class="col-md-6 adName" >
     {{selectedCampaign.campaignName.length>0 ? (selectedCampaign.campaignName | textEllipsis: 40 ) : editCampaignData.name}}
 </h3>
 
 <!--Pixel Option List-->
-<div class="col-md-8" style="padding: 0 10px 0 0;">
-    <label for="nameTitleCampaign" class="col-sm-12 labelQuestTxt" style="margin-bottom: 5px;">Select Conversion Pixels (Optional)</label>
+<div class="col-md-8" style="padding: 0 10px 0 0;" ng-controller="mediaplanPixelsController">
+
+    <label for="nameTitleCampaign" class="col-sm-12 labelQuestTxt" style="margin-bottom: 5px;" >Select Conversion Pixels (Optional)</label>
 
     <div class="col-md-12 zeroPadding btn-group create" role="group" style="margin: 20px 0 10px 0;">
         <span class="pull-left">A Conversion Pixel is required for tracking and reporting <br/>
         conversions and for CPA billing</span>
 
         <!--Search/Quickfilters Input-->
-        <div style="position: absolute; right: 0; top: 0; z-index: 999;">
+        <div class="col-md-12 zeroPadding" style="margin-top:20px;">
             <div class="btn-group pull-right">
                 <button type="button" class="btn btn-default pull-right disabled" style="border-top-right-radius: 2px; border-bottom-right-radius: 2px;">
                     <span class="icon-filter" style="margin: -1px 0 0;"></span>
@@ -25,11 +26,11 @@
                     <a class="btn btn-default searchInputBtnInline" ng-click="campaignSearchFunc()" style="border-top-right-radius: 0; border-bottom-right-radius: 0; border-right: 0;">
                         <span class="icon-search" aria-hidden="true" style="margin: -1px 0 0;"></span>
                     </a>
-                    <div class="input-group searchInputForm" >
+                    <div class="input-group searchInputForm" style="width:300px !important;">
                         <input type="text"
                                class="form-control"
                                name="campaignsSearch"
-                               placeholder="Search Line Items...">
+                               placeholder="Search Line Items..." ng-model="searchText">
                         <div class="btn btn-default searchClearInputBtn" ng-click="searchHideInput()">
                             <span class="icon-clear" aria-hidden="true" style="margin: 0;"></span>
                         </div>
@@ -37,7 +38,7 @@
                 </div>
             </div>
 
-            <span class="pull-right" style="padding: 8px 15px; background: #fff;">0 Pixels</span>
+            <span class="pull-right" style="padding:8px 5px 8px 0 ; background: #fff;">{{selectedPixel.length}} Pixels in list</span>
         </div>
     </div>
 
@@ -47,7 +48,7 @@
             <div class="thead thin">
                 <div class="tr">
                     <div class="th col-md-9">
-                        <input type="checkbox"/>
+                        <input type="checkbox" ng-click="selectAllPixel($event)" ng-checked="selectAllPixelChecked"/>
                         <span>Pixel Name</span>
                     </div>
                     <div class="th col-md-3">Created</div>
@@ -56,77 +57,14 @@
 
             <div class="tbody thin">
                 <!--Table Data Sample-->
-                <div class="tr">
+                <div class="tr" ng-repeat="pixel in  pixelList | filter:searchText" >
                     <div class="td col-md-9">
-                        <input type="checkbox"/>
-                        <a>Blah Pixel Name</a>
+                        <input type="checkbox" ng-click="selectPixel(pixel)" ng-checked="pixel.isChecked" />
+                        <a>{{pixel.name}}</a>
                     </div>
-                    <span class="td col-md-3">04/16/2016</span>
+                    <span class="td col-md-3">{{pixel.createdAt}}</span>
                 </div>
-
-                <div class="tr">
-                    <div class="td col-md-9">
-                        <input type="checkbox"/>
-                        <a>Blah Pixel Name</a>
-                    </div>
-                    <span class="td col-md-3">04/16/2016</span>
-                </div>
-
-                <div class="tr">
-                    <div class="td col-md-9">
-                        <input type="checkbox"/>
-                        <a>Blah Pixel Name</a>
-                    </div>
-                    <span class="td col-md-3">04/16/2016</span>
-                </div>
-
-                <div class="tr">
-                    <div class="td col-md-9">
-                        <input type="checkbox"/>
-                        <a>Blah Pixel Name</a>
-                    </div>
-                    <span class="td col-md-3">04/16/2016</span>
-                </div>
-
-                <div class="tr">
-                    <div class="td col-md-9">
-                        <input type="checkbox"/>
-                        <a>Blah Pixel Name</a>
-                    </div>
-                    <span class="td col-md-3">04/16/2016</span>
-                </div>
-
-                <div class="tr">
-                    <div class="td col-md-9">
-                        <input type="checkbox"/>
-                        <a>Blah Pixel Name</a>
-                    </div>
-                    <span class="td col-md-3">04/16/2016</span>
-                </div>
-
-                <div class="tr">
-                    <div class="td col-md-9">
-                        <input type="checkbox"/>
-                        <a>Blah Pixel Name</a>
-                    </div>
-                    <span class="td col-md-3">04/16/2016</span>
-                </div>
-
-                <div class="tr">
-                    <div class="td col-md-9">
-                        <input type="checkbox"/>
-                        <a>Blah Pixel Name</a>
-                    </div>
-                    <span class="td col-md-3">04/16/2016</span>
-                </div>
-
-                <div class="tr">
-                    <div class="td col-md-9">
-                        <input type="checkbox"/>
-                        <a>Blah Pixel Name</a>
-                    </div>
-                    <span class="td col-md-3">04/16/2016</span>
-                </div>
+                
             </div>
         </div>
     </div>
@@ -134,34 +72,14 @@
 </div>
 
 <div class="col-md-4" style="padding: 10px; background: #ECF3F8; margin: 61px 0 0 0;">
-    <label for="nameTitleCampaign" class="pull-left labelQuestTxt" style="margin: 0 !important;">Selected Pixels (0)</label>
-    <a class="btn btn-default pull-right">Clear</a>
-
+    <label for="nameTitleCampaign" class="pull-left labelQuestTxt" style="margin: 0 !important;">Selected Pixels ({{selectedPixel.length}})</label>
+    <a class="btn btn-default pull-right" ng-click="clearAllSelectedPixel()"  >Clear</a>
     <div class="col-md-12 zeroPadding selectedPixels">
-        <div class="col-md-12 zeroPadding pixelName">
-            <span>Selected Pixel Name</span>
-            <a class="icon-close pull-right"></a>
+        <div class="col-md-12 zeroPadding pixelName" ng-repeat="eachselectedPixel in  selectedPixel " >
+            <span>{{eachselectedPixel.name}}</span>
+            <a class="icon-close pull-right" ng-click="selectPixel(eachselectedPixel)"></a>
         </div>
 
-        <div class="col-md-12 zeroPadding pixelName">
-            <span>Selected Pixel Name</span>
-            <a class="icon-close pull-right"></a>
-        </div>
-
-        <div class="col-md-12 zeroPadding pixelName">
-            <span>Selected Pixel Name</span>
-            <a class="icon-close pull-right"></a>
-        </div>
-
-        <div class="col-md-12 zeroPadding pixelName">
-            <span>Selected Pixel Name</span>
-            <a class="icon-close pull-right"></a>
-        </div>
-
-        <div class="col-md-12 zeroPadding pixelName">
-            <span>Selected Pixel Name</span>
-            <a class="icon-close pull-right"></a>
-        </div>
     </div>
 </div>
 
