@@ -51,13 +51,16 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
               $scope.creativeFormat=$scope.creativeEditData.creativeFormat;
               $scope.pushedCount=$scope.creativeEditData.pushedCount;
               $scope.associatedAdCount=$scope.creativeEditData.noOfAds;
+              $scope.creativeType=$scope.creativeEditData.creativeType.toUpperCase();//set the creativeTag Type
+              $scope.creativeTagSelected('',$scope.creativeEditData.creativeType);
+
               //make cal to set the format type here //inturn makes call to get possible templates
               $scope.adFormatSelection($scope.creativeFormat);
               if(!($scope.pushedCount>0 || $scope.associatedAdCount>0)){
                 resetFormats($scope.selectedAdServer,$scope.creativeAdServers)
               }
               //make call to generate Template
-              $scope.creativeEditData.vendorCreativeTemplate ? $scope.onTemplateSelected($scope.creativeEditData.vendorCreativeTemplate,$scope.creativeEditData.creativeCustomInputs):'';
+              $scope.creativeEditData.vendorCreativeTemplate ? $scope.onTemplateSelected($scope.creativeEditData.vendorCreativeTemplate,$scope.creativeEditData.creativeCustomInputs,'editCreativeTypeSet'):'';
               $scope.tag=$scope.creativeEditData.tag;
               $scope.adData.creativeSize=$scope.creativeEditData.size;
 
@@ -71,6 +74,18 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
                   }
               })
       }
+      $scope.creativeTagSelected=function(event,creativeType){
+          if(event){
+              var target,
+                  parentElem;
+              target = $(event.target);
+              target.closest(".goalBtnWithPopup").find('label').removeClass('active');
+              target.parent().addClass('active');
+              target.attr('checked', 'checked');
+          }
+          $scope.creativeType=creativeType.toUpperCase();
+      }
+
 
       $scope.data = {
           availableOptions: [
@@ -107,6 +122,13 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
               ];
               //default value
               $scope.adData.adFormat = 'Display';
+          },
+          fetchCreativeTagTypes: function(){
+              $scope.creativeSizeData.tagTypes = [
+                  {id: 1, name: 'HTML',active: false , disabled:false},
+                  {id: 2, name: 'JS',active: false, disabled:false},
+                  {id: 3, name: 'VAST XML URL', active: false, disabled:false}
+              ];
           },
 
           errorHandler: function (errData) {
@@ -226,6 +248,13 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
                   $scope.getTemplates($scope.selectedAdServer,adFormatName);
               }
           }
+          $scope.creativeType='';
+          $(".creativeType").find('label').removeClass('active');
+          $scope.creativeSizeData.tagTypes = [
+              {id: 1, name: 'HTML',active: false , disabled:false},
+              {id: 2, name: 'JS',active: false, disabled:false},
+              {id: 3, name: 'VAST XML URL', active: false, disabled:false}
+          ];
       }
       var resetTemplate=function(){
           $scope.onTemplateSelected('','');
@@ -242,7 +271,7 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
               })
               var adserver=allAdserverData[index];
           }
-
+            /**/
           for(var i=0;i<adserver.formats.length;i++){
 
             var index=_.findIndex($scope.creativeSizeData.adFormats, function(obj){
@@ -323,12 +352,42 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
       });
 
       /*Generate the Template*/
-      $scope.onTemplateSelected=function(templateJson,customFieldsDataEditMode){
-          $scope.CreativeTemplate=templateJson;
-          $scope.TrackingIntegrationsSelected=templateJson.isTracking;
-          $scope.adData.creativeTemplate=templateJson.id;
+      $scope.onTemplateSelected=function(templateJson,customFieldsDataEditMode,flag) {
+          $scope.creativeSizeData.tagTypes = [];
+          $scope.CreativeTemplate = templateJson;
+          $scope.TrackingIntegrationsSelected = templateJson.isTracking;
+          $scope.adData.creativeTemplate = templateJson.id;
           var creativeTemplateWrap = $('.creativeTemplate');
-          creativeCustomModule.init(templateJson,creativeTemplateWrap,$scope,customFieldsDataEditMode);
+          creativeCustomModule.init(templateJson, creativeTemplateWrap, $scope, customFieldsDataEditMode);
+
+          //code to enable the supported tagTypes for the particular template
+          $scope.creativeSizeData.tagTypes = [
+              {id: 1, name: 'HTML',active: false , disabled:true},
+              {id: 2, name: 'JS',active: false, disabled:true},
+              {id: 3, name: 'VAST XML URL', active: false, disabled:true}
+          ];
+          if(templateJson){
+              for (var i = 0; i < templateJson.supportedTags.length; i++) {
+
+                  var index = _.findIndex($scope.creativeSizeData.tagTypes, function (obj) {
+                      return (obj.name).toUpperCase() === angular.uppercase(templateJson.supportedTags[i])
+                  })
+                  if (index >= 0) {
+                      $scope.creativeSizeData.tagTypes[index].disabled = false;
+                  } else {
+                      $scope.creativeSizeData.tagTypes[index].disabled = true;
+                  }
+              }
+              if(flag=='editCreativeTypeSet') {
+                  /*set the seleted Tag type first time*/
+                  var index = _.findIndex($scope.creativeSizeData.tagTypes, function (obj) {
+                      return (obj.name).replace(/\s+/g, '').toUpperCase() === ($scope.creativeEditData.creativeType).replace(/\s+/g, '').toUpperCase();
+                  })
+                  if (index >= 0) {
+                      $scope.creativeSizeData.tagTypes[index].active = true;
+                  }
+              }
+          }
       }
 
       $scope.creativePopularSizes = [
@@ -362,6 +421,7 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
           }
 
           creatives.getCreativeSizes();
+          creatives.fetchCreativeTagTypes();
           // Ad create Mode.  [PS:In edit mode, on response data in processeditmode, broadcast is made to fetch]
           if ($scope.mode !== 'edit' && $scope.adPage) {
               creatives.fetchAdFormats();
@@ -433,6 +493,7 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
               postCrDataObj.tag = '%%TRACKER%%';
               postCrDataObj.sizeId = formData.creativeSize;
               postCrDataObj.creativeType = formData.creativeType;
+             // postCrDataObj.creativeType1 = formData.creativeType;
               postCrDataObj.vendorCreativeTemplateId = formData.creativeTemplate;
               if ($scope.TrackingIntegrationsSelected) {
                 postCrDataObj.tag = '%%TRACKER%%';
