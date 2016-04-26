@@ -668,7 +668,7 @@
 }
 .adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segBodyWrap {
   float: left;
-  height: 265px;
+  height: 100%;
   overflow: hidden;
   width: 100%;
 }
@@ -738,7 +738,6 @@
   background: #edf2f8;
   float: left;
   margin-left: 2%;
-  height: 476px;
   overflow: auto ;
   padding: 15px 20px;
   width: 33%;
@@ -1035,8 +1034,7 @@
   display: none;
 }
 .adCreateMaster #targetting .targettingFormWrap .tabbable .tab-pane {
-  min-height: initial !important;
-  padding-bottom: 0 !important;
+  min-height: initial;
 }
 .adCreateMaster #targetting .targettingFormWrap .tabbable .tab-pane .tab-content {
   border: 1px solid #dde6eb;
@@ -1366,7 +1364,7 @@
 #campaignCreate .campaignAdCreate .adMainWrapper #formAdCreate .adCreateConsole .adStepOne .tabContent .tab-content .tab-pane {
   float: left;
   height: 100%;
-  padding-bottom: 60px;
+  padding-bottom: 0;
   width: 100%;
   min-height: 700px ;
 }

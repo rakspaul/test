@@ -454,7 +454,10 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
 
                 $('.campaignAdCreateWrap, .campaignAdCreatePage, .left_column_nav').css('min-height', winHeight + 'px');
                 $('.adStepOne .tab-pane').css('min-height', winHeight - 30 + 'px');
-                $('.targetingSlide .tab-pane').css('min-height', winHeight - 130 + 'px');
+                //Targetting Responsive
+                $('.targetingSlide .tab-pane, .targetingSlide .tab-pane .list_row_holder').css('min-height', winHeight - 430 + 'px');
+                $('#selectAud .segFixedWrap').css('max-height', winHeight - 475 + 'px');
+                $('#selectAud .setTwo .selectedItems').css('max-height', winHeight - 315 + 'px');
                 $('.dayTargetLower').css('min-height', winHeight - 290 + 'px');
             }
 
