@@ -1,5 +1,5 @@
 define(['angularAMD','workflow/services/workflow_service','workflow/services/audience_service'],function (angularAMD) {
-  angularAMD.controller('targettingController', function($scope, $rootScope, $timeout, workflowService,audienceService) {
+  angularAMD.controller('targettingController', function($scope, $rootScope, $timeout, workflowService,audienceService, videoService) {
 
         var _targeting = this;
         var targeting = {};
@@ -247,7 +247,7 @@ define(['angularAMD','workflow/services/workflow_service','workflow/services/aud
             $scope.adData.isVideoSelected = false;
             $scope.adData.videoPreviewData = null;
             workflowService.resetDeleteModule();
-            workflowService.saveVideoData(null);
+            videoService.saveVideoData(null);
             if($scope.mode === 'edit') {
                 var adData = angular.copy(workflowService.getAdsDetails());
                 adData.targets.videoTargets= null;
@@ -308,7 +308,10 @@ define(['angularAMD','workflow/services/workflow_service','workflow/services/aud
         $scope.deletetargets = function (type, event) {
             var elem = $(event.target);
             var leftPos = elem.closest(".cardSelectHolder").offset().left - elem.closest(".setTargetOptions").offset().left;
+            var msgPopUpHeight = elem.closest(".setTargetOptions").find(".msgPopup").height();
+            var topPos = elem.closest(".cardSelectHolder").offset().top - elem.closest(".cardSelectHolder").height() + msgPopUpHeight - 81;
             elem.closest(".setTargetOptions").find(".msgPopup").css("left", leftPos);
+            elem.closest(".setTargetOptions").find(".msgPopup").css("top", topPos);
             $scope.showDeleteConfirmationPopup = true;
             $scope.deleteType = type;
         };

@@ -107,7 +107,7 @@
 
     <!--START : Video Targeting Card-->
     <div class="col-md-6 cardSelectHolder active" ng-if="adData.adFormat === 'Video'">
-        <span class="icon-trash" ng-style="(adData.videoPreviewData.length >0)?{'display':'block'}:{'display':'none'}" ng-click="deletetargets('VIDEO', $event)"></span>
+        <span class="icon-trash" ng-style="(adData.videoPreviewData.sizes  || adData.videoPreviewData.positions || adData.videoPreviewData.playbackMethods)?{'display':'block'}:{'display':'none'}" ng-click="deletetargets('VIDEO', $event)"></span>
         <div class="icon-video"></div>
         <p>Video</p>
         <div class="cardTxtWrap" ng-if="!adData.videoPreviewData.sizes || !adData.videoPreviewData.positions || !adData.videoPreviewData.playbackMethods">
