@@ -247,9 +247,9 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
                     var configList = result.data.data;
 
-                    for(var i = 0; i < configList.length; i++){
-                        $scope.vendorConfig.push(workflowService.processVendorConfig(configList[i]));
-                    }
+                    //for(var i = 0; i < configList.length; i++){
+                        $scope.vendorConfig = workflowService.processVendorConfig(configList);
+                    //}
                 });
             },
 
