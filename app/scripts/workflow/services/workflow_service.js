@@ -690,6 +690,11 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
 
                     return dataService.fetch(vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/'+clientId+'/advertisers/'+advertiserId+'/clientVendorConfigs');
                 },
+                 getCostAttr: function (advertiserId) {
+                    var clientId = loginModel.getSelectedClient().id;
+
+                    return dataService.fetch(vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/'+clientId+'/advertisers/'+advertiserId+'/clientVendorConfigs?rateType="FIXED"');
+                },
 
                 getCostCategories: function () {
                     return dataService.fetch(vistoconfig.apiPaths.WORKFLOW_API_URL + '/cost_categories');
@@ -847,6 +852,28 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                     }
 
                     return processedData;
+                },
+                processCostAttr: function(data){
+                    var costAttrbs = {};
+                    costAttrbs.offering = [];
+                    costAttrbs.vendor = [];
+                    costAttrbs.category = [];
+
+                   
+                    if(data.length > 0) {
+                         _.each(data,function(obj){
+                            costAttrbs.vendor.push({'id':obj.id,'name':obj.name});
+                            _.each(obj.clientVendorOfferings,function(vObj){
+                                costAttrbs.offering.push({'id':vObj.id ,'name':vObj.name});
+                                // _.each(vObj.costCategory,function(cObj){
+                                //     costAttrbs.category.push({'id':cObj.id,'name':cObj.name});
+                                // })
+                            costAttrbs.category.push({'id':vObj.costCategory.id,'name':vObj.costCategory.name});
+                            })
+                        })
+                    }
+                   
+                    return costAttrbs;
                 },
                 processLineItemsObj: function(lineItemList){
                     _.each(lineItemList,function(item){

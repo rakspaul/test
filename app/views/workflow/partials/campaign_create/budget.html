@@ -130,102 +130,83 @@
     </div>
     <div id="addAdditionalCost" class="collapse fade">
         <div class="table-responsive">
-            <div class="vistoTable yellowTable" style="padding: 0 15px;">
+            <div class="vistoTable yellowTable" style="padding: 0 15px 15px;">
                 <!--Header-->
-                <div class="col-md-12 zeroPadding">
-                    <div class="col-md-12 zeroPadding" >
-                        <div class="col-md-3 zeroPadding kpiTable">
+                <div class="col-md-12 zeroPadding each-cost-dimension" ng-repeat="addCost in additionalCosts track by $index" >
+                        <div class="col-md-3 zeroPadding" >
                             <label for="primaryKPI" class="col-sm-12 greyTxt miniLabels">Category</label>
+                                <div class="col-md-12 zeroPadding">
+                                    <div class="col-md-12 zeroPadding dropdown-workflow">
+                                        <div class="dropdown">
+                                            <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                                <span class="text">Select</span>
+                                                <span class="icon-arrow-down"></span>
+                                            </button>
+                                            <ul class="dropdown-menu">
+                                                <li class="available" ng-repeat="attr in costAttributes.category" id="{{attr.id}}"><a>{{attr.name}}</a></li>
+                                            </ul>
+                                            
+                                        </div>
+                                    </div>
+                                </div>
                         </div>
-                        <div class="col-md-3 zeroPadding kpiTable hiddenInputs">
+                        <div class="col-md-3 zeroPadding" >
                             <label for="primaryKPI" class="col-sm-12 greyTxt miniLabels">Vendor</label>
-                        </div>
-                        <div class="col-md-3 zeroPadding kpiTable hiddenInputs">
-                            <label for="primaryKPI" class="col-sm-12 greyTxt miniLabels">Offering</label>
-                        </div>
-                        <div class="col-md-1 zeroPadding kpiTable hiddenInputs">
-                            <label for="primaryKPI" class="col-sm-12 greyTxt miniLabels">Pricing</label>
-                        </div>
-                        <div class="col-md-1 zeroPadding kpiTable hiddenInputs">
-                            <label for="primaryKPI" class="col-sm-12 greyTxt miniLabels">Rate</label>
-                        </div>
-                    </div>
-                </div>
-
-                <!--Inputs-->
-                <div class="col-md-12 zeroPadding addCost" ng-repeat="costObj in Campaign.costArr track by $index" style="margin-bottom:10px;">
-                    <!--Category-->
-                    <div class="col-md-3 zeroPadding kpiTable">
-                        <div class="col-md-12 zeroPadding">
                             <div class="col-md-12 zeroPadding dropdown-workflow">
                                 <div class="dropdown">
-                                    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ng-bind="Campaign.costArr[$index]['costCategoryName']">
-                                        <!--<span class="text"  ></span>-->
+                                    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" >
+                                        <span class="text">Select</span>
                                         <span class="icon-arrow-down"></span>
                                     </button>
                                     <ul class="dropdown-menu" aria-labelledby="selectKPI"  id="selectKPI">
-                                        <li ng-repeat="cost in workflowData.costCategory" ng-click="selectedCostCategory($parent.$index,cost)" ng-value="cost.id" class="available"><a>{{cost.description}}</a></li>
+                                        <li class="available" ng-repeat="attr in costAttributes.vendor" id="{{attr.id}}"><a>{{attr.name}}</a></li>
                                     </ul>
-                                    <input ng-if="mode!=='edit'" type="hidden" name="costCategory" ng-init="Campaign.costArr[$index]['costCategoryName']='Add a Cost'" ng-model="Campaign.costArr[$index]['costCategoryId']" ng-value="cost.id" field="costCategoryId" index="{{$index}}"  hiddencost>
-                                    <input ng-if="mode==='edit'" type="hidden" name="costCategory"  ng-model="Campaign.costArr[$index]['costCategoryId']" ng-value="cost.id" field="costCategoryId" index="{{$index}}"  hiddencost>
                                 </div>
                             </div>
                         </div>
-                    </div>
-
-                    <!--Vendor-->
-                    <div class="col-md-3 zeroPadding kpiTable hiddenInputs">
-                        <div class="col-md-12 zeroPadding dropdown-workflow">
-                            <div class="dropdown">
-                                <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ng-bind="Campaign.costArr[$index]['vendorName']">
-                                    <!--<span class="text" ng-bind="Campaign.costArr[$index]['vendorName']"></span>-->
-                                    <span class="icon-arrow-down"></span>
-                                </button>
-                                <ul class="dropdown-menu" aria-labelledby="selectKPI"  id="selectKPI">
-                                    <li class="available" ng-click="selectedVendorRate($parent.$index,vendorItem)" ng-repeat="vendorItem in vendorRateData[$index]"><a>{{vendorItem.name}}</a></li>
-                                    <!--<li class="available" ng-click="selectedVendorRate($parent.$index,vendorItem)" ng-repeat="vendorItem in vendorRateData[$index]['vendors']"><a>{{vendorItem.name}}</a></li>-->
-                                </ul>
-                                <input ng-if="mode!=='edit'" type="hidden" name="costvendor" ng-init="Campaign.costArr[$index]['vendorName']='Select from list';" ng-model="Campaign.costArr[$index]['vendorId']" ng-value="vendorItem.id" field="vendorId" index="{{$index}}"  hiddencost>
-                                <input ng-if="mode==='edit'" type="hidden" name="costvendor"  ng-model="Campaign.costArr[$index]['vendorId']" ng-value="vendorItem.id" field="vendorId" index="{{$index}}"  hiddencost>
-                            </div>
-                            <!--<label ng-if="createCampaignForm.costvendor.$error.required" class="col-sm-12  greyTxt errorLabel">Select Vendor</label>-->
-                        </div>
-                    </div>
-
-                    <!--Offering-->
-                    <div class="col-md-3 zeroPadding kpiTable symbol-input hiddenInputs">
-
-                        <div class="col-md-12 zeroPadding dropdown-workflow">
-                            <div class="dropdown">
-                                <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                    <span class="text">Type 1</span>
-                                    <span class="icon-arrow-down"></span>
-                                </button>
-                                <ul class="dropdown-menu">
-                                    <li class="available"><a>Type 1</a></li>
-                                    <li class="available"><a>Type 2</a></li>
-                                    <li class="available"><a>Type 3</a></li>
-                                </ul>
+                        <div class="col-md-3 zeroPadding" >
+                            <label for="primaryKPI" class="col-sm-12 greyTxt miniLabels">Offering</label>
+                            <div class="col-md-12 zeroPadding dropdown-workflow">
+                                <div class="dropdown">
+                                    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                        <span class="text">Select</span>
+                                        <span class="icon-arrow-down"></span>
+                                    </button>
+                                    <ul class="dropdown-menu" >
+                                        <li class="available" ng-repeat="attr in costAttributes.offering" id="{{attr.id}}"><a>{{attr.name}}</a></li>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                        <div class="col-md-1 zeroPadding" >
+                            <label for="primaryKPI" class="col-sm-12 greyTxt miniLabels">Pricing</label>
+                            <div class="col-md-12 zeroPadding  symbol-input">
 
-                    <!--Pricing-->
-                    <div class="col-md-1 zeroPadding kpiTable symbol-input hiddenInputs">
+                                <input type="text" class="col-md-12 disabled"  value="Flat" style="height:36px; background: #F4F1E9;" disabled/>
+                            </div>
 
-                        <input type="text" class="col-md-12 disabled"  value="Flat" style="height:36px; background: #F4F1E9;" disabled/>
-                    </div>
+                        </div>
+                        <div class="col-md-1 zeroPadding" >
+                            <label for="primaryKPI" class="col-sm-12 greyTxt miniLabels">Rate</label>
+                            <div class="col-md-12 zeroPadding  symbol-input" style="padding-right: 0px !important; max-width: 118px;">
 
-                    <!--Rate-->
-                    <div class="col-md-2 zeroPadding kpiTable symbol-input hiddenInputs" style="padding-right: 0px !important; max-width: 118px;">
+                                <span class="symbol">{{locale.NUMBER_FORMATS.CURRENCY_SYM}}</span>
+                                <input type="text" class="col-md-12" style="text-indent: 8px; height:36px;" ng-model="Campaign.costArr[$index]['rateValue']" fraction-numbers="fraction-numbers" ng-keyup="ComputeCost()" field="rateValue"  index="{{$index}}"/>
+                            </div>
+                        </div>
+                        <div class="col-md-1 zeroPadding removeHolder" ng-click="removeCostDimension($event);">
+                            <span class="remove-row pull-right" >
+                                <span class="icon-clear"></span>
+                            </span>
+                        </div>
+                </div>
 
-                        <span class="symbol">{{locale.NUMBER_FORMATS.CURRENCY_SYM}}</span>
-                        <input type="text" class="col-md-12" style="text-indent: 8px; height:36px;" ng-model="Campaign.costArr[$index]['rateValue']" fraction-numbers="fraction-numbers" ng-keyup="ComputeCost()" field="rateValue"  index="{{$index}}"/>
-                    </div>
+              
 
-                    <!--Delete-->
-                    <span class="remove-row pull-right hiddenInputs" ng-if="$index>0 || (Campaign.costArr.length>=2)">
-                        <span class="icon-clear" index="{{$index}}" clearcostrow></span>
+                <div class="addCostLink col-md-12 zeroPadding">
+                    <span class="addCostBtn" ng-click="addAdditionalCost()">
+                        <span class="icon-plus"></span>
+                        <span>Add a cost </span>
                     </span>
                 </div>
             </div>
