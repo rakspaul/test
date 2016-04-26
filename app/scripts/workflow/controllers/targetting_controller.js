@@ -242,15 +242,37 @@ define(['angularAMD','workflow/services/workflow_service','workflow/services/aud
             _targeting.setTargetingForPreview('Video');
         };
 
+        $scope.showVideoPreviewData = function(videoData) {
+          if(videoData && (videoData.videoTargets.sizes.length >0 || videoData.videoTargets.positions.length >0 || videoData.videoTargets.playbackMethods.length > 0)) {
+              $scope.adData.videoPreviewData['sizes'] = _.pluck(videoData.videoTargets.sizes, 'name').join(', ');
+              $scope.adData.videoPreviewData['positions'] = _.pluck(videoData.videoTargets.positions, 'name').join(', ');
+              $scope.adData.videoPreviewData['playbackMethods'] = _.pluck(videoData.videoTargets.playbackMethods, 'name').join(', ');
+          }
+        };
+
+      _targeting.showVideoTargetingInfo = function(adData) {
+            var data = adData.targets;
+            $scope.showVideoPreviewData(data);
+        };
+
         /****************** END : VIDEO TARGETING  ***********************/
 
 
         // Targeting Trigger -- Onload.
         $scope.$on('setTargeting' , function($event, args) {
             _targeting.setTargetingForPreview(args[0]);
-            if($scope.mode ==='edit' && args[0] === 'Geography'){
+            if($scope.mode ==='edit') {
                 var adData = workflowService.getAdsDetails();
-                _targeting.showgeoTargetingInfo(adData)
+
+                switch(args[0]) {
+                    case 'Geography' :
+                        _targeting.showgeoTargetingInfo(adData)
+                    break;
+                    case 'Video' :
+                        _targeting.showVideoTargetingInfo(adData)
+                    break;
+
+                }
             }
         })
 

@@ -478,6 +478,16 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                         }
                     }
 
+                    if(adsData.targets.videoTargets) {
+                        if (selectedStr !== '') {
+                            selectedStr += ', Video';
+                        } else {
+                            selectedStr += 'Video';
+                        }
+                    }
+
+
+
                     if (selectedStr === '') {
                         selectedStr = constants.WF_NOT_SET;
                     }

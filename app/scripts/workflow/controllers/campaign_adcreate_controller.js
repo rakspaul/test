@@ -568,14 +568,14 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                     $('.totalBudgetInputClass').attr('disabled', responseData.enabledBudgetCalculation);
 
                     //disabled checkBox if its primary!=Impression && UnitCost!=CPM
-                    if(((responseData.kpiType).toUpperCase() !== 'IMPRESSIONS' ||
+                    if( ((responseData.kpiType && (responseData.kpiType).toUpperCase() !== 'IMPRESSIONS') ||
                         (responseData.rateType).toUpperCase()!== 'CPM') && responseData.enabledBudgetCalculation) {
                         $('.impressions_holder').find('input[type="checkbox"]').attr('disabled', true);
                     }else{
                         $('.impressions_holder').find('input[type="checkbox"]').attr('disabled', false);
                     }
 
-                    if(((responseData.kpiType).toUpperCase() === 'IMPRESSIONS') &&
+                    if(((responseData.kpiType && (responseData.kpiType).toUpperCase() === 'IMPRESSIONS')) &&
                         (responseData.rateType).toUpperCase() === 'CPM') {
                         $('.external_chkbox').show();
                     }else{
@@ -682,6 +682,12 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                     _.size(responseData.targets.segmentTargets.segmentList) > 0 ) {
                     $scope.$broadcast('setTargeting', ['Audience']);
                 }
+
+                //video part edit
+                if (responseData.targets && responseData.targets.videoTargets) {
+                    $scope.$broadcast('setTargeting', ['Video']);
+                }
+
 
                 $scope.$broadcast('getDominList', [{
                     clientId: clientId,
@@ -1432,9 +1438,9 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                             }
 
                             //video Segment
-                            var videoTargetsData = videoService.getVideoData();
+
                             if(videoTargetsData.videoTargets && (videoTargetsData.videoTargets.sizes.length >0 || videoTargetsData.videoTargets.positions.length >0 || videoTargetsData.videoTargets.playbackMethods.length > 0)) {
-                                postAdDataObj.targets = videoTargetsData;
+                                postAdDataObj.targets['videoTargets'] = videoTargetsData.videoTargets;
                             }
                         }
 
