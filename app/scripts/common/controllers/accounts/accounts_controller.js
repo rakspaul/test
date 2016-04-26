@@ -2,7 +2,8 @@ var angObj = angObj || {};
 define(['angularAMD', '../../services/constants_service', 'workflow/services/account_service', 'common/moment_utils',
         'login/login_model',
         'common/controllers/accounts/accounts_add_or_edit_advertiser_controller',
-        'common/controllers/accounts/accounts_add_or_edit_brand_controller', 'common/controllers/accounts/accounts_add_or_edit_controller' ],
+        'common/controllers/accounts/accounts_add_or_edit_brand_controller', 'common/controllers/accounts/accounts_add_or_edit_controller'
+        ,'workflow/directives/custom_date_picker'],
     function (angularAMD) {    angularAMD.controller('AccountsController', function ($scope, $rootScope, $modal, $compile,
         constants, accountsService, momentService,
         loginModel) {
@@ -30,6 +31,7 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
         $scope.currency = [];
         $scope.selectedAdvertiserId = '';//this is the advertiser selected from dropdown during new advertiser creation
         $scope.selectedBrandId = '';
+        $scope.activeEditAdvertiserTab = "basic";
         $scope.dropdownCss = {
             display: 'none',
             'max-height': '100px',
@@ -37,23 +39,58 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
             top: '60px',
             left: '0px'
         };
-        $scope.addPixel = function(){
-            $scope.advertiserData.pixels.push({});
-            _currCtrl.setCalanderSetting();
-        }
-        _currCtrl.setCalanderSetting = function(){
-            setTimeout(function(){
-                $('.input-daterange').datepicker({
-                    format: "mm/dd/yyyy",
-                    orientation: "auto",
-                    autoclose: true,
-                    todayHighlight: true
-                });
-                $('#pixelExpDate_'+_currCtrl.pixelIndex).datepicker('update', momentService.todayDate('YYYY-MM-DD'));
-                $('#pixelExpDate_'+_currCtrl.pixelIndex).datepicker('setStartDate', momentService.getCurrentYear().toString());
-                _currCtrl.pixelIndex++;
-            },25);
+        $(".each_nav_link").removeClass("active_tab");
+        $("#admin_nav_link").addClass("active_tab");
+        $(".miniTabLinks .btn").removeClass("active");
+        $("#accounts_link").addClass("active");
 
+        $scope.basicForm = function() {
+            $(".miniTabLinks.sub .btn").removeClass("active");
+            $(".miniTabLinks.sub .subBasics").addClass("active");
+            $scope.activeEditAdvertiserTab = "basic";
+
+            $(".basicForm").show();
+            $(".createPixel, #pixelsCnt, .IABForm").hide();
+        }
+        $scope.showPixelTab = function(){
+            $scope.activeEditAdvertiserTab = "pixel";
+            $(".createPixel, #pixelsCnt").show();
+            $(".basicForm, .IABForm").hide();
+            $(".miniTabLinks.sub .btn").removeClass("active");
+            $(".miniTabLinks.sub .subPixels").addClass("active");
+            _.each($scope.advertiserData.pixels, function(item, i){
+                var index = i;
+                $('#pixelExpDate_'+i).datepicker('update', item.expiryDate);
+                $('#pixelExpDate_'+i).datepicker('setStartDate', momentService.getCurrentYear().toString());
+                $('#pixelExpDate_'+i).change(function(e){
+                    $scope.advertiserData.pixels[i].expiryDate = $(this).val();
+                })
+            });
+
+        }
+        $scope.addPixel = function(){
+           $scope.advertiserData.pixels.push({});
+           _currCtrl.setCalanderSetting($scope.advertiserData.pixels.length - 1);
+        }
+        $scope.showIABTab = function(){
+            $scope.activeEditAdvertiserTab = "iab";
+//            $(".IABForm").show();
+//            $(".createPixel, #pixelsCnt, .basicForm").hide();
+//            $(".miniTabLinks.sub .btn").removeClass("active");
+//            $(".miniTabLinks.sub .subIABCat").addClass("active");
+        }
+        $scope.addIAB = function() {
+            //Code for Add
+        }
+        _currCtrl.setCalanderSetting = function(i){
+            setTimeout(function(i) {
+                $('#pixelExpDate_' + i).datepicker('update', momentService.todayDate('YYYY/MM/DD'));
+                $('#pixelExpDate_' + i).datepicker('setStartDate', momentService.getCurrentYear().toString());
+                $('#pixelExpDate_' + i).change(function (e) {
+                    $scope.advertiserData.pixels[i].expiryDate = $(this).val();
+                });
+            },25,i);
+            _currCtrl.pixelIndex++;
         }
         $scope.removePixel = function(pixelIndex){
             $scope.advertiserData.pixels = _.filter($scope.advertiserData.pixels,function(item,i){
@@ -80,6 +117,7 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
         };
         $scope.subClientListData = {}
         $scope.getSubClientList = function(event, clientObj){
+            $(event.target).toggleClass("active");
             var clientId = clientObj.id;
             if(clientObj.isLeafNode){
                 if(typeof ($scope.clientsDetails[clientId]) == "undefined"){
@@ -128,9 +166,29 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
             $('#'+ type +'-edit-container').toggle('slide', { direction: "right" }, 500);
         };
 
+        $scope.resetAccountPage = function(){
+            $scope.brandsList = [];
+            $scope.advertisersList = [];
+            $scope.clientId = '';
+            $scope.parentClientId = '';
+            $scope.advertiserId = '';
+            $scope.brandName = '';
+            $scope.reponseData = '';
+            $scope.isEditMode = false;
+            $scope.textConstants = constants;
+            $scope.clientsDetails = {};
+            $scope.advertiserName = '';
+            $scope.mode = 'create';
+            $scope.client = '';
+            $scope.brand = '';
+            $scope.allAdvertiser = [];
+            $scope.allBrands = [];
+            $scope.currency = [];
+        }
 
         $scope.fetchAllClients = function(){
             $scope.loadTopClientList = true;
+            $scope.resetAccountPage();
             accountsService.getClients(null,null,'notCancellable').then(function(res) {
                 $scope.loadTopClientList = false;
                 $scope.clientsDetails[0] = res.data.data;
@@ -153,6 +211,9 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                 //   $scope.subClientListData[clientId].advertisersLoader = false;
                 var index = _.findIndex($scope.clientsDetails, function(item) {
                     return item.id == clientId});
+                if(!$scope.clientsDetails[clientId]){
+                    $scope.clientsDetails[clientId] = {subclients:[],advertisers:[],brands:{}, advertisersLoader:false}
+                }
                 $scope.clientsDetails[clientId]['advertisers'] = [];
                 $scope.clientsDetails[clientId]['advertisers'] = res.data.data;
             });
@@ -180,10 +241,11 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                     _.each($scope.advertiserData.pixels, function(item, i){
                         $scope.advertiserData.pixels[i].pixelTypeName = (item.pixelType == "PAGE_VIEW") ? 'Action - Page View'
                             : (item.pixelType == "AUDIENCE_CREATION") ? 'Audience Creation Pixel' : 'Retargeting Pixel';
-                        if(item.expiryData) {
-                            $scope.advertiserData.pixels[i].expiryData = momentService.newMoment(item.expiryData).format('YY/MM/DD');
+                        $scope.advertiserData.pixels[i].isFeedData = true;
+                        if(item.expiryDate) {
+                            $scope.advertiserData.pixels[i].expiryDate = momentService.newMoment(item.expiryDate).format('YYYY/MM/DD');
                         }
-                        _currCtrl.setCalanderSetting();
+                       // _currCtrl.setCalanderSetting(i, 1);
                     });
                 }
             },function(err){
@@ -192,15 +254,19 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
         }
         //Add or Edit Pop up for Advertiser
         $scope.AddOrEditAdvertiserModal = function(advObj,mode,client) {
+            var loadTemplate = false;
             $scope.mode = mode;
             $scope.client = client;
             $scope.clientId = client.id;
             $scope.isEditMode = (mode == "edit") ? true : false;
+            $scope.advertiserData = {id:'', name: '',lookbackImpressions: 14,lookbackClicks: 14, pixels:[]};
+            $scope.activeEditAdvertiserTab = "basic";
             if($scope.isEditMode){
                 $scope.selectedAdvertiserId = advObj.id;
                 accountsService.getAdvertiserUnderClient(client.id, advObj.id).then(function(res){
+                    loadTemplate = true;
                     if(res.data.status == "OK" && res.data.statusCode == 200){
-                        $scope.selectedAdvertiserId = res.data.data.id;
+                        $scope.selectedAdvertiserId = res.data.data.id ? res.data.data.id : advObj.id;
                         $scope.advertiserData.lookbackImpressions = res.data.data.lookbackImpressions;
                         $scope.advertiserData.lookbackClicks = res.data.data.lookbackClicks;
                     }
@@ -210,32 +276,40 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
             }else{
             }
             $('html, body').animate({scrollTop : 0},30);
-            $scope.advertiserData = {id:'', name: '',lookbackImpressions: 14,lookbackClicks: 14, pixels:[]};
+
             accountsService.getClientsAdvertisers(client.id).then(function(res){
+                loadTemplate = true;
                 if(res.data.status == "OK" && res.data.statusCode == 200 && res.data.data.length){
                     $scope.advertiserData.clientId = client.id;
                     $scope.advertisersList = res.data.data;
                 }
+            },function(err){
+                loadTemplate = true;
             });
-            var $modalInstance = $modal.open({
-                templateUrl: assets.html_accounts_add_or_edit_advertiser,
-                controller:"AccountsAddOrEditAdvertiser",
-                scope:$scope,
-                windowClass: 'edit-dialog modalAccountRedx',
-                resolve: {
-                    //accountsService.setToBeEditedAdvertiser(advObj);
+            var int = setInterval(function(){
+                if(loadTemplate){
+                    clearInterval(int);
+                    var $modalInstance = $modal.open({
+                        templateUrl: assets.html_accounts_add_or_edit_advertiser,
+                        controller:"AccountsAddOrEditAdvertiser",
+                        scope:$scope,
+                        windowClass: 'edit-dialog modalAccountRedx',
+                        resolve: {
+                            //accountsService.setToBeEditedAdvertiser(advObj);
 
-                    // report: function () {
-                    //     return $scope.reportList[index];
-                    // },
-                    // reportIndex: function() {
-                    //     return index;
-                    // },
-                    // reportList: function() {
-                    //     return $scope.reportList;
-                    // }
+                            // report: function () {
+                            //     return $scope.reportList[index];
+                            // },
+                            // reportIndex: function() {
+                            //     return index;
+                            // },
+                            // reportList: function() {
+                            //     return $scope.reportList;
+                            // }
+                        }
+                    });
                 }
-            });
+            }, 25);
         };
 
 
@@ -306,18 +380,7 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                 $scope.currency = result.data.data;
             });
             accountsService.setToBeEditedClient(clientObj);
-//            if($scope.mode == 'edit'){
-//                $('select[name=selectedCountry]').("attr","disabled");
-//            }else{
-//                $('select[name="selectedCountry"]').removeAttr("disabled");
-//            }
             $scope.clientObj = clientObj;
-         //   console.log("$scope.clientObj.....",$scope.clientObj);
-//            accountsService.getClient($scope.clientObj.id).then(function(res){
-//                console.log("res...",res);
-//            },function(err){
-//
-//            });
             var $modalInstance = $modal.open({
                 templateUrl: assets.html_accounts_add_or_edit,
                 controller:"AccountsAddOrEdit",

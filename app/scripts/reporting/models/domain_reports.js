@@ -462,4 +462,15 @@ define(['angularAMD', '../../login/login_model', 'common/services/role_based_ser
             }
         };
     }]);
+    angularAMD.directive('adminSubHeader', ['$http', '$compile','constants', function ($http, $compile,constants) {
+        return {
+            controller: function($scope, $cookieStore, $location){
+            },
+            restrict:'EAC',
+            templateUrl: assets.html_admin_sub_header,
+            link: function(scope, element, attrs) {
+                scope.textConstants = constants;
+            }
+        };
+    }]);
 });

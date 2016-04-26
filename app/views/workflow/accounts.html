@@ -10,7 +10,7 @@
         <div class="pull-left btn-group create" role="group" aria-label="..." ng-if="isSuperAdmin">
             <a class="btn btn-default" ng-click="AddOrEditAccountModal('create')" style="border-top-right-radius: 0; border-bottom-right-radius: 0;">
                 <span class="icon-plus"></span>
-                <span>Create New Account</span>
+                <span>Create</span>
             </a>
             <!--<admin-header class="pull-left"></admin-header>-->
         </div>
@@ -19,10 +19,13 @@
     <!--Body-->
     <div class="col-md-12 each-account-details" ng-repeat="client in clientsDetails[0]" id="client_{{client.id}}">
         <div class="pull-left particular-account-box" ng-class="[(clientsDetails[client.id].advertisers.length ==  0)?'no-data-open':'',(clientsDetails[client.id].advertisers.length) > 0?'data-loaded':'']">
-            <div class="clearfix " >
-                <span class="pull-left account-name" ng-click="getSubClientList($event,client);">{{client.name}}</span>
-                <span class="pull-left edit"  ng-click="AddOrEditAccountModal('edit',client)"></span>
-                <span class="pull-right adding-section"  ng-if="client.isLeafNode" ng-click="AddOrEditAdvertiserModal({},'create',client)"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Add Advertiser</span>
+            <div class="clearfix">
+                <span class="pull-left icon-arrow-down-thick" ng-if="client.isLeafNode || client.hasChildren" ng-click="getSubClientList($event,client);"></span>
+                <div class="pull-left account-name" ng-click="AddOrEditAccountModal('edit',client)">
+                    <span class="pull-left">{{client.name}}</span>
+                    <span class="pull-left" style="text-transform: capitalize;">{{client.clientType | lowercase}}</span>
+                </div>
+                <span class="pull-right adding-section"  ng-if="!client.hasChildren" ng-click="AddOrEditAdvertiserModal({},'create',client)"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Add Advertiser</span>
                 <div class="pull-right btn btn-default" ng-if="!client.isLeafNode" ng-click="AddOrEditAccountModal('create',client.id)">Create Sub Account</div>
             </div>
 
@@ -30,7 +33,7 @@
                 <div class="each-advertiser" ng-repeat="adv in clientsDetails[client.id].advertisers" ng-if="clientsDetails[client.id].advertisers.length >  0" ng-class="[(clientsDetails[client.id]['brands'][adv.id].length ==  0)?'no-data-open':'',(clientsDetails[client.id]['brands'][adv.id].length) > 0?'brand-data-loaded':'']">
 
                     <div class="clearfix advertiser-name" >
-                        <span class="pull-left adv-name" ng-click="show_advertisers_resp_brands($event,client.id,adv.id);"  ><span class="label_heading">Advertiser: </span>{{adv.name}}</span>
+                        <span class="pull-left adv-name" ng-click="show_advertisers_resp_brands($event,client.id,adv.id);"><span class="label_heading">Advertiser: </span>{{adv.name}}</span>
                         <span class="pull-left edit" ng-click="AddOrEditAdvertiserModal(adv,'edit',client)"></span>
                         <span class="pull-left adding-section" ng-click="AddOrEditBrandModal(adv,'create',client,brand)"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Add Brand</span>
                     </div>

@@ -7,7 +7,8 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
         angularAMD.controller('AdminAdvertisersController', function ($scope, $rootScope, $modal, $compile,
             constants, accountsService, momentService,
             loginModel) {
-
+            $(".each_nav_link").removeClass("active_tab");
+            $("#admin_nav_link").addClass("active_tab");
             $scope.brandsData = [];
 
             $scope.fetchAllBrands = function(){
@@ -74,7 +75,6 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
             //Search Hide / Show
             $scope.searchShowInput = function () {
                 var searchInputForm = $('.searchInputForm');
-
                 $('.searchInputBtn').hide();
                 $('.searchInputBtnInline').show();
                 searchInputForm.show();

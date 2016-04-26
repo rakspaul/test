@@ -4,7 +4,8 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
         $scope.textConstants = constants;
         $scope.UsersData={};
         $scope.userConsoleFormDetails={};
-
+        $(".each_nav_link").removeClass("active_tab");
+        $("#admin_nav_link").addClass("active_tab");
         
         //Add or Edit Pop up for User
         $scope.AddOrEditUserModal = function(mode,userObj) {

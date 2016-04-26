@@ -25,8 +25,7 @@
                 <div class="arrowSelect"></div>
             </div>-->
             <div class="pull-left each_nav_link" id="campaigns_nav_link" ng-if="showMediaPlanTab">
-                <a href="/mediaplans" ng-mouseover="hide_navigation_dropdown($event);" ng-bind="textConstants.MEDIA_PLAN"></a>
-
+                <a href="javascript:void(0);" ng-mouseover="hide_navigation_dropdown($event);" ng-click="NavigateToTab('', $event ,'mediaplanList')" ng-bind="textConstants.MEDIA_PLAN"></a>
                 <div class="arrowSelect"></div>
             </div>
             <div class="pull-left each_nav_link" id="reports_nav_link" ng-if="showReportTab">
@@ -44,8 +43,7 @@
             <!--Admin DD-->
             <div class="pull-left each_nav_link" id="admin_nav_link" ng-if="isSuperAdmin">
                 <a href="javascript:void(0);" reporttitle="adminOverview"
-                   ng-click="NavigateToTab('', $event ,'adminOverview')"
-                   ng-mouseover="show_hide_nav_dropdown($event,'admin','hover');">Admin</a>
+                   ng-click="NavigateToTab('', $event ,'adminOverview')">Admin</a>
 
                 <div class="arrowSelect"></div>
             </div>
