@@ -780,6 +780,8 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                         name: $scope.getAd_result.name,
                         id: $scope.getAd_result.id,
                         campaignId: $scope.getAd_result.campaignId,
+                        adGroupId : $scope.adGroupId,
+                        lineitemId : $scope.adData.lineItemId,
                         updatedAt: $scope.getAd_result.updatedAt
                     };
 
@@ -808,6 +810,8 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                     resumeAdDataObj = {
                         name: $scope.getAd_result.name,
                         id: $scope.getAd_result.id,
+                        adGroupId : $scope.adGroupId,
+                        lineitemId : $scope.adData.lineItemId,
                         campaignId: $scope.getAd_result.campaignId,
                         updatedAt: $scope.getAd_result.updatedAt
                     };
@@ -1258,7 +1262,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                             !formData.startTime ||
                             !formData.endTime ||
                             !postAdDataObj.screens ||
-                            !formData.adFormat 
+                            !formData.adFormat
                         ) &&
                         $scope.mode === 'edit' &&
                         $scope.isAdsPushed === true
