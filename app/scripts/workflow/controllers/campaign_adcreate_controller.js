@@ -1438,7 +1438,8 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                             }
 
                             //video Segment
-
+                            var videoTargetsData = videoService.getVideoData();
+                            
                             if(videoTargetsData.videoTargets && (videoTargetsData.videoTargets.sizes.length >0 || videoTargetsData.videoTargets.positions.length >0 || videoTargetsData.videoTargets.playbackMethods.length > 0)) {
                                 postAdDataObj.targets['videoTargets'] = videoTargetsData.videoTargets;
                             }
