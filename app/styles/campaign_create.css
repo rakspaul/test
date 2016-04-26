@@ -3767,7 +3767,8 @@
 .modalAccountRedx .modal-dialog .modal-content .popup-holder .modal-body #pixelsCnt,
 .modalAccountRedx .modal-dialog .modal-content .popup-holder .modal-body .IABForm,
 .modalAccountRedx .modal-dialog .modal-content .popup-holder .modal-body .adChoices,
-.modalAccountRedx .modal-dialog .modal-content .popup-holder .modal-body .billingMethods {
+.modalAccountRedx .modal-dialog .modal-content .popup-holder .modal-body .billingMethods,
+.modalAccountRedx .modal-dialog .modal-content .popup-holder .modal-body .pixelCreate {
   float: left;
   width: 100%;
   margin: 0 0 30px 0;
@@ -3778,9 +3779,23 @@
 .modalAccountRedx .modal-dialog .modal-content .popup-holder .modal-body #pixelsCnt .pixelLayer,
 .modalAccountRedx .modal-dialog .modal-content .popup-holder .modal-body .IABForm .pixelLayer,
 .modalAccountRedx .modal-dialog .modal-content .popup-holder .modal-body .adChoices .pixelLayer,
-.modalAccountRedx .modal-dialog .modal-content .popup-holder .modal-body .billingMethods .pixelLayer {
+.modalAccountRedx .modal-dialog .modal-content .popup-holder .modal-body .billingMethods .pixelLayer,
+.modalAccountRedx .modal-dialog .modal-content .popup-holder .modal-body .pixelCreate .pixelLayer {
   float: left;
   width: 100%;
+}
+.modalAccountRedx .modal-dialog .modal-content .popup-holder .modal-body #pixelsCnt {
+  padding: 0;
+  background: #fff;
+}
+.modalAccountRedx .modal-dialog .modal-content .popup-holder .modal-body .pixelCreate {
+  margin: 30px 0 0 0;
+  display: none;
+}
+.modalAccountRedx .modal-dialog .modal-content .popup-holder .modal-body .pixelTable {
+  float: left;
+  width: 100%;
+  margin-top: 30px;
 }
 .modalAccountRedx .modal-dialog .modal-content .popup-holder input[type="text"],
 .modalAccountRedx .modal-dialog .modal-content .popup-holder select {
