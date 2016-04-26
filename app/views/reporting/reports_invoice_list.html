@@ -127,10 +127,13 @@
                                 </div>
                             </div>
                         </div>
-
-
                     </div>
-                    <div class="col-md-2 td"></div>
+                    <div class="col-md-2 td">
+                        <div class="pillsWrap" >
+                        <span class="labelPills" ng-repeat="label in invoice.labels track by $index"
+                             ng-bind-html="label"></span>
+                        </div>
+                    </div>
                     <div class="col-md-2 td">{{invoice.invoiceDate}}</div>
                 </div>
             </div>
