@@ -29,8 +29,7 @@ adData.videoTargets -
                     </div>
                 </div>
 
-
-                <div class="col-md-2 zeroPadding" id="selectSizeDropdown" style="width: 20%;" ng-show="addDimension.tags.type === 'sizes'">
+                <div class="col-md-2" id="selectSizeDropdown" style="padding: 0 0 0 10px; width: 22%; margin: 0;" ng-show="addDimension.tags.type === 'sizes'">
                     <div class="form-group col-md-12 zeroPadding">
                         <div class="col-md-12 zeroPadding dropdown-workflow">
                             <div class="dropdown">
@@ -45,7 +44,8 @@ adData.videoTargets -
                         </div>
                     </div>
                 </div>
-                <div class="col-md-8 multiselectTagOptions zeroPadding" ng-show="addDimension.tags.value === 'Specific Size' && addDimension.tags.type === 'sizes'" style="min-width: 54%; max-width: 54%;" id="sizes_input_box">
+                
+                <div class="col-md-8 multiselectTagOptions" ng-show="addDimension.tags.value === 'Specific Size' && addDimension.tags.type === 'sizes'" style="padding: 0 0 0 10px; min-width: 54%; max-width: 54%;" id="sizes_input_box">
                     <tags-input ng-model="addDimension.tags.data"  display-property="name" placeholder="Select" replace-spaces-with-dashes="false" on-tag-added="videoDimensionTagAdded($tag, 'sizes')"
                                 on-tag-removed="videoDimensionTagRemoved($tag, 'sizes')">
                         <auto-complete source="loadSizes($query)"
@@ -58,7 +58,7 @@ adData.videoTargets -
                     </tags-input>
 
                 </div>
-                <div class="col-md-8 multiselectTagOptions zeroPadding" ng-show="addDimension.tags.type === 'positions'" style="min-width: 76%; max-width: 76%;" id="positions_input_box" >
+                <div class="col-md-8 multiselectTagOptions" ng-show="addDimension.tags.type === 'positions'" style="padding: 0 0 0 10px; min-width: 76%; max-width: 76%;" id="positions_input_box" >
                     <tags-input ng-disabled="!positionsData" ng-model="addDimension.tags.data" display-property="name" placeholder="Select" replace-spaces-with-dashes="false" on-tag-added="videoDimensionTagAdded($tag, 'positions')"
                                 on-tag-removed="videoDimensionTagRemoved($tag, 'positions')">
                         <auto-complete source="loadPositions($query)"
@@ -70,7 +70,7 @@ adData.videoTargets -
                     </tags-input>
 
                 </div>
-                <div class="col-md-8 multiselectTagOptions zeroPadding" ng-show="addDimension.tags.type === 'playbackMethods' || addDimension.tags.type === 'playback_methods'" style="min-width: 76%; max-width: 76%;" id="playback_methods_input_box" >
+                <div class="col-md-8 multiselectTagOptions" ng-show="addDimension.tags.type === 'playbackMethods' || addDimension.tags.type === 'playback_methods'" style="padding: 0 0 0 10px; min-width: 76%; max-width: 76%;" id="playback_methods_input_box" >
                     <tags-input ng-disabled="!playback_methodsData" ng-model="addDimension.tags.data" display-property="name" placeholder="Select" replace-spaces-with-dashes="false" on-tag-added="videoDimensionTagAdded($tag, 'playbackMethods')"
                                 on-tag-removed="videoDimensionTagRemoved($tag, 'playbackMethods')">
                         <auto-complete source="loadPlaybacks($query)"
