@@ -101,8 +101,6 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                     url =  url +'?level=all';
                 }
 
-                console.log('advertiser url: ',url);
-
                 return dataService.fetch(url);
             },
 

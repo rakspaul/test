@@ -607,9 +607,6 @@ define(['common'], function (angularAMD) {
                                                     featuresService.setFeatureParams(response.data.data.features);
                                                 });
 
-                                            //reset dashboard subaccount localstorage
-                                            //subAccountModel.resetDashboardSubAccStorage();
-
 
                                             if (locationPath === '/login' || locationPath === '/') {
                                                 handleLoginRedirection();

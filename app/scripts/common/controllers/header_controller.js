@@ -61,9 +61,6 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
                         } else {
                             subAccountModel.fetchSubAccounts('headerCtrl',function(){
                                 campaignsClientData(2);
-                                //reset dashboard subaccount localstorage
-                              //  subAccountModel.resetDashboardSubAccStorage();
-
                             });
                         }
                     } else {
@@ -124,9 +121,6 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
                 subAccountModel.fetchSubAccounts('MasterClientChanged',function(){
                     $scope.getClientData();
 
-                    //reset dashboard subaccount localstorage
-                  //  subAccountModel.resetDashboardSubAccStorage();
-
                     $rootScope.$broadcast(constants.EVENT_MASTER_CLIENT_CHANGED, {'client': loginModel.getSelectedClient().id, 'event_type': 'clicked'});
                 });
 
@@ -155,7 +149,6 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
                                     setMasterClientData(id, name,isLeafNode);
 
                                     if(!loginModel.getMasterClient().isLeafNode) {
-                                        console.log('sapna');
                                        subAccountModel.resetDashboardSubAccStorage();
                                     }
 
@@ -174,7 +167,6 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
             } else {
                 setMasterClientData(id, name,isLeafNode);
                 if(!loginModel.getMasterClient().isLeafNode) {
-                    console.log('sapna');
                     subAccountModel.resetDashboardSubAccStorage();
                 }
 
