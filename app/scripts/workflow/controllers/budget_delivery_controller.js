@@ -221,6 +221,7 @@ define(['angularAMD', 'common/services/constants_service', 'common/moment_utils'
                 // .addClass('disabled-field') ;
                 //elem.closest('.budget_holder_input').find('.impression_field').addClass('disabled-field') ;
                 $('.totalBudgetInputClass').attr('disabled', true).addClass('disabled-field');
+                $scope.calculateTotalAdBudget();
             } else {
                 $('.totalBudgetInputClass').attr('disabled', false).removeClass('disabled-field');
                 //elem.closest('.budget_holder_input').find('.budget_holder input').attr('disabled' , false)
