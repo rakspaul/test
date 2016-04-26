@@ -64,7 +64,10 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         $scope.lineItemEndDate = '';
 
         var selectedAdvertiser,
-            campaignId = '-999';
+            campaignId = '-999',
+            CONST_FLAT_FEE = 'Flat Fee',
+            CONST_COGS_PERCENT = 'COGS + Percentage Markup',
+            CONST_COGS_CPM = 'COGS + CPM Markup';
 
         if(!loginModel.getMasterClient().isLeafNode) {
             $scope.showSubAccount = true;
@@ -723,27 +726,30 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 $scope.amountFlag = true;
                 $scope.rateTypeReadOnly = false;
 
-                if("COGS + Percentage Markup" === $scope.lineItemType.name){
+                if(CONST_COGS_PERCENT === $scope.lineItemType.name){
                     if(selectedAdvertiser && (selectedAdvertiser.billingType && selectedAdvertiser.billingValue)){
                         $scope.rateReadOnly = true;
                         $scope.pricingRate = selectedAdvertiser.billingValue + "% Markup";// to get via advertiser api
-                        $scope.rateTypeReadOnly = true;
+                        //$scope.rateTypeReadOnly = true;
+
+
                     }
+                    console.log("$scope.type",$scope.type)
                     $scope.volumeFlag = false;
                     $scope.volume = '';
                 }
-                else if("COGS + CPM Markup" === $scope.lineItemType.name){
+                else if(CONST_COGS_CPM === $scope.lineItemType.name){
                     if(selectedAdvertiser && (selectedAdvertiser.billingType && selectedAdvertiser.billingValue)){
                         $scope.rateReadOnly = true;
                         $scope.pricingRate = selectedAdvertiser.billingValue;// to get via advertiser api
-                        $scope.rateTypeReadOnly = true;
+                        //$scope.rateTypeReadOnly = true;
+
                     }
-                    //$scope.rateReadOnly = true;
-                    //$scope.pricingRate = "$3 CPM"; //to get via advertiser api
+                    console.log("$scope.type",$scope.type)
                     $scope.volumeFlag = false;
                     $scope.volume = '';
                 }
-                else if ("Flat Fee" === $scope.lineItemType.name){
+                else if (CONST_FLAT_FEE === $scope.lineItemType.name){
                     if(selectedAdvertiser && (selectedAdvertiser.billingType && selectedAdvertiser.billingValue)){
                         $scope.rateReadOnly = true;
                         $scope.pricingRate = selectedAdvertiser.billingValue;// to get via advertiser api
@@ -760,7 +766,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 $scope.volumeFlagEdit = true;
                 $scope.amountFlagEdit = true;
 
-                if("COGS + Percentage Markup" === $scope.editLineItem.lineItemType.name){
+                if(CONST_COGS_PERCENT === $scope.editLineItem.lineItemType.name){
 
                     if(selectedAdvertiser && (selectedAdvertiser.billingType && selectedAdvertiser.billingValue)){
                         $scope.rateReadOnlyEdit = true;
@@ -771,7 +777,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     $scope.editLineItem.volume = '';
 
                 }
-                else if("COGS + CPM Markup" === $scope.editLineItem.lineItemType.name){
+                else if(CONST_COGS_CPM === $scope.editLineItem.lineItemType.name){
                     if(selectedAdvertiser && (selectedAdvertiser.billingType && selectedAdvertiser.billingValue)){
                         $scope.rateReadOnlyEdit = true;
                         $scope.editLineItem.pricingRate = selectedAdvertiser.billingValue;// to get via advertiser api
@@ -781,7 +787,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     $scope.editLineItem.volume = '';
 
                 }
-                else if ("Flat Fee" === $scope.editLineItem.lineItemType.name){
+                else if (CONST_FLAT_FEE === $scope.editLineItem.lineItemType.name){
                     if(selectedAdvertiser && (selectedAdvertiser.billingType && selectedAdvertiser.billingValue)){
                         $scope.rateReadOnlyEdit = true;
                         $scope.editLineItem.pricingRate = selectedAdvertiser.billingValue;// to get via advertiser api

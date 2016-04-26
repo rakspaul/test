@@ -95,7 +95,7 @@
             </div>
         </div>
         <div class="col-md-2" style="padding: 0 0 0 10px;" ng-show="volumeFlag">
-            <label class="col-sm-12 greyTxt miniLabels zeroPadding" ng-if="!lineItemType">Volume</label>
+            <label class="col-sm-12 greyTxt miniLabels zeroPadding" ng-if="!lineItemType || lineItemType.name === 'Select Type'">Volume</label>
             <label class="col-sm-12 greyTxt miniLabels zeroPadding" ng-if="lineItemType.name === 'CPM'">Impressions</label>
             <label class="col-sm-12 greyTxt miniLabels zeroPadding" ng-if="lineItemType.name === 'CPC'">Clicks</label>
             <label class="col-sm-12 greyTxt miniLabels zeroPadding" ng-if="lineItemType.name === 'CPCV'">Completed</label>
