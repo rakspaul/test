@@ -311,7 +311,7 @@
     <div class="each_col sec_col" >
         {{screenData.dimension}}
     </div>
-    <div class="each_col third_col {{screenData.kpi_type === 'IMPRESSIONS' ? 'bold' : ''}}">
+    <div class="each_col third_col {{screenData.kpi_type.toUpperCase() === 'IMPRESSIONS' ? 'bold' : ''}}">
         {{((screenData.impressions >0) || (screenData.impressions == 0)) ? (screenData.impressions | nrFormat) : '-'}}
     </div>
     <div class="vid_col" ng-show="adFormats.videoAds == true">
@@ -368,7 +368,7 @@
     <div class="each_col sec_col">
         {{daysofweekData.dimension}}
     </div>
-    <div class="each_col third_col {{daysofweekData.kpi_type === 'IMPRESSIONS' ? 'bold' : ''}}">
+    <div class="each_col third_col {{daysofweekData.kpi_type.toUpperCase() === 'IMPRESSIONS' ? 'bold' : ''}}">
         {{((daysofweekData.impressions >0)|| (daysofweekData.impressions == 0)) ? (daysofweekData.impressions | nrFormat) : '-'}}
     </div>
     <div class="vid_col" ng-show="adFormats.videoAds == true">
@@ -416,7 +416,7 @@
     <div class="each_col sec_col">
         {{formatData.dimension}}
     </div>
-    <div class="each_col third_col {{formatData.kpi_type === 'IMPRESSIONS' ? 'bold' : ''}}">
+    <div class="each_col third_col {{formatData.kpi_type.toUpperCase() === 'IMPRESSIONS' ? 'bold' : ''}}">
         {{((formatData.impressions >0) || (formatData.impressions == 0)) ? (formatData.impressions | nrFormat) : '-'}}
     </div>
     <div class="vid_col" ng-show="adFormats.videoAds == true">
@@ -465,7 +465,7 @@
         <!-- {{creativesData.dimension | limitTo: characterLimit}}{{creativesData.dimension.length > characterLimit ? '...' : ''}}-->
         {{ creativesData.dimension | formatUrl :15 }}
     </div>
-    <div class="each_col third_col {{creativesData.kpi_type === 'IMPRESSIONS' ? 'bold' : ''}}">
+    <div class="each_col third_col {{creativesData.kpi_type.toUpperCase() === 'IMPRESSIONS' ? 'bold' : ''}}">
         {{((creativesData.impressions >0)|| (creativesData.impressions == 0)) ? (creativesData.impressions | nrFormat) : '-'}}
         <!--{{creativesData.ctr | number:2}}%-->
     </div>
@@ -519,7 +519,7 @@
         <!-- {{adsizesData.dimension | limitTo: characterLimit}}{{adsizesData.dimension.length > characterLimit ? '...' : ''}}-->
         {{ adsizesData.dimension | formatUrl :15 }}
     </div>
-    <div class="each_col third_col {{adsizesData.kpi_type === 'IMPRESSIONS' ? 'bold' : ''}}">
+    <div class="each_col third_col {{adsizesData.kpi_type.toUpperCase() === 'IMPRESSIONS' ? 'bold' : ''}}">
         {{((adsizesData.impressions >0)|| (adsizesData.impressions == 0))? (adsizesData.impressions | nrFormat) : '-'}}
         <!--{{creativesData.ctr | number:2}}%-->
     </div>

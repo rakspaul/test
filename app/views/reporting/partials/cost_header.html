@@ -1,6 +1,6 @@
 <div class="each_cost_col first_col icon_text_holder"  ng-class="sortClassFunction('platform_name',sortTypebyCost,sortReverse)"
      ng-click="sortTypebyCost = 'platform_name'; sortReverse = !sortReverse;removeKpiActive();" >{{textConstants.PLATFORM_NAME}}</div>
-<div class="each_cost_col sec_col" ng-class="sortClassFunction('-impressions',sortTypebyCost,sortReverseForCostImps)" ng-click="sortTypebyCost = '-impressions';sortTypebyCostSubSort='-impressions';sortReverse = sortReverseForCostImps; sortReverseForCostImps = !sortReverseForCostImps;removeKpiActive();" ><span class="default-kpi-header-icon" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() === 'delivery'"></span>{{textConstants.IMP_WITH_DOT}}</div>
+<div class="each_cost_col sec_col" ng-class="sortClassFunction('-impressions',sortTypebyCost,sortReverseForCostImps)" ng-click="sortTypebyCost = '-impressions';sortTypebyCostSubSort='-impressions';sortReverse = sortReverseForCostImps; sortReverseForCostImps = !sortReverseForCostImps;removeKpiActive();" ><span class="default-kpi-header-icon" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() === 'impressions'"></span>{{textConstants.IMP_WITH_DOT}}</div>
 <div class="each_cost_col third_col "  >
     <div class="dropdown kpi-dd-holder " >
         <kpi-drop-down type="selected_filters.kpi_type.toLowerCase()"> </kpi-drop-down>
