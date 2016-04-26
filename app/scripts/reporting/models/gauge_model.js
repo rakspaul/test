@@ -7,17 +7,12 @@ define(['angularAMD', 'common/services/url_service', 'reporting/dashboard/dashbo
             this.dashboard.selectedFilter = '';
         }
         this.getGaugeData = function () {
-            var isDashboardSubAccount = subAccountModel.isDashboardSubAccount();
             var advertiserId = advertiserModel.getSelectedAdvertiser().id;
             var brandId = brandsModel.getSelectedBrand().id;
-            if (isDashboardSubAccount) {
-                var clientId = loginModel.getDashboardClient().id;
-            } else {
-                var clientId = loginModel.getSelectedClient().id;
-            }
+            var clientId = subAccountModel.getDashboardAccountId();
             var url = urlService.APICampaignCountsSummary(constants.PERIOD_LIFE_TIME, clientId, advertiserId, brandId, dashboardModel.campaignStatusToSend());
             //var canceller = requestCanceller.initCanceller(constants.GAUGE_CANCELLER);
-            console.log('dashboard Media plan performance: ', url);
+
             return dataService.fetch(url).then(function (response) {
                 var active = response.data.data.active;
                 var completed = response.data.data.completed;

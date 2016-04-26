@@ -124,11 +124,9 @@ define(['angularAMD', 'common/services/vistoconfig_service','common/services/dat
             var brandId = brandsModel.getSelectedBrand().id;
             var advertiserId = advertiserModel.getSelectedAdvertiser().id;
 
-            var isDashboardSubAccount = subAccountModel.isDashboardSubAccount();
-
             var queryObj = {
                'queryId' :  queryId,
-               'clientId': isDashboardSubAccount?loginModel.getDashboardClient().id:loginModel.getSelectedClient().id,
+               'clientId': subAccountModel.getDashboardAccountId(),
                'campaignStatus' :  dashboardModel.campaignStatusToSend(),
                'advertiserId' : advertiserId,
                'brandId' :  brandId,
@@ -136,7 +134,7 @@ define(['angularAMD', 'common/services/vistoconfig_service','common/services/dat
             }
 
             var url = urlService.APIVistoCustomQuery(queryObj);
-            console.log('Screen chart url: ',url);
+
             return dataService.fetch(url).then(function(response){
                 if(response.status == "success") {
                     screenWidgetData['responseData'] = response.data.data;

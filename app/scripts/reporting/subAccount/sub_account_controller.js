@@ -20,7 +20,9 @@ define(['angularAMD','reporting/subAccount/sub_account_model','common/services/c
                     name : 'Loading...'
                 }
             };
-        }();
+        };
+
+        initializeDataObj();
 
         function fetchSubAccounts(from,searchCriteria, search) {
             subAccountModel.fetchSubAccounts(from,function () {

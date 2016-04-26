@@ -26,10 +26,10 @@ define(['angularAMD', 'workflow/services/workflow_service','common/services/cons
             return self.subAccounts.allSubAccounts;
         };
 
-        //Dashboard subAccount setter
-        this.setDashboardSubAccounts = function(dataAry) {
-            self.subAccounts.dashboardSubAccounts = dataAry;
-        };
+        //reset dashboard subaccount's local storage
+        this.resetDashboardSubAccStorage = function() {
+            loginModel.setDashboardClient({'id':loginModel.getMasterClient().id,'name':'All'});
+        }
 
         this.isDashboardSubAccount = function() {
             var locationPath = $location.url();
@@ -39,10 +39,24 @@ define(['angularAMD', 'workflow/services/workflow_service','common/services/cons
             return false;
         }
 
+        //Dashboard subAccount setter
+        this.setDashboardSubAccounts = function(dataAry) {
+            self.subAccounts.dashboardSubAccounts = dataAry;
+        };
+
         //Dashboard subAccount getter
         this.getDashboardSubAccounts = function() {
             return self.subAccounts.dashboardSubAccounts;
         };
+
+        this.getDashboardAccountId = function() {
+            if (self.isDashboardSubAccount() && !loginModel.getMasterClient().isLeafNode) {
+                var clientId = loginModel.getDashboardClient().id;
+            } else {
+                var clientId = loginModel.getSelectedClient().id;
+            }
+            return clientId;
+        }
 
         this.fetchSubAccounts = function (from,successCallBack, searchCritera, search) {
             var isLeafNode = loginModel.getMasterClient().isLeafNode;

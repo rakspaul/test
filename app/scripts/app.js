@@ -535,7 +535,6 @@ define(['common'], function (angularAMD) {
                             $cookieStore.remove('cdesk_redirect');
                             localStorage.removeItem('cdeskRedirect');
                         } else {
-                            console.log('dashboard');
                             setDefaultPage = 'dashboard';
                             $location.url(setDefaultPage);
                         }
@@ -607,6 +606,10 @@ define(['common'], function (angularAMD) {
                                                 .then(function (response) {
                                                     featuresService.setFeatureParams(response.data.data.features);
                                                 });
+
+                                            //reset dashboard subaccount localstorage
+                                            //subAccountModel.resetDashboardSubAccStorage();
+
 
                                             if (locationPath === '/login' || locationPath === '/') {
                                                 handleLoginRedirection();
