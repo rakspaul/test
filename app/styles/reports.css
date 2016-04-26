@@ -4625,6 +4625,16 @@ div.reports_tabs_content_container div#reports_bycreatives_block div.reports_det
   display: block;
   text-indent: 470px;
 }
+.report_response_and_tabs .custom_report_scroll .first_dimension_row_holder {
+  padding-left: 28px;
+}
+.report_response_and_tabs .custom_report_scroll .heading_first_dimension:first-child {
+  padding-left: 0 ;
+}
+.report_response_and_tabs .custom_report_scroll .heading_first_dimension:hover .more_dimension_arrow {
+  background: #DCE6F1 ;
+  margin-top: 8px ;
+}
 .heading_first_dimension {
   color: #5C5C5C ;
   padding-top: 5px;
