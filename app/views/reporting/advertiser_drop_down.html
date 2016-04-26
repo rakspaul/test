@@ -8,7 +8,8 @@
                 <span class="sort-image-inactive brands_dd_filter_arrow" id="#brandsDropDownImg"></span>
             </div>
             <div  class="advertisersList_ul">
-                <li ng-repeat="advertiser in advertisers  | filter : selectedAdvertiser.name track by advertiser.id" ng-hide="isExcludedByAdvertiserFilter" ng-class="{'active' : advertiser.id === advertiserData.selectedAdvertiser.id}" title="{{advertiser.name}}" >
+                <!--removed track by as on dashboard its giving dupes error-->
+                <li ng-repeat="advertiser in advertisers  | filter : selectedAdvertiser.name" ng-hide="isExcludedByAdvertiserFilter" ng-class="{'active' : advertiser.id === advertiserData.selectedAdvertiser.id}" title="{{advertiser.name}}" >
                     <a data-ng-click="selectAdvertiser(advertiser, 'clicked')">
                         <span class="tick"></span>
                         <span class="menuItemText" ng-bind-html="highlightSearch(advertiser.name, selectedAdvertiser.name)" ng-bind="advertiser.name"></span>

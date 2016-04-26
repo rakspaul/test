@@ -1,7 +1,7 @@
 define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/constants_service',
     'common/services/data_service', 'login/login_model', 'common/services/request_cancel_service'],
     function (angularAMD) {
-        angularAMD.factory('workflowService', function ($rootScope, vistoconfig, constants, dataService, loginModel,
+        angularAMD.factory('workflowService', function ($rootScope,$location, vistoconfig, constants, dataService, loginModel,
                                                        requestCanceller) {
             var mode,
                 adDetails,
@@ -61,6 +61,14 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                 }
             },
 
+            getDashboardSubAccount: function() {
+                var clientId = loginModel.getMasterClient().id;
+                if(clientId) {
+                    var url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/descendants?level=all';
+                    return dataService.fetch(url);
+                }
+            },
+
             getClients: function () {
                 var url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients';
 
@@ -71,12 +79,26 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
 
             getAdvertisers: function (accessLevel,client_id) {
                 var clientId =  loginModel.getSelectedClient().id;
+                var isDashboardSubAccount = false;
+
+                var locationPath = $location.url();
+                if((locationPath === '/dashboard') || (locationPath === '/')) {
+                    isDashboardSubAccount = true;
+                }
+
+
                 if(client_id) {
                     var clientId =  client_id;
+                } else if(isDashboardSubAccount) {
+                    var clientId = loginModel.getDashboardClient().id
                 }
+
                 var url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/advertisers';
-                if(accessLevel) {
+
+                if(accessLevel && !isDashboardSubAccount) {
                     url =  url +'?access_level='+accessLevel;
+                } else if(isDashboardSubAccount) {
+                    url =  url +'?level=all';
                 }
 
                 return dataService.fetch(url);

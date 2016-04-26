@@ -60,7 +60,7 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
 
                         } else {
                             subAccountModel.fetchSubAccounts('headerCtrl',function(){
-                            campaignsClientData(2);
+                                campaignsClientData(2);
                             });
                         }
                     } else {
@@ -120,7 +120,7 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
             } else {
                 subAccountModel.fetchSubAccounts('MasterClientChanged',function(){
                     $scope.getClientData();
-                   // console.log('current url',$location.url());
+
                     $rootScope.$broadcast(constants.EVENT_MASTER_CLIENT_CHANGED, {'client': loginModel.getSelectedClient().id, 'event_type': 'clicked'});
                 });
 
@@ -147,6 +147,12 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
                             accountChangeAction: function () {
                                 return function () {
                                     setMasterClientData(id, name,isLeafNode);
+
+                                    if(!loginModel.getMasterClient().isLeafNode) {
+                                       subAccountModel.resetDashboardSubAccStorage();
+                                    }
+
+
                                     // check this condition .. when etners as workflow user should we broadcast masterclient - sapna
                                     if (moduleObj.redirect) {
                                         $location.url('/mediaplans');
@@ -160,6 +166,10 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
                 }
             } else {
                 setMasterClientData(id, name,isLeafNode);
+                if(!loginModel.getMasterClient().isLeafNode) {
+                    subAccountModel.resetDashboardSubAccStorage();
+                }
+
             }
 
 
@@ -289,7 +299,7 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
                     mainNavDropdown.hide();
                     $(".main_navigation_holder").find(".selected").removeClass("selected");
                 }
-                
+
                 if (reportTypeDropdownClass.is(':visible') && ( $(event.target).closest(".reportTypeDropdownTxt").length == 0) ) {
                     reportTypeDropdownClass.hide();
                 }

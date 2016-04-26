@@ -607,6 +607,7 @@ define(['common'], function (angularAMD) {
                                                     featuresService.setFeatureParams(response.data.data.features);
                                                 });
 
+
                                             if (locationPath === '/login' || locationPath === '/') {
                                                 handleLoginRedirection();
                                             }
