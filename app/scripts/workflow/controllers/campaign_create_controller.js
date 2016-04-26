@@ -54,7 +54,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         $scope.amountFlagEdit = true;
 
         $scope.editLineItem = {};
-        $scope.vendorConfig = {};
+        $scope.vendorConfig = [];
         $scope.costAttributes = {};
 
         //mediaplan dates
@@ -682,13 +682,13 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             $scope.lineItemStartDate = $scope.selectedCampaign.startTime;
             $scope.lineItemEndDate = $scope.selectedCampaign.endTime;
 
-            startDateElem.datepicker("setStartDate", $scope.selectedCampaign.startTime);
+            //startDateElem.datepicker("setStartDate", $scope.selectedCampaign.startTime);
             startDateElem.datepicker("update", $scope.selectedCampaign.startTime);
-            startDateElem.datepicker("setEndDate", $scope.selectedCampaign.startTime);
+            //startDateElem.datepicker("setEndDate", $scope.selectedCampaign.startTime);
 
-            endDateElem.datepicker("setStartDate", $scope.selectedCampaign.startTime);
+            //endDateElem.datepicker("setStartDate", $scope.selectedCampaign.startTime);
             endDateElem.datepicker("update", $scope.selectedCampaign.endTime );
-            endDateElem.datepicker("setEndDate", $scope.selectedCampaign.endTime);
+            //endDateElem.datepicker("setEndDate", $scope.selectedCampaign.endTime);
         };
 
         $scope.validateDateLineItem = function(date,dateType){
