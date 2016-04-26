@@ -89,7 +89,7 @@ define(['angularAMD','common/services/url_service','reporting/timePeriod/time_pe
         var isDashboardSubAccount = subAccountModel.isDashboardSubAccount();
       if(loginModel.getSelectedClient()) {
           var queryObj = {
-              "clientId": isDashboardSubAccount?loginModel.dashboardClient().id:loginModel.getSelectedClient().id,
+              "clientId": isDashboardSubAccount?loginModel.getDashboardClient().id:loginModel.getSelectedClient().id,
               "advertiserId": advertiserModel.getSelectedAdvertiser().id,
               "brandId": ((selectedBrand == undefined) ? -1 : selectedBrand),
               "dateFilter": constants.PERIOD_LIFE_TIME,
