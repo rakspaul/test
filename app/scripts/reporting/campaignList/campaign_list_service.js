@@ -374,7 +374,6 @@ define(['angularAMD', 'common/services/data_service', 'common/utils', 'common/se
                     pageSize = 3;
 
                 var url = '/clients/' + clientId + '/campaigns/' + campaign.orderId + '/ad_groups' ;
-                console.log('url.....',url);
                 dataService.getCampaignStrategies(url, 'list').then(function (result) { console.log('result: ',result)
                     var data = result.data.data;
                     if(result.status == "success" && !angular.isString(data)) {
