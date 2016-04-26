@@ -14,6 +14,9 @@ define(['angularAMD','../../../workflow/services/account_service', '../../servic
         };
         $(".miniTabLinks.sub .btn").removeClass("active");
         $(".miniTabLinks.sub .subBasics").addClass("active");
+        $modalInstance.opened.then(function() {
+            $('popup-msg').appendTo(document.body);
+        });
         _currCtrl.verifyCreateAdvInputs = function(){
             var ret = true,
                 errMsg = "Error";
