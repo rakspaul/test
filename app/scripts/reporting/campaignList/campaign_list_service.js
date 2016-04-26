@@ -374,7 +374,7 @@ define(['angularAMD', 'common/services/data_service', 'common/utils', 'common/se
                     pageSize = 3;
 
                 var url = '/clients/' + clientId + '/campaigns/' + campaign.orderId + '/ad_groups' ;
-                dataService.getCampaignStrategies(url, 'list').then(function (result) { console.log('result: ',result)
+                dataService.getCampaignStrategies(url, 'list').then(function (result) {
                     var data = result.data.data;
                     if(result.status == "success" && !angular.isString(data)) {
                         if(data.length >= 0) {
@@ -403,7 +403,6 @@ define(['angularAMD', 'common/services/data_service', 'common/utils', 'common/se
                                 campaign.campaignStrategies = campaignStrategies;
                                 campaign.campaignStrategiesLoadMore = data.slice(pageSize);
                             }
-                            console.log('campaign.campaignStrategies',campaign.campaignStrategies);
                         }
                     }
                 });
