@@ -258,8 +258,8 @@ define(['angularAMD', 'common/services/data_service', 'common/utils', 'common/se
                             id: strategy.id,
                             brandName: campaign.brandName,
                             name: strategy.name,
-                            startDate: momentInNetworkTZ.utcToLocalTime(strategy.start_date),
-                            endDate: momentInNetworkTZ.utcToLocalTime(strategy.end_date),
+                            startDate: momentInNetworkTZ.utcToLocalTime(strategy.start_date,'YYYY-MM-DD'),
+                            endDate: momentInNetworkTZ.utcToLocalTime(strategy.end_date,'YYYY-MM-DD'),
                             order_id: strategy.order_id,
                             li_status: "Draft",
                             ad_size: adSize,
@@ -374,7 +374,8 @@ define(['angularAMD', 'common/services/data_service', 'common/utils', 'common/se
                     pageSize = 3;
 
                 var url = '/clients/' + clientId + '/campaigns/' + campaign.orderId + '/ad_groups' ;
-                dataService.getCampaignStrategies(url, 'list').then(function (result) {
+                console.log('url.....',url);
+                dataService.getCampaignStrategies(url, 'list').then(function (result) { console.log('result: ',result)
                     var data = result.data.data;
                     if(result.status == "success" && !angular.isString(data)) {
                         if(data.length >= 0) {
@@ -403,6 +404,7 @@ define(['angularAMD', 'common/services/data_service', 'common/utils', 'common/se
                                 campaign.campaignStrategies = campaignStrategies;
                                 campaign.campaignStrategiesLoadMore = data.slice(pageSize);
                             }
+                            console.log('campaign.campaignStrategies',campaign.campaignStrategies);
                         }
                     }
                 });
