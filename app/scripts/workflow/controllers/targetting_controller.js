@@ -212,19 +212,7 @@ define(['angularAMD','workflow/services/workflow_service','workflow/services/aud
             }
         };
 
-        $scope.deleteTargetting = function () {
-            $scope.showDeleteConfirmationPopup = !$scope.showDeleteConfirmationPopup;
-            if ($scope.deleteType == "AUDIENCE") {
-                workflowService.setDeleteModule('Audience');
-                $scope.deleteAudienceTargetting();
-            } else if ($scope.deleteType == "GEO") {
-                workflowService.setDeleteModule('Geography');
-                $scope.deleteGeoTargetting();
-            } else if ($scope.deleteType == "DAYPART") {
-                workflowService.setDeleteModule('dayParting');
-                $scope.deleteDayPartTargetting();
-            }
-        };
+
 
         $scope.cancelTargettingDelete = function () {
             $scope.deleteType = "";
@@ -255,6 +243,18 @@ define(['angularAMD','workflow/services/workflow_service','workflow/services/aud
             $scope.showVideoPreviewData(data);
         };
 
+        $scope.deleteVideoTargetting = function() {
+            $scope.adData.isVideoSelected = false;
+            $scope.adData.videoPreviewData = null;
+            workflowService.resetDeleteModule();
+            workflowService.saveVideoData(null);
+            if($scope.mode === 'edit') {
+                var adData = angular.copy(workflowService.getAdsDetails());
+                adData.targets.videoTargets= null;
+                workflowService.setAdsDetails(adData);
+            }
+        };
+
         /****************** END : VIDEO TARGETING  ***********************/
 
 
@@ -280,8 +280,30 @@ define(['angularAMD','workflow/services/workflow_service','workflow/services/aud
             $scope.deleteGeoTargetting();
             $scope.deleteDayPartTargetting();
             $scope.deleteAudienceTargetting();
-
+            $scope.deleteVideoTargetting();
         });
+
+        $scope.deleteTargetting = function () {
+          $scope.showDeleteConfirmationPopup = !$scope.showDeleteConfirmationPopup;
+          switch($scope.deleteType) {
+              case 'AUDIENCE' :
+                  workflowService.setDeleteModule('Audience');
+                  $scope.deleteAudienceTargetting();
+                  break;
+              case 'GEO':
+                  workflowService.setDeleteModule('Geography');
+                  $scope.deleteGeoTargetting();
+                  break;
+              case 'DAYPART':
+                  workflowService.setDeleteModule('dayParting');
+                  $scope.deleteDayPartTargetting();
+                  break;
+              case 'VIDEO' :
+                  workflowService.setDeleteModule('video');
+                  $scope.deleteVideoTargetting();
+                  break;
+          }
+        };
 
         $scope.deletetargets = function (type, event) {
             var elem = $(event.target);

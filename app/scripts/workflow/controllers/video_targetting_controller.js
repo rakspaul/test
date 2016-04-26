@@ -9,25 +9,33 @@ define(['angularAMD', 'workflow/services/workflow_service', 'common/services/con
         $scope.tagsPlayback = [] ;
         $scope.sizesLabels  = [];
 
-
         $scope.adData.videoTargets = {};
-        $scope.adData.videoTargets['sizes'] =[];
-        $scope.adData.videoTargets['positions'] =[];
-        $scope.adData.videoTargets['playbackMethods'] =[];
 
+        //reseting the vedio data
         videoService.saveVideoData(null);
 
         $scope.adData.videoPreviewData = {};
 
+
         var _videoTargetting = {
             init : function() {
+
                 $scope.adData.isVideoSelected = null;
                 $scope.additionalDimension = [];
                 $scope.selectedDimesnion = [];
-                $scope.dimensionArr = [];
-                $scope.dimensionArr.push({key : 'sizes', 'value': 'Player Size', active : true});
-                $scope.dimensionArr.push({key : 'positions', 'value': 'Position', active : true});
-                $scope.dimensionArr.push({key : 'playback_methods', 'value': 'Playback Method', active : true});
+
+                $scope.adData.videoTargets['sizes'] =[];
+                $scope.adData.videoTargets['positions'] =[];
+                $scope.adData.videoTargets['playbackMethods'] =[];
+
+                $scope.dimensionArr = [
+                    {key : 'sizes', 'value': 'Player Size', active : true},
+                    {key : 'positions', 'value': 'Position', active : true},
+                    {key : 'playback_methods', 'value': 'Playback Method', active : true}
+                ];
+
+
+
             },
 
             showBox : function() {
@@ -91,7 +99,7 @@ define(['angularAMD', 'workflow/services/workflow_service', 'common/services/con
                 }
             },
 
-            addAdditionalDimension : function(type, videoTargets) {
+            addAdditionalDimension : function(type, videoTargets, mode) {
                 var name,
                     tags,
                     sizeValue ='';
@@ -101,7 +109,7 @@ define(['angularAMD', 'workflow/services/workflow_service', 'common/services/con
                     $scope.adData.videoTargets[type] = videoTargets[type];
                 }
 
-                if($scope.mode === 'edit') {
+                if(mode === 'edit') {
                     switch (type) {
                         case 'sizes' :
                             name = 'Player Size';
@@ -126,7 +134,7 @@ define(['angularAMD', 'workflow/services/workflow_service', 'common/services/con
                 $scope.additionalDimension.push({
                     name: name || "",
                     tags :  {
-                        type : $scope.mode === 'edit' ? type : '',
+                        type : mode === 'edit' ? type : '',
                         data : videoTargets && videoTargets[type],
                         value : sizeValue || ''
                     },
@@ -134,25 +142,41 @@ define(['angularAMD', 'workflow/services/workflow_service', 'common/services/con
                 });
             },
 
+
             prefillVideoData : function() {
+
                 _videoTargetting.showBox();
+                //$scope.tmpVideoTargetsData = _.extend([],$scope.adData.videoPreviewData);
+
                 if($scope.mode =='edit') {
-                    var adData = workflowService.getAdsDetails();
-                    var videoTargets = adData.targets.videoTargets;
-                    var index;
-                    if(videoTargets) {
-                        //for(var i in videoTargets) {
-                        //    if(videoTargets[i].length >0) {
-                        //        $scope.videoTypes.push(i);
-                        //    }
-                        //};
-                        $scope.videoTypes = _.keys(videoTargets);
-                        _.each($scope.videoTypes, function (type, index) {
-                            _videoTargetting.addAdditionalDimension(type, videoTargets);
-                            _videoTargetting.getVideoTargetsType(type, index);
-                            _videoTargetting.setVideoData(videoTargets[type], type, index);
-                            $scope.additionalDimension[index].hide = true;
-                        })
+                    var adData, videoTargets, index;
+
+                    var videoTargetsData = videoService.getVideoData().videoTargets;
+                    if(videoTargetsData && (videoTargetsData.sizes.length >0  || videoTargetsData.positions.length >0 || videoTargetsData.playbackMethods.length >0)) {
+                    } else {
+                        adData = workflowService.getAdsDetails();
+                        videoTargets = adData.targets.videoTargets;
+                        $scope.videoTypes = [];
+
+                        if(videoTargets) {
+                            for(var i in videoTargets) {
+                                if(videoTargets[i].length >0) {
+                                    $scope.videoTypes.push(i);
+                                }
+                            };
+
+                            _.each($scope.videoTypes, function (type, index) {
+                                _videoTargetting.addAdditionalDimension(type, videoTargets, 'edit');
+                                _videoTargetting.getVideoTargetsType(type, index);
+                                _videoTargetting.setVideoData(videoTargets[type], type, index);
+                                $scope.additionalDimension[index].hide = true;
+                            })
+
+                            if($scope.videoTypes.length < 3) {
+                                _videoTargetting.removeSelectedDimension();
+                                _videoTargetting.addAdditionalDimension();
+                            }
+                        }
                     }
                 }
             }
@@ -167,25 +191,29 @@ define(['angularAMD', 'workflow/services/workflow_service', 'common/services/con
 
 
 
-        $scope.selectOption = function(event, index, dimension) {
+        $scope.selectOption = function(event, dimension) {
             var type = dimension.key,
                 value  = dimension.value,
                 status = dimension.active;
 
+            var dimensionElem = $(event.target).closest(".each-video-dimension")
+            var index = dimensionElem.attr("data-index");
 
             if(event && !status) {
                 return false;
             }
 
             $scope.selectDimension = value;
-            $scope.additionalDimension[index].hide = true;
-            $scope.additionalDimension[index]['tags']['type'] = type;
 
             _videoTargetting.getVideoTargetsType(type, index);
 
             if($scope.selectedDimesnion.length < 3) {
                 _videoTargetting.addAdditionalDimension(type);
             }
+
+            $scope.additionalDimension[index].hide = true;
+            $scope.additionalDimension[index]['tags']['type'] = type;
+            $scope.additionalDimension[index]['name'] = value;
 
             if(event && $scope.selectedDimesnion.length <= 3) { //call this function we have selected options manually.
                 _videoTargetting.removeSelectedDimension();
@@ -216,7 +244,6 @@ define(['angularAMD', 'workflow/services/workflow_service', 'common/services/con
             }
         }
 
-
         $scope.loadSizes = function(query) {
             return videoService.getPlayerSize(query);
         }
@@ -243,7 +270,9 @@ define(['angularAMD', 'workflow/services/workflow_service', 'common/services/con
 
         $scope.hideVideoTargeting = function() {
             _videoTargetting.hideBox();
-            if(!_videoTargetting.isVideoPreviewDataAvailable()) {
+            var videoTargetsData = videoService.getVideoData().videoTargets;
+            if(videoTargetsData && (videoTargetsData.sizes.length >0  || videoTargetsData.positions.length >0 || videoTargetsData.playbackMethods.length >0)) {
+            } else {
                 _videoTargetting.init();
             }
         }
