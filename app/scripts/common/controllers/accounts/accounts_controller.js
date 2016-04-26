@@ -294,6 +294,7 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                         controller:"AccountsAddOrEditAdvertiser",
                         scope:$scope,
                         windowClass: 'edit-dialog modalAccountRedx',
+                        backdrop  : 'static',
                         resolve: {
                             //accountsService.setToBeEditedAdvertiser(advObj);
 
