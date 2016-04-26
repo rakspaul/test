@@ -1,6 +1,6 @@
-define(['angularAMD', 'common/services/vistoconfig_service','common/services/data_service','reporting/brands/brands_model','reporting/dashboard/dashboard_model','common/services/constants_service','login/login_model','common/services/role_based_service', 'reporting/advertiser/advertiser_model', 'common/services/vistoconfig_service'],function (angularAMD) {
+define(['angularAMD', 'common/services/vistoconfig_service','common/services/data_service','reporting/brands/brands_model','reporting/dashboard/dashboard_model','common/services/constants_service','login/login_model','common/services/role_based_service', 'reporting/advertiser/advertiser_model', 'common/services/vistoconfig_service','reporting/subAccount/sub_account_model'],function (angularAMD) {
   'use strict';
-  angularAMD.service('screenChartModel', ['urlService', 'dataService', 'brandsModel','dashboardModel' ,'constants' , 'loginModel', 'RoleBasedService', 'advertiserModel', 'vistoconfig', function ( urlService, dataService, brandsModel, dashboardModel, constants, loginModel, RoleBasedService, advertiserModel, vistoconfig) {
+  angularAMD.service('screenChartModel', ['urlService', 'dataService', 'brandsModel','dashboardModel' ,'constants' , 'loginModel', 'RoleBasedService', 'advertiserModel', 'vistoconfig','subAccountModel', function ( urlService, dataService, brandsModel, dashboardModel, constants, loginModel, RoleBasedService, advertiserModel, vistoconfig,subAccountModel) {
 
         var screenWidgetData = { selectedMetric : constants.SPEND ,
             metricDropDown : [constants.SPEND, constants.IMPRESSIONS, constants.CTR,constants.VTC, constants.CPA, constants.CPM, constants.CPC, constants.ACTION_RATE],
@@ -126,7 +126,7 @@ define(['angularAMD', 'common/services/vistoconfig_service','common/services/dat
 
             var queryObj = {
                'queryId' :  queryId,
-               'clientId': loginModel.getSelectedClient().id,
+               'clientId': subAccountModel.getDashboardAccountId(),
                'campaignStatus' :  dashboardModel.campaignStatusToSend(),
                'advertiserId' : advertiserId,
                'brandId' :  brandId,
@@ -134,6 +134,7 @@ define(['angularAMD', 'common/services/vistoconfig_service','common/services/dat
             }
 
             var url = urlService.APIVistoCustomQuery(queryObj);
+
             return dataService.fetch(url).then(function(response){
                 if(response.status == "success") {
                     screenWidgetData['responseData'] = response.data.data;

@@ -184,9 +184,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
             createUser: function (userObj) {
                 return dataService.post(vistoconfig.apiPaths.WORKFLOW_API_URL + '/users', userObj, {'Content-Type': 'application/json'})
             },
-            updateUser: function (data, fetchedUserDetails) {
-                data.id = fetchedUserDetails.id;
-                data.updatedAt = fetchedUserDetails.updatedAt;
+            updateUser: function (data) {
                 return dataService.put(vistoconfig.apiPaths.WORKFLOW_API_URL + '/users/' + data.id, data, {'Content-Type': 'application/json'})
             },
             setPermissions: function (permissionObj) {

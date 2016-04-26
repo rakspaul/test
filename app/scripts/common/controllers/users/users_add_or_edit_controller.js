@@ -141,20 +141,37 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/ac
             var requestData = _customctrl.filterRequestData(),
                 successMsg = $scope.editId ? constants.WF_USER_EDIT_SUCCESS : constants.WF_USER_CREATION_SUCCESS,
                 errMsg = $scope.editId ? constants.WF_USER_EDIT_FAIL : constants.WF_USER_CREATION_FAIL;
-            accountsService.createUser(requestData).then(function(res){
-                if (res.status === "OK" || res.status === "success") {
-                    $('.user-list, .users-creation-page .heading').fadeIn();
-                    $('.edit-dialog').fadeOut();
-                    $rootScope.$broadcast('refreshUserList');
-                    $scope.resetFields();
-                    $rootScope.setErrAlertMessage(successMsg, 0);
-                }
-                else{
-                    $rootScope.setErrAlertMessage(res.data.data.message);
-                }
-            },function(err){
-                $rootScope.setErrAlertMessage(errMsg);
-            });
+            if($scope.editId){
+                accountsService.updateUser(requestData).then(function (res) {
+                    if (res.status === "OK" || res.status === "success") {
+                        $('.user-list, .users-creation-page .heading').fadeIn();
+                        $('.edit-dialog').fadeOut();
+                        $rootScope.$broadcast('refreshUserList');
+                        $scope.resetFields();
+                        $rootScope.setErrAlertMessage(successMsg, 0);
+                    }
+                    else {
+                        $rootScope.setErrAlertMessage(res.data.data.message);
+                    }
+                }, function (err) {
+                    $rootScope.setErrAlertMessage(errMsg);
+                });
+            }else {
+                accountsService.createUser(requestData).then(function (res) {
+                    if (res.status === "OK" || res.status === "success") {
+                        $('.user-list, .users-creation-page .heading').fadeIn();
+                        $('.edit-dialog').fadeOut();
+                        $rootScope.$broadcast('refreshUserList');
+                        $scope.resetFields();
+                        $rootScope.setErrAlertMessage(successMsg, 0);
+                    }
+                    else {
+                        $rootScope.setErrAlertMessage(res.data.data.message);
+                    }
+                }, function (err) {
+                    $rootScope.setErrAlertMessage(errMsg);
+                });
+            }
         };
 
         $scope.selectAdvertiser=function(advertiserObj,accountIndex, permissionIndex,editmode,editData){
@@ -325,6 +342,11 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/ac
                     $scope.userConsoleFormDetails.lastName = _customctrl.responseData.lastName;
                     //$scope.userConsoleFormDetails.roleTemplateId = _customctrl.responseData.roleTemplateId;
                     $scope.isCurr_SuperUser = (_customctrl.responseData.reportTemplateId == 1) ? true : false;
+                    setTimeout(function() {
+                        if ($scope.isCurr_SuperUser && !$("#cmn-toggle-1").is(':checked')) {
+                            $("#cmn-toggle-1").trigger('click');
+                        }
+                    },25);
                     $scope.userConsoleFormDetails.isEditPassword = _customctrl.responseData.isCaasEnabled;
                     if (_customctrl.responseData.isCaasEnabled) {
                         $scope.userConsoleFormDetails.password = "123456";

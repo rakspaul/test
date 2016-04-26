@@ -9,6 +9,7 @@ define(['angularAMD', 'common/services/constants_service', 'common/moment_utils'
         $scope.adData.adBudgetExceedUnallocated = false;
         $scope.isChecked = true;
         $scope.adData.unitType.name = 'CPM';
+        $scope.unitName = 'CPM';
         $scope.adData.targetValue = '';
         $scope.adData.unitCost = '';
         $scope.adData.totalAdBudget = '';
@@ -31,7 +32,7 @@ define(['angularAMD', 'common/services/constants_service', 'common/moment_utils'
             var campaignData;
 
             if ($('#targetUnitCost_squaredFour').prop('checked') &&
-                ($scope.adData.primaryKpi).toUpperCase() === 'IMPRESSIONS' && $scope.adData.unitType.name === 'CPM') {
+                ($scope.adData.primaryKpi).toUpperCase() === 'IMPRESSIONS' && $scope.unitName === 'CPM') {
                 if ($scope.adData.targetValue >= 0 && $scope.adData.unitCost >= 0) {
                     $scope.adData.totalAdBudget =
                         Number((Number($scope.adData.targetValue) * Number($scope.adData.unitCost)) / 1000);
@@ -221,6 +222,7 @@ define(['angularAMD', 'common/services/constants_service', 'common/moment_utils'
                 // .addClass('disabled-field') ;
                 //elem.closest('.budget_holder_input').find('.impression_field').addClass('disabled-field') ;
                 $('.totalBudgetInputClass').attr('disabled', true).addClass('disabled-field');
+                $scope.calculateTotalAdBudget();
             } else {
                 $('.totalBudgetInputClass').attr('disabled', false).removeClass('disabled-field');
                 //elem.closest('.budget_holder_input').find('.budget_holder input').attr('disabled' , false)

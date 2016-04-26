@@ -1054,6 +1054,7 @@ define(['angularAMD'], function(angularAMD) {
         this.SELECT_GEOGRAPHY = "Please select the geography";
         this.SELECT_TIMEZONE = "Please select the timezone";
 
-
+        this.SELECT_DIMENSION = 'Select a Dimension';
+        this.SELECT_SIZE = 'Select Size';
     });
 });

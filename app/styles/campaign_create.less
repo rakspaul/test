@@ -798,7 +798,7 @@
 
                     .segBodyWrap {
                         float: left;
-                        height: 265px;
+                        height: 100%;
                         overflow: hidden;
                         width: 100%;
 
@@ -881,7 +881,7 @@
                     background: #edf2f8;
                     float: left;
                     margin-left: 2%;
-                    height: 476px;
+                    //height: 476px;
                     overflow: auto ;
                     padding: 15px 20px;
                     width: 33%;
@@ -1247,9 +1247,7 @@
                 }
 
                 .tab-pane {
-                    min-height: initial !important;
-                    padding-bottom: 0 !important;
-
+                    min-height: initial;
                     .tab-content {
                         border: 1px solid #dde6eb;
                         border-right: none;
@@ -1653,7 +1651,7 @@
                                 .tab-pane {
                                     float: left;
                                     height: 100%;
-                                    padding-bottom: 60px;
+                                    padding-bottom: 0;
                                     width: 100%;
                                     min-height: 700px ;
                                 }
@@ -4154,7 +4152,7 @@
     .advertiser-name {
         cursor: pointer;
     }
-
+    
     .icon-arrow-down-thick {
         float: left;
         font-size: 9px;
@@ -4177,6 +4175,7 @@
         /* Internet Explorer */
         filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
     }
+    
     .icon-arrow-down-thick.active {
         /* Safari */
         -webkit-transform: rotate(0deg);
@@ -4209,7 +4208,7 @@
     .adding-section {
         color: #939eae;
         padding: 5px 10px;
-        margin: -5px 0 0 10px;
+        margin: 0px 0 0 10px;
         background: #F7FAFF;
         border: 1px dashed #939EAE;
         cursor: pointer;
@@ -4254,6 +4253,19 @@
         text-transform: none;
     }
 
+  .each-account-details {
+    margin: 0;
+    padding: 15px 0;
+    border-top: 2px solid #939eae;
+    > .particular-account-box {
+      margin: 0px ;
+      .common_primary_btn {
+        margin-top: -8px;
+      }
+    }
+  }
+
+  .subClient {
     .each-account-details {
         margin: 0;
         padding: 15px 0;
@@ -4274,6 +4286,10 @@
             padding-bottom: 0;
         }
     }
+    .each-account-details:last-child {
+      padding-bottom: 0;
+    }
+  }
 
     .each-user {
         margin: 10px 0 0 20px;
@@ -4379,8 +4395,7 @@
     }
 
     .particular-account-box.open {
-        /*border: solid 1px #ccc;
-*/
+        /*border: solid 1px #ccc;*/
         .account-name {
             //background-image: url(/images/cdesk/common_down_arrow.png);
         }
@@ -4388,7 +4403,7 @@
 
     .particular-account-box.open.data-loaded:not(.no-data-open) {
         .account-name:after {
-            border-left: dashed 1px #ccc;
+//            border-left: dashed 1px #ccc;
             content: "";
             height: 18px;
             left: 5px;
@@ -4450,7 +4465,6 @@
             }
         }
     }
-
 }
 
 //Modal Redesign For Account add/edit pop up
@@ -4505,7 +4519,6 @@
         }
     }
 }
-
 .accounts-popup.popup-holder,
 .users-popup.popup-holder {
     .add-filters {
@@ -4604,23 +4617,19 @@
             }
         }
     }
-
     input[type="text"],
     input[type="password"],
     textarea {
         margin: 0;
     }
-
     input[type="text"],
     input[type="password"] {
         color: #21252B;
         padding: 10px 20px 7px;
     }
-
     .modal-title {
         margin-bottom: 20px;
     }
-
     select {
         padding-top: 0;
         padding-bottom: 0;
@@ -4629,7 +4638,6 @@
 
 .goalBtnWithPopup {
     position: relative;
-
     .popUpCue {
         top: -82px;
     }
@@ -4654,7 +4662,6 @@
 
 .remove-row {
     float: left;
-
     .icon-clear {
         margin: 10px 0;
     }
@@ -4663,6 +4670,7 @@
 .search-highlight {
     background: #fcecbd !important;
 }
+
 .load-more {
     margin: 20px;
     text-align: center;
@@ -4673,9 +4681,11 @@
 .adCreateMaster #targetting .targetingSlide#videoTargeting {
     min-height: 760px;
 }
+
 #selectSizeDropdown {
     margin-right: 17px ;
 }
+
 .video-dimension {
     background: #EDF2F8;
     padding: 30px ;

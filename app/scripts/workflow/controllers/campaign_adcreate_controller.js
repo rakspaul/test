@@ -1,6 +1,6 @@
 define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/workflow_service', 'login/login_model',
     'common/services/data_service', 'workflow/services/audience_service', 'common/services/role_based_service',
-    'common/moment_utils', 'common/services/vistoconfig_service', 'workflow/controllers/budget_delivery_controller',
+    'common/moment_utils', 'common/services/vistoconfig_service', 'workflow/services/video_service', 'workflow/controllers/budget_delivery_controller',
     'workflow/controllers/buying_platform_controller', 'workflow/controllers/targetting_controller',
     'workflow/controllers/geo_targetting_controller', 'workflow/controllers/audience_targetting_controller',
     'workflow/controllers/daypart_create_controller', 'workflow/controllers/video_targetting_controller',
@@ -12,7 +12,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                                                                        $location,  $filter, $timeout,constants,
                                                                        workflowService, loginModel, dataService,
                                                                        audienceService, RoleBasedService, momentService,
-                                                                       vistoconfig) {
+                                                                       vistoconfig, videoService) {
             // Flag to denote that ad format has changed
             $scope.adFormatChanged = false;
 
@@ -378,6 +378,13 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                                 if (result.status === 'OK' || result.status === 'success') {
                                     responseData = result.data.data.ad_groups;
                                     $scope.adGroupList = responseData;
+                                    var index= _.findIndex($scope.adGroupList,function(obj){
+                                        console.log("obj.adGroup.id:",obj.adGroup.id+"$scope.adGroupId:"+$scope.adGroupId);
+                                        return obj.adGroup.id===Number($scope.adGroupId);
+                                    })
+                                    if(index>=0)
+                                    $scope.adGroupName=$scope.adGroupList[index].adGroup.name;
+                                    selectedAdGroupId=$scope.adGroupList[index].adGroup.id;
                                 } else {
                                     campaignOverView.errorHandler(result);
                                 }
@@ -447,7 +454,10 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
 
                 $('.campaignAdCreateWrap, .campaignAdCreatePage, .left_column_nav').css('min-height', winHeight + 'px');
                 $('.adStepOne .tab-pane').css('min-height', winHeight - 30 + 'px');
-                $('.targetingSlide .tab-pane').css('min-height', winHeight - 130 + 'px');
+                //Targetting Responsive
+                $('.targetingSlide .tab-pane, .targetingSlide .tab-pane .list_row_holder').css('min-height', winHeight - 430 + 'px');
+                $('#selectAud .segFixedWrap').css('max-height', winHeight - 475 + 'px');
+                $('#selectAud .setTwo .selectedItems').css('max-height', winHeight - 315 + 'px');
                 $('.dayTargetLower').css('min-height', winHeight - 290 + 'px');
             }
 
@@ -561,14 +571,14 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                     $('.totalBudgetInputClass').attr('disabled', responseData.enabledBudgetCalculation);
 
                     //disabled checkBox if its primary!=Impression && UnitCost!=CPM
-                    if(((responseData.kpiType).toUpperCase() !== 'IMPRESSIONS' ||
+                    if( ((responseData.kpiType && (responseData.kpiType).toUpperCase() !== 'IMPRESSIONS') ||
                         (responseData.rateType).toUpperCase()!== 'CPM') && responseData.enabledBudgetCalculation) {
                         $('.impressions_holder').find('input[type="checkbox"]').attr('disabled', true);
                     }else{
                         $('.impressions_holder').find('input[type="checkbox"]').attr('disabled', false);
                     }
 
-                    if(((responseData.kpiType).toUpperCase() === 'IMPRESSIONS') &&
+                    if(((responseData.kpiType && (responseData.kpiType).toUpperCase() === 'IMPRESSIONS')) &&
                         (responseData.rateType).toUpperCase() === 'CPM') {
                         $('.external_chkbox').show();
                     }else{
@@ -676,6 +686,12 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                     $scope.$broadcast('setTargeting', ['Audience']);
                 }
 
+                //video part edit
+                if (responseData.targets && responseData.targets.videoTargets) {
+                    $scope.$broadcast('setTargeting', ['Video']);
+                }
+
+
                 $scope.$broadcast('getDominList', [{
                     clientId: clientId,
                     advertiserId: advertiserId
@@ -780,6 +796,8 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                         name: $scope.getAd_result.name,
                         id: $scope.getAd_result.id,
                         campaignId: $scope.getAd_result.campaignId,
+                        adGroupId : $scope.adGroupId,
+                        lineitemId : $scope.adData.lineItemId,
                         updatedAt: $scope.getAd_result.updatedAt
                     };
 
@@ -808,6 +826,8 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                     resumeAdDataObj = {
                         name: $scope.getAd_result.name,
                         id: $scope.getAd_result.id,
+                        adGroupId : $scope.adGroupId,
+                        lineitemId : $scope.adData.lineItemId,
                         campaignId: $scope.getAd_result.campaignId,
                         updatedAt: $scope.getAd_result.updatedAt
                     };
@@ -1258,8 +1278,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                             !formData.startTime ||
                             !formData.endTime ||
                             !postAdDataObj.screens ||
-                            !formData.adFormat ||
-                            !formData.goal
+                            !formData.adFormat
                         ) &&
                         $scope.mode === 'edit' &&
                         $scope.isAdsPushed === true
@@ -1417,9 +1436,15 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
 
                             //DayPart Segment
                             dayPart = audienceService.getDayPartdata();
-
                             if (dayPart) {
                                 postAdDataObj.targets.adDaypartTargets = dayPart;
+                            }
+
+                            //video Segment
+                            var videoTargetsData = videoService.getVideoData();
+                            
+                            if(videoTargetsData.videoTargets && (videoTargetsData.videoTargets.sizes.length >0 || videoTargetsData.videoTargets.positions.length >0 || videoTargetsData.videoTargets.playbackMethods.length > 0)) {
+                                postAdDataObj.targets['videoTargets'] = videoTargetsData.videoTargets;
                             }
                         }
 
@@ -1622,6 +1647,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
             $scope.adGroupList = [];
             $scope.mediaPlanName = null;
             $scope.adGroupName = null;
+
             var selectedMediaPlanId = parseInt($routeParams.campaignId),
                 selectedAdGroupId = -1;
 

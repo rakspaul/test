@@ -42,7 +42,7 @@
         <div class="col-md-2 zeroPadding">
             <label class="control-label greyTxt miniLabels" data-ng-bind="textConstants.TARGETVALUE"></label>
             <span class="KPI_symbol currencySymWLabel">#</span>
-            <input class="target_val_input" style="text-indent: 9px; width: 100%;" type="text" ng-model="adData.targetValue" ng-value="adData.targetValue" fraction-numbers="fraction-numbers" name="targetValue" ng-keyup="calculateTotalAdBudget();">
+            <input class="target_val_input" style="text-indent: 9px; width: 100%;" type="text" ng-model="adData.targetValue" ng-value="adData.targetValue" fraction-numbers="fraction-numbers" name="targetValue" ng-keyup="calculateTotalAdBudget();checkBudgetExceed();">
             <span class="VTC_per currencySymWLabel" style="display:none;">%</span>
         </div>
     </div>
@@ -70,7 +70,7 @@
         <div class="col-md-2 zeroPadding">
             <label class="control-label greyTxt miniLabels" data-ng-bind="textConstants.RATE"></label>
             <span data-ng-bind="locale.NUMBER_FORMATS.CURRENCY_SYM" class="currencySymWLabel"></span>
-            <input style="text-indent: 9px;" type="text" class="form-control" ng-model="adData.unitCost" fraction-numbers="fraction-numbers" name="unitCost" ng-keyup = "calculateTotalAdBudget();checkBudgetExceed();">
+            <input style="text-indent: 9px;" type="text" class="form-control" ng-model="adData.unitCost" fraction-numbers="fraction-numbers" name="unitCost" ng-keyup = "calculateTotalAdBudget();checkBudgetExceed();ImpressionPerUserValidator();">
         </div>
     </div>
 

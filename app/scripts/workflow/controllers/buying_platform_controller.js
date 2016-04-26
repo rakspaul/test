@@ -121,7 +121,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                         settings = 'Geography';
                     }
                     if (seat && storedResponse.platform ) {
-                        if (storedResponse.platform.name === seat.name) {
+                        if (storedResponse.platform.id === seat.platform_id) {
                             //directly set  the platform if it is the same
                             _buyingPlatform.setPlatform(event, platform, seat);
                         } else {
@@ -264,7 +264,6 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         $scope.selectPlatform = function(event, platform, seat) {
             $scope.defaultPlatform = platform;
             _buyingPlatform._selectPlatform(event , platform, seat);
-            $scope.saveCustomeFieldForPlatform(true);
         };
 
         $scope.selectTrackingIntegrations = function (trackingIntegration) {
@@ -376,7 +375,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             $scope.$broadcast('switchPlatformFunc');
         };
 
-        $scope.$parent.saveCustomeFieldForPlatform = function (editModeFlag) {
+        $scope.$parent.saveCustomeFieldForPlatform = function () {
             var customFieldErrorElem = $('.customFieldErrorMsg'),
                 customPlatformFormData = $('#customPlatformForm').serializeArray();
 
@@ -400,7 +399,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             if ($scope.mode == 'edit') {
                 localStorage.setItem('adPlatformCustomInputs', JSON.stringify($scope.$parent.postPlatformDataObj));
             }
-            $scope.switchPlatform();
+                $scope.switchPlatform();
         };
 
         $scope.showtrackingSetupInfoPopUp = false;
@@ -457,6 +456,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 });
                 return false;
             }
+
             _buyingPlatform.hideCustomPlatformBox();
         });
 
