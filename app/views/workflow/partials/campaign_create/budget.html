@@ -132,25 +132,25 @@
         <div class="table-responsive">
             <div class="vistoTable yellowTable" style="padding: 0 15px 15px;">
                 <!--Header-->
-                <div class="col-md-12 zeroPadding" ng-repeat="addCost in additionalCosts track by $index" >
-                        <div class="col-md-3 ">
+                <div class="col-md-12 zeroPadding each-cost-dimension" ng-repeat="addCost in additionalCosts track by $index" >
+                        <div class="col-md-3 zeroPadding" >
                             <label for="primaryKPI" class="col-sm-12 greyTxt miniLabels">Category</label>
                                 <div class="col-md-12 zeroPadding">
                                     <div class="col-md-12 zeroPadding dropdown-workflow">
                                         <div class="dropdown">
                                             <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                                <span class="text">Attribution</span>
+                                                <span class="text">Select</span>
                                                 <span class="icon-arrow-down"></span>
                                             </button>
                                             <ul class="dropdown-menu">
-                                                <li class="available"><a>Attribution</a></li>
+                                                <li class="available" ng-repeat="attr in costAttributes.category" id="{{attr.id}}"><a>{{attr.name}}</a></li>
                                             </ul>
                                             
                                         </div>
                                     </div>
                                 </div>
                         </div>
-                        <div class="col-md-3 ">
+                        <div class="col-md-3 zeroPadding" >
                             <label for="primaryKPI" class="col-sm-12 greyTxt miniLabels">Vendor</label>
                             <div class="col-md-12 zeroPadding dropdown-workflow">
                                 <div class="dropdown">
@@ -159,28 +159,26 @@
                                         <span class="icon-arrow-down"></span>
                                     </button>
                                     <ul class="dropdown-menu" aria-labelledby="selectKPI"  id="selectKPI">
-                                        <li class="available"><a>Select</a></li>
+                                        <li class="available" ng-repeat="attr in costAttributes.vendor" id="{{attr.id}}"><a>{{attr.name}}</a></li>
                                     </ul>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-3 ">
+                        <div class="col-md-3 zeroPadding" >
                             <label for="primaryKPI" class="col-sm-12 greyTxt miniLabels">Offering</label>
                             <div class="col-md-12 zeroPadding dropdown-workflow">
                                 <div class="dropdown">
                                     <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                        <span class="text">Type 1</span>
+                                        <span class="text">Select</span>
                                         <span class="icon-arrow-down"></span>
                                     </button>
-                                    <ul class="dropdown-menu">
-                                        <li class="available"><a>Type 1</a></li>
-                                        <li class="available"><a>Type 2</a></li>
-                                        <li class="available"><a>Type 3</a></li>
+                                    <ul class="dropdown-menu" >
+                                        <li class="available" ng-repeat="attr in costAttributes.offering" id="{{attr.id}}"><a>{{attr.name}}</a></li>
                                     </ul>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-1  ">
+                        <div class="col-md-1 zeroPadding" >
                             <label for="primaryKPI" class="col-sm-12 greyTxt miniLabels">Pricing</label>
                             <div class="col-md-12 zeroPadding  symbol-input">
 
@@ -188,7 +186,7 @@
                             </div>
 
                         </div>
-                        <div class="col-md-1  ">
+                        <div class="col-md-1 zeroPadding" >
                             <label for="primaryKPI" class="col-sm-12 greyTxt miniLabels">Rate</label>
                             <div class="col-md-12 zeroPadding  symbol-input" style="padding-right: 0px !important; max-width: 118px;">
 
@@ -196,8 +194,8 @@
                                 <input type="text" class="col-md-12" style="text-indent: 8px; height:36px;" ng-model="Campaign.costArr[$index]['rateValue']" fraction-numbers="fraction-numbers" ng-keyup="ComputeCost()" field="rateValue"  index="{{$index}}"/>
                             </div>
                         </div>
-                        <div class="col-md-1" >
-                            <span class="remove-row pull-right" ><!-- ng-if="$index>0 || (Campaign.costArr.length>=2)" -->
+                        <div class="col-md-1 zeroPadding removeHolder" ng-click="removeCostDimension($event);">
+                            <span class="remove-row pull-right" >
                                 <span class="icon-clear"></span>
                             </span>
                         </div>
@@ -205,8 +203,11 @@
 
               
 
-                <div ng-click="addAdditionalCost()">
-                    Add a cost 
+                <div class="addCostLink col-md-12 zeroPadding">
+                    <span class="addCostBtn" ng-click="addAdditionalCost()">
+                        <span class="icon-plus"></span>
+                        <span>Add a cost </span>
+                    </span>
                 </div>
             </div>
         </div>

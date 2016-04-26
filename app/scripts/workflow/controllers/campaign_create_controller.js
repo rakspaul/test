@@ -55,6 +55,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
         $scope.editLineItem = {};
         $scope.vendorConfig = {};
+        $scope.costAttributes = {};
 
         //mediaplan dates
         $scope.mediaPlanStartDate = '';
@@ -292,6 +293,174 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             },
 
 
+            fetchCostAttributes: function(){
+                workflowService.getCostAttr($scope.selectedCampaign.advertiserId).then(function(result){
+
+                    console.log(result.data.data);
+                    result = [{
+                        "id": 1,
+                        "clientId": 2,
+                        "vendorId": 1,
+                        "vendorName": "VendorName1",
+                        "vendorTypeId": 1,
+                        "name": "ConfigName",
+                        "description": "some desc",
+                        "clientVendorOfferings": [
+                            {
+                                "id": 11,
+                                "clientVendorConfigurationId": 1,
+                                "costCategory": {
+                                    "id": 111,
+                                    "name": "Cost categoryName111",
+                                    "description": "cost desc"
+                                },
+                                "name": "offeringName11",
+                                "description": "Offering Desc",
+                                "rateType": "CPA",
+                                "rateValue": 10
+                            },
+                            {
+                                "id": 12,
+                                "clientVendorConfigurationId": 1,
+                                "costCategory": {
+                                    "id": 121,
+                                    "name": "Cost categoryName121",
+                                    "description": "cost desc"
+                                },
+                                "name": "offeringName12",
+                                "description": "Offering Desc",
+                                "rateType": "CPA",
+                                "rateValue": 10
+                            }
+                        ],
+                        "clientConfigPermissions": [
+                            {
+                                "metric": "IMPRESSIONS",
+                                "adFormat": "DISPLAY RICHMEDIA"
+                            },
+                            {
+                                "metric": "CTR",
+                                "adFormat": "DISPLAY VIDEO"
+                            },
+                            ,
+                            {
+                                "metric": "CTC",
+                                "adFormat": "SHRUJAN VIDEO"
+                            },
+                            ,
+                            {
+                                "metric": "CPC",
+                                "adFormat": "DISPLAY RICHMEDIA"
+                            }
+                        ]
+                    },
+                    {
+                        "id": 2,
+                        "clientId": 2,
+                        "vendorId": 3,
+                        "vendorName": "VendorName2",
+                        "vendorTypeId": 1,
+                        "name": "ConfigName2",
+                        "description": "some desc",
+                        "clientVendorOfferings": [
+                            {
+                                "id": 21,
+                                "clientVendorConfigurationId": 1,
+                                "costCategory": {
+                                    "id": 221,
+                                    "name": "Cost categoryName221",
+                                    "description": "cost desc"
+                                },
+                                "name": "offeringName",
+                                "description": "Offering Desc",
+                                "rateType": "CPA",
+                                "rateValue": 10
+                            },
+                            {
+                                "id": 222,
+                                "clientVendorConfigurationId": 1,
+                                "costCategory": {
+                                    "id": 222,
+                                    "name": "Cost categoryName 222",
+                                    "description": "cost desc"
+                                },
+                                "name": "offeringName",
+                                "description": "Offering Desc",
+                                "rateType": "CPA",
+                                "rateValue": 10
+                            }
+                        ],
+                        "clientConfigPermissions": [
+                            {
+                                "metric": "IMPRESSIONS",
+                                "adFormat": "DISPLAY RICHMEDIA"
+                            },
+                            {
+                                "metric": "CTR",
+                                "adFormat": "DISPLAY VIDEO"
+                            },
+                            ,
+                            {
+                                "metric": "CTC",
+                                "adFormat": "SHRUJAN VIDEO"
+                            },
+                            ,
+                            {
+                                "metric": "CPC",
+                                "adFormat": "DISPLAY RICHMEDIA"
+                            }
+                        ]
+                    },
+                    {
+                        "id": 1,
+                        "clientId": 2,
+                        "vendorId": 4,
+                        "vendorName": "VendorName4",
+                        "vendorTypeId": 1,
+                        "name": "ConfigName3",
+                        "description": "some desc",
+                        "clientVendorOfferings": [
+                            {
+                                "id": 3,
+                                "clientVendorConfigurationId": 1,
+                                "costCategory": {
+                                    "id": 1,
+                                    "name": "Cost categoryName",
+                                    "description": "cost desc"
+                                },
+                                "name": "offeringName",
+                                "description": "Offering Desc",
+                                "rateType": "CPA",
+                                "rateValue": 10
+                            }
+                        ],
+                        "clientConfigPermissions": [
+                            {
+                                "metric": "IMPRESSIONS",
+                                "adFormat": "DISPLAY RICHMEDIA"
+                            },
+                            {
+                                "metric": "CTR",
+                                "adFormat": "DISPLAY VIDEO"
+                            },
+                            ,
+                            {
+                                "metric": "CTC",
+                                "adFormat": "SHRUJAN VIDEO"
+                            },
+                            ,
+                            {
+                                "metric": "CPC",
+                                "adFormat": "DISPLAY RICHMEDIA"
+                            }
+                        ]
+                    }] ;
+                   console.log('resutl',result);
+
+                    $scope.costAttributes = workflowService.processCostAttr(result) ;
+                });
+            },
+
             errorHandler: function (errData) {
                 console.log(errData);
             }
@@ -326,6 +495,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     createCampaign.fetchBrands($scope.selectedCampaign.clientId, data.id);
                     createCampaign.platforms(data.id);
                     createCampaign.fetchVendorConfigs();
+                    createCampaign.fetchCostAttributes();
                     $scope.$broadcast('fetch_pixels');
                     break;
                 case 'brand' :
@@ -966,6 +1136,10 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 });
         }
 
+        $scope.removeCostDimension = function(event) {
+            var elem = $(event.target) ;
+            elem.closest(".each-cost-dimension").hide();
+        }
 
         //select or unselect indiviual audience
         $scope.selectPixel = function (pixel) {
