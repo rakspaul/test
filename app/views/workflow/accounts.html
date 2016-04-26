@@ -28,7 +28,7 @@
                     <span class="pull-left" style="text-transform: capitalize;">{{client.clientType | lowercase}}</span>
                 </div>
                 <!--<span class="pull-left edit"  ng-click="AddOrEditAccountModal('edit',client)"></span>-->
-                <span class="pull-right adding-section"  ng-if="client.isLeafNode" ng-click="AddOrEditAdvertiserModal({},'create',client)"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Add Advertiser</span>
+                <span class="pull-right btn btn-default"  ng-if="client.isLeafNode" ng-click="AddOrEditAdvertiserModal({},'create',client)"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Add Advertiser</span>
                 <div class="pull-right btn btn-default" ng-if="!client.isLeafNode" ng-click="AddOrEditAccountModal('create',client.id)">Create Sub Account</div>
             </div>
 

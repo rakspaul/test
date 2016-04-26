@@ -3650,10 +3650,6 @@
   /*border: solid 1px #ccc;
 */
 }
-.users-creation-page .particular-account-box.open .account-name,
-.accounts-page .particular-account-box.open .account-name {
-  background-image: url(/images/cdesk/common_down_arrow.png);
-}
 .users-creation-page .particular-account-box.open.data-loaded:not(.no-data-open) .account-name:after,
 .accounts-page .particular-account-box.open.data-loaded:not(.no-data-open) .account-name:after {
   border-left: dashed 1px #ccc;
