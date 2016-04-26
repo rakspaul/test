@@ -186,15 +186,15 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                         description: ''
                     });
                 }
-                workflowService.getPlatforms({cache: false}, advertiserId).then(function (result) {
-                    if (result.status === "OK" || result.status === "success") {
-                        var responseData = result.data.data;
-                        //wrapper to transform new API response to old one
-                        responseData = workflowService.platformResponseModifier(responseData);
-                        $scope.platformKeywords = responseData.fullIntegrationsPlatforms;
-                        console.log("$scope.platformKeywords==",$scope.platformKeywords)
-                    }
-                })
+                //workflowService.getPlatforms({cache: false}, advertiserId).then(function (result) {
+                //    if (result.status === "OK" || result.status === "success") {
+                //        var responseData = result.data.data;
+                //        //wrapper to transform new API response to old one
+                //        responseData = workflowService.platformResponseModifier(responseData);
+                //        $scope.platformKeywords = responseData.fullIntegrationsPlatforms;
+                //        console.log("$scope.platformKeywords==",$scope.platformKeywords)
+                //    }
+                //})
 
             },
             fetchAdvertisers: function (clientId) {
@@ -234,60 +234,18 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             fetchRateTypes: function(){
                 workflowService.getRatesTypes().then(function(result){
                     $scope.type = result.data.data;
-                    console.log($scope.type)
+                    workflowService.setRateTypes($scope.type);
                 })
             },
 
             fetchVendorConfigs: function(){
                 workflowService.getVendorConfigs($scope.selectedCampaign.advertiserId).then(function(result){
 
-                    console.log(result.data.data);
-                    result = {
-                        "id": 1,
-                        "clientId": 2,
-                        "vendorId": 6,
-                        "vendorName": "VendorName",
-                        "vendorTypeId": 1,
-                        "name": "ConfigName",
-                        "description": "some desc",
-                        "clientVendorOfferings": [
-                            {
-                                "id": 1,
-                                "clientVendorConfigurationId": 1,
-                                "costCategory": {
-                                    "id": 1,
-                                    "name": "Cost categoryName",
-                                    "description": "cost desc"
-                                },
-                                "name": "offeringName",
-                                "description": "Offering Desc",
-                                "rateType": "CPA",
-                                "rateValue": 10
-                            }
-                        ],
-                        "clientConfigPermissions": [
-                            {
-                                "metric": "IMPRESSIONS",
-                                "adFormat": "DISPLAY, RICHMEDIA"
-                            },
-                            {
-                                "metric": "CTR",
-                                "adFormat": "DISPLAY, VIDEO"
-                            },
-                            ,
-                            {
-                                "metric": "CTC",
-                                "adFormat": "SHRUJAN, VIDEO"
-                            },
-                            ,
-                            {
-                                "metric": "CPC",
-                                "adFormat": "DISPLAY, RICHMEDIA"
-                            }
-                        ]
-                    };
+                    var configList = result.data.data;
 
-                    $scope.vendorConfig = workflowService.processVendorConfig(result)
+                    for(var i = 0; i < configList.length; i++){
+                        $scope.vendorConfig.push(workflowService.processVendorConfig(configList[i]));
+                    }
                 });
             },
 
@@ -325,7 +283,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     $("#brandDDL").parents('.dropdown').find('button').html("Select Brand <span class='icon-arrow-down'></span>");
                     createCampaign.fetchBrands($scope.selectedCampaign.clientId, data.id);
                     createCampaign.platforms(data.id);
-                    //createCampaign.fetchVendorConfigs();
+                    createCampaign.fetchVendorConfigs();
                     $scope.$broadcast('fetch_pixels');
                     break;
                 case 'brand' :
@@ -763,6 +721,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 $scope.rateReadOnly = false;
                 $scope.volumeFlag = true;
                 $scope.amountFlag = true;
+                $scope.rateTypeReadOnly = false;
 
                 if("COGS + Percentage Markup" === $scope.lineItemType.name){
                     if(selectedAdvertiser && (selectedAdvertiser.billingType && selectedAdvertiser.billingValue)){
