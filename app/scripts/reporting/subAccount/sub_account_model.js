@@ -27,7 +27,7 @@ define(['angularAMD', 'workflow/services/workflow_service','common/services/cons
         };
 
         //Dashboard subAccount setter
-        this.setDashboardSubAccounts = function(dataAry) { console.log('setting');
+        this.setDashboardSubAccounts = function(dataAry) {
             self.subAccounts.dashboardSubAccounts = dataAry;
         };
 
@@ -41,7 +41,6 @@ define(['angularAMD', 'workflow/services/workflow_service','common/services/cons
 
         //Dashboard subAccount getter
         this.getDashboardSubAccounts = function() {
-            console.log('getDashboardsubaccount',self.subAccounts.dashboardSubAccounts);
             return self.subAccounts.dashboardSubAccounts;
         };
 
@@ -53,10 +52,6 @@ define(['angularAMD', 'workflow/services/workflow_service','common/services/cons
             if((locationPath === '/dashboard') || (locationPath === '/')) {
                 isDashboardFilter = true;
             }
-
-            $rootScope.$on('$locationChangeSuccess',function(evt, absNewUrl, absOldUrl) {
-                console.log('prev path: ' + absOldUrl);
-            });
 
             if(!isLeafNode){
                 workflowService.getSubAccounts().then(function (response) {

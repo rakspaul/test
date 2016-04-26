@@ -1,5 +1,5 @@
-define(['angularAMD', 'common/services/url_service','common/services/data_service','reporting/brands/brands_model','reporting/dashboard/dashboard_model', 'login/login_model', 'reporting/advertiser/advertiser_model'], function (angularAMD) {
-  angularAMD.service('ganttChartModel', ['utils', 'urlService', 'dataService', 'brandsModel','dashboardModel','loginModel', 'advertiserModel', function (utils, urlService , dataService, brandsModel, dashboardModel, loginModel, advertiserModel) {
+define(['angularAMD', 'common/services/url_service','common/services/data_service','reporting/brands/brands_model','reporting/dashboard/dashboard_model', 'login/login_model', 'reporting/advertiser/advertiser_model', 'reporting/subAccount/sub_account_model'], function (angularAMD) {
+  angularAMD.service('ganttChartModel', ['utils', 'urlService', 'dataService', 'brandsModel','dashboardModel','loginModel', 'advertiserModel','subAccountModel', function (utils, urlService , dataService, brandsModel, dashboardModel, loginModel, advertiserModel,subAccountModel) {
         this.dashboard = {
             tasks: {},
             brands: {},
@@ -7,7 +7,8 @@ define(['angularAMD', 'common/services/url_service','common/services/data_servic
         };
         this.getGanttChartData = function () {
             var url;
-            var clientId = loginModel.getSelectedClient().id;
+            var isDashboardSubAccount = subAccountModel.isDashboardSubAccount();
+            var clientId = isDashboardSubAccount?loginModel.getDashboardClient().id:loginModel.getSelectedClient().id;
             var advertiserId = advertiserModel.getSelectedAdvertiser().id;
             var brandId = brandsModel.getSelectedBrand().id;
 
@@ -18,6 +19,7 @@ define(['angularAMD', 'common/services/url_service','common/services/data_servic
             } else {
                 url = urlService.APICalendarWidgetForAllBrands(clientId, advertiserId, this.filter,dashboardModel.campaignStatusToSend());
             }
+            console.log('Gantt chart url: ',url);
             return dataService.fetch(url, {cache: false}).then(function (response) {
                 var data = response.data.data;
                 return data;

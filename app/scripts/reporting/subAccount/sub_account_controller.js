@@ -12,7 +12,6 @@ define(['angularAMD','reporting/subAccount/sub_account_model','common/services/c
             if((locationPath === '/dashboard') || (locationPath === '/')) {
                 $scope.isDashboardFilter = true;
             }
-            console.log('subaccount Model isDashboard:',$scope.isDashboardFilter);
 
             $scope.subAccountData = {
                 subAccounts : {},
@@ -23,7 +22,7 @@ define(['angularAMD','reporting/subAccount/sub_account_model','common/services/c
             };
         }();
 
-        function fetchSubAccounts(from,searchCriteria, search) { console.log('fetch subaccounts ctrl: isDashboard',$scope.isDashboardFilter);
+        function fetchSubAccounts(from,searchCriteria, search) {
             subAccountModel.fetchSubAccounts(from,function () {
                 if($scope.isDashboardFilter) {
                     $scope.subAccountData.subAccounts = subAccountModel.getDashboardSubAccounts();
@@ -38,7 +37,7 @@ define(['angularAMD','reporting/subAccount/sub_account_model','common/services/c
             });
         };
 
-        function getSubAccounts(searchCriteria, search) { console.log('am coming here');
+        function getSubAccounts(searchCriteria, search) {
             $scope.subAccountData.subAccounts = subAccountModel.getSubAccounts();
             $scope.subAccountData.selectedsubAccount.id = loginModel.getSelectedClient().id;//$scope.subAccountData.subAccounts[0].id;
             $scope.subAccountData.selectedsubAccount.name = loginModel.getSelectedClient().name;//$scope.subAccountData.subAccounts[0].name;
