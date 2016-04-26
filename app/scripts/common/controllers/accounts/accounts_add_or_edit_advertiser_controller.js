@@ -112,13 +112,8 @@ define(['angularAMD','../../../workflow/services/account_service', '../../servic
                 });
         }
         function getRequestDataforPixel(clientId, advertiserId){
-            var id = null,
-                expiryDate = null;
+            var id = null;
             _.each($scope.advertiserData.pixels, function(item, index){
-                expiryDate = (item.expiryDate).split("/");
-                expiryDate = expiryDate[2]+"/"+expiryDate[1]+"/"+expiryDate[0];
-                var date = new Date(expiryDate);
-                expiryDate = (date.getTime());
                 $scope.advertiserData.pixels[index] = {
                     name : item.name,
                     clientId : clientId,
@@ -129,7 +124,7 @@ define(['angularAMD','../../../workflow/services/account_service', '../../servic
                     createdBy: item.createdBy,
                     createdAt: item.createdAt,
                     updatedAt: item.updatedAt,
-                    expiryDate: momentService.newMoment(expiryDate).format('YYYY-MM-DD HH:MM:SS.SSS')
+                    expiryDate: momentService.newMoment(item.expiryDate).format('YYYY-MM-DD HH:MM:SS.SSS')
                 }
                 if(item.id){
                     $scope.advertiserData.pixels[index].id = item.id;

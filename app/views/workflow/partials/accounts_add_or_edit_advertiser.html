@@ -146,12 +146,12 @@
             <div class="col-md-12 input-daterange input-group date pull-left">
                 <div class="col-md-12 dateWrapper ">
                     <input type="text" id="pixelExpDate_{{$index}}" class="input-sm form-control timeframe"
-                           custom-date-picker="{format: 'yy/mm/dd', orientation: 'auto',  autoclose: true, todayHighlight: true, update:advertiserData.pixels[$index].expiryDate}"
+                           custom-date-picker="{format: 'yyyy/mm/dd', orientation: 'auto',  autoclose: true, todayHighlight: true, update:advertiserData.pixels[$index].expiryDate}"
                            data-ng-bind="advertiserData.pixels[$index].expiryDate"
                            required>
                     <i class="icon-calendar glyphicon pull-right" style="position: absolute; z-index: 10; top: 10px; right: 10px;"></i>
-                    <label ng-show="!advertiserData.pixels[$index].expiryDate" style="display:block"
-                           class="errorLabel" ng-bind="textConstants.SELECT_DATE_LABEL"></label>
+                    <!--<label ng-show="!advertiserData.pixels[$index].expiryDate" style="display:block"-->
+                           <!--class="errorLabel" ng-bind="textConstants.SELECT_DATE_LABEL"></label>-->
                 </div>
             </div>
         </div>

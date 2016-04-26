@@ -84,7 +84,7 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
         }
         _currCtrl.setCalanderSetting = function(i){
             setTimeout(function(i) {
-                $('#pixelExpDate_' + i).datepicker('update', momentService.newMoment(new Date()).format('YY/MM/DD'));
+                $('#pixelExpDate_' + i).datepicker('update', momentService.todayDate('YYYY/MM/DD'));
                 $('#pixelExpDate_' + i).datepicker('setStartDate', momentService.getCurrentYear().toString());
                 $('#pixelExpDate_' + i).change(function (e) {
                     $scope.advertiserData.pixels[i].expiryDate = $(this).val();
@@ -243,7 +243,7 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                             : (item.pixelType == "AUDIENCE_CREATION") ? 'Audience Creation Pixel' : 'Retargeting Pixel';
                         $scope.advertiserData.pixels[i].isFeedData = true;
                         if(item.expiryDate) {
-                            $scope.advertiserData.pixels[i].expiryDate = momentService.newMoment(item.expiryDate).format('YY/MM/DD');
+                            $scope.advertiserData.pixels[i].expiryDate = momentService.newMoment(item.expiryDate).format('YYYY/MM/DD');
                         }
                        // _currCtrl.setCalanderSetting(i, 1);
                     });
