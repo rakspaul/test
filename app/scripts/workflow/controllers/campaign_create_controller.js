@@ -325,7 +325,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     $("#brandDDL").parents('.dropdown').find('button').html("Select Brand <span class='icon-arrow-down'></span>");
                     createCampaign.fetchBrands($scope.selectedCampaign.clientId, data.id);
                     createCampaign.platforms(data.id);
-                    createCampaign.fetchVendorConfigs();
+                    //createCampaign.fetchVendorConfigs();
                     $scope.$broadcast('fetch_pixels');
                     break;
                 case 'brand' :
@@ -636,7 +636,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             if ($scope.mode == 'edit') {
                 $scope.processEditCampaignData();
             } else {
-                createCampaign.objectives();
+                //createCampaign.objectives();
                 $scope.initiateDatePicker();
                 $scope.initiateLineItemDatePicker();
 
