@@ -176,6 +176,9 @@ define(['angularAMD', 'workflow/services/workflow_service', 'common/services/con
                                 _videoTargetting.removeSelectedDimension();
                                 _videoTargetting.addAdditionalDimension();
                             }
+                        } else {
+                            _videoTargetting.init();
+                            _videoTargetting.addAdditionalDimension();
                         }
                     }
                 }
@@ -226,6 +229,7 @@ define(['angularAMD', 'workflow/services/workflow_service', 'common/services/con
                 _.each($scope.additionalDimension, function(obj, index) {
                     if(obj.tags.type === 'sizes') {
                         obj.tags.value = 'Specific Size';
+                        obj.tags.data = null;
                     }
                 })
             } else {
