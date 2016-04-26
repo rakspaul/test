@@ -9,6 +9,7 @@ define(['angularAMD', 'common/services/constants_service', 'common/moment_utils'
         $scope.adData.adBudgetExceedUnallocated = false;
         $scope.isChecked = true;
         $scope.adData.unitType.name = 'CPM';
+        $scope.unitName = 'CPM';
         $scope.adData.targetValue = '';
         $scope.adData.unitCost = '';
         $scope.adData.totalAdBudget = '';
@@ -31,7 +32,7 @@ define(['angularAMD', 'common/services/constants_service', 'common/moment_utils'
             var campaignData;
 
             if ($('#targetUnitCost_squaredFour').prop('checked') &&
-                ($scope.adData.primaryKpi).toUpperCase() === 'IMPRESSIONS' && $scope.adData.unitType.name === 'CPM') {
+                ($scope.adData.primaryKpi).toUpperCase() === 'IMPRESSIONS' && $scope.unitName === 'CPM') {
                 if ($scope.adData.targetValue >= 0 && $scope.adData.unitCost >= 0) {
                     $scope.adData.totalAdBudget =
                         Number((Number($scope.adData.targetValue) * Number($scope.adData.unitCost)) / 1000);
