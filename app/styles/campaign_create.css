@@ -2919,6 +2919,33 @@
   font-size: 14px;
   margin-bottom: 0;
 }
+#campaignCreate .firstWrapper .masterContainer .each-cost-dimension > div {
+  margin-right: 10px ;
+}
+#campaignCreate .firstWrapper .masterContainer .each-cost-dimension .removeHolder {
+  position: absolute;
+  top: 41px;
+  right: 0px;
+  height: 17px;
+  width: 17px;
+  cursor: pointer;
+  margin-right: 0;
+}
+#campaignCreate .firstWrapper .masterContainer .each-cost-dimension .removeHolder .icon-clear {
+  margin: 0 ;
+}
+#campaignCreate .firstWrapper .masterContainer .addCostLink {
+  color: #0978c9 ;
+  margin-top: 15px ;
+}
+#campaignCreate .firstWrapper .masterContainer .addCostLink .addCostBtn {
+  cursor: pointer;
+}
+#campaignCreate .firstWrapper .masterContainer .addCostLink .icon-plus {
+  color: #0978c9 ;
+  margin: 0 10px 0 0;
+  float: left;
+}
 #campaignCreate .firstWrapper .masterContainer .marginCal {
   float: left;
   margin-top: 20px;

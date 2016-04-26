@@ -247,7 +247,6 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
                     var configList = result.data.data;
 
-<<<<<<< HEAD
                     //for(var i = 0; i < configList.length; i++){
                     $scope.vendorConfig = workflowService.processVendorConfig(configList);
                     //}
@@ -420,11 +419,6 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     console.log('resutl',result);
 
                     $scope.costAttributes = workflowService.processCostAttr(result) ;
-=======
-                    for(var i = 0; i < configList.length; i++){
-                        $scope.vendorConfig.push(workflowService.processVendorConfig(configList[i]));
-                    }
->>>>>>> line item hardcoded data removed
                 });
             },
 
@@ -462,10 +456,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     createCampaign.fetchBrands($scope.selectedCampaign.clientId, data.id);
                     createCampaign.platforms(data.id);
                     createCampaign.fetchVendorConfigs();
-<<<<<<< HEAD
                     createCampaign.fetchCostAttributes();
-=======
->>>>>>> line item hardcoded data removed
                     $scope.$broadcast('fetch_pixels');
                     break;
                 case 'brand' :
@@ -1162,7 +1153,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         // nav control
 
         $scope.highlightLeftNav=function(pageno){
-            $(".eachStepCompLabel").removeClass('active');
+            $(".eachStepCompLabel").removeClass('active')
             $(".eachStepCompLabel")[pageno].classList.add("active");
         }
 
