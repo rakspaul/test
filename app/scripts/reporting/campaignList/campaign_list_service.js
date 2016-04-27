@@ -203,19 +203,13 @@ define(['angularAMD', 'common/services/data_service', 'common/utils', 'common/se
                                     var kpiType = kpiMap[angular.lowercase(sKpiType)] ? kpiMap[angular.lowercase(sKpiType)] : angular.lowercase(sKpiType);
                                     var kpiTypeLower = angular.lowercase(kpiType);
 
-                                    //if kpiType is delivery, plot impressions on the graph
-                                    //picking up impressions from perf bydays data call
-                                    if(kpiTypeLower === "delivery") {
-                                        kpiTypeLower = "impressions";
-                                    }
-
                                     lineData.push({ 'x': i + 1, 'y': utils.roundOff(maxDays[i][kpiTypeLower], 2), 'date': maxDays[i]['date'] });
                                 }
                                 tacticsList[obj].chart = new line.highChart(lineData, parseFloat(kpiValue), kpiType,'tactics');
 
                                 //d3 chart data
                                 //REVIEW: TARGET -DELIVERY
-                                if(angular.lowercase(kpiType) === "delivery") {
+                                if(angular.lowercase(kpiType) === "impressions") {
                                   //tacticsList[obj].targetKPIImpressions= maxDays[maxDays.length-1]['booked_impressions']/momentInNetworkTZ.dateDiffInDays(tacticsList[obj].startDate, tacticsList[obj].endDate) * (maxDays.length-1);
                                   tacticsList[obj].targetKPIImpressions= maxDays[maxDays.length-1]['booked_impressions'];
                                 }
@@ -325,18 +319,12 @@ define(['angularAMD', 'common/services/data_service', 'common/utils', 'common/se
                                     maxDays[i]['vtc'] = maxDays[i].video_metrics.vtc_rate;
                                     var kpiTypeLower = angular.lowercase(kpiType);
 
-                                    //if kpiType is delivery, plot impressions on the graph
-                                    //picking up impressions from perf bydays data call
-                                    if(kpiTypeLower === "delivery") {
-                                        kpiTypeLower = "impressions";
-                                    }
-
                                     lineData.push({ 'x': i + 1, 'y': utils.roundOff(maxDays[i][kpiTypeLower], 2), 'date': maxDays[i]['date'] });
                                 }
                                 strategyList[obj].chart = new line.highChart(lineData, parseFloat(kpiValue), sKpiType,'strategy');
                                 //d3 chart data
                                 //REVIEW: TARGET -DELIVERY
-                                if(angular.lowercase(kpiType) === "delivery") {
+                                if(angular.lowercase(kpiType) === "impressions") {
                                     //strategyList[obj].targetKPIImpressions= maxDays[maxDays.length-1]['booked_impressions']/momentInNetworkTZ.dateDiffInDays(strategyList[obj].startDate, strategyList[obj].endDate) * (maxDays.length-1);
                                     strategyList[obj].targetKPIImpressions= maxDays[maxDays.length-1]['booked_impressions'];
                                 }
@@ -473,12 +461,6 @@ define(['angularAMD', 'common/services/data_service', 'common/utils', 'common/se
                                     var kpiType = (campaignObject.kpiType),
                                         kpiTypeLower = angular.lowercase(kpiType);
 
-                                        //if kpiType is delivery, plot impressions on the graph
-                                        //picking up impressions from perf bydays data call
-                                        if(kpiTypeLower === "delivery") {
-                                            kpiTypeLower = "impressions";
-                                        }
-
                                     lineDate.push({ 'x': i + 1, 'y': utils.roundOff(maxDays[i][kpiTypeLower], 2),
                                         'date': maxDays[i]['date'] });
                                 }
@@ -490,7 +472,7 @@ define(['angularAMD', 'common/services/data_service', 'common/utils', 'common/se
                                     campaignObject.kpiType,'campaign');
                                 //d3 chart data
                                 //REVIEW: TARGET -DELIVERY
-                                if(angular.lowercase(kpiType) === "delivery") {
+                                if(angular.lowercase(kpiType) === "impressions") {
                                     //campaignObject.targetKPIImpressions =
                                     // maxDays[maxDays.length-1]['booked_impressions'] /
                                     // momentInNetworkTZ.dateDiffInDays(campaignObject.startDate, campaignObject.endDate) *
@@ -583,8 +565,8 @@ define(['angularAMD', 'common/services/data_service', 'common/utils', 'common/se
                         campaign.setMomentInNetworkTz(momentInNetworkTZ);
                         //TODO: set default to DELIVERY if null or undefined
                         if (campaign.kpi_type == 'null' || campaign.kpi_type == '') {
-                            campaign.kpi_type = 'DELIVERY';
-                            campaign.kpiType = 'DELIVERY';
+                            campaign.kpi_type = 'IMPRESSIONS';
+                            campaign.kpiType = 'IMPRESSIONS';
                             campaign.kpi_value = 0;
                             campaign.kpiValue = 0;
                         }

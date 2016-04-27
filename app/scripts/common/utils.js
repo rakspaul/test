@@ -771,7 +771,7 @@ define(['angularAMD','common/services/constants_service', 'common/services/role_
                             return $filter('number')(input, 0);
                         }
                     } else {
-                        if (kpiType.toLowerCase() === 'delivery') {
+                        if (kpiType.toLowerCase() === 'impressions') {
                             return 0;
                         }
                         return 'NA';

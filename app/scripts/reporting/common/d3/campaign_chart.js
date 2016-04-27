@@ -144,7 +144,7 @@ define(['angularAMD', '../../../common/services/constants_service', 'login/login
                             var adjustY;
                             if(chartCallFrom == 'action_optimization') {
                                 adjustY = 10;
-                            } else if(_config.kpiType.toLowerCase() == "delivery") {
+                            } else if(_config.kpiType.toLowerCase() == "impressions") {
                                 adjustY = 14;
                             } else {
                                 adjustY = 20;
@@ -156,10 +156,10 @@ define(['angularAMD', '../../../common/services/constants_service', 'login/login
                                 .attr("y", adjustY)
                                 .style("font-size","12px")
                                 .style("fill", "#57595b")
-                                .text(_config.kpiType.toLowerCase()!=="delivery"?_config.kpiType:"Delivery");
+                                .text(_config.kpiType.toLowerCase()!=="impressions"?_config.kpiType:"Impressions");
                          }
 
-                         if (threshold !== 0 && kpiType.toLowerCase() !== "delivery") {
+                         if (threshold !== 0 && kpiType.toLowerCase() !== "impressions") {
                             //if there is a threshold, then draw goal icon, line and render threshold encoding
 
                             //if threshold is out of view i.e greater than data view
@@ -313,7 +313,7 @@ define(['angularAMD', '../../../common/services/constants_service', 'login/login
 
                         } else { //if no threshold
 
-                          if(kpiType.toLowerCase() === "delivery") {
+                          if(kpiType.toLowerCase() === "impressions") {
                             //delivery as kpi
                             //***
                             var maxUpperThreshold = d3.max(data, function(d) {
@@ -525,7 +525,7 @@ define(['angularAMD', '../../../common/services/constants_service', 'login/login
                                      formatY = parseFloat(d.values).toFixed(2),
                                      formatX = moment(d.date).format('dddd, D MMM, YYYY');// //Saturday, 24 Jan, 2015
 
-                                 if(kpiType.toLowerCase() == "delivery") {
+                                 if(kpiType.toLowerCase() == "impressions") {
                                    //delivery in tooltips shown as integer
                                    formatY = parseInt(d.values);
                                    formatY = $filter('nrFormat')(formatY, 0);
@@ -1090,7 +1090,7 @@ define(['angularAMD', '../../../common/services/constants_service', 'login/login
                             totalDays, totalImps;
 
                         //for delivery as KPI
-                        if(kpiType.toLowerCase() === "delivery") {
+                        if(kpiType.toLowerCase() === "impressions") {
                           if(deliveryData) {
                               bookedImpressions = deliveryData.bookedImpressions;
                               deliveryDays = deliveryData.deliveryDays;
@@ -1420,7 +1420,7 @@ define(['angularAMD', '../../../common/services/constants_service', 'login/login
                     performanceChart = false;
 
                 var reverseUpperPacing =[], pacing = [];
-                if((dataObj.kpiType).toLowerCase() === "delivery") {
+                if((dataObj.kpiType).toLowerCase() === "impressions") {
 
                       //create reverse line for delivery polygon
                       _.each(chartDataset, function(d){
@@ -1495,7 +1495,7 @@ define(['angularAMD', '../../../common/services/constants_service', 'login/login
                   //lineData.margin.right = 0;
                 }
 
-                if((dataObj.kpiType).toLowerCase() === "delivery") {
+                if((dataObj.kpiType).toLowerCase() === "impressions") {
                   //disabling ticks for y axis when kpi is delivery
                     lineData.keys.yAxis.ticks = 0;
                 }

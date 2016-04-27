@@ -2,7 +2,7 @@
     <span class="icon_text_holder" ng-class="sortClassFunction('dimension',sortTypebydaysofweek,sortReverseDaysTab)" ng-click="sortTypebydaysofweek = 'dimension'; sortReverseDaysTab = !sortReverseDaysTab;removeKpiActive();" >{{textConstants.DAY_OF_WEEK}} </span>
 </div>
 <div class="each_col third_col">
-    <span class="icon_text_holder" ng-class="sortClassFunction('-impressions',sortTypebydaysofweek,!sortReverseDaysTab)" ng-click="sortTypebydaysofweek = '-impressions'; sortReverseDaysTab = !sortReverseDaysTab;removeKpiActive();" ><span class="default-kpi-header-icon" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() === 'delivery'"></span>{{textConstants.IMP_WITH_DOT}}</span>
+    <span class="icon_text_holder" ng-class="sortClassFunction('-impressions',sortTypebydaysofweek,!sortReverseDaysTab)" ng-click="sortTypebydaysofweek = '-impressions'; sortReverseDaysTab = !sortReverseDaysTab;removeKpiActive();" ><span class="default-kpi-header-icon" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() === 'impressions'"></span>{{textConstants.IMP_WITH_DOT}}</span>
 </div>
 <div class="vid_col" ng-show="adFormats.videoAds == true">
     <div class="each_col third_col">
