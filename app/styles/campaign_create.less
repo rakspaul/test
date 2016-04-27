@@ -435,7 +435,7 @@
             position: absolute;
             top: 0;
             width: 930px;
-            z-index: 999999;
+            z-index: 1111111;
 
             .closeBtnCreative {
                 clear:both;
@@ -807,6 +807,7 @@
                             height: 100%;
                             overflow: auto;
                             width: 100%;
+                            max-height: 400px ;
                         }
                     }
 
@@ -891,6 +892,7 @@
                         height: 640px;
                         /*overflow: auto;*/
                         width: 100%;
+                        max-height: 560px;
 
                         .segWrap {
                             border-bottom: 1px solid #bfc9d7;
@@ -1654,6 +1656,9 @@
                                     padding-bottom: 0;
                                     width: 100%;
                                     min-height: 700px ;
+                                }
+                                #region, #city {
+                                    min-height: 100px ;
                                 }
                             }
                         }
@@ -3680,22 +3685,13 @@
         }
     }
     .ad-create-panes {
-        .tab-pane {
+        .adcreateTabPane {
             padding-bottom: 65px !important;
         }
     }
     // Campaign Create Ad POP Ends Here
 
     .platformSlide {
-        /*Just for now */
-        .auto-bid-option {
-            width: 150px;
-
-            select {
-                margin: 0;
-            }
-        }
-
         .form-group-section {
             float: left;
             margin-right: 10px;
@@ -3706,7 +3702,14 @@
                 margin-top: 37px;
             }
         }
+         /*Just for now */
+        .auto-bid-option {
+            width: 150px;
 
+            select {
+                margin: 0;
+            }
+        }
         .form-individual-section {
             .form-group-section {
                 float: none;
@@ -3738,7 +3741,7 @@
             position: absolute;
             top: 123px;
             width: 930px;
-            z-index: 10;
+            z-index: 1111111;
 
             .adHeader {
                 margin: 20px 0 10px;

@@ -343,7 +343,7 @@
   position: absolute;
   top: 0;
   width: 930px;
-  z-index: 999999;
+  z-index: 1111111;
 }
 .adCreateMaster #targetting .targetingSlide .closeBtnCreative {
   clear: both;
@@ -677,6 +677,7 @@
   height: 100%;
   overflow: auto;
   width: 100%;
+  max-height: 400px ;
 }
 .adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segmentHeader {
   float: left;
@@ -747,6 +748,7 @@
   height: 640px;
   /*overflow: auto;*/
   width: 100%;
+  max-height: 560px;
 }
 .adCreateMaster #targetting .targetingSlide .segmentStepOne .setTwo .selectedItems .segWrap {
   border-bottom: 1px solid #bfc9d7;
@@ -1367,6 +1369,10 @@
   padding-bottom: 0;
   width: 100%;
   min-height: 700px ;
+}
+#campaignCreate .campaignAdCreate .adMainWrapper #formAdCreate .adCreateConsole .adStepOne .tabContent .tab-content #region,
+#campaignCreate .campaignAdCreate .adMainWrapper #formAdCreate .adCreateConsole .adStepOne .tabContent .tab-content #city {
+  min-height: 100px ;
 }
 #campaignCreate .campaignAdCreate .adMainWrapper #formAdCreate .adCreateConsole .common-loading-btn {
   margin-right: 10px;
@@ -3032,17 +3038,11 @@
   top: 106px;
   width: 930px;
 }
-#campaignCreate .ad-create-panes .tab-pane {
+#campaignCreate .ad-create-panes .adcreateTabPane {
   padding-bottom: 65px !important;
 }
 #campaignCreate .platformSlide {
   /*Just for now */
-}
-#campaignCreate .platformSlide .auto-bid-option {
-  width: 150px;
-}
-#campaignCreate .platformSlide .auto-bid-option select {
-  margin: 0;
 }
 #campaignCreate .platformSlide .form-group-section {
   float: left;
@@ -3052,6 +3052,12 @@
 }
 #campaignCreate .platformSlide .form-group-section select {
   margin-top: 37px;
+}
+#campaignCreate .platformSlide .auto-bid-option {
+  width: 150px;
+}
+#campaignCreate .platformSlide .auto-bid-option select {
+  margin: 0;
 }
 #campaignCreate .platformSlide .form-individual-section .form-group-section {
   float: none;
@@ -3078,7 +3084,7 @@
   position: absolute;
   top: 123px;
   width: 930px;
-  z-index: 10;
+  z-index: 1111111;
 }
 #campaignCreate .platformSlide .platform-custom .adHeader {
   margin: 20px 0 10px;

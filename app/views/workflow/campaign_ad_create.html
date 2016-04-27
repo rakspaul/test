@@ -94,20 +94,20 @@
                                             </div>
 
                                             <!-- Tab1 Setting start-->
-                                            <div class="tab-pane fade in active" id="adType"
+                                            <div class="adcreateTabPane tab-pane fade in active"  id="adType"
                                                  ng-include="'/views/workflow/partials/campaign_ads/select_type.html'">
                                             </div>
                                             <!-- Tab1 Setting end-->
 
                                             <!-- Tab2 Setting start-->
-                                            <div class="tab-pane fade" id="setting"
+                                            <div class="adcreateTabPane tab-pane fade" id="setting"
                                                  ng-include="'/views/workflow/partials/campaign_ads/budget_delivery.html'"
                                                  ng-controller="BudgetDeliveryController">
                                             </div>
                                             <!-- Tab1 Setting Ends -->
 
                                             <!-- Tabs Buying Platform -->
-                                            <div class="tab-pane fade"
+                                            <div class="adcreateTabPane tab-pane fade"
                                                  id="buying"
                                                  style="padding: 50px 0 0 0;
                                                  min-height: 1032px;"
@@ -118,14 +118,14 @@
 
                                             <!-- Tabs Targeting -->
                                             <div ng-show="!TrackingIntegrationsSelected"
-                                                 class="tab-pane fade" id="targetting"
+                                                 class="adcreateTabPane tab-pane fade" id="targetting"
                                                  ng-include="'/views/workflow/partials/campaign_ads/targetting.html'"
                                                  ng-controller="targettingController">
                                             </div>
                                             <!-- Tabs Targetting Platform -->
 
                                             <!-- Tabs Creative -->
-                                            <div class="tab-pane fade"
+                                            <div class="adcreateTabPane tab-pane fade"
                                                  id="creative"
                                                  style="width:100%;"
                                                  ng-include="'/views/workflow/partials/campaign_ads/ad_sizes_and_creatives.html'">
@@ -133,7 +133,7 @@
                                             <!-- Tabs Creative -->
 
                                             <!-- Tabs Inventory Filters -->
-                                            <div class="tab-pane fade"
+                                            <div class="adcreateTabPane tab-pane fade"
                                                  id="inventoryView"
                                                  ng-include="'/views/workflow/partials/campaign_ads/inventory.html'"
                                                  ng-controller="InventoryFiltersController">
