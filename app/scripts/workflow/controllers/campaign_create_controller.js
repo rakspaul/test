@@ -249,175 +249,14 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
                     //for(var i = 0; i < configList.length; i++){
                     $scope.vendorConfig = workflowService.processVendorConfig(configList);
+
                     //}
                 });
             },
 
-
             fetchCostAttributes: function(){
                 workflowService.getCostAttr($scope.selectedCampaign.advertiserId).then(function(result){
-
-                    console.log(result.data.data);
-                    result = [{
-                        "id": 1,
-                        "clientId": 2,
-                        "vendorId": 1,
-                        "vendorName": "VendorName1",
-                        "vendorTypeId": 1,
-                        "name": "ConfigName",
-                        "description": "some desc",
-                        "clientVendorOfferings": [
-                            {
-                                "id": 11,
-                                "clientVendorConfigurationId": 1,
-                                "costCategory": {
-                                    "id": 111,
-                                    "name": "Cost categoryName111",
-                                    "description": "cost desc"
-                                },
-                                "name": "offeringName11",
-                                "description": "Offering Desc",
-                                "rateType": "CPA",
-                                "rateValue": 10
-                            },
-                            {
-                                "id": 12,
-                                "clientVendorConfigurationId": 1,
-                                "costCategory": {
-                                    "id": 121,
-                                    "name": "Cost categoryName121",
-                                    "description": "cost desc"
-                                },
-                                "name": "offeringName12",
-                                "description": "Offering Desc",
-                                "rateType": "CPA",
-                                "rateValue": 10
-                            }
-                        ],
-                        "clientConfigPermissions": [
-                            {
-                                "metric": "IMPRESSIONS",
-                                "adFormat": "DISPLAY RICHMEDIA"
-                            },
-                            {
-                                "metric": "CTR",
-                                "adFormat": "DISPLAY VIDEO"
-                            },
-                            ,
-                            {
-                                "metric": "CTC",
-                                "adFormat": "SHRUJAN VIDEO"
-                            },
-                            ,
-                            {
-                                "metric": "CPC",
-                                "adFormat": "DISPLAY RICHMEDIA"
-                            }
-                        ]
-                    },
-                        {
-                            "id": 2,
-                            "clientId": 2,
-                            "vendorId": 3,
-                            "vendorName": "VendorName2",
-                            "vendorTypeId": 1,
-                            "name": "ConfigName2",
-                            "description": "some desc",
-                            "clientVendorOfferings": [
-                                {
-                                    "id": 21,
-                                    "clientVendorConfigurationId": 1,
-                                    "costCategory": {
-                                        "id": 221,
-                                        "name": "Cost categoryName221",
-                                        "description": "cost desc"
-                                    },
-                                    "name": "offeringName",
-                                    "description": "Offering Desc",
-                                    "rateType": "CPA",
-                                    "rateValue": 10
-                                },
-                                {
-                                    "id": 222,
-                                    "clientVendorConfigurationId": 1,
-                                    "costCategory": {
-                                        "id": 222,
-                                        "name": "Cost categoryName 222",
-                                        "description": "cost desc"
-                                    },
-                                    "name": "offeringName",
-                                    "description": "Offering Desc",
-                                    "rateType": "CPA",
-                                    "rateValue": 10
-                                }
-                            ],
-                            "clientConfigPermissions": [
-                                {
-                                    "metric": "IMPRESSIONS",
-                                    "adFormat": "DISPLAY RICHMEDIA"
-                                },
-                                {
-                                    "metric": "CTR",
-                                    "adFormat": "DISPLAY VIDEO"
-                                },
-                                ,
-                                {
-                                    "metric": "CTC",
-                                    "adFormat": "SHRUJAN VIDEO"
-                                },
-                                ,
-                                {
-                                    "metric": "CPC",
-                                    "adFormat": "DISPLAY RICHMEDIA"
-                                }
-                            ]
-                        },
-                        {
-                            "id": 1,
-                            "clientId": 2,
-                            "vendorId": 4,
-                            "vendorName": "VendorName4",
-                            "vendorTypeId": 1,
-                            "name": "ConfigName3",
-                            "description": "some desc",
-                            "clientVendorOfferings": [
-                                {
-                                    "id": 3,
-                                    "clientVendorConfigurationId": 1,
-                                    "costCategory": {
-                                        "id": 1,
-                                        "name": "Cost categoryName",
-                                        "description": "cost desc"
-                                    },
-                                    "name": "offeringName",
-                                    "description": "Offering Desc",
-                                    "rateType": "CPA",
-                                    "rateValue": 10
-                                }
-                            ],
-                            "clientConfigPermissions": [
-                                {
-                                    "metric": "IMPRESSIONS",
-                                    "adFormat": "DISPLAY RICHMEDIA"
-                                },
-                                {
-                                    "metric": "CTR",
-                                    "adFormat": "DISPLAY VIDEO"
-                                },
-                                ,
-                                {
-                                    "metric": "CTC",
-                                    "adFormat": "SHRUJAN VIDEO"
-                                },
-                                ,
-                                {
-                                    "metric": "CPC",
-                                    "adFormat": "DISPLAY RICHMEDIA"
-                                }
-                            ]
-                        }] ;
-                    console.log('resutl',result);
-
+                    result = result.data.data ;
                     $scope.costAttributes = workflowService.processCostAttr(result) ;
                 });
             },
@@ -1099,6 +938,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 value: "",
                 hide: true
             });
+
         }
 
         $scope.removeCostDimension = function(event) {
@@ -1106,46 +946,61 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             elem.closest(".each-cost-dimension").hide();
         }
 
+
+        $scope.selectedCostAttr = [] ;
+
+        $scope.costAttributesSelected = function(attr , index) {
+            $scope.selectedCostAttr.push({ "clientVendorConfigId" : 1,
+                                                  "costCategoryId" : 1,
+                                                  "vendorId" : 1,
+                                                  "name" : "OfferingName",
+                                                  "description" : "some desc",
+                                                  "rateTypeId" : 1,
+                                                  "rateValue" :  100.10,
+                                                  "costType" : "MANUAL"
+                                            }) ;
+        }
+
         //select or unselect indiviual audience
         $scope.selectPixel = function (pixel) {
-            var pixelIndex = _.findIndex($scope.selectedPixel, function (item) {
+              var pixelIndex = _.findIndex($scope.selectedPixel, function (item) {
                 return item.id === pixel.id;
-            });
-            if (pixelIndex === -1) {
+              });
+              if (pixelIndex === -1) {
                 pixel.isChecked = true;
                 pixel.isIncluded = true;
                 $scope.selectedPixel.push(pixel);
-            } else {
+              } else {
                 $scope.selectedPixel.splice(pixelIndex, 1);
                 var index = _.findIndex($scope.pixelList, function (list) {
-                    return pixel.id == list.id;
+                  return pixel.id == list.id;
                 })
                 $scope.pixelList[index].isChecked = false;
                 $scope.pixelList[index].isIncluded = null;
-            }
-        };
+              }
+            };
 
 
-        $scope.selectAllPixel = function (event) {
-            var i;
-            $scope.selectedPixel = []; //empty the selected pixel array before populating/empting it with all the pixel
-            $scope.selectAllPixelChecked = event.target.checked;
-            if ($scope.selectAllPixelChecked) {
+            $scope.selectAllPixel = function (event) {
+              var i;
+              $scope.selectedPixel = []; //empty the selected pixel array before populating/empting it with all the pixel
+              $scope.selectAllPixelChecked = event.target.checked;
+              if ($scope.selectAllPixelChecked) {
                 console.log("inside if") ;
                 for (i = 0; i < $scope.pixelList.length; i++) {
-                    $scope.selectedPixel.push($scope.pixelList[i]);
-                    $scope.pixelList[i].isChecked = true;
-                    $scope.pixelList[i].isIncluded = true;
+                  $scope.selectedPixel.push($scope.pixelList[i]);
+                  $scope.pixelList[i].isChecked = true;
+                  $scope.pixelList[i].isIncluded = true;
                 }
-            } else {
+              } else {
                 _pixelTargetting.resetPixel(); // deselect all
-            }
-        };
+              }
+            };
 
-        $scope.clearAllSelectedPixel = function () {
-            _pixelTargetting.resetPixel();
-            $scope.selectedPixel = [];
-        };
+            $scope.clearAllSelectedPixel = function () {
+              _pixelTargetting.resetPixel();
+              $scope.selectedPixel = [];
+            };
 
         // end of pixels page controller
 
