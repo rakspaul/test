@@ -253,14 +253,9 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 });
             },
 
-
             fetchCostAttributes: function(){
                 workflowService.getCostAttr($scope.selectedCampaign.advertiserId).then(function(result){
-                    console.log("results   ") ;
-                    console.log(result.data.data);
                     result = result.data.data ;
-                  
-
                     $scope.costAttributes = workflowService.processCostAttr(result) ;
                 });
             },
@@ -947,6 +942,20 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         $scope.removeCostDimension = function(event) {
             var elem = $(event.target) ;
             elem.closest(".each-cost-dimension").hide();
+        }
+
+        $scope.selectedCostAttr = [] ;
+        
+        $scope.costAttributesSelected = function(attr , index) { 
+            $scope.selectedCostAttr.push({ "clientVendorConfigId" : 1,
+                                                  "costCategoryId" : 1,
+                                                  "vendorId" : 1,
+                                                  "name" : "OfferingName",
+                                                  "description" : "some desc",
+                                                  "rateTypeId" : 1,
+                                                  "rateValue" :  100.10,
+                                                  "costType" : "MANUAL"
+                                            }) ;  
         }
 
         //select or unselect indiviual audience
