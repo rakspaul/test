@@ -759,7 +759,7 @@
                     </div>
                     <div class="custom_report_response_table" id="delivery_table">
                         <!-- add vertical_scroll class when scrolled vertically -->
-                        <div class="custom_report_scroll">
+                        <div class="custom_report_scroll" style="height:0">
                             <div class="each_row heading_row">
                                 <div class="inner_heading_row">
                                     <div class="each_col tree_dimension_col" ng-bind-html="reportTitle"></div>
@@ -816,7 +816,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div ng-if="fetching" class="common-load-more"></div>
+                        <div ng-if="fetching" class="common-load-more" style="margin-top: -100px"></div>
                     </div>
                     <div class="custom_report_response_table" id="cost_table" style="display:none;" ng-show="showCost">
                         <div class="custom_report_scroll">
