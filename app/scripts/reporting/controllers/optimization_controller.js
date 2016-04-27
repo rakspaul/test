@@ -208,7 +208,6 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
                                     var maxDays = result.data.data.measures_by_days;
                                     for (var i = 0; i < maxDays.length; i++) {
                                         var kpiTypeLower = angular.lowercase(kpiType);
-                                        kpiTypeLower = (kpiTypeLower === 'delivery' ? 'impressions' : kpiTypeLower);
                                         kpiTypeLower =  ((kpiTypeLower == 'null' || kpiTypeLower == undefined)? 'ctr' : kpiTypeLower );
                                         lineData.push({ 'x': i + 1, 'y': utils.roundOff(maxDays[i][kpiTypeLower], 2), 'date': maxDays[i]['date'] });
                                     }

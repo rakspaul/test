@@ -31,7 +31,7 @@
                                 </div>
                             </div>
                             <div class="pull-right imps_del_col">
-                                <span class="default-kpi-header-icon" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() === 'delivery'"></span>
+                                <span class="default-kpi-header-icon" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() === 'impressions'"></span>
                                 {{textConstants.IMP_WITH_DOT}}
                             </div>
                         </div>
@@ -69,7 +69,7 @@
                                     <span class="cpa_col cpa_data pull-right {{stable.kpi_type === selected_filters.kpi_type.toUpperCase() ? 'bold' : ''}}">{{(stable[(selected_filters.kpi_type.toLowerCase() === 'vtc')?'vtc_100':selected_filters.kpi_type.toLowerCase()] | appendDollor : selected_filters.kpi_type.toLowerCase())}}
 
                                     </span>
-                                    <span class="imps_del_data imps_del_col pull-right">{{((stable.impressions >0)|| (stable.impressions == 0))? (stable.impressions | nrFormat) : '-'}}</span>
+                                    <span class="imps_del_data imps_del_col pull-right {{stable.kpi_type.toUpperCase() === 'IMPRESSIONS' ? 'bold' : ''}}">{{((stable.impressions >0)|| (stable.impressions == 0))? (stable.impressions | nrFormat) : '-'}}</span>
                                 </div>
                             </div>
                         </div>
@@ -115,7 +115,7 @@
                                         <a href="http://{{ tableData.dimension}}" target='_blank' id="inventory_domain" > {{ tableData.dimension | formatUrl:15}}</a>
                                      </span>
                                     <span class="cpa_col cpa_data pull-right {{tableData.kpi_type === selected_filters.kpi_type.toUpperCase() ? 'bold' : ''}}">{{(tableData[(selected_filters.kpi_type.toLowerCase() === 'vtc')?'vtc_100':selected_filters.kpi_type.toLowerCase()] | appendDollor : selected_filters.kpi_type.toLowerCase())}}</span>
-                                    <span class="imps_del_data imps_del_col pull-right">{{((tableData.impressions >0)|| (tableData.impressions == 0))? (tableData.impressions | nrFormat) : '-'}}</span>
+                                    <span class="imps_del_data imps_del_col pull-right {{tableData.kpi_type === 'IMPRESSIONS' ? 'bold' : ''}}">{{((tableData.impressions >0)|| (tableData.impressions == 0))? (tableData.impressions | nrFormat) : '-'}}</span>
                                 </div>
                             </div>
                         </div>
