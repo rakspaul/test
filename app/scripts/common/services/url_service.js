@@ -329,11 +329,19 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                         '/savedreports/updateReport/' + reportId;
                 };
 
-                this.getInvoiceData = function () {
-                    //var clientId =  loginModel.getMasterClient().id;
+                this.getInvoiceData = function (invoiceReports) {
+                    var clientId =  loginModel.getMasterClient().id,
+                        url = vistoconfig.apiPaths.apiSerivicesUrl_NEW +
+                            '/clients/' + clientId +
+                            '/invoices/list' +
+                            '?advertiser_id=' + invoiceReports.advertiserId +
+                            '&brand_id=' + invoiceReports.brandId +
+                            '&start_date=' + invoiceReports.startDate +
+                            '&end_date=' + invoiceReports.endDate;
 
-                    return vistoconfig.apiPaths.apiSerivicesUrl_NEW +
-                        '/clients/2/invoices/list?advertiser_id=-1&start_date=2016-01-01&end_date=2016-04-25';
+                    console.log('getInvoiceData(), endpoint = ', url);
+
+                    return url;
                 };
             }
         ]);

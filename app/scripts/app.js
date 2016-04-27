@@ -216,7 +216,7 @@ define(['common'], function (angularAMD) {
                     controllerUrl: 'reporting/collectiveReport/reports_invoice_list_controller',
                     css: assets.css_reports_schedule_list,
                     resolve: {
-                        'check': function ($location,featuresService) {
+                        check: function ($location, featuresService) {
                             featuresService.setGetFeatureParams('scheduled_reports');
                         }
                     }
