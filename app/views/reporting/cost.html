@@ -76,15 +76,15 @@
                                     <div class="clearfix cost_col_container cost_cols_holder" ng-repeat="strategy in strategyCostData track by $index" ng-if="!dataNotFound">
                                         <div class="col-md-1 zeroPadding {{strategy.kpi_type.toUpperCase === 'IMPRESSIONS' ? 'bold' : ''}}" ng-bind="strategy.impressions != null ? (strategy.impressions | nrFormat) : '-'"></div>
                                         <div class="col-md-1 zeroPadding {{strategy.kpi_type === selected_filters.kpi_type.toUpperCase() ? 'bold' : ''}}" ng-bind="(strategy[(selected_filters.kpi_type.toLowerCase() === 'vtc')?'vtc_100':selected_filters.kpi_type.toLowerCase()] | appendDollor : selected_filters.kpi_type.toLowerCase())"></div>
-                                        <div class="col-md-1 zeroPadding" ng-bind="strategy.inventory_cost != null ? (strategy.inventory_cost |currency:undefined:0) : '-'"></div>
-                                        <div class="col-md-1 zeroPadding" ng-bind="strategy.data_cost != null ? (strategy.data_cost | currency:undefined:0) : '-'"></div>
-                                        <div class="col-md-1 zeroPadding" ng-bind="strategy.serving_cost != null ? (strategy.serving_cost | currency:undefined:0) : '-'"></div>
-                                        <div class="col-md-1 zeroPadding" ng-bind="strategy.verification_cost != null ? (strategy.verification_cost | currency:undefined:0) : '-'"></div>
-                                        <div class="col-md-1 zeroPadding" ng-bind="0 | currency:undefined:0"></div>
-                                        <div class="col-md-1 zeroPadding" ng-bind="0 | currency:undefined:0"></div>
-                                        <div class="col-md-2 zeroPadding" ng-bind="strategy.collective_cost != null ? (strategy.collective_cost | currency:undefined:0) :'-'"></div>
-                                        <div class="col-md-1 zeroPadding total_cost" ng-bind="strategy.gross_rev != null ? (strategy.gross_rev | currency:undefined:0) : '-'"></div>
-                                        <div class="col-md-1 zeroPadding" ng-bind="0 | currency:undefined:0"></div>
+                                        <div class="col-md-1 zeroPadding text-center" ng-bind="strategy.inventory_cost != null ? (strategy.inventory_cost |currency:undefined:0) : '-'"></div>
+                                        <div class="col-md-1 zeroPadding text-center" ng-bind="strategy.data_cost != null ? (strategy.data_cost | currency:undefined:0) : '-'"></div>
+                                        <div class="col-md-1 zeroPadding text-center" ng-bind="strategy.serving_cost != null ? (strategy.serving_cost | currency:undefined:0) : '-'"></div>
+                                        <div class="col-md-1 zeroPadding text-center" ng-bind="strategy.verification_cost != null ? (strategy.verification_cost | currency:undefined:0) : '-'"></div>
+                                        <div class="col-md-1 zeroPadding text-center" ng-bind="0 | currency:undefined:0"></div>
+                                        <div class="col-md-1 zeroPadding text-center" ng-bind="0 | currency:undefined:0"></div>
+                                        <div class="col-md-2 zeroPadding text-center" ng-bind="strategy.collective_cost != null ? (strategy.collective_cost | currency:undefined:0) :'-'"></div>
+                                        <div class="col-md-1 zeroPadding text-center total_cost" ng-bind="strategy.gross_rev != null ? (strategy.gross_rev | currency:undefined:0) : '-'"></div>
+                                        <div class="col-md-1 zeroPadding text-center" ng-bind="0 | currency:undefined:0"></div>
                                     </div>
                                 </div>
                                 <div class="all_startegy_cost">
