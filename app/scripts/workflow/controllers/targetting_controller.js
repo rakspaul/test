@@ -245,7 +245,7 @@ define(['angularAMD','workflow/services/workflow_service','workflow/services/aud
 
         $scope.deleteVideoTargetting = function() {
             $scope.adData.isVideoSelected = false;
-            $scope.adData.videoPreviewData = null;
+            $scope.adData.videoPreviewData = {};
             workflowService.resetDeleteModule();
             videoService.saveVideoData(null);
             if($scope.mode === 'edit') {
