@@ -98,10 +98,13 @@ define(['angularAMD', '../../common/utils', 'common/services/constants_service',
 
                         // NOTE: The params have been modified. To utilize the new feature,
                         // pass $event as the 3rd actual param when calling this method.
-                        $scope.redirectTo = function (campaign, filterType, event) {
-                            var url = filterType !== 'archived' ?
-                                '/mediaplan/' + campaign.orderId + '/overview' :
-                                '/mediaplans/' + campaign.orderId;
+                        $scope.redirectTo = function (showManageButton,campaign, filterType, event) {
+                            var url = '';
+                            if(showManageButton){
+                                url = filterType !== 'archived' ? '/mediaplan/' + campaign.orderId + '/overview' : '/mediaplans/' + campaign.orderId;
+                            } else {
+                                url = '/mediaplans/' + campaign.orderId;
+                            }
 
                             if (event && (event.ctrlKey || event.metaKey)) {
                                 window.open(url, '_blank');

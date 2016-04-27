@@ -10,8 +10,7 @@
 
         <!--Title / Brand Name-->
         <div class="pull-left main_heading">
-            <a ng-click="showManageButton ? redirectTo(campaign, campaigns.dashboard.appliedFilterType, $event) : ''"
-               ng-class="{'anchor-disabled':showManageButton === false}">
+            <a ng-click="redirectTo(showManageButton,campaign, campaigns.dashboard.appliedFilterType, $event)">
                 <truncate-text-with-hover
                         txt="{{campaign.campaignTitle}}"
                         txt-html="{{campaign.campaignTitleHtml}}"
