@@ -219,7 +219,7 @@ define(['angularAMD', '../../../common/services/constants_service', 'login/login
                                 .attr("height", imageSize)
                                 .attr("x", imagePosition)
                                 .attr("y", _config.yScale(threshold) - 5)
-                                .attr("xlink:href", "/" + assets.target_marker);
+                                .attr("xlink:href", assets.target_marker);
 
                             svg.append("line")
                                 .style("stroke-width", "2")
