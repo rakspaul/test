@@ -3,7 +3,6 @@
 </h3>
 <!--==== Row 1 ====-->
 <div class="col-md-12 zeroPadding">
-    <!--<label for="nameTitleCampaign" class="col-sm-12 labelQuestTxt" style="margin-bottom: 5px;">{{selectedChannel | toTitleCase}} - Set up how you want to Budget and Measure</label>-->
     <label for="nameTitleCampaign" class="col-sm-12 labelQuestTxt" style="margin-bottom: 5px;">Budget & Measure</label>
 
     <div class="col-md-12 zeroPadding marginCal">
@@ -23,14 +22,7 @@
                 <input type="text" ng-model="Campaign.marginPercent" name="marginPercent" class="form-control col-sm-8" ng-keyup="ComputeCost()" style="padding-right:21px;" whole-number-only="whole-number-only"/>
             </div>
         </div>
-        <!--<div class="calTable calTableLarge">-->
-        <!--    <h3>Est. Non-Inventory Cost</h3>-->
-        <!--    <div class="symbol-input blindInput">-->
-        <!--        <span class="onlyShowValue" ><span>{{locale.NUMBER_FORMATS.CURRENCY_SYM}} </span><span ng-style="inventoryExceeds ? {'color':'#F9B537'}:''" ng-bind="Campaign.nonInventoryCost | setDecimal:2 | number : fractionSize"></span></span>-->
-        <!--        <input type="text" style="display:none" ng-model="Campaign.nonInventoryCost" class="form-control col-sm-8" />-->
-        <!--    </div>-->
-        <!--    <label ng-if="Campaign.nonInventoryCost>Campaign.totalBudget" class="col-sm-12 txtError budgetError" >{{textConstants.NON_INVENTORY_COST_GREATER_THAN_ZERO}}</label>-->
-        <!--</div>-->
+
         <div class="calTable form-group">
             <h3>Delivery Budget</h3>
             <div class="symbol-input blindInput">
@@ -40,20 +32,8 @@
             <label ng-if="deliveryLesserBookedspend" class="col-sm-12 txtError budgetError">{{textConstants.DELIVERY_BUDGET_BOOKEDSPEND}}({{editCampaignData.bookedSpend}})</label>
             <label ng-if="Campaign.deliveryBudget<0" class="col-sm-12  txtError budgetError">{{textConstants.DELIVERY_BUDGET_GREATER_THAN_ZERO}}</label>
         </div>
-        <!--<div class="calTable calTableLarge">-->
-        <!--    <h3>Effective {{primaryType ? primaryType:'CPM'}}</h3>-->
-        <!--    <div class="symbol-input blindInput">-->
-        <!--        <span class="onlyShowValue"><span>{{locale.NUMBER_FORMATS.CURRENCY_SYM}} </span><span ng-style="effectiveNegative ? {'color':'#F9B537'}:''" ng-bind="Campaign.effectiveCPM | setDecimal:2 | number : fractionSize"></span></span>-->
-        <!--        <input type="text" style="display:none;" ng-model="Campaign.effectiveCPM" class="form-control col-sm-8" />-->
-        <!--    </div>-->
-        <!--</div>-->
-        <!--<div class="calTable calculate_btn">-->
-        <!--    <a class="btn btn-default pull-right" role="button" ng-click="ComputeCost()" >-->
-        <!--        <div class="glyphicon glyphicon-refresh pull-left" aria-hidden="true"></div>-->
-        <!--        <span>Calculate</span>-->
-        <!--    </a>-->
-        <!--</div>-->
     </div>
+
 </div>
 
 <div class="col-md-12 zeroPadding">
@@ -64,6 +44,7 @@
         <span>Account / Advertiser Measurement Settings</span>
         <span>The systems used to calculate costs and generate invoices</span>
     </div>
+
     <div id="accountMeasurement" class="collapse fade">
         <div class="table-responsive">
             <div class="vistoTable yellowTable">
@@ -123,17 +104,17 @@
         </div>
     </div>
 
-    <div data-toggle="collapse" data-target="#addAdditionalCost" class="accordionDDL collapsed">
+    <div data-toggle="{{(selectedCampaign.advertiserId && costAttributes.category.length > 0) ? 'collapse' : ''}}" data-target="{{(selectedCampaign.advertiserId && costAttributes.category.length > 0) ? '#addAdditionalCost' : ''}}" class="accordionDDL collapsed">
         <div class="icon-arrow-down-thick"></div>
         <span>Add Additional Costs (Optional)</span>
         <span>The systems used to calculate costs and generate invoices</span>
     </div>
+
     <div id="addAdditionalCost" class="collapse fade">
         <div class="table-responsive">
             <div class="vistoTable yellowTable" style="padding: 0 15px 15px;">
                 <!--Header-->
-
-                <div class="col-md-12 zeroPadding each-cost-dimension" ng-repeat="addCost in additionalCosts track by $index" id="cost-dimension-{{$index}}">
+                <div class="col-md-12 zeroPadding each-cost-dimension" ng-repeat="addCost in additionalCosts track by $index" data-index = "{{$index}}">
                         <div class="col-md-3 zeroPadding" >
                             <label for="primaryKPI" class="col-sm-12 greyTxt miniLabels">Category</label>
                                 <div class="col-md-12 zeroPadding">
@@ -144,7 +125,7 @@
                                                 <span class="icon-arrow-down"></span>
                                             </button>
                                             <ul class="dropdown-menu">
-                                                <li class="available" ng-repeat="attr in costAttributes.category" id="{{attr.id}}" ng-click="costAttributesSelected(attr , $index)"><a>{{attr.name}}</a></li>
+                                                <li class="available" ng-repeat="attr in costAttributes.category" id="attr.id" ng-click="costAttributesSelected(costAttributes, attr , $event, 'category')"><a>{{attr.name}}</a></li>
                                             </ul>
 
                                         </div>
@@ -160,7 +141,7 @@
                                         <span class="icon-arrow-down"></span>
                                     </button>
                                     <ul class="dropdown-menu" aria-labelledby="selectKPI"  id="selectKPI">
-                                        <li class="available" ng-click="costAttributesSelected(attr , $index)" ng-repeat="attr in costAttributes.vendor" id="{{attr.id}}"><a>{{attr.name}}</a></li>
+                                        <li class="available" ng-click="costAttributesSelected(costAttributes, attr , $event, 'vendor')" ng-repeat="attr in costAttributes.vendor"><a>{{attr.name}}</a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -174,7 +155,7 @@
                                         <span class="icon-arrow-down"></span>
                                     </button>
                                     <ul class="dropdown-menu" >
-                                        <li class="available"  ng-click="costAttributesSelected(attr , $index)" ng-repeat="attr in costAttributes.offering" id="{{attr.id}}"><a>{{attr.name}}</a></li>
+                                        <li class="available"  ng-click="costAttributesSelected(costAttributes, attr , $event, 'offer')" ng-repeat="attr in costAttributes.offering"><a>{{attr.name}}</a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -192,7 +173,7 @@
                             <div class="col-md-12 zeroPadding  symbol-input" style="padding-right: 0px !important; max-width: 118px;">
 
                                 <span class="symbol">{{locale.NUMBER_FORMATS.CURRENCY_SYM}}</span>
-                                <input type="text" class="col-md-12" style="text-indent: 8px; height:36px;" ng-model="Campaign.costArr[$index]['rateValue']" fraction-numbers="fraction-numbers" ng-keyup="ComputeCost()" field="rateValue"  index="{{$index}}"/>
+                                <input type="text" class="col-md-12" style="text-indent: 8px; height:36px;"  ng-model ="rateValue" fraction-numbers="fraction-numbers" ng-blur="costAttributesSelected(costAttributes, {'rateValue' : rateValue} , $event, 'rateValue')" field="rateValue" />
                             </div>
                         </div>
                         <div class="col-md-1 zeroPadding removeHolder" ng-click="removeCostDimension($event);">

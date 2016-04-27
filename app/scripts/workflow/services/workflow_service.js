@@ -718,6 +718,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
 
                     return dataService.fetch(vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/'+clientId+'/advertisers/'+advertiserId+'/clientVendorConfigs?rateType=FIXED&rateTypeIncluded=false');
                 },
+
                  getCostAttr: function (advertiserId) {
                     var clientId = loginModel.getSelectedClient().id;
 
@@ -888,21 +889,27 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                     costAttrbs.offering = [];
                     costAttrbs.vendor = [];
                     costAttrbs.category = [];
+                    var rateTypeObj;
 
+                    _.each(data, function(obj) {
+                        if(obj.clientVendorOfferings && obj.clientVendorOfferings.length >0) {
+                            rateTypeObj = _.pluck(obj.clientVendorOfferings, 'rateType');
+                            costAttrbs.rateTypeId = _.pluck(rateTypeObj, 'id')[0];
+                            costAttrbs.clientVendorConfigurationId = _.pluck(obj.clientVendorOfferings, 'clientVendorConfigurationId')[0];
+                        }
+                    })
 
                     if(data.length > 0) {
                          _.each(data,function(obj){
                             costAttrbs.vendor.push({'id':obj.id,'name':obj.name});
                             _.each(obj.clientVendorOfferings,function(vObj){
                                 costAttrbs.offering.push({'id':vObj.id ,'name':vObj.name});
-                                // _.each(vObj.costCategory,function(cObj){
-                                //     costAttrbs.category.push({'id':cObj.id,'name':cObj.name});
-                                // })
-                            costAttrbs.category.push({'id':vObj.costCategory.id,'name':vObj.costCategory.name});
+                                costAttrbs.category.push({'id':vObj.costCategory.id,'name':vObj.costCategory.name});
                             })
                         })
-                    }
 
+                        costAttrbs.category = _.uniq(costAttrbs.category, 'name')
+                    }
                     return costAttrbs;
                 },
                 processLineItemsObj: function(lineItemList){
@@ -912,6 +919,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                             newItemObj.adGroupName = item.adGroupName;
                             item.startTime = momentService.localTimeToUTC(item.startTime, 'startTime');
                             item.endTime = momentService.localTimeToUTC(item.endTime, 'endTime');
+                            item.pricingRate = Number(item.pricingRate.split('%')[0]);
                             newItemObj.lineItem = item;
                             newItemList.push(newItemObj);
                     });

@@ -247,13 +247,8 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
             fetchVendorConfigs: function(){
                 workflowService.getVendorConfigs($scope.selectedCampaign.advertiserId).then(function(result){
-
                     var configList = result.data.data;
-
-                    //for(var i = 0; i < configList.length; i++){
                     $scope.vendorConfig = workflowService.processVendorConfig(configList);
-
-                    //}
                 });
             },
 
@@ -349,16 +344,6 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         $scope.saveCampaign = function () {
             $scope.$broadcast('show-errors-check-validity');
 
-            //var isPrimarySelected = $scope.checkIfPrimaryKpiSelected();
-            //$scope.isPrimarySelected = isPrimarySelected;
-            //$scope.removeEmptyObjectCostArr();
-            //$scope.ComputeCost();
-
-            //var formElem = $("#createCampaignForm");
-            //var formData = formElem.serializeArray();
-            //formData = _.object(_.pluck(formData, 'name'), _.pluck(formData, 'value'));
-
-            console.log($scope.selectedCampaign.startTime);
             if ($scope.createCampaignForm.$valid) {
                 var formElem = $("#createCampaignForm").serializeArray();
                 console.log(formElem)
@@ -388,9 +373,22 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 postDataObj.deliveryBudget = formData.deliveryBudget;
                 postDataObj.totalBudget = formData.totalBudget;
                 postDataObj.lineItems = workflowService.processLineItemsObj(angular.copy($scope.lineItemList));
+
                 postDataObj.campaignType = 'Display';
                 postDataObj.labels = _.pluck($scope.tags, "label");
                 postDataObj.campaignPixels = _.pluck($scope.selectedPixel, "id");
+
+                //for cost
+                var campaignCosts = [];
+                if(!$.isEmptyObject($scope.selectedCostAttr)) {
+                    for(var i in $scope.selectedCostAttr) {
+                        campaignCosts.push($scope.selectedCostAttr[i])
+                    }
+
+                    if(campaignCosts.length >0) {
+                        postDataObj.campaignCosts = campaignCosts;
+                    }
+                }
 
                 workflowService.saveCampaign(postDataObj).then(function (result) {
                     if (result.status === "OK" || result.status === "success") {
@@ -404,49 +402,6 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 });
 
                 console.log('formData == ',formData,'postDataObj',postDataObj);
-                //postDataObj.totalBudget = $scope.Campaign.totalBudget;
-                //postDataObj.marginPercent = $scope.Campaign.marginPercent ? $scope.Campaign.marginPercent :0;
-                //postDataObj.campaignKpis = $scope.Campaign.kpiArr;
-                //postDataObj.campaignCosts = $scope.newCostArr;//$scope.Campaign.costArr;
-                //postDataObj.campaignObjectives = $scope.checkedObjectiveList;
-                //postDataObj.preferredPlatforms = $scope.platFormArr;
-                //postDataObj.purchaseOrder = $scope.selectedCampaign.purchaseOrder;
-                //postDataObj.labels = _.pluck($scope.tags, "label");
-
-                //if($scope.showSubAccount) {
-                //    postDataObj.clientId = $scope.selectedCampaign.clientId;
-                //}else {
-                //    postDataObj.clientId = loginModel.getSelectedClient().id;
-                //}
-                //if ($scope.mode == 'edit') {
-                //    if (moment(formData.startTime).format(constants.DATE_UTC_SHORT_FORMAT) === momentService.utcToLocalTime($scope.editCampaignData.startTime, constants.DATE_UTC_SHORT_FORMAT))
-                //        postDataObj.startTime = $scope.editCampaignData.startTime;
-                //    else
-                //        postDataObj.startTime = momentService.localTimeToUTC(formData.startTime, 'startTime');//the formtime hardcoded to 23:59:59:999
-                //    if (moment(formData.endTime).format(constants.DATE_UTC_SHORT_FORMAT) === momentService.utcToLocalTime($scope.editCampaignData.endTime, constants.DATE_UTC_SHORT_FORMAT))
-                //        postDataObj.endTime = $scope.editCampaignData.endTime;
-                //    else
-                //        postDataObj.endTime = momentService.localTimeToUTC(formData.endTime, 'endTime');
-                //    postDataObj.advertiserId = $scope.editCampaignData.advertiserId;
-                //    postDataObj.updatedAt = $scope.editCampaignData.updatedAt;
-                //    postDataObj.campaignId = $routeParams.campaignId;
-                //    $scope.repushCampaignEdit = true;
-                //    $scope.repushData = postDataObj;
-                //} else {
-                //    $scope.saveCampaignClicked=true;
-                //    postDataObj.startTime = momentService.localTimeToUTC(formData.startTime, 'startTime');
-                //    postDataObj.endTime = momentService.localTimeToUTC(formData.endTime, 'endTime');
-                //    postDataObj.advertiserId = Number(formData.advertiserId);
-                //    workflowService.saveCampaign(postDataObj).then(function (result) {
-                //        if (result.status === "OK" || result.status === "success") {
-                //            $scope.saveCampaignClicked=false;
-                //            $scope.sucessHandler(result);
-                //            localStorage.setItem('topAlertMessage', $scope.textConstants.CAMPAIGN_CREATED_SUCCESS);
-                //        }
-                //    }, function() {
-                //        $scope.saveCampaignClicked=false;
-                //    });
-                //}
             }
         };
 
@@ -951,6 +906,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         }) ;
 
         $scope.additionalCosts = [];
+
         $scope.addAdditionalCost = function() {
             $scope.additionalCosts.push({
                 key: "",
@@ -966,19 +922,34 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             elem.closest(".each-cost-dimension").hide();
         }
 
+        $scope.selectedCostAttr = {} ;
+        $scope.costAttributesSelected = function(costObj, attr , $event, type) {
+                var index = Number($(event.target).closest('.each-cost-dimension').attr('data-index'));
+                var selectedCostObj = {};
+                if(!$scope.selectedCostAttr[index] || $scope.selectedCostAttr[index].length ===0) {
+                    $scope.selectedCostAttr[index] = {};
+                }
 
-        $scope.selectedCostAttr = [] ;
+                $scope.selectedCostAttr[index].clientVendorConfigId = costObj.clientVendorConfigurationId;
 
-        $scope.costAttributesSelected = function(attr , index) {
-            $scope.selectedCostAttr.push({ "clientVendorConfigId" : 1,
-                                                  "costCategoryId" : 1,
-                                                  "vendorId" : 1,
-                                                  "name" : "OfferingName",
-                                                  "description" : "some desc",
-                                                  "rateTypeId" : 1,
-                                                  "rateValue" :  100.10,
-                                                  "costType" : "MANUAL"
-                                            }) ;
+                if(type === 'category') {
+                    $scope.selectedCostAttr[index].costCategoryId = attr.id;
+                }
+
+                if(type === 'vendor') {
+                    $scope.selectedCostAttr[index].vendorId = attr.id;
+                }
+
+                if(type === 'offer') {
+                    $scope.selectedCostAttr[index].name = attr.id;
+                }
+
+                if(type === 'rateValue') {
+                    $scope.selectedCostAttr[index]['rateValue'] = Number(attr.rateValue);
+                    $scope.selectedCostAttr[index]['rateTypeId'] = costObj.rateTypeId;
+                    $scope.selectedCostAttr[index]['costType'] = 'MANUAL'
+                }
+                console.log("$scope.selectedCostAttr", $scope.selectedCostAttr);
         }
 
         //select or unselect indiviual audience
