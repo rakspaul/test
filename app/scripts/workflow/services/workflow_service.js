@@ -2,7 +2,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
     'common/services/data_service', 'login/login_model', 'common/services/request_cancel_service','common/moment_utils'],
     function (angularAMD) {
         angularAMD.factory('workflowService', function ($rootScope, vistoconfig, constants, dataService, loginModel,
-                                                       requestCanceller,momentService) {
+                                                       requestCanceller,momentService,$location) {
 
             var mode,
                 adDetails,
