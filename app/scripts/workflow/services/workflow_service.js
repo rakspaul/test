@@ -716,12 +716,12 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                 getVendorConfigs: function (advertiserId) {
                     var clientId = loginModel.getSelectedClient().id;
 
-                    return dataService.fetch(vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/'+clientId+'/advertisers/'+advertiserId+'/clientVendorConfigs');
+                    return dataService.fetch(vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/'+clientId+'/advertisers/'+advertiserId+'/clientVendorConfigs?rateType=FIXED&rateTypeIncluded=false');
                 },
                  getCostAttr: function (advertiserId) {
                     var clientId = loginModel.getSelectedClient().id;
 
-                    return dataService.fetch(vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/'+clientId+'/advertisers/'+advertiserId+'/clientVendorConfigs?rateType="FIXED"');
+                    return dataService.fetch(vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/'+clientId+'/advertisers/'+advertiserId+'/clientVendorConfigs?rateType=FIXED');
                 },
 
                 getCostCategories: function () {
@@ -874,7 +874,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                             config.vendorName = data[j].vendorName;
                             config.configName = data[j].name;
                             config.adFormat = data[j].clientVendorOfferings[i].name;
-                            config.rate = data[j].clientVendorOfferings[i].rateType.name;
+                            config.rate = 'Media Cost + ' + data[j].clientVendorOfferings[i].rateValue + ' ' + data[j].clientVendorOfferings[i].rateType.name;
                             config.category = data[j].clientVendorOfferings[i].costCategory.name;
                             processedData.configs.push(config);
                         }

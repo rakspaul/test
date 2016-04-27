@@ -65,6 +65,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         // line item creation date
         $scope.lineItemStartDate = '';
         $scope.lineItemEndDate = '';
+        $scope.totalBillableAmount = 0;
 
         var selectedAdvertiser,
             campaignId = '-999',
@@ -704,6 +705,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     newItem.startTime = $scope.lineItemStartDate;
                     newItem.endTime = $scope.lineItemEndDate;
                     newItem.campaignId = campaignId;
+                    //$scope.totalBillableAmount +=  $scope.billableAmount;x
                     $scope.lineItemList.push(newItem);
                     $scope.resetLineItemParameters();
                 }
@@ -1029,6 +1031,8 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             $(".eachStepCompLabel").removeClass('active')
             $(".eachStepCompLabel")[pageno].classList.add("active");
         }
+
+
 
     });
 });
