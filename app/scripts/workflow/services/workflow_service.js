@@ -906,11 +906,17 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                     return costAttrbs;
                 },
                 processLineItemsObj: function(lineItemList){
+                    var newItemList = [];
                     _.each(lineItemList,function(item){
+                            var newItemObj = {};
+                            newItemObj.adGroupName = item.adGroupName;
                             item.startTime = momentService.localTimeToUTC(item.startTime, 'startTime');
                             item.endTime = momentService.localTimeToUTC(item.endTime, 'endTime');
-                    })
-                    return lineItemList;
+                            newItemObj.lineItem = item;
+                            newItemList.push(newItemObj);
+                    });
+                    //console.log("newItemList &***(((",newItemList);
+                    return newItemList;
                 },
                 setRateTypes: function(r){
                     rates = r;

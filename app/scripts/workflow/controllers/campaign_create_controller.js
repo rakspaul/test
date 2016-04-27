@@ -47,11 +47,13 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         $scope.rateTypeReadOnly = false;
         $scope.volumeFlag = true;
         $scope.amountFlag = true;
+        $scope.hideLineItemRate = false;
         //line item edit flags
         $scope.rateReadOnlyEdit = false;
         $scope.rateTypeReadOnlyEdit = false;
         $scope.volumeFlagEdit = true;
         $scope.amountFlagEdit = true;
+        $scope.hideLineItemRateEdit = false;
 
         $scope.editLineItem = {};
         $scope.vendorConfig = [];
@@ -394,6 +396,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                         console.log('success');
                         $scope.resetLineItemParameters();
                         $scope.editLineItem = {};
+                        $scope.sucessHandler(result);
 
                     }
                 }, function() {
@@ -734,6 +737,8 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 $scope.volumeFlag = true;
                 $scope.amountFlag = true;
                 $scope.rateTypeReadOnly = false;
+                $scope.hideLineItemRate = false;
+                $scope.pricingRate = '';
 
                 if(CONST_COGS_PERCENT === $scope.lineItemType.name){
                     if(selectedAdvertiser && (selectedAdvertiser.billingType && selectedAdvertiser.billingValue)){
@@ -763,10 +768,15 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                         $scope.rateReadOnly = true;
                         $scope.pricingRate = selectedAdvertiser.billingValue;// to get via advertiser api
                         $scope.rateTypeReadOnly = true;
+
                     }
+
+                    $scope.hideLineItemRate = true;
+                    $scope.pricingRate = '0';
+
                     $scope.volumeFlag = false;
                     $scope.volume = '';
-                    $scope.amountFlag = false;
+                    //$scope.amountFlag = false;
                     $scope.billableAmount = '';
                 }
             } else {
@@ -774,6 +784,8 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 $scope.billableAmount = '';
                 $scope.volumeFlagEdit = true;
                 $scope.amountFlagEdit = true;
+                $scope.hideLineItemRateEdit = false;
+                //$scope.editLineItem.pricingRate = (obj.pricingRate)?obj.pricingRate:'';
 
                 if(CONST_COGS_PERCENT === $scope.editLineItem.lineItemType.name){
 
@@ -802,10 +814,13 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                         $scope.editLineItem.pricingRate = selectedAdvertiser.billingValue;// to get via advertiser api
                         $scope.rateTypeReadOnlyEdit = true;
                     }
+                    $scope.hideLineItemRateEdit = true;
+                    $scope.editLineItem.pricingRate = '0';
+
                     $scope.volumeFlagEdit = false;
                     $scope.editLineItem.volume = '';
-                    $scope.amountFlagEdit = false;
-                    $scope.editLineItem.billableAmount = '';
+                    //$scope.amountFlagEdit = false;
+                    //$scope.editLineItem.billableAmount = '';
                 }
             }
         };
@@ -871,6 +886,9 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             $scope.editLineItem.volume = lineItem.volume;
             $scope.editLineItem.startTime = lineItem.startTime;
             $scope.editLineItem.endTime = lineItem.endTime;
+            if(lineItem.adGroupName){
+                $scope.editLineItem.adGroupName = lineItem.adGroupName;
+            }
             $scope.setLineItem($scope.editLineItem.lineItemType,'edit');
         }
 

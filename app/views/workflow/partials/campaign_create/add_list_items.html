@@ -9,7 +9,7 @@
             <span class="col-md-12 zeroPadding">${{Campaign.totalBudget? Campaign.totalBudget:0}}</span>
         </div>
         <div class="col-md-4 zeroPadding">
-            <label class="col-sm-12 greyTxt miniLabels zeroPadding">Margin (Not Req)</label>
+            <label class="col-sm-12 greyTxt miniLabels zeroPadding">Margin (Optional)</label>
             <span class="col-md-12 zeroPadding">{{Campaign.marginPercent?Campaign.marginPercent:0}}%</span>
         </div>
         <div class="col-md-4 zeroPadding">
@@ -83,8 +83,8 @@
             </div>
         </div>
 
-        <div class="col-md-2  " style="padding: 0 0 0 10px;" >
-            <label class="col-sm-12 greyTxt miniLabels zeroPadding">Rate</label>
+        <div class="col-md-2  " style="padding: 0 0 0 10px;" ng-hide="hideLineItemRate">
+            <label class="col-sm-12 greyTxt miniLabels zeroPadding" >Rate</label>
             <input type="text" class="col-md-12 form-control" placeholder="Enter Rate" ng-model="$parent.pricingRate" ng-readonly="rateReadOnly" name="lineItemRate"   fraction-numbers/>
             <span class="greyTxt errorLabel" ng-if="lineItemForm.lineItemRate.$error.required">Enter Rate</span>
         </div>
@@ -156,7 +156,7 @@
                     <div class="th col-md-3">Line Item</div>
                     <div class="th col-md-2">Rate Type</div>
                     <div class="th col-md-1">Rate</div>
-                    <div class="th col-md-2">Amount</div>
+                    <div class="th col-md-2">Billable Amount</div>
                     <div class="th col-md-2">Volume</div>
                     <div class="th col-md-2">Flight Dates</div>
                 </div>
@@ -239,7 +239,7 @@
         </div>
 
 
-        <div class="col-md-2  " style="padding: 0 0 0 10px;" >
+        <div class="col-md-2  " style="padding: 0 0 0 10px;" ng-hide="hideLineItemRateEdit">
             <label class="col-sm-12 greyTxt miniLabels zeroPadding">Rate</label>
             <input type="text" class="col-md-12 form-control" placeholder="Enter Rate" ng-model="editLineItem.pricingRate" ng-readonly="rateReadOnlyEdit" name="lineItemRate" fraction-numbers/>
             <span class="greyTxt errorLabel" ng-if="lineItemForm.lineItemRate.$error.required">Enter Rate</span>
