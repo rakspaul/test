@@ -2026,3 +2026,23 @@ tags-input ul .suggestion-item.selected span {
   border-bottom: 2px solid #0978C9;
   color: #57606C;
 }
+.pillsWrap {
+  float: left;
+  width: 100%;
+  padding: 3px 0 5px 22px;
+}
+.pillsWrap .labelPills {
+  background: #EDF2F8;
+  margin: 0 5px 0 0;
+  padding: 2px 10px;
+  display: inline-block;
+  float: left;
+  font: 12px "Avenir";
+  height: 20px;
+  line-height: 100%;
+  border: 1px solid #BFC9D7;
+  border-radius: 3px;
+}
+.pillsWrap .brand_search_highlight {
+  background: #fcecbd;
+}

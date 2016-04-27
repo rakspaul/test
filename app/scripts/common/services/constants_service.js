@@ -826,6 +826,7 @@ define(['angularAMD'], function(angularAMD) {
         this.ADGROUPS = 'Ad Groups';
         this.ADS = 'Ads';
         this.CREATIVES = 'Creatives';
+        this.LAST_UPDATED = 'Last Updated';
         this.SORT = 'Sort';
         this.LATEST = 'Latest';
         this.OLDEST = 'Oldest';
@@ -924,6 +925,7 @@ define(['angularAMD'], function(angularAMD) {
         this.CUTSCHEDULE = 'Custom schedule';
         this.TIMEZONE = 'Time Zone';
         this.ADVERTISER = 'Advertiser';
+        this.VID = 'VID';
         this.ENDUSER = 'End User';
         this.CLOCK = 'Clock';
         this.HR12 = '12 hr';

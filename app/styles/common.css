@@ -105,6 +105,9 @@
   width: 1040px;
   margin: 0 auto;
 }
+.font-bold {
+  font-family: "Avenir-bold";
+}
 .loading-icon {
   text-align: center;
   text-indent: -99999;
