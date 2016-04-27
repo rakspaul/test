@@ -1447,8 +1447,8 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                                 postAdDataObj.targets['videoTargets'] = videoTargetsData.videoTargets;
                             } else {
                                 adData = workflowService.getAdsDetails();
-                                videoTargetsData = adData.targets.videoTargets;
-                                if(videoTargetsData){
+                                videoTargetsData = adData.targets && adData.targets.videoTargets;
+                                if (videoTargetsData) {
                                     postAdDataObj.targets['videoTargets'] = videoTargetsData;
                                 }
                             }
