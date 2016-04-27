@@ -132,7 +132,7 @@
         <div class="table-responsive">
             <div class="vistoTable yellowTable" style="padding: 0 15px 15px;">
                 <!--Header-->
-                <div class="col-md-12 zeroPadding each-cost-dimension" ng-repeat="addCost in additionalCosts track by $index" >
+                <div class="col-md-12 zeroPadding each-cost-dimension" ng-repeat="addCost in additionalCosts track by $index" id="cost-dimension-{{$index}}">
                         <div class="col-md-3 zeroPadding" >
                             <label for="primaryKPI" class="col-sm-12 greyTxt miniLabels">Category</label>
                                 <div class="col-md-12 zeroPadding">
@@ -143,7 +143,7 @@
                                                 <span class="icon-arrow-down"></span>
                                             </button>
                                             <ul class="dropdown-menu">
-                                                <li class="available" ng-repeat="attr in costAttributes.category" id="{{attr.id}}"><a>{{attr.name}}</a></li>
+                                                <li class="available" ng-repeat="attr in costAttributes.category" id="{{attr.id}}" ng-click="costAttributesSelected(attr , $index)"><a>{{attr.name}}</a></li>
                                             </ul>
                                             
                                         </div>
@@ -159,7 +159,7 @@
                                         <span class="icon-arrow-down"></span>
                                     </button>
                                     <ul class="dropdown-menu" aria-labelledby="selectKPI"  id="selectKPI">
-                                        <li class="available" ng-repeat="attr in costAttributes.vendor" id="{{attr.id}}"><a>{{attr.name}}</a></li>
+                                        <li class="available" ng-click="costAttributesSelected(attr , $index)" ng-repeat="attr in costAttributes.vendor" id="{{attr.id}}"><a>{{attr.name}}</a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -173,7 +173,7 @@
                                         <span class="icon-arrow-down"></span>
                                     </button>
                                     <ul class="dropdown-menu" >
-                                        <li class="available" ng-repeat="attr in costAttributes.offering" id="{{attr.id}}"><a>{{attr.name}}</a></li>
+                                        <li class="available"  ng-click="costAttributesSelected(attr , $index)" ng-repeat="attr in costAttributes.offering" id="{{attr.id}}"><a>{{attr.name}}</a></li>
                                     </ul>
                                 </div>
                             </div>
