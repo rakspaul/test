@@ -1446,10 +1446,12 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                             if(videoTargetsData.videoTargets && (videoTargetsData.videoTargets.sizes.length >0 || videoTargetsData.videoTargets.positions.length >0 || videoTargetsData.videoTargets.playbackMethods.length > 0)) {
                                 postAdDataObj.targets['videoTargets'] = videoTargetsData.videoTargets;
                             } else {
-                                adData = workflowService.getAdsDetails();
-                                videoTargetsData = adData.targets && adData.targets.videoTargets;
-                                if (videoTargetsData) {
-                                    postAdDataObj.targets['videoTargets'] = videoTargetsData;
+                                if($scope.mode === 'edit') {
+                                    adData = workflowService.getAdsDetails();
+                                    videoTargetsData = adData.targets && adData.targets.videoTargets;
+                                    if (videoTargetsData) {
+                                        postAdDataObj.targets['videoTargets'] = videoTargetsData;
+                                    }
                                 }
                             }
                         }
