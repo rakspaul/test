@@ -571,6 +571,9 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
   padding-left: 10px ;
   height: 25px;
 }
+.reports_main_page_holder .dropdown-menu.kpi_indicator_ul div.direction_arrows {
+  margin-top: 10px ;
+}
 .common_reports_container,
 .breadcrumb_campaign_strategy {
   font-family: "Avenir";
@@ -2392,6 +2395,9 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
   border: solid 1px #ccd9e3;
   padding: 10px 20px;
   border-bottom: 0px ;
+}
+.reports_tabs_content_container .reports_block .reports_performance_header .dropdown-menu.kpi_indicator_ul ul.drop_list {
+  width: 80% ;
 }
 .reports_tabs_content_container .reports_block .reports_performance_header .each_col {
   color: #21252b ;
@@ -4312,7 +4318,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 }
 .custom_report_response_page .custom_report_response_table .each_col.more_dimension_arrow {
   display: none;
-  background: url("/images/cdesk/common_side_arrow.png") no-repeat left 1px #fff;
+  background: url("/images/cdesk/common_side_arrow.png") no-repeat left 1px #ffffff;
   height: 11px;
   width: 12px;
   min-width: 12px;
