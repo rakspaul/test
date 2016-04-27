@@ -16,16 +16,27 @@
             <div class="clearfix page_header_container campAdHeader">
                 <div class="col-md-12 zeroPadding">
                     <div class="col-md-9 zeroPadding">
-                        <div class="accountTitleTag" ng-if="workflowData.campaignData.clientName">
-                            <span ng-if="!isLeafNode" class="tagTitle" ng-bind="textConstants.SUB_ACCOUNT"></span>
-                            <span ng-if="!isLeafNode" ng-bind="selectedClientName"></span>
-                            <span class="tagTitle" ng-bind="textConstants.ADVERTISER"></span>
-                            <span ng-bind="workflowData.campaignData.advertiserName"></span>
-                            <div class="pull-left" style="margin: 0 0 0 50px;" ng-if="workflowData.campaignData.brandName">
-                                <span class="tagTitle" ng-bind="textConstants.BRAND"></span>
-                                <span class="pull-left" ng-bind="workflowData.campaignData.brandName"></span>
-                            </div>
+                        <div class="pull-left accountTitleTag" style="padding-left:5px;" ng-if="workflowData.campaignData.clientName && !isLeafNode">
+                            <span class="tagTitle" ng-bind="textConstants.SUB_ACCOUNT"></span>
+                            <span class="font-bold" ng-bind="selectedClientName"></span>
+                            <span class="slash-divider" style="padding-left:5px;">/</span>
                         </div>
+                        <div class="pull-left" style="padding-left:5px;">
+                            <span class="tagTitle" ng-bind="textConstants.ADVERTISER"></span>
+                            <span class="font-bold" style="padding-left:5px;" ng-bind="workflowData.campaignData.advertiserName"></span>
+                            <span class="slash-divider">/</span>
+                        </div>
+                        <div class="pull-left" style="padding-left:5px;" ng-if="workflowData.campaignData.brandName">
+                            <span class="tagTitle" ng-bind="textConstants.BRAND"></span>
+                            <span class="font-bold" ng-bind="workflowData.campaignData.brandName"></span>
+                            <span class="slash-divider">/</span>
+                        </div>
+                        <div class="pull-left" style="padding-left:5px;">
+                            <span class="tagTitle" ng-bind="textConstants.VID"></span>
+                            <span class="font-bold" style="padding-left:5px;">{{workflowData.campaignData.id}}</span>
+                        </div>
+
+
                         <div ng-if="workflowData.campaignData.status" class="campTitleWrap" >
                             <span class="statuslabel {{workflowData.campaignData.status|lowercase}}_bulb"
                                   tooltip-placement="top"
@@ -40,13 +51,8 @@
                                 ng-click="editCampaign(workflowData.campaignData)">
                             </h1>
                         </div>
-                        <div class="col-md-12 zeroPadding">
-                            <span class="campIdTime" ng-if="workflowData.campaignData.id">
-                                VID {{workflowData.campaignData.id}}  |
-                                Last Saved {{utcToLocalTime(workflowData.campaignData.updatedAt,'DD MMM YYYY HH:mm A')}}
-                                by {{workflowData.campaignData.updatedByUser}}
-                            </span>
-                            <!-- {{workflowData.campaignData.updatedAt}}-->
+                        <div class="col-md-12 zeroPadding pillsWrap">
+                            <span class="labelPills" ng-repeat="label in labels">{{label}}</span>
                         </div>
                     </div>
                     <div class="col-md-3 widgetModule">
@@ -105,42 +111,12 @@
                 </div>
                 <div class="col-md-12 zeroPadding campSettingOverView">
                     <div class="pull-left">
-                        <div class="greyTxt" ng-bind="textConstants.OBJC"></div>
-                        <div class="clearfix">
-                            <div class="each-objective pull-left" ng-if="brand.length>0">
-                                <span class="icon-brand"></span>
-                                <span tooltip-placement="top" tooltip="{{brandTooltip}}" ng-bind="brand[0]"></span>
-                                <span class="blueTxt"
-                                      ng-if="(brand.length-1) > 0"
-                                      ng-bind="'+' + (brand.length - 1)"
-                                      tooltip="{{brandTooltip}}">
-                                </span>
-                            </div>
-                            <div class="each-objective pull-left" ng-if="performance.length>0">
-                                <span class="icon-performance"></span>
-                                <span tooltip-placement="top"
-                                      tooltip="{{performanceTooltip}}"
-                                      ng-bind="performance[0]">
-                                </span>
-                                <span class="blueTxt"
-                                      ng-if="(performance.length-1) > 0"
-                                      ng-bind="'+' + (performance.length - 1)"
-                                      tooltip="{{performanceTooltip}}">
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="pull-left">
-                        <span class="greyTxt" ng-bind="textConstants.KPI"></span>
-                        <span ng-bind="primaryKpiSelected"></span>
-                    </div>
-                    <div class="pull-left">
                         <span class="greyTxt" ng-bind="textConstants.DELBUDGET"></span>
-                        <span>{{(workflowData.campaignData.deliveryBudget || 0) | currency:undefined:0}}</span>
+                        <span class="font-bold">{{(workflowData.campaignData.deliveryBudget || 0) | currency:undefined:0}}</span>
                     </div>
                     <div class="pull-left">
                         <span class="greyTxt" ng-bind="textConstants.FLIGHTDATES"></span>
-                        <span ng-if="workflowData.campaignData.startTime">
+                        <span ng-if="workflowData.campaignData.startTime" class="font-bold">
                             <span class="icon-calendar" style="margin: 1px 6px 0 0;"></span>
                             <span style="float: left; clear: none;">
                                 {{utcToLocalTime(workflowData.campaignData.startTime, 'ddd DD MMM  YYYY')}} -
@@ -152,25 +128,38 @@
                         </span>
                     </div>
                     <div class="pull-left">
+                        <span class="greyTxt" ng-bind="textConstants.KPI"></span>
+                        <div>
+                            <span ng-if="workflowData.campaignData.kpiValue>=0" class="font-bold" ng-bind="workflowData.campaignData.kpiValue | nrFormat"></span>
+                            <span style="clear: none; padding-left: 3px;" class="font-bold" ng-bind="primaryKpiSelected"></span>
+                        </div>
+                    </div>
+
+
+                    <div class="pull-left">
                         <div class="pull-left counterCol">
                             <span class="greyTxt" style="text-align: center;" ng-bind="textConstants.ADGROUPS"></span>
                             <!--Abi if value is zero add this class to the span below emptyValueTxt-->
-                            <span class="col-md-12 zeroPadding emptyValueTxt"
+                            <span class="col-md-12 zeroPadding emptyValueTxt font-bold"
                                   ng-bind="workflowData.campaignData.adGroupCount || 0">
                             </span>
                         </div>
                         <div class="pull-left counterCol">
                             <span class="greyTxt" style="text-align: center;" ng-bind="textConstants.ADS"></span>
-                            <span class="col-md-12 zeroPadding"
+                            <span class="col-md-12 zeroPadding font-bold"
                                   ng-bind="workflowData.campaignData.adsCount || 0">
                             </span>
                         </div>
                         <div class="pull-left counterCol">
                             <span class="greyTxt" style="text-align: center;" ng-bind="textConstants.CREATIVES"></span>
-                            <span class="col-md-12 zeroPadding emptyValueTxt"
+                            <span class="col-md-12 zeroPadding emptyValueTxt font-bold"
                                   ng-bind="workflowData.campaignData.creativeCount || 0">
                             </span>
                         </div>
+                    </div>
+                    <div class="pull-left">
+                        <span class="greyTxt" ng-bind="textConstants.LAST_UPDATED"></span>
+                        <span class="font-bold"> {{utcToLocalTime(workflowData.campaignData.updatedAt,'DD MMM YYYY HH:mm A')}} by {{workflowData.campaignData.updatedByUser}}</span>
                     </div>
                 </div>
             </div>
