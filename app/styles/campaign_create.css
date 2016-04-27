@@ -678,6 +678,7 @@
   overflow: auto;
   width: 100%;
   max-height: 400px ;
+  border-bottom: solid 1px #bfc9d7;
 }
 .adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segmentHeader {
   float: left;
