@@ -3032,6 +3032,9 @@
   top: 106px;
   width: 930px;
 }
+#campaignCreate .ad-create-panes .tab-pane {
+  padding-bottom: 65px !important;
+}
 #campaignCreate .platformSlide {
   /*Just for now */
 }
