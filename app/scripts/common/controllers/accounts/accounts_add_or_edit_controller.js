@@ -190,5 +190,10 @@ define(['angularAMD', '../../../workflow/services/account_service', 'common/serv
                 'GB'         : 'British Summer Time (UTC+01:00)'
             };
         }
+        
+        $scope.show_respective_method = function(id) {
+            $(".methodFees").hide();
+            $("." + id).show();
+        };
     });
 });

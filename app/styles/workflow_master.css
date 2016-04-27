@@ -154,6 +154,12 @@ textarea {
   height: auto;
   box-shadow: none !important;
 }
+input[type="text"].disabled,
+input[type="number"].disabled,
+input[type="password"].disabled,
+input[type="textarea"].disabled {
+  background: #eee;
+}
 .currencyFly ~ input[type="text"],
 .currencyFly ~ input[type="number"] {
   padding-left: 20px ;

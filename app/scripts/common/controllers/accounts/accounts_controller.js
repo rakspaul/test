@@ -43,6 +43,27 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
         $(".miniTabLinks .btn").removeClass("active");
         $("#accounts_link").addClass("active");
         
+        // This is for the drop down list. Perhaps adding this to a more general controller
+        $(document).on('click', '.dropdown-menu li.available a', function () {
+            $(this)
+                .parents('.dropdown')
+                .find('.btn')
+                .html($(this).text() + '<span class="icon-arrow-down"></span>');
+
+            $(this)
+                .parents('.dropdown')
+                .find('.btn')
+                .val($(this).data('value'));
+        });
+
+        $('.dropdown-workflow a').each(function () {
+            var text = $(this).text();
+
+            if (text.length > 14) {
+                $(this).val(text).text(text.substr(0, 20) + '…');
+            }
+        });
+        
         $scope.basicForm = function() {
             $(".miniTabLinks.sub .btn").removeClass("active");
             $(".miniTabLinks.sub .subBasics").addClass("active");
@@ -51,15 +72,19 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
             $(".createPixel, #pixelsCnt, .IABForm").hide();
         }
         
-        $scope.addPixel = function(){
-            $scope.advertiserData.pixels.push({});
-            _currCtrl.setCalanderSetting();
-            
+        $scope.showPixels = function() {
             $(".miniTabLinks.sub .btn").removeClass("active");
             $(".miniTabLinks.sub .subPixels").addClass("active");
             
             $(".createPixel, #pixelsCnt").show();
             $(".basicForm, .IABForm").hide();
+            $scope.advertiserData.pixels.push({});
+        }
+        
+        $scope.addPixel = function(){
+            _currCtrl.setCalanderSetting();
+            
+            $(".pixelCreate").slideDown();
         }
         
         $scope.addIAB = function() {

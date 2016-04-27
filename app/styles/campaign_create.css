@@ -3828,40 +3828,9 @@
   right: -15px;
   top: 24px;
 }
-.accounts-popup.popup-holder .add-filters .dropdown,
-.users-popup.popup-holder .add-filters .dropdown {
-  margin: 0;
-}
-.accounts-popup.popup-holder .add-filters .dropdown .btn,
-.users-popup.popup-holder .add-filters .dropdown .btn {
-  height: 34px;
-  padding-top: 8px;
-}
 .accounts-popup.popup-holder .add-filters label,
 .users-popup.popup-holder .add-filters label {
   font-size: 12px;
-}
-.accounts-popup.popup-holder .add-filters ul.dropdown-menu li,
-.users-popup.popup-holder .add-filters ul.dropdown-menu li {
-  padding: 0;
-}
-.accounts-popup.popup-holder .add-filters ul.dropdown-menu ul,
-.users-popup.popup-holder .add-filters ul.dropdown-menu ul {
-  list-style: none;
-  padding: 0;
-}
-.accounts-popup.popup-holder .add-filters ul.dropdown-menu ul li,
-.users-popup.popup-holder .add-filters ul.dropdown-menu ul li {
-  padding: 5px 10px 5px 40px;
-}
-.accounts-popup.popup-holder .add-filters ul.dropdown-menu ul li:hover,
-.users-popup.popup-holder .add-filters ul.dropdown-menu ul li:hover {
-  background: rgba(109, 114, 129, 0.08);
-}
-.accounts-popup.popup-holder .add-filters ul.dropdown-menu ul li a,
-.users-popup.popup-holder .add-filters ul.dropdown-menu ul li a {
-  color: #21252b;
-  font-size: 14px;
 }
 .accounts-popup.popup-holder .account_name_list,
 .users-popup.popup-holder .account_name_list {
@@ -3889,19 +3858,6 @@
   line-height: 40px;
   text-transform: none;
 }
-.accounts-popup.popup-holder .dropdown-menu,
-.users-popup.popup-holder .dropdown-menu {
-  width: 100%;
-}
-.accounts-popup.popup-holder .dropdown-menu li > a,
-.users-popup.popup-holder .dropdown-menu li > a {
-  text-overflow: ellipsis;
-  overflow: hidden;
-}
-.accounts-popup.popup-holder .dropdown-menu li > a:hover,
-.users-popup.popup-holder .dropdown-menu li > a:hover {
-  background-color: #E1EDF9;
-}
 .accounts-popup.popup-holder input[type="text"],
 .users-popup.popup-holder input[type="text"],
 .accounts-popup.popup-holder input[type="password"],
@@ -3914,7 +3870,6 @@
 .users-popup.popup-holder input[type="text"],
 .accounts-popup.popup-holder input[type="password"],
 .users-popup.popup-holder input[type="password"] {
-  color: #21252B;
   padding: 10px 20px 7px;
 }
 .accounts-popup.popup-holder .modal-title,

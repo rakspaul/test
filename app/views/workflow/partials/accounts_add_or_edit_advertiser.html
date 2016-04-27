@@ -1,6 +1,6 @@
 <div class="miniTabLinks sub" style="margin-bottom: 30px; width: 100%;">
     <a class="btn btn-link subBasics active" data-ng-click="basicForm()">Basic</a>
-    <a class="btn btn-link subPixels" data-ng-click="addPixel()">Pixels</a>
+    <a class="btn btn-link subPixels" data-ng-click="showPixels()">Pixels</a>
     <a class="btn btn-link subIABCat" data-ng-click="addIAB()">IAB Categories</a>
 </div>
 
@@ -59,53 +59,87 @@
                         <div class="col-md-12 zeroPadding dropdown-workflow">
                             <div class="dropdown">
                                 <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                    <span class="text">Impressions</span>
+                                    <span class="text">Billed For</span>
                                     <span class="icon-arrow-down"></span>
                                 </button>
                                 <ul class="dropdown-menu" data-toggle="dropdown">
                                     <li class="available">
-                                        <a>CPM</a>
+                                        <a ng-click="show_respective_method('techFees')">Tech Fees</a>
                                     </li>
                                     <li class="available">
-                                        <a>CPC</a>
+                                        <a ng-click="show_respective_method('serviceFees')">Service Fees</a>
                                     </li>
                                     <li class="available">
-                                        <a>CPA</a>
+                                        <a ng-click="show_respective_method('cogsPlus')">COGS+</a>
                                     </li>
                                     <li class="available">
-                                        <a>CPV</a>
-                                    </li>
-                                    <li class="available">
-                                        <a>Post-Imp-CPA</a>
-                                    </li>
-                                    <li class="available">
-                                        <a>Post-Click-CPA</a>
-                                    </li>
-                                    <li class="available">
-                                        <a>COGS+%</a>
-                                    </li>
-                                    <li class="available">
-                                        <a>Fixed</a>
+                                        <a ng-click="show_respective_method('arbitrage')">Arbitrage</a>
                                     </li>
                                 </ul>
                             </div>
                         </div>
                     </div>
                     
-                    <div class="form-group col-md-4" style="padding: 0 15px;">
-                        <label class="col-sm-12 greyTxt">Billing Value:</label>
-                        <input type="text" class="form-control" maxlength="50">
+                    <!--Tech Fees-->
+                    <div class="col-md-8 zeroPadding methodFees techFees" style="display: none;">
+                        <div class="form-group col-md-4" style="padding: 0 15px;">
+                            <label class="col-sm-12 greyTxt">Rate Type:</label>
+                            <input type="text" class="form-control disabled" maxlength="80" value="CPM">
+                        </div>
+                        
+                        <div class="form-group col-md-4" style="padding: 0 0 0 15px;">
+                            <label class="col-sm-12 greyTxt">Value:</label>
+                            <input type="text" class="form-control" maxlength="80">
+                        </div>
+                    </div>
+                    
+                    <!--Service Fees-->
+                    <div class="col-md-8 zeroPadding methodFees serviceFees" style="display: none;">
+                        <div class="form-group col-md-4" style="padding: 0 15px;">
+                            <label class="col-sm-12 greyTxt">Rate Type:</label>
+                            <input type="text" class="form-control" maxlength="80">
+                        </div>
+                        
+                        <div class="form-group col-md-4" style="padding: 0 0 0 15px;">
+                            <label class="col-sm-12 greyTxt">Value:</label>
+                            <input type="text" class="form-control" maxlength="80">
+                        </div>
+                    </div>
+                    
+                    <!--COGS+ Fees-->
+                    <div class="col-md-8 zeroPadding methodFees cogsPlus" style="display: none;">
+                        <div class="form-group col-md-4" style="padding: 0 15px;">
+                            <label class="col-sm-12 greyTxt">Rate Type:</label>
+                            <input type="text" class="form-control" maxlength="80">
+                        </div>
+                        
+                        <div class="form-group col-md-4" style="padding: 0 0 0 15px;">
+                            <label class="col-sm-12 greyTxt">Value:</label>
+                            <input type="text" class="form-control" maxlength="80">
+                        </div>
+                    </div>
+                    
+                    <!--Arbitrage-->
+                    <div class="col-md-8 zeroPadding disabled methodFees arbitrage" style="display: none;">
+                        <div class="form-group col-md-4" style="padding: 0 15px;">
+                            <label class="col-sm-12 greyTxt">Rate Type:</label>
+                            <input type="text" class="form-control disabled" maxlength="80">
+                        </div>
+                        
+                        <div class="form-group col-md-4 disabled" style="padding: 0 0 0 15px;">
+                            <label class="col-sm-12 greyTxt">Value:</label>
+                            <input type="text" class="form-control disabled" maxlength="80">
+                        </div>
                     </div>
                 </div>
                 
                 <!--Row 2-->
-                <div class="col-md-12 zeroPadding">
-                    <div class="form-group col-md-4" style="padding: 0 15px 0 0;">
-                        <label class="col-sm-12 greyTxt">Inherit Cost:</label>
-                        <input id="cmn-toggle-1" class="cmn-toggle cmn-toggle-round" type="checkbox">
-                        <label for="cmn-toggle-1"></label>
-                    </div>
-                </div>
+                <!--<div class="col-md-12 zeroPadding">-->
+                <!--    <a class="btn btn-link pull-left" style="padding: 15px 0;">-->
+                <!--        <span class="icon-plus" style="color: #0978C9; float: left; font-size: 12px; height: 12px; width: 12px; margin-right: 5px;"></span>-->
+                <!--        <span>Add Billing Method</span>-->
+                <!--    </a>-->
+                <!--</div>-->
             </div>
         </div>
         
@@ -120,6 +154,57 @@
                 </div>
             </div>
             
+            <!--Create Pixel Form-->
+            <div class="pixelCreate">
+                <div data-ng-repeat="pixel in advertiserData.pixels" class="pixelLayer">
+                    <div class="form-group col-md-4" style="padding: 0 15px 0 0;">
+                        <label class="col-sm-12 greyTxt">Pixel Name:</label>
+                        <input type="text" class="form-control" maxlength="50" ng-model="advertiserData.pixels[$index].name">
+                    </div>
+                    <div class="form-group col-md-4" style="padding: 0 15px;">
+                        <label class="col-sm-12 greyTxt">Pixel Type:</label>
+                        <div class="col-md-12 zeroPadding dropdown-workflow">
+                            <div class="dropdown" style="margin: 0;">
+                                <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                    <span class="text" ng-bind="advertiserData.pixels[$index].pixelTypeName ? advertiserData.pixels[$index].pixelTypeName : 'Select Pixel Type'"></span>
+                                    <span class="icon-arrow-down"></span>
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="unitcostType" ng-model="adData.unitType"  id="unitcostType" data-toggle="dropdown">
+                                    <li><a ng-click="advertiserData.pixels[$index].pixelType='PAGE_VIEW';
+                                                     advertiserData.pixels[$index].pixelTypeName='Action - Page View'" ng-bind="'Action - Page View'"></a></li>
+                                    <li><a ng-click="advertiserData.pixels[$index].pixelTypeName='Audience Creation Pixel';
+                                                     advertiserData.pixels[$index].pixelType='AUDIENCE_CREATION'" ng-bind="'Audience Creation Pixel'"></a></li>
+                                    <li><a ng-click="advertiserData.pixels[$index].pixelTypeName='Retargeting Pixel';
+                                                     advertiserData.pixels[$index].pixelType='RETARGETING'" ng-bind="'Retargeting Pixel'"></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-4" style="padding: 0 0 0 15px;">
+                        <label class="col-sm-12 greyTxt" style="display: block;">Pixel Expiration Date:</label>
+                        <div class="col-md-12 input-daterange input-group date pull-left">
+                            <div class="col-md-12 dateWrapper ">
+                                <input type="text" id="pixelExpDate_{{$index}}" class="input-sm form-control timeframe"
+                                    ng-model="advertiserData.pixels[$index].expiryDate" required>
+                                <i class="icon-calendar glyphicon pull-right" style="position: absolute; z-index: 10; top: 10px; right: 10px;"></i>
+                                <label ng-if="!advertiserData.pixels[$index].expiryDate" style="display:block"
+                                    class="errorLabel" ng-bind="textConstants.SELECT_DATE_LABEL"></label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group col-md-12" style="padding: 0;">
+                        <label class="col-sm-12 greyTxt">Description</label>
+                        <input type="textarea" class="form-control" ng-model="advertiserData.pixels[$index].description">
+                    </div>
+                    
+                    <a class="pull-right btn btn-link" style="padding-right: 0;" data-dismiss="modal"
+                       ng-if="!isEditMode"
+                       ng-click="removePixel($index)" aria-label="Close">Cancel</a>
+                </div>
+            </div>
+            
+            <!--Pixel List Table-->
             <div class="pixelTable">
                 <div class="table-responsive user-list animated" id="table_responsive">
                     <div class="vistoTable" id="visto_table">
@@ -177,55 +262,6 @@
                             <div class="common-load-more" style="display: none;"></div>
                         </div>
                     </div>
-                </div>
-            </div>
-            
-            <div class="pixelCreate">
-                <div data-ng-repeat="pixel in advertiserData.pixels" class="pixelLayer">
-                    <div class="form-group col-md-4" style="padding: 0 15px 0 0;">
-                        <label class="col-sm-12 greyTxt">Pixel Name:</label>
-                        <input type="text" class="form-control" maxlength="50" ng-model="advertiserData.pixels[$index].name">
-                    </div>
-                    <div class="form-group col-md-4" style="padding: 0 15px;">
-                        <label class="col-sm-12 greyTxt">Pixel Type:</label>
-                        <div class="col-md-12 zeroPadding dropdown-workflow">
-                            <div class="dropdown" style="margin: 0;">
-                                <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                    <span class="text" ng-bind="advertiserData.pixels[$index].pixelTypeName ? advertiserData.pixels[$index].pixelTypeName : 'Select Pixel Type'"></span>
-                                    <span class="icon-arrow-down"></span>
-                                </button>
-                                <ul class="dropdown-menu" aria-labelledby="unitcostType" ng-model="adData.unitType"  id="unitcostType" data-toggle="dropdown">
-                                    <li><a ng-click="advertiserData.pixels[$index].pixelType='PAGE_VIEW';
-                                                     advertiserData.pixels[$index].pixelTypeName='Action - Page View'" ng-bind="'Action - Page View'"></a></li>
-                                    <li><a ng-click="advertiserData.pixels[$index].pixelTypeName='Audience Creation Pixel';
-                                                     advertiserData.pixels[$index].pixelType='AUDIENCE_CREATION'" ng-bind="'Audience Creation Pixel'"></a></li>
-                                    <li><a ng-click="advertiserData.pixels[$index].pixelTypeName='Retargeting Pixel';
-                                                     advertiserData.pixels[$index].pixelType='RETARGETING'" ng-bind="'Retargeting Pixel'"></a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group col-md-4" style="padding: 0 0 0 15px;">
-                        <label class="col-sm-12 greyTxt" style="display: block;">Pixel Expiration Date:</label>
-                        <div class="col-md-12 input-daterange input-group date pull-left">
-                            <div class="col-md-12 dateWrapper ">
-                                <input type="text" id="pixelExpDate_{{$index}}" class="input-sm form-control timeframe"
-                                    ng-model="advertiserData.pixels[$index].expiryDate" required>
-                                <i class="icon-calendar glyphicon pull-right" style="position: absolute; z-index: 10; top: 10px; right: 10px;"></i>
-                                <label ng-if="!advertiserData.pixels[$index].expiryDate" style="display:block"
-                                    class="errorLabel" ng-bind="textConstants.SELECT_DATE_LABEL"></label>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="form-group col-md-12" style="padding: 0;">
-                        <label class="col-sm-12 greyTxt">Description</label>
-                        <input type="textarea" class="form-control" ng-model="advertiserData.pixels[$index].description">
-                    </div>
-                    
-                    <a class="pull-right btn btn-link" style="padding-right: 0;" data-dismiss="modal"
-                       ng-if="!isEditMode"
-                       ng-click="removePixel($index)" aria-label="Close">Cancel</a>
                 </div>
             </div>
         </div>

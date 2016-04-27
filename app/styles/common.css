@@ -322,38 +322,6 @@
 .popup-holder textarea:hover {
   border: 1px solid #ccd2da;
 }
-.popup-holder .dropdown .dropdown_txt {
-  padding: 5px 16px 5px 10px;
-  border: solid 1px #dde6eb;
-  background: url("/images/cdesk/common-down-arrow-space.png") no-repeat right center;
-  display: block;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  cursor: pointer;
-  border-radius: 2px;
-  -moz-border-radius: 2px;
-  -webkit-border-radius: 2px;
-  line-height: normal;
-}
-.popup-holder .dropdown .dropdown_txt:hover {
-  border: 1px solid #ccd2da;
-}
-.popup-holder .dropdown ul.dropdown-menu {
-  max-width: 400px;
-  min-height: 60px;
-  max-height: 200px;
-  overflow-y: auto;
-  overflow-x: hidden;
-  padding: 0;
-}
-.popup-holder .dropdown ul.dropdown-menu li {
-  padding: 5px 10px;
-  cursor: default;
-}
-.popup-holder .dropdown ul.dropdown-menu li:hover {
-  background-color: #eef2f5;
-}
 .popup-holder .modal-header {
   border-bottom: 0px;
   padding: 30px 30px 0px 30px;
