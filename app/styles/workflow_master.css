@@ -2,6 +2,13 @@ body {
   background: #fff;
   color: #21252B;
 }
+.adminElement {
+  margin: 25px 25px 0 0;
+}
+.adminElement.active {
+  background: #e1edf9 ;
+  cursor: default;
+}
 .zeroPadding {
   padding: 0 !important;
 }
@@ -27,7 +34,7 @@ body {
 #user-menu ::-webkit-scrollbar,
 .vistoTable ::-webkit-scrollbar,
 .recordList ::-webkit-scrollbar {
-  display: none;
+  /* //  display: none; //need to do */
 }
 h1,
 h2,
@@ -137,6 +144,7 @@ strong {
 input[type="text"],
 input[type="number"],
 input[type="password"],
+input[type="textarea"],
 .has-success input[type="text"].form-control,
 textarea {
   border: 1px solid #BFC9D7;
@@ -152,6 +160,7 @@ textarea {
 }
 input[type="text"]:focus,
 input[type="number"]:focus,
+input[type="textarea"]:focus,
 .has-success input[type="text"].form-control:focus,
 textarea:focus {
   border: 1px solid #0978c9 !important;
@@ -434,6 +443,14 @@ select {
 }
 .dropdown-workflow .category_dropdown .btn {
   width: auto;
+}
+.open .dropdown-toggle.btn-default {
+  color: #363D49;
+  background-color: #ffffff;
+  font-family: Avenir, sans-serif;
+  border-radius: 2px;
+  border: 1px solid #BFC9D7 !important;
+  position: relative;
 }
 .dropdown-multi .icon-arrow-down,
 .dropdown-multi .icon-arrow-right {
@@ -756,7 +773,7 @@ select {
   font-family: Avenir, sans-serif;
   line-height: 100%;
   padding: 10px 15px;
-  box-shadow: none !important;
+  box-shadow: none;
   /*commented manny"s changes here as it was reflecting all other places*/
   /*padding: 10px 15px 10px 15px;
     text-align: center;
@@ -1516,29 +1533,40 @@ input.cmn-toggle-round:checked + label:after {
   width: 240px;
   padding: 15px;
   border-radius: 5px;
+  /*    &:after,
+    &:before {
+        top: 100%;
+        left: 50%;
+        border: solid transparent;
+        content: " ";
+        height: 0;
+        width: 0;
+        position: absolute;
+        pointer-events: none;
+    }
+*/
 }
 .popUpCue:after {
-  border-color: rgba(255, 255, 255, 0);
+  border: solid 7px rgba(255, 255, 255, 0);
   border-top-color: #fff;
-  border-width: 7px;
   margin-left: -7px;
-}
-.popUpCue:before {
-  border-color: rgba(107, 107, 107, 0);
-  border-top-color: rgba(154, 154, 154, 0.38);
-  border-width: 8px;
-  margin-left: -8px;
-}
-.popUpCue:after,
-.popUpCue:before {
-  top: 100%;
-  left: 50%;
-  border: solid transparent;
   content: " ";
   height: 0;
   width: 0;
   position: absolute;
-  pointer-events: none;
+  top: 100%;
+  left: 50%;
+}
+.popUpCue:before {
+  border: solid 8px rgba(107, 107, 107, 0);
+  border-top-color: rgba(154, 154, 154, 0.38);
+  margin-left: -8px;
+  content: " ";
+  height: 0;
+  width: 0;
+  position: absolute;
+  top: 100%;
+  left: 50%;
 }
 .popUpCue span {
   height: 80px;
@@ -1966,4 +1994,25 @@ tags-input ul li:focus span,
 tags-input ul .suggestion-item.selected span {
   color: #21252b;
   text-decoration: none;
+}
+.edit-input {
+  border-color: #0978c9 !important;
+}
+.miniTabLinks {
+  float: left;
+}
+.miniTabLinks .btn-link {
+  float: left;
+  margin-right: 30px;
+  font-size: 13px;
+  color: #939EAE;
+  text-decoration: none;
+  text-transform: uppercase;
+  padding: 5px 0 5px 0;
+  line-height: 100%;
+  height: 25px;
+}
+.miniTabLinks .btn-link.active {
+  border-bottom: 2px solid #0978C9;
+  color: #57606C;
 }

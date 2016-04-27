@@ -149,7 +149,7 @@ define(['angularAMD', '../../login/login_model', 'common/services/role_based_ser
             },
             controller: function ($scope, $cookieStore, $location) {
 
-            },
+            }
         };
     });
 
@@ -278,6 +278,18 @@ define(['angularAMD', '../../login/login_model', 'common/services/role_based_ser
             },
             restrict:'EAC',
             templateUrl: assets.html_discrepancy_header,
+            link: function(scope, element, attrs) {
+                scope.textConstants = constants;
+            }
+        };
+    }]);
+
+    angularAMD.directive('adminHeader', ['$http', '$compile','constants', function ($http, $compile,constants) {
+        return {
+            controller: function($scope, $cookieStore, $location){
+            },
+            restrict:'EAC',
+            templateUrl: assets.html_admin_header,
             link: function(scope, element, attrs) {
                 scope.textConstants = constants;
             }
@@ -446,6 +458,17 @@ define(['angularAMD', '../../login/login_model', 'common/services/role_based_ser
             restrict: 'EAC',
             templateUrl: assets.html_adsizes_header,
             link: function (scope, element, attrs) {
+                scope.textConstants = constants;
+            }
+        };
+    }]);
+    angularAMD.directive('adminSubHeader', ['$http', '$compile','constants', function ($http, $compile,constants) {
+        return {
+            controller: function($scope, $cookieStore, $location){
+            },
+            restrict:'EAC',
+            templateUrl: assets.html_admin_sub_header,
+            link: function(scope, element, attrs) {
                 scope.textConstants = constants;
             }
         };

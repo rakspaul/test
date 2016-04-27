@@ -157,11 +157,17 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
                             $scope['platformData'] = _.filter(result.data.data, function (item) {
                                 return item.ad_id == -1;
                             });
+                            _.each($scope['platformData'], function(item) {
+                                item.kpi_type = $scope.selected_filters.campaign_default_kpi_type;
+                            });
                             $scope['tacticPlatformData'] = _.filter(result.data.data, function (item) {
                                 return item.ad_id != -1;
                             });
                         } else {
                             $scope['platformData'] = result.data.data;
+                            _.each($scope['platformData'], function(item) {
+                                item.kpi_type = $scope.selected_filters.campaign_default_kpi_type;
+                            });
                             $scope['dataNotFoundFor'+tab] = false;
                         }
                     }

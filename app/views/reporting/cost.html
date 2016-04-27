@@ -75,7 +75,7 @@
 
                                     <div class="clearfix cost_col_container cost_cols_holder" ng-repeat="strategy in strategyCostData track by $index" ng-if="!dataNotFound">
                                         <div class="col-md-1 zeroPadding" ng-bind="strategy.impressions != null ? (strategy.impressions | nrFormat) : '-'"></div>
-                                        <div class="col-md-1 zeroPadding" ng-bind="(strategy[(selected_filters.kpi_type.toLowerCase() === 'vtc')?'vtc_100':selected_filters.kpi_type.toLowerCase()] | appendDollor : selected_filters.kpi_type.toLowerCase())"></div>
+                                        <div class="col-md-1 zeroPadding {{strategy.kpi_type === selected_filters.kpi_type.toUpperCase() ? 'bold' : ''}}" ng-bind="(strategy[(selected_filters.kpi_type.toLowerCase() === 'vtc')?'vtc_100':selected_filters.kpi_type.toLowerCase()] | appendDollor : selected_filters.kpi_type.toLowerCase())"></div>
                                         <div class="col-md-1 zeroPadding" ng-bind="strategy.inventory_cost != null ? (strategy.inventory_cost |currency:undefined:0) : '-'"></div>
                                         <div class="col-md-1 zeroPadding" ng-bind="strategy.data_cost != null ? (strategy.data_cost | currency:undefined:0) : '-'"></div>
                                         <div class="col-md-1 zeroPadding" ng-bind="strategy.serving_cost != null ? (strategy.serving_cost | currency:undefined:0) : '-'"></div>
@@ -95,7 +95,7 @@
                                             <div class="each_cost_heading" ng-bind="tactic.name"></div>
                                             <div class="clearfix cost_col_container cost_cols_holder">
                                                 <div class="col-md-1 zeroPadding" ng-bind="tactic.impressions != null ? (tactic.impressions | nrFormat) : '-'"></div>
-                                                <div class="col-md-1 zeroPadding" ng-bind="(tactic[(selected_filters.kpi_type.toLowerCase() === 'vtc')?'vtc_100':selected_filters.kpi_type.toLowerCase()] | appendDollor : selected_filters.kpi_type.toLowerCase())"></div>
+                                                <div class="col-md-1 zeroPadding {{tactic.kpi_type === selected_filters.kpi_type.toUpperCase() ? 'bold' : ''}}" ng-bind="(tactic[(selected_filters.kpi_type.toLowerCase() === 'vtc')?'vtc_100':selected_filters.kpi_type.toLowerCase()] | appendDollor : selected_filters.kpi_type.toLowerCase())"></div>
                                                 <div class="col-md-1 zeroPadding" ng-bind="tactic.inventory_cost != null ? (tactic.inventory_cost | currency:undefined:0) : '-'"></div>
                                                 <div class="col-md-1 zeroPadding" ng-bind="tactic.data_cost != null ? (tactic.data_cost | currency:undefined:0) : '-'"></div>
                                                 <div class="col-md-1 zeroPadding" ng-bind="tactic.serving_cost != null ? (tactic.serving_cost | currency:undefined:0) : '-'"></div>

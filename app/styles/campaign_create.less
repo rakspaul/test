@@ -798,7 +798,7 @@
 
                     .segBodyWrap {
                         float: left;
-                        height: 265px;
+                        height: 100%;
                         overflow: hidden;
                         width: 100%;
 
@@ -881,7 +881,7 @@
                     background: #edf2f8;
                     float: left;
                     margin-left: 2%;
-                    height: 476px;
+                    //height: 476px;
                     overflow: auto ;
                     padding: 15px 20px;
                     width: 33%;
@@ -1247,9 +1247,7 @@
                 }
 
                 .tab-pane {
-                    min-height: initial !important;
-                    padding-bottom: 0 !important;
-
+                    min-height: initial;
                     .tab-content {
                         border: 1px solid #dde6eb;
                         border-right: none;
@@ -1581,7 +1579,12 @@
             .buyingPlatformHolder {
                 float: left;
             }
-
+            .adBuyingPlatform {
+                .popUpCue {
+                    top: 10px ;
+                    left: 50px ;
+                }
+            }
             .create_ad {
                 color: #333;
                 float: left;
@@ -1648,7 +1651,7 @@
                                 .tab-pane {
                                     float: left;
                                     height: 100%;
-                                    padding-bottom: 60px;
+                                    padding-bottom: 0;
                                     width: 100%;
                                     min-height: 700px ;
                                 }
@@ -4126,25 +4129,67 @@
     .accounts-page-container {
         max-width: 100%;
         min-width: 750px;
+        margin: 0 0 20px 120px;
     }
 
     .account-name,
     .advertiser-name {
         cursor: pointer;
     }
+    .icon-arrow-down-thick {
+      float: left;
+      font-size: 9px;
+      width: 9px;
+      height: 9px;
+      cursor: pointer;
+      margin: 5px 10px 0 0;
+      /* Safari */
+      -webkit-transform: rotate(-90deg);
 
+      /* Firefox */
+      -moz-transform: rotate(-90deg);
+
+      /* IE */
+      -ms-transform: rotate(-90deg);
+
+      /* Opera */
+      -o-transform: rotate(-90deg);
+
+      /* Internet Explorer */
+      filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+    }
+    .icon-arrow-down-thick.active {
+      /* Safari */
+      -webkit-transform: rotate(0deg);
+
+      /* Firefox */
+      -moz-transform: rotate(0deg);
+
+      /* IE */
+      -ms-transform: rotate(0deg);
+
+      /* Opera */
+      -o-transform: rotate(0deg);
+
+      /* Internet Explorer */
+      filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=0);
+    }
     .account-name {
-        background: url(/images/cdesk/common_side_arrow.png) no-repeat left center;
-        font-family: Avenir-bold, sans-serif;
-        max-width: 70%;
-        padding-left: 20px;
-        transition-duration: .1s;
+     // background: url(/images/cdesk/common_side_arrow.png) no-repeat left center;
+      font-family: Avenir-bold, sans-serif;
+      max-width: 70%;
+      padding-left: 0px;
+      transition-duration: .1s;
+      span:last-child {
+        font-family: "Avenir";
+        clear: left;
+      }
     }
 
     .adding-section {
         color: #939eae;
         padding: 5px 10px;
-        margin: -5px 0 0 10px;
+        margin: 0px 0 0 10px;
         background: #F7FAFF;
         border: 1px dashed #939EAE;
         cursor: pointer;
@@ -4189,9 +4234,26 @@
         text-transform: none;
     }
 
-    .each-account-details {
-        margin-bottom: 10px;
+  .each-account-details {
+    margin: 0;
+    padding: 15px 0;
+    border-top: 2px solid #939eae;
+    > .particular-account-box {
+      margin: 0px ;
+      .common_primary_btn {
+        margin-top: -8px;
+      }
     }
+  }
+
+  .subClient {
+    .each-account-details {
+      border-top: 1px solid #bfc9d7;
+    }
+    .each-account-details:last-child {
+      padding-bottom: 0;
+    }
+  }
 
     .each-user {
         margin: 10px 0 0 20px;
@@ -4210,7 +4272,7 @@
         margin: 15px 0;
 
         .common_primary_btn {
-            margin: 10px 15px 0 0;
+          margin: 10px 0px 0 0;
         }
     }
 
@@ -4220,11 +4282,11 @@
     }
 
     .particular-account-box {
-        border: solid 1px transparent;
+      /*  border: solid 1px transparent; */
         border-radius: 5px;
-        min-width: 750px;
-        padding: 15px;
-
+      /*  min-width: 750px;
+        padding: 15px; */
+        width: 100%;
         .account-name {
             position: relative;
         }
@@ -4248,13 +4310,14 @@
                 height: 20px;
                 left: -31px;
                 position: absolute;
-                top: 10px;
+                top: 20px;
                 width: 20px;
             }
 
             &:last-child:after {
                 background: #fff;
                 height: 100%;
+                min-height: 20px;
             }
 
             &.no-data-open {
@@ -4296,16 +4359,16 @@
     }
 
     .particular-account-box.open {
-        border: solid 1px #ccc;
+        /*border: solid 1px #ccc; */
 
         .account-name {
-            background-image: url(/images/cdesk/common_down_arrow.png);
+           // background-image: url(/images/cdesk/common_down_arrow.png);
         }
     }
 
     .particular-account-box.open.data-loaded:not(.no-data-open) {
         .account-name:after {
-            border-left: dashed 1px #ccc;
+//            border-left: dashed 1px #ccc;
             content: "";
             height: 18px;
             left: 5px;
@@ -4369,6 +4432,60 @@
     }
 
 }
+
+//Modal Redesign For Account add/edit pop up
+.modalAccountRedx {
+  top: 50px;
+  background: #fff;
+  .modal-dialog {
+    width: 100%;
+    height: 100%;
+    float: left;
+    transition: none !important;
+    margin: 0;
+    .modal-content {
+      border-width: 0;
+      box-shadow: none;
+      width: 1200px;
+      margin: 30px auto;
+      .popup-holder {
+        .modal-header {
+          padding: 0;
+          .close {
+            display: none;
+          }
+          .modal-title {
+            margin-bottom: 30px;
+          }
+        }
+        .modal-body {
+          padding: 0;
+          #pixelsCnt, .IABForm, .adChoices, .billingMethods {
+            float: left;
+            width: 100%;
+            margin: 0 0 30px 0;
+            position: relative;
+            background: #EDF2F8;
+            padding: 10px 30px;
+            .pixelLayer {
+              float: left;
+              width: 100%;
+            }
+          }
+        }
+        input[type="text"], select {
+          border: 1px solid #BFC9D7;
+          border-radius: 2px !important;
+          line-height: normal;
+          padding: 10px 12px 7px 12px;
+          height: auto;
+          box-shadow: none !important;
+        }
+      }
+    }
+  }
+}
+
 
 .accounts-popup.popup-holder,
 .users-popup.popup-holder {

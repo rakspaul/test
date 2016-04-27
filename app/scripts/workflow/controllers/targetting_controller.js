@@ -1,5 +1,5 @@
 define(['angularAMD','workflow/services/workflow_service','workflow/services/audience_service'],function (angularAMD) {
-  angularAMD.controller('targettingController', function($scope, $rootScope, $timeout, workflowService,audienceService) {
+  angularAMD.controller('targettingController', function($scope, $rootScope, $timeout, workflowService,audienceService, videoService) {
 
         var _targeting = this;
         var targeting = {};
@@ -212,19 +212,7 @@ define(['angularAMD','workflow/services/workflow_service','workflow/services/aud
             }
         };
 
-        $scope.deleteTargetting = function () {
-            $scope.showDeleteConfirmationPopup = !$scope.showDeleteConfirmationPopup;
-            if ($scope.deleteType == "AUDIENCE") {
-                workflowService.setDeleteModule('Audience');
-                $scope.deleteAudienceTargetting();
-            } else if ($scope.deleteType == "GEO") {
-                workflowService.setDeleteModule('Geography');
-                $scope.deleteGeoTargetting();
-            } else if ($scope.deleteType == "DAYPART") {
-                workflowService.setDeleteModule('dayParting');
-                $scope.deleteDayPartTargetting();
-            }
-        };
+
 
         $scope.cancelTargettingDelete = function () {
             $scope.deleteType = "";
@@ -242,15 +230,49 @@ define(['angularAMD','workflow/services/workflow_service','workflow/services/aud
             _targeting.setTargetingForPreview('Video');
         };
 
+        $scope.showVideoPreviewData = function(videoData) {
+          if(videoData && (videoData.videoTargets.sizes.length >0 || videoData.videoTargets.positions.length >0 || videoData.videoTargets.playbackMethods.length > 0)) {
+              $scope.adData.videoPreviewData['sizes'] = _.pluck(videoData.videoTargets.sizes, 'name').join(', ');
+              $scope.adData.videoPreviewData['positions'] = _.pluck(videoData.videoTargets.positions, 'name').join(', ');
+              $scope.adData.videoPreviewData['playbackMethods'] = _.pluck(videoData.videoTargets.playbackMethods, 'name').join(', ');
+          }
+        };
+
+      _targeting.showVideoTargetingInfo = function(adData) {
+            var data = adData.targets;
+            $scope.showVideoPreviewData(data);
+        };
+
+        $scope.deleteVideoTargetting = function() {
+            $scope.adData.isVideoSelected = false;
+            $scope.adData.videoPreviewData = null;
+            workflowService.resetDeleteModule();
+            videoService.saveVideoData(null);
+            if($scope.mode === 'edit') {
+                var adData = angular.copy(workflowService.getAdsDetails());
+                adData.targets.videoTargets= null;
+                workflowService.setAdsDetails(adData);
+            }
+        };
+
         /****************** END : VIDEO TARGETING  ***********************/
 
 
         // Targeting Trigger -- Onload.
         $scope.$on('setTargeting' , function($event, args) {
             _targeting.setTargetingForPreview(args[0]);
-            if($scope.mode ==='edit' && args[0] === 'Geography'){
+            if($scope.mode ==='edit') {
                 var adData = workflowService.getAdsDetails();
-                _targeting.showgeoTargetingInfo(adData)
+
+                switch(args[0]) {
+                    case 'Geography' :
+                        _targeting.showgeoTargetingInfo(adData)
+                    break;
+                    case 'Video' :
+                        _targeting.showVideoTargetingInfo(adData)
+                    break;
+
+                }
             }
         })
 
@@ -258,13 +280,38 @@ define(['angularAMD','workflow/services/workflow_service','workflow/services/aud
             $scope.deleteGeoTargetting();
             $scope.deleteDayPartTargetting();
             $scope.deleteAudienceTargetting();
-
+            $scope.deleteVideoTargetting();
         });
+
+        $scope.deleteTargetting = function () {
+          $scope.showDeleteConfirmationPopup = !$scope.showDeleteConfirmationPopup;
+          switch($scope.deleteType) {
+              case 'AUDIENCE' :
+                  workflowService.setDeleteModule('Audience');
+                  $scope.deleteAudienceTargetting();
+                  break;
+              case 'GEO':
+                  workflowService.setDeleteModule('Geography');
+                  $scope.deleteGeoTargetting();
+                  break;
+              case 'DAYPART':
+                  workflowService.setDeleteModule('dayParting');
+                  $scope.deleteDayPartTargetting();
+                  break;
+              case 'VIDEO' :
+                  workflowService.setDeleteModule('video');
+                  $scope.deleteVideoTargetting();
+                  break;
+          }
+        };
 
         $scope.deletetargets = function (type, event) {
             var elem = $(event.target);
             var leftPos = elem.closest(".cardSelectHolder").offset().left - elem.closest(".setTargetOptions").offset().left;
+            var msgPopUpHeight = elem.closest(".setTargetOptions").find(".msgPopup").height();
+            var topPos = elem.closest(".cardSelectHolder").offset().top - elem.closest(".cardSelectHolder").height() + msgPopUpHeight - 81;
             elem.closest(".setTargetOptions").find(".msgPopup").css("left", leftPos);
+            elem.closest(".setTargetOptions").find(".msgPopup").css("top", topPos);
             $scope.showDeleteConfirmationPopup = true;
             $scope.deleteType = type;
         };

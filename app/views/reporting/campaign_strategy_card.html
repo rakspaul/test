@@ -63,8 +63,7 @@
                         <span></span>
                     </div>
                     <div class="pull-left"
-                         ng-bind="strategy.tactics_count + ' ' +
-                            (strategy.tactics_count == 0 || strategy.tactics_count > 1) ? 'Ads' : 'Ad'">
+                         ng-bind="(strategy.tactics_count > 1) ? (strategy.tactics_count+' Ads') : (strategy.tactics_count+' Ad')">
                     </div>
                 </div>
                 <a ><!--  href="/#/performance" -->

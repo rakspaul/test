@@ -211,7 +211,7 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
         };
         $scope.redirectAdEditPage=function(adData){
             if(adData.adGroupId){
-                $location.url("/mediaplan/"+adData.campaignId+"/adGroup/"+adData.adGroupId+"/ads/"+adData.adId+"/edit")
+                $location.url("/mediaplan/"+adData.campaignId+"lineItem/"+ adData.lineItemId +"/adGroup/"+adData.adGroupId+"/ads/"+adData.adId+"/edit")
             }else{
                 $location.url("/mediaplan/"+adData.campaignId+"/ads/"+adData.adId+"/edit")
             }

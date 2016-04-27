@@ -1,6 +1,6 @@
-define(['angularAMD','common/services/url_service','reporting/timePeriod/time_period_model','common/services/data_service','reporting/brands/brands_model','reporting/dashboard/dashboard_model','common/services/request_cancel_service','common/services/constants_service','login/login_model','reporting/advertiser/advertiser_model'],function (angularAMD) {
+define(['angularAMD','common/services/url_service','reporting/timePeriod/time_period_model','common/services/data_service','reporting/brands/brands_model','reporting/dashboard/dashboard_model','common/services/request_cancel_service','common/services/constants_service','login/login_model','reporting/advertiser/advertiser_model', 'reporting/subAccount/sub_account_model'],function (angularAMD) {
   'use strict';
-  angularAMD.service('bubbleChartModel', ['urlService', 'timePeriodModel', 'dataService', 'brandsModel', 'dashboardModel', 'requestCanceller', 'constants', 'loginModel','advertiserModel', function (urlService, timePeriodModel, dataService, brandsModel, dashboardModel, requestCanceller, constants, loginModel,advertiserModel) {
+  angularAMD.service('bubbleChartModel', ['urlService', 'timePeriodModel', 'dataService', 'brandsModel', 'dashboardModel', 'requestCanceller', 'constants', 'loginModel','advertiserModel','subAccountModel', function (urlService, timePeriodModel, dataService, brandsModel, dashboardModel, requestCanceller, constants, loginModel,advertiserModel,subAccountModel) {
 
     var bubbleWidgetData = {
       brandData: {},
@@ -11,14 +11,16 @@ define(['angularAMD','common/services/url_service','reporting/timePeriod/time_pe
     };
 
     this.getBubbleChartData = function () {
+        var isDashboardSubAccount = subAccountModel.isDashboardSubAccount();
       var queryObj = {
-        "clientId": loginModel.getSelectedClient().id,
+        "clientId": subAccountModel.getDashboardAccountId(),
         "advertiserId": advertiserModel.getSelectedAdvertiser().id,
         "brandId": brandsModel.getSelectedBrand().id,
         "dateFilter": constants.PERIOD_LIFE_TIME,
         "campaignStatus": dashboardModel.campaignStatusToSend()
       };
       var url = urlService.APISpendWidgetForAllBrands(queryObj);
+
       //var canceller = requestCanceller.initCanceller(constants.SPEND_CHART_CANCELLER);
       return dataService.fetch(url).then(function (response) {
         if (response.data && response.data.data.length > 0) {
@@ -45,8 +47,10 @@ define(['angularAMD','common/services/url_service','reporting/timePeriod/time_pe
     this.getBubbleChartDataForCampaign = function (selectedBrand) {
       var clientId = loginModel.getSelectedClient().id;
       var advertiserId = advertiserModel.getSelectedAdvertiser().id;
+      var isDashboardSubAccount = subAccountModel.isDashboardSubAccount();
+
       var queryObj = {
-        "clientId": loginModel.getSelectedClient().id,
+        "clientId": subAccountModel.getDashboardAccountId(),
         "advertiserId": advertiserModel.getSelectedAdvertiser().id,
         "brandId": ((selectedBrand == undefined) ? -1 : selectedBrand),
         "dateFilter": constants.PERIOD_LIFE_TIME,
@@ -54,6 +58,7 @@ define(['angularAMD','common/services/url_service','reporting/timePeriod/time_pe
       };
       //  var url = urlService.APISpendWidgetForCampaigns(clientId, advertiserId, selectedBrand, timePeriodModel.timeData.selectedTimePeriod.key, dashboardModel.getData().selectedStatus);
       var url = urlService.APISpendWidgetForCampaigns(queryObj);
+
       var canceller = requestCanceller.initCanceller(constants.BUBBLE_CHART_CAMPAIGN_CANCELLER);
       return dataService.fetchCancelable(url, canceller, function (response) {
 
@@ -81,15 +86,17 @@ define(['angularAMD','common/services/url_service','reporting/timePeriod/time_pe
 
     // So that user can fire paraller request to fetch campaigns of a brands.
     this.getBubbleChartDataForCampaignWithOutCanceller = function (selectedBrand) {
+        var isDashboardSubAccount = subAccountModel.isDashboardSubAccount();
       if(loginModel.getSelectedClient()) {
           var queryObj = {
-              "clientId": loginModel.getSelectedClient().id,
+              "clientId": subAccountModel.getDashboardAccountId(),
               "advertiserId": advertiserModel.getSelectedAdvertiser().id,
               "brandId": ((selectedBrand == undefined) ? -1 : selectedBrand),
               "dateFilter": constants.PERIOD_LIFE_TIME,
               "campaignStatus": dashboardModel.campaignStatusToSend()
           };
           var url = urlService.APISpendWidgetForCampaigns(queryObj);
+
           return dataService.fetch(url).then(function (response) {
               if (response) {
                   var campaigns = (response.data.data !== undefined) ? response.data.data.campaigns : {};

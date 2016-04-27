@@ -668,7 +668,7 @@
 }
 .adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segBodyWrap {
   float: left;
-  height: 265px;
+  height: 100%;
   overflow: hidden;
   width: 100%;
 }
@@ -738,7 +738,6 @@
   background: #edf2f8;
   float: left;
   margin-left: 2%;
-  height: 476px;
   overflow: auto ;
   padding: 15px 20px;
   width: 33%;
@@ -1035,8 +1034,7 @@
   display: none;
 }
 .adCreateMaster #targetting .targettingFormWrap .tabbable .tab-pane {
-  min-height: initial !important;
-  padding-bottom: 0 !important;
+  min-height: initial;
 }
 .adCreateMaster #targetting .targettingFormWrap .tabbable .tab-pane .tab-content {
   border: 1px solid #dde6eb;
@@ -1302,6 +1300,10 @@
 #campaignCreate .campaignAdCreate .adMainWrapper .buyingPlatformHolder {
   float: left;
 }
+#campaignCreate .campaignAdCreate .adMainWrapper .adBuyingPlatform .popUpCue {
+  top: 10px ;
+  left: 50px ;
+}
 #campaignCreate .campaignAdCreate .adMainWrapper .create_ad {
   color: #333;
   float: left;
@@ -1362,7 +1364,7 @@
 #campaignCreate .campaignAdCreate .adMainWrapper #formAdCreate .adCreateConsole .adStepOne .tabContent .tab-content .tab-pane {
   float: left;
   height: 100%;
-  padding-bottom: 60px;
+  padding-bottom: 0;
   width: 100%;
   min-height: 700px ;
 }
@@ -3404,6 +3406,7 @@
 .accounts-page .accounts-page-container {
   max-width: 100%;
   min-width: 750px;
+  margin: 0 0 20px 120px;
 }
 .users-creation-page .account-name,
 .accounts-page .account-name,
@@ -3411,19 +3414,55 @@
 .accounts-page .advertiser-name {
   cursor: pointer;
 }
+.users-creation-page .icon-arrow-down-thick,
+.accounts-page .icon-arrow-down-thick {
+  float: left;
+  font-size: 9px;
+  width: 9px;
+  height: 9px;
+  cursor: pointer;
+  margin: 5px 10px 0 0;
+  /* Safari */
+  -webkit-transform: rotate(-90deg);
+  /* Firefox */
+  -moz-transform: rotate(-90deg);
+  /* IE */
+  -ms-transform: rotate(-90deg);
+  /* Opera */
+  -o-transform: rotate(-90deg);
+  /* Internet Explorer */
+  filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+}
+.users-creation-page .icon-arrow-down-thick.active,
+.accounts-page .icon-arrow-down-thick.active {
+  /* Safari */
+  -webkit-transform: rotate(0deg);
+  /* Firefox */
+  -moz-transform: rotate(0deg);
+  /* IE */
+  -ms-transform: rotate(0deg);
+  /* Opera */
+  -o-transform: rotate(0deg);
+  /* Internet Explorer */
+  filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=0);
+}
 .users-creation-page .account-name,
 .accounts-page .account-name {
-  background: url(/images/cdesk/common_side_arrow.png) no-repeat left center;
   font-family: Avenir-bold, sans-serif;
   max-width: 70%;
-  padding-left: 20px;
+  padding-left: 0px;
   transition-duration: .1s;
+}
+.users-creation-page .account-name span:last-child,
+.accounts-page .account-name span:last-child {
+  font-family: "Avenir";
+  clear: left;
 }
 .users-creation-page .adding-section,
 .accounts-page .adding-section {
   color: #939eae;
   padding: 5px 10px;
-  margin: -5px 0 0 10px;
+  margin: 0px 0 0 10px;
   background: #F7FAFF;
   border: 1px dashed #939EAE;
   cursor: pointer;
@@ -3470,7 +3509,25 @@
 }
 .users-creation-page .each-account-details,
 .accounts-page .each-account-details {
-  margin-bottom: 10px;
+  margin: 0;
+  padding: 15px 0;
+  border-top: 2px solid #939eae;
+}
+.users-creation-page .each-account-details > .particular-account-box,
+.accounts-page .each-account-details > .particular-account-box {
+  margin: 0px ;
+}
+.users-creation-page .each-account-details > .particular-account-box .common_primary_btn,
+.accounts-page .each-account-details > .particular-account-box .common_primary_btn {
+  margin-top: -8px;
+}
+.users-creation-page .subClient .each-account-details,
+.accounts-page .subClient .each-account-details {
+  border-top: 1px solid #bfc9d7;
+}
+.users-creation-page .subClient .each-account-details:last-child,
+.accounts-page .subClient .each-account-details:last-child {
+  padding-bottom: 0;
 }
 .users-creation-page .each-user,
 .accounts-page .each-user {
@@ -3491,7 +3548,7 @@
 }
 .users-creation-page .heading .common_primary_btn,
 .accounts-page .heading .common_primary_btn {
-  margin: 10px 15px 0 0;
+  margin: 10px 0px 0 0;
 }
 .users-creation-page .label_heading,
 .accounts-page .label_heading {
@@ -3500,10 +3557,11 @@
 }
 .users-creation-page .particular-account-box,
 .accounts-page .particular-account-box {
-  border: solid 1px transparent;
+  /*  border: solid 1px transparent; */
   border-radius: 5px;
-  min-width: 750px;
-  padding: 15px;
+  /*  min-width: 750px;
+        padding: 15px; */
+  width: 100%;
 }
 .users-creation-page .particular-account-box .account-name,
 .accounts-page .particular-account-box .account-name {
@@ -3528,13 +3586,14 @@
   height: 20px;
   left: -31px;
   position: absolute;
-  top: 10px;
+  top: 20px;
   width: 20px;
 }
 .users-creation-page .particular-account-box.data-loaded .each-advertiser:last-child:after,
 .accounts-page .particular-account-box.data-loaded .each-advertiser:last-child:after {
   background: #fff;
   height: 100%;
+  min-height: 20px;
 }
 .users-creation-page .particular-account-box.data-loaded .each-advertiser.no-data-open .brand-name:after,
 .accounts-page .particular-account-box.data-loaded .each-advertiser.no-data-open .brand-name:after {
@@ -3570,15 +3629,10 @@
 }
 .users-creation-page .particular-account-box.open,
 .accounts-page .particular-account-box.open {
-  border: solid 1px #ccc;
-}
-.users-creation-page .particular-account-box.open .account-name,
-.accounts-page .particular-account-box.open .account-name {
-  background-image: url(/images/cdesk/common_down_arrow.png);
+  /*border: solid 1px #ccc; */
 }
 .users-creation-page .particular-account-box.open.data-loaded:not(.no-data-open) .account-name:after,
 .accounts-page .particular-account-box.open.data-loaded:not(.no-data-open) .account-name:after {
-  border-left: dashed 1px #ccc;
   content: "";
   height: 18px;
   left: 5px;
@@ -3646,6 +3700,62 @@
   height: 12px;
   margin-right: 5px;
   width: 12px;
+}
+.modalAccountRedx {
+  top: 50px;
+  background: #fff;
+}
+.modalAccountRedx .modal-dialog {
+  width: 100%;
+  height: 100%;
+  float: left;
+  transition: none !important;
+  margin: 0;
+}
+.modalAccountRedx .modal-dialog .modal-content {
+  border-width: 0;
+  box-shadow: none;
+  width: 1200px;
+  margin: 30px auto;
+}
+.modalAccountRedx .modal-dialog .modal-content .popup-holder .modal-header {
+  padding: 0;
+}
+.modalAccountRedx .modal-dialog .modal-content .popup-holder .modal-header .close {
+  display: none;
+}
+.modalAccountRedx .modal-dialog .modal-content .popup-holder .modal-header .modal-title {
+  margin-bottom: 30px;
+}
+.modalAccountRedx .modal-dialog .modal-content .popup-holder .modal-body {
+  padding: 0;
+}
+.modalAccountRedx .modal-dialog .modal-content .popup-holder .modal-body #pixelsCnt,
+.modalAccountRedx .modal-dialog .modal-content .popup-holder .modal-body .IABForm,
+.modalAccountRedx .modal-dialog .modal-content .popup-holder .modal-body .adChoices,
+.modalAccountRedx .modal-dialog .modal-content .popup-holder .modal-body .billingMethods {
+  float: left;
+  width: 100%;
+  margin: 0 0 30px 0;
+  position: relative;
+  background: #EDF2F8;
+  padding: 10px 30px;
+}
+.modalAccountRedx .modal-dialog .modal-content .popup-holder .modal-body #pixelsCnt .pixelLayer,
+.modalAccountRedx .modal-dialog .modal-content .popup-holder .modal-body .IABForm .pixelLayer,
+.modalAccountRedx .modal-dialog .modal-content .popup-holder .modal-body .adChoices .pixelLayer,
+.modalAccountRedx .modal-dialog .modal-content .popup-holder .modal-body .billingMethods .pixelLayer {
+  float: left;
+  width: 100%;
+}
+.modalAccountRedx .modal-dialog .modal-content .popup-holder input[type="text"],
+.modalAccountRedx .modal-dialog .modal-content .popup-holder select {
+  border: 1px solid #BFC9D7;
+  border-radius: 2px !important;
+  line-height: normal;
+  padding: 10px 12px 7px 12px;
+  height: auto;
+  box-shadow: none !important;
 }
 .accounts-popup.popup-holder .add-filters,
 .users-popup.popup-holder .add-filters {

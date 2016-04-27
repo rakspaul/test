@@ -214,7 +214,8 @@ define(['common'], function (angularAMD) {
                     title: 'Invoices Reports',
                     controller: 'ReportsInvoiceListController',
                     controllerUrl: 'reporting/collectiveReport/reports_invoice_list_controller',
-                    css: assets.css_reports_schedule_list,
+                    css: assets.css_reports_invoice_list,
+
                     resolve: {
                         check: function ($location, featuresService) {
                             featuresService.setGetFeatureParams('scheduled_reports');
@@ -255,19 +256,70 @@ define(['common'], function (angularAMD) {
                         }
                     }
                 }))
-
+                .when('/admin/home', angularAMD.route({
+                    templateUrl: assets.html_admin_home,
+                    title: 'AdminHome',
+                    resolve: {
+                        check: function ($location, loginModel) {
+                            if(!loginModel.getClientData().is_super_admin){
+                                $location.url('/dashboard');
+                            }
+                        }
+                    }
+                    //   controller: 'AccountsController',
+                    //   controllerUrl: 'common/controllers/accounts/accounts_controller'
+                }))
                 .when('/admin/accounts', angularAMD.route({
                     templateUrl: assets.html_accounts,
                     title: 'Accounts',
                     controller: 'AccountsController',
-                    controllerUrl: 'common/controllers/accounts/accounts_controller'
+                    controllerUrl: 'common/controllers/accounts/accounts_controller',
+                    resolve: {
+                        check: function ($location, loginModel) {
+                            if(!loginModel.getClientData().is_super_admin){
+                                $location.url('/dashboard');
+                            }
+                        }
+                    }
                 }))
-
+                .when('/admin/brands', angularAMD.route({
+                    templateUrl: assets.html_brands,
+                    title: 'AdminBrands',
+                    controller: 'AdminAdvertisersController',
+                    controllerUrl: 'common/controllers/accounts/admin_brands_controller',
+                    resolve: {
+                        check: function ($location, loginModel) {
+                            if(!loginModel.getClientData().is_super_admin){
+                                $location.url('/dashboard');
+                            }
+                        }
+                    }
+                }))
+                .when('/admin/advertisers', angularAMD.route({
+                    templateUrl: assets.html_advertisers,
+                    title: 'AdminAdvertisers',
+                    controller: 'AdminUsersController',
+                    controllerUrl: 'common/controllers/accounts/admin_advertisers_controller',
+                    resolve: {
+                        check: function ($location, loginModel) {
+                            if(!loginModel.getClientData().is_super_admin){
+                                $location.url('/dashboard');
+                            }
+                        }
+                    }
+                }))
                 .when('/admin/users', angularAMD.route({
                     templateUrl: assets.html_users,
                     title: 'Users',
                     controller: 'UsersController',
-                    controllerUrl: 'common/controllers/users/users_controller'
+                    controllerUrl: 'common/controllers/users/users_controller',
+                    resolve: {
+                        check: function ($location, loginModel) {
+                            if(!loginModel.getClientData().is_super_admin){
+                                $location.url('/dashboard');
+                            }
+                        }
+                    }
                 }))
 
                 .when('/mediaplan/:campaignId/edit', angularAMD.route({
@@ -336,7 +388,7 @@ define(['common'], function (angularAMD) {
                     }
                 }))
 
-                .when('/mediaplan/:campaignId/adGroup/:adGroupId/ads/create', angularAMD.route({
+                .when('/mediaplan/:campaignId/lineItem/:lineItemId/adGroup/:adGroupId/ads/create', angularAMD.route({
                     templateUrl: assets.html_campaign_create_adBuild,
                     title: 'Media Plan - Ad Create',
                     controller: 'CampaignAdsCreateController',
@@ -382,7 +434,7 @@ define(['common'], function (angularAMD) {
                     }
                 }))
 
-                .when('/mediaplan/:campaignId/adGroup/:adGroupId/ads/:adId/edit', angularAMD.route({
+                .when('/mediaplan/:campaignId/lineItem/:lineItemId/adGroup/:adGroupId/ads/:adId/edit', angularAMD.route({
                     templateUrl: assets.html_campaign_create_adBuild,
                     title: 'Media Plan - Ad Edit',
                     controller: 'CampaignAdsCreateController',
@@ -590,6 +642,7 @@ define(['common'], function (angularAMD) {
                                                 .then(function (response) {
                                                     featuresService.setFeatureParams(response.data.data.features);
                                                 });
+
 
                                             if (locationPath === '/login' || locationPath === '/') {
                                                 handleLoginRedirection();

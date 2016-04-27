@@ -1,0 +1,91 @@
+<popup-msg ng-show="flashMessage" ng-controller="popUpMsgCtr"
+           ng-init="init('flashMessage','WF_USER_CREATION_FAIL')"></popup-msg>
+<admin-header></admin-header>
+<div class="users-creation-page" >
+    <!--Header-->
+    <div class="col-md-12 zeroPadding heading" style="margin: 30px 0;">
+        <h1 class="zeroMargin">Advertiser</h1>
+        <div class="col-md-12 zeroPadding" style="margin: 30px 0 0 0;">
+            <label class="col-sm-12 greyTxt">Advertiser Name</label>
+            <input type="text" class="pull-left clearLeft" placeholder="Add Name"
+                   id="advertiserNameInp" ng-model="advertiserName"
+                   ng-keyup="mode == 'create' ? showDropdown() : ''" style="width:500px; border-top-right-radius: 0px; border-bottom-right-radius: 0;" ng-class="{'edit-input':isEditAdvertiser}">
+            <div class="pull-left btn-group create" role="group" aria-label="...">
+                <a class="btn btn-default" ng-click="createAdvertiser()" style="border-left: 0; border-radius: 0;">
+                    <span class="icon-plus"></span>
+                    <span data-ng-bind="isEditAdvertiser ? 'Update' : 'Create'"></span>
+                </a>
+                <!--<admin-header></admin-header>-->
+            </div>
+
+                <span class="delete_row" ng-show="isEditAdvertiser"
+                      data-ng-click="isEditAdvertiser=false;advertiserName=''"
+                      style="position: absolute;top: 32px;left: 470px;"></span>
+            <!--Search Input-->
+            <div class="btn-group pull-right">
+                <button type="button" class="btn btn-default pull-right" style="display: none">
+                    <span class="icon-filter" style="margin: -1px 0 0;"></span>
+                </button>
+
+                <div class="searchInput pull-right">
+                    <a class="btn btn-default searchInputBtn" ng-click="searchShowInput($event)">
+                        <span class="icon-search" aria-hidden="true" style="margin: -1px 0 0;"></span>
+                    </a>
+                    <a class="btn btn-default searchInputBtnInline" ng-click="campaignSearchFunc()">
+                        <span class="icon-search" aria-hidden="true" style="margin: -1px 0 0;"></span>
+                    </a>
+                    <div class="input-group searchInputForm" >
+                        <input type="text"
+                               class="form-control"
+                               name="usersSearch"
+                               placeholder="Search Advertisers...">
+                        <div class="btn btn-default searchClearInputBtn" ng-click="searchHideInput()">
+                            <span class="icon-clear" aria-hidden="true"></span>
+                        </div>
+                    </div>
+                </div>
+            </div >
+            <span class="pull-right" style="font-size: 12px; margin: 9px 10px 0 0;"><span data-ng-bind="advertisersTotal"></span> Users</span>
+        </div>
+    </div>
+    <!--User List-->
+    <div class="table-responsive user-list animated" id="table_responsive" style="margin-bottom: 30px;">
+        <div class="vistoTable" id="visto_table">
+            <div class="thead thin">
+                <div class="tr">
+                    <div class="col-md-5 th">Advertisers Name</div>
+                    <div class="col-md-1 th">Id</div>
+                    <div class="col-md-4 th">Clients Associated</div>
+                    <div class="col-md-2 th" >Created At</div>
+                </div>
+            </div>
+
+            <div class="tbody thin" style="height:350px;overflow-y:scroll;">
+                <div class="tr" ng-repeat="advertiser in advertisersData" data-ng-click="editAdvertiser(advertiser)">
+                    <div class="td col-md-5" >
+                        <div class="col-md-10 zeroPadding" data-ng-bind="advertiser.name" ></div>
+                        <div class="pull-right col-md-2 edit" style="margin-right:10px ;"></div>
+                    </div>
+
+                    <div class="td col-md-1">
+                        <div data-ng-bind="advertiser.id"></div>
+                    </div>
+
+                    <div class="td col-md-4">
+                        <div data-ng-bind="advertiser.clients"></div>
+                    </div>
+
+                    <div class="td col-md-2">
+                        <div data-ng-bind="advertiser.createdAt | date : 'EEE, MMM d yyyy'"></div>
+                    </div>
+                </div>
+                <div ng-if="loadAdvertiserList" class="common-load-more">
+                </div>
+            </div>
+        </div>
+
+
+        <div id="maskWindow" style="width: 100%;height: 100%;background: rgba(255, 255, 253, 0.57);position: absolute;left: 0px;top: 0px;display:none">
+            <span class="common-load-more" style="position: absolute;z-index: 999999;top: 50%;left: 50%;transform: translateY(-50%);transform: translate(-50%,-50%);"></span>
+        </div>
+    </div>

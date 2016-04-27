@@ -2484,7 +2484,12 @@ input[type="submit"] {
 .main_navigation_holder .main_nav .main_navigation .arrowSelect {
   display: none;
 }
-.main_navigation_holder .main_nav .main_navigation .each_nav_link.active .arrowSelect {
+.main_navigation_holder .main_nav .main_navigation .each_nav_link.selected a,
+.main_navigation_holder .main_nav .main_navigation .each_nav_link.active_tab a {
+  color: #fff;
+}
+.main_navigation_holder .main_nav .main_navigation .each_nav_link.selected .arrowSelect,
+.main_navigation_holder .main_nav .main_navigation .each_nav_link.active_tab .arrowSelect {
   content: "";
   position: absolute;
   display: block;
@@ -2493,19 +2498,6 @@ input[type="submit"] {
   height: 0;
   width: 0;
   border: solid 6px #fff;
-  border-left: solid 8px transparent;
-  border-top: 0;
-  border-right: solid 8px transparent;
-}
-.main_navigation_holder .main_nav .main_navigation .each_nav_link.active#creative_nav_link .arrowSelect {
-  content: "";
-  position: absolute;
-  display: block;
-  bottom: -15px;
-  left: 35%;
-  height: 0;
-  width: 0;
-  border: solid 6px #EDF2F8;
   border-left: solid 8px transparent;
   border-top: 0;
   border-right: solid 8px transparent;
@@ -2523,9 +2515,6 @@ input[type="submit"] {
 }
 .main_navigation_holder .main_nav .main_navigation #reports_nav_link:hover .reports_header_tabs_holder {
   display: block;
-}
-.main_navigation_holder .main_nav .main_navigation .active a {
-  color: #fff ;
 }
 .main_navigation_holder .main_nav a {
   color: #fff ;

@@ -137,6 +137,7 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model', 'reporti
                                         $scope.strategyMarginUnit = constants.SYMBOL_DOLLAR;
                                     }
                                     if(!utils.hasItem($scope.strategyCostData,"campaign_id", item.campaign_id)) {
+                                        item.kpi_type = $scope.selected_filters.campaign_default_kpi_type;
                                         $scope.strategyCostData.push(item);
                                     }
                                 }else{

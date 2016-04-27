@@ -40,6 +40,14 @@ define(['angularAMD','../common/services/constants_service'], function (angularA
                 return localStorage.getItem('selectedClient') && JSON.parse(localStorage.getItem('selectedClient'));
             },
 
+            setDashboardClient: function(data) {
+                localStorage.setItem('dashboardClient', JSON.stringify(data));
+            },
+
+            getDashboardClient: function() {
+                return localStorage.getItem('dashboardClient') && JSON.parse(localStorage.getItem('dashboardClient'));
+            },
+
             setMasterAndClient: function(masterId, masterName, isLeafNode, clientId, clientName) {
                 localStorage.setItem('masterClient', JSON.stringify({
                     id: masterId,
