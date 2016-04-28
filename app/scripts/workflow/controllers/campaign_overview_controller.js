@@ -480,7 +480,9 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                         }
                     }
 
-                    if(adsData.targets.videoTargets) {
+                    var videoTargetsData = adsData.targets && adsData.targets.videoTargets;
+
+                    if(videoTargetsData && videoTargetsData.sizes.length >0 || videoTargetsData.positions.length >0 || videoTargetsData.playbackMethods.length > 0) {
                         if (selectedStr !== '') {
                             selectedStr += ', Video';
                         } else {
