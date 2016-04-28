@@ -23,7 +23,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
             $scope.fetchStrategies();// fetch strategies
         });
 
-        $scope.reset= function(){ console.log('reset');
+        $scope.reset= function(){
             strategySelectModel.reset();// clean up models
             $scope.strategyData.strategies = strategySelectModel.getStrategyObj().strategies ;
             $scope.strategyData.selectedStrategy = strategySelectModel.getStrategyObj().selectedStrategy ;
