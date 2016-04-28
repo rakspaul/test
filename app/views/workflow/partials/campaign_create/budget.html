@@ -1,0 +1,198 @@
+<h3 class="col-md-6 adName" tooltip="{{adData.adName}}">
+    {{selectedCampaign.campaignName.length>0 ? (selectedCampaign.campaignName | textEllipsis: 40 ) : editCampaignData.name}}
+</h3>
+<!--==== Row 1 ====-->
+<div class="col-md-12 zeroPadding">
+    <label for="nameTitleCampaign" class="col-sm-12 labelQuestTxt" style="margin-bottom: 5px;">Budget & Measure</label>
+
+    <div class="col-md-12 zeroPadding marginCal">
+        <div class="calTable form-group" show-errors>
+            <h3>Media Plan Budget</h3>
+            <div class="symbol-input">
+                <span class="symbol">{{locale.NUMBER_FORMATS.CURRENCY_SYM}}</span>
+                <input type="text" style="padding-left: 20px;" ng-model="Campaign.totalBudget" name="totalBudget" class="form-control col-sm-8" ng-keyup="ComputeCost()" whole-number-only="whole-number-only" required/>
+            </div>
+            <label ng-if="createCampaignForm.totalBudget.$error.required" class="txtError budgetError errorLabel" >{{textConstants.TOTAL_BUDGET_REQUIRED}}</label>
+            <label ng-if="Campaign.totalBudget<=0" class="txtError budgetError">{{textConstants.TOTAL_BUDGET_GREATER_THAN_ZERO}}</label>
+        </div>
+        <div class="calTable form-group">
+            <h3>Margin (Optional)</h3>
+            <div class="symbol-input">
+                <span class="symbol" style="left: initial; right: 10px;">{{textConstants.SYMBOL_PERCENT}}</span>
+                <input type="text" ng-model="Campaign.marginPercent" name="marginPercent" class="form-control col-sm-8" ng-keyup="ComputeCost()" style="padding-right:21px;" whole-number-only="whole-number-only"/>
+            </div>
+        </div>
+
+        <div class="calTable form-group">
+            <h3>Delivery Budget</h3>
+            <div class="symbol-input blindInput">
+                <span class="onlyShowValue"><span>{{locale.NUMBER_FORMATS.CURRENCY_SYM}} </span><span ng-style="deliveryBudgetNegative ? {'color':'#F9B537'}:''" ng-bind="Campaign.deliveryBudget? (Campaign.deliveryBudget | setDecimal:2 | number : fractionSize ):'' "></span></span>
+                <input type="text" style="display:none"  name="deliveryBudget" ng-model="Campaign.deliveryBudget" class="form-control col-sm-8" />
+            </div>
+            <label ng-if="deliveryLesserBookedspend" class="col-sm-12 txtError budgetError">{{textConstants.DELIVERY_BUDGET_BOOKEDSPEND}}({{editCampaignData.bookedSpend}})</label>
+            <label ng-if="Campaign.deliveryBudget<0" class="col-sm-12  txtError budgetError">{{textConstants.DELIVERY_BUDGET_GREATER_THAN_ZERO}}</label>
+        </div>
+    </div>
+
+</div>
+
+<div class="col-md-12 zeroPadding">
+    <label for="nameTitleCampaign" class="col-sm-12 labelQuestTxt" style="border-bottom: 1px solid rgba(191, 201, 215, 0.5); padding-bottom: 10px !important;">Measurement Settings and Costs</label>
+
+    <div data-toggle="collapse" data-target="#accountMeasurement" class="accordionDDL collapsed">
+        <div class="icon-arrow-down-thick"></div>
+        <span>Account / Advertiser Measurement Settings</span>
+        <span>The systems used to calculate costs and generate invoices</span>
+    </div>
+
+    <div id="accountMeasurement" class="collapse fade">
+        <div class="table-responsive">
+            <div class="vistoTable yellowTable">
+                <div class="thead thin">
+                    <div class="tr">
+                        <div class="th col-md-3">Metric</div>
+                        <div class="th col-md-3">Vendor</div>
+                        <div class="th col-md-3">Configuration</div>
+                        <div class="th col-md-3">Channels</div>
+                    </div>
+                </div>
+
+                <div class="tbody" style="max-height: 200px;overflow: auto;">
+                    <!--Table Sample-->
+                    <div class="tr" ng-repeat="config in vendorConfig.userPermission">
+                        <div class="td col-md-3">{{config.metric}}</div>
+                        <div class="td col-md-3">{{config.vendorName}}</div>
+                        <div class="td col-md-3">{{config.configName}}</div>
+                        <div class="td col-md-3">{{config.adFormat}}</div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div data-toggle="collapse" data-target="#costTracking" class="accordionDDL collapsed">
+        <div class="icon-arrow-down-thick"></div>
+        <span>Cost Tracking |</span>
+        <span>The Costs that will be measured in Cost Attribution reports ad are factored into COGS+ Billing</span>
+    </div>
+    <div id="costTracking" class="collapse fade">
+        <div class="table-responsive">
+            <div class="vistoTable yellowTable">
+                <div class="thead thin">
+                    <div class="tr">
+                        <div class="th col-md-2">Category</div>
+                        <div class="th col-md-2">Vendor</div>
+                        <div class="th col-md-2">Configuration</div>
+                        <div class="th col-md-3">Offering</div>
+                        <div class="th col-md-3">Rate</div>
+                    </div>
+                </div>
+
+                <div class="tbody" style="max-height: 200px;overflow: auto;">
+                    <!--Table Sample-->
+                    <div class="tr" ng-repeat="config in vendorConfig.configs">
+                        <div class="td col-md-2">{{config.category}}</div>
+                        <div class="td col-md-2">{{config.vendorName}}</div>
+                        <div class="td col-md-2">{{config.configName}}</div>
+                        <div class="td col-md-3">{{config.adFormat}}</div>
+                        <div class="td col-md-3">{{config.rate}}</div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div data-toggle="{{(selectedCampaign.advertiserId && costAttributes.category.length > 0) ? 'collapse' : ''}}" data-target="{{(selectedCampaign.advertiserId && costAttributes.category.length > 0) ? '#addAdditionalCost' : ''}}" class="accordionDDL collapsed">
+        <div class="icon-arrow-down-thick"></div>
+        <span>Add Additional Costs (Optional)</span>
+        <span>The systems used to calculate costs and generate invoices</span>
+    </div>
+
+    <div id="addAdditionalCost" class="collapse fade">
+        <div class="table-responsive">
+            <div class="vistoTable yellowTable" style="padding: 0 15px 15px;">
+                <!--Header-->
+                <div class="col-md-12 zeroPadding each-cost-dimension" ng-repeat="addCost in additionalCosts track by $index" data-index = "{{$index}}">
+                        <div class="col-md-3 zeroPadding" >
+                            <label for="primaryKPI" class="col-sm-12 greyTxt miniLabels">Category</label>
+                                <div class="col-md-12 zeroPadding">
+                                    <div class="col-md-12 zeroPadding dropdown-workflow">
+                                        <div class="dropdown">
+                                            <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                                <span class="text">Select</span>
+                                                <span class="icon-arrow-down"></span>
+                                            </button>
+                                            <ul class="dropdown-menu">
+                                                <li class="available" ng-repeat="attr in costAttributes.category" id="attr.id" ng-click="costAttributesSelected(costAttributes, attr , $event, 'category')"><a>{{attr.name}}</a></li>
+                                            </ul>
+
+                                        </div>
+                                    </div>
+                                </div>
+                        </div>
+                        <div class="col-md-3 zeroPadding" >
+                            <label for="primaryKPI" class="col-sm-12 greyTxt miniLabels">Vendor</label>
+                            <div class="col-md-12 zeroPadding dropdown-workflow">
+                                <div class="dropdown">
+                                    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" >
+                                        <span class="text">Select</span>
+                                        <span class="icon-arrow-down"></span>
+                                    </button>
+                                    <ul class="dropdown-menu" aria-labelledby="selectKPI"  id="selectKPI">
+                                        <li class="available" ng-click="costAttributesSelected(costAttributes, attr , $event, 'vendor')" ng-repeat="attr in costAttributes.vendor"><a>{{attr.name}}</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 zeroPadding" >
+                            <label for="primaryKPI" class="col-sm-12 greyTxt miniLabels">Offering</label>
+                            <div class="col-md-12 zeroPadding dropdown-workflow">
+                                <div class="dropdown">
+                                    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                        <span class="text">Select</span>
+                                        <span class="icon-arrow-down"></span>
+                                    </button>
+                                    <ul class="dropdown-menu" >
+                                        <li class="available"  ng-click="costAttributesSelected(costAttributes, attr , $event, 'offer')" ng-repeat="attr in costAttributes.offering"><a>{{attr.name}}</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-1 zeroPadding" >
+                            <label for="primaryKPI" class="col-sm-12 greyTxt miniLabels">Pricing</label>
+                            <div class="col-md-12 zeroPadding  symbol-input">
+
+                                <input type="text" class="col-md-12 disabled"  value="Flat" style="height:36px; background: #F4F1E9;" disabled/>
+                            </div>
+
+                        </div>
+                        <div class="col-md-1 zeroPadding" >
+                            <label for="primaryKPI" class="col-sm-12 greyTxt miniLabels">Rate</label>
+                            <div class="col-md-12 zeroPadding  symbol-input" style="padding-right: 0px !important; max-width: 118px;">
+
+                                <span class="symbol">{{locale.NUMBER_FORMATS.CURRENCY_SYM}}</span>
+                                <input type="text" class="col-md-12" style="text-indent: 8px; height:36px;"  ng-model ="rateValue" fraction-numbers="fraction-numbers" ng-blur="costAttributesSelected(costAttributes, {'rateValue' : rateValue} , $event, 'rateValue')" field="rateValue" />
+                            </div>
+                        </div>
+                        <div class="col-md-1 zeroPadding removeHolder" ng-click="removeCostDimension($event);">
+                            <span class="remove-row pull-right" >
+                                <span class="icon-clear"></span>
+                            </span>
+                        </div>
+                </div>
+
+                <div class="addCostLink col-md-12 zeroPadding">
+                    <span class="addCostBtn" ng-click="addAdditionalCost()">
+                        <span class="icon-plus"></span>
+                        <span>Add a cost </span>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<a data-toggle="tab" data-target="#addLineItems" role="tab" class="nextWrapper leftNavLink contacts">
+    <span class="btn btn-default" ng-click="highlightLeftNav(2)">Save & Continue</span>
+</a>

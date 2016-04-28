@@ -171,6 +171,9 @@ input[type=number]::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
+.hiddenInputs {
+  display: none;
+}
 textarea {
   resize: none;
   border: 1px solid #dbe8ef;
@@ -795,6 +798,13 @@ select {
 .btn-primary:active,
 .btn-primary.active {
   background: #004D86;
+}
+.btn-link {
+  color: #363D49;
+}
+.btn-link:hover,
+.btn-link:active {
+  color: #428bca;
 }
 .btn-default {
   color: #57606d;
@@ -1597,7 +1607,7 @@ input.cmn-toggle-round:checked + label:after {
   left: -1px;
   bottom: 0;
   background: #fff;
-  border-top: 1px solid #D0D0D0;
+  border-top: 1px dashed #D0D0D0;
   height: 30px;
   width: 100%;
   cursor: pointer;
@@ -2015,4 +2025,24 @@ tags-input ul .suggestion-item.selected span {
 .miniTabLinks .btn-link.active {
   border-bottom: 2px solid #0978C9;
   color: #57606C;
+}
+.pillsWrap {
+  float: left;
+  width: 100%;
+  padding: 3px 0 5px 22px;
+}
+.pillsWrap .labelPills {
+  background: #EDF2F8;
+  margin: 0 5px 0 0;
+  padding: 2px 10px;
+  display: inline-block;
+  float: left;
+  font: 12px "Avenir";
+  height: 20px;
+  line-height: 100%;
+  border: 1px solid #BFC9D7;
+  border-radius: 3px;
+}
+.pillsWrap .brand_search_highlight {
+  background: #fcecbd;
 }

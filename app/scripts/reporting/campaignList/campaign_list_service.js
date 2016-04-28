@@ -93,6 +93,8 @@ define(['angularAMD', 'common/services/data_service', 'common/utils', 'common/se
                         grossRev: null,
                         totalMediaCost: tactic.total_media_cost,
                         expectedMediaCost: tactic.expected_media_cost,
+                        kpiType: tactic.kpi_type.toLowerCase().replace('some(', '').replace(')', ''),
+                        kpiValue: tactic.kpi_value,
                         ctr: 0,
                         vtc: 0,
                         actionRate: 0,
@@ -181,9 +183,8 @@ define(['angularAMD', 'common/services/data_service', 'common/utils', 'common/se
             };
 
             var getTacticsCdbLineChart = function(obj, tacticsList, timePeriod, campaign, strategyId, filterStartDate, filterEndDate, callback) {
-                var kpiType = tacticsList[obj].kpi_type,
-                    kpiValue = tacticsList[obj].kpi_value,
-                    sKpiType = kpiType,
+                var kpiType = tacticsList[obj].kpiType,
+                    kpiValue = tacticsList[obj].kpiValue,
                     kpiMap = {
                         'cpc': 'gross_ecpc',
                         'cpa': 'gross_ecpa',
@@ -191,38 +192,32 @@ define(['angularAMD', 'common/services/data_service', 'common/utils', 'common/se
                     };
 
                 dataService.getCdbTacticsChartData(campaign.orderId, strategyId, tacticsList[obj].id, timePeriod, filterStartDate, filterEndDate).then(function (result) {
-                    var lineData=[];
                     if(result.status == "success" && !angular.isString(result.data)) {
-                        if(sKpiType != undefined || sKpiType != null) {
+                        if(kpiType != undefined || kpiType != null) {
+                            var kpiTypeLower = angular.lowercase(kpiType);
                             if(result.data.data.length > 0) {
                                 var maxDays = result.data.data;
                                 callback && callback(_.last(maxDays), obj);
-                                for (var i = 0; i < maxDays.length; i++) {
-                                    maxDays[i]['ctr'] *= 100
-                                    maxDays[i]['vtc'] = maxDays[i].video_metrics.vtc_rate;
-                                    var kpiType = kpiMap[angular.lowercase(sKpiType)] ? kpiMap[angular.lowercase(sKpiType)] : angular.lowercase(sKpiType);
-                                    var kpiTypeLower = angular.lowercase(kpiType);
+                                var i = 0,
+                                lineData = _.map(maxDays, function(item) {
+                                    item['ctr'] *= 100;
+                                    item['vtc'] = item.video_metrics.vtc_rate;
+                                    var tempKpiType = kpiMap[kpiTypeLower] ? kpiMap[kpiTypeLower] : kpiTypeLower;
 
-                                    //if kpiType is delivery, plot impressions on the graph
-                                    //picking up impressions from perf bydays data call
-                                    if(kpiTypeLower === "delivery") {
-                                        kpiTypeLower = "impressions";
-                                    }
-
-                                    lineData.push({ 'x': i + 1, 'y': utils.roundOff(maxDays[i][kpiTypeLower], 2), 'date': maxDays[i]['date'] });
-                                }
-                                tacticsList[obj].chart = new line.highChart(lineData, parseFloat(kpiValue), kpiType,'tactics');
+                                    return { 'x': i + 1, 'y': utils.roundOff(item[tempKpiType], 2), 'date': item['date'] };
+                                });
+                                tacticsList[obj].chart = new line.highChart(lineData, parseFloat(kpiValue), kpiTypeLower, 'tactics');
 
                                 //d3 chart data
                                 //REVIEW: TARGET -DELIVERY
-                                if(angular.lowercase(kpiType) === "delivery") {
+                                if(kpiTypeLower === "impressions") {
                                   //tacticsList[obj].targetKPIImpressions= maxDays[maxDays.length-1]['booked_impressions']/momentInNetworkTZ.dateDiffInDays(tacticsList[obj].startDate, tacticsList[obj].endDate) * (maxDays.length-1);
-                                  tacticsList[obj].targetKPIImpressions= maxDays[maxDays.length-1]['booked_impressions'];
+                                  tacticsList[obj].targetKPIImpressions = maxDays[maxDays.length-1]['booked_impressions'];
                                 }
                                 tacticsList[obj].lineChart = {
                                     data: lineData,
                                     kpiValue: parseFloat(kpiValue),
-                                    kpiType: kpiType,
+                                    kpiType: kpiTypeLower,
                                     from: 'tactics',
                                     //for delivery kpi
                                     deliveryData: {
@@ -311,39 +306,31 @@ define(['angularAMD', 'common/services/data_service', 'common/utils', 'common/se
             };
 
             var getStrategyCdbLineChart = function(obj, strategyList, timePeriod, campaign, kpiType, kpiValue) {
-                var sKpiType=kpiType;
                 dataService.getCdbChartData(campaign, timePeriod, 'strategies', strategyList[obj].id).then(function (result) {
-                    var lineData=[];
                     if(result.status == "success" && !angular.isString(result.data)) {
-                        if(sKpiType != undefined || sKpiType != null) {
+                        if(kpiType != undefined || kpiType != null) {
+                            var kpiTypeLower = angular.lowercase(kpiType);
                             if(result.data.data.measures_by_days.length > 0) {
                                 var maxDays = result.data.data.measures_by_days;
                                 getStrategyMetrics(obj, strategyList, result.data.data);
-                                for (var i = 0; i < maxDays.length; i++) {
-                                    var kpiType = (sKpiType);
-                                    maxDays[i]['ctr'] *= 100
-                                    maxDays[i]['vtc'] = maxDays[i].video_metrics.vtc_rate;
-                                    var kpiTypeLower = angular.lowercase(kpiType);
+                                var i = 0, 
+                                lineData = _.map(maxDays, function(item) {
+                                    item['ctr'] *= 100
+                                    item['vtc'] = item.video_metrics.vtc_rate;
 
-                                    //if kpiType is delivery, plot impressions on the graph
-                                    //picking up impressions from perf bydays data call
-                                    if(kpiTypeLower === "delivery") {
-                                        kpiTypeLower = "impressions";
-                                    }
-
-                                    lineData.push({ 'x': i + 1, 'y': utils.roundOff(maxDays[i][kpiTypeLower], 2), 'date': maxDays[i]['date'] });
-                                }
-                                strategyList[obj].chart = new line.highChart(lineData, parseFloat(kpiValue), sKpiType,'strategy');
+                                    return { 'x': i + 1, 'y': utils.roundOff(item[kpiTypeLower], 2), 'date': item['date'] };
+                                });
+                                strategyList[obj].chart = new line.highChart(lineData, parseFloat(kpiValue), kpiTypeLower, 'strategy');
                                 //d3 chart data
                                 //REVIEW: TARGET -DELIVERY
-                                if(angular.lowercase(kpiType) === "delivery") {
+                                if(kpiTypeLower === "impressions") {
                                     //strategyList[obj].targetKPIImpressions= maxDays[maxDays.length-1]['booked_impressions']/momentInNetworkTZ.dateDiffInDays(strategyList[obj].startDate, strategyList[obj].endDate) * (maxDays.length-1);
-                                    strategyList[obj].targetKPIImpressions= maxDays[maxDays.length-1]['booked_impressions'];
+                                    strategyList[obj].targetKPIImpressions = maxDays[maxDays.length-1]['booked_impressions'];
                                 }
                                 strategyList[obj].lineChart = {
                                     data: lineData,
                                     kpiValue: parseFloat(kpiValue),
-                                    kpiType: sKpiType,
+                                    kpiType: kpiTypeLower,
                                     from: 'strategy',
                                     //for delivery kpi
                                     deliveryData: {
@@ -351,7 +338,7 @@ define(['angularAMD', 'common/services/data_service', 'common/utils', 'common/se
                                       "endDate" : strategyList[obj].endDate,
                                       "totalDays" :  momentInNetworkTZ.dateDiffInDays(strategyList[obj].startDate, strategyList[obj].endDate) +1,
 //                                      "deliveryDays": noOfdaysCampaignRun(strategyList[obj].startDate, strategyList[obj].endDate),
-                                        "deliveryDays": maxDays.length,
+                                      "deliveryDays": maxDays.length,
                                       "bookedImpressions": maxDays[maxDays.length-1]['booked_impressions'] //REVIEW:  strategyList[obj].totalImpressions
                                     }
                                 };
@@ -460,37 +447,30 @@ define(['angularAMD', 'common/services/data_service', 'common/utils', 'common/se
 
             var getCdbLineChart = function(campaignObject, timePeriod, callback) {
                 dataService.getCdbChartData(campaignObject, timePeriod, 'campaigns', null).then(function (result) {
-                    var lineDate = [], cdData;
+                    var cdData;
                     campaignObject.chart = true;
                     if(result.status == "success" && !angular.isString(result.data)) {
                         if(!angular.isUndefined(campaignObject.kpiType)) {
+                            var kpiType = campaignObject.kpiType,
+                                kpiValue = campaignObject.kpiValue,
+                                kpiTypeLower = angular.lowercase(kpiType);
                             if(result.data.data.measures_by_days.length > 0) {
-                                var maxDays = result.data.data.measures_by_days;
-                                for (var i = 0; i < maxDays.length; i++) {
-                                    maxDays[i]["ctr"] *= 100;
-                                    maxDays[i]['vtc'] = maxDays[i].video_metrics.vtc_rate;
+                                var maxDays = result.data.data.measures_by_days,
+                                i = 0,
+                                lineData = _.map(maxDays, function(item) {
+                                    item["ctr"] *= 100;
+                                    item['vtc'] = item.video_metrics.vtc_rate;
 
-                                    var kpiType = (campaignObject.kpiType),
-                                        kpiTypeLower = angular.lowercase(kpiType);
-
-                                        //if kpiType is delivery, plot impressions on the graph
-                                        //picking up impressions from perf bydays data call
-                                        if(kpiTypeLower === "delivery") {
-                                            kpiTypeLower = "impressions";
-                                        }
-
-                                    lineDate.push({ 'x': i + 1, 'y': utils.roundOff(maxDays[i][kpiTypeLower], 2),
-                                        'date': maxDays[i]['date'] });
-                                }
+                                    return { 'x': i + 1, 'y': utils.roundOff(item[kpiTypeLower], 2), 'date': item['date'] };
+                                });
                                 cdData = _.last(maxDays);
                                 cdData['adFormats'] = domainReports.checkForCampaignFormat(result.data.data.adFormats);
                                 //result.data.data.hasVTCMetric;
                                 callback && callback(cdData);
-                                campaignObject.chart = new line.highChart(lineDate, parseFloat(campaignObject.kpiValue),
-                                    campaignObject.kpiType,'campaign');
+                                campaignObject.chart = new line.highChart(lineData, parseFloat(kpiValue), kpiTypeLower, 'campaign');
                                 //d3 chart data
                                 //REVIEW: TARGET -DELIVERY
-                                if(angular.lowercase(kpiType) === "delivery") {
+                                if(kpiTypeLower === "impressions") {
                                     //campaignObject.targetKPIImpressions =
                                     // maxDays[maxDays.length-1]['booked_impressions'] /
                                     // momentInNetworkTZ.dateDiffInDays(campaignObject.startDate, campaignObject.endDate) *
@@ -499,9 +479,9 @@ define(['angularAMD', 'common/services/data_service', 'common/utils', 'common/se
                                 }
 
                                 campaignObject.lineChart = {
-                                    data: lineDate,
-                                    kpiValue: parseFloat(campaignObject.kpiValue),
-                                    kpiType: campaignObject.kpiType,
+                                    data: lineData,
+                                    kpiValue: parseFloat(kpiValue),
+                                    kpiType: kpiTypeLower,
                                     from: 'campaign',
                                     //for delivery kpi
                                     deliveryData: {
@@ -583,8 +563,8 @@ define(['angularAMD', 'common/services/data_service', 'common/utils', 'common/se
                         campaign.setMomentInNetworkTz(momentInNetworkTZ);
                         //TODO: set default to DELIVERY if null or undefined
                         if (campaign.kpi_type == 'null' || campaign.kpi_type == '') {
-                            campaign.kpi_type = 'DELIVERY';
-                            campaign.kpiType = 'DELIVERY';
+                            campaign.kpi_type = 'IMPRESSIONS';
+                            campaign.kpiType = 'IMPRESSIONS';
                             campaign.kpi_value = 0;
                             campaign.kpiValue = 0;
                         }

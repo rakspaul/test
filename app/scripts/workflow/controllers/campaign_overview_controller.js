@@ -56,6 +56,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             $scope.adGroupsNoData = false;
             $scope.isAdGroupsBusy = false;
             $scope.adGroupData = {};
+            $scope.labels=[];
 
 
             var campaignOverView = {
@@ -98,17 +99,18 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                                     $scope.processObjectiveData(responseData.selectedObjectives);
                                 }
 
-                                if (responseData.primaryKpi) {
-                                    if (responseData.primaryKpi === 'IMPRESSIONS') {
+                                if (responseData.kpiType) {
+                                    if (responseData.kpiType === 'IMPRESSIONS') {
                                         $scope.primaryKpiSelected = 'Impressions';
-                                    } else if (responseData.primaryKpi === 'CLICKS') {
+                                    } else if (responseData.kpiType === 'CLICKS') {
                                         $scope.primaryKpiSelected = 'Clicks';
-                                    } else if (responseData.primaryKpi === 'ACTIONS') {
+                                    } else if (responseData.kpiType === 'ACTIONS') {
                                         $scope.primaryKpiSelected = 'Actions';
-                                    } else if (responseData.primaryKpi === 'VIEWABLE_IMPRESSIONS') {
+                                    } else if (responseData.kpiType === 'VIEWABLE_IMPRESSIONS') {
                                         $scope.primaryKpiSelected = 'Impressions';
                                     }
                                 }
+                                $scope.labels=responseData.labels;
 
                                 $scope.campaignStartTime =
                                     momentService.utcToLocalTime($scope.workflowData.campaignData.startTime);
@@ -478,7 +480,9 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                         }
                     }
 
-                    if(adsData.targets.videoTargets) {
+                    var videoTargetsData = adsData.targets && adsData.targets.videoTargets;
+
+                    if(videoTargetsData && videoTargetsData.sizes.length >0 || videoTargetsData.positions.length >0 || videoTargetsData.playbackMethods.length > 0) {
                         if (selectedStr !== '') {
                             selectedStr += ', Video';
                         } else {

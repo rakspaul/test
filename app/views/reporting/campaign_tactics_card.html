@@ -131,13 +131,13 @@
                 <div class="col-md-4 each_campaign_section campaign_section_KPI">
                     <div class="graph_details_KPI">
                         <div class="clearfix details_KPI_row1">
-                            <span class="details_KPI_title">{{campaign.kpiType !='null' ?  campaign.kpiType : 'NA' | displayToCamelCase}}</span>
-                            <span class="pull-right details_KPI_row2" ng-if="campaign.kpiValue || tactic.targetKPIImpressions">
-                                <span ng-if="tactic.chart !==false">{{campaign.kpiType.toLowerCase()=="delivery"?( tactic.targetKPIImpressions | nrFormat ): (campaign.kpiValue | kpiFormatter:campaign.kpiType)}}</span>
+                            <span class="details_KPI_title">{{tactic.kpiType | displayToCamelCase}}</span>
+                            <span class="pull-right details_KPI_row2" ng-if="tactic.kpiValue || tactic.targetKPIImpressions">
+                                <span ng-if="tactic.chart !==false">{{tactic.kpiType.toLowerCase()=="impressions"?( tactic.targetKPIImpressions | nrFormat ): (tactic.kpiValue | kpiFormatter:tactic.kpiType)}}</span>
                                 <span class="icon_KPI" ng-if="tactic.chart !==false"></span>
                             </span>
                             <span class="pull-right cumulative_val" ng-if="tactic.chart !==false">
-                                {{textConstants.CUMULATIVE_VALUE}} <span>{{(campaign.kpiType.toLowerCase()=="delivery")?(tactic.totalImpressions| kpiFormatter:campaign.kpiType:1):(tactic.map[campaign.kpiType.toLowerCase()] | kpiFormatter:campaign.kpiType:1)}}</span>
+                                {{textConstants.CUMULATIVE_VALUE}} <span>{{(tactic.kpiType.toLowerCase()=='impressions')?(tactic.totalImpressions| kpiFormatter:tactic.kpiType:1):(tactic.map[tactic.kpiType.toLowerCase()] | kpiFormatter:tactic.kpiType:1)}}</span>
                             </span>
                         </div>
 
@@ -148,11 +148,11 @@
                             <span ng-switch-when="true" class="no-chart load-more">&nbsp;</span>
                             <span ng-switch-when="false" class="no-chart" ng-bind-html="getMessageForDataNotAvailable(tactic)"></span>
                             <span ng-switch-default>
-                                <div ng-if="(tactic.chart && campaign.kpiType)" class="graph_KPI_holder" >
+                                <div ng-if="(tactic.chart && tactic.kpiType)" class="graph_KPI_holder" >
                                     <div class="campaign_details_graph" width='355' height='111' campaign-chart chart-data="{{tactic.lineChart}}" chart-location="tactics" chart-tag="{{tactic.id}}"></div>
                                     <!-- <highchart class="graph_KPI_holder" config="tactic.chart" chartTitle=""></highchart> -->
                                 </div>
-                                <div ng-if="!(tactic.chart && campaign.kpiType)" class="graph_KPI_holder" ng-bind-html="getMessageForDataNotAvailable(tactic)">
+                                <div ng-if="!(tactic.chart && tactic.kpiType)" class="graph_KPI_holder" ng-bind-html="getMessageForDataNotAvailable(tactic)">
                                 </div>
 
                             </span>

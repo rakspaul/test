@@ -2393,6 +2393,12 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
   padding: 10px 20px;
   border-bottom: 0px ;
 }
+.reports_tabs_content_container .reports_block .reports_performance_header .dropdown-menu.kpi_indicator_ul ul.drop_list {
+  width: 80% ;
+}
+.reports_tabs_content_container .reports_block .reports_performance_header .dropdown-menu.kpi_indicator_ul div.direction_arrows {
+  margin-top: 10px ;
+}
 .reports_tabs_content_container .reports_block .reports_performance_header .each_col {
   color: #21252b ;
   font-size: 14px ;

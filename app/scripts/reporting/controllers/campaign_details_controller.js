@@ -387,12 +387,6 @@ function (angularAMD) {
                                     maxDays[i].ctr *= 100;
                                     maxDays[i].vtc = maxDays[i].video_metrics.vtc_rate;
 
-                                    //if kpiType is delivery, plot impressions on the graph
-                                    //picking up impressions from perf bydays data call
-                                    if (kpiTypeLower === 'delivery') {
-                                        kpiTypeLower = 'impressions';
-                                    }
-
                                     lineData.push({
                                         'x': i + 1,
                                         'y': utils.roundOff(maxDays[i][kpiTypeLower], 2),
@@ -657,7 +651,7 @@ function (angularAMD) {
             dataService
                 .fetch(urlService.APIVistoCustomQuery(params))
                 .then(function (result) {
-                    var kpIType = kpiSelectModel.selectedKpi === 'delivery' ? 'impressions': kpiSelectModel.selectedKpi,
+                    var kpIType = kpiSelectModel.selectedKpi,
                         inventoryData,
                         sortedData;
 
@@ -729,7 +723,7 @@ function (angularAMD) {
             var params=getCustomQueryParams(constants.QUERY_ID_CAMPAIGN_SCREENS);
 
             dataService.fetch(urlService.APIVistoCustomQuery(params)).then(function (result) {
-                var kpiModel = kpiSelectModel.selectedKpi === 'delivery' ? 'impressions': kpiSelectModel.selectedKpi,
+                var kpiModel = kpiSelectModel.selectedKpi,
                     screensDataPerfMtcs,
                     screensData,
                     screenResponseData,
@@ -802,7 +796,7 @@ function (angularAMD) {
             dataService
                 .fetch(urlService.APIVistoCustomQuery(params))
                 .then(function (result) {
-                    var kpiModel = kpiSelectModel.selectedKpi === 'delivery' ? 'impressions': kpiSelectModel.selectedKpi,
+                    var kpiModel = kpiSelectModel.selectedKpi,
                         adSizeDataPerfMtrcs,
                         adSizeData,
                         adSizeResponseData,
@@ -867,7 +861,7 @@ function (angularAMD) {
         // Platform Widget Starts
         $scope.getPlatformData =  function () {
             var params = getCustomQueryParams(constants.QUERY_ID_CAMPAIGN_PLATFORMS),
-                kpiModel = kpiSelectModel.selectedKpi === 'delivery' ? 'impressions': kpiSelectModel.selectedKpi;
+                kpiModel = kpiSelectModel.selectedKpi;
 
             // Set default api return code 200
             $scope.api_return_code = 200;
@@ -952,8 +946,7 @@ function (angularAMD) {
             dataService
                 .fetch(urlService.APIVistoCustomQuery(params))
                 .then(function (result) {
-                    var kpiModel =
-                            kpiSelectModel.selectedKpi === 'delivery' ? 'impressions' : kpiSelectModel.selectedKpi,
+                    var kpiModel = kpiSelectModel.selectedKpi,
                         formatDataPerfMtrcs,
                         formatData,
                         formatResponseData,

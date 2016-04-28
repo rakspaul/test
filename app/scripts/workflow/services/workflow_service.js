@@ -1,8 +1,9 @@
 define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/constants_service',
-    'common/services/data_service', 'login/login_model', 'common/services/request_cancel_service'],
+    'common/services/data_service', 'login/login_model', 'common/services/request_cancel_service','common/moment_utils'],
     function (angularAMD) {
-        angularAMD.factory('workflowService', function ($rootScope,$location, vistoconfig, constants, dataService, loginModel,
-                                                       requestCanceller) {
+        angularAMD.factory('workflowService', function ($rootScope, vistoconfig, constants, dataService, loginModel,
+                                                       requestCanceller,momentService,$location) {
+
             var mode,
                 adDetails,
                 newCreative,
@@ -14,7 +15,8 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                 creativeEditData,
                 isAdGroup,
                 unallocatedAmount,
-                deletedModule = [];
+                deletedModule = [],
+                rates;
 
             function createObj(platform) {
                 var integrationObj = {};
@@ -114,6 +116,22 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                 if (accessLevel) {
                     url = url + '?access_level=' + accessLevel;
                 }
+
+                return dataService.fetch(url);
+            },
+            getPixels: function (advertiserId,client_Id) {
+                var clientId = loginModel.getSelectedClient().id;;
+                if(client_Id){
+                    clientId = client_Id;
+                }
+
+                var url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId +
+                            '/advertisers/' + advertiserId + '/pixels?type=PAGE_VIEW';
+
+                return dataService.fetch(url);
+            },
+            getRatesTypes: function () {
+                var url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/billing_types';
 
                 return dataService.fetch(url);
             },
@@ -693,11 +711,27 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                 getObjectives: function () {
                     return dataService.fetch(vistoconfig.apiPaths.WORKFLOW_API_URL + '/objectiveTypes');
                 },
-
                 getVendors: function (categoryId) {
                     // var url= vistoconfig.apiPaths.WORKFLOW_API_URL + '/cost_categories/'+categoryId+'/vendors';
                     // for system of records.
                     return dataService.fetch(vistoconfig.apiPaths.WORKFLOW_API_URL + '/cost_categories/5/vendors');
+                },
+                getVendorConfigs: function (advertiserId,client_id) {
+                    var clientId = loginModel.getSelectedClient().id;
+                    if(client_id) {
+                        clientId = client_id;
+                    }
+
+                    return dataService.fetch(vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/'+clientId+'/advertisers/'+advertiserId+'/clientVendorConfigs?rateType=FIXED&rateTypeIncluded=false');
+                },
+
+                 getCostAttr: function (advertiserId,client_id) {
+                    var clientId = loginModel.getSelectedClient().id;
+                     if(client_id) {
+                         clientId = client_id;
+                     }
+
+                    return dataService.fetch(vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/'+clientId+'/advertisers/'+advertiserId+'/clientVendorConfigs?rateType=FIXED');
                 },
 
                 getCostCategories: function () {
@@ -827,7 +861,87 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                 validateUrl: function(url){
                     var re =  /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,4}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g
                     return re.test(url);
+                },
+                processVendorConfig: function(data){
+                    var processedData = {};
+                    processedData.userPermission = [];
+                    processedData.configs = [];
+                    for(var j = 0; j < data.length; j++){
+                        for(var i = 0; i < data[j].clientConfigPermissions.length ; i ++){
+                            var permission = {};
+                            if(data[j].clientConfigPermissions[i]){
+                                permission.vendorName = data[j].vendorName;
+                                permission.configName = data[j].name;
+                                permission.metric = data[j].clientConfigPermissions[i].metric;
+                                permission.adFormat = data[j].clientConfigPermissions[i].adFormat;
+                                processedData.userPermission.push(permission);
+                            }
+
+                        }
+                        //vendor config object creation
+                        for(var i = 0; i < data[j].clientVendorOfferings.length ; i ++){
+                            var config = {};
+                            config.vendorName = data[j].vendorName;
+                            config.configName = data[j].name;
+                            config.adFormat = data[j].clientVendorOfferings[i].name;
+                            config.rate = 'Media Cost + ' + data[j].clientVendorOfferings[i].rateValue + ' ' + data[j].clientVendorOfferings[i].rateType.name;
+                            config.category = data[j].clientVendorOfferings[i].costCategory.name;
+                            processedData.configs.push(config);
+                        }
+                    }
+
+
+                    return processedData;
+                },
+                processCostAttr: function(data){
+                    var costAttrbs = {};
+                    costAttrbs.offering = [];
+                    costAttrbs.vendor = [];
+                    costAttrbs.category = [];
+                    var rateTypeObj;
+
+                    _.each(data, function(obj) {
+                        if(obj.clientVendorOfferings && obj.clientVendorOfferings.length >0) {
+                            rateTypeObj = _.pluck(obj.clientVendorOfferings, 'rateType');
+                            costAttrbs.rateTypeId = _.pluck(rateTypeObj, 'id')[0];
+                            costAttrbs.clientVendorConfigurationId = _.pluck(obj.clientVendorOfferings, 'clientVendorConfigurationId')[0];
+                        }
+                    })
+
+                    if(data.length > 0) {
+                         _.each(data,function(obj){
+                            costAttrbs.vendor.push({'id':obj.id,'name':obj.name});
+                            _.each(obj.clientVendorOfferings,function(vObj){
+                                costAttrbs.offering.push({'id':vObj.id ,'name':vObj.name});
+                                costAttrbs.category.push({'id':vObj.costCategory.id,'name':vObj.costCategory.name});
+                            })
+                        })
+
+                        costAttrbs.category = _.uniq(costAttrbs.category, 'name')
+                    }
+                    return costAttrbs;
+                },
+                processLineItemsObj: function(lineItemList){
+                    var newItemList = [];
+                    _.each(lineItemList,function(item){
+                            var newItemObj = {};
+                            newItemObj.adGroupName = item.adGroupName;
+                            item.startTime = momentService.localTimeToUTC(item.startTime, 'startTime');
+                            item.endTime = momentService.localTimeToUTC(item.endTime, 'endTime');
+                            item.pricingRate = Number(item.pricingRate.split('%')[0]);
+                            newItemObj.lineItem = item;
+                            newItemList.push(newItemObj);
+                    });
+                    //console.log("newItemList &***(((",newItemList);
+                    return newItemList;
+                },
+                setRateTypes: function(r){
+                    rates = r;
+                },
+                getRateTypes: function(){
+                    return rates;
                 }
+
             };
         });
     }
