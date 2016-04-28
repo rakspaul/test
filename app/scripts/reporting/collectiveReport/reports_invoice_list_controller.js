@@ -173,12 +173,49 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
                     dataService
                         .fetch(href)
                         .then(function (result) {
-                            var responseData/*, clientId, advertiserId*/;
+                            var responseData,
+                                uri,
+                                mediaPlanName,
+                                invoiceDate,
+                                fileName = 'patea',
+                                link;
 
                             if (result.status === 'OK' || result.status === 'success') {
                                 responseData = result.data;
 
-                                $window.open('data:text/csv;charset=utf-8,' + encodeURIComponent(result.data));
+                                mediaPlanName = $(e.target)
+                                    .parents('.more-options')
+                                    .siblings('.media-plan-name')[0]
+                                    .innerHTML;
+
+                                // Replace blank spaces with underscore in media plan name
+                                mediaPlanName = mediaPlanName.replace(/ /g, '_');
+
+                                invoiceDate = $(e.target)
+                                    .parents('.media-plan-name-wrapper')
+                                    .siblings('.invoice-date')[0]
+                                    .innerHTML;
+
+                                invoiceDate = moment(invoiceDate).format('MMDDYYYY');
+
+                                // Default file name is "MediaPlanName-InvoiceDateInMMDDYYYformat
+                                fileName = mediaPlanName + '-' + invoiceDate;
+
+                                // Download the CSV file
+                                uri = 'data:text/csv;charset=utf-8,' + encodeURIComponent(result.data);
+
+                                //this trick will generate a temp <a /> tag
+                                link = document.createElement('a');
+                                link.href = uri;
+
+                                //set the visibility hidden so it will not effect on your web-layout
+                                link.style = 'visibility:hidden';
+                                link.download = fileName + '.csv';
+
+                                //this part will append the anchor tag and remove it after automatic click
+                                document.body.appendChild(link);
+                                link.click();
+                                document.body.removeChild(link);
                             }
                         });
                 };
