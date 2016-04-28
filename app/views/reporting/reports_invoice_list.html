@@ -1,149 +1,142 @@
-
 <div class="reports-invoice-list">
-
-<div class="col-md-12 zeroPadding">
-    <h1 style="margin-top: 30px; margin-bottom:25px;">Invoice Reports</h1>
-</div>
-<div class="row">
-    <div class="col-md-4">
-        <div class="pull-left"">
-            <filters-header></filters-header>
-        </div>
+    <div class="col-md-12 zeroPadding">
+        <h1 style="margin-top: 30px; margin-bottom:25px;">Invoice Reports</h1>
     </div>
-    <div class="col-md-4">
-        <div class="col-md-12">
-            <div class="each_section_custom_report" style="min-width: 384px;">
-                <div>
-                    <div class="clearfix title_row_separator customDatesTimeframe">
-
-                        <div class="pull-left col-md-12">
-                            <div class="col-md-12 input-daterange input-group date pull-left">
-                                <div class="col-md-12 dateWrapper ">
-                                    <div class="col-md-6">
-                                        <input type="text"
-                                               id="startDateInput"
-                                               class="input-sm form-control timeframe"
-                                               ng-model="reports.reportDefinition.timeframe.start_date"
-                                               required>
-                                        <i class="icon-calendar glyphicon pull-right"></i>
-                                        <!-- <label ng-if="!reports.reportDefinition.timeframe.start_date" style="display:block"
-                                               class="errorLabel" ng-bind="textConstants.SELECT_DATE_LABEL"></label> -->
-                                    </div>
-                                    <div class="col-md-6">
-                                        <input type="text"
-                                               id="endDateInput"
-                                               class="input-sm form-control timeframe"
-                                               ng-model="reports.reportDefinition.timeframe.end_date"
-                                               required>
-                                        <i class="icon-calendar glyphicon pull-right"></i>
-                                       <!-- <label ng-if="!reports.reportDefinition.timeframe.end_date"
-                                               style="display:block"
-                                               class="errorLabel" ng-bind="textConstants.SELECT_DATE_LABEL"></label> -->
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="pull-left">
+                <filters-header></filters-header>
             </div>
         </div>
-    </div>
-
-    <div class="col-md-4">
-        <div class="btn-group pull-right"">
-            <button type="button" class="btn btn-default pull-right" style="display: none">
-                <span class="icon-filter" style="margin: -1px 0 0;"></span>
-            </button>
-
-            <div class="searchInput pull-right">
-                <a class="btn btn-default searchInputBtn" ng-click="searchShowInput()">
-                    <span class="icon-search" aria-hidden="true" style="margin: -1px 0 0;"></span>
-                </a>
-
-                <a class="btn btn-default searchInputBtnInline" ng-click="campaignSearchFunc()">
-                    <span class="icon-search" aria-hidden="true" style="margin: -1px 0 0;"></span>
-                </a>
-                <div class="input-group searchInputForm" >
-                    <input type="text"
-                           class="form-control"
-                           name="campaignsSearch"
-                           placeholder="Search Media Plans...">
-                    <div class="btn btn-default searchClearInputBtn" ng-click="searchHideInput()">
-                        <span class="icon-clear" aria-hidden="true"></span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!--Table-->
-<div class="col-md-12 report_list_table zeroPadding centerAlign" style="margin: 20px 0 30px 0;">
-    <div class="table-responsive" id="table_responsive">
-	<div class="vistoTable">
-	    <!--Table Head-->
-            <div class="thead">
-		<div class="tr">
-		    <div class="col-md-2 th">Account</div>
-		    <div class="col-md-2 th">Advertiser</div>
-		    <div class="col-md-4 th">Media Plan Name</div>
-		    <div class="col-md-2 th">Labels</div>
-		    <div class="col-md-2 th">Invoice Date</div>
-                </div>
-            </div>
-        <!--Table Body-->
-        <div class="tbody">
-            <div class="tr oneDimensionRow">
-                <div data-ng-repeat="invoice in invoiceData" class="rowHover parentWrap">
-                    <div class="col-md-2 td">{{invoice.account}}</div>
-                    <div class="col-md-2 td">{{invoice.advertiser}}</div>
-                    <div class="col-md-4 td">
-
-
-                        <div class="col-md-9">
-                            {{invoice.mediaPlanName}}
-                        </div>
-
-                        <div class="col-md-3 more-options">
-
-                            <div class="dropdown-workflow">
-                                <div class="dropdown hideOption">
-                                    <span data-toggle="dropdown">
-                                        <div class="option-horizontal">
-                                            <span></span><span></span><span></span>
+        <div class="col-md-4">
+            <div class="col-md-12">
+                <div class="each_section_custom_report" style="min-width: 384px;">
+                    <div>
+                        <div class="clearfix title_row_separator customDatesTimeframe">
+                            <div class="pull-left col-md-12">
+                                <div class="col-md-12 input-daterange input-group date pull-left">
+                                    <div class="col-md-12 dateWrapper">
+                                        <div class="col-md-6">
+                                            <input type="text"
+                                                   id="startDateInput"
+                                                   class="input-sm form-control timeframe"
+                                                   ng-model="invoiceReports.startDate"
+                                                   required>
+                                            <i class="icon-calendar glyphicon pull-right"></i>
+                                            <!-- <label ng-if="!invoiceReports.startDate"
+                                            style="display:block" class="errorLabel"
+                                             ng-bind="textConstants.SELECT_DATE_LABEL"></label> -->
                                         </div>
-                                    </span>
-
-                                    <ul class="dropdown-menu">
-                                        <li ng-click="editSchdReport(srlist.reportId, srlist.frequency)">
-                                            <a ng-bind-html="textConstants.EDIT"></a>
-                                        </li>
-                                        <li class="headerDownload" ng-click="">
-                                           <span class="icon-download zeroPadding pull-left"></span>
-                                            <a class="pull-left">Download</a>
-                                        </li>
-                                    </ul>
-
+                                        <div class="col-md-6">
+                                            <input type="text"
+                                                   id="endDateInput"
+                                                   class="input-sm form-control timeframe"
+                                                   ng-model="invoiceReports.endDate"
+                                                   required>
+                                            <i class="icon-calendar glyphicon pull-right"></i>
+                                            <!-- <label ng-if="!invoiceReports.endDate"
+                                                style="display:block" class="errorLabel"
+                                                ng-bind="textConstants.SELECT_DATE_LABEL"></label> -->
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-2 td">
-                        <div class="pillsWrap" >
-                        <span class="labelPills" ng-repeat="label in invoice.labels track by $index"
-                             ng-bind-html="label"></span>
-                        </div>
-                    </div>
-                    <div class="col-md-2 td">{{invoice.invoiceDate}}</div>
                 </div>
             </div>
-
         </div>
+        <div class="col-md-4">
+            <div class="btn-group pull-right">
+                <button type="button" class="btn btn-default pull-right" style="display: none">
+                    <span class="icon-filter" style="margin: -1px 0 0;"></span>
+                </button>
+                <div class="searchInput pull-right">
+                    <a class="btn btn-default searchInputBtn" ng-click="searchShowInput()">
+                        <span class="icon-search" aria-hidden="true" style="margin: -1px 0 0;"></span>
+                    </a>
+
+                    <a class="btn btn-default searchInputBtnInline" ng-click="invoiceReportsSearchFunc()">
+                        <span class="icon-search" aria-hidden="true" style="margin: -1px 0 0;"></span>
+                    </a>
+                    <div class="input-group searchInputForm" >
+                        <input type="text"
+                               class="form-control"
+                               name="invoiceReportsSearch"
+                               ng-keyup="invoiceReportsSearchFunc($event)"
+                               ng-model="invoiceReports.searchTerm"
+                               placeholder="Search Invoice Reports...">
+                        <div class="btn btn-default searchClearInputBtn" ng-click="searchHideInput()">
+                            <span class="icon-clear" aria-hidden="true"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--Table-->
+    <div class="col-md-12 report_list_table zeroPadding centerAlign" style="margin: 20px 0 30px;">
+        <div class="table-responsive" id="table_responsive">
+            <div class="vistoTable">
+                <!--Table Head-->
+                <div class="thead">
+                    <div class="tr">
+                        <div class="col-md-2 th">Account</div>
+                        <div class="col-md-2 th">Advertiser</div>
+                        <div class="col-md-4 th">Media Plan Name</div>
+                        <div class="col-md-2 th">Labels</div>
+                        <div class="col-md-2 th">Invoice Date</div>
+                    </div>
+                </div>
+                <!--Table Body-->
+                <div class="tbody">
+                    <div class="tr oneDimensionRow">
+                        <div data-ng-repeat="invoice in invoiceData" class="rowHover parentWrap">
+                            <div class="col-md-2 td" ng-bind="invoice.account"></div>
+                            <div class="col-md-2 td" ng-bind="invoice.advertiser"></div>
+                            <div class="col-md-4 td">
+                                <div class="col-md-9" ng-bind-html="invoice.mediaPlanName"></div>
+                                <div class="col-md-3 more-options">
+                                    <div class="dropdown-workflow">
+                                        <div class="dropdown hideOption">
+                                        <span data-toggle="dropdown">
+                                            <div class="option-horizontal">
+                                                <span></span><span></span><span></span>
+                                            </div>
+                                        </span>
+                                            <ul class="dropdown-menu">
+                                                <li>
+                                                    <a ng-bind-html="textConstants.EDIT"
+                                                       style="cursor: not-allowed; color: #939eaf;"
+                                                       disabled></a>
+                                                </li>
+                                                <li class="headerDownload" ng-click="">
+                                                    <span class="icon-download zeroPadding pull-left"></span>
+                                                    <a class="pull-left"
+                                                       ng-href="{{invoice.downloadLink}}"
+                                                       href="{{invoice.downloadLink}}"
+                                                       ng-click="invoiceReports.download($event)">Download</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2 td">
+                                <div class="pillsWrap">
+                                    <span class="labelPills{{addHighlightClass(label, '</mark>') ?
+                                                 ' search-highlight' : ''}}"
+                                          ng-repeat="label in invoice.labels track by $index"
+                                          ng-bind-html="label">
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-md-2 td" ng-bind="invoice.invoiceDate"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
-
-</div>
-
-
-

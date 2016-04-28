@@ -407,6 +407,7 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
             $scope.advertiserName = advertiser.name;
             $scope.selectedAdvertiserId = advertiser.id;
             $("#advertiserNameInp").val($scope.advertiserName);
+            console.log('advertiser.id = ', advertiser.id)
         };
 
         //create brand
