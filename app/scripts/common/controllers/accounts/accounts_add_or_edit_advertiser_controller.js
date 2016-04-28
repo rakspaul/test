@@ -15,6 +15,11 @@ define(['angularAMD','../../../workflow/services/account_service', '../../servic
         $(".miniTabLinks.sub .btn").removeClass("active");
         $(".miniTabLinks.sub .subBasics").addClass("active");
         
+        $scope.show_respective_method = function(id) {
+            $(".methodFees").hide();
+            $("." + id).show();
+        };
+        
         _currCtrl.verifyCreateAdvInputs = function(){
             var ret = true,
                 errMsg = "Error";
