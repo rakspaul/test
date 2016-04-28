@@ -107,29 +107,35 @@
         <!--Row 2-->
         <div class="clearfix col-md-12 zeroPadding">
             <div class="pull-left">
-                <div class="span4 col-md-12 input-daterange input-group date pull-left" id="datepicker">
+                <div class="span4 col-md-12 input-daterange input-group date otherBgDateRange pull-left" id="datepicker">
                     <div class="col-md-12 dateWrapper zeroPadding">
                         <div class="dateContainer">
                             <label class="col-sm-12 control-label greyTxt miniLabels">Flight Date Start</label>
-                            <div style="background: #fff;">
+                            <div class="dateInputHolder" >
                                 <input type="text" id="lineItemStartDateInput" custom-date-picker="{format: 'mm/dd/yyyy', orientation: 'auto',  autoclose: true, todayHighlight: true}" placeholder="MM/DD/YYYY" class="form-control"  readonly name="startTime" ng-model="lineItemStartDate" ng-change="validateDateLineItem(lineItemStartDate,'startdate')" />
+                                <div class="icon-calendar-holder">
+                                    <span class="icon-calendar"></span>
+                                </div>
                             </div>
                         </div>
                         <div class="dateContainer">
                             <label class="col-sm-12 control-label greyTxt miniLabels">Flight Date End</label>
-                            <div style="background: #fff;">
-                                <input type="text" id="lineItemEndDateInput" custom-date-picker="{format: 'mm/dd/yyyy', orientation: 'auto',  autoclose: true, todayHighlight: true}" placeholder="MM/DD/YYYY" class="form-control"  ng-model="lineItemEndDate" name="endTime"  ng-change="validateDateLineItem(lineItemEndDate,'enddate')"/>
+                            <div class="dateInputHolder">
+                                <input type="text" id="lineItemEndDateInput" custom-date-picker="{format: 'mm/dd/yyyy', orientation: 'auto',  autoclose: true, todayHighlight: true}" placeholder="MM/DD/YYYY" class="form-control"  ng-model="lineItemEndDate" name="endTime" readonly ng-change="validateDateLineItem(lineItemEndDate,'enddate')"/>
+                                <div class="icon-calendar-holder">
+                                    <span class="icon-calendar"></span>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <span class="col-md-12 input-group-addon">
+                    <!-- <span class="col-md-12 input-group-addon">
                         <div class="calenderIcon">
                             <span class="icon-calendar"></span>
                         </div>
                         <div class="calenderIcon">
                             <span class="icon-calendar"></span>
                         </div>
-                    </span>
+                    </span> -->
                 </div>
             </div>
 
