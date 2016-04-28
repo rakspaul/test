@@ -38,13 +38,41 @@
                 <div class="col-md-12 zeroPadding"><h1 class="pull-left">Ad Choices</h1></div>
                 <div class="form-group col-md-4" style="padding: 0 15px 0 0;">
                     <label class="col-sm-12 greyTxt">Enable Ad Choices:</label>
-                    <input id="cmn-toggle-1" class="cmn-toggle cmn-toggle-round" type="checkbox">
-                    <label for="cmn-toggle-1"></label>
+                    <input id="advEnableAdChoices" class="cmn-toggle cmn-toggle-round" type="checkbox">
+                    <label for="advEnableAdChoices"></label>
                 </div>
                 
                 <div class="form-group col-md-4" style="padding: 0 15px;">
                     <label class="col-sm-12 greyTxt">Ad Choices Code Block:</label>
                     <input type="text" class="form-control" maxlength="50">
+                </div>
+            </div>
+            
+            <!--IAB Category-->
+            <div class="col-md-12 IABForm">
+                <div class="col-md-12 zeroPadding"><h1 class="pull-left">IAB Categories</h1></div>
+                <!--Row 1-->
+                <div class="col-md-12 zeroPadding">
+                    <div class="form-group col-md-4" style="padding: 0 15px 0 0;">
+                        <label class="col-sm-12 greyTxt">Category:</label>
+                        
+                        <div class="col-md-12 zeroPadding dropdown-workflow">
+                            <div class="dropdown">
+                                <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                    <span class="text">Arts & Entertainment</span>
+                                    <span class="icon-arrow-down"></span>
+                                </button>
+                                <ul class="dropdown-menu" data-toggle="dropdown">
+                                    <li class="available">
+                                        <a>Arts & Entertainment</a>
+                                    </li>
+                                    <li class="available">
+                                        <a>Automotive</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             
@@ -58,7 +86,7 @@
                         <div class="col-md-12 zeroPadding dropdown-workflow">
                             <div class="dropdown">
                                 <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                    <span class="text">Billed For</span>
+                                    <span class="text">Arbitrage</span>
                                     <span class="icon-arrow-down"></span>
                                 </button>
                                 <ul class="dropdown-menu" data-toggle="dropdown">
@@ -119,7 +147,7 @@
                     </div>
                     
                     <!--Arbitrage-->
-                    <div class="col-md-8 zeroPadding disabled methodFees arbitrage" style="display: none;">
+                    <div class="col-md-8 zeroPadding disabled methodFees arbitrage">
                         <div class="form-group col-md-4" style="padding: 0 15px;">
                             <label class="col-sm-12 greyTxt">Rate Type:</label>
                             <input type="text" class="form-control disabled" maxlength="80">
@@ -139,70 +167,6 @@
                 <!--        <span>Add Billing Method</span>-->
                 <!--    </a>-->
                 <!--</div>-->
-            </div>
-            
-            <!--IAB Category-->
-            <div class="col-md-12 IABForm">
-                <div class="col-md-12 zeroPadding"><h1 class="pull-left">IAB Categories</h1></div>
-                <!--Row 1-->
-                <div class="col-md-12 zeroPadding">
-                    <div class="form-group col-md-4" style="padding: 0 15px 0 0;">
-                        <label class="col-sm-12 greyTxt">Category:</label>
-                        
-                        <div class="col-md-12 zeroPadding dropdown-workflow">
-                            <div class="dropdown">
-                                <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                    <span class="text">Arts & Entertainment</span>
-                                    <span class="icon-arrow-down"></span>
-                                </button>
-                                <ul class="dropdown-menu" data-toggle="dropdown">
-                                    <li class="available">
-                                        <a>Arts & Entertainment</a>
-                                    </li>
-                                    <li class="available">
-                                        <a>Automotive</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="form-group col-md-4" style="padding: 0 15px;">
-                        <label class="col-sm-12 greyTxt">Sub Category:</label>
-                        
-                        <div class="col-md-12 zeroPadding dropdown-workflow">
-                            <div class="dropdown">
-                                <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                    <span class="text">Books & Literature</span>
-                                    <span class="icon-arrow-down"></span>
-                                </button>
-                                <ul class="dropdown-menu" data-toggle="dropdown">
-                                    <li class="available">
-                                        <a>Books & Literature</a>
-                                    </li>
-                                    <li class="available">
-                                        <a>Celebrity Fan/Gossip</a>
-                                    </li>
-                                    <li class="available">
-                                        <a>Fine Art</a>
-                                    </li>
-                                    <li class="available">
-                                        <a>Humor</a>
-                                    </li>
-                                    <li class="available">
-                                        <a>Movies</a>
-                                    </li>
-                                    <li class="available">
-                                        <a>Music</a>
-                                    </li>
-                                    <li class="available">
-                                        <a>Television</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
         
