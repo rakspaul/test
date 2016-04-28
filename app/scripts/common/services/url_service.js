@@ -331,15 +331,32 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
 
                 this.getInvoiceData = function (invoiceReports) {
                     var clientId =  loginModel.getMasterClient().id,
+                        url;
+
+                    if (invoiceReports.isSearched) {
                         url = vistoconfig.apiPaths.apiSerivicesUrl_NEW +
-                            '/clients/' + clientId +
+                            // '/clients/' + clientId +
+                            '/clients/' + '2' + // TODO: temp client ID
+                            '/invoices/search' +
+                            '?advertiser_id=' + invoiceReports.advertiserId +
+                            '&brand_id=' + invoiceReports.brandId +
+                            '&start_date=' + moment(invoiceReports.startDate).format(constants.DATE_UTC_SHORT_FORMAT) +
+                            '&end_date=' + moment(invoiceReports.endDate).format(constants.DATE_UTC_SHORT_FORMAT) +
+                            // Page number & page size hard-coded for now
+                            '&page_num=1&page_size=50' +
+                            '&search_term=' + invoiceReports.searchTerm;
+                    } else {
+                        url = vistoconfig.apiPaths.apiSerivicesUrl_NEW +
+                            // '/clients/' + clientId +
+                            '/clients/' + '2' + // TODO: temp client ID
                             '/invoices/list' +
                             '?advertiser_id=' + invoiceReports.advertiserId +
                             '&brand_id=' + invoiceReports.brandId +
-                            '&start_date=' + invoiceReports.startDate +
-                            '&end_date=' + invoiceReports.endDate;
-
-                    console.log('getInvoiceData(), endpoint = ', url);
+                            '&start_date=' + moment(invoiceReports.startDate).format(constants.DATE_UTC_SHORT_FORMAT) +
+                            '&end_date=' + moment(invoiceReports.endDate).format(constants.DATE_UTC_SHORT_FORMAT) +
+                            // Page number & page size hard-coded for now
+                            '&page_num=1&page_size=50';
+                    }
 
                     return url;
                 };

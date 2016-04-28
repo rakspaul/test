@@ -6,18 +6,57 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
         'use strict';
 
         angularAMD.controller('ReportsInvoiceListController',
-            function ($scope,$filter, $location, $modal, $rootScope, $routeParams, collectiveReportModel, utils,
-                     loginModel, constants, urlService, dataStore, domainReports, dataService/*, momentService, $q*/) {
+            function ($scope, $filter, $location, $modal, $rootScope, $routeParams, collectiveReportModel, utils,
+                     loginModel, constants, urlService, dataStore, domainReports, dataService, $sce, $window/*, momentService, $q*/) {
                 var invoiceOverView = {
-                    getInvoiceData: function (invoiceReports) {
+                    getInvoiceData: function () {
                         dataService
-                            .fetch(urlService.getInvoiceData(invoiceReports))
+                            .fetch(urlService.getInvoiceData($scope.invoiceReports))
                             .then(function (result) {
                                 var responseData/*, clientId, advertiserId*/;
 
                                 if (result.status === 'OK' || result.status === 'success') {
                                     responseData = result.data.data;
                                     $scope.invoiceData = responseData;
+
+                                    // Highlighting of Ad group name & label pills.
+                                    // The highlighting will be done at the Search API call.
+                                    _.each(responseData, function (obj) {
+                                        var i,
+                                            j,
+                                            temp,
+                                            labelsLen,
+                                            searchTermsArr,
+                                            searchTermsLen,
+                                            searchTerm = $scope.invoiceReports.searchTerm.toLowerCase().trim();
+
+                                        //obj.mediaPlanNameHtml = obj.mediaPlanName;
+
+                                        if (searchTerm) {
+                                            // Highlight Ad group title
+                                            obj.mediaPlanName =
+                                                $scope.highlightTitleText(obj.mediaPlanName, searchTerm);
+
+                                            // Highlight Ad group label pills
+                                            labelsLen = obj.labels.length;
+                                            searchTermsArr = searchTerm.split(' ');
+                                            searchTermsLen = searchTermsArr.length;
+
+                                            if (searchTermsLen > 1) {
+                                                searchTermsArr.push(searchTerm);
+                                            }
+                                            for (i = 0; i < labelsLen; i++) {
+                                                for (j = 0; j < searchTermsLen; j++) {
+                                                    temp = $scope.highlightLabelPill(obj.labels[i], searchTermsArr[j])
+                                                        .toString();
+                                                    if (temp.indexOf('</mark>') >= 0) {
+                                                        obj.labels[i] = temp;
+                                                        break;
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    });
                                 }
                             });
                     }
@@ -26,10 +65,9 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
                 $scope.invoiceReports = {
                     advertiserId: '-1',
                     brandId: '-1',
-                    startDate: moment().subtract(365, 'day').format(constants.DATE_UTC_SHORT_FORMAT),
-                    endDate: moment().format(constants.DATE_UTC_SHORT_FORMAT)
+                    startDate: moment().subtract(365, 'day').format(constants.DATE_US_FORMAT),
+                    endDate: moment().format(constants.DATE_US_FORMAT)
                 };
-                $scope.scheduleReportActive = false;
 
                 $scope.searchHideInput = function () {
                     $('.searchInputForm input').val('');
@@ -40,6 +78,12 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
                     setTimeout(function () {
                         $('.searchInputForm').hide();
                     }, 100);
+
+                    if ($scope.invoiceReports.isSearched) {
+                        $scope.invoiceReports.isSearched = false;
+                        $scope.invoiceReports.searchTerm = '';
+                        invoiceOverView.getInvoiceData();
+                    }
                 };
 
                 //Search Hide / Show
@@ -55,12 +99,92 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
                     }, 300);
                 };
 
+                // Filter button
                 $scope.getInvoiceDataButton = function () {
-                    invoiceOverView.getInvoiceData($scope.invoiceReports);
+                    invoiceOverView.getInvoiceData();
+                };
+
+                // Search functionality
+                $scope.invoiceReports.isSearched = false;
+                $scope.invoiceReports.searchTerm = '';
+
+                $scope.invoiceReportsSearchFunc = function (e) {
+                    // Perform search if enter key is pressed, or search button is clicked & user has entered something.
+                    // NOTE: The event object (e) is not passed if called from search button.
+                    if (!e || e.keyCode === 13) {
+                        if ($scope.invoiceReports.searchTerm && $scope.invoiceReports.searchTerm.trim()) {
+                            // Search term is entered
+                            $scope.invoiceReports.isSearched = true;
+                        } else {
+                            $scope.invoiceReports.isSearched = false;
+                        }
+
+                        invoiceOverView.getInvoiceData();
+                    }
+                };
+
+                $scope.highlightTitleText = function (text, phrase) {
+                    var keywordsArr,
+                        keywords;
+
+                    keywordsArr = phrase ? phrase.split(' ') : [];
+
+                    if (keywordsArr.length > 1) {
+                        keywordsArr.push(phrase);
+                    }
+                    keywords = keywordsArr.join('|');
+
+                    if (keywords) {
+                        return text.replace(new RegExp('(' + keywords + ')', 'gi'),
+                            $sce.trustAsHtml('<mark class="search-highlight">$1</mark>'));
+                    } else {
+                        return text;
+                    }
+                };
+
+                $scope.highlightLabelPill = function (text, phrase) {
+                    var tempText = text ? text.toString() : '',
+                        tempTextLower = tempText.toLowerCase(),
+                        tempPhrase = phrase ? phrase.toLowerCase() : '';
+
+                    if (phrase && tempTextLower.indexOf('</mark>') === -1) {
+                        if (tempTextLower.indexOf(tempPhrase) >= 0) {
+                            tempText = '<mark class="search-highlight">' +
+                                tempText + '</mark>';
+                        }
+                    }
+
+                    return tempText;
+                };
+
+                $scope.addHighlightClass = function (text, phrase) {
+                    var tempText = text ? text.toString().toLowerCase() : '';
+
+                    return tempText.indexOf(phrase) >= 0;
+                };
+                // End Search functionality
+
+                // Download section
+                $scope.invoiceReports.download = function (e) {
+                    var href = e.target.href;
+
+                    e.preventDefault();
+
+                    dataService
+                        .fetch(href)
+                        .then(function (result) {
+                            var responseData/*, clientId, advertiserId*/;
+
+                            if (result.status === 'OK' || result.status === 'success') {
+                                responseData = result.data;
+
+                                $window.open('data:text/csv;charset=utf-8,' + encodeURIComponent(result.data));
+                            }
+                        });
                 };
 
                 $(document).ready(function () {
-                    invoiceOverView.getInvoiceData($scope.invoiceReports);
+                    invoiceOverView.getInvoiceData();
 
                     $('.input-daterange').datepicker({
                         format: 'mm/dd/yyyy',

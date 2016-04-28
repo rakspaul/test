@@ -2880,13 +2880,13 @@ input[type="submit"] {
 }
 .nav_filters .nav_filters_heading {
   color: #939eaf ;
-  font-size: 12px ;
+  font-size: 12px;
   text-transform: capitalize;
 }
 .nav_filters .brand_name_selected {
   cursor: pointer;
   padding-right: 20px ;
-  max-width: 140px;
+  max-width: 113px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;

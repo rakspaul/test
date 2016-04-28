@@ -217,7 +217,6 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                                 $scope.adGroupsCount = result.data.data.ad_groups_count;
                                 $scope.adsCount = result.data.data.search_ads_count;
                                 nonAdGroupAds = result.data.data.no_ad_group_ads;
-                                $scope.trustAsHtml = $sce.trustAsHtml;
 
                                 // Highlighting of Ad group name & label pills.
                                 // The highlighting will be done at the Search API call.
@@ -231,6 +230,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                                         searchTerm = $scope.adGroupsSearchTerm.toLowerCase().trim();
 
                                     obj.adGroup.nameHtml = obj.adGroup.name;
+
                                     if (searchTerm) {
                                         // Highlight Ad group title
                                         obj.adGroup.nameHtml =
@@ -597,7 +597,6 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
                 return tempText.indexOf(phrase) >= 0;
             };
-
 
             $scope.redirectUserFromArchivedCampaign = function () {
                 $scope.redirectFlag = false;
