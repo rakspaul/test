@@ -4,7 +4,7 @@ define(['angularAMD', '../../../workflow/services/account_service', 'common/serv
     'use strict';
 
     angularAMD.controller('AccountsAddOrEdit', function ($scope, $rootScope, $modalInstance,
-        accountsService, constants) {
+                                                        accountsService, constants) {
 
         var _currCtrl = this;
         $scope.currencySelected = '';
@@ -89,7 +89,7 @@ define(['angularAMD', '../../../workflow/services/account_service', 'common/serv
                     accountsService
                         .createBillableAccount(createBillableBody())
                         .then(function (result) {
-                            //  var body;
+                          //  var body;
                             if (result.status === 'OK' || result.status === 'success') {
                                 $scope.billableAccountId = result.data.data.id;
                                 body = constructRequestBody();
@@ -116,7 +116,12 @@ define(['angularAMD', '../../../workflow/services/account_service', 'common/serv
                 .createClient(body)
                 .then(function (adv) {
                     if (adv.status === 'OK' || adv.status === 'success') {
-                        $scope.fetchAllClients();
+                        if($scope.isCreateTopClient){
+                            $scope.fetchAllClients();
+                        }else{
+                            delete $scope.clientsDetails[body.parentId];
+                            $scope.getSubClientList('ev', {id:body.parentId});
+                        }
                         $scope.close();
                         $rootScope.setErrAlertMessage('Account created successfully', 0);
                     }
@@ -185,5 +190,10 @@ define(['angularAMD', '../../../workflow/services/account_service', 'common/serv
                 'GB'         : 'British Summer Time (UTC+01:00)'
             };
         }
+        
+        $scope.show_respective_method = function(id) {
+            $(".methodFees").hide();
+            $("." + id).show();
+        };
     });
 });

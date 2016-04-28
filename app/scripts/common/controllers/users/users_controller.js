@@ -6,7 +6,7 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
         $scope.userConsoleFormDetails={};
         $(".each_nav_link").removeClass("active_tab");
         $("#admin_nav_link").addClass("active_tab");
-        
+
         //Add or Edit Pop up for User
         $scope.AddOrEditUserModal = function(mode,userObj) {
 
@@ -55,14 +55,10 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
         $scope.userConsoleFormDetails, $scope.closeForm = function () {
             $('.user-list, .users-creation-page .heading').fadeIn();
             $('.edit-dialog').fadeOut();
-            setTimeout(function(){
-                if($("#cmn-toggle-1").is(':checked')){
-                    $("#cmn-toggle-1").trigger('click');
-                }
-            },25);
         }
 
         var usersList = {
+
             getUsers:function(){
                 $scope.loadUserList = true;
                 accountsService.getUsers().then(function(res) {

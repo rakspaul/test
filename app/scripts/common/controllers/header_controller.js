@@ -60,7 +60,7 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
 
                         } else {
                             subAccountModel.fetchSubAccounts('headerCtrl',function(){
-                                campaignsClientData(2);
+                            campaignsClientData(2);
                             });
                         }
                     } else {
@@ -120,7 +120,7 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
             } else {
                 subAccountModel.fetchSubAccounts('MasterClientChanged',function(){
                     $scope.getClientData();
-
+                   // console.log('current url',$location.url());
                     $rootScope.$broadcast(constants.EVENT_MASTER_CLIENT_CHANGED, {'client': loginModel.getSelectedClient().id, 'event_type': 'clicked'});
                 });
 
@@ -147,12 +147,6 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
                             accountChangeAction: function () {
                                 return function () {
                                     setMasterClientData(id, name,isLeafNode);
-
-                                    if(!loginModel.getMasterClient().isLeafNode) {
-                                       subAccountModel.resetDashboardSubAccStorage();
-                                    }
-
-
                                     // check this condition .. when etners as workflow user should we broadcast masterclient - sapna
                                     if (moduleObj.redirect) {
                                         $location.url('/mediaplans');
@@ -166,10 +160,6 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
                 }
             } else {
                 setMasterClientData(id, name,isLeafNode);
-                if(!loginModel.getMasterClient().isLeafNode) {
-                    subAccountModel.resetDashboardSubAccStorage();
-                }
-
             }
 
 
@@ -183,7 +173,7 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
         };
 
         $scope.NavigateToTab = function (url, event, page) {
-            $(".header_tab_dropdown").removeClass('active_tab');
+            $(".header_tab_dropdown").removeClass('active_tab active selected');
             if (page === 'reportOverview') {
                 $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign().id;
                 if ($scope.selectedCampaign === -1) {
@@ -199,8 +189,12 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
                 $("#creative_nav_link").addClass("active_tab");
             } else if (page === 'adminOverview') {
                 $(".each_nav_link").removeClass('active_tab active selected');
-                url = '/admin/accounts';
+                url = '/admin/accounts'
                 $("#admin_nav_link").addClass("active_tab");
+            } else if (page === 'mediaplanList') {
+                $(".each_nav_link").removeClass('active_tab active selected');
+                url = '/mediaplans'
+                $("#campaigns_nav_link").addClass("active_tab");
             }
             if (event) {
                 $(event.currentTarget).parent().addClass('active_tab');
@@ -233,7 +227,8 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
                 $('.each_nav_link.active .arrowSelect').fadeIn();
             }, 800);
             setTimeout(function () {
-                if (!( $(".main_navigation_holder").is(":hover") || $("#user-menu").is(":hover") || $("#reports-menu").is(":hover") || $("#admin-menu").is(":hover") ) || $("#campaigns_nav_link").is(":hover")) {                    //$(".main_nav_dropdown").fadeOut();
+                if (!( $(".main_navigation_holder").is(":hover") || $("#user-menu").is(":hover") || $("#reports-menu").is(":hover") || $("#admin-menu").is(":hover") ) || $("#campaigns_nav_link").is(":hover")) {
+                    //$(".main_nav_dropdown").fadeOut();
                     $("#reports-menu, #admin-menu, #user-menu").css('min-height',0).slideUp('fast');
                     $(".main_navigation_holder").find(".selected").removeClass("selected");
                 }
@@ -299,11 +294,11 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
                     mainNavDropdown.hide();
                     $(".main_navigation_holder").find(".selected").removeClass("selected");
                 }
-
+                
                 if (reportTypeDropdownClass.is(':visible') && ( $(event.target).closest(".reportTypeDropdownTxt").length == 0) ) {
                     reportTypeDropdownClass.hide();
                 }
-                if (campaigns_list_class.is(':visible') && ( $(event.target).closest(".campaign_name_selected").length == 0) && ( $(event.target).closest("#campaignsDropdownDiv").length == 0) ) {
+                if (campaigns_list_class.is(':visible') && ( $(event.target).closest(".campaign_name_selected").length == 0)) {
                     campaigns_list_class.hide();
                 }
 

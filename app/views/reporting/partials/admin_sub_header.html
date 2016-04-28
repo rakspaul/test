@@ -12,11 +12,12 @@
     <!--</div>-->
 <!--</div>-->
 
-<div class="miniTabLinks" style="margin-top: 30px; width: 100%;">
-    <a href="accounts"  id="accounts_link" class="btn btn-link accounts">Accounts</a>
-    <a href="advertisers" id="advertisers_link" class="btn btn-link advertisers">Advertisers</a>
-    <a href="brands" id="brands_link" class="btn btn-link brands">Brands</a>
-    <a href="users" id="users_link" class="btn btn-link users">Users</a>
+<div class="miniTabLinks" style="margin-bottom: 30px; width: 100%;">
+    <a class="btn btn-link subAdvertisers">Advertisers</a>
+    <a class="btn btn-link subPixels">Pixels</a>
+    <a class="btn btn-link subAdChoices">Ad Choices</a>
+    <a class="btn btn-link subBillingMethod">Billing Method</a>
+    <a class="btn btn-link subIABCat">IAB Categories</a>
 </div>
 
 <!--<div class="pull-left btn-group create" role="group" aria-label="..." style="margin-top: 30px;">-->
@@ -25,10 +26,3 @@
 <!--    <a href="brands" id="brands_link" class="btn btn-default"><span>Brand</span></a>-->
 <!--    <a href="users" id="users_link" class="btn btn-default"><span>User</span></a>-->
 <!--</div>-->
-
-<script>
-    var pathname = window.location.pathname;
-    var pathnameVal = pathname.substr(pathname.lastIndexOf('/') + 1)
-    $(".miniTabLinks .btn").removeClass("active");
-    $(".miniTabLinks ." + pathnameVal).addClass("active");
-</script>

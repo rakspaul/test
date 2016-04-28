@@ -5,7 +5,7 @@
     <!--Header-->
     <div class="col-md-12 zeroPadding heading" style="margin: 30px 0 15px 0;">
         <h1 class="col-md-12 zeroPadding" style="margin: 0 0 30px 0;">Accounts</h1>
-
+        
         <!--Create Account Btn-->
         <div class="pull-left btn-group create" role="group" aria-label="..." ng-if="isSuperAdmin">
             <a class="btn btn-default" ng-click="AddOrEditAccountModal('create')" style="border-top-right-radius: 0; border-bottom-right-radius: 0;">
@@ -15,18 +15,21 @@
             <!--<admin-header class="pull-left"></admin-header>-->
         </div>
     </div>
-
+        
     <!--Body-->
     <div class="col-md-12 each-account-details" ng-repeat="client in clientsDetails[0]" id="client_{{client.id}}">
         <div class="pull-left particular-account-box" ng-class="[(clientsDetails[client.id].advertisers.length ==  0)?'no-data-open':'',(clientsDetails[client.id].advertisers.length) > 0?'data-loaded':'']">
             <div class="clearfix">
-                <span class="pull-left icon-arrow-down-thick" ng-if="client.isLeafNode || client.hasChildren" ng-click="getSubClientList($event,client);"></span>
+                <!--Abi this should only show if the account has childs-->
+                <!--<span class="pull-left icon-arrow-down-thick" ng-click="getSubClientList($event,client);" ng-show="clientsDetails[client.id].advertisers.length > 0"></span>-->
+                <span class="pull-left icon-arrow-down-thick" ng-click="getSubClientList($event,client);"></span>
                 <div class="pull-left account-name" ng-click="AddOrEditAccountModal('edit',client)">
                     <span class="pull-left">{{client.name}}</span>
                     <span class="pull-left" style="text-transform: capitalize;">{{client.clientType | lowercase}}</span>
                 </div>
+                <!--<span class="pull-left edit"  ng-click="AddOrEditAccountModal('edit',client)"></span>-->
+                <span class="pull-right btn btn-default"  ng-if="client.isLeafNode" ng-click="AddOrEditAdvertiserModal({},'create',client)"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Add Advertiser</span>
                 <div class="pull-right btn btn-default" ng-if="!client.isLeafNode" ng-click="AddOrEditAccountModal('create',client.id)">Create Sub Account</div>
-                <span class="pull-right adding-section" style="margin: 1px 1px 0 0" ng-if="!client.hasChildren" ng-click="AddOrEditAdvertiserModal({},'create',client)"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Add Advertiser</span>
             </div>
 
             <div class="advertiser-list" ng-if="clientsDetails[client.id].advertisers.length >  0" id="client_{{client.id}}_adv">
@@ -37,11 +40,11 @@
                         <span class="pull-left edit" ng-click="AddOrEditAdvertiserModal(adv,'edit',client)"></span>
                         <span class="pull-left adding-section" ng-click="AddOrEditBrandModal(adv,'create',client,brand)"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Add Brand</span>
                     </div>
-                    <div class="advertiser-resp-brands-list" style="margin-left:40px;" id="client_{{client.id}}_adv_{{adv.id}}">
-                        <div class="clearfix each-brand-name"  ng-repeat="brand in clientsDetails[client.id]['brands'][adv.id]" ng-if="clientsDetails[client.id]['brands'][adv.id].length > 0">
-                            <span class="pull-left brand-name"><span class="label_heading">Brand: </span>{{brand.name}}</span>
+                        <div class="advertiser-resp-brands-list" style="margin-left:40px;" id="client_{{client.id}}_adv_{{adv.id}}">
+                            <div class="clearfix each-brand-name"  ng-repeat="brand in clientsDetails[client.id]['brands'][adv.id]" ng-if="clientsDetails[client.id]['brands'][adv.id].length > 0">
+                                <span class="pull-left brand-name"><span class="label_heading">Brand: </span>{{brand.name}}</span>
+                            </div>
                         </div>
-                    </div>
                 </div>
                 <div ng-if="clientsDetails[client.id].advertiserLoader" class="common-load-more"></div>
             </div>
@@ -49,4 +52,4 @@
         </div>
     </div>
     <div ng-if="loadTopClientList" style="margin-top:188px;" class="common-load-more">
-    </div>
+</div>

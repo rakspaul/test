@@ -4,13 +4,14 @@
     <div class="clearfix each-account-details" ng-repeat="client in clientsDetails[clientId].subclients" id="client_{{client.id}}">
         <div class="pull-left particular-account-box" ng-class="[(clientsDetails[client.id].advertisers ==  0)?'no-data-open':'',(clientsDetails[client.id].advertisers.length) > 0?'data-loaded':'']">
             <div class="clearfix">
-                <span class="pull-left icon-arrow-down-thick" ng-if="client.isLeafNode || client.hasChildren" ng-click="getSubClientList($event,client);"></span>
+                <span class="pull-left icon-arrow-down-thick" ng-click="getSubClientList($event,client);"></span>
                 <div class="pull-left account-name" ng-click="AddOrEditAccountModal('edit',client)">
                     <span class="pull-left">{{client.name}}</span>
                     <span class="pull-left" style="text-transform: capitalize;">{{client.clientType | lowercase}}</span>
                 </div>
+                <!--<span class="pull-left edit"  ng-click="AddOrEditAccountModal('edit',client)"></span>-->
+                <span class="pull-right btn btn-default"  ng-if="client.isLeafNode" ng-click="AddOrEditAdvertiserModal({},'create',client)"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Add Advertiser</span>
                 <div class="pull-right btn btn-default" ng-if="!client.isLeafNode" ng-click="AddOrEditAccountModal('create',client.id)">Create Sub Account</div>
-                <span class="pull-right adding-section" style="margin: 1px 1px 0 0"  ng-if="!client.hasChildren" ng-click="AddOrEditAdvertiserModal({},'create',client)"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Add Advertiser</span>
             </div>
 
             <div class="clearfix advertiser-list" ng-if="clientsDetails[client.id].advertisers.length >  0" id="client_{{client.id}}_adv">
@@ -18,7 +19,7 @@
                     <div class="clearfix particular-account-box" ng-class="[(clientsDetails[client.id]['brands'][adv.id].length ==  0)?'no-data-open':'',(clientsDetails[client.id]['brands'][adv.id].length) > 0?'brand-data-loaded':'']">
                         <div class="clearfix advertiser-name" >
                             <span class="pull-left adv-name" ng-click="show_advertisers_resp_brands($event,client.id,adv.id);"  ><span class="label_heading">Advertiser: </span>{{adv.name}}</span>
-                            <span class="pull-left edit" ng-click="AddOrEditAdvertiserModal(adv,'edit',client)"></span>
+                            <!--<span class="pull-left edit" ng-click="AddOrEditAdvertiserModal(adv,'edit',client)"></span>-->
                             <span class="pull-left adding-section" ng-click="AddOrEditBrandModal(adv,'create',client,brand)"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Add Brand</span>
                         </div>
                         <!-- <div class="advertiser-resp-brands-list"> -->
@@ -48,9 +49,9 @@
                 </div>
                 <div ng-if="clientsDetails[clientId].advertisersLoader" class="common-load-more"></div>
                 <!--<div class="each-advertiser" ng-if="client.advertisement.length ==  0">-->
-                <!--<div class="clearfix advertiser-name" >-->
-                <!--<span class="pull-left" >No Advertisers Available</span>-->
-                <!--</div>-->
+                    <!--<div class="clearfix advertiser-name" >-->
+                        <!--<span class="pull-left" >No Advertisers Available</span>-->
+                    <!--</div>-->
                 <!--</div>-->
             </div>
         </div>

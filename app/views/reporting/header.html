@@ -25,7 +25,8 @@
                 <div class="arrowSelect"></div>
             </div>-->
             <div class="pull-left each_nav_link" id="campaigns_nav_link" ng-if="showMediaPlanTab">
-                <a href="javascript:void(0);" ng-mouseover="hide_navigation_dropdown($event);" ng-click="NavigateToTab('/mediaplans', $event ,'mediaplanList')" ng-bind="textConstants.MEDIA_PLAN"></a>
+                <a href="javascript:void(0);" ng-mouseover="hide_navigation_dropdown($event);"
+                   ng-click="NavigateToTab('', $event ,'mediaplanList')" ng-bind="textConstants.MEDIA_PLAN"></a>
                 <div class="arrowSelect"></div>
             </div>
             <div class="pull-left each_nav_link" id="reports_nav_link" ng-if="showReportTab">
@@ -44,6 +45,10 @@
             <div class="pull-left each_nav_link" id="admin_nav_link" ng-if="isSuperAdmin">
                 <a href="javascript:void(0);" reporttitle="adminOverview"
                    ng-click="NavigateToTab('', $event ,'adminOverview')">Admin</a>
+                
+                <!--<a href="javascript:void(0);" reporttitle="adminOverview"-->
+                <!--   ng-click="NavigateToTab('', $event ,'adminOverview')"-->
+                <!--   ng-mouseover="show_hide_nav_dropdown($event,'admin','hover');">Admin</a>-->
 
                 <div class="arrowSelect"></div>
             </div>
@@ -62,6 +67,7 @@
                 <report-tabs></report-tabs>
             </div>
         </div>
+        
         <div class="main_nav_dropdown" id="admin-menu" ng-mouseleave="hide_navigation_dropdown($event)">
             <div class="nav-menu reports_header_tabs_holder clearfix">
                 <div class="clearfix reports_sub_menu_dd_holder">
@@ -72,6 +78,7 @@
                 </div>
             </div>
         </div>
+        
         <div class="main_nav_dropdown" id="user-menu" ng-mouseleave="hide_navigation_dropdown($event)">
             <div class="clearfix nav-menu">
                 <div class="pull-right profile-data" id="profileAccountData">
