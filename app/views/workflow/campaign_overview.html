@@ -56,18 +56,6 @@
                         </div>
                     </div>
                     <div class="col-md-3 widgetModule">
-                        <div class="campWidgets">
-                            <span class="icon-message"></span>
-                        </div>
-                        <div class="campWidgets">
-                            <span class="icon-activity"></span>
-                        </div>
-                        <div class="campWidgets">
-                            <span class="icon-attach"></span>
-                        </div>
-                        <div class="campWidgets">
-                            <span class="icon-task"></span>
-                        </div>
                         <div class="col-md-12 zeroPadding">
                             <div class="zeroPadding dropdown-workflow pull-right" style="margin-left: 10px;">
                                 <div class="dropdown">
@@ -130,7 +118,9 @@
                     <div class="pull-left">
                         <span class="greyTxt" ng-bind="textConstants.KPI"></span>
                         <div>
-                            <span ng-if="workflowData.campaignData.kpiValue>=0" class="font-bold" ng-bind="workflowData.campaignData.kpiValue | nrFormat"></span>
+                            <span ng-if="workflowData.campaignData.kpiValue>=0 && (primaryKpiSelected=='Impressions')" class="font-bold" ng-bind="workflowData.campaignData.kpiValue | nrFormat"></span>
+                            <span ng-if="workflowData.campaignData.kpiValue>=0 && (primaryKpiSelected=='CPM' || primaryKpiSelected=='CPC' ||primaryKpiSelected=='CPA')" class="font-bold" ng-bind="workflowData.campaignData.kpiValue | nrFormatWithCurrency"></span>
+                            <span ng-if="workflowData.campaignData.kpiValue>=0 && (primaryKpiSelected=='VTC' || primaryKpiSelected=='CTR' ||primaryKpiSelected=='Action Rate')" class="font-bold" ng-bind="(workflowData.campaignData.kpiValue | number:2)+'%'"></span>
                             <span style="clear: none; padding-left: 3px;" class="font-bold" ng-bind="primaryKpiSelected"></span>
                         </div>
                     </div>

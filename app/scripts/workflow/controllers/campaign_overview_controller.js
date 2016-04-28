@@ -100,14 +100,12 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                                 }
 
                                 if (responseData.kpiType) {
-                                    if (responseData.kpiType === 'IMPRESSIONS') {
+                                    if(responseData.kpiType=='IMPRESSIONS'){
                                         $scope.primaryKpiSelected = 'Impressions';
-                                    } else if (responseData.kpiType === 'CLICKS') {
-                                        $scope.primaryKpiSelected = 'Clicks';
-                                    } else if (responseData.kpiType === 'ACTIONS') {
-                                        $scope.primaryKpiSelected = 'Actions';
-                                    } else if (responseData.kpiType === 'VIEWABLE_IMPRESSIONS') {
-                                        $scope.primaryKpiSelected = 'Impressions';
+                                    }else if(responseData.kpiType=='ACTION RATE'){
+                                        $scope.primaryKpiSelected = 'Action Rate';
+                                    }else{
+                                        $scope.primaryKpiSelected=responseData.kpiType;
                                     }
                                 }
                                 $scope.labels=responseData.labels;
