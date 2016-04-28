@@ -119,8 +119,11 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
 
                 return dataService.fetch(url);
             },
-            getPixels: function (advertiserId) {
-                var clientId =  loginModel.getSelectedClient().id;
+            getPixels: function (advertiserId,client_Id) {
+                var clientId = loginModel.getSelectedClient().id;;
+                if(client_Id){
+                    clientId = client_Id;
+                }
 
                 var url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId +
                             '/advertisers/' + advertiserId + '/pixels?type=PAGE_VIEW';
@@ -713,14 +716,20 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                     // for system of records.
                     return dataService.fetch(vistoconfig.apiPaths.WORKFLOW_API_URL + '/cost_categories/5/vendors');
                 },
-                getVendorConfigs: function (advertiserId) {
+                getVendorConfigs: function (advertiserId,client_id) {
                     var clientId = loginModel.getSelectedClient().id;
+                    if(client_id) {
+                        clientId = client_id;
+                    }
 
                     return dataService.fetch(vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/'+clientId+'/advertisers/'+advertiserId+'/clientVendorConfigs?rateType=FIXED&rateTypeIncluded=false');
                 },
 
-                 getCostAttr: function (advertiserId) {
+                 getCostAttr: function (advertiserId,client_id) {
                     var clientId = loginModel.getSelectedClient().id;
+                     if(client_id) {
+                         clientId = client_id;
+                     }
 
                     return dataService.fetch(vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/'+clientId+'/advertisers/'+advertiserId+'/clientVendorConfigs?rateType=FIXED');
                 },
