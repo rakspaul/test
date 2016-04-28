@@ -158,7 +158,6 @@ define(['angularAMD', 'workflow/services/workflow_service', 'workflow/services/f
             //};
 
             $scope.$on('getDominList', function(event, args) {
-                console.log("args", args);
                 $scope.clientId = args[0].clientId;
                 $scope.advertiserId = args[0].advertiserId;
                 InventoryFiltersView.getAdvertisersDomainList(args[0].clientId, args[0].advertiserId);

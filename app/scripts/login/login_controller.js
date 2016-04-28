@@ -14,6 +14,10 @@ define(['../app','login/login_service','common/utils','common/services/constants
                 {
                     name: 'Internet Explorer',
                     'version': 10
+                },
+                {
+                    name: 'Safari',
+                    'version': 8
                 }
             ];
 

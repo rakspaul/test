@@ -98,7 +98,6 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
 
       $scope.test="Upload Reports";
       $scope.$watch('files', function () {
-        console.log('files changed');
        $scope.prepareUpload($scope.files);
       });
       // $scope.$watch('file', function () {
@@ -172,7 +171,6 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
        if(percentage == 100) {
          $scope.progress = false;
          $scope.completed = true;
-         console.log('releasing progress lock');
        }
     });
 
