@@ -483,7 +483,8 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                         _customctrl.reportPageNum_2D[$scope.activeTab].push(1);
                     });
                     _customctrl.getMetricValues(respData, $scope.selectedMetricsList, 'first_dimension');
-
+                    var height = parseInt($(".custom_report_scroll").css("height"), 10) + (respData.length * 55) + "px";
+                    $(".custom_report_scroll").css({"max-height": height, "height": height});
                 } else {
                     if(_customctrl.reportPageNum_1D == 1) {
                         _customctrl.errorHandler();
@@ -1830,6 +1831,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                     $scope.generateBtnDisabled = true;
                     $scope.generateReport("Generate");
                     $('.collapseIcon').css('visibility', 'visible');
+                    $(".custom_report_scroll").css({"height":"0"});
                 } else if ($scope.buttonLabel == "Save"){
                     $scope.saveReport();
                     $scope.generateReport("Save");
@@ -2234,6 +2236,14 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
             _customctrl.showCost_permission();
             $(window).on('beforeunload', function(){     // On refresh of page
                 $scope.intermediateSave();
+            });
+            $(window).scroll(function(){
+                if (!$scope.fetching && (($(window).scrollTop() + $(window).height()) >= $(document).height())){
+                    _customctrl.loadMoreItems();
+                }
+            });
+            $scope.$on("$locationChangeSuccess", function(){
+                $(window).unbind('scroll');
             });
         });
     });
