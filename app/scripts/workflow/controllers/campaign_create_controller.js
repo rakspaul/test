@@ -246,14 +246,14 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             },
 
             fetchVendorConfigs: function(){
-                workflowService.getVendorConfigs($scope.selectedCampaign.advertiserId).then(function(result){
+                workflowService.getVendorConfigs($scope.selectedCampaign.advertiserId,$scope.selectedCampaign.clientId).then(function(result){
                     var configList = result.data.data;
                     $scope.vendorConfig = workflowService.processVendorConfig(configList);
                 });
             },
 
             fetchCostAttributes: function(){
-                workflowService.getCostAttr($scope.selectedCampaign.advertiserId).then(function(result){
+                workflowService.getCostAttr($scope.selectedCampaign.advertiserId,$scope.selectedCampaign.clientId).then(function(result){
                     result = result.data.data ;
                     $scope.costAttributes = workflowService.processCostAttr(result) ;
                 });
@@ -885,7 +885,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
         var pixels = {
             fetchPixels: function (clientId,advertiserId) {
-                workflowService.getPixels($scope.selectedCampaign.advertiserId).then(function (result) {
+                workflowService.getPixels($scope.selectedCampaign.advertiserId,$scope.selectedCampaign.clientId).then(function (result) {
                     if (result.status === "OK" || result.status === "success") {
                         var responseData = result.data.data;
                         $scope.pixelList = _.sortBy(responseData, 'name');

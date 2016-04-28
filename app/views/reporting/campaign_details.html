@@ -189,7 +189,8 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="item" ng-show="adFormats.displayAds" ng-hide="usrRole && !usrRole.showviewability">
+                            <!--<div class="item" ng-show="adFormats.displayAds" ng-hide="usrRole && !usrRole.showviewability">-->
+                            <div class="item" ng-hide="usrRole && !usrRole.showviewability">
                                 <div class="col-xs-3">
                                     <div ng-click="setGraphData(campaign,'quality')" tooltip-placement="top"
                                          tooltip="Click for detailed reports" class="each_section_graph_holder">
