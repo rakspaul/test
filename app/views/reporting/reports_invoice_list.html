@@ -95,16 +95,16 @@
                         <div data-ng-repeat="invoice in invoiceData" class="rowHover parentWrap">
                             <div class="col-md-2 td" ng-bind="invoice.account"></div>
                             <div class="col-md-2 td" ng-bind="invoice.advertiser"></div>
-                            <div class="col-md-4 td">
-                                <div class="col-md-9" ng-bind-html="invoice.mediaPlanName"></div>
+                            <div class="col-md-4 td media-plan-name-wrapper">
+                                <div class="col-md-9 media-plan-name" ng-bind-html="invoice.mediaPlanName"></div>
                                 <div class="col-md-3 more-options">
                                     <div class="dropdown-workflow">
                                         <div class="dropdown hideOption">
-                                        <span data-toggle="dropdown">
-                                            <div class="option-horizontal">
-                                                <span></span><span></span><span></span>
-                                            </div>
-                                        </span>
+                                            <span data-toggle="dropdown">
+                                                <div class="option-horizontal">
+                                                    <span></span><span></span><span></span>
+                                                </div>
+                                            </span>
                                             <ul class="dropdown-menu">
                                                 <li>
                                                     <a ng-bind-html="textConstants.EDIT"
@@ -132,7 +132,7 @@
                                     </span>
                                 </div>
                             </div>
-                            <div class="col-md-2 td" ng-bind="invoice.invoiceDate"></div>
+                            <div class="col-md-2 td invoice-date" ng-bind="invoice.invoiceDate"></div>
                         </div>
                     </div>
                 </div>
