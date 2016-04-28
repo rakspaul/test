@@ -114,7 +114,16 @@ define(['angularAMD', 'workflow/services/workflow_service', 'common/services/con
                         case 'sizes' :
                             name = 'Player Size';
                             if (videoTargets && videoTargets.sizes.length > 0) {
-                                sizeValue = videoTargets.sizes.length > 1 ? 'Specific Size' : 'Any';
+                                if(videoTargets.sizes.length > 1) {
+                                    sizeValue = 'Specific Size';
+                                } else {
+                                    var sizeNameList = _.pluck(videoTargets.sizes, 'name');
+                                    if(sizeNameList.length >0 && sizeNameList[0] === 'Any') {
+                                        sizeValue = 'Any';
+                                    } else {
+                                        sizeValue = 'Specific Size';
+                                    }
+                                }
                             }
 
                             break;
@@ -203,6 +212,7 @@ define(['angularAMD', 'workflow/services/workflow_service', 'common/services/con
             var index = dimensionElem.attr("data-index");
 
             if(event && !status) {
+                event.stopImmediatePropagation();
                 return false;
             }
 
@@ -224,8 +234,8 @@ define(['angularAMD', 'workflow/services/workflow_service', 'common/services/con
         }
 
         $scope.selectSize = function(event, type) {
+            $scope.adData.videoTargets['sizes'] =[];
             if(type == "Specific Size") {
-                $scope.adData.videoTargets['sizes'] =[];
                 _.each($scope.additionalDimension, function(obj, index) {
                     if(obj.tags.type === 'sizes') {
                         obj.tags.value = 'Specific Size';
@@ -273,7 +283,9 @@ define(['angularAMD', 'workflow/services/workflow_service', 'common/services/con
 
         $scope.videoDimensionTagRemoved = function(tag, type) {
             var pos = _.findIndex($scope.adData.videoTargets[type], function(Item) { return Item.id == tag.id });
-            $scope.adData.videoTargets[type].splice(pos, 1);
+            if(pos !== -1 ) {
+                $scope.adData.videoTargets[type].splice(pos, 1);
+            }
         };
 
 
@@ -283,6 +295,7 @@ define(['angularAMD', 'workflow/services/workflow_service', 'common/services/con
             if(videoTargetsData && (videoTargetsData.sizes.length >0  || videoTargetsData.positions.length >0 || videoTargetsData.playbackMethods.length >0)) {
             } else {
                 _videoTargetting.init();
+                _videoTargetting.addAdditionalDimension();
             }
         }
 
