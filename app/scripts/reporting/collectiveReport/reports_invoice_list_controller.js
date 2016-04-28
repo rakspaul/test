@@ -20,7 +20,6 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
 
         var invoiceOverView = {
             getInvoiceData: function (advertiserId) {
-                console.log(advertiserId)
                 dataService
                     .fetch(urlService.getInvoiceData(advertiserId))
                     .then(function (result) {

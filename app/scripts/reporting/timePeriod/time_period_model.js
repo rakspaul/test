@@ -69,10 +69,8 @@ define(['angularAMD', 'common/services/constants_service'], function (angularAMD
                     var localStorageEndDate = JSON.parse(localStorage.getItem('customEndDate'));
 
                     if(localStorageStartDate && localStorageEndDate) {
-                        console.log("custom&start_date=" + localStorageStartDate + "&end_date=" + localStorageEndDate);
                         return "custom&start_date=" + localStorageStartDate + "&end_date=" + localStorageEndDate;
                     } else {
-                        console.log("custom&start_date=" + todayDate + "&end_date=" + todayDate);
                         return "custom&start_date=" + todayDate + "&end_date=" + todayDate;
                     }
                 } else {

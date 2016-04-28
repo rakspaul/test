@@ -379,7 +379,6 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                                     responseData = result.data.data.ad_groups;
                                     $scope.adGroupList = responseData;
                                     var index= _.findIndex($scope.adGroupList,function(obj){
-                                        console.log("obj.adGroup.id:",obj.adGroup.id+"$scope.adGroupId:"+$scope.adGroupId);
                                         return obj.adGroup.id===Number($scope.adGroupId);
                                     })
                                     if(index>=0)
