@@ -263,6 +263,11 @@ define(['angularAMD', 'workflow/services/workflow_service', 'common/services/con
         $scope.videoDimensionTagAdded = function(tag, type) {
             tag.targetId = tag.id;
             delete tag.id; //removing id and adding targetid as a key for creating data for save response.
+            var pos = _.findIndex($scope.adData.videoTargets[type], function(obj) {  return obj.name == tag.name});
+            if(pos >0) {
+                $scope.adData.videoTargets[type].splice(pos, 1);
+            }
+
             $scope.adData.videoTargets[type].push(tag);
         };
 

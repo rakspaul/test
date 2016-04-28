@@ -687,10 +687,10 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                 }
 
                 //video part edit
-                if (responseData.targets && responseData.targets.videoTargets) {
+                var videoTargetsData = responseData.targets;
+                if(videoTargetsData.videoTargets && (videoTargetsData.videoTargets.sizes.length >0  || videoTargetsData.videoTargets.positions.length >0 || videoTargetsData.videoTargets.playbackMethods.length >0)) {
                     $scope.$broadcast('setTargeting', ['Video']);
                 }
-
 
                 $scope.$broadcast('getDominList', [{
                     clientId: clientId,
@@ -1442,9 +1442,15 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
 
                             //video Segment
                             var videoTargetsData = videoService.getVideoData();
-                            
+
                             if(videoTargetsData.videoTargets && (videoTargetsData.videoTargets.sizes.length >0 || videoTargetsData.videoTargets.positions.length >0 || videoTargetsData.videoTargets.playbackMethods.length > 0)) {
                                 postAdDataObj.targets['videoTargets'] = videoTargetsData.videoTargets;
+                            } else {
+                                adData = workflowService.getAdsDetails();
+                                videoTargetsData = adData.targets.videoTargets;
+                                if(videoTargetsData){
+                                    postAdDataObj.targets['videoTargets'] = videoTargetsData;
+                                }
                             }
                         }
 

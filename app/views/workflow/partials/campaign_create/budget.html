@@ -57,7 +57,7 @@
                     </div>
                 </div>
 
-                <div class="tbody thin">
+                <div class="tbody" style="max-height: 200px;overflow: auto;">
                     <!--Table Sample-->
                     <div class="tr" ng-repeat="config in vendorConfig.userPermission">
                         <div class="td col-md-3">{{config.metric}}</div>
@@ -89,7 +89,7 @@
                     </div>
                 </div>
 
-                <div class="tbody thin">
+                <div class="tbody" style="max-height: 200px;overflow: auto;">
                     <!--Table Sample-->
                     <div class="tr" ng-repeat="config in vendorConfig.configs">
                         <div class="td col-md-2">{{config.category}}</div>
@@ -103,7 +103,6 @@
             </div>
         </div>
     </div>
-
     <div data-toggle="{{(selectedCampaign.advertiserId && costAttributes.category.length > 0) ? 'collapse' : ''}}" data-target="{{(selectedCampaign.advertiserId && costAttributes.category.length > 0) ? '#addAdditionalCost' : ''}}" class="accordionDDL collapsed">
         <div class="icon-arrow-down-thick"></div>
         <span>Add Additional Costs (Optional)</span>

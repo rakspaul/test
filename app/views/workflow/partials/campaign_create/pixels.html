@@ -55,7 +55,7 @@
                 </div>
             </div>
 
-            <div class="tbody thin">
+            <div class="tbody thin" style="overflow:auto;">
                 <!--Table Data Sample-->
                 <div class="tr" ng-repeat="pixel in  pixelList | filter:searchText" >
                     <div class="td col-md-9">
@@ -73,7 +73,7 @@
 <div class="col-md-4" style="padding: 10px; background: #ECF3F8; margin: 61px 0 0 0;">
     <label for="nameTitleCampaign" class="pull-left labelQuestTxt" style="margin: 0 !important;">Selected Pixels ({{selectedPixel.length}})</label>
     <a class="btn btn-default pull-right" ng-click="clearAllSelectedPixel()"  >Clear</a>
-    <div class="col-md-12 zeroPadding selectedPixels">
+    <div class="col-md-12 zeroPadding selectedPixels" style="overflow:auto;">
         <div class="col-md-12 zeroPadding pixelName" ng-repeat="eachselectedPixel in  selectedPixel " >
             <span>{{eachselectedPixel.name}}</span>
             <a class="icon-close pull-right" ng-click="selectPixel(eachselectedPixel)"></a>

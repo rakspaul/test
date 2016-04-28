@@ -6,11 +6,6 @@
                 {{workflowData.campaignData.name | textEllipsis: 30}}
             </h4>
         </div>
-        <div class="pull-left" style="">
-            <span class="greyTxt" style="padding-bottom: 2px;" data-ng-bind="textConstants.OBJECTIVES"></span>
-            <div ng-if="brandIcon.length>0" class="icon-brand" style="width: 27px;"></div>
-            <div ng-if="performanceIcon.length>0" class="icon-performance"></div>
-        </div>
         <div class="pull-left">
             <span class="greyTxt" data-ng-bind="textConstants.DELBUDGET"></span>
             <span>{{(workflowData.campaignData.deliveryBudget || 0) | currency:undefined:0}}</span>
