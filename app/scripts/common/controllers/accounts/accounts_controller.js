@@ -68,7 +68,7 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
             $(".miniTabLinks.sub .btn").removeClass("active");
             $(".miniTabLinks.sub .subBasics").addClass("active");
             
-            $(".basicForm, IABForm").show();
+            $(".basicForm, .IABForm").show();
             $(".createPixel, #pixelsCnt").hide();
         }
         
