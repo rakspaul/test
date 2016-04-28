@@ -129,7 +129,7 @@ define(['angularAMD', '../../common/services/constants_service'], function (angu
                 inputWrapper.append(LabelHtml);
 
             }
-            if(inputList.platformCustomWidgetType==='DROPDOWN'){    console.log("ehfuhe",scope.creativeFormat);
+            if(inputList.platformCustomWidgetType==='DROPDOWN'){
                 /*Only for size, write the predefined Markup*/
                 if(inputList.name==="sizes.size"){
                     var sizeHtml=angular.element(' <div class="col-md-12 zeroPadding dropdown-workflow">'+

@@ -589,7 +589,6 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
                           $scope.Message = 'Unable to create Creative';
                           $scope.partialSaveAlertMessage = true;
                           $rootScope.setErrAlertMessage($scope.Message,1);
-                          console.log(result);
                       }
                   });
 

@@ -346,8 +346,6 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
             if ($scope.createCampaignForm.$valid) {
                 var formElem = $("#createCampaignForm").serializeArray();
-                console.log(formElem)
-                console.log(_.object(_.pluck(formElem, 'name'), _.pluck(formElem, 'value')));
                 // var formData = formElem.serializeArray();
                 formData = _.object(_.pluck(formElem, 'name'), _.pluck(formElem, 'value'));
                 var postDataObj = {};
@@ -400,8 +398,6 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     }
                 }, function() {
                 });
-
-                console.log('formData == ',formData,'postDataObj',postDataObj);
             }
         };
 
@@ -490,7 +486,6 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         };
 
         $scope.validateDateLineItem = function(date,dateType){
-            console.log(date);
             if('startdate' === dateType){
                 $scope.lineItemStartDate = date;
             }
@@ -716,7 +711,6 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                         //$scope.rateTypeReadOnly = true;
 
                     }
-                    console.log("$scope.type",$scope.type)
                     $scope.volumeFlag = false;
                     $scope.volume = '';
                 }
@@ -818,7 +812,6 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
         $scope.updateLineItem = function(newItem){
             $scope.deleteLineItem(newItem);
-            console.log(newItem);
             $scope.createNewLineItem('edit');
             //$scope.lineItemList.push(index,1);
 
@@ -949,7 +942,6 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     $scope.selectedCostAttr[index]['rateTypeId'] = costObj.rateTypeId;
                     $scope.selectedCostAttr[index]['costType'] = 'MANUAL'
                 }
-                console.log("$scope.selectedCostAttr", $scope.selectedCostAttr);
         }
 
         //select or unselect indiviual audience
