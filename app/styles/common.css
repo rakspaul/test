@@ -1766,10 +1766,17 @@ tags-input .autocomplete {
 }
 .otherBgDateRange.date .dateWrapper {
   position: static;
-  margin-right: 2px;
+  margin-right: 10px;
+}
+.otherBgDateRange.date .dateWrapper .dateContainer {
+  width: 141px;
 }
 .otherBgDateRange.date .dateWrapper .dateContainer input {
-  width: 131px ;
+  width: 100% ;
+}
+.otherBgDateRange.date .dateWrapper .dateContainer:last-child {
+  margin-left: 10px ;
+  padding-left: 0px ;
 }
 .otherBgDateRange.date .dateInputHolder {
   position: relative;
