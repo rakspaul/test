@@ -197,23 +197,34 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
 
           return adFormatMapper[adFormat.toLowerCase()];
       };
+
+      var reset = {
+          advertiser: function () {
+              $scope.creative.advertiserId = '';
+              $scope.advertiserName = 'Select Advertiser';
+          },
+          brand: function () {
+              $scope.creative.brandId = '';
+              $scope.brandName = 'Select Brand';
+          }
+      }
+
       $scope.selectHandler = function (type, data, event) {
           switch (type) {
               case 'subAccount':
                   $scope.advertisers = {};
-                   $scope.subAccountName = data.displayName;
-                 //  $scope.creative.subAccountId = data.id;
-                   $scope.creative.clientId = data.id;
-               //   $scope.creative.advertiserId = '';
+                  $scope.subAccountName = data.displayName;
+                  $scope.creative.clientId = data.id;
                   creatives.fetchAdvertisers(data.id);
-                 // $scope.advertiserName = 'Select Advertiser';
+                  reset.advertiser();
+                  reset.brand();
                   break;
               case 'advertiser' :
                   $scope.brands = {};
-                  $scope.advertiserName=data.name;
+                  $scope.advertiserName = data.name;
                   $scope.creative.brandId = '';
                   $scope.creative.advertiserId = data.id;
-                  creatives.fetchBrands( $scope.creative.clientId,data.id);
+                  creatives.fetchBrands($scope.creative.clientId, data.id);
                   $scope.brandName = 'Select Brand';
                   break;
               case 'brand' :
