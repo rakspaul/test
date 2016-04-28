@@ -2238,7 +2238,6 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                 $scope.intermediateSave();
             });
             $(window).scroll(function(){
-                console.log("On widow scroll");
                 if (!$scope.fetching && (($(window).scrollTop() + $(window).height()) >= $(document).height())){
                     _customctrl.loadMoreItems();
                 }
