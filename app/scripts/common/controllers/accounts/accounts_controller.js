@@ -68,8 +68,8 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
             $(".miniTabLinks.sub .btn").removeClass("active");
             $(".miniTabLinks.sub .subBasics").addClass("active");
             
-            $(".basicForm").show();
-            $(".createPixel, #pixelsCnt, .IABForm").hide();
+            $(".basicForm, IABForm").show();
+            $(".createPixel, #pixelsCnt").hide();
         }
         
         $scope.showPixels = function() {
@@ -85,14 +85,6 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
             _currCtrl.setCalanderSetting();
             
             $(".pixelCreate").slideDown();
-        }
-        
-        $scope.addIAB = function() {
-            $(".miniTabLinks.sub .btn").removeClass("active");
-            $(".miniTabLinks.sub .subIABCat").addClass("active");
-            
-            $(".IABForm").show();
-            $(".createPixel, #pixelsCnt, .basicForm").hide();
         }
         
         _currCtrl.setCalanderSetting = function(){
