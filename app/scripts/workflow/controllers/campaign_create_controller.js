@@ -48,6 +48,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         $scope.volumeFlag = true;
         $scope.amountFlag = true;
         $scope.hideLineItemRate = false;
+        $scope.hideAdGroupName = false;
         //line item edit flags
         $scope.rateReadOnlyEdit = false;
         $scope.rateTypeReadOnlyEdit = false;
@@ -648,7 +649,11 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     newItem.name = $scope.lineItemName;
                     newItem.lineItemType = $scope.lineItemType;
                     newItem.pricingMethodId = $scope.lineItemType.id;
-                    newItem.adGroupName = ($scope.adGroupName === '')?$scope.lineItemName:$scope.adGroupName;
+                    if($scope.hideAdGroupName) {
+                        newItem.adGroupName = '';
+                    } else {
+                        newItem.adGroupName = ($scope.adGroupName === '') ? $scope.lineItemName:$scope.adGroupName;
+                    }
                     newItem.billableAmount = $scope.billableAmount;
                     newItem.volume = $scope.volume;
                     newItem.pricingRate = $scope.pricingRate;
@@ -677,6 +682,8 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         };
 
         $scope.setLineItem = function(obj,mode){
+
+
             if(mode !== 'edit'){
                 $scope.lineItemType = obj;
             } else {
@@ -691,7 +698,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 $scope.rateTypeReadOnly = false;
                 $scope.hideLineItemRate = false;
                 $scope.pricingRate = '';
-
+                $scope.hideAdGroupName = false;
                 if(CONST_COGS_PERCENT === $scope.lineItemType.name){
                     if(selectedAdvertiser && (selectedAdvertiser.billingType && selectedAdvertiser.billingValue)){
                         $scope.rateReadOnly = true;
@@ -721,7 +728,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                         $scope.rateTypeReadOnly = true;
 
                     }
-
+                    $scope.hideAdGroupName = true;
                     $scope.hideLineItemRate = true;
                     $scope.pricingRate = '0';
 

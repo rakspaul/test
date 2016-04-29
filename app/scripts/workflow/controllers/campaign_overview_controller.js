@@ -781,8 +781,10 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             }
 
             $scope.selectLineItems = function(event, lineItem) {
-                $scope.adGroupData.lineitemName = lineItem.name;
-                $scope.adGroupData.lineitemId = lineItem.id;
+                if(lineItem) {
+                    $scope.adGroupData.lineitemName = lineItem.name;
+                    $scope.adGroupData.lineitemId = lineItem.id;
+                }
 
             };
 

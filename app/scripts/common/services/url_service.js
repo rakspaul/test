@@ -146,10 +146,8 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
 
                 //API for dashbaord Bubble Chart
                 this.APISpendWidgetForAllBrands = function (qryObj) {
-                    var params = this.buildParams(qryObj);
-
                     qryObj.queryId = 6;
-
+                    var params = this.buildParams(qryObj);
                     return vistoconfig.apiPaths.apiSerivicesUrl_NEW + '/reportBuilder/customQuery?' + params;
                 };
 
