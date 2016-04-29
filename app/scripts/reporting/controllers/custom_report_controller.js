@@ -158,6 +158,13 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
         $scope.initializeMetrics = function(dataObj, selectedDim) {
 
             //delivery metrics
+            if(!$scope.reports.reportDefinition.dimensions.primary.dimension){
+                $scope.reports.reportDefinition.dimensions.primary = {"name":$scope.displayName[selectedDim],"dimension":selectedDim,"value":""};
+                $scope.showPrimaryTxtBox = true;
+                $scope.showAddBreakdownButton = true;
+                $scope.generateBtnDisabled = false;
+            }
+            var selectedDim = $scope.reports.reportDefinition.dimensions.primary.dimension;
             var metricsData = dataObj.dim_specific_metrics.hasOwnProperty(selectedDim) ?  dataObj.dim_specific_metrics[selectedDim] : dataObj.metrics;
             $scope.deliveryMetricsView = metricsData.delivery_metrics;
             $scope.deliveryMetrics = [];
@@ -280,19 +287,19 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
         _customctrl.getDimensionList = function(data, selectedMetrics) {
             $scope.selectedDimension = elem.text();
             var selectedDim = $scope.reports.reportDefinition.dimensions.primary.dimension;
+            $scope.metricKeyArr = {}
             //if(selectedMetrics && selectedMetrics.length >0) {
             if ($scope.selectedMetricsList.length < $scope.totalMetrics) {
                 $scope.metricKeyArr = {
                     'delivery_metrics': selectedMetrics
                 };
             } else {
-                $scope.metricKeyArr = data.dim_specific_metrics.hasOwnProperty(selectedDim) ? data.dim_specific_metrics[selectedDim] : data.metrics;
+              //  $scope.metricKeyArr = data.dim_specific_metrics.hasOwnProperty(selectedDim) ? data.dim_specific_metrics[selectedDim] : data.metrics;
                 var metricsType = ['deliveryMetrics', 'costMetrics', 'videoMetrics', 'displayQltyMetrics', 'videoQltyMetrics'],
-                    arr = angular.copy($scope.metricKeyArr);
+                    arr = angular.copy(data.dim_specific_metrics.hasOwnProperty(selectedDim) ? data.dim_specific_metrics[selectedDim] : data.metrics);
                 _.each(metricKey1, function(v) {
                     $scope.metricKeyArr[v] = [];
                     _.each(arr[v], function(o) {
-                        //o.selected = false;
                         $scope.metricKeyArr[v].push({
                             key : o,
                             value : $scope.displayName[o]
@@ -1711,7 +1718,6 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                 if (selectedDeliveryMetrics.length > 0) {
                     $scope.reports.reportDefinition.metrics['Delivery'] = selectedDeliveryMetrics;
                 }
-
                 //cost Metrics
                 var selectedCostMetrics = [];
                 if($scope.showCost) {
@@ -2229,31 +2235,9 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
             }
             var getCustomReportMetrics = function() {
                 dataService.getCustomReportMetrics($scope.campaign).then(function (result) {
-//var result = {data:{status:"OK",status_code:200,meta:{host:"localhost:9000",method:"GET",path:"/api/reporting/v3/clients/77/reports/custom/meta",uri:"/api/reporting/v3/clients/77/reports/custom/meta"},data:[{template_id:2,display_name:{impressions:"Impressions",collective_cost:"Collective Cost",data_cost:"Data Cost",mutes:"Mutes",video_delivered_imps:"Delivered Imps",ad_group_name:"Ad Group",video_measurable_perc:"Measurable %",creative_name:"Creative",manufacturer_name:"Manufacturer",advertiser_name:"Advertiser",display_suspicious_act_perc:"Suspicious Activity %",geo_country:"Location (Country)",completion_25:"25% Ad Complete",video_video_viewable_50:"Viewable at 50%",domain:"Domain",completion_rate:"Completion Rate",video_viewable_perc:"Viewable %",platform_name:"Platform",pccr:"PCCR %",os_name:"Operating System",client_name:"Sub Account",campaign_name:"Media Plan",pauses:"Pauses",campaign_label:"Labels(Media Plan)",video_video_viewable_100:"Viewable at 100%",display_suspicious_imps:"Suspicious Imps",ad_kpi_type:"Ad KPI",display_viewable_perc:"Viewable %",completion_100:"100% Ad Complete",video_suspicious_act_perc:"Suspicious Activity %",post_imp:"PI Actions",vast_redirect_errors:"VAST Redir. Errors",display_measurable_imps:"Measured Imps",completion_75:"75% Ad Complete",ad_group_label:"Labels(Ad Group)",display_viewable_imps_5s:"> 5s",ad_servicing_cost:"Ad Serving Cost",ad_name:"Ad",ad_vertification_cost:"Ad Verification Cost",geo_state:"Location (State/ Province)",ad_size:"Ad Size",lineitem_name:"Line Item",brand_name:"Brand",display_delivered_imps:"Delivered Imps",video_video_viewable_75:"Viewable at 75%",completion_50:"50% Ad Complete",video_measurable_imps:"Measured Imps",clicks:"Clicks",ad_starts:"Video Plays",actions:"Total Actions",hardware_name:"Hardware",gross_ecpc:"eCPC",event_date:"Day",ad_label:"Labels(Ad)",ctr:"CTR %",ad_format:"Format",video_viewable_imps:"Viewable Imps",inventory_cost:"Inventory Cost",display_viewable_imps:"Viewable Imps",video_suspicious_imps:"Suspicious Imps",video_video_viewable_25:"Viewable at 25%",gross_ecpm:"eCPM",post_click:"PC Actions",geo_dma_name:"Location (Metro)",display_measurable_perc:"Measurable %",event_month:"Month",video_full_screen:"Video Full Screen",display_viewable_imps_15s:"> 15s",campaign_kpi_type:"Campaign KPI",pixel_name:"Pixel",post_imp_count:"Post Imp Count",post_click_count:"Post Click Count"},client_type:"network_vwr",dimensions:["ad_name","ad_group_name","ad_size","advertiser_name","brand_name","creative_name","event_date","domain","ad_format","hardware_name","geo_country","lineitem_name","geo_dma_name","geo_state","manufacturer_name","campaign_name","event_month","os_name","platform_name","pixel_name","client_name"],filters:["ad_name","ad_group_name","ad_size","advertiser_name","brand_name","creative_name","event_date","domain","ad_format","hardware_name","geo_country","lineitem_name","geo_dma_name","geo_state","manufacturer_name","campaign_name","event_month","os_name","platform_name","pixel_name","client_name","ad_label","ad_group_label","campaign_label","campaign_kpi_type","ad_kpi_type"],dim_specific_filters:{pixel_name:["ad_name","ad_group_name","ad_size","advertiser_name","brand_name","creative_name","event_date","ad_format","lineitem_name","campaign_name","event_month","platform_name","pixel_name","client_name","ad_label","ad_group_label","campaign_label","campaign_kpi_type","ad_kpi_type"]},metrics:{delivery_metrics:["impressions","clicks","ctr","post_imp","post_click","pccr","actions"],video_metrics:["ad_starts","completion_25","completion_50","completion_75","completion_100","completion_rate","video_full_screen","mutes","pauses","vast_redirect_errors"],display_quality_metrics:["display_delivered_imps","display_measurable_imps","display_measurable_perc","display_viewable_imps","display_viewable_perc","display_viewable_imps_5s","display_viewable_imps_15s","display_suspicious_imps","display_suspicious_act_perc"],video_quality_metrics:["video_delivered_imps","video_measurable_imps","video_measurable_perc","video_viewable_imps","video_viewable_perc","video_video_viewable_25","video_video_viewable_50","video_video_viewable_75","video_video_viewable_100","video_suspicious_imps","video_suspicious_act_perc"],cost_metrics:["ad_servicing_cost","ad_vertification_cost","collective_cost","data_cost","inventory_cost","gross_ecpm","gross_ecpc"]},dim_specific_metrics:{pixel_name:{delivery_metrics:["post_imp_count","post_click_count"]}}}],message:"success"}}
-//                    var jsonModifier = function (data) {
-//                        var arr = [];
-//                        _.each(data, function (obj) {
-//                            var d = obj.split(":");
-//                            arr.push({
-//                                'key': d[0],
-//                                'value': d[1]
-//                            });
-//                        });
-//
-//                        return arr;
-//                    }
-//                    _.each(metricKey, function (k) {
-//                        result.data.data[0][k] = jsonModifier(result.data.data[0][k]);
-//                    });
-
                     $scope.displayName = result.data.data[0].display_name;
                     $scope.filterList = result.data.data[0].filters;
-                    //initialize metrics - by default all metrics will be selected
-                    $scope.initializeMetrics(result.data.data[0],result.data.data[0].dimensions[0]);
-//                    $scope.allMetrics = true;
-//                    $scope.OnSelectUnselectAllMetrics();
-//                    $scope.saveMetrics();
-//                    $scope.setMetrixText('Default');
+                    $scope.initializeMetrics(result.data.data[0], result.data.data[0].dimensions[0]);
                     _customctrl.resetMetricsPopUp();
                     $scope.customeDimensionData = result.data.data;
                     var modifiedDimesionArr = result.data.data[0];

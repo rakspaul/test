@@ -757,7 +757,7 @@
                             <span>Quality Video</span>
                         </div>
                     </div>
-                    <div class="custom_report_response_table" id="delivery_table" ng-if="metricKeyArr.delivery_metrics.length">
+                    <div class="custom_report_response_table" id="delivery_table" ng-show="metricKeyArr.delivery_metrics.length">
                         <!-- add vertical_scroll class when scrolled vertically -->
                         <div class="custom_report_scroll">
                             <div class="each_row heading_row">
@@ -818,7 +818,7 @@
                         </div>
                         <div ng-if="fetching" class="common-load-more"></div>
                     </div>
-                    <div class="custom_report_response_table" id="cost_table" style="display:none;" ng-show="showCost" ng-if="metricKeyArr.cost_metrics.length">
+                    <div class="custom_report_response_table" id="cost_table" style="display:none;" ng-show="showCost && metricKeyArr.cost_metrics.length">
                         <div class="custom_report_scroll">
                             <div class="each_row heading_row">
                                 <div class="inner_heading_row">
