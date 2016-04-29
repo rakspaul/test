@@ -199,7 +199,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                         url;
 
                     if (searchTerm) {
-                        url = vistoconfig.apiPaths.WORKFLOW_API_URL +
+                        url = vistoconfig.apiPaths.apiSerivicesUrl_NEW +
                             '/clients/' + clientId +
                             '/campaigns/' + campaignId +
                             '/search/adgroups?search_term=' + searchTerm;
