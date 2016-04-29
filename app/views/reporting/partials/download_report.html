@@ -1,12 +1,12 @@
-<div class="dropdown">
+<div class="dropdown dropdown-workflow">
     <span class="dropdown_ul_text " data-toggle="dropdown">
         <a class="icon-download"></a>
         <a class="download_anchor" id="performance_download_btn" href="">{{textConstants.DOWNLOAD_REPORT}}</a>
         <a class="icon-arrow-down-thick"></a>
     </span>
     <ul class="dropdown_ul_perf dropdown-menu" id="performance_download" >
-        <li ng-repeat="report in download_report" class="{{report.className}}">
-            <a class="download_anchor" ng-click="downloadPerformanceReport(report)">{{report.label}}</a>
+        <li ng-repeat="report in download_report" class="{{report.className}} {{selectedCampaign.id == -1 ? 'disabled' : '' }}">
+            <a class="download_anchor" ng-click="(selectedCampaign.id !== -1 ? downloadPerformanceReport(report) : '')">{{report.label}}</a>
         </li>
       </ul>
 </div>
