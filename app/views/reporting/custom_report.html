@@ -57,9 +57,9 @@
                                                     ng-bind-html="textConstants.REPORT_CHOOSE_BREAKDOWN">
                                                 </li>
                                                 <li ng-repeat="dimension in customeDimensionData[0].dimensions"
-                                                    id="{{dimension.key}}"
-                                                    ng-click="selectPriSecDimension(dimension, 'Primary')" ng-if="checkDimension(dimension.key)"
-                                                    ng-bind-html="dimension.value">
+                                                    id="{{dimension}}"
+                                                    ng-click="selectPriSecDimension(dimension, 'Primary')" ng-if="checkDimension(dimension)"
+                                                    ng-bind-html="displayName[dimension]">
                                                 </li>
                                             </ul>
                                         </div>
@@ -92,9 +92,9 @@
                                                         ng-bind-html="textConstants.REPORT_CHOOSE_BREAKDOWN">
                                                     </li>
                                                     <li ng-repeat="dimension in secondaryDimensionArr"
-                                                        id="{{dimension.key}}"
+                                                        id="{{dimension}}"
                                                         ng-click="selectPriSecDimension(dimension,'Secondary')"
-                                                        ng-bind-html="dimension.value">
+                                                        ng-bind-html="displayName[dimension]">
                                                     </li>
                                                 </ul>
                                             </div>
@@ -233,7 +233,7 @@
                                         </div>
                                         <div class="measurable_col_holder">
                                             <!-- Delivery Metrics -->
-                                            <div  class="col-md-3 each_measurable_col">
+                                            <div  class="col-md-3 each_measurable_col" ng-if="deliveryMetrics.length">
                                                 <div class="custom_report_col_title">
                                                     <div class="external_chkbox clearfix">
                                                         <div class="squaredFour"
@@ -260,7 +260,7 @@
                                                 </div>
                                             </div>
                                             <!-- Cost Metrics -->
-                                            <div  class="col-md-3 each_measurable_col" ng-if="showCost">
+                                            <div  class="col-md-3 each_measurable_col" ng-if="showCost && costMetrics.length">
                                                 <div class="custom_report_col_title">
                                                     <div class="external_chkbox clearfix">
                                                         <div class="squaredFour"
@@ -328,7 +328,7 @@
                                              </div>-->
 
                                             <!-- Video Metrics -->
-                                            <div  class="col-md-3 each_measurable_col">
+                                            <div  class="col-md-3 each_measurable_col" ng-if="videoMetrics.length">
                                                 <div class="custom_report_col_title">
                                                     <div class="external_chkbox clearfix">
                                                         <div class="squaredFour"
@@ -356,7 +356,7 @@
                                             </div>
 
                                             <!--  Quality Metrics -->
-                                            <div  class="col-md-3 each_measurable_col" ng-if="showQuality">
+                                            <div  class="col-md-3 each_measurable_col" ng-if="showQuality && displayQltyMetrics.length">
                                                 <div class="custom_report_col_title">
                                                     <div class="external_chkbox clearfix">
                                                         <div class="squaredFour"
@@ -384,7 +384,7 @@
                                             </div>
 
                                             <!-- video quality metrics -->
-                                            <div  class="col-md-3 each_measurable_col" ng-if="showQuality">
+                                            <div  class="col-md-3 each_measurable_col" ng-if="showQuality && videoQltyMetrics.length">
                                                 <div class="custom_report_col_title">
                                                     <div class="external_chkbox clearfix">
                                                         <div class="squaredFour"
@@ -462,13 +462,13 @@
                                                            ng-model="dimensionQuery"
                                                            placeHolder="Search">
                                                 </div>
-                                                <li ng-repeat="filters in customeDimensionData[0].filters
+                                                <li ng-repeat="filters in filterList
 														    | filter:dimensionQuery"
-                                                    id="{{filters.key}}"
+                                                    id="{{filters}}"
                                                     ng-click="onChoosingAditFlts($parent.$index,
-                                                            filters.key, filters.value);"
+                                                            filters);"
                                                     ng-model="addFilts.key"
-                                                    ng-bind-html="filters.value">
+                                                    ng-bind-html="displayName[filters]">
                                                 </li>
                                             </ul>
                                         </div>
@@ -735,29 +735,29 @@
                     <!-- add  style="display:none;"  when tabs are not to be shown -->
                     <div ng-if="!hideReportsTabs"
                          class="clearfix custom_report_response_tabs">
-                        <div class="each_tab active" ng-click="show_respective_table('delivery')" id="delivery_tab">
+                        <div class="each_tab active" ng-click="show_respective_table('delivery')" id="delivery_tab" ng-show="metricKeyArr.delivery_metrics">
                             <span>Delivery</span>
                         </div>
                         <!--<div class="each_tab" ng-click="show_respective_table('booked')" id="booked_tab">
                             <span>Booked</span>
                         </div>-->
-                        <div class="each_tab" ng-click="show_respective_table('cost')" id="cost_tab" ng-show="showCost">
+                        <div class="each_tab" ng-click="show_respective_table('cost')" id="cost_tab" ng-show="showCost && metricKeyArr.cost_metrics.length">
                             <span>Cost</span>
                         </div>
                         <!--<div class="each_tab" ng-click="show_respective_table('engagement')" id="engagement_tab">
                             <span>Engagement</span>
                         </div>-->
-                        <div class="each_tab" ng-click="show_respective_table('video')" id="video_tab">
+                        <div class="each_tab" ng-click="show_respective_table('video')" id="video_tab" ng-show="metricKeyArr.video_metrics.length">
                             <span>Video</span>
                         </div>
-                        <div class="each_tab" ng-click="show_respective_table('display_quality')" id="display_quality_tab">
+                        <div class="each_tab" ng-click="show_respective_table('display_quality')" id="display_quality_tab" ng-show="metricKeyArr.display_quality_metrics.length">
                             <span>Quality Display</span>
                         </div>
-                        <div class="each_tab" ng-click="show_respective_table('video_quality')" id="video_quality_tab">
+                        <div class="each_tab" ng-click="show_respective_table('video_quality')" id="video_quality_tab" ng-show="metricKeyArr.video_quality_metrics.length">
                             <span>Quality Video</span>
                         </div>
                     </div>
-                    <div class="custom_report_response_table" id="delivery_table">
+                    <div class="custom_report_response_table" id="delivery_table" ng-if="metricKeyArr.delivery_metrics.length">
                         <!-- add vertical_scroll class when scrolled vertically -->
                         <div class="custom_report_scroll">
                             <div class="each_row heading_row">
@@ -818,7 +818,7 @@
                         </div>
                         <div ng-if="fetching" class="common-load-more"></div>
                     </div>
-                    <div class="custom_report_response_table" id="cost_table" style="display:none;" ng-show="showCost">
+                    <div class="custom_report_response_table" id="cost_table" style="display:none;" ng-show="showCost" ng-if="metricKeyArr.cost_metrics.length">
                         <div class="custom_report_scroll">
                             <div class="each_row heading_row">
                                 <div class="inner_heading_row">
@@ -912,7 +912,7 @@
                         </div>
                         <div ng-if="fetching" class="common-load-more"></div>
                     </div> -->
-                    <div class="custom_report_response_table" id="engagement_table" style="display:none;">
+                    <div class="custom_report_response_table" id="engagement_table" style="display:none;" ng-show="metricKeyArr.engagement_metrics.length">
                         <div class="custom_report_scroll">
                             <div class="each_row heading_row">
                                 <div class="inner_heading_row">
@@ -967,7 +967,7 @@
                         </div>
                         <div ng-if="fetching" class="common-load-more"></div>
                     </div>
-                    <div class="custom_report_response_table" id="video_table" style="display:none;">
+                    <div class="custom_report_response_table" id="video_table" style="display:none;" ng-show="metricKeyArr.video_metrics.length">
                         <div class="custom_report_scroll">
                             <div class="each_row heading_row">
                                 <div class="inner_heading_row">
@@ -1023,7 +1023,7 @@
                         </div>
                         <div ng-if="fetching" class="common-load-more"></div>
                     </div>
-                    <div class="custom_report_response_table" id="display_quality_table" style="display:none;">
+                    <div class="custom_report_response_table" id="display_quality_table" style="display:none;" ng-show="metricKeyArr.display_quality_metrics.length">
                         <div class="custom_report_scroll">
                             <div class="each_row heading_row">
                                 <div class="inner_heading_row">
@@ -1081,7 +1081,7 @@
                         </div>
                         <div ng-if="fetching" class="common-load-more"></div>
                     </div>
-                    <div class="custom_report_response_table" id="video_quality_table" style="display:none;">
+                    <div class="custom_report_response_table" id="video_quality_table" style="display:none;" ng-show="metricKeyArr.video_quality_metrics.length">
                         <div class="custom_report_scroll">
                             <div class="each_row heading_row">
                                 <div class="inner_heading_row">
