@@ -519,7 +519,7 @@ define(['common'], function (angularAMD) {
         })
 
         .run(function ($rootScope, $location, $cookies, loginModel, brandsModel, dataService, $cookieStore,
-                       workflowService, featuresService, subAccountModel, $window) {
+                       workflowService, featuresService, subAccountModel, $window,localStorageService) {
             var handleLoginRedirection = function () {
                 var cookieRedirect = $cookieStore.get('cdesk_redirect') || null,
                     localStorageRedirect = localStorage.getItem('cdeskRedirect'),
@@ -580,7 +580,7 @@ define(['common'], function (angularAMD) {
                                         clientObj = result.data.data[0];
                                     }
 
-                                    loginModel.setMasterClient({
+                                    localStorageService.masterClient.set({
                                         id: clientObj.id,
                                         name: clientObj.name,
                                         isLeafNode: clientObj.isLeafNode
