@@ -3,46 +3,46 @@
 </h3>
 <!--==== Row 1 ====-->
 <div class="col-md-12 zeroPadding">
-    <label for="nameTitleCampaign" class="col-sm-12 labelQuestTxt" style="margin-bottom: 5px;">Budget & Measure</label>
+    <label for="nameTitleCampaign" class="col-sm-12 labelQuestTxt" style="margin-bottom: 5px;" data-ng-bind="textConstants.MEDIAPLAN_BUDGET_MEASURE"></label>
 
     <div class="col-md-12 zeroPadding marginCal">
         <div class="calTable form-group" show-errors>
-            <h3>Media Plan Budget</h3>
+            <h3 data-ng-bind="textConstants.MEDIAPLAN_BUDGET"></h3>
             <div class="symbol-input">
                 <span class="symbol">{{locale.NUMBER_FORMATS.CURRENCY_SYM}}</span>
                 <input type="text" style="padding-left: 20px;" ng-model="Campaign.totalBudget" name="totalBudget" class="form-control col-sm-8" ng-keyup="ComputeCost()" whole-number-only="whole-number-only" required/>
             </div>
-            <label ng-if="createCampaignForm.totalBudget.$error.required" class="txtError budgetError errorLabel" >{{textConstants.TOTAL_BUDGET_REQUIRED}}</label>
-            <label ng-if="Campaign.totalBudget<=0" class="txtError budgetError">{{textConstants.TOTAL_BUDGET_GREATER_THAN_ZERO}}</label>
+            <label ng-if="createCampaignForm.totalBudget.$error.required" class="txtError budgetError errorLabel" data-ng-bind="textConstants.TOTAL_BUDGET_REQUIRED"></label>
+            <label ng-if="Campaign.totalBudget<=0" class="txtError budgetError" data-ng-bind="textConstants.TOTAL_BUDGET_GREATER_THAN_ZERO"></label>
         </div>
         <div class="calTable form-group">
-            <h3>Margin (Optional)</h3>
+            <h3 data-ng-bind="textConstants.MEDIAPLAN_MARGIN"></h3>
             <div class="symbol-input">
-                <span class="symbol" style="left: initial; right: 10px;">{{textConstants.SYMBOL_PERCENT}}</span>
+                <span class="symbol" style="left: initial; right: 10px;" data-ng-bind="textConstants.SYMBOL_PERCENT"></span>
                 <input type="text" ng-model="Campaign.marginPercent" name="marginPercent" class="form-control col-sm-8" ng-keyup="ComputeCost()" style="padding-right:21px;" whole-number-only="whole-number-only"/>
             </div>
         </div>
 
         <div class="calTable form-group">
-            <h3>Delivery Budget</h3>
+            <h3 data-ng-bind="textConstants.MEDIAPLAN_DELIVERY_BUDGET"></h3>
             <div class="symbol-input blindInput">
                 <span class="onlyShowValue"><span>{{locale.NUMBER_FORMATS.CURRENCY_SYM}} </span><span ng-style="deliveryBudgetNegative ? {'color':'#F9B537'}:''" ng-bind="Campaign.deliveryBudget? (Campaign.deliveryBudget | setDecimal:2 | number : fractionSize ):'' "></span></span>
                 <input type="text" style="display:none"  name="deliveryBudget" ng-model="Campaign.deliveryBudget" class="form-control col-sm-8" />
             </div>
             <label ng-if="deliveryLesserBookedspend" class="col-sm-12 txtError budgetError">{{textConstants.DELIVERY_BUDGET_BOOKEDSPEND}}({{editCampaignData.bookedSpend}})</label>
-            <label ng-if="Campaign.deliveryBudget<0" class="col-sm-12  txtError budgetError">{{textConstants.DELIVERY_BUDGET_GREATER_THAN_ZERO}}</label>
+            <label ng-if="Campaign.deliveryBudget<0" class="col-sm-12  txtError budgetError" data-ng-bind="textConstants.DELIVERY_BUDGET_GREATER_THAN_ZERO"></label>
         </div>
     </div>
 
 </div>
 
 <div class="col-md-12 zeroPadding">
-    <label for="nameTitleCampaign" class="col-sm-12 labelQuestTxt" style="border-bottom: 1px solid rgba(191, 201, 215, 0.5); padding-bottom: 10px !important;">Measurement Settings and Costs</label>
+    <label for="nameTitleCampaign" class="col-sm-12 labelQuestTxt" style="border-bottom: 1px solid rgba(191, 201, 215, 0.5); padding-bottom: 10px !important;" data-ng-bind="textConstants.MEDIAPLAN_MEASUREMENT_SETTING_COSTS"></label>
 
     <div data-toggle="collapse" data-target="#accountMeasurement" class="accordionDDL collapsed">
         <div class="icon-arrow-down-thick"></div>
-        <span>Account / Advertiser Measurement Settings</span>
-        <span>The systems used to calculate costs and generate invoices</span>
+        <span data-ng-bind="textConstants.MEDIAPLAN_ACCOUNT_MEASUREMENT_SETTING"></span>
+        <span data-ng-bind="textConstants.MEDIAPLAN_GENERATE_INVOICES"></span>
     </div>
 
     <div id="accountMeasurement" class="collapse fade">
@@ -50,20 +50,20 @@
             <div class="vistoTable yellowTable">
                 <div class="thead thin">
                     <div class="tr">
-                        <div class="th col-md-3">Metric</div>
-                        <div class="th col-md-3">Vendor</div>
-                        <div class="th col-md-3">Configuration</div>
-                        <div class="th col-md-3">Channels</div>
+                        <div class="th col-md-3" data-ng-bind="textConstants.MEDIAPLAN_METRIC"></div>
+                        <div class="th col-md-3" data-ng-bind="textConstants.MEDIAPLAN_VENDOR"></div>
+                        <div class="th col-md-3" data-ng-bind="textConstants.MEDIAPLAN_CONFIGURATION"></div>
+                        <div class="th col-md-3" data-ng-bind="textConstants.MEDIAPLAN_CHANNELS"></div>
                     </div>
                 </div>
 
                 <div class="tbody" style="max-height: 200px;overflow: auto;">
                     <!--Table Sample-->
                     <div class="tr" ng-repeat="config in vendorConfig.userPermission">
-                        <div class="td col-md-3">{{config.metric}}</div>
-                        <div class="td col-md-3">{{config.vendorName}}</div>
-                        <div class="td col-md-3">{{config.configName}}</div>
-                        <div class="td col-md-3">{{config.adFormat}}</div>
+                        <div class="td col-md-3" data-ng-bind="config.metric"></div>
+                        <div class="td col-md-3" data-ng-bind="config.vendorName"></div>
+                        <div class="td col-md-3" data-ng-bind="config.configName"></div>
+                        <div class="td col-md-3" data-ng-bind="config.adFormat"></div>
                     </div>
 
                 </div>
@@ -73,30 +73,30 @@
 
     <div data-toggle="collapse" data-target="#costTracking" class="accordionDDL collapsed">
         <div class="icon-arrow-down-thick"></div>
-        <span>Cost Tracking |</span>
-        <span>The Costs that will be measured in Cost Attribution reports ad are factored into COGS+ Billing</span>
+        <span data-ng-bind="textConstants.MEDIAPLAN_COST_TRACKING"></span>
+        <span data-ng-bind="textConstants.MEDIAPLAN_COST_MEASURED"></span>
     </div>
     <div id="costTracking" class="collapse fade">
         <div class="table-responsive">
             <div class="vistoTable yellowTable">
                 <div class="thead thin">
                     <div class="tr">
-                        <div class="th col-md-2">Category</div>
-                        <div class="th col-md-2">Vendor</div>
-                        <div class="th col-md-2">Configuration</div>
-                        <div class="th col-md-3">Offering</div>
-                        <div class="th col-md-3">Rate</div>
+                        <div class="th col-md-2" data-ng-bind="textConstants.MEDIAPLAN_CATEGORY"></div>
+                        <div class="th col-md-2" data-ng-bind="textConstants.MEDIAPLAN_VENDOR"></div>
+                        <div class="th col-md-2" data-ng-bind="textConstants.MEDIAPLAN_CONFIGURATION"></div>
+                        <div class="th col-md-3" data-ng-bind="textConstants.MEDIAPLAN_OFFERING"></div>
+                        <div class="th col-md-3" data-ng-bind="textConstants.MEDIAPLAN_RATE"></div>
                     </div>
                 </div>
 
                 <div class="tbody" style="max-height: 200px;overflow: auto;">
                     <!--Table Sample-->
                     <div class="tr" ng-repeat="config in vendorConfig.configs">
-                        <div class="td col-md-2">{{config.category}}</div>
-                        <div class="td col-md-2">{{config.vendorName}}</div>
-                        <div class="td col-md-2">{{config.configName}}</div>
-                        <div class="td col-md-3">{{config.adFormat}}</div>
-                        <div class="td col-md-3">{{config.rate}}</div>
+                        <div class="td col-md-2" data-ng-bind="config.category"></div>
+                        <div class="td col-md-2" data-ng-bind="config.vendorName"></div>
+                        <div class="td col-md-2" data-ng-bind="config.configName"></div>
+                        <div class="td col-md-3" data-ng-bind="config.adFormat"></div>
+                        <div class="td col-md-3" data-ng-bind="config.rate"></div>
                     </div>
 
                 </div>
@@ -105,8 +105,8 @@
     </div>
     <div data-toggle="{{(selectedCampaign.advertiserId && costAttributes.category.length > 0) ? 'collapse' : ''}}" data-target="{{(selectedCampaign.advertiserId && costAttributes.category.length > 0) ? '#addAdditionalCost' : ''}}" class="accordionDDL collapsed">
         <div class="icon-arrow-down-thick"></div>
-        <span>Add Additional Costs (Optional)</span>
-        <span>The systems used to calculate costs and generate invoices</span>
+        <span data-ng-bind="textConstants.MEDIAPLAN_ADD_ADDITIONAL_COSTS"></span>
+        <span data-ng-bind="textConstants.MEDIAPLAN_GENERATE_INVOICES"></span>
     </div>
 
     <div id="addAdditionalCost" class="collapse fade">
@@ -115,7 +115,7 @@
                 <!--Header-->
                 <div class="col-md-12 zeroPadding each-cost-dimension" ng-repeat="addCost in additionalCosts track by $index" data-index = "{{$index}}">
                         <div class="col-md-3 zeroPadding" >
-                            <label for="primaryKPI" class="col-sm-12 greyTxt miniLabels">Category</label>
+                            <label for="primaryKPI" class="col-sm-12 greyTxt miniLabels" data-ng-bind="textConstants.MEDIAPLAN_CATEGORY"></label>
                                 <div class="col-md-12 zeroPadding">
                                     <div class="col-md-12 zeroPadding dropdown-workflow">
                                         <div class="dropdown">
@@ -132,7 +132,7 @@
                                 </div>
                         </div>
                         <div class="col-md-3 zeroPadding" >
-                            <label for="primaryKPI" class="col-sm-12 greyTxt miniLabels">Vendor</label>
+                            <label for="primaryKPI" class="col-sm-12 greyTxt miniLabels" data-ng-bind="textConstants.MEDIAPLAN_VENDOR"></label>
                             <div class="col-md-12 zeroPadding dropdown-workflow">
                                 <div class="dropdown">
                                     <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" >
@@ -146,7 +146,7 @@
                             </div>
                         </div>
                         <div class="col-md-3 zeroPadding" >
-                            <label for="primaryKPI" class="col-sm-12 greyTxt miniLabels">Offering</label>
+                            <label for="primaryKPI" class="col-sm-12 greyTxt miniLabels" data-ng-bind="textConstants.MEDIAPLAN_OFFERING"></label>
                             <div class="col-md-12 zeroPadding dropdown-workflow">
                                 <div class="dropdown">
                                     <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
@@ -160,7 +160,7 @@
                             </div>
                         </div>
                         <div class="col-md-1 zeroPadding" >
-                            <label for="primaryKPI" class="col-sm-12 greyTxt miniLabels">Pricing</label>
+                            <label for="primaryKPI" class="col-sm-12 greyTxt miniLabels" data-ng-bind="textConstants.MEDIAPLAN_PRICING"></label>
                             <div class="col-md-12 zeroPadding  symbol-input">
 
                                 <input type="text" class="col-md-12 disabled"  value="Flat" style="height:36px; background: #F4F1E9;" disabled/>
@@ -168,7 +168,7 @@
 
                         </div>
                         <div class="col-md-1 zeroPadding" >
-                            <label for="primaryKPI" class="col-sm-12 greyTxt miniLabels">Rate</label>
+                            <label for="primaryKPI" class="col-sm-12 greyTxt miniLabels" data-ng-bind="textConstants.MEDIAPLAN_RATE"></label>
                             <div class="col-md-12 zeroPadding  symbol-input" style="padding-right: 0px !important; max-width: 118px;">
 
                                 <span class="symbol">{{locale.NUMBER_FORMATS.CURRENCY_SYM}}</span>
@@ -194,5 +194,5 @@
 </div>
 
 <a data-toggle="tab" data-target="#addLineItems" role="tab" class="nextWrapper leftNavLink contacts">
-    <span class="btn btn-default" ng-click="highlightLeftNav(2)">Save & Continue</span>
+    <span class="btn btn-default" ng-click="highlightLeftNav(2)" data-ng-bind="textConstants.WF_AD_SAVE_CONTINUE"></span>
 </a>
