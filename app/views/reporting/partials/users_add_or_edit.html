@@ -11,23 +11,23 @@
                 <div class="form-group col-md-3" show-errors style="padding-left: 0;">
                     <label class="col-sm-12 greyTxt"><span class="icon-user"></span> User Login:</label>
                     <input name="userLogin" type="email" class="form-control" ng-disabled="isEdit" ng-model="userConsoleFormDetails.email" required >
-                    <!--<label ng-if="userCreateEditForm.userLogin.$error.required" class="col-sm-12  greyTxt errorLabel">You must enter user login.</label>-->
+                    <label ng-if="userCreateEditForm.userLogin.$error.required" class="col-sm-12  greyTxt errorLabel">You must enter user login.</label>
                     <label ng-if="userCreateEditForm.userLogin.$error.email" class="col-sm-12  greyTxt errorLabel">Invalid email address.</label>
                 </div>
                 <div class="form-group col-md-3" show-errors>
                     <label class="col-sm-12 greyTxt">First Name:</label>
                     <input name="firstName" type="text" ng-model="userConsoleFormDetails.firstName" class="form-control"  required>
-                    <!--<label ng-if="userCreateEditForm.firstName.$error.required" class="col-sm-12  greyTxt errorLabel">You must enter First Name.</label>-->
+                    <label ng-if="userCreateEditForm.firstName.$error.required" class="col-sm-12  greyTxt errorLabel">You must enter First Name.</label>
                 </div>
                 <div class="form-group col-md-3" show-errors>
                     <label class="col-sm-12 greyTxt">Last Name:</label>
                     <input name="lastName" type="text" ng-model="userConsoleFormDetails.lastName" class="form-control"  required>
-                    <!--<label ng-if="userCreateEditForm.lastName.$error.required" class="col-sm-12  greyTxt errorLabel">You must enter Last Name.</label>-->
+                    <label ng-if="userCreateEditForm.lastName.$error.required" class="col-sm-12  greyTxt errorLabel">You must enter Last Name.</label>
                 </div>
                 <div class="form-group col-md-2" show-errors>
                     <label class="col-sm-12 greyTxt">Password:</label>
                     <input name="password" type="password" ng-model="userConsoleFormDetails.password" class="form-control" ng-disabled="userConsoleFormDetails.isEditPassword" required>
-                    <!--<label ng-if="userCreateEditForm.password.$error.required" class="col-sm-12  greyTxt errorLabel">You must enter password.</label>-->
+                    <label ng-if="userCreateEditForm.password.$error.required" class="col-sm-12  greyTxt errorLabel">You must enter password.</label>
                 </div>
                 <div class="form-group col-md-1" style="padding-right: 0;" ng-if="showSuperAdminButton">
                     <label class="pull-right greyTxt">Super User</label>
@@ -39,128 +39,128 @@
             </div>
 
 
-        <div class="form-group col-md-12 zeroPadding" ng-if="!isCurr_SuperUser">
-            <!--THIS IS TEST ELEMENTS ENDS HERE-->
-            <div class="col-md-12 add-filters" ng-repeat="(permissionIndex,item) in permissions track by $index" data-row-index="{{$index}}"> <!--$index--{{$index}}-->
-                <div class="col-md-12 zeroPadding">
-                    <h1 class="pull-left">Account Access</h1>
-                </div>
-                <div class="col-md-3 zeroPadding">
-                    <label class="col-md-12 zeroPadding greyTxt">Accounts:</label>
-                    <div class="zeroPadding dropdown-workflow dropdown-multi">
-                        <div class="dropdown" style="z-index: 99999" id = "accountDropDown_{{$index}}" >
-                            <button class="btn btn-default" type="button" aria-haspopup="true" aria-expanded="true" ng-click="open_accounts_dropdown($event) ;">
-                                <span class="text" ng-bind="permissions[$index].clientName"></span>
-                                <span class="icon-arrow-down"></span>
-                            </button>
-                            <ul class="dropdown-menu clientDropdownCnt" id="clientDropdown_0" data-ng-init="accountIndex=$index">
-                                <li ng-repeat="client in userModalData.Clients"   style="position:relative">
-                                    <a ng-click="select_client_option(client.id, client.name, accountIndex)" ng-bind="client.name"></a>
-                                    <span class="icon-arrow-down icon-arrow-right" ng-click="getSubClientList(client.id, client.name, 0, accountIndex)" ng-if="!client.isLeafNode"></span>
-                                </li>
-                            </ul>
-                            <div ng-if="loadingClientDropDown[accountIndex]" style="position: absolute;width: 100%;height: 200px;background: rgba(255,255,255,0.63);z-index: 99999;">
-                                <span class="common-load-more" style="/* width:150px; */position: absolute;top: 40px;left: 134px;/* z-index: 999999; */"></span>
+            <div class="form-group col-md-12 zeroPadding" ng-if="!isCurr_SuperUser">
+                <!--THIS IS TEST ELEMENTS ENDS HERE-->
+                <div class="col-md-12 add-filters" ng-repeat="(permissionIndex,item) in permissions track by $index" data-row-index="{{$index}}"> <!--$index--{{$index}}-->
+                    <div class="col-md-12 zeroPadding">
+                        <h1 class="pull-left">Account Access</h1>
+                    </div>
+                    <div class="col-md-3 zeroPadding">
+                        <label class="col-md-12 zeroPadding greyTxt">Accounts:</label>
+                        <div class="zeroPadding dropdown-workflow dropdown-multi">
+                            <div class="dropdown" style="z-index: 99999" id = "accountDropDown_{{$index}}" >
+                                <button class="btn btn-default" type="button" aria-haspopup="true" aria-expanded="true" ng-click="open_accounts_dropdown($event) ;">
+                                    <span class="text" ng-bind="permissions[$index].clientName"></span>
+                                    <span class="icon-arrow-down"></span>
+                                </button>
+                                <ul class="dropdown-menu clientDropdownCnt" id="clientDropdown_0" data-ng-init="accountIndex=$index">
+                                    <li ng-repeat="client in userModalData.Clients"   style="position:relative">
+                                        <a ng-click="select_client_option(client.id, client.name, accountIndex)" ng-bind="client.name"></a>
+                                        <span class="icon-arrow-down icon-arrow-right" ng-click="getSubClientList(client.id, client.name, 0, accountIndex)" ng-if="!client.isLeafNode"></span>
+                                    </li>
+                                </ul>
+                                <div ng-if="loadingClientDropDown[accountIndex]" style="position: absolute;width: 100%;height: 200px;background: rgba(255,255,255,0.63);z-index: 99999;">
+                                    <span class="common-load-more" style="/* width:150px; */position: absolute;top: 40px;left: 134px;/* z-index: 999999; */"></span>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-md-7" style="padding: 0 30px;">
-                    <label class="col-md-12 zeroPadding greyTxt">Per Page Permission:</label>
-                     <div class="zeroPadding dropdown-workflow">
-                        <div class="dropdown" style="z-index: 99999">
-                            <tags-input
-                                    ng-model="pagePermissionValue[$index]"
-                                    display-property="description"
-                                    placeholder="Type here..."
-                                    add-from-autocomplete-only="true"
-                                    on-tag-added="addPagePermissionFilter($index)"
-                                    on-tag-removed="removePagePermissionFilter($index)"
-                                    max-tags="5">
-                                <auto-complete source="loadPagePermissionList($index)"
-                                               min-length="1"
-                                               load-on-down-arrow="true"
-                                               max-results-to-show="50"></auto-complete>
-                            </tags-input>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="col-md-2 zeroPadding">
-                    <label class="col-md-12 zeroPadding greyTxt">Account Admin:</label>
-                    <div class="pull-left" data-ng-click="adminUserToggleClicked($index, $event)">
-                        <input id="admin-toggle-{{$index}}" data-ng-model="toggle" class="cmn-toggle cmn-toggle-round" type="checkbox" >
-                        <label for="admin-toggle-{{$index}}" ></label>
-                    </div>
-                </div>
-                <div class="col-md-12" style="background: rgba(0, 0, 0, 0.08); padding: 15px 30px; margin: 15px 0;" ng-repeat="i in item.resources" id="resources_{{$parent.$index}}_{{$index}}">
-                    <div class="form-group col-md-4" style="padding-left: 0;">
-                        <label class="col-md-12 zeroPadding greyTxt">Advertiser Name:</label>
+                    <div class="col-md-7" style="padding: 0 30px;">
+                        <label class="col-md-12 zeroPadding greyTxt">Per Page Permission:</label>
                         <div class="zeroPadding dropdown-workflow">
-                            <div class="dropdown" data-ng-init="accountIndex=$parent.$index;permissionIndex=$index;">
-                                <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                    <span class="text" >{{permissions[$parent.$index].resources[$index]["advertiserName"]}}</span>
-                                    <span class="icon-arrow-down"></span>
-                                </button>
-                                <ul class="dropdown-menu" aria-labelledby="accountType">
-                                    <li ng-repeat="advertiser in dropdownList[$parent.$index].advertisers"><a ng-click="selectAdvertiser(advertiser,accountIndex, permissionIndex)">{{advertiser.name}}</a>
-                                    </li>
-                                </ul>
+                            <div class="dropdown" style="z-index: 99999">
+                                <tags-input
+                                        ng-model="pagePermissionValue[$index]"
+                                        display-property="description"
+                                        placeholder="Type here..."
+                                        add-from-autocomplete-only="true"
+                                        on-tag-added="addPagePermissionFilter($index)"
+                                        on-tag-removed="removePagePermissionFilter($index)"
+                                        max-tags="5">
+                                    <auto-complete source="loadPagePermissionList($index)"
+                                                   min-length="1"
+                                                   load-on-down-arrow="true"
+                                                   max-results-to-show="50"></auto-complete>
+                                </tags-input>
                             </div>
                         </div>
                     </div>
 
-                    <div class="form-group col-md-4">
-                        <label class="col-md-12 zeroPadding greyTxt">Brand Name:</label>
-                        <div class="zeroPadding dropdown-workflow">
-                            <div class="dropdown">
-                                <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                    <span class="text" >{{permissions[$parent.$index].resources[$index]["brandName"]}}</span>
-                                    <span class="icon-arrow-down"></span>
-                                </button>
-                                <ul class="dropdown-menu" aria-labelledby="accountType">
-                                    <li ng-repeat="brand in dropdownList[$parent.$index][$index].brands"><a ng-click="selectBrand(brand,$parent.$parent.$index, $parent.$index)">{{brand.name}}</a>
-                                    </li>
-                                </ul>
-                            </div>
+                    <div class="col-md-2 zeroPadding">
+                        <label class="col-md-12 zeroPadding greyTxt">Account Admin:</label>
+                        <div class="pull-left" data-ng-click="adminUserToggleClicked($index, $event)">
+                            <input id="admin-toggle-{{$index}}" data-ng-model="toggle" class="cmn-toggle cmn-toggle-round" type="checkbox" >
+                            <label for="admin-toggle-{{$index}}" ></label>
                         </div>
                     </div>
-                    <div class="form-group col-md-4" style="padding-right: 25px;">
-                        <label class="col-md-12 zeroPadding greyTxt">Permission:</label>
-                        <div class="zeroPadding dropdown-workflow">
-                            <div class="dropdown" style="padding-right: 25px;">
-                                <button class="btn btn-default dropdown-toggle" style="width:300px" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                    <span class="text" >{{permissions[$parent.$index].resources[$index]["permissionName"]}}</span>
-                                    <span class="icon-arrow-down"></span>
-                                </button>
-                                <ul class="dropdown-menu" aria-labelledby="accountType">
-                                    <li ng-repeat="list in dropdownList[$parent.$index].permission"><a ng-click="selectPermission(list,$parent.$parent.$index, $parent.$index)">{{list.name}}</a>
-                                    </li>
-                                </ul>
+                    <div class="col-md-12" style="background: rgba(0, 0, 0, 0.08); padding: 15px 30px; margin: 15px 0;" ng-repeat="i in item.resources" id="resources_{{$parent.$index}}_{{$index}}">
+                        <div class="form-group col-md-4" style="padding-left: 0;">
+                            <label class="col-md-12 zeroPadding greyTxt">Advertiser Name:</label>
+                            <div class="zeroPadding dropdown-workflow">
+                                <div class="dropdown" data-ng-init="accountIndex=$parent.$index;permissionIndex=$index;">
+                                    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                        <span class="text" >{{permissions[$parent.$index].resources[$index]["advertiserName"]}}</span>
+                                        <span class="icon-arrow-down"></span>
+                                    </button>
+                                    <ul class="dropdown-menu" aria-labelledby="accountType">
+                                        <li ng-repeat="advertiser in dropdownList[$parent.$index].advertisers"><a ng-click="selectAdvertiser(advertiser,accountIndex, permissionIndex)">{{advertiser.name}}</a>
+                                        </li>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
+
+                        <div class="form-group col-md-4">
+                            <label class="col-md-12 zeroPadding greyTxt">Brand Name:</label>
+                            <div class="zeroPadding dropdown-workflow">
+                                <div class="dropdown">
+                                    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                        <span class="text" >{{permissions[$parent.$index].resources[$index]["brandName"]}}</span>
+                                        <span class="icon-arrow-down"></span>
+                                    </button>
+                                    <ul class="dropdown-menu" aria-labelledby="accountType">
+                                        <li ng-repeat="brand in dropdownList[$parent.$index][$index].brands"><a ng-click="selectBrand(brand,$parent.$parent.$index, $parent.$index)">{{brand.name}}</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group col-md-4" style="padding-right: 25px;">
+                            <label class="col-md-12 zeroPadding greyTxt">Permission:</label>
+                            <div class="zeroPadding dropdown-workflow">
+                                <div class="dropdown" style="padding-right: 25px;">
+                                    <button class="btn btn-default dropdown-toggle" style="width:300px" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                        <span class="text" >{{permissions[$parent.$index].resources[$index]["permissionName"]}}</span>
+                                        <span class="icon-arrow-down"></span>
+                                    </button>
+                                    <ul class="dropdown-menu" aria-labelledby="accountType">
+                                        <li ng-repeat="list in dropdownList[$parent.$index].permission"><a ng-click="selectPermission(list,$parent.$parent.$index, $parent.$index)">{{list.name}}</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="delete_row" ng-click="deletePermission($parent.$index, $index, $event)"></div>
                     </div>
-                    <div class="delete_row" ng-click="deletePermission($parent.$index, $index, $event)"></div>
+                    <div class="col-md-12 zeroPadding">
+                        <a class="btn btn-link pull-left addRowMedia" id="addPermissionText_{{$index}}" ng-click="addPermission($index)">
+                            <span class="icon-plus"></span>
+                            <span>Add Permission</span>
+                        </a>
+                        <a class="btn btn-link pull-right addRowMedia" ng-click="deleteAccount($index, $event)">
+                            <span class="icon-trash" style="margin-right: 5px;"></span>
+                            <span>Remove Account Access</span>
+                        </a>
+                    </div>
                 </div>
-                <div class="col-md-12 zeroPadding">
-                    <a class="btn btn-link pull-left addRowMedia" id="addPermissionText_{{$index}}" ng-click="addPermission($index)">
+                <div class="clearfix" id="filter-container"></div>
+                <div class="add_filter_link">
+                    <a class="btn btn-link pull-left addRowMedia">
                         <span class="icon-plus"></span>
-                        <span>Add Permission</span>
-                    </a>
-                    <a class="btn btn-link pull-right addRowMedia" ng-click="deleteAccount($index, $event)">
-                        <span class="icon-trash" style="margin-right: 5px;"></span>
-                        <span>Remove Account Access</span>
+                        <span ng-click="incrementCounter()">Add Account Access</span>
                     </a>
                 </div>
             </div>
-            <div class="clearfix" id="filter-container"></div>
-            <div class="add_filter_link">
-                <a class="btn btn-link pull-left addRowMedia">
-                    <span class="icon-plus"></span>
-                    <span ng-click="incrementCounter()">Add Account Access</span>
-                </a>
-            </div>
-        </div>
         </form>
     </div><!-- end of modal_body -->
     <div class="col-md-12 zeroPadding">
@@ -171,13 +171,13 @@
 <script type="text/javascript">
     //Pills
     var config = {
-      '.chosen-select'           : {},
-      '.chosen-select-deselect'  : {allow_single_deselect:true},
-      '.chosen-select-no-single' : {disable_search_threshold:10},
-      '.chosen-select-no-results': {no_results_text:'Oops, nothing found!'},
-      '.chosen-select-width'     : {width:"95%"}
+        '.chosen-select'           : {},
+        '.chosen-select-deselect'  : {allow_single_deselect:true},
+        '.chosen-select-no-single' : {disable_search_threshold:10},
+        '.chosen-select-no-results': {no_results_text:'Oops, nothing found!'},
+        '.chosen-select-width'     : {width:"95%"}
     }
-    for (var selector in config) {
-      $(selector).chosen(config[selector]);
-    }
+    $('.accountDDL').dropdown({
+        toggleText: 'Select Account'
+    });
 </script>

@@ -7,10 +7,8 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
         angularAMD.controller('AdminAdvertisersController', function ($scope, $rootScope, $modal, $compile,
             constants, accountsService, momentService,
             loginModel) {
-            
             $(".each_nav_link").removeClass("active_tab");
             $("#admin_nav_link").addClass("active_tab");
-            
             $scope.brandsData = [];
 
             $scope.fetchAllBrands = function(){
@@ -67,17 +65,16 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                     });
                 }
             }
-            
+
             $scope.editBrand = function(obj){
                 $scope.isEditBrand = obj.id;
                 $scope.editRequestBody = obj;
                 $scope.brandName = obj.name;
             }
-            
+
             //Search Hide / Show
             $scope.searchShowInput = function () {
                 var searchInputForm = $('.searchInputForm');
-    
                 $('.searchInputBtn').hide();
                 $('.searchInputBtnInline').show();
                 searchInputForm.show();
@@ -86,7 +83,7 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                     $('.searchClearInputBtn').fadeIn();
                 }, 300);
             };
-    
+
             $scope.searchHideInput = function () {
                 $('.searchInputForm input').val('');
                 $('.searchInputBtn').show();
@@ -96,7 +93,7 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                     $('.searchInputForm').hide();
                 }, 100);
             };
-            
+
             $('html').click(function(e) {
                 if ($(e.target).closest('.searchInput').length === 0) {
                     $scope.searchHideInput();
