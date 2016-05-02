@@ -392,7 +392,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                     cloneAd: function () {
                         var requestData = {
                                 source_ad_id: $scope.adId,
-                                ad_group: selectedAdGroupId
+                                ad_group: $scope.adGroupId
                             },
 
                             responseData;
@@ -595,6 +595,13 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                 if(responseData.kpiType){
                     $scope.adData.primaryKpi=responseData.kpiType;
                     $scope.adData.targetValue=Number(responseData.kpiValue);
+                    if(((responseData.kpiType).toUpperCase()==='CPM')||((responseData.kpiType).toUpperCase()==='CPA')||((responseData.kpiType).toUpperCase()==='CPC')){
+                        $('.KPI_symbol').html('$');
+                    }else if(((responseData.kpiType).toUpperCase()==='VTC')||((responseData.kpiType).toUpperCase()==='CTR')||((responseData.kpiType).toUpperCase()==='ACTION RATE')){
+                        $('.KPI_symbol').html('%');
+                    }else{
+                        $('.KPI_symbol').html('#');
+                    }
                 }
 
                 if (responseData.budgetValue>=0) {
