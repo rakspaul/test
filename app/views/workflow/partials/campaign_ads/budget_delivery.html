@@ -18,26 +18,8 @@
                         <span class="icon-arrow-down"></span>
                     </button>
                     <ul class="dropdown-menu" data-toggle="dropdown">
-                        <li class="available" ng-click="select_kpi($event , 'ACTION RATE');" >
-                            <a>Action Rate</a>
-                        </li>
-                        <li class="available" ng-click="select_kpi($event , 'CPA');" >
-                            <a>CPA</a>
-                        </li>
-                        <li class="available" ng-click="select_kpi($event , 'CPC');" >
-                            <a>CPC</a>
-                        </li>
-                        <li class="available" ng-click="select_kpi($event , 'CPM');" >
-                            <a>CPM</a>
-                        </li>
-                        <li class="available" ng-click="select_kpi($event , 'CTR');" >
-                            <a>CTR</a>
-                        </li>
-                        <li class="available" ng-click="select_kpi($event , 'impressions');" >
-                            <a>Impressions</a>
-                        </li>
-                        <li class="available" ng-click="select_kpi($event , 'VTC');" >
-                            <a>VTC</a>
+                        <li  ng-repeat="kpi in adData.primaryKpiList" class="available" ng-click="select_kpi($event , kpi.kpiType);" >
+                            <a>{{kpi.displayName}}</a>
                         </li>
                     </ul>
                     <input type="hidden" name="primaryKpi" ng-model="adData.primaryKpi" ng-update-hidden/>

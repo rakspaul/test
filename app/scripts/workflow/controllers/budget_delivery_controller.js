@@ -14,13 +14,21 @@ define(['angularAMD', 'common/services/constants_service', 'common/moment_utils'
         $scope.adData.unitCost = '';
         $scope.adData.totalAdBudget = '';
         $scope.adData.budgetAmount = '';
+        /*Kpi Types in an array of objects, sorted alphabetically*/
+        $scope.adData.primaryKpiList=[{kpiType:'ACTION RATE', displayName:'Action Rate'},
+                                       {kpiType:'CPA', displayName:'CPA'},
+                                       {kpiType:'CPC', displayName:'CPC'},
+                                       {kpiType:'CPM', displayName:'CPM'},
+                                       {kpiType:'CTR', displayName:'CTR'},
+                                       {kpiType:'IMPRESSIONS', displayName:'Impressions'},
+                                       {kpiType:'VTC', displayName:'VTC'}];
 
         $scope.ImpressionPerUserValidator = function () {
             var impressionPerUser = Number($scope.adData.quantity),
                 totalImpression;
 
             $scope.budgetErrorObj.impressionPerUserValidator = false;
-            if ($scope.adData.budgetType.toLowerCase() === 'impressions' && impressionPerUser >= 0) {
+            if ($scope.adData.budgetType.toUpperCase() === 'IMPRESSIONS' && impressionPerUser >= 0) {
                 totalImpression = Number($scope.adData.budgetAmount);
                 if (impressionPerUser > totalImpression) {
                     $scope.budgetErrorObj.impressionPerUserValidator = true;
@@ -243,7 +251,7 @@ define(['angularAMD', 'common/services/constants_service', 'common/moment_utils'
             elem.closest('.symbolAbs').find('.VTC_per').hide();
             elem.closest('.symbolAbs').find('.target_val_input').removeClass('target_val_input_vtc');
 
-            if (type !== 'impressions') {
+            if (type !== 'IMPRESSIONS') {
                 $('#targetUnitCost_squaredFour').prop('checked', false);
 
                 impressionsHolder
