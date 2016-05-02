@@ -8,7 +8,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             campaignId = '-999',
             CONST_FLAT_FEE = 'Flat Fee',
             CONST_COGS_PERCENT = 'COGS + Percentage Markup',
-            CONST_COGS_CPM = 'COGS + CPM Markup';;
+            CONST_COGS_CPM = 'COGS + CPM Markup';
 
         $scope.showNewLineItemForm = function(){
             $scope.createItemList = true;
@@ -90,6 +90,17 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                         $scope.pricingRate = selectedAdvertiser.billingValue + "% Markup";// to get via advertiser api
                         //$scope.rateTypeReadOnly = true;
 
+                       // manully setting parameter in type dropdown
+                        var arr = [];
+                        var index = _.findIndex($scope.type,function(item){
+                            return item.name === $scope.lineItemType.name;
+                        });
+                        arr.push($scope.type[index]);
+                        var index1 = _.findIndex($scope.type,function(item){
+                            return item.name === CONST_FLAT_FEE;
+                        })
+                        arr.push($scope.type[index1]);
+                        $scope.type = arr;
 
                     }
                     console.log("$scope.type",$scope.type)
@@ -101,8 +112,19 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                         $scope.rateReadOnly = true;
                         $scope.pricingRate = selectedAdvertiser.billingValue;// to get via advertiser api
                         //$scope.rateTypeReadOnly = true;
-
+                        // manully setting parameter in type dropdown
+                        var arr = [];
+                        var index = _.findIndex($scope.type,function(item){
+                            return item.name === $scope.lineItemType.name
+                        });
+                        arr.push($scope.type[index]);
+                        var index1 = _.findIndex($scope.type,function(item){
+                            return item.name === CONST_FLAT_FEE
+                        })
+                        arr.push($scope.type[index1]);
+                        $scope.type = arr;
                     }
+                    console.log("$scope.type",$scope.type)
                     $scope.volumeFlag = false;
                     $scope.volume = '';
                 }
@@ -110,7 +132,17 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     if(selectedAdvertiser && (selectedAdvertiser.billingType && selectedAdvertiser.billingValue)){
                         $scope.rateReadOnly = true;
                         $scope.pricingRate = selectedAdvertiser.billingValue;// to get via advertiser api
-                        $scope.rateTypeReadOnly = true;
+                        //$scope.rateTypeReadOnly = true;
+                        //var arr = [];
+                        //var index = _.findIndex($scope.type,function(item){
+                        //    return item.name === $scope.lineItemType.name
+                        //});
+                        //arr.push($scope.type[index]);
+                        //var index1 = _.findIndex($scope.type,function(item){
+                        //    return item.name === CONST_FLAT_FEE
+                        //})
+                        //arr.push($scope.type[index1]);
+                        //$scope.type = arr;
 
                     }
                     $scope.hideAdGroupName = true;
@@ -173,7 +205,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         };
 
 
-        $scope.resetLineItemParameters = function(){
+        $scope.$parent.resetLineItemParameters = function(){
             $scope.lineItemName = '';
             $scope.lineItemType = {};
             $scope.lineItemType.name = 'Select Type';

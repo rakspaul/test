@@ -295,7 +295,7 @@
         <!--</div>-->
 
         <div class="span4 col-md-12 input-daterange input-group date pull-left" id="datepickerEdit">
-            <div class="col-md-8 dateWrapper zeroPadding">
+            <div class="col-md-6 dateWrapper zeroPadding">
                 <div class="dateContainer">
                     <label class="col-sm-12 control-label greyTxt miniLabels" data-ng-bind="textConstants.MEDIAPLAN_FLIGHT_DATE_START"></label>
                     <div style="background: #fff;">
@@ -309,7 +309,7 @@
                     </div>
                 </div>
             </div>
-                <span class="col-md-8 input-group-addon">
+                <span class="col-md-4 input-group-addon" style="width:auto;">
                     <div class="calenderIcon">
                         <span class="icon-calendar"></span>
                     </div>
@@ -322,11 +322,12 @@
                 <label class="col-sm-12 zeroPadding greyTxt">Ad Group Name</label>
                 <input type="text" class="col-md-12" placeholder="Enter Ad Group name up to 100 characters"  ng-model="editLineItem.adGroupName"/>
             </div>
+
         </div>
-
-
         <a class="btn btn-primary pull-right" ng-click="updateLineItem(editLineItem);">Save Changes</a>
         <a class="btn btn-link pull-right" ng-click="showNormalItemRow($event);">Cancel</a>
+
+
     </div>
 </script>
 <script>

@@ -732,8 +732,9 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                     return dataService.fetch(vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/'+clientId+'/advertisers/'+advertiserId+'/clientVendorConfigs?rateType=FIXED');
                 },
 
-                getCostCategories: function () {
-                    return dataService.fetch(vistoconfig.apiPaths.WORKFLOW_API_URL + '/cost_categories');
+                getBillingTypeAndValue: function (advertiserId,client_id) {
+                    var clientId =  client_id || loginModel.getSelectedClient().id;
+                    return dataService.fetch(vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/'+ clientId +'/billing_types?advertiser_id='+advertiserId);
                 },
 
                 getVendorForSelectedCostCategory: function (clientId, categoryId) {
