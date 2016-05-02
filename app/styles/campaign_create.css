@@ -2340,6 +2340,12 @@
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroup .hideCollapse {
   display: none;
 }
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .flightDatesTxt .icon-calendar {
+  margin: 6px 6px 0 0 ;
+}
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .flightDatesTxt .iconDates {
+  margin-top: 6px ;
+}
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroup.openInstance {
   padding: 0;
 }
@@ -2385,6 +2391,15 @@
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroup.openInstance .showCollapse {
   display: none;
+}
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroup.openInstance .labelsmargin {
+  margin-right: 70px ;
+}
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroup.openInstance .flightDatesTxt .icon-calendar {
+  margin-top: 0px;
+}
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroup.openInstance .flightDatesTxt .iconDates {
+  margin-top: 0px ;
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroupCreate {
   background: #fff;
