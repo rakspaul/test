@@ -819,6 +819,7 @@ define(['angularAMD'], function(angularAMD) {
         this.ADVERTISER = 'Advertiser';
         this.BRAND = 'Brand';
         this.EDIT = 'Edit';
+        this.CLONE = 'Clone';
         this.OBJC = 'Objectives';
         this.KPI = 'KPI';
         this.DELBUDGET = 'Delivery Budget';
@@ -866,6 +867,9 @@ define(['angularAMD'], function(angularAMD) {
         this.MINBID = 'Min. Bid';
         this.MAXCOST = 'Max Cost';
         this.MEDIAPLANUPD = 'Media Plan Update';
+        this.MEDIAPLANCLONE = 'Clone Media Plan';
+        this.NEWMEDIAPLANNAME = 'New Media Plan Name' ;
+        this.CLONEMEDIAPLANNAMEERR = '"Media Plan Name 2" already exists for this advertiser. Please enter a unique Media Plan name.' ;
         this.ARCHIVE = 'Archive';
         this.OPTIMIZATION_REPORT = 'Optimization Impact Report';
         this.BUILD_REPORT = 'Build Report';
