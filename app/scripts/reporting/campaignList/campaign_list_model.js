@@ -230,6 +230,7 @@ define(['angularAMD','reporting/campaignList/campaign_list_service', 'common/ser
                                 this.scrollFlag = 0;
                                 this.busy = true;
                                 self = this;
+                                self.noData = false;
                                 url = _campaignServiceUrl.call(this);
 
                                 campaignListService.getCampaigns(url, function (result) {

@@ -112,7 +112,7 @@
             <div class="all_campaigns_container">
 
                 <div  class="no-campaign-available"
-                      ng-if="!campaigns.busy && (campaigns.dashboard.quickFilterSelectedCount === 0 || campaigns.campaignList.length === 0)"
+                      ng-if="campaigns.noData"
                       data-ng-bind="textConstants.NO_RELEVANT_CAMPAIGNS">
                 </div>
 
