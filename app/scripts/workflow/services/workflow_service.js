@@ -16,7 +16,8 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                 isAdGroup,
                 unallocatedAmount,
                 deletedModule = [],
-                rates;
+                rates,
+                selectedAdvertiser;
 
             function createObj(platform) {
                 var integrationObj = {};
@@ -937,7 +938,14 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                 },
                 getRateTypes: function(){
                     return rates;
+                },
+                setSelectedAdvertiser: function(adv){
+                    selectedAdvertiser = adv;
+                },
+                getSelectedAdvertiser: function(){
+                    return selectedAdvertiser;
                 }
+
 
             };
         });
