@@ -5,11 +5,10 @@
 <!--Pixel Option List-->
 <div class="col-md-8" style="padding: 0 10px 0 0;" ng-controller="mediaplanPixelsController">
 
-    <label for="nameTitleCampaign" class="col-sm-12 labelQuestTxt" style="margin-bottom: 5px;" >Select Conversion Pixels (Optional)</label>
+    <label for="nameTitleCampaign" class="col-sm-12 labelQuestTxt" style="margin-bottom: 5px;" data-ng-bind="textConstants.MEDIAPLAN_PIXEL_SELECT"></label>
 
     <div class="col-md-12 zeroPadding btn-group create" role="group" style="margin: 20px 0 10px 0;">
-        <span class="pull-left">A Conversion Pixel is required for tracking and reporting <br/>
-        conversions and for CPA billing</span>
+        <span class="pull-left" data-ng-bind="textConstants.MEDIAPLAN_PIXEL_REQUIRED"></span>
 
         <!--Search/Quickfilters Input-->
         <div class="col-md-12 zeroPadding" style="margin-top:20px;display:none" >
@@ -38,7 +37,7 @@
                 </div>
             </div>
 
-            <span class="pull-right" style="padding:8px 5px 8px 0 ; background: #fff;">{{selectedPixel.length}} Pixels in list</span>
+            <span class="pull-right" style="padding:8px 5px 8px 0 ; background: #fff;" data-ng-bind="selectedPixel.length">Pixels in list</span>
         </div>
     </div>
 
@@ -62,7 +61,7 @@
                         <input type="checkbox" ng-click="selectPixel(pixel)" ng-checked="pixel.isChecked" />
                         <a>{{pixel.name}}</a>
                     </div>
-                    <span class="td col-md-3">{{pixel.createdAt}}</span>
+                    <span class="td col-md-3" data-ng-bind="pixel.createdAt"></span>
                 </div>
             </div>
         </div>
@@ -83,5 +82,5 @@
 </div>
 
 <a data-toggle="tab" data-target="#budget" role="tab" class="nextWrapper leftNavLink contacts">
-    <span class="btn btn-default" ng-click="highlightLeftNav(2)">Save & Continue</span>
+    <span class="btn btn-default" ng-click="highlightLeftNav(2)" data-ng-bind="textConstants.WF_AD_SAVE_CONTINUE"></span>
 </a>
