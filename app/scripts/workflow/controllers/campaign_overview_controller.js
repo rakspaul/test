@@ -530,6 +530,9 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             $scope.cancelArchiveCampaign = function () {
                 $scope.campaignArchive = !$scope.campaignArchive;
             };
+             $scope.cancelCloneCampaign = function () {
+                $scope.campaignClone = !$scope.campaignClone;
+            };
 
             $scope.processObjectiveData = function (objectiveObj) {
                 var brandingArr = _.filter(objectiveObj, function (obj) {

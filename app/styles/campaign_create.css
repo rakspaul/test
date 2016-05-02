@@ -4349,3 +4349,13 @@
   margin-left: 5px ;
   cursor: pointer;
 }
+.campaignClonePopup .popup {
+  min-height: 300px ;
+}
+.campaignClonePopup .popup .errorLabel {
+  line-height: 18px ;
+}
+.campaignClonePopup input[type='text'] {
+  width: 100% ;
+  font-size: 12px ;
+}
