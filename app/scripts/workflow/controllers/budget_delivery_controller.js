@@ -265,7 +265,7 @@ define(['angularAMD', 'common/services/constants_service', 'common/moment_utils'
 
                 $('.external_chkbox').hide();
 
-                if (type === 'VTC' || type === 'CTR') {
+                if (type === 'VTC' || type === 'CTR' || type=='ACTION RATE') {
                     elem.closest('.symbolAbs').find('.KPI_symbol').hide();
                     elem.closest('.symbolAbs').find('.VTC_per').show();
                     elem.closest('.symbolAbs').find('.target_val_input').addClass('target_val_input_vtc');

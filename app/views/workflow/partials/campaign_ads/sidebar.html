@@ -50,7 +50,7 @@
             <div>
                 <div class="statusLabel" ng-if="adData.primaryKpi">
                     <div class="col-md-12">
-                        <span data-ng-bind="((adData.primaryKpi).toLowerCase()!='impressions')?(adData.primaryKpi):'Impressions'"></span>
+                        <span data-ng-bind="(((adData.primaryKpi).toUpperCase()== 'CTR')||((adData.primaryKpi).toUpperCase()== 'VTC')||((adData.primaryKpi).toUpperCase()== 'CPM')||((adData.primaryKpi).toUpperCase()== 'CPC') ||((adData.primaryKpi).toUpperCase()== 'CPA'))? (adData.primaryKpi).toUpperCase() : (adData.primaryKpi | toPascalCase)"></span>
                         <span data-ng-bind="textConstants.PRIMARYKPIPAR"></span>
                     </div>
                 </div>
