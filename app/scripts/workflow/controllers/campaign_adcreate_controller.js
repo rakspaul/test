@@ -35,7 +35,6 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                     localStorage.setItem('campaignData', window.JSON.stringify(campaignData));
                     $rootScope.$broadcast('adCampaignDataSet');
                 },
-
                 campaignOverView = {
                     getCampaignData: function (campaignId) {
                         workflowService
@@ -424,6 +423,14 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                             });
                     }
                 };
+            /*function to display the primaryKPI selected on left Nav*/
+            $scope.displayKpiInSideBar=function(selectedKpi){
+                if(((selectedKpi).toUpperCase()== 'CTR')||((selectedKpi).toUpperCase()== 'VTC')||((selectedKpi).toUpperCase()== 'CPM')||((selectedKpi).toUpperCase()== 'CPC') ||((selectedKpi).toUpperCase()== 'CPA')){
+                    return selectedKpi.toUpperCase();
+                }else{
+                    return selectedKpi.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+                }
+            }
 
             $scope.redirectUser = function (isAdArchived) {
                 var url;
