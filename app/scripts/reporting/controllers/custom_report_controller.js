@@ -1906,6 +1906,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
 
             $scope.prefillData = function(reportData) {
                 var responseData = reportData;
+                $scope.additionalFilters = [];
                 $scope.reports.name = responseData.name;
                 $scope.scheduleReportActive = responseData.isScheduled;
                 $scope.generateBtnDisabled = false;
