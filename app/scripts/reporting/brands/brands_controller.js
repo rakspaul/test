@@ -1,12 +1,15 @@
 define(['angularAMD','reporting/brands/brands_model','reporting/brands/brands_service','common/utils',
-                    'common/services/constants_service','login/login_model', 'reporting/advertiser/advertiser_model', 'reporting/brands/brands_directive'],function (angularAMD) {
-  angularAMD.controller('BrandsController', function ($scope, $rootScope, brandsModel, brandsService, utils, constants, loginModel, advertiserModel) {
+                    'common/services/constants_service','login/login_model', 'reporting/advertiser/advertiser_model', 'reporting/brands/brands_directive','reporting/subAccount/sub_account_model'],function (angularAMD) {
+  angularAMD.controller('BrandsController', function ($scope, $rootScope, brandsModel, brandsService, utils, constants, loginModel, advertiserModel,subAccountModel,localStorageService) {
         var search = false;
         var searchCriteria = utils.typeaheadParams,
             loadBrands = true;
 
         $scope.textConstants = constants;
         $scope.advertiser =  advertiserModel.getSelectedAdvertiser();
+
+        $scope.isDashbboardBrand = subAccountModel.isDashboardSubAccount();
+        var isLeafNode = localStorageService.masterClient.get().isLeafNode;
 
         function fetchBrands(searchCriteria, search) {
           if (loginModel.getUserId() == undefined) {
@@ -25,6 +28,9 @@ define(['angularAMD','reporting/brands/brands_model','reporting/brands/brands_se
 
          if((advertiserModel.getAdvertiser().selectedAdvertiser) && (advertiserModel.getAdvertiser().selectedAdvertiser.id)) {
              $scope.brandData = brandsModel.getBrand();
+             if($scope.isDashbboardBrand && !isLeafNode) {
+                 $scope.brandData.selectedBrand = $scope.brandData.selectedDashboardBrand;
+             }
          }
 
         $scope.selectBrand = function (brand, advertiser, event_type) {
