@@ -1,5 +1,5 @@
 define(['angularAMD', 'reporting/advertiser/advertiser_service', 'common/services/constants_service'], function (angularAMD) {
-    angularAMD.factory("advertiserModel", ['advertiserService', 'constants', function (advertiserService, constants) {
+    angularAMD.factory("advertiserModel", ['advertiserService', 'constants','localStorageService', function (advertiserService, constants,localStorageService) {
         var advertiser = {};
         advertiser.allAdvertiserObject = {id: -1, name: constants.ALL_ADVERTISERS};
         advertiser.selectedBrand = advertiser.allAdvertiserObject;
@@ -24,15 +24,17 @@ define(['angularAMD', 'reporting/advertiser/advertiser_service', 'common/service
             },
             setSelectedAdvertisers: function (_advertiser) {
                 advertiser.selectedAdvertiser = _advertiser;
+                var isLeafNode = localStorageService.masterClient.get().isLeafNode;
 
-                if(advertiserService.isDashboardAdvertiser()) {
+                if(advertiserService.isDashboardAdvertiser() && !isLeafNode) {
                     localStorage.setItem('dashboardAdvertiser', JSON.stringify(_advertiser));
                 } else {
                     localStorage.setItem('setAdvertiser', JSON.stringify(_advertiser));
                 }
             },
             getSelectedAdvertiser: function () {
-                if(advertiserService.isDashboardAdvertiser()) {
+                var isLeafNode = localStorageService.masterClient.get().isLeafNode;
+                if(advertiserService.isDashboardAdvertiser() && !isLeafNode) {
                     var savedAdvertiser = JSON.parse(localStorage.getItem('dashboardAdvertiser'));
                 } else {
                     var savedAdvertiser = JSON.parse(localStorage.getItem('setAdvertiser'));
