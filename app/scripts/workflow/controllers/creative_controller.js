@@ -424,10 +424,12 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
           if($scope.adPage){
               var campaignData = localStorage.getItem('campaignData');
               campaignData = campaignData && JSON.parse(campaignData);
-
               $scope.advertiserName = campaignData.advertiserName;
               $scope.creative.advertiserId = campaignData.advertiserId;
+              $scope.subAccountName = data.name;
+              $scope.subAccountId = data.id;
               creatives.fetchBrands(client.id,campaignData.advertiserId);
+
           } else {
               $scope.selectHandler('subAccount',data);
           }
