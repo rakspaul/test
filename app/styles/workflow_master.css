@@ -125,6 +125,10 @@ strong {
   z-index: 10;
   line-height: 100%;
 }
+.currencySymWLabel.perSymbol {
+  left: auto ;
+  right: 10px ;
+}
 .helpLink {
   opacity: .3;
   text-decoration: none !important;
