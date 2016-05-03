@@ -58,6 +58,12 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             $scope.adGroupData = {};
             $scope.labels=[];
 
+            $scope.pixelsDownload =  function(){
+                var campaignId = $scope.workflowData.campaignData.id;
+                workflowService.getPixelDataFile(campaignId).then(function(results){
+                        console.log(results);
+                });
+            };
 
             var campaignOverView = {
                 modifyCampaignData: function () {
@@ -79,6 +85,8 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                         }
                     });
                 },
+
+
 
                 getCampaignData: function (campaignId) {
                     workflowService

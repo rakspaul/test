@@ -197,6 +197,17 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                     });
                 },
 
+                getPixelDataFile:function(campaignId){
+                    var clientId = loginModel.getSelectedClient().id,
+                        url = vistoconfig.apiPaths.WORKFLOW_API_URL +
+                            '/clients/' + clientId +
+                            '/campaigns/' + campaignId +
+                            '/pixels/download';
+                    return dataService.fetch(url, {
+                        cache: false
+                    });
+                },
+
                 getAdgroups: function (campaignId, searchTerm, isForClone) {
                     var clientId = loginModel.getSelectedClient().id,
                         url;
