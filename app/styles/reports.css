@@ -3828,10 +3828,14 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
   margin-right: 6px;
   float: left;
 }
+.report_generator_and_response #dynamicHeader.smaller .iconPlusMinus .icon-plus,
+.report_generator_and_response #dynamicHeader.smaller .iconPlusMinus .icon-minus {
+  margin-left: 0 ;
+}
 .report_generator_and_response #dynamicHeader.smaller .downReport {
   display: block;
   float: right;
-  margin-top: 20px;
+  margin-top: 28px;
 }
 .report_generator_and_response #dynamicHeader.smaller .downReport a {
   color: #312333;
@@ -3840,7 +3844,8 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
   display: none;
 }
 .report_generator_and_response #dynamicHeader {
-  padding-left: 0;
+  padding-left: 14px;
+  margin-bottom: 10px;
 }
 .report_generator_and_response #dynamicHeader .collapseIcon {
   display: none;
@@ -4317,7 +4322,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 }
 .custom_report_response_page .custom_report_response_table .each_col.more_dimension_arrow {
   display: none;
-  background: url("/images/cdesk/common_side_arrow.png") no-repeat left 1px #fff;
+  background: url("/images/cdesk/common_side_arrow.png") no-repeat left 1px #ffffff;
   height: 11px;
   width: 12px;
   min-width: 12px;
