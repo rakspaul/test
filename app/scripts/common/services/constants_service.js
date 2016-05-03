@@ -464,6 +464,7 @@ define(['angularAMD'], function(angularAMD) {
         this.CREATE = 'Create';
         this.BULK_UPLOAD = 'Bulk Upload';
         this.WF_SETTINGS = 'Settings';
+        this.ABOUT_THIS_MEDIAPLAN = 'About this Media Plan';
         this.ACCOUNT = 'Account';
         this.WF_BRAND = 'Brands';
         this.ADVERTISERS = 'Advertiser';
@@ -602,7 +603,7 @@ define(['angularAMD'], function(angularAMD) {
         this.WF_NOT_SET = "Not Set"
         this.WF_AD_SAVE_CLOSE = "Save & Close";
         this.WF_AD_SAVE_CONTINUE = "Save & Continue";
-        this.WF_NAME_CAMPAIGN_TXT = "What is the name of your Media Plan?";
+        this.WF_NAME_CAMPAIGN_TXT = "Tell us about your Media Plan?";
         this.WF_ENTER_NAME_CAMPAIGN = "Please enter a name for the Media Plan.";
         this.WF_CAMPAIGN_FOR = "Who is the Media Plan for?";
         this.WF_CAMPAIGN_OBJECTIVES = "Media Plan Objectives";
