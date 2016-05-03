@@ -26,13 +26,12 @@ define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', 'reporting/campaig
 
                 //Resets Header
                 $('.main_navigation_holder .main_nav .main_navigation .each_nav_link.active .arrowSelect').show();
-                $(".each_nav_link").removeClass("active_tab");
-                $("#campaigns_nav_link").addClass("active_tab");
 
                 $(".each_nav_link").removeClass("active_tab");
                 $("#campaigns_nav_link").addClass("active_tab");
-                
+
                 var fparams = featuresService.getFeatureParams();
+
                 var enableFeaturePermission = function () {
                     $scope.showCreateMediaPlan = fparams[0].create_mediaplan;
                     $scope.showCostTab = fparams[0].cost;
