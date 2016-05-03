@@ -263,9 +263,11 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                                 _.each(responseData, function(data) {
                                      if(data.adGroup.lineitemId) {
                                         lineItemObj = campaignOverView.getLineItem(data.adGroup.lineitemId);
-                                        data.adGroup.lineitemName = lineItemObj.name;
+                                         if(lineItemObj && lineItemObj.name) {
+                                             data.adGroup.lineitemName = lineItemObj.name;
+                                         }
                                      }
-                                })  
+                                })
 
                                 $scope.workflowData.campaignGetAdGroupsData = responseData;
 
@@ -359,7 +361,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 },
 
                 getLineItem : function(lineItemId) {
-                    return _.filter($scope.lineItems, function(obj) { return obj.id ===  lineItemId})[0];  
+                    return _.filter($scope.lineItems, function(obj) { return obj.id ===  lineItemId})[0];
                 },
 
                 errorHandler: function (errData) {
@@ -639,7 +641,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
             campaignOverView.getCampaignData($routeParams.campaignId);
             //campaignOverView.getAdsForCampaign($routeParams.campaignId);
-            
+
 
             $(function () {
                 $('#pushCampaignBtn').on('click', function () {
@@ -792,7 +794,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     $scope.workflowData.campaignData.bookedSpend) + Math.ceil($scope.adGroupMinBudget);
             };
 
-           
+
 
             $scope.setLineItem = function(lineitemId) {
                 matchedLineItem = campaignOverView.getLineItem(lineitemId);
