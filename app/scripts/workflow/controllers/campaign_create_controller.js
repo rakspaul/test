@@ -37,7 +37,16 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         $scope.lineTarget = '';
         $scope.createItemList = false;
         $scope.executionPlatforms = [];
-        $scope.kpiName = 'Impressions';
+        $scope.kpiNameList = [
+            {name: 'Action Rate'},
+            {name: 'CPA'},
+            {name: 'CPC'},
+            {name: 'CPM'},
+            {name: 'CTR'},
+            {name: 'Impressions'},
+            {name: 'VTC'}
+        ];
+        $scope.kpiName = 'Action Rate';
         $scope.kpiValue = '';
 
         $scope.type = {};

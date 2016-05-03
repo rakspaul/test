@@ -244,20 +244,21 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         };
 
         $scope.updateLineItem = function(newItem){
-            $scope.deleteLineItem(newItem);
+            $scope.deleteLineItem(false);
             $scope.createNewLineItem('edit');
             //$scope.lineItemList.push(index,1);
 
         }
 
-        $scope.deleteLineItem = function(newItem){
+        $scope.deleteLineItem = function(deleteFlag){
             var index = _.findIndex($scope.lineItemList,function(item){
-                console.log("item",item,'oldLineItem',oldLineItem);
                 if(item.name === oldLineItem.name && item.billingTypeId === oldLineItem.billingTypeId && item.pricingRate === oldLineItem.pricingRate){
                     return true;
                 }
             });
-            //$scope.lineItemBillableAmountTotal -= Number($scope.lineItemList[index]['billableAmount']);
+            if(deleteFlag == true){
+                $scope.lineItemBillableAmountTotal -= Number($scope.lineItemList[index]['billableAmount']);
+            }
             $scope.lineItemList.splice(index,1);
         }
 

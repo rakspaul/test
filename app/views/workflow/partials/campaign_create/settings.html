@@ -228,13 +228,7 @@
                         <span class="icon-arrow-down" ></span>
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="selectKPI"  id="selectKPI">
-                        <li class="available" ng-click="setKPIName('Impressions')"><a>Impressions</a></li>
-                        <li class="available" ng-click="setKPIName('CTR')"><a>CTR</a></li>
-                        <li class="available" ng-click="setKPIName('VTC')"><a>VTC</a></li>
-                        <li class="available" ng-click="setKPIName('CPA')"><a>CPA</a></li>
-                        <li class="available" ng-click="setKPIName('CPM')"><a>CPM</a></li>
-                        <li class="available" ng-click="setKPIName('CPC')"><a>CPC</a></li>
-                        <li class="available" ng-click="setKPIName('Action Rate')"><a>Action Rate</a></li>
+                        <li class="available" ng-repeat="kpi in kpiNameList" ng-click="setKPIName(kpi.name)"><a>{{kpi.name}}</a></li>
                     </ul>
                     <input type="hidden" name="kpi"  ng-model="kpiName" ng-value="kpiName" field="kpiType" index="{{$index}}" required hiddenkpi>
                     <!--<input type="hidden" name="kpi" ng-init="Campaign.kpiArr[$index]['kpiType']='Select from list';" ng-model="Campaign.kpiArr[$index]['kpiId']" ng-value="{{kpi.id}}" field="kpiId" index="{{$index}}" required hiddenkpi>-->
