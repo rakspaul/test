@@ -4664,6 +4664,9 @@ div.reports_tabs_content_container div#reports_bycreatives_block div.reports_det
 .new_breakdown_div .filter_input_txtbox {
   display: none;
 }
+.delete_row_pixel {
+  float: right;
+}
 .delete_row {
   height: 16px;
   width: 16px;

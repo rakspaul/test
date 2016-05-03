@@ -7,17 +7,79 @@ define(['angularAMD', '../../../workflow/services/account_service', 'common/serv
         accountsService, constants) {
 
         var _currCtrl = this;
+        _currCtrl.isAdChoiceInClient = false;
+        $scope.selectedIABCategory = "Select Category";
         $scope.currencySelected = '';
         $scope.referenceId;
         getCountries();
         getTimezones();
+        _currCtrl.getIABCategoryList = function(){
+            accountsService.getIABCategoryList().then(function(res){
+                if((res.status === 'OK' || res.status === 'success') && res.data.data) {
+                    $scope.IABCategoryList = res.data.data;
+                }
+            },function(err){
 
+            })
+        }
+        _currCtrl.getIABCategoryList();
+        _currCtrl.getIABCategory = function(){
+            accountsService.getIABCategoryForClient($scope.clientObj.id).then(function(res){
+                if((res.status === 'OK' || res.status === 'success') && res.data.data) {
+                    $scope.selectedIABCategory = res.data.data.category;
+                    $scope.selectedIABCategoryId = res.data.data.id;
+                }
+            },function(err){
+
+            })
+        }
+        _currCtrl.saveIABCategory = function(){
+            var reqBody = {
+                name: $scope.selectedIABCategory,
+                id: $scope.selectedIABCategoryId
+            }
+            accountsService.saveIABCategoryForClient($scope.clientObj.id, reqBody).then(function(res){
+                if((res.status === 'OK' || res.status === 'success') && res.data.data) {
+                }
+            },function(err){
+
+            });
+        }
+        _currCtrl.getAdChoiceData = function(){
+            accountsService.getAdChoiceDataFromClient($scope.clientObj.id).then(function(res){
+                _currCtrl.isAdChoiceInClient = false;
+                if((res.status === 'OK' || res.status === 'success') && res.data.data) {
+                    _currCtrl.isAdChoiceInClient = true;
+                    $scope.enableAdChoice = res.data.data.enabled;
+                    $scope.adChoiceCode = res.data.data.code;
+                }
+            },function(err){
+            });
+        }
+        _currCtrl.saveAdChoiceData = function(){
+            var reqBody = {
+                enabled: $scope.enableAdChoice,
+                code: $scope.adChoiceCode
+            }
+            accountsService.saveAdChoiceDataForClient($scope.clientObj.id, reqBody).then(function(res){
+            },function(err){
+            })
+        }
+        _currCtrl.getAdnlData = function(){
+            _currCtrl.getAdChoiceData();
+        //    _currCtrl.getIABCategory();
+        }
+        _currCtrl.saveAdnlData = function(){
+            _currCtrl.saveAdChoiceData();
+        //    _currCtrl.saveIABCategory();
+        }
         if ($scope.mode === 'edit') {
             $scope.clientName = $scope.clientObj.name;
             $scope.clientType = $scope.clientObj.clientType;
             $scope.selectedCurrency = $scope.clientObj.currency && $scope.clientObj.currency.id;
             $scope.selectedCountry = $scope.clientObj.country && $scope.clientObj.country.id;
             $scope.timezone = $scope.clientObj.timezone;
+            _currCtrl.getAdnlData();
         }
 
         $scope.close = function () {
@@ -82,6 +144,7 @@ define(['angularAMD', '../../../workflow/services/account_service', 'common/serv
                             $scope.resetBrandAdvertiserAfterEdit();
                             delete $scope.clientsDetails[body.parentId];
                             $scope.getSubClientList('ev', {id:body.parentId});
+                            _currCtrl.saveAdnlData();
                         }
                     });
             } else {
@@ -118,6 +181,7 @@ define(['angularAMD', '../../../workflow/services/account_service', 'common/serv
                     if (adv.status === 'OK' || adv.status === 'success') {
                         $scope.fetchAllClients();
                         $scope.close();
+                        _currCtrl.saveAdnlData();
                         $rootScope.setErrAlertMessage('Account created successfully', 0);
                     }
                 });

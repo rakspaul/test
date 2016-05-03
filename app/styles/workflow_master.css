@@ -12,6 +12,9 @@ body {
 .zeroPadding {
   padding: 0 !important;
 }
+.adChoices textarea {
+  resize: both;
+}
 .zeroMargin {
   margin: 0 !important;
 }
