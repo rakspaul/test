@@ -31,7 +31,8 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         $scope.showSubAccount = false;
         $scope.newLineItem = {}; // this is where line items created are stored
         $scope.lineItemName = '';
-        $scope.lineItemType = '';
+        $scope.lineItemType = {};
+        $scope.lineItemType.name = 'Select Type';
         $scope.lineRate = '';
         $scope.adGroupName = '';
         $scope.lineTarget = '';
