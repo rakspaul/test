@@ -416,21 +416,20 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
       };
 
       $scope.prarentHandler = function () {
+          var client = loginModel.getSelectedClient();
+          var data={
+              'id':client.id,
+              'name':client.name
+          }
           if($scope.adPage){
-              var client = loginModel.getSelectedClient();
-              var data={
-                  'id':client.id,
-                  'name':client.name
-              }
-
               var campaignData = localStorage.getItem('campaignData');
               campaignData = campaignData && JSON.parse(campaignData);
 
               $scope.advertiserName = campaignData.advertiserName;
               $scope.creative.advertiserId = campaignData.advertiserId;
-              $scope.selectHandler('subAccount',data)
               creatives.fetchBrands(client.id,campaignData.advertiserId);
-
+          } else {
+              $scope.selectHandler('subAccount',data);
           }
 
           creatives.getCreativeSizes();
