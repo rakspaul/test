@@ -1,5 +1,5 @@
 define(['angularAMD', 'common/services/constants_service', 'workflow/services/workflow_service','login/login_model','common/moment_utils','workflow/directives/clear_row', 'workflow/directives/ng_upload_hidden','workflow/controllers/mediaplan_pixels_controller','workflow/directives/custom_date_picker','workflow/controllers/line_item_controller'], function (angularAMD) {
-    angularAMD.controller('CreateCampaignController', function ($scope,  $rootScope,$routeParams, $locale, $location, $timeout,constants, workflowService,loginModel,momentService) {
+    angularAMD.controller('CreateCampaignController', function ($scope,  $timeout, $rootScope,$routeParams, $locale, $location, $timeout,constants, workflowService,loginModel,momentService) {
 
         $scope.selectedKeywords = [];
         $scope.platformKeywords = [];
@@ -328,13 +328,15 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             var endTime = data.endTime;
             var endDateElem = $('#endDateInput')
             var changeDate;
+
             if ($scope.mode !== 'edit') {
-                endDateElem.attr("disabled", "disabled").css({'background': '#eee'});
                 if (startTime) {
-                    endDateElem.removeAttr("disabled").css({'background': 'transparent'});
-                    changeDate = moment(startTime).format(constants.DATE_US_FORMAT);
-                    endDateElem.datepicker("setStartDate", changeDate);
-                    endDateElem.datepicker("update", changeDate);
+                    if(moment(startTime).isAfter(endTime)) {
+                        endDateElem.removeAttr("disabled").css({'background': 'transparent'});
+                        changeDate = moment(startTime).format(constants.DATE_US_FORMAT);
+                        endDateElem.datepicker("setStartDate", changeDate);
+                        endDateElem.datepicker("update", changeDate);
+                    }
                 }
             } else {
                 endDateElem.removeAttr("disabled").css({'background': 'transparent'});
@@ -574,16 +576,17 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     autoclose: true,
                     todayHighlight: true
                 });
+
+                if ($scope.mode == 'edit') {
+                    $scope.processEditCampaignData();
+                } else {
+                    //createCampaign.objectives();
+                    $timeout(function() {
+                        $scope.initiateDatePicker();
+                        $scope.initiateLineItemDatePicker();
+                    }, 1000)
+                }
             });
-
-            if ($scope.mode == 'edit') {
-                $scope.processEditCampaignData();
-            } else {
-                //createCampaign.objectives();
-                $scope.initiateDatePicker();
-                $scope.initiateLineItemDatePicker();
-
-            }
         })
 
         // Search show / hide
