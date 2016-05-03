@@ -427,7 +427,7 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
               $scope.advertiserName = campaignData.advertiserName;
               $scope.creative.advertiserId = campaignData.advertiserId;
               $scope.subAccountName = data.name;
-              $scope.subAccountId = data.id;
+              $scope.subAccountId =  $scope.creative.clientId = data.id;
               creatives.fetchBrands(client.id,campaignData.advertiserId);
 
           } else {
@@ -440,7 +440,7 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
           if ($scope.mode !== 'edit' && $scope.adPage) {
               creatives.fetchAdFormats();
               $scope.subAccountName = data.name;
-              $scope.subAccountId = data.id;
+              $scope.subAccountId =  $scope.creative.clientId = data.id;
               $scope.$broadcast('adFormatChanged', 'DISPLAY');
           }
           /*In creative List Page to create new creative*/
