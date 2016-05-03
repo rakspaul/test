@@ -452,7 +452,7 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
   background: url("/images/cdesk/sorting_arrows_up.png") no-repeat scroll right 1px;
 }
 .reports_main_page_holder .sort_order_up.active {
-  background: url("/images/cdesk/sorting_arrows_down.png") no-repeat scroll right -64px;
+  background: url("/images/cdesk/sorting_arrows_down.png") no-repeat scroll 55px -64px;
   cursor: pointer;
   padding-right: 17px;
   color: #0978c9;

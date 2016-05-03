@@ -1,4 +1,4 @@
-<span class="dropdown_ul_text"   data-toggle="dropdown" value="'{{kpiData.selectedKpi}}'">
+<span class="dropdown_ul_text col-md-12 zeroPadding" data-toggle="dropdown" value="'{{kpiData.selectedKpi}}'">
                 <span ng-class="{vid_none_hdr_hide:whichCaller.changedrpval == 'yes'}"  class="default-kpi-header-icon" tooltip="Primary KPI" ng-if="kpiData.selectedKpi.trim().toLowerCase() === campaign_default_kpi_type.trim()"></span>
                 <span ng-if="whichCaller.changedrpval == 'yes'">
                     <span ng-if="kpiData.selectedKpi == 'vtc'||kpiData.selectedKpi == 'ctr' ||kpiData.selectedKpi == 'action_rate'" ng-init="changeClickedSelectedKpiAlt('cpm')" class="dd_txt">
@@ -21,7 +21,7 @@
                     </span>
                    <!-- -->
                </span>
-                <span class="arrrow_img"></span>
+                <span class="arrrow_img pull-right"></span>
 </span>
 <div class="dropdown_ul dropdown-menu kpi_indicator_ul" ng-class="{kpi_indicator_ul2:whichCaller.changedrpval == 'yes'}">
     <ul class="drop_list">

@@ -34,11 +34,14 @@
             <div class="common-load-icon_viewability"  ng-show="strategyLoading && selectedCampaign.id != -1"></div>
             <div class="cost_container smallSreenScrollContainer" ng-hide="strategyLoading && selectedCampaign.id != -1" style="margin-top: 20px;">
                 <div class="no_data_found" ng-if="!strategyFound" style="width: 1200px;" ng-bind-html="getMessageForDataNotAvailable(selectedCampaign)"></div>
-                <div class="reports_main_page_holder smallSreenScrollDiv" ng-show="strategyFound" style="overflow-y: auto; border-right: 1px solid #d2dee7;">
+                <div class="reports_main_page_holder smallSreenScrollDiv" ng-show="strategyFound" style="overflow-y: auto;">
                     <div class="reports_cost_header_holder smallSreenScrollContent">
                         <!--cost filter -->
                         <div class="clearfix cost_header_holder">
-                            <div class="col-md-1 zeroPadding" ng-class="sortClassFunction('-impressions',sortType,sortReverseDefaultSelection)" ng-click="sortType = '-impressions'; sortReverse = sortReverseDefaultSelection;sortReverseDefaultSelection = !sortReverseDefaultSelection;removeKpiActive();"><span class="default-kpi-header-icon" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() === 'impressions'"></span>Imps.</div>
+                            <div class="col-md-1 zeroPadding" ng-class="sortClassFunction('-impressions',sortType,sortReverseDefaultSelection)" ng-click="sortType = '-impressions'; sortReverse = sortReverseDefaultSelection;sortReverseDefaultSelection = !sortReverseDefaultSelection;removeKpiActive();">
+                                <span class="pull-left default-kpi-header-icon" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() === 'impressions'"></span>
+                                <a class="pull-left">Imps.</a>
+                            </div>
                             <div class="col-md-1 zeroPadding">
                                 <div class="dropdown kpi-dd-holder" id="kpi_dropdown">
                                     <kpi-drop-down> </kpi-drop-down>
