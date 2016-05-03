@@ -4472,7 +4472,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 .custom_report_response_page .custom_report_response_table .each_row {
   display: table ;
   position: relative;
-  margin-bottom: 25px;
+  margin-bottom: 16px;
   width: 100%;
 }
 .custom_report_response_page .custom_report_response_table .each_row .common-load-more {
@@ -4651,8 +4651,8 @@ div.reports_tabs_content_container div#reports_bycreatives_block div.reports_det
 }
 .heading_first_dimension {
   color: #5C5C5C ;
-  padding-top: 5px;
-  padding-bottom: 5px;
+  padding-top: 2px;
+  padding-bottom: 2px;
 }
 .heading_first_dimension:first-child {
   padding-left: 40px;
