@@ -11,11 +11,7 @@
                     <ul class="stepCompLabel nav nav-tabs" id="mediaTab">
                         <li class="active eachStepCompLabel">
                             <a class="leftNavLink selected" data-target="#settings" data-toggle="tab">1 About this Media Plan</a>
-                            <!--<div class="statusLabel" ng-hide="selectedCampaign.goal.name || selectedCampaign.startTime || selectedCampaign.budget">-->
-                            <!--    <div class="col-md-12">-->
-                            <!--        <span>{{textConstants.WF_NOT_SET}}</span>-->
-                            <!--    </div>-->
-                            <!--</div>-->
+
                             <div class="statusLabel each-setting" ng-if="brand.length>0">
                                 <div class="col-md-12">
                                     <div class="pull-left">
@@ -27,6 +23,7 @@
                                     </div>
                                 </div>
                             </div>
+
                             <div class="statusLabel each-setting" ng-if="performance.length>0">
                                 <div class="col-md-12">
                                     <div class="pull-left">
@@ -38,6 +35,7 @@
                                     </div>
                                 </div>
                             </div>
+
                             <div class="statusLabel" ng-if="selectedCampaign.startTime">
                                 <div class="col-md-12">
                                     <!--<span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>-->
@@ -46,6 +44,7 @@
                                     <span>(Flight)</span>
                                 </div>
                             </div>
+
                             <div class="statusLabel each-setting">
                                 <div class="col-md-12">
                                     <div class="pull-left">
@@ -58,6 +57,7 @@
                                     </div>
                                 </div>
                             </div>
+
                             <div class="statusLabel" ng-if="selectedCampaign.budget">
                                 <div class="col-md-12">
                                     <span class="statusIcon" style="width: 12px; text-align: right; display: inline-table;">{{ locale.NUMBER_FORMATS.CURRENCY_SYM}}</span>
@@ -66,23 +66,14 @@
                                 </div>
                             </div>
                         </li>
-
                         <li class="clearfix eachStepCompLabel" >
-                            <a class="leftNavLink" data-target="#pixels" data-toggle="tab">2 Pixels</a>
-                            <!--<div class="statusLabel disabled">-->
-                            <!--    <div class="col-md-12">-->
-                            <!--        <span>{{textConstants.WF_NOT_SET}}</span>-->
-                            <!--    </div>-->
-                            <!--</div>-->
+                            <a class="leftNavLink" ng-if="!workflowData.advertisers || workflowData.advertisers.length === 0">2 Pixels</a>
+                            <a class="leftNavLink" ng-if="workflowData.advertisers && workflowData.advertisers.length >0" data-target="#pixels" data-toggle="tab">2 Pixels</a>
                         </li>
 
                         <li class="clearfix eachStepCompLabel" >
-                            <a class="leftNavLink budget-page-trigger" data-target="#budget" data-toggle="tab">3 {{textConstants.MP_BUDGET}} & Measure</a>
-                            <!--<div class="statusLabel " ng-hide="Campaign.totalBudget || Campaign.deliveryBudget">-->
-                            <!--    <div class="col-md-12">-->
-                            <!--        <span>{{textConstants.WF_NOT_SET}}</span>-->
-                            <!--    </div>-->
-                            <!--</div>-->
+                            <a class="leftNavLink budget-page-trigger" ng-if="!workflowData.advertisers || workflowData.advertisers.length === 0">3 {{textConstants.MP_BUDGET}} & Measure</a>
+                            <a class="leftNavLink budget-page-trigger" ng-if="workflowData.advertisers && workflowData.advertisers.length >0" data-target="#budget" data-toggle="tab">3 {{textConstants.MP_BUDGET}} & Measure</a>
                             <div class="statusLabel" ng-if="Campaign.totalBudget">
                                 <div class="col-md-12">
                                     <div class="statusIcon icon-usd"></div>
@@ -107,12 +98,8 @@
                         </li>
 
                         <li class="clearfix eachStepCompLabel" >
-                            <a class="leftNavLink" data-target="#addLineItems" data-toggle="tab">4 Line Items</a>
-                            <!--<div class="statusLabel disabled">-->
-                            <!--    <div class="col-md-12">-->
-                            <!--        <span>{{textConstants.WF_NOT_SET}}</span>-->
-                            <!--    </div>-->
-                            <!--</div>-->
+                            <a class="leftNavLink" ng-if="!workflowData.advertisers || workflowData.advertisers.length === 0">4 Line Items</a>
+                            <a class="leftNavLink" ng-if="workflowData.advertisers && workflowData.advertisers.length >0" data-target="#addLineItems" data-toggle="tab">4 Line Items</a>
                         </li>
                     </ul>
                 </div>
@@ -154,13 +141,12 @@
                     <div class="tab-content">
                         <!--Settings-->
                         <div class="isCollapsed tab-pane fade in active" id="settings">
-
                             <div ng-include="'/views/workflow/partials/campaign_create/settings.html'"></div>
                         </div>
 
                         <!--Pixels-->
                         <div class="tab-pane fade" id="pixels">
-                            <div ng-include="'/views/workflow/partials/campaign_create/pixels.html'"></div>
+                            <div ng-include="'/views/workflow/partials/campaign_create/pixels.html'" ng-controller="PixelsController"></div>
                         </div>
 
                         <!--Budget-->
