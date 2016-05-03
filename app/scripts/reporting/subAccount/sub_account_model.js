@@ -83,14 +83,13 @@ define(['angularAMD', 'workflow/services/workflow_service','common/services/cons
             }
             if(!isLeafNode && isDashboardFilter) {
                 var modifiedResArr = [{'id':loginModel.getMasterClient().id,'displayName':'All'}];
+                var selectedDashboardClient = loginModel.getDashboardClient();
+
+                if(!selectedDashboardClient) {
+                    loginModel.setDashboardClient({'id':modifiedResArr[0].id,'name':modifiedResArr[0].displayName});
+                }
                 workflowService.getDashboardSubAccount().then(function(response) {
                     var dashboardSubAccArr = modifiedResArr.concat(response.data.data);
-                    var selectedDashboardClient = loginModel.getDashboardClient();
-
-                    if(!selectedDashboardClient) {
-                        loginModel.setDashboardClient({'id':dashboardSubAccArr[0].id,'name':dashboardSubAccArr[0].displayName});
-                    }
-
                     self.setDashboardSubAccounts(dashboardSubAccArr);
                     successCallBack();
                 })

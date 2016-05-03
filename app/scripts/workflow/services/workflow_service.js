@@ -2,7 +2,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
     'common/services/data_service', 'login/login_model', 'common/services/request_cancel_service','common/moment_utils'],
     function (angularAMD) {
         angularAMD.factory('workflowService', function ($rootScope, vistoconfig, constants, dataService, loginModel,
-                                                       requestCanceller,momentService,$location) {
+                                                       requestCanceller,momentService,$location,localStorageService) {
 
             var mode,
                 adDetails,
@@ -81,6 +81,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
             },
 
             getAdvertisers: function (accessLevel,client_id) {
+                var isLeafNode = localStorageService.masterClient.get().isLeafNode;
                 var clientId =  loginModel.getSelectedClient().id;
                 var isDashboardSubAccount = false;
 
@@ -92,11 +93,12 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
 
                 if(client_id) {
                     var clientId =  client_id;
-                } else if(isDashboardSubAccount) {
+                } else if(isDashboardSubAccount && !isLeafNode) {
                     var clientId = loginModel.getDashboardClient().id
                 }
 
                 var url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/advertisers';
+
 
                 if(accessLevel && !isDashboardSubAccount) {
                     url =  url +'?access_level='+accessLevel;
