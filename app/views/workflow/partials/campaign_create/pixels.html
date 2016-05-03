@@ -3,7 +3,7 @@
 </h3>
 
 <!--Pixel Option List-->
-<div class="col-md-8" style="padding: 0 10px 0 0;" ng-controller="mediaplanPixelsController">
+<div class="col-md-8" style="padding: 0 10px 0 0;">
 
     <label for="nameTitleCampaign" class="col-sm-12 labelQuestTxt" style="margin-bottom: 5px;" data-ng-bind="textConstants.MEDIAPLAN_PIXEL_SELECT"></label>
 
@@ -62,6 +62,9 @@
                         <a>{{pixel.name}}</a>
                     </div>
                     <span class="td col-md-3" data-ng-bind="pixel.createdAt"></span>
+                </div>
+                <div ng-if="pixelList.length === 0" class="tr no-data-common">
+                    <div class="td" data-ng-bind="textConstants.DATANOTAVAILABLE"></div>
                 </div>
             </div>
         </div>

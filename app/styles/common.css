@@ -190,7 +190,7 @@
   font-size: 12px;
   width: 12px;
   height: 12px;
-  color: #21252b;
+  color: #21252B;
   opacity: .25;
 }
 .about_popup {
@@ -214,10 +214,10 @@
 .about_popup .close {
   margin: 10px;
   opacity: 1;
-  color: #cccccc;
+  color: #ccc;
 }
 .about_popup .close:hover {
-  color: #bbbbbb;
+  color: #bbb;
 }
 .about_popup .logo {
   background: url("/images/visto_logos/visto-new-logo-about.png") no-repeat center top;
@@ -281,7 +281,7 @@
 }
 .popup-holder {
   font-size: 14px;
-  color: #21252b;
+  color: #21252B;
   text-align: left;
   line-height: 20px;
   border-radius: 5px;
@@ -422,7 +422,7 @@
 .popContainerHolder .popContainer h1 {
   width: 90%;
   word-wrap: break-word;
-  color: #21252b;
+  color: #21252B;
   padding-top: 20px;
   padding-left: 30px;
   padding-bottom: 15px;
@@ -439,7 +439,7 @@
   font-size: 12px;
   width: 12px;
   height: 12px;
-  color: #21252b;
+  color: #21252B;
   opacity: .25;
   margin: 6px;
 }
@@ -577,13 +577,13 @@
   float: right;
   height: 16px;
   width: 20px;
-  color: #999999;
+  color: #999;
   font-size: 20px;
   text-align: center;
   margin: 0 8px 5px 0;
 }
 .top_message_box span.msg_box .close_msg_box_holder .close_msg_box:hover {
-  color: #333333;
+  color: #333;
 }
 .red_msg span.msg_box {
   border: solid 1px #F24444;
@@ -610,7 +610,7 @@
   font-family: "visto-con" !important;
   content: "s";
   font-size: 16px;
-  color: #ffffff;
+  color: #fff;
   transform: rotate(0deg);
   -moz-transform: rotate(0deg);
   -webkit-transform: rotate(0deg);
@@ -675,17 +675,17 @@
   border: 0px;
   padding: 0px;
   text-decoration: none;
-  color: #ffffff;
+  color: #fff;
   padding: 0 20px;
   text-transform: none;
   font-size: 14px;
 }
 .common_primary_btn:hover {
-  color: #ffffff;
+  color: #fff;
   text-decoration: none;
 }
 .common_secondary_btn {
-  color: #ffffff;
+  color: #fff;
   height: 36px;
   text-align: center;
   width: 150px;
@@ -704,7 +704,7 @@
   color: #a2acba;
 }
 .common_secondary_blue_btn {
-  color: #ffffff;
+  color: #fff;
   height: 36px;
   text-align: center;
   width: 150px;
@@ -747,7 +747,7 @@
   width: 1040px;
   margin: 0 auto;
   font-size: 14px;
-  color: #21252b;
+  color: #21252B;
   line-height: 20px;
 }
 .nav_filters .advertisers_filter {
@@ -771,7 +771,7 @@
 }
 .nav_filters .dropdown-menu li {
   font-size: 14px;
-  color: #21252b;
+  color: #21252B;
   padding: 5px 10px;
   overflow: hidden;
   white-space: nowrap;
@@ -788,7 +788,7 @@
   background: #F5F9FD;
 }
 .nav_filters .dropdown-menu li.disabled {
-  color: #999999;
+  color: #999;
   cursor: text;
 }
 .nav_filters .dropdown-menu li.disabled:hover {
@@ -817,7 +817,7 @@
 }
 .nav_filters .dropdown .dropdown_name_selected .icon-arrow-down {
   font-size: 10px;
-  color: #000000;
+  color: #000;
   height: 4px;
   width: 2px;
   line-height: 16px;
@@ -919,19 +919,19 @@
 .nav_filters .each_filter a {
   font-family: "Avenir";
   text-decoration: none;
-  color: #333333;
+  color: #333;
   background: transparent;
   padding: 0;
   cursor: pointer;
 }
 .nav_filters .each_filter a:hover {
-  color: #333333;
+  color: #333;
   background: transparent;
   padding: 0;
   cursor: pointer;
 }
 .nav_filters .each_filter a:focus {
-  color: #333333;
+  color: #333;
   background: transparent;
   padding: 0;
   cursor: pointer;
@@ -975,21 +975,21 @@
   cursor: default;
 }
 .nav_filters .lifetime_filter #cdbMenu:hover {
-  color: #333333;
+  color: #333;
 }
 .nav_filters .lifetime_filter #cdbMenu:focus {
-  color: #333333;
+  color: #333;
 }
 .nav_filters .lifetime_filter .cdbMenu_options li:first-child a {
-  color: #817f7f;
+  color: #817F7F;
   font-style: italic;
 }
 .nav_filters .lifetime_filter .cdbMenu_options li:nth-child(2) a {
-  color: #817f7f;
+  color: #817F7F;
   font-style: italic;
 }
 .nav_filters .lifetime_filter div.timeline_dd.open #cdbMenu {
-  color: #333333;
+  color: #333;
 }
 .nav_filters #brandsDropdown {
   min-width: 50px;
@@ -999,7 +999,7 @@
   font-family: "Avenir";
 }
 .nav_filters #brandsDropdown:focus {
-  color: #333333;
+  color: #333;
 }
 .nav_filters .filter_dropdown_open .header_filter_arrow_dropdown {
   background-image: url("/images/cdesk/up_arrow_filter.png");
@@ -1114,7 +1114,7 @@
 }
 .main_navigation_holder div.reports_header_tabs_holder .header_tab_dd_subheading {
   padding-right: 20px;
-  color: #6abdfa;
+  color: #6ABDFA;
   text-transform: none;
   padding-bottom: 5px;
   cursor: default;
@@ -1164,7 +1164,7 @@
   height: 15px;
   min-width: 18px;
   background-color: #6ebef8;
-  color: #ffffff;
+  color: #fff;
   border-radius: 8px;
   -moz-border-radius: 8px;
   -webkit-border-radius: 8px;
@@ -1185,7 +1185,7 @@
 .main_navigation_holder div.reports_header_tabs_holder .new_report_generate_btn .icon-report-builder {
   float: left;
   display: inline-block;
-  color: #ffffff;
+  color: #fff;
   margin: 0 10px 0 0px;
   font-size: 18px;
 }
@@ -1194,10 +1194,10 @@
   margin-top: 1px;
 }
 .main_navigation_holder div.reports_header_tabs_holder .new_report_generate_btn:hover {
-  color: #84bce4;
+  color: #84BCE4;
 }
 .main_navigation_holder div.reports_header_tabs_holder .new_report_generate_btn:hover .icon-report-builder {
-  color: #84bce4;
+  color: #84BCE4;
 }
 .main_navigation_holder div.reports_header_tabs_holder .header_tab_dropdown {
   padding: 2px 20px 2px 0px;
@@ -1206,43 +1206,43 @@
 }
 .main_navigation_holder div.reports_header_tabs_holder .header_tab_dropdown a {
   text-decoration: none;
-  color: #ffffff;
+  color: #fff;
   text-transform: none;
   cursor: pointer;
 }
 .main_navigation_holder div.reports_header_tabs_holder .header_tab_dropdown a:hover {
-  color: #84bce4;
+  color: #84BCE4;
 }
 .main_navigation_holder div.reports_header_tabs_holder div.header_tab_dropdown:hover a {
-  color: #84bce4;
+  color: #84BCE4;
 }
 .main_navigation_holder div.reports_header_tabs_holder div.header_tab_dropdown:hover a:hover {
-  color: #84bce4;
+  color: #84BCE4;
 }
 .main_navigation_holder div.reports_header_tabs_holder .active_tab a {
-  color: #84bce4;
+  color: #84BCE4;
   text-decoration: none;
 }
 .main_navigation_holder div.reports_header_tabs_holder .active_tab a:hover {
-  color: #84bce4;
+  color: #84BCE4;
   text-decoration: none;
 }
 .main_navigation_holder div.reports_header_tabs_holder div.active_tab:hover a {
-  color: #84bce4;
+  color: #84BCE4;
   text-decoration: none;
 }
 .main_navigation_holder div.reports_header_tabs_holder div.active_tab:hover a:hover {
-  color: #84bce4;
+  color: #84BCE4;
   text-decoration: none;
 }
 .main_navigation_holder #reports_nav_link.each_nav_link.active div.header_tab_dropdown.active_tab {
   background-color: rgba(255, 255, 255, 0.1);
 }
 .main_navigation_holder #reports_nav_link.each_nav_link.active div.header_tab_dropdown.active_tab a:hover {
-  color: #ffffff;
+  color: #fff;
 }
 .main_navigation_holder #reports_nav_link.each_nav_link.active div.header_tab_dropdown.active_tab:hover a {
-  color: #ffffff;
+  color: #fff;
 }
 .main_navigation_holder .dropdown-menu {
   padding: 10px 0px;
@@ -1259,14 +1259,14 @@
   padding: 5px 10px;
 }
 .main_navigation_holder .dropdown-menu li a {
-  color: #ffffff;
+  color: #fff;
 }
 .main_navigation_holder .dropdown-menu li:hover {
-  color: #ffffff;
+  color: #fff;
   background: rgba(255, 255, 255, 0.1);
 }
 .main_navigation_holder .dropdown-menu li:hover a {
-  color: #ffffff;
+  color: #fff;
 }
 .main_navigation_holder .dropdown-menu:before {
   background: url("/images/cdesk/dropdown_up_arrow.png") no-repeat center bottom;
@@ -1501,7 +1501,7 @@ multiselect .dropdown-menu > li > a {
 .common-close {
   height: 20px;
   width: 20px;
-  color: #999999;
+  color: #999;
   text-align: right;
   display: block;
   cursor: pointer;
@@ -1546,10 +1546,10 @@ multiselect .dropdown-menu > li > a {
   margin-left: 10px;
   padding: 7px;
   font-size: 16px;
-  color: #57606d;
+  color: #57606D;
 }
 .blue-edit-icon:hover {
-  color: #0978c9;
+  color: #0978C9;
 }
 .common-popup-container {
   overflow: auto;
@@ -1597,7 +1597,7 @@ multiselect .dropdown-menu > li > a {
   font-size: 26px;
   margin-bottom: 25px;
   font-family: "Avenir";
-  color: #000000;
+  color: #000;
 }
 .common-popup-container .popup .close {
   line-height: 10px;
@@ -1698,18 +1698,18 @@ multiselect .dropdown-menu > li > a {
   left: auto;
 }
 .txtError {
-  color: #f24444 !important;
+  color: #F24444 !important;
   font-size: 12px;
 }
 .errorTxtColor {
-  color: #f24444;
+  color: #F24444;
   font-family: 'Avenir-bold';
 }
 .errorText {
-  color: #f24444;
+  color: #F24444;
 }
 .errorBorder {
-  border-color: #f24444 !important;
+  border-color: #F24444 !important;
 }
 .disabled-field {
   background: #eee ;

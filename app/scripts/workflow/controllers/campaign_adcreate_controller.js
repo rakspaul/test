@@ -1008,7 +1008,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                     twitter: 'twitter',
                     'ad theorent': 'ad_theorent',
                     dstillery: 'dstillery',
-                    'adap.tv': 'adaptv',
+                    'adap.tv': 'adap_tv',
                     youtube: 'youtube',
                     brightroll: 'brightroll',
                     doubleClick: 'doubleclick-DFP',
