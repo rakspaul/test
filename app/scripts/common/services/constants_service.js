@@ -710,6 +710,7 @@ define(['angularAMD'], function(angularAMD) {
         this.WHENADRUN = 'What are your flight and delivery settings?';
         this.FLIGHTPASSED = 'Media Plan flight date has passed';
         this.SETUPBUDGET = 'How do you want to budget your Ad?';
+        this.MEASUREBUDGET = 'How will you measure success for your Ad?';
         this.TRACKBUDGET = 'How do you want to track your Ad?';
         this.UNITCOST = 'Unit Cost';
         this.BUDGETCAL = 'Select your Booking Method';

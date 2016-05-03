@@ -1187,6 +1187,12 @@
 .campaignAdCreatePage {
   position: relative;
 }
+.campaignAdCreatePage .tab-content .tab-pane .budgetWrap h2.adHeader {
+  margin: 10px 0 5px 0 !important;
+}
+.campaignAdCreatePage .tab-content .tab-pane .budgetWrap .measureBudget {
+  margin-bottom: 20px ;
+}
 .campaignAdCreatePage .common-btns {
   padding-left: 30px;
   position: absolute;
