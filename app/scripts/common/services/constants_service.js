@@ -198,7 +198,7 @@ define(['angularAMD'], function(angularAMD) {
         this.ONE_PRIMARY = 'Only one is primary';
         this.KPI_BILLING = 'Select a KPI for billing';
         this.SELECT_ONE_YOU_MAY_ADD = 'Select one';
-        this.SELECT_KPIS = 'Select KPIs ';
+        this.SELECT_KPIS = 'How do you measure success for this Media Plan';
         this.TARGET_GREATER_THAN_ZERO = 'Target should be greater than 0';
 
         this.DEFAULT_LIMIT_COUNT = 100;
@@ -464,6 +464,7 @@ define(['angularAMD'], function(angularAMD) {
         this.CREATE = 'Create';
         this.BULK_UPLOAD = 'Bulk Upload';
         this.WF_SETTINGS = 'Settings';
+        this.ABOUT_THIS_MEDIAPLAN = 'About this Media Plan';
         this.ACCOUNT = 'Account';
         this.WF_BRAND = 'Brands';
         this.ADVERTISERS = 'Advertiser';
@@ -602,7 +603,7 @@ define(['angularAMD'], function(angularAMD) {
         this.WF_NOT_SET = "Not Set"
         this.WF_AD_SAVE_CLOSE = "Save & Close";
         this.WF_AD_SAVE_CONTINUE = "Save & Continue";
-        this.WF_NAME_CAMPAIGN_TXT = "What is the name of your Media Plan?";
+        this.WF_NAME_CAMPAIGN_TXT = "Tell us about your Media Plan?";
         this.WF_ENTER_NAME_CAMPAIGN = "Please enter a name for the Media Plan.";
         this.WF_CAMPAIGN_FOR = "Who is the Media Plan for?";
         this.WF_CAMPAIGN_OBJECTIVES = "Media Plan Objectives";
@@ -1089,27 +1090,28 @@ define(['angularAMD'], function(angularAMD) {
 
         // Media Plan Setup: 1 About
         this.MEDIAPLAN_FOR = "Who is the Media Plan for?";
-        this.MEDIAPLAN_NAME = "What is the name of your Media Plan";
-        this.MEDIAPLAN_LABELS = 'Add labels';
-        this.MEDIAPLAN_PURCHASE_ORDER = 'Purchase Order';
-        this.MEDIAPLAN_RUN = "When would you like your Media Plan to run?";
+        this.MEDIAPLAN_NAME = "Media Plan Name";
+        this.ABOUTMEDIAPLAN = "Tell us about your Media Plan";
+        this.MEDIAPLAN_LABELS = 'Labels (Optional)';
+        this.MEDIAPLAN_PURCHASE_ORDER = 'Purchase Order (Optional)';
+        this.MEDIAPLAN_RUN = "When do you want your Media Plan to run?";
         this.TARGET = 'Target';
 
         // Media Plan Setup: 2 Pixels
         this.MEDIAPLAN_PIXEL_SELECT = "Select Coversion Pixels (Optional)";
-        this.MEDIAPLAN_PIXEL_REQUIRED = "A Conversion Pixel is required for tracking and reportingconversions and for CPA billing";
+        this.MEDIAPLAN_PIXEL_REQUIRED = "A Conversion Pixel is required for tracking and reporting conversions and for CPA billing";
         this.MEDIAPLAN_PIXEL_SELECTED = "Selected Pixels";
 
         // Media Plan Setup: 3 Budget
         this.MEDIAPLAN_BUDGET_MEASURE = "Budget & Measure";
         this.MEDIAPLAN_BUDGET = "Media Plan Budget";
-        this.MEDIAPLAN_MARGIN = "MARGIN (Optional)";
+        this.MEDIAPLAN_MARGIN = "Margin (Optional)";
         this.MEDIAPLAN_DELIVERY_BUDGET = "Delivery Budget";
         this.MEDIAPLAN_MEASUREMENT_SETTING_COSTS = "Measurement Settings and Costs";
         this.MEDIAPLAN_ACCOUNT_MEASUREMENT_SETTING = "Account / Advertiser Measurement Settings";
         this.MEDIAPLAN_GENERATE_INVOICES = "The systems used to calculate costs and generate invoices";
         this.MEDIAPLAN_COST_TRACKING = "Cost Tracking |";
-        this.MEDIAPLAN_COST_MEASURED = "The Costs that will be measured in Cost Attribution reports ad are factored into COGS+ Billing";
+        this.MEDIAPLAN_COST_MEASURED = "The Costs that will be measured in Cost Attribution reports and are factored into COGS+ Billing";
         this.MEDIAPLAN_ADD_ADDITIONAL_COSTS = "Add Additional Costs (Optional)";
         this.MEDIAPLAN_METRIC = "Metric";
         this.MEDIAPLAN_VENDOR = "Vendor";
@@ -1123,16 +1125,16 @@ define(['angularAMD'], function(angularAMD) {
         this.MEDIAPLAN_LINE_ITEM_NAME = "Line Item Name / Notes";
         this.MEDIAPLAN_LINE_ITEM = "Line Item";
         this.MEDIAPLAN_RATE_TYPE = "Rate Type";
-        this.MEDIAPLAN_BILLABLE_AMOUNT = "Billable Amount";
+        this.MEDIAPLAN_BILLABLE_AMOUNT = "Contracted Value";
         this.MEDIAPLAN_VOLUME = "Volume";
-        this.MEDIAPLAN_FLIGHT_DATES = "Flight Dates";
+        this.MEDIAPLAN_FLIGHT_DATES = "Billing Period";
 
         this.MEDIAPLAN_ADD_CREDIT = "Add Credit";
         this.MEDIAPLAN_CREDIT_NAME = "Credit Name / Notes";
         this.MEDIAPLAN_AMOUNT = "Amount";
         this.MEDIAPLAN_ADD_ANOTHER_CREDIT = "Add Another Credit";
-        this.MEDIAPLAN_FLIGHT_DATE_START = "Flight Date Start";
-        this.MEDIAPLAN_FLIGHT_DATE_END = "Flight Date End";
+        this.MEDIAPLAN_FLIGHT_DATE_START = "Billing Period Start";
+        this.MEDIAPLAN_FLIGHT_DATE_END = "Billing Period End";
 
     });
 });
