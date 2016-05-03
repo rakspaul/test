@@ -213,6 +213,8 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             $scope.lineItemName = '';
             $scope.lineItemType = {};
             $scope.lineItemType.name = 'Select Type';
+            $scope.lineItemType.id = '';
+            $('.lineItemType').html('<span class="text" data-ng-bind="lineItemType.name">Select Type</span> <span class="icon-arrow-down"></span>');
             $scope.volume = '';
             $scope.billableAmount = '';
             $scope.pricingRate = '';
