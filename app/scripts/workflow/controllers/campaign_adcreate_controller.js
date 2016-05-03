@@ -404,8 +404,8 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                                     responseData = result.data.data;
                                     var url = '/mediaplan/'+responseData.campaignId+'/';
 
-                                    if($scope.adData.lineItemId) {
-                                        url += 'lineItem/'+$scope.adData.lineItemId+'/';
+                                    if(responseData.lineitemId) {
+                                        url += 'lineItem/'+responseData.lineitemId+'/';
                                     }
 
                                     if(responseData.adGroupId){
