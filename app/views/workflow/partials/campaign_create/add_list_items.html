@@ -6,7 +6,7 @@
     <div class="col-md-5" style="background: #F0F0F0; padding: 0 10px 10px 10px;">
         <div class="col-md-4 zeroPadding">
             <label class="col-sm-12 greyTxt miniLabels zeroPadding" data-ng-bind="textConstants.MEDIAPLAN_BUDGET"></label>
-            <span class="col-md-12 zeroPadding">${{Campaign.totalBudget? Campaign.totalBudget:0}}</span>
+            <span class="col-md-12 zeroPadding">{{locale.NUMBER_FORMATS.CURRENCY_SYM}}{{Campaign.totalBudget? Campaign.totalBudget:0}}</span>
         </div>
         <div class="col-md-4 zeroPadding">
             <label class="col-sm-12 greyTxt miniLabels zeroPadding" data-ng-bind="textConstants.MEDIAPLAN_MARGIN"></label>
@@ -14,7 +14,7 @@
         </div>
         <div class="col-md-4 zeroPadding">
             <label class="col-sm-12 greyTxt miniLabels zeroPadding" data-ng-bind="textConstants.MEDIAPLAN_DELIVERY_BUDGET"></label>
-            <span class="col-md-12 zeroPadding">${{Campaign.deliveryBudget?Campaign.deliveryBudget:0}}</span>
+            <span class="col-md-12 zeroPadding">{{locale.NUMBER_FORMATS.CURRENCY_SYM}}{{Campaign.deliveryBudget?Campaign.deliveryBudget:0}}</span>
         </div>
     </div>
 
@@ -91,7 +91,7 @@
 
         <div class="col-md-2" style="padding: 0 0 0 10px;" ng-show="amountFlag">
             <label class="col-sm-12 greyTxt miniLabels zeroPadding" data-ng-bind="textConstants.MEDIAPLAN_BILLABLE_AMOUNT"></label>
-            <div class="col-md-12 zeroPadding symbol-input"><span class="symbol" >$</span><input type="text" class="col-md-12" placeholder="" ng-model="$parent.billableAmount" whole-number-only style="padding-left:20px"/>
+            <div class="col-md-12 zeroPadding symbol-input"><span class="symbol" >{{locale.NUMBER_FORMATS.CURRENCY_SYM}}</span><input type="text" class="col-md-12" placeholder="" ng-model="$parent.billableAmount" whole-number-only style="padding-left:20px"/>
             </div>
         </div>
         <div class="col-md-2" style="padding: 0 0 0 10px;" ng-show="volumeFlag">
@@ -175,7 +175,7 @@
                         <a class="td col-md-3" data-ng-bind="item.name"></a>
                         <a class="td col-md-2" data-ng-bind="item.lineItemType.name">{</a>
                         <a class="td col-md-1" data-ng-bind="item.pricingRate"></a>
-                        <a class="td col-md-2" data-ng-bind="item.billableAmount"></a>
+                        <a class="td col-md-2" data-ng-bind="item.billableAmount | currency"></a>
                         <a class="td col-md-2" data-ng-bind="item.volume"></a>
                         <a class="td col-md-2">{{item.startTime}} - {{item.endTime}}</a>
                     </div>
@@ -189,7 +189,7 @@
     </div>
     <!--Item List Table Sample Start-->
 
-    <span class="col-md-12 text-right" style="padding: 0 0 5px 0; border-bottom: 1px solid rgba(191, 201, 215, 0.5);">Total Billable Amount: ${{lineItemBillableAmountTotal}}</span>
+    <span class="col-md-12 text-right" style="padding: 0 0 5px 0; border-bottom: 1px solid rgba(191, 201, 215, 0.5);">Total Billable Amount: {{locale.NUMBER_FORMATS.CURRENCY_SYM}}{{lineItemBillableAmountTotal}}</span>
 
     <label class="col-sm-12 labelQuestTxt showAddCreditForm" ng-click="showAddCreditForm()" ng-hide="true">
         <span class="icon-arrow-down-thick"></span>Add Credits (0)
@@ -253,7 +253,8 @@
 
         <div class="col-md-2" style="padding: 0 0 0 10px;" ng-show="amountFlagEdit">
             <label class="col-sm-12 greyTxt miniLabels zeroPadding" data-ng-bind="textConstants.MEDIAPLAN_BILLABLE_AMOUNT"></label>
-            <input type="text" class="col-md-12" placeholder="" ng-model="editLineItem.billableAmount" whole-number-only/>
+            <div class="col-md-12 zeroPadding symbol-input"><span class="symbol" >{{locale.NUMBER_FORMATS.CURRENCY_SYM}}</span><input type="text" class="col-md-12" placeholder="" ng-model="editLineItem.billableAmount" whole-number-only style="padding-left:20px"/>
+            </div>
         </div>
         <div class="col-md-2" style="padding: 0 0 0 10px;" ng-show="volumeFlagEdit">
             <label class="col-sm-12 greyTxt miniLabels zeroPadding" data-ng-bind="textConstants.MEDIAPLAN_VOLUME"></label>
