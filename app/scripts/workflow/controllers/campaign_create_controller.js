@@ -60,6 +60,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         $scope.editLineItem = {};
         $scope.vendorConfig = [];
         $scope.costAttributes = {};
+        $scope.lineItemBillableAmountTotal = 0;
 
         //mediaplan dates
         $scope.mediaPlanStartDate = '';
@@ -67,7 +68,6 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         // line item creation date
         $scope.lineItemStartDate = '';
         $scope.lineItemEndDate = '';
-        $scope.totalBillableAmount = 0;
 
         var selectedAdvertiser;
 

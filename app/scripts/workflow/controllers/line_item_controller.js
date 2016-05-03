@@ -8,7 +8,8 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             campaignId = '-999',
             CONST_FLAT_FEE = 'Flat Fee',
             CONST_COGS_PERCENT = 'COGS + Percentage Markup',
-            CONST_COGS_CPM = 'COGS + CPM Markup';
+            CONST_COGS_CPM = 'COGS + CPM Markup',
+            oldLineItem;
 
         $scope.showNewLineItemForm = function(){
             $scope.createItemList = true;
@@ -40,6 +41,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                         newItem.adGroupName = ($scope.adGroupName === '') ? $scope.lineItemName:$scope.adGroupName;
                     }
                     newItem.billableAmount = $scope.billableAmount;
+                    $scope.lineItemBillableAmountTotal += Number($scope.billableAmount);
                     newItem.volume = $scope.volume;
                     newItem.pricingRate = $scope.pricingRate;
                     newItem.startTime = $scope.lineItemStartDate;
@@ -54,7 +56,9 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 newItem.lineItemType = $scope.editLineItem.lineItemType;
                 newItem.pricingMethodId = $scope.editLineItem.lineItemType.id;
                 newItem.adGroupName = $scope.editLineItem.adGroupName;
+                $scope.lineItemBillableAmountTotal = $scope.lineItemBillableAmountTotal - Number(oldLineItem.billableAmount);
                 newItem.billableAmount = $scope.editLineItem.billableAmount;
+                $scope.lineItemBillableAmountTotal += Number($scope.editLineItem.billableAmount);
                 newItem.volume = $scope.editLineItem.volume;
                 newItem.pricingRate = $scope.editLineItem.pricingRate;
                 newItem.startTime = $scope.editLineItem.startTime;
@@ -222,7 +226,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             $scope.hideAdGroupName = false;
         }
 
-        var oldLineItem;
+
         //Line Item Table Row Edit
         $scope.showEditItemRow = function(event,lineItem) {
             oldLineItem = angular.copy(lineItem);
@@ -253,6 +257,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     return true;
                 }
             });
+            //$scope.lineItemBillableAmountTotal -= Number($scope.lineItemList[index]['billableAmount']);
             $scope.lineItemList.splice(index,1);
         }
 
