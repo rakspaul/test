@@ -872,6 +872,8 @@ define(['angularAMD'], function(angularAMD) {
         this.MEDIAPLANCLONE = 'Clone Media Plan';
         this.NEWMEDIAPLANNAME = 'New Media Plan Name' ;
         this.CLONEMEDIAPLANNAMEERR = '"Media Plan Name 2" already exists for this advertiser. Please enter a unique Media Plan name.' ;
+        this.DUPLICATELINEITEMS = 'Duplicate Line Items';
+        this.DUPLICATEADGROUPS = 'Duplicate Ads & Ad Groups';
         this.ARCHIVE = 'Archive';
         this.OPTIMIZATION_REPORT = 'Optimization Impact Report';
         this.BUILD_REPORT = 'Build Report';
