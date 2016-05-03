@@ -416,21 +416,22 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
       };
 
       $scope.prarentHandler = function () {
+          var client = loginModel.getSelectedClient();
+          var data={
+              'id':client.id,
+              'name':client.name
+          }
           if($scope.adPage){
-              var client = loginModel.getSelectedClient();
-              var data={
-                  'id':client.id,
-                  'name':client.name
-              }
-
               var campaignData = localStorage.getItem('campaignData');
               campaignData = campaignData && JSON.parse(campaignData);
-
               $scope.advertiserName = campaignData.advertiserName;
               $scope.creative.advertiserId = campaignData.advertiserId;
-              $scope.selectHandler('subAccount',data)
+              $scope.subAccountName = data.name;
+              $scope.subAccountId =  $scope.creative.clientId = data.id;
               creatives.fetchBrands(client.id,campaignData.advertiserId);
 
+          } else {
+              $scope.selectHandler('subAccount',data);
           }
 
           creatives.getCreativeSizes();
@@ -439,7 +440,7 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
           if ($scope.mode !== 'edit' && $scope.adPage) {
               creatives.fetchAdFormats();
               $scope.subAccountName = data.name;
-              $scope.subAccountId = data.id;
+              $scope.subAccountId =  $scope.creative.clientId = data.id;
               $scope.$broadcast('adFormatChanged', 'DISPLAY');
           }
           /*In creative List Page to create new creative*/
