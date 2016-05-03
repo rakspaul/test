@@ -4370,13 +4370,19 @@
   margin-left: 5px ;
   cursor: pointer;
 }
-.campaignClonePopup .popup {
+.campaignClonePopup div.popup {
   min-height: 300px ;
 }
-.campaignClonePopup .popup .errorLabel {
+.campaignClonePopup div.popup .errorLabel {
   line-height: 18px ;
+}
+.campaignClonePopup div.popup div.popup-content {
+  margin-bottom: 50px ;
 }
 .campaignClonePopup input[type='text'] {
   width: 100% ;
   font-size: 12px ;
+}
+.campaignClonePopup .duplicateOptionChkbox {
+  margin: 20px 0 ;
 }
