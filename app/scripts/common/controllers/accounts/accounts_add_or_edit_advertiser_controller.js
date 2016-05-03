@@ -140,7 +140,7 @@ define(['angularAMD','../../../workflow/services/account_service', '../../servic
                 .createPixelsUnderAdvertiser(clientId, advId, getRequestDataforPixel(clientId, advId))
                 .then(function (result) {
                     if (result.status === 'OK' || result.status === 'success') {
-                       // $scope.fetchAllAdvertisersforClient($scope.client.id);
+                        // $scope.fetchAllAdvertisersforClient($scope.client.id);
                         $scope.fetchAllClients();
                         $scope.resetBrandAdvertiserAfterEdit();
                         $scope.close();

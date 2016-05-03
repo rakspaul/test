@@ -69,8 +69,8 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
 
         }
         $scope.addPixel = function(){
-           $scope.advertiserData.pixels.push({});
-           _currCtrl.setCalanderSetting($scope.advertiserData.pixels.length - 1);
+            $scope.advertiserData.pixels.push({});
+            _currCtrl.setCalanderSetting($scope.advertiserData.pixels.length - 1);
         }
         $scope.showIABTab = function(){
             $scope.activeEditAdvertiserTab = "iab";
@@ -245,7 +245,7 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                         if(item.expiryDate) {
                             $scope.advertiserData.pixels[i].expiryDate = momentService.newMoment(item.expiryDate).format('YYYY/MM/DD');
                         }
-                       // _currCtrl.setCalanderSetting(i, 1);
+                        // _currCtrl.setCalanderSetting(i, 1);
                     });
                 }
             },function(err){
@@ -407,7 +407,6 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
             $scope.advertiserName = advertiser.name;
             $scope.selectedAdvertiserId = advertiser.id;
             $("#advertiserNameInp").val($scope.advertiserName);
-            console.log('advertiser.id = ', advertiser.id)
         };
 
         //create brand

@@ -35,7 +35,6 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                     localStorage.setItem('campaignData', window.JSON.stringify(campaignData));
                     $rootScope.$broadcast('adCampaignDataSet');
                 },
-
                 campaignOverView = {
                     getCampaignData: function (campaignId) {
                         workflowService
@@ -393,7 +392,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                     cloneAd: function () {
                         var requestData = {
                                 source_ad_id: $scope.adId,
-                                ad_group: selectedAdGroupId
+                                ad_group: $scope.adGroupId
                             },
 
                             responseData;
@@ -424,6 +423,14 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                             });
                     }
                 };
+            /*function to display the primaryKPI selected on left Nav*/
+            $scope.displayKpiInSideBar=function(selectedKpi){
+                if(((selectedKpi).toUpperCase()== 'CTR')||((selectedKpi).toUpperCase()== 'VTC')||((selectedKpi).toUpperCase()== 'CPM')||((selectedKpi).toUpperCase()== 'CPC') ||((selectedKpi).toUpperCase()== 'CPA')){
+                    return selectedKpi.toUpperCase();
+                }else{
+                    return selectedKpi.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+                }
+            }
 
             $scope.redirectUser = function (isAdArchived) {
                 var url;
@@ -588,6 +595,13 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                 if(responseData.kpiType){
                     $scope.adData.primaryKpi=responseData.kpiType;
                     $scope.adData.targetValue=Number(responseData.kpiValue);
+                    if(((responseData.kpiType).toUpperCase()==='CPM')||((responseData.kpiType).toUpperCase()==='CPA')||((responseData.kpiType).toUpperCase()==='CPC')){
+                        $('.KPI_symbol').html('$');
+                    }else if(((responseData.kpiType).toUpperCase()==='VTC')||((responseData.kpiType).toUpperCase()==='CTR')||((responseData.kpiType).toUpperCase()==='ACTION RATE')){
+                        $('.KPI_symbol').html('%');
+                    }else{
+                        $('.KPI_symbol').html('#');
+                    }
                 }
 
                 if (responseData.budgetValue>=0) {
@@ -1654,6 +1668,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
             $scope.adGroupList = [];
             $scope.mediaPlanName = null;
             $scope.adGroupName = null;
+            $scope.adData.platformSeatId = null;
 
             var selectedMediaPlanId = parseInt($routeParams.campaignId),
                 selectedAdGroupId = -1;

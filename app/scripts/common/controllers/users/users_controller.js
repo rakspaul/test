@@ -6,7 +6,7 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
         $scope.userConsoleFormDetails={};
         $(".each_nav_link").removeClass("active_tab");
         $("#admin_nav_link").addClass("active_tab");
-        
+
         //Add or Edit Pop up for User
         $scope.AddOrEditUserModal = function(mode,userObj) {
 
@@ -20,13 +20,13 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
             //    windowClass: 'edit-dialog',
             //    controller: "UsersAddOrEdit"
             //});
-            
+
             //$('.user-list').addClass('fadeOutLeft');
 //            $('.user-list, .users-creation-page .heading').fadeOut();
 //            $('.edit-dialog').fadeIn();
-            
+
             $scope.isEdit = false;
-            
+
             if(mode == 'edit'){
                 $("#maskWindow").show();
                 $scope.isEdit = true;
@@ -51,7 +51,7 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                 }, 2000)
             }
         };
-        
+
         $scope.userConsoleFormDetails, $scope.closeForm = function () {
             $('.user-list, .users-creation-page .heading').fadeIn();
             $('.edit-dialog').fadeOut();
@@ -76,8 +76,8 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
         $rootScope.$on('refreshUserList',function(){
             usersList.getUsers();
         });
-        
-		//Search Hide / Show
+
+        //Search Hide / Show
         $scope.searchShowInput = function () {
             var searchInputForm = $('.searchInputForm');
 
@@ -99,12 +99,12 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                 $('.searchInputForm').hide();
             }, 100);
         };
-        
+
         $('html').click(function(e) {
-		    if ($(e.target).closest('.searchInput').length === 0) {
+            if ($(e.target).closest('.searchInput').length === 0) {
                 $scope.searchHideInput();
-		    }
-		});
+            }
+        });
 
     });
 

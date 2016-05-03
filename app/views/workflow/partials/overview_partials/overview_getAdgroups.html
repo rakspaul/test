@@ -1,3 +1,4 @@
+<div class="common-loading-area" ng-show="!workflowData.campaignGetAdGroupsData"></div>
 <div class="col-md-12 adGroup" ng-repeat="adGroupsData in workflowData.campaignGetAdGroupsData">
     <div class="adTitle" >
         <div class="col-md-12 zeroPadding adgroupDiv" >
@@ -12,6 +13,24 @@
             <h4 class="pull-left adGroupTxt adGroupTxtName"
                 title="{{adGroupsData.adGroup.name}}"
                 data-ng-bind-html="adGroupsData.adGroup.nameHtml"></h4>
+                
+            <div class="pull-right labelsmargin" style="display:block;"  >
+                <span class="adGroupTxtSecondary " style="padding-right: 30px; margin-top: 6px;">
+                    <span class="greyTxt">Ready</span> <p class="{{ !adGroupsData.READY ? 'active' : ''}}">{{(adGroupsData.READY || 0)}}</p>
+                </span>
+                <span class="adGroupTxtSecondary" style="margin-top: 6px;">
+                    <span class="greyTxt">Scheduled</span> <p class="{{ !adGroupsData.SCHEDULED ? 'active' : ''}}">
+                    {{(adGroupsData.SCHEDULED || 0)}}</p>
+                </span>
+                <span class="adGroupTxtSecondary" style="margin-top: 6px;">
+                    <span class="greyTxt">In Flight</span> <p class="{{ !adGroupsData.IN_FLIGHT ? 'active' : ''}}">
+                    {{(adGroupsData.IN_FLIGHT || 0)}}</p>
+                </span>
+                <span class="adGroupTxtSecondary" style="margin-top: 6px;">
+                    <span class="greyTxt">Total Ads</span> <p class="{{ !adGroupsData.noOfAds ? 'active' : ''}}">{{adGroupsData.noOfAds || 0}}</p>
+                </span>
+               
+            </div>
 
             <div class="pillsWrap" >
                 <span class="labelPills" ng-if="adGroupsData.labels.length > 0"></span>
@@ -41,87 +60,67 @@
 
                 </div>
             </div>
+            <div class="col-md-12 zeroPadding">
+                <div class="col-md-4 zeroPadding clearLeft" style="width: 38%;">
+                    <span class="col-md-12 zeroPadding greyTxt hideCollapse" style="padding-left: 35px !important;">
+                        Group Budget / Unallocated
+                    </span>
 
-            <div class="col-md-4 zeroPadding clearLeft" style="width: 38%;">
-                <span class="col-md-12 zeroPadding greyTxt hideCollapse" style="padding-left: 35px !important;">
-                    Group Budget
-                </span>
+                    <!--This Only Shows If its "Group Budget" instead of Total Budget-->
+                    <!--<div class="pull-left showCollapse" style="padding-left: 35px; margin-top: 6px;">-->
+                    <!--    <span>Group Budget</span>-->
+                    <!--    <span>$250</span>-->
+                    <!--    <span>($85 Unallocated)</span>-->
+                    <!--</div>-->
 
-                <!--This Only Shows If its "Group Budget" instead of Total Budget-->
-                <!--<div class="pull-left showCollapse" style="padding-left: 35px; margin-top: 6px;">-->
-                <!--    <span>Group Budget</span>-->
-                <!--    <span>$250</span>-->
-                <!--    <span>($85 Unallocated)</span>-->
-                <!--</div>-->
+                    <div class="pull-left showCollapse" style="padding-left: 35px; margin-top: 6px;">
+                        <span class="greyTxt">Group Budget </span>
+                        <span>{{calculateBudget(adGroupsData.adGroup) | currency:undefined:2}}</span>
+                    </div>
 
-                <div class="pull-left showCollapse" style="padding-left: 35px; margin-top: 6px;">
-                    <span>Group Budget</span>
-                    <span>{{calculateBudget(adGroupsData.adGroup) | currency:undefined:2}}</span>
+                    <div class="pull-left hideCollapse" style="padding-left: 35px;">
+                        <span>
+                            {{ calculateBudget(adGroupsData.adGroup) | currency:undefined:2}} /  {{calculateSpendBudget(adGroupsData.adGroup)| currency:undefined:2}}
+                        </span>
+                    </div>
+
+                    <!--<div class="pull-left hideCollapse" style="margin:6px 0 0 30px;">
+                        <span>Spend</span>
+                        <span>{{(adGroupsData.adGroup.bookedSpend) ? (adGroupsData.adGroup.bookedSpend |
+                        currency:undefined:2) :(0| currency:undefined:2)}}</span>
+                    </div>-->
+
+                    <div class="pull-left showCollapse" style="margin: 6px 0 0 10px;">
+                        / <span class="greyTxt" style="margin-left:5px;">Unallocated</span>
+                        <span>{{calculateSpendBudget(adGroupsData.adGroup)| currency:undefined:2}}</span>
+                    </div>
                 </div>
 
-                <div class="pull-left hideCollapse" style="padding-left: 35px;">
-                    <span style="font-size: 24px; line-height: 100%;">
-                        {{ calculateBudget(adGroupsData.adGroup) | currency:undefined:2}}
+                <div class="pull-left adGroupTxt flightDatesTxt">
+                    <span class="pull-left clearBoth greyTxt hideCollapse">Flight Dates</span>
+                    <span class="clearLeft pull-left icon-calendar"></span>
+                    <span class="pull-left iconDates" >
+                        {{utcToLocalTime(adGroupsData.adGroup.startTime, 'ddd DD MMM YYYY')}} -
+                        {{utcToLocalTime(adGroupsData.adGroup.endTime,'ddd DD MMM YYYY')}}
+                        ({{numOfDays(adGroupsData.adGroup.startTime,adGroupsData.adGroup.endTime)}} Days)
                     </span>
                 </div>
 
-                <!--<div class="pull-left hideCollapse" style="margin:6px 0 0 30px;">
-                    <span>Spend</span>
-                    <span>{{(adGroupsData.adGroup.bookedSpend) ? (adGroupsData.adGroup.bookedSpend |
-                    currency:undefined:2) :(0| currency:undefined:2)}}</span>
-                </div>-->
+                <div class="col-md-4 zeroPadding pull-right">
+                    <span class="col-md-12 zeroPadding greyTxt hideCollapse" style="padding-left: 35px !important;">
+                        Line Item
+                    </span>
 
-                <div class="pull-left" style="margin: 6px 0 0 20px;">
-                    <span>Unallocated</span>
-                    <span>{{calculateSpendBudget(adGroupsData.adGroup)| currency:undefined:2}}</span>
+                    <div class="pull-left showCollapse" style="padding-left: 35px; margin-top: 6px;">
+                        <span class="greyTxt">Line Item</span>
+                        <span data-ng-bind="adGroupsData.adGroup.lineitemName"></span>
+                    </div>
+
+                    <div class="pull-left hideCollapse" style="padding-left: 35px;">
+                        <span data-ng-bind="adGroupsData.adGroup.lineitemName">
+                        </span>
+                    </div>
                 </div>
-            </div>
-
-            <div class="pull-left adGroupTxt">
-                <span class="pull-left clearBoth greyTxt hideCollapse">Flight Dates</span>
-                <span class="clearLeft pull-left icon-calendar" style="margin: 6px 6px 0 0;"></span>
-                <span class="pull-left" style="margin-top: 6px;">
-                    {{utcToLocalTime(adGroupsData.adGroup.startTime, 'ddd DD MMM YYYY')}} -
-                    {{utcToLocalTime(adGroupsData.adGroup.endTime,'ddd DD MMM YYYY')}}
-                    ({{numOfDays(adGroupsData.adGroup.startTime,adGroupsData.adGroup.endTime)}} Days)
-                </span>
-            </div>
-
-            <div class="col-md-4 zeroPadding pull-right">
-                <span class="adGroupTxtSecondary showCollapse" style="padding-right: 30px; margin-top: 6px;">
-                    Ready <p class="{{ !adGroupsData.READY ? 'active' : ''}}">{{(adGroupsData.READY || 0)}}</p>
-                </span>
-                <span class="adGroupTxtSecondary showCollapse" style="margin-top: 6px;">
-                    Scheduled <p class="{{ !adGroupsData.SCHEDULED ? 'active' : ''}}">
-                    {{(adGroupsData.SCHEDULED || 0)}}</p>
-                </span>
-                <span class="adGroupTxtSecondary showCollapse" style="margin-top: 6px;">
-                    In Flight <p class="{{ !adGroupsData.IN_FLIGHT ? 'active' : ''}}">
-                    {{(adGroupsData.IN_FLIGHT || 0)}}</p>
-                </span>
-                <span class="adGroupTxtSecondary showCollapse" style="margin-top: 6px;">
-                    Total Ads <p class="{{ !adGroupsData.noOfAds ? 'active' : ''}}">{{adGroupsData.noOfAds || 0}}</p>
-                </span>
-                <span class="adGroupTxtSecondary hideCollapse pull-right"
-                      style="padding: 0 30px 0 25px; margin-top: 38px;">
-                    Ready <p class="{{ !adGroupsData.READY ? 'active' : '' }}">{{(adGroupsData.READY || 0)}}</p>
-                </span>
-                <span class="adGroupTxtSecondary hideCollapse pull-right"
-                      style="padding-left: 25px; margin-top: 38px;">
-                    Scheduled <p class="{{ !adGroupsData.SCHEDULED ? 'active' : '' }}">
-                    {{(adGroupsData.SCHEDULED || 0)}}</p>
-                </span>
-                <span class="adGroupTxtSecondary hideCollapse pull-right" style="padding-left: 0px; margin-top: 38px;">
-                    In Flight <p class="{{ !adGroupsData.IN_FLIGHT ? 'active' : '' }}">
-                    {{(adGroupsData.IN_FLIGHT || 0)}}</p>
-                </span>
-                <span class="adGroupTxtSecondary hideCollapse pull-right zeroPadding" style="width: 60px;">
-                    <span class="col-md-12 zeroPadding greyTxt hideCollapse">Total Ads</span>
-                    <p class="zeroPadding pull-left {{ !adGroupsData.noOfAds ? 'active' : '' }}"
-                       style="color: #21252B; font-size: 24px; line-height: 100%;">
-                        {{adGroupsData.noOfAds || 0}}
-                    </p>
-                </span>
             </div>
         </div>
         <div class="clearfix editAdgroupDiv" ></div>

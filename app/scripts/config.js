@@ -81,6 +81,7 @@ assets.html_multi_select = '/views/reporting/multi_select.html';
 assets.html_strategy_drop_down = '/views/reporting/strategy_drop_down.html';
 assets.html_timeperiod_drop_down = '/views/reporting/timeperiod_drop_down.html';
 assets.html_timeperiod_drop_down_picker = '/views/reporting/timeperiod_drop_down_picker.html';
+
 assets.html_help = '/views/reporting/help.html';
 assets.html_collective_report_listing = '/views/reporting/collective_report_listing.html';
 assets.html_reports_schedule_list = '/views/reporting/reports_schedule_list.html';
@@ -119,6 +120,7 @@ assets.html_creative = '/views/workflow/creative.html';
 assets.html_creative_list = '/views/workflow/creative_list.html';
 assets.html_workflow_campaign_list = '/views/workflow/campaign_list.html';
 
+
 assets.html_creative_drop_down = '/views/workflow/partials/creative_drop_down.html';
 assets.html_platform_collective_bidder = '/views/workflow/partials/platforms/plat-collective-bidder.html';
 assets.html_platform_app_nexus = '/views/workflow/partials/platforms/plat-app-nexus.html';
@@ -145,4 +147,7 @@ assets.html_users = '/views/reporting/users.html';
 assets.html_accounts = '/views/workflow/accounts.html';
 assets.html_advertisers = '/views/workflow/advertisers.html';
 assets.html_brands = '/views/workflow/brands.html';
+
+
+
 

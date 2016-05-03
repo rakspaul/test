@@ -266,14 +266,25 @@ define(['common'], function (angularAMD) {
                             }
                         }
                     }
-                    //   controller: 'AccountsController',
-                    //   controllerUrl: 'common/controllers/accounts/accounts_controller'
                 }))
                 .when('/admin/accounts', angularAMD.route({
                     templateUrl: assets.html_accounts,
                     title: 'Accounts',
                     controller: 'AccountsController',
                     controllerUrl: 'common/controllers/accounts/accounts_controller',
+                    resolve: {
+                        check: function ($location, loginModel) {
+                            if(!loginModel.getClientData().is_super_admin){
+                                $location.url('/dashboard');
+                            }
+                        }
+                    }
+                }))
+                .when('/admin/users', angularAMD.route({
+                    templateUrl: assets.html_users,
+                    title: 'Users',
+                    controller: 'UsersController',
+                    controllerUrl: 'common/controllers/users/users_controller',
                     resolve: {
                         check: function ($location, loginModel) {
                             if(!loginModel.getClientData().is_super_admin){
@@ -308,20 +319,6 @@ define(['common'], function (angularAMD) {
                         }
                     }
                 }))
-                .when('/admin/users', angularAMD.route({
-                    templateUrl: assets.html_users,
-                    title: 'Users',
-                    controller: 'UsersController',
-                    controllerUrl: 'common/controllers/users/users_controller',
-                    resolve: {
-                        check: function ($location, loginModel) {
-                            if(!loginModel.getClientData().is_super_admin){
-                                $location.url('/dashboard');
-                            }
-                        }
-                    }
-                }))
-
                 .when('/mediaplan/:campaignId/edit', angularAMD.route({
                     templateUrl: assets.html_campaign_create,
                     title: 'Edit - Media Plan',
@@ -552,7 +549,7 @@ define(['common'], function (angularAMD) {
         })
 
         .run(function ($rootScope, $location, $cookies, loginModel, brandsModel, dataService, $cookieStore,
-                       workflowService, featuresService, subAccountModel, $window) {
+                       workflowService, featuresService, subAccountModel, $window,localStorageService) {
             var handleLoginRedirection = function () {
                 var cookieRedirect = $cookieStore.get('cdesk_redirect') || null,
                     localStorageRedirect = localStorage.getItem('cdeskRedirect'),
@@ -613,7 +610,7 @@ define(['common'], function (angularAMD) {
                                         clientObj = result.data.data[0];
                                     }
 
-                                    loginModel.setMasterClient({
+                                    localStorageService.masterClient.set({
                                         id: clientObj.id,
                                         name: clientObj.name,
                                         isLeafNode: clientObj.isLeafNode
@@ -642,7 +639,6 @@ define(['common'], function (angularAMD) {
                                                 .then(function (response) {
                                                     featuresService.setFeatureParams(response.data.data.features);
                                                 });
-
 
                                             if (locationPath === '/login' || locationPath === '/') {
                                                 handleLoginRedirection();

@@ -154,6 +154,12 @@ textarea {
   height: auto;
   box-shadow: none !important;
 }
+input[type="text"].disabled,
+input[type="number"].disabled,
+input[type="password"].disabled,
+input[type="textarea"].disabled {
+  background: #eee;
+}
 .currencyFly ~ input[type="text"],
 .currencyFly ~ input[type="number"] {
   padding-left: 20px ;
@@ -2021,6 +2027,7 @@ tags-input ul .suggestion-item.selected span {
   padding: 5px 0 5px 0;
   line-height: 100%;
   height: 25px;
+  box-shadow: none;
 }
 .miniTabLinks .btn-link.active {
   border-bottom: 2px solid #0978C9;

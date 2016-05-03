@@ -518,16 +518,18 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/ac
                 return i !== accountIndex;
             });
             _.each($scope.adminToggle, function(value, i){
-                setTimeout(function(i) {
-                    if(value) {
-                        $('#admin-toggle-' + i).bootstrapToggle('on');
-                        $("#addPermissionText_" + i).hide();
-                    } else {
-                        $('#admin-toggle-' + i).bootstrapToggle('off');
-                        $("#addPermissionText_" + i).show();
-                    }
-                },500, i);
-            })
+                if(accountIndex == i) {
+                    setTimeout(function (i) {
+                        if (value) {
+                            $('#admin-toggle-' + i).bootstrapToggle('on');
+                            $("#addPermissionText_" + i).hide();
+                        } else {
+                            $('#admin-toggle-' + i).bootstrapToggle('off');
+                            $("#addPermissionText_" + i).show();
+                        }
+                    },500, i);
+                }
+            });
         }
 
         $scope.subClientListData = {};

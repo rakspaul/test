@@ -122,6 +122,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
                                 campaignOverView.modifyCampaignData();
                                 campaignOverView.getLineItems();
+                                campaignOverView.getAdgroups($routeParams.campaignId);
                             } else {
                                 campaignOverView.errorHandler(result);
                             }
@@ -257,6 +258,15 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                                     }
                                 });
 
+                                //loop through response data
+
+                                _.each(responseData, function(data) {
+                                     if(data.adGroup.lineitemId) {
+                                        lineItemObj = campaignOverView.getLineItem(data.adGroup.lineitemId);
+                                        data.adGroup.lineitemName = lineItemObj.name;
+                                     }
+                                })  
+
                                 $scope.workflowData.campaignGetAdGroupsData = responseData;
 
                                 // **Non Ad Group Ads section
@@ -346,6 +356,10 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                                 $route.reload();
                             }
                         });
+                },
+
+                getLineItem : function(lineItemId) {
+                    return _.filter($scope.lineItems, function(obj) { return obj.id ===  lineItemId})[0];  
                 },
 
                 errorHandler: function (errData) {
@@ -530,6 +544,9 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             $scope.cancelArchiveCampaign = function () {
                 $scope.campaignArchive = !$scope.campaignArchive;
             };
+             $scope.cancelCloneCampaign = function () {
+                $scope.campaignClone = !$scope.campaignClone;
+            };
 
             $scope.processObjectiveData = function (objectiveObj) {
                 var brandingArr = _.filter(objectiveObj, function (obj) {
@@ -622,7 +639,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
             campaignOverView.getCampaignData($routeParams.campaignId);
             //campaignOverView.getAdsForCampaign($routeParams.campaignId);
-            campaignOverView.getAdgroups($routeParams.campaignId);
+            
 
             $(function () {
                 $('#pushCampaignBtn').on('click', function () {
@@ -775,8 +792,10 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     $scope.workflowData.campaignData.bookedSpend) + Math.ceil($scope.adGroupMinBudget);
             };
 
+           
+
             $scope.setLineItem = function(lineitemId) {
-                var matchedLineItem = _.filter($scope.lineItems, function(obj) { return obj.id ===  lineitemId})[0];
+                matchedLineItem = campaignOverView.getLineItem(lineitemId);
                 $scope.selectLineItems(null, matchedLineItem);
             }
 

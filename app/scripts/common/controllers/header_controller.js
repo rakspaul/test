@@ -2,7 +2,7 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
     'reporting/campaignSelect/campaign_select_model', 'common/services/role_based_service', 'workflow/services/workflow_service', 'common/services/features_service','reporting/subAccount/sub_account_model'], function (angularAMD) {
     angularAMD.controller('HeaderController', function ($scope, $rootScope, $route, $cookieStore, $location, $modal,
                                                         constants, loginModel, domainReports,
-                                                        campaignSelectModel, RoleBasedService, workflowService,featuresService,subAccountModel) {
+                                                        campaignSelectModel, RoleBasedService, workflowService,featuresService,subAccountModel,localStorageService) {
         $scope.user_name = loginModel.getUserName();
         $scope.isSuperAdmin = loginModel.getClientData().is_super_admin;
         $scope.version = version;
@@ -18,13 +18,13 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
 
                     _.each(result.data.data, function (org) {
                         $scope.accountsData.push({'id': org.id, 'name': org.name, 'isLeafNode':org.isLeafNode });
-                        if(preferred_client !== undefined && org.id === preferred_client && !loginModel.getMasterClient()) {
-                            loginModel.setMasterClient(org.id,org.name,org.isLeafNode);
+                        if(preferred_client !== undefined && org.id === preferred_client && !localStorageService.masterClient.get()) {
+                            localStorageService.masterClient.set(org.id,org.name,org.isLeafNode);
                         }
                     });
 
-                    if(preferred_client == 0 && !loginModel.getMasterClient()){
-                        loginModel.setMasterClient(result.data.data[0].id,result.data.data[0].name,result.data.data[0].isLeafNode);
+                    if(preferred_client == 0 && !localStorageService.masterClient.get()){
+                        localStorageService.masterClient.set(result.data.data[0].id,result.data.data[0].name,result.data.data[0].isLeafNode);
                     }
 
                     if(result.data.data.length > 1) {
@@ -36,8 +36,8 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
                     $scope.accountsData = _.sortBy($scope.accountsData, 'name');
                    // console.log('$scope.accountsData',$scope.accountsData);
 
-                    if (loginModel.getMasterClient() && loginModel.getMasterClient().name) {
-                        $scope.defaultAccountsName = loginModel.getMasterClient().name;
+                    if (localStorageService.masterClient.get() && localStorageService.masterClient.get().name) {
+                        $scope.defaultAccountsName = localStorageService.masterClient.get().name;
                     } else {
                         $scope.defaultAccountsName = $scope.accountsData[0].name;
                     }
@@ -54,13 +54,13 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
                     }
 
                     if(angular.isUndefined(loginModel.getSelectedClient()) || loginModel.getSelectedClient() === null ) {
-                        if(loginModel.getMasterClient().isLeafNode) {
-                            loginModel.setSelectedClient({'id':loginModel.getMasterClient().id,'name':loginModel.getMasterClient().name});
+                        if(localStorageService.masterClient.get().isLeafNode) {
+                            loginModel.setSelectedClient({'id':localStorageService.masterClient.get().id,'name':localStorageService.masterClient.get().name});
                             campaignsClientData(1);
 
                         } else {
                             subAccountModel.fetchSubAccounts('headerCtrl',function(){
-                                campaignsClientData(2);
+                            campaignsClientData(2);
                             });
                         }
                     } else {
@@ -89,7 +89,7 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
         /* End Feature Permission */
 
         $scope.getClientData = function () {
-            clientId = loginModel.getMasterClient().id;
+            clientId = localStorageService.masterClient.get().id;
             workflowService.getClientData(clientId).then(function (response) {
                 RoleBasedService.setClientRole(response);//set the type of user here in RoleBasedService.js
                 RoleBasedService.setCurrencySymbol();
@@ -111,7 +111,7 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
         }
 
         var setMasterClientData = function(id, name,isLeafNode) {
-            loginModel.setMasterClient({'id': id, 'name': name,'isLeafNode':isLeafNode});
+            localStorageService.masterClient.set({'id': id, 'name': name,'isLeafNode':isLeafNode});
             showSelectedMasterClient(event, name);
             if(isLeafNode) {
                 loginModel.setSelectedClient({'id': id, 'name': name});
@@ -120,7 +120,7 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
             } else {
                 subAccountModel.fetchSubAccounts('MasterClientChanged',function(){
                     $scope.getClientData();
-
+                   // console.log('current url',$location.url());
                     $rootScope.$broadcast(constants.EVENT_MASTER_CLIENT_CHANGED, {'client': loginModel.getSelectedClient().id, 'event_type': 'clicked'});
                 });
 
@@ -131,7 +131,7 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
         $scope.set_account_name = function (event, id, name,isLeafNode) {
             var moduleObj = workflowService.getModuleInfo();
             if (moduleObj && moduleObj.moduleName === 'WORKFLOW') {
-                if (loginModel.getMasterClient().id !== id) {
+                if (localStorageService.masterClient.get().id !== id) {
                     var $modalInstance = $modal.open({
                         templateUrl: assets.html_change_account_warning,
                         controller: "AccountChangeController",
@@ -147,11 +147,9 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
                             accountChangeAction: function () {
                                 return function () {
                                     setMasterClientData(id, name,isLeafNode);
-
-                                    if(!loginModel.getMasterClient().isLeafNode) {
+                                    if(!localStorageService.masterClient.get().isLeafNode) {
                                        subAccountModel.resetDashboardSubAccStorage();
                                     }
-
 
                                     // check this condition .. when etners as workflow user should we broadcast masterclient - sapna
                                     if (moduleObj.redirect) {
@@ -166,7 +164,8 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
                 }
             } else {
                 setMasterClientData(id, name,isLeafNode);
-                if(!loginModel.getMasterClient().isLeafNode) {
+
+                if(!localStorageService.masterClient.get().isLeafNode) {
                     subAccountModel.resetDashboardSubAccStorage();
                 }
 
@@ -183,7 +182,7 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
         };
 
         $scope.NavigateToTab = function (url, event, page) {
-            $(".header_tab_dropdown").removeClass('active_tab');
+            $(".header_tab_dropdown").removeClass('active_tab active selected');
             if (page === 'reportOverview') {
                 $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign().id;
                 if ($scope.selectedCampaign === -1) {
@@ -199,8 +198,12 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
                 $("#creative_nav_link").addClass("active_tab");
             } else if (page === 'adminOverview') {
                 $(".each_nav_link").removeClass('active_tab active selected');
-                url = '/admin/accounts';
+                url = '/admin/accounts'
                 $("#admin_nav_link").addClass("active_tab");
+            } else if (page === 'mediaplanList') {
+                $(".each_nav_link").removeClass('active_tab active selected');
+                url = '/mediaplans'
+                $("#campaigns_nav_link").addClass("active_tab");
             }
             if (event) {
                 $(event.currentTarget).parent().addClass('active_tab');
@@ -233,7 +236,8 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
                 $('.each_nav_link.active .arrowSelect').fadeIn();
             }, 800);
             setTimeout(function () {
-                if (!( $(".main_navigation_holder").is(":hover") || $("#user-menu").is(":hover") || $("#reports-menu").is(":hover") || $("#admin-menu").is(":hover") ) || $("#campaigns_nav_link").is(":hover")) {                    //$(".main_nav_dropdown").fadeOut();
+                if (!( $(".main_navigation_holder").is(":hover") || $("#user-menu").is(":hover") || $("#reports-menu").is(":hover") || $("#admin-menu").is(":hover") ) || $("#campaigns_nav_link").is(":hover")) {
+                    //$(".main_nav_dropdown").fadeOut();
                     $("#reports-menu, #admin-menu, #user-menu").css('min-height',0).slideUp('fast');
                     $(".main_navigation_holder").find(".selected").removeClass("selected");
                 }
@@ -303,7 +307,7 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
                 if (reportTypeDropdownClass.is(':visible') && ( $(event.target).closest(".reportTypeDropdownTxt").length == 0) ) {
                     reportTypeDropdownClass.hide();
                 }
-                if (campaigns_list_class.is(':visible') && ( $(event.target).closest(".campaign_name_selected").length == 0) && ( $(event.target).closest("#campaignsDropdownDiv").length == 0) ) {
+                if (campaigns_list_class.is(':visible') && ( $(event.target).closest(".campaign_name_selected").length == 0)) {
                     campaigns_list_class.hide();
                 }
 
