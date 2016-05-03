@@ -119,8 +119,8 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
                 workflowService.getCreativesforCreativeList(campaignId, formats, query,pageSize,pageNo,advertiserId, function (result) {
                     $scope.creativeListLoading = false;
                     $scope.creativesNotFound = false;
-                    if($scope.creativeData['creatives'].length === 0 || query) {
-                        $scope.creativeData['creatives'].length=0;
+                    if($scope.creativeData['creatives'].length === 0 || query || pageNo == 1) {
+                        $scope.creativeData['creatives'].length = 0;
                         $scope.creativeData['creatives'] = result.data.data;
                     } else {
                         if(result.data.data &&result.data.data.length>0){
