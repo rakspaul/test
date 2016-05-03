@@ -189,9 +189,34 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
             },
             setPermissions: function (permissionObj) {
                 permission = permissionObj;
+            },
+            getAdChoiceDataFromClient: function(clientId){
+                return dataService.fetch(vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/ad_choices', {cache: false});
+            },
+            saveAdChoiceDataForClient: function(clientId, data){
+                return dataService.post(vistoconfig.apiPaths.WORKFLOW_API_URL+'/clients/'+clientId+'/ad_choices',data, {'Content-Type': 'application/json'});
+            },
+            getIABCategoryList: function(){
+                return dataService.fetch(vistoconfig.apiPaths.WORKFLOW_API_URL + '/iab_categories', {cache: false});
+            },
+            getIABCategoryForClient: function(clientId){
+                return dataService.fetch(vistoconfig.apiPaths.WORKFLOW_API_URL+'/clients/'+clientId+'/iab_categories', {cache: false});
+            },
+            saveIABCategoryForClient: function(clientId, data){
+                return dataService.post(vistoconfig.apiPaths.WORKFLOW_API_URL+'/clients/'+clientId+'/iab_categories',data, {'Content-Type': 'application/json'});
+            },
+            getIABCategoryForAdv: function(clientId, advId){
+                return dataService.fetch(vistoconfig.apiPaths.WORKFLOW_API_URL+'/clients/'+clientId+'/advertisers/'+advId+'/iab_categories', {cache: false});
+            },
+            saveIABCategoryForAdv: function(clientId, advId, data){
+                return dataService.post(vistoconfig.apiPaths.WORKFLOW_API_URL+'/clients/'+clientId+'/advertisers/'+advId+'/iab_categories',data, {'Content-Type': 'application/json'});
+            },
+            getAdChoiceDataFromAdv: function(clientId, advId){
+                return dataService.fetch(vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/ad_choices?advertiser_id='+advId, {cache: false});
+            },
+            saveAdChoiceDataForAdv: function(clientId, advId, data){
+                return dataService.post(vistoconfig.apiPaths.WORKFLOW_API_URL+'/clients/'+clientId+'/ad_choices?advertiser_id='+advId, data, {'Content-Type': 'application/json'});
             }
-
-
         };
     });
 });

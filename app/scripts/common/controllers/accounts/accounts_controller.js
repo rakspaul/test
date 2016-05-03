@@ -10,7 +10,8 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
         $(".main_navigation").find('.active').removeClass('active').end().find('#creative_nav_link').addClass('active');
 
         _currCtrl = this;
-        _currCtrl.pixelIndex = 0;
+        $scope.pixelIndex = null;
+        $scope.pixelFormData = {name:"", pixelType:"", expiryDate:"", description:"", pixelTypeName:"Select Pixel Type"}
         $scope.isSuperAdmin = loginModel.getClientData().is_super_admin;
         $scope.brandsList = [];
         $scope.advertisersList = [];
@@ -32,6 +33,7 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
         $scope.selectedAdvertiserId = '';//this is the advertiser selected from dropdown during new advertiser creation
         $scope.selectedBrandId = '';
         $scope.activeEditAdvertiserTab = "basic";
+        $scope.advertiserAddOrEditData = {};
         $scope.dropdownCss = {
             display: 'none',
             'max-height': '100px',
@@ -55,48 +57,84 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
         $scope.showPixelTab = function(){
             $scope.activeEditAdvertiserTab = "pixel";
             $(".createPixel, #pixelsCnt").show();
+
             $(".basicForm, .IABForm").hide();
             $(".miniTabLinks.sub .btn").removeClass("active");
             $(".miniTabLinks.sub .subPixels").addClass("active");
-            _.each($scope.advertiserData.pixels, function(item, i){
-                var index = i;
-                $('#pixelExpDate_'+i).datepicker('update', item.expiryDate);
-                $('#pixelExpDate_'+i).datepicker('setStartDate', momentService.getCurrentYear().toString());
-                $('#pixelExpDate_'+i).change(function(e){
-                    $scope.advertiserData.pixels[i].expiryDate = $(this).val();
-                })
-            });
+            $(".pixelCreate").hide();
+        }
+
+        $scope.addPixel = function(){
+            _currCtrl.setCalanderSetting();
+            $('#pixelExpDate').datepicker('setStartDate', momentService.getCurrentYear().toString());
+            $(".pixelCreate").slideDown();
+        }
+        _currCtrl.verifyPixelInput = function(){
+            var ret = true,
+                errMsg = "Error",
+                item = $scope.pixelFormData;
+            if(!item.name || item.name == "") {
+                errMsg = constants.EMPTY_PIXEL_FIELD;
+                ret = false;
+            }else if(!item.pixelType || item.pixelType == ""){
+                errMsg = constants.EMPTY_PIXEL_TYPE;
+                ret = false;
+            }else if(!item.expiryDate || item.expiryDate == ""){
+                errMsg = constants.EMPTY_PIXEL_EXPIREAT;
+                ret = false;
+            }
+            if(!ret){
+                $rootScope.setErrAlertMessage(errMsg);
+            }
+            return ret;
+        }
+        $scope.savePixel = function(){
+            if(_currCtrl.verifyPixelInput()) {
+                if($scope.pixelIndex!=null){
+                    //Update
+                    var keyArr = ["name", "pixelType", "expiryDate", "description"];
+                    _.each(keyArr,function(v){
+                        $scope.advertiserData.pixels[$scope.pixelIndex][v] =  $scope.pixelFormData[v];
+                    });
+                }else {
+                    $scope.advertiserData.pixels.push($scope.pixelFormData);        //Create
+                }
+                $scope.clearPixel();
+            }
+        }
+
+
+        $scope.removePixel = function(){
+            $scope.advertiserData.pixels = _.filter($scope.advertiserData.pixels,function(item,i){
+                return i != $scope.pixelIndex;
+            })
+            $scope.clearPixel();
+        }
+        $scope.editPixel = function(index, pixel){
+            $(".pixelCreate").slideDown();
+            $('#pixelExpDate').datepicker('setStartDate', momentService.getCurrentYear().toString());
+            $scope.pixelIndex = index;
+            $scope.pixelFormData = pixel;
 
         }
-        $scope.addPixel = function(){
-            $scope.advertiserData.pixels.push({});
-            _currCtrl.setCalanderSetting($scope.advertiserData.pixels.length - 1);
+        $scope.clearPixel = function(){
+            $(".pixelCreate").slideUp();
+            $scope.pixelFormData = {name:"", pixelType:"", expiryDate:"", description:"", pixelTypeName:"Select Pixel Type"}
+            $scope.pixelIndex = null;
         }
         $scope.showIABTab = function(){
             $scope.activeEditAdvertiserTab = "iab";
-//            $(".IABForm").show();
-//            $(".createPixel, #pixelsCnt, .basicForm").hide();
-//            $(".miniTabLinks.sub .btn").removeClass("active");
-//            $(".miniTabLinks.sub .subIABCat").addClass("active");
+        }
+        _currCtrl.setCalanderSetting = function(i){
+            $('#pixelExpDate').datepicker('update', momentService.todayDate('YYYY/MM/DD'));
+            $('#pixelExpDate').change(function (e) {
+                $scope.pixelFormData.expiryDate = $(this).val();
+            });
         }
         $scope.addIAB = function() {
             //Code for Add
         }
-        _currCtrl.setCalanderSetting = function(i){
-            setTimeout(function(i) {
-                $('#pixelExpDate_' + i).datepicker('update', momentService.todayDate('YYYY/MM/DD'));
-                $('#pixelExpDate_' + i).datepicker('setStartDate', momentService.getCurrentYear().toString());
-                $('#pixelExpDate_' + i).change(function (e) {
-                    $scope.advertiserData.pixels[i].expiryDate = $(this).val();
-                });
-            },25,i);
-            _currCtrl.pixelIndex++;
-        }
-        $scope.removePixel = function(pixelIndex){
-            $scope.advertiserData.pixels = _.filter($scope.advertiserData.pixels,function(item,i){
-                return i != pixelIndex;
-            })
-        }
+
         _currCtrl.pixelJSON = {
             impressionLookBack: 14,
             clickLookBack: 14,
@@ -245,7 +283,6 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                         if(item.expiryDate) {
                             $scope.advertiserData.pixels[i].expiryDate = momentService.newMoment(item.expiryDate).format('YYYY/MM/DD');
                         }
-                        // _currCtrl.setCalanderSetting(i, 1);
                     });
                 }
             },function(err){
@@ -271,6 +308,7 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                         $scope.advertiserData.lookbackClicks = res.data.data.lookbackClicks;
                     }
                     getPixelsData(client.id,advObj.id);
+                    $rootScope.$broadcast("advertiserDataReceived");
                 },function(err){
                 });
             }else{
