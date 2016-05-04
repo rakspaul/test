@@ -6,7 +6,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
     'workflow/controllers/daypart_create_controller', 'workflow/controllers/video_targetting_controller',
     'workflow/controllers/inventory_filters_controller', 'workflow/controllers/creative_controller',
     'workflow/controllers/creative_list_controller', 'workflow/controllers/creative_tag_controller',
-    'workflow/services/platform_custome_module', 'common/services/zip_code'],
+    'workflow/services/platform_custom_module', 'common/services/zip_code'],
     function (angularAMD) {
         angularAMD.controller('CampaignAdsCreateController', function ($scope,  $rootScope,$routeParams, $locale,
                                                                        $location,  $filter, $timeout,constants,
