@@ -15,26 +15,29 @@
             <!-- Header Starts -->
             <div class="clearfix page_header_container campAdHeader">
                 <div class="col-md-12 zeroPadding">
+                    <div class="pull-left accountTitleTag" ng-if="workflowData.campaignData.clientName && !isLeafNode">
+                        <span class="tagTitle" ng-bind="textConstants.SUB_ACCOUNT"></span>
+                        <span class="font-bold" ng-bind="selectedClientName"></span>
+                        <span class="slash-divider" style="padding-left:5px;">/</span>
+                    </div>
+                    <div class="pull-left" style="padding-left:5px;">
+                        <span class="tagTitle" ng-bind="textConstants.ADVERTISER"></span>
+                        <span class="font-bold" style="padding-left:5px;" ng-bind="workflowData.campaignData.advertiserName"></span>
+                        <span class="slash-divider">/</span>
+                    </div>
+                    <div class="pull-left" style="padding-left:5px;" ng-if="workflowData.campaignData.brandName">
+                        <span class="tagTitle" ng-bind="textConstants.BRAND"></span>
+                        <span class="font-bold" ng-bind="workflowData.campaignData.brandName"></span>
+                        <span class="slash-divider">/</span>
+                    </div>
+                    <div class="pull-left" style="padding-left:5px;">
+                        <span class="tagTitle" ng-bind="textConstants.VID"></span>
+                        <span class="font-bold" style="padding-left:5px;">{{workflowData.campaignData.id}}</span>
+                    </div>
+                </div>
+                <div class="col-md-12 zeroPadding">
                     <div class="col-md-9 zeroPadding">
-                        <div class="pull-left accountTitleTag" style="padding-left:5px;" ng-if="workflowData.campaignData.clientName && !isLeafNode">
-                            <span class="tagTitle" ng-bind="textConstants.SUB_ACCOUNT"></span>
-                            <span class="font-bold" ng-bind="selectedClientName"></span>
-                            <span class="slash-divider" style="padding-left:5px;">/</span>
-                        </div>
-                        <div class="pull-left" style="padding-left:5px;">
-                            <span class="tagTitle" ng-bind="textConstants.ADVERTISER"></span>
-                            <span class="font-bold" style="padding-left:5px;" ng-bind="workflowData.campaignData.advertiserName"></span>
-                            <span class="slash-divider">/</span>
-                        </div>
-                        <div class="pull-left" style="padding-left:5px;" ng-if="workflowData.campaignData.brandName">
-                            <span class="tagTitle" ng-bind="textConstants.BRAND"></span>
-                            <span class="font-bold" ng-bind="workflowData.campaignData.brandName"></span>
-                            <span class="slash-divider">/</span>
-                        </div>
-                        <div class="pull-left" style="padding-left:5px;">
-                            <span class="tagTitle" ng-bind="textConstants.VID"></span>
-                            <span class="font-bold" style="padding-left:5px;">{{workflowData.campaignData.id}}</span>
-                        </div>
+
 
 
                         <div ng-if="workflowData.campaignData.status" class="campTitleWrap" >
