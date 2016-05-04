@@ -1,5 +1,5 @@
 define(['angularAMD', 'common/services/constants_service', 'workflow/services/workflow_service','login/login_model','common/moment_utils','workflow/directives/clear_row', 'workflow/directives/ng_upload_hidden','workflow/controllers/pixels_controller','workflow/directives/custom_date_picker','workflow/controllers/line_item_controller'], function (angularAMD) {
-    angularAMD.controller('CreateCampaignController', function ($scope,  $timeout, $rootScope, $filter, $routeParams, $locale, $location, $timeout,constants, workflowService,loginModel,momentService) {
+    angularAMD.controller('CreateCampaignController', function ($scope,  $timeout, $rootScope, $filter, $routeParams, $locale, $location, $timeout,constants, workflowService,loginModel,momentService, localStorageService) {
 
         $scope.selectedKeywords = [];
         $scope.platformKeywords = [];
@@ -632,7 +632,15 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     todayHighlight: true
                 });
 
-                if ($scope.mode == 'edit') {
+                //media plan clone
+                var cloneMediaPlanObj = localStorageService.mediaPlanClone.get();
+                var cloneMediaPlanName;
+                if(cloneMediaPlanObj) {
+                    cloneMediaPlanName = cloneMediaPlanObj.name;
+                    $scope.campaignId = cloneMediaPlanObj.id;
+                }
+
+                if ($scope.mode == 'edit' || cloneMediaPlanName) {
                     $scope.processEditCampaignData();
                 } else {
                     //createCampaign.objectives();

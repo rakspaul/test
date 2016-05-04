@@ -1,8 +1,8 @@
 define(['angularAMD', 'common/services/constants_service', 'workflow/services/workflow_service', 'common/moment_utils',
     'common/services/vistoconfig_service', 'workflow/controllers/get_adgroups_controller',
-    'workflow/directives/edit_ad_group_section','login/login_model'],
+    'workflow/directives/edit_ad_group_section','login/login_model', 'workflow/controllers/campaign_clone_controller'],
     function (angularAMD) {
-        angularAMD.controller('CampaignOverViewController', function ($scope, $rootScope, $routeParams, $timeout,
+        angularAMD.controller('CampaignOverViewController', function ($scope, $modal, $rootScope, $routeParams, $timeout,
                                                                       $location, $route, constants, workflowService,
                                                                       momentService, vistoconfig, featuresService,
                                                                       loginModel, $sce) {
@@ -548,8 +548,17 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             $scope.cancelArchiveCampaign = function () {
                 $scope.campaignArchive = !$scope.campaignArchive;
             };
-             $scope.cancelCloneCampaign = function () {
-                $scope.campaignClone = !$scope.campaignClone;
+             $scope.cloneCampaign = function () {
+                 var $modalInstance = $modal.open({
+                     templateUrl: assets.html_clone_campaign_popup,
+                     controller: "CampaignClone",
+                     scope: $scope,
+                     windowClass: 'delete-dialog',
+                     resolve: {
+                         campaignCloneAction: function () {
+                         }
+                     }
+                 });
             };
 
             $scope.processObjectiveData = function (objectiveObj) {
