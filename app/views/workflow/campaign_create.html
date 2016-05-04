@@ -67,7 +67,7 @@
                             </div>
                         </li>
                         <li class="clearfix eachStepCompLabel" >
-                            <a class="leftNavLink" ng-if="!selectedCampaign.advertiserId">2 Pixels</a>
+                            <a class="leftNavLink disabled-cursor" ng-if="!selectedCampaign.advertiserId">2 Pixels</a>
                             <a class="leftNavLink" ng-if="selectedCampaign.advertiserId" data-target="#pixels" data-toggle="tab">2 Pixels</a>
                             <div class="statusLabel">
                                 <div class="col-md-12" ng-if="selectedCampaign.selectedPixel.length >0">
@@ -80,7 +80,7 @@
                         </li>
 
                         <li class="clearfix eachStepCompLabel" >
-                            <a class="leftNavLink budget-page-trigger" ng-if="!selectedCampaign.advertiserId">3 {{textConstants.MP_BUDGET}} & Measure</a>
+                            <a class="leftNavLink budget-page-trigger disabled-cursor" ng-if="!selectedCampaign.advertiserId">3 {{textConstants.MP_BUDGET}} & Measure</a>
                             <a class="leftNavLink budget-page-trigger" ng-if="selectedCampaign.advertiserId" data-target="#budget" data-toggle="tab">3 {{textConstants.MP_BUDGET}} & Measure</a>
                             <div class="statusLabel" ng-if="Campaign.totalBudget">
                                 <div class="col-md-12">
@@ -105,7 +105,7 @@
                             </div>
                         </li>
                         <li class="clearfix eachStepCompLabel" >
-                            <a class="leftNavLink" ng-if="!selectedCampaign.advertiserId">4 Line Items</a>
+                            <a class="leftNavLink disabled-cursor" ng-if="!selectedCampaign.advertiserId">4 Line Items</a>
                             <a class="leftNavLink" ng-if="selectedCampaign.advertiserId" data-target="#addLineItems" data-toggle="tab">4 Line Items</a>
                             <div class="statusLabel">
                                 <div class="col-md-12" ng-if="lineItemList.length >0">

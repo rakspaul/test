@@ -2060,3 +2060,6 @@ tags-input ul .suggestion-item.selected span {
 .pillsWrap .brand_search_highlight {
   background: #fcecbd;
 }
+.disabled-cursor {
+  cursor: not-allowed !important;
+}
