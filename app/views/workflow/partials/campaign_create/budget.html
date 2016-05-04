@@ -56,7 +56,6 @@
                         <div class="th col-md-3" data-ng-bind="textConstants.MEDIAPLAN_CHANNELS"></div>
                     </div>
                 </div>
-
                 <div class="tbody" style="max-height: 200px;overflow: auto;">
                     <!--Table Sample-->
                     <div class="tr" ng-repeat="config in vendorConfig.userPermission">
@@ -120,7 +119,7 @@
                                     <div class="col-md-12 zeroPadding dropdown-workflow">
                                         <div class="dropdown">
                                             <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                                <span class="text">Select</span>
+                                                <span class="text" data-ng-bind="addCost.costCategory && addCost.costCategory.name ? addCost.costCategory.name : 'Select'"></span>
                                                 <span class="icon-arrow-down"></span>
                                             </button>
                                             <ul class="dropdown-menu">
@@ -136,7 +135,7 @@
                             <div class="col-md-12 zeroPadding dropdown-workflow">
                                 <div class="dropdown">
                                     <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" >
-                                        <span class="text">Select</span>
+                                        <span class="text" data-ng-bind="addCost.vendor && addCost.vendor.name ? addCost.vendor.name : 'Select'"></span>
                                         <span class="icon-arrow-down"></span>
                                     </button>
                                     <ul class="dropdown-menu" aria-labelledby="selectKPI"  id="selectKPI">
@@ -150,7 +149,7 @@
                             <div class="col-md-12 zeroPadding dropdown-workflow">
                                 <div class="dropdown">
                                     <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                        <span class="text">Select</span>
+                                        <span class="text" data-ng-bind="addCost.offeringName || 'Select'"></span>
                                         <span class="icon-arrow-down"></span>
                                     </button>
                                     <ul class="dropdown-menu" >
@@ -162,7 +161,6 @@
                         <div class="col-md-1 zeroPadding" >
                             <label for="primaryKPI" class="col-sm-12 greyTxt miniLabels" data-ng-bind="textConstants.MEDIAPLAN_PRICING"></label>
                             <div class="col-md-12 zeroPadding  symbol-input">
-
                                 <input type="text" class="col-md-12 disabled"  value="Flat" style="height:36px; background: #F4F1E9;" disabled/>
                             </div>
 
@@ -170,9 +168,8 @@
                         <div class="col-md-1 zeroPadding" >
                             <label for="primaryKPI" class="col-sm-12 greyTxt miniLabels" data-ng-bind="textConstants.MEDIAPLAN_RATE"></label>
                             <div class="col-md-12 zeroPadding  symbol-input" style="padding-right: 0px !important; max-width: 118px;">
-
                                 <span class="symbol">{{locale.NUMBER_FORMATS.CURRENCY_SYM}}</span>
-                                <input type="text" class="col-md-12" style="text-indent: 8px; height:36px;"  ng-model ="rateValue" fraction-numbers="fraction-numbers" ng-blur="costAttributesSelected(costAttributes, {'rateValue' : rateValue} , $event, 'rateValue')" field="rateValue" />
+                                <input type="text" class="col-md-12" style="text-indent: 8px; height:36px;" ng-value="addCost.rateValue" fraction-numbers="fraction-numbers" ng-blur="costAttributesSelected(costAttributes, {'rateValue' : rateValue} , $event, 'rateValue')" field="rateValue" />
                             </div>
                         </div>
                         <div class="col-md-1 zeroPadding removeHolder" ng-click="removeCostDimension($event);">

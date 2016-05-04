@@ -67,13 +67,21 @@
                             </div>
                         </li>
                         <li class="clearfix eachStepCompLabel" >
-                            <a class="leftNavLink" ng-if="!workflowData.advertisers || workflowData.advertisers.length === 0">2 Pixels</a>
-                            <a class="leftNavLink" ng-if="workflowData.advertisers && workflowData.advertisers.length >0" data-target="#pixels" data-toggle="tab">2 Pixels</a>
+                            <a class="leftNavLink" ng-if="!selectedCampaign.advertiserId">2 Pixels</a>
+                            <a class="leftNavLink" ng-if="selectedCampaign.advertiserId" data-target="#pixels" data-toggle="tab">2 Pixels</a>
+                            <div class="statusLabel">
+                                <div class="col-md-12" ng-if="selectedCampaign.pixelList.length >0">
+                                    <span>{{selectedCampaign.pixelList.length}} pixels selected</span>
+                                </div>
+                                <div class="col-md-12" ng-if="selectedCampaign.pixelList.length === 0">
+                                    <span data-ng-bind="textConstants.NOTSET"></span>
+                                </div>
+                            </div>
                         </li>
 
                         <li class="clearfix eachStepCompLabel" >
-                            <a class="leftNavLink budget-page-trigger" ng-if="!workflowData.advertisers || workflowData.advertisers.length === 0">3 {{textConstants.MP_BUDGET}} & Measure</a>
-                            <a class="leftNavLink budget-page-trigger" ng-if="workflowData.advertisers && workflowData.advertisers.length >0" data-target="#budget" data-toggle="tab">3 {{textConstants.MP_BUDGET}} & Measure</a>
+                            <a class="leftNavLink budget-page-trigger" ng-if="!selectedCampaign.advertiserId">3 {{textConstants.MP_BUDGET}} & Measure</a>
+                            <a class="leftNavLink budget-page-trigger" ng-if="selectedCampaign.advertiserId" data-target="#budget" data-toggle="tab">3 {{textConstants.MP_BUDGET}} & Measure</a>
                             <div class="statusLabel" ng-if="Campaign.totalBudget">
                                 <div class="col-md-12">
                                     <div class="statusIcon icon-usd"></div>
@@ -96,10 +104,17 @@
                                 </div>
                             </div>
                         </li>
-
                         <li class="clearfix eachStepCompLabel" >
-                            <a class="leftNavLink" ng-if="!workflowData.advertisers || workflowData.advertisers.length === 0" >4 Line Items</a>
-                            <a class="leftNavLink" ng-if="workflowData.advertisers && workflowData.advertisers.length >0" data-target="#addLineItems" data-toggle="tab">4 Line Items</a>
+                            <a class="leftNavLink" ng-if="!selectedCampaign.advertiserId">4 Line Items</a>
+                            <a class="leftNavLink" ng-if="selectedCampaign.advertiserId" data-target="#addLineItems" data-toggle="tab">4 Line Items</a>
+                            <div class="statusLabel">
+                                <div class="col-md-12" ng-if="lineItemList.length >0">
+                                    <span>{{lineItemList.length}} line item Selected</span>
+                                </div>
+                                <div class="col-md-12" ng-if="lineItemList.length === 0">
+                                    <span data-ng-bind="textConstants.NOTSET"></span>
+                                </div>
+                            </div>
                         </li>
                     </ul>
                 </div>
