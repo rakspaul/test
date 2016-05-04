@@ -1,7 +1,6 @@
 <div class="miniTabLinks sub" style="margin-bottom: 30px; width: 100%;">
     <a class="btn btn-link subBasics active" data-ng-click="basicForm()">Basic</a>
     <a class="btn btn-link subPixels" data-ng-click="showPixelTab()">Pixels</a>
-    <a class="btn btn-link subIABCat" data-ng-click="showIABTab()">IAB Categories</a>
 </div>
 
 <div class="popup-holder accounts-popup">
@@ -63,7 +62,7 @@
                 <div class="col-md-12 zeroPadding dropdown-workflow">
                     <div class="dropdown">
                         <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                            <span class="text" data-ng-bind="selectedIABCategory">Arts & Entertainment</span>
+                            <span class="text" data-ng-bind="advertiserAddOrEditData.selectedIABCategory">Arts & Entertainment</span>
                             <span class="icon-arrow-down"></span>
                         </button>
                         <ul class="dropdown-menu" data-toggle="dropdown">
