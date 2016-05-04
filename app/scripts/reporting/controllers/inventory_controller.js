@@ -294,7 +294,7 @@ define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', 'reporting/campaig
             $scope.$on(constants.EVENT_STRATEGY_CHANGED, function (event, strategy) {
                 $scope.selectedStrategy.id = strategySelectModel.getSelectedStrategy().id;
                 $scope.selectedStrategy.name = strategySelectModel.getSelectedStrategy().name;
-                $scope.strategyHeading = Number($scope.selectedStrategy.id) === 0 ? 'Media Plan total' : 'Ad Group total';
+                $scope.strategyHeading = Number($scope.selectedStrategy.id) === 0 ? 'Media Plan total*:' : 'Ad Group total*:';
                 inventoryWrapper.callBackStrategyChange();
             });
 

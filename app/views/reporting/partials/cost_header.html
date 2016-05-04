@@ -1,17 +1,33 @@
-<div class="each_cost_col first_col icon_text_holder"  ng-class="sortClassFunction('platform_name',sortTypebyCost,sortReverse)"
-     ng-click="sortTypebyCost = 'platform_name'; sortReverse = !sortReverse;removeKpiActive();" >{{textConstants.PLATFORM_NAME}}</div>
-<div class="each_cost_col sec_col" ng-class="sortClassFunction('-impressions',sortTypebyCost,sortReverseForCostImps)" ng-click="sortTypebyCost = '-impressions';sortTypebyCostSubSort='-impressions';sortReverse = sortReverseForCostImps; sortReverseForCostImps = !sortReverseForCostImps;removeKpiActive();" ><span class="default-kpi-header-icon" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() === 'impressions'"></span>{{textConstants.IMP_WITH_DOT}}</div>
-<div class="each_cost_col third_col "  >
-    <div class="dropdown kpi-dd-holder " >
-        <kpi-drop-down type="selected_filters.kpi_type.toLowerCase()"> </kpi-drop-down>
-    </div>
+<div class="col-md-1 zeroPadding icon_text_holder"  ng-class="sortClassFunction('platform_name',sortTypebyCost,sortReverse)"
+     ng-click="sortTypebyCost = 'platform_name'; sortReverse = !sortReverse;removeKpiActive();" >
+    {{textConstants.PLATFORM_NAME}}
 </div>
-<div class="each_cost_col fourth_col " ng-class="sortClassFunction('inventory_cost',sortTypebyCost,sortReverse)" ng-click="sortTypebyCost = 'inventory_cost'; sortReverse = !sortReverse;removeKpiActive();" >{{textConstants.INVENTORY}}</div>
-<div class="each_cost_col fifth_col " ng-class="sortClassFunction('data_cost',sortTypebyCost,sortReverse)" ng-click="sortTypebyCost = 'data_cost'; sortReverse = !sortReverse;removeKpiActive();" >{{textConstants.DATA}}</div>
-<div class="each_cost_col sixth_col " ng-class="sortClassFunction('serving_cost',sortTypebyCost,sortReverse)" ng-click="sortTypebyCost = 'serving_cost'; sortReverse = !sortReverse;removeKpiActive();" >{{textConstants.AD_SERVING}}</div>
-<div class="each_cost_col seventh_col" ng-class="sortClassFunction('verification_cost',sortTypebyCost,sortReverse)" ng-click="sortTypebyCost = 'verification_cost'; sortReverse = !sortReverse;removeKpiActive();" >{{textConstants.AD_VERIFICATION}}</div>
-<div class="each_cost_col seventh_col  icon_text_holder">{{ textConstants.CREATIVE}}</div>
-<div class="each_cost_col seventh_col  icon_text_holder">{{ textConstants.RESEARCH}}</div>
-<div class="each_cost_col seventh_col" ng-class="sortClassFunction('collective_cost',sortTypebyCost,sortReverse)" ng-click="sortTypebyCost = 'collective_cost'; sortReverse = !sortReverse;removeKpiActive();" >{{textConstants.COLLECTIVE_FEE}}</div>
-<div class="each_cost_col eighth_col total_cost" ng-class="sortClassFunction('spend',sortTypebyCost,sortReverse)" ng-click="sortTypebyCost = 'spend'; sortReverse = !sortReverse;removeKpiActive();" >{{textConstants.TOTAL_SPEND}}</div>
-<!-- ngIf: more_options -->
+
+<div class="col-md-11" style="padding-right: 0;">
+    <div class="col-md-1 zeroPadding" ng-class="sortClassFunction('-impressions',sortTypebyCost,sortReverseForCostImps)" ng-click="sortTypebyCost = '-impressions';sortTypebyCostSubSort='-impressions';sortReverse = sortReverseForCostImps; sortReverseForCostImps = !sortReverseForCostImps;removeKpiActive();" ><span class="default-kpi-header-icon" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() === 'impressions'"></span>{{textConstants.IMP_WITH_DOT}}</div>
+    <div class="col-md-1 zeroPadding">
+        <div class="dropdown kpi-dd-holder">
+            <kpi-drop-down type="selected_filters.kpi_type.toLowerCase()"> </kpi-drop-down>
+        </div>
+    </div>
+    <div class="col-md-1 zeroPadding" ng-class="sortClassFunction('inventory_cost',sortTypebyCost,sortReverse)" ng-click="sortTypebyCost = 'inventory_cost'; sortReverse = !sortReverse;removeKpiActive();" >{{textConstants.INVENTORY}}</div>
+    <div class="col-md-1 zeroPadding" ng-class="sortClassFunction('data_cost',sortTypebyCost,sortReverse)" ng-click="sortTypebyCost = 'data_cost'; sortReverse = !sortReverse;removeKpiActive();" >{{textConstants.DATA}}</div>
+    <div class="col-md-1 zeroPadding" ng-class="sortClassFunction('serving_cost',sortTypebyCost,sortReverse)" ng-click="sortTypebyCost = 'serving_cost'; sortReverse = !sortReverse;removeKpiActive();" >{{textConstants.AD_SERVING}}</div>
+    <div class="col-md-1 zeroPadding" ng-class="sortClassFunction('verification_cost',sortTypebyCost,sortReverse)" ng-click="sortTypebyCost = 'verification_cost'; sortReverse = !sortReverse;removeKpiActive();" >{{textConstants.AD_VERIFICATION}}</div>
+    <div class="col-md-1 zeroPadding">{{ textConstants.CREATIVE}}</div>
+    <div class="col-md-1 zeroPadding">{{ textConstants.RESEARCH}}</div>
+    <!--<div class="col-md-1 zeroPadding" ng-class="sortClassFunction('collective_cost',sortTypebyCost,sortReverse)" ng-click="sortTypebyCost = 'collective_cost'; sortReverse = !sortReverse;removeKpiActive();" >{{textConstants.COLLECTIVE_FEE}}</div>-->
+    <div class="col-md-2 zeroPadding" style="margin-top: -12px;">
+        <span class="col-md-12 zeroPadding text-center" style="border-bottom: 1px solid #000; margin: 0 0 5px 0;">Platform Fees</span>
+        <div class="col-md-12 zeroPadding">
+            <span class="icon_text_holder pull-left">Tech Fees</span>
+            <span class="icon_text_holder pull-left" style="padding-left: 43px;">Service</span>
+            <span class="icon_text_holder pull-right">Total</span>
+        </div>
+    </div>
+    <div class="col-md-1 zeroPadding" ng-class="sortClassFunction('spend',sortTypebyCost,sortReverse)" ng-click="sortTypebyCost = 'spend'; sortReverse = !sortReverse;removeKpiActive();" >{{textConstants.TOTAL_SPEND}}</div>
+    <div class="col-md-1 zeroPadding">Margin %</div>
+    <!-- ngIf: more_options -->
+</div>
+
+

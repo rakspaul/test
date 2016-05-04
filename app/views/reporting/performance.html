@@ -82,8 +82,11 @@
                             <div class="strategy_total_container ">
                                 <div class="strategy_total_container_header clearfix">
                                     <div class="each_col first_col" ng-hide="screenBusy">
-                                        {{strategyHeading}}:
+                                        <span class="strategyHeading" ng-bind="strategyHeading"></span>
+                                        <span class="pull-left icon-target viewLabelTxt"></span>
+                                        <span class="viewLabelTxt">{{viewLabelTxt}}</span>
                                     </div>
+                                    
                                     <div class="row_list_holder clearfix">
                                         <div class="common-load-icon" ng-show="screenBusy"></div>
                                         <div class="clearfix each_row_list " ng-show="!screenBusy" ng-repeat="screenData in strategyPerfDataByScreen | orderBy:sortTypeScreens:sortReverse track by $index" ng-include="'screenTpl'"></div>
@@ -118,7 +121,9 @@
                             <div class="strategy_total_container ">
                                 <div class="strategy_total_container_header clearfix">
                                     <div class="each_col first_col" ng-hide="dowBusy">
-                                        {{strategyHeading}}:
+                                        <span class="strategyHeading" ng-bind="strategyHeading"></span>
+                                        <span class="pull-left icon-target viewLabelTxt"></span>
+                                        <span class="viewLabelTxt">{{viewLabelTxt}}</span>
                                     </div>
                                     <div class="row_list_holder clearfix">
                                         <div class="common-load-icon" ng-show="dowBusy"></div>
@@ -143,6 +148,7 @@
                     </div>
                     <!-- -------END :  Days of week Block ----------------------------- -->
 
+
                     <!-- -------START :  Discrepancy Block ----------------------------- -->
                     <div class="col-md-12 zeroPadding" ng-class="adFormats.videoAds ? 'reports_block quar_data' : 'reports_block' " id="reports_bydiscrepancy_block" style="display:none">
                         <div class="no_data_found" ng-if="dataNotFoundForDiscrepancy" ng-bind-html="getMessageForDataNotAvailable(selectedCampaign)"></div>
@@ -154,8 +160,9 @@
                             <!--Discrepancy Container-->
                             <div class="col-md-12 zeroPadding strategy_total_container ">
                                 <div class="strategy_total_container_header clearfix">
-                                    <div class="col-md-12" ng-hide="screenBusy" style="font-size: 18px; margin: 0px 0 20px 0;">
-                                        {{strategyHeading}}:
+                                    <div class="each_col first_col" ng-hide="screenBusy">
+                                        <span class="strategyHeading" ng-bind="strategyHeading"></span>
+                                        <span class="viewLabelTxt" style="margin: 4px 0 0 15px;">*Imps. data delayed by 24 hours</span>
                                     </div>
                                     <div class="row_list_holder clearfix">
                                         <div class="common-load-icon" ng-show="screenBusy"></div>
@@ -182,6 +189,7 @@
                     </div>
                     <!-- -------END :  Discrepancy Block ----------------------------- -->
 
+
                     <!-- -------START :  Format Block ----------------------------- -->
                     <div ng-class="adFormats.videoAds ? 'reports_block quar_data' : 'reports_block' " id="reports_byformats_block" style="{{defaultDisplayFormat}}">
                         <div class="no_data_found" ng-if="dataNotFoundForFormat" ng-bind-html="getMessageForDataNotAvailable(selectedCampaign)"></div>
@@ -192,7 +200,9 @@
                             <div class="strategy_total_container ">
                                 <div class="strategy_total_container_header clearfix">
                                     <div class="each_col first_col" ng-hide="formatBusy">
-                                        {{strategyHeading}}:
+                                        <span class="strategyHeading" ng-bind="strategyHeading"></span>
+                                        <span class="pull-left icon-target viewLabelTxt"></span>
+                                        <span class="viewLabelTxt">{{viewLabelTxt}}</span>
                                     </div>
                                     <div class="row_list_holder clearfix">
                                         <div class="common-load-icon" ng-show="formatBusy"></div>
@@ -218,10 +228,9 @@
                     </div>
                     <!-- -------END :  Format Block ----------------------------- -->
 
+
                     <!-- -------START :  Creative Block ----------------------------- -->
                     <div  id="reports_bycreatives_block" ng-class="adFormats.videoAds ? 'reports_block quar_data' : 'reports_block' "  style="display:none;" >
-
-
                         <div class="no_data_found" ng-if="dataNotFoundForCreatives"
                              ng-bind-html="getMessageForDataNotAvailable(selectedCampaign)"></div>
                         <div class="reports_details_outer_container" ng-show="!dataNotFoundForCreatives"
@@ -232,7 +241,9 @@
                             <div class="strategy_total_container ">
                                 <div class="strategy_total_container_header clearfix">
                                     <div class="each_col first_col" ng-hide="creativeBusy">
-                                        {{strategyHeading}}:
+                                        <span class="strategyHeading" ng-bind="strategyHeading"></span>
+                                        <span class="pull-left icon-target viewLabelTxt"></span>
+                                        <span class="viewLabelTxt">{{viewLabelTxt}}</span>
                                     </div>
                                     <div class="row_list_holder clearfix">
                                         <div class="common-load-icon" ng-show="creativeBusy"></div>
@@ -255,15 +266,11 @@
                             </div>
                         </div>
                     </div>
-                    <!-- -------END :  Days of week Block ----------------------------- -->
+                    <!-- -------END :  Creative Block ----------------------------- -->
 
 
-
-
-                    <!-- -------START :  Add sizes Block ----------------------------- -->
+                    <!-- -------START :  Ad sizes Block ----------------------------- -->
                     <div  id="reports_byadsizes_block" ng-class="adFormats.videoAds ? 'reports_block quar_data' : 'reports_block' "  style="{{defaultDisplayAdSize}}" >
-
-
                         <div class="no_data_found" ng-if="dataNotFoundForAdsizes"
                              ng-bind-html="getMessageForDataNotAvailable(selectedCampaign)"></div>
                         <div class="reports_details_outer_container" ng-show="!dataNotFoundForAdsizes" >
@@ -272,8 +279,10 @@
                             </div>
                             <div class="strategy_total_container ">
                                 <div class="strategy_total_container_header clearfix">
-                                    <div class="each_col first_col" ng-hide="adSizesBusy">
-                                        {{strategyHeading}}:
+                                    <div class="each_col first_col" ng-hide="adSizeBusy">
+                                        <span class="strategyHeading" ng-bind="strategyHeading"></span>
+                                        <span class="pull-left icon-target viewLabelTxt"></span>
+                                        <span class="viewLabelTxt">{{viewLabelTxt}}</span>
                                     </div>
                                     <div class="row_list_holder clearfix">
                                         <div class="common-load-icon" ng-show="adSizesBusy"></div>
@@ -296,7 +305,7 @@
                             </div>
                         </div>
                     </div>
-                    <!-- -------END :  Days of week Block ----------------------------- -->
+                    <!-- -------END :  Ad Sizes Block ----------------------------- -->
 
 
                 </div>

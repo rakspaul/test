@@ -452,7 +452,7 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
   background: url("/images/cdesk/sorting_arrows_up.png") no-repeat scroll right 1px;
 }
 .reports_main_page_holder .sort_order_up.active {
-  background: url("/images/cdesk/sorting_arrows_down.png") no-repeat scroll 55px -64px;
+  background: url("/images/cdesk/sorting_arrows_down.png") no-repeat scroll right -64px;
   cursor: pointer;
   padding-right: 17px;
   color: #0978c9;
@@ -1176,12 +1176,12 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 .viewability_details_outer_container .sort_order_up:hover,
 .viewability_details_video_mode_outer_container .sort_order_up:hover,
 .custom_report_response_table .sort_order_up:hover {
-  background: url("/images/cdesk/sorting_arrows_up.png") no-repeat scroll right 1px rgba(0, 0, 0, 0);
+  background: url("/images/cdesk/sorting_arrows_up.png") no-repeat scroll 55px 1px rgba(0, 0, 0, 0);
 }
 .viewability_details_outer_container .sort_order_up.active,
 .viewability_details_video_mode_outer_container .sort_order_up.active,
 .custom_report_response_table .sort_order_up.active {
-  background: url("/images/cdesk/sorting_arrows_down.png") no-repeat scroll right -64px rgba(0, 0, 0, 0);
+  background: url("/images/cdesk/sorting_arrows_down.png") no-repeat scroll 55px -64px rgba(0, 0, 0, 0);
   cursor: pointer;
   padding-right: 17px;
   color: #0978c9;
@@ -1195,12 +1195,12 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 .viewability_details_outer_container .sort_order_down:hover,
 .viewability_details_video_mode_outer_container .sort_order_down:hover,
 .custom_report_response_table .sort_order_down:hover {
-  background: url("/images/cdesk/sorting_arrows_down.png") no-repeat scroll right 1px rgba(0, 0, 0, 0);
+  background: url("/images/cdesk/sorting_arrows_down.png") no-repeat scroll 55px 1px rgba(0, 0, 0, 0);
 }
 .viewability_details_outer_container .sort_order_down.active,
 .viewability_details_video_mode_outer_container .sort_order_down.active,
 .custom_report_response_table .sort_order_down.active {
-  background: url("/images/cdesk/sorting_arrows_up.png") no-repeat scroll right -64px rgba(0, 0, 0, 0);
+  background: url("/images/cdesk/sorting_arrows_up.png") no-repeat scroll 55px -64px rgba(0, 0, 0, 0);
   cursor: pointer;
   padding-right: 17px;
   color: #0978c9;
@@ -2851,8 +2851,23 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
   width: 1600px;
 }
 .text_next_margin_per {
-  display: inline-block;
-  width: 785px;
+  float: left;
+  margin-right: 15px;
+}
+.strategyHeading {
+  float: left;
+  font-family: "Avenir";
+  font-size: 18px;
+  color: #21252b;
+}
+.viewLabelTxt {
+  float: left;
+  color: #939EAE;
+  margin: 4px 0 0 5px;
+  font-size: 12px;
+}
+.viewLabelTxt:first-child {
+  margin-left: 15px;
 }
 .margin_percentage {
   text-align: center;
