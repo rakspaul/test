@@ -1127,16 +1127,16 @@ define(['angularAMD'], function(angularAMD) {
         this.MEDIAPLAN_LINE_ITEM_NAME = "Line Item Name / Notes";
         this.MEDIAPLAN_LINE_ITEM = "Line Item";
         this.MEDIAPLAN_RATE_TYPE = "Rate Type";
-        this.MEDIAPLAN_BILLABLE_AMOUNT = "Contracted Value";
+        this.MEDIAPLAN_BILLABLE_AMOUNT = "Billable Amount";
         this.MEDIAPLAN_VOLUME = "Volume";
-        this.MEDIAPLAN_FLIGHT_DATES = "Billing Period";
+        this.MEDIAPLAN_FLIGHT_DATES = "Flight Dates";
 
         this.MEDIAPLAN_ADD_CREDIT = "Add Credit";
         this.MEDIAPLAN_CREDIT_NAME = "Credit Name / Notes";
         this.MEDIAPLAN_AMOUNT = "Amount";
         this.MEDIAPLAN_ADD_ANOTHER_CREDIT = "Add Another Credit";
-        this.MEDIAPLAN_FLIGHT_DATE_START = "Billing Period Start";
-        this.MEDIAPLAN_FLIGHT_DATE_END = "Billing Period End";
+        this.MEDIAPLAN_FLIGHT_DATE_START = "Flight Date Start";
+        this.MEDIAPLAN_FLIGHT_DATE_END = "Flight Date End";
 
     });
 });

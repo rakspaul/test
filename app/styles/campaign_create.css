@@ -3327,6 +3327,14 @@
   margin-top: -40px;
   padding: 0 0 10px;
 }
+#campaignCreate .firstWrapper .masterContainer .settingWrap #addAdditionalCost {
+  margin-bottom: 60px;
+  float: left;
+  width: 100% ;
+}
+#campaignCreate .firstWrapper .masterContainer .settingWrap #addAdditionalCost .dropdown-menu {
+  max-height: 110px;
+}
 #campaignCreate .firstWrapper .masterContainer .spacingInput {
   height: 10px;
 }
