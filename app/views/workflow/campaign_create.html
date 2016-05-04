@@ -71,7 +71,7 @@
                             <a class="leftNavLink" ng-if="selectedCampaign.advertiserId" data-target="#pixels" data-toggle="tab">2 Pixels</a>
                             <div class="statusLabel">
                                 <div class="col-md-12" ng-if="selectedCampaign.pixelList.length >0">
-                                    <span>{{selectedCampaign.pixelList.length}} pixels selected</span>
+                                    <div>{{selectedCampaign.pixelList.length}} pixels selected</div>
                                 </div>
                                 <div class="col-md-12" ng-if="selectedCampaign.pixelList.length === 0">
                                     <span data-ng-bind="textConstants.NOTSET"></span>
@@ -109,7 +109,7 @@
                             <a class="leftNavLink" ng-if="selectedCampaign.advertiserId" data-target="#addLineItems" data-toggle="tab">4 Line Items</a>
                             <div class="statusLabel">
                                 <div class="col-md-12" ng-if="lineItemList.length >0">
-                                    <span>{{lineItemList.length}} line item Selected</span>
+                                    <div>{{lineItemList.length}} Line Item Selected</div>
                                 </div>
                                 <div class="col-md-12" ng-if="lineItemList.length === 0">
                                     <span data-ng-bind="textConstants.NOTSET"></span>
