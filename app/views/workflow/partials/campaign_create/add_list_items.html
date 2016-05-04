@@ -83,9 +83,12 @@
             </div>
         </div>
 
-        <div class="col-md-2  " style="padding: 0 0 0 10px;" ng-hide="hideLineItemRate">
+        <div class="col-md-2 rate-field " style="padding: 0 0 0 10px;" ng-hide="hideLineItemRate">
             <label class="col-sm-12 greyTxt miniLabels zeroPadding" data-ng-bind="textConstants.MEDIAPLAN_RATE"></label>
-            <input type="text" class="col-md-12 form-control" placeholder="Enter Rate" ng-model="$parent.pricingRate" ng-readonly="rateReadOnly" name="lineItemRate"   fraction-numbers/>
+            <div class="symbol-input">
+                <span class="symbol">$</span>
+                <input type="text" class="col-md-12 form-control" placeholder="Enter Rate" ng-model="$parent.pricingRate" ng-readonly="rateReadOnly" name="lineItemRate"   fraction-numbers/>
+            </div>
             <span class="greyTxt errorLabel" ng-if="lineItemForm.lineItemRate.$error.required">Enter Rate</span>
         </div>
 

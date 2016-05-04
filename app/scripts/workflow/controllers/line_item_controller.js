@@ -77,8 +77,11 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         };
 
         $scope.setLineItem = function(obj,mode){
+            console.log("obj " , obj) ;
+            console.log(mode) ;
+            if( obj.name == "CPM" || obj.name == "CPC" || obj.name == "CPCV"  || obj.name == "CPA"  ) {
 
-
+            }
             if(mode !== 'edit'){
                 $scope.lineItemType = obj;
             } else {
