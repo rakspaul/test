@@ -70,7 +70,7 @@
                         <span class="col-md-12 zeroPadding">
                             You can setup a tracking URL for {{trackingIntegration.displayName}}. You will be taken directly to the Creative section.
                         </span>
-                    <a data-target="#creative" data-toggle="tab" class="leftNavLink creative-tab-link pull-right btn btn-primary" ng-click="selectTrackingIntegrations()" data-ng-bind="textConstants.CONTINUE"></a>
+                    <a  class="leftNavLink creative-tab-link pull-right btn btn-primary" ng-click="selectTrackingIntegrations(); navigateToCreative();" data-ng-bind="textConstants.CONTINUE"></a>
                     <a class="pull-right btn btn-link" ng-click="hideTrackingSetupInfoPopUp();" data-ng-bind="textConstants.CANCEL"></a>
                 </div>
                 <!-- Left and right controls -->

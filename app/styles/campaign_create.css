@@ -1187,6 +1187,12 @@
 .campaignAdCreatePage {
   position: relative;
 }
+.campaignAdCreatePage .tab-content .tab-pane .budgetWrap h2.adHeader {
+  margin: 10px 0 5px 0 !important;
+}
+.campaignAdCreatePage .tab-content .tab-pane .budgetWrap .measureBudget {
+  margin-bottom: 20px ;
+}
 .campaignAdCreatePage .common-btns {
   padding-left: 30px;
   position: absolute;
@@ -3321,6 +3327,14 @@
   margin-top: -40px;
   padding: 0 0 10px;
 }
+#campaignCreate .firstWrapper .masterContainer .settingWrap #addAdditionalCost {
+  margin-bottom: 60px;
+  float: left;
+  width: 100% ;
+}
+#campaignCreate .firstWrapper .masterContainer .settingWrap #addAdditionalCost .dropdown-menu {
+  max-height: 110px;
+}
 #campaignCreate .firstWrapper .masterContainer .spacingInput {
   height: 10px;
 }
@@ -4212,7 +4226,6 @@
 }
 .modalAccountRedx .modal-dialog .modal-content .popup-holder .modal-body .pixelCreate {
   margin: 30px 0 0 0;
-  display: none;
 }
 .modalAccountRedx .modal-dialog .modal-content .popup-holder .modal-body .pixelTable {
   float: left;
@@ -4364,13 +4377,19 @@
   margin-left: 5px ;
   cursor: pointer;
 }
-.campaignClonePopup .popup {
+.campaignClonePopup div.popup {
   min-height: 300px ;
 }
-.campaignClonePopup .popup .errorLabel {
+.campaignClonePopup div.popup .errorLabel {
   line-height: 18px ;
+}
+.campaignClonePopup div.popup div.popup-content {
+  margin-bottom: 50px ;
 }
 .campaignClonePopup input[type='text'] {
   width: 100% ;
   font-size: 12px ;
+}
+.campaignClonePopup .duplicateOptionChkbox {
+  margin: 20px 0 ;
 }

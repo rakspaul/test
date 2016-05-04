@@ -392,7 +392,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                     cloneAd: function () {
                         var requestData = {
                                 source_ad_id: $scope.adId,
-                                ad_group: $scope.adGroupId
+                                ad_group: selectedAdGroupId
                             },
 
                             responseData;
@@ -402,13 +402,18 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                             .then(function(result){
                                 if (result.status === 'OK' || result.status === 'success') {
                                     responseData = result.data.data;
-                                    //$rootScope.setErrAlertMessage(responseData.message);
-
                                     var url = '/mediaplan/'+responseData.campaignId+'/';
+
+                                    if(responseData.lineitemId) {
+                                        url += 'lineItem/'+responseData.lineitemId+'/';
+                                    }
+
                                     if(responseData.adGroupId){
                                         url += 'adGroup/'+responseData.adGroupId+'/';
                                     }
+
                                     url += 'ads/'+responseData.id+'/edit';
+
                                     $scope.showCloneAdPopup = false;
                                     $rootScope.setErrAlertMessage($scope.textConstants.PARTIAL_AD_CLONE_SUCCESS, 0);
                                     $timeout(function(){
@@ -1008,7 +1013,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                     twitter: 'twitter',
                     'ad theorent': 'ad_theorent',
                     dstillery: 'dstillery',
-                    'adap.tv': 'adaptv',
+                    'adap.tv': 'adap_tv',
                     youtube: 'youtube',
                     brightroll: 'brightroll',
                     doubleClick: 'doubleclick-DFP',

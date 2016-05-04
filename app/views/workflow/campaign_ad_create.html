@@ -102,7 +102,7 @@
                                             <!-- Tab2 Setting start-->
                                             <div class="adcreateTabPane tab-pane fade" id="setting"
                                                  ng-include="'/views/workflow/partials/campaign_ads/budget_delivery.html'"
-                                                 ng-controller="BudgetDeliveryController">
+                                                 ng-controller="BudgetDeliveryController" style="padding-bottom:260px !important">
                                             </div>
                                             <!-- Tab1 Setting Ends -->
 
@@ -271,36 +271,29 @@
                         </div>
                         </div>
                     </div>
-                    <div class="form-group col-md-12 zeroPadding" >
+                    <div class="form-group col-md-12 zeroPadding" ng-if="mediaPlanList.length >0">
                         <label class="greyTxt">{{textConstants.WF_SELECT_AD_GROUP}}</label><br>
-                        <!--<select class="form-control">-->
-                            <!--<option ng-repeat="groups in adGroupList" ng-click="selectMediaPlan(group.id)">{{group.name}}</option>-->
-                        <!--</select>-->
                         <div class="col-md-12 zeroPadding dropdown-workflow">
                             <div class="dropdown">
-                        <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                            <span class="text" >{{adGroupName ? adGroupName :textConstants.WF_NO_AD_GROUP}} (Current)</span>
-                            <span class="icon-arrow-down"></span>
-                        </button>
-                        <ul class="dropdown-menu dropdown-search" aria-labelledby="accountType" data-toggle="dropdown">
-                            <li class="searchBar">
-                                <div class="col-md-12 input-group input-group-sm search-control">
-                                    <input type="text" class="col-md-12" name="mediaplanSearch" ng-model="adGroup"  placeholder="Search Ad Group"/>
-                                    <div class="icon-search"></div>
-                                </div>
-                            </li>
-                            <!--<li>-->
-                                <!--<a ng-click="selectAdGroup(null)">{{textConstants.WF_NO_AD_GROUP}}</a>-->
-                            <!--</li>-->
-                            <li ng-repeat="groups in adGroupList" >
-                                <!--<a ng-click="selectAdGroup(groups.adGroup)">{{groups.adGroup.name}}</a>-->
-                                <a ng-click="selectAdGroup(groups.adGroup)">
-                                    <span ng-if="groups.adGroup.id == adGroupId"><b>{{groups.adGroup.name}} (Current)</b></span>
-                                    <span ng-if="groups.adGroup.id != adGroupId">{{groups.adGroup.name}}</span>
-                                </a>
-                            </li>
-                        </ul>
-                        </div>
+                                <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                    <span class="text" >{{adGroupName ? adGroupName :textConstants.WF_NO_AD_GROUP}} (Current)</span>
+                                    <span class="icon-arrow-down"></span>
+                                </button>
+                                <ul class="dropdown-menu dropdown-search" aria-labelledby="accountType" data-toggle="dropdown">
+                                    <li class="searchBar">
+                                        <div class="col-md-12 input-group input-group-sm search-control">
+                                            <input type="text" class="col-md-12" name="mediaplanSearch" ng-model="adGroup"  placeholder="Search Ad Group"/>
+                                            <div class="icon-search"></div>
+                                        </div>
+                                    </li>
+                                    <li ng-repeat="groups in adGroupList" >
+                                        <a ng-click="selectAdGroup(groups.adGroup)">
+                                            <span ng-if="groups.adGroup.id == adGroupId"><b>{{groups.adGroup.name}} (Current)</b></span>
+                                            <span ng-if="groups.adGroup.id != adGroupId">{{groups.adGroup.name}}</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </div>

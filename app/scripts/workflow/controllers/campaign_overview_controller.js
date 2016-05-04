@@ -70,12 +70,13 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     $scope.isEndDateInPast =  moment().isAfter(end, 'day');
                 },
 
-                getLineItems : function() {
+                getLineItems : function(callback) {
                     var campaignId = $scope.workflowData.campaignData.id;
                     var matchedLineItem;
                     workflowService.getLineItem(campaignId).then(function (results) {
                         if (results.status === 'success' && results.data.statusCode === 200) {
                             $scope.lineItems = results.data.data;
+                            callback && callback(campaignId);
                         }
                     });
                 },
@@ -121,8 +122,9 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                                 $scope.budgetAvailable = Math.ceil($scope.workflowData.campaignData.deliveryBudget) - $scope.workflowData.campaignData.bookedSpend;
 
                                 campaignOverView.modifyCampaignData();
-                                campaignOverView.getLineItems();
-                                campaignOverView.getAdgroups($routeParams.campaignId);
+                                campaignOverView.getLineItems(function(campaignId) {
+                                    campaignOverView.getAdgroups(campaignId);
+                                });
                             } else {
                                 campaignOverView.errorHandler(result);
                             }

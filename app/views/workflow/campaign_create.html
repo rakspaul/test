@@ -11,11 +11,7 @@
                     <ul class="stepCompLabel nav nav-tabs" id="mediaTab">
                         <li class="active eachStepCompLabel">
                             <a class="leftNavLink selected" data-target="#settings" data-toggle="tab">1 About this Media Plan</a>
-                            <!--<div class="statusLabel" ng-hide="selectedCampaign.goal.name || selectedCampaign.startTime || selectedCampaign.budget">-->
-                            <!--    <div class="col-md-12">-->
-                            <!--        <span>{{textConstants.WF_NOT_SET}}</span>-->
-                            <!--    </div>-->
-                            <!--</div>-->
+
                             <div class="statusLabel each-setting" ng-if="brand.length>0">
                                 <div class="col-md-12">
                                     <div class="pull-left">
@@ -27,6 +23,7 @@
                                     </div>
                                 </div>
                             </div>
+
                             <div class="statusLabel each-setting" ng-if="performance.length>0">
                                 <div class="col-md-12">
                                     <div class="pull-left">
@@ -38,6 +35,7 @@
                                     </div>
                                 </div>
                             </div>
+
                             <div class="statusLabel" ng-if="selectedCampaign.startTime">
                                 <div class="col-md-12">
                                     <!--<span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>-->
@@ -46,6 +44,7 @@
                                     <span>(Flight)</span>
                                 </div>
                             </div>
+
                             <div class="statusLabel each-setting">
                                 <div class="col-md-12">
                                     <div class="pull-left">
@@ -58,6 +57,7 @@
                                     </div>
                                 </div>
                             </div>
+
                             <div class="statusLabel" ng-if="selectedCampaign.budget">
                                 <div class="col-md-12">
                                     <span class="statusIcon" style="width: 12px; text-align: right; display: inline-table;">{{ locale.NUMBER_FORMATS.CURRENCY_SYM}}</span>
@@ -66,23 +66,22 @@
                                 </div>
                             </div>
                         </li>
-
                         <li class="clearfix eachStepCompLabel" >
-                            <a class="leftNavLink" data-target="#pixels" data-toggle="tab">2 Pixels</a>
-                            <!--<div class="statusLabel disabled">-->
-                            <!--    <div class="col-md-12">-->
-                            <!--        <span>{{textConstants.WF_NOT_SET}}</span>-->
-                            <!--    </div>-->
-                            <!--</div>-->
+                            <a class="leftNavLink disabled-cursor" ng-if="!selectedCampaign.advertiserId">2 Pixels</a>
+                            <a class="leftNavLink" ng-if="selectedCampaign.advertiserId" data-target="#pixels" data-toggle="tab">2 Pixels</a>
+                            <div class="statusLabel">
+                                <div class="col-md-12" ng-if="selectedCampaign.selectedPixel.length >0">
+                                    <div>{{selectedCampaign.selectedPixel.length}} pixels selected</div>
+                                </div>
+                                <div class="col-md-12" ng-if="selectedCampaign.selectedPixel.length === 0">
+                                    <span data-ng-bind="textConstants.NOTSET"></span>
+                                </div>
+                            </div>
                         </li>
 
                         <li class="clearfix eachStepCompLabel" >
-                            <a class="leftNavLink budget-page-trigger" data-target="#budget" data-toggle="tab">3 {{textConstants.MP_BUDGET}} & Measure</a>
-                            <!--<div class="statusLabel " ng-hide="Campaign.totalBudget || Campaign.deliveryBudget">-->
-                            <!--    <div class="col-md-12">-->
-                            <!--        <span>{{textConstants.WF_NOT_SET}}</span>-->
-                            <!--    </div>-->
-                            <!--</div>-->
+                            <a class="leftNavLink budget-page-trigger disabled-cursor" ng-if="!selectedCampaign.advertiserId">3 {{textConstants.MP_BUDGET}} & Measure</a>
+                            <a class="leftNavLink budget-page-trigger" ng-if="selectedCampaign.advertiserId" data-target="#budget" data-toggle="tab">3 {{textConstants.MP_BUDGET}} & Measure</a>
                             <div class="statusLabel" ng-if="Campaign.totalBudget">
                                 <div class="col-md-12">
                                     <div class="statusIcon icon-usd"></div>
@@ -105,14 +104,17 @@
                                 </div>
                             </div>
                         </li>
-
                         <li class="clearfix eachStepCompLabel" >
-                            <a class="leftNavLink" data-target="#addLineItems" data-toggle="tab">4 Line Items</a>
-                            <!--<div class="statusLabel disabled">-->
-                            <!--    <div class="col-md-12">-->
-                            <!--        <span>{{textConstants.WF_NOT_SET}}</span>-->
-                            <!--    </div>-->
-                            <!--</div>-->
+                            <a class="leftNavLink disabled-cursor" ng-if="!selectedCampaign.advertiserId">4 Line Items</a>
+                            <a class="leftNavLink" ng-if="selectedCampaign.advertiserId" data-target="#addLineItems" data-toggle="tab">4 Line Items</a>
+                            <div class="statusLabel">
+                                <div class="col-md-12" ng-if="lineItemList.length >0">
+                                    <div>{{lineItemList.length}} Line Item Selected</div>
+                                </div>
+                                <div class="col-md-12" ng-if="lineItemList.length === 0">
+                                    <span data-ng-bind="textConstants.NOTSET"></span>
+                                </div>
+                            </div>
                         </li>
                     </ul>
                 </div>
@@ -124,7 +126,7 @@
                 <form class="form-horizontal ng-scope ng-pristine ng-valid" id="createCampaignForm" role="form" name="createCampaignForm" action="#"  novalidate>
                     <div class="collapseHeader">
                         <div class="col-md-6 zeroPadding">
-                            <h2>{{ textConstants.WF_SETTINGS }}</h2>
+                            <h2>{{ textConstants.ABOUT_THIS_MEDIAPLAN }}</h2>
                         </div>
                         <div class="col-md-6 zeroPadding">
                             <div class="zeroPadding dropdown-workflow pull-right" style="margin-left: 10px;" ng-hide="(mode!='edit')">
@@ -154,13 +156,12 @@
                     <div class="tab-content">
                         <!--Settings-->
                         <div class="isCollapsed tab-pane fade in active" id="settings">
-
                             <div ng-include="'/views/workflow/partials/campaign_create/settings.html'"></div>
                         </div>
 
                         <!--Pixels-->
                         <div class="tab-pane fade" id="pixels">
-                            <div ng-include="'/views/workflow/partials/campaign_create/pixels.html'"></div>
+                            <div ng-include="'/views/workflow/partials/campaign_create/pixels.html'" ng-controller="PixelsController"></div>
                         </div>
 
                         <!--Budget-->

@@ -960,15 +960,25 @@
 <!--=== POP Up Light Box starts for Cloning ===-->
 <div class="common-popup-container campaignClonePopup" ng-if="campaignClone">
     <div class="popup">
-        <div class="popup-header-body">
+        <div class="col-md-12 popup-header-body">
             <div class="clearfix">
                 <h1 class="pull-left" ng-bind="textConstants.MEDIAPLANCLONE"></h1>
                 <span class="close unselectable" aria-hidden="true" ng-click="cancelCloneCampaign()" >x</span>
             </div>
-            <div class="popup-content" >
+            <div class="col-md-12 zeroPadding popup-content" >
                 <label ng-bind="textConstants.NEWMEDIAPLANNAME"></label><br>
                 <input type="text" placeHolder="Enter New Media Plan Name">
-                <span class="greyTxt errorLabel" style="display:block;" ng-bind="textConstants.CLONEMEDIAPLANNAMEERR"></span>
+                <span class="greyTxt errorLabel"  data-ng-bind="textConstants.CLONEMEDIAPLANNAMEERR"></span>
+                <div class="col-md-12 zeroPadding duplicateOptionChkbox">
+                    <label>
+                        <input type="checkbox">
+                        <span data-ng-bind="textConstants.DUPLICATELINEITEMS"></span>
+                    </label><br>
+                    <label>
+                        <input type="checkbox">
+                        <span data-ng-bind="textConstants.DUPLICATEADGROUPS"></span>
+                    </label>
+                </div>
             </div>
         </div>
         <div class="clearfix popup-footer" >

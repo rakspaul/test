@@ -1,13 +1,12 @@
 <!--Row 1-->
 <div class="col-md-12 zeroPadding">
-    <label for="nameTitleCampaign" class="col-sm-12 labelQuestTxt" data-ng-bind="textConstants.MEDIAPLAN_FOR"></label>
     <!-- SubAccount start -->
     <div class="form-group col-sm-3" style="padding-left: 0;" ng-if="showSubAccount">
         <label for="advertiserDDL" class="col-sm-12  greyTxt miniLabels" data-ng-bind="textConstants.SUB_ACCOUNT"></label>
         <div class="col-md-12 zeroPadding dropdown-workflow">
             <div class="dropdown">
                 <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ng-click="hideMediaPlanDropdown()">
-                    <span class="text">{{mode == 'edit' ? editCampaignData.advertiserName : 'Select SubAccount' }}</span>
+                    <span class="text">{{mode == 'edit' ? selectedCampaign.clientName : 'Select SubAccount' }}</span>
                     <span class="icon-arrow-down"></span>
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="advertiserDDL"  id="advertiserDDL" ng-if="mode !== 'edit'">
@@ -24,7 +23,7 @@
         <div class="col-md-12 zeroPadding dropdown-workflow">
             <div class="dropdown">
                 <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ng-click="hideMediaPlanDropdown()">
-                    <span class="text">{{mode == 'edit' ? editCampaignData.advertiserName : 'Select Advertiser' }}</span>
+                    <span class="text">{{mode == 'edit' ? selectedCampaign.advertiserName : 'Select Advertiser' }}</span>
                     <span class="icon-arrow-down"></span>
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="advertiserDDL"  id="advertiserDDL" ng-if="mode !== 'edit'">
@@ -40,7 +39,7 @@
         <div class="col-md-12 zeroPadding dropdown-workflow">
             <div class="dropdown">
                 <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ng-click="hideMediaPlanDropdown()" ng-disabled=" workflowData.brands.length == 0">
-                    <span class="text">{{mode == 'edit' ? editCampaignData.brandName : 'Select Brand' }} </span>
+                    <span class="text">{{mode == 'edit' ? selectedCampaign.brandName : 'Select Brand' }} </span>
                     <span class="icon-arrow-down"></span>
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="brandDDL"  id="brandDDL">
@@ -52,24 +51,26 @@
     </div>
 </div>
 
-<div class="col-md-12 spacingInput"><!-- SPACING --></div>
+<label class="col-md-12 labelQuestTxt" data-ng-bind="textConstants.ABOUTMEDIAPLAN">
+
+</label>
 
 <!--Row 2-->
 <div class="row zeroPadding">
     <div class="col-md-7 ">
-        <label for="nameTitleCampaign" class="col-sm-12  labelQuestTxt" style="margin-bottom: 5px;" data-ng-bind="textConstants.MEDIAPLAN_NAME"></label>
-        <div ng-if=(mode=='edit') class="form-group col-sm-12 zeroPadding" show-errors  style="margin-top: 15px;">
-            <input type="text" class="form-control" id="nameTitleCampaign" remove-special-character ='remove-special-character' name="campaignName" ng-model="editCampaignData.name"  ng-value="editCampaignData.name" autofocus maxlength="250" ng-maxlength="250" required/>
+        <label for="nameTitleCampaign" class="col-sm-12 greyTxt"  data-ng-bind="textConstants.MEDIAPLAN_NAME"></label>
+        <div ng-if=(mode=='edit') class="form-group col-sm-12 zeroPadding" show-errors>
+            <input type="text" class="form-control" id="nameTitleCampaign" remove-special-character ='remove-special-character' name="campaignName" ng-model="editCampaignData.name"   ng-value="editCampaignData.name" autofocus maxlength="250" ng-maxlength="250" required/>
             <label ng-if="createCampaignForm.campaignName.$error.required" class="col-sm-12  greyTxt errorLabel" data-ng-bind="textConstants.WF_ENTER_NAME_CAMPAIGN"></label>
         </div>
-        <div ng-if=(mode!='edit') class="form-group col-sm-12 zeroPadding" show-errors  style="margin-top: 15px;">
-            <input type="text" class="form-control" id="nameTitleCampaign" remove-special-character ='remove-special-character' name="campaignName" ng-model="selectedCampaign.campaignName"  maxlength="250" ng-maxlength="250" autofocus placeholder="Max 250 characters. No symbols or punctuation" required/>
+        <div ng-if=(mode!='edit') class="form-group col-sm-12 zeroPadding" show-errors>
+            <input type="text" class="form-control" id="nameTitleCampaign" remove-special-character ='remove-special-character' name="campaignName" ng-model="selectedCampaign.campaignName"  maxlength="250" ng-maxlength="250" autofocus placeholder="Enter a name up to 250 characters (no punctuation or special characters)" required/>
             <label ng-if="createCampaignForm.campaignName.$error.required" class="col-sm-12  greyTxt errorLabel" data-ng-bind="textConstants.WF_ENTER_NAME_CAMPAIGN"></label>
         </div>
     </div>
     <div class="col-md-3 ">
-        <label for="nameTitleCampaign" class="col-sm-12  labelQuestTxt" style="margin-bottom: 5px;" data-ng-bind="textConstants.MEDIAPLAN_PURCHASE_ORDER">(optional)</label>
-        <div  class="form-group col-sm-9 zeroPadding" show-errors style="margin-top: 15px;">
+        <label for="nameTitleCampaign" class="col-sm-12 greyTxt"  data-ng-bind="textConstants.MEDIAPLAN_PURCHASE_ORDER"></label>
+        <div  class="form-group col-sm-9 zeroPadding" show-errors>
             <input type="text" class="form-control" id="purchaseOrder"  name="purchaseOrder" ng-model="selectedCampaign.purchaseOrder"   autofocus maxlength="250"  />
         </div>
     </div>
@@ -78,101 +79,9 @@
 
 <!--Row 3-->
 <div class="col-md-9 zeroPadding">
-    <label  class="col-sm-9 control-label labelQuestTxt" style="margin-bottom: 5px!important;" data-ng-bind="textConstants.MEDIAPLAN_LABELS">(Optional)</label>
+    <label  class="col-sm-9 control-label greyTxt" data-ng-bind="textConstants.MEDIAPLAN_LABELS"></label>
     <tags-input class="form-group col-sm-9 zeroPadding" ng-model="tags"></tags-input>
 </div>
-
-<!--<div class="col-md-12 zeroPadding">-->
-<!--    <div class="form-group col-sm-3" style="padding-left: 0;">-->
-<!--        <label for="campObj" class="col-sm-12 greyTxt miniLabels">{{textConstants.WF_CAMPAIGN_OBJECTIVES}}</label>-->
-<!--        <div class="col-md-12 zeroPadding dropdown-workflow">-->
-<!--            <div class="dropdown" id="campObjClick">-->
-<!--                <button class="btn btn-default dropdown-toggle" type="button" aria-haspopup="true" aria-expanded="true" ng-click="open_multiselect_dropdown($event);">-->
-<!--                    <span class="text" ng-bind="objectiveSet"></span>-->
-<!--                    <span class="icon-arrow-down"></span>-->
-<!--                </button>-->
-<!--                <ul class="dropdown-menu multiSelectDDL" aria-labelledby="campObj"  id="campObj">-->
-<!--                    <li class="headerDDL"><span class="icon-brand"></span><span class="greyTxt" style="padding-left: 7px !important;">BRANDING</span></li>-->
-<!--                    <li ng-repeat="brand in workflowData.branding"><span><input type="checkbox" name="checkbox" value="brand.campaignObjectiveTypeId" ng-click="onObjectiveSelected(brand,'brand')" ng-checked="brand.isChecked">{{brand.subObjective}}</span></li>-->
-<!--                    <li class="headerDDL"><span class="icon-performance"></span><span class="greyTxt" style="padding-left: 7px !important;">PERFORMANCE</span></li>-->
-<!--                    <li ng-repeat="performance in workflowData.performance"><span><input type="checkbox" name="checkbox" value="performance.campaignObjectiveTypeId" ng-click="onObjectiveSelected(performance,'performance')" ng-checked="performance.isChecked">{{performance.subObjective}}</span></li>-->
-<!--                </ul>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--    </div>-->
-<!--</div>-->
-
-<!--<div class="col-md-12 zeroPadding">-->
-<!--    <label for="nameTitleCampaign" class="col-sm-12  labelQuestTxt">What type of Media Plan are you running?</label>-->
-<!--    <div class="form-group col-sm-12 zeroPadding goalBtnGroupTabs">-->
-<!--        <label for="demoType" class="col-sm-12 greyTxt miniLabels"></label>-->
-<!--        <div class="col-md-12 btn-group goalBtnGroup zeroPadding">-->
-<!--            <label ng-if="mode !=='edit'" class="btn btn-primary first active">-->
-<!--                <input type="radio" name="demoType" autocomplete="off" name="campaignType" ng-click="channelSelected($event,'Display')" value="Display" >-->
-<!--                <div class="hideRadioBtn" style="margin-top: -18px;">-->
-<!--                    <div class="icon-image"></div>-->
-<!--                    <span>Display</span>-->
-<!--                </div>-->
-<!--            </label>-->
-<!--            <label ng-if="mode ==='edit'" class="btn btn-primary first " ng-class="selectedChannel==='DISPLAY'? 'active':''">-->
-<!--                <input type="radio" name="demoType" autocomplete="off" name="campaignType" ng-click="channelSelected($event,'Display')" value="Display" >-->
-<!--                <div class="hideRadioBtn" style="margin-top: -18px;">-->
-<!--                    <div class="icon-image"></div>-->
-<!--                    <span>Display</span>-->
-<!--                </div>-->
-<!--            </label>-->
-<!--            <label ng-if="mode !=='edit'" class="btn btn-primary">-->
-<!--                <input type="radio" name="demoType" autocomplete="off" name="campaignType" ng-click="channelSelected($event,'Video')" value="Video" >-->
-<!--                <div class="hideRadioBtn" style="margin-top: -18px;">-->
-<!--                    <div class="icon-video"></div>-->
-<!--                    <span>Video</span>-->
-<!--                </div>-->
-<!--            </label>-->
-<!--            <label ng-if="mode ==='edit'" class="btn btn-primary" ng-class="selectedChannel==='VIDEO'? 'active':''">-->
-<!--                <input type="radio" name="demoType" autocomplete="off" name="campaignType" ng-click="channelSelected($event,'Video')" value="Video" >-->
-<!--                <div class="hideRadioBtn" style="margin-top: -18px;">-->
-<!--                    <div class="icon-video"></div>-->
-<!--                    <span>Video</span>-->
-<!--                </div>-->
-<!--            </label>-->
-<!--            <label ng-if="mode !=='edit'" class="btn btn-primary">-->
-<!--                <input type="radio" name="demoType" autocomplete="off" name="campaignType" ng-click="channelSelected($event,'Mobile')" value="Mobile" >-->
-<!--                <div class="hideRadioBtn" style="margin-top: -18px;">-->
-<!--                    <div class="icon-mobile"></div>-->
-<!--                    <span>Mobile</span>-->
-<!--                </div>-->
-<!--            </label>-->
-<!--            <label ng-if="mode ==='edit'" class="btn btn-primary" ng-class="selectedChannel==='MOBILE' ? 'active' :''">-->
-<!--                <input type="radio" name="demoType" autocomplete="off" name="campaignType" ng-click="channelSelected($event,'Mobile')" value="Mobile" >-->
-<!--                <div class="hideRadioBtn" style="margin-top: -18px;">-->
-<!--                    <div class="icon-mobile"></div>-->
-<!--                    <span>Mobile</span>-->
-<!--                </div>-->
-<!--            </label>-->
-<!--            <label class="btn btn-primary disabled" aria-disabled="true">-->
-<!--                <input type="radio" name="demoType" autocomplete="off" value="Social" disabled>-->
-<!--                <div class="hideRadioBtn" style="margin-top: -18px;">-->
-<!--                    <div class="icon-social"></div>-->
-<!--                    <span>Social</span>-->
-<!--                </div>-->
-<!--            </label>-->
-<!--            <label class="btn btn-primary disabled" aria-disabled="true">-->
-<!--                <input type="radio" name="demoType" autocomplete="off" value="Search" disabled>-->
-<!--                <div class="hideRadioBtn" style="margin-top: -18px;">-->
-<!--                    <div class="icon-search"></div>-->
-<!--                    <span>Search</span>-->
-<!--                </div>-->
-<!--            </label>-->
-<!--            <label class="btn btn-primary last disabled" aria-disabled="true">-->
-<!--                <input type="radio" name="demoType" autocomplete="off" value="TV" disabled>-->
-<!--                <div class="hideRadioBtn" style="margin-top: -18px;">-->
-<!--                    <div class="icon-tv"></div>-->
-<!--                    <span>TV</span>-->
-<!--                </div>-->
-<!--            </label>-->
-<!--        </div>-->
-<!--    </div>-->
-<!--</div>-->
 
 <div class="col-md-12 spacingInput"><!-- SPACING --></div>
 
@@ -183,7 +92,6 @@
         <div class="col-md-12 dateWrapper form-group" show-errors>
             <div class="dateContainer">
                 <label class="col-sm-12  greyTxt miniLabels" data-ng-bind="textConstants.START_DATE"></label>
-                <!--<input type="text" class="form-control" id="nameTitleCampaign" remove-special-character ='remove-special-character' name="abcd" ng-model="editCampaignData.name"  ng-value="editCampaignData.name" autofocus maxlength="250" ng-maxlength="250" required/>-->
 
                 <input type="text" id="startDateInput" placeholder="MM/DD/YYYY" class="form-control" readonly name="startTime" ng-init="selectedCampaign.startTime" ng-model="selectedCampaign.startTime" ng-value="selectedCampaign.startTime" ng-change=" handleFlightDate(selectedCampaign)" required />
             </div>
@@ -205,21 +113,18 @@
 </div>
 
 <div class="col-md-12 spacingInput"><!-- SPACING --></div>
-
 <!--Row 5-->
 <div class="col-md-12 zeroPadding">
     <label for="nameTitleCampaign" class="col-sm-12 labelQuestTxt" style="margin-bottom: 5px;"><span class="pull-left" data-ng-bind="textConstants.SELECT_KPIS"></span><span ng-if="!isPrimarySelected" class="pull-left errorLabel show" style="margin-left: 115px;">You must select Primary KPI.</span></label>
     <div class="col-md-12 zeroPadding">
         <div class="col-md-3 zeroPadding kpiTable">
-            <h3 data-ng-bind="textConstants.KPI">KPI</h3>
-            <label for="primaryKPI" class="col-sm-12 greyTxt miniLabels" data-ng-bind="textConstants.SELECT_ONE_YOU_MAY_ADD"></label>
+            <label for="primaryKPI" class="col-sm-12 greyTxt miniLabels" data-ng-bind="textConstants.KPI"></label>
         </div>
         <div class="col-md-2 zeroPadding kpiTable" style="width: 130px;">
-            <h3 data-ng-bind="textConstants.TARGET">Target</h3>
-            <label for="primaryKPI" class="col-sm-12 greyTxt miniLabels" data-ng-bind="textConstants.ENTER_VALUE"></label>
+            <label for="primaryKPI" class="col-sm-12 greyTxt miniLabels" data-ng-bind="textConstants.TARGET"></label>
         </div>
     </div>
-    <div class="col-md-12 zeroPadding" style="margin-bottom:180px;">
+    <div class="col-md-12 zeroPadding" style="margin-bottom:240px;">
         <div class="col-md-3 zeroPadding kpiTable">
             <div class="col-md-12 zeroPadding dropdown-workflow">
                 <div class="dropdown">

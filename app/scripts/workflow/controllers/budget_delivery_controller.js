@@ -235,7 +235,7 @@ define(['angularAMD', 'common/services/constants_service', 'common/moment_utils'
 
         $scope.select_kpi = function (event, type) {
             var elem = $(event.target),
-                impressionsHolder = $('.impressions_holder');
+            impressionsHolder = $('.impressions_holder');
 
             $scope.adData.primaryKpi = type;
             $scope.adData.targetValue = '';
@@ -244,7 +244,7 @@ define(['angularAMD', 'common/services/constants_service', 'common/moment_utils'
             elem.closest('.symbolAbs').find('.KPI_symbol').show();
             elem.closest('.symbolAbs').find('.VTC_per').hide();
             elem.closest('.symbolAbs').find('.target_val_input').removeClass('target_val_input_vtc');
-
+            elem.closest('.symbolAbs').find('.KPI_symbol').removeClass("perSymbol");
             if (type !== 'IMPRESSIONS') {
                 $('#targetUnitCost_squaredFour').prop('checked', false);
 
@@ -270,11 +270,12 @@ define(['angularAMD', 'common/services/constants_service', 'common/moment_utils'
                 if (type === 'VTC' || type === 'CTR' || type=='ACTION RATE') {
                     elem.closest('.symbolAbs')
                         .find('.KPI_symbol')
+                        .addClass("perSymbol")
                         .html('%');
                     //elem.closest('.symbolAbs').find('.KPI_symbol').hide();
                     //elem.closest('.symbolAbs').find('.VTC_per').show();
                     //elem.closest('.symbolAbs').find('.target_val_input').addClass('target_val_input_vtc');
-                }
+                } 
             } else {
                 elem.closest('.symbolAbs').find('.KPI_symbol').html('#');
 

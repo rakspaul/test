@@ -1435,7 +1435,16 @@
 
 .campaignAdCreatePage {
     position: relative;
-
+    .tab-content .tab-pane  {
+        .budgetWrap {
+            h2.adHeader {
+                margin:10px 0 5px 0 !important;
+            }
+            .measureBudget {
+                margin-bottom: 20px ;
+            }
+        }
+    }
     .common-btns {
         padding-left: 30px;
         position: absolute;
@@ -4004,6 +4013,14 @@
                     margin-top: -40px;
                     padding: 0 0 10px;
                 }
+                #addAdditionalCost {
+                    margin-bottom: 60px;
+                    float: left;
+                    width: 100% ;
+                    .dropdown-menu {
+                        max-height: 110px;
+                    }
+                }
             }
 
             .spacingInput {
@@ -5002,7 +5019,7 @@
                     }
                     .pixelCreate {
                         margin: 30px 0 0 0;
-                        display: none;
+//                        display: none;
                     }
                     .pixelTable {
                         float: left;
@@ -5163,14 +5180,21 @@
     }
 }
 .campaignClonePopup {
-    .popup {
+    div.popup {
         min-height: 300px ;
         .errorLabel {
             line-height: 18px ;
         }
+        div.popup-content {
+            margin-bottom: 50px ;
+        }
     }
+
     input[type='text'] {
         width: 100% ;
         font-size: 12px ;
+    }
+    .duplicateOptionChkbox {
+        margin: 20px 0 ;
     }
 }

@@ -68,8 +68,8 @@
             <label class="col-sm-12 greyTxt miniLabels zeroPadding" data-ng-bind="textConstants.MEDIAPLAN_RATE_TYPE"></label>
             <div class="col-md-12 zeroPadding dropdown-workflow" >
                 <div class="dropdown">
-                    <button style="width:100%;" class="btn btn-default dropdown-toggle lineItemType" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ng-disabled="rateTypeReadOnly" >
-                        <span class="text" >{{(lineItemType )?lineItemType.name:'Select Type'}}</span>
+                    <button style="width:100%;" class="btn btn-default dropdown-toggle lineItemType" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ng-disabled="rateTypeReadOnly">
+                        <span class="text" >{{(lineItemType )?lineItemType.name:'Select from list'}}</span>
                         <span class="icon-arrow-down"></span>
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="lineType" id="lineType" data-toggle="dropdown" name="lineItemType">
@@ -145,7 +145,7 @@
             </div>
 
             <div class="pull-right" style="padding: 30px 0 0 0;">
-                <div class="pull-right btn btn-primary" ng-disabled="lineItemName === '' || !lineItemType || lineItemType.id == '' || billableAmount == ''" ng-click="createNewLineItem('create')">Save Line Item</div>
+                <div class="pull-right btn btn-primary" ng-disabled="lineItemName === '' || !lineItemType || lineItemType.id == '' || billableAmount == ''" ng-click="createNewLineItem('create')">Add Line Item</div>
                 <div class="pull-right btn btn-link" ng-click="resetLineItemParameters()">Cancel</div>
             </div>
 
