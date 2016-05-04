@@ -41,7 +41,7 @@ define(['angularAMD','../../../workflow/services/account_service', '../../servic
         _currCtrl.getIABCategory = function(){
             accountsService.getIABCategoryForAdv($scope.client.id, $scope.selectedAdvertiserId).then(function(res){
                 _currCtrl.isAdChoiceInClient = false;
-                if((res.status === 'OK' || res.status === 'success') && res.data.data){
+                if((res.status === 'OK' || res.status === 'success') && res.data.data && res.data.data.id){
                     _currCtrl.isAdChoiceInClient = true;
                     $scope.advertiserAddOrEditData.selectedIABCategory = res.data.data.name;
                     $scope.advertiserAddOrEditData.selectedIABCategoryId = res.data.data.id;
@@ -144,6 +144,10 @@ define(['angularAMD','../../../workflow/services/account_service', '../../servic
             }
             if($scope.advertiserAddOrEditData.enableAdChoice && !$scope.advertiserAddOrEditData.adChoiceCode){
                 errMsg = constants.EMPTY_ADCHOICE_CODE;
+                ret = false;
+            }
+            if(!$scope.advertiserAddOrEditData.selectedIABCategory || $scope.advertiserAddOrEditData.selectedIABCategory == 'Select Category'){
+                errMsg = constants.EMPTY_IAB_CATEGORY;
                 ret = false;
             }
             if(!ret) {

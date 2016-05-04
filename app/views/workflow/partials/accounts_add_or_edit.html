@@ -3,7 +3,7 @@
         <span class="btn btn-primary pull-right" ng-click="saveClients()">Save</span>
         <span class="btn btn-link pull-right" data-dismiss="modal" ng-click="close()">Cancel</span>
 
-        <h2 class="modal-title" id="myModalLabel">{{(mode === 'create'?'Add':'Edit')}} Account</h2>
+        <h2 class="modal-title" id="myModalLabel" data-ng-bind="(mode === 'create'?'Add':'Edit')+' Account ( '+clientObj.name+' )'"></h2>
     </div>
     <div class="clearfix modal-body">
         <!--Row 1-->
@@ -63,7 +63,7 @@
             </select>
         </div>
     </div><!-- end of modal_body -->
-    <div class="adChoices">
+    <div class="adChoices" ng-show="clientObj.isLeafNode">
         <div class="col-md-12 zeroPadding"><h1 class="pull-left">Ad Choices</h1></div>
         <div class="form-group col-md-4" style="padding: 0 15px 0 0;">
             <label class="col-sm-12 greyTxt">Enable Ad Choices:</label>
@@ -102,7 +102,7 @@
         <!--</div>-->
     <!--</div>-->
 
-    <div class="billingMethods">
+    <div class="billingMethods" style="display: none">
         <div class="col-md-12 zeroPadding"><h1 class="pull-left">Billing Methods</h1></div>
         <!--Row 1-->
         <div class="col-md-12 zeroPadding">
