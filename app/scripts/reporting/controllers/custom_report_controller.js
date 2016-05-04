@@ -483,6 +483,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                         _customctrl.reportPageNum_2D[$scope.activeTab].push(1);
                     });
                     _customctrl.getMetricValues(respData, $scope.selectedMetricsList, 'first_dimension');
+                   // var winHeight = $(window).height() - 180;
                     var height = parseInt($(".custom_report_scroll").css("height"), 10) + (respData.length * 55) + "px";
                     $(".custom_report_scroll").css({"max-height": height, "height": height});
                     attachScrollToWindow();
@@ -499,6 +500,8 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                 }
             });
         }
+
+
 
         /* commenting out work for edit saved repoert tomporarily ROBERT*/
         var validateGenerateReport = function() {
@@ -870,6 +873,8 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
         }
 
         $scope.showDataForClikedDimension = function(ev, value, loadMore) {
+            var winHeight = $(window).height() - 160;
+            $(".custom_report_scroll").css({"min-height": winHeight});
 
             var currFirtDimensionElem = $(ev.target).parents(".reportData");
             var currSecondDimensionElem = currFirtDimensionElem.find('.second_dimension_row_holder');
@@ -951,6 +956,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
 
             } else {
                 //hide the second dimension data for clcked row
+                $(".custom_report_scroll").css({"min-height": "360px"});
 
                 if ($(ev.target).closest(".second_dimension_row").length == 0) {
                     _customctrl.hideSecondDimensionData(currFirtDimensionElem, currSecondDimensionElem);
