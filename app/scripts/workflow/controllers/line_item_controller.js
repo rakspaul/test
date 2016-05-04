@@ -287,5 +287,30 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             $scope.initiateLineItemDatePicker();
         });
 
+        // ******** Line item edit mode ******
+        $scope.$parent.processLineItemEditMode = function(lineItemList){
+            _.each(lineItemList,function(item){
+                item.startTime = momentService.utcToLocalTime(item.startTime);
+                item.endTime = momentService.utcToLocalTime(item.endTime);
+                console.log('processLineItemEditMode',item);
+                $scope.lineItemName = item.name;
+                var index = _.findIndex($scope.type,function(type){
+                    return type.id === item.billingTypeId;
+                });
+                $scope.setLineItem($scope.type[index],'create');
+                $scope.hideAdGroupNameEdit = true;
+                $scope.lineItemType.id = item.billingTypeId;
+                $scope.billableAmount = item.billableAmount;
+                $scope.volume = item.volume;
+                $scope.pricingRate = item.billingRate;
+                $scope.lineItemStartDate = momentService.utcToLocalTime(item.startTime);
+                $scope.lineItemEndDate = momentService.utcToLocalTime(item.endTime)
+                campaignId = item.campaignId;
+                $scope.createNewLineItem('create');
+
+            })
+
+
+        }
     });
 });

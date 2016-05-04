@@ -222,12 +222,23 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     $scope.costAttributes = workflowService.processCostAttr(result) ;
                 });
             },
+            fetchLineItemDetails: function(campaignId){
+                workflowService.getLineItem(campaignId).then(function (results) {
+                    if (results.status === 'success' && results.data.statusCode === 200) {
+                        var lineItemList = results.data.data;
+                        $scope.processLineItemEditMode(lineItemList);
+
+                    }
+                });
+            },
 
             errorHandler: function (errData) {
                 console.log(errData);
             },
 
             prefillMediaPlan : function(campaignData) {
+                console.log("campaignData",JSON.stringify(campaignData));
+
                 //set labels
                 $scope.tags = workflowService.recreateLabels(campaignData.labels);
 
@@ -244,12 +255,17 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     $scope.selectedCampaign.endTime = momentService.utcToLocalTime(campaignData.endTime);
                 }
 
+
+                // line item edit mode
+                $scope.workflowData.advertisers = [1] // to be removed
+                $scope.selectedCampaign.clientId = campaignData.clientId;
+                createCampaign.fetchLineItemDetails(campaignData.id);
+
                 $scope.editCampaignData = campaignData;
             }
         }
 
         $scope.selectHandler = function (type, data, event) {
-            console.log("type", type);
             switch (type) {
                 case 'client' :
                     $scope.workflowData['advertisers'] = [];
