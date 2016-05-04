@@ -864,30 +864,35 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                     return re.test(url);
                 },
                 processVendorConfig: function(data){
+                    console.log("processVendorConfig");
                     var processedData = {};
                     processedData.userPermission = [];
                     processedData.configs = [];
+
                     for(var j = 0; j < data.length; j++){
-                        for(var i = 0; i < data[j].clientConfigPermissions.length ; i ++){
-                            var permission = {};
-                            if(data[j].clientConfigPermissions[i]){
-                                permission.vendorName = data[j].vendorName;
-                                permission.configName = data[j].name;
-                                permission.metric = data[j].clientConfigPermissions[i].metric;
-                                permission.adFormat = data[j].clientConfigPermissions[i].adFormat;
-                                processedData.userPermission.push(permission);
+                        if(data[j].clientConfigPermissions.length >0 && data[j].clientVendorOfferings.length >0) {
+                            for(var i = 0; i < data[j].clientConfigPermissions.length ; i ++){
+                                var permission = {};
+                                if(data[j].clientConfigPermissions[i]) {
+                                    permission.vendorName = data[j].vendorName;
+                                    permission.configName = data[j].name;
+                                    permission.metric = data[j].clientConfigPermissions[i].metric;
+                                    permission.adFormat = data[j].clientConfigPermissions[i].adFormat;
+                                    processedData.userPermission.push(permission);
+                                }
+
                             }
 
-                        }
-                        //vendor config object creation
-                        for(var i = 0; i < data[j].clientVendorOfferings.length ; i ++){
-                            var config = {};
-                            config.vendorName = data[j].vendorName;
-                            config.configName = data[j].name;
-                            config.adFormat = data[j].clientVendorOfferings[i].name;
-                            config.rate = 'Media Cost + ' + data[j].clientVendorOfferings[i].rateValue + ' ' + data[j].clientVendorOfferings[i].rateType.name;
-                            config.category = data[j].clientVendorOfferings[i].costCategory.name;
-                            processedData.configs.push(config);
+                            //vendor config object creation
+                            for(var i = 0; i < data[j].clientVendorOfferings.length ; i ++){
+                                var config = {};
+                                config.vendorName = data[j].vendorName;
+                                config.configName = data[j].name;
+                                config.adFormat = data[j].clientVendorOfferings[i].name;
+                                config.rate = 'Media Cost + ' + data[j].clientVendorOfferings[i].rateValue + ' ' + data[j].clientVendorOfferings[i].rateType.name;
+                                config.category = data[j].clientVendorOfferings[i].costCategory.name;
+                                processedData.configs.push(config);
+                            }
                         }
                     }
 
@@ -906,20 +911,21 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                             rateTypeObj = _.pluck(obj.clientVendorOfferings, 'rateType');
                             costAttrbs.rateTypeId = _.pluck(rateTypeObj, 'id')[0];
                             costAttrbs.clientVendorConfigurationId = _.pluck(obj.clientVendorOfferings, 'clientVendorConfigurationId')[0];
+
+                            costAttrbs.vendor.push({'id': obj.id, 'name': obj.name});
+                            _.each(obj.clientVendorOfferings, function (vObj) {
+                                costAttrbs.offering.push({'id': vObj.id, 'name': vObj.name});
+                                costAttrbs.category.push({
+                                    'id': vObj.costCategory.id,
+                                    'name': vObj.costCategory.name
+                                });
+                            })
+
                         }
+                        costAttrbs.category = _.uniq(costAttrbs.category, 'name');
                     })
 
-                    if(data.length > 0) {
-                         _.each(data,function(obj){
-                            costAttrbs.vendor.push({'id':obj.id,'name':obj.name});
-                            _.each(obj.clientVendorOfferings,function(vObj){
-                                costAttrbs.offering.push({'id':vObj.id ,'name':vObj.name});
-                                costAttrbs.category.push({'id':vObj.costCategory.id,'name':vObj.costCategory.name});
-                            })
-                        })
 
-                        costAttrbs.category = _.uniq(costAttrbs.category, 'name')
-                    }
                     return costAttrbs;
                 },
                 processLineItemsObj: function(lineItemList){
