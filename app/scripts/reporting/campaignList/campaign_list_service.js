@@ -61,8 +61,8 @@ define(['angularAMD', 'common/services/data_service', 'common/utils', 'common/se
                         id: tactic.id,
                         media_type_icon: media_type_icon,
                         name: tactic.name,
-                        startDate: momentInNetworkTZ.newMoment(tactic.start_date).format('YYYY-MM-DD'),
-                        endDate: momentInNetworkTZ.newMoment(tactic.end_date).format('YYYY-MM-DD'),
+                        startDate: momentInNetworkTZ.utcToLocalTime(tactic.start_date,'YYYY-MM-DD'),
+                        endDate: momentInNetworkTZ.utcToLocalTime(tactic.end_date,'YYYY-MM-DD'),
                         ad_size: _.uniq(tactic.ad_size),
                         platform_name: tactic.platform_name,
                         platform_icon: tactic.platform_icon_url,
@@ -285,7 +285,7 @@ define(['angularAMD', 'common/services/data_service', 'common/utils', 'common/se
                             if(result.data.data.measures_by_days.length > 0) {
                                 var maxDays = result.data.data.measures_by_days;
                                 getStrategyMetrics(strategy, _.last(maxDays), result.data.data.adFormats);
-                                var i = 0, 
+                                var i = 0,
                                 lineData = _.map(maxDays, function(item) {
                                     item['ctr'] *= 100
                                     item['vtc'] = item.video_metrics.vtc_rate;
