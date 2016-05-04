@@ -117,7 +117,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         $scope.processEditCampaignData = function () {
             workflowService.getCampaignData($scope.campaignId).then(function (result) {
                 if (result.status === "OK" || result.status === "success") {
-                    $scope.editCampaignData = result.data.data;
+                    createCampaign.prefillMediaPlan(result.data.data);
                 }
             });
         };
@@ -225,6 +225,26 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
             errorHandler: function (errData) {
                 console.log(errData);
+            },
+
+            prefillMediaPlan : function(campaignData) {
+                //set labels
+                $scope.tags = workflowService.recreateLabels(campaignData.labels);
+
+
+                //set startDate
+                if (campaignData.startTime) {
+                    $scope.selectedCampaign.startTime = momentService.utcToLocalTime(campaignData.startTime);
+
+                }
+
+                //set endDate
+
+                if (campaignData.endTime) {
+                    $scope.selectedCampaign.endTime = momentService.utcToLocalTime(campaignData.endTime);
+                }
+
+                $scope.editCampaignData = campaignData;
             }
         }
 
@@ -603,15 +623,6 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         }
 
         //*************** LINE ITEM ****************************
-
-
-
-
-
-
-
-
-
 
 
         $scope.additionalCosts = [];
