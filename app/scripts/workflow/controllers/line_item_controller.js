@@ -7,16 +7,15 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         var selectedAdvertiser,
             campaignId = '-999',
             CONST_FLAT_FEE = 'Flat Fee',
-            CONST_COGS_PERCENT = 'COGS + Percentage Markup',
+            CONST_COGS_PERCENT = 'COGS+ %',
             CONST_COGS_CPM = 'COGS + CPM Markup',
             oldLineItem;
 
         $scope.showNewLineItemForm = function(){
             $scope.createItemList = true;
             selectedAdvertiser = workflowService.getSelectedAdvertiser();
-            //selectedAdvertiser ={};
-            //selectedAdvertiser.billingType = 'COGS + Percentage Markup';
-            //selectedAdvertiser.billingValue = 23;
+            $scope.hideCOGS = false;
+
             if(selectedAdvertiser && (selectedAdvertiser.billingType && selectedAdvertiser.billingValue)){
 
                 var index = _.findIndex($scope.type, function (item) {
@@ -24,6 +23,13 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 });
 
                 $scope.setLineItem($scope.type[index],'create');
+            } else {
+                // in case the advertiser does not have billing type and billing value remove COGS + % from Rate Type list
+                $scope.hideCOGS = true;
+                var index = _.findIndex($scope.type, function(type){
+                    return type.name === CONST_COGS_PERCENT;
+                })
+                $scope.type.splice(index,1);
             }
         }
 
@@ -128,7 +134,6 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                         arr.push($scope.type[index1]);
                         $scope.type = arr;
                     }
-                    console.log("$scope.type",$scope.type)
                     $scope.volumeFlag = false;
                     $scope.volume = '';
                 }
@@ -226,6 +231,8 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             $scope.volumeFlag = true;
             $scope.amountFlag = true;
             $scope.hideAdGroupName = false;
+            $scope.hideCOGS = false;
+            $scope.type = angular.copy(workflowService.getRateTypes());
         }
 
 
@@ -287,5 +294,30 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             $scope.initiateLineItemDatePicker();
         });
 
+        // ******** Line item edit mode ******
+        $scope.$parent.processLineItemEditMode = function(lineItemList){
+            _.each(lineItemList,function(item){
+                item.startTime = momentService.utcToLocalTime(item.startTime);
+                item.endTime = momentService.utcToLocalTime(item.endTime);
+                console.log('processLineItemEditMode',item);
+                $scope.lineItemName = item.name;
+                var index = _.findIndex($scope.type,function(type){
+                    return type.id === item.billingTypeId;
+                });
+                $scope.setLineItem($scope.type[index],'create');
+                $scope.hideAdGroupNameEdit = true;
+                $scope.lineItemType.id = item.billingTypeId;
+                $scope.billableAmount = item.billableAmount;
+                $scope.volume = item.volume;
+                $scope.pricingRate = item.billingRate;
+                $scope.lineItemStartDate = momentService.utcToLocalTime(item.startTime);
+                $scope.lineItemEndDate = momentService.utcToLocalTime(item.endTime)
+                campaignId = item.campaignId;
+                $scope.createNewLineItem('create');
+
+            })
+
+
+        }
     });
 });
