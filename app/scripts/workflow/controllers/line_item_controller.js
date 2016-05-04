@@ -7,16 +7,15 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         var selectedAdvertiser,
             campaignId = '-999',
             CONST_FLAT_FEE = 'Flat Fee',
-            CONST_COGS_PERCENT = 'COGS + Percentage Markup',
+            CONST_COGS_PERCENT = 'COGS+ %',
             CONST_COGS_CPM = 'COGS + CPM Markup',
             oldLineItem;
 
         $scope.showNewLineItemForm = function(){
             $scope.createItemList = true;
             selectedAdvertiser = workflowService.getSelectedAdvertiser();
-            //selectedAdvertiser ={};
-            //selectedAdvertiser.billingType = 'COGS + Percentage Markup';
-            //selectedAdvertiser.billingValue = 23;
+            $scope.hideCOGS = false;
+
             if(selectedAdvertiser && (selectedAdvertiser.billingType && selectedAdvertiser.billingValue)){
 
                 var index = _.findIndex($scope.type, function (item) {
@@ -24,6 +23,13 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 });
 
                 $scope.setLineItem($scope.type[index],'create');
+            } else {
+                // in case the advertiser does not have billing type and billing value remove COGS + % from Rate Type list
+                $scope.hideCOGS = true;
+                var index = _.findIndex($scope.type, function(type){
+                    return type.name === CONST_COGS_PERCENT;
+                })
+                $scope.type.splice(index,1);
             }
         }
 
@@ -128,7 +134,6 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                         arr.push($scope.type[index1]);
                         $scope.type = arr;
                     }
-                    console.log("$scope.type",$scope.type)
                     $scope.volumeFlag = false;
                     $scope.volume = '';
                 }
@@ -226,6 +231,8 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             $scope.volumeFlag = true;
             $scope.amountFlag = true;
             $scope.hideAdGroupName = false;
+            $scope.hideCOGS = false;
+            $scope.type = angular.copy(workflowService.getRateTypes());
         }
 
 

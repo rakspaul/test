@@ -59,6 +59,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         $scope.amountFlag = true;
         $scope.hideLineItemRate = false;
         $scope.hideAdGroupName = false;
+        $scope.hideCOGS = false;
         //line item edit flags
         $scope.rateReadOnlyEdit = false;
         $scope.rateTypeReadOnlyEdit = false;
@@ -198,7 +199,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             fetchRateTypes: function(){
                 workflowService.getRatesTypes().then(function(result){
                     $scope.type = result.data.data;
-                    workflowService.setRateTypes($scope.type);
+                    workflowService.setRateTypes(angular.copy($scope.type));
                 })
             },
 
