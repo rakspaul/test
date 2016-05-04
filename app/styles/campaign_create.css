@@ -4392,3 +4392,6 @@
 .campaignClonePopup .duplicateOptionChkbox {
   margin: 20px 0 ;
 }
+.rate-field .symbol-input .symbol ~ input[type="text"] {
+  padding-left: 20px ;
+}
