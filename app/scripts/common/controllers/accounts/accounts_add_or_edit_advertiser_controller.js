@@ -9,13 +9,13 @@ define(['angularAMD','../../../workflow/services/account_service', '../../servic
 
         var _currCtrl = this;
 
-        $scope.selectedIABCategory = "Select Category";
+        $scope.advertiserAddOrEditData.selectedIABCategory = "Select Category";
         _currCtrl.clearAdvInputFiled = function(){
             $scope.advertiserAddOrEditData.enableAdChoice = false;
             $scope.advertiserAddOrEditData.adChoiceCode = "";
             _currCtrl.isAdChoiceInClient = false;
             _currCtrl.isAdChoiceInAdv = false;
-            _currCtrl.resAdChoiceData = {}
+            $scope.advertiserAddOrEditData.resAdChoiceData = {}
         }
         _currCtrl.clearAdvInputFiled();
         $scope.close=function () {
@@ -41,11 +41,10 @@ define(['angularAMD','../../../workflow/services/account_service', '../../servic
         _currCtrl.getIABCategory = function(){
             accountsService.getIABCategoryForAdv($scope.client.id, $scope.selectedAdvertiserId).then(function(res){
                 _currCtrl.isAdChoiceInClient = false;
-                if((res.status === 'OK' || res.status === 'success') && res.data.data && res.data.data[0]){
+                if((res.status === 'OK' || res.status === 'success') && res.data.data && res.data.data.id){
                     _currCtrl.isAdChoiceInClient = true;
-                    $scope.selectedIABCategory = res.data.data[0].name;
-                    $scope.selectedIABCategoryId = res.data.data[0].id;
-                    _currCtrl.resAdChoiceData = res.data.data;
+                    $scope.advertiserAddOrEditData.selectedIABCategory = res.data.data.name;
+                    $scope.advertiserAddOrEditData.selectedIABCategoryId = res.data.data.id;
                 }
             },function(err){
 
@@ -53,7 +52,7 @@ define(['angularAMD','../../../workflow/services/account_service', '../../servic
         }
         _currCtrl.saveIABCategory = function(){
             var reqBody = {
-                iabId: $scope.selectedIABCategoryId
+                iabId: $scope.advertiserAddOrEditData.selectedIABCategoryId
             }
             accountsService.saveIABCategoryForAdv($scope.client.id, $scope.selectedAdvertiserId, reqBody).then(function(res){
                 if((res.status === 'OK' || res.status === 'success') && res.data.data) {
@@ -69,7 +68,7 @@ define(['angularAMD','../../../workflow/services/account_service', '../../servic
                     _currCtrl.isAdChoiceInClient = true;
                     $scope.advertiserAddOrEditData.enableAdChoice = res.data.data.enabled;
                     $scope.advertiserAddOrEditData.adChoiceCode = res.data.data.code;
-                    _currCtrl.resAdChoiceData = res.data.data;
+                    $scope.advertiserAddOrEditData.resAdChoiceData = res.data.data;
                 }
             }, function (err) {
             });
@@ -81,7 +80,7 @@ define(['angularAMD','../../../workflow/services/account_service', '../../servic
                     _currCtrl.isAdChoiceInAdv = true;
                     $scope.advertiserAddOrEditData.enableAdChoice = resAdv.data.data.enabled;
                     $scope.advertiserAddOrEditData.adChoiceCode = resAdv.data.data.code;
-                    _currCtrl.resAdChoiceData = resAdv.data.data;
+                    $scope.advertiserAddOrEditData.resAdChoiceData = resAdv.data.data;
                 }else {
                     _currCtrl.getAdChoiceDataFromClient();
                 }
@@ -94,10 +93,10 @@ define(['angularAMD','../../../workflow/services/account_service', '../../servic
                 enabled: $scope.advertiserAddOrEditData.enableAdChoice,
                 code: $scope.advertiserAddOrEditData.adChoiceCode
             }
-            if(_currCtrl.isAdChoiceInAdv && reqBody.enabled && reqBody.code
-                && (!_currCtrl.resAdChoiceData.enabled || (
-                    reqBody.enabled != _currCtrl.resAdChoiceData.enabled ||
-                     (!_currCtrl.resAdChoiceData.code || reqBody.code != _currCtrl.resAdChoiceData.code)
+            if(reqBody.enabled && reqBody.code
+                && (!$scope.advertiserAddOrEditData.resAdChoiceData.enabled || (
+                    reqBody.enabled != $scope.advertiserAddOrEditData.resAdChoiceData.enabled ||
+                     (!$scope.advertiserAddOrEditData.resAdChoiceData.code || reqBody.code != $scope.advertiserAddOrEditData.resAdChoiceData.code)
                     )
                    )
                 )
@@ -117,8 +116,8 @@ define(['angularAMD','../../../workflow/services/account_service', '../../servic
             $scope.getAdnlData();
         });
         $scope.selectIABCategory = function(type){
-            $scope.selectedIABCategory = type.name;
-            $scope.selectedIABCategoryId = type.id
+            $scope.advertiserAddOrEditData.selectedIABCategory = type.name;
+            $scope.advertiserAddOrEditData.selectedIABCategoryId = type.id
         }
         $scope.getAdnlData = function(){
             _currCtrl.getAdChoiceData();
@@ -143,7 +142,14 @@ define(['angularAMD','../../../workflow/services/account_service', '../../servic
                 $rootScope.setErrAlertMessage(constants.EMPTY_LOOKBACK_CLICK);
                 return false;
             }
-
+            if($scope.advertiserAddOrEditData.enableAdChoice && !$scope.advertiserAddOrEditData.adChoiceCode){
+                errMsg = constants.EMPTY_ADCHOICE_CODE;
+                ret = false;
+            }
+            if(!$scope.advertiserAddOrEditData.selectedIABCategory || $scope.advertiserAddOrEditData.selectedIABCategory == 'Select Category'){
+                errMsg = constants.EMPTY_IAB_CATEGORY;
+                ret = false;
+            }
             if(!ret) {
                 $rootScope.setErrAlertMessage(errMsg);
             }

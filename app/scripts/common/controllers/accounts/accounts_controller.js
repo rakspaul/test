@@ -298,6 +298,8 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
             $scope.isEditMode = (mode == "edit") ? true : false;
             $scope.advertiserData = {id:'', name: '',lookbackImpressions: 14,lookbackClicks: 14, pixels:[]};
             $scope.activeEditAdvertiserTab = "basic";
+            $scope.clientObj = client;
+            $scope.advObj = advObj;
             if($scope.isEditMode){
                 $scope.selectedAdvertiserId = advObj.id;
                 accountsService.getAdvertiserUnderClient(client.id, advObj.id).then(function(res){

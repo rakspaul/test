@@ -1064,6 +1064,8 @@ define(['angularAMD'], function(angularAMD) {
         this.SELECT_CURRENCY = "Please select the currency";
         this.SELECT_GEOGRAPHY = "Please select the geography";
         this.SELECT_TIMEZONE = "Please select the timezone";
+        this.EMPTY_ADCHOICE_CODE = "Please add code for ad-choice";
+        this.EMPTY_IAB_CATEGORY = "Please select some category";
 
         this.SELECT_DIMENSION = 'Select a Dimension';
         this.SELECT_SIZE = 'Select Size';
