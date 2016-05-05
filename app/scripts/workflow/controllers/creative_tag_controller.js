@@ -33,7 +33,7 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
                 // remove spaces.
                 format = format.replace(/\s/g, '');
                 workflowService
-                    .getCreatives(clientID,adId, format, query, {cache: false}, $scope.TrackingIntegrationsSelected,state,function(result){
+                    .getCreatives(clientID,adId, format, query, {cache: false},state,function(result){
                         var responseData,
                             selectedCreative;
 

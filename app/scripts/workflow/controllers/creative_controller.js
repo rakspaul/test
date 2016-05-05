@@ -254,7 +254,8 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
               resetTemplate();
               //In edit mode, do not let to change templateType from full-tracking or vice versa if ads count >0.
               if($scope.creativeMode=="edit" && $scope.associatedAdCount>0){
-                      $scope.getTemplates($scope.selectedAdServer,adFormatName,$scope.creativeEditData.isTracking);
+                      //$scope.getTemplates($scope.selectedAdServer,adFormatName,$scope.creativeEditData.isTracking);
+                      $scope.getTemplates($scope.selectedAdServer,adFormatName);
               }else{
                   $scope.getTemplates($scope.selectedAdServer,adFormatName);
               }
@@ -311,14 +312,14 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
 
           /*function to get the possible templates in adCreate Page)*/
           if($scope.adPage){
-              $scope.getTemplates(adServer,$scope.creativeFormat,$scope.$parent.TrackingIntegrationsSelected);
+              $scope.getTemplates(adServer,$scope.creativeFormat);
           }
       }
       /*get Templates*/
-      $scope.getTemplates=function(vendor,format,isTracking){
+      $scope.getTemplates=function(vendor,format){
           var responseData;
           workflowService
-              .getTemplates(vendor,format,isTracking)
+              .getTemplates(vendor,format)
               .then(function (result) {
                   if (result.status === 'OK' || result.status === 'success') {
                       responseData = result.data.data;
@@ -368,7 +369,7 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
       $scope.onTemplateSelected=function(templateJson,customFieldsDataEditMode,flag) {
           $scope.creativeSizeData.tagTypes = [];
           $scope.CreativeTemplate = templateJson;
-          $scope.TrackingIntegrationsSelected = templateJson.isTracking;
+        //  $scope.TrackingIntegrationsSelected = templateJson.isTracking;
           $scope.adData.creativeTemplate = templateJson.id;
           var creativeTemplateWrap = $('.creativeTemplate');
           creativeCustomModule.init(templateJson, creativeTemplateWrap, $scope, customFieldsDataEditMode);
@@ -500,21 +501,20 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
               postCrDataObj.clientId = $scope.creative.clientId;//$scope.campaignId;
               postCrDataObj.advertiserId = formData.advertiserId;
               postCrDataObj.brandId = formData.brandId;
-              postCrDataObj.isTracking = $scope.TrackingIntegrationsSelected;
+            //  postCrDataObj.isTracking = $scope.TrackingIntegrationsSelected;
               postCrDataObj.adServerId = formData.creativeAdServer;
               postCrDataObj.creativeFormat=$scope.creativeFormat.replace(/\s+/g, '').toUpperCase();
               postCrDataObj.sslEnable = 'true';
               postCrDataObj.tag = '%%TRACKER%%';
               postCrDataObj.sizeId = formData.creativeSize;
               postCrDataObj.creativeType = formData.creativeType;
-             // postCrDataObj.creativeType1 = formData.creativeType;
               postCrDataObj.vendorCreativeTemplateId = formData.creativeTemplate;
-              if ($scope.TrackingIntegrationsSelected) {
-                postCrDataObj.tag = '%%TRACKER%%';
-                  validTag=true;
-              }else{
+              //if ($scope.TrackingIntegrationsSelected) {
+              //  postCrDataObj.tag = '%%TRACKER%%';
+              //    validTag=true;
+              //}else{
                   validateScriptTag(formData.tag);
-              }
+             // }
               if (validTag) {
                   var validCreativeUrl = true;
                   $('#invalidUrl').remove();

@@ -443,6 +443,7 @@ define(['angularAMD','reporting/campaignList/campaign_list_service', 'common/ser
                                     // result.data.data.na.total != undefined ? result.data.data.na.total : 0;
                                     self.dashboard.total = result.data.data.total;
                                     self.dashboard.all = result.data.data.all;
+                                    self.noData = true;
 
                                     // forceLoadFilter - is used to identify whether the user has come from dashboard
                                     // by clicking campaign performance widget's ontrack or performance section.
@@ -458,6 +459,7 @@ define(['angularAMD','reporting/campaignList/campaign_list_service', 'common/ser
                                         self.dashboard.filterTotal = result.data.data.total;
 
                                         if (self.dashboard.total > 0) {
+                                            self.noData = false;
                                             self.dashboard.filterSelectAll = false;
                                             self.resetFilters();
                                             self.setQuickFilter(self.appliedQuickFilter);
