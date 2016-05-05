@@ -6,6 +6,10 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
         $scope.userConsoleFormDetails={};
         $(".each_nav_link").removeClass("active_tab");
         $("#admin_nav_link").addClass("active_tab");
+        
+        //Responsive Height
+        var winHeight = $(window).height();
+        $(".table-responsive .tbody").css("min-height", winHeight - 330);
 
         //Add or Edit Pop up for User
         $scope.AddOrEditUserModal = function(mode,userObj) {

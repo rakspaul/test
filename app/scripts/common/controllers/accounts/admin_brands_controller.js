@@ -10,6 +10,10 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
             $(".each_nav_link").removeClass("active_tab");
             $("#admin_nav_link").addClass("active_tab");
             $scope.brandsData = [];
+            
+            //Responsive Height
+            var winHeight = $(window).height();
+            $(".table-responsive .tbody").css("min-height", winHeight - 380);
 
             $scope.fetchAllBrands = function(){
                 $scope.loadBrandList = true;

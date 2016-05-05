@@ -9,7 +9,7 @@
         <form id="userCreateEditForm" name="userCreateEditForm" class="col-md-12 zeroPadding">
             <div class="col-md-12 zeroPadding">
                 <div class="form-group col-md-3" show-errors style="padding-left: 0;">
-                    <label class="col-sm-12 greyTxt"><span class="icon-user"></span> User Login:</label>
+                    <label class="col-sm-12 greyTxt"><span class="icon-user pull-left"></span> User Login:</label>
                     <input name="userLogin" type="email" class="form-control" ng-disabled="isEdit" ng-model="userConsoleFormDetails.email" required >
                     <label ng-if="userCreateEditForm.userLogin.$error.required" class="col-sm-12  greyTxt errorLabel">You must enter user login.</label>
                     <label ng-if="userCreateEditForm.userLogin.$error.email" class="col-sm-12  greyTxt errorLabel">Invalid email address.</label>
@@ -65,34 +65,44 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-7" style="padding: 0 30px;">
-                        <label class="col-md-12 zeroPadding greyTxt">Per Page Permission:</label>
-                        <div class="zeroPadding dropdown-workflow">
-                            <div class="dropdown" style="z-index: 99999">
-                                <tags-input
-                                        ng-model="pagePermissionValue[$index]"
-                                        display-property="description"
-                                        placeholder="Type here..."
-                                        add-from-autocomplete-only="true"
-                                        on-tag-added="addPagePermissionFilter($index)"
-                                        on-tag-removed="removePagePermissionFilter($index)"
-                                        max-tags="5">
-                                    <auto-complete source="loadPagePermissionList($index)"
-                                                   min-length="1"
-                                                   load-on-down-arrow="true"
-                                                   max-results-to-show="50"></auto-complete>
-                                </tags-input>
-                            </div>
-                        </div>
-                    </div>
+                    
+                    <!--<div class="col-md-7" style="padding: 0 30px;">-->
+                    <!--    <label class="col-md-12 zeroPadding greyTxt">Per Page Permission:</label>-->
+                    <!--    <div class="zeroPadding dropdown-workflow">-->
+                    <!--        <div class="dropdown" style="z-index: 99999">-->
+                    <!--            <tags-input-->
+                    <!--                    ng-model="pagePermissionValue[$index]"-->
+                    <!--                    display-property="description"-->
+                    <!--                    placeholder="Type here..."-->
+                    <!--                    add-from-autocomplete-only="true"-->
+                    <!--                    on-tag-added="addPagePermissionFilter($index)"-->
+                    <!--                    on-tag-removed="removePagePermissionFilter($index)"-->
+                    <!--                    max-tags="5">-->
+                    <!--                <auto-complete source="loadPagePermissionList($index)"-->
+                    <!--                               min-length="1"-->
+                    <!--                               load-on-down-arrow="true"-->
+                    <!--                               max-results-to-show="50"></auto-complete>-->
+                    <!--            </tags-input>-->
+                    <!--        </div>-->
+                    <!--    </div>-->
+                    <!--</div>-->
 
-                    <div class="col-md-2 zeroPadding">
+                    <div class="col-md-2" style="padding: 0 0 0 30px;">
                         <label class="col-md-12 zeroPadding greyTxt">Account Admin:</label>
                         <div class="pull-left" data-ng-click="adminUserToggleClicked($index, $event)">
                             <input id="admin-toggle-{{$index}}" data-ng-model="toggle" class="cmn-toggle cmn-toggle-round" type="checkbox" >
-                            <label for="admin-toggle-{{$index}}" ></label>
+                            <label for="admin-toggle-{{$index}}"></label>
                         </div>
                     </div>
+                    
+                    <div class="col-md-12 zeroPadding">
+                        <label class="col-md-12 zeroPadding greyTxt">Per Page Permission:</label>
+                        <div ng-repeat="userPerPages in userPages" class="col-md-3 zeroPadding">
+                            <input type="checkbox" name="userPerPages.name" value="userPerPages.name" class="pull-left" checked>
+                            <span ng-bind="userPerPages.name" class="pull-left" style="margin: 1px 0 0 5px;"></span>
+                        </div>
+                    </div>
+                    
                     <div class="col-md-12" style="background: rgba(0, 0, 0, 0.08); padding: 15px 30px; margin: 15px 0;" ng-repeat="i in item.resources" id="resources_{{$parent.$index}}_{{$index}}">
                         <div class="form-group col-md-4" style="padding-left: 0;">
                             <label class="col-md-12 zeroPadding greyTxt">Advertiser Name:</label>

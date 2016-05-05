@@ -23,6 +23,20 @@
             <option selected disabled data-ng-bind="'Select Advertiser'"></option>
             <option value="{{advertiser.id}}" ng-repeat="advertiser in advertisersData" ng-selected="{{advertiser.id == selectedAdvertiserId}}" data-ng-bind="advertiser.name"></option>
         </select>
+        
+        <div class="col-md-12 zeroPadding dropdown-workflow">
+            <div class="dropdown">
+                <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                    <span class="text">Select Advertiser</span>
+                    <span class="icon-arrow-down"></span>
+                </button>
+                <ul class="dropdown-menu" data-toggle="dropdown">
+                    <li class="available" value="{{advertiser.id}}" ng-repeat="advertiser in advertisersData" data-ng-selected="{{advertiser.id == selectedAdvertiserId}}">
+                        <a>{{advertiser.name}}</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
     </div>
 
     <div class="form-group col-md-4" style="padding: 0 15px;">
@@ -59,6 +73,24 @@
         <div class="col-md-12 zeroPadding">
             <div class="form-group col-md-4" style="padding: 0 15px 0 0;">
                 <label class="col-sm-12 greyTxt">Category:</label>
+
+                <div class="col-md-12 zeroPadding dropdown-workflow">
+                    <div class="dropdown">
+                        <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                            <span class="text" data-ng-bind="advertiserAddOrEditData.selectedIABCategory">Arts & Entertainment</span>
+                            <span class="icon-arrow-down"></span>
+                        </button>
+                        <ul class="dropdown-menu" data-toggle="dropdown">
+                            <li class="available" data-ng-repeat="type in IABCategoryList" >
+                                <a data-ng-bind="type.name" data-ng-click="selectIABCategory(type)">Arts & Entertainment</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-group col-md-4" style="padding: 0 15px;">
+                <label class="col-sm-12 greyTxt">Sub Category:</label>
 
                 <div class="col-md-12 zeroPadding dropdown-workflow">
                     <div class="dropdown">
@@ -163,7 +195,7 @@
 <!--<div id="pixelsCnt" ng-if="advertiserData.pixels.length">-->
 <div id="pixelsCnt" ng-if="activeEditAdvertiserTab=='pixel'">
     <div class="col-md-12 zeroPadding">
-        <h1 class="pull-left zeroMargin">Pixels</h1>
+        <h1 class="pull-left">Pixels</h1>
 
         <div class="btn-group create pull-right" role="group" aria-label="...">
             <a role="button" class="btn btn-default" data-ng-click="downLoadPixel();"><span class="icon-download"></span><span>Download Pixels</span></a>
@@ -216,8 +248,8 @@
             <a class="pull-right btn btn-default" style="margin-bottom: 15px;" data-ng-click="savePixel()"
                     data-ng-bind="pixelIndex!=null ? 'Update Pixel' : 'Save Pixel'">Save Pixel</a>
 
-            <!--<a class="pull-right btn btn-link" data-dismiss="modal" ng-if="!isEditMode"-->
-            <!--ng-click="removePixel($index);createPixelForm=false;" aria-label="Close">Cancel</a>-->
+            <a class="pull-right btn btn-link" ng-click="cancelPixel();" aria-label="Close">Cancel</a>
+            
             <a class="pull-right btn btn-default" data-dismiss="modal" ng-if="pixelIndex!=null && advertiserData.pixels[pixelIndex].isFeedData != true"
                ng-click="removePixel();" aria-label="Close">Remove Pixel</a>
         </div>

@@ -9,8 +9,8 @@
                     <span class="pull-left">{{client.name}}</span>
                     <span class="pull-left" style="text-transform: capitalize;">{{client.clientType | lowercase}}</span>
                 </div>
-                <div class="pull-right btn btn-default" ng-if="!client.isLeafNode" ng-click="AddOrEditAccountModal('create',client.id)">Create Sub Account</div>
-                <span class="pull-right adding-section" style="margin: 1px 1px 0 0"  ng-if="!client.hasChildren" ng-click="AddOrEditAdvertiserModal({},'create',client)"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Add Advertiser</span>
+                <div class="pull-right btn btn-default" ng-if="!client.isLeafNode" ng-click="AddOrEditAccountModal('create',client.id)" style="margin-left: 15px;">Create Sub Account</div>
+                <span class="pull-right btn btn-default" style="padding: 9px 15px 8px 15px;"  ng-if="!client.hasChildren" ng-click="AddOrEditAdvertiserModal({},'create',client)"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Add Advertiser</span>
             </div>
 
             <div class="clearfix advertiser-list" ng-if="clientsDetails[client.id].advertisers.length >  0" id="client_{{client.id}}_adv">
