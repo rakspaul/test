@@ -360,6 +360,16 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                     );
                 },
 
+                checkforUniqueMediaPlan : function(advertiserId, cloneMediaPlanName) {
+                    var clientId = loginModel.getSelectedClient().id,
+                        url = vistoconfig.apiPaths.WORKFLOW_API_URL +
+                            '/clients/' + clientId +
+                            '/advertisers/' + advertiserId +
+                            '/campaigns/unique_name?name='+cloneMediaPlanName;
+
+                    return dataService.fetch(url);
+                },
+
                 getAd: function (data) {
                     var clientId = loginModel.getSelectedClient().id,
                         url = vistoconfig.apiPaths.WORKFLOW_API_URL +
