@@ -1,5 +1,5 @@
-define(['angularAMD', 'common/services/constants_service', 'workflow/services/workflow_service','login/login_model','common/moment_utils','workflow/directives/clear_row', 'workflow/directives/ng_upload_hidden','workflow/controllers/pixels_controller','workflow/controllers/budget_controller', 'workflow/controllers/line_item_controller', 'workflow/directives/custom_date_picker'], function (angularAMD) {
-    angularAMD.controller('CreateCampaignController', function ($scope,  $timeout, $rootScope, $filter, $routeParams, $locale, $location, $timeout,constants, workflowService,loginModel,momentService, localStorageService) {
+define(['angularAMD', 'common/services/constants_service', 'workflow/services/workflow_service','login/login_model','common/moment_utils','workflow/directives/clear_row', 'workflow/directives/ng_upload_hidden','workflow/controllers/pixels_controller','workflow/controllers/budget_controller', 'workflow/controllers/line_item_controller', 'common/controllers/confirmation_modal_controller', 'workflow/directives/custom_date_picker'], function (angularAMD) {
+    angularAMD.controller('CreateCampaignController', function ($scope,  $window, $timeout, $rootScope, $filter, $routeParams, $locale, $location, $timeout, $modal, constants, workflowService,loginModel,momentService, localStorageService) {
 
         $scope.selectedKeywords = [];
         $scope.platformKeywords = [];
@@ -737,5 +737,35 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 }
             });
         }
+
+
+        $scope.$on("$locationChangeStart", function(event, next, current) {
+            if ($scope.cloneMediaPlanName) {
+                $modalInstance = $modal.open({
+                    templateUrl: assets.html_confirmation_modal,
+                    controller: 'ConfirmationModalController',
+                    scope: $scope,
+                    windowClass: 'delete-dialog',
+                    resolve: {
+                        headerMsg: function () {
+                            return 'Media Plan Clone';
+                        },
+                        mainMsg: function () {
+                            return 'Are you sure, you want to navigate/reload the page, you will lose your media plan changes?';
+                        },
+                        buttonName: function () {
+                            return 'Ok';
+                        },
+                        execute: function () {
+                            return function () {
+                                $scope.cloneMediaPlanName =null;
+                                $location.path((next.substring($location.absUrl().length - $location.url().length)));
+                            }
+                        }
+                    }
+                });
+                event.preventDefault();
+            }
+        });
     });
 });

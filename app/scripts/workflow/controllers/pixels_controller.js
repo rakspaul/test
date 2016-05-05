@@ -12,7 +12,7 @@ define(['angularAMD' , 'workflow/services/workflow_service' , 'common/moment_uti
             var _pixelTargetting = {
                 resetPixel: function () {
                     var i;
-                    for (i = 0; i < $scope.pixelList.length; i++) {
+                    for (i = 0; i < $scope.selectedCampaign.pixelList.length; i++) {
                         $scope.selectedCampaign.pixelList[i].isChecked = false;
                         $scope.selectedCampaign.pixelList[i].isIncluded = null;
                     }
