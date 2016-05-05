@@ -108,12 +108,6 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 event && event.stopImmediatePropagation();
 
                 var settings = '';
-
-                //remove creatives only if Tracking-only is changed to Full integrations
-                if (event && $scope.wasFullIntegration() === -1) {
-                    _buyingPlatform.resetCreatives();
-                }
-
                 storedResponse = workflowService.getAdsDetails();
 
                 if ($scope.mode === 'edit') {
@@ -183,36 +177,10 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     $scope.selectedPlatform[platform.id] = platform.name;
                 }
 
-
-                //remove creatives only if tracking integrations is changed to Full integrations
-                if($scope.adData.platformId) {
-                    var wasPrevTrackingInt = _.findIndex($scope.workflowData.platforms, function (item) {
-                        return item.id === $scope.adData.platformId;
-                    });
-                }
-
-                // code to make creatives already set to empty
-                if (event && wasPrevTrackingInt < 0) {
-                    $scope.adData.setSizes = constants.WF_NOT_SET;
-                    $scope.creativeData.creativeInfo = 'undefined';
-                    $scope.$parent.selectedArr.length = 0;
-                    $scope.$parent.TrackingIntegrationsSelected = false;
-                }
-
                 $scope.adData.platform = platform.displayName;
                 $scope.adData.platformId = platform.id;
                 event && $scope.platformCustomInputs();
             },
-
-            resetCreatives : function () {
-                // Reset creatives if any had been selected.
-                if ($scope.adData.setSizes !== constants.WF_NOT_SET) {
-                    $scope.$parent.selectedArr.length = 0;
-                    $scope.changeStatus();
-                    $scope.updateCreativeData($scope.$parent.selectedArr);
-                }
-            },
-
 
             errorHandler : function (errData) {
                 console.log(errData);
@@ -267,9 +235,9 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         };
 
         $scope.selectTrackingIntegrations = function (trackingIntegration) {
-            if($scope.adData.platformId==undefined){
-                _buyingPlatform.resetCreatives();
-            }
+            //if($scope.adData.platformId==undefined){
+            //    _buyingPlatform.resetCreatives();
+            //}
 
             $scope.showtrackingSetupInfoPopUp = false;
             $scope.$parent.postPlatformDataObj = [];
@@ -281,9 +249,9 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             $scope.selectedPlatform[trackingIntegration.id] = trackingIntegration.displayName;
 
             //remove creatives only if Full integrations is changed to Tracking-only
-            if ($scope.wasFullIntegration() >= 0) {
-                _buyingPlatform.resetCreatives();
-            }
+            //if ($scope.wasFullIntegration() >= 0) {
+            //    _buyingPlatform.resetCreatives();
+            //}
 
             // To populate the newly selected Platform in sideBar
             $scope.adData.platform = trackingIntegration.displayName;
@@ -460,14 +428,6 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             _buyingPlatform.hideCustomPlatformBox();
         });
 
-
-        $scope.wasFullIntegration = function () {
-            if($scope.adData.platformId){
-                return _.findIndex($scope.workflowData.platforms, function (item) {
-                    return item.id === $scope.adData.platformId;
-                });
-            }
-        };
 
         $scope.navigateToCreative = function() {
             $timeout(function() {

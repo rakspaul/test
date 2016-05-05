@@ -423,17 +423,10 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                         '/vendors?format=' + adFormat.replace(/\s+/g, '').toUpperCase());
                 },
 
-                getTemplates: function (adServer, format, isTracking) {
-                    if (isTracking !== undefined) {
-                        return dataService.fetch(vistoconfig.apiPaths.WORKFLOW_API_URL +
-                            '/vendors/' + adServer.id +
-                            '/templates?format=' + format.replace(/\s+/g, '').toUpperCase() +
-                            '&isTracking=' + isTracking);
-                    } else {
+                getTemplates: function (adServer, format) {
                         return dataService.fetch(vistoconfig.apiPaths.WORKFLOW_API_URL +
                             '/vendors/' + adServer.id +
                             '/templates?format=' + format.replace(/\s+/g, '').toUpperCase());
-                    }
                 },
 
                 getCreativeSizes: function () {
@@ -481,11 +474,11 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                     );
                 },
 
-                getCreatives: function (clientId, adId, formats, query, cacheObj, integrationTracking, state, success,
+                getCreatives: function (clientId,adId, formats, query, cacheObj, state, success,
                                         failure) {
                     var queryStr = query ? query : '',
                         creativeFormats = formats ? '?creativeFormat=' + formats : '',
-                        intTracking = integrationTracking ? '&tracking=true' : '&tracking=false',
+                      //  intTracking = integrationTracking ? '&tracking=true' : '&tracking=false',
                         url,
                         canceller;
                     state = state ? '&status=READY' : '';
@@ -493,7 +486,8 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                     url = vistoconfig.apiPaths.WORKFLOW_API_URL +
                         '/clients/' + clientId +
                         '/advertisers/' + adId +
-                        '/creatives' + creativeFormats + queryStr + intTracking + state;
+                    //    '/creatives' + creativeFormats + queryStr + intTracking + state;
+                        '/creatives' + creativeFormats + queryStr  + state;
 
                     canceller = requestCanceller.initCanceller(constants.CAMPAIGN_FILTER_CANCELLER);
 
