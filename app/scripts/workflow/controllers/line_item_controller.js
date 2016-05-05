@@ -9,12 +9,16 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             CONST_FLAT_FEE = 'Flat Fee',
             CONST_COGS_PERCENT = 'COGS+ %',
             CONST_COGS_CPM = 'COGS + CPM Markup',
+            CONST_POST_IMPRESSION_CPA = 'Post-Impression CPA',
+            CONST_TOTAL_CPA = 'Total CPA',
+            CONST_POST_CLICK_CPA = 'Post-Click CPA',
             oldLineItem;
+        $scope.pixelSelected = {};
+        $scope.pixelSelected.name = 'Select from list';
 
         $scope.showNewLineItemForm = function(){
             $scope.createItemList = true;
             selectedAdvertiser = workflowService.getSelectedAdvertiser();
-            $scope.hideCOGS = false;
 
             if(selectedAdvertiser && (selectedAdvertiser.billingType && selectedAdvertiser.billingValue)){
 
@@ -25,7 +29,6 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 $scope.setLineItem($scope.type[index],'create');
             } else {
                 // in case the advertiser does not have billing type and billing value remove COGS + % from Rate Type list
-                $scope.hideCOGS = true;
                 var index = _.findIndex($scope.type, function(type){
                     return type.name === CONST_COGS_PERCENT;
                 })
@@ -52,6 +55,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     newItem.pricingRate = $scope.pricingRate;
                     newItem.startTime = $scope.lineItemStartDate;
                     newItem.endTime = $scope.lineItemEndDate;
+                    newItem.pixelId = $scope.pixelSelected.id;
                     newItem.campaignId = campaignId;
                     //$scope.totalBillableAmount +=  $scope.billableAmount;x
                     $scope.lineItemList.push(newItem);
@@ -94,6 +98,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 $scope.hideLineItemRate = false;
                 $scope.pricingRate = '';
                 $scope.hideAdGroupName = false;
+                $scope.showPixelsList = false;
                 if(CONST_COGS_PERCENT === $scope.lineItemType.name){
                     if(selectedAdvertiser && (selectedAdvertiser.billingType && selectedAdvertiser.billingValue)){
                         $scope.rateReadOnly = true;
@@ -163,6 +168,9 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     //$scope.amountFlag = false;
                     $scope.billableAmount = '';
                 }
+                else if(CONST_POST_IMPRESSION_CPA === $scope.lineItemType.name || CONST_TOTAL_CPA === $scope.lineItemType.name || CONST_POST_CLICK_CPA === $scope.lineItemType.name) {
+                    $scope.showPixelsList = true;
+                }
             } else {
                 $scope.rateReadOnlyEdit = false;
                 $scope.billableAmount = '';
@@ -170,6 +178,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 $scope.amountFlagEdit = true;
                 $scope.hideLineItemRateEdit = false;
                 $scope.hideAdGroupNameEdit = false;
+                $scope.showPixelsListEdit = false;
                 //$scope.editLineItem.pricingRate = (obj.pricingRate)?obj.pricingRate:'';
 
                 if(CONST_COGS_PERCENT === $scope.editLineItem.lineItemType.name){
@@ -210,6 +219,9 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     //$scope.amountFlagEdit = false;
                     //$scope.editLineItem.billableAmount = '';
                 }
+                else if(CONST_POST_IMPRESSION_CPA === $scope.lineItemType.name || CONST_TOTAL_CPA === $scope.lineItemType.name || CONST_POST_CLICK_CPA === $scope.lineItemType.name) {
+                    $scope.showPixelsListEdit = true;
+                }
             }
         };
 
@@ -219,6 +231,8 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             $scope.lineItemType = {};
             $scope.lineItemType.name = 'Select Type';
             $scope.lineItemType.id = '';
+            $scope.pixelSelected = {};
+
             $('.lineItemType').html('<span class="text" data-ng-bind="lineItemType.name">Select Type</span> <span class="icon-arrow-down"></span>');
             $scope.volume = '';
             $scope.billableAmount = '';
@@ -231,7 +245,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             $scope.volumeFlag = true;
             $scope.amountFlag = true;
             $scope.hideAdGroupName = false;
-            $scope.hideCOGS = false;
+            $scope.showPixelsList = false;
             $scope.type = angular.copy(workflowService.getRateTypes());
         }
 
@@ -299,7 +313,6 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             _.each(lineItemList,function(item){
                 item.startTime = momentService.utcToLocalTime(item.startTime);
                 item.endTime = momentService.utcToLocalTime(item.endTime);
-                console.log('processLineItemEditMode',item);
                 $scope.lineItemName = item.name;
                 var index = _.findIndex($scope.type,function(type){
                     return type.id === item.billingTypeId;
@@ -316,8 +329,10 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 $scope.createNewLineItem('create');
 
             })
+        }
 
-
+        $scope.setPixels = function(pixel){
+            $scope.pixelSelected = pixel;
         }
     });
 });

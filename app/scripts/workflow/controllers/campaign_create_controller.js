@@ -52,6 +52,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
         $scope.type = {};
         $scope.lineItemList = [];
+
         // line item create flags
         $scope.rateReadOnly = false;
         $scope.rateTypeReadOnly = false;
@@ -59,7 +60,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         $scope.amountFlag = true;
         $scope.hideLineItemRate = false;
         $scope.hideAdGroupName = false;
-        $scope.hideCOGS = false;
+        $scope.showPixelsList = false;
         //line item edit flags
         $scope.rateReadOnlyEdit = false;
         $scope.rateTypeReadOnlyEdit = false;
@@ -67,6 +68,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         $scope.amountFlagEdit = true;
         $scope.hideLineItemRateEdit = false;
         $scope.hideAdGroupNameEdit = false;
+        $scope.showPixelsListEdit = false;
 
         $scope.editLineItem = {};
         $scope.vendorConfig = [];
