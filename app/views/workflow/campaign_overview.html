@@ -67,7 +67,7 @@
                                         <span class="icon-more-options"></span>
                                     </button>
                                     <ul class="dropdown-menu" id="moreOptions" style="right: 0; left: initial;">
-                                        
+
                                         <li>
                                             <a ng-click="editCampaign(workflowData.campaignData)"
                                                ng-bind="textConstants.EDIT">
@@ -170,7 +170,6 @@
 
                     <!--Quick Filters-->
                     <!--<div campaign-list-filter-directive campaigns="campaigns" class="pull-right"></div>-->
-
                     <div class="pull-left">
                         <div class="btn-group create" role="group" aria-label="...">
                             <a ng-disabled="(budgetAvailable > 0 ? false : true) || isEndDateInPast" role="button" class="btn btn-default" ng-click="createAdGrp();"><span class="icon-plus"></span><span data-ng-bind="textConstants.CREATEADGRP"></span></a>
@@ -181,11 +180,13 @@
                                     </button>
                                     <ul class="dropdown-menu" id="moreOptions" style="left: 0; left: initial;">
                                         <li class="disabled"><a class="text-left" role="button" data-ng-bind="textConstants.EXPORT_CONVERSION_PIXELS"></a></li>
-                                        <li class="disabled"><a class="text-left" data-ng-bind="textConstants.TAGS_FOR_TRACKING_ONLY_ADS"></a></li>
+                                        <li ng-disabled="!workflowData.campaignData.hasTrackingAds"><a class="text-left" data-ng-bind="textConstants.TAGS_FOR_TRACKING_ONLY_ADS" ng-click="DownloadTrackingTags()"></a></li>
                                     </ul>
                                 </div>
                             </div>
                         </div>
+                        <span class="download-report-load-icon" style="display:none" data-ng-bind="textConstants.DOWNLOADING"> </span>
+
                     </div>
 
                     <!--Search Input-->
