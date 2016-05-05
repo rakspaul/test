@@ -51,8 +51,8 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
             $(".miniTabLinks.sub .subBasics").addClass("active");
             $scope.activeEditAdvertiserTab = "basic";
 
-            $(".basicForm").show();
-            $(".createPixel, #pixelsCnt, .IABForm").hide();
+            $(".basicForm, .IABForm").show();
+            $(".createPixel, #pixelsCnt").hide();
         }
         $scope.showPixelTab = function(){
             $scope.activeEditAdvertiserTab = "pixel";
@@ -490,6 +490,7 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
             });
         };
         _currCtrl.fetchAllBrands();
+
     });
 
 

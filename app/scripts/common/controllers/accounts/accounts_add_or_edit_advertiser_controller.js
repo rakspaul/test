@@ -8,6 +8,8 @@ define(['angularAMD','../../../workflow/services/account_service', '../../servic
         accountsService, constants, momentService) {
 
         var _currCtrl = this;
+        $scope.selectedBillType = 'Select';
+        $scope.selectedRateType = 'Select';
 
         $scope.advertiserAddOrEditData.selectedIABCategory = "Select Category";
         _currCtrl.clearAdvInputFiled = function(){
@@ -161,6 +163,20 @@ define(['angularAMD','../../../workflow/services/account_service', '../../servic
             }
             createAdvertiserUnderClient($scope.selectedAdvertiserId);
         };
+        $scope.show_respective_method = function(type){
+            $scope.selectedBillType = type;
+        }
+        $scope.downLoadPixel = function(){
+            accountsService.downloadAdminAdvPixel($scope.client.id, $scope.selectedAdvertiserId).then(function(res){
+                if(res.status === 'OK' || res.status === 'success'){
+                    $rootScope.setErrAlertMessage(constants.PIXEL_DOWNLOAD_SUCCESS, 0);
+                }else{
+                    $rootScope.setErrAlertMessage(constants.PIXEL_DOWNLOAD_ERR)
+                }
+            },function(err){
+                $rootScope.setErrAlertMessage(constants.PIXEL_DOWNLOAD_ERR)
+            })
+        }
         function createAdvertiserUnderClient(advId) {
             var requestData = {
                 lookbackImpressions : Number($scope.advertiserData.lookbackImpressions),
@@ -263,5 +279,8 @@ define(['angularAMD','../../../workflow/services/account_service', '../../servic
             }
             return respBody;
         }
+        $scope.$on("$locationChangeSuccess", function(){
+            $scope.close();
+        });
     });
 });
