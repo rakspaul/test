@@ -37,6 +37,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         $scope.adGroupName = '';
         $scope.lineTarget = '';
         $scope.createItemList = false;
+        $scope.checkUniqueMediaPlanNameNotFound = false;
         $scope.executionPlatforms = [];
         $scope.kpiNameList = [
             {name: 'Action Rate'},
@@ -727,7 +728,9 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 cloneMediaPlanName = target.value,
                 advertiserId = $scope.selectedCampaign.advertiserId,
                 url;
+            $scope.checkUniqueMediaPlanNameNotFound = true;
             workflowService.checkforUniqueMediaPlan(advertiserId, cloneMediaPlanName).then(function (results) {
+                $scope.checkUniqueMediaPlanNameNotFound = false;
                 if (results.status === 'OK' || results.status === 'success') {
                     var responseData = results.data.data;
                     $scope.mediaPlanNameExists = responseData.isExists;
