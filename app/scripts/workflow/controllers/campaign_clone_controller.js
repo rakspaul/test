@@ -57,12 +57,12 @@ define(['angularAMD'],function (angularAMD) {
             if(advertiserId) {
                 workflowService.checkforUniqueMediaPlan(advertiserId, cloneMediaPlanName).then(function (results) {
                     var url;
-                    $scope.checkUniqueNameNotFound = false;
                     if (results.status === 'OK' || results.status === 'success') {
                         var responseData = results.data.data;
                         $scope.cloneMediaPlanExists = responseData.isExists;
-                    }
 
+                    }
+                    $scope.checkUniqueNameNotFound = false;
                 });
             }
         };

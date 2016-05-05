@@ -6,7 +6,6 @@
         </button>
         <h2 class="modal-title" id="myModalLabel" ng-bind="textConstants.MEDIAPLANCLONE"></h2>
     </div>
-
     <div class="col-md-12  modal-body">
         <div class="col-md-12 data_row zeroPadding">
             <label ng-bind="textConstants.NEWMEDIAPLANNAME"></label><br>
@@ -32,8 +31,8 @@
     </div>
 
     <div class="clearfix popup-btns-holder col-md-12 ">
-        
-        <button class="btn btn-primary pull-right" ng-show="!showCloneLoader" ng-disabled="!cloneMediaPlanName || cloneMediaPlanExists" ng-click="campaignCloneAction();" ng-bind="textConstants.CLONE"></button>
+
+        <button class="btn btn-primary pull-right" ng-show="!showCloneLoader" ng-disabled="(checkUniqueNameNotFound || !cloneMediaPlanName || cloneMediaPlanExists)" ng-click="campaignCloneAction();" ng-bind="textConstants.CLONE"></button>
         <span class="pull-right common-loading-btn"  ng-show="showCloneLoader"></span>
             <button class="secondary_txt" data-dismiss="modal" ng-click="close()" ng-bind="textConstants.CANCEL">
                 Cancel
