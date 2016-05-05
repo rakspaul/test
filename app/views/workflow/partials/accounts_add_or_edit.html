@@ -2,8 +2,8 @@
     <div class="modal-header">
         <span class="btn btn-primary pull-right" ng-click="saveClients()">Save</span>
         <span class="btn btn-link pull-right" data-dismiss="modal" ng-click="close()">Cancel</span>
-        
-        <h2 class="modal-title" id="myModalLabel">{{(mode === 'create'?'Add':'Edit')}} Account</h2>
+
+        <h2 class="modal-title" id="myModalLabel" data-ng-bind="(mode === 'create'?'Add':'Edit')+' Account ( '+clientObj.name+' )'"></h2>
     </div>
     <div class="clearfix modal-body">
         <!--Row 1-->
@@ -11,16 +11,16 @@
             <label class="col-sm-12 greyTxt">Account Type:</label>
             <select name='clientType' class="form-control" ng-change="setSelectedClientType(clientType)" ng-model="clientType">
                 <option selected disabled data-ng-bind="'Select Account'"></option>
-                <option value='AGENCY'>Agency</option>
-                <option value='MSP'>Manage Service Provider</option>
                 <option value='MARKETER'>Marketer</option>
+                <option value='AGENCY'>Agency</option>
                 <option value='RESELLER'>Reseller</option>
+                <option value='ORGANIZATION'>Organization</option>
             </select>
         </div>
-        
+
         <div class="form-group col-md-4" style="padding: 0 15px;">
-		    <label class="col-sm-12 greyTxt">Account Name:</label>
-		    <input type="text" class="form-control" placeholder="Add Name" ng-model="clientName" ng-keyup="showDropdown()" data-toggle="dropdown">
+            <label class="col-sm-12 greyTxt">Account Name:</label>
+            <input type="text" class="form-control" placeholder="Add Name" ng-model="clientName" ng-keyup="showDropdown()" data-toggle="dropdown">
             <!--<ul ng-if="allAdvertiser.length>0" class="dropdown-menu account_name_list" role="menu" id="advertiserList"  >
                     <li ng-repeat="advertiser in allAdvertiser | filter:clientType == 'MARKETER' ? clientName : name" data-ng-click="selectClientAdvertiser(advertiser)">
                         <a>
@@ -28,16 +28,15 @@
                             <span class="menuItemText ng-binding" >{{advertiser.name}}</span>
                         </a>
                     </li>
-
             </ul>-->
         </div>
-        
+
         <!--Row 2-->
         <div class="form-group col-md-4" style="padding: 0 15px 0 0; clear: left">
             <label class="col-sm-12 greyTxt">Currency:</label>
             <select class="form-control" name="selectedCurrency" ng-model="selectedCurrency">
-              <option selected disabled data-ng-bind="'Select Currency'"></option>
-              <option value="{{curr.id}}" ng-repeat="curr in currency" ng-selected="{{curr.id == selectedCurrency}}" >{{curr.currencyCode}}</option>
+                <option selected disabled data-ng-bind="'Select Currency'"></option>
+                <option value="{{curr.id}}" ng-repeat="curr in currency" ng-selected="{{curr.id == selectedCurrency}}" >{{curr.currencyCode}}</option>
             </select>
         </div>
 
@@ -48,7 +47,7 @@
                 <option value="{{country.id}}" ng-repeat="country in Geography" ng-selected="{{country.id == selectedCountry}}" >{{country.name}}</option>
             </select>
         </div>
-        
+
         <div class="form-group col-md-4" style="padding: 0 0 0 15px;">
             <label class="col-sm-12 greyTxt">Timezone:</label>
             <!--<input type="text" class="form-control" ng-model="timezone">-->
@@ -63,111 +62,136 @@
                 <option value="{{key}}" ng-repeat="(key, value) in timezones" ng-selected="{{key == timezone}}" >{{value}}</option>
             </select>
         </div>
-	
-	<div class="adChoices">
-	    <div class="col-md-12 zeroPadding"><h1 class="pull-left">Ad Choices</h1></div>
-	    <div class="form-group col-md-4" style="padding: 0 15px 0 0;">
-		<label class="col-sm-12 greyTxt">Enable Ad Choices:</label>
-		<input id="accEnableAdChoices" class="cmn-toggle cmn-toggle-round" type="checkbox">
-		<label for="accEnableAdChoices"></label>
-	    </div>
-	    
-	    <div class="form-group col-md-4" style="padding: 0 15px;">
-		<label class="col-sm-12 greyTxt">Ad Choices Code Block:</label>
-		<input type="text" class="form-control" maxlength="50">
-	    </div>
-	</div>
-        
-        <div class="billingMethods">
-            <div class="col-md-12 zeroPadding"><h1 class="pull-left">Billing Methods</h1></div>
-            <!--Row 1-->
-            <div class="col-md-12 zeroPadding">
-                <div class="form-group col-md-4" style="padding: 0 15px 0 0;">
-                    <label class="col-sm-12 greyTxt">Methods:</label>
-                    
-                    <div class="col-md-12 zeroPadding dropdown-workflow">
-                        <div class="dropdown">
-                            <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                <span class="text">Arbitrage</span>
-                                <span class="icon-arrow-down"></span>
-                            </button>
-                            <ul class="dropdown-menu" data-toggle="dropdown">
-                                <li class="available">
-                                    <a ng-click="show_respective_method('techFees')">Tech Fees</a>
-                                </li>
-                                <li class="available">
-                                    <a ng-click="show_respective_method('serviceFees')">Service Fees</a>
-                                </li>
-                                <li class="available">
-                                    <a ng-click="show_respective_method('cogsPlus')">COGS+</a>
-                                </li>
-                                <li class="available">
-                                    <a ng-click="show_respective_method('arbitrage')">Arbitrage</a>
-                                </li>
-                            </ul>
-                        </div>
+    </div><!-- end of modal_body -->
+    <div class="adChoices" ng-show="clientObj.isLeafNode">
+        <div class="col-md-12 zeroPadding"><h1 class="pull-left">Ad Choices</h1></div>
+        <div class="form-group col-md-4" style="padding: 0 15px 0 0;">
+            <label class="col-sm-12 greyTxt">Enable Ad Choices:</label>
+            <input id="advEnableAdChoices" class="cmn-toggle cmn-toggle-round" type="checkbox" data-ng-model="enableAdChoice">
+            <label for="advEnableAdChoices"></label>
+        </div>
+
+        <div class="form-group col-md-4" style="padding: 0 15px;" ng-show="enableAdChoice">
+            <label class="col-sm-12 greyTxt" >Ad Choices Code Block:</label>
+            <textarea data-ng-model="adChoiceCode"></textarea>
+        </div>
+    </div>
+
+    <!--IAB Category-->
+    <!--<div class="col-md-12 IABForm">-->
+        <!--<div class="col-md-12 zeroPadding"><h1 class="pull-left">IAB Categories</h1></div>-->
+        <!--&lt;!&ndash;Row 1&ndash;&gt;-->
+        <!--<div class="col-md-12 zeroPadding">-->
+            <!--<div class="form-group col-md-4" style="padding: 0 15px 0 0;">-->
+                <!--<label class="col-sm-12 greyTxt">Category:</label>-->
+
+                <!--<div class="col-md-12 zeroPadding dropdown-workflow">-->
+                    <!--<div class="dropdown">-->
+                        <!--<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">-->
+                            <!--<span class="text" data-ng-bind="selectedIABCategory"></span>-->
+                            <!--<span class="icon-arrow-down"></span>-->
+                        <!--</button>-->
+                        <!--<ul class="dropdown-menu" data-toggle="dropdown">-->
+                            <!--<li class="available" data-ng-repeat="type in IABCategoryList" data-ng-click="selectedIABCategory=type.name;selectedIABCategoryId=type.id">-->
+                                <!--<a data-ng-bind="type.name"></a>-->
+                            <!--</li>-->
+                        <!--</ul>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
+
+    <div class="billingMethods" style="display: none">
+        <div class="col-md-12 zeroPadding"><h1 class="pull-left">Billing Methods</h1></div>
+        <!--Row 1-->
+        <div class="col-md-12 zeroPadding">
+            <div class="form-group col-md-4" style="padding: 0 15px 0 0;">
+                <label class="col-sm-12 greyTxt">Methods:</label>
+
+                <div class="col-md-12 zeroPadding dropdown-workflow">
+                    <div class="dropdown">
+                        <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                            <span class="text">Arbitrage</span>
+                            <span class="icon-arrow-down"></span>
+                        </button>
+                        <ul class="dropdown-menu" data-toggle="dropdown">
+                            <li class="available">
+                                <a ng-click="show_respective_method('techFees')">Tech Fees</a>
+                            </li>
+                            <li class="available">
+                                <a ng-click="show_respective_method('serviceFees')">Service Fees</a>
+                            </li>
+                            <li class="available">
+                                <a ng-click="show_respective_method('cogsPlus')">COGS+</a>
+                            </li>
+                            <li class="available">
+                                <a ng-click="show_respective_method('arbitrage')">Arbitrage</a>
+                            </li>
+                        </ul>
                     </div>
                 </div>
-                
-                <!--Tech Fees-->
-                <div class="col-md-8 zeroPadding methodFees techFees" style="display: none;">
-                    <div class="form-group col-md-4" style="padding: 0 15px;">
-                        <label class="col-sm-12 greyTxt">Rate Type:</label>
-                        <input type="text" class="form-control disabled" maxlength="80" value="CPM">
-                    </div>
-                    
-                    <div class="form-group col-md-4" style="padding: 0 0 0 15px;">
-                        <label class="col-sm-12 greyTxt">Value:</label>
-                        <input type="text" class="form-control" maxlength="80">
-                    </div>
+            </div>
+
+            <!--Tech Fees-->
+            <div class="col-md-8 zeroPadding methodFees techFees" style="display: none;">
+                <div class="form-group col-md-4" style="padding: 0 15px;">
+                    <label class="col-sm-12 greyTxt">Rate Type:</label>
+                    <input type="text" class="form-control disabled" maxlength="80" value="CPM">
                 </div>
-                
-                <!--Service Fees-->
-                <div class="col-md-8 zeroPadding methodFees serviceFees" style="display: none;">
-                    <div class="form-group col-md-4" style="padding: 0 15px;">
-                        <label class="col-sm-12 greyTxt">Rate Type:</label>
-                        <input type="text" class="form-control" maxlength="80">
-                    </div>
-                    
-                    <div class="form-group col-md-4" style="padding: 0 0 0 15px;">
-                        <label class="col-sm-12 greyTxt">Value:</label>
-                        <input type="text" class="form-control" maxlength="80">
-                    </div>
+
+                <div class="form-group col-md-4" style="padding: 0 0 0 15px;">
+                    <label class="col-sm-12 greyTxt">Value:</label>
+                    <input type="text" class="form-control" maxlength="80">
                 </div>
-                
-                <!--COGS+ Fees-->
-                <div class="col-md-8 zeroPadding methodFees cogsPlus" style="display: none;">
-                    <div class="form-group col-md-4" style="padding: 0 15px;">
-                        <label class="col-sm-12 greyTxt">Rate Type:</label>
-                        <input type="text" class="form-control" maxlength="80">
-                    </div>
-                    
-                    <div class="form-group col-md-4" style="padding: 0 0 0 15px;">
-                        <label class="col-sm-12 greyTxt">Value:</label>
-                        <input type="text" class="form-control" maxlength="80">
-                    </div>
+            </div>
+
+            <!--Service Fees-->
+            <div class="col-md-8 zeroPadding methodFees serviceFees" style="display: none;">
+                <div class="form-group col-md-4" style="padding: 0 15px;">
+                    <label class="col-sm-12 greyTxt">Rate Type:</label>
+                    <input type="text" class="form-control" maxlength="80">
                 </div>
-                
-                <!--Arbitrage-->
-                <div class="col-md-8 zeroPadding disabled methodFees arbitrage">
-                    <div class="form-group col-md-4" style="padding: 0 15px;">
-                        <label class="col-sm-12 greyTxt">Rate Type:</label>
-                        <input type="text" class="form-control disabled" maxlength="80">
-                    </div>
-                    
-                    <div class="form-group col-md-4 disabled" style="padding: 0 0 0 15px;">
-                        <label class="col-sm-12 greyTxt">Value:</label>
-                        <input type="text" class="form-control disabled" maxlength="80">
-                    </div>
+
+                <div class="form-group col-md-4" style="padding: 0 0 0 15px;">
+                    <label class="col-sm-12 greyTxt">Value:</label>
+                    <input type="text" class="form-control" maxlength="80">
                 </div>
-		
-		<div class="form-group col-md-4" style="padding: 0 15px 0 0;">
-                    <label class="col-sm-12 greyTxt">Inherit Method:</label>
-                    <input id="inheritMethod" class="cmn-toggle cmn-toggle-round" type="checkbox">
-                    <label for="inheritMethod"></label>
+            </div>
+
+            <!--COGS+ Fees-->
+            <div class="col-md-8 zeroPadding methodFees cogsPlus" style="display: none;">
+                <div class="form-group col-md-4" style="padding: 0 15px;">
+                    <label class="col-sm-12 greyTxt">Rate Type:</label>
+                    <input type="text" class="form-control" maxlength="80">
+                </div>
+
+                <div class="form-group col-md-4" style="padding: 0 0 0 15px;">
+                    <label class="col-sm-12 greyTxt">Value:</label>
+                    <input type="text" class="form-control" maxlength="80">
+                </div>
+            </div>
+
+            <!--Arbitrage-->
+            <div class="col-md-8 zeroPadding disabled methodFees arbitrage">
+                <div class="form-group col-md-4" style="padding: 0 15px;">
+                    <label class="col-sm-12 greyTxt">Rate Type:</label>
+                    <input type="text" class="form-control disabled" maxlength="80">
+                </div>
+
+                <div class="form-group col-md-4 disabled" style="padding: 0 0 0 15px;">
+                    <label class="col-sm-12 greyTxt">Value:</label>
+                    <input type="text" class="form-control disabled" maxlength="80">
                 </div>
             </div>
         </div>
-        
-    </div><!-- end of modal_body -->
+
+        <!--Row 2-->
+        <!--<div class="col-md-12 zeroPadding">-->
+        <!--    <a class="btn btn-link pull-left" style="padding: 15px 0;">-->
+        <!--        <span class="icon-plus" style="color: #0978C9; float: left; font-size: 12px; height: 12px; width: 12px; margin-right: 5px;"></span>-->
+        <!--        <span>Add Billing Method</span>-->
+        <!--    </a>-->
+        <!--</div>-->
+    </div>
 </div> <!-- end of popup-holder -->

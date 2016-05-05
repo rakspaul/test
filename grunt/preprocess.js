@@ -25,6 +25,15 @@ module.exports =function(grunt) {
             dest: '<%= cvars.dist %>/index.html'
         },
 
+        staging: {
+            options: {
+                context: { ENV: 'staging' }
+            },
+
+            src: '<%= cvars.app %>/index.master.html',
+            dest: '<%= cvars.dist %>/index.html'
+        },
+
         beta: {
             options: {
                 context: { ENV: 'beta' }

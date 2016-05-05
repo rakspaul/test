@@ -449,66 +449,42 @@ function (angularAMD) {
         //$scope.details.actionChart = actionChart.lineChart();
         //Function called when the user clicks on the Load more button
         $scope.loadMoreStrategies = function (campaignId) {
-            var campaignArray = $scope.campaign,
-                pageSize = 3,
-                loadMoreData = campaignArray.campaignStrategiesLoadMore,
-                moreData,
-                moreDataLen,
-                newStrategyData,
-                tmpCampaignStrategiesArr,
-                len;
+            var pageSize = 3,
+                strategiesYetToLoad = $scope.campaign.campaignStrategiesLoadMore,
+                strategiesToLoadNow,
+                newStrategyData;
 
-            if (loadMoreData.length > 0) {
-                moreData = loadMoreData.splice(0, pageSize);
-                moreDataLen = moreData.length;
+            if (strategiesYetToLoad.length > 0) {
+                strategiesToLoadNow = strategiesYetToLoad.splice(0, pageSize);
                 //requesting strategy card data
-                newStrategyData = campaign.requestStrategiesData($scope.campaign, constants.PERIOD_LIFE_TIME, moreData);
-                tmpCampaignStrategiesArr = [];
+                newStrategyData = campaign.requestStrategiesData($scope.campaign, constants.PERIOD_LIFE_TIME, strategiesToLoadNow);
 
-                for (len = 0; len < moreDataLen; len++) {
-                    tmpCampaignStrategiesArr.push(newStrategyData[len]);
-                }
-
-                //TODO: optimising this after introducing pagination
-                //$scope.campaign.campaignStrategies = tmpCampaignStrategiesArr;
                 $scope.campaign.campaignStrategies.push.apply(
-                    $scope.campaign.campaignStrategies,tmpCampaignStrategiesArr
+                    $scope.campaign.campaignStrategies, newStrategyData
                 );
-                //$scope.campaign.campaignStrategies.apply();
             }
-            //$scope.applySortStrategies();
         };
 
         $scope.loadMoreTactics = function (strategyId, campaignId) {
-            var campaignArray = $scope.campaign,
-                pageSize = 3,
-                campaignStrategies = campaignArray.campaignStrategies,
-                i,
-                loadMoreData,
-                moreData,
-                moreDataLen,
-                len,
-                newTacticData,
-                tmpStrategyTacticsArr;
+            var pageSize = 3,
+                campaignStrategies = $scope.campaign.campaignStrategies,
+                tacticsYetToLoad,
+                tacticsToLoadNow,
+                newTacticData;
 
-            for(i in campaignStrategies) {
-                if (campaignStrategies[i].id === Number(strategyId)) {
-                    loadMoreData = campaignStrategies[i].strategyTacticsLoadMore;
-                    if (loadMoreData.length > 0) {
-                        moreData = loadMoreData.splice(0, pageSize);
-                        moreDataLen = moreData.length;
+            var strategy = _.find(campaignStrategies, function(s) {
+                return s.id == Number(strategyId);
+            });
+            if (!strategy) {
+                return;
+            }
+            tacticsYetToLoad = strategy.strategyTacticsLoadMore;
+            if (tacticsYetToLoad.length > 0) {
+                tacticsToLoadNow = tacticsYetToLoad.splice(0, pageSize);
 
-                        //create object for paginated data and request cdb and metric data
-                        newTacticData =
-                            campaign.requestTacticsData(campaignStrategies[i], constants.PERIOD_LIFE_TIME,
-                                $scope.campaign, moreData);
-                        tmpStrategyTacticsArr = [];
-                        for (len = 0; len < moreDataLen; len++) {
-                            //update tactic model
-                            $scope.campaign.campaignStrategies[i].strategyTactics.push(newTacticData[len]);
-                        }
-                    }
-                }
+                newTacticData = campaign.requestTacticsData(strategy, constants.PERIOD_LIFE_TIME,
+                                                                $scope.campaign, tacticsToLoadNow);
+                strategy.strategyTactics.push.apply(strategy.strategyTactics, newTacticData);
             }
         };
 

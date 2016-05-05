@@ -1,4 +1,4 @@
-define(['angularAMD', 'common/services/constants_service', 'workflow/services/workflow_service', 'workflow/services/platform_custome_module'], function (angularAMD) {
+define(['angularAMD', 'common/services/constants_service', 'workflow/services/workflow_service', 'workflow/services/platform_custom_module'], function (angularAMD) {
     angularAMD.controller('BuyingPlatformController', function ($scope, $timeout, $modal, $filter, $rootScope, constants, workflowService, platformCustomeModule) {
 
         var tempPlatform,
@@ -468,5 +468,11 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 });
             }
         };
+
+        $scope.navigateToCreative = function() {
+            $timeout(function() {
+                $("#creative-tab").find("a[data-target='#creative']").click()
+            }, 100)
+        }
     });
 });

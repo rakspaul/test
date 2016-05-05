@@ -1,8 +1,15 @@
 define(['angularAMD', '../../common/services/constants_service'], function (angularAMD) {
     'use strict';
     angularAMD.factory('platformCustomeModule', function ($timeout, $locale, constants ) {
-        var _self = this;
-        var textConstants = constants;
+        var _self = this,
+            textConstants = constants,
+            widgetTypeMapper = {
+                'checkbox' : 'checkbox',
+                'textbox' : 'number',
+                'hidden' : 'hidden'
+            };
+
+
 
         //private method
         var platformHeader = function (pJson, elem) {
@@ -160,9 +167,10 @@ define(['angularAMD', '../../common/services/constants_service'], function (angu
                 inputWrapper.append(inputListHTML);
             }
 
-            if (inputList.platformCustomWidgetType === 'CHECKBOX' || inputList.platformCustomWidgetType === 'TEXTBOX') {
+            if (inputList.platformCustomWidgetType === 'CHECKBOX' || inputList.platformCustomWidgetType === 'TEXTBOX' || inputList.platformCustomWidgetType === 'HIDDEN') {
                 platformCustomWidgetType = inputList.platformCustomWidgetType;
-                type = platformCustomWidgetType === 'CHECKBOX' ? 'checkbox' : 'number';
+                type = widgetTypeMapper[platformCustomWidgetType.toLowerCase()];
+                //type = platformCustomWidgetType === 'CHECKBOX' ? 'checkbox' : 'number';
                 options = inputList.rangeJson && JSON.parse(inputList.rangeJson);
                 inputListHTML = $('<input/>').attr({
                     'type': type,

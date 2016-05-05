@@ -1,8 +1,8 @@
 define(['angularAMD', 'common/services/constants_service', 'workflow/services/workflow_service', 'common/moment_utils',
     'common/services/vistoconfig_service', 'workflow/controllers/get_adgroups_controller',
-    'workflow/directives/edit_ad_group_section','login/login_model'],
+    'workflow/directives/edit_ad_group_section','login/login_model', 'workflow/controllers/campaign_clone_controller'],
     function (angularAMD) {
-        angularAMD.controller('CampaignOverViewController', function ($scope, $rootScope, $routeParams, $timeout,
+        angularAMD.controller('CampaignOverViewController', function ($scope, $modal, $rootScope, $routeParams, $timeout,
                                                                       $location, $route, constants, workflowService,
                                                                       momentService, vistoconfig, featuresService,
                                                                       loginModel, $sce) {
@@ -70,12 +70,13 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     $scope.isEndDateInPast =  moment().isAfter(end, 'day');
                 },
 
-                getLineItems : function() {
+                getLineItems : function(callback) {
                     var campaignId = $scope.workflowData.campaignData.id;
                     var matchedLineItem;
                     workflowService.getLineItem(campaignId).then(function (results) {
                         if (results.status === 'success' && results.data.statusCode === 200) {
                             $scope.lineItems = results.data.data;
+                            callback && callback(campaignId);
                         }
                     });
                 },
@@ -121,7 +122,9 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                                 $scope.budgetAvailable = Math.ceil($scope.workflowData.campaignData.deliveryBudget) - $scope.workflowData.campaignData.bookedSpend;
 
                                 campaignOverView.modifyCampaignData();
-                                campaignOverView.getLineItems();
+                                campaignOverView.getLineItems(function(campaignId) {
+                                    campaignOverView.getAdgroups(campaignId);
+                                });
                             } else {
                                 campaignOverView.errorHandler(result);
                             }
@@ -257,6 +260,17 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                                     }
                                 });
 
+                                //loop through response data
+
+                                _.each(responseData, function(data) {
+                                     if(data.adGroup.lineitemId) {
+                                        lineItemObj = campaignOverView.getLineItem(data.adGroup.lineitemId);
+                                         if(lineItemObj && lineItemObj.name) {
+                                             data.adGroup.lineitemName = lineItemObj.name;
+                                         }
+                                     }
+                                })
+
                                 $scope.workflowData.campaignGetAdGroupsData = responseData;
 
                                 // **Non Ad Group Ads section
@@ -346,6 +360,10 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                                 $route.reload();
                             }
                         });
+                },
+
+                getLineItem : function(lineItemId) {
+                    return _.filter($scope.lineItems, function(obj) { return obj.id ===  lineItemId})[0];
                 },
 
                 errorHandler: function (errData) {
@@ -530,6 +548,18 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             $scope.cancelArchiveCampaign = function () {
                 $scope.campaignArchive = !$scope.campaignArchive;
             };
+             $scope.cloneCampaign = function () {
+                 var $modalInstance = $modal.open({
+                     templateUrl: assets.html_clone_campaign_popup,
+                     controller: "CampaignClone",
+                     scope: $scope,
+                     windowClass: 'delete-dialog',
+                     resolve: {
+                         campaignCloneAction: function () {
+                         }
+                     }
+                 });
+            };
 
             $scope.processObjectiveData = function (objectiveObj) {
                 var brandingArr = _.filter(objectiveObj, function (obj) {
@@ -622,7 +652,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
             campaignOverView.getCampaignData($routeParams.campaignId);
             //campaignOverView.getAdsForCampaign($routeParams.campaignId);
-            campaignOverView.getAdgroups($routeParams.campaignId);
+
 
             $(function () {
                 $('#pushCampaignBtn').on('click', function () {
@@ -775,14 +805,18 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     $scope.workflowData.campaignData.bookedSpend) + Math.ceil($scope.adGroupMinBudget);
             };
 
+
+
             $scope.setLineItem = function(lineitemId) {
-                var matchedLineItem = _.filter($scope.lineItems, function(obj) { return obj.id ===  lineitemId})[0];
+                matchedLineItem = campaignOverView.getLineItem(lineitemId);
                 $scope.selectLineItems(null, matchedLineItem);
             }
 
             $scope.selectLineItems = function(event, lineItem) {
-                $scope.adGroupData.lineitemName = lineItem.name;
-                $scope.adGroupData.lineitemId = lineItem.id;
+                if(lineItem) {
+                    $scope.adGroupData.lineitemName = lineItem.name;
+                    $scope.adGroupData.lineitemId = lineItem.id;
+                }
 
             };
 

@@ -14,13 +14,21 @@ define(['angularAMD', 'common/services/constants_service', 'common/moment_utils'
         $scope.adData.unitCost = '';
         $scope.adData.totalAdBudget = '';
         $scope.adData.budgetAmount = '';
+        /*Kpi Types in an array of objects, sorted alphabetically*/
+        $scope.adData.primaryKpiList=[{kpiType:'ACTION RATE', displayName:'Action Rate'},
+                                       {kpiType:'CPA', displayName:'CPA'},
+                                       {kpiType:'CPC', displayName:'CPC'},
+                                       {kpiType:'CPM', displayName:'CPM'},
+                                       {kpiType:'CTR', displayName:'CTR'},
+                                       {kpiType:'IMPRESSIONS', displayName:'Impressions'},
+                                       {kpiType:'VTC', displayName:'VTC'}];
 
         $scope.ImpressionPerUserValidator = function () {
             var impressionPerUser = Number($scope.adData.quantity),
                 totalImpression;
 
             $scope.budgetErrorObj.impressionPerUserValidator = false;
-            if ($scope.adData.budgetType.toLowerCase() === 'impressions' && impressionPerUser >= 0) {
+            if ($scope.adData.budgetType.toUpperCase() === 'IMPRESSIONS' && impressionPerUser >= 0) {
                 totalImpression = Number($scope.adData.budgetAmount);
                 if (impressionPerUser > totalImpression) {
                     $scope.budgetErrorObj.impressionPerUserValidator = true;
@@ -218,22 +226,16 @@ define(['angularAMD', 'common/services/constants_service', 'common/moment_utils'
             var elem = $(event.target);
 
             if (elem.is(':checked')) {
-                //elem.closest('.budget_holder_input').find('.budget_holder input').attr('disabled' , true);
-                // .addClass('disabled-field') ;
-                //elem.closest('.budget_holder_input').find('.impression_field').addClass('disabled-field') ;
                 $('.totalBudgetInputClass').attr('disabled', true).addClass('disabled-field');
                 $scope.calculateTotalAdBudget();
             } else {
                 $('.totalBudgetInputClass').attr('disabled', false).removeClass('disabled-field');
-                //elem.closest('.budget_holder_input').find('.budget_holder input').attr('disabled' , false)
-                // .removeClass('disabled-field') ;
-                //elem.closest('.budget_holder_input').find('.impression_field').removeClass('disabled-field') ;
             }
         };
 
         $scope.select_kpi = function (event, type) {
             var elem = $(event.target),
-                impressionsHolder = $('.impressions_holder');
+            impressionsHolder = $('.impressions_holder');
 
             $scope.adData.primaryKpi = type;
             $scope.adData.targetValue = '';
@@ -242,8 +244,8 @@ define(['angularAMD', 'common/services/constants_service', 'common/moment_utils'
             elem.closest('.symbolAbs').find('.KPI_symbol').show();
             elem.closest('.symbolAbs').find('.VTC_per').hide();
             elem.closest('.symbolAbs').find('.target_val_input').removeClass('target_val_input_vtc');
-
-            if (type !== 'impressions') {
+            elem.closest('.symbolAbs').find('.KPI_symbol').removeClass("perSymbol");
+            if (type !== 'IMPRESSIONS') {
                 $('#targetUnitCost_squaredFour').prop('checked', false);
 
                 impressionsHolder
@@ -265,11 +267,15 @@ define(['angularAMD', 'common/services/constants_service', 'common/moment_utils'
 
                 $('.external_chkbox').hide();
 
-                if (type === 'VTC' || type === 'CTR') {
-                    elem.closest('.symbolAbs').find('.KPI_symbol').hide();
-                    elem.closest('.symbolAbs').find('.VTC_per').show();
-                    elem.closest('.symbolAbs').find('.target_val_input').addClass('target_val_input_vtc');
-                }
+                if (type === 'VTC' || type === 'CTR' || type=='ACTION RATE') {
+                    elem.closest('.symbolAbs')
+                        .find('.KPI_symbol')
+                        .addClass("perSymbol")
+                        .html('%');
+                    //elem.closest('.symbolAbs').find('.KPI_symbol').hide();
+                    //elem.closest('.symbolAbs').find('.VTC_per').show();
+                    //elem.closest('.symbolAbs').find('.target_val_input').addClass('target_val_input_vtc');
+                } 
             } else {
                 elem.closest('.symbolAbs').find('.KPI_symbol').html('#');
 

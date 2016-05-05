@@ -1,25 +1,132 @@
 var angObj = angObj || {};
 
-define(['angularAMD','../../../workflow/services/account_service', '../../services/constants_service', 'common/moment_utils'],function (angularAMD) {
+define(['angularAMD','../../../workflow/services/account_service', '../../services/constants_service', 'common/moment_utils'
+    ,'workflow/directives/custom_date_picker'],function (angularAMD) {
     'use strict';
 
     angularAMD.controller('AccountsAddOrEditAdvertiser', function ($scope, $rootScope, $modalInstance,
-                                                                    accountsService, constants, momentService) {
+        accountsService, constants, momentService) {
 
         var _currCtrl = this;
+
+        $scope.advertiserAddOrEditData.selectedIABCategory = "Select Category";
+        _currCtrl.clearAdvInputFiled = function(){
+            $scope.advertiserAddOrEditData.enableAdChoice = false;
+            $scope.advertiserAddOrEditData.adChoiceCode = "";
+            _currCtrl.isAdChoiceInClient = false;
+            _currCtrl.isAdChoiceInAdv = false;
+            $scope.advertiserAddOrEditData.resAdChoiceData = {}
+        }
+        _currCtrl.clearAdvInputFiled();
         $scope.close=function () {
             $scope.resetBrandAdvertiserAfterEdit();
             $modalInstance.dismiss();
+            _currCtrl.clearAdvInputFiled();
         };
-
         $(".miniTabLinks.sub .btn").removeClass("active");
         $(".miniTabLinks.sub .subBasics").addClass("active");
-        
-        $scope.show_respective_method = function(id) {
-            $(".methodFees").hide();
-            $("." + id).show();
-        };
-        
+        $modalInstance.opened.then(function() {
+            $('popup-msg').appendTo(document.body);
+        });
+        _currCtrl.getIABCategoryList = function(){
+            accountsService.getIABCategoryList().then(function(res){
+                if((res.status === 'OK' || res.status === 'success') && res.data.data) {
+                    $scope.IABCategoryList = res.data.data;
+                }
+            },function(err){
+
+            })
+        }
+        _currCtrl.getIABCategoryList();
+        _currCtrl.getIABCategory = function(){
+            accountsService.getIABCategoryForAdv($scope.client.id, $scope.selectedAdvertiserId).then(function(res){
+                _currCtrl.isAdChoiceInClient = false;
+                if((res.status === 'OK' || res.status === 'success') && res.data.data && res.data.data.id){
+                    _currCtrl.isAdChoiceInClient = true;
+                    $scope.advertiserAddOrEditData.selectedIABCategory = res.data.data.name;
+                    $scope.advertiserAddOrEditData.selectedIABCategoryId = res.data.data.id;
+                }
+            },function(err){
+
+            })
+        }
+        _currCtrl.saveIABCategory = function(){
+            var reqBody = {
+                iabId: $scope.advertiserAddOrEditData.selectedIABCategoryId
+            }
+            accountsService.saveIABCategoryForAdv($scope.client.id, $scope.selectedAdvertiserId, reqBody).then(function(res){
+                if((res.status === 'OK' || res.status === 'success') && res.data.data) {
+                }
+            },function(err){
+
+            });
+        }
+        _currCtrl.getAdChoiceDataFromClient = function(){
+            accountsService.getAdChoiceDataFromClient($scope.client.id, $scope.selectedAdvertiserId).then(function (res) {
+                _currCtrl.isAdChoiceInClient = false;
+                if ((res.status === 'OK' || res.status === 'success') && res.data.data) {
+                    _currCtrl.isAdChoiceInClient = true;
+                    $scope.advertiserAddOrEditData.enableAdChoice = res.data.data.enabled;
+                    $scope.advertiserAddOrEditData.adChoiceCode = res.data.data.code;
+                    $scope.advertiserAddOrEditData.resAdChoiceData = res.data.data;
+                }
+            }, function (err) {
+            });
+        }
+        _currCtrl.getAdChoiceData = function(){
+            accountsService.getAdChoiceDataFromAdv($scope.client.id, $scope.selectedAdvertiserId).then(function(resAdv) {
+                _currCtrl.isAdChoiceInAdv = false;
+                if ((resAdv.status === 'OK' || resAdv.status === 'success') && resAdv.data.data) {
+                    _currCtrl.isAdChoiceInAdv = true;
+                    $scope.advertiserAddOrEditData.enableAdChoice = resAdv.data.data.enabled;
+                    $scope.advertiserAddOrEditData.adChoiceCode = resAdv.data.data.code;
+                    $scope.advertiserAddOrEditData.resAdChoiceData = resAdv.data.data;
+                }else {
+                    _currCtrl.getAdChoiceDataFromClient();
+                }
+            },function(err){
+                _currCtrl.getAdChoiceDataFromClient();
+            });
+        }
+        _currCtrl.saveAdChoiceData = function(){
+            var reqBody = {
+                enabled: $scope.advertiserAddOrEditData.enableAdChoice,
+                code: $scope.advertiserAddOrEditData.adChoiceCode
+            }
+            if(reqBody.enabled && reqBody.code
+                && (!$scope.advertiserAddOrEditData.resAdChoiceData.enabled || (
+                    reqBody.enabled != $scope.advertiserAddOrEditData.resAdChoiceData.enabled ||
+                     (!$scope.advertiserAddOrEditData.resAdChoiceData.code || reqBody.code != $scope.advertiserAddOrEditData.resAdChoiceData.code)
+                    )
+                   )
+                )
+            {
+                accountsService.saveAdChoiceDataForAdv($scope.client.id, $scope.selectedAdvertiserId,reqBody).then(function(res){
+                    if(res.status === 'OK' || res.status === 'success'){
+                        // For Save Data
+                    }else{
+                        console.log("Error: Save Ad Choice in Advertiser");
+                    }
+                },function(err){
+                    console.log("Error: Save Ad Choice in Advertiser");
+                });
+            }
+        }
+        $rootScope.$on('advertiserDataReceived',function(){
+            $scope.getAdnlData();
+        });
+        $scope.selectIABCategory = function(type){
+            $scope.advertiserAddOrEditData.selectedIABCategory = type.name;
+            $scope.advertiserAddOrEditData.selectedIABCategoryId = type.id
+        }
+        $scope.getAdnlData = function(){
+            _currCtrl.getAdChoiceData();
+            _currCtrl.getIABCategory();
+        }
+        _currCtrl.saveAdnlData = function(){
+            _currCtrl.saveAdChoiceData();
+            _currCtrl.saveIABCategory();
+        }
         _currCtrl.verifyCreateAdvInputs = function(){
             var ret = true,
                 errMsg = "Error";
@@ -35,20 +142,14 @@ define(['angularAMD','../../../workflow/services/account_service', '../../servic
                 $rootScope.setErrAlertMessage(constants.EMPTY_LOOKBACK_CLICK);
                 return false;
             }
-            _.each($scope.advertiserData.pixels, function(item){
-                if(ret){
-                    if(!item.name || item.name == "") {
-                        errMsg = constants.EMPTY_PIXEL_FIELD;
-                        ret = false;
-                    }else if(!item.pixelType || item.pixelType == ""){
-                        errMsg = constants.EMPTY_PIXEL_TYPE;
-                        ret = false;
-                    }else if(!item.expiryDate || item.expiryDate == ""){
-                        errMsg = constants.EMPTY_PIXEL_EXPIREAT;
-                        ret = false;
-                    }
-                }
-            });
+            if($scope.advertiserAddOrEditData.enableAdChoice && !$scope.advertiserAddOrEditData.adChoiceCode){
+                errMsg = constants.EMPTY_ADCHOICE_CODE;
+                ret = false;
+            }
+            if(!$scope.advertiserAddOrEditData.selectedIABCategory || $scope.advertiserAddOrEditData.selectedIABCategory == 'Select Category'){
+                errMsg = constants.EMPTY_IAB_CATEGORY;
+                ret = false;
+            }
             if(!ret) {
                 $rootScope.setErrAlertMessage(errMsg);
             }
@@ -58,11 +159,7 @@ define(['angularAMD','../../../workflow/services/account_service', '../../servic
             if(!_currCtrl.verifyCreateAdvInputs()){
                 return;
             }
-//            if($scope.isEditMode){
-//                createAdvertiserUnderClient($scope.selectedAdvertiserId);
-//            }else{
-                createAdvertiserUnderClient($scope.selectedAdvertiserId);
-//            }
+            createAdvertiserUnderClient($scope.selectedAdvertiserId);
         };
         function createAdvertiserUnderClient(advId) {
             var requestData = {
@@ -70,14 +167,18 @@ define(['angularAMD','../../../workflow/services/account_service', '../../servic
                 lookbackClicks : Number($scope.advertiserData.lookbackClicks)
             }
             accountsService
-                .updateAdvertiserUnderClient($scope.client.id, advId, requestData)
+                .createAdvertiserUnderClient($scope.client.id, advId, requestData)
                 .then(function (result) {
                     if (result.status === 'OK' || result.status === 'success') {
+                        _currCtrl.saveAdnlData();
                         $scope.fetchAllAdvertisersforClient($scope.client.id);
                         $scope.resetBrandAdvertiserAfterEdit();
                         $scope.close();
                         if($scope.advertiserData.pixels.length) {
                             createPixelsforAdvertiser($scope.clientId, advId);
+                        }else{
+                            //$scope.fetchAllAdvertisersforClient($scope.client.id);
+                            $scope.fetchAllClients();
                         }
                         if($scope.isEditMode){
                             $rootScope.setErrAlertMessage('Advertiser updated successfully', 0);
@@ -127,7 +228,7 @@ define(['angularAMD','../../../workflow/services/account_service', '../../servic
                     createdBy: item.createdBy,
                     createdAt: item.createdAt,
                     updatedAt: item.updatedAt,
-                    expiryDate: momentService.newMoment(item.expiryDate).format('YYYY-MM-DD HH-MM-SS.SSS')
+                    expiryDate: momentService.newMoment(item.expiryDate).format('YYYY-MM-DD HH:MM:SS.SSS')
                 }
                 if(item.id){
                     $scope.advertiserData.pixels[index].id = item.id;
@@ -140,7 +241,8 @@ define(['angularAMD','../../../workflow/services/account_service', '../../servic
                 .createPixelsUnderAdvertiser(clientId, advId, getRequestDataforPixel(clientId, advId))
                 .then(function (result) {
                     if (result.status === 'OK' || result.status === 'success') {
-                        $scope.fetchAllAdvertisersforClient($scope.client.id);
+                        // $scope.fetchAllAdvertisersforClient($scope.client.id);
+                        $scope.fetchAllClients();
                         $scope.resetBrandAdvertiserAfterEdit();
                         $scope.close();
                         $rootScope.setErrAlertMessage('Advertiser created successfully', 0);

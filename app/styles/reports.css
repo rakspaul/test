@@ -3828,10 +3828,14 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
   margin-right: 6px;
   float: left;
 }
+.report_generator_and_response #dynamicHeader.smaller .iconPlusMinus .icon-plus,
+.report_generator_and_response #dynamicHeader.smaller .iconPlusMinus .icon-minus {
+  margin-left: 0 ;
+}
 .report_generator_and_response #dynamicHeader.smaller .downReport {
   display: block;
   float: right;
-  margin-top: 20px;
+  margin-top: 28px;
 }
 .report_generator_and_response #dynamicHeader.smaller .downReport a {
   color: #312333;
@@ -3840,7 +3844,8 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
   display: none;
 }
 .report_generator_and_response #dynamicHeader {
-  padding-left: 0;
+  padding-left: 14px;
+  margin-bottom: 10px;
 }
 .report_generator_and_response #dynamicHeader .collapseIcon {
   display: none;
@@ -4467,7 +4472,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 .custom_report_response_page .custom_report_response_table .each_row {
   display: table ;
   position: relative;
-  margin-bottom: 25px;
+  margin-bottom: 16px;
   width: 100%;
 }
 .custom_report_response_page .custom_report_response_table .each_row .common-load-more {
@@ -4646,8 +4651,8 @@ div.reports_tabs_content_container div#reports_bycreatives_block div.reports_det
 }
 .heading_first_dimension {
   color: #5C5C5C ;
-  padding-top: 5px;
-  padding-bottom: 5px;
+  padding-top: 2px;
+  padding-bottom: 2px;
 }
 .heading_first_dimension:first-child {
   padding-left: 40px;
@@ -4658,6 +4663,9 @@ div.reports_tabs_content_container div#reports_bycreatives_block div.reports_det
 }
 .new_breakdown_div .filter_input_txtbox {
   display: none;
+}
+.delete_row_pixel {
+  float: right;
 }
 .delete_row {
   height: 16px;

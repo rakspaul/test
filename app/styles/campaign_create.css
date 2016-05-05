@@ -1187,6 +1187,12 @@
 .campaignAdCreatePage {
   position: relative;
 }
+.campaignAdCreatePage .tab-content .tab-pane .budgetWrap h2.adHeader {
+  margin: 10px 0 5px 0 !important;
+}
+.campaignAdCreatePage .tab-content .tab-pane .budgetWrap .measureBudget {
+  margin-bottom: 20px ;
+}
 .campaignAdCreatePage .common-btns {
   padding-left: 30px;
   position: absolute;
@@ -2340,6 +2346,12 @@
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroup .hideCollapse {
   display: none;
 }
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .flightDatesTxt .icon-calendar {
+  margin: 6px 6px 0 0 ;
+}
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .flightDatesTxt .iconDates {
+  margin-top: 6px ;
+}
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroup.openInstance {
   padding: 0;
 }
@@ -2385,6 +2397,15 @@
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroup.openInstance .showCollapse {
   display: none;
+}
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroup.openInstance .labelsmargin {
+  margin-right: 70px ;
+}
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroup.openInstance .flightDatesTxt .icon-calendar {
+  margin-top: 0px;
+}
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroup.openInstance .flightDatesTxt .iconDates {
+  margin-top: 0px ;
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroupCreate {
   background: #fff;
@@ -3306,6 +3327,14 @@
   margin-top: -40px;
   padding: 0 0 10px;
 }
+#campaignCreate .firstWrapper .masterContainer .settingWrap #addAdditionalCost {
+  margin-bottom: 60px;
+  float: left;
+  width: 100% ;
+}
+#campaignCreate .firstWrapper .masterContainer .settingWrap #addAdditionalCost .dropdown-menu {
+  max-height: 110px;
+}
 #campaignCreate .firstWrapper .masterContainer .spacingInput {
   height: 10px;
 }
@@ -4197,7 +4226,6 @@
 }
 .modalAccountRedx .modal-dialog .modal-content .popup-holder .modal-body .pixelCreate {
   margin: 30px 0 0 0;
-  display: none;
 }
 .modalAccountRedx .modal-dialog .modal-content .popup-holder .modal-body .pixelTable {
   float: left;
@@ -4348,4 +4376,20 @@
 .video-dimension .clickable-txt {
   margin-left: 5px ;
   cursor: pointer;
+}
+.campaignClonePopup div.popup {
+  min-height: 300px ;
+}
+.campaignClonePopup div.popup .errorLabel {
+  line-height: 18px ;
+}
+.campaignClonePopup div.popup div.popup-content {
+  margin-bottom: 50px ;
+}
+.campaignClonePopup input[type='text'] {
+  width: 100% ;
+  font-size: 12px ;
+}
+.campaignClonePopup .duplicateOptionChkbox {
+  margin: 20px 0 ;
 }

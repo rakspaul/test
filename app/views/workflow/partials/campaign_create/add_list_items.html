@@ -5,20 +5,20 @@
 <div class="col-md-12 zeroPadding">
     <div class="col-md-5" style="background: #F0F0F0; padding: 0 10px 10px 10px;">
         <div class="col-md-4 zeroPadding">
-            <label class="col-sm-12 greyTxt miniLabels zeroPadding">Media Plan Budget</label>
-            <span class="col-md-12 zeroPadding">${{Campaign.totalBudget? Campaign.totalBudget:0}}</span>
+            <label class="col-sm-12 greyTxt miniLabels zeroPadding" data-ng-bind="textConstants.MEDIAPLAN_BUDGET"></label>
+            <span class="col-md-12 zeroPadding">{{locale.NUMBER_FORMATS.CURRENCY_SYM}}{{Campaign.totalBudget? Campaign.totalBudget:0}}</span>
         </div>
         <div class="col-md-4 zeroPadding">
-            <label class="col-sm-12 greyTxt miniLabels zeroPadding">Margin (Optional)</label>
+            <label class="col-sm-12 greyTxt miniLabels zeroPadding" data-ng-bind="textConstants.MEDIAPLAN_MARGIN"></label>
             <span class="col-md-12 zeroPadding">{{Campaign.marginPercent?Campaign.marginPercent:0}}%</span>
         </div>
         <div class="col-md-4 zeroPadding">
-            <label class="col-sm-12 greyTxt miniLabels zeroPadding">Delivery Budget</label>
-            <span class="col-md-12 zeroPadding">${{Campaign.deliveryBudget?Campaign.deliveryBudget:0}}</span>
+            <label class="col-sm-12 greyTxt miniLabels zeroPadding" data-ng-bind="textConstants.MEDIAPLAN_DELIVERY_BUDGET"></label>
+            <span class="col-md-12 zeroPadding">{{locale.NUMBER_FORMATS.CURRENCY_SYM}}{{Campaign.deliveryBudget?Campaign.deliveryBudget:0}}</span>
         </div>
     </div>
 
-    <label for="nameTitleCampaign" class="col-sm-12 labelQuestTxt" style="margin-bottom: 5px;">Setup Line Items</label>
+    <label for="nameTitleCampaign" class="col-sm-12 labelQuestTxt" style="margin-bottom: 5px;" data-ng-bind="textConstants.MEDIAPLAN_SETUP_LINE_ITEMS"></label>
 
     <div class="col-md-12 zeroPadding btn-group create" role="group" style="margin: 20px 0 10px 0;">
         <a class="btn btn-default" ng-click="showNewLineItemForm() ">
@@ -59,17 +59,17 @@
     <div class="col-md-12 createItemList " ng-show="createItemList" ng-form name="lineItemForm">
         <!--Row 1-->
         <div class="col-md-4 zeroPadding ">
-            <label class="col-sm-12 greyTxt miniLabels zeroPadding">Line Item Name / Notes</label>
+            <label class="col-sm-12 greyTxt miniLabels zeroPadding" data-ng-bind="textConstants.MEDIAPLAN_LINE_ITEM_NAME"></label>
             <input type="text" class="col-md-12 form-control" placeholder="Enter Line Item name up to 150 characters" name="lineItemName" ng-model="$parent.lineItemName" />
             <span class="greyTxt errorLabel" ng-show="lineItemForm.lineItemName.$error.required">Please enter a name</span>
         </div>
 
         <div class="col-md-2" style="padding: 0 0 0 10px;">
-            <label class="col-sm-12 greyTxt miniLabels zeroPadding">Rate Type</label>
+            <label class="col-sm-12 greyTxt miniLabels zeroPadding" data-ng-bind="textConstants.MEDIAPLAN_RATE_TYPE"></label>
             <div class="col-md-12 zeroPadding dropdown-workflow" >
                 <div class="dropdown">
-                    <button style="width:100%;" class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ng-disabled="rateTypeReadOnly">
-                        <span class="text" >{{(lineItemType )?lineItemType.name:'Select Type'}}</span>
+                    <button style="width:100%;" class="btn btn-default dropdown-toggle lineItemType" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ng-disabled="rateTypeReadOnly">
+                        <span class="text" >{{(lineItemType )?lineItemType.name:'Select from list'}}</span>
                         <span class="icon-arrow-down"></span>
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="lineType" id="lineType" data-toggle="dropdown" name="lineItemType">
@@ -84,18 +84,18 @@
         </div>
 
         <div class="col-md-2  " style="padding: 0 0 0 10px;" ng-hide="hideLineItemRate">
-            <label class="col-sm-12 greyTxt miniLabels zeroPadding" >Rate</label>
+            <label class="col-sm-12 greyTxt miniLabels zeroPadding" data-ng-bind="textConstants.MEDIAPLAN_RATE"></label>
             <input type="text" class="col-md-12 form-control" placeholder="Enter Rate" ng-model="$parent.pricingRate" ng-readonly="rateReadOnly" name="lineItemRate"   fraction-numbers/>
             <span class="greyTxt errorLabel" ng-if="lineItemForm.lineItemRate.$error.required">Enter Rate</span>
         </div>
 
         <div class="col-md-2" style="padding: 0 0 0 10px;" ng-show="amountFlag">
-            <label class="col-sm-12 greyTxt miniLabels zeroPadding" >Billable Amount</label>
-            <div class="col-md-12 zeroPadding symbol-input"><span class="symbol" >$</span><input type="text" class="col-md-12" placeholder="" ng-model="$parent.billableAmount" whole-number-only style="padding-left:20px"/>
+            <label class="col-sm-12 greyTxt miniLabels zeroPadding" data-ng-bind="textConstants.MEDIAPLAN_BILLABLE_AMOUNT"></label>
+            <div class="col-md-12 zeroPadding symbol-input"><span class="symbol" >{{locale.NUMBER_FORMATS.CURRENCY_SYM}}</span><input type="text" class="col-md-12" placeholder="" ng-model="$parent.billableAmount" whole-number-only style="padding-left:20px"/>
             </div>
         </div>
         <div class="col-md-2" style="padding: 0 0 0 10px;" ng-show="volumeFlag">
-            <label class="col-sm-12 greyTxt miniLabels zeroPadding" ng-if="!lineItemType || lineItemType.name === 'Select Type'">Volume</label>
+            <label class="col-sm-12 greyTxt miniLabels zeroPadding" ng-if="!lineItemType || lineItemType.name === 'Select Type'" data-ng-bind="textConstants.MEDIAPLAN_VOLUME">Volume</label>
             <label class="col-sm-12 greyTxt miniLabels zeroPadding" ng-if="lineItemType.name === 'CPM'">Impressions</label>
             <label class="col-sm-12 greyTxt miniLabels zeroPadding" ng-if="lineItemType.name === 'CPC'">Clicks</label>
             <label class="col-sm-12 greyTxt miniLabels zeroPadding" ng-if="lineItemType.name === 'CPCV'">Completed</label>
@@ -110,7 +110,7 @@
                 <div class="span4 col-md-12 input-daterange input-group date otherBgDateRange pull-left" id="datepicker">
                     <div class="col-md-12 dateWrapper zeroPadding">
                         <div class="dateContainer">
-                            <label class="col-sm-12 control-label greyTxt miniLabels">Flight Date Start</label>
+                            <label class="col-sm-12 control-label greyTxt miniLabels" data-ng-bind="textConstants.MEDIAPLAN_FLIGHT_DATE_START"></label>
                             <div class="dateInputHolder" >
                                 <input type="text" id="lineItemStartDateInput" custom-date-picker="{format: 'mm/dd/yyyy', orientation: 'auto',  autoclose: true, todayHighlight: true}" placeholder="MM/DD/YYYY" class="form-control"  readonly name="startTime" ng-model="lineItemStartDate" ng-change="validateDateLineItem(lineItemStartDate,'startdate')" />
                                 <div class="icon-calendar-holder">
@@ -119,7 +119,7 @@
                             </div>
                         </div>
                         <div class="dateContainer">
-                            <label class="col-sm-12 control-label greyTxt miniLabels">Flight Date End</label>
+                            <label class="col-sm-12 control-label greyTxt miniLabels" data-ng-bind="textConstants.MEDIAPLAN_FLIGHT_DATE_END"></label>
                             <div class="dateInputHolder">
                                 <input type="text" id="lineItemEndDateInput" custom-date-picker="{format: 'mm/dd/yyyy', orientation: 'auto',  autoclose: true, todayHighlight: true}" placeholder="MM/DD/YYYY" class="form-control"  ng-model="lineItemEndDate" name="endTime" readonly ng-change="validateDateLineItem(lineItemEndDate,'enddate')"/>
                                 <div class="icon-calendar-holder">
@@ -139,13 +139,13 @@
                 </div>
             </div>
 
-            <div class="col-md-4 greyTxt" style="padding-bottom: 2px !important;">
-                <label class="col-sm-12 zeroPadding">Ad Group Name</label>
+            <div class="col-md-4 " style="padding-bottom: 2px !important;" ng-hide="hideAdGroupName">
+                <label class="col-sm-12 zeroPadding greyTxt">Ad Group Name</label>
                 <input type="text" class="col-md-12" placeholder="Enter Ad Group name up to 100 characters"  ng-model="$parent.adGroupName"/>
             </div>
 
             <div class="pull-right" style="padding: 30px 0 0 0;">
-                <div class="pull-right btn btn-primary" ng-disabled="lineItemName === '' || !lineItemType || lineItemType.id == '' || billableAmount == ''" ng-click="createNewLineItem('create')">Save Line Item</div>
+                <div class="pull-right btn btn-primary" ng-disabled="lineItemName === '' || !lineItemType || lineItemType.id == '' || billableAmount == ''" ng-click="createNewLineItem('create')">Add Line Item</div>
                 <div class="pull-right btn btn-link" ng-click="resetLineItemParameters()">Cancel</div>
             </div>
 
@@ -159,12 +159,12 @@
         <div class="vistoTable" id="visto_table">
             <div class="thead">
                 <div class="tr">
-                    <div class="th col-md-3">Line Item</div>
-                    <div class="th col-md-2">Rate Type</div>
-                    <div class="th col-md-1">Rate</div>
-                    <div class="th col-md-2">Billable Amount</div>
-                    <div class="th col-md-2">Volume</div>
-                    <div class="th col-md-2">Flight Dates</div>
+                    <div class="th col-md-3" data-ng-bind="textConstants.MEDIAPLAN_LINE_ITEM"></div>
+                    <div class="th col-md-2" data-ng-bind="textConstants.MEDIAPLAN_RATE_TYPE"></div>
+                    <div class="th col-md-1" data-ng-bind="textConstants.MEDIAPLAN_RATE"></div>
+                    <div class="th col-md-2" data-ng-bind="textConstants.MEDIAPLAN_BILLABLE_AMOUNT"></div>
+                    <div class="th col-md-2" data-ng-bind="textConstants.MEDIAPLAN_VOLUME"></div>
+                    <div class="th col-md-2" data-ng-bind="textConstants.MEDIAPLAN_FLIGHT_DATES"></div>
                 </div>
             </div>
 
@@ -172,11 +172,11 @@
                 <!--Table Data Sample-->
                 <div class="tr" ng-repeat="item in lineItemList" >
                     <div class="tableNormal" ng-click="showEditItemRow($event,item)">
-                        <a class="td col-md-3">{{item.name}}</a>
-                        <a class="td col-md-2">{{item.lineItemType.name}}</a>
-                        <a class="td col-md-1">{{item.pricingRate}}</a>
-                        <a class="td col-md-2">{{item.billableAmount}}</a>
-                        <a class="td col-md-2">{{item.volume}}</a>
+                        <a class="td col-md-3" data-ng-bind="item.name"></a>
+                        <a class="td col-md-2" data-ng-bind="item.lineItemType.name">{</a>
+                        <a class="td col-md-1" data-ng-bind="item.pricingRate"></a>
+                        <a class="td col-md-2" data-ng-bind="item.billableAmount | currency"></a>
+                        <a class="td col-md-2" data-ng-bind="item.volume"></a>
                         <a class="td col-md-2">{{item.startTime}} - {{item.endTime}}</a>
                     </div>
 
@@ -189,23 +189,23 @@
     </div>
     <!--Item List Table Sample Start-->
 
-    <span class="col-md-12 text-right" style="padding: 0 0 5px 0; border-bottom: 1px solid rgba(191, 201, 215, 0.5);">Total Billable Amount: ${{totalBillableAmount}}</span>
+    <span class="col-md-12 text-right" style="padding: 0 0 5px 0; border-bottom: 1px solid rgba(191, 201, 215, 0.5);">Total Billable Amount: {{locale.NUMBER_FORMATS.CURRENCY_SYM}}{{lineItemBillableAmountTotal}}</span>
 
     <label class="col-sm-12 labelQuestTxt showAddCreditForm" ng-click="showAddCreditForm()" ng-hide="true">
         <span class="icon-arrow-down-thick"></span>Add Credits (0)
     </label>
 
     <div class="col-md-12 addCreditForm">
-        <a class="btn btn-default" ng-click="showAddCredit = ! showAddCredit" ng-hide="showAddCredit" style="margin: 10px 0;">Add Credit</a>
+        <a class="btn btn-default" ng-click="showAddCredit = ! showAddCredit" ng-hide="showAddCredit" style="margin: 10px 0;" data-ng-bind="textConstants.MEDIAPLAN_ADD_CREDIT"></a>
 
         <div class="col-md-12 zeroPadding" ng-show="showAddCredit">
             <div class="col-md-4 zeroPadding">
-                <label class="col-sm-12 greyTxt miniLabels zeroPadding">Credit Name / Notes</label>
+                <label class="col-sm-12 greyTxt miniLabels zeroPadding" data-ng-bind="textConstants.MEDIAPLAN_CREDIT_NAME"></label>
                 <input type="text" class="col-md-12" placeholder=""/>
             </div>
 
             <div class="col-md-2" style="padding: 0 0 0 10px;">
-                <label class="col-sm-12 greyTxt miniLabels zeroPadding">Amount</label>
+                <label class="col-sm-12 greyTxt miniLabels zeroPadding" data-ng-bind="textConstants.MEDIAPLAN_AMOUNT"></label>
                 <input type="text" class="col-md-12" placeholder=""/>
             </div>
 
@@ -213,7 +213,7 @@
         </div>
 
         <div class="col-md-12 zeroPadding" ng-show="showAddCredit" style="margin: 10px 0;">
-            <a class="btn btn-default pull-left">Add Another Credit</a>
+            <a class="btn btn-default pull-left" data-ng-bind="textConstants.MEDIAPLAN_ADD_ANOTHER_CREDIT"></a>
         </div>
     </div>
 </div>
@@ -223,12 +223,12 @@
     <!--Row 1-->
     <div class="col-md-12 zeroPadding">
         <div class="col-md-4 zeroPadding">
-            <label class="col-sm-12 greyTxt miniLabels zeroPadding">Line Item Name / Notes</label>
+            <label class="col-sm-12 greyTxt miniLabels zeroPadding" data-ng-bind="textConstants.MEDIAPLAN_LINE_ITEM_NAME"></label>
             <input type="text" class="col-md-12" placeholder="Enter Line Item name up to 150 characters" ng-model="editLineItem.lineItemName"/>
         </div>
 
         <div class="col-md-2" style="padding: 0 0 0 10px;">
-            <label class="col-sm-12 greyTxt miniLabels zeroPadding">Type</label>
+            <label class="col-sm-12 greyTxt miniLabels zeroPadding" data-ng-bind="textConstants.TYPE"></label>
             <div class="col-md-12 zeroPadding dropdown-workflow">
                 <div class="dropdown">
                     <button style="width:100%;" class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ng-disabled="rateTypeReadOnlyEdit">
@@ -246,23 +246,24 @@
 
 
         <div class="col-md-2  " style="padding: 0 0 0 10px;" ng-hide="hideLineItemRateEdit">
-            <label class="col-sm-12 greyTxt miniLabels zeroPadding">Rate</label>
+            <label class="col-sm-12 greyTxt miniLabels zeroPadding" data-ng-bind="textConstants.MEDIAPLAN_RATE">Rate</label>
             <input type="text" class="col-md-12 form-control" placeholder="Enter Rate" ng-model="editLineItem.pricingRate" ng-readonly="rateReadOnlyEdit" name="lineItemRate" fraction-numbers/>
             <span class="greyTxt errorLabel" ng-if="lineItemForm.lineItemRate.$error.required">Enter Rate</span>
         </div>
 
         <div class="col-md-2" style="padding: 0 0 0 10px;" ng-show="amountFlagEdit">
-            <label class="col-sm-12 greyTxt miniLabels zeroPadding" >Billable Amount</label>
-            <input type="text" class="col-md-12" placeholder="" ng-model="editLineItem.billableAmount" whole-number-only/>
+            <label class="col-sm-12 greyTxt miniLabels zeroPadding" data-ng-bind="textConstants.MEDIAPLAN_BILLABLE_AMOUNT"></label>
+            <div class="col-md-12 zeroPadding symbol-input"><span class="symbol" >{{locale.NUMBER_FORMATS.CURRENCY_SYM}}</span><input type="text" class="col-md-12" placeholder="" ng-model="editLineItem.billableAmount" whole-number-only style="padding-left:20px"/>
+            </div>
         </div>
         <div class="col-md-2" style="padding: 0 0 0 10px;" ng-show="volumeFlagEdit">
-            <label class="col-sm-12 greyTxt miniLabels zeroPadding">Volume</label>
+            <label class="col-sm-12 greyTxt miniLabels zeroPadding" data-ng-bind="textConstants.MEDIAPLAN_VOLUME"></label>
             <input type="text" class="col-md-12" placeholder="" ng-model="editLineItem.volume" whole-number-only/>
         </div>
 
 
 
-        <a class="btn btn-link pull-right" style="position: absolute;top: -10px; right: 0; display: block;padding: 0; color: #0978c9;" ng-click="deleteLineItem(editLineItem)">Delete</a>
+        <a class="btn btn-link pull-right" style="position: absolute;top: -10px; right: 0; display: block;padding: 0; color: #0978c9;" ng-click="deleteLineItem(true)">Delete</a>
     </div>
 
     <!--Row 2-->
@@ -295,21 +296,21 @@
         <!--</div>-->
 
         <div class="span4 col-md-12 input-daterange input-group date pull-left" id="datepickerEdit">
-            <div class="col-md-12 dateWrapper zeroPadding">
+            <div class="col-md-6 dateWrapper zeroPadding">
                 <div class="dateContainer">
-                    <label class="col-sm-12 control-label greyTxt miniLabels">Flight Date Start</label>
+                    <label class="col-sm-12 control-label greyTxt miniLabels" data-ng-bind="textConstants.MEDIAPLAN_FLIGHT_DATE_START"></label>
                     <div style="background: #fff;">
                         <input type="text"  custom-date-picker="{format: 'mm/dd/yyyy', orientation: 'auto',  autoclose: true, todayHighlight: true}" placeholder="MM/DD/YYYY" class="form-control"  readonly name="startTime" ng-model="editLineItem.startTime" ng-change="validateDateLineItem(lineItemStartDate,'startdate')" />
                     </div>
                 </div>
                 <div class="dateContainer">
-                    <label class="col-sm-12 control-label greyTxt miniLabels">Flight Date End</label>
+                    <label class="col-sm-12 control-label greyTxt miniLabels" data-ng-bind="textConstants.MEDIAPLAN_FLIGHT_DATE_START"></label>
                     <div style="background: #fff;">
                         <input type="text"  custom-date-picker="{format: 'mm/dd/yyyy', orientation: 'auto',  autoclose: true, todayHighlight: true}" placeholder="MM/DD/YYYY" class="form-control"  ng-model="editLineItem.endTime" name="endTime"  ng-change="validateDateLineItem(lineItemEndDate,'enddate')"/>
                     </div>
                 </div>
             </div>
-                <span class="col-md-12 input-group-addon">
+                <span class="col-md-4 input-group-addon" style="width:auto;">
                     <div class="calenderIcon">
                         <span class="icon-calendar"></span>
                     </div>
@@ -317,10 +318,17 @@
                         <span class="icon-calendar"></span>
                     </div>
                 </span>
-        </div>
 
+            <div class="col-md-4 " style="padding-bottom: 2px !important;" ng-hide="hideAdGroupNameEdit">
+                <label class="col-sm-12 zeroPadding greyTxt">Ad Group Name</label>
+                <input type="text" class="col-md-12" placeholder="Enter Ad Group name up to 100 characters"  ng-model="editLineItem.adGroupName"/>
+            </div>
+
+        </div>
         <a class="btn btn-primary pull-right" ng-click="updateLineItem(editLineItem);">Save Changes</a>
         <a class="btn btn-link pull-right" ng-click="showNormalItemRow($event);">Cancel</a>
+
+
     </div>
 </script>
 <script>

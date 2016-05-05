@@ -67,6 +67,7 @@
                                         <span class="icon-more-options"></span>
                                     </button>
                                     <ul class="dropdown-menu" id="moreOptions" style="right: 0; left: initial;">
+                                        
                                         <li>
                                             <a ng-click="editCampaign(workflowData.campaignData)"
                                                ng-bind="textConstants.EDIT">
@@ -76,6 +77,11 @@
                                             <a ng-bind="textConstants.WF_PAUSE"></a></li>
                                         <li class="disabled" ng-click="cancelAdResume()">
                                             <a ng-bind="textConstants.WF_RESUME"></a></li>
+                                        <li>
+                                            <a ng-click="cloneCampaign()"
+                                               ng-bind="textConstants.CLONE">
+                                            </a>
+                                        </li>
                                         <li>
                                             <a class="available"
                                                id="archiveAdbtn"
@@ -949,6 +955,7 @@
 
     </div>
 </div>
+
 <div class="common-popup-container" ng-show="redirectFlag">
     <div class="popup">
         <div class="popup-header-body">

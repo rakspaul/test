@@ -1,3 +1,4 @@
+<admin-header></admin-header>
 <div class="popup-holder accounts-popup">
     <div class="modal-header">
         <span class="btn btn-primary pull-right" ng-click="saveBrands()">Save</span>
@@ -7,7 +8,7 @@
     </div>
     <div class="modal-body">
         <div class="form-group">
-		    <label class="col-sm-12 greyTxt">Brand Name:</label>
+            <label class="col-sm-12 greyTxt">Brand Name:</label>
             <select class="form-control" name="selectedBrandId" ng-model="selectedBrandId">
                 <option selected disabled data-ng-bind="'Select Brand'"></option>
                 <option value="{{brand.id}}" ng-repeat="brand in brandsData"

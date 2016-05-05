@@ -485,9 +485,11 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                     _customctrl.getMetricValues(respData, $scope.selectedMetricsList, 'first_dimension');
                     var height = parseInt($(".custom_report_scroll").css("height"), 10) + (respData.length * 55) + "px";
                     $(".custom_report_scroll").css({"max-height": height, "height": height});
+                    attachScrollToWindow();
                 } else {
                     if(_customctrl.reportPageNum_1D == 1) {
                         _customctrl.errorHandler();
+                        $(".custom_report_scroll").css({"max-height": "360px", "height": "360px"});
                     }
                 }
             }, function() {
@@ -532,6 +534,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                 $scope.showhasBreakdown = '';
                 $scope.reportDataLoading = true;
                 $scope.fetching = false;
+                $(window).unbind('scroll');
                 $(".img_table_container").hide();
                 $(".custom_report_response_page").show();
                 $(".hasBreakdown").removeClass("active").removeClass("treeOpen").removeClass("noDataOpen");
@@ -1254,7 +1257,13 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                 $scope.$apply();
             }
         };
-
+        function attachScrollToWindow() {
+             $(window).scroll(function () {
+                  if (!$scope.fetching && (($(window).scrollTop() + $(window).height()) >= $(document).height())) {
+                        _customctrl.loadMoreItems();
+                  }
+             });
+        }
         $(document).ready(function() {
             $('.input-daterange').datepicker({
                 //format: "dd-mm-yyyy",
@@ -1897,6 +1906,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
 
             $scope.prefillData = function(reportData) {
                 var responseData = reportData;
+                $scope.additionalFilters = [];
                 $scope.reports.name = responseData.name;
                 $scope.scheduleReportActive = responseData.isScheduled;
                 $scope.generateBtnDisabled = false;
@@ -2237,11 +2247,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
             $(window).on('beforeunload', function(){     // On refresh of page
                 $scope.intermediateSave();
             });
-            $(window).scroll(function(){
-                if (!$scope.fetching && (($(window).scrollTop() + $(window).height()) >= $(document).height())){
-                    _customctrl.loadMoreItems();
-                }
-            });
+
             $scope.$on("$locationChangeSuccess", function(){
                 $(window).unbind('scroll');
             });

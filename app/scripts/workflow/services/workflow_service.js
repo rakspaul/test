@@ -1,8 +1,8 @@
 define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/constants_service',
-    'common/services/data_service', 'login/login_model', 'common/services/request_cancel_service','common/moment_utils'],
+        'common/services/data_service', 'login/login_model', 'common/services/request_cancel_service', 'common/moment_utils'],
     function (angularAMD) {
         angularAMD.factory('workflowService', function ($rootScope, vistoconfig, constants, dataService, loginModel,
-                                                       requestCanceller,momentService,$location) {
+                                                        requestCanceller, momentService, $location, localStorageService) {
 
             var mode,
                 adDetails,
@@ -16,7 +16,8 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                 isAdGroup,
                 unallocatedAmount,
                 deletedModule = [],
-                rates;
+                rates,
+                selectedAdvertiser;
 
             function createObj(platform) {
                 var integrationObj = {};
@@ -29,11 +30,12 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                 integrationObj.fullIntegration = platform.vendorExecutionPlatform.fullIntegration;
                 integrationObj.active = true; // TODO hardcoded true for now...
                 integrationObj.summary = platform.description;
-                integrationObj.vendorCapabilities=platform.vendorCapabilities;
+                integrationObj.vendorCapabilities = platform.vendorCapabilities;
                 integrationObj.seats = platform.seats;
-                _.each(integrationObj.seats, function(obj, idx) {
-                        integrationObj.seats[idx]['platform_id'] = platform.id;  integrationObj.seats[idx]['iconUrl'] = platform.iconURL;
-                    });
+                _.each(integrationObj.seats, function (obj, idx) {
+                    integrationObj.seats[idx]['platform_id'] = platform.id;
+                    integrationObj.seats[idx]['iconUrl'] = platform.iconURL;
+                });
                 return integrationObj;
             }
 
@@ -44,111 +46,114 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                     return dataService.fetch(url);
                 },
 
-            getClientData: function (clientId) {
-                var url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId;
+                getClientData: function (clientId) {
+                    var url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId;
 
-                return dataService.fetch(url, {cache: false});
-            },
+                    return dataService.fetch(url, {cache: false});
+                },
 
-            getSubAccounts: function(access_level){
-                var accessLevel = '';
-                if(access_level !== undefined) {
-                    var accessLevel = '&access_level='+access_level;
-                }
+                getSubAccounts: function (access_level) {
+                    var accessLevel = '';
+                    if (access_level !== undefined) {
+                        var accessLevel = '&access_level=' + access_level;
+                    }
 
-                var clientId =  loginModel.getMasterClient().id;
-                if(clientId !== undefined) {
-                    var url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/descendants?level=last' + accessLevel;
+                    var clientId = loginModel.getMasterClient().id;
+                    if (clientId !== undefined) {
+                        var url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/descendants?level=last' + accessLevel;
+                        return dataService.fetch(url);
+                    }
+                },
+
+                getDashboardSubAccount: function () {
+                    var clientId = loginModel.getMasterClient().id;
+                    if (clientId) {
+                        var url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/descendants?level=all';
+                        return dataService.fetch(url);
+                    }
+                },
+
+                getClients: function () {
+                    var url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients';
+
+                    return dataService.fetch(url, {
+                        cache: false
+                    });
+                },
+
+                getAdvertisers: function (accessLevel, client_id) {
+                    var isLeafNode = localStorageService.masterClient.get().isLeafNode;
+                    var clientId = loginModel.getSelectedClient().id;
+                    var isDashboardSubAccount = false;
+
+                    var locationPath = $location.url();
+                    if ((locationPath === '/dashboard') || (locationPath === '/')) {
+                        isDashboardSubAccount = true;
+                    }
+
+
+                    if (client_id) {
+                        var clientId = client_id;
+                    } else if (isDashboardSubAccount && !isLeafNode) {
+                        var clientId = loginModel.getDashboardClient().id
+                    }
+
+                    var url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/advertisers';
+
+
+                    if (accessLevel && !isDashboardSubAccount) {
+                        url = url + '?access_level=' + accessLevel;
+                    } else if (isDashboardSubAccount) {
+                        url = url + '?level=all';
+                    }
+
                     return dataService.fetch(url);
-                }
-            },
+                },
 
-            getDashboardSubAccount: function() {
-                var clientId = loginModel.getMasterClient().id;
-                if(clientId) {
-                    var url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/descendants?level=all';
+                getBrands: function (client_id, advertiserId, accessLevel) {
+                    var clientId = loginModel.getSelectedClient().id;
+                    if (client_id) {
+                        var clientId = client_id;
+                    }
+                    var url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId +
+                        '/advertisers/' + advertiserId + '/brands';
+                    if (accessLevel) {
+                        url = url + '?access_level=' + accessLevel;
+                    }
+
                     return dataService.fetch(url);
-                }
-            },
+                },
+                getPixels: function (advertiserId, client_Id) {
+                    var clientId = loginModel.getSelectedClient().id;
+                    ;
+                    if (client_Id) {
+                        clientId = client_Id;
+                    }
 
-            getClients: function () {
-                var url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients';
+                    var url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId +
+                        '/advertisers/' + advertiserId + '/pixels?type=PAGE_VIEW';
 
-                return dataService.fetch(url, {
-                    cache: false
-                });
-            },
+                    return dataService.fetch(url);
+                },
+                getRatesTypes: function () {
+                    var url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/billing_types';
 
-            getAdvertisers: function (accessLevel,client_id) {
-                var clientId =  loginModel.getSelectedClient().id;
-                var isDashboardSubAccount = false;
+                    return dataService.fetch(url);
+                },
+                saveCampaign: function (data) {
+                    var isLeafNode = loginModel.getMasterClient().isLeafNode;
+                    if (isLeafNode) {
+                        var clientId = loginModel.getSelectedClient().id;
+                    } else {
+                        var clientId = data.clientId;
 
-                var locationPath = $location.url();
-                if((locationPath === '/dashboard') || (locationPath === '/')) {
-                    isDashboardSubAccount = true;
-                }
-
-
-                if(client_id) {
-                    var clientId =  client_id;
-                } else if(isDashboardSubAccount) {
-                    var clientId = loginModel.getDashboardClient().id
-                }
-
-                var url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/advertisers';
-
-                if(accessLevel && !isDashboardSubAccount) {
-                    url =  url +'?access_level='+accessLevel;
-                } else if(isDashboardSubAccount) {
-                    url =  url +'?level=all';
-                }
-
-                return dataService.fetch(url);
-            },
-
-            getBrands: function (client_id,advertiserId, accessLevel) {
-                var clientId =  loginModel.getSelectedClient().id;
-                if(client_id){
-                    var clientId =  client_id;
-                }
-                var url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId +
-                            '/advertisers/' + advertiserId + '/brands';
-                if (accessLevel) {
-                    url = url + '?access_level=' + accessLevel;
-                }
-
-                return dataService.fetch(url);
-            },
-            getPixels: function (advertiserId,client_Id) {
-                var clientId = loginModel.getSelectedClient().id;;
-                if(client_Id){
-                    clientId = client_Id;
-                }
-
-                var url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId +
-                            '/advertisers/' + advertiserId + '/pixels?type=PAGE_VIEW';
-
-                return dataService.fetch(url);
-            },
-            getRatesTypes: function () {
-                var url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/billing_types';
-
-                return dataService.fetch(url);
-            },
-            saveCampaign: function (data) {
-                var isLeafNode = loginModel.getMasterClient().isLeafNode;
-                if(isLeafNode) {
-                    var clientId =  loginModel.getSelectedClient().id;
-                } else {
-                    var clientId = data.clientId;
-
-                }
-                return dataService.post(
-                    vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/campaigns',
-                    data,
-                    {'Content-Type': 'application/json'}
-                );
-            },
+                    }
+                    return dataService.post(
+                        vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/campaigns',
+                        data,
+                        {'Content-Type': 'application/json'}
+                    );
+                },
 
                 updateCampaign: function (data, id) {
                     var clientId = loginModel.getSelectedClient().id;
@@ -173,12 +178,12 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                 getPlatforms: function (cacheObj, advertiserId) {
                     var clientId = loginModel.getSelectedClient().id,
                         campaignData = JSON.parse(localStorage.getItem("campaignData"));
-                    if(!advertiserId  && campaignData) {
+                    if (!advertiserId && campaignData) {
                         advertiserId = campaignData.advertiserId;
                     }
 
                     var url = vistoconfig.apiPaths.WORKFLOW_API_URL +
-                        '/clients/' + clientId + '/advertisers/' + advertiserId +'/vendors?vendorType=EXECUTION_PLATFORM&sortBy=name';
+                        '/clients/' + clientId + '/advertisers/' + advertiserId + '/vendors?vendorType=EXECUTION_PLATFORM&sortBy=name';
                     return dataService.fetch(url, cacheObj);
                 },
 
@@ -199,10 +204,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                         url;
 
                     if (searchTerm) {
-                        url = 'http://qa-desk.collective.com/api/reporting/v3' +
-
-
-
+                        url = vistoconfig.apiPaths.apiSerivicesUrl_NEW +
                             '/clients/' + clientId +
                             '/campaigns/' + campaignId +
                             '/search/adgroups?search_term=' + searchTerm;
@@ -272,7 +274,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
 
                     return dataService.post(
                         vistoconfig.apiPaths.WORKFLOW_API_URL +
-                            '/clients/' + clientId + '/campaigns/' + data.campaignId + '/ads',
+                        '/clients/' + clientId + '/campaigns/' + data.campaignId + '/ads',
                         data, {
                             'Content-Type': 'application/json'
                         }
@@ -298,11 +300,11 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
 
                     return dataService.delete(
                         vistoconfig.apiPaths.WORKFLOW_API_URL +
-                            '/clients/' + clientId +
-                            '/campaigns/' + campaignId +
-                            '/ads/' + adId, {
-                                'Content-Type': 'application/json'
-                            }
+                        '/clients/' + clientId +
+                        '/campaigns/' + campaignId +
+                        '/ads/' + adId, {
+                            'Content-Type': 'application/json'
+                        }
                     );
                 },
 
@@ -340,10 +342,21 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
 
                     return dataService.delete(
                         vistoconfig.apiPaths.WORKFLOW_API_URL +
-                            '/clients/' + clientId +
-                            '/campaigns/' + campaignId, {
-                                'Content-Type': 'application/json'
-                            }
+                        '/clients/' + clientId +
+                        '/campaigns/' + campaignId, {
+                            'Content-Type': 'application/json'
+                        }
+                    );
+                },
+
+                cloneCampaign : function(data) {
+                    var clientId = loginModel.getSelectedClient().id;
+                    return dataService.post(
+                        vistoconfig.apiPaths.WORKFLOW_API_URL +
+                        '/clients/' + clientId + '/campaigns/' + data.id + '/clone',
+                        data, {
+                            'Content-Type': 'application/json'
+                        }
                     );
                 },
 
@@ -375,9 +388,9 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                 pushCampaign: function (campaignId) {
                     var clientId = loginModel.getSelectedClient().id,
                         url = vistoconfig.apiPaths.WORKFLOW_API_URL +
-                                '/clients/' + clientId +
-                                '/campaigns/' + campaignId +
-                                '/push';
+                            '/clients/' + clientId +
+                            '/campaigns/' + campaignId +
+                            '/push';
 
                     return dataService.fetch(url);
                 },
@@ -397,8 +410,8 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                     var clientId = loginModel.getSelectedClient().id;
 
                     return dataService.fetch(vistoconfig.apiPaths.WORKFLOW_API_URL +
-                            '/clients/' + clientId +
-                            '/vendors?vendorType=ADSERVING');
+                        '/clients/' + clientId +
+                        '/vendors?vendorType=ADSERVING');
                 },
 
                 /*Ad Create Flow*/
@@ -428,47 +441,47 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                 },
 
                 saveCreatives: function (client_id, data) {
-                    if(client_id) {
+                    if (client_id) {
                         var clientId = client_id;
-                    }else {
+                    } else {
                         var clientId = loginModel.getSelectedClient().id;
                     }
 
                     return dataService.post(
                         vistoconfig.apiPaths.WORKFLOW_API_URL +
-                            '/clients/' + clientId +
-                            '/advertisers/' + data.advertiserId + '/creatives',
-                            data, {
-                                'Content-Type': 'application/json'
-                            }
+                        '/clients/' + clientId +
+                        '/advertisers/' + data.advertiserId + '/creatives',
+                        data, {
+                            'Content-Type': 'application/json'
+                        }
                     );
                 },
 
-            getCreativeData:function(id,client_id){
-                if(client_id) {
-                    var clientId = client_id;
-                } else {
-                    var clientId =  loginModel.getSelectedClient().id;
-                }
+                getCreativeData: function (id, client_id) {
+                    if (client_id) {
+                        var clientId = client_id;
+                    } else {
+                        var clientId = loginModel.getSelectedClient().id;
+                    }
 
-                return dataService.fetch(vistoconfig.apiPaths.WORKFLOW_API_URL  +'/clients/'+clientId+'/creatives/'+id);
-            },
+                    return dataService.fetch(vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/creatives/' + id);
+                },
 
 
                 forceSaveCreatives: function (clientId, adId, data) {
                     clientId = loginModel.getSelectedClient().id;
                     return dataService.post(
                         vistoconfig.apiPaths.WORKFLOW_API_URL +
-                            '/clients/' + clientId +
-                            '/advertisers/' + adId +
-                            '/creatives?forceSave=true',
-                            data, {
-                                'Content-Type': 'application/json'
-                            }
+                        '/clients/' + clientId +
+                        '/advertisers/' + adId +
+                        '/creatives?forceSave=true',
+                        data, {
+                            'Content-Type': 'application/json'
+                        }
                     );
                 },
 
-                getCreatives: function (clientId,adId, formats, query, cacheObj, integrationTracking, state, success,
+                getCreatives: function (clientId, adId, formats, query, cacheObj, integrationTracking, state, success,
                                         failure) {
                     var queryStr = query ? query : '',
                         creativeFormats = formats ? '?creativeFormat=' + formats : '',
@@ -487,64 +500,64 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                     return dataService.fetchCancelable(url, canceller, success, failure);
                 },
 
-            deleteCreatives:function(clientId,data){
-                return dataService.post(vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId +'/creatives/bulkdelete',
-                    data,
-                    {'Content-Type': 'application/json'}
-                );
-            },
+                deleteCreatives: function (clientId, data) {
+                    return dataService.post(vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/creatives/bulkdelete',
+                        data,
+                        {'Content-Type': 'application/json'}
+                    );
+                },
 
-            getCreativeAds:function(creativeId){
-                var url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/creatives/' + creativeId + '/ads?enabled=true';
+                getCreativeAds: function (creativeId) {
+                    var url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/creatives/' + creativeId + '/ads?enabled=true';
 
-                return dataService.fetch(url, {cache: false});
-            },
+                    return dataService.fetch(url, {cache: false});
+                },
 
-            updateCreative: function (client_id, adId, id, data) {
-                var clientId =  client_id || loginModel.getSelectedClient().id;
+                updateCreative: function (client_id, adId, id, data) {
+                    var clientId = client_id || loginModel.getSelectedClient().id;
 
-                return dataService.put(
-                    vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/advertisers/' + adId + '/creatives/' + id+'?forceSave=true',
-                    data,
-                    {'Content-Type': 'application/json'}
-                );
-            },
+                    return dataService.put(
+                        vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/advertisers/' + adId + '/creatives/' + id + '?forceSave=true',
+                        data,
+                        {'Content-Type': 'application/json'}
+                    );
+                },
 
-            downloadCreativeTemplate: function(adServerId, templateId) {
-                var clientId =  loginModel.getSelectedClient().id;
-                var url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/adserver/' + adServerId
-                    + '/template/' + templateId + '/creatives/export?type=HEADER_ONLY';
+                downloadCreativeTemplate: function (adServerId, templateId) {
+                    var clientId = loginModel.getSelectedClient().id;
+                    var url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/adserver/' + adServerId
+                        + '/template/' + templateId + '/creatives/export?type=HEADER_ONLY';
 
-                return dataService.downloadFile(url);
-            },
+                    return dataService.downloadFile(url);
+                },
 
-            downloadCreativeErrors: function(fileName) {
-                fileName = fileName.substr(fileName.indexOf('fileName=') + 9);
-                var url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/creatives/downloadCreativeLogs?fileName=' + fileName;
+                downloadCreativeErrors: function (fileName) {
+                    fileName = fileName.substr(fileName.indexOf('fileName=') + 9);
+                    var url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/creatives/downloadCreativeLogs?fileName=' + fileName;
 
-                return dataService.downloadFile(url);
-            },
+                    return dataService.downloadFile(url);
+                },
 
-            uploadBulkCreativeUrl: function(adServerId, creativeFormat, templateId) {
+                uploadBulkCreativeUrl: function (adServerId, creativeFormat, templateId) {
 
-                var clientId = loginModel.getSelectedClient().id;
+                    var clientId = loginModel.getSelectedClient().id;
 
-                return  vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/adserver/' + adServerId
-                    + '/format/' + creativeFormat.replace(/\s+/g, '').toUpperCase() + '/template/' + templateId + '/creatives/bulkimport';
-            },
+                    return vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/adserver/' + adServerId
+                        + '/format/' + creativeFormat.replace(/\s+/g, '').toUpperCase() + '/template/' + templateId + '/creatives/bulkimport';
+                },
 
 
-            getRegionsList: function (platformId, data, success, failure, flag) {
-                var url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/vendors/' + platformId + '/regions' + data,
-                    canceller;
+                getRegionsList: function (platformId, data, success, failure, flag) {
+                    var url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/vendors/' + platformId + '/regions' + data,
+                        canceller;
 
-                if (flag === 'cancellable') {
-                    canceller = requestCanceller.initCanceller(constants.CAMPAIGN_FILTER_CANCELLER);
-                    return dataService.fetchCancelable(url, canceller, success, failure);
-                } else {
-                    return dataService.fetch(url);
-                }
-            },
+                    if (flag === 'cancellable') {
+                        canceller = requestCanceller.initCanceller(constants.CAMPAIGN_FILTER_CANCELLER);
+                        return dataService.fetchCancelable(url, canceller, success, failure);
+                    } else {
+                        return dataService.fetch(url);
+                    }
+                },
 
                 getCitiesList: function (platformId, data, success, failure, flag) {
                     var clientId = loginModel.getSelectedClient().id,
@@ -568,11 +581,11 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                     pageNo = pageNo ? '&pageNo=' + pageNo : '';
 
                     var advertiserString = "";
-                    if(advertiserId>0){
-                        advertiserString = '/advertisers/'+ advertiserId
+                    if (advertiserId > 0) {
+                        advertiserString = '/advertisers/' + advertiserId
                     }
 
-                    url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId +advertiserString+ '/creatives?' +
+                    url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + advertiserString + '/creatives?' +
                         creativeFormats + queryStr + pageSize + pageNo;
 
                     canceller = requestCanceller.initCanceller(constants.ADDLIBRARY_FILTER_CANCELLER);
@@ -580,8 +593,6 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
 
                     //  return dataService.fetch(url);
                 },
-
-
 
 
                 getDMAsList: function (platformId, data, success, failure, flag) {
@@ -629,7 +640,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
 
                 getLineItem: function (campaignId) {
                     var clientId = loginModel.getSelectedClient().id,
-                        url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/campaigns/' + campaignId +'/lineitems?flat_fee=false&archived=false';
+                        url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/campaigns/' + campaignId + '/lineitems?flat_fee=false&archived=false';
 
                     return dataService.fetch(url);
                 },
@@ -696,7 +707,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                     platform = m;
                 },
 
-                setPlatformSeat: function(platformSeat) {
+                setPlatformSeat: function (platformSeat) {
                     seat = platformSeat
                 },
 
@@ -716,26 +727,27 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                     // for system of records.
                     return dataService.fetch(vistoconfig.apiPaths.WORKFLOW_API_URL + '/cost_categories/5/vendors');
                 },
-                getVendorConfigs: function (advertiserId,client_id) {
+                getVendorConfigs: function (advertiserId, client_id) {
                     var clientId = loginModel.getSelectedClient().id;
-                    if(client_id) {
+                    if (client_id) {
                         clientId = client_id;
                     }
 
-                    return dataService.fetch(vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/'+clientId+'/advertisers/'+advertiserId+'/clientVendorConfigs?rateType=FIXED&rateTypeIncluded=false');
+                    return dataService.fetch(vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/advertisers/' + advertiserId + '/clientVendorConfigs?rateType=FIXED&rateTypeIncluded=false');
                 },
 
-                 getCostAttr: function (advertiserId,client_id) {
+                getCostAttr: function (advertiserId, client_id) {
                     var clientId = loginModel.getSelectedClient().id;
-                     if(client_id) {
-                         clientId = client_id;
-                     }
+                    if (client_id) {
+                        clientId = client_id;
+                    }
 
-                    return dataService.fetch(vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/'+clientId+'/advertisers/'+advertiserId+'/clientVendorConfigs?rateType=FIXED');
+                    return dataService.fetch(vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/advertisers/' + advertiserId + '/clientVendorConfigs?rateType=FIXED');
                 },
 
-                getCostCategories: function () {
-                    return dataService.fetch(vistoconfig.apiPaths.WORKFLOW_API_URL + '/cost_categories');
+                getBillingTypeAndValue: function (advertiserId, client_id) {
+                    var clientId = client_id || loginModel.getSelectedClient().id;
+                    return dataService.fetch(vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/billing_types?advertiser_id=' + advertiserId);
                 },
 
                 getVendorForSelectedCostCategory: function (clientId, categoryId) {
@@ -858,89 +870,102 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
 
                     return labelArr;
                 },
-                validateUrl: function(url){
-                    var re =  /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,4}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g
+                validateUrl: function (url) {
+                    var re = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,4}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g
                     return re.test(url);
                 },
-                processVendorConfig: function(data){
+                processVendorConfig: function (data) {
+                    console.log("processVendorConfig");
                     var processedData = {};
                     processedData.userPermission = [];
                     processedData.configs = [];
-                    for(var j = 0; j < data.length; j++){
-                        for(var i = 0; i < data[j].clientConfigPermissions.length ; i ++){
-                            var permission = {};
-                            if(data[j].clientConfigPermissions[i]){
-                                permission.vendorName = data[j].vendorName;
-                                permission.configName = data[j].name;
-                                permission.metric = data[j].clientConfigPermissions[i].metric;
-                                permission.adFormat = data[j].clientConfigPermissions[i].adFormat;
-                                processedData.userPermission.push(permission);
+
+                    for (var j = 0; j < data.length; j++) {
+                        if (data[j].clientConfigPermissions.length > 0 && data[j].clientVendorOfferings.length > 0) {
+                            for (var i = 0; i < data[j].clientConfigPermissions.length; i++) {
+                                var permission = {};
+                                if (data[j].clientConfigPermissions[i]) {
+                                    permission.vendorName = data[j].vendorName;
+                                    permission.configName = data[j].name;
+                                    permission.metric = data[j].clientConfigPermissions[i].metric;
+                                    permission.adFormat = data[j].clientConfigPermissions[i].adFormat;
+                                    processedData.userPermission.push(permission);
+                                }
+
                             }
 
-                        }
-                        //vendor config object creation
-                        for(var i = 0; i < data[j].clientVendorOfferings.length ; i ++){
-                            var config = {};
-                            config.vendorName = data[j].vendorName;
-                            config.configName = data[j].name;
-                            config.adFormat = data[j].clientVendorOfferings[i].name;
-                            config.rate = 'Media Cost + ' + data[j].clientVendorOfferings[i].rateValue + ' ' + data[j].clientVendorOfferings[i].rateType.name;
-                            config.category = data[j].clientVendorOfferings[i].costCategory.name;
-                            processedData.configs.push(config);
+                            //vendor config object creation
+                            for (var i = 0; i < data[j].clientVendorOfferings.length; i++) {
+                                var config = {};
+                                config.vendorName = data[j].vendorName;
+                                config.configName = data[j].name;
+                                config.adFormat = data[j].clientVendorOfferings[i].name;
+                                config.rate = 'Media Cost + ' + data[j].clientVendorOfferings[i].rateValue + ' ' + data[j].clientVendorOfferings[i].rateType.name;
+                                config.category = data[j].clientVendorOfferings[i].costCategory.name;
+                                processedData.configs.push(config);
+                            }
                         }
                     }
 
 
                     return processedData;
                 },
-                processCostAttr: function(data){
+                processCostAttr: function (data) {
                     var costAttrbs = {};
                     costAttrbs.offering = [];
                     costAttrbs.vendor = [];
                     costAttrbs.category = [];
                     var rateTypeObj;
 
-                    _.each(data, function(obj) {
-                        if(obj.clientVendorOfferings && obj.clientVendorOfferings.length >0) {
+                    _.each(data, function (obj) {
+                        if (obj.clientVendorOfferings && obj.clientVendorOfferings.length > 0) {
                             rateTypeObj = _.pluck(obj.clientVendorOfferings, 'rateType');
                             costAttrbs.rateTypeId = _.pluck(rateTypeObj, 'id')[0];
                             costAttrbs.clientVendorConfigurationId = _.pluck(obj.clientVendorOfferings, 'clientVendorConfigurationId')[0];
+
+                            costAttrbs.vendor.push({'id': obj.id, 'name': obj.name});
+                            _.each(obj.clientVendorOfferings, function (vObj) {
+                                costAttrbs.offering.push({'id': vObj.id, 'name': vObj.name});
+                                costAttrbs.category.push({
+                                    'id': vObj.costCategory.id,
+                                    'name': vObj.costCategory.name
+                                });
+                            })
+
                         }
+                        costAttrbs.category = _.uniq(costAttrbs.category, 'name');
                     })
 
-                    if(data.length > 0) {
-                         _.each(data,function(obj){
-                            costAttrbs.vendor.push({'id':obj.id,'name':obj.name});
-                            _.each(obj.clientVendorOfferings,function(vObj){
-                                costAttrbs.offering.push({'id':vObj.id ,'name':vObj.name});
-                                costAttrbs.category.push({'id':vObj.costCategory.id,'name':vObj.costCategory.name});
-                            })
-                        })
 
-                        costAttrbs.category = _.uniq(costAttrbs.category, 'name')
-                    }
                     return costAttrbs;
                 },
-                processLineItemsObj: function(lineItemList){
+                processLineItemsObj: function (lineItemList) {
                     var newItemList = [];
-                    _.each(lineItemList,function(item){
-                            var newItemObj = {};
-                            newItemObj.adGroupName = item.adGroupName;
-                            item.startTime = momentService.localTimeToUTC(item.startTime, 'startTime');
-                            item.endTime = momentService.localTimeToUTC(item.endTime, 'endTime');
-                            item.pricingRate = Number(item.pricingRate.split('%')[0]);
-                            newItemObj.lineItem = item;
-                            newItemList.push(newItemObj);
+                    _.each(lineItemList, function (item) {
+                        var newItemObj = {};
+                        newItemObj.adGroupName = item.adGroupName;
+                        item.startTime = momentService.localTimeToUTC(item.startTime, 'startTime');
+                        item.endTime = momentService.localTimeToUTC(item.endTime, 'endTime');
+                        item.pricingRate = Number(item.pricingRate.split('%')[0]);
+                        newItemObj.lineItem = item;
+                        newItemList.push(newItemObj);
                     });
                     //console.log("newItemList &***(((",newItemList);
                     return newItemList;
                 },
-                setRateTypes: function(r){
+                setRateTypes: function (r) {
                     rates = r;
                 },
-                getRateTypes: function(){
+                getRateTypes: function () {
                     return rates;
+                },
+                setSelectedAdvertiser: function (adv) {
+                    selectedAdvertiser = adv;
+                },
+                getSelectedAdvertiser: function () {
+                    return selectedAdvertiser;
                 }
+
 
             };
         });

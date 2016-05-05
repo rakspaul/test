@@ -3,5 +3,5 @@ window.scala_api_NEW = 'http://qa-desk.collective.com/api/reporting/v3';
 window.workflow_api = 'http://qa-desk.collective.com/api/workflow/v2';
 window.workflowCreate_api = 'http://qa-desk.collective.com/api/workflow/v3';
 window.ga_id = 'UA-54603772-1';
-window.version = '1609.01';
+window.version = '1615.01';
 window.help_domain_url = 'https://vistohelpqa.collective.com';

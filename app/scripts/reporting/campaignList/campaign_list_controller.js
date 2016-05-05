@@ -26,13 +26,12 @@ define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', 'reporting/campaig
 
                 //Resets Header
                 $('.main_navigation_holder .main_nav .main_navigation .each_nav_link.active .arrowSelect').show();
-                $(".each_nav_link").removeClass("active_tab");
-                $("#campaigns_nav_link").addClass("active_tab");
 
                 $(".each_nav_link").removeClass("active_tab");
                 $("#campaigns_nav_link").addClass("active_tab");
-                
+
                 var fparams = featuresService.getFeatureParams();
+
                 var enableFeaturePermission = function () {
                     $scope.showCreateMediaPlan = fparams[0].create_mediaplan;
                     $scope.showCostTab = fparams[0].cost;
@@ -168,24 +167,6 @@ define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', 'reporting/campaig
                 $scope.highlightSearch = function (text, search) {
                     return utils.highlightSearch(text, search);
                 };
-
-                //     $(function () {
-                //         $( '#cost_block,#performance_block' ).scroll(function () {
-                //             var window_scrollTop = $(window).scrollTop();
-                //             /*             var scroll_to_element= $('.squaredFour').offset().top -15;
-                //              if (scroll_to_element < window_scrollTop) {
-                //              window.scrollTo(0,scroll_to_element);
-                //              }*/
-                ////             if ($(window).scrollTop() >= $(document).height() - $(window).height() - 10) {
-                ////                 var test_height = parseInt($(this).height())+1;
-                ////                 $(this).height(test_height);
-                ////             }
-                //             if (!$scope.campaigns.busy && ($(this).scrollTop() + $(this).innerHeight() >=
-                //              $(this)[0].scrollHeight)) {
-                //                 $scope.campaigns.fetchData();
-                //             }
-                //         });
-                //     });
 
                 // Search show / hide
                 $scope.searchShowInput = function () {

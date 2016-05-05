@@ -198,7 +198,7 @@ define(['angularAMD'], function(angularAMD) {
         this.ONE_PRIMARY = 'Only one is primary';
         this.KPI_BILLING = 'Select a KPI for billing';
         this.SELECT_ONE_YOU_MAY_ADD = 'Select one';
-        this.SELECT_KPIS = 'Select KPIs ';
+        this.SELECT_KPIS = 'How do you measure success for this Media Plan';
         this.TARGET_GREATER_THAN_ZERO = 'Target should be greater than 0';
 
         this.DEFAULT_LIMIT_COUNT = 100;
@@ -464,6 +464,7 @@ define(['angularAMD'], function(angularAMD) {
         this.CREATE = 'Create';
         this.BULK_UPLOAD = 'Bulk Upload';
         this.WF_SETTINGS = 'Settings';
+        this.ABOUT_THIS_MEDIAPLAN = 'About this Media Plan';
         this.ACCOUNT = 'Account';
         this.WF_BRAND = 'Brands';
         this.ADVERTISERS = 'Advertiser';
@@ -602,7 +603,7 @@ define(['angularAMD'], function(angularAMD) {
         this.WF_NOT_SET = "Not Set"
         this.WF_AD_SAVE_CLOSE = "Save & Close";
         this.WF_AD_SAVE_CONTINUE = "Save & Continue";
-        this.WF_NAME_CAMPAIGN_TXT = "What is the name of your Media Plan?";
+        this.WF_NAME_CAMPAIGN_TXT = "Tell us about your Media Plan?";
         this.WF_ENTER_NAME_CAMPAIGN = "Please enter a name for the Media Plan.";
         this.WF_CAMPAIGN_FOR = "Who is the Media Plan for?";
         this.WF_CAMPAIGN_OBJECTIVES = "Media Plan Objectives";
@@ -710,6 +711,7 @@ define(['angularAMD'], function(angularAMD) {
         this.WHENADRUN = 'What are your flight and delivery settings?';
         this.FLIGHTPASSED = 'Media Plan flight date has passed';
         this.SETUPBUDGET = 'How do you want to budget your Ad?';
+        this.MEASUREBUDGET = 'How will you measure success for your Ad?';
         this.TRACKBUDGET = 'How do you want to track your Ad?';
         this.UNITCOST = 'Unit Cost';
         this.BUDGETCAL = 'Select your Booking Method';
@@ -819,6 +821,7 @@ define(['angularAMD'], function(angularAMD) {
         this.ADVERTISER = 'Advertiser';
         this.BRAND = 'Brand';
         this.EDIT = 'Edit';
+        this.CLONE = 'Clone';
         this.OBJC = 'Objectives';
         this.KPI = 'KPI';
         this.DELBUDGET = 'Delivery Budget';
@@ -866,6 +869,11 @@ define(['angularAMD'], function(angularAMD) {
         this.MINBID = 'Min. Bid';
         this.MAXCOST = 'Max Cost';
         this.MEDIAPLANUPD = 'Media Plan Update';
+        this.MEDIAPLANCLONE = 'Clone Media Plan';
+        this.NEWMEDIAPLANNAME = 'New Media Plan Name' ;
+        this.CLONEMEDIAPLANNAMEERR = '"Media Plan Name 2" already exists for this advertiser. Please enter a unique Media Plan name.' ;
+        this.DUPLICATELINEITEMS = 'Duplicate Line Items';
+        this.DUPLICATEADGROUPS = 'Duplicate Ads & Ad Groups';
         this.ARCHIVE = 'Archive';
         this.OPTIMIZATION_REPORT = 'Optimization Impact Report';
         this.BUILD_REPORT = 'Build Report';
@@ -1056,8 +1064,81 @@ define(['angularAMD'], function(angularAMD) {
         this.SELECT_CURRENCY = "Please select the currency";
         this.SELECT_GEOGRAPHY = "Please select the geography";
         this.SELECT_TIMEZONE = "Please select the timezone";
+        this.EMPTY_ADCHOICE_CODE = "Please add code for ad-choice";
+        this.EMPTY_IAB_CATEGORY = "Please select some category";
 
         this.SELECT_DIMENSION = 'Select a Dimension';
         this.SELECT_SIZE = 'Select Size';
+
+
+        // Creative Setup
+        this.SAVE_CREATIVE = "Save Creative";
+        this.CREATIVE_SETUP = "Creative Setup";
+        this.CREATIVE_FOR = "Who is this Creative for?";
+        this.CREATIVE_USING = "What Creative are you using?";
+        this.CREATIVE_AD_SERVER = "Ad Server";
+        this.CREATIVE_CHANNEL = "Channel";
+        this.CREATIVE_TEMPLATE = "Creative Template";
+        this.CREATIVE_SECURE_TAG = "Secure Tag (SSL compatible)";
+        this.CREATIVE_SSL_COMPATIBLE = "SSL compatible";
+        this.CREATIVE_SIZE = "Size";
+        this.CREATIVE_TYPE = "Type";
+        this.CREATIVE_ERR_NAME = "Please enter a name for the creative.";
+        this.CREATIVE_ERR_SUBACCOUNT = "Please select the SubAccount.";
+        this.CREATIVE_ERR_ADVERTISER = "Please select the Advertiser";
+        this.CREATIVE_ERR_AD_SERVER_SIZE = "Please select the Ad Server Size";
+        this.CREATIVE_ERR_AD_FORMAT = "Please select the Ad Format";
+        this.CREATIVE_ERR_SSL = "Please enter a SSL compatible tag.";
+        this.CREATIVE_ERR_SIZE = "Please select the creative size.";
+        this.CREATIVE_ERR_TAG_TYPE = "Please select the creative Tag Type.";
+
+        // Media Plan Setup: 1 About
+        this.MEDIAPLAN_FOR = "Who is the Media Plan for?";
+        this.MEDIAPLAN_NAME = "Media Plan Name";
+        this.ABOUTMEDIAPLAN = "Tell us about your Media Plan";
+        this.MEDIAPLAN_LABELS = 'Labels (Optional)';
+        this.MEDIAPLAN_PURCHASE_ORDER = 'Purchase Order (Optional)';
+        this.MEDIAPLAN_RUN = "When do you want your Media Plan to run?";
+        this.TARGET = 'Target';
+
+        // Media Plan Setup: 2 Pixels
+        this.MEDIAPLAN_PIXEL_SELECT = "Select Coversion Pixels (Optional)";
+        this.MEDIAPLAN_PIXEL_REQUIRED = "A Conversion Pixel is required for tracking and reporting conversions and for CPA billing";
+        this.MEDIAPLAN_PIXEL_SELECTED = "Selected Pixels";
+
+        // Media Plan Setup: 3 Budget
+        this.MEDIAPLAN_BUDGET_MEASURE = "Budget & Measure";
+        this.MEDIAPLAN_BUDGET = "Media Plan Budget";
+        this.MEDIAPLAN_MARGIN = "Margin (Optional)";
+        this.MEDIAPLAN_DELIVERY_BUDGET = "Delivery Budget";
+        this.MEDIAPLAN_MEASUREMENT_SETTING_COSTS = "Measurement Settings and Costs";
+        this.MEDIAPLAN_ACCOUNT_MEASUREMENT_SETTING = "Account / Advertiser Measurement Settings";
+        this.MEDIAPLAN_GENERATE_INVOICES = "The systems used to calculate costs and generate invoices";
+        this.MEDIAPLAN_COST_TRACKING = "Cost Tracking |";
+        this.MEDIAPLAN_COST_MEASURED = "The Costs that will be measured in Cost Attribution reports and are factored into COGS+ Billing";
+        this.MEDIAPLAN_ADD_ADDITIONAL_COSTS = "Add Additional Costs (Optional)";
+        this.MEDIAPLAN_METRIC = "Metric";
+        this.MEDIAPLAN_VENDOR = "Vendor";
+        this.MEDIAPLAN_CONFIGURATION = "Configuration";
+        this.MEDIAPLAN_CHANNELS = "Channels";
+        this.MEDIAPLAN_CATEGORY = "Category";
+        this.MEDIAPLAN_OFFERING = "Offering";
+        this.MEDIAPLAN_RATE = "Rate";
+        this.MEDIAPLAN_PRICING = "Pricing";
+        this.MEDIAPLAN_SETUP_LINE_ITEMS = "Setup Line Items";
+        this.MEDIAPLAN_LINE_ITEM_NAME = "Line Item Name / Notes";
+        this.MEDIAPLAN_LINE_ITEM = "Line Item";
+        this.MEDIAPLAN_RATE_TYPE = "Rate Type";
+        this.MEDIAPLAN_BILLABLE_AMOUNT = "Billable Amount";
+        this.MEDIAPLAN_VOLUME = "Volume";
+        this.MEDIAPLAN_FLIGHT_DATES = "Flight Dates";
+
+        this.MEDIAPLAN_ADD_CREDIT = "Add Credit";
+        this.MEDIAPLAN_CREDIT_NAME = "Credit Name / Notes";
+        this.MEDIAPLAN_AMOUNT = "Amount";
+        this.MEDIAPLAN_ADD_ANOTHER_CREDIT = "Add Another Credit";
+        this.MEDIAPLAN_FLIGHT_DATE_START = "Flight Date Start";
+        this.MEDIAPLAN_FLIGHT_DATE_END = "Flight Date End";
+
     });
 });

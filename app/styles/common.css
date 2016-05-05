@@ -1693,6 +1693,10 @@ multiselect .dropdown-menu > li > a {
 .symbol-input .symbol input {
   padding-left: 20px;
 }
+.symbol-input .perSymbol {
+  right: 25px;
+  left: auto;
+}
 .txtError {
   color: #F24444 !important;
   font-size: 12px;
