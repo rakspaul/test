@@ -109,7 +109,32 @@
     </div>
 
     <div id="addAdditionalCost" class="collapse fade">
-        <div class="table-responsive">
+        <div class="table-responsive" ng-show="(mode=='edit')">
+            <div class="vistoTable yellowTable" >
+                <div class="thead thin">
+                    <div class="tr">
+                        <div class="th col-md-2" data-ng-bind="textConstants.MEDIAPLAN_CATEGORY"></div>
+                        <div class="th col-md-2" data-ng-bind="textConstants.MEDIAPLAN_VENDOR"></div>
+                        <div class="th col-md-2" data-ng-bind="textConstants.MEDIAPLAN_OFFERING"></div>
+                        <div class="th col-md-3" data-ng-bind="textConstants.MEDIAPLAN_PRICING"></div>
+                        <div class="th col-md-3" data-ng-bind="textConstants.MEDIAPLAN_RATE"></div>
+                    </div>
+                </div>
+
+                <div class="tbody" style="max-height: 200px;overflow: auto;">
+                    <!--Table Sample-->
+                    <div class="tr"  ng-repeat="addCost in additionalCosts">
+                        <div class="td col-md-2" data-ng-bind="addCost.costCategory.name"></div>
+                        <div class="td col-md-2" data-ng-bind="addCost.vendor.name"></div>
+                        <div class="td col-md-2" data-ng-bind="addCost.offeringName"></div>
+                        <div class="td col-md-3" >Flat</div>
+                        <div class="td col-md-3" data-ng-bind="addCost.rateValue"></div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="table-responsive" ng-show="(mode!='edit')">
             <div class="vistoTable yellowTable" style="padding: 0 15px 15px;">
                 <!--Header-->
                 <div class="col-md-12 zeroPadding each-cost-dimension" ng-repeat="addCost in additionalCosts track by $index" data-index = "{{$index}}">
