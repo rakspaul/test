@@ -29,6 +29,8 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
 //            $('.user-list, .users-creation-page .heading').fadeOut();
 //            $('.edit-dialog').fadeIn();
 
+            $(".btn-group").addClass("toggleBtn");
+
             $scope.isEdit = false;
 
             if(mode == 'edit'){

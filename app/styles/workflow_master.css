@@ -793,7 +793,7 @@ select {
   font-family: Avenir, sans-serif;
   line-height: 100%;
   padding: 10px 15px;
-  box-shadow: none;
+  box-shadow: none !important;
   /*commented manny"s changes here as it was reflecting all other places*/
   /*padding: 10px 15px 10px 15px;
     text-align: center;
@@ -830,10 +830,12 @@ select {
 }
 .btn-default:not(.label-btn):hover {
   background: #e1edf9;
+  box-shadow: none !important;
 }
 .btn-default:not(.label-btn):active,
 .btn-default:not(.label-btn).active {
   background: #E1EDF9;
+  box-shadow: none !important;
 }
 .label-btn {
   cursor: default;

@@ -29,7 +29,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/ac
         if(!$scope.userModalData) {
             $scope.userModalData = [];
         }
-
+        
         $scope.editmode = false;
         var defaultAccess = 'ADMIN';
         var editedUserDetails = {};
@@ -269,6 +269,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/ac
                             res.data.data.shift();
                         }
                         $scope.userPages = res.data.data;
+                        console.log($scope.userPages);
                     }
                 });
             },
@@ -530,6 +531,25 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/ac
                     },500, i);
                 }
             });
+        }
+        
+        $scope.permissionAll = function() {
+            $(".toggleBtn .btn").removeClass("active");
+            $(event.target).addClass("active");
+            $(".userPages input").prop("checked", true);
+        }
+        
+        $scope.permissionUnAll = function() {
+            $(".toggleBtn .btn").removeClass("active");
+            $(event.target).addClass("active");
+            $(".userPages input").prop("checked", false);
+        }
+        
+        $scope.permissionRepOnly = function() {
+            $(".toggleBtn .btn").removeClass("active");
+            $(event.target).addClass("active");
+            $(".userPages input").prop("checked", true);
+            $("input[name='CREATIVE_LIST'], input[name='MEDIAPLAN_HUB'], input[name='CREATIVE_LIST'], input[name='MEDIAPLAN_SETUP'], input[name='AD_SETUP']").prop("checked", false);
         }
 
         $scope.subClientListData = {};
