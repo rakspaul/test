@@ -20,7 +20,7 @@ define(['angularAMD'],function (angularAMD) {
             }
 
             $scope.showCloneLoader = true;
-            if(cloneLineItems) {
+            if(cloneLineItems && cloneAdGroups) {
                 params['cloneLineitems'] = cloneLineItems;
                 params['cloneAdGroups'] = cloneAdGroups;
                 params['cloneAds'] = true;
