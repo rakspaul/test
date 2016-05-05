@@ -22,16 +22,7 @@ define(['angularAMD'], function (angularAMD) {
                  getDashboard: function() {
                      return localStorage.getItem('dashboardBrand') && JSON.parse(localStorage.getItem('dashboardBrand'));
                  }
-             },
-             mediaPlanClone : {
-                 set : function(data) {
-                     localStorage.setItem('cloneMediaPlan', JSON.stringify(data));
-                 },
-                 get : function() {
-                     return localStorage.getItem('cloneMediaPlan') && JSON.parse(localStorage.getItem('cloneMediaPlan'));
-                 }
              }
-
          }
 
     });

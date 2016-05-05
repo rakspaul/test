@@ -17,7 +17,8 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                 unallocatedAmount,
                 deletedModule = [],
                 rates,
-                selectedAdvertiser;
+                selectedAdvertiser,
+                cloneMediaPlanData;
 
             function createObj(platform) {
                 var integrationObj = {};
@@ -726,11 +727,13 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                 getObjectives: function () {
                     return dataService.fetch(vistoconfig.apiPaths.WORKFLOW_API_URL + '/objectiveTypes');
                 },
+
                 getVendors: function (categoryId) {
                     // var url= vistoconfig.apiPaths.WORKFLOW_API_URL + '/cost_categories/'+categoryId+'/vendors';
                     // for system of records.
                     return dataService.fetch(vistoconfig.apiPaths.WORKFLOW_API_URL + '/cost_categories/5/vendors');
                 },
+
                 getVendorConfigs: function (advertiserId, client_id) {
                     var clientId = loginModel.getSelectedClient().id;
                     if (client_id) {
@@ -874,10 +877,12 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
 
                     return labelArr;
                 },
+
                 validateUrl: function (url) {
                     var re = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,4}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g
                     return re.test(url);
                 },
+
                 processVendorConfig: function (data) {
                     console.log("processVendorConfig");
                     var processedData = {};
@@ -914,6 +919,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
 
                     return processedData;
                 },
+
                 processCostAttr: function (data) {
                     var costAttrbs = {};
                     costAttrbs.offering = [];
@@ -943,6 +949,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
 
                     return costAttrbs;
                 },
+
                 processLineItemsObj: function (lineItemList) {
                     var newItemList = [];
                     _.each(lineItemList, function (item) {
@@ -957,17 +964,29 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                     //console.log("newItemList &***(((",newItemList);
                     return newItemList;
                 },
+
                 setRateTypes: function (r) {
                     rates = r;
                 },
+
                 getRateTypes: function () {
                     return rates;
                 },
+
                 setSelectedAdvertiser: function (adv) {
                     selectedAdvertiser = adv;
                 },
+
                 getSelectedAdvertiser: function () {
                     return selectedAdvertiser;
+                },
+
+                setMediaPlanClone : function(mediaPlanObj) {
+                    cloneMediaPlanData = mediaPlanObj;
+                },
+
+                getMediaPlanClone : function() {
+                    return cloneMediaPlanData;
                 }
 
 
