@@ -239,6 +239,11 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
             prefillMediaPlan : function(campaignData) {
 
+                //media plan name
+                if(campaignData.name) {
+                    $scope.selectedCampaign.campaignName = $scope.cloneMediaPlanName || campaignData.name;
+                }
+
                 //set Sub Account
                 if(campaignData.clientId && campaignData.clientName) {
                     $scope.selectedCampaign.clientName = campaignData.clientName;
@@ -632,15 +637,16 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     todayHighlight: true
                 });
 
+
                 //media plan clone
-                var cloneMediaPlanObj = localStorageService.mediaPlanClone.get();
-                var cloneMediaPlanName;
+                var cloneMediaPlanObj = workflowService.getMediaPlanClone();
                 if(cloneMediaPlanObj) {
-                    cloneMediaPlanName = cloneMediaPlanObj.name;
+                    $scope.cloneMediaPlanName = cloneMediaPlanObj.name;
                     $scope.campaignId = cloneMediaPlanObj.id;
+                    $scope.mode = 'edit';
                 }
 
-                if ($scope.mode == 'edit' || cloneMediaPlanName) {
+                if ($scope.mode == 'edit') {
                     $scope.processEditCampaignData();
                 } else {
                     //createCampaign.objectives();
@@ -767,7 +773,18 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             $(".eachStepCompLabel")[pageno].classList.add("active");
         }
 
-
-
+        $scope.mediaPlanNameExists = false;
+        $scope.isMediaPlanNameExist = function() {
+            var target =  event.target,
+                cloneMediaPlanName = target.value,
+                advertiserId = $scope.selectedCampaign.advertiserId,
+                url;
+            workflowService.checkforUniqueMediaPlan(advertiserId, cloneMediaPlanName).then(function (results) {
+                if (results.status === 'OK' || results.status === 'success') {
+                    var responseData = results.data.data;
+                    $scope.mediaPlanNameExists = responseData.isExists;
+                }
+            });
+        }
     });
 });

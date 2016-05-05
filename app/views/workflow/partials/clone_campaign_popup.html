@@ -18,12 +18,12 @@
             <div class="col-md-12 zeroPadding duplicateOptionChkbox">
 
                 <label>
-                    <input type="checkbox" ng-model="cloneLineItems">
+                    <input type="checkbox"  ng-checked ='true' onclick="return false;" onkeydown="return false;" ng-model="cloneLineItems">
                     <span data-ng-bind="textConstants.DUPLICATELINEITEMS"></span>
                 </label><br>
 
                 <label>
-                    <input type="checkbox" ng-disabled="!cloneLineItems" ng-model="cloneAdGroups">
+                    <input type="checkbox" ng-model="cloneAdGroups">
                     <span data-ng-bind="textConstants.DUPLICATEADGROUPS"></span>
                 </label>
 
