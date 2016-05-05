@@ -10,17 +10,20 @@
     <div class="modal-body">
         <div class="col-md-12 zeroPadding popup-content">
             <label ng-bind="textConstants.NEWMEDIAPLANNAME"></label><br>
-            <input type="text" ng-model="cloneMediaPlanName" placeHolder="Enter New Media Plan Name">
-            <span class="greyTxt errorLabel" data-ng-bind="textConstants.CLONEMEDIAPLANNAMEERR"></span>
+            <input type="text" ng-model="cloneMediaPlanName" ng-blur="isMediaPlanNameExist($event)"  laceHolder="Enter New Media Plan Name">
+            <span class="greyTxt customErrorLabel" ng-if="cloneMediaPlanExists" data-ng-bind="cloneMediaPlanName + ' '+ textConstants.CLONEMEDIAPLANNAMEERR"></span>
             <div class="col-md-12 zeroPadding duplicateOptionChkbox">
+
                 <label>
                     <input type="checkbox" ng-model="cloneLineItems">
                     <span data-ng-bind="textConstants.DUPLICATELINEITEMS"></span>
                 </label><br>
+
                 <label>
                     <input type="checkbox" ng-disabled="!cloneLineItems" ng-model="cloneAdGroups">
                     <span data-ng-bind="textConstants.DUPLICATEADGROUPS"></span>
                 </label>
+
             </div>
         </div>
     </div>
@@ -28,7 +31,7 @@
     <div class="clearfix popup-btns-holder">
         <div class="external_chkbox pull-left">
         </div>
-        <button ng-disabled="!cloneMediaPlanName" ng-click="campaignCloneAction();" ng-bind="textConstants.CLONE"></button>
+        <button ng-disabled="!cloneMediaPlanName || cloneMediaPlanExists" ng-click="campaignCloneAction();" ng-bind="textConstants.CLONE"></button>
             <button  data-dismiss="modal" ng-click="close()" ng-bind="textConstants.CANCEL">
                 Cancel
             </button>
