@@ -1,130 +1,217 @@
-<div class="col-md-12 adGroupCreate" ng-show="showCreateAdGrp" >
-<form id="createNewAdGrp" name="createNewAdGrp" novalidate>
-    <div class="adGroupCreateForm">
-        <h1 class="col-md-12 zeroPadding" ng-if="!editAdGroupFlag" data-ng-bind="textConstants.SETADGRP"></h1>
-        <div class="clearfix" ng-if="editAdGroupFlag">
-                <h1 class="col-md-4 zeroPadding" data-ng-bind="textConstants.EDITADGRP"></h1>
-                <span class="pull-right common-loading-btn" style="width: 61px;" ng-show="loadingBtn"></span>
-                <button type="submit"
-                        class="btn btn-primary pull-right"
-                        id="groupIndividual"
-                        ng-disabled="(createNewAdGrp.$invalid || !isMinimumAdGroupBudget || !isMaximumAdGroupBudget || adIGroupBudget === 0)"
-                        ng-click="createAdGroup($event)" data-ng-bind="textConstants.WF_AD_SAVE_CLOSE" ng-show="!loadingBtn">
-                </button>
-                <span type="button" class="pull-right secondary_txt" ng-bind="textConstants.CANCEL" ng-click="cancelEditAdGroup()"></span>
-                <input type = "hidden" name="adgroupId" ng-model="adgroupId" ng-update-hidden/>
-                <input type = "hidden" name="updatedAt" ng-model="updatedAt" ng-update-hidden/>
-        </div>
-
-        <!--Name Ad Group-->
-        <div class="col-md-6 zeroPadding">
-            <label for="nameTitleAdGroup" class="col-sm-12 control-label labelQuestTxt" data-ng-bind="textConstants.WHATADGROUPNAME"></label>
-            <label class="col-sm-12 control-label greyTxt miniLabels" data-ng-bind="textConstants.ADGROUPNAME"></label>
-            <div class="form-group col-sm-12" style="padding:0 30px 0 0 ;" show-errors>
-                <input type="text"
-                       class="form-control"
-                       id="nameTitleAdGroup"
-                       remove-special-character='remove-special-character'
-                       name="adGroupName"
-                       ng-model="adGroupName"
-                       maxlength="250"
-                       placeholder="Enter Ad Group Name in this field up to 250 Characters"
-                       required/>
-                <label ng-if="createNewAdGrp.adGroupName.$error.required" class="col-sm-12 control-label greyTxt errorLabel" data-ng-bind="textConstants.PLEASENAMEADGRP"></label>
+<div class="col-md-12 adGroupCreate" data-ng-show="showCreateAdGrp">
+    <form id="createNewAdGrp" name="createNewAdGrp" novalidate>
+        <div class="adGroupCreateForm">
+            <h1 class="col-md-12 zeroPadding" data-ng-if="!editAdGroupFlag" data-ng-bind="textConstants.SETADGRP"></h1>
+            <div class="clearfix" data-ng-if="editAdGroupFlag">
+                    <h1 class="col-md-4 zeroPadding" data-ng-bind="textConstants.EDITADGRP"></h1>
+                    <span class="pull-right common-loading-btn" style="width: 61px;" data-ng-show="loadingBtn"></span>
+                    <button type="submit"
+                            class="btn btn-primary pull-right"
+                            id="groupIndividual"
+                            data-ng-disabled="(createNewAdGrp.$invalid ||
+                                              !isMinimumAdGroupBudget ||
+                                              !isMaximumAdGroupBudget ||
+                                              adIGroupBudget === 0)"
+                            data-ng-click="createAdGroup($event)"
+                            data-ng-bind="textConstants.WF_AD_SAVE_CLOSE"
+                            data-ng-show="!loadingBtn">
+                    </button>
+                    <span class="pull-right secondary_txt"
+                          data-ng-bind="textConstants.CANCEL"
+                          data-ng-click="cancelEditAdGroup()">
+                    </span>
+                    <input type="hidden" name="adgroupId" data-ng-model="adgroupId" data-ng-update-hidden>
+                    <input type="hidden" name="updatedAt" data-ng-model="updatedAt" data-ng-update-hidden>
             </div>
-        </div>
 
-        <!--Label for Ad Group-->
-        <div class="col-md-6" style="padding: 42px 0 0 10px;">
-            <label class="col-sm-12 control-label greyTxt miniLabels">{{textConstants.LABEL}}</label>
-            <tags-input class="form-group col-sm-12 zeroPadding" ng-model="tags"></tags-input>
-            <input type="hidden" name="ad_label" value="{{tags}}" />
-        </div>
-        <div class="col-md-12 zeroPadding">
-            <label for="budgetIndividualAdGroup" class="col-sm-12 control-label labelQuestTxt" data-ng-bind="textConstants.MAX_YOU_CAN_SPEND"></label>
+            <!--Name Ad Group-->
+            <div class="col-md-6 zeroPadding">
+                <label for="nameTitleAdGroup"
+                       class="col-sm-12 control-label labelQuestTxt"
+                       data-ng-bind="textConstants.WHATADGROUPNAME">
+                </label>
+                <label class="col-sm-12 control-label greyTxt miniLabels" data-ng-bind="textConstants.ADGROUPNAME"></label>
+                <div class="form-group col-sm-12" style="padding:0 30px 0 0;" show-errors>
+                    <input type="text"
+                           class="form-control"
+                           id="nameTitleAdGroup"
+                           remove-special-character='remove-special-character'
+                           name="adGroupName"
+                           data-ng-model="adGroupName"
+                           maxlength="250"
+                           placeholder="Enter Ad Group Name in this field up to 250 Characters"
+                           required>
+                    <label data-ng-if="createNewAdGrp.adGroupName.$error.required"
+                           class="col-sm-12 control-label greyTxt errorLabel"
+                           data-ng-bind="textConstants.PLEASENAMEADGRP">
+                    </label>
+                </div>
+            </div>
+
+            <!--Label for Ad Group-->
+            <div class="col-md-6" style="padding: 42px 0 0 10px;">
+                <label class="col-sm-12 control-label greyTxt miniLabels" data-ng-bind="textConstants.LABEL"></label>
+                <tags-input class="form-group col-sm-12 zeroPadding" data-ng-model="tags"></tags-input>
+                <input type="hidden" name="ad_label" value="{{tags}}">
+            </div>
+            <div class="col-md-12 zeroPadding">
+                <label for="budgetIndividualAdGroup"
+                       class="col-sm-12 control-label labelQuestTxt"
+                       data-ng-bind="textConstants.MAX_YOU_CAN_SPEND">
+                </label>
                 <div class="col-md-6 zeroPadding">
-                    <label class="col-sm-12 control-label greyTxt miniLabels" data-ng-bind="textConstants.LINE_ITEM"></label>
+                    <label class="col-sm-12 control-label greyTxt miniLabels"
+                           data-ng-bind="textConstants.LINE_ITEM">
+                    </label>
                     <div class="form-group col-md-12" style="padding:0 30px 0 0;">
                         <div class="col-md-12 zeroPadding dropdown-workflow">
                             <div class="dropdown">
-                                <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" >
-                                    <span class="text">{{adGroupData.lineitemName ? adGroupData.lineitemName : textConstants.SELECT_LABEL}}</span>
+                                <button class="btn btn-default dropdown-toggle"
+                                        type="button"
+                                        data-toggle="dropdown"
+                                        aria-haspopup="true"
+                                        aria-expanded="true">
+                                    <span class="text"
+                                          data-ng-bind="adGroupData.lineitemName ?
+                                                        adGroupData.lineitemName :
+                                                        textConstants.SELECT_LABEL">
+                                    </span>
                                     <span class="icon-arrow-down"></span>
                                 </button>
                                 <ul class="dropdown-menu" >
-                                    <li class="available" ng-model="adGroupData.lineitemName" ng-click="adGroupData.lineitemName = 'Create New'"><a>Create New</a></li>
-                                    <li ng-repeat="lineItem in lineItems" class="available" ng-model="adGroupData.lineitemName" ng-click="selectLineItems($event, lineItem)"><a>{{lineItem.name}}</a></li>
-                                    <input type= "hidden" name="lineitemId" ng-model="adGroupData.lineitemId" ng-update-hidden/>
+                                    <li class="available"
+                                        data-ng-model="adGroupData.lineitemName"
+                                        data-ng-click="adGroupData.lineitemName='Create New'">
+                                        <a>Create New</a>
+                                    </li>
+                                    <li data-ng-repeat="lineItem in lineItems"
+                                        class="available"
+                                        data-ng-model="adGroupData.lineitemName"
+                                        data-ng-click="selectLineItems($event, lineItem)">
+                                        <a data-ng-bind="lineItem.name"></a>
+                                    </li>
+                                    <input type="hidden"
+                                           name="lineitemId"
+                                           data-ng-model="adGroupData.lineitemId"
+                                           data-ng-update-hidden>
                                 </ul>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-6">
-                    <label class="col-sm-12 control-label greyTxt miniLabels" data-ng-bind="textConstants.MAX_SPEND_FOR_ADGROUP"></label>
+                    <label class="col-sm-12 control-label greyTxt miniLabels"
+                           data-ng-bind="textConstants.MAX_SPEND_FOR_ADGROUP">
+                    </label>
                     <div class="form-group col-md-3" style="padding: 0 10px 0 0;" show-errors>
                         <span class="currencyFly">$</span>
                         <input type="number"
                                class="form-control"
                                id="budgetIndividualAdGroup"
                                name="adIGroupBudget"
-                               ng-model="adIGroupBudget"
-                               ng-value="adIGroupBudget"
-                               min-value = "{{adGroupMinBudget}}"
+                               data-ng-model="adIGroupBudget"
+                               data-ng-value="adIGroupBudget"
+                               min-value="{{adGroupMinBudget}}"
                                max-value ="{{adGroupMaxBudget}}"
-                               required ng-keyup="validateAdGroupSpend($event)" />
-                     </div>
-                        <label ng-if="createNewAdGrp.adIGroupBudget.$error.required" class="col-sm-12 control-label greyTxt errorLabel" data-ng-bind="textConstants.ADGROUPBUDGETMSG"></label>
-                        <label ng-if="adIGroupBudget === 0" class="col-sm-12 control-label greyTxt customErrorLabel" data-ng-bind="textConstants.ADGROUPBUDGETGREATERTHANZEROMSG"></label>
-                        <label ng-if="adIGroupBudget >0 && !isMinimumAdGroupBudget" class="col-sm-12 control-label greyTxt customErrorLabel" data-ng-bind="textConstants.ADGROUPMINIMUMBUDGETMSG"></label>
-                        <label ng-if="adIGroupBudget >0 && !isMaximumAdGroupBudget" class="col-sm-12 control-label greyTxt customErrorLabel" data-ng-bind="textConstants.ADGROUPMAXIMUMBUDGETMSG"></label>
-
+                               required data-ng-keyup="validateAdGroupSpend($event)">
+                    </div>
+                    <label data-ng-if="createNewAdGrp.adIGroupBudget.$error.required"
+                           class="col-sm-12 control-label greyTxt errorLabel"
+                           data-ng-bind="textConstants.ADGROUPBUDGETMSG">
+                    </label>
+                    <label data-ng-if="adIGroupBudget === 0"
+                           class="col-sm-12 control-label greyTxt customErrorLabel"
+                           data-ng-bind="textConstants.ADGROUPBUDGETGREATERTHANZEROMSG">
+                    </label>
+                    <label data-ng-if="adIGroupBudget > 0 && !isMinimumAdGroupBudget"
+                           class="col-sm-12 control-label greyTxt customErrorLabel"
+                           data-ng-bind="textConstants.ADGROUPMINIMUMBUDGETMSG">
+                    </label>
+                    <label data-ng-if="adIGroupBudget > 0 && !isMaximumAdGroupBudget"
+                           class="col-sm-12 control-label greyTxt customErrorLabel"
+                           data-ng-bind="textConstants.ADGROUPMAXIMUMBUDGETMSG">
+                    </label>
                 </div>
-
-
-
-            <div class="col-md-3" style="padding: 0 0 0 10px;">
-                <!--Widget Goes Here-->
+                <div class="col-md-3" style="padding: 0 0 0 10px;">
+                    <!--Widget Goes Here-->
+                </div>
             </div>
-        </div>
 
-        <!--Calender Ad Group-->
-        <div class="col-md-6 zeroPadding">
-            <label for="dateTitleAdGroup" class="col-sm-12 control-label labelQuestTxt" data-ng-bind="textConstants.WHATFLIGHTDATES"></label>
-            <div class="span4 col-md-12 input-daterange input-group date pull-left" id="datepicker">
-                <div class="form-group col-md-12 dateWrapper zeroPadding" show-errors>
-                    <div class="dateContainer">
-                        <label class="col-sm-12 control-label greyTxt miniLabels" data-ng-bind="textConstants.START_DATE"></label>
-                        <input type="text" placeholder="MM/DD/YYYY" class="form-control adGrpStartDateInput"  readonly  name="startTime" ng-model="startTime" required/>
+            <!--Calender Ad Group-->
+            <div class="col-md-6 zeroPadding">
+                <label class="col-sm-12 control-label labelQuestTxt"
+                       data-ng-bind="textConstants.WHATFLIGHTDATES">
+                </label>
+                <div class="span4 col-md-12 input-daterange input-group date pull-left" id="datepicker">
+                    <div class="form-group col-md-12 dateWrapper zeroPadding" show-errors>
+                        <div class="dateContainer">
+                            <label class="col-sm-12 control-label greyTxt miniLabels"
+                                   data-ng-bind="textConstants.START_DATE">
+                            </label>
+                            <input type="text"
+                                   placeholder="MM/DD/YYYY"
+                                   class="form-control adGrpStartDateInput"
+                                   readonly
+                                   name="startTime"
+                                   data-ng-model="startTime"
+                                   required>
+                        </div>
+                        <div class="dateContainer" style="padding-left: 10px;">
+                            <label class="col-sm-12 control-label greyTxt miniLabels"
+                                   data-ng-bind="textConstants.END_DATE">
+                            </label>
+                            <input type="text"
+                                   placeholder="MM/DD/YYYY"
+                                   class="form-control adGrpEndDateInput"
+                                   readonly
+                                   data-ng-disabled="!editAdGroupFlag"
+                                   data-ng-model="endTime"
+                                   name="endTime"
+                                   required>
+                        </div>
+                        <label data-ng-if="createNewAdGrp.startTime.$error.required"
+                               class="col-sm-12 control-label greyTxt errorLabel"
+                               data-ng-bind="textConstants.PLEASESELSTARTDATE">
+                        </label>
                     </div>
-                    <div class="dateContainer" style="padding-left: 10px;">
-                        <label class="col-sm-12 control-label greyTxt miniLabels" data-ng-bind="textConstants.END_DATE"></label>
-                        <input type="text" placeholder="MM/DD/YYYY" class="form-control adGrpEndDateInput" readonly ng-disabled="!editAdGroupFlag" name="endTime" required/>
+                    <div class="col-md-12 input-group-addon">
+                        <div class="calenderIcon">
+                            <span class="icon-calendar"></span>
+                        </div>
+                        <div class="calenderIcon">
+                            <span class="icon-calendar"></span>
+                        </div>
                     </div>
-                    <label ng-if="createNewAdGrp.startTime.$error.required" class="col-sm-12 control-label greyTxt errorLabel" data-ng-bind="textConstants.PLEASESELSTARTDATE"></label>
                 </div>
-                <span class="col-md-12 input-group-addon">
-                    <div class="calenderIcon">
-                        <span class="icon-calendar"></span>
-                    </div>
-                    <div class="calenderIcon">
-                        <span class="icon-calendar"></span>
-                    </div>
+            </div>
+
+            <!--Save / Cancel-->
+            <div class="col-md-6" style="padding: 62px 0 0 0;" data-ng-if="!editAdGroupFlag">
+                <span class="pull-right common-loading-btn" style="width: 61px;" data-ng-show="loadingBtn"></span>
+                <button type="submit"
+                        class="btn btn-primary pull-right"
+                        id="createAdGroup"
+                        data-ng-disabled="(createNewAdGrp.$invalid ||
+                                          !isMinimumAdGroupBudget ||
+                                          !isMaximumAdGroupBudget ||
+                                          adIGroupBudget === 0)"
+                        data-ng-click="createAdGroup($event)"
+                        data-ng-bind="textConstants.SAVE"
+                        data-ng-show="!loadingBtn">
+                </button>
+                <span class="pull-right secondary_txt"
+                      data-ng-click="createAdGrp();"
+                      data-ng-bind="textConstants.CANCEL">
                 </span>
             </div>
+            <div id="createGroupMessage"
+                 data-ng-if="!editAdGroupFlag"
+                 data-ng-bind="createAdGroupMessage">
+            </div>
         </div>
-
-        <!--Save / Cancel-->
-        <div class="col-md-6" style="padding: 62px 0 0 0;" ng-if="!editAdGroupFlag">
-            <span class="pull-right common-loading-btn" style="width: 61px;" ng-show="loadingBtn"></span>
-            <button type="submit" class="btn btn-primary pull-right" id="createAdGroup" ng-disabled=" (createNewAdGrp.$invalid || !isMinimumAdGroupBudget || !isMaximumAdGroupBudget || adIGroupBudget === 0)" ng-click="createAdGroup($event)" data-ng-bind="textConstants.SAVE" ng-show="!loadingBtn"></button>
-            <span class="pull-right secondary_txt" ng-click="createAdGrp();" data-ng-bind="textConstants.CANCEL"></span>
-        </div>
-        <div id="createGroupMessage" ng-if="!editAdGroupFlag" data-ng-bind="createAdGroupMessage"></div>
-
-    </div>
-</form>
+    </form>
 </div>
+
 <script>
     $(document).ready(function() {
         $('.input-daterange').datepicker({
@@ -133,5 +220,5 @@
             autoclose: true,
             todayHighlight: true
         });
-    })
+    });
 </script>
