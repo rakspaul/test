@@ -436,6 +436,20 @@
 		}
 	}
 }
+.clone-popup {
+	.cloneMediaPlanNameInput {
+		width: 100%;
+		input {
+			color: #555 ;
+		}
+	}
+	.duplicateOptionChkbox {
+		margin-top: 20px ;
+	}
+	.common-loading-btn {
+		width: 70px ;
+	}
+}
 .popContainerHolder {
 	overflow: auto;
 	overflow-y: scroll;
@@ -1851,6 +1865,26 @@ multiselect {
 	border-radius: 4px;
 	height: 36px;
 	margin: 0 auto;
+}
+div.inputLoader {
+	border : 1px solid #dde6eb ;
+	position: relative;
+	border-radius: 2px;
+    -moz-border-radius: 2px;
+    -webkit-border-radius: 2px;
+    > input[type="text"] {
+    	border: solid 1px  transparent;
+    	width: 80% ;
+    	margin: 0 ;
+    }
+    > input[type="text"]:focus , > input[type="text"]:hover {
+    	border: solid 1px  transparent !important;
+    }
+	> .common-loading-area {
+		position: absolute;
+		right: 0px ;
+		top : 0px ;
+	}
 }
 tags-input .autocomplete {
 	margin-top: 37px ;
