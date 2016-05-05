@@ -1,4 +1,4 @@
-define(['angularAMD', 'common/services/constants_service', 'workflow/services/workflow_service','login/login_model','common/moment_utils','workflow/directives/clear_row', 'workflow/directives/ng_upload_hidden','workflow/controllers/pixels_controller','workflow/directives/custom_date_picker','workflow/controllers/line_item_controller'], function (angularAMD) {
+define(['angularAMD', 'common/services/constants_service', 'workflow/services/workflow_service','login/login_model','common/moment_utils','workflow/directives/clear_row', 'workflow/directives/ng_upload_hidden','workflow/controllers/pixels_controller','workflow/controllers/budget_controller', 'workflow/controllers/line_item_controller', 'workflow/directives/custom_date_picker'], function (angularAMD) {
     angularAMD.controller('CreateCampaignController', function ($scope,  $timeout, $rootScope, $filter, $routeParams, $locale, $location, $timeout,constants, workflowService,loginModel,momentService, localStorageService) {
 
         $scope.selectedKeywords = [];
@@ -79,7 +79,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         // line item creation date
         $scope.lineItemStartDate = '';
         $scope.lineItemEndDate = '';
-        $scope.selectedCostAttr = {} ;
+        $scope.mediaPlanNameExists = false;
 
         var selectedAdvertiser;
 
@@ -272,7 +272,6 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 }
 
                 //set labels
-
                 if(campaignData.labels && campaignData.labels.length >0) {
                     $scope.tags = workflowService.recreateLabels(campaignData.labels);
                 }
@@ -282,13 +281,12 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     $scope.selectedCampaign.startTime = momentService.utcToLocalTime(campaignData.startTime);
 
                 }
-                //set endDate
 
+                //set endDate
                 if (campaignData.endTime) {
                     $scope.selectedCampaign.endTime = momentService.utcToLocalTime(campaignData.endTime);
+                    $scope.handleFlightDate(campaignData);
                 }
-
-
 
                 //set KPI type
                 if (campaignData.kpiType) {
@@ -332,9 +330,11 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         $scope.selectHandler = function (type, data, event) {
             switch (type) {
                 case 'client' :
+
                     $scope.workflowData['advertisers'] = [];
                     $scope.workflowData['brands'] = [];
                     $scope.selectedCampaign.advertiser = '';
+
                     if($scope.showSubAccount){
                         $scope.workflowData['subAccounts'] = [];
                         $scope.selectedCampaign.clientId = '';
@@ -344,6 +344,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                         createCampaign.fetchAdvertisers(data.id);
                     }
                     break;
+
                 case 'subAccount':
 
                     $scope.selectedCampaign.advertiser = '';
@@ -459,9 +460,9 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
                 //for cost
                 var campaignCosts = [];
-                if(!$.isEmptyObject($scope.selectedCostAttr)) {
-                    for(var i in $scope.selectedCostAttr) {
-                        campaignCosts.push($scope.selectedCostAttr[i])
+                if(!$.isEmptyObject($scope.selectedCampaign.selectedCostAttr)) {
+                    for(var i in $scope.selectedCampaign.selectedCostAttr) {
+                        campaignCosts.push($scope.selectedCampaign.selectedCostAttr[i])
                     }
 
                     if(campaignCosts.length >0) {
@@ -511,10 +512,8 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         $scope.resetFlashMessage = function () {
             $rootScope.setErrAlertMessage('', 0);
         };
-        //
-        //$scope.getRandom = function () {
-        //    return Math.floor((Math.random() * 6) + 1);
-        //};
+
+
         //***************** Date Picker ********************
         $scope.initiateDatePicker = function () {
             var startDateElem = $('#startDateInput');
@@ -716,64 +715,13 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
         }
 
-        //*************** LINE ITEM ****************************
-
-
-        $scope.additionalCosts = [];
-
-        $scope.addAdditionalCost = function() {
-            $scope.additionalCosts.push({
-                key: "",
-                name: "",
-                value: "",
-                hide: true
-            });
-
-        }
-
-        $scope.removeCostDimension = function(event) {
-            var elem = $(event.target) ;
-            elem.closest(".each-cost-dimension").hide();
-        }
-
-
-        $scope.costAttributesSelected = function(costObj, attr , $event, type) {
-                var index = Number($(event.target).closest('.each-cost-dimension').attr('data-index'));
-                var selectedCostObj = {};
-                if(!$scope.selectedCostAttr[index] || $scope.selectedCostAttr[index].length ===0) {
-                    $scope.selectedCostAttr[index] = {};
-                }
-
-                $scope.selectedCostAttr[index].clientVendorConfigId = costObj.clientVendorConfigurationId;
-
-                if(type === 'category') {
-                    $scope.selectedCostAttr[index].costCategoryId = attr.id;
-                }
-
-                if(type === 'vendor') {
-                    $scope.selectedCostAttr[index].vendorId = attr.id;
-                }
-
-                if(type === 'offer') {
-                    $scope.selectedCostAttr[index].name = attr.name;
-                }
-
-                if(type === 'rateValue') {
-                    $scope.selectedCostAttr[index]['rateValue'] = Number(attr.rateValue);
-                    $scope.selectedCostAttr[index]['rateTypeId'] = costObj.rateTypeId;
-                    $scope.selectedCostAttr[index]['costType'] = 'MANUAL'
-                }
-        }
-
-
         // nav control
-
         $scope.highlightLeftNav=function(pageno){
             $(".eachStepCompLabel").removeClass('active')
             $(".eachStepCompLabel")[pageno].classList.add("active");
         }
 
-        $scope.mediaPlanNameExists = false;
+
         $scope.isMediaPlanNameExist = function() {
             var target =  event.target,
                 cloneMediaPlanName = target.value,

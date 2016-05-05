@@ -22,7 +22,7 @@
         <label for="advertiserDDL" class="col-sm-12  greyTxt miniLabels" data-ng-bind="textConstants.ADVERTISERS"></label>
         <div class="col-md-12 zeroPadding dropdown-workflow">
             <div class="dropdown">
-                <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ng-click="hideMediaPlanDropdown()">
+                <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ng-click="hideMediaPlanDropdown()" ng-disabled="!selectedCampaign.clientId">
                     <span class="text">{{mode == 'edit' ? selectedCampaign.advertiserName : 'Select Advertiser' }}</span>
                     <span class="icon-arrow-down"></span>
                 </button>
