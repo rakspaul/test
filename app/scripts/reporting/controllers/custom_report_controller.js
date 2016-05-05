@@ -405,7 +405,23 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                         $scope.reportMetaData[typeofDimension][currIdx] = [];
                     }
                 }
+                var found = false;
                 _.each(newData, function(d) {
+                    _.each(metricKey1, function(mkey){
+                        if(mkey != "dimension") {
+                            _.each(d[mkey], function (value, key) {
+                                found = false;
+                                _.each(selectedMetrics, function (selMetItem) {
+                                    if (selMetItem.key == key) {
+                                        found = true;
+                                    }
+                                });
+                                if (!found) {
+                                    delete d[mkey][key];
+                                }
+                            });
+                        }
+                    });
                     if (typeof currIdx !== 'undefined' && currIdx >= 0) {
                         $scope.reportMetaData[typeofDimension][currIdx].push(d);
                     } else {
