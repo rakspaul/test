@@ -326,7 +326,9 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                     return vistoconfig.apiPaths.apiSerivicesUrl_NEW + '/clients/' + clientId +
                         '/savedreports/updateReport/' + reportId;
                 };
-
+                this.downloadAdminAdvPixel = function(clientId, advId){
+                    return vistoconfig.apiPaths.WORKFLOW_API_URL+'/clients/'+clientId+'/advertisers/'+advId+'/pixels_download';
+                };
                 this.getInvoiceData = function (invoiceReports) {
                     var clientId =  loginModel.getMasterClient().id,
                         url;
