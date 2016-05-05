@@ -5,6 +5,7 @@ define(['angularAMD'],function (angularAMD) {
         $scope.showCloneLoader = false;
         $scope.cloneMediaPlanExists = false;
         $scope.checkUniqueNameNotFound = false;
+        $scope.cloneLineItems = true;
         $scope.textConstants = constants;
         $scope.close=function(){
             $modalInstance.dismiss();
