@@ -216,6 +216,9 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
             },
             saveAdChoiceDataForAdv: function(clientId, advId, data){
                 return dataService.post(vistoconfig.apiPaths.WORKFLOW_API_URL+'/clients/'+clientId+'/ad_choices?advertiser_id='+advId, data, {'Content-Type': 'application/json'});
+            },
+            downloadAdminAdvPixel: function(clientId, advId){
+                return dataService.fetch(vistoconfig.apiPaths.WORKFLOW_API_URL+'/clients/'+clientId+'/advertisers/'+advId+'/pixels_download', {cache: false});
             }
         };
     });
