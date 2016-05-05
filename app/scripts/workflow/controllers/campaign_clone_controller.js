@@ -4,6 +4,7 @@ define(['angularAMD'],function (angularAMD) {
     angularAMD.controller('CampaignClone', function( $scope , $routeParams, $location, $modalInstance, constants, vistoconfig, campaignCloneAction, workflowService, localStorageService) {
         $scope.showCloneLoader = false;
         $scope.cloneMediaPlanExists = false;
+        $scope.checkUniqueNameNotFound = false;
         $scope.textConstants = constants;
         $scope.close=function(){
             $modalInstance.dismiss();
@@ -19,7 +20,7 @@ define(['angularAMD'],function (angularAMD) {
             }
 
             $scope.showCloneLoader = true;
-            if(cloneLineItems) {
+            if(cloneLineItems && cloneAdGroups) {
                 params['cloneLineitems'] = cloneLineItems;
                 params['cloneAdGroups'] = cloneAdGroups;
                 params['cloneAds'] = true;
@@ -46,15 +47,18 @@ define(['angularAMD'],function (angularAMD) {
         };
 
         $scope.isMediaPlanNameExist = function(event){
+            $scope.checkUniqueNameNotFound = true;
             var target =  event.target;
             var cloneMediaPlanName = target.value;
             var advertiserId = $scope.workflowData.campaignData.advertiserId;
             workflowService.checkforUniqueMediaPlan(advertiserId, cloneMediaPlanName).then(function (results) {
                 var url;
+                $scope.checkUniqueNameNotFound = false;
                 if (results.status === 'OK' || results.status === 'success') {
                     var responseData = results.data.data;
                     $scope.cloneMediaPlanExists = responseData.isExists;
                 }
+
             });
         };
 
