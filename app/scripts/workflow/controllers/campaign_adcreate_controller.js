@@ -223,32 +223,32 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                         $scope.adData.unitType = $scope.workflowData.unitTypes[0];
                     },
 
-                    saveTrackerFile : function() {
-                        var clientId,
-                            url;
+                    //saveTrackerFile : function() {
+                    //    var clientId,
+                    //        url;
+                    //
+                    //    if ($scope.adId) {
+                    //        clientId = loginModel.getSelectedClient().id;
+                    //        url = vistoconfig.apiPaths.WORKFLOW_API_URL +
+                    //            '/clients/' + clientId +
+                    //            '/campaigns/' + $scope.campaignId +
+                    //            '/ads/' + $scope.adId +
+                    //            '/creatives?format=csv';
+                    //
+                    //        dataService
+                    //            .downloadFile(url)
+                    //            .then(function (response) {
+                    //                if (response.status === 'success') {
+                    //                    $scope.downloadingTracker = false;
+                    //                    saveAs(response.file, response.fileName);
+                    //                } else {
+                    //                    $scope.downloadingTracker = false;
+                    //                }
+                    //            });
+                    //    }
+                    //},
 
-                        if ($scope.adId) {
-                            clientId = loginModel.getSelectedClient().id;
-                            url = vistoconfig.apiPaths.WORKFLOW_API_URL +
-                                '/clients/' + clientId +
-                                '/campaigns/' + $scope.campaignId +
-                                '/ads/' + $scope.adId +
-                                '/creatives?format=csv';
-
-                            dataService
-                                .downloadFile(url)
-                                .then(function (response) {
-                                    if (response.status === 'success') {
-                                        $scope.downloadingTracker = false;
-                                        saveAs(response.file, response.fileName);
-                                    } else {
-                                        $scope.downloadingTracker = false;
-                                    }
-                                });
-                        }
-                    },
-
-                    saveAds: function (postDataObj, isDownloadTrackerClicked) {
+                    saveAds: function (postDataObj) {
                         var promiseObj;
 
                         //save adGroup Ad
@@ -265,7 +265,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
 
                         function adSaveErrorHandler (data) {
                             data = data || '' ;
-                            $scope.downloadingTracker = false;
+                          //  $scope.downloadingTracker = false;
                             var errMsg = $scope.textConstants.PARTIAL_AD_SAVE_FAILURE;
                             if(data && data.data && data.data[0] && data.data[0].AdBudget) {
                                 errMsg = data.data[0].AdBudget;
@@ -287,23 +287,16 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                                 $scope.adId = responseData.id;
                                 $scope.updatedAt = responseData.updatedAt;
 
-                                if (!isDownloadTrackerClicked) {
                                     $rootScope.setErrAlertMessage($scope.textConstants.PARTIAL_AD_SAVE_SUCCESS, 0);
                                     localStorage.setItem('adPlatformCustomInputs',
                                         window.JSON.stringify(responseData.adPlatformCustomInputs));
                                     url = '/mediaplan/' + result.data.data.campaignId + '/overview';
                                     $location.url(url);
                                     localStorage.setItem('topAlertMessage', $scope.textConstants.AD_CREATED_SUCCESS);
-                                }
-
-                                if (isDownloadTrackerClicked) {
-                                    campaignOverView.saveTrackerFile();
-                                }
                             } else {
                                 if(responseData.statusCode === 400) {
                                     adSaveErrorHandler(responseData);
                                 } else {
-                                    $scope.downloadingTracker = false;
                                     $rootScope.setErrAlertMessage(responseData.message);
                                 }
                             }
@@ -1222,7 +1215,8 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                 $scope.selectedFreq = freqSelected;
             };
 
-            $scope.campaignAdSave = function (isDownloadTrackerClicked) {
+            //$scope.campaignAdSave = function (isDownloadTrackerClicked) {
+            $scope.campaignAdSave = function () {
                 var formElem = $('#formAdCreate'),
                     formData = formElem.serializeArray(),
                     customFieldErrorElem,
@@ -1303,9 +1297,9 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                     ) {
                         $rootScope.setErrAlertMessage('Mandatory fields need to be specified for the Ad');
                     } else {
-                        if(!isDownloadTrackerClicked) {
+                       // if(!isDownloadTrackerClicked) {
                             $scope.adCreateLoader = true;
-                        }
+                       // }
                         if(formData.targetValue){
                             postAdDataObj.kpiType=formData.primaryKpi.toUpperCase();
                             postAdDataObj.kpiValue=formData.targetValue;
@@ -1495,15 +1489,9 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                             }
                             postAdDataObj.adPlatformCustomInputs = $scope.postPlatformDataObj;
                         }
-                        campaignOverView.saveAds(postAdDataObj, isDownloadTrackerClicked);
+                        campaignOverView.saveAds(postAdDataObj);
                     }
                 }
-            };
-
-            $scope.downloadTrackerUrls = function () {
-                $scope.downloadingTracker = true;
-                $scope.campaignAdSave(true);
-
             };
 
             $scope.triggerbudgetTab = function () {
@@ -1659,7 +1647,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
             $scope.dayPartData = {};
             $scope.adData.budgetTypeLabel = 'Impressions';
             $scope.adData.budgetType = 'Cost';
-            $scope.downloadingTracker = false;
+           // $scope.downloadingTracker = false;
             $scope.selectedAudience = [];
             $scope.selectedDayParts = [];
             $scope.adData.setSizes = constants.WF_NOT_SET;
