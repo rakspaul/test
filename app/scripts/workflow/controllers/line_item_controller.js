@@ -77,8 +77,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         };
 
         $scope.setLineItem = function(obj,mode){
-
-
+            
             if(mode !== 'edit'){
                 $scope.lineItemType = obj;
             } else {
