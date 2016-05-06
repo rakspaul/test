@@ -81,8 +81,8 @@ define(['angularAMD','common/services/vistoconfig_service','common/services/data
                 return dataService.fetch(url, {cache: false});
             },
 
-            fetchAudienceSource: function () {
-                var url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/cost_categories/6/vendors';// ask abhi
+            fetchAudienceSource: function (seatId) {
+                var url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/'+loginModel.getSelectedClient().id+'/vendors/'+workflowService.getPlatform().id + '/seats/' + seatId + '/segments/sources';
                 return dataService.fetch(url, {cache: false});
             },
 
