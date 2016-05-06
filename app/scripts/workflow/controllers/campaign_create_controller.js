@@ -291,7 +291,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
                 //set KPI type
                 if (campaignData.kpiType) {
-                    $scope.kpiName = $filter('toTitleCase')(campaignData.kpiType);
+                    $scope.kpiName = campaignData.kpiType;
                 }
 
                 //set Kpi Value
@@ -748,10 +748,10 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     windowClass: 'delete-dialog',
                     resolve: {
                         headerMsg: function () {
-                            return 'Media Plan Clone';
+                            return textConstants.MEDIA_PLAN_CLONE;
                         },
                         mainMsg: function () {
-                            return 'Are you sure, you want to navigate/reload the page, you will lose your media plan changes?';
+                            return textConstants.MEDIA_PLAN_WARNING_MESSAGE
                         },
                         buttonName: function () {
                             return 'Ok';
