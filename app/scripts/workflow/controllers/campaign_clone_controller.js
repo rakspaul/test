@@ -7,6 +7,8 @@ define(['angularAMD'],function (angularAMD) {
         $scope.checkUniqueNameNotFound = false;
         $scope.cloneLineItems = true;
         $scope.textConstants = constants;
+        $scope.newMediaPlanStartDate = false ;
+
         $scope.close=function(){
             $modalInstance.dismiss();
         };
@@ -47,6 +49,41 @@ define(['angularAMD'],function (angularAMD) {
             }
         };
 
+        $scope.showDuplicateAdGroupSection = function( event ) {
+            var elem = $(event.target) ;
+            $scope.newMediaPlanStartDate = false ;
+            if( elem.is(":checked") ) {
+                 $scope.newMediaPlanStartDate = true ;
+                $(".duplicateAdGroupSection").find(".disabled_div").hide() ;
+                
+            } else {
+                $scope.newMediaPlanStartDate = false ;
+                $(".duplicateAdGroupSection").find(".disabled_div").show() ;
+            }
+            
+        };
+        $scope.chooseFlightDate = function(type) {
+                var flightDateChosen = $("input[name='chooseFlightDate']:checked").val() ;
+                $scope.newMediaPlanStartDate = true ;
+                if( flightDateChosen != "automaticFlightDates" ) {
+                    $scope.newMediaPlanStartDate = false ;
+                } else {
+                    if( $scope.newMediaPlanDate ) {
+                        $scope.newMediaPlanStartDate = false ;
+                    } else {
+                        $scope.newMediaPlanStartDate = true ;
+                    }
+                }
+        }
+        $scope.newMediaPlanDateChange = function() {
+            if( $scope.cloneMediaPlanName ) {
+                if( $scope.newMediaPlanDate ) {
+                    $scope.newMediaPlanStartDate = false ;
+                 } else {
+                    $scope.newMediaPlanStartDate = true ;
+                 }
+             }
+        }
         $scope.isMediaPlanNameExist = function(event){
             var target =  event.target,
                 cloneMediaPlanName = target.value,
@@ -64,6 +101,11 @@ define(['angularAMD'],function (angularAMD) {
                     }
                     $scope.checkUniqueNameNotFound = false;
                 });
+            }
+            if( $scope.cloneMediaPlanName ) {
+                $scope.newMediaPlanStartDate = false ;
+            } else {
+                $scope.newMediaPlanStartDate = true ;
             }
         };
 
