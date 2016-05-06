@@ -281,7 +281,7 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                             : (item.pixelType == "AUDIENCE_CREATION") ? 'Audience Creation Pixel' : 'Retargeting Pixel';
                         $scope.advertiserData.pixels[i].isFeedData = true;
                         if(item.expiryDate) {
-                            $scope.advertiserData.pixels[i].expiryDate = momentService.newMoment(item.expiryDate).format('YYYY/MM/DD');
+                            $scope.advertiserData.pixels[i].expiryDate = momentService.utcToLocalTime(item.expiryDate,'YYYY/MM/DD');
                         }
                     });
                 }

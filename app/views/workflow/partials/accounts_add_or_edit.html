@@ -3,7 +3,7 @@
         <span class="btn btn-primary pull-right" ng-click="saveClients()">Save</span>
         <span class="btn btn-link pull-right" data-dismiss="modal" ng-click="close()">Cancel</span>
 
-        <h2 class="modal-title" id="myModalLabel" data-ng-bind="(mode === 'create'?'Add':'Edit')+' Account ( '+clientObj.name+' )'"></h2>
+        <h2 class="modal-title" id="myModalLabel" data-ng-bind="showUserModeText()"></h2>
     </div>
     <div class="clearfix modal-body">
         <!--Row 1-->
