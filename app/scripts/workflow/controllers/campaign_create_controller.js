@@ -699,11 +699,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
 
 
-        $scope.showNormalItemRow = function(event) {
-            var target =  event.currentTarget;
-            $(target).closest('.tr').find('.tableNormal').toggle();
-            $(target).closest('.tr').find('.tableEdit').toggle();
-        };
+
 
         // ************** PAGE 1 ******************************
         $scope.setKPIName = function(kpi){

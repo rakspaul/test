@@ -12,7 +12,8 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             CONST_POST_IMPRESSION_CPA = 'Post-Impression CPA',
             CONST_TOTAL_CPA = 'Total CPA',
             CONST_POST_CLICK_CPA = 'Post-Click CPA',
-            oldLineItem;
+            oldLineItem,
+            oldLineItemIndex;
         $scope.pixelSelected = {};
         $scope.pixelSelected.name = 'Select from list';
 
@@ -55,6 +56,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     newItem.pricingRate = $scope.pricingRate;
                     newItem.startTime = $scope.lineItemStartDate;
                     newItem.endTime = $scope.lineItemEndDate;
+                    newItem.pixel = $scope.pixelSelected;
                     newItem.pixelId = $scope.pixelSelected.id;
                     newItem.campaignId = campaignId;
                     //$scope.totalBillableAmount +=  $scope.billableAmount;x
@@ -73,6 +75,8 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 newItem.pricingRate = $scope.editLineItem.pricingRate;
                 newItem.startTime = $scope.editLineItem.startTime;
                 newItem.endTime = $scope.editLineItem.endTime;
+                newItem.pixel = $scope.editLineItem.pixelSelected;
+                newItem.pixelId = $scope.editLineItem.pixelSelected.id;
                 newItem.campaignId = (campaignId === '-999')?'-999':campaignId; // handle real edit mode
                 $scope.lineItemList.push(newItem);
 
@@ -118,7 +122,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                         $scope.type = arr;
 
                     }
-                    console.log("$scope.type",$scope.type)
+
                     $scope.volumeFlag = false;
                     $scope.volume = '';
                 }
@@ -190,6 +194,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     }
                     $scope.volumeFlagEdit = false;
                     $scope.editLineItem.volume = '';
+                    $scope.editLineItem.pixelSelected = {};
 
                 }
                 else if(CONST_COGS_CPM === $scope.editLineItem.lineItemType.name){
@@ -200,7 +205,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     }
                     $scope.volumeFlagEdit = false;
                     $scope.editLineItem.volume = '';
-
+                    $scope.editLineItem.pixelSelected = {};
                 }
                 else if (CONST_FLAT_FEE === $scope.editLineItem.lineItemType.name){
                     if(selectedAdvertiser && (selectedAdvertiser.billingType && selectedAdvertiser.billingValue)){
@@ -216,10 +221,9 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     //ad group in edit mode
                     $scope.hideAdGroupNameEdit = true;
                     $scope.editLineItem.adGroupName = '';
-                    //$scope.amountFlagEdit = false;
-                    //$scope.editLineItem.billableAmount = '';
+                    $scope.editLineItem.pixelSelected = {};
                 }
-                else if(CONST_POST_IMPRESSION_CPA === $scope.lineItemType.name || CONST_TOTAL_CPA === $scope.lineItemType.name || CONST_POST_CLICK_CPA === $scope.lineItemType.name) {
+                else if(CONST_POST_IMPRESSION_CPA === $scope.editLineItem.lineItemType.name || CONST_TOTAL_CPA === $scope.editLineItem.lineItemType.name || CONST_POST_CLICK_CPA === $scope.editLineItem.lineItemType.name) {
                     $scope.showPixelsListEdit = true;
                 }
             }
@@ -253,6 +257,11 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         //Line Item Table Row Edit
         $scope.showEditItemRow = function(event,lineItem) {
             oldLineItem = angular.copy(lineItem);
+            oldLineItemIndex = _.findIndex($scope.lineItemList,function(item){
+                if(item.name === oldLineItem.name && item.billingTypeId === oldLineItem.billingTypeId && item.pricingRate === oldLineItem.pricingRate){
+                    return true;
+                }
+            });
             $(".tr .tableNormal").show();
             $(".tr .tableEdit").hide();
 
@@ -260,7 +269,6 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             $(target).toggle();
             $(target).closest('.tr').find('.tableEdit').toggle();
 
-            console.log(lineItem);
             //populate edit lineitem fields
             populateLineItemEdit(lineItem);
 
@@ -289,15 +297,18 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         function populateLineItemEdit(lineItem) {
             $scope.editLineItem.lineItemName = lineItem.name;
             $scope.editLineItem.lineItemType = lineItem.lineItemType;
+            $scope.editLineItem.pixelSelected = lineItem.pixel;
             $scope.editLineItem.pricingRate = lineItem.pricingRate;
             $scope.editLineItem.billableAmount = lineItem.billableAmount;
             $scope.editLineItem.volume = lineItem.volume;
             $scope.editLineItem.startTime = lineItem.startTime;
             $scope.editLineItem.endTime = lineItem.endTime;
+            //$scope.editLineItem.pixelSelected = lineItem.pixel;
             if(lineItem.adGroupName){
                 $scope.editLineItem.adGroupName = lineItem.adGroupName;
             }
             $scope.setLineItem($scope.editLineItem.lineItemType,'edit');
+            $scope.setPixels($scope.editLineItem.pixelSelected,'edit')
         }
 
         $scope.$watch('selectedCampaign.endTime',function(){
@@ -318,8 +329,15 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     return type.id === item.billingTypeId;
                 });
                 $scope.setLineItem($scope.type[index],'create');
+                //pixel
+                var pixelIndex = _.findIndex($scope.selectedCampaign.pixelList,function(type){
+                    return type.id === item.pixelId;
+                });
+                $scope.pixelSelected = $scope.selectedCampaign.pixelList[pixelIndex];
+
                 $scope.hideAdGroupNameEdit = true;
                 $scope.lineItemType.id = item.billingTypeId;
+                $scope.pixelSelected.id = item.pixelId;
                 $scope.billableAmount = item.billableAmount;
                 $scope.volume = item.volume;
                 $scope.pricingRate = item.billingRate;
@@ -331,8 +349,20 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             })
         }
 
-        $scope.setPixels = function(pixel){
-            $scope.pixelSelected = pixel;
+        $scope.setPixels = function(pixel,mode){
+            if(mode === 'create') {
+                $scope.pixelSelected = pixel;
+            } else {
+                $scope.editLineItem.pixelSelected = pixel;
+            }
+
         }
+
+        $scope.showNormalItemRow = function(event) {
+            var target =  event.currentTarget;
+            $scope.lineItemList[oldLineItemIndex] = oldLineItem;
+            $(target).closest('.tr').find('.tableNormal').toggle();
+            $(target).closest('.tr').find('.tableEdit').toggle();
+        };
     });
 });

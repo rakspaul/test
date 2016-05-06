@@ -315,18 +315,17 @@
                     <label class="col-sm-12 zeroPadding greyTxt">Ad Group Name</label>
                     <input type="text" class="col-md-12" placeholder="Enter Ad Group name up to 100 characters"  ng-model="editLineItem.adGroupName"/>
                 </div>
-                <div class="col-md-5 zeroPadding dropdown-workflow" >
+                <div class="col-md-5 zeroPadding dropdown-workflow" ng-show="showPixelsListEdit">
                     <div class="dropdown">
                         <label class="col-sm-12 zeroPadding greyTxt">Pixels</label>
                         <button style="width:100%;" class="btn btn-default dropdown-toggle lineItemType" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ng-disabled="rateTypeReadOnly">
-                            <span class="text" >{{(lineItemType )?lineItemType.name:'Select from list'}}</span>
+                            <span class="text" >{{(editLineItem.pixelSelected )?editLineItem.pixelSelected.name:'Select from list'}}</span>
                             <span class="icon-arrow-down"></span>
                         </button>
-                        <ul class="dropdown-menu" aria-labelledby="lineType" id="lineType" data-toggle="dropdown" name="lineItemType">
-                            <li class="available" ng-repeat="t in type"  ng-click="setLineItem(t,'create')"><a>{{t.name}}</a></li>
-
+                        <ul class="dropdown-menu" aria-labelledby="lineType" id="pixelEdit" data-toggle="dropdown" name="lineItemType">
+                            <li class="available" ng-repeat="pixel in selectedCampaign.pixelList"  ng-click="setPixels(pixel,'edit')"><a>{{pixel.name}}</a></li>
                         </ul>
-                        <input type="hidden" class="form-control" ng-model="lineItemType.id" name="lineItemType"  />
+                        <input type="hidden" class="form-control" ng-model="editLineItem.pixelSelected.id" name="lineItemType"  />
                     </div>
 
                 </div>
