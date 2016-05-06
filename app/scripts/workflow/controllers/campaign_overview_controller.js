@@ -2,10 +2,10 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
     'common/services/vistoconfig_service', 'workflow/controllers/get_adgroups_controller',
     'workflow/directives/edit_ad_group_section','login/login_model', 'workflow/controllers/campaign_clone_controller'],
     function (angularAMD) {
-        angularAMD.controller('CampaignOverViewController', function ($scope, $modal, $rootScope, $routeParams,
-                                                                      $timeout, $location, $route, constants,
-                                                                      workflowService, momentService, vistoconfig,
-                                                                      featuresService, loginModel, $sce) {
+        angularAMD.controller('CampaignOverViewController', function ($scope, $modal, $rootScope, $routeParams, $timeout,
+                                                                      $location, $route, constants, workflowService,
+                                                                      momentService, vistoconfig, featuresService,dataService,
+                                                                      loginModel, $sce) {
             $('.main_navigation_holder')
                 .find('.active_tab')
                 .removeClass('active_tab');
@@ -369,6 +369,28 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     }
                 }
             };
+            $scope.DownloadTrackingTags=function(){
+                $('.download-report-load-icon').show();
+                    var clientId,
+                        url;
+
+                        clientId = loginModel.getSelectedClient().id;
+                        url = vistoconfig.apiPaths.WORKFLOW_API_URL +
+                            '/clients/' + clientId +
+                            '/campaigns/' + $routeParams.campaignId +
+                            '/creativeTags';
+
+                        dataService
+                            .downloadFile(url)
+                            .then(function (response) {
+                                if (response.status === 'success') {
+                                    $('.download-report-load-icon').hide();
+                                    saveAs(response.file, response.fileName);
+                                } else {
+                                    $('.download-report-load-icon').hide();
+                                }
+                            });
+            }
 
             $scope.adGroupsSearchFunc = function (e) {
                 var searchTermsArr,
@@ -1061,7 +1083,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     } else {
                         return 0;
                     }
-                    
+
                     //return $scope.workflowData.campaignData.deliveryBudget -
                     // $scope.workflowData.campaignData.bookedSpend + adGroupsData.bookedSpend;
                 }

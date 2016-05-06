@@ -3799,7 +3799,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
   background-color: #fff;
   /* border-bottom: solid 1px gray;
             margin-bottom: 38px;*/
-  height: 58px;
+  height: 42px;
 }
 .report_generator_and_response #dynamicHeader.smaller h3 {
   margin-bottom: -4px;
@@ -3818,14 +3818,15 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 .report_generator_and_response #dynamicHeader.smaller .savedSubTitle {
   display: block;
   font-size: 14pt;
-  margin-top: 22px;
+  /* margin-top:22px; */
   margin-right: 6px;
   float: left;
 }
 .report_generator_and_response #dynamicHeader.smaller .iconPlusMinus {
   display: block;
-  margin-top: 6px;
-  margin-right: 6px;
+  /* margin-top:6px;
+                margin-right:6px; */
+  width: 24px;
   float: left;
 }
 .report_generator_and_response #dynamicHeader.smaller .iconPlusMinus .icon-plus,
@@ -3835,7 +3836,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 .report_generator_and_response #dynamicHeader.smaller .downReport {
   display: block;
   float: right;
-  margin-top: 28px;
+  /* margin-top:28px; */
 }
 .report_generator_and_response #dynamicHeader.smaller .downReport a {
   color: #312333;
@@ -3845,7 +3846,8 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 }
 .report_generator_and_response #dynamicHeader {
   padding-left: 14px;
-  margin-bottom: 10px;
+  /* margin-bottom: 10px; */
+  margin-top: 28px;
 }
 .report_generator_and_response #dynamicHeader .collapseIcon {
   display: none;
@@ -3870,9 +3872,9 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
   border: 1px solid #C6C9CE;
   border-radius: 2px;
   float: left;
-  margin-right: 10px;
-  margin-left: 18px;
-  margin-top: 17px;
+  /* margin-right: 10px;
+        margin-left: 18px;
+        margin-top: 17px; */
 }
 .report_generator_and_response .icon-minus:hover,
 .report_generator_and_response .icon-plus:hover {
@@ -3897,7 +3899,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
   box-shadow: none;
 }
 .report_generator_and_response .report_builder_container .heading h1 {
-  margin: 25px 11px  25px  0;
+  margin: 0px 11px  25px  15px;
 }
 .report_generator_and_response .report_builder_container .heading h3 {
   font-size: 21px ;
@@ -3908,7 +3910,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 .report_generator_and_response .report_builder_container .heading h6 {
   font-size: 14px ;
   color: #000 ;
-  margin: 32px 147px 20px;
+  margin: 7px 147px 20px;
 }
 .report_generator_and_response .report_builder_container .common_dropdown .dropdown {
   border-color: #BFC9D7 ;

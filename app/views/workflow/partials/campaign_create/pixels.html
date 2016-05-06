@@ -37,7 +37,7 @@
                 </div>
             </div>
 
-            <span class="pull-right" style="padding:8px 5px 8px 0 ; background: #fff;" data-ng-bind="selectedPixel.length">Pixels in list</span>
+            <span class="pull-right" style="padding:8px 5px 8px 0 ;" data-ng-bind="selectedPixel.length">Pixels in list</span>
         </div>
     </div>
 
@@ -73,8 +73,8 @@
 </div>
 
 <div class="col-md-4" style="padding: 10px; background: #ECF3F8; margin: 61px 0 0 0;">
-    <label for="nameTitleCampaign" class="pull-left labelQuestTxt" style="margin: 0 !important;">Selected Pixels ({{selectedCampaign.selectedPixel.length}})</label>
-    <a class="btn btn-default pull-right" ng-click="clearAllSelectedPixel()"  >Clear</a>
+    <label for="nameTitleCampaign" class="pull-left labelQuestTxt" style="margin: 0 !important;" data-ng-bind="textConstants.MEDIAPLAN_PIXEL_SELECTED + ' ' +  (selectedCampaign.selectedPixel.length)"></label>
+    <a class="btn btn-default pull-right" ng-click="clearAllSelectedPixel()"  data-ng-bind="textConstants.RESET_LABEL"></a>
     <div class="col-md-12 zeroPadding selectedPixels" style="overflow:auto;">
         <div class="col-md-12 zeroPadding pixelName" ng-repeat="eachselectedPixel in  selectedCampaign.selectedPixel " >
             <span>{{eachselectedPixel.name}}</span>

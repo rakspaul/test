@@ -6,7 +6,6 @@
         </button>
         <h2 class="modal-title" id="myModalLabel" ng-bind="textConstants.MEDIAPLANCLONE"></h2>
     </div>
-
     <div class="col-md-12  modal-body">
         <div class="col-md-12 data_row zeroPadding">
             <label ng-bind="textConstants.NEWMEDIAPLANNAME"></label><br>
@@ -18,12 +17,12 @@
             <div class="col-md-12 zeroPadding duplicateOptionChkbox">
 
                 <label>
-                    <input type="checkbox" ng-model="cloneLineItems">
+                    <input type="checkbox"  ng-checked ='true' onclick="return false;" onkeydown="return false;" ng-model="cloneLineItems">
                     <span data-ng-bind="textConstants.DUPLICATELINEITEMS"></span>
                 </label><br>
 
                 <label>
-                    <input type="checkbox" ng-disabled="!cloneLineItems" ng-model="cloneAdGroups">
+                    <input type="checkbox" ng-model="cloneAdGroups">
                     <span data-ng-bind="textConstants.DUPLICATEADGROUPS"></span>
                 </label>
 
@@ -32,8 +31,8 @@
     </div>
 
     <div class="clearfix popup-btns-holder col-md-12 ">
-        
-        <button class="btn btn-primary pull-right" ng-show="!showCloneLoader" ng-disabled="!cloneMediaPlanName || cloneMediaPlanExists" ng-click="campaignCloneAction();" ng-bind="textConstants.CLONE"></button>
+
+        <button class="btn btn-primary pull-right" ng-show="!showCloneLoader" ng-disabled="(checkUniqueNameNotFound || !cloneMediaPlanName || cloneMediaPlanExists)" ng-click="campaignCloneAction();" ng-bind="textConstants.CLONE"></button>
         <span class="pull-right common-loading-btn"  ng-show="showCloneLoader"></span>
             <button class="secondary_txt" data-dismiss="modal" ng-click="close()" ng-bind="textConstants.CANCEL">
                 Cancel

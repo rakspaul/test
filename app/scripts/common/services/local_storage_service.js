@@ -23,15 +23,17 @@ define(['angularAMD'], function (angularAMD) {
                      return localStorage.getItem('dashboardBrand') && JSON.parse(localStorage.getItem('dashboardBrand'));
                  }
              },
-             mediaPlanClone : {
-                 set : function(data) {
-                     localStorage.setItem('cloneMediaPlan', JSON.stringify(data));
+             selectedCampaign : {
+                 set: function(data) {
+                     localStorage.setItem('selectedCampaign', JSON.stringify(data));
                  },
                  get : function() {
-                     return localStorage.getItem('cloneMediaPlan') && JSON.parse(localStorage.getItem('cloneMediaPlan'));
+                     return localStorage.getItem('selectedCampaign') && JSON.parse(localStorage.getItem('selectedCampaign'));
+                 },
+                 remove: function() {
+                     return localStorage.removeItem('selectedCampaign');
                  }
              }
-
          }
 
     });

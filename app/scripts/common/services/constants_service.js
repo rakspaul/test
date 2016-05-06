@@ -1066,6 +1066,8 @@ define(['angularAMD'], function(angularAMD) {
         this.SELECT_TIMEZONE = "Please select the timezone";
         this.EMPTY_ADCHOICE_CODE = "Please add code for ad-choice";
         this.EMPTY_IAB_CATEGORY = "Please select some category";
+        this.PIXEL_DOWNLOAD_SUCCESS = "Pixel downloaded successfully";
+        this.PIXEL_DOWNLOAD_ERR = "Error in downloading pixel";
 
         this.SELECT_DIMENSION = 'Select a Dimension';
         this.SELECT_SIZE = 'Select Size';
@@ -1105,6 +1107,7 @@ define(['angularAMD'], function(angularAMD) {
         this.MEDIAPLAN_PIXEL_SELECT = "Select Coversion Pixels (Optional)";
         this.MEDIAPLAN_PIXEL_REQUIRED = "A Conversion Pixel is required for tracking and reporting conversions and for CPA billing";
         this.MEDIAPLAN_PIXEL_SELECTED = "Selected Pixels";
+        this.MEDIAPLAN_PIXEL_LIST = 'Pixels in list';
 
         // Media Plan Setup: 3 Budget
         this.MEDIAPLAN_BUDGET_MEASURE = "Budget & Measure";

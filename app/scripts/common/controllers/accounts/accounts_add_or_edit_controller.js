@@ -10,6 +10,8 @@ define(['angularAMD', '../../../workflow/services/account_service', 'common/serv
         _currCtrl.isAdChoiceInClient = false;
         $scope.selectedIABCategory = "Select Category";
         $scope.currencySelected = '';
+        $scope.selectedBillType = 'Select';
+        $scope.selectedRateType = 'Select';
         $scope.referenceId;
         getCountries();
         getTimezones();
@@ -99,6 +101,9 @@ define(['angularAMD', '../../../workflow/services/account_service', 'common/serv
             $scope.clientName = advertiser.name;
             $scope.referenceId = advertiser.id;
         };
+        $scope.show_respective_method = function(type){
+            $scope.selectedBillType = type;
+        }
         _currCtrl.verifyInput = function(){
             var ret = true,
                 err = "";
@@ -249,5 +254,8 @@ define(['angularAMD', '../../../workflow/services/account_service', 'common/serv
                 'GB'         : 'British Summer Time (UTC+01:00)'
             };
         }
+        $scope.$on("$locationChangeSuccess", function(){
+            $scope.close();
+        });
     });
 });

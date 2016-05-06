@@ -38,7 +38,6 @@
 
                             <div class="statusLabel" ng-if="selectedCampaign.startTime">
                                 <div class="col-md-12">
-                                    <!--<span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>-->
                                     <div class="statusIcon icon-calendar"></div>
                                     <span class="">{{selectedCampaign.startTime}}</span>  <span class="" ng-if="selectedCampaign.endTime"> - {{selectedCampaign.endTime}}</span></span>
                                     <span>(Flight)</span>
@@ -166,7 +165,7 @@
 
                         <!--Budget-->
                         <div class="tab-pane fade" id="budget">
-                            <div ng-include="'/views/workflow/partials/campaign_create/budget.html'"></div>
+                            <div ng-include="'/views/workflow/partials/campaign_create/budget.html'" ng-controller="BudgetController"></div>
                         </div>
 
                         <!--Add Line Items-->

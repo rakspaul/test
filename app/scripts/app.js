@@ -62,9 +62,12 @@ define(['common'], function (angularAMD) {
                     controller: 'CampaignDetailsController',
                     controllerUrl: 'reporting/controllers/campaign_details_controller',
                     resolve: {
-                        check: function ($location, featuresService) {
+                        check: function ($location, featuresService,localStorageService) {
                             //redirects to default page if it has no permission to access it
                             featuresService.setGetFeatureParams('report_overview');
+                            if(localStorageService.selectedCampaign.get() && localStorageService.selectedCampaign.get().id == -1)  {
+                                $location.url('/mediaplans');
+                            }
                         }
                     }
                 }))

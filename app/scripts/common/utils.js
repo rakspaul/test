@@ -667,6 +667,32 @@ define(['angularAMD','common/services/constants_service', 'common/services/role_
                 };
             })
 
+            .directive('inputCommaSeparatorThousands', function ($filter) {
+                return {
+                        require: '?ngModel',
+                        link: function (scope, elem, attrs, ctrl) {
+
+                            if (!ctrl) {
+                                return;
+                            }
+
+                            // ctrl.$formatters.unshift(function () {
+                            //     return $filter('number')(ctrl.$modelValue);
+                            // });
+
+                            ctrl.$parsers.unshift(function (viewValue) {
+                                var plainNumber = viewValue.replace(/[\,\.]/g, ''),
+                                    b = $filter('number')(plainNumber);
+                                    if( b != 0 ) {
+                                        elem.val(b);
+                                    }
+
+                                return plainNumber;
+                            });
+                        }
+                };
+            })
+
             .directive('fractionNumbers', function () {
                 return {
                     restrict: 'A',
