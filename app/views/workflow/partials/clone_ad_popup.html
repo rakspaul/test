@@ -12,7 +12,8 @@
             <div class="form-group col-md-12 zeroPadding">
                 <label class="greyTxt">{{textConstants.WF_SELECT_MEDIA_PLAN}}</label> <br>
                 <div class="col-md-12 zeroPadding dropdown-workflow">
-                    <div class="dropdown">
+                    <div class="dropdown inputLoader">
+                        <div class="common-loading-area" style="display:none;"></div>
                         <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                             <!--<span class="text">{{mode == 'edit' ? selectedAccount : 'Account' }}</span>-->
                             <span class="text" ng-bind-html="mediaPlanName"></span>
