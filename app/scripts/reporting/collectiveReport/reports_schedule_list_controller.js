@@ -13,13 +13,22 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
 
             _curCtrl.filters = {};
             _curCtrl.isFilterExpanded = false;
-
+            _curCtrl.mapToDisplayName = function(data){
+                var data = data.split(","),
+                    retVal = '';
+                _.each(data, function(dim){
+                    dim = dim.trim();
+                    retVal += $scope.displayName[dim] + ',';
+                })
+                retVal = retVal.slice(0, -1);
+                return retVal;
+            }
             _curCtrl.preProccessListData = function (schdReportList) {
                 _.each(schdReportList, function (item) {
                     item.dimensions = item.hasOwnProperty('primaryDimension') && item.primaryDimension ?
-                        utils.getValueOfItem($scope.customeDimension, item.primaryDimension) : '';
+                        _curCtrl.mapToDisplayName(item.primaryDimension) : '';
                     item.dimensions += item.hasOwnProperty('secondaryDimension') && item.primaryDimension ?
-                        ',' + utils.getValueOfItem($scope.customeDimension, item.secondaryDimension) : '';
+                        ',' + _curCtrl.mapToDisplayName(item.secondaryDimension) : '';
                     if (item.lastRunDate) {
                         item.lastRunDate = momentService.newMoment(item.lastRunDate).format('YYYY-MM-DD');
                     }
@@ -165,6 +174,7 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
                     };
 
                     $scope.customeDimension = jsonModifier(result.data.data[0].dimensions);
+                    $scope.displayName = result.data.data[0].display_name;
                 });
 
             $scope.loadDimensionsList = function () {
