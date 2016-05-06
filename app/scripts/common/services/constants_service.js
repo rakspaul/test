@@ -1143,5 +1143,8 @@ define(['angularAMD'], function(angularAMD) {
         this.MEDIAPLAN_FLIGHT_DATE_START = "Flight Date Start";
         this.MEDIAPLAN_FLIGHT_DATE_END = "Flight Date End";
 
+        this.MEDIA_PLAN_CLONE ='Media Plan Clone';
+        this.MEDIA_PLAN_WARNING_MESSAGE = 'You will lose your changes if you leave this page. Are you sure?'
+
     });
 });
