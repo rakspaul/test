@@ -83,7 +83,9 @@ define(['angularAMD', '../../../workflow/services/account_service', 'common/serv
             $scope.timezone = $scope.clientObj.timezone;
             _currCtrl.getAdnlData();
         }
-
+        $scope.showUserModeText = function(){
+            return ($scope.mode === "create" ? 'Add Account' : 'Edit Account ( '+$scope.clientObj.name+' )');
+        }
         $scope.close = function () {
             $modalInstance.dismiss();
             $scope.resetBrandAdvertiserAfterEdit();

@@ -12,7 +12,9 @@ define(['angularAMD','../../../workflow/services/account_service', '../../servic
         var _currCtrl = this;
         $scope.selectedBillType = 'Select';
         $scope.selectedRateType = 'Select';
-
+        $scope.showUserModeText = function(){
+            return ($scope.mode === 'create'? 'Add Advertiser':'Edit Advertiser ( '+$scope.advObj.name+' )');
+        }
         $scope.advertiserAddOrEditData.selectedIABCategory = "Select Category";
         _currCtrl.clearAdvInputFiled = function(){
             $scope.advertiserAddOrEditData.enableAdChoice = false;
@@ -172,6 +174,7 @@ define(['angularAMD','../../../workflow/services/account_service', '../../servic
            // accountsService.downloadAdminAdvPixel($scope.client.id, $scope.selectedAdvertiserId).then(function(res){
             dataService.downloadFile(urlService.downloadAdminAdvPixel($scope.client.id, $scope.selectedAdvertiserId)).then(function (res) {
                 if(res.status === 'OK' || res.status === 'success'){
+                    saveAs(res.file, res.fileName);
                     $rootScope.setErrAlertMessage(constants.PIXEL_DOWNLOAD_SUCCESS, 0);
                 }else{
                     $rootScope.setErrAlertMessage(constants.PIXEL_DOWNLOAD_ERR)
@@ -247,7 +250,7 @@ define(['angularAMD','../../../workflow/services/account_service', '../../servic
                     createdBy: item.createdBy,
                     createdAt: item.createdAt,
                     updatedAt: item.updatedAt,
-                    expiryDate: momentService.newMoment(item.expiryDate).format('YYYY-MM-DD HH:MM:SS.SSS')
+                    expiryDate: momentService.localTimeToUTC(item.expiryDate, "endTime")//.format('YYYY-MM-DD HH:MM:SS.SSS')
                 }
                 if(item.id){
                     $scope.advertiserData.pixels[index].id = item.id;
