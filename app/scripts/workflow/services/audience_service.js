@@ -34,9 +34,7 @@ define(['angularAMD','common/services/vistoconfig_service','common/services/data
                     clientId =  loginModel.getSelectedClient().id,
                     url;
 
-                //url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/vendors/' + workflowService.getPlatform().id + '/seats/' + seatId + '/segments?pageNo=' + pageNo + '&pageSize=' + pageSize;
-
-                url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/vendors/' + workflowService.getPlatform().id + '/segments?pageNo=' + pageNo + '&pageSize=' + pageSize;
+                url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/vendors/' + workflowService.getPlatform().id + '/seats/' + seatId + '/segments?pageNo=' + pageNo + '&pageSize=' + pageSize;
 
                 if (sortCol && sortCol != '') {
                     url += '&sortBy=' + sortCol;
@@ -106,8 +104,7 @@ define(['angularAMD','common/services/vistoconfig_service','common/services/data
                     seatId = params.seatId,
                     url;
 
-                //url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/'+loginModel.getSelectedClient().id+'/vendors/'+workflowService.getPlatform().id + '/seats/' + seatId + '/segments/keywords?search='+searchKey;
-                url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/'+loginModel.getSelectedClient().id+'/vendors/'+workflowService.getPlatform().id + '/segments/keywords?search='+searchKey;
+                url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/'+loginModel.getSelectedClient().id+'/vendors/'+workflowService.getPlatform().id + '/seats/' + seatId + '/segments/keywords?search='+searchKey;
                 return dataService.fetch(url, {cache: false});
             },
 
