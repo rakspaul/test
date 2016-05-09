@@ -282,7 +282,7 @@
 
 
 
-        <a class="btn btn-link pull-right" style="position: absolute;top: -10px; right: 0; display: block;padding: 0; color: #0978c9;" ng-click="deleteLineItem(true)">Delete</a>
+        <a class="btn btn-link pull-right" style="position: absolute;top: -10px; right: 0; display: block;padding: 0; color: #0978c9;" ng-hide="mode === 'edit'" ng-click="deleteLineItem(true)">Delete</a>
     </div>
 
     <!--Row 2-->
@@ -335,7 +335,7 @@
                 </div>
         </div>
 
-        <a class="btn btn-primary pull-right" ng-click="updateLineItem(editLineItem);">Save Changes</a>
+        <a class="btn btn-primary pull-right" ng-click="(mode ==='create')?updateLineItem():updateLineItemInEditMode()">Save Changes</a>
         <a class="btn btn-link pull-right" ng-click="showNormalItemRow($event);">Cancel</a>
 
     </div>

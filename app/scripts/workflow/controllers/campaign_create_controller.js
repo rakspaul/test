@@ -553,27 +553,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             }
         };
 
-        // line item date picker
-        $scope.initiateLineItemDatePicker = function () {
-            var startDateElem = $('#lineItemStartDateInput');
-            var endDateElem = $('#lineItemEndDateInput');
-            //var startDateElem = $('#startDateInput');
-            //var endDateElem = $('#endDateInput');
-            var today = momentService.utcToLocalTime();
-            console.log("$scope.selectedCampaign.startTime",$('#startDateInput').val(),"$scope.selectedCampaign.endTime",$scope.selectedCampaign.endTime);
-            $scope.lineItemStartDate = $scope.selectedCampaign.startTime;
-            $scope.lineItemEndDate = $scope.selectedCampaign.endTime;
 
-            //line Item start Date
-            startDateElem.datepicker("setStartDate", $scope.lineItemStartDate);
-            startDateElem.datepicker("update", $scope.lineItemStartDate);
-            startDateElem.datepicker("setEndDate", $scope.lineItemEndDate);
-
-            //line Item End Date
-            endDateElem.datepicker("setStartDate", $scope.lineItemStartDate);
-            endDateElem.datepicker("update", $scope.lineItemEndDate);
-            endDateElem.datepicker("setEndDate", $scope.lineItemEndDate);
-        };
 
         $scope.validateDateLineItem = function(date,dateType){
             if('startdate' === dateType){

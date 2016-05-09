@@ -684,6 +684,16 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                         {'Content-Type': 'application/json'}
                     );
                 },
+                updateLineItems: function (campaignId,client_id,data) {
+                    var clientId = client_id || loginModel.getSelectedClient().id,
+                        url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/campaigns/' + campaignId + '/lineitems?flat_fee=false&archived=false';
+
+                    return dataService.put(
+                        url,
+                        data,
+                        {'Content-Type': 'application/json'}
+                    );
+                },
 
                 getVideoTargetsType: function (type) {
                     var url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/video_targets/' + type;
@@ -1022,6 +1032,18 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
 
                 getMediaPlanClone : function() {
                     return cloneMediaPlanData;
+                },
+                deleteLineItem: function(lineItem,client_id){
+                    console.log(lineItem);
+                    var clientId = client_id || loginModel.getSelectedClient().id;
+                    return dataService.delete(
+                        vistoconfig.apiPaths.WORKFLOW_API_URL +
+                        '/clients/' + clientId +
+                        '/campaigns/' + lineItem.campaignId +
+                        '/lineitems/' + lineItem.id, {
+                            'Content-Type': 'application/json'
+                        }
+                    );
                 }
 
 
