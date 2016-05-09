@@ -198,8 +198,12 @@
                         <a class="td col-md-2" data-ng-bind="item.volume"></a>
                         <a class="td col-md-2">{{item.startTime}} - {{item.endTime}}</a>
                     </div>
-
                     <div class="tableEdit" ng-include="'listItemEditTpl'"  style="padding-top: 20px;"></div>
+                </div>
+                <div class="tr" >
+                    <div class="tableNormal" ng-if="lineItemErrorFlag">
+                        <div class="td col-md-12 greyTxt errorLabel" ng-show="lineItemErrorFlag" style="display: block;">Please create a Line Item</div>
+                    </div>
                 </div>
 
 
