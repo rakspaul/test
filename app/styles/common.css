@@ -1668,6 +1668,16 @@ multiselect .dropdown-menu > li > a {
   color: #428bca;
   margin-top: 6px;
 }
+.commonStatusIcon {
+  display: inline-block;
+  float: left;
+  height: 12px;
+  width: 12px;
+  border-radius: 50%;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  margin: 3px 10px 0 0 ;
+}
 .draft_bulb {
   border: solid 3px #939eae;
   background: transparent;
@@ -1776,6 +1786,7 @@ div.inputLoader > .common-loading-area {
   position: absolute;
   right: 0px ;
   top: 0px ;
+  z-index: 10 ;
 }
 tags-input .autocomplete {
   margin-top: 37px ;
