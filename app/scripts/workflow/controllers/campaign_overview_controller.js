@@ -2,10 +2,10 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
     'common/services/vistoconfig_service', 'workflow/controllers/get_adgroups_controller',
     'workflow/directives/edit_ad_group_section','login/login_model', 'workflow/controllers/campaign_clone_controller'],
     function (angularAMD) {
-        angularAMD.controller('CampaignOverViewController', function ($scope, $modal, $rootScope, $routeParams,
-                                                                      $timeout, $location, $route, constants,
-                                                                      workflowService, momentService, vistoconfig,
-                                                                      featuresService,dataService, loginModel, $sce) {
+        angularAMD.controller('CampaignOverViewController', function ($scope, $modal, $rootScope, $routeParams, $timeout,
+                                                                      $location, $route, constants, workflowService,
+                                                                      momentService, vistoconfig, featuresService,dataService,
+                                                                      loginModel, $sce) {
             $('.main_navigation_holder')
                 .find('.active_tab')
                 .removeClass('active_tab');
@@ -30,9 +30,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             $scope.workflowData = {};
             $scope.workflowData.getADsForGroupData = {};
             $scope.disablePushBtn = true;
-
             //$scope.notPushed = false; // this is not used anywhere
-
             $scope.showHideToggle = false;
             $scope.showIndividualAds = false;
             $scope.showCreateAdGrp = false;
@@ -79,6 +77,8 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                         }
                     });
                 },
+
+
 
                 getCampaignData: function (campaignId) {
                     workflowService
@@ -178,7 +178,6 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                                     if (responseData[i].state === 'IN_FLIGHT') {
                                         responseData[i].state = 'IN FLIGHT';
                                     }
-
                                     if (responseData[i].state === 'IN_PROGRESS') {
                                         responseData[i].state = 'DEPLOYING';
                                     }
@@ -318,7 +317,6 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                                     if (responseData[i].state === 'IN_FLIGHT') {
                                         responseData[i].state = 'IN FLIGHT';
                                     }
-
                                     if (responseData[i].state === 'IN_PROGRESS') {
                                         responseData[i].state = 'DEPLOYING';
                                     }
@@ -364,9 +362,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 },
 
                 getLineItem : function (lineItemId) {
-                    return _.filter($scope.lineItems, function (obj) {
-                        return obj.id ===  lineItemId;
-                    })[0];
+                    return _.filter($scope.lineItems, function (obj) { return obj.id ===  lineItemId})[0];
                 },
 
                 errorHandler: function (errData) {
@@ -375,30 +371,28 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     }
                 }
             };
-
             $scope.DownloadTrackingTags=function(){
                 $('.download-report-load-icon').show();
                     var clientId,
                         url;
 
-                clientId = loginModel.getSelectedClient().id;
+                        clientId = loginModel.getSelectedClient().id;
+                        url = vistoconfig.apiPaths.WORKFLOW_API_URL +
+                            '/clients/' + clientId +
+                            '/campaigns/' + $routeParams.campaignId +
+                            '/creativeTags';
 
-                url = vistoconfig.apiPaths.WORKFLOW_API_URL +
-                    '/clients/' + clientId +
-                    '/campaigns/' + $routeParams.campaignId +
-                    '/creativeTags';
-
-                dataService
-                    .downloadFile(url)
-                    .then(function (response) {
-                        if (response.status === 'success') {
-                            $('.download-report-load-icon').hide();
-                            saveAs(response.file, response.fileName);
-                        } else {
-                            $('.download-report-load-icon').hide();
-                        }
-                    });
-            };
+                        dataService
+                            .downloadFile(url)
+                            .then(function (response) {
+                                if (response.status === 'success') {
+                                    $('.download-report-load-icon').hide();
+                                    saveAs(response.file, response.fileName);
+                                } else {
+                                    $('.download-report-load-icon').hide();
+                                }
+                            });
+            }
 
             $scope.adGroupsSearchFunc = function (e) {
                 var searchTermsArr,
@@ -442,7 +436,6 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 $('.searchInputBtnInline').show();
                 searchInputForm.show();
                 searchInputForm.animate({width: '400px'}, 'fast');
-
                 setTimeout(function () {
                     $('.searchClearInputBtn').fadeIn();
                 }, 300);
@@ -453,7 +446,6 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 $('.searchInputBtn').show();
                 $('.searchClearInputBtn, .searchInputBtnInline').hide();
                 $('.searchInputForm').animate({width: '44px'}, 'fast');
-
                 setTimeout(function () {
                     $('.searchInputForm').hide();
                 }, 100);
@@ -469,7 +461,6 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             };
 
             //$scope.moreThenThree = '';// not used
-
             $scope.campaignArchiveLoader = false;
             $scope.editCampaign = function (workflowcampaignData) {
                 $location.url('/mediaplan/' + workflowcampaignData.id + '/edit');
@@ -496,7 +487,6 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             $scope.displaySelectedTargets = function (adsData) {
                 var selectedStr = '',
                     videoTargetsData;
-
                 if (adsData) {
                     if ((adsData.targets.geoTargets.REGION &&
                         adsData.targets.geoTargets.REGION.geoTargetList.length > 0) ||
@@ -597,33 +587,27 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 var brandingArr = _.filter(objectiveObj, function (obj) {
                         return obj.objective === 'Branding';
                     }),
-
                     performanceArr = _.filter(objectiveObj, function (obj) {
                         return obj.objective === 'Performance';
                     }),
-
                     tooltip,
                     i;
 
                 if (brandingArr.length > 0) {
                     $scope.brand = brandingArr[0].subObjectives;
                     tooltip = 'Branding: ' + $scope.brand[0];
-
                     for (i = 1; i < $scope.brand.length; i++) {
                         tooltip += ',' + $scope.brand[i];
                     }
-
                     $scope.brandTooltip = tooltip;
                 }
 
                 if (performanceArr.length > 0) {
                     $scope.performance = performanceArr[0].subObjectives;
                     tooltip = 'Performance: ' + $scope.performance[0];
-
                     for (i = 1; i < $scope.performance.length; i++) {
                         tooltip += ',' + $scope.performance[i];
                     }
-
                     $scope.performanceTooltip = tooltip;
                 }
             };
@@ -637,7 +621,6 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 if (keywordsArr.length > 1) {
                     keywordsArr.push(phrase);
                 }
-
                 keywords = keywordsArr.join('|');
 
                 if (keywords) {
@@ -690,7 +673,6 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             };
 
             campaignOverView.getCampaignData($routeParams.campaignId);
-
             //campaignOverView.getAdsForCampaign($routeParams.campaignId);
 
             $(function () {
@@ -718,7 +700,6 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                         $scope.sizeString = creative[0].size.size;
                     } else if (creative.length > 1) {
                         $scope.sizeString = '';
-
                         for (i in creative) {
                             creativeSizeArr.push(creative[i].size.size);
                         }
@@ -731,7 +712,6 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                             creativeSizeLimit = result[0].splice(0, 3);
                             remainingCreativeSize = result[0].join(', ');
                             amountLeft = result[0].length;
-
                             $scope.sizeString = creativeSizeLimit.join(', ').replace(/X/g, 'x') +
                                 ' <span class="blueTxt" title="' +
                                 remainingCreativeSize +
@@ -753,7 +733,6 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                         i;
 
                     arr.sort();
-
                     for (i = 0; i < arr.length; i++) {
                         if (arr[i] !== prev) {
                             a.push(arr[i]);
@@ -794,7 +773,6 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                         $scope.adGroupsSearchTermChanged = false;
                         $scope.workflowData.getADsForGroupData[index] = null;
                     }
-
                     elem.closest('.adGroup').removeClass('closedInstance').addClass('openInstance');
                     elem.closest('.collapseIcon span').removeClass('icon-plus').addClass('icon-minus');
                     context.showHideToggle = !context.showHideToggle;
@@ -824,11 +802,9 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
                 if ($scope.workflowData.campaignAdsData && $scope.workflowData.campaignAdsData.length > 0) {
                     campaignAdsData  = $scope.workflowData.campaignAdsData;
-
                     $scope.adGroupMinBudget = campaignAdsData.reduce(function (memo, obj) {
                         return memo + (obj.cost || 0);
                     }, 0);
-
                     $scope.adIGroupBudget = $scope.adGroupMinBudget;
                     $scope.extractor($scope.workflowData.campaignAdsData, adGroupCreateformElem);
                 } else {
@@ -837,7 +813,6 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     endDateElem = adGroupCreateformElem.find('.adGrpEndDateInput');
 
                     setStartDate = $scope.campaignStartTime;
-
                     if (moment().isAfter(setStartDate, 'day')) {
                         setStartDate = moment().format(constants.DATE_US_FORMAT);
                     }
@@ -981,7 +956,6 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     dataArray = [],
                     i,
                     postCreateAdObj,
-
                     adGroupSaveErrorHandler = function (data) {
                         var errMsg;
 
@@ -992,7 +966,6 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                         }
                         $rootScope.setErrAlertMessage(errMsg);
                     },
-
                     isCampaignHasAds =  $scope.workflowData.campaignAdsData &&
                         $scope.workflowData.campaignAdsData.length > 0 ? true : false;
 
@@ -1034,7 +1007,6 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                                 $scope.$broadcast('show-errors-reset');
                                 $scope.showCreateAdGrp = !$scope.showCreateAdGrp;
                                 $scope.createGroupMessage = !$scope.createGroupMessage;
-
                                 if (formData.adgroupId) {
                                     $scope.createAdGroupMessage = 'Ad Group Edited Successfully';
                                     localStorage.setItem('topAlertMessage',
@@ -1045,11 +1017,9 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                                     localStorage.setItem('topAlertMessage',
                                         $scope.textConstants.AD_GROUP_CREATED_SUCCESS);
                                 }
-
                                 $route.reload();
                             } else {
                                 $scope.loadingBtn = false;
-
                                 if (result.status === 'error' && result.data.status === 400) {
                                     adGroupSaveErrorHandler(result);
                                 } else {
@@ -1080,7 +1050,6 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 if (typeof(Storage) !== 'undefined') {
                     //convert this to EST in ads page
                     localStorage.setItem('stTime', stTime);
-
                     //convert this to EST in ads create page
                     localStorage.setItem('edTime', edTime);
                 }
@@ -1089,8 +1058,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     path = '/mediaplan/' + campaignId +
                            '/lineItem/' + lineItemId +
                            '/adGroup/' + groupId +
-                           '/ads/' + adsId +
-                           '/edit';
+                           '/ads/' + adsId + '/edit';
                 }
 
                 $location.path(path);
@@ -1140,12 +1108,11 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             $scope.pixelsDownload =  function(){
                 $('.download-report-load-icon').show();
                 var clientId = loginModel.getSelectedClient().id,
-                    campaignId = $scope.workflowData.campaignData.id,
-                    url = vistoconfig.apiPaths.WORKFLOW_API_URL +
-                        '/clients/' + clientId +
-                        '/campaigns/' + campaignId +
-                        '/pixels/download';
-
+                    campaignId = $scope.workflowData.campaignData.id;
+                url = vistoconfig.apiPaths.WORKFLOW_API_URL +
+                    '/clients/' + clientId +
+                    '/campaigns/' + campaignId +
+                    '/pixels/download';
                 dataService
                     .downloadFile(url)
                     .then(function (response) {

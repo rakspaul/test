@@ -1,63 +1,66 @@
 define(['angularAMD'],function (angularAMD) {
     'use strict';
+    angularAMD.factory('videoService', function() {
 
-    angularAMD.factory('videoService', function () {
         var positionList,
             playbackList,
             sizeList,
-            videoData,
+            videoData;
 
-            setPlayerSize = function (data) {
-                sizeList = data;
-            },
+        var setPlayerSize = function(data) {
+            sizeList = data;
+        }
 
-            getPlayerSize = function (searchText, type) {
-                if (type === 'Any') {
-                    return sizeList.Any;
-                }
+        var getPlayerSize = function(searchText, type) {
 
-                return sizeList['Specific Size'].filter(function (size) {
-                    return size.name.toLowerCase().indexOf(searchText.toLowerCase()) !== -1;
-                });
-            },
+            if(type === 'Any') {
+                return sizeList['Any'];
+            }
 
-            setPosition = function (data) {
-                positionList = data;
-            },
+            return sizeList['Specific Size'].filter(function(size) {
+                return size.name.toLowerCase().indexOf(searchText.toLowerCase()) != -1;
+            });
+        }
 
-            getPositions = function (searchText) {
-                return positionList.filter(function (position) {
-                    return position.name.toLowerCase().indexOf(searchText.toLowerCase()) !== -1;
-                });
-            },
+        var setPosition = function(data) {
+            positionList = data;
+        }
 
-            setPlaybackMethods = function (data) {
-                playbackList = data;
-            },
+        var getPositions = function(searchText) {
+            var posArr = positionList;
+            return posArr.filter(function(position) {
+                return position.name.toLowerCase().indexOf(searchText.toLowerCase()) != -1;
+            });
+        }
 
-            getPlaybackMethods = function (searchText) {
-                return playbackList.filter(function (playback) {
-                    return playback.name.toLowerCase().indexOf(searchText.toLowerCase()) !== -1;
-                });
-            },
+        var setPlaybackMethods = function(data) {
+            playbackList = data;
+        }
 
-            saveVideoData = function (data) {
-                videoData = data;
-            },
+        var getPlaybackMethods = function(searchText) {
+            var playbackArr = playbackList ;
+            return playbackArr.filter(function(playback) {
+                return playback.name.toLowerCase().indexOf(searchText.toLowerCase()) != -1;
+            });
+        }
 
-            getVideoData = function () {
-                return {videoTarget: videoData};
-            };
+        var saveVideoData = function(data) {
+            videoData = data;
+        }
+
+        var getVideoData = function(data) {
+            return {'videoTargets' : videoData};
+        }
 
     	return {
-            setPlayerSize:      setPlayerSize,
-            getPlayerSize:      getPlayerSize,
-            setPosition:        setPosition,
-            setPlaybackMethods: setPlaybackMethods,
-            getPositions:       getPositions,
-            getPlaybackMethods: getPlaybackMethods,
-            saveVideoData:      saveVideoData,
-            getVideoData:       getVideoData
-    	};
-    });
-});
+            setPlayerSize : setPlayerSize,
+            getPlayerSize  : getPlayerSize,
+            setPosition : setPosition,
+            setPlaybackMethods : setPlaybackMethods,
+            getPositions      : getPositions    ,
+            getPlaybackMethods      : getPlaybackMethods,
+            saveVideoData : saveVideoData,
+            getVideoData : getVideoData
+    	}
+    })
+})
