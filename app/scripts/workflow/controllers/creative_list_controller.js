@@ -23,7 +23,7 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
         $scope.deletePopup=false;
         $scope.successfulRecords = [];
         $scope.clientId = loginModel.getSelectedClient().id;
-    
+
         //$scope.creativeData.creatives_count=1;
         //highlight the header menu - Dashborad, Campaigns, Reports
         domainReports.highlightHeaderMenu();
@@ -211,7 +211,7 @@ define(['angularAMD','common/services/constants_service','workflow/services/work
         };
         $scope.redirectAdEditPage=function(adData){
             if(adData.adGroupId){
-                $location.url("/mediaplan/"+adData.campaignId+"lineItem/"+ adData.lineItemId +"/adGroup/"+adData.adGroupId+"/ads/"+adData.adId+"/edit")
+                $location.url("/mediaplan/"+adData.campaignId+"/lineItem/"+ adData.lineItemId +"/adGroup/"+adData.adGroupId+"/ads/"+adData.adId+"/edit")
             }else{
                 $location.url("/mediaplan/"+adData.campaignId+"/ads/"+adData.adId+"/edit")
             }
