@@ -19,6 +19,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
         $scope.showNewLineItemForm = function(){
             $scope.createItemList = true;
+            $scope.lineItemErrorFlag = false;
             selectedAdvertiser = workflowService.getSelectedAdvertiser();
 
             if(selectedAdvertiser && (selectedAdvertiser.billingType && selectedAdvertiser.billingValue)){
@@ -419,5 +420,17 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             $(target).closest('.tr').find('.tableNormal').toggle();
             $(target).closest('.tr').find('.tableEdit').toggle();
         };
+
+        $scope.$parent.filterLineItemBasedOnPixel = function(id){
+            var tempList = _.extend($scope.lineItemList);
+
+            for(var i = 0;i < tempList.length; i++){
+                if(tempList[i].pixelId && tempList[i].pixelId === id){
+                    tempList.splice(i,1);
+                }
+            }
+            $scope.lineItemList = tempList;
+            console.log(tempList);
+        }
     });
 });

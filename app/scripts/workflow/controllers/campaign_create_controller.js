@@ -53,7 +53,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
         $scope.type = {};
         $scope.lineItemList = [];
-
+        $scope.lineItemErrorFlag = false;
         // line item create flags
         $scope.rateReadOnly = false;
         $scope.rateTypeReadOnly = false;
@@ -439,8 +439,10 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             var formElem,
                 formData,
                 postDataObj;
-
-            if ($scope.createCampaignForm.$valid) {
+            if($scope.lineItemList.length == 0){
+                $scope.lineItemErrorFlag = true;
+            }
+            if ($scope.createCampaignForm.$valid && $scope.lineItemList.length > 0) {
                 formElem = $("#createCampaignForm").serializeArray();
                 formData = _.object(_.pluck(formElem, 'name'), _.pluck(formElem, 'value'));
                 postDataObj = {};
