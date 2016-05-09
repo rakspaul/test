@@ -34,11 +34,14 @@
             <div class="common-load-icon_viewability"  ng-show="strategyLoading && selectedCampaign.id != -1"></div>
             <div class="cost_container smallSreenScrollContainer" ng-hide="strategyLoading && selectedCampaign.id != -1" style="margin-top: 20px;">
                 <div class="no_data_found" ng-if="!strategyFound" style="width: 1200px;" ng-bind-html="getMessageForDataNotAvailable(selectedCampaign)"></div>
-                <div class="reports_main_page_holder smallSreenScrollDiv" ng-show="strategyFound" style="overflow-y: auto; border-right: 1px solid #d2dee7;">
+                <div class="reports_main_page_holder smallSreenScrollDiv" ng-show="strategyFound" style="overflow-y: auto;">
                     <div class="reports_cost_header_holder smallSreenScrollContent">
                         <!--cost filter -->
                         <div class="clearfix cost_header_holder">
-                            <div class="col-md-1 zeroPadding" ng-class="sortClassFunction('-impressions',sortType,sortReverseDefaultSelection)" ng-click="sortType = '-impressions'; sortReverse = sortReverseDefaultSelection;sortReverseDefaultSelection = !sortReverseDefaultSelection;removeKpiActive();"><span class="default-kpi-header-icon" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() === 'impressions'"></span>Imps.</div>
+                            <div class="col-md-1 zeroPadding" ng-class="sortClassFunction('-impressions',sortType,sortReverseDefaultSelection)" ng-click="sortType = '-impressions'; sortReverse = sortReverseDefaultSelection;sortReverseDefaultSelection = !sortReverseDefaultSelection;removeKpiActive();">
+                                <span class="pull-left default-kpi-header-icon" tooltip="Primary KPI" ng-if="selected_filters.campaign_default_kpi_type.toLowerCase() === 'impressions'"></span>
+                                <a class="pull-left">Imps.</a>
+                            </div>
                             <div class="col-md-1 zeroPadding">
                                 <div class="dropdown kpi-dd-holder" id="kpi_dropdown">
                                     <kpi-drop-down> </kpi-drop-down>
@@ -54,8 +57,8 @@
                                  ng-click="sortType = 'collective_cost'; sortReverse = !sortReverse;removeKpiActive();">
                                 <span class="col-md-12 zeroPadding text-center" style="border-bottom: 1px solid #000; margin: 0 0 5px 0;">Platform Fees</span>
                                 <div class="col-md-12 zeroPadding">
-                                    <span class="icon_text_holder pull-left">Technology</span>
-                                    <span class="icon_text_holder pull-left" style="padding-left: 39px;">Service</span>
+                                    <span class="icon_text_holder pull-left">Tech Fees</span>
+                                    <span class="icon_text_holder pull-left" style="padding-left: 43px;">Service</span>
                                     <span class="icon_text_holder pull-right">Total</span>
                                 </div>
                             </div>
@@ -70,7 +73,9 @@
                                     <div class="no_data_found_cost_strategy" ng-if="dataNotFound" ng-bind-html="getMessageForDataNotAvailable(selectedCampaign)"></div>
                                     <div class="common-load-icon" ng-show="strategyCostBusy"></div>
                                     <div class="clearfix each_cost_heading" ng-if="!dataNotFound">
-                                        <span class="pull-left text_next_margin_per" ng-bind="strategyHeading"></span>                                        <!-- <span class="margin_percentage" ng-if ="(strategyMarginValue >=0)">{{strategyMarginValue}}{{strategyMarginUnit}}</span> -->
+                                        <span class="pull-left text_next_margin_per" ng-bind="strategyHeading"></span>
+                                        <!-- <span class="margin_percentage" ng-if ="(strategyMarginValue >=0)">{{strategyMarginValue}}{{strategyMarginUnit}}</span> -->
+                                        <span class="viewLabelTxt" ng-bind="viewLabelTxt"></span>
                                     </div>
 
                                     <div class="clearfix cost_col_container cost_cols_holder" ng-repeat="strategy in strategyCostData track by $index" ng-if="!dataNotFound">
@@ -82,8 +87,13 @@
                                         <div class="col-md-1 zeroPadding text-center" ng-bind="strategy.verification_cost != null ? (strategy.verification_cost | currency:undefined:0) : '-'"></div>
                                         <div class="col-md-1 zeroPadding text-center" ng-bind="0 | currency:undefined:0"></div>
                                         <div class="col-md-1 zeroPadding text-center" ng-bind="0 | currency:undefined:0"></div>
-                                        <div class="col-md-2 zeroPadding text-center" ng-bind="strategy.collective_cost != null ? (strategy.collective_cost | currency:undefined:0) :'-'"></div>
-                                        <div class="col-md-1 zeroPadding text-center total_cost" ng-bind="strategy.gross_rev != null ? (strategy.gross_rev | currency:undefined:0) : '-'"></div>
+                                        <!--<div class="col-md-2 zeroPadding text-center" ng-bind="strategy.collective_cost != null ? (strategy.collective_cost | currency:undefined:0) :'-'"></div>-->
+                                        <div class="col-md-2 text-center">
+                                            <span class="pull-left col-md-4 zeroPadding text-left">$0</span>
+                                            <span class="pull-left col-md-4 zeroPadding text-center" style="text-indent: 23px;">$0</span>
+                                            <span class="pull-left col-md-4 zeroPadding text-right">$0</span>
+                                        </div>
+                                        <div class="col-md-1 zeroPadding text-center bold" ng-bind="strategy.gross_rev != null ? (strategy.gross_rev | currency:undefined:0) : '-'"></div>
                                         <div class="col-md-1 zeroPadding text-center" ng-bind="0 | currency:undefined:0"></div>
                                     </div>
                                 </div>
@@ -96,15 +106,20 @@
                                             <div class="clearfix cost_col_container cost_cols_holder">
                                                 <div class="col-md-1 zeroPadding {{tactic.kpi_type === 'IMPRESSIONS' ? 'bold' : ''}}" ng-bind="tactic.impressions != null ? (tactic.impressions | nrFormat) : '-'"></div>
                                                 <div class="col-md-1 zeroPadding {{tactic.kpi_type === selected_filters.kpi_type.toUpperCase() ? 'bold' : ''}}" ng-bind="(tactic[(selected_filters.kpi_type.toLowerCase() === 'vtc')?'vtc_100':selected_filters.kpi_type.toLowerCase()] | appendDollor : selected_filters.kpi_type.toLowerCase())"></div>
-                                                <div class="col-md-1 zeroPadding" ng-bind="tactic.inventory_cost != null ? (tactic.inventory_cost | currency:undefined:0) : '-'"></div>
-                                                <div class="col-md-1 zeroPadding" ng-bind="tactic.data_cost != null ? (tactic.data_cost | currency:undefined:0) : '-'"></div>
-                                                <div class="col-md-1 zeroPadding" ng-bind="tactic.serving_cost != null ? (tactic.serving_cost | currency:undefined:0) : '-'"></div>
-                                                <div class="col-md-1 zeroPadding" ng-bind="tactic.verification_cost != null ? (tactic.verification_cost | currency:undefined:0) : '-'"></div>
-                                                <div class="col-md-1 zeroPadding" ng-bind="0 | currency:undefined:0"></div>
-                                                <div class="col-md-1 zeroPadding" ng-bind="0 | currency:undefined:0"></div>
-                                                <div class="col-md-2 zeroPadding" ng-bind="tactic.collective_cost != null ? (tactic.collective_cost | currency:undefined:0) : '-'"></div>
-                                                <div class="col-md-1 zeroPadding total_cost" ng-bind="tactic.gross_rev != null ? (tactic.gross_rev | currency:undefined:0) : '-'"></div>
-                                                <div class="col-md-1 zeroPadding" ng-bind="0 | currency:undefined:0"></div>
+                                                <div class="col-md-1 zeroPadding text-center" ng-bind="tactic.inventory_cost != null ? (tactic.inventory_cost | currency:undefined:0) : '-'"></div>
+                                                <div class="col-md-1 zeroPadding text-center" ng-bind="tactic.data_cost != null ? (tactic.data_cost | currency:undefined:0) : '-'"></div>
+                                                <div class="col-md-1 zeroPadding text-center" ng-bind="tactic.serving_cost != null ? (tactic.serving_cost | currency:undefined:0) : '-'"></div>
+                                                <div class="col-md-1 zeroPadding text-center" ng-bind="tactic.verification_cost != null ? (tactic.verification_cost | currency:undefined:0) : '-'"></div>
+                                                <div class="col-md-1 zeroPadding text-center" ng-bind="0 | currency:undefined:0"></div>
+                                                <div class="col-md-1 zeroPadding text-center" ng-bind="0 | currency:undefined:0"></div>
+                                                <!--<div class="col-md-2 zeroPadding text-center" ng-bind="tactic.collective_cost != null ? (tactic.collective_cost | currency:undefined:0) : '-'"></div>-->
+                                                <div class="col-md-2 text-center">
+                                                    <span class="pull-left col-md-4 zeroPadding text-left">$0</span>
+                                                    <span class="pull-left col-md-4 zeroPadding text-center" style="text-indent: 23px;">$0</span>
+                                                    <span class="pull-left col-md-4 zeroPadding text-right">$0</span>
+                                                </div>
+                                                <div class="col-md-1 zeroPadding bold text-center" ng-bind="tactic.gross_rev != null ? (tactic.gross_rev | currency:undefined:0) : '-'"></div>
+                                                <div class="col-md-1 zeroPadding text-center" ng-bind="0 | currency:undefined:0"></div>
                                             </div>
                                         </div>
                                     </div>

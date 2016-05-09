@@ -435,6 +435,20 @@
 			width: 340px;
 		}
 	}
+	.dropdown-search  {
+		input[type="text"] , input[type="text"]:hover , input[type="text"]:focus {
+			margin: 0px ;
+			border-left: 0px ;
+			border-right: 0px ;
+			border-top: 0px ;
+		}
+	}
+	.dropdown-workflow .searchBar {
+		margin-top: 0px ;
+		.icon-search {
+			top: -4px ;
+		}
+	}	
 }
 .clone-popup {
 	.cloneMediaPlanNameInput {
@@ -1884,6 +1898,7 @@ div.inputLoader {
 		position: absolute;
 		right: 0px ;
 		top : 0px ;
+		z-index: 10 ;
 	}
 }
 tags-input .autocomplete {
@@ -1900,6 +1915,7 @@ tags-input .autocomplete {
 		 	 width: 141px;
 		 	 input {
 		 	 	width: 100% ;
+		 	 	height: 36px ;
 		 	 }
 		 }
 		 .dateContainer:last-child {
@@ -1916,8 +1932,8 @@ tags-input .autocomplete {
 			top: 0;
 			right: 6px;
 			border-left: 1px solid #dbe8ef;
-			padding: 8px 0 0 8px;
-			height: 32px;
+			padding: 10px 0 0 8px;
+			height: 36px;
 			width: 27px;
 		}
 	}

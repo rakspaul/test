@@ -155,6 +155,20 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                         {'Content-Type': 'application/json'}
                     );
                 },
+                updateCampaign: function (data) {
+                    var isLeafNode = loginModel.getMasterClient().isLeafNode;
+                    if (isLeafNode) {
+                        var clientId = loginModel.getSelectedClient().id;
+                    } else {
+                        var clientId = data.clientId;
+
+                    }
+                    return dataService.post(
+                        vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/campaigns',
+                        data,
+                        {'Content-Type': 'application/json'}
+                    );
+                },
 
                 updateCampaign: function (data, id) {
                     var clientId = loginModel.getSelectedClient().id;
@@ -195,6 +209,17 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                             '/campaigns/' + campaignId +
                             '/no_ad_group/ads';
 
+                    return dataService.fetch(url, {
+                        cache: false
+                    });
+                },
+
+                getPixelDataFile:function(campaignId){
+                    var clientId = loginModel.getSelectedClient().id,
+                        url = vistoconfig.apiPaths.WORKFLOW_API_URL +
+                            '/clients/' + clientId +
+                            '/campaigns/' + campaignId +
+                            '/pixels/download';
                     return dataService.fetch(url, {
                         cache: false
                     });
@@ -648,6 +673,16 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                         url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/campaigns/' + campaignId + '/lineitems?flat_fee=false&archived=false';
 
                     return dataService.fetch(url);
+                },
+                createLineItems: function (campaignId,client_id,data) {
+                    var clientId = client_id || loginModel.getSelectedClient().id,
+                        url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/campaigns/' + campaignId + '/lineitems?flat_fee=false&archived=false';
+
+                    return dataService.post(
+                        url,
+                        data,
+                        {'Content-Type': 'application/json'}
+                    );
                 },
 
                 getVideoTargetsType: function (type) {

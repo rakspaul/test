@@ -191,7 +191,7 @@ define(['angularAMD', 'workflow/services/audience_service', 'workflow/services/w
             fetchAllSource: function () {
                 //api call to fetch sources
                 audienceService
-                    .fetchAudienceSource()
+                    .fetchAudienceSource($scope.adData.platformSeatId)
                     .then(function (result) {
                         if (result.status === 'OK' || result.status === 'success') {
                             audienceService.setAudienceSource(result.data.data);

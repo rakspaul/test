@@ -53,6 +53,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
         $scope.type = {};
         $scope.lineItemList = [];
+
         // line item create flags
         $scope.rateReadOnly = false;
         $scope.rateTypeReadOnly = false;
@@ -60,7 +61,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         $scope.amountFlag = true;
         $scope.hideLineItemRate = false;
         $scope.hideAdGroupName = false;
-        $scope.hideCOGS = false;
+        $scope.showPixelsList = false;
         //line item edit flags
         $scope.rateReadOnlyEdit = false;
         $scope.rateTypeReadOnlyEdit = false;
@@ -68,6 +69,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         $scope.amountFlagEdit = true;
         $scope.hideLineItemRateEdit = false;
         $scope.hideAdGroupNameEdit = false;
+        $scope.showPixelsListEdit = false;
 
         $scope.editLineItem = {};
         $scope.vendorConfig = [];
@@ -243,12 +245,15 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 //media plan name
                 if(campaignData.name) {
                     $scope.selectedCampaign.campaignName = $scope.cloneMediaPlanName || campaignData.name;
+                    $scope.selectedCampaign.campaignId = campaignData.id;
                 }
 
                 //set Sub Account
                 if(campaignData.clientId && campaignData.clientName) {
                     $scope.selectedCampaign.clientName = campaignData.clientName;
                     $scope.selectedCampaign.clientId = campaignData.clientId;
+                } else {
+                    $scope.selectedCampaign.clientId = loginModel.getSelectedClient().id;
                 }
 
 
@@ -291,7 +296,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
                 //set KPI type
                 if (campaignData.kpiType) {
-                    $scope.kpiName = $filter('toTitleCase')(campaignData.kpiType);
+                    $scope.kpiName = campaignData.kpiType;
                 }
 
                 //set Kpi Value
@@ -321,7 +326,6 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 }
 
                 // line item edit mode
-                $scope.selectedCampaign.clientId = campaignData.clientId;
                 createCampaign.fetchLineItemDetails(campaignData.id);
 
                 $scope.editCampaignData = campaignData;
@@ -362,6 +366,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     workflowService.setSelectedAdvertiser(selectedAdvertiser);
                     $("#brandDDL").parents('.dropdown').find('button').html("Select Brand <span class='icon-arrow-down'></span>");
                     createCampaign.fetchBrands($scope.selectedCampaign.clientId, data.id);
+                    $scope.selectedCampaign.selectedPixel = [];
                     createCampaign.platforms(data.id);
                     createCampaign.fetchVendorConfigs();
                     createCampaign.fetchCostAttributes();
@@ -453,7 +458,9 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 postDataObj.marginPercent = formData.marginPercent;
                 postDataObj.deliveryBudget = formData.deliveryBudget;
                 postDataObj.totalBudget = formData.totalBudget;
-                postDataObj.lineItems = workflowService.processLineItemsObj(angular.copy($scope.lineItemList));
+                if($scope.mode === 'create'){
+                    postDataObj.lineItems = workflowService.processLineItemsObj(angular.copy($scope.lineItemList));
+                }
 
                 postDataObj.campaignType = 'Display';
                 postDataObj.labels = _.pluck($scope.tags, "label");
@@ -703,11 +710,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
 
 
-        $scope.showNormalItemRow = function(event) {
-            var target =  event.currentTarget;
-            $(target).closest('.tr').find('.tableNormal').toggle();
-            $(target).closest('.tr').find('.tableEdit').toggle();
-        };
+
 
         // ************** PAGE 1 ******************************
         $scope.setKPIName = function(kpi){
@@ -736,6 +739,11 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     $scope.mediaPlanNameExists = responseData.isExists;
                 }
             });
+        };
+
+        // use this method to access createCampaign in child
+        $scope.createCampaignAccess = function(){
+            return createCampaign;
         }
 
 
@@ -748,10 +756,10 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     windowClass: 'delete-dialog',
                     resolve: {
                         headerMsg: function () {
-                            return 'Media Plan Clone';
+                            return textConstants.MEDIA_PLAN_CLONE;
                         },
                         mainMsg: function () {
-                            return 'Are you sure, you want to navigate/reload the page, you will lose your media plan changes?';
+                            return textConstants.MEDIA_PLAN_WARNING_MESSAGE
                         },
                         buttonName: function () {
                             return 'Ok';
