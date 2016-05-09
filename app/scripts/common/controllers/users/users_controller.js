@@ -58,15 +58,18 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
             }
         };
 
-        $scope.userConsoleFormDetails, $scope.closeForm = function () {
-            $('.user-list, .users-creation-page .heading').fadeIn();
-            $('.edit-dialog').fadeOut();
-            setTimeout(function(){
-                if($("#cmn-toggle-1").is(':checked')){
-                    $("#cmn-toggle-1").trigger('click');
-                }
-            },25);
-        }
+//        $scope.userConsoleFormDetails, $scope.closeForm = function () {
+//            $('.user-list, .users-creation-page .heading').fadeIn();
+//            $('.edit-dialog').fadeOut();
+//            setTimeout(function(){
+//                if($("#cmn-toggle-1").is(':checked')){
+//                    $("#cmn-toggle-1").trigger('click');
+//                }
+//                if($("#userState").is(':checked')){
+//                    $("#userState").trigger('click');
+//                }
+//            },25);
+//        }
 
         var usersList = {
             getUsers:function(){
@@ -105,7 +108,15 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                 $('.searchInputForm').hide();
             }, 100);
         };
-
+        $scope.getRoleText = function(roleId){
+            switch(roleId){
+                case 1: return "Super Admin";  break;
+                case 2: return "Account Admin"; break;
+                case 3: return "Advertiser Admin"; break;
+                case 4: return "General User"; break;
+                default : return "Not Available"
+            }
+        }
         $('html').click(function(e) {
             if ($(e.target).closest('.searchInput').length === 0) {
                 $scope.searchHideInput();

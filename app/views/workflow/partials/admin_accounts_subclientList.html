@@ -7,6 +7,7 @@
                 <span class="pull-left icon-arrow-down-thick" ng-if="client.isLeafNode || client.hasChildren" ng-click="getSubClientList($event,client);"></span>
                 <div class="pull-left account-name" ng-click="AddOrEditAccountModal('edit',client)">
                     <span class="pull-left">{{client.name}}</span>
+                    <span class="pull-left icon-usd" tooltip="Tech Fees CPM $0.50" tooltip-placement="right" style="margin: 1px 0 0 5px;"></span>
                     <span class="pull-left" style="text-transform: capitalize;">{{client.clientType | lowercase}}</span>
                 </div>
                 <div class="pull-right btn btn-default" ng-if="!client.isLeafNode" ng-click="AddOrEditAccountModal('create',client.id)" style="margin-left: 15px;">Create Sub Account</div>
@@ -17,9 +18,18 @@
                 <div class="clearfix each-advertiser" ng-repeat="adv in clientsDetails[client.id].advertisers" ng-if="clientsDetails[client.id].advertisers.length >  0">
                     <div class="clearfix particular-account-box" ng-class="[(clientsDetails[client.id]['brands'][adv.id].length ==  0)?'no-data-open':'',(clientsDetails[client.id]['brands'][adv.id].length) > 0?'brand-data-loaded':'']">
                         <div class="clearfix advertiser-name" >
-                            <span class="pull-left adv-name" ng-click="show_advertisers_resp_brands($event,client.id,adv.id);"  ><span class="label_heading">Advertiser: </span>{{adv.name}}</span>
-                            <span class="pull-left edit" ng-click="AddOrEditAdvertiserModal(adv,'edit',client)"></span>
-                            <span class="pull-left adding-section" ng-click="AddOrEditBrandModal(adv,'create',client,brand)"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Add Brand</span>
+                            <span class="pull-left adv-name" ng-click="AddOrEditAdvertiserModal(adv,'edit',client)">
+                                <span class="label_heading">Advertiser: </span>{{adv.name}}
+                            </span>
+                            
+                            <!--<span class="pull-left edit" ng-click="AddOrEditAdvertiserModal(adv,'edit',client)"></span>-->
+                            <span class="pull-left adding-section" ng-click="AddOrEditBrandModal(adv,'create',client,brand)">
+                                <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Add Brand
+                            </span>
+
+                            <span class="pull-left adding-section" ng-click="show_advertisers_resp_brands($event,client.id,adv.id);">
+                                <span class="glyphicon glyphicon-list" aria-hidden="true"></span> View Brands
+                            </span>
                         </div>
                         <!-- <div class="advertiser-resp-brands-list"> -->
                         <!--<div class="clearfix each-brand-name"  ng-repeat="brand in adv.brand" ng-if="adv.brand.length > 0">-->

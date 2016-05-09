@@ -2287,15 +2287,20 @@
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroup .adTitle .adGroupTxtSecondary {
   float: right;
   padding: 0 0 0 10px;
+  margin-top: 6px ;
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroup .adTitle .adGroupTxtSecondary:last-child {
   padding-left: 0;
+}
+#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroup .adTitle .adGroupTxtSecondary .greyTxt {
+  padding: 0px !important;
+  margin-top: 1px;
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroup .adTitle .adGroupTxtSecondary p {
   color: #2c9aec;
   float: right;
   margin-bottom: 0;
-  padding-left: 10px;
+  padding: 0 5px;
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroup .adTitle .adGroupTxtSecondary p.active {
   color: #f47e2a;

@@ -9,7 +9,7 @@
     <span class="btn btn-primary pull-right" ng-click="saveAdvertisers()" data-ng-bind="isEditMode ? 'Update' : 'Create'">Save</span>
     <span class="btn btn-link pull-right" data-dismiss="modal" ng-click="close()">Cancel</span>
 
-    <h2 class="modal-title" id="myModalLabel" data-ng-bind="(mode === 'create'?'Add':'Edit') + ' Advertiser ( '+advObj.name+' )'"></h2>
+    <h2 class="modal-title" id="myModalLabel" data-ng-bind="showUserModeText()"></h2>
     <div data-ng-bind="'Client ( '+clientObj.name+' )'"></div>
 </div>
 
@@ -77,12 +77,30 @@
                 <div class="col-md-12 zeroPadding dropdown-workflow">
                     <div class="dropdown">
                         <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                            <span class="text" data-ng-bind="advertiserAddOrEditData.selectedIABCategory">Arts & Entertainment</span>
+                            <span class="text" data-ng-bind="advertiserAddOrEditData.selectedIABCategory"></span>
                             <span class="icon-arrow-down"></span>
                         </button>
                         <ul class="dropdown-menu" data-toggle="dropdown">
-                            <li class="available" data-ng-repeat="type in IABCategoryList" >
-                                <a data-ng-bind="type.name" data-ng-click="selectIABCategory(type)">Arts & Entertainment</a>
+                            <li class="available" data-ng-repeat="type in advertiserAddOrEditData.IABCategoryList" >
+                                <a data-ng-bind="type.name" data-ng-click="selectIABCategory(type)"></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+            <div class="form-group col-md-4" style="padding: 0 15px;">
+                <label class="col-sm-12 greyTxt">Sub Category:</label>
+
+                <div class="col-md-12 zeroPadding dropdown-workflow">
+                    <div class="dropdown">
+                        <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                            <span class="text" data-ng-bind="advertiserAddOrEditData.selectedIABSubCategory"></span>
+                            <span class="icon-arrow-down"></span>
+                        </button>
+                        <ul class="dropdown-menu" data-toggle="dropdown">
+                            <li class="available" data-ng-repeat="type in advertiserAddOrEditData.IABSubCategoryList" >
+                                <a data-ng-bind="type.name" data-ng-click="selectIABSubCategory(type)"></a>
                             </li>
                         </ul>
                     </div>
@@ -164,10 +182,10 @@
                     </button>
                     <ul class="dropdown-menu" data-toggle="dropdown">
                         <li class="available">
-                            <a ng-click="selectedRateType='COGS:'">COGS</a>
+                            <a ng-click="selectedRateType='COGS'">COGS</a>
                         </li>
                         <li class="available">
-                            <a ng-click="selectedRateType='CPM:'">CPM</a>
+                            <a ng-click="selectedRateType='CPM'">CPM</a>
                         </li>
                     </ul>
                 </div>
@@ -233,7 +251,7 @@
                 <div class="col-md-12 input-daterange input-group date pull-left">
                     <div class="col-md-12 dateWrapper ">
                         <input type="text" id="pixelExpDate" class="input-sm form-control timeframe"
-                               custom-date-picker="{format: 'yyyy/mm/dd', orientation: 'auto',  autoclose: true, todayHighlight: true}"
+                               custom-date-picker="{format: 'yyyy/mm/dd', orientation: 'auto',  autoclose: true, todayHighlight: true, forceParse: false}"
                                ng-model="pixelFormData.expiryDate" required>
                         <i class="icon-calendar glyphicon pull-right" style="position: absolute; z-index: 10; top: 10px; right: 10px;"></i>
                     </div>

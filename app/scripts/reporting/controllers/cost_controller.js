@@ -159,63 +159,34 @@ define(['angularAMD', 'reporting/campaignSelect/campaign_select_model', 'reporti
 
         };
 
-/* COMMENTING THIS OUT AS PER DISCUSSION WITH ANAND XAVIER.  THIS MIGHT COME BACK IN FUTURE.  sriram: July 2nd, 2015 */
-/*
-        $scope.sortFunction = function (sortby) {
-            for(var i in $scope.sort_field){
-                if($scope.sort_field[i].key === sortby){
-                    if($scope.sort_field[i]['class']==='active') //simply toggle previous state if the same sortby was previously active
-                        $scope.sortByColumn=($scope.sortByColumn.indexOf('-')>=0)?sortby:'-'+sortby;
-                    else
-                        $scope.sortByColumn = (sortby==='name')?sortby : '-'+sortby;
-                    $scope.sort_field[i]['class'] = 'active';
-                    $scope.sort_field[i].sortDirection = ($scope.sortByColumn.indexOf('-')>=0 ?'descending':'ascending')
-                    var tacticsData = _.chain($scope.tacticsCostData).sortBy(sortby).value();
-                    $scope.tacticsCostData = ($scope.sort_field[i].sortDirection === 'ascending') ?  tacticsData : tacticsData.reverse();
-                    localStorage.setItem(loginModel.getUserId()+'_cost_sort' ,   $scope.sortByColumn );
-                }
-                else{
-                    $scope.sort_field[i]['class'] = '';
-                    $scope.sort_field[i].sortDirection = '';
-                }
-
-            }
-        };
-        */
-
         $scope.$on(constants.EVENT_CAMPAIGN_CHANGED , function(event,campaign){
             $scope.init();
             $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign() ;
         });
 
-       /* $scope.$on(constants.EVENT_SUB_ACCOUNT_CHANGED,function(){
-            $scope.callBackStrategyChange();
-        });*/
-
         $scope.$watch('selectedCampaign', function() {
             $scope.createDownloadReportUrl();
         });
 
+        var dataHeader = function() {
+            $scope.strategyHeading = Number($scope.selectedStrategy.id) === constants.ALL_STRATEGIES_OBJECT.id ? constants.MEDIA_PLAN_TOTAL : constants.AD_GROUP_TOTAL;
+            $scope.viewLabelTxt = Number($scope.selectedStrategy.id) === constants.ALL_STRATEGIES_OBJECT.id ? constants.INCLUDES_FIXED_COSTS : constants.EXCLUDES_MEDIA_PLAN_FIXED_COSTS;
+        }
+
         $scope.$on(constants.EVENT_TIMEPERIOD_CHANGED , function(event,strategy){
             $scope.selectedStrategy.id =  strategySelectModel.getSelectedStrategy().id ;
             $scope.selectedStrategy.name = strategySelectModel.getSelectedStrategy().name ;
-            $scope.strategyHeading = Number($scope.selectedStrategy.id) === constants.ALL_STRATEGIES_OBJECT.id ? 'Media Plan total' : 'Ad Group total';
             $scope.selected_filters.time_filter = strategy;
             $scope.createDownloadReportUrl();
             $scope.callBackStrategyChange();
+            dataHeader();
         });
 
         $scope.$on(constants.EVENT_STRATEGY_CHANGED , function(event,strategy){
             $scope.selectedStrategy.id =  strategySelectModel.getSelectedStrategy().id ;
             $scope.selectedStrategy.name = strategySelectModel.getSelectedStrategy().name ;
-            $scope.strategyHeading = Number($scope.selectedStrategy.id) === constants.ALL_STRATEGIES_OBJECT.id ? 'Media Plan total' : 'Ad Group total';
-
-
-            /* COMMENTING THIS LINE BELOW AS PER DISCUSSION WITH ANAND XAVIER.  THIS MIGHT COME BACK IN FUTURE.  sriram: July 2nd, 2015 */
-            // $scope.more_options = Number($scope.selectedStrategy.id) === 0 ?  false : true;
-
-
             $scope.callBackStrategyChange();
+            dataHeader();
         });
 
         //creating download report url

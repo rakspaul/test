@@ -874,6 +874,9 @@ define(['angularAMD'], function(angularAMD) {
         this.CLONEMEDIAPLANNAMEERR = 'already exists for this advertiser. Please enter a unique Media Plan name.' ;
         this.DUPLICATELINEITEMS = 'Duplicate Line Items';
         this.DUPLICATEADGROUPS = 'Duplicate Ads & Ad Groups';
+        this.AUTOMATICADJUSTFLIGHTDATES = 'Automatically adjust flight dates.';
+        this.NEWMEDIAPLANSTARTDATE = 'New Media Plan start date';
+        this.KEEPORIGINALFLIGHTDATES = 'Keep original flight dates.';
         this.ARCHIVE = 'Archive';
         this.OPTIMIZATION_REPORT = 'Optimization Impact Report';
         this.BUILD_REPORT = 'Build Report';
@@ -893,7 +896,7 @@ define(['angularAMD'], function(angularAMD) {
         this.WHATFLIGHTDATES = 'What are the Flight Dates?';
         this.PLEASESELSTARTDATE = 'Please select the start Date.';
         this.EXPORT_CONVERSION_PIXELS = 'Export All Conversion Pixels' ;
-        this.TAGS_FOR_TRACKING_ONLY_ADS = 'Export Tags for Tracking Only Ads' ;
+        this.TAGS_FOR_TRACKING_ONLY_ADS = 'Export Ad Tags' ;
         this.MAX_SPEND_FOR_ADGROUP = 'Maximum Spend for Ad Group' ;
         this.LINE_ITEM = 'Line Item' ;
         this.MAX_YOU_CAN_SPEND = "What's the maximum you can spend for your Ad Group?" ;
@@ -1066,6 +1069,7 @@ define(['angularAMD'], function(angularAMD) {
         this.SELECT_TIMEZONE = "Please select the timezone";
         this.EMPTY_ADCHOICE_CODE = "Please add code for ad-choice";
         this.EMPTY_IAB_CATEGORY = "Please select some category";
+        this.EMPTY_IAB_SUB_CATEGORY = "Please select some sub-category";
         this.PIXEL_DOWNLOAD_SUCCESS = "Pixel downloaded successfully";
         this.PIXEL_DOWNLOAD_ERR = "Error in downloading pixel";
 
@@ -1142,6 +1146,15 @@ define(['angularAMD'], function(angularAMD) {
         this.MEDIAPLAN_ADD_ANOTHER_CREDIT = "Add Another Credit";
         this.MEDIAPLAN_FLIGHT_DATE_START = "Flight Date Start";
         this.MEDIAPLAN_FLIGHT_DATE_END = "Flight Date End";
+
+        this.MEDIA_PLAN_CLONE ='Media Plan Clone';
+        this.MEDIA_PLAN_WARNING_MESSAGE = 'You will lose your changes if you leave this page. Are you sure?'
+
+        this.MEDIA_PLAN_TOTAL = "Media Plan total*:";
+        this.AD_GROUP_TOTAL = "Ad Group total*:";
+        this.CAMPAIGN_TOTAL = "Campaign total*:";
+        this.INCLUDES_FIXED_COSTS = "*Includes fixed costs";
+        this.EXCLUDES_MEDIA_PLAN_FIXED_COSTS = "*Excludes Media Plan fixed costs";
 
     });
 });

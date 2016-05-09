@@ -435,6 +435,20 @@
 			width: 340px;
 		}
 	}
+	.dropdown-search  {
+		input[type="text"] , input[type="text"]:hover , input[type="text"]:focus {
+			margin: 0px ;
+			border-left: 0px ;
+			border-right: 0px ;
+			border-top: 0px ;
+		}
+	}
+	.dropdown-workflow .searchBar {
+		margin-top: 0px ;
+		.icon-search {
+			top: -4px ;
+		}
+	}	
 }
 .clone-popup {
 	.cloneMediaPlanNameInput {
@@ -448,6 +462,29 @@
 	}
 	.common-loading-btn {
 		width: 70px ;
+	}
+	.duplicateAdGroupSection {
+		margin :  10px 0 ;
+		position: relative;
+		.newMediaPlanFlightDate {
+			margin : 15px 20px ;
+		}
+		.disabled_div {
+			position: absolute;
+			top: 0px;
+			left: -2px;
+			height: 100%;
+			width: 100%;
+			background: #fff;
+			z-index: 20;
+			opacity: 0.6;
+		}
+		.dateInputHolder {
+			input {
+				margin: 0 ;
+				color: #555 ;
+			}
+		}
 	}
 }
 .popContainerHolder {
@@ -1778,6 +1815,16 @@ multiselect {
 		}
 	}
 }
+.commonStatusIcon {
+	display: inline-block;
+	float: left;
+	height: 12px;
+    width: 12px;
+    border-radius: 50%;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    margin : 3px 10px 0 0 ;
+}
 .draft_bulb {
 	border: solid 3px #939eae;
 	background: transparent;
@@ -1790,6 +1837,7 @@ multiselect {
 	border: solid 3px #004478;
 	background: transparent;
 }
+
 .scheduled_bulb {
 	background: #2c9aec;
 }
@@ -1884,6 +1932,7 @@ div.inputLoader {
 		position: absolute;
 		right: 0px ;
 		top : 0px ;
+		z-index: 10 ;
 	}
 }
 tags-input .autocomplete {
@@ -1900,6 +1949,7 @@ tags-input .autocomplete {
 		 	 width: 141px;
 		 	 input {
 		 	 	width: 100% ;
+		 	 	height: 36px ;
 		 	 }
 		 }
 		 .dateContainer:last-child {
@@ -1916,8 +1966,8 @@ tags-input .autocomplete {
 			top: 0;
 			right: 6px;
 			border-left: 1px solid #dbe8ef;
-			padding: 8px 0 0 8px;
-			height: 32px;
+			padding: 10px 0 0 8px;
+			height: 36px;
 			width: 27px;
 		}
 	}

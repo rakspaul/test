@@ -124,7 +124,7 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
                         }
                         if (strategiesList) {
                             $scope.dataNotFound = false;
-                            $scope.strategyHeading = Number($scope.selectedStrategy.id) === constants.ALL_STRATEGIES_OBJECT.id ? 'Media Plan total' : 'Ad Group total';
+                            $scope.strategyHeading = Number($scope.selectedStrategy.id) === constants.ALL_STRATEGIES_OBJECT.id ? constants.MEDIA_PLAN_TOTAL : constants.AD_GROUP_TOTAL;
                         } else {
                             errorHandler();
                         }
@@ -177,7 +177,7 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
         $scope.$on(constants.EVENT_STRATEGY_CHANGED , function(event,strategy){
             $scope.selectedStrategy.id =  strategySelectModel.getSelectedStrategy().id ;
             $scope.selectedStrategy.name = strategySelectModel.getSelectedStrategy().name ;
-            $scope.strategyHeading = Number($scope.selectedStrategy.id) === 0 ? 'Campaign total' : 'Ad Group total';
+            $scope.strategyHeading = Number($scope.selectedStrategy.id) === 0 ? constants.CAMPAIGN_TOTAL : constants.AD_GROUP_TOTAL;
             $scope.callBackStrategyChange();
         });
 

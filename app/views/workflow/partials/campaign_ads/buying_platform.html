@@ -11,7 +11,7 @@
                  ng-repeat="seat in platform.seats"
                  ng-click="!platform.active ? '' : selectPlatform($event, platform, seat)">
             <img ng-src="{{platform.iconUrl}}"/>
-            <p data-ng-bind="seat.name"></p>
+            <p data-ng-bind="platform.displayName +' '+ seat.name"></p>
             <!--<span ng-bind-html="platform.summary"></span>-->
             <span></span>
             <div ng-if="selectedPlatform[platform.id] && selectedSeat[seat.id]" class="btn btn-default active" data-ng-bind="textConstants.SELECTED"></div>

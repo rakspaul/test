@@ -468,7 +468,7 @@
                                                     ng-click="onChoosingAditFlts($parent.$index,
                                                             filters);"
                                                     ng-model="addFilts.key"
-                                                    ng-bind-html="displayName[filters]">
+                                                    ng-bind-html="displayName[filters]" ng-if="checkDimension(filters)">
                                                 </li>
                                             </ul>
                                         </div>

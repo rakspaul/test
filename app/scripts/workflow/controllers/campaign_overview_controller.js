@@ -78,6 +78,8 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     });
                 },
 
+
+
                 getCampaignData: function (campaignId) {
                     workflowService
                         .getCampaignData(campaignId)
@@ -1101,6 +1103,26 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                         return deliveryBudget;
                     }
                 }
+            };
+
+            $scope.pixelsDownload =  function(){
+                $('.download-report-load-icon').show();
+                var clientId = loginModel.getSelectedClient().id,
+                    campaignId = $scope.workflowData.campaignData.id;
+                url = vistoconfig.apiPaths.WORKFLOW_API_URL +
+                    '/clients/' + clientId +
+                    '/campaigns/' + campaignId +
+                    '/pixels/download';
+                dataService
+                    .downloadFile(url)
+                    .then(function (response) {
+                        if (response.status === 'success') {
+                            $('.download-report-load-icon').hide();
+                            saveAs(response.file, response.fileName);
+                        } else {
+                            $('.download-report-load-icon').hide();
+                        }
+                    });
             };
 
             $(document).on('changeDate', '.adGrpStartDateInput', function (ev) {

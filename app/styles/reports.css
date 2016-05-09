@@ -131,10 +131,6 @@ span.cost_opaque .cost_opaque_icon {
 .reports_header_tabs_holder span.active_tab.cost_opaque {
   border-color: #939ead ;
 }
-.platform_logo {
-  height: 18px ;
-  width: 16px ;
-}
 .platform_logo .platform_logo_img {
   float: left;
   display: inline-block;
@@ -1176,12 +1172,12 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 .viewability_details_outer_container .sort_order_up:hover,
 .viewability_details_video_mode_outer_container .sort_order_up:hover,
 .custom_report_response_table .sort_order_up:hover {
-  background: url("/images/cdesk/sorting_arrows_up.png") no-repeat scroll right 1px rgba(0, 0, 0, 0);
+  background: url("/images/cdesk/sorting_arrows_up.png") no-repeat scroll 55px 1px rgba(0, 0, 0, 0);
 }
 .viewability_details_outer_container .sort_order_up.active,
 .viewability_details_video_mode_outer_container .sort_order_up.active,
 .custom_report_response_table .sort_order_up.active {
-  background: url("/images/cdesk/sorting_arrows_down.png") no-repeat scroll right -64px rgba(0, 0, 0, 0);
+  background: url("/images/cdesk/sorting_arrows_down.png") no-repeat scroll 55px -64px rgba(0, 0, 0, 0);
   cursor: pointer;
   padding-right: 17px;
   color: #0978c9;
@@ -1195,12 +1191,12 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 .viewability_details_outer_container .sort_order_down:hover,
 .viewability_details_video_mode_outer_container .sort_order_down:hover,
 .custom_report_response_table .sort_order_down:hover {
-  background: url("/images/cdesk/sorting_arrows_down.png") no-repeat scroll right 1px rgba(0, 0, 0, 0);
+  background: url("/images/cdesk/sorting_arrows_down.png") no-repeat scroll 55px 1px rgba(0, 0, 0, 0);
 }
 .viewability_details_outer_container .sort_order_down.active,
 .viewability_details_video_mode_outer_container .sort_order_down.active,
 .custom_report_response_table .sort_order_down.active {
-  background: url("/images/cdesk/sorting_arrows_up.png") no-repeat scroll right -64px rgba(0, 0, 0, 0);
+  background: url("/images/cdesk/sorting_arrows_up.png") no-repeat scroll 55px -64px rgba(0, 0, 0, 0);
   cursor: pointer;
   padding-right: 17px;
   color: #0978c9;
@@ -2851,8 +2847,23 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
   width: 1600px;
 }
 .text_next_margin_per {
-  display: inline-block;
-  width: 785px;
+  float: left;
+  margin-right: 15px;
+}
+.strategyHeading {
+  float: left;
+  font-family: "Avenir";
+  font-size: 18px;
+  color: #21252b;
+}
+.viewLabelTxt {
+  float: left;
+  color: #939EAE;
+  margin: 4px 0 0 5px;
+  font-size: 12px;
+}
+.viewLabelTxt:first-child {
+  margin-left: 15px;
 }
 .margin_percentage {
   text-align: center;
@@ -3118,6 +3129,9 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 #reports_platform_cost_block .reports_details_outer_container .reports_platform_header .each_cost_col.sec_col.active {
   color: #0978c9;
 }
+#reports_platform_cost_block {
+  overflow-y: auto;
+}
 #reports_platform_cost_block .dropdown {
   cursor: default;
 }
@@ -3137,6 +3151,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 #reports_platform_cost_block .reports_platform_header,
 #reports_platform_cost_block .strategy_total_container_header,
 #reports_platform_cost_block .each_strategy_holder {
+  padding: 10px 0 10px 15px !important;
   /*    .seventh_col {
       min-width: 72px;
       width: 72px;
@@ -3284,6 +3299,9 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 }
 #reports_platform_cost_block .each_cost_col.first_col {
   text-align: left;
+}
+#reports_platform_cost_block .reports_details_outer_container {
+  width: 1600px;
 }
 .optimization_header .duration_filters {
   margin: 10px 45px 0 0 ;
