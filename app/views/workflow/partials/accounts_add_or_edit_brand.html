@@ -1,13 +1,16 @@
-<admin-header></admin-header>
+<admin-header class="col-md-12 zeroPadding" style="margin: -30px 0 0 0;"></admin-header>
 <div class="popup-holder accounts-popup">
-    <div class="modal-header">
-        <span class="btn btn-primary pull-right" ng-click="saveBrands()">Save</span>
-        <span class="btn btn-link pull-right" data-dismiss="modal" ng-click="close()">Cancel</span>
-
-        <h2 class="modal-title" id="myModalLabel">{{(mode === 'create'?'Add':'Edit')}} Brand</h2>
+    <div class="modal-header col-md-12 zeroPadding">
+        <h2 class="modal-title pull-left zeroPadding" style="margin: 30px 0;" id="myModalLabel">{{(mode === 'create'?'Add':'Edit')}} Brand</h2>
+        
+        <div class="pull-right" style="margin: 30px 0;">
+            <span class="btn btn-primary pull-right" ng-click="saveBrands()">Save</span>
+            <span class="btn btn-link pull-right" data-dismiss="modal" ng-click="close()">Cancel</span>
+        </div>
     </div>
-    <div class="modal-body">
-        <div class="form-group">
+    
+    <div class="modal-body col-md-12 zeroPadding">
+        <div class="form-group col-md-4 zeroPadding">
             <label class="col-sm-12 greyTxt">Brand Name:</label>
             <select class="form-control" name="selectedBrandId" ng-model="selectedBrandId">
                 <option selected disabled data-ng-bind="'Select Brand'"></option>
