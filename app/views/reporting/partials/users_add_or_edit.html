@@ -9,25 +9,28 @@
         <form id="userCreateEditForm" name="userCreateEditForm" class="col-md-12 zeroPadding">
             <div class="col-md-12 zeroPadding">
                 <div class="form-group col-md-3" show-errors style="padding-left: 0;">
-                    <label class="col-sm-12 greyTxt"><span class="icon-user"></span> User Login:</label>
+                    <label class="col-sm-12 greyTxt"><span class="icon-user pull-left"></span> User Login:</label>
                     <input name="userLogin" type="email" class="form-control" ng-disabled="isEdit" ng-model="userConsoleFormDetails.email" required >
-                    <label ng-if="userCreateEditForm.userLogin.$error.required" class="col-sm-12  greyTxt errorLabel">You must enter user login.</label>
                     <label ng-if="userCreateEditForm.userLogin.$error.email" class="col-sm-12  greyTxt errorLabel">Invalid email address.</label>
                 </div>
-                <div class="form-group col-md-3" show-errors>
+                <div class="form-group col-md-2" show-errors>
                     <label class="col-sm-12 greyTxt">First Name:</label>
                     <input name="firstName" type="text" ng-model="userConsoleFormDetails.firstName" class="form-control"  required>
-                    <label ng-if="userCreateEditForm.firstName.$error.required" class="col-sm-12  greyTxt errorLabel">You must enter First Name.</label>
                 </div>
-                <div class="form-group col-md-3" show-errors>
+                <div class="form-group col-md-2" show-errors>
                     <label class="col-sm-12 greyTxt">Last Name:</label>
                     <input name="lastName" type="text" ng-model="userConsoleFormDetails.lastName" class="form-control"  required>
-                    <label ng-if="userCreateEditForm.lastName.$error.required" class="col-sm-12  greyTxt errorLabel">You must enter Last Name.</label>
                 </div>
                 <div class="form-group col-md-2" show-errors>
                     <label class="col-sm-12 greyTxt">Password:</label>
                     <input name="password" type="password" ng-model="userConsoleFormDetails.password" class="form-control" ng-disabled="userConsoleFormDetails.isEditPassword" required>
-                    <label ng-if="userCreateEditForm.password.$error.required" class="col-sm-12  greyTxt errorLabel">You must enter password.</label>
+                </div>
+                <div class="form-group col-md-2" ng-if="showSuperAdminButton">
+                    <label class="pull-left greyTxt" style="width: 100%;">User Active Status</label>
+                    <div class="pull-left">
+                        <input id="userState" class="cmn-toggle cmn-toggle-round" data-ng-model="userConsoleFormDetails.status" type="checkbox" checked>
+                        <label for="userState"></label>
+                    </div>
                 </div>
                 <div class="form-group col-md-1" style="padding-right: 0;" ng-if="showSuperAdminButton">
                     <label class="pull-right greyTxt">Super User</label>
@@ -37,11 +40,9 @@
                     </div>
                 </div>
             </div>
-
-
             <div class="form-group col-md-12 zeroPadding" ng-if="!isCurr_SuperUser">
                 <!--THIS IS TEST ELEMENTS ENDS HERE-->
-                <div class="col-md-12 add-filters" ng-repeat="(permissionIndex,item) in permissions track by $index" data-row-index="{{$index}}"> <!--$index--{{$index}}-->
+                <div class="accounts col-md-12 add-filters" ng-repeat="(permissionIndex,item) in permissions track by $index" data-row-index="{{$index}}"> <!--$index--{{$index}}-->
                     <div class="col-md-12 zeroPadding">
                         <h1 class="pull-left">Account Access</h1>
                     </div>
@@ -65,32 +66,33 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-7" style="padding: 0 30px;">
-                        <label class="col-md-12 zeroPadding greyTxt">Per Page Permission:</label>
-                        <div class="zeroPadding dropdown-workflow">
-                            <div class="dropdown" style="z-index: 99999">
-                                <tags-input
-                                        ng-model="pagePermissionValue[$index]"
-                                        display-property="description"
-                                        placeholder="Type here..."
-                                        add-from-autocomplete-only="true"
-                                        on-tag-added="addPagePermissionFilter($index)"
-                                        on-tag-removed="removePagePermissionFilter($index)"
-                                        max-tags="5">
-                                    <auto-complete source="loadPagePermissionList($index)"
-                                                   min-length="1"
-                                                   load-on-down-arrow="true"
-                                                   max-results-to-show="50"></auto-complete>
-                                </tags-input>
-                            </div>
+                    <div class="pull-left" style="padding: 0 30px;">
+                        <label class="pull-left greyTxt">Account Admin:</label>
+                        <div class="pull-left clearLeft" data-ng-click="adminUserToggleClicked($index, $event)">
+                            <input id="admin-toggle-{{$index}}" data-ng-model="toggle" class="cmn-toggle cmn-toggle-round" type="checkbox" >
+                            <label for="admin-toggle-{{$index}}"></label>
                         </div>
                     </div>
 
-                    <div class="col-md-2 zeroPadding">
-                        <label class="col-md-12 zeroPadding greyTxt">Account Admin:</label>
-                        <div class="pull-left" data-ng-click="adminUserToggleClicked($index, $event)">
-                            <input id="admin-toggle-{{$index}}" data-ng-model="toggle" class="cmn-toggle cmn-toggle-round" type="checkbox" >
-                            <label for="admin-toggle-{{$index}}" ></label>
+                    <div class="pull-left">
+                        <label class="col-md-12 zeroPadding greyTxt">Permission Group:</label>
+
+                        <div class="btn-group toggleBtn selOption" >
+                            <button type="button" ng-disabled="adminToggle[$index]" class="btn btn-default all" ng-click="permissionAll($index);">All</button>
+                            <button type="button" ng-disabled="adminToggle[$index]" class="btn btn-default unAll" ng-click="permissionUnAll($index);">Unselect All</button>
+                            <button type="button" ng-disabled="adminToggle[$index]" class="btn btn-default reportsOnly" ng-click="permissionRepOnly($index);">Reporting Only</button>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12 zeroPadding">
+                        <label class="col-md-12 zeroPadding greyTxt">Per Page Permission:</label>
+                        <div ng-repeat="userPerPages in userPages" class="col-md-3 zeroPadding userPages"
+                             data-ng-click="selectUserPage($parent.$index, userPerPages)">
+                            <input type="checkbox" data-ng-init="modalVal=userPerPages.code+'_'+$parent.$index+'_checked'"
+                                   id="{{userPerPages.code}}_{{$parent.$index}}_id"
+                                   ng-disabled = "adminToggle[$parent.$index]"
+                                   ng-model="userConsoleFormDetails[userPerPages.code+'_'+$parent.$index+'_checked']" class="pull-left">
+                            <label for="{{userPerPages.code}}_{{$parent.$index}}_id" ng-bind="userPerPages.name" class="pull-left" style="margin: 1px 0 0 5px;cursor:pointer;">Text</label>
                         </div>
                     </div>
                     <div class="col-md-12" style="background: rgba(0, 0, 0, 0.08); padding: 15px 30px; margin: 15px 0;" ng-repeat="i in item.resources" id="resources_{{$parent.$index}}_{{$index}}">
