@@ -9,8 +9,6 @@ define(['angularAMD', '../../common/services/constants_service'], function (angu
                 'hidden' : 'hidden'
             };
 
-
-
         //private method
         var platformHeader = function (pJson, elem) {
             var platformHTML = '<div class="col-md-12 platformHeading zeroPadding">';
@@ -93,7 +91,8 @@ define(['angularAMD', '../../common/services/constants_service'], function (angu
                 label,
                 LabelHtml,
                 fieldLabel,
-                hiddenInputField;
+                hiddenInputField,
+                chkSelValue;
 
             if (_self.adPlatformCustomInputs) {
                 adsEditDefaultValueMapper(_self.adPlatformCustomInputs, inputList);
@@ -131,7 +130,7 @@ define(['angularAMD', '../../common/services/constants_service'], function (angu
                             'name' : inputList.name + '$$' + inputList.id
                         })
                         .on('change', function () {
-                            var chkSelValue = this.checked ?  'TRUE' : 'FALSE';
+                            chkSelValue = this.checked ?  'TRUE' : 'FALSE';
                             var formGroupSectionElem = inputListHTML.parent().siblings(".form-group-section");
                             if(formGroupSectionElem.parent().hasClass('form-individual-section')) {
                                 if(formGroupSectionElem && formGroupSectionElem.length >0) {
@@ -216,7 +215,10 @@ define(['angularAMD', '../../common/services/constants_service'], function (angu
                             selectPlatform(chkSelValue , inputList, inputGroupList.platformCustomInputChildrenGroupList,
                                 'chkDependentItems');
                         }
-                        hiddenInputField.attr('value' , chkSelValue);
+
+                        if(chkSelValue) {
+                            hiddenInputField.attr('value', chkSelValue);
+                        }
                     });
 
                     label = $('<label for="cmn-toggle-' + (idx + 1) + '"/>');
@@ -355,6 +357,11 @@ define(['angularAMD', '../../common/services/constants_service'], function (angu
             _.each(platformCustomInputList, function (inputList, idx) {
                 groupContainer.append(createInputElem(inputList, inputGroupList, idx, 'group'));
             });
+
+            if(_.filter(platformCustomInputList, function(obj) { return obj.platformCustomWidgetType === 'HIDDEN'}).length >0) {
+                groupContainer.hide();
+            }
+
             elem.append(groupContainer);
         };
 
@@ -382,10 +389,12 @@ define(['angularAMD', '../../common/services/constants_service'], function (angu
 
         var init = function (platformCustomeJson, elem, adPlatformCustomInputs) {
             elem.html('');
+
             _self.elem = elem;
             _self.adPlatformCustomInputs= adPlatformCustomInputs;
-            _self.platformCustomInputNamespaceList = platformCustomeJson.platformCustomInputNamespaceList;
+            _self.platformCustomInputNamespaceList = _.sortBy(platformCustomeJson.platformCustomInputNamespaceList, 'displayOrder') ;
             _self.platformCustomInputActivationOrderList = platformCustomeJson.platformCustomInputActivationOrderList;
+
             _.each(_self.platformCustomInputNamespaceList, function (pJson) {
                 platformHeader(pJson, elem);
                 buildFormControl(pJson, elem);
