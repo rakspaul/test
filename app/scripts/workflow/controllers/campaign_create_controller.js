@@ -366,6 +366,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     workflowService.setSelectedAdvertiser(selectedAdvertiser);
                     $("#brandDDL").parents('.dropdown').find('button').html("Select Brand <span class='icon-arrow-down'></span>");
                     createCampaign.fetchBrands($scope.selectedCampaign.clientId, data.id);
+                    $scope.selectedCampaign.selectedPixel = [];
                     createCampaign.platforms(data.id);
                     createCampaign.fetchVendorConfigs();
                     createCampaign.fetchCostAttributes();

@@ -155,7 +155,7 @@
                         <span class="icon-arrow-down"></span>
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="lineType" id="pixelsList" data-toggle="dropdown" name="lineItemType">
-                        <li class="available" ng-repeat="pixel in selectedCampaign.pixelList"  ng-click="setPixels(pixel,'create')"><a>{{pixel.name}}</a></li>
+                        <li class="available" ng-repeat="pixel in selectedCampaign.selectedPixel"  ng-click="setPixels(pixel,'create')"><a>{{pixel.name}}</a></li>
                     </ul>
                     <input type="hidden" class="form-control" ng-model="pixelSelected.id" name="pixelSelected"  />
                 </div>
@@ -327,7 +327,7 @@
                             <span class="icon-arrow-down"></span>
                         </button>
                         <ul class="dropdown-menu" aria-labelledby="lineType" id="pixelEdit" data-toggle="dropdown" name="lineItemType">
-                            <li class="available" ng-repeat="pixel in selectedCampaign.pixelList"  ng-click="setPixels(pixel,'edit')"><a>{{pixel.name}}</a></li>
+                            <li class="available" ng-repeat="pixel in selectedCampaign.selectedPixel"  ng-click="setPixels(pixel,'edit')"><a>{{pixel.name}}</a></li>
                         </ul>
                         <input type="hidden" class="form-control" ng-model="editLineItem.pixelSelected.id" name="lineItemType"  />
                     </div>
