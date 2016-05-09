@@ -1,7 +1,9 @@
 define(['angularAMD', 'common/services/constants_service', 'workflow/services/workflow_service', 'common/moment_utils'], function (angularAMD) {
     angularAMD.controller('BudgetController', function ($scope, $rootScope, $routeParams, $locale, $location, $timeout, constants, workflowService, loginModel, momentService) {
 
+
         $scope.selectedCampaign.additionalCosts = [];
+
         $scope.selectedCampaign.addAdditionalCost = function() {
             $scope.additionalCosts.push({
                 key: "",
@@ -44,5 +46,13 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 $scope.selectedCampaign.selectedCostAttr[index]['costType'] = 'MANUAL'
             }
         }
+
+        $scope.$parent.ComputeCost = function () {
+            var intermediate = (parseFloat($scope.Campaign.totalBudget) * (100 - parseFloat($scope.Campaign.marginPercent)) / 100);
+            $scope.Campaign.deliveryBudget = parseFloat(intermediate) - parseFloat($scope.Campaign.nonInventoryCost);
+            $scope.Campaign.effectiveCPM = $scope.calculateEffective();
+
+        }
+
     });
 });

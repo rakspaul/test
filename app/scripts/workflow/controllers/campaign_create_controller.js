@@ -91,41 +91,6 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         }
 
 
-        $scope.ComputeCost = function () {
-            var intermediate = (parseFloat($scope.Campaign.totalBudget) * (100 - parseFloat($scope.Campaign.marginPercent)) / 100);
-            $scope.Campaign.deliveryBudget = parseFloat(intermediate) - parseFloat($scope.Campaign.nonInventoryCost);
-            $scope.Campaign.effectiveCPM = $scope.calculateEffective();
-
-        }
-
-        $scope.calculateEffective = function () {
-            for (var ind = 0; ind < $scope.Campaign.kpiArr.length; ind++) {
-                if ($scope.Campaign.kpiArr[ind].isPrimary || $scope.Campaign.kpiArr[ind].isPrimary == "true") {
-                    if (angular.uppercase($scope.Campaign.kpiArr[ind].kpiType) == "IMPRESSIONS" || angular.uppercase($scope.Campaign.kpiArr[ind].kpiType) == "VIEWABLE IMPRESSIONS") {
-                        if (parseFloat($scope.Campaign.kpiArr[ind].kpiValue) > 0)
-                            return parseFloat($scope.Campaign.deliveryBudget) / parseFloat($scope.Campaign.kpiArr[ind].kpiValue) * 1000;
-                        else
-                            return "NA";
-                    }
-                    else {
-                        if (parseFloat($scope.Campaign.kpiArr[ind].kpiValue) > 0)
-                            return parseFloat($scope.Campaign.deliveryBudget) / parseFloat($scope.Campaign.kpiArr[ind].kpiValue);
-                        else
-                            return "NA";
-                    }
-                }
-            }
-        };
-
-
-        $scope.processEditCampaignData = function () {
-            workflowService.getCampaignData($scope.campaignId).then(function (result) {
-                if (result.status === "OK" || result.status === "success") {
-                    createCampaign.prefillMediaPlan(result.data.data);
-                }
-            });
-        };
-
         var createCampaign = {
             clients: function () {
                 workflowService.getClients().then(function (result) {
@@ -286,21 +251,21 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     $scope.tags = workflowService.recreateLabels(campaignData.labels);
                 }
 
+                var flightDateObj= {
+                    startTime : campaignData.startTime,
+                    endTime : campaignData.endTime,
+                }
+
                 //set startDate
-                if (campaignData.startTime) {
-                    $scope.selectedCampaign.startTime = momentService.utcToLocalTime(campaignData.startTime);
-                    startDateElem.datepicker("setStartDate", campaignData.startTime);
+                if (flightDateObj.startTime) {
+                    $scope.selectedCampaign.startTime = momentService.utcToLocalTime(flightDateObj.startTime);
+                    startDateElem.datepicker("setStartDate", $scope.selectedCampaign.startTime);
+                    startDateElem.datepicker("update", $scope.selectedCampaign.startTime);
                 }
 
                 //set endDate
-                if (campaignData.endTime) {
-
-                    $scope.selectedCampaign.endTime = momentService.utcToLocalTime(campaignData.endTime);
-
-                    var flightDateObj= {
-                        startTime : $scope.selectedCampaign.startTime,
-                        endTime : $scope.selectedCampaign.endTime,
-                    }
+                if (flightDateObj.endTime) {
+                    $scope.selectedCampaign.endTime = momentService.utcToLocalTime(flightDateObj.endTime);
                     $scope.handleFlightDate(flightDateObj);
                 }
 
@@ -348,7 +313,35 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
                 $scope.editCampaignData = campaignData;
             }
-        }
+        };
+
+        $scope.calculateEffective = function () {
+            for (var ind = 0; ind < $scope.Campaign.kpiArr.length; ind++) {
+                if ($scope.Campaign.kpiArr[ind].isPrimary || $scope.Campaign.kpiArr[ind].isPrimary == "true") {
+                    if (angular.uppercase($scope.Campaign.kpiArr[ind].kpiType) == "IMPRESSIONS" || angular.uppercase($scope.Campaign.kpiArr[ind].kpiType) == "VIEWABLE IMPRESSIONS") {
+                        if (parseFloat($scope.Campaign.kpiArr[ind].kpiValue) > 0)
+                            return parseFloat($scope.Campaign.deliveryBudget) / parseFloat($scope.Campaign.kpiArr[ind].kpiValue) * 1000;
+                        else
+                            return "NA";
+                    }
+                    else {
+                        if (parseFloat($scope.Campaign.kpiArr[ind].kpiValue) > 0)
+                            return parseFloat($scope.Campaign.deliveryBudget) / parseFloat($scope.Campaign.kpiArr[ind].kpiValue);
+                        else
+                            return "NA";
+                    }
+                }
+            }
+        };
+
+
+        $scope.processEditCampaignData = function () {
+            workflowService.getCampaignData($scope.campaignId).then(function (result) {
+                if (result.status === "OK" || result.status === "success") {
+                    createCampaign.prefillMediaPlan(result.data.data);
+                }
+            });
+        };
 
         $scope.selectHandler = function (type, data, event) {
             switch (type) {
@@ -439,8 +432,6 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 postDataObj.brandId = brandId;
             }
         };
-
-
 
         $scope.saveCampaign = function () {
             $scope.$broadcast('show-errors-check-validity');
@@ -671,7 +662,6 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 if ($scope.mode == 'edit') {
                     $scope.processEditCampaignData();
                 } else {
-                    //createCampaign.objectives();
                     $timeout(function() {
                         $scope.initiateDatePicker();
                         $scope.initiateLineItemDatePicker();

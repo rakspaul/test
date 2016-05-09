@@ -8,19 +8,6 @@ define(['angularAMD' , 'workflow/services/workflow_service' , 'common/moment_uti
             $scope.selectedCampaign.pixelList = [];
             $scope.selectAllPixelsChecked = false;
 
-
-            var _pixelTargetting = {
-                resetPixel: function () {
-                    var i;
-                    for (i = 0; i < $scope.selectedCampaign.pixelList.length; i++) {
-                        $scope.selectedCampaign.pixelList[i].isChecked = false;
-                        $scope.selectedCampaign.pixelList[i].isIncluded = null;
-                    }
-                }
-
-
-            }
-
             var pixels = {
                 fetchPixels: function (pixels) {
                     workflowService.getPixels($scope.selectedCampaign.advertiserId,$scope.selectedCampaign.clientId).then(function (result) {
@@ -42,13 +29,16 @@ define(['angularAMD' , 'workflow/services/workflow_service' , 'common/moment_uti
                             console.log(result) ;
                         }
                     });
+                },
+
+                resetPixel: function () {
+                    var i;
+                    for (i = 0; i < $scope.selectedCampaign.pixelList.length; i++) {
+                        $scope.selectedCampaign.pixelList[i].isChecked = false;
+                        $scope.selectedCampaign.pixelList[i].isIncluded = null;
+                    }
                 }
             };
-
-
-            $scope.$on('fetch_pixels' , function(event, args) {
-                pixels.fetchPixels(args);
-            }) ;
 
             //select or unselect indiviual pixels
             $scope.selectPixel = function (pixel) {
@@ -69,7 +59,6 @@ define(['angularAMD' , 'workflow/services/workflow_service' , 'common/moment_uti
                 }
             };
 
-
             $scope.selectAllPixel = function (event) {
                 var i;
                 $scope.selectedCampaign.selectedPixel = []; //empty the selected pixel array before populating/empting it with all the pixel
@@ -81,14 +70,18 @@ define(['angularAMD' , 'workflow/services/workflow_service' , 'common/moment_uti
                         $scope.selectedCampaign.pixelList[i].isIncluded = true;
                     }
                 } else {
-                    _pixelTargetting.resetPixel(); // deselect all
+                    pixels.resetPixel(); // deselect all
                 }
             };
 
             $scope.clearAllSelectedPixel = function () {
-                _pixelTargetting.resetPixel();
+                pixels.resetPixel();
                 $scope.selectedCampaign.selectedPixel = [];
             };
+
+            $scope.$on('fetch_pixels' , function(event, args) {
+                pixels.fetchPixels(args);
+            }) ;
 
             // end of pixels page controller
         });

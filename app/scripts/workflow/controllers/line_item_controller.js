@@ -47,53 +47,32 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     $scope.resetLineItemParameters();
                 }
             } else {
-                //newItem.name = $scope.editLineItem.lineItemName;
-                //newItem.lineItemType = $scope.editLineItem.lineItemType;
-                //newItem.pricingMethodId = $scope.editLineItem.lineItemType.id;
-                //newItem.adGroupName = $scope.editLineItem.adGroupName;
-                //$scope.lineItemBillableAmountTotal = $scope.lineItemBillableAmountTotal - Number(oldLineItem.billableAmount);
-                //newItem.billableAmount = $scope.editLineItem.billableAmount;
-                //$scope.lineItemBillableAmountTotal += Number($scope.editLineItem.billableAmount);
-                //newItem.volume = $scope.editLineItem.volume;
-                //newItem.pricingRate = $scope.editLineItem.pricingRate;
-                //newItem.startTime = $scope.editLineItem.startTime;
-                //newItem.endTime = $scope.editLineItem.endTime;
-                //newItem.pixel = $scope.editLineItem.pixelSelected;
-                //newItem.pixelId = $scope.editLineItem.pixelSelected.id;
-                //newItem.campaignId = (campaignId === '-999')?'-999':campaignId; // handle real edit mode
                 newItem = createEditLineItemObj(oldLineItem.id);
                 $scope.lineItemList.push(newItem);
-
             }
-
         };
 
         $scope.createNewLineItemInEditMode = function(){
             var newItem;
-
             newItem = createLineItemObj();
             newItem.startTime = momentService.localTimeToUTC(newItem.startTime, 'startTime');
             newItem.endTime = momentService.localTimeToUTC(newItem.endTime, 'endTime');
             workflowService.createLineItems($scope.selectedCampaign.campaignId,$scope.selectedCampaign.clientId,newItem).then(function(){
-                var createCampaign = $scope.createCampaignAccess();
-                //createCampaign.fetchLineItemDetails($scope.selectedCampaign.campaignId);
+                $scope.createCampaignAccess();
             });
         };
 
         $scope.updateLineItemInEditMode = function(){
             var newItem ;
-
             newItem = createEditLineItemObj();
             newItem.startTime = momentService.localTimeToUTC(newItem.startTime, 'startTime');
             newItem.endTime = momentService.localTimeToUTC(newItem.endTime, 'endTime');
             workflowService.createLineItems($scope.selectedCampaign.campaignId,$scope.selectedCampaign.clientId,newItem).then(function(){
-                var createCampaign = $scope.createCampaignAccess();
-                //createCampaign.fetchLineItemDetails($scope.selectedCampaign.campaignId);
+                $scope.createCampaignAccess();
             });
         };
 
         function createLineItemObj(lineItemId) {
-
             var newItem = {};
             newItem.name = $scope.lineItemName;
             newItem.lineItemType = $scope.lineItemType;
@@ -212,18 +191,6 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     if(selectedAdvertiser && (selectedAdvertiser.billingType && selectedAdvertiser.billingValue)){
                         $scope.rateReadOnly = true;
                         $scope.pricingRate = selectedAdvertiser.billingValue;// to get via advertiser api
-                        //$scope.rateTypeReadOnly = true;
-                        //var arr = [];
-                        //var index = _.findIndex($scope.type,function(item){
-                        //    return item.name === $scope.lineItemType.name
-                        //});
-                        //arr.push($scope.type[index]);
-                        //var index1 = _.findIndex($scope.type,function(item){
-                        //    return item.name === CONST_FLAT_FEE
-                        //})
-                        //arr.push($scope.type[index1]);
-                        //$scope.type = arr;
-
                     }
                     $scope.hideAdGroupName = true;
                     $scope.hideLineItemRate = true;
@@ -340,8 +307,6 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         $scope.updateLineItem = function(newItem){
             $scope.deleteLineItem(false);
             $scope.createNewLineItem('edit');
-            //$scope.lineItemList.push(index,1);
-
         }
 
         $scope.deleteLineItem = function(deleteFlag){
@@ -359,10 +324,6 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             else {
                 workflowService.deleteLineItem(oldLineItem,$scope.selectedCampaign.clientId) // not used right now
             }
-
-                //.then(function(){
-                //
-                //});
         }
 
         //populate line item in case of edit and cancel of edit
@@ -425,12 +386,10 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
         // line item date picker
         $scope.$parent.initiateLineItemDatePicker = function () {
-            var startDateElem = $('#lineItemStartDateInput');
-            var endDateElem = $('#lineItemEndDateInput');
-            //var startDateElem = $('#startDateInput');
-            //var endDateElem = $('#endDateInput');
-            var today = momentService.utcToLocalTime();
-            console.log("$scope.selectedCampaign.startTime",$('#startDateInput').val(),"$scope.selectedCampaign.endTime",$scope.selectedCampaign.endTime);
+            var startDateElem = $('#lineItemStartDateInput'),
+                endDateElem = $('#lineItemEndDateInput'),
+                today = momentService.utcToLocalTime();
+
             $scope.lineItemStartDate = $scope.selectedCampaign.startTime;
             $scope.lineItemEndDate = $scope.selectedCampaign.endTime;
 
