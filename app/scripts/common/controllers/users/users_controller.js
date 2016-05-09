@@ -6,6 +6,10 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
         $scope.userConsoleFormDetails={};
         $(".each_nav_link").removeClass("active_tab");
         $("#admin_nav_link").addClass("active_tab");
+        
+        //Responsive Height
+        var winHeight = $(window).height();
+        $(".table-responsive .tbody").css("min-height", winHeight - 330);
 
         //Add or Edit Pop up for User
         $scope.AddOrEditUserModal = function(mode,userObj) {
@@ -24,6 +28,8 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
             //$('.user-list').addClass('fadeOutLeft');
 //            $('.user-list, .users-creation-page .heading').fadeOut();
 //            $('.edit-dialog').fadeIn();
+
+            $(".btn-group").addClass("toggleBtn");
 
             $scope.isEdit = false;
 

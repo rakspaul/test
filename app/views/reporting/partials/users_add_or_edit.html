@@ -66,6 +66,7 @@
                             </div>
                         </div>
                     </div>
+
                     <div class="pull-left" style="padding: 0 30px;">
                         <label class="pull-left greyTxt">Account Admin:</label>
                         <div class="pull-left clearLeft" data-ng-click="adminUserToggleClicked($index, $event)">
@@ -95,6 +96,7 @@
                             <label for="{{userPerPages.code}}_{{$parent.$index}}_id" ng-bind="userPerPages.name" class="pull-left" style="margin: 1px 0 0 5px;cursor:pointer;">Text</label>
                         </div>
                     </div>
+                    
                     <div class="col-md-12" style="background: rgba(0, 0, 0, 0.08); padding: 15px 30px; margin: 15px 0;" ng-repeat="i in item.resources" id="resources_{{$parent.$index}}_{{$index}}">
                         <div class="form-group col-md-4" style="padding-left: 0;">
                             <label class="col-md-12 zeroPadding greyTxt">Advertiser Name:</label>

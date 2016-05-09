@@ -35,7 +35,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/ac
         if(!$scope.userModalData) {
             $scope.userModalData = [];
         }
-
+        
         $scope.editmode = false;
         var defaultAccess = 'ADMIN';
         var editedUserDetails = {};
@@ -292,6 +292,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/ac
                             res.data.data.shift();
                         }
                         $scope.userPages = res.data.data;
+                        console.log($scope.userPages);
                     }
                 });
             },
@@ -546,6 +547,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/ac
                 }
             });
         }
+
         _customctrl.allPages = function(index, isSel){
             _.each($scope.userPages, function(item){
                 $scope.userConsoleFormDetails[item.code+"_"+index+"_checked"] = isSel;

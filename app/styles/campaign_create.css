@@ -1650,7 +1650,6 @@
   margin: 10px auto 10px;
   max-height: 32px;
   max-width: 210px;
-  min-height: 32px;
 }
 #campaignCreate .campaignAdCreate .adMainWrapper .platformHolder p {
   color: #21252b;
@@ -4012,7 +4011,7 @@
   background: url(/images/cdesk/edit_blue.png) no-repeat right center;
   cursor: pointer;
   display: inline-block;
-  height: 20px;
+  height: 18px;
   margin-left: 10px;
   width: 20px;
 }
@@ -4204,11 +4203,11 @@
 .modalAccountRedx .modal-dialog .modal-content .popup-holder .modal-body {
   padding: 0;
 }
-.modalAccountRedx .modal-dialog .modal-content .popup-holder .modal-body #pixelsCnt,
-.modalAccountRedx .modal-dialog .modal-content .popup-holder .modal-body .IABForm,
-.modalAccountRedx .modal-dialog .modal-content .popup-holder .modal-body .adChoices,
-.modalAccountRedx .modal-dialog .modal-content .popup-holder .modal-body .billingMethods,
-.modalAccountRedx .modal-dialog .modal-content .popup-holder .modal-body .pixelCreate {
+.modalAccountRedx .modal-dialog .modal-content .popup-holder #pixelsCnt,
+.modalAccountRedx .modal-dialog .modal-content .popup-holder .IABForm,
+.modalAccountRedx .modal-dialog .modal-content .popup-holder .adChoices,
+.modalAccountRedx .modal-dialog .modal-content .popup-holder .billingMethods,
+.modalAccountRedx .modal-dialog .modal-content .popup-holder .pixelCreate {
   float: left;
   width: 100%;
   margin: 0 0 30px 0;
@@ -4216,22 +4215,22 @@
   background: #EDF2F8;
   padding: 10px 30px;
 }
-.modalAccountRedx .modal-dialog .modal-content .popup-holder .modal-body #pixelsCnt .pixelLayer,
-.modalAccountRedx .modal-dialog .modal-content .popup-holder .modal-body .IABForm .pixelLayer,
-.modalAccountRedx .modal-dialog .modal-content .popup-holder .modal-body .adChoices .pixelLayer,
-.modalAccountRedx .modal-dialog .modal-content .popup-holder .modal-body .billingMethods .pixelLayer,
-.modalAccountRedx .modal-dialog .modal-content .popup-holder .modal-body .pixelCreate .pixelLayer {
+.modalAccountRedx .modal-dialog .modal-content .popup-holder #pixelsCnt .pixelLayer,
+.modalAccountRedx .modal-dialog .modal-content .popup-holder .IABForm .pixelLayer,
+.modalAccountRedx .modal-dialog .modal-content .popup-holder .adChoices .pixelLayer,
+.modalAccountRedx .modal-dialog .modal-content .popup-holder .billingMethods .pixelLayer,
+.modalAccountRedx .modal-dialog .modal-content .popup-holder .pixelCreate .pixelLayer {
   float: left;
   width: 100%;
 }
-.modalAccountRedx .modal-dialog .modal-content .popup-holder .modal-body #pixelsCnt {
+.modalAccountRedx .modal-dialog .modal-content .popup-holder #pixelsCnt {
   padding: 0;
   background: #fff;
 }
-.modalAccountRedx .modal-dialog .modal-content .popup-holder .modal-body .pixelCreate {
+.modalAccountRedx .modal-dialog .modal-content .popup-holder .pixelCreate {
   margin: 30px 0 0 0;
 }
-.modalAccountRedx .modal-dialog .modal-content .popup-holder .modal-body .pixelTable {
+.modalAccountRedx .modal-dialog .modal-content .popup-holder .pixelTable {
   float: left;
   width: 100%;
   margin-top: 30px;

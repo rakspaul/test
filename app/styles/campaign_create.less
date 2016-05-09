@@ -2002,7 +2002,7 @@
                     margin: 10px auto 10px;
                     max-height: 32px;
                     max-width: 210px;
-                    min-height: 32px;
+                    //min-height: 32px;
                 }
 
                 p {
@@ -4808,7 +4808,7 @@
         background: url(/images/cdesk/edit_blue.png) no-repeat right center;
         cursor: pointer;
         display: inline-block;
-        height: 20px;
+        height: 18px;
         margin-left: 10px;
         width: 20px;
     }
@@ -5003,31 +5003,31 @@
                 }
                 .modal-body {
                     padding: 0;
-                    #pixelsCnt, .IABForm, .adChoices, .billingMethods, .pixelCreate {
+                }
+                #pixelsCnt, .IABForm, .adChoices, .billingMethods, .pixelCreate {
+                    float: left;
+                    width: 100%;
+                    margin: 0 0 30px 0;
+                    position: relative;
+                    background: #EDF2F8;
+                    padding: 10px 30px;
+                    .pixelLayer {
                         float: left;
                         width: 100%;
-                        margin: 0 0 30px 0;
-                        position: relative;
-                        background: #EDF2F8;
-                        padding: 10px 30px;
-                        .pixelLayer {
-                            float: left;
-                            width: 100%;
-                        }
                     }
-                    #pixelsCnt {
-                        padding: 0;
-                        background: #fff;
-                    }
-                    .pixelCreate {
-                        margin: 30px 0 0 0;
+                }
+                #pixelsCnt {
+                    padding: 0;
+                    background: #fff;
+                }
+                .pixelCreate {
+                    margin: 30px 0 0 0;
 //                        display: none;
-                    }
-                    .pixelTable {
-                        float: left;
-                        width: 100%;
-                        margin-top: 30px;
-                    }
+                }
+                .pixelTable {
+                    float: left;
+                    width: 100%;
+                    margin-top: 30px;
                 }
                 input[type="text"], select {
                     border: 1px solid #BFC9D7;
