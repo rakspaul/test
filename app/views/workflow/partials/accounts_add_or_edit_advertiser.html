@@ -63,12 +63,12 @@
                 <div class="col-md-12 zeroPadding dropdown-workflow">
                     <div class="dropdown">
                         <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                            <span class="text" data-ng-bind="advertiserAddOrEditData.selectedIABCategory">Arts & Entertainment</span>
+                            <span class="text" data-ng-bind="advertiserAddOrEditData.selectedIABCategory"></span>
                             <span class="icon-arrow-down"></span>
                         </button>
                         <ul class="dropdown-menu" data-toggle="dropdown">
-                            <li class="available" data-ng-repeat="type in IABCategoryList" >
-                                <a data-ng-bind="type.name" data-ng-click="selectIABCategory(type)">Arts & Entertainment</a>
+                            <li class="available" data-ng-repeat="type in advertiserAddOrEditData.IABCategoryList" >
+                                <a data-ng-bind="type.name" data-ng-click="selectIABCategory(type)"></a>
                             </li>
                         </ul>
                     </div>
@@ -81,12 +81,12 @@
                 <div class="col-md-12 zeroPadding dropdown-workflow">
                     <div class="dropdown">
                         <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                            <span class="text" data-ng-bind="advertiserAddOrEditData.selectedIABCategory">Arts & Entertainment</span>
+                            <span class="text" data-ng-bind="advertiserAddOrEditData.selectedIABSubCategory"></span>
                             <span class="icon-arrow-down"></span>
                         </button>
                         <ul class="dropdown-menu" data-toggle="dropdown">
-                            <li class="available" data-ng-repeat="type in IABCategoryList" >
-                                <a data-ng-bind="type.name" data-ng-click="selectIABCategory(type)">Arts & Entertainment</a>
+                            <li class="available" data-ng-repeat="type in advertiserAddOrEditData.IABSubCategoryList" >
+                                <a data-ng-bind="type.name" data-ng-click="selectIABSubCategory(type)"></a>
                             </li>
                         </ul>
                     </div>

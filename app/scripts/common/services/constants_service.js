@@ -1066,6 +1066,7 @@ define(['angularAMD'], function(angularAMD) {
         this.SELECT_TIMEZONE = "Please select the timezone";
         this.EMPTY_ADCHOICE_CODE = "Please add code for ad-choice";
         this.EMPTY_IAB_CATEGORY = "Please select some category";
+        this.EMPTY_IAB_SUB_CATEGORY = "Please select some sub-category";
         this.PIXEL_DOWNLOAD_SUCCESS = "Pixel downloaded successfully";
         this.PIXEL_DOWNLOAD_ERR = "Error in downloading pixel";
 
