@@ -42,25 +42,37 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             var newItem = {};
             if(mode === 'create'){
                 if($scope.lineItemName != ''){
-                    newItem.name = $scope.lineItemName;
-                    newItem.lineItemType = $scope.lineItemType;
-                    newItem.pricingMethodId = $scope.lineItemType.id;
-                    if($scope.hideAdGroupName) {
-                        newItem.adGroupName = '';
-                    } else {
-                        newItem.adGroupName = ($scope.adGroupName === '') ? $scope.lineItemName:$scope.adGroupName;
-                    }
-                    newItem.billableAmount = $scope.billableAmount;
-                    $scope.lineItemBillableAmountTotal += Number($scope.billableAmount);
-                    newItem.volume = $scope.volume;
-                    newItem.pricingRate = $scope.pricingRate;
-                    newItem.startTime = $scope.lineItemStartDate;
-                    newItem.endTime = $scope.lineItemEndDate;
-                    newItem.pixel = $scope.pixelSelected;
-                    newItem.pixelId = $scope.pixelSelected.id;
-                    newItem.campaignId = campaignId;
-                    //$scope.totalBillableAmount +=  $scope.billableAmount;x
-                    $scope.lineItemList.push(newItem);
+                    //newItem.name = $scope.lineItemName;
+                    //newItem.lineItemType = $scope.lineItemType;
+                    //newItem.pricingMethodId = $scope.lineItemType.id;
+                    //if($scope.hideAdGroupName) {
+                    //    newItem.adGroupName = '';
+                    //} else {
+                    //    newItem.adGroupName = ($scope.adGroupName === '') ? $scope.lineItemName:$scope.adGroupName;
+                    //}
+                    //newItem.billableAmount = $scope.billableAmount;
+                    //$scope.lineItemBillableAmountTotal += Number($scope.billableAmount);
+                    //newItem.volume = $scope.volume;
+                    //newItem.pricingRate = $scope.pricingRate;
+                    //newItem.startTime = $scope.lineItemStartDate;
+                    //newItem.endTime = $scope.lineItemEndDate;
+                    //newItem.pixel = $scope.pixelSelected;
+                    //newItem.pixelId = $scope.pixelSelected.id;
+                    //newItem.campaignId = campaignId;
+                    newItem = createLineItemObj();
+
+
+
+                        $scope.lineItemList.push(newItem);
+                    //} else {
+                    //    newItem.startTime = momentService.localTimeToUTC(newItem.startTime, 'startTime');
+                    //    newItem.endTime = momentService.localTimeToUTC(newItem.endTime, 'endTime');
+                    //    workflowService.createLineItems($scope.selectedCampaign.campaignId,$scope.selectedCampaign.clientId,newItem).then(function(){
+                    //        var createCampaign = $scope.createCampaignAccess();
+                    //        //createCampaign.fetchLineItemDetails($scope.selectedCampaign.campaignId);
+                    //    });
+                    //}
+
                     $scope.resetLineItemParameters();
                 }
             } else {
@@ -84,8 +96,45 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
         };
 
+        $scope.createNewLineItemInEditMode = function(){
+            var newItem = {};
+
+            newItem = createLineItemObj();
+            newItem.startTime = momentService.localTimeToUTC(newItem.startTime, 'startTime');
+                newItem.endTime = momentService.localTimeToUTC(newItem.endTime, 'endTime');
+                workflowService.createLineItems($scope.selectedCampaign.campaignId,$scope.selectedCampaign.clientId,newItem).then(function(){
+                    var createCampaign = $scope.createCampaignAccess();
+                    //createCampaign.fetchLineItemDetails($scope.selectedCampaign.campaignId);
+                });
+        };
+
+        function createLineItemObj(item) {
+
+            var newItem = {};
+            newItem.name = $scope.lineItemName;
+            newItem.lineItemType = $scope.lineItemType;
+            newItem.pricingMethodId = $scope.lineItemType.id;
+            if($scope.hideAdGroupName) {
+                newItem.adGroupName = '';
+            } else {
+                newItem.adGroupName = ($scope.adGroupName === '') ? $scope.lineItemName:$scope.adGroupName;
+            }
+            newItem.billableAmount = $scope.billableAmount;
+            $scope.lineItemBillableAmountTotal += Number($scope.billableAmount);
+            newItem.volume = $scope.volume;
+            newItem.pricingRate = $scope.pricingRate;
+            newItem.startTime = $scope.lineItemStartDate;
+            newItem.endTime = $scope.lineItemEndDate;
+            newItem.pixel = $scope.pixelSelected;
+            newItem.pixelId = $scope.pixelSelected.id;
+            newItem.campaignId = campaignId;
+
+            return newItem;
+        }
+
+
         $scope.setLineItem = function(obj,mode){
-            
+
             if(mode !== 'edit'){
                 $scope.lineItemType = obj;
             } else {
@@ -329,19 +378,21 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 });
                 $scope.setLineItem($scope.type[index],'create');
                 //pixel
-                var pixelIndex = _.findIndex($scope.selectedCampaign.pixelList,function(type){
-                    return type.id === item.pixelId;
-                });
-                $scope.pixelSelected = $scope.selectedCampaign.pixelList[pixelIndex];
+                if(item.pixelId){
+                    var pixelIndex = _.findIndex($scope.selectedCampaign.pixelList,function(type){
+                        return type.id === item.pixelId;
+                    });
+                    $scope.pixelSelected = $scope.selectedCampaign.pixelList[pixelIndex];
+                    $scope.pixelSelected.id = item.pixelId;
+                }
 
                 $scope.hideAdGroupNameEdit = true;
                 $scope.lineItemType.id = item.billingTypeId;
-                $scope.pixelSelected.id = item.pixelId;
                 $scope.billableAmount = item.billableAmount;
                 $scope.volume = item.volume;
                 $scope.pricingRate = item.billingRate;
                 $scope.lineItemStartDate = momentService.utcToLocalTime(item.startTime);
-                $scope.lineItemEndDate = momentService.utcToLocalTime(item.endTime)
+                $scope.lineItemEndDate = momentService.utcToLocalTime(item.endTime);
                 campaignId = item.campaignId;
                 $scope.createNewLineItem('create');
 
