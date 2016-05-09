@@ -367,9 +367,11 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     $scope.selectedCampaign.clientId = data.id;
                     $scope.workflowData['advertisers'] = [];
                     createCampaign.fetchAdvertisers(data.id);
+                    resetPixelMediaPlan();
                     break;
 
                 case 'advertiser' :
+                    resetPixelMediaPlan();
                     $scope.workflowData['brands'] = [];
                     $scope.selectedCampaign.brand = '';
                     $scope.selectedCampaign.advertiserId = data.id;
@@ -751,6 +753,11 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         // use this method to access createCampaign in child
         $scope.createCampaignAccess = function(){
             return createCampaign;
+        };
+
+        function resetPixelMediaPlan(){
+            $scope.lineItemList = [];
+            $scope.selectedCampaign.selectedPixel = [];
         }
 
 
