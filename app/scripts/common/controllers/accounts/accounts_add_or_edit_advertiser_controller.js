@@ -15,7 +15,8 @@ define(['angularAMD','../../../workflow/services/account_service', '../../servic
         $scope.showUserModeText = function(){
             return ($scope.mode === 'create'? 'Add Advertiser':'Edit Advertiser ( '+$scope.advObj.name+' )');
         }
-        $scope.advertiserAddOrEditData.selectedIABCategory = "Select Category";
+        $scope.advertiserAddOrEditData.selectedIABCategory = "Select";
+        $scope.advertiserAddOrEditData.selectedIABSubCategory = "Select";
         _currCtrl.clearAdvInputFiled = function(){
             $scope.advertiserAddOrEditData.enableAdChoice = false;
             $scope.advertiserAddOrEditData.adChoiceCode = "";
@@ -37,11 +38,22 @@ define(['angularAMD','../../../workflow/services/account_service', '../../servic
         _currCtrl.getIABCategoryList = function(){
             accountsService.getIABCategoryList().then(function(res){
                 if((res.status === 'OK' || res.status === 'success') && res.data.data) {
-                    $scope.IABCategoryList = res.data.data;
+                    $scope.advertiserAddOrEditData.IABCategoryList = res.data.data;
                 }
             },function(err){
 
             })
+        }
+        _currCtrl.getIABSubCategoryList = function(groupId){
+            accountsService.getIABSubCategoryList(groupId).then(function(res){
+                if((res.status === 'OK' || res.status === 'success') && res.data.data) {
+                    $scope.advertiserAddOrEditData.IABSubCategoryList = res.data.data;
+                }else{
+                    console.log("Error: To get the sub-category list");
+                }
+            },function(err){
+                console.log("Error: To get the sub-category list");
+            });
         }
         _currCtrl.getIABCategoryList();
         _currCtrl.getIABCategory = function(){
@@ -49,8 +61,11 @@ define(['angularAMD','../../../workflow/services/account_service', '../../servic
                 _currCtrl.isAdChoiceInClient = false;
                 if((res.status === 'OK' || res.status === 'success') && res.data.data && res.data.data.id){
                     _currCtrl.isAdChoiceInClient = true;
-                    $scope.advertiserAddOrEditData.selectedIABCategory = res.data.data.name;
-                    $scope.advertiserAddOrEditData.selectedIABCategoryId = res.data.data.id;
+                    $scope.advertiserAddOrEditData.selectedIABCategory = res.data.data.groupName;
+                    $scope.advertiserAddOrEditData.selectedIABCategoryId = res.data.data.groupId;
+                    $scope.advertiserAddOrEditData.selectedIABSubCategory = res.data.data.name;
+                    $scope.advertiserAddOrEditData.selectedIABSubCategoryId = res.data.data.id;
+                    _currCtrl.getIABSubCategoryList($scope.advertiserAddOrEditData.selectedIABCategoryId);
                 }
             },function(err){
 
@@ -58,7 +73,8 @@ define(['angularAMD','../../../workflow/services/account_service', '../../servic
         }
         _currCtrl.saveIABCategory = function(){
             var reqBody = {
-                iabId: $scope.advertiserAddOrEditData.selectedIABCategoryId
+                groupId: $scope.advertiserAddOrEditData.selectedIABCategoryId,
+                iabId: $scope.advertiserAddOrEditData.selectedIABSubCategoryId
             }
             accountsService.saveIABCategoryForAdv($scope.client.id, $scope.selectedAdvertiserId, reqBody).then(function(res){
                 if((res.status === 'OK' || res.status === 'success') && res.data.data) {
@@ -123,7 +139,14 @@ define(['angularAMD','../../../workflow/services/account_service', '../../servic
         });
         $scope.selectIABCategory = function(type){
             $scope.advertiserAddOrEditData.selectedIABCategory = type.name;
-            $scope.advertiserAddOrEditData.selectedIABCategoryId = type.id
+            $scope.advertiserAddOrEditData.selectedIABCategoryId = type.id;
+            $scope.advertiserAddOrEditData.selectedIABSubCategory = "Select";
+            $scope.advertiserAddOrEditData.selectedIABSubCategoryId = null;
+            _currCtrl.getIABSubCategoryList(type.id);
+        }
+        $scope.selectIABSubCategory = function(type){
+            $scope.advertiserAddOrEditData.selectedIABSubCategory = type.name;
+            $scope.advertiserAddOrEditData.selectedIABSubCategoryId = type.id;
         }
         $scope.getAdnlData = function(){
             _currCtrl.getAdChoiceData();
@@ -152,8 +175,11 @@ define(['angularAMD','../../../workflow/services/account_service', '../../servic
                 errMsg = constants.EMPTY_ADCHOICE_CODE;
                 ret = false;
             }
-            if(!$scope.advertiserAddOrEditData.selectedIABCategory || $scope.advertiserAddOrEditData.selectedIABCategory == 'Select Category'){
+            if(!$scope.advertiserAddOrEditData.selectedIABCategory || $scope.advertiserAddOrEditData.selectedIABCategory == 'Select'){
                 errMsg = constants.EMPTY_IAB_CATEGORY;
+                ret = false;
+            }else if(!$scope.advertiserAddOrEditData.selectedIABSubCategory || $scope.advertiserAddOrEditData.selectedIABSubCategory == 'Select'){
+                errMsg = constants.EMPTY_IAB_SUB_CATEGORY;
                 ret = false;
             }
             if(!ret) {
