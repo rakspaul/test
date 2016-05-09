@@ -216,9 +216,11 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             },
 
             showCustomFieldBox : function () {
+                var heightBuying = $("#buying").height() ;
                 $('.platform-custom')
                     .show()
                     .delay(300)
+                    .height(heightBuying + 5)
                     .animate({
                         left: '50%',
                         marginLeft: '-323px'
