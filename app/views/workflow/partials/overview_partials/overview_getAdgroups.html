@@ -15,19 +15,24 @@
                 data-ng-bind-html="adGroupsData.adGroup.nameHtml"></h4>
                 
             <div class="pull-right labelsmargin" style="display:block;"  >
-                <span class="adGroupTxtSecondary " style="padding-right: 30px; margin-top: 6px;">
-                    <span class="greyTxt">Ready</span> <p class="{{ !adGroupsData.READY ? 'active' : ''}}">{{(adGroupsData.READY || 0)}}</p>
+                <span class="adGroupTxtSecondary " style="padding-right: 30px;">
+                    <span class="pull-left greyTxt">Ready</span> <p class="pull-left {{ !adGroupsData.READY ? 'active' : ''}}">{{(adGroupsData.READY || 0)}}</p>
+                    <span class="commonStatusIcon ready_bulb"></span>
                 </span>
-                <span class="adGroupTxtSecondary" style="margin-top: 6px;">
-                    <span class="greyTxt">Scheduled</span> <p class="{{ !adGroupsData.SCHEDULED ? 'active' : ''}}">
+                <span class="adGroupTxtSecondary" >
+                    <span class="pull-left greyTxt">Scheduled</span> 
+                    <p class="pull-left {{ !adGroupsData.SCHEDULED ? 'active' : ''}}">
                     {{(adGroupsData.SCHEDULED || 0)}}</p>
+                    <span class="commonStatusIcon scheduled_bulb"></span>
                 </span>
-                <span class="adGroupTxtSecondary" style="margin-top: 6px;">
-                    <span class="greyTxt">In Flight</span> <p class="{{ !adGroupsData.IN_FLIGHT ? 'active' : ''}}">
+                <span class="adGroupTxtSecondary" >
+                    <span class="pull-left greyTxt">In Flight</span> <p class="pull-left {{ !adGroupsData.IN_FLIGHT ? 'active' : ''}}">
                     {{(adGroupsData.IN_FLIGHT || 0)}}</p>
+                    <span class="commonStatusIcon in_flight_bulb"></span>
                 </span>
-                <span class="adGroupTxtSecondary" style="margin-top: 6px;">
-                    <span class="greyTxt">Total Ads</span> <p class="{{ !adGroupsData.noOfAds ? 'active' : ''}}">{{adGroupsData.noOfAds || 0}}</p>
+                <span class="adGroupTxtSecondary" >
+                    <span class="pull-left greyTxt">Total Ads</span> <p class="{{ !adGroupsData.noOfAds ? 'active' : ''}}">{{adGroupsData.noOfAds || 0}}</p>
+                    
                 </span>
                
             </div>
