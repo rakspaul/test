@@ -245,12 +245,15 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 //media plan name
                 if(campaignData.name) {
                     $scope.selectedCampaign.campaignName = $scope.cloneMediaPlanName || campaignData.name;
+                    $scope.selectedCampaign.campaignId = campaignData.id;
                 }
 
                 //set Sub Account
                 if(campaignData.clientId && campaignData.clientName) {
                     $scope.selectedCampaign.clientName = campaignData.clientName;
                     $scope.selectedCampaign.clientId = campaignData.clientId;
+                } else {
+                    $scope.selectedCampaign.clientId = loginModel.getSelectedClient().id;
                 }
 
 
@@ -323,7 +326,6 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 }
 
                 // line item edit mode
-                $scope.selectedCampaign.clientId = campaignData.clientId;
                 createCampaign.fetchLineItemDetails(campaignData.id);
 
                 $scope.editCampaignData = campaignData;
@@ -455,7 +457,9 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 postDataObj.marginPercent = formData.marginPercent;
                 postDataObj.deliveryBudget = formData.deliveryBudget;
                 postDataObj.totalBudget = formData.totalBudget;
-                postDataObj.lineItems = workflowService.processLineItemsObj(angular.copy($scope.lineItemList));
+                if($scope.mode === 'create'){
+                    postDataObj.lineItems = workflowService.processLineItemsObj(angular.copy($scope.lineItemList));
+                }
 
                 postDataObj.campaignType = 'Display';
                 postDataObj.labels = _.pluck($scope.tags, "label");
@@ -734,6 +738,11 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     $scope.mediaPlanNameExists = responseData.isExists;
                 }
             });
+        };
+
+        // use this method to access createCampaign in child
+        $scope.createCampaignAccess = function(){
+            return createCampaign;
         }
 
 

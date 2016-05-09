@@ -164,7 +164,7 @@
 
 
             <div class="pull-right" style="padding: 30px 0 0 0;">
-                <div class="pull-right btn btn-primary" ng-disabled="lineItemName === '' || !lineItemType || lineItemType.id == '' || billableAmount == ''" ng-click="createNewLineItem('create')">Add Line Item</div>
+                <div class="pull-right btn btn-primary" ng-disabled="lineItemName === '' || !lineItemType || lineItemType.id == '' || billableAmount == ''" ng-click="(mode === 'create')?createNewLineItem('create'):createNewLineItemInEditMode('create')">Add Line Item</div>
                 <div class="pull-right btn btn-link" ng-click="resetLineItemParameters()">Cancel</div>
             </div>
 
