@@ -1,42 +1,51 @@
-<div class="common-loading-area" ng-show="!workflowData.campaignGetAdGroupsData"></div>
-<div class="col-md-12 adGroup" ng-repeat="adGroupsData in workflowData.campaignGetAdGroupsData">
+<div class="common-loading-area" data-ng-show="!workflowData.campaignGetAdGroupsData"></div>
+<div class="col-md-12 adGroup" data-ng-repeat="adGroupsData in workflowData.campaignGetAdGroupsData">
     <div class="adTitle" >
         <div class="col-md-12 zeroPadding adgroupDiv" >
             <a class="collapseIcon"
                role="button"
                id="{{$index}}"
                href=""
-               ng-click="ToggleAdGroups(this, adGroupsData.adGroup.id, $index, $event)">
+               data-ng-click="ToggleAdGroups(this, adGroupsData.adGroup.id, $index, $event)">
                 <span class="icon-plus"></span>
             </a>
 
             <h4 class="pull-left adGroupTxt adGroupTxtName"
                 title="{{adGroupsData.adGroup.name}}"
                 data-ng-bind-html="adGroupsData.adGroup.nameHtml"></h4>
-                
-            <div class="pull-right labelsmargin" style="display:block;"  >
-                <span class="adGroupTxtSecondary " style="padding-right: 30px; margin-top: 6px;">
-                    <span class="greyTxt">Ready</span> <p class="{{ !adGroupsData.READY ? 'active' : ''}}">{{(adGroupsData.READY || 0)}}</p>
+
+            <div class="pull-right labelsmargin" style="display:block;">
+                <span class="adGroupTxtSecondary" style="padding-right: 30px; margin-top: 6px;">
+                    <span class="greyTxt">Ready</span>&nbsp;
+                    <p class="{{ !adGroupsData.READY ? 'active' : ''}}"
+                       data-ng-bind="(adGroupsData.READY || 0)">
+                    </p>
                 </span>
                 <span class="adGroupTxtSecondary" style="margin-top: 6px;">
-                    <span class="greyTxt">Scheduled</span> <p class="{{ !adGroupsData.SCHEDULED ? 'active' : ''}}">
-                    {{(adGroupsData.SCHEDULED || 0)}}</p>
+                    <span class="greyTxt">Scheduled</span>&nbsp;
+                    <p class="{{ !adGroupsData.SCHEDULED ? 'active' : ''}}"
+                       data-ng-bind="(adGroupsData.SCHEDULED || 0)">
+                    </p>
                 </span>
                 <span class="adGroupTxtSecondary" style="margin-top: 6px;">
-                    <span class="greyTxt">In Flight</span> <p class="{{ !adGroupsData.IN_FLIGHT ? 'active' : ''}}">
-                    {{(adGroupsData.IN_FLIGHT || 0)}}</p>
+                    <span class="greyTxt">In Flight</span>&nbsp;
+                    <p class="{{ !adGroupsData.IN_FLIGHT ? 'active' : ''}}"
+                       data-ng-bind="(adGroupsData.IN_FLIGHT || 0)">
+                    </p>
                 </span>
                 <span class="adGroupTxtSecondary" style="margin-top: 6px;">
-                    <span class="greyTxt">Total Ads</span> <p class="{{ !adGroupsData.noOfAds ? 'active' : ''}}">{{adGroupsData.noOfAds || 0}}</p>
+                    <span class="greyTxt">Total Ads</span>&nbsp;
+                    <p class="{{ !adGroupsData.noOfAds ? 'active' : ''}}"
+                       data-ng-bind="adGroupsData.noOfAds || 0">
+                    </p>
                 </span>
-               
             </div>
 
             <div class="pillsWrap" >
-                <span class="labelPills" ng-if="adGroupsData.labels.length > 0"></span>
+                <span class="labelPills" data-ng-if="adGroupsData.labels.length > 0"></span>
                 <span class="labelPills{{addHighlightClass(label, '</mark>') ? ' search-highlight' : ''}}"
-                      ng-repeat="label in adGroupsData.labels track by $index"
-                      ng-bind-html="label">
+                      data-ng-repeat="label in adGroupsData.labels track by $index"
+                      data-ng-bind-html="label">
                 </span>
             </div>
 
@@ -53,9 +62,15 @@
                         <li edit-ad-group-section ad-group-data="{{adGroupsData}}" ad-group-index="{{$index}}">
                             <a class="available" data-ng-bind="textConstants.EDIT"></a>
                         </li>
-                        <li class="disabled"><a class="available" data-ng-bind="textConstants.WF_PAUSE"></a></li>
-                        <li class="disabled"><a class="available" data-ng-bind="textConstants.WF_RESUME"></a></li>
-                        <li class="disabled"><a class="available" data-ng-bind="textConstants.WF_ARCHIVE"></a></li>
+                        <li class="disabled">
+                            <a class="available" data-ng-bind="textConstants.WF_PAUSE"></a>
+                        </li>
+                        <li class="disabled">
+                            <a class="available" data-ng-bind="textConstants.WF_RESUME"></a>
+                        </li>
+                        <li class="disabled">
+                            <a class="available" data-ng-bind="textConstants.WF_ARCHIVE"></a>
+                        </li>
                     </ul>
 
                 </div>
@@ -74,13 +89,13 @@
                     <!--</div>-->
 
                     <div class="pull-left showCollapse" style="padding-left: 35px; margin-top: 6px;">
-                        <span class="greyTxt">Group Budget </span>
-                        <span>{{calculateBudget(adGroupsData.adGroup) | currency:undefined:2}}</span>
+                        <span class="greyTxt">Group Budget</span>
+                        <span data-ng-bind="calculateBudget(adGroupsData.adGroup) | currency: undefined: 2"></span>
                     </div>
 
                     <div class="pull-left hideCollapse" style="padding-left: 35px;">
-                        <span>
-                            {{ calculateBudget(adGroupsData.adGroup) | currency:undefined:2}} /  {{calculateSpendBudget(adGroupsData.adGroup)| currency:undefined:2}}
+                        <span data-ng-bind="calculateBudget(adGroupsData.adGroup) | currency: undefined: 2 +
+                                           ' / ' + calculateSpendBudget(adGroupsData.adGroup)| currency: undefined: 2">
                         </span>
                     </div>
 
@@ -92,17 +107,18 @@
 
                     <div class="pull-left showCollapse" style="margin: 6px 0 0 10px;">
                         / <span class="greyTxt" style="margin-left:5px;">Unallocated</span>
-                        <span>{{calculateSpendBudget(adGroupsData.adGroup)| currency:undefined:2}}</span>
+                        <span data-ng-bind="calculateSpendBudget(adGroupsData.adGroup)| currency: undefined: 2"></span>
                     </div>
                 </div>
 
                 <div class="pull-left adGroupTxt flightDatesTxt">
                     <span class="pull-left clearBoth greyTxt hideCollapse">Flight Dates</span>
                     <span class="clearLeft pull-left icon-calendar"></span>
-                    <span class="pull-left iconDates" >
-                        {{utcToLocalTime(adGroupsData.adGroup.startTime, 'ddd DD MMM YYYY')}} -
-                        {{utcToLocalTime(adGroupsData.adGroup.endTime,'ddd DD MMM YYYY')}}
-                        ({{numOfDays(adGroupsData.adGroup.startTime,adGroupsData.adGroup.endTime)}} Days)
+                    <span class="pull-left iconDates"
+                          data-ng-bind="utcToLocalTime(adGroupsData.adGroup.startTime, 'ddd DD MMM YYYY') + ' - ' +
+                                        utcToLocalTime(adGroupsData.adGroup.endTime,'ddd DD MMM YYYY') +
+                                        ' (' + numOfDays(adGroupsData.adGroup.startTime,adGroupsData.adGroup.endTime) +
+                                        ' Days)">
                     </span>
                 </div>
 
@@ -126,11 +142,11 @@
         <div class="clearfix editAdgroupDiv" ></div>
     </div>
 
-    <div id="collapseAdGroup" ng-if="showHideToggle" class="singleCardWrap">
+    <div id="collapseAdGroup" data-ng-if="showHideToggle" class="singleCardWrap">
         <div class="overlay" style="display:none"></div>
         <!--=== Create BTN Ad ===-->
         <div class="col-md-3 adModule adCreateBtn"
-             ng-click="createAdforAdGroup(adGroupsData, calculateSpendBudget(adGroupsData.adGroup))">
+             data-ng-click="createAdforAdGroup(adGroupsData, calculateSpendBudget(adGroupsData.adGroup))">
             <div class="col-md-12">
                 <a href="#"
                    class="col-md-12 text-center addMaster">
@@ -139,34 +155,34 @@
                 </a>
             </div>
         </div>
-        <div class="col-md-9" style="margin-top: 150px;" ng-show="!workflowData.getADsForGroupData[$index]">
+        <div class="col-md-9" style="margin-top: 150px;" data-ng-show="!workflowData.getADsForGroupData[$index]">
             <div class="common-loading-area"></div>
         </div>
-        <div ng-if="workflowData.getADsForGroupData[$index] && workflowData.getADsForGroupData[$index].length > 0">
+        <div data-ng-if="workflowData.getADsForGroupData[$index] && workflowData.getADsForGroupData[$index].length > 0">
             <!--=== Single Ad Ready ===-->
             <div class="col-md-3 adModule"
-                 ng-repeat="adsData in workflowData.getADsForGroupData[$index] track by adsData.id"
-                 ng-click="adsData.state=='DEPLOYING' ? '' :
+                 data-ng-repeat="adsData in workflowData.getADsForGroupData[$index] track by adsData.id"
+                 data-ng-click="adsData.state=='DEPLOYING' ? '' :
                     goEdit(adsData, calculateSpendBudget(adGroupsData.adGroup), adGroupsData)">
                 <div class="col-md-12 adTitle">
                     <div class="clearfix">
-                        <img ng-src="{{adsData.platform.iconUrl}}"
+                        <img data-ng-src="{{adsData.platform.iconUrl}}"
                             height="16"
                             class="pull-left adIconWidget"
-                            ng-show="adsData.platform"
-                            title="{{adsData.platform.displayName | uppercase}}"/>
+                            data-ng-show="adsData.platform"
+                            title="{{adsData.platform.displayName | uppercase}}">
                         <span class="pull-left greyTxt adDisplay"
-                            ng-show="!(adsData.platform)"
+                            data-ng-show="!(adsData.platform)"
                             data-ng-bind="textConstants.PLATNOTSET">
                         </span>
                         <span class="pull-right greyTxt adDisplay"
-                            ng-show="(!adsData.isTracking) && (adsData.state === 'READY' ||
+                            data-ng-show="(!adsData.isTracking) && (adsData.state === 'READY' ||
                                 adsData.state === 'INCOMPLETE')"
                             data-ng-bind="textConstants.NOTPUSHEDPAR">
                         </span>
                         <span class="pull-right greyTxt adDisplay"
                               title="ID: {{adsData.sourceId}}"
-                              ng-show="(adsData.sourceId && (adsData.pushStatus !== 'FAILED' &&
+                              data-ng-show="(adsData.sourceId && (adsData.pushStatus !== 'FAILED' &&
                                 adsData.pushStatus !== 'IN_PROGRESS' && adsData.pushStatus !== 'UNPUSHED'))"
                               data-ng-bind="'ID:' + adsData.sourceId | formatUrl:8">
                         </span>
@@ -174,7 +190,7 @@
                     <div style="margin-top:3px;">
                         <span class="greyTxt adDisplay"
                               title="{{adsData.platform.displayName}}"
-                              ng-bind="adsData.platform.displayName | formatUrl:12">
+                              data-ng-bind="adsData.platform.displayName | formatUrl: 12">
                         </span>
                     </div>
                     <!--<span class="pull-left">ID: {{adsData.id}}</span>-->
@@ -183,19 +199,20 @@
                     <div class="col-md-12 zeroPadding cardTopLayer">
                         <h4 class="col-md-10 adCamp">
                             <div style="word-wrap: break-word;"
-                                 ng-bind-html="adsData.nameHtml | textEllipsis: 57"
+                                 data-ng-bind-html="adsData.nameHtml | textEllipsis: 57"
                                  tooltip="{{adsData.name}}"></div>
                         </h4>
-                        <span ng-if="adsData.adFormat"
+                        <span data-ng-if="adsData.adFormat"
                               class="glyphicon glyphicon-{{getAdFormatIconName(adsData.adFormat)}} pull-right"
                               aria-hidden="true">
                         </span>
-                        <span class="pull-left adTxtGray dateAd" ng-if="adsData.startTime && adsData.endTime">
-                            {{utcToLocalTime(adsData.startTime, 'DD MMM YYYY')}} -
-                            {{utcToLocalTime(adsData.endTime,'DD MMM YYYY')}}
+                        <span class="pull-left adTxtGray dateAd"
+                              data="utcToLocalTime(adsData.startTime, 'DD MMM YYYY') + ' - ' +
+                                    utcToLocalTime(adsData.endTime,'DD MMM YYYY')"
+                              data-ng-if="adsData.startTime && adsData.endTime">
                         </span>
                         <span class="pull-left adTxtGray dateAd"
-                              ng-show="!(adsData.startTime)"
+                              data-ng-show="!(adsData.startTime)"
                               data-ng-bind="textConstants.FLTNOTSET">
                         </span>
                     </div>
@@ -205,29 +222,30 @@
                     </div>
                     <div class="col-md-12 zeroPadding cardMidLayer">
                         <div class="col-md-4 zeroPadding text-center">
-                            <span class="col-md-12 text-center adTxtGray zeroPadding">
-                                {{adsData.label ? (adsData.label | toPascalCase) : textConstants.WF_IMPS}}
+                            <span class="col-md-12 text-center adTxtGray zeroPadding"
+                                  data-ng-bind="adsData.label ? (adsData.label | toPascalCase) : textConstants.WF_IMPS">
                             </span>
-                            <span class="col-md-12 text-center zeroPadding">
-                                {{adsData.calculatedValue ? (adsData.calculatedValue | nrFormat) :
-                                textConstants.WF_NOT_SET}}
+                            <span class="col-md-12 text-center zeroPadding"
+                                  data-ng-bind="adsData.calculatedValue ? (adsData.calculatedValue | nrFormat) :
+                                                textConstants.WF_NOT_SET">
                             </span>
                         </div>
                          <div class="col-md-4 zeroPadding text-center">
-                            <span class="col-md-12 text-center adTxtGray zeroPadding">
-                                {{adsData.rateType ? adsData.rateType : textConstants.CPM}}
+                            <span class="col-md-12 text-center adTxtGray zeroPadding"
+                                  data-ng-bind="adsData.rateType ? adsData.rateType : textConstants.CPM">
                             </span>
-                            <span class="col-md-12 text-center zeroPadding">
-                                {{adsData.rateValue ? (adsData.rateValue | currency:undefined) :
-                                textConstants.WF_NOT_SET}}
+                            <span class="col-md-12 text-center zeroPadding"
+                                  data-ng-bind="adsData.rateValue ? (adsData.rateValue | currency:undefined) :
+                                                textConstants.WF_NOT_SET">
                             </span>
                         </div>
                         <div class="col-md-4 zeroPadding text-center">
                             <span class="col-md-12 text-center adTxtGray zeroPadding"
                                   data-ng-bind="textConstants.BUDGET">
                             </span>
-                            <span class="col-md-12 text-center zeroPadding">
-                                {{adsData.totalBudget ? (adsData.totalBudget | currency:undefined) : textConstants.WF_NOT_SET}}
+                            <span class="col-md-12 text-center zeroPadding"
+                                  data-ng-bind="adsData.totalBudget ? (adsData.totalBudget | currency:undefined) :
+                                                textConstants.WF_NOT_SET">
                             </span>
                         </div>
                     </div>
@@ -236,11 +254,11 @@
                         <div class="col-md-12"></div>
                     </div>
                     <div class="col-md-12 zeroPadding" style="margin-bottom: 10px;">
-                        <span class="col-md-12 text-left adTxtGray zeroPadding">
-                            Creatives ({{adsData.creatives.length || 0}})
+                        <span class="col-md-12 text-left adTxtGray zeroPadding"
+                              data-ng-bind="'Creatives (' + adsData.creatives.length || 0 + ')'">
                         </span>
                         <p style="margin: 0; text-transform: lowercase;">
-                            <span ng-bind-html="appendSizes(adsData.creatives)"></span>
+                            <span data-ng-bind-html="appendSizes(adsData.creatives)"></span>
                         </p>
                     </div>
                     <div class="col-md-12 zeroPadding">
@@ -252,12 +270,12 @@
                 </div>
                 <span class="pull-right adStatus {{adsData.state.toLowerCase().replace(' ', '')}}">
                     {{adsData.state}}
-                    <span ng-if="adsData.pushStatus=='FAILED'"
+                    <span data-ng-if="adsData.pushStatus === 'FAILED'"
                           class="pull-right icon-warning"
                           aria-hidden="true"
                           tooltip="{{adsData.pushFeedback}}">
                     </span>
-                <span class="pull-right icon-tracking" ng-if="adsData.isTracking"></span>
+                <span class="pull-right icon-tracking" data-ng-if="adsData.isTracking"></span>
                 </span>
             </div>
         </div>

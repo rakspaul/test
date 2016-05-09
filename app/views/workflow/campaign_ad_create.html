@@ -2,35 +2,40 @@
     <img src="/images/workflow/newPreloader.gif" alt="Loading..."/>
     <span class="adSavePre">Saving Ad</span>
 </div>
-<popup-msg ng-show="partialSaveAlertMessage" ng-controller="popUpMsgCtr"
-           ng-init="init('partialSaveAlertMessage','WF_CAMPAIGN_ARCHIVE_FAILURE')"></popup-msg>
+<popup-msg data-ng-show="partialSaveAlertMessage" data-ng-controller="popUpMsgCtr"
+           data-ng-init="init('partialSaveAlertMessage','WF_CAMPAIGN_ARCHIVE_FAILURE')"></popup-msg>
 <div id="overlay"
-     style="
-            width: 100%;
+     style="width: 100%;
             background-color: black;
             height: 100%;
             position: fixed;
             z-index: 999;
             opacity: 0.6;"
-     ng-show="redirectFlag"></div>
+     data-ng-show="redirectFlag">
+</div>
 <div id="campaignCreate" class="adCreateMaster">
     <div class="firstWrapper">
         <div class="masterContainer adMasterContainer">
             <!-- Header Starts -->
             <div class="clearfix page_header_container campAdHeader"
-                 ng-include="'/views/workflow/partials/campaign_ads/campain_header.html'">
+                 data-ng-include="'/views/workflow/partials/campaign_ads/campain_header.html'">
             </div>
             <!-- Header Ends -->
 
             <div class="campaignAdCreateWrap">
                 <div class="clearfix left_column_nav"
-                     ng-include="'/views/workflow/partials/campaign_ads/sidebar.html'"
-                     ng-init="loadSideBar()">
+                     data-ng-include="'/views/workflow/partials/campaign_ads/sidebar.html'"
+                     data-ng-init="loadSideBar()">
                 </div>
+
                 <!--=== Steps ===-->
                 <div class="campaignAdCreate campaignAdCreatePage">
                     <div class="adMainWrapper">
-                        <form role="form" class="col-md-12 zeroPadding" name="formAdCreate" id="formAdCreate" novalidate>
+                        <form role="form"
+                              class="col-md-12 zeroPadding"
+                              name="formAdCreate"
+                              id="formAdCreate"
+                              novalidate>
                             <div class="adCreateConsole">
                                 <div class="col-md-12 zeroPadding adStepOne">
                                     <div class="col-md-12 zeroPadding tabContent">
@@ -40,13 +45,14 @@
                                                 <div class="col-md-6 zeroPadding">
                                                     <h3 class="col-md-12 zeroPadding adName"
                                                         tooltip="{{adData.adName}}"
-                                                        ng-bind="adData.adName.length > 0 ?
-                                                        (adData.adName | textEllipsis: 40 ) :
-                                                        textConstants.WF_UNTITLED_AD">
+                                                        data-ng-bind="adData.adName.length > 0 ?
+                                                                      (adData.adName | textEllipsis: 40 ) :
+                                                                      textConstants.WF_UNTITLED_AD">
                                                     </h3>
                                                 </div>
                                                 <div class="zeroPadding dropdown-workflow pull-right"
-                                                     ng-hide="(mode !== 'edit')" style="margin-left: 10px;">
+                                                     data-ng-hide="(mode !== 'edit')"
+                                                     style="margin-left: 10px;">
                                                     <div class="dropdown">
                                                          <button class="btn btn-default dropdown-toggle"
                                                                  type="button"
@@ -55,54 +61,77 @@
                                                                  aria-expanded="true">
                                                             <span class="icon-more-options"></span>
                                                          </button>
-                                                         <ul class="dropdown-menu" id="moreOptions" style="right: 0; left: initial;">
-                                                            <li class="{{disablePause}}" ng-click="cancelAdPause()">
-                                                                <a ng-bind="textConstants.WF_PAUSE"></a>
+                                                         <ul class="dropdown-menu" id="moreOptions"
+                                                             style="right: 0; left: initial;">
+                                                            <li class="{{disablePause}}"
+                                                                data-ng-click="cancelAdPause()">
+                                                                <a data-ng-bind="textConstants.WF_PAUSE"></a>
                                                             </li>
-                                                            <li class="{{disableResume}}" ng-click="cancelAdResume()">
-                                                                <a ng-bind="textConstants.WF_RESUME"></a>
+                                                            <li class="{{disableResume}}"
+                                                                data-ng-click="cancelAdResume()">
+                                                                <a data-ng-bind="textConstants.WF_RESUME"></a>
                                                             </li>
                                                             <li class="disabled">
-                                                                <a ng-bind="textConstants.WF_MOVE_TO"></a>
+                                                                <a data-ng-bind="textConstants.WF_MOVE_TO"></a>
                                                             </li>
-                                                            <li ng-click="showClonePopup()">
-                                                                <a ng-bind="textConstants.WF_CLONE"></a>
+                                                            <li data-ng-click="showClonePopup()">
+                                                                <a data-ng-bind="textConstants.WF_CLONE"></a>
                                                             </li>
                                                             <li>
                                                                 <a id="archiveAdbtn"
-                                                                   ng-click="cancelAdArchive()"
-                                                                   ng-bind="textConstants.WF_ARCHIVE">
+                                                                   data-ng-click="cancelAdArchive()"
+                                                                   data-ng-bind="textConstants.WF_ARCHIVE">
                                                                 </a>
                                                             </li>
                                                          </ul>
                                                     </div>
                                                </div>
                                                 <button
-                                                        ng-show ="!adCreateLoader"
+                                                        data-ng-show ="!adCreateLoader"
                                                         type="button"
-                                                        ng-disabled="adData.budgetExceeded || adData.adBudgetExceedUnallocated || !adData.adName || adData.targetValue.length==0 || adData.unitCost.length==0 || adData.totalAdBudget.length==0 || adData.budgetAmount.length==0"
+                                                        data-ng-disabled="adData.budgetExceeded ||
+                                                                          adData.adBudgetExceedUnallocated ||
+                                                                          !adData.adName ||
+                                                                          adData.targetValue.length === 0 ||
+                                                                          adData.unitCost.length === 0 ||
+                                                                          adData.totalAdBudget.length === 0 ||
+                                                                          adData.budgetAmount.length === 0"
                                                         id="SaveAd"
-                                                        ng-click="campaignAdSave(false)"
-                                                        ng-bind="textConstants.WF_AD_SAVE_CLOSE"
-                                                        class="btn btn-primary pull-right" style="margin: 0;">
+                                                        data-ng-click="campaignAdSave(false)"
+                                                        data-ng-bind="textConstants.WF_AD_SAVE_CLOSE"
+                                                        class="btn btn-primary pull-right"
+                                                        style="margin: 0;">
                                                 </button>
-
-                                                <div ng-show ="adCreateLoader" class="pull-right common-loading-btn" ></div>
-                                                <a ng-href="/mediaplan/{{workflowData.campaignData.id}}/overview"
-                                                   class="pull-right cancel-btn">Cancel
+                                                <div data-ng-show="adCreateLoader"
+                                                     class="pull-right common-loading-btn">
+                                                </div>
+                                                <a data-ng-href="/mediaplan/{{workflowData.campaignData.id}}/overview"
+                                                   class="pull-right cancel-btn">
+                                                    Cancel
                                                 </a>
                                             </div>
 
                                             <!-- Tab1 Setting start-->
-                                            <div class="adcreateTabPane tab-pane fade in active"  id="adType"
-                                                 ng-include="'/views/workflow/partials/campaign_ads/select_type.html'">
+                                            <div class="adcreateTabPane tab-pane fade in active"
+                                                 id="adType"
+                                                 data-ng-include="'/views
+                                                                   /workflow
+                                                                   /partials
+                                                                   /campaign_ads
+                                                                   /select_type.html'">
                                             </div>
                                             <!-- Tab1 Setting end-->
 
                                             <!-- Tab2 Setting start-->
-                                            <div class="adcreateTabPane tab-pane fade" id="setting"
-                                                 ng-include="'/views/workflow/partials/campaign_ads/budget_delivery.html'"
-                                                 ng-controller="BudgetDeliveryController" style="padding-bottom:260px !important">
+                                            <div class="adcreateTabPane tab-pane fade"
+                                                 id="setting"
+                                                 data-ng-include="'/views
+                                                                   /workflow
+                                                                   /partials
+                                                                   /campaign_ads
+                                                                   /budget_delivery.html'"
+                                                 data-ng-controller="BudgetDeliveryController"
+                                                 style="padding-bottom: 260px !important">
                                             </div>
                                             <!-- Tab1 Setting Ends -->
 
@@ -111,16 +140,25 @@
                                                  id="buying"
                                                  style="padding: 50px 0 0 0;
                                                  min-height: 1032px;"
-                                                 ng-include="'/views/workflow/partials/campaign_ads/buying_platform.html'"
-                                                 ng-controller="BuyingPlatformController">
-                                                 </div>
+                                                 data-ng-include="'/views
+                                                                   /workflow
+                                                                   /partials
+                                                                   /campaign_ads
+                                                                   /buying_platform.html'"
+                                                 data-ng-controller="BuyingPlatformController">
+                                            </div>
                                             <!-- Tabs Buying Platform Ends -->
 
                                             <!-- Tabs Targeting -->
-                                            <div ng-show="!TrackingIntegrationsSelected"
-                                                 class="adcreateTabPane tab-pane fade" id="targetting"
-                                                 ng-include="'/views/workflow/partials/campaign_ads/targetting.html'"
-                                                 ng-controller="targettingController">
+                                            <div data-ng-show="!TrackingIntegrationsSelected"
+                                                 class="adcreateTabPane tab-pane fade"
+                                                 id="targetting"
+                                                 data-ng-include="'/views
+                                                                   /workflow
+                                                                   /partials
+                                                                   /campaign_ads
+                                                                   /targetting.html'"
+                                                 data-ng-controller="targettingController">
                                             </div>
                                             <!-- Tabs Targetting Platform -->
 
@@ -128,15 +166,23 @@
                                             <div class="adcreateTabPane tab-pane fade"
                                                  id="creative"
                                                  style="width:100%;"
-                                                 ng-include="'/views/workflow/partials/campaign_ads/ad_sizes_and_creatives.html'">
+                                                 data-ng-include="'/views
+                                                                   /workflow
+                                                                   /partials
+                                                                   /campaign_ads
+                                                                   /ad_sizes_and_creatives.html'">
                                             </div>
                                             <!-- Tabs Creative -->
 
                                             <!-- Tabs Inventory Filters -->
                                             <div class="adcreateTabPane tab-pane fade"
                                                  id="inventoryView"
-                                                 ng-include="'/views/workflow/partials/campaign_ads/inventory.html'"
-                                                 ng-controller="InventoryFiltersController">
+                                                 data-ng-include="'/views
+                                                                   /workflow
+                                                                   /partials
+                                                                   /campaign_ads
+                                                                   /inventory.html'"
+                                                 data-ng-controller="InventoryFiltersController">
                                             </div>
                                             <!-- Tabs Inventory Filters -->
                                         </div>
@@ -151,83 +197,99 @@
             </div>
         </div>
     </div>
-    <div ng-include="'/views/workflow/partials/creative_library_popup.html'"
-         ng-controller="CreativeTagController">
+    <div data-ng-include="'/views/workflow/partials/creative_library_popup.html'"
+         data-ng-controller="CreativeTagController">
     </div>
-    <div ng-include="'/views/workflow/creative.html'"
-         ng-if="workflowData.campaignData"
+    <div data-ng-include="'/views/workflow/creative.html'"
+         data-ng-if="workflowData.campaignData"
          class="newCreativeSlide">
     </div>
-    <div ng-include="'/views/workflow/partials/custom_platform.html'"
+    <div data-ng-include="'/views/workflow/partials/custom_platform.html'"
          class="platformSlide plat-collective-bidder">
     </div>
 
     <!-- Modal Start -->
-    <div class="common-popup-container" ng-show="adArchive">
+    <div class="common-popup-container" data-ng-show="adArchive">
         <div class="popup">
             <div class="popup-header-body">
                 <div class="clearfix">
-                    <h1 class="pull-left" ng-bind="textConstants.WF_AD_UPDATE"></h1>
-                    <span class="icon-close close unselectable" aria-hidden="true" ng-click="cancelAdArchive()"></span>
+                    <h1 class="pull-left" data-ng-bind="textConstants.WF_AD_UPDATE"></h1>
+                    <span class="icon-close close unselectable"
+                          aria-hidden="true"
+                          data-ng-click="cancelAdArchive()">
+                    </span>
                 </div>
-                <div class="popup-content" ng-bind="textConstants.ARCHIVE_MESSAGE"></div>
+                <div class="popup-content" data-ng-bind="textConstants.ARCHIVE_MESSAGE"></div>
             </div>
             <div class="clearfix popup-footer" >
-                <button ng-show="!adArchiveLoader" type="button" ng-click="archiveAd($event)"
-                        class="common_primary_btn pull-right">Archive</button>
-                <div ng-show ="adArchiveLoader" class="pull-right common-loading-btn" ></div>
-                <button type="button" ng-click="cancelAdArchive()" class="secondary_txt pull-right">Cancel</button>
+                <button data-ng-show="!adArchiveLoader"
+                        type="button"
+                        data-ng-click="archiveAd($event)"
+                        class="common_primary_btn pull-right">
+                    Archive
+                </button>
+                <div data-ng-show="adArchiveLoader" class="pull-right common-loading-btn"></div>
+                <button type="button" data-ng-click="cancelAdArchive()" class="secondary_txt pull-right">Cancel</button>
             </div>
         </div>
     </div>
-    <div class="common-popup-container" ng-show="adPause">
+    <div class="common-popup-container" data-ng-show="adPause">
         <div class="popup">
             <div class="popup-header-body">
                 <div class="clearfix">
-                    <h1 class="pull-left" ng-bind="textConstants.WF_PAUSE_AD"></h1>
-                    <span class="icon-close close unselectable" aria-hidden="true" ng-click="cancelAdPause()"></span>
+                    <h1 class="pull-left" data-ng-bind="textConstants.WF_PAUSE_AD"></h1>
+                    <span class="icon-close close unselectable"
+                          aria-hidden="true"
+                          data-ng-click="cancelAdPause()">
+                    </span>
                 </div>
-                <div class="popup-content" ng-bind="textConstants.WF_AD_PAUSE_MESSAGE"></div>
+                <div class="popup-content"
+                     data-ng-bind="textConstants.WF_AD_PAUSE_MESSAGE">
+                </div>
             </div>
             <div class="clearfix popup-footer">
-                <button type="button" ng-click="pauseAd()" class="common_primary_btn pull-right">Pause</button>
-                <button type="button" ng-click="cancelAdPause()" class="secondary_txt pull-right">Cancel</button>
+                <button type="button" data-ng-click="pauseAd()" class="common_primary_btn pull-right">Pause</button>
+                <button type="button" data-ng-click="cancelAdPause()" class="secondary_txt pull-right">Cancel</button>
             </div>
         </div>
     </div>
-    <div class="common-popup-container" ng-show="adResume">
+    <div class="common-popup-container" data-ng-show="adResume">
         <div class="popup">
             <div class="popup-header-body">
                 <div class="clearfix">
-                    <h1 class="pull-left" ng-bind="textConstants.WF_RESUME_AD"></h1>
-                    <span class="icon-close close unselectable" aria-hidden="true" ng-click="cancelAdResume()"></span>
+                    <h1 class="pull-left" data-ng-bind="textConstants.WF_RESUME_AD"></h1>
+                    <span class="icon-close close unselectable"
+                          aria-hidden="true"
+                          data-ng-click="cancelAdResume()">
+                    </span>
                 </div>
-                <div class="popup-content" ng-bind="resumeMessage"></div>
+                <div class="popup-content" data-ng-bind="resumeMessage"></div>
             </div>
             <div class="clearfix popup-footer">
-                <button type="button" ng-click="resumeAd()" class="common_primary_btn pull-right">Resume</button>
-                <button type="button" ng-click="cancelAdResume()" class="secondary_txt pull-right">Cancel</button>
+                <button type="button" data-ng-click="resumeAd()" class="common_primary_btn pull-right">Resume</button>
+                <button type="button" data-ng-click="cancelAdResume()" class="secondary_txt pull-right">Cancel</button>
             </div>
         </div>
     </div>
-    <div class="common-popup-container" ng-show="redirectFlag">
+    <div class="common-popup-container" data-ng-show="redirectFlag">
         <div class="popup">
             <div class="popup-header-body">
                 <div class="clearfix">
-                    <h1 class="pull-left">{{(archivedAdFlag && archivedCampaignFlag === false) ?
-                        textConstants.WF_ARCHIVE_AD :
-                        textConstants.WF_ARCHIVE_CAMPAIGN}}
+                    <h1 class="pull-left"
+                        data-ng-bind="(archivedAdFlag && archivedCampaignFlag === false) ?
+                                      textConstants.WF_ARCHIVE_AD :
+                                      textConstants.WF_ARCHIVE_CAMPAIGN">
                     </h1>
                 </div>
-                <div class="popup-content">
-                    {{(archivedAdFlag && archivedCampaignFlag === false) ?
-                    textConstants.WF_REDIRECT_USER_FOR_ARCHIVED_AD :
-                    textConstants.WF_REDIRECT_USER_FOR_ARCHIVED_CAMPAIGN}}
+                <div class="popup-content"
+                     data-ng-bind="(archivedAdFlag && archivedCampaignFlag === false) ?
+                                   textConstants.WF_REDIRECT_USER_FOR_ARCHIVED_AD :
+                                   textConstants.WF_REDIRECT_USER_FOR_ARCHIVED_CAMPAIGN">
                 </div>
             </div>
             <div class="clearfix popup-footer">
                 <button type="button"
-                        ng-click="redirectUser((archivedAdFlag && archivedCampaignFlag === false)?true:false)"
+                        data-ng-click="redirectUser((archivedAdFlag && archivedCampaignFlag === false) ? true : false)"
                         class="common_primary_btn pull-right">
                     Continue
                 </button>
