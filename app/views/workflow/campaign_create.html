@@ -12,30 +12,6 @@
                         <li class="active eachStepCompLabel">
                             <a class="leftNavLink selected" data-target="#settings" data-toggle="tab">1 About this Media Plan</a>
 
-                            <div class="statusLabel each-setting" ng-if="brand.length>0">
-                                <div class="col-md-12">
-                                    <div class="pull-left">
-                                        <span class="statusIcon icon-brand"></span>
-                                    </div>
-                                    <div class="pull-left">
-                                        <div class="clearfix"><span class="icon_txt">Branding</span> <span class="grey_txt">(Objective)</span> </div>
-                                        <div ng-repeat="letter in brand track by $index">{{letter}}</div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="statusLabel each-setting" ng-if="performance.length>0">
-                                <div class="col-md-12">
-                                    <div class="pull-left">
-                                        <span class="statusIcon icon-performance"></span>
-                                    </div>
-                                    <div class="pull-left">
-                                        <div class="clearfix"><span class="icon_txt">Performance</span> <span class="grey_txt">(Objective)</span> </div>
-                                        <div ng-repeat="letter in performance track by $index">{{letter}}</div>
-                                    </div>
-                                </div>
-                            </div>
-
                             <div class="statusLabel" ng-if="selectedCampaign.startTime">
                                 <div class="col-md-12">
                                     <div class="statusIcon icon-calendar"></div>
@@ -51,7 +27,7 @@
                                     </div>
                                     <div class="pull-left">
                                         <div class="clearfix"><span
-                                            class="icon_txt">{{kpiName }}</span> <span
+                                            class="icon_txt">{{kpiName | toTitleCase}}</span> <span
                                             class="grey_txt">(KPI)</span></div>
                                     </div>
                                 </div>

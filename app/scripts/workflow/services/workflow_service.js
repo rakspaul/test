@@ -163,23 +163,27 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                         var clientId = data.clientId;
 
                     }
-                    return dataService.post(
-                        vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/campaigns',
-                        data,
-                        {'Content-Type': 'application/json'}
-                    );
-                },
 
-                updateCampaign: function (data, id) {
-                    var clientId = loginModel.getSelectedClient().id;
+                    var campaignId = data.campaignId;
 
                     return dataService.put(
-                        vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/campaigns/' + id,
+                        vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/campaigns/' + campaignId,
                         data, {
                             'Content-Type': 'application/json'
                         }
                     );
                 },
+
+                //updateCampaign: function (data, id) {
+                //    var clientId = loginModel.getSelectedClient().id;
+                //
+                //    return dataService.put(
+                //        vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/campaigns/' + id,
+                //        data, {
+                //            'Content-Type': 'application/json'
+                //        }
+                //    );
+                //},
 
                 getCampaignData: function (campaignId) {
                     var clientId = loginModel.getSelectedClient().id,

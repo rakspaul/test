@@ -241,6 +241,10 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             },
 
             prefillMediaPlan : function(campaignData) {
+                var startDateElem,
+                    today;
+
+                startDateElem = $('#startDateInput');
 
                 //media plan name
                 if(campaignData.name) {
@@ -285,15 +289,29 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 //set startDate
                 if (campaignData.startTime) {
                     $scope.selectedCampaign.startTime = momentService.utcToLocalTime(campaignData.startTime);
-
+                    startDateElem.datepicker("setStartDate", campaignData.startTime);
                 }
 
                 //set endDate
                 if (campaignData.endTime) {
+
                     $scope.selectedCampaign.endTime = momentService.utcToLocalTime(campaignData.endTime);
-                    $scope.handleFlightDate(campaignData);
+
+                    var flightDateObj= {
+                        startTime : $scope.selectedCampaign.startTime,
+                        endTime : $scope.selectedCampaign.endTime,
+                    }
+                    $scope.handleFlightDate(flightDateObj);
                 }
 
+                //set updateAt value in hidden field.
+                if(campaignData.updatedAt) {
+                    $scope.selectedCampaign.updatedAt = campaignData.updatedAt;
+                }
+
+                if(campaignData.status) {
+                    $scope.selectedCampaign.status = campaignData.status;
+                }
                 //set KPI type
                 if (campaignData.kpiType) {
                     $scope.kpiName = campaignData.kpiType;
@@ -441,16 +459,19 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 // create mode
                 postDataObj.name = formData.campaignName;
                 postDataObj.advertiserId = Number(formData.advertiserId);
+
                 if($scope.showSubAccount) {
                     postDataObj.clientId = $scope.selectedCampaign.clientId;
-                }else {
+                } else {
                     postDataObj.clientId = loginModel.getSelectedClient().id;
                 }
+
                 postDataObj.labels = _.pluck($scope.tags, "label");
 
                 if(formData.purchaseOrder){
                     postDataObj.purchaseOrder = formData.purchaseOrder;
                 }
+
                 postDataObj.startTime = momentService.localTimeToUTC($scope.selectedCampaign.startTime, 'startTime');
                 postDataObj.endTime = momentService.localTimeToUTC($scope.selectedCampaign.endTime, 'endTime');
                 postDataObj.kpiType = formData.kpi;
@@ -458,6 +479,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 postDataObj.marginPercent = formData.marginPercent;
                 postDataObj.deliveryBudget = formData.deliveryBudget;
                 postDataObj.totalBudget = formData.totalBudget;
+
                 if($scope.mode === 'create'){
                     postDataObj.lineItems = workflowService.processLineItemsObj(angular.copy($scope.lineItemList));
                 }
@@ -465,6 +487,11 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 postDataObj.campaignType = 'Display';
                 postDataObj.labels = _.pluck($scope.tags, "label");
                 postDataObj.campaignPixels = _.pluck($scope.selectedCampaign.selectedPixel, "id");
+
+                //for updateAt
+                if($scope.selectedCampaign.updatedAt) {
+                    postDataObj.updatedAt = $scope.selectedCampaign.updatedAt;
+                }
 
                 //for cost
                 var campaignCosts = [];
@@ -478,22 +505,28 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     }
                 }
 
-                workflowService.saveCampaign(postDataObj).then(function (result) {
+                if($routeParams.campaignId) {
+                    postDataObj.campaignId = $routeParams.campaignId;
+                }
+
+                workflowService[$scope.mode ==='edit' ? 'updateCampaign' : 'saveCampaign'](postDataObj).then(function(result) {
                     if (result.status === "OK" || result.status === "success") {
-                        console.log('success');
                         $scope.resetLineItemParameters();
                         $scope.editLineItem = {};
                         $scope.sucessHandler(result);
-
+                    } else {
+                        console.log(result);
                     }
-                }, function() {
+                }, function(result) {
+                    console.log(result)
                 });
             }
         };
 
         $scope.repushCampaign = function () {
             $scope.repushCampaignLoader = true;
-            workflowService.updateCampaign($scope.repushData, $routeParams.campaignId).then(function (result) {
+            $scope.repushData.campaignId = $routeParams.campaignId;
+            workflowService.updateCampaign($scope.repushData).then(function (result) {
                 if (result.status === "OK" || result.status === "success") {
                     $scope.sucessHandler(result);
                     localStorage.setItem('topAlertMessage', $scope.textConstants.CAMPAIGN_UPDATED_SUCCESS);
