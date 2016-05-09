@@ -1099,6 +1099,21 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
 
                 formData = _.object(_.pluck(formData, 'name'), _.pluck(formData, 'value'));
 
+
+                var wrapperToReplaceCustomPlatformHiddenValues = function(customPlatformData) {
+                    _.each(customPlatformData, function(obj) {
+                        if(obj.value === '$AD_KPI') {
+                            obj.value = $scope.adData.primaryKpi.toUpperCase();
+                        }
+
+                        if(obj.value === '$AD_KPI_VALUE') {
+                            obj.value = $scope.adData.targetValue;
+
+                        }
+                    })
+                    return customPlatformData;
+                }
+
                 if ((formData.budgetAmount &&
                     $scope.formAdCreate.budgetAmount.$error.mediaCostValidator) ||
                     ($scope.budgetErrorObj.mediaCostValidator ||
@@ -1344,12 +1359,14 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                             postAdDataObj.domainAction = $scope.adData.inventory.domainAction;
                         }
 
+
+
                         //custom field section.
                         if (!$scope.TrackingIntegrationsSelected) {
                             if ($.isEmptyObject($scope.postPlatformDataObj)) {
                                 $scope.saveCustomeFieldForPlatform(1);
                             }
-                            postAdDataObj.adPlatformCustomInputs = $scope.postPlatformDataObj;
+                            postAdDataObj.adPlatformCustomInputs = wrapperToReplaceCustomPlatformHiddenValues($scope.postPlatformDataObj);
                         }
                         campaignOverView.saveAds(postAdDataObj);
                     }
