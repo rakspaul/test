@@ -463,6 +463,29 @@
 	.common-loading-btn {
 		width: 70px ;
 	}
+	.duplicateAdGroupSection {
+		margin :  10px 0 ;
+		position: relative;
+		.newMediaPlanFlightDate {
+			margin : 15px 20px ;
+		}
+		.disabled_div {
+			position: absolute;
+			top: 0px;
+			left: -2px;
+			height: 100%;
+			width: 100%;
+			background: #fff;
+			z-index: 20;
+			opacity: 0.6;
+		}
+		.dateInputHolder {
+			input {
+				margin: 0 ;
+				color: #555 ;
+			}
+		}
+	}
 }
 .popContainerHolder {
 	overflow: auto;
@@ -1792,6 +1815,16 @@ multiselect {
 		}
 	}
 }
+.commonStatusIcon {
+	display: inline-block;
+	float: left;
+	height: 12px;
+    width: 12px;
+    border-radius: 50%;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    margin : 3px 10px 0 0 ;
+}
 .draft_bulb {
 	border: solid 3px #939eae;
 	background: transparent;
@@ -1804,6 +1837,7 @@ multiselect {
 	border: solid 3px #004478;
 	background: transparent;
 }
+
 .scheduled_bulb {
 	background: #2c9aec;
 }

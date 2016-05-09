@@ -307,7 +307,7 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
                 if (reportTypeDropdownClass.is(':visible') && ( $(event.target).closest(".reportTypeDropdownTxt").length == 0) ) {
                     reportTypeDropdownClass.hide();
                 }
-                if (campaigns_list_class.is(':visible') && ( $(event.target).closest(".campaign_name_selected").length == 0)) {
+                if (campaigns_list_class.is(':visible') && ( $(event.target).closest(".campaign_name_selected").length == 0) && ( $(event.target).closest("#campaignsDropdownDiv").length == 0) ) {
                     campaigns_list_class.hide();
                 }
 

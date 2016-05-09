@@ -291,6 +291,7 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
         $scope.$on(constants.EVENT_CAMPAIGN_CHANGED , function(event,campaign) {
             $scope.init();
             $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign();  //update the selected Campaign
+            $scope.selected_filters.kpi_type = campaignSelectModel.getSelectedCampaign().kpi;
         });
 
         $scope.$watch('selectedCampaign', function() {

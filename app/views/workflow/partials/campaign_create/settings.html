@@ -86,21 +86,22 @@
 </div>
 
 <div class="col-md-12 spacingInput"><!-- SPACING --></div>
-
 <!--Row 4-->
 <div class=" form-group col-md-12 zeroPadding">
     <label for="nameTitleCampaign" class="col-sm-12  labelQuestTxt" data-ng-bind="textConstants.MEDIAPLAN_RUN"></label>
     <div class="span4 col-md-12 input-daterange input-group date pull-left" id="datepicker">
         <div class="col-md-12 dateWrapper form-group" show-errors>
+
             <div class="dateContainer">
                 <label class="col-sm-12  greyTxt miniLabels" data-ng-bind="textConstants.START_DATE"></label>
-
-                <input type="text" id="startDateInput" placeholder="MM/DD/YYYY" class="form-control" readonly name="startTime" ng-init="selectedCampaign.startTime" ng-model="selectedCampaign.startTime" ng-value="selectedCampaign.startTime" ng-change=" handleFlightDate(selectedCampaign)" required />
+                <input type="text" ng-disabled="selectedCampaign.status ==='IN_FLIGHT' || selectedCampaign.status ==='ENDED'" id="startDateInput" placeholder="MM/DD/YYYY" class="form-control" readonly name="startTime" ng-init="selectedCampaign.startTime" ng-model="selectedCampaign.startTime" ng-value="selectedCampaign.startTime" ng-change=" handleFlightDate(selectedCampaign)" required />
             </div>
+
             <div class="dateContainer" style="padding-left: 10px;">
                 <label class="col-sm-12  greyTxt miniLabels" data-ng-bind="textConstants.END_DATE"></label>
                 <input type="text" id="endDateInput" placeholder="MM/DD/YYYY" class="form-control" readonly name="endTime" ng-init="selectedCampaign.endTime" ng-model="selectedCampaign.endTime" value="selectedCampaign.endTime" required/>
             </div>
+
             <label ng-if="createCampaignForm.startTime.$error.required" class="col-sm-12  greyTxt errorLabel" data-ng-bind="textConstants.STARTDATE_REQUIRED">.</label>
         </div>
         <span class="col-md-12 input-group-addon">

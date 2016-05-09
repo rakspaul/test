@@ -19,6 +19,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
         $scope.showNewLineItemForm = function(){
             $scope.createItemList = true;
+            $scope.lineItemErrorFlag = false;
             selectedAdvertiser = workflowService.getSelectedAdvertiser();
 
             if(selectedAdvertiser && (selectedAdvertiser.billingType && selectedAdvertiser.billingValue)){
@@ -38,78 +39,41 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         }
 
 
-        $scope.createNewLineItem = function(mode) {
+        $scope.createNewLineItem = function(mode,lineItemId) {
             var newItem = {};
             if(mode === 'create'){
                 if($scope.lineItemName != ''){
-                    //newItem.name = $scope.lineItemName;
-                    //newItem.lineItemType = $scope.lineItemType;
-                    //newItem.pricingMethodId = $scope.lineItemType.id;
-                    //if($scope.hideAdGroupName) {
-                    //    newItem.adGroupName = '';
-                    //} else {
-                    //    newItem.adGroupName = ($scope.adGroupName === '') ? $scope.lineItemName:$scope.adGroupName;
-                    //}
-                    //newItem.billableAmount = $scope.billableAmount;
-                    //$scope.lineItemBillableAmountTotal += Number($scope.billableAmount);
-                    //newItem.volume = $scope.volume;
-                    //newItem.pricingRate = $scope.pricingRate;
-                    //newItem.startTime = $scope.lineItemStartDate;
-                    //newItem.endTime = $scope.lineItemEndDate;
-                    //newItem.pixel = $scope.pixelSelected;
-                    //newItem.pixelId = $scope.pixelSelected.id;
-                    //newItem.campaignId = campaignId;
-                    newItem = createLineItemObj();
-
-
-
-                        $scope.lineItemList.push(newItem);
-                    //} else {
-                    //    newItem.startTime = momentService.localTimeToUTC(newItem.startTime, 'startTime');
-                    //    newItem.endTime = momentService.localTimeToUTC(newItem.endTime, 'endTime');
-                    //    workflowService.createLineItems($scope.selectedCampaign.campaignId,$scope.selectedCampaign.clientId,newItem).then(function(){
-                    //        var createCampaign = $scope.createCampaignAccess();
-                    //        //createCampaign.fetchLineItemDetails($scope.selectedCampaign.campaignId);
-                    //    });
-                    //}
-
+                    newItem = createLineItemObj(lineItemId);
+                    $scope.lineItemList.push(newItem);
                     $scope.resetLineItemParameters();
                 }
             } else {
-                newItem.name = $scope.editLineItem.lineItemName;
-                newItem.lineItemType = $scope.editLineItem.lineItemType;
-                newItem.pricingMethodId = $scope.editLineItem.lineItemType.id;
-                newItem.adGroupName = $scope.editLineItem.adGroupName;
-                $scope.lineItemBillableAmountTotal = $scope.lineItemBillableAmountTotal - Number(oldLineItem.billableAmount);
-                newItem.billableAmount = $scope.editLineItem.billableAmount;
-                $scope.lineItemBillableAmountTotal += Number($scope.editLineItem.billableAmount);
-                newItem.volume = $scope.editLineItem.volume;
-                newItem.pricingRate = $scope.editLineItem.pricingRate;
-                newItem.startTime = $scope.editLineItem.startTime;
-                newItem.endTime = $scope.editLineItem.endTime;
-                newItem.pixel = $scope.editLineItem.pixelSelected;
-                newItem.pixelId = $scope.editLineItem.pixelSelected.id;
-                newItem.campaignId = (campaignId === '-999')?'-999':campaignId; // handle real edit mode
+                newItem = createEditLineItemObj(oldLineItem.id);
                 $scope.lineItemList.push(newItem);
-
             }
-
         };
 
         $scope.createNewLineItemInEditMode = function(){
-            var newItem = {};
-
+            var newItem;
             newItem = createLineItemObj();
             newItem.startTime = momentService.localTimeToUTC(newItem.startTime, 'startTime');
-                newItem.endTime = momentService.localTimeToUTC(newItem.endTime, 'endTime');
-                workflowService.createLineItems($scope.selectedCampaign.campaignId,$scope.selectedCampaign.clientId,newItem).then(function(){
-                    var createCampaign = $scope.createCampaignAccess();
-                    //createCampaign.fetchLineItemDetails($scope.selectedCampaign.campaignId);
-                });
+            newItem.endTime = momentService.localTimeToUTC(newItem.endTime, 'endTime');
+            workflowService.createLineItems($scope.selectedCampaign.campaignId,$scope.selectedCampaign.clientId,newItem).then(function(){
+                $scope.createCampaignAccess();
+            });
         };
 
-        function createLineItemObj(item) {
+        $scope.updateLineItemInEditMode = function(){
+            var newItem ;
+            newItem = createEditLineItemObj();
+            newItem.startTime = momentService.localTimeToUTC(newItem.startTime, 'startTime');
+            newItem.endTime = momentService.localTimeToUTC(newItem.endTime, 'endTime');
+            workflowService.createLineItems($scope.selectedCampaign.campaignId,$scope.selectedCampaign.clientId,newItem).then(function(){
+                $scope.createCampaignAccess();
+            });
+        };
 
+        function createLineItemObj(lineItemId) {
             var newItem = {};
             newItem.name = $scope.lineItemName;
             newItem.lineItemType = $scope.lineItemType;
@@ -128,6 +92,36 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             newItem.pixel = $scope.pixelSelected;
             newItem.pixelId = $scope.pixelSelected.id;
             newItem.campaignId = campaignId;
+            //this is in case of edit mode where line item has id
+            if(lineItemId){
+                 newItem.id = lineItemId;
+            }
+
+            return newItem;
+        }
+
+        function createEditLineItemObj(lineItemId) {
+            var newItem = {};
+
+            newItem.name = $scope.editLineItem.lineItemName;
+            newItem.lineItemType = $scope.editLineItem.lineItemType;
+            newItem.pricingMethodId = $scope.editLineItem.lineItemType.id;
+            newItem.adGroupName = $scope.editLineItem.adGroupName;
+            $scope.lineItemBillableAmountTotal = $scope.lineItemBillableAmountTotal - Number(oldLineItem.billableAmount);
+            newItem.billableAmount = $scope.editLineItem.billableAmount;
+            $scope.lineItemBillableAmountTotal += Number($scope.editLineItem.billableAmount);
+            newItem.volume = $scope.editLineItem.volume;
+            newItem.pricingRate = $scope.editLineItem.pricingRate;
+            newItem.startTime = $scope.editLineItem.startTime;
+            newItem.endTime = $scope.editLineItem.endTime;
+            newItem.pixel = $scope.editLineItem.pixelSelected;
+            newItem.pixelId = $scope.editLineItem.pixelSelected.id;
+            newItem.campaignId = (campaignId === '-999')?'-999':campaignId; // handle real edit mode
+
+            //this is in case of edit mode where line item has id
+            if(lineItemId){
+                newItem.id = lineItemId;
+            }
 
             return newItem;
         }
@@ -198,18 +192,6 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     if(selectedAdvertiser && (selectedAdvertiser.billingType && selectedAdvertiser.billingValue)){
                         $scope.rateReadOnly = true;
                         $scope.pricingRate = selectedAdvertiser.billingValue;// to get via advertiser api
-                        //$scope.rateTypeReadOnly = true;
-                        //var arr = [];
-                        //var index = _.findIndex($scope.type,function(item){
-                        //    return item.name === $scope.lineItemType.name
-                        //});
-                        //arr.push($scope.type[index]);
-                        //var index1 = _.findIndex($scope.type,function(item){
-                        //    return item.name === CONST_FLAT_FEE
-                        //})
-                        //arr.push($scope.type[index1]);
-                        //$scope.type = arr;
-
                     }
                     $scope.hideAdGroupName = true;
                     $scope.hideLineItemRate = true;
@@ -286,6 +268,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             $scope.pixelSelected = {};
 
             $('.lineItemType').html('<span class="text" data-ng-bind="lineItemType.name">Select Type</span> <span class="icon-arrow-down"></span>');
+            $('.pixelType').html('<span class="text" data-ng-bind="pixelSelected.name">Select from list</span> <span class="icon-arrow-down"></span>');
             $scope.volume = '';
             $scope.billableAmount = '';
             $scope.pricingRate = '';
@@ -325,8 +308,6 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         $scope.updateLineItem = function(newItem){
             $scope.deleteLineItem(false);
             $scope.createNewLineItem('edit');
-            //$scope.lineItemList.push(index,1);
-
         }
 
         $scope.deleteLineItem = function(deleteFlag){
@@ -338,7 +319,12 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             if(deleteFlag == true){
                 $scope.lineItemBillableAmountTotal -= Number($scope.lineItemList[index]['billableAmount']);
             }
-            $scope.lineItemList.splice(index,1);
+            if($scope.mode === 'create'){
+                $scope.lineItemList.splice(index,1);
+            }
+            else {
+                workflowService.deleteLineItem(oldLineItem,$scope.selectedCampaign.clientId) // not used right now
+            }
         }
 
         //populate line item in case of edit and cancel of edit
@@ -394,10 +380,30 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 $scope.lineItemStartDate = momentService.utcToLocalTime(item.startTime);
                 $scope.lineItemEndDate = momentService.utcToLocalTime(item.endTime);
                 campaignId = item.campaignId;
-                $scope.createNewLineItem('create');
+                $scope.createNewLineItem('create',item.id);
 
             })
-        }
+        };
+
+        // line item date picker
+        $scope.$parent.initiateLineItemDatePicker = function () {
+            var startDateElem = $('#lineItemStartDateInput'),
+                endDateElem = $('#lineItemEndDateInput'),
+                today = momentService.utcToLocalTime();
+
+            $scope.lineItemStartDate = $scope.selectedCampaign.startTime;
+            $scope.lineItemEndDate = $scope.selectedCampaign.endTime;
+
+            //line Item start Date
+            startDateElem.datepicker("setStartDate", $scope.lineItemStartDate);
+            startDateElem.datepicker("update", $scope.lineItemStartDate);
+            startDateElem.datepicker("setEndDate", $scope.lineItemEndDate);
+
+            //line Item End Date
+            endDateElem.datepicker("setStartDate", $scope.lineItemStartDate);
+            endDateElem.datepicker("update", $scope.lineItemEndDate);
+            endDateElem.datepicker("setEndDate", $scope.lineItemEndDate);
+        };
 
         $scope.setPixels = function(pixel,mode){
             if(mode === 'create') {
@@ -414,5 +420,17 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             $(target).closest('.tr').find('.tableNormal').toggle();
             $(target).closest('.tr').find('.tableEdit').toggle();
         };
+
+        $scope.$parent.filterLineItemBasedOnPixel = function(id){
+            var tempList = _.extend($scope.lineItemList);
+
+            for(var i = 0;i < tempList.length; i++){
+                if(tempList[i].pixelId && tempList[i].pixelId === id){
+                    tempList.splice(i,1);
+                }
+            }
+            $scope.lineItemList = tempList;
+            console.log(tempList);
+        }
     });
 });

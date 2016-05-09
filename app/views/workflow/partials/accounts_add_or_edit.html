@@ -16,6 +16,29 @@
                 <option value='RESELLER'>Reseller</option>
                 <option value='ORGANIZATION'>Organization</option>
             </select>
+            
+            <div class="col-md-12 zeroPadding dropdown-workflow">
+                <div class="dropdown">
+                    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <span class="text" data-ng-bind="'Select Account'">Select Account</span>
+                        <span class="icon-arrow-down"></span>
+                    </button>
+                    <ul class="dropdown-menu" data-toggle="dropdown">
+                        <li class="available">
+                            <a>Marketer</a>
+                        </li>
+                        <li class="available">
+                            <a>Agency</a>
+                        </li>
+                        <li class="available">
+                            <a>Reseller</a>
+                        </li>
+                        <li class="available">
+                            <a>Organization</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
         </div>
 
         <div class="form-group col-md-4" style="padding: 0 15px;">
@@ -38,6 +61,20 @@
                 <option selected disabled data-ng-bind="'Select Currency'"></option>
                 <option value="{{curr.id}}" ng-repeat="curr in currency" ng-selected="{{curr.id == selectedCurrency}}" >{{curr.currencyCode}}</option>
             </select>
+            
+            <div class="col-md-12 zeroPadding dropdown-workflow">
+                <div class="dropdown">
+                    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <span class="text" data-ng-bind="'Select Currency'">Select Currency</span>
+                        <span class="icon-arrow-down"></span>
+                    </button>
+                    <ul class="dropdown-menu" data-toggle="dropdown">
+                        <li class="available" value="{{curr.id}}" ng-repeat="curr in currency" ng-selected="{{curr.id == selectedCurrency}}">
+                            <a>{{curr.currencyCode}}</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
         </div>
 
         <div class="form-group col-md-4" style="padding: 0 15px;">
@@ -46,6 +83,20 @@
                 <option selected disabled data-ng-bind="'Select Geography'"></option>
                 <option value="{{country.id}}" ng-repeat="country in Geography" ng-selected="{{country.id == selectedCountry}}" >{{country.name}}</option>
             </select>
+            
+            <div class="col-md-12 zeroPadding dropdown-workflow">
+                <div class="dropdown">
+                    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <span class="text" data-ng-bind="'Select Geography'">Select Geography</span>
+                        <span class="icon-arrow-down"></span>
+                    </button>
+                    <ul class="dropdown-menu" data-toggle="dropdown">
+                        <li class="available" value="{{country.id}}" ng-repeat="country in Geography" ng-selected="{{country.id == selectedCountry}}">
+                            <a>{{country.name}}</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
         </div>
 
         <div class="form-group col-md-4" style="padding: 0 0 0 15px;">
@@ -61,8 +112,23 @@
                 <option selected disabled data-ng-bind="'Select Time zone'"></option>
                 <option value="{{key}}" ng-repeat="(key, value) in timezones" ng-selected="{{key == timezone}}" >{{value}}</option>
             </select>
+            
+            <div class="col-md-12 zeroPadding dropdown-workflow">
+                <div class="dropdown">
+                    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <span class="text" data-ng-bind="'Select Time zone'">Select Time zone</span>
+                        <span class="icon-arrow-down"></span>
+                    </button>
+                    <ul class="dropdown-menu" data-toggle="dropdown">
+                        <li class="available" value="{{key}}" ng-repeat="(key, value) in timezones" ng-selected="{{key == timezone}}">
+                            <a>{{value}}</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
         </div>
     </div><!-- end of modal_body -->
+    
     <div class="adChoices" ng-show="clientObj.isLeafNode">
         <div class="col-md-12 zeroPadding"><h1 class="pull-left">Ad Choices</h1></div>
         <div class="form-group col-md-4" style="padding: 0 15px 0 0;">
