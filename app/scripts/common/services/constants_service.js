@@ -1143,5 +1143,14 @@ define(['angularAMD'], function(angularAMD) {
         this.MEDIAPLAN_FLIGHT_DATE_START = "Flight Date Start";
         this.MEDIAPLAN_FLIGHT_DATE_END = "Flight Date End";
 
+        this.MEDIA_PLAN_CLONE ='Media Plan Clone';
+        this.MEDIA_PLAN_WARNING_MESSAGE = 'You will lose your changes if you leave this page. Are you sure?'
+
+        this.MEDIA_PLAN_TOTAL = "Media Plan total*:";
+        this.AD_GROUP_TOTAL = "Ad Group total*:";
+        this.CAMPAIGN_TOTAL = "Campaign total*:";
+        this.INCLUDES_FIXED_COSTS = "*Includes fixed costs";
+        this.EXCLUDES_MEDIA_PLAN_FIXED_COSTS = "*Excludes Media Plan fixed costs";
+
     });
 });

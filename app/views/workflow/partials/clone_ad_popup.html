@@ -1,0 +1,74 @@
+<div class=" clearfix popup-holder">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"
+                ng-click="close()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        <h2 class="modal-title" id="myModalLabel" ng-bind="textConstants.WF_CLONE_THIS_AD"></h2>
+    </div>
+
+    <div class="modal-body col-md-12">
+        <div class="col-md-12 zeroPadding data_row">
+            <div class="form-group col-md-12 zeroPadding">
+                <label class="greyTxt">{{textConstants.WF_SELECT_MEDIA_PLAN}}</label> <br>
+                <div class="col-md-12 zeroPadding dropdown-workflow">
+                    <div class="dropdown inputLoader">
+                        <div class="common-loading-area" style="display:none;"></div>
+                        <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                            <!--<span class="text">{{mode == 'edit' ? selectedAccount : 'Account' }}</span>-->
+                            <span class="text" ng-bind-html="mediaPlanName"></span>
+                            <span class="icon-arrow-down"></span>
+                        </button>
+                        <ul class="dropdown-menu dropdown-search" aria-labelledby="accountType" data-toggle="dropdown">
+                            <li class="searchBar">
+                                <div class="col-md-12 input-group input-group-sm search-control">
+                                    <input type="text" class="col-md-12" name="mediaplanSearch" ng-model="media"  placeholder="Search Media Plan"/>
+                                    <div class="icon-search"></div>
+                                </div>
+                            </li>
+                            <li ng-repeat="mediaplan in mediaPlanList | filter: media" >
+                                <a ng-click="selectMediaPlan(mediaplan)">
+                                    <span ng-if="mediaplan.id == campaignId"><b>{{mediaplan.name}} (Current)</b></span>
+                                    <span ng-if="mediaplan.id != campaignId">{{mediaplan.name}}</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group col-md-12 zeroPadding" ng-if="mediaPlanList.length >0">
+                <label class="greyTxt">{{textConstants.WF_SELECT_AD_GROUP}}</label><br>
+                <div class="col-md-12 zeroPadding dropdown-workflow">
+                    <div class="dropdown">
+                        <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                            <span class="text" ng-bind-html="adGroupName ? adGroupName :textConstants.WF_NO_AD_GROUP"></span>
+                            <span class="icon-arrow-down"></span>
+                        </button>
+                        <ul class="dropdown-menu dropdown-search" aria-labelledby="accountType" data-toggle="dropdown">
+                            <li class="searchBar">
+                                <div class="col-md-12 input-group input-group-sm search-control">
+                                    <input type="text" class="col-md-12" name="mediaplanSearch" ng-model="adGroup"  placeholder="Search Ad Group"/>
+                                    <div class="icon-search"></div>
+                                </div>
+                            </li>
+                            <li ng-repeat="groups in adGroupList" >
+                                <a ng-click="selectAdGroup(groups.adGroup)">
+                                    <span ng-if="groups.adGroup.id == adGroupId"><b>{{groups.adGroup.name}} (Current)</b></span>
+                                    <span ng-if="groups.adGroup.id != adGroupId">{{groups.adGroup.name}}</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="clearfix col-md-12 popup-btns-holder">
+        <button class="btn btn-primary pull-right" ng-show="!adArchiveLoader" type="button" ng-click="beginAdClone()"
+                >{{textConstants.WF_CLONE_AD}}</button>
+        <div ng-show ="adArchiveLoader" class="pull-right common-loading-btn" ></div>
+        <button class="secondary_txt" type="button" data-dismiss="modal" ng-click="close()" >Cancel</button>
+    </div>
+</div> <!-- end of popup-holder -->
+

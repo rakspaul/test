@@ -6,9 +6,9 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
     'workflow/controllers/daypart_create_controller', 'workflow/controllers/video_targetting_controller',
     'workflow/controllers/inventory_filters_controller', 'workflow/controllers/creative_controller',
     'workflow/controllers/creative_list_controller', 'workflow/controllers/creative_tag_controller',
-    'workflow/services/platform_custom_module', 'common/services/zip_code'],
+    'workflow/services/platform_custom_module', 'common/services/zip_code','workflow/controllers/ad_clone_controller'],
     function (angularAMD) {
-        angularAMD.controller('CampaignAdsCreateController', function ($scope,  $rootScope,$routeParams, $locale,
+        angularAMD.controller('CampaignAdsCreateController', function ($scope, $modal, $rootScope,$routeParams, $locale,
                                                                        $location,  $filter, $timeout,constants,
                                                                        workflowService, loginModel, dataService,
                                                                        audienceService, RoleBasedService, momentService,
@@ -223,31 +223,6 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                         $scope.adData.unitType = $scope.workflowData.unitTypes[0];
                     },
 
-                    //saveTrackerFile : function() {
-                    //    var clientId,
-                    //        url;
-                    //
-                    //    if ($scope.adId) {
-                    //        clientId = loginModel.getSelectedClient().id;
-                    //        url = vistoconfig.apiPaths.WORKFLOW_API_URL +
-                    //            '/clients/' + clientId +
-                    //            '/campaigns/' + $scope.campaignId +
-                    //            '/ads/' + $scope.adId +
-                    //            '/creatives?format=csv';
-                    //
-                    //        dataService
-                    //            .downloadFile(url)
-                    //            .then(function (response) {
-                    //                if (response.status === 'success') {
-                    //                    $scope.downloadingTracker = false;
-                    //                    saveAs(response.file, response.fileName);
-                    //                } else {
-                    //                    $scope.downloadingTracker = false;
-                    //                }
-                    //            });
-                    //    }
-                    //},
-
                     saveAds: function (postDataObj) {
                         var promiseObj;
 
@@ -332,95 +307,20 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                             $location.url('/mediaplans');
                         }
                         console.log(errData);
-                    },
-
-                    getAllMediaPlan: function () {
-                        // make api call to fetch all media plan - used in ad clone popup
-                        workflowService.getAllCampaignsForAdClone().then(function(result){
-                            var responseData,
-                                index;
-                            if (result.status === 'OK' || result.status === 'success') {
-                                responseData = result.data.data;
-                                $scope.mediaPlanList = responseData;
-                                //sort media plan list
-                                $scope.mediaPlanList =  _.sortBy($scope.mediaPlanList , 'name');
-
-                                index = _.findIndex($scope.mediaPlanList,function(plan){
-                                    return parseInt(plan.id) === parseInt($scope.campaignId);
-                                });
-                                if(index !== -1){
-                                    $scope.mediaPlanName = $scope.mediaPlanList[index].name +
-                                        ' <span class="greyTxt">(Current)</span>';
-                                    selectedMediaPlanId = $scope.mediaPlanList[index].id;
-                                }
-                                campaignOverView.getAdGroups();
-                            } else {
-                                campaignOverView.errorHandler(result);
-                            }
-                        });
-                        //$scope.mediaPlanList = [{id:1,name:'shrujan'},{id:2,name:'shetty'}]; // ask dummy json
-                    },
-
-                    getAdGroups: function(){
-                        // make api call to fetch all media plan - used in ad clone popup
-                        workflowService
-                            .getAdgroups(selectedMediaPlanId, false)
-                            .then(function (result) {
-                                var responseData;
-                                if (result.status === 'OK' || result.status === 'success') {
-                                    responseData = result.data.data.ad_groups;
-                                    $scope.adGroupList = responseData;
-                                    var index= _.findIndex($scope.adGroupList,function(obj){
-                                        return obj.adGroup.id===Number($scope.adGroupId);
-                                    })
-                                    if(index>=0)
-                                    $scope.adGroupName=$scope.adGroupList[index].adGroup.name;
-                                    selectedAdGroupId=$scope.adGroupList[index].adGroup.id;
-                                } else {
-                                    campaignOverView.errorHandler(result);
-                                }
-                            });
-                    },
-
-                    cloneAd: function () {
-                        var requestData = {
-                                source_ad_id: $scope.adId,
-                                ad_group: selectedAdGroupId
-                            },
-
-                            responseData;
-
-                        workflowService
-                            .cloneAd(requestData,selectedMediaPlanId)
-                            .then(function(result){
-                                if (result.status === 'OK' || result.status === 'success') {
-                                    responseData = result.data.data;
-                                    var url = '/mediaplan/'+responseData.campaignId+'/';
-
-                                    if(responseData.lineitemId) {
-                                        url += 'lineItem/'+responseData.lineitemId+'/';
-                                    }
-
-                                    if(responseData.adGroupId){
-                                        url += 'adGroup/'+responseData.adGroupId+'/';
-                                    }
-
-                                    url += 'ads/'+responseData.id+'/edit';
-
-                                    $scope.showCloneAdPopup = false;
-                                    $rootScope.setErrAlertMessage($scope.textConstants.PARTIAL_AD_CLONE_SUCCESS, 0);
-                                    $timeout(function(){
-                                        $location.url(url);
-                                    },500);
-
-                                } else {
-                                    $scope.showCloneAdPopup = false;
-                                    $scope.adArchiveLoader = false;
-                                    campaignOverView.errorHandler(result);
-                                }
-                            });
                     }
                 };
+            $scope.showClonePopup = function () {
+                var $modalInstance = $modal.open({
+                    templateUrl: assets.html_ad_campaign_popup,
+                    controller: "AdClone",
+                    scope: $scope,
+                    windowClass: 'delete-dialog',
+                    resolve: {
+                        getMediaPlansForClone: function () {
+                        }
+                    }
+                });
+            };
             /*function to display the primaryKPI selected on left Nav*/
             $scope.displayKpiInSideBar=function(selectedKpi){
                 if(((selectedKpi).toUpperCase()== 'CTR')||((selectedKpi).toUpperCase()== 'VTC')||((selectedKpi).toUpperCase()== 'CPM')||((selectedKpi).toUpperCase()== 'CPC') ||((selectedKpi).toUpperCase()== 'CPA')){
@@ -873,54 +773,16 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                 $scope.adArchive = !$scope.adArchive;
             };
 
-            $scope.showClonePopup = function () {
-                // ad clone - fetch all media plans
-                campaignOverView.getAllMediaPlan();
-                $scope.showCloneAdPopup = !$scope.showCloneAdPopup;
-            };
+            //$scope.showClonePopup = function () {
+            //    // ad clone - fetch all media plans
+            //    campaignOverView.getAllMediaPlan();
+            //    $scope.showCloneAdPopup = !$scope.showCloneAdPopup;
+            //};
 
             $scope.cancelAdPause = function () {
                 if ($scope.disablePause !== 'disabled') {
                     $scope.adPause = !$scope.adPause;
                 }
-            };
-
-            $scope.selectMediaPlan = function (mediaPlan) {
-                selectedMediaPlanId = mediaPlan.id;
-
-                if(parseInt(selectedMediaPlanId) === parseInt($scope.campaignId)){
-                    $scope.mediaPlanName = mediaPlan.name+ ' <span class="greyTxt">(Current)</span>';
-                }
-                else{
-                    $scope.mediaPlanName = mediaPlan.name;
-                }
-
-                //reset selected ad group
-                selectedAdGroupId = -1;
-                $scope.adGroupName = null;
-
-                campaignOverView.getAdGroups();
-            };
-
-            $scope.selectAdGroup = function (adGroup) {
-                if(adGroup){
-                    selectedAdGroupId = adGroup.id;
-                    $scope.adGroupName = adGroup.name;
-                } else {
-                    selectedAdGroupId = -1;
-                    $scope.adGroupName = constants.WF_NO_AD_GROUP;
-                }
-
-            };
-
-            $scope.beginAdClone = function(){
-                $scope.adArchiveLoader = true;
-                campaignOverView.cloneAd();
-            };
-
-            $scope.cancelAdClone = function () {
-                $scope.adArchiveLoader = false;
-                $scope.showCloneAdPopup = !$scope.showCloneAdPopup;
             };
 
             $scope.cancelAdResume = function () {
@@ -1662,9 +1524,6 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
             $scope.mediaPlanName = null;
             $scope.adGroupName = null;
             $scope.adData.platformSeatId = null;
-
-            var selectedMediaPlanId = parseInt($routeParams.campaignId),
-                selectedAdGroupId = -1;
 
             RoleBasedService.setCurrencySymbol();
             $scope.tags = [];

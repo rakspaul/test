@@ -395,6 +395,20 @@
 .popup-holder .data_row.custom_report_type .campaign-dd-data {
   width: 340px;
 }
+.popup-holder .dropdown-search input[type="text"],
+.popup-holder .dropdown-search input[type="text"]:hover,
+.popup-holder .dropdown-search input[type="text"]:focus {
+  margin: 0px ;
+  border-left: 0px ;
+  border-right: 0px ;
+  border-top: 0px ;
+}
+.popup-holder .dropdown-workflow .searchBar {
+  margin-top: 0px ;
+}
+.popup-holder .dropdown-workflow .searchBar .icon-search {
+  top: -4px;
+}
 .clone-popup .cloneMediaPlanNameInput {
   width: 100%;
 }

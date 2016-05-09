@@ -141,6 +141,7 @@ assets.admin_accounts_subclient = '/views/workflow/partials/creative_add_bulk.ht
 //assets.admin_accounts_subclient = '/views/workflow/partials/admin_accounts_subclientList.html';
 
 assets.html_clone_campaign_popup = '/views/workflow/partials/clone_campaign_popup.html';
+assets.html_ad_campaign_popup = '/views/workflow/partials/clone_ad_popup.html';
 
 
 //Admin page
