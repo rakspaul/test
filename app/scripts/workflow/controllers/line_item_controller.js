@@ -101,11 +101,11 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
             newItem = createLineItemObj();
             newItem.startTime = momentService.localTimeToUTC(newItem.startTime, 'startTime');
-                newItem.endTime = momentService.localTimeToUTC(newItem.endTime, 'endTime');
-                workflowService.createLineItems($scope.selectedCampaign.campaignId,$scope.selectedCampaign.clientId,newItem).then(function(){
-                    var createCampaign = $scope.createCampaignAccess();
-                    //createCampaign.fetchLineItemDetails($scope.selectedCampaign.campaignId);
-                });
+            newItem.endTime = momentService.localTimeToUTC(newItem.endTime, 'endTime');
+            workflowService.createLineItems($scope.selectedCampaign.campaignId,$scope.selectedCampaign.clientId,newItem).then(function(){
+                var createCampaign = $scope.createCampaignAccess();
+                //createCampaign.fetchLineItemDetails($scope.selectedCampaign.campaignId);
+            });
         };
 
         function createLineItemObj(item) {
@@ -286,6 +286,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             $scope.pixelSelected = {};
 
             $('.lineItemType').html('<span class="text" data-ng-bind="lineItemType.name">Select Type</span> <span class="icon-arrow-down"></span>');
+            $('.pixelType').html('<span class="text" data-ng-bind="pixelSelected.name">Select from list</span> <span class="icon-arrow-down"></span>');
             $scope.volume = '';
             $scope.billableAmount = '';
             $scope.pricingRate = '';
