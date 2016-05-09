@@ -150,7 +150,7 @@
             <div class="col-md-5 zeroPadding dropdown-workflow" ng-show="showPixelsList">
                 <div class="dropdown">
                     <label class="col-sm-12 zeroPadding greyTxt">Select Conversion Pixel</label>
-                    <button style="width:100%;" class="btn btn-default dropdown-toggle lineItemType" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ng-disabled="rateTypeReadOnly">
+                    <button style="width:100%;" class="btn btn-default dropdown-toggle pixelType" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" >
                         <span class="text" >{{(pixelSelected )?pixelSelected.name:'Select from list'}}</span>
                         <span class="icon-arrow-down"></span>
                     </button>
@@ -321,12 +321,12 @@
                 </div>
                 <div class="col-md-5 zeroPadding dropdown-workflow" ng-show="showPixelsListEdit">
                     <div class="dropdown">
-                        <label class="col-sm-12 zeroPadding greyTxt">Pixels</label>
-                        <button style="width:100%;" class="btn btn-default dropdown-toggle lineItemType" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ng-disabled="rateTypeReadOnly">
+                        <label class="col-sm-12 zeroPadding greyTxt">Select Conversion Pixel</label>
+                        <button style="width:100%;" class="btn btn-default dropdown-toggle pixelTypeEdit" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ng-disabled="gf">
                             <span class="text" >{{(editLineItem.pixelSelected )?editLineItem.pixelSelected.name:'Select from list'}}</span>
                             <span class="icon-arrow-down"></span>
                         </button>
-                        <ul class="dropdown-menu" aria-labelledby="lineType" id="pixelEdit" data-toggle="dropdown" name="lineItemType">
+                        <ul class="dropdown-menu" aria-labelledby="lineType" id="pixelEdit" data-toggle="dropdown" name="pixelType">
                             <li class="available" ng-repeat="pixel in selectedCampaign.selectedPixel"  ng-click="setPixels(pixel,'edit')"><a>{{pixel.name}}</a></li>
                         </ul>
                         <input type="hidden" class="form-control" ng-model="editLineItem.pixelSelected.id" name="lineItemType"  />
