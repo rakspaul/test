@@ -66,6 +66,9 @@ define(['angularAMD' , 'workflow/services/workflow_service' , 'common/moment_uti
                     })
                     $scope.selectedCampaign.pixelList[index].isChecked = false;
                     $scope.selectedCampaign.pixelList[index].isIncluded = null;
+
+                    // filter line item
+                    $scope.filterLineItemBasedOnPixel(pixel.id);
                 }
             };
 
