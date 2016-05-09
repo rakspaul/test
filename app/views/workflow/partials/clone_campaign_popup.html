@@ -13,7 +13,10 @@
                 <input  type="text" ng-model="cloneMediaPlanName" remove-special-character="remove-special-character" ng-keyup="isMediaPlanNameExist($event)"  placeHolder="Enter New Media Plan Name" autocomplete="off">
                 <div class="common-loading-area" ng-show="checkUniqueNameNotFound && cloneMediaPlanName"></div>
             </div>
-            <span class="greyTxt customErrorLabel" ng-if="cloneMediaPlanExists" data-ng-bind="cloneMediaPlanName + ' '+ textConstants.CLONEMEDIAPLANNAMEERR"></span>
+            <span class="greyTxt customErrorLabel" ng-if="cloneMediaPlanExists" >
+                <span>"<span data-ng-bind="cloneMediaPlanName"></span>"</span>
+                <span data-ng-bind="textConstants.CLONEMEDIAPLANNAMEERR"></span>
+            </span>
             <div class="col-md-12 zeroPadding duplicateOptionChkbox">
 
                 <label>
@@ -22,7 +25,7 @@
                 </label><br>
 
                 <label>
-                    <input type="checkbox" ng-model="cloneAdGroups" ng-click="showDuplicateAdGroupSection($event);">
+                    <input type="checkbox" ng-model="cloneAdGroups" ng-click="showDuplicateAdGroupSection();" id="duplicateAdGroup">
                     <span data-ng-bind="textConstants.DUPLICATEADGROUPS"></span>
                 </label>
 
@@ -30,7 +33,7 @@
             <div class="col-md-12 zeroPadding duplicateAdGroupSection">
                 <div class="col-md-12 zeroPadding">
                     <label>
-                        <input type="radio" name="chooseFlightDate" value="automaticFlightDates" ng-click="chooseFlightDate('automatic');" checked>
+                        <input type="radio" name="chooseFlightDate" value="automaticFlightDates"  ng-click="chooseFlightDate('automatic');" checked>
                         <span data-ng-bind="textConstants.AUTOMATICADJUSTFLIGHTDATES"></span>
                     </label>
                     <div class="clearfix newMediaPlanFlightDate">
@@ -39,7 +42,7 @@
                             <div class="col-md-12 dateWrapper zeroPadding">
                                 <div class="dateContainer">
                                     <div class="dateInputHolder" >
-                                        <input type="text" custom-date-picker="{format: 'mm/dd/yyyy', orientation: 'bottom',  autoclose: true, todayHighlight: true}" placeholder="MM/DD/YYYY" class="form-control"  readonly name="startTime" ng-model="newMediaPlanDate" ng-change="newMediaPlanDateChange()" />
+                                        <input type="text" custom-date-picker="{format: 'mm/dd/yyyy', orientation: 'bottom',  autoclose: true, todayHighlight: true}" placeholder="MM/DD/YYYY" class="form-control"  readonly name="startTime" ng-model="newMediaPlanDate" ng-change="newMediaPlanDateChange()" id="cloneStartDateInput" />
                                         <div class="icon-calendar-holder">
                                             <span class="icon-calendar"></span>
                                         </div>
@@ -52,7 +55,7 @@
                 </div>
                 <div class="col-md-12 zeroPadding">
                     <label>
-                        <input type="radio" name="chooseFlightDate" value="originalFlightDates" ng-click="chooseFlightDate('original');">
+                        <input type="radio" name="chooseFlightDate" value="originalFlightDates"  ng-click="chooseFlightDate('original');">
                         <span  data-ng-bind="textConstants.KEEPORIGINALFLIGHTDATES"></span>
 
                     </label>

@@ -1,13 +1,14 @@
 define(['angularAMD'],function (angularAMD) {
     'use strict';
 
-    angularAMD.controller('CampaignClone', function( $scope , $routeParams, $location, $modalInstance, constants, vistoconfig, campaignCloneAction, workflowService, localStorageService) {
+    angularAMD.controller('CampaignClone', function( $scope , $routeParams, $location, $modalInstance, constants, vistoconfig, campaignCloneAction, workflowService, localStorageService, momentService) {
         $scope.showCloneLoader = false;
         $scope.cloneMediaPlanExists = false;
         $scope.checkUniqueNameNotFound = false;
         $scope.cloneLineItems = true;
         $scope.textConstants = constants;
         $scope.newMediaPlanStartDate = false ;
+        $scope.newMediaPlanDate = "" ;
 
         $scope.close=function(){
             $modalInstance.dismiss();
@@ -17,6 +18,9 @@ define(['angularAMD'],function (angularAMD) {
             var cloneMediaPlanName = $scope.cloneMediaPlanName;
             var cloneLineItems = $scope.cloneLineItems;
             var cloneAdGroups = $scope.cloneAdGroups;
+            var cloneStartDate = $scope.newMediaPlanDate;
+            var flightDateChosen = $("input[name='chooseFlightDate']:checked").val() ;
+
             var params = {
                 'id': Number($routeParams.campaignId),
                 'name': cloneMediaPlanName
@@ -27,7 +31,10 @@ define(['angularAMD'],function (angularAMD) {
                 params['cloneLineitems'] = cloneLineItems;
                 params['cloneAdGroups'] = cloneAdGroups;
                 params['cloneAds'] = true;
-
+                if( cloneAdGroups &&  (flightDateChosen == "automaticFlightDates") && $scope.newMediaPlanDate ) {
+                    params['startDate'] = momentService.localTimeToUTC(cloneStartDate) ;
+                }
+                console.log("params " , params ) ;
                 var errorMediaPlanHandler = function () {
                     $scope.showCloneLoader = false;
                 };
@@ -49,16 +56,21 @@ define(['angularAMD'],function (angularAMD) {
             }
         };
 
-        $scope.showDuplicateAdGroupSection = function( event ) {
-            var elem = $(event.target) ;
+        $scope.showDuplicateAdGroupSection = function() {
+           
             $scope.newMediaPlanStartDate = false ;
-            if( elem.is(":checked") ) {
+            var startDateElem = $('#cloneStartDateInput');
+            var today = momentService.utcToLocalTime();
+            startDateElem.datepicker("setStartDate", today);
+
+            if( $("#duplicateAdGroup").is(":checked") ) {
                  $scope.newMediaPlanStartDate = true ;
                 $(".duplicateAdGroupSection").find(".disabled_div").hide() ;
-                
+                 $scope.chooseFlightDate() ;
             } else {
                 $scope.newMediaPlanStartDate = false ;
                 $(".duplicateAdGroupSection").find(".disabled_div").show() ;
+
             }
             
         };
@@ -68,22 +80,17 @@ define(['angularAMD'],function (angularAMD) {
                 if( flightDateChosen != "automaticFlightDates" ) {
                     $scope.newMediaPlanStartDate = false ;
                 } else {
-                    if( $scope.newMediaPlanDate ) {
-                        $scope.newMediaPlanStartDate = false ;
-                    } else {
-                        $scope.newMediaPlanStartDate = true ;
-                    }
+                    $scope.newMediaPlanDateChange() ;
                 }
         }
         $scope.newMediaPlanDateChange = function() {
-            if( $scope.cloneMediaPlanName ) {
-                if( $scope.newMediaPlanDate ) {
-                    $scope.newMediaPlanStartDate = false ;
-                 } else {
-                    $scope.newMediaPlanStartDate = true ;
-                 }
+            if( $scope.newMediaPlanDate ) {
+                $scope.newMediaPlanStartDate = false ;
+             } else {
+                $scope.newMediaPlanStartDate = true ;
              }
         }
+       
         $scope.isMediaPlanNameExist = function(event){
             var target =  event.target,
                 cloneMediaPlanName = target.value,
@@ -104,10 +111,14 @@ define(['angularAMD'],function (angularAMD) {
             }
             if( $scope.cloneMediaPlanName ) {
                 $scope.newMediaPlanStartDate = false ;
+                $scope.showDuplicateAdGroupSection();
             } else {
                 $scope.newMediaPlanStartDate = true ;
+
             }
         };
+
+       
 
     });
 });
