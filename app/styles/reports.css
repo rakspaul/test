@@ -3493,8 +3493,8 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
   -moz-box-shadow: 0px 0px 0px transparent;
 }
 .reports_login_outer_container .reports_login_box .login_txtbox input:focus {
-  border: 0px solid transparent;
-  border-left: solid 1px #d2dee7 ;
+  border: 0px solid transparent !important ;
+  border-left: solid 1px #d2dee7 !important ;
 }
 .reports_login_outer_container .reports_login_box .validation_error {
   border: solid 2px #C32A2A ;
@@ -3846,6 +3846,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
                 margin-right:6px; */
   width: 24px;
   float: left;
+  margin-right: 15px ;
 }
 .report_generator_and_response #dynamicHeader.smaller .iconPlusMinus .icon-plus,
 .report_generator_and_response #dynamicHeader.smaller .iconPlusMinus .icon-minus {
@@ -3917,7 +3918,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
   box-shadow: none;
 }
 .report_generator_and_response .report_builder_container .heading h1 {
-  margin: 0px 11px  25px  15px;
+  margin: 0px 11px  25px  0px;
 }
 .report_generator_and_response .report_builder_container .heading h3 {
   font-size: 21px ;
@@ -4329,7 +4330,7 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
   margin: 100px auto 110px ;
 }
 .custom_report_response_page .custom_report_response_table .custom_report_scroll {
-  min-height: 200px ;
+  min-height: 400px ;
   max-height: 500px;
   overflow: auto ;
 }

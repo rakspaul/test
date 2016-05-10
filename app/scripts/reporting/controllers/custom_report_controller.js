@@ -1322,6 +1322,8 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
             _customctrl.createJSONforPage($scope.activeTab);
             _customctrl.getDataBasedOnTabSelected($scope.activeTab);
             $scope.checkHeaderScroll(id);
+            var heading_width = $("#"+id+"_table .custom_report_scroll").find(".heading_row").width() ;
+            $("#"+id+"_table .custom_report_scroll .first_dimension_row_holder").width(heading_width);
         };
 
         $scope.reset_metric_options = function(event) {
