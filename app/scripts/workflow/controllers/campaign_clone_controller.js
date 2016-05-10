@@ -34,7 +34,6 @@ define(['angularAMD'],function (angularAMD) {
                 if( cloneAdGroups &&  (flightDateChosen == "automaticFlightDates") && $scope.newMediaPlanDate ) {
                     params['startDate'] = momentService.localTimeToUTC(cloneStartDate) ;
                 }
-                console.log("params " , params ) ;
                 var errorMediaPlanHandler = function () {
                     $scope.showCloneLoader = false;
                 };
@@ -79,8 +78,10 @@ define(['angularAMD'],function (angularAMD) {
                 $scope.newMediaPlanStartDate = true ;
                 if( flightDateChosen != "automaticFlightDates" ) {
                     $scope.newMediaPlanStartDate = false ;
+                    $("#cloneStartDateInput").attr("disabled" , true) ;
                 } else {
                     $scope.newMediaPlanDateChange() ;
+                    $("#cloneStartDateInput").attr("disabled" , false) ;
                 }
         }
         $scope.newMediaPlanDateChange = function() {
