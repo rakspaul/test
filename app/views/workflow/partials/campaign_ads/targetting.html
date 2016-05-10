@@ -1,6 +1,7 @@
 <div class="col-md-7 zeroPadding">
     <h2 class="col-md-12 zeroPadding marginBottom" data-ng-bind="textConstants.SETTARGETING"></h2>
-    <a href="javascript:void(0);" class="helpLink"
+    <a href="javascript:void(0);"
+       class="helpLink"
        style="margin-top: 10px; display: inline-block;"
        data-ng-bind="textConstants.TARGETAUDCHOOSE">
     </a>
@@ -16,7 +17,8 @@
                     <a data-target="#buying"
                        data-toggle="tab"
                        class="pull-right common_primary_btn leftNavLink"
-                       data-ng-bind="textConstants.SELECTPLATFORM"></a>
+                       data-ng-bind="textConstants.SELECTPLATFORM">
+                    </a>
                 </div>
             </div>
         </div>
@@ -34,12 +36,9 @@
         </span>
         <div class="icon-audience"></div>
         <p data-ng-bind="textConstants.AUDSEGMENTS"></p>
-        <div class="cardTxtWrap"
-             data-ng-if="!audienceDataForPreview || audienceDataForPreview.length === 0">
+        <div class="cardTxtWrap" data-ng-if="!audienceDataForPreview || audienceDataForPreview.length == 0">
             <span data-ng-bind="textConstants.REACHAUD"></span>
-            <p style="margin: 0;">
-                <span data-ng-bind="textConstants.ALLAUD"></span>
-            </p>
+            <p style="margin: 0;"><span data-ng-bind="textConstants.ALLAUD"></span></p>
         </div>
         <div class="cardTxtWrap targetDataSaved"
              data-ng-if="audienceDataForPreview && audienceDataForPreview.length > 0">
@@ -49,23 +48,23 @@
                 <div class="badge" data-ng-bind="audienceDataForPreview.length"></div>
             </div>
             <span class="targetListItem"
-                  data-ng-if="audienceDataForPreview.length >= 1"
-                  data-ng-bind="audienceDataForPreview[0].name | limitTo: 30 +
-                                audienceDataForPreview[0].name.length > 30 ? '...' : ''">
+                  data-ng-if="audienceDataForPreview.length >= 1">
+                {{audienceDataForPreview[0].name | limitTo: 30}}
+                {{audienceDataForPreview[0].name.length > 30 ? '...' : ''}}
             </span>
             <span class="targetListItem"
-                  data-ng-if="audienceDataForPreview.length >= 2"
-                  data-ng-bind="audienceDataForPreview[1].name | limitTo: 30 +
-                                audienceDataForPreview[1].name.length > 30 ? '...' : ''">
+                  data-ng-if="audienceDataForPreview.length >= 2">
+                {{audienceDataForPreview[1].name | limitTo: 30}}
+                {{audienceDataForPreview[1].name.length > 30 ? '...' : ''}}
             </span>
             <span class="targetListItem"
-                  data-ng-if="audienceDataForPreview.length >= 3"
-                  data-ng-bind="audienceDataForPreview[2].name | limitTo: 30 +
-                                audienceDataForPreview[2].name.length > 30 ? '...' : ''">
+                  data-ng-if="audienceDataForPreview.length >= 3">
+                {{audienceDataForPreview[2].name | limitTo: 30}}
+                {{audienceDataForPreview[2].name.length > 30 ? '...' : ''}}
             </span>
             <span class="targetListItemMore"
-                  data-ng-if="audienceDataForPreview.length > 3"
-                  data-ng-bind="'+' + (audienceDataForPreview.length - 3) + ' more'">
+                  data-ng-if="audienceDataForPreview.length > 3">
+                +{{audienceDataForPreview.length - 3}} more
             </span>
         </div>
         <span  data-ng-if="$parent.isPlatformSelected"
@@ -88,40 +87,38 @@
          data-ng-class="{true: 'active'}[selectedTargeting['geography']]">
         <span data-ng-if="geoTargetingPreviewObj"
               class="icon-trash"
-              data-ng-style="(geoTargetingPreviewObj.include.count >0 || geoTargetingPreviewObj.exclude.count > 0 ?
-                             {'display': 'block'} : {'display':'none'}"
+              data-ng-style="(geoTargetingPreviewObj.include.count > 0 || geoTargetingPreviewObj.exclude.count > 0) ?
+                            {'display': 'block'} : {'display': 'none'}"
               data-ng-click="deletetargets('GEO', $event)">
         </span>
         <div class="icon-location"></div>
-        <p>Geography
-            <span data-ng-bind="' (' + locale.id === 'en-gb' ? 'UK' : 'US' + ' Only)'"></span>
-        </p>
-        <div class="cardTxtWrap"
-             data-ng-if="!geoTargetingPreviewObj.include && !geoTargetingPreviewObj.exclude">
+        <p>Geography <span>({{locale.id === 'en-gb' ? 'UK' : 'US'}} Only)</span></p>
+        <div class="cardTxtWrap" data-ng-if="!geoTargetingPreviewObj.include && !geoTargetingPreviewObj.exclude">
             <span data-ng-bind="textConstants.TARGETAUDLOC"></span>
-            <p style="margin: 0;">
-                <span data-ng-bind="'All ' + (locale.id === 'en-gb' ? 'UK' : 'US') + ' (default)'"></span>
-            </p>
+            <p style="margin: 0;"><span>All {{locale.id === 'en-gb' ? 'UK' : 'US'}} (default)</span></p>
         </div>
         <div class="cardTxtWrap targetDataSaved"
              data-ng-if="geoTargetingPreviewObj.include || geoTargetingPreviewObj.exclude">
-            <div class="targetDataSavedTop"
-                 data-ng-if="geoTargetingPreviewObj.include.count > 0">
+            <div class="targetDataSavedTop" data-ng-if="geoTargetingPreviewObj.include.count > 0">
                 <div class="icon-target"></div>
                 <span data-ng-bind="textConstants.INCLUDED"></span>
-                <div class="badge" data-ng-bind="geoTargetingPreviewObj.include.count"></div>
+                <div class="badge">
+                    {{geoTargetingPreviewObj.include.count}}
+                </div>
             </div>
-            <span class="targetListItem" ng-bind-html="geoTargetingPreviewObj.include.label"></span>
+            <span class="targetListItem">
+                {{geoTargetingPreviewObj.include.label}}
+            </span>
+
             <div class="targetDataSavedTop"
                  style="padding-top: 20px;"
                  data-ng-if="geoTargetingPreviewObj.exclude.count > 0">
                 <div class="icon-exclude"></div>
                 <span data-ng-bind="textConstants.EXCLUDED"></span>
-                <div class="badge" data-ng-bind="geoTargetingPreviewObj.exclude.count"></div>
+                <div class="badge">{{geoTargetingPreviewObj.exclude.count}}</div>
             </div>
-            <span class="targetListItem"
-                  data-ng-bind="geoTargetingPreviewObj.exclude.label"
-                  data-ng-if="geoTargetingPreviewObj.exclude.count">
+            <span class="targetListItem" data-ng-if="geoTargetingPreviewObj.exclude.count">
+                {{geoTargetingPreviewObj.exclude.label}}
             </span>
         </div>
         <span data-ng-if="$parent.isPlatformSelected"
@@ -142,64 +139,56 @@
     <div class="col-md-6 cardSelectHolder"
          data-ng-if="(!isPlatformSelected || (isPlatformSelected && isDaypartTargetEnabled))"
          data-ng-class="{true: 'active'}[selectedTargeting['daily']]">
-        <span data-ng-if="selectedDayParts.data.length  > 0"
+        <span data-ng-if="selectedDayParts['data'].length  > 0"
               class="icon-trash"
-              data-ng-style="(selectedDayParts.data.length > 0) ? {'display': 'block'} : {'display': 'none'}"
+              data-ng-style="(selectedDayParts['data'].length > 0) ? {'display': 'block'} : {'display': 'none'}"
               data-ng-click="deletetargets('DAYPART', $event)">
         </span>
         <div class="icon-activity"></div>
         <p data-ng-bind="textConstants.DAYPART"></p>
-        <div class="cardTxtWrap"
-             data-ng-if="!selectedDayParts.data || selectedDayParts.data.length === 0">
+        <div class="cardTxtWrap" data-ng-if="!selectedDayParts['data'] || selectedDayParts['data'].length === 0">
             <span data-ng-bind="textConstants.SELECTADREST"></span>
-            <p style="margin: 0;">
-                <span data-ng-bind="textConstants.ALLDAYSTIMES"></span>
-            </p>
+            <p style="margin: 0;"><span data-ng-bind="textConstants.ALLDAYSTIMES"></span></p>
         </div>
         <div class="cardTxtWrap targetDataSaved"
-             data-ng-if="selectedDayParts.data && selectedDayParts.data.length  > 0">
+             data-ng-if="selectedDayParts['data'] && selectedDayParts['data'].length > 0">
             <div class="targetDataSavedTop">
                 <div class="icon-target"></div>
                 <span data-ng-bind="textConstants.INCLUDED"></span>
                 <div class="badge" data-ng-bind="dayPartTotal"></div>
             </div>
             <span class="targetListItem"
-                  data-ng-bind="selectedDayParts['selected']"
-                  data-ng-if="selectedDayParts['selected'] != 'Custom schedule'">
+                  data-ng-if="selectedDayParts['selected'] !== 'Custom schedule'">
+                {{selectedDayParts['selected']}}
             </span>
             <span class="targetListItem"
-                  data-ng-if="selectedDayParts.data.length >= 1 && selectedDayParts['selected'] ===
-                              'Custom schedule'"
-                  data-ng-bind="selectedDayParts.data[0].day + ' ' +
-                                ((selectedDayParts.data[0].startTime) ? selectedDayParts.data[0].startTime : '')
-                                + ' ' +
-                                ((selectedDayParts.data[0].endTime) ? selectedDayParts.data[0].endTime : '')">
+                  data-ng-if="selectedDayParts['data'].length >= 1 && selectedDayParts['selected'] == 'Custom schedule'">
+                {{selectedDayParts['data'][0].day}}
+                {{(selectedDayParts['data'][0].startTime) ? selectedDayParts['data'][0].startTime : ''}}
+                {{(selectedDayParts['data'][0].endTime) ? selectedDayParts['data'][0].endTime : ''}}
             </span>
             <span class="targetListItem"
-                  data-ng-if="selectedDayParts.data.length >= 2 && selectedDayParts['selected'] ===
-                              'Custom schedule'"
-                  data-ng-bind="selectedDayParts.data[1].day + ' ' +
-                                ((selectedDayParts.data[1].startTime) ? selectedDayParts.data[1].startTime : '')
-                                + ' ' +
-                                ((selectedDayParts.data[1].endTime) ? selectedDayParts.data[1].endTime : '')">
+                  data-ng-if="selectedDayParts['data'].length >= 2 && selectedDayParts['selected'] === 'Custom schedule'">
+                {{selectedDayParts['data'][1].day}}
+                {{(selectedDayParts['data'][1].startTime) ? selectedDayParts['data'][1].startTime : ''}}
+                {{(selectedDayParts['data'][1].endTime) ? selectedDayParts['data'][1].endTime : ''}}
             </span>
             <span class="targetListItem"
-                  data-ng-if="selectedDayParts.data.length >= 3 && selectedDayParts['selected'] ===
-                              'Custom schedule'"
-                  data-ng-bind="selectedDayParts.data[2].day + ' ' +
-                                ((selectedDayParts.data[2].startTime) ? selectedDayParts.data[2].startTime : '') +
-                                ' ' + ((selectedDayParts.data[2].endTime) ? selectedDayParts.data[2].endTime : '')">
+                  data-ng-if="selectedDayParts['data'].length >= 3 && selectedDayParts['selected'] === 'Custom schedule'">
+                {{selectedDayParts['data'][2].day}}
+                {{(selectedDayParts['data'][2].startTime) ? selectedDayParts['data'][2].startTime : ''}}
+                {{(selectedDayParts['data'][2].endTime) ? selectedDayParts['data'][2].endTime : ''}}
             </span>
             <span class="targetListItemMore"
-                  data-ng-if="selectedDayParts.data.length > 3 && selectedDayParts['selected'] ===
-                              'Custom schedule'"
-                  data-ng-bind="'+' + (selectedDayParts.data.length - 3) + ' more'"></span>
+                  data-ng-if="selectedDayParts['data'].length > 3 && selectedDayParts['selected'] === 'Custom schedule'">
+                +{{selectedDayParts['data'].length - 3}} more
+            </span>
         </div>
         <span data-ng-if="$parent.isPlatformSelected"
               class="onSelectBtn btn btn-default active"
               data-ng-click="selectDayTarget()">
         </span>
-        <input data-ng-if="!selectedDayParts.data || selectedDayParts.data.length === 0"
+        <input data-ng-if="!selectedDayParts['data'] || selectedDayParts['data'].length === 0"
                type="button"
                name="platform"
                value="Create"
@@ -212,10 +201,9 @@
     <!--START : Video Targeting Card-->
     <div class="col-md-6 cardSelectHolder active" data-ng-if="adData.adFormat === 'Video'">
         <span class="icon-trash"
-              data-ng-style="(adData.videoPreviewData.sizes.length  ||
-                        adData.videoPreviewData.positions.length ||
-                        adData.videoPreviewData.playbackMethods.length) ?
-                        {'display': 'block'} : {'display': 'none'}"
+              data-ng-style="(adData.videoPreviewData.sizes ||
+                             adData.videoPreviewData.positions ||
+                             adData.videoPreviewData.playbackMethods) ? {'display': 'block'} : {'display': 'none'}"
               data-ng-click="deletetargets('VIDEO', $event)">
         </span>
         <div class="icon-video"></div>
@@ -225,26 +213,20 @@
                          !adData.videoPreviewData.positions.length ||
                          !adData.videoPreviewData.playbackMethods.length">
             <span>Target your video ads to specific players and placements</span>
-            <p style="margin: 0;">
-                <span></span>
-            </p>
+            <p style="margin: 0;"><span></span></p>
         </div>
         <div class="cardTxtWrap targetDataSaved">
             <div class="video-targetting-holder">
-                <div class="col-md-12 zeroPadding" data-ng-if="adData.videoPreviewData.sizes.length">
-                    <span class="targetListItem"
-                          data-ng-bind="'Sizes: ' + adData.videoPreviewData.sizes"></span>
+                <div class="col-md-12 zeroPadding" data-ng-if="adData.videoPreviewData.sizes">
+                    <span class="targetListItem">Sizes: {{adData.videoPreviewData.sizes}}</span>
                 </div>
-                <div class="col-md-12 zeroPadding" data-ng-if="adData.videoPreviewData.positions.length">
-                    <span class="targetListItem"
-                          data-ng-bind="'Positions: ' + adData.videoPreviewData.positions">
-                    </span>
+
+                <div class="col-md-12 zeroPadding" data-ng-if="adData.videoPreviewData.positions">
+                    <span class="targetListItem">Positions: {{adData.videoPreviewData.positions}}</span>
                 </div>
-                <div class="col-md-12 zeroPadding"
-                     data-ng-if="adData.videoPreviewData.playbackMethods.length">
-                    <span class="targetListItem"
-                          data-ng-bind="'Playback Method: ' + adData.videoPreviewData.playbackMethods">
-                    </span>
+
+                <div class="col-md-12 zeroPadding" data-ng-if="adData.videoPreviewData.playbackMethods">
+                    <span class="targetListItem">Playback Method: {{adData.videoPreviewData.playbackMethods}}</span>
                 </div>
             </div>
         </div>
@@ -265,7 +247,7 @@
     <!--END : Video Targeting Card-->
 
     <div class="msgPopupHolder" data-ng-show="showDeleteConfirmationPopup">
-        <div class="msgPopup" style="top: -60px">
+        <div class="msgPopup" style="top:-60px">
             <div>
                 <div class="msg pull-left" style="padding-top: 10px;" data-ng-bind="textConstants.AREYOUSURE"></div>
                 <div class="clearfix btn-holder" style="margin: 0;">

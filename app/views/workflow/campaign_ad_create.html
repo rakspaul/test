@@ -11,8 +11,7 @@
             position: fixed;
             z-index: 999;
             opacity: 0.6;"
-     data-ng-show="redirectFlag">
-</div>
+     data-ng-show="redirectFlag"></div>
 <div id="campaignCreate" class="adCreateMaster">
     <div class="firstWrapper">
         <div class="masterContainer adMasterContainer">
@@ -27,15 +26,10 @@
                      data-ng-include="'/views/workflow/partials/campaign_ads/sidebar.html'"
                      data-ng-init="loadSideBar()">
                 </div>
-
                 <!--=== Steps ===-->
                 <div class="campaignAdCreate campaignAdCreatePage">
                     <div class="adMainWrapper">
-                        <form role="form"
-                              class="col-md-12 zeroPadding"
-                              name="formAdCreate"
-                              id="formAdCreate"
-                              novalidate>
+                        <form role="form" class="col-md-12 zeroPadding" name="formAdCreate" id="formAdCreate" novalidate>
                             <div class="adCreateConsole">
                                 <div class="col-md-12 zeroPadding adStepOne">
                                     <div class="col-md-12 zeroPadding tabContent">
@@ -46,13 +40,12 @@
                                                     <h3 class="col-md-12 zeroPadding adName"
                                                         tooltip="{{adData.adName}}"
                                                         data-ng-bind="adData.adName.length > 0 ?
-                                                                      (adData.adName | textEllipsis: 40 ) :
-                                                                      textConstants.WF_UNTITLED_AD">
+                                                        (adData.adName | textEllipsis: 40 ) :
+                                                        textConstants.WF_UNTITLED_AD">
                                                     </h3>
                                                 </div>
                                                 <div class="zeroPadding dropdown-workflow pull-right"
-                                                     data-ng-hide="(mode !== 'edit')"
-                                                     style="margin-left: 10px;">
+                                                     data-ng-hide="(mode !== 'edit')" style="margin-left: 10px;">
                                                     <div class="dropdown">
                                                          <button class="btn btn-default dropdown-toggle"
                                                                  type="button"
@@ -61,14 +54,13 @@
                                                                  aria-expanded="true">
                                                             <span class="icon-more-options"></span>
                                                          </button>
-                                                         <ul class="dropdown-menu" id="moreOptions"
+                                                         <ul class="dropdown-menu"
+                                                             id="moreOptions"
                                                              style="right: 0; left: initial;">
-                                                            <li class="{{disablePause}}"
-                                                                data-ng-click="cancelAdPause()">
+                                                            <li class="{{disablePause}}" data-ng-click="cancelAdPause()">
                                                                 <a data-ng-bind="textConstants.WF_PAUSE"></a>
                                                             </li>
-                                                            <li class="{{disableResume}}"
-                                                                data-ng-click="cancelAdResume()">
+                                                            <li class="{{disableResume}}" data-ng-click="cancelAdResume()">
                                                                 <a data-ng-bind="textConstants.WF_RESUME"></a>
                                                             </li>
                                                             <li class="disabled">
@@ -86,7 +78,7 @@
                                                          </ul>
                                                     </div>
                                                </div>
-                                                <button data-ng-show ="!adCreateLoader"
+                                                <button data-ng-show="!adCreateLoader"
                                                         type="button"
                                                         data-ng-disabled="adData.budgetExceeded ||
                                                                           adData.adBudgetExceedUnallocated ||
@@ -98,9 +90,9 @@
                                                         id="SaveAd"
                                                         data-ng-click="campaignAdSave(false)"
                                                         data-ng-bind="textConstants.WF_AD_SAVE_CLOSE"
-                                                        class="btn btn-primary pull-right"
-                                                        style="margin: 0;">
+                                                        class="btn btn-primary pull-right" style="margin: 0;">
                                                 </button>
+
                                                 <div data-ng-show="adCreateLoader"
                                                      class="pull-right common-loading-btn">
                                                 </div>
@@ -189,21 +181,14 @@
             <div class="popup-header-body">
                 <div class="clearfix">
                     <h1 class="pull-left" data-ng-bind="textConstants.WF_AD_UPDATE"></h1>
-                    <span class="icon-close close unselectable"
-                          aria-hidden="true"
-                          data-ng-click="cancelAdArchive()">
-                    </span>
+                    <span class="icon-close close unselectable" aria-hidden="true" data-ng-click="cancelAdArchive()"></span>
                 </div>
                 <div class="popup-content" data-ng-bind="textConstants.ARCHIVE_MESSAGE"></div>
             </div>
             <div class="clearfix popup-footer" >
-                <button data-ng-show="!adArchiveLoader"
-                        type="button"
-                        data-ng-click="archiveAd($event)"
-                        class="common_primary_btn pull-right">
-                    Archive
-                </button>
-                <div data-ng-show="adArchiveLoader" class="pull-right common-loading-btn"></div>
+                <button data-ng-show="!adArchiveLoader" type="button" data-ng-click="archiveAd($event)"
+                        class="common_primary_btn pull-right">Archive</button>
+                <div data-ng-show ="adArchiveLoader" class="pull-right common-loading-btn" ></div>
                 <button type="button" data-ng-click="cancelAdArchive()" class="secondary_txt pull-right">Cancel</button>
             </div>
         </div>
@@ -213,14 +198,9 @@
             <div class="popup-header-body">
                 <div class="clearfix">
                     <h1 class="pull-left" data-ng-bind="textConstants.WF_PAUSE_AD"></h1>
-                    <span class="icon-close close unselectable"
-                          aria-hidden="true"
-                          data-ng-click="cancelAdPause()">
-                    </span>
+                    <span class="icon-close close unselectable" aria-hidden="true" data-ng-click="cancelAdPause()"></span>
                 </div>
-                <div class="popup-content"
-                     data-ng-bind="textConstants.WF_AD_PAUSE_MESSAGE">
-                </div>
+                <div class="popup-content" data-ng-bind="textConstants.WF_AD_PAUSE_MESSAGE"></div>
             </div>
             <div class="clearfix popup-footer">
                 <button type="button" data-ng-click="pauseAd()" class="common_primary_btn pull-right">Pause</button>
@@ -233,10 +213,7 @@
             <div class="popup-header-body">
                 <div class="clearfix">
                     <h1 class="pull-left" data-ng-bind="textConstants.WF_RESUME_AD"></h1>
-                    <span class="icon-close close unselectable"
-                          aria-hidden="true"
-                          data-ng-click="cancelAdResume()">
-                    </span>
+                    <span class="icon-close close unselectable" aria-hidden="true" data-ng-click="cancelAdResume()"></span>
                 </div>
                 <div class="popup-content" data-ng-bind="resumeMessage"></div>
             </div>
@@ -250,16 +227,15 @@
         <div class="popup">
             <div class="popup-header-body">
                 <div class="clearfix">
-                    <h1 class="pull-left"
-                        data-ng-bind="(archivedAdFlag && archivedCampaignFlag === false) ?
-                                      textConstants.WF_ARCHIVE_AD :
-                                      textConstants.WF_ARCHIVE_CAMPAIGN">
+                    <h1 class="pull-left">{{(archivedAdFlag && archivedCampaignFlag === false) ?
+                        textConstants.WF_ARCHIVE_AD :
+                        textConstants.WF_ARCHIVE_CAMPAIGN}}
                     </h1>
                 </div>
-                <div class="popup-content"
-                     data-ng-bind="(archivedAdFlag && archivedCampaignFlag === false) ?
-                                   textConstants.WF_REDIRECT_USER_FOR_ARCHIVED_AD :
-                                   textConstants.WF_REDIRECT_USER_FOR_ARCHIVED_CAMPAIGN">
+                <div class="popup-content">
+                    {{(archivedAdFlag && archivedCampaignFlag === false) ?
+                    textConstants.WF_REDIRECT_USER_FOR_ARCHIVED_AD :
+                    textConstants.WF_REDIRECT_USER_FOR_ARCHIVED_CAMPAIGN}}
                 </div>
             </div>
             <div class="clearfix popup-footer">
