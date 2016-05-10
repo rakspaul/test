@@ -66,10 +66,13 @@
             <textarea data-ng-model="advertiserAddOrEditData.adChoiceCode"></textarea>
         </div>
     </div>
+    
     <!--IAB Category-->
     <div class="col-md-12 IABForm">
-        <div class="col-md-12 zeroPadding"><h1 class="pull-left">IAB Categories</h1></div>
-        <!--Row 1-->
+        <div class="col-md-12 zeroPadding">
+            <h1 class="pull-left">IAB Categories</h1>
+        </div>
+        
         <div class="col-md-12 zeroPadding">
             <div class="form-group col-md-4" style="padding: 0 15px 0 0;">
                 <label class="col-sm-12 greyTxt">Category:</label>
@@ -87,8 +90,8 @@
                         </ul>
                     </div>
                 </div>
-
             </div>
+            
             <div class="form-group col-md-4" style="padding: 0 15px;">
                 <label class="col-sm-12 greyTxt">Sub Category:</label>
 
@@ -108,10 +111,12 @@
             </div>
         </div>
     </div>
+    
+    <!--Billing Methods-->
     <div class="billingMethods" ng-show="clientObj.isLeafNode">
         <div class="col-md-12 zeroPadding"><h1 class="pull-left">Billing Methods</h1></div>
-        <!--Row 1-->
         <div class="col-md-12 zeroPadding">
+            <!--Methods-->
             <div class="form-group col-md-4" style="padding: 0 15px 0 0;">
                 <label class="col-sm-12 greyTxt">Methods:</label>
 
@@ -151,7 +156,6 @@
                     <label class="col-sm-12 greyTxt">Value:</label>
                     <input type="text" class="form-control" maxlength="80">
                 </div>
-
             </div>
             <div class="col-md-8 zeroPadding methodFees techFees" ng-show="selectedBillType=='Service Fees'">
                 <label class="col-sm-12 greyTxt">Rate Type:</label>
@@ -208,14 +212,6 @@
     <div class="col-md-12 zeroPadding"><h1 class="pull-left">Add Pixel</h1></div>
 </div>
 
-<!--<div class="pull-right btn-group create createPixel" role="group" aria-label="..." style="display: none;">-->
-    <!--<a class="btn btn-default" data-ng-click="addPixel()">-->
-        <!--<span class="icon-plus"></span>-->
-        <!--<span>Add Pixel</span>-->
-    <!--</a>-->
-<!--</div>-->
-
-<!--<div id="pixelsCnt" ng-if="advertiserData.pixels.length">-->
 <div id="pixelsCnt" ng-if="activeEditAdvertiserTab=='pixel'">
     <div class="col-md-12 zeroPadding">
         <h1 class="pull-left">Pixels</h1>
@@ -228,7 +224,6 @@
 
     <!--Create Pixel Form-->
     <div class="pixelCreate" style="display: none">
-        <!--<div data-ng-repeat="pixel in advertiserData.pixels" class="pixelLayer">-->
         <div class="delete_row delete_row_pixel" ng-click="clearPixel()"></div>
         <div class="pixelLayer" >
             <div class="form-group col-md-4" style="padding: 0 15px 0 0;">
@@ -262,8 +257,18 @@
                     </div>
                 </div>
             </div>
+            
+            <div class="form-group col-md-2 clearLeft" style="padding: 0 15px 0 0;">
+                <label class="col-sm-12 greyTxt">Impression Look Back:</label>
+                <input type="text" class="form-control" placeholder="Add value" value="14">
+            </div>
+        
+            <div class="form-group col-md-2" style="padding: 0 15px;">
+                <label class="col-sm-12 greyTxt">Click Look Back:</label>
+                <input type="text" class="form-control" placeholder="Add value" value="14">
+            </div>
 
-            <div class="form-group col-md-12" style="padding: 0;">
+            <div class="form-group col-md-8" style="padding: 0 0 0 15px;">
                 <label class="col-sm-12 greyTxt">Description</label>
                 <input type="textarea" class="form-control" ng-model="pixelFormData.description">
             </div>
@@ -277,79 +282,52 @@
                ng-click="removePixel();" aria-label="Close">Remove Pixel</a>
         </div>
     </div>
-<!--Pixel List Table-->
-<div class="pixelTable">
-    <div class="table-responsive user-list animated" id="table_responsive">
-        <div class="vistoTable" id="visto_table">
-            <div class="thead thin">
-                <div class="tr">
-                    <div class="col-md-4 th">Pixel Name</div>
-                    <div class="col-md-4 th">Pixel Type</div>
-                    <div class="col-md-3 th">Pixel Expiration Date</div>
-                    <div class="col-md-1 th text-center">Edit</div>
-                </div>
-            </div>
-
-            <div class="tbody thin">
-                <!--Table Sample-->
-                <div class="tr" data-ng-repeat="pixel in advertiserData.pixels">
-                    <div class="td col-md-4">
-                        <a data-ng-bind="pixel.name"></a>
-                    </div>
-
-                    <div class="td col-md-4">
-                        <span data-ng-bind="pixel.pixelType"></span>
-                    </div>
-
-                    <div class="td col-md-3">
-                        <span data-ng-bind="pixel.expiryDate"></span>
-                    </div>
-
-                    <div class="td col-md-1 text-center" style="padding-left: 0;">
-                        <a class="icon-inline-edit" data-ng-click="editPixel($index, pixel);" style="color: #0978C9;"></a>
+    
+    <!--Pixel List Table-->
+    <div class="pixelTable">
+        <div class="table-responsive user-list animated" id="table_responsive">
+            <div class="vistoTable" id="visto_table">
+                <div class="thead thin">
+                    <div class="tr">
+                        <div class="col-md-3 th">Pixel Name</div>
+                        <div class="col-md-3 th">Pixel Type</div>
+                        <div class="col-md-2 th">Impression Look</div>
+                        <div class="col-md-2 th">Click Look</div>
+                        <div class="col-md-2 th">Pixel Expiration Date</div>
                     </div>
                 </div>
-                <!--<div class="tr">-->
-                    <!--<div class="td col-md-4">-->
-                        <!--<a>Pixel Name</a>-->
-                    <!--</div>-->
-
-                    <!--<div class="td col-md-4">-->
-                        <!--<span>Pixel Type</span>-->
-                    <!--</div>-->
-
-                    <!--<div class="td col-md-3">-->
-                        <!--<span>Pixel Exp. Date</span>-->
-                    <!--</div>-->
-
-                    <!--<div class="td col-md-1 text-center" style="padding-left: 0;">-->
-                        <!--<a class="icon-inline-edit" style="color: #0978C9;"></a>-->
-                    <!--</div>-->
-                <!--</div>-->
-
-                <!--<div class="tr">-->
-                    <!--<div class="td col-md-4">-->
-                        <!--<a>Pixel Name</a>-->
-                    <!--</div>-->
-
-                    <!--<div class="td col-md-4">-->
-                        <!--<span>Pixel Type</span>-->
-                    <!--</div>-->
-
-                    <!--<div class="td col-md-3">-->
-                        <!--<span>Pixel Exp. Date</span>-->
-                    <!--</div>-->
-
-                    <!--<div class="td col-md-1 text-center" style="padding-left: 0;">-->
-                        <!--<a class="icon-inline-edit" style="color: #0978C9;"></a>-->
-                    <!--</div>-->
-                <!--</div>-->
-                <div class="common-load-more" style="display: none;"></div>
+    
+                <div class="tbody thin">
+                    <!--Table Sample-->
+                    <div class="tr" data-ng-repeat="pixel in advertiserData.pixels">
+                        <div class="td col-md-3">
+                            <a data-ng-bind="pixel.name" data-ng-click="editPixel($index, pixel);"></a>
+                        </div>
+    
+                        <div class="td col-md-3">
+                            <span data-ng-bind="pixel.pixelType"></span>
+                        </div>
+    
+                        <div class="td col-md-2">
+                            <span data-ng-bind="pixel.impLook">14</span>
+                        </div>
+                        
+                        <div class="td col-md-2">
+                            <span data-ng-bind="pixel.clickLook">14</span>
+                        </div>
+                        
+                        <div class="td col-md-2">
+                            <span data-ng-bind="pixel.expiryDate"></span>
+                        </div>
+                    </div>
+                    
+                    <div class="common-load-more" style="display: none;"></div>
+                </div>
             </div>
         </div>
     </div>
 </div>
-</div>
+
 <ul ng-if="allAdvertiser.length>0" class="dropdown-menu" role="menu" id="advertiserList" ng-if="mode == 'create'" ng-style="dropdownCss">
     <li ng-repeat="advertiser in allAdvertiser | filter:advertiserName" data-ng-click="selectAdvertiser(advertiser)">
         <a>
