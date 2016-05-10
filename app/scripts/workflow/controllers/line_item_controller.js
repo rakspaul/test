@@ -16,6 +16,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             oldLineItemIndex;
         $scope.pixelSelected = {};
         $scope.pixelSelected.name = 'Select from list';
+        $scope.selectedCampaign.lineItemBillableAmountTotal = 0;
 
         $scope.showNewLineItemForm = function(){
             $scope.createItemList = true;
@@ -58,8 +59,12 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             newItem = createLineItemObj();
             newItem.startTime = momentService.localTimeToUTC(newItem.startTime, 'startTime');
             newItem.endTime = momentService.localTimeToUTC(newItem.endTime, 'endTime');
-            workflowService.createLineItems($scope.selectedCampaign.campaignId,$scope.selectedCampaign.clientId,newItem).then(function(){
-                $scope.createCampaignAccess();
+            workflowService.createLineItems($scope.selectedCampaign.campaignId,$scope.selectedCampaign.clientId,newItem).then(function(results){
+                console.log('result==',results)
+                if (results.status === 'success' && results.data.statusCode === 200) {
+                    $scope.createCampaignAccess();
+
+                }
             });
         };
 
@@ -68,8 +73,13 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             newItem = createEditLineItemObj(oldLineItem.id);
             newItem.startTime = momentService.localTimeToUTC(newItem.startTime, 'startTime');
             newItem.endTime = momentService.localTimeToUTC(newItem.endTime, 'endTime');
-            workflowService.updateLineItems($scope.selectedCampaign.campaignId,$scope.selectedCampaign.clientId,newItem).then(function(){
-                $scope.createCampaignAccess();
+            workflowService.updateLineItems($scope.selectedCampaign.campaignId,$scope.selectedCampaign.clientId,newItem).then(function(results){
+                if (results.status === 'success' && results.data.statusCode === 200) {
+                    $scope.createCampaignAccess();
+                    $scope.selectedCampaign.lineItemBillableAmountTotal = $scope.selectedCampaign.lineItemBillableAmountTotal - Number(oldLineItem.billableAmount);
+                    $scope.selectedCampaign.lineItemBillableAmountTotal += Number($scope.editLineItem.billableAmount);
+                }
+
             });
         };
 
@@ -84,7 +94,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 newItem.adGroupName = ($scope.adGroupName === '') ? $scope.lineItemName:$scope.adGroupName;
             }
             newItem.billableAmount = $scope.billableAmount;
-            $scope.lineItemBillableAmountTotal += Number($scope.billableAmount);
+            $scope.selectedCampaign.lineItemBillableAmountTotal += Number($scope.billableAmount);
             newItem.volume = $scope.volume;
             newItem.pricingRate = $scope.pricingRate;
             newItem.startTime = $scope.lineItemStartDate;
@@ -107,9 +117,13 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             newItem.lineItemType = $scope.editLineItem.lineItemType;
             newItem.pricingMethodId = $scope.editLineItem.lineItemType.id;
             newItem.adGroupName = $scope.editLineItem.adGroupName;
-            $scope.lineItemBillableAmountTotal = $scope.lineItemBillableAmountTotal - Number(oldLineItem.billableAmount);
+            if($scope.mode === 'create'){ //budget in edit mode will be updated once api is successfull
+                $scope.selectedCampaign.lineItemBillableAmountTotal = $scope.selectedCampaign.lineItemBillableAmountTotal - Number(oldLineItem.billableAmount);
+            }
             newItem.billableAmount = $scope.editLineItem.billableAmount;
-            $scope.lineItemBillableAmountTotal += Number($scope.editLineItem.billableAmount);
+            if($scope.mode === 'create') {
+                $scope.selectedCampaign.lineItemBillableAmountTotal += Number($scope.editLineItem.billableAmount);
+            }
             newItem.volume = $scope.editLineItem.volume;
             newItem.pricingRate = $scope.editLineItem.pricingRate;
             newItem.startTime = $scope.editLineItem.startTime;
@@ -317,7 +331,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 }
             });
             if(deleteFlag == true){
-                $scope.lineItemBillableAmountTotal -= Number($scope.lineItemList[index]['billableAmount']);
+                $scope.selectedCampaign.lineItemBillableAmountTotal -= Number($scope.lineItemList[index]['billableAmount']);
             }
             if($scope.mode === 'create'){
                 $scope.lineItemList.splice(index,1);

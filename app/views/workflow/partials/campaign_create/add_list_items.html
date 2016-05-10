@@ -174,6 +174,8 @@
 
     <!--Item List Table Sample Start-->
     <!--Note: ng-hide If data is empty or when new media plan is created-->
+    <span class=" col-md-12 greyTxt errorLabel" ng-show="budgetLineItemErrorFlag" style="display: block;">Line Item budget cannot exceed media plan budget</span>
+
     <div class="table-responsive" id="table_responsive" style="margin: 10px 0;">
         <div class="vistoTable" id="visto_table">
             <div class="thead">
@@ -211,8 +213,8 @@
         </div>
     </div>
     <!--Item List Table Sample Start-->
-
-    <span class="col-md-12 text-right" style="padding: 0 0 5px 0; border-bottom: 1px solid rgba(191, 201, 215, 0.5);">Total Billable Amount: {{locale.NUMBER_FORMATS.CURRENCY_SYM}}{{lineItemBillableAmountTotal}}</span>
+    lineItemBillableAmountTotal == {{selectedCampaign.lineItemBillableAmountTotal}}
+    <span class="col-md-12 text-right" style="padding: 0 0 5px 0; border-bottom: 1px solid rgba(191, 201, 215, 0.5);">Total Billable Amount: {{locale.NUMBER_FORMATS.CURRENCY_SYM}}{{selectedCampaign.lineItemBillableAmountTotal}}</span>
 
     <label class="col-sm-12 labelQuestTxt showAddCreditForm" ng-click="showAddCreditForm()" ng-hide="true">
         <span class="icon-arrow-down-thick"></span>Add Credits (0)
