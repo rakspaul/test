@@ -33,6 +33,17 @@ define(['angularAMD'], function (angularAMD) {
                  remove: function() {
                      return localStorage.removeItem('selectedCampaign');
                  }
+             },
+             scheduleListReportType: {
+                 set: function(data) {
+                     localStorage.setItem('scheduleListReportType', JSON.stringify(data));
+                 },
+                 get: function() {
+                     return localStorage.getItem('scheduleListReportType') && JSON.parse(localStorage.getItem('scheduleListReportType'));
+                 },
+                 remove: function() {
+                     return localStorage.removeItem('scheduleListReportType');
+                 }
              }
          }
 
