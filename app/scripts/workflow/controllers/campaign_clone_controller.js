@@ -79,8 +79,10 @@ define(['angularAMD'],function (angularAMD) {
                 $scope.newMediaPlanStartDate = true ;
                 if( flightDateChosen != "automaticFlightDates" ) {
                     $scope.newMediaPlanStartDate = false ;
+                    $("#cloneStartDateInput").attr("disabled" , true) ;
                 } else {
                     $scope.newMediaPlanDateChange() ;
+                    $("#cloneStartDateInput").attr("disabled" , false) ;
                 }
         }
         $scope.newMediaPlanDateChange = function() {
