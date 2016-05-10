@@ -87,7 +87,7 @@
             <label class="col-sm-12 greyTxt miniLabels zeroPadding" data-ng-bind="textConstants.MEDIAPLAN_RATE"></label>
             <div class="rate-input-field symbol-input col-md-12 zeroPadding">
                 <span class="symbol">$</span>
-                <input type="text" class="col-md-12 form-control" placeholder="Enter Rate" ng-model="$parent.pricingRate" ng-readonly="rateReadOnly" name="lineItemRate"   fraction-numbers input-comma-separator-thousands/>
+                <input type="text" class="col-md-12 form-control" placeholder="Enter Rate" ng-model="$parent.pricingRate" ng-readonly="rateReadOnly" name="lineItemRate"   fraction-numbers />
             </div>
 
             <span class="greyTxt errorLabel" ng-if="lineItemForm.lineItemRate.$error.required">Enter Rate</span>
