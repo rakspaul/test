@@ -65,10 +65,10 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
         $scope.updateLineItemInEditMode = function(){
             var newItem ;
-            newItem = createEditLineItemObj();
+            newItem = createEditLineItemObj(oldLineItem.id);
             newItem.startTime = momentService.localTimeToUTC(newItem.startTime, 'startTime');
             newItem.endTime = momentService.localTimeToUTC(newItem.endTime, 'endTime');
-            workflowService.createLineItems($scope.selectedCampaign.campaignId,$scope.selectedCampaign.clientId,newItem).then(function(){
+            workflowService.updateLineItems($scope.selectedCampaign.campaignId,$scope.selectedCampaign.clientId,newItem).then(function(){
                 $scope.createCampaignAccess();
             });
         };
