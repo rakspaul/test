@@ -74,7 +74,8 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         $scope.editLineItem = {};
         $scope.vendorConfig = [];
         $scope.costAttributes = {};
-        $scope.lineItemBillableAmountTotal = 0;
+
+        $scope.budgetLineItemErrorFlag = false;
 
         //mediaplan dates
         $scope.mediaPlanStartDate = '';
@@ -443,10 +444,16 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             var formElem,
                 formData,
                 postDataObj;
+
             if($scope.lineItemList.length == 0){
                 $scope.lineItemErrorFlag = true;
             }
-            if ($scope.createCampaignForm.$valid && $scope.lineItemList.length > 0) {
+            //budget of lineItem
+
+            if($scope.selectedCampaign.lineItemBillableAmountTotal > $scope.Campaign.deliveryBudget){
+                $scope.budgetLineItemErrorFlag = true;
+            }
+            if ($scope.createCampaignForm.$valid && $scope.lineItemList.length > 0 && $scope.budgetLineItemErrorFlag == true) {
                 formElem = $("#createCampaignForm").serializeArray();
                 formData = _.object(_.pluck(formElem, 'name'), _.pluck(formElem, 'value'));
                 postDataObj = {};
@@ -754,7 +761,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
         // use this method to access createCampaign in child
         $scope.createCampaignAccess = function(){
-            return createCampaign;
+            return createCampaign.fetchLineItemDetails($scope.selectedCampaign.id);
         };
 
         function resetPixelMediaPlan(){
