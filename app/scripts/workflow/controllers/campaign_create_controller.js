@@ -84,6 +84,8 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         $scope.lineItemEndDate = '';
         $scope.mediaPlanNameExists = false;
 
+        $scope.additionalCosts = [];
+
         var selectedAdvertiser;
 
         if(!loginModel.getMasterClient().isLeafNode) {

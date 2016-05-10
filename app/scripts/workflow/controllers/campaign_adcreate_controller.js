@@ -862,6 +862,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                     facebook: 'facebook-FBexchange',
                     dbm: 'doubleclick-DFP',
                     dfp: 'doubleclick-DFP',
+                    'plat-dbclick': 'doubleclick-DFP',
                     'place media': 'place_media',
                     telemetry: 'telemetry',
                     xad: 'xad',
@@ -870,7 +871,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                     dstillery: 'dstillery',
                     'adap.tv': 'adap_tv',
                     youtube: 'youtube',
-                    brightroll: 'brightroll',
+                    brightroll: 'br-logo_0',
                     doubleClick: 'doubleclick-DFP',
                     yahoo: 'yahoo',
                     'fb exchange': 'facebook-FBexchange',
@@ -880,7 +881,16 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                     'appnexus-tracking': 'logo_C_appnexus',
                     'dorado-tracking': 'Visto_fav_icon',
                     'dbm-tracking': 'doubleclick-DFP',
-                    beeswax: 'beeswax'
+                    beeswax: 'beeswax',
+                    'aerserv': 'aerserv-logo',
+                    'liverail': 'liverail-logo',
+                    'millennial media': 'millenialmedia',
+                    'mopub': 'mopub-logo',
+                    'openx': 'openx',
+                    'pubmatic': 'pubmatic-logo',
+                    'pulsepoint': 'pulsepoint-logo',
+                    'rubicon': 'rubicon-logo',
+                    'the trade desk': 'thetradedesk'
                 };
 
                 if (platform) {

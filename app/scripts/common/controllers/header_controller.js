@@ -191,6 +191,7 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
                     url = '/mediaplans/' + $scope.selectedCampaign;
                     $(".each_nav_link").removeClass('active_tab active selected');
                     $("#reports_overview_tab").addClass("active_tab");
+                    $("#reports_nav_link").addClass("active_tab") ;
                 }
             } else if (page === 'creativelist') {
                 $(".each_nav_link").removeClass('active_tab active selected');
@@ -204,6 +205,10 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
                 $(".each_nav_link").removeClass('active_tab active selected');
                 url = '/mediaplans'
                 $("#campaigns_nav_link").addClass("active_tab");
+            } else if (page === 'reportsSubPage') {
+                $(".reports_sub_menu_dd_holder").find(".active_tab").removeClass("active_tab") ;
+                $(".each_nav_link").removeClass('active_tab active selected');
+                $("#reports_nav_link").addClass("active_tab");
             }
             if (event) {
                 $(event.currentTarget).parent().addClass('active_tab');

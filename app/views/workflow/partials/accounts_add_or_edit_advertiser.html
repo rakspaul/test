@@ -106,24 +106,6 @@
                     </div>
                 </div>
             </div>
-            
-            <div class="form-group col-md-4" style="padding: 0 15px;">
-                <label class="col-sm-12 greyTxt">Sub Category:</label>
-
-                <div class="col-md-12 zeroPadding dropdown-workflow">
-                    <div class="dropdown">
-                        <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                            <span class="text" data-ng-bind="advertiserAddOrEditData.selectedIABCategory">Arts & Entertainment</span>
-                            <span class="icon-arrow-down"></span>
-                        </button>
-                        <ul class="dropdown-menu" data-toggle="dropdown">
-                            <li class="available" data-ng-repeat="type in IABCategoryList" >
-                                <a data-ng-bind="type.name" data-ng-click="selectIABCategory(type)">Arts & Entertainment</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
     <div class="billingMethods" ng-show="clientObj.isLeafNode">
@@ -147,7 +129,7 @@
                                 <a ng-click="show_respective_method('Service Fees')">Service Fees</a>
                             </li>
                             <li class="available">
-                                <a ng-click="show_respective_method('Arbitrage')">Arbitrage</a>
+                                <a ng-click="show_respective_method('Cost')">Cost</a>
                             </li>
                             <li class="available">
                                 <a ng-click="show_respective_method('None')">None</a>
@@ -190,6 +172,29 @@
                     </ul>
                 </div>
                 <div class="form-group col-md-4" style="margin-top: -36px">
+                    <label class="col-sm-12 greyTxt">Value:</label>
+                    <input type="text" class="form-control" maxlength="80" placeholder="Add some value">
+                </div>
+            </div>
+            <div class="col-md-8 zeroPadding methodFees techFees" ng-show="selectedBillType=='Cost'">
+                <label class="col-sm-12 greyTxt">Rate Type:</label>
+                <div class="dropdown">
+                    <button class="btn btn-default dropdown-toggle form-group col-md-4"
+                            style="padding: 7px;"
+                            type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <span class="text" data-ng-bind="selectedRateType"></span>
+                        <span class="icon-arrow-down" style="margin-left:172px"></span>
+                    </button>
+                    <ul class="dropdown-menu" data-toggle="dropdown">
+                        <li class="available">
+                            <a ng-click="selectedRateType='COGS'">COGS</a>
+                        </li>
+                        <li class="available">
+                            <a ng-click="selectedRateType='Arbitrage'">Arbitrage</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="form-group col-md-4" style="margin-top: -36px" data-ng-show="selectedRateType=='COGS'">
                     <label class="col-sm-12 greyTxt">Value:</label>
                     <input type="text" class="form-control" maxlength="80" placeholder="Add some value">
                 </div>
