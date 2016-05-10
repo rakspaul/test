@@ -86,8 +86,7 @@
                                                          </ul>
                                                     </div>
                                                </div>
-                                                <button
-                                                        data-ng-show ="!adCreateLoader"
+                                                <button data-ng-show ="!adCreateLoader"
                                                         type="button"
                                                         data-ng-disabled="adData.budgetExceeded ||
                                                                           adData.adBudgetExceedUnallocated ||
@@ -114,22 +113,14 @@
                                             <!-- Tab1 Setting start-->
                                             <div class="adcreateTabPane tab-pane fade in active"
                                                  id="adType"
-                                                 data-ng-include="'/views
-                                                                   /workflow
-                                                                   /partials
-                                                                   /campaign_ads
-                                                                   /select_type.html'">
+                                                 data-ng-include="'/views/workflow/partials/campaign_ads/select_type.html'">
                                             </div>
                                             <!-- Tab1 Setting end-->
 
                                             <!-- Tab2 Setting start-->
                                             <div class="adcreateTabPane tab-pane fade"
                                                  id="setting"
-                                                 data-ng-include="'/views
-                                                                   /workflow
-                                                                   /partials
-                                                                   /campaign_ads
-                                                                   /budget_delivery.html'"
+                                                 data-ng-include="'/views/workflow/partials/campaign_ads/budget_delivery.html'"
                                                  data-ng-controller="BudgetDeliveryController"
                                                  style="padding-bottom: 260px !important">
                                             </div>
@@ -138,13 +129,9 @@
                                             <!-- Tabs Buying Platform -->
                                             <div class="adcreateTabPane tab-pane fade"
                                                  id="buying"
-                                                 style="padding: 50px 0 0 0;
+                                                 style="padding: 50px 0 0;
                                                  min-height: 1032px;"
-                                                 data-ng-include="'/views
-                                                                   /workflow
-                                                                   /partials
-                                                                   /campaign_ads
-                                                                   /buying_platform.html'"
+                                                 data-ng-include="'/views/workflow/partials/campaign_ads/buying_platform.html'"
                                                  data-ng-controller="BuyingPlatformController">
                                             </div>
                                             <!-- Tabs Buying Platform Ends -->
@@ -153,11 +140,7 @@
                                             <div data-ng-show="!TrackingIntegrationsSelected"
                                                  class="adcreateTabPane tab-pane fade"
                                                  id="targetting"
-                                                 data-ng-include="'/views
-                                                                   /workflow
-                                                                   /partials
-                                                                   /campaign_ads
-                                                                   /targetting.html'"
+                                                 data-ng-include="'/views/workflow/partials/campaign_ads/targetting.html'"
                                                  data-ng-controller="targettingController">
                                             </div>
                                             <!-- Tabs Targetting Platform -->
@@ -165,23 +148,15 @@
                                             <!-- Tabs Creative -->
                                             <div class="adcreateTabPane tab-pane fade"
                                                  id="creative"
-                                                 style="width:100%;"
-                                                 data-ng-include="'/views
-                                                                   /workflow
-                                                                   /partials
-                                                                   /campaign_ads
-                                                                   /ad_sizes_and_creatives.html'">
+                                                 style="width: 100%;"
+                                                 data-ng-include="'/views/workflow/partials/campaign_ads/ad_sizes_and_creatives.html'">
                                             </div>
                                             <!-- Tabs Creative -->
 
                                             <!-- Tabs Inventory Filters -->
                                             <div class="adcreateTabPane tab-pane fade"
                                                  id="inventoryView"
-                                                 data-ng-include="'/views
-                                                                   /workflow
-                                                                   /partials
-                                                                   /campaign_ads
-                                                                   /inventory.html'"
+                                                 data-ng-include="'/views/workflow/partials/campaign_ads/inventory.html'"
                                                  data-ng-controller="InventoryFiltersController">
                                             </div>
                                             <!-- Tabs Inventory Filters -->

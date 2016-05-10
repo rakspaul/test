@@ -71,7 +71,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
                 getLineItems : function (callback) {
                     var campaignId = $scope.workflowData.campaignData.id;
-                    var matchedLineItem;
+
                     workflowService.getLineItem(campaignId).then(function (results) {
                         if (results.status === 'success' && results.data.statusCode === 200) {
                             $scope.lineItems = results.data.data;
@@ -100,12 +100,12 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                                 }
 
                                 if (responseData.kpiType) {
-                                    if(responseData.kpiType=='IMPRESSIONS'){
+                                    if (responseData.kpiType === 'IMPRESSIONS') {
                                         $scope.primaryKpiSelected = 'Impressions';
-                                    }else if(responseData.kpiType=='ACTION RATE'){
+                                    } else if (responseData.kpiType === 'ACTION RATE') {
                                         $scope.primaryKpiSelected = 'Action Rate';
-                                    }else{
-                                        $scope.primaryKpiSelected=responseData.kpiType;
+                                    } else {
+                                        $scope.primaryKpiSelected = responseData.kpiType;
                                     }
                                 }
                                 $scope.labels=responseData.labels;
@@ -135,9 +135,9 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     var budgetType,
                         rateType,
                         labelObj = {
-                            'cpm': 'Imps.',
-                            'cpc': 'Clicks',
-                            'cpa': 'Actions'
+                            cpm: 'Imps.',
+                            cpc: 'Clicks',
+                            cpa: 'Actions'
                         };
 
                     //calculatedValue =  impression , clicks and actions value
@@ -263,9 +263,9 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
                                 //loop through response data
                                 _.each(responseData, function (data) {
-                                     if(data.adGroup.lineitemId) {
+                                     if (data.adGroup.lineitemId) {
                                         lineItemObj = campaignOverView.getLineItem(data.adGroup.lineitemId);
-                                         if(lineItemObj && lineItemObj.name) {
+                                         if (lineItemObj && lineItemObj.name) {
                                              data.adGroup.lineitemName = lineItemObj.name;
                                          }
                                      }
@@ -376,7 +376,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 }
             };
 
-            $scope.DownloadTrackingTags=function(){
+            $scope.DownloadTrackingTags=function () {
                 $('.download-report-load-icon').show();
                     var clientId,
                         url;
@@ -529,7 +529,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
                     videoTargetsData = adsData.targets && adsData.targets.videoTargets;
 
-                    if(videoTargetsData && videoTargetsData.sizes.length > 0 ||
+                    if (videoTargetsData && videoTargetsData.sizes.length > 0 ||
                         videoTargetsData.positions.length > 0 ||
                         videoTargetsData.playbackMethods.length > 0) {
                         if (selectedStr !== '') {
@@ -863,7 +863,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             };
 
             $scope.selectLineItems = function (event, lineItem) {
-                if(lineItem) {
+                if (lineItem) {
                     $scope.adGroupData.lineitemName = lineItem.name;
                     $scope.adGroupData.lineitemId = lineItem.id;
                 }
@@ -1137,7 +1137,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 }
             };
 
-            $scope.pixelsDownload =  function(){
+            $scope.pixelsDownload =  function () {
                 $('.download-report-load-icon').show();
                 var clientId = loginModel.getSelectedClient().id,
                     campaignId = $scope.workflowData.campaignData.id,
