@@ -37,6 +37,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 })
                 $scope.type.splice(index,1);
             }
+            $scope.initiateLineItemDatePicker();
         }
 
 
@@ -341,37 +342,81 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             }
         }
 
+        //validate Line Item Flight Dates
+        $scope.validateDateLineItem = function (startTime, endTime, endElemId) {
+            var endDateElem = $('#'+endElemId)
+            var changeDate;
+
+            if ($scope.mode !== 'edit') {
+                if (startTime) {
+                    if(moment(startTime).isAfter(endTime)) {
+                        endDateElem.removeAttr("disabled").css({'background': 'transparent'});
+                        changeDate = moment(startTime).format(constants.DATE_US_FORMAT);
+                        endDateElem.datepicker("setStartDate", changeDate);
+                        endDateElem.datepicker("update", changeDate);
+                    }
+                }
+
+            } else {
+
+                if(moment(endTime).isBefore(moment(startTime))) {
+                    endDateElem.removeAttr("disabled").css({'background': 'transparent'});
+                    endDateElem.datepicker("setStartDate", endTime);
+                    endDateElem.datepicker("update", endTime);
+                } else {
+                    endDateElem.removeAttr("disabled").css({'background': 'transparent'});
+                    //endDateElem.datepicker("update", endTime);
+                    //endDateElem.datepicker("setStartDate", startTime);
+                }
+            }
+
+            if (moment(startTime).isAfter(endTime, 'day')) {
+                endDateElem.datepicker("update", startTime);
+            }
+
+        }
+
         //populate line item in case of edit and cancel of edit
         function populateLineItemEdit(lineItem) {
+            var lineItemStartDateElem = $('#editLineItemStartDate'),
+                lineItemEndDateElem = $('#editLineItemEndDate'),
+                today = momentService.utcToLocalTime();
+
             $scope.editLineItem.lineItemName = lineItem.name;
             $scope.editLineItem.lineItemType = lineItem.lineItemType;
             $scope.editLineItem.pixelSelected = lineItem.pixel;
             $scope.editLineItem.pricingRate = lineItem.pricingRate;
             $scope.editLineItem.billableAmount = lineItem.billableAmount;
             $scope.editLineItem.volume = lineItem.volume;
-            $scope.editLineItem.startTime = lineItem.startTime;
-            $scope.editLineItem.endTime = lineItem.endTime;
-            //$scope.editLineItem.pixelSelected = lineItem.pixel;
+
+            //set line Item start Date
+            if (lineItem.startTime) {
+                $scope.editLineItem.startTime = lineItem.startTime;
+                lineItemStartDateElem.datepicker("update", lineItem.startTime);
+                if(moment(lineItem.startTime).isBefore(today)) {
+                    lineItemStartDateElem.datepicker("setStartDate", today);
+                } else {
+                    lineItemStartDateElem.datepicker("setStartDate", lineItem.startTime);
+                }
+            }
+
+            //set line Item End Date
+            if (lineItem.endTime) {
+                $scope.editLineItem.endTime = lineItem.endTime;
+                $scope.validateDateLineItem(lineItem.startTime, lineItem.endTime);
+            }
+
             if(lineItem.adGroupName){
                 $scope.editLineItem.adGroupName = lineItem.adGroupName;
             }
+
             $scope.setLineItem($scope.editLineItem.lineItemType,'edit');
             $scope.setPixels($scope.editLineItem.pixelSelected,'edit')
         }
 
-        $scope.$watch('selectedCampaign.endTime',function(){
-            $scope.initiateLineItemDatePicker();
-        });
-
-        $scope.$watch('selectedCampaign.startTime',function(){
-            $scope.initiateLineItemDatePicker();
-        });
-
         // ******** Line item edit mode ******
         $scope.$parent.processLineItemEditMode = function(lineItemList){
             _.each(lineItemList,function(item){
-                item.startTime = momentService.utcToLocalTime(item.startTime);
-                item.endTime = momentService.utcToLocalTime(item.endTime);
                 $scope.lineItemName = item.name;
                 var index = _.findIndex($scope.type,function(type){
                     return type.id === item.billingTypeId;
@@ -391,8 +436,13 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 $scope.billableAmount = item.billableAmount;
                 $scope.volume = item.volume;
                 $scope.pricingRate = item.billingRate;
+
+                //line start Date
                 $scope.lineItemStartDate = momentService.utcToLocalTime(item.startTime);
+
+                //line Item End Date
                 $scope.lineItemEndDate = momentService.utcToLocalTime(item.endTime);
+
                 campaignId = item.campaignId;
                 $scope.createNewLineItem('create',item.id);
 
@@ -400,12 +450,12 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         };
 
         // line item date picker
-        $scope.$parent.initiateLineItemDatePicker = function () {
+        $scope.initiateLineItemDatePicker = function () {
             var startDateElem = $('#lineItemStartDateInput'),
                 endDateElem = $('#lineItemEndDateInput'),
                 today = momentService.utcToLocalTime();
 
-            $scope.lineItemStartDate = $scope.selectedCampaign.startTime;
+            $scope.campaignStartDate = $scope.selectedCampaign.startTime;
             $scope.lineItemEndDate = $scope.selectedCampaign.endTime;
 
             //line Item start Date

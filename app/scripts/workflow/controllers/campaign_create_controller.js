@@ -255,20 +255,20 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 }
 
                 var flightDateObj= {
-                    startTime : campaignData.startTime,
-                    endTime : campaignData.endTime,
+                    startTime : momentService.utcToLocalTime(campaignData.startTime),
+                    endTime :  momentService.utcToLocalTime(campaignData.endTime),
                 }
 
                 //set startDate
                 if (flightDateObj.startTime) {
-                    $scope.selectedCampaign.startTime = momentService.utcToLocalTime(flightDateObj.startTime);
+                    $scope.selectedCampaign.startTime = flightDateObj.startTime;
                     startDateElem.datepicker("setStartDate", $scope.selectedCampaign.startTime);
                     startDateElem.datepicker("update", $scope.selectedCampaign.startTime);
                 }
 
                 //set endDate
                 if (flightDateObj.endTime) {
-                    $scope.selectedCampaign.endTime = momentService.utcToLocalTime(flightDateObj.endTime);
+                    $scope.selectedCampaign.endTime = flightDateObj.endTime;
                     $scope.handleFlightDate(flightDateObj);
                 }
 
@@ -282,7 +282,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 }
                 //set KPI type
                 if (campaignData.kpiType) {
-                    $scope.kpiName = campaignData.kpiType;
+                    $scope.kpiName = $filter('toPascalCase')(campaignData.kpiType);
                 }
 
                 //set Kpi Value
@@ -677,7 +677,6 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 } else {
                     $timeout(function() {
                         $scope.initiateDatePicker();
-                        $scope.initiateLineItemDatePicker();
                     }, 1000)
                 }
             });
