@@ -679,15 +679,29 @@ define(['angularAMD','common/services/constants_service', 'common/services/role_
                             // ctrl.$formatters.unshift(function () {
                             //     return $filter('number')(ctrl.$modelValue);
                             // });
+                            ///[\,\.]/g, ''
 
                             ctrl.$parsers.unshift(function (viewValue) {
-                                var plainNumber = viewValue.replace(/[\,\.]/g, ''),
-                                    b = $filter('number')(plainNumber);
-                                    if( b != 0 ) {
-                                        elem.val(b);
-                                    }
+                                //var plainNumber = viewValue.toString().split(".");
+                                //    plainNumber[0] = plainNumber[0].replace(/[\,\.]/g, '');
+                                //    var b = $filter('number')(plainNumber[0]);
+                                //    if( b != 0 ) {
+                                //        elem.val(b);
+                                //    }
+                                var parts = viewValue.toString().split(".");
+                                parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                                console.log(parts);
+                                console.log(parts[0]+'.'+parts[1]);
+                                if(parts.length > 1){
+                                    elem.val(parts[0]+'.'+parts[1]) ;
+                                } else {
+                                    elem.val(parts[0]) ;
+                                }
 
-                                return plainNumber;
+                                //return toString(parts[0]+'.'+parts[1]);
+                                //return plainNumber[0]+'.'+plainNumber[0];
+                                //return parts.join(".");
+
                             });
                         }
                 };
