@@ -1168,7 +1168,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                     var specificFilter = $scope.customeDimensionData[0].dim_specific_filters,
                         specificMetrics = $scope.customeDimensionData[0].dim_specific_metrics;
                     $scope.secondaryDimensionArr  = specificFilter.hasOwnProperty(dimension) ? angular.copy(specificFilter[dimension]) : angular.copy($scope.customeDimensionData[0].dimensions);
-                    $scope.filterList  = specificFilter.hasOwnProperty(dimension) ? angular.copy(specificFilter[dimension]) : angular.copy($scope.customeDimensionData[0].dimensions);
+                    $scope.filterList  = specificFilter.hasOwnProperty(dimension) ? angular.copy(specificFilter[dimension]) : angular.copy($scope.customeDimensionData[0].filters);
                     $scope.initializeMetrics($scope.customeDimensionData[0], dimension);
                     _customctrl.resetMetricsPopUp();
                    // $scope.setMetrixText();
