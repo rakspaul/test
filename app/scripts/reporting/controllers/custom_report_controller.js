@@ -159,10 +159,10 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
 
             //delivery metrics
             if(!$scope.reports.reportDefinition.dimensions.primary.dimension){
-                $scope.reports.reportDefinition.dimensions.primary = {"name":$scope.displayName[selectedDim],"dimension":selectedDim,"value":""};
-                $scope.showPrimaryTxtBox = true;
-                $scope.showAddBreakdownButton = true;
-                $scope.generateBtnDisabled = false;
+//                $scope.reports.reportDefinition.dimensions.primary = {"name":$scope.displayName[selectedDim],"dimension":selectedDim,"value":""};
+//                $scope.showPrimaryTxtBox = true;
+//                $scope.showAddBreakdownButton = true;
+//                $scope.generateBtnDisabled = false;
             }
             var selectedDim = $scope.reports.reportDefinition.dimensions.primary.dimension;
             var metricsData = dataObj.dim_specific_metrics.hasOwnProperty(selectedDim) ?  dataObj.dim_specific_metrics[selectedDim] : dataObj.metrics;
@@ -1159,16 +1159,17 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
         $scope.selectPriSecDimension = function(dimension, type) {
             $scope.showPrimaryTxtBox = true;
             if (dimension != undefined) {
+                var specificFilter = $scope.customeDimensionData[0].dim_specific_filters,
+                    specificMetrics = $scope.customeDimensionData[0].dim_specific_metrics;
+                $scope.secondaryDimensionArr  = specificFilter.hasOwnProperty(dimension) ? angular.copy(specificFilter[dimension]) : angular.copy($scope.customeDimensionData[0].dimensions);
+                $scope.filterList  = specificFilter.hasOwnProperty(dimension) ? angular.copy(specificFilter[dimension]) : angular.copy($scope.customeDimensionData[0].filters);
                 if (type == 'Primary') {
                     $scope.showAddBreakdownButton = true;
                     $scope.reports.reportDefinition.dimensions.primary.name = $scope.displayName[dimension];
                     $scope.reports.reportDefinition.dimensions.primary.dimension = (dimension == undefined) ? dimension.dimension : dimension;
 
                     //if a dimension is selected as Primary it should not appear in secondary
-                    var specificFilter = $scope.customeDimensionData[0].dim_specific_filters,
-                        specificMetrics = $scope.customeDimensionData[0].dim_specific_metrics;
-                    $scope.secondaryDimensionArr  = specificFilter.hasOwnProperty(dimension) ? angular.copy(specificFilter[dimension]) : angular.copy($scope.customeDimensionData[0].dimensions);
-                    $scope.filterList  = specificFilter.hasOwnProperty(dimension) ? angular.copy(specificFilter[dimension]) : angular.copy($scope.customeDimensionData[0].filters);
+
                     $scope.initializeMetrics($scope.customeDimensionData[0], dimension);
                     _customctrl.resetMetricsPopUp();
                    // $scope.setMetrixText();
@@ -1177,7 +1178,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
 //                    }else{
 //                        $scope.customMetrics = [];
 //                    }
-                    var removeIndex = ($scope.secondaryDimensionArr).map(function(item){return item;}).indexOf(dimension);
+                    var removeIndex = ($scope.secondaryDimensionArr).indexOf(dimension);
                     $scope.secondaryDimensionArr .splice(removeIndex,1);
 
                     //After selecting secondary dimension if primary is reset as secondary dimension then initialize secondary dimension
@@ -2083,12 +2084,11 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                 }
 
                 $scope.setPrimaryDimension = function(obj,fromFilters) {
-
                     fromFilters = fromFilters || false;
 
                     //if a dimension is selected as Primary it should not appear in secondary
                     $scope.secondaryDimensionArr = angular.copy($scope.customeDimensionData[0].dimensions);
-                    var removeIndex = ($scope.secondaryDimensionArr).map(function(item){return item.key}).indexOf(obj.dimension);
+                    var removeIndex = ($scope.secondaryDimensionArr).indexOf(obj.dimension);
                     $scope.secondaryDimensionArr.splice(removeIndex,1);
 
                     $scope.reports.reportDefinition.dimensions.primary.name = $scope.getFilterBreakdownName(obj.dimension);
@@ -2100,7 +2100,6 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                     if(!fromFilters){
                         $scope.showAddBreakdownButton = true;
                     }
-
                 }
 
                 $scope.setSecondaryDimension = function(obj) {
