@@ -884,13 +884,13 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                     beeswax: 'beeswax',
                     'aerserv': 'aerserv-logo',
                     'liverail': 'liverail-logo',
-                    'mmedia-logo': 'millenialmedia',
+                    'millennial media': 'millenialmedia',
                     'mopub': 'mopub-logo',
                     'openx': 'openx',
                     'pubmatic': 'pubmatic-logo',
                     'pulsepoint': 'pulsepoint-logo',
                     'rubicon': 'rubicon-logo',
-                    'the-trade-desk': 'the-trade-desk-logo'
+                    'the trade desk': 'thetradedesk'
                 };
 
                 if (platform) {
