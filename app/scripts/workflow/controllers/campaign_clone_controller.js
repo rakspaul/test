@@ -34,7 +34,6 @@ define(['angularAMD'],function (angularAMD) {
                 if( cloneAdGroups &&  (flightDateChosen == "automaticFlightDates") && $scope.newMediaPlanDate ) {
                     params['startDate'] = momentService.localTimeToUTC(cloneStartDate) ;
                 }
-                console.log("params " , params ) ;
                 var errorMediaPlanHandler = function () {
                     $scope.showCloneLoader = false;
                 };
