@@ -166,7 +166,7 @@
 
     <!--Item List Table Sample Start-->
     <!--Note: ng-hide If data is empty or when new media plan is created-->
-    <span class=" col-md-12 greyTxt errorLabel" ng-show="budgetLineItemErrorFlag" style="display: block;">Line Item budget cannot exceed media plan budget</span>
+    <span class=" col-md-12 greyTxt errorLabel" ng-show="budgetLineItemErrorFlag" style="display: block;"></span>
 
     <div class="table-responsive" id="table_responsive" style="margin: 10px 0;">
         <div class="vistoTable" id="visto_table">
@@ -194,13 +194,6 @@
                     </div>
                     <div class="tableEdit" ng-include="'listItemEditTpl'"  style="padding-top: 20px;"></div>
                 </div>
-                <div class="tr" >
-                    <div class="tableNormal" ng-if="lineItemErrorFlag">
-                        <div class="td col-md-12 greyTxt errorLabel" ng-show="lineItemErrorFlag" style="display: block;">Please create a Line Item</div>
-                    </div>
-                </div>
-
-
             </div>
         </div>
     </div>

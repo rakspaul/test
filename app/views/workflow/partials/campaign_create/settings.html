@@ -34,12 +34,13 @@
         </div>
         <label ng-if="createCampaignForm.advertiserId.$error.required" class="col-sm-12 greyTxt errorLabel" data-ng-bind="textConstants.CREATIVE_ERR_ADVERTISER"></label>
     </div>
+    selectedCampaign.brandName --> {{selectedCampaign.brandName}}
     <div class="form-group col-sm-3" style="padding-left: 0;">
         <label for="brandDDL" class="col-sm-12  greyTxt miniLabels" data-ng-bind="textConstants.BRAND"></label>
         <div class="col-md-12 zeroPadding dropdown-workflow">
             <div class="dropdown">
                 <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ng-click="hideMediaPlanDropdown()" ng-disabled=" workflowData.brands.length == 0">
-                    <span class="text">{{mode == 'edit' ? selectedCampaign.brandName : 'Select Brand' }} </span>
+                    <span class="text">{{(mode == 'edit' && selectedCampaign.brandName) ? selectedCampaign.brandName : 'Select Brand' }} </span>
                     <span class="icon-arrow-down"></span>
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="brandDDL"  id="brandDDL">
