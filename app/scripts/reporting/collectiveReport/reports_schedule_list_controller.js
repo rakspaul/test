@@ -7,7 +7,7 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
         angularAMD.controller('ReportsScheduleListController', function ($scope,$filter, $location, $modal, $rootScope,
                                                                         collectiveReportModel, utils, loginModel,
                                                                         constants, urlService, dataStore, domainReports,
-                                                                        dataService, momentService, $q, $timeout) {
+                                                                        dataService, momentService, $q, $timeout,localStorageService) {
             var _curCtrl = this,
                 isSearch = false;
 
@@ -261,6 +261,7 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
 
             $scope.reset_custom_report = function (event) {
                 localStorage.removeItem('customReport');
+                localStorageService.scheduleListReportType.remove();
             };
 
             //Dropdown Auto Positioning
@@ -420,10 +421,10 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
             $scope.editSchdReport = function (reportId) {
                 var url = '/customreport/edit/' + reportId;
 
-                localStorage.scheduleListReportType = 'scheduled';
+                localStorageService.scheduleListReportType.set('scheduled');
                 _.each($scope.schdReportList, function (item) {
                     if (reportId === item.reportId && item.frequency === 'Saved') {
-                        localStorage.scheduleListReportType = 'Saved';
+                        localStorageService.scheduleListReportType.set('Saved');
                     }
                 });
                 $location.path(url);

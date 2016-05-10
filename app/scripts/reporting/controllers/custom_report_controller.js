@@ -12,7 +12,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                                                                   utils, dataService, requestCanceller,
                                                                   constants, timePeriodModel, momentService,
                                                                   loginModel, urlService, dataStore,
-                                                                  domainReports, vistoconfig, featuresService) {
+                                                                  domainReports, vistoconfig, featuresService,localStorageService) {
 
         $scope.additionalFilters = [];
         $scope.textConstants = constants;
@@ -456,7 +456,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
 
         _customctrl.enableGenerateButton = function() {
             if (!$scope.scheduleReportActive) {
-                if (localStorage['scheduleListReportType'] !== "Saved" ) {
+                if (localStorageService.scheduleListReportType.get() !== "Saved" ) {
                     $scope.buttonLabel = $scope.textConstants.GENERATE_LABEL;
                 }
             }
@@ -464,7 +464,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
         };
 
         $scope.saveSchedule = function() {
-            var reportType = localStorage.getItem('scheduleListReportType');
+            var reportType = localStorageService.scheduleListReportType.get();
             if((reportType == 'Saved') && ($scope.reportTypeSelect == 'Save')) {
                 $scope.buttonLabel = 'Update';
             } else if((reportType == 'scheduled') && ($scope.reportTypeSelect == 'Schedule As')) {
@@ -557,7 +557,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                 _customctrl.isReportLastPage_1D = respData.last_page;
                 respData = respData.report_data;
                 if (respData && respData.length > 0) {
-                    if(localStorage['scheduleListReportType'] === "Saved" || $scope.buttonLabel == "Generate") {
+                    if(localStorageService.scheduleListReportType.get() === "Saved" || $scope.buttonLabel == "Generate") {
                         slideUp();
                         $("#dynamicHeader").addClass("smaller");
                     }
@@ -593,7 +593,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
 
         /* commenting out work for edit saved repoert tomporarily ROBERT*/
         var validateGenerateReport = function() {
-            if((localStorage['scheduleListReportType'] !== "Saved") && ($scope.reportTypeSelect !== 'Save')) {
+            if((localStorageService.scheduleListReportType.get() !== "Saved") && ($scope.reportTypeSelect !== 'Save')) {
                 if (!_customctrl.enableGenerateButton()) {
                     $scope.generateBtnDisabled = true;
                     $(".custom_report_filter").closest(".breakdown_div").find(".filter_input_txtbox").hide();
@@ -1969,6 +1969,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
             $scope.scheduleReportAction = function() {
                 if(!$scope.validateScheduleDate()) return;
                 $scope.loadingBtn = true ;
+                localStorageService.scheduleListReportType.remove();
                 if ($scope.buttonLabel == "Update") {
                     $scope.updateSchdReport();
                 } else if ($scope.buttonLabel == "Generate") {
@@ -2060,7 +2061,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                     $('#toggle').bootstrapToggle('on');
                 }
 
-                if(localStorage['scheduleListReportType'] !== "Saved"){
+                if(localStorageService.scheduleListReportType.get() !== "Saved"){
                     $scope.select_schedule_option(responseData.schedule.frequency, 1);
                     if (responseData.schedule.occurance) {
                         if (responseData.schedule.customOccuranceDate) {
@@ -2287,7 +2288,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                         $scope.buttonLabel = "Update";
                         $scope.buttonResetCancel = "Cancel";
 
-                        if (localStorage['scheduleListReportType'] == "Saved") {
+                        if (localStorageService.scheduleListReportType.get() == "Saved") {
                             var url = urlService.savedReport($routeParams.reportId);
                             $scope.isSavedReportGen = true;
                         }
@@ -2303,7 +2304,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                                 $scope.prefillData(response.data.data);
                                 $("#toggle").prop("disabled", true);
                                 $(".img_table_txt").html('Please select dimensions, timeframe and any additional <br> parameters to update the report');
-                                if (localStorage['scheduleListReportType'] == "Saved") {
+                                if (localStorageService.scheduleListReportType.get() == "Saved") {
                                     $scope.reports.name = $scope.reportData.reportName;
                                     $scope.generateReport();
                                     slideUp();
@@ -2312,6 +2313,7 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                             }
                         });
                     } else if (localStorage.getItem('customReport')) {
+                        localStorageService.scheduleListReportType.remove();
                         $scope.prefillData(JSON.parse(localStorage.getItem('customReport')));
                     }
                 }); // end of dataservice customreportmetrics
