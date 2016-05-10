@@ -680,7 +680,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                 },
                 createLineItems: function (campaignId,client_id,data) {
                     var clientId = client_id || loginModel.getSelectedClient().id,
-                        url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/campaigns/' + campaignId + '/lineitems?flat_fee=false&archived=false';
+                        url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/campaigns/' + campaignId + '/lineitems';
 
                     return dataService.post(
                         url,
@@ -689,8 +689,9 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                     );
                 },
                 updateLineItems: function (campaignId,client_id,data) {
+                    console.log(data)
                     var clientId = client_id || loginModel.getSelectedClient().id,
-                        url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/campaigns/' + campaignId + '/lineitems?flat_fee=false&archived=false';
+                        url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/campaigns/' + campaignId + '/lineitems/'+data.id;
 
                     return dataService.put(
                         url,
