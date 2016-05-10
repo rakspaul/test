@@ -679,15 +679,17 @@ define(['angularAMD','common/services/constants_service', 'common/services/role_
                             // ctrl.$formatters.unshift(function () {
                             //     return $filter('number')(ctrl.$modelValue);
                             // });
+                            ///[\,\.]/g, ''
 
                             ctrl.$parsers.unshift(function (viewValue) {
                                 var plainNumber = viewValue.replace(/[\,\.]/g, ''),
                                     b = $filter('number')(plainNumber);
-                                    if( b != 0 ) {
-                                        elem.val(b);
-                                    }
+                                if( b != 0 ) {
+                                    elem.val(b);
+                                }
 
                                 return plainNumber;
+
                             });
                         }
                 };

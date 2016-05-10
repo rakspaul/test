@@ -53,7 +53,6 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
         $scope.type = {};
         $scope.lineItemList = [];
-        $scope.lineItemErrorFlag = false;
         // line item create flags
         $scope.rateReadOnly = false;
         $scope.rateTypeReadOnly = false;
@@ -74,7 +73,6 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         $scope.editLineItem = {};
         $scope.vendorConfig = [];
         $scope.costAttributes = {};
-        $scope.lineItemBillableAmountTotal = 0;
 
         //mediaplan dates
         $scope.mediaPlanStartDate = '';
@@ -232,15 +230,14 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 if(campaignData.advertiserId && campaignData.advertiserName) {
                     $scope.selectedCampaign.advertiserName = campaignData.advertiserName;
                     $scope.selectedCampaign.advertiserId = campaignData.advertiserId;
-                    var advertiserOb = {'id': campaignData.advertiserId, 'name': campaignData.advertiserName};
-                    $scope.selectHandler('advertiser', advertiserOb, null)
+                    var advertiserObj = {'id': campaignData.advertiserId, 'name': campaignData.advertiserName};
+                    $scope.selectHandler('advertiser', advertiserObj, null)
                 }
 
                 //set Brand
                 if(campaignData.brandId && campaignData.brandName) {
                     $scope.selectedCampaign.brandName = campaignData.brandName;
                     $scope.selectedCampaign.brandId = campaignData.brandId;
-                    createCampaign.fetchBrands(campaignData.clientId, campaignData.advertiserId);
                 }
 
                 //set purchase Order
@@ -254,20 +251,20 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 }
 
                 var flightDateObj= {
-                    startTime : campaignData.startTime,
-                    endTime : campaignData.endTime,
+                    startTime : momentService.utcToLocalTime(campaignData.startTime),
+                    endTime :  momentService.utcToLocalTime(campaignData.endTime),
                 }
 
                 //set startDate
                 if (flightDateObj.startTime) {
-                    $scope.selectedCampaign.startTime = momentService.utcToLocalTime(flightDateObj.startTime);
+                    $scope.selectedCampaign.startTime = flightDateObj.startTime;
                     startDateElem.datepicker("setStartDate", $scope.selectedCampaign.startTime);
                     startDateElem.datepicker("update", $scope.selectedCampaign.startTime);
                 }
 
                 //set endDate
                 if (flightDateObj.endTime) {
-                    $scope.selectedCampaign.endTime = momentService.utcToLocalTime(flightDateObj.endTime);
+                    $scope.selectedCampaign.endTime = flightDateObj.endTime;
                     $scope.handleFlightDate(flightDateObj);
                 }
 
@@ -281,7 +278,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 }
                 //set KPI type
                 if (campaignData.kpiType) {
-                    $scope.kpiName = campaignData.kpiType;
+                    $scope.kpiName = $filter('toPascalCase')(campaignData.kpiType);
                 }
 
                 //set Kpi Value
@@ -379,7 +376,10 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     $scope.selectedCampaign.advertiserId = data.id;
                     selectedAdvertiser = data;
                     workflowService.setSelectedAdvertiser(selectedAdvertiser);
-                    $("#brandDDL").parents('.dropdown').find('button').html("Select Brand <span class='icon-arrow-down'></span>");
+
+                    if($scope.mode  === 'create') {
+                        $("#brandDDL").parents('.dropdown').find('button').html("Select Brand <span class='icon-arrow-down'></span>");
+                    }
                     createCampaign.fetchBrands($scope.selectedCampaign.clientId, data.id);
                     $scope.selectedCampaign.selectedPixel = [];
                     createCampaign.platforms(data.id);
@@ -443,9 +443,17 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             var formElem,
                 formData,
                 postDataObj;
+
             if($scope.lineItemList.length == 0){
-                $scope.lineItemErrorFlag = true;
+                $rootScope.setErrAlertMessage('Please create a Line Item');
+                return false;
             }
+
+            if($scope.selectedCampaign.lineItemBillableAmountTotal > $scope.Campaign.deliveryBudget){
+                $rootScope.setErrAlertMessage('Line Item budget cannot exceed media plan budget');
+                return false;
+            }
+
             if ($scope.createCampaignForm.$valid && $scope.lineItemList.length > 0) {
                 formElem = $("#createCampaignForm").serializeArray();
                 formData = _.object(_.pluck(formElem, 'name'), _.pluck(formElem, 'value'));
@@ -506,7 +514,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     postDataObj.campaignId = $routeParams.campaignId;
                 }
 
-                workflowService[$scope.mode ==='edit' ? 'updateCampaign' : 'saveCampaign'](postDataObj).then(function(result) {
+                workflowService[($scope.mode ==='edit' && !$scope.cloneMediaPlanName) ? 'updateCampaign' : 'saveCampaign'](postDataObj).then(function(result) {
                     if (result.status === "OK" || result.status === "success") {
                         $scope.resetLineItemParameters();
                         $scope.editLineItem = {};
@@ -670,7 +678,6 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 } else {
                     $timeout(function() {
                         $scope.initiateDatePicker();
-                        $scope.initiateLineItemDatePicker();
                     }, 1000)
                 }
             });
@@ -754,7 +761,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
         // use this method to access createCampaign in child
         $scope.createCampaignAccess = function(){
-            return createCampaign;
+            return createCampaign.fetchLineItemDetails($scope.selectedCampaign.id);
         };
 
         function resetPixelMediaPlan(){

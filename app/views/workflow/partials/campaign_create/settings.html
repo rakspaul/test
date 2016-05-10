@@ -39,7 +39,7 @@
         <div class="col-md-12 zeroPadding dropdown-workflow">
             <div class="dropdown">
                 <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ng-click="hideMediaPlanDropdown()" ng-disabled=" workflowData.brands.length == 0">
-                    <span class="text">{{mode == 'edit' ? selectedCampaign.brandName : 'Select Brand' }} </span>
+                    <span class="text">{{(mode == 'edit' && selectedCampaign.brandName) ? selectedCampaign.brandName : 'Select Brand' }} </span>
                     <span class="icon-arrow-down"></span>
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="brandDDL"  id="brandDDL">
@@ -127,12 +127,13 @@
             <label for="primaryKPI" class="col-sm-12 greyTxt miniLabels" data-ng-bind="textConstants.TARGET"></label>
         </div>
     </div>
+
     <div class="col-md-12 zeroPadding" style="margin-bottom:240px;">
         <div class="col-md-3 zeroPadding kpiTable">
             <div class="col-md-12 zeroPadding dropdown-workflow">
                 <div class="dropdown">
                     <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" >
-                        <span class="text">{{kpiName}}</span>
+                        <span class="text">{{kpiName | toPascalCase}}</span>
                         <span class="icon-arrow-down" ></span>
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="selectKPI"  id="selectKPI">

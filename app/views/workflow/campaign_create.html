@@ -27,7 +27,7 @@
                                     </div>
                                     <div class="pull-left">
                                         <div class="clearfix"><span
-                                            class="icon_txt">{{kpiName | toPascalCase}}</span> <span
+                                            class="icon_txt">{{kpiName}}</span> <span
                                             class="grey_txt">(KPI)</span></div>
                                     </div>
                                 </div>
@@ -84,7 +84,7 @@
                             <a class="leftNavLink" ng-if="selectedCampaign.advertiserId" data-target="#addLineItems" data-toggle="tab">4 Line Items</a>
                             <div class="statusLabel">
                                 <div class="col-md-12" ng-if="lineItemList.length >0">
-                                    <div>{{lineItemList.length}} Line Item Selected</div>
+                                    <div>{{lineItemList.length}} Line Item selected</div>
                                 </div>
                                 <div class="col-md-12" ng-if="lineItemList.length === 0">
                                     <span data-ng-bind="textConstants.NOTSET"></span>

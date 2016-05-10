@@ -87,7 +87,7 @@
             <label class="col-sm-12 greyTxt miniLabels zeroPadding" data-ng-bind="textConstants.MEDIAPLAN_RATE"></label>
             <div class="rate-input-field symbol-input col-md-12 zeroPadding">
                 <span class="symbol">$</span>
-                <input type="text" class="col-md-12 form-control" placeholder="Enter Rate" ng-model="$parent.pricingRate" ng-readonly="rateReadOnly" name="lineItemRate"   fraction-numbers input-comma-separator-thousands/>
+                <input type="text" class="col-md-12 form-control" placeholder="Enter Rate" ng-model="$parent.pricingRate" ng-readonly="rateReadOnly" name="lineItemRate"   fraction-numbers />
             </div>
 
             <span class="greyTxt errorLabel" ng-if="lineItemForm.lineItemRate.$error.required">Enter Rate</span>
@@ -116,7 +116,7 @@
                         <div class="dateContainer">
                             <label class="col-sm-12 control-label greyTxt miniLabels" data-ng-bind="textConstants.MEDIAPLAN_FLIGHT_DATE_START"></label>
                             <div class="dateInputHolder" >
-                                <input type="text" id="lineItemStartDateInput" custom-date-picker="{format: 'mm/dd/yyyy', orientation: 'auto',  autoclose: true, todayHighlight: true}" placeholder="MM/DD/YYYY" class="form-control"  readonly name="startTime" ng-model="lineItemStartDate" ng-change="validateDateLineItem(lineItemStartDate,'startdate')" />
+                                <input type="text" id="lineItemStartDateInput" custom-date-picker="{format: 'mm/dd/yyyy', orientation: 'auto',  autoclose: true, todayHighlight: true}" placeholder="MM/DD/YYYY" class="form-control"  readonly name="startTime" ng-model="lineItemStartDate" ng-change="validateDateLineItem(lineItemStartDate, lineItemEndDate, 'lineItemEndDateInput')" />
                                 <div class="icon-calendar-holder">
                                     <span class="icon-calendar"></span>
                                 </div>
@@ -125,21 +125,13 @@
                         <div class="dateContainer">
                             <label class="col-sm-12 control-label greyTxt miniLabels" data-ng-bind="textConstants.MEDIAPLAN_FLIGHT_DATE_END"></label>
                             <div class="dateInputHolder">
-                                <input type="text" id="lineItemEndDateInput" custom-date-picker="{format: 'mm/dd/yyyy', orientation: 'auto',  autoclose: true, todayHighlight: true}" placeholder="MM/DD/YYYY" class="form-control"  ng-model="lineItemEndDate" name="endTime" readonly ng-change="validateDateLineItem(lineItemEndDate,'enddate')"/>
+                                <input type="text" id="lineItemEndDateInput" custom-date-picker="{format: 'mm/dd/yyyy', orientation: 'auto',  autoclose: true, todayHighlight: true}" placeholder="MM/DD/YYYY" class="form-control"  ng-model="lineItemEndDate" name="endTime" readonly/>
                                 <div class="icon-calendar-holder">
                                     <span class="icon-calendar"></span>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <!-- <span class="col-md-12 input-group-addon">
-                        <div class="calenderIcon">
-                            <span class="icon-calendar"></span>
-                        </div>
-                        <div class="calenderIcon">
-                            <span class="icon-calendar"></span>
-                        </div>
-                    </span> -->
                 </div>
             </div>
 
@@ -174,6 +166,8 @@
 
     <!--Item List Table Sample Start-->
     <!--Note: ng-hide If data is empty or when new media plan is created-->
+    <span class=" col-md-12 greyTxt errorLabel" ng-show="budgetLineItemErrorFlag" style="display: block;"></span>
+
     <div class="table-responsive" id="table_responsive" style="margin: 10px 0;">
         <div class="vistoTable" id="visto_table">
             <div class="thead">
@@ -200,19 +194,11 @@
                     </div>
                     <div class="tableEdit" ng-include="'listItemEditTpl'"  style="padding-top: 20px;"></div>
                 </div>
-                <div class="tr" >
-                    <div class="tableNormal" ng-if="lineItemErrorFlag">
-                        <div class="td col-md-12 greyTxt errorLabel" ng-show="lineItemErrorFlag" style="display: block;">Please create a Line Item</div>
-                    </div>
-                </div>
-
-
             </div>
         </div>
     </div>
     <!--Item List Table Sample Start-->
-
-    <span class="col-md-12 text-right" style="padding: 0 0 5px 0; border-bottom: 1px solid rgba(191, 201, 215, 0.5);">Total Billable Amount: {{locale.NUMBER_FORMATS.CURRENCY_SYM}}{{lineItemBillableAmountTotal}}</span>
+    <span class="col-md-12 text-right" style="padding: 0 0 5px 0; border-bottom: 1px solid rgba(191, 201, 215, 0.5);">Total Billable Amount: {{locale.NUMBER_FORMATS.CURRENCY_SYM}}{{selectedCampaign.lineItemBillableAmountTotal}}</span>
 
     <label class="col-sm-12 labelQuestTxt showAddCreditForm" ng-click="showAddCreditForm()" ng-hide="true">
         <span class="icon-arrow-down-thick"></span>Add Credits (0)
@@ -288,7 +274,6 @@
 
         <a class="btn btn-link pull-right" style="position: absolute;top: -10px; right: 0; display: block;padding: 0; color: #0978c9;" ng-hide="mode === 'edit'" ng-click="deleteLineItem(true)">Delete</a>
     </div>
-
     <!--Row 2-->
     <div class="col-md-12 zeroPadding">
 
@@ -297,7 +282,7 @@
                     <div class="dateContainer">
                         <label class="col-sm-12 control-label greyTxt miniLabels" data-ng-bind="textConstants.MEDIAPLAN_FLIGHT_DATE_START"></label>
                         <div class="dateInputHolder" >
-                            <input type="text"  custom-date-picker="{format: 'mm/dd/yyyy', orientation: 'auto',  autoclose: true, todayHighlight: true}" placeholder="MM/DD/YYYY" class="form-control"  readonly name="startTime" ng-model="editLineItem.startTime" ng-change="validateDateLineItem(lineItemStartDate,'startdate')" />
+                            <input type="text"  custom-date-picker="{format: 'mm/dd/yyyy', orientation: 'auto',  autoclose: true, todayHighlight: true}" id="editLineItemStartDate" placeholder="MM/DD/YYYY" class="form-control"  readonly name="startTime" ng-model="editLineItem.startTime" ng-change="validateDateLineItem(editLineItem.startTime, editLineItem.endTime, 'editLineItemEndDate')" />
 
                             <div class="icon-calendar-holder">
                                 <span class="icon-calendar"></span>
@@ -307,7 +292,7 @@
                     <div class="dateContainer">
                         <label class="col-sm-12 control-label greyTxt miniLabels" data-ng-bind="textConstants.MEDIAPLAN_FLIGHT_DATE_END"></label>
                         <div class="dateInputHolder">
-                            <input type="text"  custom-date-picker="{format: 'mm/dd/yyyy', orientation: 'auto',  autoclose: true, todayHighlight: true}" placeholder="MM/DD/YYYY" class="form-control"  ng-model="editLineItem.endTime" name="endTime"  ng-change="validateDateLineItem(lineItemEndDate,'enddate')"/>
+                            <input type="text"  custom-date-picker="{format: 'mm/dd/yyyy', orientation: 'auto',  autoclose: true, todayHighlight: true}" id="editLineItemEndDate" placeholder="MM/DD/YYYY" class="form-control"  ng-model="editLineItem.endTime" name="endTime"/>
 
                             <div class="icon-calendar-holder">
                                 <span class="icon-calendar"></span>

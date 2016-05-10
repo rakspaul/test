@@ -441,7 +441,8 @@
                 <div class="each_section_custom_report">
                     <div class="create_report_title" ng-bind-html="textConstants.REPORT_ADDITIONAL_FILTERS"></div>
                     <div class="additional_filters_holder">
-                        <div id="filter_breakdown_row" ng-repeat="addFilts in additionalFilters track by $index">
+                        <div id="filter_breakdown_row" ng-repeat="addFilts in additionalFilters track by $index"
+                             data-ng-init="filterIndex=$index"
                             <!-- sapna -->
                             <div class="clearfix custom_filter_breakdown breakdown_div">
                                 <div class="pull-left custom_filter_dropdown custom_report_breakdown">
@@ -465,7 +466,7 @@
                                                 <li ng-repeat="filters in filterList
 														    | filter:dimensionQuery"
                                                     id="{{filters}}"
-                                                    ng-click="onChoosingAditFlts($parent.$index,
+                                                    ng-click="onChoosingAditFlts(filterIndex,
                                                             filters);"
                                                     ng-model="addFilts.key"
                                                     ng-bind-html="displayName[filters]" ng-if="checkDimension(filters)">
