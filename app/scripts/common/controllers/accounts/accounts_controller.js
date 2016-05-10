@@ -120,7 +120,7 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
             $(".pixelCreate").slideDown();
             $('#pixelExpDate').datepicker('setStartDate', momentService.getCurrentYear().toString());
             $scope.pixelIndex = index;
-            $scope.pixelFormData = pixel;
+            $scope.pixelFormData = JSON.parse(JSON.stringify(pixel));
 
         }
         $scope.clearPixel = function(){
