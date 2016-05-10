@@ -162,7 +162,7 @@
                 {{selectedDayParts['selected']}}
             </span>
             <span class="targetListItem"
-                  data-ng-if="selectedDayParts['data'].length >= 1 && selectedDayParts['selected'] == 'Custom schedule'">
+                  data-ng-if="selectedDayParts['data'].length >= 1 && selectedDayParts['selected'] === 'Custom schedule'">
                 {{selectedDayParts['data'][0].day}}
                 {{(selectedDayParts['data'][0].startTime) ? selectedDayParts['data'][0].startTime : ''}}
                 {{(selectedDayParts['data'][0].endTime) ? selectedDayParts['data'][0].endTime : ''}}
@@ -209,24 +209,28 @@
         <div class="icon-video"></div>
         <p>Video</p>
         <div class="cardTxtWrap"
-             data-ng-if="!adData.videoPreviewData.sizes.length ||
-                         !adData.videoPreviewData.positions.length ||
-                         !adData.videoPreviewData.playbackMethods.length">
+             data-ng-if="!adData.videoPreviewData.sizes ||
+                         !adData.videoPreviewData.positions ||
+                         !adData.videoPreviewData.playbackMethods">
             <span>Target your video ads to specific players and placements</span>
             <p style="margin: 0;"><span></span></p>
         </div>
         <div class="cardTxtWrap targetDataSaved">
             <div class="video-targetting-holder">
                 <div class="col-md-12 zeroPadding" data-ng-if="adData.videoPreviewData.sizes">
-                    <span class="targetListItem">Sizes: {{adData.videoPreviewData.sizes}}</span>
+                    <span class="targetListItem"
+                          data-ng-bind="'Sizes: ' + (adData.videoPreviewData.sizes)">
+                    </span>
                 </div>
-
                 <div class="col-md-12 zeroPadding" data-ng-if="adData.videoPreviewData.positions">
-                    <span class="targetListItem">Positions: {{adData.videoPreviewData.positions}}</span>
+                    <span class="targetListItem"
+                          data-ng-bind="'Positions: ' + (adData.videoPreviewData.positions)">
+                    </span>
                 </div>
-
                 <div class="col-md-12 zeroPadding" data-ng-if="adData.videoPreviewData.playbackMethods">
-                    <span class="targetListItem">Playback Method: {{adData.videoPreviewData.playbackMethods}}</span>
+                    <span class="targetListItem"
+                          data-ng-bind="'Playback Method: ' + (adData.videoPreviewData.playbackMethods)">
+                    </span>
                 </div>
             </div>
         </div>
@@ -234,9 +238,9 @@
               class="onSelectBtn btn btn-default active"
               data-ng-click="selectVideoTarget()">
         </span>
-        <input data-ng-if="!adData.videoPreviewData.sizes.length &&
-                           !adData.videoPreviewData.positions.length &&
-                           !adData.videoPreviewData.playbackMethods.length"
+        <input data-ng-if="!adData.videoPreviewData.sizes &&
+                           !adData.videoPreviewData.positions &&
+                           !adData.videoPreviewData.playbackMethods"
                type="button"
                name="platform"
                value="Create"

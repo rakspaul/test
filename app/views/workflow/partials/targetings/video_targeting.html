@@ -1,84 +1,149 @@
 <div class="col-md-12 zeroPadding breadcrumbs">
-    <h5 ng-click="hideVideoTargeting();" data-ng-bind="textConstants.TARGETING"></h5>
+    <h5 data-ng-click="hideVideoTargeting();" data-ng-bind="textConstants.TARGETING"></h5>
     <span class="icon-arrow-down"></span>
 
     <h5 style="cursor: default;" data-ng-bind="textConstants.VIDEO_TARGETING">Video Targeting</h5>
-    <button class="pull-right btn btn-default" type="button" ng-disabled ="!(adData.videoTargets.sizes.length > 0 || adData.videoTargets.positions.length > 0 || adData.videoTargets.playbackMethods.length > 0)" ng-click="saveVideoTarget()" data-ng-bind="textConstants.SAVE_VIDEO_TARGETING"></button>
-    <button class="pull-right btn btn-link" type="button" data-ng-bind="textConstants.CANCEL" ng-click="hideVideoTargeting();"></button>
+    <button class="pull-right btn btn-default"
+            type="button"
+            data-ng-disabled="!(adData.videoTargets.sizes.length > 0 ||
+                              adData.videoTargets.positions.length > 0 ||
+                              adData.videoTargets.playbackMethods.length > 0)"
+            data-ng-click="saveVideoTarget()"
+            data-ng-bind="textConstants.SAVE_VIDEO_TARGETING">
+    </button>
+    <button class="pull-right btn btn-link"
+            type="button"
+            data-ng-bind="textConstants.CANCEL"
+            data-ng-click="hideVideoTargeting();">
+    </button>
 </div>
 <div class="col-md-12 zeroPadding">
     <span class="col-md-12 zeroPadding" data-ng-bind="textConstants.VIDEO_PLACENMENT_AND_PLAYERS"></span>
     <div class="col-md-12 video-dimension">
-            <div class="col-md-12 zeroPadding each-video-dimension" ng-repeat="addDimension in additionalDimension track by $index"  data-index="{{$index}}">
-                <div class="col-md-2 zeroPadding" style="width: 20%; margin-bottom: 5px;">
-                    <div class="form-group col-md-12 zeroPadding">
-                        <div class="col-md-12 zeroPadding dropdown-workflow">
-                            <div class="dropdown dimension-type">
-                                <button class="btn btn-default dropdown-toggle" type="button"  ng-disabled="addDimension.hide" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                    <span class="text" ng-bind="addDimension.name || textConstants.SELECT_DIMENSION"></span>
-                                    <span class="icon-arrow-down"></span>
-                                </button>
-                                <ul class="dropdown-menu" aria-labelledby="selectDimension" id="selectDimension" name='selectDimension' data-toggle="dropdown">
-                                    <li class="available {{!dimension.active ? 'disabled' : ''}}" ng-click="selectOption($event , dimension)" ng-repeat="dimension in dimensionArr">
-                                        <a>{{dimension.value}}</a>
-                                    </li>
-                                </ul>
-                            </div>
+        <div class="col-md-12 zeroPadding each-video-dimension"
+             data-ng-repeat="addDimension in additionalDimension track by $index"
+             data-index="{{$index}}">
+            <div class="col-md-2 zeroPadding" style="width: 20%; margin-bottom: 5px;">
+                <div class="form-group col-md-12 zeroPadding">
+                    <div class="col-md-12 zeroPadding dropdown-workflow">
+                        <div class="dropdown dimension-type">
+                            <button class="btn btn-default dropdown-toggle"
+                                    type="button"
+                                    data-ng-disabled="addDimension.hide"
+                                    data-toggle="dropdown"
+                                    aria-haspopup="true"
+                                    aria-expanded="true">
+                                <span class="text"
+                                      data-ng-bind="addDimension.name || textConstants.SELECT_DIMENSION">
+                                </span>
+                                <span class="icon-arrow-down"></span>
+                            </button>
+                            <ul class="dropdown-menu"
+                                aria-labelledby="selectDimension"
+                                id="selectDimension"
+                                name="selectDimension"
+                                data-toggle="dropdown">
+                                <li class="available {{!dimension.active ? 'disabled' : ''}}"
+                                    data-ng-click="selectOption($event , dimension)"
+                                    data-ng-repeat="dimension in dimensionArr">
+                                    <a data-ng-bind="dimension.value"></a>
+                                </li>
+                            </ul>
                         </div>
                     </div>
-                </div>
-
-                <div class="col-md-2" id="selectSizeDropdown" style="padding: 0 0 0 10px; width: 22%; margin: 0;" ng-show="addDimension.tags.type === 'sizes'">
-                    <div class="form-group col-md-12 zeroPadding">
-                        <div class="col-md-12 zeroPadding dropdown-workflow">
-                            <div class="dropdown">
-                                <button ng-disabled="!sizesData" class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                    <span class="text" ng-bind="addDimension.tags.value || textConstants.SELECT_SIZE"></span>
-                                    <span class="icon-arrow-down"></span>
-                                </button>
-                                <ul class="dropdown-menu" aria-labelledby="selectDimension" id="selectSize" name='selectSize' data-toggle="dropdown">
-                                    <li class="available" ng-click="selectSize($event , sizeLabel)" ng-repeat="sizeLabel in sizesLabels[$index]"><a>{{sizeLabel}}</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-8 multiselectTagOptions" ng-show="addDimension.tags.value === 'Specific Size' && addDimension.tags.type === 'sizes'" style="padding: 0 0 0 10px; min-width: 54%; max-width: 54%;" id="sizes_input_box">
-                    <tags-input ng-model="addDimension.tags.data"  display-property="name" placeholder="Select" replace-spaces-with-dashes="false" on-tag-added="videoDimensionTagAdded($tag, 'sizes')"
-                                on-tag-removed="videoDimensionTagRemoved($tag, 'sizes')">
-                        <auto-complete source="loadSizes($query)"
-                                       min-length="0"
-                                       load-on-focus="true"
-                                       load-on-empty="true"
-                                       max-results-to-show="32"
-
-                        ></auto-complete>
-                    </tags-input>
-                </div>
-                <div class="col-md-8 multiselectTagOptions" ng-show="addDimension.tags.type === 'positions'" style="padding: 0 0 0 10px; min-width: 76%; max-width: 76%;" id="positions_input_box" >
-                    <tags-input ng-disabled="!positionsData" ng-model="addDimension.tags.data" display-property="name" placeholder="Select" replace-spaces-with-dashes="false" on-tag-added="videoDimensionTagAdded($tag, 'positions')"
-                                on-tag-removed="videoDimensionTagRemoved($tag, 'positions')">
-                        <auto-complete source="loadPositions($query)"
-                                       min-length="0"
-                                       load-on-focus="true"
-                                       load-on-empty="true"
-                                       max-results-to-show="32"
-                        ></auto-complete>
-                    </tags-input>
-
-                </div>
-                <div class="col-md-8 multiselectTagOptions" ng-show="addDimension.tags.type === 'playbackMethods' || addDimension.tags.type === 'playback_methods'" style="padding: 0 0 0 10px; min-width: 76%; max-width: 76%;" id="playback_methods_input_box" >
-                    <tags-input ng-disabled="!playback_methodsData" ng-model="addDimension.tags.data" display-property="name" placeholder="Select" replace-spaces-with-dashes="false" on-tag-added="videoDimensionTagAdded($tag, 'playbackMethods')"
-                                on-tag-removed="videoDimensionTagRemoved($tag, 'playbackMethods')">
-                        <auto-complete source="loadPlaybacks($query)"
-                                       min-length="0"
-                                       load-on-focus="true"
-                                       load-on-empty="true"
-                                       max-results-to-show="32"
-                        ></auto-complete>
-                    </tags-input>
                 </div>
             </div>
+            <div class="col-md-2"
+                 id="selectSizeDropdown"
+                 style="padding: 0 0 0 10px; width: 22%; margin: 0;"
+                 data-ng-show="addDimension.tags.type === 'sizes'">
+                <div class="form-group col-md-12 zeroPadding">
+                    <div class="col-md-12 zeroPadding dropdown-workflow">
+                        <div class="dropdown">
+                            <button data-ng-disabled="!sizesData"
+                                    class="btn btn-default dropdown-toggle"
+                                    type="button"
+                                    data-toggle="dropdown"
+                                    aria-haspopup="true"
+                                    aria-expanded="true">
+                                <span class="text"
+                                      data-ng-bind="addDimension.tags.value || textConstants.SELECT_SIZE">
+                                </span>
+                                <span class="icon-arrow-down"></span>
+                            </button>
+                            <ul class="dropdown-menu"
+                                aria-labelledby="selectDimension"
+                                id="selectSize"
+                                name="selectSize"
+                                data-toggle="dropdown">
+                                <li class="available"
+                                    data-ng-click="selectSize($event , sizeLabel)"
+                                    data-ng-repeat="sizeLabel in sizesLabels[$index]">
+                                    <a data-ng-bind="sizeLabel"></a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-8 multiselectTagOptions"
+                 data-ng-show="addDimension.tags.value === 'Specific Size' && addDimension.tags.type === 'sizes'"
+                 style="padding: 0 0 0 10px; min-width: 54%; max-width: 54%;"
+                 id="sizes_input_box">
+                <tags-input data-ng-model="addDimension.tags.data"
+                            display-property="name"
+                            placeholder="Select"
+                            replace-spaces-with-dashes="false"
+                            on-tag-added="videoDimensionTagAdded($tag, 'sizes')"
+                            on-tag-removed="videoDimensionTagRemoved($tag, 'sizes')">
+                    <auto-complete source="loadSizes($query)"
+                                   min-length="0"
+                                   load-on-focus="true"
+                                   load-on-empty="true"
+                                   max-results-to-show="32">
+                    </auto-complete>
+                </tags-input>
+            </div>
+
+            <div class="col-md-8 multiselectTagOptions"
+                 data-ng-show="addDimension.tags.type === 'positions'"
+                 style="padding: 0 0 0 10px; min-width: 76%; max-width: 76%;"
+                 id="positions_input_box">
+                <tags-input data-ng-disabled="!positionsData"
+                            data-ng-model="addDimension.tags.data"
+                            display-property="name"
+                            placeholder="Select"
+                            replace-spaces-with-dashes="false"
+                            on-tag-added="videoDimensionTagAdded($tag, 'positions')"
+                            on-tag-removed="videoDimensionTagRemoved($tag, 'positions')">
+                    <auto-complete source="loadPositions($query)"
+                                   min-length="0"
+                                   load-on-focus="true"
+                                   load-on-empty="true"
+                                   max-results-to-show="32">
+                    </auto-complete>
+                </tags-input>
+            </div>
+            <div class="col-md-8 multiselectTagOptions"
+                 data-ng-show="addDimension.tags.type === 'playbackMethods' ||
+                               addDimension.tags.type === 'playback_methods'"
+                 style="padding: 0 0 0 10px; min-width: 76%; max-width: 76%;"
+                 id="playback_methods_input_box">
+                <tags-input data-ng-disabled="!playback_methodsData"
+                            data-ng-model="addDimension.tags.data"
+                            display-property="name"
+                            placeholder="Select"
+                            replace-spaces-with-dashes="false"
+                            on-tag-added="videoDimensionTagAdded($tag, 'playbackMethods')"
+                            on-tag-removed="videoDimensionTagRemoved($tag, 'playbackMethods')">
+                    <auto-complete source="loadPlaybacks($query)"
+                                   min-length="0"
+                                   load-on-focus="true"
+                                   load-on-empty="true"
+                                   max-results-to-show="32">
+                    </auto-complete>
+                </tags-input>
+            </div>
+        </div>
     </div>
 </div>

@@ -2,8 +2,10 @@
     <img src="/images/workflow/newPreloader.gif" alt="Loading..."/>
     <span class="adSavePre">Saving Ad</span>
 </div>
-<popup-msg data-ng-show="partialSaveAlertMessage" data-ng-controller="popUpMsgCtr"
-           data-ng-init="init('partialSaveAlertMessage','WF_CAMPAIGN_ARCHIVE_FAILURE')"></popup-msg>
+<popup-msg data-ng-show="partialSaveAlertMessage"
+           data-ng-controller="popUpMsgCtr"
+           data-ng-init="init('partialSaveAlertMessage','WF_CAMPAIGN_ARCHIVE_FAILURE')">
+</popup-msg>
 <div id="overlay"
      style="width: 100%;
             background-color: black;
@@ -227,15 +229,16 @@
         <div class="popup">
             <div class="popup-header-body">
                 <div class="clearfix">
-                    <h1 class="pull-left">{{(archivedAdFlag && archivedCampaignFlag === false) ?
-                        textConstants.WF_ARCHIVE_AD :
-                        textConstants.WF_ARCHIVE_CAMPAIGN}}
+                    <h1 class="pull-left"
+                        data-ng-bind="(archivedAdFlag && archivedCampaignFlag === false) ?
+                                      textConstants.WF_ARCHIVE_AD :
+                                      textConstants.WF_ARCHIVE_CAMPAIGN">
                     </h1>
                 </div>
-                <div class="popup-content">
-                    {{(archivedAdFlag && archivedCampaignFlag === false) ?
-                    textConstants.WF_REDIRECT_USER_FOR_ARCHIVED_AD :
-                    textConstants.WF_REDIRECT_USER_FOR_ARCHIVED_CAMPAIGN}}
+                <div class="popup-content"
+                     data-ng-bind="(archivedAdFlag && archivedCampaignFlag === false) ?
+                                   textConstants.WF_REDIRECT_USER_FOR_ARCHIVED_AD :
+                                   textConstants.WF_REDIRECT_USER_FOR_ARCHIVED_CAMPAIGN">
                 </div>
             </div>
             <div class="clearfix popup-footer">
