@@ -192,7 +192,7 @@
                         <a class="td col-md-2" data-ng-bind="item.volume"></a>
                         <a class="td col-md-2">{{item.startTime}} - {{item.endTime}}</a>
                     </div>
-                    <div class="tableEdit" ng-include="'listItemEditTpl'"  style="padding-top: 20px;"></div>
+                    <div class="tableEdit" data-table-index = "{{$index}}" ng-include="'listItemEditTpl'"  style="padding-top: 20px;"></div>
                 </div>
             </div>
         </div>
@@ -229,6 +229,7 @@
 
 <!--Table Edit Form Template-->
 <script type="text/ng-template" id="listItemEditTpl">
+
     <!--Row 1-->
     <div class="col-md-12 zeroPadding">
         <div class="col-md-4 zeroPadding">
@@ -276,13 +277,13 @@
     </div>
     <!--Row 2-->
     <div class="col-md-12 zeroPadding">
-
+        {{editLineItem.startTime }} , {{editLineItem.endTime}}
             <div class="span4 col-md-12 input-daterange input-group date otherBgDateRange pull-left" id="datepickerEdit">
                 <div class="pull-left dateWrapper zeroPadding">
                     <div class="dateContainer">
                         <label class="col-sm-12 control-label greyTxt miniLabels" data-ng-bind="textConstants.MEDIAPLAN_FLIGHT_DATE_START"></label>
                         <div class="dateInputHolder" >
-                            <input type="text"  custom-date-picker="{format: 'mm/dd/yyyy', orientation: 'auto',  autoclose: true, todayHighlight: true}" id="editLineItemStartDate" placeholder="MM/DD/YYYY" class="form-control"  readonly name="startTime" ng-model="editLineItem.startTime" ng-change="validateDateLineItem(editLineItem.startTime, editLineItem.endTime, 'editLineItemEndDate')" />
+                            <input type="text"  custom-date-picker="{format: 'mm/dd/yyyy', orientation: 'auto',  autoclose: true, todayHighlight: true}" id="editLineItemStartDate{{$index}}" placeholder="MM/DD/YYYY" class="form-control"  readonly name="startTime" ng-model="editLineItem.startTime" ng-change="validateDateLineItem(editLineItem.startTime, editLineItem.endTime, 'editLineItemEndDate{{$index}}')" />
 
                             <div class="icon-calendar-holder">
                                 <span class="icon-calendar"></span>
@@ -292,7 +293,7 @@
                     <div class="dateContainer">
                         <label class="col-sm-12 control-label greyTxt miniLabels" data-ng-bind="textConstants.MEDIAPLAN_FLIGHT_DATE_END"></label>
                         <div class="dateInputHolder">
-                            <input type="text"  custom-date-picker="{format: 'mm/dd/yyyy', orientation: 'auto',  autoclose: true, todayHighlight: true}" id="editLineItemEndDate" placeholder="MM/DD/YYYY" class="form-control"  ng-model="editLineItem.endTime" name="endTime"/>
+                            <input type="text"  custom-date-picker="{format: 'mm/dd/yyyy', orientation: 'auto',  autoclose: true, todayHighlight: true}" id="editLineItemEndDate{{$index}}" placeholder="MM/DD/YYYY" class="form-control"  ng-model="editLineItem.endTime" name="endTime"/>
 
                             <div class="icon-calendar-holder">
                                 <span class="icon-calendar"></span>
