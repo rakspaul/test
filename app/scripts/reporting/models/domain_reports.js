@@ -112,11 +112,18 @@ define(['angularAMD', '../../login/login_model', 'common/services/role_based_ser
                     var fparams = featuresService.getFeatureParams();
                     scope.showReportOverview = false;
 
-                    $timeout(function() {
+                    var updateShowReportOverview = function() {
                         if(fparams[0].report_overview && localStorageService.selectedCampaign.get() && localStorageService.selectedCampaign.get().id !== -1){
                             scope.showReportOverview = true;
+                        } else {
+                            scope.showReportOverview = false;
                         }
-                    }, 300);
+                    }
+                    $timeout(updateShowReportOverview, 300);
+
+                    var subAccountChanged = $rootScope.$on(constants.ACCOUNT_CHANGED, function (event, args) {
+                        $timeout(updateShowReportOverview, 1500);
+                    });
 
                     scope.buildReport = fparams[0].scheduled_reports;
 
