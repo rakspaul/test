@@ -221,9 +221,9 @@
         <div class="icon-video"></div>
         <p>Video</p>
         <div class="cardTxtWrap"
-             data-ng-if="!adData.videoPreviewData.sizes ||
-                         !adData.videoPreviewData.positions ||
-                         !adData.videoPreviewData.playbackMethods">
+             data-ng-if="!adData.videoPreviewData.sizes.length ||
+                         !adData.videoPreviewData.positions.length ||
+                         !adData.videoPreviewData.playbackMethods.length">
             <span>Target your video ads to specific players and placements</span>
             <p style="margin: 0;">
                 <span></span>
