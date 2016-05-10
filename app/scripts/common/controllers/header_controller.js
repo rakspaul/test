@@ -34,7 +34,6 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
                     }
 
                     $scope.accountsData = _.sortBy($scope.accountsData, 'name');
-                   // console.log('$scope.accountsData',$scope.accountsData);
 
                     if (localStorageService.masterClient.get() && localStorageService.masterClient.get().name) {
                         $scope.defaultAccountsName = localStorageService.masterClient.get().name;
@@ -120,7 +119,6 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
             } else {
                 subAccountModel.fetchSubAccounts('MasterClientChanged',function(){
                     $scope.getClientData();
-                   // console.log('current url',$location.url());
                     $rootScope.$broadcast(constants.EVENT_MASTER_CLIENT_CHANGED, {'client': loginModel.getSelectedClient().id, 'event_type': 'clicked'});
                 });
 
@@ -183,10 +181,14 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
 
         $scope.NavigateToTab = function (url, event, page) {
             $(".header_tab_dropdown").removeClass('active_tab active selected');
+
             if (page === 'reportOverview') {
                 $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign().id;
                 if ($scope.selectedCampaign === -1) {
                     url = '/mediaplans';
+                    $(".each_nav_link").removeClass('active_tab active selected');
+                    $(".reports_sub_menu_dd_holder").find(".active_tab").removeClass("active_tab") ;
+                    $("#campaigns_nav_link").addClass("active_tab") ;
                 } else {
                     url = '/mediaplans/' + $scope.selectedCampaign;
                     $(".each_nav_link").removeClass('active_tab active selected');
@@ -209,11 +211,11 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
                 $(".reports_sub_menu_dd_holder").find(".active_tab").removeClass("active_tab") ;
                 $(".each_nav_link").removeClass('active_tab active selected');
                 $("#reports_nav_link").addClass("active_tab");
-            }
-            if (event) {
                 $(event.currentTarget).parent().addClass('active_tab');
-            }
 
+            }
+           
+          
             $location.url(url);
         };
 
