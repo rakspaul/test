@@ -1,5 +1,5 @@
-define(['angularAMD', 'common/services/constants_service', 'workflow/services/workflow_service','login/login_model','common/moment_utils','workflow/directives/clear_row', 'workflow/directives/ng_upload_hidden','workflow/controllers/pixels_controller','workflow/controllers/budget_controller', 'workflow/controllers/line_item_controller', 'common/controllers/confirmation_modal_controller', 'workflow/directives/custom_date_picker'], function (angularAMD) {
-    angularAMD.controller('CreateCampaignController', function ($scope,  $window, $timeout, $rootScope, $filter, $routeParams, $locale, $location, $timeout, $modal, constants, workflowService,loginModel,momentService, localStorageService) {
+define(['angularAMD', 'common/services/constants_service', 'workflow/services/workflow_service', 'login/login_model', 'common/moment_utils', 'workflow/directives/clear_row', 'workflow/directives/ng_upload_hidden', 'workflow/controllers/pixels_controller', 'workflow/controllers/budget_controller', 'workflow/controllers/line_item_controller', 'common/controllers/confirmation_modal_controller', 'workflow/directives/custom_date_picker'], function (angularAMD) {
+    angularAMD.controller('CreateCampaignController', function ($scope, $window, $timeout, $rootScope, $filter, $routeParams, $locale, $location, $timeout, $modal, constants, workflowService, loginModel, momentService, localStorageService) {
 
         $scope.selectedKeywords = [];
         $scope.platformKeywords = [];
@@ -13,9 +13,9 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             costArr: []
 
         };
-        $scope.selectedCampaign ={};
+        $scope.selectedCampaign = {};
         $scope.tags = [];
-        $scope.saveCampaignClicked=false;
+        $scope.saveCampaignClicked = false;
         $scope.platFormArr = [];
         $scope.Campaign.marginPercent = 0;
         $scope.isPrimarySelected = true;
@@ -72,7 +72,6 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
         $scope.editLineItem = {};
         $scope.vendorConfig = [];
-        $scope.costAttributes = {};
 
         //mediaplan dates
         $scope.mediaPlanStartDate = '';
@@ -81,12 +80,11 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         $scope.lineItemStartDate = '';
         $scope.lineItemEndDate = '';
         $scope.mediaPlanNameExists = false;
-
-        $scope.additionalCosts = [];
+        $scope.selectedCampaign.costAttributes ={};
 
         var selectedAdvertiser;
 
-        if(!loginModel.getMasterClient().isLeafNode) {
+        if (!loginModel.getMasterClient().isLeafNode) {
             $scope.showSubAccount = true;
         }
 
@@ -131,7 +129,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             },
 
             fetchAdvertisers: function (clientId) {
-                workflowService.getAdvertisers('write',clientId).then(function (result) {
+                workflowService.getAdvertisers('write', clientId).then(function (result) {
                     if (result.status === "OK" || result.status === "success") {
                         var responseData = result.data.data;
                         $scope.workflowData['advertisers'] = _.sortBy(responseData, 'name');
@@ -143,7 +141,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             },
 
             fetchBrands: function (clientId, advertiserId) {
-                workflowService.getBrands(clientId,advertiserId, 'write').then(function (result) {
+                workflowService.getBrands(clientId, advertiserId, 'write').then(function (result) {
                     if (result.status === "OK" || result.status === "success") {
                         var responseData = result.data.data;
                         $scope.workflowData['brands'] = _.sortBy(responseData, 'name');
@@ -154,8 +152,8 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 }, createCampaign.errorHandler);
             },
 
-            fetchSubAccounts: function(){
-                workflowService.getSubAccounts('write').then(function(result) {
+            fetchSubAccounts: function () {
+                workflowService.getSubAccounts('write').then(function (result) {
                     if (result.status === "OK" || result.status === "success") {
                         $scope.workflowData['subAccounts'] = result.data.data;
                     }
@@ -164,39 +162,37 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     }
                 }, createCampaign.errorHandler);
             },
-            fetchRateTypes: function(){
-                workflowService.getRatesTypes().then(function(result){
+            fetchRateTypes: function () {
+                workflowService.getRatesTypes().then(function (result) {
                     $scope.type = result.data.data;
                     workflowService.setRateTypes(angular.copy($scope.type));
                 })
             },
 
-            fetchVendorConfigs: function(){
-                workflowService.getVendorConfigs($scope.selectedCampaign.advertiserId,$scope.selectedCampaign.clientId).then(function(result){
-                    var configList = result.data.data;
-                    $scope.vendorConfig = workflowService.processVendorConfig(configList);
+            fetchVendorConfigs: function () {
+                workflowService.getVendorConfigs($scope.selectedCampaign.advertiserId, $scope.selectedCampaign.clientId).then(function (result) {
+                    $scope.selectedCampaign.vendorConfig = workflowService.processVendorConfig(result.data.data);
                 });
             },
 
-            fetchCostAttributes: function(){
-                workflowService.getCostAttr($scope.selectedCampaign.advertiserId,$scope.selectedCampaign.clientId).then(function(result){
-                    result = result.data.data ;
-                    $scope.costAttributes = workflowService.processCostAttr(result) ;
+            fetchCostAttributes: function () {
+                workflowService.getCostAttr($scope.selectedCampaign.advertiserId, $scope.selectedCampaign.clientId).then(function (result) {
+                    $scope.selectedCampaign.costAttributes = workflowService.processCostAttr(result.data.data);
+                    console.log("$scope.selectedCampaign.costAttributes", $scope.selectedCampaign.costAttributes);
+                    console.log("selectedCampaign.costAttributes.category", $scope.selectedCampaign.costAttributes.category);
                 });
             },
 
-            fetchBillingTypesAndValues: function(){
-                workflowService.getBillingTypeAndValue($scope.selectedCampaign.advertiserId,$scope.selectedCampaign.clientId).then(function(result){
-                    result = result.data.data ;
-                    $scope.costAttributes = workflowService.processCostAttr(result) ;
-                });
+            fetchBillingTypesAndValues: function () {
+                //workflowService.getBillingTypeAndValue($scope.selectedCampaign.advertiserId, $scope.selectedCampaign.clientId).then(function (result) {
+                //    $scope.selectedCampaign.costAttributes = workflowService.processCostAttr(result.data.data);
+                //});
             },
-            fetchLineItemDetails: function(campaignId){
+
+            fetchLineItemDetails: function (campaignId) {
                 workflowService.getLineItem(campaignId).then(function (results) {
                     if (results.status === 'success' && results.data.statusCode === 200) {
-                        var lineItemList = results.data.data;
-                        $scope.processLineItemEditMode(lineItemList);
-
+                        $scope.processLineItemEditMode(results.data.data);
                     }
                 });
             },
@@ -205,20 +201,20 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 console.log(errData);
             },
 
-            prefillMediaPlan : function(campaignData) {
+            prefillMediaPlan: function (campaignData) {
                 var startDateElem,
                     today;
 
                 startDateElem = $('#startDateInput');
 
                 //media plan name
-                if(campaignData.name) {
+                if (campaignData.name) {
                     $scope.selectedCampaign.campaignName = $scope.cloneMediaPlanName || campaignData.name;
                     $scope.selectedCampaign.campaignId = campaignData.id;
                 }
 
                 //set Sub Account
-                if(campaignData.clientId && campaignData.clientName) {
+                if (campaignData.clientId && campaignData.clientName) {
                     $scope.selectedCampaign.clientName = campaignData.clientName;
                     $scope.selectedCampaign.clientId = campaignData.clientId;
                 } else {
@@ -227,7 +223,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
 
                 //set Advertiser
-                if(campaignData.advertiserId && campaignData.advertiserName) {
+                if (campaignData.advertiserId && campaignData.advertiserName) {
                     $scope.selectedCampaign.advertiserName = campaignData.advertiserName;
                     $scope.selectedCampaign.advertiserId = campaignData.advertiserId;
                     var advertiserObj = {'id': campaignData.advertiserId, 'name': campaignData.advertiserName};
@@ -235,24 +231,24 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 }
 
                 //set Brand
-                if(campaignData.brandId && campaignData.brandName) {
+                if (campaignData.brandId && campaignData.brandName) {
                     $scope.selectedCampaign.brandName = campaignData.brandName;
                     $scope.selectedCampaign.brandId = campaignData.brandId;
                 }
 
                 //set purchase Order
-                if(campaignData.purchaseOrder) {
+                if (campaignData.purchaseOrder) {
                     $scope.selectedCampaign.purchaseOrder = campaignData.purchaseOrder;
                 }
 
                 //set labels
-                if(campaignData.labels && campaignData.labels.length >0) {
+                if (campaignData.labels && campaignData.labels.length > 0) {
                     $scope.tags = workflowService.recreateLabels(campaignData.labels);
                 }
 
-                var flightDateObj= {
-                    startTime : momentService.utcToLocalTime(campaignData.startTime),
-                    endTime :  momentService.utcToLocalTime(campaignData.endTime),
+                var flightDateObj = {
+                    startTime: momentService.utcToLocalTime(campaignData.startTime),
+                    endTime: momentService.utcToLocalTime(campaignData.endTime),
                 }
 
                 //set startDate
@@ -269,11 +265,11 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 }
 
                 //set updateAt value in hidden field.
-                if(campaignData.updatedAt) {
+                if (campaignData.updatedAt) {
                     $scope.selectedCampaign.updatedAt = campaignData.updatedAt;
                 }
 
-                if(campaignData.status) {
+                if (campaignData.status) {
                     $scope.selectedCampaign.status = campaignData.status;
                 }
                 //set KPI type
@@ -287,24 +283,27 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 }
 
                 //set Pixel Dara
-                if(campaignData.pixels && campaignData.pixels.length >0) {
+                if (campaignData.pixels && campaignData.pixels.length > 0) {
                     $scope.$broadcast('fetch_pixels', campaignData.pixels);
                 }
 
                 //set Media Plan Budget & Margin
-                if(campaignData.totalBudget && campaignData.marginPercent >=0) {
+                if (campaignData.totalBudget && campaignData.marginPercent >= 0) {
                     $scope.Campaign.totalBudget = campaignData.totalBudget;
                     $scope.Campaign.marginPercent = campaignData.marginPercent;
                     $scope.ComputeCost();
                 }
 
                 //set cost Data
-                if(campaignData.campaignCosts && campaignData.campaignCosts.length >0) {
-                    $scope.additionalCosts = _.filter(campaignData.campaignCosts, function(obj) { return obj.costType && obj.costType.toUpperCase() === 'MANUAL'; });
-
-                    $timeout(function() {
-                        $("#budget").find("[data-target='#addAdditionalCost']").click();
-                    }, 1500)
+                if (campaignData.campaignCosts && campaignData.campaignCosts.length > 0) {
+                    $scope.additionalCosts = _.filter(campaignData.campaignCosts, function (obj) {
+                        return obj.costType && obj.costType.toUpperCase() === 'MANUAL';
+                    });
+                    if ($scope.additionalCosts.length > 0) {
+                        $timeout(function () {
+                            $("#budget").find("[data-target='#addAdditionalCost']").click();
+                        }, 1500)
+                    }
                 }
 
                 // line item edit mode
@@ -350,7 +349,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     $scope.workflowData['brands'] = [];
                     $scope.selectedCampaign.advertiser = '';
 
-                    if($scope.showSubAccount){
+                    if ($scope.showSubAccount) {
                         $scope.workflowData['subAccounts'] = [];
                         $scope.selectedCampaign.clientId = '';
                         createCampaign.fetchSubAccounts();
@@ -377,18 +376,16 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     selectedAdvertiser = data;
                     workflowService.setSelectedAdvertiser(selectedAdvertiser);
 
-                    if($scope.mode  === 'create') {
+                    if ($scope.mode === 'create') {
                         $("#brandDDL").parents('.dropdown').find('button').html("Select Brand <span class='icon-arrow-down'></span>");
                     }
                     createCampaign.fetchBrands($scope.selectedCampaign.clientId, data.id);
                     $scope.selectedCampaign.selectedPixel = [];
                     createCampaign.platforms(data.id);
-                    createCampaign.fetchVendorConfigs();
                     createCampaign.fetchCostAttributes();
-                    //close new line item and reset all its fields
-                    $scope.resetLineItemParameters();
-                    //make call to fetch billing type and values
-                    createCampaign.fetchBillingTypesAndValues();
+                    createCampaign.fetchVendorConfigs();
+                    $scope.resetLineItemParameters(); //close new line item and reset all its fields
+                    createCampaign.fetchBillingTypesAndValues();  //make call to fetch billing type and values
                     $scope.$broadcast('fetch_pixels');
                     break;
 
@@ -408,7 +405,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
             if ($scope.mode !== 'edit') {
                 if (startTime) {
-                    if(moment(startTime).isAfter(endTime)) {
+                    if (moment(startTime).isAfter(endTime)) {
                         endDateElem.removeAttr("disabled").css({'background': 'transparent'});
                         changeDate = moment(startTime).format(constants.DATE_US_FORMAT);
                         endDateElem.datepicker("setStartDate", changeDate);
@@ -444,12 +441,12 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 formData,
                 postDataObj;
 
-            if($scope.lineItemList.length == 0){
+            if ($scope.lineItemList.length == 0) {
                 $rootScope.setErrAlertMessage('Please create a Line Item');
                 return false;
             }
 
-            if($scope.selectedCampaign.lineItemBillableAmountTotal > $scope.Campaign.deliveryBudget){
+            if ($scope.selectedCampaign.lineItemBillableAmountTotal > $scope.Campaign.deliveryBudget) {
                 $rootScope.setErrAlertMessage('Line Item budget cannot exceed media plan budget');
                 return false;
             }
@@ -465,7 +462,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 postDataObj.name = formData.campaignName;
                 postDataObj.advertiserId = Number(formData.advertiserId);
 
-                if($scope.showSubAccount) {
+                if ($scope.showSubAccount) {
                     postDataObj.clientId = $scope.selectedCampaign.clientId;
                 } else {
                     postDataObj.clientId = loginModel.getSelectedClient().id;
@@ -473,7 +470,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
                 postDataObj.labels = _.pluck($scope.tags, "label");
 
-                if(formData.purchaseOrder){
+                if (formData.purchaseOrder) {
                     postDataObj.purchaseOrder = formData.purchaseOrder;
                 }
 
@@ -485,7 +482,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 postDataObj.deliveryBudget = formData.deliveryBudget;
                 postDataObj.totalBudget = formData.totalBudget;
 
-                if($scope.mode === 'create'){
+                if ($scope.mode === 'create') {
                     postDataObj.lineItems = workflowService.processLineItemsObj(angular.copy($scope.lineItemList));
                 }
 
@@ -494,27 +491,27 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 postDataObj.campaignPixels = _.pluck($scope.selectedCampaign.selectedPixel, "id");
 
                 //for updateAt
-                if($scope.selectedCampaign.updatedAt) {
+                if ($scope.selectedCampaign.updatedAt) {
                     postDataObj.updatedAt = $scope.selectedCampaign.updatedAt;
                 }
 
                 //for cost
                 var campaignCosts = [];
-                if(!$.isEmptyObject($scope.selectedCampaign.selectedCostAttr)) {
-                    for(var i in $scope.selectedCampaign.selectedCostAttr) {
+                if (!$.isEmptyObject($scope.selectedCampaign.selectedCostAttr)) {
+                    for (var i in $scope.selectedCampaign.selectedCostAttr) {
                         campaignCosts.push($scope.selectedCampaign.selectedCostAttr[i])
                     }
 
-                    if(campaignCosts.length >0) {
+                    if (campaignCosts.length > 0) {
                         postDataObj.campaignCosts = campaignCosts;
                     }
                 }
 
-                if($routeParams.campaignId) {
+                if ($routeParams.campaignId) {
                     postDataObj.campaignId = $routeParams.campaignId;
                 }
 
-                workflowService[($scope.mode ==='edit' && !$scope.cloneMediaPlanName) ? 'updateCampaign' : 'saveCampaign'](postDataObj).then(function(result) {
+                workflowService[($scope.mode === 'edit' && !$scope.cloneMediaPlanName) ? 'updateCampaign' : 'saveCampaign'](postDataObj).then(function (result) {
                     if (result.status === "OK" || result.status === "success") {
                         $scope.resetLineItemParameters();
                         $scope.editLineItem = {};
@@ -522,7 +519,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     } else {
                         console.log(result);
                     }
-                }, function(result) {
+                }, function (result) {
                     console.log(result)
                 });
             }
@@ -592,9 +589,8 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         };
 
 
-
-        $scope.validateDateLineItem = function(date,dateType){
-            if('startdate' === dateType){
+        $scope.validateDateLineItem = function (date, dateType) {
+            if ('startdate' === dateType) {
                 $scope.lineItemStartDate = date;
             }
             else {
@@ -605,7 +601,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
         // initial initialization
         $(function () {
-            $(".main_navigation_holder").find('.active_tab').removeClass('active_tab') ;
+            $(".main_navigation_holder").find('.active_tab').removeClass('active_tab');
             $(".main_navigation").find('.active').removeClass('active').end().find('#campaigns_nav_link').addClass('active');
             $("html").css('background', '#fff');
             $scope.locale = $locale;
@@ -616,7 +612,10 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 $(".tbody.thin").css('max-height', winHeight - 298 + 'px');
                 $(".selectedPixels").css('height', winHeight - 243 + 'px');
             }
-            setTimeout(function(){ colResize(); }, 1000);
+
+            setTimeout(function () {
+                colResize();
+            }, 1000);
 
 
             $(window).resize(function () {
@@ -656,7 +655,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 ($scope.mode == 'create') && $scope.selectHandler('client', $scope.client, null);
             }
 
-            $(document).ready(function() {
+            $(document).ready(function () {
                 $('.input-daterange').datepicker({
                     format: "mm/dd/yyyy",
                     orientation: "top auto",
@@ -667,7 +666,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
                 //media plan clone
                 var cloneMediaPlanObj = workflowService.getMediaPlanClone();
-                if(cloneMediaPlanObj) {
+                if (cloneMediaPlanObj) {
                     $scope.cloneMediaPlanName = cloneMediaPlanObj.name;
                     $scope.campaignId = cloneMediaPlanObj.id;
                     $scope.mode = 'edit';
@@ -676,7 +675,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 if ($scope.mode == 'edit') {
                     $scope.processEditCampaignData();
                 } else {
-                    $timeout(function() {
+                    $timeout(function () {
                         $scope.initiateDatePicker();
                     }, 1000)
                 }
@@ -714,38 +713,35 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             inputSearch.val('');
         };
 
-        $('body').click(function(e) {
+        $('body').click(function (e) {
             if ($(e.target).closest('.searchInput').length === 0) {
                 $scope.searchHideInput();
             }
         });
 
         //Show Add Credits
-        $scope.showAddCreditForm = function() {
+        $scope.showAddCreditForm = function () {
             $(".addCreditForm").toggle();
             $(".showAddCreditForm .icon-arrow-down-thick").toggleClass("active");
         };
 
 
-
-
-
         // ************** PAGE 1 ******************************
-        $scope.setKPIName = function(kpi){
+        $scope.setKPIName = function (kpi) {
             $scope.kpiName = kpi;
             $scope.kpiValue = '';
 
         }
 
         // nav control
-        $scope.highlightLeftNav=function(pageno){
+        $scope.highlightLeftNav = function (pageno) {
             $(".eachStepCompLabel").removeClass('active')
             $(".eachStepCompLabel")[pageno].classList.add("active");
         }
 
 
-        $scope.isMediaPlanNameExist = function() {
-            var target =  event.target,
+        $scope.isMediaPlanNameExist = function () {
+            var target = event.target,
                 cloneMediaPlanName = target.value,
                 advertiserId = $scope.selectedCampaign.advertiserId,
                 url;
@@ -760,17 +756,17 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         };
 
         // use this method to access createCampaign in child
-        $scope.createCampaignAccess = function(){
+        $scope.createCampaignAccess = function () {
             return createCampaign.fetchLineItemDetails($scope.selectedCampaign.id);
         };
 
-        function resetPixelMediaPlan(){
+        function resetPixelMediaPlan() {
             $scope.lineItemList = [];
             $scope.selectedCampaign.selectedPixel = [];
         }
 
 
-        $scope.$on("$locationChangeStart", function(event, next, current) {
+        $scope.$on("$locationChangeStart", function (event, next, current) {
             if ($scope.cloneMediaPlanName) {
                 $modalInstance = $modal.open({
                     templateUrl: assets.html_confirmation_modal,
@@ -789,7 +785,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                         },
                         execute: function () {
                             return function () {
-                                $scope.cloneMediaPlanName =null;
+                                $scope.cloneMediaPlanName = null;
                                 $location.path((next.substring($location.absUrl().length - $location.url().length)));
                             }
                         }

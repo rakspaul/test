@@ -4,6 +4,8 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
         $scope.selectedCampaign.additionalCosts = [];
 
+        $scope.selectedCampaign.selectedCostAttr = [];
+
         $scope.selectedCampaign.addAdditionalCost = function() {
             $scope.additionalCosts.push({
                 key: "",
@@ -22,7 +24,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             var selectedCostObj = {},
                 index = Number($(event.target).closest('.each-cost-dimension').attr('data-index'));
 
-            if(!$scope.selectedCampaign.selectedCostAttr[index] || $scope.selectedCampaign.selectedCostAttr[index].length ===0) {
+            if(!$scope.selectedCampaign.selectedCostAttr || !$scope.selectedCampaign.selectedCostAttr[index] || $scope.selectedCampaign.selectedCostAttr[index].length ===0) {
                 $scope.selectedCampaign.selectedCostAttr[index] = {};
             }
 
