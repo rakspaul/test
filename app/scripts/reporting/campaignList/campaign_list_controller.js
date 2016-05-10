@@ -26,7 +26,6 @@ define(['angularAMD', 'reporting/kpiSelect/kpi_select_model', 'reporting/campaig
 
                 //Resets Header
                 $('.main_navigation_holder .main_nav .main_navigation .each_nav_link.active .arrowSelect').show();
-                console.log("hello") ;
                 $(".each_nav_link").removeClass("active_tab");
                 $("#campaigns_nav_link").addClass("active_tab");
 
