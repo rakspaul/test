@@ -813,7 +813,6 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 if(selectedSubModule !== '#addLineItems') {
                     $timeout(function() {
                         $("#hideLineItemCreateBox").click();
-                        $(".tableEdit").find(".cancelLineItem").click();
                     }, 100)
                 }
             })
