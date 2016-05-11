@@ -640,7 +640,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
 
                 if (formData.budgetAmount) {
                     freqDefaultCapObj = {'frequencyType': 'LIFETIME'};
-                    freqDefaultCapObj.quantity = Number(formData.budgetAmount);
+                    freqDefaultCapObj.quantity = Math.floor(Number(formData.budgetAmount));
                     freqDefaultCapObj.capType = budgetType.toUpperCase();
                     freqDefaultCapObj.pacingType = formData.pacingType;
                     freqDefaultCapObj.targetType = 'ALL';
