@@ -280,7 +280,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
                 //set Kpi Value
                 if (campaignData.kpiValue) {
-                    $scope.kpiValue = campaignData.kpiValue;
+                    $scope.selectedCampaign.kpiValue = campaignData.kpiValue;
                 }
 
                 //set Pixel Dara
@@ -313,6 +313,11 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 $scope.editCampaignData = campaignData;
             }
         };
+        $scope.percentageValueCheck=function(value){
+            if(($scope.kpiName.toUpperCase()=='CTR'|| $scope.kpiName.toUpperCase()=='VTC' || $scope.kpiName.toUpperCase()=='ACTION RATE')&& Number(value)>100){
+                $scope.selectedCampaign.kpiValue=100;
+            }
+        }
 
         $scope.calculateEffective = function () {
             for (var ind = 0; ind < $scope.Campaign.kpiArr.length; ind++) {
@@ -730,7 +735,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         // ************** PAGE 1 ******************************
         $scope.setKPIName = function (kpi) {
             $scope.kpiName = kpi;
-            $scope.kpiValue = '';
+            $scope.selectedCampaign.kpiValue = '';
 
         }
 
