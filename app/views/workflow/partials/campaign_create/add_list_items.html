@@ -26,6 +26,22 @@
             <span data-ng-bind="textConstants.CREATE" ></span>
         </a>
 
+         <div class="pull-left list_item_export_import_dd">
+            <div class="btn-group create" role="group" aria-label="...">
+                <div class="btn btn-default zeroPadding dropdown-workflow pull-left">
+                    <div class="dropdown">
+                        <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" style="padding-right: 18px;">
+                            <span class="icon-more-options"></span>
+                        </button>
+                        <ul class="dropdown-menu" id="moreOptions" style="left: 0; left: initial;">
+                            <li><a class="text-left" role="button" data-ng-bind="textConstants.IMPORT_LINE_ITEMS"></a></li>
+                            <li><a class="text-left" role="button" data-ng-bind="textConstants.EXPORT_LINE_ITEMS" ></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!--Search/Quickfilters Input-->
         <div class="btn-group pull-right" style="display:none">
             <button type="button" class="btn btn-default pull-right disabled" style="border-top-right-radius: 2px; border-bottom-right-radius: 2px;">

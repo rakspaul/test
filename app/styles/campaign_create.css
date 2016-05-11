@@ -3324,6 +3324,9 @@
   position: relative;
   width: 77%;
 }
+#campaignCreate .firstWrapper .masterContainer .settingWrap .list_item_export_import_dd {
+  margin-left: 10px ;
+}
 #campaignCreate .firstWrapper .masterContainer .settingWrap .adName {
   background: #FFF;
   height: 30px;
