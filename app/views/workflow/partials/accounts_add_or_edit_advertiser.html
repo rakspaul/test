@@ -19,19 +19,15 @@
 <div class="col-md-12 zeroPadding basicForm">
     <div class="form-group col-md-4" style="padding: 0 15px 0 0;">
         <label class="col-sm-12 greyTxt">Advertiser:</label>
-        <select class="form-control" name="selectedAdvertiserId" ng-model="selectedAdvertiserId" ng-disabled="isEditMode">
-            <option selected disabled data-ng-bind="'Select Advertiser'"></option>
-            <option value="{{advertiser.id}}" ng-repeat="advertiser in advertisersData" ng-selected="{{advertiser.id == selectedAdvertiserId}}" data-ng-bind="advertiser.name"></option>
-        </select>
-        
         <div class="col-md-12 zeroPadding dropdown-workflow">
             <div class="dropdown">
-                <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                    <span class="text">Select Advertiser</span>
+                <button id="advertiser" class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                    <span class="text" data-ng-bind="selectedAdvertiser ? selectedAdvertiser : 'Select Advertiser'"></span>
                     <span class="icon-arrow-down"></span>
                 </button>
                 <ul class="dropdown-menu" data-toggle="dropdown">
-                    <li class="available" value="{{advertiser.id}}" ng-repeat="advertiser in advertisersData" data-ng-selected="{{advertiser.id == selectedAdvertiserId}}">
+                    <li class="available" value="{{advertiser.id}}" ng-repeat="advertiser in advertisersData"
+                        data-ng-click="selectAdvertiser(advertiser)">
                         <a>{{advertiser.name}}</a>
                     </li>
                 </ul>
