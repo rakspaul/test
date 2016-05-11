@@ -370,6 +370,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 localStorage.setItem('adPlatformCustomInputs', JSON.stringify($scope.$parent.postPlatformDataObj));
             }
                 $scope.switchPlatform();
+            $scope.triggerTargetting();
         };
 
         $scope.showtrackingSetupInfoPopUp = false;
