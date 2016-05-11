@@ -226,6 +226,9 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                         marginLeft: '-323px'
                     }, 'slow');
                 $('.offeringsWrap').hide();
+                $("html, body").animate({
+                    scrollTop: 0
+                }, 300);
             }
         }
 
