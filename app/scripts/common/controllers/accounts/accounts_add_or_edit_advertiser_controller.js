@@ -314,8 +314,15 @@ define(['angularAMD','../../../workflow/services/account_service', '../../servic
         $scope.$on("$locationChangeSuccess", function(){
             $scope.close();
         });
+        $scope.selectAdvertiser = function(advertiser){
+            $scope.selectedAdvertiserId = advertiser.id;
+            $scope.selectedAdvertiser = advertiser.name;
+        }
         if($scope.isEditMode){
             $scope.getAdnlData();
+            setTimeout(function(){
+                $("#advertiser").addClass("disabled");
+            },100);
         }
     });
 });

@@ -308,10 +308,12 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
             $scope.advObj = advObj;
             if($scope.isEditMode){
                 $scope.selectedAdvertiserId = advObj.id;
+                $scope.selectedAdvertiser = advObj.name;
                 accountsService.getAdvertiserUnderClient(client.id, advObj.id).then(function(res){
                     loadTemplate = true;
                     if(res.data.status == "OK" && res.data.statusCode == 200){
                         $scope.selectedAdvertiserId = res.data.data.id ? res.data.data.id : advObj.id;
+                        $scope.selectedAdvertiser = res.data.data.name ? res.data.data.name : advObj.name;
                         $scope.advertiserData.lookbackImpressions = res.data.data.lookbackImpressions;
                         $scope.advertiserData.lookbackClicks = res.data.data.lookbackClicks;
                     }
@@ -421,6 +423,7 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
         //Add or Edit Pop up for Account
         $scope.AddOrEditAccountModal = function(mode,clientObj) {
             $scope.mode = mode;
+
             $scope.isCreateTopClient = clientObj ? false : true;
             $('html, body').animate({scrollTop : 0},30);
             accountsService.getAllCurrency().then(function(result){
@@ -448,12 +451,12 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
         };
 
         //create advertiser
-        $scope.selectAdvertiser = function(advertiser){
-            $scope.dropdownCss.display = 'none';
-            $scope.advertiserName = advertiser.name;
-            $scope.selectedAdvertiserId = advertiser.id;
-            $("#advertiserNameInp").val($scope.advertiserName);
-        };
+//        $scope.selectAdvertiser = function(advertiser){
+//            $scope.dropdownCss.display = 'none';
+//            $scope.advertiserName = advertiser.name;
+//            $scope.selectedAdvertiserId = advertiser.id;
+//            $("#advertiserNameInp").val($scope.advertiserName);
+//        };
 
         //create brand
         $scope.selectBrand = function(brand){
