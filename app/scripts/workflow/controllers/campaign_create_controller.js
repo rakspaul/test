@@ -190,7 +190,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             },
 
             fetchLineItemDetails: function (campaignId) {
-                workflowService.getLineItem(campaignId).then(function (results) {
+                workflowService.getLineItem(campaignId,true).then(function (results) {
                     if (results.status === 'success' && results.data.statusCode === 200) {
                         $scope.lineItemList = [];
                         $scope.processLineItemEditMode(results.data.data);

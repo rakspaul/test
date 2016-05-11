@@ -64,7 +64,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             newItem.endTime = momentService.localTimeToUTC(newItem.endTime, 'endTime');
             workflowService.createLineItems($scope.selectedCampaign.campaignId, $scope.selectedCampaign.clientId, newItem).then(function (results) {
                 console.log('result==', results)
-                if (results.status === 'success' && results.data.statusCode === 200) {
+                if (results.status === 'success' && results.data.statusCode === 201) {
                     var campaignObj = $scope.createCampaignAccess();
                     campaignObj.fetchLineItemDetails($scope.selectedCampaign.campaignId);
                     $scope.resetLineItemParameters();
@@ -104,8 +104,11 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             newItem.pricingRate = $scope.pricingRate;
             newItem.startTime = $scope.lineItemStartDate;
             newItem.endTime = $scope.lineItemEndDate;
-            newItem.pixel = $scope.pixelSelected;
-            newItem.pixelId = $scope.pixelSelected.id;
+            if($scope.pixelSelected){
+                newItem.pixel = $scope.pixelSelected;
+                newItem.pixelId = $scope.pixelSelected.id;
+            }
+
             newItem.campaignId = campaignId;
             //this is in case of edit mode where line item has id
             if (lineItemObj) {
