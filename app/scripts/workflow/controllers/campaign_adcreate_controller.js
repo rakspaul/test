@@ -322,6 +322,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                         if (errData.data.status === 404) {
                             $location.url('/mediaplans');
                         }
+
                         console.log(errData);
                     }
                 };
@@ -1068,6 +1069,20 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                         obj.name === $scope.adformatName ? obj.active = true : obj.active = false;
                     });
                 }
+
+                if (adformatName.trim() !== 'Video') {
+                    $scope.adData.isVideoSelected = false;
+
+                    $scope.adData.videoTargets.sizes = [];
+                    $scope.adData.videoTargets.positions = [];
+                    $scope.adData.videoTargets.playbackMethods = [];
+
+                    $scope.adData.videoPreviewData.sizes = '';
+                    $scope.adData.videoPreviewData.positions = '';
+                    $scope.adData.videoPreviewData.playbackMethods = '';
+
+                    $scope.videoTypes = [];
+                }
             };
 
             $scope.goalSelection = function (goal) {
@@ -1411,8 +1426,10 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                                 postAdDataObj.targets.videoTargets = videoTargetsData.videoTargets;
                             } else {
                                 if ($scope.mode === 'edit') {
-                                    adData = workflowService.getAdsDetails();
-                                    videoTargetsData = adData.targets && adData.targets.videoTargets;
+                                    if ($scope.adData.isVideoSelected) {
+                                        adData = workflowService.getAdsDetails();
+                                        videoTargetsData = adData.targets && adData.targets.videoTargets;
+                                    }
 
                                     if (videoTargetsData) {
                                         postAdDataObj.targets.videoTargets = videoTargetsData;

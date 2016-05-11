@@ -13,7 +13,8 @@
             position: fixed;
             z-index: 999;
             opacity: 0.6;"
-     data-ng-show="redirectFlag"></div>
+     data-ng-show="redirectFlag">
+</div>
 <div id="campaignCreate" class="adCreateMaster">
     <div class="firstWrapper">
         <div class="masterContainer adMasterContainer">
@@ -59,10 +60,12 @@
                                                          <ul class="dropdown-menu"
                                                              id="moreOptions"
                                                              style="right: 0; left: initial;">
-                                                            <li class="{{disablePause}}" data-ng-click="cancelAdPause()">
+                                                            <li class="{{disablePause}}"
+                                                                data-ng-click="cancelAdPause()">
                                                                 <a data-ng-bind="textConstants.WF_PAUSE"></a>
                                                             </li>
-                                                            <li class="{{disableResume}}" data-ng-click="cancelAdResume()">
+                                                            <li class="{{disableResume}}"
+                                                                data-ng-click="cancelAdResume()">
                                                                 <a data-ng-bind="textConstants.WF_RESUME"></a>
                                                             </li>
                                                             <li class="disabled">
@@ -183,7 +186,10 @@
             <div class="popup-header-body">
                 <div class="clearfix">
                     <h1 class="pull-left" data-ng-bind="textConstants.WF_AD_UPDATE"></h1>
-                    <span class="icon-close close unselectable" aria-hidden="true" data-ng-click="cancelAdArchive()"></span>
+                    <span class="icon-close close unselectable"
+                          aria-hidden="true"
+                          data-ng-click="cancelAdArchive()">
+                    </span>
                 </div>
                 <div class="popup-content" data-ng-bind="textConstants.ARCHIVE_MESSAGE"></div>
             </div>
@@ -200,7 +206,10 @@
             <div class="popup-header-body">
                 <div class="clearfix">
                     <h1 class="pull-left" data-ng-bind="textConstants.WF_PAUSE_AD"></h1>
-                    <span class="icon-close close unselectable" aria-hidden="true" data-ng-click="cancelAdPause()"></span>
+                    <span class="icon-close close unselectable"
+                          aria-hidden="true"
+                          data-ng-click="cancelAdPause()">
+                    </span>
                 </div>
                 <div class="popup-content" data-ng-bind="textConstants.WF_AD_PAUSE_MESSAGE"></div>
             </div>
@@ -215,7 +224,10 @@
             <div class="popup-header-body">
                 <div class="clearfix">
                     <h1 class="pull-left" data-ng-bind="textConstants.WF_RESUME_AD"></h1>
-                    <span class="icon-close close unselectable" aria-hidden="true" data-ng-click="cancelAdResume()"></span>
+                    <span class="icon-close close unselectable"
+                          aria-hidden="true"
+                          data-ng-click="cancelAdResume()">
+                    </span>
                 </div>
                 <div class="popup-content" data-ng-bind="resumeMessage"></div>
             </div>

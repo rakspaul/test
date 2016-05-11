@@ -503,6 +503,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             $scope.displaySelectedTargets = function (adsData) {
                 var selectedStr = '',
                     videoTargetsData;
+
                 if (adsData) {
                     if ((adsData.targets.geoTargets.REGION &&
                         adsData.targets.geoTargets.REGION.geoTargetList.length > 0) ||
@@ -1169,4 +1170,5 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 $scope.handleFlightDate(formElem, startTime);
             });
         });
-    });
+    }
+);

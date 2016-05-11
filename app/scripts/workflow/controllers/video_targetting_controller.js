@@ -21,7 +21,7 @@ define(['angularAMD', 'workflow/services/workflow_service', 'common/services/con
             },
 
             showBox: function () {
-                $('#videoTargeting').show().animate({marginLeft: '0', left: '0', opacity: '1'}, 800 );
+                $('#videoTargeting').show().animate({marginLeft: '0', left: '0', opacity: '1'}, 800);
             },
 
             hideBox: function () {
@@ -147,7 +147,8 @@ define(['angularAMD', 'workflow/services/workflow_service', 'common/services/con
                 // $scope.tmpVideoTargetsData = _.extend([], $scope.adData.videoPreviewData);
 
                 if ($scope.mode === 'edit') {
-                    var adData, videoTargets,
+                    var adData,
+                        videoTargets,
                         videoTargetsData = videoService.getVideoData().videoTargets,
                         i;
 
@@ -156,8 +157,13 @@ define(['angularAMD', 'workflow/services/workflow_service', 'common/services/con
                         videoTargetsData.playbackMethods.length > 0)) {
                         // TODO: (Lalding) Please write inverse condition to avoid having blank if block
                     } else {
-                        adData = workflowService.getAdsDetails();
-                        videoTargets = adData.targets.videoTargets;
+                        if ($scope.adData.videoPreviewData.sizes ||
+                            $scope.adData.videoPreviewData.positions ||
+                            $scope.adData.videoPreviewData.playbackMethods) {
+                            adData = workflowService.getAdsDetails();
+                            videoTargets = adData.targets.videoTargets;
+                        }
+
                         $scope.videoTypes = [];
 
                         if (videoTargets) {
