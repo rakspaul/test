@@ -192,6 +192,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             fetchLineItemDetails: function (campaignId) {
                 workflowService.getLineItem(campaignId).then(function (results) {
                     if (results.status === 'success' && results.data.statusCode === 200) {
+                        $scope.lineItemList = [];
                         $scope.processLineItemEditMode(results.data.data);
                     }
                 });
@@ -757,7 +758,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
         // use this method to access createCampaign in child
         $scope.createCampaignAccess = function () {
-            return createCampaign.fetchLineItemDetails($scope.selectedCampaign.id);
+            return createCampaign;
         };
 
         function resetPixelMediaPlan() {
