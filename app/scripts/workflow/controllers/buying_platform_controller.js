@@ -226,6 +226,9 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                         marginLeft: '-323px'
                     }, 'slow');
                 $('.offeringsWrap').hide();
+                $("html, body").animate({
+                    scrollTop: 0
+                }, 300);
             }
         }
 
@@ -350,7 +353,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 customPlatformFormData = $('#customPlatformForm').serializeArray();
 
             $scope.$parent.postPlatformDataObj = [];
-            if (customFieldErrorElem.length === 0 && customPlatformFormData.length > 1) {
+            if (customFieldErrorElem.length === 0 && customPlatformFormData.length >0) {
                 _.each(customPlatformFormData, function (data) {
                     var d = data.name.split('$$');
 
@@ -370,6 +373,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 localStorage.setItem('adPlatformCustomInputs', JSON.stringify($scope.$parent.postPlatformDataObj));
             }
                 $scope.switchPlatform();
+            $scope.triggerTargetting();
         };
 
         $scope.showtrackingSetupInfoPopUp = false;

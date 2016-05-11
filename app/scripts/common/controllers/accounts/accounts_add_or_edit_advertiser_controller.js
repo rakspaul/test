@@ -134,9 +134,9 @@ define(['angularAMD','../../../workflow/services/account_service', '../../servic
                 });
             }
         }
-        $rootScope.$on('advertiserDataReceived',function(){
-            $scope.getAdnlData();
-        });
+//        $rootScope.$on('advertiserDataReceived',function(){
+//            $scope.getAdnlData();
+//        });
         $scope.selectIABCategory = function(type){
             $scope.advertiserAddOrEditData.selectedIABCategory = type.name;
             $scope.advertiserAddOrEditData.selectedIABCategoryId = type.id;
@@ -314,5 +314,15 @@ define(['angularAMD','../../../workflow/services/account_service', '../../servic
         $scope.$on("$locationChangeSuccess", function(){
             $scope.close();
         });
+        $scope.selectAdvertiser = function(advertiser){
+            $scope.selectedAdvertiserId = advertiser.id;
+            $scope.selectedAdvertiser = advertiser.name;
+        }
+        if($scope.isEditMode){
+            $scope.getAdnlData();
+            setTimeout(function(){
+                $("#advertiser").addClass("disabled");
+            },100);
+        }
     });
 });

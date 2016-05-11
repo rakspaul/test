@@ -672,9 +672,14 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                     return dataService.fetch(url);
                 },
 
-                getLineItem: function (campaignId) {
+                getLineItem: function (campaignId,isFromMediaPlan) {
                     var clientId = loginModel.getSelectedClient().id,
-                        url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/campaigns/' + campaignId + '/lineitems?flat_fee=false&archived=false';
+                        url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/campaigns/' + campaignId + '/lineitems';
+
+                    if(!isFromMediaPlan){
+                        //append this in case the call is made from campaign overview page
+                        url += '?flat_fee=false&archived=false';
+                    }
 
                     return dataService.fetch(url);
                 },
@@ -1007,7 +1012,9 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                         newItemObj.adGroupName = item.adGroupName;
                         item.startTime = momentService.localTimeToUTC(item.startTime, 'startTime');
                         item.endTime = momentService.localTimeToUTC(item.endTime, 'endTime');
-                        item.pricingRate = Number(item.pricingRate.split('%')[0]);
+                        if(typeof item.pricingRate === "string"){
+                            item.pricingRate = Number(item.pricingRate.split('%')[0]);
+                        }
                         newItemObj.lineItem = item;
                         newItemList.push(newItemObj);
                     });

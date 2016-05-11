@@ -13,35 +13,28 @@
 }" data-ng-show="redirectFlag"></div>
 <div id="campaignCreate">
     <div class="firstWrapper">
-        <div class="masterContainer maxWidthAdj">
+        <div class="masterContainer maxWidthAdj campOverviewPage">
             <!-- Header Starts -->
             <div class="clearfix page_header_container campAdHeader">
                 <div class="col-md-12 zeroPadding">
-                    <div class="pull-left accountTitleTag"
-                         data-ng-if="workflowData.campaignData.clientName && !isLeafNode">
-                        <span class="tagTitle" data-ng-bind="textConstants.SUB_ACCOUNT"></span>
-                        <span class="font-bold" data-ng-bind="selectedClientName"></span>
+                    <div class="pull-left accountTitleTag" ng-if="workflowData.campaignData.clientName && !isLeafNode">
+                        <span class="tagTitle" ng-bind="textConstants.SUB_ACCOUNT"></span>
+                        <span class="" ng-bind="selectedClientName"></span>
                         <span class="slash-divider" style="padding-left:5px;">/</span>
                     </div>
                     <div class="pull-left" style="padding-left:5px;">
                         <span class="tagTitle" data-ng-bind="textConstants.ADVERTISER"></span>
-                        <span class="font-bold"
-                              style="padding-left:5px;"
-                              data-ng-bind="workflowData.campaignData.advertiserName">
-                        </span>
+                        <span class=""  data-ng-bind="workflowData.campaignData.advertiserName"></span>
                         <span class="slash-divider">/</span>
                     </div>
                     <div class="pull-left" style="padding-left:5px;" data-ng-if="workflowData.campaignData.brandName">
                         <span class="tagTitle" data-ng-bind="textConstants.BRAND"></span>
-                        <span class="font-bold" data-ng-bind="workflowData.campaignData.brandName"></span>
+                        <span class="" data-ng-bind="workflowData.campaignData.brandName"></span>
                         <span class="slash-divider">/</span>
                     </div>
                     <div class="pull-left" style="padding-left:5px;">
                         <span class="tagTitle" data-ng-bind="textConstants.VID"></span>
-                        <span class="font-bold"
-                              style="padding-left:5px;"
-                              data-ng-bind="workflowData.campaignData.id">
-                        </span>
+                        <span class="" data-ng-bind="workflowData.campaignData.id"></span>
                     </div>
                 </div>
                 <div class="col-md-12 zeroPadding">
@@ -114,19 +107,20 @@
                 <div class="col-md-12 zeroPadding campSettingOverView">
                     <div class="pull-left">
                         <span class="greyTxt" data-ng-bind="textConstants.DELBUDGET"></span>
-                        <span class="font-bold"
-                              data-ng-bind="(workflowData.campaignData.deliveryBudget || 0) | currency:undefined:0">
+                        <span class=""
+                              data-ng-bind="(workflowData.campaignData.deliveryBudget || 0) | currency: undefined: 0">
                         </span>
                     </div>
                     <div class="pull-left">
                         <span class="greyTxt" data-ng-bind="textConstants.FLIGHTDATES"></span>
-                        <span data-ng-if="workflowData.campaignData.startTime" class="font-bold">
+                        <span data-ng-if="workflowData.campaignData.startTime" class="">
                             <span class="icon-calendar" style="margin: 1px 6px 0 0;"></span>
                             <span style="float: left; clear: none;">
                                 {{utcToLocalTime(workflowData.campaignData.startTime, 'ddd DD MMM  YYYY')}} -
                                 {{utcToLocalTime(workflowData.campaignData.endTime, 'ddd DD MMM YYYY')}}
                             </span>
-                            <span style="clear: none; margin-left: 8px;" data-ng-if="workflowData.campaignData.numOfDays">
+                            <span style="clear: none; margin-left: 8px;"
+                                  data-ng-if="workflowData.campaignData.numOfDays">
                                 ({{workflowData.campaignData.numOfDays}} Days)
                             </span>
                         </span>
@@ -135,26 +129,26 @@
                         <span class="greyTxt" data-ng-bind="textConstants.KPI"></span>
                         <div>
                             <span data-ng-if="workflowData.campaignData.kpiValue >= 0 &&
-                                             (primaryKpiSelected === 'Impressions')"
-                                  class="font-bold"
+                                             (primaryKpiSelected=='Impressions')"
+                                  class=""
                                   data-ng-bind="workflowData.campaignData.kpiValue | nrFormat">
                             </span>
                             <span data-ng-if="workflowData.campaignData.kpiValue >= 0 &&
-                                             (primaryKpiSelected === 'CPM'||
-                                             primaryKpiSelected === 'CPC'||
+                                             (primaryKpiSelected === 'CPM' ||
+                                             primaryKpiSelected === 'CPC' ||
                                              primaryKpiSelected === 'CPA')"
-                                  class="font-bold"
+                                  class=""
                                   data-ng-bind="workflowData.campaignData.kpiValue | nrFormatWithCurrency">
                             </span>
                             <span data-ng-if="workflowData.campaignData.kpiValue >= 0 &&
-                                             (primaryKpiSelected === 'VTC'||
-                                             primaryKpiSelected === 'CTR'||
-                                             primaryKpiSelected === 'Action Rate')"
-                                  class="font-bold"
+                                              (primaryKpiSelected === 'VTC' ||
+                                              primaryKpiSelected === 'CTR' ||
+                                              primaryKpiSelected === 'Action Rate')"
+                                  class=""
                                   data-ng-bind="(workflowData.campaignData.kpiValue | number:2) + '%'">
                             </span>
                             <span style="clear: none; padding-left: 3px;"
-                                  class="font-bold"
+                                  class=""
                                   data-ng-bind="primaryKpiSelected">
                             </span>
                         </div>
@@ -166,13 +160,13 @@
                                   data-ng-bind="textConstants.ADGROUPS">
                             </span>
                             <!--Abi if value is zero add this class to the span below emptyValueTxt-->
-                            <span class="col-md-12 zeroPadding emptyValueTxt font-bold"
+                            <span class="col-md-12 zeroPadding emptyValueTxt "
                                   data-ng-bind="workflowData.campaignData.adGroupCount || 0">
                             </span>
                         </div>
                         <div class="pull-left counterCol">
                             <span class="greyTxt" style="text-align: center;" data-ng-bind="textConstants.ADS"></span>
-                            <span class="col-md-12 zeroPadding font-bold"
+                            <span class="col-md-12 zeroPadding "
                                   data-ng-bind="workflowData.campaignData.adsCount || 0">
                             </span>
                         </div>
@@ -181,14 +175,14 @@
                                   style="text-align: center;"
                                   data-ng-bind="textConstants.CREATIVES">
                             </span>
-                            <span class="col-md-12 zeroPadding emptyValueTxt font-bold"
+                            <span class="col-md-12 zeroPadding emptyValueTxt "
                                   data-ng-bind="workflowData.campaignData.creativeCount || 0">
                             </span>
                         </div>
                     </div>
                     <div class="pull-left">
                         <span class="greyTxt" data-ng-bind="textConstants.LAST_UPDATED"></span>
-                        <span class="font-bold">
+                        <span class="">
                             {{utcToLocalTime(workflowData.campaignData.updatedAt,'DD MMM YYYY HH:mm A')}} by
                             {{workflowData.campaignData.updatedByUser}}
                         </span>

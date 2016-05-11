@@ -36,7 +36,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         $scope.lineRate = '';
         $scope.adGroupName = '';
         $scope.lineTarget = '';
-        $scope.createItemList = false;
+
         $scope.checkUniqueMediaPlanNameNotFound = false;
         $scope.executionPlatforms = [];
         $scope.kpiNameList = [
@@ -190,8 +190,9 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             },
 
             fetchLineItemDetails: function (campaignId) {
-                workflowService.getLineItem(campaignId).then(function (results) {
+                workflowService.getLineItem(campaignId,true).then(function (results) {
                     if (results.status === 'success' && results.data.statusCode === 200) {
+                        $scope.lineItemList = [];
                         $scope.processLineItemEditMode(results.data.data);
                     }
                 });
@@ -279,7 +280,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
                 //set Kpi Value
                 if (campaignData.kpiValue) {
-                    $scope.kpiValue = campaignData.kpiValue;
+                    $scope.selectedCampaign.kpiValue = campaignData.kpiValue;
                 }
 
                 //set Pixel Dara
@@ -296,10 +297,14 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
                 //set cost Data
                 if (campaignData.campaignCosts && campaignData.campaignCosts.length > 0) {
-                    $scope.additionalCosts = _.filter(campaignData.campaignCosts, function (obj) {
+                    $scope.selectedCampaign.additionalCosts = _.filter(campaignData.campaignCosts, function (obj) {
                         return obj.costType && obj.costType.toUpperCase() === 'MANUAL';
                     });
-                    if ($scope.additionalCosts.length > 0) {
+
+                    if ($scope.selectedCampaign.additionalCosts.length > 0) {
+                        _.each($scope.selectedCampaign.additionalCosts, function(obj) {
+                            $scope.selectedCampaign.selectedCostAttr.push(obj.campaignCostObj);
+                        })
                         $timeout(function () {
                             $("#budget").find("[data-target='#addAdditionalCost']").click();
                         }, 1500)
@@ -312,6 +317,11 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 $scope.editCampaignData = campaignData;
             }
         };
+        $scope.percentageValueCheck=function(value){
+            if(($scope.kpiName.toUpperCase()=='CTR'|| $scope.kpiName.toUpperCase()=='VTC' || $scope.kpiName.toUpperCase()=='ACTION RATE')&& Number(value)>100){
+                $scope.selectedCampaign.kpiValue=100;
+            }
+        }
 
         $scope.calculateEffective = function () {
             for (var ind = 0; ind < $scope.Campaign.kpiArr.length; ind++) {
@@ -384,7 +394,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     createCampaign.platforms(data.id);
                     createCampaign.fetchCostAttributes();
                     createCampaign.fetchVendorConfigs();
-                    $scope.resetLineItemParameters(); //close new line item and reset all its fields
+                    $scope.selectedCampaign.resetLineItemParameters(); //close new line item and reset all its fields
                     createCampaign.fetchBillingTypesAndValues();  //make call to fetch billing type and values
                     $scope.$broadcast('fetch_pixels');
                     break;
@@ -482,7 +492,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 postDataObj.deliveryBudget = formData.deliveryBudget;
                 postDataObj.totalBudget = formData.totalBudget;
 
-                if ($scope.mode === 'create') {
+                if ($scope.mode === 'create' || $scope.cloneMediaPlanName) {
                     postDataObj.lineItems = workflowService.processLineItemsObj(angular.copy($scope.lineItemList));
                 }
 
@@ -513,7 +523,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
                 workflowService[($scope.mode === 'edit' && !$scope.cloneMediaPlanName) ? 'updateCampaign' : 'saveCampaign'](postDataObj).then(function (result) {
                     if (result.status === "OK" || result.status === "success") {
-                        $scope.resetLineItemParameters();
+                        $scope.selectedCampaign.resetLineItemParameters();
                         $scope.editLineItem = {};
                         $scope.sucessHandler(result);
                     } else {
@@ -729,7 +739,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         // ************** PAGE 1 ******************************
         $scope.setKPIName = function (kpi) {
             $scope.kpiName = kpi;
-            $scope.kpiValue = '';
+            $scope.selectedCampaign.kpiValue = '';
 
         }
 
@@ -757,7 +767,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
         // use this method to access createCampaign in child
         $scope.createCampaignAccess = function () {
-            return createCampaign.fetchLineItemDetails($scope.selectedCampaign.id);
+            return createCampaign;
         };
 
         function resetPixelMediaPlan() {
@@ -794,5 +804,19 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 event.preventDefault();
             }
         });
+
+
+        $(function() {
+            $(".masterContainer").on('click', '.leftNavLink', function(event) {
+                var target = $(event.target);
+                var selectedSubModule = target.attr("data-target");
+                if(selectedSubModule !== '#addLineItems') {
+                    $timeout(function() {
+                        $("#hideLineItemCreateBox").click();
+                        $(".tableEdit").find(".cancelLineItem").click();
+                    }, 100)
+                }
+            })
+        })
     });
 });

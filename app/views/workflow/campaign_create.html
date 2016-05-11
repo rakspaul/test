@@ -117,7 +117,7 @@
                                 </div>
                             </div>
                             <!--ng-disabled="createCampaignForm.$invalid"-->
-                            <a href="#" class="btn btn-primary pull-right" role="button" ng-show="!saveCampaignClicked"  ng-click="saveCampaign()">{{textConstants.MP_SAVE}}</a>
+                            <a href="#" class="btn btn-primary pull-right" role="button" ng-disabled="createCampaignForm.$invalid"  ng-click="saveCampaign()">{{textConstants.MP_SAVE}}</a>
                             <div ng-hide="(mode!='edit')">
                                 <a ng-href="/mediaplan/{{editCampaignData.id}}/overview" class="btn btn-link pull-right" role="button">{{textConstants.MP_CANCEL}}</a>
                             </div>

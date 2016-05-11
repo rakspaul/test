@@ -108,12 +108,13 @@
         <span data-ng-bind="textConstants.MEDIAPLAN_ADD_ADDITIONAL_COSTS"></span>
     </div>
 
+
     <div id="addAdditionalCost" class="collapse fade">
 
         <div class="table-responsive">
             <div class="vistoTable yellowTable" style="padding: 0 15px 15px;">
                 <!--Header-->
-                <div class="col-md-12 zeroPadding each-cost-dimension" ng-repeat="addCost in additionalCosts track by $index" data-index = "{{$index}}">
+                <div class="col-md-12 zeroPadding each-cost-dimension" ng-repeat="addCost in selectedCampaign.additionalCosts track by $index" data-index = "{{$index}}">
                         <div class="col-md-3 zeroPadding" >
                             <label for="primaryKPI" class="col-sm-12 greyTxt miniLabels" data-ng-bind="textConstants.MEDIAPLAN_CATEGORY"></label>
                                 <div class="col-md-12 zeroPadding">
@@ -150,7 +151,7 @@
                             <div class="col-md-12 zeroPadding dropdown-workflow">
                                 <div class="dropdown">
                                     <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                        <span class="text" data-ng-bind="addCost.offeringName || 'Select'"></span>
+                                        <span class="text" data-ng-bind="addCost.name || 'Select'"></span>
                                         <span class="icon-arrow-down"></span>
                                     </button>
                                     <ul class="dropdown-menu" >
@@ -170,7 +171,7 @@
                             <label for="primaryKPI" class="col-sm-12 greyTxt miniLabels" data-ng-bind="textConstants.MEDIAPLAN_RATE"></label>
                             <div class="col-md-12 zeroPadding  symbol-input" style="padding-right: 0px !important; max-width: 118px;">
                                 <span class="symbol">{{locale.NUMBER_FORMATS.CURRENCY_SYM}}</span>
-                                <input type="text" class="col-md-12" style="text-indent: 8px; height:36px;" ng-value="addCost.rateValue" fraction-numbers="fraction-numbers" ng-blur="costAttributesSelected(selectedCampaign.costAttributes, {'rateValue' : rateValue} , $event, 'rateValue')" field="rateValue" />
+                                <input type="text" class="col-md-12" style="text-indent: 8px; height:36px;" ng-value="addCost.rateValue" ng-model="addCost.rateValue" fraction-numbers="fraction-numbers" ng-blur="costAttributesSelected(selectedCampaign.costAttributes, {'rateValue' : addCost.rateValue} , $event, 'rateValue')" field="rateValue" />
                             </div>
                         </div>
                         <div class="col-md-1 zeroPadding removeHolder" ng-click="removeCostDimension($event);">
