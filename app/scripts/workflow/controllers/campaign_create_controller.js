@@ -523,6 +523,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
                 workflowService[($scope.mode === 'edit' && !$scope.cloneMediaPlanName) ? 'updateCampaign' : 'saveCampaign'](postDataObj).then(function (result) {
                     if (result.status === "OK" || result.status === "success") {
+                        workflowService.setMediaPlanClone(null)
                         $scope.selectedCampaign.resetLineItemParameters();
                         $scope.editLineItem = {};
                         $scope.sucessHandler(result);
