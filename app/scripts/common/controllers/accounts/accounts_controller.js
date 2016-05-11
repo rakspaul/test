@@ -316,7 +316,7 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                         $scope.advertiserData.lookbackClicks = res.data.data.lookbackClicks;
                     }
                     getPixelsData(client.id,advObj.id);
-                    $rootScope.$broadcast("advertiserDataReceived");
+                //    $rootScope.$broadcast("advertiserDataReceived");
                 },function(err){
                 });
             }else{
