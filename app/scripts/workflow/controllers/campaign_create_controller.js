@@ -36,7 +36,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         $scope.lineRate = '';
         $scope.adGroupName = '';
         $scope.lineTarget = '';
-        $scope.createItemList = false;
+
         $scope.checkUniqueMediaPlanNameNotFound = false;
         $scope.executionPlatforms = [];
         $scope.kpiNameList = [
@@ -297,10 +297,10 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
                 //set cost Data
                 if (campaignData.campaignCosts && campaignData.campaignCosts.length > 0) {
-                    $scope.additionalCosts = _.filter(campaignData.campaignCosts, function (obj) {
+                    $scope.selectedCampaign.additionalCosts = _.filter(campaignData.campaignCosts, function (obj) {
                         return obj.costType && obj.costType.toUpperCase() === 'MANUAL';
                     });
-                    if ($scope.additionalCosts.length > 0) {
+                    if ($scope.selectedCampaign.additionalCosts.length > 0) {
                         $timeout(function () {
                             $("#budget").find("[data-target='#addAdditionalCost']").click();
                         }, 1500)
@@ -385,7 +385,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     createCampaign.platforms(data.id);
                     createCampaign.fetchCostAttributes();
                     createCampaign.fetchVendorConfigs();
-                    $scope.resetLineItemParameters(); //close new line item and reset all its fields
+                    $scope.selectedCampaign.resetLineItemParameters(); //close new line item and reset all its fields
                     createCampaign.fetchBillingTypesAndValues();  //make call to fetch billing type and values
                     $scope.$broadcast('fetch_pixels');
                     break;
@@ -514,7 +514,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
                 workflowService[($scope.mode === 'edit' && !$scope.cloneMediaPlanName) ? 'updateCampaign' : 'saveCampaign'](postDataObj).then(function (result) {
                     if (result.status === "OK" || result.status === "success") {
-                        $scope.resetLineItemParameters();
+                        $scope.selectedCampaign.resetLineItemParameters();
                         $scope.editLineItem = {};
                         $scope.sucessHandler(result);
                     } else {
@@ -795,5 +795,18 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 event.preventDefault();
             }
         });
+
+
+        $(function() {
+            $(".masterContainer").on('click', '.leftNavLink', function(event) {
+                var target = $(event.target);
+                var selectedSubModule = target.attr("data-target");
+                if(selectedSubModule !== '#addLineItems') {
+                    $timeout(function() {
+                        $("#hideLineItemCreateBox").click();
+                    }, 100)
+                }
+            })
+        })
     });
 });
