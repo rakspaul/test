@@ -2297,13 +2297,13 @@
   margin-top: 1px;
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroup .adTitle .adGroupTxtSecondary p {
-  color: #2c9aec;
+  /* color: #2c9aec;*/
   float: right;
   margin-bottom: 0;
   padding: 0 5px;
-}
-#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroup .adTitle .adGroupTxtSecondary p.active {
-  color: #f47e2a;
+  /*&.active {
+                                        color: #f47e2a;
+                                    }*/
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroup .adTitle .collapseIcon {
   border: 1px solid #C6C9CE;
@@ -2843,6 +2843,10 @@
 #campaignCreate .firstWrapper .masterContainer .campAdHeader {
   margin-top: 10px !important;
   width: 100%;
+  /*
+                .emptyValueTxt {
+                    color: #f47e2a;
+                }*/
 }
 #campaignCreate .firstWrapper .masterContainer .campAdHeader .accountTitleTag {
   float: left;
@@ -2943,9 +2947,6 @@
 #campaignCreate .firstWrapper .masterContainer .campAdHeader .campSettingOverView .campBodyWrap span {
   color: #57606d;
   font-size: 14px;
-}
-#campaignCreate .firstWrapper .masterContainer .campAdHeader .emptyValueTxt {
-  color: #f47e2a;
 }
 #campaignCreate .firstWrapper .masterContainer .campAdHeader h4 {
   float: left;
@@ -3420,8 +3421,10 @@
 }
 #campaignCreate .firstWrapper .maxWidthAdj .campAdHeader .campSettingOverView span {
   clear: left;
-  color: #57606c;
   float: left;
+}
+#campaignCreate .firstWrapper .campOverviewPage .tagTitle {
+  color: #939eae  ;
 }
 #campaignCreate .newCreativeSlide .closeBtnCreative {
   clear: both;
