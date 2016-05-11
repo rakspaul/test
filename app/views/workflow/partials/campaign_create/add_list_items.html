@@ -20,6 +20,26 @@
 
     <label for="nameTitleCampaign" class="col-sm-12 labelQuestTxt" style="margin-bottom: 5px;" data-ng-bind="textConstants.MEDIAPLAN_SETUP_LINE_ITEMS"></label>
 
+
+    <div class="col-md-12 common_file_upload_container"> 
+        <div class="clearfix common_file_upload">
+            <div ngf-drop ngf-select ng-model="files" ng-model-rejected="rejFiles" ngf-multiple="true" ngf-allow-dir="false"  class="drop-box" ngf-drag-over-class="dragover" ngf-accept="'.pdf,.xls,.ppt,.pptx,.xlsx'" ngf-max-size='10000000'>
+                <div class="pull-left file_upload_icon" >
+                </div>
+                <div class="pull-left file_upload_text">
+                    <div class="img_table_txt">
+                       Drag and drop your completed Line Item CSV spreadsheet or <a id="fileupload" href="javascript:void(0);" >Browse</a>
+                    </div>
+                    <div>
+                       All conversion pixels set for CPA line items in your spreadsheet will be automatically associated with this Media Plan.
+                    </div>
+                </div>
+            </div>
+
+            <div ngf-no-file-drop>File Drag/Drop is not supported for this browser</div>
+        </div>
+    </div>
+
     <div class="col-md-12 zeroPadding btn-group create" role="group" style="margin: 20px 0 10px 0;">
         <a class="btn btn-default" ng-click="showNewLineItemForm() ">
             <span class="icon-plus"></span>
