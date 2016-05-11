@@ -785,10 +785,10 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     windowClass: 'delete-dialog',
                     resolve: {
                         headerMsg: function () {
-                            return textConstants.MEDIA_PLAN_CLONE;
+                            return $scope.textConstants.MEDIA_PLAN_CLONE;
                         },
                         mainMsg: function () {
-                            return textConstants.MEDIA_PLAN_WARNING_MESSAGE
+                            return $scope.textConstants.MEDIA_PLAN_WARNING_MESSAGE
                         },
                         buttonName: function () {
                             return 'Ok';
