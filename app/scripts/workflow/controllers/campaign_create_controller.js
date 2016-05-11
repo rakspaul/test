@@ -451,6 +451,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 formData,
                 postDataObj;
 
+
             if ($scope.lineItemList.length == 0) {
                 $rootScope.setErrAlertMessage('Please create a Line Item');
                 return false;
@@ -524,6 +525,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 workflowService[($scope.mode === 'edit' && !$scope.cloneMediaPlanName) ? 'updateCampaign' : 'saveCampaign'](postDataObj).then(function (result) {
                     if (result.status === "OK" || result.status === "success") {
                         workflowService.setMediaPlanClone(null)
+                        $scope.cloneMediaPlanName = null;
                         $scope.selectedCampaign.resetLineItemParameters();
                         $scope.editLineItem = {};
                         $scope.sucessHandler(result);
