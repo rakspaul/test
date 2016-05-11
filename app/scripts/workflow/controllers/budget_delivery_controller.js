@@ -272,10 +272,7 @@ define(['angularAMD', 'common/services/constants_service', 'common/moment_utils'
                         .find('.KPI_symbol')
                         .addClass("perSymbol")
                         .html('%');
-                    //elem.closest('.symbolAbs').find('.KPI_symbol').hide();
-                    //elem.closest('.symbolAbs').find('.VTC_per').show();
-                    //elem.closest('.symbolAbs').find('.target_val_input').addClass('target_val_input_vtc');
-                } 
+                }
             } else {
                 elem.closest('.symbolAbs').find('.KPI_symbol').html('#');
 
