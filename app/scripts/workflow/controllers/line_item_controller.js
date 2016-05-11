@@ -42,16 +42,16 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         }
 
 
-        $scope.createNewLineItem = function (mode, lineItemId) {
+        $scope.createNewLineItem = function (mode, lineItemObj) {
             var newItem = {};
             if (mode === 'create') {
                 if ($scope.lineItemName != '') {
-                    newItem = createLineItemObj(lineItemId);
+                    newItem = createLineItemObj(lineItemObj);
                     $scope.lineItemList.push(newItem);
                     $scope.resetLineItemParameters();
                 }
             } else {
-                newItem = createEditLineItemObj(oldLineItem.id);
+                newItem = createEditLineItemObj(oldLineItem);
                 $scope.lineItemList.push(newItem);
             }
         };
@@ -72,12 +72,13 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
         $scope.updateLineItemInEditMode = function () {
             var newItem;
-            newItem = createEditLineItemObj(oldLineItem.id);
+            newItem = createEditLineItemObj(oldLineItem);
             newItem.startTime = momentService.localTimeToUTC(newItem.startTime, 'startTime');
             newItem.endTime = momentService.localTimeToUTC(newItem.endTime, 'endTime');
             workflowService.updateLineItems($scope.selectedCampaign.campaignId, $scope.selectedCampaign.clientId, newItem).then(function (results) {
-                if (results.status === 'success' && results.data.statusCode === 200) {
-                    $scope.createCampaignAccess();
+                if (results.status === 'success' && (results.data.statusCode === 200 || results.data.statusCode === 201)) {
+                    var campaignObj = $scope.createCampaignAccess();
+                    campaignObj.fetchLineItemDetails($scope.selectedCampaign.campaignId);
                     $scope.selectedCampaign.lineItemBillableAmountTotal = $scope.selectedCampaign.lineItemBillableAmountTotal - Number(oldLineItem.billableAmount);
                     $scope.selectedCampaign.lineItemBillableAmountTotal += Number($scope.editLineItem.billableAmount);
                 }
@@ -85,7 +86,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             });
         };
 
-        function createLineItemObj(lineItemId) {
+        function createLineItemObj(lineItemObj) {
             var newItem = {};
             newItem.name = $scope.lineItemName;
             newItem.lineItemType = $scope.lineItemType;
@@ -105,16 +106,16 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             newItem.pixelId = $scope.pixelSelected.id;
             newItem.campaignId = campaignId;
             //this is in case of edit mode where line item has id
-            if (lineItemId) {
-                newItem.id = lineItemId;
+            if (lineItemObj) {
+                newItem.id = lineItemObj.id;
+                newItem.updatedAt = lineItemObj.updatedAt;
             }
 
             return newItem;
         }
 
-        function createEditLineItemObj(lineItemId) {
+        function createEditLineItemObj(lineItemObj) {
             var newItem = {};
-
             newItem.name = $scope.editLineItem.lineItemName;
             newItem.lineItemType = $scope.editLineItem.lineItemType;
             newItem.pricingMethodId = $scope.editLineItem.lineItemType.id;
@@ -135,8 +136,9 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             newItem.campaignId = (campaignId === '-999') ? '-999' : campaignId; // handle real edit mode
 
             //this is in case of edit mode where line item has id
-            if (lineItemId) {
-                newItem.id = lineItemId;
+            if (lineItemObj) {
+                newItem.id = lineItemObj.id;
+                newItem.updatedAt = lineItemObj.updatedAt;
             }
 
             return newItem;
@@ -431,7 +433,9 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 var index = _.findIndex($scope.type, function (type) {
                     return type.id === item.billingTypeId;
                 });
-                $scope.setLineItem($scope.type[index], 'create');
+                if(index != -1){
+                    $scope.setLineItem($scope.type[index], 'create');
+                }
                 //pixel
                 if (item.pixelId) {
                     var pixelIndex = _.findIndex($scope.selectedCampaign.pixelList, function (type) {
@@ -454,7 +458,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 $scope.lineItemEndDate = momentService.utcToLocalTime(item.endTime);
 
                 campaignId = item.campaignId;
-                $scope.createNewLineItem('create', item.id);
+                $scope.createNewLineItem('create', item);
 
             })
         };
