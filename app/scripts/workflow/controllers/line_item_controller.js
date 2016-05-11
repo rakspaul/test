@@ -45,7 +45,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
         $scope.createNewLineItem = function (mode, lineItemObj) {
             var newItem = {};
-            if (mode === 'create') {
+            if (mode === 'create' || $scope.cloneMediaPlanName) {
                 if ($scope.lineItemName != '') {
                     newItem = createLineItemObj(lineItemObj);
                     $scope.lineItemList.push(newItem);
@@ -447,8 +447,10 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     var pixelIndex = _.findIndex($scope.selectedCampaign.pixelList, function (type) {
                         return type.id === item.pixelId;
                     });
-                    $scope.pixelSelected = $scope.selectedCampaign.pixelList[pixelIndex];
-                    $scope.pixelSelected.id = item.pixelId;
+                    if(pixelIndex != -1){
+                        $scope.pixelSelected = $scope.selectedCampaign.pixelList[pixelIndex];
+                        $scope.pixelSelected.id = item.pixelId;
+                    }
                 }
 
                 $scope.hideAdGroupNameEdit = true;

@@ -492,7 +492,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 postDataObj.deliveryBudget = formData.deliveryBudget;
                 postDataObj.totalBudget = formData.totalBudget;
 
-                if ($scope.mode === 'create') {
+                if ($scope.mode === 'create' || $scope.cloneMediaPlanName) {
                     postDataObj.lineItems = workflowService.processLineItemsObj(angular.copy($scope.lineItemList));
                 }
 

@@ -1012,7 +1012,9 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                         newItemObj.adGroupName = item.adGroupName;
                         item.startTime = momentService.localTimeToUTC(item.startTime, 'startTime');
                         item.endTime = momentService.localTimeToUTC(item.endTime, 'endTime');
-                        item.pricingRate = Number(item.pricingRate.split('%')[0]);
+                        if(typeof item.pricingRate === "string"){
+                            item.pricingRate = Number(item.pricingRate.split('%')[0]);
+                        }
                         newItemObj.lineItem = item;
                         newItemList.push(newItemObj);
                     });
