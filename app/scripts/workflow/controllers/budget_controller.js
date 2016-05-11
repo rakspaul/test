@@ -7,7 +7,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         $scope.selectedCampaign.selectedCostAttr = [];
 
         $scope.selectedCampaign.addAdditionalCost = function() {
-            $scope.additionalCosts.push({
+            $scope.selectedCampaign.additionalCosts.push({
                 key: "",
                 name: "",
                 value: "",

@@ -18,9 +18,10 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         $scope.pixelSelected = {};
         $scope.pixelSelected.name = 'Select from list';
         $scope.selectedCampaign.lineItemBillableAmountTotal = 0;
+        $scope.selectedCampaign.createItemList = false;
 
         $scope.showNewLineItemForm = function () {
-            $scope.createItemList = true;
+            $scope.selectedCampaign.createItemList = true;
             $scope.lineItemErrorFlag = false;
             selectedAdvertiser = workflowService.getSelectedAdvertiser();
 
@@ -48,7 +49,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 if ($scope.lineItemName != '') {
                     newItem = createLineItemObj(lineItemObj);
                     $scope.lineItemList.push(newItem);
-                    $scope.resetLineItemParameters();
+                    $scope.selectedCampaign.resetLineItemParameters();
                 }
             } else {
                 newItem = createEditLineItemObj(oldLineItem);
@@ -276,7 +277,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         };
 
 
-        $scope.$parent.resetLineItemParameters = function () {
+        $scope.selectedCampaign.resetLineItemParameters = function () {
             $scope.lineItemName = '';
             $scope.lineItemType = {};
             $scope.lineItemType.name = 'Select Type';
@@ -290,7 +291,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             $scope.pricingRate = '';
             $scope.adGroupName = '';
             $scope.lineTarget = '';
-            $scope.createItemList = false;
+            $scope.selectedCampaign.createItemList = false;
 
             $scope.rateReadOnly = false;
             $scope.volumeFlag = true;
@@ -350,13 +351,15 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
             if ($scope.mode !== 'edit') {
 
-                if (startTime) {
-                    if (moment(startTime).isAfter(endTime)) {
-                        endDateElem.removeAttr("disabled").css({'background': 'transparent'});
-                        changeDate = moment(startTime).format(constants.DATE_US_FORMAT);
-                        endDateElem.datepicker("setStartDate", changeDate);
-                        endDateElem.datepicker("update", changeDate);
-                    }
+                if (startTime && moment(startTime).isAfter(endTime)) {
+                    endDateElem.removeAttr("disabled").css({'background': 'transparent'});
+                    changeDate = moment(startTime).format(constants.DATE_US_FORMAT);
+                    endDateElem.datepicker("setStartDate", changeDate);
+                    endDateElem.datepicker("update", changeDate);
+                } else {
+                    endDateElem.removeAttr("disabled").css({'background': 'transparent'});
+                    endDateElem.datepicker("setStartDate", startTime);
+                    endDateElem.datepicker("update", endTime);
                 }
 
             } else {
@@ -469,8 +472,8 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 endDateElem = $('#lineItemEndDateInput'),
                 today = momentService.utcToLocalTime();
 
-            $scope.campaignStartDate = $scope.selectedCampaign.startTime;
-            $scope.campaignEndDate = $scope.selectedCampaign.endTime;
+            $scope.campaignStartDate = $scope.lineItemStartDate = $scope.selectedCampaign.startTime;
+            $scope.campaignEndDate = $scope.lineItemEndDate = $scope.selectedCampaign.endTime;
 
             //line Item start Date
             startDateElem.datepicker("setStartDate", $scope.campaignStartDate);
@@ -481,6 +484,8 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             endDateElem.datepicker("setStartDate", $scope.campaignStartDate);
             endDateElem.datepicker("update", $scope.campaignEndDate);
             endDateElem.datepicker("setEndDate", $scope.campaignEndDate);
+
+
         };
 
         $scope.setPixels = function (pixel, mode) {

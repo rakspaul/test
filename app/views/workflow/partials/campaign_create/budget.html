@@ -113,7 +113,7 @@
         <div class="table-responsive">
             <div class="vistoTable yellowTable" style="padding: 0 15px 15px;">
                 <!--Header-->
-                <div class="col-md-12 zeroPadding each-cost-dimension" ng-repeat="addCost in additionalCosts track by $index" data-index = "{{$index}}">
+                <div class="col-md-12 zeroPadding each-cost-dimension" ng-repeat="addCost in selectedCampaign.additionalCosts track by $index" data-index = "{{$index}}">
                         <div class="col-md-3 zeroPadding" >
                             <label for="primaryKPI" class="col-sm-12 greyTxt miniLabels" data-ng-bind="textConstants.MEDIAPLAN_CATEGORY"></label>
                                 <div class="col-md-12 zeroPadding">

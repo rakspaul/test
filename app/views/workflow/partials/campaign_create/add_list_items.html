@@ -54,9 +54,8 @@
 
         <span class="pull-right" style="margin: 8px 15px 0 0;display:none;" >0 Line Items Added</span>
     </div>
-
     <!--Create Item List Form Start-->
-    <div class="col-md-12 createItemList " ng-show="createItemList" ng-form name="lineItemForm">
+    <div class="col-md-12 createItemList " ng-show="selectedCampaign.createItemList" ng-form name="lineItemForm">
         <!--Row 1-->
         <div class="col-md-4 zeroPadding ">
             <label class="col-sm-12 greyTxt miniLabels zeroPadding" data-ng-bind="textConstants.MEDIAPLAN_LINE_ITEM_NAME"></label>
@@ -116,7 +115,7 @@
                         <div class="dateContainer">
                             <label class="col-sm-12 control-label greyTxt miniLabels" data-ng-bind="textConstants.MEDIAPLAN_FLIGHT_DATE_START"></label>
                             <div class="dateInputHolder" >
-                                <input type="text" id="lineItemStartDateInput" custom-date-picker="{format: 'mm/dd/yyyy', orientation: 'auto',  autoclose: true, todayHighlight: true}" placeholder="MM/DD/YYYY" class="form-control"  readonly name="startTime" ng-model="lineItemStartDate" ng-change="validateDateLineItem(lineItemStartDate, lineItemEndDate, 'lineItemEndDateInput')" />
+                                <input type="text" id="lineItemStartDateInput" custom-date-picker="{format: 'mm/dd/yyyy', orientation: 'auto',  autoclose: true, todayHighlight: true}" placeholder="MM/DD/YYYY" class="form-control"  readonly name="startTime" ng-model="lineItemStartDate" ng-value="lineItemStartDate" ng-change="validateDateLineItem(lineItemStartDate, lineItemEndDate, 'lineItemEndDateInput')" />
                                 <div class="icon-calendar-holder">
                                     <span class="icon-calendar"></span>
                                 </div>
@@ -157,7 +156,7 @@
 
             <div class="pull-right" style="padding: 30px 0 0 0;">
                 <div class="pull-right btn btn-primary" ng-disabled="lineItemName === '' || !lineItemType || lineItemType.id == '' || billableAmount == ''" ng-click="(mode === 'create')?createNewLineItem('create'):createNewLineItemInEditMode('create')">Add Line Item</div>
-                <div class="pull-right btn btn-link" ng-click="resetLineItemParameters()">Cancel</div>
+                <div class="pull-right btn btn-link" id="hideLineItemCreateBox" ng-click="selectedCampaign.resetLineItemParameters()">Cancel</div>
             </div>
 
         </div>
