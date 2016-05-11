@@ -300,7 +300,11 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     $scope.selectedCampaign.additionalCosts = _.filter(campaignData.campaignCosts, function (obj) {
                         return obj.costType && obj.costType.toUpperCase() === 'MANUAL';
                     });
+
                     if ($scope.selectedCampaign.additionalCosts.length > 0) {
+                        _.each($scope.selectedCampaign.additionalCosts, function(obj) {
+                            $scope.selectedCampaign.selectedCostAttr.push(obj.campaignCostObj);
+                        })
                         $timeout(function () {
                             $("#budget").find("[data-target='#addAdditionalCost']").click();
                         }, 1500)
@@ -809,6 +813,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 if(selectedSubModule !== '#addLineItems') {
                     $timeout(function() {
                         $("#hideLineItemCreateBox").click();
+                        $(".tableEdit").find(".cancelLineItem").click();
                     }, 100)
                 }
             })

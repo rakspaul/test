@@ -419,15 +419,14 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 } else {
                     lineItemStartDateElem.datepicker("setStartDate", lineItem.startTime);
                 }
-                $scope.validateDateLineItem(lineItem.startTime, lineItem.endTime, 'editLineItemEndDate' + index);
             }
 
             if (lineItem.adGroupName) {
                 $scope.editLineItem.adGroupName = lineItem.adGroupName;
             }
 
-            lineItemStartDateElem.datepicker("setEndDate", $scope.campaignEndDate);
-            lineItemEndDateElem.datepicker("setEndDate", $scope.campaignEndDate);
+            lineItemStartDateElem.datepicker("setEndDate", $scope.selectedCampaign.startTime);
+            lineItemEndDateElem.datepicker("setEndDate", $scope.selectedCampaign.endTime);
 
             $scope.setLineItem($scope.editLineItem.lineItemType, 'edit');
             $scope.setPixels($scope.editLineItem.pixelSelected, 'edit')
@@ -501,7 +500,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
         }
 
-        $scope.showNormalItemRow = function (event) {
+        $scope.hideLineItemEditRow = function (event) {
             var target = event.currentTarget;
             $scope.lineItemList[oldLineItemIndex] = oldLineItem;
             $(target).closest('.tr').find('.tableNormal').toggle();
