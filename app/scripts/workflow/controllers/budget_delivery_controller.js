@@ -38,6 +38,9 @@ define(['angularAMD', 'common/services/constants_service', 'common/moment_utils'
 
         $scope.calculateTotalAdBudget = function () {
             var campaignData;
+            if(($scope.adData.primaryKpi.toUpperCase()=='CTR'|| $scope.adData.primaryKpi.toUpperCase()=='VTC' || $scope.adData.primaryKpi.toUpperCase()=='ACTION RATE')&& Number($scope.adData.targetValue)>100){
+                $scope.adData.targetValue=100;
+            }
 
             if ($('#targetUnitCost_squaredFour').prop('checked') &&
                 ($scope.adData.primaryKpi).toUpperCase() === 'IMPRESSIONS' && $scope.unitName === 'CPM') {
