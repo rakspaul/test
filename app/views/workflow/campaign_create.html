@@ -12,33 +12,8 @@
                         <li class="active eachStepCompLabel">
                             <a class="leftNavLink selected" data-target="#settings" data-toggle="tab">1 About this Media Plan</a>
 
-                            <div class="statusLabel each-setting" ng-if="brand.length>0">
-                                <div class="col-md-12">
-                                    <div class="pull-left">
-                                        <span class="statusIcon icon-brand"></span>
-                                    </div>
-                                    <div class="pull-left">
-                                        <div class="clearfix"><span class="icon_txt">Branding</span> <span class="grey_txt">(Objective)</span> </div>
-                                        <div ng-repeat="letter in brand track by $index">{{letter}}</div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="statusLabel each-setting" ng-if="performance.length>0">
-                                <div class="col-md-12">
-                                    <div class="pull-left">
-                                        <span class="statusIcon icon-performance"></span>
-                                    </div>
-                                    <div class="pull-left">
-                                        <div class="clearfix"><span class="icon_txt">Performance</span> <span class="grey_txt">(Objective)</span> </div>
-                                        <div ng-repeat="letter in performance track by $index">{{letter}}</div>
-                                    </div>
-                                </div>
-                            </div>
-
                             <div class="statusLabel" ng-if="selectedCampaign.startTime">
                                 <div class="col-md-12">
-                                    <!--<span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>-->
                                     <div class="statusIcon icon-calendar"></div>
                                     <span class="">{{selectedCampaign.startTime}}</span>  <span class="" ng-if="selectedCampaign.endTime"> - {{selectedCampaign.endTime}}</span></span>
                                     <span>(Flight)</span>
@@ -52,7 +27,7 @@
                                     </div>
                                     <div class="pull-left">
                                         <div class="clearfix"><span
-                                            class="icon_txt">{{kpiName }}</span> <span
+                                            class="icon_txt">{{kpiName}}</span> <span
                                             class="grey_txt">(KPI)</span></div>
                                     </div>
                                 </div>
@@ -109,7 +84,7 @@
                             <a class="leftNavLink" ng-if="selectedCampaign.advertiserId" data-target="#addLineItems" data-toggle="tab">4 Line Items</a>
                             <div class="statusLabel">
                                 <div class="col-md-12" ng-if="lineItemList.length >0">
-                                    <div>{{lineItemList.length}} Line Item Selected</div>
+                                    <div>{{lineItemList.length}} Line Item selected</div>
                                 </div>
                                 <div class="col-md-12" ng-if="lineItemList.length === 0">
                                     <span data-ng-bind="textConstants.NOTSET"></span>
@@ -142,7 +117,7 @@
                                 </div>
                             </div>
                             <!--ng-disabled="createCampaignForm.$invalid"-->
-                            <a href="#" class="btn btn-primary pull-right" role="button" ng-show="!saveCampaignClicked"  ng-click="saveCampaign()">{{textConstants.MP_SAVE}}</a>
+                            <a href="#" class="btn btn-primary pull-right" role="button" ng-disabled="createCampaignForm.$invalid"  ng-click="saveCampaign()">{{textConstants.MP_SAVE}}</a>
                             <div ng-hide="(mode!='edit')">
                                 <a ng-href="/mediaplan/{{editCampaignData.id}}/overview" class="btn btn-link pull-right" role="button">{{textConstants.MP_CANCEL}}</a>
                             </div>
@@ -166,7 +141,7 @@
 
                         <!--Budget-->
                         <div class="tab-pane fade" id="budget">
-                            <div ng-include="'/views/workflow/partials/campaign_create/budget.html'"></div>
+                            <div ng-include="'/views/workflow/partials/campaign_create/budget.html'" ng-controller="BudgetController"></div>
                         </div>
 
                         <!--Add Line Items-->

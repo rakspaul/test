@@ -48,6 +48,7 @@ define(['angularAMD'], function (angularAMD) {
       this.QUALITY_LINK = '/quality';
       this.OPTIMIZATION_LINK = '/optimization';
       this.MEDIA_PLANS_LINK = '/mediaplans';
+      this.MEDIAPLAN_CREATE ='/mediaplan/create';
 
       this.api = scala_api;
       this.apiPaths = urlPaths;

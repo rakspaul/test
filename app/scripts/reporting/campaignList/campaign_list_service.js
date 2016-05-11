@@ -151,6 +151,7 @@ define(['angularAMD', 'common/services/data_service', 'common/utils', 'common/se
                     tactic.vtcData = vtcMetricsJsonModifier(tacticMetrics.video_metrics);
                     tactic.vtc_rate = (tacticMetrics.video_metrics && tacticMetrics.video_metrics ) ? tacticMetrics.video_metrics.vtc_rate : -1;
                     tactic.map = {};
+                    tactic.map['impressions'] = tacticMetrics.impressions;
                     tactic.map['cpa'] = tacticMetrics.gross_ecpa;
                     tactic.map['cpc'] = tacticMetrics.gross_ecpc;
                     tactic.map['cpm'] = tacticMetrics.gross_ecpm;
@@ -188,11 +189,6 @@ define(['angularAMD', 'common/services/data_service', 'common/utils', 'common/se
                                 tactic.chart = new line.highChart(lineData, parseFloat(kpiValue), kpiTypeLower, 'tactics');
 
                                 //d3 chart data
-                                //REVIEW: TARGET -DELIVERY
-                                if(kpiTypeLower === "impressions") {
-                                  //tactic.targetKPIImpressions= maxDays[maxDays.length-1]['booked_impressions']/momentInNetworkTZ.dateDiffInDays(tactic.startDate, tactic.endDate) * (maxDays.length-1);
-                                  tactic.targetKPIImpressions = maxDays[maxDays.length-1]['booked_impressions'];
-                                }
                                 tactic.lineChart = {
                                     data: lineData,
                                     kpiValue: parseFloat(kpiValue),
@@ -205,7 +201,7 @@ define(['angularAMD', 'common/services/data_service', 'common/utils', 'common/se
                                         "totalDays":  momentInNetworkTZ.dateDiffInDays(tactic.startDate, tactic.endDate) +1,
 //                                      "deliveryDays": noOfdaysCampaignRun(tactic.startDate, tactic.endDate),
                                         "deliveryDays": maxDays.length,
-                                        "bookedImpressions":  maxDays[maxDays.length-1]['booked_impressions'] //REVIEW: tactic.totalImpressions
+                                        "bookedImpressions":  maxDays[maxDays.length-1]['booked_impressions']
                                     }
                                 };
                             } else {
@@ -311,7 +307,7 @@ define(['angularAMD', 'common/services/data_service', 'common/utils', 'common/se
                                       "totalDays":  momentInNetworkTZ.dateDiffInDays(strategy.startDate, strategy.endDate) +1,
 //                                      "deliveryDays": noOfdaysCampaignRun(strategy.startDate, strategy.endDate),
                                       "deliveryDays": maxDays.length,
-                                      "bookedImpressions": maxDays[maxDays.length-1]['booked_impressions'] //REVIEW:  strategy.totalImpressions
+                                      "bookedImpressions": maxDays[maxDays.length-1]['booked_impressions']
                                     }
                                 };
                             } else {
@@ -435,14 +431,6 @@ define(['angularAMD', 'common/services/data_service', 'common/utils', 'common/se
                                 callback && callback(cdData);
                                 campaignObject.chart = new line.highChart(lineData, parseFloat(kpiValue), kpiTypeLower, 'campaign');
                                 //d3 chart data
-                                //REVIEW: TARGET -DELIVERY
-                                if(kpiTypeLower === "impressions") {
-                                    //campaignObject.targetKPIImpressions =
-                                    // maxDays[maxDays.length-1]['booked_impressions'] /
-                                    // momentInNetworkTZ.dateDiffInDays(campaignObject.startDate, campaignObject.endDate) *
-                                    // (maxDays.length-1);
-                                    campaignObject.targetKPIImpressions= maxDays[maxDays.length-1]['booked_impressions'];
-                                }
 
                                 campaignObject.lineChart = {
                                     data: lineData,

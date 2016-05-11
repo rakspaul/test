@@ -435,6 +435,57 @@
 			width: 340px;
 		}
 	}
+	.dropdown-search  {
+		input[type="text"] , input[type="text"]:hover , input[type="text"]:focus {
+			margin: 0px ;
+			border-left: 0px ;
+			border-right: 0px ;
+			border-top: 0px ;
+		}
+	}
+	.dropdown-workflow .searchBar {
+		margin-top: 0px ;
+		.icon-search {
+			top: -4px ;
+		}
+	}	
+}
+.clone-popup {
+	.cloneMediaPlanNameInput {
+		width: 100%;
+		input {
+			color: #555 ;
+		}
+	}
+	.duplicateOptionChkbox {
+		margin-top: 20px ;
+	}
+	.common-loading-btn {
+		width: 70px ;
+	}
+	.duplicateAdGroupSection {
+		margin :  10px 0 ;
+		position: relative;
+		.newMediaPlanFlightDate {
+			margin : 15px 20px ;
+		}
+		.disabled_div {
+			position: absolute;
+			top: 0px;
+			left: -2px;
+			height: 100%;
+			width: 100%;
+			background: #fff;
+			z-index: 20;
+			opacity: 0.6;
+		}
+		.dateInputHolder {
+			input {
+				margin: 0 ;
+				color: #555 ;
+			}
+		}
+	}
 }
 .popContainerHolder {
 	overflow: auto;
@@ -1286,6 +1337,13 @@
 				}
 			}
 		}
+		.active_tab {
+			.new_report_generate_btn {
+				.icon-report-builder {
+					color: @color_19;
+				}
+			}
+		}
 		.header_tab_dropdown {
 			padding: 2px 20px 2px 0px;
 			float: left;
@@ -1764,6 +1822,16 @@ multiselect {
 		}
 	}
 }
+.commonStatusIcon {
+	display: inline-block;
+	float: left;
+	height: 12px;
+    width: 12px;
+    border-radius: 50%;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    margin : 3px 10px 0 0 ;
+}
 .draft_bulb {
 	border: solid 3px #939eae;
 	background: transparent;
@@ -1776,6 +1844,7 @@ multiselect {
 	border: solid 3px #004478;
 	background: transparent;
 }
+
 .scheduled_bulb {
 	background: #2c9aec;
 }
@@ -1852,6 +1921,27 @@ multiselect {
 	height: 36px;
 	margin: 0 auto;
 }
+div.inputLoader {
+	border : 1px solid #dde6eb ;
+	position: relative;
+	border-radius: 2px;
+    -moz-border-radius: 2px;
+    -webkit-border-radius: 2px;
+    > input[type="text"] {
+    	border: solid 1px  transparent;
+    	width: 80% ;
+    	margin: 0 ;
+    }
+    > input[type="text"]:focus , > input[type="text"]:hover {
+    	border: solid 1px  transparent !important;
+    }
+	> .common-loading-area {
+		position: absolute;
+		right: 0px ;
+		top : 0px ;
+		z-index: 10 ;
+	}
+}
 tags-input .autocomplete {
 	margin-top: 37px ;
 }
@@ -1866,6 +1956,11 @@ tags-input .autocomplete {
 		 	 width: 141px;
 		 	 input {
 		 	 	width: 100% ;
+		 	 	height: 36px ;
+		 	 }
+		 	 input:disabled {
+		 	 	cursor: default;
+		 	 	opacity: 0.7;
 		 	 }
 		 }
 		 .dateContainer:last-child {
@@ -1882,8 +1977,8 @@ tags-input .autocomplete {
 			top: 0;
 			right: 6px;
 			border-left: 1px solid #dbe8ef;
-			padding: 8px 0 0 8px;
-			height: 32px;
+			padding: 10px 0 0 8px;
+			height: 36px;
 			width: 27px;
 		}
 	}

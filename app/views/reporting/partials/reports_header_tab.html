@@ -1,7 +1,7 @@
 <!-- <div class="pull-left breadcrumb_campaign"><a href="/campaigns/{{selectedCampaign.id}}">{{textConstants.CAPAIGN_DETAILS}}</a></div> -->
 <div class="clearfix reports_sub_menu_dd_holder">
     <div class="pull-left" ng-if="buildReport">
-        <a href="/customreport" class="clearfix new_report_generate_btn">
+        <a ng-click="NavigateToTab('/customreport', $event , 'reportsSubPage')"  class="clearfix new_report_generate_btn">
             <span class="icon-report-builder"></span>
             <span class="icon_txt" ng-bind="textConstants.BUILD_REPORT"></span>
         </a>
@@ -12,8 +12,8 @@
             <a href="javascript:void(0);" ng-click="NavigateToTab('', $event ,'reportOverview')" ng-bind="textConstants.REPORTS_OVERVIEW"></a>
         </div>
         <div ng-repeat="tab in filters.tabs track by $index" class="header_tab_dropdown"
-             ng-class="{'active_tab': tab.href == filters.activeTab}" id={{tab.href}}>
-            <a ng-click="NavigateToTab('/'+ tab.href, $event)" id="performance_tab_{{tab.href}}" style="text-transform: capitalize;"
+             ng-class="{'active_tab': tab.href == filters.activeTab}" id="{{tab.href}}">
+            <a ng-click="NavigateToTab('/'+ tab.href, $event , 'reportsSubPage')" id="performance_tab_{{tab.href}}" style="text-transform: capitalize;"
                reportTitle="{{tab.title}}" id="performance_tab_{{tab.href}}" reportTitle="{{tab.title}}" ng-bind="tab.title">
                 </a>
         </div>
@@ -23,7 +23,7 @@
         <div ng-repeat="tab in customFilters.tabs track by $index" class="clearfix header_tab_dropdown"
              ng-class="{'active_tab': tab.href == customFilters.activeTab}">
             <a href="javascript:void(0);" class="pull-left reports_list_link"
-               ng-click="NavigateToTab('/'+ tab.href, $event)" ng-bind="tab.title"></a>
+               ng-click="NavigateToTab('/'+ tab.href, $event, 'reportsSubPage')" ng-bind="tab.title"></a>
 
             <div class="upload_icon" ng-click="NavigateToTab('/reports/upload', $event)"
                  ng-show="tab.title==textConstants.COLLECTIVE_INSIGHTS"></div>

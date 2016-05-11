@@ -7,19 +7,28 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
         angularAMD.controller('ReportsScheduleListController', function ($scope,$filter, $location, $modal, $rootScope,
                                                                         collectiveReportModel, utils, loginModel,
                                                                         constants, urlService, dataStore, domainReports,
-                                                                        dataService, momentService, $q, $timeout) {
+                                                                        dataService, momentService, $q, $timeout,localStorageService) {
             var _curCtrl = this,
                 isSearch = false;
 
             _curCtrl.filters = {};
             _curCtrl.isFilterExpanded = false;
-
+            _curCtrl.mapToDisplayName = function(data){
+                var data = data.split(","),
+                    retVal = '';
+                _.each(data, function(dim){
+                    dim = dim.trim();
+                    retVal += $scope.displayName[dim] + ',';
+                })
+                retVal = retVal.slice(0, -1);
+                return retVal;
+            }
             _curCtrl.preProccessListData = function (schdReportList) {
                 _.each(schdReportList, function (item) {
                     item.dimensions = item.hasOwnProperty('primaryDimension') && item.primaryDimension ?
-                        utils.getValueOfItem($scope.customeDimension, item.primaryDimension) : '';
+                        _curCtrl.mapToDisplayName(item.primaryDimension) : '';
                     item.dimensions += item.hasOwnProperty('secondaryDimension') && item.primaryDimension ?
-                        ',' + utils.getValueOfItem($scope.customeDimension, item.secondaryDimension) : '';
+                        ',' + _curCtrl.mapToDisplayName(item.secondaryDimension) : '';
                     if (item.lastRunDate) {
                         item.lastRunDate = momentService.newMoment(item.lastRunDate).format('YYYY-MM-DD');
                     }
@@ -165,6 +174,7 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
                     };
 
                     $scope.customeDimension = jsonModifier(result.data.data[0].dimensions);
+                    $scope.displayName = result.data.data[0].display_name;
                 });
 
             $scope.loadDimensionsList = function () {
@@ -251,6 +261,7 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
 
             $scope.reset_custom_report = function (event) {
                 localStorage.removeItem('customReport');
+                localStorageService.scheduleListReportType.remove();
             };
 
             //Dropdown Auto Positioning
@@ -410,10 +421,10 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
             $scope.editSchdReport = function (reportId) {
                 var url = '/customreport/edit/' + reportId;
 
-                localStorage.scheduleListReportType = 'scheduled';
+                localStorageService.scheduleListReportType.set('scheduled');
                 _.each($scope.schdReportList, function (item) {
                     if (reportId === item.reportId && item.frequency === 'Saved') {
-                        localStorage.scheduleListReportType = 'Saved';
+                        localStorageService.scheduleListReportType.set('Saved');
                     }
                 });
                 $location.path(url);

@@ -169,15 +169,15 @@
                         <!--<label ng-if="formCreativeCreate.creativeTemplate.$error.required" class="col-sm-12 control-label greyTxt errorLabel" style="margin: 0;">Please select the Ad Server size.</label>-->
                     </div>
                     <!--Static template Ui Elements-->
-                    <div ng-if="!TrackingIntegrationsSelected" class="form-group col-md-8" style="clear: left;" show-errors>
+                    <div class="form-group col-md-8" style="clear: left;" show-errors>
                         <label for="tag" class="col-md-12 zeroPadding greyTxt" data-ng-bind="textConstants.CREATIVE_SECURE_TAG"></label>
                         <textarea class="form-control col-md-12 ng-pristine ng-valid" rows="15" name="tag" id="tag" placeholder="Copy and paste the tag from your ad server" ng-model="tag" required></textarea>
                         <label ng-if="formCreativeCreate.tag.$error.required" class="col-sm-12 control-label greyTxt errorLabel" data-ng-bind="textConstants.SSL_ERROR_MESSAGE"></label>
                         <label ng-show="IncorrectTag" class="col-sm-12 control-label customErrorLabel">{{IncorrectTagMessage}}</label>
                     </div>
-                    <div ng-if="TrackingIntegrationsSelected" ng-hide="TrackingIntegrationsSelected" class="form-group col-md-8" style="clear: left;">
-                        <textarea class="form-control col-md-12 ng-pristine ng-valid" rows="15" name="tag" id="tag" ng-value="'%%TRACKER%%'"></textarea>
-                    </div>
+                    <!--<div ng-if="TrackingIntegrationsSelected" ng-hide="TrackingIntegrationsSelected" class="form-group col-md-8" style="clear: left;">-->
+                        <!--<textarea class="form-control col-md-12 ng-pristine ng-valid" rows="15" name="tag" id="tag" ng-value="'%%TRACKER%%'"></textarea>-->
+                    <!--</div>-->
 
                     <div class="form-group col-md-4 radioBtnToggle" style="padding-top: 20px; clear: left;">
                         <div class="schedule-on-off-btn pull-left">

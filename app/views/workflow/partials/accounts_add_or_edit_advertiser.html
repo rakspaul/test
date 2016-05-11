@@ -1,7 +1,6 @@
 <div class="miniTabLinks sub" style="margin-bottom: 30px; width: 100%;">
     <a class="btn btn-link subBasics active" data-ng-click="basicForm()">Basic</a>
     <a class="btn btn-link subPixels" data-ng-click="showPixelTab()">Pixels</a>
-    <a class="btn btn-link subIABCat" data-ng-click="showIABTab()">IAB Categories</a>
 </div>
 
 <div class="popup-holder accounts-popup">
@@ -10,7 +9,8 @@
     <span class="btn btn-primary pull-right" ng-click="saveAdvertisers()" data-ng-bind="isEditMode ? 'Update' : 'Create'">Save</span>
     <span class="btn btn-link pull-right" data-dismiss="modal" ng-click="close()">Cancel</span>
 
-    <h2 class="modal-title" id="myModalLabel">{{(mode === 'create'?'Add':'Edit')}} Advertiser</h2>
+    <h2 class="modal-title" id="myModalLabel" data-ng-bind="showUserModeText()"></h2>
+    <div data-ng-bind="'Client ( '+clientObj.name+' )'"></div>
 </div>
 
 <!--Body-->
@@ -19,10 +19,20 @@
 <div class="col-md-12 zeroPadding basicForm">
     <div class="form-group col-md-4" style="padding: 0 15px 0 0;">
         <label class="col-sm-12 greyTxt">Advertiser:</label>
-        <select class="form-control" name="selectedAdvertiserId" ng-model="selectedAdvertiserId" ng-disabled="isEditMode">
-            <option selected disabled data-ng-bind="'Select Advertiser'"></option>
-            <option value="{{advertiser.id}}" ng-repeat="advertiser in advertisersData" ng-selected="{{advertiser.id == selectedAdvertiserId}}" data-ng-bind="advertiser.name"></option>
-        </select>
+        <div class="col-md-12 zeroPadding dropdown-workflow">
+            <div class="dropdown">
+                <button id="advertiser" class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                    <span class="text" data-ng-bind="selectedAdvertiser ? selectedAdvertiser : 'Select Advertiser'"></span>
+                    <span class="icon-arrow-down"></span>
+                </button>
+                <ul class="dropdown-menu" data-toggle="dropdown">
+                    <li class="available" value="{{advertiser.id}}" ng-repeat="advertiser in advertisersData"
+                        data-ng-click="selectAdvertiser(advertiser)">
+                        <a>{{advertiser.name}}</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
     </div>
 
     <div class="form-group col-md-4" style="padding: 0 15px;">
@@ -52,10 +62,13 @@
             <textarea data-ng-model="advertiserAddOrEditData.adChoiceCode"></textarea>
         </div>
     </div>
+    
     <!--IAB Category-->
     <div class="col-md-12 IABForm">
-        <div class="col-md-12 zeroPadding"><h1 class="pull-left">IAB Categories</h1></div>
-        <!--Row 1-->
+        <div class="col-md-12 zeroPadding">
+            <h1 class="pull-left">IAB Categories</h1>
+        </div>
+        
         <div class="col-md-12 zeroPadding">
             <div class="form-group col-md-4" style="padding: 0 15px 0 0;">
                 <label class="col-sm-12 greyTxt">Category:</label>
@@ -63,12 +76,30 @@
                 <div class="col-md-12 zeroPadding dropdown-workflow">
                     <div class="dropdown">
                         <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                            <span class="text" data-ng-bind="selectedIABCategory">Arts & Entertainment</span>
+                            <span class="text" data-ng-bind="advertiserAddOrEditData.selectedIABCategory"></span>
                             <span class="icon-arrow-down"></span>
                         </button>
                         <ul class="dropdown-menu" data-toggle="dropdown">
-                            <li class="available" data-ng-repeat="type in IABCategoryList" >
-                                <a data-ng-bind="type.name" data-ng-click="selectIABCategory(type)">Arts & Entertainment</a>
+                            <li class="available" data-ng-repeat="type in advertiserAddOrEditData.IABCategoryList" >
+                                <a data-ng-bind="type.name" data-ng-click="selectIABCategory(type)"></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-group col-md-4" style="padding: 0 15px;">
+                <label class="col-sm-12 greyTxt">Sub Category:</label>
+
+                <div class="col-md-12 zeroPadding dropdown-workflow">
+                    <div class="dropdown">
+                        <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                            <span class="text" data-ng-bind="advertiserAddOrEditData.selectedIABSubCategory"></span>
+                            <span class="icon-arrow-down"></span>
+                        </button>
+                        <ul class="dropdown-menu" data-toggle="dropdown">
+                            <li class="available" data-ng-repeat="type in advertiserAddOrEditData.IABSubCategoryList" >
+                                <a data-ng-bind="type.name" data-ng-click="selectIABSubCategory(type)"></a>
                             </li>
                         </ul>
                     </div>
@@ -76,31 +107,33 @@
             </div>
         </div>
     </div>
-    <div class="billingMethods">
+    
+    <!--Billing Methods-->
+    <div class="billingMethods" ng-show="clientObj.isLeafNode">
         <div class="col-md-12 zeroPadding"><h1 class="pull-left">Billing Methods</h1></div>
-        <!--Row 1-->
         <div class="col-md-12 zeroPadding">
+            <!--Methods-->
             <div class="form-group col-md-4" style="padding: 0 15px 0 0;">
                 <label class="col-sm-12 greyTxt">Methods:</label>
 
                 <div class="col-md-12 zeroPadding dropdown-workflow">
                     <div class="dropdown">
                         <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                            <span class="text">Arbitrage</span>
+                            <span class="text" data-ng-bind="selectedBillType">Arbitrage</span>
                             <span class="icon-arrow-down"></span>
                         </button>
                         <ul class="dropdown-menu" data-toggle="dropdown">
                             <li class="available">
-                                <a ng-click="show_respective_method('techFees')">Tech Fees</a>
+                                <a ng-click="show_respective_method('Tech Fees')">Tech Fees</a>
                             </li>
                             <li class="available">
-                                <a ng-click="show_respective_method('serviceFees')">Service Fees</a>
+                                <a ng-click="show_respective_method('Service Fees')">Service Fees</a>
                             </li>
                             <li class="available">
-                                <a ng-click="show_respective_method('cogsPlus')">COGS+</a>
+                                <a ng-click="show_respective_method('Cost')">Cost</a>
                             </li>
                             <li class="available">
-                                <a ng-click="show_respective_method('arbitrage')">Arbitrage</a>
+                                <a ng-click="show_respective_method('None')">None</a>
                             </li>
                         </ul>
                     </div>
@@ -108,65 +141,65 @@
             </div>
 
             <!--Tech Fees-->
-            <div class="col-md-8 zeroPadding methodFees techFees" style="display: none;">
-                <div class="form-group col-md-4" style="padding: 0 15px;">
-                    <label class="col-sm-12 greyTxt">Rate Type:</label>
-                    <input type="text" class="form-control disabled" maxlength="80" value="CPM">
+            <div class="col-md-8 zeroPadding methodFees techFees" ng-show="selectedBillType=='Tech Fees'">
+                <label class="col-sm-12 greyTxt">Rate Type:</label>
+                <div class="dropdown">
+                    <button class="btn btn-default dropdown-toggle form-group col-md-4" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <span class="text">CPM</span>
+                    </button>
                 </div>
-
-                <div class="form-group col-md-4" style="padding: 0 0 0 15px;">
+                <div class="form-group col-md-4" style="margin-top: -36px;">
                     <label class="col-sm-12 greyTxt">Value:</label>
                     <input type="text" class="form-control" maxlength="80">
                 </div>
             </div>
-
-            <!--Service Fees-->
-            <div class="col-md-8 zeroPadding methodFees serviceFees" style="display: none;">
-                <div class="form-group col-md-4" style="padding: 0 15px;">
-                    <label class="col-sm-12 greyTxt">Rate Type:</label>
-                    <input type="text" class="form-control" maxlength="80">
+            <div class="col-md-8 zeroPadding methodFees techFees" ng-show="selectedBillType=='Service Fees'">
+                <label class="col-sm-12 greyTxt">Rate Type:</label>
+                <div class="dropdown">
+                    <button class="btn btn-default dropdown-toggle form-group col-md-4"
+                            style="padding: 7px;"
+                            type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <span class="text" data-ng-bind="selectedRateType"></span>
+                        <span class="icon-arrow-down" style="margin-left:172px"></span>
+                    </button>
+                    <ul class="dropdown-menu" data-toggle="dropdown">
+                        <li class="available">
+                            <a ng-click="selectedRateType='COGS'">COGS</a>
+                        </li>
+                        <li class="available">
+                            <a ng-click="selectedRateType='CPM'">CPM</a>
+                        </li>
+                    </ul>
                 </div>
-
-                <div class="form-group col-md-4" style="padding: 0 0 0 15px;">
+                <div class="form-group col-md-4" style="margin-top: -36px">
                     <label class="col-sm-12 greyTxt">Value:</label>
-                    <input type="text" class="form-control" maxlength="80">
+                    <input type="text" class="form-control" maxlength="80" placeholder="Add some value">
                 </div>
             </div>
-
-            <!--COGS+ Fees-->
-            <div class="col-md-8 zeroPadding methodFees cogsPlus" style="display: none;">
-                <div class="form-group col-md-4" style="padding: 0 15px;">
-                    <label class="col-sm-12 greyTxt">Rate Type:</label>
-                    <input type="text" class="form-control" maxlength="80">
+            <div class="col-md-8 zeroPadding methodFees techFees" ng-show="selectedBillType=='Cost'">
+                <label class="col-sm-12 greyTxt">Rate Type:</label>
+                <div class="dropdown">
+                    <button class="btn btn-default dropdown-toggle form-group col-md-4"
+                            style="padding: 7px;"
+                            type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <span class="text" data-ng-bind="selectedRateType"></span>
+                        <span class="icon-arrow-down" style="margin-left:172px"></span>
+                    </button>
+                    <ul class="dropdown-menu" data-toggle="dropdown">
+                        <li class="available">
+                            <a ng-click="selectedRateType='COGS'">COGS</a>
+                        </li>
+                        <li class="available">
+                            <a ng-click="selectedRateType='Arbitrage'">Arbitrage</a>
+                        </li>
+                    </ul>
                 </div>
-
-                <div class="form-group col-md-4" style="padding: 0 0 0 15px;">
+                <div class="form-group col-md-4" style="margin-top: -36px" data-ng-show="selectedRateType=='COGS'">
                     <label class="col-sm-12 greyTxt">Value:</label>
-                    <input type="text" class="form-control" maxlength="80">
-                </div>
-            </div>
-
-            <!--Arbitrage-->
-            <div class="col-md-8 zeroPadding disabled methodFees arbitrage">
-                <div class="form-group col-md-4" style="padding: 0 15px;">
-                    <label class="col-sm-12 greyTxt">Rate Type:</label>
-                    <input type="text" class="form-control disabled" maxlength="80">
-                </div>
-
-                <div class="form-group col-md-4 disabled" style="padding: 0 0 0 15px;">
-                    <label class="col-sm-12 greyTxt">Value:</label>
-                    <input type="text" class="form-control disabled" maxlength="80">
+                    <input type="text" class="form-control" maxlength="80" placeholder="Add some value">
                 </div>
             </div>
         </div>
-
-        <!--Row 2-->
-        <!--<div class="col-md-12 zeroPadding">-->
-        <!--    <a class="btn btn-link pull-left" style="padding: 15px 0;">-->
-        <!--        <span class="icon-plus" style="color: #0978C9; float: left; font-size: 12px; height: 12px; width: 12px; margin-right: 5px;"></span>-->
-        <!--        <span>Add Billing Method</span>-->
-        <!--    </a>-->
-        <!--</div>-->
     </div>
 </div>
 
@@ -175,27 +208,18 @@
     <div class="col-md-12 zeroPadding"><h1 class="pull-left">Add Pixel</h1></div>
 </div>
 
-<!--<div class="pull-right btn-group create createPixel" role="group" aria-label="..." style="display: none;">-->
-    <!--<a class="btn btn-default" data-ng-click="addPixel()">-->
-        <!--<span class="icon-plus"></span>-->
-        <!--<span>Add Pixel</span>-->
-    <!--</a>-->
-<!--</div>-->
-
-<!--<div id="pixelsCnt" ng-if="advertiserData.pixels.length">-->
 <div id="pixelsCnt" ng-if="activeEditAdvertiserTab=='pixel'">
     <div class="col-md-12 zeroPadding">
-        <h1 class="pull-left zeroMargin">Pixels</h1>
+        <h1 class="pull-left">Pixels</h1>
 
         <div class="btn-group create pull-right" role="group" aria-label="...">
-            <a role="button" class="btn btn-default"><span class="icon-download"></span><span>Download Pixels</span></a>
+            <a role="button" class="btn btn-default" data-ng-click="downLoadPixel();"><span class="icon-download"></span><span>Download Pixels</span></a>
             <a role="button" class="btn btn-default" data-ng-click="addPixel();"><span class="icon-plus"></span><span>Add Pixels</span></a>
         </div>
     </div>
 
     <!--Create Pixel Form-->
     <div class="pixelCreate" style="display: none">
-        <!--<div data-ng-repeat="pixel in advertiserData.pixels" class="pixelLayer">-->
         <div class="delete_row delete_row_pixel" ng-click="clearPixel()"></div>
         <div class="pixelLayer" >
             <div class="form-group col-md-4" style="padding: 0 15px 0 0;">
@@ -223,14 +247,24 @@
                 <div class="col-md-12 input-daterange input-group date pull-left">
                     <div class="col-md-12 dateWrapper ">
                         <input type="text" id="pixelExpDate" class="input-sm form-control timeframe"
-                               custom-date-picker="{format: 'yyyy/mm/dd', orientation: 'auto',  autoclose: true, todayHighlight: true}"
+                               custom-date-picker="{format: 'yyyy/mm/dd', orientation: 'auto',  autoclose: true, todayHighlight: true, forceParse: false}"
                                ng-model="pixelFormData.expiryDate" required>
                         <i class="icon-calendar glyphicon pull-right" style="position: absolute; z-index: 10; top: 10px; right: 10px;"></i>
                     </div>
                 </div>
             </div>
+            
+            <div class="form-group col-md-2 clearLeft" style="padding: 0 15px 0 0;">
+                <label class="col-sm-12 greyTxt">Impression Look Back:</label>
+                <input type="text" class="form-control" placeholder="Add value" value="14">
+            </div>
+        
+            <div class="form-group col-md-2" style="padding: 0 15px;">
+                <label class="col-sm-12 greyTxt">Click Look Back:</label>
+                <input type="text" class="form-control" placeholder="Add value" value="14">
+            </div>
 
-            <div class="form-group col-md-12" style="padding: 0;">
+            <div class="form-group col-md-8" style="padding: 0 0 0 15px;">
                 <label class="col-sm-12 greyTxt">Description</label>
                 <input type="textarea" class="form-control" ng-model="pixelFormData.description">
             </div>
@@ -238,85 +272,58 @@
             <a class="pull-right btn btn-default" style="margin-bottom: 15px;" data-ng-click="savePixel()"
                     data-ng-bind="pixelIndex!=null ? 'Update Pixel' : 'Save Pixel'">Save Pixel</a>
 
-            <!--<a class="pull-right btn btn-link" data-dismiss="modal" ng-if="!isEditMode"-->
-            <!--ng-click="removePixel($index);createPixelForm=false;" aria-label="Close">Cancel</a>-->
+            <a class="pull-right btn btn-link" ng-click="cancelPixel();" aria-label="Close">Cancel</a>
+            
             <a class="pull-right btn btn-default" data-dismiss="modal" ng-if="pixelIndex!=null && advertiserData.pixels[pixelIndex].isFeedData != true"
                ng-click="removePixel();" aria-label="Close">Remove Pixel</a>
         </div>
     </div>
-<!--Pixel List Table-->
-<div class="pixelTable">
-    <div class="table-responsive user-list animated" id="table_responsive">
-        <div class="vistoTable" id="visto_table">
-            <div class="thead thin">
-                <div class="tr">
-                    <div class="col-md-4 th">Pixel Name</div>
-                    <div class="col-md-4 th">Pixel Type</div>
-                    <div class="col-md-3 th">Pixel Expiration Date</div>
-                    <div class="col-md-1 th text-center">Edit</div>
-                </div>
-            </div>
-
-            <div class="tbody thin">
-                <!--Table Sample-->
-                <div class="tr" data-ng-repeat="pixel in advertiserData.pixels">
-                    <div class="td col-md-4">
-                        <a data-ng-bind="pixel.name"></a>
-                    </div>
-
-                    <div class="td col-md-4">
-                        <span data-ng-bind="pixel.pixelType"></span>
-                    </div>
-
-                    <div class="td col-md-3">
-                        <span data-ng-bind="pixel.expiryDate"></span>
-                    </div>
-
-                    <div class="td col-md-1 text-center" style="padding-left: 0;">
-                        <a class="icon-inline-edit" data-ng-click="editPixel($index, pixel);" style="color: #0978C9;"></a>
+    
+    <!--Pixel List Table-->
+    <div class="pixelTable">
+        <div class="table-responsive user-list animated" id="table_responsive">
+            <div class="vistoTable" id="visto_table">
+                <div class="thead thin">
+                    <div class="tr">
+                        <div class="col-md-3 th">Pixel Name</div>
+                        <div class="col-md-3 th">Pixel Type</div>
+                        <div class="col-md-2 th">Impression Look</div>
+                        <div class="col-md-2 th">Click Look</div>
+                        <div class="col-md-2 th">Pixel Expiration Date</div>
                     </div>
                 </div>
-                <!--<div class="tr">-->
-                    <!--<div class="td col-md-4">-->
-                        <!--<a>Pixel Name</a>-->
-                    <!--</div>-->
-
-                    <!--<div class="td col-md-4">-->
-                        <!--<span>Pixel Type</span>-->
-                    <!--</div>-->
-
-                    <!--<div class="td col-md-3">-->
-                        <!--<span>Pixel Exp. Date</span>-->
-                    <!--</div>-->
-
-                    <!--<div class="td col-md-1 text-center" style="padding-left: 0;">-->
-                        <!--<a class="icon-inline-edit" style="color: #0978C9;"></a>-->
-                    <!--</div>-->
-                <!--</div>-->
-
-                <!--<div class="tr">-->
-                    <!--<div class="td col-md-4">-->
-                        <!--<a>Pixel Name</a>-->
-                    <!--</div>-->
-
-                    <!--<div class="td col-md-4">-->
-                        <!--<span>Pixel Type</span>-->
-                    <!--</div>-->
-
-                    <!--<div class="td col-md-3">-->
-                        <!--<span>Pixel Exp. Date</span>-->
-                    <!--</div>-->
-
-                    <!--<div class="td col-md-1 text-center" style="padding-left: 0;">-->
-                        <!--<a class="icon-inline-edit" style="color: #0978C9;"></a>-->
-                    <!--</div>-->
-                <!--</div>-->
-                <div class="common-load-more" style="display: none;"></div>
+    
+                <div class="tbody thin">
+                    <!--Table Sample-->
+                    <div class="tr" data-ng-repeat="pixel in advertiserData.pixels">
+                        <div class="td col-md-3">
+                            <a data-ng-bind="pixel.name" data-ng-click="editPixel($index, pixel);"></a>
+                        </div>
+    
+                        <div class="td col-md-3">
+                            <span data-ng-bind="pixel.pixelType"></span>
+                        </div>
+    
+                        <div class="td col-md-2">
+                            <span data-ng-bind="pixel.impLook">14</span>
+                        </div>
+                        
+                        <div class="td col-md-2">
+                            <span data-ng-bind="pixel.clickLook">14</span>
+                        </div>
+                        
+                        <div class="td col-md-2">
+                            <span data-ng-bind="pixel.expiryDate"></span>
+                        </div>
+                    </div>
+                    
+                    <div class="common-load-more" style="display: none;"></div>
+                </div>
             </div>
         </div>
     </div>
 </div>
-</div>
+
 <ul ng-if="allAdvertiser.length>0" class="dropdown-menu" role="menu" id="advertiserList" ng-if="mode == 'create'" ng-style="dropdownCss">
     <li ng-repeat="advertiser in allAdvertiser | filter:advertiserName" data-ng-click="selectAdvertiser(advertiser)">
         <a>

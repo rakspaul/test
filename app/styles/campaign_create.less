@@ -2002,7 +2002,7 @@
                     margin: 10px auto 10px;
                     max-height: 32px;
                     max-width: 210px;
-                    min-height: 32px;
+                    //min-height: 32px;
                 }
 
                 p {
@@ -2760,7 +2760,7 @@
                             .adGroupTxtSecondary {
                                 float: right;
                                 padding: 0 0 0 10px;
-
+                                margin-top: 6px ;
                                 &:first-child {
 
                                 }
@@ -2768,16 +2768,19 @@
                                 &:last-child {
                                     padding-left: 0;
                                 }
-
+                                .greyTxt {
+                                    padding: 0px !important;
+                                    margin-top: 1px;
+                                }
                                 p {
-                                    color: #2c9aec;
+                                   /* color: #2c9aec;*/
                                     float: right;
                                     margin-bottom: 0;
-                                    padding-left: 10px;
+                                    padding : 0 5px;
 
-                                    &.active {
+                                    /*&.active {
                                         color: #f47e2a;
-                                    }
+                                    }*/
                                 }
                             }
 
@@ -3450,7 +3453,7 @@
                     }
 
                     span.tagTitle {
-                        color: #949ead;
+                        color: #939eae;
                         margin-left: 50px;
                         margin-right: 5px;
                     }
@@ -3484,7 +3487,6 @@
                     h1 {
                         color: #21252b;
                         float: left;
-                        font-family: Avenir-bold, sans-serif;
                         font-size: 26px;
                         margin: 0 10px;
                         word-wrap: break-word;
@@ -3557,10 +3559,10 @@
                         }
                     }
                 }
-
+/*
                 .emptyValueTxt {
                     color: #f47e2a;
-                }
+                }*/
 
                 h4 {
                     float: left;
@@ -4120,13 +4122,17 @@
 
                     span {
                         clear: left;
-                        color: #57606c;
                         float: left;
                     }
                 }
             }
         }
         // Campaign Create Ad POP Ends Here
+        .campOverviewPage {
+            .tagTitle {
+                color: #939eae  ;
+            }
+        }
     }
 
     .newCreativeSlide {
@@ -4806,7 +4812,7 @@
         background: url(/images/cdesk/edit_blue.png) no-repeat right center;
         cursor: pointer;
         display: inline-block;
-        height: 20px;
+        height: 18px;
         margin-left: 10px;
         width: 20px;
     }
@@ -5001,31 +5007,31 @@
                 }
                 .modal-body {
                     padding: 0;
-                    #pixelsCnt, .IABForm, .adChoices, .billingMethods, .pixelCreate {
+                }
+                #pixelsCnt, .IABForm, .adChoices, .billingMethods, .pixelCreate {
+                    float: left;
+                    width: 100%;
+                    margin: 0 0 30px 0;
+                    position: relative;
+                    background: #EDF2F8;
+                    padding: 10px 30px;
+                    .pixelLayer {
                         float: left;
                         width: 100%;
-                        margin: 0 0 30px 0;
-                        position: relative;
-                        background: #EDF2F8;
-                        padding: 10px 30px;
-                        .pixelLayer {
-                            float: left;
-                            width: 100%;
-                        }
                     }
-                    #pixelsCnt {
-                        padding: 0;
-                        background: #fff;
-                    }
-                    .pixelCreate {
-                        margin: 30px 0 0 0;
+                }
+                #pixelsCnt {
+                    padding: 0;
+                    background: #fff;
+                }
+                .pixelCreate {
+                    margin: 30px 0 0 0;
 //                        display: none;
-                    }
-                    .pixelTable {
-                        float: left;
-                        width: 100%;
-                        margin-top: 30px;
-                    }
+                }
+                .pixelTable {
+                    float: left;
+                    width: 100%;
+                    margin-top: 30px;
                 }
                 input[type="text"], select {
                     border: 1px solid #BFC9D7;
@@ -5196,5 +5202,12 @@
     }
     .duplicateOptionChkbox {
         margin: 20px 0 ;
+    }
+}
+.rate-field {
+    .symbol-input {
+        .symbol ~ input[type="text"] {
+            padding-left: 20px ;
+        }
     }
 }

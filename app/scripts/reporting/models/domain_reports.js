@@ -97,7 +97,7 @@ define(['angularAMD', '../../login/login_model', 'common/services/role_based_ser
         };
     }]);
 
-    angularAMD.directive('reportTabs', ['$http', '$compile', 'constants','featuresService','$rootScope', function ($http, $compile, constants,featuresService,$rootScope) {
+    angularAMD.directive('reportTabs', ['$http', '$compile', 'constants','featuresService','$rootScope','localStorageService','$timeout', function ($http, $compile, constants,featuresService,$rootScope,localStorageService,$timeout) {
         return {
             controller: function ($scope, $cookieStore, $location) {
             },
@@ -110,7 +110,21 @@ define(['angularAMD', '../../login/login_model', 'common/services/role_based_ser
                 scope.showMediaPlanReportHeading = false;
                 var enableFeaturePermission = function () {
                     var fparams = featuresService.getFeatureParams();
-                    scope.showReportOverview = fparams[0].report_overview;
+                    scope.showReportOverview = false;
+
+                    var updateShowReportOverview = function() {
+                        if(fparams[0].report_overview && localStorageService.selectedCampaign.get() && localStorageService.selectedCampaign.get().id !== -1){
+                            scope.showReportOverview = true;
+                        } else {
+                            scope.showReportOverview = false;
+                        }
+                    }
+                    $timeout(updateShowReportOverview, 300);
+
+                    var subAccountChanged = $rootScope.$on(constants.ACCOUNT_CHANGED, function (event, args) {
+                        $timeout(updateShowReportOverview, 1500);
+                    });
+
                     scope.buildReport = fparams[0].scheduled_reports;
 
                     if(fparams[0].scheduled_reports || fparams[0].collective_insights) {
@@ -295,7 +309,7 @@ define(['angularAMD', '../../login/login_model', 'common/services/role_based_ser
             }
         };
     }]);
-    
+
     angularAMD.directive('adminSubHeader', ['$http', '$compile','constants', function ($http, $compile,constants) {
         return {
             controller: function($scope, $cookieStore, $location){

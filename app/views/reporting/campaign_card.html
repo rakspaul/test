@@ -161,11 +161,9 @@
                 <span class="details_KPI_title"
                       ng-bind="campaign.kpiType!='null' ? (campaign.kpiType | displayToCamelCase) : 'NA'">
                 </span>
-                <span class="pull-right details_KPI_row2" ng-if="campaign.kpiValue || campaign.targetKPIImpressions">
-                    <span ng-show="campaign.kpiType.toLowerCase() == 'impressions' ?
-                                  campaign.targetKPIImpressions : campaign.kpiValue"
-                          ng-bind="campaign.kpiType.toLowerCase()=='impressions' ? (campaign.targetKPIImpressions |
-                                  nrFormat) : (campaign.kpiValue | kpiFormatter : campaign.kpiType)">
+                <span class="pull-right details_KPI_row2" ng-if="campaign.kpiValue">
+                    <span ng-show="campaign.kpiValue"
+                          ng-bind="campaign.kpiValue | kpiFormatter : campaign.kpiType">
                     </span>
                     <span ng-if="campaign.chart !==false" class="icon_KPI"></span>
                 </span>

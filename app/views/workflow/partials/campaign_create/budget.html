@@ -58,7 +58,7 @@
                 </div>
                 <div class="tbody" style="max-height: 200px;overflow: auto;">
                     <!--Table Sample-->
-                    <div class="tr" ng-repeat="config in vendorConfig.userPermission">
+                    <div class="tr" ng-repeat="config in selectedCampaign.vendorConfig.userPermission">
                         <div class="td col-md-3" data-ng-bind="config.metric"></div>
                         <div class="td col-md-3" data-ng-bind="config.vendorName"></div>
                         <div class="td col-md-3" data-ng-bind="config.configName"></div>
@@ -90,7 +90,7 @@
 
                 <div class="tbody" style="max-height: 200px;overflow: auto;">
                     <!--Table Sample-->
-                    <div class="tr" ng-repeat="config in vendorConfig.configs">
+                    <div class="tr" ng-repeat="config in selectedCampaign.vendorConfig.configs">
                         <div class="td col-md-2" data-ng-bind="config.category"></div>
                         <div class="td col-md-2" data-ng-bind="config.vendorName"></div>
                         <div class="td col-md-2" data-ng-bind="config.configName"></div>
@@ -102,17 +102,19 @@
             </div>
         </div>
     </div>
-    <div data-toggle="{{(selectedCampaign.advertiserId && costAttributes.category.length > 0) ? 'collapse' : ''}}" data-target="{{(selectedCampaign.advertiserId && costAttributes.category.length > 0) ? '#addAdditionalCost' : ''}}" class="accordionDDL collapsed">
+
+    <div data-toggle="{{(selectedCampaign.advertiserId) ? 'collapse' : ''}}" data-target="{{(selectedCampaign.advertiserId) ? '#addAdditionalCost' : ''}}" class="accordionDDL collapsed">
         <div class="icon-arrow-down-thick"></div>
         <span data-ng-bind="textConstants.MEDIAPLAN_ADD_ADDITIONAL_COSTS"></span>
-        <!-- <span data-ng-bind="textConstants.MEDIAPLAN_GENERATE_INVOICES"></span> -->
     </div>
 
+
     <div id="addAdditionalCost" class="collapse fade">
+
         <div class="table-responsive">
             <div class="vistoTable yellowTable" style="padding: 0 15px 15px;">
                 <!--Header-->
-                <div class="col-md-12 zeroPadding each-cost-dimension" ng-repeat="addCost in additionalCosts track by $index" data-index = "{{$index}}">
+                <div class="col-md-12 zeroPadding each-cost-dimension" ng-repeat="addCost in selectedCampaign.additionalCosts track by $index" data-index = "{{$index}}">
                         <div class="col-md-3 zeroPadding" >
                             <label for="primaryKPI" class="col-sm-12 greyTxt miniLabels" data-ng-bind="textConstants.MEDIAPLAN_CATEGORY"></label>
                                 <div class="col-md-12 zeroPadding">
@@ -123,7 +125,7 @@
                                                 <span class="icon-arrow-down"></span>
                                             </button>
                                             <ul class="dropdown-menu">
-                                                <li class="available" ng-repeat="attr in costAttributes.category" id="attr.id" ng-click="costAttributesSelected(costAttributes, attr , $event, 'category')"><a>{{attr.name}}</a></li>
+                                                <li class="available" ng-repeat="attr in selectedCampaign.costAttributes.category" id="attr.id" ng-click="costAttributesSelected(selectedCampaign.costAttributes, attr , $event, 'category')"><a>{{attr.name}}</a></li>
                                             </ul>
 
                                         </div>
@@ -139,7 +141,7 @@
                                         <span class="icon-arrow-down"></span>
                                     </button>
                                     <ul class="dropdown-menu" aria-labelledby="selectKPI"  id="selectKPI">
-                                        <li class="available" ng-click="costAttributesSelected(costAttributes, attr , $event, 'vendor')" ng-repeat="attr in costAttributes.vendor"><a>{{attr.name}}</a></li>
+                                        <li class="available" ng-click="costAttributesSelected(selectedCampaign.costAttributes, attr , $event, 'vendor')" ng-repeat="attr in selectedCampaign.costAttributes.vendor"><a>{{attr.name}}</a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -149,11 +151,11 @@
                             <div class="col-md-12 zeroPadding dropdown-workflow">
                                 <div class="dropdown">
                                     <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                        <span class="text" data-ng-bind="addCost.offeringName || 'Select'"></span>
+                                        <span class="text" data-ng-bind="addCost.name || 'Select'"></span>
                                         <span class="icon-arrow-down"></span>
                                     </button>
                                     <ul class="dropdown-menu" >
-                                        <li class="available"  ng-click="costAttributesSelected(costAttributes, attr , $event, 'offer')" ng-repeat="attr in costAttributes.offering"><a>{{attr.name}}</a></li>
+                                        <li class="available"  ng-click="costAttributesSelected(selectedCampaign.costAttributes, attr , $event, 'offer')" ng-repeat="attr in selectedCampaign.costAttributes.offering"><a>{{attr.name}}</a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -169,7 +171,7 @@
                             <label for="primaryKPI" class="col-sm-12 greyTxt miniLabels" data-ng-bind="textConstants.MEDIAPLAN_RATE"></label>
                             <div class="col-md-12 zeroPadding  symbol-input" style="padding-right: 0px !important; max-width: 118px;">
                                 <span class="symbol">{{locale.NUMBER_FORMATS.CURRENCY_SYM}}</span>
-                                <input type="text" class="col-md-12" style="text-indent: 8px; height:36px;" ng-value="addCost.rateValue" fraction-numbers="fraction-numbers" ng-blur="costAttributesSelected(costAttributes, {'rateValue' : rateValue} , $event, 'rateValue')" field="rateValue" />
+                                <input type="text" class="col-md-12" style="text-indent: 8px; height:36px;" ng-value="addCost.rateValue" ng-model="addCost.rateValue" fraction-numbers="fraction-numbers" ng-blur="costAttributesSelected(selectedCampaign.costAttributes, {'rateValue' : addCost.rateValue} , $event, 'rateValue')" field="rateValue" />
                             </div>
                         </div>
                         <div class="col-md-1 zeroPadding removeHolder" ng-click="removeCostDimension($event);">
@@ -178,12 +180,12 @@
                             </span>
                         </div>
                 </div>
-
                 <div class="addCostLink col-md-12 zeroPadding">
-                    <span class="addCostBtn" ng-click="addAdditionalCost()">
+                    <span class="addCostBtn" ng-click="selectedCampaign.addAdditionalCost()" ng-show="selectedCampaign.costAttributes.category.length>0">
                         <span class="icon-plus"></span>
                         <span>Add a cost </span>
                     </span>
+                    <span ng-show="selectedCampaign.costAttributes.category.length === 0">No category available for selected advertiser.</span>
                 </div>
             </div>
         </div>
@@ -191,5 +193,5 @@
 </div>
 
 <a data-toggle="tab" data-target="#addLineItems" role="tab" class="nextWrapper leftNavLink contacts">
-    <span class="btn btn-default" ng-click="highlightLeftNav(2)" data-ng-bind="textConstants.WF_AD_SAVE_CONTINUE"></span>
+    <span class="btn btn-default" ng-click="highlightLeftNav(3)" data-ng-bind="textConstants.WF_AD_SAVE_CONTINUE"></span>
 </a>

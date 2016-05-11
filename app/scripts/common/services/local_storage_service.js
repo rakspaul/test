@@ -22,6 +22,28 @@ define(['angularAMD'], function (angularAMD) {
                  getDashboard: function() {
                      return localStorage.getItem('dashboardBrand') && JSON.parse(localStorage.getItem('dashboardBrand'));
                  }
+             },
+             selectedCampaign : {
+                 set: function(data) {
+                     localStorage.setItem('selectedCampaign', JSON.stringify(data));
+                 },
+                 get : function() {
+                     return localStorage.getItem('selectedCampaign') && JSON.parse(localStorage.getItem('selectedCampaign'));
+                 },
+                 remove: function() {
+                     return localStorage.removeItem('selectedCampaign');
+                 }
+             },
+             scheduleListReportType: {
+                 set: function(data) {
+                     localStorage.setItem('scheduleListReportType', JSON.stringify(data));
+                 },
+                 get: function() {
+                     return localStorage.getItem('scheduleListReportType') && JSON.parse(localStorage.getItem('scheduleListReportType'));
+                 },
+                 remove: function() {
+                     return localStorage.removeItem('scheduleListReportType');
+                 }
              }
          }
 

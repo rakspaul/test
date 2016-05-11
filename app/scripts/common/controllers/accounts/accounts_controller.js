@@ -45,14 +45,14 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
         $("#admin_nav_link").addClass("active_tab");
         $(".miniTabLinks .btn").removeClass("active");
         $("#accounts_link").addClass("active");
-
+        
         $scope.basicForm = function() {
             $(".miniTabLinks.sub .btn").removeClass("active");
             $(".miniTabLinks.sub .subBasics").addClass("active");
             $scope.activeEditAdvertiserTab = "basic";
 
-            $(".basicForm").show();
-            $(".createPixel, #pixelsCnt, .IABForm").hide();
+            $(".basicForm, .IABForm").show();
+            $(".createPixel, #pixelsCnt").hide();
         }
         $scope.showPixelTab = function(){
             $scope.activeEditAdvertiserTab = "pixel";
@@ -69,6 +69,12 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
             $('#pixelExpDate').datepicker('setStartDate', momentService.getCurrentYear().toString());
             $(".pixelCreate").slideDown();
         }
+        
+        $scope.cancelPixel = function() {
+            $(".pixelCreate").slideUp();
+        }
+
+        
         _currCtrl.verifyPixelInput = function(){
             var ret = true,
                 errMsg = "Error",
@@ -114,7 +120,7 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
             $(".pixelCreate").slideDown();
             $('#pixelExpDate').datepicker('setStartDate', momentService.getCurrentYear().toString());
             $scope.pixelIndex = index;
-            $scope.pixelFormData = pixel;
+            $scope.pixelFormData = JSON.parse(JSON.stringify(pixel));
 
         }
         $scope.clearPixel = function(){
@@ -281,7 +287,7 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                             : (item.pixelType == "AUDIENCE_CREATION") ? 'Audience Creation Pixel' : 'Retargeting Pixel';
                         $scope.advertiserData.pixels[i].isFeedData = true;
                         if(item.expiryDate) {
-                            $scope.advertiserData.pixels[i].expiryDate = momentService.newMoment(item.expiryDate).format('YYYY/MM/DD');
+                            $scope.advertiserData.pixels[i].expiryDate = momentService.utcToLocalTime(item.expiryDate,'YYYY/MM/DD');
                         }
                     });
                 }
@@ -298,17 +304,21 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
             $scope.isEditMode = (mode == "edit") ? true : false;
             $scope.advertiserData = {id:'', name: '',lookbackImpressions: 14,lookbackClicks: 14, pixels:[]};
             $scope.activeEditAdvertiserTab = "basic";
+            $scope.clientObj = client;
+            $scope.advObj = advObj;
             if($scope.isEditMode){
                 $scope.selectedAdvertiserId = advObj.id;
+                $scope.selectedAdvertiser = advObj.name;
                 accountsService.getAdvertiserUnderClient(client.id, advObj.id).then(function(res){
                     loadTemplate = true;
                     if(res.data.status == "OK" && res.data.statusCode == 200){
                         $scope.selectedAdvertiserId = res.data.data.id ? res.data.data.id : advObj.id;
+                        $scope.selectedAdvertiser = res.data.data.name ? res.data.data.name : advObj.name;
                         $scope.advertiserData.lookbackImpressions = res.data.data.lookbackImpressions;
                         $scope.advertiserData.lookbackClicks = res.data.data.lookbackClicks;
                     }
                     getPixelsData(client.id,advObj.id);
-                    $rootScope.$broadcast("advertiserDataReceived");
+                //    $rootScope.$broadcast("advertiserDataReceived");
                 },function(err){
                 });
             }else{
@@ -413,6 +423,7 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
         //Add or Edit Pop up for Account
         $scope.AddOrEditAccountModal = function(mode,clientObj) {
             $scope.mode = mode;
+
             $scope.isCreateTopClient = clientObj ? false : true;
             $('html, body').animate({scrollTop : 0},30);
             accountsService.getAllCurrency().then(function(result){
@@ -440,12 +451,12 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
         };
 
         //create advertiser
-        $scope.selectAdvertiser = function(advertiser){
-            $scope.dropdownCss.display = 'none';
-            $scope.advertiserName = advertiser.name;
-            $scope.selectedAdvertiserId = advertiser.id;
-            $("#advertiserNameInp").val($scope.advertiserName);
-        };
+//        $scope.selectAdvertiser = function(advertiser){
+//            $scope.dropdownCss.display = 'none';
+//            $scope.advertiserName = advertiser.name;
+//            $scope.selectedAdvertiserId = advertiser.id;
+//            $("#advertiserNameInp").val($scope.advertiserName);
+//        };
 
         //create brand
         $scope.selectBrand = function(brand){
@@ -488,6 +499,7 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
             });
         };
         _currCtrl.fetchAllBrands();
+
     });
 
 

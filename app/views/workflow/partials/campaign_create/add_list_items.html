@@ -54,9 +54,8 @@
 
         <span class="pull-right" style="margin: 8px 15px 0 0;display:none;" >0 Line Items Added</span>
     </div>
-
     <!--Create Item List Form Start-->
-    <div class="col-md-12 createItemList " ng-show="createItemList" ng-form name="lineItemForm">
+    <div class="col-md-12 createItemList " ng-show="selectedCampaign.createItemList" ng-form name="lineItemForm">
         <!--Row 1-->
         <div class="col-md-4 zeroPadding ">
             <label class="col-sm-12 greyTxt miniLabels zeroPadding" data-ng-bind="textConstants.MEDIAPLAN_LINE_ITEM_NAME"></label>
@@ -69,7 +68,7 @@
             <div class="col-md-12 zeroPadding dropdown-workflow" >
                 <div class="dropdown">
                     <button style="width:100%;" class="btn btn-default dropdown-toggle lineItemType" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ng-disabled="rateTypeReadOnly">
-                        <span class="text" >{{(lineItemType )?lineItemType.name:'Select from list'}}</span>
+                        <span class="text" >{{(lineItemType )?lineItemType.name:'Select Type'}}</span>
                         <span class="icon-arrow-down"></span>
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="lineType" id="lineType" data-toggle="dropdown" name="lineItemType">
@@ -83,9 +82,13 @@
             </div>
         </div>
 
-        <div class="col-md-2  " style="padding: 0 0 0 10px;" ng-hide="hideLineItemRate">
+        <div class="col-md-2 rate-field " style="padding: 0 0 0 10px;" ng-hide="hideLineItemRate">
             <label class="col-sm-12 greyTxt miniLabels zeroPadding" data-ng-bind="textConstants.MEDIAPLAN_RATE"></label>
-            <input type="text" class="col-md-12 form-control" placeholder="Enter Rate" ng-model="$parent.pricingRate" ng-readonly="rateReadOnly" name="lineItemRate"   fraction-numbers/>
+            <div class="rate-input-field symbol-input col-md-12 zeroPadding">
+                <span class="symbol">$</span>
+                <input type="text" class="col-md-12 form-control" placeholder="Enter Rate" ng-model="$parent.pricingRate" ng-readonly="rateReadOnly" name="lineItemRate"   fraction-numbers />
+            </div>
+
             <span class="greyTxt errorLabel" ng-if="lineItemForm.lineItemRate.$error.required">Enter Rate</span>
         </div>
 
@@ -112,7 +115,7 @@
                         <div class="dateContainer">
                             <label class="col-sm-12 control-label greyTxt miniLabels" data-ng-bind="textConstants.MEDIAPLAN_FLIGHT_DATE_START"></label>
                             <div class="dateInputHolder" >
-                                <input type="text" id="lineItemStartDateInput" custom-date-picker="{format: 'mm/dd/yyyy', orientation: 'auto',  autoclose: true, todayHighlight: true}" placeholder="MM/DD/YYYY" class="form-control"  readonly name="startTime" ng-model="lineItemStartDate" ng-change="validateDateLineItem(lineItemStartDate,'startdate')" />
+                                <input type="text" id="lineItemStartDateInput" custom-date-picker="{format: 'mm/dd/yyyy', orientation: 'auto',  autoclose: true, todayHighlight: true}" placeholder="MM/DD/YYYY" class="form-control"  readonly name="startTime" ng-model="lineItemStartDate" ng-value="lineItemStartDate" ng-change="validateDateLineItem(lineItemStartDate, lineItemEndDate, 'lineItemEndDateInput')" />
                                 <div class="icon-calendar-holder">
                                     <span class="icon-calendar"></span>
                                 </div>
@@ -121,21 +124,13 @@
                         <div class="dateContainer">
                             <label class="col-sm-12 control-label greyTxt miniLabels" data-ng-bind="textConstants.MEDIAPLAN_FLIGHT_DATE_END"></label>
                             <div class="dateInputHolder">
-                                <input type="text" id="lineItemEndDateInput" custom-date-picker="{format: 'mm/dd/yyyy', orientation: 'auto',  autoclose: true, todayHighlight: true}" placeholder="MM/DD/YYYY" class="form-control"  ng-model="lineItemEndDate" name="endTime" readonly ng-change="validateDateLineItem(lineItemEndDate,'enddate')"/>
+                                <input type="text" id="lineItemEndDateInput" custom-date-picker="{format: 'mm/dd/yyyy', orientation: 'auto',  autoclose: true, todayHighlight: true}" placeholder="MM/DD/YYYY" class="form-control"  ng-model="lineItemEndDate" name="endTime" readonly/>
                                 <div class="icon-calendar-holder">
                                     <span class="icon-calendar"></span>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <!-- <span class="col-md-12 input-group-addon">
-                        <div class="calenderIcon">
-                            <span class="icon-calendar"></span>
-                        </div>
-                        <div class="calenderIcon">
-                            <span class="icon-calendar"></span>
-                        </div>
-                    </span> -->
                 </div>
             </div>
 
@@ -143,10 +138,25 @@
                 <label class="col-sm-12 zeroPadding greyTxt">Ad Group Name</label>
                 <input type="text" class="col-md-12" placeholder="Enter Ad Group name up to 100 characters"  ng-model="$parent.adGroupName"/>
             </div>
+            <div class="col-md-5 zeroPadding dropdown-workflow" ng-show="showPixelsList">
+                <div class="dropdown">
+                    <label class="col-sm-12 zeroPadding greyTxt">Select Conversion Pixel</label>
+                    <button style="width:100%;" class="btn btn-default dropdown-toggle pixelType" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" >
+                        <span class="text" >{{(pixelSelected )?pixelSelected.name:'Select from list'}}</span>
+                        <span class="icon-arrow-down"></span>
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="lineType" id="pixelsList" data-toggle="dropdown" name="lineItemType">
+                        <li class="available" ng-repeat="pixel in selectedCampaign.selectedPixel"  ng-click="setPixels(pixel,'create')"><a>{{pixel.name}}</a></li>
+                    </ul>
+                    <input type="hidden" class="form-control" ng-model="pixelSelected.id" name="pixelSelected"  />
+                </div>
+
+            </div>
+
 
             <div class="pull-right" style="padding: 30px 0 0 0;">
-                <div class="pull-right btn btn-primary" ng-disabled="lineItemName === '' || !lineItemType || lineItemType.id == '' || billableAmount == ''" ng-click="createNewLineItem('create')">Add Line Item</div>
-                <div class="pull-right btn btn-link" ng-click="resetLineItemParameters()">Cancel</div>
+                <div class="pull-right btn btn-primary" ng-disabled="lineItemName === '' || !lineItemType || lineItemType.id == '' || billableAmount == ''" ng-click="(mode === 'create' || cloneMediaPlanName)?createNewLineItem('create'):createNewLineItemInEditMode('create')">Add Line Item</div>
+                <div class="pull-right btn btn-link" id="hideLineItemCreateBox" ng-click="selectedCampaign.resetLineItemParameters()">Cancel</div>
             </div>
 
         </div>
@@ -155,6 +165,8 @@
 
     <!--Item List Table Sample Start-->
     <!--Note: ng-hide If data is empty or when new media plan is created-->
+    <span class=" col-md-12 greyTxt errorLabel" ng-show="budgetLineItemErrorFlag" style="display: block;"></span>
+
     <div class="table-responsive" id="table_responsive" style="margin: 10px 0;">
         <div class="vistoTable" id="visto_table">
             <div class="thead">
@@ -168,7 +180,7 @@
                 </div>
             </div>
 
-            <div class="tbody" style="max-height: 326px; overflow: auto;">
+            <div class="tbody" >
                 <!--Table Data Sample-->
                 <div class="tr" ng-repeat="item in lineItemList" >
                     <div class="tableNormal" ng-click="showEditItemRow($event,item)">
@@ -179,17 +191,13 @@
                         <a class="td col-md-2" data-ng-bind="item.volume"></a>
                         <a class="td col-md-2">{{item.startTime}} - {{item.endTime}}</a>
                     </div>
-
-                    <div class="tableEdit" ng-include="'listItemEditTpl'"  style="padding-top: 20px;"></div>
+                    <div class="tableEdit" data-table-index = "{{$index}}" ng-include="'listItemEditTpl'"  style="padding-top: 20px;"></div>
                 </div>
-
-
             </div>
         </div>
     </div>
     <!--Item List Table Sample Start-->
-
-    <span class="col-md-12 text-right" style="padding: 0 0 5px 0; border-bottom: 1px solid rgba(191, 201, 215, 0.5);">Total Billable Amount: {{locale.NUMBER_FORMATS.CURRENCY_SYM}}{{lineItemBillableAmountTotal}}</span>
+    <span class="col-md-12 text-right" style="padding: 0 0 5px 0; border-bottom: 1px solid rgba(191, 201, 215, 0.5);">Total Billable Amount: {{locale.NUMBER_FORMATS.CURRENCY_SYM}}{{selectedCampaign.lineItemBillableAmountTotal}}</span>
 
     <label class="col-sm-12 labelQuestTxt showAddCreditForm" ng-click="showAddCreditForm()" ng-hide="true">
         <span class="icon-arrow-down-thick"></span>Add Credits (0)
@@ -220,6 +228,7 @@
 
 <!--Table Edit Form Template-->
 <script type="text/ng-template" id="listItemEditTpl">
+
     <!--Row 1-->
     <div class="col-md-12 zeroPadding">
         <div class="col-md-4 zeroPadding">
@@ -263,73 +272,63 @@
 
 
 
-        <a class="btn btn-link pull-right" style="position: absolute;top: -10px; right: 0; display: block;padding: 0; color: #0978c9;" ng-click="deleteLineItem(true)">Delete</a>
+        <a class="btn btn-link pull-right" style="position: absolute;top: -10px; right: 0; display: block;padding: 0; color: #0978c9;" ng-hide="mode === 'edit'" ng-click="deleteLineItem(true)">Delete</a>
     </div>
-
     <!--Row 2-->
     <div class="col-md-12 zeroPadding">
-        <!--<div class="span4 col-md-12 input-daterange input-group date pull-left" id="datepicker">-->
-        <!--<div class="col-md-12 dateWrapper zeroPadding">-->
-        <!--<div class="dateContainer">-->
-        <!--<label class="col-sm-12 control-label greyTxt miniLabels">Billing Period Start</label>-->
-        <!--<div style="background: #fff;">-->
-        <!--<input type="text" id="startDateInput" custom-date-picker="{format: 'mm/dd/yyyy', orientation: 'auto',  autoclose: true, todayHighlight: true}" placeholder="MM/DD/YYYY" class="form-control"  readonly name="startTime" ng-model="editLineItem.startTime"   ng-change=" handleStartFlightDate(adData)"/>-->
-        <!-- -->
-        <!--</div>-->
-        <!--</div>-->
-        <!--<div class="dateContainer">-->
-        <!--<label class="col-sm-12 control-label greyTxt miniLabels">Billing Period End</label>-->
-        <!--<div style="background: #fff;">-->
-        <!--<input type="text" id="endDateInput" custom-date-picker="{format: 'mm/dd/yyyy', orientation: 'auto',  autoclose: true, todayHighlight: true}" placeholder="MM/DD/YYYY" class="form-control"   ng-model="adData.endTime" name="editLineItem.endTime" required ng-change="handleEndFlightDate(adData)"/>-->
-        <!--</div>-->
-        <!--</div>-->
-        <!--</div>-->
-        <!--<span class="col-md-12 input-group-addon">-->
-        <!--<div class="calenderIcon">-->
-        <!--<span class="icon-calendar"></span>-->
-        <!--</div>-->
-        <!--<div class="calenderIcon">-->
-        <!--<span class="icon-calendar"></span>-->
-        <!--</div>-->
-        <!--</span>-->
+            <div class="span4 col-md-12 input-daterange input-group date otherBgDateRange pull-left" id="datepickerEdit">
+                <div class="pull-left dateWrapper zeroPadding">
+                    <div class="dateContainer">
+                        <label class="col-sm-12 control-label greyTxt miniLabels" data-ng-bind="textConstants.MEDIAPLAN_FLIGHT_DATE_START"></label>
+                        <div class="dateInputHolder" >
+                            <input type="text"  custom-date-picker="{format: 'mm/dd/yyyy', orientation: 'auto',  autoclose: true, todayHighlight: true}" id="editLineItemStartDate{{$index}}" placeholder="MM/DD/YYYY" class="form-control"  readonly name="startTime" ng-model="editLineItem.startTime" ng-change="validateDateLineItem(editLineItem.startTime, editLineItem.endTime, 'editLineItemEndDate{{$index}}')" />
 
-        <!--</div>-->
+                            <div class="icon-calendar-holder">
+                                <span class="icon-calendar"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="dateContainer">
+                        <label class="col-sm-12 control-label greyTxt miniLabels" data-ng-bind="textConstants.MEDIAPLAN_FLIGHT_DATE_END"></label>
+                        <div class="dateInputHolder">
+                            <input type="text"  custom-date-picker="{format: 'mm/dd/yyyy', orientation: 'auto',  autoclose: true, todayHighlight: true}" id="editLineItemEndDate{{$index}}" placeholder="MM/DD/YYYY" class="form-control"  ng-model="editLineItem.endTime" name="endTime"/>
 
-        <div class="span4 col-md-12 input-daterange input-group date pull-left" id="datepickerEdit">
-            <div class="col-md-6 dateWrapper zeroPadding">
-                <div class="dateContainer">
-                    <label class="col-sm-12 control-label greyTxt miniLabels" data-ng-bind="textConstants.MEDIAPLAN_FLIGHT_DATE_START"></label>
-                    <div style="background: #fff;">
-                        <input type="text"  custom-date-picker="{format: 'mm/dd/yyyy', orientation: 'auto',  autoclose: true, todayHighlight: true}" placeholder="MM/DD/YYYY" class="form-control"  readonly name="startTime" ng-model="editLineItem.startTime" ng-change="validateDateLineItem(lineItemStartDate,'startdate')" />
+                            <div class="icon-calendar-holder">
+                                <span class="icon-calendar"></span>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="dateContainer">
-                    <label class="col-sm-12 control-label greyTxt miniLabels" data-ng-bind="textConstants.MEDIAPLAN_FLIGHT_DATE_START"></label>
-                    <div style="background: #fff;">
-                        <input type="text"  custom-date-picker="{format: 'mm/dd/yyyy', orientation: 'auto',  autoclose: true, todayHighlight: true}" placeholder="MM/DD/YYYY" class="form-control"  ng-model="editLineItem.endTime" name="endTime"  ng-change="validateDateLineItem(lineItemEndDate,'enddate')"/>
-                    </div>
+
+
+
+
+                <div class="col-md-4 " style="padding: 0px !important;" ng-hide="hideAdGroupNameEdit">
+                    <label class="col-sm-12 zeroPadding greyTxt">Ad Group Name</label>
+                    <input type="text" class="col-md-12" placeholder="Enter Ad Group name up to 100 characters"  ng-model="editLineItem.adGroupName"/>
                 </div>
-            </div>
-                <span class="col-md-4 input-group-addon" style="width:auto;">
-                    <div class="calenderIcon">
-                        <span class="icon-calendar"></span>
+                <div class="col-md-5 zeroPadding dropdown-workflow" ng-show="showPixelsListEdit">
+                    <div class="dropdown">
+                        <label class="col-sm-12 zeroPadding greyTxt">Select Conversion Pixel</label>
+                        <button style="width:100%;" class="btn btn-default dropdown-toggle pixelTypeEdit" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ng-disabled="gf">
+                            <span class="text" >{{(editLineItem.pixelSelected )?editLineItem.pixelSelected.name:'Select from list'}}</span>
+                            <span class="icon-arrow-down"></span>
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="lineType" id="pixelEdit" data-toggle="dropdown" name="pixelType">
+                            <li class="available" ng-repeat="pixel in selectedCampaign.selectedPixel"  ng-click="setPixels(pixel,'edit')"><a>{{pixel.name}}</a></li>
+                        </ul>
+                        <input type="hidden" class="form-control" ng-model="editLineItem.pixelSelected.id" name="lineItemType"  />
                     </div>
-                    <div class="calenderIcon">
-                        <span class="icon-calendar"></span>
-                    </div>
-                </span>
 
-            <div class="col-md-4 " style="padding-bottom: 2px !important;" ng-hide="hideAdGroupNameEdit">
-                <label class="col-sm-12 zeroPadding greyTxt">Ad Group Name</label>
-                <input type="text" class="col-md-12" placeholder="Enter Ad Group name up to 100 characters"  ng-model="editLineItem.adGroupName"/>
-            </div>
-
+                </div>
         </div>
-        <a class="btn btn-primary pull-right" ng-click="updateLineItem(editLineItem);">Save Changes</a>
-        <a class="btn btn-link pull-right" ng-click="showNormalItemRow($event);">Cancel</a>
+
+        <a class="btn btn-primary pull-right" ng-click="(mode ==='create' || cloneMediaPlanName)?updateLineItem():updateLineItemInEditMode()">Save Changes</a>
+        <a class="btn btn-link pull-right cancelLineItem" ng-click="hideLineItemEditRow($event);">Cancel</a>
 
 
     </div>
+
 </script>
 <script>
     $(document).ready(function() {

@@ -198,8 +198,8 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
                             // Ad group total
                             $scope.showPerfMetrix = true;
                             $scope['strategyPerfDataBy'+tab]  = _.filter(result.data.data, function(item) { return item.ad_id == -1; })
-                            $scope['strategyPerfDataBy'+tab]  = _.each($scope['strategyPerfDataBy'+tab], function(item) { 
-                                item.kpi_type = $scope.selected_filters.campaign_default_kpi_type; 
+                            $scope['strategyPerfDataBy'+tab]  = _.each($scope['strategyPerfDataBy'+tab], function(item) {
+                                item.kpi_type = $scope.selected_filters.campaign_default_kpi_type;
                             });
                             $scope['strategyPerfDataByTactic'+tab]  =_.filter(result.data.data, function(item) { return item.ad_id != -1; });
                             $scope.groupThem = _.chain($scope['strategyPerfDataByTactic'+tab])
@@ -291,6 +291,7 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
         $scope.$on(constants.EVENT_CAMPAIGN_CHANGED , function(event,campaign) {
             $scope.init();
             $scope.selectedCampaign = campaignSelectModel.getSelectedCampaign();  //update the selected Campaign
+            $scope.selected_filters.kpi_type = campaignSelectModel.getSelectedCampaign().kpi;
         });
 
         $scope.$watch('selectedCampaign', function() {
@@ -333,7 +334,9 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
             extractAdFormats();
             $scope.selectedStrategy.id = selectedStrategyObj.id;
             $scope.selectedStrategy.name = selectedStrategyObj.name;
-            $scope.strategyHeading = Number($scope.selectedStrategy.id) >= 0 ? 'Ad-Group total' : 'Media Plan total';
+            $scope.strategyHeading = Number($scope.selectedStrategy.id) >= 0 ? constants.AD_GROUP_TOTAL : constants.MEDIA_PLAN_TOTAL;
+            //$scope.viewLabelTxt = Number($scope.selectedStrategy.id) >= 0 ? 'Numbers shown in bold indicate Target KPI' : 'Numbers shown in bold indicate Target KPI';
+            $scope.viewLabelTxt = 'Numbers shown in bold indicate Target KPI';
             $scope.isStrategyDataEmpty = false;
             $scope.resetVariables();
             $scope.strategyChangeHandler();

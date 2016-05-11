@@ -197,7 +197,10 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
                 return dataService.post(vistoconfig.apiPaths.WORKFLOW_API_URL+'/clients/'+clientId+'/ad_choices',data, {'Content-Type': 'application/json'});
             },
             getIABCategoryList: function(){
-                return dataService.fetch(vistoconfig.apiPaths.WORKFLOW_API_URL + '/iab_categories', {cache: false});
+                return dataService.fetch(vistoconfig.apiPaths.WORKFLOW_API_URL + '/iab_category_groups', {cache: false});
+            },
+            getIABSubCategoryList: function(groupId){
+                return dataService.fetch(vistoconfig.apiPaths.WORKFLOW_API_URL + '/iab_categories?group_id='+groupId, {cache: false});
             },
             getIABCategoryForClient: function(clientId){
                 return dataService.fetch(vistoconfig.apiPaths.WORKFLOW_API_URL+'/clients/'+clientId+'/iab_categories', {cache: false});
@@ -216,6 +219,9 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/da
             },
             saveAdChoiceDataForAdv: function(clientId, advId, data){
                 return dataService.post(vistoconfig.apiPaths.WORKFLOW_API_URL+'/clients/'+clientId+'/ad_choices?advertiser_id='+advId, data, {'Content-Type': 'application/json'});
+            },
+            downloadAdminAdvPixel: function(clientId, advId){
+                return dataService.fetch(vistoconfig.apiPaths.WORKFLOW_API_URL+'/clients/'+clientId+'/advertisers/'+advId+'/pixels_download', {cache: false});
             }
         };
     });

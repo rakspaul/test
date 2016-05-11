@@ -3,66 +3,95 @@
         <span class="btn btn-primary pull-right" ng-click="saveClients()">Save</span>
         <span class="btn btn-link pull-right" data-dismiss="modal" ng-click="close()">Cancel</span>
 
-        <h2 class="modal-title" id="myModalLabel">{{(mode === 'create'?'Add':'Edit')}} Account</h2>
+        <h2 class="modal-title" id="myModalLabel" data-ng-bind="showUserModeText()"></h2>
     </div>
     <div class="clearfix modal-body">
         <!--Row 1-->
         <div class="form-group col-md-4" style="padding: 0 15px 0 0;">
             <label class="col-sm-12 greyTxt">Account Type:</label>
-            <select name='clientType' class="form-control" ng-change="setSelectedClientType(clientType)" ng-model="clientType">
-                <option selected disabled data-ng-bind="'Select Account'"></option>
-                <option value='MARKETER'>Marketer</option>
-                <option value='AGENCY'>Agency</option>
-                <option value='RESELLER'>Reseller</option>
-            </select>
+            <div class="col-md-12 zeroPadding dropdown-workflow">
+                <div class="dropdown">
+                    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <span class="text" data-ng-bind="clientType ? clientType : 'Select Account'">Select Account</span>
+                        <span class="icon-arrow-down"></span>
+                    </button>
+                    <ul class="dropdown-menu" data-toggle="dropdown">
+                        <li class="available" data-ng-click="setSelectedClientType('MARKETER')">
+                            <a>MARKETER</a>
+                        </li>
+                        <li class="available" data-ng-click="setSelectedClientType('AGENCY')">
+                            <a>AGENCY</a>
+                        </li>
+                        <li class="available" data-ng-click="setSelectedClientType('RESELLER')">
+                            <a>RESELLER</a>
+                        </li>
+                        <li class="available" data-ng-click="setSelectedClientType('ORGANIZATION')">
+                            <a>ORGANIZATION</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
         </div>
 
         <div class="form-group col-md-4" style="padding: 0 15px;">
             <label class="col-sm-12 greyTxt">Account Name:</label>
             <input type="text" class="form-control" placeholder="Add Name" ng-model="clientName" ng-keyup="showDropdown()" data-toggle="dropdown">
-            <!--<ul ng-if="allAdvertiser.length>0" class="dropdown-menu account_name_list" role="menu" id="advertiserList"  >
-                    <li ng-repeat="advertiser in allAdvertiser | filter:clientType == 'MARKETER' ? clientName : name" data-ng-click="selectClientAdvertiser(advertiser)">
-                        <a>
-                            <span class="tick"></span>
-                            <span class="menuItemText ng-binding" >{{advertiser.name}}</span>
-                        </a>
-                    </li>
-            </ul>-->
         </div>
 
         <!--Row 2-->
         <div class="form-group col-md-4" style="padding: 0 15px 0 0; clear: left">
             <label class="col-sm-12 greyTxt">Currency:</label>
-            <select class="form-control" name="selectedCurrency" ng-model="selectedCurrency">
-                <option selected disabled data-ng-bind="'Select Currency'"></option>
-                <option value="{{curr.id}}" ng-repeat="curr in currency" ng-selected="{{curr.id == selectedCurrency}}" >{{curr.currencyCode}}</option>
-            </select>
+            <div class="col-md-12 zeroPadding dropdown-workflow">
+                <div class="dropdown">
+                    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <span class="text" data-ng-bind="selectedCurrency ? selectedCurrency : 'Select Currency'">Select Currency</span>
+                        <span class="icon-arrow-down"></span>
+                    </button>
+                    <ul class="dropdown-menu" data-toggle="dropdown">
+                        <li class="available" value="{{curr.id}}" ng-repeat="curr in currency" ng-selected="{{curr.id == selectedCurrency}}">
+                            <a data-ng-bind="curr.currencyCode" data-ng-click="selectCurrency(curr)"></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
         </div>
 
         <div class="form-group col-md-4" style="padding: 0 15px;">
             <label class="col-sm-12 greyTxt">Geography:</label>
-            <select class="form-control" name="selectedCountry" ng-model="selectedCountry" ng-disabled="mode=='edit'">
-                <option selected disabled data-ng-bind="'Select Geography'"></option>
-                <option value="{{country.id}}" ng-repeat="country in Geography" ng-selected="{{country.id == selectedCountry}}" >{{country.name}}</option>
-            </select>
+            <div class="col-md-12 zeroPadding dropdown-workflow">
+                <div class="dropdown">
+                    <button id="geography" class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <span class="text" data-ng-bind="selectedCountry ? selectedCountry : 'Select Geography'"></span>
+                        <span class="icon-arrow-down"></span>
+                    </button>
+                    <ul class="dropdown-menu" data-toggle="dropdown">
+                        <li class="available" value="{{country.id}}" ng-repeat="country in Geography" ng-selected="{{country.id == selectedCountry}}">
+                            <a data-ng-bind="country.name" data-ng-click="selectCountry(country)"></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
         </div>
 
         <div class="form-group col-md-4" style="padding: 0 0 0 15px;">
             <label class="col-sm-12 greyTxt">Timezone:</label>
-            <!--<input type="text" class="form-control" ng-model="timezone">-->
-            <!--<select name='timezone' class="form-control" ng-model="timezone">
-                <option value='EST' >EST (Eastern Standard Time) </option>
-                <option value='CST' >CST (Central Standard Time) </option>
-                <option value='PST' >PST (Pacific Standard Time)  </option>
-                <option value='BST' >BST (British Standard Time)  </option>
-            </select>-->
-            <select name='timezone' class="form-control" ng-model="timezone">
-                <option selected disabled data-ng-bind="'Select Time zone'"></option>
-                <option value="{{key}}" ng-repeat="(key, value) in timezones" ng-selected="{{key == timezone}}" >{{value}}</option>
-            </select>
+            <div class="col-md-12 zeroPadding dropdown-workflow">
+                <div class="dropdown">
+                    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <span class="text" data-ng-bind="timezones[timezone] ? timezones[timezone] : 'Select Time zone'"></span>
+                        <span class="icon-arrow-down"></span>
+                    </button>
+                    <ul class="dropdown-menu" data-toggle="dropdown">
+                        <li class="available" value="{{key}}" ng-repeat="(key, value) in timezones" ng-selected="{{key == timezone}}">
+                            <a data-ng-bind="value" data-ng-click="selectTimeZone(key)"></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
         </div>
     </div><!-- end of modal_body -->
-    <div class="adChoices">
+    
+    <div class="adChoices" ng-show="clientObj.isLeafNode">
         <div class="col-md-12 zeroPadding"><h1 class="pull-left">Ad Choices</h1></div>
         <div class="form-group col-md-4" style="padding: 0 15px 0 0;">
             <label class="col-sm-12 greyTxt">Enable Ad Choices:</label>
@@ -111,21 +140,21 @@
                 <div class="col-md-12 zeroPadding dropdown-workflow">
                     <div class="dropdown">
                         <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                            <span class="text">Arbitrage</span>
+                            <span class="text" data-ng-bind="selectedBillType">Arbitrage</span>
                             <span class="icon-arrow-down"></span>
                         </button>
                         <ul class="dropdown-menu" data-toggle="dropdown">
                             <li class="available">
-                                <a ng-click="show_respective_method('techFees')">Tech Fees</a>
+                                <a ng-click="show_respective_method('Tech Fees')">Tech Fees</a>
                             </li>
                             <li class="available">
-                                <a ng-click="show_respective_method('serviceFees')">Service Fees</a>
+                                <a ng-click="show_respective_method('Service Fees')">Service Fees</a>
                             </li>
                             <li class="available">
-                                <a ng-click="show_respective_method('cogsPlus')">COGS+</a>
+                                <a ng-click="show_respective_method('Arbitrage')">Arbitrage</a>
                             </li>
                             <li class="available">
-                                <a ng-click="show_respective_method('arbitrage')">Arbitrage</a>
+                                <a ng-click="show_respective_method('None')">None</a>
                             </li>
                         </ul>
                     </div>
@@ -133,64 +162,42 @@
             </div>
 
             <!--Tech Fees-->
-            <div class="col-md-8 zeroPadding methodFees techFees" style="display: none;">
-                <div class="form-group col-md-4" style="padding: 0 15px;">
-                    <label class="col-sm-12 greyTxt">Rate Type:</label>
-                    <input type="text" class="form-control disabled" maxlength="80" value="CPM">
+            <div class="col-md-8 zeroPadding methodFees techFees" ng-show="selectedBillType=='Tech Fees'">
+                <label class="col-sm-12 greyTxt">Rate Type:</label>
+                <div class="dropdown">
+                    <button class="btn btn-default dropdown-toggle form-group col-md-4" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <span class="text">CPM</span>
+                    </button>
                 </div>
-
-                <div class="form-group col-md-4" style="padding: 0 0 0 15px;">
+                <div class="form-group col-md-4" style="margin-top: -36px;">
                     <label class="col-sm-12 greyTxt">Value:</label>
                     <input type="text" class="form-control" maxlength="80">
                 </div>
+
             </div>
-
-            <!--Service Fees-->
-            <div class="col-md-8 zeroPadding methodFees serviceFees" style="display: none;">
-                <div class="form-group col-md-4" style="padding: 0 15px;">
-                    <label class="col-sm-12 greyTxt">Rate Type:</label>
-                    <input type="text" class="form-control" maxlength="80">
+            <div class="col-md-8 zeroPadding methodFees techFees" ng-show="selectedBillType=='Service Fees'">
+                <label class="col-sm-12 greyTxt">Rate Type:</label>
+                <div class="dropdown">
+                    <button class="btn btn-default dropdown-toggle form-group col-md-4"
+                            style="padding: 7px;"
+                            type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <span class="text" data-ng-bind="selectedRateType"></span>
+                        <span class="icon-arrow-down" style="margin-left:192px"></span>
+                    </button>
+                    <ul class="dropdown-menu" data-toggle="dropdown">
+                        <li class="available">
+                            <a ng-click="selectedRateType='COGS:'">COGS</a>
+                        </li>
+                        <li class="available">
+                            <a ng-click="selectedRateType='CPM:'">CPM</a>
+                        </li>
+                    </ul>
                 </div>
-
-                <div class="form-group col-md-4" style="padding: 0 0 0 15px;">
+                <div class="form-group col-md-4" style="margin-top: -36px">
                     <label class="col-sm-12 greyTxt">Value:</label>
                     <input type="text" class="form-control" maxlength="80">
-                </div>
-            </div>
-
-            <!--COGS+ Fees-->
-            <div class="col-md-8 zeroPadding methodFees cogsPlus" style="display: none;">
-                <div class="form-group col-md-4" style="padding: 0 15px;">
-                    <label class="col-sm-12 greyTxt">Rate Type:</label>
-                    <input type="text" class="form-control" maxlength="80">
-                </div>
-
-                <div class="form-group col-md-4" style="padding: 0 0 0 15px;">
-                    <label class="col-sm-12 greyTxt">Value:</label>
-                    <input type="text" class="form-control" maxlength="80">
-                </div>
-            </div>
-
-            <!--Arbitrage-->
-            <div class="col-md-8 zeroPadding disabled methodFees arbitrage">
-                <div class="form-group col-md-4" style="padding: 0 15px;">
-                    <label class="col-sm-12 greyTxt">Rate Type:</label>
-                    <input type="text" class="form-control disabled" maxlength="80">
-                </div>
-
-                <div class="form-group col-md-4 disabled" style="padding: 0 0 0 15px;">
-                    <label class="col-sm-12 greyTxt">Value:</label>
-                    <input type="text" class="form-control disabled" maxlength="80">
                 </div>
             </div>
         </div>
-
-        <!--Row 2-->
-        <!--<div class="col-md-12 zeroPadding">-->
-        <!--    <a class="btn btn-link pull-left" style="padding: 15px 0;">-->
-        <!--        <span class="icon-plus" style="color: #0978C9; float: left; font-size: 12px; height: 12px; width: 12px; margin-right: 5px;"></span>-->
-        <!--        <span>Add Billing Method</span>-->
-        <!--    </a>-->
-        <!--</div>-->
     </div>
 </div> <!-- end of popup-holder -->

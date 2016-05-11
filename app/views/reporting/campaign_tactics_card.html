@@ -132,12 +132,12 @@
                     <div class="graph_details_KPI">
                         <div class="clearfix details_KPI_row1">
                             <span class="details_KPI_title">{{tactic.kpiType | displayToCamelCase}}</span>
-                            <span class="pull-right details_KPI_row2" ng-if="tactic.kpiValue || tactic.targetKPIImpressions">
-                                <span ng-if="tactic.chart !==false">{{tactic.kpiType.toLowerCase()=="impressions"?( tactic.targetKPIImpressions | nrFormat ): (tactic.kpiValue | kpiFormatter:tactic.kpiType)}}</span>
-                                <span class="icon_KPI" ng-if="tactic.chart !==false"></span>
+                            <span class="pull-right details_KPI_row2" ng-if="tactic.kpiValue">
+                                <span ng-if="tactic.chart !== false">{{tactic.kpiValue | kpiFormatter : tactic.kpiType}}</span>
+                                <span ng-if="tactic.chart !== false" class="icon_KPI"></span>
                             </span>
                             <span class="pull-right cumulative_val" ng-if="tactic.chart !==false">
-                                {{textConstants.CUMULATIVE_VALUE}} <span>{{(tactic.kpiType.toLowerCase()=='impressions')?(tactic.totalImpressions| kpiFormatter:tactic.kpiType:1):(tactic.map[tactic.kpiType.toLowerCase()] | kpiFormatter:tactic.kpiType:1)}}</span>
+                                {{textConstants.CUMULATIVE_VALUE}} <span>{{tactic.map[tactic.kpiType.toLowerCase()] | kpiFormatter:tactic.kpiType:1}}</span>
                             </span>
                         </div>
 

@@ -140,6 +140,10 @@ assets.html_filter_drop_down = '/views/workflow/filter_drop_down.html';
 assets.admin_accounts_subclient = '/views/workflow/partials/creative_add_bulk.html';
 //assets.admin_accounts_subclient = '/views/workflow/partials/admin_accounts_subclientList.html';
 
+assets.html_clone_campaign_popup = '/views/workflow/partials/clone_campaign_popup.html';
+assets.html_ad_campaign_popup = '/views/workflow/partials/clone_ad_popup.html';
+
+
 //Admin page
 
 assets.html_admin_home = '/views/workflow/admin_home.html';

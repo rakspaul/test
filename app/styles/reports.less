@@ -151,8 +151,8 @@ span.cost_opaque {
   border-color: #939ead ;
 }
 .platform_logo {
-  height: 18px ;
-  width: 16px ;
+  //height: 18px ;
+  //width: 16px ;
   .platform_logo_img {
     float: left;
     display: inline-block;
@@ -1166,10 +1166,10 @@ div.strategy_total_container {
     padding-right: 17px;
   }
   .sort_order_up:hover {
-    background: url("/images/cdesk/sorting_arrows_up.png") no-repeat scroll right 1px rgba(0, 0, 0, 0);
+    background: url("/images/cdesk/sorting_arrows_up.png") no-repeat scroll 55px 1px rgba(0, 0, 0, 0);
   }
   .sort_order_up.active {
-    background: url("/images/cdesk/sorting_arrows_down.png") no-repeat scroll right -64px rgba(0, 0, 0, 0);
+    background: url("/images/cdesk/sorting_arrows_down.png") no-repeat scroll 55px -64px rgba(0, 0, 0, 0);
     cursor: pointer;
     padding-right: 17px;
     color: #0978c9;
@@ -1179,10 +1179,10 @@ div.strategy_total_container {
     padding-right: 17px;
   }
   .sort_order_down:hover {
-    background: url("/images/cdesk/sorting_arrows_down.png") no-repeat scroll right 1px rgba(0, 0, 0, 0);
+    background: url("/images/cdesk/sorting_arrows_down.png") no-repeat scroll 55px 1px rgba(0, 0, 0, 0);
   }
   .sort_order_down.active {
-    background: url("/images/cdesk/sorting_arrows_up.png") no-repeat scroll right -64px rgba(0, 0, 0, 0);
+    background: url("/images/cdesk/sorting_arrows_up.png") no-repeat scroll 55px -64px rgba(0, 0, 0, 0);
     cursor: pointer;
     padding-right: 17px;
     color: #0978c9;
@@ -2970,8 +2970,23 @@ div.strategy_total_container {
   width: 1600px;
 }
 .text_next_margin_per {
-  display: inline-block;
-  width: 785px;
+  float: left;
+  margin-right: 15px;
+}
+.strategyHeading {
+    float: left;
+    font-family: "Avenir";
+    font-size: 18px;
+    color: #21252b;
+}
+.viewLabelTxt {
+    float: left;
+    color: #939EAE;
+    margin: 4px 0 0 5px;
+    font-size: 12px;
+}
+.viewLabelTxt:first-child {
+    margin-left: 15px;
 }
 .margin_percentage {
   text-align: center;
@@ -3227,6 +3242,7 @@ div.strategy_total_container {
 
 
 #reports_platform_cost_block {
+    overflow-y: auto;
   .dropdown {
     cursor: default;
   }
@@ -3249,6 +3265,7 @@ div.strategy_total_container {
 
   }
     .reports_platform_header , .strategy_total_container_header, .each_strategy_holder {
+        padding: 10px 0 10px 15px !important;
     .each_cost_col {
       &.fifth_col{
        /* width: 97px ;*/
@@ -3382,7 +3399,9 @@ div.strategy_total_container {
 
     }
   }
-
+    .reports_details_outer_container {
+        width: 1600px;
+    }
 }
 .optimization_header {
   .duration_filters {
@@ -3578,8 +3597,8 @@ div.strategy_total_container {
         -webkit-box-shadow: 0px 0px 0px transparent;
         -moz-box-shadow: 0px 0px 0px transparent;
         &:focus {
-              border: 0px solid transparent;
-              border-left : solid 1px #d2dee7 ;
+              border: 0px solid transparent !important ;
+              border-left : solid 1px #d2dee7 !important ;
         }
       }
 
@@ -3946,22 +3965,24 @@ only screen and (min-device-pixel-ratio: 2) {
             background-color: #fff;
            /* border-bottom: solid 1px gray;
             margin-bottom: 38px;*/
-            height: 58px;
+            height: 42px;
             .collapseIcon{
                 display:inline;
             }
             .savedSubTitle{
                 display:block;
                 font-size:14pt;
-                margin-top:22px;
+               /* margin-top:22px; */
                 margin-right:6px;
                 float:left;
             }
             .iconPlusMinus {
                 display:block;
-                margin-top:6px;
-                margin-right:6px;
+                /* margin-top:6px;
+                margin-right:6px; */
+                width:24px;
                 float:left;
+                margin-right: 15px ;
                 .icon-plus , .icon-minus {
                   margin-left: 0 ;
                 }
@@ -3969,7 +3990,7 @@ only screen and (min-device-pixel-ratio: 2) {
             .downReport {
                 display:block;
                 float:right;
-                margin-top:28px;
+               /* margin-top:28px; */
                 a {
                     color:#312333;
                 }
@@ -3986,7 +4007,8 @@ only screen and (min-device-pixel-ratio: 2) {
 
     #dynamicHeader{
         padding-left:14px;
-        margin-bottom: 10px;
+       /* margin-bottom: 10px; */
+        margin-top: 28px;
         .collapseIcon{
             display:none;
         }
@@ -4016,9 +4038,9 @@ only screen and (min-device-pixel-ratio: 2) {
         border: 1px solid #C6C9CE;
         border-radius: 2px;
         float: left;
-        margin-right: 10px;
+       /* margin-right: 10px;
         margin-left: 18px;
-        margin-top: 17px;
+        margin-top: 17px; */
         &:hover{
             color: #428bca;
         }
@@ -4041,7 +4063,7 @@ only screen and (min-device-pixel-ratio: 2) {
     }
     .heading {
         h1 {
-            margin: 25px 11px  25px  0;
+            margin: 0px 11px  25px  0px;
         }
 
       h3 {
@@ -4053,7 +4075,7 @@ only screen and (min-device-pixel-ratio: 2) {
       h6 {
           font-size: 14px ;
           color: #000 ;
-          margin: 32px 147px 20px;
+          margin:7px 147px 20px;
       }
     }
     .common_dropdown .dropdown {
@@ -4480,7 +4502,7 @@ only screen and (min-device-pixel-ratio: 2) {
       margin: 100px auto 110px ;
     }
     .custom_report_scroll {
-      min-height: 200px ;
+      min-height: 400px ;
       max-height: 500px;
       overflow: auto ;
     }

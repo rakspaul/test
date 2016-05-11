@@ -871,9 +871,12 @@ define(['angularAMD'], function(angularAMD) {
         this.MEDIAPLANUPD = 'Media Plan Update';
         this.MEDIAPLANCLONE = 'Clone Media Plan';
         this.NEWMEDIAPLANNAME = 'New Media Plan Name' ;
-        this.CLONEMEDIAPLANNAMEERR = '"Media Plan Name 2" already exists for this advertiser. Please enter a unique Media Plan name.' ;
+        this.CLONEMEDIAPLANNAMEERR = 'already exists for this advertiser. Please enter a unique Media Plan name.' ;
         this.DUPLICATELINEITEMS = 'Duplicate Line Items';
         this.DUPLICATEADGROUPS = 'Duplicate Ads & Ad Groups';
+        this.AUTOMATICADJUSTFLIGHTDATES = 'Automatically adjust flight dates.';
+        this.NEWMEDIAPLANSTARTDATE = 'New Media Plan start date';
+        this.KEEPORIGINALFLIGHTDATES = 'Keep original flight dates.';
         this.ARCHIVE = 'Archive';
         this.OPTIMIZATION_REPORT = 'Optimization Impact Report';
         this.BUILD_REPORT = 'Build Report';
@@ -893,7 +896,7 @@ define(['angularAMD'], function(angularAMD) {
         this.WHATFLIGHTDATES = 'What are the Flight Dates?';
         this.PLEASESELSTARTDATE = 'Please select the start Date.';
         this.EXPORT_CONVERSION_PIXELS = 'Export All Conversion Pixels' ;
-        this.TAGS_FOR_TRACKING_ONLY_ADS = 'Export Tags for Tracking Only Ads' ;
+        this.TAGS_FOR_TRACKING_ONLY_ADS = 'Export Ad Tags' ;
         this.MAX_SPEND_FOR_ADGROUP = 'Maximum Spend for Ad Group' ;
         this.LINE_ITEM = 'Line Item' ;
         this.MAX_YOU_CAN_SPEND = "What's the maximum you can spend for your Ad Group?" ;
@@ -1064,6 +1067,11 @@ define(['angularAMD'], function(angularAMD) {
         this.SELECT_CURRENCY = "Please select the currency";
         this.SELECT_GEOGRAPHY = "Please select the geography";
         this.SELECT_TIMEZONE = "Please select the timezone";
+        this.EMPTY_ADCHOICE_CODE = "Please add code for ad-choice";
+        this.EMPTY_IAB_CATEGORY = "Please select some category";
+        this.EMPTY_IAB_SUB_CATEGORY = "Please select some sub-category";
+        this.PIXEL_DOWNLOAD_SUCCESS = "Pixel downloaded successfully";
+        this.PIXEL_DOWNLOAD_ERR = "Error in downloading pixel";
 
         this.SELECT_DIMENSION = 'Select a Dimension';
         this.SELECT_SIZE = 'Select Size';
@@ -1100,9 +1108,10 @@ define(['angularAMD'], function(angularAMD) {
         this.TARGET = 'Target';
 
         // Media Plan Setup: 2 Pixels
-        this.MEDIAPLAN_PIXEL_SELECT = "Select Coversion Pixels (Optional)";
+        this.MEDIAPLAN_PIXEL_SELECT = "Select Conversion Pixels (Optional)";
         this.MEDIAPLAN_PIXEL_REQUIRED = "A Conversion Pixel is required for tracking and reporting conversions and for CPA billing";
         this.MEDIAPLAN_PIXEL_SELECTED = "Selected Pixels";
+        this.MEDIAPLAN_PIXEL_LIST = 'Pixels in list';
 
         // Media Plan Setup: 3 Budget
         this.MEDIAPLAN_BUDGET_MEASURE = "Budget & Measure";
@@ -1137,6 +1146,15 @@ define(['angularAMD'], function(angularAMD) {
         this.MEDIAPLAN_ADD_ANOTHER_CREDIT = "Add Another Credit";
         this.MEDIAPLAN_FLIGHT_DATE_START = "Flight Date Start";
         this.MEDIAPLAN_FLIGHT_DATE_END = "Flight Date End";
+
+        this.MEDIA_PLAN_CLONE ='Media Plan Clone';
+        this.MEDIA_PLAN_WARNING_MESSAGE = 'You will lose your changes if you leave this page. Are you sure?'
+
+        this.MEDIA_PLAN_TOTAL = "Media Plan total*:";
+        this.AD_GROUP_TOTAL = "Ad Group total*:";
+        this.CAMPAIGN_TOTAL = "Campaign total*:";
+        this.INCLUDES_FIXED_COSTS = "*Includes fixed costs";
+        this.EXCLUDES_MEDIA_PLAN_FIXED_COSTS = "*Excludes Media Plan fixed costs";
 
     });
 });

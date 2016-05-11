@@ -1,18 +1,18 @@
 define(['angularAMD','../../common/services/url_service','common/services/data_service','reporting/kpiSelect/kpi_select_model',
                      'login/login_model', 'reporting/advertiser/advertiser_model'], function (angularAMD) {
   angularAMD.factory("campaignSelectModel", ['$rootScope','urlService', 'dataService', 'kpiSelectModel',
-                                             'loginModel', 'advertiserModel',
-    function ($rootScope,urlService, dataService, kpiSelectModel, loginModel, advertiserModel) {
+                                             'loginModel', 'advertiserModel','localStorageService',
+    function ($rootScope,urlService, dataService, kpiSelectModel, loginModel, advertiserModel,localStorageService) {
 
     var campaign = {};
     campaign.campaigns = {};
-    campaign.selectedCampaign = (localStorage.getItem('selectedCampaign') == undefined) ? {
+    campaign.selectedCampaign = (localStorageService.selectedCampaign.get() == undefined) ? {
       id: -1,
       name: 'Loading...',
       kpi: 'ctr',
       startDate: '-1',
       endDate: '-1'
-    } : (JSON.parse(localStorage.getItem('selectedCampaign')));
+    } : localStorageService.selectedCampaign.get();
 
     campaign.setSelectedCampaign = function (_campaign, fileIndex, allCampaign) {
       if (!$.isEmptyObject(_campaign)) {
@@ -32,7 +32,7 @@ define(['angularAMD','../../common/services/url_service','common/services/data_s
           localStorage.setItem('selectedCampaignAll', JSON.stringify(campaign.selectedCampaign));
         } else {
           if (campaign.selectedCampaign.id != 0) {
-            localStorage.setItem('selectedCampaign', JSON.stringify(campaign.selectedCampaign));
+              localStorageService.selectedCampaign.set(campaign.selectedCampaign);
           } else {
             $rootScope.$broadcast('CAMPAIGN_CHANGE');
           }
@@ -71,7 +71,7 @@ define(['angularAMD','../../common/services/url_service','common/services/data_s
     };
 
     campaign.getSelectedCampaign = function () {
-      return (localStorage.getItem('selectedCampaign') == undefined) ? campaign.selectedCampaign : JSON.parse(localStorage.getItem('selectedCampaign'));
+      return (localStorageService.selectedCampaign.get() == undefined) ? campaign.selectedCampaign : localStorageService.selectedCampaign.get();
     };
 
     campaign.durationLeft = function (campaign) {
@@ -108,7 +108,7 @@ define(['angularAMD','../../common/services/url_service','common/services/data_s
     };
 
     campaign.removeSelectedCampaign = function () {
-      return localStorage.removeItem('selectedCampaign');
+      return localStorageService.selectedCampaign.remove();
     }
 
     return campaign;

@@ -5,9 +5,15 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/ac
     'use strict';
 
     angularAMD.controller('UsersAddOrEdit', function($scope, $rootScope, $compile, $q,
-                                                     constants,accountsService,momentService,
-                                                     loginModel,utils) {
+        constants,accountsService,momentService,
+        loginModel,utils) {
         var _customctrl = this;
+        _customctrl.workflowUserPages = [
+            {description: "Creative library", code: "CREATIVE_LIST"},
+            {description: "Creative library", code: "MEDIAPLAN_HUB"},
+            {description: "Media Plan Set-up", code: "MEDIAPLAN_SETUP"},
+            {description: "Ad Set-up Screens", code: "AD_SETUP"}
+        ]
         $scope.showSuperAdminButton = loginModel.getClientData().is_super_admin;
         $scope.editId = null;
         $scope.count = 0;
@@ -29,7 +35,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/ac
         if(!$scope.userModalData) {
             $scope.userModalData = [];
         }
-
+        
         $scope.editmode = false;
         var defaultAccess = 'ADMIN';
         var editedUserDetails = {};
@@ -38,7 +44,23 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/ac
 
         $scope.close = function () {
             //$modalInstance.dismiss();
+            $scope.userConsoleFormDetails.status = false;
         };
+        $scope.closeForm = function () {
+            $('.user-list, .users-creation-page .heading').fadeIn();
+            $('.edit-dialog').fadeOut();
+            _.each($scope.pagePermissionValue,function(item, i){
+                _customctrl.allPages(i, true);
+            })
+            setTimeout(function(){
+                if($("#cmn-toggle-1").is(':checked')){
+                    $("#cmn-toggle-1").trigger('click');
+                }
+                if($("#userState").is(':checked')){
+                    $("#userState").trigger('click');
+                }
+            },25);
+        }
         $scope.selectedRole = function (roleType) {
             if (roleType == constants.super_admin) {
                 $scope.isSuperAdmin = true;
@@ -46,10 +68,8 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/ac
             }
             else
                 $scope.isSuperAdmin = false;
-
         };
         _customctrl.validateInputs = function () {
-
             var icheck = ["email", "firstName", "lastName", "password"],
                 len = icheck.length,
                 retVal = true;
@@ -83,10 +103,10 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/ac
                 "lastName": $scope.userConsoleFormDetails.lastName,
                 "email": $scope.userConsoleFormDetails.email,
                 "password": $scope.userConsoleFormDetails.password,
-                "status": true,
+                "status": $scope.userConsoleFormDetails.status,
                 "permissions": []
             }
-         //   _customctrl.requestData.permissions = _customctrl.requestData.permissions;
+            //   _customctrl.requestData.permissions = _customctrl.requestData.permissions;
             _customctrl.requestData.roleTemplateId = ($scope.isCurr_SuperUser ? 1 : 2);
             if($scope.editId){
                 _customctrl.requestData.id = $scope.editId;
@@ -201,11 +221,11 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/ac
             $scope.permissions[accountIndex].resources[permissionIndex]["permissionValue"] = permissionObj.value;
         };
         accountsService.initCounter();
-        $scope.incrementCounter=function(index){
+        $scope.incrementCounter=function(){
             _customctrl.accountIndex = accountsService.getCounter();
             $scope.pagePermissionValue[_customctrl.accountIndex] = [];
             $scope.pagePermissionValue[_customctrl.accountIndex].push({description: "Enable Access to all features", code: "ENABLE_ALL"});
-          //  userModalPopup.getUserPages(_customctrl.accountIndex);
+            //  userModalPopup.getUserPages(_customctrl.accountIndex);
             accountsService.setCounter();
             if(!$scope.User.data[accountsService.getCounter()-1])
                 $scope.User.data[accountsService.getCounter()-1] = {};
@@ -214,6 +234,9 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/ac
             $scope.permissions.push({resources:[],clientName:"Select Account"});
             $scope.dropdownList.push({"clients":[], "pages":[]});
             $scope.adminToggle.push(false);
+            if(!$scope.editId){
+                _customctrl.allPages(_customctrl.accountIndex, true)
+            }
         };
 
         $scope.setPermissionAccess = function(index,val){
@@ -221,11 +244,11 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/ac
         }
         var userModalPopup = {
             getUserClients:function(editmode){
-                 accountsService.getClients(function(res) {
-                     $scope.userModalData['Clients'] = res.data.data;
-                 },function(){
+                accountsService.getClients(function(res) {
+                    $scope.userModalData['Clients'] = res.data.data;
+                },function(){
 
-                 },'cancellable');
+                },'cancellable');
             },
             getUserBrands:function(clientId,advertiserId,accountIndex,permissionIndex,editmode,editData){
                 var arr = null;
@@ -269,6 +292,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/ac
                             res.data.data.shift();
                         }
                         $scope.userPages = res.data.data;
+                        console.log($scope.userPages);
                     }
                 });
             },
@@ -288,6 +312,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/ac
             $scope.userConsoleFormDetails.roleTemplateId = undefined;
             $scope.userConsoleFormDetails.isEditPassword = undefined;
             $scope.userConsoleFormDetails.updatedAt = undefined;
+            $scope.userConsoleFormDetails.status = true;
             $scope.clientName=[];
             $scope.userModalData = [];
             $scope.advertiserName=[];
@@ -340,11 +365,15 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/ac
                     $scope.userConsoleFormDetails.email = _customctrl.responseData.email;
                     $scope.userConsoleFormDetails.firstName = _customctrl.responseData.firstName;
                     $scope.userConsoleFormDetails.lastName = _customctrl.responseData.lastName;
+                    $scope.userConsoleFormDetails.status = _customctrl.responseData.status;
                     //$scope.userConsoleFormDetails.roleTemplateId = _customctrl.responseData.roleTemplateId;
                     $scope.isCurr_SuperUser = (_customctrl.responseData.reportTemplateId == 1) ? true : false;
                     setTimeout(function() {
-                        if ($scope.isCurr_SuperUser && !$("#cmn-toggle-1").is(':checked')) {
+                        if($scope.isCurr_SuperUser && !$("#cmn-toggle-1").is(':checked')){
                             $("#cmn-toggle-1").trigger('click');
+                        }
+                        if($scope.userConsoleFormDetails.status && !$("#userState").is(':checked')){
+                            $("#userState").trigger('click');
                         }
                     },25);
                     $scope.userConsoleFormDetails.isEditPassword = _customctrl.responseData.isCaasEnabled;
@@ -377,6 +406,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/ac
                                     $('#addPermissionText_'+i).hide();
                                     //$("#admin-toggle-"+i).prop('checked') = true;
                                     $scope.adminToggle[i] = true;
+                                    _customctrl.allPages(i, true);
                                 }, 1, i);
                                 _customctrl.responseData.permissions[i].resources = [];
                             } else {
@@ -389,9 +419,11 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/ac
                             }
                         });
                         $scope.pagePermissionValue[i] = [];
+                        _customctrl.allPages(i, false);
                         _.each(item["features"], function (d, j) {
                             if (d == "ENABLE_ALL") {
                                 $scope.pagePermissionValue[i] = [{description: "Enable Access to all features", code: "ENABLE_ALL"}];
+                                _customctrl.allPages(i, true);
                             } else {
                                 _.each($scope.userPages, function (p, k) {
                                     if (p.code == d) {
@@ -399,6 +431,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/ac
                                             description: p.description,
                                             code: p.code
                                         });
+                                        $scope.userConsoleFormDetails[d+"_"+i+"_checked"]=true;
                                     }
                                 });
                             }
@@ -416,24 +449,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/ac
             //$scope.resetFields(true);
         });
 
-        $scope.superUserToggleClicked = function(isCurr_SuperUser){
-            $scope.isCurr_SuperUser = isCurr_SuperUser;
-            if($scope.isCurr_SuperUser){
-                $scope.permissions = [];
-            }
-        }
-        $scope.adminUserToggleClicked = function(accountIndex, ev){
-            if(ev.target.outerHTML.search("id") == -1) {
-                $scope.adminToggle[accountIndex] = !$scope.adminToggle[accountIndex];
-                var sel = $("div[id*=resources_" + accountIndex + "_], #addPermissionText_" + accountIndex);
-                if (!$scope.adminToggle[accountIndex]) {
-                    sel.show();
-                } else {
-                    sel.hide();
-                    _customctrl.clearPermissions(accountIndex);
-                }
-            }
-        }
+
 
         _customctrl.clearPermissions = function(accountIndex){
             var sel = $("div[id*=resources_"+accountIndex+"_]");
@@ -477,12 +493,12 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/ac
         }
         $scope.addPermission = function(accountIndex){
             $scope.permissions[accountIndex].resources.push({"advertiserId": -1,
-                                                                 "advertiserName": constants.ALL_ADVERTISERS,
-                                                                 "brandId": -1,
-                                                                 "brandName": constants.ALL_BRANDS,
-                                                                 "permissionName": "Admin",
-                                                                 "permissionValue": "admin"
-                                                               });
+                "advertiserName": constants.ALL_ADVERTISERS,
+                "brandId": -1,
+                "brandName": constants.ALL_BRANDS,
+                "permissionName": "Admin",
+                "permissionValue": "admin"
+            });
             if(!$scope.dropdownList[accountIndex]["advertisers"]) {
                 $scope.dropdownList[accountIndex]["advertisers"] = [];
             }
@@ -532,6 +548,88 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/ac
             });
         }
 
+        _customctrl.allPages = function(index, isSel){
+            _.each($scope.userPages, function(item){
+                $scope.userConsoleFormDetails[item.code+"_"+index+"_checked"] = isSel;
+            });
+        }
+        $scope.permissionAll = function(accountIndex) {
+            _customctrl.allPages(accountIndex, true);
+            $scope.pagePermissionValue[accountIndex] = [{description: "Enable Access to all features", code: "ENABLE_ALL"}];
+        }
+
+        $scope.permissionUnAll = function(accountIndex) {
+            _customctrl.allPages(accountIndex, false);
+            $scope.pagePermissionValue[accountIndex] = [];
+        }
+
+        $scope.permissionRepOnly = function(accountIndex) {
+            var sel = $("div[data-row-index="+accountIndex+"] .userPages input");
+            _customctrl.allPages(accountIndex, true);
+            _.each(_customctrl.workflowUserPages, function(item){
+                $scope.userConsoleFormDetails[item.code+"_"+accountIndex+"_checked"] = false;
+            })
+            $("input[name='CREATIVE_LIST'], input[name='MEDIAPLAN_HUB'], input[name='MEDIAPLAN_SETUP'], input[name='AD_SETUP']").prop("checked", false);
+            $scope.pagePermissionValue[accountIndex] = [];
+            var found;
+            _.each($scope.userPages, function(item){
+                found = false;
+                _.each(_customctrl.workflowUserPages, function(wItem){
+                   if(item.code == wItem.code){
+                       found = true;
+                   }
+                });
+                if(!found) {
+                    $scope.pagePermissionValue[accountIndex].push({
+                        code: item.code,
+                        description: item.description
+                    });
+                }
+            });
+        }
+        $scope.selectUserPage = function(accountIndex, page){
+            if($scope.userConsoleFormDetails[page.code+'_'+accountIndex+'_checked']){
+//                $(pSel+" .selOption .unAll").removeClass("active");
+                $scope.pagePermissionValue[accountIndex].push({
+                    code: page.code,
+                    description: page.description
+                });
+//                if($scope.pagePermissionValue[accountIndex].length == $scope.userPages.length){
+//                    $(pSel+" .selOption .all").addClass("active");
+//                }
+            }else{
+//                $(pSel+" .selOption .all").removeClass("active");
+                $scope.pagePermissionValue[accountIndex] = [];
+                _.each($scope.userPages,function(item){
+                   // isChecked = $scope.userConsoleFormDetails[item.code+'_'+accountIndex+'_checked'];
+                    if($scope.userConsoleFormDetails[item.code+'_'+accountIndex+'_checked']){
+                        $scope.pagePermissionValue[accountIndex].push({
+                            code: item.code,
+                            description: item.description
+                        });
+                    }
+                });
+            }
+        }
+        $scope.superUserToggleClicked = function(isCurr_SuperUser){
+            $scope.isCurr_SuperUser = isCurr_SuperUser;
+            if($scope.isCurr_SuperUser){
+                $scope.permissions = [];
+            }
+        }
+        $scope.adminUserToggleClicked = function(accountIndex, ev){
+            if(ev.target.outerHTML.search("id") == -1) {
+                $scope.adminToggle[accountIndex] = !$scope.adminToggle[accountIndex];
+                var sel = $("div[id*=resources_" + accountIndex + "_], #addPermissionText_" + accountIndex);
+                if (!$scope.adminToggle[accountIndex]) {
+                    sel.show();
+                } else {
+                    _customctrl.allPages(accountIndex, true);
+                    sel.hide();
+                    _customctrl.clearPermissions(accountIndex);
+                }
+            }
+        }
         $scope.subClientListData = {};
         $scope.getSubClientList = function(clientId, name, parentContianerId, accountIndex){
             var sel = '#accountDropDown_'+accountIndex+' #clientDropdown_';

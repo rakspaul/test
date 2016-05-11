@@ -15,20 +15,6 @@
                 ng-click="showCreateNewWindow()"
                 style="margin-left: 10px;"
                 data-ng-bind="textConstants.CREATENEW"></button>
-        <div class="pull-left">
-            <div>
-                <button type="button"
-                        class="btn btn-default"
-                        ng-show="TrackingIntegrationsSelected"
-                        ng-disabled="!adData.adName || !(creativeData.creativeInfo.creatives.length > 0)"
-                        ng-click="downloadTrackerUrls()"
-                        style="margin-left: 10px;"
-                        data-ng-bind="textConstants.DLTRACKER"></button>
-            </div>
-            <span ng-if="downloadingTracker"
-                  class="download-report-load-icon"
-                  data-ng-bind="textConstants.DOWNLOADING"> </span>
-        </div>
     </div>
 </div>
 

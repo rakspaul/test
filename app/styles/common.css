@@ -395,6 +395,53 @@
 .popup-holder .data_row.custom_report_type .campaign-dd-data {
   width: 340px;
 }
+.popup-holder .dropdown-search input[type="text"],
+.popup-holder .dropdown-search input[type="text"]:hover,
+.popup-holder .dropdown-search input[type="text"]:focus {
+  margin: 0px ;
+  border-left: 0px ;
+  border-right: 0px ;
+  border-top: 0px ;
+}
+.popup-holder .dropdown-workflow .searchBar {
+  margin-top: 0px ;
+}
+.popup-holder .dropdown-workflow .searchBar .icon-search {
+  top: -4px;
+}
+.clone-popup .cloneMediaPlanNameInput {
+  width: 100%;
+}
+.clone-popup .cloneMediaPlanNameInput input {
+  color: #555 ;
+}
+.clone-popup .duplicateOptionChkbox {
+  margin-top: 20px ;
+}
+.clone-popup .common-loading-btn {
+  width: 70px ;
+}
+.clone-popup .duplicateAdGroupSection {
+  margin: 10px 0 ;
+  position: relative;
+}
+.clone-popup .duplicateAdGroupSection .newMediaPlanFlightDate {
+  margin: 15px 20px ;
+}
+.clone-popup .duplicateAdGroupSection .disabled_div {
+  position: absolute;
+  top: 0px;
+  left: -2px;
+  height: 100%;
+  width: 100%;
+  background: #fff;
+  z-index: 20;
+  opacity: 0.6;
+}
+.clone-popup .duplicateAdGroupSection .dateInputHolder input {
+  margin: 0 ;
+  color: #555 ;
+}
 .popContainerHolder {
   overflow: auto;
   overflow-y: scroll;
@@ -1199,6 +1246,9 @@
 .main_navigation_holder div.reports_header_tabs_holder .new_report_generate_btn:hover .icon-report-builder {
   color: #84BCE4;
 }
+.main_navigation_holder div.reports_header_tabs_holder .active_tab .new_report_generate_btn .icon-report-builder {
+  color: #84BCE4;
+}
 .main_navigation_holder div.reports_header_tabs_holder .header_tab_dropdown {
   padding: 2px 20px 2px 0px;
   float: left;
@@ -1642,6 +1692,16 @@ multiselect .dropdown-menu > li > a {
   color: #428bca;
   margin-top: 6px;
 }
+.commonStatusIcon {
+  display: inline-block;
+  float: left;
+  height: 12px;
+  width: 12px;
+  border-radius: 50%;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  margin: 3px 10px 0 0 ;
+}
 .draft_bulb {
   border: solid 3px #939eae;
   background: transparent;
@@ -1730,6 +1790,28 @@ multiselect .dropdown-menu > li > a {
   height: 36px;
   margin: 0 auto;
 }
+div.inputLoader {
+  border: 1px solid #dde6eb ;
+  position: relative;
+  border-radius: 2px;
+  -moz-border-radius: 2px;
+  -webkit-border-radius: 2px;
+}
+div.inputLoader > input[type="text"] {
+  border: solid 1px  transparent;
+  width: 80% ;
+  margin: 0 ;
+}
+div.inputLoader > input[type="text"]:focus,
+div.inputLoader > input[type="text"]:hover {
+  border: solid 1px  transparent !important;
+}
+div.inputLoader > .common-loading-area {
+  position: absolute;
+  right: 0px ;
+  top: 0px ;
+  z-index: 10 ;
+}
 tags-input .autocomplete {
   margin-top: 37px ;
 }
@@ -1745,6 +1827,11 @@ tags-input .autocomplete {
 }
 .otherBgDateRange.date .dateWrapper .dateContainer input {
   width: 100% ;
+  height: 36px ;
+}
+.otherBgDateRange.date .dateWrapper .dateContainer input:disabled {
+  cursor: default;
+  opacity: 0.7;
 }
 .otherBgDateRange.date .dateWrapper .dateContainer:last-child {
   margin-left: 10px ;
@@ -1760,8 +1847,8 @@ tags-input .autocomplete {
   top: 0;
   right: 6px;
   border-left: 1px solid #dbe8ef;
-  padding: 8px 0 0 8px;
-  height: 32px;
+  padding: 10px 0 0 8px;
+  height: 36px;
   width: 27px;
 }
 .slider-msg {
