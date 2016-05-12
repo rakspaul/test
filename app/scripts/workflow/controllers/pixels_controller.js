@@ -42,24 +42,27 @@ define(['angularAMD' , 'workflow/services/workflow_service' , 'common/moment_uti
 
             //select or unselect indiviual pixels
             $scope.selectPixel = function (pixel) {
-                var pixelIndex = _.findIndex($scope.selectedCampaign.selectedPixel, function (item) {
-                    return item.id === pixel.id;
-                });
-                if (pixelIndex === -1) {
-                    pixel.isChecked = true;
-                    pixel.isIncluded = true;
-                    $scope.selectedCampaign.selectedPixel.push(pixel);
-                } else {
-                    $scope.selectedCampaign.selectedPixel.splice(pixelIndex, 1);
-                    var index = _.findIndex($scope.selectedCampaign.pixelList, function (list) {
-                        return pixel.id == list.id;
-                    })
-                    $scope.selectedCampaign.pixelList[index].isChecked = false;
-                    $scope.selectedCampaign.pixelList[index].isIncluded = null;
+                if(pixel){
+                    var pixelIndex = _.findIndex($scope.selectedCampaign.selectedPixel, function (item) {
+                        return item.id === pixel.id;
+                    });
+                    if (pixelIndex === -1) {
+                        pixel.isChecked = true;
+                        pixel.isIncluded = true;
+                        $scope.selectedCampaign.selectedPixel.push(pixel);
+                    } else {
+                        $scope.selectedCampaign.selectedPixel.splice(pixelIndex, 1);
+                        var index = _.findIndex($scope.selectedCampaign.pixelList, function (list) {
+                            return pixel.id == list.id;
+                        })
+                        $scope.selectedCampaign.pixelList[index].isChecked = false;
+                        $scope.selectedCampaign.pixelList[index].isIncluded = null;
 
-                    // filter line item
-                    $scope.filterLineItemBasedOnPixel(pixel.id);
+                        // filter line item
+                        $scope.filterLineItemBasedOnPixel(pixel.id);
+                    }
                 }
+
             };
 
             $scope.selectAllPixel = function (event) {

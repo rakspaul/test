@@ -55,34 +55,51 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 newItem = createEditLineItemObj(oldLineItem);
                 $scope.lineItemList.push(newItem);
             }
+            $scope.calculateLineItemTotal();
         };
 
         $scope.createNewLineItemInEditMode = function () {
-            var newItem;
+            var newItem,
+                tempBudget;
             newItem = createLineItemObj();
             newItem.startTime = momentService.localTimeToUTC(newItem.startTime, 'startTime');
             newItem.endTime = momentService.localTimeToUTC(newItem.endTime, 'endTime');
+            //calc budget for validation against campaign budget
+            tempBudget = $scope.selectedCampaign.lineItemBillableAmountTotal;
+            tempBudget = Number(tempBudget) + Number(newItem.billableAmount);
+            if (tempBudget > $scope.Campaign.deliveryBudget) {
+                $rootScope.setErrAlertMessage('Line Item budget cannot exceed media plan budget');
+                return false;
+            }
             workflowService.createLineItems($scope.selectedCampaign.campaignId, $scope.selectedCampaign.clientId, newItem).then(function (results) {
                 console.log('result==', results)
                 if (results.status === 'success' && results.data.statusCode === 201) {
                     var campaignObj = $scope.createCampaignAccess();
                     campaignObj.fetchLineItemDetails($scope.selectedCampaign.campaignId);
                     $scope.resetLineItemParameters();
+                    newItem = createLineItemObj();
                 }
             });
         };
 
         $scope.updateLineItemInEditMode = function () {
-            var newItem;
-            newItem = createEditLineItemObj(oldLineItem);
+            var newItem,
+                tempBudget;
+            newItem = createEditLineItemObj(angular.copy(oldLineItem));
             newItem.startTime = momentService.localTimeToUTC(newItem.startTime, 'startTime');
             newItem.endTime = momentService.localTimeToUTC(newItem.endTime, 'endTime');
+            tempBudget = $scope.selectedCampaign.lineItemBillableAmountTotal;
+            tempBudget = (Number(tempBudget) - Number(oldLineItem.billableAmount)) + Number(newItem.billableAmount);
+            if (tempBudget > $scope.Campaign.deliveryBudget) {
+                $rootScope.setErrAlertMessage('Line Item budget cannot exceed media plan budget');
+                return false;
+            }
             workflowService.updateLineItems($scope.selectedCampaign.campaignId, $scope.selectedCampaign.clientId, newItem).then(function (results) {
                 if (results.status === 'success' && (results.data.statusCode === 200 || results.data.statusCode === 201)) {
                     var campaignObj = $scope.createCampaignAccess();
                     campaignObj.fetchLineItemDetails($scope.selectedCampaign.campaignId);
-                    $scope.selectedCampaign.lineItemBillableAmountTotal = $scope.selectedCampaign.lineItemBillableAmountTotal - Number(oldLineItem.billableAmount);
-                    $scope.selectedCampaign.lineItemBillableAmountTotal += Number($scope.editLineItem.billableAmount);
+                    $scope.calculateLineItemTotal();
+
                 }
 
             });
@@ -99,7 +116,6 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 newItem.adGroupName = ($scope.adGroupName === '') ? $scope.lineItemName : $scope.adGroupName;
             }
             newItem.billableAmount = $scope.billableAmount;
-            $scope.selectedCampaign.lineItemBillableAmountTotal += Number($scope.billableAmount);
             newItem.volume = $scope.volume;
             newItem.pricingRate = $scope.pricingRate;
             newItem.startTime = $scope.lineItemStartDate;
@@ -116,6 +132,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 newItem.updatedAt = lineItemObj.updatedAt;
             }
 
+            $scope.calculateLineItemTotal();
             return newItem;
         }
 
@@ -125,13 +142,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             newItem.lineItemType = $scope.editLineItem.lineItemType;
             newItem.pricingMethodId = $scope.editLineItem.lineItemType.id;
             newItem.adGroupName = $scope.editLineItem.adGroupName;
-            if ($scope.mode === 'create') { //budget in edit mode will be updated once api is successfull
-                $scope.selectedCampaign.lineItemBillableAmountTotal = $scope.selectedCampaign.lineItemBillableAmountTotal - Number(oldLineItem.billableAmount);
-            }
             newItem.billableAmount = $scope.editLineItem.billableAmount;
-            if ($scope.mode === 'create') {
-                $scope.selectedCampaign.lineItemBillableAmountTotal += Number($scope.editLineItem.billableAmount);
-            }
             newItem.volume = $scope.editLineItem.volume;
             newItem.pricingRate = $scope.editLineItem.pricingRate;
             newItem.startTime = $scope.editLineItem.startTime;
@@ -145,7 +156,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 newItem.id = lineItemObj.id;
                 newItem.updatedAt = lineItemObj.updatedAt;
             }
-
+            //$scope.calculateLineItemTotal();
             return newItem;
         }
 
@@ -337,15 +348,14 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     return true;
                 }
             });
-            if (deleteFlag == true) {
-                $scope.selectedCampaign.lineItemBillableAmountTotal -= Number($scope.lineItemList[index]['billableAmount']);
-            }
+
             if ($scope.mode === 'create') {
                 $scope.lineItemList.splice(index, 1);
             }
             else {
                 workflowService.deleteLineItem(oldLineItem, $scope.selectedCampaign.clientId) // not used right now
             }
+            $scope.calculateLineItemTotal();
         }
 
         //validate Line Item Flight Dates
@@ -519,6 +529,13 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             }
             $scope.lineItemList = tempList;
             console.log(tempList);
+        }
+
+        $scope.calculateLineItemTotal = function(){
+            $scope.selectedCampaign.lineItemBillableAmountTotal = 0;
+            _.each($scope.lineItemList,function(item){
+                $scope.selectedCampaign.lineItemBillableAmountTotal += Number(item.billableAmount);
+            })
         }
     });
 });
