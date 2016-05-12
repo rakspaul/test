@@ -789,34 +789,34 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         }
 
 
-        $scope.$on("$locationChangeStart", function (event, next, current) {
-            if ($scope.cloneMediaPlanName) {
-                $modalInstance = $modal.open({
-                    templateUrl: assets.html_confirmation_modal,
-                    controller: 'ConfirmationModalController',
-                    scope: $scope,
-                    windowClass: 'delete-dialog',
-                    resolve: {
-                        headerMsg: function () {
-                            return $scope.textConstants.MEDIA_PLAN_CLONE;
-                        },
-                        mainMsg: function () {
-                            return $scope.textConstants.MEDIA_PLAN_WARNING_MESSAGE
-                        },
-                        buttonName: function () {
-                            return 'Ok';
-                        },
-                        execute: function () {
-                            return function () {
-                                $scope.cloneMediaPlanName = null;
-                                $location.path((next.substring($location.absUrl().length - $location.url().length)));
-                            }
-                        }
-                    }
-                });
-                event.preventDefault();
-            }
-        });
+        //$scope.$on("$locationChangeStart", function (event, next, current) {
+        //    if ($scope.cloneMediaPlanName) {
+        //        $modalInstance = $modal.open({
+        //            templateUrl: assets.html_confirmation_modal,
+        //            controller: 'ConfirmationModalController',
+        //            scope: $scope,
+        //            windowClass: 'delete-dialog',
+        //            resolve: {
+        //                headerMsg: function () {
+        //                    return $scope.textConstants.MEDIA_PLAN_CLONE;
+        //                },
+        //                mainMsg: function () {
+        //                    return $scope.textConstants.MEDIA_PLAN_WARNING_MESSAGE
+        //                },
+        //                buttonName: function () {
+        //                    return 'Ok';
+        //                },
+        //                execute: function () {
+        //                    return function () {
+        //                        $scope.cloneMediaPlanName = null;
+        //                        $location.path((next.substring($location.absUrl().length - $location.url().length)));
+        //                    }
+        //                }
+        //            }
+        //        });
+        //        event.preventDefault();
+        //    }
+        //});
 
 
         $(function() {

@@ -423,19 +423,14 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             //set line Item start Date
             if (lineItem.startTime) {
                 $scope.editLineItem.startTime = lineItem.startTime;
+                lineItemStartDateElem.datepicker("setStartDate", lineItem.startTime);
                 lineItemStartDateElem.datepicker("update", lineItem.startTime);
-                if (moment(lineItem.startTime).isBefore(today)) {
-                    lineItemStartDateElem.datepicker("setStartDate", today);
-                } else {
-                    lineItemStartDateElem.datepicker("setStartDate", lineItem.startTime);
-                }
             }
-
             if (lineItem.adGroupName) {
                 $scope.editLineItem.adGroupName = lineItem.adGroupName;
             }
 
-            lineItemStartDateElem.datepicker("setEndDate", $scope.selectedCampaign.startTime);
+            lineItemStartDateElem.datepicker("setEndDate", $scope.selectedCampaign.endTime);
             lineItemEndDateElem.datepicker("setEndDate", $scope.selectedCampaign.endTime);
 
             $scope.setLineItem($scope.editLineItem.lineItemType, 'edit');
