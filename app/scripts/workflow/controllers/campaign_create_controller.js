@@ -691,10 +691,10 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 if (cloneMediaPlanObj) {
                     $scope.cloneMediaPlanName = cloneMediaPlanObj.name;
                     $scope.campaignId = cloneMediaPlanObj.id;
-                    $scope.mode = 'edit';
+                    $scope.mode = 'create';
                 }
 
-                if ($scope.mode == 'edit') {
+                if ($scope.mode == 'edit' || $scope.cloneMediaPlanName) {
                     $scope.processEditCampaignData();
                 } else {
                     $timeout(function () {
