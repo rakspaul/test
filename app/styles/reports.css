@@ -1172,12 +1172,12 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 .viewability_details_outer_container .sort_order_up:hover,
 .viewability_details_video_mode_outer_container .sort_order_up:hover,
 .custom_report_response_table .sort_order_up:hover {
-  background: url("/images/cdesk/sorting_arrows_up.png") no-repeat scroll 55px 1px rgba(0, 0, 0, 0);
+  background: url("/images/cdesk/sorting_arrows_up.png") no-repeat scroll 100px 1px rgba(0, 0, 0, 0);
 }
 .viewability_details_outer_container .sort_order_up.active,
 .viewability_details_video_mode_outer_container .sort_order_up.active,
 .custom_report_response_table .sort_order_up.active {
-  background: url("/images/cdesk/sorting_arrows_down.png") no-repeat scroll 55px -64px rgba(0, 0, 0, 0);
+  background: url("/images/cdesk/sorting_arrows_down.png") no-repeat scroll 100px -64px rgba(0, 0, 0, 0);
   cursor: pointer;
   padding-right: 17px;
   color: #0978c9;
@@ -1191,12 +1191,12 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
 .viewability_details_outer_container .sort_order_down:hover,
 .viewability_details_video_mode_outer_container .sort_order_down:hover,
 .custom_report_response_table .sort_order_down:hover {
-  background: url("/images/cdesk/sorting_arrows_down.png") no-repeat scroll 55px 1px rgba(0, 0, 0, 0);
+  background: url("/images/cdesk/sorting_arrows_down.png") no-repeat scroll 100px 1px rgba(0, 0, 0, 0);
 }
 .viewability_details_outer_container .sort_order_down.active,
 .viewability_details_video_mode_outer_container .sort_order_down.active,
 .custom_report_response_table .sort_order_down.active {
-  background: url("/images/cdesk/sorting_arrows_up.png") no-repeat scroll 55px -64px rgba(0, 0, 0, 0);
+  background: url("/images/cdesk/sorting_arrows_up.png") no-repeat scroll 100px -64px rgba(0, 0, 0, 0);
   cursor: pointer;
   padding-right: 17px;
   color: #0978c9;
@@ -4330,8 +4330,6 @@ div.strategy_total_container .all_strategies_holder .each_strategy_holder:last-c
   margin: 100px auto 110px ;
 }
 .custom_report_response_page .custom_report_response_table .custom_report_scroll {
-  min-height: 400px ;
-  max-height: 500px;
   overflow: auto ;
 }
 .custom_report_response_page .custom_report_response_table .custom_report_scroll .heading_row {
