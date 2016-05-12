@@ -139,6 +139,7 @@ define(['angularAMD', 'workflow/services/workflow_service', 'common/services/con
 
                     }
                 }
+                console.log('$scope.additionalDimension = ', $scope.additionalDimension);
 
                 $scope.additionalDimension.push({
                     name: name || "",
@@ -149,6 +150,7 @@ define(['angularAMD', 'workflow/services/workflow_service', 'common/services/con
                     },
                     hide: false
                 });
+                console.log('$scope.additionalDimension = ', $scope.additionalDimension);
             },
 
 
@@ -283,9 +285,17 @@ define(['angularAMD', 'workflow/services/workflow_service', 'common/services/con
 
         $scope.videoDimensionTagRemoved = function(tag, type) {
             var pos = _.findIndex($scope.adData.videoTargets[type], function(Item) { return Item.id == tag.id });
+
             if(pos !== -1 ) {
                 $scope.adData.videoTargets[type].splice(pos, 1);
             }
+
+            $timeout(function() {
+                $('#' + type + 'InputBox').find('.input').trigger('blur').trigger('keydown');
+            }, 0);
+            //$scope.eventHandlers.input.focus(tag)
+            console.log('Tag removed!, $scope.adData.videoTargets = ', $scope.adData.videoTargets)
+            console.log('$scope.additionalDimension = ', $scope.additionalDimension);
         };
 
 
