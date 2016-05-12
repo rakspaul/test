@@ -116,15 +116,16 @@
                                     </ul>
                                 </div>
                             </div>
-                            <!--ng-disabled="createCampaignForm.$invalid"-->
+
                             <a href="#" class="btn btn-primary pull-right" role="button" ng-disabled="createCampaignForm.$invalid"  ng-click="saveCampaign()">{{textConstants.MP_SAVE}}</a>
-                            <div ng-hide="(mode!='edit')">
+                            <div ng-show="(mode == 'edit' || cloneMediaPlanName)">
                                 <a href="#" ng-click ="redirectToOverViewPage(editCampaignData.id)" class="btn btn-link pull-right" role="button">{{textConstants.MP_CANCEL}}</a>
                             </div>
                             <div class="pull-right common-loading-btn" style="width:62px;" ng-show="saveCampaignClicked"></div>
-                            <div ng-show="(mode!='edit')">
+                            <div ng-show="(mode == 'create' && !cloneMediaPlanName)">
                                 <a href="/mediaplans" class="btn btn-link pull-right" role="button">{{textConstants.MP_CANCEL}}</a>
                             </div>
+
                         </div>
                     </div>
 
