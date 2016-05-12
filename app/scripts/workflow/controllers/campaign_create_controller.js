@@ -1,7 +1,7 @@
 define(['angularAMD', 'common/services/constants_service', 'workflow/services/workflow_service', 'login/login_model', 'common/moment_utils', 'workflow/directives/clear_row', 'workflow/directives/ng_upload_hidden', 'workflow/controllers/pixels_controller', 'workflow/controllers/budget_controller', 'workflow/controllers/line_item_controller', 'common/controllers/confirmation_modal_controller', 'workflow/directives/custom_date_picker'], function (angularAMD) {
     angularAMD.controller('CreateCampaignController', function ($scope, $window, $timeout, $rootScope, $filter, $routeParams, $locale, $location, $timeout, $modal, constants, workflowService, loginModel, momentService, localStorageService) {
 
-        $scope.selectedKeywords = [];
+        $scope.selectedKeywords = []; 
         $scope.platformKeywords = [];
         $scope.dropdownCss = {
             display: 'none', 'max-height': '100px', overflow: 'scroll', top: '60px',
