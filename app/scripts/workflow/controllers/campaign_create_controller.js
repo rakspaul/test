@@ -466,7 +466,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 $rootScope.setErrAlertMessage('Line Item budget cannot exceed media plan budget');
                 return false;
             }
-            if($scope.editCampaignData.bookedSpend > $scope.Campaign.deliveryBudget){
+            if($scope.mode ==='edit' && $scope.editCampaignData.bookedSpend > $scope.Campaign.deliveryBudget){
                 $rootScope.setErrAlertMessage('Booked Spent should not exceed the campaign budget');
                 return false;
             }
@@ -538,10 +538,10 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                         $scope.editLineItem = {};
                         $scope.sucessHandler(result);
                     } else {
-                        console.log(result);
+                        $rootScope.setErrAlertMessage('Unable to '+(($scope.mode === 'edit')?' update ':' create ')+' Media Plan');
                     }
                 }, function (result) {
-                    console.log(result)
+                    $rootScope.setErrAlertMessage('Unable to '+(($scope.mode === 'edit')?' update ':' create ')+' Media Plan');
                 });
             }
         };
