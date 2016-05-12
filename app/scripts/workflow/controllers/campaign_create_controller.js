@@ -88,7 +88,6 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             $scope.showSubAccount = true;
         }
 
-
         var createCampaign = {
             clients: function () {
                 workflowService.getClients().then(function (result) {
@@ -786,6 +785,11 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         function resetPixelMediaPlan() {
             $scope.lineItemList = [];
             $scope.selectedCampaign.selectedPixel = [];
+        }
+
+        $scope.redirectToOverViewPage = function(campaignId) {
+            workflowService.setMediaPlanClone(null);
+            $location.url('/mediaplan/'+campaignId+'/overview');
         }
 
 
