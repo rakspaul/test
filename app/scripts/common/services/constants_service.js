@@ -387,6 +387,8 @@ define(['angularAMD'], function(angularAMD) {
         this.BEFORE_VALUE = "Before Value";
         this.AFTER_VALUE = "After Value";
         this.CHANGE_IN_PERCENTAGE = "Change %";
+        this.UPLOAD_COMPLETE = "Upload Complete";
+        this.DOWNLOAD_ERROR_LOG = "Download Error Log";
 
         this.DAYS_OF_WEEK = "Days of Week";
         this.DISCREPANCY = "Discrepancy";
@@ -598,9 +600,10 @@ define(['angularAMD'], function(angularAMD) {
         this.WF_CLONE = "Clone";
         this.WF_PAUSE = "Pause";
         this.WF_RESUME = "Resume";
-        this.WF_MOVE_TO = "Move to"
-        this.WF_ARCHIVE = "Archive"
-        this.WF_NOT_SET = "Not Set"
+        this.WF_MOVE_TO = "Move to";
+        this.WF_ARCHIVE = "Archive";
+        this.WF_NOT_SET = "Not Set";
+        this.CLOSE = "Close";
         this.WF_AD_SAVE_CLOSE = "Save & Close";
         this.WF_AD_SAVE_CONTINUE = "Save & Continue";
         this.WF_NAME_CAMPAIGN_TXT = "Tell us about your Media Plan?";

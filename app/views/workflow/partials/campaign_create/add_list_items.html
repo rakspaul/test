@@ -30,7 +30,7 @@
         </a>
         <span class="pull-left">LineItemSelect1.csv</span>
         <a class="icon-clear pull-left" ></a>
-        <a class="btn btn-primary pull-right">Upload</a>
+        <a class="btn btn-primary pull-right" ng-click="uploadFileChosenLineItem();">Upload</a>
         <a class="btn btn-link pull-right">Cancel</a>
     </div>
 
@@ -272,6 +272,31 @@
         <div class="col-md-12 zeroPadding" ng-show="showAddCredit" style="margin: 10px 0;">
             <a class="btn btn-default pull-left" data-ng-bind="textConstants.MEDIAPLAN_ADD_ANOTHER_CREDIT"></a>
         </div>
+    </div>
+</div>
+<div class="common-popup-container" ng-show="showUploadRecordsMessageLineItems">
+    <div class="popup">
+        <div class="popup-header-body">
+            <div class="clearfix">
+                <h1 class="pull-left" data-ng-bind="textConstants.UPLOAD_COMPLETE"></h1>
+            </div>
+            <div class="popup-content" >
+                <span class="successText">50 Line Items have been created successfully.</span>
+            </div>
+            <div class="popup-content" >
+                <span class="errorText">8 record(s) failed.</span>
+            </div>
+            <div class="popup-content" >
+                <a class="pull-left download_error_log" >
+                    <span class="pull-left icon-download"></span>
+                    <span class="pull-left download_error_log_txt" data-ng-bind="textConstants.DOWNLOAD_ERROR_LOG"></span>
+                </a>
+            </div>
+        </div>
+        <div class="clearfix popup-footer" >
+            <button type="button" ng-click="hideuploadFileChosenLineItem()" class="common_primary_btn pull-right" data-ng-bind="textConstants.CLOSE"></button>
+        </div>
+
     </div>
 </div>
 
