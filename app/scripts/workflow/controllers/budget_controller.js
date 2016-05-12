@@ -26,7 +26,12 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             }
         }
 
-        $scope.costAttributesSelected = function(costObj, attr , $event, type) {
+        $scope.costAttributesSelected = function(costObj, attr , event, type) {
+            var elem = $(event.target) ;
+            console.log(elem) ;
+            var tooltip_txt = elem.text() ;
+            console.log("tooltip_txt" + tooltip_txt)
+            elem.closest(".dropdown").find("button").attr("title" , tooltip_txt ) ;
             var selectedCostObj = {},
                 index = Number($(event.target).closest('.each-cost-dimension').attr('data-index'));
 
