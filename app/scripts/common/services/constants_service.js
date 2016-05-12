@@ -1139,6 +1139,8 @@ define(['angularAMD'], function(angularAMD) {
         this.MEDIAPLAN_BILLABLE_AMOUNT = "Billable Amount";
         this.MEDIAPLAN_VOLUME = "Volume";
         this.MEDIAPLAN_FLIGHT_DATES = "Flight Dates";
+        this.IMPORT_LINE_ITEMS = "Import Line Items";
+        this.EXPORT_LINE_ITEMS = "Export Line Items";   
 
         this.MEDIAPLAN_ADD_CREDIT = "Add Credit";
         this.MEDIAPLAN_CREDIT_NAME = "Credit Name / Notes";

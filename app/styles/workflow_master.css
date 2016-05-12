@@ -2113,3 +2113,17 @@ tags-input ul .suggestion-item.selected span {
 .disabled-cursor {
   cursor: not-allowed !important;
 }
+.common_file_upload_container {
+  background: #f5f9fd;
+}
+.common_file_upload_container .common_file_upload {
+  border: 1px dashed #DDE6EB ;
+  padding: 20px;
+  background: #fff ;
+}
+.common_file_upload_container .file_upload_icon {
+  height: 100px;
+  width: 100px;
+  background: url('/images/cdesk/dragging_files.png') no-repeat center center;
+  background-size: 80%;
+}
