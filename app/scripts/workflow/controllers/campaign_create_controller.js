@@ -460,6 +460,10 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 $rootScope.setErrAlertMessage('Line Item budget cannot exceed media plan budget');
                 return false;
             }
+            if($scope.editCampaignData.bookedSpend > $scope.Campaign.deliveryBudget){
+                $rootScope.setErrAlertMessage('Booked Spent should not exceed the campaign budget');
+                return false;
+            }
 
             if ($scope.createCampaignForm.$valid && $scope.lineItemList.length > 0) {
                 formElem = $("#createCampaignForm").serializeArray();
