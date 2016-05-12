@@ -275,7 +275,13 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 }
                 //set KPI type
                 if (campaignData.kpiType) {
-                    $scope.kpiName = $filter('toPascalCase')(campaignData.kpiType);
+                    //$scope.kpiName = $filter('toPascalCase')(campaignData.kpiType);
+                    if(campaignData.kpiType.toLowerCase() === 'action rate' || campaignData.kpiType.toLowerCase() === 'impressions'){
+                        $scope.kpiName = $filter('toPascalCase')(campaignData.kpiType);
+                    }
+                    else{
+                        $scope.kpiName = campaignData.kpiType;
+                    }
                 }
 
                 //set Kpi Value

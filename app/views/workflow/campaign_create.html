@@ -104,7 +104,7 @@
                             <h2>{{ textConstants.ABOUT_THIS_MEDIAPLAN }}</h2>
                         </div>
                         <div class="col-md-6 zeroPadding">
-                            <div class="zeroPadding dropdown-workflow pull-right" style="margin-left: 10px;" ng-hide="(mode!='edit')">
+                            <div class="zeroPadding dropdown-workflow pull-right" style="margin-left: 10px;" ng-show="(mode =='edit' && !cloneMediaPlanName)">
                                 <div class="dropdown">
                                     <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" style="margin: 0; padding: 10px 15px;">
                                         <span class="icon-more-options"></span>
