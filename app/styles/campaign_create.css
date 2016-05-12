@@ -3339,6 +3339,9 @@
 #campaignCreate .firstWrapper .masterContainer .settingWrap #addLineItems .common_file_upload_container .img_table_txt {
   margin: 15px 0px ;
 }
+#campaignCreate .firstWrapper .masterContainer .settingWrap #addLineItems .popup-content {
+  margin-bottom: 20px ;
+}
 #campaignCreate .firstWrapper .masterContainer .settingWrap .list_item_export_import_dd {
   margin-left: 10px ;
 }

@@ -19,6 +19,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         $scope.pixelSelected.name = 'Select from list';
         $scope.selectedCampaign.lineItemBillableAmountTotal = 0;
         $scope.selectedCampaign.createItemList = false;
+        $scope.showUploadRecordsMessageLineItems = false;
 
         $scope.showNewLineItemForm = function () {
             $scope.selectedCampaign.createItemList = true;
@@ -42,7 +43,14 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             $scope.initiateLineItemDatePicker();
         }
 
+        $scope.uploadFileChosenLineItem = function() {
+            $scope.showUploadRecordsMessageLineItems = true ;
 
+        }
+        $scope.hideuploadFileChosenLineItem = function() {
+            $scope.showUploadRecordsMessageLineItems = false ;
+
+        }
         $scope.createNewLineItem = function (mode, lineItemObj) {
             var newItem = {};
             if (mode === 'create' || $scope.cloneMediaPlanName) {
