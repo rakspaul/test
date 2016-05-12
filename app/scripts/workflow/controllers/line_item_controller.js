@@ -84,7 +84,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 if (results.status === 'success' && results.data.statusCode === 201) {
                     var campaignObj = $scope.createCampaignAccess();
                     campaignObj.fetchLineItemDetails($scope.selectedCampaign.campaignId);
-                    $scope.resetLineItemParameters();
+                    $scope.selectedCampaign.resetLineItemParameters();
                     newItem = createLineItemObj();
                 }
             });
