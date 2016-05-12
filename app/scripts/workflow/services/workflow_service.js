@@ -988,7 +988,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                             costAttrbs.rateTypeId = _.pluck(rateTypeObj, 'id')[0];
                             costAttrbs.clientVendorConfigurationId = _.pluck(obj.clientVendorOfferings, 'clientVendorConfigurationId')[0];
 
-                            costAttrbs.vendor.push({'id': obj.id, 'name': obj.name});
+                            costAttrbs.vendor.push({'id': obj.vendorId, 'name': obj.vendorName});
                             _.each(obj.clientVendorOfferings, function (vObj) {
                                 costAttrbs.offering.push({'id': vObj.id, 'name': vObj.name});
                                 costAttrbs.category.push({

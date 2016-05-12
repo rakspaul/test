@@ -16,11 +16,20 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         }
 
         $scope.removeCostDimension = function(event) {
-            var elem = $(event.target) ;
+            var elem = $(event.target),
+                index;
+
             elem.closest(".each-cost-dimension").hide();
+            index = Number($(event.target).closest('.each-cost-dimension').attr('data-index'));
+            if($scope.selectedCampaign.selectedCostAttr && $scope.selectedCampaign.selectedCostAttr[index]) {
+                $scope.selectedCampaign.selectedCostAttr.splice(index, 1);
+            }
         }
 
-        $scope.costAttributesSelected = function(costObj, attr , $event, type) {
+        $scope.costAttributesSelected = function(costObj, attr , event, type) {
+            var elem = $(event.target) ;
+            var tooltip_txt = elem.text() ;
+            elem.closest(".dropdown").find("button").attr("title" , tooltip_txt ) ;
             var selectedCostObj = {},
                 index = Number($(event.target).closest('.each-cost-dimension').attr('data-index'));
 

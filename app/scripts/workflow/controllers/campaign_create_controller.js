@@ -88,7 +88,6 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             $scope.showSubAccount = true;
         }
 
-
         var createCampaign = {
             clients: function () {
                 workflowService.getClients().then(function (result) {
@@ -275,7 +274,13 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 }
                 //set KPI type
                 if (campaignData.kpiType) {
-                    $scope.kpiName = $filter('toPascalCase')(campaignData.kpiType);
+                    //$scope.kpiName = $filter('toPascalCase')(campaignData.kpiType);
+                    if(campaignData.kpiType.toLowerCase() === 'action rate' || campaignData.kpiType.toLowerCase() === 'impressions'){
+                        $scope.kpiName = $filter('toPascalCase')(campaignData.kpiType);
+                    }
+                    else{
+                        $scope.kpiName = campaignData.kpiType;
+                    }
                 }
 
                 //set Kpi Value
@@ -451,6 +456,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 formData,
                 postDataObj;
 
+
             if ($scope.lineItemList.length == 0) {
                 $rootScope.setErrAlertMessage('Please create a Line Item');
                 return false;
@@ -458,6 +464,10 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
             if ($scope.selectedCampaign.lineItemBillableAmountTotal > $scope.Campaign.deliveryBudget) {
                 $rootScope.setErrAlertMessage('Line Item budget cannot exceed media plan budget');
+                return false;
+            }
+            if($scope.mode ==='edit' && $scope.editCampaignData.bookedSpend > $scope.Campaign.deliveryBudget){
+                $rootScope.setErrAlertMessage('Booked Spent should not exceed the campaign budget');
                 return false;
             }
 
@@ -523,14 +533,16 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
                 workflowService[($scope.mode === 'edit' && !$scope.cloneMediaPlanName) ? 'updateCampaign' : 'saveCampaign'](postDataObj).then(function (result) {
                     if (result.status === "OK" || result.status === "success") {
+                        workflowService.setMediaPlanClone(null)
+                        $scope.cloneMediaPlanName = null;
                         $scope.selectedCampaign.resetLineItemParameters();
                         $scope.editLineItem = {};
                         $scope.sucessHandler(result);
                     } else {
-                        console.log(result);
+                        $rootScope.setErrAlertMessage('Unable to '+(($scope.mode === 'edit')?' update ':' create ')+' Media Plan');
                     }
                 }, function (result) {
-                    console.log(result)
+                    $rootScope.setErrAlertMessage('Unable to '+(($scope.mode === 'edit')?' update ':' create ')+' Media Plan');
                 });
             }
         };
@@ -775,35 +787,40 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             $scope.selectedCampaign.selectedPixel = [];
         }
 
+        $scope.redirectToOverViewPage = function(campaignId) {
+            workflowService.setMediaPlanClone(null);
+            $location.url('/mediaplan/'+campaignId+'/overview');
+        }
 
-        $scope.$on("$locationChangeStart", function (event, next, current) {
-            if ($scope.cloneMediaPlanName) {
-                $modalInstance = $modal.open({
-                    templateUrl: assets.html_confirmation_modal,
-                    controller: 'ConfirmationModalController',
-                    scope: $scope,
-                    windowClass: 'delete-dialog',
-                    resolve: {
-                        headerMsg: function () {
-                            return textConstants.MEDIA_PLAN_CLONE;
-                        },
-                        mainMsg: function () {
-                            return textConstants.MEDIA_PLAN_WARNING_MESSAGE
-                        },
-                        buttonName: function () {
-                            return 'Ok';
-                        },
-                        execute: function () {
-                            return function () {
-                                $scope.cloneMediaPlanName = null;
-                                $location.path((next.substring($location.absUrl().length - $location.url().length)));
-                            }
-                        }
-                    }
-                });
-                event.preventDefault();
-            }
-        });
+
+        //$scope.$on("$locationChangeStart", function (event, next, current) {
+        //    if ($scope.cloneMediaPlanName) {
+        //        $modalInstance = $modal.open({
+        //            templateUrl: assets.html_confirmation_modal,
+        //            controller: 'ConfirmationModalController',
+        //            scope: $scope,
+        //            windowClass: 'delete-dialog',
+        //            resolve: {
+        //                headerMsg: function () {
+        //                    return $scope.textConstants.MEDIA_PLAN_CLONE;
+        //                },
+        //                mainMsg: function () {
+        //                    return $scope.textConstants.MEDIA_PLAN_WARNING_MESSAGE
+        //                },
+        //                buttonName: function () {
+        //                    return 'Ok';
+        //                },
+        //                execute: function () {
+        //                    return function () {
+        //                        $scope.cloneMediaPlanName = null;
+        //                        $location.path((next.substring($location.absUrl().length - $location.url().length)));
+        //                    }
+        //                }
+        //            }
+        //        });
+        //        event.preventDefault();
+        //    }
+        //});
 
 
         $(function() {
@@ -813,7 +830,6 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 if(selectedSubModule !== '#addLineItems') {
                     $timeout(function() {
                         $("#hideLineItemCreateBox").click();
-                        $(".tableEdit").find(".cancelLineItem").click();
                     }, 100)
                 }
             })

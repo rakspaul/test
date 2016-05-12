@@ -847,9 +847,12 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     setEndDate = $scope.campaignEndTime;
 
                     startDateElem.datepicker('setStartDate', setStartDate);
+                    startDateElem.datepicker('update', setStartDate);
                     startDateElem.datepicker('setEndDate', setEndDate);
                     endDateElem.datepicker('setStartDate', setStartDate);
+                    endDateElem.datepicker('update', setEndDate);
                     endDateElem.datepicker('setEndDate', setEndDate);
+
 
                     $scope.startTime = setStartDate;
                     $scope.endTime = setStartDate;
