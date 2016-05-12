@@ -45,7 +45,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
         $scope.createNewLineItem = function (mode, lineItemObj) {
             var newItem = {};
-            if (mode === 'create' || $scope.cloneMediaPlanName) {
+            if (mode === 'create' ) {
                 if ($scope.lineItemName != '') {
                     newItem = createLineItemObj(lineItemObj);
                     $scope.lineItemList.push(newItem);
@@ -349,7 +349,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 }
             });
 
-            if ($scope.mode === 'create') {
+            if ($scope.mode === 'create' || $scope.cloneMediaPlanName) {
                 $scope.lineItemList.splice(index, 1);
             }
             else {
