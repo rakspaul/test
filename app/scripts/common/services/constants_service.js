@@ -887,6 +887,10 @@ define(['angularAMD'], function(angularAMD) {
         this.MEDIA_PLAN_REPORTS = 'Media Plan Reports';
         this.CREATIVES = 'Creatives';
 
+        //media plans
+        this.NO_CATEGORY_FOR_SELECTED_ADVERISER = 'No category available for selected advertiser.';
+        this.CPA_CONVERSION_MESSAGE = 'All conversion pixels set for CPA line items in your spreadsheet will be automatically associated with this Media Plan.'
+
         //Overview: Create Ad Groups
         this.CREATEADGROUP = 'Create Ad Group';
         this.WHATADGROUPNAME = 'What is your Ad Group name?';
@@ -1143,7 +1147,7 @@ define(['angularAMD'], function(angularAMD) {
         this.MEDIAPLAN_VOLUME = "Volume";
         this.MEDIAPLAN_FLIGHT_DATES = "Flight Dates";
         this.IMPORT_LINE_ITEMS = "Import Line Items";
-        this.EXPORT_LINE_ITEMS = "Export Line Items";   
+        this.EXPORT_LINE_ITEMS = "Export Line Items";
 
         this.MEDIAPLAN_ADD_CREDIT = "Add Credit";
         this.MEDIAPLAN_CREDIT_NAME = "Credit Name / Notes";

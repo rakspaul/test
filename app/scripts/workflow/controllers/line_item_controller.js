@@ -295,6 +295,12 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 }
                 else if (CONST_POST_IMPRESSION_CPA === $scope.editLineItem.lineItemType.name || CONST_TOTAL_CPA === $scope.editLineItem.lineItemType.name || CONST_POST_CLICK_CPA === $scope.editLineItem.lineItemType.name) {
                     $scope.showPixelsListEdit = true;
+                    if(_.isEmpty($scope.editLineItem.pixelSelected)){
+                        $('.pixelTypeEdit').html('<span class="text" data-ng-bind="pixelSelected.name">Select from list</span> <span class="icon-arrow-down"></span>');
+                        $scope.editLineItem.pixelSelected.id = '';
+                    } 
+
+
                 }
             }
         };
