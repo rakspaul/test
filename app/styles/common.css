@@ -409,6 +409,12 @@
 .popup-holder .dropdown-workflow .searchBar .icon-search {
   top: -4px;
 }
+.edit-report-popup-holder .common_dropdown .dropdown {
+  border: 0px ;
+}
+.edit-report-popup-holder .common_dropdown .dropdown-menu {
+  margin-top: -5px;
+}
 .clone-popup .cloneMediaPlanNameInput {
   width: 100%;
 }
@@ -1435,7 +1441,7 @@
   cursor: default;
 }
 .common_dropdown .dropdown .dropdown-menu li:hover {
-  background: #d2dee7;
+  background: #F5F9FD;
 }
 .common_graph_legend {
   margin: 0px auto 10px 165px;
