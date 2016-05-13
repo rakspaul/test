@@ -376,8 +376,7 @@
 
 
 
-
-                <div class="col-md-4 " style="padding: 0px !important;" ng-hide="hideAdGroupNameEdit">
+                <div class="col-md-4 " style="padding: 0px !important;" ng-hide="hideAdGroupNameEdit || mode === 'edit'">
                     <label class="col-sm-12 zeroPadding greyTxt">Ad Group Name</label>
                     <input type="text" class="col-md-12" placeholder="Enter Ad Group name up to 100 characters" title="{{editLineItem.adGroupName}}" ng-model="editLineItem.adGroupName" autocomplete="off"/>
                 </div>
