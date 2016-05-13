@@ -171,7 +171,7 @@
                             <label for="primaryKPI" class="col-sm-12 greyTxt miniLabels" data-ng-bind="textConstants.MEDIAPLAN_RATE"></label>
                             <div class="col-md-12 zeroPadding  symbol-input" style="padding-right: 0px !important; max-width: 118px;">
                                 <span class="symbol">{{locale.NUMBER_FORMATS.CURRENCY_SYM}}</span>
-                                <input type="text" class="col-md-12" style="text-indent: 8px; height:36px;" ng-value="addCost.rateValue" ng-model="addCost.rateValue" fraction-numbers="fraction-numbers" ng-blur="costAttributesSelected(selectedCampaign.costAttributes, {'rateValue' : addCost.rateValue} , $event, 'rateValue')" field="rateValue" autocomplete="off"/>
+                                <input type="text" class="col-md-12" style="text-indent: 8px; height:36px;" ng-value="addCost.rateValue" ng-model="addCost.rateValue" fraction-numbers="fraction-numbers" title="{{addCost.rateValue}}" ng-blur="costAttributesSelected(selectedCampaign.costAttributes, {'rateValue' : addCost.rateValue} , $event, 'rateValue')" field="rateValue" autocomplete="off"/>
                             </div>
                         </div>
                         <div class="col-md-1 zeroPadding removeHolder" ng-click="removeCostDimension($event);">

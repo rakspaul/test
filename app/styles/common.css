@@ -1820,6 +1820,7 @@ div.inputLoader > .common-loading-area {
   right: 0px ;
   top: 0px ;
   z-index: 10 ;
+  background-color: #fff ;
 }
 tags-input .autocomplete {
   margin-top: 37px ;
