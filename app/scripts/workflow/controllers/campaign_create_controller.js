@@ -438,8 +438,13 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         };
 
         $scope.sucessHandler = function (result) {
+            $rootScope.setErrAlertMessage('Media plan successfully' + ($scope.mode === 'edit' ? ' updated ' : ' created ') , 0);
             var url = '/mediaplan/' + result.data.data.id + '/overview';
-            $location.url(url);
+            $timeout(function() {
+                $scope.saveBtnLoader= false;
+                $location.url(url);
+            }, 800);
+
         }
 
         createCampaign.getBrandId = function (brandId, postDataObj) {
@@ -472,6 +477,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             }
 
             if ($scope.createCampaignForm.$valid && $scope.lineItemList.length > 0) {
+                $scope.saveBtnLoader= true;
                 formElem = $("#createCampaignForm").serializeArray();
                 formData = _.object(_.pluck(formElem, 'name'), _.pluck(formElem, 'value'));
                 postDataObj = {};
@@ -539,9 +545,11 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                         $scope.editLineItem = {};
                         $scope.sucessHandler(result);
                     } else {
+                        $scope.saveBtnLoader= false;
                         $rootScope.setErrAlertMessage('Unable to ' + (($scope.mode === 'edit') ? ' update ' : ' create ') + ' Media Plan');
                     }
                 }, function (result) {
+                    $scope.saveBtnLoader= false;
                     $rootScope.setErrAlertMessage('Unable to ' + (($scope.mode === 'edit') ? ' update ' : ' create ') + ' Media Plan');
                 });
             }
