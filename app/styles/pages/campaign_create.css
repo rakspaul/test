@@ -1476,7 +1476,6 @@
   background: #F8F9FA;
   float: left;
   margin-top: 30px;
-  padding-bottom: 85px;
   width: 100%;
 }
 #campaignCreate .campaignAdCreate .adMainWrapper .offeringsWrap h2 {
@@ -1499,7 +1498,7 @@
   left: 0;
   margin: 0 40px;
   position: absolute;
-  top: 70px;
+  top: 110px;
   width: 815px;
 }
 #campaignCreate .campaignAdCreate .adMainWrapper .offeringsWrap .container .carousel-control {
