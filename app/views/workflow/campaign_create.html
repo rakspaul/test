@@ -104,7 +104,7 @@
                             <h2>{{ textConstants.ABOUT_THIS_MEDIAPLAN }}</h2>
                         </div>
                         <div class="col-md-6 zeroPadding">
-                            <div class="zeroPadding dropdown-workflow pull-right" style="margin-left: 10px;" ng-hide="(mode!='edit')">
+                            <div class="zeroPadding dropdown-workflow pull-right" style="margin-left: 10px;" ng-show="(mode =='edit' && !cloneMediaPlanName)">
                                 <div class="dropdown">
                                     <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" style="margin: 0; padding: 10px 15px;">
                                         <span class="icon-more-options"></span>
@@ -116,15 +116,20 @@
                                     </ul>
                                 </div>
                             </div>
-                            <!--ng-disabled="createCampaignForm.$invalid"-->
-                            <a href="#" class="btn btn-primary pull-right" role="button" ng-show="!saveCampaignClicked"  ng-click="saveCampaign()">{{textConstants.MP_SAVE}}</a>
-                            <div ng-hide="(mode!='edit')">
-                                <a ng-href="/mediaplan/{{editCampaignData.id}}/overview" class="btn btn-link pull-right" role="button">{{textConstants.MP_CANCEL}}</a>
+
+                            <a href="#" class="btn btn-primary pull-right" ng-show="!saveBtnLoader" role="button" ng-disabled="createCampaignForm.$invalid"  ng-click="saveCampaign()">{{textConstants.MP_SAVE}}</a>
+                            <div ng-show="saveBtnLoader" class="pull-right common-loading-btn"></div>
+
+                            <div ng-show="(mode == 'edit' || cloneMediaPlanName)">
+                                <a href="#" ng-click ="redirectToOverViewPage(editCampaignData.id)" class="btn btn-link pull-right" role="button">{{textConstants.MP_CANCEL}}</a>
                             </div>
+
                             <div class="pull-right common-loading-btn" style="width:62px;" ng-show="saveCampaignClicked"></div>
-                            <div ng-show="(mode!='edit')">
+
+                            <div ng-show="(mode == 'create' && !cloneMediaPlanName)">
                                 <a href="/mediaplans" class="btn btn-link pull-right" role="button">{{textConstants.MP_CANCEL}}</a>
                             </div>
+
                         </div>
                     </div>
 

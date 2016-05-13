@@ -8,7 +8,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
         var _buyingPlatform = {
 
-            trackingPlatformCarouselData : function (responseData) {
+            trackingPlatformCarouselData: function (responseData) {
                 var tempData = responseData.trackingPlatforms,
                     slides = Math.ceil((responseData.trackingPlatforms.length) / 3),
                     i;
@@ -20,7 +20,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             },
 
 
-            platformWrapper : function(platform) {
+            platformWrapper: function (platform) {
                 var selectedSeats,
                     selectedPlatformIndex = _.findIndex($scope.workflowData.platforms, function (item) {
                         return item.id == platform.id
@@ -32,7 +32,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     })
                     selectedSeats = $scope.workflowData.platforms[selectedPlatformIndex].seats[selectedSeat];
                 }
-                if(selectedSeats && platform) {
+                if (selectedSeats && platform) {
                     $scope.adData.platfromSeatId = platform.vendorSeatId
                 } else {
                     $scope.adData.platfromSeatId = null;
@@ -41,7 +41,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 $scope.selectPlatform(null, platform, selectedSeats);
             },
 
-            fetchPlatforms : function (platform) {
+            fetchPlatforms: function (platform) {
                 workflowService
                     .getPlatforms({cache: false})
                     .then(function (result) {
@@ -100,7 +100,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             },
 
             //select a platform one of the seat of the platform
-            _selectPlatform : function (event, platform, seat) {
+            _selectPlatform: function (event, platform, seat) {
                 //showing card view when you change the platform.
                 _buyingPlatform.hideTargetingBox();
 
@@ -114,7 +114,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     if (storedResponse.targets.geoTargets) {
                         settings = 'Geography';
                     }
-                    if (seat && storedResponse.platform ) {
+                    if (seat && storedResponse.platform) {
                         if (storedResponse.platform.id === seat.platform_id) {
                             //directly set  the platform if it is the same
                             _buyingPlatform.setPlatform(event, platform, seat);
@@ -148,7 +148,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 $rootScope.$broadcast('targettingCapability', platform)
             },
 
-            setPlatform : function (event, platform, seat) {
+            setPlatform: function (event, platform, seat) {
 
                 $scope.selectedPlatform = {};
                 $scope.selectedSeat = {};
@@ -165,7 +165,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
                 workflowService.setPlatform(platform);
 
-                if(seat) {
+                if (seat) {
                     workflowService.setPlatformSeat(seat);
                     $scope.$parent.TrackingIntegrationsSelected = false;
                     $scope.adData.platformName = seat.name;
@@ -182,11 +182,11 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 event && $scope.platformCustomInputs();
             },
 
-            errorHandler : function (errData) {
+            errorHandler: function (errData) {
                 console.log(errData);
             },
 
-            hideCustomPlatformBox : function () {
+            hideCustomPlatformBox: function () {
                 $('.platform-custom')
                     .delay(300)
                     .animate({
@@ -199,7 +199,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 $('.offeringsWrap').show();
             },
 
-            hideTargetingBox : function() {
+            hideTargetingBox: function () {
                 $('#geographyTargeting').delay(300).animate({left: '100%', marginLeft: '0', opacity: '0'}, function () {
                     $(this).hide();
                 });
@@ -215,8 +215,8 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     });
             },
 
-            showCustomFieldBox : function () {
-                var heightBuying = $("#buying").height() ;
+            showCustomFieldBox: function () {
+                var heightBuying = $("#buying").height();
                 $('.platform-custom')
                     .show()
                     .delay(300)
@@ -226,14 +226,16 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                         marginLeft: '-323px'
                     }, 'slow');
                 $('.offeringsWrap').hide();
+                $("html, body").animate({
+                    scrollTop: 0
+                }, 300);
             }
         }
 
 
-
-        $scope.selectPlatform = function(event, platform, seat) {
+        $scope.selectPlatform = function (event, platform, seat) {
             $scope.defaultPlatform = platform;
-            _buyingPlatform._selectPlatform(event , platform, seat);
+            _buyingPlatform._selectPlatform(event, platform, seat);
         };
 
         $scope.selectTrackingIntegrations = function (trackingIntegration) {
@@ -350,7 +352,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 customPlatformFormData = $('#customPlatformForm').serializeArray();
 
             $scope.$parent.postPlatformDataObj = [];
-            if (customFieldErrorElem.length === 0 && customPlatformFormData.length > 1) {
+            if (customFieldErrorElem.length === 0 && customPlatformFormData.length > 0) {
                 _.each(customPlatformFormData, function (data) {
                     var d = data.name.split('$$');
 
@@ -369,7 +371,12 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             if ($scope.mode == 'edit') {
                 localStorage.setItem('adPlatformCustomInputs', JSON.stringify($scope.$parent.postPlatformDataObj));
             }
-                $scope.switchPlatform();
+
+            $scope.switchPlatform();
+            if (customFieldErrorElem.length === 0) {
+                $scope.triggerTargetting();
+            }
+
         };
 
         $scope.showtrackingSetupInfoPopUp = false;
@@ -379,7 +386,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             $scope.$parent.changePlatform(newValue);
         });
 
-        $rootScope.$on('adCampaignDataSet',function (event) {
+        $rootScope.$on('adCampaignDataSet', function (event) {
             if ($scope.mode === 'create') {
                 _buyingPlatform.fetchPlatforms();
             }
@@ -431,8 +438,8 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         });
 
 
-        $scope.navigateToCreative = function() {
-            $timeout(function() {
+        $scope.navigateToCreative = function () {
+            $timeout(function () {
                 $("#creative-tab").find("a[data-target='#creative']").click()
             }, 100)
         }

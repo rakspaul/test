@@ -4,7 +4,6 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
                                                         constants, loginModel, domainReports,
                                                         campaignSelectModel, RoleBasedService, workflowService,featuresService,subAccountModel,localStorageService) {
         $scope.user_name = loginModel.getUserName();
-        $scope.isSuperAdmin = loginModel.getClientData().is_super_admin;
         $scope.version = version;
 
 
@@ -82,6 +81,7 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
 
         var features = $rootScope.$on('features', function () {
             featurePermission();
+            $scope.isSuperAdmin = loginModel.getClientData().is_super_admin;
         });
 
         featurePermission();
@@ -214,8 +214,8 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
                 $(event.currentTarget).parent().addClass('active_tab');
 
             }
-           
-          
+
+
             $location.url(url);
         };
 

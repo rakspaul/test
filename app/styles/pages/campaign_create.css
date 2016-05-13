@@ -2297,13 +2297,13 @@
   margin-top: 1px;
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroup .adTitle .adGroupTxtSecondary p {
-  color: #2c9aec;
+  /* color: #2c9aec;*/
   float: right;
   margin-bottom: 0;
   padding: 0 5px;
-}
-#campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroup .adTitle .adGroupTxtSecondary p.active {
-  color: #f47e2a;
+  /*&.active {
+                                        color: #f47e2a;
+                                    }*/
 }
 #campaignCreate .firstWrapper .masterContainer .adWrap .adContainer .adGroup .adTitle .collapseIcon {
   border: 1px solid #C6C9CE;
@@ -2843,6 +2843,10 @@
 #campaignCreate .firstWrapper .masterContainer .campAdHeader {
   margin-top: 10px !important;
   width: 100%;
+  /*
+                .emptyValueTxt {
+                    color: #f47e2a;
+                }*/
 }
 #campaignCreate .firstWrapper .masterContainer .campAdHeader .accountTitleTag {
   float: left;
@@ -2858,7 +2862,7 @@
   font-size: 14px;
 }
 #campaignCreate .firstWrapper .masterContainer .campAdHeader .accountTitleTag span.tagTitle {
-  color: #949ead;
+  color: #939eae;
   margin-left: 50px;
   margin-right: 5px;
 }
@@ -2943,9 +2947,6 @@
 #campaignCreate .firstWrapper .masterContainer .campAdHeader .campSettingOverView .campBodyWrap span {
   color: #57606d;
   font-size: 14px;
-}
-#campaignCreate .firstWrapper .masterContainer .campAdHeader .emptyValueTxt {
-  color: #f47e2a;
 }
 #campaignCreate .firstWrapper .masterContainer .campAdHeader h4 {
   float: left;
@@ -3324,6 +3325,26 @@
   position: relative;
   width: 77%;
 }
+#campaignCreate .firstWrapper .masterContainer .settingWrap #addLineItems .common_file_upload_container {
+  width: 80%;
+  padding: 5px;
+  margin: 20px 0;
+}
+#campaignCreate .firstWrapper .masterContainer .settingWrap #addLineItems .common_file_upload_container .file_upload_icon {
+  margin: 0 40px;
+}
+#campaignCreate .firstWrapper .masterContainer .settingWrap #addLineItems .common_file_upload_container .file_upload_text {
+  width: 70% ;
+}
+#campaignCreate .firstWrapper .masterContainer .settingWrap #addLineItems .common_file_upload_container .img_table_txt {
+  margin: 15px 0px ;
+}
+#campaignCreate .firstWrapper .masterContainer .settingWrap #addLineItems .popup-content {
+  margin-bottom: 20px ;
+}
+#campaignCreate .firstWrapper .masterContainer .settingWrap .list_item_export_import_dd {
+  margin-left: 10px ;
+}
 #campaignCreate .firstWrapper .masterContainer .settingWrap .adName {
   background: #FFF;
   height: 30px;
@@ -3420,8 +3441,10 @@
 }
 #campaignCreate .firstWrapper .maxWidthAdj .campAdHeader .campSettingOverView span {
   clear: left;
-  color: #57606c;
   float: left;
+}
+#campaignCreate .firstWrapper .campOverviewPage .tagTitle {
+  color: #939eae  ;
 }
 #campaignCreate .newCreativeSlide .closeBtnCreative {
   clear: both;
@@ -3514,7 +3537,7 @@
   position: absolute;
   top: 123px;
   width: 930px;
-  z-index: 1111111;
+  z-index: 111111;
 }
 #campaignCreate .platformSlide .platform-custom .adHeader {
   margin: 20px 0 10px;

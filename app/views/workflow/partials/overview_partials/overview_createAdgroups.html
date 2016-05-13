@@ -30,7 +30,8 @@
                        class="col-sm-12 control-label labelQuestTxt"
                        data-ng-bind="textConstants.WHATADGROUPNAME">
                 </label>
-                <label class="col-sm-12 control-label greyTxt miniLabels" data-ng-bind="textConstants.ADGROUPNAME"></label>
+                <label class="col-sm-12 control-label greyTxt miniLabels" data-ng-bind="textConstants.ADGROUPNAME">
+                </label>
                 <div class="form-group col-sm-12" style="padding:0 30px 0 0;" show-errors>
                     <input type="text"
                            class="form-control"
@@ -107,7 +108,7 @@
                                data-ng-model="adIGroupBudget"
                                data-ng-value="adIGroupBudget"
                                min-value="{{adGroupMinBudget}}"
-                               max-value ="{{adGroupMaxBudget}}"
+                               max-value="{{adGroupMaxBudget}}"
                                required data-ng-keyup="validateAdGroupSpend($event)">
                     </div>
                     <label data-ng-if="createNewAdGrp.adIGroupBudget.$error.required"
@@ -159,7 +160,6 @@
                                    placeholder="MM/DD/YYYY"
                                    class="form-control adGrpEndDateInput"
                                    readonly
-                                   data-ng-disabled="!editAdGroupFlag"
                                    data-ng-model="endTime"
                                    name="endTime"
                                    required>

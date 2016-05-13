@@ -59,6 +59,9 @@ define(['angularAMD', '../../../workflow/services/account_service', 'common/serv
             });
         }
         _currCtrl.saveAdChoiceData = function(){
+            if(typeof $scope.enableAdChoice == "undefined"){
+                return true;
+            }
             var reqBody = {
                 enabled: $scope.enableAdChoice,
                 code: $scope.adChoiceCode
@@ -78,10 +81,15 @@ define(['angularAMD', '../../../workflow/services/account_service', 'common/serv
         if ($scope.mode === 'edit') {
             $scope.clientName = $scope.clientObj.name;
             $scope.clientType = $scope.clientObj.clientType;
-            $scope.selectedCurrency = $scope.clientObj.currency && $scope.clientObj.currency.id;
-            $scope.selectedCountry = $scope.clientObj.country && $scope.clientObj.country.id;
+            $scope.selectedCurrency = $scope.clientObj.currency && $scope.clientObj.currency.currencyCode;
+            $scope.selectedCurrencyId = $scope.clientObj.currency && $scope.clientObj.currency.id;
+            $scope.selectedCountryId = $scope.clientObj.country && $scope.clientObj.country.id;
+            $scope.selectedCountry = $scope.clientObj.country && $scope.clientObj.country.name;
             $scope.timezone = $scope.clientObj.timezone;
             _currCtrl.getAdnlData();
+            setTimeout(function(){
+                $("#geography").addClass("disabled");
+            },100);
         }
         $scope.showUserModeText = function(){
             return ($scope.mode === "create" ? 'Add Account' : 'Edit Account ( '+$scope.clientObj.name+' )');
@@ -93,9 +101,9 @@ define(['angularAMD', '../../../workflow/services/account_service', 'common/serv
 
         $scope.setSelectedClientType = function (type) {
             $scope.clientType = type;
-            accountsService[type === 'MARKETER' ? 'getAllAdvertisers' : 'getAgencies']().then(function (result) {
-                $scope.allAdvertiser = result.data.data;
-            });
+//            accountsService[type === 'MARKETER' ? 'getAllAdvertisers' : 'getAgencies']().then(function (result) {
+//                $scope.allAdvertiser = result.data.data;
+//            });
         };
 
         $scope.selectClientAdvertiser = function (advertiser) {
@@ -150,7 +158,9 @@ define(['angularAMD', '../../../workflow/services/account_service', 'common/serv
                             $rootScope.setErrAlertMessage('Account updated successfully', 0);
                             $scope.resetBrandAdvertiserAfterEdit();
                             delete $scope.clientsDetails[body.parentId];
-                            $scope.getSubClientList('ev', {id:body.parentId});
+                            if(body.parentId) {
+                                $scope.getSubClientList('ev', {id: body.parentId});
+                            }
                             _currCtrl.saveAdnlData();
                         }
                     });
@@ -214,16 +224,16 @@ define(['angularAMD', '../../../workflow/services/account_service', 'common/serv
                 respBody.clientType = $scope.clientType;
                 respBody.referenceId = obj.referenceId;
                 respBody.timezone = $scope.timezone;
-                respBody.currency = Number($scope.selectedCurrency);
-                respBody.countryId=Number($scope.selectedCountry);
+                respBody.currency = Number($scope.selectedCurrencyId);
+                respBody.countryId=Number($scope.selectedCountryId);
                 if(!$scope.isCreateTopClient) {
                     respBody.parentId = obj.parentId;
                 }
             } else {
                 respBody.billableAccountId = $scope.billableAccountId;
                 respBody.clientType = $scope.clientType;
-                respBody.currency = Number($scope.selectedCurrency);
-                respBody.countryId=Number($scope.selectedCountry);
+                respBody.currency = Number($scope.selectedCurrencyId);
+                respBody.countryId=Number($scope.selectedCountryId);
                 respBody.referenceId = $scope.referenceId;
                 respBody.timezone = $scope.timezone;
                 respBody.billableAccountId = $scope.billableAccountId;
@@ -259,5 +269,17 @@ define(['angularAMD', '../../../workflow/services/account_service', 'common/serv
         $scope.$on("$locationChangeSuccess", function(){
             $scope.close();
         });
+        $scope.selectCurrency = function(curr){
+            $scope.selectedCurrency = curr.currencyCode;
+            $scope.selectedCurrencyId = curr.id;
+        }
+        $scope.selectCountry = function(country){
+            $scope.selectedCountry = country.name;
+            $scope.selectedCountryId = country.id;
+        }
+        $scope.selectTimeZone = function(timezone){
+            $scope.timezone=timezone;
+        }
+
     });
 });

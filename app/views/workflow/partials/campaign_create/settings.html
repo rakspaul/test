@@ -9,7 +9,7 @@
                     <span class="text" data-ng-bind="selectedCampaign.clientName || 'Select SubAccount'"></span>
                     <span class="icon-arrow-down"></span>
                 </button>
-                <ul class="dropdown-menu" aria-labelledby="advertiserDDL"  id="advertiserDDL" ng-if="mode !== 'edit'">
+                <ul class="dropdown-menu" aria-labelledby="advertiserDDL"  id="advertiserDDL" ng-if="mode !== 'edit' && !cloneMediaPlanName">
                     <li ng-repeat="subaccount in workflowData.subAccounts track by subaccount.id" class="available"><a ng-click="selectHandler('subAccount', subaccount)">{{subaccount.name}}</a></li>
                 </ul>
                 <input type="hidden" name="subAccountId" ng-model="selectedCampaign.clientId" ng-update-hidden required/>
@@ -23,10 +23,10 @@
         <div class="col-md-12 zeroPadding dropdown-workflow">
             <div class="dropdown">
                 <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ng-click="hideMediaPlanDropdown()" ng-disabled="!selectedCampaign.clientId">
-                    <span class="text">{{mode == 'edit' ? selectedCampaign.advertiserName : 'Select Advertiser' }}</span>
+                    <span class="text" data-ng-bind="selectedCampaign.advertiserName || 'Select Advertiser' "></span>
                     <span class="icon-arrow-down"></span>
                 </button>
-                <ul class="dropdown-menu" aria-labelledby="advertiserDDL"  id="advertiserDDL" ng-if="mode !== 'edit'">
+                <ul class="dropdown-menu" aria-labelledby="advertiserDDL"  id="advertiserDDL" ng-if="mode !== 'edit' && !cloneMediaPlanName">
                     <li ng-repeat="advertiser in workflowData.advertisers track by advertiser.id" class="available"><a ng-click="selectHandler('advertiser', advertiser)">{{advertiser.name}}</a></li>
                 </ul>
                 <input type="hidden" name="advertiserId" ng-model="selectedCampaign.advertiserId" ng-update-hidden required/>
@@ -39,7 +39,7 @@
         <div class="col-md-12 zeroPadding dropdown-workflow">
             <div class="dropdown">
                 <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ng-click="hideMediaPlanDropdown()" ng-disabled=" workflowData.brands.length == 0">
-                    <span class="text">{{(mode == 'edit' && selectedCampaign.brandName) ? selectedCampaign.brandName : 'Select Brand' }} </span>
+                    <span class="text" data-ng-bind="selectedCampaign.brandName || 'Select Brand'"></span>
                     <span class="icon-arrow-down"></span>
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="brandDDL"  id="brandDDL">
@@ -61,7 +61,7 @@
         <label for="nameTitleCampaign" class="col-sm-12 greyTxt"  data-ng-bind="textConstants.MEDIAPLAN_NAME"></label>
         <div  class="form-group col-sm-12 zeroPadding" show-errors>
             <div class="inputLoader">
-                <input type="text" class="form-control" remove-special-character ='remove-special-character' ng-keyup="isMediaPlanNameExist($event)" name="campaignName" ng-model="selectedCampaign.campaignName"  autocomplete="off" maxlength="250" ng-maxlength="250" autofocus placeholder="Enter a name up to 250 characters (no punctuation or special characters)" required/>
+                <input type="text" class="form-control" remove-special-character ='remove-special-character' ng-keyup="isMediaPlanNameExist($event)" name="campaignName" title="{{selectedCampaign.campaignName}}" ng-model="selectedCampaign.campaignName"  autocomplete="off" maxlength="250" ng-maxlength="250" autofocus placeholder="Enter a name up to 250 characters (no punctuation or special characters)" required/>
                 <div class="common-loading-area" ng-show="checkUniqueMediaPlanNameNotFound && selectedCampaign.campaignName"></div>
             </div>
             <label ng-if="createCampaignForm.campaignName.$error.required" class="col-sm-12  greyTxt errorLabel" data-ng-bind="textConstants.WF_ENTER_NAME_CAMPAIGN"></label>
@@ -94,7 +94,7 @@
 
             <div class="dateContainer">
                 <label class="col-sm-12  greyTxt miniLabels" data-ng-bind="textConstants.START_DATE"></label>
-                <input type="text" ng-disabled="selectedCampaign.status ==='IN_FLIGHT' || selectedCampaign.status ==='ENDED'" id="startDateInput" placeholder="MM/DD/YYYY" class="form-control" readonly name="startTime" ng-init="selectedCampaign.startTime" ng-model="selectedCampaign.startTime" ng-value="selectedCampaign.startTime" ng-change=" handleFlightDate(selectedCampaign)" required />
+                <input type="text" ng-disabled="!cloneMediaPlanName && (selectedCampaign.status ==='IN_FLIGHT' || selectedCampaign.status ==='ENDED')" id="startDateInput" placeholder="MM/DD/YYYY" class="form-control" readonly name="startTime" ng-init="selectedCampaign.startTime" ng-model="selectedCampaign.startTime" ng-value="selectedCampaign.startTime" ng-change=" handleFlightDate(selectedCampaign)" required />
             </div>
 
             <div class="dateContainer" style="padding-left: 10px;">
@@ -133,25 +133,24 @@
             <div class="col-md-12 zeroPadding dropdown-workflow">
                 <div class="dropdown">
                     <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" >
-                        <span class="text">{{kpiName | toPascalCase}}</span>
+                        <span class="text">{{kpiName}}</span>
                         <span class="icon-arrow-down" ></span>
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="selectKPI"  id="selectKPI">
                         <li class="available" ng-repeat="kpi in kpiNameList" ng-click="setKPIName(kpi.name)"><a>{{kpi.name}}</a></li>
                     </ul>
-                    <input type="hidden" name="kpi"  ng-model="kpiName" ng-value="kpiName" field="kpiType" index="{{$index}}" required hiddenkpi>
+                    <input type="hidden" name="kpi"  ng-model="kpiName" ng-value="kpiName" field="kpiType" index="{{$index}}"  hiddenkpi>
                     <!--<input type="hidden" name="kpi" ng-init="Campaign.kpiArr[$index]['kpiType']='Select from list';" ng-model="Campaign.kpiArr[$index]['kpiId']" ng-value="{{kpi.id}}" field="kpiId" index="{{$index}}" required hiddenkpi>-->
                 </div>
             </div>
         </div>
-
         <div class="col-md-2 zeroPadding kpiTable symbol-input">
             <span class="symbol" ng-if="(kpiName === 'Impressions')">#</span>
             <span class="symbol perSymbol" ng-if="(kpiName === 'CTR' || kpiName === 'VTC' || kpiName === 'Action Rate')">%</span>
             <span class="symbol" ng-if="(kpiName === 'CPA' || kpiName === 'CPM' || kpiName === 'CPC')">$</span>
-            <input type="text" class="col-md-12 kpiValue" style="text-indent: 8px;height:36px;" ng-model="kpiValue"  field="kpiValue" fraction-numbers name="kpiValue" required ng-if="kpiName !== 'Impressions'"/>
-            <input type="text" class="col-md-12 kpiValue" style="text-indent: 8px;height:36px;" ng-model="kpiValue"  field="kpiValue" whole-number-only name="kpiValue" required ng-if="kpiName === 'Impressions'"/>
-            <label ng-if="kpiValue==='0'"  class="col-sm-12  greyTxt errorLabel" style="display:inline;" ng-bind="textConstants.TARGET_GREATER_THAN_ZERO"></label>
+            <input type="text" class="col-md-12 kpiValue" style="text-indent: 8px;height:36px;" ng-model="selectedCampaign.kpiValue" ng-value='selectedCampaign.kpiValue' ng-keyup="percentageValueCheck(selectedCampaign.kpiValue)"  field="kpiValue" fraction-numbers name="kpiValue" required ng-if="kpiName !== 'Impressions'" autocomplete="off"/>
+            <input type="text" class="col-md-12 kpiValue" style="text-indent: 8px;height:36px;" ng-model="selectedCampaign.kpiValue" field="kpiValue" whole-number-only name="kpiValue" required ng-if="kpiName === 'Impressions'" autocomplete="off"/>
+            <label ng-if="selectedCampaign.kpiValue==='0'"  class="col-sm-12  greyTxt errorLabel" style="display:inline;" ng-bind="textConstants.TARGET_GREATER_THAN_ZERO"></label>
         </div>
 
     </div>

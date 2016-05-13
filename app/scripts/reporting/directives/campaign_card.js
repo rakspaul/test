@@ -1,8 +1,8 @@
-define(['angularAMD', '../../common/utils', 'common/services/constants_service', 'common/moment_utils'],
+define(['angularAMD', '../../common/utils', 'common/services/constants_service', 'common/moment_utils','reporting/campaignSelect/campaign_select_model'],
     function (angularAMD) {
         'use strict';
         angularAMD.directive('campaignCard',
-            function ($rootScope, $location, utils, constants, momentService, featuresService, $sce) {
+            function ($rootScope, $location, utils, constants, momentService, featuresService, $sce,campaignSelectModel) {
                 return {
                     restrict: 'EAC',
 
@@ -100,6 +100,7 @@ define(['angularAMD', '../../common/utils', 'common/services/constants_service',
                         // pass $event as the 3rd actual param when calling this method.
                         $scope.redirectTo = function (showManageButton,campaign, filterType, event) {
                             var url = '';
+                            campaignSelectModel.setSelectedCampaign({id: campaign.id,name: campaign.name,startDate: campaign.startDate,endDate: campaign.endDate,kpi: campaign.kpiType});
                             if(showManageButton){
                                 url = filterType !== 'archived' ? '/mediaplan/' + campaign.orderId + '/overview' : '/mediaplans/' + campaign.orderId;
                             } else {
