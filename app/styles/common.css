@@ -1808,7 +1808,7 @@ div.inputLoader {
 }
 div.inputLoader > input[type="text"] {
   border: solid 1px  transparent;
-  width: 80% ;
+  width: 100% ;
   margin: 0 ;
 }
 div.inputLoader > input[type="text"]:focus,
