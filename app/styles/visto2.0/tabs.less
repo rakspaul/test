@@ -1,0 +1,263 @@
+// Left Column Nav
+.left_column_nav {
+    padding: 30px 0 0 0;
+    width: 23%;
+    float: left;
+    //border-right: 1px solid #ccd2da;
+    height: 100%;
+
+    .campaign_name {
+        font-family: Avenir, sans-serif;
+        display: inline-block;
+        float: left;
+        margin-top: 0;
+        margin-bottom: 20px;
+    }
+
+    .stepCompLabel {
+        border-width: 0;
+
+        p {
+            margin: 15px 0 0 0;
+            float: left;
+        }
+
+        .titleLabel {
+            font-size: 14px;
+            color: #939eae;
+            cursor: default;
+        }
+
+        .statusLabel {
+            float: left;
+            width: 100%;
+            clear: left;
+            margin: 8px 0 0 0;
+
+            &:first-child {
+                margin: 0;
+            }
+
+            &.ng-scope span:last-child,
+            &.disabled span {
+                color: #939eae;
+                padding-left: 3px;
+            }
+
+            &.disabled span.creative_tab_sizes {
+                padding-left: 0;
+            }
+
+            .errorTxt {
+                color: #e83b05;
+            }
+
+            .glyphicon {
+                width: 16px;
+                text-align: left;
+                padding: 0;
+            }
+
+            .col-md-5 {
+                font-size: 11px;
+                color: #939eae;
+                padding-right: 5px;
+            }
+
+            .col-md-12 {
+                padding-left: 16px;
+                text-align: left;
+
+                .statusIcon {
+                    margin: -1px 5px 0 0;
+                    float: left;
+                }
+
+                .txtLabel {
+                    margin: 8px 0 0 0;
+                    float: left;
+                    clear: left;
+                }
+            }
+        }
+
+        li {
+            width: 100%;
+            margin-bottom: 2px;
+            margin-top: 20px;
+            float: left;
+
+            &:first-child {
+                margin-top: 0;
+            }
+
+            a {
+                font-size: 14px;
+                width: 100%;
+                float: left;
+                color: #939eae;
+                text-decoration: none;
+                padding: 4px;
+                border-width: 0;
+                cursor: pointer;
+
+                &:hover {
+                    background: transparent;
+                    text-decoration: none;
+                }
+            }
+        }
+
+        span {
+            font-size: 12px;
+            float: left;
+
+            &:first-child {
+                clear: left;
+                text-align: right;
+            }
+        }
+
+        .active {
+            background-image: url(/images/workflow/blueSelector.png);
+            background-position: top right;
+            background-repeat: no-repeat;
+
+            a {
+                font-family: Avenir-bold, sans-serif;
+                color: #0978c9;
+                border-radius: 0;
+                background: transparent;
+            }
+
+            span {
+                font-family: Avenir, sans-serif;
+            }
+        }
+
+        .glyphicon {
+            padding: 0 5px 0 0;
+            text-align: center;
+            width: 20px;
+        }
+    }
+
+    .nav-tabs > li.active > a,
+    .nav-tabs > li.active > a:hover,
+    .nav-tabs > li.active > a:focus {
+        border-width: 0;
+        color: #0978c9;
+        background: transparent;
+    }
+
+    .creative_tab_sizes {
+        word-wrap: break-word;
+        word-break: break-word;
+        text-align: left !important;
+    }
+
+    div.each-setting.statusLabel {
+        span {
+            font-size: 14px;
+        }
+
+        .grey_txt {
+            font-size: 12px;
+            margin-top: 2px;
+        }
+
+        .icon_txt {
+            float: left;
+            margin-right: 4px;
+        }
+
+        div.col-md-12 span.statusIcon {
+            margin: 2px 5px 0 0;
+        }
+    }
+
+    div.statusLabel div.col-md-12 .statusIcon.icon-calendar {
+        margin-left: 2px;
+    }
+}
+
+.campaign-create-left-nav {
+    .campaign_name {
+        float: none;
+    }
+
+    .active .titleLabel {
+        font-family: Avenir-bold, sans-serif;
+        color: #0978c9;
+    }
+
+    .eachStepCompLabel {
+        margin-bottom: 20px;
+
+        p {
+            margin: 0;
+            float: none;
+        }
+    }
+}
+
+//Next Btn Slide
+.nextWrapper {
+    position: absolute;
+    left: -1px;
+    bottom: 0;
+    background: #fff;
+    border-top: 1px dashed #D0D0D0;
+    height: 30px;
+    width: 100%;
+    cursor: pointer;
+    text-align: center;
+    z-index: 999999;
+
+    img {
+        width: 35px;
+        margin-top: -12px;
+        background: -moz-linear-gradient(top, rgba(255, 255, 255, 1) 22%, rgba(255, 255, 255, 0.81) 37%, rgba(255, 255, 255, 0) 100%);
+        /* FF3.6+ */
+        background: -webkit-gradient(linear, left top, left bottom, color-stop(22%, rgba(255, 255, 255, 1)),
+            color-stop(37%, rgba(255, 255, 255, 0.81)), color-stop(100%, rgba(255, 255, 255, 0)));
+        /* Chrome,Safari4+ */
+        background: -webkit-linear-gradient(top, rgba(255, 255, 255, 1) 22%, rgba(255, 255, 255, 0.81) 37%,
+        rgba(255, 255, 255, 0) 100%);
+        /* Chrome10+,Safari5.1+ */
+        background: -o-linear-gradient(top, rgba(255, 255, 255, 1) 22%, rgba(255, 255, 255, 0.81) 37%,
+        rgba(255, 255, 255, 0) 100%);
+        /* Opera 11.10+ */
+        background: -ms-linear-gradient(top, rgba(255, 255, 255, 1) 22%, rgba(255, 255, 255, 0.81) 37%,
+        rgba(255, 255, 255, 0) 100%);
+        /* IE10+ */
+        background: linear-gradient(to bottom, rgba(255, 255, 255, 1) 22%, rgba(255, 255, 255, 0.81) 37%,
+        rgba(255, 255, 255, 0) 100%);
+        /* W3C */
+        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#ffffff", endColorstr="#00ffffff", GradientType=0);
+        /* IE6-9 */
+    }
+    .btn {
+        margin-top: -24px;
+    }
+}
+
+.miniTabLinks{
+        float: left;
+    .btn-link {
+        float: left;
+        margin-right: 30px;
+        font-size: 13px;
+        color: #939EAE;
+        text-decoration: none;
+        text-transform: uppercase;
+        padding: 5px 0 5px 0;
+        line-height: 100%;
+        height: 25px;
+        box-shadow: none;
+    }
+    .btn-link.active {
+        border-bottom: 2px solid #0978C9;
+        color: #57606C;
+    }
+}
