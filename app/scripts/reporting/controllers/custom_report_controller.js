@@ -107,23 +107,13 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
 
         $scope.sortReverse  = false;
         $scope.clickToSort = function(dm) {
-            _.find($scope.customeDimensionData[0].metrics[$scope.activeTab], function (d) {
-                if (d['value'] == dm) {
-                    $scope.sortType = d['key'];
-                }
-            });
+            $scope.sortType = dm;
             $scope.sortReverse = !$scope.sortReverse;
         }
         $scope.addReqClassToSort = function(dm, b, c){
             var obj = $scope.customeDimensionData[0].metrics[$scope.activeTab],
                 len = obj.length,
-                a = null;
-            for(var i=0; i<len; i++){
-                if(obj[i]['value'] == dm){
-                    a = obj[i]['key'];
-                    break;
-                }
-            }
+                a = dm;
             var isActive = (a === b ) ?  'active' : '';
             var sortDirection = (c === true ) ?  'sort_order_up' : 'sort_order_down';
             return isActive + " " + sortDirection;
@@ -572,8 +562,12 @@ define(['angularAMD','reporting/campaignSelect/campaign_select_model', 'reportin
                     });
                     _customctrl.getMetricValues(respData, $scope.selectedMetricsList, 'first_dimension');
                    // var winHeight = $(window).height() - 180;
-                    var height = parseInt($(".custom_report_scroll").css("height"), 10) + (respData.length * 55) + "px";
-                    $(".custom_report_scroll").css({"max-height": height, "height": height});
+                    var height = parseInt($(".custom_report_scroll").css("height"), 10) + (respData.length * 40);
+                    if(_customctrl.reportPageNum_1D == 1) {
+                        // add the height of header + header padding + data container margin + top container padding for the first time
+                        height += $(".heading_row").outerHeight(true) + parseInt($(".custom_report_response_table").css("margin-bottom"),10) + parseInt($(".first_dimension_row_holder").css("padding-top"),10);
+                    }
+                    $(".custom_report_scroll").css({"max-height": height + "px", "height": height + "px"});
                     attachScrollToWindow();
                 } else {
                     if(_customctrl.reportPageNum_1D == 1) {
