@@ -254,13 +254,12 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 //set startDate
                 if (flightDateObj.startTime) {
                     $scope.selectedCampaign.startTime = flightDateObj.startTime;
-                    startDateElem.datepicker("setStartDate", $scope.selectedCampaign.startTime);
-                    startDateElem.datepicker("update", $scope.selectedCampaign.startTime);
                 }
 
                 //set endDate
                 if (flightDateObj.endTime) {
                     $scope.selectedCampaign.endTime = flightDateObj.endTime;
+                    $scope.initiateDatePicker();
                     $scope.handleFlightDate(flightDateObj);
                 }
 
@@ -593,8 +592,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             var endDateElem = $('#endDateInput');
             var today = momentService.utcToLocalTime();
             if ($scope.mode == 'edit') {
-                var campaignStartTime = momentService.utcToLocalTime($scope.editCampaignData.startTime);
-                var campaignEndTime = momentService.utcToLocalTime($scope.editCampaignData.endTime);
+                var campaignStartTime = $scope.selectedCampaign.startTime;
                 var currentDateTime = momentService.utcToLocalTime();
                 if (moment(campaignStartTime).isAfter(currentDateTime)) {
                     startDateElem.datepicker("setStartDate", currentDateTime);
