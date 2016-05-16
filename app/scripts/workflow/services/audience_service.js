@@ -83,8 +83,7 @@ define(['angularAMD','common/services/vistoconfig_service','common/services/data
             },
 
             fetchAudienceSource: function (seatId) {
-                //var url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/'+loginModel.getSelectedClient().id+'/vendors/'+workflowService.getPlatform().id + '/seats/' + seatId + '/segments/sources';
-                var url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/'+loginModel.getSelectedClient().id+ '/segments';
+                var url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/'+loginModel.getSelectedClient().id+'/vendors/'+workflowService.getPlatform().id + '/seats/' + seatId + '/segments/sources';
                 return dataService.fetch(url, {cache: false});
             },
 
