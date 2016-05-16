@@ -34,7 +34,8 @@ define(['angularAMD','common/services/vistoconfig_service','common/services/data
                     clientId =  loginModel.getSelectedClient().id,
                     url;
 
-                url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/vendors/' + workflowService.getPlatform().id + '/seats/' + seatId + '/segments?pageNo=' + pageNo + '&pageSize=' + pageSize;
+                //url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/vendors/' + workflowService.getPlatform().id + '/seats/' + seatId + '/segments?pageNo=' + pageNo + '&pageSize=' + pageSize;
+                url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/segments?pageNo=' + pageNo + '&pageSize=' + pageSize;
 
                 if (sortCol && sortCol != '') {
                     url += '&sortBy=' + sortCol;
