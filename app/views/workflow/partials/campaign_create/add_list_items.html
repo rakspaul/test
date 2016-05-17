@@ -121,8 +121,7 @@
                         <span class="icon-arrow-down"></span>
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="lineType" id="lineType" data-toggle="dropdown" name="lineItemType">
-                        <li class="available" ng-repeat="t in type"  ng-click="setLineItem(t,'create')"><a>{{t.name}}</a></li>
-
+                        <li class="available" ng-repeat="t in type"  ng-click="setLineItem(t,'create')"><a>{{t.name}}</a></li
                     </ul>
                     <input type="hidden" class="form-control" ng-model="lineItemType.id" name="lineItemType"  />
                     <span class="greyTxt errorLabel" ng-if="lineItemForm.lineItemType.$error.required">Select Type</span>
@@ -319,7 +318,7 @@
                         <span class="icon-arrow-down"></span>
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="lineType" id="lineType" data-toggle="dropdown">
-                        <li class="available" ng-repeat="t in type"  ng-click="setLineItem(t,'edit')"><a>{{t.name}}</a></li>
+                        <li class="available" ng-repeat="t in type" ng-hide="disableFlatFeeEdit && t.name === CONST_FLAT_FEE" ng-click="setLineItem(t,'edit')"><a>{{t.name}}</a></li>
                     </ul>
 
                     <input type="hidden" ng-model="editLineItem.lineItemType.id"/>

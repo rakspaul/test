@@ -14,7 +14,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             CONST_POST_CLICK_CPA = 'Post-Click CPA',
             oldLineItem,
             oldLineItemIndex;
-
+        $scope.CONST_FLAT_FEE = 'Flat Fee';
         $scope.pixelSelected = {};
         $scope.pixelSelected.name = 'Select from list';
         $scope.selectedCampaign.lineItemBillableAmountTotal = 0;
@@ -345,6 +345,17 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             var target = event.currentTarget;
             $(target).toggle();
             $(target).closest('.tr').find('.tableEdit').toggle();
+
+            //disable flat fee in case the user created media plan with line item with rate type other than FLAT FEE
+            if($scope.mode === 'edit'){
+                $scope.disableFlatFeeEdit = false;
+                $scope.rateTypeReadOnlyEdit = false;
+                if(lineItem.lineItemType.name !== CONST_FLAT_FEE){
+                    $scope.disableFlatFeeEdit = true;
+                } else {
+                    $scope.rateTypeReadOnlyEdit = true;
+                }
+            }
 
             //populate edit lineitem fields
             populateLineItemEdit(event, lineItem);
