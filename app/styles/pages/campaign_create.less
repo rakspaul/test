@@ -323,7 +323,6 @@
                     text-align: center;
                     padding: 0 20px;
 
-
                     &.active {
                         background: #0978c9;
                         border: 1px solid #0978c9;
@@ -967,77 +966,14 @@
                 padding: 20px 0 20px 0;
                 width: 100%;
 
-
-            }
-            .include-label {
-                .btn-primary {
-                    margin: 0 ;
-                }
-            }
-            .targetting-each-content {
-                border: solid 1px #dde6eb ;
-                border-top: 0 ;
-                .external_chkbox  {
-                    margin-top: 0px ;
-                    .squaredFour {
-                         input[type=checkbox]:checked +  label {
-                            background : #3276b1 ;
-                            border: solid 1px #3276b1;
-                         }
-                         input[type=checkbox]:checked +  label:after {
-                            border-color: #fff ;
-                         }
-                    }
-                    .squaredFourTxt {
-                            width: 80%;
-                    }
-                }
-                .toggle-on {
-                    &:after {
-                        content: "";
-                        height: 16px;
-                        width: 8px;
-                        position: absolute;
-                        top: 6px;
-                        left: 18px;
-                        border: solid 3px #fff;
-                        border-top: 0;
-                        border-left: 0;
-                        transform: rotate(45deg);
-                        -webkit-transform: rotate(45deg);
-                        -moz-transform: rotate(45deg);
-                        border-radius: 0px 0 3px;
-                        -moz-border-radius: 0px 0 3px;
-                        -webkit-border-radius: 0px 0 3px;
-                    }
-                }
-                .toggle-off {
-                    &:after {
-                        content: "";
-                        position: absolute;
-                        height: 20px;
-                        width: 20px;
-                        background-repeat: no-repeat;
-                        background-position: center center;
-                        left: 25px;
-                        top: 5px;
-                        background-size: 75%;
-                        background-image: url(/images/workflow/icon_exclude.svg);
-                    }
-                }
-                textarea {
-                    margin-bottom: 10px ;
-                }
-            }
-            .include-label {
-                .btn-primary {
-                    margin: 0 ;
-                }
             }
             .exclude-label {
                 margin-top: 8px;
             }
-            .targetting-tab-header {
+            .geo-tab-contents-holder {
+                padding-bottom: 15px ;
+            }
+            .geo-tab-header {
                  padding: 10px 20px ;
                 .target-label {
                     color: #939eae ;
@@ -1048,37 +984,23 @@
                     .btn {
                         color: #0978c9 ;
                     }
-                    .common_tooltip {
-                        bottom: 46px;
-                    }
                     .active {
                         background: #3276b1 ;
                         color: #fff ;
-                        border-color: #3276b1;
                     }
                 }
             }
-            .targetting-tab-subheader {
+            .geo-tab-subheader {
                 border-top: solid 1px #dde6eb;
                 border-bottom: solid 1px #dde6eb;
-                margin: 20px 0 0px ;
-                padding: 10px 0px 10px ;
+                margin: 20px 0 5px ;
+                padding: 10px 0;
             }
-            .targetting-tab-body {
-                height: 200px;
-                min-height: 200px;
-                overflow: auto;
-                padding : 10px 0;
-                .each-targetting-name {
+            .geo-tab-body {
+                > div {
                     padding-top: 5px ;
                     padding-bottom: 5px ;
                 }
-               .full-table-loading {
-                    margin-top: 85px ;
-               }
-               .no-data-common {
-                    margin-top: 75px;
-               }
             }
              .geoTypeResult {
                     float: left;
