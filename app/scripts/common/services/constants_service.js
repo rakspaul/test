@@ -757,7 +757,9 @@ define(['angularAMD'], function(angularAMD) {
         this.SELECTED = 'Selected';
         this.TARGETAUDLOC = 'Target your audience by location';
         this.INCLUDED = 'Included';
+        this.INCLUDE = 'Include';
         this.EXCLUDED = 'Excluded';
+        this.EXCLUDE = 'Exclude';
         this.DAYPART = 'Daypart';
         this.SELECTADREST = 'Select when to show your Ad by restricting day and time';
         this.ALLDAYSTIMES = 'All Days & Times (default)';
@@ -963,6 +965,7 @@ define(['angularAMD'], function(angularAMD) {
 
         //Geo Targeting
         this.GEOGRAPHY = 'Geography';
+        this.SAVE_GEOGRAPHY = 'Save Geography' ;
         this.COUNTRY = 'Country';
         this.INCZIP = 'Including zip / postal codes is going to limit your geographic targeting significantly.';
         this.CONTINUE = 'Continue';
@@ -978,6 +981,7 @@ define(['angularAMD'], function(angularAMD) {
         this.REGCITIES = 'Regions & Cities';
         this.REMOVEALL = 'Remove All';
         this.METROS = 'Metros';
+        this.GEO = 'GEO';
         this.DMAS = 'DMAs';
         this.SEARCHFORMETROS = 'Search for metros';
         this.SEARCHFORREGIONANDCITY = 'Search for regions or cities';

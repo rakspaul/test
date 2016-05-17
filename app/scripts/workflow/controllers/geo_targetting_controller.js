@@ -745,7 +745,6 @@ define(['angularAMD','workflow/services/workflow_service','common/services/zip_c
 
 
             //this flag should be below to isRegionSelecled condition.
-            console.log("1") ;
             $scope.selectedTab = 'country';
             $scope.showSwitch = true;
 
@@ -894,7 +893,6 @@ define(['angularAMD','workflow/services/workflow_service','common/services/zip_c
             //     tabType = 'cities';
             // }
             // $scope.enableZipCodePopUp = false;
-            // console.log("4 " , tabType);
             // $scope.selectedTab = tabType;
 
             // if (tabType === 'regions') {
