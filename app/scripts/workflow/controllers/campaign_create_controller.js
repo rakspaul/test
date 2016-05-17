@@ -617,6 +617,12 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             }
         };
 
+        $scope.showHideDropdownWithSearch = function(event) {
+            var elem = $(event.target);
+            elem.closest(".dropdown").find(".dropdown-menu-with-search").toggle() ;
+        }
+
+
 
         $scope.validateDateLineItem = function (date, dateType) {
             if ('startdate' === dateType) {
