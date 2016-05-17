@@ -207,7 +207,7 @@
         }
 
         #city {
-            padding: 0 0 0 15px;
+            /*padding: 0 0 0 15px;*/
         }
 
         #dayTargeting {
@@ -295,12 +295,13 @@
             max-height: 300px;
             overflow: auto;
             width: 100%;
+            margin-left: 20px ;
         }
 
         .list_val_col {
             margin-left: 10px;
-            max-width: 170px;
-            min-width: 170px;
+            max-width: 155px;
+            min-width: 155px;
 
             &:last-child {
                 //margin-left: 28px;
@@ -345,16 +346,16 @@
             ul.nav.nav-tabs {
                 border-width: 0;
                 left: 0;
-                margin: 26px 0 20px 0;
+                margin: 26px 20px 20px 20px ;
                 width: auto;
-
                 li {
                     background: #fff;
                     border: 1px solid #BFC9D7;
                     border-bottom-right-radius: 2px;
                     border-top-right-radius: 2px;
                     text-align: center;
-                    width: 120px;
+                    padding: 0 20px;
+                    
 
                     &.active {
                         background: #0978c9;
@@ -375,23 +376,22 @@
                         border-top-left-radius: 2px;
                         border-top-right-radius: 0;
                     }
-
-                    &:hover {
-                        background: #f5f9fd;
-                    }
-
                     a {
                         color: #0978c9;
                         padding: 6px 0;
                         width: 100%;
                     }
                 }
+                li:not(.active):hover {
+                    background: #f5f9fd;
+                }
             }
         }
 
         #regions {
             border: 1px solid #dde6eb;
-            padding-left: 10px;
+            border-top: 0 ;
+            /*padding-left: 10px;*/
         }
 
         .tab-pane {
@@ -950,10 +950,10 @@
             border: 0 solid #E6E6E6;
             padding: 0 !important;
 
-            .col-md-12 .btn {
+            /*.col-md-12 .btn {
                 margin-top: 20px;
             }
-
+*/
             h2 {
                 color: #21252b;
                 font-size: 18px;
@@ -975,10 +975,47 @@
                 border-left: 1px solid #dde6eb;
                 border-right: 1px solid #dde6eb;
                 float: left;
-                padding: 20px 0 0 0;
+                padding: 20px 0 20px 0;
                 width: 100%;
 
-                .geoTypeResult {
+               
+            }
+            .exclude-label {
+                margin-top: 8px;
+            }
+            .geo-tab-contents-holder {
+                padding-bottom: 15px ;
+            }
+            .geo-tab-header {
+                 padding: 10px 20px ;
+                .target-label {
+                    color: #939eae ;
+                    display: inline-block;
+                    margin: 8px 10px 0 0 ;
+                }
+                .btn-group {
+                    .btn {
+                        color: #0978c9 ;
+                    }
+                    .active {
+                        background: #3276b1 ;
+                        color: #fff ;
+                    }
+                }
+            }
+            .geo-tab-subheader {
+                border-top: solid 1px #dde6eb;
+                border-bottom: solid 1px #dde6eb;
+                margin: 20px 0 5px ;
+                padding: 10px 0;
+            }
+            .geo-tab-body {
+                > div {
+                    padding-top: 5px ;
+                    padding-bottom: 5px ;
+                }
+            }
+             .geoTypeResult {
                     float: left;
                     margin-top: 20px;
                     padding-left: 7px;
@@ -987,7 +1024,7 @@
                 .switchWrap {
                     float: right;
                     margin-top: 30px;
-
+                    margin-right: 20px ;
                     span {
                         float: right;
                         margin: 3px 8px 0 0;
@@ -997,8 +1034,6 @@
                         }
                     }
                 }
-            }
-
             .selectedTables {
                 .cancel {
                     cursor: pointer;

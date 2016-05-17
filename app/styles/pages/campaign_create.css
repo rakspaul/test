@@ -162,7 +162,7 @@
   text-decoration: none;
 }
 .adCreateMaster #targetting #city {
-  padding: 0 0 0 15px;
+  /*padding: 0 0 0 15px;*/
 }
 .adCreateMaster #targetting #dayTargeting {
   padding: 0;
@@ -236,11 +236,12 @@
   max-height: 300px;
   overflow: auto;
   width: 100%;
+  margin-left: 20px ;
 }
 .adCreateMaster #targetting .list_val_col {
   margin-left: 10px;
-  max-width: 170px;
-  min-width: 170px;
+  max-width: 155px;
+  min-width: 155px;
 }
 .adCreateMaster #targetting .regionCityTab .nav-tabs {
   margin-top: 20px;
@@ -273,7 +274,7 @@
 .adCreateMaster #targetting .regionCityTab ul.nav.nav-tabs {
   border-width: 0;
   left: 0;
-  margin: 26px 0 20px 0;
+  margin: 26px 20px 20px 20px ;
   width: auto;
 }
 .adCreateMaster #targetting .regionCityTab ul.nav.nav-tabs li {
@@ -282,7 +283,7 @@
   border-bottom-right-radius: 2px;
   border-top-right-radius: 2px;
   text-align: center;
-  width: 120px;
+  padding: 0 20px;
 }
 .adCreateMaster #targetting .regionCityTab ul.nav.nav-tabs li.active {
   background: #0978c9;
@@ -300,17 +301,18 @@
   border-top-left-radius: 2px;
   border-top-right-radius: 0;
 }
-.adCreateMaster #targetting .regionCityTab ul.nav.nav-tabs li:hover {
-  background: #f5f9fd;
-}
 .adCreateMaster #targetting .regionCityTab ul.nav.nav-tabs li a {
   color: #0978c9;
   padding: 6px 0;
   width: 100%;
 }
+.adCreateMaster #targetting .regionCityTab ul.nav.nav-tabs li:not(.active):hover {
+  background: #f5f9fd;
+}
 .adCreateMaster #targetting #regions {
   border: 1px solid #dde6eb;
-  padding-left: 10px;
+  border-top: 0 ;
+  /*padding-left: 10px;*/
 }
 .adCreateMaster #targetting .tab-pane {
   padding: 0;
@@ -797,9 +799,10 @@
 .adCreateMaster #targetting .targettingFormWrap {
   border: 0 solid #E6E6E6;
   padding: 0 !important;
-}
-.adCreateMaster #targetting .targettingFormWrap .col-md-12 .btn {
-  margin-top: 20px;
+  /*.col-md-12 .btn {
+                margin-top: 20px;
+            }
+*/
 }
 .adCreateMaster #targetting .targettingFormWrap h2 {
   color: #21252b;
@@ -819,23 +822,55 @@
   border-left: 1px solid #dde6eb;
   border-right: 1px solid #dde6eb;
   float: left;
-  padding: 20px 0 0 0;
+  padding: 20px 0 20px 0;
   width: 100%;
 }
-.adCreateMaster #targetting .targettingFormWrap .searchInput .geoTypeResult {
+.adCreateMaster #targetting .targettingFormWrap .exclude-label {
+  margin-top: 8px;
+}
+.adCreateMaster #targetting .targettingFormWrap .geo-tab-contents-holder {
+  padding-bottom: 15px ;
+}
+.adCreateMaster #targetting .targettingFormWrap .geo-tab-header {
+  padding: 10px 20px ;
+}
+.adCreateMaster #targetting .targettingFormWrap .geo-tab-header .target-label {
+  color: #939eae ;
+  display: inline-block;
+  margin: 8px 10px 0 0 ;
+}
+.adCreateMaster #targetting .targettingFormWrap .geo-tab-header .btn-group .btn {
+  color: #0978c9 ;
+}
+.adCreateMaster #targetting .targettingFormWrap .geo-tab-header .btn-group .active {
+  background: #3276b1 ;
+  color: #fff ;
+}
+.adCreateMaster #targetting .targettingFormWrap .geo-tab-subheader {
+  border-top: solid 1px #dde6eb;
+  border-bottom: solid 1px #dde6eb;
+  margin: 20px 0 5px ;
+  padding: 10px 0;
+}
+.adCreateMaster #targetting .targettingFormWrap .geo-tab-body > div {
+  padding-top: 5px ;
+  padding-bottom: 5px ;
+}
+.adCreateMaster #targetting .targettingFormWrap .geoTypeResult {
   float: left;
   margin-top: 20px;
   padding-left: 7px;
 }
-.adCreateMaster #targetting .targettingFormWrap .searchInput .switchWrap {
+.adCreateMaster #targetting .targettingFormWrap .switchWrap {
   float: right;
   margin-top: 30px;
+  margin-right: 20px ;
 }
-.adCreateMaster #targetting .targettingFormWrap .searchInput .switchWrap span {
+.adCreateMaster #targetting .targettingFormWrap .switchWrap span {
   float: right;
   margin: 3px 8px 0 0;
 }
-.adCreateMaster #targetting .targettingFormWrap .searchInput .switchWrap span img {
+.adCreateMaster #targetting .targettingFormWrap .switchWrap span img {
   margin: -2px 0 0;
 }
 .adCreateMaster #targetting .targettingFormWrap .selectedTables .cancel {
