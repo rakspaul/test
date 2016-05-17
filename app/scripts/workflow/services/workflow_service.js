@@ -618,11 +618,12 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                         + '/format/' + creativeFormat.replace(/\s+/g, '').toUpperCase() + '/template/' + templateId + '/creatives/bulkimport';
                 },
 
-                getCountries: function (platformId, data, requestType, success, failure) {
+
+                getCountries: function (platformId, data, success, failure, flag) {
                     var url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/vendors/' + platformId + '/countries' + data,
                         canceller;
 
-                    if (requestType === 'cancellable') {
+                    if (flag === 'cancellable') {
                         canceller = requestCanceller.initCanceller(constants.CAMPAIGN_FILTER_CANCELLER);
                         return dataService.fetchCancelable(url, canceller, success, failure);
                     } else {
@@ -631,7 +632,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                 },
 
 
-                getRegions: function (platformId, data, requestType, success, failure) {
+                getRegions: function (platformId, data, success, failure, flag) {
                     var url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/vendors/' + platformId + '/regions' + data,
                         canceller;
 
