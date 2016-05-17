@@ -105,7 +105,8 @@ define(['angularAMD','common/services/vistoconfig_service','common/services/data
                     seatId = params.seatId,
                     url;
 
-                url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/'+loginModel.getSelectedClient().id+'/vendors/'+workflowService.getPlatform().id + '/seats/' + seatId + '/segments/keywords?search='+searchKey;
+                //url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/'+loginModel.getSelectedClient().id+'/vendors/'+workflowService.getPlatform().id + '/seats/' + seatId + '/segments/keywords?search='+searchKey;
+                url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/'+loginModel.getSelectedClient().id+'/segments?query='+searchKey;
                 return dataService.fetch(url, {cache: false});
             },
 

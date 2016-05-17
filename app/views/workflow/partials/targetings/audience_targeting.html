@@ -126,10 +126,10 @@
 							<span data-ng-bind="textConstants.SEGMENTNAME"></span>
 						</div>
 						<div class="columnThree" style="width: 21.333%">
-							<span data-ng-bind="textConstants.SOURCE"></span>
+							<span data-ng-bind="textConstants.CPM"></span>
 						</div>
 						<div class="columnFour" style="width: 31.333%">
-							<span data-ng-bind="textConstants.CATEGORY"></span>
+							<span data-ng-bind="textConstants.ESTREACH"></span>
 						</div>
 					</div>
 
@@ -146,10 +146,11 @@
 									<span data-ng-bind="audience.name"></span>
 								</div>
 								<div class="columnThree" style="width: 21.333%">
-									<span data-ng-bind="audience.source"></span>
+									<div class="pull-left">$&nbsp;</div>
+									<div class="pull-left" data-ng-bind="audience.cpmCost"></div>
 								</div>
 								<div class="columnFour" style="width: 31.333%; border-right: 0; ">
-									<span data-ng-bind="audience.category"></span>
+									<span data-ng-bind="(audience.estReach).toLocaleString()"></span>
 								</div>
 							</div>
 							<div ng-if="!showAudienceLoader && audienceList.length == 0" style="color: #ccc;text-align: center;padding-top: 10px;" data-ng-bind="textConstants.NORESULTSFOUND"></div>
@@ -166,8 +167,9 @@
 
                         <div class="segWrap" ng-repeat="aud in selectedAudience">
                             <span>{{aud.name}}</span><div style="clear:both"></div>
-                            <span>{{aud.category}}</span><div style="clear:both"></div>
-                            <span>{{aud.source}}</span><div style="clear:both"></div>
+                            <div class="pull-left">$&nbsp;</div>
+                            <div class="pull-left">{{aud.cpmCost}}</div><div style="clear:both"></div>
+                            <!--<span>{{aud.estReach}}</span><div style="clear:both"></div>-->
                             <div class="icon-close" ng-click="selectAudience(aud)"></div>
                         </div>
 					</div>
