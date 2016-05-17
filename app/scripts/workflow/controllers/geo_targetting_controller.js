@@ -52,7 +52,6 @@ define(['angularAMD', 'workflow/services/workflow_service', 'common/services/zip
                 $scope.geoData.cities.selected = [];
             },
 
-
             //update query params
             updateParams: function (params, type) {
                 if(type) {
@@ -193,6 +192,7 @@ define(['angularAMD', 'workflow/services/workflow_service', 'common/services/zip
                     countryCodes = _.pluck(selectedCountries, 'code').join(',');
                     geoTargeting.updateParams({'countryCodes' : countryCodes}, 'regions')
                 }
+
 
                 this.fetch(function (response) {
                     if (!$scope.geoData.regions.data) {
