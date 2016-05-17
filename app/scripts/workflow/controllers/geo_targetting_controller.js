@@ -35,6 +35,7 @@ define(['angularAMD', 'workflow/services/workflow_service', 'common/services/zip
         $( window ).resize(function() {
             $scope.divHeightCalculation() ;
         });
+
         var geoTargeting = {
 
             //get ads data
