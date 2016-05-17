@@ -18,22 +18,30 @@
         <label ng-if="createCampaignForm.advertiserId.$error.required" class="col-sm-12 greyTxt errorLabel" data-ng-bind="textConstants.CREATIVE_ERR_SUBACCOUNT"></label>
     </div>
     <!-- SubAccount End -->
-    <div class="form-group col-sm-3" style="padding-left: 0;">
+
+    <!-- Advertiser Start -->
+    <div class="form-group col-sm-3 each_filter" style="padding-left: 0;">
         <label for="advertiserDDL" class="col-sm-12  greyTxt miniLabels" data-ng-bind="textConstants.ADVERTISERS"></label>
         <div class="col-md-12 zeroPadding dropdown-workflow">
             <div class="dropdown">
-                <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ng-click="hideMediaPlanDropdown()" ng-disabled="!selectedCampaign.clientId">
+                <button class="btn btn-default dropdown-with-search-btn" type="button"  aria-haspopup="true" aria-expanded="true" ng-click="hideMediaPlanDropdown();showHideDropdownWithSearch($event)" ng-disabled="!selectedCampaign.clientId">
                     <span class="text" data-ng-bind="selectedCampaign.advertiserName || 'Select Advertiser' "></span>
                     <span class="icon-arrow-down"></span>
                 </button>
-                <ul class="dropdown-menu" aria-labelledby="advertiserDDL"  id="advertiserDDL" ng-if="mode !== 'edit' && !cloneMediaPlanName">
-                    <li ng-repeat="advertiser in workflowData.advertisers track by advertiser.id" class="available"><a ng-click="selectHandler('advertiser', advertiser)">{{advertiser.name}}</a></li>
+                <ul class="dropdown-menu dropdown-menu-with-search" aria-labelledby="advertiserDDL"  id="advertiserDDL" ng-if="mode !== 'edit' && !cloneMediaPlanName">
+                    <div id="brandsDropdownDiv" class="search-inside-dropdown">
+                        <input class="dropdown-toggle inactive" id="advertisersDropdown" ng-keyup="disableShowAll();" ng-model="selectedAdvertiser.name"/>
+                        <span class="sort-image-inactive brands_dd_filter_arrow" id="#brandsDropDownImg"></span>
+                    </div>
+                    <li ng-repeat="advertiser in workflowData.advertisers | filter : selectedAdvertiser.name" class="available" ><a ng-click="selectHandler('advertiser', advertiser);showHideDropdownWithSearch($event);">{{advertiser.name}}</a></li>
                 </ul>
                 <input type="hidden" name="advertiserId" ng-model="selectedCampaign.advertiserId" ng-update-hidden required/>
             </div>
         </div>
         <label ng-if="createCampaignForm.advertiserId.$error.required" class="col-sm-12 greyTxt errorLabel" data-ng-bind="textConstants.CREATIVE_ERR_ADVERTISER"></label>
     </div>
+    <!-- Advertiser End -->
+
     <div class="form-group col-sm-3" style="padding-left: 0;">
         <label for="brandDDL" class="col-sm-12  greyTxt miniLabels" data-ng-bind="textConstants.BRAND"></label>
         <div class="col-md-12 zeroPadding dropdown-workflow">
