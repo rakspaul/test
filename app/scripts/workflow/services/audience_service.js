@@ -46,7 +46,7 @@ define(['angularAMD','common/services/vistoconfig_service','common/services/data
                 }
 
                 if (keywords && keywords.length > 0) {
-                    url += '&keywords=';
+                    url += '&query=';
                     for (var i = 0; i < keywords.length; i++) {
                         url += keywords[i];
                         if (i + 1 < keywords.length)

@@ -93,7 +93,8 @@ define(['angularAMD', 'workflow/services/audience_service', 'workflow/services/w
                 //api call to fetch keywords
                 var params = {
                     'searchKey': key,
-                    'seatId': $scope.adData.platformSeatId
+                    'seatId': $scope.adData.platformSeatId,
+                    'sortColumn':name
                 }
 
                 audienceService
