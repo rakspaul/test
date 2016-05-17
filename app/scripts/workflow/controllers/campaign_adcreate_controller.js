@@ -938,7 +938,8 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
                     'pubmatic': 'pubmatic-logo',
                     'pulsepoint': 'pulsepoint-logo',
                     'rubicon': 'rubicon-logo',
-                    'the trade desk': 'thetradedesk'
+                    'the trade desk': 'thetradedesk',
+                    'adx' : 'doubleclick-DFP'
                 };
 
                 if (platform) {
