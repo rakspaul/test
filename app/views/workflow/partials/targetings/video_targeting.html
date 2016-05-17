@@ -89,13 +89,13 @@
             <div class="col-md-8 multiselectTagOptions"
                  data-ng-show="addDimension.tags.value === 'Specific Size' && addDimension.tags.type === 'sizes'"
                  style="padding: 0 0 0 10px; min-width: 54%; max-width: 54%;"
-                 id="sizes_input_box">
+                 id="sizesInputBox">
                 <tags-input data-ng-model="addDimension.tags.data"
                             display-property="name"
                             placeholder="Select"
                             replace-spaces-with-dashes="false"
-                            on-tag-added="videoDimensionTagAdded($tag, 'sizes')"
-                            on-tag-removed="videoDimensionTagRemoved($tag, 'sizes')">
+                            on-tag-added="videoDimensionTagChanged($tag, 'sizes', 'add')"
+                            on-tag-removed="videoDimensionTagChanged($tag, 'sizes', 'remove')">
                     <auto-complete source="loadSizes($query)"
                                    min-length="0"
                                    load-on-focus="true"
@@ -108,14 +108,14 @@
             <div class="col-md-8 multiselectTagOptions"
                  data-ng-show="addDimension.tags.type === 'positions'"
                  style="padding: 0 0 0 10px; min-width: 76%; max-width: 76%;"
-                 id="positions_input_box">
+                 id="positionsInputBox">
                 <tags-input data-ng-disabled="!positionsData"
                             data-ng-model="addDimension.tags.data"
                             display-property="name"
                             placeholder="Select"
                             replace-spaces-with-dashes="false"
-                            on-tag-added="videoDimensionTagAdded($tag, 'positions')"
-                            on-tag-removed="videoDimensionTagRemoved($tag, 'positions')">
+                            on-tag-added="videoDimensionTagChanged($tag, 'positions', 'add')"
+                            on-tag-removed="videoDimensionTagChanged($tag, 'positions', 'remove')">
                     <auto-complete source="loadPositions($query)"
                                    min-length="0"
                                    load-on-focus="true"
@@ -128,14 +128,14 @@
                  data-ng-show="addDimension.tags.type === 'playbackMethods' ||
                                addDimension.tags.type === 'playback_methods'"
                  style="padding: 0 0 0 10px; min-width: 76%; max-width: 76%;"
-                 id="playback_methods_input_box">
+                 id="playbackMethodsInputBox">
                 <tags-input data-ng-disabled="!playback_methodsData"
                             data-ng-model="addDimension.tags.data"
                             display-property="name"
                             placeholder="Select"
                             replace-spaces-with-dashes="false"
-                            on-tag-added="videoDimensionTagAdded($tag, 'playbackMethods')"
-                            on-tag-removed="videoDimensionTagRemoved($tag, 'playbackMethods')">
+                            on-tag-added="videoDimensionTagChanged($tag, 'playbackMethods', 'add')"
+                            on-tag-removed="videoDimensionTagChanged($tag, 'playbackMethods', 'remove')">
                     <auto-complete source="loadPlaybacks($query)"
                                    min-length="0"
                                    load-on-focus="true"
