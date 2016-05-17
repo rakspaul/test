@@ -69,6 +69,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         $scope.hideLineItemRateEdit = false;
         $scope.hideAdGroupNameEdit = false;
         $scope.showPixelsListEdit = false;
+        $scope.disableFlatFeeEdit = false; // this is to hide flat fee in edit mode 
 
         $scope.editLineItem = {};
         $scope.vendorConfig = [];
