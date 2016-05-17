@@ -254,7 +254,7 @@ define(['angularAMD', 'workflow/services/workflow_service', 'workflow/services/a
             // geo Targeting Trigger
             $scope.selectGeoTarget = function () {
                 colResize();
-                $scope.$broadcast('triggerGeography');
+                $scope.$broadcast('trigger.Geo');
                 // show targeting in side bar
                 _targeting.setTargetingForPreview('Geography');
             };
