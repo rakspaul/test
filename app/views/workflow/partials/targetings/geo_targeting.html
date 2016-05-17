@@ -1,0 +1,441 @@
+<div class="col-md-12 zeroPadding breadcrumbs">
+	<h5 ng-click="redirectTargettingMain($event);" data-ng-bind="textConstants.TARGETING"></h5>
+	<span class="icon-arrow-down"></span>
+	<h5 style="cursor: default;" data-ng-bind="textConstants.GEOGRAPHY"></h5>
+
+    <button ng-disabled="!(geoTargetingData.selected.regions.length >0 || geoTargetingData.selected.cities.length>0 || geoTargetingData.selected.dmas.length>0 || geoTargetingData.selected.zip.length>0)" class="pull-right btn btn-default" style="text-transform:none;" ng-click="saveGeography()">Save Geography</button>
+    <a ng-href="#" class="pull-right btn btn-link" ng-click="redirectTargettingMain(true);" data-ng-bind="textConstants.CANCEL"></a>
+</div>
+
+<div class="col-md-12 zeroPadding targettingFormWrap">
+    <div class="col-md-7 zeroPadding tabbable" style="padding-right: 10px !important;">
+        
+        <div class="tooltipWrap zipCodeTooltip" ng-show="enableZipCodePopUp">
+            <span data-ng-bind="textConstants.INCZIP"></span>
+            <a ng-href="#" class="btn btn-default pull-right" ng-click="showGeographyTabsBox(null, 'zip', false);" role="button" data-ng-bind="textConstants.CONTINUE"></a>
+            <a href="javascript:void(0);" ng-click="hidezipCodeTooltip()" class="btn btn-link pull-right"  role="button" data-ng-bind="textConstants.CANCEL"></a>
+        </div>
+
+        <ul class="nav nav-tabs">
+          <li class="active"><a ng-click="showGeographyTabsBox($event, 'regions')" ng-href="javascript:void(0);" >GEO</a></li>
+          <li><a ng-href="javascript:void(0);" ng-click="showGeographyTabsBox($event, 'dmas')" data-ng-bind="textConstants.METRO"></a></li>
+          <li><a ng-href="javascript:void(0);" ng-click="showGeographyTabsBox($event, 'zip', true); " data-ng-bind="textConstants.ZIPPOSTCODE"></a></li>
+        </ul>
+
+        <div class="tab-content targetting-container">
+            <!---- start region and city Container ---------->
+            <!--Search Input-->
+            <div class="searchInput geography">
+                 <div class="input-group">
+                  <input type="text" class="form-control searchBox" placeholder="Search">
+                  <span class="input-group-btn">
+                    <button class="btn btn-default" type="button" style="padding: 8px 15px 6px; height: 32px;"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+                  </span>
+                </div>
+            </div>
+               
+            <div id="regions" class="col-md-12 zeroPadding targetting-each-content geo-targetting-content-holder">
+                <div class="clearfix geo-tab-header">
+                    <div class="pull-left">
+                        <span class="pull-left target-label">Target</span>
+                        <div class="btn-group" role="group" aria-label="...">
+                            <button type="button" class="btn btn-default active" ng-click="showRespectiveTabContent($event, 'country');">Country</button>
+                            <button type="button" class="btn btn-default" ng-click="showRespectiveTabContent($event, 'region');">Region</button>
+                            <button type="button" class="btn btn-default" ng-click="showRespectiveTabContent($event, 'city');">City</button>
+                        </div>
+                        
+
+                    </div>
+
+                    <div class="pull-right include-toggle-switch">
+                        <div class="exclude-label" style="display:none;">
+                            <span>Exclude <img ng-src="/images/workflow/icon_exclude.svg" alt="" height="15"/></span>
+                        </div>
+                        <div class="include-label">
+                               <span>Include</span>
+                               <input type="checkbox"
+                                               checked data-toggle="toggle"
+                                               id="toggle"
+                                               data-on=" "
+                                               data-off=" "> 
+                        </div>
+                    </div>
+                </div>
+                <div class="geo-tab-contents-holder">
+                    <div class="geo-tab-content" id="country-geo-tab-content">
+                        <div class="clearfix geo-tab-subheader">
+                            <div class="col-md-12 clearfix">
+                                
+                                <div class="pull-left sort-icon-holder active" >
+                                    <span class="pull-left" data-ng-bind="textConstants.COUNTRY"></span>
+                                    <span class="pull-left common-sort-icon ascending" style="display: block;"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="geo-tab-body">
+                            <div class="clearfix each-geo-name">
+                                <div class="col-md-12 external_chkbox pull-left">
+                                    <div class="squaredFour">
+                                        <input type="checkbox" ng-checked="campaigns.dashboard.filterSelectAll"  id="select_chkbox1" class="squaredFourChkbox"  ng-true-value="'true'" ng-false-value="'false'" >
+                                        <label for="select_chkbox1"></label>
+                                    </div>
+                                    <span class="squaredFourTxt" >Country1</span>
+                                </div>
+                                
+                            </div>
+                            <div class="clearfix each-geo-name">
+                                <div class="col-md-12 external_chkbox pull-left">
+                                    <div class="squaredFour">
+                                        <input type="checkbox" ng-checked="campaigns.dashboard.filterSelectAll"  id="select_chkbox2" class="squaredFourChkbox"  ng-true-value="'true'" ng-false-value="'false'" >
+                                        <label for="select_chkbox2"></label>
+                                    </div>
+                                    <span class="squaredFourTxt" >Country1</span>
+                                </div>
+                                
+                            </div>
+                            <div class="clearfix each-geo-name">
+                                <div class="col-md-12 external_chkbox pull-left">
+                                    <div class="squaredFour">
+                                        <input type="checkbox" ng-checked="campaigns.dashboard.filterSelectAll"  id="select_chkbox3" class="squaredFourChkbox"  ng-true-value="'true'" ng-false-value="'false'" >
+                                        <label for="select_chkbox3"></label>
+                                    </div>
+                                    <span class="squaredFourTxt" >Country1</span>
+                                </div>
+                                
+                            </div>
+                            <div class="clearfix each-geo-name">
+                                <div class="col-md-12 external_chkbox pull-left">
+                                    <div class="squaredFour">
+                                        <input type="checkbox" ng-checked="campaigns.dashboard.filterSelectAll"  id="select_chkbox4" class="squaredFourChkbox"  ng-true-value="'true'" ng-false-value="'false'" >
+                                        <label for="select_chkbox4"></label>
+                                    </div>
+                                    <span class="squaredFourTxt" >Country1</span>
+                                </div>
+                                
+                            </div>
+                            <div class="clearfix each-geo-name">
+                                <div class="col-md-12 external_chkbox pull-left">
+                                    <div class="squaredFour">
+                                        <input type="checkbox" ng-checked="campaigns.dashboard.filterSelectAll"  id="select_chkbox5" class="squaredFourChkbox"  ng-true-value="'true'" ng-false-value="'false'" >
+                                        <label for="select_chkbox5"></label>
+                                    </div>
+                                    <span class="squaredFourTxt" >Country1</span>
+                                </div>
+                                
+                            </div>
+                            
+
+
+                        </div>
+                    </div>
+                    <div class="geo-tab-content" id="region-geo-tab-content" style="display:none;">
+                        <div class="clearfix geo-tab-subheader">
+                            <div class="clearfix col-md-8">
+                                
+                                <div class="pull-left sort-icon-holder active" >
+                                    <span class="pull-left" data-ng-bind="textConstants.REGION"></span>
+                                    <span class="pull-left common-sort-icon ascending" style="display: block;"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-4 pull-right">
+                                Country
+                            </div>
+                        </div>
+                        <div class="geo-tab-body">
+                            <div class="clearfix each-geo-name">
+                                <div class="external_chkbox pull-left col-md-8">
+                                    <div class="squaredFour">
+                                        <input type="checkbox" ng-checked="campaigns.dashboard.filterSelectAll"  id="select_chkbox" class="squaredFourChkbox"  ng-true-value="'true'" ng-false-value="'false'" >
+                                        <label for="select_chkbox"></label>
+                                    </div>
+                                    <span class="squaredFourTxt" >Region1 </span>
+                                </div>
+                                <div class="pull-right col-md-4">
+                                    Country1
+                                </div>
+                                
+                            </div>
+                            <div class="clearfix each-geo-name">
+                                <div class="external_chkbox pull-left col-md-8">
+                                    <div class="squaredFour">
+                                        <input type="checkbox" ng-checked="campaigns.dashboard.filterSelectAll"  id="select_chkbox" class="squaredFourChkbox"  ng-true-value="'true'" ng-false-value="'false'" >
+                                        <label for="select_chkbox"></label>
+                                    </div>
+                                    <span class="squaredFourTxt" >Region1 </span>
+                                </div>
+                                <div class="pull-right col-md-4">
+                                    Country1
+                                </div>
+                                
+                            </div>
+                            <div class="clearfix each-geo-name">
+                                <div class="external_chkbox pull-left col-md-8">
+                                    <div class="squaredFour">
+                                        <input type="checkbox" ng-checked="campaigns.dashboard.filterSelectAll"  id="select_chkbox" class="squaredFourChkbox"  ng-true-value="'true'" ng-false-value="'false'" >
+                                        <label for="select_chkbox"></label>
+                                    </div>
+                                    <span class="squaredFourTxt" >Region1 </span>
+                                </div>
+                                <div class="pull-right col-md-4">
+                                    Country1
+                                </div>
+                                
+                            </div>
+                            <div class="clearfix each-geo-name">
+                                <div class="external_chkbox pull-left col-md-8">
+                                    <div class="squaredFour">
+                                        <input type="checkbox" ng-checked="campaigns.dashboard.filterSelectAll"  id="select_chkbox" class="squaredFourChkbox"  ng-true-value="'true'" ng-false-value="'false'" >
+                                        <label for="select_chkbox"></label>
+                                    </div>
+                                    <span class="squaredFourTxt" >Region1 </span>
+                                </div>
+                                <div class="pull-right col-md-4">
+                                    Country1
+                                </div>
+                                
+                            </div>
+
+                          
+
+
+                        </div>
+                    </div>
+                    <div class="geo-tab-content" id="city-geo-tab-content" style="display:none;">
+                        <div class="clearfix geo-tab-subheader">
+                            <div class="clearfix col-md-4">
+                                
+                                <div class="pull-left sort-icon-holder active" >
+                                    <span class="pull-left" data-ng-bind="textConstants.CITY"></span>
+                                    <span class="pull-left common-sort-icon ascending" style="display: block;"></span>
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-4 pull-right">
+                                Country
+                            </div>
+                            <div class="col-md-4 pull-right">
+                                Region
+                            </div>
+                        </div>
+                        <div class="geo-tab-body">
+                            <div class="clearfix each-geo-name">
+                                <div class="external_chkbox pull-left col-md-4">
+                                    <div class="squaredFour">
+                                        <input type="checkbox" ng-checked="campaigns.dashboard.filterSelectAll"  id="select_chkbox" class="squaredFourChkbox"  ng-true-value="'true'" ng-false-value="'false'" >
+                                        <label for="select_chkbox"></label>
+                                    </div>
+                                    <span class="squaredFourTxt" >City1 </span>
+                                </div>
+                                <div class="pull-right col-md-4">
+                                    Country1
+                                </div>
+                                <div class="pull-right col-md-4">
+                                    Region1
+                                </div>
+                                
+                                
+                            </div>
+                            <div class="clearfix each-geo-name">
+                                <div class="external_chkbox pull-left col-md-4">
+                                    <div class="squaredFour">
+                                        <input type="checkbox" ng-checked="campaigns.dashboard.filterSelectAll"  id="select_chkbox" class="squaredFourChkbox"  ng-true-value="'true'" ng-false-value="'false'" >
+                                        <label for="select_chkbox"></label>
+                                    </div>
+                                    <span class="squaredFourTxt" >City1 </span>
+                                </div>
+                                
+                                <div class="pull-right col-md-4">
+                                    Country1
+                                </div>
+                                <div class="pull-right col-md-4">
+                                    Region1
+                                </div>
+                                
+                            </div>
+                             <div class="clearfix each-geo-name">
+                                <div class="external_chkbox pull-left col-md-4">
+                                    <div class="squaredFour">
+                                        <input type="checkbox" ng-checked="campaigns.dashboard.filterSelectAll"  id="select_chkbox" class="squaredFourChkbox"  ng-true-value="'true'" ng-false-value="'false'" >
+                                        <label for="select_chkbox"></label>
+                                    </div>
+                                    <span class="squaredFourTxt" >City1 </span>
+                                </div>
+                                
+                                <div class="pull-right col-md-4">
+                                    Country1
+                                </div>
+                                <div class="pull-right col-md-4">
+                                    Region1
+                                </div>
+                                
+                            </div>
+                             <div class="clearfix each-geo-name">
+                                <div class="external_chkbox pull-left col-md-4">
+                                    <div class="squaredFour">
+                                        <input type="checkbox" ng-checked="campaigns.dashboard.filterSelectAll"  id="select_chkbox" class="squaredFourChkbox"  ng-true-value="'true'" ng-false-value="'false'" >
+                                        <label for="select_chkbox"></label>
+                                    </div>
+                                    <span class="squaredFourTxt" >City1 </span>
+                                </div>
+                                
+                                <div class="pull-right col-md-4">
+                                    Country1
+                                </div>
+                                <div class="pull-right col-md-4">
+                                    Region1
+                                </div>
+                                
+                            </div>
+                             <div class="clearfix each-geo-name">
+                                <div class="external_chkbox pull-left col-md-4">
+                                    <div class="squaredFour">
+                                        <input type="checkbox" ng-checked="campaigns.dashboard.filterSelectAll"  id="select_chkbox" class="squaredFourChkbox"  ng-true-value="'true'" ng-false-value="'false'" >
+                                        <label for="select_chkbox"></label>
+                                    </div>
+                                    <span class="squaredFourTxt" >City1 </span>
+                                </div>
+                                
+                                <div class="pull-right col-md-4">
+                                    Country1
+                                </div>
+                                <div class="pull-right col-md-4">
+                                    Region1
+                                </div>
+                                
+                            </div>
+                             <div class="clearfix each-geo-name">
+                                <div class="external_chkbox pull-left col-md-4">
+                                    <div class="squaredFour">
+                                        <input type="checkbox" ng-checked="campaigns.dashboard.filterSelectAll"  id="select_chkbox" class="squaredFourChkbox"  ng-true-value="'true'" ng-false-value="'false'" >
+                                        <label for="select_chkbox"></label>
+                                    </div>
+                                    <span class="squaredFourTxt" >City1 </span>
+                                </div>
+                                
+                                <div class="pull-right col-md-4">
+                                    Country1
+                                </div>
+                                <div class="pull-right col-md-4">
+                                    Region1
+                                </div>
+                                
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!---- end region and city block ---------->
+
+            <!---- start DMA container -------->
+            <div id="dmas" class="targetting-each-content">
+                
+                <div>
+                    <div class="list_holder">
+                        <div class="common-load-icon_viewability" ng-if="!geoTargetingData.dmas"></div>
+                        <div class="list_row_holder" lr-infinite-scroll="loadMoreDmas" time-threshold="100">
+                            <div class="clearfix list_row" ng-repeat="dma in geoTargetingData.dmas">
+                                <div class="pull-left list_row_chkbox"><input id="{{dma.id}}" type="checkbox" ng-model="bool" ng-change="sync(bool, dma, 'dmas')" ng-checked="isChecked(dma.id, 'dmas')" value="" /></div>
+                                <div class="pull-left list_val_col" data-ng-bind="dma.dmaName"></div>
+                                <div class="pull-left list_val_col" data-ng-bind="dma.parent.name"></div>
+                            </div>
+                            <div ng-show="dmasFetching" class="loading-icon"></div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <!----- end DMA container ----------->
+
+            <!---- start Zip Container ---------->
+            <div id="zip" class="targetting-each-content">
+                <textarea class="form-control" id="zipCodes" name="zipCodes" ng-model="adData.zipCodes" rows="3" placeholder="Separate zip / postal codes by comma. Use hyphens to denote ranges."></textarea>
+                <div class="col-md-12 zeroPadding">
+                    <button type="button" ng-click="addZipCode()" ng-disabled="!adData.zipCodes" class="btn btn-default pull-right">
+                        <img ng-src="/images/workflow/icon_target.svg" alt="" height="15" /> Include
+                    </button>
+                </div>
+            </div>
+            <!---- end Zip Container ---------->
+
+
+        </div>
+    </div>
+    <div class="col-md-5 zeroPadding selectedTables">
+        <div class="col-md-12">
+            <h2 data-ng-bind="textConstants.SELECTED"></h2>
+        </div>
+        <div class="col-md-12" >
+            <div class="table regionTable" >
+                <div>
+                    <div class="clearfix each-row" >
+                        <div class="pull-left" data-ng-bind="textConstants.REGCITIES"></div>
+                        <div class="pull-right removeAll">
+                            <a ng-href="javascript:void(0);" data-ng-bind="textConstants.REMOVEALL"></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="values-table">
+                    <div class="clearfix each-row" >
+                        <div class="pull-left"><img ng-src="/images/workflow/icon_target.svg" alt="" height="15"/> region</div>
+                        <div class="pull-right cancel"><span class="icon-close removeItem" ></span></div>
+                        <div class="group">
+                            <div class="ng-scope">
+                                <div class="pull-left"><img ng-src="/images/workflow/icon_exclude.svg" alt="" height="15"/> city name</div>
+                                <div class="pull-right cancel"><span class="icon-close removeItem" ></span></div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                     <div class="clearfix each-row" >
+                        <div class="pull-left"><img ng-src="/images/workflow/icon_exclude.svg" alt="" height="15"/> region</div>
+                        <div class="pull-right cancel"><span class="icon-close removeItem"></span></div>
+                        <div class="group">
+                            <div class="ng-scope">
+                                <div class="pull-left"><img ng-src="/images/workflow/icon_target.svg" alt="" height="15"/> city name</div>
+                                <div class="pull-right cancel"><span class="icon-close removeItem" ></span></div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                     <div class="clearfix each-row"  >
+                        <div class="pull-left"><img ng-src="/images/workflow/icon_exclude.svg" alt="" height="15"/> region </div>
+                        <div class="pull-right cancel"><span class="icon-close removeItem" ></span></div>
+                        <div class="group">
+                            <div class="ng-scope">
+                                <div class="pull-left"><img ng-src="/images/workflow/icon_exclude.svg" alt="" height="15"/> city name{{city.name}}</div>
+                                <div class="pull-right cancel"><span class="icon-close removeItem" ></span></div>
+                            </div>
+                            
+                        </div>
+                    </div>
+
+                    <div  class="clearfix each-row"  >
+                        <div class="pull-left"><img ng-src="/images/workflow/icon_target.svg" alt="" height="15"/> city ( region)</div>
+                        <div class="pull-right cancel"><span class="icon-close removeItem"></span></div>
+                    </div>
+                    <div  class="clearfix each-row"  >
+                        <div class="pull-left"><img ng-src="/images/workflow/icon_exclude.svg" alt="" height="15"/> city ( region)</div>
+                        <div class="pull-right cancel"><span class="icon-close removeItem"></span></div>
+                    </div>
+                    <div  class="clearfix each-row"  >
+                        <div class="pull-left"><img ng-src="/images/workflow/icon_target.svg" alt="" height="15"/> city ( region)</div>
+                        <div class="pull-right cancel"><span class="icon-close removeItem"></span></div>
+                    </div>
+
+                    
+                </div>
+            </div>
+            
+            
+        </div>
+        
+        <div class="emptyTableLabel" data-ng-bind="textConstants.NOTSET"></div>
+
+    </div>
+</div>
+
+
+
