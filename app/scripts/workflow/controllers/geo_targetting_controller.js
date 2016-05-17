@@ -393,15 +393,14 @@ define(['angularAMD', 'workflow/services/workflow_service', 'common/services/zip
             var tooltip_width = elem.closest(".btn-group").find(".common_tooltip").width() ;
             var elem_width = elem.width() ;
             $(".common_tooltip").show().css("left",tooltip_left - tooltip_width/2 + elem_width/2 ) ;
-            
         };
 
         $scope.divHeightCalculation = function() {
             // var winHeight = $(window).height() ;
             // $(".targetting-tab-body").height() ;
         };
-        $scope.divHeightCalculation() ;
 
+        $scope.divHeightCalculation() ;
 
         // show geo, dmas, zip container
         $scope.showGeographyTabsBox = function (event, tabType, showPopup) {
