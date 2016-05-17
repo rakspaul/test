@@ -20,8 +20,21 @@
 
     <label for="nameTitleCampaign" class="col-sm-12 labelQuestTxt" style="margin-bottom: 5px;" data-ng-bind="textConstants.MEDIAPLAN_SETUP_LINE_ITEMS"></label>
 
+    <div class="col-md-12 zeroPadding upload_files_selected_container" >
+        <span class="pull-left">Import Line Items</span>
+        <a class="pull-left download_template">
+            <span>
+                <span class="icon-download pull-left"></span>
+                <span class="pull-left download_btn" >Download template</span>
+            </span>
+        </a>
+        <span class="pull-left">LineItemSelect1.csv</span>
+        <a class="icon-clear pull-left" ></a>
+        <a class="btn btn-primary pull-right" ng-click="uploadFileChosenLineItem();">Upload</a>
+        <a class="btn btn-link pull-right">Cancel</a>
+    </div>
 
-    <div class="col-md-12 common_file_upload_container"> 
+    <div class="col-md-12 common_file_upload_container">
         <div class="clearfix common_file_upload">
             <div ngf-drop ngf-select ng-model="files" ng-model-rejected="rejFiles" ngf-multiple="true" ngf-allow-dir="false"  class="drop-box" ngf-drag-over-class="dragover" ngf-accept="'.pdf,.xls,.ppt,.pptx,.xlsx'" ngf-max-size='10000000'>
                 <div class="pull-left file_upload_icon" >
@@ -31,7 +44,7 @@
                        Drag and drop your completed Line Item CSV spreadsheet or <a id="fileupload" href="javascript:void(0);" >Browse</a>
                     </div>
                     <div>
-                       All conversion pixels set for CPA line items in your spreadsheet will be automatically associated with this Media Plan.
+                       {{textConstants.CPA_CONVERSION_MESSAGE}}
                     </div>
                 </div>
             </div>
@@ -95,7 +108,7 @@
         <!--Row 1-->
         <div class="col-md-4 zeroPadding ">
             <label class="col-sm-12 greyTxt miniLabels zeroPadding" data-ng-bind="textConstants.MEDIAPLAN_LINE_ITEM_NAME"></label>
-            <input type="text" class="col-md-12 form-control" placeholder="Enter Line Item name up to 150 characters" name="lineItemName" ng-model="$parent.lineItemName" />
+            <input type="text" class="col-md-12 form-control" placeholder="Enter Line Item name up to 150 characters" name="lineItemName" ng-model="$parent.lineItemName" title="{{$parent.lineItemName}}" />
             <span class="greyTxt errorLabel" ng-show="lineItemForm.lineItemName.$error.required">Please enter a name</span>
         </div>
 
@@ -108,8 +121,7 @@
                         <span class="icon-arrow-down"></span>
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="lineType" id="lineType" data-toggle="dropdown" name="lineItemType">
-                        <li class="available" ng-repeat="t in type"  ng-click="setLineItem(t,'create')"><a>{{t.name}}</a></li>
-
+                        <li class="available" ng-repeat="t in type"  ng-click="setLineItem(t,'create')"><a>{{t.name}}</a></li
                     </ul>
                     <input type="hidden" class="form-control" ng-model="lineItemType.id" name="lineItemType"  />
                     <span class="greyTxt errorLabel" ng-if="lineItemForm.lineItemType.$error.required">Select Type</span>
@@ -172,7 +184,7 @@
 
             <div class="col-md-4 " style="padding-bottom: 2px !important;" ng-hide="hideAdGroupName">
                 <label class="col-sm-12 zeroPadding greyTxt">Ad Group Name</label>
-                <input type="text" class="col-md-12" placeholder="Enter Ad Group name up to 100 characters"  ng-model="$parent.adGroupName"/>
+                <input type="text" class="col-md-12" placeholder="Enter Ad Group name up to 100 characters" title="{{$parent.adGroupName}}" ng-model="$parent.adGroupName"/>
             </div>
             <div class="col-md-5 zeroPadding dropdown-workflow" ng-show="showPixelsList">
                 <div class="dropdown">
@@ -261,6 +273,31 @@
         </div>
     </div>
 </div>
+<div class="common-popup-container" ng-show="showUploadRecordsMessageLineItems">
+    <div class="popup">
+        <div class="popup-header-body">
+            <div class="clearfix">
+                <h1 class="pull-left" data-ng-bind="textConstants.UPLOAD_COMPLETE"></h1>
+            </div>
+            <div class="popup-content" >
+                <span class="successText">50 Line Items have been created successfully.</span>
+            </div>
+            <div class="popup-content" >
+                <span class="errorText">8 record(s) failed.</span>
+            </div>
+            <div class="popup-content" >
+                <a class="pull-left download_error_log" >
+                    <span class="pull-left icon-download"></span>
+                    <span class="pull-left download_error_log_txt" data-ng-bind="textConstants.DOWNLOAD_ERROR_LOG"></span>
+                </a>
+            </div>
+        </div>
+        <div class="clearfix popup-footer" >
+            <button type="button" ng-click="hideuploadFileChosenLineItem()" class="common_primary_btn pull-right" data-ng-bind="textConstants.CLOSE"></button>
+        </div>
+
+    </div>
+</div>
 
 <!--Table Edit Form Template-->
 <script type="text/ng-template" id="listItemEditTpl">
@@ -269,7 +306,7 @@
     <div class="col-md-12 zeroPadding">
         <div class="col-md-4 zeroPadding">
             <label class="col-sm-12 greyTxt miniLabels zeroPadding" data-ng-bind="textConstants.MEDIAPLAN_LINE_ITEM_NAME"></label>
-            <input type="text" class="col-md-12" placeholder="Enter Line Item name up to 150 characters" ng-model="editLineItem.lineItemName"/>
+            <input type="text" class="col-md-12" placeholder="Enter Line Item name up to 150 characters" title="{{editLineItem.lineItemName}}" ng-model="editLineItem.lineItemName" autocomplete="off"/>
         </div>
 
         <div class="col-md-2" style="padding: 0 0 0 10px;">
@@ -281,7 +318,7 @@
                         <span class="icon-arrow-down"></span>
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="lineType" id="lineType" data-toggle="dropdown">
-                        <li class="available" ng-repeat="t in type"  ng-click="setLineItem(t,'edit')"><a>{{t.name}}</a></li>
+                        <li class="available" ng-repeat="t in type" ng-hide="disableFlatFeeEdit && t.name === CONST_FLAT_FEE" ng-click="setLineItem(t,'edit')"><a>{{t.name}}</a></li>
                     </ul>
 
                     <input type="hidden" ng-model="editLineItem.lineItemType.id"/>
@@ -292,18 +329,18 @@
 
         <div class="col-md-2  " style="padding: 0 0 0 10px;" ng-hide="hideLineItemRateEdit">
             <label class="col-sm-12 greyTxt miniLabels zeroPadding" data-ng-bind="textConstants.MEDIAPLAN_RATE">Rate</label>
-            <input type="text" class="col-md-12 form-control" placeholder="Enter Rate" ng-model="editLineItem.pricingRate" ng-readonly="rateReadOnlyEdit" name="lineItemRate" fraction-numbers/>
+            <input type="text" class="col-md-12 form-control" placeholder="Enter Rate" ng-model="editLineItem.pricingRate" ng-readonly="rateReadOnlyEdit" name="lineItemRate" fraction-numbers autocomplete="off"/>
             <span class="greyTxt errorLabel" ng-if="lineItemForm.lineItemRate.$error.required">Enter Rate</span>
         </div>
 
         <div class="col-md-2" style="padding: 0 0 0 10px;" ng-show="amountFlagEdit">
             <label class="col-sm-12 greyTxt miniLabels zeroPadding" data-ng-bind="textConstants.MEDIAPLAN_BILLABLE_AMOUNT"></label>
-            <div class="col-md-12 zeroPadding symbol-input"><span class="symbol" >{{locale.NUMBER_FORMATS.CURRENCY_SYM}}</span><input type="text" class="col-md-12" placeholder="" ng-model="editLineItem.billableAmount" whole-number-only style="padding-left:20px"/>
+            <div class="col-md-12 zeroPadding symbol-input"><span class="symbol" >{{locale.NUMBER_FORMATS.CURRENCY_SYM}}</span><input type="text" class="col-md-12" placeholder="" ng-model="editLineItem.billableAmount" whole-number-only style="padding-left:20px" autocomplete="off"/>
             </div>
         </div>
         <div class="col-md-2" style="padding: 0 0 0 10px;" ng-show="volumeFlagEdit">
             <label class="col-sm-12 greyTxt miniLabels zeroPadding" data-ng-bind="textConstants.MEDIAPLAN_VOLUME"></label>
-            <input type="text" class="col-md-12" placeholder="" ng-model="editLineItem.volume" whole-number-only/>
+            <input type="text" class="col-md-12" placeholder="" ng-model="editLineItem.volume" whole-number-only autocomplete="off"/>
         </div>
 
 
@@ -338,10 +375,9 @@
 
 
 
-
-                <div class="col-md-4 " style="padding: 0px !important;" ng-hide="hideAdGroupNameEdit">
+                <div class="col-md-4 " style="padding: 0px !important;" ng-hide="hideAdGroupNameEdit || mode === 'edit'">
                     <label class="col-sm-12 zeroPadding greyTxt">Ad Group Name</label>
-                    <input type="text" class="col-md-12" placeholder="Enter Ad Group name up to 100 characters"  ng-model="editLineItem.adGroupName"/>
+                    <input type="text" class="col-md-12" placeholder="Enter Ad Group name up to 100 characters" title="{{editLineItem.adGroupName}}" ng-model="editLineItem.adGroupName" autocomplete="off"/>
                 </div>
                 <div class="col-md-5 zeroPadding dropdown-workflow" ng-show="showPixelsListEdit">
                     <div class="dropdown">

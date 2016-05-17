@@ -1,4 +1,4 @@
-<div class="popup-holder">
+<div class="popup-holder edit-report-popup-holder">
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal"
                 ng-click="close()" aria-label="Close">
@@ -20,7 +20,7 @@
         <div class="clearfix data_row {{editedData.reportType == 'Custom' ? 'custom_report_type' : ''}}">
             <div class="pull-left report-type-data">
                 <div class="data_heading">Report Type</div>
-                <div class="">
+                <div class="common_dropdown">
                     <div class="dropdown">
                         <span data-toggle="dropdown" class="dropdown_txt">{{editedData.reportType}}</span>
                         <ul class="dropdown-menu">
@@ -32,7 +32,7 @@
             </div>
             <div class="pull-right campaign-dd-data">
                 <div class="data_heading">Media Plan</div>
-                <div class="">
+                <div class="common_dropdown">
                     <div class="dropdown">
                         <span data-toggle="dropdown" class="dropdown_txt">{{editedData.campaignName}}</span>
                         <ul class="dropdown-menu">

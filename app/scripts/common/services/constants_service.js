@@ -96,6 +96,7 @@ define(['angularAMD'], function(angularAMD) {
         this.CTR = "CTR";
         this.VTC = "VTC";
         this.CPM = "CPM";
+        this.ESTREACH = "Estimated Reach";
         this.CPC = "CPC";
         this.CPA = "CPA";
         this.ACTION_RATE = "Action rate";
@@ -387,6 +388,8 @@ define(['angularAMD'], function(angularAMD) {
         this.BEFORE_VALUE = "Before Value";
         this.AFTER_VALUE = "After Value";
         this.CHANGE_IN_PERCENTAGE = "Change %";
+        this.UPLOAD_COMPLETE = "Upload Complete";
+        this.DOWNLOAD_ERROR_LOG = "Download Error Log";
 
         this.DAYS_OF_WEEK = "Days of Week";
         this.DISCREPANCY = "Discrepancy";
@@ -598,9 +601,10 @@ define(['angularAMD'], function(angularAMD) {
         this.WF_CLONE = "Clone";
         this.WF_PAUSE = "Pause";
         this.WF_RESUME = "Resume";
-        this.WF_MOVE_TO = "Move to"
-        this.WF_ARCHIVE = "Archive"
-        this.WF_NOT_SET = "Not Set"
+        this.WF_MOVE_TO = "Move to";
+        this.WF_ARCHIVE = "Archive";
+        this.WF_NOT_SET = "Not Set";
+        this.CLOSE = "Close";
         this.WF_AD_SAVE_CLOSE = "Save & Close";
         this.WF_AD_SAVE_CONTINUE = "Save & Continue";
         this.WF_NAME_CAMPAIGN_TXT = "Tell us about your Media Plan?";
@@ -884,6 +888,10 @@ define(['angularAMD'], function(angularAMD) {
         this.MEDIA_PLAN_REPORTS = 'Media Plan Reports';
         this.CREATIVES = 'Creatives';
 
+        //media plans
+        this.NO_CATEGORY_FOR_SELECTED_ADVERISER = 'No category available for selected advertiser.';
+        this.CPA_CONVERSION_MESSAGE = 'All conversion pixels set for CPA line items in your spreadsheet will be automatically associated with this Media Plan.'
+
         //Overview: Create Ad Groups
         this.CREATEADGROUP = 'Create Ad Group';
         this.WHATADGROUPNAME = 'What is your Ad Group name?';
@@ -1140,7 +1148,7 @@ define(['angularAMD'], function(angularAMD) {
         this.MEDIAPLAN_VOLUME = "Volume";
         this.MEDIAPLAN_FLIGHT_DATES = "Flight Dates";
         this.IMPORT_LINE_ITEMS = "Import Line Items";
-        this.EXPORT_LINE_ITEMS = "Export Line Items";   
+        this.EXPORT_LINE_ITEMS = "Export Line Items";
 
         this.MEDIAPLAN_ADD_CREDIT = "Add Credit";
         this.MEDIAPLAN_CREDIT_NAME = "Credit Name / Notes";

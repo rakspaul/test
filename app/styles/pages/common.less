@@ -450,6 +450,16 @@
 		}
 	}	
 }
+.edit-report-popup-holder {
+	.common_dropdown {
+		.dropdown {
+			border: 0px ;
+		}
+		.dropdown-menu {
+			margin-top: -5px ;
+		}
+	}
+}
 .clone-popup {
 	.cloneMediaPlanNameInput {
 		width: 100%;
@@ -1556,7 +1566,7 @@
 				padding: 5px;
 				cursor: default;
 				&:hover {
-					background: #d2dee7;
+					background: #F5F9FD;
 				}
 			}
 		}
@@ -1764,7 +1774,7 @@ multiselect {
 		z-index: 3000;
 		text-align: left;
 		width: 500px;
-		min-height: 250px;
+		min-height: 300px;
 		background: white;
 		border-radius: 5px;
 		-moz-border-radius: 5px;
@@ -1819,6 +1829,12 @@ multiselect {
 				color: @color_14;
 				margin-top: 6px;
 			}
+		}
+	}
+	.download_error_log {
+		margin-top: 10px;
+		.download_error_log_txt {
+			margin-left: 5px;
 		}
 	}
 }
@@ -1902,6 +1918,9 @@ multiselect {
 .errorBorder {
 	border-color: @color_25 !important ;
 }
+.successText {
+	color: #39AE42 ;
+}
 .disabled-field {
 	background: #eee ;
 	cursor: default;
@@ -1929,7 +1948,7 @@ div.inputLoader {
     -webkit-border-radius: 2px;
     > input[type="text"] {
     	border: solid 1px  transparent;
-    	width: 80% ;
+    	width: 100% ;
     	margin: 0 ;
     }
     > input[type="text"]:focus , > input[type="text"]:hover {
@@ -1940,6 +1959,7 @@ div.inputLoader {
 		right: 0px ;
 		top : 0px ;
 		z-index: 10 ;
+		background-color: #fff ;
 	}
 }
 tags-input .autocomplete {

@@ -1,0 +1,304 @@
+// Visto 2.0 Inputs / Forms
+// Inputs
+input[type="text"],
+input[type="number"],
+input[type="email"],
+input[type="password"],
+input[type="textarea"],
+.has-success input[type="text"].form-control,
+textarea {
+    border: 1px solid #BFC9D7;
+    border-radius: 2px !important;
+    line-height: normal;
+    padding: 10px 12px 7px 12px;
+    height: auto;
+    box-shadow: none !important;
+}
+
+input[type="text"].disabled,
+input[type="number"].disabled,
+input[type="email"].disabled,
+input[type="password"].disabled,
+input[type="textarea"].disabled {
+    background: #eee;
+}
+
+.currencyFly ~ input[type="text"], .currencyFly ~ input[type="number"] {
+    padding-left: 20px ;
+}
+input[type="text"]:focus,
+input[type="number"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+input[type="textarea"]:focus,
+.has-success input[type="text"].form-control:focus,
+textarea:focus {
+    border: 1px solid #0978c9 !important;
+    box-shadow: none !important;
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.hiddenInputs {
+    display: none;
+}
+
+textarea {
+    resize: none;
+    border: 1px solid #dbe8ef;
+    border-radius: 0 !important;
+}
+
+input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill,
+input:-webkit-autofill:focus, textarea:-webkit-autofill:focus, select:-webkit-autofill:focus,
+input:-webkit-autofill:active, textarea:-webkit-autofill:active, select:-webkit-autofill:active,
+input:-webkit-autofill:target, textarea:-webkit-autofill:target, select:-webkit-autofill:target,
+input:-webkit-autofill:hover, textarea:-webkit-autofill:hover, select:-webkit-autofill:hover{
+    background-color: #ffffff !important;
+    -webkit-box-shadow: 0 0 0 1000px white inset !important;
+}
+
+select {
+    border-radius: 1px;
+    border: 1px solid #ccd2da;
+}
+
+.searchInput {
+  width: auto;
+  border: 1px solid #BFC9D7;
+  border-width: 0;
+  border-radius: 2px;
+  height: 36px;
+  a.btn {
+    cursor: pointer;
+    height: 36px;
+    padding: 10px 15px;
+    border: 1px solid #BFC9D7;
+  }
+  .input-group {
+    position: relative;
+    display: none;
+    width: 34px;
+    float: right;
+    /* margin-right: 1px; */
+    input {
+      border-top-right-radius: 0px !important;
+      border-bottom-right-radius: 0px !important;
+      height: 36px !important;
+      border: 1px solid #BFC9D7;
+      /* border-right: 0px; */
+    }
+    input:focus {
+      border: 1px solid #0978c9 !important;
+      box-shadow: none;
+    }
+    .btn {
+      position: absolute;
+      z-index: 10;
+      top: 1px;
+      right: 1px;
+      border-width: 0;
+      box-shadow: none;
+      padding: 0;
+      width: 36px;
+      height: 34px;
+      background: #fff !important;
+      //border-left: 1px solid #BFC9D7;
+      [class^="icon-"], [class*=" icon-"] {
+        float: right !important;
+        cursor: pointer;
+        padding: 10px 10px !important;
+        top: 0;
+        right: 0;
+        height: 34px;
+        width: 40px;
+      }
+    }
+  }
+  .searchInputBtnInline {
+    display: none;
+    float: right;
+    background: #DCE6F1;
+    border-left: 1px solid #BFC9D7 !important;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+  .searchClearInputBtn {
+    [class^="icon-"], [class*=" icon-"] {
+      background: #fff !important;
+    }
+  }
+}
+
+.searchInput.geography {
+    height: auto;
+    .input-group {
+      display: block;
+      width: 100%;
+    input {
+      border-width: 1px;
+      border-right: 1px solid #BFC9D7;
+    }
+    .btn {
+      position: relative;
+    }
+  }
+}
+
+//Tags Input Pills
+[class*="col-"]{
+    tags-input {
+        float: left;
+        width: 100%;
+        -webkit-box-shadow: none !important;
+        box-shadow: none !important;
+        .host {
+            float: left;
+            width: 100%;
+            margin: 0 !important;
+            box-shadow: none !important;
+            outline: none !important;
+            .tags {
+                border: 1px solid #BFC9D7;
+                border-radius: 2px !important;
+                line-height: normal;
+                padding: 2px;
+                min-height: 36px;
+                box-shadow: none !important;
+                border-color: #BFC9D7;
+                float: left;
+                width: 100%;
+                -webkit-appearance: none !important;
+                ti-tag-item {
+                    span {
+                        color: #21252b;
+                        font-family: "Avenir";
+                        font-size: inherit;
+                    }
+                }
+                input {
+                    font-family: "Avenir";
+                    box-shadow: none;
+                }
+                input:focus {
+                    border-width: 0px !important;
+                    box-shadow: none;
+                }
+                .tag-item {
+                    box-shadow: none;
+                    font-family: "Avenir";
+                    line-height: 100%;
+                    padding: 5px 7px;
+                }
+            }
+            .tags.focused {
+                -webkit-box-shadow: none !important;
+                box-shadow: none !important;
+                color: #21252b;
+                text-decoration: none;
+                border: 1px solid #0978c9;
+            }
+        }
+    }
+}
+
+// Search Input
+.searchInput {
+    .input-group {
+        width: 100%;
+
+        input[type="text"] {
+            margin: 0;
+        }
+
+        span {
+            position: absolute;
+            z-index: 10;
+            top: 1px;
+            right: 1px;
+
+            button {
+                float: right;
+                margin: 0 !important;
+                border-width: 0;
+                cursor: pointer;
+
+                .glyphicon {
+                    position: inherit;
+                }
+            }
+        }
+    }
+}
+
+/* .squared Check Box */
+.squaredChk {
+    width: 20px;
+    position: relative;
+    margin: 20px auto;
+
+    label {
+        width: 20px;
+        height: 20px;
+        cursor: pointer;
+        position: absolute;
+        top: 0;
+        left: 0;
+        background: #fcfff4;
+        background: linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
+        border-radius: 4px;
+        box-shadow: inset 0 1px 1px white, 0 1px 3px rgba(0, 0, 0, 0.5);
+
+        &:after {
+            content: "";
+            width: 9px;
+            height: 5px;
+            position: absolute;
+            top: 4px;
+            left: 4px;
+            border: 3px solid #333;
+            border-top: none;
+            border-right: none;
+            background: transparent;
+            opacity: 0;
+            transform: rotate(-45deg);
+        }
+
+        &:hover::after {
+            opacity: 0.5;
+        }
+    }
+
+    input[type=checkbox] {
+        visibility: hidden;
+        &:checked + label:after {
+            opacity: 1;
+        }
+    }
+}
+/* end .squared Check Box */
+
+.pillsWrap {
+    float: left;
+    width: 100%;
+    padding: 3px 0 5px 22px;
+    .labelPills {
+        background: #EDF2F8;
+        margin: 0 5px 5px 0;
+        padding: 2px 10px;
+        display: inline-block;
+        float: left;
+        font: 12px "Avenir";
+        height: 20px;
+        line-height: 100%;
+        border: 1px solid #BFC9D7;
+        border-radius: 3px;
+    }
+    .brand_search_highlight {
+        background: #fcecbd;
+    }
+}

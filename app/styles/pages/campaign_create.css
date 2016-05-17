@@ -1476,7 +1476,6 @@
   background: #F8F9FA;
   float: left;
   margin-top: 30px;
-  padding-bottom: 85px;
   width: 100%;
 }
 #campaignCreate .campaignAdCreate .adMainWrapper .offeringsWrap h2 {
@@ -1499,7 +1498,7 @@
   left: 0;
   margin: 0 40px;
   position: absolute;
-  top: 70px;
+  top: 110px;
   width: 815px;
 }
 #campaignCreate .campaignAdCreate .adMainWrapper .offeringsWrap .container .carousel-control {
@@ -3339,6 +3338,9 @@
 #campaignCreate .firstWrapper .masterContainer .settingWrap #addLineItems .common_file_upload_container .img_table_txt {
   margin: 15px 0px ;
 }
+#campaignCreate .firstWrapper .masterContainer .settingWrap #addLineItems .popup-content {
+  margin-bottom: 20px ;
+}
 #campaignCreate .firstWrapper .masterContainer .settingWrap .list_item_export_import_dd {
   margin-left: 10px ;
 }
@@ -3534,7 +3536,7 @@
   position: absolute;
   top: 123px;
   width: 930px;
-  z-index: 1111111;
+  z-index: 111111;
 }
 #campaignCreate .platformSlide .platform-custom .adHeader {
   margin: 20px 0 10px;

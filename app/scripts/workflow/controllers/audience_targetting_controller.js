@@ -211,8 +211,8 @@ define(['angularAMD', 'workflow/services/audience_service', 'workflow/services/w
             initAudienceTargetting: function () {
                 _audienceTargetting.setSortColumn();
                 _audienceTargetting.setSortOrder();
-                _audienceTargetting.fetchAllSource();
-                _audienceTargetting.fetchAllCategories();
+            //    _audienceTargetting.fetchAllSource();
+            //    _audienceTargetting.fetchAllCategories();
             },
 
             resetSelectedFields: function () {
