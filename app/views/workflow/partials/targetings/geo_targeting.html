@@ -9,7 +9,6 @@
 
 <div class="col-md-12 zeroPadding targettingFormWrap">
     <div class="col-md-7 zeroPadding tabbable" style="padding-right: 10px !important;">
-
         <div class="tooltipWrap zipCodeTooltip" ng-show="enableZipCodePopUp">
             <span data-ng-bind="textConstants.INCZIP"></span>
             <a ng-href="#" class="btn btn-default pull-right" ng-click="showGeographyTabsBox(null, 'zip', false);" role="button" data-ng-bind="textConstants.CONTINUE"></a>
@@ -51,6 +50,7 @@
                         <div class="include-label" ng-show = 'showHideToggleSwitch()'>
                                <span data-ng-bind="textConstants.INCLUDE"></span>
                                <input type="checkbox" checked data-toggle="toggle" class="toggle-event" data-on=" " data-off=" " >
+
                         </div>
                     </div>
                 </div>
@@ -120,6 +120,7 @@
                         <div class="clearfix targetting-tab-subheader">
                             <div class="clearfix col-md-4">
 
+
                                 <div class="pull-left sort-icon-holder active" >
                                     <span class="pull-left" data-ng-bind="textConstants.CITY"></span>
                                     <span class="pull-left common-sort-icon ascending" style="display: block;"></span>
@@ -149,6 +150,7 @@
                                 <div class="common-loading-area"></div>
 
                             </div>
+
                         </div>
                     </div>
                 </div>
@@ -160,7 +162,7 @@
             <!---- start DMA container -------->
             <div id="dmas" class="col-md-12 zeroPadding targetting-each-content" style="display:none;">
                 <div class="clearfix targetting-tab-header">
-                    
+
 
                     <div class="pull-right include-toggle-switch">
                         <div class="exclude-label" ng-show = '!showHideToggleSwitch()'>
@@ -209,6 +211,7 @@
                         </div>
                     </div>
                 </div>
+
             </div>
             <!----- end DMA container ----------->
 
@@ -219,6 +222,7 @@
                     <button type="button" ng-click="addZipCode()" ng-disabled="!adData.zipCodes" class="btn btn-default pull-right">
                         <img ng-src="/images/workflow/icon_target.svg" alt="" height="15" />
                         <span data-ng-bind="textConstants.INCLUDE"></span>
+
                     </button>
                 </div>
             </div>
@@ -251,6 +255,7 @@
                                 <div class="pull-right cancel"><span class="icon-close removeItem" ></span></div>
                             </div>
 
+
                         </div>
                     </div>
                      <div class="clearfix each-row" >
@@ -261,6 +266,7 @@
                                 <div class="pull-left"><img ng-src="/images/workflow/icon_target.svg" alt="" height="15"/> city name</div>
                                 <div class="pull-right cancel"><span class="icon-close removeItem" ></span></div>
                             </div>
+
 
                         </div>
                     </div>
@@ -279,7 +285,6 @@
 
                                 </div>
                             </div>
-
                         </div>
                     </div>
 
