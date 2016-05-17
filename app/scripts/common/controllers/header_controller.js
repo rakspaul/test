@@ -342,7 +342,7 @@ define(['angularAMD', 'common/services/constants_service', 'login/login_model', 
                     accountDropdownList.hide();
                     $(".childTier").hide() ;
                 }
-                
+
                 // In  admin users page, the multidimensional ( for nth dimension dropdown) account dropdown closes on click of body
                 if ( $(".childTier").is(':visible') && ( $(event.target).closest(".clientDropdownCnt").length == 0) && ( $(event.target).closest(".accountDropDown").length == 0) ) {
                     $(".childTier").hide() ;
