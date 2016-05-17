@@ -96,6 +96,7 @@ define(['angularAMD'], function(angularAMD) {
         this.CTR = "CTR";
         this.VTC = "VTC";
         this.CPM = "CPM";
+        this.ESTREACH = "Estimated Reach";
         this.CPC = "CPC";
         this.CPA = "CPA";
         this.ACTION_RATE = "Action rate";
