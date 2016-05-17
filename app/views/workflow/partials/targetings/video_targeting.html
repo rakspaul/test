@@ -94,8 +94,8 @@
                             display-property="name"
                             placeholder="Select"
                             replace-spaces-with-dashes="false"
-                            on-tag-added="videoDimensionTagAdded($tag, 'sizes')"
-                            on-tag-removed="videoDimensionTagRemoved($tag, 'sizes')">
+                            on-tag-added="videoDimensionTagChanged($tag, 'sizes', 'add')"
+                            on-tag-removed="videoDimensionTagChanged($tag, 'sizes', 'remove')">
                     <auto-complete source="loadSizes($query)"
                                    min-length="0"
                                    load-on-focus="true"
@@ -114,8 +114,8 @@
                             display-property="name"
                             placeholder="Select"
                             replace-spaces-with-dashes="false"
-                            on-tag-added="videoDimensionTagAdded($tag, 'positions')"
-                            on-tag-removed="videoDimensionTagRemoved($tag, 'positions')">
+                            on-tag-added="videoDimensionTagChanged($tag, 'positions', 'add')"
+                            on-tag-removed="videoDimensionTagChanged($tag, 'positions', 'remove')">
                     <auto-complete source="loadPositions($query)"
                                    min-length="0"
                                    load-on-focus="true"
@@ -134,8 +134,8 @@
                             display-property="name"
                             placeholder="Select"
                             replace-spaces-with-dashes="false"
-                            on-tag-added="videoDimensionTagAdded($tag, 'playbackMethods')"
-                            on-tag-removed="videoDimensionTagRemoved($tag, 'playbackMethods')">
+                            on-tag-added="videoDimensionTagChanged($tag, 'playbackMethods', 'add')"
+                            on-tag-removed="videoDimensionTagChanged($tag, 'playbackMethods', 'remove')">
                     <auto-complete source="loadPlaybacks($query)"
                                    min-length="0"
                                    load-on-focus="true"

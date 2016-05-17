@@ -267,8 +267,11 @@ define(['angularAMD', 'workflow/services/workflow_service', 'common/services/con
                 _.each(playerSizeList, function (obj) {
                     obj.targetId = obj.id;
 
+                    /* TODO: (Lalding) commenting out the line below as it affects removing tags, but might have
+                             side effects elsewhere, so I'm not deleting the line for now.
+                     */
                     // removing id and adding targetid as a key for creating data for save response.
-                    delete obj.id;
+                    // delete obj.id;
                 });
 
                 $scope.adData.videoTargets.sizes.push(playerSizeList[0]);
@@ -287,39 +290,41 @@ define(['angularAMD', 'workflow/services/workflow_service', 'common/services/con
             return videoService.getPlaybackMethods(query);
         };
 
-        $scope.videoDimensionTagAdded = function (tag, type) {
-            var pos = _.findIndex($scope.adData.videoTargets[type], function (obj) {
-                return obj.id === tag.id;
-            });
+        $scope.videoDimensionTagChanged = function (tag, type, action) {
+            var index = 0,
+                pos = _.findIndex($scope.adData.videoTargets[type], function (obj) {
+                    return obj.id === tag.id;
+                });
 
-            //tag.targetId = tag.id;
+            if (action === 'add') {
+                tag.targetId = tag.id;
 
-            // removing id and adding targetid as a key for creating data for save response.
-            //delete tag.id;
+                /* TODO: (Lalding) commenting out the line below as it affects removing tags, but might have
+                         side effects elsewhere, so I'm not deleting the line for now.
+                 */
+                // removing id and adding targetid as a key for creating data for save response.
+                // delete tag.id;
+            }
 
             if (pos !==  -1) {
                 $scope.adData.videoTargets[type].splice(pos, 1);
             }
 
             $timeout(function() {
-                $('#' + type + 'InputBox').find('.input').trigger('blur').trigger('keydown');
+                if (type === 'sizes') {
+                    index = 0;
+                } else if (type === 'positions') {
+                    index = 2;
+                } else if (type === 'playbackMethods') {
+                    index = 4;
+                }
+
+                $($('#' + type + 'InputBox .input')[index]).trigger('blur').trigger('keydown').trigger('focus');
             }, 0);
 
-            $scope.adData.videoTargets[type].push(tag);
-        };
-
-        $scope.videoDimensionTagRemoved = function (tag, type) {
-            var pos = _.findIndex($scope.adData.videoTargets[type], function (Item) {
-                return Item.id === tag.id;
-            });
-
-            if (pos !== -1 ) {
-                $scope.adData.videoTargets[type].splice(pos, 1);
+            if (action === 'add') {
+                $scope.adData.videoTargets[type].push(tag);
             }
-console.log('Tag deleted, ', $('#' + type + 'InputBox').find('.input'))
-            $timeout(function() {
-                $('#' + type + 'InputBox').find('.input').trigger('blur').trigger('keydown');
-            }, 0);
         };
 
         $scope.hideVideoTargeting = function () {
