@@ -963,6 +963,7 @@ define(['angularAMD'], function(angularAMD) {
 
         //Geo Targeting
         this.GEOGRAPHY = 'Geography';
+        this.COUNTRY = 'Country';
         this.INCZIP = 'Including zip / postal codes is going to limit your geographic targeting significantly.';
         this.CONTINUE = 'Continue';
         this.REGCITY = 'REGION & CITY';

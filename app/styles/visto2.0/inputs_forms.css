@@ -138,7 +138,9 @@ select {
 }
 .searchInput.geography .input-group {
   display: block;
-  width: 100%;
+  width: 93%;
+  float: none;
+  margin: 0 auto;
 }
 .searchInput.geography .input-group input {
   border-width: 1px;

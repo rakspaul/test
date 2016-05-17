@@ -8,7 +8,7 @@ define(['angularAMD','workflow/services/workflow_service','common/services/zip_c
         $scope.citiesIncluded = true;
         $scope.dmasIncluded = true;
         $scope.zipCodeTabSelected = false;
-        $scope.selectedTab = 'regions';
+        $scope.selectedTab = 'country';
 
         $scope.geoTargetArr = [
             {'name': 'Geography', 'enable': true},
@@ -745,7 +745,8 @@ define(['angularAMD','workflow/services/workflow_service','common/services/zip_c
 
 
             //this flag should be below to isRegionSelecled condition.
-            $scope.selectedTab = 'regions';
+            console.log("1") ;
+            $scope.selectedTab = 'country';
             $scope.showSwitch = true;
 
             if ($scope.regionsIncluded === true) {
@@ -842,54 +843,75 @@ define(['angularAMD','workflow/services/workflow_service','common/services/zip_c
         $scope.hidezipCodeTooltip = function () {
             $scope.enableZipCodePopUp = false;
         };
+        $scope.showRespectiveTabContent = function (event , tabType) {
+            $(".geo-tab-content").hide();
+            $("#" + tabType + "-geo-tab-content" ).show();
+            var elem = $(event.target) ;
+            elem.closest(".btn-group").find(".active").removeClass("active");
+            elem.addClass("active") ;
+        };
 
         $scope.showGeographyTabsBox = function (event, tabType, showPopup) {
-            var target,
-                tabElems,
-                tabContentElem;
-
-            $('.searchBox').val('');
-            if (tabType === 'zip') {
-                if (showPopup && !$scope.zipCodeTabSelected) {
-                    $scope.enableZipCodePopUp = true;
-                    return false;
-                } else {
-                    $scope.zipCodeTabSelected = false;
-                }
-            }
-
-
-
-            target = event ? $(event.target) : $('#zipCodeTab');
-            tabElems = target.parents('.nav-tabs');
-            tabElems.find('li').removeClass('active');
-            target.parent().addClass('active');
-            tabContentElem = tabElems.siblings('.tab-content');
-
-            tabContentElem.find('.contentBox').hide();
-            tabContentElem.find('#' + tabType).show();
-
-            if(!$scope.isRegionSelected && tabType === 'regions') {
-                tabType = 'cities';
-            }
-            $scope.enableZipCodePopUp = false;
-            $scope.selectedTab = tabType;
-
-            if (tabType === 'regions') {
-                var regionCityElem = $(".regionCityTab");
-                regionCityElem.find("li").removeClass("active");
-                regionCityElem.find(".tab_region_holder").addClass("active")
-                $scope.listRegions();
-            }
-            if (tabType === 'dmas') {
-                $scope.listDmas(null, null, event);
-            }
-
-            if (tabType === 'zip') {
-                $('.searchInput').hide();
+            $('#toggle').bootstrapToggle();
+            var elem = $(event.target) ;
+            elem.closest(".nav-tabs").find(".active").removeClass("active") ;
+            elem.closest("li").addClass("active");
+            $(".targetting-each-content").hide();
+            $("#" + tabType ).show() ;
+            if(tabType == "zip") {
+                $(".targetting-container .searchInput").hide() ;
             } else {
-                $('.searchInput').show();
+                $(".targetting-container .searchInput").show() ;
+
             }
+
+            // var target,
+            //     tabElems,
+            //     tabContentElem;
+
+            // $('.searchBox').val('');
+            // if (tabType === 'zip') {
+            //     if (showPopup && !$scope.zipCodeTabSelected) {
+            //         $scope.enableZipCodePopUp = true;
+            //         return false;
+            //     } else {
+            //         $scope.zipCodeTabSelected = false;
+            //     }
+            // }
+
+
+
+            // target = event ? $(event.target) : $('#zipCodeTab');
+            // tabElems = target.parents('.nav-tabs');
+            // tabElems.find('li').removeClass('active');
+            // target.parent().addClass('active');
+            // tabContentElem = tabElems.siblings('.tab-content');
+
+            // tabContentElem.find('.contentBox').hide();
+            // tabContentElem.find('#' + tabType).show();
+
+            // if(!$scope.isRegionSelected && tabType === 'regions') {
+            //     tabType = 'cities';
+            // }
+            // $scope.enableZipCodePopUp = false;
+            // console.log("4 " , tabType);
+            // $scope.selectedTab = tabType;
+
+            // if (tabType === 'regions') {
+            //     var regionCityElem = $(".regionCityTab");
+            //     regionCityElem.find("li").removeClass("active");
+            //     regionCityElem.find(".tab_region_holder").addClass("active")
+            //     $scope.listRegions();
+            // }
+            // if (tabType === 'dmas') {
+            //     $scope.listDmas(null, null, event);
+            // }
+
+            // if (tabType === 'zip') {
+            //     $('.searchInput').hide();
+            // } else {
+            //     $('.searchInput').show();
+            // }
         };
 
         function modifyDataForPreview() {
@@ -1171,7 +1193,7 @@ define(['angularAMD','workflow/services/workflow_service','common/services/zip_c
         })
 
         $scope.$on('triggerGeography', function () {
-            $scope.selectedTab === 'regions';
+            $scope.selectedTab === 'country';
             $scope.storedResponse = angular.copy(workflowService.getAdsDetails());
             var moduleDeleted = workflowService.getDeleteModule();
             if(_.indexOf(moduleDeleted, 'Geography') !== -1) {
