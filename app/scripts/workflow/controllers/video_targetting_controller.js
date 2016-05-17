@@ -289,17 +289,21 @@ define(['angularAMD', 'workflow/services/workflow_service', 'common/services/con
 
         $scope.videoDimensionTagAdded = function (tag, type) {
             var pos = _.findIndex($scope.adData.videoTargets[type], function (obj) {
-                return obj.name === tag.name;
+                return obj.id === tag.id;
             });
 
-            tag.targetId = tag.id;
+            //tag.targetId = tag.id;
 
             // removing id and adding targetid as a key for creating data for save response.
-            delete tag.id;
+            //delete tag.id;
 
-            if (pos > 0) {
+            if (pos !==  -1) {
                 $scope.adData.videoTargets[type].splice(pos, 1);
             }
+
+            $timeout(function() {
+                $('#' + type + 'InputBox').find('.input').trigger('blur').trigger('keydown');
+            }, 0);
 
             $scope.adData.videoTargets[type].push(tag);
         };
@@ -312,6 +316,10 @@ define(['angularAMD', 'workflow/services/workflow_service', 'common/services/con
             if (pos !== -1 ) {
                 $scope.adData.videoTargets[type].splice(pos, 1);
             }
+console.log('Tag deleted, ', $('#' + type + 'InputBox').find('.input'))
+            $timeout(function() {
+                $('#' + type + 'InputBox').find('.input').trigger('blur').trigger('keydown');
+            }, 0);
         };
 
         $scope.hideVideoTargeting = function () {
