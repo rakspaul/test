@@ -132,15 +132,50 @@
                               <div class="cal_nav_btn" id="cal_next" ng-click="next()"><span class="arrow_right"></span>
                               </div>
                           </div>
-                          <div class="pull-left col-md-9 calendar_holder_period">
-                              <span ng-click="today()"
-                                    class="{{(selected=='today')?'active':''}}" ng-bind="textConstants.WEEK"></span>
-                              <span ng-click="month()"
-                                    class="{{(selected=='month')?'active':''}}" ng-bind="textConstants.MONTH"></span>
-                              <span ng-click="quarter()" class="{{(selected=='quarter')?'active':''}}" ng-bind="textConstants.QUARTER"></span>
-                              <span ng-click="year()"
-                                    class="{{(selected=='year')?'active':''}}" ng-bind="textConstants.YEAR"></span>
+                          
+                          <!--<div class="pull-left col-md-9 calendar_holder_period">-->
+                          <!--    <span ng-click="today()"-->
+                          <!--          class="{{(selected=='today')?'active':''}}" ng-bind="textConstants.WEEK"></span>-->
+                          <!--    <span ng-click="month()"-->
+                          <!--          class="{{(selected=='month')?'active':''}}" ng-bind="textConstants.MONTH"></span>-->
+                          <!--    <span ng-click="quarter()" class="{{(selected=='quarter')?'active':''}}" ng-bind="textConstants.QUARTER"></span>-->
+                          <!--    <span ng-click="year()"-->
+                          <!--          class="{{(selected=='year')?'active':''}}" ng-bind="textConstants.YEAR"></span>-->
+                          <!--</div>-->
+                          
+                          <div class="radioBtnToggle pull-left">
+                            <div class="btn-group miniToggle">
+                                <label class="btn btn-default {{(selected=='today')?'active':''}}">
+                                    <span data-ng-bind="textConstants.WEEK"></span>
+                                    <input type="radio" hidden="hidden"
+                                           class="btn_rad"
+                                           ng-click="today()"
+                                           ng-checked="{{(selected=='today')?'checked':''}}">
+                                </label>
+                                <label class="btn btn-default {{(selected=='month')?'active':''}}">
+                                    <span data-ng-bind="textConstants.MONTH"></span>
+                                    <input type="radio" hidden="hidden"
+                                           class="btn_rad"
+                                           ng-click="month()"
+                                           ng-checked="{{(selected=='month')?'checked':''}}">
+                                </label>
+                                <label class="btn btn-default {{(selected=='quarter')?'active':''}}">
+                                    <span data-ng-bind="textConstants.QUARTER"></span>
+                                    <input type="radio" hidden="hidden"
+                                           class="btn_rad"
+                                           ng-click="quarter()"
+                                           ng-checked="{{(selected=='quarter')?'checked':''}}">
+                                </label>
+                                <label class="btn btn-default {{(selected=='year')?'active':''}}">
+                                    <span data-ng-bind="textConstants.YEAR"></span>
+                                    <input type="radio" hidden="hidden"
+                                           class="btn_rad"
+                                           ng-click="year()"
+                                           ng-checked="{{(selected=='year')?'checked':''}}">
+                                </label>
+                            </div>
                           </div>
+                    
                         </div>
                     </div>
                 </div>
