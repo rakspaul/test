@@ -1948,5 +1948,4 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             $scope.resetGeoTargeting();
         });
     });
-})
-;
+});
