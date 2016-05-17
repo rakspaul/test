@@ -1192,7 +1192,7 @@
              ng-bind="customeReportData.collective_cost == -1 ? 'NA' : (customeReportData.collective_cost | nrFormat)">
         </div>
         <div class="each_col_cost" ng-if="customeReportData.creative_cost>=-1"
-             ng-bind="customeReportData.creative_cost == -1 ? 'NA' : (customeReportData.creative_cost | nrFormat)">
+        ng-bind="customeReportData.creative_cost == -1 ? 'NA' : (customeReportData.creative_cost | nrFormat)">
         </div>
         <div class="each_col_cost" ng-if="customeReportData.data_cost>=-1"
              ng-bind="customeReportData.data_cost == -1 ? 'NA' : (customeReportData.data_cost | nrFormat)">
@@ -1200,19 +1200,17 @@
         <div class="each_col_cost" ng-if="customeReportData.inventory_cost>=-1"
              ng-bind="customeReportData.inventory_cost == -1 ? 'NA' : (customeReportData.inventory_cost | nrFormat)">
         </div>
-        <div class="each_col_cost" ng-if="customeReportData.metric_provider_cost>=-1"
-             ng-bind="customeReportData.metric_provider_cost == -1 ? 'NA' : (customeReportData.metric_provider_cost | nrFormat)">
-        </div>
+        <div class="each_col_cost" ng-if="customeReportData.gross_ecpm>=-1"
+             ng-bind="customeReportData.gross_ecpm == -1 ? 'NA' : (customeReportData.gross_ecpm | number:2)"></div>
+        <div class="each_col_cost" ng-if="customeReportData.gross_ecpc>=-1"
+             ng-bind="customeReportData.gross_ecpc == -1 ? 'NA' : (customeReportData.gross_ecpc | number:2)"></div>
         <div class="each_col_cost" ng-if="customeReportData.platform_cost>=-1"
              ng-bind="customeReportData.platform_cost == -1 ? 'NA' : (customeReportData.platform_cost | nrFormat)">
         </div>
         <div class="each_col_cost" ng-if="customeReportData.research_cost>=-1"
              ng-bind="customeReportData.research_cost == -1 ? 'NA' : (customeReportData.research_cost | nrFormat)">
         </div>
-        <div class="each_col_cost" ng-if="customeReportData.gross_ecpm>=-1"
-             ng-bind="customeReportData.gross_ecpm == -1 ? 'NA' : (customeReportData.gross_ecpm | number:2)"></div>
-        <div class="each_col_cost" ng-if="customeReportData.gross_ecpc>=-1"
-             ng-bind="customeReportData.gross_ecpc == -1 ? 'NA' : (customeReportData.gross_ecpc | number:2)"></div>
+
 
         <!----- booked report data ------------------------
         <div class="each_col" ng-if="customeReportData.ad_count>=0">{{customeReportData.ad_count}}</div>
@@ -1301,38 +1299,35 @@
         </div>
 
         <!----- Quality Video report data ------------------------>
-        <div class="each_col" ng-if="customeReportData.video_delivered_imps>=-1"
-             ng-bind="customeReportData.video_delivered_imps == -1 ? 'NA' : (customeReportData.video_delivered_imps | nrFormat)">
-        </div>
-        <div class="each_col" ng-if="customeReportData.video_measurable_imps>=-1"
-             ng-bind="customeReportData.video_measurable_imps == -1 ? 'NA' : (customeReportData.video_measurable_imps | nrFormat)">
-        </div>
-        <div class="each_col" ng-if="customeReportData.video_measurable_perc>=-1"
-             ng-bind="customeReportData.video_measurable_perc == -1 ? 'NA' : (customeReportData.video_measurable_perc | number:0) +'%'">
-        </div>
         <div class="each_col" ng-if="customeReportData.video_viewable_imps>=-1"
              ng-bind="customeReportData.video_viewable_imps == -1 ? 'NA' : (customeReportData.video_viewable_imps | nrFormat)">
         </div>
-        <div class="each_col" ng-if="customeReportData.video_viewable_perc>=-1"
-             ng-bind="customeReportData.video_viewable_perc == -1 ? 'NA' : (customeReportData.video_viewable_perc | number:0) + '%'"   >
+        <div class="each_col" ng-if="customeReportData.video_completion_25>=-1"
+             ng-bind="customeReportData.video_completion_25 == -1 ? 'NA' : (customeReportData.video_completion_25 | nrFormat)">
         </div>
-        <div class="each_col" ng-if="customeReportData.video_video_viewable_25>=-1"
-             ng-bind="customeReportData.video_video_viewable_25 == -1 ? 'NA' : (customeReportData.video_video_viewable_25 | nrFormat)">
+        <div class="each_col" ng-if="customeReportData.video_completion_50>=-1"
+             ng-bind="customeReportData.video_completion_50 == -1 ? 'NA' : (customeReportData.video_completion_50 | nrFormat)">
         </div>
-        <div class="each_col" ng-if="customeReportData.video_video_viewable_50>=-1"
-             ng-bind="customeReportData.video_video_viewable_50 == -1 ? 'NA' : (customeReportData.video_video_viewable_50 | nrFormat)">
+        <div class="each_col" ng-if="customeReportData.video_completion_75>=-1"
+             ng-bind="customeReportData.video_completion_75 == -1 ? 'NA' : (customeReportData.video_completion_75 | nrFormat)">
         </div>
-        <div class="each_col" ng-if="customeReportData.video_video_viewable_75>=-1"
-             ng-bind="customeReportData.video_video_viewable_75 == -1 ? 'NA' : (customeReportData.video_video_viewable_75 | nrFormat)">
+        <div class="each_col" ng-if="customeReportData.video_completion_100>=-1"
+             ng-bind="customeReportData.video_completion_100 == -1 ? 'NA' : (customeReportData.video_completion_100 | nrFormat)">
         </div>
-        <div class="each_col" ng-if="customeReportData.video_video_viewable_100>=-1"
-             ng-bind="customeReportData.video_video_viewable_100 == -1 ? 'NA' : (customeReportData.video_video_viewable_100 | nrFormat)">
+        <div class="each_col" ng-if="customeReportData.video_viewable_25>=-1"
+             ng-bind="customeReportData.video_viewable_25 == -1 ? 'NA' : (customeReportData.video_viewable_25 | nrFormat)">
+        </div>
+        <div class="each_col" ng-if="customeReportData.video_viewable_50>=-1"
+             ng-bind="customeReportData.video_viewable_50 == -1 ? 'NA' : (customeReportData.video_viewable_50 | nrFormat)">
+        </div>
+        <div class="each_col" ng-if="customeReportData.video_viewable_75>=-1"
+             ng-bind="customeReportData.video_viewable_75 == -1 ? 'NA' : (customeReportData.video_viewable_75 | nrFormat)">
+        </div>
+        <div class="each_col" ng-if="customeReportData.video_viewable_100>=-1"
+             ng-bind="customeReportData.video_viewable_100 == -1 ? 'NA' : (customeReportData.video_viewable_100 | nrFormat)">
         </div>
         <div class="each_col" ng-if="customeReportData.video_suspicious_imps>=-1"
              ng-bind="customeReportData.video_suspicious_imps == -1 ? 'NA' : (customeReportData.video_suspicious_imps |  nrFormat)">
-        </div>
-        <div class="each_col" ng-if="customeReportData.video_suspicious_act_perc>=-1"
-             ng-bind="customeReportData.video_suspicious_act_perc == -1 ? 'NA' : (customeReportData.video_suspicious_act_perc | number:2)">
         </div>
     </script>
 
