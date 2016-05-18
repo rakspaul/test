@@ -644,7 +644,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                     }
                 },
 
-                getCities: function (platformId, data, requestType, success, failure) {
+                getCities: function (platformId, data, success, failure, flag) {
                     var clientId = loginModel.getSelectedClient().id,
                         url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/vendors/' + platformId + '/cities' + data,
                         canceller;
