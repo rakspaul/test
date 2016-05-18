@@ -1019,7 +1019,9 @@
             .targetting-each-content {
                 border: solid 1px #dde6eb ;
                 border-top: 0 ;
+
                 .external_chkbox  {
+                    margin-top: 0px ;
                     .squaredFour {
                          input[type=checkbox]:checked +  label {
                             background : #3276b1 ;
@@ -1029,8 +1031,11 @@
                             border-color: #fff ;
                          }
                     }
+                    .squaredFourTxt {
+                            width: 80%;
+                    }
                 }
-                .toggle-on {
+                .toggle-on , .toggle-off {
                     &:after {
                         content: "";
                         position: absolute;
@@ -1041,7 +1046,16 @@
                         background-image: url(/images/workflow/icon-target-white.svg);
                         background-repeat: no-repeat;
                         background-position: center center;
+                        background-size: 77%;
                     }
+                }
+                .toggle-off  {
+                     &:after {
+                        left: 25px;
+                        top: 5px;
+                        background-size: 75%;
+                        background-image: url(/images/workflow/icon_exclude.svg);
+                     }
                 }
                 textarea {
                     margin-bottom: 10px ;
@@ -1083,7 +1097,7 @@
                 max-height: 200px;
                 min-height: 200px;
                 overflow: auto;
-                padding-bottom: 10px;
+                padding : 10px 0;
                 .each-targetting-name {
                     padding-top: 5px ;
                     padding-bottom: 5px ;
