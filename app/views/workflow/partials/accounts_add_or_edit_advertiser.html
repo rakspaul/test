@@ -260,9 +260,10 @@
                 </div>
             </div>
             
-            <a role="button" class="btn btn-default pull-right" data-ng-click="downLoadPixel();" style="border-right: 0;"><span class="icon-download"></span><span>Download Selected Pixels</span></a>
+            <a role="button" class="btn btn-default pull-right" data-ng-click="downLoadPixel();"
+               data-ng-disabled="advertiserData.disableDownLoadPixel"
+               style="border-right: 0;"><span class="icon-download"></span><span>Download Selected Pixels</span></a>
             <a role="button" class="btn btn-default pull-right" data-ng-click="addPixel();"><span class="icon-plus"></span><span>Add Pixels</span></a>
-            
             <span class="pull-right" style="font-size: 12px; margin: 9px 10px 0 0;">
                 {{advertiserData.pixels.length}} Pixels
             </span>
@@ -278,7 +279,8 @@
         <div class="pixelLayer" >
             <div class="form-group col-md-4" style="padding: 0 15px 0 0;">
                 <label class="col-sm-12 greyTxt">Pixel Name:</label>
-                <input type="text" class="form-control" maxlength="50" ng-model="pixelFormData.name">
+                <input type="text" class="form-control" maxlength="50" ng-model="pixelFormData.name" data-ng-keyup="checkDuplicatePixel(pixelFormData.name)">
+                <label class="errorText" style="margin-top:6px" data-ng-bind="'Duplicate Entry'" ng-if="advertiserAddOrEditData.duplicatePixelName"></label>
             </div>
             <div class="form-group col-md-4" style="padding: 0 15px;">
                 <label class="col-sm-12 greyTxt">Pixel Type:</label>
@@ -310,12 +312,14 @@
             
             <div class="form-group col-md-2 clearLeft" style="padding: 0 15px 0 0;">
                 <label class="col-sm-12 greyTxt">Impression Look Back:</label>
-                <input type="text" class="form-control" placeholder="Add value" value="14">
+                <input type="text" class="form-control" placeholder="Add value" value="14" ng-model="pixelFormData.impLookbackWindow"
+                        data-ng-keyup="pixelFormData.impLookbackWindow>30?pixelFormData.impLookbackWindow=30:(pixelFormData.impLookbackWindow<0)?pixelFormData.impLookbackWindow=14:''">
             </div>
         
             <div class="form-group col-md-2" style="padding: 0 15px;">
                 <label class="col-sm-12 greyTxt">Click Look Back:</label>
-                <input type="text" class="form-control" placeholder="Add value" value="14">
+                <input type="text" class="form-control" placeholder="Add value" value="14" ng-model="pixelFormData.clickLookbackWindow"
+                        data-ng-keyup="pixelFormData.clickLookbackWindow>30?pixelFormData.clickLookbackWindow=30:(pixelFormData.clickLookbackWindow<0)?pixelFormData.clickLookbackWindow=14:''">
             </div>
 
             <div class="form-group col-md-8" style="padding: 0 0 0 15px;">
@@ -332,7 +336,6 @@
                ng-click="removePixel();" aria-label="Close">Remove Pixel</a>
         </div>
     </div>
-    
     <!--Pixel List Table-->
     <div class="pixelTable">
         <div class="table-responsive user-list animated" id="table_responsive">
@@ -374,7 +377,8 @@
                         </div>
                         
                         <div class="td col-md-1 text-center" style="padding-left: 0;">
-                            <input type="checkbox" class="pixelSelect" style="float: none;"/>
+                            <input type="checkbox" class="pixelSelect" data-ng-model="isSelected"
+                                   data-ng-click="selectPixel(pixel.id, isSelected)" style="float: none;"/>
                         </div>
                     </div>
                     
