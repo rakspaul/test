@@ -385,8 +385,6 @@ define(['angularAMD', 'workflow/services/workflow_service', 'common/services/zip
             elem.closest(".btn-group").find(".active").removeClass("active");
             elem.addClass("active") ;
             $scope.selectedSubTab = tabType;
-
-            //geoTargeting.updateParams({'pageNo': 1}, tabType);
             geoTargeting[tabType].init();
         };
 
@@ -408,7 +406,6 @@ define(['angularAMD', 'workflow/services/workflow_service', 'common/services/zip
                 $(".targetting-container .searchInput").show();
             }
 
-            //geoTargeting.updateParams({'pageNo': 1}, tabType);
             // if clicked main tab is geo
             if(tabType === 'geo') {
                 $scope.selectedMainTab = 'geo';
@@ -418,7 +415,30 @@ define(['angularAMD', 'workflow/services/workflow_service', 'common/services/zip
 
         $scope.showHideToggleSwitch = function() {
             return $scope.geoData[$scope.selectedSubTab].included;
-        }
+        };
+
+        //sorting geo data
+        $scope.sortGeoData = function(event) {
+            var type = $scope.selectedSubTab,
+                target = $(event.target),
+                parentElem  = $(event.target).parent(),
+                sortIconElem = parentElem.find(".common-sort-icon"),
+                sortOrder;
+
+            if(sortIconElem.hasClass('ascending')) {
+                sortIconElem.removeClass('ascending')
+                    .addClass('descending');
+                sortOrder = 'desc';
+            } else {
+                sortIconElem.removeClass('descending')
+                    .addClass('ascending');
+                sortOrder = 'asc';
+            }
+
+            geoTargeting.resetGeoData();
+            geoTargeting.updateParams({'sortOrder' : sortOrder, 'pageNo': 1}, type);
+            geoTargeting[type].list();
+        };
 
         var includeOrExcludeSelectedGeoList = function() {
             var selectedGeoType = $scope.geoData[$scope.selectedSubTab].selected;
