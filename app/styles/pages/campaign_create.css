@@ -829,6 +829,9 @@
   border: solid 1px #dde6eb ;
   border-top: 0 ;
 }
+.adCreateMaster #targetting .targettingFormWrap .targetting-each-content .external_chkbox {
+  margin-top: 0px ;
+}
 .adCreateMaster #targetting .targettingFormWrap .targetting-each-content .external_chkbox .squaredFour input[type=checkbox]:checked + label {
   background: #3276b1 ;
   border: solid 1px #3276b1;
@@ -836,7 +839,11 @@
 .adCreateMaster #targetting .targettingFormWrap .targetting-each-content .external_chkbox .squaredFour input[type=checkbox]:checked + label:after {
   border-color: #fff ;
 }
-.adCreateMaster #targetting .targettingFormWrap .targetting-each-content .toggle-on:after {
+.adCreateMaster #targetting .targettingFormWrap .targetting-each-content .external_chkbox .squaredFourTxt {
+  width: 80%;
+}
+.adCreateMaster #targetting .targettingFormWrap .targetting-each-content .toggle-on:after,
+.adCreateMaster #targetting .targettingFormWrap .targetting-each-content .toggle-off:after {
   content: "";
   position: absolute;
   top: 6px;
@@ -846,6 +853,13 @@
   background-image: url(/images/workflow/icon-target-white.svg);
   background-repeat: no-repeat;
   background-position: center center;
+  background-size: 77%;
+}
+.adCreateMaster #targetting .targettingFormWrap .targetting-each-content .toggle-off:after {
+  left: 25px;
+  top: 5px;
+  background-size: 75%;
+  background-image: url(/images/workflow/icon_exclude.svg);
 }
 .adCreateMaster #targetting .targettingFormWrap .targetting-each-content textarea {
   margin-bottom: 10px ;
@@ -910,7 +924,7 @@
   max-height: 200px;
   min-height: 200px;
   overflow: auto;
-  padding-bottom: 10px;
+  padding: 10px 0;
 }
 .adCreateMaster #targetting .targettingFormWrap .targetting-tab-body .each-targetting-name {
   padding-top: 5px ;
