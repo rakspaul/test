@@ -5,6 +5,7 @@ define(['angularAMD', 'workflow/services/workflow_service', 'common/services/zip
             defaultParams = {
                 'platformId': '',
                 'sortOrder': 'asc',
+                'sortBy' : 'name',
                 'pageSize': DATA_MAX_SIZE,
                 'pageNo': 1,
                 'query': '',
@@ -37,6 +38,21 @@ define(['angularAMD', 'workflow/services/workflow_service', 'common/services/zip
                 return workflowService.getAdsDetails()
             },
 
+            //reset all geoData
+            resetGeoData : function() {
+                $scope.geoData.countries.data = [];
+                $scope.geoData.regions.data = [];
+                $scope.geoData.cities.data = [];
+            },
+
+            //reset selected geoData
+            resetSelectedGeoData : function() {
+                $scope.geoData.countries.selected = [];
+                $scope.geoData.regions.selected = [];
+                $scope.geoData.cities.selected = [];
+            },
+
+
             //update query params
             updateParams: function (params, type) {
                 if(type) {
@@ -47,11 +63,15 @@ define(['angularAMD', 'workflow/services/workflow_service', 'common/services/zip
             },
 
             //get search box value
-            appendSearchValue :  function(type) {
+            getSearchGeo :  function(type) {
                 var searchVal = $('.searchBox').val();
                 if(searchVal && searchVal.length >0) {
+                    //reset geoData array
+                    this.resetGeoData();
+                    $scope.geoData[type].queryParams = _.extend(defaultParams, {});
                     this.updateParams({'query' : searchVal}, type);
                 }
+                geoTargeting[type].list();
             },
 
             //build query string for $http
@@ -122,15 +142,20 @@ define(['angularAMD', 'workflow/services/workflow_service', 'common/services/zip
             list: function () {
                 $scope.geoData.countries.fetching = true;
                 this.fetch(function (response) {
-                    if (!$scope.geoData.countries.data) {
+                    if (!$scope.geoData.countries.data || $scope.geoData.countries.data.length === 0) {
                         $scope.geoData.countries.data = response;
                     } else {
-                        $scope.geoData.countries.data.concat(response);
+                        if(response.length >0 ) {
+                            $scope.geoData.countries.data = $scope.geoData.countries.data.concat(response);
+                        } else {
+                            $scope.geoData.countries.more_data =  false;
+                        }
                     }
                     $scope.geoData.countries.fetching = false;
                 });
             },
             init: function () {
+                $scope.geoData.countries.more_data =  true;
                 $scope.geoData.countries.queryParams = _.extend(defaultParams, {});
                 this.list();
             }
@@ -173,12 +198,17 @@ define(['angularAMD', 'workflow/services/workflow_service', 'common/services/zip
                     if (!$scope.geoData.regions.data) {
                         $scope.geoData.regions.data = response;
                     } else {
-                        $scope.geoData.regions.data.concat(response);
+                        if(response.length >0 ) {
+                            $scope.geoData.regions.data = $scope.geoData.regions.data.concat(response);
+                        } else {
+                            $scope.geoData.regions.more_data =  false;
+                        }
                     }
                     $scope.geoData.regions.fetching = false;
                 });
             },
             init: function () {
+                $scope.geoData.regions.more_data =  true;
                 $scope.geoData.regions.queryParams = _.extend(defaultParams, {});
                 this.list();
             }
@@ -221,12 +251,17 @@ define(['angularAMD', 'workflow/services/workflow_service', 'common/services/zip
                     if (!$scope.geoData.cities.data) {
                         $scope.geoData.cities.data = response;
                     } else {
-                        $scope.geoData.cities.data.concat(response);
+                        if(response.length >0 ) {
+                            $scope.geoData.cities.data = $scope.geoData.cities.data.concat(response);
+                        } else {
+                            $scope.geoData.cities.more_data =  false;
+                        }
                     }
                     $scope.geoData.cities.fetching = false;
                 });
             },
             init: function () {
+                $scope.geoData.cities.more_data =  true;
                 $scope.geoData.cities.queryParams = _.extend(defaultParams, {});
                 this.list();
             }
@@ -255,17 +290,21 @@ define(['angularAMD', 'workflow/services/workflow_service', 'common/services/zip
                     if (!$scope.geoData.dmas.data) {
                         $scope.geoData.dmas.data = response;
                     } else {
-                        $scope.geoData.dmas.data.concat(response);
+                        if(response.length >0) {
+                            $scope.geoData.dmas.data = $scope.geoData.dmas.data.concat(response);
+                        } else {
+                            $scope.geoData.dmas.more_data =  false;
+                        }
                     }
                     $scope.geoData.dmas.fetching = false;
                 });
             },
             init: function () {
+                $scope.geoData.dmas.more_data =  true;
                 $scope.geoData.dmas.queryParams = _.extend(defaultParams, {});
                 this.list();
             }
         };
-
 
         //Geo
         geoTargeting.countries = countriesWrapper;
@@ -308,12 +347,22 @@ define(['angularAMD', 'workflow/services/workflow_service', 'common/services/zip
             }
         };
 
+        //search countries/regions/cities
+        $scope.search = function (event) {
+            var target = $(event.target),
+                searchType = target.attr('data-searchfield'); //search type can be countries/regions/cities
+            geoTargeting.getSearchGeo(searchType);
+
+        };
+
         //On scroll dynamically loading more countries/regions/cities.
-        $scope.loadMoreGeoData = function (type) {
+        $scope.loadMoreGeoData = function () {
+            var type = $scope.selectedSubTab;
             var geoData = $scope.geoData[type].data;
-            if (geoData) {
+            var isMoreDataAvailable = $scope.geoData[type].more_data;
+            if (geoData && isMoreDataAvailable) {
                 $scope.geoData[type].queryParams.pageNo += 1;
-                geoTargeting.countries.list();
+                geoTargeting[type].list();
             }
         };
        
@@ -325,6 +374,7 @@ define(['angularAMD', 'workflow/services/workflow_service', 'common/services/zip
             elem.closest(".btn-group").find(".active").removeClass("active");
             elem.addClass("active") ;
             $scope.selectedSubTab = tabType;
+            geoTargeting.updateParams({'pageNo': 1}, tabType);
             geoTargeting[tabType].init();
         };
 
@@ -341,6 +391,8 @@ define(['angularAMD', 'workflow/services/workflow_service', 'common/services/zip
             } else {
                 $(".targetting-container .searchInput").show();
             }
+
+            geoTargeting.updateParams({'pageNo': 1}, tabType);
 
             // if clicked main tab is geo
             if(tabType === 'geo') {
