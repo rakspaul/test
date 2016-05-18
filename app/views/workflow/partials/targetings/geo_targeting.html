@@ -34,7 +34,7 @@
                 </div>
             </div>
             <div id="geo" class="col-md-12 zeroPadding targetting-each-content geo-targetting-content-holder">
-                <div class="clearfix geo-tab-header">
+                <div class="clearfix targetting-tab-header">
                     <div class="pull-left">
                         <span class="pull-left target-label" data-ng-bind="textConstants.TARGET"></span>
                         <div class="btn-group" role="group" aria-label="...">
@@ -50,13 +50,13 @@
                         </div>
                         <div class="include-label" ng-show = 'showHideToggleSwitch()'>
                                <span data-ng-bind="textConstants.INCLUDE"></span>
-                               <input type="checkbox" checked data-toggle="toggle" id="toggle-event" data-on=" " data-off=" " >
+                               <input type="checkbox" checked data-toggle="toggle" class="toggle-event" data-on=" " data-off=" " >
                         </div>
                     </div>
                 </div>
                 <div class="geo-tab-contents-holder">
                     <div class="geo-tab-content" id="countries-geo-tab-content">
-                        <div class="clearfix geo-tab-subheader">
+                        <div class="clearfix targetting-tab-subheader">
                             <div class="col-md-12 clearfix">
 
                                 <div class="pull-left sort-icon-holder active" >
@@ -65,10 +65,10 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="geo-tab-body" lr-infinite-scroll="loadMoreGeoData" time-threshold="100">
+                        <div class="targetting-tab-body" lr-infinite-scroll="loadMoreGeoData" time-threshold="100">
                             <div class="common-loading-area full-table-loading" ng-show="!geoData.countries.data || geoData.countries.data.length === 0"></div>
                             <div ng-show="geoData.countries.data">
-                                <div class="clearfix each-geo-name" ng-repeat="country in geoData.countries.data">
+                                <div class="clearfix each-targetting-name" ng-repeat="country in geoData.countries.data">
 
                                     <div class="col-md-12 external_chkbox pull-left">
                                         <div class="squaredFour">
@@ -83,7 +83,7 @@
                         </div>
                     </div>
                     <div class="geo-tab-content" id="regions-geo-tab-content" style="display:none;">
-                        <div class="clearfix geo-tab-subheader">
+                        <div class="clearfix targetting-tab-subheader">
                             <div class="clearfix col-md-8">
 
                                 <div class="pull-left sort-icon-holder active" >
@@ -95,10 +95,10 @@
 
                             </div>
                         </div>
-                        <div class="geo-tab-body" lr-infinite-scroll="loadMoreGeoData" time-threshold="100">
+                        <div class="targetting-tab-body" lr-infinite-scroll="loadMoreGeoData" time-threshold="100">
                             <div class="common-loading-area full-table-loading" ng-show="!geoData.regions.data || geoData.regions.data.length ===0"></div>
                             <div ng-show="geoData.regions.data">
-                                <div class="clearfix each-geo-name" ng-repeat="region in geoData.regions.data">
+                                <div class="clearfix each-targetting-name" ng-repeat="region in geoData.regions.data">
                                     <div class="external_chkbox pull-left col-md-8">
                                         <div class="squaredFour">
                                             <input type="checkbox" checklist-model="geoData.regions.selected" checklist-value="region" ng-change="check(region, checked, 'regions')" class="squaredFourChkbox" id="region_{{region.id}}" >
@@ -117,7 +117,7 @@
                         </div>
                     </div>
                     <div class="geo-tab-content" id="cities-geo-tab-content" style="display:none;">
-                        <div class="clearfix geo-tab-subheader">
+                        <div class="clearfix targetting-tab-subheader">
                             <div class="clearfix col-md-4">
 
                                 <div class="pull-left sort-icon-holder active" >
@@ -131,10 +131,11 @@
                             <div class="col-md-4 pull-right" data-ng-bind="textConstants.REGION">
                             </div>
                         </div>
-                        <div class="geo-tab-body" lr-infinite-scroll="loadMoreGeoData" time-threshold="100">
+
+                        <div class="targetting-tab-body" lr-infinite-scroll="loadMoreGeoData" time-threshold="100">
                             <div class="common-loading-area full-table-loading" ng-show="!geoData.cities.data || geoData.cities.data.length === 0"></div>
                             <div ng-show="geoData.cities.data">
-                                <div class="clearfix each-geo-name" ng-repeat="city in geoData.cities.data">
+                                <div class="clearfix each-targetting-name" ng-repeat="city in geoData.cities.data">
                                     <div class="external_chkbox pull-left col-md-4">
                                         <div class="squaredFour">
                                             <input type="checkbox" checklist-model="geoData.cities.selected" checklist-value="city" ng-change="check(city, checked, 'cities')" class="squaredFourChkbox" id="city_{{city.id}}" >
@@ -157,26 +158,62 @@
             <!---- end region and city block ---------->
 
             <!---- start DMA container -------->
-            <div id="dmas" class="targetting-each-content" style="display:none;">
-                <div>
-                    <div class="list_holder">
-                        <div class="common-load-icon_viewability" ng-if="!geoTargetingData.dmas"></div>
-                        <div class="list_row_holder" lr-infinite-scroll="loadMoreDmas" time-threshold="100">
-                            <div class="clearfix list_row" ng-repeat="dma in geoTargetingData.dmas">
-                                <div class="pull-left list_row_chkbox"><input id="{{dma.id}}" type="checkbox" ng-model="bool" ng-change="sync(bool, dma, 'dmas')" ng-checked="isChecked(dma.id, 'dmas')" value="" /></div>
-                                <div class="pull-left list_val_col" data-ng-bind="dma.dmaName"></div>
-                                <div class="pull-left list_val_col" data-ng-bind="dma.parent.name"></div>
-                            </div>
-                            <div ng-show="dmasFetching" class="loading-icon"></div>
+            <div id="dmas" class="col-md-12 zeroPadding targetting-each-content" style="display:none;">
+                <div class="clearfix targetting-tab-header">
+                    
+
+                    <div class="pull-right include-toggle-switch">
+                        <div class="exclude-label" ng-show = '!showHideToggleSwitch()'>
+                            <span><span data-ng-bind="textConstants.EXCLUDE"></span> <img ng-src="/images/workflow/icon_exclude.svg" alt="" height="15"/></span>
+                        </div>
+                        <div class="include-label" ng-show = 'showHideToggleSwitch()'>
+                               <span data-ng-bind="textConstants.INCLUDE"></span>
+                               <input type="checkbox" checked data-toggle="toggle" class="toggle-event" data-on=" " data-off=" " >
                         </div>
                     </div>
                 </div>
+                <div class="metro-tab-contents-holder">
+                    <div class="metro-tab-content" >
 
+                        <div class="clearfix targetting-tab-subheader">
+                            <div class="clearfix col-md-8">
+
+                                <div class="pull-left sort-icon-holder active" >
+                                    <span class="pull-left" data-ng-bind="textConstants.METROTXT"></span>
+                                    <span class="pull-left common-sort-icon ascending" style="display: block;"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-4 pull-right" data-ng-bind="textConstants.REGION">
+
+                            </div>
+                        </div>
+                        <div class="targetting-tab-body" >
+                            <div class="common-loading-area full-table-loading" style="display:none;"></div>
+                            <div >
+                                <div class="clearfix each-targetting-name">
+                                    <div class="external_chkbox pull-left col-md-8">
+                                        <div class="squaredFour">
+                                            <input type="checkbox" class="squaredFourChkbox" id="metro_1" >
+                                            <label for="metro_1"></label>
+                                        </div>
+                                        <span class="squaredFourTxt" >Metro</span>
+                                    </div>
+                                    <div class="pull-right col-md-4">
+                                        Region
+                                    </div>
+
+                                </div>
+                                <div class="common-loading-area"></div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
             <!----- end DMA container ----------->
 
             <!---- start Zip Container ---------->
-            <div id="zip" class="targetting-each-content" style="display:none;">
+            <div id="zip" class="col-md-12 zeroPadding targetting-each-content" style="display:none;">
                 <textarea class="form-control" id="zipCodes" name="zipCodes" ng-model="adData.zipCodes" rows="3" placeholder="Separate zip / postal codes by comma. Use hyphens to denote ranges."></textarea>
                 <div class="col-md-12 zeroPadding">
                     <button type="button" ng-click="addZipCode()" ng-disabled="!adData.zipCodes" class="btn btn-default pull-right">
