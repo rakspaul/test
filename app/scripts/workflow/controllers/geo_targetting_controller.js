@@ -425,7 +425,6 @@ define(['angularAMD', 'workflow/services/workflow_service', 'common/services/zip
             //binding chnage event on switch
             $('.toggle-event').change(function() {
                 var isChecked = $(this).prop('checked');
-
                 if($scope.selectedMainTab === 'geo') {
                     includeOrExcludeSelectedGeoList();
                 }
