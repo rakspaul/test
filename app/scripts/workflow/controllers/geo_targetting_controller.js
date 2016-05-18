@@ -316,7 +316,7 @@ define(['angularAMD', 'workflow/services/workflow_service', 'common/services/zip
                 geoTargeting.countries.list();
             }
         };
-
+       
         //show country/region and city container
         $scope.showRespectiveTabContent = function (event , tabType) {
             $(".geo-tab-content").hide();
@@ -374,6 +374,7 @@ define(['angularAMD', 'workflow/services/workflow_service', 'common/services/zip
             //binding chnage event on switch
             $('#toggle-event').change(function() {
                 var isChecked = $(this).prop('checked');
+                
                 if($scope.selectedMainTab === 'geo') {
                     includeOrExcludeSelectedGeoList();
                 }
