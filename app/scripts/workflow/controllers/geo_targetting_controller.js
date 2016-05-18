@@ -8,7 +8,7 @@ define(['angularAMD', 'workflow/services/workflow_service', 'common/services/zip
                 'pageSize': DATA_MAX_SIZE,
                 'pageNo': 1,
                 'query': '',
-                'countryIds' : '',
+                'countryCodes' : '',
                 'regionIds' : ''
             };
 
@@ -46,6 +46,14 @@ define(['angularAMD', 'workflow/services/workflow_service', 'common/services/zip
                 }
             },
 
+            //get search box value
+            appendSearchValue :  function(type) {
+                var searchVal = $('.searchBox').val();
+                if(searchVal && searchVal.length >0) {
+                    this.updateParams({'query' : searchVal}, type);
+                }
+            },
+
             //build query string for $http
             buildQueryString: function (params) {
                 var queryString = '?';
@@ -64,8 +72,8 @@ define(['angularAMD', 'workflow/services/workflow_service', 'common/services/zip
                 if (params.query) {
                     queryString += '&query=' + params.query;
                 }
-                if (params.countryIds) {
-                    queryString += '&countries=' + params.countryIds;
+                if (params.countryCodes) {
+                    queryString += '&countries=' + params.countryCodes;
                 }
                 if (params.regionIds) {
                     queryString += '&regions=' + params.regionIds;
@@ -155,11 +163,11 @@ define(['angularAMD', 'workflow/services/workflow_service', 'common/services/zip
                  * fetch regions fot those countries
                  */
 
-                //selectedCountries = $scope.geoData.countries.selected;
-                //if(selectedCountries.length >0){
-                //    countryIds = _.pluck(selectedCountries, 'id').join(',');
-                //    geoTargeting.updateParams({'countryIds' : countryIds}, 'regions')
-                //}
+                selectedCountries = $scope.geoData.countries.selected;
+                if(selectedCountries.length >0){
+                    countryCodes = _.pluck(selectedCountries, 'code').join(',');
+                    geoTargeting.updateParams({'countryCodes' : countryCodes}, 'regions')
+                }
 
                 this.fetch(function (response) {
                     if (!$scope.geoData.regions.data) {
@@ -185,7 +193,7 @@ define(['angularAMD', 'workflow/services/workflow_service', 'common/services/zip
                     platformId = params.platformId;
 
                 workflowService
-                    .getCountries(platformId, query)
+                    .getCities(platformId, query)
                     .then(function (result) {
                         callback && callback(result.data.data);
                     }, function (error) {
