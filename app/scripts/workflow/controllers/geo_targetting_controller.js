@@ -193,7 +193,6 @@ define(['angularAMD', 'workflow/services/workflow_service', 'common/services/zip
                     geoTargeting.updateParams({'countryCodes' : countryCodes}, 'regions')
                 }
 
-
                 this.fetch(function (response) {
                     if (!$scope.geoData.regions.data) {
                         $scope.geoData.regions.data = response;
