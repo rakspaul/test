@@ -129,22 +129,18 @@
                             </div>
                         </div>
                         <div class="geo-tab-body">
-                            <div class="common-loading-area" ng-show=""></div>
-                            <div ng-show="">
-                                <div class="clearfix each-geo-name">
+                            <div class="common-loading-area" ng-show="!geoData.cities.data"></div>
+                            <div ng-show="geoData.cities.data">
+                                <div class="clearfix each-geo-name" ng-repeat="city in geoData.cities.data">
                                     <div class="external_chkbox pull-left col-md-4">
                                         <div class="squaredFour">
-                                            <input type="checkbox" id="select_chkbox" class="squaredFourChkbox"  ng-true-value="'true'" ng-false-value="'false'" >
-                                            <label for="select_chkbox"></label>
+                                            <input type="checkbox" checklist-model="geoData.cities.selected" checklist-value="city" ng-change="check(city, checked, 'cities')" class="squaredFourChkbox" id="city_{{city.id}}" >
+                                            <label for="city_{{city.id}}"></label>
                                         </div>
-                                        <span class="squaredFourTxt" >City1 </span>
+                                        <span class="squaredFourTxt" >{{city.name}}</span>
                                     </div>
-                                    <div class="pull-right col-md-4">
-                                        Country1
-                                    </div>
-                                    <div class="pull-right col-md-4">
-                                        Region1
-                                    </div>
+                                    <div class="pull-right col-md-4" data-ng-bind="city.country.name"></div> <!-- country -->
+                                    <div class="pull-right col-md-4" data-ng-bind="city.parent.name"></div> <!-- region -->
                                 </div>
                             </div>
                         </div>
