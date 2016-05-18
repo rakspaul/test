@@ -933,6 +933,9 @@
 .adCreateMaster #targetting .targettingFormWrap .targetting-tab-body .full-table-loading {
   margin-top: 85px ;
 }
+.adCreateMaster #targetting .targettingFormWrap .targetting-tab-body .no-data-common {
+  margin-top: 75px;
+}
 .adCreateMaster #targetting .targettingFormWrap .geoTypeResult {
   float: left;
   margin-top: 20px;

@@ -65,6 +65,7 @@
                         </div>
                         <div class="targetting-tab-body" lr-infinite-scroll="loadMoreGeoData" time-threshold="100">
                             <div class="common-loading-area full-table-loading" ng-show="!geoData.countries.data || geoData.countries.data.length === 0"></div>
+                            <div class="no-data-common">No Data available</div>
                             <div ng-show="geoData.countries.data">
                                 <div class="clearfix each-targetting-name" ng-repeat="country in geoData.countries.data">
 
@@ -94,6 +95,8 @@
                         </div>
                         <div class="targetting-tab-body" lr-infinite-scroll="loadMoreGeoData" time-threshold="100">
                             <div class="common-loading-area full-table-loading" ng-show="!geoData.regions.data || geoData.regions.data.length ===0"></div>
+                            <div class="no-data-common">No Data available</div>
+
                             <div ng-show="geoData.regions.data">
                                 <div class="clearfix each-targetting-name" ng-repeat="region in geoData.regions.data">
                                     <div class="external_chkbox pull-left col-md-8">
@@ -129,6 +132,8 @@
                         </div>
                         <div class="targetting-tab-body" lr-infinite-scroll="loadMoreGeoData" time-threshold="100">
                             <div class="common-loading-area full-table-loading" ng-show="!geoData.cities.data || geoData.cities.data.length === 0"></div>
+                            <div class="no-data-common">No Data available</div>
+
                             <div ng-show="geoData.cities.data">
                                 <div class="clearfix each-targetting-name" ng-repeat="city in geoData.cities.data">
                                     <div class="external_chkbox pull-left col-md-4">
@@ -181,6 +186,8 @@
                         </div>
                         <div class="targetting-tab-body" >
                             <div class="common-loading-area full-table-loading" style="display:none;"></div>
+                            <div class="no-data-common">No Data available</div>
+                            
                             <div >
                                 <div class="clearfix each-targetting-name">
                                     <div class="external_chkbox pull-left col-md-8">
