@@ -2027,7 +2027,24 @@ tags-input .autocomplete {
     -webkit-animation-iteration-count: 1;
     font-size: 14px ;
 }
-
+/*Dropdown which has search input box*/
+.dropdown-menu-with-search {
+	padding-top: 0 ;
+	.search-inside-dropdown {
+		border: 0px ;
+		border-bottom: solid 1px #ccc;
+		margin-bottom: 5px ;
+		input {
+			border: 0px;
+			padding-right: 30px;
+			background: url("/images/cdesk/search_input.png") no-repeat right 10px center;
+			height: 30px;
+			width: 100%;
+			padding-left: 15px;
+		}
+	}
+}
+/*End of Dropdown which has search input box*/
 
 @keyframes show-notification {
     from {
