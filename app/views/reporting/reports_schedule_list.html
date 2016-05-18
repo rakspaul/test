@@ -126,7 +126,7 @@
                                         on-tag-added="addDimensionFilter()"
                                         on-tag-removed="removeDimensionFilter()"
                                         max-tags="5">
-                                    <auto-complete source="loadDimensionsList()"
+                                    <auto-complete source="loadDimensionsList($query)"
                                                    min-length="1"
                                                    load-on-down-arrow="true"
                                                    max-results-to-show="50"></auto-complete>
