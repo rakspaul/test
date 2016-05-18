@@ -981,6 +981,7 @@ define(['angularAMD'], function(angularAMD) {
         this.REGCITIES = 'Regions & Cities';
         this.REMOVEALL = 'Remove All';
         this.METROS = 'Metros';
+        this.METROTXT = 'Metro';
         this.GEO = 'GEO';
         this.DMAS = 'DMAs';
         this.SEARCHFORMETROS = 'Search for metros';
