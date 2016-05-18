@@ -50,7 +50,7 @@
                         </div>
                         <div class="include-label" ng-show = 'showHideToggleSwitch()'>
                                <span data-ng-bind="textConstants.INCLUDE"></span>
-                               <input type="checkbox" checked data-toggle="toggle" id="toggle-event">
+                               <input type="checkbox" checked data-toggle="toggle" id="toggle-event" data-on=" " data-off=" " >
                         </div>
                     </div>
                 </div>
@@ -66,7 +66,7 @@
                             </div>
                         </div>
                         <div class="geo-tab-body">
-                            <div class="common-loading-area" ng-show="!geoData.countries.data"></div>
+                            <div class="common-loading-area full-table-loading" ng-show="!geoData.countries.data"></div>
                             <div ng-show="geoData.countries.data">
                                 <div class="clearfix each-geo-name" ng-repeat="country in geoData.countries.data">
 
@@ -78,6 +78,7 @@
                                         <span class="squaredFourTxt" >{{country.name}}</span>
                                     </div>
                                 </div>
+                                <div class="common-loading-area"></div>
                             </div>
                         </div>
                     </div>
@@ -95,7 +96,7 @@
                             </div>
                         </div>
                         <div class="geo-tab-body">
-                            <div class="common-loading-area" ng-show="!geoData.regions.data"></div>
+                            <div class="common-loading-area full-table-loading" ng-show="!geoData.regions.data"></div>
                             <div ng-show="geoData.regions.data">
                                 <div class="clearfix each-geo-name" ng-repeat="region in geoData.regions.data">
                                     <div class="external_chkbox pull-left col-md-8">
@@ -110,6 +111,8 @@
                                     </div>
 
                                 </div>
+                                <div class="common-loading-area"></div>
+
                             </div>
                         </div>
                     </div>
@@ -129,7 +132,7 @@
                             </div>
                         </div>
                         <div class="geo-tab-body">
-                            <div class="common-loading-area" ng-show="!geoData.cities.data"></div>
+                            <div class="common-loading-area full-table-loading" ng-show="!geoData.cities.data"></div>
                             <div ng-show="geoData.cities.data">
                                 <div class="clearfix each-geo-name" ng-repeat="city in geoData.cities.data">
                                     <div class="external_chkbox pull-left col-md-4">
@@ -142,6 +145,8 @@
                                     <div class="pull-right col-md-4" data-ng-bind="city.country.name"></div> <!-- country -->
                                     <div class="pull-right col-md-4" data-ng-bind="city.parent.name"></div> <!-- region -->
                                 </div>
+                                <div class="common-loading-area"></div>
+                                
                             </div>
                         </div>
                     </div>
