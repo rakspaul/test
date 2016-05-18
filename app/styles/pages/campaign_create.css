@@ -875,6 +875,9 @@
   background-repeat: no-repeat;
   background-position: center center;
 }
+.adCreateMaster #targetting .targettingFormWrap .targetting-each-content textarea {
+  margin-bottom: 10px ;
+}
 .adCreateMaster #targetting .targettingFormWrap .include-label .btn-primary {
   margin: 0 ;
 }
