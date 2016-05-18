@@ -68,14 +68,16 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
             _currCtrl.setCalanderSetting();
             $('#pixelExpDate').datepicker('setStartDate', momentService.getCurrentYear().toString());
             $(".pixelCreate").slideDown();
+            $scope.pixelFormData.impLookbackWindow = $scope.pixelFormData.clickLookbackWindow = 14;
         }
         
-        $scope.cancelPixel = function() {
-            $(".pixelCreate").slideUp();
-        }
+
 
         
         _currCtrl.verifyPixelInput = function(){
+            if($scope.advertiserAddOrEditData.duplicatePixelName){
+                return false;
+            }
             var ret = true,
                 errMsg = "Error",
                 item = $scope.pixelFormData;
@@ -88,6 +90,12 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
             }else if(!item.expiryDate || item.expiryDate == ""){
                 errMsg = constants.EMPTY_PIXEL_EXPIREAT;
                 ret = false;
+            }else if(!item.impLookbackWindow || item.impLookbackWindow == ""){
+                errMsg = constants.EMPTY_LOOKBACK_IMPRESSION;
+                ret = false;
+            }else if(!item.clickLookbackWindow || item.clickLookbackWindow == ""){
+                errMsg = constants.EMPTY_LOOKBACK_CLICK;
+                ret = false;
             }
             if(!ret){
                 $rootScope.setErrAlertMessage(errMsg);
@@ -98,7 +106,7 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
             if(_currCtrl.verifyPixelInput()) {
                 if($scope.pixelIndex!=null){
                     //Update
-                    var keyArr = ["name", "pixelType", "expiryDate", "description"];
+                    var keyArr = ["name", "pixelType", "expiryDate", "description","impLookbackWindow","clickLookbackWindow"];
                     _.each(keyArr,function(v){
                         $scope.advertiserData.pixels[$scope.pixelIndex][v] =  $scope.pixelFormData[v];
                     });
@@ -125,8 +133,12 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
         }
         $scope.clearPixel = function(){
             $(".pixelCreate").slideUp();
-            $scope.pixelFormData = {name:"", pixelType:"", expiryDate:"", description:"", pixelTypeName:"Select Pixel Type"}
+            $scope.pixelFormData = {name:"", pixelType:"", expiryDate:"", description:"", pixelTypeName:"Select Pixel Type", impLookbackWindow:"", clickLookbackWindow:""}
             $scope.pixelIndex = null;
+        }
+        $scope.cancelPixel = function() {
+            //$(".pixelCreate").slideUp();
+            $scope.clearPixel();
         }
         $scope.showIABTab = function(){
             $scope.activeEditAdvertiserTab = "iab";
@@ -289,6 +301,8 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
                         if(item.expiryDate) {
                             $scope.advertiserData.pixels[i].expiryDate = momentService.utcToLocalTime(item.expiryDate,'YYYY/MM/DD');
                         }
+                        $scope.advertiserData.impLookbackWindow = item.impLookbackWindow;
+                        $scope.advertiserData.clickLookbackWindow = item.clickLookbackWindow;
                     });
                 }
             },function(err){

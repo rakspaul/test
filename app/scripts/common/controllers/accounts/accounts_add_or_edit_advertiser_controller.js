@@ -10,6 +10,8 @@ define(['angularAMD','../../../workflow/services/account_service', '../../servic
         dataService, urlService) {
 
         var _currCtrl = this;
+        _currCtrl.downloadPixelIds = [];
+        $scope.advertiserData.disableDownLoadPixel = true;
         $scope.selectedBillType = 'Select';
         $scope.selectedRateType = 'Select';
         $scope.showUserModeText = function(){
@@ -59,12 +61,15 @@ define(['angularAMD','../../../workflow/services/account_service', '../../servic
         _currCtrl.getIABCategory = function(){
             accountsService.getIABCategoryForAdv($scope.client.id, $scope.selectedAdvertiserId).then(function(res){
                 _currCtrl.isAdChoiceInClient = false;
+                var result = res.data.data;
                 if((res.status === 'OK' || res.status === 'success') && res.data.data && res.data.data.id){
                     _currCtrl.isAdChoiceInClient = true;
-                    $scope.advertiserAddOrEditData.selectedIABCategory = res.data.data.groupName;
-                    $scope.advertiserAddOrEditData.selectedIABCategoryId = res.data.data.groupId;
-                    $scope.advertiserAddOrEditData.selectedIABSubCategory = res.data.data.name;
-                    $scope.advertiserAddOrEditData.selectedIABSubCategoryId = res.data.data.id;
+                    $scope.advertiserAddOrEditData.selectedIABCategory = result.groupName;
+                    $scope.advertiserAddOrEditData.selectedIABCategoryId = result.groupId;
+                    if(result.groupId != result.id) {
+                        $scope.advertiserAddOrEditData.selectedIABSubCategory = result.name;
+                        $scope.advertiserAddOrEditData.selectedIABSubCategoryId = result.id;
+                    }
                     _currCtrl.getIABSubCategoryList($scope.advertiserAddOrEditData.selectedIABCategoryId);
                 }
             },function(err){
@@ -72,9 +77,9 @@ define(['angularAMD','../../../workflow/services/account_service', '../../servic
             })
         }
         _currCtrl.saveIABCategory = function(){
-            var reqBody = {
-                groupId: $scope.advertiserAddOrEditData.selectedIABCategoryId,
-                iabId: $scope.advertiserAddOrEditData.selectedIABSubCategoryId
+            var id = $scope.advertiserAddOrEditData.selectedIABSubCategoryId ? $scope.advertiserAddOrEditData.selectedIABSubCategoryId : $scope.advertiserAddOrEditData.selectedIABCategoryId,
+                reqBody = {
+                iabId: id
             }
             accountsService.saveIABCategoryForAdv($scope.client.id, $scope.selectedAdvertiserId, reqBody).then(function(res){
                 if((res.status === 'OK' || res.status === 'success') && res.data.data) {
@@ -178,9 +183,6 @@ define(['angularAMD','../../../workflow/services/account_service', '../../servic
             if(!$scope.advertiserAddOrEditData.selectedIABCategory || $scope.advertiserAddOrEditData.selectedIABCategory == 'Select'){
                 errMsg = constants.EMPTY_IAB_CATEGORY;
                 ret = false;
-            }else if(!$scope.advertiserAddOrEditData.selectedIABSubCategory || $scope.advertiserAddOrEditData.selectedIABSubCategory == 'Select'){
-                errMsg = constants.EMPTY_IAB_SUB_CATEGORY;
-                ret = false;
             }
             if(!ret) {
                 $rootScope.setErrAlertMessage(errMsg);
@@ -198,7 +200,14 @@ define(['angularAMD','../../../workflow/services/account_service', '../../servic
         }
         $scope.downLoadPixel = function(){
            // accountsService.downloadAdminAdvPixel($scope.client.id, $scope.selectedAdvertiserId).then(function(res){
-            dataService.downloadFile(urlService.downloadAdminAdvPixel($scope.client.id, $scope.selectedAdvertiserId)).then(function (res) {
+            var url = urlService.downloadAdminAdvPixel($scope.client.id, $scope.selectedAdvertiserId);
+            if(!_currCtrl.downloadPixelIds.length){
+                return false;
+            }
+            if(_currCtrl.downloadPixelIds.length && (_currCtrl.downloadPixelIds.length < $scope.advertiserData.pixels.length)){
+                url += '?id='+ _currCtrl.downloadPixelIds.join(",");
+            }
+            dataService.downloadFile(url).then(function (res) {
                 if(res.status === 'OK' || res.status === 'success'){
                     saveAs(res.file, res.fileName);
                     $rootScope.setErrAlertMessage(constants.PIXEL_DOWNLOAD_SUCCESS, 0);
@@ -208,6 +217,40 @@ define(['angularAMD','../../../workflow/services/account_service', '../../servic
             },function(err){
                 $rootScope.setErrAlertMessage(constants.PIXEL_DOWNLOAD_ERR)
             })
+        }
+        $scope.selectPixel = function(pixelId, isSelected){
+            if(isSelected){
+                $scope.advertiserData.disableDownLoadPixel = false;
+                if(_currCtrl.downloadPixelIds.indexOf(pixelId) == -1) {
+                    _currCtrl.downloadPixelIds.push(pixelId);
+                }
+            }else{
+                _currCtrl.downloadPixelIds = _.filter(_currCtrl.downloadPixelIds, function(item){
+                    return item != pixelId;
+                });
+                if(!_currCtrl.downloadPixelIds.length){
+                    $scope.advertiserData.disableDownLoadPixel = true;
+                }
+            }
+        }
+        $scope.selectAllPixels = function() {
+            var checkBoxes = $(".pixelSelect");
+            checkBoxes.prop("checked", !checkBoxes.prop("checked"));
+            if(checkBoxes.prop("checked")){
+                $scope.advertiserData.disableDownLoadPixel = false;
+                _currCtrl.downloadPixelIds = _.pluck($scope.advertiserData.pixels, 'id');
+            }else{
+                $scope.advertiserData.disableDownLoadPixel = true;
+                _currCtrl.downloadPixelIds = [];
+            }
+        }
+        $scope.checkDuplicatePixel = function(name){
+            $scope.advertiserAddOrEditData.duplicatePixelName = false;
+            _.each($scope.advertiserData.pixels, function(item, i){
+                if(!$scope.advertiserAddOrEditData.duplicatePixelName){
+                    $scope.advertiserAddOrEditData.duplicatePixelName = (item.name == name) ? true : false;
+                }
+            });
         }
         function createAdvertiserUnderClient(advId) {
             var requestData = {
@@ -276,6 +319,8 @@ define(['angularAMD','../../../workflow/services/account_service', '../../servic
                     createdBy: item.createdBy,
                     createdAt: item.createdAt,
                     updatedAt: item.updatedAt,
+                    impLookbackWindow: item.impLookbackWindow,
+                    clickLookbackWindow: item.clickLookbackWindow,
                     expiryDate: momentService.localTimeToUTC(item.expiryDate, "endTime")//.format('YYYY-MM-DD HH:MM:SS.SSS')
                 }
                 if(item.id){
@@ -325,10 +370,7 @@ define(['angularAMD','../../../workflow/services/account_service', '../../servic
             },100);
         }
         
-        $scope.selectAllPixels = function() {
-            var checkBoxes = $(".pixelSelect");
-                checkBoxes.prop("checked", !checkBoxes.prop("checked"));
-        }
+
         
         //Search Hide / Show
         $scope.searchShowInput = function (e) {
