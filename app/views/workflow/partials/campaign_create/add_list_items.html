@@ -152,7 +152,7 @@
             <label class="col-sm-12 greyTxt miniLabels zeroPadding" ng-if="lineItemType.name === 'CPCV'">Completed</label>
             <label class="col-sm-12 greyTxt miniLabels zeroPadding" ng-if="lineItemType.name === 'Post-Click CPA' || lineItemType.name === 'Post-Impression CPA' || lineItemType.name === 'Total CPA'">Actions</label>
 
-            <input type="text" class="col-md-12" placeholder="" ng-model="$parent.volume" whole-number-only ng-readonly="true"/>
+            <input type="text" class="col-md-12 form-control" placeholder="" ng-model="$parent.volume" whole-number-only ng-readonly="true"/>
         </div>
 
         <!--Row 2-->
@@ -340,7 +340,7 @@
         </div>
         <div class="col-md-2" style="padding: 0 0 0 10px;" ng-show="volumeFlagEdit">
             <label class="col-sm-12 greyTxt miniLabels zeroPadding" data-ng-bind="textConstants.MEDIAPLAN_VOLUME"></label>
-            <input type="text" class="col-md-12" placeholder="" ng-model="editLineItem.volume" whole-number-only autocomplete="off" ng-readonly="true"/>
+            <input type="text" class="col-md-12 form-control" placeholder="" ng-model="editLineItem.volume" whole-number-only autocomplete="off" ng-readonly="true"/>
         </div>
 
 
