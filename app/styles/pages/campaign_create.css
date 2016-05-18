@@ -857,6 +857,27 @@
   border: solid 1px #dde6eb ;
   border-top: 0 ;
 }
+.adCreateMaster #targetting .targettingFormWrap .targetting-each-content .external_chkbox .squaredFour input[type=checkbox]:checked + label {
+  background: #3276b1 ;
+  border: solid 1px #3276b1;
+}
+.adCreateMaster #targetting .targettingFormWrap .targetting-each-content .external_chkbox .squaredFour input[type=checkbox]:checked + label:after {
+  border-color: #fff ;
+}
+.adCreateMaster #targetting .targettingFormWrap .targetting-each-content .toggle-on:after {
+  content: "";
+  position: absolute;
+  top: 6px;
+  left: 12px;
+  height: 20px;
+  width: 20px;
+  background-image: url(/images/workflow/icon_target.svg);
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+.adCreateMaster #targetting .targettingFormWrap .include-label .btn-primary {
+  margin: 0 ;
+}
 .adCreateMaster #targetting .targettingFormWrap .exclude-label {
   margin-top: 8px;
 }
