@@ -168,11 +168,11 @@ define(['angularAMD','../../../workflow/services/account_service', '../../servic
                 $rootScope.setErrAlertMessage(constants.EMPTY_ADV_SELECTION);
                 return false;
             }
-            if(!$scope.advertiserData.impLookbackWindow || $scope.advertiserData.impLookbackWindow == ""){
+            if(!$scope.advertiserData.lookbackImpressions || $scope.advertiserData.lookbackImpressions == ""){
                 $rootScope.setErrAlertMessage(constants.EMPTY_LOOKBACK_IMPRESSION);
                 return false;
             }
-            if(!$scope.advertiserData.clickLookbackWindow || $scope.advertiserData.clickLookbackWindow == ""){
+            if(!$scope.advertiserData.lookbackClicks || $scope.advertiserData.lookbackClicks == ""){
                 $rootScope.setErrAlertMessage(constants.EMPTY_LOOKBACK_CLICK);
                 return false;
             }
