@@ -394,8 +394,6 @@ define(['angularAMD', 'workflow/services/workflow_service', 'common/services/zip
             elem.closest(".btn-group").find(".active").removeClass("active");
             elem.addClass("active") ;
             $scope.selectedSubTab = tabType;
-
-            //geoTargeting.updateParams({'pageNo': 1}, tabType);
             geoTargeting[tabType].init();
 
             // In relative to btn-group div, the tooltip offset is calculated
@@ -426,7 +424,6 @@ define(['angularAMD', 'workflow/services/workflow_service', 'common/services/zip
                 $(".targetting-container .searchInput").show();
             }
 
-            //geoTargeting.updateParams({'pageNo': 1}, tabType);
             // if clicked main tab is geo
             if(tabType === 'geo') {
                 $scope.selectedMainTab = 'geo';
