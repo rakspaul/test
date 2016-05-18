@@ -9,7 +9,7 @@
                     <span class="text" data-ng-bind="selectedCampaign.clientName || 'Select SubAccount'"></span>
                     <span class="icon-arrow-down"></span>
                 </button>
-                <ul class="dropdown-menu" aria-labelledby="advertiserDDL"  id="advertiserDDL" ng-if="mode !== 'edit' && !cloneMediaPlanName">
+                <ul class="dropdown-menu" aria-labelledby="advertiserDDL"  id="subaccountDDL" ng-if="mode !== 'edit' && !cloneMediaPlanName">
                     <li ng-repeat="subaccount in workflowData.subAccounts track by subaccount.id" class="available"><a ng-click="selectHandler('subAccount', subaccount)">{{subaccount.name}}</a></li>
                 </ul>
                 <input type="hidden" name="subAccountId" ng-model="selectedCampaign.clientId" ng-update-hidden required/>

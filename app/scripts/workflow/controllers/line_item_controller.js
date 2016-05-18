@@ -24,22 +24,8 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         $scope.showNewLineItemForm = function () {
             $scope.selectedCampaign.createItemList = true;
             $scope.lineItemErrorFlag = false;
-            selectedAdvertiser = workflowService.getSelectedAdvertiser();
+            updateRateTypeArr(); // remove cogs+ in create and edit mode from rate type arr
 
-            if (selectedAdvertiser && (selectedAdvertiser.billingType && selectedAdvertiser.billingValue)) {
-
-                var index = _.findIndex($scope.type, function (item) {
-                    return item.id === selectedAdvertiser.billingType.id;
-                });
-
-                $scope.setLineItem($scope.type[index], 'create');
-            } else {
-                // in case the advertiser does not have billing type and billing value remove COGS + % from Rate Type list
-                var index = _.findIndex($scope.type, function (type) {
-                    return type.name === CONST_COGS_PERCENT;
-                })
-                $scope.type.splice(index, 1);
-            }
             $scope.initiateLineItemDatePicker();
         }
 
@@ -303,6 +289,9 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
                 }
             }
+
+            //trigger volume calculation
+            $scope.calculateVolume(mode);
         };
 
 
@@ -345,6 +334,9 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             var target = event.currentTarget;
             $(target).toggle();
             $(target).closest('.tr').find('.tableEdit').toggle();
+
+
+            updateRateTypeArr(); // remove cogs+ in create and edit mode from rate type arr
 
             //disable flat fee in case the user created media plan with line item with rate type other than FLAT FEE
             if($scope.mode === 'edit'){
@@ -556,6 +548,48 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             _.each($scope.lineItemList,function(item){
                 $scope.selectedCampaign.lineItemBillableAmountTotal += Number(item.billableAmount);
             })
+        }
+
+        $scope.calculateVolume = function(mode){
+            console.log("type == ",$scope.lineItemType.name,'$scope.pricingRate== ',$scope.pricingRate,'$scope.billableAmount==',$scope.billableAmount);
+
+            if(mode === 'create'){
+                $scope.volume = '';
+                if($scope.lineItemType && $scope.lineItemType.name && $scope.pricingRate && $scope.billableAmount){
+                    if($scope.lineItemType.name === 'CPM') {
+                        $scope.volume = ($scope.billableAmount / $scope.pricingRate ) / 1000;
+                    } else {
+                        $scope.volume = ($scope.billableAmount / $scope.pricingRate ) * 1000;
+                    }
+                }
+            } else {
+                $scope.editLineItem.volume = '';
+                if($scope.editLineItem.lineItemType && $scope.editLineItem.lineItemType.name && $scope.editLineItem.pricingRate && $scope.editLineItem.billableAmount){
+                    if($scope.editLineItem.lineItemType.name === 'CPM') {
+                        $scope.editLineItem.volume = ($scope.editLineItem.billableAmount / $scope.editLineItem.pricingRate ) / 1000;
+                    } else {
+                        $scope.editLineItem.volume = ($scope.editLineItem.billableAmount / $scope.editLineItem.pricingRate ) * 1000;
+                    }
+                }
+            }
+        }
+
+        function updateRateTypeArr(){
+            selectedAdvertiser = workflowService.getSelectedAdvertiser();
+            if (selectedAdvertiser && (selectedAdvertiser.billingType && selectedAdvertiser.billingValue)) {
+
+                var index = _.findIndex($scope.type, function (item) {
+                    return item.id === selectedAdvertiser.billingType.id;
+                });
+
+                $scope.setLineItem($scope.type[index], 'create');
+            } else {
+                // in case the advertiser does not have billing type and billing value remove COGS + % from Rate Type list
+                var index = _.findIndex($scope.type, function (type) {
+                    return type.name === CONST_COGS_PERCENT;
+                })
+                $scope.type.splice(index, 1);
+            }
         }
     });
 });

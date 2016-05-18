@@ -69,7 +69,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         $scope.hideLineItemRateEdit = false;
         $scope.hideAdGroupNameEdit = false;
         $scope.showPixelsListEdit = false;
-        $scope.disableFlatFeeEdit = false; // this is to hide flat fee in edit mode 
+        $scope.disableFlatFeeEdit = false; // this is to hide flat fee in edit mode
 
         $scope.editLineItem = {};
         $scope.vendorConfig = [];
@@ -227,8 +227,10 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 if (campaignData.advertiserId && campaignData.advertiserName) {
                     $scope.selectedCampaign.advertiserName = campaignData.advertiserName;
                     $scope.selectedCampaign.advertiserId = campaignData.advertiserId;
-                    var advertiserObj = {'id': campaignData.advertiserId, 'name': campaignData.advertiserName};
+                    var advertiserObj = {'id': campaignData.advertiserId, 'name': campaignData.advertiserName}; // to be removed
                     $scope.selectHandler('advertiser', advertiserObj, null)
+                    //$scope.selectHandler('advertiser', campaignData.advertiser, null)
+
                 }
 
                 //set Brand
