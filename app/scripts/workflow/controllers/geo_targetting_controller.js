@@ -30,12 +30,19 @@ define(['angularAMD', 'workflow/services/workflow_service', 'common/services/zip
         //Tab Related Variables.
         $scope.selectedMainTab = 'geo';
         $scope.selectedSubTab = 'countries';
+<<<<<<< HEAD
 
 
         $( window ).resize(function() {
             $scope.divHeightCalculation() ;
         });
 
+=======
+
+        $( window ).resize(function() {
+            $scope.divHeightCalculation() ;
+        });
+>>>>>>> added height as per window size
         var geoTargeting = {
 
             //get ads data
