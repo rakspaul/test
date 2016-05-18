@@ -66,12 +66,17 @@
                             </div>
                         </div>
                         <div class="geo-tab-body">
-                            <div class="clearfix each-geo-name" ng-repeat="country in geoData.countries.data">
-                                <div class="col-md-12 external_chkbox pull-left">
-                                    <div>
-                                        <input type="checkbox" checklist-model="geoData.countries.selected" checklist-value="country" ng-change="check(country, checked, 'countries')" class="squaredFourChkbox">
+                            <div class="common-loading-area" ng-show="!geoData.countries.data"></div>
+                            <div ng-show="geoData.countries.data">
+                                <div class="clearfix each-geo-name" ng-repeat="country in geoData.countries.data">
+
+                                    <div class="col-md-12 external_chkbox pull-left">
+                                        <div class="squaredFour">
+                                            <input type="checkbox" checklist-model="geoData.countries.selected" checklist-value="country" ng-change="check(country, checked, 'countries')" class="squaredFourChkbox" id="country_{{country.id}}">
+                                            <label for="country_{{country.id}}"></label>
+                                        </div>
+                                        <span class="squaredFourTxt" >{{country.name}}</span>
                                     </div>
-                                    <span class="squaredFourTxt" >{{country.name}}</span>
                                 </div>
                             </div>
                         </div>
@@ -90,17 +95,21 @@
                             </div>
                         </div>
                         <div class="geo-tab-body">
-                            <div class="clearfix each-geo-name" ng-repeat="region in geoData.regions.data">
-                                <div class="external_chkbox pull-left col-md-8">
-                                    <div>
-                                        <input type="checkbox" checklist-model="geoData.regions.selected" checklist-value="region" ng-change="check(region, checked, 'regions')" class="squaredFourChkbox" >
+                            <div class="common-loading-area" ng-show="!geoData.regions.data"></div>
+                            <div ng-show="geoData.regions.data">
+                                <div class="clearfix each-geo-name" ng-repeat="region in geoData.regions.data">
+                                    <div class="external_chkbox pull-left col-md-8">
+                                        <div class="squaredFour">
+                                            <input type="checkbox" checklist-model="geoData.regions.selected" checklist-value="region" ng-change="check(region, checked, 'regions')" class="squaredFourChkbox" id="region_{{region.id}}" >
+                                            <label for="region_{{region.id}}"></label>
+                                        </div>
+                                        <span class="squaredFourTxt" >{{region.name}}</span>
                                     </div>
-                                    <span class="squaredFourTxt" >{{region.name}}</span>
-                                </div>
-                                <div class="pull-right col-md-4">
-                                    {{region.parent.name}}
-                                </div>
+                                    <div class="pull-right col-md-4">
+                                        {{region.parent.name}}
+                                    </div>
 
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -120,19 +129,22 @@
                             </div>
                         </div>
                         <div class="geo-tab-body">
-                            <div class="clearfix each-geo-name">
-                                <div class="external_chkbox pull-left col-md-4">
-                                    <div class="squaredFour">
-                                        <input type="checkbox" id="select_chkbox" class="squaredFourChkbox"  ng-true-value="'true'" ng-false-value="'false'" >
-                                        <label for="select_chkbox"></label>
+                            <div class="common-loading-area" ng-show=""></div>
+                            <div ng-show="">
+                                <div class="clearfix each-geo-name">
+                                    <div class="external_chkbox pull-left col-md-4">
+                                        <div class="squaredFour">
+                                            <input type="checkbox" id="select_chkbox" class="squaredFourChkbox"  ng-true-value="'true'" ng-false-value="'false'" >
+                                            <label for="select_chkbox"></label>
+                                        </div>
+                                        <span class="squaredFourTxt" >City1 </span>
                                     </div>
-                                    <span class="squaredFourTxt" >City1 </span>
-                                </div>
-                                <div class="pull-right col-md-4">
-                                    Country1
-                                </div>
-                                <div class="pull-right col-md-4">
-                                    Region1
+                                    <div class="pull-right col-md-4">
+                                        Country1
+                                    </div>
+                                    <div class="pull-right col-md-4">
+                                        Region1
+                                    </div>
                                 </div>
                             </div>
                         </div>

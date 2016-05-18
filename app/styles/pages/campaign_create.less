@@ -980,11 +980,12 @@
 
                
             }
+            .targetting-each-content {
+                border: solid 1px #dde6eb ;
+                border-top: 0 ;
+            }
             .exclude-label {
                 margin-top: 8px;
-            }
-            .geo-tab-contents-holder {
-                padding-bottom: 15px ;
             }
             .geo-tab-header {
                  padding: 10px 20px ;
@@ -1006,14 +1007,21 @@
             .geo-tab-subheader {
                 border-top: solid 1px #dde6eb;
                 border-bottom: solid 1px #dde6eb;
-                margin: 20px 0 5px ;
+                margin: 20px 0 0px ;
                 padding: 10px 0;
             }
             .geo-tab-body {
-                > div {
+                max-height: 200px;
+                min-height: 200px;
+                overflow: auto;
+                padding-bottom: 10px;
+                .each-geo-name {
                     padding-top: 5px ;
                     padding-bottom: 5px ;
                 }
+               .common-loading-area {
+                    margin-top: 85px ;
+               }
             }
              .geoTypeResult {
                     float: left;

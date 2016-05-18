@@ -825,11 +825,12 @@
   padding: 20px 0 20px 0;
   width: 100%;
 }
+.adCreateMaster #targetting .targettingFormWrap .targetting-each-content {
+  border: solid 1px #dde6eb ;
+  border-top: 0 ;
+}
 .adCreateMaster #targetting .targettingFormWrap .exclude-label {
   margin-top: 8px;
-}
-.adCreateMaster #targetting .targettingFormWrap .geo-tab-contents-holder {
-  padding-bottom: 15px ;
 }
 .adCreateMaster #targetting .targettingFormWrap .geo-tab-header {
   padding: 10px 20px ;
@@ -849,12 +850,21 @@
 .adCreateMaster #targetting .targettingFormWrap .geo-tab-subheader {
   border-top: solid 1px #dde6eb;
   border-bottom: solid 1px #dde6eb;
-  margin: 20px 0 5px ;
+  margin: 20px 0 0px ;
   padding: 10px 0;
 }
-.adCreateMaster #targetting .targettingFormWrap .geo-tab-body > div {
+.adCreateMaster #targetting .targettingFormWrap .geo-tab-body {
+  max-height: 200px;
+  min-height: 200px;
+  overflow: auto;
+  padding-bottom: 10px;
+}
+.adCreateMaster #targetting .targettingFormWrap .geo-tab-body .each-geo-name {
   padding-top: 5px ;
   padding-bottom: 5px ;
+}
+.adCreateMaster #targetting .targettingFormWrap .geo-tab-body .common-loading-area {
+  margin-top: 85px ;
 }
 .adCreateMaster #targetting .targettingFormWrap .geoTypeResult {
   float: left;
