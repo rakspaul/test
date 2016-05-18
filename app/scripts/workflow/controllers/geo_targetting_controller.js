@@ -380,7 +380,7 @@ define(['angularAMD', 'workflow/services/workflow_service', 'common/services/zip
 
         // show geo, dmas, zip container
         $scope.showGeographyTabsBox = function (event, tabType, showPopup) {
-            $('#toggle-event').bootstrapToggle();
+            $('.toggle-event').bootstrapToggle();
             var elem = $(event.target);
             elem.closest(".nav-tabs").find(".active").removeClass("active");
             elem.closest("li").addClass("active");
@@ -421,10 +421,10 @@ define(['angularAMD', 'workflow/services/workflow_service', 'common/services/zip
             geoTargeting.updateParams({'platformId': $scope.adData.platformId});
 
             //show Countries
-            $('#toggle-event').bootstrapToggle();
+            $('.toggle-event').bootstrapToggle();
 
             //binding chnage event on switch
-            $('#toggle-event').change(function() {
+            $('.toggle-event').change(function() {
                 var isChecked = $(this).prop('checked');
                 
                 if($scope.selectedMainTab === 'geo') {
