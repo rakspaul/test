@@ -57,8 +57,7 @@
                     <div class="geo-tab-content" id="countries-geo-tab-content">
                         <div class="clearfix targetting-tab-subheader">
                             <div class="col-md-12 clearfix">
-
-                                <div class="pull-left sort-icon-holder active" >
+                                <div class="pull-left sort-icon-holder active" ng-click="sortGeoData($event)">
                                     <span class="pull-left" data-ng-bind="textConstants.COUNTRY"></span>
                                     <span class="pull-left common-sort-icon ascending" style="display: block;"></span>
                                 </div>
@@ -85,7 +84,7 @@
                         <div class="clearfix targetting-tab-subheader">
                             <div class="clearfix col-md-8">
 
-                                <div class="pull-left sort-icon-holder active" >
+                                <div class="pull-left sort-icon-holder active" ng-click="sortGeoData($event)">
                                     <span class="pull-left" data-ng-bind="textConstants.REGION"></span>
                                     <span class="pull-left common-sort-icon ascending" style="display: block;"></span>
                                 </div>
@@ -118,8 +117,6 @@
                     <div class="geo-tab-content" id="cities-geo-tab-content" style="display:none;">
                         <div class="clearfix targetting-tab-subheader">
                             <div class="clearfix col-md-4">
-
-
                                 <div class="pull-left sort-icon-holder active" >
                                     <span class="pull-left" data-ng-bind="textConstants.CITY"></span>
                                     <span class="pull-left common-sort-icon ascending" style="display: block;"></span>
