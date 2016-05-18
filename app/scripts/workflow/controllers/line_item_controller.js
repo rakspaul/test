@@ -557,18 +557,18 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 $scope.volume = '';
                 if($scope.lineItemType && $scope.lineItemType.name && $scope.pricingRate && $scope.billableAmount){
                     if($scope.lineItemType.name === 'CPM') {
-                        $scope.volume = ($scope.billableAmount / $scope.pricingRate ) / 1000;
-                    } else {
                         $scope.volume = ($scope.billableAmount / $scope.pricingRate ) * 1000;
+                    } else {
+                        $scope.volume = ($scope.billableAmount / $scope.pricingRate );
                     }
                 }
             } else {
                 $scope.editLineItem.volume = '';
                 if($scope.editLineItem.lineItemType && $scope.editLineItem.lineItemType.name && $scope.editLineItem.pricingRate && $scope.editLineItem.billableAmount){
                     if($scope.editLineItem.lineItemType.name === 'CPM') {
-                        $scope.editLineItem.volume = ($scope.editLineItem.billableAmount / $scope.editLineItem.pricingRate ) / 1000;
-                    } else {
                         $scope.editLineItem.volume = ($scope.editLineItem.billableAmount / $scope.editLineItem.pricingRate ) * 1000;
+                    } else {
+                        $scope.editLineItem.volume = ($scope.editLineItem.billableAmount / $scope.editLineItem.pricingRate );
                     }
                 }
             }
