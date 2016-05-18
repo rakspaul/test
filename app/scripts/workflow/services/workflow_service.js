@@ -124,15 +124,25 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
 
                     return dataService.fetch(url);
                 },
-                getPixels: function (advertiserId, client_Id) {
+                getPixels: function (advertiserId, client_Id,endDate,pixels,mode) {
                     var clientId = loginModel.getSelectedClient().id;
-                    ;
+
+                    if(endDate){
+                        endDate = moment(endDate,'dd/mm/yyyy').format('YYYY-MM-DD');
+                    }
+
                     if (client_Id) {
                         clientId = client_Id;
                     }
 
                     var url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId +
-                        '/advertisers/' + advertiserId + '/pixels?type=PAGE_VIEW';
+                        '/advertisers/' + advertiserId + '/pixels?type=PAGE_VIEW&min_expiry_date='+endDate;
+
+                    if(mode === 'edit') {
+                        if(pixels.length > 0) {
+                            url += '&include='+ pixels.toString();
+                        }
+                    }
 
                     return dataService.fetch(url);
                 },
