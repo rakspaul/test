@@ -29,8 +29,11 @@ define(['angularAMD', 'workflow/services/workflow_service', 'common/services/zip
 
         //Tab Related Variables.
         $scope.selectedMainTab = 'geo';
-        $scope.selectedSubTab = 'countries'
-
+        $scope.selectedSubTab = 'countries';
+       
+        $( window ).resize(function() {
+            $scope.divHeightCalculation() ;
+        });
         var geoTargeting = {
 
             //get ads data
@@ -385,6 +388,10 @@ define(['angularAMD', 'workflow/services/workflow_service', 'common/services/zip
 
             //geoTargeting.updateParams({'pageNo': 1}, tabType);
             geoTargeting[tabType].init();
+        };
+
+        $scope.divHeightCalculation = function() {
+            // console.log("inside console") ;
         };
 
         // show geo, dmas, zip container
