@@ -853,6 +853,10 @@
 .adCreateMaster #targetting .targettingFormWrap .include-label .btn-primary {
   margin: 0 ;
 }
+.adCreateMaster #targetting .targettingFormWrap .targetting-each-content {
+  border: solid 1px #dde6eb ;
+  border-top: 0 ;
+}
 .adCreateMaster #targetting .targettingFormWrap .exclude-label {
   margin-top: 8px;
 }
