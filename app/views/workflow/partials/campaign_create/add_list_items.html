@@ -177,7 +177,7 @@
                         <div class="dateContainer">
                             <label class="col-sm-12 control-label greyTxt miniLabels" data-ng-bind="textConstants.MEDIAPLAN_FLIGHT_DATE_END"></label>
                             <div class="dateInputHolder">
-                                <input type="text" id="lineItemEndDateInput" custom-date-picker="{format: 'mm/dd/yyyy', orientation: 'auto',  autoclose: true, todayHighlight: true}" placeholder="MM/DD/YYYY" class="form-control"  ng-model="lineItemEndDate" name="endTime" readonly/>
+                                <input type="text" id="lineItemEndDateInput" custom-date-picker="{format: 'mm/dd/yyyy', orientation: 'auto',  autoclose: true, todayHighlight: true}" placeholder="MM/DD/YYYY" class="form-control"  ng-model="lineItemEndDate" name="endTime" readonly ng-change="updateLineItemCreateDate()"/>
                                 <div class="icon-calendar-holder">
                                     <span class="icon-calendar"></span>
                                 </div>
