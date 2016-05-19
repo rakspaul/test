@@ -1762,8 +1762,8 @@ multiselect .dropdown-menu > li > a {
   left: 10px;
   z-index: 1;
 }
-.symbol-input .symbol input {
-  padding-left: 20px;
+.symbol-input input {
+  padding-left: 20px !important;
 }
 .symbol-input .perSymbol {
   right: 25px;

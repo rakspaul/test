@@ -157,7 +157,7 @@
         <div class="col-md-2 rate-field " style="padding: 0 0 0 10px;" ng-hide="hideLineItemRate">
             <label class="col-sm-12 greyTxt miniLabels zeroPadding" data-ng-bind="textConstants.MEDIAPLAN_RATE"></label>
             <div class="rate-input-field symbol-input col-md-12 zeroPadding">
-                <span class="symbol">$</span>
+                <span class="symbol">{{locale.NUMBER_FORMATS.CURRENCY_SYM}}</span>
                 <input type="text" class="col-md-12 form-control" placeholder="Enter Rate" ng-model="$parent.pricingRate" ng-readonly="rateReadOnly" name="lineItemRate"   fraction-numbers ng-change="calculateVolume('create')"/>
             </div>
 
@@ -196,7 +196,7 @@
                         <div class="dateContainer">
                             <label class="col-sm-12 control-label greyTxt miniLabels" data-ng-bind="textConstants.MEDIAPLAN_FLIGHT_DATE_END"></label>
                             <div class="dateInputHolder">
-                                <input type="text" id="lineItemEndDateInput" custom-date-picker="{format: 'mm/dd/yyyy', orientation: 'auto',  autoclose: true, todayHighlight: true}" placeholder="MM/DD/YYYY" class="form-control"  ng-model="lineItemEndDate" name="endTime" readonly/>
+                                <input type="text" id="lineItemEndDateInput" custom-date-picker="{format: 'mm/dd/yyyy', orientation: 'auto',  autoclose: true, todayHighlight: true}" placeholder="MM/DD/YYYY" class="form-control"  ng-model="lineItemEndDate" name="endTime" readonly ng-change="updateLineItemCreateDate()"/>
                                 <div class="icon-calendar-holder">
                                     <span class="icon-calendar"></span>
                                 </div>
@@ -258,7 +258,7 @@
                     <div class="tableNormal" ng-click="showEditItemRow($event,item)">
                         <a class="td col-md-3" data-ng-bind="item.name"></a>
                         <a class="td col-md-2" data-ng-bind="item.lineItemType.name">{</a>
-                        <a class="td col-md-1" data-ng-bind="item.pricingRate"></a>
+                        <a class="td col-md-1" data-ng-bind="item.pricingRate | currency"></a>
                         <a class="td col-md-2" data-ng-bind="item.billableAmount | currency"></a>
                         <a class="td col-md-2" data-ng-bind="item.volume"></a>
                         <a class="td col-md-2">{{item.startTime}} - {{item.endTime}}</a>
@@ -334,7 +334,7 @@
         </div>
 
         <div class="col-md-2" style="padding: 0 0 0 10px;">
-            <label class="col-sm-12 greyTxt miniLabels zeroPadding" data-ng-bind="textConstants.TYPE"></label>
+            <label class="col-sm-12 greyTxt miniLabels zeroPadding" data-ng-bind="textConstants.MEDIAPLAN_RATE_TYPE"></label>
             <div class="col-md-12 zeroPadding dropdown-workflow">
                 <div class="dropdown">
                     <button style="width:100%;" class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ng-disabled="rateTypeReadOnlyEdit">
@@ -352,9 +352,11 @@
 
 
         <div class="col-md-2  " style="padding: 0 0 0 10px;" ng-hide="hideLineItemRateEdit">
-            <label class="col-sm-12 greyTxt miniLabels zeroPadding" data-ng-bind="textConstants.MEDIAPLAN_RATE">Rate</label>
-            <input type="text" class="col-md-12 form-control" placeholder="Enter Rate" ng-model="editLineItem.pricingRate" ng-readonly="rateReadOnlyEdit" name="lineItemRate" fraction-numbers autocomplete="off" ng-change="calculateVolume('edit')">
-            <span class="greyTxt errorLabel" ng-if="lineItemForm.lineItemRate.$error.required">Enter Rate</span>
+            <label class="col-sm-12 greyTxt miniLabels zeroPadding" data-ng-bind="textConstants.MEDIAPLAN_RATE"></label>
+            <div class="rate-input-field symbol-input col-md-12 zeroPadding">
+                <span class="symbol">{{locale.NUMBER_FORMATS.CURRENCY_SYM}}</span>
+                <input type="text" class="col-md-12 form-control" placeholder="Enter Rate" ng-model="editLineItem.pricingRate" ng-readonly="rateReadOnlyEdit" name="lineItemRate" fraction-numbers autocomplete="off" ng-change="calculateVolume('edit')">
+            </div>
         </div>
 
         <div class="col-md-2" style="padding: 0 0 0 10px;" ng-show="amountFlagEdit">
