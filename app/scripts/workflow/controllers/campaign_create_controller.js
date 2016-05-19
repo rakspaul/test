@@ -291,9 +291,9 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 }
 
                 //set Pixel Dara
-                if (campaignData.pixels && campaignData.pixels.length > 0) {
+                //if (campaignData.pixels && campaignData.pixels.length > 0) {
                     $scope.$broadcast('fetch_pixels', campaignData.pixels);
-                }
+                //}
 
                 //set Media Plan Budget & Margin
                 if (campaignData.totalBudget && campaignData.marginPercent >= 0) {
