@@ -643,23 +643,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             $(".main_navigation").find('.active').removeClass('active').end().find('#campaigns_nav_link').addClass('active');
             $("html").css('background', '#fff');
             $scope.locale = $locale;
-            // This sets dynamic width to line to take 100% height
-            function colResize() {
-                var winHeight = $(window).height() - 50;
-                $("#campaignCreate .settingWrap").css('min-height', winHeight + 'px');
-                $(".tbody.thin").css('max-height', winHeight - 298 + 'px');
-                $(".selectedPixels").css('height', winHeight - 243 + 'px');
-            }
-
-            setTimeout(function () {
-                colResize();
-            }, 1000);
-
-
-            $(window).resize(function () {
-                colResize();
-            });
-
+            
             // This is for the drop down list. Perhaps adding this to a more general controller
             $(document).on('click', '.dropdown-menu li.available a', function () {
                 $(this).parents(".dropdown").find('.btn').html($(this).text() + ' <span class="icon-arrow-down"></span>');
@@ -868,6 +852,23 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     }, 100)
                 }
             })
-        })
+        });
+        
+        // This sets dynamic width to line to take 100% height
+        function colResize() {
+            var winHeight = $(window).height() - 50;
+            $("#campaignCreate .settingWrap").css('min-height', winHeight + 'px');
+            $(".tbody.thin").css('max-height', winHeight - 298 + 'px');
+            $(".selectedPixels").css('height', winHeight - 243 + 'px');
+        }
+
+        setTimeout(function () {
+            colResize();
+        }, 1000);
+
+
+        $(window).resize(function () {
+            colResize();
+        });
     });
 });

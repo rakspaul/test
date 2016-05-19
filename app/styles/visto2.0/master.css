@@ -287,7 +287,7 @@ strong {
 }
 .firstWrapper .has-error .form-control {
   border-color: #f24444 !important;
-  box-shadow: 0 0 0 transparent !important;
+  box-shadow: none !important;
 }
 .has-error .form-control:focus {
   box-shadow: 0 0 0 transparent !important;
@@ -366,20 +366,6 @@ strong {
   color: #21252b;
   font-size: 14px;
   float: left;
-}
-.tooltipWrap .btn {
-  border: 1px solid #0978c9;
-  border-radius: 2px;
-  text-align: center;
-  width: 62px;
-  height: 32px;
-  background: #fff;
-  float: left;
-}
-.tooltipWrap .btn:last-child {
-  background: #0978c9;
-  color: #fff;
-  margin-left: 5px;
 }
 .cardSelectHolder {
   border-radius: 1px;

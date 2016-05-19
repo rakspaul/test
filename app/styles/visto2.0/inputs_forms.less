@@ -4,15 +4,20 @@ input[type="text"],
 input[type="number"],
 input[type="email"],
 input[type="password"],
-input[type="textarea"],
 .has-success input[type="text"].form-control,
-textarea {
+input[type="textarea"],
+textarea{
     border: 1px solid #BFC9D7;
     border-radius: 2px !important;
     line-height: normal;
-    padding: 10px 12px 7px 12px;
-    height: auto;
+    padding: 10px 15px;
+    height: 36px;
     box-shadow: none !important;
+}
+
+input[type="textarea"],
+textarea {
+    height: auto;
 }
 
 input[type="text"].disabled,
@@ -301,4 +306,9 @@ select {
     .brand_search_highlight {
         background: #fcecbd;
     }
+}
+
+//Disabled Class Style
+.btn.disabled, .btn[disabled], fieldset[disabled] .btn {
+    opacity: 0.4;
 }

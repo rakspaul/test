@@ -392,11 +392,16 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'workflow/services/
 
                 //Targetting Responsive
                 $('.targetingSlide .tab-pane, .targetingSlide .tab-pane .list_row_holder')
-                    .css('min-height', winHeight - 430 + 'px');
+                    .css('min-height', winHeight - 380 + 'px');
+                    
+                //Audience Targeting
+                $('#selectAud .segFixedWrap').css({'max-height': winHeight - 392 + 'px', 'height': winHeight - 392 + 'px',});
+                $('#buildAud .segmentHolder').css({'max-height': winHeight - 232 + 'px', 'height': winHeight - 232 + 'px',});
 
-                // $('#selectAud .segFixedWrap').css('max-height', winHeight - 475 + 'px');
-                // $('#selectAud .setTwo .selectedItems').css('max-height', winHeight - 315 + 'px');
-
+                //Geo Targeting
+                $('#zip #zipCodes').css('min-height', winHeight - 317 + 'px');
+                
+                //Day Targeting
                 $('.dayTargetLower').css('min-height', winHeight - 290 + 'px');
             }
 

@@ -18,11 +18,14 @@ select {
 .btn:active {
   text-decoration: none;
 }
+.btn:hover {
+  background: #E1EDF9 !important;
+}
 .btn-primary {
   background: #0978C9;
 }
 .btn-primary:hover {
-  background: #0564A9;
+  background: #0564A9 !important;
 }
 .btn-primary:active,
 .btn-primary.active {
@@ -34,6 +37,7 @@ select {
 .btn-link:hover,
 .btn-link:active {
   color: #428bca;
+  background: none !important;
 }
 .btn-default {
   color: #57606d;
@@ -48,6 +52,13 @@ select {
 .btn-default:not(.label-btn).active {
   background: #E1EDF9;
   box-shadow: none !important;
+}
+.btn-default:active,
+.btn-default:focus,
+.btn-default:target {
+  background-color: #DCE6F1 !important;
+  border: 1px solid #BFC9D7 !important;
+  box-shadow: none;
 }
 .label-btn {
   cursor: default;
@@ -70,7 +81,7 @@ select {
   box-shadow: none;
 }
 .radioBtnToggle .miniToggle .btn-default:hover {
-  background-color: #E1EDF9;
+  background-color: #0564A9;
   color: #363D49;
   border: 1px solid #BFC9D7;
 }
@@ -79,7 +90,7 @@ select {
 }
 .radioBtnToggle .miniToggle .btn-default.active,
 .radioBtnToggle .miniToggle .btn-default.active:hover {
-  background-color: #0978C9;
+  background-color: #0978C9 !important;
   border: 1px solid #0978C9;
   color: #ffffff;
   box-shadow: none;
@@ -119,9 +130,14 @@ select {
   position: relative;
   padding: 10px 15px;
 }
-.goalBtnGroup .btn-primary:hover {
-  background-color: #E1EDF9;
-  color: #363D49;
+.goalBtnGroup .btn-primary:hover .hideRadioBtn {
+  background-color: #0564A9 !important;
+}
+.goalBtnGroup .btn-primary:hover .hideRadioBtn span,
+.goalBtnGroup .btn-primary:hover .hideRadioBtn [class^="icon-"],
+.goalBtnGroup .btn-primary:hover .hideRadioBtn [class*=" icon-"] {
+  color: #fff;
+  background: #0564A9 !important;
 }
 .goalBtnGroup .btn-primary.first {
   border-left: 1px solid #BFC9D7;
@@ -135,9 +151,16 @@ select {
 .goalBtnGroup .btn-primary.active span {
   color: #fff;
 }
-.goalBtnGroup .btn-primary.active .hideRadioBtn:hover {
-  background-color: #0978C9 !important;
+.goalBtnGroup .btn-primary.active.hover .hideRadioBtn {
   color: #363D49 !important;
+  background-color: #0564A9 !important;
+}
+.goalBtnGroup .btn-primary.active.hover .hideRadioBtn span {
+  background-color: #0564A9 !important;
+}
+.goalBtnGroup .btn-primary.active .hideRadioBtn {
+  color: #363D49 !important;
+  background-color: #0978C9 !important;
 }
 .goalBtnGroup .btn-primary span {
   float: left;
@@ -154,11 +177,9 @@ select {
   margin-top: 10px;
 }
 .goalBtnGroup label.active .hideRadioBtn:hover {
-  background-color: #E1EDF9;
   color: #363D49;
 }
 .goalBtnGroup label.active .hideRadioBtn {
-  background-color: #0978C9;
   color: #ffffff;
   box-shadow: none;
 }
@@ -179,8 +200,11 @@ select {
 .goalBtnGroup label .hideRadioBtn [class*=" icon-"] {
   float: left;
 }
-.goalBtnGroup label .hideRadioBtn:hover {
-  background-color: #E1EDF9;
+.goalBtnGroup .btn-primary.active:hover {
+  background-color: #0564A9 !important;
+}
+.goalBtnGroup .btn-primary.active:hover .hideRadioBtn {
+  background-color: #0564A9 !important;
 }
 .firstBtnGroup .btn-primary {
   border-top-left-radius: 2px !important;
