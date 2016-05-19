@@ -151,6 +151,14 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
                     if (/*$scope.isCostModelTransparent === false && */result.data.data.length === 0) {
                         errorHandlerForPerformanceTab();
                     } else {
+                            var sumTechFeesNServiceFees = function(item) {
+                                if (item.tech_fees == null && item.service_fees == null) {
+                                    item.tech_service_fees_total = undefined;
+                                } else {
+                                    item.tech_service_fees_total = (item.tech_fees == null ? 0 : item.tech_fees) + (item.service_fees == null ? 0 : item.service_fees);
+                                }
+                            };
+
                         //  $scope.isCostModelTransparentMsg = result.data.data.message;
                         if (Number($scope.selectedStrategy.id) >= 0) {
                             // strategy selected
@@ -158,14 +166,19 @@ define(['angularAMD','reporting/kpiSelect/kpi_select_model', 'reporting/campaign
                                 return item.ad_id == -1;
                             });
                             _.each($scope['platformData'], function(item) {
+                                sumTechFeesNServiceFees(item);
                                 item.kpi_type = $scope.selected_filters.campaign_default_kpi_type;
                             });
                             $scope['tacticPlatformData'] = _.filter(result.data.data, function (item) {
                                 return item.ad_id != -1;
                             });
+                            _.each($scope['tacticPlatformData'], function(item) {
+                                sumTechFeesNServiceFees(item);
+                            });
                         } else {
                             $scope['platformData'] = result.data.data;
                             _.each($scope['platformData'], function(item) {
+                                sumTechFeesNServiceFees(item);
                                 item.kpi_type = $scope.selected_filters.campaign_default_kpi_type;
                             });
                             $scope['dataNotFoundFor'+tab] = false;

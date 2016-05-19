@@ -85,13 +85,13 @@
                                         <div class="col-md-1 zeroPadding text-center" ng-bind="strategy.data_cost != null ? (strategy.data_cost | currency:undefined:0) : '-'"></div>
                                         <div class="col-md-1 zeroPadding text-center" ng-bind="strategy.serving_cost != null ? (strategy.serving_cost | currency:undefined:0) : '-'"></div>
                                         <div class="col-md-1 zeroPadding text-center" ng-bind="strategy.verification_cost != null ? (strategy.verification_cost | currency:undefined:0) : '-'"></div>
-                                        <div class="col-md-1 zeroPadding text-center" ng-bind="0 | currency:undefined:0"></div>
-                                        <div class="col-md-1 zeroPadding text-center" ng-bind="0 | currency:undefined:0"></div>
+                                        <div class="col-md-1 zeroPadding text-center" ng-bind="strategy.creative_cost != null ? (strategy.creative_cost | currency:undefined:0) : '-'"></div>
+                                        <div class="col-md-1 zeroPadding text-center" ng-bind="strategy.research_cost != null ? (strategy.research_cost | currency:undefined:0) : '-'"></div>
                                         <!--<div class="col-md-2 zeroPadding text-center" ng-bind="strategy.collective_cost != null ? (strategy.collective_cost | currency:undefined:0) :'-'"></div>-->
                                         <div class="col-md-2 text-center">
-                                            <span class="pull-left col-md-4 zeroPadding text-left">$0</span>
-                                            <span class="pull-left col-md-4 zeroPadding text-center" style="text-indent: 23px;">$0</span>
-                                            <span class="pull-left col-md-4 zeroPadding text-right">$0</span>
+                                            <span class="pull-left col-md-4 zeroPadding text-left" ng-bind="strategy.tech_fees != null ? (strategy.tech_fees | currency:undefined:0) : '-'"></span>
+                                            <span class="pull-left col-md-4 zeroPadding text-center" style="text-indent: 23px;" ng-bind="strategy.service_fees != null ? (strategy.service_fees | currency:undefined:0) : '-'"></span>
+                                            <span class="pull-left col-md-4 zeroPadding text-right" ng-bind="strategy.tech_service_fees_total != null ? (strategy.tech_service_fees_total | currency:undefined:0) : '-'"></span>
                                         </div>
                                         <div class="col-md-1 zeroPadding text-center bold" ng-bind="strategy.gross_rev != null ? (strategy.gross_rev | currency:undefined:0) : '-'"></div>
                                         <div class="col-md-1 zeroPadding text-center" ng-bind="0 | currency:undefined:0"></div>
@@ -110,13 +110,13 @@
                                                 <div class="col-md-1 zeroPadding text-center" ng-bind="tactic.data_cost != null ? (tactic.data_cost | currency:undefined:0) : '-'"></div>
                                                 <div class="col-md-1 zeroPadding text-center" ng-bind="tactic.serving_cost != null ? (tactic.serving_cost | currency:undefined:0) : '-'"></div>
                                                 <div class="col-md-1 zeroPadding text-center" ng-bind="tactic.verification_cost != null ? (tactic.verification_cost | currency:undefined:0) : '-'"></div>
-                                                <div class="col-md-1 zeroPadding text-center" ng-bind="0 | currency:undefined:0"></div>
-                                                <div class="col-md-1 zeroPadding text-center" ng-bind="0 | currency:undefined:0"></div>
+                                                <div class="col-md-1 zeroPadding text-center" ng-bind="tactic.creative_cost != null ? (tactic.creative_cost | currency:undefined:0) : '-'"></div>
+                                                <div class="col-md-1 zeroPadding text-center" ng-bind="tactic.research_cost != null ? (tactic.research_cost | currency:undefined:0) : '-'"></div>
                                                 <!--<div class="col-md-2 zeroPadding text-center" ng-bind="tactic.collective_cost != null ? (tactic.collective_cost | currency:undefined:0) : '-'"></div>-->
                                                 <div class="col-md-2 text-center">
-                                                    <span class="pull-left col-md-4 zeroPadding text-left">$0</span>
-                                                    <span class="pull-left col-md-4 zeroPadding text-center" style="text-indent: 23px;">$0</span>
-                                                    <span class="pull-left col-md-4 zeroPadding text-right">$0</span>
+                                                    <span class="pull-left col-md-4 zeroPadding text-left" ng-bind="tactic.tech_fees != null ? (tactic.tech_fees | currency:undefined:0) : '-'"></span>
+                                                    <span class="pull-left col-md-4 zeroPadding text-center" style="text-indent: 23px;" ng-bind="tactic.service_fees != null ? (tactic.service_fees | currency:undefined:0) : '-'"></span>
+                                                    <span class="pull-left col-md-4 zeroPadding text-right" ng-bind="tactic.tech_service_fees_total != null ? (tactic.tech_service_fees_total | currency:undefined:0) : '-'"></span>
                                                 </div>
                                                 <div class="col-md-1 zeroPadding bold text-center" ng-bind="tactic.gross_rev != null ? (tactic.gross_rev | currency:undefined:0) : '-'"></div>
                                                 <div class="col-md-1 zeroPadding text-center" ng-bind="0 | currency:undefined:0"></div>
