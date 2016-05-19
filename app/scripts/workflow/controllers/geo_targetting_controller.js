@@ -400,6 +400,8 @@ define(['angularAMD', 'workflow/services/workflow_service', 'common/services/zip
             // var winHeight = $(window).height() ;
             // $(".targetting-tab-body").height() ;
         };
+        $scope.divHeightCalculation() ;
+
 
         $scope.divHeightCalculation() ;
 
