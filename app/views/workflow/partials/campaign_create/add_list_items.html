@@ -64,7 +64,7 @@
             <span data-ng-bind="textConstants.CREATE" ></span>
         </a>
 
-         <div class="pull-left list_item_export_import_dd">
+         <div class="pull-left">
             <div class="btn-group create" role="group" aria-label="...">
                 <div class="btn btn-default zeroPadding dropdown-workflow pull-left">
                     <div class="dropdown">
@@ -193,7 +193,7 @@
             </div>
             <div class="col-md-5 zeroPadding dropdown-workflow" ng-show="showPixelsList">
                 <div class="dropdown">
-                    <label class="col-sm-12 zeroPadding greyTxt">Select Conversion Pixel</label>
+                    <label class="col-sm-12 zeroPadding greyTxt" ng-bind="textConstants.SELECT_CONVERSION_PIXELS"></label>
                     <button style="width:100%;" class="btn btn-default dropdown-toggle pixelType" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" >
                         <span class="text" >{{(pixelSelected )?pixelSelected.name:'Select from list'}}</span>
                         <span class="icon-arrow-down"></span>
@@ -381,12 +381,12 @@
 
 
                 <div class="col-md-4 " style="padding: 0px !important;" ng-hide="hideAdGroupNameEdit || mode === 'edit'">
-                    <label class="col-sm-12 zeroPadding greyTxt">Ad Group Name</label>
+                    <label class="col-sm-12 zeroPadding greyTxt" ng-bind="textConstants.AD_GRP_NAME"></label>
                     <input type="text" class="col-md-12" placeholder="Enter Ad Group name up to 100 characters" title="{{editLineItem.adGroupName}}" ng-model="editLineItem.adGroupName" autocomplete="off"/>
                 </div>
                 <div class="col-md-5 zeroPadding dropdown-workflow" ng-show="showPixelsListEdit">
                     <div class="dropdown">
-                        <label class="col-sm-12 zeroPadding greyTxt">Select Conversion Pixel</label>
+                        <label class="col-sm-12 zeroPadding greyTxt" ng-bind="textConstants.SELECT_CONVERSION_PIXELS"></label>
                         <button style="width:100%;" class="btn btn-default dropdown-toggle pixelTypeEdit" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ng-disabled="gf">
                             <span class="text" >{{(editLineItem.pixelSelected )?editLineItem.pixelSelected.name:'Select from list'}}</span>
                             <span class="icon-arrow-down"></span>
@@ -400,7 +400,7 @@
                 </div>
         </div>
 
-        <a class="btn btn-primary pull-right" ng-click="(mode ==='create' || cloneMediaPlanName)?updateLineItem():updateLineItemInEditMode()">Save Changes</a>
+        <a class="btn btn-primary pull-right" ng-click="(mode ==='create' || cloneMediaPlanName)?updateLineItem():updateLineItemInEditMode()" ng-bind="textConstants.SAVE_CHANGES"></a>
         <a class="btn btn-link pull-right cancelLineItem" ng-click="hideLineItemEditRow($event);">Cancel</a>
 
 
