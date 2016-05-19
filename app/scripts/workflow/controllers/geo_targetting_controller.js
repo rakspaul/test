@@ -30,7 +30,8 @@ define(['angularAMD', 'workflow/services/workflow_service', 'common/services/zip
         //Tab Related Variables.
         $scope.selectedMainTab = 'geo';
         $scope.selectedSubTab = 'countries';
-       
+
+
         $( window ).resize(function() {
             $scope.divHeightCalculation() ;
         });
@@ -386,11 +387,21 @@ define(['angularAMD', 'workflow/services/workflow_service', 'common/services/zip
             elem.addClass("active") ;
             $scope.selectedSubTab = tabType;
             geoTargeting[tabType].init();
+
+            // In relative to btn-group div, the tooltip offset is calculated
+            var tooltip_left = elem.offset().left - elem.closest(".btn-group").offset().left ;
+            var tooltip_width = elem.closest(".btn-group").find(".common_tooltip").width() ;
+            var elem_width = elem.width() ;
+            $(".common_tooltip").show().css("left",tooltip_left - tooltip_width/2 + elem_width/2 ) ;
+            
         };
 
         $scope.divHeightCalculation = function() {
-            // console.log("inside console") ;
+            // var winHeight = $(window).height() ;
+            // $(".targetting-tab-body").height() ;
         };
+        $scope.divHeightCalculation() ;
+
 
         // show geo, dmas, zip container
         $scope.showGeographyTabsBox = function (event, tabType, showPopup) {
