@@ -618,11 +618,11 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                         + '/format/' + creativeFormat.replace(/\s+/g, '').toUpperCase() + '/template/' + templateId + '/creatives/bulkimport';
                 },
 
-                getCountries: function (platformId, data, success, failure, flag) {
+                getCountries: function (platformId, data, requestType, success, failure) {
                     var url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/vendors/' + platformId + '/countries' + data,
                         canceller;
 
-                    if (flag === 'cancellable') {
+                    if (requestType === 'cancellable') {
                         canceller = requestCanceller.initCanceller(constants.CAMPAIGN_FILTER_CANCELLER);
                         return dataService.fetchCancelable(url, canceller, success, failure);
                     } else {
@@ -631,7 +631,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                 },
 
 
-                getRegions: function (platformId, data, success, failure, flag) {
+                getRegions: function (platformId, data, requestType, success, failure) {
                     var url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/vendors/' + platformId + '/regions' + data,
                         canceller;
 
@@ -643,7 +643,7 @@ define(['angularAMD', 'common/services/vistoconfig_service', 'common/services/co
                     }
                 },
 
-                getCities: function (platformId, data, success, failure, flag) {
+                getCities: function (platformId, data, requestType, success, failure) {
                     var clientId = loginModel.getSelectedClient().id,
                         url = vistoconfig.apiPaths.WORKFLOW_API_URL + '/vendors/' + platformId + '/cities' + data,
                         canceller;
