@@ -20,23 +20,28 @@
 
     <label for="nameTitleCampaign" class="col-sm-12 labelQuestTxt" style="margin-bottom: 5px;" data-ng-bind="textConstants.MEDIAPLAN_SETUP_LINE_ITEMS"></label>
 
-    <div class="col-md-12 zeroPadding upload_files_selected_container" >
+    <div class="col-md-12 zeroPadding upload_files_selected_container" style="display:none">
         <span class="pull-left">Import Line Items</span>
         <a class="pull-left download_template">
             <span>
                 <span class="icon-download pull-left"></span>
-                <span class="pull-left download_btn" >Download template</span>
+                <span class="pull-left download_btn" ng-click="downloadTemplate()" >Download template</span>
+            </span>
+            <span class="download-report-load-icon pull-left"
+                  style="display:none"
+                  data-ng-bind="textConstants.DOWNLOADING">
             </span>
         </a>
-        <span class="pull-left">LineItemSelect1.csv</span>
-        <a class="icon-clear pull-left" ></a>
-        <a class="btn btn-primary pull-right" ng-click="uploadFileChosenLineItem();">Upload</a>
-        <a class="btn btn-link pull-right">Cancel</a>
+        <span ng-if="selectedCampaign.lineItemfile" class="pull-left" ng-bind="selectedCampaign.lineItemfile.name"></span>
+        <a ng-if="selectedCampaign.lineItemfile" class="icon-clear pull-left" ng-click="clearFileSelected()" ></a>
+        <a  class="btn btn-primary pull-right" ng-click="uploadFileChosenLineItem();">Upload</a>
+        <a class="btn btn-link pull-right" ng-click="clearFileSelected()">Cancel</a>
     </div>
 
-    <div class="col-md-12 common_file_upload_container">
+    <div class="col-md-12 common_file_upload_container" style="display:none">
         <div class="clearfix common_file_upload">
-            <div ngf-drop ngf-select ng-model="files" ng-model-rejected="rejFiles" ngf-multiple="true" ngf-allow-dir="false"  class="drop-box" ngf-drag-over-class="dragover" ngf-accept="'.pdf,.xls,.ppt,.pptx,.xlsx'" ngf-max-size='10000000'>
+            <div ngf-drop ngf-select="fileSelected(selectedCampaign.lineItemfile,$parent.mode)" ng-model="selectedCampaign.lineItemfile" name="lineItemfile" ng-model-rejected="rejFiles" ngf-multiple="false" ngf-allow-dir="false"  class="drop-box" ngf-drag-over-class="dragover" ngf-accept="'.csv,.txt'" ngf-max-size='10000000'>
+            <!--<div ngf-drop ngf-select="" ng-model="selectedCampaign.lineItemfile" name="lineItemfile" ng-model-rejected="rejFiles" ngf-multiple="false" ngf-allow-dir="false"  class="drop-box" ngf-drag-over-class="dragover" ngf-accept="'.csv'" ngf-max-size='10000000'>-->
                 <div class="pull-left file_upload_icon" >
                 </div>
                 <div class="pull-left file_upload_text">
@@ -59,7 +64,7 @@
             <span data-ng-bind="textConstants.CREATE" ></span>
         </a>
 
-         <div class="pull-left list_item_export_import_dd">
+         <div class="pull-left">
             <div class="btn-group create" role="group" aria-label="...">
                 <div class="btn btn-default zeroPadding dropdown-workflow pull-left">
                     <div class="dropdown">
@@ -67,8 +72,8 @@
                             <span class="icon-more-options"></span>
                         </button>
                         <ul class="dropdown-menu" id="moreOptions" style="left: 0; left: initial;">
-                            <li><a class="text-left" role="button" data-ng-bind="textConstants.IMPORT_LINE_ITEMS"></a></li>
-                            <li><a class="text-left" role="button" data-ng-bind="textConstants.EXPORT_LINE_ITEMS" ></a></li>
+                            <li class="disabled" ><a class="text-left " role="button" data-ng-bind="textConstants.EXPORT_LINE_ITEMS"></a></li>
+                            <li class="{{$parent.mode=='create'? 'disabled':''}}"><a class="text-left" ng-disabled="$parent.mode=='create'? disabled:''" role="button" data-ng-bind="textConstants.IMPORT_LINE_ITEMS" ng-click="showBulkUploadsection()"></a></li>
                         </ul>
                     </div>
                 </div>
@@ -134,7 +139,7 @@
             <label class="col-sm-12 greyTxt miniLabels zeroPadding" data-ng-bind="textConstants.MEDIAPLAN_RATE"></label>
             <div class="rate-input-field symbol-input col-md-12 zeroPadding">
                 <span class="symbol">$</span>
-                <input type="text" class="col-md-12 form-control" placeholder="Enter Rate" ng-model="$parent.pricingRate" ng-readonly="rateReadOnly" name="lineItemRate"   fraction-numbers />
+                <input type="text" class="col-md-12 form-control" placeholder="Enter Rate" ng-model="$parent.pricingRate" ng-readonly="rateReadOnly" name="lineItemRate"   fraction-numbers ng-change="calculateVolume('create')"/>
             </div>
 
             <span class="greyTxt errorLabel" ng-if="lineItemForm.lineItemRate.$error.required">Enter Rate</span>
@@ -142,7 +147,7 @@
 
         <div class="col-md-2" style="padding: 0 0 0 10px;" ng-show="amountFlag">
             <label class="col-sm-12 greyTxt miniLabels zeroPadding" data-ng-bind="textConstants.MEDIAPLAN_BILLABLE_AMOUNT"></label>
-            <div class="col-md-12 zeroPadding symbol-input"><span class="symbol" >{{locale.NUMBER_FORMATS.CURRENCY_SYM}}</span><input type="text" class="col-md-12" placeholder="" ng-model="$parent.billableAmount" whole-number-only style="padding-left:20px"/>
+            <div class="col-md-12 zeroPadding symbol-input"><span class="symbol" >{{locale.NUMBER_FORMATS.CURRENCY_SYM}}</span><input type="text" class="col-md-12" placeholder="" ng-model="$parent.billableAmount" whole-number-only  ng-change="calculateVolume('create')" style="padding-left:20px"/>
             </div>
         </div>
         <div class="col-md-2" style="padding: 0 0 0 10px;" ng-show="volumeFlag">
@@ -152,7 +157,7 @@
             <label class="col-sm-12 greyTxt miniLabels zeroPadding" ng-if="lineItemType.name === 'CPCV'">Completed</label>
             <label class="col-sm-12 greyTxt miniLabels zeroPadding" ng-if="lineItemType.name === 'Post-Click CPA' || lineItemType.name === 'Post-Impression CPA' || lineItemType.name === 'Total CPA'">Actions</label>
 
-            <input type="text" class="col-md-12" placeholder="" ng-model="$parent.volume" whole-number-only/>
+            <input type="text" class="col-md-12 form-control" placeholder="" ng-model="$parent.volume" whole-number-only ng-readonly="true"/>
         </div>
 
         <!--Row 2-->
@@ -188,7 +193,7 @@
             </div>
             <div class="col-md-5 zeroPadding dropdown-workflow" ng-show="showPixelsList">
                 <div class="dropdown">
-                    <label class="col-sm-12 zeroPadding greyTxt">Select Conversion Pixel</label>
+                    <label class="col-sm-12 zeroPadding greyTxt" ng-bind="textConstants.SELECT_CONVERSION_PIXELS"></label>
                     <button style="width:100%;" class="btn btn-default dropdown-toggle pixelType" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" >
                         <span class="text" >{{(pixelSelected )?pixelSelected.name:'Select from list'}}</span>
                         <span class="icon-arrow-down"></span>
@@ -280,15 +285,15 @@
                 <h1 class="pull-left" data-ng-bind="textConstants.UPLOAD_COMPLETE"></h1>
             </div>
             <div class="popup-content" >
-                <span class="successText">50 Line Items have been created successfully.</span>
+                <span class="successText" ng-bind="$parent.successfulRecords.length+' Line Items have been created successfully.'"></span>
             </div>
             <div class="popup-content" >
-                <span class="errorText">8 record(s) failed.</span>
+                <span class="errorText" ng-bind="$parent.errorRecords.length+'record(s) failed.'"> </span>
             </div>
             <div class="popup-content" >
                 <a class="pull-left download_error_log" >
                     <span class="pull-left icon-download"></span>
-                    <span class="pull-left download_error_log_txt" data-ng-bind="textConstants.DOWNLOAD_ERROR_LOG"></span>
+                    <span class="pull-left download_error_log_txt" ng-click="downloadErrorLog($parent.errorRecordsFileName)" data-ng-bind="textConstants.DOWNLOAD_ERROR_LOG"></span>
                 </a>
             </div>
         </div>
@@ -329,18 +334,18 @@
 
         <div class="col-md-2  " style="padding: 0 0 0 10px;" ng-hide="hideLineItemRateEdit">
             <label class="col-sm-12 greyTxt miniLabels zeroPadding" data-ng-bind="textConstants.MEDIAPLAN_RATE">Rate</label>
-            <input type="text" class="col-md-12 form-control" placeholder="Enter Rate" ng-model="editLineItem.pricingRate" ng-readonly="rateReadOnlyEdit" name="lineItemRate" fraction-numbers autocomplete="off"/>
+            <input type="text" class="col-md-12 form-control" placeholder="Enter Rate" ng-model="editLineItem.pricingRate" ng-readonly="rateReadOnlyEdit" name="lineItemRate" fraction-numbers autocomplete="off" ng-change="calculateVolume('edit')">
             <span class="greyTxt errorLabel" ng-if="lineItemForm.lineItemRate.$error.required">Enter Rate</span>
         </div>
 
         <div class="col-md-2" style="padding: 0 0 0 10px;" ng-show="amountFlagEdit">
             <label class="col-sm-12 greyTxt miniLabels zeroPadding" data-ng-bind="textConstants.MEDIAPLAN_BILLABLE_AMOUNT"></label>
-            <div class="col-md-12 zeroPadding symbol-input"><span class="symbol" >{{locale.NUMBER_FORMATS.CURRENCY_SYM}}</span><input type="text" class="col-md-12" placeholder="" ng-model="editLineItem.billableAmount" whole-number-only style="padding-left:20px" autocomplete="off"/>
+            <div class="col-md-12 zeroPadding symbol-input"><span class="symbol" >{{locale.NUMBER_FORMATS.CURRENCY_SYM}}</span><input type="text" class="col-md-12" placeholder="" ng-model="editLineItem.billableAmount" whole-number-only ng-change="calculateVolume('edit')" style="padding-left:20px" autocomplete="off"/>
             </div>
         </div>
         <div class="col-md-2" style="padding: 0 0 0 10px;" ng-show="volumeFlagEdit">
             <label class="col-sm-12 greyTxt miniLabels zeroPadding" data-ng-bind="textConstants.MEDIAPLAN_VOLUME"></label>
-            <input type="text" class="col-md-12" placeholder="" ng-model="editLineItem.volume" whole-number-only autocomplete="off"/>
+            <input type="text" class="col-md-12 form-control" placeholder="" ng-model="editLineItem.volume" whole-number-only autocomplete="off" ng-readonly="true"/>
         </div>
 
 
@@ -376,12 +381,12 @@
 
 
                 <div class="col-md-4 " style="padding: 0px !important;" ng-hide="hideAdGroupNameEdit || mode === 'edit'">
-                    <label class="col-sm-12 zeroPadding greyTxt">Ad Group Name</label>
+                    <label class="col-sm-12 zeroPadding greyTxt" ng-bind="textConstants.AD_GRP_NAME"></label>
                     <input type="text" class="col-md-12" placeholder="Enter Ad Group name up to 100 characters" title="{{editLineItem.adGroupName}}" ng-model="editLineItem.adGroupName" autocomplete="off"/>
                 </div>
                 <div class="col-md-5 zeroPadding dropdown-workflow" ng-show="showPixelsListEdit">
                     <div class="dropdown">
-                        <label class="col-sm-12 zeroPadding greyTxt">Select Conversion Pixel</label>
+                        <label class="col-sm-12 zeroPadding greyTxt" ng-bind="textConstants.SELECT_CONVERSION_PIXELS"></label>
                         <button style="width:100%;" class="btn btn-default dropdown-toggle pixelTypeEdit" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ng-disabled="gf">
                             <span class="text" >{{(editLineItem.pixelSelected )?editLineItem.pixelSelected.name:'Select from list'}}</span>
                             <span class="icon-arrow-down"></span>
@@ -395,7 +400,7 @@
                 </div>
         </div>
 
-        <a class="btn btn-primary pull-right" ng-click="(mode ==='create' || cloneMediaPlanName)?updateLineItem():updateLineItemInEditMode()">Save Changes</a>
+        <a class="btn btn-primary pull-right" ng-click="(mode ==='create' || cloneMediaPlanName)?updateLineItem():updateLineItemInEditMode()" ng-bind="textConstants.SAVE_CHANGES"></a>
         <a class="btn btn-link pull-right cancelLineItem" ng-click="hideLineItemEditRow($event);">Cancel</a>
 
 

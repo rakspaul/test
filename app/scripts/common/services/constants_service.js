@@ -1156,6 +1156,9 @@ define(['angularAMD'], function(angularAMD) {
         this.MEDIAPLAN_ADD_ANOTHER_CREDIT = "Add Another Credit";
         this.MEDIAPLAN_FLIGHT_DATE_START = "Flight Date Start";
         this.MEDIAPLAN_FLIGHT_DATE_END = "Flight Date End";
+        this.SAVE_CHANGES = "Save Changes";
+        this.SELECT_CONVERSION_PIXELS = "Select Conversion Pixel";
+        this.AD_GRP_NAME="Ad Group Name";
 
         this.MEDIA_PLAN_CLONE ='Media Plan Clone';
         this.MEDIA_PLAN_WARNING_MESSAGE = 'You will lose your changes if you leave this page. Are you sure?'

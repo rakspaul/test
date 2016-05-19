@@ -1,9 +1,8 @@
 /**
  * Created by shrujan on 02/05/16.
  */
-define(['angularAMD', 'common/services/constants_service', 'workflow/services/workflow_service', 'login/login_model', 'common/moment_utils'], function (angularAMD) {
-    angularAMD.controller('LineItemController', function ($scope, $rootScope, $routeParams, $locale, $location, $timeout, constants, workflowService, loginModel, momentService) {
-
+define(['angularAMD', 'common/services/constants_service','common/services/vistoconfig_service', 'workflow/services/workflow_service','workflow/services/file_reader', 'login/login_model', 'common/moment_utils', 'workflow/directives/ng_upload_hidden'], function (angularAMD) {
+    angularAMD.controller('LineItemController', function ($scope, $rootScope, $routeParams, $locale, vistoconfig, $location, $timeout, constants, workflowService, loginModel, momentService, fileReader, Upload,dataService) {
         var selectedAdvertiser,
             campaignId = '-999',
             CONST_FLAT_FEE = 'Flat Fee',
@@ -20,37 +19,117 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         $scope.selectedCampaign.lineItemBillableAmountTotal = 0;
         $scope.selectedCampaign.createItemList = false;
         $scope.showUploadRecordsMessageLineItems = false;
+        $scope.selectedCampaign.lineItemfile;
+
+/*---START------BULK LineItem Upload Section---------*/
+
+        /*function to download empty template*/
+        $scope.downloadTemplate=function(){
+            var   url = vistoconfig.apiPaths.WORKFLOW_API_URL +'/lineitems/downloadTemplate';
+            $('.download-report-load-icon').show();
+            dataService
+                .downloadFile(url)
+                .then(function (response) {
+                    if (response.status === 'success') {
+                        $('.download-report-load-icon').hide();
+                        saveAs(response.file, response.fileName);
+                    } else {
+                        $('.download-report-load-icon').hide();
+                    }
+                });
+        }
+
+        /*show bulkupload section on click of export lineItem*/
+        $scope.showBulkUploadsection=function(){
+            $('.upload_files_selected_container').slideDown();
+            $('.common_file_upload_container').slideDown();
+
+        }
+
+        /* once file is selected, hide the dragover box*/
+        $scope.fileSelected=function(file,action){
+            if($scope.selectedCampaign.lineItemfile && action=='edit'){
+                $('.common_file_upload_container').hide();
+            }
+        }
+
+        /*Function to upload the csv file selected, Based on response, show popUp with number of success-failure-errorLog download link
+        * call getLineItems() to get the saved and newly uploaded line items*/
+        $scope.uploadFileChosenLineItem = function() {
+            if($scope.selectedCampaign.lineItemfile){
+                var clientId = loginModel.getSelectedClient().id;
+                var url= vistoconfig.apiPaths.WORKFLOW_API_URL + '/clients/' + clientId + '/campaigns/' + $routeParams.campaignId
+                    + '/lineitems/bulkUpload';
+
+                (function(file) {
+                    Upload.upload({
+                        url: url,
+                        fileFormDataName: 'lineitemList',
+                        file: $scope.selectedCampaign.lineItemfile
+                    }).then(function (response) {
+                        $scope.$parent.successfulRecords = response.data.data.success;
+                        $scope.$parent.errorRecords = response.data.data.failure;
+                        $scope.$parent.errorRecordsFileName = response.data.data.logFileDownloadLink;
+                        $scope.$parent.bulkUploadResultHeader = "Upload complete"
+                        if ($scope.$parent.errorRecords.length > 0) {
+                            $scope.$parent.bulkUploadResultHeader += ' - Errors found';
+                        }
+                        $scope.showUploadRecordsMessageLineItems = true;
+                        //make lineitems call n refresh that data
+                        workflowService.getLineItem($routeParams.campaignId, true).then(function (results) {
+                            if (results.status === 'success' && results.data.statusCode === 200) {
+                                $scope.lineItemList = [];
+                                $scope.processLineItemEditMode(results.data.data);
+                            }
+                        });
+                        $scope.clearFileSelected();
+                    }, function (response) {
+                        $scope.uploadBusy = false;
+                        $scope.uploadErrorMsg = "Unable to upload the file.";
+                    });
+                })($scope.selectedCampaign.lineItemfile);
+            }
+        }
+
+        /*Function to download error log, when some rows in upload fails to upload*/
+        $scope.downloadErrorLog=function(url){
+            var downloadErrorurl=vistoconfig.apiPaths.WORKFLOW_API_URL +''+url.slice(16,url.length);
+            $('.download-report-load-icon').show();
+
+            dataService
+                .downloadFile(downloadErrorurl)
+                .then(function (response) {
+                    if (response.status === 'success') {
+                        $('.download-report-load-icon').hide();
+                        saveAs(response.file, response.fileName);
+                    } else {
+                        $('.download-report-load-icon').hide();
+                    }
+                });
+        }
+
+        /*function to close the Success/Error popUp after uploading the csv file*/
+        $scope.hideuploadFileChosenLineItem = function() {
+            $scope.showUploadRecordsMessageLineItems = false ;
+        }
+
+        /*Reset lineItem bulkUpload part in the UI*/
+        $scope.clearFileSelected=function(){
+            $('.upload_files_selected_container').slideUp();
+            $(".common_file_upload_container").slideUp();
+            $scope.selectedCampaign.lineItemfile=undefined;
+        }
+
+/*---END------BULK LineItem Upload Section---------*/
 
         $scope.showNewLineItemForm = function () {
             $scope.selectedCampaign.createItemList = true;
             $scope.lineItemErrorFlag = false;
-            selectedAdvertiser = workflowService.getSelectedAdvertiser();
+            updateRateTypeArr(); // remove cogs+ in create and edit mode from rate type arr
 
-            if (selectedAdvertiser && (selectedAdvertiser.billingType && selectedAdvertiser.billingValue)) {
-
-                var index = _.findIndex($scope.type, function (item) {
-                    return item.id === selectedAdvertiser.billingType.id;
-                });
-
-                $scope.setLineItem($scope.type[index], 'create');
-            } else {
-                // in case the advertiser does not have billing type and billing value remove COGS + % from Rate Type list
-                var index = _.findIndex($scope.type, function (type) {
-                    return type.name === CONST_COGS_PERCENT;
-                })
-                $scope.type.splice(index, 1);
-            }
             $scope.initiateLineItemDatePicker();
         }
 
-        $scope.uploadFileChosenLineItem = function() {
-            $scope.showUploadRecordsMessageLineItems = true ;
-
-        }
-        $scope.hideuploadFileChosenLineItem = function() {
-            $scope.showUploadRecordsMessageLineItems = false ;
-
-        }
         $scope.createNewLineItem = function (mode, lineItemObj) {
             var newItem = {};
             if (mode === 'create' ) {
@@ -303,6 +382,9 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
 
                 }
             }
+
+            //trigger volume calculation
+            $scope.calculateVolume(mode);
         };
 
 
@@ -345,6 +427,9 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             var target = event.currentTarget;
             $(target).toggle();
             $(target).closest('.tr').find('.tableEdit').toggle();
+
+
+            updateRateTypeArr(); // remove cogs+ in create and edit mode from rate type arr
 
             //disable flat fee in case the user created media plan with line item with rate type other than FLAT FEE
             if($scope.mode === 'edit'){
@@ -556,6 +641,48 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             _.each($scope.lineItemList,function(item){
                 $scope.selectedCampaign.lineItemBillableAmountTotal += Number(item.billableAmount);
             })
+        }
+
+        $scope.calculateVolume = function(mode){
+            console.log("type == ",$scope.lineItemType.name,'$scope.pricingRate== ',$scope.pricingRate,'$scope.billableAmount==',$scope.billableAmount);
+
+            if(mode === 'create'){
+                $scope.volume = '';
+                if($scope.lineItemType && $scope.lineItemType.name && $scope.pricingRate && $scope.billableAmount){
+                    if($scope.lineItemType.name === 'CPM') {
+                        $scope.volume = ($scope.billableAmount / $scope.pricingRate ) * 1000;
+                    } else {
+                        $scope.volume = ($scope.billableAmount / $scope.pricingRate );
+                    }
+                }
+            } else {
+                $scope.editLineItem.volume = '';
+                if($scope.editLineItem.lineItemType && $scope.editLineItem.lineItemType.name && $scope.editLineItem.pricingRate && $scope.editLineItem.billableAmount){
+                    if($scope.editLineItem.lineItemType.name === 'CPM') {
+                        $scope.editLineItem.volume = ($scope.editLineItem.billableAmount / $scope.editLineItem.pricingRate ) * 1000;
+                    } else {
+                        $scope.editLineItem.volume = ($scope.editLineItem.billableAmount / $scope.editLineItem.pricingRate );
+                    }
+                }
+            }
+        }
+
+        function updateRateTypeArr(){
+            selectedAdvertiser = workflowService.getSelectedAdvertiser();
+            if (selectedAdvertiser && (selectedAdvertiser.billingType && selectedAdvertiser.billingValue)) {
+
+                var index = _.findIndex($scope.type, function (item) {
+                    return item.id === selectedAdvertiser.billingType.id;
+                });
+
+                $scope.setLineItem($scope.type[index], 'create');
+            } else {
+                // in case the advertiser does not have billing type and billing value remove COGS + % from Rate Type list
+                var index = _.findIndex($scope.type, function (type) {
+                    return type.name === CONST_COGS_PERCENT;
+                })
+                $scope.type.splice(index, 1);
+            }
         }
     });
 });

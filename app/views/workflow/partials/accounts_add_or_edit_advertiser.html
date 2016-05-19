@@ -108,13 +108,13 @@
         </div>
     </div>
     
-    <!--Billing Methods-->
+    <!--Billing & Invoices-->
     <div class="billingMethods" ng-show="clientObj.isLeafNode">
-        <div class="col-md-12 zeroPadding"><h1 class="pull-left">Billing Methods</h1></div>
+        <div class="col-md-12 zeroPadding"><h1 class="pull-left">Billing & Invoices</h1></div>
         <div class="col-md-12 zeroPadding">
-            <!--Methods-->
+            <!--Billed-->
             <div class="form-group col-md-4" style="padding: 0 15px 0 0;">
-                <label class="col-sm-12 greyTxt">Methods:</label>
+                <label class="col-sm-12 greyTxt">Billed For:</label>
 
                 <div class="col-md-12 zeroPadding dropdown-workflow">
                     <div class="dropdown">
@@ -141,10 +141,10 @@
             </div>
 
             <!--Tech Fees-->
-            <div class="col-md-8 zeroPadding methodFees techFees" ng-show="selectedBillType=='Tech Fees'">
+            <div class="col-md-8 zeroPadding methodFees techFees" ng-show="selectedBillType=='Tech Fees'" style="padding-left: 15px;">
                 <label class="col-sm-12 greyTxt">Rate Type:</label>
                 <div class="dropdown">
-                    <button class="btn btn-default dropdown-toggle form-group col-md-4" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                    <button class="btn btn-default dropdown-toggle form-group col-md-4 disabled" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" disabled>
                         <span class="text">CPM</span>
                     </button>
                 </div>
@@ -152,51 +152,73 @@
                     <label class="col-sm-12 greyTxt">Value:</label>
                     <input type="text" class="form-control" maxlength="80">
                 </div>
+                <div class="form-group col-md-4" style="padding: 0 15px 0 0; margin-top: -36px;">
+                    <label class="col-sm-12 greyTxt">Invoice On Demand:</label>
+                    <input id="invoiceDemand" class="cmn-toggle cmn-toggle-round" type="checkbox">
+                    <label for="invoiceDemand"></label>
+                </div>
             </div>
-            <div class="col-md-8 zeroPadding methodFees techFees" ng-show="selectedBillType=='Service Fees'">
+            <!--Service Fee-->
+            <div class="col-md-8 zeroPadding methodFees techFees" ng-show="selectedBillType=='Service Fees'" style="padding-left: 15px;">
                 <label class="col-sm-12 greyTxt">Rate Type:</label>
-                <div class="dropdown">
-                    <button class="btn btn-default dropdown-toggle form-group col-md-4"
-                            style="padding: 7px;"
-                            type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                        <span class="text" data-ng-bind="selectedRateType"></span>
-                        <span class="icon-arrow-down" style="margin-left:172px"></span>
-                    </button>
-                    <ul class="dropdown-menu" data-toggle="dropdown">
-                        <li class="available">
-                            <a ng-click="selectedRateType='COGS'">COGS</a>
-                        </li>
-                        <li class="available">
-                            <a ng-click="selectedRateType='CPM'">CPM</a>
-                        </li>
-                    </ul>
+                <div class="dropdown-workflow col-md-4 zeroPadding">
+                    <div class="dropdown">
+                        <button class="btn btn-default dropdown-toggle form-group"
+                                style="padding: 7px;"
+                                type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                            <span class="text" data-ng-bind="selectedRateType"></span>
+                            <span class="icon-arrow-down" style="margin-left:172px"></span>
+                        </button>
+                        <ul class="dropdown-menu" data-toggle="dropdown">
+                            <li class="available">
+                                <a ng-click="selectedRateType='COGS'">COGS</a>
+                            </li>
+                            <li class="available">
+                                <a ng-click="selectedRateType='CPM'">CPM</a>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
                 <div class="form-group col-md-4" style="margin-top: -36px">
                     <label class="col-sm-12 greyTxt">Value:</label>
                     <input type="text" class="form-control" maxlength="80" placeholder="Add some value">
                 </div>
-            </div>
-            <div class="col-md-8 zeroPadding methodFees techFees" ng-show="selectedBillType=='Cost'">
-                <label class="col-sm-12 greyTxt">Rate Type:</label>
-                <div class="dropdown">
-                    <button class="btn btn-default dropdown-toggle form-group col-md-4"
-                            style="padding: 7px;"
-                            type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                        <span class="text" data-ng-bind="selectedRateType"></span>
-                        <span class="icon-arrow-down" style="margin-left:172px"></span>
-                    </button>
-                    <ul class="dropdown-menu" data-toggle="dropdown">
-                        <li class="available">
-                            <a ng-click="selectedRateType='COGS'">COGS</a>
-                        </li>
-                        <li class="available">
-                            <a ng-click="selectedRateType='Arbitrage'">Arbitrage</a>
-                        </li>
-                    </ul>
+                <div class="form-group col-md-4" style="padding: 0 15px 0 0; margin-top: -36px;">
+                    <label class="col-sm-12 greyTxt">Invoice On Demand:</label>
+                    <input id="invoiceDemand" class="cmn-toggle cmn-toggle-round" type="checkbox">
+                    <label for="invoiceDemand"></label>
                 </div>
+            </div>
+            <!--Cost-->
+            <div class="col-md-8 zeroPadding methodFees techFees" ng-show="selectedBillType=='Cost'" style="padding-left: 15px;">
+                <label class="col-sm-12 greyTxt">Rate Type:</label>
+                <div class="dropdown-workflow col-md-4 zeroPadding">
+                    <div class="dropdown">
+                        <button class="btn btn-default dropdown-toggle form-group col-md-4"
+                                style="padding: 7px;"
+                                type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                            <span class="text" data-ng-bind="selectedRateType"></span>
+                            <span class="icon-arrow-down"></span>
+                        </button>
+                        <ul class="dropdown-menu" data-toggle="dropdown">
+                            <li class="available">
+                                <a ng-click="selectedRateType='COGS'">COGS</a>
+                            </li>
+                            <li class="available">
+                                <a ng-click="selectedRateType='Arbitrage'">Arbitrage</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                
                 <div class="form-group col-md-4" style="margin-top: -36px" data-ng-show="selectedRateType=='COGS'">
                     <label class="col-sm-12 greyTxt">Value:</label>
                     <input type="text" class="form-control" maxlength="80" placeholder="Add some value">
+                </div>
+                <div class="form-group col-md-4" style="padding: 0 15px 0 0; margin: -36px 0 0 15px;">
+                    <label class="col-sm-12 greyTxt">Invoice On Demand:</label>
+                    <input id="invoiceDemand" class="cmn-toggle cmn-toggle-round" type="checkbox">
+                    <label for="invoiceDemand"></label>
                 </div>
             </div>
         </div>
@@ -204,18 +226,51 @@
 </div>
 
 <!--Pixel Form-->
-<div id="pixelsCnt" ng-show="advertiserData.pixels.length && activeEditAdvertiserTab =='pixel'">
-    <div class="col-md-12 zeroPadding"><h1 class="pull-left">Add Pixel</h1></div>
-</div>
+<!--<div id="pixelsCnt" ng-show="advertiserData.pixels.length && activeEditAdvertiserTab =='pixel'">-->
+<!--    <div class="col-md-12 zeroPadding"><h1 class="pull-left">Add Pixel</h1></div>-->
+<!--</div>-->
 
 <div id="pixelsCnt" ng-if="activeEditAdvertiserTab=='pixel'">
-    <div class="col-md-12 zeroPadding">
-        <h1 class="pull-left">Pixels</h1>
+    <div class="col-md-12 zeroPadding" style="margin-top: 15px;">
+        <h1 class="pull-left zeroMargin">Pixels</h1>
 
         <div class="btn-group create pull-right" role="group" aria-label="...">
-            <a role="button" class="btn btn-default" data-ng-click="downLoadPixel();"><span class="icon-download"></span><span>Download Pixels</span></a>
-            <a role="button" class="btn btn-default" data-ng-click="addPixel();"><span class="icon-plus"></span><span>Add Pixels</span></a>
+            <!--Search Input-->
+            <div class="btn-group pull-right">
+                <button type="button" class="btn btn-default pull-right" style="display: none">
+                    <span class="icon-filter" style="margin: -1px 0 0;"></span>
+                </button>
+    
+                <div class="searchInput pull-right">
+                    <a class="btn btn-default searchInputBtn" ng-click="searchShowInput($event)">
+                        <span class="icon-search" aria-hidden="true" style="margin: -1px 0 0;"></span>
+                    </a>
+                    <a class="btn btn-default searchInputBtnInline" ng-click="campaignSearchFunc()">
+                        <span class="icon-search" aria-hidden="true" style="margin: -1px 0 0;"></span>
+                    </a>
+                    <div class="input-group searchInputForm" >
+                        <input type="text"
+                               class="form-control"
+                               name="usersSearch"
+                               placeholder="Search Pixels...">
+                        <div class="btn btn-default searchClearInputBtn" ng-click="searchHideInput()">
+                            <span class="icon-clear zeroMargin" aria-hidden="true"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <a role="button" class="btn btn-default pull-right" data-ng-click="downLoadPixel();"
+               data-ng-disabled="advertiserData.disableDownLoadPixel"
+               style="border-right: 0;"><span class="icon-download"></span><span>Download Selected Pixels</span></a>
+            <a role="button" class="btn btn-default pull-right" data-ng-click="addPixel();"><span class="icon-plus"></span><span>Add Pixels</span></a>
+            <span class="pull-right" style="font-size: 12px; margin: 9px 10px 0 0;">
+                {{advertiserData.pixels.length}} Pixels
+            </span>
         </div>
+        
+        
+            
     </div>
 
     <!--Create Pixel Form-->
@@ -224,7 +279,8 @@
         <div class="pixelLayer" >
             <div class="form-group col-md-4" style="padding: 0 15px 0 0;">
                 <label class="col-sm-12 greyTxt">Pixel Name:</label>
-                <input type="text" class="form-control" maxlength="50" ng-model="pixelFormData.name">
+                <input type="text" class="form-control" maxlength="50" ng-model="pixelFormData.name" data-ng-keyup="checkDuplicatePixel(pixelFormData.name)">
+                <label class="errorText" style="margin-top:6px" data-ng-bind="'Duplicate Entry'" ng-if="advertiserAddOrEditData.duplicatePixelName"></label>
             </div>
             <div class="form-group col-md-4" style="padding: 0 15px;">
                 <label class="col-sm-12 greyTxt">Pixel Type:</label>
@@ -256,12 +312,14 @@
             
             <div class="form-group col-md-2 clearLeft" style="padding: 0 15px 0 0;">
                 <label class="col-sm-12 greyTxt">Impression Look Back:</label>
-                <input type="text" class="form-control" placeholder="Add value" value="14">
+                <input type="text" class="form-control" placeholder="Add value" value="14" ng-model="pixelFormData.impLookbackWindow"
+                        data-ng-keyup="pixelFormData.impLookbackWindow>30?pixelFormData.impLookbackWindow=30:(pixelFormData.impLookbackWindow<0)?pixelFormData.impLookbackWindow=14:''">
             </div>
         
             <div class="form-group col-md-2" style="padding: 0 15px;">
                 <label class="col-sm-12 greyTxt">Click Look Back:</label>
-                <input type="text" class="form-control" placeholder="Add value" value="14">
+                <input type="text" class="form-control" placeholder="Add value" value="14" ng-model="pixelFormData.clickLookbackWindow"
+                        data-ng-keyup="pixelFormData.clickLookbackWindow>30?pixelFormData.clickLookbackWindow=30:(pixelFormData.clickLookbackWindow<0)?pixelFormData.clickLookbackWindow=14:''">
             </div>
 
             <div class="form-group col-md-8" style="padding: 0 0 0 15px;">
@@ -278,7 +336,6 @@
                ng-click="removePixel();" aria-label="Close">Remove Pixel</a>
         </div>
     </div>
-    
     <!--Pixel List Table-->
     <div class="pixelTable">
         <div class="table-responsive user-list animated" id="table_responsive">
@@ -288,8 +345,11 @@
                         <div class="col-md-3 th">Pixel Name</div>
                         <div class="col-md-3 th">Pixel Type</div>
                         <div class="col-md-2 th">Impression Look</div>
-                        <div class="col-md-2 th">Click Look</div>
+                        <div class="col-md-1 th">Click Look</div>
                         <div class="col-md-2 th">Pixel Expiration Date</div>
+                        <div class="col-md-1 th text-center">
+                            <span class="col-md-12 zeroPadding text-center" style="cursor: pointer;" ng-click="selectAllPixels();">Select All</span>
+                        </div>
                     </div>
                 </div>
     
@@ -308,12 +368,17 @@
                             <span data-ng-bind="pixel.impLook">14</span>
                         </div>
                         
-                        <div class="td col-md-2">
+                        <div class="td col-md-1">
                             <span data-ng-bind="pixel.clickLook">14</span>
                         </div>
                         
                         <div class="td col-md-2">
                             <span data-ng-bind="pixel.expiryDate"></span>
+                        </div>
+                        
+                        <div class="td col-md-1 text-center" style="padding-left: 0;">
+                            <input type="checkbox" class="pixelSelect" data-ng-model="isSelected"
+                                   data-ng-click="selectPixel(pixel.id, isSelected)" style="float: none;"/>
                         </div>
                     </div>
                     

@@ -155,33 +155,27 @@ define(['angularAMD', 'reporting/collectiveReport/collective_report_model', 'com
                 $scope.getScheduledReports();
             };
 
-            dataService
-                .getCustomReportMetrics($scope.campaign)
-                .then(function (result) {
-                    var jsonModifier = function (data) {
-                        var arr = [];
+            dataService.getCustomReportMetrics($scope.campaign).then(function (result) {
+                $scope.displayName = result.data.data[0].display_name;
+                var jsonModifier = function (data) {
+                    var arr = [];
 
-                        _.each(data, function (obj) {
-                            var d = obj.split(':');
+                    _.each(data, function (obj) {
+                        var d = obj.split(':');
+                        arr.push({ 'key': d[0], 'value': $scope.displayName[d[0]] });
+                    });
 
-                            arr.push({
-                                'key': d[0],
-                                'value': d[1]
-                            });
-                        });
+                    return arr;
+                };
 
-                        return arr;
-                    };
+                $scope.customeDimension = jsonModifier(result.data.data[0].dimensions);
+            });
 
-                    $scope.customeDimension = jsonModifier(result.data.data[0].dimensions);
-                    $scope.displayName = result.data.data[0].display_name;
+            $scope.loadDimensionsList = function ($query) {
+                return $scope.customeDimension.filter(function(dimension) {
+                    return dimension['value'].toLowerCase().indexOf($query.toLowerCase()) != -1;
                 });
 
-            $scope.loadDimensionsList = function () {
-                var deferred = $q.defer();
-
-                deferred.resolve($scope.customeDimension);
-                return deferred.promise;
             };
 
             $scope.addDimensionFilter = function () {

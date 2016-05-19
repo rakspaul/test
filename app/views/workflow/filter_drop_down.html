@@ -2,12 +2,16 @@
     <div class="pull-left each_filter advertisers_filter">
         <div class="greyTxt">{{constants.SUB_ACCOUNT}}</div>
         <div class="dropdown">
-            <div class="dropdown_name_selected" data-model="subAcc_name_selected" id="sub_account_name_selected" data-toggle="dropdown" title="{{filterData.subAccSelectedName}}">
-                <p>{{filterData.subAccSelectedName?  filterData.subAccSelectedName : 'Loading..'}}</p><span class="icon-arrow-down"></span>
+            <div class="dropdown_name_selected" data-model="subAcc_name_selected" id="sub_account_name_selected"
+                 data-toggle="dropdown" title="{{filterData.subAccSelectedName}}">
+                <p>{{filterData.subAccSelectedName? filterData.subAccSelectedName : 'Loading..'}}</p><span
+                class="icon-arrow-down"></span>
             </div>
             <ul class="dropdown-menu" role="menu" id="subAccountDropDownList">
                 <div class="clientsList_ul" id="clientsList_ul">
-                    <li ng-repeat="subaccount in filterData.subAccountList track by subaccount.id" title="{{subaccount.displayName}}" ng-class="{'active' : subaccount.id === filterData.subAccSelectedId}">
+                    <li ng-repeat="subaccount in filterData.subAccountList track by subaccount.id"
+                        title="{{subaccount.displayName}}"
+                        ng-class="{'active' : subaccount.id === filterData.subAccSelectedId}">
                         <a data-ng-click="selectClient(subaccount)"><span class="menuItemText">{{subaccount.displayName}}</span></a>
                     </li>
                 </div>
@@ -15,23 +19,31 @@
         </div>
     </div>
     <div class="pull-left each_filter advertisers_filter">
-        <div class="greyTxt">Advertiser</div>
+        <div class="greyTxt">{{constants.ADVERTISER}}</div>
         <div class="dropdown">
-            <div class="dropdown_name_selected" id="advertiser_name_selected" data-toggle="dropdown" title="{{filterData.advertiserSelectedName}}">
-                <p>{{filterData.advertiserSelectedName ?  filterData.advertiserSelectedName : 'Loading...'}}</p>
-                <!--<img src="/images/cdesk/common_down_arrow.png" alt="" width="12" class="common_down_arrow"/>-->
+            <div class="dropdown_name_selected" id="advertiser_name_selected" ng-click="showAdvertisersDropDown()" data-toggle="dropdown" title="{{filterData.advertiserSelectedName}}">
+                <p>{{filterData.advertiserSelectedName ? filterData.advertiserSelectedName : 'Loading...'}}</p>
                 <span class="icon-arrow-down"></span>
             </div>
-
-            <ul class="dropdown-menu" role="menu" id="advertisersDropDownList">
-                <div class="advertisersList_ul" id="advertisersList_ul">
-                    <li ng-repeat="advertiser in filterData.advertiserList track by advertiser.id" title="{{advertiser.name}}" ng-class="{'active' : advertiser.id === filterData.advertiserSelectedId}">
-                        <a data-ng-click="selectAdvertisers(advertiser)">
-                            <span class="menuItemText">{{advertiser.name}}</span>
-                        </a>
-                    </li>
-                </div>
-            </ul>
+            <div class="brandsDropdownSearch">
+                <ul class="dropdown-menu" role="menu" id="advertisersDropDownList">
+                    <div id="brandsDropdownDiv">
+                        <input class="dropdown-toggle inactive" id="advertisersDropdown" ng-keyup="disableShowAll();" ng-model="selectedAdvertiser.name"/>
+                        <span class="sort-image-inactive brands_dd_filter_arrow" id="#brandsDropDownImg"></span>
+                    </div>
+                    <div class="advertisersList_ul" id="advertisersList_ul">
+                        <li ng-repeat="advertiser in filterData.advertiserList | filter : selectedAdvertiser.name"
+                            title="{{advertiser.name}}"
+                            ng-class="{'active' : advertiser.id === filterData.advertiserSelectedId}">
+                            <a data-ng-click="selectAdvertisers(advertiser)">
+                                <span class="menuItemText">{{advertiser.name}}</span>
+                            </a>
+                        </li>
+                    </div>
+                </ul>
+            </div>
         </div>
     </div>
+
 </div>
+

@@ -588,7 +588,7 @@
   border-right: 1px solid #fff !important;
   padding-left: 0 !important;
   text-align: center;
-  width: 6%;
+  /* width: 6%; */
 }
 .adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .columnOne .checkbox {
   float: left;
@@ -603,25 +603,25 @@
   text-align: center;
 }
 .adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .columnTwo {
-  width: 30%;
+  /* width: 30%;*/
 }
 .adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .columnThree {
   text-align: center;
-  width: 13%;
+  /* width: 13%;*/
 }
 .adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .columnThree img {
   margin-top: 13px;
   text-align: center;
 }
 .adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .columnFour {
-  width: 22%;
+  /*width: 22%;*/
 }
 .adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .columnFive {
-  width: 12%;
+  /* width: 12%; */
 }
 .adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .columnSix {
   border-width: 0 !important;
-  width: 17%;
+  /* width: 17%; */
 }
 .adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segBodyTable,
 .adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segHeaderTable {
@@ -665,6 +665,10 @@
   text-overflow: ellipsis;
   white-space: nowrap;
   width: 100%;
+}
+.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segBodyTable .columnThree,
+.adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segHeaderTable .columnThree {
+  border-right: 0px solid #bfc9d7;
 }
 .adCreateMaster #targetting .targetingSlide .segmentStepOne .setOne .segBodyWrap {
   float: left;
@@ -3622,7 +3626,7 @@
 }
 #campaignCreate .platformSlide .platform-custom .platWrap .form-group select {
   background: transparent;
-  background-image: url(../images/cdesk/common_down_arrow.png);
+  background-image: url(/images/cdesk/common_down_arrow.png);
   background-position: right 8px top 12px;
   background-repeat: no-repeat;
   height: 36px;

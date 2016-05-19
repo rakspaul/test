@@ -45,9 +45,12 @@ define(['angularAMD','login/login_model','login/login_service','reporting/common
                     $scope.dataFound = true;
                     // $("#data_not_available").hide();
                     $scope.data.brandData = bubbleChartModel.getbubbleWidgetData()['brandData'];
-                    $scope.budget_top_title = bubbleChartModel.getbubbleWidgetData()['budget_top_title'];
 
-                    bubbleChart.updateBubbleChartData("brands", $scope.data.brandData);
+
+                    if (brandsModel.getSelectedBrand().id == -1) {
+                        bubbleChart.updateBubbleChartData("brands", $scope.data.brandData);
+                        $scope.budget_top_title = bubbleChartModel.getbubbleWidgetData()['budget_top_title'];
+                    }
 
                     for (var i in $scope.data.brandData) {
                         var brand = $scope.data.brandData[i];
