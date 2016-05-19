@@ -90,6 +90,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         }
 
         var createCampaign = {
+            campaignData: {},
             clients: function () {
                 workflowService.getClients().then(function (result) {
                     if (result.status === "OK" || result.status === "success") {
@@ -203,8 +204,8 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             },
 
             prefillMediaPlan: function (campaignData) {
-                var startDateElem,
-                    today;
+                var startDateElem;
+                this.campaignData = campaignData;
 
                 startDateElem = $('#startDateInput');
 
@@ -878,6 +879,19 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                     }
                 }, campaignArchiveErrorHandler);
         };
+
+        $scope.$watch('selectedCampaign.endTime',function(){
+            if(_.isEmpty(createCampaign.campaignData)){
+                $scope.$broadcast('fetch_pixels');
+            } else {
+                if(createCampaign.campaignData.pixels){
+                    $scope.$broadcast('fetch_pixels', createCampaign.campaignData.pixels);
+                } else {
+                    $scope.$broadcast('fetch_pixels');
+                }
+            }
+
+        });
 
         $(function () {
             $(".masterContainer").on('click', '.leftNavLink', function (event) {
