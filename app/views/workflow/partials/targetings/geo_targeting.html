@@ -64,10 +64,10 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="targetting-tab-body" lr-infinite-scroll="loadMoreGeoData" time-threshold="100">
-                            <div class="common-loading-area full-table-loading" ng-show="!geoData.countries.data || geoData.countries.data.length === 0"></div>
-                            <div class="no-data-common">No Data available</div>
-                            <div ng-show="geoData.countries.data">
+                        <div class="targetting-tab-body" lr-infinite-scroll="loadMoreGeoData">
+                            <div class="common-loading-area full-table-loading" ng-show="geoData.countries.fetching"></div>
+                            <div class="no-data-common" ng-show="geoData.countries.data_not_found" data-ng-bind="textConstants.DATANOTAVAILABLE"></div>
+                            <div ng-show="!geoData.countries.fetching">
                                 <div class="clearfix each-targetting-name" ng-repeat="country in geoData.countries.data">
 
                                     <div class="col-md-12 external_chkbox pull-left">
@@ -78,7 +78,7 @@
                                         <span class="squaredFourTxt" >{{country.name}}</span>
                                     </div>
                                 </div>
-                                <div class="common-loading-area" ng-show="geoData.countries.load_more_data"></div>
+                                <div class="common-loading-area" ng-show="geoData.countries.data.length >0 && geoData.countries.load_more_data"></div>
                             </div>
                         </div>
                     </div>
@@ -94,11 +94,11 @@
                             <div class="col-md-4 pull-right" data-ng-bind="textConstants.COUNTRY">
                             </div>
                         </div>
-                        <div class="targetting-tab-body" lr-infinite-scroll="loadMoreGeoData" time-threshold="100">
-                            <div class="common-loading-area full-table-loading" ng-show="!geoData.regions.data || geoData.regions.data.length ===0"></div>
-                            <div class="no-data-common">No Data available</div>
+                        <div class="targetting-tab-body" lr-infinite-scroll="loadMoreGeoData">
+                            <div class="common-loading-area full-table-loading" ng-show="geoData.regions.fetching"></div>
+                            <div class="no-data-common" ng-show="geoData.regions.data_not_found" data-ng-bind="textConstants.DATANOTAVAILABLE"></div>
 
-                            <div ng-show="geoData.regions.data">
+                            <div ng-show="!geoData.regions.fetching">
                                 <div class="clearfix each-targetting-name" ng-repeat="region in geoData.regions.data">
                                     <div class="external_chkbox pull-left col-md-8">
                                         <div class="squaredFour">
@@ -112,7 +112,7 @@
                                     </div>
 
                                 </div>
-                                <div class="common-loading-area" ng-show="geoData.regions.load_more_data"></div>
+                                <div class="common-loading-area" ng-show="geoData.regions.data.length >0 && geoData.regions.load_more_data"></div>
                             </div>
                         </div>
                     </div>
@@ -129,23 +129,22 @@
                             <div class="col-md-4 pull-right" data-ng-bind="textConstants.REGION">
                             </div>
                         </div>
-                        <div class="targetting-tab-body" lr-infinite-scroll="loadMoreGeoData" time-threshold="100">
-                            <div class="common-loading-area full-table-loading" ng-show="!geoData.cities.data || geoData.cities.data.length === 0"></div>
-                            <div class="no-data-common">No Data available</div>
-
-                            <div ng-show="geoData.cities.data">
+                        <div class="targetting-tab-body" lr-infinite-scroll="loadMoreGeoData">
+                            <div class="common-loading-area full-table-loading" ng-show="geoData.cities.fetching"></div>
+                            <div class="no-data-common" ng-show="geoData.cities.data_not_found" data-ng-bind="textConstants.DATANOTAVAILABLE"></div>
+                            <div ng-show="!geoData.cities.fetching">
                                 <div class="clearfix each-targetting-name" ng-repeat="city in geoData.cities.data">
                                     <div class="external_chkbox pull-left col-md-4">
                                         <div class="squaredFour">
                                             <input type="checkbox" checklist-model="geoData.cities.selected" checklist-value="city" ng-change="check(city, checked, 'cities')" class="squaredFourChkbox" id="city_{{city.id}}" >
                                             <label for="city_{{city.id}}"></label>
                                         </div>
-                                        <span class="squaredFourTxt" >{{city.name}}</span>
+                                        <span class="squaredFourTxt" data-ng-bind="city.name"></span>
                                     </div>
                                     <div class="pull-right col-md-4" data-ng-bind="city.country.name"></div> <!-- country -->
                                     <div class="pull-right col-md-4" data-ng-bind="city.parent.name"></div> <!-- region -->
                                 </div>
-                                <div class="common-loading-area"></div>
+                                <div class="common-loading-area" ng-show="geoData.cities.data.length >0 && geoData.cities.load_more_data"></div>
                             </div>
                         </div>
                     </div>
@@ -183,60 +182,21 @@
 
                             </div>
                         </div>
-                        <div class="targetting-tab-body" >
-                            <div class="common-loading-area full-table-loading" style="display:none;"></div>
-                            <div class="no-data-common">No Data available</div>
-                            <div >
-                                <div class="clearfix each-targetting-name">
+                        <div class="targetting-tab-body" lr-infinite-scroll="loadMoreGeoData">
+                            <div class="common-loading-area full-table-loading" ng-show="geoData.dmas.fetching"></div>
+                            <div class="no-data-common" ng-show="geoData.dmas.data_not_found" data-ng-bind="textConstants.DATANOTAVAILABLE"></div>
+                            <div ng-show="!geoData.dmas.fetching">
+                                <div class="clearfix each-targetting-name" ng-repeat="dma in geoData.dmas.data">
                                     <div class="external_chkbox pull-left col-md-8">
                                         <div class="squaredFour">
-                                            <input type="checkbox" class="squaredFourChkbox" id="metro_1" >
-                                            <label for="metro_1"></label>
+                                            <input type="checkbox" checklist-model="geoData.dmas.selected" checklist-value="dma" ng-change="check(dma, checked, 'dmas')" class="squaredFourChkbox" id="dma_{{dma.id}}" >
+                                            <label for="dma_{{dma.id}}"></label>
                                         </div>
-                                        <span class="squaredFourTxt" >Metro</span>
+                                        <span class="squaredFourTxt" data-ng-bind="dma.name">Metro</span>
                                     </div>
-                                    <div class="pull-right col-md-4">
-                                        Region
-                                    </div>
-
+                                    <div class="pull-right col-md-4" data-ng-bind="dma.parent.name"></div>
                                 </div>
-                                <div class="common-loading-area"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="metro-tab-contents-holder">
-                    <div class="metro-tab-content" >
-
-                        <div class="clearfix targetting-tab-subheader">
-                            <div class="clearfix col-md-8">
-
-                                <div class="pull-left sort-icon-holder active" >
-                                    <span class="pull-left" data-ng-bind="textConstants.METROTXT"></span>
-                                    <span class="pull-left common-sort-icon ascending" style="display: block;"></span>
-                                </div>
-                            </div>
-                            <div class="col-md-4 pull-right" data-ng-bind="textConstants.REGION">
-
-                            </div>
-                        </div>
-                        <div class="targetting-tab-body" >
-                            <div class="common-loading-area full-table-loading" style="display:none;"></div>
-                            <div >
-                                <div class="clearfix each-targetting-name">
-                                    <div class="external_chkbox pull-left col-md-8">
-                                        <div class="squaredFour">
-                                            <input type="checkbox" class="squaredFourChkbox" id="metro_1" >
-                                            <label for="metro_1"></label>
-                                        </div>
-                                        <span class="squaredFourTxt" >Metro</span>
-                                    </div>
-                                    <div class="pull-right col-md-4">
-                                        Region
-                                    </div>
-
-                                </div>
-                                <div class="common-loading-area"></div>
+                                <div class="common-loading-area" ng-show="geoData.dmas.data.length >0 && geoData.dmas.load_more_data"></div>
 
                             </div>
                         </div>
