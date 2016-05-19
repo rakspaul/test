@@ -410,13 +410,13 @@
             <div class="col-md-1 zeroPadding text-center">{{((platform.verification_cost >0)||
                 (platform.verification_cost == 0))? (platform.verification_cost | currency:undefined:0) : '-'}}
             </div>
-            <div class="col-md-1 zeroPadding text-center" ng-bind="0 | currency:undefined:0"></div>
-            <div class="col-md-1 zeroPadding text-center" ng-bind="0 | currency:undefined:0"></div>
+            <div class="col-md-1 zeroPadding text-center" ng-bind="(platform.creative_cost >= 0) ? (platform.creative_cost | currency:undefined:0) : '-'"></div>
+            <div class="col-md-1 zeroPadding text-center" ng-bind="(platform.research_cost >= 0) ? (platform.research_cost | currency:undefined:0) : '-'"></div>
             <!--<div class="col-md-2 zeroPadding text-center">{{((platform.collective_cost >0)|| (platform.collective_cost == 0))? (platform.collective_cost | currency:undefined:0) : '-'}}</div>-->
             <div class="col-md-2 text-center" style="padding: 0 2px;">
-                <span class="pull-left col-md-4 zeroPadding text-left">$0</span>
-                <span class="pull-left col-md-4 zeroPadding text-center" style="text-indent: 23px;">$0</span>
-                <span class="pull-left col-md-4 zeroPadding text-right">$0</span>
+                <span class="pull-left col-md-4 zeroPadding text-left" ng-bind="(platform.tech_fees >= 0) ? (platform.tech_fees | currency:undefined:0) : '-'">$0</span>
+                <span class="pull-left col-md-4 zeroPadding text-center" style="text-indent: 23px;" ng-bind="(platform.service_fees >= 0) ? (platform.service_fees | currency:undefined:0) : '-'">$0</span>
+                <span class="pull-left col-md-4 zeroPadding text-right" ng-bind="(platform.tech_service_fees_total >= 0) ? (platform.tech_service_fees_total | currency:undefined:0) : '-'">$0</span>
             </div>
             <div class="col-md-1 zeroPadding text-center">{{((platform.spend >0)|| (platform.spend == 0))?
                 (platform.spend | currency:undefined:0) : '-'}}
