@@ -909,6 +909,9 @@
 .adCreateMaster #targetting .targettingFormWrap .targetting-tab-header .btn-group .btn {
   color: #0978c9 ;
 }
+.adCreateMaster #targetting .targettingFormWrap .targetting-tab-header .btn-group .common_tooltip {
+  bottom: 46px;
+}
 .adCreateMaster #targetting .targettingFormWrap .targetting-tab-header .btn-group .active {
   background: #3276b1 ;
   color: #fff ;
@@ -921,7 +924,7 @@
   padding: 10px 0px 10px ;
 }
 .adCreateMaster #targetting .targettingFormWrap .targetting-tab-body {
-  max-height: 200px;
+  height: 200px;
   min-height: 200px;
   overflow: auto;
   padding: 10px 0;
