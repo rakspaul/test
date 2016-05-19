@@ -45,7 +45,7 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
         $("#admin_nav_link").addClass("active_tab");
         $(".miniTabLinks .btn").removeClass("active");
         $("#accounts_link").addClass("active");
-        
+
         $scope.basicForm = function() {
             $(".miniTabLinks.sub .btn").removeClass("active");
             $(".miniTabLinks.sub .subBasics").addClass("active");
@@ -69,12 +69,12 @@ define(['angularAMD', '../../services/constants_service', 'workflow/services/acc
             $('#pixelExpDate').datepicker('setStartDate', momentService.getCurrentYear().toString());
             $(".pixelCreate").slideDown();
         }
-        
+
         $scope.cancelPixel = function() {
             $(".pixelCreate").slideUp();
         }
 
-        
+
         _currCtrl.verifyPixelInput = function(){
             var ret = true,
                 errMsg = "Error",

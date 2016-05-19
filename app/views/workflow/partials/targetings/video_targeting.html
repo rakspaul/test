@@ -1,5 +1,5 @@
 <div class="col-md-12 zeroPadding breadcrumbs">
-    <h5 data-ng-click="hideVideoTargeting();" data-ng-bind="textConstants.TARGETING"></h5>
+    <h5 data-ng-click="hideVideoTargeting('hide');" data-ng-bind="textConstants.TARGETING"></h5>
     <span class="icon-arrow-down"></span>
 
     <h5 style="cursor: default;" data-ng-bind="textConstants.VIDEO_TARGETING">Video Targeting</h5>
@@ -14,7 +14,7 @@
     <button class="pull-right btn btn-link"
             type="button"
             data-ng-bind="textConstants.CANCEL"
-            data-ng-click="hideVideoTargeting();">
+            data-ng-click="hideVideoTargeting('cancel');">
     </button>
 </div>
 <div class="col-md-12 zeroPadding">
@@ -61,6 +61,7 @@
                     <div class="col-md-12 zeroPadding dropdown-workflow">
                         <div class="dropdown">
                             <button data-ng-disabled="!sizesData"
+                                    id="sizesType"
                                     class="btn btn-default dropdown-toggle"
                                     type="button"
                                     data-toggle="dropdown"
@@ -77,7 +78,7 @@
                                 name="selectSize"
                                 data-toggle="dropdown">
                                 <li class="available"
-                                    data-ng-click="selectSize($event , sizeLabel)"
+                                    data-ng-click="selectSize($event, sizeLabel)"
                                     data-ng-repeat="sizeLabel in sizesLabels[$index]">
                                     <a data-ng-bind="sizeLabel"></a>
                                 </li>
