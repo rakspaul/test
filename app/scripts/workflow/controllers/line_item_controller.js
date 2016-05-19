@@ -20,6 +20,7 @@ define(['angularAMD', 'common/services/constants_service','common/services/visto
         $scope.selectedCampaign.createItemList = false;
         $scope.showUploadRecordsMessageLineItems = false;
         $scope.selectedCampaign.lineItemfile;
+        $scope.selectedCampaign.rejectedFiles;
 
 /*---START------BULK LineItem Upload Section---------*/
 
@@ -70,7 +71,6 @@ define(['angularAMD', 'common/services/constants_service','common/services/visto
                         $scope.$parent.successfulRecords = response.data.data.success;
                         $scope.$parent.errorRecords = response.data.data.failure;
                         $scope.$parent.errorRecordsFileName = response.data.data.logFileDownloadLink;
-                        $scope.$parent.bulkUploadResultHeader = "Upload complete"
                         if ($scope.$parent.errorRecords.length > 0) {
                             $scope.$parent.bulkUploadResultHeader += ' - Errors found';
                         }
@@ -119,6 +119,11 @@ define(['angularAMD', 'common/services/constants_service','common/services/visto
             $(".common_file_upload_container").slideUp();
             $scope.selectedCampaign.lineItemfile=undefined;
         }
+        /*Reset the error notification for wrong file or large file */
+        $scope.closeErrorMessage = function() {
+            $scope.uploadErrorMsg = undefined;
+            $scope.selectedCampaign.rejectedFiles=undefined;
+        };
 
 /*---END------BULK LineItem Upload Section---------*/
 
