@@ -1,5 +1,5 @@
-define(['angularAMD', 'workflow/services/workflow_service', 'common/services/zip_code', 'lrInfiniteScroll', 'common/directives/checklist_model'], function (angularAMD) {
-    angularAMD.controller('GeoTargettingController', function ($scope, $rootScope, $timeout, workflowService, zipCode) {
+define(['angularAMD', 'common/services/constants_service', 'workflow/services/workflow_service', 'common/services/zip_code', 'lrInfiniteScroll', 'common/directives/checklist_model'], function (angularAMD) {
+    angularAMD.controller('GeoTargettingController', function ($scope, $rootScope, $timeout, constants, workflowService, zipCode) {
 
         var DATA_MAX_SIZE = 200,
             defaultParams = {
@@ -13,16 +13,19 @@ define(['angularAMD', 'workflow/services/workflow_service', 'common/services/zip
                 'regionIds' : ''
             };
 
+        $scope.textconstants = constants;
         //Geo Data Variables
         $scope.geoData = {};
         $scope.geoData.countries = {};
         $scope.geoData.regions = {};
         $scope.geoData.cities = {};
+        $scope.geoData.dmas = {};
 
         //Selected Geo Data
         $scope.geoData.countries.selected = [];
         $scope.geoData.regions.selected = [];
         $scope.geoData.cities.selected = [];
+        $scope.geoData.dmas.selected = [];
 
         //include switch button flag
         $scope.geoData.countries.included = true;
@@ -30,7 +33,6 @@ define(['angularAMD', 'workflow/services/workflow_service', 'common/services/zip
         //Tab Related Variables.
         $scope.selectedMainTab = 'geo';
         $scope.selectedSubTab = 'countries';
-
 
         $( window ).resize(function() {
             $scope.divHeightCalculation() ;
@@ -57,6 +59,10 @@ define(['angularAMD', 'workflow/services/workflow_service', 'common/services/zip
                 $scope.geoData.cities.selected = [];
             },
 
+            resetSearchValue  : function() {
+                $('.searchBox').val('');
+            },
+
             //update query params
             updateParams: function (params, type) {
                 if(type) {
@@ -75,7 +81,8 @@ define(['angularAMD', 'workflow/services/workflow_service', 'common/services/zip
                     $scope.geoData[type].queryParams = _.extend({}, defaultParams);
                     this.updateParams({'query' : searchVal}, type);
                 }
-                geoTargeting[type].list();
+                $scope.geoData[type].fetching = true;
+                geoTargeting[type].list('cancellable');
             },
 
             //build query string for $http
@@ -129,39 +136,53 @@ define(['angularAMD', 'workflow/services/workflow_service', 'common/services/zip
 
         //For GEO - Countries related methods
         var countriesWrapper = {
-            fetch: function (callback) {
+            fetch: function (requestType, callback) {
                 var params = $scope.geoData.countries.queryParams;
                 var query = geoTargeting.buildQueryString(params),
                     platformId = params.platformId;
 
-                workflowService
-                    .getCountries(platformId, query)
-                    .then(function (result) {
-                        callback && callback(result.data.data);
-                    }, function (error) {
-                        console.log('error');
-                    });
+                if(requestType === 'cancellable') {
+                    workflowService
+                        .getCountries(platformId, query, requestType, function (result) {
+                            callback && callback(result.data.data);
+                        }, function (error) {
+                            console.log('error');
+                        });
+                } else {
+                    workflowService
+                        .getCountries(platformId, query)
+                        .then(function (result) {
+                            callback && callback(result.data.data);
+                        }, function (error) {
+                            console.log("error", error);
+                        });
+                }
             },
 
-            list: function () {
+            list: function (requestType) {
 
-                $scope.geoData.countries.fetching = true;
-
-                this.fetch(function (response) {
+                this.fetch(requestType, function (response) {
+                    $scope.geoData.countries.fetching = false;
                     $scope.geoData.countries.load_more_data = false;
-                    if (!$scope.geoData.countries.data || $scope.geoData.countries.data.length === 0) {
-                        $scope.geoData.countries.data = response;
-                    } else {
-                        if(response.length >0 ) {
-                            $scope.geoData.countries.data = $scope.geoData.countries.data.concat(response);
+                    if(response.length >0 ) {
+                        if (!$scope.geoData.countries.data || $scope.geoData.countries.data.length === 0) {
+                            $scope.geoData.countries.data = response;
                         } else {
-                            $scope.geoData.countries.no_more_data =  true;
+                            $scope.geoData.countries.data = $scope.geoData.countries.data.concat(response);
+                        }
+                    } else {
+                        if($scope.geoData.countries.data.length > 0) {
+                            $scope.geoData.countries.no_more_data = true;
+                        } else {
+                            $scope.geoData.countries.data_not_found = true;
                         }
                     }
-                    $scope.geoData.countries.fetching = false;
+
                 });
             },
             init: function () {
+                $scope.geoData.countries.data_not_found = false;
+                $scope.geoData.countries.fetching = true;
                 $scope.geoData.countries.queryParams = _.extend({}, defaultParams);
                 this.list();
             }
@@ -169,22 +190,30 @@ define(['angularAMD', 'workflow/services/workflow_service', 'common/services/zip
 
         //For GEO - Regions related methods
         var regionsWrapper = {
-            fetch: function (callback) {
+            fetch: function (requestType, callback) {
                 var params = $scope.geoData.regions.queryParams;
                 var query = geoTargeting.buildQueryString(params),
                     platformId = params.platformId;
 
-                workflowService
-                    .getRegions(platformId, query)
-                    .then(function (result) {
-                        callback && callback(result.data.data);
-                    }, function (error) {
-                        console.log('error');
-                    });
+                if(requestType === 'cancellable') {
+                    workflowService
+                        .getRegions(platformId, query, requestType, function (result) {
+                            callback && callback(result.data.data);
+                        }, function (error) {
+                            console.log('error');
+                        });
+                } else {
+                    workflowService
+                        .getRegions(platformId, query)
+                        .then(function (result) {
+                            callback && callback(result.data.data);
+                        }, function (error) {
+                            console.log('error');
+                        });
+                }
             },
 
-            list: function () {
-                $scope.geoData.regions.fetching = true;
+            list: function (requestType) {
                 var selectedCountries,
                     countryIds;
 
@@ -200,47 +229,59 @@ define(['angularAMD', 'workflow/services/workflow_service', 'common/services/zip
                     geoTargeting.updateParams({'countryCodes' : countryCodes}, 'regions')
                 }
 
-                this.fetch(function (response) {
-
+                this.fetch(requestType, function (response) {
                     $scope.geoData.regions.load_more_data = false;
-
-                    if (!$scope.geoData.regions.data) {
-                        $scope.geoData.regions.data = response;
-                    } else {
-                        if(response.length >0 ) {
-                            $scope.geoData.regions.data = $scope.geoData.regions.data.concat(response);
+                    $scope.geoData.regions.fetching = false;
+                    if(response.length >0 ) {
+                        if (!$scope.geoData.regions.data || $scope.geoData.regions.data.length === 0) {
+                            $scope.geoData.regions.data = response;
                         } else {
-                            $scope.geoData.regions.no_more_data =  true;
+                            $scope.geoData.regions.data = $scope.geoData.regions.data.concat(response);
+                        }
+                    } else {
+                        if($scope.geoData.regions.data.length > 0) {
+                            $scope.geoData.regions.no_more_data = true;
+                        } else {
+                            $scope.geoData.regions.data_not_found = true;
                         }
                     }
-                    $scope.geoData.regions.fetching = false;
                 });
             },
+
             init: function () {
+                $scope.geoData.regions.fetching = true;
+                $scope.geoData.regions.data_not_found = false;
                 $scope.geoData.regions.queryParams = _.extend({},defaultParams);
                 this.list();
             }
-
         };
 
         //For GEO - Cities related methods
         var citiesWrapper = {
-            fetch: function (callback) {
+            fetch: function (requestType, callback) {
                 var params = $scope.geoData.cities.queryParams;
                 var query = geoTargeting.buildQueryString(params),
                     platformId = params.platformId;
 
-                workflowService
-                    .getCities(platformId, query)
-                    .then(function (result) {
-                        callback && callback(result.data.data);
-                    }, function (error) {
-                        console.log('error');
-                    });
+                if(requestType === 'cancellable') {
+                    workflowService
+                        .getCities(platformId, query, requestType, function (result) {
+                            callback && callback(result.data.data);
+                        }, function (error) {
+                            console.log('error');
+                        });
+                } else {
+                    workflowService
+                        .getCities(platformId, query)
+                        .then(function (result) {
+                            callback && callback(result.data.data);
+                        }, function (error) {
+                            console.log('error');
+                        });
+                }
             },
 
-            list: function () {
-                $scope.geoData.cities.fetching = true;
+            list: function (requestType) {
                 var selectedRegions,
                     regionIds;
                 /**
@@ -255,23 +296,28 @@ define(['angularAMD', 'workflow/services/workflow_service', 'common/services/zip
                     geoTargeting.updateParams({'regionIds' : regionIds}, 'cities')
                 }
 
-                this.fetch(function (response) {
+                this.fetch(requestType, function (response) {
 
                     $scope.geoData.cities.load_more_data = false;
-
-                    if (!$scope.geoData.cities.data) {
-                        $scope.geoData.cities.data = response;
-                    } else {
-                        if(response.length >0 ) {
-                            $scope.geoData.cities.data = $scope.geoData.cities.data.concat(response);
+                    $scope.geoData.cities.fetching = false;
+                    if(response.length >0 ) {
+                        if (!$scope.geoData.cities.data || $scope.geoData.cities.data.length === 0) {
+                            $scope.geoData.cities.data = response;
                         } else {
-                            $scope.geoData.cities.no_more_data =  true;
+                            $scope.geoData.cities.data = $scope.geoData.cities.data.concat(response);
+                        }
+                    } else {
+                        if($scope.geoData.cities.data.length > 0) {
+                            $scope.geoData.cities.no_more_data = true;
+                        } else {
+                            $scope.geoData.cities.data_not_found = true;
                         }
                     }
-                    $scope.geoData.cities.fetching = false;
                 });
             },
             init: function () {
+                $scope.geoData.cities.fetching = true;
+                $scope.geoData.cities.data_not_found = false;
                 $scope.geoData.cities.queryParams = _.extend({}, defaultParams);
                 this.list();
             }
@@ -280,39 +326,53 @@ define(['angularAMD', 'workflow/services/workflow_service', 'common/services/zip
 
         //For DMAs - related methods
         var dmasWrapper = {
-            fetch: function (callback) {
+            fetch: function (requestType, callback) {
                 var params = $scope.geoData.dmas.queryParams;
                 var query = geoTargeting.buildQueryString(params),
                     platformId = params.platformId;
 
-                workflowService
-                    .getCountries(platformId, query)
-                    .then(function (result) {
+                if(requestType === 'cancellable') {
+                    workflowService.getDMAs(platformId, query, requestType, function (result) {
                         callback && callback(result.data.data);
                     }, function (error) {
                         console.log('error');
-                    });
+                    }, flag);
+                } else {
+                    workflowService
+                        .getDMAs(platformId, query)
+                        .then(function (result) {
+                            callback && callback(result.data.data);
+                        }, function (error) {
+                            console.log('error');
+                        });
+                }
+
             },
 
-            list: function () {
-                $scope.geoData.dmas.fetching = true;
-                this.fetch(function (response) {
+            list: function (requestType) {
 
+                this.fetch(requestType, function (response) {
+                    $scope.geoData.dmas.fetching = false;
                     $scope.geoData.dmas.load_more_data = false;
 
-                    if (!$scope.geoData.dmas.data) {
-                        $scope.geoData.dmas.data = response;
-                    } else {
-                        if(response.length >0) {
-                            $scope.geoData.dmas.data = $scope.geoData.dmas.data.concat(response);
+                    if(response.length >0) {
+                        if (!$scope.geoData.dmas.data || $scope.geoData.dmas.data.length === 0) {
+                            $scope.geoData.dmas.data = response;
                         } else {
-                            $scope.geoData.dmas.no_more_data =  true;
+                            $scope.geoData.dmas.data = $scope.geoData.dmas.data.concat(response);
+                        }
+                    } else {
+                        if($scope.geoData.dmas.data.length > 0) {
+                            $scope.geoData.dmas.no_more_data = true;
+                        } else {
+                            $scope.geoData.dmas.data_not_found = true;
                         }
                     }
-                    $scope.geoData.dmas.fetching = false;
                 });
             },
             init: function () {
+                $scope.geoData.dmas.fetching = true;
+                $scope.geoData.dmas.data_not_found = false;
                 $scope.geoData.dmas.queryParams = _.extend({}, defaultParams);
                 this.list();
             }
@@ -386,6 +446,10 @@ define(['angularAMD', 'workflow/services/workflow_service', 'common/services/zip
             var elem = $(event.target) ;
             elem.closest(".btn-group").find(".active").removeClass("active");
             elem.addClass("active") ;
+
+            //reseting search value
+            geoTargeting.resetSearchValue();
+
             $scope.selectedSubTab = tabType;
             geoTargeting[tabType].init();
 
@@ -419,11 +483,21 @@ define(['angularAMD', 'workflow/services/workflow_service', 'common/services/zip
                 $(".targetting-container .searchInput").show();
             }
 
+            //reseting search value
+            geoTargeting.resetSearchValue();
+
             // if clicked main tab is geo
             if(tabType === 'geo') {
                 $scope.selectedMainTab = 'geo';
-                geoTargeting['countires'].init();
+                geoTargeting[$scope.selectedSubTab].init();
             }
+
+            if(tabType ==='dmas') {
+                $scope.selectedMainTab = $scope.selectedSubTab = 'dmas';
+                geoTargeting['dmas'].init();
+            }
+
+
         };
 
         $scope.showHideToggleSwitch = function() {
