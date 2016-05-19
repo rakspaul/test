@@ -1,4 +1,4 @@
-define(['angularAMD', 'common/services/constants_service', 'workflow/services/workflow_service', 'login/login_model', 'common/moment_utils', 'workflow/directives/clear_row', 'workflow/directives/ng_upload_hidden', 'workflow/controllers/pixels_controller', 'workflow/controllers/budget_controller', 'workflow/controllers/line_item_controller', 'common/controllers/confirmation_modal_controller', 'workflow/directives/custom_date_picker'], function (angularAMD) {
+define(['angularAMD', 'common/services/constants_service', 'workflow/services/workflow_service', 'login/login_model', 'common/moment_utils', 'workflow/directives/clear_row', 'workflow/directives/ng_upload_hidden', 'workflow/controllers/pixels_controller', 'workflow/controllers/budget_controller', 'workflow/controllers/line_item_controller', 'common/controllers/confirmation_modal_controller', 'workflow/directives/custom_date_picker', 'workflow/controllers/mediaplan_archive_controller'], function (angularAMD) {
     angularAMD.controller('CreateCampaignController', function ($scope, $window, $timeout, $rootScope, $filter, $routeParams, $locale, $location, $timeout, $modal, constants, workflowService, loginModel, momentService, localStorageService) {
 
         $scope.selectedKeywords = [];
@@ -90,6 +90,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         }
 
         var createCampaign = {
+            campaignData: {},
             clients: function () {
                 workflowService.getClients().then(function (result) {
                     if (result.status === "OK" || result.status === "success") {
@@ -203,8 +204,8 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             },
 
             prefillMediaPlan: function (campaignData) {
-                var startDateElem,
-                    today;
+                var startDateElem;
+                this.campaignData = campaignData;
 
                 startDateElem = $('#startDateInput');
 
@@ -291,9 +292,9 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 }
 
                 //set Pixel Dara
-                if (campaignData.pixels && campaignData.pixels.length > 0) {
+                //if (campaignData.pixels && campaignData.pixels.length > 0) {
                     $scope.$broadcast('fetch_pixels', campaignData.pixels);
-                }
+                //}
 
                 //set Media Plan Budget & Margin
                 if (campaignData.totalBudget && campaignData.marginPercent >= 0) {
@@ -679,7 +680,6 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             $scope.repushCampaignEdit = false;
             $scope.campaignId = $routeParams.campaignId;
             $scope.mode = workflowService.getMode();
-            $scope.campaignArchive = false;
             $scope.deleteCampaignFailed = false;
             $scope.numberOnlyPattern = /[^0-9]/g;
             $scope.hideKpiValue = false;
@@ -845,6 +845,18 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         //    }
         //});
 
+
+
+        $scope.$watch('selectedCampaign.endTime',function(){
+            if(selectedAdvertiser){
+                if(createCampaign.campaignData && createCampaign.campaignData.pixels){
+                    $scope.$broadcast('fetch_pixels', createCampaign.campaignData.pixels);
+                } else {
+                    $scope.$broadcast('fetch_pixels');
+                }
+            }
+
+        });
 
         $(function () {
             $(".masterContainer").on('click', '.leftNavLink', function (event) {
