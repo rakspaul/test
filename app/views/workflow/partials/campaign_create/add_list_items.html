@@ -40,7 +40,7 @@
 
     <div class="col-md-12 common_file_upload_container" style="display:none">
         <div class="clearfix common_file_upload">
-            <div ngf-drop ngf-select="fileSelected(selectedCampaign.lineItemfile,$parent.mode)" ng-model="selectedCampaign.lineItemfile" name="lineItemfile" ng-model-rejected="rejFiles" ngf-multiple="false" ngf-allow-dir="false"  class="drop-box" ngf-drag-over-class="dragover" ngf-accept="'.csv,.txt'" ngf-max-size='10000000'>
+            <div ngf-drop ngf-select="fileSelected(selectedCampaign.lineItemfile,$parent.mode)" ng-model="selectedCampaign.lineItemfile" name="lineItemfile" ng-model-rejected="selectedCampaign.rejectedFiles" ngf-multiple="false" ngf-allow-dir="false"  class="drop-box" ngf-drag-over-class="dragover" ngf-accept="'.csv'" ngf-max-size='10000000'>
             <!--<div ngf-drop ngf-select="" ng-model="selectedCampaign.lineItemfile" name="lineItemfile" ng-model-rejected="rejFiles" ngf-multiple="false" ngf-allow-dir="false"  class="drop-box" ngf-drag-over-class="dragover" ngf-accept="'.csv'" ngf-max-size='10000000'>-->
                 <div class="pull-left file_upload_icon" >
                 </div>
@@ -57,6 +57,25 @@
             <div ngf-no-file-drop>File Drag/Drop is not supported for this browser</div>
         </div>
     </div>
+    <!-- Message on top , if that is an error message add "red_msg" class to "top_message_box" container -->
+    <div class="top_message_box {{(uploadErrorMsg || selectedCampaign.rejectedFiles.length > 0) ? 'red_msg' : ''}}" ng-show="uploadErrorMsg || selectedCampaign.rejectedFiles.length">
+        <span class="msg_box" style="margin: 160px auto;">
+            <span class="msg_icon">x</span>
+            <span class="msg_txt">
+                <span ng-show="uploadErrorMsg"><span class="bold-font">Error. </span> {{uploadErrorMsg}}</span>
+                <span ng-show="selectedCampaign.rejectedFiles.length"><span class="bold-font">Error. </span> Cannot upload files bigger than 10MB / Unsupported file format</span>
+
+                <!-- {{(!successMsg)? 'Cannot upload files bigger than 10MB / Unsupported file format' : 'You have sucessfully uploaded '+ uploadedCount +' files '}} -->
+                <div ng-show="selectedCampaign.rejectedFiles.length" ng-repeat="r in selectedCampaign.rejectedFiles">
+                    - {{r.name}} ({{r.size/1000000 | number:2}} MB)
+                </div>
+            </span>
+            <span class="close_msg_box_holder">
+                <span class="close_msg_box" ng-click="closeErrorMessage()">x</span>
+            </span>
+        </span>
+    </div>
+    <!-- End of Message on top , if that is an error message add "red_msg" class to "top_message_box" container -->
 
     <div class="col-md-12 zeroPadding btn-group create" role="group" style="margin: 20px 0 10px 0;">
         <a class="btn btn-default" ng-click="showNewLineItemForm() ">
@@ -73,7 +92,7 @@
                         </button>
                         <ul class="dropdown-menu" id="moreOptions" style="left: 0; left: initial;">
                             <li class="disabled" ><a class="text-left " role="button" data-ng-bind="textConstants.EXPORT_LINE_ITEMS"></a></li>
-                            <li class="{{$parent.mode=='create'? 'disabled':''}}"><a class="text-left" ng-disabled="$parent.mode=='create'? disabled:''" role="button" data-ng-bind="textConstants.IMPORT_LINE_ITEMS" ng-click="showBulkUploadsection()"></a></li>
+                            <li class="{{$parent.mode=='create'? 'disabled':''}}"><a class="text-left" ng-disabled="$parent.mode=='create'? disabled:''" role="button" data-ng-bind="textConstants.IMPORT_LINE_ITEMS" ng-click="$parent.mode=='edit' ? showBulkUploadsection():''"></a></li>
                         </ul>
                     </div>
                 </div>
@@ -189,7 +208,7 @@
 
             <div class="col-md-4 " style="padding-bottom: 2px !important;" ng-hide="hideAdGroupName">
                 <label class="col-sm-12 zeroPadding greyTxt">Ad Group Name</label>
-                <input type="text" class="col-md-12" placeholder="Enter Ad Group name up to 100 characters" title="{{$parent.adGroupName}}" ng-model="$parent.adGroupName"/>
+                <input type="text" class="col-md-12" placeholder="Enter Ad Group name up to 100 characters" remove-special-character ='remove-special-character' title="{{$parent.adGroupName}}" ng-model="$parent.adGroupName"/>
             </div>
             <div class="col-md-5 zeroPadding dropdown-workflow" ng-show="showPixelsList">
                 <div class="dropdown">
@@ -382,7 +401,7 @@
 
                 <div class="col-md-4 " style="padding: 0px !important;" ng-hide="hideAdGroupNameEdit || mode === 'edit'">
                     <label class="col-sm-12 zeroPadding greyTxt" ng-bind="textConstants.AD_GRP_NAME"></label>
-                    <input type="text" class="col-md-12" placeholder="Enter Ad Group name up to 100 characters" title="{{editLineItem.adGroupName}}" ng-model="editLineItem.adGroupName" autocomplete="off"/>
+                    <input type="text" class="col-md-12" placeholder="Enter Ad Group name up to 100 characters"  title="{{editLineItem.adGroupName}}" ng-model="editLineItem.adGroupName" autocomplete="off"/>
                 </div>
                 <div class="col-md-5 zeroPadding dropdown-workflow" ng-show="showPixelsListEdit">
                     <div class="dropdown">
@@ -402,6 +421,7 @@
 
         <a class="btn btn-primary pull-right" ng-click="(mode ==='create' || cloneMediaPlanName)?updateLineItem():updateLineItemInEditMode()" ng-bind="textConstants.SAVE_CHANGES"></a>
         <a class="btn btn-link pull-right cancelLineItem" ng-click="hideLineItemEditRow($event);">Cancel</a>
+
 
 
     </div>
