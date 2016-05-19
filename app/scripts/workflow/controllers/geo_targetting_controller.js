@@ -1479,6 +1479,8 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             // var winHeight = $(window).height() ;
             // $(".targetting-tab-body").height() ;
         };
+        $scope.divHeightCalculation() ;
+
 
         $scope.divHeightCalculation();
 
