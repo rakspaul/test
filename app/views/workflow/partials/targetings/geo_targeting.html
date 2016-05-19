@@ -36,10 +36,11 @@
                 <div class="clearfix targetting-tab-header">
                     <div class="pull-left">
                         <span class="pull-left target-label" data-ng-bind="textConstants.TARGET"></span>
-                        <div class="btn-group" role="group" aria-label="...">
+                        <div class="btn-group" role="group" aria-label="..." >
                             <button type="button" class="btn btn-default active" ng-click="showRespectiveTabContent($event, 'countries');" data-ng-bind="textConstants.COUNTRY"></button>
                             <button type="button" class="btn btn-default" ng-click="showRespectiveTabContent($event, 'regions');" data-ng-bind="textConstants.REGION"></button>
                             <button type="button" class="btn btn-default" ng-click="showRespectiveTabContent($event, 'cities');" data-ng-bind="textConstants.CITY"></button>
+                            <span class="common_tooltip"  data-ng-bind="textConstants.INCEXCCITYNOTE"></span>
                         </div>
                     </div>
 
@@ -187,7 +188,7 @@
                         <div class="targetting-tab-body" >
                             <div class="common-loading-area full-table-loading" style="display:none;"></div>
                             <div class="no-data-common">No Data available</div>
-                            
+
                             <div >
                                 <div class="clearfix each-targetting-name">
                                     <div class="external_chkbox pull-left col-md-8">
