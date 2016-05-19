@@ -11,7 +11,7 @@
     opacity: 0.6;
 
 }" data-ng-show="redirectFlag"></div>
-<div id="campaignCreate">
+<div id="campaignCreate" ng-controller="ArchiveController">
     <div class="firstWrapper">
         <div class="masterContainer maxWidthAdj campOverviewPage">
             <!-- Header Starts -->
@@ -1033,7 +1033,7 @@
 <!--=== compaignAdcreate ends ===-->
 
 <!--=== POP Up Light Box starts ===-->
-<div class="common-popup-container" data-ng-if="campaignArchive">
+<div class="common-popup-container" data-ng-show="campaignArchive" ng-controller="ArchiveController">
     <div class="popup">
         <div class="popup-header-body">
             <div class="clearfix">
@@ -1046,7 +1046,7 @@
         <div class="clearfix popup-footer" >
             <button data-ng-show ="!campaignArchiveLoader"
                     type="button"
-                    data-ng-click="archiveCampaign($event)"
+                    data-ng-click="archiveCampaign($event,workflowData.campaignData.id)"
                     class="common_primary_btn pull-right"
                     data-ng-hide="deleteCampaignFailed"
                     data-ng-bind="textConstants.ARCHIVE">

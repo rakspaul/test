@@ -1,6 +1,6 @@
 define(['angularAMD' , 'workflow/services/workflow_service' ],
     function(angularAMD) {
-        angularAMD.controller('ArchiveController', function($scope , workflowService ) {
+        angularAMD.controller('ArchiveController', function($scope , workflowService,$rootScope ) {
             console.log('nananan');
             $scope.campaignArchive = false;
 
@@ -10,8 +10,8 @@ define(['angularAMD' , 'workflow/services/workflow_service' ],
             };
 
             //Archive save func more
-            $scope.archiveCampaign = function (event) {
-                var campaignId = $scope.campaignId,
+            $scope.archiveCampaign = function (event,campaign_id) {
+                var campaignId = campaign_id,
                     campaignArchiveErrorHandler = function () {
                         $scope.campaignArchive = false;
                         $scope.campaignArchiveLoader = false;
