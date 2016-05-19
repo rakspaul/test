@@ -1,4 +1,4 @@
-define(['angularAMD', 'common/services/constants_service', 'workflow/services/workflow_service', 'login/login_model', 'common/moment_utils', 'workflow/directives/clear_row', 'workflow/directives/ng_upload_hidden', 'workflow/controllers/pixels_controller', 'workflow/controllers/budget_controller', 'workflow/controllers/line_item_controller', 'common/controllers/confirmation_modal_controller', 'workflow/directives/custom_date_picker'], function (angularAMD) {
+define(['angularAMD', 'common/services/constants_service', 'workflow/services/workflow_service', 'login/login_model', 'common/moment_utils', 'workflow/directives/clear_row', 'workflow/directives/ng_upload_hidden', 'workflow/controllers/pixels_controller', 'workflow/controllers/budget_controller', 'workflow/controllers/line_item_controller', 'common/controllers/confirmation_modal_controller', 'workflow/directives/custom_date_picker', 'workflow/controllers/mediaplan_archive_controller'], function (angularAMD) {
     angularAMD.controller('CreateCampaignController', function ($scope, $window, $timeout, $rootScope, $filter, $routeParams, $locale, $location, $timeout, $modal, constants, workflowService, loginModel, momentService, localStorageService) {
 
         $scope.selectedKeywords = [];
@@ -680,7 +680,6 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
             $scope.repushCampaignEdit = false;
             $scope.campaignId = $routeParams.campaignId;
             $scope.mode = workflowService.getMode();
-            $scope.campaignArchive = false;
             $scope.deleteCampaignFailed = false;
             $scope.numberOnlyPattern = /[^0-9]/g;
             $scope.hideKpiValue = false;
@@ -846,45 +845,11 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
         //    }
         //});
 
-        // archive campaign
-        $scope.cancelArchiveCampaign = function () {
-            $scope.campaignArchive = !$scope.campaignArchive;
-        };
 
-        //Archive save func more
-        $scope.archiveCampaign = function (event) {
-            var campaignId = $scope.campaignId,
-                campaignArchiveErrorHandler = function () {
-                    $scope.campaignArchive = false;
-                    $scope.campaignArchiveLoader = false;
-                    $rootScope.setErrAlertMessage();
-                };
-
-            $scope.campaignArchiveLoader = true;
-            event.preventDefault();
-
-            workflowService
-                .deleteCampaign(campaignId)
-                .then(function (result) {
-                    var campaignName;
-
-                    if (result.status === 'OK' || result.status === 'success') {
-                        $scope.campaignArchive = false;
-                        $scope.campaignArchiveLoader = false;
-                        campaignName = $scope.workflowData.campaignData.name;
-                        localStorage.setItem('topAlertMessage', campaignName + ' has been archived');
-                        $location.url(vistoconfig.MEDIA_PLANS_LINK);
-                    } else {
-                        campaignArchiveErrorHandler();
-                    }
-                }, campaignArchiveErrorHandler);
-        };
 
         $scope.$watch('selectedCampaign.endTime',function(){
-            if(_.isEmpty(createCampaign.campaignData)){
-                $scope.$broadcast('fetch_pixels');
-            } else {
-                if(createCampaign.campaignData.pixels){
+            if(selectedAdvertiser){
+                if(createCampaign.campaignData && createCampaign.campaignData.pixels){
                     $scope.$broadcast('fetch_pixels', createCampaign.campaignData.pixels);
                 } else {
                     $scope.$broadcast('fetch_pixels');
