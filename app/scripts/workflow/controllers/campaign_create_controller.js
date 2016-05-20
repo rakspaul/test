@@ -212,6 +212,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 //media plan name
                 if (campaignData.name) {
                     $scope.selectedCampaign.campaignName = $scope.cloneMediaPlanName || campaignData.name;
+                    $scope.selectedCampaign.oldCampaignName = campaignData.name;
                     $scope.selectedCampaign.campaignId = campaignData.id;
                 }
 
@@ -253,6 +254,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 var flightDateObj = {
                     startTime: momentService.utcToLocalTime(campaignData.startTime),
                     endTime: momentService.utcToLocalTime(campaignData.endTime),
+                    utcEndTime:campaignData.endTime
                 }
 
                 //set startDate
@@ -263,6 +265,7 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 //set endDate
                 if (flightDateObj.endTime) {
                     $scope.selectedCampaign.endTime = flightDateObj.endTime;
+                    $scope.selectedCampaign.utcEndTime = flightDateObj.utcEndTime;
                     $scope.initiateDatePicker();
                     $scope.handleFlightDate(flightDateObj);
                 }
@@ -783,13 +786,18 @@ define(['angularAMD', 'common/services/constants_service', 'workflow/services/wo
                 advertiserId = $scope.selectedCampaign.advertiserId,
                 url;
             $scope.checkUniqueMediaPlanNameNotFound = true;
-            workflowService.checkforUniqueMediaPlan(advertiserId, cloneMediaPlanName).then(function (results) {
+            if($scope.selectedCampaign.oldCampaignName != cloneMediaPlanName) {
+                workflowService.checkforUniqueMediaPlan(advertiserId, cloneMediaPlanName).then(function (results) {
+                    $scope.checkUniqueMediaPlanNameNotFound = false;
+                    if (results.status === 'OK' || results.status === 'success') {
+                        var responseData = results.data.data;
+                        $scope.mediaPlanNameExists = responseData.isExists;
+                    }
+                });
+            } else {
                 $scope.checkUniqueMediaPlanNameNotFound = false;
-                if (results.status === 'OK' || results.status === 'success') {
-                    var responseData = results.data.data;
-                    $scope.mediaPlanNameExists = responseData.isExists;
-                }
-            });
+                $scope.mediaPlanNameExists = false;
+            }
         };
 
         // use this method to access createCampaign in child
